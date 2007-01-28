@@ -22,6 +22,7 @@ import de.randi2.model.fachklassen.Recht.Rechtenamen;
  * Getter.
  * 
  * @version 1.0
+ * @author Benjamin Theel <btheel@stud.hs-heilbronn.de>
  * 
  */
 public class Rolle {

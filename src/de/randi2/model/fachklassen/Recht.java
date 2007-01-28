@@ -17,6 +17,7 @@ import java.util.HashMap;
  * Quelltext moeglich.
  * 
  * @version 1.0
+ * @author Benjamin Theel <btheel@stud.hs-heilbronn.de>
  */
 public class Recht {
 

@@ -1,4 +1,4 @@
-package de.randi2.model;
+package de.randi2.model.fachklassen.beans;
 
 /**
  * TestBean, tut garnix.
