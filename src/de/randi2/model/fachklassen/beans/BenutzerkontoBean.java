@@ -13,22 +13,40 @@ import java.util.GregorianCalendar;
 public class BenutzerkontoBean {
 
 	// TODO Anbindung an de.randi2.utility.NullAttribute noch zu realisieren
-	// Benutzername dieses Benutzerkontos
+
+	/**
+	 * Benutzername
+	 */
 	private String benutzername;
 
-	// Passwort dieses Benutzerkontos
+	/**
+	 * Passwort (md5)
+	 */
 	private String passwort;
 
-	// PersonBean zu diesem Benutzerkonto
+	/**
+	 * Zugehöriges PersonBean zu diesem Benutzerkonto.
+	 */
 	private PersonBean benutzer;
 
-	// Ist dieses Benutzerkonto gesperrt?
+	/**
+	 * Zugehöriges Ansprechparter.
+	 */
+	private PersonBean ansprechpartner;
+
+	/**
+	 * Ein boolescher Wert, der dem Status gesperrt/entsperrt entspricht.
+	 */
 	private boolean gesperrt;
 
-	// Zeitpunkt des ersten Logins
+	/**
+	 * Zeitpunkt des ersten Logins
+	 */
 	private GregorianCalendar ersterLogin;
 
-	// Zeitpunkt des letzten Logins
+	/**
+	 * Zeitpunkt des letzten Logins
+	 */
 	private GregorianCalendar letzterLogin;
 
 	/**
@@ -48,6 +66,9 @@ public class BenutzerkontoBean {
 	 *            das Passwort des Benutzers
 	 * @param benutzer
 	 *            das PersonBean zu diesem Benutzer
+	 * @param ansprechpartner
+	 *            das PersonBean das dem Ansprechpartner des Benutzers
+	 *            entspricht
 	 * @param gesperrt
 	 *            ob der Benutzer gesperrt ist
 	 * @param ersterLogin
@@ -56,11 +77,12 @@ public class BenutzerkontoBean {
 	 *            Zeitpunkt des letzten Logins als GregorianCalendar
 	 */
 	public BenutzerkontoBean(String benutzername, String passwort,
-			PersonBean benutzer, boolean gesperrt,
+			PersonBean benutzer, PersonBean ansprechpartner, boolean gesperrt,
 			GregorianCalendar ersterLogin, GregorianCalendar letzterLogin) {
 		this.benutzername = benutzername;
 		this.passwort = passwort;
 		this.benutzer = benutzer;
+		this.ansprechpartner = ansprechpartner;
 		this.gesperrt = gesperrt;
 		this.ersterLogin = ersterLogin;
 		this.letzterLogin = letzterLogin;
@@ -200,6 +222,20 @@ public class BenutzerkontoBean {
 		// TODO
 		return false;
 
+	}
+
+	/**
+	 * @return the ansprechpartner
+	 */
+	public PersonBean getAnsprechpartner() {
+		return ansprechpartner;
+	}
+
+	/**
+	 * @param ansprechpartner the ansprechpartner to set
+	 */
+	public void setAnsprechpartner(PersonBean ansprechpartner) {
+		this.ansprechpartner = ansprechpartner;
 	}
 
 }
