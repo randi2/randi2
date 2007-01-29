@@ -22,7 +22,7 @@ public class BenutzerkontoBean {
 	 * keine besonderen Bemerkungen
 	 * 
 	 */
-	
+
 	/**
 	 * Benutzername
 	 */
@@ -32,12 +32,12 @@ public class BenutzerkontoBean {
 	 * Passwort (md5)
 	 */
 	private String passwort;
-    
-    /**
-     * Rolle des Benutzerkontos 
-     */
-    private Rolle rolle; 
-    
+
+	/**
+	 * Rolle des Benutzerkontos 
+	 */
+	private Rolle rolle;
+
 	/**
 	 * Zugehoeriges PersonBean zu diesem Benutzerkonto.
 	 */
@@ -67,7 +67,7 @@ public class BenutzerkontoBean {
 	 * Der Standardkonstruktor
 	 * 
 	 */
-	public BenutzerkontoBean() {
+	public BenutzerkontoBean() throws IllegalArgumentException {
 
 	}
 
@@ -78,8 +78,8 @@ public class BenutzerkontoBean {
 	 *            der Benutzername des Benutzers
 	 * @param passwort
 	 *            das Passwort des Benutzers
-     * @param rolle
-     *             die Rolle des Benutzerkontos
+	 * @param rolle
+	 *             die Rolle des Benutzerkontos
 	 * @param benutzer
 	 *            das PersonBean zu diesem Benutzer
 	 * @param ansprechpartner
@@ -94,19 +94,19 @@ public class BenutzerkontoBean {
 	 */
 	public BenutzerkontoBean(String benutzername, String passwort, Rolle rolle,
 			PersonBean benutzer, PersonBean ansprechpartner, boolean gesperrt,
-			GregorianCalendar ersterLogin, GregorianCalendar letzterLogin) {
-		this.benutzername = benutzername;
-		this.passwort = passwort;
-		this.rolle= rolle;
-        this.benutzer = benutzer;
-		this.ansprechpartner = ansprechpartner;
-		this.gesperrt = gesperrt;
-		this.ersterLogin = ersterLogin;
-		this.letzterLogin = letzterLogin;
+			GregorianCalendar ersterLogin, GregorianCalendar letzterLogin) throws IllegalArgumentException {
+		this.setBenutzername(benutzername);
+		this.setPasswort(passwort);
+		this.setRolle(rolle);
+		this.setBenutzer(benutzer);
+		this.setAnsprechpartner(ansprechpartner);
+		this.setGesperrt(gesperrt);
+		this.setErsterLogin(ersterLogin);
+		this.setLetzterLogin(letzterLogin);
 	}
 
 	/**
-	 * Reduzierter Konstruktor, welcher die Attribute ersterLogin und
+	 * Reduzierter Konstruktor, der die Attribute ersterLogin und
 	 * letzterLogin automatisch setzt.
 	 * 
 	 * @param benutzername
@@ -117,11 +117,11 @@ public class BenutzerkontoBean {
 	 *            das PersonBean zu diesem Benutzer
 	 */
 	public BenutzerkontoBean(String benutzername, String passwort,
-			PersonBean benutzer) {
+			PersonBean benutzer) throws IllegalArgumentException {
 		super();
-		this.benutzername = benutzername;
-		this.passwort = passwort;
-		this.benutzer = benutzer;
+		this.setBenutzername(benutzername);
+		this.setPasswort(passwort);
+		this.setBenutzer(benutzer);
 	}
 
 	/**
@@ -136,6 +136,7 @@ public class BenutzerkontoBean {
 	 *            the benutzer to set
 	 */
 	public void setBenutzer(PersonBean benutzer) {
+		//keine Pruefung, da bei der Erzeugung der PersonBean schon alles geprueft wird
 		this.benutzer = benutzer;
 	}
 
@@ -150,7 +151,20 @@ public class BenutzerkontoBean {
 	 * @param benutzername
 	 *            the benutzername to set
 	 */
-	public void setBenutzername(String benutzername) {
+	public void setBenutzername(String benutzername) throws IllegalArgumentException {
+		if (benutzername == null) {
+			throw new IllegalArgumentException(
+					"Bitte geben Sie einen Benutzernamen ein.");
+		}
+		benutzername = benutzername.trim();
+		if (benutzername.length() == 0) {
+			throw new IllegalArgumentException(
+					"Bitte geben Sie einen Benutzernamen ein.");
+		}
+		if (!(benutzername.matches("(\\w|\\d|[.-]){4,14}"))) {
+			throw new IllegalArgumentException(
+					"Nur 4-14 Zeichen. Bitte geben Sie den Benutzernamen erneut ein.");
+		}
 		this.benutzername = benutzername;
 	}
 
@@ -165,7 +179,7 @@ public class BenutzerkontoBean {
 	 * @param ersterLogin
 	 *            the ersterLogin to set
 	 */
-	public void setErsterLogin(GregorianCalendar ersterLogin) {
+	public void setErsterLogin(GregorianCalendar ersterLogin) throws IllegalArgumentException {
 		this.ersterLogin = ersterLogin;
 	}
 
@@ -195,7 +209,7 @@ public class BenutzerkontoBean {
 	 * @param letzterLogin
 	 *            the letzterLogin to set
 	 */
-	public void setLetzterLogin(GregorianCalendar letzterLogin) {
+	public void setLetzterLogin(GregorianCalendar letzterLogin) throws IllegalArgumentException {
 		this.letzterLogin = letzterLogin;
 	}
 
@@ -210,7 +224,7 @@ public class BenutzerkontoBean {
 	 * @param passwort
 	 *            the passwort to set
 	 */
-	public void setPasswort(String passwort) {
+	public void setPasswort(String passwort) throws IllegalArgumentException {
 		this.passwort = passwort;
 	}
 
@@ -252,15 +266,21 @@ public class BenutzerkontoBean {
 	 * @param ansprechpartner the ansprechpartner to set
 	 */
 	public void setAnsprechpartner(PersonBean ansprechpartner) {
+		//keine Pruefung, da bei der Erzeugung der PersonBean schon alles geprueft wird
 		this.ansprechpartner = ansprechpartner;
 	}
 
-    public void setRolle(Rolle rolle) {
-           this.rolle= rolle;        
-    }
+	public void setRolle(Rolle rolle) throws IllegalArgumentException {
+		if (!(rolle == Rolle.getAdmin() || rolle == Rolle.getStatistiker()
+				|| rolle == Rolle.getStudieleiter()
+				|| rolle == Rolle.getStudienarzt() || rolle == Rolle.getSysop())) {
+			throw new IllegalArgumentException("Falsche Rolle!");
+		}
+		this.rolle = rolle;
+	}
 
-    public Rolle getRolle(){
-        return this.rolle;
-    }
-    
+	public Rolle getRolle() {
+		return this.rolle;
+	}
+
 }
