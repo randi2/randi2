@@ -15,6 +15,9 @@ import org.apache.log4j.Logger;
  */
 public class PasswortUtil {
 
+	/**
+	 * Die Singleton-Instance.
+	 */
 	private static PasswortUtil instance = null;
 
 	/**
