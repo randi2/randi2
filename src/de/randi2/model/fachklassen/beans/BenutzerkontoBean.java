@@ -19,10 +19,10 @@ public class BenutzerkontoBean {
 	/*
 	 * Change Log 29.01.2007 Thomas Willert
 	 * 
-	 * toString und equals sind noch nicht implementiert. Regulaerer Ausdruck
-	 * fuer Passwort muss noch gefunden werden. Pruefung der Rolle fraglich, da
-	 * Verwendung der enum aus der Klasse Rolle nicht moeglich. Vielleicht
-	 * sollte man die Konstanten dort public machen.
+	 * toString und equals sind noch nicht implementiert. Passwort Sonderzeichen
+	 * muessen noch gecheckt werden. Pruefung der Rolle fraglich, da Verwendung
+	 * der enum aus der Klasse Rolle nicht moeglich. Vielleicht sollte man die
+	 * Konstanten dort public machen.
 	 * 
 	 */
 
@@ -252,7 +252,14 @@ public class BenutzerkontoBean {
 			throw new IllegalArgumentException(
 					"Bitte geben Sie ein Passwort ein.");
 		}
-		if (!passwort.matches("")) {
+		if (passwort.length() < 6) {
+			throw new IllegalArgumentException(
+					"Mindestens 6 Zeichen. Bitte geben Sei ein anderes Passwort ein.");
+		}
+		if (!(passwort.matches(".*[A-Za-z].*") || passwort.matches(".*[0-9].*") /*
+																				 * ||
+																				 * passwort.matches(".*[\^,.-#+;:_'*!\"§$%&/()=?|<>].*")
+																				 */)) {
 			throw new IllegalArgumentException(
 					"Beachten Sie die Vorschriften! Bitte geben Sie ein anderes Passwort ein.");
 		}
