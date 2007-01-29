@@ -5,26 +5,23 @@ package de.randi2.model.fachklassen.beans;
  * 
  * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
  * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
- * @version 0.1
+ * @author Thomas Willert <twillert@stud.hs-heilbronn.de>
+ * @version 0.2
  */
 public class PersonBean {
-    /* Changelog:
-     * 29.01.2007 Btheel: Konstanten fuer m/w eingebastelt
-     * 
-     */
 	// TODO Anbindung an de.randi2.utility.NullAttribute noch zu realisieren
 	
-    /**
-     * Konstante fuer maennliches Geschlecht einer Person
-     */
-    public static final char MAENNLICH = 'm';
+	/* Change Log 29.01.2007
+	 * Thomas Willert
+	 * 
+	 * Momentan werden alle Felder als Pflichtfelder geprueft.
+	 * Fehlermeldungen sind rein provisorisch.
+	 * Die Konstanten fuer das Geschlecht sind manuell eingetragen, solange die Klasse Konstanten noch nicht existiert.
+	 * 
+	 */
     
-    /**
-     * Konstante fuer weibliches Geschlecht einer Person
-     */
-    public static final char WEIBLICH = 'm';
-    /**
-	 * Ein einfaches Konstruktor.
+	/**
+	 * Ein einfacher Konstruktor.
 	 */
 	public PersonBean() {
 
@@ -52,17 +49,17 @@ public class PersonBean {
 	 *            Faxnummer der Person.
 	 */
 	public PersonBean(String nachname, String vorname, String titel,
-			char geschlecht, String email, int telefonnummer, int handynummer,
-			int fax) {
+			char geschlecht, String email, String telefonnummer, String handynummer,
+			String fax) {
 		super();
-		this.nachname = nachname;
-		this.vorname = vorname;
-		this.titel = titel;
-		this.geschlecht = geschlecht;
-		this.email = email;
-		this.telefonnummer = telefonnummer;
-		this.handynummer = handynummer;
-		this.fax = fax;
+		this.setNachname(nachname);
+		this.setVorname(vorname);
+		this.setTitel(titel);
+		this.setGeschlecht(geschlecht);
+		this.setEmail(email);
+		this.setTelefonnummer(telefonnummer);
+		this.setHandynummer(handynummer);
+		this.setFax(fax);
 	}
 
 	/**
@@ -81,7 +78,7 @@ public class PersonBean {
 	private String titel;
 
 	/**
-	 * Geschlecht der Person. (Entspricht einer Konstane aus der
+	 * Geschlecht der Person. (Entspricht einer Konstante aus der
 	 * de.randi2.utility.Konstanten Klasse)
 	 */
 	private char geschlecht;
@@ -94,17 +91,17 @@ public class PersonBean {
 	/**
 	 * Die Telefonnummer der Person.
 	 */
-	private int telefonnummer;
+	private String telefonnummer;
 
 	/**
 	 * Die Handynummer der Person.
 	 */
-	private int handynummer;
+	private String handynummer;
 
 	/**
 	 * Die Faxnummer der Person.
 	 */
-	private int fax;
+	private String fax;
 
 	/**
 	 * @return the email
@@ -118,13 +115,26 @@ public class PersonBean {
 	 *            the email to set
 	 */
 	public void setEmail(String email) {
+		if(email == null){
+			throw new IllegalArgumentException("Bitte geben Sie ihre Email-Adresse ein.");
+		}
+		email = email.trim();
+		if(email.length() == 0) {
+			throw new IllegalArgumentException("Bitte geben Sie ihre Email-Adresse ein.");
+		}
+		if(email.length() > 255) {
+			throw new IllegalArgumentException("Maximal 255 Zeichen. Bitte geben Sie ihre Email-Adresse erneut ein.");
+		}
+		if(!email.matches("[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4}")) {
+			throw new IllegalArgumentException("Unerlaubte Zeichen! Bitte geben Sie ihre Email-Adresse erneut ein.");
+		}
 		this.email = email;
 	}
 
 	/**
 	 * @return the fax
 	 */
-	public int getFax() {
+	public String getFax() {
 		return fax;
 	}
 
@@ -132,7 +142,17 @@ public class PersonBean {
 	 * @param fax
 	 *            the fax to set
 	 */
-	public void setFax(int fax) {
+	public void setFax(String fax) {
+		if(fax == null){
+			throw new IllegalArgumentException("Bitte geben Sie ihre Faxnummer ein.");
+		}
+		fax = fax.trim();
+		if(fax.length() == 0) {
+			throw new IllegalArgumentException("Bitte geben Sie ihre Faxnummer ein.");
+		}
+		if(!fax.matches("(+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
+			throw new IllegalArgumentException("Unerlaubte Zeichen! Bitte geben Sie ihre Faxnummer erneut ein.");
+		}
 		this.fax = fax;
 	}
 
@@ -148,13 +168,20 @@ public class PersonBean {
 	 *            the geschlecht to set
 	 */
 	public void setGeschlecht(char geschlecht) {
+		if(geschlecht == '\0') {
+			throw new IllegalArgumentException("Bitte geben Sie ihr Geschlecht ein.");
+		}
+		//if(!(geschlecht == Konstanten.MAENNLICH || geschlecht == Konstanten.WEIBLICH)) {
+		if(!(geschlecht == 'm' || geschlecht == 'w')) {
+			throw new IllegalArgumentException("Bitte geben Sie ihr Geschlecht korrekt ein.");
+		}
 		this.geschlecht = geschlecht;
 	}
 
 	/**
 	 * @return the handynummer
 	 */
-	public int getHandynummer() {
+	public String getHandynummer() {
 		return handynummer;
 	}
 
@@ -162,7 +189,17 @@ public class PersonBean {
 	 * @param handynummer
 	 *            the handynummer to set
 	 */
-	public void setHandynummer(int handynummer) {
+	public void setHandynummer(String handynummer) throws IllegalArgumentException {
+		if(handynummer == null){
+			throw new IllegalArgumentException("Bitte geben Sie ihre Handynummer ein.");
+		}
+		handynummer = handynummer.trim();
+		if(handynummer.length() == 0) {
+			throw new IllegalArgumentException("Bitte geben Sie ihre Handynummer ein.");
+		}
+		if(!handynummer.matches("(+\\d{2,3}|0)(\\d){3,10}[-/]?(\\d){3,15}")) {
+			throw new IllegalArgumentException("Unerlaubte Zeichen! Bitte geben Sie ihre Handynummer erneut ein.");
+		}
 		this.handynummer = handynummer;
 	}
 
@@ -178,13 +215,22 @@ public class PersonBean {
 	 *            the nachname to set
 	 */
 	public void setNachname(String nachname) {
+		if(nachname == null)
+			throw new IllegalArgumentException("Bitte geben Sie ihren Nachnamen ein.");
+		nachname = nachname.trim();
+		if(nachname.length() == 0) {
+			throw new IllegalArgumentException("Bitte geben Sie ihren Nachnamen ein.");
+		}
+		if(nachname.length()<2||nachname.length()>50) {
+			throw new IllegalArgumentException("Nur 2-50 Zeichen. Bitte geben Sie ihren Nachnamen erneut ein.");
+		}
 		this.nachname = nachname;
 	}
 
 	/**
 	 * @return the telefonnummer
 	 */
-	public int getTelefonnummer() {
+	public String getTelefonnummer() {
 		return telefonnummer;
 	}
 
@@ -192,7 +238,17 @@ public class PersonBean {
 	 * @param telefonnummer
 	 *            the telefonnummer to set
 	 */
-	public void setTelefonnummer(int telefonnummer) {
+	public void setTelefonnummer(String telefonnummer) {
+		if(telefonnummer == null){
+			throw new IllegalArgumentException("Bitte geben Sie ihre Telefonnummer ein.");
+		}
+		telefonnummer = telefonnummer.trim();
+		if(telefonnummer.length() == 0) {
+			throw new IllegalArgumentException("Bitte geben Sie ihre Telefonnummer ein.");
+		}
+		if(!telefonnummer.matches("(+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
+			throw new IllegalArgumentException("Unerlaubte Zeichen! Bitte geben Sie ihre Telefonnummer erneut ein.");
+		}
 		this.telefonnummer = telefonnummer;
 	}
 
@@ -208,6 +264,16 @@ public class PersonBean {
 	 *            the titel to set
 	 */
 	public void setTitel(String titel) {
+		if(titel == null){
+			throw new IllegalArgumentException("Bitte geben Sie ihren Titel ein.");
+		}
+		titel = titel.trim();
+		if(titel.length() == 0) {
+			throw new IllegalArgumentException("Bitte geben Sie ihren Titel ein.");
+		}
+		if(!titel.matches("(Prof.|Dr.|Prof. Dr.|)")) {
+			throw new IllegalArgumentException("Unerlaubte Zeichen! Bitte geben Sie ihren Titel erneut ein.");
+		}
 		this.titel = titel;
 	}
 
@@ -223,6 +289,15 @@ public class PersonBean {
 	 *            the vorname to set
 	 */
 	public void setVorname(String vorname) {
+		if(vorname == null)
+			throw new IllegalArgumentException("Bitte geben Sie ihren Vornamen ein.");
+		vorname = vorname.trim();
+		if(vorname.length() == 0) {
+			throw new IllegalArgumentException("Bitte geben Sie ihren Vornamen ein.");
+		}
+		if(vorname.length()<2||vorname.length()>50) {
+			throw new IllegalArgumentException("Nur 2-50 Zeichen. Bitte geben Sie ihren Vornamen erneut ein.");
+		}
 		this.vorname = vorname;
 	}
 
