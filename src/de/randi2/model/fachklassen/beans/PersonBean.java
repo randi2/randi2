@@ -14,7 +14,6 @@ public class PersonBean {
 	/* Change Log 29.01.2007
 	 * Thomas Willert
 	 * 
-	 * Momentan werden alle Felder als Pflichtfelder geprueft.
 	 * Fehlermeldungen sind rein provisorisch.
 	 * Die Konstanten fuer das Geschlecht sind manuell eingetragen, solange die Klasse Konstanten noch nicht existiert.
 	 * 
@@ -143,13 +142,7 @@ public class PersonBean {
 	 *            the fax to set
 	 */
 	public void setFax(String fax) {
-		if(fax == null){
-			throw new IllegalArgumentException("Bitte geben Sie ihre Faxnummer ein.");
-		}
 		fax = fax.trim();
-		if(fax.length() == 0) {
-			throw new IllegalArgumentException("Bitte geben Sie ihre Faxnummer ein.");
-		}
 		if(!fax.matches("(+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
 			throw new IllegalArgumentException("Unerlaubte Zeichen! Bitte geben Sie ihre Faxnummer erneut ein.");
 		}
@@ -190,13 +183,7 @@ public class PersonBean {
 	 *            the handynummer to set
 	 */
 	public void setHandynummer(String handynummer) throws IllegalArgumentException {
-		if(handynummer == null){
-			throw new IllegalArgumentException("Bitte geben Sie ihre Handynummer ein.");
-		}
 		handynummer = handynummer.trim();
-		if(handynummer.length() == 0) {
-			throw new IllegalArgumentException("Bitte geben Sie ihre Handynummer ein.");
-		}
 		if(!handynummer.matches("(+\\d{2,3}|0)(\\d){3,10}[-/]?(\\d){3,15}")) {
 			throw new IllegalArgumentException("Unerlaubte Zeichen! Bitte geben Sie ihre Handynummer erneut ein.");
 		}
@@ -264,13 +251,7 @@ public class PersonBean {
 	 *            the titel to set
 	 */
 	public void setTitel(String titel) {
-		if(titel == null){
-			throw new IllegalArgumentException("Bitte geben Sie ihren Titel ein.");
-		}
 		titel = titel.trim();
-		if(titel.length() == 0) {
-			throw new IllegalArgumentException("Bitte geben Sie ihren Titel ein.");
-		}
 		if(!titel.matches("(Prof.|Dr.|Prof. Dr.|)")) {
 			throw new IllegalArgumentException("Unerlaubte Zeichen! Bitte geben Sie ihren Titel erneut ein.");
 		}

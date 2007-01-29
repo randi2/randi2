@@ -7,15 +7,22 @@ import de.randi2.model.fachklassen.Rolle;
 /**
  * Diese Klasse repraesentiert ein Benutzerkonto.
  * 
- * @version 0.1
  * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
  * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
- * 
+ * @author Thomas Willert <twillert@stud.hs-heilbronn.de>
+ * @version 0.2
  */
 public class BenutzerkontoBean {
 
 	// TODO Anbindung an de.randi2.utility.NullAttribute noch zu realisieren
 
+	/* Change Log 29.01.2007
+	 * Thomas Willert
+	 * 
+	 * keine besonderen Bemerkungen
+	 * 
+	 */
+	
 	/**
 	 * Benutzername
 	 */
@@ -32,12 +39,12 @@ public class BenutzerkontoBean {
     private Rolle rolle; 
     
 	/**
-	 * Zugehöriges PersonBean zu diesem Benutzerkonto.
+	 * Zugehoeriges PersonBean zu diesem Benutzerkonto.
 	 */
 	private PersonBean benutzer;
 
 	/**
-	 * Zugehöriges Ansprechparter.
+	 * Zugehoeriger Ansprechparter.
 	 */
 	private PersonBean ansprechpartner;
 
