@@ -1,6 +1,6 @@
 package de.randi2.model.fachklassen.beans;
 
-import java.util.GregorianCalendar;
+import java.util.*;
 
 import de.randi2.model.fachklassen.Rolle;
 
@@ -16,10 +16,13 @@ public class BenutzerkontoBean {
 
 	// TODO Anbindung an de.randi2.utility.NullAttribute noch zu realisieren
 
-	/* Change Log 29.01.2007
-	 * Thomas Willert
+	/*
+	 * Change Log 29.01.2007 Thomas Willert
 	 * 
-	 * keine besonderen Bemerkungen
+	 * toString und equals sind noch nicht implementiert. Regulaerer Ausdruck
+	 * fuer Passwort muss noch gefunden werden. Pruefung der Rolle fraglich, da
+	 * Verwendung der enum aus der Klasse Rolle nicht moeglich. Vielleicht
+	 * sollte man die Konstanten dort public machen.
 	 * 
 	 */
 
@@ -34,7 +37,7 @@ public class BenutzerkontoBean {
 	private String passwort;
 
 	/**
-	 * Rolle des Benutzerkontos 
+	 * Rolle des Benutzerkontos
 	 */
 	private Rolle rolle;
 
@@ -79,7 +82,7 @@ public class BenutzerkontoBean {
 	 * @param passwort
 	 *            das Passwort des Benutzers
 	 * @param rolle
-	 *             die Rolle des Benutzerkontos
+	 *            die Rolle des Benutzerkontos
 	 * @param benutzer
 	 *            das PersonBean zu diesem Benutzer
 	 * @param ansprechpartner
@@ -94,7 +97,8 @@ public class BenutzerkontoBean {
 	 */
 	public BenutzerkontoBean(String benutzername, String passwort, Rolle rolle,
 			PersonBean benutzer, PersonBean ansprechpartner, boolean gesperrt,
-			GregorianCalendar ersterLogin, GregorianCalendar letzterLogin) throws IllegalArgumentException {
+			GregorianCalendar ersterLogin, GregorianCalendar letzterLogin)
+			throws IllegalArgumentException {
 		this.setBenutzername(benutzername);
 		this.setPasswort(passwort);
 		this.setRolle(rolle);
@@ -106,8 +110,8 @@ public class BenutzerkontoBean {
 	}
 
 	/**
-	 * Reduzierter Konstruktor, der die Attribute ersterLogin und
-	 * letzterLogin automatisch setzt.
+	 * Reduzierter Konstruktor, der die Attribute ersterLogin und letzterLogin
+	 * automatisch setzt.
 	 * 
 	 * @param benutzername
 	 *            der Benutzername des Benutzers
@@ -136,7 +140,8 @@ public class BenutzerkontoBean {
 	 *            the benutzer to set
 	 */
 	public void setBenutzer(PersonBean benutzer) {
-		//keine Pruefung, da bei der Erzeugung der PersonBean schon alles geprueft wird
+		// keine Pruefung, da bei der Erzeugung der PersonBean schon alles
+		// geprueft wird
 		this.benutzer = benutzer;
 	}
 
@@ -151,7 +156,8 @@ public class BenutzerkontoBean {
 	 * @param benutzername
 	 *            the benutzername to set
 	 */
-	public void setBenutzername(String benutzername) throws IllegalArgumentException {
+	public void setBenutzername(String benutzername)
+			throws IllegalArgumentException {
 		if (benutzername == null) {
 			throw new IllegalArgumentException(
 					"Bitte geben Sie einen Benutzernamen ein.");
@@ -179,7 +185,13 @@ public class BenutzerkontoBean {
 	 * @param ersterLogin
 	 *            the ersterLogin to set
 	 */
-	public void setErsterLogin(GregorianCalendar ersterLogin) throws IllegalArgumentException {
+	public void setErsterLogin(GregorianCalendar ersterLogin)
+			throws IllegalArgumentException {
+		// Testen, ob sich das Datum in der Zukunft befindet
+		if ((new GregorianCalendar(Locale.GERMANY)).before(ersterLogin)) {
+			throw new IllegalArgumentException(
+					"Zeit des ersten Logins ist fehlerhaft.");
+		}
 		this.ersterLogin = ersterLogin;
 	}
 
@@ -209,7 +221,13 @@ public class BenutzerkontoBean {
 	 * @param letzterLogin
 	 *            the letzterLogin to set
 	 */
-	public void setLetzterLogin(GregorianCalendar letzterLogin) throws IllegalArgumentException {
+	public void setLetzterLogin(GregorianCalendar letzterLogin)
+			throws IllegalArgumentException {
+		// Testen, ob sich das Datum in der Zukunft befindet
+		if ((new GregorianCalendar(Locale.GERMANY)).before(letzterLogin)) {
+			throw new IllegalArgumentException(
+					"Zeit des letzten Logins ist fehlerhaft.");
+		}
 		this.letzterLogin = letzterLogin;
 	}
 
@@ -225,6 +243,19 @@ public class BenutzerkontoBean {
 	 *            the passwort to set
 	 */
 	public void setPasswort(String passwort) throws IllegalArgumentException {
+		if (passwort == null) {
+			throw new IllegalArgumentException(
+					"Bitte geben Sie ein Passwort ein.");
+		}
+		passwort = passwort.trim();
+		if (passwort.length() == 0) {
+			throw new IllegalArgumentException(
+					"Bitte geben Sie ein Passwort ein.");
+		}
+		if (!passwort.matches("")) {
+			throw new IllegalArgumentException(
+					"Beachten Sie die Vorschriften! Bitte geben Sie ein anderes Passwort ein.");
+		}
 		this.passwort = passwort;
 	}
 
@@ -263,14 +294,19 @@ public class BenutzerkontoBean {
 	}
 
 	/**
-	 * @param ansprechpartner the ansprechpartner to set
+	 * @param ansprechpartner
+	 *            the ansprechpartner to set
 	 */
 	public void setAnsprechpartner(PersonBean ansprechpartner) {
-		//keine Pruefung, da bei der Erzeugung der PersonBean schon alles geprueft wird
+		// keine Pruefung, da bei der Erzeugung der PersonBean schon alles
+		// geprueft wird
 		this.ansprechpartner = ansprechpartner;
 	}
 
 	public void setRolle(Rolle rolle) throws IllegalArgumentException {
+		if (rolle == null) {
+			throw new IllegalArgumentException("Keine Rolle!");
+		}
 		if (!(rolle == Rolle.getAdmin() || rolle == Rolle.getStatistiker()
 				|| rolle == Rolle.getStudieleiter()
 				|| rolle == Rolle.getStudienarzt() || rolle == Rolle.getSysop())) {
@@ -282,5 +318,4 @@ public class BenutzerkontoBean {
 	public Rolle getRolle() {
 		return this.rolle;
 	}
-
 }
