@@ -88,37 +88,36 @@ public class Rolle {
      * Rollenrechteliste des Studienarztes
      */
     private static Recht[] rechteListe_Studienarzt = {
-            Recht.getRecht(Rechtenamen.RECHT_1),
-            Recht.getRecht(Rechtenamen.RECHT_4) };
+    // TODO Rechteliste anlegen
+    };
 
     /**
      * Rollenrechteliste des Studienleiters
      */
     private static Recht[] rechteListe_Studienleiter = {
-            Recht.getRecht(Rechtenamen.RECHT_2),
-            Recht.getRecht(Rechtenamen.RECHT_3) };
+    // TODO Rechteliste anlegen
+    };
 
     /**
      * Rollenrechteliste des Administrators
      */
     private static Recht[] rechteListe_Admin = {
-            Recht.getRecht(Rechtenamen.RECHT_1),
-            Recht.getRecht(Rechtenamen.RECHT_4) };
+    // TODO Rechteliste anlegen
+    };
 
     /**
      * Rollenrechteliste des Systemoperators
      */
-    private static Recht[] rechteListe_Sysop = { Recht
-            .getRecht(Rechtenamen.RECHT_4) };
+    private static Recht[] rechteListe_Sysop = {
+    // TODO Rechteliste anlegen
+    };
 
     /**
      * Rollenrechteliste des Statistikers
      */
     private static Recht[] rechteListe_Statistiker = {
-            Recht.getRecht(Rechtenamen.RECHT_1),
-            Recht.getRecht(Rechtenamen.RECHT_2),
-            Recht.getRecht(Rechtenamen.RECHT_3),
-            Recht.getRecht(Rechtenamen.RECHT_4) };
+    // TODO Rechteliste anlegen
+    };
 
     // Klassenvariablen
 

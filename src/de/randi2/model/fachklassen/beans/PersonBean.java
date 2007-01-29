@@ -8,9 +8,22 @@ package de.randi2.model.fachklassen.beans;
  * @version 0.1
  */
 public class PersonBean {
+    /* Changelog:
+     * 29.01.2007 Btheel: Konstanten fuer m/w eingebastelt
+     * 
+     */
 	// TODO Anbindung an de.randi2.utility.NullAttribute noch zu realisieren
 	
-	/**
+    /**
+     * Konstante fuer maennliches Geschlecht einer Person
+     */
+    public static final char MAENNLICH = 'm';
+    
+    /**
+     * Konstante fuer weibliches Geschlecht einer Person
+     */
+    public static final char WEIBLICH = 'm';
+    /**
 	 * Ein einfaches Konstruktor.
 	 */
 	public PersonBean() {
