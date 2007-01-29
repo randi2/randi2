@@ -102,7 +102,7 @@ public class Recht {
         /**
          * 
          */
-        STUDIENARCHIV_EINSEHEN, 
+        STUDIEN_EINSEHEN, 
         /**
          * 
          */

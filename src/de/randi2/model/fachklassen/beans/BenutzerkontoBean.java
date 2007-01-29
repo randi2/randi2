@@ -2,6 +2,8 @@ package de.randi2.model.fachklassen.beans;
 
 import java.util.GregorianCalendar;
 
+import de.randi2.model.fachklassen.Rolle;
+
 /**
  * Diese Klasse repraesentiert ein Benutzerkonto.
  * 
@@ -23,7 +25,12 @@ public class BenutzerkontoBean {
 	 * Passwort (md5)
 	 */
 	private String passwort;
-
+    
+    /**
+     * Rolle des Benutzerkontos 
+     */
+    private Rolle rolle; 
+    
 	/**
 	 * Zugehöriges PersonBean zu diesem Benutzerkonto.
 	 */
@@ -64,6 +71,8 @@ public class BenutzerkontoBean {
 	 *            der Benutzername des Benutzers
 	 * @param passwort
 	 *            das Passwort des Benutzers
+     * @param rolle
+     *             die Rolle des Benutzerkontos
 	 * @param benutzer
 	 *            das PersonBean zu diesem Benutzer
 	 * @param ansprechpartner
@@ -76,12 +85,13 @@ public class BenutzerkontoBean {
 	 * @param letzterLogin
 	 *            Zeitpunkt des letzten Logins als GregorianCalendar
 	 */
-	public BenutzerkontoBean(String benutzername, String passwort,
+	public BenutzerkontoBean(String benutzername, String passwort, Rolle rolle,
 			PersonBean benutzer, PersonBean ansprechpartner, boolean gesperrt,
 			GregorianCalendar ersterLogin, GregorianCalendar letzterLogin) {
 		this.benutzername = benutzername;
 		this.passwort = passwort;
-		this.benutzer = benutzer;
+		this.rolle= rolle;
+        this.benutzer = benutzer;
 		this.ansprechpartner = ansprechpartner;
 		this.gesperrt = gesperrt;
 		this.ersterLogin = ersterLogin;
@@ -238,4 +248,12 @@ public class BenutzerkontoBean {
 		this.ansprechpartner = ansprechpartner;
 	}
 
+    public void setRolle(Rolle rolle) {
+           this.rolle= rolle;        
+    }
+
+    public Rolle getRolle(){
+        return this.rolle;
+    }
+    
 }

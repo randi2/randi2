@@ -51,5 +51,5 @@ public interface DatenbankSchnittstelle {
 	 */
 	public Object schreibenObjekt(Object zuSchreibendesObjekt)
 			throws DatenbankFehlerException;
-
+    
 }

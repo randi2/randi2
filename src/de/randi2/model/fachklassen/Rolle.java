@@ -88,35 +88,65 @@ public class Rolle {
      * Rollenrechteliste des Studienarztes
      */
     private static Recht[] rechteListe_Studienarzt = {
-    // TODO Rechteliste anlegen
+        Recht.getRecht(Rechtenamen.BK_AENDERN),
+        Recht.getRecht(Rechtenamen.STUDIENTEILNEHMER_HINZUFUEGEN),
+        Recht.getRecht(Rechtenamen.STUDIEN_EINSEHEN),
+        Recht.getRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN)
     };
 
     /**
      * Rollenrechteliste des Studienleiters
      */
     private static Recht[] rechteListe_Studienleiter = {
-    // TODO Rechteliste anlegen
+        Recht.getRecht(Rechtenamen.BK_AENDERN),
+        Recht.getRecht(Rechtenamen.BK_ANSEHEN),
+        Recht.getRecht(Rechtenamen.ZENTREN_ANZEIGEN),
+        Recht.getRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN),
+        Recht.getRecht(Rechtenamen.STUDIE_ANLEGEN),
+        Recht.getRecht(Rechtenamen.STUDIE_AENDERN),
+        Recht.getRecht(Rechtenamen.STUDIE_PAUSIEREN),
+        Recht.getRecht(Rechtenamen.STUDIENARM_BEENDEN),
+        Recht.getRecht(Rechtenamen.STUDIE_SIMULIEREN),
+        Recht.getRecht(Rechtenamen.STUDIEN_EINSEHEN),
+        Recht.getRecht(Rechtenamen.STAT_EINSEHEN),
+        Recht.getRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN),
+        Recht.getRecht(Rechtenamen.ARCHIV_EINSEHEN),
     };
 
     /**
      * Rollenrechteliste des Administrators
      */
     private static Recht[] rechteListe_Admin = {
-    // TODO Rechteliste anlegen
+        Recht.getRecht(Rechtenamen.BK_AENDERN),
+        Recht.getRecht(Rechtenamen.BK_SPERREN),
+        Recht.getRecht(Rechtenamen.BK_ANSEHEN),
+        Recht.getRecht(Rechtenamen.ZENTREN_ANZEIGEN),
+        Recht.getRecht(Rechtenamen.ZENTRUM_AENDERN),
+        Recht.getRecht(Rechtenamen.ZENTRUM_ANLEGEN),
+        Recht.getRecht(Rechtenamen.ZENTRUM_AKTIVIEREN),
+        Recht.getRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN),
+        Recht.getRecht(Rechtenamen.STUDIE_LOESCHEN),
+        Recht.getRecht(Rechtenamen.ARCHIV_EINSEHEN),
+        Recht.getRecht(Rechtenamen.STAT_EINSEHEN),
+        Recht.getRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN),
+        Recht.getRecht(Rechtenamen.STUDIEN_EINSEHEN),
+        Recht.getRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN)
     };
 
     /**
      * Rollenrechteliste des Systemoperators
      */
     private static Recht[] rechteListe_Sysop = {
-    // TODO Rechteliste anlegen
+        Recht.getRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN),
+        Recht.getRecht(Rechtenamen.SYSTEM_SPERREN),
+        Recht.getRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN)
     };
 
     /**
      * Rollenrechteliste des Statistikers
      */
     private static Recht[] rechteListe_Statistiker = {
-    // TODO Rechteliste anlegen
+        Recht.getRecht(Rechtenamen.STAT_EINSEHEN)
     };
 
     // Klassenvariablen
