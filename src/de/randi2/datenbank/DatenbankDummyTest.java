@@ -106,5 +106,28 @@ public class DatenbankDummyTest {
         }
 
     }
+    @Test
+    public void testSchreibenSuchen(){
+        BenutzerkontoBean schreibBean,leseBean;
+        BenutzerkontoBean ergebisBean;
+        String testname = "Testname";
+        try {
+            // schreiben
+            schreibBean = new BenutzerkontoBean();
+            schreibBean.setBenutzername(testname);
+            ergebisBean = (BenutzerkontoBean) aDB.schreibenObjekt(schreibBean);
+            // lesen
+            BenutzerkontoBean suchbean = new BenutzerkontoBean();
+            suchbean.setBenutzername(testname);
+            assertEquals(schreibBean.getBenutzername(), suchbean.getBenutzername());
+            
+            leseBean = (BenutzerkontoBean) (aDB.suchenObjekt(suchbean)).firstElement();
+            assertEquals(schreibBean.getBenutzername(),leseBean.getBenutzername());
+        }catch(Exception e){
+            fail("Sollte keine Exception werfen");
+        }
+        
+    }
+    
 
 }
