@@ -41,6 +41,12 @@ public class BenutzerkontoBean {
 	 */
 	private Rolle rolle;
 
+    /**
+     * ID des Kontos
+     *TODO Datentyp checken, long korrekt?
+     */
+    private long id;
+    
 	/**
 	 * Zugehoeriges PersonBean zu diesem Benutzerkonto.
 	 */
@@ -258,7 +264,7 @@ public class BenutzerkontoBean {
 		}
 		if (!(passwort.matches(".*[A-Za-z].*") || passwort.matches(".*[0-9].*") /*
 																				 * ||
-																				 * passwort.matches(".*[\^,.-#+;:_'*!\"§$%&/()=?|<>].*")
+																				 * passwort.matches(".*[\^,.-#+;:_'*!\"ï¿½$%&/()=?|<>].*")
 																				 */)) {
 			throw new IllegalArgumentException(
 					"Beachten Sie die Vorschriften! Bitte geben Sie ein anderes Passwort ein.");
@@ -325,4 +331,18 @@ public class BenutzerkontoBean {
 	public Rolle getRolle() {
 		return this.rolle;
 	}
+
+    /**
+     * @return the id
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
 }
