@@ -1,6 +1,7 @@
 package de.randi2.model.fachklassen;
 
 import de.randi2.model.fachklassen.Recht.Rechtenamen;
+import org.apache.log4j.Logger;
 
 /**
  * Zentrales Element der Rechteverwaltung.<br>
@@ -21,13 +22,14 @@ import de.randi2.model.fachklassen.Recht.Rechtenamen;
  * Zugegriffen auf die einzelnen Rollen werden kann mittels der jeweiligen
  * Getter.
  * 
- * @version $Id$
+ * @version 1.0
  * @author Benjamin Theel <btheel@stud.hs-heilbronn.de>
  * 
  */
 public class Rolle {
 
     // Konstanten/ Enum
+    Logger logger = Logger.getLogger(this.getClass());
     /**
      * Enthaelt alle Rollennamen, die innerhalt des Programmes zur Verfuegung
      * stehen
@@ -159,7 +161,7 @@ public class Rolle {
     /**
      * Liste (ein Array des Types Recht) mit den einzelnen Rechten, ueber die
      * jeweilige Rolle verfuegt. Ein Recht, welches nicht in dieser Liste
-     * enthalten ist, kann durch die Rolle nicht ausgefÃ¼hrt werden
+     * enthalten ist, kann durch die Rolle nicht ausgefuehrt werden
      */
     private Recht[] rechte;
 
@@ -173,11 +175,12 @@ public class Rolle {
      *            Name der Rolle {@link Rollen}
      * @param rechte
      *            Liste (entsprechendes Rechte[]) der Rechte, die der Rolle
-     *            eingerÃ¤umt werden.
+     *            eingeraeumt werden.
      */
     private Rolle(Rollen name, Recht[] rechte) {
         this.rollenname = name;
         this.rechte = rechte;
+        logger.debug("Rolle " + this.getName()+" instanziert");
     }
 
     // Methoden
@@ -193,9 +196,12 @@ public class Rolle {
      */
     public boolean besitzenRolleRecht(Rechtenamen name) {
         for (Recht aRecht : this.rechte) {
-            if (name.equals(aRecht.getRechtname()))
+            if (name.equals(aRecht.getRechtname())){
+                logger.info("Rolle "+ this.getName()+ " besitzt Recht "+name.toString());
                 return true;
+            }
         }
+        logger.warn("Rolle "+ this.getName()+ " besitzt nicht Recht "+name.toString());
         return false;
     }
 

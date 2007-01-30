@@ -158,7 +158,7 @@ public class Recht {
         if (name == null)
             throw new IllegalArgumentException("Ungueltiges Argument: 'null'");
         if (rechte.containsKey(name))// Instanz im Map enthalten?
-            return rechte.get(name); // Instanz zuruekcgeben
+            return rechte.get(name); // Instanz zurueckgeben
         else {
             rechte.put(name, new Recht(name)); // Instanz erzeugen und ablegen
             return rechte.get(name);// Instanz zurueckgeben

@@ -12,7 +12,6 @@ import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.PasswortUtil;
 
 import java.util.*;
-
 /**
  * @author Benjamin Theel <BTheel@stud.hs-heilbronn.de>
  * @version $Id$
@@ -20,7 +19,7 @@ import java.util.*;
 public class DatenbankDummyTest {
 
     private DatenbankSchnittstelle aDB;
-
+    
     /**
      * @throws java.lang.Exception
      */
