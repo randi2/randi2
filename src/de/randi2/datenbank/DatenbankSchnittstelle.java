@@ -8,7 +8,7 @@ import de.randi2.datenbank.exceptions.DatenbankFehlerException;
  * Diese Klasse repraesentiert eine Schnittstelle fuer den Datenbankzugriff.
  * Methoden zum Suchen von Daten sowie zum Schreiben von Daten sind vorhanden.
  * 
- * @version 0.1
+ * @version $Id $
  * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
  */
 public interface DatenbankSchnittstelle {

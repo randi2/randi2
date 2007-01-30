@@ -10,7 +10,7 @@ import de.randi2.model.fachklassen.Rolle;
  * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
  * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
  * @author Thomas Willert <twillert@stud.hs-heilbronn.de>
- * @version 0.2
+ * @version $Id $
  */
 public class BenutzerkontoBean {
 

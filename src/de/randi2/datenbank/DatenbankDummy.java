@@ -10,7 +10,7 @@ import de.randi2.model.fachklassen.beans.*;
 
 /**
  * @author Benjamin Theel <Btheel@stud.hs-heilbronn.de>
- * @version 1.0
+ * @version $Id $
  */
 public class DatenbankDummy implements DatenbankSchnittstelle {
     /*

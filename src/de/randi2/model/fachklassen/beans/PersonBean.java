@@ -6,7 +6,7 @@ package de.randi2.model.fachklassen.beans;
  * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
  * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
  * @author Thomas Willert <twillert@stud.hs-heilbronn.de>
- * @version 0.2
+ * @version $Id $
  */
 public class PersonBean {
 	// TODO Anbindung an de.randi2.utility.NullAttribute noch zu realisieren

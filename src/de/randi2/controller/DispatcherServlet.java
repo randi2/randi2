@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  * entsprechenden Unterservlets bzw. direkt an JSPs weiter.
  * </p>
  * 
- * @version 0.1
+ * @version $Id $
  * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
  * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
  * 

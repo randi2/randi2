@@ -9,7 +9,7 @@ import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
  * Diese Klasse bietet Methoden zur Verwaltung eines bestimmten Benutzerkontos
  * an. Beinhaltet auch es.
  * 
- * @version 0.1
+ * @version $Id $
  * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
  * 
  */
