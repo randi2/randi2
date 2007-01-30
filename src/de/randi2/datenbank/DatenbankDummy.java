@@ -14,15 +14,18 @@ import de.randi2.model.fachklassen.beans.*;
  */
 public class DatenbankDummy implements DatenbankSchnittstelle {
     /*
-     * Changelog: 30.01.2007 BTheel: Klasse erstellt XXX Realisierung eines
-     * Singletons durch ein Interface fraglich!
+     * Changelog: 30.01.2007 BTheel: Klasse erstellt 
+     * XXX Realisierung eines Singletons durch ein Interface fraglich!
+     * Workaround mit static instanz der HashMap. 
      * 
      */
-    private HashMap<String, BenutzerkontoBean> konten;
+    private static HashMap<String, BenutzerkontoBean> konten = null;
 
     public DatenbankDummy() {
+        if (konten == null){
         konten = new HashMap<String, BenutzerkontoBean>();
         generiereTestKonten();
+        }
     }
 
     /**
@@ -40,29 +43,29 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
 
             BenutzerkontoBean kontoBean; // Arbeitsinstanz KontoBean
 
-            kontoBean = new BenutzerkontoBean("statistiker", "statistiker",
+            kontoBean = new BenutzerkontoBean("stat", "stat",
                     dummyPerson);
             kontoBean.setRolle(Rolle.getStatistiker());
-            konten.put("statistiker", kontoBean);
+            konten.put("stat", kontoBean);
 
-            kontoBean = new BenutzerkontoBean("sysoperator", "sysoperator",
+            kontoBean = new BenutzerkontoBean("sysop", "sysop",
                     dummyPerson);
             kontoBean.setRolle(Rolle.getSysop());
-            konten.put("sysoperator", kontoBean);
+            konten.put("sysop", kontoBean);
 
-            kontoBean = new BenutzerkontoBean("sa@randi2.de", "studienarzt",
+            kontoBean = new BenutzerkontoBean("sa@randi2.de", "sa",
                     dummyPerson);
             kontoBean.setRolle(Rolle.getStudienarzt());
             konten.put("sa@randi2.de", kontoBean);
 
-            kontoBean = new BenutzerkontoBean("stulei", "stulei", dummyPerson);
+            kontoBean = new BenutzerkontoBean("sl", "sl", dummyPerson);
             kontoBean.setRolle(Rolle.getStudienleiter());
-            konten.put("stulei", kontoBean);
+            konten.put("sl", kontoBean);
 
-            kontoBean = new BenutzerkontoBean("administrator", "administrator",
+            kontoBean = new BenutzerkontoBean("admin", "admin",
                     dummyPerson);
             kontoBean.setRolle(Rolle.getAdmin());
-            konten.put("administrator", kontoBean);
+            konten.put("admin", kontoBean);
         } catch (Exception e) {
             e.printStackTrace();
         }

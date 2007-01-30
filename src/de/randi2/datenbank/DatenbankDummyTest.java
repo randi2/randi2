@@ -85,8 +85,8 @@ public class DatenbankDummyTest {
             fail("Sollte keine Exception werfen");
         }
         try {
-            String suchname = "statistiker";
-            String passbrot = "statistiker";
+            String suchname = "stat";
+            String passbrot = "stat";
             BenutzerkontoBean suchbean = new BenutzerkontoBean();
             suchbean.setBenutzername(suchname);
 
