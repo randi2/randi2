@@ -9,6 +9,8 @@ import org.junit.Test;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.*;
 import de.randi2.utility.NullKonstanten;
+import de.randi2.utility.PasswortUtil;
+
 import java.util.*;
 
 /**
@@ -100,7 +102,7 @@ public class DatenbankDummyTest {
             BenutzerkontoBean ergebnisBean = (BenutzerkontoBean) tmp;
             assertEquals(suchname, ergebnisBean.getBenutzername());
             assertEquals(Rolle.getStatistiker(), ergebnisBean.getRolle());
-            assertEquals(passbrot, ergebnisBean.getPasswort());
+            assertEquals(PasswortUtil.getInstance().hashPasswort(passbrot), ergebnisBean.getPasswort());
         } catch (Exception e) {
             fail("Ao!");
         }
