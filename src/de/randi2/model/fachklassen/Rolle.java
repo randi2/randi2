@@ -226,7 +226,7 @@ public class Rolle {
      * 
      * @return Rolle Studienleiter
      */
-    public static Rolle getStudieleiter() {
+    public static Rolle getStudienleiter() {
         if (STUDIENLEITER == null)
             STUDIENLEITER = new Rolle(Rollen.STUDIENLEITER,
                     rechteListe_Studienleiter);

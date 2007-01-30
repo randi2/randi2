@@ -1,7 +1,7 @@
 package de.randi2.model.fachklassen.beans;
 
 import java.util.*;
-
+import de.randi2.utility.*;
 import de.randi2.model.fachklassen.Rolle;
 
 /**
@@ -45,7 +45,7 @@ public class BenutzerkontoBean {
      * ID des Kontos
      *TODO Datentyp checken, long korrekt?
      */
-    private long id;
+    private long id = NullKonstanten.DUMMY_ID;
     
 	/**
 	 * Zugehoeriges PersonBean zu diesem Benutzerkonto.
@@ -321,7 +321,7 @@ public class BenutzerkontoBean {
 			throw new IllegalArgumentException("Keine Rolle!");
 		}
 		if (!(rolle == Rolle.getAdmin() || rolle == Rolle.getStatistiker()
-				|| rolle == Rolle.getStudieleiter()
+				|| rolle == Rolle.getStudienleiter()
 				|| rolle == Rolle.getStudienarzt() || rolle == Rolle.getSysop())) {
 			throw new IllegalArgumentException("Falsche Rolle!");
 		}
