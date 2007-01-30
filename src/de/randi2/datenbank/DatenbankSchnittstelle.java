@@ -48,8 +48,10 @@ public interface DatenbankSchnittstelle {
 	 * @return das geschriebene Objekt, bei welchem das Feld id gesetzt wurde
 	 * @throws DatenbankFehlerException
 	 *             falls ein Fehler beim Datenbankzugriff aufgetreten ist
-	 */
+     * @throws IllegalArgumentException falls <code>zuSchreibendesObjekt</code> == <code>null</code>
+     *                          
+	 */    
 	public Object schreibenObjekt(Object zuSchreibendesObjekt)
-			throws DatenbankFehlerException;
+			throws DatenbankFehlerException, IllegalArgumentException;
     
 }

@@ -173,7 +173,7 @@ public class BenutzerkontoBean {
 			throw new IllegalArgumentException(
 					"Bitte geben Sie einen Benutzernamen ein.");
 		}
-		if (!(benutzername.matches("(\\w|\\d|[.-]){4,14}"))) {
+		if (!(benutzername.matches("(\\w|\\d|[.-]|\\@){4,14}"))) {
 			throw new IllegalArgumentException(
 					"Nur 4-14 Zeichen. Bitte geben Sie den Benutzernamen erneut ein.");
 		}
