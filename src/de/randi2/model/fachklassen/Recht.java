@@ -16,7 +16,7 @@ import java.util.HashMap;
  * Eine Aenderung bzw. Erweiterung der Rechte ist somit ausschliesslich im
  * Quelltext moeglich.
  * 
- * @version $Id $
+ * @version $Id$
  * @author Benjamin Theel <btheel@stud.hs-heilbronn.de>
  */
 public class Recht {

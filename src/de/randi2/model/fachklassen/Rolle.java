@@ -21,7 +21,7 @@ import de.randi2.model.fachklassen.Recht.Rechtenamen;
  * Zugegriffen auf die einzelnen Rollen werden kann mittels der jeweiligen
  * Getter.
  * 
- * @version $Id $
+ * @version $Id$
  * @author Benjamin Theel <btheel@stud.hs-heilbronn.de>
  * 
  */

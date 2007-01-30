@@ -2,7 +2,7 @@ package de.randi2.utility;
 
 /**
  * @author Benjamin Theel <BTheel@stud.hs-heilbronn.de>
- * @version $Id $
+ * @version $Id$
  */
 public class NullKonstanten {
 

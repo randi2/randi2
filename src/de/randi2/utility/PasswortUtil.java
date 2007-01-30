@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
  * Erzeugung von Passwoertern
  * 
  * @author Johannes Th&ouml;nes [jthoenes@stud.hs-heilbronn.de]
- * @version $Id $
+ * @version $Id$
  */
 public class PasswortUtil {
 

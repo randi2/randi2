@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * @author Benjamin Theel <Btheel@stud.hs-heilbronn.de>
 
- * @version $Id $
+ * @version $Id$
  */
 public class BenutzerkontoBeanTest {
 
