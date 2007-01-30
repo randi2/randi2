@@ -2,6 +2,7 @@ package de.randi2.model.fachklassen;
 
 import java.util.HashMap;
 
+
 /**
  * Unterste Ebene der Rechteverwaltung.<br>
  * Ein Recht, identifiziert anhand seines Namens, entspricht der Berechtigung,
@@ -16,13 +17,12 @@ import java.util.HashMap;
  * Eine Aenderung bzw. Erweiterung der Rechte ist somit ausschliesslich im
  * Quelltext moeglich.
  * 
- * @version $Id$
+ * @version 1.0
  * @author Benjamin Theel <btheel@stud.hs-heilbronn.de>
  */
 public class Recht {
 
     // Static Variablen
-
     /**
      * Definiert alle existierenden Rechte
      */
@@ -160,7 +160,7 @@ public class Recht {
         if (rechte.containsKey(name))// Instanz im Map enthalten?
             return rechte.get(name); // Instanz zuruekcgeben
         else {
-            rechte.put(name, new Recht(name)); // I)nstanz erzeugen und ablegen
+            rechte.put(name, new Recht(name)); // Instanz erzeugen und ablegen
             return rechte.get(name);// Instanz zurueckgeben
         }
 
