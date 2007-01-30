@@ -29,6 +29,7 @@ public class BenutzerkontoBeanTest {
     public final void testSetBenutzername() {
         //TODO
         try{
+        aKonto.setBenutzername("a2");
         aKonto.setBenutzername("a2de");
         aKonto.setBenutzername("a2@3456.de");
         }catch (Exception e) {
@@ -37,6 +38,7 @@ public class BenutzerkontoBeanTest {
         try {
             // leer
             aKonto.setBenutzername("");
+            aKonto.setBenutzername("a");
             fail("Sollte Exception auslösen");
         } catch (Exception e) {
         }
@@ -56,12 +58,19 @@ public class BenutzerkontoBeanTest {
 
     @Test
     public final void testSetPasswort() {
-        fail("Not yet implemented"); // TODO
+    try {
+        aKonto.setPasswort("sd");
+    } catch (Exception e) {
+        // TODO: handle exception
+        e.printStackTrace();
+    }
+        
+    
     }
 
     @Test
     public final void testEqualsBenutzerkontoBean() {
-        fail("Not yet implemented"); // TODO
+       fail("Not yet implemented"); // TODO
     }
 
 }

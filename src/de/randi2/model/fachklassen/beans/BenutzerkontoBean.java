@@ -172,7 +172,8 @@ public class BenutzerkontoBean {
             throw new IllegalArgumentException(
                     "Bitte geben Sie einen Benutzernamen ein.");
         }
-        if (!(benutzername.matches("(\\w|\\d|[.-]|\\@){4,14}"))) {
+        if (!(benutzername.matches("(\\w|\\d|[.-]|\\@){2,14}"))) {
+            // FIXME Min Laenge auf Anweisung der PL auf 2 heruntergesetzt.
             // FIXME 14 Zeichen sind IMO zu wenig, alleine
             // "@med.uni-heidelberg.de" sind ja schon 23 Zeichen! BTheel
             throw new IllegalArgumentException(
@@ -259,9 +260,11 @@ public class BenutzerkontoBean {
             throw new IllegalArgumentException(
                     "Bitte geben Sie ein Passwort ein.");
         }
-        if (passwort.length() < 6) {
+        if (passwort.length() < 2) {
+            //XXX Auf Wunsch der Pl Laenge von 6 auf 2 heruntergesetzt.
+            
             throw new IllegalArgumentException(
-                    "Mindestens 6 Zeichen. Bitte geben Sei ein anderes Passwort ein.");
+                    "Mindestens 2 Zeichen. Bitte geben Sei ein anderes Passwort ein.");
         }
         if (!(passwort.matches(".*[A-Za-z].*") || passwort.matches(".*[0-9].*") /*
                                                                                  * ||
