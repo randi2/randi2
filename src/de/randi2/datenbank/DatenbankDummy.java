@@ -114,11 +114,11 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
             throws DatenbankFehlerException {
         logger.info("DatenbankDummy.suchenObjekt()");
         // XXX Passwoerter werden derzeit ungehashed gespeichert!
-        Vector<Object> ergebisse = new Vector<Object>();
+        Vector<Object> ergebnisse = new Vector<Object>();
 
         if (zuSuchendesObjekt == null)
             // TODO Reicht das? ggf. IlligalArgumentException
-            return ergebisse;
+            return ergebnisse;
 
         // suchen eines benutzerkontos:
         if (zuSuchendesObjekt instanceof BenutzerkontoBean) {
@@ -127,10 +127,10 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
                     .getBenutzername();
             if (konten.containsKey(suchname)) {
                 logger.debug("gesuchtes Konto in DB vorhanden");
-                ergebisse.add(konten.get(suchname));
+                ergebnisse.add(konten.get(suchname));
             }
         }
-        return ergebisse;
+        return ergebnisse;
     }
 
 }

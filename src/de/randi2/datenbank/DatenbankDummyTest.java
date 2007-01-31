@@ -50,17 +50,17 @@ public class DatenbankDummyTest {
 
         BenutzerkontoBean bean;
         Object result;
-        BenutzerkontoBean ergebisBean;
+        BenutzerkontoBean ergebnisBean;
         // Benutzerbean schreiben
         try {
             bean = new BenutzerkontoBean();
             assertEquals(NullKonstanten.DUMMY_ID, bean.getId());
             result = aDB.schreibenObjekt(bean);
             assertTrue(result instanceof BenutzerkontoBean);
-            ergebisBean = (BenutzerkontoBean) result;
-            assertEquals(bean, ergebisBean);
+            ergebnisBean = (BenutzerkontoBean) result;
+            assertEquals(bean, ergebnisBean);
 
-            assertNotSame(NullKonstanten.DUMMY_ID, ergebisBean.getId());
+            assertNotSame(NullKonstanten.DUMMY_ID, ergebnisBean.getId());
         } catch (Exception e) {
             fail("Sollte keine Exception werfen");
         }
@@ -110,13 +110,13 @@ public class DatenbankDummyTest {
     @Test
     public void testSchreibenSuchen(){
         BenutzerkontoBean schreibBean,leseBean;
-        BenutzerkontoBean ergebisBean;
+        BenutzerkontoBean ergebnisBean;
         String testname = "Testname";
         try {
             // schreiben
             schreibBean = new BenutzerkontoBean();
             schreibBean.setBenutzername(testname);
-            ergebisBean = (BenutzerkontoBean) aDB.schreibenObjekt(schreibBean);
+            ergebnisBean = (BenutzerkontoBean) aDB.schreibenObjekt(schreibBean);
             // lesen
             BenutzerkontoBean suchbean = new BenutzerkontoBean();
             suchbean.setBenutzername(testname);
