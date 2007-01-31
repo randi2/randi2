@@ -1,7 +1,13 @@
 package de.randi2.model.fachklassen;
 
+import java.util.Iterator;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
+import de.randi2.datenbank.DatenbankDummy;
+import de.randi2.datenbank.DatenbankSchnittstelle;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerNichtVorhandenException;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 
@@ -11,10 +17,12 @@ import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
  * 
  * @version $Id$
  * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
+ * @author Frederik Reifschneider <Reifschneider@stud.hs-heidelberg.de>
+ * 
  * 
  */
 public class Benutzerkonto {
-
+	
 	/**
 	 * Das zugehörige BenutzerkontoBean-Objekt.
 	 */
@@ -40,10 +48,24 @@ public class Benutzerkonto {
 	 *            de.randi2.utility.NullKonstanten Klasse)
 	 * @return ein Vector mit gefundenen Objekten
 	 */
-	public static Vector<BenutzerkontoBean> suchenBenutzer(
-			BenutzerkontoBean sBenutzerkonto) {
-		// TODO
-		return null;
+	public static Vector<BenutzerkontoBean> suchenBenutzer(BenutzerkontoBean sBenutzerkonto) {
+		DatenbankSchnittstelle aDB = new DatenbankDummy();
+		Vector<BenutzerkontoBean> gefundeneKonten= new Vector<BenutzerkontoBean>();
+		Vector<Object> tmpVector = null;
+		try {
+			tmpVector = aDB.suchenObjekt(sBenutzerkonto);
+		} catch (IllegalArgumentException e) {
+			Logger.getLogger("de.randi2.model.Benutzerkonto").error("IllegalArgumentException ist aufgetreten.",e);
+		} catch (DatenbankFehlerException e) {
+			Logger.getLogger("de.randi2.model.Benutzerkonto").warn("Fehler in Datenbank aufgetreten",e);
+		}
+		//Der Weg über zwei Vektoren ist ein Workaround. Casten von Vektor mit Typ Object nach BenutzerkontoBean
+		//geht nicht. Benni wird generic Methods vorstellen die das Problem beheben sollten.
+		Iterator it = tmpVector.iterator();
+		while(it.hasNext()) {
+			gefundeneKonten.add((BenutzerkontoBean) it.next());
+		}
+		return gefundeneKonten;
 	}
 
 	/**
@@ -56,8 +78,16 @@ public class Benutzerkonto {
 	 * @return
 	 */
 	public static Benutzerkonto anlegenBenutzer(BenutzerkontoBean aBenutzerkonto) {
-		// TODO
-		return null;
+		DatenbankSchnittstelle aDB = new DatenbankDummy();
+		Benutzerkonto aktualisierterBenutzer=null;
+		try {
+			aktualisierterBenutzer = (Benutzerkonto) aDB.schreibenObjekt(aBenutzerkonto);
+		} catch (IllegalArgumentException e) {
+			Logger.getLogger("de.randi2.model.Benutzerkonto").error("IllegalArgumentException ist aufgetreten.",e);
+		} catch (DatenbankFehlerException e) {
+			Logger.getLogger("de.randi2.model.Benutzerkonto").warn("Fehler in Datenbank aufgetreten",e);
+		}
+		return aktualisierterBenutzer;
 	}
 
 	/**
@@ -65,7 +95,7 @@ public class Benutzerkonto {
 	 * Benutzer zu.
 	 */
 	private void sendenAktivierungsMail() {
-		// TODO
+		//TODO nicht für Release 1?
 	}
 
 	/**
@@ -74,14 +104,19 @@ public class Benutzerkonto {
 	 * 
 	 * @param benutzername
 	 *            String, der dem Benutzername entspricht.
-	 * @return Ein Benutzerkonto Objekt zu diesem Benutzername
+	 * @return Ein BenutzerkontoBean Objekt zu diesem Benutzername
 	 * @throws BenutzerNichtVorhandenException
 	 *             wenn kein Benutzer mit diesem Banutzername vorhanden ist
 	 */
-	public static Benutzerkonto getBenutzer(String benutzername)
-			throws BenutzerNichtVorhandenException {
-		// TODO
-		return null;
+	public static BenutzerkontoBean getBenutzer(String benutzername) throws BenutzerNichtVorhandenException {
+		BenutzerkontoBean bk = new BenutzerkontoBean();
+		Vector< BenutzerkontoBean> konten;
+		bk.setBenutzername(benutzername);
+		konten = suchenBenutzer(bk);
+		if(konten==null || konten.size()==0) {
+			throw new BenutzerNichtVorhandenException(); //TODO Exception Klassen müssen angepasst werden
+		}
+		return konten.get(0);
 	}
 
 	/*
@@ -90,7 +125,6 @@ public class Benutzerkonto {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		// TODO
 		return null;
 	}
 
