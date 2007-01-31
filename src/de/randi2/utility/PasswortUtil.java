@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
  * Die Klasse PasswortUtil bietet Utility Methoden fuer die Verarbeitung und
  * Erzeugung von Passwoertern
  * 
- * @author Johannes Th&ouml;nes [jthoenes@stud.hs-heilbronn.de]
+ * @author Johannes Thoenes <jthoenes@stud.hs-heilbronn.de>
  * @version $Id$
  */
 public class PasswortUtil {
