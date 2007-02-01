@@ -4,6 +4,7 @@ import java.util.*;
 import de.randi2.utility.*;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.datenbank.Filter;
+
 /**
  * Diese Klasse repraesentiert ein Benutzerkonto.
  * 
@@ -12,7 +13,7 @@ import de.randi2.datenbank.Filter;
  * @author Thomas Willert <twillert@stud.hs-heilbronn.de>
  * @version $Id$
  */
-public class BenutzerkontoBean extends Filter{
+public class BenutzerkontoBean extends Filter {
 
 	// TODO Anbindung an de.randi2.utility.NullAttribute noch zu realisieren
 
@@ -163,19 +164,22 @@ public class BenutzerkontoBean extends Filter{
 	 */
 	public void setBenutzername(String benutzername)
 			throws IllegalArgumentException {
-		if (benutzername == null) {
+		boolean filter = super.isFilter();
+		
+		if (!filter && benutzername == null) {
 			throw new IllegalArgumentException(
 					"Bitte geben Sie einen Benutzernamen ein.");
 		}
 		benutzername = benutzername.trim();
-		if (benutzername.length() == 0) {
+		if (!filter && benutzername.length() == 0) {
 			throw new IllegalArgumentException(
 					"Bitte geben Sie einen Benutzernamen ein.");
 		}
-		if (!(benutzername.matches("(\\w|\\d|[.-]|\\@){2,14}"))) {
+		if (!(benutzername.matches("(\\w|\\d|[._-]|\\@){0,50}")) ) {
 			// FIXME Min Laenge auf Anweisung der PL auf 2 heruntergesetzt.
 			// FIXME 14 Zeichen sind IMO zu wenig, alleine
 			// "@med.uni-heidelberg.de" sind ja schon 23 Zeichen! BTheel
+			if (!filter)
 			throw new IllegalArgumentException(
 					"Nur 4-14 Zeichen. Bitte geben Sie den Benutzernamen erneut ein.");
 		}
@@ -289,19 +293,20 @@ public class BenutzerkontoBean extends Filter{
 	}
 
 	/**
-	 * Diese Methode prueft ob die aktuelle Instanz dem uebergebenen Objekt
-	 * entspricht.
+	 * Diese Methode prueft, ob zwei Kontos  identisch sind.
+	 * Zwei Kontos sind identisch, wenn Benutzernamen identisch sind.
 	 * 
 	 * @param zuvergleichendesObjekt
 	 *            das zu vergleichende Objekt vom selben Typ
-	 * @return TRUE oder FALSE, je nach Ergebnis des Vergleichs
+	 * @return <code>true</code>, wenn beide Kontos gleich sind, ansonstenm <code>false</code>
 	 */
 	public boolean equals(BenutzerkontoBean zuvergleichendesObjekt) {
-		// TODO
+		if (benutzername.equals(zuvergleichendesObjekt.getBenutzername()))
+			return true;
+
 		return false;
 
 	}
-	
 
 	/**
 	 * @return the ansprechpartner
