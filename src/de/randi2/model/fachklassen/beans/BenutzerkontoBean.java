@@ -30,17 +30,17 @@ public class BenutzerkontoBean extends Filter {
 	/**
 	 * Benutzername
 	 */
-	private String benutzername;
+	private String benutzername = null;
 
 	/**
 	 * Passwort (md5)
 	 */
-	private String passwort;
+	private String passwort = null;
 
 	/**
 	 * Rolle des Benutzerkontos
 	 */
-	private Rolle rolle;
+	private Rolle rolle = null;
 
 	/**
 	 * ID des Kontos TODO Datentyp checken, long korrekt?
@@ -50,27 +50,32 @@ public class BenutzerkontoBean extends Filter {
 	/**
 	 * Zugehoeriges PersonBean zu diesem Benutzerkonto.
 	 */
-	private PersonBean benutzer;
+	private PersonBean benutzer = null;
 
 	/**
 	 * Zugehoeriger Ansprechparter.
 	 */
-	private PersonBean ansprechpartner;
+	private PersonBean ansprechpartner = null;
 
 	/**
 	 * Ein boolescher Wert, der dem Status gesperrt/entsperrt entspricht.
 	 */
-	private boolean gesperrt;
+	private boolean gesperrt = false;
 
 	/**
 	 * Zeitpunkt des ersten Logins
 	 */
-	private GregorianCalendar ersterLogin;
+	private GregorianCalendar ersterLogin = null;
 
 	/**
 	 * Zeitpunkt des letzten Logins
 	 */
-	private GregorianCalendar letzterLogin;
+	private GregorianCalendar letzterLogin = null;
+
+	/**
+	 * Zentrum, zu dem dieses Benutzerkonto gehoert.
+	 */
+	private ZentrumBean zentrum = null;
 
 	/**
 	 * Der Standardkonstruktor
@@ -96,6 +101,8 @@ public class BenutzerkontoBean extends Filter {
 	 *            entspricht
 	 * @param gesperrt
 	 *            ob der Benutzer gesperrt ist
+	 * @param zentrum
+	 *            das ZentrumBean zu dem das Benutzerkonto gehoert
 	 * @param ersterLogin
 	 *            Zeitpunkt des ersten Logins als GregorianCalendar
 	 * @param letzterLogin
@@ -103,13 +110,14 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	public BenutzerkontoBean(String benutzername, String passwort, Rolle rolle,
 			PersonBean benutzer, PersonBean ansprechpartner, boolean gesperrt,
-			GregorianCalendar ersterLogin, GregorianCalendar letzterLogin)
-			throws IllegalArgumentException {
+			ZentrumBean zentrum, GregorianCalendar ersterLogin,
+			GregorianCalendar letzterLogin) throws IllegalArgumentException {
 		this.setBenutzername(benutzername);
 		this.setPasswort(passwort);
 		this.setRolle(rolle);
 		this.setBenutzer(benutzer);
 		this.setAnsprechpartner(ansprechpartner);
+		this.setZentrum(zentrum);
 		this.setGesperrt(gesperrt);
 		this.setErsterLogin(ersterLogin);
 		this.setLetzterLogin(letzterLogin);
@@ -165,7 +173,7 @@ public class BenutzerkontoBean extends Filter {
 	public void setBenutzername(String benutzername)
 			throws IllegalArgumentException {
 		boolean filter = super.isFilter();
-		
+
 		if (!filter && benutzername == null) {
 			throw new IllegalArgumentException(
 					"Bitte geben Sie einen Benutzernamen ein.");
@@ -175,13 +183,13 @@ public class BenutzerkontoBean extends Filter {
 			throw new IllegalArgumentException(
 					"Bitte geben Sie einen Benutzernamen ein.");
 		}
-		if (!(benutzername.matches("(\\w|\\d|[._-]|\\@){0,50}")) ) {
+		if (!(benutzername.matches("(\\w|\\d|[._-]|\\@){0,50}"))) {
 			// FIXME Min Laenge auf Anweisung der PL auf 2 heruntergesetzt.
 			// FIXME 14 Zeichen sind IMO zu wenig, alleine
 			// "@med.uni-heidelberg.de" sind ja schon 23 Zeichen! BTheel
 			if (!filter)
-			throw new IllegalArgumentException(
-					"Nur 4-14 Zeichen. Bitte geben Sie den Benutzernamen erneut ein.");
+				throw new IllegalArgumentException(
+						"Nur 4-14 Zeichen. Bitte geben Sie den Benutzernamen erneut ein.");
 		}
 		this.benutzername = benutzername;
 	}
@@ -293,12 +301,13 @@ public class BenutzerkontoBean extends Filter {
 	}
 
 	/**
-	 * Diese Methode prueft, ob zwei Kontos  identisch sind.
-	 * Zwei Kontos sind identisch, wenn Benutzernamen identisch sind.
+	 * Diese Methode prueft, ob zwei Kontos identisch sind. Zwei Kontos sind
+	 * identisch, wenn Benutzernamen identisch sind.
 	 * 
 	 * @param zuvergleichendesObjekt
 	 *            das zu vergleichende Objekt vom selben Typ
-	 * @return <code>true</code>, wenn beide Kontos gleich sind, ansonstenm <code>false</code>
+	 * @return <code>true</code>, wenn beide Kontos gleich sind, ansonstenm
+	 *         <code>false</code>
 	 */
 	public boolean equals(BenutzerkontoBean zuvergleichendesObjekt) {
 		if (benutzername.equals(zuvergleichendesObjekt.getBenutzername()))
@@ -354,5 +363,13 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public ZentrumBean getZentrum() {
+		return zentrum;
+	}
+
+	public void setZentrum(ZentrumBean zentrum) {
+		this.zentrum = zentrum;
 	}
 }
