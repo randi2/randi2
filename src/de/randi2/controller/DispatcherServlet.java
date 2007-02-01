@@ -62,9 +62,13 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet implements
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO In dieser Methode soll unterschieden werden, was zu tun ist,
-		// wenn eine POST-Anfrage an dieses Servlet geschickt wird.
-		// Je nach Anfrage, wird eine Aktion durchgefuehrt.
+		String id=(String)request.getParameter("anfrage_id");
+		if(id.equals("JSP_INDEX_LOGIN"))
+		{
+			request.getRequestDispatcher("login.jsp").forward(request, response);
+		}
+		
+		
 
 	}
 }

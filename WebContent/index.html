@@ -30,7 +30,8 @@
 	<div id="login_benutzer">
 		<p id="pageheader">Herzlich Willkommen</p>
 		<p>Benutzername</p>
-		<form action="login.jsp" method="POST">
+		<form action="DispatcherServlet" method="POST">
+		<input type="hidden" value="JSP_INDEX_LOGIN" name="anfrage_id">
 			<p>
 				<input type="text" name="username" tabindex="1">
 			</p>
