@@ -73,28 +73,31 @@ public class DatenbankDummyTest {
      */
     @Test
     public void testSuchenObjekt() {
-        Vector<Object> ergebnisse;
+        Vector<Object> ergebnisseO;
         try { // Nulltest
-            ergebnisse = aDB.suchenObjekt(null);
-            assertEquals(0, ergebnisse.size());
-            ergebnisse = null;
+            ergebnisseO = aDB.suchenObjekt(null);
+            assertEquals(0, ergebnisseO.size());
+           
+          
 
-            ergebnisse = aDB.suchenObjekt(new Object());
-            assertEquals(0, ergebnisse.size());
-            ergebnisse = null;
+            ergebnisseO = aDB.suchenObjekt(new Object());
+            assertEquals(0, ergebnisseO.size());
+            
         } catch (Exception e) {
             fail("Sollte keine Exception werfen");
         }
         try {
+        	
+        	Vector<BenutzerkontoBean>  ergebnisseBeans = null;
             String suchname = "stat";
             String passbrot = "stat";
             BenutzerkontoBean suchbean = new BenutzerkontoBean();
             suchbean.setBenutzername(suchname);
 
-            ergebnisse = aDB.suchenObjekt(suchbean);
-            assertEquals(1, ergebnisse.size());
+            ergebnisseBeans = aDB.suchenObjekt(suchbean);
+            assertEquals(1, ergebnisseBeans.size());
 
-            Object tmp = ergebnisse.firstElement();
+            Object tmp = ergebnisseBeans.firstElement();
             
             assertTrue(tmp instanceof BenutzerkontoBean);
 

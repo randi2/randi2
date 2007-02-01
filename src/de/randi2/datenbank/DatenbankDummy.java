@@ -84,7 +84,8 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
      * 
      * @see de.randi2.datenbank.DatenbankSchnittstelle#schreibenObjekt(java.lang.Object)
      */
-    public Object schreibenObjekt(Object zuSchreibendesObjekt)
+    @SuppressWarnings("unchecked")
+	public <T> T schreibenObjekt(T zuSchreibendesObjekt)
             throws DatenbankFehlerException, IllegalArgumentException {
         logger.info("DatenbankDummy.schreibenObjekt()");
         if (zuSchreibendesObjekt == null)
@@ -100,7 +101,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
                 aBean.setId(konten.size());
                 logger.debug("Konto-ID: " + aBean.getId());
             }
-            return aBean;
+            return (T)aBean;
         }
         return null;
     }
@@ -110,11 +111,12 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
      * 
      * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenObjekt(java.lang.Object)
      */
-    public Vector<Object> suchenObjekt(Object zuSuchendesObjekt)
+    @SuppressWarnings("unchecked")
+	public <T> Vector<T> suchenObjekt(T zuSuchendesObjekt)
             throws DatenbankFehlerException {
         logger.info("DatenbankDummy.suchenObjekt()");
         // XXX Passwoerter werden derzeit ungehashed gespeichert!
-        Vector<Object> ergebnisse = new Vector<Object>();
+        Vector<T> ergebnisse = new Vector<T>();
 
         if (zuSuchendesObjekt == null)
             // TODO Reicht das? ggf. IlligalArgumentException
@@ -127,7 +129,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
                     .getBenutzername();
             if (konten.containsKey(suchname)) {
                 logger.debug("gesuchtes Konto in DB vorhanden");
-                ergebnisse.add(konten.get(suchname));
+                ergebnisse.add((T)konten.get(suchname));
             }
         }
         return ergebnisse;

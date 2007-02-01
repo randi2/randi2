@@ -32,26 +32,24 @@ public interface DatenbankSchnittstelle {
 	 * @throws DatenbankFehlerException
 	 *             falls ein Fehler beim Datenbankzugriff aufgetreten ist
 	 */
-	public Vector<Object> suchenObjekt(Object zuSuchendesObjekt)
+	public <T> Vector<T>  suchenObjekt(T zuSuchendesObjekt)
 			throws DatenbankFehlerException;
-
+    
 	/**
 	 * <p>
 	 * Diese Methode schreibt das uebergebene Objekt mit allen Attributen in die
 	 * Datenbank und liefert bei Erfolg das geschriebene Objekt zurueck, bei
 	 * welchem dann das Feld id gesetzt wurde.
 	 * </p>
-	 * 
-	 * 
+	 * @param <T> Klasse des Attributes
 	 * @param zuSchreibendesObjekt
 	 *            das zuschreibende Objekt
 	 * @return das geschriebene Objekt, bei welchem das Feld id gesetzt wurde
 	 * @throws DatenbankFehlerException
 	 *             falls ein Fehler beim Datenbankzugriff aufgetreten ist
      * @throws IllegalArgumentException falls <code>zuSchreibendesObjekt</code> == <code>null</code>
-     *                          
-	 */    
-	public Object schreibenObjekt(Object zuSchreibendesObjekt)
+	 */
+	public <T> T schreibenObjekt(T zuSchreibendesObjekt)
 			throws DatenbankFehlerException, IllegalArgumentException;
     
 }
