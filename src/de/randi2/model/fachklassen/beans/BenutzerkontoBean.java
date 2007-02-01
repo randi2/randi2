@@ -14,9 +14,8 @@ import de.randi2.datenbank.Filter;
  * @version $Id$
  */
 public class BenutzerkontoBean extends Filter {
-
-	// TODO Anbindung an de.randi2.utility.NullAttribute noch zu realisieren
-
+	 
+	
 	/*
 	 * Change Log 29.01.2007 Thomas Willert
 	 * 

@@ -2,6 +2,7 @@ package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
 import de.randi2.utility.NullKonstanten;
+
 /**
  * Diese Klasse repraesentiert eine Person.
  * 
@@ -10,7 +11,7 @@ import de.randi2.utility.NullKonstanten;
  * @author Thomas Willert <twillert@stud.hs-heilbronn.de>
  * @version $Id$
  */
-public class PersonBean extends Filter{
+public class PersonBean extends Filter {
 
 	/*
 	 * Change Log 29.01.2007 Thomas Willert
