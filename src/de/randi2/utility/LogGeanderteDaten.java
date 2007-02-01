@@ -53,7 +53,7 @@ public class LogGeanderteDaten {
 		}
 		this.typ = typ;
 
-		if (this.daten == null || this.daten.isEmpty()) {
+		if (daten == null || daten.isEmpty()) {
 			throw new IllegalArgumentException(
 					"Die geanderten Daten duerfen nicht leer sein");
 		}

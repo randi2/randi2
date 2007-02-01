@@ -96,7 +96,7 @@ public class LogLayout extends Layout {
 							+ wert + "<randi2log:eintrag>\r\n");
 				}
 
-				buf.append("<randi2log:daten>");
+				buf.append("<randi2log:daten>\r\n");
 			}
 
 			buf.append("\t<randi2log:benutzer>" + aktion.getBenutzernamen()
