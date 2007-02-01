@@ -1,6 +1,7 @@
 package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.utility.NullKonstanten;
 /**
  * Diese Klasse repraesentiert eine Person.
  * 
@@ -10,7 +11,6 @@ import de.randi2.datenbank.Filter;
  * @version $Id$
  */
 public class PersonBean extends Filter{
-	// TODO Anbindung an de.randi2.utility.NullAttribute noch zu realisieren
 
 	/*
 	 * Change Log 29.01.2007 Thomas Willert
@@ -66,43 +66,43 @@ public class PersonBean extends Filter{
 	/**
 	 * Nachname der Person.
 	 */
-	private String nachname;
+	private String nachname = null;
 
 	/**
 	 * Vorname der Person.
 	 */
-	private String vorname;
+	private String vorname = null;
 
 	/**
 	 * Titel der Person.
 	 */
-	private String titel;
+	private String titel = null;
 
 	/**
 	 * Geschlecht der Person. (Entspricht einer Konstante aus der
 	 * de.randi2.utility.Konstanten Klasse)
 	 */
-	private char geschlecht;
+	private char geschlecht = NullKonstanten.NULL_CHAR;
 
 	/**
 	 * E-Mailadresse der Person.
 	 */
-	private String email;
+	private String email = null;
 
 	/**
 	 * Die Telefonnummer der Person.
 	 */
-	private String telefonnummer;
+	private String telefonnummer = null;
 
 	/**
 	 * Die Handynummer der Person.
 	 */
-	private String handynummer;
+	private String handynummer = null;
 
 	/**
 	 * Die Faxnummer der Person.
 	 */
-	private String fax;
+	private String fax = null;
 
 	/**
 	 * @return the email
