@@ -2,10 +2,9 @@ package de.randi2.model.fachklassen;
 
 import java.util.Vector;
 import org.apache.log4j.Logger;
-import de.randi2.datenbank.DatenbankDummy;
-import de.randi2.datenbank.DatenbankSchnittstelle;
+import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
-import de.randi2.model.exceptions.BenutzerNichtVorhandenException;
+import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.PasswortUtil;
 
@@ -47,11 +46,11 @@ public class Benutzerkonto {
 	 * @return ein Vector mit gefundenen Objekten
 	 */
 	public static Vector<BenutzerkontoBean> suchenBenutzer(BenutzerkontoBean sBenutzerkonto) {
-		DatenbankSchnittstelle aDB = new DatenbankDummy();
+		
 		Vector<BenutzerkontoBean> gefundeneKonten= new Vector<BenutzerkontoBean>();
 
 		try {
-			gefundeneKonten = aDB.suchenObjekt(sBenutzerkonto);
+			gefundeneKonten = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(sBenutzerkonto);
 		} catch (IllegalArgumentException e) {
 			Logger.getLogger("de.randi2.model.Benutzerkonto").error("IllegalArgumentException ist aufgetreten.",e);
 		} catch (DatenbankFehlerException e) {
@@ -70,10 +69,10 @@ public class Benutzerkonto {
 	 * @return
 	 */
 	public static Benutzerkonto anlegenBenutzer(BenutzerkontoBean aBenutzerkonto) {
-		DatenbankSchnittstelle aDB = new DatenbankDummy();
+		
 		BenutzerkontoBean aktualisierterBenutzer=null;
 		try {
-			aktualisierterBenutzer = aDB.schreibenObjekt(aBenutzerkonto);
+			aktualisierterBenutzer = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzerkonto);
 		} catch (IllegalArgumentException e) {
 			Logger.getLogger("de.randi2.model.Benutzerkonto").error("IllegalArgumentException ist aufgetreten.",e);
 		} catch (DatenbankFehlerException e) {
@@ -87,7 +86,7 @@ public class Benutzerkonto {
 	 * Benutzer zu.
 	 */
 	private void sendenAktivierungsMail() {
-		//TODO nicht für Release 1?
+		//TODO nicht fuer Release 1?
 	}
 
 	/**
@@ -97,16 +96,16 @@ public class Benutzerkonto {
 	 * @param benutzername
 	 *            String, der dem Benutzername entspricht.
 	 * @return Ein BenutzerkontoBean Objekt zu diesem Benutzername
-	 * @throws BenutzerNichtVorhandenException
+	 * @throws BenutzerkontoException
 	 *             wenn kein Benutzer mit diesem Banutzername vorhanden ist
 	 */
-	public static BenutzerkontoBean getBenutzer(String benutzername) throws BenutzerNichtVorhandenException {
+	public static BenutzerkontoBean getBenutzer(String benutzername) throws BenutzerkontoException {
 		BenutzerkontoBean bk = new BenutzerkontoBean();
 		Vector< BenutzerkontoBean> konten;
 		bk.setBenutzername(benutzername);
 		konten = suchenBenutzer(bk);
 		if(konten==null || konten.size()==0) {
-			throw new BenutzerNichtVorhandenException(); //TODO Exception Klassen müssen angepasst werden
+			throw new BenutzerkontoException(BenutzerkontoException.BENUTZER_NICHT_VORHANDEN);
 		}
 		return konten.get(0);
 	}
@@ -137,11 +136,12 @@ public class Benutzerkonto {
 	public BenutzerkontoBean getBenutzerkontobean(){
 		return this.aBenutzerkonto;
 	}
+	
 	/**
-	 * Diese Methode prüft, ob das übergebene Passwort richtig ist.
+	 * Diese Methode prueft, ob das uebergebene Passwort richtig ist.
 	 * 
 	 * @param passwort
-	 *            Das Passwort, das überprüft werden soll.
+	 *            Das Passwort, das ueberprueft werden soll.
 	 * @return true, wenn das Passwort richtig ist. False, bei falchem Passwort.
 	 */
 	public boolean pruefenPasswort(String passwort) {
