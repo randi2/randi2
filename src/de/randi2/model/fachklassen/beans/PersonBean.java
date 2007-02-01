@@ -1,5 +1,6 @@
 package de.randi2.model.fachklassen.beans;
 
+import de.randi2.datenbank.Filter;
 /**
  * Diese Klasse repraesentiert eine Person.
  * 
@@ -8,7 +9,7 @@ package de.randi2.model.fachklassen.beans;
  * @author Thomas Willert <twillert@stud.hs-heilbronn.de>
  * @version $Id$
  */
-public class PersonBean {
+public class PersonBean extends Filter{
 	// TODO Anbindung an de.randi2.utility.NullAttribute noch zu realisieren
 
 	/*

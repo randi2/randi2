@@ -3,7 +3,7 @@ package de.randi2.model.fachklassen.beans;
 import java.util.*;
 import de.randi2.utility.*;
 import de.randi2.model.fachklassen.Rolle;
-
+import de.randi2.datenbank.Filter;
 /**
  * Diese Klasse repraesentiert ein Benutzerkonto.
  * 
@@ -12,7 +12,7 @@ import de.randi2.model.fachklassen.Rolle;
  * @author Thomas Willert <twillert@stud.hs-heilbronn.de>
  * @version $Id$
  */
-public class BenutzerkontoBean {
+public class BenutzerkontoBean extends Filter{
 
 	// TODO Anbindung an de.randi2.utility.NullAttribute noch zu realisieren
 

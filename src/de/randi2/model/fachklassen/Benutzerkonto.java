@@ -1,10 +1,7 @@
 package de.randi2.model.fachklassen;
 
-import java.util.Iterator;
 import java.util.Vector;
-
 import org.apache.log4j.Logger;
-
 import de.randi2.datenbank.DatenbankDummy;
 import de.randi2.datenbank.DatenbankSchnittstelle;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;

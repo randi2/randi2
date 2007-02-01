@@ -3,8 +3,8 @@ package de.randi2.datenbank;
 /**
  * @author Benjamin Theel <BTheel@stud.hs-heilbronn.de>
  * @author Frederik Reifschneider <Reifschneider@stud.uni-heidelberg.de>
- *
- *@version $ID 
+ * 
+ * @version $ID
  */
 public class Filter {
 	private boolean isFilter = false;
@@ -12,7 +12,8 @@ public class Filter {
 	public Filter() {
 
 	}
-	public Filter(boolean filter){
+
+	public Filter(boolean filter) {
 		this.isFilter = filter;
 	}
 
@@ -23,5 +24,5 @@ public class Filter {
 	public boolean isFilter() {
 		return this.isFilter;
 	}
-	
+
 }
