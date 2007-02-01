@@ -63,10 +63,24 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet implements
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String id=(String)request.getParameter("anfrage_id");
+		String idAttribute=(String)request.getAttribute("anfrage_id");
+		if(idAttribute!=null)
+		{
+			id=idAttribute;
+		}
+		
 		if(id.equals("JSP_INDEX_LOGIN"))
 		{
-			request.getRequestDispatcher("login.jsp").forward(request, response);
+			System.out.println("DispatcherServlet");
+			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_LOGIN1");
+			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
 		}
+		else if(id.equals("CLASS_BENUTZERSERVLET_LOGIN_ERROR"))
+		{
+			System.out.println("DispatcherServlet");
+			request.getRequestDispatcher("/hilfe.jsp").forward(request, response);
+		}
+		
 		
 		
 

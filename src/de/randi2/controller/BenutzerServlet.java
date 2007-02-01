@@ -1,6 +1,8 @@
 package de.randi2.controller;
 
+
 import java.io.IOException;
+import java.util.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import de.randi2.model.exceptions.BenutzerGesperrtException;
 import de.randi2.model.exceptions.BenutzerNichtVorhandenException;
 import de.randi2.model.exceptions.PasswortFalschException;
+import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 
 /**
@@ -60,7 +63,35 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Hier wird je nach Aktion unterschieden, was passiert.
+		String id=(String)request.getAttribute("anfrage_id");
+		System.out.println("Benutzerservlet");
+		System.out.println(id);
+		if(id.equals("CLASS_DISPATCHERSERVLET_LOGIN1"))
+		{
+			System.out.println("Benutzerservlet");
+			BenutzerkontoBean sBenutzer=new BenutzerkontoBean();
+			sBenutzer.setBenutzername((String)request.getParameter("username"));
+			//sBenutzer.setPasswort((String)request.getParameter("password"));
+			Vector<BenutzerkontoBean> gBenutzer=Benutzerkonto.suchenBenutzer(sBenutzer);
+			if(gBenutzer.size()==1)
+			{
+				System.out.println();
+				gBenutzer.get(0);
+			}
+			else
+			{
+				System.out.println("Fehler");
+				request.setAttribute("fehlernachricht","Loginfehler");
+				request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_LOGIN_ERROR");
+			}
+			
+			//(String)request.getParameter("password");
+			//(String)request.getParameter("")
+			//BenutzerkontoBean=new BenutzerkontoBean()
+			//Benutzerkonto.suchenBenutzer(sBenutzerkonto)
+			//request.setParameter("anfrage_id", "CLASS_DISPATCHERSERVLET_LOGIN1");
+			request.getRequestDispatcher("DispatcherServlet").forward(request, response);
+		}
 	}
 
 	/**
