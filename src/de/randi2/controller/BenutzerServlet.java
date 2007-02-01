@@ -6,13 +6,10 @@ import java.util.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import de.randi2.model.exceptions.BenutzerGesperrtException;
-import de.randi2.model.exceptions.BenutzerNichtVorhandenException;
-import de.randi2.model.exceptions.PasswortFalschException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.PasswortUtil;
+import de.randi2.model.exceptions.*;
 
 /**
  * Diese Klasse repraesentiert das BENUTZERSERVLET, welches Aktionen an die
@@ -70,32 +67,29 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 			System.out.println("Benutzerservlet");
 			BenutzerkontoBean sBenutzer=new BenutzerkontoBean();
 			sBenutzer.setBenutzername((String)request.getParameter("username"));
+			//Zukünftig sollte hier gleich das Passwort überprüft werden
 			sBenutzer.setPasswort(PasswortUtil.getInstance().hashPasswort((String)request.getParameter("password")));
 			Vector<BenutzerkontoBean> gBenutzer=Benutzerkonto.suchenBenutzer(sBenutzer);
 			if(gBenutzer.size()==1)
 			{
-				
-				if (!gBenutzer.get(0).isGesperrt())
+				if (!gBenutzer.get(0).isGesperrt()&&new Benutzerkonto(gBenutzer.firstElement()).pruefenPasswort((String)request.getParameter("password")))
 				{	
 				request.getSession(true).setAttribute("aBenutzer", gBenutzer.get(0));
 				request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_LOGIN_OK");
+				}//if
+				else{
+					request.setAttribute("fehlernachricht","Loginfehler");
+					request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_LOGIN_ERROR");
 				}
-			}
+			}//if
 			else
 			{
 				request.setAttribute("fehlernachricht","Loginfehler");
 				request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_LOGIN_ERROR");
-				
-			}
-			
-			//(String)request.getParameter("password");
-			//(String)request.getParameter("")
-			//BenutzerkontoBean=new BenutzerkontoBean()
-			//Benutzerkonto.suchenBenutzer(sBenutzerkonto)
-			//request.setParameter("anfrage_id", "CLASS_DISPATCHERSERVLET_LOGIN1");
+			}//else
 			request.getRequestDispatcher("DispatcherServlet").forward(request, response);
-		}
-	}
+		}//if
+	}//doPost
 
 	/**
 	 * Diese Methode liest aus dem Request Benutzername und Passwort aus, sucht
@@ -117,8 +111,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 	 * @return das entsprechende BenutzerkontoBean
 	 */
 	private BenutzerkontoBean einloggenBenutzer(HttpServletRequest request)
-			throws BenutzerNichtVorhandenException, BenutzerGesperrtException,
-			PasswortFalschException {
+			throws BenutzerkontoException {
 
 		// TODO
 		return null;

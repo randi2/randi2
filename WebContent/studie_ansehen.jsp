@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import= "de.randi2.model.fachklassen.*"
+		import= "de.randi2.model.fachklassen.beans.*"%>
+<%Rolle.Rollen aRolle=((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer")).getRolle().getRollenname(); %>
    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -52,7 +55,7 @@
 	</tr>
 </table><br><br><br>
 
-<%	if(user.getUsername().equals("stat")) { 		%>
+<%	if(aRolle==Rolle.Rollen.STATISTIKER) { 		%>
 <form>
 		<fieldset>
 			<legend><b>Studienauswahl</b></legend>
@@ -66,7 +69,7 @@
 	</form>
 <%					}		%>
 
-<%	if(user.getUsername().equals("sl")) { 		%>
+<%	if(aRolle==Rolle.Rollen.STUDIENLEITER) { 		%>
 <form>
 		<fieldset>
 			<legend><b>Studienauswahl</b></legend>
@@ -84,7 +87,7 @@
 	</form>
 <%					}		%>
 
-<%	if(user.getUsername().equals("admin")) { 		%>
+<%	if(aRolle==Rolle.Rollen.ADMIN) { 		%>
 <form>
 		<fieldset>
 			<legend><b>Studienauswahl</b></legend>

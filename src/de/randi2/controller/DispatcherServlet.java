@@ -99,7 +99,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet implements
 			}
 			else if(aBenutzer.getRolle().getRollenname()==Rolle.Rollen.SYSOP){
 				request.getRequestDispatcher("/global_welcome.jsp").forward(request, response);
-			}
-		}				
-	}
-}
+			}//else if
+		}//else if				
+	}//doPost
+}//DispatcherServlet
