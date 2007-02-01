@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.*;
 
+import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
+import de.randi2.model.fachklassen.*;
 /**
  * <p>
  * Diese Klasse repraesentiert den DISPATCHER (== Weiterleiter). Dieser wird von
@@ -79,9 +81,25 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet implements
 		{
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}
-		
-		
-		
-
+		else if (id.equals("CLASS_BENUTZERSERVLET_LOGIN_OK")){
+			
+			BenutzerkontoBean aBenutzer=(BenutzerkontoBean)request.getSession().getAttribute("aBenutzer");
+			Logger.getLogger(this.getClass()).debug(aBenutzer);
+			if(aBenutzer.getRolle().getRollenname()==Rolle.Rollen.STUDIENARZT){
+				request.getRequestDispatcher("/studie_auswaehlen.jsp").forward(request, response);
+			}
+			else if(aBenutzer.getRolle().getRollenname()==Rolle.Rollen.STUDIENLEITER){
+				request.getRequestDispatcher("/studie_auswaehlen.jsp").forward(request, response);
+			}
+			else if(aBenutzer.getRolle().getRollenname()==Rolle.Rollen.STATISTIKER){
+				request.getRequestDispatcher("/studie_ansehen.jsp").forward(request, response);
+			}
+			else if(aBenutzer.getRolle().getRollenname()==Rolle.Rollen.ADMIN){
+				request.getRequestDispatcher("/global_welcome.jsp").forward(request, response);
+			}
+			else if(aBenutzer.getRolle().getRollenname()==Rolle.Rollen.SYSOP){
+				request.getRequestDispatcher("/global_welcome.jsp").forward(request, response);
+			}
+		}				
 	}
 }

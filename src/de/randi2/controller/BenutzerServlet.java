@@ -77,7 +77,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 				
 				if (!gBenutzer.get(0).isGesperrt())
 				{	
-				
+				request.getSession(true).setAttribute("aBenutzer", gBenutzer.get(0));
+				request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_LOGIN_OK");
 				}
 			}
 			else

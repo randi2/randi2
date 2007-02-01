@@ -1,4 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page import= "de.randi2.model.fachklassen.*"
+		import= "de.randi2.model.fachklassen.beans.*"
+%>
+<%Rolle.Rollen aRolle=((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer")).getRolle().getRollenname(); %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -10,10 +14,11 @@
 <div id="content">
 <h1>Studie ausw&auml;hlen</h1>
 
-<% if (user.getUsername().equals("sl")) { %>
-<input type="button" value="Neue Studie anlegen" onClick="top.location.href='studie_anlegen.jsp'">&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;
-<input type="button" value="Simulation" onClick="top.location.href='simulation.jsp'"><br><br>
+<% if (aRolle==Rolle.Rollen.STUDIENLEITER) { %>
+<form action="DispatcherServlet" method="POST"><input type="hidden" name="anfrage_id" value="JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE"><input type="submit" value="Neue Studie anlegen"></form>&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;
+<form action="DispatcherServlet" method="POST"><input type="hidden" name="anfrage_id" value="JSP_STUDIE_AUSWAEHLEN_SIMULATION"><input type="submit" value="Simulation"></form><br><br>
 <% } %>
+<!--  TODO Table  BUG #2-->
 <table width="600" border="0" cellspacing="5" cellpadding="2" bgcolor="#e3e3e3">
 <tr>  
 <td align="left" id="filterbezeichnung">Name</td>
@@ -45,7 +50,7 @@
 		<td align="center"><a href="studie_ansehen.jsp">Aspirin</a></td>
 		<td align="center">Uniklinkium Heidelberg, allg. Medizin</td>
 		<td align="center">aktiv</td>
-		<% if (user.getUsername().equals("admin"))  { %>
+<% 		if (aRolle==Rolle.Rollen.ADMIN) { %>
 		<td> <a class="il_ContainerItemCommand" href="studie_abbrechen.jsp">abbrechen</a></td>
 <% } %>
 	</tr>
@@ -53,7 +58,7 @@
 		<td align="center">GemTex5</td>
 		<td align="center">DKFZ</td>
 		<td align="center">aktiv</td>
-		<% if (user.getUsername().equals("admin"))  { %>
+		<% if (aRolle==Rolle.Rollen.ADMIN) { %>
 		<td> <a class="il_ContainerItemCommand" href="studie_abbrechen.jsp">abbrechen</a></td>
 	<% } %>
 	</tr>
@@ -61,7 +66,7 @@
 		<td align="center">XXX</td>
 		<td align="center">AM Wroclaw, Onkologia</td>
 		<td align="center">aktiv</td>
-		<% if (user.getUsername().equals("admin"))  { %>
+		<% if (aRolle==Rolle.Rollen.ADMIN) { %>
 		<td> <a class="il_ContainerItemCommand" href="studie_abbrechen.jsp">abbrechen</a></td>
 <% } %>
 	</tr>
@@ -69,8 +74,8 @@
 
 <%@include file="include/inc_footer.jsp"%>
 </div>
-<% if (user.getUsername().equals("admin"))  { %>
-<%@include file="include/inc_menue.jsp"%>
+		<% if (aRolle==Rolle.Rollen.ADMIN) { %>
+<%@include file="/include/inc_menue.jsp"%>
 <% } %>
 </body>
 </html>
