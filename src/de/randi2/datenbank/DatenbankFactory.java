@@ -7,10 +7,9 @@ package de.randi2.datenbank;
  * Datenbankklasse. Sie ist immer anzusprechen, wenn eine Datenbank Instanz
  * gebraucht wird.
  * </p>
- * (FACTORY PATTERN)
  * 
  * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
- * @version $Id $
+ * @version $Id$
  */
 public class DatenbankFactory {
 
