@@ -73,19 +73,7 @@ public class DatenbankDummyTest {
      */
     @Test
     public void testSuchenObjekt() {
-        Vector<Object> ergebnisseO;
-        try { // Nulltest
-            ergebnisseO = aDB.suchenObjekt(null);
-            assertEquals(0, ergebnisseO.size());
-           
-          
 
-            ergebnisseO = aDB.suchenObjekt(new Object());
-            assertEquals(0, ergebnisseO.size());
-            
-        } catch (Exception e) {
-            fail("Sollte keine Exception werfen");
-        }
         try {
         	
         	Vector<BenutzerkontoBean>  ergebnisseBeans = null;
