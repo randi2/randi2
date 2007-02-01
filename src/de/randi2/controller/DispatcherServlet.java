@@ -72,6 +72,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet implements
 			id=idAttribute;
 		}
 		Logger.getLogger(this.getClass()).debug(id);
+		
+		//Login
 		if(id.equals("JSP_INDEX_LOGIN"))
 		{
 			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_LOGIN1");
@@ -100,6 +102,54 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet implements
 			else if(aBenutzer.getRolle().getRollenname()==Rolle.Rollen.SYSOP){
 				request.getRequestDispatcher("/global_welcome.jsp").forward(request, response);
 			}//else if
-		}//else if				
+		}//else if	
+		
+		//Benutzer registrieren
+		//Schritt1
+		else if (id.equals("JSP_INDEX_BENUTZER_REGISTRIEREN_EINS"))
+		{
+			
+			request.getRequestDispatcher("/benutzer_anlegen_eins.jsp").forward(request, response);
+		
+		}
+		else if (id.equals("JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI"))
+		{
+		
+			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI");
+			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
+		}
+		else if (id.equals("CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_ZWEI"))
+		{
+			request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp").forward(request, response);
+		}
+		//Schritt 2:
+		else if (id.equals("JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI"))
+		{
+			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI");
+			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
+		
+		}
+		else if (id.equals("CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_DREI"))
+		{
+		
+			request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
+		}
+		//Schritt 3:
+		else if (id.equals("JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER"))
+		{
+			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER");
+			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
+		
+		}
+		else if (id.equals("CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_VIER"))
+		{
+		
+			request.getRequestDispatcher("/benutzer_anlegen_vier.jsp").forward(request, response);
+		}
+		
+		
+		
+		
+		
 	}//doPost
 }//DispatcherServlet

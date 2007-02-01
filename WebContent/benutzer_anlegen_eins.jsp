@@ -24,11 +24,13 @@
 		nicht zu Eigen.</i></p>
 </fieldset>
 </form>
-<form>
+<form action="DispatcherServlet" method="POST">
 		<table>
 		<tr>
-		<td><input type="button" name="bestaetigen" value="Akzeptieren" tabindex="1" onclick="location.href='benutzer_anlegen_zwei.jsp'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-		<td><input type="button" name="abbrechen" value="Abbrechen" tabindex="2" onClick="location.href='index.html'"></td>
+		<td>
+		<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI"><input type="submit" value="Bestaetigen">
+		<input type="button" name="bestaetigen" value="Akzeptieren" tabindex="1" onclick="location.href='benutzer_anlegen_zwei.jsp'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td><input type="button" name="abbrechen" value="Abbrechen" tabindex="2" onClick="location.href='index.jsp'"></td>
 		</tr>
 		</table>
 </form>

@@ -6,6 +6,9 @@ import java.util.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.PasswortUtil;
@@ -62,9 +65,11 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String id=(String)request.getAttribute("anfrage_id");
+		Logger.getLogger(this.getClass()).debug(id);
+		
+		//Login
 		if(id.equals("CLASS_DISPATCHERSERVLET_LOGIN1"))
 		{
-			System.out.println("Benutzerservlet");
 			BenutzerkontoBean sBenutzer=new BenutzerkontoBean();
 			sBenutzer.setBenutzername((String)request.getParameter("username"));
 			//Zukünftig sollte hier gleich das Passwort überprüft werden
@@ -89,6 +94,34 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 			}//else
 			request.getRequestDispatcher("DispatcherServlet").forward(request, response);
 		}//if
+		
+		
+		//Benutzer registrieren
+		//Schritt 1:
+		else if (id.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI"))
+		{
+		
+			request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_ZWEI");
+			//Hier noch jede Menge Logik
+			request.getRequestDispatcher("DispatcherServlet").forward(request, response);
+		}
+		//Schritt 2:
+		else if (id.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI"))
+		{
+			request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_DREI");
+			//Hier noch jede Menge Logik
+			request.getRequestDispatcher("DispatcherServlet").forward(request, response);
+		
+		}
+		//Schritt 3:
+		else if (id.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER"))
+		{
+			request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_VIER");
+			//Hier noch jede Menge Logik
+			request.getRequestDispatcher("DispatcherServlet").forward(request, response);
+		
+		}
+		
 	}//doPost
 
 	/**

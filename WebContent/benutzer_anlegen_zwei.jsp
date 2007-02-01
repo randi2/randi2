@@ -10,7 +10,7 @@
 <%@include file="include/inc_header_clean.jsp"%>
 
 <div id="content">
-<form>
+<form action="DispatcherServlet" method="POST">
 <h1>Benutzer anlegen</h1>
 
 <fieldset style="width: 60%"><legend><b>Zentrum suchen </b></legend>
@@ -31,20 +31,26 @@ Name&nbsp;der&nbsp;Institution:&nbsp;&nbsp;
 		<td>Zentrum1</td>
 		<td>Abteilung xyz</td>
 		<td><input type="password" name="textfield2" tabindex="1"></td>
-		<td><input type="button" name="bestaetigen" value="Weiter" tabindex="2" onclick="location.href='benutzer_anlegen_drei.jsp'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td>
+		<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI"><input type="submit" value="Bestaetigen"></form>
+		<input type="button" name="bestaetigen" value="Weiter" tabindex="2" onclick="location.href='benutzer_anlegen_drei.jsp'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	
 	</tr>
 	<tr class="tblrow1">
 		<td>Zentrum2</td>
 		<td>Abteilung2</td>
 				<td><input type="password" name="textfield2" tabindex="3"></td>
-				<td><input type="button" name="bestaetigen" value="Weiter" tabindex="4" onclick="location.href='benutzer_anlegen_drei.jsp'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td>
+				<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI"><input type="submit" value="Bestaetigen"></form>
+				<input type="button" name="bestaetigen" value="Weiter" tabindex="4" onclick="location.href='benutzer_anlegen_drei.jsp'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		</tr>
 	<tr class="tblrow2">
 		<td>Zentrum2</td>
 		<td>Abteilung87</td>
 				<td><input type="password" name="textfield2" tabindex="5"></td>
-			<td><input type="button" name="bestaetigen" value="Weiter" tabindex="6" onclick="location.href='benutzer_anlegen_drei.jsp'" valign="middle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>
+			<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI"><input type="submit" value="Bestaetigen"></form>
+			<input type="button" name="bestaetigen" value="Weiter" tabindex="6" onclick="location.href='benutzer_anlegen_drei.jsp'" valign="middle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	
 	</tr>
 </table>

@@ -72,7 +72,8 @@ Angaben</b></legend>
 </fieldset>
 <br>
 </form>
-<form action="index.html" method="POST">
+<form action="DispatcherServlet" method="POST">
+<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER">
 <table>
 	<tr>
 		<td><input type="submit" name="anlegen" value="Anlegen"

@@ -49,8 +49,9 @@
 		</form>
 		<br>
 		<p>
-			<a href="benutzer_anlegen_eins.jsp">Benutzer registrieren</a>&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;<a
-			href="passwort_vergessen.jsp">Passwort vergessen?</a>
+		<form action="DispatcherServlet" method="POST"><input type="hidden" name="anfrage_id" value="JSP_INDEX_BENUTZER_REGISTRIEREN_EINS"><input type="submit" value="Benutzer registrieren"></form>
+			<a href="benutzer_anlegen_eins.jsp">Benutzer registrieren</a>&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;
+			<a href="passwort_vergessen.jsp">Passwort vergessen?</a>
 		</p>
 	</div>
 </html>
