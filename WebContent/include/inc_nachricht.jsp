@@ -1,6 +1,5 @@
-<link rel="stylesheet" type="text/css" href="../css/style.css" />
-
+<%if(request.getAttribute("fehlernachricht")!=null){%>
 	<div id="nachricht">
-		Hier soll der Fehler stehen
+	<%= request.getAttribute("fehlernachricht")%>
 	</div>
-
+<%} %>

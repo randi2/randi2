@@ -18,7 +18,6 @@ body {
 }
 
 #nachricht {
-position: absolute;
 border-bottom: solid #ff0000 2px;
 border-top: solid #ff0000 2px;
 border-left: solid #ff0000 2px;

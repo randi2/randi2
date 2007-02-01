@@ -31,6 +31,7 @@
 	
 	<div id="login_benutzer">
 		<p id="pageheader">Herzlich Willkommen</p>
+		<%@include file="include/inc_nachricht.jsp"%>
 		<p>Benutzername</p>
 		<form action="DispatcherServlet" method="POST">
 		<input type="hidden" value="JSP_INDEX_LOGIN" name="anfrage_id">

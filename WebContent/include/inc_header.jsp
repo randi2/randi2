@@ -1,5 +1,6 @@
-<!--<jsp:useBean id="user" class="login.ParseUser" scope="session"/>-->
-<jsp:setProperty name="user" property="*"/> 
+<%--<jsp:useBean id="user" class="login.ParseUser" scope="session"/>--%>
+<%--<jsp:setProperty name="user" property="*"/> --%>
+
 <div id="header"><img src="images/dkfz_logo.gif" width="337"
 	height="63" title="" alt=""></div>
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.log4j.*;
 
 /**
  * <p>
@@ -68,17 +69,15 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet implements
 		{
 			id=idAttribute;
 		}
-		
+		Logger.getLogger(this.getClass()).debug(id);
 		if(id.equals("JSP_INDEX_LOGIN"))
 		{
-			System.out.println("DispatcherServlet");
 			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_LOGIN1");
 			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
 		}
 		else if(id.equals("CLASS_BENUTZERSERVLET_LOGIN_ERROR"))
 		{
-			System.out.println("DispatcherServlet");
-			request.getRequestDispatcher("/hilfe.jsp").forward(request, response);
+			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}
 		
 		
