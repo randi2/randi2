@@ -51,19 +51,13 @@ public class Benutzerkonto {
 	public static Vector<BenutzerkontoBean> suchenBenutzer(BenutzerkontoBean sBenutzerkonto) {
 		DatenbankSchnittstelle aDB = new DatenbankDummy();
 		Vector<BenutzerkontoBean> gefundeneKonten= new Vector<BenutzerkontoBean>();
-		Vector<Object> tmpVector = null;
+
 		try {
-			tmpVector = aDB.suchenObjekt(sBenutzerkonto);
+			gefundeneKonten = aDB.suchenObjekt(sBenutzerkonto);
 		} catch (IllegalArgumentException e) {
 			Logger.getLogger("de.randi2.model.Benutzerkonto").error("IllegalArgumentException ist aufgetreten.",e);
 		} catch (DatenbankFehlerException e) {
 			Logger.getLogger("de.randi2.model.Benutzerkonto").warn("Fehler in Datenbank aufgetreten",e);
-		}
-		//Der Weg über zwei Vektoren ist ein Workaround. Casten von Vektor mit Typ Object nach BenutzerkontoBean
-		//geht nicht. Benni wird generic Methods vorstellen die das Problem beheben sollten.
-		Iterator it = tmpVector.iterator();
-		while(it.hasNext()) {
-			gefundeneKonten.add((BenutzerkontoBean) it.next());
 		}
 		return gefundeneKonten;
 	}
@@ -79,15 +73,15 @@ public class Benutzerkonto {
 	 */
 	public static Benutzerkonto anlegenBenutzer(BenutzerkontoBean aBenutzerkonto) {
 		DatenbankSchnittstelle aDB = new DatenbankDummy();
-		Benutzerkonto aktualisierterBenutzer=null;
+		BenutzerkontoBean aktualisierterBenutzer=null;
 		try {
-			aktualisierterBenutzer = (Benutzerkonto) aDB.schreibenObjekt(aBenutzerkonto);
+			aktualisierterBenutzer = aDB.schreibenObjekt(aBenutzerkonto);
 		} catch (IllegalArgumentException e) {
 			Logger.getLogger("de.randi2.model.Benutzerkonto").error("IllegalArgumentException ist aufgetreten.",e);
 		} catch (DatenbankFehlerException e) {
 			Logger.getLogger("de.randi2.model.Benutzerkonto").warn("Fehler in Datenbank aufgetreten",e);
 		}
-		return aktualisierterBenutzer;
+		return new Benutzerkonto(aktualisierterBenutzer);
 	}
 
 	/**
@@ -125,7 +119,7 @@ public class Benutzerkonto {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return null;
+		return this.aBenutzerkonto.toString();
 	}
 
 	/**
@@ -137,10 +131,14 @@ public class Benutzerkonto {
 	 *         nicht der Fall ist.
 	 */
 	public boolean equals(Benutzerkonto zuvergleichendesObjekt) {
-		// TODO
+		if (this.aBenutzerkonto.equals(zuvergleichendesObjekt))
+			return true;
 		return false;
 	}
 
+	public BenutzerkontoBean getBenutzerkontobean(){
+		return this.aBenutzerkonto;
+	}
 	/**
 	 * Diese Methode prüft, ob das übergebene Passwort richtig ist.
 	 * 
