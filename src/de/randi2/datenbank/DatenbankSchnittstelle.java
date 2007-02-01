@@ -25,14 +25,14 @@ public interface DatenbankSchnittstelle {
 	 * Falls keine Objekte der Filterung entsprechen, wird ein leerer Vektor
 	 * zurueckgegeben.
 	 * </p>
-	 * 
+	 * @param <T> Klasse des Attributes, muss von {@link Filter} erben 
 	 * @param zuSuchendesObjekt
 	 *            das zusuchende Objekt mit Attributen als Filter
 	 * @return ein Vektor von auf die Filterung zutreffenden Objekten
 	 * @throws DatenbankFehlerException
 	 *             falls ein Fehler beim Datenbankzugriff aufgetreten ist
 	 */
-	public <T> Vector<T>  suchenObjekt(T zuSuchendesObjekt)
+	public <T extends Filter> Vector<T>  suchenObjekt(T zuSuchendesObjekt)
 			throws DatenbankFehlerException;
     
 	/**
@@ -41,7 +41,7 @@ public interface DatenbankSchnittstelle {
 	 * Datenbank und liefert bei Erfolg das geschriebene Objekt zurueck, bei
 	 * welchem dann das Feld id gesetzt wurde.
 	 * </p>
-	 * @param <T> Klasse des Attributes
+	 * @param <T> Klasse des Attributes, muss von {@link Filter} erben
 	 * @param zuSchreibendesObjekt
 	 *            das zuschreibende Objekt
 	 * @return das geschriebene Objekt, bei welchem das Feld id gesetzt wurde
@@ -49,7 +49,7 @@ public interface DatenbankSchnittstelle {
 	 *             falls ein Fehler beim Datenbankzugriff aufgetreten ist
      * @throws IllegalArgumentException falls <code>zuSchreibendesObjekt</code> == <code>null</code>
 	 */
-	public <T> T schreibenObjekt(T zuSchreibendesObjekt)
+	public <T extends Filter> T schreibenObjekt(T zuSchreibendesObjekt)
 			throws DatenbankFehlerException, IllegalArgumentException;
     
 }

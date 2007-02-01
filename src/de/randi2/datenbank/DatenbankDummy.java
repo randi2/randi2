@@ -85,7 +85,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
      * @see de.randi2.datenbank.DatenbankSchnittstelle#schreibenObjekt(java.lang.Object)
      */
     @SuppressWarnings("unchecked")
-	public <T> T schreibenObjekt(T zuSchreibendesObjekt)
+	public <T extends Filter> T schreibenObjekt(T zuSchreibendesObjekt)
             throws DatenbankFehlerException, IllegalArgumentException {
         logger.info("DatenbankDummy.schreibenObjekt()");
         if (zuSchreibendesObjekt == null)
@@ -112,7 +112,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
      * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenObjekt(java.lang.Object)
      */
     @SuppressWarnings("unchecked")
-	public <T> Vector<T> suchenObjekt(T zuSuchendesObjekt)
+	public <T extends Filter> Vector<T> suchenObjekt(T zuSuchendesObjekt)
             throws DatenbankFehlerException {
         logger.info("DatenbankDummy.suchenObjekt()");
         // XXX Passwoerter werden derzeit ungehashed gespeichert!
