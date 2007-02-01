@@ -1,1 +1,0 @@
-<br><table width="100%" border="0" cellPadding="0" cellSpacing="0"><tr><td align="right" class="footer">letzter Zugriff $LAST_DATE :: copyright</td></tr></table>
