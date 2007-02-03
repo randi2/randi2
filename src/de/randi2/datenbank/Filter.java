@@ -4,7 +4,7 @@ package de.randi2.datenbank;
  * @author Benjamin Theel <BTheel@stud.hs-heilbronn.de>
  * @author Frederik Reifschneider <Reifschneider@stud.uni-heidelberg.de>
  * 
- * @version $ID
+ * @version $Id$
  */
 public class Filter {
 	private boolean isFilter = false;

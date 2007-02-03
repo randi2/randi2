@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
  * Zugegriffen auf die einzelnen Rollen werden kann mittels der jeweiligen
  * Getter.
  * 
- * @version 1.0
+ * @version $Id$
  * @author Benjamin Theel <btheel@stud.hs-heilbronn.de>
  * 
  */
