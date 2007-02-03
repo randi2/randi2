@@ -11,9 +11,6 @@ log4j.logger.de.randi2.utility=ALL, Konsole, ArbeitDebugTXT
 # Anwendungslog
 log4j.logger.Randi2=ALL, AnwendungXML, Konsole
 
-# Tomcat
-log4j.logger.org.apache=INFO, ServerTXT
-
 
 ######################################################
 log4j.appender.AnwendungXML=org.apache.log4j.RollingFileAppender
@@ -34,14 +31,7 @@ log4j.appender.ArbeitDebugTXT.MaxFileSize=100KB
 log4j.appender.ArbeitDebugTXT.layout=org.apache.log4j.PatternLayout
 log4j.appender.ArbeitDebugTXT.layout.ConversionPattern=[%t] %d{ISO8601} [%p] %c:  %m%n
 
-log4j.appender.ServerTXT=org.apache.log4j.RollingFileAppender
-log4j.appender.ServerTXT.MaxFileSize=100KB
-log4j.appender.ServerTXT.layout=org.apache.log4j.PatternLayout
-log4j.appender.ServerTXT.layout.ConversionPattern=[%p] %d{ISO8601}:  %m%n
-
-
 ### TODO: Dateipfade zum Tocat logs Verzeichnis anpassen ##
 log4j.appender.AnwendungXML.File=randi2_logs/anwendung_log.xml
 log4j.appender.DebugTXT.File=randi2_logs/entwicklung_allgemein.log
 log4j.appender.ArbeitDebugTXT.File=randi2_logs/entwicklung_arbeit.log
-log4j.appender.ServerTXT.File=randi2_logs/server.log
