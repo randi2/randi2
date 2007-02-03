@@ -3,6 +3,15 @@
 	<display-name>
 	RANDI2</display-name>
 	<servlet>
+		<servlet-name>log4j-init</servlet-name>
+		<servlet-class>de.randi2.utility.Log4jInit</servlet-class>
+		<init-param>
+			<param-name>log4j-init-file</param-name>
+			<param-value>WEB-INF/log4j.lcf</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
 		<description>
 		</description>
 		<display-name>
@@ -20,6 +29,7 @@
 		<servlet-class>
 		de.randi2.controller.DispatcherServlet</servlet-class>
 	</servlet>
+	
 		<servlet>
 		<description>
 		</description>

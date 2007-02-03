@@ -13,11 +13,31 @@ import org.apache.log4j.spi.LoggingEvent;
  * Die Klasse Randi2LogLayout implementiert das Log-Layout fuer das fachliche
  * Log von Randi2.
  * 
- * @author Johannes Th&ouml;nes [jthoenes@stud.hs-heilbronn.de]
+ * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class LogLayout extends Layout {
 
+	/**
+	 * Oberklasse fuer das fachliche Log.
+	 */
+	private static final String OBERKLASSE = "Randi2.";
+	
+	/**
+	 * Klasse fuer die Ein- und Auslogvorgaenge.
+	 */
+	public static final String LOGIN_LOGOUT = OBERKLASSE + "LoginLogout";
+	
+	/**
+	 * Klasse fuer die Datenaenderung.
+	 */
+	public static final String DATENAENDERUNG = OBERKLASSE + "Datenaenderung";
+	
+	/**
+	 * Klasse fuer Rechteverletzugen.
+	 */
+	public static final String RECHTEVERLETZUNG = OBERKLASSE + "Rechteverletzung";
+	
 	/**
 	 * Standartgroesse des String-Buffers fuer das Log.
 	 */
@@ -72,13 +92,13 @@ public class LogLayout extends Layout {
 					+ "<randi2log:zeit>\r\n");
 
 			buf.append("\t<randi2log:art>" + event.getLoggerName()
-					+ "<randi2log:art\r\n>");
+					+ "<randi2log:art>\r\n");
 
 			buf.append("\t<randi2log:stufe>" + event.getLevel()
-					+ "<randi2log:stufe\r\n>");
+					+ "<randi2log:stufe>\r\n");
 
 			buf.append("\t<randi2log:nachricht>" + aktion.getNachricht()
-					+ "<randi2log:nachricht\r\n>");
+					+ "<randi2log:nachricht>\r\n");
 
 			if (aktion.getGeanderteDaten() != null) {
 				buf.append("\t<randi2log:daten objekt=\""

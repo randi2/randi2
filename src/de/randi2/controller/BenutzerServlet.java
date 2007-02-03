@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.LogAktion;
+import de.randi2.utility.LogLayout;
 import de.randi2.utility.PasswortUtil;
 import de.randi2.model.exceptions.*;
 
@@ -79,7 +80,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 					LogAktion a = new LogAktion(
 							"Benutzer hat sich erfolgreich eingeloggt",
 							gBenutzer.firstElement());
-					Logger.getLogger("Randi2.LoginLogout").info(a);
+					Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
 				}// if
 				else {
 					request.setAttribute("fehlernachricht", "Loginfehler");
@@ -87,7 +88,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 							"CLASS_BENUTZERSERVLET_LOGIN_ERROR");
 					LogAktion a = new LogAktion(
 							"Falsches Passwort eingegeben.", sBenutzer);
-					Logger.getLogger(this.getClass()).warn(a);
+					Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
 				}
 			}// if
 			else {
@@ -97,7 +98,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 				if (gBenutzer.size() == 0) {
 					LogAktion a = new LogAktion(
 							"Falscher Benutzernamen eingegeben.", sBenutzer);
-					Logger.getLogger("Randi2.LoginLogout").warn(a);
+					Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
 				} else {
 					Logger.getLogger(this.getClass()).fatal(
 							"Mehr als einen Benutzer fuer '"
