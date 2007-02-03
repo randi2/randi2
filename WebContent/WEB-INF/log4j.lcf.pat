@@ -13,8 +13,7 @@ log4j.logger.Randi2=ALL, AnwendungXML, Konsole
 
 
 ######################################################
-log4j.appender.AnwendungXML=org.apache.log4j.RollingFileAppender
-log4j.appender.AnwendungXML.MaxFileSize=100KB
+log4j.appender.AnwendungXML=org.apache.log4j.DailyRollingFileAppender
 log4j.appender.AnwendungXML.layout=de.randi2.utility.LogLayout
 
 log4j.appender.Konsole=org.apache.log4j.ConsoleAppender
