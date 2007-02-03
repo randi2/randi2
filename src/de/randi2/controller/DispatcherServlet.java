@@ -33,16 +33,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet implements
 	}
 
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.Servlet#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-		super.destroy();
-	}
-
-	/*
 	 * (non-Java-doc)
 	 * 
 	 * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest request,
@@ -105,36 +95,32 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet implements
 		}//else if	
 		
 		//Benutzer registrieren
-		//Schritt1
+		//Schritt 1.1: STARTSEITE->DISCLAIMER
 		else if (id.equals("JSP_INDEX_BENUTZER_REGISTRIEREN_EINS"))
 		{
 			
 			request.getRequestDispatcher("/benutzer_anlegen_eins.jsp").forward(request, response);
 		
 		}
+		//Schritt 2.1:DISCLAIMER->ZENTRUMAUSWAAHL
 		else if (id.equals("JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI"))
 		{
 		
 			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI");
-			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
+			request.getRequestDispatcher("ZentrumServlet").forward(request, response);
 		}
-		else if (id.equals("CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_ZWEI"))
+		
+		//Schritt 3.1: ZENTRUMAUSWAHL: Filterung
+		//Schritt 3.2 ZENTRUMAUSWAHL->BENUTZERDATEN_EINGEBEN
+		else if (id.equals("JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI"))
 		{
-			request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp").forward(request, response);
-		}
-		//Schritt 2:
-		else if (id.equals("JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI"))
-		{
-			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI");
-			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
+			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_REGISTRIEREN_ZWEI");
+			request.getRequestDispatcher("ZentrumServlet").forward(request, response);
 		
 		}
-		else if (id.equals("CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_DREI"))
-		{
 		
-			request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
-		}
-		//Schritt 3:
+		
+		//Schritt 4: BENUTZERDATEN_EINGEBEN->
 		else if (id.equals("JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER"))
 		{
 			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER");

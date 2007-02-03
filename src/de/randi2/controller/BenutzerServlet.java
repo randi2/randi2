@@ -1,6 +1,5 @@
 package de.randi2.controller;
 
-
 import java.io.IOException;
 import java.util.*;
 import javax.servlet.ServletException;
@@ -11,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
+import de.randi2.utility.LogAktion;
 import de.randi2.utility.PasswortUtil;
 import de.randi2.model.exceptions.*;
 
@@ -36,16 +36,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 	}
 
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.Servlet#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-		super.destroy();
-	}
-
-	/*
 	 * (non-Java-doc)
 	 * 
 	 * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest request,
@@ -64,91 +54,94 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String id=(String)request.getAttribute("anfrage_id");
+		String id = (String) request.getAttribute("anfrage_id");
 		Logger.getLogger(this.getClass()).debug(id);
-		
-		//Login
-		if(id.equals("CLASS_DISPATCHERSERVLET_LOGIN1"))
-		{
-			BenutzerkontoBean sBenutzer=new BenutzerkontoBean();
-			sBenutzer.setBenutzername((String)request.getParameter("username"));
-			//Zukünftig sollte hier gleich das Passwort überprüft werden
-			sBenutzer.setPasswort(PasswortUtil.getInstance().hashPasswort((String)request.getParameter("password")));
-			Vector<BenutzerkontoBean> gBenutzer=Benutzerkonto.suchenBenutzer(sBenutzer);
-			if(gBenutzer.size()==1)
-			{
-				if (!gBenutzer.get(0).isGesperrt()&&new Benutzerkonto(gBenutzer.firstElement()).pruefenPasswort((String)request.getParameter("password")))
-				{	
-				request.getSession(true).setAttribute("aBenutzer", gBenutzer.get(0));
-				request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_LOGIN_OK");
-				}//if
-				else{
-					request.setAttribute("fehlernachricht","Loginfehler");
-					request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_LOGIN_ERROR");
+
+		// Login
+		if (id.equals("CLASS_DISPATCHERSERVLET_LOGIN1")) {
+			BenutzerkontoBean sBenutzer = new BenutzerkontoBean();
+			sBenutzer
+					.setBenutzername((String) request.getParameter("username"));
+			// Zukünftig sollte hier gleich das Passwort überprüft werden
+			sBenutzer.setPasswort(PasswortUtil.getInstance().hashPasswort(
+					(String) request.getParameter("password")));
+			Vector<BenutzerkontoBean> gBenutzer = Benutzerkonto
+					.suchenBenutzer(sBenutzer);
+			if (gBenutzer.size() == 1) {
+				if (!gBenutzer.get(0).isGesperrt()
+						&& new Benutzerkonto(gBenutzer.firstElement())
+								.pruefenPasswort((String) request
+										.getParameter("password"))) {
+					request.getSession(true).setAttribute("aBenutzer",
+							gBenutzer.firstElement());
+					request.setAttribute("anfrage_id",
+							"CLASS_BENUTZERSERVLET_LOGIN_OK");
+					LogAktion a = new LogAktion(
+							"Benutzer hat sich erfolgreich eingeloggt",
+							gBenutzer.firstElement());
+					Logger.getLogger("Randi2.LoginLogout").info(a);
+				}// if
+				else {
+					request.setAttribute("fehlernachricht", "Loginfehler");
+					request.setAttribute("anfrage_id",
+							"CLASS_BENUTZERSERVLET_LOGIN_ERROR");
+					LogAktion a = new LogAktion(
+							"Falsches Passwort eingegeben.", sBenutzer);
+					Logger.getLogger(this.getClass()).warn(a);
 				}
-			}//if
-			else
-			{
-				request.setAttribute("fehlernachricht","Loginfehler");
-				request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_LOGIN_ERROR");
-			}//else
-			request.getRequestDispatcher("DispatcherServlet").forward(request, response);
-		}//if
-		
-		
-		//Benutzer registrieren
-		//Schritt 1:
-		else if (id.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI"))
-		{
-		
-			request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_ZWEI");
-			//Hier noch jede Menge Logik
-			request.getRequestDispatcher("DispatcherServlet").forward(request, response);
-		}
-		//Schritt 2:
-		else if (id.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI"))
-		{
-			request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_DREI");
-			//Hier noch jede Menge Logik
-			request.getRequestDispatcher("DispatcherServlet").forward(request, response);
-		
-		}
-		//Schritt 3:
-		else if (id.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER"))
-		{
-			request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_VIER");
-			//Hier noch jede Menge Logik
-			request.getRequestDispatcher("DispatcherServlet").forward(request, response);
-		
-		}
-		
-	}//doPost
+			}// if
+			else {
+				request.setAttribute("fehlernachricht", "Loginfehler");
+				request.setAttribute("anfrage_id",
+						"CLASS_BENUTZERSERVLET_LOGIN_ERROR");
+				if (gBenutzer.size() == 0) {
+					LogAktion a = new LogAktion(
+							"Falscher Benutzernamen eingegeben.", sBenutzer);
+					Logger.getLogger("Randi2.LoginLogout").warn(a);
+				} else {
+					Logger.getLogger(this.getClass()).fatal(
+							"Mehr als einen Benutzer fuer '"
+									+ sBenutzer.getBenutzername()
+									+ "' in der Datenbank gefunden!");
+				}
+			}// else
+			request.getRequestDispatcher("DispatcherServlet").forward(request,
+					response);
+		}// if
 
-	/**
-	 * Diese Methode liest aus dem Request Benutzername und Passwort aus, sucht
-	 * nach diesem Account und ueberprueft das eingegebene Passwort.
-	 * 
-	 * Wenn der Benutzer ordnungsgemaess authentifiziert wurde, wird das
-	 * entsprechende BenutzerkontoBean zurueckgegeben.
-	 * 
-	 * @param request
-	 *            das Request-Objekt
-	 * @param response
-	 *            das Response-Objekt
-	 * @throws BenutzerNichtVorhandenException
-	 *             wenn der Benutzer nicht vorhanden ist
-	 * @throws BenutzerGesperrtException
-	 *             wenn der Benutzer gesperrt ist
-	 * @throws PasswortFalschException
-	 *             wenn das Passwort nicht korrekt ist
-	 * @return das entsprechende BenutzerkontoBean
-	 */
-	private BenutzerkontoBean einloggenBenutzer(HttpServletRequest request)
-			throws BenutzerkontoException {
+		// Benutzer registrieren
+		// Schritt 1:
+		else if (id
+				.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI")) {
 
-		// TODO
-		return null;
+			request.setAttribute("anfrage_id",
+					"CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_ZWEI");
+			// Hier noch jede Menge Logik
+			request.getRequestDispatcher("DispatcherServlet").forward(request,
+					response);
+		}
+		// Schritt 2:
+		else if (id
+				.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI")) {
+			request.setAttribute("anfrage_id",
+					"CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_DREI");
+			// Hier noch jede Menge Logik
+			request.getRequestDispatcher("DispatcherServlet").forward(request,
+					response);
+			request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
 
-	}
+		}
+		// Schritt 3:
+		else if (id
+				.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER")) {
+			request.setAttribute("anfrage_id",
+					"CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_VIER");
+			// Hier noch jede Menge Logik
+			request.getRequestDispatcher("DispatcherServlet").forward(request,
+					response);
+
+		}
+
+	}// doPost
 
 }

@@ -20,6 +20,15 @@
 		<servlet-class>
 		de.randi2.controller.DispatcherServlet</servlet-class>
 	</servlet>
+		<servlet>
+		<description>
+		</description>
+		<display-name>
+		ZentrumServlet</display-name>
+		<servlet-name>ZentrumServlet</servlet-name>
+		<servlet-class>
+		de.randi2.controller.ZentrumServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>BenutzerServlet</servlet-name>
 		<url-pattern>/BenutzerServlet</url-pattern>
@@ -27,6 +36,10 @@
 	<servlet-mapping>
 		<servlet-name>DispatcherServlet</servlet-name>
 		<url-pattern>/DispatcherServlet</url-pattern>
+	</servlet-mapping>
+		<servlet-mapping>
+		<servlet-name>ZentrumServlet</servlet-name>
+		<url-pattern>/ZentrumServlet</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

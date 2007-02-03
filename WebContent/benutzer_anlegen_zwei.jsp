@@ -10,16 +10,18 @@
 <%@include file="include/inc_header_clean.jsp"%>
 
 <div id="content">
-<form action="DispatcherServlet" method="POST">
+
 <h1>Benutzer anlegen</h1>
 
 <fieldset style="width: 60%"><legend><b>Zentrum suchen </b></legend>
 
 <p>
+<form action="DispatcherServlet" method="POST">
+<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI">
 Name&nbsp;der&nbsp;Institution:&nbsp;&nbsp;
 <br>
 <input type="Text" name="name_institution" value="" size="30" maxlength="50">
-<input type="button" name="filtern_button" value="Filtern">
+<input type="submit" name="Filtern" value="Filtern"></form>
 </p>
 <table width="90%">
 	<tr class="tblrow1" align="left">
@@ -27,21 +29,24 @@ Name&nbsp;der&nbsp;Institution:&nbsp;&nbsp;
 		<th width="30%">Abteilung</th>
 		<th width="20%">Passwort</th>
 	</tr>
+		
+	<form action="DispatcherServlet" method="POST">
+	<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI">
 	<tr class="tblrow2">
 		<td>Zentrum1</td>
 		<td>Abteilung xyz</td>
 		<td><input type="password" name="textfield2" tabindex="1"></td>
 		<td>
-		<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI"><input type="submit" value="Bestaetigen"></form>
+		<input type="submit" name="Bestaetigen_EINS" value="Bestaetigen">
 		<input type="button" name="bestaetigen" value="Weiter" tabindex="2" onclick="location.href='benutzer_anlegen_drei.jsp'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-	
 	</tr>
+	</form>
 	<tr class="tblrow1">
 		<td>Zentrum2</td>
 		<td>Abteilung2</td>
 				<td><input type="password" name="textfield2" tabindex="3"></td>
 				<td>
-				<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI"><input type="submit" value="Bestaetigen"></form>
+				<input type="submit" name="Bestaetigen_ZWEI" value="Bestaetigen">
 				<input type="button" name="bestaetigen" value="Weiter" tabindex="4" onclick="location.href='benutzer_anlegen_drei.jsp'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		</tr>
 	<tr class="tblrow2">
@@ -49,15 +54,14 @@ Name&nbsp;der&nbsp;Institution:&nbsp;&nbsp;
 		<td>Abteilung87</td>
 				<td><input type="password" name="textfield2" tabindex="5"></td>
 			<td>
-			<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI"><input type="submit" value="Bestaetigen"></form>
+			<input type="submit" name="Bestaetigen_DREI" value="Bestaetigen">
 			<input type="button" name="bestaetigen" value="Weiter" tabindex="6" onclick="location.href='benutzer_anlegen_drei.jsp'" valign="middle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	
 	</tr>
 </table>
-     
-      
-</fieldset>
-</form>
+</fieldset>    
+</form>     
+
 <form>
 		<table>
 		<tr>

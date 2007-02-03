@@ -1,5 +1,7 @@
 package de.randi2.model.fachklassen.beans;
 
+import de.randi2.datenbank.Filter;
+
 
 /**
  * Diese Klasse repraesentiert ein Zentrum.
@@ -8,7 +10,7 @@ package de.randi2.model.fachklassen.beans;
  * @version $Id$
  * 
  */
-public class ZentrumBean {
+public class ZentrumBean extends Filter{
 	
 	/*
 	 * TODO Lukasz Plotnicki (02.02.2007):
