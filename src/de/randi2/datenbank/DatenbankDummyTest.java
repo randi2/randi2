@@ -6,7 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
+import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.model.fachklassen.*;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.PasswortUtil;
@@ -72,15 +74,16 @@ public class DatenbankDummyTest {
      * {@link de.randi2.datenbank.DatenbankDummy#suchenObjekt(java.lang.Object)}.
      */
     @Test
-    public void testSuchenObjekt() {
+    public void testSuchenBenutzerkontoBean() {
 
         try {
         	
         	Vector<BenutzerkontoBean>  ergebnisseBeans = null;
-            String suchname = "stat";
-            String passbrot = "stat";
+            String suchname = "statistiker";
+            String passbrot = "1$statistiker";
             BenutzerkontoBean suchbean = new BenutzerkontoBean();
             suchbean.setBenutzername(suchname);
+            suchbean.setFilter(true);
 
             ergebnisseBeans = aDB.suchenObjekt(suchbean);
             assertEquals(1, ergebnisseBeans.size());
@@ -97,6 +100,38 @@ public class DatenbankDummyTest {
             fail("Ao!");
         }
 
+    }
+    
+    @Test 
+    public void testSuchenZentrumBean(){
+        Vector<ZentrumBean>  ergebnis = null;
+        ZentrumBean suchbean = new ZentrumBean();
+        suchbean.setFilter(true);
+        
+        try { //finde Alle Zentren
+            ergebnis = aDB.suchenObjekt(suchbean);
+            assertEquals(4, ergebnis.size());
+        } catch (DatenbankFehlerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        
+        String suchname = "Institut1-Abteilung1";
+        String passbrot = "inst1-abt1";
+        
+        suchbean.setInstitution("Institut1");
+        suchbean.setAbteilung("Abteilung1");
+        
+        try { //finde Alle Zentren
+            ergebnis = aDB.suchenObjekt(suchbean);
+            assertEquals(1, ergebnis.size());
+        } catch (DatenbankFehlerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        
     }
     @Test
     public void testSchreibenSuchen(){

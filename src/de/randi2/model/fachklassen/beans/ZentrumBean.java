@@ -17,6 +17,7 @@ public class ZentrumBean extends Filter{
 	 * Die Validierung der Daten muss noch in die entsprechende set()
 	 * Methoden eingebaut werden.
 	 */
+    //TODO toString fehlt
 	
 	/**
 	 * Name der Institution.
