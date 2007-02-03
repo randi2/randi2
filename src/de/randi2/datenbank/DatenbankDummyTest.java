@@ -115,17 +115,17 @@ public class DatenbankDummyTest {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
-        
-        String suchname = "Institut1-Abteilung1";
+        // Finde ein Zentrum
         String passbrot = "inst1-abt1";
-        
         suchbean.setInstitution("Institut1");
         suchbean.setAbteilung("Abteilung1");
         
         try { //finde Alle Zentren
             ergebnis = aDB.suchenObjekt(suchbean);
             assertEquals(1, ergebnis.size());
+            assertEquals(suchbean.getInstitution(), ergebnis.firstElement().getInstitution());
+            assertEquals(suchbean.getAbteilung(), ergebnis.firstElement().getAbteilung());
+            assertEquals(PasswortUtil.getInstance().hashPasswort(passbrot), ergebnis.firstElement().getPasswort());
         } catch (DatenbankFehlerException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
