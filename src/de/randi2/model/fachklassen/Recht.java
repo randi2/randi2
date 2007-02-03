@@ -138,7 +138,7 @@ public class Recht {
      * 
      * @param name
      */
-    private Recht(Rechtenamen name) {
+    public Recht(Rechtenamen name) {
         this.nameRecht = name;
     }
 
@@ -177,7 +177,7 @@ public class Recht {
     }
 
     /**
-     * Liefert den Namen des Rechte als ein String
+     * Liefert den Namen der Rechte als ein String
      * 
      * @return Name des Rechtes
      */
