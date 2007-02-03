@@ -41,7 +41,7 @@ log4j.appender.ServerTXT.layout.ConversionPattern=[%p] %d{ISO8601}:  %m%n
 
 
 ### TODO: Dateipfade zum Tocat logs Verzeichnis anpassen ##
-log4j.appender.AnwendungXML.File=/home/jthoenes/tmp/java/randi2/anwendung_log.xml
-log4j.appender.DebugTXT.File=/home/jthoenes/tmp/java/randi2/entwicklung_allgemein.log
-log4j.appender.ArbeitDebugTXT.File=/home/jthoenes/tmp/java/randi2/entwicklung_arbeit.log
-log4j.appender.ServerTXT.File=/opt/tomcat/logs/server.log
+log4j.appender.AnwendungXML.File=randi2_logs/anwendung_log.xml
+log4j.appender.DebugTXT.File=randi2_logs/entwicklung_allgemein.log
+log4j.appender.ArbeitDebugTXT.File=randi2_logs/entwicklung_arbeit.log
+log4j.appender.ServerTXT.File=randi2_logs/server.log
