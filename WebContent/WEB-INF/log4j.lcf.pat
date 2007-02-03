@@ -14,6 +14,7 @@ log4j.logger.Randi2=ALL, AnwendungXML, Konsole
 
 ######################################################
 log4j.appender.AnwendungXML=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.AnwendungXML.datePattern='.'yyyy-MM-dd
 log4j.appender.AnwendungXML.layout=de.randi2.utility.LogLayout
 
 log4j.appender.Konsole=org.apache.log4j.ConsoleAppender
