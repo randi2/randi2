@@ -13,6 +13,7 @@ import de.randi2.utility.PasswortUtil;
 
 /**
  * @author Benjamin Theel <Btheel@stud.hs-heilbronn.de>
+ * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
  * @version $Id$
  */
 public class DatenbankDummy implements DatenbankSchnittstelle {
@@ -20,6 +21,8 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
      * Changelog: 30.01.2007 BTheel: Klasse erstellt XXX Realisierung eines
      * Singletons durch ein Interface fraglich!XXX Workaround mit static instanz
      * der HashMap.
+     * 
+     * 04.02.2007 DHaehn: den Benutzerkonten Personen zugeordnet
      * 
      */
     Logger logger = Logger.getLogger(this.getClass());
@@ -46,7 +49,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
         logger.info("DatenbankDummy.generiereTestKonten()");
         // Dummy Person erzeugen
         try {
-            PersonBean dummyPerson = null;
+        	//PersonBean dummyPerson = null;
             BenutzerkontoBean kontoBean; // Arbeitsinstanz KontoBean
             ZentrumBean zentrumBean;// Arbeitsinstanz KontoBean
             PasswortUtil hashmich = PasswortUtil.getInstance(); // Passworthasher
@@ -86,27 +89,27 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
 
             // Konten Anlegen
             kontoBean = new BenutzerkontoBean("statistiker", hashmich
-                    .hashPasswort("1$statistiker"), dummyPerson);
+                    .hashPasswort("1$statistiker"), new PersonBean("Kaese", "Irene", "", 'w', "stat@randi2.de", "022231130","0222333444111","0211212112"));
             kontoBean.setRolle(Rolle.getStatistiker());
             this.schreibenObjekt(kontoBean);
 
             kontoBean = new BenutzerkontoBean("systemoperator", hashmich
-                    .hashPasswort("1$systemoperator"), dummyPerson);
+                    .hashPasswort("1$systemoperator"), new PersonBean("Maulwurf", "Hans", "", 'm', "sysop@randi2.de", "022231130","0222333444111","0211212112"));
             kontoBean.setRolle(Rolle.getSysop());
             this.schreibenObjekt(kontoBean);
 
             kontoBean = new BenutzerkontoBean("sa@randi2.de", hashmich
-                    .hashPasswort("1$studienarzt"), dummyPerson);
+                    .hashPasswort("1$studienarzt"), new PersonBean("Wurst", "Hans", "", 'm', "sa@randi2.de", "022231130","0222333444111","0211212112"));
             kontoBean.setRolle(Rolle.getStudienarzt());
             this.schreibenObjekt(kontoBean);
 
             kontoBean = new BenutzerkontoBean("studienleiter", hashmich
-                    .hashPasswort("1$studienleiter"), dummyPerson);
+                    .hashPasswort("1$studienleiter"), new PersonBean("Wurst", "Birgit", "", 'w', "sl@randi2.de", "022231130","0222333444111","0211212112"));
             kontoBean.setRolle(Rolle.getStudienleiter());
             this.schreibenObjekt(kontoBean);
 
             kontoBean = new BenutzerkontoBean("administrator", hashmich
-                    .hashPasswort("1$administrator"), dummyPerson);
+                    .hashPasswort("1$administrator"), new PersonBean("Wurst", "Trude", "", 'w', "admin@randi2.de", "022231130","0222333444111","0211212112"));
             kontoBean.setRolle(Rolle.getAdmin());
             this.schreibenObjekt(kontoBean);
         } catch (Exception e) {
