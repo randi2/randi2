@@ -31,7 +31,7 @@
 <table> 
 		<tr>
 		<td><input type="button" name="anfordern" value="Anfordern" tabindex="2">&nbsp;&nbsp;&nbsp;</td>
-		<td><input type="button" name="abbrechen" value="Abbrechen" tabindex="3" onClick="top.location.href='index.html'"></td>
+		<td><input type="button" name="abbrechen" value="Abbrechen" tabindex="3" onClick="top.location.href='index.jsp'"></td>
 		</tr>
 		</table>
 		
