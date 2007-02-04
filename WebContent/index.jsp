@@ -15,9 +15,9 @@
 	</div>
 	
 	<div id="breadcrumb">
-	<table class="breadcrumb_tbl" width="100%" summary="Impressum">
+	<table class="breadcrumb_tbl" width="100%" height="25" summary="Impressum">
 		<tr>
-			<td align="right"><a href="impressum.jsp" id="logout_link">Impressum</a></td>
+			<td align="right" valign="middle" height="25"><a href="impressum.jsp" id="logout_link">Impressum</a></td>
 		</tr>
 	</table>
 	</div>
@@ -48,10 +48,18 @@
 			</p>
 		</form>
 		<br>
-		<p>
+		<table cellPadding="0" cellSpacing="0" border="0">
+		<tr>
+		<td align="right">
 		<form action="DispatcherServlet" method="POST"><input type="hidden" name="anfrage_id" value="JSP_INDEX_BENUTZER_REGISTRIEREN_EINS"><input type="submit" value="Benutzer registrieren"></form>
-			<a href="benutzer_anlegen_eins.jsp">Benutzer registrieren</a>&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;
-			<a href="passwort_vergessen.jsp">Passwort vergessen?</a>
-		</p>
+		</td>
+		<td>
+		&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;
+		</td>
+		<td align="left">
+		<form action="passwort_vergessen.jsp" method="POST"><input type="submit" value="Passwort vergessen?"></form>
+		</td>
+		</tr>
+		</table>
 	</div>
 </html>
