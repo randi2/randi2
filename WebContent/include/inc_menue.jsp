@@ -5,10 +5,10 @@
 <div id="menue">
 
 <div id="navigation">
-<% if (aRolleMenue==Rolle.Rollen.STATISTIKER) { %>
+<% if (aRolleMenue!=Rolle.Rollen.STATISTIKER) { %>
 <ul>   
 	<li class="top_m">Benutzerverwaltung</li>
-<% if (aRolleMenue==Rolle.Rollen.SYSOP) { %>
+<% if (aRolleMenue!=Rolle.Rollen.SYSOP) { %>
 	<li><a  class="sub_BV n" href="daten_aendern.jsp">Daten &auml;ndern</a></li>
 <% } %>
 <% if (aRolleMenue==Rolle.Rollen.ADMIN) { %>
@@ -31,7 +31,7 @@
 	<% } %>
 </ul>
 <% } %>
-<% if (aRolleMenue==Rolle.Rollen.SYSOP) { %>
+<% if (aRolleMenue!=Rolle.Rollen.SYSOP) { %>
 <ul>
 	<li class="top_m">Studienverwaltung</li>
 <% if (aRolleMenue==Rolle.Rollen.ADMIN) { %>
