@@ -12,7 +12,7 @@ import de.randi2.model.fachklassen.beans.PersonBean;
  * Die JUnit Klasse PersonBeanTest testet alle SetterMethoden der Klasse PersonBean. Auf ein Testen
  * der getter-Methoden kann verzichtet werden, da dortige Fehler auf Kompilierebene liegen m�ssten.
  * 
- * @author Tino Noack [tino.noack@web.de]
+ * @author Tino Noack <tnoack@stud.hs-heilbronn.de>
  * @version $Id $
  */
 public class PersonBeanTest {
