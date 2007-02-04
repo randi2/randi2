@@ -1,6 +1,7 @@
 package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.utility.*;
 
 
 /**
@@ -18,6 +19,12 @@ public class ZentrumBean extends Filter{
 	 * Methoden eingebaut werden.
 	 */
     //TODO toString fehlt
+	
+	
+	/**
+	 * Interne ID des Zentrums 
+	 */
+	private int id=NullKonstanten.NULL_INT; 
 	
 	/**
 	 * Name der Institution.
@@ -80,10 +87,11 @@ public class ZentrumBean extends Filter{
 	 * @param passwort
 	 *            String - Passwort (md5)
 	 */
-	public ZentrumBean(String institution, String abteilung, String ort,
+	public ZentrumBean(int id,String institution, String abteilung, String ort,
 			String plz, String strasse, String hausnr,
 			PersonBean ansprechpartner, String passwort) {
 		super();
+		this.id=id;
 		this.institution = institution;
 		this.abteilung = abteilung;
 		this.ort = ort;
@@ -220,4 +228,20 @@ public class ZentrumBean extends Filter{
 	public void setStrasse(String strasse) {
 		this.strasse = strasse;
 	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
 }

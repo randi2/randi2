@@ -53,6 +53,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
 
             zentrumBean = new ZentrumBean();
             // Zentren Anlegen
+            zentrumBean.setId(1);
             zentrumBean.setInstitution("Institut1");
             zentrumBean.setAbteilung("Abteilung1");
             zentrumBean.setPasswort(hashmich.hashPasswort("inst1-abt1"));
@@ -60,6 +61,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
                     + zentrumBean.getAbteilung(), zentrumBean);
 
             zentrumBean = new ZentrumBean();
+            zentrumBean.setId(2);
             zentrumBean.setInstitution("Institut1");
             zentrumBean.setAbteilung("Abteilung2");
             zentrumBean.setPasswort(hashmich.hashPasswort("inst1-abt2"));
@@ -67,6 +69,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
                     + zentrumBean.getAbteilung(), zentrumBean);
 
             zentrumBean = new ZentrumBean();
+            zentrumBean.setId(3);
             zentrumBean.setInstitution("Institut2");
             zentrumBean.setAbteilung("Abteilung1");
             zentrumBean.setPasswort(hashmich.hashPasswort("inst2-abt1"));
@@ -74,6 +77,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
                     + zentrumBean.getAbteilung(), zentrumBean);
 
             zentrumBean = new ZentrumBean();
+            zentrumBean.setId(4);
             zentrumBean.setInstitution("Institut2");
             zentrumBean.setAbteilung("Abteilung2");
             zentrumBean.setPasswort(hashmich.hashPasswort("inst2-abt2"));
@@ -200,6 +204,10 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
                 ergebnisse.add((T) zentren.get(aBean.getInstitution() + "-"
                         + aBean.getAbteilung()));
             }
+//            else if (zentren.containsKey(aBean.getInstitution())) {
+//                logger.debug("gesuchtes Zentrum in DB vorhanden");
+//                ergebnisse.add((T) zentren.get(aBean.getInstitution()));
+//            }
         }
 
         return ergebnisse;

@@ -56,18 +56,54 @@ import org.apache.log4j.Logger;
 		}
 		//Schritt 3.1: ZENTRUMAUSWAHL: Filterung
 //		Schritt 3.2 ZENTRUMAUSWAHL->BENUTZERDATEN_EINGEBEN
-		else if (id.equals("CLASS_DISPATCHERSERVLET_REGISTRIEREN_ZWEI"))
+		else if (id.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI"))
 		{
 			//Filterung
-			if(((String)request.getAttribute("Filtern"))!=null)
+			if(((String)request.getParameter("Filtern"))!=null)
 			{
-			ZentrumBean sZentrum= new ZentrumBean();
-			sZentrum.setInstitution(request.getParameter("name_institution"));
-			System.err.println(request.getParameter("name_institution"));
-			Vector<ZentrumBean> gZentrum=Zentrum.suchenZentrum(Zentrum.NULL_ZENTRUM);
+				Vector<ZentrumBean> gZentrum=null;
+				if(((String)request.getParameter("name_institution"))!=""&&((String)request.getParameter("name_abteilung"))!="")
+				{
+					ZentrumBean sZentrum= new ZentrumBean();
+					sZentrum.setInstitution(request.getParameter("name_institution"));
+					sZentrum.setAbteilung(request.getParameter("name_abteilung"));
+					sZentrum.setFilter(true);
+					gZentrum=Zentrum.suchenZentrum(sZentrum);
+				}
+				else
+				{
+					gZentrum=Zentrum.suchenZentrum(Zentrum.NULL_ZENTRUM);
+				}
+
 			
 			request.setAttribute("listeZentren",gZentrum);
 			request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp").forward(request, response);
+			}
+			else
+			{
+				Vector<ZentrumBean> gZentrum=Zentrum.suchenZentrum(Zentrum.NULL_ZENTRUM);
+			Iterator<ZentrumBean> itgZentrum=gZentrum.iterator();
+			while(itgZentrum.hasNext())
+			{
+				ZentrumBean aZentrumBean=itgZentrum.next();
+				String suche="bestaetigen"+aZentrumBean.getId();
+				if(request.getParameter(suche)!=null)
+				{
+					Zentrum aZentrum=new Zentrum(aZentrumBean);
+					//Zentrum Passwort richtig
+					if(aZentrum.pruefenPasswort(request.getParameter("zentrum_passwort"+aZentrumBean.getId())))
+					{
+						request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
+					}
+					//Zentrum Passwort falsch
+					else
+					{
+						request.setAttribute("listeZentren",gZentrum);
+						request.setAttribute("fehlernachricht", "Falsches Zentrumpasswort");
+						request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp").forward(request, response);
+					}
+				}
+			}
 			}
 			
 			//keine Filterung

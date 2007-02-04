@@ -10,9 +10,8 @@ import org.apache.log4j.Logger;
 
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
-import de.randi2.utility.LogAktion;
-import de.randi2.utility.LogLayout;
-import de.randi2.utility.PasswortUtil;
+import de.randi2.model.fachklassen.beans.PersonBean;
+import de.randi2.utility.*;
 import de.randi2.model.exceptions.*;
 
 /**
@@ -110,37 +109,98 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 					response);
 		}// if
 
-		// Benutzer registrieren
-		// Schritt 1:
-		else if (id
-				.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI")) {
-
-			request.setAttribute("anfrage_id",
-					"CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_ZWEI");
-			// Hier noch jede Menge Logik
-			request.getRequestDispatcher("DispatcherServlet").forward(request,
-					response);
-		}
-		// Schritt 2:
-		else if (id
-				.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI")) {
-			request.setAttribute("anfrage_id",
-					"CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_DREI");
-			// Hier noch jede Menge Logik
-			request.getRequestDispatcher("DispatcherServlet").forward(request,
-					response);
-			request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
-
-		}
-		// Schritt 3:
-		else if (id
-				.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER")) {
-			request.setAttribute("anfrage_id",
-					"CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_VIER");
-			// Hier noch jede Menge Logik
-			request.getRequestDispatcher("DispatcherServlet").forward(request,
-					response);
-
+//		// Benutzer registrieren
+//		// Schritt 1:
+//		else if (id
+//				.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI")) {
+//
+//			request.setAttribute("anfrage_id",
+//					"CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_ZWEI");
+//			// Hier noch jede Menge Logik
+//			request.getRequestDispatcher("DispatcherServlet").forward(request,
+//					response);
+//		}
+//		// Schritt 2:
+//		else if (id
+//				.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI")) {
+//			request.setAttribute("anfrage_id",
+//					"CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_DREI");
+//			// Hier noch jede Menge Logik
+//			request.getRequestDispatcher("DispatcherServlet").forward(request,
+//					response);
+//			request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
+//
+//		}
+//		// Schritt 3:
+//		else if (id
+//				.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER")) {
+//			request.setAttribute("anfrage_id",
+//					"CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_VIER");
+//			// Hier noch jede Menge Logik
+//			request.getRequestDispatcher("DispatcherServlet").forward(request,
+//					response);
+//
+//		}
+		//Letzter Schritt Benutzer registrieren
+		if (id.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER"))
+		{
+			
+			String fehlernachricht="";
+			try{
+			String titel=request.getParameter("Titel");
+			if(titel!=null&&titel.equals("kein Titel"))
+			{
+				titel=null;
+			}
+			String vorname=request.getParameter("Vorname");
+			String nachname=request.getParameter("Nachname");
+			char geschlecht=NullKonstanten.NULL_CHAR;
+			String passwort=null;
+			String email=request.getParameter("Email");
+			String telefon=request.getParameter("Telefon");
+			String fax=request.getParameter("fax");
+			//TODO dirty fix
+			String handynummer="123123123123";
+			String institut=request.getParameter("Institut");
+			//Geschlecht abfragen
+			if(request.getParameter("maennlich")!=null)
+			{
+				geschlecht='m';
+			}
+			else if(request.getParameter("weiblich")!=null)
+			{
+				geschlecht='w';
+			}
+			//Wiederholte Passworteingabe prüfen
+			if(request.getParameter("Passwort")!=null&&request.getParameter("Passwort_wh")!=null)
+			{
+				if(request.getParameter("Passwort").equals(request.getParameter("Passwort_wh")))
+				{
+					passwort=request.getParameter("Passwort");
+				}
+				else
+				{
+					fehlernachricht+="Passwort und wiederholtes Passwort sind nicht gleich";
+				}
+			}
+			PersonBean aPerson=new PersonBean(nachname,vorname,titel,geschlecht,email,telefon,handynummer,fax);
+			BenutzerkontoBean aBenutzerkonto=new BenutzerkontoBean(email,passwort,aPerson);
+			Benutzerkonto.anlegenBenutzer(aBenutzerkonto);
+			
+			
+			}
+			catch(IllegalArgumentException e)
+			{fehlernachricht+=e.getMessage();}
+			//Daten waren nicht fehlerfrei
+			if(fehlernachricht!="")
+			{
+				request.setAttribute("fehlernachricht", fehlernachricht);
+				request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
+			}
+			else
+			{
+				request.getRequestDispatcher("/benutzer_anlegen_vier.jsp").forward(request, response);
+			}
 		}
 
 	}// doPost

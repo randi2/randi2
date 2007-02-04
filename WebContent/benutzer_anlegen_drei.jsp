@@ -10,15 +10,16 @@
 <%@include file="include/inc_header_clean.jsp"%>
 
 <div id="content">
-<form>
+<form action="DispatcherServlet" method="post">
+<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER">
 <h1>Benutzer anlegen</h1>
-
+<%@include file="include/inc_nachricht.jsp"%>
 <fieldset style="width: 60%"><legend><b>Pers&ouml;nliche
 Angaben</b></legend>
 <table height="244">
 	<tr>
 		<td>Titel<br>
-		<select name="Standardauswahl">
+		<select name="Titel">
 			<option value="kein Titel">kein Titel</option>
 			<option value="Dr.">Dr.</option>
 			<option value="Prof.">Prof.</option>
@@ -71,9 +72,9 @@ Angaben</b></legend>
 </table>
 </fieldset>
 <br>
-</form>
-<form action="DispatcherServlet" method="POST">
-<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER">
+
+
+
 <table>
 	<tr>
 		<td><input type="submit" name="anlegen" value="Anlegen"

@@ -28,8 +28,8 @@
 		<table>
 		<tr>
 		<td>
-		<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI"><input type="submit" value="Bestaetigen">
-		<input type="button" name="bestaetigen" value="Akzeptieren" tabindex="1" onclick="location.href='benutzer_anlegen_zwei.jsp'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI">
+		<input type="submit" tabindex="1" value="Akzeptieren">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td><input type="button" name="abbrechen" value="Abbrechen" tabindex="2" onClick="location.href='index.jsp'"></td>
 		</tr>
 		</table>

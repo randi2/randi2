@@ -137,17 +137,26 @@ public class Zentrum {
 //		return this.aBenutzerkonto;
 //	}
 //	
-//	/**
-//	 * Diese Methode prueft, ob das uebergebene Passwort richtig ist.
-//	 * 
-//	 * @param passwort
-//	 *            Das Passwort, das ueberprueft werden soll.
-//	 * @return true, wenn das Passwort richtig ist. False, bei falchem Passwort.
-//	 */
-//	public boolean pruefenPasswort(String passwort) {
-//		if (PasswortUtil.getInstance().hashPasswort(passwort).equals(this.getBenutzerkontobean().getPasswort()))
-//			return true;
-//		return false;
-//	}
+	/**
+	 * Diese Methode prueft, ob das uebergebene Passwort richtig ist.
+	 * 
+	 * @param passwort
+	 *            Das Passwort, das ueberprueft werden soll.
+	 * @return true, wenn das Passwort richtig ist. False, bei falchem Passwort.
+	 */
+	public boolean pruefenPasswort(String passwort) {
+		if (PasswortUtil.getInstance().hashPasswort(passwort).equals(this.getZentrumBean().getPasswort()))
+			return true;
+		return false;
+	}
+
+	/**
+	 * @return the aZentrum
+	 */
+	public ZentrumBean getZentrumBean() {
+		return aZentrum;
+	}
+
+
 
 }

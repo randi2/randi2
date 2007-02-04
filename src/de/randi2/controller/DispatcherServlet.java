@@ -112,9 +112,9 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet implements
 		
 		//Schritt 3.1: ZENTRUMAUSWAHL: Filterung
 		//Schritt 3.2 ZENTRUMAUSWAHL->BENUTZERDATEN_EINGEBEN
-		else if (id.equals("JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI"))
+		else if (id.equals("JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI"))
 		{
-			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_REGISTRIEREN_ZWEI");
+			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI");
 			request.getRequestDispatcher("ZentrumServlet").forward(request, response);
 		
 		}
@@ -127,11 +127,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet implements
 			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
 		
 		}
-		else if (id.equals("CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_VIER"))
-		{
-		
-			request.getRequestDispatcher("/benutzer_anlegen_vier.jsp").forward(request, response);
-		}
+//		else if (id.equals("CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_VIER"))
+//		{
+//		
+//			request.getRequestDispatcher("/benutzer_anlegen_vier.jsp").forward(request, response);
+//		}
 		
 		
 		
