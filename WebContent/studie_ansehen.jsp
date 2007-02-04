@@ -13,7 +13,7 @@
 <body>
 <%@include file="include/inc_header.jsp"%> 
 <div id="content">
-<h1>Studie anzeigen</h1>
+<h1>Studie ansehen</h1>
 
 
 
