@@ -272,10 +272,12 @@ public class PersonBean extends Filter {
 	 *            the titel to set
 	 */
 	public void setTitel(String titel) throws IllegalArgumentException {
-		titel = titel.trim();
-		if (!titel.matches("(Prof.|Dr.|Prof. Dr.|)")) {
-			throw new IllegalArgumentException(
-					"Unerlaubte Zeichen! Bitte geben Sie ihren Titel erneut ein.");
+		if (titel!=null) {
+			titel = titel.trim();
+			if (!titel.matches("(Prof.|Dr.|Prof. Dr.|)")) {
+				throw new IllegalArgumentException(
+						"Unerlaubte Zeichen! Bitte geben Sie ihren Titel erneut ein.");
+			}
 		}
 		this.titel = titel;
 	}
