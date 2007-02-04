@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.randi2.junittests;
 
 import static org.junit.Assert.*;
