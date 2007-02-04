@@ -9,7 +9,7 @@
 <%@include file="include/inc_header_clean.jsp"%>
 
 <div id="content">
-<form action="index.html" method="POST">
+<form action="index.jsp" method="POST">
 <h1>Impressum</h1>
 	<p id="bodytext">
 		Hier steht dann später das Impressum!!!
@@ -21,13 +21,12 @@
 		</tr>
 		</table>
 </form>
-	</div>
-	<div id="show_none">		
-	</div>
-
+<br>
 <%@include file="include/inc_footer.jsp"%>
+	</div>
 
-<div id="show_none">
-</div>
+
+
+
 </body>
 </html>
