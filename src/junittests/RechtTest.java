@@ -19,7 +19,7 @@ import de.randi2.model.fachklassen.Recht.Rechtenamen;
 /**
  * @author Nadine Zwink <nzwink@stud.hs-heilbronn.de>
 
- * @version $Id: RechtTest.java 1205 2007-02-03 19:00:05Z nzwink $
+ * @version $Id $
  */
 public class RechtTest {
 
