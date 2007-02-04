@@ -63,11 +63,15 @@ Angaben</b></legend>
 			name="Telefon" tabindex="9"></td>
 	</tr>
 	<tr>
-		<td>Fax<br>
-		<input type="text" size="25" maxlength="30" name="Fax" tabindex="10"></td>
-		<td>&nbsp;&nbsp;&nbsp;Institut *<br>
-		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Institut" tabindex="11"></td>
+		<td>Handy<br>
+		<input type="text" size="25" maxlength="30" name="Handy" tabindex="10"></td>
+		<td>&nbsp;&nbsp;&nbsp;Fax<br>
+		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30" name="Fax" tabindex="11"></td>
+	</tr>
+	<tr>
+		<td colspan="2">Institut *<br>
+		<input type="text" size="25" maxlength="30"
+			name="Institut" tabindex="12"></td>
 	</tr>
 </table>
 </fieldset>
@@ -78,9 +82,9 @@ Angaben</b></legend>
 <table>
 	<tr>
 		<td><input type="submit" name="anlegen" value="Anlegen"
-			tabindex="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			tabindex="13">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td><input type="submit" name="abbrechen"
-			value="   Zur&uuml;ck   " tabindex="13"
+			value="   Zur&uuml;ck   " tabindex="14"
 			onClick="location.href='benutzer_anlegen_zwei'"></td>
 	</tr>
 </table>
