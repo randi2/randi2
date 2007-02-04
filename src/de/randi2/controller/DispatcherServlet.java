@@ -40,11 +40,17 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet implements
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO In dieser Methode soll unterschieden werden, was zu tun ist,
-		// wenn eine GET-Anfrage an dieses Servlet geschickt wird.
-		// Je nach Anfrage, wird eine Aktion durchgefuehrt.
-		// GET-Requests duerfen nur verwendet werden, wenn keine Daten
-		// uebermittelt werden.
+		String id=(String)request.getParameter("anfrage_id");
+		
+		//logout (wirklich an dieser Stelle?? oder in BenutezrServelet)
+		if(id.equals("JSP_HEADER_LOGOUT")) {
+			
+			request.getSession().invalidate();
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+			
+			
+		}
+		
 	}
 
 	/*
