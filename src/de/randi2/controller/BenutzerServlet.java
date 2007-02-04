@@ -67,6 +67,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 					(String) request.getParameter("password")));
 			Vector<BenutzerkontoBean> gBenutzer = Benutzerkonto
 					.suchenBenutzer(sBenutzer);
+			System.out.println("achtung"+gBenutzer.size());
 			if (gBenutzer.size() == 1) {
 				if (!gBenutzer.get(0).isGesperrt()
 						&& new Benutzerkonto(gBenutzer.firstElement())
