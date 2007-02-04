@@ -151,7 +151,7 @@ public class PersonBean extends Filter {
 	 */
 	public void setFax(String fax) throws IllegalArgumentException {
 		fax = fax.trim();
-		if (!fax.matches("(+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
+		if (!fax.matches("(\\+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
 			throw new IllegalArgumentException(
 					"Unerlaubte Zeichen! Bitte geben Sie ihre Faxnummer erneut ein.");
 		}
@@ -197,7 +197,7 @@ public class PersonBean extends Filter {
 	public void setHandynummer(String handynummer)
 			throws IllegalArgumentException {
 		handynummer = handynummer.trim();
-		if (!handynummer.matches("(+\\d{2,3}|0)(\\d){3,10}[-/]?(\\d){3,15}")) {
+		if (!handynummer.matches("(\\+\\d{2,3}|0)(\\d){3,10}[-/]?(\\d){3,15}")) {
 			throw new IllegalArgumentException(
 					"Unerlaubte Zeichen! Bitte geben Sie ihre Handynummer erneut ein.");
 		}
@@ -253,7 +253,7 @@ public class PersonBean extends Filter {
 			throw new IllegalArgumentException(
 					"Bitte geben Sie ihre Telefonnummer ein.");
 		}
-		if (!telefonnummer.matches("(+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
+		if (!telefonnummer.matches("(\\+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
 			throw new IllegalArgumentException(
 					"Unerlaubte Zeichen! Bitte geben Sie ihre Telefonnummer erneut ein.");
 		}
