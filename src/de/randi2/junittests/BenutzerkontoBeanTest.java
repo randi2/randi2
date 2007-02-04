@@ -15,8 +15,7 @@ import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 
 /**
  * @author Nadine Zwink <nzwink@stud.hs-heilbronn.de>
-
- * @version $Id: BenutzerkontoBeanTest.java 1135 2007-02-03 16:38:05Z nzwink $
+ * @version $Id $
  */
 public class BenutzerkontoBeanTest extends Filter{
 
