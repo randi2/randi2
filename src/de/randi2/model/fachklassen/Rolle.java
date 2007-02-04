@@ -31,7 +31,7 @@ public class Rolle {
     // Konstanten/ Enum
     Logger logger = Logger.getLogger(this.getClass());
     /**
-     * Enthaelt alle Rollennamen, die innerhalt des Programmes zur Verfuegung
+     * Enthaelt alle Rollennamen, die innerhalb des Programmes zur Verfuegung
      * stehen
      * 
      * @version 1.0
