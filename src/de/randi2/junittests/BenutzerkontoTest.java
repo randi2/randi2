@@ -18,7 +18,7 @@ import de.randi2.model.fachklassen.Rolle;
 
 /**
  * @author Katharina Chruscz <kchruscz@stud.hs-heilbronn.de>
- * @version 1.0 (2007-02-03)
+ * @version $Id $
  * 
  */
 public class BenutzerkontoTest {
