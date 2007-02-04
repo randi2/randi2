@@ -55,31 +55,25 @@ public class BenutzerkontoBeanTest extends Filter{
     public final void testSetBenutzernameErlaubteZeichen() {
         
         try{
-        	aKonto.setBenutzername("(\\w|\\d|[._-]|\\@){0,50}");
+        	aKonto.setBenutzername("hanswursthausen");
         }catch (Exception e) {
             fail("[FEHLER] testSetBenutzernameErlaubteZeichen sollte keine Exception werfen!!");
         }
     }
         
        
-    @Test 
+    @Test (expected=IllegalArgumentException.class)
     public final void testSetBenutzernameNull() {
          
-        try {
             aKonto.setBenutzername(null);            
-        } catch (Exception e) {
-        	fail("[testSetBenutzernameNull]Benutzename=null.Sollte Exception auslösen");
-        }
+
     }
     
-    @Test 
+    @Test (expected=IllegalArgumentException.class)
     public final void testSetBenutzernameLeer() {
     	
-        try {
             aKonto.setBenutzername("");
-        } catch (Exception e) {
-        	fail("[testSetBenutzernameLeer]Benutzername leer.Sollte Exception auslösen");
-        }
+
     }
     
     @Test 
@@ -94,14 +88,11 @@ public class BenutzerkontoBeanTest extends Filter{
         }
     }
 
-    @Test 
+    @Test (expected=IllegalArgumentException.class)
     public final void testSetPasswortLaengeFalsch() {
-    try {
+
         aKonto.setPasswort("s");
-     }
-      catch (Exception e) {
-      	 fail("[testSetPasswortLaengeFalsch]zu kurz.Sollte mindestens 2 Zeichen haben. Sollte Exception ausgelösen.");
-     }
+
     }
     
     @Test 
@@ -136,24 +127,19 @@ public class BenutzerkontoBeanTest extends Filter{
      }    
     }
     
-    @Test 
+    @Test (expected=IllegalArgumentException.class)
     public final void testSetPasswortNull() {
          
-        try {
+
             aKonto.setPasswort(null);            
-        } catch (Exception e) {
-        	fail("[testSetPasswortNull]Passwort=null.Sollte Exception auslösen");
-        }
+
     }
     
-    @Test 
+    @Test (expected=IllegalArgumentException.class)
     public final void testSetPasswortLeer() {
-    	
-        try {
+  
             aKonto.setPasswort("");
-        } catch (Exception e) {
-        	fail("[testSetPasswortLeer]Passwort leer.Sollte Exception auslösen");
-        }
+
     }
 
     @Test 
@@ -193,7 +179,7 @@ public class BenutzerkontoBeanTest extends Filter{
 
 	@Test
 	public void testSetGesperrt() {
-		aKonto.isGesperrt();
+		aKonto.setGesperrt(true);
 		assertTrue(aKonto.isGesperrt()==true);
 	}
 
@@ -216,19 +202,19 @@ public class BenutzerkontoBeanTest extends Filter{
 	}
 
 
-	@Test
+	@Test (expected=IllegalArgumentException.class)
 	public void testSetRolleNull() {
-	 try {
-	         rolle.equals("");            
-	     } catch (Exception e) {
-	       	fail("[testSetRolleNull]Rolle=null.Sollte Exception auslösen");
-	     }
+
+	         aKonto.setRolle(null);    
+
 	}
 	
 	@Test
 	public void testSetRolle() {
 		
 	 try {
+		 
+		 
 		   rolle.getName().equals("ADMIN");
 		   rolle.getName().equals("STATISTIKER");
 		   rolle.getName().equals("STUDIENLEITER");
