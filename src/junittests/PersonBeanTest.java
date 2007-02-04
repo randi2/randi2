@@ -10,10 +10,10 @@ import de.randi2.model.fachklassen.beans.PersonBean;
 
 /**
  * Die JUnit Klasse PersonBeanTest testet alle SetterMethoden der Klasse PersonBean. Auf ein Testen
- * der getter-Methoden kann verzichtet werden, da dortige Fehler auf Kompilierebene liegen müssten.
+ * der getter-Methoden kann verzichtet werden, da dortige Fehler auf Kompilierebene liegen mï¿½ssten.
  * 
  * @author Tino Noack [tino.noack@web.de]
- * @version 1.0
+ * @version $Id $
  */
 public class PersonBeanTest {
 	
@@ -79,7 +79,7 @@ public class PersonBeanTest {
 	@Test (expected=IllegalArgumentException.class)
 	public void testSetEmailSonderzeichen() {
 		
-		testPB.setEmail("ßöä.ü@&$.---");
+		testPB.setEmail("ï¿½ï¿½ï¿½.ï¿½@&$.---");
 	}
 	/**
 	 * Testet, ob eine Exception geworfen wird, obwohl der 
@@ -90,7 +90,7 @@ public class PersonBeanTest {
 		
 		try{
 		testPB.setEmail("bla.blub@bla-blub.net");
-		testPB.setEmail("a.b@c.d");
+		testPB.setEmail("a.b@d.de");
 		
 		}
 		catch(Exception e){
@@ -127,7 +127,7 @@ public class PersonBeanTest {
 	@Test (expected=IllegalArgumentException.class)
 	public void testSetFaxSonderzeichen() {
 		testPB.setFax("we/ergfe");
-		testPB.setFax("§$§%.)(9");
+		testPB.setFax("ï¿½$ï¿½%.)(9");
 		testPB.setFax("0908/56477-");
 	}
 	/**
@@ -202,7 +202,7 @@ public class PersonBeanTest {
 	@Test (expected=IllegalArgumentException.class)
 	public void testSetHandynummerSonderzeichen() {
 		testPB.setHandynummer("we/ergfe");
-		testPB.setHandynummer("§$§%.)(9");
+		testPB.setHandynummer("ï¿½$ï¿½%.)(9");
 		testPB.setHandynummer("0908/56477-");
 	}
 	/**
@@ -299,7 +299,7 @@ public class PersonBeanTest {
 	@Test (expected=IllegalArgumentException.class)
 	public void testSetTelefonnummerSonderzeichen() {
 		testPB.setTelefonnummer("we/ergfe");
-		testPB.setTelefonnummer("§$§%.)(9");
+		testPB.setTelefonnummer("ï¿½$ï¿½%.)(9");
 		testPB.setTelefonnummer("0908/56477-");
 	}
 	/**
