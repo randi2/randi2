@@ -177,11 +177,11 @@ public class BenutzerkontoBean extends Filter {
 		boolean filter = super.isFilter();
 
 		if (!filter && benutzername == null) {
-			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
+			throw new BenutzerkontoException(BenutzerkontoException.BENUTZERNAME_FEHLT);
 		}
 		benutzername = benutzername.trim();
 		if (!filter && benutzername.length() == 0) {
-			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
+			throw new BenutzerkontoException(BenutzerkontoException.BENUTZERNAME_FEHLT);
 		}
 		if (!(benutzername.matches("(\\w|\\d|[._-]|\\@){0,50}"))) {
 			// FIXME Min Laenge auf Anweisung der PL auf 2 heruntergesetzt.
@@ -208,7 +208,7 @@ public class BenutzerkontoBean extends Filter {
 			throws BenutzerkontoException {
 		// Testen, ob sich das Datum in der Zukunft befindet
 		if ((new GregorianCalendar(Locale.GERMANY)).before(ersterLogin)) {
-			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
+			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		this.ersterLogin = ersterLogin;
 	}
@@ -243,7 +243,7 @@ public class BenutzerkontoBean extends Filter {
 			throws BenutzerkontoException {
 		// Testen, ob sich das Datum in der Zukunft befindet
 		if ((new GregorianCalendar(Locale.GERMANY)).before(letzterLogin)) {
-			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
+			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		this.letzterLogin = letzterLogin;
 	}
@@ -262,22 +262,22 @@ public class BenutzerkontoBean extends Filter {
 	public void setPasswort(String passwort) throws BenutzerkontoException {
 		boolean filter = super.isFilter();
 		if (!filter && passwort == null) {
-			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
+			throw new BenutzerkontoException(BenutzerkontoException.PASSWORT_FEHLT);
 		}
 		passwort = passwort.trim();
 		if (!filter && passwort.length() == 0) {
-			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
+			throw new BenutzerkontoException(BenutzerkontoException.PASSWORT_FEHLT);
 		}
 		if (!filter && passwort.length() < 2) {
 			// XXX Auf Wunsch der Pl Laenge von 6 auf 2 heruntergesetzt.
 
-			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
+			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		if (!(passwort.matches(".*[A-Za-z].*") || passwort.matches(".*[0-9].*") /*
 																				 * ||
 																				 * passwort.matches(".*[\^,.-#+;:_'*!\"�$%&/()=?|<>].*")
 																				 */)) {
-			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
+			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		this.passwort = passwort;
 	}
@@ -331,12 +331,12 @@ public class BenutzerkontoBean extends Filter {
 	public void setRolle(Rolle rolle) throws BenutzerkontoException {
 		boolean filter = super.isFilter();
 		if (!filter && rolle == null) {
-			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
+			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		if (!(rolle == Rolle.getAdmin() || rolle == Rolle.getStatistiker()
 				|| rolle == Rolle.getStudienleiter()
 				|| rolle == Rolle.getStudienarzt() || rolle == Rolle.getSysop())) {
-			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
+			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		this.rolle = rolle;
 	}
