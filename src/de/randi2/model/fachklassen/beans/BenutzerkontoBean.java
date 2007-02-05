@@ -15,8 +15,7 @@ import de.randi2.datenbank.Filter;
  * @version $Id$
  */
 public class BenutzerkontoBean extends Filter {
-	 
-	
+
 	/*
 	 * Change Log 29.01.2007 Thomas Willert
 	 * 
@@ -141,7 +140,7 @@ public class BenutzerkontoBean extends Filter {
 		this.setBenutzername(benutzername);
 		this.setPasswort(passwort);
 		this.setBenutzer(benutzer);
-		this.setLetzterLogin(new GregorianCalendar(2006,11,1));
+		this.setLetzterLogin(new GregorianCalendar(2006, 11, 1));
 	}
 
 	/**
@@ -177,18 +176,21 @@ public class BenutzerkontoBean extends Filter {
 		boolean filter = super.isFilter();
 
 		if (!filter && benutzername == null) {
-			throw new BenutzerkontoException(BenutzerkontoException.BENUTZERNAME_FEHLT);
+			throw new BenutzerkontoException(
+					BenutzerkontoException.BENUTZERNAME_FEHLT);
 		}
 		benutzername = benutzername.trim();
 		if (!filter && benutzername.length() == 0) {
-			throw new BenutzerkontoException(BenutzerkontoException.BENUTZERNAME_FEHLT);
+			throw new BenutzerkontoException(
+					BenutzerkontoException.BENUTZERNAME_FEHLT);
 		}
 		if (!(benutzername.matches("(\\w|\\d|[._-]|\\@){0,50}"))) {
 			// FIXME Min Laenge auf Anweisung der PL auf 2 heruntergesetzt.
 			// FIXME 14 Zeichen sind IMO zu wenig, alleine
 			// "@med.uni-heidelberg.de" sind ja schon 23 Zeichen! BTheel
 			if (!filter)
-				throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
+				throw new BenutzerkontoException(
+						BenutzerkontoException.ANLEGEN_FEHLER);
 		}
 		this.benutzername = benutzername;
 	}
@@ -262,11 +264,13 @@ public class BenutzerkontoBean extends Filter {
 	public void setPasswort(String passwort) throws BenutzerkontoException {
 		boolean filter = super.isFilter();
 		if (!filter && passwort == null) {
-			throw new BenutzerkontoException(BenutzerkontoException.PASSWORT_FEHLT);
+			throw new BenutzerkontoException(
+					BenutzerkontoException.PASSWORT_FEHLT);
 		}
 		passwort = passwort.trim();
 		if (!filter && passwort.length() == 0) {
-			throw new BenutzerkontoException(BenutzerkontoException.PASSWORT_FEHLT);
+			throw new BenutzerkontoException(
+					BenutzerkontoException.PASSWORT_FEHLT);
 		}
 		if (!filter && passwort.length() < 2) {
 			// XXX Auf Wunsch der Pl Laenge von 6 auf 2 heruntergesetzt.
@@ -274,9 +278,9 @@ public class BenutzerkontoBean extends Filter {
 			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		if (!(passwort.matches(".*[A-Za-z].*") || passwort.matches(".*[0-9].*") /*
-																				 * ||
-																				 * passwort.matches(".*[\^,.-#+;:_'*!\"�$%&/()=?|<>].*")
-																				 */)) {
+		 * ||
+		 * passwort.matches(".*[\^,.-#+;:_'*!\"�$%&/()=?|<>].*")
+		 */)) {
 			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		this.passwort = passwort;
