@@ -93,6 +93,8 @@ import org.apache.log4j.Logger;
 					//Zentrum Passwort richtig
 					if(aZentrum.pruefenPasswort(request.getParameter("zentrum_passwort"+aZentrumBean.getId())))
 					{
+						//ID des Zentrum reinschreiben!
+						request.setAttribute("aZentrum", aZentrum.getZentrumBean().getId());
 						request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
 					}
 					//Zentrum Passwort falsch

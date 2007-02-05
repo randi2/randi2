@@ -4,7 +4,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Benutzer anlegen</title>
-
+<%@ page import="de.randi2.model.fachklassen.beans.*" %>
 </head>
 <body>
 <%@include file="include/inc_header_clean.jsp"%>
@@ -12,7 +12,8 @@
 <div id="content">
 <form action="DispatcherServlet" method="post">
 <input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER">
-<h1>Benutzer anlegen</h1>
+<input type="hidden" name="aZentrum" value ="<%=request.getAttribute("aZentrum") %>">
+><h1>Benutzer anlegen</h1>
 <%@include file="include/inc_nachricht.jsp"%>
 <fieldset style="width: 60%"><legend><b>Pers&ouml;nliche
 Angaben</b></legend>
@@ -29,11 +30,11 @@ Angaben</b></legend>
 	</tr>
 	<tr>
 		<td>Vorname *<br>
-		<input type="text" size="25" maxlength="30" name="Vorname"
+		<input type="text" size="25" maxlength="30" name="Vorname" value="<%=request.getAttribute("Vorname") %>"
 			tabindex="2"></td>
 		<td>&nbsp;&nbsp;&nbsp;Nachname *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Nachname" tabindex="3"></td>
+			name="Nachname" tabindex="3" value="<%=request.getAttribute("Nachname") %>"></td>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
@@ -42,12 +43,12 @@ Angaben</b></legend>
 	</tr>
 	<tr>
 		<td>Passwort *<br>
-		<input type="text" size="25" maxlength="30" name="Passwort"
+		<input type="text" size="25" maxlength="30" name="Passwort" value="<%=request.getAttribute("Passwort") %>"
 			tabindex="6"></td>
 	</tr>
 	<tr>
 		<td>Passwort wiederholen *<br>
-		<input type="text" size="25" maxlength="30" name="Passwort_wh"
+		<input type="text" size="25" maxlength="30" name="Passwort_wh" value="<%=request.getAttribute("Passwort_wh") %>"
 			tabindex="7"></td>
 	</tr>
 </table>
@@ -57,21 +58,16 @@ Angaben</b></legend>
 <table>
 	<tr>
 		<td>E-Mail *<br>
-		<input type="text" size="25" maxlength="30" name="Email" tabindex="8"></td>
+		<input type="text" size="25" maxlength="30" name="Email" tabindex="8" value="<%=request.getAttribute("Email") %>"></td>
 		<td>&nbsp;&nbsp;&nbsp;Telefonnummer *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Telefon" tabindex="9"></td>
+			name="Telefon" tabindex="9" value="<%=request.getAttribute("Telefon") %>"></td>
 	</tr>
 	<tr>
 		<td>Handy<br>
-		<input type="text" size="25" maxlength="30" name="Handy" tabindex="10"></td>
+		<input type="text" size="25" maxlength="30" name="Handy" tabindex="10" value="<%=request.getAttribute("Handy") %>"></td>
 		<td>&nbsp;&nbsp;&nbsp;Fax<br>
-		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30" name="Fax" tabindex="11"></td>
-	</tr>
-	<tr>
-		<td colspan="2">Institut *<br>
-		<input type="text" size="25" maxlength="30"
-			name="Institut" tabindex="12"></td>
+		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30" name="Fax" tabindex="11" value="<%=request.getAttribute("Fax") %>"></td>
 	</tr>
 </table>
 </fieldset>

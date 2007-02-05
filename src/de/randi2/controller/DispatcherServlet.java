@@ -18,6 +18,7 @@ import de.randi2.model.fachklassen.*;
  * @version $Id$
  * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
  * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
+ * @author Andreas Freudling <afreudling@stud.hs-heilbronn.de>
  * 
  */
 public class DispatcherServlet extends javax.servlet.http.HttpServlet implements
@@ -108,7 +109,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet implements
 			request.getRequestDispatcher("/benutzer_anlegen_eins.jsp").forward(request, response);
 		
 		}
-		//Schritt 2.1:DISCLAIMER->ZENTRUMAUSWAAHL
+		//Schritt 2.1:DISCLAIMER->ZENTRUMAUSWAHL
 		else if (id.equals("JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI"))
 		{
 		

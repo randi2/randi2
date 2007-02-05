@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
        "http://www.w3.org/TR/html4/strict.dtd">
 <html>
+<%@ page import="de.randi2.model.fachklassen.beans.*" %>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Benutzer anlegen</title>
@@ -34,7 +35,12 @@
 		</tr>
 		</table>
 </form>
-				<%@include file="include/inc_footer_clean.jsp"%>
+				<%--<%@include file="include/inc_footer.jsp"%>--%>
 	</div>
+	<div id="show_none">
+
+	</div>
+<div id="show_none">
+</div>
 </body>
 </html>

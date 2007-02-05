@@ -2,6 +2,7 @@ package de.randi2.controller;
 
 import java.io.IOException;
 import java.util.*;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,8 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import de.randi2.model.fachklassen.Benutzerkonto;
+import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
+import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.*;
 import de.randi2.model.exceptions.*;
 
@@ -126,58 +129,43 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 					response);
 		}// if
 
-		// // Benutzer registrieren
-		// // Schritt 1:
-		// else if (id
-		// .equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI")) {
-		//
-		// request.setAttribute("anfrage_id",
-		// "CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_ZWEI");
-		// // Hier noch jede Menge Logik
-		// request.getRequestDispatcher("DispatcherServlet").forward(request,
-		// response);
-		// }
-		// // Schritt 2:
-		// else if (id
-		// .equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI")) {
-		// request.setAttribute("anfrage_id",
-		// "CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_DREI");
-		// // Hier noch jede Menge Logik
-		// request.getRequestDispatcher("DispatcherServlet").forward(request,
-		// response);
-		// request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request,
-		// response);
-		//
-		// }
-		// // Schritt 3:
-		// else if (id
-		// .equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER")) {
-		// request.setAttribute("anfrage_id",
-		// "CLASS_BENUTZERSERVLET_BENUTZER_REGISTRIEREN_VIER");
-		// // Hier noch jede Menge Logik
-		// request.getRequestDispatcher("DispatcherServlet").forward(request,
-		// response);
-		//
-		// }
 		// Letzter Schritt Benutzer registrieren
 		if (id.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER")) {
 
 			String fehlernachricht = "";
-			try {
-				String titel = request.getParameter("Titel");
+			String vorname = request.getParameter("Vorname");
+			String nachname = request.getParameter("Nachname");
+			char geschlecht = NullKonstanten.NULL_CHAR;
+			String passwort = null;
+			String email = request.getParameter("Email");
+			String telefon = request.getParameter("Telefon");
+			String fax = request.getParameter("Fax");
+			// TODO dirty fix
+			String handynummer = request.getParameter("Handy");
+			String institut = request.getParameter("Institut");
+			String zent = request.getParameter("aZentrum");
+			int zentrumID = Integer.parseInt(zent);
+			ZentrumBean zentrum=null;
+			try {				String titel = request.getParameter("Titel");
 				if (titel != null && titel.equals("kein Titel")) {
 					titel = null;
 				}
-				String vorname = request.getParameter("Vorname");
-				String nachname = request.getParameter("Nachname");
-				char geschlecht = NullKonstanten.NULL_CHAR;
-				String passwort = null;
-				String email = request.getParameter("Email");
-				String telefon = request.getParameter("Telefon");
-				String fax = request.getParameter("fax");
-				// TODO dirty fix
-				String handynummer = "123123123123";
-				String institut = request.getParameter("Institut");
+				
+
+			
+				//Dirty Fix: Da noch keine Suche nach Zentrumbeans möglich
+				Vector<ZentrumBean> gZentrum=Zentrum.suchenZentrum(Zentrum.NULL_ZENTRUM);
+				Iterator<ZentrumBean> itgZentrum=gZentrum.iterator();
+				while(itgZentrum.hasNext())
+				{
+					ZentrumBean aZentrumBean=itgZentrum.next();
+					if(aZentrumBean.getId()==zentrumID)
+					{
+						zentrum=aZentrumBean;
+					}
+				}
+				//Ende Dirty Fix
+				
 				// Geschlecht abfragen
 				if (request.getParameter("maennlich") != null) {
 					geschlecht = 'm';
@@ -198,6 +186,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 						geschlecht, email, telefon, handynummer, fax);
 				BenutzerkontoBean aBenutzerkonto = new BenutzerkontoBean(email,
 						passwort, aPerson);
+				aBenutzerkonto.setZentrum(zentrum);
 				Benutzerkonto.anlegenBenutzer(aBenutzerkonto);
 
 			} catch (IllegalArgumentException e) {
@@ -205,6 +194,18 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 			}
 			// Daten waren nicht fehlerfrei
 			if (fehlernachricht != "") {
+
+				request.setAttribute("Vorname", vorname);
+				request.setAttribute("Nachname",nachname);
+				request.setAttribute("Passwort",request.getParameter("Passwort"));
+				request.setAttribute("Passwort_wh",request.getParameter("Passwort_wh"));
+				request.setAttribute("Email",email);
+				request.setAttribute("Telefon", telefon);
+				request.setAttribute("Fax", fax);
+				request.setAttribute("aZentrum", zentrum.getId());
+				request.setAttribute("Handy", handynummer);
+				request.setAttribute("Institut", institut);
+				
 				request.setAttribute("fehlernachricht", fehlernachricht);
 				request.getRequestDispatcher("/benutzer_anlegen_drei.jsp")
 						.forward(request, response);
