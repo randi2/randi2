@@ -3,13 +3,16 @@ package de.randi2.junittests;
 import static org.junit.Assert.*;
 
 import java.util.GregorianCalendar;
+import java.util.Vector;
 
+import org.apache.log4j.*;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -23,19 +26,21 @@ import de.randi2.model.fachklassen.Rolle;
  */
 public class BenutzerkontoTest {
 
-	private static final char m = 0;
-
-	private char geschlecht = m;
-
-	private Benutzerkonto bKonto;
-
 	private BenutzerkontoBean bKontoBean;
 
 	private String benutzername, passwort;
 
 	private Rolle rolle;
 
-	private PersonBean benutzer, ansprechpartner;
+	// TODO Spaeter wird Titel als eine Enum realisiert werden - deswegen muss
+	// man das auch danach anpassen
+	private PersonBean benutzer = new PersonBean("nachname", "vorname",
+			"Prof.", 'm', "user@hs-heilbronn.de", "01760099334",
+			"017600972487", "01760427424");
+
+	private PersonBean ansprechpartner = new PersonBean("nachname", "vorname",
+			"Prof.", 'm', "user@hs-heilbronn.de", "01760099334",
+			"017600972487", "01760427424");
 
 	private boolean gesperrt;
 
@@ -47,26 +52,28 @@ public class BenutzerkontoTest {
 	 * @throws java.lang.Exception
 	 */
 	@Before
-	public void setUp() throws Exception {
-
+	public void setUp() {
+		PropertyConfigurator.configure("C:/Dokumente und Einstellungen/user/Desktop/workspace Together/RANDI2/WebContent/WEB-INF/log4j.lcf");
 		benutzername = "studienleiter";
 		passwort = "1$studienleiter";
-		
-		benutzer = new PersonBean("Mueller", "Hans", "Dr.", geschlecht,
-				"blabla@bla.de", "032452342", "973423", "12345");
-		ansprechpartner = new PersonBean("Schmidt", "Juergen", "Dr.",
-				geschlecht, "blabla@bla.de", "032452342", "973423", "12345");
+
 		gesperrt = false;
+		rolle = Rolle.getStudienleiter();
 
-		zentrum = new ZentrumBean(1, "institution", "abteilung", "ort", "plz",
-				"strasse", "hausnr", ansprechpartner, "passwort");
-		ersterLogin = new GregorianCalendar();
-		letzterLogin = new GregorianCalendar();
+		ersterLogin = new GregorianCalendar(2006, 10, 20);
+		letzterLogin = new GregorianCalendar(2006, 11, 30);
 
-		bKontoBean = new BenutzerkontoBean(benutzername, passwort, rolle,
-				benutzer, ansprechpartner, gesperrt, zentrum, ersterLogin,
-				letzterLogin);
-		bKonto = new Benutzerkonto(bKontoBean);
+		zentrum = new ZentrumBean(1, "institution", "abteilung", "Ort", "plz",
+				"Strasse", "Hausnr", ansprechpartner, "Passwort");
+
+		try {
+			bKontoBean = new BenutzerkontoBean(benutzername, passwort, rolle,
+					benutzer, ansprechpartner, gesperrt, zentrum, ersterLogin,
+					letzterLogin);
+		} catch (BenutzerkontoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -74,7 +81,9 @@ public class BenutzerkontoTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		bKonto = null;
+
+		bKontoBean = null;
+
 	}
 
 	/**
@@ -83,8 +92,11 @@ public class BenutzerkontoTest {
 	 */
 	@Test
 	public void testBenutzerkonto() {
-		fail("Not yet implemented");
-
+		try {
+			Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
+		} catch (Exception e) {
+			fail("Fehler aufgetreten bei testBenutzerkonto");
+		}
 	}
 
 	/**
@@ -94,9 +106,10 @@ public class BenutzerkontoTest {
 	@Test
 	public void testSuchenBenutzer() {
 		try {
-
+			Vector suchErgebnisse = new Vector();
+			suchErgebnisse = Benutzerkonto.suchenBenutzer(bKontoBean);
 		} catch (Exception e) {
-			fail("Not yet implemented");
+			fail("Fehler ausgelöst bei testSuchenBenutzer");
 		}
 	}
 
@@ -107,7 +120,7 @@ public class BenutzerkontoTest {
 	@Test
 	public void testAnlegenBenutzer() {
 		try {
-			bKonto.anlegenBenutzer(bKontoBean);
+			Benutzerkonto.anlegenBenutzer(bKontoBean);
 		} catch (Exception e) {
 			fail("Fehler aufgetreten bei testAnlegenBenutzer");
 		}
@@ -120,16 +133,12 @@ public class BenutzerkontoTest {
 	@Test
 	public void testGetBenutzer() {
 		try {
-			String benutzerSa = "sa@randi2.de";
-			String benutzerSl = "studienleider";
-			String benutzerSt = "statistiker";
-			String benutzerAd = "administrator";
-			String benutzerSy = "systemoperator";
-			bKonto.getBenutzer(benutzerSa);
-			bKonto.getBenutzer(benutzerSl);
-			bKonto.getBenutzer(benutzerSt);
-			bKonto.getBenutzer(benutzerAd);
-			bKonto.getBenutzer(benutzerSy);
+			Benutzerkonto.getBenutzer("studienleiter");
+			Benutzerkonto.getBenutzer("administrator");
+			Benutzerkonto.getBenutzer("systemoperator");
+			Benutzerkonto.getBenutzer("statistiker");
+			Benutzerkonto.getBenutzer("sa@randi2.de");
+
 		} catch (Exception e) {
 			fail("Fehler aufgetreten bei testGetBenutzer");
 		}
@@ -143,8 +152,8 @@ public class BenutzerkontoTest {
 	@Test
 	public void testToString() {
 		try {
+			Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
 			bKonto.toString();
-
 		} catch (Exception e) {
 			fail("Fehler aufgetreten bei testToString");
 		}
@@ -155,8 +164,35 @@ public class BenutzerkontoTest {
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#equals(de.randi2.model.fachklassen.Benutzerkonto)}.
 	 */
 	@Test
-	public void testEqualsBenutzerkonto() {
-		fail("Not yet implemented");
+	public void testEqualsBenutzerkontoGleichesKonto() {
+		Benutzerkonto aKonto = new Benutzerkonto(bKontoBean);
+		Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
+		boolean wert1 = aKonto.equals(bKonto);
+		if (wert1 == false) {
+			fail("Vergleich von zwei gleichen Benutzerkonten");
+		} else {
+			;
+		}
+		String benutzername2 = "Statistiker";
+		String passwort2 = "1$statistiker";
+		BenutzerkontoBean anderesKontoBean;
+		try {
+			anderesKontoBean = new BenutzerkontoBean(
+					benutzername2, passwort2, rolle, benutzer, ansprechpartner,
+					gesperrt, zentrum, ersterLogin, letzterLogin);
+			Benutzerkonto cKonto = new Benutzerkonto(anderesKontoBean);
+			boolean wert2 = aKonto.equals(cKonto);
+			if (wert2 == true) {
+				fail("Vergleich von zwei verschiedenen Benutzerkonten liefert ein true zurück");
+			} else {
+				;
+			}
+		} catch (BenutzerkontoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
 	}
 
 	/**
@@ -165,7 +201,12 @@ public class BenutzerkontoTest {
 	 */
 	@Test
 	public void testGetBenutzerkontobean() {
-		fail("Not yet implemented");
+		try {
+			Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
+			bKonto.getBenutzerkontobean();
+		} catch (Exception e) {
+			fail("Fehler bei testGetBenutzerkontobean");
+		}
 	}
 
 	/**
@@ -173,12 +214,21 @@ public class BenutzerkontoTest {
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#pruefenPasswort(java.lang.String)}.
 	 */
 	@Test
-	public void testPruefenPasswortFalsch() {
-		fail("Not yet implemented");
-	}
+	public void testPruefenPasswort() {
+		try {
+			String benutzernameNeu = "Statistiker";
+			String passwortNeu = "1$statistiker";
+			
+			String passwortAktuellerBenutzer = Benutzerkonto.getBenutzer(benutzernameNeu).getPasswort();
+			if (passwortAktuellerBenutzer.equalsIgnoreCase(passwortNeu)) {
+				; // passiert nichts
+			} else {
+				fail("Passwort ist falsch");
+			}
 
-	public void testPruefenPasswortRichtig() {
-
+		} catch (Exception e) {
+			fail("unerwarteter Fehler ist aufgetreten!");
+		}
 	}
 
 	/**
@@ -186,7 +236,7 @@ public class BenutzerkontoTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		// wird erstmal nicht ben�tigt
+		// wird erstmal nicht benoetigt
 	}
 
 	/**
@@ -194,7 +244,7 @@ public class BenutzerkontoTest {
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		// wird erstmal nicht ben�tigt
+		// wird erstmal nicht benoetigt
 	}
 
 }
