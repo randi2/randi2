@@ -73,7 +73,7 @@ public class BenutzerkontoBeanTest extends Filter{
     }
         
        
-    @Test (expected=IllegalArgumentException.class)
+    @Test (expected=BenutzerkontoException.class)
     public final void testSetBenutzernameNull() {            	
 		 try {
 			aKonto.setBenutzername(null);
@@ -84,7 +84,7 @@ public class BenutzerkontoBeanTest extends Filter{
     }
     
     
-    @Test (expected=IllegalArgumentException.class)
+    @Test (expected=BenutzerkontoException.class)
     public final void testSetBenutzernameLeer() {    	
             try {
 				aKonto.setBenutzername("");
@@ -106,7 +106,7 @@ public class BenutzerkontoBeanTest extends Filter{
     }
 
     
-    @Test (expected=IllegalArgumentException.class)
+    @Test (expected=BenutzerkontoException.class)
     public final void testSetPasswortLaengeFalsch() {
           try {
 			aKonto.setPasswort("s");
@@ -148,7 +148,7 @@ public class BenutzerkontoBeanTest extends Filter{
     }
     
     
-    @Test (expected=IllegalArgumentException.class)
+    @Test (expected=BenutzerkontoException.class)
     public final void testSetPasswortNull() {
             try {
 				aKonto.setPasswort(null);
@@ -158,7 +158,7 @@ public class BenutzerkontoBeanTest extends Filter{
     }
     
     
-    @Test (expected=IllegalArgumentException.class)
+    @Test (expected=BenutzerkontoException.class)
     public final void testSetPasswortLeer() {  
             try {
 				aKonto.setPasswort("");
@@ -244,7 +244,7 @@ public class BenutzerkontoBeanTest extends Filter{
     }
    
     
-    @Test (expected=IllegalArgumentException.class)
+    @Test (expected=BenutzerkontoException.class)
     public final void testEqualsBenutzerkontoBeanNull() throws PersonException{
     	String benutzername= "Hans";
     	String passwort="dddd";
@@ -327,7 +327,7 @@ public class BenutzerkontoBeanTest extends Filter{
 	}
 
 
-	@Test (expected=IllegalArgumentException.class)
+	@Test (expected=BenutzerkontoException.class)
 	public void testSetRolleNull() {
 	         try {
 				aKonto.setRolle(null);
