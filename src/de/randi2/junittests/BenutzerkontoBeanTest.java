@@ -10,8 +10,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.model.fachklassen.Recht;
 import de.randi2.model.fachklassen.Rolle;
+import de.randi2.model.fachklassen.Rolle.Rollen;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
+import de.randi2.model.fachklassen.beans.PersonBean;
+import de.randi2.model.fachklassen.beans.ZentrumBean;
 
 /**
  * @author Nadine Zwink <nzwink@stud.hs-heilbronn.de>
@@ -19,10 +23,15 @@ import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
  */
 public class BenutzerkontoBeanTest extends Filter{
 
-    private BenutzerkontoBean aKonto;
-    private GregorianCalendar ersterLogin, letzterLogin;
-    private Rolle rolle;
-    
+    private BenutzerkontoBean aKonto, bKonto, cKonto;
+    private GregorianCalendar ersterLogin, letzterLogin,ersterLoginB, letzterLoginB;
+    private Rolle rolle, rolleB;
+    private String benutzername, passwort,benutzernameB, passwortB;
+	private PersonBean benutzer, ansprechpartner;
+	private boolean gesperrt;
+	private ZentrumBean zentrum;
+	private Rollen name, nameB;
+	   
     
     @Before
     public void setUp() throws Exception {
@@ -133,19 +142,113 @@ public class BenutzerkontoBeanTest extends Filter{
             aKonto.setPasswort("");
     }
 
+    
     @Test 
-    public final void testEqualsBenutzerkontoBean() {
-    	fail("not yet implemented");
-   /** 	try {
-    		    fail("[testEqualsBenutzerKontoBean]Identische Benuetzrkonten");  
-    		}
-    			
-        } catch (Exception e) {
-          	 fail("[FEHLER]testEqualsBenutzerKontoBean()");
-        }*/
+    public final void testEqualsBenutzerkontoBeanGleich() {
+    	String benutzername= "Hans";
+    	String passwort="dddd";
+    	name =Rollen.ADMIN;
+    	rolle=Rolle.getAdmin();
+		PersonBean benutzer=new PersonBean();
+		PersonBean ansprechpartner=new PersonBean();
+		boolean gesperrt=false;
+		ZentrumBean zentrum=new ZentrumBean();
+		String day = "1";
+		int tagLetzterLogin = Integer.parseInt(day);
+		String month ="2"; 
+		int monatLetzterLogin = Integer.parseInt(month);
+		String year = "2006";
+		int jahrLetzterLogin = Integer.parseInt(year);
+		letzterLogin = new GregorianCalendar(jahrLetzterLogin, monatLetzterLogin - 1, tagLetzterLogin);
+		ersterLogin=new GregorianCalendar(jahrLetzterLogin, monatLetzterLogin - 1, tagLetzterLogin);
+		
+    	
+    	aKonto = new BenutzerkontoBean(benutzername, passwort, rolle,
+    			benutzer, ansprechpartner, gesperrt,zentrum, 
+    			ersterLogin,letzterLogin);
+  
+        assertTrue(aKonto.equals(aKonto));
+    }
+    
+    
+    @Test 
+    public final void testEqualsBenutzerkontoBeanVerschieden() {
+    	String benutzername= "Hans";
+    	String passwort="dddd";
+    	name =Rollen.ADMIN;
+    	rolle=Rolle.getAdmin();
+		PersonBean benutzer=new PersonBean();
+		PersonBean ansprechpartner=new PersonBean();
+		boolean gesperrt=false;
+		ZentrumBean zentrum=new ZentrumBean();
+		String day = "1";
+		int tagLetzterLogin = Integer.parseInt(day);
+		String month ="2"; 
+		int monatLetzterLogin = Integer.parseInt(month);
+		String year = "2006";
+		int jahrLetzterLogin = Integer.parseInt(year);
+		letzterLogin = new GregorianCalendar(jahrLetzterLogin, monatLetzterLogin - 1, tagLetzterLogin);
+		ersterLogin=new GregorianCalendar(jahrLetzterLogin, monatLetzterLogin - 1, tagLetzterLogin);
+		
+		String benutzernameB= "Emma";
+    	String passwortB="ddddccc";
+    	nameB =Rollen.ADMIN;
+    	rolleB=Rolle.getAdmin();
+		PersonBean benutzerB=new PersonBean();
+		PersonBean ansprechpartnerB=new PersonBean();
+		boolean gesperrtB=false;
+		ZentrumBean zentrumB=new ZentrumBean();
+		String dayB = "1";
+		int tagLetzterLoginB = Integer.parseInt(day);
+		String monthB ="3"; 
+		int monatLetzterLoginB = Integer.parseInt(month);
+		String yearB = "2005";
+		int jahrLetzterLoginB = Integer.parseInt(year);
+		letzterLoginB = new GregorianCalendar(jahrLetzterLogin, monatLetzterLogin - 1, tagLetzterLogin);
+		ersterLoginB=new GregorianCalendar(jahrLetzterLogin, monatLetzterLogin - 1, tagLetzterLogin);
+		
+		
+    	aKonto = new BenutzerkontoBean(benutzername, passwort, rolle,
+    			benutzer, ansprechpartner, gesperrt,zentrum, 
+    			ersterLogin,letzterLogin);
+    	bKonto = new BenutzerkontoBean(benutzernameB, passwortB, rolleB,
+    			benutzerB, ansprechpartnerB, gesperrtB,zentrumB, 
+    			ersterLoginB,letzterLoginB);
+    	    
+       assertFalse(aKonto.equals(bKonto));
     }
    
+    
+    @Test (expected=IllegalArgumentException.class)
+    public final void testEqualsBenutzerkontoBeanNull() {
+    	String benutzername= "Hans";
+    	String passwort="dddd";
+    	name =Rollen.ADMIN;
+    	rolle=Rolle.getAdmin();
+		PersonBean benutzer=new PersonBean();
+		PersonBean ansprechpartner=new PersonBean();
+		boolean gesperrt=false;
+		ZentrumBean zentrum=new ZentrumBean();
+		String day = "1";
+		int tagLetzterLogin = Integer.parseInt(day);
+		String month ="2"; 
+		int monatLetzterLogin = Integer.parseInt(month);
+		String year = "2006";
+		int jahrLetzterLogin = Integer.parseInt(year);
+		letzterLogin = new GregorianCalendar(jahrLetzterLogin, monatLetzterLogin - 1, tagLetzterLogin);
+		ersterLogin=new GregorianCalendar(jahrLetzterLogin, monatLetzterLogin - 1, tagLetzterLogin);
+		
+    	aKonto = new BenutzerkontoBean(benutzername, passwort, rolle,
+    			 benutzer, ansprechpartner, gesperrt,zentrum, 
+    			 ersterLogin,letzterLogin);
+    	
+    	cKonto = new BenutzerkontoBean("", "", null,null, null, false, null,
+    			 null, null);
+    
+       assertFalse(aKonto.equals(cKonto));
+    }
 
+    
 	@Test
 	public void testSetErsterLogin() {
 		try {
