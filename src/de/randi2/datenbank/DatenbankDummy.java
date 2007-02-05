@@ -21,9 +21,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
      * Changelog: 30.01.2007 BTheel: Klasse erstellt XXX Realisierung eines
      * Singletons durch ein Interface fraglich!XXX Workaround mit static instanz
      * der HashMap.
-     * 
      * 04.02.2007 DHaehn: den Benutzerkonten Personen zugeordnet
-     * 
      */
     Logger logger = Logger.getLogger(this.getClass());
 
@@ -49,7 +47,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
         logger.info("DatenbankDummy.generiereTestKonten()");
         // Dummy Person erzeugen
         try {
-        	//PersonBean dummyPerson = null;
+            PersonBean dummyPerson = null;
             BenutzerkontoBean kontoBean; // Arbeitsinstanz KontoBean
             ZentrumBean zentrumBean;// Arbeitsinstanz KontoBean
             PasswortUtil hashmich = PasswortUtil.getInstance(); // Passworthasher
@@ -124,11 +122,10 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
      */
     @SuppressWarnings("unchecked")
     public <T extends Filter> T schreibenObjekt(T zuSchreibendesObjekt)
-            throws DatenbankFehlerException, IllegalArgumentException {
+            throws DatenbankFehlerException {
         logger.info("DatenbankDummy.schreibenObjekt()");
         if (zuSchreibendesObjekt == null)
-            throw new IllegalArgumentException("Argument == null");
-        // TODO Fehlerkonstante setzten
+            throw new DatenbankFehlerException(DatenbankFehlerException.ARGUMENT_IST_NULL);
         if (zuSchreibendesObjekt instanceof BenutzerkontoBean) {
             logger.debug("Schreib-Objekt ist BenutzerkontoBean");
             BenutzerkontoBean aBean = (BenutzerkontoBean) zuSchreibendesObjekt;
@@ -161,14 +158,15 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
             throws DatenbankFehlerException {
         logger.info("DatenbankDummy.suchenObjekt()");
 
+        if (zuSuchendesObjekt == null)
+            throw new DatenbankFehlerException(DatenbankFehlerException.ARGUMENT_IST_NULL);
         if (!zuSuchendesObjekt.isFilter()) {
             logger.warn("Suchobject ist kein aktiver Filter");
-            // TODO benachrichtigung an benunter, das filter nicht gesetzt
+            throw new DatenbankFehlerException(DatenbankFehlerException.SUCHOBJEKT_IST_KEIN_FILTER);
         }
         Vector<T> ergebnisse = new Vector<T>();
 
-        if (zuSuchendesObjekt == null)
-            // TODO Reicht das? ggf. IlligalArgumentException
+        if (zuSuchendesObjekt == null)//XXX Verhalten bei NULL?
             return ergebnisse;
 
         // suchen eines benutzerkontos:
@@ -207,10 +205,6 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
                 ergebnisse.add((T) zentren.get(aBean.getInstitution() + "-"
                         + aBean.getAbteilung()));
             }
-//            else if (zentren.containsKey(aBean.getInstitution())) {
-//                logger.debug("gesuchtes Zentrum in DB vorhanden");
-//                ergebnisse.add((T) zentren.get(aBean.getInstitution()));
-//            }
         }
 
         return ergebnisse;

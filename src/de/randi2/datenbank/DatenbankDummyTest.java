@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
+import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.model.fachklassen.*;
 import de.randi2.utility.NullKonstanten;
@@ -36,6 +37,33 @@ public class DatenbankDummyTest {
     public void tearDown() throws Exception {
         aDB = null;
     }
+    @Test
+    public void testBla() {
+       BenutzerkontoBean such = new BenutzerkontoBean();
+       such.setBenutzername("statistiker");
+       such.setFilter(true);
+       BenutzerkontoBean bean;
+    try {
+        bean = (new Vector<BenutzerkontoBean>(aDB.suchenObjekt(such))).firstElement();
+        System.out.println(bean.toString());
+        PersonBean benutzer = new PersonBean();
+        benutzer.setVorname("Heribert");
+        benutzer.setNachname("Fassbinder");
+        bean.setBenutzer(benutzer);
+        
+        aDB.schreibenObjekt(bean);
+        bean = null;
+        bean = (new Vector<BenutzerkontoBean>(aDB.suchenObjekt(such))).firstElement();
+        System.out.println(bean.toString());
+        System.out.println(bean.getBenutzer().toString());
+        
+    } catch (DatenbankFehlerException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+       
+    }
+    
 
     /**
      * Test method for
@@ -81,8 +109,8 @@ public class DatenbankDummyTest {
         try {
         	
         	Vector<BenutzerkontoBean>  ergebnisseBeans = null;
-            String suchname = "statistiker";
-            String passbrot = "1$statistiker";
+            String suchname = "sa@randi2.de";
+            String passbrot = "1$studienarzt";
             BenutzerkontoBean suchbean = new BenutzerkontoBean();
             suchbean.setBenutzername(suchname);
             suchbean.setFilter(true);
