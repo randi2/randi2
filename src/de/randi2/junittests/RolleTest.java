@@ -9,7 +9,7 @@ import org.junit.Test;
 import de.randi2.model.fachklassen.Rolle;
 
 /**
- * @author $eyma Yazgan
+ * @author $eyma Yazgan <syazgan@stud.hs-heilbronn.de>
  * @version $Id$
  */
 public class RolleTest {
@@ -22,7 +22,8 @@ public class RolleTest {
 	private Rolle testSTATRolle;
 	
 	/**
-	 * ...
+	 * Den Rolle-Objekten wird der Wert "null" zugewiesen.
+	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
@@ -49,7 +50,7 @@ public class RolleTest {
 	}
 
 	/**
-	 * Testmethode fuer den Studienarzt
+	 * Testmethode fuer den Studienarzt.
 	 */
 	@Test
 	public void testGetStudienarzt() {
@@ -66,7 +67,7 @@ public class RolleTest {
 	}
 
 	/**
-	 * Testmethode fuer den Studienleiter
+	 * Testmethode fuer den Studienleiter.
 	 */
 	@Test
 	public void testGetStudienleiter() {
@@ -83,7 +84,7 @@ public class RolleTest {
 	}
 	
 	/**
-	 * Testmethode fuer den Admin
+	 * Testmethode fuer den Admin.
 	 */
 	@Test
 	public void testGetAdmin() {
@@ -100,7 +101,7 @@ public class RolleTest {
 	}
 	
 	/**
-	 * Testmethode fuer den Sysop
+	 * Testmethode fuer den Sysop.
 	 */
 	@Test
 	public void testGetSysop() {
@@ -117,7 +118,7 @@ public class RolleTest {
 	}
 	
 	/**
-	 * Testmethode fuer den Statistiker
+	 * Testmethode fuer den Statistiker.
 	 */
 	@Test
 	public void testGetStatistiker() {
@@ -134,7 +135,7 @@ public class RolleTest {
 	}
 
 	/**
-	 * ...
+	 * Test method for {@link de.randi2.model.fachklassen.Rolle#getName()}.
 	 */
 	 @Test 
 	 public void testGetName() {
@@ -156,7 +157,7 @@ public class RolleTest {
 	 }
 	 
 	/**
-	 * ...
+	 * Test method for {@link de.randi2.model.fachklassen.Rolle#getRollenname()}.
 	 */
 	@Test 
 	public void testGetRollenname() { 
@@ -169,7 +170,7 @@ public class RolleTest {
 	}
 	 
 	/**
-	 * ...
+	 * Test method for {@link de.randi2.model.fachklassen.Rolle#toString()}.
 	 */
 	@Test
 	public void testToString() {
