@@ -75,6 +75,7 @@ public class RechtTest {
 	 */
 	@Test (expected=IllegalArgumentException.class)
 	public void testGetName() {
+		
 		recht=Recht.getRecht(rName);
 		
 		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.ADMINACCOUNTS_VERWALTEN));
@@ -107,36 +108,9 @@ public class RechtTest {
 	 */
 	@Test (expected=IllegalArgumentException.class)
 	public void testGetRechtname() {
-		/**recht=Recht.getRecht(rName);
-		if(recht!=Recht.getRecht(rName)){
-			fail("[testGetName]");
-		}*/
-		/**recht.toString().equals("BK_AENDERN");
-		recht.toString().equals("BK_SPERREN");
-		recht.toString().equals("BK_ANSEHEN");
-		recht.toString().equals("ZENTRUM_ANLEGEN");
-		recht.toString().equals("ZENTRUM_AENDERN");
-		recht.toString().equals("ZENTRUM_ANZEIGEN");
-		recht.toString().equals("BK_AKTIVIEREN");
-		recht.toString().equals("GRUPPENNACHRICHT_VERSENDEN");
-		recht.toString().equals("STUDIE_ANLEGEN");
-		recht.toString().equals("STUDIE_AENDERN");
-		recht.toString().equals("STUDIE_LOESCHEN");
-		recht.toString().equals("STUDIE_PAUSIEREN");
-		recht.toString().equals("STUDIE_BEENDEN");
-		recht.toString().equals("STUDIE_SIMULIEREN");
-		recht.toString().equals("ARCHIV_EINSEHEN");
-		recht.toString().equals("STAT_EINSEHEN");
-		recht.toString().equals("RANDOMISATION_EXPORTIEREN");
-		recht.toString().equals("STUDIENTEILNEHMER_HINZUFUEGEN");
-		recht.toString().equals("STUDIEN_EINSEHEN");
-		recht.toString().equals("STUDIE_RANDOMISIEREN");
-		recht.toString().equals("SYSTEM_SPERREN");
-		recht.toString().equals("ADMINACCOUNTS_VERWALTEN");
-		recht.toString().equals("STULEIACCOUNTS_VERWALTEN");*/
-		
 		
 		recht=Recht.getRecht(rName);
+		
 		assertTrue(recht.getName().toString().equals(Recht.Rechtenamen.ADMINACCOUNTS_VERWALTEN));
 		assertTrue(recht.getName().toString().equals(Recht.Rechtenamen.ARCHIV_EINSEHEN));
 		assertTrue(recht.getName().toString().equals(Recht.Rechtenamen.BK_AENDERN));
