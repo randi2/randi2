@@ -139,7 +139,7 @@ public class BenutzerkontoBean extends Filter {
 		this.setBenutzername(benutzername);
 		this.setPasswort(passwort);
 		this.setBenutzer(benutzer);
-		this.setLetzterLogin(new GregorianCalendar(2007,11,1));
+		this.setLetzterLogin(new GregorianCalendar(2006,11,1));
 	}
 
 	/**
