@@ -19,10 +19,9 @@ import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
  */
 public class BenutzerkontoBeanTest extends Filter{
 
-    private BenutzerkontoBean aKonto, zuvergleichendesObjekt;
+    private BenutzerkontoBean aKonto;
     private GregorianCalendar ersterLogin, letzterLogin;
     private Rolle rolle;
-    private static Rolle STUDIENARZT, ADMIN, STUDIENLEITER, STATISTIKER,SYSOP;
     
     
     @Before
@@ -35,9 +34,9 @@ public class BenutzerkontoBeanTest extends Filter{
         aKonto=null;
     }
 
+    
     @Test 
-    public final void testSetBenutzernameRichtig() {
-        
+    public final void testSetBenutzernameRichtig() {        
         try{
         aKonto.setBenutzername("administrator");
         aKonto.setBenutzername("studienleiter");
@@ -50,9 +49,9 @@ public class BenutzerkontoBeanTest extends Filter{
         }
     }
     
+    
     @Test 
-    public final void testSetBenutzernameErlaubteZeichen() {
-        
+    public final void testSetBenutzernameErlaubteZeichen() {        
         try{
         	aKonto.setBenutzername("hanswursthausen");
         }catch (Exception e) {
@@ -62,22 +61,19 @@ public class BenutzerkontoBeanTest extends Filter{
         
        
     @Test (expected=IllegalArgumentException.class)
-    public final void testSetBenutzernameNull() {
-         
-            aKonto.setBenutzername(null);            
-
+    public final void testSetBenutzernameNull() {         
+            aKonto.setBenutzername(null);        
     }
+    
     
     @Test (expected=IllegalArgumentException.class)
-    public final void testSetBenutzernameLeer() {
-    	
+    public final void testSetBenutzernameLeer() {    	
             aKonto.setBenutzername("");
-
     }
     
+    
     @Test 
-    public final void testSetBenutzernameLaenge() {
-        
+    public final void testSetBenutzernameLaenge() {        
        try {
             aKonto.setBenutzername("aaaaaaaaaaaaaaaaa"); //mehr als 14 Zeichen
             aKonto.setBenutzername("aaa"); //weniger als 4 Zeichen
@@ -87,12 +83,12 @@ public class BenutzerkontoBeanTest extends Filter{
         }
     }
 
+    
     @Test (expected=IllegalArgumentException.class)
     public final void testSetPasswortLaengeFalsch() {
-
-        aKonto.setPasswort("s");
-
+          aKonto.setPasswort("s");
     }
+    
     
     @Test 
     public final void testSetPasswortLaengeRichtig() {
@@ -104,46 +100,42 @@ public class BenutzerkontoBeanTest extends Filter{
      }
     }
     
+    
     @Test 
-    public final void testSetPasswortErlaubteZeichen() {
-   
-    try {
-        aKonto.setPasswort(".*[A-Za-z].*");
-        aKonto.setPasswort(".*[0-9].*");
-     } catch (Exception e) {
-      	 fail("[FEHLER]testSetPasswortErlaubteZeichen()sollte keine Exception auslösen");
-     }     
+    public final void testSetPasswortErlaubteZeichen() {   
+	    try {
+	        aKonto.setPasswort(".*[A-Za-z].*");
+	        aKonto.setPasswort(".*[0-9].*");
+	     } catch (Exception e) {
+	      	 fail("[FEHLER]testSetPasswortErlaubteZeichen()sollte keine Exception auslösen");
+	     }     
     }
     
     @Test 
-    public final void testSetPasswortRichtig() {
-   
-    try {
-    	aKonto.setPasswort("aa");
-        aKonto.setPasswort("aaaa");
-     } catch (Exception e) {
-      	 fail("[FEHLER]testSetPasswortRichtig() sollte keine Exception auslösen");
-     }    
+    public final void testSetPasswortRichtig() {   
+	    try {
+	    	aKonto.setPasswort("aa");
+	        aKonto.setPasswort("aaaa");
+	     } catch (Exception e) {
+	      	 fail("[FEHLER]testSetPasswortRichtig() sollte keine Exception auslösen");
+	     }    
     }
+    
     
     @Test (expected=IllegalArgumentException.class)
     public final void testSetPasswortNull() {
-         
-
-            aKonto.setPasswort(null);            
-
+            aKonto.setPasswort(null);        
     }
     
+    
     @Test (expected=IllegalArgumentException.class)
-    public final void testSetPasswortLeer() {
-  
+    public final void testSetPasswortLeer() {  
             aKonto.setPasswort("");
-
     }
 
     @Test 
     public final void testEqualsBenutzerkontoBean() {
-    	
+    	fail("not yet implemented");
    /** 	try {
     		    fail("[testEqualsBenutzerKontoBean]Identische Benuetzrkonten");  
     		}
@@ -171,11 +163,13 @@ public class BenutzerkontoBeanTest extends Filter{
 		}
 	}
 
+	
 	@Test
 	public void testIsGesperrt() {
 		//wird über testSetGesperrt geprüft
 	}
 
+	
 	@Test
 	public void testSetGesperrt() {
 		aKonto.setGesperrt(true);
@@ -203,22 +197,18 @@ public class BenutzerkontoBeanTest extends Filter{
 
 	@Test (expected=IllegalArgumentException.class)
 	public void testSetRolleNull() {
-
-	         aKonto.setRolle(null);    
-
+	         aKonto.setRolle(null); 
 	}
 	
+	
 	@Test
-	public void testSetRolle() {
-		
-	 try {
-		 
-		 
-		   rolle.getName().equals("ADMIN");
-		   rolle.getName().equals("STATISTIKER");
-		   rolle.getName().equals("STUDIENLEITER");
-		   rolle.getName().equals("STUDIENARZT");
-		   rolle.getName().equals("SYSOP");
+	public void testSetRolle() {		
+	 try {		 
+		   aKonto.setRolle(rolle.getAdmin());
+		   aKonto.setRolle(rolle.getStatistiker());
+		   aKonto.setRolle(rolle.getStudienarzt());
+		   aKonto.setRolle(rolle.getStudienleiter());
+		   aKonto.setRolle(rolle.getSysop());
 		 } catch (Exception e) {
 	       	fail("[FEHLER]testSetRolle() sollte keine Exception auslösen");
 	     }
