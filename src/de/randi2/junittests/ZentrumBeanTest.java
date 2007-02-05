@@ -327,7 +327,7 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetOrt() {
-		//TODO: 
+		// TODO: Ort := 3..50 Zeichen
 		zentrum.setOrt("ort");
 	}
 
@@ -350,7 +350,13 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetPasswort() {
-		fail("Not yet implemented");
+		// TODO: Passwort für das Zentrum := Passwort erzeugt mit "pwgen -Bny 12
+		// 1" immer 12 Zeichen lang, wird jedoch als Hash-Wert gespeichert.
+		try {
+			zentrum.setPasswort(passwort);
+		} catch (Exception e) {
+			fail("Fehler aufgetreten bei setPasswort");
+		}
 	}
 
 	/**
@@ -372,7 +378,13 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetPlz() {
-		fail("Not yet implemented");
+		// TODO: PLZ := \d{5}, 5 Zeichen (ergibt sich)
+		try {
+			zentrum.setPlz(plz);
+
+		} catch (Exception e) {
+			fail("Fehler aufgetreten bei testSetPlz");
+		}
 	}
 
 	/**
@@ -394,7 +406,13 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetStrasse() {
-		fail("Not yet implemented");
+		// TODO: Strasse := 3..50 Zeichen
+		try {
+			zentrum.setStrasse(strasse);
+
+		} catch (Exception e) {
+			fail("Fehler aufgetreten bei testSetStrasse");
+		}
 	}
 
 	/**
@@ -416,7 +434,12 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetId() {
-		fail("Not yet implemented");
+		try {
+			zentrum.setId(id);
+
+		} catch (Exception e) {
+			fail("Fehler aufgetreten bei testSetId");
+		}
 	}
 
 }
