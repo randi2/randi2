@@ -21,10 +21,10 @@ Angaben</b></legend>
 	<tr>
 		<td>Titel<br>
 		<select name="Titel">
-			<option value="kein Titel">kein Titel</option>
-			<option value="Dr.">Dr.</option>
-			<option value="Prof.">Prof.</option>
-			<option value="Prof. Dr.">Prof. Dr.</option>
+			<option <% if(request.getAttribute("Titel")==null){out.print("selected");} %> value="kein Titel" >kein Titel</option>
+			<option <% if(request.getAttribute("Titel")!=null&&request.getAttribute("Titel").equals("Dr.")){out.print("selected");} %> value="Dr." >Dr.</option>
+			<option <% if(request.getAttribute("Titel")!=null&&request.getAttribute("Titel").equals("Prof.")){out.print("selected");} %> value="Prof." >Prof.</option>
+			<option <% if(request.getAttribute("Titel")!=null&&request.getAttribute("Titel").equals("Prof. Dr.")){out.print("selected");} %> value="Prof. Dr." >Prof. Dr.</option>
 		</select><br>
 		</td>
 	</tr>
@@ -38,8 +38,8 @@ Angaben</b></legend>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
-		<input type="radio" name="weiblich">weiblich <input
-			type="radio" name="maennlich">m&auml;nnlich</td>
+		<input type="radio" name="weiblich" <% if(request.getAttribute("weiblich")!=null){out.print("checked");} %> >weiblich 
+		<input type="radio" name="maennlich" <% if(request.getAttribute("maennlich")!=null){out.print("checked");} %>>m&auml;nnlich</td>
 	</tr>
 	<tr>
 		<td>Passwort *<br>

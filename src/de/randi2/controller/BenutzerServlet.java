@@ -146,7 +146,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 			String zent = request.getParameter("aZentrum");
 			int zentrumID = Integer.parseInt(zent);
 			ZentrumBean zentrum=null;
-			try {				String titel = request.getParameter("Titel");
+			String titel = request.getParameter("Titel");
+			try {				
 				if (titel != null && titel.equals("kein Titel")) {
 					titel = null;
 				}
@@ -197,6 +198,11 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 
 				request.setAttribute("Vorname", vorname);
 				request.setAttribute("Nachname",nachname);
+				if(geschlecht=='m')
+				{request.setAttribute("maennlich", "maennlich");
+				}
+				else if(geschlecht=='w')request.setAttribute("weiblich", "weiblich");
+				request.setAttribute("Titel", titel);
 				request.setAttribute("Passwort",request.getParameter("Passwort"));
 				request.setAttribute("Passwort_wh",request.getParameter("Passwort_wh"));
 				request.setAttribute("Email",email);
