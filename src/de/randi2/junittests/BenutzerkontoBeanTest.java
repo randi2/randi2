@@ -5,11 +5,14 @@ import static org.junit.Assert.*;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.model.exceptions.BenutzerkontoException;
+import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Recht;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Rolle.Rollen;
@@ -35,6 +38,7 @@ public class BenutzerkontoBeanTest extends Filter{
     
     @Before
     public void setUp() throws Exception {
+    	PropertyConfigurator.configure("/RANDI2/WebContent/WEB-INF/log4j.lcf");
         aKonto = new BenutzerkontoBean();
     }
 
@@ -70,14 +74,23 @@ public class BenutzerkontoBeanTest extends Filter{
         
        
     @Test (expected=IllegalArgumentException.class)
-    public final void testSetBenutzernameNull() {         
-            aKonto.setBenutzername(null);        
+    public final void testSetBenutzernameNull() {            	
+		 try {
+			aKonto.setBenutzername(null);
+		} catch (BenutzerkontoException e) {
+				e.printStackTrace();
+		}
+			       
     }
     
     
     @Test (expected=IllegalArgumentException.class)
     public final void testSetBenutzernameLeer() {    	
-            aKonto.setBenutzername("");
+            try {
+				aKonto.setBenutzername("");
+			} catch (BenutzerkontoException e) {
+				e.printStackTrace();
+		}
     }
     
     
@@ -95,7 +108,11 @@ public class BenutzerkontoBeanTest extends Filter{
     
     @Test (expected=IllegalArgumentException.class)
     public final void testSetPasswortLaengeFalsch() {
-          aKonto.setPasswort("s");
+          try {
+			aKonto.setPasswort("s");
+		} catch (BenutzerkontoException e) {
+			e.printStackTrace();
+		}
     }
     
     
@@ -133,18 +150,26 @@ public class BenutzerkontoBeanTest extends Filter{
     
     @Test (expected=IllegalArgumentException.class)
     public final void testSetPasswortNull() {
-            aKonto.setPasswort(null);        
+            try {
+				aKonto.setPasswort(null);
+			} catch (BenutzerkontoException e) {
+				e.printStackTrace();
+		}        
     }
     
     
     @Test (expected=IllegalArgumentException.class)
     public final void testSetPasswortLeer() {  
-            aKonto.setPasswort("");
+            try {
+				aKonto.setPasswort("");
+			} catch (BenutzerkontoException e) {
+				e.printStackTrace();
+		}
     }
 
     
     @Test 
-    public final void testEqualsBenutzerkontoBeanGleich() {
+    public final void testEqualsBenutzerkontoBeanGleich() throws BenutzerkontoException, PersonException {
     	String benutzername= "Hans";
     	String passwort="dddd";
     	name =Rollen.ADMIN;
@@ -172,7 +197,7 @@ public class BenutzerkontoBeanTest extends Filter{
     
     
     @Test 
-    public final void testEqualsBenutzerkontoBeanVerschieden() {
+    public final void testEqualsBenutzerkontoBeanVerschieden() throws BenutzerkontoException, PersonException {
     	String benutzername= "Hans";
     	String passwort="dddd";
     	name =Rollen.ADMIN;
@@ -220,7 +245,7 @@ public class BenutzerkontoBeanTest extends Filter{
    
     
     @Test (expected=IllegalArgumentException.class)
-    public final void testEqualsBenutzerkontoBeanNull() {
+    public final void testEqualsBenutzerkontoBeanNull() throws PersonException{
     	String benutzername= "Hans";
     	String passwort="dddd";
     	name =Rollen.ADMIN;
@@ -238,14 +263,18 @@ public class BenutzerkontoBeanTest extends Filter{
 		letzterLogin = new GregorianCalendar(jahrLetzterLogin, monatLetzterLogin - 1, tagLetzterLogin);
 		ersterLogin=new GregorianCalendar(jahrLetzterLogin, monatLetzterLogin - 1, tagLetzterLogin);
 		
-    	aKonto = new BenutzerkontoBean(benutzername, passwort, rolle,
-    			 benutzer, ansprechpartner, gesperrt,zentrum, 
-    			 ersterLogin,letzterLogin);
-    	
-    	cKonto = new BenutzerkontoBean("", "", null,null, null, false, null,
-    			 null, null);
-    
-       assertFalse(aKonto.equals(cKonto));
+    	try {
+			aKonto = new BenutzerkontoBean(benutzername, passwort, rolle,
+					 benutzer, ansprechpartner, gesperrt,zentrum, 
+					 ersterLogin,letzterLogin);
+			cKonto = new BenutzerkontoBean("", "", null,null, null, false, null,
+	    			 null, null);
+	    
+			assertFalse(aKonto.equals(cKonto));
+			
+		} catch (BenutzerkontoException e) {
+			e.printStackTrace();
+		}
     }
 
     
@@ -300,7 +329,11 @@ public class BenutzerkontoBeanTest extends Filter{
 
 	@Test (expected=IllegalArgumentException.class)
 	public void testSetRolleNull() {
-	         aKonto.setRolle(null); 
+	         try {
+				aKonto.setRolle(null);
+			} catch (BenutzerkontoException e) {
+				e.printStackTrace();
+		} 
 	}
 	
 	
