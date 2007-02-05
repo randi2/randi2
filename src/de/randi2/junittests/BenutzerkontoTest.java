@@ -50,7 +50,7 @@ public class BenutzerkontoTest {
 	 */
 	@Before
 	public void setUp() {
-		PropertyConfigurator.configure("C:/Dokumente und Einstellungen/user/Desktop/workspace Together/RANDI2/WebContent/WEB-INF/log4j.lcf");
+		//PropertyConfigurator.configure("C:/Dokumente und Einstellungen/user/Desktop/workspace Together/RANDI2/WebContent/WEB-INF/log4j.lcf");
 		benutzername = "studienleiter";
 		passwort = "1$studienleiter";
 
@@ -80,10 +80,8 @@ public class BenutzerkontoTest {
 					benutzer, ansprechpartner, gesperrt, zentrum, ersterLogin,
 					letzterLogin);
 		} catch (BenutzerkontoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (PersonException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -176,7 +174,7 @@ public class BenutzerkontoTest {
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#equals(de.randi2.model.fachklassen.Benutzerkonto)}.
 	 */
 	@Test
-	public void testEqualsBenutzerkontoGleichesKonto() {
+	public void testEqualsBenutzerkonto() {
 		Benutzerkonto aKonto = new Benutzerkonto(bKontoBean);
 		Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
 		boolean wert1 = aKonto.equals(bKonto);
