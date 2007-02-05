@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.model.exceptions.BenutzerkontoException;
+import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -34,13 +35,9 @@ public class BenutzerkontoTest {
 
 	// TODO Spaeter wird Titel als eine Enum realisiert werden - deswegen muss
 	// man das auch danach anpassen
-	private PersonBean benutzer = new PersonBean("nachname", "vorname",
-			"Prof.", 'm', "user@hs-heilbronn.de", "01760099334",
-			"017600972487", "01760427424");
+	private PersonBean benutzer; 
 
-	private PersonBean ansprechpartner = new PersonBean("nachname", "vorname",
-			"Prof.", 'm', "user@hs-heilbronn.de", "01760099334",
-			"017600972487", "01760427424");
+	private PersonBean ansprechpartner; 
 
 	private boolean gesperrt;
 
@@ -67,10 +64,25 @@ public class BenutzerkontoTest {
 				"Strasse", "Hausnr", ansprechpartner, "Passwort");
 
 		try {
+			
+				benutzer = new PersonBean("nachname", "vorname",
+						"Prof.", 'm', "user@hs-heilbronn.de", "01760099334",
+						"017600972487", "01760427424");
+		
+
+		
+				ansprechpartner = new PersonBean("nachname", "vorname",
+						"Prof.", 'm', "user@hs-heilbronn.de", "01760099334",
+						"017600972487", "01760427424");
+			
+
 			bKontoBean = new BenutzerkontoBean(benutzername, passwort, rolle,
 					benutzer, ansprechpartner, gesperrt, zentrum, ersterLogin,
 					letzterLogin);
 		} catch (BenutzerkontoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PersonException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
