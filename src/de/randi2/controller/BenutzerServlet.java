@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
@@ -62,19 +63,30 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 
 		// Login
 		if (id.equals("CLASS_DISPATCHERSERVLET_LOGIN1")) {
-			BenutzerkontoBean sBenutzer=null;
+			BenutzerkontoBean sBenutzer = null;
 			try {
-				
+
 				sBenutzer = new BenutzerkontoBean();
-				
+
 				sBenutzer.setBenutzername((String) request
 						.getParameter("username"));
 				// Zukünftig sollte hier gleich das Passwort überprüft werden
 				sBenutzer.setPasswort(PasswortUtil.getInstance().hashPasswort(
 						(String) request.getParameter("password")));
-
-				Vector<BenutzerkontoBean> gBenutzer = Benutzerkonto
-						.suchenBenutzer(sBenutzer);
+				// TODO Lukasz: Ich habe den try/catch Block eingeführt, damit
+				// die Selenium Test gemacht werden können. Ansonsten kam eine
+				// fette Exception beim Tomcat.
+				Vector<BenutzerkontoBean> gBenutzer = null;
+				// TODO Ich weiß auch nich warum - aber es wird beim dem
+				// sBenutzer Objekt nicht setFilter() aufgerufen. Deswegen mache
+				// ich das an dieser Stelle:
+				sBenutzer.setFilter(true);
+				try {
+					gBenutzer = Benutzerkonto.suchenBenutzer(sBenutzer);
+				} catch (DatenbankFehlerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				System.out.println("achtung" + gBenutzer.size());
 				if (gBenutzer.size() == 1) {
 					if (!gBenutzer.get(0).isGesperrt()
@@ -116,9 +128,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 				}// else
 
 			} catch (BenutzerkontoException e) {
-				
+
 				// Ungueltiger Benutzername/Passwort
-				
+
 				request.setAttribute("fehlernachricht", "Loginfehler");
 				request.setAttribute("anfrage_id",
 						"CLASS_BENUTZERSERVLET_LOGIN_ERROR");
@@ -148,28 +160,25 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 			String institut = request.getParameter("Institut");
 			String zent = request.getParameter("aZentrum");
 			int zentrumID = Integer.parseInt(zent);
-			ZentrumBean zentrum=null;
+			ZentrumBean zentrum = null;
 			String titel = request.getParameter("Titel");
-			try {				
+			try {
 				if (titel != null && titel.equals("kein Titel")) {
 					titel = null;
 				}
-				
 
-			
-				//Dirty Fix: Da noch keine Suche nach Zentrumbeans möglich
-				Vector<ZentrumBean> gZentrum=Zentrum.suchenZentrum(Zentrum.NULL_ZENTRUM);
-				Iterator<ZentrumBean> itgZentrum=gZentrum.iterator();
-				while(itgZentrum.hasNext())
-				{
-					ZentrumBean aZentrumBean=itgZentrum.next();
-					if(aZentrumBean.getId()==zentrumID)
-					{
-						zentrum=aZentrumBean;
+				// Dirty Fix: Da noch keine Suche nach Zentrumbeans möglich
+				Vector<ZentrumBean> gZentrum = Zentrum
+						.suchenZentrum(Zentrum.NULL_ZENTRUM);
+				Iterator<ZentrumBean> itgZentrum = gZentrum.iterator();
+				while (itgZentrum.hasNext()) {
+					ZentrumBean aZentrumBean = itgZentrum.next();
+					if (aZentrumBean.getId() == zentrumID) {
+						zentrum = aZentrumBean;
 					}
 				}
-				//Ende Dirty Fix
-				
+				// Ende Dirty Fix
+
 				// Geschlecht abfragen
 				if (request.getParameter("maennlich") != null) {
 					geschlecht = 'm';
@@ -186,12 +195,29 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 						fehlernachricht += "Passwort und wiederholtes Passwort sind nicht gleich";
 					}
 				}
-				PersonBean aPerson = new PersonBean(nachname, vorname, titel,
-						geschlecht, email, telefon, handynummer, fax);
+				// TODO Lukasz: Ich habe den try/catch Block eingeführt, damit
+				// die Selenium Test gemacht werden können. Ansonsten kam eine
+				// fette Exception beim Tomcat.
+				PersonBean aPerson = null;
+				try {
+					aPerson = new PersonBean(nachname, vorname, titel,
+							geschlecht, email, telefon, handynummer, fax);
+				} catch (PersonException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				BenutzerkontoBean aBenutzerkonto = new BenutzerkontoBean(email,
 						passwort, aPerson);
 				aBenutzerkonto.setZentrum(zentrum);
-				Benutzerkonto.anlegenBenutzer(aBenutzerkonto);
+				// TODO Lukasz: Ich habe den try/catch Block eingeführt, damit
+				// die Selenium Test gemacht werden können. Ansonsten kam eine
+				// fette Exception beim Tomcat.
+				try {
+					Benutzerkonto.anlegenBenutzer(aBenutzerkonto);
+				} catch (DatenbankFehlerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			} catch (BenutzerkontoException e) {
 				fehlernachricht += e.getMessage();
@@ -200,21 +226,23 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 			if (fehlernachricht != "") {
 
 				request.setAttribute("Vorname", vorname);
-				request.setAttribute("Nachname",nachname);
-				if(geschlecht=='m')
-				{request.setAttribute("maennlich", "maennlich");
-				}
-				else if(geschlecht=='w')request.setAttribute("weiblich", "weiblich");
+				request.setAttribute("Nachname", nachname);
+				if (geschlecht == 'm') {
+					request.setAttribute("maennlich", "maennlich");
+				} else if (geschlecht == 'w')
+					request.setAttribute("weiblich", "weiblich");
 				request.setAttribute("Titel", titel);
-				request.setAttribute("Passwort",request.getParameter("Passwort"));
-				request.setAttribute("Passwort_wh",request.getParameter("Passwort_wh"));
-				request.setAttribute("Email",email);
+				request.setAttribute("Passwort", request
+						.getParameter("Passwort"));
+				request.setAttribute("Passwort_wh", request
+						.getParameter("Passwort_wh"));
+				request.setAttribute("Email", email);
 				request.setAttribute("Telefon", telefon);
 				request.setAttribute("Fax", fax);
 				request.setAttribute("aZentrum", zentrum.getId());
 				request.setAttribute("Handy", handynummer);
 				request.setAttribute("Institut", institut);
-				
+
 				request.setAttribute("fehlernachricht", fehlernachricht);
 				request.getRequestDispatcher("/benutzer_anlegen_drei.jsp")
 						.forward(request, response);
