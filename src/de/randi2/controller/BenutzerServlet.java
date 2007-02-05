@@ -62,8 +62,11 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 
 		// Login
 		if (id.equals("CLASS_DISPATCHERSERVLET_LOGIN1")) {
-			BenutzerkontoBean sBenutzer = new BenutzerkontoBean();
+			BenutzerkontoBean sBenutzer=null;
 			try {
+				
+				sBenutzer = new BenutzerkontoBean();
+				
 				sBenutzer.setBenutzername((String) request
 						.getParameter("username"));
 				// Zukünftig sollte hier gleich das Passwort überprüft werden
@@ -112,7 +115,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 					}
 				}// else
 
-			} catch (IllegalArgumentException e) {
+			} catch (BenutzerkontoException e) {
 				
 				// Ungueltiger Benutzername/Passwort
 				
@@ -190,7 +193,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 				aBenutzerkonto.setZentrum(zentrum);
 				Benutzerkonto.anlegenBenutzer(aBenutzerkonto);
 
-			} catch (IllegalArgumentException e) {
+			} catch (BenutzerkontoException e) {
 				fehlernachricht += e.getMessage();
 			}
 			// Daten waren nicht fehlerfrei
