@@ -17,21 +17,27 @@ public class PersonException extends Exception {
 	 */
 
 	/**
-	 * Diese Konstante wird uebergeben, wenn ein Fehler bei dem "Benutzer
-	 * anlegen" Prozess aufgetreten ist.
+	 * Diese Konstante wird uebergeben, wenn der Nachname fehlt.
 	 */
-	public static final String ANLEGEN_FEHLER = "Der Benutzer konnte nicht angelegt werden";
+	public static final String NACHNAME_FEHLT = "Bitte Nachname eingeben.";
+	//in der meldung stehen dann später noch die echten konventionen
+	public static final String NACHNAME_UNGUELTIG="Nachname entspricht nicht den Konventionen";
 
 	/**
-	 * Diese Konstante wird uebergeben, wenn der gewollte Benutzer nicht
-	 * vorhanden ist.
+	 * Diese Konstante wird uebergeben, wenn der Vorname fehlt.
 	 */
-	public static final String BENUTZER_NICHT_VORHANDEN = "Der gesuchte Benutzer ist nicht vorhanden";
-
-	public static final String BENUTZERNAME_FEHLT="Bitte Benutzername eingeben.";
-	public static final String PASSWORT_FEHLT="Bitte Passwort eingeben.";
-	public static final String LOGIN_FEHLER="Benutzername oder Passwort ist falsch.";
-	public static final String FEHLER="Erstmal fuer alles,bei dem mir nix anderes Sinnvolles einfaellt!!!";
+	public static final String VORNAME_FEHLT = "Bitte Vorname eingeben.";
+	public static final String VORNAME_UNGUELTIG="Vorname entspricht nicht den Konventionen.";
+	public static final String GESCHLECHT_FEHLT="Bitte Geschlecht eingeben.";
+	public static final String EMAIL_FEHLT="Bitte E-Mail-Adresse eingeben.";
+	public static final String EMAIL_UNGUELTIG="Email ist ungültig.";
+	public static final String TELEFONNUMMER_FEHLT="Bitte Telefonnummer eingeben.";
+	public static final String TELEFONNUMMER_UNGUELTIG="Telefonnummer entspricht nicht den Konventionen.";
+	public static final String FAX_UNGUELTIG="Fax enstspricht nicht den Konventionen.";
+	public static final String GESCHLECHT_UNGUELTIG="Geschlecht entspricht nicht den Konventionen.";
+	public static final String HANDY_UNGUELTIG="Handynummer entspricht nicht den Konventionen.";
+	public static final String TITEL_UNGUELTIG="Titel entspricht nicht den Konventionen.";
+	public static final String FEHLER="Erstmal fuer alles, bei dem mir nix anderes Sinnvolles einfaellt!!!";
 	/**
 	 * Ein Konstruktor dieser Klasse
 	 * 
