@@ -22,7 +22,7 @@
 		</table>
 </form>
 <br>
-<%@include file="include/inc_footer.jsp"%>
+<%@include file="include/inc_footer_clean.jsp"%>
 	</div>
 
 

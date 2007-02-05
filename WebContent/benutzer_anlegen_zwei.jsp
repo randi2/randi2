@@ -71,12 +71,8 @@ Name&nbsp;der&nbsp;Institution:&nbsp;&nbsp;/Name Abteilung
 		</tr>
 		</table>
 </form>
-				<%@include file="include/inc_footer.jsp"%>
+				<%@include file="include/inc_footer_clean.jsp"%>
 	</div>
-	<div id="show_none">
 
-	</div>
-<div id="show_none">
-</div>
 </body>
 </html>

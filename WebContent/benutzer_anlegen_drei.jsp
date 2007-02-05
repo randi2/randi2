@@ -91,8 +91,6 @@ Angaben</b></legend>
 </form>
 <br>
 &nbsp;Die mit '*' gekennzeichneten Felder sind Pflichtfelder. <%@include
-	file="include/inc_footer.jsp"%></div>
-<div id="show_none"></div>
-<div id="show_none"></div>
+	file="include/inc_footer_clean.jsp"%></div>
 </body>
 </html>
