@@ -1,20 +1,22 @@
-<%@ page import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"%>
-
-<%@page import="java.util.GregorianCalendar"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.util.Locale"%>
+<%@ page import= "de.randi2.model.fachklassen.beans.BenutzerkontoBean"
+	import= "java.util.GregorianCalendar"
+	import= "java.text.SimpleDateFormat" 
+	import= "java.util.Locale"
+%>
 <%
-	BenutzerkontoBean aBenutzerkontoFooter = (BenutzerkontoBean) request
+			BenutzerkontoBean aBenutzerkontoFooter = (BenutzerkontoBean) request
 			.getSession().getAttribute("aBenutzer");
 	GregorianCalendar letzterZugriff = aBenutzerkontoFooter
 			.getLetzterLogin();
-	SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy",
+	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy",
 			Locale.GERMANY);
+	String formatiertesDatum = sdf.format(letzterZugriff.getTime());
 %>
 
 <br>
 <table width="100%" border="0" cellPadding="0" cellSpacing="0">
 	<tr>
-		<td align="right" class="footer">letzter Zugriff: <%= sdf.format(letzterZugriff.getTime()) %> :: copyright</td>
+		<td align="right" class="footer">letzter Zugriff: <%= formatiertesDatum %>
+		:: copyright</td>
 	</tr>
 </table>
