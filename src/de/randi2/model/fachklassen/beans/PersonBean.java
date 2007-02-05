@@ -1,6 +1,7 @@
 package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.model.exceptions.*;
 import de.randi2.utility.NullKonstanten;
 
 /**
@@ -25,7 +26,7 @@ public class PersonBean extends Filter {
 	/**
 	 * Ein einfacher Konstruktor.
 	 */
-	public PersonBean() throws IllegalArgumentException {
+	public PersonBean() throws PersonException {
 
 	}
 
@@ -52,7 +53,7 @@ public class PersonBean extends Filter {
 	 */
 	public PersonBean(String nachname, String vorname, String titel,
 			char geschlecht, String email, String telefonnummer,
-			String handynummer, String fax) throws IllegalArgumentException {
+			String handynummer, String fax) throws PersonException {
 		super();
 		this.setNachname(nachname);
 		this.setVorname(vorname);
@@ -116,24 +117,20 @@ public class PersonBean extends Filter {
 	 * @param email
 	 *            the email to set
 	 */
-	public void setEmail(String email) throws IllegalArgumentException {
+	public void setEmail(String email) throws PersonException {
 		if (email == null) {
-			throw new IllegalArgumentException(
-					"Bitte geben Sie ihre Email-Adresse ein.");
+			throw new PersonException(PersonException.EMAIL_FEHLT);
 		}
 		email = email.trim();
 		if (email.length() == 0) {
-			throw new IllegalArgumentException(
-					"Bitte geben Sie ihre Email-Adresse ein.");
+			throw new PersonException(PersonException.EMAIL_FEHLT);
 		}
 		if (email.length() > 255) {
-			throw new IllegalArgumentException(
-					"Maximal 255 Zeichen. Bitte geben Sie ihre Email-Adresse erneut ein.");
+			throw new PersonException(PersonException.EMAIL_UNGUELTIG);
 		}
 		if (!email
 				.matches("[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4}")) {
-			throw new IllegalArgumentException(
-					"Unerlaubte Zeichen! Bitte geben Sie ihre Email-Adresse erneut ein.");
+			throw new PersonException(PersonException.EMAIL_UNGUELTIG);
 		}
 		this.email = email;
 	}
@@ -149,11 +146,10 @@ public class PersonBean extends Filter {
 	 * @param fax
 	 *            the fax to set
 	 */
-	public void setFax(String fax) throws IllegalArgumentException {
+	public void setFax(String fax) throws PersonException {
 		fax = fax.trim();
 		if (!fax.matches("(\\+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
-			throw new IllegalArgumentException(
-					"Unerlaubte Zeichen! Bitte geben Sie ihre Faxnummer erneut ein.");
+			throw new PersonException(PersonException.FAX_UNGUELTIG);
 		}
 		this.fax = fax;
 	}
@@ -169,16 +165,14 @@ public class PersonBean extends Filter {
 	 * @param geschlecht
 	 *            the geschlecht to set
 	 */
-	public void setGeschlecht(char geschlecht) throws IllegalArgumentException {
+	public void setGeschlecht(char geschlecht) throws PersonException {
 		if (geschlecht == '\0') {
-			throw new IllegalArgumentException(
-					"Bitte geben Sie ihr Geschlecht ein.");
+			throw new PersonException(PersonException.GESCHLECHT_FEHLT);
 		}
 		// if(!(geschlecht == Konstanten.MAENNLICH || geschlecht ==
 		// Konstanten.WEIBLICH)) {
 		if (!(geschlecht == 'm' || geschlecht == 'w')) {
-			throw new IllegalArgumentException(
-					"Bitte geben Sie ihr Geschlecht korrekt ein.");
+			throw new PersonException(PersonException.GESCHLECHT_UNGUELTIG);
 		}
 		this.geschlecht = geschlecht;
 	}
@@ -195,11 +189,10 @@ public class PersonBean extends Filter {
 	 *            the handynummer to set
 	 */
 	public void setHandynummer(String handynummer)
-			throws IllegalArgumentException {
+			throws PersonException {
 		handynummer = handynummer.trim();
 		if (!handynummer.matches("(\\+\\d{2,3}|0)(\\d){3,10}[-/]?(\\d){3,15}")) {
-			throw new IllegalArgumentException(
-					"Unerlaubte Zeichen! Bitte geben Sie ihre Handynummer erneut ein.");
+			throw new PersonException(PersonException.HANDY_UNGUELTIG);
 		}
 		this.handynummer = handynummer;
 	}
@@ -215,18 +208,15 @@ public class PersonBean extends Filter {
 	 * @param nachname
 	 *            the nachname to set
 	 */
-	public void setNachname(String nachname) throws IllegalArgumentException {
+	public void setNachname(String nachname) throws PersonException {
 		if (nachname == null)
-			throw new IllegalArgumentException(
-					"Bitte geben Sie ihren Nachnamen ein.");
+			throw new PersonException(PersonException.NACHNAME_FEHLT);
 		nachname = nachname.trim();
 		if (nachname.length() == 0) {
-			throw new IllegalArgumentException(
-					"Bitte geben Sie ihren Nachnamen ein.");
+			throw new PersonException(PersonException.NACHNAME_FEHLT);
 		}
 		if (nachname.length() < 2 || nachname.length() > 50) {
-			throw new IllegalArgumentException(
-					"Nur 2-50 Zeichen. Bitte geben Sie ihren Nachnamen erneut ein.");
+			throw new PersonException(PersonException.NACHNAME_UNGUELTIG);
 		}
 		this.nachname = nachname;
 	}
@@ -243,19 +233,16 @@ public class PersonBean extends Filter {
 	 *            the telefonnummer to set
 	 */
 	public void setTelefonnummer(String telefonnummer)
-			throws IllegalArgumentException {
+			throws PersonException {
 		if (telefonnummer == null) {
-			throw new IllegalArgumentException(
-					"Bitte geben Sie ihre Telefonnummer ein.");
+			throw new PersonException(PersonException.TELEFONNUMMER_FEHLT);
 		}
 		telefonnummer = telefonnummer.trim();
 		if (telefonnummer.length() == 0) {
-			throw new IllegalArgumentException(
-					"Bitte geben Sie ihre Telefonnummer ein.");
+			throw new PersonException(PersonException.TELEFONNUMMER_FEHLT);
 		}
 		if (!telefonnummer.matches("(\\+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
-			throw new IllegalArgumentException(
-					"Unerlaubte Zeichen! Bitte geben Sie ihre Telefonnummer erneut ein.");
+			throw new PersonException(PersonException.TELEFONNUMMER_UNGUELTIG);
 		}
 		this.telefonnummer = telefonnummer;
 	}
@@ -271,12 +258,11 @@ public class PersonBean extends Filter {
 	 * @param titel
 	 *            the titel to set
 	 */
-	public void setTitel(String titel) throws IllegalArgumentException {
+	public void setTitel(String titel) throws PersonException {
 		if (titel!=null) {
 			titel = titel.trim();
 			if (!titel.matches("(Prof.|Dr.|Prof. Dr.|)")) {
-				throw new IllegalArgumentException(
-						"Unerlaubte Zeichen! Bitte geben Sie ihren Titel erneut ein.");
+				throw new PersonException(PersonException.TITEL_UNGUELTIG);
 			}
 		}
 		this.titel = titel;
@@ -293,18 +279,15 @@ public class PersonBean extends Filter {
 	 * @param vorname
 	 *            the vorname to set
 	 */
-	public void setVorname(String vorname) throws IllegalArgumentException {
+	public void setVorname(String vorname) throws PersonException {
 		if (vorname == null)
-			throw new IllegalArgumentException(
-					"Bitte geben Sie ihren Vornamen ein.");
+			throw new PersonException(PersonException.VORNAME_FEHLT);
 		vorname = vorname.trim();
 		if (vorname.length() == 0) {
-			throw new IllegalArgumentException(
-					"Bitte geben Sie ihren Vornamen ein.");
+			throw new PersonException(PersonException.VORNAME_FEHLT);
 		}
 		if (vorname.length() < 2 || vorname.length() > 50) {
-			throw new IllegalArgumentException(
-					"Nur 2-50 Zeichen. Bitte geben Sie ihren Vornamen erneut ein.");
+			throw new PersonException(PersonException.VORNAME_UNGUELTIG);
 		}
 		this.vorname = vorname;
 	}
