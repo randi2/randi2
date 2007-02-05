@@ -21,7 +21,7 @@ public class RechtTest {
 
 	   
     private Recht recht;
-	private Rechtenamen rName;
+	private Rechtenamen rName, rName2;
 	
 	/**
      * HashMap, welche die Instanzen der einzelnen Rechte verwaltet.
@@ -50,25 +50,57 @@ public class RechtTest {
 	 * Test method for {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.Rechtenamen)}.
 	 */
 	@Test
-	public void testGetRecht() {
-	  try{		
-		
+	public void testGetRechtNull() {
+	  try{				
 	    if(rechte.equals("")){
 			fail("Ungueltiges Argument: 'null'");
-		}
+		}	   
 	  }
 	  catch(Exception e){
-		  fail("[FEHLER] testGetRecht()");
+		  fail("[FEHLER] testGetRechtNull()");
 	  }
 	}
+	
+	@Test
+	public void testGetRechtInstanzVorhanden() {
+	   if(rechte.containsKey(rName)){
+		   assertTrue(true);
+		   rechte.get(rName);
+	   }
+	}
+	
 
 	/**
 	 * Test method for {@link de.randi2.model.fachklassen.Recht#getName()}.
 	 */
-	@Test
+	@Test (expected=IllegalArgumentException.class)
 	public void testGetName() {
-		fail("Not yet defined");
-		//muss dies getestet werden?
+		recht=Recht.getRecht(rName);
+		
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.ADMINACCOUNTS_VERWALTEN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.ARCHIV_EINSEHEN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.BK_AENDERN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.BK_ANSEHEN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.BK_SPERREN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.GRUPPENNACHRICHT_VERSENDEN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.RANDOMISATION_EXPORTIEREN));		
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.STAT_EINSEHEN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.STUDIE_AENDERN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.STUDIE_ANLEGEN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.STUDIE_LOESCHEN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.STUDIE_PAUSIEREN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.STUDIE_RANDOMISIEREN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.STUDIE_SIMULIEREN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.STUDIEN_EINSEHEN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.STUDIENARM_BEENDEN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.STUDIENTEILNEHMER_HINZUFUEGEN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.STULEIACCOUNTS_VERWALTEN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.SYSTEM_SPERREN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.ZENTREN_ANZEIGEN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.ZENTRUM_AENDERN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.ZENTRUM_AKTIVIEREN));
+		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.ZENTRUM_ANLEGEN));
+		
 	}
 
 	/**
@@ -76,8 +108,33 @@ public class RechtTest {
 	 */
 	@Test
 	public void testGetRechtname() {
-		  fail("Not yet defined");
-		  //muss dies getestet werden?
+		/**recht=Recht.getRecht(rName);
+		if(recht!=Recht.getRecht(rName)){
+			fail("[testGetName]");
+		}*/
+		recht.toString().equals("BK_AENDERN");
+		recht.toString().equals("BK_SPERREN");
+		recht.toString().equals("BK_ANSEHEN");
+		recht.toString().equals("ZENTRUM_ANLEGEN");
+		recht.toString().equals("ZENTRUM_AENDERN");
+		recht.toString().equals("ZENTRUM_ANZEIGEN");
+		recht.toString().equals("BK_AKTIVIEREN");
+		recht.toString().equals("GRUPPENNACHRICHT_VERSENDEN");
+		recht.toString().equals("STUDIE_ANLEGEN");
+		recht.toString().equals("STUDIE_AENDERN");
+		recht.toString().equals("STUDIE_LOESCHEN");
+		recht.toString().equals("STUDIE_PAUSIEREN");
+		recht.toString().equals("STUDIE_BEENDEN");
+		recht.toString().equals("STUDIE_SIMULIEREN");
+		recht.toString().equals("ARCHIV_EINSEHEN");
+		recht.toString().equals("STAT_EINSEHEN");
+		recht.toString().equals("RANDOMISATION_EXPORTIEREN");
+		recht.toString().equals("STUDIENTEILNEHMER_HINZUFUEGEN");
+		recht.toString().equals("STUDIEN_EINSEHEN");
+		recht.toString().equals("STUDIE_RANDOMISIEREN");
+		recht.toString().equals("SYSTEM_SPERREN");
+		recht.toString().equals("ADMINACCOUNTS_VERWALTEN");
+		recht.toString().equals("STULEIACCOUNTS_VERWALTEN");
 	}
 
 }
