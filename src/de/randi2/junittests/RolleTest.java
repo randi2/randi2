@@ -10,7 +10,7 @@ import de.randi2.model.fachklassen.Rolle;
 
 /**
  * @author $eyma Yazgan
- * @version $Id $
+ * @version $Id$
  */
 public class RolleTest {
 
