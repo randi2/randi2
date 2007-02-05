@@ -28,6 +28,10 @@ public class BenutzerkontoException extends Exception {
 	 */
 	public static final String BENUTZER_NICHT_VORHANDEN = "Der gesuchte Benutzer ist nicht vorhanden";
 
+	public static final String BENUTZERNAME_FEHLT="Bitte Benutzername eingeben.";
+	public static final String PASSWORT_FEHLT="Bitte Passwort eingeben.";
+	public static final String LOGIN_FEHLER="Benutzername oder Passwort ist falsch.";
+	public static final String FEHLER="Erstmal fuer alles,bei dem mir nix anderes Sinnvolles einfaellt!!!";
 	/**
 	 * Ein Konstruktor dieser Klasse
 	 * 
