@@ -3,6 +3,7 @@ package de.randi2.model.fachklassen.beans;
 import java.util.*;
 import de.randi2.utility.*;
 import de.randi2.model.fachklassen.Rolle;
+import de.randi2.model.exceptions.*;
 import de.randi2.datenbank.Filter;
 
 /**
@@ -19,9 +20,10 @@ public class BenutzerkontoBean extends Filter {
 	/*
 	 * Change Log 29.01.2007 Thomas Willert
 	 * 
-	 * toString und equals sind noch nicht implementiert. Passwort Sonderzeichen
-	 * muessen noch gecheckt werden. Pruefung der Rolle fraglich, da Verwendung
-	 * der enum aus der Klasse Rolle nicht moeglich. Vielleicht sollte man die
+	 * Passwort Sonderzeichen muessen noch gecheckt werden.
+	 * Pruefung der Rolle fraglich, da Verwendung
+	 * der enum aus der Klasse Rolle nicht moeglich.
+	 * Vielleicht sollte man die
 	 * Konstanten dort public machen.
 	 * 
 	 */
@@ -80,7 +82,7 @@ public class BenutzerkontoBean extends Filter {
 	 * Der Standardkonstruktor
 	 * 
 	 */
-	public BenutzerkontoBean() throws IllegalArgumentException {
+	public BenutzerkontoBean() throws BenutzerkontoException {
 
 	}
 
@@ -110,7 +112,7 @@ public class BenutzerkontoBean extends Filter {
 	public BenutzerkontoBean(String benutzername, String passwort, Rolle rolle,
 			PersonBean benutzer, PersonBean ansprechpartner, boolean gesperrt,
 			ZentrumBean zentrum, GregorianCalendar ersterLogin,
-			GregorianCalendar letzterLogin) throws IllegalArgumentException {
+			GregorianCalendar letzterLogin) throws BenutzerkontoException {
 		this.setBenutzername(benutzername);
 		this.setPasswort(passwort);
 		this.setRolle(rolle);
@@ -134,7 +136,7 @@ public class BenutzerkontoBean extends Filter {
 	 *            das PersonBean zu diesem Benutzer
 	 */
 	public BenutzerkontoBean(String benutzername, String passwort,
-			PersonBean benutzer) throws IllegalArgumentException {
+			PersonBean benutzer) throws BenutzerkontoException {
 		super();
 		this.setBenutzername(benutzername);
 		this.setPasswort(passwort);
@@ -171,25 +173,22 @@ public class BenutzerkontoBean extends Filter {
 	 *            the benutzername to set
 	 */
 	public void setBenutzername(String benutzername)
-			throws IllegalArgumentException {
+			throws BenutzerkontoException {
 		boolean filter = super.isFilter();
 
 		if (!filter && benutzername == null) {
-			throw new IllegalArgumentException(
-					"Bitte geben Sie einen Benutzernamen ein.");
+			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
 		}
 		benutzername = benutzername.trim();
 		if (!filter && benutzername.length() == 0) {
-			throw new IllegalArgumentException(
-					"Bitte geben Sie einen Benutzernamen ein.");
+			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
 		}
 		if (!(benutzername.matches("(\\w|\\d|[._-]|\\@){0,50}"))) {
 			// FIXME Min Laenge auf Anweisung der PL auf 2 heruntergesetzt.
 			// FIXME 14 Zeichen sind IMO zu wenig, alleine
 			// "@med.uni-heidelberg.de" sind ja schon 23 Zeichen! BTheel
 			if (!filter)
-				throw new IllegalArgumentException(
-						"Nur 4-14 Zeichen. Bitte geben Sie den Benutzernamen erneut ein.");
+				throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
 		}
 		this.benutzername = benutzername;
 	}
@@ -206,11 +205,10 @@ public class BenutzerkontoBean extends Filter {
 	 *            the ersterLogin to set
 	 */
 	public void setErsterLogin(GregorianCalendar ersterLogin)
-			throws IllegalArgumentException {
+			throws BenutzerkontoException {
 		// Testen, ob sich das Datum in der Zukunft befindet
 		if ((new GregorianCalendar(Locale.GERMANY)).before(ersterLogin)) {
-			throw new IllegalArgumentException(
-					"Zeit des ersten Logins ist fehlerhaft.");
+			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
 		}
 		this.ersterLogin = ersterLogin;
 	}
@@ -242,11 +240,10 @@ public class BenutzerkontoBean extends Filter {
 	 *            the letzterLogin to set
 	 */
 	public void setLetzterLogin(GregorianCalendar letzterLogin)
-			throws IllegalArgumentException {
+			throws BenutzerkontoException {
 		// Testen, ob sich das Datum in der Zukunft befindet
 		if ((new GregorianCalendar(Locale.GERMANY)).before(letzterLogin)) {
-			throw new IllegalArgumentException(
-					"Zeit des letzten Logins ist fehlerhaft.");
+			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
 		}
 		this.letzterLogin = letzterLogin;
 	}
@@ -262,28 +259,25 @@ public class BenutzerkontoBean extends Filter {
 	 * @param passwort
 	 *            the passwort to set
 	 */
-	public void setPasswort(String passwort) throws IllegalArgumentException {
-		if (passwort == null) {
-			throw new IllegalArgumentException(
-					"Bitte geben Sie ein Passwort ein.");
+	public void setPasswort(String passwort) throws BenutzerkontoException {
+		boolean filter = super.isFilter();
+		if (!filter && passwort == null) {
+			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
 		}
 		passwort = passwort.trim();
-		if (passwort.length() == 0) {
-			throw new IllegalArgumentException(
-					"Bitte geben Sie ein Passwort ein.");
+		if (!filter && passwort.length() == 0) {
+			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
 		}
-		if (passwort.length() < 2) {
+		if (!filter && passwort.length() < 2) {
 			// XXX Auf Wunsch der Pl Laenge von 6 auf 2 heruntergesetzt.
 
-			throw new IllegalArgumentException(
-					"Mindestens 2 Zeichen. Bitte geben Sei ein anderes Passwort ein.");
+			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
 		}
 		if (!(passwort.matches(".*[A-Za-z].*") || passwort.matches(".*[0-9].*") /*
 																				 * ||
 																				 * passwort.matches(".*[\^,.-#+;:_'*!\"�$%&/()=?|<>].*")
 																				 */)) {
-			throw new IllegalArgumentException(
-					"Beachten Sie die Vorschriften! Bitte geben Sie ein anderes Passwort ein.");
+			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
 		}
 		this.passwort = passwort;
 	}
@@ -334,14 +328,15 @@ public class BenutzerkontoBean extends Filter {
 		this.ansprechpartner = ansprechpartner;
 	}
 
-	public void setRolle(Rolle rolle) throws IllegalArgumentException {
-		if (rolle == null) {
-			throw new IllegalArgumentException("Keine Rolle!");
+	public void setRolle(Rolle rolle) throws BenutzerkontoException {
+		boolean filter = super.isFilter();
+		if (!filter && rolle == null) {
+			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
 		}
 		if (!(rolle == Rolle.getAdmin() || rolle == Rolle.getStatistiker()
 				|| rolle == Rolle.getStudienleiter()
 				|| rolle == Rolle.getStudienarzt() || rolle == Rolle.getSysop())) {
-			throw new IllegalArgumentException("Falsche Rolle!");
+			throw new BenutzerkontoException(BenutzerkontoException.ANLEGEN_FEHLER);
 		}
 		this.rolle = rolle;
 	}
