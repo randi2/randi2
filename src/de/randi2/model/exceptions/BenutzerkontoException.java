@@ -36,6 +36,12 @@ public class BenutzerkontoException extends Exception {
 
 	public static final String FEHLER = "Erstmal fuer alles,bei dem mir nix anderes Sinnvolles einfaellt!!!";
 
+    public static final String BENUTZERNAME_ZU_KURZ = "Der eingegebene Benutzername ist zu kurz (min. 6 Zeichen)";
+
+    public static final String BENUTZERNAME_ENTHAELT_UNGUELTIGE_ZEICHEN = "Den eingegebene Benutzername enthaelt ungueltige Zeichen";
+
+    public static final String BENUTZERNAME_ZU_LANG = "Der eingegebene Benutzername ist zu lang (max. 50 Zeichen)";
+
 	/**
 	 * Ein Konstruktor dieser Klasse
 	 * 

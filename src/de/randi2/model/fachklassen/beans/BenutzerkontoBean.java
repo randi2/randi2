@@ -180,17 +180,17 @@ public class BenutzerkontoBean extends Filter {
 					BenutzerkontoException.BENUTZERNAME_FEHLT);
 		}
 		benutzername = benutzername.trim();
-		if (!filter && benutzername.length() == 0) {
+		if (!filter && benutzername.length() < 6 ) {
 			throw new BenutzerkontoException(
-					BenutzerkontoException.BENUTZERNAME_FEHLT);
+					BenutzerkontoException.BENUTZERNAME_ZU_KURZ);
 		}
-		if (!(benutzername.matches("(\\w|\\d|[._-]|\\@){0,50}"))) {
-			// FIXME Min Laenge auf Anweisung der PL auf 2 heruntergesetzt.
-			// FIXME 14 Zeichen sind IMO zu wenig, alleine
-			// "@med.uni-heidelberg.de" sind ja schon 23 Zeichen! BTheel
-			if (!filter)
+        if (benutzername.length() > 50 ) {
+            throw new BenutzerkontoException(
+                    BenutzerkontoException.BENUTZERNAME_ZU_LANG);
+        }
+		if (!(benutzername.matches("(\\w|\\d|[._-]|\\@)"))) {
 				throw new BenutzerkontoException(
-						BenutzerkontoException.ANLEGEN_FEHLER);
+						BenutzerkontoException.BENUTZERNAME_ENTHAELT_UNGUELTIGE_ZEICHEN);
 		}
 		this.benutzername = benutzername;
 	}
@@ -272,9 +272,7 @@ public class BenutzerkontoBean extends Filter {
 			throw new BenutzerkontoException(
 					BenutzerkontoException.PASSWORT_FEHLT);
 		}
-		if (!filter && passwort.length() < 2) {
-			// XXX Auf Wunsch der Pl Laenge von 6 auf 2 heruntergesetzt.
-
+		if (!filter && passwort.length() < 6) {			
 			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		if (!(passwort.matches(".*[A-Za-z].*") || passwort.matches(".*[0-9].*") /*

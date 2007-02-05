@@ -103,6 +103,7 @@ public class Benutzerkonto {
 		BenutzerkontoBean bk = new BenutzerkontoBean();
 		Vector< BenutzerkontoBean> konten;
 		bk.setBenutzername(benutzername);
+        bk.setFilter(true);
 		try {
 			konten = suchenBenutzer(bk);
 		} catch (DatenbankFehlerException e) {
