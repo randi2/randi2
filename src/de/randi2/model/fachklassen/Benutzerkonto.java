@@ -29,7 +29,7 @@ public class Benutzerkonto {
 	 * Ein Konstruktor dieser Klasse.
 	 * 
 	 * @param aBenutzerkonto
-	 *            das zugeöhrige BenutzerkontoBean
+	 *            das zugehörige BenutzerkontoBean
 	 */
 	public Benutzerkonto(BenutzerkontoBean aBenutzerkonto) {
 		this.aBenutzerkonto = aBenutzerkonto;
@@ -44,17 +44,16 @@ public class Benutzerkonto {
 	 *            irrelevante Felder entsprechen den Null-Werten aus der
 	 *            de.randi2.utility.NullKonstanten Klasse)
 	 * @return ein Vector mit gefundenen Objekten
+	 * @throws DatenbankFehlerException 
 	 */
-	public static Vector<BenutzerkontoBean> suchenBenutzer(BenutzerkontoBean sBenutzerkonto) {
-		
-		Vector<BenutzerkontoBean> gefundeneKonten= new Vector<BenutzerkontoBean>();
-
+	public static Vector<BenutzerkontoBean> suchenBenutzer(BenutzerkontoBean sBenutzerkonto) throws DatenbankFehlerException {		
+		Vector<BenutzerkontoBean> gefundeneKonten;
 		try {
 			gefundeneKonten = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(sBenutzerkonto);
-		} catch (IllegalArgumentException e) {
-			Logger.getLogger("de.randi2.model.Benutzerkonto").error("IllegalArgumentException ist aufgetreten.",e);
-		} catch (DatenbankFehlerException e) {
+		}
+		 catch (DatenbankFehlerException e) {
 			Logger.getLogger("de.randi2.model.Benutzerkonto").warn("Fehler in Datenbank aufgetreten",e);
+			throw new DatenbankFehlerException(DatenbankFehlerException.SUCHEN_ERR);
 		}
 		return gefundeneKonten;
 	}
@@ -67,16 +66,16 @@ public class Benutzerkonto {
 	 * @param aBenutzerkonto
 	 *            das Bentuzerkonto das angelegt werden soll.
 	 * @return
+	 * @throws DatenbankFehlerException 
 	 */
-	public static Benutzerkonto anlegenBenutzer(BenutzerkontoBean aBenutzerkonto) {
+	public static Benutzerkonto anlegenBenutzer(BenutzerkontoBean aBenutzerkonto) throws DatenbankFehlerException {
 		
 		BenutzerkontoBean aktualisierterBenutzer=null;
 		try {
 			aktualisierterBenutzer = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzerkonto);
-		} catch (IllegalArgumentException e) {
-			Logger.getLogger("de.randi2.model.Benutzerkonto").error("IllegalArgumentException ist aufgetreten.",e);
 		} catch (DatenbankFehlerException e) {
 			Logger.getLogger("de.randi2.model.Benutzerkonto").warn("Fehler in Datenbank aufgetreten",e);
+			throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
 		}
 		return new Benutzerkonto(aktualisierterBenutzer);
 	}
@@ -86,7 +85,7 @@ public class Benutzerkonto {
 	 * Benutzer zu.
 	 */
 	private void sendenAktivierungsMail() {
-		//TODO nicht fuer Release 1?
+		//TODO nicht fuer Release 1
 	}
 
 	/**
@@ -98,12 +97,18 @@ public class Benutzerkonto {
 	 * @return Ein BenutzerkontoBean Objekt zu diesem Benutzername
 	 * @throws BenutzerkontoException
 	 *             wenn kein Benutzer mit diesem Banutzername vorhanden ist
+	 * @throws DatenbankFehlerException 
 	 */
-	public static BenutzerkontoBean getBenutzer(String benutzername) throws BenutzerkontoException {
+	public static BenutzerkontoBean getBenutzer(String benutzername) throws BenutzerkontoException, DatenbankFehlerException {
 		BenutzerkontoBean bk = new BenutzerkontoBean();
 		Vector< BenutzerkontoBean> konten;
 		bk.setBenutzername(benutzername);
-		konten = suchenBenutzer(bk);
+		try {
+			konten = suchenBenutzer(bk);
+		} catch (DatenbankFehlerException e) {
+			Logger.getLogger("de.randi2.model.Benutzerkonto").warn("Fehler in Datenbank aufgetreten",e);
+			throw new DatenbankFehlerException(DatenbankFehlerException.SUCHEN_ERR);
+		}
 		if(konten==null || konten.size()==0) {
 			throw new BenutzerkontoException(BenutzerkontoException.BENUTZER_NICHT_VORHANDEN);
 		}
@@ -133,6 +138,10 @@ public class Benutzerkonto {
 		return false;
 	}
 
+	/**
+	 * Liefert das aktuelle BenutzerkontoBean 
+	 * @return BenutzerkontoBean
+	 */
 	public BenutzerkontoBean getBenutzerkontobean(){
 		return this.aBenutzerkonto;
 	}
