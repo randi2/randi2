@@ -51,14 +51,14 @@ public class BenutzerkontoTest {
 
 		benutzername = "studienleiter";
 		passwort = "1$studienleiter";
-		rolle = Rolle.getStudienleiter();
+		
 		benutzer = new PersonBean("Mueller", "Hans", "Dr.", geschlecht,
 				"blabla@bla.de", "032452342", "973423", "12345");
 		ansprechpartner = new PersonBean("Schmidt", "Juergen", "Dr.",
 				geschlecht, "blabla@bla.de", "032452342", "973423", "12345");
 		gesperrt = false;
 
-		zentrum = new ZentrumBean("institution", "abteilung", "ort", "plz",
+		zentrum = new ZentrumBean(1, "institution", "abteilung", "ort", "plz",
 				"strasse", "hausnr", ansprechpartner, "passwort");
 		ersterLogin = new GregorianCalendar();
 		letzterLogin = new GregorianCalendar();
