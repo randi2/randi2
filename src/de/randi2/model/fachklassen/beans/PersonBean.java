@@ -118,14 +118,15 @@ public class PersonBean extends Filter {
 	 *            the email to set
 	 */
 	public void setEmail(String email) throws PersonException {
-		if (email == null) {
+		boolean filter = super.isFilter();
+		if (!filter && email == null) {
 			throw new PersonException(PersonException.EMAIL_FEHLT);
 		}
 		email = email.trim();
-		if (email.length() == 0) {
+		if (!filter && email.length() == 0) {
 			throw new PersonException(PersonException.EMAIL_FEHLT);
 		}
-		if (email.length() > 255) {
+		if (!filter && email.length() > 255) {
 			throw new PersonException(PersonException.EMAIL_UNGUELTIG);
 		}
 		if (!email
@@ -166,7 +167,8 @@ public class PersonBean extends Filter {
 	 *            the geschlecht to set
 	 */
 	public void setGeschlecht(char geschlecht) throws PersonException {
-		if (geschlecht == '\0') {
+		boolean filter = super.isFilter();
+		if (!filter && geschlecht == '\0') {
 			throw new PersonException(PersonException.GESCHLECHT_FEHLT);
 		}
 		// if(!(geschlecht == Konstanten.MAENNLICH || geschlecht ==
@@ -188,8 +190,7 @@ public class PersonBean extends Filter {
 	 * @param handynummer
 	 *            the handynummer to set
 	 */
-	public void setHandynummer(String handynummer)
-			throws PersonException {
+	public void setHandynummer(String handynummer) throws PersonException {
 		handynummer = handynummer.trim();
 		if (!handynummer.matches("(\\+\\d{2,3}|0)(\\d){3,10}[-/]?(\\d){3,15}")) {
 			throw new PersonException(PersonException.HANDY_UNGUELTIG);
@@ -209,13 +210,14 @@ public class PersonBean extends Filter {
 	 *            the nachname to set
 	 */
 	public void setNachname(String nachname) throws PersonException {
-		if (nachname == null)
+		boolean filter = super.isFilter();
+		if (!filter && nachname == null)
 			throw new PersonException(PersonException.NACHNAME_FEHLT);
 		nachname = nachname.trim();
-		if (nachname.length() == 0) {
+		if (!filter && nachname.length() == 0) {
 			throw new PersonException(PersonException.NACHNAME_FEHLT);
 		}
-		if (nachname.length() < 2 || nachname.length() > 50) {
+		if (!filter && (nachname.length() < 2 || nachname.length() > 50)) {
 			throw new PersonException(PersonException.NACHNAME_UNGUELTIG);
 		}
 		this.nachname = nachname;
@@ -232,16 +234,17 @@ public class PersonBean extends Filter {
 	 * @param telefonnummer
 	 *            the telefonnummer to set
 	 */
-	public void setTelefonnummer(String telefonnummer)
-			throws PersonException {
-		if (telefonnummer == null) {
+	public void setTelefonnummer(String telefonnummer) throws PersonException {
+		boolean filter = super.isFilter();
+		if (!filter && telefonnummer == null) {
 			throw new PersonException(PersonException.TELEFONNUMMER_FEHLT);
 		}
 		telefonnummer = telefonnummer.trim();
-		if (telefonnummer.length() == 0) {
+		if (!filter && telefonnummer.length() == 0) {
 			throw new PersonException(PersonException.TELEFONNUMMER_FEHLT);
 		}
-		if (!telefonnummer.matches("(\\+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
+		if (!telefonnummer
+				.matches("(\\+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
 			throw new PersonException(PersonException.TELEFONNUMMER_UNGUELTIG);
 		}
 		this.telefonnummer = telefonnummer;
@@ -259,7 +262,8 @@ public class PersonBean extends Filter {
 	 *            the titel to set
 	 */
 	public void setTitel(String titel) throws PersonException {
-		if (titel!=null) {
+		boolean filter = super.isFilter();
+		if (!filter && titel != null) {
 			titel = titel.trim();
 			if (!titel.matches("(Prof.|Dr.|Prof. Dr.|)")) {
 				throw new PersonException(PersonException.TITEL_UNGUELTIG);
@@ -280,13 +284,14 @@ public class PersonBean extends Filter {
 	 *            the vorname to set
 	 */
 	public void setVorname(String vorname) throws PersonException {
-		if (vorname == null)
+		boolean filter = super.isFilter();
+		if (!filter && vorname == null)
 			throw new PersonException(PersonException.VORNAME_FEHLT);
 		vorname = vorname.trim();
-		if (vorname.length() == 0) {
+		if (!filter && vorname.length() == 0) {
 			throw new PersonException(PersonException.VORNAME_FEHLT);
 		}
-		if (vorname.length() < 2 || vorname.length() > 50) {
+		if (!filter && (vorname.length() < 2 || vorname.length() > 50)) {
 			throw new PersonException(PersonException.VORNAME_UNGUELTIG);
 		}
 		this.vorname = vorname;
