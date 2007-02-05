@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 
@@ -20,6 +21,7 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
  * 
  */
 public class ZentrumBeanTest {
+
 	private String abteilung, hausnr, institution, ort, passwort, plz, strasse;
 
 	private int id;
@@ -146,13 +148,13 @@ public class ZentrumBeanTest {
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setAbteilung(java.lang.String)}.
 	 */
-	@Test
+	@Test (expected=IllegalArgumentException.class)
 	public void testSetAbteilungZuKurz() {
 
 		try {
 			zentrum.setAbteilung("ab");
 		} catch (Exception e) {
-			fail("sollte eine Exception auslösen - zu kurzer Name");
+			e.printStackTrace();
 
 		}
 	}
@@ -161,7 +163,7 @@ public class ZentrumBeanTest {
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setAbteilung(java.lang.String)}.
 	 */
-	@Test
+	@Test (expected=IllegalArgumentException.class)
 	public void testSetAbteilungZuLang() {
 
 		try {
@@ -223,7 +225,7 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetHausnr() {
-
+//TODO: unerlaubte Zeichen testen
 		try {
 			zentrum.setHausnr("d{1,4}[a-b]{0,2}");
 		} catch (Exception e) {
@@ -279,7 +281,7 @@ public class ZentrumBeanTest {
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setInstitution(java.lang.String)}.
 	 */
-	@Test
+	@Test (expected=IllegalArgumentException.class)
 	public void testSetInstitutionZuKurz() {
 
 		try {
@@ -294,7 +296,7 @@ public class ZentrumBeanTest {
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setInstitution(java.lang.String)}.
 	 */
-	@Test
+	@Test (expected=IllegalArgumentException.class)
 	public void testSetInstitutionZuLang() {
 
 		try {
@@ -328,6 +330,7 @@ public class ZentrumBeanTest {
 	@Test
 	public void testSetOrt() {
 		// TODO: Ort := 3..50 Zeichen
+		// (expected=IllegalArgumentException.class)
 		zentrum.setOrt("ort");
 	}
 
@@ -350,8 +353,10 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetPasswort() {
-		// TODO: Passwort für das Zentrum := Passwort erzeugt mit "pwgen -Bny 12
+		// TODO: Passwort für das Zentrum := Passwort erzeugt mit "pwgen -Bny
+		// 12
 		// 1" immer 12 Zeichen lang, wird jedoch als Hash-Wert gespeichert.
+		//(expected=IllegalArgumentException.class)
 		try {
 			zentrum.setPasswort(passwort);
 		} catch (Exception e) {
@@ -379,6 +384,7 @@ public class ZentrumBeanTest {
 	@Test
 	public void testSetPlz() {
 		// TODO: PLZ := \d{5}, 5 Zeichen (ergibt sich)
+		//(expected=IllegalArgumentException.class)
 		try {
 			zentrum.setPlz(plz);
 
@@ -407,6 +413,7 @@ public class ZentrumBeanTest {
 	@Test
 	public void testSetStrasse() {
 		// TODO: Strasse := 3..50 Zeichen
+		//(expected=IllegalArgumentException.class)
 		try {
 			zentrum.setStrasse(strasse);
 
@@ -434,6 +441,8 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetId() {
+		
+		//Gibt es hier irgendwelche Beschr�nkungen?
 		try {
 			zentrum.setId(id);
 
