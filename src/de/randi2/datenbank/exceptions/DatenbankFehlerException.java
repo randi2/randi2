@@ -12,6 +12,17 @@ public class DatenbankFehlerException extends Exception {
 
     public static final String ARGUMENT_IST_NULL = "Das uebergebene Argument ist null";
     public static final String SUCHOBJEKT_IST_KEIN_FILTER = "Beim uebergebenen Objekt wurde der Filter nicht gesetzt";
+    
+    /**
+	 * Allgemeine Fehlerkonstante wenn beim suchen eines Objektes ein Fehler auftritt
+	 */
+	public static final String SUCHEN_ERR="Beim suchen trat ein Fehler auf.";
+	
+	/**
+	 * Allgemeine Fehlerkonstante wenn beim schreiben eines Objektes ein Fehler auftritt
+	 */
+	public static final String SCHREIBEN_ERR="Beim schreiben trat ein Fehler auf.";
+    
 
     public DatenbankFehlerException(){
         super();
