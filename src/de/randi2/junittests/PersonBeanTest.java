@@ -277,7 +277,7 @@ public class PersonBeanTest {
 			testPB.setGeschlecht(NullKonstanten.NULL_CHAR);
 			
 		} catch (Exception e) {
-			fail("Darf eigentlich keine Exception schmei�en.");
+			fail("Darf eigentlich keine Exception schmeissen.");
 		}
 	}
 	
@@ -378,7 +378,7 @@ public class PersonBeanTest {
 			testPB.setHandynummer("00498/35682345678");
 
 		} catch (Exception e) {
-			fail("Exception geworfen bei korrekter Faxnummer.");
+			fail("Exception geworfen bei korrekter Handynummer.");
 		}
 	}
 
@@ -529,7 +529,7 @@ public class PersonBeanTest {
 	public void testSetTelefonnummerLeerF() {
 		try {
 			testPB.setFilter(false);
-			testPB.setTelefonnummer(null);
+			testPB.setTelefonnummer("");
 			fail();
 		} catch (PersonException pe) {
 			assertEquals(PersonException.TELEFONNUMMER_FEHLT, pe.getMessage());
@@ -544,7 +544,7 @@ public class PersonBeanTest {
 	public void testSetTelefonnummerLeerT() {
 		try {
 			testPB.setFilter(true);
-			testPB.setTelefonnummer(null);
+			testPB.setTelefonnummer("");
 			} catch (Exception e) {
 			fail("Sollte keine Exception schmeissen.");
 		}
@@ -624,9 +624,10 @@ public class PersonBeanTest {
 		try {
 			testPB.setTelefonnummer("012/123456");
 			testPB.setTelefonnummer("0023/35682345678");
+			testPB.setTelefonnummer("+4922237033");
 
 		} catch (Exception e) {
-			fail("Exception geworfen bei korrekter Faxnummer.");
+			fail("Exception geworfen bei korrekter Telefonnummer.");
 		}
 	}
 
