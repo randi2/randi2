@@ -33,7 +33,7 @@
 		<p id="pageheader">Herzlich Willkommen</p>
 		<%@include file="include/inc_nachricht.jsp"%>
 		<p>Benutzername</p>
-		<form action="DispatcherServlet" method="POST">
+		<form action="DispatcherServlet" method="POST" name="loginform">
 		<input type="hidden" value="JSP_INDEX_LOGIN" name="anfrage_id">
 			<p>
 				<input type="text" name="username" tabindex="1">
@@ -62,4 +62,10 @@
 		</tr>
 		</table>
 	</div>
+	<!-- aktives Feld ist der Benutzername -->
+	<script type="text/javascript">
+		document.forms.loginform.username.focus();		
+	</script>
+</body>
+	
 </html>
