@@ -103,9 +103,7 @@ public class ZentrumBeanTest {
 	@Test
 	public void testGetAbteilung() {
 		try {
-
 			abteilung = zentrum.getAbteilung();
-
 		} catch (Exception e) {
 			fail("Fehler aufgetreten bei testGetAbteilung");
 		}
@@ -130,14 +128,12 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetAbteilungMaximal() {
-
 		try {
 			zentrum
 					.setAbteilung("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		} catch (Exception e) {
 			fail("Sollte KEINE exception ausloesen!");
 		}
-
 	}
 
 	/**
@@ -484,7 +480,7 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetId() {
-		// Gibt es hier irgendwelche Beschränkungen?
+		// Gibt es hier irgendwelche Beschrï¿½nkungen?
 		try {
 			zentrum.setId(id);
 		} catch (Exception e) {
