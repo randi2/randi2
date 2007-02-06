@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.randi2.datenbank.DatenbankFactory;
+import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.fachklassen.Zentrum;
@@ -47,45 +48,47 @@ public class ZentrumTest {
 	 * Test method for {@link de.randi2.model.fachklassen.Zentrum#suchenZentrum(de.randi2.model.fachklassen.beans.ZentrumBean)}.
 	 */
 	@Test
-	public void testSuchenZentrumKorrekt() {
+	public void testSuchenZentrum() {
 		
 		try{
 		assertEquals(Zentrum.suchenZentrum(testZB),
 				DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(testZB));
 		}catch(Exception e){
 			e.printStackTrace();
-			fail("Sollte keine Exception werfen");
+			fail("Sollte keine Exception werfen.");
 		}
 	}
 	
-//	/**
-//	 * Test method for {@link de.randi2.model.fachklassen.Zentrum#suchenZentrum(de.randi2.model.fachklassen.beans.ZentrumBean)}.
-//	 */
-//	@Test (expected= IllegalArgumentException.class)
-//	public void testSuchenZentrumIllegalArgument() {
-//		
-//			Zentrum.suchenZentrum(); //hier illegal argument einfuegen
-//			
-//	}
-//	
-//	/**
-//	 * Test method for {@link de.randi2.model.fachklassen.Zentrum#suchenZentrum(de.randi2.model.fachklassen.beans.ZentrumBean)}.
-//	 */
-//	@Test (expected= DatenbankFehlerException.class)
-//	public void testSuchenZentrumDatenbankException() {
-//		
-//			Zentrum.suchenZentrum(); //hier datenbankexception provozieren
-//			
-//	}
+
+	/**
+	 * Test method for {@link de.randi2.model.fachklassen.Zentrum#pruefenPasswort(java.lang.String)}.
+	 */
+	@Test
+	public void testPruefenPasswortKorrekt() {
+		try{
+		boolean ergebnis = testZ.pruefenPasswort("$aBcDe12345%");
+		assertTrue(ergebnis);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Test method for {@link de.randi2.model.fachklassen.Zentrum#pruefenPasswort(java.lang.String)}.
 	 */
 	@Test
-	public void testPruefenPasswort() {
+	public void testPruefenPasswortFalsch() {
 		
-		boolean ergebnis = testZ.pruefenPasswort("test");
-		assertTrue(ergebnis);
+		boolean ergebnis = testZ.pruefenPasswort("falschesPW");
+		ergebnis = testZ.pruefenPasswort("sf");
+		assertFalse(ergebnis);
+		ergebnis = testZ.pruefenPasswort("qwertzuihdjkjbgf");
+		assertFalse(ergebnis);
+		ergebnis = testZ.pruefenPasswort("12345678909876");
+		assertFalse(ergebnis);
+		ergebnis = testZ.pruefenPasswort("!§$%&/()=?!§$%");
+		assertFalse(ergebnis);
 		
 	}
 
