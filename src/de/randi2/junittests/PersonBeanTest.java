@@ -126,27 +126,27 @@ public class PersonBeanTest {
 
 	}
 	
-//	/**
-//	 * Testet, ob eine PersonException geworfen wird, wenn der
-//	 * Emailparameter laenger als in der Definition vereinbart ist. Filter aktiviert.
-//	 */
-//	@Test
-//	public void testSetEmailUeberlangT() {
-//		try {
-//			testPB.setFilter(true);
-//			testPB
-//					.setEmail("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa."
-//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaa"
-//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-//							+ "aaaaaaaaaaaaaaaaaaaa");
-//			
-//		} catch (Exception e) {
-//			fail("Darf eigentlich keine Exception schmeissen.");
-//		}
-//
-//	}
+	/**
+	 * Testet, ob eine PersonException geworfen wird, wenn der
+	 * Emailparameter laenger als in der Definition vereinbart ist. Filter aktiviert.
+	 */
+	@Test
+	public void testSetEmailUeberlangT() {
+		try {
+			testPB.setFilter(true);
+			testPB
+					.setEmail("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa."
+							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaa"
+							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+							+ "aaaaaaaaaaaaaaaaaaaa");
+			
+		} catch (Exception e) {
+			fail("Darf eigentlich keine Exception schmeissen.");
+		}
+
+	}
 
 	/**
 	 * Testet, ob eine PersonException geworfen wird, wenn der
