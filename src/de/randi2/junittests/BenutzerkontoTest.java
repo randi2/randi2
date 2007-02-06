@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
@@ -35,9 +36,9 @@ public class BenutzerkontoTest {
 
 	// TODO Spaeter wird Titel als eine Enum realisiert werden - deswegen muss
 	// man das auch danach anpassen
-	private PersonBean benutzer; 
+	private PersonBean benutzer;
 
-	private PersonBean ansprechpartner; 
+	private PersonBean ansprechpartner;
 
 	private boolean gesperrt;
 
@@ -50,7 +51,9 @@ public class BenutzerkontoTest {
 	 */
 	@Before
 	public void setUp() {
-		//PropertyConfigurator.configure("C:/Dokumente und Einstellungen/user/Desktop/workspace Together/RANDI2/WebContent/WEB-INF/log4j.lcf");
+		// PropertyConfigurator.configure("C:/Dokumente und
+		// Einstellungen/user/Desktop/workspace
+		// Together/RANDI2/WebContent/WEB-INF/log4j.lcf");
 		benutzername = "studienleiter";
 		passwort = "1$studienleiter";
 
@@ -60,21 +63,18 @@ public class BenutzerkontoTest {
 		ersterLogin = new GregorianCalendar(2006, 10, 20);
 		letzterLogin = new GregorianCalendar(2006, 11, 30);
 
-		zentrum = new ZentrumBean(1, "institution", "abteilung", "Ort", "plz",
-				"Strasse", "Hausnr", ansprechpartner, "Passwort");
+		zentrum = new ZentrumBean(1, "institution", "abteilung", "Ort", "11111",
+				"Strasse", "12", ansprechpartner, "Passwort");
 
 		try {
-			
-				benutzer = new PersonBean("nachname", "vorname",
-						"Prof.", 'm', "user@hs-heilbronn.de", "01760099334",
-						"017600972487", "01760427424");
-		
 
-		
-				ansprechpartner = new PersonBean("nachname", "vorname",
-						"Prof.", 'm', "user@hs-heilbronn.de", "01760099334",
-						"017600972487", "01760427424");
-			
+			benutzer = new PersonBean("nachname", "vorname", "Prof.", 'm',
+					"user@hs-heilbronn.de", "01760099334", "017600972487",
+					"01760427424");
+
+			ansprechpartner = new PersonBean("nachname", "vorname", "Prof.",
+					'm', "user@hs-heilbronn.de", "01760099334", "017600972487",
+					"01760427424");
 
 			bKontoBean = new BenutzerkontoBean(benutzername, passwort, rolle,
 					benutzer, ansprechpartner, gesperrt, zentrum, ersterLogin,
@@ -91,9 +91,7 @@ public class BenutzerkontoTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
-
 		bKontoBean = null;
-
 	}
 
 	/**
@@ -112,15 +110,12 @@ public class BenutzerkontoTest {
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#suchenBenutzer(de.randi2.model.fachklassen.beans.BenutzerkontoBean)}.
+	 * @throws DatenbankFehlerException 
 	 */
 	@Test
-	public void testSuchenBenutzer() {
-		try {
-			Vector suchErgebnisse = new Vector();
-			suchErgebnisse = Benutzerkonto.suchenBenutzer(bKontoBean);
-		} catch (Exception e) {
-			fail("Fehler ausgelöst bei testSuchenBenutzer");
-		}
+	public void testSuchenBenutzer() throws DatenbankFehlerException {
+		Vector suchErgebnisse = new Vector();
+		suchErgebnisse = Benutzerkonto.suchenBenutzer(bKontoBean);
 	}
 
 	/**
@@ -141,18 +136,64 @@ public class BenutzerkontoTest {
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
 	 */
 	@Test
-	public void testGetBenutzer() {
+	public void testGetBenutzerStudienleiter() {
 		try {
 			Benutzerkonto.getBenutzer("studienleiter");
-			Benutzerkonto.getBenutzer("administrator");
-			Benutzerkonto.getBenutzer("systemoperator");
-			Benutzerkonto.getBenutzer("statistiker");
-			Benutzerkonto.getBenutzer("sa@randi2.de");
-
 		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetBenutzer");
+			fail("Fehler aufgetreten bei testGetBenutzerStudienleiter");
 		}
+	}
 
+	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
+	 */
+	@Test
+	public void testGetBenutzerAdministrator() {
+		try {
+			Benutzerkonto.getBenutzer("administrator");
+		} catch (Exception e) {
+			fail("Fehler aufgetreten bei testGetBenutzerAdministrator");
+		}
+	}
+
+	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
+	 */
+	@Test
+	public void testGetBenutzerSystemoperator() {
+		try {
+			Benutzerkonto.getBenutzer("systemoperator");
+		} catch (Exception e) {
+			fail("Fehler aufgetreten bei testGetBenutzerSystemoperator");
+		}
+	}
+
+	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
+	 */
+	@Test
+	public void testGetBenutzerStatistiker() {
+		try {
+			Benutzerkonto.getBenutzer("statistiker");
+		} catch (Exception e) {
+			fail("Fehler aufgetreten bei testGetBenutzerStatistiker");
+		}
+	}
+
+	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
+	 */
+	@Test
+	public void testGetBenutzerStudienarzt() {
+		try {
+			Benutzerkonto.getBenutzer("sa@randi2.de");
+		} catch (Exception e) {
+			fail("Fehler aufgetreten bei testGetBenutzerStudienarzt");
+		}
 	}
 
 	/**
@@ -187,9 +228,9 @@ public class BenutzerkontoTest {
 		String passwort2 = "1$statistiker";
 		BenutzerkontoBean anderesKontoBean;
 		try {
-			anderesKontoBean = new BenutzerkontoBean(
-					benutzername2, passwort2, rolle, benutzer, ansprechpartner,
-					gesperrt, zentrum, ersterLogin, letzterLogin);
+			anderesKontoBean = new BenutzerkontoBean(benutzername2, passwort2,
+					rolle, benutzer, ansprechpartner, gesperrt, zentrum,
+					ersterLogin, letzterLogin);
 			Benutzerkonto cKonto = new Benutzerkonto(anderesKontoBean);
 			boolean wert2 = aKonto.equals(cKonto);
 			if (wert2 == true) {
@@ -201,7 +242,6 @@ public class BenutzerkontoTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 	}
 
@@ -228,8 +268,9 @@ public class BenutzerkontoTest {
 		try {
 			String benutzernameNeu = "Statistiker";
 			String passwortNeu = "1$statistiker";
-			
-			String passwortAktuellerBenutzer = Benutzerkonto.getBenutzer(benutzernameNeu).getPasswort();
+
+			String passwortAktuellerBenutzer = Benutzerkonto.getBenutzer(
+					benutzernameNeu).getPasswort();
 			if (passwortAktuellerBenutzer.equalsIgnoreCase(passwortNeu)) {
 				; // passiert nichts
 			} else {
