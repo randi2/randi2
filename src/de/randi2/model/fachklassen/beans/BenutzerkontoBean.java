@@ -105,6 +105,8 @@ public class BenutzerkontoBean extends Filter {
 	 *            Zeitpunkt des ersten Logins als GregorianCalendar
 	 * @param letzterLogin
 	 *            Zeitpunkt des letzten Logins als GregorianCalendar
+	 * @throws BenutzerkontoException
+	 *             Wenn die uebergebenen Parametern nicht in Ordnung waren
 	 */
 	public BenutzerkontoBean(String benutzername, String passwort, Rolle rolle,
 			PersonBean benutzer, PersonBean ansprechpartner, boolean gesperrt,
