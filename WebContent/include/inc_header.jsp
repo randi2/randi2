@@ -1,9 +1,21 @@
-<%@ page import= "de.randi2.model.fachklassen.*"
-		import= "de.randi2.model.fachklassen.beans.*"
+<%@ 
+	page import= "de.randi2.model.fachklassen.*, de.randi2.model.fachklassen.beans.*"
 %>
 
-<%PersonBean aPersonHeader=((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer")).getBenutzer(); %>
-<%Rolle.Rollen aRolleHeader=((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer")).getRolle().getRollenname(); %>
+<%
+	BenutzerkontoBean aBenutzer=null;
+	PersonBean aPersonHeader=null;
+	Rolle.Rollen aRolleHeader=null;
+	if (request.getSession().getAttribute("aBenutzer")!=null){
+		aBenutzer=(BenutzerkontoBean) request.getSession().getAttribute("aBenutzer");
+		aPersonHeader=aBenutzer.getBenutzer();
+		aRolleHeader=aBenutzer.getRolle().getRollenname(); 
+	}
+	else{
+		response.sendRedirect(response.encodeRedirectURL("index.jsp"));
+		return;
+	}
+%>
 <div id="header"><img src="images/dkfz_logo.gif" width="337"
 	height="63" title="" alt=""></div>
 
