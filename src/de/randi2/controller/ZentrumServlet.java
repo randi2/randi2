@@ -32,7 +32,7 @@ import org.apache.log4j.Logger;
 	 * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+//	  TODO Bisher noch kein doGet gemacht, damit Nutzer keine Details sieht
 	}  	
 	
 	/* (non-Java-doc)
