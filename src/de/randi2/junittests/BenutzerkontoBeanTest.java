@@ -48,17 +48,17 @@ public class BenutzerkontoBeanTest extends Filter{
     }
 
     
-    @Test (expected=BenutzerkontoException.class)
+    @Test 
     public final void testSetBenutzernameRichtig() throws BenutzerkontoException {       
-        aKonto.setBenutzername("administrator");
-        aKonto.setBenutzername("studienleiter");
-        aKonto.setBenutzername("sa@randi2.de");
-        aKonto.setBenutzername("systemoperator");
-        aKonto.setBenutzername("statistiker");
+       		aKonto.setBenutzername("administrator");
+			aKonto.setBenutzername("studienleiter");
+	        aKonto.setBenutzername("sa@randi2.de");
+	        aKonto.setBenutzername("systemoperator");
+	        aKonto.setBenutzername("statistiker");
     }
     
     
-    @Test (expected=BenutzerkontoException.class)
+    @Test 
     public final void testSetBenutzernameErlaubteZeichen() throws BenutzerkontoException {        
         	aKonto.setBenutzername("hanswursthausen");
     }
