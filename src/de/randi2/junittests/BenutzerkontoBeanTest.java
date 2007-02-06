@@ -14,6 +14,7 @@ import de.randi2.datenbank.Filter;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Rolle;
+import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.Rolle.Rollen;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
@@ -312,5 +313,14 @@ public class BenutzerkontoBeanTest extends Filter{
 	     }  
 	  }
 	
+	
+	@Test
+	public void testSetZentrum() {
+	 try {
+	    	aKonto.setZentrum(zentrum);
+	     } catch (Exception e) {
+	      	 fail("[FEHLER]testSetZentrum() sollte keine Exception auslösen");
+	     }  
+	  }
 }
 
