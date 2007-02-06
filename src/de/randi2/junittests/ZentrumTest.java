@@ -94,7 +94,8 @@ public class ZentrumTest {
 	 */
 	@Test
 	public void testGetZentrumBean() {
-		fail("Not yet implemented");
+		assertEquals(testZ.getZentrumBean(),testZB);
+		
 	}
 
 }
