@@ -20,6 +20,7 @@ import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Rolle;
+import de.randi2.utility.PasswortUtil;
 
 /**
  * @author Katharina Chruscz <kchruscz@stud.hs-heilbronn.de>
@@ -216,11 +217,8 @@ public class BenutzerkontoTest {
 		Benutzerkonto aKonto = new Benutzerkonto(bKontoBean);
 		Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
 		boolean wert1 = aKonto.equals(bKonto);
-		if (wert1 == false) {
-			fail("Vergleich von zwei gleichen Benutzerkonten");
-		} else {
-			;
-		}
+		assertFalse(wert1);
+		
 		String benutzername2 = "Statistiker";
 		String passwort2 = "1$statistiker";
 		BenutzerkontoBean anderesKontoBean;
@@ -238,7 +236,6 @@ public class BenutzerkontoTest {
 				;
 			}
 		} catch (BenutzerkontoException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -272,11 +269,8 @@ public class BenutzerkontoTest {
 		String passwortNeu = "1$administrator";
 		String passwortAktuellerBenutzer = Benutzerkonto.getBenutzer(
 				benutzernameNeu).getPasswort();
-		if (passwortAktuellerBenutzer.equalsIgnoreCase(passwortNeu)) {
-			; // passiert nichts
-		} else {
-			fail("Passwort ist falsch");
-		}
+		
+		assertTrue(PasswortUtil.getInstance().hashPasswort(passwortNeu).equals(passwortAktuellerBenutzer));
 	}
 
 	/**
