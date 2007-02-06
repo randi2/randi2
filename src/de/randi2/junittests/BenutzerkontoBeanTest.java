@@ -13,7 +13,6 @@ import org.junit.Test;
 import de.randi2.datenbank.Filter;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
-import de.randi2.model.fachklassen.Recht;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Rolle.Rollen;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
@@ -48,82 +47,50 @@ public class BenutzerkontoBeanTest extends Filter{
     }
 
     
-    @Test 
-    public final void testSetBenutzernameRichtig() {        
-        try{
+    @Test (expected=BenutzerkontoException.class)
+    public final void testSetBenutzernameRichtig() throws BenutzerkontoException {       
         aKonto.setBenutzername("administrator");
         aKonto.setBenutzername("studienleiter");
         aKonto.setBenutzername("sa@randi2.de");
         aKonto.setBenutzername("systemoperator");
         aKonto.setBenutzername("statistiker");
-        
-        }catch (Exception e) {
-            fail("[FEHLER] testSetBenutzernameRichtig sollte keine Exception werfen!!");
-        }
     }
     
     
-    @Test 
-    public final void testSetBenutzernameErlaubteZeichen() {        
-        try{
+    @Test (expected=BenutzerkontoException.class)
+    public final void testSetBenutzernameErlaubteZeichen() throws BenutzerkontoException {        
         	aKonto.setBenutzername("hanswursthausen");
-        }catch (Exception e) {
-            fail("[FEHLER] testSetBenutzernameErlaubteZeichen sollte keine Exception werfen!!");
-        }
     }
         
        
     @Test (expected=BenutzerkontoException.class)
-    public final void testSetBenutzernameNull() {            	
-		 try {
-			aKonto.setBenutzername(null);
-		} catch (BenutzerkontoException e) {
-				e.printStackTrace();
-		}
-			       
+    public final void testSetBenutzernameNull() throws BenutzerkontoException {            	
+			aKonto.setBenutzername(null);	       
     }
     
     
     @Test (expected=BenutzerkontoException.class)
-    public final void testSetBenutzernameLeer() {    	
-            try {
-				aKonto.setBenutzername("");
-			} catch (BenutzerkontoException e) {
-				e.printStackTrace();
-		}
+    public final void testSetBenutzernameLeer() throws BenutzerkontoException {    	
+			aKonto.setBenutzername("");
     }
     
     
-    @Test 
-    public final void testSetBenutzernameLaenge() {        
-       try {
-            aKonto.setBenutzername("aaaaaaaaaaaaaaaaa"); //mehr als 14 Zeichen
-            aKonto.setBenutzername("aaa"); //weniger als 4 Zeichen
-           
-        } catch (Exception e) {
-        	 fail("[testSetBenutzernameLaenge]Zeichen liegen zwischen 4-14.Sollte Exception auslösen");
-        }
+    @Test (expected=BenutzerkontoException.class)
+    public final void testSetBenutzernameLaenge() throws BenutzerkontoException {        
+          aKonto.setBenutzername("aaaaaaaaaaaaaaaaa"); //mehr als 14 Zeichen
+          aKonto.setBenutzername("aaa"); //weniger als 4 Zeichen
     }
 
     
     @Test (expected=BenutzerkontoException.class)
-    public final void testSetPasswortLaengeFalsch() {
-          try {
+    public final void testSetPasswortLaengeFalsch() throws BenutzerkontoException {
 			aKonto.setPasswort("s");
-		} catch (BenutzerkontoException e) {
-			e.printStackTrace();
-		}
     }
     
     
-    @Test 
-    public final void testSetPasswortLaengeRichtig() {
-    try {
+    @Test (expected=BenutzerkontoException.class)
+    public final void testSetPasswortLaengeRichtig() throws BenutzerkontoException {    
         aKonto.setPasswort("sss");
-     }
-      catch (Exception e) {
-      	 fail("[FEHLER]testSetPasswortLaengeRichtig()sollte keine Exception ausgelösen.");
-     }
     }
     
     
@@ -137,39 +104,27 @@ public class BenutzerkontoBeanTest extends Filter{
 	     }     
     }
     
-    @Test 
-    public final void testSetPasswortRichtig() {   
-	    try {
+    @Test (expected=BenutzerkontoException.class)
+    public final void testSetPasswortRichtig() throws BenutzerkontoException {   
 	    	aKonto.setPasswort("aa");
-	        aKonto.setPasswort("aaaa");
-	     } catch (Exception e) {
-	      	 fail("[FEHLER]testSetPasswortRichtig() sollte keine Exception auslösen");
-	     }    
+	        aKonto.setPasswort("aaaa");  
     }
     
     
     @Test (expected=BenutzerkontoException.class)
-    public final void testSetPasswortNull() {
-            try {
-				aKonto.setPasswort(null);
-			} catch (BenutzerkontoException e) {
-				e.printStackTrace();
-		}        
+    public final void testSetPasswortNull() throws BenutzerkontoException {
+			aKonto.setPasswort(null);      
     }
     
     
     @Test (expected=BenutzerkontoException.class)
-    public final void testSetPasswortLeer() {  
-            try {
-				aKonto.setPasswort("");
-			} catch (BenutzerkontoException e) {
-				e.printStackTrace();
-		}
+    public final void testSetPasswortLeer() throws BenutzerkontoException {  
+			aKonto.setPasswort("");
     }
 
     
-    @Test 
-    public final void testEqualsBenutzerkontoBeanGleich() throws BenutzerkontoException, PersonException {
+    @Test (expected=BenutzerkontoException.class)
+    public final void testEqualsBenutzerkontoBeanGleich() throws PersonException, BenutzerkontoException {
     	String benutzername= "Hans";
     	String passwort="dddd";
     	name =Rollen.ADMIN;
@@ -196,8 +151,8 @@ public class BenutzerkontoBeanTest extends Filter{
     }
     
     
-    @Test 
-    public final void testEqualsBenutzerkontoBeanVerschieden() throws BenutzerkontoException, PersonException {
+    @Test (expected=BenutzerkontoException.class)
+    public final void testEqualsBenutzerkontoBeanVerschieden() throws PersonException, BenutzerkontoException {
     	String benutzername= "Hans";
     	String passwort="dddd";
     	name =Rollen.ADMIN;
@@ -245,7 +200,7 @@ public class BenutzerkontoBeanTest extends Filter{
    
     
     @Test (expected=BenutzerkontoException.class)
-    public final void testEqualsBenutzerkontoBeanNull() throws PersonException{
+    public final void testEqualsBenutzerkontoBeanNull() throws PersonException, BenutzerkontoException{
     	String benutzername= "Hans";
     	String passwort="dddd";
     	name =Rollen.ADMIN;
@@ -263,7 +218,7 @@ public class BenutzerkontoBeanTest extends Filter{
 		letzterLogin = new GregorianCalendar(jahrLetzterLogin, monatLetzterLogin - 1, tagLetzterLogin);
 		ersterLogin=new GregorianCalendar(jahrLetzterLogin, monatLetzterLogin - 1, tagLetzterLogin);
 		
-    	try {
+    	//try {
 			aKonto = new BenutzerkontoBean(benutzername, passwort, rolle,
 					 benutzer, ansprechpartner, gesperrt,zentrum, 
 					 ersterLogin,letzterLogin);
@@ -272,9 +227,9 @@ public class BenutzerkontoBeanTest extends Filter{
 	    
 			assertFalse(aKonto.equals(cKonto));
 			
-		} catch (BenutzerkontoException e) {
+	/**	} catch (BenutzerkontoException e) {
 			e.printStackTrace();
-		}
+		}*/
     }
 
     
@@ -328,12 +283,8 @@ public class BenutzerkontoBeanTest extends Filter{
 
 
 	@Test (expected=BenutzerkontoException.class)
-	public void testSetRolleNull() {
-	         try {
-				aKonto.setRolle(null);
-			} catch (BenutzerkontoException e) {
-				e.printStackTrace();
-		} 
+	public void testSetRolleNull() throws BenutzerkontoException {
+	      	aKonto.setRolle(null);
 	}
 	
 	
@@ -362,3 +313,4 @@ public class BenutzerkontoBeanTest extends Filter{
 	  }
 	
 }
+
