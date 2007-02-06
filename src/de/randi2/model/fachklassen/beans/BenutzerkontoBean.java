@@ -19,11 +19,9 @@ public class BenutzerkontoBean extends Filter {
 	/*
 	 * Change Log 29.01.2007 Thomas Willert
 	 * 
-	 * Passwort Sonderzeichen muessen noch gecheckt werden.
-	 * Pruefung der Rolle fraglich, da Verwendung
-	 * der enum aus der Klasse Rolle nicht moeglich.
-	 * Vielleicht sollte man die
-	 * Konstanten dort public machen.
+	 * Passwort Sonderzeichen muessen noch gecheckt werden. Pruefung der Rolle
+	 * fraglich, da Verwendung der enum aus der Klasse Rolle nicht moeglich.
+	 * Vielleicht sollte man die Konstanten dort public machen.
 	 * 
 	 */
 
@@ -180,18 +178,18 @@ public class BenutzerkontoBean extends Filter {
 					BenutzerkontoException.BENUTZERNAME_FEHLT);
 		}
 		benutzername = benutzername.trim();
-		if (!filter && benutzername.length() < 6 ) {
+		if (!filter && benutzername.length() < 6) {
 			throw new BenutzerkontoException(
 					BenutzerkontoException.BENUTZERNAME_ZU_KURZ);
 		}
-        if (benutzername.length() > 50 ) {
-            throw new BenutzerkontoException(
-                    BenutzerkontoException.BENUTZERNAME_ZU_LANG);
-        }
-		if (!(benutzername.matches("(\\w|\\d|[._-])*") ||
-			benutzername.matches("[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.))+([a-zA-Z]){2,4}"))) {
-				throw new BenutzerkontoException(
-						BenutzerkontoException.BENUTZERNAME_ENTHAELT_UNGUELTIGE_ZEICHEN);
+		if (benutzername.length() > 50) {
+			throw new BenutzerkontoException(
+					BenutzerkontoException.BENUTZERNAME_ZU_LANG);
+		}
+		if (!(benutzername.matches("(\\w|\\d|[._-])*") || benutzername
+				.matches("[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.))+([a-zA-Z]){2,4}"))) {
+			throw new BenutzerkontoException(
+					BenutzerkontoException.BENUTZERNAME_ENTHAELT_UNGUELTIGE_ZEICHEN);
 		}
 		this.benutzername = benutzername;
 	}
@@ -273,13 +271,11 @@ public class BenutzerkontoBean extends Filter {
 			throw new BenutzerkontoException(
 					BenutzerkontoException.PASSWORT_FEHLT);
 		}
-		if (!filter && passwort.length() < 6) {			
+		if (!filter && passwort.length() < 6) {
 			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
-		if (!(passwort.matches(".*[A-Za-z].*") || passwort.matches(".*[0-9].*") /*
-		 * ||
-		 * passwort.matches(".*[\^,.-#+;:_'*!\"�$%&/()=?|<>].*")
-		 */)) {
+		if (!(passwort.matches(".*[A-Za-z].*") || passwort.matches(".*[0-9].*") || passwort
+				.matches(".*[\\^,.-#+;:_'*!\"�$%&/()=?|<>].*"))) {
 			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		this.passwort = passwort;

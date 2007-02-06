@@ -13,7 +13,6 @@ import de.randi2.utility.*;
  */
 public class ZentrumBean extends Filter {
 
-	// TODO toString fehlt
 	/**
 	 * Interne ID des Zentrums
 	 */
@@ -92,13 +91,14 @@ public class ZentrumBean extends Filter {
 			this.setPlz(plz);
 			this.setStrasse(strasse);
 			this.setHausnr(hausnr);
+			this.setAnsprechpartner(ansprechpartner);
+			this.setPasswort(passwort);
 		} catch (ZentrumException e) {
 			// TODO Wenn die Vorgehensweise in diesem Fall geklärt wird, wird es
 			// auch umgesetzt.
 			e.printStackTrace();
 		}
-		this.setAnsprechpartner(ansprechpartner);
-		this.setPasswort(passwort);
+		
 	}
 
 	/**
@@ -245,12 +245,24 @@ public class ZentrumBean extends Filter {
 	/**
 	 * @param passwort
 	 *            the passwort to set
+	 * @throws ZentrumException 
 	 */
-	public void setPasswort(String passwort) {
-		// TODO Die Überprüfung des Passwortes muss noch implementiert werden.
-		// Da hier noch paar offene Fragen bestehen, wird das erst nach ihrem
-		// eindeutigen Klärung erfolgen.
-		this.passwort = passwort;
+	public void setPasswort(String passwort) throws ZentrumException {
+		if (this.isFilter()) {
+			this.passwort = PasswortUtil.getInstance().hashPasswort(passwort);
+		} else {
+			if (passwort != null) {
+				if (!(passwort.matches(".*[A-Za-z].*")
+						|| passwort.matches(".*[0-9].*") || passwort
+						.matches(".*[\\^,.-#+;:_'*!\"�$%&/()=?|<>].*")))
+					throw new ZentrumException(ZentrumException.PASSWORT_FALSCH);
+				this.passwort = PasswortUtil.getInstance().hashPasswort(
+						passwort);
+			} else {
+				throw new ZentrumException(ZentrumException.PASSWORT_NULL);
+			}
+		}
+
 	}
 
 	/**
@@ -371,7 +383,6 @@ public class ZentrumBean extends Filter {
 		if (!zentrum.getStrasse().equals(this.getStrasse())) {
 			return false;
 		}
-		// TODO Mach das Vergleichen von IDs ueberhaupt Sinn ?
 		if (!(zentrum.getId() == this.getId())) {
 			return false;
 		}
