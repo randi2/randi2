@@ -61,7 +61,7 @@ public class RolleTest {
 				|| testSARolle.getRollenname().equals(Rolle.Rollen.ADMIN)
 				|| testSARolle.getRollenname().equals(Rolle.Rollen.SYSOP)
 				|| testSARolle.getRollenname().equals(Rolle.Rollen.STATISTIKER)) {
-			fail();
+			fail("Zugewiesene Rolle nicht eindeutig!");
 		}
 		assertTrue(testSARolle.getRollenname().equals(Rolle.Rollen.STUDIENARZT));
 	}
@@ -78,7 +78,7 @@ public class RolleTest {
 			|| testSLRolle.getRollenname().equals(Rolle.Rollen.ADMIN)
 			|| testSLRolle.getRollenname().equals(Rolle.Rollen.SYSOP)			
 			|| testSLRolle.getRollenname().equals(Rolle.Rollen.STATISTIKER)) {
-			fail();
+			fail("Zugewiesene Rolle nicht eindeutig!");
 		}
 		assertTrue(testSLRolle.getRollenname().equals(Rolle.Rollen.STUDIENLEITER));
 	}
@@ -95,7 +95,7 @@ public class RolleTest {
 			|| testAdminRolle.getRollenname().equals(Rolle.Rollen.STUDIENLEITER)
 			|| testAdminRolle.getRollenname().equals(Rolle.Rollen.SYSOP)
 			|| testAdminRolle.getRollenname().equals(Rolle.Rollen.STATISTIKER)) {
-			fail();
+			fail("Zugewiesene Rolle nicht eindeutig!");
 		}
 		assertTrue(testAdminRolle.getRollenname().equals(Rolle.Rollen.ADMIN));
 	}
@@ -112,7 +112,7 @@ public class RolleTest {
 			|| testSYSOPRolle.getRollenname().equals(Rolle.Rollen.STUDIENLEITER)			
 			|| testSYSOPRolle.getRollenname().equals(Rolle.Rollen.ADMIN)
 			|| testSYSOPRolle.getRollenname().equals(Rolle.Rollen.STATISTIKER)) {
-			fail();
+			fail("Zugewiesene Rolle nicht eindeutig!");
 		}
 		assertTrue(testSYSOPRolle.getRollenname().equals(Rolle.Rollen.SYSOP));
 	}
@@ -129,7 +129,7 @@ public class RolleTest {
 			|| testSTATRolle.getRollenname().equals(Rolle.Rollen.STUDIENLEITER)			
 			|| testSTATRolle.getRollenname().equals(Rolle.Rollen.ADMIN)
 			|| testSTATRolle.getRollenname().equals(Rolle.Rollen.SYSOP)) {
-			fail();
+			fail("Zugewiesene Rolle nicht eindeutig!");
 		}
 		assertTrue(testSTATRolle.getRollenname().equals(Rolle.Rollen.STATISTIKER));
 	}
