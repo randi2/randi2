@@ -52,15 +52,14 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Emailparameter null ist (da Pflichtfeld). Filter deaktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetEmailNullF() {
 		try {
 			testPB.setFilter(false);
 			testPB.setEmail(null);
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.EMAIL_FEHLT, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.EMAIL_FEHLT, pe.getMessage());
 		}
 	}
 	
@@ -90,9 +89,8 @@ public class PersonBeanTest {
 			testPB.setFilter(false);
 			testPB.setEmail("");
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.EMAIL_FEHLT, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.EMAIL_FEHLT, pe.getMessage());
 		}
 	}
 	
@@ -112,63 +110,61 @@ public class PersonBeanTest {
 		}
 	}
 
-//	/**
-//	 * Testet, ob eine PersonException geworfen wird, wenn der
-//	 * Emailparameter laenger als in der Definition vereinbart ist. Filter deaktiviert.
-//	 */
-//	@Test(expected = PersonException.class)
-//	public void testSetEmailUeberlangF() {
-//		try {
-//			testPB.setFilter(false);
-//			testPB
-//					.setEmail("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa."
-//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaa"
-//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-//							+ "aaaaaaaaaaaaaaaaaaaa");
-//			fail();
-//		} catch (Exception e) {
-//			assertTrue(e instanceof PersonException);
-//			assertEquals(PersonException.EMAIL_UNGUELTIG, e.getMessage());
-//		}
-//
-//	}
-//	
-//	/**
-//	 * Testet, ob eine PersonException geworfen wird, wenn der
-//	 * Emailparameter laenger als in der Definition vereinbart ist. Filter aktiviert.
-//	 */
-//	@Test
-//	public void testSetEmailUeberlangT() {
-//		try {
-//			testPB.setFilter(true);
-//			testPB
-//					.setEmail("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa."
-//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaa"
-//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-//							+ "aaaaaaaaaaaaaaaaaaaa");
-//			
-//		} catch (Exception e) {
-//			fail("Darf eigentlich keine Exception schmeissen.");
-//		}
-//
-//	}
+	/**
+	 * Testet, ob eine PersonException geworfen wird, wenn der
+	 * Emailparameter laenger als in der Definition vereinbart ist. Filter deaktiviert.
+	 */
+	@Test
+	public void testSetEmailUeberlangF() {
+		try {
+			testPB.setFilter(false);
+			testPB
+					.setEmail("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa."
+							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaa"
+							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+							+ "aaaaaaaaaaaaaaaaaaaa");
+			fail();
+		} catch (PersonException pe) {
+			assertEquals(PersonException.EMAIL_UNGUELTIG, pe.getMessage());
+		}
+
+	}
+	
+	/**
+	 * Testet, ob eine PersonException geworfen wird, wenn der
+	 * Emailparameter laenger als in der Definition vereinbart ist. Filter aktiviert.
+	 */
+	@Test
+	public void testSetEmailUeberlangT() {
+		try {
+			testPB.setFilter(true);
+			testPB
+					.setEmail("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa."
+							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaa"
+							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+							+ "aaaaaaaaaaaaaaaaaaaa");
+			
+		} catch (Exception e) {
+			fail("Darf eigentlich keine Exception schmeissen.");
+		}
+
+	}
 
 	/**
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Emailparameter nicht per Definition zugelassene Zeichen enthaelt.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetEmailSonderzeichen() {
 		try {
 			testPB.setEmail("���.�@&$.---");
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.EMAIL_UNGUELTIG, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.EMAIL_UNGUELTIG, pe.getMessage());
 		}
 
 	}
@@ -193,14 +189,13 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Faxparameter ein leerer String ist.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetFaxLeer() {
 		try {
 			testPB.setFax("");
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.FAX_UNGUELTIG, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.FAX_UNGUELTIG, pe.getMessage());
 		}
 	}
 
@@ -209,7 +204,7 @@ public class PersonBeanTest {
 	 * Faxparameter mehr oder weniger Zeichen enthaelt als per Definition
 	 * vereinbart.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetFaxLaenge() {
 
 		try {
@@ -222,9 +217,8 @@ public class PersonBeanTest {
 			testPB.setFax("12345678901/1234");
 			testPB.setFax("12345678901/1234567890123456");
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.FAX_UNGUELTIG, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.FAX_UNGUELTIG, pe.getMessage());
 		}
 
 	}
@@ -233,16 +227,15 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Faxparameter nicht per Definition zugelassene Zeichen enthaelt.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetFaxSonderzeichen() {
 		try {
 			testPB.setFax("we/ergfe");
 			testPB.setFax("�$�%.)(9");
 			testPB.setFax("0908/56477-");
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.FAX_UNGUELTIG, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.FAX_UNGUELTIG, pe.getMessage());
 		}
 
 	}
@@ -267,16 +260,15 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Geschlechtsparameter nicht per Definition zugelassen ist.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetGeschlechtFehltF() {
 
 		try {
 			testPB.setFilter(false);
 			testPB.setGeschlecht(NullKonstanten.NULL_CHAR);
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.GESCHLECHT_FEHLT, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.GESCHLECHT_FEHLT, pe.getMessage());
 		}
 	}
 	
@@ -300,16 +292,15 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Geschlechtsparameter nicht per Definition zugelassen ist.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetGeschlechtFalsch() {
 
 		try {
 			testPB.setGeschlecht(' ');
 			testPB.setGeschlecht('0');
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.GESCHLECHT_UNGUELTIG, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.GESCHLECHT_UNGUELTIG, pe.getMessage());
 		}
 	}
 
@@ -333,14 +324,13 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Handynummerparameter ein leerer String ist.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetHandynummerLeer() {
 		try {
 			testPB.setHandynummer("");
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.HANDY_UNGUELTIG, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.HANDY_UNGUELTIG, pe.getMessage());
 		}
 	}
 
@@ -349,7 +339,7 @@ public class PersonBeanTest {
 	 * Handynummerparameter laenger oder kuerzer als per Definition vereinbart
 	 * ist.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetHandynummerLaenge() {
 		try {
 			testPB.setHandynummer("1/1");
@@ -361,9 +351,8 @@ public class PersonBeanTest {
 			testPB.setHandynummer("12345678901/1234");
 			testPB.setHandynummer("12345678901/1234567890123456");
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.HANDY_UNGUELTIG, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.HANDY_UNGUELTIG, pe.getMessage());
 		}
 
 	}
@@ -372,16 +361,15 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Handynummerparameter nicht zugelassene Sonderzeichen enthealt.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetHandynummerSonderzeichen() {
 		try {
 			testPB.setHandynummer("we/ergfe");
 			testPB.setHandynummer("�$�%.)(9");
 			testPB.setHandynummer("0908/56477-");
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.HANDY_UNGUELTIG, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.HANDY_UNGUELTIG, pe.getMessage());
 		}
 	}
 
@@ -405,15 +393,14 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Nachnameparameter null ist (da Pflichtfeld). Filter deaktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetNachnameNullF() {
 		try {
 			testPB.setFilter(false);
 			testPB.setNachname(null);
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.NACHNAME_FEHLT, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.NACHNAME_FEHLT, pe.getMessage());
 		}
 	}
 	
@@ -435,15 +422,14 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Nachnameparameter ein leerer String ist. Filter deaktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetNachnameLeerF() {
 		try {
 			testPB.setFilter(false);
 			testPB.setNachname("");
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.NACHNAME_FEHLT, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.NACHNAME_FEHLT, pe.getMessage());
 		}
 	}
 	
@@ -466,7 +452,7 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Nachnameparameter laenger oder kuerzer als per Definition vereinbart ist. Filter deaktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetNachnameLaengeF() {
 		try {
 			testPB.setFilter(false);
@@ -474,11 +460,9 @@ public class PersonBeanTest {
 			testPB.setNachname("abcdefghijklmopqrstuvwxyzabcdefghijk"+
 						"lmopqrstuvwxyzabcdefghijklmopqrstuvwxyz");
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.NACHNAME_UNGUELTIG, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.NACHNAME_UNGUELTIG, pe.getMessage());
 		}
-
 	}
 	
 	/**
@@ -519,15 +503,14 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Telefonnummerparameter null ist (da Pflichtfeld). Filter deaktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetTelefonnummerNullF() {
 		try {
 			testPB.setFilter(false);
 			testPB.setTelefonnummer(null);
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.TELEFONNUMMER_FEHLT, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.TELEFONNUMMER_FEHLT, pe.getMessage());
 		}
 	}
 	
@@ -549,15 +532,14 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Telefonnummerparameter null ist (da Pflichtfeld). Filter deaktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetTelefonnummerLeerF() {
 		try {
 			testPB.setFilter(false);
 			testPB.setTelefonnummer(null);
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.TELEFONNUMMER_FEHLT, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.TELEFONNUMMER_FEHLT, pe.getMessage());
 		}
 	}
 	
@@ -580,7 +562,7 @@ public class PersonBeanTest {
 	 * Telefonnummerparameter laenger oder kuerzer als per Definition vereinbart
 	 * ist. Filter deaktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetTelefonnummerLaengeF() {
 		try {
 			testPB.setFilter(false);
@@ -593,9 +575,8 @@ public class PersonBeanTest {
 			testPB.setTelefonnummer("12345678901/1234");
 			testPB.setTelefonnummer("12345678901/1234567890123456");
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.TELEFONNUMMER_UNGUELTIG, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.TELEFONNUMMER_UNGUELTIG, pe.getMessage());
 		}
 
 	}
@@ -628,16 +609,15 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Telefonnummerparameter nicht zugelassene Sonderzeichen enthealt.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetTelefonnummerSonderzeichen() {
 		try {
 			testPB.setTelefonnummer("we/ergfe");
 			testPB.setTelefonnummer("�$�%.)(9");
 			testPB.setTelefonnummer("0908/56477-");
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.TELEFONNUMMER_UNGUELTIG, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.TELEFONNUMMER_UNGUELTIG, pe.getMessage());
 		}
 
 	}
@@ -661,7 +641,7 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Titelparameter nicht der Definition entspricht. Filter deaktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetTitelFalschF() {
 
 		try {
@@ -669,9 +649,8 @@ public class PersonBeanTest {
 			testPB.setTitel("");
 			testPB.setTitel("123");
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.TITEL_UNGUELTIG, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.TITEL_UNGUELTIG, pe.getMessage());
 		}
 
 	}
@@ -715,15 +694,14 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Vornameparameter null ist (da Pflichtfeld). Filter deaktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetVornameNullF() {
 		try {
 			testPB.setFilter(false);
 			testPB.setVorname(null);
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.VORNAME_FEHLT, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.VORNAME_FEHLT, pe.getMessage());
 		}
 
 	}
@@ -748,15 +726,14 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Vornameparameter ein leerer String ist. Filter deaktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetVornameLeerF() {
 		try {
 			testPB.setFilter(false);
 			testPB.setVorname("");
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.VORNAME_FEHLT, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.VORNAME_FEHLT, pe.getMessage());
 		}
 
 	}
@@ -781,7 +758,7 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Vornameparameter laenger oder kuerzer als per Definition vereinbart ist. Filter deaktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetVornameLaengeF() {
 		try {
 			testPB.setFilter(false);
@@ -789,9 +766,8 @@ public class PersonBeanTest {
 			testPB.setVorname("abcdefghijklmopqrstuvwxyzabcdefghijklmopqrst"+
 					"uvwxyzabcdefghijklmopqrstuvwxyz");
 			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.VORNAME_UNGUELTIG, e.getMessage());
+		} catch (PersonException pe) {
+			assertEquals(PersonException.VORNAME_UNGUELTIG, pe.getMessage());
 		}
 
 	}
