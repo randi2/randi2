@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.beans.PersonBean;
+import de.randi2.utility.NullKonstanten;;
 
 /**
  * Die JUnit Klasse PersonBeanTest testet alle SetterMethoden der Klasse
@@ -67,7 +68,7 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Emailparameter null ist (da Pflichtfeld). Filter aktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetEmailNullT() {
 		try {
 			testPB.setFilter(true);
@@ -99,7 +100,7 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Emailparameter ein leerer String ist. Filter aktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetEmailLeerT() {
 
 		try {
@@ -111,50 +112,50 @@ public class PersonBeanTest {
 		}
 	}
 
-	/**
-	 * Testet, ob eine PersonException geworfen wird, wenn der
-	 * Emailparameter laenger als in der Definition vereinbart ist. Filter deaktiviert.
-	 */
-	@Test(expected = PersonException.class)
-	public void testSetEmailUeberlangF() {
-		try {
-			testPB.setFilter(false);
-			testPB
-					.setEmail("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa."
-							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaa"
-							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-							+ "aaaaaaaaaaaaaaaaaaaa");
-			fail();
-		} catch (Exception e) {
-			assertTrue(e instanceof PersonException);
-			assertEquals(PersonException.EMAIL_UNGUELTIG, e.getMessage());
-		}
-
-	}
-	
-	/**
-	 * Testet, ob eine PersonException geworfen wird, wenn der
-	 * Emailparameter laenger als in der Definition vereinbart ist. Filter aktiviert.
-	 */
-	@Test(expected = PersonException.class)
-	public void testSetEmailUeberlangT() {
-		try {
-			testPB.setFilter(true);
-			testPB
-					.setEmail("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa."
-							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaa"
-							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-							+ "aaaaaaaaaaaaaaaaaaaa");
-			
-		} catch (Exception e) {
-			fail("Darf eigentlich keine Exception schmeissen.");
-		}
-
-	}
+//	/**
+//	 * Testet, ob eine PersonException geworfen wird, wenn der
+//	 * Emailparameter laenger als in der Definition vereinbart ist. Filter deaktiviert.
+//	 */
+//	@Test(expected = PersonException.class)
+//	public void testSetEmailUeberlangF() {
+//		try {
+//			testPB.setFilter(false);
+//			testPB
+//					.setEmail("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa."
+//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaa"
+//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+//							+ "aaaaaaaaaaaaaaaaaaaa");
+//			fail();
+//		} catch (Exception e) {
+//			assertTrue(e instanceof PersonException);
+//			assertEquals(PersonException.EMAIL_UNGUELTIG, e.getMessage());
+//		}
+//
+//	}
+//	
+//	/**
+//	 * Testet, ob eine PersonException geworfen wird, wenn der
+//	 * Emailparameter laenger als in der Definition vereinbart ist. Filter aktiviert.
+//	 */
+//	@Test
+//	public void testSetEmailUeberlangT() {
+//		try {
+//			testPB.setFilter(true);
+//			testPB
+//					.setEmail("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa."
+//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaa"
+//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+//							+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+//							+ "aaaaaaaaaaaaaaaaaaaa");
+//			
+//		} catch (Exception e) {
+//			fail("Darf eigentlich keine Exception schmeissen.");
+//		}
+//
+//	}
 
 	/**
 	 * Testet, ob eine PersonException geworfen wird, wenn der
@@ -262,38 +263,38 @@ public class PersonBeanTest {
 		}
 	}
 
-//	/**
-//	 * Testet, ob eine PersonException geworfen wird, wenn der
-//	 * Geschlechtsparameter nicht per Definition zugelassen ist.
-//	 */
-//	@Test(expected = PersonException.class)
-//	public void testSetGeschlechtFehltF() {
-//
-//		try {
-//			testPB.setFilter(false);
-//			testPB.setGeschlecht(' ');
-//			fail();
-//		} catch (Exception e) {
-//			assertTrue(e instanceof PersonException);
-//			assertEquals(PersonException.GESCHLECHT_FEHLT, e.getMessage());
-//		}
-//	}
-//	
-//	/**
-//	 * Testet, ob eine PersonException geworfen wird, wenn der
-//	 * Geschlechtsparameter nicht per Definition zugelassen ist.
-//	 */
-//	@Test(expected = PersonException.class)
-//	public void testSetGeschlechtFehltT() {
-//
-//		try {
-//			testPB.setFilter(true);
-//			testPB.setGeschlecht(' '); //hier richtigen char einsetzen!
-//			
-//		} catch (Exception e) {
-//			fail("Darf eigentlich keine Exception schmeiﬂen.");
-//		}
-//	}
+	/**
+	 * Testet, ob eine PersonException geworfen wird, wenn der
+	 * Geschlechtsparameter nicht per Definition zugelassen ist.
+	 */
+	@Test(expected = PersonException.class)
+	public void testSetGeschlechtFehltF() {
+
+		try {
+			testPB.setFilter(false);
+			testPB.setGeschlecht(NullKonstanten.NULL_CHAR);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e instanceof PersonException);
+			assertEquals(PersonException.GESCHLECHT_FEHLT, e.getMessage());
+		}
+	}
+	
+	/**
+	 * Testet, ob eine PersonException geworfen wird, wenn der
+	 * Geschlechtsparameter nicht per Definition zugelassen ist.
+	 */
+	@Test
+	public void testSetGeschlechtFehltT() {
+
+		try {
+			testPB.setFilter(true);
+			testPB.setGeschlecht(NullKonstanten.NULL_CHAR);
+			
+		} catch (Exception e) {
+			fail("Darf eigentlich keine Exception schmeiﬂen.");
+		}
+	}
 	
 	/**
 	 * Testet, ob eine PersonException geworfen wird, wenn der
@@ -409,10 +410,10 @@ public class PersonBeanTest {
 		try {
 			testPB.setFilter(false);
 			testPB.setNachname(null);
+			fail();
 		} catch (Exception e) {
 			assertTrue(e instanceof PersonException);
 			assertEquals(PersonException.NACHNAME_FEHLT, e.getMessage());
-			fail();
 		}
 	}
 	
@@ -420,7 +421,7 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Nachnameparameter null ist (da Pflichtfeld). Filter aktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetNachnameNullT() {
 		try {
 			testPB.setFilter(true);
@@ -450,7 +451,7 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Nachnameparameter ein leerer String ist. Filter aktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetNachnameLeerT() {
 		try {
 			testPB.setFilter(true);
@@ -484,7 +485,7 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Nachnameparameter laenger oder kuerzer als per Definition vereinbart ist. Filter aktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetNachnameLaengeT() {
 		try {
 			testPB.setFilter(true);
@@ -534,7 +535,7 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Telefonnummerparameter null ist (da Pflichtfeld). Filter aktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetTelefonnummerNullT() {
 		try {
 			testPB.setFilter(true);
@@ -564,7 +565,7 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Telefonnummerparameter null ist (da Pflichtfeld). Filter aktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetTelefonnummerLeerT() {
 		try {
 			testPB.setFilter(true);
@@ -604,7 +605,7 @@ public class PersonBeanTest {
 	 * Telefonnummerparameter laenger oder kuerzer als per Definition vereinbart
 	 * ist. Filter aktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetTelefonnummerLaengeT() {
 		try {
 			testPB.setFilter(true);
@@ -679,7 +680,7 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Titelparameter nicht der Definition entspricht. Filter aktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetTitelFalschT() {
 
 		try {
@@ -731,7 +732,7 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Vornameparameter null ist (da Pflichtfeld). Filter aktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetVornameNullT() {
 		try {
 			testPB.setFilter(true);
@@ -764,7 +765,7 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Vornameparameter ein leerer String ist. Filter aktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetVornameLeerT() {
 		try {
 			testPB.setFilter(true);
@@ -800,7 +801,7 @@ public class PersonBeanTest {
 	 * Testet, ob eine PersonException geworfen wird, wenn der
 	 * Vornameparameter laenger oder kuerzer als per Definition vereinbart ist. Filter aktiviert.
 	 */
-	@Test(expected = PersonException.class)
+	@Test
 	public void testSetVornameLaengeT() {
 		try {
 			testPB.setFilter(true);
