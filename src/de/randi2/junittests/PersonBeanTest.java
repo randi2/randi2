@@ -1,9 +1,3 @@
-/**
- * @todo - korrekte Eingaben der regulären Ausdrücke nach wie vor fehlerhaft
- *       - assertionError bei allen Methoden mit aktivem Filter
- *       - char Nullkonstante für gender definieren
- */
-
 package de.randi2.junittests;
 
 import static org.junit.Assert.*;
@@ -283,8 +277,7 @@ public class PersonBeanTest {
 			testPB.setGeschlecht(NullKonstanten.NULL_CHAR);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			fail("Darf eigentlich keine Exception schmeißen.");
+			fail("Darf eigentlich keine Exception schmeiï¿½en.");
 		}
 	}
 	
@@ -633,7 +626,6 @@ public class PersonBeanTest {
 			testPB.setTelefonnummer("0023/35682345678");
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			fail("Exception geworfen bei korrekter Faxnummer.");
 		}
 	}
