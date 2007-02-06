@@ -17,7 +17,7 @@
 	<!-- Target uebersetzt das Projekt, die Junit/Selenium-Tests werden erstmal aussen vor gelassen -->
 	<target name="compile" depends="init">
 		<javac srcdir="${src}" deprecation="off" destdir="${build}" 
-		includes="**">
+		includes="**" excludes="**/DatenbankDummyTest.java">
 			 <classpath>
 			        	<fileset dir="${tomcat_lib}">
 			        		<include name="*.jar"/>
