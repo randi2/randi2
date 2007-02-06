@@ -9,17 +9,26 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.randi2.model.fachklassen.Zentrum;
+import de.randi2.model.fachklassen.beans.PersonBean;
+import de.randi2.model.fachklassen.beans.ZentrumBean;
+
 /**
  * @author Tino Noack [tino.noack@web.de]
  * @version $Id
  */
 public class ZentrumTest {
+	
+	private ZentrumBean testZB;
+	private Zentrum testZ;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
+		testZB = new ZentrumBean();
+		testZ = new Zentrum(testZB);
 	}
 
 	/**
@@ -27,6 +36,8 @@ public class ZentrumTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
+		testZB = null;
+		testZ = null;
 	}
 
 	/**
@@ -50,7 +61,10 @@ public class ZentrumTest {
 	 */
 	@Test
 	public void testPruefenPasswort() {
-		fail("Not yet implemented");
+		
+		boolean ergebnis = testZ.pruefenPasswort("test");
+		assertTrue(ergebnis);
+		
 	}
 
 	/**
