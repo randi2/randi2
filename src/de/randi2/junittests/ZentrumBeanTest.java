@@ -13,8 +13,20 @@ import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 
 /**
+ * TODO die get() Methoden brauchen wir nicht explizit mit eigenen Methoden zu
+ * testen, da sie eigentlich bei den set() Methoden mitgetestet werden. Das ist
+ * leider hier noch nicht der Fall. Man muss immer nach einem
+ * set(irgendwas)Aufruf entsprechende get Methode aufrufen, und die Werte
+ * vergleichen - ob das was zu setzten war, tatsaetzlich gesetzt wurde und von der get methode
+ * gelifert wird. 
+ * 
+ * Beispiel:
+ * zentrum.setAbteilung("Abteilung1");
+ * assertTrue("Abteilung1",zentrum.getAbteilung());
+ * 
+ * 
  * @author Katharina Chruscz <kchruscz@stud.hs-heilbronn.de>
- * @version $Id: $
+ * @version $Id$
  * 
  */
 public class ZentrumBeanTest {
@@ -28,36 +40,8 @@ public class ZentrumBeanTest {
 	private ZentrumBean zentrum = new ZentrumBean();
 
 	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	/**
-	 * Test method for
+	 * TODO Dieser Name ist voellig uebertrieben! - Bitte aendern Test method
+	 * for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#ZentrumBean(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, de.randi2.model.fachklassen.beans.PersonBean, java.lang.String)}.
 	 */
 	@Test
@@ -340,11 +324,13 @@ public class ZentrumBeanTest {
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setOrt(java.lang.String)}.
-	 * @throws ZentrumException 
+	 * 
+	 * @throws ZentrumException
 	 */
 	@Test(expected = ZentrumException.class)
 	public void testSetOrtZuLang() throws ZentrumException {
-			zentrum.setOrt("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		zentrum
+				.setOrt("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 	}
 
 	/**
@@ -399,14 +385,18 @@ public class ZentrumBeanTest {
 		} catch (Exception e) {
 			fail("Fehler aufgetreten bei richtiger testSetPlz");
 		}
-	}	/**
+	}
+
+	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setPlz(java.lang.String)}.
-	 * @throws ZentrumException 
+	 * 
+	 * @throws ZentrumException
 	 */
-	@Test (expected=ZentrumException.class)
+	@Test(expected = ZentrumException.class)
 	public void testSetPlzFalsch() throws ZentrumException {
-			zentrum.setPlz("11342234111");
+		zentrum.setPlz("11342234111");
+		fail("Erwartete Exception wurde nicht geworfen!");
 	}
 
 	/**
@@ -433,32 +423,43 @@ public class ZentrumBeanTest {
 		} catch (Exception e) {
 			fail("Fehler aufgetreten bei testSetStrasse");
 		}
-	}	/**
+	}
+
+	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setStrasse(java.lang.String)}.
-	 * @throws ZentrumException 
+	 * 
+	 * @throws ZentrumException
 	 */
-	@Test 
+	@Test
 	public void testSetStrasseMaxLaenge() throws ZentrumException {
-			zentrum.setStrasse("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-	
-	}	/**
+		zentrum
+				.setStrasse("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+	}
+
+	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setStrasse(java.lang.String)}.
-	 * @throws ZentrumException 
+	 * 
+	 * @throws ZentrumException
 	 */
-	@Test (expected = ZentrumException.class)
+	@Test(expected = ZentrumException.class)
 	public void testSetStrasseZuKurz() throws ZentrumException {
-			zentrum.setStrasse("a");
-		
-	}	/**
+		zentrum.setStrasse("a");
+
+	}
+
+	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setStrasse(java.lang.String)}.
-	 * @throws ZentrumException 
+	 * 
+	 * @throws ZentrumException
 	 */
 	@Test(expected = ZentrumException.class)
 	public void testSetStrasseZuLang() throws ZentrumException {
-			zentrum.setStrasse("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		zentrum
+				.setStrasse("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 	}
 
 	/**
@@ -480,7 +481,6 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetId() {
-		// Gibt es hier irgendwelche Beschr�nkungen?
 		try {
 			zentrum.setId(id);
 		} catch (Exception e) {
