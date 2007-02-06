@@ -98,7 +98,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements j
 		    }// if
 		    else
 		    {
-			request.setAttribute("fehlernachricht", "Loginfehler:<br> Bitte Benutzername und Passwort &uumlberpr&uumlfen");
+			request.setAttribute("fehlernachricht", "Loginfehler:<br> Bitte Benutzername und Passwort &uuml;berpr&uuml;fen");
 			request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_LOGIN_ERROR");
 			LogAktion a = new LogAktion("Falsches Passwort eingegeben.", sBenutzer);
 			Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
@@ -106,7 +106,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements j
 		}// if
 		else
 		{
-		    request.setAttribute("fehlernachricht", "Loginfehler:<br> Bitte Benutzername und Passwort &uumlberpr&uumlfen");
+		    request.setAttribute("fehlernachricht", "Loginfehler:<br> Bitte Benutzername und Passwort &uuml;berpr&uuml;fen");
 		    request.setAttribute("anfrage_id", "CLASS_BENUTZERSERVLET_LOGIN_ERROR");
 		    if (gBenutzer.size() == 0)
 		    {
