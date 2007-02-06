@@ -23,6 +23,15 @@ import de.randi2.model.fachklassen.Rolle;
 import de.randi2.utility.PasswortUtil;
 
 /**
+ * TODO sobald in der Datenbank gespeichert werden kann, sind die
+ * testGetBenutzer.. Methoden Unsinn, da diese Benutzer nicht mehr vorhanden
+ * sein werden. Vielmehr sollte dann einmal ein Benutzerkonto in der Datenbank
+ * gespeichert werden und dieses dann via Benutzerkonto.getBenutzer(..)
+ * ausgelesen werden und kontrolliert werden, ob diese dann identisch sind
+ * 
+ * TODO testToString() testet nichts
+ * 
+ * 
  * @author Katharina Chruscz <kchruscz@stud.hs-heilbronn.de>
  * @version $Id$
  * 
@@ -203,6 +212,7 @@ public class BenutzerkontoTest {
 	 */
 	@Test
 	public void testToString() {
+		// TODO hier wird nichts ueberprueft
 		Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
 		bKonto.toString();
 	}
@@ -216,9 +226,8 @@ public class BenutzerkontoTest {
 		bKontoBean.setFilter(true);
 		Benutzerkonto aKonto = new Benutzerkonto(bKontoBean);
 		Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
-		boolean wert1 = aKonto.equals(bKonto);
-		assertFalse(wert1);
-		
+		assertTrue(aKonto.equals(bKonto));
+
 		String benutzername2 = "Statistiker";
 		String passwort2 = "1$statistiker";
 		BenutzerkontoBean anderesKontoBean;
@@ -229,11 +238,8 @@ public class BenutzerkontoTest {
 					ersterLogin, letzterLogin);
 			anderesKontoBean.setFilter(true);
 			Benutzerkonto cKonto = new Benutzerkonto(anderesKontoBean);
-			boolean wert2 = aKonto.equals(cKonto);
-			if (wert2 == true) {
+			if (aKonto.equals(cKonto)) {
 				fail("Vergleich von zwei verschiedenen Benutzerkonten liefert ein true zurück");
-			} else {
-				;
 			}
 		} catch (BenutzerkontoException e) {
 			e.printStackTrace();
@@ -249,7 +255,7 @@ public class BenutzerkontoTest {
 	public void testGetBenutzerkontobean() {
 		try {
 			Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
-			bKonto.getBenutzerkontobean();
+			assertTrue(bKonto.getBenutzerkontobean().equals(bKontoBean));
 		} catch (Exception e) {
 			fail("Fehler bei testGetBenutzerkontobean");
 		}
@@ -269,8 +275,9 @@ public class BenutzerkontoTest {
 		String passwortNeu = "1$administrator";
 		String passwortAktuellerBenutzer = Benutzerkonto.getBenutzer(
 				benutzernameNeu).getPasswort();
-		
-		assertTrue(PasswortUtil.getInstance().hashPasswort(passwortNeu).equals(passwortAktuellerBenutzer));
+
+		assertTrue(PasswortUtil.getInstance().hashPasswort(passwortNeu).equals(
+				passwortAktuellerBenutzer));
 	}
 
 	/**
