@@ -23,7 +23,7 @@ public class Benutzerkonto {
 	/**
 	 * Das zugehörige BenutzerkontoBean-Objekt.
 	 */
-	private BenutzerkontoBean aBenutzerkonto;
+	private BenutzerkontoBean aBenutzerkontoBean;
 
 	/**
 	 * Ein Konstruktor dieser Klasse.
@@ -32,7 +32,7 @@ public class Benutzerkonto {
 	 *            das zugehörige BenutzerkontoBean
 	 */
 	public Benutzerkonto(BenutzerkontoBean aBenutzerkonto) {
-		this.aBenutzerkonto = aBenutzerkonto;
+		this.aBenutzerkontoBean = aBenutzerkonto;
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class Benutzerkonto {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return this.aBenutzerkonto.toString();
+		return this.aBenutzerkontoBean.toString();
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class Benutzerkonto {
 	 *         nicht der Fall ist.
 	 */
 	public boolean equals(Benutzerkonto zuvergleichendesObjekt) {
-		if (this.aBenutzerkonto.equals(zuvergleichendesObjekt))
+		if (this.aBenutzerkontoBean.equals(zuvergleichendesObjekt.getBenutzerkontobean()))
 			return true;
 		return false;
 	}
@@ -144,7 +144,7 @@ public class Benutzerkonto {
 	 * @return BenutzerkontoBean
 	 */
 	public BenutzerkontoBean getBenutzerkontobean(){
-		return this.aBenutzerkonto;
+		return this.aBenutzerkontoBean;
 	}
 	
 	/**
