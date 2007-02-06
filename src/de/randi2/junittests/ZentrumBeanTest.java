@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.randi2.junittests;
 
 import static org.junit.Assert.*;
@@ -120,11 +117,10 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetAbteilungNormal() {
-
 		try {
 			zentrum.setAbteilung("abteilung1");
 		} catch (Exception e) {
-			fail("Sollte keine Exception auslösen - richtiger Abteilungsname");
+			fail("Sollte keine Exception ausloesen - richtiger Abteilungsname");
 		}
 	}
 
@@ -139,7 +135,7 @@ public class ZentrumBeanTest {
 			zentrum
 					.setAbteilung("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		} catch (Exception e) {
-			fail("Sollte KEINE exception auslösen!");
+			fail("Sollte KEINE exception ausloesen!");
 		}
 
 	}
@@ -152,9 +148,7 @@ public class ZentrumBeanTest {
 	 */
 	@Test(expected = ZentrumException.class)
 	public void testSetAbteilungZuKurz() throws ZentrumException {
-
 		zentrum.setAbteilung("b");
-
 	}
 
 	/**
@@ -166,10 +160,8 @@ public class ZentrumBeanTest {
 	 */
 	@Test(expected = ZentrumException.class)
 	public void testSetAbteilungZuLang() throws ZentrumException {
-
 		zentrum
 				.setAbteilung("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
 	}
 
 	/**
@@ -179,9 +171,7 @@ public class ZentrumBeanTest {
 	@Test
 	public void testGetAnsprechpartner() {
 		try {
-
 			ansprechpartner = zentrum.getAnsprechpartner();
-
 		} catch (Exception e) {
 			fail("Fehler aufgetreten bei testGetAnsprechpartner");
 		}
@@ -193,7 +183,6 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetAnsprechpartner() {
-
 		try {
 			zentrum.setAnsprechpartner(ansprechpartner);
 		} catch (Exception e) {
@@ -208,11 +197,9 @@ public class ZentrumBeanTest {
 	@Test
 	public void testGetHausnr() {
 		try {
-
 			hausnr = zentrum.getHausnr();
-
 		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetAbteilung");
+			fail("Fehler aufgetreten bei testGetHausnr");
 		}
 	}
 
@@ -227,7 +214,6 @@ public class ZentrumBeanTest {
 		} catch (Exception e) {
 			fail("Hausnummer - erlaubte Zeichen");
 		}
-
 	}
 
 	/**
@@ -284,30 +270,24 @@ public class ZentrumBeanTest {
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setInstitution(java.lang.String)}.
+	 * 
+	 * @throws ZentrumException
 	 */
 	@Test(expected = ZentrumException.class)
-	public void testSetInstitutionZuKurz() {
-		try {
-			zentrum.setInstitution("ab");
-		} catch (Exception e) {
-			fail("sollte eine Exception auslösen - zu kurzer Name");
-		}
+	public void testSetInstitutionZuKurz() throws ZentrumException {
+		zentrum.setInstitution("ab");
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setInstitution(java.lang.String)}.
+	 * 
+	 * @throws ZentrumException
 	 */
 	@Test(expected = ZentrumException.class)
-	public void testSetInstitutionZuLang() {
-		try {
-			zentrum
-					.setInstitution("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-		} catch (ZentrumException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+	public void testSetInstitutionZuLang() throws ZentrumException {
+		zentrum
+				.setInstitution("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 	}
 
 	/**
@@ -328,14 +308,47 @@ public class ZentrumBeanTest {
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setOrt(java.lang.String)}.
 	 */
 	@Test
-	public void testSetOrt() {
-		// TODO: Ort := 3..50 Zeichen
-		// (expected=IllegalArgumentException.class)
+	public void testSetOrtNormal() {
 		try {
 			zentrum.setOrt("ort");
 		} catch (ZentrumException e) {
 			fail("Fehler aufgetreten bei korrekter Eingabe des Ortes");
 		}
+	}
+
+	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setOrt(java.lang.String)}.
+	 */
+	@Test
+	public void testSetOrtMaxLaenge() {
+		try {
+			zentrum
+					.setOrt("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		} catch (ZentrumException e) {
+			fail("Fehler aufgetreten bei korrekter Eingabe des Ortes");
+		}
+	}
+
+	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setOrt(java.lang.String)}.
+	 * 
+	 * @throws ZentrumException
+	 */
+	@Test(expected = ZentrumException.class)
+	public void testSetOrtZuKurz() throws ZentrumException {
+		zentrum.setOrt("a");
+	}
+
+	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setOrt(java.lang.String)}.
+	 * @throws ZentrumException 
+	 */
+	@Test(expected = ZentrumException.class)
+	public void testSetOrtZuLang() throws ZentrumException {
+			zentrum.setOrt("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 	}
 
 	/**
@@ -357,10 +370,6 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetPasswort() {
-		// TODO: Passwort für das Zentrum := Passwort erzeugt mit "pwgen -Bny
-		// 12
-		// 1" immer 12 Zeichen lang, wird jedoch als Hash-Wert gespeichert.
-		// (expected=IllegalArgumentException.class)
 		try {
 			zentrum.setPasswort(passwort);
 		} catch (Exception e) {
@@ -386,14 +395,22 @@ public class ZentrumBeanTest {
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setPlz(java.lang.String)}.
 	 */
 	@Test
-	public void testSetPlz() {
+	public void testSetPlzRichtig() {
 		// TODO: PLZ := \d{5}, 5 Zeichen (ergibt sich)
 		// (expected=IllegalArgumentException.class)
 		try {
-			zentrum.setPlz(plz);
+			zentrum.setPlz("11111");
 		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testSetPlz");
+			fail("Fehler aufgetreten bei richtiger testSetPlz");
 		}
+	}	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setPlz(java.lang.String)}.
+	 * @throws ZentrumException 
+	 */
+	@Test (expected=ZentrumException.class)
+	public void testSetPlzFalsch() throws ZentrumException {
+			zentrum.setPlz("11342234111");
 	}
 
 	/**
@@ -414,14 +431,38 @@ public class ZentrumBeanTest {
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setStrasse(java.lang.String)}.
 	 */
 	@Test
-	public void testSetStrasse() {
-		// TODO: Strasse := 3..50 Zeichen
-		// (expected=IllegalArgumentException.class)
+	public void testSetStrasseNormal() {
 		try {
-			zentrum.setStrasse(strasse);
+			zentrum.setStrasse("Strasse");
 		} catch (Exception e) {
 			fail("Fehler aufgetreten bei testSetStrasse");
 		}
+	}	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setStrasse(java.lang.String)}.
+	 * @throws ZentrumException 
+	 */
+	@Test 
+	public void testSetStrasseMaxLaenge() throws ZentrumException {
+			zentrum.setStrasse("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+	
+	}	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setStrasse(java.lang.String)}.
+	 * @throws ZentrumException 
+	 */
+	@Test (expected = ZentrumException.class)
+	public void testSetStrasseZuKurz() throws ZentrumException {
+			zentrum.setStrasse("a");
+		
+	}	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setStrasse(java.lang.String)}.
+	 * @throws ZentrumException 
+	 */
+	@Test(expected = ZentrumException.class)
+	public void testSetStrasseZuLang() throws ZentrumException {
+			zentrum.setStrasse("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 	}
 
 	/**
