@@ -29,6 +29,8 @@ import de.randi2.utility.PasswortUtil;
  * gespeichert werden und dieses dann via Benutzerkonto.getBenutzer(..)
  * ausgelesen werden und kontrolliert werden, ob diese dann identisch sind
  * 
+ * TODO bei der toString Methode bitte nicht den String ausgeben, sondern mit
+ *       dem Sollwert vergleichen und diesen Vergleich auswerten
  * 
  * @author Katharina Chruscz <kchruscz@stud.hs-heilbronn.de>
  * @version $Id$
