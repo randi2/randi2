@@ -254,7 +254,7 @@ public class ZentrumBean extends Filter {
 			if (passwort != null) {
 				if (!(passwort.matches(".*[A-Za-z].*")
 						|| passwort.matches(".*[0-9].*") || passwort
-						.matches(".*[\\^,.-#+;:_'*!\"�$%&/()=?|<>].*")))
+						.matches(".*[\\^,.-#+;:_'*!\"�$%&/()=?|<>].*") || passwort.matches(".{12}")))
 					throw new ZentrumException(ZentrumException.PASSWORT_FALSCH);
 				this.passwort = PasswortUtil.getInstance().hashPasswort(
 						passwort);
