@@ -25,6 +25,7 @@ import de.randi2.model.exceptions.*;
  * @version $Id$
  * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
  * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
+ * @author Andreas Freudling <afreudling@stud.hs-heilbronn.de>
  * 
  */
 public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
@@ -87,7 +88,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("achtung" + gBenutzer.size());
 				if (gBenutzer.size() == 1) {
 					if (!gBenutzer.get(0).isGesperrt()
 							&& new Benutzerkonto(gBenutzer.firstElement())
@@ -168,8 +168,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 				}
 
 				// Dirty Fix: Da noch keine Suche nach Zentrumbeans möglich
-				Vector<ZentrumBean> gZentrum = Zentrum
-						.suchenZentrum(Zentrum.NULL_ZENTRUM);
+				ZentrumBean sZentrum=Zentrum.NULL_ZENTRUM;
+				sZentrum.setFilter(true);
+				Vector<ZentrumBean> gZentrum = Zentrum.suchenZentrum(sZentrum);
 				Iterator<ZentrumBean> itgZentrum = gZentrum.iterator();
 				while (itgZentrum.hasNext()) {
 					ZentrumBean aZentrumBean = itgZentrum.next();

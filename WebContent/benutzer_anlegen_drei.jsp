@@ -30,11 +30,11 @@ Angaben</b></legend>
 	</tr>
 	<tr>
 		<td>Vorname *<br>
-		<input type="text" size="25" maxlength="30" name="Vorname" value="<%=request.getAttribute("Vorname") %>"
+		<input type="text" size="25" maxlength="30" name="Vorname" value="<%if(request.getAttribute("Vorname")!=null){out.print(request.getAttribute("Vorname"));} %>"
 			tabindex="2"></td>
 		<td>&nbsp;&nbsp;&nbsp;Nachname *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Nachname" tabindex="3" value="<%=request.getAttribute("Nachname") %>"></td>
+			name="Nachname" tabindex="3" value="<%if(request.getAttribute("Nachname")!=null){out.print(request.getAttribute("Nachname"));} %>"></td>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
@@ -43,12 +43,12 @@ Angaben</b></legend>
 	</tr>
 	<tr>
 		<td>Passwort *<br>
-		<input type="text" size="25" maxlength="30" name="Passwort" value="<%=request.getAttribute("Passwort") %>"
+		<input type="password" size="25" maxlength="30" name="Passwort" value="<%if(request.getAttribute("Passwort")!=null){out.print(request.getAttribute("Passwort"));} %>"
 			tabindex="6"></td>
 	</tr>
 	<tr>
 		<td>Passwort wiederholen *<br>
-		<input type="text" size="25" maxlength="30" name="Passwort_wh" value="<%=request.getAttribute("Passwort_wh") %>"
+		<input type="password" size="25" maxlength="30" name="Passwort_wh" value="<%if(request.getAttribute("Passwort_wh")!=null){out.print(request.getAttribute("Passwort_wh"));} %>"
 			tabindex="7"></td>
 	</tr>
 </table>
@@ -58,16 +58,16 @@ Angaben</b></legend>
 <table>
 	<tr>
 		<td>E-Mail *<br>
-		<input type="text" size="25" maxlength="30" name="Email" tabindex="8" value="<%=request.getAttribute("Email") %>"></td>
+		<input type="text" size="25" maxlength="30" name="Email" tabindex="8" value="<%if(request.getAttribute("Email")!=null){out.print(request.getAttribute("Email"));} %>"></td>
 		<td>&nbsp;&nbsp;&nbsp;Telefonnummer *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Telefon" tabindex="9" value="<%=request.getAttribute("Telefon") %>"></td>
+			name="Telefon" tabindex="9" value="<%if(request.getAttribute("Telefon")!=null){out.print(request.getAttribute("Telefon"));} %>"></td>
 	</tr>
 	<tr>
 		<td>Handy<br>
-		<input type="text" size="25" maxlength="30" name="Handy" tabindex="10" value="<%=request.getAttribute("Handy") %>"></td>
+		<input type="text" size="25" maxlength="30" name="Handy" tabindex="10" value="<%if(request.getAttribute("Handy")!=null){out.print(request.getAttribute("Handy"));} %>"></td>
 		<td>&nbsp;&nbsp;&nbsp;Fax<br>
-		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30" name="Fax" tabindex="11" value="<%=request.getAttribute("Fax") %>"></td>
+		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30" name="Fax" tabindex="11" value="<%if(request.getAttribute("Fax")!=null){out.print(request.getAttribute("Fax"));} %>"></td>
 	</tr>
 </table>
 </fieldset>

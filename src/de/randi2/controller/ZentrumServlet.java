@@ -4,6 +4,8 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.*;
 import de.randi2.model.fachklassen.beans.*;
 import java.util.*;
@@ -49,6 +51,8 @@ import org.apache.log4j.Logger;
 		// Schritt 2.1
 		if (id.equals("CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI")) {
 			//Nach allen vorhandenen Zentren suchen
+			ZentrumBean sZentrum=Zentrum.NULL_ZENTRUM;
+			sZentrum.setFilter(true);
 			Vector<ZentrumBean> gZentrum=Zentrum.suchenZentrum(Zentrum.NULL_ZENTRUM);
 			request.setAttribute("listeZentren",gZentrum);			
 			//Schritt 2.1.3
@@ -65,14 +69,23 @@ import org.apache.log4j.Logger;
 				if(((String)request.getParameter("name_institution"))!=""&&((String)request.getParameter("name_abteilung"))!="")
 				{
 					ZentrumBean sZentrum= new ZentrumBean();
-					sZentrum.setInstitution(request.getParameter("name_institution"));
-					sZentrum.setAbteilung(request.getParameter("name_abteilung"));
-					sZentrum.setFilter(true);
+					
+					//Filter setzen
+						sZentrum.setFilter(true);
+					try {
+						sZentrum.setInstitution(request.getParameter("name_institution"));
+						sZentrum.setAbteilung(request.getParameter("name_abteilung"));
+					} catch (ZentrumException e) {
+						//Interner Fehler, wird nicht an Benutzer weitergegeben
+						Logger.getLogger(this.getClass()).fatal("Fehler bei Zentrumsfilterung",e);
+					}
 					gZentrum=Zentrum.suchenZentrum(sZentrum);
 				}
 				else
 				{
-					gZentrum=Zentrum.suchenZentrum(Zentrum.NULL_ZENTRUM);
+					ZentrumBean sZentrum=Zentrum.NULL_ZENTRUM;
+					sZentrum.setFilter(true);
+					gZentrum=Zentrum.suchenZentrum(sZentrum);
 				}
 
 			
