@@ -13,7 +13,7 @@ import de.randi2.utility.NullKonstanten;;
 /**
  * Die JUnit Klasse PersonBeanTest testet alle SetterMethoden der Klasse
  * PersonBean. Auf ein Testen der getter-Methoden kann verzichtet werden, da
- * dortige Fehler auf Kompilierebene liegen m�ssten.
+ * dortige Fehler auf Kompilierebene liegen muessten.
  * 
  * @author Tino Noack <tnoack@stud.hs-heilbronn.de>
  * @version $Id$
