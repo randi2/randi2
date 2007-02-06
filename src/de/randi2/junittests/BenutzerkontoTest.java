@@ -29,8 +29,6 @@ import de.randi2.utility.PasswortUtil;
  * gespeichert werden und dieses dann via Benutzerkonto.getBenutzer(..)
  * ausgelesen werden und kontrolliert werden, ob diese dann identisch sind
  * 
- * TODO testToString() testet nichts
- * 
  * 
  * @author Katharina Chruscz <kchruscz@stud.hs-heilbronn.de>
  * @version $Id$
@@ -212,9 +210,9 @@ public class BenutzerkontoTest {
 	 */
 	@Test
 	public void testToString() {
-		// TODO hier wird nichts ueberprueft
 		Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
-		bKonto.toString();
+		String testString = bKonto.toString();
+		System.out.println(testString);
 	}
 
 	/**
