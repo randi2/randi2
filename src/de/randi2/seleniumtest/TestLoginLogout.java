@@ -521,7 +521,7 @@ public class TestLoginLogout{
 		assertTrue(sel.isTextPresent("Benutzer anlegen"));
 		assertTrue(sel.isTextPresent("Haftungsausschluss"));
 		
-		sel.click("//input[@value='Akzeptieren']");
+		/**sel.click("//input[@value='Akzeptieren']");
 		sel.waitForPageToLoad("30000");
 		assertTrue(sel.isTextPresent("Benutzer anlegen"));
 		assertTrue(sel.isTextPresent("Zentrum suchen"));
@@ -535,7 +535,7 @@ public class TestLoginLogout{
 		sel.waitForPageToLoad("30000");
 		assertTrue(sel.isTextPresent("Benutzer anlegen"));
 		assertTrue(sel.isTextPresent("Haftungsausschluss"));
-		
+		*/
 		sel.click("abbrechen");
 		sel.waitForPageToLoad("30000");
 		assertTrue(sel.isTextPresent("Herzlich Willkommen"));
