@@ -121,18 +121,20 @@ public class PersonBean extends Filter {
 		boolean filter = super.isFilter();
 		if (!filter && email == null) {
 			throw new PersonException(PersonException.EMAIL_FEHLT);
+		} else if (!filter) {
+			email = email.trim();
+			if (!filter && email.length() == 0) {
+				throw new PersonException(PersonException.EMAIL_FEHLT);
+			}
+			if (!filter && email.length() > 255) {
+				throw new PersonException(PersonException.EMAIL_UNGUELTIG);
+			}
+			if (!email
+					.matches("[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4}")) {
+				throw new PersonException(PersonException.EMAIL_UNGUELTIG);
+			}
 		}
-		email = email.trim();
-		if (!filter && email.length() == 0) {
-			throw new PersonException(PersonException.EMAIL_FEHLT);
-		}
-		if (!filter && email.length() > 255) {
-			throw new PersonException(PersonException.EMAIL_UNGUELTIG);
-		}
-		if (!email
-				.matches("[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4}")) {
-			throw new PersonException(PersonException.EMAIL_UNGUELTIG);
-		}
+
 		this.email = email;
 	}
 
@@ -148,9 +150,11 @@ public class PersonBean extends Filter {
 	 *            the fax to set
 	 */
 	public void setFax(String fax) throws PersonException {
+		if(fax!=null){
 		fax = fax.trim();
 		if (!fax.matches("(\\+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
 			throw new PersonException(PersonException.FAX_UNGUELTIG);
+		}
 		}
 		this.fax = fax;
 	}
@@ -168,12 +172,12 @@ public class PersonBean extends Filter {
 	 */
 	public void setGeschlecht(char geschlecht) throws PersonException {
 		boolean filter = super.isFilter();
-		if (!filter && geschlecht == '\0') {
+		if (!filter && geschlecht == NullKonstanten.NULL_CHAR) {
 			throw new PersonException(PersonException.GESCHLECHT_FEHLT);
 		}
 		// if(!(geschlecht == Konstanten.MAENNLICH || geschlecht ==
 		// Konstanten.WEIBLICH)) {
-		if (!(geschlecht == 'm' || geschlecht == 'w')) {
+		if (!filter&&!(geschlecht == 'm' || geschlecht == 'w')) {
 			throw new PersonException(PersonException.GESCHLECHT_UNGUELTIG);
 		}
 		this.geschlecht = geschlecht;
@@ -191,9 +195,12 @@ public class PersonBean extends Filter {
 	 *            the handynummer to set
 	 */
 	public void setHandynummer(String handynummer) throws PersonException {
-		handynummer = handynummer.trim();
-		if (!handynummer.matches("(\\+\\d{2,3}|0)(\\d){3,10}[-/]?(\\d){3,15}")) {
-			throw new PersonException(PersonException.HANDY_UNGUELTIG);
+		if (handynummer != null) {
+			handynummer = handynummer.trim();
+			if (!handynummer
+					.matches("(\\+\\d{2,3}|0)(\\d){3,10}[-/]?(\\d){3,15}")) {
+				throw new PersonException(PersonException.HANDY_UNGUELTIG);
+			}
 		}
 		this.handynummer = handynummer;
 	}
@@ -211,9 +218,10 @@ public class PersonBean extends Filter {
 	 */
 	public void setNachname(String nachname) throws PersonException {
 		boolean filter = super.isFilter();
+		
 		if (!filter && nachname == null)
 			throw new PersonException(PersonException.NACHNAME_FEHLT);
-		nachname = nachname.trim();
+		if (!filter){nachname = nachname.trim();}
 		if (!filter && nachname.length() == 0) {
 			throw new PersonException(PersonException.NACHNAME_FEHLT);
 		}
@@ -239,14 +247,18 @@ public class PersonBean extends Filter {
 		if (!filter && telefonnummer == null) {
 			throw new PersonException(PersonException.TELEFONNUMMER_FEHLT);
 		}
-		telefonnummer = telefonnummer.trim();
-		if (!filter && telefonnummer.length() == 0) {
-			throw new PersonException(PersonException.TELEFONNUMMER_FEHLT);
+		if (!filter) {
+			telefonnummer = telefonnummer.trim();
+			if (!filter && telefonnummer.length() == 0) {
+				throw new PersonException(PersonException.TELEFONNUMMER_FEHLT);
+			}
+			if (!telefonnummer
+					.matches("(\\+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
+				throw new PersonException(
+						PersonException.TELEFONNUMMER_UNGUELTIG);
+			}
 		}
-		if (!telefonnummer
-				.matches("(\\+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
-			throw new PersonException(PersonException.TELEFONNUMMER_UNGUELTIG);
-		}
+
 		this.telefonnummer = telefonnummer;
 	}
 
@@ -264,7 +276,7 @@ public class PersonBean extends Filter {
 	public void setTitel(String titel) throws PersonException {
 		boolean filter = super.isFilter();
 		if (!filter && titel != null) {
-			titel = titel.trim();
+			if (!filter){titel = titel.trim();}
 			if (!titel.matches("(Prof.|Dr.|Prof. Dr.|)")) {
 				throw new PersonException(PersonException.TITEL_UNGUELTIG);
 			}
@@ -287,7 +299,7 @@ public class PersonBean extends Filter {
 		boolean filter = super.isFilter();
 		if (!filter && vorname == null)
 			throw new PersonException(PersonException.VORNAME_FEHLT);
-		vorname = vorname.trim();
+		if (!filter){vorname = vorname.trim();}
 		if (!filter && vorname.length() == 0) {
 			throw new PersonException(PersonException.VORNAME_FEHLT);
 		}
