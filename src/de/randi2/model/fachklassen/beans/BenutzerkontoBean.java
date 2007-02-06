@@ -188,7 +188,8 @@ public class BenutzerkontoBean extends Filter {
             throw new BenutzerkontoException(
                     BenutzerkontoException.BENUTZERNAME_ZU_LANG);
         }
-		if (!(benutzername.matches("(\\w|\\d|[._-]|\\@)"))) {
+		if (!(benutzername.matches("(\\w|\\d|[._-])*") ||
+			benutzername.matches("[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.))+([a-zA-Z]){2,4}"))) {
 				throw new BenutzerkontoException(
 						BenutzerkontoException.BENUTZERNAME_ENTHAELT_UNGUELTIGE_ZEICHEN);
 		}
