@@ -121,79 +121,66 @@ public class BenutzerkontoTest {
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#anlegenBenutzer(de.randi2.model.fachklassen.beans.BenutzerkontoBean)}.
+	 * @throws DatenbankFehlerException 
 	 */
 	@Test
-	public void testAnlegenBenutzer() {
-		try {
+	public void testAnlegenBenutzer() throws DatenbankFehlerException {	
 			Benutzerkonto.anlegenBenutzer(bKontoBean);
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testAnlegenBenutzer");
-		}
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
+	 * @throws DatenbankFehlerException 
+	 * @throws BenutzerkontoException 
 	 */
 	@Test
-	public void testGetBenutzerStudienleiter() {
-		try {
-			Benutzerkonto.getBenutzer("studienleiter");
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetBenutzerStudienleiter");
-		}
+	public void testGetBenutzerStudienleiter() throws BenutzerkontoException, DatenbankFehlerException {
+			Benutzerkonto.getBenutzer("Studienleiter");
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
+	 * @throws DatenbankFehlerException 
+	 * @throws BenutzerkontoException 
 	 */
 	@Test
-	public void testGetBenutzerAdministrator() {
-		try {
-			Benutzerkonto.getBenutzer("administrator");
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetBenutzerAdministrator");
-		}
+	public void testGetBenutzerAdministrator() throws BenutzerkontoException, DatenbankFehlerException {
+				Benutzerkonto.getBenutzer("administrator");
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
+	 * @throws DatenbankFehlerException 
+	 * @throws BenutzerkontoException 
 	 */
 	@Test
-	public void testGetBenutzerSystemoperator() {
-		try {
+	public void testGetBenutzerSystemoperator() throws BenutzerkontoException, DatenbankFehlerException {
 			Benutzerkonto.getBenutzer("systemoperator");
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetBenutzerSystemoperator");
-		}
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
+	 * @throws DatenbankFehlerException 
+	 * @throws BenutzerkontoException 
 	 */
 	@Test
-	public void testGetBenutzerStatistiker() {
-		try {
+	public void testGetBenutzerStatistiker() throws BenutzerkontoException, DatenbankFehlerException {
 			Benutzerkonto.getBenutzer("statistiker");
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetBenutzerStatistiker");
-		}
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
+	 * @throws DatenbankFehlerException 
+	 * @throws BenutzerkontoException 
 	 */
 	@Test
-	public void testGetBenutzerStudienarzt() {
-		try {
+	public void testGetBenutzerStudienarzt() throws BenutzerkontoException, DatenbankFehlerException {
 			Benutzerkonto.getBenutzer("sa@randi2.de");
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetBenutzerStudienarzt");
-		}
 	}
 
 	/**
@@ -202,12 +189,8 @@ public class BenutzerkontoTest {
 	 */
 	@Test
 	public void testToString() {
-		try {
 			Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
 			bKonto.toString();
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testToString");
-		}
 	}
 
 	/**
@@ -262,13 +245,13 @@ public class BenutzerkontoTest {
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#pruefenPasswort(java.lang.String)}.
+	 * @throws DatenbankFehlerException 
+	 * @throws BenutzerkontoException 
 	 */
 	@Test
-	public void testPruefenPasswort() {
-		try {
+	public void testPruefenPasswort() throws BenutzerkontoException, DatenbankFehlerException {
 			String benutzernameNeu = "Statistiker";
 			String passwortNeu = "1$statistiker";
-
 			String passwortAktuellerBenutzer = Benutzerkonto.getBenutzer(
 					benutzernameNeu).getPasswort();
 			if (passwortAktuellerBenutzer.equalsIgnoreCase(passwortNeu)) {
@@ -276,10 +259,6 @@ public class BenutzerkontoTest {
 			} else {
 				fail("Passwort ist falsch");
 			}
-
-		} catch (Exception e) {
-			fail("unerwarteter Fehler ist aufgetreten!");
-		}
 	}
 
 	/**
