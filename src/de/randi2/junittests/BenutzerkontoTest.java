@@ -54,8 +54,8 @@ public class BenutzerkontoTest {
 		// PropertyConfigurator.configure("C:/Dokumente und
 		// Einstellungen/user/Desktop/workspace
 		// Together/RANDI2/WebContent/WEB-INF/log4j.lcf");
-		benutzername = "studienleiter";
-		passwort = "1$studienleiter";
+		benutzername = "administrator";
+		passwort = "1$administrator";
 
 		gesperrt = false;
 		rolle = Rolle.getStudienleiter();
@@ -63,8 +63,8 @@ public class BenutzerkontoTest {
 		ersterLogin = new GregorianCalendar(2006, 10, 20);
 		letzterLogin = new GregorianCalendar(2006, 11, 30);
 
-		zentrum = new ZentrumBean(1, "institution", "abteilung", "Ort", "11111",
-				"Strasse", "12", ansprechpartner, "Passwort");
+		zentrum = new ZentrumBean(1, "institution", "abteilung", "Ort",
+				"11111", "Strasse", "12", ansprechpartner, "Passwort");
 
 		try {
 
@@ -110,77 +110,90 @@ public class BenutzerkontoTest {
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#suchenBenutzer(de.randi2.model.fachklassen.beans.BenutzerkontoBean)}.
-	 * @throws DatenbankFehlerException 
+	 * 
+	 * @throws DatenbankFehlerException
 	 */
 	@Test
 	public void testSuchenBenutzer() throws DatenbankFehlerException {
 		Vector suchErgebnisse = new Vector();
+		bKontoBean.setFilter(true);
 		suchErgebnisse = Benutzerkonto.suchenBenutzer(bKontoBean);
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#anlegenBenutzer(de.randi2.model.fachklassen.beans.BenutzerkontoBean)}.
-	 * @throws DatenbankFehlerException 
+	 * 
+	 * @throws DatenbankFehlerException
 	 */
 	@Test
-	public void testAnlegenBenutzer() throws DatenbankFehlerException {	
-			Benutzerkonto.anlegenBenutzer(bKontoBean);
+	public void testAnlegenBenutzer() throws DatenbankFehlerException {
+		Benutzerkonto.anlegenBenutzer(bKontoBean);
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
-	 * @throws DatenbankFehlerException 
-	 * @throws BenutzerkontoException 
+	 * 
+	 * @throws DatenbankFehlerException
+	 * @throws BenutzerkontoException
 	 */
 	@Test
-	public void testGetBenutzerStudienleiter() throws BenutzerkontoException, DatenbankFehlerException {
-			Benutzerkonto.getBenutzer("Studienleiter");
+	public void testGetBenutzerStudienleiter() throws BenutzerkontoException,
+			DatenbankFehlerException {
+		Benutzerkonto.getBenutzer("studienleiter");
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
-	 * @throws DatenbankFehlerException 
-	 * @throws BenutzerkontoException 
+	 * 
+	 * @throws DatenbankFehlerException
+	 * @throws BenutzerkontoException
 	 */
 	@Test
-	public void testGetBenutzerAdministrator() throws BenutzerkontoException, DatenbankFehlerException {
-				Benutzerkonto.getBenutzer("administrator");
+	public void testGetBenutzerAdministrator() throws BenutzerkontoException,
+			DatenbankFehlerException {
+		Benutzerkonto.getBenutzer("administrator");
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
-	 * @throws DatenbankFehlerException 
-	 * @throws BenutzerkontoException 
+	 * 
+	 * @throws DatenbankFehlerException
+	 * @throws BenutzerkontoException
 	 */
 	@Test
-	public void testGetBenutzerSystemoperator() throws BenutzerkontoException, DatenbankFehlerException {
-			Benutzerkonto.getBenutzer("systemoperator");
+	public void testGetBenutzerSystemoperator() throws BenutzerkontoException,
+			DatenbankFehlerException {
+		Benutzerkonto.getBenutzer("systemoperator");
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
-	 * @throws DatenbankFehlerException 
-	 * @throws BenutzerkontoException 
+	 * 
+	 * @throws DatenbankFehlerException
+	 * @throws BenutzerkontoException
 	 */
 	@Test
-	public void testGetBenutzerStatistiker() throws BenutzerkontoException, DatenbankFehlerException {
-			Benutzerkonto.getBenutzer("statistiker");
+	public void testGetBenutzerStatistiker() throws BenutzerkontoException,
+			DatenbankFehlerException {
+		Benutzerkonto.getBenutzer("statistiker");
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
-	 * @throws DatenbankFehlerException 
-	 * @throws BenutzerkontoException 
+	 * 
+	 * @throws DatenbankFehlerException
+	 * @throws BenutzerkontoException
 	 */
 	@Test
-	public void testGetBenutzerStudienarzt() throws BenutzerkontoException, DatenbankFehlerException {
-			Benutzerkonto.getBenutzer("sa@randi2.de");
+	public void testGetBenutzerStudienarzt() throws BenutzerkontoException,
+			DatenbankFehlerException {
+		Benutzerkonto.getBenutzer("sa@randi2.de");
 	}
 
 	/**
@@ -189,8 +202,8 @@ public class BenutzerkontoTest {
 	 */
 	@Test
 	public void testToString() {
-			Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
-			bKonto.toString();
+		Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
+		bKonto.toString();
 	}
 
 	/**
@@ -199,6 +212,7 @@ public class BenutzerkontoTest {
 	 */
 	@Test
 	public void testEqualsBenutzerkonto() {
+		bKontoBean.setFilter(true);
 		Benutzerkonto aKonto = new Benutzerkonto(bKontoBean);
 		Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
 		boolean wert1 = aKonto.equals(bKonto);
@@ -210,10 +224,12 @@ public class BenutzerkontoTest {
 		String benutzername2 = "Statistiker";
 		String passwort2 = "1$statistiker";
 		BenutzerkontoBean anderesKontoBean;
+
 		try {
 			anderesKontoBean = new BenutzerkontoBean(benutzername2, passwort2,
 					rolle, benutzer, ansprechpartner, gesperrt, zentrum,
 					ersterLogin, letzterLogin);
+			anderesKontoBean.setFilter(true);
 			Benutzerkonto cKonto = new Benutzerkonto(anderesKontoBean);
 			boolean wert2 = aKonto.equals(cKonto);
 			if (wert2 == true) {
@@ -245,20 +261,22 @@ public class BenutzerkontoTest {
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#pruefenPasswort(java.lang.String)}.
-	 * @throws DatenbankFehlerException 
-	 * @throws BenutzerkontoException 
+	 * 
+	 * @throws DatenbankFehlerException
+	 * @throws BenutzerkontoException
 	 */
 	@Test
-	public void testPruefenPasswort() throws BenutzerkontoException, DatenbankFehlerException {
-			String benutzernameNeu = "Statistiker";
-			String passwortNeu = "1$statistiker";
-			String passwortAktuellerBenutzer = Benutzerkonto.getBenutzer(
-					benutzernameNeu).getPasswort();
-			if (passwortAktuellerBenutzer.equalsIgnoreCase(passwortNeu)) {
-				; // passiert nichts
-			} else {
-				fail("Passwort ist falsch");
-			}
+	public void testPruefenPasswort() throws BenutzerkontoException,
+			DatenbankFehlerException {
+		String benutzernameNeu = "administrator";
+		String passwortNeu = "1$administrator";
+		String passwortAktuellerBenutzer = Benutzerkonto.getBenutzer(
+				benutzernameNeu).getPasswort();
+		if (passwortAktuellerBenutzer.equalsIgnoreCase(passwortNeu)) {
+			; // passiert nichts
+		} else {
+			fail("Passwort ist falsch");
+		}
 	}
 
 	/**
