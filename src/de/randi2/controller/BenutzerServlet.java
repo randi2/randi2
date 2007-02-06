@@ -68,6 +68,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 
 				sBenutzer = new BenutzerkontoBean();
 
+				sBenutzer.setFilter(true);
 				sBenutzer.setBenutzername((String) request
 						.getParameter("username"));
 				// Zukünftig sollte hier gleich das Passwort überprüft werden
@@ -80,7 +81,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 				// TODO Ich weiß auch nich warum - aber es wird beim dem
 				// sBenutzer Objekt nicht setFilter() aufgerufen. Deswegen mache
 				// ich das an dieser Stelle:
-				sBenutzer.setFilter(true);
 				try {
 					gBenutzer = Benutzerkonto.suchenBenutzer(sBenutzer);
 				} catch (DatenbankFehlerException e) {
