@@ -175,7 +175,7 @@ public class BenutzerkontoBean extends Filter {
      */
     public void setBenutzername(String benutzername)
             throws BenutzerkontoException {
-        boolean filter = super.isFilter();
+        boolean filter = this.isFilter();
 
         if (!filter && benutzername == null) {
             throw new BenutzerkontoException(
@@ -193,7 +193,7 @@ public class BenutzerkontoBean extends Filter {
                 throw new BenutzerkontoException(
                         BenutzerkontoException.BENUTZERNAME_ZU_LANG);
             }
-            if (!(benutzername.matches("(\\w|\\d|[._-])*") || benutzername
+            if (!filter && !(benutzername.matches("(\\w|\\d|[._-])*") || benutzername
                     .matches("[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.))+([a-zA-Z]){2,4}"))) {
                 throw new BenutzerkontoException(
                         BenutzerkontoException.BENUTZERNAME_ENTHAELT_UNGUELTIGE_ZEICHEN);
@@ -322,7 +322,7 @@ public class BenutzerkontoBean extends Filter {
             throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
         }
 
-        if (!(klartext.matches(".*[A-Za-z].*") && klartext.matches(".*[0-9].*")
+        if (!filter && !(klartext.matches(".*[A-Za-z].*") && klartext.matches(".*[0-9].*")
                 && klartext.matches(".*[\\^,.\\-#+;:_'*!\"§$@&%/()=?|<>].*"))){
                   throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
             }
