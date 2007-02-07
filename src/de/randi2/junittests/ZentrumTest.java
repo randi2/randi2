@@ -1,104 +1,149 @@
-/**
- * 
- */
 package de.randi2.junittests;
 
 import static org.junit.Assert.*;
+
+import java.util.Vector;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.randi2.datenbank.DatenbankFactory;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 
 /**
+ * Die Test-Klasse fuer die Klasse Zentrum.
+ * 
  * @author Tino Noack <tnoack@stud.hs-heilbronn.de>
+ * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
  * @version $Id$
  */
 public class ZentrumTest {
-	
+
 	private ZentrumBean testZB;
+
 	private Zentrum testZ;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		testZB = new ZentrumBean();
-		testZ = new Zentrum(testZB);
+		try {
+			testZB.setId(1);
+			testZB.setInstitution("HS Heilbronn");
+			testZB.setAbteilung("Medizinische Infromatik");
+			testZB.setAnsprechpartner(new PersonBean("Müller", "Martin", null,
+					'm', "mmueller@hs-heilbronn.de", "07131400500",
+					"0176554422", null));
+			testZB.setOrt("Heilbronn");
+			testZB.setPlz("74081");
+			testZB.setStrasse("Max Planck Strasse");
+			testZB.setHausnr("1a");
+			testZB.setPasswortKlartext("teig@eeThuu3");
+		} catch (ZentrumException e1) {
+			fail("Beim Erzeugen eines ZentrumBeans trat ein Fehler auf: "+e1.getMessage());
+		} catch (PersonException e2) {
+			fail("Beim Erzeugen eines PersonBeans trat ein Fehler auf: "+e2.getMessage());
+		}
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		testZB = null;
-		testZ = null;
 	}
 
 	/**
-	 * Test method for {@link de.randi2.model.fachklassen.Zentrum#suchenZentrum(de.randi2.model.fachklassen.beans.ZentrumBean)}.
+	 * Test Methode, die den Konstruktor der Klasse Zentrum testet. Sie erzeugt
+	 * eine Instanz dieser Klasse, in dem sie auch ein ZentrumBean an den
+	 * Konstruktor uebergibt. Danach versucht sie dieses Bean zu holen, in dem
+	 * sie das neue Objekt anspricht und die getZentrumBean() Methode aufruft.
+	 */
+	@Test
+	public void testErzeugenZentrum() {
+		testZ = new Zentrum(testZB);
+		assertTrue(testZB.getId() == testZ.getZentrumBean().getId());
+		assertEquals(testZB.getInstitution(), testZ.getZentrumBean()
+				.getInstitution());
+		assertEquals(testZB.getAbteilung(), testZ.getZentrumBean()
+				.getAbteilung());
+		assertEquals(testZB.getAnsprechpartner(), testZ.getZentrumBean()
+				.getAnsprechpartner());
+		assertEquals(testZB.getOrt(), testZ.getZentrumBean().getOrt());
+		assertEquals(testZB.getPlz(), testZ.getZentrumBean().getPlz());
+		assertEquals(testZB.getStrasse(), testZ.getZentrumBean().getStrasse());
+		assertEquals(testZB.getHausnr(), testZ.getZentrumBean().getHausnr());
+		assertEquals(testZB.getPasswort(), testZ.getZentrumBean().getPasswort());
+	}
+
+	/**
+	 * Test Methode für suchenZentrum(). Sie sucht nach einem ZentrumBean(mit
+	 * Filter=true).
+	 * 
+	 * TODO Sobald die Funktionalität ein Zentrum zu speichern bzw. zu anlegen
+	 * gegeben wird, muss diese Methode umgeschrieben werden. Da dann sollte man
+	 * erstmal ein Zentrum erzeugen, speichern und dann danach suchen.
+	 * 
+	 * {@link de.randi2.model.fachklassen.Zentrum#suchenZentrum(de.randi2.model.fachklassen.beans.ZentrumBean)}.
 	 */
 	@Test
 	public void testSuchenZentrum() {
-		
-		try{
-		assertEquals(Zentrum.suchenZentrum(testZB),
-				DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(testZB));
-		}catch(Exception e){
-			e.printStackTrace();
-			fail("Sollte keine Exception werfen.");
+		testZB = new ZentrumBean();
+		testZB.setFilter(true);
+		try {
+			testZB.setInstitution("Institut1");
+		} catch (ZentrumException e) {
+			fail("Bei der ZentrumBean Klasse trat ein Fehler auf: "
+					+ e.getMessage());
 		}
+		Vector<ZentrumBean> tempVec = null;
+		try {
+			tempVec = Zentrum.suchenZentrum(testZB);
+		} catch (DatenbankFehlerException e) {
+			fail("Eine DatenbankFehlerException ist aufgetreten: "
+					+ e.getMessage());
+		}
+		/*
+		 * Da wir wissen, dass zur Zeit sich in der DB-Dummy Klasse 2 Zentren
+		 * (institut1) befinden.
+		 */
+		assertTrue(tempVec.size() == 2);
+		assertEquals(tempVec.elementAt(0).getInstitution(), "Institut1");
+		assertEquals(tempVec.elementAt(1).getInstitution(), "Institut1");
+		/*
+		 * Jetzt suchen wir nach einem nicht existierendem Zentrum - Ergebnis:
+		 * kein Zentrum wird gefunden.
+		 */
+		testZB = new ZentrumBean();
+		testZB.setFilter(true);
+		try {
+			testZB.setInstitution("Uni Heidelberg");
+		} catch (ZentrumException e) {
+			fail("Bei der ZentrumBean Klasse trat ein Fehler auf: "
+					+ e.getMessage());
+		}
+		tempVec = null;
+		try {
+			tempVec = Zentrum.suchenZentrum(testZB);
+		} catch (DatenbankFehlerException e) {
+			fail("Eine DatenbankFehlerException ist aufgetreten: "
+					+ e.getMessage());
+		}
+		assertTrue(tempVec.size()==0);
+		
 	}
-	
 
 	/**
-	 * Test method for {@link de.randi2.model.fachklassen.Zentrum#pruefenPasswort(java.lang.String)}.
+	 * Test Methode für prufenPasswort()
+	 * {@link de.randi2.model.fachklassen.Zentrum#pruefenPasswort(java.lang.String)}.
 	 */
 	@Test
-	public void testPruefenPasswortKorrekt() {
-		try{
-		boolean ergebnis = testZ.pruefenPasswort("$aBcDe12345%");
-		assertTrue(ergebnis);
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Test method for {@link de.randi2.model.fachklassen.Zentrum#pruefenPasswort(java.lang.String)}.
-	 */
-	@Test
-	public void testPruefenPasswortFalsch() {
-		
-		boolean ergebnis = testZ.pruefenPasswort("falschesPW");
-		ergebnis = testZ.pruefenPasswort("sf");
-		assertFalse(ergebnis);
-		ergebnis = testZ.pruefenPasswort("qwertzuihdjkjbgf");
-		assertFalse(ergebnis);
-		ergebnis = testZ.pruefenPasswort("12345678909876");
-		assertFalse(ergebnis);
-		ergebnis = testZ.pruefenPasswort("!§$%&/()=?!§$%");
-		assertFalse(ergebnis);
-		
-	}
-
-	/**
-	 * Test method for {@link de.randi2.model.fachklassen.Zentrum#getZentrumBean()}.
-	 */
-	@Test
-	public void testGetZentrumBean() {
-		assertEquals(testZ.getZentrumBean(),testZB);
-		
+	public void testPruefen() {
+		testZ = new Zentrum(testZB);
+		assertTrue(testZ.pruefenPasswort("teig@eeThuu3"));
+		assertFalse(testZ.pruefenPasswort("falschesPW"));	
 	}
 
 }
