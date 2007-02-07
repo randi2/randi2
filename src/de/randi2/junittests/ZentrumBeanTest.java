@@ -334,7 +334,7 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetPasswortRichtig() throws ZentrumException {
-		zentrum.setPasswort("aaaaa(a&_67a");
+		zentrum.setPasswortKlartext("aaaaa(a&_67a");
 	}
 	/**
 	 * Test method for
@@ -342,11 +342,11 @@ public class ZentrumBeanTest {
 	 * 
 	 * @throws ZentrumException
 	 */
-	@Test
+	@Test(expected = ZentrumException.class)
 	public void testSetPasswortFalsch() throws ZentrumException {
 		
 
-			zentrum.setPasswort("aaaaa(a&_67a234ikrfoawra");
+			zentrum.setPasswortKlartext("aaaaa(a&_67a234ikrfoawra");
 
 	}
 
