@@ -44,9 +44,11 @@ public class ZentrumTest {
 			testZB.setHausnr("1a");
 			testZB.setPasswortKlartext("teig@eeThuu3");
 		} catch (ZentrumException e1) {
-			fail("Beim Erzeugen eines ZentrumBeans trat ein Fehler auf: "+e1.getMessage());
+			fail("Beim Erzeugen eines ZentrumBeans trat ein Fehler auf: "
+					+ e1.getMessage());
 		} catch (PersonException e2) {
-			fail("Beim Erzeugen eines PersonBeans trat ein Fehler auf: "+e2.getMessage());
+			fail("Beim Erzeugen eines PersonBeans trat ein Fehler auf: "
+					+ e2.getMessage());
 		}
 	}
 
@@ -94,6 +96,7 @@ public class ZentrumTest {
 		testZB.setFilter(true);
 		try {
 			testZB.setInstitution("Institut1");
+			testZB.setAbteilung("Abteilung1");
 		} catch (ZentrumException e) {
 			fail("Bei der ZentrumBean Klasse trat ein Fehler auf: "
 					+ e.getMessage());
@@ -106,12 +109,12 @@ public class ZentrumTest {
 					+ e.getMessage());
 		}
 		/*
-		 * Da wir wissen, dass zur Zeit sich in der DB-Dummy Klasse 2 Zentren
-		 * (institut1) befinden.
+		 * Da wir wissen, dass zur Zeit sich in der DB-Dummy Klasse 1 Zentrum
+		 * mit gesuchten Eigenschaftenbefinden.
 		 */
-		assertTrue(tempVec.size() == 2);
+		assertTrue(tempVec.size() == 1);
 		assertEquals(tempVec.elementAt(0).getInstitution(), "Institut1");
-		assertEquals(tempVec.elementAt(1).getInstitution(), "Institut1");
+		assertEquals(tempVec.elementAt(0).getAbteilung(), "Abteilung1");
 		/*
 		 * Jetzt suchen wir nach einem nicht existierendem Zentrum - Ergebnis:
 		 * kein Zentrum wird gefunden.
@@ -131,8 +134,8 @@ public class ZentrumTest {
 			fail("Eine DatenbankFehlerException ist aufgetreten: "
 					+ e.getMessage());
 		}
-		assertTrue(tempVec.size()==0);
-		
+		assertTrue(tempVec.size() == 0);
+
 	}
 
 	/**
@@ -143,7 +146,7 @@ public class ZentrumTest {
 	public void testPruefen() {
 		testZ = new Zentrum(testZB);
 		assertTrue(testZ.pruefenPasswort("teig@eeThuu3"));
-		assertFalse(testZ.pruefenPasswort("falschesPW"));	
+		assertFalse(testZ.pruefenPasswort("falschesPW"));
 	}
 
 }
