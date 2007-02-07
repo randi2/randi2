@@ -342,7 +342,7 @@ public class ZentrumBeanTest {
 	 * 
 	 * @throws ZentrumException
 	 */
-	@Test(expected = ZentrumException.class)
+	@Test
 	public void testSetPasswortFalsch() throws ZentrumException {
 		
 
