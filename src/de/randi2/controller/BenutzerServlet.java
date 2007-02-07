@@ -74,8 +74,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 						.getParameter("username"));
 				// TODO Zukünftig sollte hier gleich das Passwort überprüft
 				// werden
-				sBenutzer.setPasswort(PasswortUtil.getInstance().hashPasswort(
-						(String) request.getParameter("password")));
+				sBenutzer.setPasswortKlartext((String) request.getParameter("password"));
 				Vector<BenutzerkontoBean> gBenutzer = null;
 
 				try {
