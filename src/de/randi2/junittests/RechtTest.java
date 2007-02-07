@@ -1,172 +1,110 @@
 package de.randi2.junittests;
 
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.model.fachklassen.Recht;
 import de.randi2.model.fachklassen.Recht.Rechtenamen;
 
 /**
- * TODO Test ist nicht korrekt
+ * Testet die Funktionalitaet der Recht.java Klasse.
  * 
  * 
- * @author Nadine Zwink <nzwink@stud.hs-heilbronn.de>
+ * @author Nadine Zwink <nzwink@stud.hs-heilbronn.de> *
+ * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
  * @version $Id$
  */
 public class RechtTest {
 
-	private Recht recht;
+	private Recht aRecht;
 
-	
 	private Rechtenamen rName;
+
+	/**
+	 * Freeze der Rechte-ENUM vom 07.02.2007 21:58 Uhr
+	 * 
+	 * 
+	 */
+	private String[] rechtenamenFrozen = { "BK_AENDERN", "BK_SPERREN",
+			"BK_ANSEHEN", "ZENTRUM_ANLEGEN", "ZENTRUM_AENDERN",
+			"ZENTREN_ANZEIGEN", "ZENTRUM_AKTIVIEREN",
+			"GRUPPENNACHRICHT_VERSENDEN", "STUDIE_ANLEGEN", "STUDIE_AENDERN",
+			"STUDIE_LOESCHEN", "STUDIE_PAUSIEREN", "STUDIENARM_BEENDEN",
+			"STUDIE_SIMULIEREN", "ARCHIV_EINSEHEN", "STAT_EINSEHEN",
+			"RANDOMISATION_EXPORTIEREN", "STUDIENTEILNEHMER_HINZUFUEGEN",
+			"STUDIEN_EINSEHEN", "STUDIE_RANDOMISIEREN", "SYSTEM_SPERREN",
+			"ADMINACCOUNTS_VERWALTEN", "STULEIACCOUNTS_VERWALTEN" };
 
 	/**
 	 * HashMap, welche die Instanzen der einzelnen Rechte verwaltet.
 	 */
-	private static HashMap<Rechtenamen, Recht> rechte = new HashMap<Rechtenamen, Recht>();
-
+	// private static HashMap<Rechtenamen, Recht> rechte = new
+	// HashMap<Rechtenamen, Recht>();
 	/**
-	 * @throws java.lang.Exception
+	 * Initialisiert eine Testmethode.
 	 */
 	@Before
-	public void setUp(){
-		recht = new Recht(rName);
+	public void setUp() {
+
 	}
 
 	/**
-	 * @throws java.lang.Exception
+	 * Beendet eine Testmethode.
 	 */
 	@After
 	public void tearDown() throws Exception {
-		recht = null;
+
 	}
 
-
-
+	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.Rechtenamen)}
+	 * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.getRecht)}
+	 * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.toString)}
+	 * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.getName)}
+	 * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.getRechtname)}
+	 * 
+	 * Durchlaeuft alle vorhandenen Rechtenamen und prueft ob alle Rechte in der
+	 * "frozen" und "korrekten" Rechtetabelle enthalten sind.
+	 * 
+	 */
 	@Test
-	public void testGetRechtInstanzVorhanden() {
-		
-		if (rechte.containsKey(rName)) {
-			System.out.println("a");
-			System.out.print(rechte.get(rName).toString());
-			assertTrue(true);
-			
+	public void testDurchlaufFuerAlleRechte() {
+
+		// alle Rechtenamen aus der ENUM auslesen
+		for (Recht.Rechtenamen recht : Recht.Rechtenamen.values()) {
+
+			rName = recht;
+
+			boolean rechtInEnum = false;
+
+			// prueft ob das aktuelle Recht in der frozen Rechtetabelle
+			// enthalten ist
+			for (int i = 0; i < rechtenamenFrozen.length; i++) {
+
+				if (rechtenamenFrozen[i].equals(rName.toString())) {
+					rechtInEnum = true;
+				}
+
+			}
+			assertTrue(rechtInEnum);
+
+			aRecht = Recht.getRecht(recht);
+
+			// pruefen ob toString fuer dieses Recht korrekt arbeitet
+			assertTrue(aRecht.toString().equals("Recht: " + rName.toString()));
+
+			// pruefen ob getName fuer dieses Recht korrekt arbeitet
+			assertTrue(aRecht.getName().equals(rName.toString()));
+
+			// pruefen ob getRechtname fuer dieses Recht korrekt arbeitet
+			assertTrue(rName.equals(aRecht.getRechtname()));
+
 		}
-	}
 
-	/**
-	 * Test method for {@link de.randi2.model.fachklassen.Recht#getName()}.
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void testGetName() {
-
-		recht = Recht.getRecht(rName);
-
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.ADMINACCOUNTS_VERWALTEN));
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.ARCHIV_EINSEHEN));
-		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.BK_AENDERN));
-		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.BK_ANSEHEN));
-		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.BK_SPERREN));
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.GRUPPENNACHRICHT_VERSENDEN));
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.RANDOMISATION_EXPORTIEREN));
-		assertTrue(recht.getRechtname().equals(Recht.Rechtenamen.STAT_EINSEHEN));
-		assertTrue(recht.getRechtname()
-				.equals(Recht.Rechtenamen.STUDIE_AENDERN));
-		assertTrue(recht.getRechtname()
-				.equals(Recht.Rechtenamen.STUDIE_ANLEGEN));
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.STUDIE_LOESCHEN));
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.STUDIE_PAUSIEREN));
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.STUDIE_RANDOMISIEREN));
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.STUDIE_SIMULIEREN));
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.STUDIEN_EINSEHEN));
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.STUDIENARM_BEENDEN));
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.STUDIENTEILNEHMER_HINZUFUEGEN));
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.STULEIACCOUNTS_VERWALTEN));
-		assertTrue(recht.getRechtname()
-				.equals(Recht.Rechtenamen.SYSTEM_SPERREN));
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.ZENTREN_ANZEIGEN));
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.ZENTRUM_AENDERN));
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.ZENTRUM_AKTIVIEREN));
-		assertTrue(recht.getRechtname().equals(
-				Recht.Rechtenamen.ZENTRUM_ANLEGEN));
-	}
-
-	/**
-	 * Test method for {@link de.randi2.model.fachklassen.Recht#getRechtname()}.
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void testGetRechtname() {
-
-		recht = Recht.getRecht(rName);
-
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.ADMINACCOUNTS_VERWALTEN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.ARCHIV_EINSEHEN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.BK_AENDERN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.BK_ANSEHEN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.BK_SPERREN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.GRUPPENNACHRICHT_VERSENDEN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.RANDOMISATION_EXPORTIEREN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.STAT_EINSEHEN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.STUDIE_AENDERN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.STUDIE_ANLEGEN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.STUDIE_LOESCHEN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.STUDIE_PAUSIEREN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.STUDIE_RANDOMISIEREN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.STUDIE_SIMULIEREN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.STUDIEN_EINSEHEN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.STUDIENARM_BEENDEN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.STUDIENTEILNEHMER_HINZUFUEGEN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.STULEIACCOUNTS_VERWALTEN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.SYSTEM_SPERREN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.ZENTREN_ANZEIGEN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.ZENTRUM_AENDERN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.ZENTRUM_AKTIVIEREN));
-		assertTrue(recht.getName().toString().equals(
-				Recht.Rechtenamen.ZENTRUM_ANLEGEN));
 	}
 
 }
