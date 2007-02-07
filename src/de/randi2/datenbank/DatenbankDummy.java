@@ -56,7 +56,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
             zentrumBean.setId(1);
             zentrumBean.setInstitution("Institut1");
             zentrumBean.setAbteilung("Abteilung1");
-            zentrumBean.setPasswortKlartext("inst1-abt1");
+            zentrumBean.setPasswortKlartext("inst1-abt1AA");
             zentren.put(zentrumBean.getInstitution() + "-"
                     + zentrumBean.getAbteilung(), zentrumBean);
 
@@ -64,7 +64,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
             zentrumBean.setId(2);
             zentrumBean.setInstitution("Institut1");
             zentrumBean.setAbteilung("Abteilung2");
-            zentrumBean.setPasswortKlartext("inst1-abt2");
+            zentrumBean.setPasswortKlartext("inst1-abt2AA");
             zentren.put(zentrumBean.getInstitution() + "-"
                     + zentrumBean.getAbteilung(), zentrumBean);
 
@@ -72,7 +72,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
             zentrumBean.setId(3);
             zentrumBean.setInstitution("Institut2");
             zentrumBean.setAbteilung("Abteilung1");
-            zentrumBean.setPasswortKlartext("inst2-abt1");
+            zentrumBean.setPasswortKlartext("inst2-abt1AA");
             zentren.put(zentrumBean.getInstitution() + "-"
                     + zentrumBean.getAbteilung(), zentrumBean);
 
@@ -80,7 +80,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
             zentrumBean.setId(4);
             zentrumBean.setInstitution("Institut2");
             zentrumBean.setAbteilung("Abteilung2");
-            zentrumBean.setPasswortKlartext("inst2-abt2");
+            zentrumBean.setPasswortKlartext("inst2-abt2AA");
             zentren.put(zentrumBean.getInstitution() + "-"
                     + zentrumBean.getAbteilung(), zentrumBean);
 
