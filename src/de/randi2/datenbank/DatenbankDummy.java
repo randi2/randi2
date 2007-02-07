@@ -47,7 +47,6 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
         logger.info("DatenbankDummy.generiereTestKonten()");
         // Dummy Person erzeugen
         try {
-            PersonBean dummyPerson = null;
             BenutzerkontoBean kontoBean; // Arbeitsinstanz KontoBean
             ZentrumBean zentrumBean;// Arbeitsinstanz KontoBean
             PasswortUtil hashmich = PasswortUtil.getInstance(); // Passworthasher
@@ -57,7 +56,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
             zentrumBean.setId(1);
             zentrumBean.setInstitution("Institut1");
             zentrumBean.setAbteilung("Abteilung1");
-            zentrumBean.setPasswort(hashmich.hashPasswort("inst1-abt1"));
+            zentrumBean.setPasswortKlartext("inst1-abt1");
             zentren.put(zentrumBean.getInstitution() + "-"
                     + zentrumBean.getAbteilung(), zentrumBean);
 
@@ -65,7 +64,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
             zentrumBean.setId(2);
             zentrumBean.setInstitution("Institut1");
             zentrumBean.setAbteilung("Abteilung2");
-            zentrumBean.setPasswort(hashmich.hashPasswort("inst1-abt2"));
+            zentrumBean.setPasswortKlartext("inst1-abt2");
             zentren.put(zentrumBean.getInstitution() + "-"
                     + zentrumBean.getAbteilung(), zentrumBean);
 
@@ -73,7 +72,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
             zentrumBean.setId(3);
             zentrumBean.setInstitution("Institut2");
             zentrumBean.setAbteilung("Abteilung1");
-            zentrumBean.setPasswort(hashmich.hashPasswort("inst2-abt1"));
+            zentrumBean.setPasswortKlartext("inst2-abt1");
             zentren.put(zentrumBean.getInstitution() + "-"
                     + zentrumBean.getAbteilung(), zentrumBean);
 
@@ -81,7 +80,7 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
             zentrumBean.setId(4);
             zentrumBean.setInstitution("Institut2");
             zentrumBean.setAbteilung("Abteilung2");
-            zentrumBean.setPasswort(hashmich.hashPasswort("inst2-abt2"));
+            zentrumBean.setPasswortKlartext("inst2-abt2");
             zentren.put(zentrumBean.getInstitution() + "-"
                     + zentrumBean.getAbteilung(), zentrumBean);
 

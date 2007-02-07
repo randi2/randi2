@@ -65,6 +65,7 @@ public class DatenbankDummyTest {
     } catch (DatenbankFehlerException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
+        fail();
     }
        
     }
@@ -82,7 +83,8 @@ public class DatenbankDummyTest {
             aDB.schreibenObjekt(null);
             fail("Sollte Exception werfen");
         } catch (Exception e) {
-            assertTrue(e instanceof IllegalArgumentException);
+            assertTrue("Exception sollte eine DatenbankFehlerException sein",e instanceof DatenbankFehlerException);
+            assertEquals("Falsche Msg. wird angezeigt",DatenbankFehlerException.ARGUMENT_IST_NULL, e.getMessage());
         }
 
         BenutzerkontoBean bean;
@@ -129,7 +131,7 @@ public class DatenbankDummyTest {
 
             BenutzerkontoBean ergebnisBean = (BenutzerkontoBean) tmp;
             assertEquals(suchname, ergebnisBean.getBenutzername());
-            assertEquals(Rolle.getStatistiker(), ergebnisBean.getRolle());
+            assertEquals(Rolle.getStudienarzt(), ergebnisBean.getRolle());
             assertEquals(PasswortUtil.getInstance().hashPasswort(passbrot), ergebnisBean.getPasswort());
         } catch (Exception e) {
             fail("Ao!");
@@ -150,20 +152,23 @@ public class DatenbankDummyTest {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        ergebnis = null;
         // Finde ein Zentrum
-        String passbrot = "inst1-abt1";
+        String passbrot ="inst1-abt2" ;
         suchbean.setInstitution("Institut1");
-        suchbean.setAbteilung("Abteilung1");
+        suchbean.setAbteilung("Abteilung2");
         
-        try { //finde Alle Zentren
+        try { //finde ein Zentrum
             ergebnis = aDB.suchenObjekt(suchbean);
             assertEquals(1, ergebnis.size());
-            assertEquals(suchbean.getInstitution(), ergebnis.firstElement().getInstitution());
-            assertEquals(suchbean.getAbteilung(), ergebnis.firstElement().getAbteilung());
-            assertEquals(PasswortUtil.getInstance().hashPasswort(passbrot), ergebnis.firstElement().getPasswort());
+            ZentrumBean gefundenesBean = ergebnis.firstElement();
+            System.out.println(gefundenesBean.toString());
+            assertEquals(suchbean.getInstitution(), gefundenesBean.getInstitution());
+            assertEquals(suchbean.getAbteilung(), gefundenesBean.getAbteilung());
+            assertEquals(PasswortUtil.getInstance().hashPasswort(passbrot), gefundenesBean.getPasswort());
         } catch (DatenbankFehlerException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            fail();
         }
 
         
@@ -180,12 +185,15 @@ public class DatenbankDummyTest {
             ergebnisBean = (BenutzerkontoBean) aDB.schreibenObjekt(schreibBean);
             // lesen
             BenutzerkontoBean suchbean = new BenutzerkontoBean();
+            suchbean.setFilter(true);
             suchbean.setBenutzername(testname);
+            
             assertEquals(schreibBean.getBenutzername(), suchbean.getBenutzername());
             
             leseBean = (BenutzerkontoBean) (aDB.suchenObjekt(suchbean)).firstElement();
             assertEquals(schreibBean.getBenutzername(),leseBean.getBenutzername());
         }catch(Exception e){
+            e.printStackTrace();
             fail("Sollte keine Exception werfen");
         }
         

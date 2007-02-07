@@ -1,4 +1,4 @@
-﻿package de.randi2.junittests;
+package de.randi2.junittests;
 
 import static org.junit.Assert.*;
 
@@ -17,6 +17,7 @@ import de.randi2.model.fachklassen.Rolle.Rollen;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
+import de.randi2.utility.PasswortUtil;
 
 /**
  * 
@@ -141,7 +142,9 @@ public class BenutzerkontoBeanTest extends Filter {
 	@Test(expected = BenutzerkontoException.class)
 	public final void testSetPasswortLaenge()
 			throws BenutzerkontoException {
-		aKonto.setPasswort("s");
+		aKonto.setFilter(false);
+		aKonto.setPasswortKlartext("s");
+		
 	}
 
 
@@ -157,14 +160,17 @@ public class BenutzerkontoBeanTest extends Filter {
 	 * 
 	 * @throws BenutzerkontoException
 	 */
-	@Test
+	@Test //XXX
 	public final void testSetPasswortRichtig() throws BenutzerkontoException {
-		aKonto.setPasswort("hans1wursthausen");
-		assertTrue(aKonto.getPasswort().equals("hans1wursthausen"));
-		aKonto.setPasswort("a§abcpasswort");
-		assertTrue(aKonto.getPasswort().equals("a§abcpasswort"));
-		aKonto.setPasswort("test2abc$abc");
-		assertTrue(aKonto.getPasswort().equals("test2abc$abc"));
+        aKonto.setPasswortKlartext("123456abc%");
+        assertTrue(aKonto.getPasswort().equals(PasswortUtil.getInstance().hashPasswort("123456abc%")));
+        aKonto.setPasswortKlartext("hans1$wursthausen");
+		assertTrue(aKonto.getPasswort().equals(PasswortUtil.getInstance().hashPasswort("hans1$wursthausen")));
+		aKonto.setPasswortKlartext("a§abc1passwort");
+		assertTrue(aKonto.getPasswort().equals(PasswortUtil.getInstance().hashPasswort("a§abc1passwort")));
+		aKonto.setPasswortKlartext("test2abc$abc");
+		assertTrue(aKonto.getPasswort().equals(PasswortUtil.getInstance().hashPasswort("test2abc$abc")));
+        
 	}
 
 
@@ -374,7 +380,7 @@ public class BenutzerkontoBeanTest extends Filter {
 	 */
 	@Test
 	public void testSetLetzterLogin() {
-		try {		    
+		try {
 			String day = "1";
 			int tag = Integer.parseInt(day);
 			String month = "2";
@@ -416,11 +422,11 @@ public class BenutzerkontoBeanTest extends Filter {
 	@Test
 	public void testSetRolle() {
 		try {
-			aKonto.setRolle(rolle.getAdmin());
-			aKonto.setRolle(rolle.getStatistiker());
-			aKonto.setRolle(rolle.getStudienarzt());
-			aKonto.setRolle(rolle.getStudienleiter());
-			aKonto.setRolle(rolle.getSysop());
+			aKonto.setRolle(Rolle.getAdmin());
+			aKonto.setRolle(Rolle.getStatistiker());
+			aKonto.setRolle(Rolle.getStudienarzt());
+			aKonto.setRolle(Rolle.getStudienleiter());
+			aKonto.setRolle(Rolle.getSysop());
 		} catch (Exception e) {
 			fail("[FEHLER]testSetRolle() sollte keine Exception auslösen");
 		}
