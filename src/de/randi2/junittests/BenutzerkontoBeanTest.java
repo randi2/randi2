@@ -24,7 +24,8 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
  * stattfindet und der Setter dann alle Parameter akzeptiert. Desweiteren
  * koennen zB bei den setPasswort Tests einige zusammengefasst werden.
  * 
- * TODO alle Test-Methoden die OK sind, sind so markiert, sollten aber ordenltich kommentiert werden!
+ * TODO alle Test-Methoden die OK sind, sind so markiert, sollten aber
+ * ordenltich kommentiert werden!
  * 
  * TODO unmarkierte Methoden bitte pruefen!
  * 
@@ -40,11 +41,11 @@ public class BenutzerkontoBeanTest extends Filter {
 
 	private Rolle rolle, rolleB;
 
-	private String benutzername, passwort, benutzernameB, passwortB;
+	//private String benutzername, passwort, benutzernameB, passwortB;
 
-	private PersonBean benutzer, ansprechpartner;
+	//private PersonBean benutzer, ansprechpartner;
 
-	private boolean gesperrt;
+	//private boolean gesperrt;
 
 	private ZentrumBean zentrum;
 
@@ -71,7 +72,8 @@ public class BenutzerkontoBeanTest extends Filter {
 	}
 
 	/**
-	 * OK!
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setBenutzername()}.
 	 * 
 	 * @throws BenutzerkontoException
 	 */
@@ -92,7 +94,8 @@ public class BenutzerkontoBeanTest extends Filter {
 	}
 
 	/**
-	 * OK
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setBenutzername()}.
 	 * 
 	 * 
 	 * @throws BenutzerkontoException
@@ -106,7 +109,8 @@ public class BenutzerkontoBeanTest extends Filter {
 	}
 
 	/**
-	 * OK!
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setBenutzername()}.
 	 * 
 	 * @throws BenutzerkontoException
 	 */
@@ -116,7 +120,8 @@ public class BenutzerkontoBeanTest extends Filter {
 	}
 
 	/**
-	 * OK!
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setBenutzername()}.
 	 * 
 	 * @throws BenutzerkontoException
 	 */
@@ -127,7 +132,8 @@ public class BenutzerkontoBeanTest extends Filter {
 	}
 
 	/**
-	 * OK!
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setBenutzername()}.
 	 * 
 	 * @throws BenutzerkontoException
 	 */
@@ -139,6 +145,8 @@ public class BenutzerkontoBeanTest extends Filter {
 	}
 
 	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setPasswort()}.
 	 * 
 	 * @throws BenutzerkontoException
 	 */
@@ -149,6 +157,11 @@ public class BenutzerkontoBeanTest extends Filter {
 		aKonto.setPasswort("s");
 	}
 
+	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setPasswort()}.
+	 * 
+	 */
 	@Test(expected = BenutzerkontoException.class)
 	public final void testSetPasswortLaengeRichtig()
 			throws BenutzerkontoException {
@@ -190,7 +203,10 @@ public class BenutzerkontoBeanTest extends Filter {
 	}
 
 	/**
-	 * OK!
+	 * 
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#equalsBenutzerkontoBean()}.
+	 * 
 	 * 
 	 * @throws PersonException
 	 * @throws BenutzerkontoException
@@ -219,6 +235,10 @@ public class BenutzerkontoBeanTest extends Filter {
 
 	/**
 	 * umstaendlich (mit dem ParseInt...) aber OK!
+	 * 
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#equalsBenutzerkontoBean()}.
+	 * 
 	 * 
 	 * @throws PersonException
 	 * @throws BenutzerkontoException
@@ -276,6 +296,10 @@ public class BenutzerkontoBeanTest extends Filter {
 	/**
 	 * OK! aber wie gesagt umstaendlich..
 	 * 
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#equalsBenutzerkontoBean()}.
+	 * 
+	 * 
 	 * @throws PersonException
 	 * @throws BenutzerkontoException
 	 */
@@ -303,8 +327,8 @@ public class BenutzerkontoBeanTest extends Filter {
 
 		aKonto = new BenutzerkontoBean(benutzername, passwort, rolle, benutzer,
 				ansprechpartner, gesperrt, zentrum, ersterLogin, letzterLogin);
-		cKonto = new BenutzerkontoBean("fsdfdsf", "sdfd$ss7sd", rolle, null, null, false, null,
-				null, null);
+		cKonto = new BenutzerkontoBean("fsdfdsf", "sdfd$ss7sd", rolle, null,
+				null, false, null, null, null);
 
 		assertFalse(aKonto.equals(cKonto));
 	}
@@ -334,15 +358,15 @@ public class BenutzerkontoBeanTest extends Filter {
 	}
 
 	/**
-	 * OK!
-	 *
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setGesperrt()}.
 	 */
 	@Test
 	public void testSetGesperrt() {
 		aKonto.setGesperrt(true);
 		assertTrue(aKonto.isGesperrt());
 	}
-	
+
 	/**
 	 * NICHT OK! hier wird das eigene Datum getestet, aber nichts von der
 	 * BenutzerkontoBean... hier sollte wenigstens die setLetzterLogin() Methode
@@ -368,7 +392,9 @@ public class BenutzerkontoBeanTest extends Filter {
 	}
 
 	/**
-	 * OK!
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setRolle()}.
+	 * 
 	 * 
 	 * @throws BenutzerkontoException
 	 */
@@ -378,8 +404,10 @@ public class BenutzerkontoBeanTest extends Filter {
 	}
 
 	/**
-	 * OK!
-	 *
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setRolle()}.
+	 * 
+	 * 
 	 */
 	@Test
 	public void testSetRolle() {
@@ -396,8 +424,10 @@ public class BenutzerkontoBeanTest extends Filter {
 	}
 
 	/**
-	 * OK!
-	 *
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setId()}.
+	 * 
+	 * 
 	 */
 	@Test
 	public void testSetId() {
@@ -410,8 +440,9 @@ public class BenutzerkontoBeanTest extends Filter {
 	}
 
 	/**
-	 * OK!
-	 *
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setId()}.
+	 * 
 	 */
 	@Test
 	public void testSetZentrum() {
