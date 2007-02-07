@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
-import org.apache.log4j.*;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -29,8 +28,6 @@ import de.randi2.utility.PasswortUtil;
  * gespeichert werden und dieses dann via Benutzerkonto.getBenutzer(..)
  * ausgelesen werden und kontrolliert werden, ob diese dann identisch sind
  * 
- * TODO bei der toString Methode bitte nicht den String ausgeben, sondern mit
- *       dem Sollwert vergleichen und diesen Vergleich auswerten
  * 
  * @author Katharina Chruscz <kchruscz@stud.hs-heilbronn.de>
  * @version $Id$
@@ -61,9 +58,6 @@ public class BenutzerkontoTest {
 	 */
 	@Before
 	public void setUp() {
-		// PropertyConfigurator.configure("C:/Dokumente und
-		// Einstellungen/user/Desktop/workspace
-		// Together/RANDI2/WebContent/WEB-INF/log4j.lcf");
 		benutzername = "administrator";
 		passwort = "1$administrator";
 
@@ -109,12 +103,8 @@ public class BenutzerkontoTest {
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#Benutzerkonto(de.randi2.model.fachklassen.beans.BenutzerkontoBean)}.
 	 */
 	@Test
-	public void testBenutzerkonto() {
-		try {
-			Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testBenutzerkonto");
-		}
+	public void testBenutzerkonto() throws Exception{
+			new Benutzerkonto(bKontoBean);
 	}
 
 	/**
@@ -213,8 +203,9 @@ public class BenutzerkontoTest {
 	@Test
 	public void testToString() {
 		Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
-		String testString = bKonto.toString();
-		System.out.println(testString);
+		String sollWert = "Benutzerkontoname: "+bKontoBean.getBenutzername()+"(Last LogIn: "+bKontoBean.getLetzterLogin()+")";
+		String istWert = bKonto.toString();
+		assertTrue(sollWert.equals(istWert));
 	}
 
 	/**
