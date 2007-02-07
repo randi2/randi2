@@ -63,7 +63,7 @@
 	<!-- Target erstellt das war-Archiv -->
 	<target name="war" depends="compile, test">
 		<!-- Datum einfuegen -->
-		<war warfile="${build}/randi2.war" webxml="WebContent/WEB-INF/web.xml">
+		<war warfile="${build}/randinightly.war" webxml="WebContent/WEB-INF/web.xml">
 			<classes dir="${build}">
 				<patternset id="klassen">
 					<exclude name="**/seleniumtest/**" />
