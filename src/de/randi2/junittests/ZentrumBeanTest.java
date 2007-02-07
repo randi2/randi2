@@ -333,8 +333,18 @@ public class ZentrumBeanTest {
 	 * @throws ZentrumException
 	 */
 	@Test
-	public void testSetPasswort() throws ZentrumException {
-		zentrum.setPasswort("aaaaaaaa(a&_67a");
+	public void testSetPasswortRichtig() throws ZentrumException {
+		zentrum.setPasswort("aaaaa(a&_67a");
+	}
+	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setPasswort(java.lang.String)}.
+	 * 
+	 * @throws ZentrumException
+	 */
+	@Test (expected=ZentrumException.class)
+	public void testSetPasswortFalsch() throws ZentrumException {
+		zentrum.setPasswort("aaaaa(a&_67a234ikrfoawra");
 	}
 
 	/**
