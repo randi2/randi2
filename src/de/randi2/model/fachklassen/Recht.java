@@ -2,6 +2,8 @@ package de.randi2.model.fachklassen;
 
 import java.util.HashMap;
 
+import de.randi2.model.exceptions.RechtException;
+
 
 /**
  * Unterste Ebene der Rechteverwaltung.<br>
@@ -155,8 +157,9 @@ public class Recht {
      */
     public static Recht getRecht(Rechtenamen name)
             throws IllegalArgumentException {
+        //FIXME siehe bug #18
         if (name == null)
-            throw new IllegalArgumentException("Ungueltiges Argument: 'null'");
+            throw new IllegalArgumentException(RechtException.NULL_ARGUMENT);
         if (rechte.containsKey(name))// Instanz im Map enthalten?
             return rechte.get(name); // Instanz zurueckgeben
         else {

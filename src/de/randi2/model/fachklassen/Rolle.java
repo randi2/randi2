@@ -96,6 +96,7 @@ public class Rolle {
         Recht.getRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN)
     };
 
+    
     /**
      * Rollenrechteliste des Studienleiters
      */
