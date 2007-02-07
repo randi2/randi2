@@ -21,7 +21,7 @@
 		</tr>
 	</table>
 	</div>
-	
+	<%@include file="include/inc_nachricht.jsp"%>
 	<div id="inhalt_login">
 		<p>
 			<img src="images/heidelberg.jpg" width="537" height="291"
@@ -31,7 +31,7 @@
 	
 	<div id="login_benutzer">
 		<p id="pageheader">Herzlich Willkommen</p>
-		<%@include file="include/inc_nachricht.jsp"%>
+		
 		<p>Benutzername</p>
 		<form action="DispatcherServlet" method="POST" name="loginform">
 		<input type="hidden" value="JSP_INDEX_LOGIN" name="anfrage_id">
