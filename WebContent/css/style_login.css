@@ -18,10 +18,17 @@ body {
 }
 
 #nachricht {
-border-bottom: solid #ff0000 2px;
-border-top: solid #ff0000 2px;
-border-left: solid #ff0000 2px;
-border-right: solid #ff0000 2px;
+	position: relative;
+	top: 10px;
+	border-bottom: solid #CC3300 2px;
+	border-top: solid #CC3300 2px;
+	border-left: solid #CC3300 2px;
+	border-right: solid #CC3300 2px;
+	background-color: #FFFFFF;
+	width: 500px;
+	font: 12px arial, sans-serif;
+	color: #000000;
+	font-weight: bold;
 }
 
 #breadcrumb {
