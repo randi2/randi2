@@ -43,6 +43,18 @@
 			<classpath>
 				<pathelement location="${build}" />
 				<fileset dir="${build}" includes="*.jar" />
+				<fileset dir="${tomcat_lib}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${junit_lib}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="WebContent/WEB-INF/lib">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="lib">
+					<include name="*.jar" />
+				</fileset>
 			</classpath>
 			<formatter type="xml" />
 			<batchtest haltonfailure="no" todir="${junit}">
