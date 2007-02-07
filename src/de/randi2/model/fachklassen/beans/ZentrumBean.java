@@ -54,7 +54,7 @@ public class ZentrumBean extends Filter {
 	private PersonBean ansprechpartner = null;
 
 	/**
-	 * Passwort für das Zentrum (md5)
+	 * Passwort für das Zentrum (gehasht)
 	 */
 	private String passwort = null;
 
@@ -76,12 +76,12 @@ public class ZentrumBean extends Filter {
 	 *            String, der der Hausnummer entspricht.
 	 * @param ansprechpartner
 	 *            PersonBean, das dem Ansprechpartner in dem Zentrum entspricht.
-	 * @param passwort
-	 *            String - Passwort (md5)
+	 * @param passwortHash
+	 *            String - Passwort bereits gehasht.
 	 */
 	public ZentrumBean(int id, String institution, String abteilung,
 			String ort, String plz, String strasse, String hausnr,
-			PersonBean ansprechpartner, String passwort) {
+			PersonBean ansprechpartner, String passwortHash) {
 
 		this.setId(id);
 		try {
@@ -92,13 +92,13 @@ public class ZentrumBean extends Filter {
 			this.setStrasse(strasse);
 			this.setHausnr(hausnr);
 			this.setAnsprechpartner(ansprechpartner);
-			this.setPasswort(passwort);
+			this.setPasswort(passwortHash);
 		} catch (ZentrumException e) {
 			// TODO Wenn die Vorgehensweise in diesem Fall geklärt wird, wird es
 			// auch umgesetzt.
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	/**
@@ -243,26 +243,50 @@ public class ZentrumBean extends Filter {
 	}
 
 	/**
+	 * Diese Methode ist zu benutzten, wenn das Passwort, das gesetzt werden
+	 * soll, noch in Klartext Form vorhanden ist und erstmal gehashed werden
+	 * muss.
+	 * 
 	 * @param passwort
-	 *            the passwort to set
-	 * @throws ZentrumException 
+	 *            String Passwort - in Klartext-Form
+	 * @throws ZentrumException
+	 *             wenn die Validierung nicht erfolgreich war
 	 */
-	public void setPasswort(String passwort) throws ZentrumException {
+	public void setPasswortKlartext(String klartext) throws ZentrumException {
 		if (this.isFilter()) {
-			this.passwort = PasswortUtil.getInstance().hashPasswort(passwort);
+			this.passwort = PasswortUtil.getInstance().hashPasswort(klartext);
 		} else {
-			if (passwort != null) {
-				if (!(passwort.matches(".*[A-Za-z].*")
-						|| passwort.matches(".*[0-9].*") || passwort
-						.matches(".*[\\^,.-#+;:_'*!\"�$%&/()=?|<>].*") || passwort.matches(".{12}")))
+			if (klartext != null) {
+				if (!(klartext.matches(".*[A-Za-z].*")
+						&& klartext.matches(".*[0-9].*")
+						&& klartext
+								.matches(".*[\\^,.\\-#+;:_'*!\"§$@&%/()=?|<>].*") && klartext
+						.matches(".{12}")))
 					throw new ZentrumException(ZentrumException.PASSWORT_FALSCH);
 				this.passwort = PasswortUtil.getInstance().hashPasswort(
-						passwort);
+						klartext);
 			} else {
 				throw new ZentrumException(ZentrumException.PASSWORT_NULL);
 			}
 		}
 
+	}
+
+	/**
+	 * Diese Methode ist zu benutzen, wenn das bereits gehashte Passwort gesetzt
+	 * werden soll.
+	 * 
+	 * @param hash
+	 *            String Passwort als hash.
+	 * @throws ZentrumException
+	 *             wenn null oder leeres String uebergeben wurde
+	 * 
+	 */
+	public void setPasswort(String hash) throws ZentrumException {
+		if (hash == null || hash.equals("")) {
+			throw new ZentrumException(ZentrumException.PASSWORT_NULL);
+		}
+		this.passwort = hash;
 	}
 
 	/**
