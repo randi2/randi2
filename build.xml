@@ -3,10 +3,10 @@
 
 	<target name="init">
 		<!-- festlegen der benoetigten Pfade -->
-		<!-- Pfade fuerr das Target "compile_war"-->
 		<property name="src" value="src" />
 		<property name="build" value="build" />
 		<property name="junit" value="junit" />
+		<property name="doc_dir" value="doc" />
 		<property name="junit_lib" value="/opt/junit4.1" />
 		<property name="tomcat_lib" value="/opt/tomcat/common/lib/" />
 		<property name="web_lib" value="WebContent/WEB-INF/lib" />
@@ -15,6 +15,7 @@
 		<!-- und wieder erstellen -->
 		<mkdir dir="${build}" />
 		<mkdir dir="${junit}" />
+		<mkdir dir="${doc_dir}" />
 	</target>
 
 	<!-- Target uebersetzt das Projekt, die Junit/Selenium-Tests werden erstmal aussen vor gelassen -->
@@ -37,8 +38,25 @@
 		</javac>
 	</target>
 
+	<!-- Target erstellt die JavaDoc-Dokumentation -->
+	<target name="javadoc">
+		 <javadoc packagenames="de.randi2.*"
+		           sourcepath="${src}"
+		           defaultexcludes="yes"
+		           destdir="${doc_dir}"
+		           author="true"
+		           version="true"
+		           use="true"
+		           windowtitle="Randi2 API">
+		    <doctitle><![CDATA[<h1>Randi2</h1>]]></doctitle>
+		    <bottom><![CDATA[<i>Copyright &#169; 2007 Hochschule Heilbronn (SWP). All Rights Reserved.</i>]]></bottom>
+		    <tag name="todo" scope="all" description="To do:"/>
+		    <link href="http://developer.java.sun.com/developer/products/xml/docs/api/"/>
+		  </javadoc>
+	</target>
+	
+	<!-- Target fuehrt die Junit-Tests durch und erstellt die Dokumentation fuer die Tests-->
 	<target name="test" depends="compile">
-
 		<junit printsummary="yes" fork="true" haltonfailure="no">
 			<classpath>
 				<pathelement location="${build}" />
@@ -73,7 +91,7 @@
 	</target>
 
 	<!-- Target erstellt das war-Archiv -->
-	<target name="war" depends="compile, test">
+	<target name="war" depends="compile, test, javadoc">
 		<!-- Datum einfuegen -->
 		<war warfile="${build}/randinightly.war" webxml="WebContent/WEB-INF/web.xml">
 			<classes dir="${build}">
