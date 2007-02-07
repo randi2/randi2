@@ -323,7 +323,7 @@ public class BenutzerkontoBean extends Filter {
         }
 
         if (!(klartext.matches(".*[A-Za-z].*") && klartext.matches(".*[0-9].*")
-                && klartext.matches(".*[\\^,.\\-#+;:_'*!\"§$&%/()=?|<>].*"))){
+                && klartext.matches(".*[\\^,.\\-#+;:_'*!\"§$@&%/()=?|<>].*"))){
                   throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
             }
         this.passwort = PasswortUtil.getInstance().hashPasswort(klartext);
