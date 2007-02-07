@@ -57,7 +57,7 @@ public class ZentrumBeanTest {
 		ansprechpartner = new PersonBean("nachname", "vorname", "Prof.", 'm',
 				"user@hs-heilbronn.de", "01760099334", "017600972487",
 				"01760427424");
-		passwort = "passwort";
+		passwort = "oe?jie3Yiesa";
 
 		new ZentrumBean(id, institution, abteilung, ort, plz, strasse, hausnr,
 				ansprechpartner, passwort);
