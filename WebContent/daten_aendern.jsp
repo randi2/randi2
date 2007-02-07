@@ -80,7 +80,7 @@ Angaben</b></legend>
 
 <br>
 
-<!--<% if(user.getUsername().equals("sl")||user.getUsername().equals("admin")) { %> //-->
+<% //if(user.getUsername().equals("sl")||user.getUsername().equals("admin")) { %>
 
 <fieldset style="width: 60%"><legend><b>Angaben
 zum Ansprechpartner</b></legend>
@@ -103,7 +103,7 @@ zum Ansprechpartner</b></legend>
 
 <br>
 
-<!-- <% } %> //-->
+<%// } %>
 
 </form>
 <table>
