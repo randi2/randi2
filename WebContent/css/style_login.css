@@ -18,7 +18,7 @@ body {
 }
 
 #nachricht {
-	position: absolute;
+	#position: relative;
 	top: 10px;
 	border-bottom: solid #CC3300 2px;
 	border-top: solid #CC3300 2px;
