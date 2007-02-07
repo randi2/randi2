@@ -42,24 +42,25 @@ public class ZentrumBeanTest {
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#ZentrumBean(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, de.randi2.model.fachklassen.beans.PersonBean, java.lang.String)}.
-	 * @throws PersonException 
+	 * 
+	 * @throws PersonException
 	 */
 	@Test
 	public void testZentrumBeanMitParametern() throws PersonException {
-			id = 1;
-			institution = "institution";
-			abteilung = "abteilung";
-			ort = "ort";
-			plz = "plz";
-			strasse = "strasse";
-			hausnr = "hausnr";
-			ansprechpartner = new PersonBean("nachname", "vorname", "Prof.",
-					'm', "user@hs-heilbronn.de", "01760099334", "017600972487",
-					"01760427424");
-			passwort = "passwort";
+		id = 1;
+		institution = "institution";
+		abteilung = "abteilung";
+		ort = "ort";
+		plz = "plz";
+		strasse = "strasse";
+		hausnr = "hausnr";
+		ansprechpartner = new PersonBean("nachname", "vorname", "Prof.", 'm',
+				"user@hs-heilbronn.de", "01760099334", "017600972487",
+				"01760427424");
+		passwort = "passwort";
 
-			new ZentrumBean(id, institution, abteilung, ort, plz, strasse,
-					hausnr, ansprechpartner, passwort);
+		new ZentrumBean(id, institution, abteilung, ort, plz, strasse, hausnr,
+				ansprechpartner, passwort);
 	}
 
 	/**
@@ -89,7 +90,7 @@ public class ZentrumBeanTest {
 	@Test
 	public void testSetAbteilungNormal() throws ZentrumException {
 		zentrum.setAbteilung("Abteilung1");
-		assertTrue("Fehler", zentrum.getAbteilung().equals("Abteilung1"));
+		assertTrue(zentrum.getAbteilung().equals("Abteilung1"));
 	}
 
 	/**
@@ -102,6 +103,11 @@ public class ZentrumBeanTest {
 	public void testSetAbteilungMaximal() throws ZentrumException {
 		zentrum
 				.setAbteilung("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		assertTrue(zentrum
+				.getAbteilung()
+				.equals(
+						"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+
 	}
 
 	/**
@@ -113,6 +119,7 @@ public class ZentrumBeanTest {
 	@Test(expected = ZentrumException.class)
 	public void testSetAbteilungZuKurz() throws ZentrumException {
 		zentrum.setAbteilung("b");
+		assertTrue(zentrum.getAbteilung().equals("b"));
 	}
 
 	/**
@@ -126,6 +133,10 @@ public class ZentrumBeanTest {
 	public void testSetAbteilungZuLang() throws ZentrumException {
 		zentrum
 				.setAbteilung("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		assertTrue(zentrum
+				.getAbteilung()
+				.equals(
+						"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
 	}
 
 	/**
@@ -140,10 +151,16 @@ public class ZentrumBeanTest {
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setAnsprechpartner(de.randi2.model.fachklassen.beans.PersonBean)}.
+	 * 
+	 * @throws PersonException
 	 */
 	@Test
-	public void testSetAnsprechpartner() {
+	public void testSetAnsprechpartner() throws PersonException {
+		ansprechpartner = new PersonBean("nachname", "vorname", "Prof.", 'm',
+				"user@hs-heilbronn.de", "01760099334", "017600972487",
+				"01760427424");
 		zentrum.setAnsprechpartner(ansprechpartner);
+		assertTrue(zentrum.getAnsprechpartner().equals(ansprechpartner));
 	}
 
 	/**
@@ -153,6 +170,7 @@ public class ZentrumBeanTest {
 	@Test
 	public void testGetHausnr() {
 		hausnr = zentrum.getHausnr();
+
 	}
 
 	/**
@@ -164,6 +182,7 @@ public class ZentrumBeanTest {
 	@Test
 	public void testSetHausnr() throws ZentrumException {
 		zentrum.setHausnr("453");
+		assertTrue(zentrum.getHausnr().equals("453"));
 	}
 
 	/**
@@ -175,6 +194,7 @@ public class ZentrumBeanTest {
 	@Test(expected = ZentrumException.class)
 	public void testSetHausnrFalsch() throws ZentrumException {
 		zentrum.setHausnr("{3s209>");
+		assertTrue(zentrum.getHausnr().equals("{3s209>"));
 	}
 
 	/**
@@ -195,9 +215,8 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetInstitutionNormal() throws ZentrumException {
-
 		zentrum.setInstitution("institution1");
-
+		assertTrue(zentrum.getInstitution().equals("institution1"));
 	}
 
 	/**
@@ -210,6 +229,10 @@ public class ZentrumBeanTest {
 	public void testSetInstitutionMaxLaenge() throws ZentrumException {
 		zentrum
 				.setInstitution("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		assertTrue(zentrum
+				.getInstitution()
+				.equals(
+						"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
 	}
 
 	/**
@@ -221,6 +244,7 @@ public class ZentrumBeanTest {
 	@Test(expected = ZentrumException.class)
 	public void testSetInstitutionZuKurz() throws ZentrumException {
 		zentrum.setInstitution("ab");
+		assertTrue(zentrum.getInstitution().equals("ab"));
 	}
 
 	/**
@@ -233,6 +257,10 @@ public class ZentrumBeanTest {
 	public void testSetInstitutionZuLang() throws ZentrumException {
 		zentrum
 				.setInstitution("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		assertTrue(zentrum
+				.getInstitution()
+				.equals(
+						"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
 	}
 
 	/**
