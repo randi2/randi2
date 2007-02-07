@@ -178,7 +178,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 			try {
 				gZentrum = Zentrum.suchenZentrum(sZentrum);
 			} catch (DatenbankFehlerException e2) {
-				// TODO Wieder muss an dieser Stelle die Ueberlegung gemacht werden, was für eine Nachricht dem Benutzer angezeigt werden soll.
+				// TODO Wieder muss an dieser Stelle die Ueberlegung gemacht
+				// werden, was für eine Nachricht dem Benutzer angezeigt werden
+				// soll.
 				e2.printStackTrace();
 			}
 			Iterator<ZentrumBean> itgZentrum = gZentrum.iterator();
