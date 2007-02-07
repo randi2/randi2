@@ -150,17 +150,21 @@ public class BenutzerkontoBeanTest extends Filter {
 	 * Test method for setPasswort()
 	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setPasswort()}.
 	 * 
-	 * Ueberpruefung auf erlaubte Zeichen im Passwort.
-	 * Wenn Fehler, soll BenutzerkontoException geworfen werden.
+	 * Ueberpruefung auf Korrektheit des Passwortes. Es muss mindestens
+	 * 1 Ziffer oder 1 Sonderzeichen enthalten sein.
+	 * Wenn Fehler (keine Ziffer oder kein Sonderzeichen vorhanden), 
+	 * soll BenutzerkontoException geworfen werden.
 	 * 
 	 * @throws BenutzerkontoException
 	 */
 	@Test
-	public final void testSetPasswortErlaubteZeichen() throws BenutzerkontoException {
-		
-		aKonto.setPasswort("hanswursthausen");
-		assertTrue(aKonto.getPasswort().equals("hanswursthausen"));
-
+	public final void testSetPasswortRichtig() throws BenutzerkontoException {
+		aKonto.setPasswort("hans1wursthausen");
+		assertTrue(aKonto.getPasswort().equals("hans1wursthausen"));
+		aKonto.setPasswort("a§abcpasswort");
+		assertTrue(aKonto.getPasswort().equals("a§abcpasswort"));
+		aKonto.setPasswort("test2abc$abc");
+		assertTrue(aKonto.getPasswort().equals("test2abc$abc"));
 	}
 
 
