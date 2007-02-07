@@ -38,17 +38,27 @@
 
 				<td>
 				<form>
-				<%
+				
+				<!-- <%
 				if (user.getUsername().equals("sl")) {
-				%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
+				%> //-->
+				
+				<a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
 					name="zentrum_auswaehlen" value="Zentrum anzeigen"></a>
 					<a href="zentrum_studie_zuordnen.jsp"> <input type="submit"
-					name="studie_hinzufuegen" value="Zu Studie hinzufügen"></a> <%
+					name="studie_hinzufuegen" value="Zu Studie hinzufügen"></a> 
+		
+					<!-- <%
  } else if (user.getUsername().equals("admin")) {
- %> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
-					name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
- } 
- %>
+ 					%> //--> 
+ 
+ <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
+					name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> 
+		
+					<!-- <%
+ 				} 
+ 			%> //-->
+		
 				</form>
 				</td>
 			</tr>
@@ -59,15 +69,25 @@
 
 				<td>
 				<form>
-				<%
+		
+				<!-- <%
 				if (user.getUsername().equals("sl")) {
-				%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
-					name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
+				%> //--> 
+			
+				<a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
+					name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> 
+				
+					<!-- <%
  } else if (user.getUsername().equals("admin")) {
- %> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
-					name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
- }
- %>
+ 					%> //-->
+ 					
+ <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
+					name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> 
+					
+					<!-- <%
+ 				}
+					 %> //-->
+					 
 				</form>
 				</td>
 			</tr>
@@ -79,15 +99,25 @@
 				<td>
 
 				<form>
-				<%
+			
+				<!-- <%
 				if (user.getUsername().equals("sl")) {
-				%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
-					name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
+				%> //-->
+				
+				<a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
+					name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> 
+
+					<!-- <%
  } else if (user.getUsername().equals("admin")) {
- %> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
-					name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
- }
- %>
+ 					%> //-->
+ 
+  <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
+					name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> 
+
+					<!-- <%
+ 					}
+					 %> //-->
+					 
 				</form>
 				</td>
 			</tr>

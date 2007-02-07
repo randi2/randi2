@@ -34,16 +34,16 @@ Name&nbsp;der&nbsp;Institution:&nbsp;&nbsp;
 		<td>aktiv</td>
 	
 		<td><form>
-				<% if (user.getUsername().equals("sl")) { %>
+			<!--	<% if (user.getUsername().equals("sl")) { %> //-->
 				 <a href="zentrum_anzeigen_sl.jsp"> 
 				 <input type="submit" name="zentrum_auswaehlen" value="Zentrum anzeigen"></a>    
 				 
 			
-		<% } else if (user.getUsername().equals("admin")){ %>
+		<!-- <% } else if (user.getUsername().equals("admin")){ %> //-->
 			<a href="zentrum_anzeigen_admin.jsp"> 
 				 <input type="submit" name="zentrum_auswaehlen" value="Zentrum anzeigen"></a>    
 				 
-		<% } %>
+		<!-- <% } %> //-->
 
 
 		</form>
@@ -55,16 +55,17 @@ Name&nbsp;der&nbsp;Institution:&nbsp;&nbsp;
 		<td>inaktiv</td>
 		
 		<td><form>
-			<% if (user.getUsername().equals("sl")) { %>
+		<!--	<% if (user.getUsername().equals("sl")) { %> //-->
 			<a href="zentrum_anzeigen_sl.jsp"> 
 				 <input type="submit" name="zentrum_auswaehlen" value="Zentrum anzeigen"></a>    
 				
 			
-		<% } else if (user.getUsername().equals("admin")){ %>
+	<!--	<% } else if (user.getUsername().equals("admin")){ %> //-->
 		<a href="zentrum_anzeigen_admin.jsp"> 
 				 <input type="submit" name="zentrum_auswaehlen" value="Zentrum anzeigen"></a>    
 			
-		<% } %>
+	<!--	<% } %> //-->
+	
 		</form>
 		</td>
 	</tr>
@@ -74,16 +75,16 @@ Name&nbsp;der&nbsp;Institution:&nbsp;&nbsp;
 		<td>aktiv</td>
 	
 		<td><form>
-				<% if (user.getUsername().equals("sl")) { %>
+		<!--		<% if (user.getUsername().equals("sl")) { %> //-->
 				 <a href="zentrum_anzeigen_sl.jsp"> 
 				 <input type="submit" name="zentrum_auswaehlen" value="Zentrum anzeigen"></a>    
 				 
 			
-		<% } else if (user.getUsername().equals("admin")){ %>
+	<!--	<% } else if (user.getUsername().equals("admin")){ %> //-->
 			<a href="zentrum_anzeigen_admin.jsp"> 
 				 <input type="submit" name="zentrum_auswaehlen" value="Zentrum anzeigen"></a>    
 				 
-		<% } %>
+	<!--	<% } %> //-->
 
 		</form>
 		</td>
