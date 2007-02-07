@@ -20,8 +20,8 @@
 			<td align="right" valign="middle" height="25"><a href="impressum.jsp" id="logout_link">Impressum</a></td>
 		</tr>
 	</table>
-	</div>
-	<%@include file="include/inc_nachricht.jsp"%>
+	<%@include file="include/inc_nachricht.jsp"%></div>
+	
 	<div id="inhalt_login">
 		<p>
 			<img src="images/heidelberg.jpg" width="537" height="291"
