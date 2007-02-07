@@ -51,9 +51,9 @@ public class ZentrumBeanTest {
 		institution = "institution";
 		abteilung = "abteilung";
 		ort = "ort";
-		plz = "plz";
+		plz = "12345";
 		strasse = "strasse";
-		hausnr = "hausnr";
+		hausnr = "23";
 		ansprechpartner = new PersonBean("nachname", "vorname", "Prof.", 'm',
 				"user@hs-heilbronn.de", "01760099334", "017600972487",
 				"01760427424");
@@ -342,11 +342,14 @@ public class ZentrumBeanTest {
 	 * 
 	 * @throws ZentrumException
 	 */
-	@Test (expected=ZentrumException.class)
+	@Test(expected = ZentrumException.class)
 	public void testSetPasswortFalsch() throws ZentrumException {
-		zentrum.setPasswort("aaaaa(a&_67a234ikrfoawra");
+		
+
+			zentrum.setPasswort("aaaaa(a&_67a234ikrfoawra");
+
 	}
-  
+
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#getPlz()}.
