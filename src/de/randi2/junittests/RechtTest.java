@@ -24,8 +24,8 @@ public class RechtTest {
 
 	private Recht recht;
 
-	// TODO rName2 wird nicht verwendet
-	private Rechtenamen rName, rName2;
+	
+	private Rechtenamen rName;
 
 	/**
 	 * HashMap, welche die Instanzen der einzelnen Rechte verwaltet.
@@ -48,27 +48,11 @@ public class RechtTest {
 		recht = null;
 	}
 
-	/**
-	 * Test method for
-	 * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.Rechtenamen)}.
-	 */
-	@Test
-	public void testGetRechtNull() {
-		// TODO Dieser Test ist unnoetig - laut Code wird hier geprueft, ob die
-		// Hashmap rechte einem leeren String entspricht. Dies wird nie
-		// vorkommen.
-		try {
-			if (rechte.equals("")) {
-				fail("Ungueltiges Argument: 'null'");
-			}
-		} catch (Exception e) {
-			fail("[FEHLER] testGetRechtNull()");
-		}
-	}
+
 
 	@Test
 	public void testGetRechtInstanzVorhanden() {
-		// TODO
+		
 		if (rechte.containsKey(rName)) {
 			System.out.println("a");
 			System.out.print(rechte.get(rName).toString());
