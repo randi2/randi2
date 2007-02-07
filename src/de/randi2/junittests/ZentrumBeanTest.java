@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -17,11 +18,10 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
  * testen, da sie eigentlich bei den set() Methoden mitgetestet werden. Das ist
  * leider hier noch nicht der Fall. Man muss immer nach einem
  * set(irgendwas)Aufruf entsprechende get Methode aufrufen, und die Werte
- * vergleichen - ob das was zu setzten war, tatsaetzlich gesetzt wurde und von der get methode
- * gelifert wird. 
+ * vergleichen - ob das was zu setzten war, tatsaetzlich gesetzt wurde und von
+ * der get methode gelifert wird.
  * 
- * Beispiel:
- * zentrum.setAbteilung("Abteilung1");
+ * Beispiel: zentrum.setAbteilung("Abteilung1");
  * assertTrue("Abteilung1",zentrum.getAbteilung());
  * 
  * 
@@ -40,13 +40,12 @@ public class ZentrumBeanTest {
 	private ZentrumBean zentrum = new ZentrumBean();
 
 	/**
-	 * TODO Dieser Name ist voellig uebertrieben! - Bitte aendern Test method
-	 * for
+	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#ZentrumBean(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, de.randi2.model.fachklassen.beans.PersonBean, java.lang.String)}.
+	 * @throws PersonException 
 	 */
 	@Test
-	public void testZentrumBeanIntStringStringStringStringStringStringPersonBeanString() {
-		try {
+	public void testZentrumBeanMitParametern() throws PersonException {
 			id = 1;
 			institution = "institution";
 			abteilung = "abteilung";
@@ -61,10 +60,6 @@ public class ZentrumBeanTest {
 
 			new ZentrumBean(id, institution, abteilung, ort, plz, strasse,
 					hausnr, ansprechpartner, passwort);
-
-		} catch (Exception e) {
-			fail("Fehler bei testZentrumBeanIntStringStringStringStringStringStringPersonBeanString()");
-		}
 	}
 
 	/**
@@ -73,11 +68,7 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testZentrumBean() {
-		try {
-			new ZentrumBean();
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testZentrumBean()");
-		}
+		new ZentrumBean();
 	}
 
 	/**
@@ -85,39 +76,32 @@ public class ZentrumBeanTest {
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#getAbteilung()}.
 	 */
 	@Test
-	public void testGetAbteilung() {
-		try {
-			abteilung = zentrum.getAbteilung();
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetAbteilung");
-		}
+	public void testGetAbteilung() throws Exception {
+		abteilung = zentrum.getAbteilung();
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setAbteilung(java.lang.String)}.
+	 * 
+	 * @throws ZentrumException
 	 */
 	@Test
-	public void testSetAbteilungNormal() {
-		try {
-			zentrum.setAbteilung("abteilung1");
-		} catch (Exception e) {
-			fail("Sollte keine Exception ausloesen - richtiger Abteilungsname");
-		}
+	public void testSetAbteilungNormal() throws ZentrumException {
+		zentrum.setAbteilung("Abteilung1");
+		assertTrue("Fehler", zentrum.getAbteilung().equals("Abteilung1"));
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setAbteilung(java.lang.String)}.
+	 * 
+	 * @throws ZentrumException
 	 */
 	@Test
-	public void testSetAbteilungMaximal() {
-		try {
-			zentrum
-					.setAbteilung("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-		} catch (Exception e) {
-			fail("Sollte KEINE exception ausloesen!");
-		}
+	public void testSetAbteilungMaximal() throws ZentrumException {
+		zentrum
+				.setAbteilung("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 	}
 
 	/**
@@ -150,11 +134,7 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testGetAnsprechpartner() {
-		try {
-			ansprechpartner = zentrum.getAnsprechpartner();
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetAnsprechpartner");
-		}
+		ansprechpartner = zentrum.getAnsprechpartner();
 	}
 
 	/**
@@ -163,11 +143,7 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetAnsprechpartner() {
-		try {
-			zentrum.setAnsprechpartner(ansprechpartner);
-		} catch (Exception e) {
-			fail("sollte keine Exception auftreten, da Daten von PersonBean schon getestet sind");
-		}
+		zentrum.setAnsprechpartner(ansprechpartner);
 	}
 
 	/**
@@ -176,24 +152,18 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testGetHausnr() {
-		try {
-			hausnr = zentrum.getHausnr();
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetHausnr");
-		}
+		hausnr = zentrum.getHausnr();
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setHausnr(java.lang.String)}.
+	 * 
+	 * @throws ZentrumException
 	 */
 	@Test
-	public void testSetHausnr() {
-		try {
-			zentrum.setHausnr("453");
-		} catch (Exception e) {
-			fail("Hausnummer - erlaubte Zeichen");
-		}
+	public void testSetHausnr() throws ZentrumException {
+		zentrum.setHausnr("453");
 	}
 
 	/**
@@ -213,38 +183,33 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testGetInstitution() {
-		try {
-			institution = zentrum.getInstitution();
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetInstitution");
-		}
+		institution = zentrum.getInstitution();
+
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setInstitution(java.lang.String)}.
+	 * 
+	 * @throws ZentrumException
 	 */
 	@Test
-	public void testSetInstitutionNormal() {
-		try {
-			zentrum.setInstitution("institution1");
-		} catch (Exception e) {
-			fail("Sollte keine Exception auslösen - richtiger Institutionsname");
-		}
+	public void testSetInstitutionNormal() throws ZentrumException {
+
+		zentrum.setInstitution("institution1");
+
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setInstitution(java.lang.String)}.
+	 * 
+	 * @throws ZentrumException
 	 */
 	@Test
-	public void testSetInstitutionMaxLaenge() {
-		try {
-			zentrum
-					.setInstitution("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-		} catch (Exception e) {
-			fail("Sollte KEINE exception auslösen!");
-		}
+	public void testSetInstitutionMaxLaenge() throws ZentrumException {
+		zentrum
+				.setInstitution("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 	}
 
 	/**
@@ -276,38 +241,29 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testGetOrt() {
-		try {
-			ort = zentrum.getOrt();
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetAbteilung");
-		}
+		ort = zentrum.getOrt();
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setOrt(java.lang.String)}.
+	 * 
+	 * @throws ZentrumException
 	 */
 	@Test
-	public void testSetOrtNormal() {
-		try {
-			zentrum.setOrt("ort");
-		} catch (ZentrumException e) {
-			fail("Fehler aufgetreten bei korrekter Eingabe des Ortes");
-		}
+	public void testSetOrtNormal() throws ZentrumException {
+		zentrum.setOrt("ort");
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setOrt(java.lang.String)}.
+	 * 
+	 * @throws ZentrumException
 	 */
 	@Test
-	public void testSetOrtMaxLaenge() {
-		try {
-			zentrum
-					.setOrt("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-		} catch (ZentrumException e) {
-			fail("Fehler aufgetreten bei korrekter Eingabe des Ortes");
-		}
+	public void testSetOrtMaxLaenge() throws ZentrumException {
+		zentrum.setOrt("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 	}
 
 	/**
@@ -339,24 +295,18 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testGetPasswort() {
-		try {
-			passwort = zentrum.getPasswort();
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetPasswort");
-		}
+		passwort = zentrum.getPasswort();
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setPasswort(java.lang.String)}.
+	 * 
+	 * @throws ZentrumException
 	 */
 	@Test
-	public void testSetPasswort() {
-		try {
-			zentrum.setPasswort(passwort);
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei setPasswort");
-		}
+	public void testSetPasswort() throws ZentrumException {
+		zentrum.setPasswort("aaaaaaaa(a&_67a");
 	}
 
 	/**
@@ -365,26 +315,18 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testGetPlz() {
-		try {
-			plz = zentrum.getPlz();
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetPlz");
-		}
+		plz = zentrum.getPlz();
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setPlz(java.lang.String)}.
+	 * 
+	 * @throws ZentrumException
 	 */
 	@Test
-	public void testSetPlzRichtig() {
-		// TODO: PLZ := \d{5}, 5 Zeichen (ergibt sich)
-		// (expected=IllegalArgumentException.class)
-		try {
-			zentrum.setPlz("11111");
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei richtiger testSetPlz");
-		}
+	public void testSetPlzRichtig() throws ZentrumException {
+		zentrum.setPlz("12345");
 	}
 
 	/**
@@ -396,7 +338,7 @@ public class ZentrumBeanTest {
 	@Test(expected = ZentrumException.class)
 	public void testSetPlzFalsch() throws ZentrumException {
 		zentrum.setPlz("11342234111");
-		fail("Erwartete Exception wurde nicht geworfen!");
+
 	}
 
 	/**
@@ -405,24 +347,18 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testGetStrasse() {
-		try {
-			strasse = zentrum.getStrasse();
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetStrasse");
-		}
+		strasse = zentrum.getStrasse();
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setStrasse(java.lang.String)}.
+	 * 
+	 * @throws ZentrumException
 	 */
 	@Test
-	public void testSetStrasseNormal() {
-		try {
-			zentrum.setStrasse("Strasse");
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testSetStrasse");
-		}
+	public void testSetStrasseNormal() throws ZentrumException {
+		zentrum.setStrasse("Strasse");
 	}
 
 	/**
@@ -435,7 +371,6 @@ public class ZentrumBeanTest {
 	public void testSetStrasseMaxLaenge() throws ZentrumException {
 		zentrum
 				.setStrasse("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
 	}
 
 	/**
@@ -447,7 +382,6 @@ public class ZentrumBeanTest {
 	@Test(expected = ZentrumException.class)
 	public void testSetStrasseZuKurz() throws ZentrumException {
 		zentrum.setStrasse("a");
-
 	}
 
 	/**
@@ -468,11 +402,7 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testGetId() {
-		try {
-			id = zentrum.getId();
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testGetId");
-		}
+		id = zentrum.getId();
 	}
 
 	/**
@@ -481,11 +411,7 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetId() {
-		try {
-			zentrum.setId(id);
-		} catch (Exception e) {
-			fail("Fehler aufgetreten bei testSetId");
-		}
+		zentrum.setId(id);
 	}
 
 }
