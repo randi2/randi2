@@ -46,7 +46,7 @@
 			</classpath>
 			<formatter type="xml" />
 			<batchtest haltonfailure="no" todir="${junit}">
-				<fileset dir="${src}/de/randi2/junittests">
+				<fileset dir="${src}">
 					<include name="**/*Test*.java" />
 				</fileset>
 			</batchtest>
