@@ -1,0 +1,85 @@
+<!-- ANT-Skript um einen Build des Randi-Projektes anzustossen -->
+<project name="randi2" default="war" basedir=".">
+
+	<target name="init">
+		<!-- festlegen der benoetigten Pfade -->
+		<!-- Pfade fuerr das Target "compile_war"-->
+		<property name="src" value="src" />
+		<property name="build" value="build" />
+		<property name="junit" value="junit" />
+		<property name="junit_lib" value="/opt/junit4.1" />
+		<property name="tomcat_lib" value="/opt/tomcat/common/lib/" />
+		<property name="web_lib" value="WebContent/WEB-INF/lib" />
+		<!-- den build-Ordner loeschen-->
+		<delete dir="${build}" includeemptydirs="true" />
+		<!-- und wieder erstellen -->
+		<mkdir dir="${build}" />
+		<mkdir dir="${junit}" />
+	</target>
+
+	<!-- Target uebersetzt das Projekt, die Junit/Selenium-Tests werden erstmal aussen vor gelassen -->
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" deprecation="off" destdir="${build}" includes="**" failonerror="false">
+			<classpath>
+				<fileset dir="${tomcat_lib}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${junit_lib}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="WebContent/WEB-INF/lib">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="lib">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="test" depends="compile">
+
+		<junit printsummary="yes" fork="true" haltonfailure="no">
+			<classpath>
+				<pathelement location="${build}" />
+				<fileset dir="${build}" includes="*.jar" />
+			</classpath>
+			<formatter type="xml" />
+			<batchtest haltonfailure="no" todir="${junit}">
+				<fileset dir="${src}/de/randi2/junittests">
+					<include name="**/*Test*.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+
+		<junitreport todir="${junit}">
+			<fileset dir=".">
+				<include name="${junit}/TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${junit}" />
+		</junitreport>
+	</target>
+
+	<!-- Target erstellt das war-Archiv -->
+	<target name="war" depends="compile, test">
+		<!-- Datum einfuegen -->
+		<war warfile="${build}/randinightly.war" webxml="WebContent/WEB-INF/web.xml">
+			<classes dir="${build}">
+				<patternset id="klassen">
+					<exclude name="**/seleniumtest/**" />
+					<exclude name="**/junittests/**" />
+				</patternset>
+			</classes>
+
+			<fileset dir="WebContent" id="webcontent">
+				<patternset>
+					<include name="**" />
+					<exclude name="META-INF/**" />
+					<exclude name="WEB-INF/**" />
+				</patternset>
+			</fileset>
+			<lib dir="${web_lib}" />
+		</war>
+	</target>
+
+</project>
