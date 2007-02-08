@@ -154,7 +154,7 @@ public class DatenbankDummyTest {
         }
         ergebnis = null;
         // Finde ein Zentrum
-        String passbrot ="inst1-abt2" ;
+        String passbrot ="inst1-abt2AA" ;
         suchbean.setInstitution("Institut1");
         suchbean.setAbteilung("Abteilung2");
         
