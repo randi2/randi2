@@ -21,6 +21,7 @@ import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.PasswortUtil;
 
 import java.util.*;
+
 /**
  * @author Benjamin Theel <BTheel@stud.hs-heilbronn.de>
  * @version $Id$
@@ -28,48 +29,51 @@ import java.util.*;
 public class DatenbankDummyTest {
 
     private DatenbankSchnittstelle aDB;
-    
+
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        PropertyConfigurator.configure("C:/Together/workspace_swp/RANDI2 J2EE/WebContent/WEB-INF/log4j.lcf");
-    	aDB = new DatenbankDummy();
+        PropertyConfigurator
+                .configure("C:/Together/workspace_swp/RANDI2 J2EE/WebContent/WEB-INF/log4j.lcf");
+        aDB = new DatenbankDummy();
     }
 
     @After
     public void tearDown() throws Exception {
         aDB = null;
     }
+
     @Test
     public void testBla() throws BenutzerkontoException, PersonException {
-       BenutzerkontoBean such = new BenutzerkontoBean();
-       such.setBenutzername("statistiker");
-       such.setFilter(true);
-       BenutzerkontoBean bean;
-    try {
-        bean = (new Vector<BenutzerkontoBean>(aDB.suchenObjekt(such))).firstElement();
-        System.out.println(bean.toString());
-        PersonBean benutzer = new PersonBean();
-        benutzer.setVorname("Heribert");
-        benutzer.setNachname("Fassbinder");
-        bean.setBenutzer(benutzer);
-        
-        aDB.schreibenObjekt(bean);
-        bean = null;
-        bean = (new Vector<BenutzerkontoBean>(aDB.suchenObjekt(such))).firstElement();
-        System.out.println(bean.toString());
-        System.out.println(bean.getBenutzer().toString());
-        
-    } catch (DatenbankFehlerException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-        fail();
+        BenutzerkontoBean such = new BenutzerkontoBean();
+        such.setBenutzername("statistiker");
+        such.setFilter(true);
+        BenutzerkontoBean bean;
+        try {
+            bean = (new Vector<BenutzerkontoBean>(aDB.suchenObjekt(such)))
+                    .firstElement();
+            System.out.println(bean.toString());
+            PersonBean benutzer = new PersonBean();
+            benutzer.setVorname("Heribert");
+            benutzer.setNachname("Fassbinder");
+            bean.setBenutzer(benutzer);
+
+            aDB.schreibenObjekt(bean);
+            bean = null;
+            bean = (new Vector<BenutzerkontoBean>(aDB.suchenObjekt(such)))
+                    .firstElement();
+            System.out.println(bean.toString());
+            System.out.println(bean.getBenutzer().toString());
+
+        } catch (DatenbankFehlerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+
     }
-       
-    }
-    
 
     /**
      * Test method for
@@ -83,8 +87,10 @@ public class DatenbankDummyTest {
             aDB.schreibenObjekt(null);
             fail("Sollte Exception werfen");
         } catch (Exception e) {
-            assertTrue("Exception sollte eine DatenbankFehlerException sein",e instanceof DatenbankFehlerException);
-            assertEquals("Falsche Msg. wird angezeigt",DatenbankFehlerException.ARGUMENT_IST_NULL, e.getMessage());
+            assertTrue("Exception sollte eine DatenbankFehlerException sein",
+                    e instanceof DatenbankFehlerException);
+            assertEquals("Falsche Msg. wird angezeigt",
+                    DatenbankFehlerException.ARGUMENT_IST_NULL, e.getMessage());
         }
 
         BenutzerkontoBean bean;
@@ -114,8 +120,8 @@ public class DatenbankDummyTest {
     public void testSuchenBenutzerkontoBean() {
 
         try {
-        	
-        	Vector<BenutzerkontoBean>  ergebnisseBeans = null;
+
+            Vector<BenutzerkontoBean> ergebnisseBeans = null;
             String suchname = "sa@randi2.de";
             String passbrot = "1$studienarzt";
             BenutzerkontoBean suchbean = new BenutzerkontoBean();
@@ -126,26 +132,27 @@ public class DatenbankDummyTest {
             assertEquals(1, ergebnisseBeans.size());
 
             Object tmp = ergebnisseBeans.firstElement();
-            
+
             assertTrue(tmp instanceof BenutzerkontoBean);
 
             BenutzerkontoBean ergebnisBean = (BenutzerkontoBean) tmp;
             assertEquals(suchname, ergebnisBean.getBenutzername());
             assertEquals(Rolle.getStudienarzt(), ergebnisBean.getRolle());
-            assertEquals(PasswortUtil.getInstance().hashPasswort(passbrot), ergebnisBean.getPasswort());
+            assertEquals(PasswortUtil.getInstance().hashPasswort(passbrot),
+                    ergebnisBean.getPasswort());
         } catch (Exception e) {
             fail("Ao!");
         }
 
     }
-    
-    @Test 
-    public void testSuchenZentrumBean() throws ZentrumException{
-        Vector<ZentrumBean>  ergebnis = null;
+
+    @Test
+    public void testSuchenZentrumBean() throws ZentrumException {
+        Vector<ZentrumBean> ergebnis = null;
         ZentrumBean suchbean = new ZentrumBean();
         suchbean.setFilter(true);
-        
-        try { //finde Alle Zentren
+
+        try { // finde Alle Zentren
             ergebnis = aDB.suchenObjekt(suchbean);
             assertEquals(4, ergebnis.size());
         } catch (DatenbankFehlerException e) {
@@ -154,28 +161,29 @@ public class DatenbankDummyTest {
         }
         ergebnis = null;
         // Finde ein Zentrum
-        String passbrot ="inst1-abt2AA" ;
+        String passbrot = "inst1-abt2AA";
         suchbean.setInstitution("Institut1");
         suchbean.setAbteilung("Abteilung2");
-        
-        try { //finde ein Zentrum
+
+        try { // finde ein Zentrum
             ergebnis = aDB.suchenObjekt(suchbean);
             assertEquals(1, ergebnis.size());
             ZentrumBean gefundenesBean = ergebnis.firstElement();
-            System.out.println(gefundenesBean.toString());
-            assertEquals(suchbean.getInstitution(), gefundenesBean.getInstitution());
+            assertEquals(suchbean.getInstitution(), gefundenesBean
+                    .getInstitution());
             assertEquals(suchbean.getAbteilung(), gefundenesBean.getAbteilung());
-            assertEquals(PasswortUtil.getInstance().hashPasswort(passbrot), gefundenesBean.getPasswort());
+            assertEquals(PasswortUtil.getInstance().hashPasswort(passbrot),
+                    gefundenesBean.getPasswort());
         } catch (DatenbankFehlerException e) {
             e.printStackTrace();
             fail();
         }
 
-        
     }
+
     @Test
-    public void testSchreibenSuchen(){
-        BenutzerkontoBean schreibBean,leseBean;
+    public void testSchreibenSuchen() {
+        BenutzerkontoBean schreibBean, leseBean;
         BenutzerkontoBean ergebnisBean;
         String testname = "Testname";
         try {
@@ -187,17 +195,19 @@ public class DatenbankDummyTest {
             BenutzerkontoBean suchbean = new BenutzerkontoBean();
             suchbean.setFilter(true);
             suchbean.setBenutzername(testname);
-            
-            assertEquals(schreibBean.getBenutzername(), suchbean.getBenutzername());
-            
-            leseBean = (BenutzerkontoBean) (aDB.suchenObjekt(suchbean)).firstElement();
-            assertEquals(schreibBean.getBenutzername(),leseBean.getBenutzername());
-        }catch(Exception e){
+
+            assertEquals(schreibBean.getBenutzername(), suchbean
+                    .getBenutzername());
+
+            leseBean = (BenutzerkontoBean) (aDB.suchenObjekt(suchbean))
+                    .firstElement();
+            assertEquals(schreibBean.getBenutzername(), leseBean
+                    .getBenutzername());
+        } catch (Exception e) {
             e.printStackTrace();
             fail("Sollte keine Exception werfen");
         }
-        
+
     }
-    
 
 }
