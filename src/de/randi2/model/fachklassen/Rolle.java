@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
 public class Rolle {
 
     // Konstanten/ Enum
-    Logger logger = Logger.getLogger(this.getClass());
+    private Logger logger = Logger.getLogger(this.getClass());
     /**
      * Enthaelt alle Rollennamen, die innerhalb des Programmes zur Verfuegung
      * stehen
