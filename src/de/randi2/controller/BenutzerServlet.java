@@ -23,16 +23,13 @@ import de.randi2.model.exceptions.*;
  * Benutzerkonto-Fachklasse und an den DISPATCHER weiterleitet.
  * 
  * @version $Id$
- * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
- * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
  * @author Andreas Freudling <afreudling@stud.hs-heilbronn.de>
  * 
  */
-public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
-		javax.servlet.Servlet {
+public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
-	/*
-	 * (non-Java-doc)
+	/**
+	 * Konstruktor.
 	 * 
 	 * @see javax.servlet.http.HttpServlet#HttpServlet()
 	 */
@@ -40,23 +37,24 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 		super();
 	}
 
-	/*
-	 * (non-Java-doc)
+	// TODO Bitte Kommentar ueberpruefen und ggf. anpassen.
+	/**
+	 * Diese Methode nimmt HTTP-POST-Request gemaess HTTP-Servlet Definition
+	 * entgegen.
 	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest request,
-	 *      HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Bisher noch kein doGet gemacht, damit Nutzer keine Details sieht
-	}
-
-	/*
-	 * (non-Java-doc)
+	 * @param request
+	 *            Der Request fuer das Servlet.
+	 * @param response
+	 *            Der Response Servlet.
+	 * @throws IOException
+	 *             Falls Fehler in den E/A-Verarbeitung.
+	 * @throws ServletException
+	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
 	 * 
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String id = (String) request.getAttribute("anfrage_id");
@@ -74,7 +72,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet implements
 						.getParameter("username"));
 				// TODO Zukünftig sollte hier gleich das Passwort überprüft
 				// werden
-				sBenutzer.setPasswortKlartext((String) request.getParameter("password"));
+				sBenutzer.setPasswortKlartext((String) request
+						.getParameter("password"));
 				Vector<BenutzerkontoBean> gBenutzer = null;
 
 				try {

@@ -21,10 +21,9 @@ import org.apache.log4j.Logger;
  * @author Andreas Freudling <afreudling@hs-heilbronn.de>
  * 
  */
-public class ZentrumServlet extends javax.servlet.http.HttpServlet implements
-		javax.servlet.Servlet {
-	/*
-	 * (non-Java-doc)
+public class ZentrumServlet extends javax.servlet.http.HttpServlet {
+	/**
+	 * Konstruktor.
 	 * 
 	 * @see javax.servlet.http.HttpServlet#HttpServlet()
 	 */
@@ -32,23 +31,22 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet implements
 		super();
 	}
 
-	/*
-	 * (non-Java-doc)
+	// TODO Bitte Kommentar ueberpruefen und ggf. anpassen.
+	/**
+	 * Diese Methode nimmt HTTP-POST-Request gemaess HTTP-Servlet Definition
+	 * entgegen.
 	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest request,
-	 *      HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Bisher noch kein doGet gemacht, damit Nutzer keine Details sieht
-	}
-
-	/*
-	 * (non-Java-doc)
+	 * @param request
+	 *            Der Request fuer das Servlet.
+	 * @param response
+	 *            Der Response Servlet.
+	 * @throws IOException Falls Fehler in den E/A-Verarbeitung.
+	 * @throws ServletException Falls Fehler in der HTTP-Verarbeitung auftreten.
 	 * 
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String id = (String) request.getParameter("anfrage_id");
@@ -128,8 +126,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet implements
 				sZentrum.setFilter(true);
 				Vector<ZentrumBean> gZentrum = null;
 				try {
-					gZentrum = Zentrum
-							.suchenZentrum(sZentrum);
+					gZentrum = Zentrum.suchenZentrum(sZentrum);
 				} catch (DatenbankFehlerException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

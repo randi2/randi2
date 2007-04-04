@@ -40,8 +40,7 @@ public class LogGeanderteDaten {
 	 * @throws IllegalArgumentException
 	 *             Falls leere Objekte uebergeben wurden.
 	 */
-	public LogGeanderteDaten(long id, String typ, HashMap<String, String> daten)
-			throws IllegalArgumentException {
+	public LogGeanderteDaten(long id, String typ, HashMap<String, String> daten) {
 		super();
 
 		if (id <= 0) {

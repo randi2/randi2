@@ -70,7 +70,7 @@ public class LogAktion {
 	 *             Falls leere Objekte uebergeben wurden.
 	 */
 	public LogAktion(String nachricht, BenutzerkontoBean benutzer,
-			LogGeanderteDaten geanderteDaten) throws IllegalArgumentException {
+			LogGeanderteDaten geanderteDaten) {
 		this(nachricht, benutzer);
 		if (geanderteDaten == null) {
 			throw new IllegalArgumentException(
