@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
  * @author Johannes Thoenes <jthoenes@stud.hs-heilbronn.de>
  * @version $Id$
  */
-public class PasswortUtil {
+public final class PasswortUtil {
 
 	/**
 	 * Die Singleton-Instance.
@@ -111,6 +111,9 @@ public class PasswortUtil {
 		hashfunktion.update(passwort.getBytes(), 0, passwort.length());
 		byte[] digest = hashfunktion.digest();
 		for (int i = 0; i < digest.length; i++) {
+			// Konstanten sind hier eher weniger sinnvoll bzw. 
+			// fallem am Kopf eher aus dem Rahmen.
+			// Daher wird hier nicht auf Checkstyle gehoert.
 			hashwertHex.append(Integer.toHexString((digest[i] & 0xFF) | 0x100)
 					.toLowerCase().substring(1, 3));
 		}

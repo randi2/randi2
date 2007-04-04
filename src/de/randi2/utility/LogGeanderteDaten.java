@@ -37,8 +37,6 @@ public class LogGeanderteDaten {
 	 *            Der Typ des Datenobjekts. Darf nicht leer sein.
 	 * @param daten
 	 *            Die geanderten Daten. Darf nicht leer sein.
-	 * @throws IllegalArgumentException
-	 *             Falls leere Objekte uebergeben wurden.
 	 */
 	public LogGeanderteDaten(long id, String typ, HashMap<String, String> daten) {
 		super();

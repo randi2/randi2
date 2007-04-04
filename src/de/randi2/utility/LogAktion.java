@@ -35,11 +35,8 @@ public class LogAktion {
 	 * @param benutzer
 	 *            Das Benutzerkonto des Benutzers der die Aktion ausgefuehrt
 	 *            hat. Darf nicht leer sein.
-	 * @throws IllegalArgumentException
-	 *             Falls leere Objekte uebergeben wurden.
 	 */
-	public LogAktion(String nachricht, BenutzerkontoBean benutzer)
-			throws IllegalArgumentException {
+	public LogAktion(String nachricht, BenutzerkontoBean benutzer) {
 		super();
 		if (nachricht == null || nachricht.equals("")) {
 			throw new IllegalArgumentException(
@@ -65,9 +62,7 @@ public class LogAktion {
 	 *            hat. Darf nicht leer sein.
 	 * @param geanderteDaten
 	 *            Das Objekt in dem die in dieser Aktion geanderten Daten
-	 *            enthalten sind. Darf nicht leer sein. 
-	 * @throws IllegalArgumentException
-	 *             Falls leere Objekte uebergeben wurden.
+	 *            enthalten sind. Darf nicht leer sein.
 	 */
 	public LogAktion(String nachricht, BenutzerkontoBean benutzer,
 			LogGeanderteDaten geanderteDaten) {

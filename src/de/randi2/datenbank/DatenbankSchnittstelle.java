@@ -42,7 +42,7 @@ public interface DatenbankSchnittstelle {
      *             (vlg. {@link Filter})</li>
      *             </ul>
      */
-    public <T extends Filter> Vector<T> suchenObjekt(T zuSuchendesObjekt)
+    <T extends Filter> Vector<T> suchenObjekt(T zuSuchendesObjekt)
             throws DatenbankFehlerException;
 
     /**
@@ -65,7 +65,7 @@ public interface DatenbankSchnittstelle {
      *             Methodenaufruf mit <code>null</code> </li>
      *             </ul>
      */
-    public <T extends Filter> T schreibenObjekt(T zuSchreibendesObjekt)
-            throws DatenbankFehlerException, IllegalArgumentException;
+    <T extends Filter> T schreibenObjekt(T zuSchreibendesObjekt)
+            throws DatenbankFehlerException;
 
 }

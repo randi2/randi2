@@ -26,267 +26,271 @@ import org.apache.log4j.Logger;
  * @author Benjamin Theel <btheel@stud.hs-heilbronn.de>
  * 
  */
-public class Rolle {
+public final class Rolle {
 
-    // Konstanten/ Enum
-    private Logger logger = Logger.getLogger(this.getClass());
-    /**
-     * Enthaelt alle Rollennamen, die innerhalb des Programmes zur Verfuegung
-     * stehen
-     * 
-     * @version 1.0
-     */
-    public static enum Rollen {
-        /**
-         * Rollenname des Studienarztes
-         */
-        STUDIENARZT,
-        /**
-         * Rollenname des Studienleiters
-         */
-        STUDIENLEITER,
-        /**
-         * Rollenname des Administrators
-         */
-        ADMIN,
-        /**
-         * Rollenname des Systemooperators
-         */
-        SYSOP,
-        /**
-         * Rollenname des Statistikers
-         */
-        STATISTIKER
-    }
+	/**
+	 * Der logger.
+	 */
+	private Logger logger = Logger.getLogger(this.getClass());
 
-    // Rollenkonstanten
-    /**
-     * Instanz der Rolle "Studienarzt"
-     */
-    private static Rolle STUDIENARZT;
+	/**
+	 * Enthaelt alle Rollennamen, die innerhalb des Programmes zur Verfuegung
+	 * stehen
+	 * 
+	 * @version 1.0
+	 */
+	public static enum Rollen {
+		/**
+		 * Rollenname des Studienarztes
+		 */
+		STUDIENARZT,
+		/**
+		 * Rollenname des Studienleiters
+		 */
+		STUDIENLEITER,
+		/**
+		 * Rollenname des Administrators
+		 */
+		ADMIN,
+		/**
+		 * Rollenname des Systemooperators
+		 */
+		SYSOP,
+		/**
+		 * Rollenname des Statistikers
+		 */
+		STATISTIKER
+	}
 
-    /**
-     * Instanz der Rolle "Studienleiter"
-     */
-    private static Rolle STUDIENLEITER;
+	// Rollenkonstanten
+	/**
+	 * Instanz der Rolle "Studienarzt"
+	 */
+	private static Rolle studienarzt;
 
-    /**
-     * Instanz der Rolle "Admin"
-     */
-    private static Rolle ADMIN;
+	/**
+	 * Instanz der Rolle "Studienleiter"
+	 */
+	private static Rolle studienleiter;
 
-    /**
-     * Instanz der Rolle "Sysop"
-     */
-    private static Rolle SYSOP;
+	/**
+	 * Instanz der Rolle "Admin"
+	 */
+	private static Rolle admin;
 
-    /**
-     * Instanz der Rolle "Statistiker"
-     */
-    private static Rolle STATISTIKER;
+	/**
+	 * Instanz der Rolle "Sysop"
+	 */
+	private static Rolle sysop;
 
-    // Rollenrechtelisten
-    /**
-     * Rollenrechteliste des Studienarztes
-     */
-    private static Recht[] rechteListe_Studienarzt = {
-        Recht.getRecht(Rechtenamen.BK_AENDERN),
-        Recht.getRecht(Rechtenamen.STUDIENTEILNEHMER_HINZUFUEGEN),
-        Recht.getRecht(Rechtenamen.STUDIEN_EINSEHEN),
-        Recht.getRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN)
-    };
+	/**
+	 * Instanz der Rolle "Statistiker"
+	 */
+	private static Rolle statistiker;
 
-    
-    /**
-     * Rollenrechteliste des Studienleiters
-     */
-    private static Recht[] rechteListe_Studienleiter = {
-        Recht.getRecht(Rechtenamen.BK_AENDERN),
-        Recht.getRecht(Rechtenamen.BK_ANSEHEN),
-        Recht.getRecht(Rechtenamen.ZENTREN_ANZEIGEN),
-        Recht.getRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN),
-        Recht.getRecht(Rechtenamen.STUDIE_ANLEGEN),
-        Recht.getRecht(Rechtenamen.STUDIE_AENDERN),
-        Recht.getRecht(Rechtenamen.STUDIE_PAUSIEREN),
-        Recht.getRecht(Rechtenamen.STUDIENARM_BEENDEN),
-        Recht.getRecht(Rechtenamen.STUDIE_SIMULIEREN),
-        Recht.getRecht(Rechtenamen.STUDIEN_EINSEHEN),
-        Recht.getRecht(Rechtenamen.STAT_EINSEHEN),
-        Recht.getRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN),
-        Recht.getRecht(Rechtenamen.ARCHIV_EINSEHEN),
-    };
+	// Rollenrechtelisten
+	/**
+	 * Rollenrechteliste des Studienarztes
+	 */
+	private static Recht[] rechteListeStudienarzt = {
+			Recht.getRecht(Rechtenamen.BK_AENDERN),
+			Recht.getRecht(Rechtenamen.STUDIENTEILNEHMER_HINZUFUEGEN),
+			Recht.getRecht(Rechtenamen.STUDIEN_EINSEHEN),
+			Recht.getRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN) };
 
-    /**
-     * Rollenrechteliste des Administrators
-     */
-    private static Recht[] rechteListe_Admin = {
-        Recht.getRecht(Rechtenamen.BK_AENDERN),
-        Recht.getRecht(Rechtenamen.BK_SPERREN),
-        Recht.getRecht(Rechtenamen.BK_ANSEHEN),
-        Recht.getRecht(Rechtenamen.ZENTREN_ANZEIGEN),
-        Recht.getRecht(Rechtenamen.ZENTRUM_AENDERN),
-        Recht.getRecht(Rechtenamen.ZENTRUM_ANLEGEN),
-        Recht.getRecht(Rechtenamen.ZENTRUM_AKTIVIEREN),
-        Recht.getRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN),
-        Recht.getRecht(Rechtenamen.STUDIE_LOESCHEN),
-        Recht.getRecht(Rechtenamen.ARCHIV_EINSEHEN),
-        Recht.getRecht(Rechtenamen.STAT_EINSEHEN),
-        Recht.getRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN),
-        Recht.getRecht(Rechtenamen.STUDIEN_EINSEHEN),
-        Recht.getRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN)
-    };
+	/**
+	 * Rollenrechteliste des Studienleiters
+	 */
+	private static Recht[] rechteListeStudienleiter = {
+			Recht.getRecht(Rechtenamen.BK_AENDERN),
+			Recht.getRecht(Rechtenamen.BK_ANSEHEN),
+			Recht.getRecht(Rechtenamen.ZENTREN_ANZEIGEN),
+			Recht.getRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN),
+			Recht.getRecht(Rechtenamen.STUDIE_ANLEGEN),
+			Recht.getRecht(Rechtenamen.STUDIE_AENDERN),
+			Recht.getRecht(Rechtenamen.STUDIE_PAUSIEREN),
+			Recht.getRecht(Rechtenamen.STUDIENARM_BEENDEN),
+			Recht.getRecht(Rechtenamen.STUDIE_SIMULIEREN),
+			Recht.getRecht(Rechtenamen.STUDIEN_EINSEHEN),
+			Recht.getRecht(Rechtenamen.STAT_EINSEHEN),
+			Recht.getRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN),
+			Recht.getRecht(Rechtenamen.ARCHIV_EINSEHEN), };
 
-    /**
-     * Rollenrechteliste des Systemoperators
-     */
-    private static Recht[] rechteListe_Sysop = {
-        Recht.getRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN),
-        Recht.getRecht(Rechtenamen.SYSTEM_SPERREN),
-        Recht.getRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN)
-    };
+	/**
+	 * Rollenrechteliste des Administrators
+	 */
+	private static Recht[] rechteListeAdmin = {
+			Recht.getRecht(Rechtenamen.BK_AENDERN),
+			Recht.getRecht(Rechtenamen.BK_SPERREN),
+			Recht.getRecht(Rechtenamen.BK_ANSEHEN),
+			Recht.getRecht(Rechtenamen.ZENTREN_ANZEIGEN),
+			Recht.getRecht(Rechtenamen.ZENTRUM_AENDERN),
+			Recht.getRecht(Rechtenamen.ZENTRUM_ANLEGEN),
+			Recht.getRecht(Rechtenamen.ZENTRUM_AKTIVIEREN),
+			Recht.getRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN),
+			Recht.getRecht(Rechtenamen.STUDIE_LOESCHEN),
+			Recht.getRecht(Rechtenamen.ARCHIV_EINSEHEN),
+			Recht.getRecht(Rechtenamen.STAT_EINSEHEN),
+			Recht.getRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN),
+			Recht.getRecht(Rechtenamen.STUDIEN_EINSEHEN),
+			Recht.getRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN) };
 
-    /**
-     * Rollenrechteliste des Statistikers
-     */
-    private static Recht[] rechteListe_Statistiker = {
-        Recht.getRecht(Rechtenamen.STAT_EINSEHEN)
-    };
+	/**
+	 * Rollenrechteliste des Systemoperators
+	 */
+	private static Recht[] rechteListeSysop = {
+			Recht.getRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN),
+			Recht.getRecht(Rechtenamen.SYSTEM_SPERREN),
+			Recht.getRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN) };
 
-    // Klassenvariablen
+	/**
+	 * Rollenrechteliste des Statistikers
+	 */
+	private static Recht[] rechteListeStatistiker = { Recht
+			.getRecht(Rechtenamen.STAT_EINSEHEN) };
 
-    /**
-     * Name der Rolle, Element der <code>enum</code> {@link Rollen}
-     */
-    private Rollen rollenname;
+	// Klassenvariablen
 
-    /**
-     * Liste (ein Array des Types Recht) mit den einzelnen Rechten, ueber die
-     * jeweilige Rolle verfuegt. Ein Recht, welches nicht in dieser Liste
-     * enthalten ist, kann durch die Rolle nicht ausgefuehrt werden
-     */
-    private Recht[] rechte;
+	/**
+	 * Name der Rolle, Element der <code>enum</code> {@link Rollen}
+	 */
+	private Rollen rollenname;
 
-    // Konstruktor
+	/**
+	 * Liste (ein Array des Types Recht) mit den einzelnen Rechten, ueber die
+	 * jeweilige Rolle verfuegt. Ein Recht, welches nicht in dieser Liste
+	 * enthalten ist, kann durch die Rolle nicht ausgefuehrt werden
+	 */
+	private Recht[] rechte;
 
-    /**
-     * Erzeugt eine Instanz einer Rolle mit dem entsprechendem Namen und der
-     * Liste der Rechte, die der Rolle eingeraeumt werden sollen
-     * 
-     * @param name
-     *            Name der Rolle {@link Rollen}
-     * @param rechte
-     *            Liste (entsprechendes Rechte[]) der Rechte, die der Rolle
-     *            eingeraeumt werden.
-     */
-    private Rolle(Rollen name, Recht[] rechte) {
-        this.rollenname = name;
-        this.rechte = rechte;
-        logger.debug("Rolle " + this.getName()+" instanziert");
-    }
+	// Konstruktor
 
-    // Methoden
+	/**
+	 * Erzeugt eine Instanz einer Rolle mit dem entsprechendem Namen und der
+	 * Liste der Rechte, die der Rolle eingeraeumt werden sollen
+	 * 
+	 * @param name
+	 *            Name der Rolle {@link Rollen}
+	 * @param rechte
+	 *            Liste (entsprechendes Rechte[]) der Rechte, die der Rolle
+	 *            eingeraeumt werden.
+	 */
+	private Rolle(Rollen name, Recht[] rechte) {
+		this.rollenname = name;
+		this.rechte = rechte;
+		logger.debug("Rolle " + this.getName() + " instanziert");
+	}
 
-    /**
-     * Prueft anhand des Rechtenamens {@link Recht.Rechtenamen}, ob die Rolle
-     * das jeweilige Recht besitzt
-     * 
-     * @param name
-     *            Name des Rechtes
-     * @return <code>true</code>, sofern die Rolle das Recht besitzt,
-     *         anderenfalls <code>false</code>
-     */
-    public boolean besitzenRolleRecht(Rechtenamen name) {
-        for (Recht aRecht : this.rechte) {
-            if (name.equals(aRecht.getRechtname())){
-                logger.info("Rolle "+ this.getName()+ " besitzt Recht "+name.toString());
-                return true;
-            }
-        }
-        logger.warn("Rolle "+ this.getName()+ " besitzt nicht Recht "+name.toString());
-        return false;
-    }
+	// Methoden
 
-    /**
-     * Liefert die Instanz der Rolle Admin
-     * 
-     * @return Rolle Admin
-     */
-    public static Rolle getAdmin() {
-        if (ADMIN == null)
-            ADMIN = new Rolle(Rollen.ADMIN, rechteListe_Admin);
-        return ADMIN;
-    }
+	/**
+	 * Prueft anhand des Rechtenamens {@link Recht.Rechtenamen}, ob die Rolle
+	 * das jeweilige Recht besitzt
+	 * 
+	 * @param name
+	 *            Name des Rechtes
+	 * @return <code>true</code>, sofern die Rolle das Recht besitzt,
+	 *         anderenfalls <code>false</code>
+	 */
+	public boolean besitzenRolleRecht(Rechtenamen name) {
+		for (Recht aRecht : this.rechte) {
+			if (name.equals(aRecht.getRechtname())) {
+				logger.info("Rolle " + this.getName() + " besitzt Recht "
+						+ name.toString());
+				return true;
+			}
+		}
+		logger.warn("Rolle " + this.getName() + " besitzt nicht Recht "
+				+ name.toString());
+		return false;
+	}
 
-    /**
-     * Liefert die Instanz der Rolle Studienarzt
-     * 
-     * @return Rolle Studienarzt
-     */
-    public static Rolle getStudienarzt() {
-        if (STUDIENARZT == null)
-            STUDIENARZT = new Rolle(Rollen.STUDIENARZT, rechteListe_Studienarzt);
-        return STUDIENARZT;
-    }
+	/**
+	 * Liefert die Instanz der Rolle Admin
+	 * 
+	 * @return Rolle Admin
+	 */
+	public static Rolle getAdmin() {
+		if (admin == null) {
+			admin = new Rolle(Rollen.ADMIN, rechteListeAdmin);
+		}
+		return admin;
+	}
 
-    /**
-     * Liefert die Instanz der Rolle Studienleiter
-     * 
-     * @return Rolle Studienleiter
-     */
-    public static Rolle getStudienleiter() {
-        if (STUDIENLEITER == null)
-            STUDIENLEITER = new Rolle(Rollen.STUDIENLEITER,
-                    rechteListe_Studienleiter);
-        return STUDIENLEITER;
-    }
+	/**
+	 * Liefert die Instanz der Rolle Studienarzt
+	 * 
+	 * @return Rolle Studienarzt
+	 */
+	public static Rolle getStudienarzt() {
+		if (studienarzt == null) {
+			studienarzt = new Rolle(Rollen.STUDIENARZT, rechteListeStudienarzt);
+		}
+		return studienarzt;
+	}
 
-    /**
-     * Liefert die Instanz der Rolle Statistiker
-     * 
-     * @return Rolle Statistiker
-     */
-    public static Rolle getStatistiker() {
-        if (STATISTIKER == null)
-            STATISTIKER = new Rolle(Rollen.STATISTIKER, rechteListe_Statistiker);
-        return STATISTIKER;
-    }
+	/**
+	 * Liefert die Instanz der Rolle Studienleiter
+	 * 
+	 * @return Rolle Studienleiter
+	 */
+	public static Rolle getStudienleiter() {
+		if (studienleiter == null) {
+			studienleiter = new Rolle(Rollen.STUDIENLEITER,
+					rechteListeStudienleiter);
+		}
+		return studienleiter;
+	}
 
-    /**
-     * Liefert die Instanz der Rolle Systemoperator
-     * 
-     * @return Rolle Systemoperator
-     */
-    public static Rolle getSysop() {
-        if (SYSOP == null)
-            SYSOP = new Rolle(Rollen.SYSOP, rechteListe_Sysop);
-        return SYSOP;
-    }
+	/**
+	 * Liefert die Instanz der Rolle Statistiker
+	 * 
+	 * @return Rolle Statistiker
+	 */
+	public static Rolle getStatistiker() {
+		if (statistiker == null) {
+			statistiker = new Rolle(Rollen.STATISTIKER, rechteListeStatistiker);
+		}
+		return statistiker;
+	}
 
-    /**
-     * Liefert den Namen der Rolle als <code>String<code>
-     * @return Name der Rolle
-     */
-    public String getName() {
-        return this.rollenname.toString();
-    }
+	/**
+	 * Liefert die Instanz der Rolle Systemoperator
+	 * 
+	 * @return Rolle Systemoperator
+	 */
+	public static Rolle getSysop() {
+		if (sysop == null) {
+			sysop = new Rolle(Rollen.SYSOP, rechteListeSysop);
+		}
+		return sysop;
+	}
 
-    /**
-     * Liefert den Namen der Rolle als Element der <code>enum</code>
-     * {@link Rollen}
-     * 
-     * @return Name der Rolle
-     */
-    public Rollen getRollenname() {
-        return this.rollenname;
-    }
+	/**
+	 * Liefert den Namen der Rolle als <code>String<code>
+	 * @return Name der Rolle
+	 */
+	public String getName() {
+		return this.rollenname.toString();
+	}
 
-    /**
-     * Liefert den Namen der Rolle mit dem Praefix "Rolle: " als String
-     * 
-     * @return Name der Rolle
-     */
-    public String toString() {
-        return "Rolle: " + rollenname.toString();
-    }
+	/**
+	 * Liefert den Namen der Rolle als Element der <code>enum</code>
+	 * {@link Rollen}
+	 * 
+	 * @return Name der Rolle
+	 */
+	public Rollen getRollenname() {
+		return this.rollenname;
+	}
+
+	/**
+	 * Liefert den Namen der Rolle mit dem Praefix "Rolle: " als String
+	 * 
+	 * @return Name der Rolle
+	 */
+	public String toString() {
+		return "Rolle: " + rollenname.toString();
+	}
 
 }

@@ -23,8 +23,10 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
      * der HashMap.
      * 04.02.2007 DHaehn: den Benutzerkonten Personen zugeordnet
      */
-    Logger logger = Logger.getLogger(this.getClass());
+	
+	private Logger logger = Logger.getLogger(this.getClass());
 
+    
     private static HashMap<String, BenutzerkontoBean> konten = null;
 
     private static HashMap<String, ZentrumBean> zentren = null;

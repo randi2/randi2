@@ -2,8 +2,6 @@ package de.randi2.model.fachklassen;
 
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
-
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -20,7 +18,7 @@ public class Zentrum {
 	 * Das zugehörige ZentrumBean-Objekt.
 	 */
 	private ZentrumBean aZentrum;
-	
+
 	/**
 	 * Ein Konstruktor dieser Klasse.
 	 * 
@@ -40,9 +38,11 @@ public class Zentrum {
 	 *            Felder entsprechen den Null-Werten aus der
 	 *            de.randi2.utility.NullKonstanten Klasse)
 	 * @return ein Vector mit gefundenen Objekten
-	 * @throws DatenbankFehlerException 
+	 * @throws DatenbankFehlerException
+	 *             Falls ein Fehler in der Datenbank auftritt.
 	 */
-	public static Vector<ZentrumBean> suchenZentrum(ZentrumBean sZentrum) throws DatenbankFehlerException {
+	public static Vector<ZentrumBean> suchenZentrum(ZentrumBean sZentrum)
+			throws DatenbankFehlerException {
 
 		Vector<ZentrumBean> gefundeneZentren = new Vector<ZentrumBean>();
 		gefundeneZentren = DatenbankFactory.getAktuelleDBInstanz()
@@ -60,8 +60,9 @@ public class Zentrum {
 	 */
 	public boolean pruefenPasswort(String passwort) {
 		if (PasswortUtil.getInstance().hashPasswort(passwort).equals(
-				this.getZentrumBean().getPasswort()))
+				this.getZentrumBean().getPasswort())) {
 			return true;
+		}
 		return false;
 	}
 

@@ -1,7 +1,8 @@
 package de.randi2.controller;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Iterator;
+import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,13 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.model.exceptions.BenutzerkontoException;
+import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
-import de.randi2.utility.*;
-import de.randi2.model.exceptions.*;
+import de.randi2.utility.LogAktion;
+import de.randi2.utility.LogLayout;
+import de.randi2.utility.NullKonstanten;
 
 /**
  * Diese Klasse repraesentiert das BENUTZERSERVLET, welches Aktionen an die

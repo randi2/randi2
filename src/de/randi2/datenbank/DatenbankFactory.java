@@ -11,7 +11,7 @@ package de.randi2.datenbank;
  * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
  * @version $Id$
  */
-public class DatenbankFactory {
+public final class DatenbankFactory {
 
 	/**
 	 * Das ist eine akutelle Instanz von der DatenbankFactory Klasse. ( <b>SINGELTON PATTERN</b> )

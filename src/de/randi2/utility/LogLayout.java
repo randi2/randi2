@@ -22,31 +22,32 @@ public class LogLayout extends Layout {
 	 * Oberklasse fuer das fachliche Log.
 	 */
 	private static final String OBERKLASSE = "Randi2.";
-	
+
 	/**
 	 * Klasse fuer die Ein- und Auslogvorgaenge.
 	 */
 	public static final String LOGIN_LOGOUT = OBERKLASSE + "LoginLogout";
-	
+
 	/**
 	 * Klasse fuer die Datenaenderung.
 	 */
 	public static final String DATENAENDERUNG = OBERKLASSE + "Datenaenderung";
-	
+
 	/**
 	 * Klasse fuer Rechteverletzugen.
 	 */
-	public static final String RECHTEVERLETZUNG = OBERKLASSE + "Rechteverletzung";
-	
+	public static final String RECHTEVERLETZUNG = OBERKLASSE
+			+ "Rechteverletzung";
+
 	/**
 	 * Standartgroesse des String-Buffers fuer das Log.
 	 */
-	private final int DEFAULT_SIZE = 256;
+	private static final int DEFAULT_SIZE = 256;
 
 	/**
 	 * Maximale Groesse des String-Buffers fuer das Log.
 	 */
-	private final int UPPER_LIMIT = 2048;
+	private static final int UPPER_LIMIT = 2048;
 
 	/**
 	 * String-Buffer fuer die Log-Eintraege.
@@ -66,6 +67,8 @@ public class LogLayout extends Layout {
 	 * Formatiert das LoggingEvent in einen String um, der letzendlich geloggt
 	 * werden kann.
 	 * 
+	 * @param event
+	 *            Das aufgetretene Event, dass geloggt werfen soll.
 	 * @return Der formatierte Log-Eintrags String.
 	 * @see org.apache.log4j.Layout#format(LoggingEvent)
 	 */

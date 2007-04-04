@@ -1,17 +1,19 @@
 package de.randi2.controller;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Vector;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.ZentrumException;
-import de.randi2.model.fachklassen.*;
-import de.randi2.model.fachklassen.beans.*;
-import java.util.*;
-
-import org.apache.log4j.Logger;
+import de.randi2.model.fachklassen.Zentrum;
+import de.randi2.model.fachklassen.beans.ZentrumBean;
 
 /**
  * Diese Klasse repraesentiert das ZENTRUMSERVLET, welches Aktionen an die
@@ -40,8 +42,10 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 *            Der Request fuer das Servlet.
 	 * @param response
 	 *            Der Response Servlet.
-	 * @throws IOException Falls Fehler in den E/A-Verarbeitung.
-	 * @throws ServletException Falls Fehler in der HTTP-Verarbeitung auftreten.
+	 * @throws IOException
+	 *             Falls Fehler in den E/A-Verarbeitung.
+	 * @throws ServletException
+	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
 	 * 
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)

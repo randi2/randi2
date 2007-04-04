@@ -2,8 +2,8 @@ package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
 import de.randi2.model.exceptions.ZentrumException;
-import de.randi2.utility.*;
-
+import de.randi2.utility.NullKonstanten;
+import de.randi2.utility.PasswortUtil;
 /**
  * Diese Klasse repraesentiert ein Zentrum.
  * 
@@ -12,6 +12,21 @@ import de.randi2.utility.*;
  * 
  */
 public class ZentrumBean extends Filter {
+
+	/**
+	 * Name der Abteilung in der Institution.
+	 */
+	private String abteilung = null;
+
+	/**
+	 * Ein PersonBean mit der Daten des Ansprechpartners in dem Zentrum.
+	 */
+	private PersonBean ansprechpartner = null;
+
+	/**
+	 * Hausnummer
+	 */
+	private String hausnr = null;
 
 	/**
 	 * Interne ID des Zentrums
@@ -24,14 +39,14 @@ public class ZentrumBean extends Filter {
 	private String institution = null;
 
 	/**
-	 * Name der Abteilung in der Institution.
-	 */
-	private String abteilung = null;
-
-	/**
 	 * Ort
 	 */
 	private String ort = null;
+
+	/**
+	 * Passwort für das Zentrum (gehasht)
+	 */
+	private String passwort = null;
 
 	/**
 	 * Postleitzahl
@@ -44,24 +59,18 @@ public class ZentrumBean extends Filter {
 	private String strasse = null;
 
 	/**
-	 * Hausnummer
+	 * Einfacher Konstruktor von dieser Klasse.
 	 */
-	private String hausnr = null;
+	public ZentrumBean() {
 
-	/**
-	 * Ein PersonBean mit der Daten des Ansprechpartners in dem Zentrum.
-	 */
-	private PersonBean ansprechpartner = null;
-
-	/**
-	 * Passwort für das Zentrum (gehasht)
-	 */
-	private String passwort = null;
+	}
 
 	/**
 	 * Der volle Konstruktor dieser Klasse, an den alle Attribute uebergeben
 	 * werden.
 	 * 
+	 * @param id
+	 *            Die id des Zentrums auf der Datenbank.
 	 * @param institution
 	 *            String, der der Institution entspricht.
 	 * @param abteilung
@@ -102,278 +111,6 @@ public class ZentrumBean extends Filter {
 	}
 
 	/**
-	 * Einfacher Konstruktor von dieser Klasse.
-	 */
-	public ZentrumBean() {
-
-	}
-
-	/**
-	 * @return the abteilung
-	 */
-	public String getAbteilung() {
-		return abteilung;
-	}
-
-	/**
-	 * @param abteilung
-	 *            the abteilung to set
-	 * @throws ZentrumException
-	 */
-	public void setAbteilung(String abteilung) throws ZentrumException {
-		if (this.isFilter()) {
-			this.abteilung = abteilung;
-		} else {
-			if (abteilung != null) {
-				if (!abteilung.matches(".{3,70}"))
-					throw new ZentrumException(
-							ZentrumException.ABTEILUNG_FALSCH);
-				this.abteilung = abteilung;
-			} else {
-				throw new ZentrumException(ZentrumException.ABTEILUNG_NULL);
-			}
-		}
-
-	}
-
-	/**
-	 * @return the ansprechpartner
-	 */
-	public PersonBean getAnsprechpartner() {
-		return ansprechpartner;
-	}
-
-	/**
-	 * @param ansprechpartner
-	 *            the ansprechpartner to set
-	 */
-	public void setAnsprechpartner(PersonBean ansprechpartner) {
-		// Die Überprüfung wird schon bei PersonBean durchgeführ - das Objekt,
-		// was hier übergeben wird ist auf jeden Fall korrekt.
-		this.ansprechpartner = ansprechpartner;
-	}
-
-	/**
-	 * @return the hausnr
-	 */
-	public String getHausnr() {
-		return hausnr;
-	}
-
-	/**
-	 * @param hausnr
-	 *            the hausnr to set
-	 * @throws ZentrumException
-	 */
-	public void setHausnr(String hausnr) throws ZentrumException {
-		if (this.isFilter()) {
-			this.hausnr = hausnr;
-		} else {
-			if (hausnr != null) {
-				if (!hausnr.matches("\\d{1,4}[a-b]{0,2}"))
-					throw new ZentrumException(ZentrumException.HAUSNR_FALSCH);
-				this.hausnr = hausnr;
-			} else {
-				throw new ZentrumException(ZentrumException.HAUSNR_NULL);
-			}
-		}
-	}
-
-	/**
-	 * @return the institution
-	 */
-	public String getInstitution() {
-		return institution;
-	}
-
-	/**
-	 * @param institution
-	 *            the institution to set
-	 * @throws ZentrumException
-	 */
-	public void setInstitution(String institution) throws ZentrumException {
-
-		if (this.isFilter()) {
-			this.institution = institution;
-		} else {
-			if (institution != null) {
-				if (!institution.matches(".{3,70}"))
-					throw new ZentrumException(
-							ZentrumException.INSTITUTION_FALSCH);
-				this.institution = institution;
-			} else {
-				throw new ZentrumException(ZentrumException.INSTITUTION_NULL);
-			}
-		}
-	}
-
-	/**
-	 * @return the ort
-	 */
-	public String getOrt() {
-		return ort;
-	}
-
-	/**
-	 * @param ort
-	 *            the ort to set
-	 * @throws ZentrumException
-	 */
-	public void setOrt(String ort) throws ZentrumException {
-
-		if (this.isFilter()) {
-			this.ort = ort;
-		} else {
-			if (ort != null) {
-				if (!ort.matches(".{3,50}"))
-					throw new ZentrumException(ZentrumException.ORT_FALSCH);
-				this.ort = ort;
-			} else {
-				throw new ZentrumException(ZentrumException.ORT_NULL);
-			}
-		}
-
-	}
-
-	/**
-	 * @return the passwort
-	 */
-	public String getPasswort() {
-		return passwort;
-	}
-
-	/**
-	 * Diese Methode ist zu benutzten, wenn das Passwort, das gesetzt werden
-	 * soll, noch in Klartext Form vorhanden ist und erstmal gehashed werden
-	 * muss.
-	 * 
-	 * @param passwort
-	 *            String Passwort - in Klartext-Form
-	 * @throws ZentrumException
-	 *             wenn die Validierung nicht erfolgreich war
-	 */
-	public void setPasswortKlartext(String klartext) throws ZentrumException {
-		if (this.isFilter()) {
-			this.passwort = PasswortUtil.getInstance().hashPasswort(klartext);
-		} else {
-			if (klartext != null) {
-				if (!(klartext.matches(".*[A-Za-z].*")
-						&& klartext.matches(".*[0-9].*")
-						&& klartext
-								.matches(".*[\\^,.\\-#+;:_'*!\"§$@&%/()=?|<>].*") && klartext
-						.matches(".{12}")))
-					throw new ZentrumException(ZentrumException.PASSWORT_FALSCH);
-				this.passwort = PasswortUtil.getInstance().hashPasswort(
-						klartext);
-			} else {
-				throw new ZentrumException(ZentrumException.PASSWORT_NULL);
-			}
-		}
-
-	}
-
-	/**
-	 * Diese Methode ist zu benutzen, wenn das bereits gehashte Passwort gesetzt
-	 * werden soll.
-	 * 
-	 * @param hash
-	 *            String Passwort als hash.
-	 * @throws ZentrumException
-	 *             wenn null oder leeres String uebergeben wurde
-	 * 
-	 */
-	public void setPasswort(String hash) throws ZentrumException {
-		if (hash == null || hash.equals("")) {
-			throw new ZentrumException(ZentrumException.PASSWORT_NULL);
-		}
-		this.passwort = hash;
-	}
-
-	/**
-	 * @return the plz
-	 */
-	public String getPlz() {
-		return plz;
-	}
-
-	/**
-	 * @param plz
-	 *            the plz to set
-	 * @throws ZentrumException
-	 */
-	public void setPlz(String plz) throws ZentrumException {
-
-		if (this.isFilter()) {
-			this.plz = plz;
-		} else {
-			if (plz != null) {
-				if (!plz.matches("\\d{5}"))
-					throw new ZentrumException(ZentrumException.PLZ_FALSCH);
-				this.plz = plz;
-			} else {
-				throw new ZentrumException(ZentrumException.PLZ_NULL);
-			}
-		}
-	}
-
-	/**
-	 * @return the strasse
-	 */
-	public String getStrasse() {
-		return strasse;
-
-	}
-
-	/**
-	 * @param strasse
-	 *            the strasse to set
-	 * @throws ZentrumException
-	 */
-	public void setStrasse(String strasse) throws ZentrumException {
-
-		if (this.isFilter()) {
-			this.strasse = strasse;
-		} else {
-			if (strasse != null) {
-				if (!strasse.matches(".{3,50}"))
-					throw new ZentrumException(ZentrumException.STRASSE_FALSCH);
-				this.strasse = strasse;
-			} else {
-				throw new ZentrumException(ZentrumException.STRASSE_NULL);
-			}
-		}
-	}
-
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		StringBuffer dummy = new StringBuffer();
-		dummy.append("(ZentrumBean) ").append("Institution: ").append(
-				this.getInstitution()).append("Abteilung: ").append(
-				this.getAbteilung()).append("Ort: ").append(this.getOrt());
-
-		return dummy.toString();
-	}
-
-	/**
 	 * Methode die zwei Objekte dieser Klasse bzgl. allen ihrere Eigenschaften
 	 * vergleicht.
 	 * 
@@ -411,6 +148,320 @@ public class ZentrumBean extends Filter {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Get-Methoder fuer die Abteilung.
+	 * 
+	 * @return Die Abteilung.
+	 */
+	public String getAbteilung() {
+		return abteilung;
+	}
+
+	/**
+	 * Get-Methoder fuer den Ansprechpartner.
+	 * 
+	 * @return Der Ansprechpartner.
+	 */
+	public PersonBean getAnsprechpartner() {
+		return ansprechpartner;
+	}
+
+	/**
+	 * Get-Methoder fuer die Hausnummer.
+	 * 
+	 * @return die Hausnummer.
+	 */
+	public String getHausnr() {
+		return hausnr;
+	}
+
+	/**
+	 * Get-Methoder fuer die Id aus der Datenbank.
+	 * 
+	 * @return Die id auf der Datenbank.
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * Get-Methoder fuer die Institution.
+	 * 
+	 * @return Die Institution.
+	 * 
+	 */
+	public String getInstitution() {
+		return institution;
+	}
+
+	/**
+	 * Get-Methoder fuer den Ort.
+	 * 
+	 * @return Den Ort.
+	 */
+	public String getOrt() {
+		return ort;
+	}
+
+	/**
+	 * Get-Methoder fuer das Passwort.
+	 * 
+	 * @return Das Passwort.
+	 */
+	public String getPasswort() {
+		return passwort;
+	}
+
+	/**
+	 * Get-Methoder fuer die PLZ.
+	 * 
+	 * @return Die Postleitzahl.
+	 */
+	public String getPlz() {
+		return plz;
+	}
+
+	/**
+	 * Get-Methoder fuer die Strasse.
+	 * 
+	 * @return Die Strasse.
+	 */
+	public String getStrasse() {
+		return strasse;
+
+	}
+
+	/**
+	 * Set-Methode fuer die Abteilung.
+	 * 
+	 * @param abteilung
+	 *            Der Name der Abteilung.
+	 * @throws ZentrumException
+	 *             Wenn bei der Validierung ein Fehler aufgetreten ist
+	 */
+	public void setAbteilung(String abteilung) throws ZentrumException {
+		if (this.isFilter()) {
+			this.abteilung = abteilung;
+		} else {
+			if (abteilung != null) {
+				if (!abteilung.matches(".{3,70}")) {
+					throw new ZentrumException(
+							ZentrumException.ABTEILUNG_FALSCH);
+				}
+				this.abteilung = abteilung;
+			} else {
+				throw new ZentrumException(ZentrumException.ABTEILUNG_NULL);
+			}
+		}
+
+	}
+
+	/**
+	 * Set-Methoder fuer den Ansprechpartner.
+	 * 
+	 * @param ansprechpartner
+	 *            Der neue Ansprechpartner der Abteilung.
+	 */
+	public void setAnsprechpartner(PersonBean ansprechpartner) {
+		// Die Überprüfung wird schon bei PersonBean durchgeführ - das Objekt,
+		// was hier übergeben wird ist auf jeden Fall korrekt.
+		this.ansprechpartner = ansprechpartner;
+	}
+
+	/**
+	 * Set-Methoder fuer die Hausnummer.
+	 * 
+	 * @param hausnr
+	 *            Die Hausnummer.
+	 * @throws ZentrumException
+	 *             Wenn bei der Validierung ein Fehler aufgetreten ist
+	 */
+	public void setHausnr(String hausnr) throws ZentrumException {
+		if (this.isFilter()) {
+			this.hausnr = hausnr;
+		} else {
+			if (hausnr != null) {
+				if (!hausnr.matches("\\d{1,4}[a-b]{0,2}")) {
+					throw new ZentrumException(ZentrumException.HAUSNR_FALSCH);
+				}
+				this.hausnr = hausnr;
+			} else {
+				throw new ZentrumException(ZentrumException.HAUSNR_NULL);
+			}
+		}
+	}
+
+	/**
+	 * Set-Methoder fuer die Id auf der Datenbank.
+	 * 
+	 * @param id
+	 *            Die id auf der Datenbank.
+	 */
+	// FRAGE:
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Set-Methoder fuer die Institution.
+	 * 
+	 * @param institution
+	 *            Die Institution.
+	 * @throws ZentrumException
+	 *             Wenn bei der Validierung ein Fehler aufgetreten ist
+	 */
+	public void setInstitution(String institution) throws ZentrumException {
+
+		if (this.isFilter()) {
+			this.institution = institution;
+		} else {
+			if (institution != null) {
+				if (!institution.matches(".{3,70}")) {
+					throw new ZentrumException(
+							ZentrumException.INSTITUTION_FALSCH);
+				}
+				this.institution = institution;
+			} else {
+				throw new ZentrumException(ZentrumException.INSTITUTION_NULL);
+			}
+		}
+	}
+
+	/**
+	 * Set-Methoder fuer den Ort.
+	 * 
+	 * @param ort
+	 *            Den Ort.
+	 * @throws ZentrumException
+	 *             Wenn bei der Validierung ein Fehler aufgetreten ist
+	 */
+	public void setOrt(String ort) throws ZentrumException {
+
+		if (this.isFilter()) {
+			this.ort = ort;
+		} else {
+			if (ort != null) {
+				if (!ort.matches(".{3,50}")) {
+					throw new ZentrumException(ZentrumException.ORT_FALSCH);
+				}
+				this.ort = ort;
+			} else {
+				throw new ZentrumException(ZentrumException.ORT_NULL);
+			}
+		}
+
+	}
+
+	/**
+	 * Diese Methode ist zu benutzen, wenn das bereits gehashte Passwort gesetzt
+	 * werden soll.
+	 * 
+	 * @param hash
+	 *            String Passwort als hash.
+	 * @throws ZentrumException
+	 *             wenn null oder leeres String uebergeben wurde
+	 * 
+	 */
+	public void setPasswort(String hash) throws ZentrumException {
+		if (hash == null || hash.equals("")) {
+			throw new ZentrumException(ZentrumException.PASSWORT_NULL);
+		}
+		this.passwort = hash;
+	}
+
+	/**
+	 * Diese Methode ist zu benutzten, wenn das Passwort, das gesetzt werden
+	 * soll, noch in Klartext Form vorhanden ist und erstmal gehashed werden
+	 * muss.
+	 * 
+	 * @param klartext
+	 *            String Passwort - in Klartext-Form
+	 * @throws ZentrumException
+	 *             wenn die Validierung nicht erfolgreich war
+	 */
+	public void setPasswortKlartext(String klartext) throws ZentrumException {
+		if (this.isFilter()) {
+			this.passwort = PasswortUtil.getInstance().hashPasswort(klartext);
+		} else {
+			if (klartext != null) {
+				if (!(klartext.matches(".*[A-Za-z].*")
+						&& klartext.matches(".*[0-9].*")
+						&& klartext
+								.matches(".*[\\^,.\\-#+;:_'*!\"§$@&%/()=?|<>].*") && klartext
+						.matches(".{12}"))) {
+					throw new ZentrumException(ZentrumException.PASSWORT_FALSCH);
+				}
+				this.passwort = PasswortUtil.getInstance().hashPasswort(
+						klartext);
+			} else {
+				throw new ZentrumException(ZentrumException.PASSWORT_NULL);
+			}
+		}
+
+	}
+
+	/**
+	 * Set-Methoder fuer die Postleitzahl.
+	 * 
+	 * @param plz
+	 *            Die Postleitzahl.
+	 * @throws ZentrumException
+	 *             Wenn bei der Validierung ein Fehler aufgetreten ist
+	 */
+	public void setPlz(String plz) throws ZentrumException {
+
+		if (this.isFilter()) {
+			this.plz = plz;
+		} else {
+			if (plz != null) {
+				if (!plz.matches("\\d{5}")) {
+					throw new ZentrumException(ZentrumException.PLZ_FALSCH);
+				}
+				this.plz = plz;
+			} else {
+				throw new ZentrumException(ZentrumException.PLZ_NULL);
+			}
+		}
+	}
+
+	/**
+	 * Set-Methoder fuer die Strasse.
+	 * 
+	 * @param strasse
+	 *            Die Strasse.
+	 * @throws ZentrumException
+	 *             Wenn bei der Validierung ein Fehler aufgetreten ist
+	 */
+	public void setStrasse(String strasse) throws ZentrumException {
+
+		if (this.isFilter()) {
+			this.strasse = strasse;
+		} else {
+			if (strasse != null) {
+				if (!strasse.matches(".{3,50}")) {
+					throw new ZentrumException(ZentrumException.STRASSE_FALSCH);
+				}
+				this.strasse = strasse;
+			} else {
+				throw new ZentrumException(ZentrumException.STRASSE_NULL);
+			}
+		}
+	}
+
+	/**
+	 * Erzeugt einen String mit allen Angaben zum Zentrum.
+	 * 
+	 * @return Ein String mit allen Angaben zum Zentrum.
+	 */
+	public String toString() {
+		StringBuffer dummy = new StringBuffer();
+		dummy.append("(ZentrumBean) ").append("Institution: ").append(
+				this.getInstitution()).append("Abteilung: ").append(
+				this.getAbteilung()).append("Ort: ").append(this.getOrt());
+
+		return dummy.toString();
 	}
 
 }

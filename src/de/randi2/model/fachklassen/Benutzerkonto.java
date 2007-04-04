@@ -19,7 +19,7 @@ import de.randi2.utility.PasswortUtil;
  * 
  */
 public class Benutzerkonto {
-	
+
 	/**
 	 * Das zugehörige BenutzerkontoBean-Objekt.
 	 */
@@ -44,16 +44,20 @@ public class Benutzerkonto {
 	 *            irrelevante Felder entsprechen den Null-Werten aus der
 	 *            de.randi2.utility.NullKonstanten Klasse)
 	 * @return ein Vector mit gefundenen Objekten
-	 * @throws DatenbankFehlerException 
+	 * @throws DatenbankFehlerException
+	 *             Wird geworfen, wenn ein Datenbankfehler auftritt.
 	 */
-	public static Vector<BenutzerkontoBean> suchenBenutzer(BenutzerkontoBean sBenutzerkonto) throws DatenbankFehlerException {		
+	public static Vector<BenutzerkontoBean> suchenBenutzer(
+			BenutzerkontoBean sBenutzerkonto) throws DatenbankFehlerException {
 		Vector<BenutzerkontoBean> gefundeneKonten;
 		try {
-			gefundeneKonten = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(sBenutzerkonto);
-		}
-		 catch (DatenbankFehlerException e) {
-			Logger.getLogger("de.randi2.model.Benutzerkonto").warn("Fehler in Datenbank aufgetreten",e);
-			throw new DatenbankFehlerException(DatenbankFehlerException.SUCHEN_ERR);
+			gefundeneKonten = DatenbankFactory.getAktuelleDBInstanz()
+					.suchenObjekt(sBenutzerkonto);
+		} catch (DatenbankFehlerException e) {
+			Logger.getLogger("de.randi2.model.Benutzerkonto").warn(
+					"Fehler in Datenbank aufgetreten", e);
+			throw new DatenbankFehlerException(
+					DatenbankFehlerException.SUCHEN_ERR);
 		}
 		return gefundeneKonten;
 	}
@@ -65,17 +69,22 @@ public class Benutzerkonto {
 	 * 
 	 * @param aBenutzerkonto
 	 *            das Bentuzerkonto das angelegt werden soll.
-	 * @return
-	 * @throws DatenbankFehlerException 
+	 * @return Das aktualisierte Benutzerkonto.
+	 * @throws DatenbankFehlerException
+	 *             Wenn ein Fehler auf der Datenbank aufgetreten ist.
 	 */
-	public static Benutzerkonto anlegenBenutzer(BenutzerkontoBean aBenutzerkonto) throws DatenbankFehlerException {
-		
-		BenutzerkontoBean aktualisierterBenutzer=null;
+	public static Benutzerkonto anlegenBenutzer(BenutzerkontoBean aBenutzerkonto)
+			throws DatenbankFehlerException {
+
+		BenutzerkontoBean aktualisierterBenutzer = null;
 		try {
-			aktualisierterBenutzer = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzerkonto);
+			aktualisierterBenutzer = DatenbankFactory.getAktuelleDBInstanz()
+					.schreibenObjekt(aBenutzerkonto);
 		} catch (DatenbankFehlerException e) {
-			Logger.getLogger("de.randi2.model.Benutzerkonto").warn("Fehler in Datenbank aufgetreten",e);
-			throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
+			Logger.getLogger("de.randi2.model.Benutzerkonto").warn(
+					"Fehler in Datenbank aufgetreten", e);
+			throw new DatenbankFehlerException(
+					DatenbankFehlerException.SCHREIBEN_ERR);
 		}
 		return new Benutzerkonto(aktualisierterBenutzer);
 	}
@@ -85,7 +94,7 @@ public class Benutzerkonto {
 	 * Benutzer zu.
 	 */
 	private void sendenAktivierungsMail() {
-		//TODO nicht fuer Release 1
+		// TODO nicht fuer Release 1
 	}
 
 	/**
@@ -97,27 +106,33 @@ public class Benutzerkonto {
 	 * @return Ein BenutzerkontoBean Objekt zu diesem Benutzername
 	 * @throws BenutzerkontoException
 	 *             wenn kein Benutzer mit diesem Banutzername vorhanden ist
-	 * @throws DatenbankFehlerException 
+	 * @throws DatenbankFehlerException
+	 *             Wenn ein Fehler auf der Datenbank aufgetreten ist.
 	 */
-	public static BenutzerkontoBean getBenutzer(String benutzername) throws BenutzerkontoException, DatenbankFehlerException {
+	public static BenutzerkontoBean getBenutzer(String benutzername)
+			throws BenutzerkontoException, DatenbankFehlerException {
 		BenutzerkontoBean bk = new BenutzerkontoBean();
-		Vector< BenutzerkontoBean> konten;
+		Vector<BenutzerkontoBean> konten;
 		bk.setBenutzername(benutzername);
-        bk.setFilter(true);
+		bk.setFilter(true);
 		try {
 			konten = suchenBenutzer(bk);
 		} catch (DatenbankFehlerException e) {
-			Logger.getLogger("de.randi2.model.Benutzerkonto").warn("Fehler in Datenbank aufgetreten",e);
-			throw new DatenbankFehlerException(DatenbankFehlerException.SUCHEN_ERR);
+			Logger.getLogger("de.randi2.model.Benutzerkonto").warn(
+					"Fehler in Datenbank aufgetreten", e);
+			throw new DatenbankFehlerException(
+					DatenbankFehlerException.SUCHEN_ERR);
 		}
-		if(konten==null || konten.size()==0) {
-			throw new BenutzerkontoException(BenutzerkontoException.BENUTZER_NICHT_VORHANDEN);
+		if (konten == null || konten.size() == 0) {
+			throw new BenutzerkontoException(
+					BenutzerkontoException.BENUTZER_NICHT_VORHANDEN);
 		}
 		return konten.get(0);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Erzeugt einen String mit allen Daten des Benutzers.
+	 * @return Der String mit allen Daten des Benutzers.
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
@@ -134,19 +149,22 @@ public class Benutzerkonto {
 	 *         nicht der Fall ist.
 	 */
 	public boolean equals(Benutzerkonto zuvergleichendesObjekt) {
-		if (this.aBenutzerkontoBean.equals(zuvergleichendesObjekt.getBenutzerkontobean()))
+		if (this.aBenutzerkontoBean.equals(zuvergleichendesObjekt
+				.getBenutzerkontobean())) {
 			return true;
+		}
 		return false;
 	}
 
 	/**
-	 * Liefert das aktuelle BenutzerkontoBean 
+	 * Liefert das aktuelle BenutzerkontoBean
+	 * 
 	 * @return BenutzerkontoBean
 	 */
-	public BenutzerkontoBean getBenutzerkontobean(){
+	public BenutzerkontoBean getBenutzerkontobean() {
 		return this.aBenutzerkontoBean;
 	}
-	
+
 	/**
 	 * Diese Methode prueft, ob das uebergebene Passwort richtig ist.
 	 * 
@@ -155,8 +173,10 @@ public class Benutzerkonto {
 	 * @return true, wenn das Passwort richtig ist. False, bei falchem Passwort.
 	 */
 	public boolean pruefenPasswort(String passwort) {
-		if (PasswortUtil.getInstance().hashPasswort(passwort).equals(this.getBenutzerkontobean().getPasswort()))
+		if (PasswortUtil.getInstance().hashPasswort(passwort).equals(
+				this.getBenutzerkontobean().getPasswort())) {
 			return true;
+		}
 		return false;
 	}
 }

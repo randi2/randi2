@@ -51,6 +51,9 @@ public class NachrichtendienstException extends Exception {
      */
     public static final String FEHLERHAFTER_NACHRICHTENTEXT = "Der Nachrichtentext enthaelt ungueltige Bestanteile";
 
+    // TODO Bitte hier eine Auswahl von wirklich verwendeten 
+    // Konstruktoren treffen und korrigieren.
+    
     public NachrichtendienstException() {
         super();
     }

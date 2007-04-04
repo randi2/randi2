@@ -1,39 +1,84 @@
 package de.randi2.model.exceptions;
 
 /**
+ * Die Klasse ZentrumException kapselt die Fehler die im Zusammenhang mit der
+ * Validierung von Zentrumsobjekten entstehen koennen.
+ * 
  * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
  * @version $Id$
  * 
  */
 public class ZentrumException extends Exception {
 
-	public final static String ABTEILUNG_FALSCH = "Abteilung falsch!";
+	/**
+	 * Diese Konstante wird uebergeben, wenn die Abteilung falsch ist.
+	 */
+	public static final String ABTEILUNG_FALSCH = "Abteilung falsch!";
 
-	public final static String ABTEILUNG_NULL = "Abteilung = null!";
+	/**
+	 * Diese Konstante wird uebergeben, wenn die Abteilung fehlt.
+	 */
+	public static final String ABTEILUNG_NULL = "Abteilung = null!";
 
-	public final static String HAUSNR_FALSCH = "Hausnummer falsch!";
+	/**
+	 * Diese Konstante wird uebergeben, wenn die Hausnummer falsch ist.
+	 */
+	public static final String HAUSNR_FALSCH = "Hausnummer falsch!";
 
-	public final static String HAUSNR_NULL = "Hausnummer = null!";
+	/**
+	 * Diese Konstante wird uebergeben, wenn die Hausnummer fehlt.
+	 */
+	public static final String HAUSNR_NULL = "Hausnummer = null!";
 
-	public final static String INSTITUTION_FALSCH = "Institution falsch!";
+	/**
+	 * Diese Konstante wird uebergeben, wenn die Institution falsch ist.
+	 */
+	public static final String INSTITUTION_FALSCH = "Institution falsch!";
 
-	public final static String INSTITUTION_NULL = "Institution = null!";
+	/**
+	 * Diese Konstante wird uebergeben, wenn die Institution fehlt.
+	 */
+	public static final String INSTITUTION_NULL = "Institution = null!";
 
-	public final static String ORT_FALSCH = "Ort falsch!";
+	/**
+	 * Diese Konstante wird uebergeben, wenn der Ort falsch ist.
+	 */
+	public static final String ORT_FALSCH = "Ort falsch!";
 
-	public final static String ORT_NULL = "Ort = null!";
+	/**
+	 * Diese Konstante wird uebergeben, wenn der Ort fehlt.
+	 */
+	public static final String ORT_NULL = "Ort = null!";
 
-	public final static String PLZ_FALSCH = "PLZ falsch!";
+	/**
+	 * Diese Konstante wird uebergeben, wenn die PLZ falsch ist.
+	 */
+	public static final String PLZ_FALSCH = "PLZ falsch!";
 
-	public final static String PLZ_NULL = "PLZ = null!";
+	/**
+	 * Diese Konstante wird uebergeben, wenn die PLZ fehlt.
+	 */
+	public static final String PLZ_NULL = "PLZ = null!";
 
-	public final static String STRASSE_FALSCH = "Strasse falsch!";
+	/**
+	 * Diese Konstante wird uebergeben, wenn die Strasse falsch ist.
+	 */
+	public static final String STRASSE_FALSCH = "Strasse falsch!";
 
-	public final static String STRASSE_NULL = "Strasse = null!";
+	/**
+	 * Diese Konstante wird uebergeben, wenn die Strasse fehlt.
+	 */
+	public static final String STRASSE_NULL = "Strasse = null!";
 
-	public final static String PASSWORT_FALSCH = "Passwort falsch!";
+	/**
+	 * Diese Konstante wird uebergeben, wenn das Passwort falsch ist.
+	 */
+	public static final String PASSWORT_FALSCH = "Passwort falsch!";
 
-	public final static String PASSWORT_NULL = "Passwort = null!";
+	/**
+	 * Diese Konstante wird uebergeben, wenn das Passwort fehlt.
+	 */
+	public static final String PASSWORT_NULL = "Passwort = null!";
 
 	/**
 	 * Konstruktor dieser Klasse an den ein Message String übergeben werden
