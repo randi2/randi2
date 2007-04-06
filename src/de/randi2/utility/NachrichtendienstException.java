@@ -6,7 +6,7 @@ package de.randi2.utility;
  * auftreten koennen.
  * </p>
  * 
- * @author Benjamin Theel <BTheel@stud.hs-heilbronn.de>
+ * @author Benjamin Theel [BTheel@stud.hs-heilbronn.de]
  * @version $Id$
  */
 @SuppressWarnings("serial")

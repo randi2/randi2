@@ -9,7 +9,7 @@ import org.junit.Test;
 import de.randi2.model.fachklassen.Rolle;
 
 /**
- * @author $eyma Yazgan <syazgan@stud.hs-heilbronn.de>
+ * @author $eyma Yazgan [syazgan@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class RolleTest {

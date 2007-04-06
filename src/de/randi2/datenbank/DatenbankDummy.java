@@ -12,8 +12,8 @@ import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.PasswortUtil;
 
 /**
- * @author Benjamin Theel <Btheel@stud.hs-heilbronn.de>
- * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
+ * @author Benjamin Theel [Btheel@stud.hs-heilbronn.de]
+ * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class DatenbankDummy implements DatenbankSchnittstelle {

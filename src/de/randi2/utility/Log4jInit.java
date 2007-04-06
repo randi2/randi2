@@ -9,7 +9,7 @@ import org.apache.log4j.PropertyConfigurator;
  * Die Klasse Log4jInit initialisiert die Log4j Log-Files beim Starten des
  * Apache Tomcats.
  * 
- * @author Johannes Thoenes <jthoenes@stud.hs-heilbronn.de>
+ * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]
  * @version $Id$
  * 
  */

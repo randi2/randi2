@@ -9,7 +9,7 @@ import de.randi2.utility.PasswortUtil;
 
 /**
  * @version $Id$
- * @author Andreas Freudling <afreudling@stud.hs-heilbronn.de>
+ * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
  * 
  */
 public class Zentrum {

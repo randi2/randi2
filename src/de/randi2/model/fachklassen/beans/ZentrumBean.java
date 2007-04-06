@@ -7,7 +7,7 @@ import de.randi2.utility.PasswortUtil;
 /**
  * Diese Klasse repraesentiert ein Zentrum.
  * 
- * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
+ * @author Lukasz Plotnicki [lplotni@stud.hs-heilbronn.de]
  * @version $Id$
  * 
  */

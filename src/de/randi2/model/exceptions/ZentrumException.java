@@ -4,7 +4,7 @@ package de.randi2.model.exceptions;
  * Die Klasse ZentrumException kapselt die Fehler die im Zusammenhang mit der
  * Validierung von Zentrumsobjekten entstehen koennen.
  * 
- * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
+ * @author Lukasz Plotnicki [lplotni@stud.hs-heilbronn.de]
  * @version $Id$
  * 
  */

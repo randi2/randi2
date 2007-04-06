@@ -43,7 +43,7 @@ import java.util.Vector;
  * debug:<br>
  * </code>
  * 
- * @author Benjamin Theel <BTheel@stud.hs-heilbronn.de>
+ * @author Benjamin Theel [BTheel@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public final class Nachrichtendienst {

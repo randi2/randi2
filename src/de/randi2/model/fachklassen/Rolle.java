@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
  * Getter.
  * 
  * @version $Id$
- * @author Benjamin Theel <btheel@stud.hs-heilbronn.de>
+ * @author Benjamin Theel [btheel@stud.hs-heilbronn.de]
  * 
  */
 public final class Rolle {

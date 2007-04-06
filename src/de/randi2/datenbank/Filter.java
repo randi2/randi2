@@ -29,8 +29,8 @@ import de.randi2.datenbank.exceptions.DatenbankFehlerException;
  * </code>
  * </p>
  * 
- * @author Benjamin Theel <BTheel@stud.hs-heilbronn.de>
- * @author Frederik Reifschneider <Reifschneider@stud.uni-heidelberg.de>
+ * @author Benjamin Theel [BTheel@stud.hs-heilbronn.de]
+ * @author Frederik Reifschneider [Reifschneider@stud.uni-heidelberg.de]
  * 
  * @version $Id$
  * 

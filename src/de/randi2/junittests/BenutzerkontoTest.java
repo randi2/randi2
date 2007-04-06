@@ -29,7 +29,7 @@ import de.randi2.utility.PasswortUtil;
  * ausgelesen werden und kontrolliert werden, ob diese dann identisch sind
  * 
  * 
- * @author Katharina Chruscz <kchruscz@stud.hs-heilbronn.de>
+ * @author Katharina Chruscz [kchruscz@stud.hs-heilbronn.de]
  * @version $Id$
  * 
  */

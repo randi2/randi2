@@ -6,7 +6,7 @@ package de.randi2.model.exceptions;
  * auftreten koennen.
  * </p>
  * 
- * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
+ * @author Lukasz Plotnicki [lplotni@stud.hs-heilbronn.de]
  * @version $Id$
  * 
  */

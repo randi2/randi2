@@ -7,7 +7,7 @@ import de.randi2.utility.NullKonstanten;
 /**
  * Diese Klasse repraesentiert eine Person.
  * 
- * @author Thomas Willert <twillert@stud.hs-heilbronn.de>
+ * @author Thomas Willert [twillert@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class PersonBean extends Filter {
@@ -90,7 +90,7 @@ public class PersonBean extends Filter {
 	 *            Handynummer der Person.
 	 * @param fax
 	 *            Faxnummer der Person.
-	 * @thows PersonException Wenn bei der Validierung einer Person Probleme
+	 * @throws PersonException Wenn bei der Validierung einer Person Probleme
 	 *        auftreten.
 	 */
 	public PersonBean(String nachname, String vorname, String titel,
@@ -166,7 +166,7 @@ public class PersonBean extends Filter {
 	/**
 	 * @param email
 	 *            the email to set *
-	 * @thows PersonException Wenn bei der Validierung einer Person Probleme
+	 * @throws PersonException Wenn bei der Validierung einer Person Probleme
 	 *        auftreten.
 	 */
 	public void setEmail(String email) throws PersonException {
@@ -193,7 +193,7 @@ public class PersonBean extends Filter {
 	/**
 	 * @param fax
 	 *            the fax to set
-	 * @thows PersonException Wenn bei der Validierung einer Person Probleme
+	 * @throws PersonException Wenn bei der Validierung einer Person Probleme
 	 *        auftreten.
 	 */
 	public void setFax(String fax) throws PersonException {
@@ -209,7 +209,7 @@ public class PersonBean extends Filter {
 	/**
 	 * @param geschlecht
 	 *            the geschlecht to set
-	 * @thows PersonException Wenn bei der Validierung einer Person Probleme
+	 * @throws PersonException Wenn bei der Validierung einer Person Probleme
 	 *        auftreten.
 	 */
 	public void setGeschlecht(char geschlecht) throws PersonException {
@@ -228,7 +228,7 @@ public class PersonBean extends Filter {
 	/**
 	 * @param handynummer
 	 *            the handynummer to set
-	 * @thows PersonException Wenn bei der Validierung einer Person Probleme
+	 * @throws PersonException Wenn bei der Validierung einer Person Probleme
 	 *        auftreten.
 	 */
 	public void setHandynummer(String handynummer) throws PersonException {
@@ -245,7 +245,7 @@ public class PersonBean extends Filter {
 	/**
 	 * @param nachname
 	 *            the nachname to set
-	 * @thows PersonException Wenn bei der Validierung einer Person Probleme
+	 * @throws PersonException Wenn bei der Validierung einer Person Probleme
 	 *        auftreten.
 	 */
 	public void setNachname(String nachname) throws PersonException {
@@ -268,7 +268,7 @@ public class PersonBean extends Filter {
 	/**
 	 * @param telefonnummer
 	 *            the telefonnummer to set
-	 * @thows PersonException Wenn bei der Validierung einer Person Probleme
+	 * @throws PersonException Wenn bei der Validierung einer Person Probleme
 	 *        auftreten.
 	 */
 	public void setTelefonnummer(String telefonnummer) throws PersonException {
@@ -294,7 +294,7 @@ public class PersonBean extends Filter {
 	/**
 	 * @param titel
 	 *            the titel to set
-	 * @thows PersonException Wenn bei der Validierung einer Person Probleme
+	 * @throws PersonException Wenn bei der Validierung einer Person Probleme
 	 *        auftreten.
 	 */
 	public void setTitel(String titel) throws PersonException {
@@ -313,7 +313,7 @@ public class PersonBean extends Filter {
 	/**
 	 * @param vorname
 	 *            the vorname to set
-	 * @thows PersonException Wenn bei der Validierung einer Person Probleme
+	 * @throws PersonException Wenn bei der Validierung einer Person Probleme
 	 *        auftreten.
 	 */
 	public void setVorname(String vorname) throws PersonException {

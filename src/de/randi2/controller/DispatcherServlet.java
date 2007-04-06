@@ -19,7 +19,7 @@ import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
  * </p>
  * 
  * @version $Id$
- * @author Andreas Freudling <afreudling@stud.hs-heilbronn.de>
+ * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
  * 
  */
 public class DispatcherServlet extends javax.servlet.http.HttpServlet {

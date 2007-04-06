@@ -15,7 +15,7 @@ import de.randi2.utility.NullKonstanten;;
  * PersonBean. Auf ein Testen der getter-Methoden kann verzichtet werden, da
  * dortige Fehler auf Kompilierebene liegen muessten.
  * 
- * @author Tino Noack <tnoack@stud.hs-heilbronn.de>
+ * @author Tino Noack [tnoack@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class PersonBeanTest {

@@ -20,7 +20,7 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
  * Zentrum-Fachklasse und an den DISPATCHER weiterleitet.
  * 
  * @version $Id: BenutzerServlet.java 1162 2007-02-01 21:35:46Z afreudli $
- * @author Andreas Freudling <afreudling@hs-heilbronn.de>
+ * @author Andreas Freudling [afreudling@hs-heilbronn.de]
  * 
  */
 public class ZentrumServlet extends javax.servlet.http.HttpServlet {

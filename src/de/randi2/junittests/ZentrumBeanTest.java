@@ -1,11 +1,7 @@
 package de.randi2.junittests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.model.exceptions.PersonException;
@@ -25,7 +21,7 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
  * assertTrue("Abteilung1",zentrum.getAbteilung());
  * 
  * 
- * @author Katharina Chruscz <kchruscz@stud.hs-heilbronn.de>
+ * @author Katharina Chruscz [kchruscz@stud.hs-heilbronn.de]
  * @version $Id$
  * 
  */

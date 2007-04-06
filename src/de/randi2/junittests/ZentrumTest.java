@@ -18,8 +18,8 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
 /**
  * Die Test-Klasse fuer die Klasse Zentrum.
  * 
- * @author Tino Noack <tnoack@stud.hs-heilbronn.de>
- * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
+ * @author Tino Noack [tnoack@stud.hs-heilbronn.de]
+ * @author Lukasz Plotnicki [lplotni@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class ZentrumTest {

@@ -13,7 +13,7 @@ import de.randi2.utility.Nachrichtendienst;
 import de.randi2.utility.NachrichtendienstException;
 
 /**
- * @author Benjamin Theel <BTheel@stud.hs-heilbronn.de>
+ * @author Benjamin Theel [BTheel@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class NachrichtendienstTest {

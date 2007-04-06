@@ -12,9 +12,9 @@ import de.randi2.utility.PasswortUtil;
 /**
  * Diese Klasse repraesentiert ein Benutzerkonto.
  * 
- * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
- * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
- * @author Thomas Willert <twillert@stud.hs-heilbronn.de>
+ * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
+ * @author Lukasz Plotnicki [lplotni@stud.hs-heilbronn.de]
+ * @author Thomas Willert [twillert@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class BenutzerkontoBean extends Filter {

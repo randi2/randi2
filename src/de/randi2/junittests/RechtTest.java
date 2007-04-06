@@ -14,8 +14,8 @@ import de.randi2.model.fachklassen.Recht.Rechtenamen;
  * Testet die Funktionalitaet der Recht.java Klasse.
  * 
  * 
- * @author Nadine Zwink <nzwink@stud.hs-heilbronn.de> *
- * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
+ * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de] *
+ * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class RechtTest {

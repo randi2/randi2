@@ -21,7 +21,7 @@ import de.randi2.utility.PasswortUtil;
 
 /**
  * 
- * @author Nadine Zwink <nzwink@stud.hs-heilbronn.de>
+ * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class BenutzerkontoBeanTest extends Filter {

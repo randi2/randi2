@@ -6,7 +6,7 @@ import java.util.HashMap;
  * Die Klasse LogGeanderteDaten kapselt die geanderten Daten eines
  * Datenbankobjekts und stelt get-Methoden zur Verfuegung.
  * 
- * @author Johannes Th&ouml;nes <jthoenes@stud.hs-heilbronn.de>
+ * @author Johannes Th&ouml;nes [jthoenes@stud.hs-heilbronn.de]
  * @version $Id$
  * 
  */

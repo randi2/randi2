@@ -5,7 +5,7 @@ package de.randi2.datenbank.exceptions;
  * 
  * @version $Id: DatenbankFehlerException.java 1205 2007-02-03 13:50:44Z
  *          jthoenes $
- * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
+ * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
  */
 @SuppressWarnings("serial")
 public class DatenbankFehlerException extends Exception {

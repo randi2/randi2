@@ -19,7 +19,7 @@ import de.randi2.model.exceptions.RechtException;
  * Quelltext moeglich.
  * 
  * @version $Id$
- * @author Benjamin Theel <btheel@stud.hs-heilbronn.de>
+ * @author Benjamin Theel [btheel@stud.hs-heilbronn.de]
  */
 // TODO Bitte Javadoc-Kommentare auch ausfuellen!
 public class Recht {

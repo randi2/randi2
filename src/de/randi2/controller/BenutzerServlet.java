@@ -27,7 +27,7 @@ import de.randi2.utility.NullKonstanten;
  * Benutzerkonto-Fachklasse und an den DISPATCHER weiterleitet.
  * 
  * @version $Id$
- * @author Andreas Freudling <afreudling@stud.hs-heilbronn.de>
+ * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
  * 
  */
 public class BenutzerServlet extends javax.servlet.http.HttpServlet {

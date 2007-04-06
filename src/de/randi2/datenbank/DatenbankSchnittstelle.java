@@ -9,7 +9,7 @@ import de.randi2.datenbank.exceptions.DatenbankFehlerException;
  * Methoden zum Suchen von Daten sowie zum Schreiben von Daten sind vorhanden.
  * 
  * @version $Id$
- * @author Daniel Haehn <dhaehn@stud.hs-heilbronn.de>
+ * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
  */
 public interface DatenbankSchnittstelle {
 

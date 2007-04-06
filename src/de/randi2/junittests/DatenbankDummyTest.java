@@ -23,7 +23,7 @@ import de.randi2.utility.PasswortUtil;
 import java.util.*;
 
 /**
- * @author Benjamin Theel <BTheel@stud.hs-heilbronn.de>
+ * @author Benjamin Theel [BTheel@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class DatenbankDummyTest {

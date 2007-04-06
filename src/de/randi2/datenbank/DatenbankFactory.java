@@ -8,7 +8,7 @@ package de.randi2.datenbank;
  * gebraucht wird.
  * </p>
  * 
- * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
+ * @author Lukasz Plotnicki [lplotni@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public final class DatenbankFactory {

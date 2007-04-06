@@ -6,7 +6,7 @@ package de.randi2.model.exceptions;
  * koennen.
  * </p>
  * 
- * @author Thomas Willert <twillert@stud.hs-heilbronn.de>
+ * @author Thomas Willert [twillert@stud.hs-heilbronn.de]
  * @version $Id: PersonException.java 1287 2007-02-05 14:42:00Z twillert $
  * 
  */

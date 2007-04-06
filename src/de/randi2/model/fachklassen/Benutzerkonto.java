@@ -13,8 +13,8 @@ import de.randi2.utility.PasswortUtil;
  * an. Beinhaltet auch es.
  * 
  * @version $Id$
- * @author Lukasz Plotnicki <lplotni@stud.hs-heilbronn.de>
- * @author Frederik Reifschneider <Reifschneider@stud.hs-heidelberg.de>
+ * @author Lukasz Plotnicki [lplotni@stud.hs-heilbronn.de]
+ * @author Frederik Reifschneider [Reifschneider@stud.hs-heidelberg.de]
  * 
  * 
  */

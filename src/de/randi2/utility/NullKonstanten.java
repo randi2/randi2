@@ -4,7 +4,7 @@ package de.randi2.utility;
  * In dieser Datei befinden sich die Null-Konstanten, die symbolisieren, dass
  * ein primitiver Datentyp in der Suche nicht gesetzt ist.
  * 
- * @author Andreas Freudling <afreudling@stud.hs-heilbronn.de>
+ * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class NullKonstanten {
