@@ -116,9 +116,8 @@ Description:
             <property name="severity" value="ignore"/>
         </module>
         <module name="JavadocStyle">
-            <metadata name="com.atlassw.tools.eclipse.checkstyle.lastEnabledSeverity" value="info"/>
-            <property name="severity" value="info"/>
             <property name="checkEmptyJavadoc" value="true"/>
+            <property name="checkFirstSentence" value="false"/>
         </module>
         <module name="j2ee.EntityBean"/>
         <module name="j2ee.FinalStatic"/>
