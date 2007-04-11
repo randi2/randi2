@@ -267,7 +267,7 @@ public final class Rolle {
 	}
 
 	/**
-	 * Liefert den Namen der Rolle als <code>String<code>
+	 * Liefert den Namen der Rolle als <code>String</code>
 	 * @return Name der Rolle
 	 */
 	public String getName() {

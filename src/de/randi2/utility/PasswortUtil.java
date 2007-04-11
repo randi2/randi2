@@ -21,11 +21,16 @@ public final class PasswortUtil {
 	private static PasswortUtil instance = null;
 
 	/**
+	 * Die Laenge des Aktivierungslink.
+	 */
+	private final int AKTIVIERUNGSCODE_LAENGE = 20;
+
+	/**
 	 * Gibt eine Instanz von PasswortUtil zurueck.
 	 * 
 	 * @return Die Singleton-Instanz.
 	 */
-	public static PasswortUtil getInstance() {
+	public static synchronized PasswortUtil getInstance() {
 		if (instance == null) {
 			instance = new PasswortUtil();
 		}
@@ -111,7 +116,7 @@ public final class PasswortUtil {
 		hashfunktion.update(passwort.getBytes(), 0, passwort.length());
 		byte[] digest = hashfunktion.digest();
 		for (int i = 0; i < digest.length; i++) {
-			// Konstanten sind hier eher weniger sinnvoll bzw. 
+			// Konstanten sind hier eher weniger sinnvoll bzw.
 			// fallem am Kopf eher aus dem Rahmen.
 			// Daher wird hier nicht auf Checkstyle gehoert.
 			hashwertHex.append(Integer.toHexString((digest[i] & 0xFF) | 0x100)
@@ -120,6 +125,19 @@ public final class PasswortUtil {
 		Logger.getLogger(this.getClass()).debug(
 				hashwertHex.toString() + " erzeugt");
 		return hashwertHex.toString();
+
+	}
+
+	/**
+	 * Erzeugt den Code fuer den Aktivierungslink.
+	 * 
+	 * @return Der Aktivierungscode.
+	 */
+	public String getAktivierungslink() {
+		String s = this.generatePasswort(this.AKTIVIERUNGSCODE_LAENGE);
+		String code=  this.hashPasswort(s).substring(0, this.AKTIVIERUNGSCODE_LAENGE);
+		Logger.getLogger(this.getClass()).debug("Aktvierungscode " + code + " erzeugt.");
+		return code;
 
 	}
 
