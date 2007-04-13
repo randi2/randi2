@@ -1,7 +1,7 @@
 package de.randi2.seleniumtest;
 
 import com.thoughtworks.selenium.*;
-
+import de.randi2.utility.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,21 +15,13 @@ import static org.junit.Assert.*;
  * @date 05.01.2007
  */
 public class TestLoginLogout{
-	
-	private final static String SELENIUM_SERVER_HOST = "localhost";
-	private final static int SELENIUM_SERVER_PORT = 4444;
-	private final static String FIREFOX_LOCATION = "C:/Programme/Mozilla Firefox/firefox.exe";
-	private final static String START_URL = "http://localhost:8080/RANDI2/";
-	
 	private static Selenium sel;
-	
-	
 	
 	@BeforeClass
 	public static void setUpBeforeClass(){
          //Selenium wird gestartet
-		 sel = new DefaultSelenium(TestLoginLogout.SELENIUM_SERVER_HOST,
-				 TestLoginLogout.SELENIUM_SERVER_PORT, "*firefox "+FIREFOX_LOCATION, START_URL);
+		 sel = new DefaultSelenium(Config.getProperty(Config.Felder.DEBUG_SELENIUM_SERVER_HOST),
+			 Integer.parseInt(Config.getProperty(Config.Felder.DEBUG_SELENIUM_SERVER_PORT)), "*firefox "+Config.getProperty(Config.Felder.DEBUG_SELENIUM_FIREFOX_LOCATION), Config.getProperty(Config.Felder.DEBUG_SELENIUM_START_URL));
 		 sel.start();
 	}	
 	

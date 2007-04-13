@@ -1,10 +1,12 @@
 package de.randi2.utility;
-import java.util.*;
-import java.io.*;
+import java.util.Properties;
+import org.apache.log4j.Logger;
+import java.io.FileInputStream;;
 
 /**
  * @author Andreas Freudling afreudling@stud.hs-heilbronn.de
- *Achtung Klasse wurde nur im Rahmen des Config Managements eingebaut, Verwendung auf eigene Gefahr
+ *@version $Id$ 
+ *
  */
 public class Config
 {
@@ -14,8 +16,8 @@ public class Config
     
     private Config()
     {
-	String releaseDateiname = "conf//release//leasrelease.conf";
-	String debugDateiname = "conf//debug//debug.conf";
+	String releaseDateiname = "conf/release/release.conf";
+	String debugDateiname = "conf/debug/debug.conf";
 	
 	debugConf = new Properties();
 	// release mit Oberproperty
@@ -24,7 +26,8 @@ public class Config
 	{
 	    // DebugConf wird gefuellt
 	    debugConf.load(new FileInputStream(debugDateiname));
-	    
+	    Logger.getLogger(this.getClass()).info("Debug-Konfiguration geladen: "+debugDateiname);
+	    Logger.getLogger(this.getClass()).info("Release-Konfiguraion geladen: "+releaseDateiname);
 	    // ReleaseConf wird gefuellt
 	    releaseConf.load(new FileInputStream(releaseDateiname));
 
@@ -34,7 +37,11 @@ public class Config
 	    //System.exit(1);
 	}
     }
-    public static String getProperty(Felder feld)
+    /**
+     * @param feld
+     * @return
+     */
+    public static synchronized String getProperty(Felder feld)
     {
 	if (singleton == null)
 	{
@@ -43,23 +50,57 @@ public class Config
 	return singleton.releaseConf.getProperty(feld+"");
     }    
     
+    /**
+     *
+     *
+     */
     public enum Felder
     {
+	/**
+	 * 
+	 */
 	DEBUG_SELENIUM_SERVER_HOST,
+	/**
+	 * 
+	 */
 	DEBUG_SELENIUM_SERVER_PORT,
+	/**
+	 * 
+	 */
 	DEBUG_SELENIUM_FIREFOX_LOCATION,
-	DEBUG_SELENIUM_START_URL;
+	/**
+	 * 
+	 */
+	DEBUG_SELENIUM_START_URL,
+	/**
+	 * 
+	 */
+	RELEASE_MAIL_SERVER,
+	/**
+	 * 
+	 */
+	RELEASE_MAIL_ACCOUNT,
+	/**
+	 * 
+	 */
+	RELEASE_MAIL_PASSWORD,
+	/**
+	 * 
+	 */
+	RELEASE_MAIL_RANDI2MAILADRESSE,
+	/**
+	 * 
+	 */
+	RELEASE_MAIL_RANDI2NAME,
+	/**
+	 * 
+	 */
+	RELEASE_MAIL_RANDI2BOUNCE,
+	/**
+	 * 
+	 */
+	RELEASE_MAIL_DEBUG;
     }
 
-    /**
-         * @param args
-         */
-    public static void main(String[] args)
-    {
-	for(Felder f:Felder.values())
-	
-	System.out.println(Config.getProperty(f));
-	
-    }
 	
 }

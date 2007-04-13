@@ -5,6 +5,7 @@ import org.apache.commons.mail.SimpleEmail;
 import org.apache.log4j.Logger;
 
 import de.randi2.model.fachklassen.beans.PersonBean;
+import de.randi2.utility.Config;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -50,18 +51,7 @@ public final class Nachrichtendienst {
 /* TODO Anwendungslog noch einbinden
  * FRAGE Bounceadresse notwendig?
  */
-    
-    /**
-     * Instanz der Properties (realisiert als Singlton)
-     */
-    private static Properties properties = null;
 
-    /**
-     * Konfigurationsfile des nachrichtendienst
-     */
-    // FIXME Absoluter Pfad -> relativer Pfad zur Cond-Datei
-    private String confFile = "/home/btheel/workspace/PrototypWeb/src/de/Nachrichtendienst.properties";
-    //private String confFile = "Nachrichtendienst.properties";
 
     /**
      * Instanz des Nachrichtendiensts (realisiert als Singlton)
@@ -88,13 +78,11 @@ public final class Nachrichtendienst {
      *             {@link NachrichtendienstException#CONF_LADEN_FEHLGESCHLAGEN}
      */
     private Nachrichtendienst() throws NachrichtendienstException {
-
-        loadProperties();
         try {
             // SystemBean/-Account anlegen
             systemBean = new PersonBean();
-            systemBean.setEmail(properties.getProperty("randi2Mailadresse"));
-            systemBean.setNachname(properties.getProperty("randi2Name"));
+            systemBean.setEmail(Config.getProperty(Config.Felder.RELEASE_MAIL_RANDI2MAILADRESSE));
+            systemBean.setNachname(Config.getProperty(Config.Felder.RELEASE_MAIL_RANDI2NAME));
         } catch (Exception e) {
             throw new NachrichtendienstException(
                     NachrichtendienstException.CONF_LADEN_FEHLGESCHLAGEN, e);
@@ -114,32 +102,6 @@ public final class Nachrichtendienst {
     }
 
     
-    /**
-     * L&auml;d die Properties des Nachrichtendienst aus dem Properties-File
-     * 
-     * @throws NachrichtendienstException
-     *             {@link NachrichtendienstException#CONF_LADEN_FEHLGESCHLAGEN}
-     */
-    private void loadProperties() throws NachrichtendienstException {
-        if (properties == null) {
-
-            properties = new Properties();
-            FileInputStream file;
-
-            try {
-                file = new FileInputStream(confFile);
-                properties.load(file);
-                file.close();
-                logger.info("Conf-File geladen ("+confFile+")");
-            } catch (IOException e) {
-                throw new NachrichtendienstException(
-                        NachrichtendienstException.CONF_LADEN_FEHLGESCHLAGEN, e);
-            } finally {
-                // file.close();
-            }
-
-        }
-    }
 
     /**
      * Versendet eine Nachricht an eine Menge von Empf&auml;ngern.<br>
@@ -212,12 +174,12 @@ public final class Nachrichtendienst {
         SimpleEmail email = new SimpleEmail();
 
         email.setDebug(Boolean
-                .valueOf(properties.getProperty("debug", "false")));
+                .valueOf(Config.getProperty(Config.Felder.RELEASE_MAIL_DEBUG)));
 
-        email.setHostName(properties.getProperty("mailserver")); // Server
+        email.setHostName(Config.getProperty(Config.Felder.RELEASE_MAIL_SERVER)); // Server
         // setzten
-        email.setAuthentication(properties.getProperty("account"), properties
-                .getProperty("password")); // Accountdaten setzten
+        email.setAuthentication(Config.getProperty(Config.Felder.RELEASE_MAIL_ACCOUNT), Config
+                .getProperty(Config.Felder.RELEASE_MAIL_PASSWORD)); // Accountdaten setzten
 
          // Generieren/Setzten der AbsenderAdresse
             StringBuffer absenderName = new StringBuffer();

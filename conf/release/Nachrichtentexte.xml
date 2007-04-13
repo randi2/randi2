@@ -1,0 +1,33 @@
+<?xml version="1.0"?> 
+
+<emails name="autonachrichten">
+<comment>als dynamische Textelemente sind bisher gestattet #Anrede# und #Aktivierungslink#</comment>
+	<email name="aktivierung">
+		<betreff>Das ist der Betreff</betreff>
+		<emailtext>#Anrede#
+		\n Wie mit Ihnen bereits besprochen anbei der Aktivierungslink für Ihr Auto : #Aktivierungslink#
+		Mit freundlichen Grüßen
+		Randi 2
+		</emailtext>
+	</email>
+	
+	<email name="neuesPasswort">
+	<betreff>Das ist der Betreff</betreff>
+		<emailtext>#Anrede#
+		
+		
+		
+		
+		Wie mit Ihnen bereits besprochen anbei der Aktivierungslink für Ihr Auto : #Aktivierungslink#
+		Mit freundlichen Grüßen
+		Randi 2
+		</emailtext>
+	</email>
+	
+	<email name="">
+		<betreff></betreff>
+		<emailtext>#Anrede#
+		
+		</emailtext>
+	</email>
+</emails>
