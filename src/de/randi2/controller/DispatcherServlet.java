@@ -25,6 +25,10 @@ import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
     /**
+     * 
+     */
+    public static final String FEHLERNACHRICHT="fehlernachricht";
+    /**
          * Konstruktor.
          * 
          * @see javax.servlet.http.HttpServlet#HttpServlet()

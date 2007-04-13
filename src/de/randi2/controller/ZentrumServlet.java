@@ -185,7 +185,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		    // Zentrum Passwort falsch
 		    else {
 			request.setAttribute("listeZentren", gZentrum);
-			request.setAttribute("fehlernachricht", "Falsches Zentrumpasswort");
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Falsches Zentrumpasswort");
 			request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp").forward(request, response);
 		    }
 		}

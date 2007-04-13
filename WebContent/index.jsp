@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@ page import="de.randi2.controller.DispatcherServlet" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -34,7 +35,7 @@
 		
 		<p>Benutzername</p>
 		<form action="DispatcherServlet" method="POST" name="loginform">
-		<input type="hidden" value="JSP_INDEX_LOGIN" name="anfrage_id">
+		<input type="hidden" value="<%=DispatcherServlet.anfrage_id.JSP_INDEX_LOGIN %>" name="anfrage_id">
 			<p>
 				<input type="text" name="username" tabindex="1">
 			</p>
@@ -51,7 +52,7 @@
 		<table cellPadding="0" cellSpacing="0" border="0">
 		<tr>
 		<td align="right">
-		<form action="DispatcherServlet" method="POST"><input type="hidden" name="anfrage_id" value="JSP_INDEX_BENUTZER_REGISTRIEREN_EINS"><input type="submit" value="Benutzer registrieren"></form>
+		<form action="DispatcherServlet" method="POST"><input type="hidden" name="anfrage_id" value="<%=DispatcherServlet.anfrage_id.JSP_INDEX_BENUTZER_REGISTRIEREN_EINS.name() %>"><input type="submit" value="Benutzer registrieren"></form>
 		</td>
 		<td>
 		&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;

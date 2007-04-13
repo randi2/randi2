@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
        "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-<%@ page import="de.randi2.model.fachklassen.beans.*" %>
+<%@ page import="de.randi2.controller.DispatcherServlet" %>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Benutzer anlegen</title>
@@ -29,7 +29,7 @@
 		<table>
 		<tr>
 		<td>
-		<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI">
+		<input type="hidden" name="anfrage_id" value="<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI.name() %>">
 		<input type="submit" tabindex="1" value="Akzeptieren">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td><input type="button" name="abbrechen" value="Abbrechen" tabindex="2" onClick="location.href='index.jsp'"></td>
 		</tr>

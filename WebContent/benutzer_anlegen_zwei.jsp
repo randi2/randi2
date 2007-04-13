@@ -2,7 +2,8 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page 
 		import="de.randi2.model.fachklassen.beans.*"
-		import="java.util.*"	
+		import="java.util.*"
+		import="de.randi2.controller.DispatcherServlet"	
 %>
 <%Iterator<ZentrumBean> listeZentren=((Vector<ZentrumBean>)request.getAttribute("listeZentren")).iterator(); %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
@@ -23,7 +24,7 @@
 
 <fieldset style="width: 60%"><legend><b>Zentrum suchen </b></legend>
 <form action="DispatcherServlet" method="POST">
-<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI">
+<input type="hidden" name="anfrage_id" value="<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI.name() %>">
 <p>
 
 

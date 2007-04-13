@@ -1,7 +1,8 @@
-<%if(request.getAttribute("fehlernachricht")!=null){%>
+<%@ page import="de.randi2.controller.DispatcherServlet" %>
+<%if(request.getAttribute(DispatcherServlet.FEHLERNACHRICHT)!=null){%>
 <center>
 	<div id="nachricht">
-	<%= request.getAttribute("fehlernachricht")%>
+	<%= request.getAttribute(DispatcherServlet.FEHLERNACHRICHT)%>
 	</div>
 </center>
 <%} %>

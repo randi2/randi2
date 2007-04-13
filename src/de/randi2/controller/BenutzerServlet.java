@@ -126,14 +126,14 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
 		    }// if
 		    else {
-			request.setAttribute("fehlernachricht", "Loginfehler:<br> Bitte Benutzername und Passwort &uuml;berpr&uuml;fen");
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Loginfehler:<br> Bitte Benutzername und Passwort &uuml;berpr&uuml;fen");
 			 request.getRequestDispatcher("/index.jsp").forward(request, response);
 			LogAktion a = new LogAktion("Falsches Passwort eingegeben.", sBenutzer);
 			Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
 		    }
 		}// if
 		else {
-		    request.setAttribute("fehlernachricht", "Loginfehler:<br> Bitte Benutzername und Passwort &uuml;berpr&uuml;fen");
+		    request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Loginfehler:<br> Bitte Benutzername und Passwort &uuml;berpr&uuml;fen");
 		    request.getRequestDispatcher("/index.jsp").forward(request, response);
 		    if (gBenutzer.size() == 0) {
 			LogAktion a = new LogAktion("Falscher Benutzernamen eingegeben.", sBenutzer);
@@ -147,7 +147,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 		// Ungueltiger Benutzername/Passwort
 
-		request.setAttribute("fehlernachricht", "Loginfehler");
+		request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Loginfehler");
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
 		LogAktion a = new LogAktion("Ungueltige Benutzername/Passwort Kombination eingegeben.", sBenutzer);
 		Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
@@ -260,7 +260,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		request.setAttribute("Institut", institut);
 
 		// Ausgeben der Fehlermeldung
-		request.setAttribute("fehlernachricht", fehlernachricht);
+		request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, fehlernachricht);
 		request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
 	    } else {
 		request.getRequestDispatcher("/benutzer_anlegen_vier.jsp").forward(request, response);

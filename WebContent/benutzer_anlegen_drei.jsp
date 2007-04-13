@@ -4,14 +4,14 @@
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Benutzer anlegen</title>
-<%@ page import="de.randi2.model.fachklassen.beans.*" %>
+<%@ page import="de.randi2.controller.DispatcherServlet" %>
 </head>
 <body>
 <%@include file="include/inc_header_clean.jsp"%>
 
 <div id="content">
 <form action="DispatcherServlet" method="post">
-<input type="hidden" name="anfrage_id" value="JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER">
+<input type="hidden" name="anfrage_id" value="<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER.name() %>">
 <input type="hidden" name="aZentrum" value ="<%=request.getAttribute("aZentrum") %>">
 ><h1>Benutzer anlegen</h1>
 <%@include file="include/inc_nachricht.jsp"%>
