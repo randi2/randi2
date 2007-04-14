@@ -15,7 +15,7 @@ import de.randi2.datenbank.Filter;
  */
 public class StudieBean extends Filter {
 
-	// TODO Kommentare
+	// TODO Kommentare 
 
 	private String name = null;
 
