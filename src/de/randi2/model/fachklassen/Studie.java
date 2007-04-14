@@ -3,7 +3,11 @@ import de.randi2.model.fachklassen.beans.RandomisationBean;
 import de.randi2.model.fachklassen.beans.StatistikBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
-
+/**
+ * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
+ * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
+ * @version $Id: $
+ */
 public class Studie {
 
 	private StudieBean aStudieBean = null;
