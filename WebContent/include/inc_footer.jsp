@@ -4,13 +4,24 @@
 	import= "java.util.Locale"
 %>
 <%
+String formatiertesDatum ="Fehler beim Datum"; 
 			BenutzerkontoBean aBenutzerkontoFooter = (BenutzerkontoBean) request
 			.getSession().getAttribute("aBenutzer");
+if(aBenutzerkontoFooter!=null)
+{
 	GregorianCalendar letzterZugriff = aBenutzerkontoFooter
-			.getLetzterLogin();
-	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy",
+	.getLetzterLogin();
+	if(letzterZugriff!=null)
+	{
+	    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy",
 			Locale.GERMANY);
-	String formatiertesDatum = sdf.format(letzterZugriff.getTime());
+	    formatiertesDatum=sdf.format(letzterZugriff.getTime());
+	}
+}
+
+
+
+
 %>
 
 <br>
