@@ -1,5 +1,4 @@
 package de.randi2.model.fachklassen;
-
 import de.randi2.model.fachklassen.beans.RandomisationBean;
 import de.randi2.model.fachklassen.beans.StatistikBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
@@ -33,6 +32,9 @@ public class Studie {
 
 	public void zuweisenZentrum(ZentrumBean aZentrum) {
 
+	}
+	//TODO Array?
+	public void konfiguriereRandomisation() {
 	}
 
 	/**

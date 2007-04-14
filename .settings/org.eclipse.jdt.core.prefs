@@ -1,5 +1,6 @@
-#Fri Jan 26 12:51:49 CET 2007
+#Thu Apr 12 16:38:24 CEST 2007
 eclipse.preferences.version=1
+org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=enabled
 org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.5
 org.eclipse.jdt.core.compiler.compliance=1.5
 org.eclipse.jdt.core.compiler.problem.assertIdentifier=error

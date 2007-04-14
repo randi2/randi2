@@ -2,36 +2,41 @@
  * 
  */
 package de.randi2.model.fachklassen.beans;
-
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Vector;
+import de.randi2.model.exceptions.StudieException;
+import de.randi2.datenbank.Filter;
 
 /**
- * @author 
- *
+ * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
+ * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
+ * @version $Id: StudieBean.java 1828 2007-04-06 18:31:47Z jthoenes $
  */
-public class StudieBean {
+public class StudieBean extends Filter {
+
+	// TODO Kommentare
 
 	private String name = null;
-	
+
 	private String beschreibung = null;
-	
+
 	private GregorianCalendar startDatum = null;
-	
+
 	private GregorianCalendar endDatum = null;
-	
+
 	private String studienprotokoll_pfad = null;
-	
+
 	private Vector<StudienarmBean> studienarme = null;
-	
+
 	private RandomisationBean randomisationseigenschaften = null;
-	
+
 	private ZentrumBean zentrum = null;
-	
+
 	private BenutzerkontoBean benutzerkonto = null;
 
 	private int status = -1;
-	
+
 	/**
 	 * @return the benutzerkonto
 	 */
@@ -40,7 +45,9 @@ public class StudieBean {
 	}
 
 	/**
-	 * @param benutzerkonto the benutzerkonto to set
+	 * 
+	 * @param benutzerkonto
+	 *            the benutzerkonto to set
 	 */
 	public void setBenutzerkonto(BenutzerkontoBean benutzerkonto) {
 		this.benutzerkonto = benutzerkonto;
@@ -54,7 +61,8 @@ public class StudieBean {
 	}
 
 	/**
-	 * @param beschreibung the beschreibung to set
+	 * @param beschreibung
+	 *            the beschreibung to set
 	 */
 	public void setBeschreibung(String beschreibung) {
 		this.beschreibung = beschreibung;
@@ -68,9 +76,18 @@ public class StudieBean {
 	}
 
 	/**
-	 * @param endDatum the endDatum to set
+	 * Überprüfung, ob das Enddatum der Studie in der Zukunft liegt.
+	 * 
+	 * @param endDatum
+	 *            Enddatum der Studie
+	 * @throws StudieException
+	 *             Wenn bei der Validierung ein Datumfehler aufgetreten ist
 	 */
-	public void setEndDatum(GregorianCalendar endDatum) {
+	public void setEndDatum(GregorianCalendar endDatum) throws StudieException {
+		// Testen, ob sich das Datum in der Zukunft befindet
+		if ((new GregorianCalendar(Locale.GERMANY)).before(endDatum)) {
+			throw new StudieException(StudieException.DATUM_FEHLER);
+		}
 		this.endDatum = endDatum;
 	}
 
@@ -82,9 +99,30 @@ public class StudieBean {
 	}
 
 	/**
-	 * @param name the name to set
+	 * Setzt den Namen der Studie.
+	 * 
+	 * @param name
+	 *            Name der Studie
+	 * @throws StudieException
+	 *             Wenn bei der Validierung ein Fehler im Studienname
+	 *             aufgetreten ist
 	 */
-	public void setName(String name) {
+	public void setName(String name) throws StudieException {
+		boolean filter = super.isFilter();
+
+		if (!filter && name == null)
+			throw new StudieException(StudieException.STUDIENNAME_FEHLT);
+		if (!filter) {
+			name = name.trim();
+		}
+		if (!filter && name.length() == 0) {
+			throw new StudieException(StudieException.STUDIENNAME_FEHLT);
+		}
+
+		if (!filter && (name.length() < 3 || name.length() > 50)) {
+			throw new StudieException(StudieException.STUDIENNAME_UNGUELTIG);
+		}
+
 		this.name = name;
 	}
 
@@ -96,7 +134,8 @@ public class StudieBean {
 	}
 
 	/**
-	 * @param randomisationseigenschaften the randomisationseigenschaften to set
+	 * @param randomisationseigenschaften
+	 *            the randomisationseigenschaften to set
 	 */
 	public void setRandomisationseigenschaften(
 			RandomisationBean randomisationseigenschaften) {
@@ -111,9 +150,19 @@ public class StudieBean {
 	}
 
 	/**
-	 * @param startDatum the startDatum to set
+	 * Überprüfung, ob das Startdatum der Studie in der Zukunft liegt.
+	 * 
+	 * @param startDatum
+	 *            Startdatum der Studie
+	 * @throws StudieException
+	 *             Wenn bei der Validierung ein Datumfehler aufgetreten ist
 	 */
-	public void setStartDatum(GregorianCalendar startDatum) {
+	public void setStartDatum(GregorianCalendar startDatum)
+			throws StudieException {
+		// Testen, ob sich das Datum in der Zukunft befindet
+		if ((new GregorianCalendar(Locale.GERMANY)).before(startDatum)) {
+			throw new StudieException(StudieException.DATUM_FEHLER);
+		}
 		this.startDatum = startDatum;
 	}
 
@@ -125,9 +174,26 @@ public class StudieBean {
 	}
 
 	/**
-	 * @param studienarme the studienarme to set
+	 * Setzt die Studienarme
+	 * @param studienarme Studienarme
+	 *           
+	 * @throws StudieException 
 	 */
-	public void setStudienarme(Vector<StudienarmBean> studienarme) {
+	public void setStudienarme(Vector<StudienarmBean> studienarme) throws StudieException {
+		
+		boolean filter = super.isFilter();
+
+		if (!filter && studienarme == null)
+			throw new StudieException(StudieException.STUDIENARM_FEHLT);
+		//TODO !filter
+		if (!filter && studienarme.size() == 0) {
+			throw new StudieException(StudieException.STUDIENARM_FEHLT);
+		}
+
+		if (!filter && (studienarme.size() < 3 || studienarme.size() > 50)) {
+			throw new StudieException(StudieException.STUDIENARM_UNGUELTIG);
+		}
+
 		this.studienarme = studienarme;
 	}
 
@@ -139,7 +205,8 @@ public class StudieBean {
 	}
 
 	/**
-	 * @param studienprotokoll_pfad the studienprotokoll_pfad to set
+	 * @param studienprotokoll_pfad
+	 *            the studienprotokoll_pfad to set
 	 */
 	public void setStudienprotokoll_pfad(String studienprotokoll_pfad) {
 		this.studienprotokoll_pfad = studienprotokoll_pfad;
@@ -153,7 +220,8 @@ public class StudieBean {
 	}
 
 	/**
-	 * @param zentrum the zentrum to set
+	 * @param zentrum
+	 *            the zentrum to set
 	 */
 	public void setZentrum(ZentrumBean zentrum) {
 		this.zentrum = zentrum;
@@ -167,12 +235,11 @@ public class StudieBean {
 	}
 
 	/**
-	 * @param status the status to set
+	 * @param status
+	 *            the status to set
 	 */
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
-	
-	
+
 }
