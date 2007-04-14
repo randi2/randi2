@@ -11,7 +11,7 @@ import de.randi2.datenbank.Filter;
 /**
  * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
  * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
- * @version $Id: $
+ * @version $Id$
  */
 public class StudieBean extends Filter {
 
