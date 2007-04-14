@@ -171,10 +171,18 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    int zentrumID = Integer.parseInt(zent);
 	    ZentrumBean zentrum = null;
 	    String titel = request.getParameter("Titel");
-
-	    if (titel != null && titel.equals("kein Titel")) {
-		titel = null;
+	    PersonBean.Titel titelenum=null;
+	    
+	    //Konvertierung String enum
+	    for(PersonBean.Titel t:PersonBean.Titel.values())
+	    {
+		if(titel.equals(t.toString()))
+		{
+		    titelenum=t;
+		    break;
+		}
 	    }
+	    
 
 	    // TODO Dirty Fix: Da noch keine Suche nach Zentrumbeans möglich
 	    // @Andy: man kann doch ein ZentrumBean einfach erzeugen, dazu
@@ -221,7 +229,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    // Fehler wird an Benutzer weiter gegeben
 	    PersonBean aPerson = null;
 	    try {
-		aPerson = new PersonBean(nachname, vorname, titel, geschlecht, email, telefon, handynummer, fax);
+		aPerson = new PersonBean(nachname, vorname, titelenum, geschlecht, email, telefon, handynummer, fax);
 		BenutzerkontoBean aBenutzerkonto;
 		aBenutzerkonto = new BenutzerkontoBean(email, passwort, aPerson);
 		aBenutzerkonto.setZentrum(zentrum);
@@ -249,7 +257,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		} else if (geschlecht == 'w') {
 		    request.setAttribute("weiblich", "weiblich");
 		}
-		request.setAttribute("Titel", titel);
+		request.setAttribute("Titel", titelenum);
 		request.setAttribute("Passwort", request.getParameter("Passwort"));
 		request.setAttribute("Passwort_wh", request.getParameter("Passwort_wh"));
 		request.setAttribute("Email", email);

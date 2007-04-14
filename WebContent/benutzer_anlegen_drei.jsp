@@ -4,7 +4,8 @@
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Benutzer anlegen</title>
-<%@ page import="de.randi2.controller.DispatcherServlet" %>
+
+<%@ page import="de.randi2.model.fachklassen.beans.*" %>
 </head>
 <body>
 <%@include file="include/inc_header_clean.jsp"%>
@@ -13,7 +14,7 @@
 <form action="DispatcherServlet" method="post">
 <input type="hidden" name="anfrage_id" value="<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER.name() %>">
 <input type="hidden" name="aZentrum" value ="<%=request.getAttribute("aZentrum") %>">
-><h1>Benutzer anlegen</h1>
+<h1>Benutzer anlegen</h1>
 <%@include file="include/inc_nachricht.jsp"%>
 <fieldset style="width: 60%"><legend><b>Pers&ouml;nliche
 Angaben</b></legend>
@@ -21,10 +22,21 @@ Angaben</b></legend>
 	<tr>
 		<td>Titel<br>
 		<select name="Titel">
-			<option <% if(request.getAttribute("Titel")==null){out.print("selected");} %> value="kein Titel" >kein Titel</option>
-			<option <% if(request.getAttribute("Titel")!=null&&request.getAttribute("Titel").equals("Dr.")){out.print("selected");} %> value="Dr." >Dr.</option>
-			<option <% if(request.getAttribute("Titel")!=null&&request.getAttribute("Titel").equals("Prof.")){out.print("selected");} %> value="Prof." >Prof.</option>
-			<option <% if(request.getAttribute("Titel")!=null&&request.getAttribute("Titel").equals("Prof. Dr.")){out.print("selected");} %> value="Prof. Dr." >Prof. Dr.</option>
+		<%
+			for(PersonBean.Titel e:PersonBean.Titel.values())
+		    {
+			    out.print("<option value=\""+e.toString()+"\"");//1. Option Teil
+			    //Ist der Titel bereits selected?!
+			    if((PersonBean.Titel)request.getAttribute("Titel")!=null&&((PersonBean.Titel)request.getAttribute("Titel"))==e)
+			    {
+					out.print("selected");
+			    }
+			    //Ende Option, Option Text
+			    out.print(">"+e.toString()+"</option>");
+			   
+
+		    }
+		%>
 		</select><br>
 		</td>
 	</tr>
@@ -38,8 +50,8 @@ Angaben</b></legend>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
-		<input type="radio" name="weiblich" <% if(request.getAttribute("weiblich")!=null){out.print("checked");} %> >weiblich 
-		<input type="radio" name="maennlich" <% if(request.getAttribute("maennlich")!=null){out.print("checked");} %>>m&auml;nnlich</td>
+		<input type="radio" name="weiblich" <%if(request.getAttribute("weiblich")!=null){out.print("checked");} %> >weiblich 
+		<input type="radio" name="maennlich" <%if(request.getAttribute("maennlich")!=null){out.print("checked");} %>>m&auml;nnlich</td>
 	</tr>
 	<tr>
 		<td>Passwort *<br>

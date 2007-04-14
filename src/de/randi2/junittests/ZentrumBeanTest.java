@@ -50,7 +50,7 @@ public class ZentrumBeanTest {
 		plz = "12345";
 		strasse = "strasse";
 		hausnr = "23";
-		ansprechpartner = new PersonBean("nachname", "vorname", "Prof.", 'm',
+		ansprechpartner = new PersonBean("nachname", "vorname", PersonBean.Titel.PROF, 'm',
 				"user@hs-heilbronn.de", "01760099334", "017600972487",
 				"01760427424");
 		passwort = "oe?jie3Yiesa";
@@ -152,7 +152,7 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetAnsprechpartner() throws PersonException {
-		ansprechpartner = new PersonBean("nachname", "vorname", "Prof.", 'm',
+		ansprechpartner = new PersonBean("nachname", "vorname", PersonBean.Titel.PROF, 'm',
 				"user@hs-heilbronn.de", "01760099334", "017600972487",
 				"01760427424");
 		zentrum.setAnsprechpartner(ansprechpartner);

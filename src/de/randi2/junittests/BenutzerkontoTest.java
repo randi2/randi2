@@ -72,11 +72,11 @@ public class BenutzerkontoTest {
 
 		try {
 
-			benutzer = new PersonBean("nachname", "vorname", "Prof.", 'm',
+			benutzer = new PersonBean("nachname", "vorname", PersonBean.Titel.PROF, 'm',
 					"user@hs-heilbronn.de", "01760099334", "017600972487",
 					"01760427424");
 
-			ansprechpartner = new PersonBean("nachname", "vorname", "Prof.",
+			ansprechpartner = new PersonBean("nachname", "vorname", PersonBean.Titel.PROF,
 					'm', "user@hs-heilbronn.de", "01760099334", "017600972487",
 					"01760427424");
 
