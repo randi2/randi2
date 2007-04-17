@@ -67,5 +67,45 @@ public interface DatenbankSchnittstelle {
      */
     <T extends Filter> T schreibenObjekt(T zuSchreibendesObjekt)
             throws DatenbankFehlerException;
+    
+    /**
+     * <p>
+     * Diese Methode liefert gezielt ein Objekt dessen ID bekannt ist.
+     * </p>
+     * @param <T>
+     * 			Klasse des Attributes, muss von {@link Filter} erben
+     * @param zuSuchendesObjekt
+     * 			Objekt mit gesetzter, bekannter ID. Objekttyp muss dem gesuchten Objekttyp entsprechen.
+     * @return
+     * 			Das gesuchte Objekt.
+     * @throws DatenbankFehlerException
+     *			Folgende Messages sind moeglich:
+     *             <ul>
+     *             <li>DatenbankFehlerException.ARGUMENT_IST_NULL: Versuchter
+     *             Methodenaufruf mit <code>null</code> </li>
+     *             <li>DatenbankFehlerException.ID_NICHT_VORHANDEN</li>
+     *             </ul>
+     */
+    <T extends Filter> T getObjekt(T zuSuchendesObjekt)
+   			throws DatenbankFehlerException;
+    
+    /**
+     * <p>
+     * Diese Methode loescht das uebergebene Objekt aus der Datenbank.
+     * </p>
+     * @param <T>
+     * 			Klasse des Attributes, muss von {@link Filter} erben
+     * @param zuLoeschendesObjekt
+     * 			Objekt das geloescht werden soll. Die ID des zuloeschenden Objekts muss gesetzt sein.
+     * @throws DatenbankFehlerException
+     * 			Folgende Messages sind moeglich:
+     *             <ul>
+     *             <li>DatenbankFehlerException.ARGUMENT_IST_NULL: Versuchter
+     *             Methodenaufruf mit <code>null</code> </li>
+     *             <li>DatenbankFehlerException.LOESCHEN_ERR</li>
+     *             </ul>
+     */
+    <T extends Filter> void loeschenObjekt(T zuLoeschendesObjekt) 
+    		throws DatenbankFehlerException;
 
 }

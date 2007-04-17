@@ -18,19 +18,32 @@ public class DatenbankFehlerException extends Exception {
 	/**
 	 * Konstante falls der Filter beim Objekt nicht gesetzt.
 	 */
-	public static final String SUCHOBJEKT_IST_KEIN_FILTER = "Beim uebergebenen Objekt wurde der Filter nicht gesetzt";
+	public static final String SUCHOBJEKT_IST_KEIN_FILTER = "Beim Uebergebenen Objekt wurde der Filter nicht gesetzt";
 
 	/**
 	 * Allgemeine Fehlerkonstante wenn beim suchen eines Objektes ein Fehler
 	 * auftritt
 	 */
-	public static final String SUCHEN_ERR = "Beim suchen trat ein Fehler auf.";
+	public static final String SUCHEN_ERR = "Beim Suchen trat ein Fehler auf.";
 
 	/**
 	 * Allgemeine Fehlerkonstante wenn beim schreiben eines Objektes ein Fehler
 	 * auftritt
 	 */
-	public static final String SCHREIBEN_ERR = "Beim schreiben trat ein Fehler auf.";
+	public static final String SCHREIBEN_ERR = "Beim Schreiben trat ein Fehler auf.";
+	
+	/**
+	 * Allgemeine Fehlerkonstante fuer Fehler die beim Loeschen auftretten.
+	 */
+	public static final String LOESCHEN_ERR="Beim Loeschen trat ein Fehler auf.";
+	
+	/**
+	 * Konstante falls beim Suchen nach einer spezifischen ID diese nicht in der Datenbank
+	 * vorhanden ist.
+	 */
+	public static final String ID_NICHT_VORHANDEN="Es existiert kein Objekt mit dieser ID.";
+	
+	
 
 	/**
 	 * Konstruktor.
