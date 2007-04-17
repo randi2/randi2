@@ -96,7 +96,9 @@ Description:
         <module name="FinalClass"/>
         <module name="HideUtilityClassConstructor"/>
         <module name="InterfaceIsType"/>
-        <module name="VisibilityModifier"/>
+        <module name="VisibilityModifier">
+            <property name="protectedAllowed" value="true"/>
+        </module>
         <module name="ArrayTypeStyle">
             <property name="severity" value="ignore"/>
         </module>
