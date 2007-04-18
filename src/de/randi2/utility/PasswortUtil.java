@@ -23,7 +23,7 @@ public final class PasswortUtil {
 	/**
 	 * Die Laenge des Aktivierungslink.
 	 */
-	private final int AKTIVIERUNGSCODE_LAENGE = 20;
+	private final static int AKTIVIERUNGSCODE_LAENGE = 20;
 
 	/**
 	 * Gibt eine Instanz von PasswortUtil zurueck.
@@ -62,7 +62,7 @@ public final class PasswortUtil {
 			'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C',
 			'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'P', 'Q',
 			'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '2', '3', '4', '5',
-			'6', '7', '8', '9', '#', '+', ';', ':', '*', '!', '§', '$', '%',
+			'6', '7', '8', '9', '#', '+', ';', ':', '*', '!', '$', '%',
 			'&', '(', ')', '=', '?', '<', '>' };
 
 	/**
