@@ -42,8 +42,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     public DispatcherServlet() {
 	super();
 //	Einlesen der Systemsperrung
-	istSystemGesperrt=Boolean.getBoolean(Config.getProperty(Config.Felder.SYSTEMSPERRUNG_SYSTEMSPERRUNG));
-	systemsperrungFehlermeldung=Config.getProperty(Config.Felder.SYSTEMSPERRUNG_FEHLERMELDUNG);
+	//istSystemGesperrt=Boolean.getBoolean(Config.getProperty(Config.Felder.SYSTEMSPERRUNG_SYSTEMSPERRUNG));
+	//systemsperrungFehlermeldung=Config.getProperty(Config.Felder.SYSTEMSPERRUNG_FEHLERMELDUNG);
     }
     
     /**
