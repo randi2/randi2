@@ -210,4 +210,14 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
 
         return ergebnisse;
     }
+
+	public <T extends Filter> T getObjekt(T zuSuchendesObjekt) throws DatenbankFehlerException {
+		// TODO ohne Funktion im Dummy
+		return null;
+	}
+
+	public <T extends Filter> void loeschenObjekt(T zuLoeschendesObjekt) throws DatenbankFehlerException {
+		// TODO ohne Funktion im Dummy 
+		
+	}
 }
