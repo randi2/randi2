@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
-
+import de.randi2.utility.Config;
 /**
  * <p>
  * Diese Klasse repraesentiert den DISPATCHER (== Weiterleiter). Dieser wird von
@@ -24,6 +24,12 @@ import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
  */
 public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
+    
+    /**
+     * 
+     */
+    private boolean istSystemGesperrt=false;
+    private String systemsperrungFehlermeldung="";
     /**
      * 
      */
@@ -35,6 +41,9 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
          */
     public DispatcherServlet() {
 	super();
+//	Einlesen der Systemsperrung
+	istSystemGesperrt=Boolean.getBoolean(Config.getProperty(Config.Felder.SYSTEMSPERRUNG_SYSTEMSPERRUNG));
+	systemsperrungFehlermeldung=Config.getProperty(Config.Felder.SYSTEMSPERRUNG_FEHLERMELDUNG);
     }
     
     /**
@@ -176,4 +185,32 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	}
 
     }// doPost
+
+    /**
+     * @return the istSystemGesperrt
+     */
+    public boolean isIstSystemGesperrt() {
+        return istSystemGesperrt;
+    }
+
+    /**
+     * @param istSystemGesperrt the istSystemGesperrt to set
+     */
+    public void setIstSystemGesperrt(boolean istSystemGesperrt) {
+        this.istSystemGesperrt = istSystemGesperrt;
+    }
+
+    /**
+     * @return the systemsperrungFehlermeldung
+     */
+    public String getSystemsperrungFehlermeldung() {
+        return systemsperrungFehlermeldung;
+    }
+
+    /**
+     * @param systemsperrungFehlermeldung the systemsperrungFehlermeldung to set
+     */
+    public void setSystemsperrungFehlermeldung(String systemsperrungFehlermeldung) {
+        this.systemsperrungFehlermeldung = systemsperrungFehlermeldung;
+    }
 }// DispatcherServlet

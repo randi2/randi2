@@ -19,6 +19,7 @@ import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
+
 import de.randi2.utility.LogAktion;
 import de.randi2.utility.LogLayout;
 import de.randi2.utility.NullKonstanten;
@@ -32,7 +33,8 @@ import de.randi2.utility.NullKonstanten;
  * 
  */
 public class BenutzerServlet extends javax.servlet.http.HttpServlet {
-
+    
+   
     
     /**
      * @author Bronx
@@ -56,6 +58,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
          */
     public BenutzerServlet() {
 	super();
+	
+	
     }
 
     // TODO Bitte Kommentar ueberpruefen und ggf. anpassen.

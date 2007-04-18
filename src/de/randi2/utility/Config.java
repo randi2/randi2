@@ -1,7 +1,12 @@
 package de.randi2.utility;
 import java.util.Properties;
 import org.apache.log4j.Logger;
-import java.io.FileInputStream;;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import de.randi2.controller.DispatcherServlet;
 
 /**
  * @author Andreas Freudling afreudling@stud.hs-heilbronn.de
@@ -13,28 +18,40 @@ public class Config
     private static Config singleton = null;
     private Properties debugConf = null;
     private Properties releaseConf=null; 
+    private Properties systemsperrungConf=null;
+	private String releaseDateiname ="";
+	private String debugDateiname = "";
+	private String systemsperrungDateiname="";
     
     private Config()
     {
-	String releaseDateiname = "conf/release/release.conf";
-	String debugDateiname = "conf/debug/debug.conf";
-	
-	debugConf = new Properties();
+	releaseDateiname = "conf/release/release.conf";
+	debugDateiname = "conf/debug/debug.conf";
+	systemsperrungDateiname="conf/release/systemsperrung.conf";
+
+	systemsperrungConf= new Properties();
+	debugConf = new Properties(systemsperrungConf);
 	// release mit Oberproperty
 	releaseConf=new Properties(debugConf); // 
 	try
 	{
 	    // DebugConf wird gefuellt
+	    systemsperrungConf.load(new FileInputStream(systemsperrungDateiname));
+	    Logger.getLogger(this.getClass()).info("Systemsperrung-Konfiguration geladen. "+ systemsperrungDateiname);
+	    
 	    debugConf.load(new FileInputStream(debugDateiname));
 	    Logger.getLogger(this.getClass()).info("Debug-Konfiguration geladen: "+debugDateiname);
-	    Logger.getLogger(this.getClass()).info("Release-Konfiguraion geladen: "+releaseDateiname);
 	    // ReleaseConf wird gefuellt
 	    releaseConf.load(new FileInputStream(releaseDateiname));
+	    Logger.getLogger(this.getClass()).info("Release-Konfiguraion geladen: "+releaseDateiname);
+	   
+
 
 	}catch (Exception e)
 	{
-	    e.printStackTrace();
-	    //System.exit(1);
+	    Logger.getLogger(this.getClass()).fatal("Fehlerhafte Konfigurationsdateien:",e);
+	    //e.printStackTrace();
+	    System.exit(1);
 	}
     }
     /**
@@ -48,7 +65,60 @@ public class Config
 	    singleton = new Config();
 	}
 	return singleton.releaseConf.getProperty(feld+"");
-    }    
+    }  
+    
+    /**
+     * @param fehlermeldung
+     * @return
+     */
+    public synchronized boolean sperreSystem(String fehlermeldung)
+    {
+	if (singleton == null)
+	{
+	    singleton = new Config();
+	}
+	singleton.systemsperrungConf.setProperty(Config.Felder.SYSTEMSPERRUNG_SYSTEMSPERRUNG.name(), "true");
+	singleton.systemsperrungConf.setProperty(Config.Felder.SYSTEMSPERRUNG_FEHLERMELDUNG.name(), fehlermeldung);
+	try {
+	    systemsperrungConf.store(new FileOutputStream(systemsperrungDateiname),"Persistente Speicherung der Systemsperrung");
+	} catch (FileNotFoundException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (IOException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	DispatcherServlet aDispatcherServlet=new DispatcherServlet();
+	aDispatcherServlet.setIstSystemGesperrt(true);
+	aDispatcherServlet.setSystemsperrungFehlermeldung(fehlermeldung);
+	return false;
+    }
+    
+    /**
+     * @return
+     */
+    public synchronized boolean entsperreSystem()
+    {
+	if (singleton == null)
+	{
+	    singleton = new Config();
+	}
+	singleton.systemsperrungConf.setProperty(Config.Felder.SYSTEMSPERRUNG_SYSTEMSPERRUNG.name(), "false");
+	singleton.systemsperrungConf.setProperty(Config.Felder.SYSTEMSPERRUNG_FEHLERMELDUNG.name(), "");
+	try {
+	    systemsperrungConf.store(new FileOutputStream(systemsperrungDateiname),"Persistente Speicherung der Systemsperrung");
+	} catch (FileNotFoundException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (IOException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	DispatcherServlet aDispatcherServlet=new DispatcherServlet();
+	aDispatcherServlet.setIstSystemGesperrt(false);
+	aDispatcherServlet.setSystemsperrungFehlermeldung("");
+	return false;
+    }
     
     /**
      *
@@ -99,8 +169,22 @@ public class Config
 	/**
 	 * 
 	 */
-	RELEASE_MAIL_DEBUG;
-    }
-
+	RELEASE_MAIL_DEBUG,
 	
+	/**
+	 * 
+	 */
+	SYSTEMSPERRUNG_SYSTEMSPERRUNG,
+	
+	/**
+	 * 
+	 */
+	SYSTEMSPERRUNG_FEHLERMELDUNG
+    }
+public static void main (String[] args)
+{
+    for(Config.Felder e:Config.Felder.values()){
+    System.out.println(Config.getProperty(e));
+}
+}	
 }
