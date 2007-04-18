@@ -74,8 +74,10 @@ public interface DatenbankSchnittstelle {
      * </p>
      * @param <T>
      * 			Klasse des Attributes, muss von {@link Filter} erben
-     * @param zuSuchendesObjekt
-     * 			Objekt mit gesetzter, bekannter ID. Objekttyp muss dem gesuchten Objekttyp entsprechen.
+     * @param id
+     * 			Die ID des zu suchenden Objektes.
+     * @param nullObjekt
+     * 			Ein Nullobjekt der jeweiligen Klasse. 
      * @return
      * 			Das gesuchte Objekt.
      * @throws DatenbankFehlerException
@@ -86,8 +88,28 @@ public interface DatenbankSchnittstelle {
      *             <li>DatenbankFehlerException.ID_NICHT_VORHANDEN</li>
      *             </ul>
      */
-    <T extends Filter> T getObjekt(T zuSuchendesObjekt)
+    <T extends Filter> T suchenObjektID(long id, T nullObjekt)
    			throws DatenbankFehlerException;
+    /**
+     * <p>Killerjoin</p>
+     * @param <T>
+     * 			Klasse des Attributes, muss von {@link Filter} erben
+     * @param id
+     * 			Die ID des zu suchenden Objektes.
+     * @param nullObjekt
+     * 			Ein Nullobjekt der jeweiligen Klasse.
+     * @return
+     * 			Das gesucht Objekt
+     * @throws DatenbankFehlerException
+     *			Folgende Messages sind moeglich:
+     *             <ul>
+     *             <li>DatenbankFehlerException.ARGUMENT_IST_NULL: Versuchter
+     *             Methodenaufruf mit <code>null</code> </li>
+     *             <li>DatenbankFehlerException.ID_NICHT_VORHANDEN</li>
+     *             </ul>
+     */
+    <T extends Filter> T suchenObjektKomplett(long id, T nullObjekt)
+		throws DatenbankFehlerException;
     
     /**
      * <p>
@@ -107,5 +129,7 @@ public interface DatenbankSchnittstelle {
      */
     <T extends Filter> void loeschenObjekt(T zuLoeschendesObjekt) 
     		throws DatenbankFehlerException;
+    
+    
 
 }
