@@ -3,7 +3,7 @@ package de.randi2.model.exceptions;
  * 
  * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
  * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
- * @version $Id:$
+ * @version $Id$
  *
  */
 public class StudieException extends Exception {
