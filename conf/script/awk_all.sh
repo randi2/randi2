@@ -12,7 +12,7 @@ let RUN=$2+0 # wenn der PARAMETER 0 oder leer ist, wird ein DRY-Run durchgefuert
 # Festlegen koennen.
 HOST=$(uname -n)
 if test $HOST == 'victoria-i'; then
-	WORKSPACE='/opt/tec/workspace/RANDI2'
+	WORKSPACE='/home/jthoenes/programming/workspace2/RANDI2'
 else
 	echo 'Dein Workspace ist nicht im Skript eingetragen. Skript wird beendet!';
 	exit 1;
