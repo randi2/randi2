@@ -220,4 +220,14 @@ public class DatenbankDummy implements DatenbankSchnittstelle {
 		// TODO ohne Funktion im Dummy 
 		
 	}
+
+    public <T extends Filter> T suchenObjektID(long id, T nullObjekt) throws DatenbankFehlerException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public <T extends Filter> T suchenObjektKomplett(long id, T nullObjekt) throws DatenbankFehlerException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
