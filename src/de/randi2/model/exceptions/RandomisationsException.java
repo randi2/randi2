@@ -7,7 +7,7 @@ package de.randi2.model.exceptions;
  * Programmierfehler hinweisen.
  * 
  * @author Johannes Thoenes [johannes.thoenes@urz.uni-heidelberg.de]
- * @version $Id $
+ * @version $Id$
  */
 public class RandomisationsException extends Exception {
 
