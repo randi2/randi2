@@ -46,11 +46,11 @@ public class Config {
 					"Systemsperrung-Konfiguration geladen. "
 							+ systemsperrungDateiname);
 
-			debugConf.load(new FileInputStream(debugDateiname));
+			debugConf.load(Config.class.getResourceAsStream("/"+debugDateiname));
 			Logger.getLogger(this.getClass()).info(
 					"Debug-Konfiguration geladen: " + debugDateiname);
 			// ReleaseConf wird gefuellt
-			releaseConf.load(new FileInputStream(releaseDateiname));
+			releaseConf.load(Config.class.getResourceAsStream("/"+releaseDateiname));
 			Logger.getLogger(this.getClass()).info(
 					"Release-Konfiguraion geladen: " + releaseDateiname);
 
