@@ -10,7 +10,7 @@ import de.randi2.model.fachklassen.beans.StudieBean;
  * werden vor.
  * 
  * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]
- * @version $Id $
+ * @version $Id$
  * 
  */
 public abstract class Randomisation {
@@ -66,10 +66,12 @@ public abstract class Randomisation {
 	 * @throws RandomisationsException
 	 *             Tritt auf, falls der Patient nicht in der Studie ist deren
 	 *             Randomisation verwaltet wird.
+	 * @see RandomisationsException#PATIENT_NICHT_IN_STUDIE
 	 */
 	protected void testPatientInStudie(PatientBean patient)
 			throws RandomisationsException {
 		// TODO Implementieren sobald entsprechende Methoden vorhanden sind.
+		// jthoenes
 	}
 
 	/**
