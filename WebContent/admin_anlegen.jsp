@@ -3,7 +3,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<title>Administrator anlegen</title>
+<title>Randi2 :: Administrator anlegen</title>
 
 </head>
 <body>

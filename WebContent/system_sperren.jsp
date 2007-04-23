@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>System (ent)sperren</title>
+<title>Randi2 :: System (ent-)sperren</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
