@@ -5,7 +5,7 @@ import java.util.Vector;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 
 /**
- * Datenbankklasse
+ * <p>Datenbankklasse</p>
  * @version $Id$
  * @author Frederik Reifschneider [Reifschneider@stud.uni-heidelberg.de]
  *
