@@ -36,6 +36,7 @@ public abstract class Randomisation {
 	protected Randomisation(String name, StudieBean studie) {
 		this.name = name;
 		this.studie = studie;
+		//FIXME hier muss noch ueberprueft werden, ob das uebergebene StudieBean Objekt nicht null ist. (lplotni)
 	}
 
 	/**
@@ -53,7 +54,7 @@ public abstract class Randomisation {
 	 *             kann, weil der Patient entweder nicht die korrekten Strata
 	 *             fuer diese Studie hat oder nicht in der korrekten Studie ist.
 	 */
-	public abstract void randomisierePatient(PatientBean patient)
+	public abstract void randomisierenPatient(PatientBean patient)
 			throws RandomisationsException;
 
 	/**
