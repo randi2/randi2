@@ -65,6 +65,11 @@ public class ZentrumBean extends Filter {
 	 * Strasse
 	 */
 	private String strasse = null;
+	
+	/**
+	 * Ist das Zentrum aktiviert und kann an Studien teilnehmen
+	 */
+	private boolean istAktiviert=false;
 
 	/**
 	 * Einfacher Konstruktor von dieser Klasse.
@@ -99,7 +104,7 @@ public class ZentrumBean extends Filter {
 	 */
 	public ZentrumBean(long id, String institution, String abteilung,
 			String ort, String plz, String strasse, String hausnr,
-			long ansprechpartnerId, String passwortHash) {
+			long ansprechpartnerId, String passwortHash, boolean istAktiviert) {
 
 		this.setId(id);
 		try {
@@ -111,6 +116,7 @@ public class ZentrumBean extends Filter {
 			this.setHausnr(hausnr);
 			this.setAnsprechpartnerId(ansprechpartnerId);
 			this.setPasswort(passwortHash);
+			this.setIstAktiviert(istAktiviert);
 		} catch (ZentrumException e) {
 			// TODO Wenn die Vorgehensweise in diesem Fall geklärt wird, wird es
 			// auch umgesetzt.
@@ -492,6 +498,22 @@ public class ZentrumBean extends Filter {
 				this.getAbteilung()).append("Ort: ").append(this.getOrt());
 
 		return dummy.toString();
+	}
+
+	/**
+	 *Getter für Aktivierungszustand
+	 * @return the istAktiviert
+	 */
+	public boolean isIstAktiviert() {
+	    return istAktiviert;
+	}
+
+	/**
+	 * Setzt den Aktivierungszustand
+	 * @param istAktiviert Setzt den Aktivierungszustand
+	 */
+	public void setIstAktiviert(boolean istAktiviert) {
+	    this.istAktiviert = istAktiviert;
 	}
 
 }
