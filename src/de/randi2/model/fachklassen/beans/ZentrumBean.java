@@ -97,7 +97,7 @@ public class ZentrumBean extends Filter {
 	 * @param passwortHash
 	 *            String - Passwort bereits gehasht.
 	 */
-	public ZentrumBean(int id, String institution, String abteilung,
+	public ZentrumBean(long id, String institution, String abteilung,
 			String ort, String plz, String strasse, String hausnr,
 			long ansprechpartnerId, String passwortHash) {
 

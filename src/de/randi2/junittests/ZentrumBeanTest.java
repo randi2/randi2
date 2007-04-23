@@ -1,9 +1,11 @@
 package de.randi2.junittests;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.beans.PersonBean;
@@ -29,7 +31,7 @@ public class ZentrumBeanTest {
 
 	private String abteilung, hausnr, institution, ort, passwort, plz, strasse;
 
-	private int id;
+	private long id;
 
 	private PersonBean ansprechpartner;
 
@@ -50,13 +52,13 @@ public class ZentrumBeanTest {
 		plz = "12345";
 		strasse = "strasse";
 		hausnr = "23";
-		ansprechpartner = new PersonBean("nachname", "vorname", PersonBean.Titel.PROF, 'm',
+		ansprechpartner = new PersonBean(1,"nachname", "vorname", PersonBean.Titel.PROF, 'm',
 				"user@hs-heilbronn.de", "01760099334", "017600972487",
 				"01760427424");
 		passwort = "oe?jie3Yiesa";
 
 		new ZentrumBean(id, institution, abteilung, ort, plz, strasse, hausnr,
-				ansprechpartner, passwort);
+				ansprechpartner.getId(), passwort);
 	}
 
 	/**
@@ -141,7 +143,11 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testGetAnsprechpartner() {
-		ansprechpartner = zentrum.getAnsprechpartner();
+		try {
+			ansprechpartner = zentrum.getAnsprechpartner();
+		} catch (DatenbankFehlerException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	/**
@@ -152,11 +158,15 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetAnsprechpartner() throws PersonException {
-		ansprechpartner = new PersonBean("nachname", "vorname", PersonBean.Titel.PROF, 'm',
+		ansprechpartner = new PersonBean(1,"nachname", "vorname", PersonBean.Titel.PROF, 'm',
 				"user@hs-heilbronn.de", "01760099334", "017600972487",
 				"01760427424");
 		zentrum.setAnsprechpartner(ansprechpartner);
-		assertTrue(zentrum.getAnsprechpartner().equals(ansprechpartner));
+		try {
+			assertTrue(zentrum.getAnsprechpartner().equals(ansprechpartner));
+		} catch (DatenbankFehlerException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	/**

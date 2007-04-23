@@ -2,6 +2,8 @@ package de.randi2.model.fachklassen.beans;
 
 import java.util.GregorianCalendar;
 
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.model.fachklassen.Studienarm;
 import de.randi2.utility.NullKonstanten;
 
 public class PatientBean {
@@ -126,7 +128,7 @@ public class PatientBean {
 		aPerformanceStatus = performanceStatus;
 	}
 
-	public StudienarmBean getStudienarm() {
+	public StudienarmBean getStudienarm() throws DatenbankFehlerException {
 		if (aStudienarm == null) {
 			
 			if (aStudienarmID==NullKonstanten.NULL_INT) {
