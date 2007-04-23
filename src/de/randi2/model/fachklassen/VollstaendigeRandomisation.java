@@ -3,6 +3,7 @@ package de.randi2.model.fachklassen;
 import java.util.Random;
 import java.util.Vector;
 
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
@@ -15,7 +16,8 @@ import de.randi2.model.fachklassen.beans.StudienarmBean;
  * u.ae. zwischen den Studienarmen statt.
  * 
  * @author Johannes Thoenes [johannes.thoenes@urz.uni-heidelberg.de]
- * @version $Id$
+ * @version $Id: VollstaendigeRandomisation.java 2088 2007-04-23 16:20:02Z
+ *          jthoenes $
  */
 public class VollstaendigeRandomisation extends Randomisation {
 
@@ -32,11 +34,11 @@ public class VollstaendigeRandomisation extends Randomisation {
 	 *            Die Studie deren Randomisation verwaltet werden soll.
 	 * @see Randomisation#Randomisation(String, StudieBean)
 	 */
-	public VollstaendigeRandomisation(StudieBean studie) throws RandomisationsException{
+	public VollstaendigeRandomisation(StudieBean studie)
+			throws RandomisationsException {
 		super(NAME, studie);
 	}
 
-	
 	/**
 	 * Fuert die Randomisation eines Patienten nach vollstaendiger Randomisation
 	 * durch. Das heisst, der Patient wird absolut zufaellig ohne jede
@@ -48,12 +50,14 @@ public class VollstaendigeRandomisation extends Randomisation {
 	 *            Methode, ist der Patient einem Studienarm hinzugefuegt.
 	 * @throws RandomisationsException
 	 *             Wenn der Patient nicht zur Verwalteten Studie gehoert.
+	 * @throws DatenbankFehlerException
+	 *             Falls ein Fehler in der Datenbank auftritt.
 	 * @see Randomisation#randomisierePatient(PatientBean patient)
 	 * @see RandomisationsException#PATIENT_NICHT_IN_STUDIE
 	 */
 	@Override
 	public void randomisierenPatient(PatientBean patient)
-			throws RandomisationsException {
+			throws RandomisationsException, DatenbankFehlerException {
 		super.testPatientInStudie(patient);
 		Vector<StudienarmBean> studienarme = super.studie.getStudienarme();
 		int index = (int) (new Random().nextDouble() * (studienarme.size() - 1));

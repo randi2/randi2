@@ -3,6 +3,7 @@ package de.randi2.model.fachklassen;
 import java.util.Arrays;
 import java.util.Random;
 
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
@@ -73,7 +74,7 @@ public class BlockRandomisation extends Randomisation {
 	 */
 	@Override
 	public void randomisierenPatient(PatientBean aPatient)
-			throws RandomisationsException {
+			throws RandomisationsException, DatenbankFehlerException {
 
 		super.testPatientInStudie(aPatient);
 

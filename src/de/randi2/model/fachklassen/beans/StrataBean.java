@@ -6,7 +6,7 @@ import de.randi2.utility.CollectionUtil;
 import de.randi2.utility.NullKonstanten;
 
 /**
- * Die Klassse StrataBean kapselt die Eigenschaft eines Stratas. Sie kann - wenn
+ * Die Klasse StrataBean kapselt die Eigenschaft eines Stratas. Sie kann - wenn
  * benoetigt - auch die aktuelle Auspraegung eines Stratas repraentieren.
  * 
  * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]

@@ -1,5 +1,6 @@
 package de.randi2.model.fachklassen;
 
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
@@ -61,9 +62,11 @@ public abstract class Randomisation {
 	 *             Tritt auf, falls die Randomisation nicht durchgefuehrt werden
 	 *             kann, weil der Patient entweder nicht die korrekten Strata
 	 *             fuer diese Studie hat oder nicht in der korrekten Studie ist.
+	 * @throws DatenbankFehlerException
+	 *             Falls ein Fehler in der Datenbank auftritt.
 	 */
 	public abstract void randomisierenPatient(PatientBean patient)
-			throws RandomisationsException;
+			throws RandomisationsException, DatenbankFehlerException;
 
 	/**
 	 * Testet ob ein Patient in der Studie ist, deren Randomisation verwaltet
@@ -75,10 +78,12 @@ public abstract class Randomisation {
 	 * @throws RandomisationsException
 	 *             Tritt auf, falls der Patient nicht in der Studie ist deren
 	 *             Randomisation verwaltet wird.
+	 * @throws DatenbankFehlerException
+	 *             Falls ein Fehler in der Datenbank auftritt.
 	 * @see RandomisationsException#PATIENT_NICHT_IN_STUDIE
 	 */
 	protected void testPatientInStudie(PatientBean patient)
-			throws RandomisationsException {
+			throws RandomisationsException, DatenbankFehlerException {
 		if (patient.getStudienarm().getStudie().equals(this.studie)) {
 			throw new RandomisationsException(
 					RandomisationsException.PATIENT_NICHT_IN_STUDIE);
