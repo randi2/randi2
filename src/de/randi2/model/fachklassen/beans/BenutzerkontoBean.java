@@ -7,7 +7,7 @@ import de.randi2.datenbank.Filter;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.utility.NullKonstanten;
-import de.randi2.utility.PasswortUtil;
+import de.randi2.utility.KryptoUtil;
 
 /**
  * Diese Klasse repraesentiert ein Benutzerkonto.
@@ -412,7 +412,7 @@ public class BenutzerkontoBean extends Filter {
 						.matches(".*[\\^,.\\-#+;:_'*!\"§$@&%/()=?|<>].*"))) {
 			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
-		this.passwort = PasswortUtil.getInstance().hashPasswort(klartext);
+		this.passwort = KryptoUtil.getInstance().hashPasswort(klartext);
 	}
 
 	/**

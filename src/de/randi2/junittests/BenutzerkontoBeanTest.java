@@ -17,7 +17,7 @@ import de.randi2.model.fachklassen.Rolle.Rollen;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
-import de.randi2.utility.PasswortUtil;
+import de.randi2.utility.KryptoUtil;
 
 /**
  * 
@@ -163,13 +163,13 @@ public class BenutzerkontoBeanTest extends Filter {
 	@Test //XXX
 	public final void testSetPasswortRichtig() throws BenutzerkontoException {
         aKonto.setPasswortKlartext("123456abc%");
-        assertTrue(aKonto.getPasswort().equals(PasswortUtil.getInstance().hashPasswort("123456abc%")));
+        assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("123456abc%")));
         aKonto.setPasswortKlartext("hans1$wursthausen");
-		assertTrue(aKonto.getPasswort().equals(PasswortUtil.getInstance().hashPasswort("hans1$wursthausen")));
+		assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("hans1$wursthausen")));
 		aKonto.setPasswortKlartext("a§abc1passwort");
-		assertTrue(aKonto.getPasswort().equals(PasswortUtil.getInstance().hashPasswort("a§abc1passwort")));
+		assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("a§abc1passwort")));
 		aKonto.setPasswortKlartext("test2abc$abc");
-		assertTrue(aKonto.getPasswort().equals(PasswortUtil.getInstance().hashPasswort("test2abc$abc")));
+		assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("test2abc$abc")));
         
 	}
 

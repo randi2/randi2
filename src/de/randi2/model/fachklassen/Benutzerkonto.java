@@ -6,7 +6,7 @@ import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
-import de.randi2.utility.PasswortUtil;
+import de.randi2.utility.KryptoUtil;
 
 /**
  * Diese Klasse bietet Methoden zur Verwaltung eines bestimmten Benutzerkontos
@@ -173,7 +173,7 @@ public class Benutzerkonto {
 	 * @return true, wenn das Passwort richtig ist. False, bei falchem Passwort.
 	 */
 	public boolean pruefenPasswort(String passwort) {
-		if (PasswortUtil.getInstance().hashPasswort(passwort).equals(
+		if (KryptoUtil.getInstance().hashPasswort(passwort).equals(
 				this.getBenutzerkontobean().getPasswort())) {
 			return true;
 		}

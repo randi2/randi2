@@ -5,7 +5,7 @@ import java.util.Vector;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
-import de.randi2.utility.PasswortUtil;
+import de.randi2.utility.KryptoUtil;
 
 /**
  * @version $Id$
@@ -59,7 +59,7 @@ public class Zentrum {
 	 * @return true, wenn das Passwort richtig ist. False, bei falchem Passwort.
 	 */
 	public boolean pruefenPasswort(String passwort) {
-		if (PasswortUtil.getInstance().hashPasswort(passwort).equals(
+		if (KryptoUtil.getInstance().hashPasswort(passwort).equals(
 				this.getZentrumBean().getPasswort())) {
 			return true;
 		}

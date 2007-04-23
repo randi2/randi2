@@ -19,7 +19,7 @@ import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Rolle;
-import de.randi2.utility.PasswortUtil;
+import de.randi2.utility.KryptoUtil;
 
 /**
  * TODO sobald in der Datenbank gespeichert werden kann, sind die
@@ -267,7 +267,7 @@ public class BenutzerkontoTest {
 		String passwortAktuellerBenutzer = Benutzerkonto.getBenutzer(
 				benutzernameNeu).getPasswort();
 
-		assertTrue(PasswortUtil.getInstance().hashPasswort(passwortNeu).equals(
+		assertTrue(KryptoUtil.getInstance().hashPasswort(passwortNeu).equals(
 				passwortAktuellerBenutzer));
 	}
 

@@ -13,12 +13,12 @@ import org.apache.log4j.Logger;
  * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]
  * @version $Id$
  */
-public final class PasswortUtil {
+public final class KryptoUtil {
 
 	/**
 	 * Die Singleton-Instance.
 	 */
-	private static PasswortUtil instance = null;
+	private static KryptoUtil instance = null;
 
 	/**
 	 * Die Laenge des Aktivierungslink.
@@ -30,9 +30,9 @@ public final class PasswortUtil {
 	 * 
 	 * @return Die Singleton-Instanz.
 	 */
-	public static synchronized PasswortUtil getInstance() {
+	public static synchronized KryptoUtil getInstance() {
 		if (instance == null) {
-			instance = new PasswortUtil();
+			instance = new KryptoUtil();
 		}
 		return instance;
 	}
@@ -69,7 +69,7 @@ public final class PasswortUtil {
 	 * Singleton-Konstruktor.
 	 * 
 	 */
-	private PasswortUtil() {
+	private KryptoUtil() {
 		Logger.getLogger(this.getClass()).debug(
 				"Iniziere PasswortUtil Singleton");
 		try {
@@ -134,8 +134,8 @@ public final class PasswortUtil {
 	 * @return Der Aktivierungscode.
 	 */
 	public String getAktivierungslink() {
-		String s = this.generatePasswort(this.AKTIVIERUNGSCODE_LAENGE);
-		String code=  this.hashPasswort(s).substring(0, this.AKTIVIERUNGSCODE_LAENGE);
+		String s = this.generatePasswort(AKTIVIERUNGSCODE_LAENGE);
+		String code=  this.hashPasswort(s).substring(0, AKTIVIERUNGSCODE_LAENGE);
 		Logger.getLogger(this.getClass()).debug("Aktvierungscode " + code + " erzeugt.");
 		return code;
 

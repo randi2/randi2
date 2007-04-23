@@ -5,7 +5,7 @@ import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.utility.NullKonstanten;
-import de.randi2.utility.PasswortUtil;
+import de.randi2.utility.KryptoUtil;
 
 /**
  * <p>Diese Klasse repraesentiert ein Zentrum.</p>
@@ -419,7 +419,7 @@ public class ZentrumBean extends Filter {
 	 */
 	public void setPasswortKlartext(String klartext) throws ZentrumException {
 		if (this.isFilter()) {
-			this.passwort = PasswortUtil.getInstance().hashPasswort(klartext);
+			this.passwort = KryptoUtil.getInstance().hashPasswort(klartext);
 		} else {
 			if (klartext != null) {
 				if (!(klartext.matches(".*[A-Za-z].*")
@@ -429,7 +429,7 @@ public class ZentrumBean extends Filter {
 						.matches(".{12}"))) {
 					throw new ZentrumException(ZentrumException.PASSWORT_FALSCH);
 				}
-				this.passwort = PasswortUtil.getInstance().hashPasswort(
+				this.passwort = KryptoUtil.getInstance().hashPasswort(
 						klartext);
 			} else {
 				throw new ZentrumException(ZentrumException.PASSWORT_NULL);
