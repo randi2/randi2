@@ -32,11 +32,19 @@ public abstract class Randomisation {
 	 *            Der Name des Algorithmus.
 	 * @param studie
 	 *            Die Studie deren Randomisation verwaltet werden soll.
+	 * @throws RandomisationsException
+	 *             falls die uebergebene Studie <code>null</code> ist.
+	 * @see RandomisationsException#STUDIE_NULL
 	 */
-	protected Randomisation(String name, StudieBean studie) {
+	protected Randomisation(String name, StudieBean studie)
+			throws RandomisationsException {
 		this.name = name;
+		if (studie == null) {
+			throw new RandomisationsException(
+					RandomisationsException.STUDIE_NULL);
+		}
 		this.studie = studie;
-		//FIXME hier muss noch ueberprueft werden, ob das uebergebene StudieBean Objekt nicht null ist. (lplotni)
+
 	}
 
 	/**
@@ -71,8 +79,10 @@ public abstract class Randomisation {
 	 */
 	protected void testPatientInStudie(PatientBean patient)
 			throws RandomisationsException {
-		// TODO Implementieren sobald entsprechende Methoden vorhanden sind.
-		// jthoenes
+		if (patient.getStudienarm().getStudie().equals(this.studie)) {
+			throw new RandomisationsException(
+					RandomisationsException.PATIENT_NICHT_IN_STUDIE);
+		}
 	}
 
 	/**

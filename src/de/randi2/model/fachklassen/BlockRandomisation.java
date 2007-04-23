@@ -2,7 +2,6 @@ package de.randi2.model.fachklassen;
 
 import java.util.Arrays;
 import java.util.Random;
-import java.util.Vector;
 
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.fachklassen.beans.PatientBean;
@@ -75,14 +74,18 @@ public class BlockRandomisation extends Randomisation {
 	@Override
 	public void randomisierenPatient(PatientBean aPatient)
 			throws RandomisationsException {
-		if (letztePosition > aBlock.length-1) {
+
+		super.testPatientInStudie(aPatient);
+
+		if (letztePosition > aBlock.length - 1) {
 			aBlock = erzeugeNeuenBlock();
 			letztePosition = 0;
 		}
-		//System.out.println(letztePosition);
-		//System.out.println(aBlock[letztePosition]);
+		// System.out.println(letztePosition);
+		// System.out.println(aBlock[letztePosition]);
 		aPatient.setStudienarmID(aBlock[letztePosition]);
-		super.studie.getStudienarme().elementAt(aBlock[letztePosition]).getPatienten().add(aPatient);
+		super.studie.getStudienarme().elementAt(aBlock[letztePosition])
+				.getPatienten().add(aPatient);
 		letztePosition++;
 	}
 

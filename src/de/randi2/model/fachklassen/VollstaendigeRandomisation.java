@@ -32,7 +32,7 @@ public class VollstaendigeRandomisation extends Randomisation {
 	 *            Die Studie deren Randomisation verwaltet werden soll.
 	 * @see Randomisation#Randomisation(String, StudieBean)
 	 */
-	public VollstaendigeRandomisation(StudieBean studie) {
+	public VollstaendigeRandomisation(StudieBean studie) throws RandomisationsException{
 		super(NAME, studie);
 	}
 
@@ -57,10 +57,7 @@ public class VollstaendigeRandomisation extends Randomisation {
 		super.testPatientInStudie(patient);
 		Vector<StudienarmBean> studienarme = super.studie.getStudienarme();
 		int index = (int) (new Random().nextDouble() * (studienarme.size() - 1));
-		// TODO sobald implementiert ist hier die
-		// Methode setStudienarm des Patienten aufzurufen.
-		// jthoenes
-
+		patient.setStudienarm(studienarme.get(index));
 	}
 
 }
