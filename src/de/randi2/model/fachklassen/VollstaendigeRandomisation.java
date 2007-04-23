@@ -52,7 +52,7 @@ public class VollstaendigeRandomisation extends Randomisation {
 	 * @see RandomisationsException#PATIENT_NICHT_IN_STUDIE
 	 */
 	@Override
-	public void randomisierePatient(PatientBean patient)
+	public void randomisierenPatient(PatientBean patient)
 			throws RandomisationsException {
 		super.testPatientInStudie(patient);
 		Vector<StudienarmBean> studienarme = super.studie.getStudienarme();
