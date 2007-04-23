@@ -1,9 +1,12 @@
 package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.ZentrumException;
+import de.randi2.model.fachklassen.Person;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.PasswortUtil;
+
 /**
  * Diese Klasse repraesentiert ein Zentrum.
  * 
@@ -24,6 +27,11 @@ public class ZentrumBean extends Filter {
 	private PersonBean ansprechpartner = null;
 
 	/**
+	 * Die eindeutige ID des Ansprechpartners.
+	 */
+	private long ansprechpartnerId = NullKonstanten.NULL_LONG;
+
+	/**
 	 * Hausnummer
 	 */
 	private String hausnr = null;
@@ -31,7 +39,7 @@ public class ZentrumBean extends Filter {
 	/**
 	 * Interne ID des Zentrums
 	 */
-	private int id = NullKonstanten.NULL_INT;
+	private long id = NullKonstanten.NULL_INT;
 
 	/**
 	 * Name der Institution.
@@ -83,14 +91,15 @@ public class ZentrumBean extends Filter {
 	 *            String, der der Strasse entspricht.
 	 * @param hausnr
 	 *            String, der der Hausnummer entspricht.
-	 * @param ansprechpartner
-	 *            PersonBean, das dem Ansprechpartner in dem Zentrum entspricht.
+	 * @param ansprechpartnerId
+	 *            Die eindeutige Id, die dem Ansprechpartner in dem Zentrum
+	 *            entspricht.
 	 * @param passwortHash
 	 *            String - Passwort bereits gehasht.
 	 */
 	public ZentrumBean(int id, String institution, String abteilung,
 			String ort, String plz, String strasse, String hausnr,
-			PersonBean ansprechpartner, String passwortHash) {
+			long ansprechpartnerId, String passwortHash) {
 
 		this.setId(id);
 		try {
@@ -100,7 +109,7 @@ public class ZentrumBean extends Filter {
 			this.setPlz(plz);
 			this.setStrasse(strasse);
 			this.setHausnr(hausnr);
-			this.setAnsprechpartner(ansprechpartner);
+			this.setAnsprechpartnerId(ansprechpartnerId);
 			this.setPasswort(passwortHash);
 		} catch (ZentrumException e) {
 			// TODO Wenn die Vorgehensweise in diesem Fall geklärt wird, wird es
@@ -126,8 +135,14 @@ public class ZentrumBean extends Filter {
 		if (!zentrum.getAbteilung().equals(this.getAbteilung())) {
 			return false;
 		}
-		if (!zentrum.getAnsprechpartner().equals(this.getAnsprechpartner())) {
-			return false;
+		try {
+			if (!zentrum.getAnsprechpartner().equals(this.getAnsprechpartner())) {
+				return false;
+			}
+		} catch (DatenbankFehlerException e) {
+			// TODO Hier muss noch ueberlegt werden, was man an dieser Stelle
+			// machen soll. (lplotni)
+			e.printStackTrace();
 		}
 		if (!zentrum.getHausnr().equals(this.getHausnr())) {
 			return false;
@@ -163,8 +178,13 @@ public class ZentrumBean extends Filter {
 	 * Get-Methoder fuer den Ansprechpartner.
 	 * 
 	 * @return Der Ansprechpartner.
+	 * @throws DatenbankFehlerException
+	 *             falls ein Fehler bei der Datenbank auftrat.
 	 */
-	public PersonBean getAnsprechpartner() {
+	public PersonBean getAnsprechpartner() throws DatenbankFehlerException {
+		if (ansprechpartner == null) {
+			ansprechpartner = Person.get(ansprechpartnerId);
+		}
 		return ansprechpartner;
 	}
 
@@ -182,7 +202,7 @@ public class ZentrumBean extends Filter {
 	 * 
 	 * @return Die id auf der Datenbank.
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -259,7 +279,7 @@ public class ZentrumBean extends Filter {
 	}
 
 	/**
-	 * Set-Methoder fuer den Ansprechpartner.
+	 * Set-Methode fuer den Ansprechpartner.
 	 * 
 	 * @param ansprechpartner
 	 *            Der neue Ansprechpartner der Abteilung.
@@ -268,6 +288,17 @@ public class ZentrumBean extends Filter {
 		// Die Überprüfung wird schon bei PersonBean durchgeführ - das Objekt,
 		// was hier übergeben wird ist auf jeden Fall korrekt.
 		this.ansprechpartner = ansprechpartner;
+	}
+
+	/**
+	 * Set-Methode fuer die Id des Ansprechpartners.
+	 * 
+	 * @param id
+	 *            die eindeutige (long) Id des Ansprechpartners aus der
+	 *            Datenbank.
+	 */
+	public void setAnsprechpartnerId(long id) {
+		this.ansprechpartnerId = id;
 	}
 
 	/**
