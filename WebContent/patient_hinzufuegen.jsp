@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Patient hinzuf&uuml;gen</title>
+<title>Randi2 :: Patient hinzuf&uuml;gen</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>

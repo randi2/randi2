@@ -10,7 +10,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<title>Nachrichtendienst</title>
+<title>Randi2 :: Nachrichtendienst</title>
 </head>
 <body>
 <%@include file="include/inc_header.jsp"%>

@@ -3,7 +3,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<title>Impressum</title>
+<title>Randi2 :: Impressum</title>
 </head>
 <body>
 <%@include file="include/inc_header_clean.jsp"%>

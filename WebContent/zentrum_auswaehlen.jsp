@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Benutzerverwaltung</title>
+<title>Randi2 :: Benutzerverwaltung</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>

@@ -4,7 +4,7 @@
 <%@ page import="de.randi2.controller.DispatcherServlet" %>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<title>Benutzer anlegen</title>
+<title>BRandi2 :: enutzer anlegen</title>
 
 </head>
 <body>

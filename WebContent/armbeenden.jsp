@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Arm der Studie beenden</title>
+<title>Randi2 :: Arm der Studie beenden</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>

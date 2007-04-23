@@ -10,7 +10,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<title>Hilfe</title>
+<title>Randi2 :: Hilfe</title>
 </head>
 <body>
 <%@include file="include/inc_header.jsp"%>

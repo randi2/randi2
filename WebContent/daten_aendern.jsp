@@ -10,7 +10,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<title>Benutzer &auml;ndern</title>
+<title>Randi2 :: Benutzer &auml;ndern</title>
 
 </head>
 <body>

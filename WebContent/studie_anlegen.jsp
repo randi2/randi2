@@ -9,7 +9,7 @@
        "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>Studie anlegen</title>
+<title>Randi2 :: Studie anlegen</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>

@@ -12,7 +12,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<title>Benutzer anlegen</title>
+<title>Randi2 :: Benutzer anlegen</title>
 
 </head>
 <body>
