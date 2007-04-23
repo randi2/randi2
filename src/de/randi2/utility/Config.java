@@ -189,7 +189,24 @@ public class Config {
 		/**
 		 * 
 		 */
-		SYSTEMSPERRUNG_FEHLERMELDUNG
+		SYSTEMSPERRUNG_FEHLERMELDUNG,
+		
+		/**
+		 * 
+		 */
+		RELEASE_DB_HOST,
+		/**
+		 * 
+		 */
+		RELEASE_DB_PORT,
+		/**
+		 * 
+		 */
+		RELEASE_DB_NUTZERNAME,
+		/**
+		 * 
+		 */
+		RELEASE_DB_PASSWORT
 	}
 
 	public static void main(String[] args) {
