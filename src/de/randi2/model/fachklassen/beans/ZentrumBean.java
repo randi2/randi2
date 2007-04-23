@@ -504,7 +504,7 @@ public class ZentrumBean extends Filter {
 	 *Getter für Aktivierungszustand
 	 * @return the istAktiviert
 	 */
-	public boolean isIstAktiviert() {
+	public boolean getIstAktiviert() {
 	    return istAktiviert;
 	}
 
@@ -514,6 +514,14 @@ public class ZentrumBean extends Filter {
 	 */
 	public void setIstAktiviert(boolean istAktiviert) {
 	    this.istAktiviert = istAktiviert;
+	}
+
+	/**
+	 * Getter fuer AnsprechpartnerId
+	 * @return
+	 */
+	public long getAnsprechpartnerId() {
+		return ansprechpartnerId;
 	}
 
 }
