@@ -21,6 +21,11 @@ public class RandomisationsException extends Exception {
 	 * Fehler falls der zu randomisierende Patient nicht in der Studie.
 	 */
 	public static final String PATIENT_NICHT_IN_STUDIE = "Der Patient ist nicht in der Studie zu der er randomisiert werden soll.";
+	
+	/**
+	 * Fehler falls die gewaehlte Blockgroesse kein Vielfaches der Anzahl der Studienarme ist.
+	 */
+	public static final String BLOCKGROESSE_KEIN_VIELFACHES_DER_ARMEANZAHL = "Die &uuml;bergebene Blockgr&ouml;sse ist kein Vielfaches der Anzahl der Studienarme.";
 
 	/**
 	 * Ein Konstruktor dieser Klasse
