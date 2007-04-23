@@ -54,6 +54,11 @@ public class Datenbank implements DatenbankSchnittstelle{
 		return null;
 	}
 	
+	public <T extends Filter, U extends Filter> Vector<T> suchenMitgliederObjekte(U vater, T kind) throws DatenbankFehlerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	/**
      * Baut Verbindung zur Datenbank auf
      * @return
@@ -74,6 +79,8 @@ public class Datenbank implements DatenbankSchnittstelle{
         	if(con!=null && !con.isClosed()) {
         		con.close();
         	}            
-    }	
+    }
+
+		
 
 }
