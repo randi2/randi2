@@ -8,7 +8,7 @@ import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.PasswortUtil;
 
 /**
- * Diese Klasse repraesentiert ein Zentrum.
+ * <p>Diese Klasse repraesentiert ein Zentrum.</p>
  * 
  * @author Lukasz Plotnicki [lplotni@stud.hs-heilbronn.de]
  * @version $Id$
@@ -39,7 +39,7 @@ public class ZentrumBean extends Filter {
 	/**
 	 * Interne ID des Zentrums
 	 */
-	private long id = NullKonstanten.NULL_INT;
+	private long id = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Name der Institution.
@@ -330,8 +330,7 @@ public class ZentrumBean extends Filter {
 	 * @param id
 	 *            Die id auf der Datenbank.
 	 */
-	// FRAGE:
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
