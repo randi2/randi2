@@ -35,7 +35,7 @@ public class ZentrumTest {
 			testZB.setId(1);
 			testZB.setInstitution("HS Heilbronn");
 			testZB.setAbteilung("Medizinische Infromatik");
-			testZB.setAnsprechpartner(new PersonBean("Müller", "Martin", null,
+			testZB.setAnsprechpartner(new PersonBean(1,"Müller", "Martin", null,
 					'm', "mmueller@hs-heilbronn.de", "07131400500",
 					"0176554422", null));
 			testZB.setOrt("Heilbronn");
@@ -71,8 +71,12 @@ public class ZentrumTest {
 				.getInstitution());
 		assertEquals(testZB.getAbteilung(), testZ.getZentrumBean()
 				.getAbteilung());
-		assertEquals(testZB.getAnsprechpartner(), testZ.getZentrumBean()
-				.getAnsprechpartner());
+		try {
+			assertEquals(testZB.getAnsprechpartner(), testZ.getZentrumBean()
+					.getAnsprechpartner());
+		} catch (DatenbankFehlerException e) {
+			fail(e.getMessage());
+		}
 		assertEquals(testZB.getOrt(), testZ.getZentrumBean().getOrt());
 		assertEquals(testZB.getPlz(), testZ.getZentrumBean().getPlz());
 		assertEquals(testZB.getStrasse(), testZ.getZentrumBean().getStrasse());
