@@ -20,6 +20,9 @@ import de.randi2.model.fachklassen.beans.StudienarmBean;
  */
 public final class Studienarm {
 
+	// TODO wenn der Zustand sich nicht aendert und diese Klasse nur statische
+	// Methoden anbietet, sollte man hier private Konstruktor definieren. (lplotni)
+	
 	/**
 	 * Diese Methode liefert nur das gewuenschte Objekt zurueckt.
 	 * 
@@ -30,8 +33,10 @@ public final class Studienarm {
 	 *             falls Fehler bei dem Vorgang auftraten.
 	 */
 	public static StudienarmBean get(int id) throws DatenbankFehlerException {
+		StudienarmBean nullBean = new StudienarmBean();
+		nullBean.setFilter(true);
 		return DatenbankFactory.getAktuelleDBInstanz().suchenObjektID(id,
-				new StudienarmBean());
+				nullBean);
 
 	}
 
