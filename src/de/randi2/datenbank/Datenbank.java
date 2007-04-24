@@ -123,6 +123,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	}
 
 	/**
+	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#loeschenObjekt(de.randi2.datenbank.Filter)
 	 */
 	public <T extends Filter> void loeschenObjekt(T zuLoeschendesObjekt) throws DatenbankFehlerException {
@@ -131,6 +132,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	}
 
 	/**
+	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#schreibenObjekt(de.randi2.datenbank.Filter)
 	 */
 	public <T extends Filter> T schreibenObjekt(T zuSchreibendesObjekt) throws DatenbankFehlerException {
@@ -333,6 +335,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	}
 
 	/**
+	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenObjekt(de.randi2.datenbank.Filter)
 	 */
 	public <T extends Filter> Vector<T> suchenObjekt(T zuSuchendesObjekt) throws DatenbankFehlerException {
@@ -341,6 +344,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	}
 
 	/**
+	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenObjektID(long, de.randi2.datenbank.Filter)
 	 */
 	public <T extends Filter> T suchenObjektID(long id, T nullObjekt) throws DatenbankFehlerException {
@@ -399,20 +403,41 @@ public class Datenbank implements DatenbankSchnittstelle{
 		return tmpPerson;
 		
 	}
-
-	public <T extends Filter> T suchenObjektKomplett(long id, T nullObjekt) throws DatenbankFehlerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	/**
+	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenMitgliederObjekte(de.randi2.datenbank.Filter, de.randi2.datenbank.Filter)
 	 */
 	public <T extends Filter, U extends Filter> Vector<T> suchenMitgliederObjekte(U vater, T kind) throws DatenbankFehlerException {
+		if (vater instanceof ZentrumBean && kind instanceof PersonBean) {
+			ZentrumBean zentrum = (ZentrumBean) vater;
+			PersonBean ansprechpartner = suchenAnsprechpartner(zentrum.getAnsprechpartnerId());
+			Vector<T> personVec = new Vector();
+			personVec.add((T)ansprechpartner);
+			return personVec;
+		}
 		return null;
 	}
 	
+	
+	/**
+	 * Methode sucht den Ansprechpartner eines Zentrums
+	 * @param id
+	 * 			Ansprechpartner des Ansprechpartners, welche im ZentrumBean der aufrufenden Methode gespeichert st
+	 * @return
+	 * 			Ansprechpartner
+	 * @throws DatenbankFehlerException
+	 * 			Falls ein DB Fehler auftritt
+	 */
+	private PersonBean suchenAnsprechpartner(long id) throws DatenbankFehlerException {
+		return suchenObjektID(id, new PersonBean()); 
+	}
+	
 	//TODO main methode spaeter rausschmeissen
+	/**
+	 * Nur Testfunktionalitaet
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Datenbank db = new Datenbank();
 		Connection con = null;
@@ -424,7 +449,9 @@ public class Datenbank implements DatenbankSchnittstelle{
 		if (con==null) {
 			System.out.println("keine Verbindung vorhanden");
 		}
-		else System.out.println("Verbindung aufgebaut");
+		else {
+			System.out.println("Verbindung aufgebaut");
+		}
 		String query = "SELECT * FROM patient";
 		Statement stmt;
 		ResultSet rs=null;
