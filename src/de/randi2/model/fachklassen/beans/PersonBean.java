@@ -1,7 +1,9 @@
 package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.fachklassen.Person;
 import de.randi2.utility.NullKonstanten;
 
 /**
@@ -108,6 +110,16 @@ public class PersonBean extends Filter {
 	 * Vorname der Person.
 	 */
 	private String vorname = null;
+	
+	/**
+	 * Stellvertreter der Person.
+	 */
+	private PersonBean stellvertreter = null;
+	
+	/**
+	 * Eindeutige ID des Stellvertreters.
+	 */
+	private long stellvertreterID = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Ein einfacher Konstruktor.
@@ -397,5 +409,47 @@ public class PersonBean extends Filter {
 	 */
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	/**
+	 * Get-Methode fuer den Stellvertreter
+	 * @return
+	 * 			Der Stellvertreter.
+	 * @throws DatenbankFehlerException
+	 * 			Fehler in der Datenbank aufgetreten.
+	 */
+	public PersonBean getStellvertreter() throws DatenbankFehlerException {
+		if (stellvertreter == null) {
+			stellvertreter = Person.get(stellvertreterID);
+		}
+		return stellvertreter;
+	}
+
+	/**
+	 * Set-Methode fuer Stellvertreter.
+	 * @param stellvertreter
+	 * 			Stellvertreter der der aktuellen Person zugewiesen wird.
+	 */
+	public void setStellvertreter(PersonBean stellvertreter) {
+		this.stellvertreter = stellvertreter;
+	}
+
+	/**
+	 * Get-Methode fuer ID des Stellvertreters
+	 * @return
+	 * 		liefert die eindeutige ID des Stellvertreters
+	 */
+	public long getStellvertreterID() {
+		return stellvertreterID;
+	}
+
+	/**
+	 * Set-Methode fuer Stellvertreter
+	 * @param stellvertreterID
+	 * 			Die eindeutige Id (long) des Stellvertreters - die auch das Objekt in
+	 *            der Datenbank eindeutig indetifiziert.
+	 */
+	public void setStellvertreterID(long stellvertreterID) {
+		this.stellvertreterID = stellvertreterID;
 	}
 }

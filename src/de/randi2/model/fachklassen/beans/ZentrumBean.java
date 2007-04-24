@@ -519,6 +519,7 @@ public class ZentrumBean extends Filter {
 	/**
 	 * Getter fuer AnsprechpartnerId
 	 * @return
+	 * 			id des Ansprechpartners
 	 */
 	public long getAnsprechpartnerId() {
 		return ansprechpartnerId;
