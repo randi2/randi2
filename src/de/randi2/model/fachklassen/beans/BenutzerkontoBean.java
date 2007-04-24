@@ -29,10 +29,6 @@ public class BenutzerkontoBean extends Filter {
 	 */
 
 	// TODO Kommentare nochmal machen
-	/**
-	 * Zugehoeriger Ansprechparter.
-	 */
-	private PersonBean ansprechpartner = null;
 
 	/**
 	 * Zugehoeriges PersonBean zu diesem Benutzerkonto.
@@ -139,7 +135,7 @@ public class BenutzerkontoBean extends Filter {
 	 *             Wenn die uebergebenen Parametern nicht in Ordnung waren
 	 */
 	public BenutzerkontoBean(String benutzername, String passwortHash,
-			Rolle rolle, PersonBean benutzer, PersonBean ansprechpartner,
+			Rolle rolle, PersonBean benutzer,
 			boolean gesperrt, ZentrumBean zentrum,
 			GregorianCalendar ersterLogin, GregorianCalendar letzterLogin)
 			throws BenutzerkontoException {
@@ -147,7 +143,6 @@ public class BenutzerkontoBean extends Filter {
 		this.setPasswort(passwortHash);
 		this.setRolle(rolle);
 		this.setBenutzer(benutzer);
-		this.setAnsprechpartner(ansprechpartner);
 		this.setZentrum(zentrum);
 		this.setGesperrt(gesperrt);
 		this.setErsterLogin(ersterLogin);
@@ -169,13 +164,6 @@ public class BenutzerkontoBean extends Filter {
 		}
 		return false;
 
-	}
-
-	/**
-	 * @return the ansprechpartner
-	 */
-	public PersonBean getAnsprechpartner() {
-		return ansprechpartner;
 	}
 
 	/**
@@ -245,16 +233,6 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	public boolean isGesperrt() {
 		return gesperrt;
-	}
-
-	/**
-	 * @param ansprechpartner
-	 *            the ansprechpartner to set
-	 */
-	public void setAnsprechpartner(PersonBean ansprechpartner) {
-		// keine Pruefung, da bei der Erzeugung der PersonBean schon alles
-		// geprueft wird
-		this.ansprechpartner = ansprechpartner;
 	}
 
 	/**
