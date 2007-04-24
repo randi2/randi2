@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import de.randi2.model.fachklassen.Rolle;
-import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.Config;
 import static de.randi2.utility.Config.Felder;
 
@@ -119,37 +117,40 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         Logger.getLogger(this.getClass()).debug("Request, Typ 'GET' empfangen");
-        if (istSystemGesperrt) {
-            Logger
-                    .getLogger(this.getClass())
-                    .debug(
-                            "System gesperrt, leite nach 'index_gesperrt.jsp' um (korrekter Ablauf) ");
-            request.setAttribute(MITTEILUNG_SYSTEM_GESPERRT,
-                    meldungSystemGesperrt);
-            request.getRequestDispatcher("index_gesperrt.jsp").forward(request,
-                    response);
-            
-        } else {
-            Logger
-                    .getLogger(this.getClass())
-                    .debug(
-                            "System offen, leite nach 'index.jsp' um' (korrekter Ablauf)");
-            request.getRequestDispatcher("index.jsp")
-                    .forward(request, response);
-            
-        }
 
-        // FIXME Das system laeuft die Methode komplett durch, wodurch auch der
-        // nachfolgende Logoutaufruf mitgenommen wird.
-/*
         String id = (String) request.getParameter("anfrage_id");
-        // logout (wirklich an dieser Stelle?? oder in BenutezrServelet)
-        if (id.equals(DispatcherServlet.anfrage_id.JSP_HEADER_LOGOUT)) {
-            request.getSession().invalidate();
-            request.getRequestDispatcher("index.jsp")
-                    .forward(request, response);
+
+        if (id != null) {// wurde eine Id mitgesendet
+            Logger.getLogger(this.getClass()).debug("anfrage_id: " + id);
+            // logout ( FRAGE Logout wirklich an dieser Stelle?? oder in BenutzerServelet)
+            if (id.equals(DispatcherServlet.anfrage_id.JSP_HEADER_LOGOUT)) {
+                request.getSession().invalidate();
+                request.getRequestDispatcher("index.jsp").forward(request,
+                        response);
+            }
+            return;
+        } else {// keine anfrage_id empfangen
+            if (istSystemGesperrt) {// System gesperrt
+                Logger
+                        .getLogger(this.getClass())
+                        .debug(
+                                "System gesperrt, leite nach 'index_gesperrt.jsp' um (korrekter Ablauf) ");
+                request.setAttribute(MITTEILUNG_SYSTEM_GESPERRT,
+                        meldungSystemGesperrt);
+                request.getRequestDispatcher("index_gesperrt.jsp").forward(
+                        request, response);
+                return;
+            } else {// System offen
+                Logger
+                        .getLogger(this.getClass())
+                        .debug(
+                                "System offen, leite nach 'index.jsp' um' (korrekter Ablauf)");
+                request.getRequestDispatcher("index.jsp").forward(request,
+                        response);
+                return;
+
+            }
         }
-*/
 
     }
 
@@ -158,9 +159,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         Logger.getLogger(this.getClass()).debug(
                 "DispatcherServlet.weiterleitungBenutzerAnmelden()");
         request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_LOGIN1");
-        // FIXME WorkAround: Status des Systems an das BenutzerServlet
-        // uebergeben
         request.setAttribute(IST_SYSTEM_GESPERRT, istSystemGesperrt);
+        if (istSystemGesperrt){
+            //Request verliert Attr. deshalb neu setzten
+            request.setAttribute(MITTEILUNG_SYSTEM_GESPERRT, meldungSystemGesperrt);
+            
+        }
         request.getRequestDispatcher("BenutzerServlet").forward(request,
                 response);
     }
@@ -186,12 +190,24 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         String id = (String) request.getParameter("anfrage_id");
-        String idAttribute = (String) request.getAttribute("anfrage_id");
+        String idAttribute = (String) request.getAttribute("anfrage_id");        
+        
+        Logger.getLogger(this.getClass()).debug("anfrage_id: "+id);
+        
         if (idAttribute != null) {
+            /* XXX Frickelei unnoetig, da wenn Param null auch Attr  null ist
+             * abfrage des Attr. ausreichend --BTheel
+             */
             id = idAttribute;
+        }else{ 
+            /* ist keine ID gesetzt, so wird auf doGet umgeleitet
+             * Weitere Logik dort --Btheel
+             */
+            doGet(request, response);
+            Logger.getLogger(this.getClass()).debug("Anfrage-Id == null, Anfrage nach doGet umleiten");
         }
-        Logger.getLogger(this.getClass()).debug(id);
 
+        
         // WEITERLEITUNGEN FUER BENUTZERSERVLET
         // [start]
         // Login
@@ -200,6 +216,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
                     "ID '" + id + "' korrekt erkannt");
 
             weiterleitungBenutzerAnmelden(request, response);
+            return;
         }
 
         // Benutzer registrieren
@@ -256,8 +273,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
             System.out.println("Scheiße");
             // TODO Hier muss noch entschieden werden,was passiert
         }
-
-        Logger.getLogger(this.getClass()).fatal("Warum laeuft der hier durch?");
     }// doPost
 
     /**
@@ -287,6 +302,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      *            the systemsperrungFehlermeldung to set
      */
     public void setMeldungSystemGesperrt(String systemsperrungFehlermeldung) {
-        this.meldungSystemGesperrt = systemsperrungFehlermeldung;
+        meldungSystemGesperrt = systemsperrungFehlermeldung;
     }
 }// DispatcherServlet

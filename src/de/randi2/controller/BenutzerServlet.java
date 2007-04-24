@@ -91,13 +91,14 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         String id = (String) request.getAttribute("anfrage_id");
-        Logger.getLogger(this.getClass()).debug("BenutzerServlet.doPost()");
-        //Logger.getLogger(this.getClass()).debug(id);
-
+        Logger.getLogger(this.getClass()).debug("BenutzerServlet.doPost()"); // Trace
+        Logger.getLogger(this.getClass()).debug("anfrage_id: "+id);//ID loggen
+        
         // Login
         if (id.equals(BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_LOGIN1
                 .name())) {
-            Logger.getLogger(this.getClass()).debug("id '"+id+"' korrekt erkannt");
+            Logger.getLogger(this.getClass()).debug(
+                    "id '" + id + "' korrekt erkannt");
             this.class_dispatcherservlet_login1(request, response);
         }// if
 
@@ -105,7 +106,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
         if (id
                 .equals(BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER
                         .name())) {
-            Logger.getLogger(this.getClass()).debug("id '"+id+"' korrekt erkannt");
+            Logger.getLogger(this.getClass()).debug(
+                    "id '" + id + "' korrekt erkannt");
             this.class_dispatcherservlet_benutzer_registrieren_vier(request,
                     response);
         }// if
@@ -138,6 +140,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
         Logger.getLogger(this.getClass()).debug(
                 "System gesperrt, Kandidat == Sysop?");
         if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.SYSOP) {
+            // TODO diese Logik der Weiterleitung an die normale weiterleitungsmetho. auslagern --leehTB
             // Sicherstellen, das sich Sysop einloggen kann
             request.getRequestDispatcher("/global_welcome.jsp").forward(
                     request, response);
@@ -149,6 +152,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
                     "Benutzer hat sich erfolgreich eingeloggt", aBenutzer);
             Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
         } else {
+            
             request
                     .setAttribute(DispatcherServlet.FEHLERNACHRICHT,
                             " Das Systen ist derzeit gesperrt.<br> Login nicht m&ouml;glich!");
@@ -182,24 +186,37 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
             throws ServletException, IOException {
         Logger.getLogger(this.getClass()).debug(
                 "BenutzerServlet.weiterleitungLoginKorrekt()");
-        
+
         if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.STUDIENARZT) {
             request.getRequestDispatcher("/studie_auswaehlen.jsp").forward(
                     request, response);
+            loggeKorrekteanmeldung(aBenutzer);
+            return;
         } else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.STUDIENLEITER) {
             request.getRequestDispatcher("/studie_auswaehlen.jsp").forward(
                     request, response);
+            loggeKorrekteanmeldung(aBenutzer);
+            return;
         } else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.STATISTIKER) {
             request.getRequestDispatcher("/studie_ansehen.jsp").forward(
                     request, response);
+            loggeKorrekteanmeldung(aBenutzer);
+            return;
         } else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.ADMIN) {
             request.getRequestDispatcher("/global_welcome.jsp").forward(
                     request, response);
+            loggeKorrekteanmeldung(aBenutzer);
+            return;
         } else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.SYSOP) {
-            request.getRequestDispatcher("global_welcome.jsp").forward(
-                    request, response);
+            request.getRequestDispatcher("/global_welcome.jsp").forward(request,
+                    response);
+            loggeKorrekteanmeldung(aBenutzer);
+            return;
         }
 
+    }
+
+    private void loggeKorrekteanmeldung(BenutzerkontoBean aBenutzer) {
         LogAktion a = new LogAktion("Benutzer hat sich erfolgreich eingeloggt",
                 aBenutzer);
         Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
@@ -250,11 +267,10 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
     // TODO Parameter dokumentieren --Btheel
     private void class_dispatcherservlet_login1(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-Logger.getLogger(this.getClass()).debug(
-        "BenutzerServlet.class_dispatcherservlet_login1()");
+        Logger.getLogger(this.getClass()).debug(
+                "BenutzerServlet.class_dispatcherservlet_login1()");
         BenutzerkontoBean sBenutzer = null;
 
-        
         boolean isSystemGesperrt = (Boolean) request
                 .getAttribute(DispatcherServlet.IST_SYSTEM_GESPERRT);
 
@@ -270,7 +286,7 @@ Logger.getLogger(this.getClass()).debug(
                     .getParameter("password"));// was soll der aufruf?
             Vector<BenutzerkontoBean> gBenutzer = null;
 
-            try { //Benutzer in der DB suchen
+            try { // Benutzer in der DB suchen
                 gBenutzer = Benutzerkonto.suchenBenutzer(sBenutzer);
             } catch (DatenbankFehlerException e) {
                 // Interner Fehler, wird nicht an Benutzer weitergegeben
@@ -278,24 +294,28 @@ Logger.getLogger(this.getClass()).debug(
                         "Fehler bei Benutzerfilterung", e);
             }
             if (gBenutzer.size() == 1) { // _genau_ ein Konto gefunden
-            Logger.getLogger(this.getClass()).debug("BenutzerServlet.class_dispatcherservlet_login1(): Genau einen Benutzer gefunden");
+                Logger
+                        .getLogger(this.getClass())
+                        .debug(
+                                "BenutzerServlet.class_dispatcherservlet_login1(): Genau einen Benutzer gefunden");
                 // Gefundenen kontoBean aus dem Vector holen
-                BenutzerkontoBean aBenutzer = gBenutzer.get(0);  
-                
-                if (!aBenutzer.isGesperrt() && new Benutzerkonto(aBenutzer)
-                        .pruefenPasswort((String) request
-                                .getParameter("password"))) {
-                    // Konto nicht gesperrt und PW korrekt 
+                BenutzerkontoBean aBenutzer = gBenutzer.get(0);
+
+                if (!aBenutzer.isGesperrt()
+                        && new Benutzerkonto(aBenutzer)
+                                .pruefenPasswort((String) request
+                                        .getParameter("password"))) {
+                    // Konto nicht gesperrt und PW korrekt
                     if (isSystemGesperrt) {
                         // Konto korrekt, aber System gesperrt
-                        weiterleitungLoginKorrektBeiSystemGesperrt(aBenutzer, request, response);
+                        weiterleitungLoginKorrektBeiSystemGesperrt(aBenutzer,
+                                request, response);
                     } else {
                         // Konto korrekt, normaler Ablauf
-                        weiterleitungLoginKorrekt(aBenutzer,
-                                request, response);
+                        weiterleitungLoginKorrekt(aBenutzer, request, response);
                     }
                 }// if
-                else { // PW inkorrekt oder Konto gesperrt 
+                else { // PW inkorrekt oder Konto gesperrt
                     weiterleitungBeiFehler(
                             "Loginfehler:<br> Bitte Benutzername und Passwort &uuml;berpr&uuml;fen",
                             request, response);
@@ -329,7 +349,7 @@ Logger.getLogger(this.getClass()).debug(
                                     + sBenutzer.getBenutzername()
                                     + "' in der Datenbank gefunden!");
                     // FIXME ist das Loggin hier Korrekt? Loggt der die Aktion
-                    // in das Richtige Log?  -BTheel
+                    // in das Richtige Log? -BTheel
                 }
             }// else
         } catch (BenutzerkontoException e) {
@@ -431,7 +451,7 @@ Logger.getLogger(this.getClass()).debug(
             aPerson.setTelefonnummer(telefon);
             aPerson.setHandynummer(handynummer);
             aPerson.setFax(fax);
-            
+
             BenutzerkontoBean aBenutzerkonto;
             aBenutzerkonto = new BenutzerkontoBean(email, passwort, aPerson);
             aBenutzerkonto.setZentrum(zentrum);
