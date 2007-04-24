@@ -9,7 +9,7 @@
 <%@include file="include/inc_header_clean.jsp"%>
 
 <div id="content">
-<form action="index.jsp" method="POST">
+<form action="DispatcherServlet" method="POST">
 <h1>Impressum</h1>
 	<p id="bodytext">
 		Hier steht dann später das Impressum!!!

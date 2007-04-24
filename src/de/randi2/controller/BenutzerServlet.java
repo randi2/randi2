@@ -46,6 +46,7 @@ import de.randi2.utility.NullKonstanten;
 public class BenutzerServlet extends javax.servlet.http.HttpServlet {
     /**
      * Changelog: Btheel: Erkennung der Systemsperrung implementiert
+     *  Binding des kontos an die Session gefixt 
      */
 
     public enum anfrage_id {
@@ -59,7 +60,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
         CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER
 
     }
-
+    
     /**
      * Konstruktor.
      * 
@@ -187,6 +188,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
         Logger.getLogger(this.getClass()).debug(
                 "BenutzerServlet.weiterleitungLoginKorrekt()");
 
+        (request.getSession()).setAttribute("aBenutzer", aBenutzer);// Benutzerkontobean an Session binden
+        Logger.getLogger(this.getClass()).debug("Binde Benutzer an Session");
+        
         if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.STUDIENARZT) {
             request.getRequestDispatcher("/studie_auswaehlen.jsp").forward(
                     request, response);
@@ -208,7 +212,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
             loggeKorrekteanmeldung(aBenutzer);
             return;
         } else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.SYSOP) {
-            request.getRequestDispatcher("/global_welcome.jsp").forward(request,
+            request.getRequestDispatcher("/systemadministration.jsp").forward(request,
                     response);
             loggeKorrekteanmeldung(aBenutzer);
             return;
