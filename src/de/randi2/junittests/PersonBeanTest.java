@@ -801,4 +801,29 @@ public class PersonBeanTest {
 		}
 	}
 
+
+    /**
+     * Testet den TitelPerser der TitelEnum 
+     */
+    @Test
+    public void testTitelParser(){
+        PersonBean.Titel testTitel; 
+        try{
+            for (PersonBean.Titel aTitel : PersonBean.Titel.values()) {
+                testTitel = PersonBean.Titel.parseTitel(aTitel.toString());
+                assertEquals(testTitel, aTitel);
+                assertEquals(testTitel.toString(), aTitel.toString());
+            }
+        }catch(Exception e){
+            fail("Parsertest fehlgeschlagen");
+        }
+        
+        try {
+            PersonBean.Titel.parseTitel("Holla, die Waldfee!");
+            fail("Sollte Exception auslösen");
+        } catch (Exception e) {
+        }
+        
+    }
+    
 }
