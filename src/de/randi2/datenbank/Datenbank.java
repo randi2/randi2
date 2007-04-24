@@ -186,7 +186,32 @@ public class Datenbank implements DatenbankSchnittstelle{
 		}
 		//vorhandenes Zentrum wird aktualisiert
 		else {
-			//TODO ausimplementieren
+			sql = "UPDATE "+Tabellen.PERSON+
+			"SET "+FelderPerson.NACHNAME+"=?,"+
+			FelderPerson.VORNAME+"=?,"+
+			FelderPerson.GESCHLECHT+"=?,"+
+			FelderPerson.TITEL+"=?,"+
+			FelderPerson.EMAIL+"=?,"+
+			FelderPerson.FAX+"=?,"+
+			FelderPerson.TELEFONNUMMER+"=?,"+
+			FelderPerson.STELLVERTRETER+"=?,"+
+			"WHERE "+FelderPerson.ID+"=?";
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, person.getNachname());
+				pstmt.setString(2, person.getVorname());
+				char tmp =  person.getGeschlecht();
+				pstmt.setString(3, ""+person.getGeschlecht()); //TODO workaround
+				pstmt.setString(4, person.getTitel().toString());
+				pstmt.setString(5, person.getEmail());
+				pstmt.setString(6, person.getFax());
+				pstmt.setString(7, person.getTelefonnummer());
+				pstmt.setString(8, person.getTelefonnummer());
+				//pstmt.setBoolean(9, person.get);				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
 		}		
 		try {
 			closeConnection(con);
@@ -360,8 +385,9 @@ public class Datenbank implements DatenbankSchnittstelle{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
+		System.out.println("ENUM TEST ");
+		System.out.println("FelderPerson.Nachname: "+FelderPerson.NACHNAME);
+		System.out.println("FelderPerson.Nachname.toString(): "+FelderPerson.NACHNAME.toString());
 		
 	}
 	
