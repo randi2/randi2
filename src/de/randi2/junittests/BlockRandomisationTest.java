@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.fachklassen.BlockRandomisation;
 import de.randi2.model.fachklassen.Studie;
@@ -70,6 +71,8 @@ public class BlockRandomisationTest {
 				testBlockrandomisation.randomisierenPatient(testPatienten[i]);
 			} catch (RandomisationsException e) {
 				fail(e.getMessage());
+			}catch (DatenbankFehlerException e1){
+				fail(e1.getMessage());
 			}
 		}
 		
