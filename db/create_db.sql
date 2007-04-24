@@ -1,5 +1,5 @@
-﻿CREATE TABLE Aktivierung (
-  aktivierungslink VARCHAR(16) NOT NULL,
+CREATE TABLE Aktivierung (
+  aktivierungslink CHAR(20) NOT NULL,
   Benutzerkonto_benutzerkontenID INT UNSIGNED NOT NULL,
   versanddatum DATE NOT NULL,
   PRIMARY KEY(aktivierungslink),
@@ -53,6 +53,15 @@ CREATE TABLE Person (
 )
 TYPE=InnoDB;
 
+CREATE TABLE Strata_Auspraegung (
+  strata_WerteID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  Strata_Typen_strata_TypenID INTEGER UNSIGNED NOT NULL,
+  wert VARCHAR(100) NOT NULL,
+  PRIMARY KEY(strata_WerteID),
+  INDEX Strata_Werte_FKIndex1(Strata_Typen_strata_TypenID)
+)
+TYPE=InnoDB;
+
 CREATE TABLE Strata_Typen (
   strata_TypenID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   Studie_studienID INT UNSIGNED NOT NULL,
@@ -63,20 +72,11 @@ CREATE TABLE Strata_Typen (
 )
 TYPE=InnoDB;
 
-CREATE TABLE Strata_Werte (
-  strata_WerteID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  Strata_Typen_strata_TypenID INTEGER UNSIGNED NOT NULL,
-  wert VARCHAR(100) NOT NULL,
-  PRIMARY KEY(strata_WerteID),
-  INDEX Strata_Werte_FKIndex1(Strata_Typen_strata_TypenID)
-)
-TYPE=InnoDB;
-
 CREATE TABLE Strata_Werte_has_Patient (
-  Strata_Werte_strata_WerteID INTEGER UNSIGNED NOT NULL,
+  Strata_Auspraegung_strata_WerteID INTEGER UNSIGNED NOT NULL,
   Patient_patientenID INT UNSIGNED NOT NULL,
-  PRIMARY KEY(Strata_Werte_strata_WerteID, Patient_patientenID),
-  INDEX Strata_Werte_has_Patient_FKIndex1(Strata_Werte_strata_WerteID),
+  PRIMARY KEY(Strata_Auspraegung_strata_WerteID, Patient_patientenID),
+  INDEX Strata_Werte_has_Patient_FKIndex1(Strata_Auspraegung_strata_WerteID),
   INDEX Strata_Werte_has_Patient_FKIndex2(Patient_patientenID)
 )
 TYPE=InnoDB;
