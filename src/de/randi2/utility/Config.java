@@ -99,7 +99,7 @@ public class Config {
 		}
 		DispatcherServlet aDispatcherServlet = new DispatcherServlet();
 		aDispatcherServlet.setIstSystemGesperrt(true);
-		aDispatcherServlet.setSystemsperrungFehlermeldung(fehlermeldung);
+		aDispatcherServlet.setMeldungSystemGesperrt(fehlermeldung);
 		return false;
 	}
 
@@ -127,7 +127,7 @@ public class Config {
 		}
 		DispatcherServlet aDispatcherServlet = new DispatcherServlet();
 		aDispatcherServlet.setIstSystemGesperrt(false);
-		aDispatcherServlet.setSystemsperrungFehlermeldung("");
+		aDispatcherServlet.setMeldungSystemGesperrt("");
 		return false;
 	}
 

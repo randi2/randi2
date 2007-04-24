@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.Config;
+import static de.randi2.utility.Config.Felder;
+
 /**
  * <p>
  * Diese Klasse repraesentiert den DISPATCHER (== Weiterleiter). Dieser wird von
@@ -22,168 +24,240 @@ import de.randi2.utility.Config;
  * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
  * 
  */
+@SuppressWarnings("serial")
 public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
-    
     /**
      * 
      */
-    private boolean istSystemGesperrt=false;
-    private String systemsperrungFehlermeldung="";
+    private boolean istSystemGesperrt = true;
+
+    private static String meldungSystemGesperrt = "Meldung des System ist gesperrt";
+
     /**
      * 
      */
-    public static final String FEHLERNACHRICHT="fehlernachricht";
+    public static final String FEHLERNACHRICHT = "fehlernachricht";
+
+    public static final String IST_SYSTEM_GESPERRT = "System gesperrt";
+
     /**
-         * Konstruktor.
-         * 
-         * @see javax.servlet.http.HttpServlet#HttpServlet()
-         */
+     * 
+     */
+    public static final String MITTEILUNG_SYSTEM_GESPERRT = "Systemmitteilung gesperrt";
+
+    /**
+     * Konstruktor.
+     * 
+     * @see javax.servlet.http.HttpServlet#HttpServlet()
+     */
     public DispatcherServlet() {
-	super();
-	//	Einlesen der Systemsperrung
-	istSystemGesperrt=Boolean.getBoolean(Config.getProperty(Config.Felder.SYSTEMSPERRUNG_SYSTEMSPERRUNG));
-	systemsperrungFehlermeldung=Config.getProperty(Config.Felder.SYSTEMSPERRUNG_FEHLERMELDUNG);
+        super();
+        istSystemGesperrt = Boolean.valueOf(Config
+                .getProperty(Felder.SYSTEMSPERRUNG_SYSTEMSPERRUNG));
+        if (istSystemGesperrt) {
+            Logger.getLogger(this.getClass()).debug(
+                    "System gesperrt, lade Mitteilung aus Config");
+            meldungSystemGesperrt = Config
+                    .getProperty(Felder.SYSTEMSPERRUNG_FEHLERMELDUNG);
+        }
     }
-    
+
     /**
      * 
-     *
+     * 
      */
-    public enum anfrage_id
-    {
-	/**
-	 * 
-	 */
-	JSP_HEADER_LOGOUT,
-	/**
-	 * 
-	 */
-	JSP_INDEX_LOGIN,
-	/**
-	 * 
-	 */
-	JSP_INDEX_BENUTZER_REGISTRIEREN_EINS,
-	/**
-	 * 
-	 */
-	JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI,
-	/**
-	 * 
-	 */
-	JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI,
-	/**
-	 * 
-	 */
-	JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER
+    public enum anfrage_id {
+        /**
+         * 
+         */
+        JSP_HEADER_LOGOUT,
+        /**
+         * 
+         */
+        JSP_INDEX_LOGIN,
+        /**
+         * 
+         */
+        JSP_INDEX_BENUTZER_REGISTRIEREN_EINS,
+        /**
+         * 
+         */
+        JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI,
+        /**
+         * 
+         */
+        JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI,
+        /**
+         * 
+         */
+        JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER
     }
 
     // TODO Bitte Kommentar ueberpruefen und ggf. anpassen.
     /**
-         * Diese Methode nimmt HTTP-GET-Request gemaess HTTP-Servlet Definition
-         * entgegen.
-         * 
-         * @param request
-         *                Der Request fuer das Servlet.
-         * @param response
-         *                Der Response Servlet.
-         * @throws IOException
-         *                 Falls Fehler in den E/A-Verarbeitung.
-         * @throws ServletException
-         *                 Falls Fehler in der HTTP-Verarbeitung auftreten.
-         * 
-         * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest
-         *      request, HttpServletResponse response)
-         */
+     * Diese Methode nimmt HTTP-GET-Request gemaess HTTP-Servlet Definition
+     * entgegen.
+     * <p>
+     * Ist das System geperrt, so wird die Anfrage auf die Seite
+     * <source>index_gesperrt.jsp</source> umgeleitet, ansonsten wird die Seite
+     * <source>index.jsp</source> aufgerufen. </>
+     * 
+     * @param request
+     *            Der Request fuer das Servlet.
+     * @param response
+     *            Der Response Servlet.
+     * @throws IOException
+     *             Falls Fehler in den E/A-Verarbeitung.
+     * @throws ServletException
+     *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+     * 
+     * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+     *      HttpServletResponse response)
+     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	String id = (String) request.getParameter("anfrage_id");
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+        Logger.getLogger(this.getClass()).debug("Request, Typ 'GET' empfangen");
+        if (istSystemGesperrt) {
+            Logger
+                    .getLogger(this.getClass())
+                    .debug(
+                            "System gesperrt, leite nach 'index_gesperrt.jsp' um (korrekter Ablauf) ");
+            request.setAttribute(MITTEILUNG_SYSTEM_GESPERRT,
+                    meldungSystemGesperrt);
+            request.getRequestDispatcher("index_gesperrt.jsp").forward(request,
+                    response);
+            
+        } else {
+            Logger
+                    .getLogger(this.getClass())
+                    .debug(
+                            "System offen, leite nach 'index.jsp' um' (korrekter Ablauf)");
+            request.getRequestDispatcher("index.jsp")
+                    .forward(request, response);
+            
+        }
 
-	// logout (wirklich an dieser Stelle?? oder in BenutezrServelet)
-	if (id.equals(DispatcherServlet.anfrage_id.JSP_HEADER_LOGOUT)) {
+        // FIXME Das system laeuft die Methode komplett durch, wodurch auch der
+        // nachfolgende Logoutaufruf mitgenommen wird.
+/*
+        String id = (String) request.getParameter("anfrage_id");
+        // logout (wirklich an dieser Stelle?? oder in BenutezrServelet)
+        if (id.equals(DispatcherServlet.anfrage_id.JSP_HEADER_LOGOUT)) {
+            request.getSession().invalidate();
+            request.getRequestDispatcher("index.jsp")
+                    .forward(request, response);
+        }
+*/
 
-	    request.getSession().invalidate();
-	    request.getRequestDispatcher("index.jsp").forward(request, response);
+    }
 
-	}
-
+    private void weiterleitungBenutzerAnmelden(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+        Logger.getLogger(this.getClass()).debug(
+                "DispatcherServlet.weiterleitungBenutzerAnmelden()");
+        request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_LOGIN1");
+        // FIXME WorkAround: Status des Systems an das BenutzerServlet
+        // uebergeben
+        request.setAttribute(IST_SYSTEM_GESPERRT, istSystemGesperrt);
+        request.getRequestDispatcher("BenutzerServlet").forward(request,
+                response);
     }
 
     // TODO Bitte Kommentar ueberpruefen und ggf. anpassen.
     /**
-         * Diese Methode nimmt HTTP-POST-Request gemaess HTTP-Servlet Definition
-         * entgegen.
-         * 
-         * @param request
-         *                Der Request fuer das Servlet.
-         * @param response
-         *                Der Response Servlet.
-         * @throws IOException
-         *                 Falls Fehler in den E/A-Verarbeitung.
-         * @throws ServletException
-         *                 Falls Fehler in der HTTP-Verarbeitung auftreten.
-         * 
-         * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest
-         *      request, HttpServletResponse response)
-         */
+     * Diese Methode nimmt HTTP-POST-Request gemaess HTTP-Servlet Definition
+     * entgegen.
+     * 
+     * @param request
+     *            Der Request fuer das Servlet.
+     * @param response
+     *            Der Response Servlet.
+     * @throws IOException
+     *             Falls Fehler in den E/A-Verarbeitung.
+     * @throws ServletException
+     *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+     * 
+     * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+     *      HttpServletResponse response)
+     */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	String id = (String) request.getParameter("anfrage_id");
-	String idAttribute = (String) request.getAttribute("anfrage_id");
-	if (idAttribute != null) {
-	    id = idAttribute;
-	}
-	Logger.getLogger(this.getClass()).debug(id);
-	
-	
-	//WEITERLEITUNGEN FUER BENUTZERSERVLET
-	// [start]
-	// Login
-	if (id.equals(DispatcherServlet.anfrage_id.JSP_INDEX_LOGIN.name())) {
-	    request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_LOGIN1");
-	    request.getRequestDispatcher("BenutzerServlet").forward(request, response);
-	} 
+    protected void doPost(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+        String id = (String) request.getParameter("anfrage_id");
+        String idAttribute = (String) request.getAttribute("anfrage_id");
+        if (idAttribute != null) {
+            id = idAttribute;
+        }
+        Logger.getLogger(this.getClass()).debug(id);
 
-	// Benutzer registrieren
-	// Schritt 1.1: STARTSEITE->DISCLAIMER
-	else if (id.equals(DispatcherServlet.anfrage_id.JSP_INDEX_BENUTZER_REGISTRIEREN_EINS.name())) {
+        // WEITERLEITUNGEN FUER BENUTZERSERVLET
+        // [start]
+        // Login
+        if (id.equals(DispatcherServlet.anfrage_id.JSP_INDEX_LOGIN.name())) {
+            Logger.getLogger(this.getClass()).debug(
+                    "ID '" + id + "' korrekt erkannt");
 
-	    request.getRequestDispatcher("/benutzer_anlegen_eins.jsp").forward(request, response);
+            weiterleitungBenutzerAnmelden(request, response);
+        }
 
-	}
-	// Schritt 2.1:DISCLAIMER->ZENTRUMAUSWAHL
-	else if (id.equals(DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI.name())) {
+        // Benutzer registrieren
+        // Schritt 1.1: STARTSEITE->DISCLAIMER
+        else if (id
+                .equals(DispatcherServlet.anfrage_id.JSP_INDEX_BENUTZER_REGISTRIEREN_EINS
+                        .name())) {
 
-	    request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI");
-	    request.getRequestDispatcher("ZentrumServlet").forward(request, response);
-	}
+            request.getRequestDispatcher("/benutzer_anlegen_eins.jsp").forward(
+                    request, response);
 
-	// Schritt 3.1: ZENTRUMAUSWAHL: Filterung
-	// Schritt 3.2 ZENTRUMAUSWAHL->BENUTZERDATEN_EINGEBEN
-	else if (id.equals(DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI.name())) {
-	    request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI");
-	    request.getRequestDispatcher("ZentrumServlet").forward(request, response);
+        }
+        // Schritt 2.1:DISCLAIMER->ZENTRUMAUSWAHL
+        else if (id
+                .equals(DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI
+                        .name())) {
 
-	}
+            request.setAttribute("anfrage_id",
+                    "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI");
+            request.getRequestDispatcher("ZentrumServlet").forward(request,
+                    response);
+        }
 
-	// Schritt 4: BENUTZERDATEN_EINGEBEN->
-	else if (id.equals(DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER.name())) {
-	    request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER");
-	    request.getRequestDispatcher("BenutzerServlet").forward(request, response);
+        // Schritt 3.1: ZENTRUMAUSWAHL: Filterung
+        // Schritt 3.2 ZENTRUMAUSWAHL->BENUTZERDATEN_EINGEBEN
+        else if (id
+                .equals(DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI
+                        .name())) {
+            request.setAttribute("anfrage_id",
+                    "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI");
+            request.getRequestDispatcher("ZentrumServlet").forward(request,
+                    response);
 
-	}
-	// [end]
-	//WEITERLEITUNGEN FUER ZENTRUMSERVLET
-	// [start]
-	// [end]
+        }
 
-	//SONSTIGE WEITERLEITUNGEN
-	//Schwerer Fehler: Falscher Request
-	else{
-	    System.out.println("Scheiße");
-	    //TODO Hier muss noch entschieden werden,was passiert
-	}
+        // Schritt 4: BENUTZERDATEN_EINGEBEN->
+        else if (id
+                .equals(DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER
+                        .name())) {
+            request.setAttribute("anfrage_id",
+                    "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER");
+            request.getRequestDispatcher("BenutzerServlet").forward(request,
+                    response);
 
+        }
+        // [end]
+        // WEITERLEITUNGEN FUER ZENTRUMSERVLET
+        // [start]
+        // [end]
+
+        // SONSTIGE WEITERLEITUNGEN
+        // Schwerer Fehler: Falscher Request
+        else {
+            System.out.println("Scheiße");
+            // TODO Hier muss noch entschieden werden,was passiert
+        }
+
+        Logger.getLogger(this.getClass()).fatal("Warum laeuft der hier durch?");
     }// doPost
 
     /**
@@ -194,7 +268,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     }
 
     /**
-     * @param istSystemGesperrt the istSystemGesperrt to set
+     * @param istSystemGesperrt
+     *            the istSystemGesperrt to set
      */
     public void setIstSystemGesperrt(boolean istSystemGesperrt) {
         this.istSystemGesperrt = istSystemGesperrt;
@@ -203,14 +278,15 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     /**
      * @return the systemsperrungFehlermeldung
      */
-    public String getSystemsperrungFehlermeldung() {
-        return systemsperrungFehlermeldung;
+    public String getMeldungSystemGesperrt() {
+        return meldungSystemGesperrt;
     }
 
     /**
-     * @param systemsperrungFehlermeldung the systemsperrungFehlermeldung to set
+     * @param systemsperrungFehlermeldung
+     *            the systemsperrungFehlermeldung to set
      */
-    public void setSystemsperrungFehlermeldung(String systemsperrungFehlermeldung) {
-        this.systemsperrungFehlermeldung = systemsperrungFehlermeldung;
+    public void setMeldungSystemGesperrt(String systemsperrungFehlermeldung) {
+        this.meldungSystemGesperrt = systemsperrungFehlermeldung;
     }
 }// DispatcherServlet

@@ -19,7 +19,7 @@ body {
 p.sysdown{
 	position: relative;
  	margin-left:37px;
- 	margin-top:50px;
+ 	//margin-top:50px;
  	padding:5px;
 	width: 500px;
 	}
@@ -82,4 +82,10 @@ p {
 	letter-spacing: .1em;
 	line-height: 38px;
 }
+input {
+	background: lightgrey;
+}
 
+label {
+
+}

@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%--jsp:setProperty name="user" property="*" /--%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 	<%@ page import= "de.randi2.model.fachklassen.beans.BenutzerkontoBean"
@@ -15,32 +17,27 @@
 </head>
 <body>
 <%@include file="include/inc_header.jsp"%>
+	<div id="content">
+		<h1>System entsperren</h1>
+			<form>
+				<fieldset style="width:60%">
+				<legend><b>System</b></legend>
+					<table>
+					<tr>
+						<td>Sind Sie sicher, dass Sie das System entsperren wollen?</td>
+					</tr>
+					<tr>
+						<td>
+						<input type="button" name="entsp_ja" value="Ja" tabindex="1" onclick="location.href=''">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="button" name="entsp_nein" value="Nein" tabindex="2" onclick="location.href=''"></td>
+					</tr>
+					</table>
 
-<div id="content">
-<h1>System entsperren</h1>
-<form>
-<fieldset style="width:60%">
-	<legend><b>System</b></legend>
-		<table>
-		<tr>
-		<td>Sind Sie sicher, dass Sie das System entsperren wollen?</td>
-		</tr>
-		<tr>
-		<td><input type="button" name="entsp_ja" value="Ja" tabindex="1" onclick="location.href=''">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="button" name="entsp_nein" value="Nein" tabindex="2" onclick="location.href=''"></td>
-		</tr>
-		</table>
-
-</fieldset><br>
-</form>
-	</div>
-	<div id="show_none">
-		
+			</fieldset>
+		</form>
 	</div>
 
-<%@include file="include/inc_footer.jsp"%>
-<div id="show_none">
-<%@include file="include/inc_menue.jsp"%>
-</div>
+<%@ include file="include/inc_footer.jsp"%>
+<div id="show_none"><%@include file="include/inc_menue.jsp"%></div>
 </body>
 </html>

@@ -1,13 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ page import="de.randi2.controller.DispatcherServlet" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>RANDI 2</title>
+<title>RANDI 2: Das System ist zur Zeit gesperrt! Wir bitten um ihr Verst&auml;ndnis</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
-<link rel="stylesheet" type="text/css" href="css/style_login.css" />
+<link rel="stylesheet" type="text/css" href="css/style_login_gesperrt.css" />
 </head>
 
 <body>
@@ -25,21 +24,27 @@
 	<%@include file="include/inc_nachricht.jsp"%></div>
 	
 	<div id="inhalt_login">
-		<p>
-			<img id="bild_login" src="images/heidelberg.jpg" width="537" height="291" alt="Heidelberg">
+		<p class="warnung sysdown" >
+		<%= request.getAttribute(DispatcherServlet.MITTEILUNG_SYSTEM_GESPERRT)%>
 		</p>
 	</div>
 	
 	<div id="login_benutzer">
-		<p id="pageheader">Herzlich Willkommen</p>
-		
-		<p>Benutzername</p>
+		<!-- <p id="pageheader">Hallo, Welt</p>-->
+
+		<!-- <p>Benutzername</p>-->
 		<form action="DispatcherServlet" method="POST" name="loginform">
 		<input type="hidden" value="<%=DispatcherServlet.anfrage_id.JSP_INDEX_LOGIN %>" name="anfrage_id">
 			<p>
+				<label for="username">Benutzername</label>
+			</p>
+			<p>
 				<input type="text" name="username" tabindex="1">
 			</p>
-			<p>Kennwort</p>
+			<!-- <p>Kennwort</p> -->
+			<p>
+				<label for="password">Password</label>
+			</p>
 			<p>
 				<input type="password" name="password" tabindex="2">
 			</p>
@@ -48,7 +53,7 @@
 				value="Login">
 			</p>
 		</form>
-		<br>
+		<!-- <br>
 		<table cellPadding="0" cellSpacing="0" border="0">
 		<tr>
 		<td align="right">
@@ -61,7 +66,7 @@
 		<form action="passwort_vergessen.jsp" method="POST"><input type="submit" value="Passwort vergessen?"></form>
 		</td>
 		</tr>
-		</table>
+		</table>-->
 	</div>
 	<!-- aktives Feld ist der Benutzername -->
 	<script type="text/javascript">

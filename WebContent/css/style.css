@@ -277,3 +277,11 @@ a.il_ContainerItemTitle:link, a.il_ContainerItemTitle:visited, a.il_ContainerIte
 	color:#000000;
 	padding:3px;
 }
+.warnung{
+	/* Klasse fuer Warnungen*/
+	font: 12px arial, sans-serif;
+	color: #000000;
+	font-weight: bold;
+	border: solid #CC3300 2px;
+	background-color: #FFFFFF;
+	}

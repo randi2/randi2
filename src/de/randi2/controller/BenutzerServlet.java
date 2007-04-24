@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,256 +29,459 @@ import de.randi2.utility.NullKonstanten;
 /**
  * Diese Klasse repraesentiert das BENUTZERSERVLET, welches Aktionen an die
  * Benutzerkonto-Fachklasse und an den DISPATCHER weiterleitet.
+ * <p>
+ * Versucht sich ein Benutzer am System anzumelden, so leitet ihn der Dispatcher
+ * bei entsprechender anfrage_ID ({@link DispatcherServlet.anfrage_id}) an das
+ * BenutzerServlet weiter.<br>
+ * Das BenutzerServlet nimmt die Anfrage an und verarbeitet diese weiter<br>
+ * </p>
  * 
  * @version $Id$
  * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
+ * @autor BTheel [btheel@stud.hs-heilbronn.de]
+ * 
  * 
  */
+@SuppressWarnings("serial")
 public class BenutzerServlet extends javax.servlet.http.HttpServlet {
-    
-   
-    
     /**
-     * @author Bronx
-     *
+     * Changelog: Btheel: Erkennung der Systemsperrung implementiert
      */
-    public enum anfrage_id{
-	/**
-	 * 
-	 */
-	CLASS_DISPATCHERSERVLET_LOGIN1,
-	/**
-	 * 
-	 */
-	CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER
-	
-    }
-    /**
-         * Konstruktor.
+
+    public enum anfrage_id {
+        /**
          * 
-         * @see javax.servlet.http.HttpServlet#HttpServlet()
          */
+        CLASS_DISPATCHERSERVLET_LOGIN1,
+        /**
+         * 
+         */
+        CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER
+
+    }
+
+    /**
+     * Konstruktor.
+     * 
+     * @see javax.servlet.http.HttpServlet#HttpServlet()
+     */
     public BenutzerServlet() {
-	super();
-	
-	
+        super();
+
     }
 
     // TODO Bitte Kommentar ueberpruefen und ggf. anpassen.
     /**
-         * Diese Methode nimmt HTTP-POST-Request gemaess HTTP-Servlet Definition
-         * entgegen.
-         * 
-         * @param request
-         *                Der Request fuer das Servlet.
-         * @param response
-         *                Der Response Servlet.
-         * @throws IOException
-         *                 Falls Fehler in den E/A-Verarbeitung.
-         * @throws ServletException
-         *                 Falls Fehler in der HTTP-Verarbeitung auftreten.
-         * 
-         * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest
-         *      request, HttpServletResponse response)
-         */
+     * Diese Methode nimmt HTTP-POST-Request gemaess HTTP-Servlet Definition
+     * entgegen.
+     * 
+     * @param request
+     *            Der Request fuer das Servlet.
+     * @param response
+     *            Der Response Servlet.
+     * @throws IOException
+     *             Falls Fehler in den E/A-Verarbeitung.
+     * @throws ServletException
+     *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+     * 
+     * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+     *      HttpServletResponse response)
+     */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	String id = (String) request.getAttribute("anfrage_id");
-	Logger.getLogger(this.getClass()).debug(id);
+    protected void doPost(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+        String id = (String) request.getAttribute("anfrage_id");
+        Logger.getLogger(this.getClass()).debug("BenutzerServlet.doPost()");
+        //Logger.getLogger(this.getClass()).debug(id);
 
-	// Login
-	if (id.equals(BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_LOGIN1.name())) {
-	    this.class_dispatcherservlet_login1(request, response);
-	}// if
+        // Login
+        if (id.equals(BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_LOGIN1
+                .name())) {
+            Logger.getLogger(this.getClass()).debug("id '"+id+"' korrekt erkannt");
+            this.class_dispatcherservlet_login1(request, response);
+        }// if
 
-	// Letzter Schritt Benutzer registrieren
-	if (id.equals(BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER.name())) {
-	    this.class_dispatcherservlet_benutzer_registrieren_vier(request, response);	   
-	}// if 
+        // Letzter Schritt Benutzer registrieren
+        if (id
+                .equals(BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER
+                        .name())) {
+            Logger.getLogger(this.getClass()).debug("id '"+id+"' korrekt erkannt");
+            this.class_dispatcherservlet_benutzer_registrieren_vier(request,
+                    response);
+        }// if
     }// doPost
-    private void class_dispatcherservlet_login1(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-	    BenutzerkontoBean sBenutzer = null;
-	    try {
 
-		sBenutzer = new BenutzerkontoBean();
-		// Filter setzen
-		sBenutzer.setFilter(true);
-		sBenutzer.setBenutzername((String) request.getParameter("username"));
-		// TODO Zukünftig sollte hier gleich das Passwort überprüft
-		// werden
-		sBenutzer.setPasswortKlartext((String) request.getParameter("password"));
-		Vector<BenutzerkontoBean> gBenutzer = null;
+    /**
+     * Prueft, ob der Benutzer Sysop ist und leitet die Anfrage entsprechend
+     * weiter
+     * <p>
+     * Ist das System gesperrt (diese Pruefung findet hier nicht erneut statt!)
+     * so kann sich nur der Sysop in das System einloggen.<br>
+     * Besitzt das uebergebene Konto die Rolle des Systemoperators, so wird die
+     * Anfrage entsprechend weiter geleitet<br>
+     * Anderenfalls wird der Login-Versuch abgewiesen.<br>
+     * In beiden Faellen wird das Ergebnis geloggt.
+     * </p>
+     * 
+     * @param aBenutzer
+     *            Benutzerkonto
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    // TODO Parameter dokumentieren --Btheel
+    private void weiterleitungLoginKorrektBeiSystemGesperrt(
+            BenutzerkontoBean aBenutzer, HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
 
-		try {
-		    gBenutzer = Benutzerkonto.suchenBenutzer(sBenutzer);
-		} catch (DatenbankFehlerException e) {
-		    // Interner Fehler, wird nicht an Benutzer weitergegeben
-		    Logger.getLogger(this.getClass()).fatal("Fehler bei Benutzerfilterung", e);
-		}
-		if (gBenutzer.size() == 1) {
-		    if (!gBenutzer.get(0).isGesperrt() && new Benutzerkonto(gBenutzer.firstElement()).pruefenPasswort((String) request.getParameter("password"))) {
-			    if (gBenutzer.get(0).getRolle().getRollenname() == Rolle.Rollen.STUDIENARZT) {
-				request.getRequestDispatcher("/studie_auswaehlen.jsp").forward(request, response);
-			    } else if (gBenutzer.get(0).getRolle().getRollenname() == Rolle.Rollen.STUDIENLEITER) {
-				request.getRequestDispatcher("/studie_auswaehlen.jsp").forward(request, response);
-			    } else if (gBenutzer.get(0).getRolle().getRollenname() == Rolle.Rollen.STATISTIKER) {
-				request.getRequestDispatcher("/studie_ansehen.jsp").forward(request, response);
-			    } else if (gBenutzer.get(0).getRolle().getRollenname() == Rolle.Rollen.ADMIN) {
-				request.getRequestDispatcher("/global_welcome.jsp").forward(request, response);
-			    } else if (gBenutzer.get(0).getRolle().getRollenname() == Rolle.Rollen.SYSOP) {
-				request.getRequestDispatcher("/global_welcome.jsp").forward(request, response);
-			    }
-			LogAktion a = new LogAktion("Benutzer hat sich erfolgreich eingeloggt", gBenutzer.firstElement());
-			Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
-		    }// if
-		    else {
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Loginfehler:<br> Bitte Benutzername und Passwort &uuml;berpr&uuml;fen");
-			 request.getRequestDispatcher("/index.jsp").forward(request, response);
-			LogAktion a = new LogAktion("Falsches Passwort eingegeben.", sBenutzer);
-			Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
-		    }
-		}// if
-		else {
-		    request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Loginfehler:<br> Bitte Benutzername und Passwort &uuml;berpr&uuml;fen");
-		    request.getRequestDispatcher("/index.jsp").forward(request, response);
-		    if (gBenutzer.size() == 0) {
-			LogAktion a = new LogAktion("Falscher Benutzernamen eingegeben.", sBenutzer);
-			Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
-		    } else {
-			Logger.getLogger(this.getClass()).fatal("Mehr als einen Benutzer fuer '" + sBenutzer.getBenutzername() + "' in der Datenbank gefunden!");
-		    }
-		}// else
-
-	    } catch (BenutzerkontoException e) {
-
-		// Ungueltiger Benutzername/Passwort
-
-		request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Loginfehler");
-		request.getRequestDispatcher("/index.jsp").forward(request, response);
-		LogAktion a = new LogAktion("Ungueltige Benutzername/Passwort Kombination eingegeben.", sBenutzer);
-		Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
-	    }
-
-	
+        Logger.getLogger(this.getClass()).debug(
+                "System gesperrt, Kandidat == Sysop?");
+        if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.SYSOP) {
+            // Sicherstellen, das sich Sysop einloggen kann
+            request.getRequestDispatcher("/global_welcome.jsp").forward(
+                    request, response);
+            // Korrekt weiterleiten
+            // Ergebnis loggen
+            Logger.getLogger(this.getClass()).debug(
+                    "System gesperrt, Sysop hat sich eingeloggt");
+            LogAktion a = new LogAktion(
+                    "Benutzer hat sich erfolgreich eingeloggt", aBenutzer);
+            Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
+        } else {
+            request
+                    .setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+                            " Das Systen ist derzeit gesperrt.<br> Login nicht m&ouml;glich!");
+            request.getRequestDispatcher("/index_gesperrt.jsp").forward(
+                    request, response);
+            // Ergebnis loggen
+            Logger.getLogger(this.getClass()).debug(
+                    "System gesperrt, Benutzer abgewiesen");
+            LogAktion a = new LogAktion("Benutzer abgewiesen, System gesperrt",
+                    aBenutzer);
+            Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
+        }
     }
-    private void class_dispatcherservlet_benutzer_registrieren_vier(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-	 // Alle Attribute des request inititalisieren
-	    String fehlernachricht = "";
-	    String vorname = request.getParameter("Vorname");
-	    String nachname = request.getParameter("Nachname");
-	    char geschlecht = NullKonstanten.NULL_CHAR;
-	    String passwort = null;
-	    String email = request.getParameter("Email");
-	    String telefon = request.getParameter("Telefon");
-	    String fax = request.getParameter("Fax");
-	    String handynummer = request.getParameter("Handy");
-	    String institut = request.getParameter("Institut");
-	    String zent = request.getParameter("aZentrum");
-	    int zentrumID = Integer.parseInt(zent);
-	    ZentrumBean zentrum = null;
-	    String titel = request.getParameter("Titel");
-	    PersonBean.Titel titelenum=null;
-	    
-	    //Konvertierung String enum
-	    for(PersonBean.Titel t:PersonBean.Titel.values())
-	    {
-		if(titel.equals(t.toString()))
-		{
-		    titelenum=t;
-		    break;
-		}
-	    }
-	    
 
-	    // TODO Dirty Fix: Da noch keine Suche nach Zentrumbeans möglich
-	    // @Andy: man kann doch ein ZentrumBean einfach erzeugen, dazu
-	    // brauchen
-	    // wir keine konstante in der Zentrum Klasse. Oder steckt noch
-            // was
-	    // dahinter? (Lukasz)
-	    ZentrumBean sZentrum = new ZentrumBean();
-	    sZentrum.setFilter(true);
-	    Vector<ZentrumBean> gZentrum = null;
-	    try {
-		gZentrum = Zentrum.suchenZentrum(sZentrum);
-	    } catch (DatenbankFehlerException e2) {
-		// TODO Wieder muss an dieser Stelle die Ueberlegung gemacht
-		// werden, was für eine Nachricht dem Benutzer angezeigt werden
-		// soll.
-		e2.printStackTrace();
-	    }
-	    Iterator<ZentrumBean> itgZentrum = gZentrum.iterator();
-	    while (itgZentrum.hasNext()) {
-		ZentrumBean aZentrumBean = itgZentrum.next();
-		if (aZentrumBean.getId() == zentrumID) {
-		    zentrum = aZentrumBean;
-		}
-	    }
-	    // Ende Dirty Fix
+    /**
+     * Leitet den Benutzer an die fuer ihn bestimmte Einstiegsseite in das
+     * System weiter und loggt das Ergebnis in das Anwendungslog <br>
+     * Es findet keine Pruefung statt, ob das System gesperrt ist (Vgl.
+     * {@link #weiterleitungLoginKorrektBeiSystemGesperrt(BenutzerkontoBean, HttpServletRequest, HttpServletResponse)})
+     * </p>
+     * 
+     * @param aBenutzer
+     *            Benutzerkonto anhand dessen Rolle weitergeleitet wird
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void weiterleitungLoginKorrekt(BenutzerkontoBean aBenutzer,
+            HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Logger.getLogger(this.getClass()).debug(
+                "BenutzerServlet.weiterleitungLoginKorrekt()");
+        
+        if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.STUDIENARZT) {
+            request.getRequestDispatcher("/studie_auswaehlen.jsp").forward(
+                    request, response);
+        } else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.STUDIENLEITER) {
+            request.getRequestDispatcher("/studie_auswaehlen.jsp").forward(
+                    request, response);
+        } else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.STATISTIKER) {
+            request.getRequestDispatcher("/studie_ansehen.jsp").forward(
+                    request, response);
+        } else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.ADMIN) {
+            request.getRequestDispatcher("/global_welcome.jsp").forward(
+                    request, response);
+        } else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.SYSOP) {
+            request.getRequestDispatcher("global_welcome.jsp").forward(
+                    request, response);
+        }
 
-	    // Geschlecht abfragen
-	    if (request.getParameter("maennlich") != null) {
-		geschlecht = 'm';
-	    } else if (request.getParameter("weiblich") != null) {
-		geschlecht = 'w';
-	    }
-	    // Wiederholte Passworteingabe prüfen
-	    if (request.getParameter("Passwort") != null && request.getParameter("Passwort_wh") != null) {
-		if (request.getParameter("Passwort").equals(request.getParameter("Passwort_wh"))) {
-		    passwort = request.getParameter("Passwort");
-		} else {
-		    fehlernachricht += "Passwort und wiederholtes Passwort sind nicht gleich";
-		}
-	    }
-	    // Benutzer anlegen
-	    // Hier findet die Überprüfung der Daten auf Serverseite statt,
-	    // Fehler wird an Benutzer weiter gegeben
-	    PersonBean aPerson = null;
-	    try {
-		aPerson = new PersonBean(nachname, vorname, titelenum, geschlecht, email, telefon, handynummer, fax);
-		BenutzerkontoBean aBenutzerkonto;
-		aBenutzerkonto = new BenutzerkontoBean(email, passwort, aPerson);
-		aBenutzerkonto.setZentrum(zentrum);
-		Benutzerkonto.anlegenBenutzer(aBenutzerkonto);
+        LogAktion a = new LogAktion("Benutzer hat sich erfolgreich eingeloggt",
+                aBenutzer);
+        Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
+    }
 
-		// Hier startet das Abfangen aller Fehlerprüfungen
-	    } catch (DatenbankFehlerException e) {
-		Logger.getLogger(this.getClass()).warn("Nutzer konnte nicht in die Datenbank aufgenommen werden", e);
-		fehlernachricht += e.getMessage() + "\n";
-	    } catch (BenutzerkontoException e1) {
-		Logger.getLogger(this.getClass()).info("Fehler mit Passwort oder Email", e1);
-		fehlernachricht += e1.getMessage() + "\n";
-	    } catch (PersonException e) {
-		Logger.getLogger(this.getClass()).info("Persondaten ungültig", e);
-		fehlernachricht += e.getMessage() + "\n";
-		e.printStackTrace();
-	    }
-	    // Falls ein Fehler aufgetreten ist, request wieder auffüllen
-	    if (fehlernachricht != "") {
+    /**
+     * Weiterleitung der Anfrage bei Fehler
+     * <p>
+     * Leitet den Benutzer auf die entsprechende Indexseite weiter, abhaengig
+     * davon, ob das System gesperrt ist oder nicht.
+     * </p>
+     * <p>
+     * Die uebergebene Fehlermeldung wird an den Request als
+     * {@link DispatcherServlet#FEHLERNACHRICHT} angefuegt.
+     * </p>
+     * 
+     * @param fehlermeldungAnBenutzer
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    // TODO @param dokumentieren --BTheel
+    private void weiterleitungBeiFehler(String fehlermeldungAnBenutzer,
+            HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		request.setAttribute("Vorname", vorname);
-		request.setAttribute("Nachname", nachname);
-		if (geschlecht == 'm') {
-		    request.setAttribute("maennlich", "maennlich");
-		} else if (geschlecht == 'w') {
-		    request.setAttribute("weiblich", "weiblich");
-		}
-		request.setAttribute("Titel", titelenum);
-		request.setAttribute("Passwort", request.getParameter("Passwort"));
-		request.setAttribute("Passwort_wh", request.getParameter("Passwort_wh"));
-		request.setAttribute("Email", email);
-		request.setAttribute("Telefon", telefon);
-		request.setAttribute("Fax", fax);
-		request.setAttribute("aZentrum", zentrum.getId());
-		request.setAttribute("Handy", handynummer);
-		request.setAttribute("Institut", institut);
+        // Fehlermeldung anfuegen
+        request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+                fehlermeldungAnBenutzer);
 
-		// Ausgeben der Fehlermeldung
-		request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, fehlernachricht);
-		request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
-	    } else {
-		request.getRequestDispatcher("/benutzer_anlegen_vier.jsp").forward(request, response);
-	    }// else
-	
+        if ((Boolean) request
+                .getAttribute(DispatcherServlet.IST_SYSTEM_GESPERRT)) {
+            request.getRequestDispatcher("/index_gesperrt.jsp").forward(
+                    request, response);
+        } else {
+            request.getRequestDispatcher("/index.jsp").forward(request,
+                    response);
+        }
+    }
+
+    /**
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    // TODO Parameter dokumentieren --Btheel
+    private void class_dispatcherservlet_login1(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+Logger.getLogger(this.getClass()).debug(
+        "BenutzerServlet.class_dispatcherservlet_login1()");
+        BenutzerkontoBean sBenutzer = null;
+
+        
+        boolean isSystemGesperrt = (Boolean) request
+                .getAttribute(DispatcherServlet.IST_SYSTEM_GESPERRT);
+
+        try {
+            sBenutzer = new BenutzerkontoBean();
+            // Filter setzen
+            sBenutzer.setFilter(true);
+            sBenutzer
+                    .setBenutzername((String) request.getParameter("username"));
+            // TODO Zukünftig sollte hier gleich das Passwort überprüft
+            // werden
+            sBenutzer.setPasswortKlartext((String) request
+                    .getParameter("password"));// was soll der aufruf?
+            Vector<BenutzerkontoBean> gBenutzer = null;
+
+            try { //Benutzer in der DB suchen
+                gBenutzer = Benutzerkonto.suchenBenutzer(sBenutzer);
+            } catch (DatenbankFehlerException e) {
+                // Interner Fehler, wird nicht an Benutzer weitergegeben
+                Logger.getLogger(this.getClass()).fatal(
+                        "Fehler bei Benutzerfilterung", e);
+            }
+            if (gBenutzer.size() == 1) { // _genau_ ein Konto gefunden
+            Logger.getLogger(this.getClass()).debug("BenutzerServlet.class_dispatcherservlet_login1(): Genau einen Benutzer gefunden");
+                // Gefundenen kontoBean aus dem Vector holen
+                BenutzerkontoBean aBenutzer = gBenutzer.get(0);  
+                
+                if (!aBenutzer.isGesperrt() && new Benutzerkonto(aBenutzer)
+                        .pruefenPasswort((String) request
+                                .getParameter("password"))) {
+                    // Konto nicht gesperrt und PW korrekt 
+                    if (isSystemGesperrt) {
+                        // Konto korrekt, aber System gesperrt
+                        weiterleitungLoginKorrektBeiSystemGesperrt(aBenutzer, request, response);
+                    } else {
+                        // Konto korrekt, normaler Ablauf
+                        weiterleitungLoginKorrekt(aBenutzer,
+                                request, response);
+                    }
+                }// if
+                else { // PW inkorrekt oder Konto gesperrt 
+                    weiterleitungBeiFehler(
+                            "Loginfehler:<br> Bitte Benutzername und Passwort &uuml;berpr&uuml;fen",
+                            request, response);
+                    // Aktion loggen
+                    LogAktion a;
+                    if (aBenutzer.isGesperrt()) {
+                        // Konto gesperrt
+                        a = new LogAktion(
+                                "Versuchter Zugriff auf gesperrtes Konto",
+                                aBenutzer);
+                    } else {
+                        a = new LogAktion("Falsches Passwort eingegeben.",
+                                aBenutzer);
+                    }
+                    Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
+                }
+            }// if
+            else {// Gefundene Konten != 1
+                weiterleitungBeiFehler(
+                        "Loginfehler:<br> Bitte Benutzername und Passwort &uuml;berpr&uuml;fen",
+                        request, response);
+
+                if (gBenutzer.size() == 0) {
+                    // Unbekanntes Konto
+                    LogAktion a = new LogAktion("Unbekannter Benutzername.",
+                            sBenutzer);
+                    Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
+                } else { // 
+                    Logger.getLogger(this.getClass()).fatal(
+                            "Mehr als einen Benutzer fuer '"
+                                    + sBenutzer.getBenutzername()
+                                    + "' in der Datenbank gefunden!");
+                    // FIXME ist das Loggin hier Korrekt? Loggt der die Aktion
+                    // in das Richtige Log?  -BTheel
+                }
+            }// else
+        } catch (BenutzerkontoException e) {
+            // Ungueltiger Benutzername/Passwort
+            weiterleitungBeiFehler(
+                    "Loginfehler:<br> Bitte Benutzername und Passwort &uuml;berpr&uuml;fen",
+                    request, response);
+
+            LogAktion a = new LogAktion(
+                    "Ungueltige Benutzername/Passwort Kombination eingegeben.",
+                    sBenutzer);
+            // FIXME LogMsg eindeutig genug?--Btheel
+            Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
+        }// catch
+    }
+
+    private void class_dispatcherservlet_benutzer_registrieren_vier(
+            HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Alle Attribute des request inititalisieren
+        String fehlernachricht = "";
+        String vorname = request.getParameter("Vorname");
+        String nachname = request.getParameter("Nachname");
+        char geschlecht = NullKonstanten.NULL_CHAR;
+        String passwort = null;
+        String email = request.getParameter("Email");
+        String telefon = request.getParameter("Telefon");
+        String fax = request.getParameter("Fax");
+        String handynummer = request.getParameter("Handy");
+        String institut = request.getParameter("Institut");
+        String zent = request.getParameter("aZentrum");
+        int zentrumID = Integer.parseInt(zent);
+        ZentrumBean zentrum = null;
+        String titel = request.getParameter("Titel");
+        PersonBean.Titel titelenum = null;
+
+        // Konvertierung String enum
+        for (PersonBean.Titel t : PersonBean.Titel.values()) {
+            if (titel.equals(t.toString())) {
+                titelenum = t;
+                break;
+            }
+        }
+
+        // FIXME Dirty Fix: Da noch keine Suche nach Zentrumbeans möglich
+        // @Andy: man kann doch ein ZentrumBean einfach erzeugen, dazu
+        // brauchen
+        // wir keine konstante in der Zentrum Klasse. Oder steckt noch
+        // was
+        // dahinter? (Lukasz)
+        ZentrumBean sZentrum = new ZentrumBean();
+        sZentrum.setFilter(true);
+        Vector<ZentrumBean> gZentrum = null;
+        try {
+            gZentrum = Zentrum.suchenZentrum(sZentrum);
+        } catch (DatenbankFehlerException e2) {
+            // FIXME Wieder muss an dieser Stelle die Ueberlegung gemacht
+            // werden, was für eine Nachricht dem Benutzer angezeigt werden
+            // soll.
+            e2.printStackTrace();
+        }
+        Iterator<ZentrumBean> itgZentrum = gZentrum.iterator();
+        while (itgZentrum.hasNext()) {
+            ZentrumBean aZentrumBean = itgZentrum.next();
+            if (aZentrumBean.getId() == zentrumID) {
+                zentrum = aZentrumBean;
+            }
+        }
+        // Ende Dirty Fix
+
+        // Geschlecht abfragen
+        if (request.getParameter("maennlich") != null) {
+            geschlecht = 'm';
+        } else if (request.getParameter("weiblich") != null) {
+            geschlecht = 'w';
+        }
+        // Wiederholte Passworteingabe prüfen
+        if (request.getParameter("Passwort") != null
+                && request.getParameter("Passwort_wh") != null) {
+            if (request.getParameter("Passwort").equals(
+                    request.getParameter("Passwort_wh"))) {
+                passwort = request.getParameter("Passwort");
+            } else {
+                fehlernachricht += "Passwort und wiederholtes Passwort sind nicht gleich";
+            }
+        }
+        // Benutzer anlegen
+        // Hier findet die Überprüfung der Daten auf Serverseite statt,
+        // Fehler wird an Benutzer weiter gegeben
+        PersonBean aPerson = null;
+        try {
+            aPerson = new PersonBean();
+            aPerson.setNachname(nachname);
+            aPerson.setVorname(vorname);
+            aPerson.setTitel(titelenum);
+            aPerson.setGeschlecht(geschlecht);
+            aPerson.setEmail(email);
+            aPerson.setTelefonnummer(telefon);
+            aPerson.setHandynummer(handynummer);
+            aPerson.setFax(fax);
+            
+            BenutzerkontoBean aBenutzerkonto;
+            aBenutzerkonto = new BenutzerkontoBean(email, passwort, aPerson);
+            aBenutzerkonto.setZentrum(zentrum);
+            Benutzerkonto.anlegenBenutzer(aBenutzerkonto);
+
+            // Hier startet das Abfangen aller Fehlerprüfungen
+        } catch (DatenbankFehlerException e) {
+            Logger.getLogger(this.getClass()).warn(
+                    "Nutzer konnte nicht in die Datenbank aufgenommen werden",
+                    e);
+            fehlernachricht += e.getMessage() + "\n";
+        } catch (BenutzerkontoException e1) {
+            Logger.getLogger(this.getClass()).info(
+                    "Fehler mit Passwort oder Email", e1);
+            fehlernachricht += e1.getMessage() + "\n";
+        } catch (PersonException e) {
+            Logger.getLogger(this.getClass()).info("Persondaten ungültig", e);
+            fehlernachricht += e.getMessage() + "\n";
+            e.printStackTrace();
+        }
+        // Falls ein Fehler aufgetreten ist, request wieder auffüllen
+        if (fehlernachricht != "") {
+
+            request.setAttribute("Vorname", vorname);
+            request.setAttribute("Nachname", nachname);
+            if (geschlecht == 'm') {
+                request.setAttribute("maennlich", "maennlich");
+            } else if (geschlecht == 'w') {
+                request.setAttribute("weiblich", "weiblich");
+            }
+            request.setAttribute("Titel", titelenum);
+            request.setAttribute("Passwort", request.getParameter("Passwort"));
+            request.setAttribute("Passwort_wh", request
+                    .getParameter("Passwort_wh"));
+            request.setAttribute("Email", email);
+            request.setAttribute("Telefon", telefon);
+            request.setAttribute("Fax", fax);
+            request.setAttribute("aZentrum", zentrum.getId());
+            request.setAttribute("Handy", handynummer);
+            request.setAttribute("Institut", institut);
+
+            // Ausgeben der Fehlermeldung
+            request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+                    fehlernachricht);
+            request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(
+                    request, response);
+        } else {
+            request.getRequestDispatcher("/benutzer_anlegen_vier.jsp").forward(
+                    request, response);
+        }// else
+
     }
 }
