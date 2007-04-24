@@ -22,6 +22,7 @@ import de.randi2.utility.NullKonstanten;
  */
 public class Datenbank implements DatenbankSchnittstelle{
 	//TODO es muss bei allen schreib zugriffen geloggt werden!!
+	//TODO Exception Handling. SQL Exceptions abfangen und DBExceptions schmeissen
 	
 	/**
 	 * Enum Klasse welche die Tabellen der Datenbank auflistet
@@ -356,8 +357,9 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * 			zu suchende ID
 	 * @return
 	 * 			Person mit zutreffender ID, null falls keine Person mit entsprechender ID gefunden wurde
+	 * @throws DatenbankFehlerException 
 	 */
-	private PersonBean suchenPersonID(long id) {
+	private PersonBean suchenPersonID(long id) throws DatenbankFehlerException {
 		Connection con=null;
 		PreparedStatement pstmt;
 		ResultSet rs = null;
@@ -380,15 +382,15 @@ public class Datenbank implements DatenbankSchnittstelle{
 					tmpPerson = new PersonBean(rs.getLong(FelderPerson.ID.toString()), rs.getString(FelderPerson.NACHNAME.toString()),rs.getString(FelderPerson.VORNAME.toString())
 							, Titel.parseTitel(rs.getString(FelderPerson.TITEL.toString())) , tmp[0],rs.getString(FelderPerson.EMAIL.toString()),
 							rs.getString(FelderPerson.TELEFONNUMMER.toString()),rs.getString(FelderPerson.HANDYNUMMER.toString()),rs.getString(FelderPerson.FAX.toString()));
-				} catch (PersonException e) {
-					System.out.println("Sollte nicht auftreten"); //TODO wie hier am besten verfahren?
+				} catch (PersonException e) {					
 					e.printStackTrace();
+					throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
+					//sollte hier lieber die Person Exception weitergeleitet werden? wie sieht es mit logging aus?
 				}
 			}			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		
+		}		
 		try {
 			closeConnection(con);
 		} catch (SQLException e) {
@@ -422,7 +424,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 		if (con==null) {
 			System.out.println("keine Verbindung vorhanden");
 		}
-		else System.out.println("Verbindung steht");
+		else System.out.println("Verbindung aufgebaut");
 		String query = "SELECT * FROM patient";
 		Statement stmt;
 		ResultSet rs=null;

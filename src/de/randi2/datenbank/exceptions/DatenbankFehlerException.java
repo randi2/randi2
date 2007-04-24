@@ -44,6 +44,12 @@ public class DatenbankFehlerException extends Exception {
 	public static final String ID_NICHT_VORHANDEN="Es existiert kein Objekt mit dieser ID.";
 	
 	
+	/**
+	 * Allgemeine Konstante falls ein Datensatz unkorrekte Daten enthaelt.
+	 */
+	public static final String UNGUELTIGE_DATEN="Geladener Datensatz ist nicht valide.";
+	
+	
 
 	/**
 	 * Konstruktor.

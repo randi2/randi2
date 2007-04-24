@@ -106,8 +106,8 @@ public interface DatenbankSchnittstelle {
 	 *            Der Typ des Vater-Objekts.
 	 * @param vater
 	 *            Vater-Objekt, dessen Mitglieder/Kinder gesucht werden sollen.
-	 *            Das Objekt muss auf jeden Fall eigene ID enthalten, die auf
-	 *            der Datenbank vorhanden sein muss.
+	 *            Das Objekt muss auf jeden Fall die eigene ID enthalten, die es
+	 *            in der Datenbank identifiziert.
 	 * @param kind
 	 *            Muster des zu suchenden Kind-Objektes. Gesetzte Attribute
 	 *            beschraenken die Liste auf selbige ein. Ein Null-Objekt
