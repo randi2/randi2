@@ -1,9 +1,39 @@
-CREATE TABLE Aktivierung (
-  aktivierungslink CHAR(20) NOT NULL,
-  Benutzerkonto_benutzerkontenID INT UNSIGNED NOT NULL,
-  versanddatum DATE NOT NULL,
-  PRIMARY KEY(aktivierungslink),
-  INDEX Aktivierung_FKIndex1(Benutzerkonto_benutzerkontenID)
+CREATE TABLE Person (
+  personenID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  stellvertreterID INT UNSIGNED NULL,
+  nachname VARCHAR(50) NOT NULL,
+  vorname VARCHAR(50) NOT NULL,
+  titel ENUM('Prof.', 'Dr.', 'Prof. Dr.') NULL,
+  geschlecht ENUM('w', 'm') NOT NULL,
+  telefonnummer VARCHAR(26) NOT NULL,
+  handynummer VARCHAR(26) NULL,
+  fax VARCHAR(26) NULL,
+  email VARCHAR(26) NOT NULL,
+  PRIMARY KEY(personenID),
+  INDEX Person_FKIndex1(stellvertreterID),
+  FOREIGN KEY(stellvertreterID)
+    REFERENCES Person(personenID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
+
+CREATE TABLE Zentrum (
+  zentrumsID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  ansprechpartnerID INT UNSIGNED NOT NULL,
+  institution VARCHAR(70) NOT NULL,
+  abteilungsname VARCHAR(70) NOT NULL,
+  ort VARCHAR(50) NOT NULL,
+  plz CHAR(5) NOT NULL,
+  strasse VARCHAR(50) NOT NULL,
+  hausnummer VARCHAR(6) NOT NULL,
+  passwort CHAR(64) NOT NULL,
+  aktiviert BOOL NOT NULL,
+  PRIMARY KEY(zentrumsID),
+  FOREIGN KEY(ansprechpartnerID)
+    REFERENCES Person(personenID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
 )
 TYPE=InnoDB;
 
@@ -17,7 +47,74 @@ CREATE TABLE Benutzerkonto (
   letzter_login DATETIME NULL,
   gesperrt BOOL NOT NULL,
   PRIMARY KEY(benutzerkontenID),
-  INDEX Benutzerkonto_FKIndex1(Person_personenID)
+  INDEX Benutzerkonto_FKIndex1(Person_personenID),
+  FOREIGN KEY(Person_personenID)
+    REFERENCES Person(personenID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
+
+CREATE TABLE Aktivierung (
+  aktivierungslink CHAR(20) NOT NULL,
+  Benutzerkonto_benutzerkontenID INT UNSIGNED NOT NULL,
+  versanddatum DATE NOT NULL,
+  PRIMARY KEY(aktivierungslink),
+  INDEX Aktivierung_FKIndex1(Benutzerkonto_benutzerkontenID),
+  FOREIGN KEY(Benutzerkonto_benutzerkontenID)
+    REFERENCES Benutzerkonto(benutzerkontenID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
+
+CREATE TABLE Studie (
+  studienID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  Benutzerkonto_benutzerkontenID INT UNSIGNED NOT NULL,
+  name VARCHAR(50) NOT NULL,
+  beschreibung TEXT NULL,
+  startdatum DATE NOT NULL,
+  enddatum DATE NOT NULL,
+  studienprotokoll LONGBLOB NOT NULL,
+  randomisationArt ENUM('Vollstaendige', 'Block', 'Block mit Strata', 'Minimisation') NOT NULL,
+  PRIMARY KEY(studienID),
+  INDEX Studie_FKIndex1(Benutzerkonto_benutzerkontenID),
+  FOREIGN KEY(Benutzerkonto_benutzerkontenID)
+    REFERENCES Benutzerkonto(benutzerkontenID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
+
+CREATE TABLE Studienarm (
+  studienarmID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  Studie_studienID INT UNSIGNED NOT NULL,
+  status_aktivitaet TINYINT UNSIGNED NOT NULL,
+  bezeichnung VARCHAR(50) NOT NULL,
+  beschreibung TEXT NULL,
+  PRIMARY KEY(studienarmID),
+  INDEX Studienarm_FKIndex1(Studie_studienID),
+  FOREIGN KEY(Studie_studienID)
+    REFERENCES Studie(studienID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
+
+CREATE TABLE Studie_has_Zentrum (
+  Studie_studienID INT UNSIGNED NOT NULL,
+  Zentrum_zentrumsID INT UNSIGNED NOT NULL,
+  PRIMARY KEY(Studie_studienID, Zentrum_zentrumsID),
+  INDEX Studie_has_Zentrum_FKIndex1(Studie_studienID),
+  INDEX Studie_has_Zentrum_FKIndex2(Zentrum_zentrumsID),
+  FOREIGN KEY(Studie_studienID)
+    REFERENCES Studie(studienID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(Zentrum_zentrumsID)
+    REFERENCES Zentrum(zentrumsID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
 )
 TYPE=InnoDB;
 
@@ -33,32 +130,15 @@ CREATE TABLE Patient (
   performancestatus ENUM('0', '1', '2', '3', '4') NOT NULL,
   PRIMARY KEY(patientenID),
   INDEX Patient_FKIndex1(Studienarm_studienarmID),
-  INDEX Patient_FKIndex2(Benutzerkonto_benutzerkontenID)
-)
-TYPE=InnoDB;
-
-CREATE TABLE Person (
-  personenID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  Person_personenID INT UNSIGNED NOT NULL,
-  nachname VARCHAR(50) NOT NULL,
-  vorname VARCHAR(50) NOT NULL,
-  titel ENUM('Prof.', 'Dr.', 'Prof. Dr.') NULL,
-  geschlecht ENUM('weiblich', 'maennlich') NOT NULL,
-  telefonnummer VARCHAR(26) NOT NULL,
-  handynummer VARCHAR(26) NULL,
-  fax VARCHAR(26) NULL,
-  email VARCHAR(26) NOT NULL,
-  PRIMARY KEY(personenID),
-  INDEX Person_FKIndex1(Person_personenID)
-)
-TYPE=InnoDB;
-
-CREATE TABLE Strata_Auspraegung (
-  strata_WerteID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  Strata_Typen_strata_TypenID INTEGER UNSIGNED NOT NULL,
-  wert VARCHAR(100) NOT NULL,
-  PRIMARY KEY(strata_WerteID),
-  INDEX Strata_Werte_FKIndex1(Strata_Typen_strata_TypenID)
+  INDEX Patient_FKIndex2(Benutzerkonto_benutzerkontenID),
+  FOREIGN KEY(Studienarm_studienarmID)
+    REFERENCES Studienarm(studienarmID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(Benutzerkonto_benutzerkontenID)
+    REFERENCES Benutzerkonto(benutzerkontenID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
 )
 TYPE=InnoDB;
 
@@ -68,7 +148,24 @@ CREATE TABLE Strata_Typen (
   name VARCHAR(40) NOT NULL,
   beschreibung TEXT NULL,
   PRIMARY KEY(strata_TypenID),
-  INDEX Strata_Typen_FKIndex1(Studie_studienID)
+  INDEX Strata_Typen_FKIndex1(Studie_studienID),
+  FOREIGN KEY(Studie_studienID)
+    REFERENCES Studie(studienID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+)
+TYPE=InnoDB;
+
+CREATE TABLE Strata_Auspraegung (
+  strata_WerteID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  Strata_Typen_strata_TypenID INTEGER UNSIGNED NOT NULL,
+  wert VARCHAR(100) NOT NULL,
+  PRIMARY KEY(strata_WerteID),
+  INDEX Strata_Werte_FKIndex1(Strata_Typen_strata_TypenID),
+  FOREIGN KEY(Strata_Typen_strata_TypenID)
+    REFERENCES Strata_Typen(strata_TypenID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
 )
 TYPE=InnoDB;
 
@@ -77,58 +174,15 @@ CREATE TABLE Strata_Werte_has_Patient (
   Patient_patientenID INT UNSIGNED NOT NULL,
   PRIMARY KEY(Strata_Auspraegung_strata_WerteID, Patient_patientenID),
   INDEX Strata_Werte_has_Patient_FKIndex1(Strata_Auspraegung_strata_WerteID),
-  INDEX Strata_Werte_has_Patient_FKIndex2(Patient_patientenID)
+  INDEX Strata_Werte_has_Patient_FKIndex2(Patient_patientenID),
+  FOREIGN KEY(Strata_Auspraegung_strata_WerteID)
+    REFERENCES Strata_Auspraegung(strata_WerteID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(Patient_patientenID)
+    REFERENCES Patient(patientenID)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
 )
 TYPE=InnoDB;
-
-CREATE TABLE Studie (
-  studienID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  Benutzerkonto_benutzerkontenID INT UNSIGNED NOT NULL,
-  name VARCHAR(50) NOT NULL,
-  beschreibung TEXT NULL,
-  startdatum DATE NOT NULL,
-  enddatum DATE NOT NULL,
-  studienprotokoll LONGBLOB NOT NULL,
-  randomisationArt ENUM('Vollstaendige', 'Block', 'Block mit Strata', 'Minimisation') NOT NULL,
-  PRIMARY KEY(studienID),
-  INDEX Studie_FKIndex1(Benutzerkonto_benutzerkontenID)
-)
-TYPE=InnoDB;
-
-CREATE TABLE Studienarm (
-  studienarmID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  Studie_studienID INT UNSIGNED NOT NULL,
-  status_aktivitaet TINYINT UNSIGNED NOT NULL,
-  bezeichnung VARCHAR(50) NOT NULL,
-  beschreibung TEXT NULL,
-  PRIMARY KEY(studienarmID),
-  INDEX Studienarm_FKIndex1(Studie_studienID)
-)
-TYPE=InnoDB;
-
-CREATE TABLE Studie_has_Zentrum (
-  Studie_studienID INT UNSIGNED NOT NULL,
-  Zentrum_zentrumsID INT UNSIGNED NOT NULL,
-  PRIMARY KEY(Studie_studienID, Zentrum_zentrumsID),
-  INDEX Studie_has_Zentrum_FKIndex1(Studie_studienID),
-  INDEX Studie_has_Zentrum_FKIndex2(Zentrum_zentrumsID)
-)
-TYPE=InnoDB;
-
-CREATE TABLE Zentrum (
-  zentrumsID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  Person_personenID INT UNSIGNED NOT NULL,
-  institution VARCHAR(70) NOT NULL,
-  abteilungsname VARCHAR(70) NOT NULL,
-  ort VARCHAR(50) NOT NULL,
-  plz CHAR(5) NOT NULL,
-  strasse VARCHAR(50) NOT NULL,
-  hausnummer VARCHAR(6) NOT NULL,
-  passwort CHAR(12) NOT NULL,
-  aktiviert BOOL NOT NULL,
-  PRIMARY KEY(zentrumsID),
-  INDEX Zentrum_FKIndex1(Person_personenID)
-)
-TYPE=InnoDB;
-
 
