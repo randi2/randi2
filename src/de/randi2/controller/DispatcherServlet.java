@@ -33,14 +33,17 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     private static String meldungSystemGesperrt = "Meldung des System ist gesperrt";
 
     /**
-     * 
+     * Mitteilung an den Benutzer beim Loginvorgang, welche Fehler aufgetreten sind
      */
     public static final String FEHLERNACHRICHT = "fehlernachricht";
 
+    /**
+     * Systemstatus gesperrt[true|false]
+     */
     public static final String IST_SYSTEM_GESPERRT = "System gesperrt";
 
     /**
-     * 
+     * Haelt die Begruendung der Systemsperrung
      */
     public static final String MITTEILUNG_SYSTEM_GESPERRT = "Systemmitteilung gesperrt";
 
@@ -92,6 +95,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER
     }
 
+    public enum sessionAttribute{
+        A_Benutzer,IST_SYSTEM_GESPERRT,MITTEILUNG_SYSTEM_GESPERRT
+    }
+    
     // TODO Bitte Kommentar ueberpruefen und ggf. anpassen.
     /**
      * Diese Methode nimmt HTTP-GET-Request gemaess HTTP-Servlet Definition
@@ -124,9 +131,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
             Logger.getLogger(this.getClass()).debug("anfrage_id: " + id);
             // logout ( FRAGE Logout wirklich an dieser Stelle?? oder in BenutzerServelet)
             if (id.equals(DispatcherServlet.anfrage_id.JSP_HEADER_LOGOUT)) {
-                request.getSession().invalidate();
-                request.getRequestDispatcher("index.jsp").forward(request,
-                        response);
+                loggeBenutzerAus(request, response);
             }
             return;
         } else {// keine anfrage_id empfangen
@@ -154,6 +159,13 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
     }
 
+    /**
+     * Leitet die Anfrage nach Authentifikation an das BenutzerServlet weiter
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     private void weiterleitungBenutzerAnmelden(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         Logger.getLogger(this.getClass()).debug(
@@ -193,6 +205,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         String idAttribute = (String) request.getAttribute("anfrage_id");        
         
         Logger.getLogger(this.getClass()).debug("anfrage_id: "+id);
+        
+        System.out.println("Nutzer angemeldet? "+isBenutzerAngemeldet(request));
         
         if (idAttribute != null) {
             /* XXX Frickelei unnoetig, da wenn Param null auch Attr  null ist
@@ -275,6 +289,21 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         }
     }// doPost
 
+    
+    private boolean isBenutzerAngemeldet(HttpServletRequest request){
+        return (request.getAttribute("aBenutzer"))!=null;
+    }
+    
+    private void loggeBenutzerAus(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException{
+        /*request.getRequestDispatcher("index.jsp").forward(request,
+                response);
+        */
+        // gefrickelt
+        request.getSession().setAttribute("aBenutzer",null);
+        request.getSession().invalidate();
+        request.getSession(true);
+        this.doGet(request,response);
+    }
     /**
      * @return the istSystemGesperrt
      */
