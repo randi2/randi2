@@ -56,10 +56,11 @@ CREATE TABLE Benutzerkonto (
 TYPE=InnoDB;
 
 CREATE TABLE Aktivierung (
-  aktivierungslink CHAR(20) NOT NULL,
+  aktivierungsID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   Benutzerkonto_benutzerkontenID INT UNSIGNED NOT NULL,
+  aktivierungslink CHAR(20) NOT NULL,
   versanddatum DATE NOT NULL,
-  PRIMARY KEY(aktivierungslink),
+  PRIMARY KEY(aktivierungsID),
   INDEX Aktivierung_FKIndex1(Benutzerkonto_benutzerkontenID),
   FOREIGN KEY(Benutzerkonto_benutzerkontenID)
     REFERENCES Benutzerkonto(benutzerkontenID)
@@ -185,4 +186,3 @@ CREATE TABLE Strata_Werte_has_Patient (
       ON UPDATE NO ACTION
 )
 TYPE=InnoDB;
-
