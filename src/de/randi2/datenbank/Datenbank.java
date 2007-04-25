@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.beans.PersonBean;
@@ -15,6 +17,9 @@ import de.randi2.model.fachklassen.beans.PersonBean.Titel;
 import de.randi2.utility.Config;
 import de.randi2.utility.NullKonstanten;
 
+import org.logicalcobwebs.proxool.ProxoolException;
+import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
+
 /**
  * <p>Datenbankklasse</p>
  * @version $Id$
@@ -22,14 +27,18 @@ import de.randi2.utility.NullKonstanten;
  */
 public class Datenbank implements DatenbankSchnittstelle{
 	//TODO es muss bei allen schreib zugriffen geloggt werden!!
-	//TODO Exception Handling. SQL Exceptions abfangen und DBExceptions schmeissen
+	//TODO Exception Handling.
+	
+	/**
+	 * Logging Objekt
+	 */
+	private Logger log = null;
 	
 	/**
 	 * Enum Klasse welche die Tabellen der Datenbank auflistet
 	 * @author Frederik Reifschneider [Reifschneider@stud.uni-heidelberg.de]
 	 */
-	private enum Tabellen{
-	
+	private enum Tabellen{	
 		ZENTRUM ("Zentrum"),
 		PERSON ("Person"),
 		BENUTZERKONTO("Benutzerkonto"),
@@ -108,18 +117,14 @@ public class Datenbank implements DatenbankSchnittstelle{
 	
 	/**
 	 * Konstruktor der Datenbankklasse.
-	 * Laedt den SQL Treiber
 	 */
 	public Datenbank() {
-		try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-        } catch (InstantiationException e) {
-        	System.out.println(e.getLocalizedMessage());
-        } catch (IllegalAccessException e) {
-        	System.out.println(e.getLocalizedMessage());
-        } catch (ClassNotFoundException e) {
-        	System.out.println(e.getLocalizedMessage());
-        }
+        log = Logger.getLogger("Randi2.Datenaenderung");
+        try {
+			JAXPConfigurator.configure("./src/conf/release/proxool_cfg.xml", false);
+		} catch (ProxoolException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -480,9 +485,10 @@ public class Datenbank implements DatenbankSchnittstelle{
      * @throws SQLException
      */
     private Connection getConnection() throws SQLException {
-    	Connection con = DriverManager.getConnection("jdbc:mysql://"+Config.getProperty(Config.Felder.RELEASE_DB_HOST)+":"+Config.getProperty(Config.Felder.RELEASE_DB_PORT)+"/randi2",Config.getProperty(Config.Felder.RELEASE_DB_NUTZERNAME),Config.getProperty(Config.Felder.RELEASE_DB_PASSWORT));    	
+    	Connection con = DriverManager.getConnection("proxool.randi2");    	
     	return con;
     }
+    //"jdbc:mysql://"+Config.getProperty(Config.Felder.RELEASE_DB_HOST)+":"+Config.getProperty(Config.Felder.RELEASE_DB_PORT)+"/randi2",Config.getProperty(Config.Felder.RELEASE_DB_NUTZERNAME),Config.getProperty(Config.Felder.RELEASE_DB_PASSWORT
     
     /**
      * Trennt Verbindung zur Datenbank.
