@@ -17,7 +17,7 @@ public class PersonBean extends Filter {
     /*
      * Change Log 29.01.2007 Thomas Willert
      * 
-     * TODO: Fehlermeldungen sind rein provisorisch. Die Konstanten fuer das
+     * TODO Fehlermeldungen sind rein provisorisch. Die Konstanten fuer das
      * Geschlecht sind manuell eingetragen, solange die Klasse Konstanten noch
      * nicht existiert.
      */
