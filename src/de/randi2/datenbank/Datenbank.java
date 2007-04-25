@@ -291,7 +291,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setString(1, zentrum.getInstitution());
 				pstmt.setString(2, zentrum.getAbteilung());
-				pstmt.setLong(3, 1);//zentrum.getAnsprechpartnerId());
+				pstmt.setLong(3, zentrum.getAnsprechpartnerId());
 				pstmt.setString(4, zentrum.getStrasse());
 				pstmt.setString(5, zentrum.getHausnr());
 				pstmt.setString(6, zentrum.getPlz());
@@ -388,8 +388,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 			e.printStackTrace();
 		}
 		String sql;
-		sql = "SELECT * FROM "+Tabellen.PERSON+" WHERE "+FelderPerson.ID+" = ?";
-		
+		sql = "SELECT * FROM "+Tabellen.PERSON+" WHERE "+FelderPerson.ID+" = ?";		
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, id);
