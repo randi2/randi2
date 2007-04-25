@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -67,7 +68,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 */
 	private enum FelderZentrum {
 		ID ("zentrumsID"),
-		ANSPRECHPARTNERID ("Person_personenID"),
+		ANSPRECHPARTNERID ("ansprechpartnerID"),
 		INSTITUTION ("institution"),
 		ABTEILUNGSNAME("abteilungsname"),
 		ORT ("ort"),
@@ -94,7 +95,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 */
 	private enum FelderPerson {
 		
-		ID ("personeneID"),
+		ID ("personenID"),
 		NACHNAME ("nachname"),
 		VORNAME ("vorname"),
 		TITEL ("titel"),
@@ -103,7 +104,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 		HANDYNUMMER ("handynummer"),
 		FAX ("fax"),
 		EMAIL ("email"),
-		STELLVERTRETER ("personenID");
+		STELLVERTRETER ("stellvertreterID");
 		
 		private String name = "";
 		private FelderPerson(String name) {
@@ -197,10 +198,17 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.setString(5, person.getEmail());
 				pstmt.setString(6, person.getFax());
 				pstmt.setString(7, person.getTelefonnummer());
-				pstmt.setLong(8, person.getStellvertreterID());
+				if (person.getStellvertreterID()==NullKonstanten.NULL_LONG) {
+					pstmt.setNull(8, Types.NULL);
+				}
+				else {
+					pstmt.setLong(8,person.getStellvertreterID());
+				}
+				
+				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
 				rs.next();
-				id = rs.getLong(FelderZentrum.ID.toString());
+				id = rs.getLong(1);
 				rs.close();
 				pstmt.close();
 			} catch (SQLException e) {
@@ -230,7 +238,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.setString(5, person.getEmail());
 				pstmt.setString(6, person.getFax());
 				pstmt.setString(7, person.getTelefonnummer());
-				pstmt.setLong(9, person.getStellvertreterID());
+				pstmt.setLong(8, person.getStellvertreterID());
 				pstmt.setLong(9, person.getId());	
 				pstmt.executeUpdate();
 				pstmt.close();
@@ -281,18 +289,19 @@ public class Datenbank implements DatenbankSchnittstelle{
 			"VALUES (NULL,?,?,?,?,?,?,?,?,?);";
 			try {
 				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-				pstmt.setString(2, zentrum.getAbteilung());
-				pstmt.setLong(3, zentrum.getAnsprechpartnerId());
-				pstmt.setString(5, zentrum.getHausnr());
 				pstmt.setString(1, zentrum.getInstitution());
-				pstmt.setString(7, zentrum.getOrt());
-				pstmt.setString(8, zentrum.getPasswort());
-				pstmt.setString(6, zentrum.getPlz());
+				pstmt.setString(2, zentrum.getAbteilung());
+				pstmt.setLong(3, 1);//zentrum.getAnsprechpartnerId());
 				pstmt.setString(4, zentrum.getStrasse());
+				pstmt.setString(5, zentrum.getHausnr());
+				pstmt.setString(6, zentrum.getPlz());
+				pstmt.setString(7, zentrum.getOrt());
+				pstmt.setString(8, zentrum.getPasswort());							
 				pstmt.setBoolean(9, zentrum.getIstAktiviert());
+				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
 				rs.next();
-				id = rs.getLong(FelderZentrum.ID.toString());
+				id = rs.getLong(1);
 				rs.close();
 				pstmt.close();
 			} catch (SQLException e) {
@@ -310,7 +319,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 			FelderZentrum.STRASSE+"=?,"+
 			FelderZentrum.HAUSNUMMER+"=?,"+	
 			FelderZentrum.PLZ+"=?,"+
-			FelderZentrum.ORT+","+
+			FelderZentrum.ORT+"=?,"+
 			FelderZentrum.PASSWORT+"=?,"+				
 			FelderZentrum.AKTIVIERT+"=?"+
 			" WHERE "+FelderPerson.ID+"=?";
@@ -323,7 +332,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.setString(5, zentrum.getHausnr());
 				pstmt.setString(6, zentrum.getPlz());
 				pstmt.setString(7, zentrum.getOrt());
-				pstmt.setString(9, zentrum.getPasswort());
+				pstmt.setString(8, zentrum.getPasswort());
 				pstmt.setLong(9, zentrum.getId());	
 				pstmt.executeUpdate();
 				pstmt.close();
