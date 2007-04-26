@@ -18,8 +18,10 @@ import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
+import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
+import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.model.fachklassen.beans.PersonBean.Titel;
 import de.randi2.utility.NullKonstanten;
@@ -198,6 +200,57 @@ public class Datenbank implements DatenbankSchnittstelle{
 	}
 	
 	/**
+	 * Enum Klasse welche die Felder der Tabelle Studienarm repraesentiert.
+	 * @author Kai Marco Krupka [kai.krupka@urz.uni-heidelberg.de]
+	 *
+	 */
+	private enum StudienarmFelder{
+		ID("studienarmID"),
+		STUDIE("Studie_studienID"),
+		STATUS("status_aktivitaet"),
+		BEZEICHNUNG("bezeichnung"),
+		BESCHREIBUNG("beschreibung");		
+		
+		private String name = ""; 
+		
+		private StudienarmFelder(String name){
+			this.name = name;
+		}
+		
+		public String toString(){
+			return this.name;
+		}	
+	}
+	
+	/**
+	 * Enum Klasse welche die Felder der Tabelle Patient repraesentiert.
+	 * @author Kai Marco Krupka [kai.krupka@urz.uni-heidelberg.de]
+	 *
+	 */
+	private enum PatientFelder{
+		ID("patientenID"),
+		BENUTZER("Benutzerkonto_benutzerkontenID"),
+		STUDIENARM("Studienarm_studienarmID"),
+		INITIALEN("initialen"),
+		GEBURTSDATUM("geburtsdatum"),
+		GESCHLECHT("geschlecht"),
+		AUFKLAERUNGSDATUM("aufklaerungsdatum"),
+		KOERPEROBERFLAECHE("koerperoberflaeche"),
+		PERFORMANCESTATUS("performancestatus");
+		
+		
+		private String name = ""; 
+		
+		private PatientFelder(String name){
+			this.name = name;
+		}
+		
+		public String toString(){
+			return this.name;
+		}	
+	}
+	
+	/**
 	 * Konstruktor der Datenbankklasse.
 	 */
 	public Datenbank() {
@@ -247,6 +300,15 @@ public class Datenbank implements DatenbankSchnittstelle{
 		else if (zuSchreibendesObjekt instanceof StudieBean) {
 			StudieBean studie = (StudieBean) zuSchreibendesObjekt;
 			return (T) this.schreibenStudie(studie);
+		}
+		if (zuSchreibendesObjekt instanceof StudienarmBean) {
+			StudienarmBean studienarm = (StudienarmBean) zuSchreibendesObjekt;
+			return (T) this.schreibenStudienarm(studienarm);
+		}
+		if (zuSchreibendesObjekt instanceof PatientBean) {
+			PatientBean patient = (PatientBean) zuSchreibendesObjekt;
+			return (T) this.schreibenPatient(patient);
+			
 		}
 		
 		return null;
@@ -654,7 +716,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * Speichert bzw. aktualisiert die übergebenen Studiendaten.
 	 * @param studie welche gespeichert (ohne ID) oder aktualisiert (mit ID) werden soll.
 	 * @return das gespeicherte Objekt MIT ID, bzw das Objekt mit den aktualisierten Daten.
-	 * @throws DatenbankFehlerException 
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private StudieBean schreibenStudie(StudieBean studie) throws DatenbankFehlerException{
 		Connection con = null;
@@ -762,6 +824,106 @@ public class Datenbank implements DatenbankSchnittstelle{
 		}
 		return null;
 	}
+	
+	/**
+	 * Speichert bzw. aktualisiert die übergebenen Studienarmdaten.
+	 * @param studienarm welcher gespeichert (ohne ID) oder aktualisiert (mit ID) werden soll.
+	 * @return das gespeicherte Objekt MIT ID, bzw das Objekt mit den aktualisierten Daten.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 */
+	private StudienarmBean schreibenStudienarm(StudienarmBean studienarm) throws DatenbankFehlerException{
+		Connection con = null;
+		String sql = "";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = this.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		if(studienarm.getId() == NullKonstanten.NULL_LONG){
+			int i = 1;
+			long id = Long.MIN_VALUE;
+			try {
+				sql = "INSERT INTO " + Tabellen.STUDIENARM + " (" + 
+					StudienarmFelder.ID + ", " + 
+					StudienarmFelder.STUDIE + ", " +
+					StudienarmFelder.STATUS + ", " + 
+					StudienarmFelder.BEZEICHNUNG + ", " +
+					StudienarmFelder.BESCHREIBUNG + ") " +
+					"VALUES (?,?,?,?,?,?,?,?,?)";
+				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				pstmt.setLong(i++, studienarm.getStudie().getId());
+				pstmt.setInt(i++, studienarm.getAktiv());
+				pstmt.setString(i++, studienarm.getBezeichnung());
+				if(studienarm.getBeschreibung()!=""){
+					pstmt.setString(i++, studienarm.getBeschreibung());
+				}
+				else{
+					//FIXME Es gibt als Typ kein TEXT
+					pstmt.setNull(i++, Types.NULL);
+				}
+				pstmt.executeUpdate();
+				rs = pstmt.getGeneratedKeys();
+				rs.next();
+				id = rs.getLong(1);
+				rs.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
+			}
+			//FIXME ID bei Studienarm Int, sollte aber long sein. Ist noch mit anderen Klassen verwickelt.
+			//studienarm.setId(id);
+			return studienarm;
+		}
+		else{
+			int j = 1;
+			sql = "UPDATE "+ Tabellen.STUDIENARM + " SET " +
+				StudienarmFelder.STUDIE + "=?, " +
+				StudienarmFelder.STATUS + "=?, " +
+				StudienarmFelder.BEZEICHNUNG + "=?, " +
+				StudienarmFelder.BESCHREIBUNG + "=?, " +
+				"WHERE " + StudienarmFelder.ID + "=?";
+			try {
+				pstmt = con.prepareStatement(sql);
+			pstmt.setLong(j++, studienarm.getStudie().getId());
+			pstmt.setInt(j++, studienarm.getAktiv());
+			pstmt.setString(j++, studienarm.getBezeichnung());
+			if(studienarm.getBeschreibung()!=""){
+				pstmt.setString(j++, studienarm.getBeschreibung());
+			}
+			else{
+				//FIXME Es gibt als Typ kein TEXT
+				pstmt.setNull(j++, Types.NULL);
+			}
+			pstmt.executeUpdate();
+			pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
+			}
+		}
+		try {
+			this.closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		return null;
+	}
+	
+	/**
+	 * Speichert bzw. aktualisiert die übergebenen Patientendaten.
+	 * @param patient welche(r) gespeichert (ohne ID) oder aktualisiert (mit ID) werden soll.
+	 * @return das gespeicherte Objekt MIT ID, bzw das Objekt mit den aktualisierten Daten.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 */
+	private PatientBean schreibenPatient(PatientBean patient) throws DatenbankFehlerException{
+		return null;
+	}
+	
 	
 	/**
      * Konvertiert ein Objekt vom Typ GregorianCalendar in einen String im SQL-Date-Format
