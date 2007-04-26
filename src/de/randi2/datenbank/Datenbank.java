@@ -126,7 +126,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * @author Kai Marco Krupka [kai.krupka@urz.uni-heidelberg.de]
 	 *
 	 */
-	private enum BenutzerKontoFelder{
+	private enum FelderBenutzerkonto{
 		ID("benutzerkontenID"),
 		PERSON("Person_personenID"),
 		LOGINNAME("loginname"),
@@ -139,7 +139,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 		
 		private String name = ""; 
 		
-		private BenutzerKontoFelder(String name){
+		private FelderBenutzerkonto(String name){
 			this.name = name;
 		}
 		
@@ -153,7 +153,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * @author Kai Marco Krupka [kai.krupka@urz.uni-heidelberg.de]
 	 *
 	 */
-	private enum AktivierungsFelder{
+	private enum FelderAktivierung{
 		ID("aktivierungsID"),
 		BENUTZER("Benutzerkonto_benutzerkontenID"),
 		LINK("aktivierungslink"),
@@ -162,7 +162,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 		
 		private String name = ""; 
 		
-		private AktivierungsFelder(String name){
+		private FelderAktivierung(String name){
 			this.name = name;
 		}
 		
@@ -176,7 +176,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * @author Kai Marco Krupka [kai.krupka@urz.uni-heidelberg.de]
 	 *
 	 */
-	private enum StudieFelder{
+	private enum FelderStudie{
 		ID("studienID"),
 		BENUTZER("Benutzerkonto_benutzerkontenID"),
 		NAME("name"),
@@ -190,7 +190,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 		
 		private String name = ""; 
 		
-		private StudieFelder(String name){
+		private FelderStudie(String name){
 			this.name = name;
 		}
 		
@@ -204,7 +204,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * @author Kai Marco Krupka [kai.krupka@urz.uni-heidelberg.de]
 	 *
 	 */
-	private enum StudienarmFelder{
+	private enum FelderStudienarm{
 		ID("studienarmID"),
 		STUDIE("Studie_studienID"),
 		STATUS("status_aktivitaet"),
@@ -213,7 +213,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 		
 		private String name = ""; 
 		
-		private StudienarmFelder(String name){
+		private FelderStudienarm(String name){
 			this.name = name;
 		}
 		
@@ -227,7 +227,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * @author Kai Marco Krupka [kai.krupka@urz.uni-heidelberg.de]
 	 *
 	 */
-	private enum PatientFelder{
+	private enum FelderPatient{
 		ID("patientenID"),
 		BENUTZER("Benutzerkonto_benutzerkontenID"),
 		STUDIENARM("Studienarm_studienarmID"),
@@ -241,7 +241,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 		
 		private String name = ""; 
 		
-		private PatientFelder(String name){
+		private FelderPatient(String name){
 			this.name = name;
 		}
 		
@@ -281,6 +281,22 @@ public class Datenbank implements DatenbankSchnittstelle{
 		if (zuLoeschendesObjekt instanceof BenutzerkontoBean) {
 			BenutzerkontoBean benutzer = (BenutzerkontoBean) zuLoeschendesObjekt;
 			this.loeschenBenutzerkonto(benutzer);
+		}
+		if (zuLoeschendesObjekt instanceof AktivierungBean) {
+			AktivierungBean aktivierung = (AktivierungBean) zuLoeschendesObjekt;
+			this.loeschenAktivierung(aktivierung);
+		}
+		if (zuLoeschendesObjekt instanceof StudieBean) {
+			StudieBean studie = (StudieBean) zuLoeschendesObjekt;
+			this.loeschenStudie(studie);
+		}
+		if (zuLoeschendesObjekt instanceof StudienarmBean) {
+			StudienarmBean studienarm = (StudienarmBean) zuLoeschendesObjekt;
+			this.loeschenStudienarm(studienarm);
+		}
+		if (zuLoeschendesObjekt instanceof PatientBean) {
+			PatientBean patient = (PatientBean) zuLoeschendesObjekt;
+			this.loeschenPatient(patient);
 		}
 		
 	}
@@ -331,17 +347,105 @@ public class Datenbank implements DatenbankSchnittstelle{
 	
 	/**
 	 * Loescht das übergebene Benutzerkontenobjekt aus der Datenbank.
-	 * @param benutzer zu löschendes BenutzerkonoBean.
+	 * @param benutzer zu löschendes BenutzerkontoBean.
 	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private void loeschenBenutzerkonto(BenutzerkontoBean benutzer) throws DatenbankFehlerException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
-		sql = "DELETE FROM "+ Tabellen.BENUTZERKONTO + " WHERE " + BenutzerKontoFelder.ID +"=?";
+		sql = "DELETE FROM "+ Tabellen.BENUTZERKONTO + " WHERE " + FelderBenutzerkonto.ID +"=?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, benutzer.getId());
+			pstmt.executeUpdate(sql);
+			pstmt.close();
+			this.closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+	}
+	
+	/**
+	 * Loescht das übergebene Aktivierungsobjekt aus der Datenbank.
+	 * @param aktivierung zu löschendes AktivierungBean.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 */
+	private void loeschenAktivierung(AktivierungBean aktivierung) throws DatenbankFehlerException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		sql = "DELETE FROM "+ Tabellen.AKTIVIERUNG + " WHERE " + FelderAktivierung.ID +"=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, aktivierung.getAktivierungsId());
+			pstmt.executeUpdate(sql);
+			pstmt.close();
+			this.closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+	}
+	
+	/**
+	 * Loescht das übergebene Studienobjekt aus der Datenbank.
+	 * @param studie zu löschendes StudieBean.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 */
+	private void loeschenStudie(StudieBean studie) throws DatenbankFehlerException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		sql = "DELETE FROM "+ Tabellen.STUDIE + " WHERE " + FelderStudie.ID +"=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, studie.getId());
+			pstmt.executeUpdate(sql);
+			pstmt.close();
+			this.closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+	}
+	
+	/**
+	 * Loescht das übergebene Studienarmobjekt aus der Datenbank.
+	 * @param studienarm zu löschendes StudienarmBean.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 */
+	private void loeschenStudienarm(StudienarmBean studienarm) throws DatenbankFehlerException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		sql = "DELETE FROM "+ Tabellen.STUDIENARM + " WHERE " + FelderStudienarm.ID +"=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, studienarm.getId());
+			pstmt.executeUpdate(sql);
+			pstmt.close();
+			this.closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+	}
+	
+	/**
+	 * Loescht das übergebene Patientenobjekt aus der Datenbank.
+	 * @param patient zu löschendes PatientBean.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 */
+	private void loeschenPatient(PatientBean patient) throws DatenbankFehlerException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		sql = "DELETE FROM "+ Tabellen.PATIENT + " WHERE " + FelderPatient.ID +"=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, patient.getId());
 			pstmt.executeUpdate(sql);
 			pstmt.close();
 			this.closeConnection(con);
@@ -620,14 +724,14 @@ public class Datenbank implements DatenbankSchnittstelle{
 			int i = 1;
 			long id = Long.MIN_VALUE;
 			sql = "INSERT INTO "+Tabellen.BENUTZERKONTO+" (" +
-				BenutzerKontoFelder.ID + ", "+
-				BenutzerKontoFelder.PERSON + ", "+
-				BenutzerKontoFelder.LOGINNAME + ", "+
-				BenutzerKontoFelder.PASSWORT + ", "+
-				BenutzerKontoFelder.ROLLEACCOUNT + ", "+
-				BenutzerKontoFelder.ERSTERLOGIN + ", "+
-				BenutzerKontoFelder.LETZTERLOGIN + ", "+
-				BenutzerKontoFelder.GESPERRT + ")"+
+				FelderBenutzerkonto.ID + ", "+
+				FelderBenutzerkonto.PERSON + ", "+
+				FelderBenutzerkonto.LOGINNAME + ", "+
+				FelderBenutzerkonto.PASSWORT + ", "+
+				FelderBenutzerkonto.ROLLEACCOUNT + ", "+
+				FelderBenutzerkonto.ERSTERLOGIN + ", "+
+				FelderBenutzerkonto.LETZTERLOGIN + ", "+
+				FelderBenutzerkonto.GESPERRT + ")"+
 				" VALUES (NULL,?,?,?,?,?,?,?)";
 			try{
 				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -666,14 +770,14 @@ public class Datenbank implements DatenbankSchnittstelle{
 		}else{
 			int j= 1;
 			sql = "UPDATE " +Tabellen.BENUTZERKONTO+" SET " +
-				BenutzerKontoFelder.PERSON + "= ?, " + 
-				BenutzerKontoFelder.LOGINNAME + "= ?, " + 
-				BenutzerKontoFelder.PASSWORT + "= ?, " + 
-				BenutzerKontoFelder.ROLLEACCOUNT + "= ?, " + 
-				BenutzerKontoFelder.ERSTERLOGIN + "= ?, " + 
-				BenutzerKontoFelder.LETZTERLOGIN + "= ?, " +
-				BenutzerKontoFelder.GESPERRT + "= ? " +
-						"WHERE " + BenutzerKontoFelder.ID + "= ? ";
+				FelderBenutzerkonto.PERSON + "= ?, " + 
+				FelderBenutzerkonto.LOGINNAME + "= ?, " + 
+				FelderBenutzerkonto.PASSWORT + "= ?, " + 
+				FelderBenutzerkonto.ROLLEACCOUNT + "= ?, " + 
+				FelderBenutzerkonto.ERSTERLOGIN + "= ?, " + 
+				FelderBenutzerkonto.LETZTERLOGIN + "= ?, " +
+				FelderBenutzerkonto.GESPERRT + "= ? " +
+						"WHERE " + FelderBenutzerkonto.ID + "= ? ";
 			try {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, benutzerKonto.getBenutzer().getId());
@@ -736,10 +840,10 @@ public class Datenbank implements DatenbankSchnittstelle{
 			int i = 1;
 			long id = Long.MIN_VALUE;
 			sql = "INSERT INTO " + Tabellen.AKTIVIERUNG + " (" +
-			AktivierungsFelder.ID + ", " +
-			AktivierungsFelder.BENUTZER + ", " +
-			AktivierungsFelder.LINK + ", " +
-			AktivierungsFelder.VERSANDDATUM + ") " +
+			FelderAktivierung.ID + ", " +
+			FelderAktivierung.BENUTZER + ", " +
+			FelderAktivierung.LINK + ", " +
+			FelderAktivierung.VERSANDDATUM + ") " +
 			" VALUES (NULL,?,?,?)";
 			try {
 				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -763,10 +867,10 @@ public class Datenbank implements DatenbankSchnittstelle{
 		else{
 			int j = 1;
 			sql = "UPDATE " + Tabellen.AKTIVIERUNG + " SET "+
-				AktivierungsFelder.BENUTZER + "=? , " + 
-				AktivierungsFelder.LINK + "=? , " + 
-				AktivierungsFelder.VERSANDDATUM + "=?  " +
-						"WHERE "+ AktivierungsFelder.ID + "=?";
+				FelderAktivierung.BENUTZER + "=? , " + 
+				FelderAktivierung.LINK + "=? , " + 
+				FelderAktivierung.VERSANDDATUM + "=?  " +
+						"WHERE "+ FelderAktivierung.ID + "=?";
 			try {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, aktivierung.getBenutzerkonto().getId());
@@ -817,15 +921,15 @@ public class Datenbank implements DatenbankSchnittstelle{
 			long id = Long.MIN_VALUE;
 			try {
 				sql = "INSERT INTO " + Tabellen.STUDIE + " (" + 
-					StudieFelder.ID + ", " + 
-					StudieFelder.BENUTZER + ", " +
-					StudieFelder.NAME + ", " +
-					StudieFelder.BESCHREIBUNG + ", " +
-					StudieFelder.STARTDATUM + ", " +
-					StudieFelder.ENDDATUM + ", " +
-					StudieFelder.PROTOKOLL + ", " +
-					StudieFelder.RANDOMISATIONSART + ", " +
-					StudieFelder.STATUS + ") " +
+					FelderStudie.ID + ", " + 
+					FelderStudie.BENUTZER + ", " +
+					FelderStudie.NAME + ", " +
+					FelderStudie.BESCHREIBUNG + ", " +
+					FelderStudie.STARTDATUM + ", " +
+					FelderStudie.ENDDATUM + ", " +
+					FelderStudie.PROTOKOLL + ", " +
+					FelderStudie.RANDOMISATIONSART + ", " +
+					FelderStudie.STATUS + ") " +
 					"VALUES (NULL,?,?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, studie.getBenutzerkonto().getId());
@@ -861,15 +965,15 @@ public class Datenbank implements DatenbankSchnittstelle{
 		else{
 			int j = 1;
 			sql = "UPDATE "+ Tabellen.STUDIE + " SET " +
-				StudieFelder.BENUTZER + "=?, " +
-				StudieFelder.NAME + "=?, " +
-				StudieFelder.BESCHREIBUNG + "=?, " +
-				StudieFelder.STARTDATUM + "=?, " +
-				StudieFelder.ENDDATUM + "=?, " +
-				StudieFelder.PROTOKOLL + "=?, " +
-				StudieFelder.RANDOMISATIONSART + "=?, " +
-				StudieFelder.STATUS + "=? " +
-				"WHERE " + StudieFelder.ID + "=?";
+				FelderStudie.BENUTZER + "=?, " +
+				FelderStudie.NAME + "=?, " +
+				FelderStudie.BESCHREIBUNG + "=?, " +
+				FelderStudie.STARTDATUM + "=?, " +
+				FelderStudie.ENDDATUM + "=?, " +
+				FelderStudie.PROTOKOLL + "=?, " +
+				FelderStudie.RANDOMISATIONSART + "=?, " +
+				FelderStudie.STATUS + "=? " +
+				"WHERE " + FelderStudie.ID + "=?";
 			try {
 				pstmt = con.prepareStatement(sql);
 			pstmt.setLong(j++, studie.getBenutzerkonto().getId());
@@ -927,11 +1031,11 @@ public class Datenbank implements DatenbankSchnittstelle{
 			long id = Long.MIN_VALUE;
 			try {
 				sql = "INSERT INTO " + Tabellen.STUDIENARM + " (" + 
-					StudienarmFelder.ID + ", " + 
-					StudienarmFelder.STUDIE + ", " +
-					StudienarmFelder.STATUS + ", " + 
-					StudienarmFelder.BEZEICHNUNG + ", " +
-					StudienarmFelder.BESCHREIBUNG + ") " +
+					FelderStudienarm.ID + ", " + 
+					FelderStudienarm.STUDIE + ", " +
+					FelderStudienarm.STATUS + ", " + 
+					FelderStudienarm.BEZEICHNUNG + ", " +
+					FelderStudienarm.BESCHREIBUNG + ") " +
 					"VALUES (NULL,?,?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, studienarm.getStudie().getId());
@@ -958,11 +1062,11 @@ public class Datenbank implements DatenbankSchnittstelle{
 		} else {
 			int j = 1;
 			sql = "UPDATE "+ Tabellen.STUDIENARM + " SET " +
-				StudienarmFelder.STUDIE + "=?, " +
-				StudienarmFelder.STATUS + "=?, " +
-				StudienarmFelder.BEZEICHNUNG + "=?, " +
-				StudienarmFelder.BESCHREIBUNG + "=?, " +
-				"WHERE " + StudienarmFelder.ID + "=?";
+				FelderStudienarm.STUDIE + "=?, " +
+				FelderStudienarm.STATUS + "=?, " +
+				FelderStudienarm.BEZEICHNUNG + "=?, " +
+				FelderStudienarm.BESCHREIBUNG + "=?, " +
+				"WHERE " + FelderStudienarm.ID + "=?";
 			try {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, studienarm.getStudie().getId());
@@ -1014,15 +1118,15 @@ public class Datenbank implements DatenbankSchnittstelle{
 			long id = Long.MIN_VALUE;
 			try {
 				sql = "INSERT INTO " + Tabellen.PATIENT + " (" + 
-					PatientFelder.ID + ", " + 
-					PatientFelder.BENUTZER + ", " + 
-					PatientFelder.STUDIENARM + ", " + 
-					PatientFelder.INITIALEN + ", " + 
-					PatientFelder.GEBURTSDATUM + ", " + 
-					PatientFelder.GESCHLECHT + ", " + 
-					PatientFelder.AUFKLAERUNGSDATUM + ", " + 
-					PatientFelder.KOERPEROBERFLAECHE + ", " + 
-					PatientFelder.PERFORMANCESTATUS + ") " +
+					FelderPatient.ID + ", " + 
+					FelderPatient.BENUTZER + ", " + 
+					FelderPatient.STUDIENARM + ", " + 
+					FelderPatient.INITIALEN + ", " + 
+					FelderPatient.GEBURTSDATUM + ", " + 
+					FelderPatient.GESCHLECHT + ", " + 
+					FelderPatient.AUFKLAERUNGSDATUM + ", " + 
+					FelderPatient.KOERPEROBERFLAECHE + ", " + 
+					FelderPatient.PERFORMANCESTATUS + ") " +
 					"VALUES (NULL,?,?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, patient.getBenutzerkonto().getId());
@@ -1051,15 +1155,15 @@ public class Datenbank implements DatenbankSchnittstelle{
 		else{
 			int j = 1;
 			sql = "UPDATE "+ Tabellen.PATIENT + " SET " +
-				PatientFelder.BENUTZER + "=?, " +
-				PatientFelder.STUDIENARM + "=?, " +
-				PatientFelder.INITIALEN + "=?, " +
-				PatientFelder.GEBURTSDATUM + "=?, " +
-				PatientFelder.GESCHLECHT + "=?, " +
-				PatientFelder.AUFKLAERUNGSDATUM + "=?, " +
-				PatientFelder.KOERPEROBERFLAECHE + "=?, " +
-				PatientFelder.PERFORMANCESTATUS + "=?, " +
-				"WHERE " + PatientFelder.ID + "=?";
+				FelderPatient.BENUTZER + "=?, " +
+				FelderPatient.STUDIENARM + "=?, " +
+				FelderPatient.INITIALEN + "=?, " +
+				FelderPatient.GEBURTSDATUM + "=?, " +
+				FelderPatient.GESCHLECHT + "=?, " +
+				FelderPatient.AUFKLAERUNGSDATUM + "=?, " +
+				FelderPatient.KOERPEROBERFLAECHE + "=?, " +
+				FelderPatient.PERFORMANCESTATUS + "=?, " +
+				"WHERE " + FelderPatient.ID + "=?";
 			try {
 				pstmt.setLong(j++, patient.getBenutzerkonto().getId());
 				pstmt.setLong(j++, patient.getStudienarm().getId());
