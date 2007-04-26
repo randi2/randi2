@@ -16,7 +16,7 @@ import de.randi2.utility.NullKonstanten;
  */
 public class StudienarmBean extends Filter {
 	
-	private int id = NullKonstanten.NULL_INT;
+	private long id = NullKonstanten.NULL_LONG;
 
 	private int aAktiv = NullKonstanten.NULL_INT;
 	
@@ -35,7 +35,7 @@ public class StudienarmBean extends Filter {
 		// TODO Auto-generated constructor stub
 	}	
 	
-	public StudienarmBean(int id, StudieBean studie, int aktiv, String bezeichnung, String beschreibung, Vector<PatientBean> patienten) {
+	public StudienarmBean(long id, StudieBean studie, int aktiv, String bezeichnung, String beschreibung, Vector<PatientBean> patienten) {
 		
 		super();
 		this.setId(id);
@@ -48,7 +48,7 @@ public class StudienarmBean extends Filter {
 		// IDs zu den Patienten holen und speichern
 		for (int i=0; i<this.getPatienten().size();i++) {
 			
-			Vector<Integer> aPatientenIDs = new Vector<Integer>();
+			Vector<Long> aPatientenIDs = new Vector<Long>();
 			
 			aPatientenIDs.add(this.getPatienten().elementAt(i).getId());
 			
@@ -115,11 +115,11 @@ public class StudienarmBean extends Filter {
 		
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	

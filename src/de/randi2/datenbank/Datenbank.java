@@ -746,7 +746,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 					StudieFelder.PROTOKOLL + ", " +
 					StudieFelder.RANDOMISATIONSART + ", " +
 					StudieFelder.STATUS + ") " +
-					"VALUES (?,?,?,?,?,?,?,?,?)";
+					"VALUES (NULL,?,?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, studie.getBenutzerkonto().getId());
 				pstmt.setString(i++, studie.getName());
@@ -852,16 +852,15 @@ public class Datenbank implements DatenbankSchnittstelle{
 					StudienarmFelder.STATUS + ", " + 
 					StudienarmFelder.BEZEICHNUNG + ", " +
 					StudienarmFelder.BESCHREIBUNG + ") " +
-					"VALUES (?,?,?,?,?,?,?,?,?)";
+					"VALUES (NULL,?,?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, studienarm.getStudie().getId());
 				pstmt.setInt(i++, studienarm.getAktiv());
 				pstmt.setString(i++, studienarm.getBezeichnung());
-				if(studienarm.getBeschreibung()!=""){
+				if (studienarm.getBeschreibung() != "") {
 					pstmt.setString(i++, studienarm.getBeschreibung());
-				}
-				else{
-					//FIXME Es gibt als Typ kein TEXT
+				} else {
+					// FIXME Es gibt als Typ kein TEXT
 					pstmt.setNull(i++, Types.NULL);
 				}
 				pstmt.executeUpdate();
@@ -874,11 +873,9 @@ public class Datenbank implements DatenbankSchnittstelle{
 				e.printStackTrace();
 				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
 			}
-			//FIXME ID bei Studienarm Int, sollte aber long sein. Ist noch mit anderen Klassen verwickelt.
-			//studienarm.setId(id);
+			studienarm.setId(id);
 			return studienarm;
-		}
-		else{
+		} else {
 			int j = 1;
 			sql = "UPDATE "+ Tabellen.STUDIENARM + " SET " +
 				StudienarmFelder.STUDIE + "=?, " +
@@ -888,18 +885,17 @@ public class Datenbank implements DatenbankSchnittstelle{
 				"WHERE " + StudienarmFelder.ID + "=?";
 			try {
 				pstmt = con.prepareStatement(sql);
-			pstmt.setLong(j++, studienarm.getStudie().getId());
-			pstmt.setInt(j++, studienarm.getAktiv());
-			pstmt.setString(j++, studienarm.getBezeichnung());
-			if(studienarm.getBeschreibung()!=""){
-				pstmt.setString(j++, studienarm.getBeschreibung());
-			}
-			else{
-				//FIXME Es gibt als Typ kein TEXT
-				pstmt.setNull(j++, Types.NULL);
-			}
-			pstmt.executeUpdate();
-			pstmt.close();
+				pstmt.setLong(j++, studienarm.getStudie().getId());
+				pstmt.setInt(j++, studienarm.getAktiv());
+				pstmt.setString(j++, studienarm.getBezeichnung());
+				if (studienarm.getBeschreibung() != "") {
+					pstmt.setString(j++, studienarm.getBeschreibung());
+				} else {
+					// FIXME Es gibt als Typ kein TEXT
+					pstmt.setNull(j++, Types.NULL);
+				}
+				pstmt.executeUpdate();
+				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
@@ -920,7 +916,94 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * @return das gespeicherte Objekt MIT ID, bzw das Objekt mit den aktualisierten Daten.
 	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
-	private PatientBean schreibenPatient(PatientBean patient) throws DatenbankFehlerException{
+	private PatientBean schreibenPatient(PatientBean patient) throws DatenbankFehlerException {
+		Connection con = null;
+		String sql = "";
+		String gebDatum = "";
+		String aDatum = "";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = this.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		if(patient.getId() == NullKonstanten.NULL_LONG){
+			int i = 1;
+			long id = Long.MIN_VALUE;
+			try {
+				sql = "INSERT INTO " + Tabellen.PATIENT + " (" + 
+					PatientFelder.ID + ", " + 
+					PatientFelder.BENUTZER + ", " + 
+					PatientFelder.STUDIENARM + ", " + 
+					PatientFelder.INITIALEN + ", " + 
+					PatientFelder.GEBURTSDATUM + ", " + 
+					PatientFelder.GESCHLECHT + ", " + 
+					PatientFelder.AUFKLAERUNGSDATUM + ", " + 
+					PatientFelder.KOERPEROBERFLAECHE + ", " + 
+					PatientFelder.PERFORMANCESTATUS + ") " +
+					"VALUES (NULL,?,?,?,?,?,?,?,?)";
+				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				pstmt.setLong(i++, patient.getBenutzerkonto().getId());
+				pstmt.setLong(i++, patient.getStudienarm().getId());
+				pstmt.setString(i++, patient.getInitialen());
+				gebDatum = this.getSqlDateByJavaGregorianCalendar(patient.getGeburtsdatum());
+				pstmt.setDate(i++, java.sql.Date.valueOf(gebDatum));
+				pstmt.setString(i++, Character.toString(patient.getGeschlecht()));	
+				aDatum = this.getSqlDateByJavaGregorianCalendar(patient.getDatumAufklaerung());
+				pstmt.setDate(i++, java.sql.Date.valueOf(aDatum));
+				pstmt.setFloat(i++, patient.getKoerperoberflaeche());
+				pstmt.setInt(i++, patient.getPerformanceStatus());
+				pstmt.executeUpdate();
+				rs = pstmt.getGeneratedKeys();
+				rs.next();
+				id = rs.getLong(1);
+				rs.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
+			}
+			patient.setId(id);
+			return patient;
+		}
+		else{
+			int j = 1;
+			sql = "UPDATE "+ Tabellen.PATIENT + " SET " +
+				PatientFelder.BENUTZER + "=?, " +
+				PatientFelder.STUDIENARM + "=?, " +
+				PatientFelder.INITIALEN + "=?, " +
+				PatientFelder.GEBURTSDATUM + "=?, " +
+				PatientFelder.GESCHLECHT + "=?, " +
+				PatientFelder.AUFKLAERUNGSDATUM + "=?, " +
+				PatientFelder.KOERPEROBERFLAECHE + "=?, " +
+				PatientFelder.PERFORMANCESTATUS + "=?, " +
+				"WHERE " + PatientFelder.ID + "=?";
+			try {
+				pstmt.setLong(j++, patient.getBenutzerkonto().getId());
+				pstmt.setLong(j++, patient.getStudienarm().getId());
+				pstmt.setString(j++, patient.getInitialen());
+				gebDatum = this.getSqlDateByJavaGregorianCalendar(patient.getGeburtsdatum());
+				pstmt.setDate(j++, java.sql.Date.valueOf(gebDatum));
+				pstmt.setString(j++, Character.toString(patient.getGeschlecht()));	
+				aDatum = this.getSqlDateByJavaGregorianCalendar(patient.getDatumAufklaerung());
+				pstmt.setDate(j++, java.sql.Date.valueOf(aDatum));
+				pstmt.setFloat(j++, patient.getKoerperoberflaeche());
+				pstmt.setInt(j++, patient.getPerformanceStatus());
+				pstmt.executeUpdate();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
+			}
+		}
+		try {
+			this.closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
 		return null;
 	}
 	

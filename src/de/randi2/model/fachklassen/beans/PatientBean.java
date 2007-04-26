@@ -9,7 +9,7 @@ import de.randi2.utility.NullKonstanten;
 
 public class PatientBean extends Filter{
 	
-	private int id = NullKonstanten.NULL_INT;
+	private long id = NullKonstanten.NULL_LONG;
 	
 	private String aInitialen = null;
 	
@@ -21,11 +21,13 @@ public class PatientBean extends Filter{
 	
 	private GregorianCalendar aDatumAufklaerung = null;
 	
-	private int aKoerperoberflaeche = NullKonstanten.NULL_INT;
+	private float aKoerperoberflaeche = NullKonstanten.NULL_FLOAT;
 	
 	private StudienarmBean aStudienarm = null;
 	
-	private int aStudienarmID = NullKonstanten.NULL_INT;
+	private long aStudienarmID = NullKonstanten.NULL_LONG;
+	
+	private BenutzerkontoBean benutzerkonto = null;
 	
 	public PatientBean() {
 		super();
@@ -42,7 +44,7 @@ public class PatientBean extends Filter{
 	 * @param koerperoberflaeche
 	 * @param studienarm
 	 */
-	public PatientBean(int id, String initialen, char geschlecht, GregorianCalendar geburtsdatum, int performanceStatus, GregorianCalendar datumAufklaerung, int koerperoberflaeche, StudienarmBean studienarm) {
+	public PatientBean(long id, String initialen, char geschlecht, GregorianCalendar geburtsdatum, int performanceStatus, GregorianCalendar datumAufklaerung, int koerperoberflaeche, StudienarmBean studienarm) {
 		super();
 		
 		this.setId(id);
@@ -67,7 +69,7 @@ public class PatientBean extends Filter{
 	 * @param koerperoberflaeche
 	 * @param studienarmID
 	 */
-	public PatientBean(int id, String initialen, char geschlecht, GregorianCalendar geburtsdatum, int performanceStatus, GregorianCalendar datumAufklaerung, int koerperoberflaeche, int studienarmID) {
+	public PatientBean(long id, String initialen, char geschlecht, GregorianCalendar geburtsdatum, int performanceStatus, GregorianCalendar datumAufklaerung, int koerperoberflaeche, int studienarmID) {
 		super();
 		
 		this.setId(id);
@@ -113,11 +115,11 @@ public class PatientBean extends Filter{
 		aInitialen = initialen;
 	}
 
-	public int getKoerperoberflaeche() {
+	public float getKoerperoberflaeche() {
 		return aKoerperoberflaeche;
 	}
 
-	public void setKoerperoberflaeche(int koerperoberflaeche) {
+	public void setKoerperoberflaeche(float koerperoberflaeche) {
 		aKoerperoberflaeche = koerperoberflaeche;
 	}
 
@@ -151,20 +153,36 @@ public class PatientBean extends Filter{
 		aStudienarm = studienarm;
 	}
 
-	public int getStudienarmID() {
+	public long getStudienarmID() {
 		return aStudienarmID;
 	}
 
-	public void setStudienarmID(int studienarmID) {
+	public void setStudienarmID(long studienarmID) {
 		aStudienarmID = studienarmID;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
+	}
+
+	/**
+	 * Liefert das Objekt des Benutzerkontos.
+	 * @return das Benutzerkonto.
+	 */
+	public BenutzerkontoBean getBenutzerkonto() {
+		return benutzerkonto;
+	}
+
+	/**
+	 * Setzt das Objekt des Benutzerkontos.
+	 * @param benutzerkonto mit allen Eigenschaften werden gesetzt.
+	 */
+	public void setBenutzerkonto(BenutzerkontoBean benutzerkonto) {
+		this.benutzerkonto = benutzerkonto;
 	}
 	
 	

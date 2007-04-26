@@ -32,7 +32,7 @@ public final class Studienarm {
 	 * @throws DatenbankFehlerException
 	 *             falls Fehler bei dem Vorgang auftraten.
 	 */
-	public static StudienarmBean get(int id) throws DatenbankFehlerException {
+	public static StudienarmBean get(long id) throws DatenbankFehlerException {
 		StudienarmBean nullBean = new StudienarmBean();
 		nullBean.setFilter(true);
 		return DatenbankFactory.getAktuelleDBInstanz().suchenObjektID(id,
