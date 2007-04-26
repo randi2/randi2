@@ -267,8 +267,88 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#loeschenObjekt(de.randi2.datenbank.Filter)
 	 */
 	public <T extends Filter> void loeschenObjekt(T zuLoeschendesObjekt) throws DatenbankFehlerException {
-		// TODO Auto-generated method stub
+		//ZentrumBean löschen
+		if (zuLoeschendesObjekt instanceof ZentrumBean) {
+			ZentrumBean zentrum = (ZentrumBean) zuLoeschendesObjekt;
+			this.loeschenZentrum(zentrum);
+		}
+		//PersonBean löschen
+		if (zuLoeschendesObjekt instanceof PersonBean) {
+			PersonBean person = (PersonBean) zuLoeschendesObjekt;
+			this.loeschenPerson(person);
+		}
+		//Benutzerkonto löschen
+		if (zuLoeschendesObjekt instanceof BenutzerkontoBean) {
+			BenutzerkontoBean benutzer = (BenutzerkontoBean) zuLoeschendesObjekt;
+			this.loeschenBenutzerkonto(benutzer);
+		}
 		
+	}
+	
+	/**
+	 * Loescht das übergebene Zentrumsobjekt aus der Datenbank.
+	 * @param zentrum zu löschendes ZentrumBean.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 */
+	private void loeschenZentrum(ZentrumBean zentrum) throws DatenbankFehlerException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		sql = "DELETE FROM "+ Tabellen.ZENTRUM + " WHERE " + FelderZentrum.ID +"=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, zentrum.getId());
+			pstmt.executeUpdate(sql);
+			pstmt.close();
+			this.closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+	}
+	
+	/**
+	 * Loescht das übergebene Personenobjekt aus der Datenbank.
+	 * @param person zu löschendes PersonBean.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 */
+	private void loeschenPerson(PersonBean person) throws DatenbankFehlerException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		sql = "DELETE FROM "+ Tabellen.PERSON + " WHERE " + FelderPerson.ID +"=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, person.getId());
+			pstmt.executeUpdate(sql);
+			pstmt.close();
+			this.closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+	}
+	
+	/**
+	 * Loescht das übergebene Benutzerkontenobjekt aus der Datenbank.
+	 * @param benutzer zu löschendes BenutzerkonoBean.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 */
+	private void loeschenBenutzerkonto(BenutzerkontoBean benutzer) throws DatenbankFehlerException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		sql = "DELETE FROM "+ Tabellen.BENUTZERKONTO + " WHERE " + BenutzerKontoFelder.ID +"=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, benutzer.getId());
+			pstmt.executeUpdate(sql);
+			pstmt.close();
+			this.closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
 	}
 
 	/**
@@ -321,7 +401,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * 			zu schreibendes PersonBean
 	 * @return
 	 * 			PersonBean mit vergebener ID oder null falls nur ein Update durchgefuehrt wurde
-	 * @throws DatenbankFehlerException 
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private PersonBean schreibenPerson(PersonBean person) throws DatenbankFehlerException {
 		//TODO Logging
@@ -423,7 +503,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * 			zu speicherndes Zentrum
 	 * @return
 	 * 			das Zentrum mit der vergebenen eindeutigen ID bzw. das aktualisierte Zentrum
-	 * @throws DatenbankFehlerException 
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private ZentrumBean schreibenZentrum(ZentrumBean zentrum) throws DatenbankFehlerException {
 		//TODO Logging
@@ -556,14 +636,14 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.setString(i++, benutzerKonto.getPasswort());
 				pstmt.setString(i++, benutzerKonto.getRolle().getName());
 				if(benutzerKonto.getErsterLogin()!= null){
-					calFirst = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getErsterLogin());
+					calFirst = this.getSqlDateByGregorianCalendar(benutzerKonto.getErsterLogin());
 					pstmt.setDate(i++, java.sql.Date.valueOf(calFirst));
 				}
 				else{
 					pstmt.setNull(i++, Types.DATE);
 				}
 				if(benutzerKonto.getLetzterLogin()!=null){
-					calLast = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getLetzterLogin());
+					calLast = this.getSqlDateByGregorianCalendar(benutzerKonto.getLetzterLogin());
 					pstmt.setDate(i++, java.sql.Date.valueOf(calLast));
 				}
 				else{
@@ -601,14 +681,14 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.setString(j++, benutzerKonto.getPasswort());
 				pstmt.setString(j++, benutzerKonto.getRolle().getName());
 				if(benutzerKonto.getErsterLogin()!= null){
-					calFirst = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getErsterLogin());
+					calFirst = this.getSqlDateByGregorianCalendar(benutzerKonto.getErsterLogin());
 					pstmt.setDate(j++, java.sql.Date.valueOf(calFirst));
 				}
 				else{
 					pstmt.setNull(j++, Types.DATE);
 				}
 				if(benutzerKonto.getLetzterLogin()!=null){
-					calLast = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getLetzterLogin());
+					calLast = this.getSqlDateByGregorianCalendar(benutzerKonto.getLetzterLogin());
 					pstmt.setDate(j++, java.sql.Date.valueOf(calLast));
 				}
 				else{
@@ -665,7 +745,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, aktivierung.getBenutzerkonto().getId());
 				pstmt.setString(i++, aktivierung.getAktivierungsLink());
-				cal = this.getSqlDateByJavaGregorianCalendar(aktivierung.getVersanddatum());
+				cal = this.getSqlDateByGregorianCalendar(aktivierung.getVersanddatum());
 				pstmt.setDate(i++, java.sql.Date.valueOf(cal));
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
@@ -691,7 +771,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, aktivierung.getBenutzerkonto().getId());
 				pstmt.setString(j++, aktivierung.getAktivierungsLink());
-				cal = this.getSqlDateByJavaGregorianCalendar(aktivierung.getVersanddatum());
+				cal = this.getSqlDateByGregorianCalendar(aktivierung.getVersanddatum());
 				pstmt.setDate(j++, java.sql.Date.valueOf(cal));
 				pstmt.setLong(j++, aktivierung.getAktivierungsId());
 				pstmt.executeUpdate();
@@ -757,9 +837,9 @@ public class Datenbank implements DatenbankSchnittstelle{
 					//FIXME Es gibt als Typ kein TEXT
 					pstmt.setNull(i++, Types.NULL);
 				}
-				calStart = this.getSqlDateByJavaGregorianCalendar(studie.getStartDatum());
+				calStart = this.getSqlDateByGregorianCalendar(studie.getStartDatum());
 				pstmt.setDate(i++, java.sql.Date.valueOf(calStart));
-				calEnde = this.getSqlDateByJavaGregorianCalendar(studie.getEndDatum());
+				calEnde = this.getSqlDateByGregorianCalendar(studie.getEndDatum());
 				pstmt.setDate(i++, java.sql.Date.valueOf(calEnde));
 				//TODO BLOB/InputStrean Handling!!!
 				pstmt.setBlob(i++, protokoll);
@@ -801,9 +881,9 @@ public class Datenbank implements DatenbankSchnittstelle{
 				//FIXME Es gibt als Typ kein TEXT
 				pstmt.setNull(j++, Types.NULL);
 			}
-			calStart = this.getSqlDateByJavaGregorianCalendar(studie.getStartDatum());
+			calStart = this.getSqlDateByGregorianCalendar(studie.getStartDatum());
 			pstmt.setDate(j++, java.sql.Date.valueOf(calStart));
-			calEnde = this.getSqlDateByJavaGregorianCalendar(studie.getEndDatum());
+			calEnde = this.getSqlDateByGregorianCalendar(studie.getEndDatum());
 			pstmt.setDate(j++, java.sql.Date.valueOf(calEnde));
 			//TODO BLOB/InputStrean Handling!!!
 			pstmt.setBlob(j++, protokoll);
@@ -948,10 +1028,10 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.setLong(i++, patient.getBenutzerkonto().getId());
 				pstmt.setLong(i++, patient.getStudienarm().getId());
 				pstmt.setString(i++, patient.getInitialen());
-				gebDatum = this.getSqlDateByJavaGregorianCalendar(patient.getGeburtsdatum());
+				gebDatum = this.getSqlDateByGregorianCalendar(patient.getGeburtsdatum());
 				pstmt.setDate(i++, java.sql.Date.valueOf(gebDatum));
 				pstmt.setString(i++, Character.toString(patient.getGeschlecht()));	
-				aDatum = this.getSqlDateByJavaGregorianCalendar(patient.getDatumAufklaerung());
+				aDatum = this.getSqlDateByGregorianCalendar(patient.getDatumAufklaerung());
 				pstmt.setDate(i++, java.sql.Date.valueOf(aDatum));
 				pstmt.setFloat(i++, patient.getKoerperoberflaeche());
 				pstmt.setInt(i++, patient.getPerformanceStatus());
@@ -984,10 +1064,10 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.setLong(j++, patient.getBenutzerkonto().getId());
 				pstmt.setLong(j++, patient.getStudienarm().getId());
 				pstmt.setString(j++, patient.getInitialen());
-				gebDatum = this.getSqlDateByJavaGregorianCalendar(patient.getGeburtsdatum());
+				gebDatum = this.getSqlDateByGregorianCalendar(patient.getGeburtsdatum());
 				pstmt.setDate(j++, java.sql.Date.valueOf(gebDatum));
 				pstmt.setString(j++, Character.toString(patient.getGeschlecht()));	
-				aDatum = this.getSqlDateByJavaGregorianCalendar(patient.getDatumAufklaerung());
+				aDatum = this.getSqlDateByGregorianCalendar(patient.getDatumAufklaerung());
 				pstmt.setDate(j++, java.sql.Date.valueOf(aDatum));
 				pstmt.setFloat(j++, patient.getKoerperoberflaeche());
 				pstmt.setInt(j++, patient.getPerformanceStatus());
@@ -1013,7 +1093,7 @@ public class Datenbank implements DatenbankSchnittstelle{
      * @param calendar ist das Objekt als GregorianCalendar
      * @return ein String im SQL-Date-Format
      */
-    private String getSqlDateByJavaGregorianCalendar(GregorianCalendar calendar)
+    private String getSqlDateByGregorianCalendar(GregorianCalendar calendar)
     {
         String cal;
         cal = calendar.get(java.util.Calendar.YEAR) + "-" +
