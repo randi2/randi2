@@ -1,4 +1,5 @@
 package de.randi2.datenbank;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,8 +16,10 @@ import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
+import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.model.fachklassen.beans.PersonBean.Titel;
 import de.randi2.utility.NullKonstanten;
@@ -123,7 +126,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 */
 	private enum BenutzerKontoFelder{
 		ID("benutzerkontenID"),
-		BENUTZER("Person_personenID"),
+		PERSON("Person_personenID"),
 		LOGINNAME("loginname"),
 		PASSWORT("passwort"),
 		ROLLEACCOUNT("rolle"),
@@ -158,6 +161,34 @@ public class Datenbank implements DatenbankSchnittstelle{
 		private String name = ""; 
 		
 		private AktivierungsFelder(String name){
+			this.name = name;
+		}
+		
+		public String toString(){
+			return this.name;
+		}	
+	}
+	
+	/**
+	 * Enum Klasse welche die Felder der Tabelle Studie repraesentiert.
+	 * @author Kai Marco Krupka [kai.krupka@urz.uni-heidelberg.de]
+	 *
+	 */
+	private enum StudieFelder{
+		ID("studienID"),
+		BENUTZER("Benutzerkonto_benutzerkontenID"),
+		NAME("name"),
+		BESCHREIBUNG("beschreibung"),
+		STARTDATUM("startdatum"),
+		ENDDATUM("enddatum"),
+		PROTOKOLL("studienprotokoll"),
+		RANDOMISATIONSART("randomisationsart"),
+		STATUS("status_studie");
+		
+		
+		private String name = ""; 
+		
+		private StudieFelder(String name){
 			this.name = name;
 		}
 		
@@ -205,10 +236,18 @@ public class Datenbank implements DatenbankSchnittstelle{
 		//BenutzerKontoBean schreiben
 		else if (zuSchreibendesObjekt instanceof BenutzerkontoBean) {
 			BenutzerkontoBean benutzerKonto = (BenutzerkontoBean) zuSchreibendesObjekt;
-			return (T) schreibenBenutzerKonto(benutzerKonto);
-			
+			return (T) this.schreibenBenutzerKonto(benutzerKonto);
 		}
 		//AktivierungsBean
+		else if (zuSchreibendesObjekt instanceof AktivierungBean) {
+			AktivierungBean aktivierung = (AktivierungBean) zuSchreibendesObjekt;
+			return (T) this.schreibenAktivierung(aktivierung);
+		}
+		//StudieBean
+		else if (zuSchreibendesObjekt instanceof StudieBean) {
+			StudieBean studie = (StudieBean) zuSchreibendesObjekt;
+			return (T) this.schreibenStudie(studie);
+		}
 		
 		return null;
 	}
@@ -220,14 +259,16 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * 			zu schreibendes PersonBean
 	 * @return
 	 * 			PersonBean mit vergebener ID oder null falls nur ein Update durchgefuehrt wurde
+	 * @throws DatenbankFehlerException 
 	 */
-	private PersonBean schreibenPerson(PersonBean person) {
+	private PersonBean schreibenPerson(PersonBean person) throws DatenbankFehlerException {
 		//TODO Logging
 		Connection con=null; 
 		try {
 			con = getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
 		}
 		String sql; 
 		PreparedStatement pstmt;
@@ -270,6 +311,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
 			}
 			person.setId(id);
 			return person;						
@@ -301,12 +343,14 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
 			}
 		}		
 		try {
 			closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
 		}
 		return null;	
 	}
@@ -317,14 +361,16 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * 			zu speicherndes Zentrum
 	 * @return
 	 * 			das Zentrum mit der vergebenen eindeutigen ID bzw. das aktualisierte Zentrum
+	 * @throws DatenbankFehlerException 
 	 */
-	private ZentrumBean schreibenZentrum(ZentrumBean zentrum) {
+	private ZentrumBean schreibenZentrum(ZentrumBean zentrum) throws DatenbankFehlerException {
 		//TODO Logging
 		Connection con=null;
 		try {
 			con = getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
 		}
 		String sql; 
 		PreparedStatement pstmt;
@@ -363,6 +409,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
 			}
 			zentrum.setId(id);
 			return zentrum;						
@@ -395,12 +442,14 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
 			}
 		}		
 		try {
 			closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
 		}
 		return null;		
 	}
@@ -408,13 +457,11 @@ public class Datenbank implements DatenbankSchnittstelle{
 	/**
 	 * Speichert bzw. aktualisiert das übergebene Benutzerkonto.
 	 * @param benutzerKonto welches gespeichert (ohne ID) oder aktualisiert (mit ID) werden soll.
-	 * @return das gespeicherte Objekt MIT ID, bzw das Objekt mit den aktualisierten Daten.
+	 * @return das gespeicherte Objekt MIT ID, bzw. NULL falls ein Update durchgeführt wurde.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
-	private BenutzerkontoBean schreibenBenutzerKonto(BenutzerkontoBean benutzerKonto){
-		//TODO Logging
+	private BenutzerkontoBean schreibenBenutzerKonto(BenutzerkontoBean benutzerKonto) throws DatenbankFehlerException{
 		Connection con = null;
-		long id = 0;
-		int i = 1, j=1;
 		String sql = "";
 		String calFirst = "";
 		String calLast = "";
@@ -424,29 +471,42 @@ public class Datenbank implements DatenbankSchnittstelle{
 			con = this.getConnection();
 		}catch(SQLException e){
 			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
 		}
 		//Neues Benutzerkonto
 		if(benutzerKonto.getId() == NullKonstanten.NULL_LONG){
+			int i = 1;
+			long id = Long.MIN_VALUE;
+			sql = "INSERT INTO "+Tabellen.BENUTZERKONTO+" (" +
+				BenutzerKontoFelder.ID + ", "+
+				BenutzerKontoFelder.PERSON + ", "+
+				BenutzerKontoFelder.LOGINNAME + ", "+
+				BenutzerKontoFelder.PASSWORT + ", "+
+				BenutzerKontoFelder.ROLLEACCOUNT + ", "+
+				BenutzerKontoFelder.ERSTERLOGIN + ", "+
+				BenutzerKontoFelder.LETZTERLOGIN + ", "+
+				BenutzerKontoFelder.GESPERRT + ")"+
+				" VALUES (NULL,?,?,?,?,?,?,?)";
 			try{
-				sql = "INSERT INTO "+Tabellen.BENUTZERKONTO+"(" +
-					BenutzerKontoFelder.ID + ","+
-					BenutzerKontoFelder.BENUTZER + ","+
-					BenutzerKontoFelder.LOGINNAME + ","+
-					BenutzerKontoFelder.PASSWORT + ","+
-					BenutzerKontoFelder.ROLLEACCOUNT + ","+
-					BenutzerKontoFelder.ERSTERLOGIN + ","+
-					BenutzerKontoFelder.LETZTERLOGIN + ","+
-					BenutzerKontoFelder.GESPERRT + ")"+
-					"VALUES (NULL,?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, benutzerKonto.getBenutzer().getId());
 				pstmt.setString(i++, benutzerKonto.getBenutzername());
 				pstmt.setString(i++, benutzerKonto.getPasswort());
 				pstmt.setString(i++, benutzerKonto.getRolle().getName());
-				calFirst = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getErsterLogin());
-				pstmt.setDate(i++, java.sql.Date.valueOf(calFirst));
-				calLast = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getLetzterLogin());
-				pstmt.setDate(i++, java.sql.Date.valueOf(calLast));
+				if(benutzerKonto.getErsterLogin()!= null){
+					calFirst = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getErsterLogin());
+					pstmt.setDate(i++, java.sql.Date.valueOf(calFirst));
+				}
+				else{
+					pstmt.setNull(i++, Types.DATE);
+				}
+				if(benutzerKonto.getLetzterLogin()!=null){
+					calLast = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getLetzterLogin());
+					pstmt.setDate(i++, java.sql.Date.valueOf(calLast));
+				}
+				else{
+					pstmt.setNull(i++, Types.DATE);
+				}
 				pstmt.setBoolean(i++, benutzerKonto.isGesperrt());
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
@@ -456,12 +516,15 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.close();
 			}catch(SQLException e){
 				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
 			}	
 			benutzerKonto.setId(id);
 			return benutzerKonto;
+			
 		}else{
+			int j= 1;
 			sql = "UPDATE " +Tabellen.BENUTZERKONTO+" SET " +
-				BenutzerKontoFelder.BENUTZER + "= ?, " + 
+				BenutzerKontoFelder.PERSON + "= ?, " + 
 				BenutzerKontoFelder.LOGINNAME + "= ?, " + 
 				BenutzerKontoFelder.PASSWORT + "= ?, " + 
 				BenutzerKontoFelder.ROLLEACCOUNT + "= ?, " + 
@@ -475,25 +538,227 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.setString(j++, benutzerKonto.getBenutzername());
 				pstmt.setString(j++, benutzerKonto.getPasswort());
 				pstmt.setString(j++, benutzerKonto.getRolle().getName());
-				calFirst = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getErsterLogin());
-				pstmt.setDate(j++, java.sql.Date.valueOf(calFirst));
-				calLast = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getLetzterLogin());
-				pstmt.setDate(j++, java.sql.Date.valueOf(calLast));
+				if(benutzerKonto.getErsterLogin()!= null){
+					calFirst = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getErsterLogin());
+					pstmt.setDate(j++, java.sql.Date.valueOf(calFirst));
+				}
+				else{
+					pstmt.setNull(j++, Types.DATE);
+				}
+				if(benutzerKonto.getLetzterLogin()!=null){
+					calLast = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getLetzterLogin());
+					pstmt.setDate(j++, java.sql.Date.valueOf(calLast));
+				}
+				else{
+					pstmt.setNull(j++, Types.DATE);
+				}
 				pstmt.setBoolean(j++, benutzerKonto.isGesperrt());
 				pstmt.setLong(j++, benutzerKonto.getId());
 				pstmt.executeUpdate();
 				pstmt.close();
 				
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
 			}	
 		}
 		try{
 			this.closeConnection(con);
-		}catch(SQLException e)
-		{
+		}catch(SQLException e){
 			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		return null;
+	}
+	
+	/**
+	 * Speichert bzw. aktualisiert die übergebenen Aktivierungsdaten.
+	 * @param aktivierung welche gespeichert (ohne ID) oder aktualisiert (mit ID) werden soll.
+	 * @return das gespeicherte Objekt MIT ID, bzw. NULL falls ein Update durchgeführt wurde.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 */
+	private AktivierungBean schreibenAktivierung(AktivierungBean aktivierung) throws DatenbankFehlerException{
+		Connection con = null;
+		String sql = "";
+		String cal = "";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = this.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		if(aktivierung.getAktivierungsId() == NullKonstanten.NULL_LONG)
+		{
+			int i = 1;
+			long id = Long.MIN_VALUE;
+			sql = "INSERT INTO " + Tabellen.AKTIVIERUNG + " (" +
+			AktivierungsFelder.ID + ", " +
+			AktivierungsFelder.BENUTZER + ", " +
+			AktivierungsFelder.LINK + ", " +
+			AktivierungsFelder.VERSANDDATUM + ") " +
+			" VALUES (NULL,?,?,?)";
+			try {
+				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				pstmt.setLong(i++, aktivierung.getBenutzerkonto().getId());
+				pstmt.setString(i++, aktivierung.getAktivierungsLink());
+				cal = this.getSqlDateByJavaGregorianCalendar(aktivierung.getVersanddatum());
+				pstmt.setDate(i++, java.sql.Date.valueOf(cal));
+				pstmt.executeUpdate();
+				rs = pstmt.getGeneratedKeys();
+				rs.next();
+				id = rs.getLong(1);
+				rs.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
+			}
+			aktivierung.setAktivierungsId(id);
+			return aktivierung;
+		}
+		else{
+			int j = 1;
+			sql = "UPDATE " + Tabellen.AKTIVIERUNG + " SET "+
+				AktivierungsFelder.BENUTZER + "=? , " + 
+				AktivierungsFelder.LINK + "=? , " + 
+				AktivierungsFelder.VERSANDDATUM + "=?  " +
+						"WHERE "+ AktivierungsFelder.ID + "=?";
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setLong(j++, aktivierung.getBenutzerkonto().getId());
+				pstmt.setString(j++, aktivierung.getAktivierungsLink());
+				cal = this.getSqlDateByJavaGregorianCalendar(aktivierung.getVersanddatum());
+				pstmt.setDate(j++, java.sql.Date.valueOf(cal));
+				pstmt.setLong(j++, aktivierung.getAktivierungsId());
+				pstmt.executeUpdate();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
+			}
+		}
+		
+		try {
+			this.closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Speichert bzw. aktualisiert die übergebenen Studiendaten.
+	 * @param studie welche gespeichert (ohne ID) oder aktualisiert (mit ID) werden soll.
+	 * @return das gespeicherte Objekt MIT ID, bzw das Objekt mit den aktualisierten Daten.
+	 * @throws DatenbankFehlerException 
+	 */
+	private StudieBean schreibenStudie(StudieBean studie) throws DatenbankFehlerException{
+		Connection con = null;
+		String sql = "";
+		String calStart = "";
+		String calEnde = "";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Blob protokoll = null;
+		try {
+			con = this.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		if(studie.getId() == NullKonstanten.NULL_LONG){
+			int i = 1;
+			long id = Long.MIN_VALUE;
+			try {
+				sql = "INSERT INTO " + Tabellen.STUDIE + " (" + 
+					StudieFelder.ID + ", " + 
+					StudieFelder.BENUTZER + ", " +
+					StudieFelder.NAME + ", " +
+					StudieFelder.BESCHREIBUNG + ", " +
+					StudieFelder.STARTDATUM + ", " +
+					StudieFelder.ENDDATUM + ", " +
+					StudieFelder.PROTOKOLL + ", " +
+					StudieFelder.RANDOMISATIONSART + ", " +
+					StudieFelder.STATUS + ") " +
+					"VALUES (?,?,?,?,?,?,?,?,?)";
+				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				pstmt.setLong(i++, studie.getBenutzerkonto().getId());
+				pstmt.setString(i++, studie.getName());
+				if(studie.getBeschreibung()!=""){
+					pstmt.setString(i++, studie.getBeschreibung());
+				}
+				else{
+					//FIXME Es gibt als Typ kein TEXT
+					pstmt.setNull(i++, Types.NULL);
+				}
+				calStart = this.getSqlDateByJavaGregorianCalendar(studie.getStartDatum());
+				pstmt.setDate(i++, java.sql.Date.valueOf(calStart));
+				calEnde = this.getSqlDateByJavaGregorianCalendar(studie.getEndDatum());
+				pstmt.setDate(i++, java.sql.Date.valueOf(calEnde));
+				//TODO BLOB/InputStrean Handling!!!
+				pstmt.setBlob(i++, protokoll);
+				pstmt.setString(i++, studie.getRandomisationseigenschaften().toString());
+				pstmt.setInt(i++, studie.getStatus());
+				pstmt.executeUpdate();
+				rs = pstmt.getGeneratedKeys();
+				rs.next();
+				id = rs.getLong(1);
+				rs.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
+			}
+			studie.setId(id);
+			return studie;
+		}
+		else{
+			int j = 1;
+			sql = "UPDATE "+ Tabellen.STUDIE + " SET " +
+				StudieFelder.BENUTZER + "=?, " +
+				StudieFelder.NAME + "=?, " +
+				StudieFelder.BESCHREIBUNG + "=?, " +
+				StudieFelder.STARTDATUM + "=?, " +
+				StudieFelder.ENDDATUM + "=?, " +
+				StudieFelder.PROTOKOLL + "=?, " +
+				StudieFelder.RANDOMISATIONSART + "=?, " +
+				StudieFelder.STATUS + "=? " +
+				"WHERE " + StudieFelder.ID + "=?";
+			try {
+				pstmt = con.prepareStatement(sql);
+			pstmt.setLong(j++, studie.getBenutzerkonto().getId());
+			pstmt.setString(j++, studie.getName());
+			if(studie.getBeschreibung()!=""){
+				pstmt.setString(j++, studie.getBeschreibung());
+			}
+			else{
+				//FIXME Es gibt als Typ kein TEXT
+				pstmt.setNull(j++, Types.NULL);
+			}
+			calStart = this.getSqlDateByJavaGregorianCalendar(studie.getStartDatum());
+			pstmt.setDate(j++, java.sql.Date.valueOf(calStart));
+			calEnde = this.getSqlDateByJavaGregorianCalendar(studie.getEndDatum());
+			pstmt.setDate(j++, java.sql.Date.valueOf(calEnde));
+			//TODO BLOB/InputStrean Handling!!!
+			pstmt.setBlob(j++, protokoll);
+			pstmt.setString(j++, studie.getRandomisationseigenschaften().toString());
+			pstmt.setInt(j++, studie.getStatus());
+			pstmt.executeUpdate();
+			pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
+			}
+		}
+		try {
+			this.closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
 		}
 		return null;
 	}

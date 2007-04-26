@@ -17,24 +17,59 @@ public class StudieBean extends Filter {
 
 	// TODO Kommentare 
 
+	/**
+	 * ID der Studie.
+	 */
+	private long id = 0;
+	
+	/**
+	 * Name der Studie.
+	 */
 	private String name = null;
 
+	/**
+	 * Beschreibung der Studie.
+	 */
 	private String beschreibung = null;
 
+	/**
+	 * Das Startdatum der Studie.
+	 */
 	private GregorianCalendar startDatum = null;
 
+	/**
+	 * Das Enddatum der Studie.
+	 */
 	private GregorianCalendar endDatum = null;
 
+	/**
+	 * Der Pfad des hinterlegten Protokolls der Studie.
+	 */
 	private String studienprotokoll_pfad = null;
 
+	/**
+	 * Die verschiedenen Studienarme der vorliegenden Studie.
+	 */
 	private Vector<StudienarmBean> studienarme = null;
 
+	/**
+	 * Die Eigenschaften der Randomisation.
+	 */
 	private RandomisationBean randomisationseigenschaften = null;
 
+	/**
+	 * Das Zentrum der Studie.
+	 */
 	private ZentrumBean zentrum = null;
 
+	/**
+	 * Das Benutzerkonto der Studie.
+	 */
 	private BenutzerkontoBean benutzerkonto = null;
 
+	/**
+	 * Der Status der Studie.
+	 */
 	private int status = -1;
 
 	/**
@@ -240,6 +275,22 @@ public class StudieBean extends Filter {
 	 */
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	/**
+	 * Liefert die ID der Studie.
+	 * @return id der Studie
+	 */
+	public long getId() {
+		return id;
+	}
+
+	/**
+	 * Setzt die ID der Studie.
+	 * @param id der Studie.
+	 */
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

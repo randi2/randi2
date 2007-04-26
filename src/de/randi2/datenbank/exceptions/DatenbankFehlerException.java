@@ -49,7 +49,10 @@ public class DatenbankFehlerException extends Exception {
 	 */
 	public static final String UNGUELTIGE_DATEN="Geladener Datensatz ist nicht valide.";
 	
-	
+	/**
+	 * Konstante, falls beim Verbinden oder Trennen ein Fehler auftritt.
+	 */
+	public static final String CONNECTION_ERR="Es sind Probleme mit der Verbindung zur Datenbank aufgetreten.";
 
 	/**
 	 * Konstruktor.

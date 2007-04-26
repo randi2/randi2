@@ -1,10 +1,10 @@
 package de.randi2.model.fachklassen.beans;
 
 import java.util.GregorianCalendar;
-
+import de.randi2.datenbank.Filter;
 import de.randi2.utility.NullKonstanten;
 
-public class AktivierungBean {
+public class AktivierungBean extends Filter{
     private long aktivierungsId=NullKonstanten.NULL_LONG;
     private GregorianCalendar versanddatum=null;
     private BenutzerkontoBean benutzerkonto=null;
