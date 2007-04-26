@@ -186,3 +186,13 @@ CREATE TABLE Strata_Werte_has_Patient (
       ON UPDATE NO ACTION
 )
 TYPE=InnoDB;
+
+
+CREATE VIEW Strata_von_Studienarm
+AS
+SELECT s.studienarmId, sa.Strata_Typen_strata_TypenID, sa.strata_WerteID
+FROM Studienarm s
+JOIN Patient p ON s.studienarmId = p.Studienarm_studienarmId
+JOIN Strata_Werte_has_Patient swp ON p.patientenId = swp.Patient_patientenId
+JOIN Strata_Auspraegung sa ON swp.Strata_Werte_strata_WerteID = sa.strata_WerteId
+GROUP BY s.studienarmId, sa.Strata_Typen_strata_TypenID, sa.strata_WerteID;
