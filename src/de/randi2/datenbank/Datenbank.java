@@ -6,20 +6,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
+import org.logicalcobwebs.proxool.ProxoolException;
+import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.model.fachklassen.beans.PersonBean.Titel;
-import de.randi2.utility.Config;
 import de.randi2.utility.NullKonstanten;
-
-import org.logicalcobwebs.proxool.ProxoolException;
-import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
 /**
  * <p>Datenbankklasse</p>
@@ -62,7 +62,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	}
 	
 	/**
-	 * Enum Klasse welche die Felder der Tabelle Zentrum repraesntiert
+	 * Enum Klasse welche die Felder der Tabelle Zentrum repraesntiert.
 	 * @author Frederik Reifschneider [Reifschneider@stud.uni-heidelberg.de]
 	 *
 	 */
@@ -89,7 +89,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	}
 	
 	/**
-	 * Enum Klasse welche die Felder der Tabelle Person repraesentiert
+	 * Enum Klasse welche die Felder der Tabelle Person repraesentiert.
 	 * @author Frederik Reifschneider [Reifschneider@stud.uni-heidelberg.de]
 	 *
 	 */
@@ -114,6 +114,56 @@ public class Datenbank implements DatenbankSchnittstelle{
 		public String toString() {
 			return this.name;
 		}
+	}
+	
+	/**
+	 * Enum Klasse welche die Felder der Tabelle Benutzerkonto repraesentiert.
+	 * @author Kai Marco Krupka [kai.krupka@urz.uni-heidelberg.de]
+	 *
+	 */
+	private enum BenutzerKontoFelder{
+		ID("benutzerkontenID"),
+		BENUTZER("Person_personenID"),
+		LOGINNAME("loginname"),
+		PASSWORT("passwort"),
+		ROLLEACCOUNT("rolle"),
+		ERSTERLOGIN("erster_login"),
+		LETZTERLOGIN("letzter_login"),
+		GESPERRT("gesperrt");
+		
+		
+		private String name = ""; 
+		
+		private BenutzerKontoFelder(String name){
+			this.name = name;
+		}
+		
+		public String toString(){
+			return this.name;
+		}	
+	}
+	
+	/**
+	 * Enum Klasse welche die Felder der Tabelle Aktivierung repraesentiert.
+	 * @author Kai Marco Krupka [kai.krupka@urz.uni-heidelberg.de]
+	 *
+	 */
+	private enum AktivierungsFelder{
+		ID("aktivierungsID"),
+		BENUTZER("Benutzerkonto_benutzerkontenID"),
+		LINK("aktivierungslink"),
+		VERSANDDATUM("versanddatum");
+		
+		
+		private String name = ""; 
+		
+		private AktivierungsFelder(String name){
+			this.name = name;
+		}
+		
+		public String toString(){
+			return this.name;
+		}	
 	}
 	
 	/**
@@ -152,6 +202,13 @@ public class Datenbank implements DatenbankSchnittstelle{
 			PersonBean person = (PersonBean) zuSchreibendesObjekt;
 			return (T) schreibenPerson(person);
 		}
+		//BenutzerKontoBean schreiben
+		else if (zuSchreibendesObjekt instanceof BenutzerkontoBean) {
+			BenutzerkontoBean benutzerKonto = (BenutzerkontoBean) zuSchreibendesObjekt;
+			return (T) schreibenBenutzerKonto(benutzerKonto);
+			
+		}
+		//AktivierungsBean
 		
 		return null;
 	}
@@ -347,6 +404,113 @@ public class Datenbank implements DatenbankSchnittstelle{
 		}
 		return null;		
 	}
+	
+	/**
+	 * Speichert bzw. aktualisiert das übergebene Benutzerkonto.
+	 * @param benutzerKonto welches gespeichert (ohne ID) oder aktualisiert (mit ID) werden soll.
+	 * @return das gespeicherte Objekt MIT ID, bzw das Objekt mit den aktualisierten Daten.
+	 */
+	private BenutzerkontoBean schreibenBenutzerKonto(BenutzerkontoBean benutzerKonto){
+		//TODO Logging
+		Connection con = null;
+		long id = 0;
+		int i = 1, j=1;
+		String sql = "";
+		String calFirst = "";
+		String calLast = "";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try{
+			con = this.getConnection();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		//Neues Benutzerkonto
+		if(benutzerKonto.getId() == NullKonstanten.NULL_LONG){
+			try{
+				sql = "INSERT INTO "+Tabellen.BENUTZERKONTO+"(" +
+					BenutzerKontoFelder.ID + ","+
+					BenutzerKontoFelder.BENUTZER + ","+
+					BenutzerKontoFelder.LOGINNAME + ","+
+					BenutzerKontoFelder.PASSWORT + ","+
+					BenutzerKontoFelder.ROLLEACCOUNT + ","+
+					BenutzerKontoFelder.ERSTERLOGIN + ","+
+					BenutzerKontoFelder.LETZTERLOGIN + ","+
+					BenutzerKontoFelder.GESPERRT + ")"+
+					"VALUES (NULL,?,?,?,?,?,?,?)";
+				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				pstmt.setLong(i++, benutzerKonto.getBenutzer().getId());
+				pstmt.setString(i++, benutzerKonto.getBenutzername());
+				pstmt.setString(i++, benutzerKonto.getPasswort());
+				pstmt.setString(i++, benutzerKonto.getRolle().getName());
+				calFirst = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getErsterLogin());
+				pstmt.setDate(i++, java.sql.Date.valueOf(calFirst));
+				calLast = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getLetzterLogin());
+				pstmt.setDate(i++, java.sql.Date.valueOf(calLast));
+				pstmt.setBoolean(i++, benutzerKonto.isGesperrt());
+				pstmt.executeUpdate();
+				rs = pstmt.getGeneratedKeys();
+				rs.next();
+				id = rs.getLong(1);
+				rs.close();
+				pstmt.close();
+			}catch(SQLException e){
+				e.printStackTrace();
+			}	
+			benutzerKonto.setId(id);
+			return benutzerKonto;
+		}else{
+			sql = "UPDATE " +Tabellen.BENUTZERKONTO+" SET " +
+				BenutzerKontoFelder.BENUTZER + "= ?, " + 
+				BenutzerKontoFelder.LOGINNAME + "= ?, " + 
+				BenutzerKontoFelder.PASSWORT + "= ?, " + 
+				BenutzerKontoFelder.ROLLEACCOUNT + "= ?, " + 
+				BenutzerKontoFelder.ERSTERLOGIN + "= ?, " + 
+				BenutzerKontoFelder.LETZTERLOGIN + "= ?, " +
+				BenutzerKontoFelder.GESPERRT + "= ? " +
+						"WHERE " + BenutzerKontoFelder.ID + "= ? ";
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setLong(j++, benutzerKonto.getBenutzer().getId());
+				pstmt.setString(j++, benutzerKonto.getBenutzername());
+				pstmt.setString(j++, benutzerKonto.getPasswort());
+				pstmt.setString(j++, benutzerKonto.getRolle().getName());
+				calFirst = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getErsterLogin());
+				pstmt.setDate(j++, java.sql.Date.valueOf(calFirst));
+				calLast = this.getSqlDateByJavaGregorianCalendar(benutzerKonto.getLetzterLogin());
+				pstmt.setDate(j++, java.sql.Date.valueOf(calLast));
+				pstmt.setBoolean(j++, benutzerKonto.isGesperrt());
+				pstmt.setLong(j++, benutzerKonto.getId());
+				pstmt.executeUpdate();
+				pstmt.close();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}
+		try{
+			this.closeConnection(con);
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+     * Konvertiert ein Objekt vom Typ GregorianCalendar in einen String im SQL-Date-Format
+     * @param calendar ist das Objekt als GregorianCalendar
+     * @return ein String im SQL-Date-Format
+     */
+    private String getSqlDateByJavaGregorianCalendar(GregorianCalendar calendar)
+    {
+        String cal;
+        cal = calendar.get(java.util.Calendar.YEAR) + "-" +
+              calendar.get(java.util.Calendar.MONTH) + "-" +
+              calendar.get(java.util.Calendar.DAY_OF_MONTH);
+        return cal;
+    }
 
 	/**
 	 * Dokumentation siehe Schnittstellenbeschreibung
