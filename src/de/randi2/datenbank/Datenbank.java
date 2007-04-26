@@ -267,38 +267,45 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#loeschenObjekt(de.randi2.datenbank.Filter)
 	 */
 	public <T extends Filter> void loeschenObjekt(T zuLoeschendesObjekt) throws DatenbankFehlerException {
-		//ZentrumBean löschen
-		if (zuLoeschendesObjekt instanceof ZentrumBean) {
-			ZentrumBean zentrum = (ZentrumBean) zuLoeschendesObjekt;
-			this.loeschenZentrum(zentrum);
+		if(zuLoeschendesObjekt == null){
+			throw new DatenbankFehlerException(DatenbankFehlerException.ARGUMENT_IST_NULL);
+		} else {
+			//ZentrumBean löschen
+			if (zuLoeschendesObjekt instanceof ZentrumBean) {
+				ZentrumBean zentrum = (ZentrumBean) zuLoeschendesObjekt;
+				this.loeschenZentrum(zentrum);
+			}
+			//PersonBean löschen
+			if (zuLoeschendesObjekt instanceof PersonBean) {
+				PersonBean person = (PersonBean) zuLoeschendesObjekt;
+				this.loeschenPerson(person);
+			}
+			//Benutzerkonto löschen
+			if (zuLoeschendesObjekt instanceof BenutzerkontoBean) {
+				BenutzerkontoBean benutzer = (BenutzerkontoBean) zuLoeschendesObjekt;
+				this.loeschenBenutzerkonto(benutzer);
+			}
+			//Aktivierung löschen
+			if (zuLoeschendesObjekt instanceof AktivierungBean) {
+				AktivierungBean aktivierung = (AktivierungBean) zuLoeschendesObjekt;
+				this.loeschenAktivierung(aktivierung);
+			}
+			//Studie löschen
+			if (zuLoeschendesObjekt instanceof StudieBean) {
+				StudieBean studie = (StudieBean) zuLoeschendesObjekt;
+				this.loeschenStudie(studie);
+			}
+			//Studienarm löschen
+			if (zuLoeschendesObjekt instanceof StudienarmBean) {
+				StudienarmBean studienarm = (StudienarmBean) zuLoeschendesObjekt;
+				this.loeschenStudienarm(studienarm);
+			}
+			//Patient löschen
+			if (zuLoeschendesObjekt instanceof PatientBean) {
+				PatientBean patient = (PatientBean) zuLoeschendesObjekt;
+				this.loeschenPatient(patient);
+			}
 		}
-		//PersonBean löschen
-		if (zuLoeschendesObjekt instanceof PersonBean) {
-			PersonBean person = (PersonBean) zuLoeschendesObjekt;
-			this.loeschenPerson(person);
-		}
-		//Benutzerkonto löschen
-		if (zuLoeschendesObjekt instanceof BenutzerkontoBean) {
-			BenutzerkontoBean benutzer = (BenutzerkontoBean) zuLoeschendesObjekt;
-			this.loeschenBenutzerkonto(benutzer);
-		}
-		if (zuLoeschendesObjekt instanceof AktivierungBean) {
-			AktivierungBean aktivierung = (AktivierungBean) zuLoeschendesObjekt;
-			this.loeschenAktivierung(aktivierung);
-		}
-		if (zuLoeschendesObjekt instanceof StudieBean) {
-			StudieBean studie = (StudieBean) zuLoeschendesObjekt;
-			this.loeschenStudie(studie);
-		}
-		if (zuLoeschendesObjekt instanceof StudienarmBean) {
-			StudienarmBean studienarm = (StudienarmBean) zuLoeschendesObjekt;
-			this.loeschenStudienarm(studienarm);
-		}
-		if (zuLoeschendesObjekt instanceof PatientBean) {
-			PatientBean patient = (PatientBean) zuLoeschendesObjekt;
-			this.loeschenPatient(patient);
-		}
-		
 	}
 	
 	/**
@@ -460,41 +467,43 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#schreibenObjekt(de.randi2.datenbank.Filter)
 	 */
 	public <T extends Filter> T schreibenObjekt(T zuSchreibendesObjekt) throws DatenbankFehlerException {
-		//ZentrumBean schreiben
-		if (zuSchreibendesObjekt instanceof ZentrumBean) {
-			ZentrumBean zentrum = (ZentrumBean) zuSchreibendesObjekt;	
-			return (T) schreibenZentrum(zentrum);
+		if(zuSchreibendesObjekt == null){
+			throw new DatenbankFehlerException(DatenbankFehlerException.ARGUMENT_IST_NULL);
+		} else {
+//			ZentrumBean schreiben
+			if (zuSchreibendesObjekt instanceof ZentrumBean) {
+				ZentrumBean zentrum = (ZentrumBean) zuSchreibendesObjekt;	
+				return (T) schreibenZentrum(zentrum);
+			}
+			//PersonBean schreiben
+			else if (zuSchreibendesObjekt instanceof PersonBean) {
+				PersonBean person = (PersonBean) zuSchreibendesObjekt;
+				return (T) schreibenPerson(person);
+			}
+			//BenutzerKontoBean schreiben
+			else if (zuSchreibendesObjekt instanceof BenutzerkontoBean) {
+				BenutzerkontoBean benutzerKonto = (BenutzerkontoBean) zuSchreibendesObjekt;
+				return (T) this.schreibenBenutzerKonto(benutzerKonto);
+			}
+			//AktivierungsBean
+			else if (zuSchreibendesObjekt instanceof AktivierungBean) {
+				AktivierungBean aktivierung = (AktivierungBean) zuSchreibendesObjekt;
+				return (T) this.schreibenAktivierung(aktivierung);
+			}
+			//StudieBean
+			else if (zuSchreibendesObjekt instanceof StudieBean) {
+				StudieBean studie = (StudieBean) zuSchreibendesObjekt;
+				return (T) this.schreibenStudie(studie);
+			}
+			if (zuSchreibendesObjekt instanceof StudienarmBean) {
+				StudienarmBean studienarm = (StudienarmBean) zuSchreibendesObjekt;
+				return (T) this.schreibenStudienarm(studienarm);
+			}
+			if (zuSchreibendesObjekt instanceof PatientBean) {
+				PatientBean patient = (PatientBean) zuSchreibendesObjekt;
+				return (T) this.schreibenPatient(patient);
+			}
 		}
-		//PersonBean schreiben
-		else if (zuSchreibendesObjekt instanceof PersonBean) {
-			PersonBean person = (PersonBean) zuSchreibendesObjekt;
-			return (T) schreibenPerson(person);
-		}
-		//BenutzerKontoBean schreiben
-		else if (zuSchreibendesObjekt instanceof BenutzerkontoBean) {
-			BenutzerkontoBean benutzerKonto = (BenutzerkontoBean) zuSchreibendesObjekt;
-			return (T) this.schreibenBenutzerKonto(benutzerKonto);
-		}
-		//AktivierungsBean
-		else if (zuSchreibendesObjekt instanceof AktivierungBean) {
-			AktivierungBean aktivierung = (AktivierungBean) zuSchreibendesObjekt;
-			return (T) this.schreibenAktivierung(aktivierung);
-		}
-		//StudieBean
-		else if (zuSchreibendesObjekt instanceof StudieBean) {
-			StudieBean studie = (StudieBean) zuSchreibendesObjekt;
-			return (T) this.schreibenStudie(studie);
-		}
-		if (zuSchreibendesObjekt instanceof StudienarmBean) {
-			StudienarmBean studienarm = (StudienarmBean) zuSchreibendesObjekt;
-			return (T) this.schreibenStudienarm(studienarm);
-		}
-		if (zuSchreibendesObjekt instanceof PatientBean) {
-			PatientBean patient = (PatientBean) zuSchreibendesObjekt;
-			return (T) this.schreibenPatient(patient);
-			
-		}
-		
 		return null;
 	}
 	
@@ -703,7 +712,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	/**
 	 * Speichert bzw. aktualisiert das übergebene Benutzerkonto.
 	 * @param benutzerKonto welches gespeichert (ohne ID) oder aktualisiert (mit ID) werden soll.
-	 * @return das gespeicherte Objekt MIT ID, bzw. NULL falls ein Update durchgeführt wurde.
+	 * @return das gespeicherte Objekt MIT ID, bzw. <code>null</code> falls ein Update durchgeführt wurde.
 	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private BenutzerkontoBean schreibenBenutzerKonto(BenutzerkontoBean benutzerKonto) throws DatenbankFehlerException{
@@ -820,7 +829,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	/**
 	 * Speichert bzw. aktualisiert die übergebenen Aktivierungsdaten.
 	 * @param aktivierung welche gespeichert (ohne ID) oder aktualisiert (mit ID) werden soll.
-	 * @return das gespeicherte Objekt MIT ID, bzw. NULL falls ein Update durchgeführt wurde.
+	 * @return das gespeicherte Objekt MIT ID, bzw. <code>null</code> falls ein Update durchgeführt wurde.
 	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private AktivierungBean schreibenAktivierung(AktivierungBean aktivierung) throws DatenbankFehlerException{
@@ -899,7 +908,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	/**
 	 * Speichert bzw. aktualisiert die übergebenen Studiendaten.
 	 * @param studie welche gespeichert (ohne ID) oder aktualisiert (mit ID) werden soll.
-	 * @return das gespeicherte Objekt MIT ID, bzw das Objekt mit den aktualisierten Daten.
+	 * @return das gespeicherte Objekt MIT ID, bzw <code>null</code> falls ein Update durchgeführt wurde.
 	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private StudieBean schreibenStudie(StudieBean studie) throws DatenbankFehlerException{
@@ -1012,7 +1021,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	/**
 	 * Speichert bzw. aktualisiert die übergebenen Studienarmdaten.
 	 * @param studienarm welcher gespeichert (ohne ID) oder aktualisiert (mit ID) werden soll.
-	 * @return das gespeicherte Objekt MIT ID, bzw das Objekt mit den aktualisierten Daten.
+	 * @return das gespeicherte Objekt MIT ID, bzw. <code>null</code> falls ein Update durchgeführt wurde.
 	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private StudienarmBean schreibenStudienarm(StudienarmBean studienarm) throws DatenbankFehlerException{
@@ -1097,7 +1106,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	/**
 	 * Speichert bzw. aktualisiert die übergebenen Patientendaten.
 	 * @param patient welche(r) gespeichert (ohne ID) oder aktualisiert (mit ID) werden soll.
-	 * @return das gespeicherte Objekt MIT ID, bzw das Objekt mit den aktualisierten Daten.
+	 * @return das gespeicherte Objekt MIT ID, bzw. <code>null</code> falls ein Update durchgeführt wurde.
 	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private PatientBean schreibenPatient(PatientBean patient) throws DatenbankFehlerException {
