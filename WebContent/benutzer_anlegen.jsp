@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-	<%@ page import= "de.randi2.model.fachklassen.beans.BenutzerkontoBean"
+	<%@ page import= "de.randi2.model.fachklassen.beans.*"
 	import= "java.util.GregorianCalendar"
 	import= "java.text.SimpleDateFormat" 
 	import= "java.util.Locale"
@@ -8,7 +8,7 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
        "http://www.w3.org/TR/html4/strict.dtd">
-<%@ page import="de.randi2.controller.DispatcherServlet" %>
+<% //@ page import="de.randi2.controller.DispatcherServlet" %>
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
