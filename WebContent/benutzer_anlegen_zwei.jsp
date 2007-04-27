@@ -5,7 +5,7 @@
 		import="java.util.*"
 		import="de.randi2.controller.DispatcherServlet"	
 %>
-<%Iterator<ZentrumBean> listeZentren=((Vector<ZentrumBean>)request.getAttribute("listeZentren")).iterator(); %>
+<%Iterator listeZentren=((Vector)request.getAttribute("listeZentren")).iterator(); %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
        "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -44,7 +44,7 @@ Name&nbsp;der&nbsp;Institution:&nbsp;&nbsp;/Name Abteilung
 		String reihe="tblrow2";
 		int tabindex=1;
 		while(listeZentren.hasNext()){
-		ZentrumBean aktuellesZentrum=listeZentren.next();
+		ZentrumBean aktuellesZentrum=(ZentrumBean)listeZentren.next();
 	%>
 	
 	<tr class="<%=reihe %>">
