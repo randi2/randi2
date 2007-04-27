@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Randi2 :: Benutzer anlegen</title>
 
-<%@ page import="de.randi2.model.fachklassen.beans.*" %>
+<%@ page import="de.randi2.model.fachklassen.beans.*"  import="de.randi2.controller.DispatcherServlet" %>
 </head>
 <body>
 <%@include file="include/inc_header_clean.jsp"%>
