@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-	<%@ page import= "de.randi2.model.fachklassen.beans.BenutzerkontoBean"
+	<%@ page import= "de.randi2.model.fachklassen.beans.*"
 	import= "java.util.GregorianCalendar"
 	import= "java.text.SimpleDateFormat" 
 	import= "java.util.Locale"
@@ -45,7 +45,7 @@
 				<form>
 				
 				<!-- <%
-				if (user.getUsername().equals("sl")) {
+				if (aBenutzer.getBenutzername().equals("sl")) {
 				%> //-->
 				
 				<a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
@@ -54,7 +54,7 @@
 					name="studie_hinzufuegen" value="Zu Studie hinzufügen"></a> 
 		
 					<!-- <%
- } else if (user.getUsername().equals("admin")) {
+ } else if (aBenutzer.getBenutzername().equals("admin")) {
  					%> //--> 
  
  <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
@@ -76,14 +76,14 @@
 				<form>
 		
 				<!-- <%
-				if (user.getUsername().equals("sl")) {
+				if (aBenutzer.getBenutzername().equals("sl")) {
 				%> //--> 
 			
 				<a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
 					name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> 
 				
 					<!-- <%
- } else if (user.getUsername().equals("admin")) {
+ } else if (aBenutzer.getBenutzername().equals("admin")) {
  					%> //-->
  					
  <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
@@ -106,14 +106,14 @@
 				<form>
 			
 				<!-- <%
-				if (user.getUsername().equals("sl")) {
+				if (aBenutzer.getBenutzername().equals("sl")) {
 				%> //-->
 				
 				<a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
 					name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> 
 
 					<!-- <%
- } else if (user.getUsername().equals("admin")) {
+ } else if (aBenutzer.getBenutzername().equals("admin")) {
  					%> //-->
  
   <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
