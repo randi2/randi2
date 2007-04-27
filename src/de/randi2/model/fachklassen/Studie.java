@@ -6,13 +6,15 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
 /**
  * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
  * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
- * @version $Id: $
+ * @version $Id$
  */
 public class Studie {
 
 	private StudieBean aStudieBean = null;
 
 	private RandomisationBean aRandomisationBean = null;
+
+	private ZentrumBean aZentrum;
 
 	public StatistikBean anzeigenStatistik(int kriterium) {
 
@@ -27,6 +29,9 @@ public class Studie {
 	// return null;
 
 	// }
+	// Url zurückgeben studienprotokoll
+	
+	//getStudienarme Vector
 
 	// public PatientBean hinzufuegenPatient(PatientBean patient) {
 
@@ -35,6 +40,9 @@ public class Studie {
 	// }
 
 	public void zuweisenZentrum(ZentrumBean aZentrum) {
+		this.aZentrum = aZentrum;
+		
+		
 
 	}
 	//TODO Array?
