@@ -18,7 +18,7 @@
 <%@include file="include/inc_nachricht.jsp"%>
 <fieldset style="width: 60%"><legend><b>Pers&ouml;nliche
 Angaben</b></legend>
-<table heiht="20%">
+<table height="20%">
 	<tr>
 		<td>Titel *<br>
 
