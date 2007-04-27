@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import= "de.randi2.model.fachklassen.beans.BenutzerkontoBean"
+    <%@ page import= "de.randi2.model.fachklassen.beans.*"
 	import= "java.util.GregorianCalendar"
 	import= "java.text.SimpleDateFormat" 
 	import= "java.util.Locale"
@@ -28,7 +28,7 @@
 		<input type="submit" name="armbeenden" value="Arm der Studie beenden" onClick=""></td>
 		</tr>	
 		</table>
-<table><br>
+<table>
 <tr>
 <td id="strich"></td>
 </tr>
