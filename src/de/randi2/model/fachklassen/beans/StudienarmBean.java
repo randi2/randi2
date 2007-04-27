@@ -105,7 +105,7 @@ public class StudienarmBean extends Filter {
 		return aPatientenIDs;
 	}
 
-	public void setPatientenIDs(Vector patientenIDs) {
+	public void setPatientenIDs(Vector<Integer> patientenIDs) {
 		aPatientenIDs = patientenIDs;
 	}
 
