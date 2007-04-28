@@ -51,7 +51,7 @@ public class BenutzerkontoBean extends Filter {
 	private boolean gesperrt = false;
 
 	/**
-	 * ID des Kontos TODO Datentyp checken, long korrekt?
+	 * ID des Kontos
 	 */
 	private long id = NullKonstanten.DUMMY_ID;
 

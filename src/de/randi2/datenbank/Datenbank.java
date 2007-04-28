@@ -16,6 +16,7 @@ import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PatientBean;
@@ -1233,15 +1234,24 @@ public class Datenbank implements DatenbankSchnittstelle{
 			PersonBean person = suchenPersonID(id);
 			return (T) person;
 		}
+		if (nullObjekt instanceof ZentrumBean) {
+			ZentrumBean zentrum = suchenZentrumID(id);
+			return (T) zentrum;			
+		}
+		if (nullObjekt instanceof BenutzerkontoBean) {
+			BenutzerkontoBean benutzerkonto = suchenBenutzerkontoID(id);
+			return (T) benutzerkonto;
+			
+		}
 		return null;
 	}
 	
 	/**
-	 * Sucht in der Datenbank nach der Person mit der uebergebenen ID
+	 * Sucht in der Datenbank nach der Person mit der uebergebenen ID.
 	 * @param id
-	 * 			zu suchende ID
+	 * 			zu suchende ID.
 	 * @return
-	 * 			Person mit zutreffender ID, null falls keine Person mit entsprechender ID gefunden wurde
+	 * 			Person mit zutreffender ID, null falls keine Person mit entsprechender ID gefunden wurde.
 	 * @throws DatenbankFehlerException 
 	 */
 	private PersonBean suchenPersonID(long id) throws DatenbankFehlerException {
@@ -1253,6 +1263,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 			con = getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
 		}
 		String sql;
 		sql = "SELECT * FROM "+Tabellen.PERSON+" WHERE "+FelderPerson.ID+" = ?";		
@@ -1271,17 +1282,118 @@ public class Datenbank implements DatenbankSchnittstelle{
 					throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
 					//sollte hier lieber die Person Exception weitergeleitet werden? wie sieht es mit logging aus?
 				}
-			}			
+			}
+			rs.close();
+			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.SUCHEN_ERR);
 		}		
 		try {
 			closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
 		}
 		return tmpPerson;
 		
+	}
+	
+	/**
+	 * Sucht in der Datenbank nach dem zur ID zugehörigen Zentrum.
+	 * @param id zu suchende ID.
+	 * @return Zentrum mit zugehöriger ID, null falls kein Zentrum mit entsprechender ID gefunden wurde.
+	 * @throws DatenbankFehlerException falls bei der Suche ein Fehler auftrat.
+	 */
+	private ZentrumBean suchenZentrumID(long id) throws DatenbankFehlerException {
+		Connection con = null;
+		String sql = "";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ZentrumBean zentrum = null;
+		
+		try {
+			con = this.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		
+		sql = "SELECT * FROM "+ Tabellen.ZENTRUM + " WHERE " + FelderZentrum.ID + " =?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				zentrum = new ZentrumBean(rs.getLong(FelderZentrum.ID.toString()),
+						rs.getString(FelderZentrum.INSTITUTION.toString()),
+						rs.getString(FelderZentrum.ABTEILUNGSNAME.toString()),
+						rs.getString(FelderZentrum.ORT.toString()),
+						rs.getString(FelderZentrum.PLZ.toString()),
+						rs.getString(FelderZentrum.STRASSE.toString()),
+						rs.getString(FelderZentrum.HAUSNUMMER.toString()),
+						rs.getLong(FelderZentrum.ANSPRECHPARTNERID.toString()),
+						rs.getString(FelderZentrum.PASSWORT.toString()),
+						rs.getBoolean(FelderZentrum.AKTIVIERT.toString()));				
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.SUCHEN_ERR);
+		}
+		
+		try {
+			this.closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		return zentrum;
+	}
+	
+	/**
+	 * Sucht in der Datenbank nach dem zur ID zugehörigen Benutzerkonto.
+	 * @param id zu suchende ID.
+	 * @return Benutzerkonto mit zugehöriger ID, null falls kein Benutzerkonto mit entsprechender ID gefunden wurde.
+	 * @throws DatenbankFehlerException falls bei der Suche ein Fehler auftrat.
+	 */
+	private BenutzerkontoBean suchenBenutzerkontoID(long id) throws DatenbankFehlerException {
+		Connection con = null;
+		String sql = "";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		BenutzerkontoBean benutzerkonto = null;
+		
+		try {
+			con = this.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		
+		sql = "SELECT * FROM "+ Tabellen.BENUTZERKONTO + " WHERE " + FelderBenutzerkonto.ID + " =?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, id);
+			rs = pstmt.executeQuery();
+
+			//TODO Bean erstellen, jedoch vorher Konstruktor-Design abklären.
+			
+			rs.close();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.SUCHEN_ERR);
+		}
+		
+		try {
+			this.closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		return benutzerkonto;
 	}
 	
 	/**
