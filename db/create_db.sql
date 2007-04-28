@@ -78,6 +78,7 @@ CREATE TABLE Studie (
   enddatum DATE NOT NULL,
   studienprotokoll LONGBLOB NOT NULL,
   randomisationArt ENUM('Vollstaendige', 'Block', 'Block mit Strata', 'Minimisation') NOT NULL,
+  status_Studie ENUM('fortsetzen', 'pausieren', 'stoppen') NOT NULL,
   PRIMARY KEY(studienID),
   INDEX Studie_FKIndex1(Benutzerkonto_benutzerkontenID),
   FOREIGN KEY(Benutzerkonto_benutzerkontenID)
