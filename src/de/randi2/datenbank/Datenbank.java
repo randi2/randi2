@@ -1,6 +1,7 @@
 package de.randi2.datenbank;
 import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +17,6 @@ import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
-import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PatientBean;
@@ -46,6 +46,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * @author Frederik Reifschneider [Reifschneider@stud.uni-heidelberg.de]
 	 */
 	private enum Tabellen{	
+		//TODO neue Tabellen hinzufügen
 		ZENTRUM ("Zentrum"),
 		PERSON ("Person"),
 		BENUTZERKONTO("Benutzerkonto"),
@@ -723,6 +724,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 		String calLast = "";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		Date datum = null;
 		try{
 			con = this.getConnection();
 		}catch(SQLException e){
@@ -749,6 +751,8 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.setString(i++, benutzerKonto.getBenutzername());
 				pstmt.setString(i++, benutzerKonto.getPasswort());
 				pstmt.setString(i++, benutzerKonto.getRolle().getName());
+				//TODO Datum-Konvertierung ändern.
+				//pstmt.setDate(i++, new Date(benutzerKonto.getErsterLogin().getTimeInMillis()));
 				if(benutzerKonto.getErsterLogin()!= null){
 					calFirst = this.getSqlDateByGregorianCalendar(benutzerKonto.getErsterLogin());
 					pstmt.setDate(i++, java.sql.Date.valueOf(calFirst));
