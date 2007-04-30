@@ -1,43 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-	<%@ page import= "de.randi2.model.fachklassen.beans.BenutzerkontoBean"
-	import= "java.util.GregorianCalendar"
-	import= "java.text.SimpleDateFormat" 
-	import= "java.util.Locale"
-%>
-<jsp:setProperty name="user" property="*" />
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="de.randi2.controller.DispatcherServlet;"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Randi2 :: System (ent-)sperren</title>
-<link rel="stylesheet" type="text/css" href="css/style.css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
-<%@include file="include/inc_header.jsp"%>
-
-<div id="content">
-<h1>System (ent)sperren</h1>
-<form>
-<fieldset style="width:60%">
-	<legend><b>System</b></legend>
-		<table >
-		<tr>
-		<td><input type="button" name="bestaetigen" value="Sperren" tabindex="1" onclick="location.href='system_sperren_best.jsp'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-		<td><input type="button" name="abbrechen" value="Entsperren" tabindex="2" onclick="location.href='system_entsperren_best.jsp'"></td>
-		</tr>
-		</table>
-
-</fieldset><br>
-</form>
-	</div>
-	<div id="show_none">
-		
-	</div>
-
-<%@include file="include/inc_footer.jsp"%>
-<div id="show_none">
-<%@include file="include/inc_menue.jsp"%>
-</div>
+<jsp:forward page="/DispatcherServlet">
+	<jsp:param name="anfrage_id" value="<%=DispatcherServlet.anfrage_id.JSP_SYSTEM_SPERREN %>"/>
+</jsp:forward>
 </body>
 </html>
