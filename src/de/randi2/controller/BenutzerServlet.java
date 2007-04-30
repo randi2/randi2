@@ -141,17 +141,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
         Logger.getLogger(this.getClass()).debug(
                 "System gesperrt, Kandidat == Sysop?");
         if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.SYSOP) {
-            // TODO diese Logik der Weiterleitung an die normale weiterleitungsmetho. auslagern --leehTB
+            // FIXME Doppelt gemoppelt. Lieber Pruefung ob gesperrt mit in die normale weiterleitung nehmen
             // Sicherstellen, das sich Sysop einloggen kann
-            request.getRequestDispatcher("/global_welcome.jsp").forward(
-                    request, response);
-            // Korrekt weiterleiten
-            // Ergebnis loggen
-            Logger.getLogger(this.getClass()).debug(
-                    "System gesperrt, Sysop hat sich eingeloggt");
-            LogAktion a = new LogAktion(
-                    "Benutzer hat sich erfolgreich eingeloggt", aBenutzer);
-            Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
+            weiterleitungLoginKorrekt(aBenutzer,request,response);
         } else {
             
             request

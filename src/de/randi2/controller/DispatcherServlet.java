@@ -8,7 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.Config;
+import de.randi2.utility.LogAktion;
+import de.randi2.utility.LogLayout;
 import static de.randi2.utility.Config.Felder;
 
 /**
@@ -24,13 +27,14 @@ import static de.randi2.utility.Config.Felder;
  */
 @SuppressWarnings("serial")
 public class DispatcherServlet extends javax.servlet.http.HttpServlet {
-
+    // TODO alle Parameter auf Enums umstellen --BTheel
+    //TODO LogLayout beim Sperren?--Btheel
     /**
      * 
      */
     private boolean istSystemGesperrt = true;
 
-    private static String meldungSystemGesperrt = "Meldung des System ist gesperrt";
+    private String meldungSystemGesperrt = "Meldung des System ist gesperrt";
 
     /**
      * Mitteilung an den Benutzer beim Loginvorgang, welche Fehler aufgetreten
@@ -54,12 +58,15 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         super();
         istSystemGesperrt = Boolean.valueOf(Config
                 .getProperty(Felder.SYSTEMSPERRUNG_SYSTEMSPERRUNG));
-        if (istSystemGesperrt) {
+        //if (istSystemGesperrt) {
+        /*
+         * Laed Mitteilung immer aus der Config, wird im Formular zur Systemperrung als Vorbelegung angezeigt --Btheel
+         */
             Logger.getLogger(this.getClass()).debug(
-                    "System gesperrt, lade Mitteilung aus Config");
+                    "Lade Mitteilung (System gesperrt) aus Config");
             meldungSystemGesperrt = Config
                     .getProperty(Felder.SYSTEMSPERRUNG_FEHLERMELDUNG);
-        }
+        //}
     }
 
     /**
@@ -90,7 +97,21 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         /**
          * 
          */
-        JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER
+        JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER,
+
+        /**
+         * Leitet den Forward der system_sperren.jsp weiter (kommt als get)
+         */
+        JSP_SYSTEM_SPERREN,
+
+        /**
+         * Aufforderung das System zu Entsperren
+         */
+        AKTION_SYSTEM_ENTSPERREN,
+        /**
+         * Aufforderung das System zu Sperren
+         */
+        AKTION_SYSTEM_SPERREN
     }
 
     /**
@@ -118,12 +139,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         /**
          * Systemstatus gesperrt[true|false] (boolean)
          */
-        IST_SYSTEM_GESPERRT("System gesperrt"),
+        IST_SYSTEM_GESPERRT("system_gesperrt"),
 
         /**
          * Haelt die Begruendung der Systemsperrung (String)
          */
-        MITTEILUNG_SYSTEM_GESPERRT("Systemmitteilung gesperrt");
+        MITTEILUNG_SYSTEM_GESPERRT("mitteilung_system_gesperrt");
 
         String parameter = null;
 
@@ -140,6 +161,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         public String toString() {
             return this.parameter;
         }
+
     }
 
     // TODO Bitte Kommentar ueberpruefen und ggf. anpassen.
@@ -171,14 +193,21 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         String id = (String) request.getParameter("anfrage_id");
 
         if (id != null) {// wurde eine Id mitgesendet
-            Logger.getLogger(this.getClass()).debug("anfrage_id: " + id);
+            Logger.getLogger(this.getClass()).debug("[GET]anfrage_id: " + id);
             // logout ( FRAGE Logout wirklich an dieser Stelle?? oder in
             // BenutzerServelet)
-            if (id.equals(DispatcherServlet.anfrage_id.JSP_HEADER_LOGOUT)) {
+            if (id
+                    .equals(DispatcherServlet.anfrage_id.JSP_HEADER_LOGOUT
+                            .name())) {
                 loggeBenutzerAus(request, response);
+            } else if (id
+                    .equals(DispatcherServlet.anfrage_id.JSP_SYSTEM_SPERREN
+                            .name())) {
+                // FIXME Benutzer Muss eingeloggt sein! Sicherstellen --Btheel
+                weiterleitungSystemSperrung(request, response);
             }
             return;
-        } else {// keine anfrage_id empfangen
+        } else {// keine anfrage_id empfangen -> Weiterleitung auf den entsprechenden Index
             if (istSystemGesperrt) {// System gesperrt
                 Logger
                         .getLogger(this.getClass())
@@ -201,6 +230,25 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
             }
         }
 
+    }
+
+    /**
+     * Leitet die Anfrage auf die Seite '/system_sperren_main.jsp' weiter und bindet die dort benoetigten Werte an den Request.
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void weiterleitungSystemSperrung(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+        request.setAttribute(requestParameter.IST_SYSTEM_GESPERRT
+                .toString(), istSystemGesperrt);
+        request.setAttribute(
+                    requestParameter.MITTEILUNG_SYSTEM_GESPERRT
+                            .toString(), meldungSystemGesperrt);
+        request.getRequestDispatcher("/system_sperren_main.jsp")
+                .forward(request, response);
+        return;
+        
     }
 
     /**
@@ -250,21 +298,16 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
+
         String id = (String) request.getParameter("anfrage_id");
         String idAttribute = (String) request.getAttribute("anfrage_id");
 
-        Logger.getLogger(this.getClass()).debug("anfrage_id: " + id);
-
-        System.out.println("Nutzer angemeldet? "
-                + isBenutzerAngemeldet(request));
-
-        if (idAttribute != null) {
-            /*
-             * XXX Frickelei unnoetig, da wenn Param null auch Attr null ist
-             * abfrage des Attr. ausreichend --BTheel
-             */
-            id = idAttribute;
-        } else {
+        Logger.getLogger(this.getClass()).debug("[POST]anfrage_id: " + id);
+        
+        String meldung = (String) request.getAttribute("lol");
+        System.out.println(meldung);
+        
+        if (id==null) {
             /*
              * ist keine ID gesetzt, so wird auf doGet umgeleitet Weitere Logik
              * dort --Btheel
@@ -273,16 +316,20 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
             Logger.getLogger(this.getClass()).debug(
                     "Anfrage-Id == null, Anfrage nach doGet umleiten");
         }
+        if (idAttribute != null) {
+            /*
+             * XXX Frickelei unnoetig, da wenn Param null auch Attr null ist
+             * abfrage des Attr. ausreichend --BTheel
+             */
+            id = idAttribute;
+        } 
+
 
         // WEITERLEITUNGEN FUER BENUTZERSERVLET
         // [start]
         // Login
         if (id.equals(DispatcherServlet.anfrage_id.JSP_INDEX_LOGIN.name())) {
-            Logger.getLogger(this.getClass()).debug(
-                    "ID '" + id + "' korrekt erkannt");
-
             weiterleitungBenutzerAnmelden(request, response);
-            return;
         }
 
         // Benutzer registrieren
@@ -327,6 +374,50 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
             request.getRequestDispatcher("BenutzerServlet").forward(request,
                     response);
 
+        } else if (id
+                .equals(DispatcherServlet.anfrage_id.AKTION_SYSTEM_ENTSPERREN
+                        .name())) {
+            if (isBenutzerAngemeldet(request)) {
+                this.setSystemGesperrt(false);
+                Logger.getLogger(this.getClass()).debug(
+                        "Schalte System wieder frei");
+                LogAktion a = new LogAktion("System wurde entsperrt",
+                        (BenutzerkontoBean) request.getSession().getAttribute("aBenutzer"));
+                Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
+                request.getRequestDispatcher("/system_sperren.jsp").forward(request, response);//TODO auf weiterleitung umlegen
+                return;
+            }
+            Logger.getLogger(this.getClass()).warn(
+            "Benutzer war nicht angemeldet beim freischalten!");
+            return;
+        }else if (id
+                .equals(DispatcherServlet.anfrage_id.AKTION_SYSTEM_SPERREN
+                        .name())) {
+            if (isBenutzerAngemeldet(request)) {
+                this.setSystemGesperrt(true);
+               /*
+                 String meldung = (String)request.getAttribute("lol");
+                System.out.println(meldung);
+                */
+                this.setMeldungSystemGesperrt(meldung);
+                
+                
+                Logger.getLogger(this.getClass()).debug(
+                        "Sperre System. Grund: '"+getMeldungSystemGesperrt()+"'");
+                LogAktion a = new LogAktion("System wurde gesperrt, Grund: "+getMeldungSystemGesperrt(),
+                        (BenutzerkontoBean) request.getSession().getAttribute("aBenutzer"));
+                Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
+                request.getRequestDispatcher("/system_sperren.jsp").forward(request, response);//TODO auf weiterleitung umlegen
+                return;
+            }
+            Logger.getLogger(this.getClass()).warn(
+            "Benutzer war nicht angemeldet beim freischalten!");
+            return;
+        } else if (id
+                .equals(DispatcherServlet.anfrage_id.JSP_SYSTEM_SPERREN
+                        .name())) {
+            weiterleitungSystemSperrung(request, response);
+            return;
         }
         // [end]
         // WEITERLEITUNGEN FUER ZENTRUMSERVLET
@@ -337,12 +428,26 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         // Schwerer Fehler: Falscher Request
         else {
             System.out.println("Scheiße");
+            Logger.getLogger(this.getClass()).debug(
+                    "Kein Block in POST fuer die ID '"+id+"' gefunden");
             // TODO Hier muss noch entschieden werden,was passiert
         }
     }// doPost
 
+    /**
+     * Prueft, ob an der Session ein Benutzer angehaengt ist.<br>
+     * Ist dies der Fall, so ist der Benutzer im System angemeldet.
+     * 
+     * @param request
+     * @return <code>true</code>, wenn der Benutzer asngemeldet ist, anderenfalls <code>false</code>.
+     */
     private boolean isBenutzerAngemeldet(HttpServletRequest request) {
-        return (request.getAttribute("aBenutzer")) != null;
+        Logger.getLogger(this.getClass()).debug(
+                "DispatcherServlet.isBenutzerAngemeldet()");
+        boolean tmp =((request.getSession().getAttribute("aBenutzer")) != null);
+        Logger.getLogger(this.getClass()).debug("Benutzer angemeldet (aBenuzter an Session? )"+tmp);
+        // FIXME bei entfernen des Logeintrages die temp. Var. entfernen, aufruf direkt an den return setzten --Btheel
+        return tmp;
     }
 
     private void loggeBenutzerAus(HttpServletRequest request,
@@ -360,7 +465,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     /**
      * @return the istSystemGesperrt
      */
-    public boolean isIstSystemGesperrt() {
+    public boolean istSystemGesperrt() {
         return istSystemGesperrt;
     }
 
@@ -368,8 +473,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      * @param istSystemGesperrt
      *            the istSystemGesperrt to set
      */
-    public void setIstSystemGesperrt(boolean istSystemGesperrt) {
+    public void setSystemGesperrt(boolean istSystemGesperrt) {
         this.istSystemGesperrt = istSystemGesperrt;
+        Logger.getLogger(this.getClass()).debug("System gesperrt geaendert nach "+istSystemGesperrt);
+        // TODO hier aenderung an Config uebergeben --BTheel
     }
 
     /**
@@ -383,7 +490,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      * @param systemsperrungFehlermeldung
      *            the systemsperrungFehlermeldung to set
      */
-    public void setMeldungSystemGesperrt(String systemsperrungFehlermeldung) {
-        meldungSystemGesperrt = systemsperrungFehlermeldung;
+    public void setMeldungSystemGesperrt(String meldungSystemGesperrt) {
+        this.meldungSystemGesperrt = meldungSystemGesperrt;
+        // TODO hier aenderung an Config uebergeben --BTheel
     }
 }// DispatcherServlet
