@@ -1,3 +1,20 @@
+SET AUTOCOMMIT=0;
+SET FOREIGN_KEY_CHECKS=0;
+START TRANSACTION;
+
+DROP TABLE IF EXISTS Person;
+DROP TABLE IF EXISTS Zentrum;
+DROP TABLE IF EXISTS Benutzerkonto;
+DROP TABLE IF EXISTS Aktivierung; 
+DROP TABLE IF EXISTS Studie;
+DROP TABLE IF EXISTS Patient;
+DROP TABLE IF EXISTS Studienarm;
+DROP TABLE IF EXISTS Studie_has_Zentrum;
+DROP TABLE IF EXISTS Strata_Auspraegung;
+DROP TABLE IF EXISTS Strata_Typen;
+DROP TABLE IF EXISTS Strata_Werte_has_Patient;
+DROP VIEW IF EXISTS Strata_von_Studienarm;
+
 CREATE TABLE Person (
   personenID INT UNSIGNED NOT NULL AUTO_INCREMENT,
   stellvertreterID INT UNSIGNED NULL,
@@ -37,6 +54,7 @@ CREATE TABLE Zentrum (
 )
 TYPE=InnoDB;
 
+
 CREATE TABLE Benutzerkonto (
   benutzerkontenID INT UNSIGNED NOT NULL AUTO_INCREMENT,
   Person_personenID INT UNSIGNED NOT NULL,
@@ -58,7 +76,7 @@ TYPE=InnoDB;
 CREATE TABLE Aktivierung (
   aktivierungsID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   Benutzerkonto_benutzerkontenID INT UNSIGNED NOT NULL,
-  aktivierungslink CHAR(20) NOT NULL,
+  aktivierungslink CHAR(20) NOT NULL UNIQUE,
   versanddatum DATE NOT NULL,
   PRIMARY KEY(aktivierungsID),
   INDEX Aktivierung_FKIndex1(Benutzerkonto_benutzerkontenID),
@@ -68,6 +86,8 @@ CREATE TABLE Aktivierung (
       ON UPDATE NO ACTION
 )
 TYPE=InnoDB;
+
+
 
 CREATE TABLE Studie (
   studienID INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -88,6 +108,8 @@ CREATE TABLE Studie (
 )
 TYPE=InnoDB;
 
+
+
 CREATE TABLE Studienarm (
   studienarmID INT UNSIGNED NOT NULL AUTO_INCREMENT,
   Studie_studienID INT UNSIGNED NOT NULL,
@@ -102,6 +124,7 @@ CREATE TABLE Studienarm (
       ON UPDATE NO ACTION
 )
 TYPE=InnoDB;
+
 
 CREATE TABLE Studie_has_Zentrum (
   Studie_studienID INT UNSIGNED NOT NULL,
@@ -119,6 +142,7 @@ CREATE TABLE Studie_has_Zentrum (
       ON UPDATE NO ACTION
 )
 TYPE=InnoDB;
+
 
 CREATE TABLE Patient (
   patientenID INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -171,6 +195,7 @@ CREATE TABLE Strata_Auspraegung (
 )
 TYPE=InnoDB;
 
+
 CREATE TABLE Strata_Werte_has_Patient (
   Strata_Auspraegung_strata_WerteID INTEGER UNSIGNED NOT NULL,
   Patient_patientenID INT UNSIGNED NOT NULL,
@@ -191,9 +216,12 @@ TYPE=InnoDB;
 
 CREATE VIEW Strata_von_Studienarm
 AS
-SELECT s.studienarmId, sa.Strata_Typen_strata_TypenID, sa.strata_WerteID
+SELECT s.studienarmId, sa.Strata_Typen_strata_TypenID, sa.strata_WerteID,
+    count(p.patientenID) AS anzahl
 FROM Studienarm s
 JOIN Patient p ON s.studienarmId = p.Studienarm_studienarmId
 JOIN Strata_Werte_has_Patient swp ON p.patientenId = swp.Patient_patientenId
-JOIN Strata_Auspraegung sa ON swp.Strata_Werte_strata_WerteID = sa.strata_WerteId
+JOIN Strata_Auspraegung sa ON swp.Strata_Auspraegung_strata_WerteID = sa.strata_WerteId
 GROUP BY s.studienarmId, sa.Strata_Typen_strata_TypenID, sa.strata_WerteID;
+
+COMMIT;
