@@ -42,7 +42,7 @@
 		if (aRolleHeader != Rolle.Rollen.STUDIENARZT) {
 		%>(<font color="red"><%=aRolleHeader%></font>)<%
 		}
-		%> :: <a href="DispatcherServlet?anfrage_id=JSP_HEADER_LOGOUT"
+		%> :: <a href="logout.jsp"
 			id="logout_link">Logout</a>&nbsp;&nbsp;&nbsp;</td>
 		<td align="right" width="48"><a href="nachrichtendienst.jsp"><img
 			src="images/message.gif" border="0" alt="Nachricht senden"

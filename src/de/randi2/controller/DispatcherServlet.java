@@ -23,6 +23,7 @@ import static de.randi2.utility.Config.Felder;
  * 
  * @version $Id$
  * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
+ * @author BTheel [BTheel@stud.hs-heilbronn.de]
  * 
  */
 @SuppressWarnings("serial")
@@ -111,7 +112,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         /**
          * Aufforderung das System zu Sperren
          */
-        AKTION_SYSTEM_SPERREN
+        AKTION_SYSTEM_SPERREN,
+        
+        /**
+         * Aufforderung, den Benutzer aus dem System abzumelden
+         */
+        AKTION_LOGOUT
     }
 
     /**
@@ -171,8 +177,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      * <p>
      * Ist das System geperrt, so wird die Anfrage auf die Seite
      * <source>index_gesperrt.jsp</source> umgeleitet, ansonsten wird die Seite
-     * <source>index.jsp</source> aufgerufen. </>
-     * 
+     * <source>index.jsp</source> aufgerufen. </p>
+     * <p> Es ist erforderlich, das fuer einen gueltigen Aufruf sowohl eine anfrage_id gesetzt als auch der Benutzer eingeloggt ist.
      * @param request
      *            Der Request fuer das Servlet.
      * @param response
@@ -192,44 +198,53 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
         String id = (String) request.getParameter("anfrage_id");
 
-        if (id != null) {// wurde eine Id mitgesendet
+        if (isBenutzerAngemeldet(request) && id != null ) {
+            // wurde eine Id mitgesendet _und_ der benutzer ist angemeldet
             Logger.getLogger(this.getClass()).debug("[GET]anfrage_id: " + id);
-            // logout ( FRAGE Logout wirklich an dieser Stelle?? oder in
-            // BenutzerServelet)
-            if (id
-                    .equals(DispatcherServlet.anfrage_id.JSP_HEADER_LOGOUT
+            if (id.equals(DispatcherServlet.anfrage_id.JSP_SYSTEM_SPERREN
                             .name())) {
-                loggeBenutzerAus(request, response);
-            } else if (id
-                    .equals(DispatcherServlet.anfrage_id.JSP_SYSTEM_SPERREN
-                            .name())) {
-                // FIXME Benutzer Muss eingeloggt sein! Sicherstellen --Btheel
                 weiterleitungSystemSperrung(request, response);
-            }
-            return;
-        } else {// keine anfrage_id empfangen -> Weiterleitung auf den entsprechenden Index
-            if (istSystemGesperrt) {// System gesperrt
-                Logger
-                        .getLogger(this.getClass())
-                        .debug(
-                                "System gesperrt, leite nach 'index_gesperrt.jsp' um (korrekter Ablauf) ");
-                request.setAttribute(MITTEILUNG_SYSTEM_GESPERRT,
-                        meldungSystemGesperrt);
-                request.getRequestDispatcher("index_gesperrt.jsp").forward(
-                        request, response);
+            }else if (id.equals(anfrage_id.AKTION_LOGOUT.name())) {
+                Logger.getLogger(this.getClass()).fatal("Benutzer ausloggen");
+                loggeBenutzerAus(request, response);
                 return;
-            } else {// System offen
-                Logger
-                        .getLogger(this.getClass())
-                        .debug(
-                                "System offen, leite nach 'index.jsp' um' (korrekter Ablauf)");
-                request.getRequestDispatcher("index.jsp").forward(request,
-                        response);
-                return;
-
             }
+        }else {  /* keine anfrage_id empfangen oder der benutzer ist nicht angemeldet
+                  *  -> Weiterleitung auf den entsprechenden Index
+                  */
+            weiterleitungAufIndex(request,response);
         }
 
+    }
+    
+    /**
+     * Leitet die Anfrage auf den korrekten Index weiter<br>
+     * Ist das System gesperrt, so wird die Datei 'index_gesperrt.jsp' aufgerufen, anderenfalls die Datei 'index.jsp'
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void weiterleitungAufIndex(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+        if (istSystemGesperrt) {// System gesperrt
+            Logger
+                    .getLogger(this.getClass())
+                    .debug(
+                            "System gesperrt, leite nach 'index_gesperrt.jsp' um (korrekter Ablauf) ");
+            request.setAttribute(MITTEILUNG_SYSTEM_GESPERRT,
+                    meldungSystemGesperrt);
+            request.getRequestDispatcher("index_gesperrt.jsp").forward(
+                    request, response);
+            return;
+        } else {// System offen
+            Logger
+                    .getLogger(this.getClass())
+                    .debug(
+                            "System offen, leite nach 'index.jsp' um' (korrekter Ablauf)");
+            request.getRequestDispatcher("index.jsp").forward(request,
+                    response);
+            return;
+        }
     }
 
     /**
@@ -305,8 +320,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         Logger.getLogger(this.getClass()).debug("[POST]anfrage_id: " + id);
         
         String meldung = (String) request.getAttribute("lol");
-        System.out.println(meldung);
-        
+       
         if (id==null) {
             /*
              * ist keine ID gesetzt, so wird auf doGet umgeleitet Weitere Logik
@@ -388,20 +402,15 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
                 return;
             }
             Logger.getLogger(this.getClass()).warn(
-            "Benutzer war nicht angemeldet beim freischalten!");
+            "Benutzer war nicht angemeldet beim System entsperren!");
             return;
         }else if (id
                 .equals(DispatcherServlet.anfrage_id.AKTION_SYSTEM_SPERREN
                         .name())) {
             if (isBenutzerAngemeldet(request)) {
                 this.setSystemGesperrt(true);
-               /*
-                 String meldung = (String)request.getAttribute("lol");
-                System.out.println(meldung);
-                */
                 this.setMeldungSystemGesperrt(meldung);
-                
-                
+          
                 Logger.getLogger(this.getClass()).debug(
                         "Sperre System. Grund: '"+getMeldungSystemGesperrt()+"'");
                 LogAktion a = new LogAktion("System wurde gesperrt, Grund: "+getMeldungSystemGesperrt(),
@@ -411,7 +420,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
                 return;
             }
             Logger.getLogger(this.getClass()).warn(
-            "Benutzer war nicht angemeldet beim freischalten!");
+            "Benutzer war nicht angemeldet beim Systemsperren!");
             return;
         } else if (id
                 .equals(DispatcherServlet.anfrage_id.JSP_SYSTEM_SPERREN
@@ -442,24 +451,28 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      * @return <code>true</code>, wenn der Benutzer asngemeldet ist, anderenfalls <code>false</code>.
      */
     private boolean isBenutzerAngemeldet(HttpServletRequest request) {
+        // TODO Auslagerung nach BenutzerServlet --Btheel
         Logger.getLogger(this.getClass()).debug(
                 "DispatcherServlet.isBenutzerAngemeldet()");
-        boolean tmp =((request.getSession().getAttribute("aBenutzer")) != null);
-        Logger.getLogger(this.getClass()).debug("Benutzer angemeldet (aBenuzter an Session? )"+tmp);
-        // FIXME bei entfernen des Logeintrages die temp. Var. entfernen, aufruf direkt an den return setzten --Btheel
-        return tmp;
+        boolean isSessionGueltig = request.isRequestedSessionIdValid();
+          Logger.getLogger(this.getClass()).debug("Pruefe: Session noch gueltg? " + isSessionGueltig);
+        
+        boolean isKontoangebunden =((request.getSession().getAttribute("aBenutzer")) != null);
+        Logger.getLogger(this.getClass()).debug("Pruefe: Benutzerkonto an Session gebunden? "+isKontoangebunden);
+        return (isSessionGueltig & isKontoangebunden);//
     }
 
     private void loggeBenutzerAus(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        /*
-         * request.getRequestDispatcher("index.jsp").forward(request, response);
-         */
-        // gefrickelt
-        request.getSession().setAttribute("aBenutzer", null);
-        request.getSession().invalidate();
-        request.getSession(true);
-        this.doGet(request, response);
+        // TODO Auslagerung nach BenutzerServlet --Btheel
+        Logger.getLogger(this.getClass()).debug(
+                "DispatcherServlet.loggeBenutzerAus()");
+        LogAktion a = new LogAktion("Benutzer hat sich ausgeloggt", 
+                (BenutzerkontoBean)request.getSession().getAttribute("aBenutzer"));
+        Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
+        request.getSession().invalidate(); // Alte session zerstoeren
+        request.getSession(); // Neue session eroeffnetn
+        weiterleitungAufIndex(request, response);// Weiterleitung
     }
 
     /**
