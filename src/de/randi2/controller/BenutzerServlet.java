@@ -98,8 +98,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
         // Login
         if (id.equals(BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_LOGIN1
                 .name())) {
-            Logger.getLogger(this.getClass()).debug(
-                    "id '" + id + "' korrekt erkannt");
             this.class_dispatcherservlet_login1(request, response);
         }// if
 
