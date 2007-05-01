@@ -1,81 +1,120 @@
 package de.randi2.model.fachklassen.beans;
 
 import java.util.GregorianCalendar;
+
 import de.randi2.datenbank.Filter;
 import de.randi2.utility.NullKonstanten;
 
+/**
+ * <p>Dieses Klasse repräsentiert die Aktivierungsmöglichkeit eines Benutzers im System</p>
+ * @author //TODO Wer will Autor sein?!
+ * @version $Id$
+ */
 public class AktivierungBean extends Filter{
+	
+	/**
+	 * Die ID der Aktivierung.
+	 */
     private long aktivierungsId=NullKonstanten.NULL_LONG;
-    private GregorianCalendar versanddatum=null;
-    private BenutzerkontoBean benutzerkonto=null;
-    private long benutzerkontoID=NullKonstanten.NULL_LONG;
-    private String aktivierungsLink=null;
     /**
-     * @return the aktivierungsId
+     * Das Versanddatum, wann die Anmeldungsmail versand wurde.
+     */
+    private GregorianCalendar versanddatum=null;
+    /**
+     * Das Benutzerkonto, mit dem eine Anmeldung möglich sein soll.
+     */
+    private BenutzerkontoBean benutzerkonto=null;
+    /**
+     * Die ID des Benutzerkontos.
+     */
+    private long benutzerkontoID=NullKonstanten.NULL_LONG;
+    /**
+     * Der Aktivierungslink für die Vervollständigung der Anmeldung.
+     */
+    private String aktivierungsLink=null;
+    
+    /**
+     * Get-Methode für die Aktivierungs-ID.
+     * @return Liefert die Aktivierungs-ID.
      */
     public long getAktivierungsId() {
         return aktivierungsId;
     }
     /**
-     * @param aktivierungsId the aktivierungsId to set
+     * Set-Methode für die Aktivierungs-ID.
+     * @param Setzt die Aktivierungs-ID.
      */
     public void setAktivierungsId(long aktivierungsId) {
         this.aktivierungsId = aktivierungsId;
     }
     /**
-     * @return the aktivierungsLink
+     * Get-Methode für den Aktivierungslink.
+     * @return Liefert den Aktivierungslink.
      */
     public String getAktivierungsLink() {
         return aktivierungsLink;
     }
     /**
-     * @param aktivierungsLink the aktivierungsLink to set
+     * Set-Methode für den Aktivierungslink.
+     * @param Setzt den Aktivierungslink.
      */
     public void setAktivierungsLink(String aktivierungsLink) {
         this.aktivierungsLink = aktivierungsLink;
     }
     /**
-     * @return the benutzerkonto
+     * Get-Methode für das Benutzerkonto.
+     * @return Liefert das Benutzerkonto.
      */
     public BenutzerkontoBean getBenutzerkonto() {
         return benutzerkonto;
     }
     /**
-     * @param benutzerkonto the benutzerkonto to set
+     * Set-Methode für das Benutzerkonto.
+     * @param Setzt das Benutzerkonto.
      */
     public void setBenutzerkonto(BenutzerkontoBean benutzerkonto) {
         this.benutzerkonto = benutzerkonto;
     }
     /**
-     * @return the benutzerkontoID
+     * Get-Methode für die Benutzerkonto-ID.
+     * @return Liefert die Benutzerkonto-ID.
      */
     public long getBenutzerkontoID() {
         return benutzerkontoID;
     }
     /**
-     * @param benutzerkontoID the benutzerkontoID to set
+     * Set-Methode für die Benutzerkonto-ID.
+     * @param Setzt die Benutzerkonto-ID.
      */
     public void setBenutzerkontoID(long benutzerkontoID) {
         this.benutzerkontoID = benutzerkontoID;
     }
     /**
-     * @return the versanddatum
+     * Get-Methode für das Versanddatum.
+     * @return Liefert das Versanddatum.
      */
     public GregorianCalendar getVersanddatum() {
         return versanddatum;
     }
     /**
-     * @param versanddatum the versanddatum to set
+     * Set-Methode für das Versanddatum.
+     * @param Setzt das Versanddatum.
      */
     public void setVersanddatum(GregorianCalendar versanddatum) {
         this.versanddatum = versanddatum;
     }
     /**
-     * @param aktivierungsId
+     * Der komplette Konstruktor an den alle Attribute dieser Klasse übergeben werden.
+     * @param aktivierungsId 
+     * 						Die ID der Aktivierung.
      * @param versanddatum
+     * 						Das Versanddatum der Aktivierungsmail.
      * @param benutzerkonto
+     * 						Das Benutzerkonto, mit dem eine Anmeldung möglich sein soll.
      * @param benutzerkontoID
+     * 						Die ID des Benutzerkontos.
      * @param aktivierungsLink
+     * 						Der Aktivierungslink für die Vervollständigung der Anmeldung.
      */
     public AktivierungBean(long aktivierungsId, GregorianCalendar versanddatum, BenutzerkontoBean benutzerkonto, long benutzerkontoID, String aktivierungsLink) {
 	super();
