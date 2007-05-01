@@ -12,10 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.StudieException;
-import de.randi2.model.fachklassen.Benutzerkonto;
-import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 
 /**
