@@ -45,8 +45,8 @@ import de.randi2.utility.NullKonstanten;
 @SuppressWarnings("serial")
 public class BenutzerServlet extends javax.servlet.http.HttpServlet {
     /**
-     * Changelog: Btheel: Erkennung der Systemsperrung implementiert
-     *  Binding des kontos an die Session gefixt 
+     * Changelog: Btheel: Erkennung der Systemsperrung implementiert Binding des
+     * kontos an die Session gefixt
      */
 
     public enum anfrage_id {
@@ -57,10 +57,15 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
         /**
          * 
          */
-        CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER
+        CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER,
+
+        /**
+         * Aufforderung, aus den uebergebenen Daten einen Benutzer zu generieren
+         */
+        AKTION_BENUTZER_ANLEGEN
 
     }
-    
+
     /**
      * Konstruktor.
      * 
@@ -93,8 +98,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
         String id = (String) request.getAttribute("anfrage_id");
         Logger.getLogger(this.getClass()).debug("BenutzerServlet.doPost()"); // Trace
-        Logger.getLogger(this.getClass()).debug("anfrage_id: "+id);//ID loggen
-        
+        Logger.getLogger(this.getClass()).debug("anfrage_id: " + id);// ID
+                                                                        // loggen
+
         // Login
         if (id.equals(BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_LOGIN1
                 .name())) {
@@ -102,14 +108,18 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
         }// if
 
         // Letzter Schritt Benutzer registrieren
-        if (id
+        else if (id
                 .equals(BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER
                         .name())) {
             Logger.getLogger(this.getClass()).debug(
                     "id '" + id + "' korrekt erkannt");
             this.class_dispatcherservlet_benutzer_registrieren_vier(request,
                     response);
-        }// if
+        } else if (id.equals(anfrage_id.AKTION_BENUTZER_ANLEGEN.name())) {
+           benutzerRegistieren(request, response);
+        }
+
+        // if
     }// doPost
 
     /**
@@ -139,11 +149,12 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
         Logger.getLogger(this.getClass()).debug(
                 "System gesperrt, Kandidat == Sysop?");
         if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.SYSOP) {
-            // FIXME Doppelt gemoppelt. Lieber Pruefung ob gesperrt mit in die normale weiterleitung nehmen
+            // FIXME Doppelt gemoppelt. Lieber Pruefung ob gesperrt mit in die
+            // normale weiterleitung nehmen
             // Sicherstellen, das sich Sysop einloggen kann
-            weiterleitungLoginKorrekt(aBenutzer,request,response);
+            weiterleitungLoginKorrekt(aBenutzer, request, response);
         } else {
-            
+
             request
                     .setAttribute(DispatcherServlet.FEHLERNACHRICHT,
                             " Das Systen ist derzeit gesperrt.<br> Login nicht m&ouml;glich!");
@@ -178,9 +189,12 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
         Logger.getLogger(this.getClass()).debug(
                 "BenutzerServlet.weiterleitungLoginKorrekt()");
 
-        (request.getSession()).setAttribute("aBenutzer", aBenutzer);// Benutzerkontobean an Session binden
+        (request.getSession()).setAttribute("aBenutzer", aBenutzer);// Benutzerkontobean
+                                                                    // an
+                                                                    // Session
+                                                                    // binden
         Logger.getLogger(this.getClass()).debug("Binde Benutzer an Session");
-        
+
         if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.STUDIENARZT) {
             request.getRequestDispatcher("/studie_auswaehlen.jsp").forward(
                     request, response);
@@ -202,8 +216,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
             loggeKorrekteanmeldung(aBenutzer);
             return;
         } else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.SYSOP) {
-            request.getRequestDispatcher("/systemadministration.jsp").forward(request,
-                    response);
+            request.getRequestDispatcher("/systemadministration.jsp").forward(
+                    request, response);
             loggeKorrekteanmeldung(aBenutzer);
             return;
         }
@@ -497,5 +511,11 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
                     request, response);
         }// else
 
+    }
+
+    private void benutzerRegistieren(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+        Logger.getLogger(this.getClass()).debug(
+                "BenutzerServlet.benutzerRegistieren()");
     }
 }

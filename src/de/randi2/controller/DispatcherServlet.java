@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.apache.commons.lang.StringEscapeUtils;
 
+import de.randi2.controller.BenutzerServlet;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.Config;
@@ -120,7 +121,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         /**
          * Aufforderung, den Benutzer aus dem System abzumelden
          */
-        AKTION_LOGOUT
+        AKTION_LOGOUT,
+        
+        /**
+         * Aufforderung, einen Admin mit den gesendeten Daten anzulegen
+         */
+        AKTION_ADMIN_ANLEGEN
     }
 
     /**
@@ -321,6 +327,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
                 .equals(DispatcherServlet.anfrage_id.AKTION_SYSTEM_ENTSPERREN
                         .name())) {
             boolean bool = ((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer")).getRolle()==Rolle.getSysop();
+            // TODO nach Rolle des Benuzters checken! --BTheel
             if (isBenutzerAngemeldet(request)) {
                 this.setSystemGesperrt(false);
                 Logger.getLogger(this.getClass()).debug(
@@ -364,7 +371,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
                 .name())) {
             weiterleitungSystemSperrung(request, response);
             return;
+        }else if(id.equals(anfrage_id.AKTION_ADMIN_ANLEGEN.name())){
+            Logger.getLogger(this.getClass()).debug("Leite Anfrage an BenutzerServlet weiter");
+            request.setAttribute("anfrage_id", BenutzerServlet.anfrage_id.AKTION_BENUTZER_ANLEGEN.name());
+            request.getRequestDispatcher("BenutzerServlet").forward(request, response);
         }
+            
         // [end]
         // WEITERLEITUNGEN FUER ZENTRUMSERVLET
         // [start]

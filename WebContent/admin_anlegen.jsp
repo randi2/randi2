@@ -1,82 +1,83 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-       "http://www.w3.org/TR/html4/strict.dtd">
+<%@ page import="de.randi2.model.fachklassen.beans.PersonBean"
+		import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
+		 import= "de.randi2.controller.DispatcherServlet" 
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Randi2 :: Administrator anlegen</title>
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/zebda.js"></script>
 
-<%@ page import="de.randi2.model.fachklassen.beans.*" %>
 </head>
 <body>
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
-<form action="DispatcherServlet" method="post">
-<input type="hidden" name="" value="">
-<input type="hidden" name="" value ="">
-
-<h1>Administrator anlegen</h1>
+<h1>Administratorenkonto anlegen</h1>
 <%@include file="include/inc_nachricht.jsp"%>
-<fieldset style="width: 60%"><legend><b>Pers&ouml;nliche
-Angaben</b></legend>
-<table height="20%">
+<form method="post" action="DispatcherServlet">
+	<input type="hidden" name="anfrage_id" value="<%=DispatcherServlet.anfrage_id.AKTION_ADMIN_ANLEGEN.name() %>">
+	<fieldset style="width: 60%">
+	<legend><b>Pers&ouml;nliche Angaben</b></legend>
+	<label for="Titel">Titel*:</label><br>
+	<table>
 	<tr>
-		<td>Titel *<br>
-
-		<select name="Titel" tabindex="1">
-			<option <% if(request.getAttribute("Titel")==null){out.print("selected");} %> value="kein Titel" >kein Titel</option>
-			<option <% if(request.getAttribute("Titel")!=null&&request.getAttribute("Titel").equals("Dr.")){out.print("selected");} %> value="Dr." >Dr.</option>
-			<option <% if(request.getAttribute("Titel")!=null&&request.getAttribute("Titel").equals("Prof.")){out.print("selected");} %> value="Prof." >Prof.</option>
-			<option <% if(request.getAttribute("Titel")!=null&&request.getAttribute("Titel").equals("Prof. Dr.")){out.print("selected");} %> value="Prof. Dr." >Prof. Dr.</option>
-		</select><br>
+		<td>
+		<select id="Titel" name="Titel" tabindex="1">
+		<%
+		for (PersonBean.Titel aTitel: PersonBean.Titel.values()){
+		    %>
+		    <option value="<%=aTitel.toString()%>" ><%=aTitel.toString()%></option>
+		    <%		    
+		}
+		%>
+		</select>
+		</td>
 	</tr>
 	<tr>
-		<td>Vorname *<br>
-		<input type="text" size="25" maxlength="30" name="Vorname" value="<%if(request.getAttribute("Vorname")!=null){out.print(request.getAttribute("Vorname"));} %>"
-			tabindex="2"></td>
-		<td>Nachname *<br>
-		<input type="text" size="25" maxlength="30" name="Nachname" value="<%if(request.getAttribute("Nachname")!=null){out.print(request.getAttribute("Nachname"));} %>"
-			tabindex="3"></td>
+		<td><label for="Vorname">Vorname *</label><br>
+		<input type="text" size="25" maxlength="30" id="Vorname" name="Vorname" tabindex="2" z:required="true" z:message="Bitte Vornamen angeben"></td>
+		<td><label for="Nachname">Nachname *</label><br>
+		<input type="text" size="25" maxlength="30" id="Nachname" name="Nachname" tabindex="3" z:required="true" z:message="Bitte Nachnamen angeben"></td>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
-		<input type="radio" name="weiblich" <% if(request.getAttribute("weiblich")!=null){out.print("checked");} %>>weiblich <input
-			type="radio" name="maennlich" <% if(request.getAttribute("maennlich")!=null){out.print("checked");} %>>m&auml;nnlich</td>
+		<input type="radio" id="maennlich" name="Geschlecht" value="m"><label for="maennlich">m&auml;nnlich</label>
+		<input type="radio" id="weiblich" name="Geschlecht" value="w"><label for="weiblich">weiblich</label>
+		</td>
+	</tr>
+	</table>	
+	</fieldset>
+	<fieldset style="width: 60%"><legend><b>Kontaktdaten</b></legend>
+	<table>
+	<tr>
+		<td><label for="EMail">E-Mail Adresse *</label><br>
+		<input type="text" size="25" maxlength="30" id="EMail" name="EMail" tabindex="5" z:required="true" z:message="Bitte E-Mail angeben" z:email="true"
+z:email_message="Bitte geben sie eine gültige E-Mail Adresse"></td>
+		<td>&nbsp;&nbsp;&nbsp;<label for="Telefon">Telefonnummer *</label><br>
+		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30" id="Telefon" name="Telefon" tabindex="6" z:required="true" z:message="Bitte Telefonnummer angeben"></td>
+	</tr>
+	<tr>
+		<td><label for="Fax">Fax<br>
+		<input type="text" size="25" maxlength="30" id="Fax" name="Fax" tabindex="7"></td>
+		<td>&nbsp;&nbsp;&nbsp;<label for="Institut">Institut *<br>
+		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30" id="Institut" name="Institut" tabindex="8"></td>
 	</tr>
 </table>
 </fieldset>
-<br>
-<fieldset style="width: 60%"><legend><b>Kontaktdaten</b></legend>
+Felder mit '*' sind Pflichtfelder und m&uuml;ssen
+ausgef&uuml;llt werden.
 <table>
 	<tr>
-		<td>E-Mail Adresse *<br>
-		<input type="text" size="25" maxlength="30" name="Email" tabindex="5"></td>
-		<td>&nbsp;&nbsp;&nbsp;Telefonnummer *<br>
-		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Telefon" <%if(request.getAttribute("Email")!=null){out.print(request.getAttribute("Email"));} %>" tabindex="6"></td>
-	</tr>
-	<tr>
-		<td>Fax<br>
-		<input type="text" size="25" maxlength="30" name="Fax" tabindex="7"></td>
-		<td>&nbsp;&nbsp;&nbsp;Institut *<br>
-		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Institut" value="<%if(request.getAttribute("Fax")!=null){out.print(request.getAttribute("Fax"));} %>" tabindex="8"></td>
-	</tr>
-</table>
-</fieldset>
-</form>
-<form>&nbsp;Felder mit '*' sind Pflichtfelder und m&uuml;ssen
-ausgef&uuml;llt werden.</form>
-<table>
-	<tr>
-		<td><input type="submit" name="anlegen" value="Anlegen"
+		<td><input type="submit" id="Anlegen" value="Anlegen"
 			tabindex="9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-		<td><input type="submit" name="abbrechen"
-			value="   Zur&uuml;ck   " tabindex="10"></td>
+		<td><input type="reset" id="Abbrechen"
+			value="Eingaben l&ouml;schen" tabindex="10"></td>
 	</tr>
-</table>
+</table>	
+</form>
 </div>
-<div id="show_none"></div>
-
 <div id="show_SA"><%@include file="include/inc_menue.jsp"%></div>
 
 </body>
