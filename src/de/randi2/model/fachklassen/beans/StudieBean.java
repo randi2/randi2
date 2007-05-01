@@ -6,6 +6,10 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Vector;
 import de.randi2.model.exceptions.StudieException;
+import de.randi2.model.fachklassen.Benutzerkonto;
+import de.randi2.model.fachklassen.Randomisation;
+import de.randi2.model.fachklassen.Zentrum;
+import de.randi2.utility.NullKonstanten;
 import de.randi2.datenbank.Filter;
 
 /**
@@ -56,16 +60,31 @@ public class StudieBean extends Filter {
 	 * Die Eigenschaften der Randomisation.
 	 */
 	private RandomisationBean randomisationseigenschaften = null;
+	
+	/**
+	 * ID der Randomisation.
+	 */
+	private long randomisationId = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Das Zentrum der Studie.
 	 */
 	private ZentrumBean zentrum = null;
+	
+	/**
+	 * ID des Zentrums.
+	 */
+	private long zentrumId = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Das Benutzerkonto der Studie.
 	 */
 	private BenutzerkontoBean benutzerkonto = null;
+	
+	/**
+	 * Id des Benutzerkontos.
+	 */
+	private long benutzerkontoId = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Der Status der Studie.
@@ -76,6 +95,9 @@ public class StudieBean extends Filter {
 	 * @return the benutzerkonto
 	 */
 	public BenutzerkontoBean getBenutzerkonto() {
+		if (benutzerkonto == null){
+			benutzerkonto = Benutzerkonto.get(benutzerkontoId);
+		}
 		return benutzerkonto;
 	}
 
@@ -165,6 +187,9 @@ public class StudieBean extends Filter {
 	 * @return the randomisationseigenschaften
 	 */
 	public RandomisationBean getRandomisationseigenschaften() {
+		if (randomisationseigenschaften == null){
+			randomisationseigenschaften = Randomisation.get(randomisationId);
+		}
 		return randomisationseigenschaften;
 	}
 
@@ -251,6 +276,9 @@ public class StudieBean extends Filter {
 	 * @return the zentrum
 	 */
 	public ZentrumBean getZentrum() {
+		if (zentrum == null){
+			zentrum = Zentrum.get(zentrumId);
+		}
 		return zentrum;
 	}
 
@@ -292,5 +320,49 @@ public class StudieBean extends Filter {
 	public void setId(long id) {
 		this.id = id;
 	}
+
+	/**
+	 * @return the benutzerkontoId
+	 */
+	public long getBenutzerkontoId() {
+		return benutzerkontoId;
+	}
+
+	/**
+	 * @param benutzerkontoId the benutzerkontoId to set
+	 */
+	public void setBenutzerkontoId(long benutzerkontoId) {
+		this.benutzerkontoId = benutzerkontoId;
+	}
+
+	/**
+	 * @return the randomisationId
+	 */
+	public long getRandomisationId() {
+		return randomisationId;
+	}
+
+	/**
+	 * @param randomisationId the randomisationId to set
+	 */
+	public void setRandomisationId(long randomisationId) {
+		this.randomisationId = randomisationId;
+	}
+
+	/**
+	 * @return the zentrumId
+	 */
+	public long getZentrumId() {
+		return zentrumId;
+	}
+
+	/**
+	 * @param zentrumId the zentrumId to set
+	 */
+	public void setZentrumId(long zentrumId) {
+		this.zentrumId = zentrumId;
+	}
+	
+	
 
 }

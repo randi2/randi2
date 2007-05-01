@@ -3,6 +3,7 @@ package de.randi2.model.fachklassen;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.fachklassen.beans.PatientBean;
+import de.randi2.model.fachklassen.beans.RandomisationBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 
 /**
@@ -97,6 +98,16 @@ public abstract class Randomisation {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	/**
+	 * 
+	 * @param randomisationId
+	 * @return
+	 */
+	public static RandomisationBean get(long randomisationId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

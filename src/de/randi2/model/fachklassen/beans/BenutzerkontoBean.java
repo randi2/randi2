@@ -4,8 +4,11 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
+import de.randi2.model.fachklassen.Person;
 import de.randi2.model.fachklassen.Rolle;
+import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.KryptoUtil;
 
@@ -34,6 +37,11 @@ public class BenutzerkontoBean extends Filter {
 	 * Zugehoeriges PersonBean zu diesem Benutzerkonto.
 	 */
 	private PersonBean benutzer = null;
+	
+	/**
+	 * Die ID des zugehoerigen Benutzers.
+	 */
+	private long benutzerId = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Benutzername
@@ -69,12 +77,17 @@ public class BenutzerkontoBean extends Filter {
 	 * Rolle des Benutzerkontos
 	 */
 	private Rolle rolle = null;
-
+	
 	/**
 	 * Zentrum, zu dem dieses Benutzerkonto gehoert.
 	 */
 	private ZentrumBean zentrum = null;
-
+	
+	/**
+	 * Die Id des zugehoerigen Zentrums
+	 */
+	private long zentrumId = NullKonstanten.NULL_LONG;
+	
 	/**
 	 * Der Standardkonstruktor
 	 * 
@@ -113,20 +126,17 @@ public class BenutzerkontoBean extends Filter {
 	 * Achtung: Bei Passwort muss es sich um das gehashte Passwort handeln!
 	 * 
 	 * @param benutzername
-	 *            der Benutzername des Benutzers
+	 *            der Benutzername des Benutzers.
 	 * @param passwortHash
-	 *            das gehashte Passwort des Benutzers
+	 *            das gehashte Passwort des Benutzers.
 	 * @param rolle
-	 *            die Rolle des Benutzerkontos
-	 * @param benutzer
-	 *            das PersonBean zu diesem Benutzer
-	 * @param ansprechpartner
-	 *            das PersonBean das dem Ansprechpartner des Benutzers
-	 *            entspricht
+	 *            Rolle des Benutzerkontos.
+	 * @param benutzerId
+	 *            Id des zugehoerigen Benutzers.
 	 * @param gesperrt
-	 *            ob der Benutzer gesperrt ist
-	 * @param zentrum
-	 *            das ZentrumBean zu dem das Benutzerkonto gehoert
+	 *            ob der Benutzer gesperrt ist.
+	 * @param zentrumId
+	 *            Id des zugehoerigen Zentrums.
 	 * @param ersterLogin
 	 *            Zeitpunkt des ersten Logins als GregorianCalendar
 	 * @param letzterLogin
@@ -135,19 +145,22 @@ public class BenutzerkontoBean extends Filter {
 	 *             Wenn die uebergebenen Parametern nicht in Ordnung waren
 	 */
 	public BenutzerkontoBean(String benutzername, String passwortHash,
-			Rolle rolle, PersonBean benutzer,
-			boolean gesperrt, ZentrumBean zentrum,
+			Rolle rolle, long benutzerId, boolean gesperrt, long zentrumId,
 			GregorianCalendar ersterLogin, GregorianCalendar letzterLogin)
 			throws BenutzerkontoException {
+		
+		
 		this.setBenutzername(benutzername);
 		this.setPasswort(passwortHash);
 		this.setRolle(rolle);
-		this.setBenutzer(benutzer);
-		this.setZentrum(zentrum);
+		this.setBenutzerId(benutzerId);			
+		this.setZentrumId(zentrumId);			
 		this.setGesperrt(gesperrt);
 		this.setErsterLogin(ersterLogin);
 		this.setLetzterLogin(letzterLogin);
 	}
+
+
 
 	/**
 	 * Diese Methode prueft, ob zwei Kontos identisch sind. Zwei Kontos sind
@@ -167,9 +180,15 @@ public class BenutzerkontoBean extends Filter {
 	}
 
 	/**
+	 * Liefert den 
+	 * 
 	 * @return the benutzer
+	 * @throws DatenbankFehlerException 
 	 */
-	public PersonBean getBenutzer() {
+	public PersonBean getBenutzer() throws DatenbankFehlerException {
+		if(benutzer==null){
+			benutzer = Person.get(benutzerId);
+		}
 		return benutzer;
 	}
 
@@ -216,15 +235,22 @@ public class BenutzerkontoBean extends Filter {
 	 * @return h
 	 */
 	public Rolle getRolle() {
+		
 		return this.rolle;
 	}
 
 	/**
-	 * TODO Kommentar
+	 * Die Methode liefert das zugehoerige ZentrumBean zurueck. Wenn dieses vorher 
+	 * nie benutzt wurde, muss es erst in der Fachklasse erzeugt werden (Proxylogik).
 	 * 
-	 * @return h
+	 * @return zentrum - zugehoeriges ZentrumBean
 	 */
 	public ZentrumBean getZentrum() {
+		
+		if (zentrum == null){
+			zentrum = Zentrum.get(zentrumId);
+			
+		}
 		return zentrum;
 	}
 
@@ -422,6 +448,24 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	public void setZentrum(ZentrumBean zentrum) {
 		this.zentrum = zentrum;
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public void setZentrumId(long id) {
+		this.zentrumId = id;
+		
+	}
+
+	/**
+	 * 
+	 * @param id
+	 */
+	public void setBenutzerId(long id) {
+		this.benutzerId = id;
+		
 	}
 
 	/**

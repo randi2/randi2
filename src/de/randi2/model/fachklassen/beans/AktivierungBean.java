@@ -3,6 +3,7 @@ package de.randi2.model.fachklassen.beans;
 import java.util.GregorianCalendar;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.utility.NullKonstanten;
 
 /**
@@ -27,7 +28,7 @@ public class AktivierungBean extends Filter{
     /**
      * Die ID des Benutzerkontos.
      */
-    private long benutzerkontoID=NullKonstanten.NULL_LONG;
+    private long benutzerkontoId=NullKonstanten.NULL_LONG;
     /**
      * Der Aktivierungslink für die Vervollständigung der Anmeldung.
      */
@@ -66,6 +67,10 @@ public class AktivierungBean extends Filter{
      * @return Liefert das Benutzerkonto.
      */
     public BenutzerkontoBean getBenutzerkonto() {
+    	if (benutzerkonto == null){
+    		benutzerkonto = Benutzerkonto.get(benutzerkontoId);
+    	}
+    	
         return benutzerkonto;
     }
     /**
@@ -79,15 +84,15 @@ public class AktivierungBean extends Filter{
      * Get-Methode für die Benutzerkonto-ID.
      * @return Liefert die Benutzerkonto-ID.
      */
-    public long getBenutzerkontoID() {
-        return benutzerkontoID;
+    public long getBenutzerkontoId() {
+        return benutzerkontoId;
     }
     /**
-     * Set-Methode für die Benutzerkonto-ID.
-     * @param Setzt die Benutzerkonto-ID.
+     * Set-Methode für die Benutzerkonto-Id.
+     * @param benutzerkontoId - Setzt die Benutzerkonto-Id.
      */
-    public void setBenutzerkontoID(long benutzerkontoID) {
-        this.benutzerkontoID = benutzerkontoID;
+    public void setBenutzerkontoID(long benutzerkontoId) {
+        this.benutzerkontoId = benutzerkontoId;
     }
     /**
      * Get-Methode für das Versanddatum.
@@ -116,12 +121,12 @@ public class AktivierungBean extends Filter{
      * @param aktivierungsLink
      * 						Der Aktivierungslink für die Vervollständigung der Anmeldung.
      */
-    public AktivierungBean(long aktivierungsId, GregorianCalendar versanddatum, BenutzerkontoBean benutzerkonto, long benutzerkontoID, String aktivierungsLink) {
+    public AktivierungBean(long aktivierungsId, GregorianCalendar versanddatum, BenutzerkontoBean benutzerkonto, long benutzerkontoId, String aktivierungsLink) {
 	super();
 	this.aktivierungsId = aktivierungsId;
 	this.versanddatum = versanddatum;
 	this.benutzerkonto = benutzerkonto;
-	this.benutzerkontoID = benutzerkontoID;
+	this.benutzerkontoId = benutzerkontoId;
 	this.aktivierungsLink = aktivierungsLink;
     }
     

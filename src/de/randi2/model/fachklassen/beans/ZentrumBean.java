@@ -118,7 +118,7 @@ public class ZentrumBean extends Filter {
 			this.setPasswort(passwortHash);
 			this.setIstAktiviert(istAktiviert);
 		} catch (ZentrumException e) {
-			// TODO Wenn die Vorgehensweise in diesem Fall geklärt wird, wird es
+			// TODO Wenn die Vorgehensweise in diesem Fall geklaert wird, wird es
 			// auch umgesetzt.
 			e.printStackTrace();
 		}

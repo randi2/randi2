@@ -76,4 +76,15 @@ public class Zentrum {
 		return aZentrum;
 	}
 
+	/**
+	 * Die Methode soll das ZentrumBean Objekt zurueckgeben.
+	 * 
+	 * @param zentrumId
+	 * @return
+	 */
+	public static ZentrumBean get(long zentrumId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

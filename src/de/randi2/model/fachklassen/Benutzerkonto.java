@@ -179,4 +179,14 @@ public class Benutzerkonto {
 		}
 		return false;
 	}
+
+	/**
+	 * Die Methode liefert das zur benutzerkontoId gehörige Bean.
+	 * @param benutzerkontoId
+	 * @return
+	 */
+	public static BenutzerkontoBean get(long benutzerkontoId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

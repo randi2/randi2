@@ -4,31 +4,65 @@ import java.util.GregorianCalendar;
 
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Studienarm;
 import de.randi2.utility.NullKonstanten;
-
+/**
+ * 
+ * @author 
+ *
+ */
 public class PatientBean extends Filter{
-	
+	/**
+	 * 
+	 */
 	private long id = NullKonstanten.NULL_LONG;
-	
+	/**
+	 * 
+	 */
 	private String aInitialen = null;
-	
+	/**
+	 * 
+	 */
 	private char aGeschlecht = NullKonstanten.NULL_CHAR;
-	
+	/**
+	 * 
+	 */
 	private GregorianCalendar aGeburtsdatum = null;
-	
+	/**
+	 * 
+	 */
 	private int aPerformanceStatus = NullKonstanten.NULL_INT;
-	
+	/**
+	 * 
+	 */
 	private GregorianCalendar aDatumAufklaerung = null;
-	
+	/**
+	 * 
+	 */
 	private float aKoerperoberflaeche = NullKonstanten.NULL_FLOAT;
-	
+	/**
+	 * 
+	 */
 	private StudienarmBean aStudienarm = null;
-	
-	private long aStudienarmID = NullKonstanten.NULL_LONG;
-	
+	/**
+	 * 
+	 */
+	private long aStudienarmId = NullKonstanten.NULL_LONG;
+	/**
+	 * 
+	 */
 	private BenutzerkontoBean benutzerkonto = null;
+	/**
+	 * 
+	 */
+	private long benutzerkontoId = NullKonstanten.NULL_LONG;
 	
+	
+	/**
+	 * 
+	 *
+	 */
 	public PatientBean() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -44,7 +78,9 @@ public class PatientBean extends Filter{
 	 * @param koerperoberflaeche
 	 * @param studienarm
 	 */
-	public PatientBean(long id, String initialen, char geschlecht, GregorianCalendar geburtsdatum, int performanceStatus, GregorianCalendar datumAufklaerung, int koerperoberflaeche, StudienarmBean studienarm) {
+	public PatientBean(long id, String initialen, char geschlecht, GregorianCalendar geburtsdatum, 
+			int performanceStatus, GregorianCalendar datumAufklaerung, 
+			int koerperoberflaeche, StudienarmBean studienarm) {
 		super();
 		
 		this.setId(id);
@@ -55,7 +91,7 @@ public class PatientBean extends Filter{
 		this.setDatumAufklaerung(datumAufklaerung);
 		this.setKoerperoberflaeche(koerperoberflaeche);
 		this.setStudienarm(studienarm);
-		this.setStudienarmID(studienarm.getId());
+		this.setStudienarmId(studienarm.getId());
 		
 	}
 	
@@ -69,7 +105,9 @@ public class PatientBean extends Filter{
 	 * @param koerperoberflaeche
 	 * @param studienarmID
 	 */
-	public PatientBean(long id, String initialen, char geschlecht, GregorianCalendar geburtsdatum, int performanceStatus, GregorianCalendar datumAufklaerung, int koerperoberflaeche, int studienarmID) {
+	public PatientBean(long id, String initialen, char geschlecht, GregorianCalendar geburtsdatum, 
+			int performanceStatus, GregorianCalendar datumAufklaerung, int koerperoberflaeche, 
+			int studienarmID) {
 		super();
 		
 		this.setId(id);
@@ -79,7 +117,7 @@ public class PatientBean extends Filter{
 		this.setPerformanceStatus(performanceStatus);
 		this.setDatumAufklaerung(datumAufklaerung);
 		this.setKoerperoberflaeche(koerperoberflaeche);
-		this.setStudienarmID(studienarmID);
+		this.setStudienarmId(studienarmID);
 		
 	}	
 
@@ -134,13 +172,13 @@ public class PatientBean extends Filter{
 	public StudienarmBean getStudienarm() throws DatenbankFehlerException {
 		if (aStudienarm == null) {
 			
-			if (aStudienarmID==NullKonstanten.NULL_INT) {
+			if (aStudienarmId==NullKonstanten.NULL_INT) {
 				
 				// FIXME Exception
 				
 			} else {
 				
-				aStudienarm = Studienarm.get(aStudienarmID);
+				aStudienarm = Studienarm.get(aStudienarmId);
 				
 			}
 			
@@ -153,12 +191,12 @@ public class PatientBean extends Filter{
 		aStudienarm = studienarm;
 	}
 
-	public long getStudienarmID() {
-		return aStudienarmID;
+	public long getStudienarmId() {
+		return aStudienarmId;
 	}
 
-	public void setStudienarmID(long studienarmID) {
-		aStudienarmID = studienarmID;
+	public void setStudienarmId(long studienarmId) {
+		aStudienarmId = studienarmId;
 	}
 
 	public long getId() {
@@ -174,6 +212,9 @@ public class PatientBean extends Filter{
 	 * @return das Benutzerkonto.
 	 */
 	public BenutzerkontoBean getBenutzerkonto() {
+		if (benutzerkonto == null){
+			benutzerkonto = Benutzerkonto.get(benutzerkontoId);
+		}
 		return benutzerkonto;
 	}
 
@@ -183,6 +224,22 @@ public class PatientBean extends Filter{
 	 */
 	public void setBenutzerkonto(BenutzerkontoBean benutzerkonto) {
 		this.benutzerkonto = benutzerkonto;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public long getBenutzerkontoId() {
+		return benutzerkontoId;
+	}
+
+	/**
+	 * 
+	 * @param benutzerkontoId
+	 */
+	public void setBenutzerkontoId(long benutzerkontoId) {
+		this.benutzerkontoId = benutzerkontoId;
 	}
 	
 	
