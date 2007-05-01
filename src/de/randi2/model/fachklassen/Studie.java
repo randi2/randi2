@@ -75,6 +75,13 @@ public class Studie {
 	}
 
 	/**
+	 * @return the zentrum
+	 */
+	public ZentrumBean getZentrum() {
+		return aZentrum;
+	}
+	
+	/**
 	 * Diese Methode weist ein Zentrum einer Studie hinzu.
 	 * 
 	 * @param aZentrum

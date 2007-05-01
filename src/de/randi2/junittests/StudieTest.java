@@ -9,18 +9,19 @@ import org.junit.Test;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.beans.RandomisationBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
-import de.randi2.model.fachklassen.beans.ZentrumBean;
+
 
 /**
- * @author Susele
- *
+ * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
+ * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
+ * @version $Id$
  */
 public class StudieTest {
 	
 	private Studie studie;
 	private RandomisationBean radomisationBean;
 	private StudieBean studieBean;
-	private ZentrumBean zenrumBean;
+	
 
 	/**
 	 * @throws java.lang.Exception
@@ -62,7 +63,13 @@ public class StudieTest {
 	 * Wenn Fehler, soll StudieException geworfen werden.
 	 */
 	@Test
-	public void testzuweisenZentrum() {
+	public void testZuweisenZentrum() {
+		try{
+			studie.zuweisenZentrum(studie.getZentrum());
+		}
+		catch(Exception e){
+			fail("[]");
+		}
 		
 	}
 
