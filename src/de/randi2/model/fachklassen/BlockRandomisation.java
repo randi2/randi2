@@ -7,6 +7,7 @@ import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
+import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.utility.NullKonstanten;
 
 /**
@@ -76,15 +77,15 @@ public class BlockRandomisation extends Randomisation {
 	public void randomisierenPatient(PatientBean aPatient)
 			throws RandomisationsException, DatenbankFehlerException {
 
-		super.testPatientInStudie(aPatient);
-
 		if (letztePosition > aBlock.length - 1) {
 			aBlock = erzeugeNeuenBlock();
 			letztePosition = 0;
 		}
 		// System.out.println(letztePosition);
 		// System.out.println(aBlock[letztePosition]);
-		aPatient.setStudienarmID(aBlock[letztePosition]);
+		aPatient.setStudienarm((StudienarmBean) this.studie.getStudienarme()
+				.toArray()[aBlock[letztePosition]]);
+		// aPatient.setStudienarmID();
 		super.studie.getStudienarme().elementAt(aBlock[letztePosition])
 				.getPatienten().add(aPatient);
 		letztePosition++;

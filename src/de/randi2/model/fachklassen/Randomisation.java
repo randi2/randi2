@@ -70,28 +70,6 @@ public abstract class Randomisation {
 			throws RandomisationsException, DatenbankFehlerException;
 
 	/**
-	 * Testet ob ein Patient in der Studie ist, deren Randomisation verwaltet
-	 * wird. Ist dies nicht der Fall, wird eine Exception geworfen.
-	 * 
-	 * @param patient
-	 *            Der Patient fuer den geprueft werden soll, ob er in der Studie
-	 *            ist.
-	 * @throws RandomisationsException
-	 *             Tritt auf, falls der Patient nicht in der Studie ist deren
-	 *             Randomisation verwaltet wird.
-	 * @throws DatenbankFehlerException
-	 *             Falls ein Fehler in der Datenbank auftritt.
-	 * @see RandomisationsException#PATIENT_NICHT_IN_STUDIE
-	 */
-	protected void testPatientInStudie(PatientBean patient)
-			throws RandomisationsException, DatenbankFehlerException {
-		if (patient.getStudienarm().getStudie().equals(this.studie)) {
-			throw new RandomisationsException(
-					RandomisationsException.PATIENT_NICHT_IN_STUDIE);
-		}
-	}
-
-	/**
 	 * Gibt den Namen des verwendeten Algorithmus zurueck.
 	 * 
 	 * @return Der Name des Algorithmus.
@@ -101,6 +79,7 @@ public abstract class Randomisation {
 	}
 
 	/**
+	 * 
 	 * 
 	 * @param randomisationId
 	 * @return

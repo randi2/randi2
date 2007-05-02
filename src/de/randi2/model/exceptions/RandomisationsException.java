@@ -18,11 +18,6 @@ public class RandomisationsException extends Exception {
 	public static final String FALSCHE_STRATA = "Die Strata des Patienten entsprechen nicht den Strata, die f&uuml;r ";
 
 	/**
-	 * Fehler falls der zu randomisierende Patient nicht in der Studie.
-	 */
-	public static final String PATIENT_NICHT_IN_STUDIE = "Der Patient ist nicht in der Studie zu der er randomisiert werden soll.";
-
-	/**
 	 * Fehler falls die gewaehlte Blockgroesse kein Vielfaches der Anzahl der
 	 * Studienarme ist.
 	 */

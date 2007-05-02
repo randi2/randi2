@@ -24,7 +24,7 @@ public class VollstaendigeRandomisation extends Randomisation {
 	/**
 	 * Der Name der Randomistaion
 	 */
-	public final static String NAME = "Vollständige Randomisation";
+	public static final String NAME = "Vollständige Randomisation";
 
 	/**
 	 * Erzeugt eine Randomisationsverwaltung fuer die vollstaendige
@@ -32,6 +32,8 @@ public class VollstaendigeRandomisation extends Randomisation {
 	 * 
 	 * @param studie
 	 *            Die Studie deren Randomisation verwaltet werden soll.
+	 * @throws RandomisationsException
+	 *             Falls die uebergebene Studie null ist.
 	 * @see Randomisation#Randomisation(String, StudieBean)
 	 */
 	public VollstaendigeRandomisation(StudieBean studie)
@@ -58,7 +60,6 @@ public class VollstaendigeRandomisation extends Randomisation {
 	@Override
 	public void randomisierenPatient(PatientBean patient)
 			throws RandomisationsException, DatenbankFehlerException {
-		super.testPatientInStudie(patient);
 		Vector<StudienarmBean> studienarme = super.studie.getStudienarme();
 		int index = (int) (new Random().nextDouble() * (studienarme.size() - 1));
 		patient.setStudienarm(studienarme.get(index));
