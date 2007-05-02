@@ -6,7 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Studienverwaltung</title>
-<!-- %@ page import="de.randi2.model.fachklassen.beans.*" -->
+<%@ page import="de.randi2.model.fachklassen.beans.*" import= "java.util.GregorianCalendar"
+	import= "java.text.SimpleDateFormat" 
+	import= "java.util.Locale" %>
 
 </head>
 <body>
