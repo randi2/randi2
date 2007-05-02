@@ -142,7 +142,7 @@
 <div id="show_none"><%@include file="include/inc_footer.jsp"%></div>
 
 
-</div>
+</form></div>
 
 <div id="show_BV"><%@include file="include/inc_menue.jsp"%>
 </div>

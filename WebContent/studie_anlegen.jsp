@@ -116,5 +116,5 @@
 <%@include file="include/inc_footer.jsp"%> 
 
 
-</body>
+</table></fieldset></form></body>
 </html>
