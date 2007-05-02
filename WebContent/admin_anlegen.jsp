@@ -60,7 +60,7 @@ z:email_message="Bitte geben sie eine gültige E-Mail Adresse"></td>
 	</tr>
 	<tr>
 		<td><label for="Fax">Fax<br>
-		<input type="text" size="25" maxlength="30" id="Fax" name="Fax" tabindex="7"></td>
+		<input type="text" size="25" maxlength="30" id="Fax" name="Fax" tabindex="7"></label></td>
 		<td>&nbsp;&nbsp;&nbsp;<label for="Institut">Institut *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30" id="Institut" name="Institut" tabindex="8"></td>
 	</tr>
