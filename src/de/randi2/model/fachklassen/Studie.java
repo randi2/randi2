@@ -1,5 +1,6 @@
 package de.randi2.model.fachklassen;
 
+import java.util.Vector;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.RandomisationBean;
 import de.randi2.model.fachklassen.beans.StatistikBean;
@@ -7,6 +8,8 @@ import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 
 /**
+ * Fachklasse Studie
+ * 
  * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
  * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
  * @version $Id$
@@ -28,7 +31,22 @@ public class Studie {
 	 */
 	private ZentrumBean aZentrum;
 
-	private String studienprotokoll_url;
+	/**
+	 * Die Url des Studienprotokolls.
+	 */
+	private String studienprotokollurl;
+
+	/**
+	 * Konstruktor
+	 * 
+	 * @param studieBean
+	 * @param randomisationBean
+	 */
+	public Studie(StudieBean studieBean, RandomisationBean randomisationBean) {
+		super();
+		aStudieBean = studieBean;
+		aRandomisationBean = randomisationBean;
+	}
 
 	/**
 	 * Die Methode zeigt eine Statistik nach bestimmten Kriterien an.
@@ -43,21 +61,11 @@ public class Studie {
 
 	}
 
-	// TODO
-	// /**
-	// *
-	// * @param patient
-	// * @return
-	// */
-	// private PatientBean randomisierePatient(PatientBean patient){
-	// return patient;
-	//		
-	// }
 	/**
 	 * Die Methode fügt eine Patient einer Studie zu.
 	 * 
 	 * @param patient,
-	 *            das PatientBean
+	 *            das aktuelle PatientBean.
 	 * @return patient, das aktuelle PatientBean.
 	 */
 	private PatientBean hinzufuegenPatient(PatientBean patient) {
@@ -67,44 +75,32 @@ public class Studie {
 
 	/**
 	 * Liefert die Url des Studienprotokolls zurück.
+	 * 
+	 * @return studienprotokoll_url, Die Url des Studienprotokolls.
 	 */
 	public String getStudienprotokoll() {
 
-		return studienprotokoll_url;
+		return studienprotokollurl;
 
 	}
 
-	/**
-	 * @return the zentrum
-	 */
-	public ZentrumBean getZentrum() {
-		return aZentrum;
-	}
-	
 	/**
 	 * Diese Methode weist ein Zentrum einer Studie hinzu.
 	 * 
 	 * @param aZentrum
+	 *            Das aktuelle ZentrumBean.
+	 * @return zugewieseneZentren, Zentren, die der Studie zugewiesen werden.
+	 *            
 	 */
-	public void zuweisenZentrum(ZentrumBean aZentrum) {
-		this.aZentrum = aZentrum;
+	public Vector<Studie> zuweisenZentrum(ZentrumBean aZentrum) {
+		Vector<Studie> zugewieseneZentren = null;
+
+		return zugewieseneZentren;
 
 	}
 
-	// TODO Array
-	public void konfiguriereRandomisation() {
-	}
-
-	/**
-	 * Konstruktor
-	 * 
-	 * @param studieBean
-	 * @param randomisationBean
-	 */
-	public Studie(StudieBean studieBean, RandomisationBean randomisationBean) {
-		super();
-		aStudieBean = studieBean;
-		aRandomisationBean = randomisationBean;
-	}
+	// // TODO
+	// public void konfiguriereRandomisation() {
+	// }
 
 }
