@@ -13,13 +13,12 @@
 <body>
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
-<h1>Studienverwaltung</h1>
+<h1>Studienleiter anlegen</h1>
 <%@include file="include/inc_nachricht.jsp"%>
 <form method="post" action="DispatcherServlet"><input
 	type="hidden" name="anfrage_id"
 	value="<%=DispatcherServlet.anfrage_id.AKTION_STUDIENLEITER_ANLEGEN.name() %>">
 
-<h1>Studienleiter anlegen</h1>
 <%@include file="include/inc_nachricht.jsp"%>
 <fieldset style="width: 60%"><legend><b>Pers&ouml;nliche
 Angaben</b></legend>
