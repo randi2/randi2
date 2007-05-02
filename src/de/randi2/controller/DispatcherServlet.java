@@ -126,7 +126,13 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         /**
          * Aufforderung, einen Admin mit den gesendeten Daten anzulegen
          */
-        AKTION_ADMIN_ANLEGEN
+        AKTION_ADMIN_ANLEGEN,
+        
+        /**
+         * Aufforderung, einen Studienleiter mit den gesendeten Daten anzulegen
+         */
+        AKTION_STUDIENLEITER_ANLEGEN
+        
     }
 
     /**
