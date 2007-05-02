@@ -7,10 +7,11 @@ import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Studienarm;
 import de.randi2.utility.NullKonstanten;
+
 /**
- * 
- * @author 
- *
+ * Diese Klasse repräsentiert ein Patient.
+ * @author Lukasz Plotnicki [lplotni@stud.hs-heilbronn.de]
+ * @version $Id$
  */
 public class PatientBean extends Filter{
 	/**
