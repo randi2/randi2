@@ -1,44 +1,56 @@
-/**
- * 
- */
 package de.randi2.junittests;
 
 import static org.junit.Assert.*;
 
 import java.util.GregorianCalendar;
 import java.util.Locale;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.beans.StudieBean;
 
 /**
+ * Testklasse fuer die Klasse StudieBean.
+ * 
  * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
  * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class StudieBeanTest {
 
-	private StudieBean studie;
-	private GregorianCalendar endDatum, startDatum;
+	/**
+	 * Das zugehörige StudieBean-Objekt.
+	 */
+	private StudieBean studieBean;
 	
 	/**
-	 * @throws java.lang.Exception
+	 * GregorianCalender-Objekt für das Start- und Enddatum einer Studie.
+	 */
+	private GregorianCalendar endDatum, startDatum;
+	
+	
+	/**
+	 * Method setUp()
+	 * Erzeugt eine neue Instanz der Klasse StudieBean. 
+	 * 
+	 * @throws Exception,  Fehler, wenn keine Instanz der Klasse
+	 *                     StudieBean erzeugt werden kann. 
 	 */
 	@Before
 	public void setUp() throws Exception {
-		studie = new StudieBean();
+		studieBean = new StudieBean();
 	}
 
 	/**
-	 * @throws java.lang.Exception
+	 * Method tearDown()
+	 * Dem StudieBean-Objekt wird der Wert "null" zugewiesen.
+	 * 
+	 * @throws Exception, wenn die Testklasse nicht beendet werden kann.
 	 */
 	@After
 	public void tearDown() throws Exception {
-		studie = null;
+		studieBean = null;
 	}
 
 	
@@ -46,13 +58,13 @@ public class StudieBeanTest {
 	 * Test method for setBenutzerkoto()
 	 * Test method for {@link de.randi2.model.fachklassen.beans.StudieBean#setBenutzerkonto(de.randi2.model.fachklassen.beans.BenutzerkontoBean)}.
 	 * 
-	 * Ueberpruefung, ob Zentrum gesetzt wurde.
+	 * Ueberpruefung, ob Benutzerkonto gesetzt wurde.
 	 * Wenn Fehler, soll StudieException geworfen werden.
 	 */
 	@Test
 	public void testSetBenutzerkonto() {
 		try {
-			studie.setBenutzerkonto(studie.getBenutzerkonto());
+			studieBean.setBenutzerkonto(studieBean.getBenutzerkonto());
 		} catch (Exception e) {
 			fail("[FEHLER]testSetBenutzerkonto() sollte keine Exception auslösen");
 		}
@@ -60,7 +72,10 @@ public class StudieBeanTest {
 
 
 	/**
+	 * Test method for setBeschreibung
 	 * Test method for {@link de.randi2.model.fachklassen.beans.StudieBean#setBeschreibung(java.lang.String)}.
+	 * 
+	 * Ueberpruefung, ob die Beschreibung einer Studie gesetzt wurde.
 	 */
 	@Test
 	public void testSetBeschreibung() {
@@ -73,7 +88,7 @@ public class StudieBeanTest {
 	 * Test method for setEndDatum()
 	 * Test method for {@link de.randi2.model.fachklassen.beans.StudieBean#setEndDatum(java.util.GregorianCalendar)}.
 	 *  
-	 * Ueberpruefung Enddatum.
+	 * Ueberpruefung des Enddatums einer Studie.
 	 * Wenn Fehler (Datum befindet sich in der Zukunft), soll 
 	 * StudieException geworfen werden.
 	 */
@@ -87,8 +102,8 @@ public class StudieBeanTest {
 			String year = "2006";
 			int jahr = Integer.parseInt(year);
 			endDatum = new GregorianCalendar(jahr, monat - 1, tag);
-			studie.setEndDatum(endDatum);
-			assertTrue(studie.getEndDatum().equals(endDatum));
+			studieBean.setEndDatum(endDatum);
+			assertTrue(studieBean.getEndDatum().equals(endDatum));
 		    assertFalse((new GregorianCalendar(Locale.GERMANY))
 					.before(endDatum));
 		} catch (Exception e) {
@@ -101,15 +116,15 @@ public class StudieBeanTest {
 	 * Test method for setName()
 	 * Test method for {@link de.randi2.model.fachklassen.beans.StudieBean#setName(java.lang.String)}.
 	 * 
-	 * Ueberpruefung Studienname.
+	 * Ueberpruefung des Studiennames.
 	 * Wenn kein Studienname vorhanden ist, wird Fehler in der  
 	 * StudieException geworfen.
 	 */
 	@Test
 	public void testSetNameLeer() {
 		try {
-			studie.setFilter(true);
-			studie.setName("");
+			studieBean.setFilter(true);
+			studieBean.setName("");
 		} catch (Exception e) {
 			fail("[testSetNameLeer] Exception, wenn Studienname fehlt.");
 		}
@@ -119,16 +134,16 @@ public class StudieBeanTest {
 	 * Test method for setName()
 	 * Test method for {@link de.randi2.model.fachklassen.beans.StudieBean#setName(java.lang.String)}.
 	 * 
-	 * Ueberpruefung Studienname.
-	 * Wenn Studienname zu kurz ist (weniger als 3 Zeichen) oder zu lang (mehr als 50 Zeichen), 
-	 * wird Fehler in der StudieException geworfen.
+	 * Ueberpruefung der Laenge des Studiennames.
+	 * Wenn Studienname zu kurz (weniger als 3 Zeichen) oder zu lang (mehr als 50 Zeichen)
+	 * ist, wird Fehler in der StudieException geworfen.
 	 */
 	@Test
 	public void testSetNameLaenge() {
 		try {
-			studie.setFilter(true);
-			studie.setName("XY");
-			studie.setName("abcdefghijklmopqrstuvwxyzabcdefghijklmopqrstuvwxyzabcdefxyz");
+			studieBean.setFilter(true);
+			studieBean.setName("XY");
+			studieBean.setName("abcdefghijklmopqrstuvwxyzabcdefghijklmopqrstuvwxyzabcdefxyz");
 		} catch (StudieException e) {
 			fail("[testSetNameLaenge] Exception, wenn Studienname zu lang oder zu kurz ist.");
 	   }
@@ -139,22 +154,25 @@ public class StudieBeanTest {
 	 * Test method for setName()
 	 * Test method for {@link de.randi2.model.fachklassen.beans.StudieBean#setName(java.lang.String)}.
 	 * 
-	 * Ueberpruefung Studienname.
+	 * Ueberpruefung des korrekten Studiennames.
 	 * Wenn Studienname richtig, darf kein Fehler in der 
 	 * StudieException geworfen werden.
 	 */
 	@Test
 	public void testSetNameOk() {
 		try {
-			studie.setFilter(false);
-			studie.setName("Studienname");
+			studieBean.setFilter(false);
+			studieBean.setName("Studienname");
 		} catch (StudieException e) {
 			fail("[testSetNameOk] Es darf keine Exception geworfen werden.");
 	   }
 	}
 
 	/**
+	 * Test method for setRandomisationseigenschaften()
 	 * Test method for {@link de.randi2.model.fachklassen.beans.StudieBean#setRandomisationseigenschaften(de.randi2.model.fachklassen.beans.RandomisationBean)}.
+	 * 
+	 * Ueberpruefung der randomisationseigenschaften einer Studie.
 	 */
 	@Test
 	public void testSetRandomisationseigenschaften() {
@@ -167,7 +185,7 @@ public class StudieBeanTest {
 	 * Test method for {@link de.randi2.model.fachklassen.beans.StudieBean#setStartDatum(java.util.GregorianCalendar)}.
 	 * 
 	 * Ueberpruefung Startdatum.
-	 * Wenn Fehler (Datum befindet sich in der Zukunft), soll 
+	 * Wenn Fehler (Datum befindet sich in der Vergangenheit), soll 
 	 * StudieException geworfen werden.
 	 */
 	@Test
@@ -180,10 +198,10 @@ public class StudieBeanTest {
 			String year = "2006";
 			int jahr = Integer.parseInt(year);
 			startDatum = new GregorianCalendar(jahr, monat - 1, tag);
-			studie.setEndDatum(startDatum);
-			assertTrue(studie.getEndDatum().equals(startDatum));
+			studieBean.setEndDatum(startDatum);
+			assertTrue(studieBean.getEndDatum().equals(startDatum));
 		    assertFalse((new GregorianCalendar(Locale.GERMANY))
-					.before(startDatum));
+					.after(startDatum));
 		} catch (Exception e) {
 			fail("[testSetStartDatum]Exception, wenn Zeit des Enddatums in der Zukunft liegt.");
 		}
@@ -192,7 +210,10 @@ public class StudieBeanTest {
 
 
 	/**
+	 * Test method for setStudienarme()
 	 * Test method for {@link de.randi2.model.fachklassen.beans.StudieBean#setStudienarme(java.util.Vector)}.
+	 * 
+	 * Ueberpruefung Anzahl der Studienarme.
 	 */
 	@Test
 	public void testSetStudienarme() {
@@ -202,7 +223,10 @@ public class StudieBeanTest {
 	
 
 	/**
+	 * Test method for set Studienprotokoll_pfad()
 	 * Test method for {@link de.randi2.model.fachklassen.beans.StudieBean#setStudienprotokoll_pfad(java.lang.String)}.
+	 * 
+	 * Ueberpruefung, ob der Pfad des Studienprotokolls gesetzt wurde.
 	 */
 	@Test
 	public void testSetStudienprotokoll_pfad() {
@@ -221,7 +245,7 @@ public class StudieBeanTest {
 	@Test
 	public void testSetZentrum() {
 		try {
-			studie.setZentrum(studie.getZentrum());
+			studieBean.setZentrum(studieBean.getZentrum());
 		} catch (Exception e) {
 			fail("[FEHLER]testSetZentrum() sollte keine Exception auslösen");
 		}
@@ -230,27 +254,65 @@ public class StudieBeanTest {
 	
 
 	/**
+	 * Test method for setStatus()
 	 * Test method for {@link de.randi2.model.fachklassen.beans.StudieBean#setStatus(int)}.
+	 * 
+	 * Ueberpruefung, ob der Status der Studie gesetzt wurde.
 	 */
 	@Test
 	public void testSetStatus() {
 		fail("Not yet implemented");
 	}
 	
+	
 	/**
-	 * Test method for setId
+	 * Test method for setId()
 	 * Test method for {@link de.randi2.model.fachklassen.BenutzerkontoBean#setId()}.
 	 * 
-	 * Ueberpruefung, ob ID der Studie gesetzt wurde.
+	 * Ueberpruefung, ob die ID der Studie gesetzt wurde.
 	 * Wenn Fehler, soll StudieException geworfen werden.
 	 */
 	@Test
 	public void testSetId() {
 		try {
-			studie.setId(studie.getId());
+			studieBean.setId(studieBean.getId());
 		} catch (Exception e) {
 			fail("[FEHLER]testSetId() sollte keine Exception auslösen");
 		}
 	}
 
+	/**
+	 * Test method for setBenutzerkontoId()
+	 * Test method for {@link de.randi2.model.fachklassen.BenutzerkontoBean#setBenutzerkontoId()}.
+	 * 
+	 * Ueberpruefung, ob die ID des Benutzerkontos gesetzt wurde.
+	 */
+	@Test
+	public void testSetBenutzerkontoId() {
+		fail("Not yet implemented");
+	}
+
+	
+	/** 
+	 * Test method for setRandomisationId()
+	 * Test method for {@link de.randi2.model.fachklassen.BenutzerkontoBean#setRandomisationId()}.
+	 * 
+	 * Ueberpruefung, ob die ID der Randomisation gesetzt wurde.
+	 */
+	@Test
+	public void testSetRandomisationId() {
+		fail("Not yet implemented");
+	}
+
+	/**
+	 * Test method for setZentumId()
+	 * Test method for {@link de.randi2.model.fachklassen.BenutzerkontoBean#setZentrumId()}.
+	 * 
+	 * Ueberpruefung, ob die ID des Zentrums gesetzt wurde.
+	 */
+	@Test
+	public void testSetZentrumId() {
+		fail("Not yet implemented");
+	}
+	
 }

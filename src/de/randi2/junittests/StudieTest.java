@@ -1,8 +1,6 @@
 package de.randi2.junittests;
 
-
 import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,19 +10,36 @@ import de.randi2.model.fachklassen.beans.StudieBean;
 
 
 /**
+ * Testklasse fuer die Fachklasse Studie.
+ * 
  * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
  * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class StudieTest {
 	
+	/**
+	 * Das zugehörige Studie-Objekt.
+	 */
 	private Studie studie;
+	
+	/**
+	 * Das zugehörige RandomisationBean-Objekt.
+	 */
 	private RandomisationBean radomisationBean;
+	
+	/**
+	 * Das zugehörige StudieBean-Objekt.
+	 */
 	private StudieBean studieBean;
 	
 
 	/**
-	 * @throws java.lang.Exception
+	 * Method setUp()
+	 * Erzeugt eine neue Instanz der Fachklasse Studie. 
+	 * 
+	 * @throws Exception,  Fehler, wenn keine Instanz der Fachklasse
+	 *                     Studie erzeugt werden kann. 
 	 */
 	@Before
 	public void setUp() throws Exception {
@@ -32,7 +47,10 @@ public class StudieTest {
 	}
 
 	/**
-	 * @throws java.lang.Exception
+	 * Method tearDown()
+	 * Dem Studien-Objekt wird der Wert "null" zugewiesen.
+	 * 
+	 * @throws Exception, wenn die Testklasse nicht beendet werden kann.
 	 */
 	@After
 	public void tearDown() throws Exception {
@@ -40,7 +58,11 @@ public class StudieTest {
 	}
 
 	/**
+	 * Test method for anzeigenStatistik()
 	 * Test method for {@link de.randi2.model.fachklassen.Studie#anzeigenStatistik(int)}.
+	 * 
+	 * Ueberpruefung, ob eine Statistik nach den vorgegebenen
+	 * Kriterien angezeigt wird.
 	 */
 	@Test
 	public void testAnzeigenStatistik() {
@@ -48,7 +70,11 @@ public class StudieTest {
 	}
 
 	/**
+	 * Test method for getStudienprotokoll()
 	 * Test method for {@link de.randi2.model.fachklassen.Studie#getStudienprotokoll()}.
+	 * 
+	 * Ueberpruefung, ob die URL des Studienprotokolls zurückgeliefert
+	 * wird.
 	 */
 	@Test
 	public void testGetStudienprotokoll() {
@@ -60,32 +86,27 @@ public class StudieTest {
 	 * Test method for {@link de.randi2.model.fachklassen.Studie#zuweisenZentrum()}.
 	 * 
 	 * Ueberpruefung, ob Zentrum gesetzt wurde, um es einer Studie zuzuweisen.
-	 * Wenn Fehler, soll StudieException geworfen werden.
 	 */
 	@Test
 	public void testZuweisenZentrum() {
-		try{
-			studie.zuweisenZentrum(studie.getZentrum());
-		}
-		catch(Exception e){
-			fail("[]");
-		}
-		
+		//try{
+			//studie.zuweisenZentrum(studie.getZentrum());
+		//}
+		//catch(Exception e){
+			//fail("[]");
+		//}		
 	}
 
+	
 	/**
-	 * Test method for {@link de.randi2.model.fachklassen.Studie#konfiguriereRandomisation()}.
+	 * Test method for hinzufuegenPatient()
+	 * Test method for {@link de.randi2.model.fachklassen.Studie#hinzufuegenPatient()}.
+	 * 
+	 * Ueberpruefung, ob ein Patient einer Studie zugewiesen wird.
 	 */
-	@Test
-	public void testKonfiguriereRandomisation() {
+	@Test 	
+	public void testHinzufuegenPatient(){		
 		fail("Not yet implemented");
-	}
-	
-	@Test 
-	
-	public void testehinzufuegenPatient(){
-		
-		
 	}
 
 

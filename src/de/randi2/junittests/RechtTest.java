@@ -5,14 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import de.randi2.model.exceptions.RechtException;
 import de.randi2.model.fachklassen.Recht;
 import de.randi2.model.fachklassen.Recht.Rechtenamen;
 
 /**
- * Testet die Funktionalitaet der Recht.java Klasse.
- * 
+ * Testet die Funktionalitaet der Klasse Recht. 
  * 
  * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de] *
  * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
@@ -20,14 +17,18 @@ import de.randi2.model.fachklassen.Recht.Rechtenamen;
  */
 public class RechtTest {
 
+	/**
+	 * Das zugehörige Recht-Objekt.
+	 */
     private Recht aRecht;
 
+    /**
+	 * Rechtennamen ist ein Element der <code>enum</code>
+	 */
     private Rechtenamen rName;
 
     /**
-     * Freeze der Rechte-ENUM vom 07.02.2007 21:58 Uhr
-     * 
-     * 
+     * Freeze der Rechte-ENUM vom 07.02.2007 21:58 Uhr 
      */
     private String[] rechtenamenFrozen = { "BK_AENDERN", "BK_SPERREN",
             "BK_ANSEHEN", "ZENTRUM_ANLEGEN", "ZENTRUM_AENDERN",
@@ -39,13 +40,22 @@ public class RechtTest {
             "STUDIEN_EINSEHEN", "STUDIE_RANDOMISIEREN", "SYSTEM_SPERREN",
             "ADMINACCOUNTS_VERWALTEN", "STULEIACCOUNTS_VERWALTEN" };
 
+    
     /**
      * HashMap, welche die Instanzen der einzelnen Rechte verwaltet.
      */
     // private static HashMap<Rechtenamen, Recht> rechte = new
     // HashMap<Rechtenamen, Recht>();
+    
+    
+    
     /**
-     * Initialisiert eine Testmethode.
+     * Method setUp()
+	 * Erzeugt eine neue Instanz der Klasse Rolle. 
+	 * 
+	 * @throws Exception,  Fehler, wenn keine Instanz der Klasse
+	 *                     Rolle erzeugt werden kann. 
+	
      */
     @Before
     public void setUp() {
@@ -53,22 +63,24 @@ public class RechtTest {
     }
 
     /**
-     * Beendet eine Testmethode.
-     */
+     * Method tearDown()
+     * 
+     * @throws Exception, wenn die Testklasse nicht beendet werden kann.
+	 */
     @After
     public void tearDown() throws Exception {
 
     }
 
     /**
-     * Test method for
+     * Test method for durchlaufFuerAlleRechte()
      * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.Rechtenamen)}
      * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.getRecht)}
      * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.toString)}
      * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.getName)}
      * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.getRechtname)}
      * 
-     * Durchlaeuft alle vorhandenen Rechtenamen und prueft ob alle Rechte in der
+     * Durchlaeuft alle vorhandenen Rechtenamen und prueft, ob alle Rechte in der
      * "frozen" und "korrekten" Rechtetabelle enthalten sind.
      * 
      */
@@ -104,9 +116,7 @@ public class RechtTest {
 
                 // pruefen ob getRechtname fuer dieses Recht korrekt arbeitet
                 assertTrue(rName.equals(aRecht.getRechtname()));
-
         }
-
     }
 
 }
