@@ -8,7 +8,9 @@ import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.KryptoUtil;
 
 /**
- * <p>Diese Klasse repraesentiert ein Zentrum.</p>
+ * <p>
+ * Diese Klasse repraesentiert ein Zentrum.
+ * </p>
  * 
  * @author Lukasz Plotnicki [lplotni@stud.hs-heilbronn.de]
  * @version $Id$
@@ -65,11 +67,11 @@ public class ZentrumBean extends Filter {
 	 * Strasse
 	 */
 	private String strasse = null;
-	
+
 	/**
 	 * Ist das Zentrum aktiviert und kann an Studien teilnehmen
 	 */
-	private boolean istAktiviert=false;
+	private boolean istAktiviert = false;
 
 	/**
 	 * Einfacher Konstruktor von dieser Klasse.
@@ -118,7 +120,8 @@ public class ZentrumBean extends Filter {
 			this.setPasswort(passwortHash);
 			this.setIstAktiviert(istAktiviert);
 		} catch (ZentrumException e) {
-			// TODO Wenn die Vorgehensweise in diesem Fall geklaert wird, wird es
+			// TODO Wenn die Vorgehensweise in diesem Fall geklaert wird, wird
+			// es
 			// auch umgesetzt.
 			e.printStackTrace();
 		}
@@ -268,20 +271,16 @@ public class ZentrumBean extends Filter {
 	 *             Wenn bei der Validierung ein Fehler aufgetreten ist
 	 */
 	public void setAbteilung(String abteilung) throws ZentrumException {
-		if (this.isFilter()) {
-			this.abteilung = abteilung;
-		} else {
-			if (abteilung != null) {
-				if (!abteilung.matches(".{3,70}")) {
-					throw new ZentrumException(
-							ZentrumException.ABTEILUNG_FALSCH);
-				}
-				this.abteilung = abteilung;
-			} else {
+		if (!this.isFilter()) {
+			if (abteilung == null) {
 				throw new ZentrumException(ZentrumException.ABTEILUNG_NULL);
+			}
+			if (!abteilung.matches(".{3,70}")) {
+				throw new ZentrumException(ZentrumException.ABTEILUNG_FALSCH);
 			}
 		}
 
+		this.abteilung = abteilung;
 	}
 
 	/**
@@ -291,9 +290,9 @@ public class ZentrumBean extends Filter {
 	 *            Der neue Ansprechpartner der Abteilung.
 	 */
 	public void setAnsprechpartner(PersonBean ansprechpartner) {
-		// Die Überprüfung wird schon bei PersonBean durchgeführ - das Objekt,
-		// was hier übergeben wird ist auf jeden Fall korrekt.
 		this.ansprechpartner = ansprechpartner;
+		// if(an)
+		this.ansprechpartnerId = ansprechpartner.getId();
 	}
 
 	/**
@@ -401,7 +400,7 @@ public class ZentrumBean extends Filter {
 	 * 
 	 */
 	public void setPasswort(String hash) throws ZentrumException {
-		if (hash == null || hash.equals("")) {
+		if (hash.length()==64) {
 			throw new ZentrumException(ZentrumException.PASSWORT_NULL);
 		}
 		this.passwort = hash;
@@ -429,8 +428,7 @@ public class ZentrumBean extends Filter {
 						.matches(".{12}"))) {
 					throw new ZentrumException(ZentrumException.PASSWORT_FALSCH);
 				}
-				this.passwort = KryptoUtil.getInstance().hashPasswort(
-						klartext);
+				this.passwort = KryptoUtil.getInstance().hashPasswort(klartext);
 			} else {
 				throw new ZentrumException(ZentrumException.PASSWORT_NULL);
 			}
@@ -501,25 +499,28 @@ public class ZentrumBean extends Filter {
 	}
 
 	/**
-	 *Getter für Aktivierungszustand
+	 * Getter für Aktivierungszustand
+	 * 
 	 * @return the istAktiviert
 	 */
 	public boolean getIstAktiviert() {
-	    return istAktiviert;
+		return istAktiviert;
 	}
 
 	/**
 	 * Setzt den Aktivierungszustand
-	 * @param istAktiviert Setzt den Aktivierungszustand
+	 * 
+	 * @param istAktiviert
+	 *            Setzt den Aktivierungszustand
 	 */
 	public void setIstAktiviert(boolean istAktiviert) {
-	    this.istAktiviert = istAktiviert;
+		this.istAktiviert = istAktiviert;
 	}
 
 	/**
 	 * Getter fuer AnsprechpartnerId
-	 * @return
-	 * 			id des Ansprechpartners
+	 * 
+	 * @return id des Ansprechpartners
 	 */
 	public long getAnsprechpartnerId() {
 		return ansprechpartnerId;

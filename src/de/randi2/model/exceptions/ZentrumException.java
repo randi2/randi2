@@ -9,7 +9,7 @@ package de.randi2.model.exceptions;
  * 
  */
 public class ZentrumException extends Exception {
-
+	
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Abteilung falsch ist.
 	 */

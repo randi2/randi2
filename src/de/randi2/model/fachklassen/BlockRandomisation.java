@@ -27,7 +27,7 @@ public class BlockRandomisation extends Randomisation {
 	/**
 	 * Diese String-Konstante enthaelt den Namen des Randomisationsalgorithmus.
 	 */
-	public static final String NAME = "Blockrandomisation ohne Strata";
+	private static final String NAME = "Blockrandomisation ohne Strata";
 
 	/**
 	 * Die Anzahl der Studienarme der zugehoerigen Studie.
@@ -67,7 +67,8 @@ public class BlockRandomisation extends Randomisation {
 		aBlock = erzeugeNeuenBlock();
 		letztePosition = 0;
 	}
-
+	
+	//TODO ein ausfuehrlicher Kommentar
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -100,10 +101,10 @@ public class BlockRandomisation extends Randomisation {
 	 */
 	private int[] erzeugeNeuenBlock() {
 		Random myRandom = new Random();
-		int zufallszahl = NullKonstanten.NULL_INT;
+		int zufallszahl = 0;
 		int[] block = new int[getBlockgroesse()];
 		int[] zufallsZahlen = new int[getBlockgroesse()];
-		int zaehler = NullKonstanten.NULL_INT;
+		int zaehler = 0;
 		// die beiden Arrays werden mit gleichen Zufallszahlen belegt
 		for (int i = 0; i < getBlockgroesse(); i++) {
 			zufallszahl = myRandom.nextInt();

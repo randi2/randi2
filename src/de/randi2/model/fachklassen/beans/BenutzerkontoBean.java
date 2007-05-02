@@ -32,12 +32,11 @@ public class BenutzerkontoBean extends Filter {
 	 */
 
 	// TODO Kommentare nochmal machen
-
 	/**
 	 * Zugehoeriges PersonBean zu diesem Benutzerkonto.
 	 */
 	private PersonBean benutzer = null;
-	
+
 	/**
 	 * Die ID des zugehoerigen Benutzers.
 	 */
@@ -77,25 +76,22 @@ public class BenutzerkontoBean extends Filter {
 	 * Rolle des Benutzerkontos
 	 */
 	private Rolle rolle = null;
-	
+
 	/**
 	 * Zentrum, zu dem dieses Benutzerkonto gehoert.
 	 */
 	private ZentrumBean zentrum = null;
-	
+
 	/**
 	 * Die Id des zugehoerigen Zentrums
 	 */
 	private long zentrumId = NullKonstanten.NULL_LONG;
-	
+
 	/**
 	 * Der Standardkonstruktor
 	 * 
-	 * @throws BenutzerkontoException
-	 *             Fehler ..
 	 */
-	public BenutzerkontoBean() throws BenutzerkontoException {
-
+	public BenutzerkontoBean() {
 	}
 
 	/**
@@ -148,19 +144,16 @@ public class BenutzerkontoBean extends Filter {
 			Rolle rolle, long benutzerId, boolean gesperrt, long zentrumId,
 			GregorianCalendar ersterLogin, GregorianCalendar letzterLogin)
 			throws BenutzerkontoException {
-		
-		
+
 		this.setBenutzername(benutzername);
 		this.setPasswort(passwortHash);
 		this.setRolle(rolle);
-		this.setBenutzerId(benutzerId);			
-		this.setZentrumId(zentrumId);			
+		this.setBenutzerId(benutzerId);
+		this.setZentrumId(zentrumId);
 		this.setGesperrt(gesperrt);
 		this.setErsterLogin(ersterLogin);
 		this.setLetzterLogin(letzterLogin);
 	}
-
-
 
 	/**
 	 * Diese Methode prueft, ob zwei Kontos identisch sind. Zwei Kontos sind
@@ -180,13 +173,13 @@ public class BenutzerkontoBean extends Filter {
 	}
 
 	/**
-	 * Liefert den 
+	 * Liefert den zugehoerigen Benutzer zu diesem Konto.
 	 * 
-	 * @return the benutzer
-	 * @throws DatenbankFehlerException 
+	 * @return ein PersonBean Objekt
+	 * @throws DatenbankFehlerException
 	 */
 	public PersonBean getBenutzer() throws DatenbankFehlerException {
-		if(benutzer==null){
+		if (benutzer == null) {
 			benutzer = Person.get(benutzerId);
 		}
 		return benutzer;
@@ -235,21 +228,22 @@ public class BenutzerkontoBean extends Filter {
 	 * @return h
 	 */
 	public Rolle getRolle() {
-		
+
 		return this.rolle;
 	}
 
 	/**
-	 * Die Methode liefert das zugehoerige ZentrumBean zurueck. Wenn dieses vorher 
-	 * nie benutzt wurde, muss es erst in der Fachklasse erzeugt werden (Proxylogik).
+	 * Die Methode liefert das zugehoerige ZentrumBean zurueck. Wenn dieses
+	 * vorher nie benutzt wurde, muss es erst in der Fachklasse erzeugt werden
+	 * (Proxylogik).
 	 * 
 	 * @return zentrum - zugehoeriges ZentrumBean
 	 */
 	public ZentrumBean getZentrum() {
-		
-		if (zentrum == null){
+
+		if (zentrum == null) {
 			zentrum = Zentrum.get(zentrumId);
-			
+
 		}
 		return zentrum;
 	}
@@ -432,11 +426,6 @@ public class BenutzerkontoBean extends Filter {
 		if (!filter && rolle == null) {
 			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
-		if (!(rolle == Rolle.getAdmin() || rolle == Rolle.getStatistiker()
-				|| rolle == Rolle.getStudienleiter()
-				|| rolle == Rolle.getStudienarzt() || rolle == Rolle.getSysop())) {
-			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
-		}
 		this.rolle = rolle;
 	}
 
@@ -449,14 +438,14 @@ public class BenutzerkontoBean extends Filter {
 	public void setZentrum(ZentrumBean zentrum) {
 		this.zentrum = zentrum;
 	}
-	
+
 	/**
 	 * 
 	 * @param id
 	 */
 	public void setZentrumId(long id) {
 		this.zentrumId = id;
-		
+
 	}
 
 	/**
@@ -465,7 +454,7 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	public void setBenutzerId(long id) {
 		this.benutzerId = id;
-		
+
 	}
 
 	/**

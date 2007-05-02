@@ -50,15 +50,8 @@ public class Benutzerkonto {
 	public static Vector<BenutzerkontoBean> suchenBenutzer(
 			BenutzerkontoBean sBenutzerkonto) throws DatenbankFehlerException {
 		Vector<BenutzerkontoBean> gefundeneKonten;
-		try {
-			gefundeneKonten = DatenbankFactory.getAktuelleDBInstanz()
-					.suchenObjekt(sBenutzerkonto);
-		} catch (DatenbankFehlerException e) {
-			Logger.getLogger("de.randi2.model.Benutzerkonto").warn(
-					"Fehler in Datenbank aufgetreten", e);
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.SUCHEN_ERR);
-		}
+		gefundeneKonten = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
+				sBenutzerkonto);
 		return gefundeneKonten;
 	}
 
@@ -132,6 +125,7 @@ public class Benutzerkonto {
 
 	/**
 	 * Erzeugt einen String mit allen Daten des Benutzers.
+	 * 
 	 * @return Der String mit allen Daten des Benutzers.
 	 * 
 	 * @see java.lang.Object#toString()
@@ -181,7 +175,8 @@ public class Benutzerkonto {
 	}
 
 	/**
-	 * Die Methode liefert das zur benutzerkontoId gehörige Bean.
+	 * Die Methode liefert das zur benutzerkontoId gehï¿½rige Bean.
+	 * 
 	 * @param benutzerkontoId
 	 * @return
 	 */
