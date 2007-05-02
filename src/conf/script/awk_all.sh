@@ -41,11 +41,11 @@ function run_awk {
 		# Java Dateien
 		if test -f $1/$f;
 		then
-			if [[ "$f" =~ '.*\.java' ]];
-				then
+		#	if [[ "$f" =~ '.*\.jsp' ]];
+		#		then
 				# AWK Aufrufen
 				do_awk $1/$f;
-			fi;
+		#	fi;
 		fi;
 	done
 
@@ -65,8 +65,8 @@ function do_awk {
 		awk -f $FILE $1 > $1.tmp;
 		diff $1 $1.tmp;
 		rm $1.tmp;
-		echo "\n ---- \n"
+		echo -e "\n ---- \n"
 	fi;
 }
 
-run_awk $WORKSPACE/src;
+run_awk $WORKSPACE/WebContent;

@@ -23,7 +23,7 @@ public final class KryptoUtil {
 	/**
 	 * Die Laenge des Aktivierungslink.
 	 */
-	private final static int AKTIVIERUNGSCODE_LAENGE = 20;
+	private static final int AKTIVIERUNGSCODE_LAENGE = 20;
 
 	/**
 	 * Gibt eine Instanz von PasswortUtil zurueck.
