@@ -3,7 +3,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.apache.log4j.Logger;
-
+/**
+ * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
+ * @version $Id$
+ *
+ */
 public final class HttpServletRequestExtended extends
   HttpServletRequestWrapper {
   public HttpServletRequestExtended(HttpServletRequest servletRequest) {

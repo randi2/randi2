@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
+/**
+ * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
+ * @version $Id$
+ *
+ */
 public class FilterExtended implements Filter {
   private FilterConfig filterConfig;
 
