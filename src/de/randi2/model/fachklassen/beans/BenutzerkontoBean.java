@@ -22,15 +22,6 @@ import de.randi2.utility.KryptoUtil;
  */
 public class BenutzerkontoBean extends Filter {
 
-	/*
-	 * Change Log 29.01.2007 Thomas Willert
-	 * 
-	 * TODO Passwort Sonderzeichen muessen noch gecheckt werden. Pruefung der
-	 * Rolle fraglich, da Verwendung der enum aus der Klasse Rolle nicht
-	 * moeglich. Vielleicht sollte man die Konstanten dort public machen.
-	 * 
-	 */
-
 	// TODO Kommentare nochmal machen
 	/**
 	 * Zugehoeriges PersonBean zu diesem Benutzerkonto.
