@@ -1,31 +1,31 @@
-/**
- * 
- */
 package de.randi2.model.fachklassen.beans;
+
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Vector;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Randomisation;
+import de.randi2.model.fachklassen.Status;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.datenbank.Filter;
 
 /**
+ * Die Klasse repraesentiert eine Studie.
+ * 
  * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
  * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class StudieBean extends Filter {
 
-	// TODO Kommentare 
-
 	/**
 	 * ID der Studie.
+	 * 
 	 */
 	private long id = 0;
-	
+
 	/**
 	 * Name der Studie.
 	 */
@@ -49,7 +49,7 @@ public class StudieBean extends Filter {
 	/**
 	 * Der Pfad des hinterlegten Protokolls der Studie.
 	 */
-	private String studienprotokoll_pfad = null;
+	private String studienprotokollPfad = null;
 
 	/**
 	 * Die verschiedenen Studienarme der vorliegenden Studie.
@@ -60,7 +60,7 @@ public class StudieBean extends Filter {
 	 * Die Eigenschaften der Randomisation.
 	 */
 	private RandomisationBean randomisationseigenschaften = null;
-	
+
 	/**
 	 * ID der Randomisation.
 	 */
@@ -70,7 +70,7 @@ public class StudieBean extends Filter {
 	 * Das Zentrum der Studie.
 	 */
 	private ZentrumBean zentrum = null;
-	
+
 	/**
 	 * ID des Zentrums.
 	 */
@@ -80,65 +80,84 @@ public class StudieBean extends Filter {
 	 * Das Benutzerkonto der Studie.
 	 */
 	private BenutzerkontoBean benutzerkonto = null;
-	
+
 	/**
 	 * Id des Benutzerkontos.
 	 */
 	private long benutzerkontoId = NullKonstanten.NULL_LONG;
 
 	/**
-	 * Der Status der Studie.
+	 * Status der Studie
 	 */
-	private int status = -1;
+	private Status status = null;
 
 	/**
-	 * @return the benutzerkonto
+	 * Der Status der Studie.
+	 * 
+	 * @throws StudieException
+	 *             StudieException
+	 */
+	public StudieBean() throws StudieException {
+
+	}
+
+	/**
+	 * Liefert das Benutzerkonto.
+	 * 
+	 * @return benutzerkonto, Benutzerkonto
 	 */
 	public BenutzerkontoBean getBenutzerkonto() {
-		if (benutzerkonto == null){
+		if (benutzerkonto == null) {
 			benutzerkonto = Benutzerkonto.get(benutzerkontoId);
 		}
 		return benutzerkonto;
 	}
 
 	/**
+	 * Die Methode setzt das Benutzerkonto.
 	 * 
 	 * @param benutzerkonto
-	 *            the benutzerkonto to set
+	 *            Benutzerkonto
 	 */
 	public void setBenutzerkonto(BenutzerkontoBean benutzerkonto) {
 		this.benutzerkonto = benutzerkonto;
 	}
 
 	/**
-	 * @return the beschreibung
+	 * Die Methode uebergibt die Beschreibung der Studie.
+	 * 
+	 * @return beschreibung, Beschreibung der Studie.
 	 */
 	public String getBeschreibung() {
 		return beschreibung;
 	}
 
 	/**
+	 * Die Methode setzt die Beschreibung der Studie.
+	 * 
 	 * @param beschreibung
-	 *            the beschreibung to set
+	 *            Beschreibung der Studie.
 	 */
 	public void setBeschreibung(String beschreibung) {
 		this.beschreibung = beschreibung;
 	}
 
 	/**
-	 * @return the endDatum
+	 * Die Methode uebergibt das Enddatum der Studie.
+	 * 
+	 * @return endDatum, Enddatum der Studie.
 	 */
 	public GregorianCalendar getEndDatum() {
 		return endDatum;
 	}
 
 	/**
-	 * Überprüfung, ob das Enddatum der Studie in der Zukunft liegt.
+	 * Ueberpruefung, ob das Enddatum der Studie in der Zukunft liegt.
 	 * 
 	 * @param endDatum
 	 *            Enddatum der Studie
 	 * @throws StudieException
-	 *             Wenn bei der Validierung ein Datumfehler aufgetreten ist
+	 *             Wenn bei der Validierung ein Datumfehler aufgetreten ist.
 	 */
 	public void setEndDatum(GregorianCalendar endDatum) throws StudieException {
 		// Testen, ob sich das Datum in der Zukunft befindet
@@ -149,7 +168,9 @@ public class StudieBean extends Filter {
 	}
 
 	/**
-	 * @return the name
+	 * Die Methode uebergibt den Name der Studie.
+	 * 
+	 * @return name, Name der Studie wird uebergeben.
 	 */
 	public String getName() {
 		return name;
@@ -164,38 +185,45 @@ public class StudieBean extends Filter {
 	 *             Wenn bei der Validierung ein Fehler im Studienname
 	 *             aufgetreten ist
 	 */
+
 	public void setName(String name) throws StudieException {
-		boolean filter = super.isFilter();
+		boolean filter = false;
 
-		if (!filter && name == null)
-			throw new StudieException(StudieException.STUDIENNAME_FEHLT);
 		if (!filter) {
-			name = name.trim();
-		}
-		if (!filter && name.length() == 0) {
-			throw new StudieException(StudieException.STUDIENNAME_FEHLT);
+
+			if (name == null) {
+				throw new StudieException(StudieException.STUDIENNAME_FEHLT);
+			}
+			if (name.length() == 0) {
+				throw new StudieException(StudieException.STUDIENNAME_FEHLT);
+			}
+
+			if (name.length() < 3 || name.length() > 50) {
+				throw new StudieException(StudieException.STUDIENNAME_UNGUELTIG);
+			}
+			this.name = name;
 		}
 
-		if (!filter && (name.length() < 3 || name.length() > 50)) {
-			throw new StudieException(StudieException.STUDIENNAME_UNGUELTIG);
-		}
-
-		this.name = name;
 	}
 
 	/**
-	 * @return the randomisationseigenschaften
+	 * Die Methode uebergibt die Randomisationseigenschaften der Studie.
+	 * 
+	 * @return randomisationseigenschaften, Randomisationseigenschaften der
+	 *         Studie.
 	 */
 	public RandomisationBean getRandomisationseigenschaften() {
-		if (randomisationseigenschaften == null){
+		if (randomisationseigenschaften == null) {
 			randomisationseigenschaften = Randomisation.get(randomisationId);
 		}
 		return randomisationseigenschaften;
 	}
 
 	/**
+	 * Setzt die Randomisationseigenschaften.
+	 * 
 	 * @param randomisationseigenschaften
-	 *            the randomisationseigenschaften to set
+	 *            Randomisationseigenschaften
 	 */
 	public void setRandomisationseigenschaften(
 			RandomisationBean randomisationseigenschaften) {
@@ -203,19 +231,21 @@ public class StudieBean extends Filter {
 	}
 
 	/**
-	 * @return the startDatum
+	 * Gibt das Startdatum der Studie zurueck.
+	 * 
+	 * @return startDatum, Start der Studie.
 	 */
 	public GregorianCalendar getStartDatum() {
 		return startDatum;
 	}
 
 	/**
-	 * Überprüfung, ob das Startdatum der Studie in der Zukunft liegt.
+	 * Ueberpruefung, ob das Startdatum der Studie in der Zukunft liegt.
 	 * 
 	 * @param startDatum
 	 *            Startdatum der Studie
 	 * @throws StudieException
-	 *             Wenn bei der Validierung ein Datumfehler aufgetreten ist
+	 *             Wenn bei der Validierung ein Datumfehler aufgetreten ist.
 	 */
 	public void setStartDatum(GregorianCalendar startDatum)
 			throws StudieException {
@@ -227,7 +257,9 @@ public class StudieBean extends Filter {
 	}
 
 	/**
-	 * @return the studienarme
+	 * Gibt die Anzahl der Studienarme zurueck.
+	 * 
+	 * @return studienarme, Anzahl der Studienarme.
 	 */
 	public Vector<StudienarmBean> getStudienarme() {
 		return studienarme;
@@ -235,78 +267,89 @@ public class StudieBean extends Filter {
 
 	/**
 	 * Setzt die Studienarme
-	 * @param studienarme Studienarme
-	 *           
-	 * @throws StudieException 
+	 * 
+	 * @param studienarme
+	 *            Studienarme
+	 * @throws StudieException StudieException
 	 */
-	public void setStudienarme(Vector<StudienarmBean> studienarme) throws StudieException {
-		
-		boolean filter = super.isFilter();
+	public void setStudienarme(Vector<StudienarmBean> studienarme) throws StudieException{
 
-		if (!filter && studienarme == null)
-			throw new StudieException(StudieException.STUDIENARM_FEHLT);
-		//TODO !filter
-		if (!filter && studienarme.size() == 0) {
-			throw new StudieException(StudieException.STUDIENARM_FEHLT);
-		}
-
-		if (!filter && (studienarme.size() < 3 || studienarme.size() > 50)) {
-			throw new StudieException(StudieException.STUDIENARM_UNGUELTIG);
-		}
-
-		this.studienarme = studienarme;
 	}
 
 	/**
+	 * Gibt den Pfad des Studienprotokolls zurueck.
+	 * 
 	 * @return the studienprotokoll_pfad
 	 */
-	public String getStudienprotokoll_pfad() {
-		return studienprotokoll_pfad;
+	public String getStudienprotokollpfad() {
+		return studienprotokollPfad;
 	}
 
 	/**
-	 * @param studienprotokoll_pfad
-	 *            the studienprotokoll_pfad to set
+	 * Setzt den Pfad des Studienprotokolls.
+	 * 
+	 * @param studienprotokollPfad Pfad des Studienprotokolls
+	 * 
 	 */
-	public void setStudienprotokoll_pfad(String studienprotokoll_pfad) {
-		this.studienprotokoll_pfad = studienprotokoll_pfad;
+	public void setStudienprotokollPfad(String studienprotokollPfad) {
+		this.studienprotokollPfad = studienprotokollPfad;
 	}
 
 	/**
-	 * @return the zentrum
+	 * Uebergibt das Zentrum.
+	 * 
+	 * @return zentrum, Zentrum
 	 */
 	public ZentrumBean getZentrum() {
-		if (zentrum == null){
+		if (zentrum == null) {
 			zentrum = Zentrum.get(zentrumId);
 		}
 		return zentrum;
 	}
 
 	/**
+	 * Setzt das Zentrum.
+	 * 
 	 * @param zentrum
-	 *            the zentrum to set
+	 *            Zentrum
 	 */
 	public void setZentrum(ZentrumBean zentrum) {
 		this.zentrum = zentrum;
 	}
 
 	/**
+	 * Uebergibt den aktuellen Status.
+	 * 
 	 * @return the status
 	 */
-	public int getStatus() {
-		return status;
+	public Status getStatus() {
+
+		return this.status;
 	}
 
 	/**
+	 * Ueberprueft und setzt den aktuellen Status.
+	 * 
 	 * @param status
-	 *            the status to set
+	 *            Status der Studie
+	 * @throws StudieException StudieException
 	 */
-	public void setStatus(int status) {
-		this.status = status;
+	public void setStatus(Status status) throws StudieException {
+		boolean filter = false;
+
+		if (!filter) {
+
+			if (status == null) {
+				throw new StudieException(StudieException.STATUSFEHLER);
+			}
+			this.status = status;
+
+		}
 	}
 
 	/**
 	 * Liefert die ID der Studie.
+	 * 
 	 * @return id der Studie
 	 */
 	public long getId() {
@@ -315,54 +358,69 @@ public class StudieBean extends Filter {
 
 	/**
 	 * Setzt die ID der Studie.
-	 * @param id der Studie.
+	 * 
+	 * @param id
+	 *            der Studie.
 	 */
 	public void setId(long id) {
 		this.id = id;
 	}
 
 	/**
-	 * @return the benutzerkontoId
+	 * Uebergibt die Id des Benutzerkonto.
+	 * 
+	 * @return benutzerkontoId Id des Benutzerkonto.
 	 */
 	public long getBenutzerkontoId() {
 		return benutzerkontoId;
 	}
 
 	/**
-	 * @param benutzerkontoId the benutzerkontoId to set
+	 * Setzt die Id des Benutzerkonto.
+	 * 
+	 * @param benutzerkontoId
+	 *            Id des Benutzerkonto.
 	 */
 	public void setBenutzerkontoId(long benutzerkontoId) {
 		this.benutzerkontoId = benutzerkontoId;
 	}
 
 	/**
-	 * @return the randomisationId
+	 * Uebergibt die Id der Randomisation.
+	 * 
+	 * @return randomisationId Id der Randomisation.
 	 */
 	public long getRandomisationId() {
 		return randomisationId;
 	}
 
 	/**
-	 * @param randomisationId the randomisationId to set
+	 * Setzt die Id der Randomisation.
+	 * 
+	 * @param randomisationId
+	 *            Id der Randomisation.
 	 */
 	public void setRandomisationId(long randomisationId) {
 		this.randomisationId = randomisationId;
 	}
 
 	/**
-	 * @return the zentrumId
+	 * Uebergibt die Id des Zenturm.
+	 * 
+	 * @return zentrumId Id des Zentrum.
 	 */
 	public long getZentrumId() {
 		return zentrumId;
 	}
 
 	/**
-	 * @param zentrumId the zentrumId to set
+	 * Setzt die Id des Zentrum.
+	 * 
+	 * @param zentrumId
+	 *            Id des Zentrum.
 	 */
 	public void setZentrumId(long zentrumId) {
 		this.zentrumId = zentrumId;
 	}
-	
-	
 
 }
