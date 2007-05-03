@@ -11,7 +11,7 @@ package de.randi2.datenbank.exceptions;
 public class DatenbankFehlerException extends Exception {
 
 	/**
-	 * Konstate falls Argument null.
+	 * Konstante falls Argument null.
 	 */
 	public static final String ARGUMENT_IST_NULL = "Das uebergebene Argument ist null";
 
