@@ -6,7 +6,6 @@ import java.util.Vector;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Randomisation;
-import de.randi2.model.fachklassen.Status;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.datenbank.Filter;
@@ -87,17 +86,78 @@ public class StudieBean extends Filter {
 	private long benutzerkontoId = NullKonstanten.NULL_LONG;
 
 	/**
-	 * Status der Studie
+	 * Status der Studie.
 	 */
 	private Status status = null;
 
 	/**
-	 * Der Status der Studie.
-	 * 
-	 * @throws StudieException
-	 *             StudieException
+	 * Enumeration Status der Studie
 	 */
-	public StudieBean() throws StudieException {
+	public enum Status {
+
+		/**
+		 * Status aktiv
+		 */
+		AKTIV("aktiv"),
+		/**
+		 * Status in Vorbereitung
+		 */
+		INVORBEREITUNG("in Vorbereitung"),
+		/**
+		 * Status Studie beendet
+		 */
+		BEENDET("beendet");
+
+		/**
+		 * Den Status als String.
+		 */
+		private String status = null;
+
+		/**
+		 * Weist den String dem tatsaechlichen Status zu.
+		 * 
+		 * @param status
+		 *            Der Parameter enthaelt den Status-String.
+		 */
+		private Status(String status) {
+			this.status = status;
+		}
+
+		/**
+		 * Gibt den Status als String zurueck.
+		 * 
+		 * @return den Status
+		 */
+		
+		public String toString() {
+			return this.status;
+		}
+
+		/**
+		 * Ueberfuehrt einen String in das entsprechende Status-Element
+		 * 
+		 * @param status
+		 *            Status der Studie
+		 * @return Status in Form eines Enumelementes
+		 * @throws StudieException 
+		 *             StudieException
+		 */
+		public static Status parseStatus(String status) throws StudieException {
+
+			for (Status aStatus : Status.values()) {
+				if (status.equals(aStatus.toString())) {
+					return aStatus;
+				}
+			}
+			throw new StudieException(StudieException.STATUS_UNGUELTIG);
+		}
+	}
+
+	/**
+	 * leerer Konstruktor.
+	 * 
+	 */
+	public StudieBean() {
 
 	}
 
@@ -270,9 +330,11 @@ public class StudieBean extends Filter {
 	 * 
 	 * @param studienarme
 	 *            Studienarme
-	 * @throws StudieException StudieException
+	 * @throws StudieException
+	 *             StudieException
 	 */
-	public void setStudienarme(Vector<StudienarmBean> studienarme) throws StudieException{
+	public void setStudienarme(Vector<StudienarmBean> studienarme)
+			throws StudieException {
 
 	}
 
@@ -288,7 +350,8 @@ public class StudieBean extends Filter {
 	/**
 	 * Setzt den Pfad des Studienprotokolls.
 	 * 
-	 * @param studienprotokollPfad Pfad des Studienprotokolls
+	 * @param studienprotokollPfad
+	 *            Pfad des Studienprotokolls
 	 * 
 	 */
 	public void setStudienprotokollPfad(String studienprotokollPfad) {
@@ -332,7 +395,8 @@ public class StudieBean extends Filter {
 	 * 
 	 * @param status
 	 *            Status der Studie
-	 * @throws StudieException StudieException
+	 * @throws StudieException
+	 *             StudieException
 	 */
 	public void setStatus(Status status) throws StudieException {
 		boolean filter = false;
