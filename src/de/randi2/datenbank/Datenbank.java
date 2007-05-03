@@ -34,6 +34,7 @@ import de.randi2.utility.NullKonstanten;
 public class Datenbank implements DatenbankSchnittstelle{
 	//TODO es muss bei allen schreib zugriffen geloggt werden!!
 	//TODO Exception Handling.
+	//TODO Es gibt für sql TEXT kein Types Feld!!
 	
 	/**
 	 * Logging Objekt
@@ -45,23 +46,75 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * @author Frederik Reifschneider [Reifschneider@stud.uni-heidelberg.de]
 	 */
 	private enum Tabellen{	
-		//TODO neue Tabellen hinzufügen
+		/**
+		 * Die Repräsentation der Zentrumstabelle aus der Datenbank.
+		 */
 		ZENTRUM ("Zentrum"),
+		/**
+		 * Die Repräsentation der Personentabelle aus der Datenbank.
+		 */
 		PERSON ("Person"),
+		/**
+		 * Die Repräsentation der Benutzerkontotabelle aus der Datenbank.
+		 */
 		BENUTZERKONTO("Benutzerkonto"),
+		/**
+		 * Die Repräsentation der Aktivierungstabelle aus der Datenbank.
+		 */
 		AKTIVIERUNG("Aktivierung"),
+		/**
+		 * Die Repräsentation der Studienarmtabelle aus der Datenbank.
+		 */
 		STUDIENARM("Studiearm"),
+		/**
+		 * Die Repräsentation der Studientabelle aus der Datenbank.
+		 */
 		STUDIE("Studie"),
+		/**
+		 * Die Repräsentation der Statistiktabelle aus der Datenbank.
+		 */
 		STATISTIK("Statistik"),
+		/**
+		 * Die Repräsentation der Randomisationstabelle aus der Datenbank.
+		 */
 		RANDOMISATION("Randomisation"),
+		/**
+		 * Die Repräsentation der Patiententabelle aus der Datenbank.
+		 */
 		PATIENT("Patient"),
-		STUDIE_ZENTRUM("Studie_has_Zentrum");
+		/**
+		 * Die Repräsentation der Studie_has-Zentrum-Tablle aus der Datenbank (n:m-Relation).
+		 */
+		STUDIE_ZENTRUM("Studie_has_Zentrum"),
+		/**
+		 * Die Repräsentation der Strata_Typen-Tabelle aus der Datenbank.
+		 */
+		STRATA_TYPEN("Strata_Typen"),
+		/**
+		 * Die Repräsentation der Strata_Auspraegungs-Tabelle aus der Datenbank.
+		 */
+		STRATA_AUSPRAEGUNG("Strata_Auspraegung"),
+		/**
+		 * Die Repräsentation der Strata_Werte_has_Zentrum-Tabelle aus der Datenbank (n:m-Relation).
+		 */
+		STRATA_PATIENT("Strata_Werte_has_Patient");
 		
+		/**
+		 * Der Name der Tabellen.
+		 */
 		private String name = "";
+		/**
+		 * Konstruktor von Tabellen.
+		 * @param name der Name der Tabellen.
+		 */
 		private Tabellen(String name) {
 			this.name=name;
 		}
 		
+		/**
+		 * toString-Methode dieser Enum.
+		 * @return Liefert den Name der Tabelle.
+		 */
 		public String toString() {
 			return this.name;
 		}
@@ -1011,7 +1064,6 @@ public class Datenbank implements DatenbankSchnittstelle{
 					pstmt.setString(i++, studie.getBeschreibung());
 				}
 				else{
-					//FIXME Es gibt als Typ kein TEXT
 					pstmt.setNull(i++, Types.NULL);
 				}
 				pstmt.setDate(i++, new Date(studie.getStartDatum().getTimeInMillis()));
@@ -1052,7 +1104,6 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.setString(j++, studie.getBeschreibung());
 			}
 			else{
-				//FIXME Es gibt als Typ kein TEXT
 				pstmt.setNull(j++, Types.NULL);
 			}
 			pstmt.setDate(j++, new Date(studie.getStartDatum().getTimeInMillis()));
@@ -1111,7 +1162,6 @@ public class Datenbank implements DatenbankSchnittstelle{
 				if (studienarm.getBeschreibung() != "") {
 					pstmt.setString(i++, studienarm.getBeschreibung());
 				} else {
-					// FIXME Es gibt als Typ kein TEXT
 					pstmt.setNull(i++, Types.NULL);
 				}
 				pstmt.executeUpdate();
@@ -1142,7 +1192,6 @@ public class Datenbank implements DatenbankSchnittstelle{
 				if (studienarm.getBeschreibung() != "") {
 					pstmt.setString(j++, studienarm.getBeschreibung());
 				} else {
-					// FIXME Es gibt als Typ kein TEXT
 					pstmt.setNull(j++, Types.NULL);
 				}
 				pstmt.executeUpdate();
