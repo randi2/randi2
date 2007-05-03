@@ -40,6 +40,7 @@ public interface DatenbankSchnittstelle {
 	 *             <li>DatenbankFehlerException.SUCHOBJEKT_IST_KEIN_FILTER: Das
 	 *             Objekt, welches zum Suchen eingesetzt wurde, war kein Filter
 	 *             (vlg. {@link Filter})</li>
+	 *             <li>DatenbankFehlerException.CONNECTION_ERR</li>
 	 *             </ul>
 	 */
 	<T extends Filter> Vector<T> suchenObjekt(T zuSuchendesObjekt)
@@ -63,6 +64,8 @@ public interface DatenbankSchnittstelle {
 	 *             <ul>
 	 *             <li>DatenbankFehlerException.ARGUMENT_IST_NULL: Versuchter
 	 *             Methodenaufruf mit <code>null</code> </li>
+	 *             <li>DatenbankFehlerException.SCHREIBEN_ERR</li>
+	 *             <li>DatenbankFehlerException.CONNECTION_ERR</li>
 	 *             </ul>
 	 */
 	<T extends Filter> T schreibenObjekt(T zuSchreibendesObjekt)
@@ -86,6 +89,7 @@ public interface DatenbankSchnittstelle {
 	 *             <li>DatenbankFehlerException.ARGUMENT_IST_NULL: Versuchter
 	 *             Methodenaufruf mit <code>null</code> </li>
 	 *             <li>DatenbankFehlerException.ID_NICHT_VORHANDEN</li>
+	 *             <li>DatenbankFehlerException.CONNECTION_ERR</li>
 	 *             </ul>
 	 */
 	<T extends Filter> T suchenObjektID(long id, T nullObjekt)
@@ -114,6 +118,10 @@ public interface DatenbankSchnittstelle {
 	 *            bewirkt die Rueckgabe der gesamten Liste.
 	 * @return Die Liste der gefundenen Kinder.
 	 * @throws DatenbankFehlerException
+	 * 				Folgende Messages sind moeglich:
+	 * 				<ul>
+	 * 					<li>DatenbankFehlerException.CONNECTION_ERR</li>
+	 * 				</ul>
 	 */
 	<T extends Filter, U extends Filter> Vector<T> suchenMitgliederObjekte(
 			U vater, T kind) throws DatenbankFehlerException;
@@ -134,6 +142,7 @@ public interface DatenbankSchnittstelle {
 	 *             <li>DatenbankFehlerException.ARGUMENT_IST_NULL: Versuchter
 	 *             Methodenaufruf mit <code>null</code> </li>
 	 *             <li>DatenbankFehlerException.LOESCHEN_ERR</li>
+	 *             <li>DatenbankFehlerException.CONNECTION_ERR</li>
 	 *             </ul>
 	 */
 	<T extends Filter> void loeschenObjekt(T zuLoeschendesObjekt)
