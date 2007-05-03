@@ -2,19 +2,15 @@ SET AUTOCOMMIT=0;
 SET FOREIGN_KEY_CHECKS=0;
 START TRANSACTION;
 
-DROP TABLE IF EXISTS Person;
-DROP TABLE IF EXISTS Zentrum;
-DROP TABLE IF EXISTS Benutzerkonto;
-DROP TABLE IF EXISTS Aktivierung; 
-DROP TABLE IF EXISTS Studie;
-DROP TABLE IF EXISTS Patient;
-DROP TABLE IF EXISTS Studienarm;
-DROP TABLE IF EXISTS Studie_has_Zentrum;
-DROP TABLE IF EXISTS Strata_Auspraegung;
-DROP TABLE IF EXISTS Strata_Typen;
-DROP TABLE IF EXISTS Strata_Werte_has_Patient;
-DROP VIEW IF EXISTS Strata_von_Studienarm;
+DROP database IF EXISTS randi2;
 
+create database randi2;
+
+GRANT ALL PRIVILEGES ON randi2.* TO 'randi2'@'%'
+  IDENTIFIED BY 'randi2';
+
+USE randi2;
+  
 CREATE TABLE Person (
   personenID INT UNSIGNED NOT NULL AUTO_INCREMENT,
   stellvertreterID INT UNSIGNED NULL,
