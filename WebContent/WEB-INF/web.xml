@@ -39,7 +39,10 @@
 		<servlet-class>
 		de.randi2.controller.ZentrumServlet</servlet-class>
 	</servlet>
-	<servlet-mapping>
+		<listener>
+			<listener-class>de.randi2.controller.listener.SessionListener</listener-class>
+		</listener>
+		<servlet-mapping>
 		<servlet-name>BenutzerServlet</servlet-name>
 		<url-pattern>/BenutzerServlet</url-pattern>
 	</servlet-mapping>

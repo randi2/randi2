@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import de.randi2.controller.BenutzerServlet;
+import de.randi2.model.fachklassen.Recht;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.Config;
@@ -122,17 +123,17 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
          * Aufforderung, den Benutzer aus dem System abzumelden
          */
         AKTION_LOGOUT,
-        
+
         /**
          * Aufforderung, einen Admin mit den gesendeten Daten anzulegen
          */
         AKTION_ADMIN_ANLEGEN,
-        
+
         /**
          * Aufforderung, einen Studienleiter mit den gesendeten Daten anzulegen
          */
         AKTION_STUDIENLEITER_ANLEGEN
-        
+
     }
 
     /**
@@ -332,57 +333,98 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         } else if (id
                 .equals(DispatcherServlet.anfrage_id.AKTION_SYSTEM_ENTSPERREN
                         .name())) {
-            boolean bool = ((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer")).getRolle()==Rolle.getSysop();
-            // TODO nach Rolle des Benuzters checken! --BTheel
-            if (isBenutzerAngemeldet(request)) {
-                this.setSystemGesperrt(false);
-                Logger.getLogger(this.getClass()).debug(
-                        "Schalte System wieder frei");
-                LogAktion a = new LogAktion("System wurde entsperrt",
-                        (BenutzerkontoBean) request.getSession().getAttribute(
-                                "aBenutzer"));
-                Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
-                request.getRequestDispatcher("/system_sperren.jsp").forward(
-                        request, response);// TODO auf weiterleitung umlegen
+            if (!isBenutzerAngemeldet(request)) { // Benutzer nicht angemeldet
+                BenutzerkontoBean anonymous = new BenutzerkontoBean();
+                // FIXME FRAGE LogAktion mit String anstatt BenutzerkontoBean
+                // zum Loggen der IP?
+                // anonymous.setBenutzername("Unangemeldeter Benutzer [IP:
+                // "+request.getRemoteAddr()+"]");
+
+                LogAktion a = new LogAktion(
+                        "Versuchte Systemsperrung ohne Login", anonymous);
+                Logger.getLogger(LogLayout.RECHTEVERLETZUNG).warn(a);
                 return;
             }
-            Logger.getLogger(this.getClass()).warn(
-                    "Benutzer war nicht angemeldet beim System entsperren!");
+            if (!(((BenutzerkontoBean) request.getSession().getAttribute(
+                    "aBenutzer")).getRolle())
+                    .besitzenRolleRecht(Recht.Rechtenamen.SYSTEM_SPERREN)) {
+                // Der User besitzt keine entsprechenden Rechte
+                LogAktion a = new LogAktion(
+                        "Versuchte Systemsperrung ohne ausreichende Rechte"
+                                + getMeldungSystemGesperrt(),
+                        (BenutzerkontoBean) request.getSession().getAttribute(
+                                "aBenutzer"));
+                Logger.getLogger(LogLayout.RECHTEVERLETZUNG).warn(a);
+                return;
+            }
+            this.setSystemGesperrt(false);
+            Logger.getLogger(this.getClass()).debug(
+                    "Schalte System wieder frei");
+            LogAktion a = new LogAktion("System wurde entsperrt",
+                    (BenutzerkontoBean) request.getSession().getAttribute(
+                            "aBenutzer"));
+            Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
+            request.getRequestDispatcher("/system_sperren.jsp").forward(
+                    request, response);
             return;
+
         } else if (id.equals(DispatcherServlet.anfrage_id.AKTION_SYSTEM_SPERREN
                 .name())) {
-            if (isBenutzerAngemeldet(request)) {
-                this.setSystemGesperrt(true);
-                
-                
-                String meldung = StringEscapeUtils.escapeHtml((String) request.getParameter(requestParameter.MITTEILUNG_SYSTEM_GESPERRT.name()));
-                this.setMeldungSystemGesperrt(meldung);
+            if (!isBenutzerAngemeldet(request)) { // Benutzer nicht angemeldet
+                BenutzerkontoBean anonymous = new BenutzerkontoBean();
+                // FIXME FRAGE LogAktion mit String anstatt BenutzerkontoBean
+                // zum Loggen der IP?
+                // anonymous.setBenutzername("Unangemeldeter Benutzer [IP:
+                // "+request.getRemoteAddr()+"]");
 
-                Logger.getLogger(this.getClass()).debug(
-                        "Sperre System. Grund: '" + getMeldungSystemGesperrt()
-                                + "'");
-                LogAktion a = new LogAktion("System wurde gesperrt, Grund: "
-                        + getMeldungSystemGesperrt(),
-                        (BenutzerkontoBean) request.getSession().getAttribute(
-                                "aBenutzer"));
-                Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
-                request.getRequestDispatcher("/system_sperren.jsp").forward(
-                        request, response);// TODO auf weiterleitung umlegen
+                LogAktion a = new LogAktion(
+                        "Versuchte Systemsperrung ohne Login", anonymous);
+                Logger.getLogger(LogLayout.RECHTEVERLETZUNG).warn(a);
                 return;
             }
-            Logger.getLogger(this.getClass()).warn(
-                    "Benutzer war nicht angemeldet beim Systemsperren!");
+            if (!(((BenutzerkontoBean) request.getSession().getAttribute(
+                    "aBenutzer")).getRolle())
+                    .besitzenRolleRecht(Recht.Rechtenamen.SYSTEM_SPERREN)) {
+                // Der User besitzt keine entsprechenden Rechte
+                LogAktion a = new LogAktion(
+                        "Versuchte Systemsperrung ohne ausreichende Rechte"
+                                + getMeldungSystemGesperrt(),
+                        (BenutzerkontoBean) request.getSession().getAttribute(
+                                "aBenutzer"));
+                Logger.getLogger(LogLayout.RECHTEVERLETZUNG).warn(a);
+                return;
+            }
+            this.setSystemGesperrt(true);
+
+            String meldung = StringEscapeUtils.escapeHtml((String) request
+                    .getParameter(requestParameter.MITTEILUNG_SYSTEM_GESPERRT
+                            .name()));
+            this.setMeldungSystemGesperrt(meldung);
+
+            Logger.getLogger(this.getClass()).debug(
+                    "Sperre System. Grund: '" + getMeldungSystemGesperrt()
+                            + "'");
+            LogAktion a = new LogAktion("System wurde gesperrt, Grund: '"
+                    + getMeldungSystemGesperrt() + "'",
+                    (BenutzerkontoBean) request.getSession().getAttribute(
+                            "aBenutzer"));
+            Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
+            request.getRequestDispatcher("/system_sperren.jsp").forward(
+                    request, response);
             return;
         } else if (id.equals(DispatcherServlet.anfrage_id.JSP_SYSTEM_SPERREN
                 .name())) {
             weiterleitungSystemSperrung(request, response);
             return;
-        }else if(id.equals(anfrage_id.AKTION_ADMIN_ANLEGEN.name())){
-            Logger.getLogger(this.getClass()).debug("Leite Anfrage an BenutzerServlet weiter");
-            request.setAttribute("anfrage_id", BenutzerServlet.anfrage_id.AKTION_BENUTZER_ANLEGEN.name());
-            request.getRequestDispatcher("BenutzerServlet").forward(request, response);
+        } else if (id.equals(anfrage_id.AKTION_ADMIN_ANLEGEN.name())) {
+            Logger.getLogger(this.getClass()).debug(
+                    "Leite Anfrage an BenutzerServlet weiter");
+            request.setAttribute("anfrage_id",
+                    BenutzerServlet.anfrage_id.AKTION_BENUTZER_ANLEGEN.name());
+            request.getRequestDispatcher("BenutzerServlet").forward(request,
+                    response);
         }
-            
+
         // [end]
         // WEITERLEITUNGEN FUER ZENTRUMSERVLET
         // [start]
@@ -400,8 +442,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
     /**
      * 
-     * Prueft, ob die ubermittelte SessionID noch gueltig ist und ob
-     * an der Session ein Benutzer angehaengt ist.<br>
+     * Prueft, ob die ubermittelte SessionID noch gueltig ist und ob an der
+     * Session ein Benutzer angehaengt ist.<br>
      * Ist dies der Fall, so ist der Benutzer im System angemeldet.
      * 
      * @param request
@@ -528,7 +570,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
                 response);
 
     }
-    
+
     /**
      * @return the istSystemGesperrt
      */

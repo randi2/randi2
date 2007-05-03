@@ -98,7 +98,7 @@ public class Config {
 			e.printStackTrace();
 		}
 		DispatcherServlet aDispatcherServlet = new DispatcherServlet();
-		aDispatcherServlet.setIstSystemGesperrt(true);
+		aDispatcherServlet.setSystemGesperrt(true); //angepasst an Aendungen in Servlet 
 		aDispatcherServlet.setMeldungSystemGesperrt(fehlermeldung);
 		return false;
 	}
@@ -126,7 +126,7 @@ public class Config {
 			e.printStackTrace();
 		}
 		DispatcherServlet aDispatcherServlet = new DispatcherServlet();
-		aDispatcherServlet.setIstSystemGesperrt(false);
+		aDispatcherServlet.setSystemGesperrt(false);//angepasst an Aendungen in Servlet 
 		aDispatcherServlet.setMeldungSystemGesperrt("");
 		return false;
 	}

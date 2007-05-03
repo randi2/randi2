@@ -47,11 +47,12 @@
 <% } %>
 <% if (aRolleMenue==Rolle.Rollen.SYSOP || aRolleMenue==Rolle.Rollen.ADMIN) { %>
 <ul>
-	<li class="top_m">Systemadministration</li>
 	<% if (aRolleMenue==Rolle.Rollen.SYSOP) { %>		
+	<li class="top_m"><a href="systemadministration.jsp">Systemadministration</a></li>
 	<li class="last"><a class="sub_SA n entry" href="system_sperren.jsp">System sperren</a></li>
 	<li class="last"><a class="sub_SA n entry" href="admin_anlegen.jsp">Admin anlegen</a></li>
 	<% } else { %>
+	<li class="top_m">Systemadministration</li>
 	<li class="last"><a class="sub_SA n entry" href="studienleiter_anlegen.jsp">Studienleiter anlegen</a></li>
 	<% } %>
 </ul>
