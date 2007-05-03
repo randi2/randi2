@@ -1267,17 +1267,20 @@ public class Datenbank implements DatenbankSchnittstelle{
 	@SuppressWarnings("unchecked")
 	public <T extends Filter> T suchenObjektID(long id, T nullObjekt) throws DatenbankFehlerException {
 		if (nullObjekt instanceof PersonBean) {
-			PersonBean person = suchenPersonID(id);
+			PersonBean person = this.suchenPersonID(id);
 			return (T) person;
 		}
 		if (nullObjekt instanceof ZentrumBean) {
-			ZentrumBean zentrum = suchenZentrumID(id);
+			ZentrumBean zentrum = this.suchenZentrumID(id);
 			return (T) zentrum;			
 		}
 		if (nullObjekt instanceof BenutzerkontoBean) {
-			BenutzerkontoBean benutzerkonto = suchenBenutzerkontoID(id);
-			return (T) benutzerkonto;
-			
+			BenutzerkontoBean benutzerkonto = this.suchenBenutzerkontoID(id);
+			return (T) benutzerkonto;	
+		}
+		if (nullObjekt instanceof AktivierungBean) {
+			AktivierungBean aktivierung = this.suchenAktivierungID(id);
+			return (T) aktivierung;
 		}
 		return null;
 	}
@@ -1413,8 +1416,13 @@ public class Datenbank implements DatenbankSchnittstelle{
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, id);
 			rs = pstmt.executeQuery();
-
-			//TODO Bean erstellen, jedoch vorher Konstruktor-Design abklären.
+// TODO Konstruktor von BenutzerkontoBean stimmt immer noch nicht FIXT DAS IHR HUNDE!
+//			benutzerkonto = new BenutzerkontoBean (rs.getString(FelderBenutzerkonto.LOGINNAME.toString()),
+//									rs.getString(FelderBenutzerkonto.PASSWORT.toString()),
+//									rs.getString(FelderBenutzerkonto.ROLLEACCOUNT.toString()),
+//									rs.getLong(FelderBenutzerkonto.ID.toString()),
+//									rs.getBoolean(FelderBenutzerkonto.GESPERRT.toString()),
+//									rs.getLong(FelderBenutzerkonto.))
 			
 			rs.close();
 			pstmt.close();
@@ -1430,6 +1438,55 @@ public class Datenbank implements DatenbankSchnittstelle{
 			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
 		}
 		return benutzerkonto;
+	}
+	
+	/**
+	 * Sucht in der Datenbank nach dem zur ID zugehörigen Aktivierungseigenschaften.
+	 * @param id zu suchende ID.
+	 * @return Aktivierung mit zugehöriger ID, null falls keine Aktivierung mit entsprechender ID gefunden wurde.
+	 * @throws DatenbankFehlerException falls bei der Suche ein Fehler auftrat.
+	 */
+	private AktivierungBean suchenAktivierungID(long id) throws DatenbankFehlerException {
+		Connection con = null;
+		String sql = "";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		GregorianCalendar cal = new GregorianCalendar();
+		AktivierungBean aktivierung = null;
+		
+		try {
+			con = this.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		
+		sql = "SELECT * FROM "+ Tabellen.AKTIVIERUNG + " WHERE " + FelderAktivierung.ID + " =?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				cal.setTime(rs.getDate(FelderAktivierung.VERSANDDATUM.toString()));
+				aktivierung = new AktivierungBean(rs.getLong(FelderAktivierung.ID.toString()),
+						cal,
+						rs.getLong(FelderAktivierung.BENUTZER.toString()),
+						rs.getString(FelderAktivierung.LINK.toString()));			
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.SUCHEN_ERR);
+		}
+		
+		try {
+			this.closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		return aktivierung;
 	}
 	
 	/**
