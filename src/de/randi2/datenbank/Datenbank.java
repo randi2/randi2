@@ -1,5 +1,4 @@
 package de.randi2.datenbank;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -313,18 +312,29 @@ public class Datenbank implements DatenbankSchnittstelle{
 	/**
 	 * Loescht das übergebene Zentrumsobjekt aus der Datenbank.
 	 * @param zentrum zu löschendes ZentrumBean.
-	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
 	private void loeschenZentrum(ZentrumBean zentrum) throws DatenbankFehlerException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
 		sql = "DELETE FROM "+ Tabellen.ZENTRUM + " WHERE " + FelderZentrum.ID +"=?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, zentrum.getId());
 			pstmt.executeUpdate(sql);
 			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.LOESCHEN_ERR);
+		}
+		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -335,18 +345,29 @@ public class Datenbank implements DatenbankSchnittstelle{
 	/**
 	 * Loescht das übergebene Personenobjekt aus der Datenbank.
 	 * @param person zu löschendes PersonBean.
-	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
 	private void loeschenPerson(PersonBean person) throws DatenbankFehlerException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
 		sql = "DELETE FROM "+ Tabellen.PERSON + " WHERE " + FelderPerson.ID +"=?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, person.getId());
 			pstmt.executeUpdate(sql);
 			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.LOESCHEN_ERR);
+		}
+		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -357,18 +378,29 @@ public class Datenbank implements DatenbankSchnittstelle{
 	/**
 	 * Loescht das übergebene Benutzerkontenobjekt aus der Datenbank.
 	 * @param benutzer zu löschendes BenutzerkontoBean.
-	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
 	private void loeschenBenutzerkonto(BenutzerkontoBean benutzer) throws DatenbankFehlerException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
 		sql = "DELETE FROM "+ Tabellen.BENUTZERKONTO + " WHERE " + FelderBenutzerkonto.ID +"=?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, benutzer.getId());
 			pstmt.executeUpdate(sql);
 			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.LOESCHEN_ERR);
+		}
+		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -379,18 +411,29 @@ public class Datenbank implements DatenbankSchnittstelle{
 	/**
 	 * Loescht das übergebene Aktivierungsobjekt aus der Datenbank.
 	 * @param aktivierung zu löschendes AktivierungBean.
-	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
 	private void loeschenAktivierung(AktivierungBean aktivierung) throws DatenbankFehlerException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
 		sql = "DELETE FROM "+ Tabellen.AKTIVIERUNG + " WHERE " + FelderAktivierung.ID +"=?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, aktivierung.getAktivierungsId());
 			pstmt.executeUpdate(sql);
 			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.LOESCHEN_ERR);
+		}
+		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -401,18 +444,29 @@ public class Datenbank implements DatenbankSchnittstelle{
 	/**
 	 * Loescht das übergebene Studienobjekt aus der Datenbank.
 	 * @param studie zu löschendes StudieBean.
-	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
 	private void loeschenStudie(StudieBean studie) throws DatenbankFehlerException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
 		sql = "DELETE FROM "+ Tabellen.STUDIE + " WHERE " + FelderStudie.ID +"=?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, studie.getId());
 			pstmt.executeUpdate(sql);
 			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.LOESCHEN_ERR);
+		}
+		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -423,18 +477,29 @@ public class Datenbank implements DatenbankSchnittstelle{
 	/**
 	 * Loescht das übergebene Studienarmobjekt aus der Datenbank.
 	 * @param studienarm zu löschendes StudienarmBean.
-	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
 	private void loeschenStudienarm(StudienarmBean studienarm) throws DatenbankFehlerException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
 		sql = "DELETE FROM "+ Tabellen.STUDIENARM + " WHERE " + FelderStudienarm.ID +"=?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, studienarm.getId());
 			pstmt.executeUpdate(sql);
 			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.LOESCHEN_ERR);
+		}
+		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -445,18 +510,29 @@ public class Datenbank implements DatenbankSchnittstelle{
 	/**
 	 * Loescht das übergebene Patientenobjekt aus der Datenbank.
 	 * @param patient zu löschendes PatientBean.
-	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
 	private void loeschenPatient(PatientBean patient) throws DatenbankFehlerException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
 		sql = "DELETE FROM "+ Tabellen.PATIENT + " WHERE " + FelderPatient.ID +"=?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, patient.getId());
 			pstmt.executeUpdate(sql);
 			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.LOESCHEN_ERR);
+		}
+		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -468,11 +544,12 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#schreibenObjekt(de.randi2.datenbank.Filter)
 	 */
+	@SuppressWarnings("unchecked")
 	public <T extends Filter> T schreibenObjekt(T zuSchreibendesObjekt) throws DatenbankFehlerException {
 		if(zuSchreibendesObjekt == null){
 			throw new DatenbankFehlerException(DatenbankFehlerException.ARGUMENT_IST_NULL);
 		} else {
-//			ZentrumBean schreiben
+			//ZentrumBean schreiben
 			if (zuSchreibendesObjekt instanceof ZentrumBean) {
 				ZentrumBean zentrum = (ZentrumBean) zuSchreibendesObjekt;	
 				return (T) schreibenZentrum(zentrum);
@@ -519,7 +596,6 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private PersonBean schreibenPerson(PersonBean person) throws DatenbankFehlerException {
-		//TODO Logging
 		Connection con=null; 
 		try {
 			con = getConnection();
@@ -621,7 +697,6 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * @throws DatenbankFehlerException wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private ZentrumBean schreibenZentrum(ZentrumBean zentrum) throws DatenbankFehlerException {
-		//TODO Logging
 		Connection con=null;
 		try {
 			con = getConnection();
@@ -720,11 +795,8 @@ public class Datenbank implements DatenbankSchnittstelle{
 	private BenutzerkontoBean schreibenBenutzerKonto(BenutzerkontoBean benutzerKonto) throws DatenbankFehlerException{
 		Connection con = null;
 		String sql = "";
-		String calFirst = "";
-		String calLast = "";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		Date datum = null;
 		try{
 			con = this.getConnection();
 		}catch(SQLException e){
@@ -751,18 +823,14 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.setString(i++, benutzerKonto.getBenutzername());
 				pstmt.setString(i++, benutzerKonto.getPasswort());
 				pstmt.setString(i++, benutzerKonto.getRolle().getName());
-				//TODO Datum-Konvertierung ändern.
-				//pstmt.setDate(i++, new Date(benutzerKonto.getErsterLogin().getTimeInMillis()));
 				if(benutzerKonto.getErsterLogin()!= null){
-					calFirst = this.getSqlDateByGregorianCalendar(benutzerKonto.getErsterLogin());
-					pstmt.setDate(i++, java.sql.Date.valueOf(calFirst));
+					pstmt.setDate(i++, new Date(benutzerKonto.getErsterLogin().getTimeInMillis()));
 				}
 				else{
 					pstmt.setNull(i++, Types.DATE);
 				}
 				if(benutzerKonto.getLetzterLogin()!=null){
-					calLast = this.getSqlDateByGregorianCalendar(benutzerKonto.getLetzterLogin());
-					pstmt.setDate(i++, java.sql.Date.valueOf(calLast));
+					pstmt.setDate(i++, new Date(benutzerKonto.getLetzterLogin().getTimeInMillis()));
 				}
 				else{
 					pstmt.setNull(i++, Types.DATE);
@@ -799,15 +867,13 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.setString(j++, benutzerKonto.getPasswort());
 				pstmt.setString(j++, benutzerKonto.getRolle().getName());
 				if(benutzerKonto.getErsterLogin()!= null){
-					calFirst = this.getSqlDateByGregorianCalendar(benutzerKonto.getErsterLogin());
-					pstmt.setDate(j++, java.sql.Date.valueOf(calFirst));
+					pstmt.setDate(j++, new Date(benutzerKonto.getErsterLogin().getTimeInMillis()));
 				}
 				else{
 					pstmt.setNull(j++, Types.DATE);
 				}
 				if(benutzerKonto.getLetzterLogin()!=null){
-					calLast = this.getSqlDateByGregorianCalendar(benutzerKonto.getLetzterLogin());
-					pstmt.setDate(j++, java.sql.Date.valueOf(calLast));
+					pstmt.setDate(j++, new Date(benutzerKonto.getLetzterLogin().getTimeInMillis()));
 				}
 				else{
 					pstmt.setNull(j++, Types.DATE);
@@ -840,7 +906,6 @@ public class Datenbank implements DatenbankSchnittstelle{
 	private AktivierungBean schreibenAktivierung(AktivierungBean aktivierung) throws DatenbankFehlerException{
 		Connection con = null;
 		String sql = "";
-		String cal = "";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -849,8 +914,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 			e.printStackTrace();
 			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
 		}
-		if(aktivierung.getAktivierungsId() == NullKonstanten.NULL_LONG)
-		{
+		if(aktivierung.getAktivierungsId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
 			long id = Long.MIN_VALUE;
 			sql = "INSERT INTO " + Tabellen.AKTIVIERUNG + " (" +
@@ -863,8 +927,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, aktivierung.getBenutzerkonto().getId());
 				pstmt.setString(i++, aktivierung.getAktivierungsLink());
-				cal = this.getSqlDateByGregorianCalendar(aktivierung.getVersanddatum());
-				pstmt.setDate(i++, java.sql.Date.valueOf(cal));
+				pstmt.setDate(i++, new Date(aktivierung.getVersanddatum().getTimeInMillis()));
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
 				rs.next();
@@ -889,8 +952,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, aktivierung.getBenutzerkonto().getId());
 				pstmt.setString(j++, aktivierung.getAktivierungsLink());
-				cal = this.getSqlDateByGregorianCalendar(aktivierung.getVersanddatum());
-				pstmt.setDate(j++, java.sql.Date.valueOf(cal));
+				pstmt.setDate(j++, new Date(aktivierung.getVersanddatum().getTimeInMillis()));
 				pstmt.setLong(j++, aktivierung.getAktivierungsId());
 				pstmt.executeUpdate();
 				pstmt.close();
@@ -919,11 +981,8 @@ public class Datenbank implements DatenbankSchnittstelle{
 	private StudieBean schreibenStudie(StudieBean studie) throws DatenbankFehlerException{
 		Connection con = null;
 		String sql = "";
-		String calStart = "";
-		String calEnde = "";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		Blob protokoll = null;
 		try {
 			con = this.getConnection();
 		} catch (SQLException e) {
@@ -955,12 +1014,9 @@ public class Datenbank implements DatenbankSchnittstelle{
 					//FIXME Es gibt als Typ kein TEXT
 					pstmt.setNull(i++, Types.NULL);
 				}
-				calStart = this.getSqlDateByGregorianCalendar(studie.getStartDatum());
-				pstmt.setDate(i++, java.sql.Date.valueOf(calStart));
-				calEnde = this.getSqlDateByGregorianCalendar(studie.getEndDatum());
-				pstmt.setDate(i++, java.sql.Date.valueOf(calEnde));
-				//TODO BLOB/InputStrean Handling!!!
-				pstmt.setBlob(i++, protokoll);
+				pstmt.setDate(i++, new Date(studie.getStartDatum().getTimeInMillis()));
+				pstmt.setDate(i++, new Date(studie.getEndDatum().getTimeInMillis()));
+				pstmt.setString(i++, studie.getStudienprotokollpfad());
 				pstmt.setString(i++, studie.getRandomisationseigenschaften().toString());
 				pstmt.setInt(i++, studie.getStatus());
 				pstmt.executeUpdate();
@@ -999,12 +1055,9 @@ public class Datenbank implements DatenbankSchnittstelle{
 				//FIXME Es gibt als Typ kein TEXT
 				pstmt.setNull(j++, Types.NULL);
 			}
-			calStart = this.getSqlDateByGregorianCalendar(studie.getStartDatum());
-			pstmt.setDate(j++, java.sql.Date.valueOf(calStart));
-			calEnde = this.getSqlDateByGregorianCalendar(studie.getEndDatum());
-			pstmt.setDate(j++, java.sql.Date.valueOf(calEnde));
-			//TODO BLOB/InputStrean Handling!!!
-			pstmt.setBlob(j++, protokoll);
+			pstmt.setDate(j++, new Date(studie.getStartDatum().getTimeInMillis()));
+			pstmt.setDate(j++, new Date(studie.getEndDatum().getTimeInMillis()));
+			pstmt.setString(j++, studie.getStudienprotokollpfad());
 			pstmt.setString(j++, studie.getRandomisationseigenschaften().toString());
 			pstmt.setInt(j++, studie.getStatus());
 			pstmt.executeUpdate();
@@ -1117,8 +1170,6 @@ public class Datenbank implements DatenbankSchnittstelle{
 	private PatientBean schreibenPatient(PatientBean patient) throws DatenbankFehlerException {
 		Connection con = null;
 		String sql = "";
-		String gebDatum = "";
-		String aDatum = "";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -1146,11 +1197,9 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.setLong(i++, patient.getBenutzerkonto().getId());
 				pstmt.setLong(i++, patient.getStudienarm().getId());
 				pstmt.setString(i++, patient.getInitialen());
-				gebDatum = this.getSqlDateByGregorianCalendar(patient.getGeburtsdatum());
-				pstmt.setDate(i++, java.sql.Date.valueOf(gebDatum));
+				pstmt.setDate(i++, new Date(patient.getGeburtsdatum().getTimeInMillis()));
 				pstmt.setString(i++, Character.toString(patient.getGeschlecht()));	
-				aDatum = this.getSqlDateByGregorianCalendar(patient.getDatumAufklaerung());
-				pstmt.setDate(i++, java.sql.Date.valueOf(aDatum));
+				pstmt.setDate(i++, new Date(patient.getDatumAufklaerung().getTimeInMillis()));
 				pstmt.setFloat(i++, patient.getKoerperoberflaeche());
 				pstmt.setInt(i++, patient.getPerformanceStatus());
 				pstmt.executeUpdate();
@@ -1182,11 +1231,9 @@ public class Datenbank implements DatenbankSchnittstelle{
 				pstmt.setLong(j++, patient.getBenutzerkonto().getId());
 				pstmt.setLong(j++, patient.getStudienarm().getId());
 				pstmt.setString(j++, patient.getInitialen());
-				gebDatum = this.getSqlDateByGregorianCalendar(patient.getGeburtsdatum());
-				pstmt.setDate(j++, java.sql.Date.valueOf(gebDatum));
+				pstmt.setDate(j++, new Date(patient.getGeburtsdatum().getTimeInMillis()));
 				pstmt.setString(j++, Character.toString(patient.getGeschlecht()));	
-				aDatum = this.getSqlDateByGregorianCalendar(patient.getDatumAufklaerung());
-				pstmt.setDate(j++, java.sql.Date.valueOf(aDatum));
+				pstmt.setDate(j++, new Date(patient.getDatumAufklaerung().getTimeInMillis()));
 				pstmt.setFloat(j++, patient.getKoerperoberflaeche());
 				pstmt.setInt(j++, patient.getPerformanceStatus());
 				pstmt.executeUpdate();
@@ -1204,28 +1251,12 @@ public class Datenbank implements DatenbankSchnittstelle{
 		}
 		return null;
 	}
-	
-	
-	/**
-     * Konvertiert ein Objekt vom Typ GregorianCalendar in einen String im SQL-Date-Format
-     * @param calendar ist das Objekt als GregorianCalendar
-     * @return ein String im SQL-Date-Format
-     */
-    private String getSqlDateByGregorianCalendar(GregorianCalendar calendar)
-    {
-        String cal;
-        cal = calendar.get(java.util.Calendar.YEAR) + "-" +
-              calendar.get(java.util.Calendar.MONTH) + "-" +
-              calendar.get(java.util.Calendar.DAY_OF_MONTH);
-        return cal;
-    }
 
 	/**
 	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenObjekt(de.randi2.datenbank.Filter)
 	 */
 	public <T extends Filter> Vector<T> suchenObjekt(T zuSuchendesObjekt) throws DatenbankFehlerException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -1233,6 +1264,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenObjektID(long, de.randi2.datenbank.Filter)
 	 */
+	@SuppressWarnings("unchecked")
 	public <T extends Filter> T suchenObjektID(long id, T nullObjekt) throws DatenbankFehlerException {
 		if (nullObjekt instanceof PersonBean) {
 			PersonBean person = suchenPersonID(id);
@@ -1256,7 +1288,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 	 * 			zu suchende ID.
 	 * @return
 	 * 			Person mit zutreffender ID, null falls keine Person mit entsprechender ID gefunden wurde.
-	 * @throws DatenbankFehlerException 
+	 * @throws DatenbankFehlerException Falls bei der Suche ein Fehler auftrat.
 	 */
 	private PersonBean suchenPersonID(long id) throws DatenbankFehlerException {
 		Connection con=null;
@@ -1408,7 +1440,7 @@ public class Datenbank implements DatenbankSchnittstelle{
 		if (vater instanceof ZentrumBean && kind instanceof PersonBean) {
 			ZentrumBean zentrum = (ZentrumBean) vater;
 			PersonBean ansprechpartner = suchenAnsprechpartner(zentrum.getAnsprechpartnerId());
-			Vector<T> personVec = new Vector();
+			Vector<T> personVec = new Vector<T>();
 			personVec.add((T)ansprechpartner);
 			return personVec;
 		}

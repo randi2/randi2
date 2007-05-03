@@ -103,6 +103,8 @@ public class ZentrumBean extends Filter {
 	 *            entspricht.
 	 * @param passwortHash
 	 *            String - Passwort bereits gehasht.
+	 * @param istAktiviert 
+	 * 			  Der Status des Zentrum - aktiv / inaktiv.
 	 */
 	public ZentrumBean(long id, String institution, String abteilung,
 			String ort, String plz, String strasse, String hausnr,
