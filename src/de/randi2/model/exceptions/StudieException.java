@@ -6,7 +6,7 @@
  * @version $Id$
  *
  */
-public class StudieException extends Randi2Exception {
+public class StudieException extends BenutzerException {
 	
 	/**
 	 * Diese Konstante wird uebergeben, wenn das Datum nicht in der Zukunft liegt.

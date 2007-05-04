@@ -17,7 +17,7 @@ import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
-import de.randi2.model.exceptions.Randi2Exception;
+import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PatientBean;
@@ -1538,7 +1538,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (Randi2Exception f) {
+		} catch (BenutzerException f) {
 			throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
 		}
 		try {
@@ -1703,7 +1703,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			e.printStackTrace();
 			throw new DatenbankFehlerException(
 					DatenbankFehlerException.SUCHEN_ERR);
-		} catch (Randi2Exception e) {
+		} catch (BenutzerException e) {
 			throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
 		}
 
@@ -1825,7 +1825,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			e.printStackTrace();
 			throw new DatenbankFehlerException(
 					DatenbankFehlerException.SUCHEN_ERR);
-		} catch(Randi2Exception e) {
+		} catch(BenutzerException e) {
 			e.printStackTrace();
 			throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
 		}
@@ -1921,7 +1921,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 													rs.getInt(FelderPatient.STUDIENARM.toString()),
 													rs.getLong(FelderPatient.BENUTZER.toString()));
 													
-				} catch (Randi2Exception e) {		
+				} catch (BenutzerException e) {		
 					e.printStackTrace();
 					throw new DatenbankFehlerException(
 							DatenbankFehlerException.UNGUELTIGE_DATEN);

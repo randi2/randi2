@@ -10,7 +10,7 @@ package de.randi2.model.exceptions;
  * @version $Id: PersonException.java 1287 2007-02-05 14:42:00Z twillert $
  * 
  */
-public class PersonException extends Randi2Exception {
+public class PersonException extends BenutzerException {
 
 	/*
 	 * Die einzelnen Konstanten werde sich auch im Laufe der Arbeit ergeben.

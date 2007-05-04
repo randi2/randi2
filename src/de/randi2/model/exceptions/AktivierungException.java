@@ -6,7 +6,7 @@ package de.randi2.model.exceptions;
  * @version $Id$
  *
  */
-public class AktivierungException extends Randi2Exception{
+public class AktivierungException extends BenutzerException{
 	
 	/**
 	 * 

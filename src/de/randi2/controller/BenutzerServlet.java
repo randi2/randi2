@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
-import de.randi2.model.exceptions.Randi2Exception;
+import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Zentrum;
@@ -434,7 +434,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    request.getRequestDispatcher("/benutzer_anlegen_vier.jsp").forward(request, response);
 
 	// Falls ein Fehler aufgetreten ist, request wieder auffüllen
-	} catch (Randi2Exception e) {
+	} catch (BenutzerException e) {
 
 	    
 	    request.setAttribute("Vorname", vorname);
