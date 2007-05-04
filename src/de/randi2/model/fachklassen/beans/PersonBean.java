@@ -1,7 +1,6 @@
 package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.utility.NullKonstanten;
