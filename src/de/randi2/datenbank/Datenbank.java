@@ -17,6 +17,7 @@ import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.exceptions.Randi2Exception;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PatientBean;
@@ -1410,7 +1411,142 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	public <T extends Filter> Vector<T> suchenObjekt(T zuSuchendesObjekt)
 			throws DatenbankFehlerException {
+		//pruefe ob Argument ungleich null ist
+		if(zuSuchendesObjekt == null) {
+			throw new DatenbankFehlerException(DatenbankFehlerException.ARGUMENT_IST_NULL);
+		}//pruefe ob Filter auf true gesetzt ist
+		if(!zuSuchendesObjekt.isFilter()) {
+			throw new DatenbankFehlerException(DatenbankFehlerException.SUCHOBJEKT_IST_KEIN_FILTER);
+		}
+		
+		if (zuSuchendesObjekt instanceof PersonBean) {
+			return suchenPerson((PersonBean) zuSuchendesObjekt);
+		}
+		
 		return null;
+	}
+	
+	
+	/**
+	 * Sucht alle Personen aus der Tabelle {@link Tabellen#PERSON} welche den Kritieren den Filters entsprechen
+	 * @param <T>
+	 * @param person
+	 * 			PersonBean Objekt welches als Filter dient. Es wird nach allen Attribute ungleich 
+	 * 			den Nullkonstanten in der Datenbank gesucht
+	 * @return
+	 * 			Vector mit gefundenen Personen
+	 * @throws DatenbankFehlerException 
+	 * 			siehe {@link DatenbankSchnittstelle#suchenObjekt(Filter)}
+	 * 			
+	 */
+	private <T extends Filter> Vector<T> suchenPerson(PersonBean person) throws DatenbankFehlerException {
+		Connection con;
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		PreparedStatement pstmt;
+		ResultSet rs;
+		PersonBean tmpPerson;
+		Vector<T> personVec = new Vector<T>();
+		//erstellen der SQL Abfrage
+		String sql ="SELECT * FROM "+Tabellen.PERSON.toString()+" WHERE ";
+		if(person.getNachname()!=null) { 
+			sql +=FelderPerson.NACHNAME.toString()+" LIKE ?% AND ";
+		}
+		else {//falls Nachname nicht gesetzt ist, fuehrt das TRUE OR dazu das die Bedingung in dem Fall immer wahr ist
+			sql+= "(TRUE OR " + FelderPerson.NACHNAME.toString()+" LIKE ?% AND ";
+		}
+		if(person.getVorname()!=null) {
+			sql +=FelderPerson.VORNAME.toString()+" LIKE ?% AND ";
+		}
+		else {
+			sql+= "(TRUE OR " + FelderPerson.VORNAME.toString()+" LIKE ?%) AND ";
+		}
+		if(person.getTitel()!=null) {
+			sql +=FelderPerson.TITEL.toString()+" LIKE ?% AND ";
+		}
+		else {
+			sql+= "(TRUE OR " + FelderPerson.TITEL.toString()+" LIKE ?%) AND ";
+		}
+		if(person.getGeschlecht()!=NullKonstanten.NULL_CHAR) {
+			sql +=FelderPerson.GESCHLECHT.toString()+" LIKE ?% AND ";
+		}
+		else {
+			sql+= "(TRUE OR " + FelderPerson.GESCHLECHT.toString()+" LIKE ?%) AND ";
+		}
+		if(person.getTelefonnummer()!=null) {
+			sql +=FelderPerson.TELEFONNUMMER.toString()+" LIKE ?% AND ";
+		}
+		else {
+			sql+= "(TRUE OR " + FelderPerson.TELEFONNUMMER.toString()+" LIKE ?%) AND ";
+		}
+		if(person.getHandynummer()!=null) {
+			sql +=FelderPerson.HANDYNUMMER.toString()+" LIKE ?% AND ";
+		}
+		else {
+			sql+= "(TRUE OR " + FelderPerson.HANDYNUMMER.toString()+" LIKE ?%) AND ";
+		}
+		if(person.getFax()!=null) {
+			sql +=FelderPerson.FAX.toString()+" LIKE ?% AND ";
+		}
+		else {
+			sql+= "(TRUE OR " + FelderPerson.FAX.toString()+" LIKE ?%) AND ";
+		}
+		if(person.getEmail()!=null) {
+			sql +=FelderPerson.EMAIL.toString()+"LIKE ?% AND ";
+		}
+		else {
+			sql+= "(TRUE OR " + FelderPerson.EMAIL.toString()+" LIKE ?%) AND ";
+		}//wird nach der StellvertreterId ueberhaupt gesucht?
+		if(person.getStellvertreterID()!=NullKonstanten.NULL_LONG) {
+			sql +=FelderPerson.STELLVERTRETER.toString()+" LIKE ?%";
+		}
+		else {
+			sql+= "(TRUE OR " + FelderPerson.STELLVERTRETER.toString()+"LIKE ?%)";
+		}
+		try {
+			//Prepared Statement erzeugen
+			pstmt = con.prepareStatement(sql);
+			int index = 1;
+			pstmt.setString(index++, person.getNachname());
+			pstmt.setString(index++, person.getVorname());
+			pstmt.setString(index++, person.getTitel().toString());
+			pstmt.setString(index++, Character.toString(person.getGeschlecht()));
+			pstmt.setString(index++, person.getTelefonnummer());
+			pstmt.setString(index++, person.getHandynummer());
+			pstmt.setString(index++, person.getFax());
+			pstmt.setString(index++, person.getEmail());
+			pstmt.setLong(index++, person.getStellvertreterID());
+			rs = pstmt.executeQuery();
+			//durchlaufe ResultSet
+			while(rs.next()) {
+				//erstelle PersonBeans
+				tmpPerson = new PersonBean(rs.getLong(FelderPerson.ID.toString()), 
+						rs.getString(FelderPerson.NACHNAME.toString()), 
+						rs.getString(FelderPerson.VORNAME.toString()), 
+						Titel.parseTitel(rs.getString(FelderPerson.TITEL.toString())),
+						rs.getString(FelderPerson.GESCHLECHT.toString()).charAt(0),
+						rs.getString(FelderPerson.EMAIL.toString()), 
+						rs.getString(FelderPerson.TELEFONNUMMER.toString()), 
+						rs.getString(FelderPerson.HANDYNUMMER.toString()), 
+						rs.getString(FelderPerson.FAX.toString()));
+				//fuege Person dem Vector hinzu
+				personVec.add((T) tmpPerson);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Randi2Exception f) {
+			throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
+		}
+		try {
+			closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		return personVec;
 	}
 
 	/**
