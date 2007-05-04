@@ -7,6 +7,7 @@ import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Randomisation;
 import de.randi2.model.fachklassen.Zentrum;
+import de.randi2.model.fachklassen.Studie.Status;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.datenbank.Filter;
 
@@ -16,6 +17,7 @@ import de.randi2.datenbank.Filter;
  * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
  * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
  * @version $Id$
+ * 
  */
 public class StudieBean extends Filter {
 
@@ -90,68 +92,68 @@ public class StudieBean extends Filter {
 	 */
 	private Status status = null;
 
-	/**
-	 * Enumeration Status der Studie
-	 */
-	public enum Status {
-
-		/**
-		 * Status aktiv
-		 */
-		AKTIV("aktiv"),
-		/**
-		 * Status in Vorbereitung
-		 */
-		INVORBEREITUNG("in Vorbereitung"),
-		/**
-		 * Status Studie beendet
-		 */
-		BEENDET("beendet");
-
-		/**
-		 * Den Status als String.
-		 */
-		private String status = null;
-
-		/**
-		 * Weist den String dem tatsaechlichen Status zu.
-		 * 
-		 * @param status
-		 *            Der Parameter enthaelt den Status-String.
-		 */
-		private Status(String status) {
-			this.status = status;
-		}
-
-		/**
-		 * Gibt den Status als String zurueck.
-		 * 
-		 * @return den Status
-		 */
-		
-		public String toString() {
-			return this.status;
-		}
-
-		/**
-		 * Ueberfuehrt einen String in das entsprechende Status-Element
-		 * 
-		 * @param status
-		 *            Status der Studie
-		 * @return Status in Form eines Enumelementes
-		 * @throws StudieException 
-		 *             StudieException
-		 */
-		public static Status parseStatus(String status) throws StudieException {
-
-			for (Status aStatus : Status.values()) {
-				if (status.equals(aStatus.toString())) {
-					return aStatus;
-				}
-			}
-			throw new StudieException(StudieException.STATUS_UNGUELTIG);
-		}
-	}
+//	/**
+//	 * Enumeration Status der Studie
+//	 */
+//	public enum Status {
+//
+//		/**
+//		 * Status aktiv
+//		 */
+//		AKTIV("aktiv"),
+//		/**
+//		 * Status in Vorbereitung
+//		 */
+//		INVORBEREITUNG("in Vorbereitung"),
+//		/**
+//		 * Status Studie beendet
+//		 */
+//		BEENDET("beendet");
+//
+//		/**
+//		 * Den Status als String.
+//		 */
+//		private String status = null;
+//
+//		/**
+//		 * Weist den String dem tatsaechlichen Status zu.
+//		 * 
+//		 * @param status
+//		 *            Der Parameter enthaelt den Status-String.
+//		 */
+//		private Status(String status) {
+//			this.status = status;
+//		}
+//
+//		/**
+//		 * Gibt den Status als String zurueck.
+//		 * 
+//		 * @return den Status
+//		 */
+//		
+//		public String toString() {
+//			return this.status;
+//		}
+//
+//		/**
+//		 * Ueberfuehrt einen String in das entsprechende Status-Element
+//		 * 
+//		 * @param status
+//		 *            Status der Studie
+//		 * @return Status in Form eines Enumelementes
+//		 * @throws StudieException 
+//		 *             StudieException
+//		 */
+//		public static Status parseStatus(String status) throws StudieException {
+//
+//			for (Status aStatus : Status.values()) {
+//				if (status.equals(aStatus.toString())) {
+//					return aStatus;
+//				}
+//			}
+//			throw new StudieException(StudieException.STATUS_UNGUELTIG);
+//		}
+//	}
 
 	/**
 	 * leerer Konstruktor.
@@ -389,7 +391,7 @@ public class StudieBean extends Filter {
 
 		return this.status;
 	}
-
+	
 	/**
 	 * Ueberprueft und setzt den aktuellen Status.
 	 * 

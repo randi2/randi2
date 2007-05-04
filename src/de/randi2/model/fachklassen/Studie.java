@@ -1,6 +1,7 @@
 package de.randi2.model.fachklassen;
 
 import java.util.Vector;
+import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.RandomisationBean;
 import de.randi2.model.fachklassen.beans.StatistikBean;
@@ -35,12 +36,82 @@ public class Studie {
 	 * Die Url des Studienprotokolls.
 	 */
 	private String studienprotokollurl;
+	
+	
+	/**
+	 * Enumeration Status der Studie
+	 */
+	public static enum Status {
+
+		/**
+		 * Status aktiv
+		 */
+		AKTIV("aktiv"),
+		/**
+		 * Status in Vorbereitung
+		 */
+		INVORBEREITUNG("in Vorbereitung"),
+		/**
+		 * Status Studie beendet
+		 */
+		BEENDET("beendet"),
+		/**
+		 * Studie pausiert
+		 */
+		PAUSE("pausiert");
+
+		/**
+		 * Den Status als String.
+		 */
+		private String status = null;
+
+		/**
+		 * Weist den String dem tatsaechlichen Status zu.
+		 * 
+		 * @param status
+		 *            Der Parameter enthaelt den Status-String.
+		 */
+		private Status(String status) {
+			this.status = status;
+		}
+
+		/**
+		 * Gibt den Status als String zurueck.
+		 * 
+		 * @return den Status
+		 */
+		
+		public String toString() {
+			return this.status;
+		}
+
+		/**
+		 * Ueberfuehrt einen String in das entsprechende Status-Element
+		 * 
+		 * @param status
+		 *            Status der Studie
+		 * @return Status in Form eines Enumelementes
+		 * @throws StudieException 
+		 *             StudieException
+		 */
+		public static Status parseStatus(String status) throws StudieException {
+
+			for (Status aStatus : Status.values()) {
+				if (status.equals(aStatus.toString())) {
+					return aStatus;
+				}
+			}
+			throw new StudieException(StudieException.STATUS_UNGUELTIG);
+		}
+	}
 
 	/**
 	 * Konstruktor
 	 * 
 	 * @param studieBean
+	 *            das aktuelle StudieBean
 	 * @param randomisationBean
+	 *            das aktuelle Randomisationsbean
 	 */
 	public Studie(StudieBean studieBean, RandomisationBean randomisationBean) {
 		super();
@@ -64,9 +135,9 @@ public class Studie {
 	/**
 	 * Die Methode fügt eine Patient einer Studie zu.
 	 * 
-	 * @param patient,
+	 * @param patient
 	 *            das aktuelle PatientBean.
-	 * @return patient, das aktuelle PatientBean.
+	 * @return patient das aktuelle PatientBean.
 	 */
 	private PatientBean hinzufuegenPatient(PatientBean patient) {
 		return patient;
@@ -90,7 +161,7 @@ public class Studie {
 	 * @param aZentrum
 	 *            Das aktuelle ZentrumBean.
 	 * @return zugewieseneZentren, Zentren, die der Studie zugewiesen werden.
-	 *            
+	 * 
 	 */
 	public Vector<Studie> zuweisenZentrum(ZentrumBean aZentrum) {
 		Vector<Studie> zugewieseneZentren = null;
@@ -98,9 +169,5 @@ public class Studie {
 		return zugewieseneZentren;
 
 	}
-
-	// // TODO
-	// public void konfiguriereRandomisation() {
-	// }
 
 }

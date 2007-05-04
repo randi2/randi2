@@ -296,27 +296,27 @@ public class StudieBeanTest {
 	/**
 	 * Testet StatusEnum
 	 */
-	@Test
-	public void testStudieParser() {
-		StudieBean.Status testeStatus;
-		try {
-			StudieBean.Status.parseStatus("Test");
-			fail("[FEHLER]testStudieParser sollte eine Exception auslösen");
-		} catch (Exception e) {
-
-		}
-
-		for (StudieBean.Status aStatus : StudieBean.Status.values()) {
-			try {
-				testeStatus = StudieBean.Status.parseStatus(aStatus.toString());
-				assertEquals(testeStatus, aStatus);
-				assertEquals(testeStatus.toString(), aStatus.toString());
-			} catch (StudieException e) {
-				fail("[FEHLER]testStudieParser");
-			}
-
-		}
-
-	}
+//	@Test
+//	public void testStudieParser() {
+//		StudieBean.Status testeStatus;
+//		try {
+//			StudieBean.Status.parseStatus("Test");
+//			fail("[FEHLER]testStudieParser sollte eine Exception auslösen");
+//		} catch (Exception e) {
+//
+//		}
+//
+//		for (StudieBean.Status aStatus : StudieBean.Status.values()) {
+//			try {
+//				testeStatus = StudieBean.Status.parseStatus(aStatus.toString());
+//				assertEquals(testeStatus, aStatus);
+//				assertEquals(testeStatus.toString(), aStatus.toString());
+//			} catch (StudieException e) {
+//				fail("[FEHLER]testStudieParser");
+//			}
+//
+//		}
+//
+//	}
 
 }
