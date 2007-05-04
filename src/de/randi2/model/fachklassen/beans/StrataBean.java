@@ -2,6 +2,7 @@ package de.randi2.model.fachklassen.beans;
 
 import java.util.HashMap;
 
+import de.randi2.model.exceptions.StrataException;
 import de.randi2.utility.CollectionUtil;
 import de.randi2.utility.NullKonstanten;
 
@@ -48,8 +49,9 @@ public class StrataBean {
 	 *            Key-Parameter stellt dabei die id des Stratas auf der
 	 *            Datenbank als {@link Long} dar. Der value-Paramater den
 	 *            geschriebenen Wert des Stratas als {@link String}.
+	 * @throws StrataException
 	 */
-	public StrataBean(long id, HashMap<Long, String> moeglicheAuspraegungen) {
+	public StrataBean(long id, HashMap<Long, String> moeglicheAuspraegungen) throws StrataException{
 		this.id = id;
 		this.moeglicheAuspraegungen = moeglicheAuspraegungen;
 	}
@@ -64,9 +66,10 @@ public class StrataBean {
 	 *            geschriebenen Wert des Stratas als {@link String}.
 	 * @param aAuspragungId
 	 *            Die id des Stratas als long.
+	 * @throws StrataException
 	 */
 	public StrataBean(long id, HashMap<Long, String> moeglicheAuspraegungen,
-			long aAuspragungId) {
+			long aAuspragungId) throws StrataException{
 		this(id, moeglicheAuspraegungen);
 		this.aAuspraegungId = aAuspragungId;
 	}

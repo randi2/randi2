@@ -6,6 +6,7 @@ package de.randi2.model.fachklassen.beans;
 import java.util.Vector;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
@@ -75,10 +76,11 @@ public class StudienarmBean extends Filter {
 	 *            Die laengere Beschreibung dieses Arms
 	 * @param patienten
 	 *            Der Vector von PatientBeans die diesem Arm zugeordnet sind
+	 * @throws StudienarmException
 	 */
 	public StudienarmBean(long id, StudieBean studie, Studie.Status status,
 			String bezeichnung, String beschreibung,
-			Vector<PatientBean> patienten) {
+			Vector<PatientBean> patienten) throws StudienarmException{
 
 		super();
 		this.setId(id);

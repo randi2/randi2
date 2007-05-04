@@ -1825,6 +1825,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 			e.printStackTrace();
 			throw new DatenbankFehlerException(
 					DatenbankFehlerException.SUCHEN_ERR);
+		} catch(Randi2Exception e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
 		}
 
 		try {
@@ -1918,14 +1921,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 													rs.getInt(FelderPatient.STUDIENARM.toString()),
 													rs.getLong(FelderPatient.BENUTZER.toString()));
 													
-				} catch (PatientException e) {
-					
-					// FIXME wo ist die PatientException? Sollte es laut dhaehn geben. tnoack
-					
+				} catch (Randi2Exception e) {		
 					e.printStackTrace();
 					throw new DatenbankFehlerException(
 							DatenbankFehlerException.UNGUELTIGE_DATEN);
-					
 				}
 			}
 			rs.close();

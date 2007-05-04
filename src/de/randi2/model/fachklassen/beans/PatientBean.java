@@ -5,6 +5,7 @@ import java.util.GregorianCalendar;
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
+import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Studienarm;
 import de.randi2.utility.NullKonstanten;
@@ -88,10 +89,11 @@ public class PatientBean extends Filter{
 	 * @param datumAufklaerung Das Datum der Patientenaufklaerung.
 	 * @param koerperoberflaeche Die Koerperoberflaeche des Patienten.
 	 * @param studienarm Dem Patient zugeordneter Studienarm. 
+	 * @throws PatientException
 	 */
 	public PatientBean(long id, String initialen, char geschlecht, GregorianCalendar geburtsdatum, 
 			int performanceStatus, GregorianCalendar datumAufklaerung, 
-			int koerperoberflaeche, StudienarmBean studienarm) {
+			int koerperoberflaeche, StudienarmBean studienarm) throws PatientException {
 		super();
 		
 		this.setId(id);
@@ -116,10 +118,11 @@ public class PatientBean extends Filter{
 	 * @param koerperoberflaeche Die Koerperoberflaeche des Patienten.
 	 * @param studienarmId Die eindeutige ID des Studienarms. 
 	 * @param benutzerkontoId Die ID des Benutzerkontos.
+	 * @throws PatientException
 	 */
 	public PatientBean(long id, String initialen, char geschlecht, GregorianCalendar geburtsdatum, 
 			int performanceStatus, GregorianCalendar datumAufklaerung, int koerperoberflaeche, 
-			int studienarmId, long benutzerkontoId) {
+			int studienarmId, long benutzerkontoId) throws PatientException {
 		super();
 		
 		this.setId(id);

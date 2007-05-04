@@ -3,6 +3,7 @@ package de.randi2.model.fachklassen.beans;
 import java.util.GregorianCalendar;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.utility.NullKonstanten;
@@ -136,8 +137,9 @@ public class AktivierungBean extends Filter {
      * 						Die ID des Benutzerkontos.
      * @param aktivierungsLink
      * 						Der Aktivierungslink für die Vervollständigung der Anmeldung.
+     * @throws AktivierungException
      */
-    public AktivierungBean(long aktivierungsId, GregorianCalendar versanddatum, long benutzerkontoId, String aktivierungsLink) {
+    public AktivierungBean(long aktivierungsId, GregorianCalendar versanddatum, long benutzerkontoId, String aktivierungsLink) throws AktivierungException{
 	super();
 	this.aktivierungsId = aktivierungsId;
 	this.versanddatum = versanddatum;
