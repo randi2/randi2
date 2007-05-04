@@ -6,13 +6,14 @@ package de.randi2.model.fachklassen.beans;
 import java.util.Vector;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.model.fachklassen.Studie;
+import de.randi2.model.fachklassen.beans.PatientBean;
+import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.utility.NullKonstanten;
 
 /**
  * Diese Klasse ist ein Datencontainer fuer einen Studienarm.
  * 
- * @TODO Feld aktiv? was ist das? Nur 0 oder 1? Boolean? Wird der Vector von
- *       PatientenIDs ueberhaupt gebraucht? Wenn ja, eigener Konstruktor?
  * 
  * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
  * @version $Id$
@@ -25,9 +26,9 @@ public class StudienarmBean extends Filter {
 	private long id = NullKonstanten.NULL_LONG;
 
 	/**
-	 * ??? noch zu klaeren
+	 * Status dieses Studienarms (Wert der ENUM Status der Studien-Fachklasse).
 	 */
-	private int aAktiv = NullKonstanten.NULL_INT;
+	private Studie.Status aStatus = null;
 
 	/**
 	 * Der kurze Name des Arms.
@@ -60,7 +61,6 @@ public class StudienarmBean extends Filter {
 	 */
 	public StudienarmBean() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -71,8 +71,8 @@ public class StudienarmBean extends Filter {
 	 *            Die Id in der Datenbank
 	 * @param studie
 	 *            Die Studie zu welcher dieser Arm gehoert
-	 * @param aktiv
-	 *            ??? s.o.
+	 * @param status
+	 *            Der Status dieses Studienarms, wie Status der uebergeordneten Studie
 	 * @param bezeichnung
 	 *            Die Bezeichnung (Name) dieses Arms
 	 * @param beschreibung
@@ -80,14 +80,14 @@ public class StudienarmBean extends Filter {
 	 * @param patienten
 	 *            Der Vector von PatientBeans die diesem Arm zugeordnet sind
 	 */
-	public StudienarmBean(long id, StudieBean studie, int aktiv,
+	public StudienarmBean(long id, StudieBean studie, Studie.Status status,
 			String bezeichnung, String beschreibung,
 			Vector<PatientBean> patienten) {
 
 		super();
 		this.setId(id);
 		this.setStudie(studie);
-		this.setAktiv(aktiv);
+		this.aStatus = status;
 		this.setBezeichnung(bezeichnung);
 		this.setBeschreibung(beschreibung);
 		this.setPatienten(patienten);
@@ -101,25 +101,24 @@ public class StudienarmBean extends Filter {
 
 		}
 
+	}	
+	
+	/**
+	 * Liefert den spezifischen Status dieses Arms.
+	 * 
+	 * @return Der Status dieses Arms
+	 */
+	public Studie.Status getAStatus() {
+		return aStatus;
 	}
 
 	/**
-	 * ??? s.o.
+	 * Setzt den spezifischen Status dieses Studienarms.
 	 * 
-	 * @return
+	 * @param status Der zusetzende Status.
 	 */
-	public int getAktiv() {
-		return aAktiv;
-	}
-
-	/**
-	 * ??? s.o.
-	 * 
-	 * 
-	 * @param aktiv
-	 */
-	public void setAktiv(int aktiv) {
-		aAktiv = aktiv;
+	public void setAStatus(Studie.Status status) {
+		aStatus = status;
 	}
 
 	/**
