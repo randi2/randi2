@@ -1,5 +1,4 @@
 package de.randi2.model.fachklassen.beans;
-
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Vector;
@@ -116,14 +115,13 @@ public class StudieBean extends Filter {
 			String studienprotokollPfad, long randomisationId, long zentrumId) {
 
 		this.setId(id);
-
 		this.setBeschreibung(beschreibung);
 
 		try {
 			this.setStartDatum(startDatum);
 			this.setEndDatum(endDatum);
 		} catch (StudieException e) {
-			// TODO Auto-generated catch block
+			//TODO Exception
 			e.printStackTrace();
 		}
 		this.setStudienprotokollPfad(studienprotokollPfad);
@@ -134,7 +132,6 @@ public class StudieBean extends Filter {
 
 	/**
 	 * leerer Konstruktor.
-	 * 
 	 */
 	public StudieBean() {
 

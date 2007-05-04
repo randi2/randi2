@@ -1,4 +1,5 @@
 package de.randi2.model.fachklassen;
+
 import java.util.Vector;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.beans.PatientBean;
@@ -31,12 +32,6 @@ public class Studie {
 	 */
 	private ZentrumBean aZentrum;
 
-	/**
-	 * Die Url des Studienprotokolls.
-	 */
-	private String studienprotokollurl;
-	
-	
 	/**
 	 * Enumeration Status der Studie
 	 */
@@ -79,7 +74,7 @@ public class Studie {
 		 * 
 		 * @return den Status
 		 */
-		
+
 		public String toString() {
 			return this.status;
 		}
@@ -90,7 +85,7 @@ public class Studie {
 		 * @param status
 		 *            Status der Studie
 		 * @return Status in Form eines Enumelementes
-		 * @throws StudieException 
+		 * @throws StudieException
 		 *             StudieException
 		 */
 		public static Status parseStatus(String status) throws StudieException {
@@ -125,7 +120,7 @@ public class Studie {
 	 *            Kriterien zum erstellen der Statistik.
 	 * @return StatistikBean, das aktuelle StudieBean.
 	 */
-	//TODO Implementierung
+	// TODO Implementierung
 	public StatistikBean anzeigenStatistik(int kriterium) {
 
 		return null;
@@ -140,23 +135,9 @@ public class Studie {
 	 * @return patient das aktuelle PatientBean.
 	 */
 	private PatientBean hinzufuegenPatient(PatientBean patient) {
-		//TODO Algorithmus Implementierung
-		
-		
-		
-		
+		// TODO Algorithmus Implementierung
+
 		return patient;
-
-	}
-
-	/**
-	 * Liefert die Url des Studienprotokolls zurück.
-	 * 
-	 * @return studienprotokoll_url, Die Url des Studienprotokolls.
-	 */
-	public String getStudienprotokoll() {
-
-		return studienprotokollurl;
 
 	}
 
@@ -168,7 +149,7 @@ public class Studie {
 	 * @return zugewieseneZentren, Zentren, die der Studie zugewiesen werden.
 	 * 
 	 */
-	//TODO Ausimplementierung
+	// TODO Ausimplementierung
 	public Vector<Studie> zuweisenZentrum(ZentrumBean aZentrum) {
 		Vector<Studie> zugewieseneZentren = null;
 
