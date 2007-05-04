@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
+import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.KryptoUtil;
 
@@ -174,15 +175,30 @@ public class Benutzerkonto {
 		return false;
 	}
 
+
 	/**
-	 * Die Methode liefert das zur benutzerkontoId geh�rige Bean.
-	 * 
-	 * @param benutzerkontoId
-	 * @return
-	 * @throws DatenbankFehlerException 
+	 * Die Methode liefert das zur benutzerkontoId gehoerige Bean.
+	 * @param benutzerkontoId gewuenschte Id
+	 * @return das zur id zugehoerige BenutzerkontoBean
+	 * @throws BenutzerkontoException Fehlermeldung, falls Fehler mit DB
 	 */
-	public static BenutzerkontoBean get(long benutzerkontoId) throws DatenbankFehlerException {
-		BenutzerkontoBean rueckgabe=DatenbankFactory.getAktuelleDBInstanz().suchenObjektID(benutzerkontoId, new BenutzerkontoBean());
+	public static BenutzerkontoBean get(long benutzerkontoId) throws BenutzerkontoException{
+		BenutzerkontoBean rueckgabe;
+		try {
+		    rueckgabe = DatenbankFactory.getAktuelleDBInstanz().suchenObjektID(benutzerkontoId, new BenutzerkontoBean());
+		} catch (DatenbankFehlerException e) {
+		    throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
+		}
 		return rueckgabe;
+	}
+	
+	/**
+	 * 
+	 * Aktiviert das aktuelle Benutzerkonto
+	 * @param aktivierung das passende Aktivierungsbean
+	 * @throws BenutzerkontoException Fehler bei der Aktivierung
+	 */
+	public void aktiviereBenutzerkonto(AktivierungBean aktivierung) throws BenutzerkontoException{
+	    //TODO Ausimplementierung -->afreudli
 	}
 }

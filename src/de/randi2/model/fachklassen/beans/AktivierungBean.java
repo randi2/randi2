@@ -3,6 +3,8 @@ package de.randi2.model.fachklassen.beans;
 import java.util.GregorianCalendar;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.utility.NullKonstanten;
 
@@ -11,103 +13,122 @@ import de.randi2.utility.NullKonstanten;
  * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
  * @version $Id$
  */
-public class AktivierungBean extends Filter{
-	
-	/**
-	 * Die ID der Aktivierung.
-	 */
-    private long aktivierungsId=NullKonstanten.NULL_LONG;
+public class AktivierungBean extends Filter {
+
+    /**
+     * Die ID der Aktivierung.
+     */
+    private long	      aktivierungsId   = NullKonstanten.NULL_LONG;
+
     /**
      * Das Versanddatum, wann die Anmeldungsmail versand wurde.
      */
-    private GregorianCalendar versanddatum=null;
+    private GregorianCalendar versanddatum     = null;
+
     /**
      * Das Benutzerkonto, mit dem eine Anmeldung möglich sein soll.
      */
-    private BenutzerkontoBean benutzerkonto=null;
+    private BenutzerkontoBean benutzerkonto    = null;
+
     /**
      * Die ID des Benutzerkontos.
      */
-    private long benutzerkontoId=NullKonstanten.NULL_LONG;
+    private long	      benutzerkontoId  = NullKonstanten.NULL_LONG;
+
     /**
      * Der Aktivierungslink für die Vervollständigung der Anmeldung.
      */
-    private String aktivierungsLink=null;
-    
+    private String	    aktivierungsLink = null;
+
     /**
      * Get-Methode für die Aktivierungs-ID.
      * @return Liefert die Aktivierungs-ID.
      */
     public long getAktivierungsId() {
-        return aktivierungsId;
+	return aktivierungsId;
     }
+
     /**
      * Set-Methode für die Aktivierungs-ID.
      * @param aktivierungsId Setzt die Aktivierungs-ID.
      */
     public void setAktivierungsId(long aktivierungsId) {
-        this.aktivierungsId = aktivierungsId;
+	this.aktivierungsId = aktivierungsId;
     }
+
     /**
      * Get-Methode für den Aktivierungslink.
      * @return Liefert den Aktivierungslink.
      */
     public String getAktivierungsLink() {
-        return aktivierungsLink;
+	return aktivierungsLink;
     }
+
     /**
      * Set-Methode für den Aktivierungslink.
      * @param aktivierungsLink Setzt den Aktivierungslink.
      */
     public void setAktivierungsLink(String aktivierungsLink) {
-        this.aktivierungsLink = aktivierungsLink;
+	this.aktivierungsLink = aktivierungsLink;
     }
+
     /**
      * Get-Methode für das Benutzerkonto.
      * @return Liefert das Benutzerkonto.
+     * @throws BenutzerkontoException Fehler
      */
-    public BenutzerkontoBean getBenutzerkonto() {
-    	if (benutzerkonto == null){
-    		benutzerkonto = Benutzerkonto.get(benutzerkontoId);
-    	}
-    	
-        return benutzerkonto;
+    public BenutzerkontoBean getBenutzerkonto() throws BenutzerkontoException {
+	if (benutzerkonto == null) {
+	    try {
+		benutzerkonto = Benutzerkonto.get(benutzerkontoId);
+	    } catch (DatenbankFehlerException e) {
+		throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
+	    }
+	}
+
+	return benutzerkonto;
     }
+
     /**
      * Set-Methode für das Benutzerkonto.
      * @param benutzerkonto Setzt das Benutzerkonto.
      */
     public void setBenutzerkonto(BenutzerkontoBean benutzerkonto) {
-        this.benutzerkonto = benutzerkonto;
+	this.benutzerkonto = benutzerkonto;
     }
+
     /**
      * Get-Methode für die Benutzerkonto-ID.
      * @return Liefert die Benutzerkonto-ID.
      */
     public long getBenutzerkontoId() {
-        return benutzerkontoId;
+	return benutzerkontoId;
     }
+
     /**
      * Set-Methode für die Benutzerkonto-Id.
      * @param benutzerkontoId - Setzt die Benutzerkonto-Id.
      */
     public void setBenutzerkontoID(long benutzerkontoId) {
-        this.benutzerkontoId = benutzerkontoId;
+	this.benutzerkontoId = benutzerkontoId;
     }
+
     /**
      * Get-Methode für das Versanddatum.
      * @return Liefert das Versanddatum.
      */
     public GregorianCalendar getVersanddatum() {
-        return versanddatum;
+	return versanddatum;
     }
+
     /**
      * Set-Methode für das Versanddatum.
      * @param versanddatum Setzt das Versanddatum.
      */
     public void setVersanddatum(GregorianCalendar versanddatum) {
-        this.versanddatum = versanddatum;
+	this.versanddatum = versanddatum;
     }
+
     /**
      * Der komplette Konstruktor an den alle Attribute dieser Klasse übergeben werden, mit der
      * Ausnahme von dem BenutzerkontoBean.
@@ -127,6 +148,5 @@ public class AktivierungBean extends Filter{
 	this.benutzerkontoId = benutzerkontoId;
 	this.aktivierungsLink = aktivierungsLink;
     }
-    
 
 }

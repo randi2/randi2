@@ -104,7 +104,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
         // Login
         if (id.equals(BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_LOGIN1
                 .name())) {
-            this.class_dispatcherservlet_login1(request, response);
+            this.classDispatcherservletLogin1(request, response);
         }// if
 
         // Letzter Schritt Benutzer registrieren
@@ -113,7 +113,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
                         .name())) {
             Logger.getLogger(this.getClass()).debug(
                     "id '" + id + "' korrekt erkannt");
-            this.class_dispatcherservlet_benutzer_registrieren_vier(request,
+            this.classDispatcherservletBenutzerRegistrierenVier(request,
                     response);
         } else if (id.equals(anfrage_id.AKTION_BENUTZER_ANLEGEN.name())) {
            benutzerRegistieren(request, response);
@@ -273,7 +273,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
      * @throws IOException
      */
     // TODO Parameter dokumentieren --Btheel
-    private void class_dispatcherservlet_login1(HttpServletRequest request,
+    private void classDispatcherservletLogin1(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         Logger.getLogger(this.getClass()).debug(
                 "BenutzerServlet.class_dispatcherservlet_login1()");
@@ -374,7 +374,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
         }// catch
     }
 
-    private void class_dispatcherservlet_benutzer_registrieren_vier(
+    private void classDispatcherservletBenutzerRegistrierenVier(
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
