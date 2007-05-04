@@ -13,7 +13,9 @@ Description:
     <module name="TreeWalker">
         <property name="tabWidth" value="4"/>
         <module name="JavadocMethod"/>
-        <module name="JavadocType"/>
+        <module name="JavadocType">
+            <property name="scope" value="package"/>
+        </module>
         <module name="JavadocVariable"/>
         <module name="ConstantName"/>
         <module name="LocalFinalVariableName"/>
