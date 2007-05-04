@@ -47,7 +47,7 @@ public final class DatenbankFactory {
 	 */
 	public static DatenbankSchnittstelle getAktuelleDBInstanz() {
 		if (aDB == null) {
-			aDB = new DatenbankDummy();
+			aDB = new Datenbank();
 		}
 		return aDB;
 	}
