@@ -10,19 +10,34 @@ package de.randi2.model.exceptions;
  * @version $Id: PersonException.java 1287 2007-02-05 14:42:00Z twillert $
  * 
  */
-public class PersonException extends Exception {
+public class PersonException extends Randi2Exception {
 
 	/*
 	 * Die einzelnen Konstanten werde sich auch im Laufe der Arbeit ergeben.
 	 */
 
 	/**
+	 * Diese Konstante wird uebergeben, wenn das Person Objekt in der Datenbank
+	 * nicht gefunden werden konnte und somit auch durch die get() Methode nicht
+	 * zurueckgeliefert werden konnte. (Der entsprechende Datenbank-Fehler kann
+	 * in der log Datei gefunden werden.)
+	 */
+	public static final String PERSON_NICHT_GEFUNDEN = "Die gew&uuml;nschte Person konnte nicht geladen werden.";
+
+	/**
+	 * Diese Konstante wird uebergeben, wenn waehrend des Such-Vorgangs ein
+	 * Fehler in der DB aufgetreten ist. Die entsprechende DB-Fehlermeldung ist
+	 * in der log-Datei zu finden.
+	 */
+	public static final String DB_FEHLER = "W&auml;hrend des Such-Vorgangs ist ein Fehler aufgetreten.";
+
+	/**
 	 * Diese Konstante wird uebergeben, wenn der Nachname fehlt.
 	 */
 	public static final String NACHNAME_FEHLT = "Bitte Nachname eingeben.";
 
-	//TODO in der meldung stehen dann spater noch die echten konventionen
-	
+	// TODO in der meldung stehen dann spater noch die echten konventionen
+
 	/**
 	 * Diese Konstante wird uebergeben, wenn der der Nachname nicht den
 	 * Konventionen.
@@ -35,7 +50,8 @@ public class PersonException extends Exception {
 	public static final String VORNAME_FEHLT = "Bitte Vorname eingeben.";
 
 	/**
-	 * Diese Konstante wird uebergeben, wenn der Vorname nicht den Konventionen entspricht.
+	 * Diese Konstante wird uebergeben, wenn der Vorname nicht den Konventionen
+	 * entspricht.
 	 */
 	public static final String VORNAME_UNGUELTIG = "Vorname entspricht nicht den Konventionen.";
 
@@ -60,32 +76,38 @@ public class PersonException extends Exception {
 	public static final String TELEFONNUMMER_FEHLT = "Bitte Telefonnummer eingeben.";
 
 	/**
-	 * Diese Konstante wird uebergeben, wenn die Telefonnummer nicht den Konventionen entspricht.
+	 * Diese Konstante wird uebergeben, wenn die Telefonnummer nicht den
+	 * Konventionen entspricht.
 	 */
 	public static final String TELEFONNUMMER_UNGUELTIG = "Telefonnummer entspricht nicht den Konventionen.";
 
 	/**
-	 * Diese Konstante wird uebergeben, wenn die Faxnummer nicht den Konventionen entspricht.
+	 * Diese Konstante wird uebergeben, wenn die Faxnummer nicht den
+	 * Konventionen entspricht.
 	 */
 	public static final String FAX_UNGUELTIG = "Fax enstspricht nicht den Konventionen.";
 
 	/**
-	 * Diese Konstante wird uebergeben, wenn das Geschlecht nicht den Konventionen.
+	 * Diese Konstante wird uebergeben, wenn das Geschlecht nicht den
+	 * Konventionen.
 	 */
 	public static final String GESCHLECHT_UNGUELTIG = "Geschlecht entspricht nicht den Konventionen.";
 
 	/**
-	 * Diese Konstante wird uebergeben, wenn die Handynummer nicht den Konventionen entspricht.
+	 * Diese Konstante wird uebergeben, wenn die Handynummer nicht den
+	 * Konventionen entspricht.
 	 */
 	public static final String HANDY_UNGUELTIG = "Handynummer entspricht nicht den Konventionen.";
 
 	/**
-	 * Diese Konstante wird uebergeben, wenn der der Titel nicht den Konventionen entsprciht.
+	 * Diese Konstante wird uebergeben, wenn der der Titel nicht den
+	 * Konventionen entsprciht.
 	 */
 	public static final String TITEL_UNGUELTIG = "Titel entspricht nicht den Konventionen.";
 
 	/**
-	 * Diese Konstante wird uebergeben, wenn ein unbekannter Fehler aufgetreten ist.
+	 * Diese Konstante wird uebergeben, wenn ein unbekannter Fehler aufgetreten
+	 * ist.
 	 */
 	public static final String FEHLER = "Erstmal fuer alles, bei dem mir nix anderes Sinnvolles einfaellt!!!";
 

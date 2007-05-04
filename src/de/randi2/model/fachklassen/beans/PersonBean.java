@@ -467,10 +467,10 @@ public class PersonBean extends Filter {
 	 * Get-Methode fuer den Stellvertreter
 	 * 
 	 * @return Der Stellvertreter.
-	 * @throws DatenbankFehlerException
-	 *             Fehler in der Datenbank aufgetreten.
+	 * @throws PersonException
+	 *             Fehler aufgetreten.
 	 */
-	public PersonBean getStellvertreter() throws DatenbankFehlerException {
+	public PersonBean getStellvertreter() throws PersonException {
 		if (stellvertreter == null) {
 			stellvertreter = Person.get(stellvertreterID);
 		}

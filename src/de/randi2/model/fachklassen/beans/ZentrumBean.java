@@ -1,11 +1,11 @@
 package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Person;
-import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.KryptoUtil;
+import de.randi2.utility.NullKonstanten;
 
 /**
  * <p>
@@ -17,6 +17,9 @@ import de.randi2.utility.KryptoUtil;
  * 
  */
 public class ZentrumBean extends Filter {
+
+	// TODO Wenn die Validierung der Daten in einer Utility-Klasse vorhanden
+	// sein wird, werden die set() Methoden dementsprechend angepasst. (lplotni)
 
 	/**
 	 * Name der Abteilung in der Institution.
@@ -103,96 +106,106 @@ public class ZentrumBean extends Filter {
 	 *            entspricht.
 	 * @param passwortHash
 	 *            String - Passwort bereits gehasht.
-	 * @param istAktiviert 
-	 * 			  Der Status des Zentrum - aktiv / inaktiv.
+	 * @param istAktiviert
+	 *            Der Status des Zentrum - aktiv / inaktiv.
+	 * 
+	 * @throws ZentrumException -
+	 *             wenn die Daten, die an den Konstruktor uebergeben wurden,
+	 *             nicht valide waren
 	 */
 	public ZentrumBean(long id, String institution, String abteilung,
 			String ort, String plz, String strasse, String hausnr,
-			long ansprechpartnerId, String passwortHash, boolean istAktiviert) {
+			long ansprechpartnerId, String passwortHash, boolean istAktiviert)
+			throws ZentrumException {
 
 		this.setId(id);
-		try {
-			this.setInstitution(institution);
-			this.setAbteilung(abteilung);
-			this.setOrt(ort);
-			this.setPlz(plz);
-			this.setStrasse(strasse);
-			this.setHausnr(hausnr);
-			this.setAnsprechpartnerId(ansprechpartnerId);
-			this.setPasswort(passwortHash);
-			this.setIstAktiviert(istAktiviert);
-		} catch (ZentrumException e) {
-			// TODO Wenn die Vorgehensweise in diesem Fall geklaert wird, wird
-			// es
-			// auch umgesetzt.
-			e.printStackTrace();
-		}
 
+		this.setInstitution(institution);
+		this.setAbteilung(abteilung);
+		this.setOrt(ort);
+		this.setPlz(plz);
+		this.setStrasse(strasse);
+		this.setHausnr(hausnr);
+		this.setAnsprechpartnerId(ansprechpartnerId);
+		this.setPasswort(passwortHash);
+		this.setIstAktiviert(istAktiviert);
 	}
 
 	/**
 	 * Methode die zwei Objekte dieser Klasse bzgl. allen ihrere Eigenschaften
 	 * vergleicht.
 	 * 
-	 * @param zentrum
+	 * @param zentrumZuVergleichen
 	 *            Objekt, das mit aktueller Instanz verglichen werden soll.
 	 * @return true, wenn die beide Objekte voellig uebereinstimmen, ansonsten
 	 *         false
 	 */
-	public boolean equals(ZentrumBean zentrum) {
-		if (!zentrum.getInstitution().equals(this.getInstitution())) {
-			return false;
-		}
-		if (!zentrum.getAbteilung().equals(this.getAbteilung())) {
-			return false;
-		}
-		try {
-			if (!zentrum.getAnsprechpartner().equals(this.getAnsprechpartner())) {
+	@Override
+	public boolean equals(Object zentrumZuVergleichen) {
+		ZentrumBean zentrum = null;
+		if (zentrumZuVergleichen instanceof ZentrumBean) {
+			zentrum = (ZentrumBean) zentrumZuVergleichen;
+			if (!zentrum.getInstitution().equals(this.getInstitution())) {
 				return false;
 			}
-		} catch (DatenbankFehlerException e) {
-			// TODO Hier muss noch ueberlegt werden, was man an dieser Stelle
-			// machen soll. (lplotni)
-			e.printStackTrace();
-		}
-		if (!zentrum.getHausnr().equals(this.getHausnr())) {
+			if (!zentrum.getAbteilung().equals(this.getAbteilung())) {
+				return false;
+			}
+			try {
+				if (!zentrum.getAnsprechpartner().equals(
+						this.getAnsprechpartner())) {
+					return false;
+				}
+			} catch (PersonException e) {
+				/*
+				 * Wenn das entsprechende Ansprechpartenr-Objekt, nicht gefunden
+				 * bzw. nicht geholt werden konnte, sind auch die beiden Objekte
+				 * unterschiedlich.
+				 */
+				return false;
+			}
+			if (!zentrum.getHausnr().equals(this.getHausnr())) {
+				return false;
+			}
+			if (!zentrum.getOrt().equals(this.getOrt())) {
+				return false;
+			}
+			if (!zentrum.getPasswort().equals(this.getPasswort())) {
+				return false;
+			}
+			if (!zentrum.getPlz().equals(this.getPlz())) {
+				return false;
+			}
+			if (!zentrum.getStrasse().equals(this.getStrasse())) {
+				return false;
+			}
+			if (!(zentrum.getId() == this.getId())) {
+				return false;
+			}
+			return true;
+		} else {
 			return false;
 		}
-		if (!zentrum.getOrt().equals(this.getOrt())) {
-			return false;
-		}
-		if (!zentrum.getPasswort().equals(this.getPasswort())) {
-			return false;
-		}
-		if (!zentrum.getPlz().equals(this.getPlz())) {
-			return false;
-		}
-		if (!zentrum.getStrasse().equals(this.getStrasse())) {
-			return false;
-		}
-		if (!(zentrum.getId() == this.getId())) {
-			return false;
-		}
-		return true;
+
 	}
 
 	/**
-	 * Get-Methoder fuer die Abteilung.
+	 * Get-Methode fuer die Abteilung.
 	 * 
-	 * @return Die Abteilung.
+	 * @return String - Abteilung.
 	 */
 	public String getAbteilung() {
 		return abteilung;
 	}
 
 	/**
-	 * Get-Methoder fuer den Ansprechpartner.
+	 * Get-Methode fuer den Ansprechpartner.
 	 * 
 	 * @return Der Ansprechpartner.
-	 * @throws DatenbankFehlerException
-	 *             falls ein Fehler bei der Datenbank auftrat.
+	 * @throws PersonException
+	 *             falls ein Fehler auftrat.
 	 */
-	public PersonBean getAnsprechpartner() throws DatenbankFehlerException {
+	public PersonBean getAnsprechpartner() throws PersonException {
 		if (ansprechpartner == null) {
 			ansprechpartner = Person.get(ansprechpartnerId);
 		}
@@ -290,11 +303,20 @@ public class ZentrumBean extends Filter {
 	 * 
 	 * @param ansprechpartner
 	 *            Der neue Ansprechpartner der Abteilung.
+	 * @throws ZentrumException
+	 *             diese Exception wird geworfen, wenn das uebergebene
+	 *             PersonBean Objekt noch nich in der DB gespeichert wurde.
 	 */
-	public void setAnsprechpartner(PersonBean ansprechpartner) {
-		this.ansprechpartner = ansprechpartner;
-		// if(an)
-		this.ansprechpartnerId = ansprechpartner.getId();
+	public void setAnsprechpartner(PersonBean ansprechpartner)
+			throws ZentrumException {
+		if (ansprechpartner.getId() == NullKonstanten.NULL_LONG) {
+			throw new ZentrumException(
+					ZentrumException.ANSPRECHPARTNER_NOCH_NICHT_GESPEICHERT);
+		} else {
+			this.ansprechpartner = ansprechpartner;
+			this.ansprechpartnerId = ansprechpartner.getId();
+
+		}
 	}
 
 	/**
@@ -402,7 +424,7 @@ public class ZentrumBean extends Filter {
 	 * 
 	 */
 	public void setPasswort(String hash) throws ZentrumException {
-		if (hash.length()==64) {
+		if (hash.length() == 64) {
 			throw new ZentrumException(ZentrumException.PASSWORT_NULL);
 		}
 		this.passwort = hash;
@@ -491,6 +513,7 @@ public class ZentrumBean extends Filter {
 	 * 
 	 * @return Ein String mit allen Angaben zum Zentrum.
 	 */
+	@Override
 	public String toString() {
 		StringBuffer dummy = new StringBuffer();
 		dummy.append("(ZentrumBean) ").append("Institution: ").append(

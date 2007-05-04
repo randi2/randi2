@@ -1,15 +1,17 @@
 package de.randi2.model.exceptions;
 
 /**
+ * <p>
  * Die Klasse ZentrumException kapselt die Fehler die im Zusammenhang mit der
  * Validierung von Zentrumsobjekten entstehen koennen.
+ * </p>
  * 
  * @author Lukasz Plotnicki [lplotni@stud.hs-heilbronn.de]
  * @version $Id$
  * 
  */
 public class ZentrumException extends Randi2Exception {
-	
+
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Abteilung falsch ist.
 	 */
@@ -79,6 +81,13 @@ public class ZentrumException extends Randi2Exception {
 	 * Diese Konstante wird uebergeben, wenn das Passwort fehlt.
 	 */
 	public static final String PASSWORT_NULL = "Passwort = null!";
+
+	/**
+	 * Diese Konstante wird uebergeben, wenn das PersonBean Objekt, das an die
+	 * setAnsprechpartner() Methode uebergeben wurde, noch nicht in der DB
+	 * gespeichert wurde.
+	 */
+	public static final String ANSPRECHPARTNER_NOCH_NICHT_GESPEICHERT = "Der &uuml;bergebene Ansprechpartner muss vorher gespeichert werden!";
 
 	/**
 	 * Konstruktor dieser Klasse an den ein Message String übergeben werden
