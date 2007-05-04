@@ -226,7 +226,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 */
 	private enum FelderStudie {
-		ID("studienID"), BENUTZER("Benutzerkonto_benutzerkontenId"), NAME(
+		ID("studienId"), BENUTZER("Benutzerkonto_benutzerkontenId"), NAME(
 				"name"), BESCHREIBUNG("beschreibung"), STARTDATUM("startdatum"), ENDDATUM(
 				"enddatum"), PROTOKOLL("studienprotokoll"), RANDOMISATIONSART(
 				"randomisationsart"), STATUS("status_studie");
@@ -271,7 +271,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 */
 	private enum FelderPatient {
-		Id("patientenId"), BENUTZER("Benutzerkonto_benutzerkontenId"), STUDIENARM(
+		ID("patientenId"), BENUTZER("Benutzerkonto_benutzerkontenId"), STUDIENARM(
 				"Studienarm_studienarmId"), INITIALEN("initialen"), GEBURTSDATUM(
 				"geburtsdatum"), GESCHLECHT("geschlecht"), AUFKLAERUNGSDATUM(
 				"aufklaerungsdatum"), KOERPEROBERFLAECHE("koerperoberflaeche"), PERFORMANCESTATUS(
@@ -616,7 +616,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankFehlerException(
 					DatenbankFehlerException.CONNECTION_ERR);
 		}
-		sql = "DELETE FROM " + Tabellen.PATIENT + " WHERE " + FelderPatient.Id
+		sql = "DELETE FROM " + Tabellen.PATIENT + " WHERE " + FelderPatient.ID
 				+ "=?";
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -1328,7 +1328,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			long id = Long.MIN_VALUE;
 			try {
 				sql = "INSERT INTO " + Tabellen.PATIENT + " ("
-						+ FelderPatient.Id + ", " + FelderPatient.BENUTZER
+						+ FelderPatient.ID + ", " + FelderPatient.BENUTZER
 						+ ", " + FelderPatient.STUDIENARM + ", "
 						+ FelderPatient.INITIALEN + ", "
 						+ FelderPatient.GEBURTSDATUM + ", "
@@ -1373,7 +1373,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderPatient.AUFKLAERUNGSDATUM + "=?, "
 					+ FelderPatient.KOERPEROBERFLAECHE + "=?, "
 					+ FelderPatient.PERFORMANCESTATUS + "=?, " + "WHERE "
-					+ FelderPatient.Id + "=?";
+					+ FelderPatient.ID + "=?";
 			try {
 				pstmt.setLong(j++, patient.getBenutzerkontoId());
 				pstmt.setLong(j++, patient.getStudienarm().getId());
@@ -1579,6 +1579,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			PatientBean patient = this.suchenPatientId(id);
 			return (T) patient;
 		}
+		if (nullObjekt instanceof StudieBean) {
+			StudieBean studie = this.suchenStudieId(id);
+			return (T) studie;
+		}
+		if (nullObjekt instanceof StudienarmBean) {
+			StudienarmBean studienarm = this.suchenStudienarmId(id);
+			return (T) studienarm;
+		}
+		
 		
 		return null;
 	}
@@ -1749,15 +1758,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, id);
 			rs = pstmt.executeQuery();
-			// TODO Konstruktor von BenutzerkontoBean stimmt immer noch nicht
-			// FIXT DAS IHR HUNDE!
-			// benutzerkonto = new BenutzerkontoBean
-			// (rs.getString(FelderBenutzerkonto.LOGINNAME.toString()),
-			// rs.getString(FelderBenutzerkonto.PASSWORT.toString()),
-			// rs.getString(FelderBenutzerkonto.ROLLEACCOUNT.toString()),
-			// rs.getLong(FelderBenutzerkonto.Id.toString()),
-			// rs.getBoolean(FelderBenutzerkonto.GESPERRT.toString()),
-			// rs.getLong(FelderBenutzerkonto.))
+			
+//			 benutzerkonto = new BenutzerkontoBean
+//			 (rs.getLong(FelderBenutzerkonto.ID.toString()),
+//			 rs.getString(FelderBenutzerkonto.LOGINNAME.toString()),
+//			 rs.getString(FelderBenutzerkonto.PASSWORT.toString()),
+//			 rs.getString(FelderBenutzerkonto.ROLLEACCOUNT.toString()),
+//			 rs.getLong(FelderBenutzerkonto.ID.toString()),
+//			 rs.getBoolean(FelderBenutzerkonto.GESPERRT.toString()),
+//			 rs.getLong(FelderBenutzerkonto.ID.toString());
 
 			rs.close();
 			pstmt.close();
@@ -1852,7 +1861,63 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	private StudieBean suchenStudieId(long id) throws DatenbankFehlerException {
 		
-		// TODO ausimplementieren tnoack
+		Connection con = null;
+		PreparedStatement pstmt;
+		ResultSet rs = null;
+		StudieBean tmpStudie = null;
+		GregorianCalendar startDatum = new GregorianCalendar();
+		GregorianCalendar endDatum = new GregorianCalendar();
+		
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(
+					DatenbankFehlerException.CONNECTION_ERR);
+		}
+		String sql;
+		sql = "SELECT * FROM " + Tabellen.STUDIE + " WHERE " + FelderStudie.ID
+				+ " = ?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				
+				try {
+					startDatum.setTime(rs.getDate(FelderStudie.STARTDATUM.toString()));
+					endDatum.setTime(rs.getDate(FelderStudie.ENDDATUM.toString()));
+					
+					// FIXME kein Feld fuer Parameter ZentrumId in der enum.
+					
+//					tmpStudie = new StudieBean(	rs.getLong(FelderStudie.ID.toString()), 
+//												rs.getString(FelderStudie.BESCHREIBUNG.toString()), 
+//												startDatum, endDatum,
+//												rs.getString(FelderStudie.PROTOKOLL.toString()),
+//												rs.getLong(FelderStudie.RANDOMISATIONSART.toString()),
+//												rs.getLong(FelderStudie.ZENTRUM.toString()));
+													
+				} catch (BenutzerException e) {		
+					e.printStackTrace();
+					throw new DatenbankFehlerException(
+							DatenbankFehlerException.UNGUELTIGE_DATEN);
+				}
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(
+					DatenbankFehlerException.SUCHEN_ERR);
+		}
+		try {
+			closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(
+					DatenbankFehlerException.CONNECTION_ERR);
+		}
+		return tmpStudie;
 	}
 
 	/**
@@ -1868,7 +1933,59 @@ public class Datenbank implements DatenbankSchnittstelle {
 	private StudienarmBean suchenStudienarmId(long id)
 			throws DatenbankFehlerException {
 		
-		// TODO ausimplementieren tnoack
+		Connection con = null;
+		PreparedStatement pstmt;
+		ResultSet rs = null;
+		StudienarmBean tmpStudienarm = null;
+		
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(
+					DatenbankFehlerException.CONNECTION_ERR);
+		}
+		String sql;
+		sql = "SELECT * FROM " + Tabellen.PATIENT + " WHERE " + FelderStudienarm.ID
+				+ " = ?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				try {
+					// FIXME Bin nicht sicher, ob das nicht mit Proxy realisiert werden muesste. 
+					// frage heute noch lplotni. tnoack 04.05.07
+					tmpStudienarm = new StudienarmBean(rs.getLong(FelderStudienarm.ID.toString()), 
+													//StudieBean, 
+													//Status,
+													rs.getString(FelderStudienarm.BEZEICHNUNG.toString()),
+													rs.getString(FelderStudienarm.BESCHREIBUNG.toString()),
+													//Vector<PatientBean> patienten
+					);
+													
+				} catch (BenutzerException e) {		
+					e.printStackTrace();
+					throw new DatenbankFehlerException(
+							DatenbankFehlerException.UNGUELTIGE_DATEN);
+				}
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(
+					DatenbankFehlerException.SUCHEN_ERR);
+		}
+		try {
+			closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(
+					DatenbankFehlerException.CONNECTION_ERR);
+		}
+		return tmpStudienarm;
+
 	}
 
 	/**
@@ -1899,7 +2016,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankFehlerException.CONNECTION_ERR);
 		}
 		String sql;
-		sql = "SELECT * FROM " + Tabellen.PATIENT + " WHERE " + FelderPatient.Id
+		sql = "SELECT * FROM " + Tabellen.PATIENT + " WHERE " + FelderPatient.ID
 				+ " = ?";
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -1912,7 +2029,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					geburtsdatum.setTime(rs.getDate(FelderPatient.GEBURTSDATUM.toString()));
 					aufklaerungsdatum.setTime(rs.getDate(FelderPatient.AUFKLAERUNGSDATUM.toString()));
 					
-					tmpPatient = new PatientBean(	rs.getLong(FelderPatient.Id.toString()), 
+					tmpPatient = new PatientBean(	rs.getLong(FelderPatient.ID.toString()), 
 													rs.getString(FelderPatient.INITIALEN.toString()), 
 													geschlecht[0],geburtsdatum, 
 													rs.getInt(FelderPatient.PERFORMANCESTATUS.toString()),
