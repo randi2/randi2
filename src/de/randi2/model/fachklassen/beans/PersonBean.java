@@ -142,7 +142,7 @@ public class PersonBean extends Filter {
 	/**
 	 * Eindeutige ID des Stellvertreters.
 	 */
-	private long stellvertreterID = NullKonstanten.NULL_LONG;
+	private long stellvertreterId = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Ein einfacher Konstruktor.
@@ -471,7 +471,7 @@ public class PersonBean extends Filter {
 	 */
 	public PersonBean getStellvertreter() throws PersonException {
 		if (stellvertreter == null) {
-			stellvertreter = Person.get(stellvertreterID);
+			stellvertreter = Person.get(stellvertreterId);
 		}
 		return stellvertreter;
 	}
@@ -491,8 +491,8 @@ public class PersonBean extends Filter {
 	 * 
 	 * @return liefert die eindeutige ID des Stellvertreters
 	 */
-	public long getStellvertreterID() {
-		return stellvertreterID;
+	public long getStellvertreterId() {
+		return stellvertreterId;
 	}
 
 	/**
@@ -502,7 +502,7 @@ public class PersonBean extends Filter {
 	 *            Die eindeutige Id (long) des Stellvertreters, die auch das
 	 *            Objekt in der Datenbank eindeutig identifiziert.
 	 */
-	public void setStellvertreterID(long stellvertreterID) {
-		this.stellvertreterID = stellvertreterID;
+	public void setStellvertreterId(long stellvertreterId) {
+		this.stellvertreterId = stellvertreterId;
 	}
 }

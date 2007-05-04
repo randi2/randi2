@@ -35,7 +35,7 @@ public final class Studienarm {
 	public static StudienarmBean get(long id) throws DatenbankFehlerException {
 		StudienarmBean nullBean = new StudienarmBean();
 		nullBean.setFilter(true);
-		return DatenbankFactory.getAktuelleDBInstanz().suchenObjektID(id,
+		return DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(id,
 				nullBean);
 
 	}

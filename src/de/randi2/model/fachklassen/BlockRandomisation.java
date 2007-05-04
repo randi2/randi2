@@ -40,7 +40,7 @@ public class BlockRandomisation extends Randomisation {
 	private int aBlockgroesse = NullKonstanten.NULL_INT;
 
 	/**
-	 * Ein int Array, das den Block repraesentiert und die ID's der Studienarme
+	 * Ein int Array, das den Block repraesentiert und die IDs der Studienarme
 	 * enthaelt.
 	 */
 	private int[] aBlock = null;
@@ -87,7 +87,7 @@ public class BlockRandomisation extends Randomisation {
 		// System.out.println(aBlock[letztePosition]);
 		aPatient.setStudienarm((StudienarmBean) this.studie.getStudienarme()
 				.toArray()[aBlock[letztePosition]]);
-		// aPatient.setStudienarmID();
+		// aPatient.setStudienarmId();
 		super.studie.getStudienarme().elementAt(aBlock[letztePosition])
 				.getPatienten().add(aPatient);
 		letztePosition++;
@@ -95,7 +95,7 @@ public class BlockRandomisation extends Randomisation {
 
 	/**
 	 * Diese Methode erzeugt einen neuen Block - ein int Array mit int Werten
-	 * (Studienarmen ID's), und liefert ihn zurueck.
+	 * (Studienarmen IDs), und liefert ihn zurueck.
 	 * 
 	 * @return ein Array mit int Werten, die den ID's der Studienarme
 	 *         entsprechen.
@@ -114,7 +114,7 @@ public class BlockRandomisation extends Randomisation {
 		}
 		// das zufallszahlen Array wird aufsteigend sortiert
 		Arrays.sort(zufallsZahlen);
-		// in dem Block Array werden jetzt die entsprechende ID's der
+		// in dem Block Array werden jetzt die entsprechende IDs der
 		// Studienarme gespeichert
 		for (int i = 0; i < block.length; i++) {
 			for (int a = 0; a < zufallsZahlen.length; a++) {

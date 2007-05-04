@@ -42,7 +42,7 @@ public final class Person {
 		PersonBean nullBean = new PersonBean();
 		nullBean.setFilter(true);
 		try {
-			return DatenbankFactory.getAktuelleDBInstanz().suchenObjektID(id,
+			return DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(id,
 					nullBean);
 		} catch (DatenbankFehlerException e) {
 			throw new PersonException(PersonException.PERSON_NICHT_GEFUNDEN);

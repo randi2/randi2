@@ -134,7 +134,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 */
 	private enum FelderZentrum {
-		ID("zentrumsID"), ANSPRECHPARTNERID("ansprechpartnerID"), INSTITUTION(
+		ID("zentrumsId"), ANSPRECHPARTNERID("ansprechpartnerId"), INSTITUTION(
 				"institution"), ABTEILUNGSNAME("abteilungsname"), ORT("ort"), PLZ(
 				"plz"), STRASSE("strasse"), HAUSNUMMER("hausnummer"), PASSWORT(
 				"passwort"), AKTIVIERT("aktiviert");
@@ -158,10 +158,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	private enum FelderPerson {
 
-		ID("personenID"), NACHNAME("nachname"), VORNAME("vorname"), TITEL(
+		ID("personenId"), NACHNAME("nachname"), VORNAME("vorname"), TITEL(
 				"titel"), GESCHLECHT("geschlecht"), TELEFONNUMMER(
 				"telefonnummer"), HANDYNUMMER("handynummer"), FAX("fax"), EMAIL(
-				"email"), STELLVERTRETER("stellvertreterID");
+				"email"), STELLVERTRETER("stellvertreterId");
 
 		private String name = "";
 
@@ -181,7 +181,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 */
 	private enum FelderBenutzerkonto {
-		ID("benutzerkontenID"), PERSON("Person_personenID"), LOGINNAME(
+		ID("benutzerkontenId"), PERSON("Person_personenId"), LOGINNAME(
 				"loginname"), PASSWORT("passwort"), ROLLEACCOUNT("rolle"), ERSTERLOGIN(
 				"erster_login"), LETZTERLOGIN("letzter_login"), GESPERRT(
 				"gesperrt");
@@ -204,7 +204,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 */
 	private enum FelderAktivierung {
-		ID("aktivierungsID"), BENUTZER("Benutzerkonto_benutzerkontenID"), LINK(
+		Id("aktivierungsId"), BENUTZER("Benutzerkonto_benutzerkontenId"), LINK(
 				"aktivierungslink"), VERSANDDATUM("versanddatum");
 
 		private String name = "";
@@ -225,7 +225,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 */
 	private enum FelderStudie {
-		ID("studienID"), BENUTZER("Benutzerkonto_benutzerkontenID"), NAME(
+		ID("studienID"), BENUTZER("Benutzerkonto_benutzerkontenId"), NAME(
 				"name"), BESCHREIBUNG("beschreibung"), STARTDATUM("startdatum"), ENDDATUM(
 				"enddatum"), PROTOKOLL("studienprotokoll"), RANDOMISATIONSART(
 				"randomisationsart"), STATUS("status_studie");
@@ -248,7 +248,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 */
 	private enum FelderStudienarm {
-		ID("studienarmID"), STUDIE("Studie_studienID"), STATUS(
+		ID("studienarmId"), STUDIE("Studie_studienId"), STATUS(
 				"status_aktivitaet"), BEZEICHNUNG("bezeichnung"), BESCHREIBUNG(
 				"beschreibung");
 
@@ -270,8 +270,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 */
 	private enum FelderPatient {
-		ID("patientenID"), BENUTZER("Benutzerkonto_benutzerkontenID"), STUDIENARM(
-				"Studienarm_studienarmID"), INITIALEN("initialen"), GEBURTSDATUM(
+		Id("patientenId"), BENUTZER("Benutzerkonto_benutzerkontenId"), STUDIENARM(
+				"Studienarm_studienarmId"), INITIALEN("initialen"), GEBURTSDATUM(
 				"geburtsdatum"), GESCHLECHT("geschlecht"), AUFKLAERUNGSDATUM(
 				"aufklaerungsdatum"), KOERPEROBERFLAECHE("koerperoberflaeche"), PERFORMANCESTATUS(
 				"performancestatus");
@@ -493,7 +493,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankFehlerException.CONNECTION_ERR);
 		}
 		sql = "DELETE FROM " + Tabellen.AKTIVIERUNG + " WHERE "
-				+ FelderAktivierung.ID + "=?";
+				+ FelderAktivierung.Id + "=?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, aktivierung.getAktivierungsId());
@@ -615,7 +615,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankFehlerException(
 					DatenbankFehlerException.CONNECTION_ERR);
 		}
-		sql = "DELETE FROM " + Tabellen.PATIENT + " WHERE " + FelderPatient.ID
+		sql = "DELETE FROM " + Tabellen.PATIENT + " WHERE " + FelderPatient.Id
 				+ "=?";
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -690,7 +690,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @param person
 	 *            zu schreibendes PersonBean
-	 * @return PersonBean mit vergebener ID oder null falls nur ein Update
+	 * @return PersonBean mit vergebener Id oder null falls nur ein Update
 	 *         durchgefuehrt wurde
 	 * @throws DatenbankFehlerException
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
@@ -708,7 +708,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql;
 		PreparedStatement pstmt;
 		ResultSet rs;
-		// neue Person da ID der Nullkonstante entspricht
+		// neue Person da Id der Nullkonstante entspricht
 		if (person.getId() == NullKonstanten.NULL_LONG) {
 			long id = Long.MIN_VALUE;
 			sql = "INSERT INTO " + Tabellen.PERSON + "(" + FelderPerson.ID
@@ -728,10 +728,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(5, person.getEmail());
 				pstmt.setString(6, person.getFax());
 				pstmt.setString(7, person.getTelefonnummer());
-				if (person.getStellvertreterID() == NullKonstanten.NULL_LONG) {
+				if (person.getStellvertreterId() == NullKonstanten.NULL_LONG) {
 					pstmt.setNull(8, Types.NULL);
 				} else {
-					pstmt.setLong(8, person.getStellvertreterID());
+					pstmt.setLong(8, person.getStellvertreterId());
 				}
 
 				pstmt.executeUpdate();
@@ -766,7 +766,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(5, person.getEmail());
 				pstmt.setString(6, person.getFax());
 				pstmt.setString(7, person.getTelefonnummer());
-				pstmt.setLong(8, person.getStellvertreterID());
+				pstmt.setLong(8, person.getStellvertreterId());
 				pstmt.setLong(9, person.getId());
 				pstmt.executeUpdate();
 				pstmt.close();
@@ -791,7 +791,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @param zentrum
 	 *            zu speicherndes Zentrum
-	 * @return das Zentrum mit der vergebenen eindeutigen ID bzw. das
+	 * @return das Zentrum mit der vergebenen eindeutigen Id bzw. das
 	 *         aktualisierte Zentrum
 	 * @throws DatenbankFehlerException
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
@@ -809,7 +809,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql;
 		PreparedStatement pstmt;
 		ResultSet rs;
-		// neues Zentrum da ID der Nullkonstante entspricht
+		// neues Zentrum da Id der Nullkonstante entspricht
 		if (zentrum.getId() == NullKonstanten.NULL_LONG) {
 			long id = Long.MIN_VALUE;
 			sql = "INSERT INTO " + Tabellen.ZENTRUM + "(" + FelderZentrum.ID
@@ -890,9 +890,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * Speichert bzw. aktualisiert das übergebene Benutzerkonto.
 	 * 
 	 * @param benutzerKonto
-	 *            welches gespeichert (ohne ID) oder aktualisiert (mit ID)
+	 *            welches gespeichert (ohne Id) oder aktualisiert (mit Id)
 	 *            werden soll.
-	 * @return das gespeicherte Objekt MIT ID, bzw. <code>null</code> falls
+	 * @return das gespeicherte Objekt MIT Id, bzw. <code>null</code> falls
 	 *         ein Update durchgeführt wurde.
 	 * @throws DatenbankFehlerException
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
@@ -1012,9 +1012,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * Speichert bzw. aktualisiert die übergebenen Aktivierungsdaten.
 	 * 
 	 * @param aktivierung
-	 *            welche gespeichert (ohne ID) oder aktualisiert (mit ID) werden
+	 *            welche gespeichert (ohne Id) oder aktualisiert (mit Id) werden
 	 *            soll.
-	 * @return das gespeicherte Objekt MIT ID, bzw. <code>null</code> falls
+	 * @return das gespeicherte Objekt MIT Id, bzw. <code>null</code> falls
 	 *         ein Update durchgeführt wurde.
 	 * @throws DatenbankFehlerException
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
@@ -1036,7 +1036,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			int i = 1;
 			long id = Long.MIN_VALUE;
 			sql = "INSERT INTO " + Tabellen.AKTIVIERUNG + " ("
-					+ FelderAktivierung.ID + ", " + FelderAktivierung.BENUTZER
+					+ FelderAktivierung.Id + ", " + FelderAktivierung.BENUTZER
 					+ ", " + FelderAktivierung.LINK + ", "
 					+ FelderAktivierung.VERSANDDATUM + ") "
 					+ " VALUES (NULL,?,?,?)";
@@ -1066,7 +1066,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderAktivierung.BENUTZER + "=? , "
 					+ FelderAktivierung.LINK + "=? , "
 					+ FelderAktivierung.VERSANDDATUM + "=?  " + "WHERE "
-					+ FelderAktivierung.ID + "=?";
+					+ FelderAktivierung.Id + "=?";
 			try {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, aktivierung.getBenutzerkonto().getId());
@@ -1098,9 +1098,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * Speichert bzw. aktualisiert die übergebenen Studiendaten.
 	 * 
 	 * @param studie
-	 *            welche gespeichert (ohne ID) oder aktualisiert (mit ID) werden
+	 *            welche gespeichert (ohne Id) oder aktualisiert (mit Id) werden
 	 *            soll.
-	 * @return das gespeicherte Objekt MIT ID, bzw <code>null</code> falls ein
+	 * @return das gespeicherte Objekt MIT Id, bzw <code>null</code> falls ein
 	 *         Update durchgeführt wurde.
 	 * @throws DatenbankFehlerException
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
@@ -1209,9 +1209,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * Speichert bzw. aktualisiert die übergebenen Studienarmdaten.
 	 * 
 	 * @param studienarm
-	 *            welcher gespeichert (ohne ID) oder aktualisiert (mit ID)
+	 *            welcher gespeichert (ohne Id) oder aktualisiert (mit Id)
 	 *            werden soll.
-	 * @return das gespeicherte Objekt MIT ID, bzw. <code>null</code> falls
+	 * @return das gespeicherte Objekt MIT Id, bzw. <code>null</code> falls
 	 *         ein Update durchgeführt wurde.
 	 * @throws DatenbankFehlerException
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
@@ -1302,9 +1302,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * Speichert bzw. aktualisiert die übergebenen Patientendaten.
 	 * 
 	 * @param patient
-	 *            welche(r) gespeichert (ohne ID) oder aktualisiert (mit ID)
+	 *            welche(r) gespeichert (ohne Id) oder aktualisiert (mit Id)
 	 *            werden soll.
-	 * @return das gespeicherte Objekt MIT ID, bzw. <code>null</code> falls
+	 * @return das gespeicherte Objekt MIT Id, bzw. <code>null</code> falls
 	 *         ein Update durchgeführt wurde.
 	 * @throws DatenbankFehlerException
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
@@ -1327,7 +1327,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			long id = Long.MIN_VALUE;
 			try {
 				sql = "INSERT INTO " + Tabellen.PATIENT + " ("
-						+ FelderPatient.ID + ", " + FelderPatient.BENUTZER
+						+ FelderPatient.Id + ", " + FelderPatient.BENUTZER
 						+ ", " + FelderPatient.STUDIENARM + ", "
 						+ FelderPatient.INITIALEN + ", "
 						+ FelderPatient.GEBURTSDATUM + ", "
@@ -1372,7 +1372,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderPatient.AUFKLAERUNGSDATUM + "=?, "
 					+ FelderPatient.KOERPEROBERFLAECHE + "=?, "
 					+ FelderPatient.PERFORMANCESTATUS + "=?, " + "WHERE "
-					+ FelderPatient.ID + "=?";
+					+ FelderPatient.Id + "=?";
 			try {
 				pstmt.setLong(j++, patient.getBenutzerkonto().getId());
 				pstmt.setLong(j++, patient.getStudienarm().getId());
@@ -1416,42 +1416,47 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * 
-	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenObjektID(long,
+	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenObjektId(long,
 	 *      de.randi2.datenbank.Filter)
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends Filter> T suchenObjektID(long id, T nullObjekt)
+	public <T extends Filter> T suchenObjektId(long id, T nullObjekt)
 			throws DatenbankFehlerException {
 		if (nullObjekt instanceof PersonBean) {
-			PersonBean person = this.suchenPersonID(id);
+			PersonBean person = this.suchenPersonId(id);
 			return (T) person;
 		}
 		if (nullObjekt instanceof ZentrumBean) {
-			ZentrumBean zentrum = this.suchenZentrumID(id);
+			ZentrumBean zentrum = this.suchenZentrumId(id);
 			return (T) zentrum;
 		}
 		if (nullObjekt instanceof BenutzerkontoBean) {
-			BenutzerkontoBean benutzerkonto = this.suchenBenutzerkontoID(id);
+			BenutzerkontoBean benutzerkonto = this.suchenBenutzerkontoId(id);
 			return (T) benutzerkonto;
 		}
 		if (nullObjekt instanceof AktivierungBean) {
-			AktivierungBean aktivierung = this.suchenAktivierungID(id);
+			AktivierungBean aktivierung = this.suchenAktivierungId(id);
 			return (T) aktivierung;
 		}
+		if (nullObjekt instanceof PatientBean) {
+			PatientBean patient = this.suchenPatientId(id);
+			return (T) patient;
+		}
+		
 		return null;
 	}
 
 	/**
-	 * Sucht in der Datenbank nach der Person mit der uebergebenen ID.
+	 * Sucht in der Datenbank nach der Person mit der uebergebenen Id.
 	 * 
 	 * @param id
-	 *            zu suchende ID.
-	 * @return Person mit zutreffender ID, null falls keine Person mit
-	 *         entsprechender ID gefunden wurde.
+	 *            zu suchende Id.
+	 * @return Person mit zutreffender Id, null falls keine Person mit
+	 *         entsprechender Id gefunden wurde.
 	 * @throws DatenbankFehlerException
 	 *             Falls bei der Suche ein Fehler auftrat.
 	 */
-	private PersonBean suchenPersonID(long id) throws DatenbankFehlerException {
+	private PersonBean suchenPersonId(long id) throws DatenbankFehlerException {
 		Connection con = null;
 		PreparedStatement pstmt;
 		ResultSet rs = null;
@@ -1512,16 +1517,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 	}
 
 	/**
-	 * Sucht in der Datenbank nach dem zur ID zugehörigen Zentrum.
+	 * Sucht in der Datenbank nach dem zur Id zugehörigen Zentrum.
 	 * 
 	 * @param id
-	 *            zu suchende ID.
-	 * @return Zentrum mit zugehöriger ID, null falls kein Zentrum mit
-	 *         entsprechender ID gefunden wurde.
+	 *            zu suchende Id.
+	 * @return Zentrum mit zugehöriger Id, null falls kein Zentrum mit
+	 *         entsprechender Id gefunden wurde.
 	 * @throws DatenbankFehlerException
 	 *             falls bei der Suche ein Fehler auftrat.
 	 */
-	private ZentrumBean suchenZentrumID(long id)
+	private ZentrumBean suchenZentrumId(long id)
 			throws DatenbankFehlerException {
 		Connection con = null;
 		String sql = "";
@@ -1562,6 +1567,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			e.printStackTrace();
 			throw new DatenbankFehlerException(
 					DatenbankFehlerException.SUCHEN_ERR);
+		} catch (ZentrumException ze){
+			
 		}
 
 		try {
@@ -1575,16 +1582,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 	}
 
 	/**
-	 * Sucht in der Datenbank nach dem zur ID zugehörigen Benutzerkonto.
+	 * Sucht in der Datenbank nach dem zur Id zugehörigen Benutzerkonto.
 	 * 
 	 * @param id
-	 *            zu suchende ID.
-	 * @return Benutzerkonto mit zugehöriger ID, null falls kein Benutzerkonto
-	 *         mit entsprechender ID gefunden wurde.
+	 *            zu suchende Id.
+	 * @return Benutzerkonto mit zugehöriger Id, null falls kein Benutzerkonto
+	 *         mit entsprechender Id gefunden wurde.
 	 * @throws DatenbankFehlerException
 	 *             falls bei der Suche ein Fehler auftrat.
 	 */
-	private BenutzerkontoBean suchenBenutzerkontoID(long id)
+	private BenutzerkontoBean suchenBenutzerkontoId(long id)
 			throws DatenbankFehlerException {
 		Connection con = null;
 		String sql = "";
@@ -1612,7 +1619,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			// (rs.getString(FelderBenutzerkonto.LOGINNAME.toString()),
 			// rs.getString(FelderBenutzerkonto.PASSWORT.toString()),
 			// rs.getString(FelderBenutzerkonto.ROLLEACCOUNT.toString()),
-			// rs.getLong(FelderBenutzerkonto.ID.toString()),
+			// rs.getLong(FelderBenutzerkonto.Id.toString()),
 			// rs.getBoolean(FelderBenutzerkonto.GESPERRT.toString()),
 			// rs.getLong(FelderBenutzerkonto.))
 
@@ -1635,17 +1642,17 @@ public class Datenbank implements DatenbankSchnittstelle {
 	}
 
 	/**
-	 * Sucht in der Datenbank nach dem zur ID zugehörigen
+	 * Sucht in der Datenbank nach dem zur Id zugehörigen
 	 * Aktivierungseigenschaften.
 	 * 
 	 * @param id
-	 *            zu suchende ID.
-	 * @return Aktivierung mit zugehöriger ID, null falls keine Aktivierung mit
-	 *         entsprechender ID gefunden wurde.
+	 *            zu suchende Id.
+	 * @return Aktivierung mit zugehöriger Id, null falls keine Aktivierung mit
+	 *         entsprechender Id gefunden wurde.
 	 * @throws DatenbankFehlerException
 	 *             falls bei der Suche ein Fehler auftrat.
 	 */
-	private AktivierungBean suchenAktivierungID(long id)
+	private AktivierungBean suchenAktivierungId(long id)
 			throws DatenbankFehlerException {
 		Connection con = null;
 		String sql = "";
@@ -1663,7 +1670,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 
 		sql = "SELECT * FROM " + Tabellen.AKTIVIERUNG + " WHERE "
-				+ FelderAktivierung.ID + " =?";
+				+ FelderAktivierung.Id + " =?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, id);
@@ -1672,7 +1679,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				cal.setTime(rs.getDate(FelderAktivierung.VERSANDDATUM
 						.toString()));
 				aktivierung = new AktivierungBean(rs
-						.getLong(FelderAktivierung.ID.toString()), cal, rs
+						.getLong(FelderAktivierung.Id.toString()), cal, rs
 						.getLong(FelderAktivierung.BENUTZER.toString()), rs
 						.getString(FelderAktivierung.LINK.toString()));
 			}
@@ -1695,47 +1702,47 @@ public class Datenbank implements DatenbankSchnittstelle {
 	}
 
 	/**
-	 * Diese Methode sucht in der Datenbank nach der zur ID gehoerigen Studie und
+	 * Diese Methode sucht in der Datenbank nach der zur Id gehoerigen Studie und
 	 * gibt sie als Bean zurueck.
 	 * 
 	 * @param id
-	 * 			zu suchende ID.
-	 * @return StudienBean, das zur uebergebenen ID gehoert. Null, falls keine Studie
+	 * 			zu suchende Id.
+	 * @return StudienBean, das zur uebergebenen Id gehoert. Null, falls keine Studie
 	 * 			mit entsprechender Id gefunden wurde. 
 	 * @throws DatenbankFehlerException wenn bei der Suche ein Fehler auftrat.
 	 */
-	private StudieBean suchenStudieID(long id) throws DatenbankFehlerException {
+	private StudieBean suchenStudieId(long id) throws DatenbankFehlerException {
 		
 		// TODO ausimplementieren tnoack
 	}
 
 	/**
-	 * Diese Methode sucht in der Datenbank nach dem zur ID gehoerigen Studienarm und
+	 * Diese Methode sucht in der Datenbank nach dem zur Id gehoerigen Studienarm und
 	 * gibt ihn als Bean zurueck.
 	 * 
 	 * @param id
-	 * 			zu suchende ID.
-	 * @return StudienarmBean, das zur uebergebenen ID gehoert. Null, falls kein 
+	 * 			zu suchende Id.
+	 * @return StudienarmBean, das zur uebergebenen Id gehoert. Null, falls kein 
 	 * 			Studienarm mit entsprechender Id gefunden wurde. 
 	 * @throws DatenbankFehlerException wenn bei der Suche ein Fehler auftrat.
 	 */
-	private StudienarmBean suchenStudienarmID(long id)
+	private StudienarmBean suchenStudienarmId(long id)
 			throws DatenbankFehlerException {
 		
 		// TODO ausimplementieren tnoack
 	}
 
 	/**
-	 * Diese Methode sucht in der Datenbank nach dem zur ID gehoerigen Patient und
+	 * Diese Methode sucht in der Datenbank nach dem zur Id gehoerigen Patient und
 	 * gibt ihn als Bean zurueck.
 	 * 
 	 * @param id
-	 * 			zu suchende ID.
-	 * @return PatientBean, das zur uebergebenen ID gehoert. Null, falls kein Patient
+	 * 			zu suchende Id.
+	 * @return PatientBean, das zur uebergebenen Id gehoert. Null, falls kein Patient
 	 * 			mit entsprechender Id gefunden wurde. 
 	 * @throws DatenbankFehlerException wenn bei der Suche ein Fehler auftrat.
 	 */
-	private PatientBean suchenPatientID(long id)
+	private PatientBean suchenPatientId(long id)
 			throws DatenbankFehlerException {
 		
 		Connection con = null;
@@ -1753,7 +1760,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankFehlerException.CONNECTION_ERR);
 		}
 		String sql;
-		sql = "SELECT * FROM " + Tabellen.PATIENT + " WHERE " + FelderPatient.ID
+		sql = "SELECT * FROM " + Tabellen.PATIENT + " WHERE " + FelderPatient.Id
 				+ " = ?";
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -1766,7 +1773,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					geburtsdatum.setTime(rs.getDate(FelderPatient.GEBURTSDATUM.toString()));
 					aufklaerungsdatum.setTime(rs.getDate(FelderPatient.AUFKLAERUNGSDATUM.toString()));
 					
-					tmpPatient = new PatientBean(	rs.getLong(FelderPatient.ID.toString()), 
+					tmpPatient = new PatientBean(	rs.getLong(FelderPatient.Id.toString()), 
 													rs.getString(FelderPatient.INITIALEN.toString()), 
 													geschlecht[0],geburtsdatum, 
 													rs.getInt(FelderPatient.PERFORMANCESTATUS.toString()),
@@ -1833,7 +1840,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	private PersonBean suchenAnsprechpartner(long id)
 			throws DatenbankFehlerException {
-		return suchenObjektID(id, new PersonBean());
+		return suchenObjektId(id, new PersonBean());
 	}
 
 	// TODO main methode spaeter rausschmeissen

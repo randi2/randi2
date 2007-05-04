@@ -161,9 +161,9 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     public static enum requestParameter {
 
         /**
-         * ID der Anfrage an den Dispatcher
+         * Id der Anfrage an den Dispatcher
          */
-        ANFRAGE_ID("anfrage_id"),
+        ANFRAGE_Id("anfrage_id"),
 
         /**
          * Systemstatus gesperrt[true|false] (boolean)

@@ -114,11 +114,11 @@ public class PatientBean extends Filter{
 	 * @param performanceStatus Der Performancestatus des Patienten.
 	 * @param datumAufklaerung Das Datum der Patientenaufklaerung.
 	 * @param koerperoberflaeche Die Koerperoberflaeche des Patienten.
-	 * @param studienarmID Die eindeutige ID des Studienarms. 
+	 * @param studienarmId Die eindeutige ID des Studienarms. 
 	 */
 	public PatientBean(long id, String initialen, char geschlecht, GregorianCalendar geburtsdatum, 
 			int performanceStatus, GregorianCalendar datumAufklaerung, int koerperoberflaeche, 
-			int studienarmID) {
+			int studienarmId) {
 		super();
 		
 		this.setId(id);
@@ -128,7 +128,7 @@ public class PatientBean extends Filter{
 		this.setPerformanceStatus(performanceStatus);
 		this.setDatumAufklaerung(datumAufklaerung);
 		this.setKoerperoberflaeche(koerperoberflaeche);
-		this.setStudienarmId(studienarmID);
+		this.setStudienarmId(studienarmId);
 	}	
 
 	/**

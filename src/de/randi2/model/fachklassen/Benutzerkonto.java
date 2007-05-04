@@ -177,7 +177,7 @@ public class Benutzerkonto {
 	public static BenutzerkontoBean get(long benutzerkontoId) throws BenutzerkontoException{
 		BenutzerkontoBean rueckgabe;
 		try {
-		    rueckgabe = DatenbankFactory.getAktuelleDBInstanz().suchenObjektID(benutzerkontoId, new BenutzerkontoBean());
+		    rueckgabe = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(benutzerkontoId, new BenutzerkontoBean());
 		} catch (DatenbankFehlerException e) {
 		    throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}

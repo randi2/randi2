@@ -92,7 +92,7 @@ public interface DatenbankSchnittstelle {
 	 *             <li>DatenbankFehlerException.CONNECTION_ERR</li>
 	 *             </ul>
 	 */
-	<T extends Filter> T suchenObjektID(long id, T nullObjekt)
+	<T extends Filter> T suchenObjektId(long id, T nullObjekt)
 			throws DatenbankFehlerException;
 
 	/**

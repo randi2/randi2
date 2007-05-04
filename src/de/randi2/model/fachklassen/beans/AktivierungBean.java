@@ -104,7 +104,7 @@ public class AktivierungBean extends Filter {
      * Set-Methode für die Benutzerkonto-Id.
      * @param benutzerkontoId - Setzt die Benutzerkonto-Id.
      */
-    public void setBenutzerkontoID(long benutzerkontoId) {
+    public void setBenutzerkontoId(long benutzerkontoId) {
 	this.benutzerkontoId = benutzerkontoId;
     }
 
