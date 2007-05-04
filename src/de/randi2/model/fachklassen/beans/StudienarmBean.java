@@ -51,11 +51,6 @@ public class StudienarmBean extends Filter {
 	private Vector<PatientBean> aPatienten = null;
 
 	/**
-	 * Die IDs der zugeordneten Patienten.
-	 */
-	private Vector<Integer> aPatientenIDs = null;
-
-	/**
 	 * Der Standardkonstruktor.
 	 * 
 	 */
@@ -72,7 +67,8 @@ public class StudienarmBean extends Filter {
 	 * @param studie
 	 *            Die Studie zu welcher dieser Arm gehoert
 	 * @param status
-	 *            Der Status dieses Studienarms, wie Status der uebergeordneten Studie
+	 *            Der Status dieses Studienarms, wie Status der uebergeordneten
+	 *            Studie
 	 * @param bezeichnung
 	 *            Die Bezeichnung (Name) dieses Arms
 	 * @param beschreibung
@@ -92,17 +88,8 @@ public class StudienarmBean extends Filter {
 		this.setBeschreibung(beschreibung);
 		this.setPatienten(patienten);
 
-		// IDs zu den Patienten holen und speichern
-		for (int i = 0; i < this.getPatienten().size(); i++) {
+	}
 
-			Vector<Long> aPatientenIDs = new Vector<Long>();
-
-			aPatientenIDs.add(this.getPatienten().elementAt(i).getId());
-
-		}
-
-	}	
-	
 	/**
 	 * Liefert den spezifischen Status dieses Arms.
 	 * 
@@ -115,7 +102,8 @@ public class StudienarmBean extends Filter {
 	/**
 	 * Setzt den spezifischen Status dieses Studienarms.
 	 * 
-	 * @param status Der zusetzende Status.
+	 * @param status
+	 *            Der zusetzende Status.
 	 */
 	public void setAStatus(Studie.Status status) {
 		aStatus = status;
@@ -198,32 +186,13 @@ public class StudienarmBean extends Filter {
 	}
 
 	/**
-	 * Liefert die IDs der zugeordneten Patienten als Vektor.
-	 * 
-	 * @return der Vector von PatientenIDs
-	 */
-	public Vector getPatientenIDs() {
-		return aPatientenIDs;
-	}
-
-	/**
-	 * Setzt den Vector der zugeordneten Patienten.
-	 * 
-	 * @param patientenIDs
-	 *            der Vector von PatientenIDs
-	 */
-	public void setPatientenIDs(Vector<Integer> patientenIDs) {
-		aPatientenIDs = patientenIDs;
-	}
-
-	/**
 	 * Liefert die Anzahl der zugeordneten Patienten.
 	 * 
 	 * @return die Anzahl der diesem Arm zugeordneten Patienten
 	 */
 	public int getPatAnzahl() {
-		// TODO
-		return NullKonstanten.NULL_INT;
+
+		return aPatienten.size();
 
 	}
 
