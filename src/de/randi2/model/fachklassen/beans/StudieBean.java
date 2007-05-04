@@ -92,68 +92,44 @@ public class StudieBean extends Filter {
 	 */
 	private Status status = null;
 
-//	/**
-//	 * Enumeration Status der Studie
-//	 */
-//	public enum Status {
-//
-//		/**
-//		 * Status aktiv
-//		 */
-//		AKTIV("aktiv"),
-//		/**
-//		 * Status in Vorbereitung
-//		 */
-//		INVORBEREITUNG("in Vorbereitung"),
-//		/**
-//		 * Status Studie beendet
-//		 */
-//		BEENDET("beendet");
-//
-//		/**
-//		 * Den Status als String.
-//		 */
-//		private String status = null;
-//
-//		/**
-//		 * Weist den String dem tatsaechlichen Status zu.
-//		 * 
-//		 * @param status
-//		 *            Der Parameter enthaelt den Status-String.
-//		 */
-//		private Status(String status) {
-//			this.status = status;
-//		}
-//
-//		/**
-//		 * Gibt den Status als String zurueck.
-//		 * 
-//		 * @return den Status
-//		 */
-//		
-//		public String toString() {
-//			return this.status;
-//		}
-//
-//		/**
-//		 * Ueberfuehrt einen String in das entsprechende Status-Element
-//		 * 
-//		 * @param status
-//		 *            Status der Studie
-//		 * @return Status in Form eines Enumelementes
-//		 * @throws StudieException 
-//		 *             StudieException
-//		 */
-//		public static Status parseStatus(String status) throws StudieException {
-//
-//			for (Status aStatus : Status.values()) {
-//				if (status.equals(aStatus.toString())) {
-//					return aStatus;
-//				}
-//			}
-//			throw new StudieException(StudieException.STATUS_UNGUELTIG);
-//		}
-//	}
+	/**
+	 * Konstruktor mit allen Attributen der Klasse.
+	 * 
+	 * @param id
+	 *            Id der Studie
+	 * @param beschreibung
+	 *            Beschreibung der Studie
+	 * @param startdatum
+	 *            Startdatum der Studie
+	 * @param enddatum
+	 *            Enddatum der Studie
+	 * @param studienprotokollPfad
+	 *            Studienprotokollpfad der Studie
+	 * @param randomisationId
+	 *            Randomisations-Id
+	 * @param zentrumId
+	 *            Zentrum-Id
+	 */
+	public StudieBean(long id, String beschreibung,
+			GregorianCalendar startdatum, GregorianCalendar enddatum,
+			String studienprotokollPfad, long randomisationId, long zentrumId) {
+
+		this.setId(id);
+
+		this.setBeschreibung(beschreibung);
+
+		try {
+			this.setStartDatum(startDatum);
+			this.setEndDatum(endDatum);
+		} catch (StudieException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.setStudienprotokollPfad(studienprotokollPfad);
+		this.setRandomisationId(randomisationId);
+		this.setZentrumId(zentrumId);
+
+	}
 
 	/**
 	 * leerer Konstruktor.
@@ -319,6 +295,25 @@ public class StudieBean extends Filter {
 	}
 
 	/**
+	 * Liefert die ID der Studie.
+	 * 
+	 * @return id der Studie
+	 */
+	public long getId() {
+		return id;
+	}
+
+	/**
+	 * Setzt die ID der Studie.
+	 * 
+	 * @param id
+	 *            der Studie.
+	 */
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	/**
 	 * Gibt die Anzahl der Studienarme zurueck.
 	 * 
 	 * @return studienarme, Anzahl der Studienarme.
@@ -391,7 +386,7 @@ public class StudieBean extends Filter {
 
 		return this.status;
 	}
-	
+
 	/**
 	 * Ueberprueft und setzt den aktuellen Status.
 	 * 
@@ -411,25 +406,6 @@ public class StudieBean extends Filter {
 			this.status = status;
 
 		}
-	}
-
-	/**
-	 * Liefert die ID der Studie.
-	 * 
-	 * @return id der Studie
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * Setzt die ID der Studie.
-	 * 
-	 * @param id
-	 *            der Studie.
-	 */
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	/**

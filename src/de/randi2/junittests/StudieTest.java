@@ -1,14 +1,11 @@
 package de.randi2.junittests;
 
 import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Studie;
-import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.RandomisationBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 
@@ -107,9 +104,31 @@ public class StudieTest {
 	public void testHinzufuegenPatient() {
 		fail("Not yet implemented");
 	}
-	
 
+	/**
+	 * Testet StatusEnum
+	 */
+	@Test
+	public void testStudieParser() {
 
- 
+		Studie.Status testeStatus;
+		try {
+			Studie.Status.parseStatus("Test");
+			fail("[FEHLER]testStudieParser sollte eine Exception auslösen");
+		} catch (Exception e) {
+
+		}
+		for (Studie.Status aStatus : Studie.Status.values()) {
+			try {
+				testeStatus = Studie.Status.parseStatus(aStatus.toString());
+				assertEquals(testeStatus, aStatus);
+				assertEquals(testeStatus.toString(), aStatus.toString());
+			} catch (StudieException e) {
+				fail("[FEHLER]testStudieParser");
+			}
+
+		}
+
+	}
 
 }
