@@ -1,7 +1,6 @@
 package de.randi2.model.fachklassen;
 
 import java.util.Vector;
-import org.apache.log4j.Logger;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
@@ -64,21 +63,18 @@ public class Benutzerkonto {
 	 * @param aBenutzerkonto
 	 *            das Bentuzerkonto das angelegt werden soll.
 	 * @return Das aktualisierte Benutzerkonto.
-	 * @throws DatenbankFehlerException
-	 *             Wenn ein Fehler auf der Datenbank aufgetreten ist.
+	 * @throws BenutzerkontoException Fehler der Benutzer konnte nicht angelegt werden
+	 *             
 	 */
 	public static Benutzerkonto anlegenBenutzer(BenutzerkontoBean aBenutzerkonto)
-			throws DatenbankFehlerException {
+			throws BenutzerkontoException{
 
 		BenutzerkontoBean aktualisierterBenutzer = null;
 		try {
 			aktualisierterBenutzer = DatenbankFactory.getAktuelleDBInstanz()
 					.schreibenObjekt(aBenutzerkonto);
 		} catch (DatenbankFehlerException e) {
-			Logger.getLogger("de.randi2.model.Benutzerkonto").warn(
-					"Fehler in Datenbank aufgetreten", e);
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.SCHREIBEN_ERR);
+			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		return new Benutzerkonto(aktualisierterBenutzer);
 	}
@@ -100,11 +96,10 @@ public class Benutzerkonto {
 	 * @return Ein BenutzerkontoBean Objekt zu diesem Benutzername
 	 * @throws BenutzerkontoException
 	 *             wenn kein Benutzer mit diesem Banutzername vorhanden ist
-	 * @throws DatenbankFehlerException
-	 *             Wenn ein Fehler auf der Datenbank aufgetreten ist.
+	 * @throws BenutzerkontoException Benutzer kann nicht gefunden werden, Fehler in DB?!
 	 */
 	public static BenutzerkontoBean getBenutzer(String benutzername)
-			throws BenutzerkontoException, DatenbankFehlerException {
+			throws BenutzerkontoException {
 		BenutzerkontoBean bk = new BenutzerkontoBean();
 		Vector<BenutzerkontoBean> konten;
 		bk.setBenutzername(benutzername);
@@ -112,10 +107,7 @@ public class Benutzerkonto {
 		try {
 			konten = suchenBenutzer(bk);
 		} catch (DatenbankFehlerException e) {
-			Logger.getLogger("de.randi2.model.Benutzerkonto").warn(
-					"Fehler in Datenbank aufgetreten", e);
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.SUCHEN_ERR);
+		    		throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		if (konten == null || konten.size() == 0) {
 			throw new BenutzerkontoException(

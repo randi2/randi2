@@ -52,7 +52,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
     /**
      * Diese Methode nimmt HTTP-POST-Request gemaess HTTP-Servlet Definition
-     * entgegen.
+     * entgegen. Hier werden Anfragen verarbeitet, die Zentren betreffen.
      * 
      * @param request
      *                Der Request fuer das Servlet.

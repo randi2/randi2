@@ -3,7 +3,6 @@ package de.randi2.model.fachklassen.beans;
 import java.util.GregorianCalendar;
 
 import de.randi2.datenbank.Filter;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.utility.NullKonstanten;

@@ -6,17 +6,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.log4j.Logger;
 
-import de.randi2.controller.BenutzerServlet;
 import de.randi2.model.fachklassen.Recht;
-import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.Config;
 import de.randi2.utility.LogAktion;
 import de.randi2.utility.LogLayout;
-import static de.randi2.utility.Config.Felder;
+import de.randi2.utility.Config.Felder;
 
 /**
  * <p>
@@ -35,20 +33,23 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     // TODO alle Parameter auf Enums umstellen --BTheel
     // TODO LogLayout beim Sperren?--Btheel
     /**
-     * 
+     * Ist System gesperrt oder nicht.
      */
     private boolean istSystemGesperrt = true;
 
+    /**
+     * Fehlermeldung, wenn das System gesperrt ist.
+     */
     private String meldungSystemGesperrt = "Meldung des System ist gesperrt";
 
-    /**
-     * Mitteilung an den Benutzer beim Loginvorgang, welche Fehler aufgetreten
-     * sind
-     */
+    //TODO Benjamin ist das nicht redundant mit den enum Feldern?!
     public static final String FEHLERNACHRICHT = "fehlernachricht";
 
+    
+    //TODO Benjamin ist das nicht redundant mit den enum Feldern
     public static final String IST_SYSTEM_GESPERRT = "Hurz";
 
+    //TODO Benjmamin ist das nicht redundant mit meldung System gesperrt?!
     /**
      * Haelt die Begruendung der Systemsperrung
      */
@@ -76,32 +77,38 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     }
 
     /**
-     * 
+     * Verwaltet alle anfrage_ids an das DispatcherServlet. Alle anfrage_id's muesen hier deklariert werden.
      * 
      */
     public enum anfrage_id {
         /**
-         * 
+         * Benutzer loggt sich aus.
          */
         JSP_HEADER_LOGOUT,
+        
         /**
-         * 
+         * Benutzer loggt sich ein.
          */
         JSP_INDEX_LOGIN,
+        
         /**
-         * 
+         * Benutzer klickt Benutzer registieren auf index.jsp
          */
         JSP_INDEX_BENUTZER_REGISTRIEREN_EINS,
+        
         /**
-         * 
+         * Benutzer hat Disclaimer akzeptiert. (Benutzer registrieren)
          */
         JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI,
+        
         /**
-         * 
+         * Benutzer filtert nach Zentren bzw. gibt sein Zentrumspasswort ein. (Benutzer registieren)
          */
         JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI,
+        
         /**
          * 
+         * Benutzer gibt Personendaten ein (Benutzer registrieren)
          */
         JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER,
 
@@ -168,7 +175,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
          */
         MITTEILUNG_SYSTEM_GESPERRT("mitteilung_system_gesperrt");
 
-        String parameter = null;
+        /**
+         * String Version des Parameters
+         */
+        private String parameter = null;
 
         private requestParameter(String parameter) {
             this.parameter = parameter;
