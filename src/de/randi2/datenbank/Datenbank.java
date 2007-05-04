@@ -1420,7 +1420,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		
 		if (zuSuchendesObjekt instanceof PersonBean) {
-			return suchenPerson((PersonBean) zuSuchendesObjekt);
+			return (Vector<T>) suchenPerson((PersonBean) zuSuchendesObjekt);
 		}
 		
 		return null;
@@ -1439,8 +1439,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 			siehe {@link DatenbankSchnittstelle#suchenObjekt(Filter)}
 	 * 			
 	 */
-	//TODO T in PersonBean
-	private <T extends Filter> Vector<T> suchenPerson(PersonBean person) throws DatenbankFehlerException {
+	private Vector<PersonBean> suchenPerson(PersonBean person) throws DatenbankFehlerException {
 		Connection con;
 		try {
 			con = getConnection();
@@ -1450,7 +1449,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt;
 		ResultSet rs;
 		PersonBean tmpPerson;
-		Vector<T> personVec = new Vector<T>();
+		Vector<PersonBean> personVec = new Vector<PersonBean>();
 		//erstellen der SQL Abfrage
 		String sql ="SELECT * FROM "+Tabellen.PERSON.toString()+" WHERE ";
 		if(person.getNachname()!=null) { 
@@ -1535,7 +1534,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						rs.getString(FelderPerson.HANDYNUMMER.toString()), 
 						rs.getString(FelderPerson.FAX.toString()));
 				//fuege Person dem Vector hinzu
-				personVec.add((T) tmpPerson);
+				personVec.add(tmpPerson);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
