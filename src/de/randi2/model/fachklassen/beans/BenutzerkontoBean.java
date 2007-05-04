@@ -184,11 +184,7 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	public PersonBean getBenutzer() throws PersonException {
 		if (benutzer == null) {
-			try {
-			    benutzer = Person.get(benutzerId);
-			} catch (DatenbankFehlerException e) {
-			    throw new PersonException(PersonException.FEHLER);
-			}
+			benutzer = Person.get(benutzerId);
 		}
 		return benutzer;
 	}

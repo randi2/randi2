@@ -4,6 +4,7 @@ import java.util.GregorianCalendar;
 
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Studienarm;
 import de.randi2.utility.NullKonstanten;
@@ -288,7 +289,7 @@ public class PatientBean extends Filter{
 	 * Get-Methode für die Rückgabe des BenutzerkontoBean.
 	 * @return Liefert das BenutzerkontoBean.
 	 */
-	public BenutzerkontoBean getBenutzerkonto() {
+	public BenutzerkontoBean getBenutzerkonto() throws BenutzerkontoException {
 		if (benutzerkonto == null){
 			benutzerkonto = Benutzerkonto.get(benutzerkontoId);
 		}
