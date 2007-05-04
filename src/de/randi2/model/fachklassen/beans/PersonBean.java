@@ -152,10 +152,13 @@ public class PersonBean extends Filter {
 	}
 
 	/**
+	 * Datenbank-Konstruktor.
 	 * Ein Konstruktor, dem alle Eigenschaften uebergeben werden.
 	 * 
 	 * @param id
 	 *            Die eindeutige Id des Objektes.
+	 * @param stellvertreterId
+	 * 			  Die ID des Stellvertreters.
 	 * @param nachname
 	 *            Nachname der Person
 	 * @param vorname
@@ -176,11 +179,12 @@ public class PersonBean extends Filter {
 	 * @throws PersonException
 	 *             Wenn bei der Validierung einer Person Probleme auftreten.
 	 */
-	public PersonBean(long id, String nachname, String vorname, Titel titel,
+	public PersonBean(long id, long stellvertreterId, String nachname, String vorname, Titel titel,
 			char geschlecht, String email, String telefonnummer,
 			String handynummer, String fax) throws PersonException {
 		super();
 		this.setId(id);
+		this.setStellvertreterId(stellvertreterId);
 		this.setNachname(nachname);
 		this.setVorname(vorname);
 		this.setTitel(titel);
@@ -498,7 +502,7 @@ public class PersonBean extends Filter {
 	/**
 	 * Set-Methode fuer Stellvertreter
 	 * 
-	 * @param stellvertreterID
+	 * @param stellvertreterId
 	 *            Die eindeutige Id (long) des Stellvertreters, die auch das
 	 *            Objekt in der Datenbank eindeutig identifiziert.
 	 */

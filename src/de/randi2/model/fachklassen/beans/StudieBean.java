@@ -2,6 +2,8 @@ package de.randi2.model.fachklassen.beans;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Vector;
+
+import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Randomisation;
@@ -141,9 +143,9 @@ public class StudieBean extends Filter {
 	 * Liefert das Benutzerkonto.
 	 * 
 	 * @return benutzerkonto, Benutzerkonto
-	 * @throws DatenbankFehlerException DatenbankFehlerException
+	 * @throws BenutzerkontoException Wirft eine BenutzerkontoException.
 	 */
-	public BenutzerkontoBean getBenutzerkonto() throws DatenbankFehlerException {
+	public BenutzerkontoBean getBenutzerkonto() throws BenutzerkontoException {
 		if (benutzerkonto == null) {
 			benutzerkonto = Benutzerkonto.get(benutzerkontoId);
 		}

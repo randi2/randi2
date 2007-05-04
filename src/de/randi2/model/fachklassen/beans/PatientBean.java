@@ -115,10 +115,11 @@ public class PatientBean extends Filter{
 	 * @param datumAufklaerung Das Datum der Patientenaufklaerung.
 	 * @param koerperoberflaeche Die Koerperoberflaeche des Patienten.
 	 * @param studienarmId Die eindeutige ID des Studienarms. 
+	 * @param benutzerkontoId Die ID des Benutzerkontos.
 	 */
 	public PatientBean(long id, String initialen, char geschlecht, GregorianCalendar geburtsdatum, 
 			int performanceStatus, GregorianCalendar datumAufklaerung, int koerperoberflaeche, 
-			int studienarmId) {
+			int studienarmId, long benutzerkontoId) {
 		super();
 		
 		this.setId(id);
@@ -129,6 +130,7 @@ public class PatientBean extends Filter{
 		this.setDatumAufklaerung(datumAufklaerung);
 		this.setKoerperoberflaeche(koerperoberflaeche);
 		this.setStudienarmId(studienarmId);
+		this.setBenutzerkontoId(benutzerkontoId);
 	}	
 
 	/**
@@ -288,6 +290,7 @@ public class PatientBean extends Filter{
 	/**
 	 * Get-Methode für die Rückgabe des BenutzerkontoBean.
 	 * @return Liefert das BenutzerkontoBean.
+	 * @throws BenutzerkontoException
 	 */
 	public BenutzerkontoBean getBenutzerkonto() throws BenutzerkontoException {
 		if (benutzerkonto == null){

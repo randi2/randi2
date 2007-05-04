@@ -125,6 +125,7 @@ public class AktivierungBean extends Filter {
     }
 
     /**
+     * Datenbank-Konstruktor.
      * Der komplette Konstruktor an den alle Attribute dieser Klasse übergeben werden, mit der
      * Ausnahme von dem BenutzerkontoBean.
      * @param aktivierungsId 

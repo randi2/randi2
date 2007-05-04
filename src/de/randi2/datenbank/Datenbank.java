@@ -928,7 +928,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			try {
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
-				pstmt.setLong(i++, benutzerKonto.getBenutzer().getId());
+				pstmt.setLong(i++, benutzerKonto.getBenutzerId());
 				pstmt.setString(i++, benutzerKonto.getBenutzername());
 				pstmt.setString(i++, benutzerKonto.getPasswort());
 				pstmt.setString(i++, benutzerKonto.getRolle().getName());
@@ -972,7 +972,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderBenutzerkonto.ID + "= ? ";
 			try {
 				pstmt = con.prepareStatement(sql);
-				pstmt.setLong(j++, benutzerKonto.getBenutzer().getId());
+				pstmt.setLong(j++, benutzerKonto.getBenutzerId());
 				pstmt.setString(j++, benutzerKonto.getBenutzername());
 				pstmt.setString(j++, benutzerKonto.getPasswort());
 				pstmt.setString(j++, benutzerKonto.getRolle().getName());
@@ -1044,7 +1044,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			try {
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
-				pstmt.setLong(i++, aktivierung.getBenutzerkonto().getId());
+				pstmt.setLong(i++, aktivierung.getBenutzerkontoId());
 				pstmt.setString(i++, aktivierung.getAktivierungsLink());
 				pstmt.setDate(i++, new Date(aktivierung.getVersanddatum()
 						.getTimeInMillis()));
@@ -1070,7 +1070,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderAktivierung.Id + "=?";
 			try {
 				pstmt = con.prepareStatement(sql);
-				pstmt.setLong(j++, aktivierung.getBenutzerkonto().getId());
+				pstmt.setLong(j++, aktivierung.getBenutzerkontoId());
 				pstmt.setString(j++, aktivierung.getAktivierungsLink());
 				pstmt.setDate(j++, new Date(aktivierung.getVersanddatum()
 						.getTimeInMillis()));
@@ -1133,7 +1133,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						+ "VALUES (NULL,?,?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
-				pstmt.setLong(i++, studie.getBenutzerkonto().getId());
+				pstmt.setLong(i++, studie.getBenutzerkontoId());
 				pstmt.setString(i++, studie.getName());
 				if (studie.getBeschreibung() != "") {
 					pstmt.setString(i++, studie.getBeschreibung());
@@ -1147,7 +1147,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(i++, studie.getStudienprotokollpfad());
 				pstmt.setString(i++, studie.getRandomisationseigenschaften()
 						.toString());
-				pstmt.setInt(i++, studie.getStatus());
+				pstmt.setString(i++, studie.getStatus().toString());
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
 				rs.next();
@@ -1173,7 +1173,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ "=?";
 			try {
 				pstmt = con.prepareStatement(sql);
-				pstmt.setLong(j++, studie.getBenutzerkonto().getId());
+				pstmt.setLong(j++, studie.getBenutzerkontoId());
 				pstmt.setString(j++, studie.getName());
 				if (studie.getBeschreibung() != "") {
 					pstmt.setString(j++, studie.getBeschreibung());
@@ -1187,7 +1187,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(j++, studie.getStudienprotokollpfad());
 				pstmt.setString(j++, studie.getRandomisationseigenschaften()
 						.toString());
-				pstmt.setInt(j++, studie.getStatus());
+				pstmt.setString(j++, studie.getStatus().toString());
 				pstmt.executeUpdate();
 				pstmt.close();
 			} catch (SQLException e) {
@@ -1243,7 +1243,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, studienarm.getStudie().getId());
-				pstmt.setInt(i++, studienarm.getAktiv());
+				pstmt.setString(i++, studienarm.getAStatus().toString());
 				pstmt.setString(i++, studienarm.getBezeichnung());
 				if (studienarm.getBeschreibung() != "") {
 					pstmt.setString(i++, studienarm.getBeschreibung());
@@ -1274,7 +1274,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			try {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, studienarm.getStudie().getId());
-				pstmt.setInt(j++, studienarm.getAktiv());
+				pstmt.setString(j++, studienarm.getAStatus().toString());
 				pstmt.setString(j++, studienarm.getBezeichnung());
 				if (studienarm.getBeschreibung() != "") {
 					pstmt.setString(j++, studienarm.getBeschreibung());
@@ -1339,7 +1339,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						+ "VALUES (NULL,?,?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
-				pstmt.setLong(i++, patient.getBenutzerkonto().getId());
+				pstmt.setLong(i++, patient.getBenutzerkontoId());
 				pstmt.setLong(i++, patient.getStudienarm().getId());
 				pstmt.setString(i++, patient.getInitialen());
 				pstmt.setDate(i++, new Date(patient.getGeburtsdatum()
@@ -1375,7 +1375,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderPatient.PERFORMANCESTATUS + "=?, " + "WHERE "
 					+ FelderPatient.Id + "=?";
 			try {
-				pstmt.setLong(j++, patient.getBenutzerkonto().getId());
+				pstmt.setLong(j++, patient.getBenutzerkontoId());
 				pstmt.setLong(j++, patient.getStudienarm().getId());
 				pstmt.setString(j++, patient.getInitialen());
 				pstmt.setDate(j++, new Date(patient.getGeburtsdatum()
@@ -1439,6 +1439,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 			siehe {@link DatenbankSchnittstelle#suchenObjekt(Filter)}
 	 * 			
 	 */
+	//TODO T in PersonBean
 	private <T extends Filter> Vector<T> suchenPerson(PersonBean person) throws DatenbankFehlerException {
 		Connection con;
 		try {
@@ -1500,7 +1501,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		else {
 			sql+= "(TRUE OR " + FelderPerson.EMAIL.toString()+" LIKE ?%) AND ";
 		}//wird nach der StellvertreterId ueberhaupt gesucht?
-		if(person.getStellvertreterID()!=NullKonstanten.NULL_LONG) {
+		if(person.getStellvertreterId()!=NullKonstanten.NULL_LONG) {
 			sql +=FelderPerson.STELLVERTRETER.toString()+" LIKE ?%";
 		}
 		else {
@@ -1518,12 +1519,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.setString(index++, person.getHandynummer());
 			pstmt.setString(index++, person.getFax());
 			pstmt.setString(index++, person.getEmail());
-			pstmt.setLong(index++, person.getStellvertreterID());
+			pstmt.setLong(index++, person.getStellvertreterId());
 			rs = pstmt.executeQuery();
 			//durchlaufe ResultSet
 			while(rs.next()) {
 				//erstelle PersonBeans
 				tmpPerson = new PersonBean(rs.getLong(FelderPerson.ID.toString()), 
+						rs.getLong(FelderPerson.STELLVERTRETER.toString()),
 						rs.getString(FelderPerson.NACHNAME.toString()), 
 						rs.getString(FelderPerson.VORNAME.toString()), 
 						Titel.parseTitel(rs.getString(FelderPerson.TITEL.toString())),
@@ -1615,17 +1617,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 				char[] tmp = rs.getString(FelderPerson.GESCHLECHT.toString())
 						.toCharArray();
 				try {
-					tmpPerson = new PersonBean(rs.getLong(FelderPerson.ID
-							.toString()), rs.getString(FelderPerson.NACHNAME
-							.toString()), rs.getString(FelderPerson.VORNAME
-							.toString()), Titel.parseTitel(rs
-							.getString(FelderPerson.TITEL.toString())), tmp[0],
-							rs.getString(FelderPerson.EMAIL.toString()), rs
-									.getString(FelderPerson.TELEFONNUMMER
-											.toString()), rs
-									.getString(FelderPerson.HANDYNUMMER
-											.toString()), rs
-									.getString(FelderPerson.FAX.toString()));
+					tmpPerson = new PersonBean(rs.getLong(FelderPerson.ID.toString()), 
+							rs.getLong(FelderPerson.STELLVERTRETER.toString()),
+							rs.getString(FelderPerson.NACHNAME.toString()), 
+							rs.getString(FelderPerson.VORNAME.toString()), 
+							Titel.parseTitel(rs.getString(FelderPerson.TITEL.toString())), 
+							tmp[0], 
+							rs.getString(FelderPerson.EMAIL.toString()), 
+							rs.getString(FelderPerson.TELEFONNUMMER.toString()), 
+							rs.getString(FelderPerson.HANDYNUMMER.toString()), 
+							rs.getString(FelderPerson.FAX.toString()));
 				} catch (PersonException e) {
 					e.printStackTrace();
 					throw new DatenbankFehlerException(
@@ -1703,8 +1704,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			e.printStackTrace();
 			throw new DatenbankFehlerException(
 					DatenbankFehlerException.SUCHEN_ERR);
-		} catch (ZentrumException ze){
-			
+		} catch (Randi2Exception e) {
+			throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
 		}
 
 		try {
@@ -1915,7 +1916,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 													rs.getInt(FelderPatient.PERFORMANCESTATUS.toString()),
 													aufklaerungsdatum,
 													rs.getInt(FelderPatient.KOERPEROBERFLAECHE.toString()),
-													rs.getInt(FelderPatient.STUDIENARM.toString()));
+													rs.getInt(FelderPatient.STUDIENARM.toString()),
+													rs.getLong(FelderPatient.BENUTZER.toString()));
 													
 				} catch (PatientException e) {
 					

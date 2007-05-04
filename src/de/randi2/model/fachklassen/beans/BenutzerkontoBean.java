@@ -4,7 +4,6 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import de.randi2.datenbank.Filter;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Person;
@@ -69,6 +68,7 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	private Rolle rolle = null;
 
+	//TODO Zentrum muss raus!
 	/**
 	 * Zentrum, zu dem dieses Benutzerkonto gehoert. 1:1 Beziehung
 	 */
@@ -110,9 +110,12 @@ public class BenutzerkontoBean extends Filter {
 	}
 
 	/**
+	 * Datenbank-Kontruktor.
 	 * Der Konstruktor mit allen Attributen. <br>
 	 * Achtung: Bei Passwort muss es sich um das gehashte Passwort handeln!
 	 * 
+	 * @param id
+	 * 			  die ID des Benutzers.
 	 * @param benutzername
 	 *            der Benutzername des Benutzers.
 	 * @param passwortHash
@@ -123,8 +126,6 @@ public class BenutzerkontoBean extends Filter {
 	 *            Id des zugehoerigen Benutzers.
 	 * @param gesperrt
 	 *            ob der Benutzer gesperrt ist.
-	 * @param zentrumId
-	 *            Id des zugehoerigen Zentrums.
 	 * @param ersterLogin
 	 *            Zeitpunkt des ersten Logins als GregorianCalendar
 	 * @param letzterLogin
@@ -132,16 +133,16 @@ public class BenutzerkontoBean extends Filter {
 	 * @throws BenutzerkontoException
 	 *             Wenn die uebergebenen Parametern nicht in Ordnung waren
 	 */
-	public BenutzerkontoBean(String benutzername, String passwortHash,
-			Rolle rolle, long benutzerId, boolean gesperrt, long zentrumId,
+	public BenutzerkontoBean(long id, String benutzername, String passwortHash,
+			Rolle rolle, long benutzerId, boolean gesperrt,
 			GregorianCalendar ersterLogin, GregorianCalendar letzterLogin)
 			throws BenutzerkontoException {
 
+		this.setId(id);
 		this.setBenutzername(benutzername);
 		this.setPasswort(passwortHash);
 		this.setRolle(rolle);
 		this.setBenutzerId(benutzerId);
-		this.setZentrumId(zentrumId);
 		this.setGesperrt(gesperrt);
 		this.setErsterLogin(ersterLogin);
 		this.setLetzterLogin(letzterLogin);
@@ -472,5 +473,13 @@ public class BenutzerkontoBean extends Filter {
 		return "Benutzerkontoname: " + this.benutzername + "(Last LogIn: "
 				+ this.letzterLogin + ")";
 
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public long getBenutzerId() {
+		return benutzerId;
 	}
 }
