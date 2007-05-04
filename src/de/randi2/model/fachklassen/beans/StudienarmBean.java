@@ -1,5 +1,5 @@
 /**
- * 
+ * Das Beans-Package
  */
 package de.randi2.model.fachklassen.beans;
 
