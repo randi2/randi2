@@ -5,7 +5,6 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.beans.PersonBean;
@@ -57,8 +56,12 @@ public class ZentrumBeanTest {
 				"01760427424");
 		passwort = "oe?jie3Yiesa";
 
-		new ZentrumBean(id, institution, abteilung, ort, plz, strasse, hausnr,
-				ansprechpartner.getId(), passwort);
+		try {
+			new ZentrumBean(id, institution, abteilung, ort, plz, strasse, hausnr,
+					ansprechpartner.getId(), passwort, false);
+		} catch (ZentrumException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	/**
@@ -145,7 +148,7 @@ public class ZentrumBeanTest {
 	public void testGetAnsprechpartner() {
 		try {
 			ansprechpartner = zentrum.getAnsprechpartner();
-		} catch (DatenbankFehlerException e) {
+		} catch (PersonException e) {
 			fail(e.getMessage());
 		}
 	}
@@ -161,10 +164,14 @@ public class ZentrumBeanTest {
 		ansprechpartner = new PersonBean(1,"nachname", "vorname", PersonBean.Titel.PROF, 'm',
 				"user@hs-heilbronn.de", "01760099334", "017600972487",
 				"01760427424");
-		zentrum.setAnsprechpartner(ansprechpartner);
+		try {
+			zentrum.setAnsprechpartner(ansprechpartner);
+		} catch (ZentrumException e1) {
+			fail(e1.getMessage());
+		}
 		try {
 			assertTrue(zentrum.getAnsprechpartner().equals(ansprechpartner));
-		} catch (DatenbankFehlerException e) {
+		} catch (PersonException e) {
 			fail(e.getMessage());
 		}
 	}

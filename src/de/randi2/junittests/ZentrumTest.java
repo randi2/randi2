@@ -74,7 +74,7 @@ public class ZentrumTest {
 		try {
 			assertEquals(testZB.getAnsprechpartner(), testZ.getZentrumBean()
 					.getAnsprechpartner());
-		} catch (DatenbankFehlerException e) {
+		} catch (PersonException e) {
 			fail(e.getMessage());
 		}
 		assertEquals(testZB.getOrt(), testZ.getZentrumBean().getOrt());
