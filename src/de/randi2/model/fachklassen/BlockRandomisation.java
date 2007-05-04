@@ -67,12 +67,13 @@ public class BlockRandomisation extends Randomisation {
 		aBlock = erzeugeNeuenBlock();
 		letztePosition = 0;
 	}
-	
-	//TODO ein ausfuehrlicher Kommentar
-	/*
-	 * (non-Javadoc)
+
+	/**
+	 * Diese Methode ordnet einem uebergebenen Patienten einen zufaelligen
+	 * Studienarm zu.
 	 * 
-	 * @see de.randi2.model.fachklassen.Randomisation#randomisierePatient(de.randi2.model.fachklassen.beans.PatientBean)
+	 * @param aPatient
+	 *            der zuzuordnende Patient
 	 */
 	@Override
 	public void randomisierenPatient(PatientBean aPatient)
