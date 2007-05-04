@@ -10,6 +10,7 @@ import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.Studie.Status;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 
 /**
  * Die Klasse repraesentiert eine Studie.
@@ -143,8 +144,9 @@ public class StudieBean extends Filter {
 	 * Liefert das Benutzerkonto.
 	 * 
 	 * @return benutzerkonto, Benutzerkonto
+	 * @throws DatenbankFehlerException DatenbankFehlerException
 	 */
-	public BenutzerkontoBean getBenutzerkonto() {
+	public BenutzerkontoBean getBenutzerkonto() throws DatenbankFehlerException {
 		if (benutzerkonto == null) {
 			benutzerkonto = Benutzerkonto.get(benutzerkontoId);
 		}
