@@ -1,5 +1,4 @@
 package de.randi2.model.fachklassen;
-
 import java.util.Vector;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.beans.PatientBean;
@@ -126,6 +125,7 @@ public class Studie {
 	 *            Kriterien zum erstellen der Statistik.
 	 * @return StatistikBean, das aktuelle StudieBean.
 	 */
+	//TODO Implementierung
 	public StatistikBean anzeigenStatistik(int kriterium) {
 
 		return null;
@@ -140,6 +140,11 @@ public class Studie {
 	 * @return patient das aktuelle PatientBean.
 	 */
 	private PatientBean hinzufuegenPatient(PatientBean patient) {
+		//TODO Algorithmus Implementierung
+		
+		
+		
+		
 		return patient;
 
 	}
@@ -163,6 +168,7 @@ public class Studie {
 	 * @return zugewieseneZentren, Zentren, die der Studie zugewiesen werden.
 	 * 
 	 */
+	//TODO Ausimplementierung
 	public Vector<Studie> zuweisenZentrum(ZentrumBean aZentrum) {
 		Vector<Studie> zugewieseneZentren = null;
 
