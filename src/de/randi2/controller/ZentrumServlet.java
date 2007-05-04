@@ -25,48 +25,48 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
  */
 public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
-    	/**
-         *
-         * 
-         */
+    /**
+     *
+     * 
+     */
     public enum anfrage_id {
 	/**
-         * 
-         */
+	 * 
+	 */
 	CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI,
 	/**
-         * 
-         */
+	 * 
+	 */
 	CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI
 
     }
 
     /**
-         * Konstruktor.
-         * 
-         * @see javax.servlet.http.HttpServlet#HttpServlet()
-         */
+     * Konstruktor.
+     * 
+     * @see javax.servlet.http.HttpServlet#HttpServlet()
+     */
     public ZentrumServlet() {
 	super();
     }
 
     // TODO Bitte Kommentar ueberpruefen und ggf. anpassen.
     /**
-         * Diese Methode nimmt HTTP-POST-Request gemaess HTTP-Servlet Definition
-         * entgegen.
-         * 
-         * @param request
-         *                Der Request fuer das Servlet.
-         * @param response
-         *                Der Response Servlet.
-         * @throws IOException
-         *                 Falls Fehler in den E/A-Verarbeitung.
-         * @throws ServletException
-         *                 Falls Fehler in der HTTP-Verarbeitung auftreten.
-         * 
-         * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest
-         *      request, HttpServletResponse response)
-         */
+     * Diese Methode nimmt HTTP-POST-Request gemaess HTTP-Servlet Definition
+     * entgegen.
+     * 
+     * @param request
+     *                Der Request fuer das Servlet.
+     * @param response
+     *                Der Response Servlet.
+     * @throws IOException
+     *                 Falls Fehler in den E/A-Verarbeitung.
+     * @throws ServletException
+     *                 Falls Fehler in der HTTP-Verarbeitung auftreten.
+     * 
+     * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest
+     *      request, HttpServletResponse response)
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	String id = (String) request.getParameter("anfrage_id");
@@ -86,18 +86,17 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	// Schritt 3.2 ZENTRUMAUSWAHL->BENUTZERDATEN_EINGEBEN
 	else if (id.equals(ZentrumServlet.anfrage_id.CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI.name())) {
 	    this.class_dispatcherservlet_benutzer_registrieren_drei(request, response);
-	} 
-	else {
+	} else {
 	    // TODO Hier muss noch entschieden werden,was passiert
 	}
     }
 
     /**
-         * @param request
-         * @param response
-         * @throws ServletException
-         * @throws IOException
-         */
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     private void class_dispatcherservlet_benutzer_registrieren_zwei(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	// Nach allen vorhandenen Zentren suchen
 	// @Andy - wieder die gleiche Geschichte, mit der Konstante
@@ -120,11 +119,11 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
     }
 
     /**
-         * @param request
-         * @param response
-         * @throws ServletException
-         * @throws IOException
-         */
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     private void class_dispatcherservlet_benutzer_registrieren_drei(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	// Filterung
 	if (((String) request.getParameter("Filtern")) != null) {

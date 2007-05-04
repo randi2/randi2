@@ -1,5 +1,7 @@
 package de.randi2.datenbank.exceptions;
 
+import de.randi2.utility.SystemException;
+
 /**
  * Diese Exception zeigt einen generellen Fehler beim Datenbankzugriff auf.
  * 
@@ -8,7 +10,7 @@ package de.randi2.datenbank.exceptions;
  * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
  */
 @SuppressWarnings("serial")
-public class DatenbankFehlerException extends Exception {
+public class DatenbankFehlerException extends SystemException {
 
 	/**
 	 * Konstante falls Argument null.

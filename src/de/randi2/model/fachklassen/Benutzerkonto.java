@@ -179,9 +179,10 @@ public class Benutzerkonto {
 	 * 
 	 * @param benutzerkontoId
 	 * @return
+	 * @throws DatenbankFehlerException 
 	 */
-	public static BenutzerkontoBean get(long benutzerkontoId) {
-		// TODO Auto-generated method stub
-		return null;
+	public static BenutzerkontoBean get(long benutzerkontoId) throws DatenbankFehlerException {
+		BenutzerkontoBean rueckgabe=DatenbankFactory.getAktuelleDBInstanz().suchenObjektID(benutzerkontoId, new BenutzerkontoBean());
+		return rueckgabe;
 	}
 }

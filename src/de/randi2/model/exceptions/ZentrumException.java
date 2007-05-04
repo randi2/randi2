@@ -8,7 +8,7 @@ package de.randi2.model.exceptions;
  * @version $Id$
  * 
  */
-public class ZentrumException extends Exception {
+public class ZentrumException extends Randi2Exception {
 	
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Abteilung falsch ist.

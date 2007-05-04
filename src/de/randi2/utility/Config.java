@@ -2,9 +2,7 @@ package de.randi2.utility;
 
 import java.util.Properties;
 import org.apache.log4j.Logger;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import de.randi2.controller.DispatcherServlet;
 
@@ -107,7 +105,7 @@ public final class Config {
 	 * @param fehlermeldung Fehlermeldung die gespeichert wird, wenn das System gesperrt werden soll
 	 * @return true falls Sperrung erfolgreich, sonst false
 	 */
-	public synchronized boolean sperreSystem(String fehlermeldung) {
+	public synchronized boolean sperreSystem(String fehlermeldung){
 		if (singleton == null) {
 			singleton = new Config();
 		}
@@ -120,18 +118,16 @@ public final class Config {
 			systemsperrungConf.store(new FileOutputStream(
 					systemsperrungDateiname),
 					"Persistente Speicherung der Systemsperrung");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			
+			Logger.getLogger(this.getClass()).error("Fehler bei Speicherung der Systemsperrung",e);
+			return false;
 		}
 		//TODO @Benny muss das jetzt weg oder nicht
 		DispatcherServlet aDispatcherServlet = new DispatcherServlet();
 		aDispatcherServlet.setSystemGesperrt(true); //angepasst an Aendungen in Servlet 
 		aDispatcherServlet.setMeldungSystemGesperrt(fehlermeldung);
-		return false;
+		return true;
 	}
 
 	/**
@@ -150,17 +146,16 @@ public final class Config {
 			systemsperrungConf.store(new FileOutputStream(
 					systemsperrungDateiname),
 					"Persistente Speicherung der Systemsperrung");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			
+			Logger.getLogger(this.getClass()).error("Fehler bei Speicherung der Systemsperrung",e);
+			return false;
 		}
+		//TODO Benny fragen ob das raus muss oder nicht
 		DispatcherServlet aDispatcherServlet = new DispatcherServlet();
 		aDispatcherServlet.setSystemGesperrt(false);//angepasst an Aendungen in Servlet 
 		aDispatcherServlet.setMeldungSystemGesperrt("");
-		return false;
+		return true;
 	}
 
 	/**

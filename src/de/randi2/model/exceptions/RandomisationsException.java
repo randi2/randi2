@@ -1,5 +1,7 @@
 package de.randi2.model.exceptions;
 
+import de.randi2.utility.SystemException;
+
 /**
  * Die Klasse kapselt die Fehler die waehrend der Randomisation auftreten. Es
  * sollte darauf geachtet werden, dass bei normalen Programmablauf diese Fehler
@@ -9,7 +11,7 @@ package de.randi2.model.exceptions;
  * @author Johannes Thoenes [johannes.thoenes@urz.uni-heidelberg.de]
  * @version $Id$
  */
-public class RandomisationsException extends Exception {
+public class RandomisationsException extends SystemException {
 
 	/**
 	 * Fehler falls der zu randomisierende Patient andere Strata als die Studie

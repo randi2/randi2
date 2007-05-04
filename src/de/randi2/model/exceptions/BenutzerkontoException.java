@@ -10,7 +10,7 @@ package de.randi2.model.exceptions;
  * @version $Id$
  * 
  */
-public class BenutzerkontoException extends Exception {
+public class BenutzerkontoException extends Randi2Exception {
 
 	/*
 	 * Die einzelnen Konstanten werde sich auch in Laufe der Arbeit ergeben.
