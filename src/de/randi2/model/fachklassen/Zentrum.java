@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.KryptoUtil;
 
@@ -42,11 +43,16 @@ public class Zentrum {
 	 *             Falls ein Fehler in der Datenbank auftritt.
 	 */
 	public static Vector<ZentrumBean> suchenZentrum(ZentrumBean sZentrum)
-			throws DatenbankFehlerException {
+			throws ZentrumException {
 
 		Vector<ZentrumBean> gefundeneZentren = new Vector<ZentrumBean>();
-		gefundeneZentren = DatenbankFactory.getAktuelleDBInstanz()
-				.suchenObjekt(sZentrum);
+		try {
+		    gefundeneZentren = DatenbankFactory.getAktuelleDBInstanz()
+		    		.suchenObjekt(sZentrum);
+		} catch (DatenbankFehlerException e) {
+		    //TODO Konstante in ZentrumException
+		    	throw new ZentrumException("Zentren konnten nicht gefunden werden");
+		}
 
 		return gefundeneZentren;
 	}

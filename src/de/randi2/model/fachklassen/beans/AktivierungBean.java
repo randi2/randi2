@@ -77,7 +77,7 @@ public class AktivierungBean extends Filter {
      * @return Liefert das Benutzerkonto.
      * @throws BenutzerkontoException Fehler
      */
-    public BenutzerkontoBean getBenutzerkonto() throws BenutzerkontoException, DatenbankFehlerException {
+    public BenutzerkontoBean getBenutzerkonto() throws BenutzerkontoException{
 	if (benutzerkonto == null) {
 	    benutzerkonto = Benutzerkonto.get(benutzerkontoId);
 	}
