@@ -27,6 +27,7 @@ import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.model.fachklassen.beans.PersonBean.Titel;
 import de.randi2.utility.NullKonstanten;
+import de.randi2.utility.SystemException;
 
 /**
  * <p>
@@ -182,10 +183,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 */
 	private enum FelderBenutzerkonto {
-		ID("benutzerkontenId"), PERSON("Person_personenId"), LOGINNAME(
-				"loginname"), PASSWORT("passwort"), ROLLEACCOUNT("rolle"), ERSTERLOGIN(
-				"erster_login"), LETZTERLOGIN("letzter_login"), GESPERRT(
-				"gesperrt");
+		ID("benutzerkontenId"), 
+		PERSON("Person_personenId"), 
+		LOGINNAME("loginname"), 
+		PASSWORT("passwort"),
+		PERSONID("Person_personenID"),
+		ROLLEACCOUNT("rolle"), 
+		ERSTERLOGIN("erster_login"), 
+		LETZTERLOGIN("letzter_login"), 
+		GESPERRT("gesperrt");
 
 		private String name = "";
 
@@ -1423,13 +1429,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 			return (Vector<T>) suchenPerson((PersonBean) zuSuchendesObjekt);
 		}
 		
+		if (zuSuchendesObjekt instanceof BenutzerkontoBean) {
+			return (Vector<T>) suchenBenutzerkonto((BenutzerkontoBean) zuSuchendesObjekt);
+		}
+		
 		return null;
 	}
 	
 	
 	/**
 	 * Sucht alle Personen aus der Tabelle {@link Tabellen#PERSON} welche den Kritieren den Filters entsprechen
-	 * @param <T>
 	 * @param person
 	 * 			PersonBean Objekt welches als Filter dient. Es wird nach allen Attribute ungleich 
 	 * 			den Nullkonstanten in der Datenbank gesucht
@@ -1449,7 +1458,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt;
 		ResultSet rs;
 		PersonBean tmpPerson;
-		Vector<PersonBean> personVec = new Vector<PersonBean>();
+		Vector<PersonBean> personen = new Vector<PersonBean>();
 		//erstellen der SQL Abfrage
 		String sql ="SELECT * FROM "+Tabellen.PERSON.toString()+" WHERE ";
 		if(person.getNachname()!=null) { 
@@ -1534,7 +1543,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						rs.getString(FelderPerson.HANDYNUMMER.toString()), 
 						rs.getString(FelderPerson.FAX.toString()));
 				//fuege Person dem Vector hinzu
-				personVec.add(tmpPerson);
+				personen.add(tmpPerson);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1547,7 +1556,91 @@ public class Datenbank implements DatenbankSchnittstelle {
 			e.printStackTrace();
 			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
 		}
-		return personVec;
+		return personen;
+	}
+	
+	/**
+	 * Sucht alle Personen aus der {@link Tabellen#BENUTZERKONTO} die den im Filter Bean gesetzten Kriterien entsprechen
+	 * @param bk
+	 * 			BenutzerkontoBean Objekt welches als Filter dient. Es wird nach allen Attribute ungleich 
+	 * 			den Nullkonstanten in der Datenbank gesucht
+	 * @return
+	 * 			Vector mit gefundenen Benutzerkonten
+	 * @throws DatenbankFehlerException 
+	 */
+	private Vector<BenutzerkontoBean> suchenBenutzerkonto(BenutzerkontoBean bk) throws DatenbankFehlerException {
+		Connection con;
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		PreparedStatement pstmt;
+		ResultSet rs;
+		BenutzerkontoBean tmpBenutzerkonto;
+		Vector<BenutzerkontoBean> konten = new Vector<BenutzerkontoBean>();
+		//erstellen der SQL Abfrage
+		String sql ="SELECT * FROM "+Tabellen.BENUTZERKONTO.toString()+" WHERE ";
+		
+		if(bk.getBenutzername()==null) {
+			sql += "(TRUE OR "+FelderBenutzerkonto.LOGINNAME+" LIKE ?% ) AND ";
+		}
+		else {
+			sql += FelderBenutzerkonto.LOGINNAME+" LIKE ?%  AND ";
+		}
+		if(bk.getErsterLogin()==null) {
+			sql += "(TRUE OR "+FelderBenutzerkonto.ERSTERLOGIN+" LIKE ?% ) AND ";
+		}
+		else {
+			sql += FelderBenutzerkonto.ERSTERLOGIN+" LIKE ?%  AND ";
+		}
+		if(bk.getLetzterLogin()==null) {
+			sql += "(TRUE OR "+FelderBenutzerkonto.LETZTERLOGIN+" LIKE ?% ) AND ";
+		}
+		else {
+			sql += FelderBenutzerkonto.LETZTERLOGIN+" LIKE ?%  AND ";
+		}
+		sql += FelderBenutzerkonto.ROLLEACCOUNT+" = ? AND";
+		sql += FelderBenutzerkonto.GESPERRT+" = ?";
+		
+		try {
+			//Prepared Statement erzeugen
+			pstmt = con.prepareStatement(sql);
+			int index = 1;
+			pstmt.setString(index++, bk.getBenutzername());
+			pstmt.setDate(index++, new Date(bk.getErsterLogin().getTimeInMillis()));
+			pstmt.setDate(index++, new Date(bk.getLetzterLogin().getTimeInMillis()));
+			pstmt.setString(index++, bk.getRolle().toString());
+			pstmt.setBoolean(index++, bk.isGesperrt());
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				GregorianCalendar ersterLogin= new GregorianCalendar();
+				GregorianCalendar letzterLogin= new GregorianCalendar();
+				ersterLogin.setTime(rs.getDate(FelderBenutzerkonto.ERSTERLOGIN.toString()));
+				letzterLogin.setTime(rs.getDate(FelderBenutzerkonto.LETZTERLOGIN.toString()));
+				
+				tmpBenutzerkonto = new BenutzerkontoBean(rs.getLong(FelderBenutzerkonto.ID.toString()),
+						rs.getString(FelderBenutzerkonto.PASSWORT.toString()),
+						rs.getString(FelderBenutzerkonto.ROLLEACCOUNT.toString()), 
+						//TODO Benni bastelt eine Methode die eine Rolle anhand eines uebergebenen Strings liefert
+						rs.getLong(FelderBenutzerkonto.PERSONID.toString()),
+						rs.getBoolean(FelderBenutzerkonto.GESPERRT.toString()),
+						ersterLogin, 
+						letzterLogin);
+				konten.add(tmpBenutzerkonto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (SystemException f) {
+			throw new SystemException(DatenbankFehlerException.UNGUELTIGE_DATEN);
+		}
+		try {
+			closeConnection(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		return konten;
 	}
 
 	/**
@@ -2096,46 +2189,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		return suchenObjektId(id, new PersonBean());
 	}
 
-	// TODO main methode spaeter rausschmeissen
-	/**
-	 * Nur Testfunktionalitaet
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Datenbank db = new Datenbank();
-		Connection con = null;
-		try {
-			con = db.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		if (con == null) {
-			System.out.println("keine Verbindung vorhanden");
-		} else {
-			System.out.println("Verbindung aufgebaut");
-		}
-		String query = "SELECT * FROM patient";
-		Statement stmt;
-		ResultSet rs = null;
-		try {
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			db.closeConnection(con);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		System.out.println("ENUM TEST ");
-		System.out.println("FelderPerson.Nachname: " + FelderPerson.NACHNAME);
-		System.out.println("FelderPerson.Nachname.toString(): "
-				+ FelderPerson.NACHNAME.toString());
-
-	}
 
 	/**
 	 * Baut Verbindung zur Datenbank auf
