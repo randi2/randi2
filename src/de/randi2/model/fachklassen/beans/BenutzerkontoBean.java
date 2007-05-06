@@ -8,7 +8,6 @@ import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.model.fachklassen.Rolle;
-import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.KryptoUtil;
 
@@ -22,19 +21,19 @@ import de.randi2.utility.KryptoUtil;
  */
 public class BenutzerkontoBean extends Filter {
 
-
 	/**
 	 * Zugehoeriges PersonBean zu diesem Benutzerkonto. 1:1 Beziehung
 	 */
 	private PersonBean benutzer = null;
 
 	/**
-	 * Die ID des zugehoerigen Benutzers. Fremdschlueschel zum PersonBean. 1:1 Beziehung
+	 * Die ID des zugehoerigen Benutzers. Fremdschlueschel zum PersonBean. 1:1
+	 * Beziehung
 	 */
 	private long benutzerId = NullKonstanten.NULL_LONG;
 
 	/**
-	 * Benutzername
+	 * Benutzername des Kontoinhabers.
 	 */
 	private String benutzername = null;
 
@@ -68,17 +67,6 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	private Rolle rolle = null;
 
-	//TODO Zentrum muss raus!
-	/**
-	 * Zentrum, zu dem dieses Benutzerkonto gehoert. 1:1 Beziehung
-	 */
-	private ZentrumBean zentrum = null;
-
-	/**
-	 * Die Id des zugehoerigen Zentrums. Fremdschluessel zum Zentrum. 1:1 Beziehung.
-	 */
-	private long zentrumId = NullKonstanten.NULL_LONG;
-
 	/**
 	 * Der Standardkonstruktor
 	 * 
@@ -98,7 +86,7 @@ public class BenutzerkontoBean extends Filter {
 	 * @param benutzer
 	 *            das PersonBean zu diesem Benutzer
 	 * @throws BenutzerkontoException
-	 *             Fehler ..
+	 *             Die Exception tritt bei fehlerhaften Benutzerdaten auf.
 	 */
 	public BenutzerkontoBean(String benutzername, String passwortHash,
 			PersonBean benutzer) throws BenutzerkontoException {
@@ -110,12 +98,11 @@ public class BenutzerkontoBean extends Filter {
 	}
 
 	/**
-	 * Datenbank-Kontruktor.
-	 * Der Konstruktor mit allen Attributen. <br>
+	 * Datenbank-Kontruktor. Der Konstruktor mit allen Attributen. <br>
 	 * Achtung: Bei Passwort muss es sich um das gehashte Passwort handeln!
 	 * 
 	 * @param id
-	 * 			  die ID des Benutzers.
+	 *            die ID des Benutzers.
 	 * @param benutzername
 	 *            der Benutzername des Benutzers.
 	 * @param passwortHash
@@ -147,17 +134,21 @@ public class BenutzerkontoBean extends Filter {
 		this.setErsterLogin(ersterLogin);
 		this.setLetzterLogin(letzterLogin);
 	}
-	
+
 	/**
 	 * Konstruktor nur fuer Loginzwecke.
-	 * @param benutzername Benutzername
-	 * @param passwortKlartext Das Passwort im Klartext
-	 * @throws BenutzerkontoException Wenn die uebergebenen Parameter nicht in Ordnung sind.
+	 * 
+	 * @param benutzername
+	 *            Benutzername
+	 * @param passwortKlartext
+	 *            Das Passwort im Klartext
+	 * @throws BenutzerkontoException
+	 *             Wenn die uebergebenen Parameter nicht in Ordnung sind.
 	 */
-	public BenutzerkontoBean(String benutzername, String passwortKlartext)throws BenutzerkontoException
-	{
-	    this.setBenutzername(benutzername);
-	    this.setPasswortKlartext(passwortKlartext);
+	public BenutzerkontoBean(String benutzername, String passwortKlartext)
+			throws BenutzerkontoException {
+		this.setBenutzername(benutzername);
+		this.setPasswortKlartext(passwortKlartext);
 	}
 
 	/**
@@ -181,7 +172,8 @@ public class BenutzerkontoBean extends Filter {
 	 * Liefert den zugehoerigen Benutzer zu diesem Konto.
 	 * 
 	 * @return das entsprechende PersonBean zum Benutzerkonto
-	 * @throws PersonException Fehler, falls die Person nicht ermittelt werden kann
+	 * @throws PersonException
+	 *             Fehler, falls die Person nicht ermittelt werden kann
 	 */
 	public PersonBean getBenutzer() throws PersonException {
 		if (benutzer == null) {
@@ -192,6 +184,7 @@ public class BenutzerkontoBean extends Filter {
 
 	/**
 	 * Liefert den Benutzername
+	 * 
 	 * @return benutzername
 	 */
 	public String getBenutzername() {
@@ -200,6 +193,7 @@ public class BenutzerkontoBean extends Filter {
 
 	/**
 	 * Liefert das Datum des ersten Logins
+	 * 
 	 * @return ersterLogin
 	 */
 	public GregorianCalendar getErsterLogin() {
@@ -208,6 +202,7 @@ public class BenutzerkontoBean extends Filter {
 
 	/**
 	 * Liefert die Id des BenutzerkontoBeans
+	 * 
 	 * @return Id
 	 */
 	public long getId() {
@@ -216,6 +211,7 @@ public class BenutzerkontoBean extends Filter {
 
 	/**
 	 * Liefert das Datum des letzten Logins
+	 * 
 	 * @return letzterLogin
 	 */
 	public GregorianCalendar getLetzterLogin() {
@@ -242,23 +238,8 @@ public class BenutzerkontoBean extends Filter {
 	}
 
 	/**
-	 * Die Methode liefert das zugehoerige ZentrumBean zurueck. Wenn dieses
-	 * vorher nie benutzt wurde, muss es erst in der Fachklasse erzeugt werden
-	 * (Proxylogik).
-	 * 
-	 * @return zentrum - zugehoeriges ZentrumBean
-	 */
-	public ZentrumBean getZentrum() {
-
-		if (zentrum == null) {
-			zentrum = Zentrum.get(zentrumId);
-
-		}
-		return zentrum;
-	}
-
-	/**
 	 * Liefert den Status des Benutzerkontos. Gesperrt oder nicht?!
+	 * 
 	 * @return the gesperrt
 	 */
 	public boolean isGesperrt() {
@@ -267,7 +248,9 @@ public class BenutzerkontoBean extends Filter {
 
 	/**
 	 * Setzt den Benutzer.
-	 * @param benutzer Personendaten des Benutzerkontos
+	 * 
+	 * @param benutzer
+	 *            Personendaten des Benutzerkontos
 	 */
 	public void setBenutzer(PersonBean benutzer) {
 		// keine Pruefung, da bei der Erzeugung der PersonBean schon alles
@@ -276,10 +259,14 @@ public class BenutzerkontoBean extends Filter {
 	}
 
 	/**
-	 * Setzt den Benutzernamen. Das ist ein Pflichtfeld, deswegen wird hier eine Fehlerprüfung durchgefuehrt.
-	 * @param benutzername Der Benutzername (Pflicht)
-	 * @throws BenutzerkontoException Fehler bei ungueltigen Benutzername
-	 *             
+	 * Setzt den Benutzernamen. Das ist ein Pflichtfeld, deswegen wird hier eine
+	 * Fehlerprüfung durchgefuehrt.
+	 * 
+	 * @param benutzername
+	 *            Der Benutzername (Pflicht)
+	 * @throws BenutzerkontoException
+	 *             Fehler bei ungueltigen Benutzername
+	 * 
 	 */
 	public void setBenutzername(String benutzername)
 			throws BenutzerkontoException {
@@ -315,7 +302,8 @@ public class BenutzerkontoBean extends Filter {
 	/**
 	 * Setzt den ersten Login. Prueft ob Datum in der Zukunft liegt.
 	 * 
-	 * @param ersterLogin das erster Logindatum
+	 * @param ersterLogin
+	 *            das erster Logindatum
 	 * @throws BenutzerkontoException
 	 *             Fehler, z. B. wenn das Datum in der Zukunft liegt
 	 */
@@ -330,8 +318,10 @@ public class BenutzerkontoBean extends Filter {
 
 	/**
 	 * Setzt den Status des Benutzerkontos.
-	 * @param gesperrt true=gespert, false=nicht gesperrt
-	 *
+	 * 
+	 * @param gesperrt
+	 *            true=gespert, false=nicht gesperrt
+	 * 
 	 */
 	public void setGesperrt(boolean gesperrt) {
 		this.gesperrt = gesperrt;
@@ -339,7 +329,9 @@ public class BenutzerkontoBean extends Filter {
 
 	/**
 	 * Setzt die Id.
-	 * @param id Id des Beans
+	 * 
+	 * @param id
+	 *            Id des Beans
 	 */
 	public void setId(long id) {
 		this.id = id;
@@ -347,8 +339,11 @@ public class BenutzerkontoBean extends Filter {
 
 	/**
 	 * Setzt das letzte Logindatum des Benutzerkontos
-	 * @param letzterLogin  das letzte Logindatum
-	 * @throws BenutzerkontoException Fehlermeldung, falls Datum in der Zukunft liegt.
+	 * 
+	 * @param letzterLogin
+	 *            das letzte Logindatum
+	 * @throws BenutzerkontoException
+	 *             Fehlermeldung, falls Datum in der Zukunft liegt.
 	 */
 	public void setLetzterLogin(GregorianCalendar letzterLogin)
 			throws BenutzerkontoException {
@@ -411,9 +406,8 @@ public class BenutzerkontoBean extends Filter {
 			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 
-		if (!(klartext.matches(".*[A-Za-z].*")
-						&& klartext.matches(".*[0-9].*") && klartext
-						.matches(".*[\\^,.\\-#+;:_'*!\"§$@&%/()=?|<>].*"))) {
+		if (!(klartext.matches(".*[A-Za-z].*") && klartext.matches(".*[0-9].*") && klartext
+				.matches(".*[\\^,.\\-#+;:_'*!\"§$@&%/()=?|<>].*"))) {
 			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		this.passwort = KryptoUtil.getInstance().hashPasswort(klartext);
@@ -436,27 +430,10 @@ public class BenutzerkontoBean extends Filter {
 	}
 
 	/**
-	 * TODO Kommentar
-	 * 
-	 * @param zentrum
-	 *            z
-	 */
-	public void setZentrum(ZentrumBean zentrum) {
-		this.zentrum = zentrum;
-	}
-
-	/**
-	 * Setzt die Fremdschluessel-Id fuer das Zentrum. 1:1 Beziehung
-	 * @param id Fremdschluessel Id zum Zentrum
-	 */
-	public void setZentrumId(long id) {
-		this.zentrumId = id;
-
-	}
-
-	/**
 	 * Setzt die Fremdschluessel-Id fuer die Benutzerdaten. 1:1 Beziehung
-	 * @param id Fremdschluessel-Id fuer die Benutzerdaten
+	 * 
+	 * @param id
+	 *            Fremdschluessel-Id fuer die Benutzerdaten
 	 */
 	public void setBenutzerId(long id) {
 		this.benutzerId = id;
@@ -465,7 +442,8 @@ public class BenutzerkontoBean extends Filter {
 
 	/**
 	 * Liefert einen String der alle Parameter formatiert enthaelt.
-	 * @return String der alle Parameter formatiert enthaelt. 
+	 * 
+	 * @return String der alle Parameter formatiert enthaelt.
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
@@ -476,8 +454,9 @@ public class BenutzerkontoBean extends Filter {
 	}
 
 	/**
+	 * Liefert die BenutzerID.
 	 * 
-	 * @return
+	 * @return benutzerID Die ID des Kontobenutzers.
 	 */
 	public long getBenutzerId() {
 		return benutzerId;
