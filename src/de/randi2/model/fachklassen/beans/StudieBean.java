@@ -10,6 +10,7 @@ import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.Studie.Status;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.datenbank.Filter;
+import de.randi2.model.fachklassen.Studie;
 
 /**
  * Die Klasse repraesentiert eine Studie.
@@ -25,7 +26,7 @@ public class StudieBean extends Filter {
 	 * ID der Studie.
 	 * 
 	 */
-	private long id = 0;
+	private long id = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Name der Studie.
@@ -70,12 +71,7 @@ public class StudieBean extends Filter {
 	/**
 	 * Das Zentrum der Studie.
 	 */
-	private ZentrumBean zentrum = null;
-
-	/**
-	 * ID des Zentrums.
-	 */
-	private long zentrumId = NullKonstanten.NULL_LONG;
+	private Vector<ZentrumBean> zentren = null;
 
 	/**
 	 * Das Benutzerkonto der Studie.
@@ -119,7 +115,6 @@ public class StudieBean extends Filter {
 		this.setEndDatum(endDatum);
 		this.setStudienprotokollPfad(studienprotokollPfad);
 		this.setRandomisationId(randomisationId);
-
 	}
 
 	/**
@@ -348,25 +343,26 @@ public class StudieBean extends Filter {
 	}
 
 	/**
-	 * Uebergibt das Zentrum.
+	 * Liefert die Zentren, die an dieser Studie teilnehmen
 	 * 
-	 * @return zentrum, Zentrum
+	 * @return
+	 * 			die teilnehmenden Zentren
 	 */
-	public ZentrumBean getZentrum() {
-		if (zentrum == null) {
-			zentrum = Zentrum.get(zentrumId);
+	public Vector<ZentrumBean> getZentren() {
+		if (zentren == null) {
+			zentren = Studie.getZugehoerigeZentren(id);
 		}
-		return zentrum;
+		return zentren;
 	}
 
 	/**
-	 * Setzt das Zentrum.
+	 * Setzt die teilnehmenden Zentren
 	 * 
-	 * @param zentrum
-	 *            Zentrum
+	 * @param zentren
+	 *            zu setzenden Zentren
 	 */
-	public void setZentrum(ZentrumBean zentrum) {
-		this.zentrum = zentrum;
+	public void setZentren(Vector<ZentrumBean> zentren) {
+		this.zentren = zentren;
 	}
 
 	/**
@@ -438,23 +434,5 @@ public class StudieBean extends Filter {
 		this.randomisationId = randomisationId;
 	}
 
-	/**
-	 * Uebergibt die Id des Zenturm.
-	 * 
-	 * @return zentrumId Id des Zentrum.
-	 */
-	public long getZentrumId() {
-		return zentrumId;
-	}
-
-	/**
-	 * Setzt die Id des Zentrum.
-	 * 
-	 * @param zentrumId
-	 *            Id des Zentrum.
-	 */
-	public void setZentrumId(long zentrumId) {
-		this.zentrumId = zentrumId;
-	}
 
 }
