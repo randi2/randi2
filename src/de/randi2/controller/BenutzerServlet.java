@@ -214,9 +214,12 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
     }
 
     /**
+     * Loggt die Anmeldung des uebergebenen Benutzers im Anwendungslog mit der
+     * Meldung '<i>Benutzer hat sich erfolgreich eingeloggt</i>
+     * 
      * @param aBenutzer
+     *            neu angemeldeter Benutzer
      */
-    //TODO Benny DOkumenation
     private void loggeKorrekteanmeldung(BenutzerkontoBean aBenutzer) {
 	LogAktion a = new LogAktion("Benutzer hat sich erfolgreich eingeloggt", aBenutzer);
 	Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);

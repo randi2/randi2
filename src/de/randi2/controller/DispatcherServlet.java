@@ -42,14 +42,13 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      */
     private String meldungSystemGesperrt = "Meldung des System ist gesperrt";
 
-    //TODO Benjamin ist das nicht redundant mit den enum Feldern?!
+    // TODO Benjamin ist das nicht redundant mit den enum Feldern?!
     public static final String FEHLERNACHRICHT = "fehlernachricht";
 
-    
-    //TODO Benjamin ist das nicht redundant mit den enum Feldern
+    // TODO Benjamin ist das nicht redundant mit den enum Feldern
     public static final String IST_SYSTEM_GESPERRT = "Hurz";
 
-    //TODO Benjmamin ist das nicht redundant mit meldung System gesperrt?!
+    // TODO Benjmamin ist das nicht redundant mit meldung System gesperrt?!
     /**
      * Haelt die Begruendung der Systemsperrung
      */
@@ -77,7 +76,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     }
 
     /**
-     * Verwaltet alle anfrage_ids an das DispatcherServlet. Alle anfrage_id's muesen hier deklariert werden.
+     * Verwaltet alle anfrage_ids an das DispatcherServlet. Alle anfrage_id's
+     * muesen hier deklariert werden.
      * 
      */
     public enum anfrage_id {
@@ -85,27 +85,28 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
          * Benutzer loggt sich aus.
          */
         JSP_HEADER_LOGOUT,
-        
+
         /**
          * Benutzer loggt sich ein.
          */
         JSP_INDEX_LOGIN,
-        
+
         /**
          * Benutzer klickt Benutzer registieren auf index.jsp
          */
         JSP_INDEX_BENUTZER_REGISTRIEREN_EINS,
-        
+
         /**
          * Benutzer hat Disclaimer akzeptiert. (Benutzer registrieren)
          */
         JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI,
-        
+
         /**
-         * Benutzer filtert nach Zentren bzw. gibt sein Zentrumspasswort ein. (Benutzer registieren)
+         * Benutzer filtert nach Zentren bzw. gibt sein Zentrumspasswort ein.
+         * (Benutzer registieren)
          */
         JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI,
-        
+
         /**
          * 
          * Benutzer gibt Personendaten ein (Benutzer registrieren)
@@ -582,6 +583,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     }
 
     /**
+     * Liefert den Systemstatus [gesperrt|nicht gesperrt]
      * @return the istSystemGesperrt
      */
     public boolean istSystemGesperrt() {
@@ -589,8 +591,9 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     }
 
     /**
+     * Setzt den Status des Systems entsprechend des Parameters
      * @param istSystemGesperrt
-     *            the istSystemGesperrt to set
+     *            <code>true</code> sperrt das System, <code>false</code> entsperrt es wieder
      */
     public void setSystemGesperrt(boolean istSystemGesperrt) {
         this.istSystemGesperrt = istSystemGesperrt;
@@ -600,14 +603,18 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     }
 
     /**
-     * @return the systemsperrungFehlermeldung
+     * Liefert die Meldung des Systems/Sperrungsgrund
+     * @return Sperungsgrund
      */
     public String getMeldungSystemGesperrt() {
         return meldungSystemGesperrt;
     }
 
     /**
-     * @param systemsperrungFehlermeldung
+     * Setzt die Fehlermeldung im Dispatcher ({@link DispatcherServlet#meldungSystemGesperrt})
+     * und speichert die Meldung in der Config
+     * 
+     * @param meldungSystemGesperrt
      *            the systemsperrungFehlermeldung to set
      */
     public void setMeldungSystemGesperrt(String meldungSystemGesperrt) {

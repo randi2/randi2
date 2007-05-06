@@ -16,6 +16,9 @@ import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
  */
 public class SessionListener implements HttpSessionAttributeListener {
 
+    /**
+     * Anzahl der im System angemeldeten Benutzer
+     */
     private static int counter = 0;
 
     /*
@@ -27,6 +30,10 @@ public class SessionListener implements HttpSessionAttributeListener {
      * Wird ein {@link BenutzerkontoBean} unter dem Namen 'aBenutzer' (ein
      * Benutzer loggt sich am system ein) an die Session gebunden, wird der
      * Counter um 1 erhoeht.
+     * 
+     * @param be
+     *            Durch das Binding automatisch ausgeloeste Event
+     * @see javax.servlet.http.HttpSessionAttributeListener#attributeAdded(javax.servlet.http.HttpSessionBindingEvent)
      */
     public void attributeAdded(HttpSessionBindingEvent be) {
         if (be.getValue() instanceof BenutzerkontoBean
@@ -35,14 +42,14 @@ public class SessionListener implements HttpSessionAttributeListener {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.servlet.http.HttpSessionAttributeListener#attributeRemoved(javax.servlet.http.HttpSessionBindingEvent)
-     */
     /**
      * Wird das BenutzerkontoBean 'aBenutzer' aus der Session entfernt (der
      * Benutzer wird ausgeloggt), so wird der BenutzerCounter um 1 erniedriegt.
+     * 
+     * @param be
+     *            Durch das Entfernen des Attributes automatisch ausgeloeste
+     *            Event
+     * @see javax.servlet.http.HttpSessionAttributeListener#attributeRemoved(javax.servlet.http.HttpSessionBindingEvent)
      */
     public void attributeRemoved(HttpSessionBindingEvent be) {
         if (be.getValue() instanceof BenutzerkontoBean
@@ -52,9 +59,9 @@ public class SessionListener implements HttpSessionAttributeListener {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Wird aufgerufen, wenn ein Attribut, welches an einer Session gebunden ist, ersetzt wird.
+     * @param be ausgeloestes Event
      * @see javax.servlet.http.HttpSessionAttributeListener#attributeReplaced(javax.servlet.http.HttpSessionBindingEvent)
      */
     public void attributeReplaced(HttpSessionBindingEvent be) {
@@ -80,7 +87,7 @@ public class SessionListener implements HttpSessionAttributeListener {
      * 
      * @return Anzahl der angemeldeten Benutzer
      */
-    public synchronized static int getCounter() {
+    public static synchronized int getCounter() {
         return counter;
     }
 }

@@ -21,7 +21,7 @@ public class RechtException extends SystemException {
     public static final String UNGUELITGES_ARGUMENT="Ungueltiges Argument";
     /**
      * Erstellt eine neue RechtException mit der uebergebenen Mitteilung
-     * @param msg
+     * @param msg Mitteilung/ Begruendung der Exception
      */
     public RechtException(String msg){
         super(msg);
