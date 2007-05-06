@@ -152,7 +152,7 @@ public class BenutzerkontoBeanTest extends Filter {
 	@Test(expected = BenutzerkontoException.class)
 	public final void testSetPasswortLaenge() throws BenutzerkontoException {
 		aKonto.setFilter(false);
-		aKonto.setPasswortKlartext("s");
+		aKonto.setPasswort("s");
 	}
 
 	/**
@@ -167,16 +167,16 @@ public class BenutzerkontoBeanTest extends Filter {
 	 */
 	@Test
 	public final void testSetPasswortRichtig() throws BenutzerkontoException {
-		aKonto.setPasswortKlartext("123456abc%");
+		aKonto.setPasswort("123456abc%");
 		assertTrue(aKonto.getPasswort().equals(
 				KryptoUtil.getInstance().hashPasswort("123456abc%")));
-		aKonto.setPasswortKlartext("hans1$wursthausen");
+		aKonto.setPasswort("hans1$wursthausen");
 		assertTrue(aKonto.getPasswort().equals(
 				KryptoUtil.getInstance().hashPasswort("hans1$wursthausen")));
-		aKonto.setPasswortKlartext("a§abc1passwort");
+		aKonto.setPasswort("a§abc1passwort");
 		assertTrue(aKonto.getPasswort().equals(
 				KryptoUtil.getInstance().hashPasswort("a§abc1passwort")));
-		aKonto.setPasswortKlartext("test2abc$abc");
+		aKonto.setPasswort("test2abc$abc");
 		assertTrue(aKonto.getPasswort().equals(
 				KryptoUtil.getInstance().hashPasswort("test2abc$abc")));
 	}
@@ -211,7 +211,7 @@ public class BenutzerkontoBeanTest extends Filter {
 			throws BenutzerkontoException {
 		String benutzername = "Hanswurst";
 		String passwort = "dddd$dddsf1dfdsf";
-		long benutzerId = 2;
+		//long benutzerId = 2;
 		long zentrumId = 3;
 		name = Rollen.ADMIN;
 		rolle = Rolle.getAdmin();
@@ -220,7 +220,7 @@ public class BenutzerkontoBeanTest extends Filter {
 		letzterLogin = new GregorianCalendar(2006, 11, 1);
 		ersterLogin = new GregorianCalendar(2006, 11, 1);
 
-		aKonto = new BenutzerkontoBean(benutzername, passwort, rolle, gesperrt,
+		aKonto = new BenutzerkontoBean(zentrumId, benutzername, passwort, rolle, zentrumId, gesperrt,
 				ersterLogin, letzterLogin);
 
 		assertTrue(aKonto.equals(aKonto));
@@ -241,8 +241,8 @@ public class BenutzerkontoBeanTest extends Filter {
 			throws BenutzerkontoException {
 		String benutzername = "Hanswurst";
 		String passwort = "dddd2323sfaf§f";
-		long benutzerId = 1;
-		long zentrumId = 2;
+		//long benutzerId = 1;
+		//long zentrumId = 2;
 		name = Rollen.ADMIN;
 		rolle = Rolle.getAdmin();
 		boolean gesperrt = false;
@@ -259,7 +259,7 @@ public class BenutzerkontoBeanTest extends Filter {
 
 		String benutzernameB = "EmmaWurst";
 		String passwortB = "ddddccc4safsa§";
-		long benutzerIdB = 4;
+		//long benutzerIdB = 4;
 		long zentrumIdB = 2;
 		nameB = Rollen.ADMIN;
 		rolleB = Rolle.getAdmin();
@@ -275,10 +275,10 @@ public class BenutzerkontoBeanTest extends Filter {
 		ersterLoginB = new GregorianCalendar(jahrLetzterLoginB,
 				monatLetzterLoginB - 1, tagLetzterLoginB);
 
-		aKonto = new BenutzerkontoBean(benutzername, passwort, rolle, gesperrt,
+		aKonto = new BenutzerkontoBean(zentrumIdB, benutzername, passwort, rolle, zentrumIdB, gesperrt,
 				ersterLogin, letzterLogin);
-		bKonto = new BenutzerkontoBean(benutzernameB, passwortB, rolleB,
-				gesperrtB, ersterLoginB, letzterLoginB);
+		bKonto = new BenutzerkontoBean(zentrumIdB, benutzernameB, passwortB, rolleB,
+				zentrumIdB, gesperrtB, ersterLoginB, letzterLoginB);
 
 		assertFalse(aKonto.equals(bKonto));
 	}
@@ -297,7 +297,7 @@ public class BenutzerkontoBeanTest extends Filter {
 			throws BenutzerkontoException {
 		String benutzername = "Hanssdsadsd";
 		String passwort = "dddd$sdas2";
-		long benutzerId = 1;
+		//long benutzerId = 1;
 		long zentrumId = 2;
 		name = Rollen.ADMIN;
 		rolle = Rolle.getAdmin();
@@ -313,7 +313,7 @@ public class BenutzerkontoBeanTest extends Filter {
 		ersterLogin = new GregorianCalendar(jahrLetzterLogin,
 				monatLetzterLogin - 1, tagLetzterLogin);
 
-		aKonto = new BenutzerkontoBean(benutzername, passwort, rolle, gesperrt,
+		aKonto = new BenutzerkontoBean(zentrumId, benutzername, passwort, rolle, zentrumId, gesperrt,
 				ersterLogin, letzterLogin);
 		cKonto = new BenutzerkontoBean("Abctest", "abc@cdef", null);
 
