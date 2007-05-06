@@ -24,104 +24,106 @@ import de.randi2.model.exceptions.RechtException;
 // TODO Bitte Javadoc-Kommentare auch ausfuellen!
 public class Recht {
 
-	// Static Variablen
-	/**
-	 * Definiert alle existierenden Rechte
-	 */
-	public static enum Rechtenamen {
-		/**
-		 * 
-		 */
-		BK_AENDERN,
-		/**
-		 * 
-		 */
-		BK_SPERREN,
-		/**
-		 * 
-		 */
-		BK_ANSEHEN,
-		/**
-		 * 
-		 */
-		ZENTRUM_ANLEGEN,
-		/**
-		 * 
-		 */
-		ZENTRUM_AENDERN,
-		/**
-		 * 
-		 */
-		ZENTREN_ANZEIGEN,
-		/**
-		 * 
-		 */
-		ZENTRUM_AKTIVIEREN,
-		/**
-		 * 
-		 */
-		GRUPPENNACHRICHT_VERSENDEN,
-		/**
-		 * 
-		 */
-		STUDIE_ANLEGEN,
-		/**
-		 * 
-		 */
-		STUDIE_AENDERN,
-		/**
-		 * 
-		 */
-		STUDIE_LOESCHEN,
-		/**
-		 * 
-		 */
-		STUDIE_PAUSIEREN,
-		/**
-		 * 
-		 */
-		STUDIENARM_BEENDEN,
-		/**
-		 * 
-		 */
-		STUDIE_SIMULIEREN,
-		/**
-		 * 
-		 */
-		ARCHIV_EINSEHEN,
-		/**
-		 * 
-		 */
-		STAT_EINSEHEN,
-		/**
-		 * 
-		 */
-		RANDOMISATION_EXPORTIEREN,
-		/**
-		 * 
-		 */
-		STUDIENTEILNEHMER_HINZUFUEGEN,
-		/**
-		 * 
-		 */
-		STUDIEN_EINSEHEN,
-		/**
-		 * 
-		 */
-		STUDIE_RANDOMISIEREN,
-		/**
-		 * 
-		 */
-		SYSTEM_SPERREN,
-		/**
-		 * 
-		 */
-		ADMINACCOUNTS_VERWALTEN,
-		/**
-		 * 
-		 */
-		STULEIACCOUNTS_VERWALTEN
-	}
+//  Static Variablen
+    /**
+     * Definiert alle existierenden Rechte
+     * <a <href="https://wiki.mi.hs-heilbronn.de/index.php/SWP:Visionsdokument_Randomisation">https://wiki.mi.hs-heilbronn.de/index.php/SWP:Visionsdokument_Randomisation</a>
+     */
+    public static enum Rechtenamen {
+        /**
+         * Der Benutzer darf sein eigenes Benutzerkonto bearbeiten
+         */
+        BK_AENDERN,
+        /**
+         * Der Benutzer darf Benutzer ent-/sperren
+         */
+        BK_SPERREN,
+        /**
+         * Der Benutzer darf sich andere Benutzerkonten anzeigen lassen
+         */
+        BK_ANSEHEN,
+        /**
+         * Der Benutzer darf neue Zentren anlegen
+         */
+        ZENTRUM_ANLEGEN,
+        /**
+         * Der Benutzer darf bestehende Zentren bearbeiten
+         */
+        ZENTRUM_AENDERN,
+        /**
+         * Der Benutzer darf sich eine Liste der bestehenden Zentren anzeigen lassen 
+         */
+        ZENTREN_ANZEIGEN,
+        /**
+         * Der Benutzer darf Zentren (de-)aktivieren
+         */
+        ZENTRUM_AKTIVIEREN,
+        /**
+         * Der Benutzer darf Nachrichten an eine Gruppe von Benutzern versenden
+         */
+        GRUPPENNACHRICHT_VERSENDEN,
+        /**
+         * Der Benutzer darf neue Studien anlegen
+         */
+        STUDIE_ANLEGEN,
+        /**
+         * Der Benutzer darf bereits bestehende Studien bearbeiten
+         */
+        STUDIE_AENDERN,
+        /**
+         * Der Benutzer darf bestehende Studien loeschen
+         */
+        STUDIE_LOESCHEN,
+        /**
+         * Der Benutzer darf aktive Studien pausieren, bzw. fortsetzten
+         */
+        STUDIE_PAUSIEREN,
+        /**
+         * Der Benutzer darf einzelne Studienarme einer Studie beenden
+         */
+        STUDIENARM_BEENDEN,
+        /**
+         * Der Benutzer darf eine Studie simulieren
+         */
+        STUDIE_SIMULIEREN,
+        /**
+         * Der Benutzer darf, abhaengig von seiner Rolle, das Archiv der beendeten Studien einsehen.
+         */
+        ARCHIV_EINSEHEN,
+        /**
+         * Der Benutzer darf, abhaengig von seiner Rolle, die Statistik der Studien einsehen.
+         */
+        STAT_EINSEHEN,
+        /**
+         * Der Benutzer darf, abhaengig von seiner Rolle, die Randomisationsergebnisse der Studien exportieren
+         */
+        RANDOMISATION_EXPORTIEREN,
+        /**
+         * Der Benutzer darf einen neuen Probanten  einer bestehenden Studie hinzufuegen
+         */
+        STUDIENTEILNEHMER_HINZUFUEGEN,
+        /**
+         * Der Benutzer darf, abhaengig von seiner Rolle, dbestehende Studien einsehen.
+         */
+        STUDIEN_EINSEHEN,
+        /**
+         * Der Benutzer darf das Radnomisieren einer Studie anstoßen
+         * @deprecated
+         */
+        STUDIE_RANDOMISIEREN,
+        /**
+         * Der Benutzer darf das System ent-/sperren 
+         */
+        SYSTEM_SPERREN,
+        /**
+         * Der Benutzer darf Admin-Accounts anlegen und/oder loeschen
+         */
+        ADMINACCOUNTS_VERWALTEN,
+        /**
+         * Der Benutzer darf neue Studienleiter-Accounts anlegen
+         */
+        STULEIACCOUNTS_VERWALTEN
+    }
 
 	/**
 	 * HashMap, welche die Instanzen der einzelnen Rechte verwaltet.

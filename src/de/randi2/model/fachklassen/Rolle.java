@@ -1,5 +1,7 @@
 package de.randi2.model.fachklassen;
 
+import static de.randi2.model.fachklassen.Recht.Rechtenamen.*;
+import de.randi2.model.exceptions.RechtException;
 import de.randi2.model.fachklassen.Recht.Rechtenamen;
 import org.apache.log4j.Logger;
 
@@ -36,8 +38,6 @@ public final class Rolle {
 	/**
 	 * Enthaelt alle Rollennamen, die innerhalb des Programmes zur Verfuegung
 	 * stehen
-	 * 
-	 * @version 1.0
 	 */
 	public static enum Rollen {
 		/**
@@ -59,7 +59,8 @@ public final class Rolle {
 		/**
 		 * Rollenname des Statistikers
 		 */
-		STATISTIKER
+		STATISTIKER;
+       
 	}
 
 	// Rollenkonstanten
@@ -93,61 +94,61 @@ public final class Rolle {
 	 * Rollenrechteliste des Studienarztes
 	 */
 	private static Recht[] rechteListeStudienarzt = {
-			Recht.getRecht(Rechtenamen.BK_AENDERN),
-			Recht.getRecht(Rechtenamen.STUDIENTEILNEHMER_HINZUFUEGEN),
-			Recht.getRecht(Rechtenamen.STUDIEN_EINSEHEN),
-			Recht.getRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN) };
+			Recht.getRecht(BK_AENDERN),
+			Recht.getRecht(STUDIENTEILNEHMER_HINZUFUEGEN),
+			Recht.getRecht(STUDIEN_EINSEHEN),
+			Recht.getRecht(RANDOMISATION_EXPORTIEREN) };
 
 	/**
 	 * Rollenrechteliste des Studienleiters
 	 */
 	private static Recht[] rechteListeStudienleiter = {
-			Recht.getRecht(Rechtenamen.BK_AENDERN),
-			Recht.getRecht(Rechtenamen.BK_ANSEHEN),
-			Recht.getRecht(Rechtenamen.ZENTREN_ANZEIGEN),
-			Recht.getRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN),
-			Recht.getRecht(Rechtenamen.STUDIE_ANLEGEN),
-			Recht.getRecht(Rechtenamen.STUDIE_AENDERN),
-			Recht.getRecht(Rechtenamen.STUDIE_PAUSIEREN),
-			Recht.getRecht(Rechtenamen.STUDIENARM_BEENDEN),
-			Recht.getRecht(Rechtenamen.STUDIE_SIMULIEREN),
-			Recht.getRecht(Rechtenamen.STUDIEN_EINSEHEN),
-			Recht.getRecht(Rechtenamen.STAT_EINSEHEN),
-			Recht.getRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN),
-			Recht.getRecht(Rechtenamen.ARCHIV_EINSEHEN), };
+			Recht.getRecht(BK_AENDERN),
+			Recht.getRecht(BK_ANSEHEN),
+			Recht.getRecht(ZENTREN_ANZEIGEN),
+			Recht.getRecht(GRUPPENNACHRICHT_VERSENDEN),
+			Recht.getRecht(STUDIE_ANLEGEN),
+			Recht.getRecht(STUDIE_AENDERN),
+			Recht.getRecht(STUDIE_PAUSIEREN),
+			Recht.getRecht(STUDIENARM_BEENDEN),
+			Recht.getRecht(STUDIE_SIMULIEREN),
+			Recht.getRecht(STUDIEN_EINSEHEN),
+			Recht.getRecht(STAT_EINSEHEN),
+			Recht.getRecht(RANDOMISATION_EXPORTIEREN),
+			Recht.getRecht(ARCHIV_EINSEHEN), };
 
 	/**
 	 * Rollenrechteliste des Administrators
 	 */
 	private static Recht[] rechteListeAdmin = {
-			Recht.getRecht(Rechtenamen.BK_AENDERN),
-			Recht.getRecht(Rechtenamen.BK_SPERREN),
-			Recht.getRecht(Rechtenamen.BK_ANSEHEN),
-			Recht.getRecht(Rechtenamen.ZENTREN_ANZEIGEN),
-			Recht.getRecht(Rechtenamen.ZENTRUM_AENDERN),
-			Recht.getRecht(Rechtenamen.ZENTRUM_ANLEGEN),
-			Recht.getRecht(Rechtenamen.ZENTRUM_AKTIVIEREN),
-			Recht.getRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN),
-			Recht.getRecht(Rechtenamen.STUDIE_LOESCHEN),
-			Recht.getRecht(Rechtenamen.ARCHIV_EINSEHEN),
-			Recht.getRecht(Rechtenamen.STAT_EINSEHEN),
-			Recht.getRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN),
-			Recht.getRecht(Rechtenamen.STUDIEN_EINSEHEN),
-			Recht.getRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN) };
+			Recht.getRecht(BK_AENDERN),
+			Recht.getRecht(BK_SPERREN),
+			Recht.getRecht(BK_ANSEHEN),
+			Recht.getRecht(ZENTREN_ANZEIGEN),
+			Recht.getRecht(ZENTRUM_AENDERN),
+			Recht.getRecht(ZENTRUM_ANLEGEN),
+			Recht.getRecht(ZENTRUM_AKTIVIEREN),
+			Recht.getRecht(GRUPPENNACHRICHT_VERSENDEN),
+			Recht.getRecht(STUDIE_LOESCHEN),
+			Recht.getRecht(ARCHIV_EINSEHEN),
+			Recht.getRecht(STAT_EINSEHEN),
+			Recht.getRecht(RANDOMISATION_EXPORTIEREN),
+			Recht.getRecht(STUDIEN_EINSEHEN),
+			Recht.getRecht(STULEIACCOUNTS_VERWALTEN) };
 
 	/**
 	 * Rollenrechteliste des Systemoperators
 	 */
 	private static Recht[] rechteListeSysop = {
-			Recht.getRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN),
-			Recht.getRecht(Rechtenamen.SYSTEM_SPERREN),
-			Recht.getRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN) };
+			Recht.getRecht(GRUPPENNACHRICHT_VERSENDEN),
+			Recht.getRecht(SYSTEM_SPERREN),
+			Recht.getRecht(ADMINACCOUNTS_VERWALTEN) };
 
 	/**
 	 * Rollenrechteliste des Statistikers
 	 */
 	private static Recht[] rechteListeStatistiker = { Recht
-			.getRecht(Rechtenamen.STAT_EINSEHEN) };
+			.getRecht(STAT_EINSEHEN) };
 
 	// Klassenvariablen
 
@@ -285,12 +286,41 @@ public final class Rolle {
 	}
 
 	/**
-	 * Liefert den Namen der Rolle mit dem Praefix "Rolle: " als String
+	 * Liefert den Namen der Rolle m als String
 	 * 
 	 * @return Name der Rolle
 	 */
 	public String toString() {
-		return "Rolle: " + rollenname.toString();
+		return rollenname.toString();
 	}
+    
+    /**
+     * Liefert die Rolle anhand des Rollennames (Vgl. {@link Rollen})
+     * @param rollenname Rollenname
+     * @return Rolle
+     * @throws RechtException {@link RechtException#NULL_ARGUMENT},{@link RechtException#UNGUELITGES_ARGUMENT} 
+     */
+    public static Rolle getRolle(String rollenname) throws RechtException{
+        if (rollenname==null){
+            throw new RechtException(RechtException.NULL_ARGUMENT);
+        }
+        if (rollenname.equals(Rollen.ADMIN.toString())){
+            return getAdmin();
+        }
+        else if (rollenname.equals(Rollen.STATISTIKER.toString())){
+            return getStatistiker();
+        }
+        else if (rollenname.equals(Rollen.STUDIENARZT.toString())){
+            return getStudienarzt();
+        }
+        else if (rollenname.equals(Rollen.STUDIENLEITER.toString())){
+            return getStudienleiter();
+        }
+        else if (rollenname.equals(Rollen.SYSOP.toString())){
+            return getSysop();
+        }
+        throw new RechtException(RechtException.UNGUELITGES_ARGUMENT);
+        
+    }
 
 }

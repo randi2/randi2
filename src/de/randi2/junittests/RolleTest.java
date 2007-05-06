@@ -6,189 +6,183 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.randi2.model.exceptions.RechtException;
 import de.randi2.model.fachklassen.Rolle;
 
 /**
+ * JUnittest fuer die Klasse {@link Rolle}
+ * 
  * @author $eyma Yazgan [syazgan@stud.hs-heilbronn.de]
  * @version $Id$
  */
 public class RolleTest {
 
-	// Objekte der Klasse Rolle
-	private Rolle testSARolle;
-	private Rolle testSLRolle;
-	private Rolle testAdminRolle;
-	private Rolle testSYSOPRolle;
-	private Rolle testSTATRolle;
-	
-	/**
-	 * Den Rolle-Objekten wird der Wert "null" zugewiesen.
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-		
-		testSARolle = null;
-		testSLRolle = null;
-		testAdminRolle = null;
-		testSYSOPRolle = null;
-		testSTATRolle = null;
-	}
+    private Rolle aRolle;
 
-	/**
-	 * Den Rolle-Objekten wird der Wert "null" zugewiesen.
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-		
-		testSARolle = null;
-		testSLRolle = null;
-		testAdminRolle = null;
-		testSYSOPRolle = null;
-		testSTATRolle = null;
-	}
+    private static final String NAME_STUDIENARZT = "STUDIENARZT";
 
-	/**
-	 * Testmethode fuer den Studienarzt.
-	 */
-	@Test
-	public void testGetStudienarzt() {
+    private static final String NAME_STUDIENLEITER = "STUDIENLEITER";
 
-		testSARolle = Rolle.getStudienarzt();
-		if (testSARolle == null
-				|| testSARolle.getRollenname().equals(Rolle.Rollen.STUDIENLEITER)				
-				|| testSARolle.getRollenname().equals(Rolle.Rollen.ADMIN)
-				|| testSARolle.getRollenname().equals(Rolle.Rollen.SYSOP)
-				|| testSARolle.getRollenname().equals(Rolle.Rollen.STATISTIKER)) {
-			fail("Zugewiesene Rolle nicht eindeutig!");
-		}
-		assertTrue(testSARolle.getRollenname().equals(Rolle.Rollen.STUDIENARZT));
-	}
+    private static final String NAME_ADMIN = "ADMIN";
 
-	/**
-	 * Testmethode fuer den Studienleiter.
-	 */
-	@Test
-	public void testGetStudienleiter() {
-		
-		testSLRolle = Rolle.getStudienleiter();
-		if (testSLRolle == null
-			|| testSLRolle.getRollenname().equals(Rolle.Rollen.STUDIENARZT)
-			|| testSLRolle.getRollenname().equals(Rolle.Rollen.ADMIN)
-			|| testSLRolle.getRollenname().equals(Rolle.Rollen.SYSOP)			
-			|| testSLRolle.getRollenname().equals(Rolle.Rollen.STATISTIKER)) {
-			fail("Zugewiesene Rolle nicht eindeutig!");
-		}
-		assertTrue(testSLRolle.getRollenname().equals(Rolle.Rollen.STUDIENLEITER));
-	}
-	
-	/**
-	 * Testmethode fuer den Admin.
-	 */
-	@Test
-	public void testGetAdmin() {
-		
-		testAdminRolle = Rolle.getAdmin();
-		if (testAdminRolle == null
-			|| testAdminRolle.getRollenname().equals(Rolle.Rollen.STUDIENARZT)
-			|| testAdminRolle.getRollenname().equals(Rolle.Rollen.STUDIENLEITER)
-			|| testAdminRolle.getRollenname().equals(Rolle.Rollen.SYSOP)
-			|| testAdminRolle.getRollenname().equals(Rolle.Rollen.STATISTIKER)) {
-			fail("Zugewiesene Rolle nicht eindeutig!");
-		}
-		assertTrue(testAdminRolle.getRollenname().equals(Rolle.Rollen.ADMIN));
-	}
-	
-	/**
-	 * Testmethode fuer den Sysop.
-	 */
-	@Test
-	public void testGetSysop() {
-		
-		testSYSOPRolle = Rolle.getSysop();
-		if (testSYSOPRolle == null
-			|| testSYSOPRolle.getRollenname().equals(Rolle.Rollen.STUDIENARZT)
-			|| testSYSOPRolle.getRollenname().equals(Rolle.Rollen.STUDIENLEITER)			
-			|| testSYSOPRolle.getRollenname().equals(Rolle.Rollen.ADMIN)
-			|| testSYSOPRolle.getRollenname().equals(Rolle.Rollen.STATISTIKER)) {
-			fail("Zugewiesene Rolle nicht eindeutig!");
-		}
-		assertTrue(testSYSOPRolle.getRollenname().equals(Rolle.Rollen.SYSOP));
-	}
-	
-	/**
-	 * Testmethode fuer den Statistiker.
-	 */
-	@Test
-	public void testGetStatistiker() {
-		
-		testSTATRolle = Rolle.getStatistiker();
-		if (testSTATRolle == null
-			|| testSTATRolle.getRollenname().equals(Rolle.Rollen.STUDIENARZT)
-			|| testSTATRolle.getRollenname().equals(Rolle.Rollen.STUDIENLEITER)			
-			|| testSTATRolle.getRollenname().equals(Rolle.Rollen.ADMIN)
-			|| testSTATRolle.getRollenname().equals(Rolle.Rollen.SYSOP)) {
-			fail("Zugewiesene Rolle nicht eindeutig!");
-		}
-		assertTrue(testSTATRolle.getRollenname().equals(Rolle.Rollen.STATISTIKER));
-	}
+    private static final String NAME_SYSOP = "SYSOP";
 
-	/**
-	 * Test method for {@link de.randi2.model.fachklassen.Rolle#getName()}.
-	 */
-	 @Test 
-	 public void testGetName() {
-		 
-		 testGetStudienarzt();
-		 assertTrue(testSARolle.getName().equals("STUDIENARZT"));
-		 
-		 testGetStudienleiter();
-		 assertTrue(testSLRolle.getName().equals("STUDIENLEITER"));		 
-		 
-		 testGetAdmin();
-		 assertTrue(testAdminRolle.getName().equals("ADMIN"));
-		 
-		 testGetSysop();
-		 assertTrue(testSYSOPRolle.getName().equals("SYSOP"));
-		 
-		 testGetStatistiker();
-		 assertTrue(testSTATRolle.getName().equals("STATISTIKER"));
-	 }
-	 
-	/**
-	 * Test method for {@link de.randi2.model.fachklassen.Rolle#getRollenname()}.
-	 */
-	@Test 
-	public void testGetRollenname() { 
-		
-		testGetStudienarzt();
-		testGetAdmin();
-		testGetStudienleiter();
-		testGetStatistiker();
-		testGetSysop();
-	}
-	 
-	/**
-	 * Test method for {@link de.randi2.model.fachklassen.Rolle#toString()}.
-	 */
-	@Test
-	public void testToString() {
-		
-		testGetStudienarzt();
-		testSARolle.toString().equals("Rolle: STUDIENARZT");
-		
-		testGetStudienleiter();
-		testSLRolle.toString().equals("Rolle: STUDIENLEITER");		
-		
-		testGetAdmin();
-		testAdminRolle.toString().equals("Rolle: ADMIN");
-		
-		testGetSysop();
-		testSYSOPRolle.toString().equals("Rolle: SYSOP");
-		
-		testGetStatistiker();
-		testSTATRolle.toString().equals("Rolle: STATISTIKER");
-	}
+    private static final String NAME_STATISTIKER = "STATISTIKER";
 
+    /**
+     * aRolle-><code>null</code>
+     * 
+     * @throws java.lang.Exception
+     */
+    @Before
+    public void setUp() throws Exception {
+        aRolle = null;
+    }
+
+    /**
+     * Holt sich die Instanz der Rolle, prueft gg. <code>null</code>,
+     * vergleicht die Methoden toString() und getName() gg. den Rechenamen und
+     * vergleight die Instanzen
+     */
+    @Test
+    public void testGetStudienarzt() {
+        aRolle = Rolle.getStudienarzt();
+        assertNotNull(aRolle);
+        assertEquals(NAME_STUDIENARZT, aRolle.toString());
+        assertEquals(NAME_STUDIENARZT, aRolle.getName());
+        assertSame(Rolle.getStudienarzt(), aRolle);
+
+    }
+
+    /**
+     * Holt sich die Instanz der Rolle, prueft gg. <code>null</code>,
+     * vergleicht die Methoden toString() und getName() gg. den Rechenamen und
+     * vergleight die Instanzen
+     */
+    @Test
+    public void testGetStudienleiter() {
+        aRolle = Rolle.getStudienleiter();
+        assertNotNull(aRolle);
+        assertEquals(NAME_STUDIENLEITER, aRolle.toString());
+        assertEquals(NAME_STUDIENLEITER, aRolle.getName());
+        assertSame(Rolle.getStudienleiter(), aRolle);
+    }
+
+    /**
+     * Holt sich die Instanz der Rolle, prueft gg. <code>null</code>,
+     * vergleicht die Methoden toString() und getName() gg. den Rechenamen und
+     * vergleight die Instanzen
+     */
+    @Test
+    public void testGetAdmin() {
+        aRolle = Rolle.getAdmin();
+        assertNotNull(aRolle);
+        assertEquals(NAME_ADMIN, aRolle.toString());
+        assertEquals(NAME_ADMIN, aRolle.getName());
+        assertSame(Rolle.getAdmin(), aRolle);
+    }
+
+    /**
+     * Holt sich die Instanz der Rolle, prueft gg. <code>null</code>,
+     * vergleicht die Methoden toString() und getName() gg. den Rechenamen und
+     * vergleight die Instanzen
+     */
+    @Test
+    public void testGetSysop() {
+
+        aRolle = Rolle.getSysop();
+        assertNotNull(aRolle);
+        assertEquals(NAME_SYSOP, aRolle.toString());
+        assertEquals(NAME_SYSOP, aRolle.getName());
+        assertSame(Rolle.getSysop(), aRolle);
+    }
+
+    /**
+     * Holt sich die Instanz der Rolle, prueft gg. <code>null</code>,
+     * vergleicht die Methoden toString() und getName() gg. den Rechenamen und
+     * vergleight die Instanzen
+     */
+    @Test
+    public void testGetStatistiker() {
+
+        aRolle = Rolle.getStatistiker();
+        assertNotNull(aRolle);
+        assertEquals(NAME_STATISTIKER, aRolle.toString());
+        assertEquals(NAME_STATISTIKER, aRolle.getName());
+        assertSame(Rolle.getStatistiker(), aRolle);
+    }
+
+    /**
+     * Test method for
+     * {@link de.randi2.model.fachklassen.Rolle#getRolle(String)}.
+     */
+    @Test
+    public final void testGetRolle() {
+        // Admin
+        try {
+            aRolle = Rolle.getRolle(NAME_ADMIN);
+            assertEquals(Rolle.getAdmin(), aRolle);
+        } catch (RechtException e) {
+            fail("Rollentest fehlgeschlagen: Admin");
+        }
+        // Statistiker
+        aRolle = null;
+        try {
+            aRolle = Rolle.getRolle(NAME_STATISTIKER);
+            assertEquals(Rolle.getStatistiker(), aRolle);
+        } catch (RechtException e) {
+            fail("Rollentest fehlgeschlagen: Statistiker");
+        }
+        // Studienleiter
+        aRolle = null;
+        try {
+            aRolle = Rolle.getRolle(NAME_STUDIENLEITER);
+            assertEquals(Rolle.getStudienleiter(), aRolle);
+        } catch (RechtException e) {
+            fail("Rollentest fehlgeschlagen: Studienleiter");
+        }
+        // Studienarzt
+        aRolle = null;
+        try {
+            aRolle = Rolle.getRolle(NAME_STUDIENARZT);
+            assertEquals(Rolle.getStudienarzt(), aRolle);
+        } catch (RechtException e) {
+            fail("Rollentest fehlgeschlagen: Studienarzt");
+        }
+        // Sysop
+        aRolle = null;
+        try {
+            aRolle = Rolle.getRolle(NAME_SYSOP);
+            assertEquals(Rolle.getSysop(), aRolle);
+        } catch (RechtException e) {
+            fail("Rollentest fehlgeschlagen: Sysop");
+        }
+        // null
+        try {
+            Rolle.getRolle(null);
+            fail("Test gg null missglueckt");
+        } catch (Exception e) {
+            assertTrue(e instanceof RechtException);
+            assertEquals(RechtException.NULL_ARGUMENT, e.getMessage());
+
+        }
+        // wirres argument
+        try {
+            Rolle.getRolle("");
+            fail("Pruefung gg ungueltiges Argument missglueckt");
+        } catch (Exception e) {
+            assertTrue(e instanceof RechtException);
+            assertEquals(RechtException.UNGUELITGES_ARGUMENT, e.getMessage());
+
+        }
+        // noch nen wirres argument
+        try {
+            Rolle.getRolle("Kann ganicht klappen");
+            fail("Pruefung gg ungueltiges Argument missglueckt");
+        } catch (Exception e) {
+            assertTrue(e instanceof RechtException);
+            assertEquals(RechtException.UNGUELITGES_ARGUMENT, e.getMessage());
+
+        }
+    }
 }
