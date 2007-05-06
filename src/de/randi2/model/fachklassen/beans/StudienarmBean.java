@@ -45,6 +45,11 @@ public class StudienarmBean extends Filter {
 	 * Die Studie welcher dieser Arm zugeordnet ist.
 	 */
 	private StudieBean aStudie = null;
+		
+	/**
+	 * Die Id der Studier welcher dieser Arm zugeordnet ist.
+	 */
+	private long aStudieId= NullKonstanten.NULL_LONG;
 
 	/**
 	 * Die zugeordneten Patienten als Beans.
@@ -59,14 +64,16 @@ public class StudienarmBean extends Filter {
 		super();
 	}
 
+	
+
 	/**
 	 * Der Konstruktor eines StudienarmBeans.
 	 * 
 	 * 
 	 * @param id
 	 *            Die Id in der Datenbank
-	 * @param studie
-	 *            Die Studie zu welcher dieser Arm gehoert
+	 * @param studieId
+	 *            Die Id der Studie zu welcher dieser Arm gehoert
 	 * @param status
 	 *            Der Status dieses Studienarms, wie Status der uebergeordneten
 	 *            Studie
@@ -74,21 +81,16 @@ public class StudienarmBean extends Filter {
 	 *            Die Bezeichnung (Name) dieses Arms
 	 * @param beschreibung
 	 *            Die laengere Beschreibung dieses Arms
-	 * @param patienten
-	 *            Der Vector von PatientBeans die diesem Arm zugeordnet sind
 	 * @throws StudienarmException
 	 */
-	public StudienarmBean(long id, StudieBean studie, Studie.Status status,
-			String bezeichnung, String beschreibung,
-			Vector<PatientBean> patienten) throws StudienarmException{
-
+	public StudienarmBean(long id, long studieId, Studie.Status status,
+			String bezeichnung, String beschreibung) throws StudienarmException{
 		super();
 		this.setId(id);
-		this.setStudie(studie);
+		this.setStudieId(studieId);
 		this.aStatus = status;
 		this.setBezeichnung(bezeichnung);
 		this.setBeschreibung(beschreibung);
-		this.setPatienten(patienten);
 
 	}
 
@@ -155,6 +157,9 @@ public class StudienarmBean extends Filter {
 	 * @return die Studie als StudieBean
 	 */
 	public StudieBean getStudie() {
+		if(aStudie==null) {
+			aStudie = Studie.get(aStudieId);
+		}
 		return aStudie;
 	}
 
@@ -174,6 +179,7 @@ public class StudienarmBean extends Filter {
 	 * @return die zugeordneten Patienten als PatientBean
 	 */
 	public Vector<PatientBean> getPatienten() {
+		//TODO Proxy Logik
 		return aPatienten;
 	}
 
@@ -215,6 +221,22 @@ public class StudienarmBean extends Filter {
 	 */
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	/**
+	 * Liefert Id der Studie welcher dieser Arm zugeordnet ist.
+	 * @return
+	 */
+	public long getStudieId() {
+		return aStudieId;
+	}
+
+	/**
+	 * Setzt Id der Studie welcher dieser Arm zugeordnet ist.
+	 * @param studieId
+	 */
+	public void setStudieId(long studieId) {
+		aStudieId = studieId;
 	}
 
 }

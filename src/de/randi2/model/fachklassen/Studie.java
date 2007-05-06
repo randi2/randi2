@@ -174,5 +174,25 @@ public class Studie {
 		}
 		return gefundenZentren;
 	}
+	
+	/**
+	 * Liefert die Studie mit der uebergebenen Id
+	 * 
+	 * @param studieId
+	 *            Die ID der angeforderten Studie.
+	 * @return StudieBean 
+	 * 				Ein StudieBean wird zurueckgegeben.
+	 * @throws DatenbankFehlerException 
+	 */
+	public static StudieBean get(long studieId){
+		StudieBean studie = new StudieBean();
+		try {
+			studie = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(studieId, studie);
+		} catch (DatenbankFehlerException e) {
+			// TODO hier etwas schmeissen? (fred)
+			e.printStackTrace();
+		}
+		return studie;
+	}
 
 }

@@ -20,6 +20,7 @@ import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.StudieException;
+import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
@@ -32,6 +33,9 @@ import de.randi2.model.fachklassen.beans.PersonBean.Titel;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.SystemException;
 import de.randi2.model.fachklassen.Rolle;
+import de.randi2.model.fachklassen.Studie;
+import de.randi2.model.fachklassen.Studie.Status;
+
 /**
  * <p>
  * Datenbankklasse
@@ -2148,16 +2152,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				try {
-					// FIXME Bin nicht sicher, ob das nicht mit Proxy realisiert werden muesste. 
-					// frage heute noch lplotni. tnoack 04.05.07
 					tmpStudienarm = new StudienarmBean(rs.getLong(FelderStudienarm.ID.toString()), 
-													//StudieBean, 
-													//Status,
+													rs.getLong(FelderStudienarm.STUDIE.toString()), 
+													Status.parseStatus(rs.getString(FelderStudienarm.STATUS.toString())),
 													rs.getString(FelderStudienarm.BEZEICHNUNG.toString()),
-													rs.getString(FelderStudienarm.BESCHREIBUNG.toString()),
-													//Vector<PatientBean> patienten
-					);
-													
+													rs.getString(FelderStudienarm.BESCHREIBUNG.toString()));													
 				} catch (BenutzerException e) {		
 					e.printStackTrace();
 					throw new DatenbankFehlerException(
