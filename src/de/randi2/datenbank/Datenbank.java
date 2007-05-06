@@ -18,6 +18,7 @@ import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.BenutzerException;
+import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PatientBean;
@@ -1433,6 +1434,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 			return (Vector<T>) suchenBenutzerkonto((BenutzerkontoBean) zuSuchendesObjekt);
 		}
 		
+		if (zuSuchendesObjekt instanceof ZentrumBean) {
+			return (Vector<T>) suchenZentrum((ZentrumBean) zuSuchendesObjekt);
+		}
+		
 		return null;
 	}
 	
@@ -1462,72 +1467,65 @@ public class Datenbank implements DatenbankSchnittstelle {
 		//erstellen der SQL Abfrage
 		String sql ="SELECT * FROM "+Tabellen.PERSON.toString()+" WHERE ";
 		if(person.getNachname()!=null) { 
-			sql +=FelderPerson.NACHNAME.toString()+" LIKE ?% AND ";
+			sql +=FelderPerson.NACHNAME.toString()+" LIKE ? AND ";
 		}
 		else {//falls Nachname nicht gesetzt ist, fuehrt das TRUE OR dazu das die Bedingung in dem Fall immer wahr ist
-			sql+= "(TRUE OR " + FelderPerson.NACHNAME.toString()+" LIKE ?% AND ";
+			sql+= "(TRUE OR " + FelderPerson.NACHNAME.toString()+" LIKE ? AND ";
 		}
 		if(person.getVorname()!=null) {
-			sql +=FelderPerson.VORNAME.toString()+" LIKE ?% AND ";
+			sql +=FelderPerson.VORNAME.toString()+" LIKE ? AND ";
 		}
 		else {
-			sql+= "(TRUE OR " + FelderPerson.VORNAME.toString()+" LIKE ?%) AND ";
+			sql+= "(TRUE OR " + FelderPerson.VORNAME.toString()+" LIKE ?) AND ";
 		}
 		if(person.getTitel()!=null) {
-			sql +=FelderPerson.TITEL.toString()+" LIKE ?% AND ";
+			sql +=FelderPerson.TITEL.toString()+" = ? AND ";
 		}
 		else {
-			sql+= "(TRUE OR " + FelderPerson.TITEL.toString()+" LIKE ?%) AND ";
+			sql+= "(TRUE OR " + FelderPerson.TITEL.toString()+" = ?) AND ";
 		}
 		if(person.getGeschlecht()!=NullKonstanten.NULL_CHAR) {
-			sql +=FelderPerson.GESCHLECHT.toString()+" LIKE ?% AND ";
+			sql +=FelderPerson.GESCHLECHT.toString()+" = ? AND ";
 		}
 		else {
-			sql+= "(TRUE OR " + FelderPerson.GESCHLECHT.toString()+" LIKE ?%) AND ";
+			sql+= "(TRUE OR " + FelderPerson.GESCHLECHT.toString()+" = ?) AND ";
 		}
 		if(person.getTelefonnummer()!=null) {
-			sql +=FelderPerson.TELEFONNUMMER.toString()+" LIKE ?% AND ";
+			sql +=FelderPerson.TELEFONNUMMER.toString()+" LIKE ? AND ";
 		}
 		else {
-			sql+= "(TRUE OR " + FelderPerson.TELEFONNUMMER.toString()+" LIKE ?%) AND ";
+			sql+= "(TRUE OR " + FelderPerson.TELEFONNUMMER.toString()+" LIKE ?) AND ";
 		}
 		if(person.getHandynummer()!=null) {
-			sql +=FelderPerson.HANDYNUMMER.toString()+" LIKE ?% AND ";
+			sql +=FelderPerson.HANDYNUMMER.toString()+" LIKE ? AND ";
 		}
 		else {
-			sql+= "(TRUE OR " + FelderPerson.HANDYNUMMER.toString()+" LIKE ?%) AND ";
+			sql+= "(TRUE OR " + FelderPerson.HANDYNUMMER.toString()+" LIKE ?) AND ";
 		}
 		if(person.getFax()!=null) {
-			sql +=FelderPerson.FAX.toString()+" LIKE ?% AND ";
+			sql +=FelderPerson.FAX.toString()+" LIKE ? AND ";
 		}
 		else {
-			sql+= "(TRUE OR " + FelderPerson.FAX.toString()+" LIKE ?%) AND ";
+			sql+= "(TRUE OR " + FelderPerson.FAX.toString()+" LIKE ?) AND ";
 		}
 		if(person.getEmail()!=null) {
-			sql +=FelderPerson.EMAIL.toString()+"LIKE ?% AND ";
+			sql +=FelderPerson.EMAIL.toString()+"LIKE ? AND ";
 		}
 		else {
-			sql+= "(TRUE OR " + FelderPerson.EMAIL.toString()+" LIKE ?%) AND ";
-		}//wird nach der StellvertreterId ueberhaupt gesucht?
-		if(person.getStellvertreterId()!=NullKonstanten.NULL_LONG) {
-			sql +=FelderPerson.STELLVERTRETER.toString()+" LIKE ?%";
-		}
-		else {
-			sql+= "(TRUE OR " + FelderPerson.STELLVERTRETER.toString()+"LIKE ?%)";
+			sql+= "(TRUE OR " + FelderPerson.EMAIL.toString()+" LIKE ?) AND ";
 		}
 		try {
 			//Prepared Statement erzeugen
 			pstmt = con.prepareStatement(sql);
 			int index = 1;
-			pstmt.setString(index++, person.getNachname());
-			pstmt.setString(index++, person.getVorname());
+			pstmt.setString(index++, person.getNachname()+"%");
+			pstmt.setString(index++, person.getVorname()+"%");
 			pstmt.setString(index++, person.getTitel().toString());
 			pstmt.setString(index++, Character.toString(person.getGeschlecht()));
-			pstmt.setString(index++, person.getTelefonnummer());
-			pstmt.setString(index++, person.getHandynummer());
-			pstmt.setString(index++, person.getFax());
-			pstmt.setString(index++, person.getEmail());
-			pstmt.setLong(index++, person.getStellvertreterId());
+			pstmt.setString(index++, person.getTelefonnummer()+"%");
+			pstmt.setString(index++, person.getHandynummer()+"%");
+			pstmt.setString(index++, person.getFax()+"%");
+			pstmt.setString(index++, person.getEmail()+"%");
 			rs = pstmt.executeQuery();
 			//durchlaufe ResultSet
 			while(rs.next()) {
@@ -1583,31 +1581,31 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql ="SELECT * FROM "+Tabellen.BENUTZERKONTO.toString()+" WHERE ";
 		
 		if(bk.getBenutzername()==null) {
-			sql += "(TRUE OR "+FelderBenutzerkonto.LOGINNAME+" LIKE ?% ) AND ";
+			sql += "(TRUE OR "+FelderBenutzerkonto.LOGINNAME.toString()+" LIKE ? ) AND ";
 		}
 		else {
-			sql += FelderBenutzerkonto.LOGINNAME+" LIKE ?%  AND ";
+			sql += FelderBenutzerkonto.LOGINNAME.toString()+" LIKE ?  AND ";
 		}
 		if(bk.getErsterLogin()==null) {
-			sql += "(TRUE OR "+FelderBenutzerkonto.ERSTERLOGIN+" LIKE ?% ) AND ";
+			sql += "(TRUE OR "+FelderBenutzerkonto.ERSTERLOGIN.toString()+" = ? ) AND ";
 		}
 		else {
-			sql += FelderBenutzerkonto.ERSTERLOGIN+" LIKE ?%  AND ";
+			sql += FelderBenutzerkonto.ERSTERLOGIN.toString()+" = ?  AND ";
 		}
 		if(bk.getLetzterLogin()==null) {
-			sql += "(TRUE OR "+FelderBenutzerkonto.LETZTERLOGIN+" LIKE ?% ) AND ";
+			sql += "(TRUE OR "+FelderBenutzerkonto.LETZTERLOGIN.toString()+" = ? ) AND ";
 		}
 		else {
-			sql += FelderBenutzerkonto.LETZTERLOGIN+" LIKE ?%  AND ";
+			sql += FelderBenutzerkonto.LETZTERLOGIN.toString()+" = ?  AND ";
 		}
-		sql += FelderBenutzerkonto.ROLLEACCOUNT+" = ? AND";
-		sql += FelderBenutzerkonto.GESPERRT+" = ?";
+		sql += FelderBenutzerkonto.ROLLEACCOUNT.toString()+" = ? AND";
+		sql += FelderBenutzerkonto.GESPERRT.toString()+" = ?";
 		
 		try {
 			//Prepared Statement erzeugen
 			pstmt = con.prepareStatement(sql);
 			int index = 1;
-			pstmt.setString(index++, bk.getBenutzername());
+			pstmt.setString(index++, bk.getBenutzername()+"%");
 			pstmt.setDate(index++, new Date(bk.getErsterLogin().getTimeInMillis()));
 			pstmt.setDate(index++, new Date(bk.getLetzterLogin().getTimeInMillis()));
 			pstmt.setString(index++, bk.getRolle().toString());
@@ -1642,6 +1640,109 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		return konten;
 	}
+	
+	/**
+	 * Sucht alle Zentren aus der {@link Tabellen#ZENTRUM} die den im Filter Bean gesetzten Kriterien entsprechen
+	 * @param zentrum
+	 * 			Zentrum mit gesetzten Eigenschaften nach denen gesucht wird.
+	 * @return
+	 * 			Vector mit gefundenen Zentren
+	 * @throws DatenbankFehlerException
+	 */
+	private Vector<ZentrumBean> suchenZentrum(ZentrumBean zentrum) throws DatenbankFehlerException {
+		Connection con;
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+		}
+		//NamedParameterStatement nps = new NamedParameterStatement()
+		PreparedStatement pstmt;
+		ResultSet rs;
+		ZentrumBean tmpZentrum;
+		Vector<ZentrumBean> zentren = new Vector<ZentrumBean>();
+		
+		String sql = "SELECT * FROM "+Tabellen.ZENTRUM.toString()+" WHERE ";
+		
+		if(zentrum.getInstitution()==null) {
+			sql += "(TRUE OR "+FelderZentrum.INSTITUTION.toString()+" LIKE ?) AND ";
+		}
+		else {
+			sql += FelderZentrum.INSTITUTION.toString()+" LIKE ? AND ";
+		}
+		
+		if(zentrum.getAbteilung()==null) {
+			sql += "(TRUE OR "+FelderZentrum.ABTEILUNGSNAME.toString()+" LIKE ?) AND ";
+		}
+		else {
+			sql += FelderZentrum.ABTEILUNGSNAME.toString()+" LIKE ? AND ";
+		}
+		
+		if(zentrum.getOrt()==null) {
+			sql += "(TRUE OR "+FelderZentrum.ORT.toString()+" LIKE ?) AND ";
+		}
+		else {
+			sql += FelderZentrum.ORT.toString()+" LIKE ? AND ";
+		}
+		
+		if(zentrum.getPlz()==null) {
+			sql += "(TRUE OR "+FelderZentrum.PLZ.toString()+" LIKE ?) AND ";
+		}
+		else {
+			sql += FelderZentrum.PLZ.toString()+" LIKE ? AND ";
+		}
+		
+		if(zentrum.getStrasse()==null) {
+			sql += "(TRUE OR "+FelderZentrum.STRASSE.toString()+" LIKE ?) AND ";
+		}
+		else {
+			sql += FelderZentrum.STRASSE.toString()+" LIKE ? AND ";
+		}
+		
+		if(zentrum.getHausnr()==null) {
+			sql += "(TRUE OR "+FelderZentrum.HAUSNUMMER.toString()+" LIKE ?) AND ";
+		}
+		else {
+			sql += FelderZentrum.HAUSNUMMER.toString()+" LIKE ? AND ";
+		}
+		
+		sql += FelderZentrum.AKTIVIERT+" = ? AND ";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			int index=1;
+			pstmt.setString(index++, zentrum.getInstitution()+"%");
+			pstmt.setString(index++, zentrum.getAbteilung()+"%");
+			pstmt.setString(index++, zentrum.getOrt()+"%");
+			pstmt.setString(index++, zentrum.getPlz()+"%");
+			pstmt.setString(index++, zentrum.getStrasse()+"%");
+			pstmt.setString(index++, zentrum.getHausnr()+"%");
+			pstmt.setBoolean(index++, zentrum.getIstAktiviert());
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				tmpZentrum = new ZentrumBean(rs.getLong(FelderZentrum.ID.toString()),
+						rs.getString(FelderZentrum.INSTITUTION.toString()),
+						rs.getString(FelderZentrum.ABTEILUNGSNAME.toString()),
+						rs.getString(FelderZentrum.ORT.toString()),
+						rs.getString(FelderZentrum.PLZ.toString()),
+						rs.getString(FelderZentrum.STRASSE.toString()),
+						rs.getString(FelderZentrum.HAUSNUMMER.toString()),
+						rs.getLong(FelderZentrum.ANSPRECHPARTNERID.toString()),
+						rs.getString(FelderZentrum.PASSWORT.toString()),
+						rs.getBoolean(FelderZentrum.AKTIVIERT.toString()));
+				zentren.add(tmpZentrum);
+			}
+			
+		} catch (SQLException e) {
+			throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
+		} catch (ZentrumException g) {
+			throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
+		}
+		
+		return zentren;
+	}
+	
+	
 
 	/**
 	 * Dokumentation siehe Schnittstellenbeschreibung
