@@ -16,8 +16,10 @@ import org.logicalcobwebs.proxool.ProxoolException;
 import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.BenutzerException;
+import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
@@ -29,7 +31,7 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.model.fachklassen.beans.PersonBean.Titel;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.SystemException;
-
+import de.randi2.model.fachklassen.Rolle;
 /**
  * <p>
  * Datenbankklasse
@@ -1618,9 +1620,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 				letzterLogin.setTime(rs.getDate(FelderBenutzerkonto.LETZTERLOGIN.toString()));
 				
 				tmpBenutzerkonto = new BenutzerkontoBean(rs.getLong(FelderBenutzerkonto.ID.toString()),
+						rs.getString(FelderBenutzerkonto.LOGINNAME.toString()),
 						rs.getString(FelderBenutzerkonto.PASSWORT.toString()),
-						rs.getString(FelderBenutzerkonto.ROLLEACCOUNT.toString()), 
-						//TODO Benni bastelt eine Methode die eine Rolle anhand eines uebergebenen Strings liefert
+						Rolle.getRolle(rs.getString(FelderBenutzerkonto.ROLLEACCOUNT.toString())), 
 						rs.getLong(FelderBenutzerkonto.PERSONID.toString()),
 						rs.getBoolean(FelderBenutzerkonto.GESPERRT.toString()),
 						ersterLogin, 
@@ -1628,9 +1630,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 				konten.add(tmpBenutzerkonto);
 			}
 		} catch (SQLException e) {
+			throw new SystemException();
+		} catch (BenutzerException e) {		
 			e.printStackTrace();
-		} catch (SystemException f) {
-			throw new SystemException(DatenbankFehlerException.UNGUELTIGE_DATEN);
+			throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
 		}
 		try {
 			closeConnection(con);
@@ -2081,15 +2084,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 				try {
 					startDatum.setTime(rs.getDate(FelderStudie.STARTDATUM.toString()));
 					endDatum.setTime(rs.getDate(FelderStudie.ENDDATUM.toString()));
-					
-					// FIXME kein Feld fuer Parameter ZentrumId in der enum.
-					
-//					tmpStudie = new StudieBean(	rs.getLong(FelderStudie.ID.toString()), 
-//												rs.getString(FelderStudie.BESCHREIBUNG.toString()), 
-//												startDatum, endDatum,
-//												rs.getString(FelderStudie.PROTOKOLL.toString()),
-//												rs.getLong(FelderStudie.RANDOMISATIONSART.toString()),
-//												rs.getLong(FelderStudie.ZENTRUM.toString()));
+
+					tmpStudie = new StudieBean(	rs.getLong(FelderStudie.ID.toString()), 
+												rs.getString(FelderStudie.BESCHREIBUNG.toString()), 
+												startDatum, endDatum,
+												rs.getString(FelderStudie.PROTOKOLL.toString()),
+												rs.getLong(FelderStudie.RANDOMISATIONSART.toString()));
 													
 				} catch (BenutzerException e) {		
 					e.printStackTrace();

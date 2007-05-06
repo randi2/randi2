@@ -107,13 +107,11 @@ public class StudieBean extends Filter {
 	 *            Studienprotokollpfad der Studie
 	 * @param randomisationId
 	 *            Randomisations-Id
-	 * @param zentrumId
-	 *            Zentrum-Id
 	 * @throws StudieException
 	 */
 	public StudieBean(long id, String beschreibung,
 			GregorianCalendar startdatum, GregorianCalendar enddatum,
-			String studienprotokollPfad, long randomisationId, long zentrumId) throws StudieException{
+			String studienprotokollPfad, long randomisationId) throws StudieException{
 
 		this.setId(id);
 		this.setBeschreibung(beschreibung);
@@ -121,7 +119,6 @@ public class StudieBean extends Filter {
 		this.setEndDatum(endDatum);
 		this.setStudienprotokollPfad(studienprotokollPfad);
 		this.setRandomisationId(randomisationId);
-		this.setZentrumId(zentrumId);
 
 	}
 
