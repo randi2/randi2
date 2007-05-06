@@ -46,7 +46,7 @@ public class BenutzerkontoException extends BenutzerException {
 	/**
 	 * Diese Konstante wird uebergeben, wenn keine Fehlerursache bekannt ist.
 	 */
-	public static final String FEHLER = "Erstmal fuer alles,bei dem mir nix anderes Sinnvolles einfaellt!!!";
+	public static final String FEHLER = "Ein unbekannter Fehler ist aufgetreten. Bitte erneut versuchen.";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn der Benutzername zu kurz ist.

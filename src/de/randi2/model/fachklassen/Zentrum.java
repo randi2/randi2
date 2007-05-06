@@ -9,6 +9,8 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.KryptoUtil;
 
 /**
+ * Die Klasse Zentrum beinhaltet das ZentrumBean und zugehoerige Methoden.
+ * 
  * @version $Id$
  * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
  * 
@@ -39,7 +41,7 @@ public class Zentrum {
 	 *            Felder entsprechen den Null-Werten aus der
 	 *            de.randi2.utility.NullKonstanten Klasse)
 	 * @return ein Vector mit gefundenen Objekten
-	 * @throws DatenbankFehlerException
+	 * @throws ZentrumException
 	 *             Falls ein Fehler in der Datenbank auftritt.
 	 */
 	public static Vector<ZentrumBean> suchenZentrum(ZentrumBean sZentrum)
@@ -47,11 +49,11 @@ public class Zentrum {
 
 		Vector<ZentrumBean> gefundeneZentren = new Vector<ZentrumBean>();
 		try {
-		    gefundeneZentren = DatenbankFactory.getAktuelleDBInstanz()
-		    		.suchenObjekt(sZentrum);
+			gefundeneZentren = DatenbankFactory.getAktuelleDBInstanz()
+					.suchenObjekt(sZentrum);
 		} catch (DatenbankFehlerException e) {
-		    //TODO Konstante in ZentrumException
-		    	throw new ZentrumException("Zentren konnten nicht gefunden werden");
+			// TODO Konstante in ZentrumException
+			throw new ZentrumException("Zentren konnten nicht gefunden werden");
 		}
 
 		return gefundeneZentren;
@@ -75,8 +77,8 @@ public class Zentrum {
 	/**
 	 * Eine typische get() Methode
 	 * 
-	 * @return ZentrumBean - das akteuelle ZentrumBean, das Daten dieses
-	 *         Zentrums enthaelt.
+	 * @return ZentrumBean - das aktuelle ZentrumBean, das Daten dieses Zentrums
+	 *         enthaelt.
 	 */
 	public ZentrumBean getZentrumBean() {
 		return aZentrum;
@@ -86,7 +88,8 @@ public class Zentrum {
 	 * Die Methode soll das ZentrumBean Objekt zurueckgeben.
 	 * 
 	 * @param zentrumId
-	 * @return
+	 *            Die ID des angeforderten Zentrums.
+	 * @return ZentrumBean Ein ZentrumBean wird zurueckgegeben.
 	 */
 	public static ZentrumBean get(long zentrumId) {
 		// TODO Auto-generated method stub

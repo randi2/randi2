@@ -2,7 +2,7 @@ package de.randi2.model.exceptions;
 
 /**
  * <p>
- * Diese Klasse kapselt die Fehler, die innerhalb der Klasse Person auftreten
+ * Diese Klasse kapselt die Fehler, die innerhalb der Klasse Person auftreten.
  * koennen.
  * </p>
  * 
@@ -11,10 +11,6 @@ package de.randi2.model.exceptions;
  * 
  */
 public class PersonException extends BenutzerException {
-
-	/*
-	 * Die einzelnen Konstanten werde sich auch im Laufe der Arbeit ergeben.
-	 */
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn das Person Objekt in der Datenbank
@@ -42,7 +38,7 @@ public class PersonException extends BenutzerException {
 	 * Diese Konstante wird uebergeben, wenn der der Nachname nicht den
 	 * Konventionen.
 	 */
-	public static final String NACHNAME_UNGUELTIG = "Nachname entspricht nicht den Konventionen";
+	public static final String NACHNAME_UNGUELTIG = "Nachname muss 2 bis 50 Zeichen lang sein.";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn der Vorname fehlt.
@@ -53,7 +49,7 @@ public class PersonException extends BenutzerException {
 	 * Diese Konstante wird uebergeben, wenn der Vorname nicht den Konventionen
 	 * entspricht.
 	 */
-	public static final String VORNAME_UNGUELTIG = "Vorname entspricht nicht den Konventionen.";
+	public static final String VORNAME_UNGUELTIG = "Vorname muss 2 bis 50 Zeichen lang sein.";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn das Geschlecht fehlt.
@@ -68,7 +64,7 @@ public class PersonException extends BenutzerException {
 	/**
 	 * Diese Konstante wird uebergeben, wenn die E-Mail-Adresse ungueltig ist.
 	 */
-	public static final String EMAIL_UNGUELTIG = "Email ist ungültig.";
+	public static final String EMAIL_UNGUELTIG = "Email muss 6 bis 255 Zeichen lang und valide sein.";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Telefonnumer fehlt.
@@ -79,37 +75,37 @@ public class PersonException extends BenutzerException {
 	 * Diese Konstante wird uebergeben, wenn die Telefonnummer nicht den
 	 * Konventionen entspricht.
 	 */
-	public static final String TELEFONNUMMER_UNGUELTIG = "Telefonnummer entspricht nicht den Konventionen.";
+	public static final String TELEFONNUMMER_UNGUELTIG = "Telefonnummer muss 6 bis 26 Zeichen lang und valide sein.";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Faxnummer nicht den
 	 * Konventionen entspricht.
 	 */
-	public static final String FAX_UNGUELTIG = "Fax enstspricht nicht den Konventionen.";
+	public static final String FAX_UNGUELTIG = "Fax muss 6 bis 26 Zeichen lang und valide sein.";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn das Geschlecht nicht den
 	 * Konventionen.
 	 */
-	public static final String GESCHLECHT_UNGUELTIG = "Geschlecht entspricht nicht den Konventionen.";
+	public static final String GESCHLECHT_UNGUELTIG = "Geschlecht muss m oder w sein.";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Handynummer nicht den
 	 * Konventionen entspricht.
 	 */
-	public static final String HANDY_UNGUELTIG = "Handynummer entspricht nicht den Konventionen.";
+	public static final String HANDY_UNGUELTIG = "Handynummer muss 7 bis 26 Zeichen lang und valide sein.";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn der der Titel nicht den
 	 * Konventionen entsprciht.
 	 */
-	public static final String TITEL_UNGUELTIG = "Titel entspricht nicht den Konventionen.";
+	public static final String TITEL_UNGUELTIG = "Titel muss Prof. / Dr. / Prof. Dr. / (leer) sein";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn ein unbekannter Fehler aufgetreten
 	 * ist.
 	 */
-	public static final String FEHLER = "Erstmal fuer alles, bei dem mir nix anderes Sinnvolles einfaellt!!!";
+	public static final String FEHLER = "Ein unbekannter Fehler ist aufgetreten. Bitte erneut versuchen.";
 
 	/**
 	 * Ein Konstruktor dieser Klasse

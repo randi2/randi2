@@ -14,6 +14,7 @@ import org.junit.Test;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -67,22 +68,25 @@ public class BenutzerkontoTest {
 		ersterLogin = new GregorianCalendar(2006, 10, 20);
 		letzterLogin = new GregorianCalendar(2006, 11, 30);
 
-		zentrum = new ZentrumBean(1, "institution", "abteilung", "Ort",
-				"11111", "Strasse", "12", ansprechpartner, "Passwort");
+		try {
+			zentrum = new ZentrumBean(1, "institution", "abteilung", "Ort",
+					"11111", "Strasse", "12", 1, "Passwort", false);
+		} catch (ZentrumException e1) {
+			e1.printStackTrace();
+		}
 
 		try {
 
-			benutzer = new PersonBean("nachname", "vorname", PersonBean.Titel.PROF, 'm',
-					"user@hs-heilbronn.de", "01760099334", "017600972487",
-					"01760427424");
+			benutzer = new PersonBean(0, 0, "nachname", "vorname",
+					PersonBean.Titel.PROF, 'm', "user@hs-heilbronn.de",
+					"01760099334", "017600972487", "01760427424");
 
-			ansprechpartner = new PersonBean("nachname", "vorname", PersonBean.Titel.PROF,
-					'm', "user@hs-heilbronn.de", "01760099334", "017600972487",
-					"01760427424");
+			ansprechpartner = new PersonBean(0, 0, "nachname", "vorname",
+					PersonBean.Titel.PROF, 'm', "user@hs-heilbronn.de",
+					"01760099334", "017600972487", "01760427424");
 
 			bKontoBean = new BenutzerkontoBean(benutzername, passwort, rolle,
-					benutzer, ansprechpartner, gesperrt, zentrum, ersterLogin,
-					letzterLogin);
+					gesperrt, ersterLogin, letzterLogin);
 		} catch (BenutzerkontoException e) {
 			e.printStackTrace();
 		} catch (PersonException e) {
@@ -103,8 +107,8 @@ public class BenutzerkontoTest {
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#Benutzerkonto(de.randi2.model.fachklassen.beans.BenutzerkontoBean)}.
 	 */
 	@Test
-	public void testBenutzerkonto() throws Exception{
-			new Benutzerkonto(bKontoBean);
+	public void testBenutzerkonto() throws Exception {
+		new Benutzerkonto(bKontoBean);
 	}
 
 	/**
@@ -125,9 +129,10 @@ public class BenutzerkontoTest {
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#anlegenBenutzer(de.randi2.model.fachklassen.beans.BenutzerkontoBean)}.
 	 * 
 	 * @throws DatenbankFehlerException
+	 * @throws BenutzerkontoException 
 	 */
 	@Test
-	public void testAnlegenBenutzer() throws DatenbankFehlerException {
+	public void testAnlegenBenutzer() throws DatenbankFehlerException, BenutzerkontoException {
 		Benutzerkonto.anlegenBenutzer(bKontoBean);
 	}
 
@@ -203,7 +208,8 @@ public class BenutzerkontoTest {
 	@Test
 	public void testToString() {
 		Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
-		String sollWert = "Benutzerkontoname: "+bKontoBean.getBenutzername()+"(Last LogIn: "+bKontoBean.getLetzterLogin()+")";
+		String sollWert = "Benutzerkontoname: " + bKontoBean.getBenutzername()
+				+ "(Last LogIn: " + bKontoBean.getLetzterLogin() + ")";
 		String istWert = bKonto.toString();
 		assertTrue(sollWert.equals(istWert));
 	}
@@ -225,8 +231,7 @@ public class BenutzerkontoTest {
 
 		try {
 			anderesKontoBean = new BenutzerkontoBean(benutzername2, passwort2,
-					rolle, benutzer, ansprechpartner, gesperrt, zentrum,
-					ersterLogin, letzterLogin);
+					rolle, gesperrt, ersterLogin, letzterLogin);
 			anderesKontoBean.setFilter(true);
 			Benutzerkonto cKonto = new Benutzerkonto(anderesKontoBean);
 			if (aKonto.equals(cKonto)) {

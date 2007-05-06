@@ -20,7 +20,7 @@ import de.randi2.model.fachklassen.beans.PersonBean;
 public final class Person {
 
 	/**
-	 * Ein privater Konstruktor - somit kann diese Kalsse nicht initialisiert
+	 * Ein privater Konstruktor - somit kann diese Klasse nicht initialisiert
 	 * werden.
 	 */
 	private Person() {

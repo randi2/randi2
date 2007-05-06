@@ -35,8 +35,8 @@ public class ZentrumTest {
 			testZB.setId(1);
 			testZB.setInstitution("HS Heilbronn");
 			testZB.setAbteilung("Medizinische Infromatik");
-			testZB.setAnsprechpartner(new PersonBean(1,"Müller", "Martin", null,
-					'm', "mmueller@hs-heilbronn.de", "07131400500",
+			testZB.setAnsprechpartner(new PersonBean(1, 0, "Müller", "Martin",
+					null, 'm', "mmueller@hs-heilbronn.de", "07131400500",
 					"0176554422", null));
 			testZB.setOrt("Heilbronn");
 			testZB.setPlz("74081");
@@ -108,6 +108,8 @@ public class ZentrumTest {
 		Vector<ZentrumBean> tempVec = null;
 		try {
 			tempVec = Zentrum.suchenZentrum(testZB);
+		} catch (ZentrumException e) {
+			e.printStackTrace();
 		} catch (DatenbankFehlerException e) {
 			fail("Eine DatenbankFehlerException ist aufgetreten: "
 					+ e.getMessage());
@@ -134,6 +136,8 @@ public class ZentrumTest {
 		tempVec = null;
 		try {
 			tempVec = Zentrum.suchenZentrum(testZB);
+		} catch (ZentrumException e) {
+			e.printStackTrace();
 		} catch (DatenbankFehlerException e) {
 			fail("Eine DatenbankFehlerException ist aufgetreten: "
 					+ e.getMessage());
