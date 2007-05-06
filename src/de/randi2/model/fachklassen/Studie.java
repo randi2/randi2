@@ -1,6 +1,9 @@
 package de.randi2.model.fachklassen;
 
 import java.util.Vector;
+
+import de.randi2.datenbank.DatenbankFactory;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.RandomisationBean;
@@ -27,10 +30,6 @@ public class Studie {
 	 */
 	private RandomisationBean aRandomisationBean = null;
 
-	/**
-	 * Das zugehörige ZentrumBean-Objekt.
-	 */
-	private ZentrumBean aZentrum;
 
 	/**
 	 * Enumeration Status der Studie
@@ -154,7 +153,26 @@ public class Studie {
 		Vector<Studie> zugewieseneZentren = null;
 
 		return zugewieseneZentren;
-
+	}
+	
+	/**
+	 * Liefert alle zur Studie gehoerenden Zentren
+	 * @param studieId
+	 * 			Id der studie zur eindeutigen Zuordnung in der Datenbank
+	 * @return
+	 * 			gefundene Zentren
+	 */
+	public static Vector<ZentrumBean> getZugehoerigeZentren(long studieId) {
+		StudieBean studie = new StudieBean();
+		studie.setId(studieId);
+		Vector<ZentrumBean> gefundenZentren=null;
+		try {
+			gefundenZentren = DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(studie, new ZentrumBean() );
+		} catch (DatenbankFehlerException e) {
+			// TODO hier etwas weiterleiten? (fred)
+			e.printStackTrace();
+		}
+		return gefundenZentren;
 	}
 
 }
