@@ -1,5 +1,7 @@
 package de.randi2.datenbank.exceptions;
 
+import java.sql.SQLException;
+
 import de.randi2.utility.SystemException;
 
 /**
@@ -64,6 +66,16 @@ public class DatenbankFehlerException extends SystemException {
 	 */
 	public DatenbankFehlerException(String msg) {
 		super(msg);
+	}
+	
+	/**
+	 * Konstruktor.
+	 * 
+	 * @param msg
+	 *            Eine Nachricht aus der Liste der Konstanten.
+	 */
+	public DatenbankFehlerException(SQLException e, String sql) {
+		// TODO SQLException auswerten
 	}
 
 }
