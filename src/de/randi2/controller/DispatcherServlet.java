@@ -42,17 +42,23 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      */
     private String meldungSystemGesperrt = "Meldung des System ist gesperrt";
 
-    // TODO Benjamin ist das nicht redundant mit den enum Feldern?!
-    public static final String FEHLERNACHRICHT = "fehlernachricht";
-
-    // TODO Benjamin ist das nicht redundant mit den enum Feldern
-    public static final String IST_SYSTEM_GESPERRT = "Hurz";
-
-    // TODO Benjmamin ist das nicht redundant mit meldung System gesperrt?!
-    /**
-     * Haelt die Begruendung der Systemsperrung
-     */
-    public static final String MITTEILUNG_SYSTEM_GESPERRT = "Systemmitteilung gesperrt";
+//    // TODO Benjamin ist das nicht redundant mit den enum Feldern?!
+//    /**
+//     * 
+//     */
+//    public static final String FEHLERNACHRICHT = "fehlernachricht";
+//
+//    // TODO Benjamin ist das nicht redundant mit den enum Feldern
+//    /**
+//     * 
+//     */
+//    public static final String IST_SYSTEM_GESPERRT = "Hurz";
+//
+//    // TODO Benjmamin ist das nicht redundant mit meldung System gesperrt?!
+//    /**
+//     * Haelt die Begruendung der Systemsperrung
+//     */
+//    public static final String MITTEILUNG_SYSTEM_GESPERRT = "Systemmitteilung gesperrt";
 
     /**
      * Konstruktor.
@@ -181,13 +187,17 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
          */
         private String parameter = null;
 
+        /**
+         * Setzt die String Repraesentation des Parameters
+         * @param parameter String Repraesentation des Parameters
+         */
         private requestParameter(String parameter) {
             this.parameter = parameter;
         }
 
-        /*
-         * (non-Javadoc)
-         * 
+        /**
+         * Liefert die String Repraesentation des Parameters
+         * @return String Repraesentation des Parameters
          * @see java.lang.Enum#toString()
          */
         @Override
@@ -457,7 +467,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      * Session ein Benutzer angehaengt ist.<br>
      * Ist dies der Fall, so ist der Benutzer im System angemeldet.
      * 
-     * @param request
+     * @param request Der Request fuer das Servlet.
      * @return <code>true</code>, wenn der Benutzer asngemeldet ist,
      *         anderenfalls <code>false</code>.
      */
@@ -481,11 +491,17 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      * Loggt den Benutzer aus dem System aus und ruft anschlieszend die Methode
      * {@link #weiterleitungAufIndex(HttpServletRequest, HttpServletResponse)}
      * auf
-     * 
      * @param request
+     *            Der Request fuer das Servlet.
      * @param response
-     * @throws ServletException
+     *            Der Response Servlet.
      * @throws IOException
+     *             Falls Fehler in den E/A-Verarbeitung.
+     * @throws ServletException
+     *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+     * 
+     * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+     *      HttpServletResponse response)
      */
     private void loggeBenutzerAus(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
@@ -505,11 +521,17 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      * Leitet die Anfrage auf den korrekten Index weiter<br>
      * Ist das System gesperrt, so wird die Datei 'index_gesperrt.jsp'
      * aufgerufen, anderenfalls die Datei 'index.jsp'
-     * 
      * @param request
+     *            Der Request fuer das Servlet.
      * @param response
-     * @throws ServletException
+     *            Der Response Servlet.
      * @throws IOException
+     *             Falls Fehler in den E/A-Verarbeitung.
+     * @throws ServletException
+     *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+     * 
+     * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+     *      HttpServletResponse response)
      */
     private void weiterleitungAufIndex(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
@@ -518,7 +540,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
                     .getLogger(this.getClass())
                     .debug(
                             "System gesperrt, leite nach 'index_gesperrt.jsp' um (korrekter Ablauf) ");
-            request.setAttribute(MITTEILUNG_SYSTEM_GESPERRT,
+            request.setAttribute(requestParameter.MITTEILUNG_SYSTEM_GESPERRT.toString(),
                     meldungSystemGesperrt);
             request.getRequestDispatcher("index_gesperrt.jsp").forward(request,
                     response);
@@ -537,11 +559,17 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     /**
      * Leitet die Anfrage auf die Seite '/system_sperren_main.jsp' weiter und
      * bindet die dort benoetigten Werte an den Request.
-     * 
      * @param request
+     *            Der Request fuer das Servlet.
      * @param response
-     * @throws ServletException
+     *            Der Response Servlet.
      * @throws IOException
+     *             Falls Fehler in den E/A-Verarbeitung.
+     * @throws ServletException
+     *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+     * 
+     * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+     *      HttpServletResponse response)
      */
     private void weiterleitungSystemSperrung(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
@@ -557,11 +585,17 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
     /**
      * Leitet die Anfrage nach Authentifikation an das BenutzerServlet weiter
-     * 
      * @param request
+     *            Der Request fuer das Servlet.
      * @param response
-     * @throws ServletException
+     *            Der Response Servlet.
      * @throws IOException
+     *             Falls Fehler in den E/A-Verarbeitung.
+     * @throws ServletException
+     *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+     * 
+     * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+     *      HttpServletResponse response)
      */
     private void weiterleitungBenutzerAnmelden(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
@@ -570,10 +604,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_LOGIN1");
         // request.setAttribute(requestParameter.IST_SYSTEM_GESPERRT.toString(),
         // istSystemGesperrt);
-        request.setAttribute(IST_SYSTEM_GESPERRT, istSystemGesperrt);
+        request.setAttribute(requestParameter.IST_SYSTEM_GESPERRT.toString(), istSystemGesperrt);
         if (istSystemGesperrt) {
             // Request verliert Attr. deshalb neu setzten
-            request.setAttribute(MITTEILUNG_SYSTEM_GESPERRT,
+            request.setAttribute(requestParameter.MITTEILUNG_SYSTEM_GESPERRT.toString(),
                     meldungSystemGesperrt);
 
         }

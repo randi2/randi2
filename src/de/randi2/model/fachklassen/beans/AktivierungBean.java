@@ -137,7 +137,7 @@ public class AktivierungBean extends Filter {
      * 						Die ID des Benutzerkontos.
      * @param aktivierungsLink
      * 						Der Aktivierungslink für die Vervollständigung der Anmeldung.
-     * @throws AktivierungException
+     * @throws AktivierungException		Die Akivierungsdaten sind unzulaessig, Details sieh setMethoden.
      */
     public AktivierungBean(long aktivierungsId, GregorianCalendar versanddatum, long benutzerkontoId, String aktivierungsLink) throws AktivierungException{
 	super();
