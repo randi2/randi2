@@ -1422,8 +1422,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenObjekt(de.randi2.datenbank.Filter)
 	 */
-	public <T extends Filter> Vector<T> suchenObjekt(T zuSuchendesObjekt)
-			throws DatenbankFehlerException {
+	public <T extends Filter> Vector<T> suchenObjekt(T zuSuchendesObjekt) throws DatenbankFehlerException {
 		//pruefe ob Argument ungleich null ist
 		if(zuSuchendesObjekt == null) {
 			throw new DatenbankFehlerException(DatenbankFehlerException.ARGUMENT_IST_NULL);
@@ -1571,6 +1570,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @return
 	 * 			Vector mit gefundenen Benutzerkonten
 	 * @throws DatenbankFehlerException 
+	 * 			SQL Exceptions werden weitergeleitet und automatisch geloggt.
+	 * 			Probleme beim erstellen der Personen Objekte werden mit {@link DatenbankFehlerException#UNGUELTIGE_DATEN} dem Benutzer mitgeteilt
+	 * 			Rechte Verletzungen werden geloggt.
 	 */
 	private Vector<BenutzerkontoBean> suchenBenutzerkonto(BenutzerkontoBean bk) throws DatenbankFehlerException {
 		Connection con;
@@ -1634,10 +1636,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 				konten.add(tmpBenutzerkonto);
 			}
 		} catch (SQLException e) {
-			throw new SystemException();
-		} catch (BenutzerException e) {		
-			e.printStackTrace();
+			throw new DatenbankFehlerException(e, sql);
+		} catch (BenutzerException f) {		
+			f.printStackTrace();
 			throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
+		} catch (SystemException g) {
+			//TODO hier muss etwas sinnvolles geworfen bzw geloggt werden. Tritt auf wenn eine Rechte Exception fliegt
 		}
 		try {
 			closeConnection(con);
@@ -1663,7 +1667,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} catch (SQLException e) {
 			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
 		}
-		//NamedParameterStatement nps = new NamedParameterStatement()
 		PreparedStatement pstmt;
 		ResultSet rs;
 		ZentrumBean tmpZentrum;
@@ -2296,7 +2299,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @return Connectionobjekt welches Zugriff auf die Datenbank ermoeglicht.
 	 * @throws SQLException
 	 */
-	private Connection getConnection() throws SQLException {
+	protected Connection getConnection() throws SQLException {
 		Connection con = DriverManager.getConnection("proxool.randi2");
 		return con;
 	}
@@ -2309,7 +2312,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @throws SQLException
 	 * @throws DBExceptions
 	 */
-	private void closeConnection(Connection con) throws SQLException {
+	protected void closeConnection(Connection con) throws SQLException {
 		if (con != null && !con.isClosed()) {
 			con.close();
 		}
