@@ -31,6 +31,12 @@ public class RandomisationsException extends SystemException {
 	public static final String STUDIE_NULL = "Die &uuml;bergebene Studie darf nicht null sein.";
 
 	/**
+	 * Fehler falls versucht wird, einen neuen Block in der Datenbank anzulegen,
+	 * obwohl noch Werte existieren.
+	 */
+	public static final String WERTE_EXISTIEREN = "Zu dem uebergebenen Block existieren noch Werte in der Datenbank.";
+
+	/**
 	 * Ein Konstruktor dieser Klasse
 	 * 
 	 * @param arg0
