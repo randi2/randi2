@@ -254,7 +254,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	// Fehlermeldung anfuegen
 	request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, fehlermeldungAnBenutzer);
 
-	if ((Boolean) request.getAttribute(DispatcherServlet.IST_SYSTEM_GESPERRT)) {
+	if ((Boolean) request.getAttribute(DispatcherServlet.requestParameter.IST_SYSTEM_GESPERRT.toString())) {
 	    request.getRequestDispatcher("/index_gesperrt.jsp").forward(request, response);
 	} else {
 	    request.getRequestDispatcher("/index.jsp").forward(request, response);
@@ -277,7 +277,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	Logger.getLogger(this.getClass()).debug("BenutzerServlet.class_dispatcherservlet_login1()");
 	BenutzerkontoBean sBenutzer = null;
 
-	boolean isSystemGesperrt = (Boolean) request.getAttribute(DispatcherServlet.IST_SYSTEM_GESPERRT);
+	boolean isSystemGesperrt = (Boolean) request.getAttribute(DispatcherServlet.requestParameter.IST_SYSTEM_GESPERRT.toString());
 
 	try {
 	    sBenutzer = new BenutzerkontoBean((String) request.getParameter("username"),(String) request.getParameter("password"));
