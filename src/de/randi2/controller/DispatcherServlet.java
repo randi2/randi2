@@ -43,10 +43,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
     private String meldungSystemGesperrt = "Meldung des System ist gesperrt";
 
 //    // TODO Benjamin ist das nicht redundant mit den enum Feldern?!
-//    /**
-//     * 
-//     */
-//    public static final String FEHLERNACHRICHT = "fehlernachricht";
+    /**
+     * 
+     */
+    public static final String FEHLERNACHRICHT = "fehlernachricht";
 //
 //    // TODO Benjamin ist das nicht redundant mit den enum Feldern
 //    /**
