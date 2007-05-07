@@ -209,6 +209,17 @@ CREATE TABLE Strata_Werte_has_Patient (
 )
 TYPE=InnoDB;
 
+CREATE TABLE Block(
+	blockId INTEGER UNSIGNED NOT NULL PRIMARY KEY 		AUTO_INCREMENT,
+	block_studienId INTEGER UNSIGNED NULL,
+	block_wert INTEGER UNSIGNED NOT NULL,
+	FOREIGN KEY (Studie_studienId) 
+		REFERENCES Studie(studienId)
+		ON DELETE CASCADE
+		ON UPDATE NO ACTION
+
+)
+TYPE=InnoDB;
 
 CREATE VIEW Strata_von_Studienarm
 AS
