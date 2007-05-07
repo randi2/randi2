@@ -75,10 +75,10 @@ public class RechtTest {
     /**
      * Test method for durchlaufFuerAlleRechte()
      * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.Rechtenamen)}
-     * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.getRecht)}
-     * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.toString)}
-     * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.getName)}
-     * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.model.fachklassen.Recht.getRechtname)}
+     * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.randomisation.fachklassen.Recht.getRecht)}
+     * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.randomisation.fachklassen.Recht.toString)}
+     * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.randomisation.fachklassen.Recht.getName)}
+     * {@link de.randi2.model.fachklassen.Recht#getRecht(de.randi2.randomisation.fachklassen.Recht.getRechtname)}
      * 
      * Durchlaeuft alle vorhandenen Rechtenamen und prueft, ob alle Rechte in der
      * "frozen" und "korrekten" Rechtetabelle enthalten sind.

@@ -38,27 +38,28 @@ public class BenutzerkontoBeanTest extends Filter {
 	private Rolle rolle, rolleB;
 
 	/**
-	 * Zugehörige Rollen-Objekte.
+	 * Uugehörige Rollen-Objekte.
 	 */
 	private Rollen name, nameB;
 
+	
 	/**
-	 * Method setUp() Erzeugt eine neue Instanz der Klasse BenutzerkontoBean.
+	 * Method setUp() 
+	 * Erzeugt eine neue Instanz der Klasse BenutzerkontoBean.
 	 * 
-	 * @throws Exception,
-	 *             Fehler, wenn keine Instanz der Klasse BenutzerkontoBean
-	 *             erzeugt werden kann.
+	 * @throws Exception,  Fehler, wenn keine Instanz der Klasse
+	 *                     BenutzerkontoBean erzeugt werden kann. 
 	 */
 	@Before
 	public void setUp() throws Exception {
 		aKonto = new BenutzerkontoBean();
 	}
 
-	/**
-	 * Method tearDown() Weist dem BenutzerkontoBean-Objekt den Wert "null" zu.
+	/** 
+	 * Method tearDown() 
+	 * Weist dem BenutzerkontoBean-Objekt den Wert "null" zu.
 	 * 
-	 * @throws Exception,
-	 *             wenn die Testklasse nicht beendet werden kann.
+	 * @throws Exception, wenn die Testklasse nicht beendet werden kann.
 	 */
 	@After
 	public void tearDown() throws Exception {
@@ -67,12 +68,12 @@ public class BenutzerkontoBeanTest extends Filter {
 
 	/**
 	 * Test method for setBenutzername()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setBenutzername()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setBenutzername()}.
 	 * 
 	 * Ueberpruefung auf korrekt gesetzten Benutzername.
-	 * 
-	 * @throws BenutzerkontoException
-	 *             darf bei korrektem Benutzenamen nicht geworfen werden.
+	 *
+	 * @throws BenutzerkontoException darf bei korrektem Benutzenamen
+	 *                                nicht geworfen werden.
 	 */
 	@Test
 	public final void testSetBenutzernameRichtig()
@@ -91,13 +92,12 @@ public class BenutzerkontoBeanTest extends Filter {
 
 	/**
 	 * Test method for setBenutzername()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setBenutzername()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setBenutzername()}.
 	 * 
 	 * Ueberpruefung auf erlaubte Zeichen im Benutzernamen.
 	 * 
-	 * @throws BenutzerkontoException,
-	 *             wenn bei der Eingabe des Benutzernamens unerlaubte Zeichen
-	 *             gesetzt werden.
+	 * @throws BenutzerkontoException, wenn bei der Eingabe des Benutzernamens
+	 *                                 unerlaubte Zeichen gesetzt werden.
 	 */
 	@Test
 	public final void testSetBenutzernameErlaubteZeichen()
@@ -108,141 +108,137 @@ public class BenutzerkontoBeanTest extends Filter {
 
 	/**
 	 * Test method for setBenutzename()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setBenutzername()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setBenutzername()}.
 	 * 
 	 * Ueberpruefung, ob Benutzername gesetzt wurde.
 	 * 
-	 * @throws BenutzerkontoException,
-	 *             wenn keine Benutzername gesetzt wird (Benutzername = Null)
+	 * @throws BenutzerkontoException, wenn keine Benutzername gesetzt wird
+	 *                                (Benutzername = Null)
 	 */
 	@Test(expected = BenutzerkontoException.class)
 	public final void testSetBenutzernameNull() throws BenutzerkontoException {
 		aKonto.setBenutzername(null);
 	}
 
+
 	/**
 	 * Test method for setBenutzername()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setBenutzername()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setBenutzername()}.
 	 * 
 	 * Ueberpruefung der Laenge des Benutzernamens.
 	 * 
-	 * @throws BenutzerkontoException,
-	 *             wenn Benutzername kleiner als 6 bzw. mehr als 50 Zeichen
-	 *             enthält.
-	 */
+	 * @throws BenutzerkontoException, wenn Benutzername kleiner als 6 bzw. 
+	 *                                 mehr als 50 Zeichen enthält.
+     */
 	@Test(expected = BenutzerkontoException.class)
 	public final void testSetBenutzernameLaenge() throws BenutzerkontoException {
-		aKonto
-				.setBenutzername("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"); // mehr
-																							// als
-																							// 50
-																							// Zeichen
+		aKonto.setBenutzername("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"); // mehr als 50 Zeichen
 		aKonto.setBenutzername("aaa"); // weniger als 6 Zeichen
 	}
 
 	/**
 	 * Test method for setPasswort()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setPasswort()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setPasswort()}.
 	 * 
 	 * Ueberpruefung der Laenge des Passwortes.
 	 * 
-	 * @throws BenutzerkontoException,
-	 *             wenn Passwort weniger als 6 Zeichen enthält.
+	 * @throws BenutzerkontoException, wenn Passwort weniger als 
+	 *                                 6 Zeichen enthält.
 	 */
 	@Test(expected = BenutzerkontoException.class)
-	public final void testSetPasswortLaenge() throws BenutzerkontoException {
+	public final void testSetPasswortLaenge()
+			throws BenutzerkontoException {
 		aKonto.setFilter(false);
-		aKonto.setPasswort("s");
+		aKonto.setPasswortKlartext("s");		
 	}
+
 
 	/**
 	 * Test method for setPasswort()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setPasswort()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setPasswort()}.
 	 * 
-	 * Ueberpruefung auf Korrektheit des Passwortes. Es muss mindestens 1 Ziffer
-	 * oder 1 Sonderzeichen enthalten sein.
+	 * Ueberpruefung auf Korrektheit des Passwortes. Es muss mindestens
+	 * 1 Ziffer oder 1 Sonderzeichen enthalten sein.
 	 * 
-	 * @throws BenutzerkontoException,
-	 *             wenn keine Ziffer oder kein Sonderzeichen vorhanden ist.
+	 * @throws BenutzerkontoException, wenn keine Ziffer oder kein 
+	 *                                 Sonderzeichen vorhanden ist.
 	 */
-	@Test
+	@Test 
 	public final void testSetPasswortRichtig() throws BenutzerkontoException {
-		aKonto.setPasswort("123456abc%");
-		assertTrue(aKonto.getPasswort().equals(
-				KryptoUtil.getInstance().hashPasswort("123456abc%")));
-		aKonto.setPasswort("hans1$wursthausen");
-		assertTrue(aKonto.getPasswort().equals(
-				KryptoUtil.getInstance().hashPasswort("hans1$wursthausen")));
-		aKonto.setPasswort("a§abc1passwort");
-		assertTrue(aKonto.getPasswort().equals(
-				KryptoUtil.getInstance().hashPasswort("a§abc1passwort")));
-		aKonto.setPasswort("test2abc$abc");
-		assertTrue(aKonto.getPasswort().equals(
-				KryptoUtil.getInstance().hashPasswort("test2abc$abc")));
+        aKonto.setPasswortKlartext("123456abc%");
+        assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("123456abc%")));
+        aKonto.setPasswortKlartext("hans1$wursthausen");
+		assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("hans1$wursthausen")));
+		aKonto.setPasswortKlartext("a§abc1passwort");
+		assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("a§abc1passwort")));
+		aKonto.setPasswortKlartext("test2abc$abc");
+		assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("test2abc$abc")));        
 	}
 
+
+	
 	/**
 	 * Test method for setPasswort()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setPasswort()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setPasswort()}.
 	 * 
 	 * Ueberpruefung, ob Passwort gesetzt wurde.
 	 * 
-	 * @throws BenutzerkontoException,
-	 *             wenn kein Passwort gesetzt wird (Passwort=Null)
+	 * @throws BenutzerkontoException, wenn kein Passwort gesetzt wird
+	 *                                 (Passwort=Null) 
 	 */
 	@Test(expected = BenutzerkontoException.class)
 	public final void testSetPasswortNull() throws BenutzerkontoException {
 		aKonto.setPasswort(null);
 	}
 
+
+
 	/**
 	 * 
 	 * Test method for equalsBenutzerkontoBean()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#equalsBenutzerkontoBean()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#equalsBenutzerkontoBean()}.
 	 * 
-	 * Vergleich von zwei identischen BenutzerkontoBeans. Zwei Konten sind
-	 * identisch, wenn die Benutzernamen identisch sind.
+	 * Vergleich von zwei identischen BenutzerkontoBeans.
+	 * Zwei Konten sind identisch, wenn die Benutzernamen identisch sind.
 	 * 
-	 * @throws BenutzerkontoException,
-	 *             wenn Fehler beim BenutzerkontoBean
+	 * @throws BenutzerkontoException, wenn Fehler beim BenutzerkontoBean
 	 */
 	@Test
 	public final void testEqualsBenutzerkontoBeanGleich()
 			throws BenutzerkontoException {
 		String benutzername = "Hanswurst";
 		String passwort = "dddd$dddsf1dfdsf";
-		//long benutzerId = 2;
-		long zentrumId = 3;
+		long benutzerId=2;
+		long zentrumId=3;
 		name = Rollen.ADMIN;
 		rolle = Rolle.getAdmin();
 		boolean gesperrt = false;
-
+		
 		letzterLogin = new GregorianCalendar(2006, 11, 1);
 		ersterLogin = new GregorianCalendar(2006, 11, 1);
 
-		aKonto = new BenutzerkontoBean(zentrumId, benutzername, passwort, rolle, zentrumId, gesperrt,
-				ersterLogin, letzterLogin);
+		aKonto = new BenutzerkontoBean(benutzername, passwort, rolle, benutzerId,
+				gesperrt, zentrumId,ersterLogin, letzterLogin);
 
 		assertTrue(aKonto.equals(aKonto));
 	}
 
 	/**
 	 * Test method for equalsBenutzerkontoBean()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#equalsBenutzerkontoBean()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#equalsBenutzerkontoBean()}.
 	 * 
-	 * Vergleich von zwei verschiedenen BenutzerkontoBeans. Zwei Konten sind
-	 * nicht identisch, wenn die Benutzernamen verschieden sind.
+	 * Vergleich von zwei verschiedenen BenutzerkontoBeans.
+	 * Zwei Konten sind nicht identisch, wenn die Benutzernamen verschieden sind.
 	 * 
-	 * @throws BenutzerkontoException,
-	 *             wenn Fehler beim BenutzerkontoBean
+	 * @throws BenutzerkontoException, wenn Fehler beim BenutzerkontoBean
 	 */
 	@Test
 	public final void testEqualsBenutzerkontoBeanVerschieden()
 			throws BenutzerkontoException {
 		String benutzername = "Hanswurst";
 		String passwort = "dddd2323sfaf§f";
-		//long benutzerId = 1;
-		//long zentrumId = 2;
+		long benutzerId=1;
+		long zentrumId=2;
 		name = Rollen.ADMIN;
 		rolle = Rolle.getAdmin();
 		boolean gesperrt = false;
@@ -259,8 +255,8 @@ public class BenutzerkontoBeanTest extends Filter {
 
 		String benutzernameB = "EmmaWurst";
 		String passwortB = "ddddccc4safsa§";
-		//long benutzerIdB = 4;
-		long zentrumIdB = 2;
+		long benutzerIdB=4;
+		long zentrumIdB=2;
 		nameB = Rollen.ADMIN;
 		rolleB = Rolle.getAdmin();
 		boolean gesperrtB = false;
@@ -275,30 +271,31 @@ public class BenutzerkontoBeanTest extends Filter {
 		ersterLoginB = new GregorianCalendar(jahrLetzterLoginB,
 				monatLetzterLoginB - 1, tagLetzterLoginB);
 
-		aKonto = new BenutzerkontoBean(zentrumIdB, benutzername, passwort, rolle, zentrumIdB, gesperrt,
-				ersterLogin, letzterLogin);
-		bKonto = new BenutzerkontoBean(zentrumIdB, benutzernameB, passwortB, rolleB,
-				zentrumIdB, gesperrtB, ersterLoginB, letzterLoginB);
+		aKonto = new BenutzerkontoBean(benutzername, passwort, rolle, benutzerId,
+				gesperrt, zentrumId,ersterLogin, letzterLogin);
+	    bKonto = new BenutzerkontoBean(benutzernameB, passwortB, rolleB,
+				benutzerIdB, gesperrtB, zentrumIdB, ersterLoginB,
+				letzterLoginB);
 
 		assertFalse(aKonto.equals(bKonto));
 	}
 
+	
 	/**
 	 * Test method for equalsBenutzerkontoBean()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#equalsBenutzerkontoBean()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#equalsBenutzerkontoBean()}.
 	 * 
 	 * Ueberpruefung, ob BenutzerkontoBean leer ist.
-	 * 
-	 * @throws BenutzerkontoException,
-	 *             wenn kein BenutzerkontoBean gesetzt wird.
+	 *
+	 * @throws BenutzerkontoException, wenn kein BenutzerkontoBean gesetzt wird.
 	 */
 	@Test
-	public final void testEqualsBenutzerkontoBeanNull()
-			throws BenutzerkontoException {
+	public final void testEqualsBenutzerkontoBeanNull() 
+	                     throws BenutzerkontoException {
 		String benutzername = "Hanssdsadsd";
 		String passwort = "dddd$sdas2";
-		//long benutzerId = 1;
-		long zentrumId = 2;
+		long benutzerId=1;
+		long zentrumId=2;
 		name = Rollen.ADMIN;
 		rolle = Rolle.getAdmin();
 		boolean gesperrt = false;
@@ -313,19 +310,21 @@ public class BenutzerkontoBeanTest extends Filter {
 		ersterLogin = new GregorianCalendar(jahrLetzterLogin,
 				monatLetzterLogin - 1, tagLetzterLogin);
 
-		aKonto = new BenutzerkontoBean(zentrumId, benutzername, passwort, rolle, zentrumId, gesperrt,
-				ersterLogin, letzterLogin);
-		cKonto = new BenutzerkontoBean("Abctest", "abc@cdef", null);
+		aKonto = new BenutzerkontoBean(benutzername, passwort, rolle, benutzerId,
+				gesperrt, zentrumId, ersterLogin, letzterLogin);
+		cKonto = new BenutzerkontoBean("Abctest", "abc@cdef", null, benutzerId,
+				false, zentrumId, null, null);
 
 		assertFalse(aKonto.equals(cKonto));
 	}
 
 	/**
 	 * Test method for setErsterLogin()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setErsterLogin()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setErsterLogin()}.
 	 * 
-	 * Ueberpruefung Datum des ersten Logins. Wenn Fehler (Datum befindet sich
-	 * in der Zukunft), soll BenutzerkontoException geworfen werden.
+	 * Ueberpruefung Datum des ersten Logins.
+	 * Wenn Fehler (Datum befindet sich in der Zukunft), soll 
+	 * BenutzerkontoException geworfen werden.
 	 */
 	@Test
 	public void testSetErsterLogin() {
@@ -339,7 +338,7 @@ public class BenutzerkontoBeanTest extends Filter {
 			ersterLogin = new GregorianCalendar(jahr, monat - 1, tag);
 			aKonto.setErsterLogin(ersterLogin);
 			assertTrue(aKonto.getErsterLogin().equals(ersterLogin));
-			assertFalse((new GregorianCalendar(Locale.GERMANY))
+		    assertFalse((new GregorianCalendar(Locale.GERMANY))
 					.before(ersterLogin));
 		} catch (Exception e) {
 			fail("[testSetErsterLogin]Exception, wenn Zeit des ersten Login in der Zukunft liegt.");
@@ -348,7 +347,7 @@ public class BenutzerkontoBeanTest extends Filter {
 
 	/**
 	 * Test method for setGesperrt()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setGesperrt()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setGesperrt()}.
 	 * 
 	 * Ueberpruefung, ob Benutzerkonto gesperrt ist.
 	 */
@@ -360,10 +359,11 @@ public class BenutzerkontoBeanTest extends Filter {
 
 	/**
 	 * Test method for setLetzterLogin()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setLetzterLogin()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setLetzterLogin()}.
 	 * 
-	 * Ueberpruefung Datum des letzten Logins. Wenn Fehler (Datum liegt in der
-	 * Zukunft), soll BenutzerkontoException geworfen werden.
+	 * Ueberpruefung Datum des letzten Logins.
+	 * Wenn Fehler (Datum liegt in der Zukunft), soll 
+	 * BenutzerkontoException geworfen werden.
 	 */
 	@Test
 	public void testSetLetzterLogin() {
@@ -386,12 +386,12 @@ public class BenutzerkontoBeanTest extends Filter {
 
 	/**
 	 * Test method for setRolle()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setRolle()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setRolle()}.
 	 * 
 	 * Ueberpruefung, ob Rolle gesetzt wurde.
 	 * 
-	 * @throws BenutzerkontoException,
-	 *             wenn keine Rolle gesetzt wird (Rolle=Null)
+	 * @throws BenutzerkontoException, wenn keine Rolle gesetzt wird
+	 *                                 (Rolle=Null)
 	 */
 	@Test(expected = BenutzerkontoException.class)
 	public void testSetRolleNull() throws BenutzerkontoException {
@@ -400,7 +400,7 @@ public class BenutzerkontoBeanTest extends Filter {
 
 	/**
 	 * Test method for setRolle()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setRolle()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setRolle()}.
 	 * 
 	 * Ueberpruefung, ob richtige Rollen gesetzt werden.
 	 */
@@ -419,7 +419,7 @@ public class BenutzerkontoBeanTest extends Filter {
 
 	/**
 	 * Test method for setId()
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setId()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setId()}.
 	 * 
 	 * Ueberpruefung, ob ID des Kontos gesetzt wurde.
 	 */
@@ -429,6 +429,21 @@ public class BenutzerkontoBeanTest extends Filter {
 			aKonto.setId(aKonto.getId());
 		} catch (Exception e) {
 			fail("[FEHLER]testSetId() sollte keine Exception auslösen");
+		}
+	}
+
+	/**
+	 * Test method for setZentrum()
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setId()}.
+	 * 
+	 * Ueberpruefung, ob Zentrum gesetzt wurde.
+	 */
+	@Test
+	public void testSetZentrum() {
+		try {
+			aKonto.setZentrum(aKonto.getZentrum());
+		} catch (Exception e) {
+			fail("[FEHLER]testSetZentrum() sollte keine Exception auslösen");
 		}
 	}
 }

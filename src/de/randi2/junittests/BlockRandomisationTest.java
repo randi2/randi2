@@ -10,10 +10,10 @@ import org.junit.Test;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.RandomisationsException;
-import de.randi2.model.fachklassen.BlockRandomisation;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
+import de.randi2.randomisation.BlockRandomisation;
 
 /**
  * <p>

@@ -246,7 +246,7 @@ public class StudieBeanTest {
 
 	/**
 	 * Test method for setId() Test method for
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setId()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setId()}.
 	 * 
 	 * Ueberpruefung, ob die ID der Studie gesetzt wurde. Wenn Fehler, soll
 	 * StudieException geworfen werden.
@@ -262,7 +262,7 @@ public class StudieBeanTest {
 
 	/**
 	 * Test method for setBenutzerkontoId() Test method for
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setBenutzerkontoId()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setBenutzerkontoId()}.
 	 * 
 	 * Ueberpruefung, ob die ID des Benutzerkontos gesetzt wurde.
 	 */
@@ -273,7 +273,7 @@ public class StudieBeanTest {
 
 	/**
 	 * Test method for setRandomisationId() Test method for
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setRandomisationId()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setRandomisationId()}.
 	 * 
 	 * Ueberpruefung, ob die ID der Randomisation gesetzt wurde.
 	 */
@@ -284,7 +284,7 @@ public class StudieBeanTest {
 
 	/**
 	 * Test method for setZentumId() Test method for
-	 * {@link de.randi2.model.fachklassen.BenutzerkontoBean#setZentrumId()}.
+	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setZentrumId()}.
 	 * 
 	 * Ueberpruefung, ob die ID des Zentrums gesetzt wurde.
 	 */

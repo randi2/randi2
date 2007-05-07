@@ -1,4 +1,4 @@
-package de.randi2.model.fachklassen;
+package de.randi2.randomisation;
 
 import java.util.Random;
 import java.util.Vector;

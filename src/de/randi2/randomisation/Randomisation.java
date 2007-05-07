@@ -1,4 +1,4 @@
-package de.randi2.model.fachklassen;
+package de.randi2.randomisation;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.RandomisationsException;
