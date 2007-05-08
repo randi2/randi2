@@ -49,7 +49,7 @@
 	<legend>System sperren</legend>
 		<input type="hidden" name="anfrage_id" value="<%=DispatcherServlet.anfrage_id.AKTION_SYSTEM_SPERREN.name() %>">
 		Grund der letzten Sperrung/ Default-Einstellung:<br>
-		<textarea name="<%=DispatcherServlet.requestParameter.MITTEILUNG_SYSTEM_GESPERRT.name() %>" cols="50" rows="10" z:required="true" z:message="Bitte den Grund der Sperrung angeben" ><%= msg_gesperrt %></textarea>
+		<textarea name="<%=DispatcherServlet.requestParameter.MITTEILUNG_SYSTEM_GESPERRT.toString() %>" cols="50" rows="10" z:required="true" z:message="Bitte den Grund der Sperrung angeben" ><%= msg_gesperrt %></textarea>
 		<input type="submit" name="bestaetigen" value="System sperren" tabindex="1">		
 <%} %>		
 </fieldset>

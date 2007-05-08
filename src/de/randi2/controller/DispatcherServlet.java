@@ -419,7 +419,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
             String meldung = StringEscapeUtils.escapeHtml((String) request
                     .getParameter(requestParameter.MITTEILUNG_SYSTEM_GESPERRT
-                            .name()));
+                            .toString()));
             this.setMeldungSystemGesperrt(meldung);
 
             Logger.getLogger(this.getClass()).debug(
@@ -631,7 +631,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      */
     public void setSystemGesperrt(boolean istSystemGesperrt) {
         this.istSystemGesperrt = istSystemGesperrt;
-        Config.setSystemGesperrt(istSystemGesperrt);
+       // Config.setSystemGesperrt(istSystemGesperrt);
         Logger.getLogger(this.getClass()).debug(
                 "System gesperrt geaendert nach " + istSystemGesperrt);
         
@@ -654,7 +654,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      *            the systemsperrungFehlermeldung to set
      */
     public void setMeldungSystemGesperrt(String meldungSystemGesperrt) {
+        System.out.println(meldungSystemGesperrt);
         this.meldungSystemGesperrt = meldungSystemGesperrt;
-        Config.setMitteilungSystemsperrung(meldungSystemGesperrt);
+        //Config.setMitteilungSystemsperrung(meldungSystemGesperrt);
     }
 }// DispatcherServlet

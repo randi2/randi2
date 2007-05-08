@@ -27,7 +27,7 @@ ihr Verst&auml;ndnis</title>
 
 <div id="inhalt_login">
 <p class="warnung sysdown"><%=request
-									.getAttribute(DispatcherServlet.MITTEILUNG_SYSTEM_GESPERRT)%>
+									.getAttribute(DispatcherServlet.requestParameter.MITTEILUNG_SYSTEM_GESPERRT.toString())%>
 </p>
 </div>
 
