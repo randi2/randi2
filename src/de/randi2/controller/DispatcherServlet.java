@@ -631,9 +631,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      */
     public void setSystemGesperrt(boolean istSystemGesperrt) {
         this.istSystemGesperrt = istSystemGesperrt;
+        Config.setSystemGesperrt(istSystemGesperrt);
         Logger.getLogger(this.getClass()).debug(
                 "System gesperrt geaendert nach " + istSystemGesperrt);
-        // TODO hier aenderung an Config uebergeben --BTheel
+        
+        
     }
 
     /**
@@ -653,6 +655,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      */
     public void setMeldungSystemGesperrt(String meldungSystemGesperrt) {
         this.meldungSystemGesperrt = meldungSystemGesperrt;
-        // TODO hier aenderung an Config uebergeben --BTheel
+        Config.setMitteilungSystemsperrung(meldungSystemGesperrt);
     }
 }// DispatcherServlet
