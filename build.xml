@@ -86,7 +86,7 @@
 
 	<!-- Target erstellt das war-Archiv -->
 	<target name="war" depends="compile">
-		<copy file="log4j.lcf.pat" tofile="log4j.lcf"/>
+		<copy file="WebContent/WEB-INF/log4j.lcf.pat" tofile="WebContent/WEB-INF/log4j.lcf"/>
 		<!-- Datum einfuegen -->
 		<war warfile="${build}/randinightly.war" webxml="WebContent/WEB-INF/web.xml">
 			<classes dir="${build}">
