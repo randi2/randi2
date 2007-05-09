@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Vector;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Benutzerkonto;
@@ -345,10 +346,16 @@ public class StudieBean extends Filter {
 	 * Liefert die Zentren, die an dieser Studie teilnehmen
 	 * 
 	 * @return die teilnehmenden Zentren
+	 * @throws StudieException  
+	 *               Exception, wenn zugehoeriges Zentrum nicht gefunden wurde
 	 */
-	public Vector<ZentrumBean> getZentren() {
+	public Vector<ZentrumBean> getZentren() throws StudieException {
 		if (zentren == null) {
-			zentren = Studie.getZugehoerigeZentren(id);
+			try {
+				zentren = Studie.getZugehoerigeZentren(id);
+			} catch (StudieException e) {
+				throw new StudieException("Zugehöriges Zentrum konnte nicht gefunden werden.");
+			}
 		}
 		return zentren;
 	}
