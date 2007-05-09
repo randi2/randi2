@@ -62,16 +62,7 @@ public class StudieTest {
 		fail("Not yet implemented");
 	}
 
-	/**
-	 * Test method for getStudienprotokoll() Test method for
-	 * {@link de.randi2.model.fachklassen.Studie#getStudienprotokoll()}.
-	 * 
-	 * Ueberpruefung, ob die URL des Studienprotokolls zurückgeliefert wird.
-	 */
-	@Test
-	public void testGetStudienprotokoll() {
-		fail("Not yet implemented");
-	}
+	
 
 	/**
 	 * Test method for zuweisenZentrum() Test method for
@@ -125,5 +116,34 @@ public class StudieTest {
 		}
 
 	}
+	
+	
+	/**
+	 * 
+	 *
+	 */
+	@Test
+	 public void testGetZugehoerigeZentren(){
+		 
+	 }
 
+	
+	/**
+	 * 
+	 *
+	 */
+	@Test
+	public void testGetStrata(){
+		
+	}
+	
+	
+	/**
+	 * 
+	 *
+	 */
+	@Test
+	public void testGet(){
+		
+	}
 }

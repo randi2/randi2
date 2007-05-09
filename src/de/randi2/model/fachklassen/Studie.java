@@ -152,16 +152,17 @@ public class Studie {
 	 * 			Id der studie zur eindeutigen Zuordnung in der Datenbank
 	 * @return
 	 * 			gefundene Zentren
+	 * @throws StudieException   
+	 *          Exception, wenn Zentrum nicht gefunden werden konnte.
 	 */
-	public static Vector<ZentrumBean> getZugehoerigeZentren(long studieId) {
+	public static Vector<ZentrumBean> getZugehoerigeZentren(long studieId) throws StudieException {
 		StudieBean studie = new StudieBean();
 		studie.setId(studieId);
 		Vector<ZentrumBean> gefundenZentren=null;
 		try {
 			gefundenZentren = DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(studie, new ZentrumBean() );
 		} catch (DatenbankFehlerException e) {
-			// TODO hier etwas weiterleiten? (fred)
-			e.printStackTrace();
+			throw new StudieException("Zentrum konnte nicht gefunden werden.");
 		}
 		return gefundenZentren;
 	}
@@ -173,15 +174,16 @@ public class Studie {
 	 *            Die ID der angeforderten Studie.
 	 * @return StudieBean 
 	 * 				Ein StudieBean wird zurueckgegeben.
-	 * @throws DatenbankFehlerException 
+	 * @throws StudieException  
+	 *              Exception, wenn ID der angeforderten Studie 
+	 *              nicht gefunden werden konnte.
 	 */
-	public static StudieBean get(long studieId){
+	public static StudieBean get(long studieId) throws StudieException{
 		StudieBean studie = new StudieBean();
 		try {
 			studie = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(studieId, studie);
 		} catch (DatenbankFehlerException e) {
-			// TODO hier etwas schmeissen? (fred)
-			e.printStackTrace();
+			throw new StudieException("ID der angeforderten Studie konnte nicht gefunden werden.");
 		}
 		return studie;
 	}
