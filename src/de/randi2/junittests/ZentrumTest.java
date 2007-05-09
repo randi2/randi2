@@ -3,12 +3,9 @@ package de.randi2.junittests;
 import static org.junit.Assert.*;
 
 import java.util.Vector;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Zentrum;
@@ -85,10 +82,10 @@ public class ZentrumTest {
 	}
 
 	/**
-	 * Test Methode für suchenZentrum(). Sie sucht nach einem ZentrumBean(mit
+	 * Test Methode fuer suchenZentrum(). Sie sucht nach einem ZentrumBean(mit
 	 * Filter=true).
 	 * 
-	 * TODO Sobald die Funktionalität ein Zentrum zu speichern bzw. zu anlegen
+	 * TODO Sobald die Funktionalitaet ein Zentrum zu speichern bzw. zu anlegen
 	 * gegeben wird, muss diese Methode umgeschrieben werden. Da dann sollte man
 	 * erstmal ein Zentrum erzeugen, speichern und dann danach suchen.
 	 * 
@@ -141,7 +138,7 @@ public class ZentrumTest {
 	}
 
 	/**
-	 * Test Methode für prufenPasswort()
+	 * Test Methode fuer prufenPasswort()
 	 * {@link de.randi2.model.fachklassen.Zentrum#pruefenPasswort(java.lang.String)}.
 	 */
 	@Test
@@ -150,5 +147,4 @@ public class ZentrumTest {
 		assertTrue(testZ.pruefenPasswort("teig@eeThuu3"));
 		assertFalse(testZ.pruefenPasswort("falschesPW"));
 	}
-
 }

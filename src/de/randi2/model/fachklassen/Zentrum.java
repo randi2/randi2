@@ -18,7 +18,7 @@ import de.randi2.utility.KryptoUtil;
 public class Zentrum {
 
 	/**
-	 * Das zugehörige ZentrumBean-Objekt.
+	 * Das zugehoerige ZentrumBean-Objekt.
 	 */
 	private ZentrumBean aZentrum;
 
@@ -26,15 +26,15 @@ public class Zentrum {
 	 * Ein Konstruktor dieser Klasse.
 	 * 
 	 * @param aZentrum
-	 *            das zugeöhrige ZentrumBean
+	 *            das zugeoehrige ZentrumBean
 	 */
 	public Zentrum(ZentrumBean aZentrum) {
 		this.aZentrum = aZentrum;
 	}
 
 	/**
-	 * Diese statische Methode sucht die gewünschten Objekte und falls sie
-	 * vorhanden sind, liefert sie zurück.
+	 * Diese statische Methode sucht die gewuenschten Objekte und falls sie
+	 * vorhanden sind, liefert sie zurueck.
 	 * 
 	 * @param sZentrum
 	 *            ein ZentrumBean mit gesuchten Eigenschaften (alle irrelevante
