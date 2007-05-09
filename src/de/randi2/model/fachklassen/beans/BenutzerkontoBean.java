@@ -2,10 +2,12 @@ package de.randi2.model.fachklassen.beans;
 
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Vector;
 
 import de.randi2.datenbank.Filter;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.utility.NullKonstanten;
@@ -66,6 +68,11 @@ public class BenutzerkontoBean extends Filter {
 	 * Rolle des Benutzerkontos
 	 */
 	private Rolle rolle = null;
+	
+	/**
+	 * Patienten die von diesem Benutzerkonto zu einer Studie hinzugefuegt wurden
+	 */
+	private Vector<PatientBean> patienten=null;
 
 	/**
 	 * Der Standardkonstruktor
@@ -460,5 +467,28 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	public long getBenutzerId() {
 		return benutzerId;
+	}
+
+	/**
+	 * Liefert alle von diesem Benutzer aufgenommenen Patienten
+	 * @return
+	 * 			Vector mit PatientBeans
+	 */
+	public Vector<PatientBean> getPatienten() {
+		if(patienten==null) {
+			patienten = Benutzerkonto.getZugehoerigePatienten(getId());
+		}
+		return patienten;
+	}
+	
+	
+
+	/**
+	 * Setzt die von dieser Person aufgenommenen Patienten
+	 * @param patienten
+	 * 			Vector mit PatientBeans
+	 */
+	public void setPatienten(Vector<PatientBean> patienten) {
+		this.patienten = patienten;
 	}
 }

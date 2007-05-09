@@ -6,6 +6,9 @@ import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
+import de.randi2.model.fachklassen.beans.PatientBean;
+import de.randi2.model.fachklassen.beans.StudieBean;
+import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.KryptoUtil;
 
 /**
@@ -182,6 +185,26 @@ public class Benutzerkonto {
 		    throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		return rueckgabe;
+	}
+	
+	/**
+	 * Liefert alle zum Benutzerkonto gehoerenden Patienten
+	 * @param kontoId
+	 * 			Id des Benutzerkontos zur eindeutigen Zuordnung in der Datenbank
+	 * @return
+	 * 			gefundene Patienten
+	 */
+	public static Vector<PatientBean> getZugehoerigePatienten(long kontoId) {
+		BenutzerkontoBean konto = new BenutzerkontoBean();
+		konto.setId(kontoId);
+		Vector<PatientBean> gefundenePatienten=null;
+		try {
+			gefundenePatienten = DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(konto, new PatientBean() );
+		} catch (DatenbankFehlerException e) {
+			// TODO hier etwas weiterleiten! (fred)
+			e.printStackTrace();
+		}
+		return gefundenePatienten;
 	}
 	
 	/**
