@@ -103,6 +103,7 @@
 				</patternset>
 			</fileset>
 			<lib dir="${web_lib}" />
+			<copy file="log4j.lcf.pat" tofile="log4j.lcf"/>
 		</war>
 	</target>
 
