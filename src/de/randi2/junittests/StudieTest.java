@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Studie;
-import de.randi2.model.fachklassen.beans.RandomisationBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 
 /**
@@ -18,10 +17,6 @@ import de.randi2.model.fachklassen.beans.StudieBean;
  */
 public class StudieTest {
 
-	/**
-	 * Das zugehoerige RandomisationBean-Objekt.
-	 */
-	private RandomisationBean radomisationBean;
 
 	/**
 	 * Das zugehoerige StudieBean-Objekt.
@@ -42,7 +37,7 @@ public class StudieTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		studie = new Studie(studieBean, radomisationBean);
+		studie = new Studie(studieBean);
 	}
 
 	/**
