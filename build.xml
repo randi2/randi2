@@ -85,7 +85,7 @@
 	</target>
 
 	<!-- Target erstellt das war-Archiv -->
-	<target name="war" depends="compile, test, javadoc">
+	<target name="war" depends="compile">
 		<!-- Datum einfuegen -->
 		<war warfile="${build}/randinightly.war" webxml="WebContent/WEB-INF/web.xml">
 			<classes dir="${build}">
