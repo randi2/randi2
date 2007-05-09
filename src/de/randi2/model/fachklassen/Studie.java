@@ -6,7 +6,6 @@ import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.beans.PatientBean;
-import de.randi2.model.fachklassen.beans.RandomisationBean;
 import de.randi2.model.fachklassen.beans.StatistikBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -24,11 +23,6 @@ public class Studie {
 	 * Das zugehörige StudieBean-Objekt.
 	 */
 	private StudieBean aStudieBean = null;
-
-	/**
-	 * Das zugehörige RandomistationBean-Objekt.
-	 */
-	private RandomisationBean aRandomisationBean = null;
 
 
 	/**
@@ -103,13 +97,10 @@ public class Studie {
 	 * 
 	 * @param studieBean
 	 *            das aktuelle StudieBean
-	 * @param randomisationBean
-	 *            das aktuelle Randomisationsbean
 	 */
-	public Studie(StudieBean studieBean, RandomisationBean randomisationBean) {
+	public Studie(StudieBean studieBean) {
 		super();
-		aStudieBean = studieBean;
-		aRandomisationBean = randomisationBean;
+		this.aStudieBean = studieBean;
 	}
 
 	/**

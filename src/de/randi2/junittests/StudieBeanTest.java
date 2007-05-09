@@ -218,22 +218,6 @@ public class StudieBeanTest {
 	}
 
 	/**
-	 * Test method for setZentrum() Test method for
-	 * {@link de.randi2.model.fachklassen.beans.StudieBean#setZentrum(de.randi2.model.fachklassen.beans.ZentrumBean)}.
-	 * 
-	 * Ueberpruefung, ob Zentrum gesetzt wurde. Wenn Fehler, soll
-	 * StudieException geworfen werden.
-	 */
-	@Test
-	public void testSetZentrum() {
-		try {
-			studieBean.setZentrum(studieBean.getZentrum());
-		} catch (Exception e) {
-			fail("[FEHLER]testSetZentrum() sollte keine Exception auslösen");
-		}
-	}
-
-	/**
 	 * Test method for setStatus() Test method for
 	 * {@link de.randi2.model.fachklassen.beans.StudieBean#setStatus(int)}.
 	 * 

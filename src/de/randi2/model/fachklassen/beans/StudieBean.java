@@ -1,16 +1,16 @@
 package de.randi2.model.fachklassen.beans;
+
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Vector;
+
+import de.randi2.datenbank.Filter;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Benutzerkonto;
-import de.randi2.model.fachklassen.Zentrum;
-import de.randi2.model.fachklassen.Studie.Status;
-import de.randi2.randomisation.Randomisation;
-import de.randi2.utility.NullKonstanten;
-import de.randi2.datenbank.Filter;
 import de.randi2.model.fachklassen.Studie;
+import de.randi2.model.fachklassen.Studie.Status;
+import de.randi2.utility.NullKonstanten;
 
 /**
  * Die Klasse repraesentiert eine Studie.
@@ -59,9 +59,9 @@ public class StudieBean extends Filter {
 	private Vector<StudienarmBean> studienarme = null;
 
 	/**
-	 * Die Eigenschaften der Randomisation.
+	 * Typ der Randomisation.
 	 */
-	private RandomisationBean randomisationseigenschaften = null;
+	private String randomisationsart = null;
 
 	/**
 	 * ID der Randomisation.
@@ -104,10 +104,12 @@ public class StudieBean extends Filter {
 	 * @param randomisationId
 	 *            Randomisations-Id
 	 * @throws StudieException
+	 *             wenn ein Fehler aufgetreten ist
 	 */
 	public StudieBean(long id, String beschreibung,
 			GregorianCalendar startdatum, GregorianCalendar enddatum,
-			String studienprotokollPfad, long randomisationId) throws StudieException{
+			String studienprotokollPfad, long randomisationId)
+			throws StudieException {
 
 		this.setId(id);
 		this.setBeschreibung(beschreibung);
@@ -128,8 +130,9 @@ public class StudieBean extends Filter {
 	 * Liefert das Benutzerkonto.
 	 * 
 	 * @return benutzerkonto, Benutzerkonto
-	 * @throws BenutzerkontoException Wirft eine BenutzerkontoException.
-	 * @throws BenutzerkontoException 
+	 * @throws BenutzerkontoException
+	 *             Wirft eine BenutzerkontoException.
+	 * @throws BenutzerkontoException
 	 */
 	public BenutzerkontoBean getBenutzerkonto() throws BenutzerkontoException {
 		if (benutzerkonto == null) {
@@ -232,27 +235,23 @@ public class StudieBean extends Filter {
 	}
 
 	/**
-	 * Die Methode uebergibt die Randomisationseigenschaften der Studie.
+	 * Die Methode uebergibt die Randomisationsart der Studie.
 	 * 
-	 * @return randomisationseigenschaften, Randomisationseigenschaften der
-	 *         Studie.
+	 * @return randomisationsart, Randomisationsart der Studie.
 	 */
-	public RandomisationBean getRandomisationseigenschaften() {
-		if (randomisationseigenschaften == null) {
-			randomisationseigenschaften = Randomisation.get(randomisationId);
-		}
-		return randomisationseigenschaften;
+	public String getRandomisationsart() {
+		return randomisationsart;
 	}
 
 	/**
-	 * Setzt die Randomisationseigenschaften.
+	 * Setzt die Randomisationsart.
 	 * 
-	 * @param randomisationseigenschaften
-	 *            Randomisationseigenschaften
+	 * @param randomisationsart
+	 *            ein String - Konstante aus der entsprechender
+	 *            Randomisationsklasse
 	 */
-	public void setRandomisationseigenschaften(
-			RandomisationBean randomisationseigenschaften) {
-		this.randomisationseigenschaften = randomisationseigenschaften;
+	public void setRandomisationseigenschaften(String randomisationsart) {
+		this.randomisationsart = randomisationsart;
 	}
 
 	/**
@@ -345,8 +344,7 @@ public class StudieBean extends Filter {
 	/**
 	 * Liefert die Zentren, die an dieser Studie teilnehmen
 	 * 
-	 * @return
-	 * 			die teilnehmenden Zentren
+	 * @return die teilnehmenden Zentren
 	 */
 	public Vector<ZentrumBean> getZentren() {
 		if (zentren == null) {
@@ -433,6 +431,5 @@ public class StudieBean extends Filter {
 	public void setRandomisationId(long randomisationId) {
 		this.randomisationId = randomisationId;
 	}
-
 
 }
