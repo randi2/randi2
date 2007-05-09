@@ -6,6 +6,7 @@ package de.randi2.model.fachklassen.beans;
 import java.util.Vector;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.beans.PatientBean;
@@ -153,12 +154,17 @@ public class StudienarmBean extends Filter {
 
 	/**
 	 * Liefert die Studie der dieser Arm zugeordnet ist.
-	 * 
+	 * @TODO Exception prüfen
 	 * @return die Studie als StudieBean
 	 */
 	public StudieBean getStudie() {
 		if(aStudie==null) {
-			aStudie = Studie.get(aStudieId);
+			try {
+				aStudie = Studie.get(aStudieId);
+			} catch (StudieException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return aStudie;
 	}
