@@ -12,6 +12,7 @@ import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Rolle.Rollen;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.KryptoUtil;
+import de.randi2.utility.NullKonstanten;
 
 /**
  * Testklasse fuer die Klasse BenutzerkontoBean.
@@ -148,8 +149,9 @@ public class BenutzerkontoBeanTest extends Filter {
 	@Test(expected = BenutzerkontoException.class)
 	public final void testSetPasswortLaenge()
 			throws BenutzerkontoException {
-		aKonto.setFilter(false);
-		aKonto.setPasswortKlartext("s");		
+	    BenutzerkontoBean benutzerkonto=new BenutzerkontoBean("Benutzerkonto", "ad");
+	    benutzerkonto=new BenutzerkontoBean("Benutzerkonto","");
+	    aKonto.setFilter(false);		
 	}
 
 
@@ -165,13 +167,13 @@ public class BenutzerkontoBeanTest extends Filter {
 	 */
 	@Test 
 	public final void testSetPasswortRichtig() throws BenutzerkontoException {
-        aKonto.setPasswortKlartext("123456abc%");
+	aKonto=new BenutzerkontoBean("Benutzer","123456abc%");
         assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("123456abc%")));
-        aKonto.setPasswortKlartext("hans1$wursthausen");
+	aKonto=new BenutzerkontoBean("hans1$wursthausen","hans1$wursthausen");
 		assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("hans1$wursthausen")));
-		aKonto.setPasswortKlartext("a§abc1passwort");
+		aKonto=new BenutzerkontoBean("a§abc1passwort","a§abc1passwort");
 		assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("a§abc1passwort")));
-		aKonto.setPasswortKlartext("test2abc$abc");
+		aKonto=new BenutzerkontoBean("test2abc$abc","test2abc$abc");
 		assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("test2abc$abc")));        
 	}
 
@@ -217,8 +219,9 @@ public class BenutzerkontoBeanTest extends Filter {
 		letzterLogin = new GregorianCalendar(2006, 11, 1);
 		ersterLogin = new GregorianCalendar(2006, 11, 1);
 
-		aKonto = new BenutzerkontoBean(benutzername, passwort, rolle, benutzerId,
-				gesperrt, zentrumId,ersterLogin, letzterLogin);
+		aKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzername, passwort, rolle, benutzerId,
+				gesperrt,ersterLogin, letzterLogin);
+
 
 		assertTrue(aKonto.equals(aKonto));
 	}
@@ -271,10 +274,10 @@ public class BenutzerkontoBeanTest extends Filter {
 		ersterLoginB = new GregorianCalendar(jahrLetzterLoginB,
 				monatLetzterLoginB - 1, tagLetzterLoginB);
 
-		aKonto = new BenutzerkontoBean(benutzername, passwort, rolle, benutzerId,
-				gesperrt, zentrumId,ersterLogin, letzterLogin);
-	    bKonto = new BenutzerkontoBean(benutzernameB, passwortB, rolleB,
-				benutzerIdB, gesperrtB, zentrumIdB, ersterLoginB,
+		aKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzername, passwort, rolle, benutzerId,
+				gesperrt,ersterLogin, letzterLogin);
+	    bKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzernameB, passwortB, rolleB,
+				benutzerIdB, gesperrtB, ersterLoginB,
 				letzterLoginB);
 
 		assertFalse(aKonto.equals(bKonto));
@@ -310,10 +313,10 @@ public class BenutzerkontoBeanTest extends Filter {
 		ersterLogin = new GregorianCalendar(jahrLetzterLogin,
 				monatLetzterLogin - 1, tagLetzterLogin);
 
-		aKonto = new BenutzerkontoBean(benutzername, passwort, rolle, benutzerId,
-				gesperrt, zentrumId, ersterLogin, letzterLogin);
-		cKonto = new BenutzerkontoBean("Abctest", "abc@cdef", null, benutzerId,
-				false, zentrumId, null, null);
+		aKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzername, passwort, rolle, benutzerId,
+				gesperrt,  ersterLogin, letzterLogin);
+		cKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,"Abctest", "abc@cdef", null, benutzerId,
+				false, null, null);
 
 		assertFalse(aKonto.equals(cKonto));
 	}
@@ -429,21 +432,6 @@ public class BenutzerkontoBeanTest extends Filter {
 			aKonto.setId(aKonto.getId());
 		} catch (Exception e) {
 			fail("[FEHLER]testSetId() sollte keine Exception auslösen");
-		}
-	}
-
-	/**
-	 * Test method for setZentrum()
-	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setId()}.
-	 * 
-	 * Ueberpruefung, ob Zentrum gesetzt wurde.
-	 */
-	@Test
-	public void testSetZentrum() {
-		try {
-			aKonto.setZentrum(aKonto.getZentrum());
-		} catch (Exception e) {
-			fail("[FEHLER]testSetZentrum() sollte keine Exception auslösen");
 		}
 	}
 }
