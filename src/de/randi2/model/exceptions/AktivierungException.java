@@ -10,6 +10,8 @@ package de.randi2.model.exceptions;
  */
 public class AktivierungException extends BenutzerException{
 	
+    
+    	public static final String BENUTZERKONTO_NICHT_GESETZT="Ein Aktivierungslink muss immer einem Benutzer zugeordnet sein.";
 	/**
 	 * Erstellt eine Exception und haengt eine Fehlermeldung an.
 	 * 

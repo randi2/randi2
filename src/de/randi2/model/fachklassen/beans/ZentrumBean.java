@@ -424,7 +424,7 @@ public class ZentrumBean extends Filter {
 	 * 
 	 */
 	public void setPasswort(String hash) throws ZentrumException {
-		if (hash.length() == 64) {
+		if (hash.length() != 64) {
 			throw new ZentrumException(ZentrumException.PASSWORT_NULL);
 		}
 		this.passwort = hash;

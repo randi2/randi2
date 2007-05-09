@@ -88,8 +88,13 @@ public class AktivierungBean extends Filter {
     /**
      * Set-Methode für das Benutzerkonto.
      * @param benutzerkonto Setzt das Benutzerkonto.
+     * @throws AktivierungException EIn Benutzerkonto darf nicht null sein
      */
-    public void setBenutzerkonto(BenutzerkontoBean benutzerkonto) {
+    public void setBenutzerkonto(BenutzerkontoBean benutzerkonto) throws AktivierungException {
+	if(benutzerkonto==null){
+	    throw new AktivierungException(AktivierungException.BENUTZERKONTO_NICHT_GESETZT);   
+	}
+
 	this.benutzerkonto = benutzerkonto;
     }
 
@@ -104,8 +109,12 @@ public class AktivierungBean extends Filter {
     /**
      * Set-Methode für die Benutzerkonto-Id.
      * @param benutzerkontoId - Setzt die Benutzerkonto-Id.
+     * @throws AktivierungException Das Benutzerkonto muss gesetzt sein
      */
-    public void setBenutzerkontoId(long benutzerkontoId) {
+    public void setBenutzerkontoId(long benutzerkontoId) throws AktivierungException{
+	if(benutzerkontoId==NullKonstanten.NULL_LONG){
+	    throw new AktivierungException(AktivierungException.BENUTZERKONTO_NICHT_GESETZT);
+	}
 	this.benutzerkontoId = benutzerkontoId;
     }
 
@@ -147,4 +156,11 @@ public class AktivierungBean extends Filter {
 	this.aktivierungsLink = aktivierungsLink;
     }
 
+    
+    /**
+     *Konstruktor für Null-Objekt 
+     */
+    public AktivierungBean(){
+	
+    }
 }
