@@ -35,6 +35,10 @@ border-bottom: solid #ff0000 2px;
 border-top: solid #ff0000 2px;
 border-left: solid #ff0000 2px;
 border-right: solid #ff0000 2px;
+/*Positionierung des Fehler-Divs auf der Loginseite*/
+	position: relative;
+	top: 10px;
+	width: 500px;
 }
 
 #breadcrumb {
@@ -69,6 +73,12 @@ img {
 
 }
 
+p {
+	font-family: arial, sans-serif;
+	font-size: 12px;
+}
+
+
 #content {
 	position:absolute;
 	top: 110px;
@@ -97,6 +107,12 @@ img {
   background-color: #FFFFFF;
 }
 
+
+
+
+
+
+
 #login_benutzer {
   position:absolute;
   top: 138px;
@@ -107,6 +123,10 @@ img {
   background-color: #FFFFFF;
 
 }
+
+
+
+
 
 #menue {
   position: absolute;
