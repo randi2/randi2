@@ -354,7 +354,7 @@ public class StudieBean extends Filter {
 			try {
 				zentren = Studie.getZugehoerigeZentren(id);
 			} catch (StudieException e) {
-				throw new StudieException("Zugehöriges Zentrum konnte nicht gefunden werden.");
+				throw new StudieException("ZugehÃ¶riges Zentrum konnte nicht gefunden werden.");
 			}
 		}
 		return zentren;
