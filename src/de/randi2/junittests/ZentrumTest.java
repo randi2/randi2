@@ -32,8 +32,8 @@ public class ZentrumTest {
 			testZB.setId(1);
 			testZB.setInstitution("HS Heilbronn");
 			testZB.setAbteilung("Medizinische Infromatik");
-			testZB.setAnsprechpartner(new PersonBean(1, 0, "Müller", "Martin",
-					null, 'm', "mmueller@hs-heilbronn.de", "07131400500",
+			testZB.setAnsprechpartner(new PersonBean(1, 0, "Mueller", "Martin",
+					PersonBean.Titel.DR, 'm', "mmueller@hs-heilbronn.de", "07131400500",
 					"0176554422", null));
 			testZB.setOrt("Heilbronn");
 			testZB.setPlz("74081");
