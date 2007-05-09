@@ -110,9 +110,6 @@ public class ZentrumTest {
 			tempVec = Zentrum.suchenZentrum(testZB);
 		} catch (ZentrumException e) {
 			e.printStackTrace();
-		} catch (DatenbankFehlerException e) {
-			fail("Eine DatenbankFehlerException ist aufgetreten: "
-					+ e.getMessage());
 		}
 		/*
 		 * Da wir wissen, dass zur Zeit sich in der DB-Dummy Klasse 1 Zentrum
@@ -138,9 +135,6 @@ public class ZentrumTest {
 			tempVec = Zentrum.suchenZentrum(testZB);
 		} catch (ZentrumException e) {
 			e.printStackTrace();
-		} catch (DatenbankFehlerException e) {
-			fail("Eine DatenbankFehlerException ist aufgetreten: "
-					+ e.getMessage());
 		}
 		assertTrue(tempVec.size() == 0);
 

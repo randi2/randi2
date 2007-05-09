@@ -432,7 +432,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 	    BenutzerkontoBean aBenutzerkonto;
 	    aBenutzerkonto = new BenutzerkontoBean(email, passwort, aPerson);
-	    aBenutzerkonto.setZentrum(zentrum);
 	    Benutzerkonto.anlegenBenutzer(aBenutzerkonto);
 	    request.getRequestDispatcher("/benutzer_anlegen_vier.jsp").forward(request, response);
 

@@ -1158,8 +1158,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setDate(i++, new Date(studie.getEndDatum()
 						.getTimeInMillis()));
 				pstmt.setString(i++, studie.getStudienprotokollpfad());
-				pstmt.setString(i++, studie.getRandomisationseigenschaften()
-						.toString());
+				pstmt.setString(i++, studie.getRandomisationsart());
 				pstmt.setString(i++, studie.getStatus().toString());
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
@@ -1198,8 +1197,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setDate(j++, new Date(studie.getEndDatum()
 						.getTimeInMillis()));
 				pstmt.setString(j++, studie.getStudienprotokollpfad());
-				pstmt.setString(j++, studie.getRandomisationseigenschaften()
-						.toString());
+				pstmt.setString(j++, studie.getRandomisationsart());
 				pstmt.setString(j++, studie.getStatus().toString());
 				pstmt.executeUpdate();
 				pstmt.close();

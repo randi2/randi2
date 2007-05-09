@@ -41,9 +41,10 @@ public class BlockRandomisationTest {
 	public void setUp() throws Exception {
 		testStudieBean = new StudieBean();
 		testStudieBean.setName("Test Studie");
-		testArm1 = new StudienarmBean(13212,testStudieBean,1,"Testarm 1","Test Arm nr. 1",new Vector<PatientBean>());
-		testArm2 = new StudienarmBean(321,testStudieBean,1,"Testarm 2","Test Arm nr. 2",new Vector<PatientBean>());
-		testArm3 = new StudienarmBean(21312,testStudieBean,1,"Testarm 3","Test Arm nr. 3",new Vector<PatientBean>());
+		//FIXME Kommentare anpassen
+//		testArm1 = new StudienarmBean(13212,testStudieBean,1,"Testarm 1","Test Arm nr. 1",new Vector<PatientBean>());
+//		testArm2 = new StudienarmBean(321,testStudieBean,1,"Testarm 2","Test Arm nr. 2",new Vector<PatientBean>());
+//		testArm3 = new StudienarmBean(21312,testStudieBean,1,"Testarm 3","Test Arm nr. 3",new Vector<PatientBean>());
 		Vector<StudienarmBean> studienarme = new Vector<StudienarmBean>();
 		studienarme.add(testArm1);
 		studienarme.add(testArm2);
