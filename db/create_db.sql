@@ -381,7 +381,7 @@ ALTER TABLE `Studienarm`
 ALTER TABLE `Zentrum`
   ADD CONSTRAINT `Zentrum_ibfk_1` FOREIGN KEY (`ansprechpartnerID`) REFERENCES `Person` (`personenID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`randi2`@`localhost` SQL SECURITY DEFINER VIEW `Strata_von_Patient` AS select `p`.`patientenID` AS `patientenID`,`st`.`name` AS `strataName`,`sa`.`wert` AS `strataWert` from (((`Patient` `p` join `Strata_Werte_has_Patient` `swp` on((`p`.`patientenID` = `swp`.`Patient_patientenID`))) join `Strata_Auspraegung` `sa` on((`swp`.`Strata_Auspraegung_strata_WerteID` = `sa`.`strata_WerteID`))) join `Strata_Typen` `st` on((`sa`.`Strata_Typen_strata_TypenID` = `st`.`strata_TypenID`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `Strata_von_Studienarm` AS select `s`.`studienarmID` AS `studienarmID`,`st`.`strata_TypenID` AS `strata_TypenID`,`sa`.`strata_WerteID` AS `strata_WerteID`,(select count(`p`.`patientenID`) AS `COUNT(p.patientenID)` from (`Patient` `p` join `Strata_Werte_has_Patient` `swp` on((`p`.`patientenID` = `swp`.`Patient_patientenID`))) where (`p`.`Studienarm_studienarmID` = `s`.`studienarmID`)) AS `anzahl` from ((`Studienarm` `s` join `Strata_Typen` `st` on((`s`.`Studie_studienID` = `st`.`Studie_studienID`))) join `Strata_Auspraegung` `sa` on((`st`.`strata_TypenID` = `sa`.`Strata_Typen_strata_TypenID`)));
 
 SET FOREIGN_KEY_CHECKS=1;
 
