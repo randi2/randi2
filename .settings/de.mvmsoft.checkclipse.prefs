@@ -1,5 +1,0 @@
-#Mon Apr 02 15:33:10 CEST 2007
-filenames.properties=toplevel.properties
-filenames.packagenames=checkstyle_packages.xml
-enabled=true
-filenames.config=default_checks.xml
