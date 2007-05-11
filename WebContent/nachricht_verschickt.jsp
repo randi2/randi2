@@ -22,6 +22,7 @@
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
 <h1>Nachrichtendienst</h1>
+<form>
 <fieldset><legend><b>Mitteilung verschickt</b></legend>
 <table border="0">
 <tr>
