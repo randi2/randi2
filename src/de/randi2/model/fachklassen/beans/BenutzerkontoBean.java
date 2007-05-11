@@ -167,12 +167,15 @@ public class BenutzerkontoBean extends Filter {
 	 * @return <code>true</code>, wenn beide Kontos gleich sind, ansonstenm
 	 *         <code>false</code>
 	 */
-	public boolean equals(BenutzerkontoBean zuvergleichendesObjekt) {
-		if (benutzername.equals(zuvergleichendesObjekt.getBenutzername())) {
-			return true;
+	@Override
+	public boolean equals(Object zuvergleichendesObjekt) {
+	    	if (zuvergleichendesObjekt instanceof BenutzerkontoBean) {
+		    BenutzerkontoBean beanZuvergleichen = (BenutzerkontoBean) zuvergleichendesObjekt;
+		    //FIXME Ausimplementieren
+		    return true;
+		    
 		}
 		return false;
-
 	}
 
 	/**

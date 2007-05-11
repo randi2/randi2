@@ -438,5 +438,38 @@ public class StudieBean extends Filter {
 	public void setRandomisationId(long randomisationId) {
 		this.randomisationId = randomisationId;
 	}
+	
+    /**
+     * Liefert einen String der alle Parameter formatiert enthaelt.
+     * 
+     * @return String der alle Parameter formatiert enthaelt.
+     * @see java.lang.Object#toString()
+     * 
+     */
+    @Override
+    public String toString(){
+	//FIXME implementieren
+	return null;
+    }
+    
+    /**
+	 * Diese Methode prueft, ob zwei Kontos identisch sind. Zwei Kontos sind
+	 * identisch, wenn Benutzernamen identisch sind.
+	 * 
+	 * @param zuvergleichendesObjekt
+	 *            das zu vergleichende Objekt vom selben Typ
+	 * @return <code>true</code>, wenn beide Kontos gleich sind, ansonstenm
+	 *         <code>false</code>
+	 */
+	@Override
+	public boolean equals(Object zuvergleichendesObjekt) {
+	    	if (zuvergleichendesObjekt instanceof StudieBean) {
+	    	StudieBean beanZuvergleichen = (StudieBean) zuvergleichendesObjekt;
+		    //FIXME Ausimplementieren
+		    return true;
+		    
+		}
+		return false;
+	}
 
 }
