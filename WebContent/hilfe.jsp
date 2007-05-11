@@ -19,7 +19,7 @@
 <form>
 <h1>Hilfe</h1>
 	<p id="bodytext">
-		Hier steht dann später die Hilfe!!!
+		Hier steht dann sp&auml;ter die Hilfe!!!
 	</p>
 	<p id="bodytext">
 		<table align="left">
