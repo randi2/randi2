@@ -1,10 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
-	<%@ page import= "de.randi2.model.fachklassen.beans.*"
-		import="de.randi2.model.fachklassen.beans.AktivierungBean"
-	import= "java.util.GregorianCalendar"
-	import= "java.text.SimpleDateFormat" 
-	import= "java.util.Locale"
+	pageEncoding="utf-8" import="de.randi2.model.fachklassen.beans.*"
+	import="java.util.GregorianCalendar"
+	import="java.text.SimpleDateFormat" import="java.util.Locale"
+	import="de.randi2.controller.Nachrichtendienst"
+	import="de.randi2.controller.DispatcherServlet"%>
+<%
+	PersonBean aPerson = ((BenutzerkontoBean)session.getAttribute("aBenutzer")).getBenutzer();
+	// Feldervorbelegungen
+	String betreff = (String)request.getAttribute(Nachrichtendienst.requestParameter.BETREFF.name());
+	if (betreff==null){
+	    betreff="";
+	}
+   	String nachrichtentext= (String)request.getAttribute(Nachrichtendienst.requestParameter.NACHRICHTENTEXT.name());
+	if (nachrichtentext==null){
+	    nachrichtentext="";
+	}   	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -12,53 +22,55 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Randi2 :: Nachrichtendienst</title>
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/zebda.js"></script>
 </head>
 <body>
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
 <h1>Nachrichtendienst</h1>
-<form>
-<fieldset>
-	<legend><b>Nachricht</b></legend>
-		<table>
-		<tr>
-		<td>Geben Sie hier Ihre Nachricht ein</td> 
-		</tr>
-		<tr>
-		<td><textarea name="Area" rows="7" cols="50"></textarea><br></td>
-		</tr>
-		</table>
-</fieldset><br>
-<fieldset>
-	<legend><b>Empf�nger</b></legend>
-		<table>
-		<tr>
-		<td>Bitte w&auml;hlen Sie aus der Empf&auml;ngerliste</td>
-		</tr>
-		<tr>
-		<td><select name="Standardauswahl" tabindex="1">
-			<option value="1">Studienleiter</option>
-			<option value="2">Admin</option>
-			<option value="3">SysOp</option>
-			<option value="4">Alle Studienleiter</option>
-			<option value="5">Alle Testzentren</option>
-			<option value="6">Alle Admins</option>
-			</select> <br>
+<%@include file="include/inc_nachricht.jsp"%>
+<form action="Nachrichtendienst" method="post" id="Nachrichtenversand" >
+<input type="hidden"
+	name="<%=Nachrichtendienst.requestParameter.ANFRAGE_ID.name()%>"
+	value="<%=Nachrichtendienst.anfrage_id.VERSENDE_NACHRICHT.name() %>">
+<fieldset><legend><b>Mitteilung schreiben</b></legend>
+<table border="0">
+<tr>
+<td>
+<b>Absender:</b>&nbsp;<%= aPerson.getVorname() %>&nbsp;<%= aPerson.getNachname() %><br>
+<b>E-Mail:</b>&nbsp;<%= aPerson.getEmail() %>
+</td>
+</tr>
+	<tr>
+		<td>
+		<label for="empfaenger"><b>Empf&auml;nger:</b> (An folgende Benutzer k&ouml;nnen Sie eine Nachricht versenden)</label><br>
+		<select id="empfaenger" name="<%= Nachrichtendienst.requestParameter.EMPFAENGER.name() %>" tabindex="1" z:required="true" z:message="Bitte wählen Sie einen Empfänger aus">
+		<%= Nachrichtendienst.getEmpfaengerListe(null)%>
+		</select>
 		</td>
-		</tr>
-		</table>
+	</tr>
+	<tr>
+		<td><label for="betreff"><b>Betreff:</b></label><br>
+		<input type="text" name="<%=Nachrichtendienst.requestParameter.BETREFF.name() %>" id="betreff" size="50" z:required="true" z:message="Bitte geben Sie einen Betreff ein" value="<%=betreff%>"></td>
+	</tr>
+	<tr>
+		<td><label for="text"><b>Nachrichtentext:</b></label><br>
+		<textarea name="<%=Nachrichtendienst.requestParameter.NACHRICHTENTEXT.name() %>" id="text" rows="7" cols="50" z:required="true" z:message="Bitte geben Sie einen Nachrichtentext ein"><%=nachrichtentext %></textarea><br>
+		</td>
+	</tr>
+	<tr>
+		<td><input type="submit" name="bestaetigen"
+			value="Nachricht versenden" tabindex="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="reset" name="abbrechen" value="Formular l&ouml;schen"
+			tabindex="3"></td>
+	</tr>
+</table>
 </fieldset>
 </form>
-		<table align="left"> 
-		<tr>
-		<td><input type="button" name="bestaetigen" value="Best&auml;tigen" tabindex="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-		<td><input type="button" name="abbrechen" value="Abbrechen" tabindex="3"></td>
-		</tr>
-		</table>
-	<%@include file="include/inc_footer.jsp"%>
-	</div>
-	<div id="show_none">
-		<%@include file="include/inc_menue.jsp"%>
-	</div>
+<br>
+<%@include file="include/inc_footer.jsp"%></div>
+<div id="show_none"><%@include file="include/inc_menue.jsp"%>
+</div>
 </body>
 </html>
