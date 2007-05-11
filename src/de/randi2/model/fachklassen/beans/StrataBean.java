@@ -43,7 +43,7 @@ public class StrataBean {
 
 	/**
 	 * Erzeugt ein StrataBean, ohne eine aktuelle Auspraegung mit anzugeben.
-	 * 
+	 * @param id ID
 	 * @param moeglicheAuspraegungen
 	 *            Die moeglichen Auspraegungen eines Stratas als HashMap. Der
 	 *            Key-Parameter stellt dabei die id des Stratas auf der

@@ -9,7 +9,7 @@ public class PatientException extends BenutzerException {
 	
 	/**
 	 * 
-	 * @param fehlermeldung
+	 * @param fehlermeldung Fehlermeldung
 	 */
 	public PatientException (String fehlermeldung) {
 		super(fehlermeldung);
