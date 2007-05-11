@@ -40,7 +40,8 @@
 		<td>Zentrum1</td>
 		<td>Abteilung xyz</td>
 		<td>aktiv</td>
-		<td><form><%--
+		<td>
+		<form><%--
 				if (aBenutzer.getBenutzername().equals("sl")) {
 				--%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
 			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <a
@@ -95,18 +96,12 @@
 					 --%></form>
 		</td>
 	</tr>
+
+	<tr>
+		<td><input type="button" name="zurueck" value="Zur&uuml;ck"
+			tabindex="1" onclick="location.href='studie_ansehen.jsp'"></td>
+	</tr>
 </table>
-
-<br>
-<br>
-
-
-
-<tr>
-	<td><input type="button" name="zurueck" value="Zur&uuml;ck"
-		tabindex="1" onclick="location.href='studie_ansehen.jsp'"></td>
-</tr>
-
 
 <div id="show_none"><%@include file="include/inc_footer.jsp"%></div>
 
