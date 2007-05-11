@@ -171,7 +171,42 @@ public class BenutzerkontoBean extends Filter {
 	public boolean equals(Object zuvergleichendesObjekt) {
 	    	if (zuvergleichendesObjekt instanceof BenutzerkontoBean) {
 		    BenutzerkontoBean beanZuvergleichen = (BenutzerkontoBean) zuvergleichendesObjekt;
-		    //FIXME Ausimplementieren
+		    if(beanZuvergleichen.benutzerId!=this.benutzerId){
+			return false;
+		    }
+		    if(beanZuvergleichen.benutzername==null&&this.benutzername!=null){
+			return false;
+		    }
+		    else if(!beanZuvergleichen.benutzername.equals(this.benutzername)){
+			return false;
+		    }
+		    if(beanZuvergleichen.ersterLogin==null&&this.ersterLogin!=null){
+			return false;
+		    }
+		    else if(!beanZuvergleichen.ersterLogin.equals(this.ersterLogin)){
+			return false;
+		    }
+		    if(beanZuvergleichen.gesperrt!=this.gesperrt){
+			return false;
+		    }
+		    if(beanZuvergleichen.id!=this.id){
+			return false;
+		    }
+		    if(beanZuvergleichen.letzterLogin==null&&this.letzterLogin!=null){
+			return false;
+		    }
+		    else if(!beanZuvergleichen.letzterLogin.equals(this.letzterLogin)){
+			return false;
+			
+		    }
+		    if(beanZuvergleichen.passwort==null&&this.passwort!=null){
+			return false;
+		    }
+		    else if(!beanZuvergleichen.passwort.equals(this.passwort)){
+			return false;
+		    }
+		    
+		    //Patienten werden nicht berücksichtigt
 		    return true;
 		    
 		}

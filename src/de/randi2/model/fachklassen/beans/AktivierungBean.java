@@ -77,7 +77,7 @@ public class AktivierungBean extends Filter {
      * @return Liefert das Benutzerkonto.
      * @throws BenutzerkontoException Fehler
      */
-    public BenutzerkontoBean getBenutzerkonto() throws BenutzerkontoException{
+    public BenutzerkontoBean getBenutzerkonto() throws BenutzerkontoException {
 	if (benutzerkonto == null) {
 	    benutzerkonto = Benutzerkonto.get(benutzerkontoId);
 	}
@@ -91,8 +91,8 @@ public class AktivierungBean extends Filter {
      * @throws AktivierungException EIn Benutzerkonto darf nicht null sein
      */
     public void setBenutzerkonto(BenutzerkontoBean benutzerkonto) throws AktivierungException {
-	if(benutzerkonto==null){
-	    throw new AktivierungException(AktivierungException.BENUTZERKONTO_NICHT_GESETZT);   
+	if (benutzerkonto == null) {
+	    throw new AktivierungException(AktivierungException.BENUTZERKONTO_NICHT_GESETZT);
 	}
 
 	this.benutzerkonto = benutzerkonto;
@@ -111,8 +111,8 @@ public class AktivierungBean extends Filter {
      * @param benutzerkontoId - Setzt die Benutzerkonto-Id.
      * @throws AktivierungException Das Benutzerkonto muss gesetzt sein
      */
-    public void setBenutzerkontoId(long benutzerkontoId) throws AktivierungException{
-	if(benutzerkontoId==NullKonstanten.NULL_LONG){
+    public void setBenutzerkontoId(long benutzerkontoId) throws AktivierungException {
+	if (benutzerkontoId == NullKonstanten.NULL_LONG) {
 	    throw new AktivierungException(AktivierungException.BENUTZERKONTO_NICHT_GESETZT);
 	}
 	this.benutzerkontoId = benutzerkontoId;
@@ -148,7 +148,7 @@ public class AktivierungBean extends Filter {
      * 						Der Aktivierungslink für die Vervollständigung der Anmeldung.
      * @throws AktivierungException		Die Akivierungsdaten sind unzulaessig, Details sieh setMethoden.
      */
-    public AktivierungBean(long aktivierungsId, GregorianCalendar versanddatum, long benutzerkontoId, String aktivierungsLink) throws AktivierungException{
+    public AktivierungBean(long aktivierungsId, GregorianCalendar versanddatum, long benutzerkontoId, String aktivierungsLink) throws AktivierungException {
 	super();
 	this.aktivierungsId = aktivierungsId;
 	this.versanddatum = versanddatum;
@@ -156,14 +156,13 @@ public class AktivierungBean extends Filter {
 	this.aktivierungsLink = aktivierungsLink;
     }
 
-    
     /**
      *Konstruktor für Null-Objekt 
      */
-    public AktivierungBean(){
-	
+    public AktivierungBean() {
+
     }
-	
+
     /**
      * Liefert einen String der alle Parameter formatiert enthaelt.
      * 
@@ -172,28 +171,49 @@ public class AktivierungBean extends Filter {
      * 
      */
     @Override
-    public String toString(){
-	//FIXME implementieren
-	return null;
+    public String toString() {
+	return "id:\t"+this.aktivierungsId+"\tlink:\t"+this.aktivierungsLink+"\tversand:\t"+this.versanddatum+"\tbenutzerid\t"+this.benutzerkontoId;
     }
-    
-	/**
-	 * Diese Methode prueft, ob zwei Kontos identisch sind. Zwei Kontos sind
-	 * identisch, wenn Benutzernamen identisch sind.
-	 * 
-	 * @param zuvergleichendesObjekt
-	 *            das zu vergleichende Objekt vom selben Typ
-	 * @return <code>true</code>, wenn beide Kontos gleich sind, ansonstenm
-	 *         <code>false</code>
-	 */
-	@Override
-	public boolean equals(Object zuvergleichendesObjekt) {
-	    	if (zuvergleichendesObjekt instanceof AktivierungBean) {
-		    AktivierungBean beanZuvergleichen = (AktivierungBean) zuvergleichendesObjekt;
-		    //FIXME Ausimplementieren
-		    return true;
-		    
-		}
+
+    /**
+     * Diese Methode prueft, ob zwei Kontos identisch sind. Zwei Kontos sind
+     * identisch, wenn Benutzernamen identisch sind.
+     * 
+     * @param zuvergleichendesObjekt
+     *            das zu vergleichende Objekt vom selben Typ
+     * @return <code>true</code>, wenn beide Kontos gleich sind, ansonstenm
+     *         <code>false</code>
+     */
+    @Override
+    public boolean equals(Object zuvergleichendesObjekt) {
+	if (zuvergleichendesObjekt instanceof AktivierungBean) {
+	    AktivierungBean beanZuvergleichen = (AktivierungBean) zuvergleichendesObjekt;
+	    if (beanZuvergleichen.aktivierungsId != this.aktivierungsId) {
 		return false;
+	    }
+	    if(beanZuvergleichen.aktivierungsLink==null&&this.aktivierungsLink!=null){
+		return false;
+	    }
+	    else if (!beanZuvergleichen.aktivierungsLink.equals(this.aktivierungsLink)) {
+		return false;
+	    }
+	    if (beanZuvergleichen.benutzerkonto == null && this.benutzerkonto != null) {
+		return false;
+	    } else if (!beanZuvergleichen.benutzerkonto.equals(this.benutzerkonto)) {
+		return false;
+	    }
+	    if (beanZuvergleichen.benutzerkontoId != this.benutzerkontoId) {
+		return false;
+	    }
+	    if(beanZuvergleichen.versanddatum==null&&this.versanddatum!=null){
+		return false;
+	    }
+	    else if(!beanZuvergleichen.versanddatum.equals(this.versanddatum)){
+		return false;
+	    }
+	    return true;
+
 	}
+	return false;
+    }
 }
