@@ -1,6 +1,7 @@
 <%@ page import="de.randi2.model.fachklassen.beans.PersonBean"
 		import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
 		 import= "de.randi2.controller.DispatcherServlet" 
+		 import="de.randi2.model.fachklassen.AktivierungBean"
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -62,7 +63,7 @@ z:email_message="Bitte geben sie eine gültige E-Mail Adresse"></td>
 		<td><label for="Fax">Fax<br>
 		<input type="text" size="25" maxlength="30" id="Fax" name="Fax" tabindex="7"></label></td>
 		<td>&nbsp;&nbsp;&nbsp;<label for="Institut">Institut *<br>
-		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30" id="Institut" name="Institut" tabindex="8"></td>
+		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30" id="Institut" name="Institut" tabindex="8"></label></td>
 	</tr>
 </table>
 </fieldset>

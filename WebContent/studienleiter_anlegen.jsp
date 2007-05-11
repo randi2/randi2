@@ -68,7 +68,7 @@ Angaben</b></legend>
 
 		<td><label for="Fax">Fax<br>
 		<input type="text" size="25" maxlength="30" id="Fax" name="Fax"
-			tabindex="7"></td>
+			tabindex="7"></label></td>
 	</tr>
 	<tr>
 		<td>&nbsp;&nbsp;&nbsp;<label for="Telefon">Telefonnummer

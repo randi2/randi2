@@ -5,6 +5,10 @@
 	import= "java.text.SimpleDateFormat" 
 	import= "java.util.Locale"
 %>
+<%@ page import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
+	%>
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -62,7 +66,7 @@
 		<table align="left">
 		<tr>
 
-		<td><a href="zentrum_anzeigen.jsp"><input type="button" name="zurueck" value="zurück" tabindex="13"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td><a href="zentrum_anzeigen.jsp"><input type="button" name="zurueck" value="zurï¿½ck" tabindex="13"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td><input type="button" name="aendern" value="&Auml;nderungen speichern" tabindex="14">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td><input type="button" name="aktivieren" value="Zentrum aktivieren" tabindex="15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td><input type="button" name="deaktivieren" value="Zentrum deaktivieren" tabindex="16">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>

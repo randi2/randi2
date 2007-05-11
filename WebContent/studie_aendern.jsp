@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-	<%@ page import= "de.randi2.model.fachklassen.beans.BenutzerkontoBean"
-	import= "de.randi2.model.fachklassen.beans.PersonBean"
-	import= "java.util.GregorianCalendar"
-	import= "java.text.SimpleDateFormat" 
-	import= "java.util.Locale"
-%>
+<%@ page import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
+	import="de.randi2.model.fachklassen.beans.PersonBean"
+	import="java.util.GregorianCalendar"
+	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -45,73 +43,83 @@
 <br>
 <fieldset><legend><b>Zusatzangaben</b></legend>
 <table>
-	<tr>
-		<td>Studienprotokoll *&nbsp;&nbsp;&nbsp;<input name="Datei"
-			type="file" size="50" maxlength="100000" accept="text/*" id=datei
-			tabindex="5"><br>
-		<br>
-		</td>
-	</tr>
-	<tr>
-		<td>Arme der Studie</td>
-	</tr>
+	<tbody>
+		<tr>
+			<td>Studienprotokoll *&nbsp;&nbsp;&nbsp;<input name="Datei"
+				size="50" maxlength="100000" accept="text/*" id="datei" tabindex="5"
+				type="file"><br>
+			<br>
+			</td>
+		</tr>
+		<tr>
+			<td>Arme der Studie</td>
+		</tr>
+		<tr>
+			<td>
+			<table width="90%">
+				<tbody>
+					<tr>
+						<th align="left">Bezeichnung</th>
+						<th align="left">Beschreibung</th>
+					</tr>
+					<tr>
+						<td><input name="studienarm1" value="Studienarm1" size="30"
+							type="text"></td>
+						<td><input name="beschreibung1" value="..." size="80"
+							type="text"></td>
+					</tr>
+					<tr>
+						<td><input name="studienarm2" value="Studienarm2" size="30"
+							type="text"></td>
+						<td><input name="beschreibung2" value="..." size="80"
+							type="text"></td>
+					</tr>
+					<tr>
+						<td><input name="studienarm3" value="Studienarm3" size="30"
+							type="text"></td>
+						<td><input name="beschreibung3" value="..." size="80"
+							type="text"></td>
+					</tr>
+					<tr>
+						<td><input name="studienarm4" value="Studienarm4" size="30"
+							type="text"></td>
+						<td><input name="beschreibung4" value="..." size="80"
+							type="text"></td>
+					</tr>
+					<tr>
+						<td><input name="studienarm5" value="Studienarm5" size="30"
+							type="text"></td>
+						<td><input name="beschreibung5" value="..." size="80"
+							type="text"></td>
+					</tr>
+				</tbody>
+			</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<table>
+	<tbody>
+		<tr>
+			<td><br>
+			Randomisationsbezogene Eigenschaften *<br>
+			<textarea cols="37" rows="4"
+				name="Randomisationsbezogene_Eigenschaften" tabindex="6"></textarea></td>
+		</tr>
+		<tr>
+			<td><br>
+			Leitende Institution<br>
+			<input size="40" maxlength="40" name="ID_Institution" tabindex="7"
+				type="text"></td>
+			<td></td>
+			<td><br>
+			Verantwortliche(r) Studienleiter(in)<br>
+			<input size="40" maxlength="40" name="ID_Studienleiter" tabindex="8"
+				type="text"></td>
+		</tr>
+	</tbody>
+</table>
 
-	<table width="90%">
-		<tr>
-			<th align="left">Bezeichnung</th>
-			<th align="left">Beschreibung</th>
-		</tr>
-		<tr>
-			<td><input name="studienarm1" value="Studienarm1" type="text"
-				size="30"></td>
-			<td><input name="beschreibung1" value="..." type="text"
-				size="80"></td>
-		</tr>
-		<tr>
-			<td><input name="studienarm2" value="Studienarm2" type="text"
-				size="30"></td>
-			<td><input name="beschreibung2" value="..." type="text"
-				size="80"></td>
-		</tr>
-		<tr>
-			<td><input name="studienarm3" value="Studienarm3" type="text"
-				size="30"></td>
-			<td><input name="beschreibung3" value="..." type="text"
-				size="80"></td>
-		</tr>
-		<tr>
-			<td><input name="studienarm4" value="Studienarm4" type="text"
-				size="30"></td>
-			<td><input name="beschreibung4" value="..." type="text"
-				size="80"></td>
-		</tr>
-		<tr>
-			<td><input name="studienarm5" value="Studienarm5" type="text"
-				size="30"></td>
-			<td><input name="beschreibung5" value="..." type="text"
-				size="80"></td>
-		</tr>
-	</table>
-	<table>
-	<tr>
-		<td><br>
-		Randomisationsbezogene Eigenschaften *<br>
-		<textarea cols="37" rows="4"
-			name="Randomisationsbezogene_Eigenschaften" tabindex="6"></textarea></td>
-	</tr>
-	<tr>
-		<td><br>
-		Leitende Institution<br>
-		<input type="text" size="40" maxlength="40" name="ID_Institution"
-			tabindex="7"></td>
-		<td></td>
-		<td><br>
-		Verantwortliche(r) Studienleiter(in)<br>
-		<input type="text" size="40" maxlength="40" name="ID_Studienleiter"
-			tabindex="8"></td>
-	</tr>
-</table>
-</table>
 </fieldset>
 </form>
 <table align="center">

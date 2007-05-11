@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 	<%@ page import= "de.randi2.model.fachklassen.beans.*"
+		import="de.randi2.model.fachklassen.beans.AktivierungBean"
 	import= "java.util.GregorianCalendar"
 	import= "java.text.SimpleDateFormat" 
 	import= "java.util.Locale"
@@ -61,7 +62,7 @@
 		<table align="left">
 		<tr>
 
-		<td><a href="zentrum_anzeigen.jsp"><input type="button" name="zurueck" value="zurück" tabindex="13"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td><a href="zentrum_anzeigen.jsp"><input type="button" name="zurueck" value="zurï¿½ck" tabindex="13"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		</tr>
 		</table><br><br>
 		

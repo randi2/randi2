@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 	<%@ page import= "de.randi2.model.fachklassen.beans.*"
+		import="de.randi2.model.fachklassen.beans.AktivierungBean"
 	import= "java.util.GregorianCalendar"
 	import= "java.text.SimpleDateFormat" 
 	import= "java.util.Locale"
@@ -29,7 +30,7 @@
 		</table>
 </fieldset><br>
 <fieldset>
-	<legend><b>Empfänger</b></legend>
+	<legend><b>Empfï¿½nger</b></legend>
 		<table>
 		<tr>
 		<td>Bitte w&auml;hlen Sie aus der Empf&auml;ngerliste</td>

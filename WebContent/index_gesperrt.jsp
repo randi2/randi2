@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" import="de.randi2.controller.DispatcherServlet"%>
+	
+<%@ page import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
+	import="de.randi2.model.fachklassen.beans.AktivierungBean"
+	import="java.util.GregorianCalendar"
+	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
+	
+	
+	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
