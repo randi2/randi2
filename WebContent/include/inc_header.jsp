@@ -1,5 +1,9 @@
 <%@ page import="de.randi2.model.fachklassen.*"
-	import="de.randi2.model.fachklassen.beans.*"%>
+	import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
+		import="de.randi2.model.fachklassen.beans.*"
+		import= "de.randi2.model.fachklassen.beans.AktivierungBean"
+		import="java.util.GregorianCalendar"
+	import="de.randi2.model.fachklassen.beans.PersonBean"%>
 <%
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
 			.getSession()).getAttribute("aBenutzer");
@@ -42,8 +46,7 @@
 		if (aRolleHeader != Rolle.Rollen.STUDIENARZT) {
 		%>(<font color="red"><%=aRolleHeader%></font>)<%
 		}
-		%> :: <a href="logout.jsp"
-			id="logout_link">Logout</a>&nbsp;&nbsp;&nbsp;</td>
+		%> :: <a href="logout.jsp" id="logout_link">Logout</a>&nbsp;&nbsp;&nbsp;</td>
 		<td align="right" width="48"><a href="nachrichtendienst.jsp"><img
 			src="images/message.gif" border="0" alt="Nachricht senden"
 			title="Nachricht senden" width="22" height="22"></a>&nbsp;<a

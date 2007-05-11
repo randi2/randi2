@@ -1,8 +1,9 @@
-<%@ page import= "de.randi2.model.fachklassen.beans.BenutzerkontoBean"
-	import= "java.util.GregorianCalendar"
-	import= "java.text.SimpleDateFormat" 
-	import= "java.util.Locale"
-%>
+<%@ page import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
+	import="java.util.GregorianCalendar"
+	import="de.randi2.model.fachklassen.AktivierungBean"
+	import="de.randi2.model.fachklassen.beans.PersonBean"
+	import="de.randi2.model.fachklassen.*"
+	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
 <%
 String formatiertesDatum ="Fehler beim Datum"; 
 			BenutzerkontoBean aBenutzerkontoFooter = (BenutzerkontoBean) request
