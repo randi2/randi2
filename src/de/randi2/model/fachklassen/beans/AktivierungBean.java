@@ -6,6 +6,7 @@ import de.randi2.datenbank.Filter;
 import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Benutzerkonto;
+import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.NullKonstanten;
 
 /**
@@ -66,9 +67,13 @@ public class AktivierungBean extends Filter {
 
     /**
      * Set-Methode für den Aktivierungslink.
-     * @param aktivierungsLink Setzt den Aktivierungslink.
+     * @param aktivierungsLink Setzt den Aktivierungslink (nur die Id)
+     * @throws AktivierungException falls der Aktivierungslink
      */
-    public void setAktivierungsLink(String aktivierungsLink) {
+    public void setAktivierungsLink(String aktivierungsLink) throws AktivierungException{
+	if(aktivierungsLink==null||aktivierungsLink.length()!=KryptoUtil.AKTIVIERUNGSCODE_LAENGE){
+	    throw new AktivierungException(AktivierungException.AKTIVIERUNGSLINK_FALSCHE_LAENGE);
+	}
 	this.aktivierungsLink = aktivierungsLink;
     }
 

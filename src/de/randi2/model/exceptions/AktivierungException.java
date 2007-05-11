@@ -11,7 +11,15 @@ package de.randi2.model.exceptions;
 public class AktivierungException extends BenutzerException{
 	
     
+    	/**
+    	 * Fehlermeldung, wenn ein Aktivierungsbean erstellt wird ohne ein Benutzerkonto anzugeben.
+    	 */
     	public static final String BENUTZERKONTO_NICHT_GESETZT="Ein Aktivierungslink muss immer einem Benutzer zugeordnet sein.";
+    	
+    	/**
+    	 * Fehlermeldung,wenn der Aktivierungslink die falsche Laenge hat.
+    	 */
+    	public static final String AKTIVIERUNGSLINK_FALSCHE_LAENGE="Der Aktivierungslink hat die falsche Laenge";
 	/**
 	 * Erstellt eine Exception und haengt eine Fehlermeldung an.
 	 * 

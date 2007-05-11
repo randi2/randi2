@@ -215,4 +215,5 @@ public class Benutzerkonto {
 	public void aktiviereBenutzerkonto(AktivierungBean aktivierung) throws BenutzerkontoException{
 	    //TODO Ausimplementierung -->afreudli
 	}
+	
 }
