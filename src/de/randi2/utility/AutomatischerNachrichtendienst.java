@@ -8,9 +8,10 @@ import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
 /**
+ * Parst die Automatisch generierten Nachrichten.
  * @author Andreas Freudling afreudling@stud.hs-heilbronn.de
  * @version $Id: AutomatischerNachrichtendienst.java 2398 2007-05-04 12:32:09Z jthoenes $
- * Parst die Automatisch generierten Nachrichten.
+ * 
  *
  */
 public class AutomatischerNachrichtendienst {
