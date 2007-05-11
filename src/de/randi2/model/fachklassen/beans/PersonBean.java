@@ -539,13 +539,13 @@ public class PersonBean extends Filter {
 		    if(beanZuvergleichen.email==null&&this.email!=null){
 			return false;
 		    }
-		    else if(!beanZuvergleichen.email.equals(this.email)){
+		    else if(beanZuvergleichen.email!=null&&!beanZuvergleichen.email.equals(this.email)){
 			return false;
 		    }
 		    if(beanZuvergleichen.fax==null&&this.fax!=null){
 			return false;
 		    }
-		    else if(!beanZuvergleichen.fax.equals(this.fax)){
+		    else if(beanZuvergleichen.fax!=null&&!beanZuvergleichen.fax.equals(this.fax)){
 			return false;
 		    }
 		    if(beanZuvergleichen.geschlecht!=this.geschlecht){
@@ -554,7 +554,7 @@ public class PersonBean extends Filter {
 		    if(beanZuvergleichen.handynummer==null&&this.handynummer!=null){
 			return false;
 		    }
-		    else if(!beanZuvergleichen.handynummer.equals(this.handynummer)){
+		    else if(beanZuvergleichen.handynummer!=null&&!beanZuvergleichen.handynummer.equals(this.handynummer)){
 			return false;
 		    }
 		    if(beanZuvergleichen.id!=this.id){
@@ -563,7 +563,7 @@ public class PersonBean extends Filter {
 		    if (beanZuvergleichen.nachname==null&&this.nachname!=null){
 			return false;
 		    }
-		    else if(!beanZuvergleichen.nachname.equals(this.nachname)){
+		    else if(beanZuvergleichen.nachname!=null&&!beanZuvergleichen.nachname.equals(this.nachname)){
 			return false;
 		    }
 		    if(beanZuvergleichen.stellvertreterId!=this.stellvertreterId){
@@ -572,19 +572,19 @@ public class PersonBean extends Filter {
 		    if(beanZuvergleichen.telefonnummer==null&&this.telefonnummer!=null){
 			return false;
 		    }
-		    else if(!beanZuvergleichen.telefonnummer.endsWith(this.telefonnummer)){
+		    else if(beanZuvergleichen.telefonnummer!=null&&!beanZuvergleichen.telefonnummer.endsWith(this.telefonnummer)){
 			return false;
 		    }
 		    if(beanZuvergleichen.titel==null&&this.titel!=null){
-			return false;//FIXME Ausimplementieren
+			return false;
 		    }
-		    else if(beanZuvergleichen.titel.equals(this.titel)){
+		    else if(beanZuvergleichen.titel!=null&&beanZuvergleichen.titel.equals(this.titel)){
 			return false;
 		    }
 		    if(beanZuvergleichen.vorname==null&&this.vorname!=null){
 			return false;
 		    }
-		    else if(!beanZuvergleichen.vorname.equals(this.vorname)){
+		    else if(beanZuvergleichen.vorname!=null&&!beanZuvergleichen.vorname.equals(this.vorname)){
 			return false;
 		    }
 		    return true;

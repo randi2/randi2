@@ -199,12 +199,7 @@ public class AktivierungBean extends Filter {
 	    if(beanZuvergleichen.aktivierungsLink==null&&this.aktivierungsLink!=null){
 		return false;
 	    }
-	    else if (!beanZuvergleichen.aktivierungsLink.equals(this.aktivierungsLink)) {
-		return false;
-	    }
-	    if (beanZuvergleichen.benutzerkonto == null && this.benutzerkonto != null) {
-		return false;
-	    } else if (!beanZuvergleichen.benutzerkonto.equals(this.benutzerkonto)) {
+	    else if (beanZuvergleichen.aktivierungsLink!=null&&!beanZuvergleichen.aktivierungsLink.equals(this.aktivierungsLink)) {
 		return false;
 	    }
 	    if (beanZuvergleichen.benutzerkontoId != this.benutzerkontoId) {
@@ -213,7 +208,7 @@ public class AktivierungBean extends Filter {
 	    if(beanZuvergleichen.versanddatum==null&&this.versanddatum!=null){
 		return false;
 	    }
-	    else if(!beanZuvergleichen.versanddatum.equals(this.versanddatum)){
+	    else if(beanZuvergleichen.versanddatum!=null&&!beanZuvergleichen.versanddatum.equals(this.versanddatum)){
 		return false;
 	    }
 	    return true;

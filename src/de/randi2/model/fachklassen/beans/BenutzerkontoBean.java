@@ -177,13 +177,13 @@ public class BenutzerkontoBean extends Filter {
 		    if(beanZuvergleichen.benutzername==null&&this.benutzername!=null){
 			return false;
 		    }
-		    else if(!beanZuvergleichen.benutzername.equals(this.benutzername)){
+		    else if(beanZuvergleichen.benutzername!=null&&!beanZuvergleichen.benutzername.equals(this.benutzername)){
 			return false;
 		    }
 		    if(beanZuvergleichen.ersterLogin==null&&this.ersterLogin!=null){
 			return false;
 		    }
-		    else if(!beanZuvergleichen.ersterLogin.equals(this.ersterLogin)){
+		    else if(beanZuvergleichen.ersterLogin!=null&&!beanZuvergleichen.ersterLogin.equals(this.ersterLogin)){
 			return false;
 		    }
 		    if(beanZuvergleichen.gesperrt!=this.gesperrt){
@@ -195,14 +195,14 @@ public class BenutzerkontoBean extends Filter {
 		    if(beanZuvergleichen.letzterLogin==null&&this.letzterLogin!=null){
 			return false;
 		    }
-		    else if(!beanZuvergleichen.letzterLogin.equals(this.letzterLogin)){
+		    else if(beanZuvergleichen.letzterLogin!=null&&!beanZuvergleichen.letzterLogin.equals(this.letzterLogin)){
 			return false;
 			
 		    }
 		    if(beanZuvergleichen.passwort==null&&this.passwort!=null){
 			return false;
 		    }
-		    else if(!beanZuvergleichen.passwort.equals(this.passwort)){
+		    else if(beanZuvergleichen.passwort!=null&&!beanZuvergleichen.passwort.equals(this.passwort)){
 			return false;
 		    }
 		    
