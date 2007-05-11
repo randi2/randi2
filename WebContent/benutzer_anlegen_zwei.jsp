@@ -4,7 +4,7 @@
 import="de.randi2.model.fachklassen.AktivierungBean"
 	import="de.randi2.controller.DispatcherServlet"
 	import="java.util.GregorianCalendar"
-	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
+	import="java.text.SimpleDateFormat" import="java.util.*"%>
 
 <%Iterator listeZentren=((Vector)request.getAttribute("listeZentren")).iterator(); %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"

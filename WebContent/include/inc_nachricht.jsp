@@ -1,4 +1,4 @@
-<%@page import="de.randi2.model.fachklassen.AktivierungBean"
+<%@page import="de.randi2.controller.DispatcherServlet"
 	import="java.util.GregorianCalendar"
 	import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
 	import="de.randi2.model.fachklassen.beans.*"
