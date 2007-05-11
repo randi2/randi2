@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-5.0.5-bin.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/proxool-0.9.0RC3.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/selenium-java-client-driver.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
