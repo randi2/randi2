@@ -1,13 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" import="de.randi2.controller.DispatcherServlet"%>
-	
-<%@ page import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
-	import="de.randi2.model.fachklassen.beans.AktivierungBean"
-	import="java.util.GregorianCalendar"
-	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
-	
-	
-	
+
+<%@ page%>
+
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,7 +13,8 @@
 ihr Verst&auml;ndnis</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/style_login.css" />
-<link rel="stylesheet" type="text/css" href="css/style_login_gesperrt.css" />
+<link rel="stylesheet" type="text/css"
+	href="css/style_login_gesperrt.css" />
 <script type="text/javascript" src="js/prototype.js"></script>
 <script type="text/javascript" src="js/zebda.js"></script>
 </head>
@@ -38,11 +36,15 @@ ihr Verst&auml;ndnis</title>
 <div id="inhalt_login">
 <p class="warnung sysdown">
 <%
-	if(request
-	.getAttribute(DispatcherServlet.requestParameter.MITTEILUNG_SYSTEM_GESPERRT.toString())==null){
+			if (request
+			.getAttribute(DispatcherServlet.requestParameter.MITTEILUNG_SYSTEM_GESPERRT
+			.toString()) == null) {
 %>Keine Fehlermeldung vorhanden<%
-		}else{request
-		.getAttribute(DispatcherServlet.requestParameter.MITTEILUNG_SYSTEM_GESPERRT.toString());}
+		} else {
+		request
+		.getAttribute(DispatcherServlet.requestParameter.MITTEILUNG_SYSTEM_GESPERRT
+				.toString());
+	}
 %>
 </p>
 </div>
@@ -55,10 +57,12 @@ ihr Verst&auml;ndnis</title>
 	value="<%=DispatcherServlet.anfrage_id.JSP_INDEX_LOGIN %>"
 	name="anfrage_id">
 <p><label for="username">Benutzername</label></p>
-<p><input type="text" name="username" tabindex="1" z:required="true" z:message="Bitte geben Sie ihren Benutzernamen ein"></p>
+<p><input type="text" name="username" tabindex="1" z:required="true"
+	z:message="Bitte geben Sie ihren Benutzernamen ein"></p>
 <!-- <p>Kennwort</p> -->
 <p><label for="password">Password</label></p>
-<p><input type="password" name="password" tabindex="2" z:required="true" z:message="Bitte geben Sie ihr Passwort ein"></p>
+<p><input type="password" name="password" tabindex="2"
+	z:required="true" z:message="Bitte geben Sie ihr Passwort ein"></p>
 <p><input name="Submit" type="submit" tabindex="3" value="Login"></p>
 </form>
 <!-- <br>

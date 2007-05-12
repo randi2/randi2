@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@ page import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
-	import="java.util.GregorianCalendar"
-	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
+<%@ page%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
        "http://www.w3.org/TR/html4/strict.dtd">
@@ -11,15 +9,18 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Randi2 :: Benutzer anlegen</title>
 
-<%@ page import="de.randi2.model.fachklassen.beans.*"  import="de.randi2.controller.DispatcherServlet" %>
+<%@ page import="de.randi2.model.fachklassen.beans.*"
+	import="de.randi2.controller.DispatcherServlet"%>
 </head>
 <body>
 <%@include file="include/inc_header_clean.jsp"%>
 
 <div id="content">
-<form action="DispatcherServlet" method="post">
-<input type="hidden" name="anfrage_id" value="<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER.name() %>">
-<input type="hidden" name="aZentrum" value ="<%=request.getAttribute("aZentrum") %>">
+<form action="DispatcherServlet" method="post"><input
+	type="hidden" name="anfrage_id"
+	value="<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER.name() %>">
+<input type="hidden" name="aZentrum"
+	value="<%=request.getAttribute("aZentrum") %>">
 <h1>Benutzer anlegen</h1>
 <%@include file="include/inc_nachricht.jsp"%>
 <fieldset style="width: 60%"><legend><b>Pers&ouml;nliche
@@ -28,45 +29,49 @@ Angaben</b></legend>
 	<tr>
 		<td>Titel<br>
 		<select name="Titel">
-		<%
-			for(PersonBean.Titel e:PersonBean.Titel.values())
-		    {
-			    out.print("<option value=\""+e.toString()+"\"");//1. Option Teil
-			    //Ist der Titel bereits selected?!
-			    if((PersonBean.Titel)request.getAttribute("Titel")!=null&&((PersonBean.Titel)request.getAttribute("Titel"))==e)
-			    {
-					out.print("selected");
-			    }
-			    //Ende Option, Option Text
-			    out.print(">"+e.toString()+"</option>");
-			   
+			<%
+					for (PersonBean.Titel e : PersonBean.Titel.values()) {
+					out.print("<option value=\"" + e.toString() + "\"");//1. Option Teil
+					//Ist der Titel bereits selected?!
+					if ((PersonBean.Titel) request.getAttribute("Titel") != null
+					&& ((PersonBean.Titel) request.getAttribute("Titel")) == e) {
+						out.print("selected");
+					}
+					//Ende Option, Option Text
+					out.print(">" + e.toString() + "</option>");
 
-		    }
-		%>
+				}
+			%>
 		</select><br>
 		</td>
 	</tr>
 	<tr>
 		<td>Vorname *<br>
-		<input type="text" size="25" maxlength="30" name="Vorname" value="<%if(request.getAttribute("Vorname")!=null){out.print(request.getAttribute("Vorname"));} %>"
+		<input type="text" size="25" maxlength="30" name="Vorname"
+			value="<%if(request.getAttribute("Vorname")!=null){out.print(request.getAttribute("Vorname"));} %>"
 			tabindex="2"></td>
 		<td>&nbsp;&nbsp;&nbsp;Nachname *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Nachname" tabindex="3" value="<%if(request.getAttribute("Nachname")!=null){out.print(request.getAttribute("Nachname"));} %>"></td>
+			name="Nachname" tabindex="3"
+			value="<%if(request.getAttribute("Nachname")!=null){out.print(request.getAttribute("Nachname"));} %>"></td>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
-		<input type="radio" name="weiblich" <%if(request.getAttribute("weiblich")!=null){out.print("checked");} %> >weiblich 
-		<input type="radio" name="maennlich" <%if(request.getAttribute("maennlich")!=null){out.print("checked");} %>>m&auml;nnlich</td>
+		<input type="radio" name="weiblich"
+			<%if(request.getAttribute("weiblich")!=null){out.print("checked");} %>>weiblich
+		<input type="radio" name="maennlich"
+			<%if(request.getAttribute("maennlich")!=null){out.print("checked");} %>>m&auml;nnlich</td>
 	</tr>
 	<tr>
 		<td>Passwort *<br>
-		<input type="password" size="25" maxlength="30" name="Passwort" value="<%if(request.getAttribute("Passwort")!=null){out.print(request.getAttribute("Passwort"));} %>"
+		<input type="password" size="25" maxlength="30" name="Passwort"
+			value="<%if(request.getAttribute("Passwort")!=null){out.print(request.getAttribute("Passwort"));} %>"
 			tabindex="6"></td>
 	</tr>
 	<tr>
 		<td>Passwort wiederholen *<br>
-		<input type="password" size="25" maxlength="30" name="Passwort_wh" value="<%if(request.getAttribute("Passwort_wh")!=null){out.print(request.getAttribute("Passwort_wh"));} %>"
+		<input type="password" size="25" maxlength="30" name="Passwort_wh"
+			value="<%if(request.getAttribute("Passwort_wh")!=null){out.print(request.getAttribute("Passwort_wh"));} %>"
 			tabindex="7"></td>
 	</tr>
 </table>
@@ -76,16 +81,21 @@ Angaben</b></legend>
 <table>
 	<tr>
 		<td>E-Mail *<br>
-		<input type="text" size="25" maxlength="30" name="Email" tabindex="8" value="<%if(request.getAttribute("Email")!=null){out.print(request.getAttribute("Email"));} %>"></td>
+		<input type="text" size="25" maxlength="30" name="Email" tabindex="8"
+			value="<%if(request.getAttribute("Email")!=null){out.print(request.getAttribute("Email"));} %>"></td>
 		<td>&nbsp;&nbsp;&nbsp;Telefonnummer *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Telefon" tabindex="9" value="<%if(request.getAttribute("Telefon")!=null){out.print(request.getAttribute("Telefon"));} %>"></td>
+			name="Telefon" tabindex="9"
+			value="<%if(request.getAttribute("Telefon")!=null){out.print(request.getAttribute("Telefon"));} %>"></td>
 	</tr>
 	<tr>
 		<td>Handy<br>
-		<input type="text" size="25" maxlength="30" name="Handy" tabindex="10" value="<%if(request.getAttribute("Handy")!=null){out.print(request.getAttribute("Handy"));} %>"></td>
+		<input type="text" size="25" maxlength="30" name="Handy" tabindex="10"
+			value="<%if(request.getAttribute("Handy")!=null){out.print(request.getAttribute("Handy"));} %>"></td>
 		<td>&nbsp;&nbsp;&nbsp;Fax<br>
-		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30" name="Fax" tabindex="11" value="<%if(request.getAttribute("Fax")!=null){out.print(request.getAttribute("Fax"));} %>"></td>
+		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
+			name="Fax" tabindex="11"
+			value="<%if(request.getAttribute("Fax")!=null){out.print(request.getAttribute("Fax"));} %>"></td>
 	</tr>
 </table>
 </fieldset>
