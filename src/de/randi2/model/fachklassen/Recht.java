@@ -21,7 +21,6 @@ import de.randi2.model.exceptions.RechtException;
  * @version $Id: Recht.java 2428 2007-05-06 17:50:32Z btheel $
  * @author Benjamin Theel [btheel@stud.hs-heilbronn.de]
  */
-// TODO Bitte Javadoc-Kommentare auch ausfuellen!
 public class Recht {
 
 //  Static Variablen
@@ -156,7 +155,7 @@ public class Recht {
 	 * @return Instanz des entsprechenden Rechtes.
 	 */
 	public static Recht getRecht(Rechtenamen name) {
-		// FIXME siehe bug #18
+		// FIXME siehe bug #18: Bug wurde auf 'wont fix' gesetzt
 		if (name == null) {
 			throw new IllegalArgumentException(RechtException.NULL_ARGUMENT);
 		}

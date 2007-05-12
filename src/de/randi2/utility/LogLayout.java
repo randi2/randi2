@@ -33,6 +33,11 @@ public class LogLayout extends Layout {
 	 */
 	public static final String DATENAENDERUNG = OBERKLASSE + "Datenaenderung";
 
+    /**
+     * Klasse fuer die Administration
+     */
+    public static final String ADMINISTRATION = OBERKLASSE + "Administration";
+    
 	/**
 	 * Klasse fuer Rechteverletzugen.
 	 */

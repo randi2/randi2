@@ -460,6 +460,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	}
     }
     /**
+    *   VORLAEUFIGE METHODE, SPAETERE VEREINIGUNG MIT  'classDispatcherservletBenutzerRegistrierenVier'
     *
     * @param request
     *            Der Request fuer das Servlet.
@@ -473,7 +474,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
     * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
     *      HttpServletResponse response)
     */
-    //TODO Benny was hat es damit auf sich, Bitte kommentieren
     private void benutzerRegistieren(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	Logger.getLogger(this.getClass()).debug("BenutzerServlet.benutzerRegistieren()");
     }

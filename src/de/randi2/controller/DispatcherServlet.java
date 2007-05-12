@@ -30,8 +30,7 @@ import de.randi2.utility.Config.Felder;
  */
 @SuppressWarnings("serial")
 public class DispatcherServlet extends javax.servlet.http.HttpServlet {
-    // TODO alle Parameter auf Enums umstellen --BTheel
-    // TODO LogLayout beim Sperren?--Btheel
+    // TODO alle Parameter auf Enums umstellen. Task ist Code-Kosmetik, daher zweitrangig  --BTheel
     /**
      * Ist System gesperrt oder nicht.
      */
@@ -42,23 +41,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      */
     private String meldungSystemGesperrt = "Meldung des System ist gesperrt";
 
-//    // TODO Benjamin ist das nicht redundant mit den enum Feldern?!
     /**
-     * 
+     * Name der Fehlervariablen im Request.
+     * Ueber diesen Parameternamen sind die Fehlermeldungen von der GUI aus dem Request zu gewinnen
      */
     public static final String FEHLERNACHRICHT = "fehlernachricht";
-//
-//    // TODO Benjamin ist das nicht redundant mit den enum Feldern
-//    /**
-//     * 
-//     */
-//    public static final String IST_SYSTEM_GESPERRT = "Hurz";
-//
-//    // TODO Benjmamin ist das nicht redundant mit meldung System gesperrt?!
-//    /**
-//     * Haelt die Begruendung der Systemsperrung
-//     */
-//    public static final String MITTEILUNG_SYSTEM_GESPERRT = "Systemmitteilung gesperrt";
 
     /**
      * Konstruktor.
@@ -69,16 +56,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         super();
         istSystemGesperrt = Boolean.valueOf(Config
                 .getProperty(Felder.SYSTEMSPERRUNG_SYSTEMSPERRUNG));
-        // if (istSystemGesperrt) {
-        /*
-         * Laed Mitteilung immer aus der Config, wird im Formular zur
-         * Systemperrung als Vorbelegung angezeigt --Btheel
-         */
         Logger.getLogger(this.getClass()).debug(
                 "Lade Mitteilung (System gesperrt) aus Config");
         meldungSystemGesperrt = Config
                 .getProperty(Felder.SYSTEMSPERRUNG_FEHLERMELDUNG);
-        // }
     }
 
     /**
@@ -295,10 +276,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
                     "Anfrage-Id == null, Anfrage nach doGet umleiten");
         }
         if (idAttribute != null) {
-            /*
-             * XXX Frickelei unnoetig, da wenn Param null auch Attr null ist
-             * abfrage des Attr. ausreichend --BTheel
-             */
             id = idAttribute;
         }
 
@@ -358,7 +335,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
                 BenutzerkontoBean anonymous = new BenutzerkontoBean();
                 // FIXME FRAGE LogAktion mit String anstatt BenutzerkontoBean
                 // zum Loggen der IP?
-                // anonymous.setBenutzername("Unangemeldeter Benutzer [IP:
+                //anonymous.setBenutzername("Unangemeldeter Benutzer [IP:
                 // "+request.getRemoteAddr()+"]");
 
                 LogAktion a = new LogAktion(
@@ -384,7 +361,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
             LogAktion a = new LogAktion("System wurde entsperrt",
                     (BenutzerkontoBean) request.getSession().getAttribute(
                             "aBenutzer"));
-            Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
+            Logger.getLogger(LogLayout.ADMINISTRATION).info(a);
             request.getRequestDispatcher("/system_sperren.jsp").forward(
                     request, response);
             return;
@@ -429,7 +406,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
                     + getMeldungSystemGesperrt() + "'",
                     (BenutzerkontoBean) request.getSession().getAttribute(
                             "aBenutzer"));
-            Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
+            Logger.getLogger(LogLayout.ADMINISTRATION).info(a);
             request.getRequestDispatcher("/system_sperren.jsp").forward(
                     request, response);
             return;
@@ -458,6 +435,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
             Logger.getLogger(this.getClass()).debug(
                     "Kein Block in POST fuer die ID '" + id + "' gefunden");
             // TODO Hier muss noch entschieden werden,was passiert
+            // Vorschlag: Konnte man als potentienllen Angriff werten und entsprechend loggen --BTheel 
         }
     }// doPost
 

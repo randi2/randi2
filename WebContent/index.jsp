@@ -16,6 +16,8 @@
 <title>RANDI 2</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/style_login.css" />
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/zebda.js"></script>
 </head>
 
 <body>
@@ -45,11 +47,10 @@
 <input type="hidden"
 	value="<%=DispatcherServlet.anfrage_id.JSP_INDEX_LOGIN %>"
 	name="anfrage_id">
-<p><input type="text" name="username" tabindex="1"></p>
+<p><input type="text" name="username" tabindex="1" z:required="true" z:message="Bitte geben Sie ihren Benutzernamen ein"></p>
 <p>Kennwort</p>
-<p><input type="password" name="password" tabindex="2"></p>
-<p><input name="Submit" type="submit" tabindex="3" onClick=""
-	value="Login"></p>
+<p><input type="password" name="password" tabindex="2" z:required="true" z:message="Bitte geben Sie ihr Passwort ein"></p>
+<p><input name="Submit" type="submit" tabindex="3" value="Login"></p>
 </form>
 <br>
 <table cellPadding="0" cellSpacing="0" border="0">
