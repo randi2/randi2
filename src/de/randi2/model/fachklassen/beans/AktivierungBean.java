@@ -24,7 +24,7 @@ public class AktivierungBean extends Filter {
     /**
      * Kompletter Url Preafix String
      */
-    public static final String PRAEFIX_LINK="http://localhost/Aktivierung/?"+ATTRIBUT_LINK+"=";
+    public static final String PRAEFIX_LINK="http://localhost/Aktivierung?"+ATTRIBUT_LINK+"=";
     /**
      * Die ID der Aktivierung.
      */

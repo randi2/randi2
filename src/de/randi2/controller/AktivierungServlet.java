@@ -7,8 +7,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.mail.EmailException;
 
+import de.randi2.datenbank.DatenbankFactory;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.fachklassen.AutomatischeNachricht;
+import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
+import de.randi2.utility.NullKonstanten;
 
 /**
  * Das Aktivierungservlet wird NUR angesprochen wenn der Benutzer den Aktivierungslink anklickt.
@@ -34,11 +39,18 @@ public class AktivierungServlet extends javax.servlet.http.HttpServlet implement
      *      HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-	//Test wegen Pfaden
+	//Url zum Testen http://localhost:8080/RANDI2/Aktivierung?link=aaaaaaaaaaaaaaaaaaaa
+	String id = (String) request.getParameter(AktivierungBean.ATTRIBUT_LINK);
+	AktivierungBean beanZumSuchen=new AktivierungBean();
+	beanZumSuchen.setFilter(true);
 	try {
-	    AutomatischeNachricht a = new AutomatischeNachricht(new PersonBean(), AutomatischeNachricht.autoNachricht.AKTIVIERUNG);
-	} catch (EmailException e) {
+	    beanZumSuchen.setAktivierungsLink(id);
+	    beanZumSuchen=DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(beanZumSuchen).firstElement();
+	} catch (AktivierungException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	} catch (DatenbankFehlerException e) {
+	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
     }

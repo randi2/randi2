@@ -29,7 +29,7 @@ public class AktivierungBeanTest {
 	
     }
     @Test(expected=AktivierungException.class)
-    public void aktivierungslinkZuOk()throws AktivierungException{
+    public void aktivierungslinkZuLang()throws AktivierungException{
 	AktivierungBean abean=new AktivierungBean();
 	abean.setAktivierungsLink("faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadddddddddddddddddddddddddddddddddddddddddddd");	
     }

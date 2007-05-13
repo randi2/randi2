@@ -14,7 +14,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Randi2 :: Letzer Schritt der Registrierung</title>
+<title>Randi2 :: Fehler</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
@@ -28,7 +28,7 @@ In der Applikation ist ein Fehler aufgetreten. Wenden Sie sich bitte an den Admi
 <h2>Stacktrace, wird spaeter entfernt.</h2>
 <%
   exception.printStackTrace(new PrintWriter(out));
-exception.printStackTrace();
+  exception.printStackTrace();
 %>
 
 

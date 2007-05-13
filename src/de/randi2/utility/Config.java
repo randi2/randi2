@@ -123,8 +123,8 @@ public final class Config {
                 Config.Felder.SYSTEMSPERRUNG_SYSTEMSPERRUNG.name(), Boolean
                         .toString(isSystemGesperrt));
         try {
-            singleton.systemsperrungConf.store(new FileOutputStream(
-                    systemsperrungDateiname),
+            singleton.systemsperrungConf.store(new FileOutputStream(Config.class.getResource("/"+
+                    systemsperrungDateiname).getPath()),
                     "Persistente Speicherung der Systemsperrung");
         } catch (Exception e) {
             Logger.getLogger(Config.class).error(
@@ -154,8 +154,8 @@ public final class Config {
         singleton.systemsperrungConf.setProperty(
                 Config.Felder.SYSTEMSPERRUNG_FEHLERMELDUNG.name(), mitteilung);
         try {
-            singleton.systemsperrungConf.store(new FileOutputStream(
-                    systemsperrungDateiname),
+            singleton.systemsperrungConf.store(new FileOutputStream(Config.class.getResource("/"+
+                    systemsperrungDateiname).getPath()),
                     "Persistente Speicherung der Systemsperrung");
         } catch (Exception e) {
             Logger.getLogger(Config.class).error(

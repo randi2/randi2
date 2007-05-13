@@ -32,6 +32,7 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.model.fachklassen.beans.PersonBean.Titel;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.SystemException;
+import de.randi2.model.fachklassen.AutomatischeNachricht;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Studie.Status;
@@ -307,7 +308,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	public Datenbank() {
 		log = Logger.getLogger("Randi2.Datenaenderung");
 		try {
-			JAXPConfigurator.configure("./src/conf/release/proxool_cfg.xml",
+			JAXPConfigurator.configure(Datenbank.class.getResource("/conf/release/proxool_cfg.xml").getPath(),
 					false);
 		} catch (ProxoolException e) {
 			e.printStackTrace();

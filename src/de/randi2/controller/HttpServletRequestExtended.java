@@ -56,7 +56,7 @@ public final class HttpServletRequestExtended extends HttpServletRequestWrapper 
 	if (rueckgabewert == null) {
 	    return null;
 	}
-	rueckgabewert.trim();
+	rueckgabewert=rueckgabewert.trim();
 	if (rueckgabewert.equals("")) {
 	    rueckgabewert = null;
 	}
