@@ -48,6 +48,15 @@
 			<servlet-class>
 			de.randi2.controller.Nachrichtendienst</servlet-class>
 		</servlet>
+		<servlet>
+			<description>
+			</description>
+			<display-name>
+			AktivierungServlet</display-name>
+			<servlet-name>AktivierungServlet</servlet-name>
+			<servlet-class>
+			de.randi2.controller.AktivierungServlet</servlet-class>
+		</servlet>
 		<listener>
 			<listener-class>de.randi2.controller.listener.SessionListener</listener-class>
 		</listener>
@@ -66,6 +75,10 @@
 		<servlet-mapping>
 			<servlet-name>Nachrichtendienst</servlet-name>
 			<url-pattern>/Nachrichtendienst</url-pattern>
+		</servlet-mapping>
+		<servlet-mapping>
+			<servlet-name>AktivierungServlet</servlet-name>
+			<url-pattern>/Aktivierung</url-pattern>
 		</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

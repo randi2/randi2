@@ -17,6 +17,15 @@ import de.randi2.utility.NullKonstanten;
 public class AktivierungBean extends Filter {
 
     /**
+     * Name des Attributes fuer die Aktivierung
+     */
+    public static final String ATTRIBUT_LINK="link";
+    
+    /**
+     * Kompletter Url Preafix String
+     */
+    public static final String PRAEFIX_LINK="http://localhost/Aktivierung/?"+ATTRIBUT_LINK+"=";
+    /**
      * Die ID der Aktivierung.
      */
     private long	      aktivierungsId   = NullKonstanten.NULL_LONG;
