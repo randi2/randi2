@@ -2,17 +2,19 @@ package de.randi2.junittests;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
+import org.apache.log4j.Logger;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.model.exceptions.RechtException;
+import de.randi2.model.fachklassen.Recht;
 import de.randi2.model.fachklassen.Rolle;
-
+import static de.randi2.model.fachklassen.Recht.Rechtenamen;
 /**
  * JUnittest fuer die Klasse {@link Rolle}
  * 
- * @author $eyma Yazgan [syazgan@stud.hs-heilbronn.de]
+ * @author BTheel [BTheel@stud.hs-heilbronn.de]
  * @version $Id: RolleTest.java 2428 2007-05-06 17:50:32Z btheel $
  */
 public class RolleTest {
@@ -29,6 +31,7 @@ public class RolleTest {
 
     private static final String NAME_STATISTIKER = "STATISTIKER";
 
+    
     /**
      * aRolle-><code>null</code>
      * 
@@ -184,5 +187,146 @@ public class RolleTest {
             assertEquals(RechtException.UNGUELITGES_ARGUMENT, e.getMessage());
 
         }
+    }
+    
+    @Test 
+    public final void besitzenStudienarztRecht(){
+        
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.ARCHIV_EINSEHEN));
+        assertTrue(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.BK_AENDERN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.BK_ANSEHEN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.BK_SPERREN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN));
+        assertTrue(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.STAT_EINSEHEN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.STUDIE_AENDERN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.STUDIE_ANLEGEN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.STUDIE_LOESCHEN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.STUDIE_PAUSIEREN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.STUDIE_SIMULIEREN));
+        assertTrue(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.STUDIEN_EINSEHEN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.STUDIENARM_BEENDEN));
+        assertTrue(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.STUDIENTEILNEHMER_HINZUFUEGEN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.SYSTEM_SPERREN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.ZENTREN_ANZEIGEN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.ZENTRUM_AENDERN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.ZENTRUM_AKTIVIEREN));
+        assertFalse(Rolle.getStudienarzt().besitzenRolleRecht(Rechtenamen.ZENTRUM_ANLEGEN));
+        
+    }
+    
+    @Test 
+    public final void besitzenStratistikerRecht(){
+        
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.ARCHIV_EINSEHEN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.BK_AENDERN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.BK_ANSEHEN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.BK_SPERREN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN));
+        assertTrue(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.STAT_EINSEHEN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.STUDIE_AENDERN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.STUDIE_ANLEGEN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.STUDIE_LOESCHEN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.STUDIE_PAUSIEREN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.STUDIE_SIMULIEREN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.STUDIEN_EINSEHEN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.STUDIENARM_BEENDEN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.STUDIENTEILNEHMER_HINZUFUEGEN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.SYSTEM_SPERREN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.ZENTREN_ANZEIGEN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.ZENTRUM_AENDERN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.ZENTRUM_AKTIVIEREN));
+        assertFalse(Rolle.getStatistiker().besitzenRolleRecht(Rechtenamen.ZENTRUM_ANLEGEN));
+        
+    }
+    
+    @Test 
+    public final void besitzenAdminRecht(){
+        
+        assertFalse(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN));
+        assertTrue(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.ARCHIV_EINSEHEN));
+        assertTrue(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.BK_AENDERN));
+        assertTrue(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.BK_ANSEHEN));
+        assertTrue(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.BK_SPERREN));
+        assertTrue(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN));
+        assertTrue(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN));
+        assertTrue(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.STAT_EINSEHEN));
+        assertFalse(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.STUDIE_AENDERN));
+        assertFalse(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.STUDIE_ANLEGEN));
+        assertTrue(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.STUDIE_LOESCHEN));
+        assertFalse(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.STUDIE_PAUSIEREN));
+        assertFalse(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.STUDIE_SIMULIEREN));
+        assertTrue(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.STUDIEN_EINSEHEN));
+        assertFalse(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.STUDIENARM_BEENDEN));
+        assertFalse(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.STUDIENTEILNEHMER_HINZUFUEGEN));
+        assertTrue(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN));
+        assertFalse(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.SYSTEM_SPERREN));
+        assertTrue(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.ZENTREN_ANZEIGEN));
+        assertTrue(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.ZENTRUM_AENDERN));
+        assertTrue(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.ZENTRUM_AKTIVIEREN));
+        assertTrue(Rolle.getAdmin().besitzenRolleRecht(Rechtenamen.ZENTRUM_ANLEGEN));
+        
+        
+    }
+    
+    @Test 
+    public final void besitzenSysopRecht(){
+        
+        assertTrue(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.ARCHIV_EINSEHEN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.BK_AENDERN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.BK_ANSEHEN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.BK_SPERREN));
+        assertTrue(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.STAT_EINSEHEN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.STUDIE_AENDERN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.STUDIE_ANLEGEN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.STUDIE_LOESCHEN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.STUDIE_PAUSIEREN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.STUDIE_SIMULIEREN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.STUDIEN_EINSEHEN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.STUDIENARM_BEENDEN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.STUDIENTEILNEHMER_HINZUFUEGEN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN));
+        assertTrue(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.SYSTEM_SPERREN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.ZENTREN_ANZEIGEN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.ZENTRUM_AENDERN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.ZENTRUM_AKTIVIEREN));
+        assertFalse(Rolle.getSysop().besitzenRolleRecht(Rechtenamen.ZENTRUM_ANLEGEN));
+        
+    }
+    
+    @Test 
+    public final void besitzenStudienleiterRecht(){
+        
+        assertFalse(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN));
+        assertTrue(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.ARCHIV_EINSEHEN));
+        assertTrue(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.BK_AENDERN));
+        assertTrue(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.BK_ANSEHEN));
+        assertFalse(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.BK_SPERREN));
+        assertTrue(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.GRUPPENNACHRICHT_VERSENDEN));
+        assertTrue(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.RANDOMISATION_EXPORTIEREN));
+        assertTrue(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.STAT_EINSEHEN));
+        assertTrue(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.STUDIE_AENDERN));
+        assertTrue(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.STUDIE_ANLEGEN));
+        assertFalse(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.STUDIE_LOESCHEN));
+        assertTrue(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.STUDIE_PAUSIEREN));
+        assertTrue(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.STUDIE_SIMULIEREN));
+        assertTrue(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.STUDIEN_EINSEHEN));
+        assertTrue(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.STUDIENARM_BEENDEN));
+        assertFalse(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.STUDIENTEILNEHMER_HINZUFUEGEN));
+        assertFalse(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN));
+        assertFalse(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.SYSTEM_SPERREN));
+        assertTrue(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.ZENTREN_ANZEIGEN));
+        assertFalse(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.ZENTRUM_AENDERN));
+        assertFalse(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.ZENTRUM_AKTIVIEREN));
+        assertFalse(Rolle.getStudienleiter().besitzenRolleRecht(Rechtenamen.ZENTRUM_ANLEGEN));
+        
     }
 }
