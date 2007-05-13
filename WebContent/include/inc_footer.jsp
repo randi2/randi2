@@ -1,6 +1,5 @@
 <%@ page import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
 	import="java.util.GregorianCalendar"
-	import="de.randi2.model.fachklassen.AktivierungBean"
 	import="de.randi2.model.fachklassen.beans.PersonBean"
 	import="de.randi2.model.fachklassen.*"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
@@ -25,6 +24,7 @@ if(aBenutzerkontoFooter!=null)
 
 %>
 
+<%@page import="java.util.GregorianCalendar"%>
 <br>
 <table width="100%" border="0" cellPadding="0" cellSpacing="0">
 	<tr>

@@ -6,7 +6,6 @@
 	import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
 	import="de.randi2.model.fachklassen.beans.PersonBean"
 	import="de.randi2.model.fachklassen.*"
-	import="de.randi2.model.fachklassen.AktivierungBean"
 	%>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
