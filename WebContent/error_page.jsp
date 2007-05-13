@@ -6,6 +6,7 @@
 	import= "java.util.Locale"
 	import= "org.apache.log4j.Logger"
 %>
+<%@ page isErrorPage="true" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="java.io.StringWriter"%>
@@ -25,6 +26,10 @@
 <br>
 In der Applikation ist ein Fehler aufgetreten. Wenden Sie sich bitte an den Administrator.
 <h2>Stacktrace, wird spaeter entfernt.</h2>
+<%
+  exception.printStackTrace(new PrintWriter(out));
+exception.printStackTrace();
+%>
 
 
 
