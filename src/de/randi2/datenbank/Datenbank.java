@@ -16,12 +16,11 @@ import org.logicalcobwebs.proxool.ProxoolException;
 import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
-import de.randi2.model.exceptions.BenutzerkontoException;
-import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.BenutzerException;
-import de.randi2.model.exceptions.StudieException;
-import de.randi2.model.exceptions.StudienarmException;
+import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
+import de.randi2.model.fachklassen.Rolle;
+import de.randi2.model.fachklassen.Studie.Status;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PatientBean;
@@ -32,10 +31,6 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.model.fachklassen.beans.PersonBean.Titel;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.SystemException;
-import de.randi2.model.fachklassen.AutomatischeNachricht;
-import de.randi2.model.fachklassen.Rolle;
-import de.randi2.model.fachklassen.Studie;
-import de.randi2.model.fachklassen.Studie.Status;
 
 /**
  * <p>

@@ -1,16 +1,18 @@
 package de.randi2.junittests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import org.apache.log4j.Logger;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.model.exceptions.RechtException;
-import de.randi2.model.fachklassen.Recht;
 import de.randi2.model.fachklassen.Rolle;
-import static de.randi2.model.fachklassen.Recht.Rechtenamen;
+import de.randi2.model.fachklassen.Recht.Rechtenamen;
 /**
  * JUnittest fuer die Klasse {@link Rolle}
  * 

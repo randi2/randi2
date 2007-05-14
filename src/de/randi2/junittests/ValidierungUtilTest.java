@@ -1,10 +1,10 @@
 package de.randi2.junittests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 

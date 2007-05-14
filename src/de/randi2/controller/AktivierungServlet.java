@@ -1,19 +1,15 @@
 package de.randi2.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.mail.EmailException;
-
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.AktivierungException;
-import de.randi2.model.fachklassen.AutomatischeNachricht;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
-import de.randi2.model.fachklassen.beans.PersonBean;
-import de.randi2.utility.NullKonstanten;
 
 /**
  * Das Aktivierungservlet wird NUR angesprochen wenn der Benutzer den Aktivierungslink anklickt.

@@ -9,6 +9,7 @@
         <file-match-pattern match-pattern=".*Dummy.*" include-pattern="false"/>
     </fileset>
     <filter name="FilesFromPackage" enabled="true">
+        <filter-data value="src/de/randi2/datenbank"/>
         <filter-data value="src/de/randi2/junittests"/>
         <filter-data value="src/de/randi2/seleniumtest"/>
     </filter>
