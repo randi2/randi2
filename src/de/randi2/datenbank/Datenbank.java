@@ -308,8 +308,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	public Datenbank() {
 		log = Logger.getLogger("Randi2.Datenaenderung");
 		try {
-			JAXPConfigurator.configure(Datenbank.class.getResource("/conf/release/proxool_cfg.xml").getPath(),
-					false);
+			JAXPConfigurator.configure(Datenbank.class.getResource("/conf/release/proxool_cfg.xml").getPath(),false);
 		} catch (ProxoolException e) {
 			e.printStackTrace();
 		}
@@ -731,6 +730,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ "," + FelderPerson.GESCHLECHT + "," + FelderPerson.TITEL
 					+ "," + FelderPerson.EMAIL + "," + FelderPerson.FAX + ","
 					+ FelderPerson.TELEFONNUMMER + ","
+					+ FelderPerson.HANDYNUMMER + ","
 					+ FelderPerson.STELLVERTRETER + ")"
 					+ "VALUES (NULL,?,?,?,?,?,?,?,?);";
 			try {
@@ -743,10 +743,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(5, person.getEmail());
 				pstmt.setString(6, person.getFax());
 				pstmt.setString(7, person.getTelefonnummer());
+				pstmt.setString(8, person.getHandynummer());
 				if (person.getStellvertreterId() == NullKonstanten.NULL_LONG) {
-					pstmt.setNull(8, Types.NULL);
+					pstmt.setNull(9, Types.NULL);
 				} else {
-					pstmt.setLong(8, person.getStellvertreterId());
+					pstmt.setLong(9, person.getStellvertreterId());
 				}
 
 				pstmt.executeUpdate();
@@ -763,13 +764,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 			person.setId(id);
 			return person;
 		}
-		// vorhandenes Zentrum wird aktualisiert
+		// vorhandene  Person wird aktualisiert
 		else {
 			sql = "UPDATE " + Tabellen.PERSON + " SET " + FelderPerson.NACHNAME
 					+ "=?," + FelderPerson.VORNAME + "=?,"
 					+ FelderPerson.GESCHLECHT + "=?," + FelderPerson.TITEL
 					+ "=?," + FelderPerson.EMAIL + "=?," + FelderPerson.FAX
 					+ "=?," + FelderPerson.TELEFONNUMMER + "=?,"
+					+ FelderPerson.HANDYNUMMER + "=?,"
 					+ FelderPerson.STELLVERTRETER + "=?," + " WHERE "
 					+ FelderPerson.ID + "=?";
 			try {
@@ -781,8 +783,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(5, person.getEmail());
 				pstmt.setString(6, person.getFax());
 				pstmt.setString(7, person.getTelefonnummer());
-				pstmt.setLong(8, person.getStellvertreterId());
-				pstmt.setLong(9, person.getId());
+				pstmt.setString(8, person.getHandynummer());
+				pstmt.setLong(9, person.getStellvertreterId());
+				pstmt.setLong(10, person.getId());
 				pstmt.executeUpdate();
 				pstmt.close();
 			} catch (SQLException e) {
