@@ -2,11 +2,14 @@ package de.randi2.junittests;
 
 import static org.junit.Assert.assertEquals;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.Vector;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
@@ -26,7 +29,7 @@ public class VollstaendigeRandomisationTest {
 
 	PatientBean[] testPatienten = null;
 
-	Randomisation testBlockrandomisation = null;
+	Randomisation testRandomisation = null;
 
 	@Before
 	public void setUp() throws Exception {
@@ -39,17 +42,20 @@ public class VollstaendigeRandomisationTest {
 				"./empty.txt", 0);
 		testArm1 = new StudienarmBean(123, 1, Studie.Status.AKTIV, "ARM 1",
 				"desc1");
+		testArm1.setPatienten(new Vector<PatientBean>());
 		testArm2 = new StudienarmBean(123, 1, Studie.Status.AKTIV, "ARM 2",
 				"desc2");
+		testArm2.setPatienten(new Vector<PatientBean>());
 		testArm3 = new StudienarmBean(123, 1, Studie.Status.AKTIV, "ARM 3",
 				"desc3");
+		testArm3.setPatienten(new Vector<PatientBean>());
 		Vector<StudienarmBean> studienarme = new Vector<StudienarmBean>();
 		studienarme.add(testArm1);
 		studienarme.add(testArm2);
 		studienarme.add(testArm3);
 		testStudieBean.setStudienarme(studienarme);
 
-		testBlockrandomisation = new VollstaendigeRandomisation(
+		testRandomisation = new VollstaendigeRandomisation(
 				this.testStudieBean);
 
 		testPatienten = new PatientBean[90];
@@ -57,43 +63,37 @@ public class VollstaendigeRandomisationTest {
 	}
 
 	@Test
-	public void testRandomisierenPatient() {
+	public void testRandomisierenPatient() throws RandomisationsException, DatenbankFehlerException {
 		for (int i = 0; i < 90; i++) {
 			testPatienten[i] = new PatientBean();
-			testPatienten[i].setInitialen("TP" + i);
+			testPatienten[i].setInitialen("INI" + i);
+			testRandomisation.randomisierenPatient(testPatienten[i]);
+			// TODO bis hier bin ich gekommen
+			// Weiter nach Bereinigung von Bug #68
 		}
 
 		System.out.println("Arm 1: ");
-		for (int i = 0; i < 30; i++) {
-
-			System.out.print(testArm1.getPatienten().elementAt(i)
-					.getInitialen()
-					+ ",");
-
+		Iterator<PatientBean> it = testArm1.getPatienten().iterator();
+		while (it.hasNext()) {
+			System.out.print(it.next().getInitialen() + ",");
 		}
 
-		System.out.println("\r\nArm 2: ");
-		for (int i = 0; i < 30; i++) {
-
-			System.out.print(testArm2.getPatienten().elementAt(i)
-					.getInitialen()
-					+ ",");
-
+		System.out.println("Arm 2: ");
+		it = testArm2.getPatienten().iterator();
+		while (it.hasNext()) {
+			System.out.print(it.next().getInitialen() + ",");
 		}
 
-		System.out.println("\r\nArm 3: ");
-		for (int i = 0; i < 30; i++) {
-
-			System.out.print(testArm3.getPatienten().elementAt(i)
-					.getInitialen()
-					+ ",");
-
+		System.out.println("Arm 3: ");
+		it = testArm3.getPatienten().iterator();
+		while (it.hasNext()) {
+			System.out.print(it.next().getInitialen() + ",");
 		}
 
 		int anzPat = testArm1.getPatienten().size()
 				+ testArm2.getPatienten().size()
 				+ testArm3.getPatienten().size();
-		
+
 		assertEquals(90, anzPat);
 	}
 
