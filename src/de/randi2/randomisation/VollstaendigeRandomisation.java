@@ -22,6 +22,11 @@ import de.randi2.model.fachklassen.beans.StudienarmBean;
 public class VollstaendigeRandomisation extends Randomisation {
 
 	/**
+	 * Der Zufallszahlgenerator.
+	 */
+	private Random zufall = null;
+
+	/**
 	 * Der Name der Randomistaion
 	 */
 	public static final String NAME = "Vollständige Randomisation";
@@ -39,6 +44,7 @@ public class VollstaendigeRandomisation extends Randomisation {
 	public VollstaendigeRandomisation(StudieBean studie)
 			throws RandomisationsException {
 		super(NAME, studie);
+		zufall = new Random();
 	}
 
 	/**
@@ -61,7 +67,7 @@ public class VollstaendigeRandomisation extends Randomisation {
 	public void randomisierenPatient(PatientBean patient)
 			throws RandomisationsException, DatenbankFehlerException {
 		Vector<StudienarmBean> studienarme = super.studie.getStudienarme();
-		int index = (int) (new Random().nextDouble() * (studienarme.size() - 1));
+		int index = (int) (this.zufall.nextDouble() * (studienarme.size() - 1));
 		patient.setStudienarm(studienarme.get(index));
 	}
 

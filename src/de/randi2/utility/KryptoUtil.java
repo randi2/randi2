@@ -15,6 +15,13 @@ import org.apache.log4j.Logger;
  */
 public final class KryptoUtil {
 
+
+	/**
+	 * Der Zufallszahlgenerator.
+	 */
+	private Random zufall = null;
+
+	
 	/**
 	 * Die Singleton-Instance.
 	 */
@@ -72,6 +79,7 @@ public final class KryptoUtil {
 	private KryptoUtil() {
 		Logger.getLogger(this.getClass()).debug(
 				"Iniziere PasswortUtil Singleton");
+		zufall = new Random();
 		try {
 			this.hashfunktion = MessageDigest
 					.getInstance(hashfunktionAlgorithmus);
@@ -96,7 +104,7 @@ public final class KryptoUtil {
 		String passwort = new String();
 
 		for (int i = 0; i < length; i++) {
-			int index = (int) (new Random().nextDouble() * (buchstaben.length - 1));
+			int index = (int) (zufall.nextDouble() * (buchstaben.length - 1));
 			passwort += buchstaben[index];
 		}
 		return passwort;
