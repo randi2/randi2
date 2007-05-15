@@ -141,9 +141,11 @@ public class ZentrumBean extends Filter {
 	@Override
 	public boolean equals(Object zentrumZuVergleichen) {
 		ZentrumBean zentrum = null;
+		if(zentrumZuVergleichen == null){
+			return false;
+		}
 		if (zentrumZuVergleichen instanceof ZentrumBean) {
 			zentrum = (ZentrumBean) zentrumZuVergleichen;
-			//FIXME --Thomas Nullpointer raus machen
 			if (!zentrum.getInstitution().equals(this.getInstitution())) {
 				return false;
 			}
