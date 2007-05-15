@@ -15,72 +15,72 @@ public class ZentrumException extends BenutzerException {
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Abteilung falsch ist.
 	 */
-	public static final String ABTEILUNG_FALSCH = "Abteilung falsch!";
+	public static final String ABTEILUNG_FALSCH = "Die eingegebene Abteilung ist falsch!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Abteilung fehlt.
 	 */
-	public static final String ABTEILUNG_NULL = "Abteilung = null!";
+	public static final String ABTEILUNG_NULL = "Die Abteilung wurde nicht eingegeben!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Hausnummer falsch ist.
 	 */
-	public static final String HAUSNR_FALSCH = "Hausnummer falsch!";
+	public static final String HAUSNR_FALSCH = "Die eingegebene Hausnummer ist falsch!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Hausnummer fehlt.
 	 */
-	public static final String HAUSNR_NULL = "Hausnummer = null!";
+	public static final String HAUSNR_NULL = "Die Hausnummer wurde nicht eingegeben!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Institution falsch ist.
 	 */
-	public static final String INSTITUTION_FALSCH = "Institution falsch!";
+	public static final String INSTITUTION_FALSCH = "Die eingegebene Institution ist falsch!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Institution fehlt.
 	 */
-	public static final String INSTITUTION_NULL = "Institution = null!";
+	public static final String INSTITUTION_NULL = "Die Institution wurde nicht eingegeben!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn der Ort falsch ist.
 	 */
-	public static final String ORT_FALSCH = "Ort falsch!";
+	public static final String ORT_FALSCH = "Der eingegebene Ort ist falsch!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn der Ort fehlt.
 	 */
-	public static final String ORT_NULL = "Ort = null!";
+	public static final String ORT_NULL = "Der Ort wurde nicht eingegeben!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die PLZ falsch ist.
 	 */
-	public static final String PLZ_FALSCH = "PLZ falsch!";
+	public static final String PLZ_FALSCH = "Die eingegenene Postleitzahl ist falsch!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die PLZ fehlt.
 	 */
-	public static final String PLZ_NULL = "PLZ = null!";
+	public static final String PLZ_NULL = "Die Postleitzahl wurde nicht eingegeben!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Strasse falsch ist.
 	 */
-	public static final String STRASSE_FALSCH = "Strasse falsch!";
+	public static final String STRASSE_FALSCH = "Die eingegebene Strasse falsch!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Strasse fehlt.
 	 */
-	public static final String STRASSE_NULL = "Strasse = null!";
+	public static final String STRASSE_NULL = "Die Straﬂe wurde nicht eingegeben!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn das Passwort falsch ist.
 	 */
-	public static final String PASSWORT_FALSCH = "Passwort falsch!";
+	public static final String PASSWORT_FALSCH = "Das eingegbene Passwort ist falsch!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn das Passwort fehlt.
 	 */
-	public static final String PASSWORT_NULL = "Passwort = null!";
+	public static final String PASSWORT_NULL = "Das Passwort wurde nicht eingegeben!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn das PersonBean Objekt, das an die
