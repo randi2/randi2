@@ -6,6 +6,7 @@ import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.NullKonstanten;
+import de.randi2.utility.ValidierungsUtil;
 
 /**
  * <p>
@@ -17,9 +18,6 @@ import de.randi2.utility.NullKonstanten;
  * 
  */
 public class ZentrumBean extends Filter {
-
-	// TODO Wenn die Validierung der Daten in einer Utility-Klasse vorhanden
-	// sein wird, werden die set() Methoden dementsprechend angepasst. (lplotni)
 
 	/**
 	 * Name der Abteilung in der Institution.
@@ -57,7 +55,7 @@ public class ZentrumBean extends Filter {
 	private String ort = null;
 
 	/**
-	 * Passwort für das Zentrum (gehasht)
+	 * Passwort fuer das Zentrum (gehasht)
 	 */
 	private String passwort = null;
 
@@ -295,7 +293,6 @@ public class ZentrumBean extends Filter {
 				throw new ZentrumException(ZentrumException.ABTEILUNG_FALSCH);
 			}
 		}
-
 		this.abteilung = abteilung;
 	}
 
@@ -446,10 +443,7 @@ public class ZentrumBean extends Filter {
 			this.passwort = KryptoUtil.getInstance().hashPasswort(klartext);
 		} else {
 			if (klartext != null) {
-				if (!(klartext.matches(".*[A-Za-z].*")
-						&& klartext.matches(".*[0-9].*")
-						&& klartext
-								.matches(".*[\\^,.\\-#+;:_'*!\"§$@&%/()=?|<>].*") && klartext
+				if (!(ValidierungsUtil.validierePasswortZeichen(klartext) && klartext
 						.matches(".{12}"))) {
 					throw new ZentrumException(ZentrumException.PASSWORT_FALSCH);
 				}
@@ -525,7 +519,7 @@ public class ZentrumBean extends Filter {
 	}
 
 	/**
-	 * Getter für Aktivierungszustand
+	 * Getter fuer Aktivierungszustand
 	 * 
 	 * @return the istAktiviert
 	 */
