@@ -7,6 +7,7 @@ import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StatistikBean;
+import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 
@@ -23,6 +24,11 @@ public class Studie {
 	 * Das zugehörige StudieBean-Objekt.
 	 */
 	private StudieBean aStudieBean = null;
+	
+	/**
+	 * Strata der Studie.
+	 */
+	private Vector<StrataBean> strata=null;
 
 
 	/**
@@ -145,7 +151,7 @@ public class Studie {
 
 		return zugewieseneZentren;
 	}
-	
+	 
 	/**
 	 * Liefert alle zur Studie gehoerenden Zentren
 	 * @param studieId
@@ -165,6 +171,20 @@ public class Studie {
 			throw new StudieException("Zentrum konnte nicht gefunden werden.");
 		}
 		return gefundenZentren;
+	}
+	/**
+	 * Liefert alle Strata zur Studie.
+	 * @param studieId Id der Studie zur eindeutigen Zuordnung in der Datenbank.
+	 * @return  gefundeneStrata 
+	 * @throws StudieException Exception, wenn Strata nicht gefunden wurde.
+	 */
+	public static Vector<StrataBean> getZugehoerigeStrata(long studieId)throws StudieException{
+		StudieBean studie = new StudieBean();
+		studie.setId(studieId);
+		Vector<StrataBean> gefundeneStrata=null;
+		//TODO ausimplementieren
+		
+		return gefundeneStrata;
 	}
 	
 	/**
