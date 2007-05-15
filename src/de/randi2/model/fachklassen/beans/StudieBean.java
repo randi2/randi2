@@ -17,7 +17,7 @@ import de.randi2.utility.NullKonstanten;
  * 
  * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
  * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
- * @version $Id: StudieBean.java 2505 2007-05-09 07:23:41Z lplotni $
+ * @version $Id$
  * 
  */
 public class StudieBean extends Filter {
