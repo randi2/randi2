@@ -3,7 +3,6 @@ package de.randi2.model.fachklassen.beans;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Vector;
-
 import de.randi2.datenbank.Filter;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.StudieException;
@@ -72,7 +71,10 @@ public class StudieBean extends Filter {
 	 * Das Zentrum der Studie.
 	 */
 	private Vector<ZentrumBean> zentren = null;
-	
+	/**
+	 * Strata der Studie.
+	 */
+	private Vector<StrataBean> strata=null;
 
 	/**
 	 * Das Benutzerkonto der Studie.
@@ -319,7 +321,7 @@ public class StudieBean extends Filter {
 	 */
 	public void setStudienarme(Vector<StudienarmBean> studienarme)
 			throws StudieException {
-		aStudienarme=studienarme;
+			aStudienarme=studienarme;
 
 	}
 
@@ -344,11 +346,11 @@ public class StudieBean extends Filter {
 	}
 
 	/**
-	 * Liefert die Zentren, die an dieser Studie teilnehmen
+	 * Liefert die Zentren, die an dieser Studie teilnehmen.
 	 * 
 	 * @return die teilnehmenden Zentren
 	 * @throws StudieException
-	 *             Exception, wenn zugehoeriges Zentrum nicht gefunden wurde
+	 *             Exception, wenn zugehoeriges Zentrum nicht gefunden wurden.
 	 */
 	public Vector<ZentrumBean> getZentren() throws StudieException {
 		if (zentren == null) {
@@ -360,6 +362,24 @@ public class StudieBean extends Filter {
 			}
 		}
 		return zentren;
+	}
+	
+	/**
+	 * Liefert die Schichten(Strata) der Studie.
+	 * @return strata Strata der Studie
+	 * @throws StudieException Exception, wenn keine Schichten gefunden wurden.
+	 */
+	public Vector<StrataBean> getStrata()throws StudieException{
+		
+		if(strata==null){
+			try{
+			strata = Studie.getZugehoerigeStrata(id);
+			}catch(StudieException e){
+				throw new StudieException("Strata nicht vorhanden.");
+			}
+		}
+		
+		return strata;
 	}
 
 	/**
@@ -450,17 +470,17 @@ public class StudieBean extends Filter {
 	 */
 	@Override
 	public String toString() {
-		// FIXME implementieren
-		return null;
+		return "id:"+this.id+"\n"+"randomistationsId:"+this.randomisationId+"\n"+"beschreibung:"+this.beschreibung+"\n"+"startDatum"+this.startDatum+"\n"+"endDatum:"
+		+this.endDatum+"\n"+"studienprotokollPfad"+this.studienprotokollPfad;
 	}
 
 	/**
 	 * Diese Methode prueft, ob zwei Kontos identisch sind. Zwei Kontos sind
-	 * identisch, wenn Benutzernamen identisch sind.
+	 * identisch, wenn die Studieneigenschaften identisch sind.
 	 * 
 	 * @param zuvergleichendesObjekt
 	 *            das zu vergleichende Objekt vom selben Typ
-	 * @return <code>true</code>, wenn beide Kontos gleich sind, ansonstenm
+	 * @return <code>true</code>, wenn beide Kontos gleich sind, ansonsten
 	 *         <code>false</code>
 	 */
 	
@@ -475,18 +495,19 @@ public class StudieBean extends Filter {
 			if (beanZuvergleichen.randomisationId != this.randomisationId) {
 				return false;
 			}
-			// Beschreibung
-			// if(beanZuvergleichen.beschreibung)
+			if(beanZuvergleichen.beschreibung!=null && beanZuvergleichen.beschreibung.equals(this.beschreibung)){
+				return false;
+			}
 			if (beanZuvergleichen.startDatum != null
-					&& beanZuvergleichen.startDatum.equals(this.startDatum)) {
+					&& !beanZuvergleichen.startDatum.equals(this.startDatum)) {
 				return false;
 			}
 			if (beanZuvergleichen.endDatum != null
-					&& beanZuvergleichen.endDatum.equals(this.endDatum)) {
+					&& !beanZuvergleichen.endDatum.equals(this.endDatum)) {
 				return false;
 			}
 			if (beanZuvergleichen.studienprotokollPfad != null
-					&& beanZuvergleichen.studienprotokollPfad
+					&& !beanZuvergleichen.studienprotokollPfad
 							.equals(this.studienprotokollPfad)) {
 				return false;
 			}
