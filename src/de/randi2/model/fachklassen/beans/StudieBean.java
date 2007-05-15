@@ -72,6 +72,10 @@ public class StudieBean extends Filter {
 	 * Das Zentrum der Studie.
 	 */
 	private Vector<ZentrumBean> zentren = null;
+	/**
+	 * Studienarme 
+	 */
+	private Vector<StudienarmBean> aStudienarme =null;
 
 	/**
 	 * Das Benutzerkonto der Studie.
@@ -318,6 +322,7 @@ public class StudieBean extends Filter {
 	 */
 	public void setStudienarme(Vector<StudienarmBean> studienarme)
 			throws StudieException {
+		aStudienarme=studienarme;
 
 	}
 
@@ -345,15 +350,16 @@ public class StudieBean extends Filter {
 	 * Liefert die Zentren, die an dieser Studie teilnehmen
 	 * 
 	 * @return die teilnehmenden Zentren
-	 * @throws StudieException  
-	 *               Exception, wenn zugehoeriges Zentrum nicht gefunden wurde
+	 * @throws StudieException
+	 *             Exception, wenn zugehoeriges Zentrum nicht gefunden wurde
 	 */
 	public Vector<ZentrumBean> getZentren() throws StudieException {
 		if (zentren == null) {
 			try {
 				zentren = Studie.getZugehoerigeZentren(id);
 			} catch (StudieException e) {
-				throw new StudieException("Zugehöriges Zentrum konnte nicht gefunden werden.");
+				throw new StudieException(
+						"Zugehöriges Zentrum konnte nicht gefunden werden.");
 			}
 		}
 		return zentren;
@@ -437,21 +443,21 @@ public class StudieBean extends Filter {
 	public void setRandomisationId(long randomisationId) {
 		this.randomisationId = randomisationId;
 	}
-	
-    /**
-     * Liefert einen String der alle Parameter formatiert enthaelt.
-     * 
-     * @return String der alle Parameter formatiert enthaelt.
-     * @see java.lang.Object#toString()
-     * 
-     */
-    @Override
-    public String toString(){
-	//FIXME implementieren
-	return null;
-    }
-    
-    /**
+
+	/**
+	 * Liefert einen String der alle Parameter formatiert enthaelt.
+	 * 
+	 * @return String der alle Parameter formatiert enthaelt.
+	 * @see java.lang.Object#toString()
+	 * 
+	 */
+	@Override
+	public String toString() {
+		// FIXME implementieren
+		return null;
+	}
+
+	/**
 	 * Diese Methode prueft, ob zwei Kontos identisch sind. Zwei Kontos sind
 	 * identisch, wenn Benutzernamen identisch sind.
 	 * 
@@ -460,13 +466,35 @@ public class StudieBean extends Filter {
 	 * @return <code>true</code>, wenn beide Kontos gleich sind, ansonstenm
 	 *         <code>false</code>
 	 */
+	
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
-	    	if (zuvergleichendesObjekt instanceof StudieBean) {
-	    	StudieBean beanZuvergleichen = (StudieBean) zuvergleichendesObjekt;
-		    //FIXME Ausimplementieren
-		    return true;
-		    
+		if (zuvergleichendesObjekt instanceof StudieBean) {
+			StudieBean beanZuvergleichen = (StudieBean) zuvergleichendesObjekt;
+
+			if (beanZuvergleichen.id != this.id) {
+				return false;
+			}
+			if (beanZuvergleichen.randomisationId != this.randomisationId) {
+				return false;
+			}
+			// Beschreibung
+			// if(beanZuvergleichen.beschreibung)
+			if (beanZuvergleichen.startDatum != null
+					&& beanZuvergleichen.startDatum.equals(this.startDatum)) {
+				return false;
+			}
+			if (beanZuvergleichen.endDatum != null
+					&& beanZuvergleichen.endDatum.equals(this.endDatum)) {
+				return false;
+			}
+			if (beanZuvergleichen.studienprotokollPfad != null
+					&& beanZuvergleichen.studienprotokollPfad
+							.equals(this.studienprotokollPfad)) {
+				return false;
+			}
+			return true;
+
 		}
 		return false;
 	}
