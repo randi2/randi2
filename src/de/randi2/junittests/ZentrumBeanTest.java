@@ -51,14 +51,16 @@ public class ZentrumBeanTest {
 		plz = "12345";
 		strasse = "strasse";
 		hausnr = "23";
-		ansprechpartner = new PersonBean(1,id, "nachname", "vorname", PersonBean.Titel.PROF, 'm',
-				"user@hs-heilbronn.de", "01760099334", "017600972487",
-				"01760427424");
-		passwort = "oe?jie3Yiesa";
+		ansprechpartner = new PersonBean(1, id, "nachname", "vorname",
+				PersonBean.Titel.PROF, 'm', "user@hs-heilbronn.de",
+				"01760099334", "017600972487", "01760427424");
+		// Da der Konstruktor ein "geheshtes" Passwort erwartet, muss die Laenge
+		// von diesem = 64 sein
+		passwort = "oe?jie3Yiesaoe?jie3Yiesaoe?jie3Yiesaoe?jie3Yiesaoe?jie3Yiesa414a";
 
 		try {
-			new ZentrumBean(id, institution, abteilung, ort, plz, strasse, hausnr,
-					ansprechpartner.getId(), passwort, false);
+			new ZentrumBean(id, institution, abteilung, ort, plz, strasse,
+					hausnr, ansprechpartner.getId(), passwort, false);
 		} catch (ZentrumException e) {
 			fail(e.getMessage());
 		}
@@ -161,9 +163,9 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetAnsprechpartner() throws PersonException {
-		ansprechpartner = new PersonBean(1,id, "nachname", "vorname", PersonBean.Titel.PROF, 'm',
-				"user@hs-heilbronn.de", "01760099334", "017600972487",
-				"01760427424");
+		ansprechpartner = new PersonBean(1, id, "nachname", "vorname",
+				PersonBean.Titel.PROF, 'm', "user@hs-heilbronn.de",
+				"01760099334", "017600972487", "01760427424");
 		try {
 			zentrum.setAnsprechpartner(ansprechpartner);
 		} catch (ZentrumException e1) {
@@ -349,6 +351,7 @@ public class ZentrumBeanTest {
 	public void testSetPasswortRichtig() throws ZentrumException {
 		zentrum.setPasswortKlartext("aaaaa(a&_67a");
 	}
+
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setPasswort(java.lang.String)}.
@@ -357,9 +360,8 @@ public class ZentrumBeanTest {
 	 */
 	@Test(expected = ZentrumException.class)
 	public void testSetPasswortFalsch() throws ZentrumException {
-		
 
-			zentrum.setPasswortKlartext("aaaaa(a&_67a234ikrfoawra");
+		zentrum.setPasswortKlartext("aaaaa(a&_67a234ikrfoawra");
 
 	}
 
