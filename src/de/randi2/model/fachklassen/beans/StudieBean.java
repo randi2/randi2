@@ -56,7 +56,7 @@ public class StudieBean extends Filter {
 	/**
 	 * Die verschiedenen Studienarme der vorliegenden Studie.
 	 */
-	private Vector<StudienarmBean> studienarme = null;
+	private Vector<StudienarmBean> aStudienarme = null;
 
 	/**
 	 * Typ der Randomisation.
@@ -72,10 +72,7 @@ public class StudieBean extends Filter {
 	 * Das Zentrum der Studie.
 	 */
 	private Vector<ZentrumBean> zentren = null;
-	/**
-	 * Studienarme 
-	 */
-	private Vector<StudienarmBean> aStudienarme =null;
+	
 
 	/**
 	 * Das Benutzerkonto der Studie.
@@ -309,7 +306,7 @@ public class StudieBean extends Filter {
 	 * @return studienarme, Anzahl der Studienarme.
 	 */
 	public Vector<StudienarmBean> getStudienarme() {
-		return studienarme;
+		return aStudienarme;
 	}
 
 	/**
