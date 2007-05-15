@@ -16,7 +16,7 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
  * 
  * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
  * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
- * @version $Id: Studie.java 2505 2007-05-09 07:23:41Z lplotni $
+ * @version $Id$
  */
 public class Studie {
 
@@ -25,11 +25,7 @@ public class Studie {
 	 */
 	private StudieBean aStudieBean = null;
 	
-	/**
-	 * Strata der Studie.
-	 */
-	private Vector<StrataBean> strata=null;
-
+	
 
 	/**
 	 * Enumeration Status der Studie
