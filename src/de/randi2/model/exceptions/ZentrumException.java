@@ -90,6 +90,12 @@ public class ZentrumException extends BenutzerException {
 	public static final String ANSPRECHPARTNER_NOCH_NICHT_GESPEICHERT = "Der &uuml;bergebene Ansprechpartner muss vorher gespeichert werden!";
 
 	/**
+	 * Diese Konstante wird uebergeben, wenn an die setAnsprechpartner() Methode
+	 * NULL uebergeben wurde.
+	 */
+	public static final String ANSPRECHPARTNER_NULL = "Kein Ansprechpartner wurde &uuml;bergeben!";
+
+	/**
 	 * Konstruktor dieser Klasse an den ein Message String übergeben werden
 	 * muss. (Als Message ist eine entsprechende Konstante aus dieser Klasse zu
 	 * benutzen)

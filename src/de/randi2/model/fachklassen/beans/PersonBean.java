@@ -152,13 +152,13 @@ public class PersonBean extends Filter {
 	}
 
 	/**
-	 * Datenbank-Konstruktor.
-	 * Ein Konstruktor, dem alle Eigenschaften uebergeben werden.
+	 * Datenbank-Konstruktor. Ein Konstruktor, dem alle Eigenschaften uebergeben
+	 * werden.
 	 * 
 	 * @param id
 	 *            Die eindeutige Id des Objektes.
 	 * @param stellvertreterId
-	 * 			  Die ID des Stellvertreters.
+	 *            Die ID des Stellvertreters.
 	 * @param nachname
 	 *            Nachname der Person
 	 * @param vorname
@@ -179,9 +179,10 @@ public class PersonBean extends Filter {
 	 * @throws PersonException
 	 *             Wenn bei der Validierung einer Person Probleme auftreten.
 	 */
-	public PersonBean(long id, long stellvertreterId, String nachname, String vorname, Titel titel,
-			char geschlecht, String email, String telefonnummer,
-			String handynummer, String fax) throws PersonException {
+	public PersonBean(long id, long stellvertreterId, String nachname,
+			String vorname, Titel titel, char geschlecht, String email,
+			String telefonnummer, String handynummer, String fax)
+			throws PersonException {
 		super();
 		this.setId(id);
 		this.setStellvertreterId(stellvertreterId);
@@ -485,9 +486,24 @@ public class PersonBean extends Filter {
 	 * 
 	 * @param stellvertreter
 	 *            Stellvertreter, der der aktuellen Person zugewiesen wird.
+	 * @throws PersonException -
+	 *             wenn ein Null Objekt an die Methode uebergeben wurde, oder
+	 *             wenn das uebergebebe PersonBean-Objekt noch nicht in der DB
+	 *             gespeichert wurde.
 	 */
-	public void setStellvertreter(PersonBean stellvertreter) {
-		this.stellvertreter = stellvertreter;
+	public void setStellvertreter(PersonBean stellvertreter)
+			throws PersonException {
+		if (stellvertreter == null) {
+			throw new PersonException(PersonException.STELLVERTRETER_NULL);
+		}
+		if (stellvertreter.getId() == NullKonstanten.NULL_LONG) {
+			throw new PersonException(
+					PersonException.STELLVERTRETER_NOCH_NICHT_GESPEICHERT);
+		} else {
+			this.stellvertreter = stellvertreter;
+			this.stellvertreterId = stellvertreter.getId();
+		}
+
 	}
 
 	/**
@@ -509,20 +525,23 @@ public class PersonBean extends Filter {
 	public void setStellvertreterId(long stellvertreterId) {
 		this.stellvertreterId = stellvertreterId;
 	}
-	
-    /**
-     * Liefert einen String der alle Parameter formatiert enthaelt.
-     * 
-     * @return String der alle Parameter formatiert enthaelt.
-     * @see java.lang.Object#toString()
-     * 
-     */
-    @Override
-    public String toString(){
-	return "id:\t"+this.id+"\tvorname:\t"+this.vorname+"\tnachname:\t"+this.nachname+"\temail:\t"+this.email+"\tfax:\t"+this.fax+"\thandy:\t"+this.handynummer+
-	"\tstellvertreterId:\t"+this.stellvertreterId+"\ttel:\t"+this.telefonnummer;
-    }
-    
+
+	/**
+	 * Liefert einen String der alle Parameter formatiert enthaelt.
+	 * 
+	 * @return String der alle Parameter formatiert enthaelt.
+	 * @see java.lang.Object#toString()
+	 * 
+	 */
+	@Override
+	public String toString() {
+		return "id:\t" + this.id + "\tvorname:\t" + this.vorname
+				+ "\tnachname:\t" + this.nachname + "\temail:\t" + this.email
+				+ "\tfax:\t" + this.fax + "\thandy:\t" + this.handynummer
+				+ "\tstellvertreterId:\t" + this.stellvertreterId + "\ttel:\t"
+				+ this.telefonnummer;
+	}
+
 	/**
 	 * Diese Methode prueft, ob zwei Kontos identisch sind. Zwei Kontos sind
 	 * identisch, wenn Benutzernamen identisch sind.
@@ -534,61 +553,64 @@ public class PersonBean extends Filter {
 	 */
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
-	    	if (zuvergleichendesObjekt instanceof PersonBean) {
-		    PersonBean beanZuvergleichen = (PersonBean) zuvergleichendesObjekt;
-		    if(beanZuvergleichen.email==null&&this.email!=null){
-			return false;
-		    }
-		    else if(beanZuvergleichen.email!=null&&!beanZuvergleichen.email.equals(this.email)){
-			return false;
-		    }
-		    if(beanZuvergleichen.fax==null&&this.fax!=null){
-			return false;
-		    }
-		    else if(beanZuvergleichen.fax!=null&&!beanZuvergleichen.fax.equals(this.fax)){
-			return false;
-		    }
-		    if(beanZuvergleichen.geschlecht!=this.geschlecht){
-			return false;
-		    }
-		    if(beanZuvergleichen.handynummer==null&&this.handynummer!=null){
-			return false;
-		    }
-		    else if(beanZuvergleichen.handynummer!=null&&!beanZuvergleichen.handynummer.equals(this.handynummer)){
-			return false;
-		    }
-		    if(beanZuvergleichen.id!=this.id){
-			return false;
-		    }
-		    if (beanZuvergleichen.nachname==null&&this.nachname!=null){
-			return false;
-		    }
-		    else if(beanZuvergleichen.nachname!=null&&!beanZuvergleichen.nachname.equals(this.nachname)){
-			return false;
-		    }
-		    if(beanZuvergleichen.stellvertreterId!=this.stellvertreterId){
-			return false;
-		    }
-		    if(beanZuvergleichen.telefonnummer==null&&this.telefonnummer!=null){
-			return false;
-		    }
-		    else if(beanZuvergleichen.telefonnummer!=null&&!beanZuvergleichen.telefonnummer.endsWith(this.telefonnummer)){
-			return false;
-		    }
-		    if(beanZuvergleichen.titel==null&&this.titel!=null){
-			return false;
-		    }
-		    else if(beanZuvergleichen.titel!=null&&beanZuvergleichen.titel.equals(this.titel)){
-			return false;
-		    }
-		    if(beanZuvergleichen.vorname==null&&this.vorname!=null){
-			return false;
-		    }
-		    else if(beanZuvergleichen.vorname!=null&&!beanZuvergleichen.vorname.equals(this.vorname)){
-			return false;
-		    }
-		    return true;
-		    
+		if (zuvergleichendesObjekt instanceof PersonBean) {
+			PersonBean beanZuvergleichen = (PersonBean) zuvergleichendesObjekt;
+			if (beanZuvergleichen.email == null && this.email != null) {
+				return false;
+			} else if (beanZuvergleichen.email != null
+					&& !beanZuvergleichen.email.equals(this.email)) {
+				return false;
+			}
+			if (beanZuvergleichen.fax == null && this.fax != null) {
+				return false;
+			} else if (beanZuvergleichen.fax != null
+					&& !beanZuvergleichen.fax.equals(this.fax)) {
+				return false;
+			}
+			if (beanZuvergleichen.geschlecht != this.geschlecht) {
+				return false;
+			}
+			if (beanZuvergleichen.handynummer == null
+					&& this.handynummer != null) {
+				return false;
+			} else if (beanZuvergleichen.handynummer != null
+					&& !beanZuvergleichen.handynummer.equals(this.handynummer)) {
+				return false;
+			}
+			if (beanZuvergleichen.id != this.id) {
+				return false;
+			}
+			if (beanZuvergleichen.nachname == null && this.nachname != null) {
+				return false;
+			} else if (beanZuvergleichen.nachname != null
+					&& !beanZuvergleichen.nachname.equals(this.nachname)) {
+				return false;
+			}
+			if (beanZuvergleichen.stellvertreterId != this.stellvertreterId) {
+				return false;
+			}
+			if (beanZuvergleichen.telefonnummer == null
+					&& this.telefonnummer != null) {
+				return false;
+			} else if (beanZuvergleichen.telefonnummer != null
+					&& !beanZuvergleichen.telefonnummer
+							.endsWith(this.telefonnummer)) {
+				return false;
+			}
+			if (beanZuvergleichen.titel == null && this.titel != null) {
+				return false;
+			} else if (beanZuvergleichen.titel != null
+					&& beanZuvergleichen.titel.equals(this.titel)) {
+				return false;
+			}
+			if (beanZuvergleichen.vorname == null && this.vorname != null) {
+				return false;
+			} else if (beanZuvergleichen.vorname != null
+					&& !beanZuvergleichen.vorname.equals(this.vorname)) {
+				return false;
+			}
+			return true;
+
 		}
 		return false;
 	}

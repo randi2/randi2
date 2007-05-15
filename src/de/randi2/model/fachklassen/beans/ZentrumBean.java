@@ -141,7 +141,7 @@ public class ZentrumBean extends Filter {
 	@Override
 	public boolean equals(Object zentrumZuVergleichen) {
 		ZentrumBean zentrum = null;
-		if(zentrumZuVergleichen == null){
+		if (zentrumZuVergleichen == null) {
 			return false;
 		}
 		if (zentrumZuVergleichen instanceof ZentrumBean) {
@@ -305,10 +305,14 @@ public class ZentrumBean extends Filter {
 	 *            Der neue Ansprechpartner der Abteilung.
 	 * @throws ZentrumException
 	 *             diese Exception wird geworfen, wenn das uebergebene
-	 *             PersonBean Objekt noch nich in der DB gespeichert wurde.
+	 *             PersonBean Objekt noch nich in der DB gespeichert wurde o.
+	 *             wenn das uebergebene Objekt == NULL ist.
 	 */
 	public void setAnsprechpartner(PersonBean ansprechpartner)
 			throws ZentrumException {
+		if (ansprechpartner == null) {
+			throw new ZentrumException(ZentrumException.ANSPRECHPARTNER_NULL);
+		}
 		if (ansprechpartner.getId() == NullKonstanten.NULL_LONG) {
 			throw new ZentrumException(
 					ZentrumException.ANSPRECHPARTNER_NOCH_NICHT_GESPEICHERT);

@@ -106,6 +106,20 @@ public class PersonException extends BenutzerException {
 	 * ist.
 	 */
 	public static final String FEHLER = "Ein unbekannter Fehler ist aufgetreten. Bitte erneut versuchen.";
+	
+	/**
+	 * Diese Konstante wird uebergeben, wenn das PersonBean Objekt, das an die
+	 * setStellvertreter() Methode uebergeben wurde, noch nicht in der DB
+	 * gespeichert wurde.
+	 */
+	public static final String STELLVERTRETER_NOCH_NICHT_GESPEICHERT = "Der &uuml;bergebene Stellvertreter muss vorher gespeichert werden!";
+
+	/**
+	 * Diese Konstante wird uebergeben, wenn an die setStellvertreter() Methode
+	 * NULL uebergeben wurde.
+	 */
+	public static final String STELLVERTRETER_NULL = "Kein Stellvertreter wurde &uuml;bergeben!";
+
 
 	/**
 	 * Ein Konstruktor dieser Klasse
