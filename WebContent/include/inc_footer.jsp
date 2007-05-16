@@ -24,7 +24,7 @@ if(aBenutzerkontoFooter!=null)
 
 %>
 
-<%@page import="java.util.GregorianCalendar"%>
+<%--@page import="java.util.GregorianCalendar"--%>
 <br>
 <table width="100%" border="0" cellPadding="0" cellSpacing="0">
 	<tr>
