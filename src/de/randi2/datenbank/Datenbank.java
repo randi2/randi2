@@ -1436,6 +1436,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderPatient.PERFORMANCESTATUS + "=?, " + "WHERE "
 					+ FelderPatient.ID + "=?";
 			try {
+				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, patient.getBenutzerkontoId());
 				pstmt.setLong(j++, patient.getStudienarm().getId());
 				pstmt.setString(j++, patient.getInitialen());
