@@ -1,7 +1,7 @@
 ﻿DROP TABLE IF EXISTS `Person`;
 CREATE TABLE Person (
   personenID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  Person_personenID INT UNSIGNED NOT NULL,
+  Person_personenID INT UNSIGNED,
   nachname VARCHAR(50) NOT NULL,
   vorname VARCHAR(50) NOT NULL,
   titel VARCHAR(20) NULL,
