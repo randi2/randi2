@@ -90,10 +90,18 @@ public class Zentrum {
 	 * @param zentrumId
 	 *            Die ID des angeforderten Zentrums.
 	 * @return ZentrumBean Ein ZentrumBean wird zurueckgegeben.
+	 * @throws ZentrumException
+	 *             Die Exception tritt auf, wenn kein Zentrum zur ID gefunden wurde.
 	 */
-	public static ZentrumBean get(long zentrumId) {
-		// TODO Auto-generated method stub
-		return null;
+	public static ZentrumBean get(long zentrumId) throws ZentrumException {
+		ZentrumBean aBean = new ZentrumBean();
+		try {
+			aBean = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(
+					zentrumId, aBean);
+		} catch (DatenbankFehlerException e) {
+			throw new ZentrumException(ZentrumException.ZENTRUM_NICHT_GEFUNDEN);
+		}
+		return aBean;
 	}
 
 }
