@@ -219,9 +219,3 @@ CREATE TABLE Strata_Werte_has_Patient (
       ON UPDATE NO ACTION
 )
 TYPE=InnoDB;
-
-DROP VIEW IF EXISTS `Strata_von_Patient`;
-CREATE VIEW "randi2"."Strata_von_Patient" AS select "p"."patientenID" AS "patientenID","st"."name" AS "strataName","sa"."wert" AS "strataWert" from ((("randi2"."Patient" "p" join "randi2"."Strata_Werte_has_Patient" "swp" on(("p"."patientenID" = "swp"."Patient_patientenID"))) join "randi2"."Strata_Auspraegung" "sa" on(("swp"."Strata_Auspraegung_strata_WerteID" = "sa"."strata_WerteID"))) join "randi2"."Strata_Typen" "st" on(("sa"."Strata_Typen_strata_TypenID" = "st"."strata_TypenID")));
-
-DROP VIEW IF EXISTS `Strata_von_Studienarm`;
-CREATE VIEW "randi2"."Strata_von_Studienarm" AS select "s"."studienarmID" AS "studienarmId","sa"."Strata_Typen_strata_TypenID" AS "Strata_Typen_strata_TypenID","sa"."strata_WerteID" AS "strata_WerteID",count("p"."patientenID") AS "anzahl" from ((("randi2"."Studienarm" "s" join "randi2"."Patient" "p" on(("s"."studienarmID" = "p"."Studienarm_studienarmID"))) join "randi2"."Strata_Werte_has_Patient" "swp" on(("p"."patientenID" = "swp"."Patient_patientenID"))) join "randi2"."Strata_Auspraegung" "sa" on(("swp"."Strata_Auspraegung_strata_WerteID" = "sa"."strata_WerteID"))) group by "s"."studienarmID","sa"."Strata_Typen_strata_TypenID","sa"."strata_WerteID";
