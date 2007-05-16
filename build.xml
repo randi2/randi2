@@ -86,7 +86,9 @@
 
 	<!-- Target erstellt das war-Archiv -->
 	<target name="war" depends="compile">
-		<copy file="WebContent/WEB-INF/log4j.lcf.pat" tofile="WebContent/WEB-INF/log4j.lcf"/>
+		<!-- kopiere die Conf Dateien -->
+		<copydir dest="${build}/conf" src="${src}/conf"></copydir>
+		<copy file="WebContent/WEB-INF/log4j.lcf.server" tofile="WebContent/WEB-INF/log4j.lcf"/>
 		<!-- Datum einfuegen -->
 		<war warfile="${build}/randinightly.war" webxml="WebContent/WEB-INF/web.xml">
 			<classes dir="${build}">
@@ -100,7 +102,6 @@
 				<patternset>
 					<include name="**" />
 					<exclude name="META-INF/**" />
-					
 				</patternset>
 			</fileset>
 			<lib dir="${web_lib}" />
