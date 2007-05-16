@@ -2,6 +2,7 @@ package de.randi2.model.fachklassen.beans;
 
 import java.util.HashMap;
 
+import de.randi2.datenbank.Filter;
 import de.randi2.model.exceptions.StrataException;
 import de.randi2.utility.CollectionUtil;
 import de.randi2.utility.NullKonstanten;
@@ -15,7 +16,7 @@ import de.randi2.utility.NullKonstanten;
  * @version $Id: StrataBean.java 2406 2007-05-04 13:25:10Z kkrupka $
  * 
  */
-public class StrataBean {
+public class StrataBean extends Filter{
 
 	/**
 	 * Die Datenbank-Id des Strata-Typs.
