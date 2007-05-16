@@ -10,8 +10,9 @@ import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.model.fachklassen.Rolle;
-import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.KryptoUtil;
+import de.randi2.utility.NullKonstanten;
+import de.randi2.utility.ValidierungsUtil;
 
 /**
  * Diese Klasse repraesentiert ein Benutzerkonto.
@@ -351,11 +352,8 @@ public class BenutzerkontoBean extends Filter {
 				throw new BenutzerkontoException(
 						BenutzerkontoException.BENUTZERNAME_ZU_LANG);
 			}
-			if (!filter
-					&& !(benutzername.matches("(\\w|\\d|[._-])*") || benutzername
-							.matches("[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.))+([a-zA-Z]){2,4}"))) {
-				throw new BenutzerkontoException(
-						BenutzerkontoException.BENUTZERNAME_ENTHAELT_UNGUELTIGE_ZEICHEN);
+			if (!filter && !(benutzername.matches("([A-Za-z0-9._-])*") || ValidierungsUtil.validiereEMailPattern(benutzername))) {
+				throw new BenutzerkontoException(BenutzerkontoException.BENUTZERNAME_ENTHAELT_UNGUELTIGE_ZEICHEN);
 			}
 
 		}
@@ -477,12 +475,12 @@ public class BenutzerkontoBean extends Filter {
 	}
 
 	/**
-	 * TODO Kommentar
+	 * Prueft ob die Rolle <code>null</code> ist und setzt bei negativem Test die Rolle.
 	 * 
 	 * @param rolle
-	 *            d
+	 *            Die Rolle des Benutzerkontos.
 	 * @throws BenutzerkontoException
-	 *             d
+	 *             Wirft eine Exception, falls die Rolle <code>null</code> ist.
 	 */
 	public void setRolle(Rolle rolle) throws BenutzerkontoException {
 		boolean filter = super.isFilter();

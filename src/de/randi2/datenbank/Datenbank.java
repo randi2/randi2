@@ -357,8 +357,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		log = Logger.getLogger("Randi2.Datenaenderung");
 		try {
 		    String pfad=Datenbank.class.getResource("/conf/release/proxool_cfg.xml").getPath();
-		    if(System.getProperty("os.name").indexOf("Win")!=-1)
-		    {
+		    if(System.getProperty("os.name").indexOf("Win")!=-1) {
 			System.out.println("Windows installiert");
 			HttpUnitUtils.decode(Datenbank.class.getResource("/conf/release/proxool_cfg.xml").getPath());
 		    }
@@ -1606,6 +1605,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				//fuege Person dem Vector hinzu
 				personen.add(tmpPerson);
 			}
+			pstmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (BenutzerException f) {
@@ -1693,6 +1694,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 						letzterLogin);
 				konten.add(tmpBenutzerkonto);
 			}
+			pstmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new DatenbankFehlerException(e, sql);
 		} catch (BenutzerException f) {		
@@ -1800,7 +1803,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 						rs.getBoolean(FelderZentrum.AKTIVIERT.toString()));
 				zentren.add(tmpZentrum);
 			}
-			
+			pstmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
 		} catch (ZentrumException g) {

@@ -5,13 +5,14 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import de.randi2.datenbank.Filter;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Rolle;
-import de.randi2.model.fachklassen.Rolle.Rollen;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.KryptoUtil;
+import de.randi2.utility.Log4jInit;
 import de.randi2.utility.NullKonstanten;
 
 /**
@@ -39,12 +40,6 @@ public class BenutzerkontoBeanTest extends Filter {
 	private Rolle rolle, rolleB;
 
 	/**
-	 * Uugehörige Rollen-Objekte.
-	 */
-	private Rollen name, nameB;
-
-	
-	/**
 	 * Method setUp() 
 	 * Erzeugt eine neue Instanz der Klasse BenutzerkontoBean.
 	 * 
@@ -54,6 +49,11 @@ public class BenutzerkontoBeanTest extends Filter {
 	@Before
 	public void setUp() throws Exception {
 		aKonto = new BenutzerkontoBean();
+	}
+	
+	@BeforeClass
+	public static void beforeClass() {
+		Log4jInit.initDebug();
 	}
 
 	/** 
@@ -149,8 +149,8 @@ public class BenutzerkontoBeanTest extends Filter {
 	@Test(expected = BenutzerkontoException.class)
 	public final void testSetPasswortLaenge()
 			throws BenutzerkontoException {
-	    BenutzerkontoBean benutzerkonto=new BenutzerkontoBean("Benutzerkonto", "ad");
-	    benutzerkonto=new BenutzerkontoBean("Benutzerkonto","");
+	    @SuppressWarnings("unused")
+		BenutzerkontoBean benutzerkonto = new BenutzerkontoBean("Benutzerkonto","");
 	    aKonto.setFilter(false);		
 	}
 
@@ -167,13 +167,13 @@ public class BenutzerkontoBeanTest extends Filter {
 	 */
 	@Test 
 	public final void testSetPasswortRichtig() throws BenutzerkontoException {
-	aKonto=new BenutzerkontoBean("Benutzer","123456abc%");
+		aKonto=new BenutzerkontoBean("Benutzer","123456abc%");
         assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("123456abc%")));
-	aKonto=new BenutzerkontoBean("hans1$wursthausen","hans1$wursthausen");
+        aKonto=new BenutzerkontoBean("hans1wursthausen","hans1$wursthausen");
 		assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("hans1$wursthausen")));
-		aKonto=new BenutzerkontoBean("a§abc1passwort","a§abc1passwort");
+		aKonto=new BenutzerkontoBean("aabc1passwort","a§abc1passwort");
 		assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("a§abc1passwort")));
-		aKonto=new BenutzerkontoBean("test2abc$abc","test2abc$abc");
+		aKonto=new BenutzerkontoBean("test2abcabc","test2abc$abc");
 		assertTrue(aKonto.getPasswort().equals(KryptoUtil.getInstance().hashPasswort("test2abc$abc")));        
 	}
 
@@ -211,8 +211,6 @@ public class BenutzerkontoBeanTest extends Filter {
 		String benutzername = "Hanswurst";
 		String passwort = "dddd$dddsf1dfdsf";
 		long benutzerId=2;
-		long zentrumId=3;
-		name = Rollen.ADMIN;
 		rolle = Rolle.getAdmin();
 		boolean gesperrt = false;
 		
@@ -241,8 +239,6 @@ public class BenutzerkontoBeanTest extends Filter {
 		String benutzername = "Hanswurst";
 		String passwort = "dddd2323sfaf§f";
 		long benutzerId=1;
-		long zentrumId=2;
-		name = Rollen.ADMIN;
 		rolle = Rolle.getAdmin();
 		boolean gesperrt = false;
 		String day = "1";
@@ -259,8 +255,6 @@ public class BenutzerkontoBeanTest extends Filter {
 		String benutzernameB = "EmmaWurst";
 		String passwortB = "ddddccc4safsa§";
 		long benutzerIdB=4;
-		long zentrumIdB=2;
-		nameB = Rollen.ADMIN;
 		rolleB = Rolle.getAdmin();
 		boolean gesperrtB = false;
 		String dayB = "1";
@@ -292,16 +286,13 @@ public class BenutzerkontoBeanTest extends Filter {
 	 *
 	 * @throws BenutzerkontoException, wenn kein BenutzerkontoBean gesetzt wird.
 	 */
-	@Test
+	@Test (expected = BenutzerkontoException.class)
 	public final void testEqualsBenutzerkontoBeanNull() 
 	                     throws BenutzerkontoException {
 		String benutzername = "Hanssdsadsd";
 		String passwort = "dddd$sdas2";
 		long benutzerId=1;
-		long zentrumId=2;
-		name = Rollen.ADMIN;
 		rolle = Rolle.getAdmin();
-		boolean gesperrt = false;
 		String day = "1";
 		int tagLetzterLogin = Integer.parseInt(day);
 		String month = "2";
@@ -314,7 +305,7 @@ public class BenutzerkontoBeanTest extends Filter {
 				monatLetzterLogin - 1, tagLetzterLogin);
 
 		aKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzername, passwort, rolle, benutzerId,
-				gesperrt,  ersterLogin, letzterLogin);
+				false,  ersterLogin, letzterLogin);
 		cKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,"Abctest", "abc@cdef", null, benutzerId,
 				false, null, null);
 
@@ -331,19 +322,20 @@ public class BenutzerkontoBeanTest extends Filter {
 	 */
 	@Test
 	public void testSetErsterLogin() {
+		String day = "1";
+		int tag = Integer.parseInt(day);
+		String month = "2";
+		int monat = Integer.parseInt(month);
+		String year = "2006";
+		int jahr = Integer.parseInt(year);
+		
 		try {
-			String day = "1";
-			int tag = Integer.parseInt(day);
-			String month = "2";
-			int monat = Integer.parseInt(month);
-			String year = "2006";
-			int jahr = Integer.parseInt(year);
 			ersterLogin = new GregorianCalendar(jahr, monat - 1, tag);
 			aKonto.setErsterLogin(ersterLogin);
 			assertTrue(aKonto.getErsterLogin().equals(ersterLogin));
 		    assertFalse((new GregorianCalendar(Locale.GERMANY))
 					.before(ersterLogin));
-		} catch (Exception e) {
+		} catch (BenutzerkontoException e) {
 			fail("[testSetErsterLogin]Exception, wenn Zeit des ersten Login in der Zukunft liegt.");
 		}
 	}
@@ -370,19 +362,20 @@ public class BenutzerkontoBeanTest extends Filter {
 	 */
 	@Test
 	public void testSetLetzterLogin() {
+		String day = "1";
+		int tag = Integer.parseInt(day);
+		String month = "2";
+		int monat = Integer.parseInt(month);
+		String year = "2006";
+		int jahr = Integer.parseInt(year);
+		
 		try {
-			String day = "1";
-			int tag = Integer.parseInt(day);
-			String month = "2";
-			int monat = Integer.parseInt(month);
-			String year = "2006";
-			int jahr = Integer.parseInt(year);
 			letzterLogin = new GregorianCalendar(jahr, monat - 1, tag);
 			aKonto.setLetzterLogin(letzterLogin);
 			assertTrue(aKonto.getLetzterLogin().equals(letzterLogin));
 			assertFalse((new GregorianCalendar(Locale.GERMANY))
 					.before(letzterLogin));
-		} catch (Exception e) {
+		} catch (BenutzerkontoException e) {
 			fail("[testSetLetzterLogin]Exception, wenn Zeit des letzter Login in der Zukunft liegt.");
 		}
 	}
