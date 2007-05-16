@@ -17,6 +17,16 @@ import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.randomisation.Randomisation;
 import de.randi2.randomisation.VollstaendigeRandomisation;
 
+/**
+ * Testet die vollstaendige Randomisation. ACHTUNG: Die vollstaendige
+ * Randomisation kann nur sehr eingeschraenkt durch ein deterministisches
+ * Testframework wie JUnit getestet werden, da die Ergebnisse vollstaendig
+ * zufaellig sind.
+ * 
+ * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]
+ * @version $Id$
+ * 
+ */
 public class VollstaendigeRandomisationTest {
 
 	StudieBean testStudieBean = null;
@@ -31,6 +41,12 @@ public class VollstaendigeRandomisationTest {
 
 	Randomisation testRandomisation = null;
 
+	/**
+	 * Erstellt die wichtigen Variablen.
+	 * 
+	 * @throws Exception
+	 *             Duerfte bei erfolgreichen Testlauf nicht auftreten.
+	 */
 	@Before
 	public void setUp() throws Exception {
 		GregorianCalendar heute = new GregorianCalendar();
@@ -55,40 +71,53 @@ public class VollstaendigeRandomisationTest {
 		studienarme.add(testArm3);
 		testStudieBean.setStudienarme(studienarme);
 
-		testRandomisation = new VollstaendigeRandomisation(
-				this.testStudieBean);
+		testRandomisation = new VollstaendigeRandomisation(this.testStudieBean);
 
 		testPatienten = new PatientBean[90];
 
 	}
 
+	/**
+	 * Testet ob alle mit vollstaendige Randomisation randomisierten Patienten
+	 * danach auch einem Studienarm zugeteilt sind.
+	 * 
+	 * @throws RandomisationsException
+	 *             Duerfte bei erfolgreichen Testlauf nicht auftreten.
+	 * @throws DatenbankFehlerException
+	 *             Duerfte bei erfolgreichen Testlauf nicht auftreten.
+	 */
 	@Test
-	public void testRandomisierenPatient() throws RandomisationsException, DatenbankFehlerException {
+	public void testRandomisierenPatient() throws RandomisationsException,
+			DatenbankFehlerException {
 		for (int i = 0; i < 90; i++) {
 			testPatienten[i] = new PatientBean();
 			testPatienten[i].setInitialen("INI" + i);
 			testRandomisation.randomisierenPatient(testPatienten[i]);
-			// TODO bis hier bin ich gekommen
-			// Weiter nach Bereinigung von Bug #68
 		}
 
-		System.out.println("Arm 1: ");
+		System.out.println("Arm 1: (" + testArm1.getPatienten().size() + ")");
 		Iterator<PatientBean> it = testArm1.getPatienten().iterator();
 		while (it.hasNext()) {
 			System.out.print(it.next().getInitialen() + ",");
 		}
+		System.out.println();
+		System.out.println();
 
-		System.out.println("Arm 2: ");
+		System.out.println("Arm 2: (" + testArm2.getPatienten().size() + ")");
 		it = testArm2.getPatienten().iterator();
 		while (it.hasNext()) {
 			System.out.print(it.next().getInitialen() + ",");
 		}
+		System.out.println();
+		System.out.println();
 
-		System.out.println("Arm 3: ");
+		System.out.println("Arm 3: (" + testArm3.getPatienten().size() + ")");
 		it = testArm3.getPatienten().iterator();
 		while (it.hasNext()) {
 			System.out.print(it.next().getInitialen() + ",");
 		}
+		System.out.println();
+		System.out.println();
 
 		int anzPat = testArm1.getPatienten().size()
 				+ testArm2.getPatienten().size()

@@ -67,7 +67,8 @@ public class VollstaendigeRandomisation extends Randomisation {
 	public void randomisierenPatient(PatientBean patient)
 			throws RandomisationsException, DatenbankFehlerException {
 		Vector<StudienarmBean> studienarme = super.studie.getStudienarme();
-		int index = (int) (this.zufall.nextDouble() * (studienarme.size() - 1));
+		int index = (int) (this.zufall.nextDouble() * (studienarme.size()));
+		studienarme.get(index).getPatienten().add(patient);
 		patient.setStudienarm(studienarme.get(index));
 	}
 
