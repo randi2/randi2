@@ -16,7 +16,7 @@ import de.randi2.utility.NullKonstanten;
  * Diese Klasse repraesentiert ein Patient.
  * 
  * @author Lukasz Plotnicki [lplotni@stud.hs-heilbronn.de]
- * @version $Id: PatientBean.java 2406 2007-05-04 13:25:10Z kkrupka $
+ * @version $Id$
  */
 public class PatientBean extends Filter {
 	/**
