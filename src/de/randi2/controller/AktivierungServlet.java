@@ -19,6 +19,11 @@ import de.randi2.model.fachklassen.beans.AktivierungBean;
 public class AktivierungServlet extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet {
 
     /**
+	 * Default Serial
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Diese Methode nimmt HTTP-Get-Requests gemaess HTTP-Servlet Definition
      * entgegen. Hier werden Anfragen abgearbeitet, die die Aktivierung des Benutzers  betreffen.
      * 

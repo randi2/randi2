@@ -25,6 +25,11 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
 public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
     /**
+	 * Default Serial
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Die Anfrage_id zur Verwendung im Dispatcher Servlet
      */
     public enum anfrage_id {
