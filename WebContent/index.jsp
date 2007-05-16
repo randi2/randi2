@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@ page 
-	%>
 
 <%@ page import="de.randi2.controller.DispatcherServlet"%>
 
@@ -18,6 +16,7 @@
 </head>
 
 <body>
+<!--  RELEASE 2 --> 
 <div id="header"><img src="images/dkfz_logo.gif" width="337"
 	height="63" title="" alt=""></div>
 
