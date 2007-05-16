@@ -140,29 +140,65 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 */
 	private enum FelderZentrum {
-		ID("zentrumsId"), ANSPRECHPARTNERID("Person_personenID"), INSTITUTION(
-				"institution"), ABTEILUNGSNAME("abteilungsname"), ORT("ort"), PLZ(
-				"plz"), STRASSE("strasse"), HAUSNUMMER("hausnummer"), PASSWORT(
-				"passwort"), AKTIVIERT("aktiviert");
+		/**
+		 * Id des Zentrums.
+		 */
+		ID("zentrumsId"),
+		/**
+		 * Id des Ansprechpartners.
+		 */
+		ANSPRECHPARTNERID("Person_personenID"),
+		/**
+		 * Der Institutsname.
+		 */
+		INSTITUTION("institution"),
+		/**
+		 * Der Abteilungsname des Zentrums
+		 */
+		ABTEILUNGSNAME("abteilungsname"),
+		/**
+		 * Der Ort.
+		 */
+		ORT("ort"),
+		/**
+		 * Die zugehörige Poszleitzahl.
+		 */
+		PLZ("plz"),
+		/**
+		 * Die Strasse.
+		 */
+		STRASSE("strasse"),
+		/**
+		 * Die Hausnummer.
+		 */
+		HAUSNUMMER("hausnummer"),
+		/**
+		 * Das Passwort.
+		 */
+		PASSWORT("passwort"),
+		/**
+		 * Der Status ueber die Aktivitaet.
+		 */
+		AKTIVIERT("aktiviert");
 
 		/**
-		 * Name eines Feldes
+		 * Name eines Feldes.
 		 */
 		private String name = "";
 
 		/**
-		 * Konstruktor 
+		 * Konstruktor.
 		 * @param name
-		 * 			Name eines Feldes
+		 * 			Name eines Feldes.
 		 */
 		private FelderZentrum(String name) {
 			this.name = name;
 		}
 
 		/**
-		 * to String Methode
+		 * to String Methode.
 		 * @return
-		 * 		liefert den Namen eines Feldes
+		 * 		liefert den Namen eines Feldes.
 		 */
 		public String toString() {
 			return this.name;
@@ -177,23 +213,66 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	private enum FelderPerson {
 
+		/**
+		 * Die Id der Person.
+		 */
 		ID("personenId"), 
+		/**
+		 * Der Nachname der Person.
+		 */
 		NACHNAME("nachname"), 
+		/**
+		 * Der Vorname der Person.
+		 */
 		VORNAME("vorname"), 
+		/**
+		 * Der Titel der Person.
+		 */
 		TITEL("titel"), 
-		GESCHLECHT("geschlecht"), 
-		TELEFONNUMMER("telefonnummer"), 
-		HANDYNUMMER("handynummer"), 
+		/**
+		 * Das Geschlecht der Person.
+		 */
+		GESCHLECHT("geschlecht"),
+		/**
+		 * Die Telefonnummer der Person.
+		 */
+		TELEFONNUMMER("telefonnummer"),
+		/**
+		 * Die Handynummer der Person.
+		 */
+		HANDYNUMMER("handynummer"),
+		/**
+		 * Die Faxnummer der Person.
+		 */
 		FAX("fax"), 
+		/**
+		 * Die eMail der Person.
+		 */
 		EMAIL("email"), 
+		/**
+		 * Die Id der Person (vom Stellvertreter).
+		 */
 		STELLVERTRETER("Person_personenID");
 
+		/**
+		 * Name eines Feldes.
+		 */
 		private String name = "";
 
+		/**
+		 * Konstruktor.
+		 * @param name
+		 * 			Name eines Feldes.
+		 */
 		private FelderPerson(String name) {
 			this.name = name;
 		}
 
+		/**
+		 * to String Methode.
+		 * @return
+		 * 		liefert den Namen eines Feldes.
+		 */
 		public String toString() {
 			return this.name;
 		}
@@ -216,12 +295,25 @@ public class Datenbank implements DatenbankSchnittstelle {
 		LETZTERLOGIN("letzter_login"), 
 		GESPERRT("gesperrt");
 
+		/**
+		 * Name eines Feldes.
+		 */
 		private String name = "";
 
+		/**
+		 * Konstruktor.
+		 * @param name
+		 * 			Name eines Feldes.
+		 */
 		private FelderBenutzerkonto(String name) {
 			this.name = name;
 		}
 
+		/**
+		 * to String Methode.
+		 * @return
+		 * 		liefert den Namen eines Feldes.
+		 */
 		public String toString() {
 			return this.name;
 		}
@@ -234,15 +326,30 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 */
 	private enum FelderAktivierung {
-		Id("aktivierungsId"), BENUTZER("Benutzerkonto_benutzerkontenId"), LINK(
-				"aktivierungslink"), VERSANDDATUM("versanddatum");
+		Id("aktivierungsId"), 
+		BENUTZER("Benutzerkonto_benutzerkontenId"), 
+		LINK("aktivierungslink"), 
+		VERSANDDATUM("versanddatum");
 
+		/**
+		 * Name eines Feldes.
+		 */
 		private String name = "";
 
+		/**
+		 * Konstruktor.
+		 * @param name
+		 * 			Name eines Feldes.
+		 */
 		private FelderAktivierung(String name) {
 			this.name = name;
 		}
 
+		/**
+		 * to String Methode.
+		 * @return
+		 * 		liefert den Namen eines Feldes.
+		 */
 		public String toString() {
 			return this.name;
 		}
@@ -255,17 +362,35 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 */
 	private enum FelderStudie {
-		ID("studienId"), BENUTZER("Benutzerkonto_benutzerkontenId"), NAME(
-				"name"), BESCHREIBUNG("beschreibung"), STARTDATUM("startdatum"), ENDDATUM(
-				"enddatum"), PROTOKOLL("studienprotokoll"), RANDOMISATIONSART(
-				"randomisationsart"), STATUS("status_studie");
+		ID("studienId"), 
+		BENUTZER("Benutzerkonto_benutzerkontenId"), 
+		NAME("name"), 
+		BESCHREIBUNG("beschreibung"), 
+		STARTDATUM("startdatum"), 
+		ENDDATUM("enddatum"), 
+		PROTOKOLL("studienprotokoll"), 
+		RANDOMISATIONSART("randomisationsart"), 
+		STATUS("status_studie");
 
+		/**
+		 * Name eines Feldes.
+		 */
 		private String name = "";
 
+		/**
+		 * Konstruktor.
+		 * @param name
+		 * 			Name eines Feldes.
+		 */
 		private FelderStudie(String name) {
 			this.name = name;
 		}
 
+		/**
+		 * to String Methode.
+		 * @return
+		 * 		liefert den Namen eines Feldes.
+		 */
 		public String toString() {
 			return this.name;
 		}
@@ -278,16 +403,31 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 */
 	private enum FelderStudienarm {
-		ID("studienarmId"), STUDIE("Studie_studienId"), STATUS(
-				"status_aktivitaet"), BEZEICHNUNG("bezeichnung"), BESCHREIBUNG(
-				"beschreibung");
+		ID("studienarmId"), 
+		STUDIE("Studie_studienId"), 
+		STATUS("status_aktivitaet"), 
+		BEZEICHNUNG("bezeichnung"), 
+		BESCHREIBUNG("beschreibung");
 
+		/**
+		 * Name eines Feldes.
+		 */
 		private String name = "";
 
+		/**
+		 * Konstruktor.
+		 * @param name
+		 * 			Name eines Feldes.
+		 */
 		private FelderStudienarm(String name) {
 			this.name = name;
 		}
 
+		/**
+		 * to String Methode.
+		 * @return
+		 * 		liefert den Namen eines Feldes.
+		 */
 		public String toString() {
 			return this.name;
 		}
@@ -306,12 +446,25 @@ public class Datenbank implements DatenbankSchnittstelle {
 				"aufklaerungsdatum"), KOERPEROBERFLAECHE("koerperoberflaeche"), PERFORMANCESTATUS(
 				"performancestatus");
 
+		/**
+		 * Name eines Feldes.
+		 */
 		private String name = "";
 
+		/**
+		 * Konstruktor.
+		 * @param name
+		 * 			Name eines Feldes.
+		 */
 		private FelderPatient(String name) {
 			this.name = name;
 		}
 
+		/**
+		 * to String Methode.
+		 * @return
+		 * 		liefert den Namen eines Feldes.
+		 */
 		public String toString() {
 			return this.name;
 		}
@@ -332,8 +485,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 		private String name = "";
 
 		/**
-		 * Konstruktor
+		 * Konstruktor.
 		 * @param name
+		 * 			Name eines Feldes.
 		 */
 		private FelderBlock(String name) {
 			this.name = name;
