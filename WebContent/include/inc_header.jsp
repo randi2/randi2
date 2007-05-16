@@ -24,7 +24,7 @@
 	height="63" title="" alt=""></div>
 
 <div id="breadcrumb">
-<table width="100%" height="25" border="0" cellSpacing="2"
+<table width="100%" border="0" cellSpacing="2"
 	class="breadcrumb_tbl">
 	<tr>
 		<td>

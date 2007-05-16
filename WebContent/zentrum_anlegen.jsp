@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-	<%@ page import= "de.randi2.model.fachklassen.beans.*"
-		import="de.randi2.model.fachklassen.beans.AktivierungBean"
-	import= "java.util.GregorianCalendar"
-	import= "java.text.SimpleDateFormat" 
-	import= "java.util.Locale"
-%>
+<%@ page import="de.randi2.model.fachklassen.beans.*"
+	import="de.randi2.model.fachklassen.beans.AktivierungBean"
+	import="java.util.GregorianCalendar"
+	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,10 +14,9 @@
 <body>
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
-<h1>neues Zentrum anlegen</h1>
-<form>
-<fieldset style="width: 60%"><legend><b>Angaben
-zum Zentrum</b></legend>
+<h1>Neues Zentrum anlegen</h1>
+<form method=POST action="">
+<fieldset style="width: 60%"><legend><b>Angaben zum Zentrum</b></legend>
 <table>
 	<tr>
 		<td>Name der Institution *<br>
@@ -62,22 +59,22 @@ zum Zentrum</b></legend>
 		<input type="text" size"38" maxlength="40" name="vorname" tabindex="7"
 			value="">&nbsp;&nbsp;&nbsp;</td>
 		<td>Nachname *<br>
-		<input type="text" size"38" maxlength="40" name="nachname"
+		<input type="text" size="38" maxlength="40" name="nachname"
 			tabindex="8" value=""></td>
 	</tr>
 	<tr>
 		<td>Telefon *<br>
-		<input type="text" size"40" maxlength="40" name="telefon" tabindex="9"
+		<input type="text" size="40" maxlength="40" name="telefon" tabindex="9"
 			value=""></td>
 	</tr>
 	<tr>
 		<td>Fax<br>
-		<input type="text" size"40" maxlength="40" name="fax" tabindex="10"
+		<input type="text" size="40" maxlength="40" name="fax" tabindex="10"
 			value=""></td>
 	</tr>
 	<tr>
 		<td>Email *<br>
-		<input type="text" size"46" maxlength="50" name="email" tabindex="11"
+		<input type="text" size="46" maxlength="50" name="email" tabindex="11"
 			value=""></td>
 	</tr>
 </table>
