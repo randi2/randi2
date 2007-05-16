@@ -81,6 +81,7 @@ public class BenutzerkontoBean extends Filter {
 	public BenutzerkontoBean() {
 	}
 
+
 	/**
 	 * Reduzierter Konstruktor, der die Attribute ersterLogin und letzterLogin
 	 * automatisch setzt. <br>
@@ -213,6 +214,23 @@ public class BenutzerkontoBean extends Filter {
 		return false;
 	}
 
+	/** 
+	 * Liefert den HashCode des Objektes.<br>
+	 * Der HashCode entspricht der (Datenbank-)Id des Objektes. 
+	 * Ist das Objekt noch nicht gespeichert worden, 
+	 * besitzt also die ID {@link NullKonstanten#DUMMY_ID}, so wird der HashCode von
+	 * {@link java.lang.Object#hashCode()} geliefert.
+	 * @return HashCode des Objektes
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+	   if (id == NullKonstanten.DUMMY_ID){
+	       return super.hashCode();
+	   }
+	    return (int) id;
+	}
+	
 	/**
 	 * Liefert den zugehoerigen Benutzer zu diesem Konto.
 	 * 
