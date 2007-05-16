@@ -1,14 +1,17 @@
 package de.randi2.junittests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.beans.PersonBean;
-import de.randi2.utility.NullKonstanten;;
+import de.randi2.utility.Log4jInit;
+import de.randi2.utility.NullKonstanten;
 
 /**
  * Die JUnit Klasse PersonBeanTest testet alle SetterMethoden der Klasse
@@ -22,6 +25,15 @@ public class PersonBeanTest {
 
 	private PersonBean testPB; // Objekt der Klasse PersonBean
 
+	 /**
+	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+	     *
+	     */
+	    @BeforeClass
+	    public static void log(){
+		Log4jInit.initDebug();
+	    }
+	
 	/**
 	 * Erzeugt eine neue Instanz der Klasse PersonBean.
 	 */

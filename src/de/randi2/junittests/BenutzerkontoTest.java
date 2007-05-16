@@ -1,6 +1,7 @@
 package de.randi2.junittests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.GregorianCalendar;
 import java.util.Vector;
@@ -15,12 +16,13 @@ import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
+import de.randi2.model.fachklassen.Benutzerkonto;
+import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
-import de.randi2.model.fachklassen.Benutzerkonto;
-import de.randi2.model.fachklassen.Rolle;
 import de.randi2.utility.KryptoUtil;
+import de.randi2.utility.Log4jInit;
 
 /**
  * TODO sobald in der Datenbank gespeichert werden kann, sind die
@@ -54,6 +56,15 @@ public class BenutzerkontoTest {
 
 	private GregorianCalendar ersterLogin, letzterLogin;
 
+	
+	 /**
+	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+	     *
+	     */
+	    @BeforeClass
+	    public static void log(){
+		Log4jInit.initDebug();
+	    }
 	/**
 	 * @throws java.lang.Exception
 	 */

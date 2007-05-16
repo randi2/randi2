@@ -1,11 +1,13 @@
 package de.randi2.junittests;
 
 import static org.junit.Assert.assertEquals;
+
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Vector;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
@@ -16,6 +18,7 @@ import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.randomisation.Randomisation;
 import de.randi2.randomisation.VollstaendigeRandomisation;
+import de.randi2.utility.Log4jInit;
 
 /**
  * Testet die vollstaendige Randomisation. ACHTUNG: Die vollstaendige
@@ -41,6 +44,14 @@ public class VollstaendigeRandomisationTest {
 
 	Randomisation testRandomisation = null;
 
+	 /**
+	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+	     *
+	     */
+	    @BeforeClass
+	    public static void log(){
+		Log4jInit.initDebug();
+	    }
 	/**
 	 * Erstellt die wichtigen Variablen.
 	 * 

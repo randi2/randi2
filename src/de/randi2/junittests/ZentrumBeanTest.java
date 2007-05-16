@@ -3,12 +3,14 @@ package de.randi2.junittests;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
+import de.randi2.utility.Log4jInit;
 
 /**
  * TODO die get() Methoden brauchen wir nicht explizit mit eigenen Methoden zu
@@ -35,7 +37,14 @@ public class ZentrumBeanTest {
 	private PersonBean ansprechpartner;
 
 	private ZentrumBean zentrum = new ZentrumBean();
-
+	 /**
+	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+	     *
+	     */
+	    @BeforeClass
+	    public static void log(){
+		Log4jInit.initDebug();
+	    }
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#ZentrumBean(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, de.randi2.model.fachklassen.beans.PersonBean, java.lang.String)}.

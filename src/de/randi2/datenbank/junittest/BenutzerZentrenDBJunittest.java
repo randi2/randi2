@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 
 import java.util.GregorianCalendar;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.datenbank.DatenbankFactory;
@@ -18,6 +19,7 @@ import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.KryptoUtil;
+import de.randi2.utility.Log4jInit;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.SystemException;
 
@@ -39,8 +41,14 @@ import de.randi2.utility.SystemException;
  */
 public class BenutzerZentrenDBJunittest {
 
-    
-    
+    /**
+     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+     *
+     */
+    @BeforeClass
+    public static void log(){
+	Log4jInit.initDebug();
+    }
     /**
          * Testet ob ein Aktivierungsbean erfolgreich in der Datenbank
          * gespeichert und gesucht werden kann.

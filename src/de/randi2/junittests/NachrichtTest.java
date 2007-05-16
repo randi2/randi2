@@ -3,13 +3,16 @@
  */
 package de.randi2.junittests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.apache.commons.mail.EmailException;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.model.fachklassen.Nachricht;
+import de.randi2.utility.Log4jInit;
 
 /**
  * @author Benjamin Theel <BTheel@stud.hs-heilbronn.de>
@@ -17,6 +20,15 @@ import de.randi2.model.fachklassen.Nachricht;
  */
 public class NachrichtTest {
     private Nachricht mail;
+    
+    /**
+     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+     *
+     */
+    @BeforeClass
+    public static void log(){
+	Log4jInit.initDebug();
+    }
     /**
      * @throws java.lang.Exception
      */

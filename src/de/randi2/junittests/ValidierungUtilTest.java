@@ -6,12 +6,22 @@ import static org.junit.Assert.assertTrue;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.utility.Log4jInit;
 import de.randi2.utility.ValidierungsUtil;
 
 public class ValidierungUtilTest {
 
+    /**
+     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+     *
+     */
+    @BeforeClass
+    public static void log(){
+	Log4jInit.initDebug();
+    }
 	@Before
 	public void setUp() throws Exception {
 			PropertyConfigurator.configureAndWatch("WebContent/WEB-INF/log4j.lcf");

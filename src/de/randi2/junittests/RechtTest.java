@@ -1,12 +1,15 @@
 package de.randi2.junittests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
 import de.randi2.model.fachklassen.Recht;
 import de.randi2.model.fachklassen.Recht.Rechtenamen;
+import de.randi2.utility.Log4jInit;
 
 /**
  * Testet die Funktionalitaet der Klasse Recht. 
@@ -48,7 +51,14 @@ public class RechtTest {
     // HashMap<Rechtenamen, Recht>();
     
     
-    
+    /**
+     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+     *
+     */
+    @BeforeClass
+    public static void log(){
+	Log4jInit.initDebug();
+    }
     /**
      * Method setUp()
 	 * Erzeugt eine neue Instanz der Klasse Rolle. 

@@ -10,12 +10,14 @@ import java.util.Vector;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
+import de.randi2.utility.Log4jInit;
 
 /**
  * Diese Klasse stellt einen Test fuer das StudienarmBean zur Verfuegung.
@@ -30,6 +32,14 @@ public class StudienarmBeanTest {
 	// das zu testende Objekt
 	private StudienarmBean aStudienarmBean = null;
 
+	 /**
+	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+	     *
+	     */
+	    @BeforeClass
+	    public static void log(){
+		Log4jInit.initDebug();
+	    }
 	/**
 	 * Method setUp() Erzeugt eine neue Instanz der Klasse StudieBean.
 	 * 

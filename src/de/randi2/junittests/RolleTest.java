@@ -8,11 +8,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.model.exceptions.RechtException;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Recht.Rechtenamen;
+import de.randi2.utility.Log4jInit;
 /**
  * JUnittest fuer die Klasse {@link Rolle}
  * 
@@ -33,7 +35,14 @@ public class RolleTest {
 
     private static final String NAME_STATISTIKER = "STATISTIKER";
 
-    
+    /**
+     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+     *
+     */
+    @BeforeClass
+    public static void log(){
+	Log4jInit.initDebug();
+    }
     /**
      * aRolle-><code>null</code>
      * 

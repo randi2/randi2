@@ -1,9 +1,11 @@
 package de.randi2.junittests;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
+import de.randi2.utility.Log4jInit;
 
 /**
  * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
@@ -12,7 +14,14 @@ import de.randi2.model.fachklassen.beans.AktivierungBean;
  */
 public class AktivierungBeanTest {
     
-    
+    /**
+     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+     *
+     */
+    @BeforeClass
+    public static void log(){
+	Log4jInit.initDebug();
+    }
     
     
     @Test(expected=AktivierungException.class)

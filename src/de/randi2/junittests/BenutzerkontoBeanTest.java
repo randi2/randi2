@@ -51,10 +51,14 @@ public class BenutzerkontoBeanTest extends Filter {
 		aKonto = new BenutzerkontoBean();
 	}
 	
-	@BeforeClass
-	public static void beforeClass() {
+	/**
+	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+	     *
+	     */
+	    @BeforeClass
+	    public static void log(){
 		Log4jInit.initDebug();
-	}
+	    }
 
 	/** 
 	 * Method tearDown() 

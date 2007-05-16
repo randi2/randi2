@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.util.Vector;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
@@ -14,6 +15,7 @@ import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.randomisation.BlockRandomisation;
+import de.randi2.utility.Log4jInit;
 
 /**
  * <p>
@@ -36,7 +38,14 @@ public class BlockRandomisationTest {
 	
 	BlockRandomisation testBlockrandomisation = null;
 
-
+	 /**
+	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+	     *
+	     */
+	    @BeforeClass
+	    public static void log(){
+		Log4jInit.initDebug();
+	    }
 	@Before
 	public void setUp() throws Exception {
 		testStudieBean = new StudieBean();

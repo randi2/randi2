@@ -1,13 +1,20 @@
 package de.randi2.junittests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.GregorianCalendar;
 import java.util.Locale;
+
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.beans.StudieBean;
+import de.randi2.utility.Log4jInit;
 
 /**
  * Testklasse fuer die Klasse StudieBean.
@@ -28,6 +35,15 @@ public class StudieBeanTest {
 	 */
 	private GregorianCalendar endDatum, startDatum;
 
+	
+	 /**
+	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+	     *
+	     */
+	    @BeforeClass
+	    public static void log(){
+		Log4jInit.initDebug();
+	    }
 	/**
 	 * Method setUp() Erzeugt eine neue Instanz der Klasse StudieBean.
 	 * 

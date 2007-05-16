@@ -1,21 +1,13 @@
 package de.randi2.junittests;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.GregorianCalendar;
-import java.util.Random;
-import java.util.Vector;
-
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.BeforeClass;
 
 import de.randi2.model.fachklassen.Studie;
-import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
+import de.randi2.utility.Log4jInit;
 
 /**
  * Diese Klasse stellt einen Test fuer die Studienarm-Fachklasse zur Verfuegung.
@@ -30,6 +22,15 @@ public class StudienarmTest {
 	// das zu testende Objekt
 	private StudienarmBean aStudienarmBean = null;
 
+	
+	 /**
+	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+	     *
+	     */
+	    @BeforeClass
+	    public static void log(){
+		Log4jInit.initDebug();
+	    }
 	/**
 	 * Method setUp() Erzeugt eine neue Instanz der Klasse StudieBean.
 	 * 
