@@ -69,7 +69,7 @@
 		<%--
  				}
 					 --%>
-		td>
+		<td>
 	</tr>
 	<tr class="tblrow2">
 		<td>Zentrum2</td>
