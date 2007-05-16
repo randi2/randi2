@@ -33,13 +33,13 @@ public class ZentrumTest {
 			testZB.setInstitution("HS Heilbronn");
 			testZB.setAbteilung("Medizinische Infromatik");
 			testZB.setAnsprechpartner(new PersonBean(1, 0, "Mueller", "Martin",
-					PersonBean.Titel.DR, 'm', "mmueller@hs-heilbronn.de", "07131400500",
-					"0176554422", null));
+					PersonBean.Titel.DR, 'm', "mmueller@hs-heilbronn.de",
+					"07131400500", "0176554422", null));
 			testZB.setOrt("Heilbronn");
 			testZB.setPlz("74081");
 			testZB.setStrasse("Max Planck Strasse");
 			testZB.setHausnr("1a");
-			testZB.setPasswortKlartext("teig@eeThuu3");
+			testZB.setPasswortKlartext("teig!!eeThu3");
 		} catch (ZentrumException e1) {
 			fail("Beim Erzeugen eines ZentrumBeans trat ein Fehler auf: "
 					+ e1.getMessage());
@@ -63,22 +63,7 @@ public class ZentrumTest {
 	@Test
 	public void testErzeugenZentrum() {
 		testZ = new Zentrum(testZB);
-		assertTrue(testZB.getId() == testZ.getZentrumBean().getId());
-		assertEquals(testZB.getInstitution(), testZ.getZentrumBean()
-				.getInstitution());
-		assertEquals(testZB.getAbteilung(), testZ.getZentrumBean()
-				.getAbteilung());
-		try {
-			assertEquals(testZB.getAnsprechpartner(), testZ.getZentrumBean()
-					.getAnsprechpartner());
-		} catch (PersonException e) {
-			fail(e.getMessage());
-		}
-		assertEquals(testZB.getOrt(), testZ.getZentrumBean().getOrt());
-		assertEquals(testZB.getPlz(), testZ.getZentrumBean().getPlz());
-		assertEquals(testZB.getStrasse(), testZ.getZentrumBean().getStrasse());
-		assertEquals(testZB.getHausnr(), testZ.getZentrumBean().getHausnr());
-		assertEquals(testZB.getPasswort(), testZ.getZentrumBean().getPasswort());
+		assertEquals(testZB, testZ.getZentrumBean());
 	}
 
 	/**
@@ -102,15 +87,15 @@ public class ZentrumTest {
 			fail("Bei der ZentrumBean Klasse trat ein Fehler auf: "
 					+ e.getMessage());
 		}
-		Vector<ZentrumBean> tempVec = null;
+		Vector<ZentrumBean> tempVec = new Vector<ZentrumBean>();
 		try {
 			tempVec = Zentrum.suchenZentrum(testZB);
 		} catch (ZentrumException e) {
 			e.printStackTrace();
 		}
 		/*
-		 * Da wir wissen, dass zur Zeit sich in der DB-Dummy Klasse 1 Zentrum
-		 * mit gesuchten Eigenschaftenbefinden.
+		 * Da wir wissen, dass sich zur Zeit in der Datenbank ein Zentrum
+		 * mit gesuchten Eigenschaften befindet.
 		 */
 		assertTrue(tempVec.size() == 1);
 		assertEquals(tempVec.elementAt(0).getInstitution(), "Institut1");
@@ -144,7 +129,7 @@ public class ZentrumTest {
 	@Test
 	public void testPruefen() {
 		testZ = new Zentrum(testZB);
-		assertTrue(testZ.pruefenPasswort("teig@eeThuu3"));
+		assertTrue(testZ.pruefenPasswort("teig!!eeThu3"));
 		assertFalse(testZ.pruefenPasswort("falschesPW"));
 	}
 }
