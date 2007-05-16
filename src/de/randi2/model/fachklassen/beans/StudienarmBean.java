@@ -293,6 +293,12 @@ public class StudienarmBean extends Filter {
 	 */
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
+		
+		if (zuvergleichendesObjekt == null) {
+			
+			return false;
+		}
+		
 		if (zuvergleichendesObjekt instanceof StudienarmBean) {
 			StudienarmBean beanZuvergleichen = (StudienarmBean) zuvergleichendesObjekt;
 
