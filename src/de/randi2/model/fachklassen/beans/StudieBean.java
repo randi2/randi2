@@ -470,8 +470,8 @@ public class StudieBean extends Filter {
 	 */
 	@Override
 	public String toString() {
-		return "id:"+this.id+"\n"+"randomistationsId:"+this.randomisationId+"\n"+"beschreibung:"+this.beschreibung+"\n"+"startDatum"+this.startDatum+"\n"+"endDatum:"
-		+this.endDatum+"\n"+"studienprotokollPfad"+this.studienprotokollPfad;
+		return "id:\t"+this.id+"\trandomistationsId:\t"+this.randomisationId+"\tbeschreibung:\t"+this.beschreibung+"\tstartDatum\t"+this.startDatum+"\tendDatum:\t"
+		+this.endDatum+"\tstudienprotokollPfad\t"+this.studienprotokollPfad;
 	}
 
 	/**
