@@ -177,8 +177,12 @@ public class Studie {
 	public static Vector<StrataBean> getZugehoerigeStrata(long studieId)throws StudieException{
 		StudieBean studie = new StudieBean();
 		studie.setId(studieId);
-		Vector<StrataBean> gefundeneStrata=null;
-		//TODO ausimplementieren
+		Vector<StrataBean> gefundeneStrata=null;	
+		try {
+			gefundeneStrata = DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(studie, new StrataBean() );
+		} catch (DatenbankFehlerException e) {
+			throw new StudieException("Strata konnte nicht gefunden werden.");
+		}
 		
 		return gefundeneStrata;
 	}
