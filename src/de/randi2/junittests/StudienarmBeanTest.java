@@ -22,7 +22,7 @@ import de.randi2.model.fachklassen.beans.StudienarmBean;
  * 
  * 
  * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
- * @version $Id $
+ * @version $Id$
  * 
  */
 public class StudienarmBeanTest {
