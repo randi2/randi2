@@ -1304,7 +1304,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, studienarm.getStudie().getId());
-				pstmt.setString(i++, studienarm.getAStatus().toString());
+				pstmt.setString(i++, studienarm.getStatus().toString());
 				pstmt.setString(i++, studienarm.getBezeichnung());
 				if (studienarm.getBeschreibung() != "") {
 					pstmt.setString(i++, studienarm.getBeschreibung());
@@ -1335,7 +1335,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			try {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, studienarm.getStudie().getId());
-				pstmt.setString(j++, studienarm.getAStatus().toString());
+				pstmt.setString(j++, studienarm.getStatus().toString());
 				pstmt.setString(j++, studienarm.getBezeichnung());
 				if (studienarm.getBeschreibung() != "") {
 					pstmt.setString(j++, studienarm.getBeschreibung());
