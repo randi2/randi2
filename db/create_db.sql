@@ -1,4 +1,4 @@
-﻿DROP TABLE IF EXISTS `Person`;
+DROP TABLE IF EXISTS `Person`;
 CREATE TABLE Person (
   personenID INT UNSIGNED NOT NULL AUTO_INCREMENT,
   Person_personenID INT UNSIGNED,
@@ -8,8 +8,8 @@ CREATE TABLE Person (
   geschlecht VARCHAR(20) NOT NULL,
   telefonnummer VARCHAR(26) NOT NULL,
   handynummer VARCHAR(26) NULL,
-  fax VARCHAR(26) NULL,
-  email VARCHAR(26) NOT NULL,
+  fax VARCHAR(50) NULL,
+  email VARCHAR(50) NOT NULL,
   PRIMARY KEY(personenID),
   INDEX Person_FKIndex1(Person_personenID),
   FOREIGN KEY(Person_personenID)
