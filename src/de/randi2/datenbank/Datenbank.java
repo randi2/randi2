@@ -43,7 +43,6 @@ import de.randi2.utility.SystemException;
 public class Datenbank implements DatenbankSchnittstelle {
 	// TODO es muss bei allen schreib zugriffen geloggt werden!!
 	// TODO Exception Handling.
-	// TODO Es gibt für sql TEXT kein Types Feld!!
 
 	/**
 	 * Logging Objekt
@@ -139,17 +138,30 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 */
 	private enum FelderZentrum {
-		ID("zentrumsId"), ANSPRECHPARTNERID("ansprechpartnerId"), INSTITUTION(
+		ID("zentrumsId"), ANSPRECHPARTNERID("Person_personenID"), INSTITUTION(
 				"institution"), ABTEILUNGSNAME("abteilungsname"), ORT("ort"), PLZ(
 				"plz"), STRASSE("strasse"), HAUSNUMMER("hausnummer"), PASSWORT(
 				"passwort"), AKTIVIERT("aktiviert");
 
+		/**
+		 * Name eines Feldes
+		 */
 		private String name = "";
 
+		/**
+		 * Konstruktor 
+		 * @param name
+		 * 			Name eines Feldes
+		 */
 		private FelderZentrum(String name) {
 			this.name = name;
 		}
 
+		/**
+		 * to String Methode
+		 * @return
+		 * 		liefert den Namen eines Feldes
+		 */
 		public String toString() {
 			return this.name;
 		}
@@ -163,10 +175,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	private enum FelderPerson {
 
-		ID("personenId"), NACHNAME("nachname"), VORNAME("vorname"), TITEL(
-				"titel"), GESCHLECHT("geschlecht"), TELEFONNUMMER(
-				"telefonnummer"), HANDYNUMMER("handynummer"), FAX("fax"), EMAIL(
-				"email"), STELLVERTRETER("stellvertreterId");
+		ID("personenId"), 
+		NACHNAME("nachname"), 
+		VORNAME("vorname"), 
+		TITEL("titel"), 
+		GESCHLECHT("geschlecht"), 
+		TELEFONNUMMER("telefonnummer"), 
+		HANDYNUMMER("handynummer"), 
+		FAX("fax"), 
+		EMAIL("email"), 
+		STELLVERTRETER("Person_personenID");
 
 		private String name = "";
 
@@ -187,10 +205,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	private enum FelderBenutzerkonto {
 		ID("benutzerkontenId"), 
-		PERSON("Person_personenId"), 
 		LOGINNAME("loginname"), 
 		PASSWORT("passwort"),
 		PERSONID("Person_personenID"),
+		ZENTRUMID("Zentrum_zentrumsID"),
 		ROLLEACCOUNT("rolle"), 
 		ERSTERLOGIN("erster_login"), 
 		LETZTERLOGIN("letzter_login"), 
@@ -292,6 +310,39 @@ public class Datenbank implements DatenbankSchnittstelle {
 			this.name = name;
 		}
 
+		public String toString() {
+			return this.name;
+		}
+	}
+	
+	/**
+	 * Felder der Tabelle Block
+	 * @author Frederik Reifschneider
+	 */
+	private enum FelderBlock {
+		ID("blockId"),
+		STUDIEID("Studie_studienId"),
+		BLOCKWERT("blockwert");		
+		
+		/**
+		 * Name eines Feldes
+		 */
+		private String name = "";
+
+		/**
+		 * Konstruktor
+		 * @param name
+		 */
+		private FelderBlock(String name) {
+			this.name = name;
+		}
+
+		/**
+		 * liefert den Namen des Feldes
+		 * @return
+		 * 		String mit Namen des Feldes
+		 * @see java.lang.Enum#toString()
+		 */
 		public String toString() {
 			return this.name;
 		}
@@ -929,7 +980,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			long id = Long.MIN_VALUE;
 			sql = "INSERT INTO " + Tabellen.BENUTZERKONTO + " ("
 					+ FelderBenutzerkonto.ID + ", "
-					+ FelderBenutzerkonto.PERSON + ", "
+					+ FelderBenutzerkonto.PERSONID + ", "
 					+ FelderBenutzerkonto.LOGINNAME + ", "
 					+ FelderBenutzerkonto.PASSWORT + ", "
 					+ FelderBenutzerkonto.ROLLEACCOUNT + ", "
@@ -974,7 +1025,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} else {
 			int j = 1;
 			sql = "UPDATE " + Tabellen.BENUTZERKONTO + " SET "
-					+ FelderBenutzerkonto.PERSON + "= ?, "
+					+ FelderBenutzerkonto.PERSONID + "= ?, "
 					+ FelderBenutzerkonto.LOGINNAME + "= ?, "
 					+ FelderBenutzerkonto.PASSWORT + "= ?, "
 					+ FelderBenutzerkonto.ROLLEACCOUNT + "= ?, "
