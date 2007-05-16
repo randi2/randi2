@@ -96,6 +96,12 @@ public class ZentrumException extends BenutzerException {
 	public static final String ANSPRECHPARTNER_NULL = "Kein Ansprechpartner wurde &uuml;bergeben!";
 
 	/**
+	 * Die Konstante wird uebergeben, wenn bei der Suche eines Zentrums zu einer
+	 * ID das Zentrum nicht gefunden wurde.
+	 */
+	public static final String ZENTRUM_NICHT_GEFUNDEN = "Zu der angegebenen ID wurde kein Zentrum gefunden.";
+
+	/**
 	 * Konstruktor dieser Klasse an den ein Message String übergeben werden
 	 * muss. (Als Message ist eine entsprechende Konstante aus dieser Klasse zu
 	 * benutzen)
