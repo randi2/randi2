@@ -84,6 +84,10 @@ public class StudienarmBeanTest {
 	@Test
 	public void testEquals() {
 
+		StudienarmBean sa_null1 = null;
+		
+		assertFalse(aStudienarmBean.equals(sa_null1));
+		
 		StudienarmBean beanZuvergleichen = aStudienarmBean;
 		assertTrue(aStudienarmBean.equals(beanZuvergleichen));
 
