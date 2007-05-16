@@ -19,7 +19,9 @@ public class TestLoginLogout{
 	
 	@BeforeClass
 	public static void setUpBeforeClass(){
-         //Selenium wird gestartet
+        //Config laden
+		Log4jInit.initDebug();
+		//Selenium wird gestartet
 		 sel = new DefaultSelenium(Config.getProperty(Config.Felder.DEBUG_SELENIUM_SERVER_HOST),
 			 Integer.parseInt(Config.getProperty(Config.Felder.DEBUG_SELENIUM_SERVER_PORT)), "*firefox "+Config.getProperty(Config.Felder.DEBUG_SELENIUM_FIREFOX_LOCATION), Config.getProperty(Config.Felder.DEBUG_SELENIUM_START_URL));
 		 sel.start();

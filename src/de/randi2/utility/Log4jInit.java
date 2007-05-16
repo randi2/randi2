@@ -22,7 +22,7 @@ public class Log4jInit extends HttpServlet {
 
 	/**
 	 * Ermittelt den Pfad der Konfigurationsdatei und initialisiert die Log4j
-	 * Log-Files.
+	 * Log-Files. Diese Methode ist für den Serverbetrieb im Netz.
 	 */
 	public void init() {
 		// System.getProperties().list(System.out);
@@ -33,5 +33,18 @@ public class Log4jInit extends HttpServlet {
 			Logger.getLogger(this.getClass()).debug(
 					"Log4J System konfigueriert.");
 		}
+	}
+
+	/**
+	 * Ermittelt den Pfad der Konfigurationsdatei und initialisiert die Log4j
+	 * Log-Files. Diese Methode ist für den Debug- und Testmodus (lokal).
+	 */
+	public static void initDebug() {
+		// System.getProperties().list(System.out);
+		String dateiPfad = "WebContent/WEB-INF/log4j.lcf";
+
+		PropertyConfigurator.configureAndWatch(dateiPfad);
+		Logger.getLogger(Log4jInit.class).debug("Log4J System konfigueriert.");
+
 	}
 }
