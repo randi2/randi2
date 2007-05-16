@@ -15,6 +15,8 @@ import org.apache.log4j.Logger;
 import org.logicalcobwebs.proxool.ProxoolException;
 import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
+import com.meterware.httpunit.HttpUnitUtils;
+
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.PersonException;
@@ -354,7 +356,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 	public Datenbank() {
 		log = Logger.getLogger("Randi2.Datenaenderung");
 		try {
-			JAXPConfigurator.configure(Datenbank.class.getResource("/conf/release/proxool_cfg.xml").getPath(),false);
+		    String pfad=Datenbank.class.getResource("/conf/release/proxool_cfg.xml").getPath();
+		    if(System.getProperty("os.name").indexOf("Win")!=-1)
+		    {
+			System.out.println("Windows installiert");
+			HttpUnitUtils.decode(Datenbank.class.getResource("/conf/release/proxool_cfg.xml").getPath());
+		    }
+		    
+			JAXPConfigurator.configure(pfad,false);
 		} catch (ProxoolException e) {
 			e.printStackTrace();
 		}

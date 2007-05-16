@@ -39,6 +39,8 @@ import de.randi2.utility.SystemException;
  */
 public class BenutzerZentrenDBJunittest {
 
+    
+    
     /**
          * Testet ob ein Aktivierungsbean erfolgreich in der Datenbank
          * gespeichert und gesucht werden kann.
