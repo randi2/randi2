@@ -46,11 +46,11 @@ public class StudienarmBean extends Filter {
 	 * Die Studie welcher dieser Arm zugeordnet ist.
 	 */
 	private StudieBean aStudie = null;
-		
+
 	/**
 	 * Die Id der Studier welcher dieser Arm zugeordnet ist.
 	 */
-	private long aStudieId= NullKonstanten.NULL_LONG;
+	private long aStudieId = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Die zugeordneten Patienten als Beans.
@@ -64,8 +64,6 @@ public class StudienarmBean extends Filter {
 	public StudienarmBean() {
 		super();
 	}
-
-	
 
 	/**
 	 * Der Konstruktor eines StudienarmBeans.
@@ -85,7 +83,7 @@ public class StudienarmBean extends Filter {
 	 * @throws StudienarmException
 	 */
 	public StudienarmBean(long id, long studieId, Studie.Status status,
-			String bezeichnung, String beschreibung) throws StudienarmException{
+			String bezeichnung, String beschreibung) throws StudienarmException {
 		super();
 		this.setId(id);
 		this.setStudieId(studieId);
@@ -100,7 +98,7 @@ public class StudienarmBean extends Filter {
 	 * 
 	 * @return Der Status dieses Arms
 	 */
-	public Studie.Status getAStatus() {
+	public Studie.Status getStatus() {
 		return aStatus;
 	}
 
@@ -110,7 +108,7 @@ public class StudienarmBean extends Filter {
 	 * @param status
 	 *            Der zusetzende Status.
 	 */
-	public void setAStatus(Studie.Status status) {
+	public void setStatus(Studie.Status status) {
 		aStatus = status;
 	}
 
@@ -154,11 +152,12 @@ public class StudienarmBean extends Filter {
 
 	/**
 	 * Liefert die Studie der dieser Arm zugeordnet ist.
+	 * 
 	 * @TODO Exception prüfen
 	 * @return die Studie als StudieBean
 	 */
 	public StudieBean getStudie() {
-		if(aStudie==null) {
+		if (aStudie == null) {
 			try {
 				aStudie = Studie.get(aStudieId);
 			} catch (StudieException e) {
@@ -185,7 +184,7 @@ public class StudienarmBean extends Filter {
 	 * @return die zugeordneten Patienten als PatientBean
 	 */
 	public Vector<PatientBean> getPatienten() {
-		//TODO Proxy Logik
+		// TODO Proxy Logik
 		return aPatienten;
 	}
 
@@ -206,6 +205,12 @@ public class StudienarmBean extends Filter {
 	 */
 	public int getPatAnzahl() {
 
+		if (this.aPatienten == null) {
+			
+			return 0;
+			
+		}
+		
 		return aPatienten.size();
 
 	}
@@ -228,9 +233,10 @@ public class StudienarmBean extends Filter {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	/**
 	 * Liefert Id der Studie welcher dieser Arm zugeordnet ist.
+	 * 
 	 * @return
 	 */
 	public long getStudieId() {
@@ -239,26 +245,44 @@ public class StudienarmBean extends Filter {
 
 	/**
 	 * Setzt Id der Studie welcher dieser Arm zugeordnet ist.
+	 * 
 	 * @param studieId
 	 */
 	public void setStudieId(long studieId) {
 		aStudieId = studieId;
 	}
-	
-    /**
-     * Liefert einen String der alle Parameter formatiert enthaelt.
-     * 
-     * @return String der alle Parameter formatiert enthaelt.
-     * @see java.lang.Object#toString()
-     * 
-     */
-    @Override
-    public String toString(){
-	//FIXME implementieren
-	return null;
-    }
-    
-    /**
+
+	/**
+	 * Liefert einen String der alle Parameter formatiert enthaelt.
+	 * 
+	 * @return String der alle Parameter formatiert enthaelt.
+	 * @see java.lang.Object#toString()
+	 * 
+	 */
+	@Override
+	public String toString() {
+
+		String output = "id:\t" + this.id + "\tstatus:\t" + this.aStatus
+				+ "\tbezeichnung:\t" + this.aBezeichnung + "\tbeschreibung:\t"
+				+ this.aBeschreibung + "\tstudieId:\t" + this.aStudieId
+				+ "\tstudienobjekt als string:\t" + this.aStudie.toString()
+				+ "\tpatienten:\t";
+
+		if (aPatienten == null) {
+			output += "keine";
+		} else {
+			for (int i = 0; i < aPatienten.size(); i++) {
+
+				output += aPatienten.elementAt(i).toString();
+
+			}
+		}
+
+		return output;
+
+	}
+
+	/**
 	 * Diese Methode prueft, ob zwei Kontos identisch sind. Zwei Kontos sind
 	 * identisch, wenn Benutzernamen identisch sind.
 	 * 
@@ -269,11 +293,19 @@ public class StudienarmBean extends Filter {
 	 */
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
-	    	if (zuvergleichendesObjekt instanceof StudienarmBean) {
-	    	StudienarmBean beanZuvergleichen = (StudienarmBean) zuvergleichendesObjekt;
-		    //FIXME Ausimplementieren
-		    return true;
-		    
+		if (zuvergleichendesObjekt instanceof StudienarmBean) {
+			StudienarmBean beanZuvergleichen = (StudienarmBean) zuvergleichendesObjekt;
+
+			return (this.getId() == beanZuvergleichen.getId()
+					&& this.getBeschreibung().equals(
+							beanZuvergleichen.getBeschreibung())
+					&& this.getBezeichnung().equals(
+							beanZuvergleichen.getBezeichnung())
+					&& this.getStatus() == beanZuvergleichen.getStatus()
+					&& this.getStudie() == beanZuvergleichen.getStudie()
+					&& this.getPatienten() == beanZuvergleichen.getPatienten() && this
+					.getPatAnzahl() == beanZuvergleichen.getPatAnzahl() && this.getStudieId()==beanZuvergleichen.getStudieId());
+
 		}
 		return false;
 	}
