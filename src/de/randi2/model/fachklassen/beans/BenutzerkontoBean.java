@@ -34,6 +34,12 @@ public class BenutzerkontoBean extends Filter {
 	 * Beziehung
 	 */
 	private long benutzerId = NullKonstanten.NULL_LONG;
+	
+	/**
+	 * Id des zugehoerigen Zentrums. Fremdschluessel zu ZentrumsBean
+	 * 1:N Beziehung
+	 */
+	private long zentrumId =NullKonstanten.NULL_LONG;
 
 	/**
 	 * Benutzername des Kontoinhabers.
@@ -116,6 +122,8 @@ public class BenutzerkontoBean extends Filter {
 	 *            der Benutzername des Benutzers.
 	 * @param passwortHash
 	 *            das gehashte Passwort des Benutzers.
+	 * @param zentrumId
+	 * 			  Zentrum dem der Benutzer zugeordnet ist
 	 * @param rolle
 	 *            Rolle des Benutzerkontos.
 	 * @param benutzerId
@@ -130,13 +138,14 @@ public class BenutzerkontoBean extends Filter {
 	 *             Wenn die uebergebenen Parametern nicht in Ordnung waren
 	 */
 	public BenutzerkontoBean(long id, String benutzername, String passwortHash,
-			Rolle rolle, long benutzerId, boolean gesperrt,
+			long zentrumId, Rolle rolle, long benutzerId, boolean gesperrt,
 			GregorianCalendar ersterLogin, GregorianCalendar letzterLogin)
 			throws BenutzerkontoException {
 
 		this.setId(id);
 		this.setBenutzername(benutzername);
 		this.setPasswort(passwortHash);
+		this.setZentrumId(zentrumId);
 		this.setRolle(rolle);
 		this.setBenutzerId(benutzerId);
 		this.setGesperrt(gesperrt);
@@ -544,5 +553,25 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	public void setPatienten(Vector<PatientBean> patienten) {
 		this.patienten = patienten;
+	}
+
+
+	/**
+	 * Liefert die ZentrumsId des zugehoerigen Zentrums
+	 * @return
+	 * 			ID des Zentrums
+	 */
+	public long getZentrumId() {
+		return zentrumId;
+	}
+
+
+	/**
+	 * Setzt die ID zum Zentrum, dem der Benutzer zugeordnet ist
+	 * @param zentrumId
+	 * 			ID des Zentrums
+	 */
+	public void setZentrumId(long zentrumId) {
+		this.zentrumId = zentrumId;
 	}
 }

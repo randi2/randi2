@@ -215,15 +215,15 @@ public class BenutzerkontoBeanTest extends Filter {
 		String benutzername = "Hanswurst";
 		String passwort = "dddd$dddsf1dfdsf";
 		long benutzerId=2;
+		long zentrumId=2;
 		rolle = Rolle.getAdmin();
 		boolean gesperrt = false;
 		
 		letzterLogin = new GregorianCalendar(2006, 11, 1);
 		ersterLogin = new GregorianCalendar(2006, 11, 1);
 
-		aKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzername, passwort, rolle, benutzerId,
+		aKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzername, passwort, zentrumId, rolle, benutzerId,
 				gesperrt,ersterLogin, letzterLogin);
-
 
 		assertTrue(aKonto.equals(aKonto));
 	}
@@ -259,6 +259,7 @@ public class BenutzerkontoBeanTest extends Filter {
 		String benutzernameB = "EmmaWurst";
 		String passwortB = "ddddccc4safsa§";
 		long benutzerIdB=4;
+		long zentrumId = 2;
 		rolleB = Rolle.getAdmin();
 		boolean gesperrtB = false;
 		String dayB = "1";
@@ -272,9 +273,9 @@ public class BenutzerkontoBeanTest extends Filter {
 		ersterLoginB = new GregorianCalendar(jahrLetzterLoginB,
 				monatLetzterLoginB - 1, tagLetzterLoginB);
 
-		aKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzername, passwort, rolle, benutzerId,
+		aKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzername, passwort, zentrumId, rolle, benutzerId,
 				gesperrt,ersterLogin, letzterLogin);
-	    bKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzernameB, passwortB, rolleB,
+	    bKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzernameB, passwortB, zentrumId, rolleB,
 				benutzerIdB, gesperrtB, ersterLoginB,
 				letzterLoginB);
 
@@ -296,6 +297,7 @@ public class BenutzerkontoBeanTest extends Filter {
 		String benutzername = "Hanssdsadsd";
 		String passwort = "dddd$sdas2";
 		long benutzerId=1;
+		long zentrumId=1;
 		rolle = Rolle.getAdmin();
 		String day = "1";
 		int tagLetzterLogin = Integer.parseInt(day);
@@ -308,9 +310,9 @@ public class BenutzerkontoBeanTest extends Filter {
 		ersterLogin = new GregorianCalendar(jahrLetzterLogin,
 				monatLetzterLogin - 1, tagLetzterLogin);
 
-		aKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzername, passwort, rolle, benutzerId,
+		aKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzername, passwort, zentrumId, rolle, benutzerId,
 				false,  ersterLogin, letzterLogin);
-		cKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,"Abctest", "abc@cdef", null, benutzerId,
+		cKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,"Abctest", "abc@cdef", zentrumId, null, benutzerId,
 				false, null, null);
 
 		assertFalse(aKonto.equals(cKonto));

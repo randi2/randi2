@@ -96,7 +96,7 @@ public class BenutzerkontoTest {
 					PersonBean.Titel.PROF, 'm', "user@hs-heilbronn.de",
 					"01760099334", "017600972487", "01760427424");
 
-			bKontoBean = new BenutzerkontoBean(0, benutzername, passwort, rolle,
+			bKontoBean = new BenutzerkontoBean(0, benutzername, passwort, 1, rolle,
 					0, gesperrt, ersterLogin, letzterLogin);
 		} catch (BenutzerkontoException e) {
 			e.printStackTrace();
@@ -241,7 +241,7 @@ public class BenutzerkontoTest {
 		BenutzerkontoBean anderesKontoBean;
 
 		try {
-			anderesKontoBean = new BenutzerkontoBean(0, benutzername2, passwort2,
+			anderesKontoBean = new BenutzerkontoBean(0, benutzername2, passwort2, 1,
 					rolle, 0, gesperrt, ersterLogin, letzterLogin);
 			anderesKontoBean.setFilter(true);
 			Benutzerkonto cKonto = new Benutzerkonto(anderesKontoBean);
