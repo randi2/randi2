@@ -23,7 +23,6 @@ public class StudieBean extends Filter {
 
 	/**
 	 * ID der Studie.
-	 * 
 	 */
 	private long id = NullKonstanten.NULL_LONG;
 
@@ -447,7 +446,7 @@ public class StudieBean extends Filter {
 	public void setBenutzerkontoId(long benutzerkontoId) {
 		this.aBenutzerkontoId = benutzerkontoId;
 	}
-
+	
 	/**
 	 * Uebergibt die Id der Randomisation.
 	 * 
@@ -515,60 +514,6 @@ public class StudieBean extends Filter {
 		}
 
 		return false;
-
-		// if (zuvergleichendesObjekt == null) {
-		//			
-		// return false;
-		// }
-		//		
-		// if (zuvergleichendesObjekt instanceof StudienarmBean) {
-		// StudienarmBean beanZuvergleichen = (StudienarmBean)
-		// zuvergleichendesObjekt;
-		//
-		// return (this.getId() == beanZuvergleichen.getId()
-		// && this.getBeschreibung().equals(
-		// beanZuvergleichen.getBeschreibung())
-		// && this.getBezeichnung().equals(
-		// beanZuvergleichen.getBezeichnung())
-		// && this.getStatus() == beanZuvergleichen.getStatus()
-		// && this.getStudie() == beanZuvergleichen.getStudie()
-		// && this.getPatienten() == beanZuvergleichen.getPatienten() && this
-		// .getPatAnzahl() == beanZuvergleichen.getPatAnzahl() &&
-		// this.getStudieId()==beanZuvergleichen.getStudieId());
-		//
-		// }
-		// return false;
-		// }
-		// // if (zuvergleichendesObjekt instanceof StudieBean) {
-		// StudieBean beanZuvergleichen = (StudieBean) zuvergleichendesObjekt;
-		//
-		// if (beanZuvergleichen.id != this.id) {
-		// return false;
-		// }
-		// if (beanZuvergleichen.randomisationId != this.randomisationId) {
-		// return false;
-		// }
-		// if(beanZuvergleichen.beschreibung!=null &&
-		// beanZuvergleichen.beschreibung.equals(this.beschreibung)){
-		// return false;
-		// }
-		// if (beanZuvergleichen.startDatum != null
-		// && !beanZuvergleichen.startDatum.equals(this.startDatum)) {
-		// return false;
-		// }
-		// if (beanZuvergleichen.endDatum != null
-		// && !beanZuvergleichen.endDatum.equals(this.endDatum)) {
-		// return false;
-		// }
-		// if (beanZuvergleichen.studienprotokollPfad != null
-		// && !beanZuvergleichen.studienprotokollPfad
-		// .equals(this.studienprotokollPfad)) {
-		// return false;
-		// }
-		// return true;
-		//
-		// }
-		// return false;
 	}
 
 }
