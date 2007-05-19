@@ -82,7 +82,6 @@ public class StudieBeanTest {
 		int jahr = Integer.parseInt(year);
 		studieBean.setStartDatum(new GregorianCalendar(jahr, monat - 1, tag));
 		studieBean.setEndDatum(new GregorianCalendar(jahr, monat - 1, tag));
-
 		studieBean.setStudienprotokollPfad("pfad");
 		studieBean.setRandomisationId(122);
 	}
@@ -233,6 +232,7 @@ public class StudieBeanTest {
 	 * 
 	 * Ueberpruefung der randomisationseigenschaften einer Studie.
 	 */
+	//TODO
 	// @Test
 	// public void testSetRandomisationseigenschaften() {
 	// fail("Not yet implemented");
@@ -269,6 +269,7 @@ public class StudieBeanTest {
 	 * 
 	 * Ueberpruefung Anzahl der Studienarme.
 	 */
+	//TODO
 	// @Test
 	// public void testSetStudienarme() {
 	// fail("Not yet implemented");
@@ -279,10 +280,15 @@ public class StudieBeanTest {
 	 * 
 	 * Ueberpruefung, ob der Pfad des Studienprotokolls gesetzt wurde.
 	 */
-	// @Test
-	// public void testSetStudienprotokoll_pfad() {
-	// fail("Not yet implemented");
-	// }
+	 @Test
+	 public void testSetStudienprotokoll_pfad() {
+		 try {
+				studieBean.setStudienprotokollPfad(studieBean.getStudienprotokollpfad());
+			} catch (Exception e) {
+				fail("[FEHLER]testSetStudienprotokoll_pfad() sollte keine Exception auslosen");
+			}
+	 
+	 }
 	/**
 	 * Test method for setStatus() Test method for
 	 * {@link de.randi2.model.fachklassen.beans.StudieBean#setStatus(int)}.
@@ -305,7 +311,7 @@ public class StudieBeanTest {
 		try {
 			studieBean.setId(studieBean.getId());
 		} catch (Exception e) {
-			fail("[FEHLER]testSetId() sollte keine Exception auslösen");
+			fail("[FEHLER]testSetId() sollte keine Exception auslosen");
 		}
 	}
 
@@ -315,30 +321,32 @@ public class StudieBeanTest {
 	 * 
 	 * Ueberpruefung, ob die ID des Benutzerkontos gesetzt wurde.
 	 */
-	// @Test
-	// public void testSetBenutzerkontoId() {
-	// fail("Not yet implemented");
-	// }
+	@Test
+	public void testSetBenutzerkontoId() {
+		try {
+			studieBean.setBenutzerkontoId(studieBean.getBenutzerkontoId());
+		} catch (Exception e) {
+			fail("[FEHLER]testSetBenutzerkontoId() sollte keine Exception ausloesen");
+		}
+	}
+
 	/**
 	 * Test method for setRandomisationId() Test method for
 	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setRandomisationId()}.
 	 * 
 	 * Ueberpruefung, ob die ID der Randomisation gesetzt wurde.
 	 */
-	// @Test
-	// public void testSetRandomisationId() {
-	// fail("Not yet implemented");
-	// }
-	/**
-	 * Test method for setZentumId() Test method for
-	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setZentrumId()}.
-	 * 
-	 * Ueberpruefung, ob die ID des Zentrums gesetzt wurde.
-	 */
-	// @Test
-	// public void testSetZentrumId() {
-	// fail("Not yet implemented");
-	// }
+	@Test
+	public void testSetRandomisationId() {
+		try {
+			studieBean.setRandomisationId(studieBean.getBenutzerkontoId());
+		} catch (Exception e) {
+			fail("[FEHLER]testSetRandomisationId() sollte keine Exception ausloesen");
+		}
+
+	}
+
+
 	/**
 	 * Testet, ob die toString() Methode einen String zurueckgibt.
 	 * 
@@ -352,8 +360,7 @@ public class StudieBeanTest {
 	}
 
 	/**
-	 * Testet, ob zwei identische Studien auch als identisch erkannt
-	 * werden.
+	 * Testet, ob zwei identische Studien auch als identisch erkannt werden.
 	 * 
 	 * TestMethode fuer
 	 * {@link de.randi2.model.fachklassen.beans.StudieBean#equals(Object)}.

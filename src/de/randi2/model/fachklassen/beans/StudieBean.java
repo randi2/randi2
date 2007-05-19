@@ -153,7 +153,7 @@ public class StudieBean extends Filter {
 	/**
 	 * Die Methode setzt das Benutzerkonto.
 	 * 
-	 * @param benutzerkonto
+	 * @param aBenutzerkonto
 	 *            Benutzerkonto
 	 */
 	public void setBenutzerkonto(BenutzerkontoBean aBenutzerkonto) {
@@ -418,9 +418,8 @@ public class StudieBean extends Filter {
 	 *             StudieException
 	 */
 	public void setStatus(Status status) throws StudieException {
-		boolean filter = false;
 
-		if (!filter) {
+		if (!this.isFilter()) {
 
 			if (status == null) {
 				throw new StudieException(StudieException.STATUSFEHLER);
