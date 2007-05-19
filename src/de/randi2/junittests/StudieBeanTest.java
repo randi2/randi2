@@ -114,7 +114,7 @@ public class StudieBeanTest {
 
 		try {
 			aBenutzer = new BenutzerkontoBean(NullKonstanten.NULL_LONG,
-					"Benutzername", "abcdefg", rolle, benutzerId, false,
+					"Benutzername", "abcdefg", 12, rolle, 32, false,
 					ersterLogin, letzterLogin);
 
 			studieBean.setBenutzerkonto(aBenutzer);
