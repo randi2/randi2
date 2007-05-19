@@ -71,20 +71,21 @@ public class StudieBean extends Filter {
 	 * Das Zentrum der Studie.
 	 */
 	private Vector<ZentrumBean> zentren = null;
+
 	/**
 	 * Strata der Studie.
 	 */
-	private Vector<StrataBean> strata=null;
+	private Vector<StrataBean> strata = null;
 
 	/**
 	 * Das Benutzerkonto der Studie.
 	 */
-	private BenutzerkontoBean benutzerkonto = null;
+	private BenutzerkontoBean aBenutzerkonto = null;
 
 	/**
 	 * Id des Benutzerkontos.
 	 */
-	private long benutzerkontoId = NullKonstanten.NULL_LONG;
+	private long aBenutzerkontoId = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Status der Studie.
@@ -134,14 +135,19 @@ public class StudieBean extends Filter {
 	 * 
 	 * @return benutzerkonto, Benutzerkonto
 	 * @throws BenutzerkontoException
-	 *             Wirft eine BenutzerkontoException.
-	 * @throws BenutzerkontoException
 	 */
-	public BenutzerkontoBean getBenutzerkonto() throws BenutzerkontoException {
-		if (benutzerkonto == null) {
-			benutzerkonto = Benutzerkonto.get(benutzerkontoId);
+	public BenutzerkontoBean getBenutzerkonto() {
+		if (aBenutzerkonto == null) {
+
+			try {
+				aBenutzerkonto = Benutzerkonto.get(aBenutzerkontoId);
+			} catch (BenutzerkontoException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		return benutzerkonto;
+		return aBenutzerkonto;
+
 	}
 
 	/**
@@ -150,8 +156,8 @@ public class StudieBean extends Filter {
 	 * @param benutzerkonto
 	 *            Benutzerkonto
 	 */
-	public void setBenutzerkonto(BenutzerkontoBean benutzerkonto) {
-		this.benutzerkonto = benutzerkonto;
+	public void setBenutzerkonto(BenutzerkontoBean aBenutzerkonto) {
+		this.aBenutzerkonto = aBenutzerkonto;
 	}
 
 	/**
@@ -218,9 +224,8 @@ public class StudieBean extends Filter {
 	 */
 
 	public void setName(String name) throws StudieException {
-		boolean filter = false;
 
-		if (!filter) {
+		if (!this.isFilter()) {
 
 			if (name == null) {
 				throw new StudieException(StudieException.STUDIENNAME_FEHLT);
@@ -321,7 +326,7 @@ public class StudieBean extends Filter {
 	 */
 	public void setStudienarme(Vector<StudienarmBean> studienarme)
 			throws StudieException {
-			aStudienarme=studienarme;
+		aStudienarme = studienarme;
 
 	}
 
@@ -363,22 +368,24 @@ public class StudieBean extends Filter {
 		}
 		return zentren;
 	}
-	
+
 	/**
 	 * Liefert die Schichten(Strata) der Studie.
+	 * 
 	 * @return strata Strata der Studie
-	 * @throws StudieException Exception, wenn keine Schichten gefunden wurden.
+	 * @throws StudieException
+	 *             Exception, wenn keine Schichten gefunden wurden.
 	 */
-	public Vector<StrataBean> getStrata()throws StudieException{
-		
-		if(strata==null){
-			try{
-			strata = Studie.getZugehoerigeStrata(id);
-			}catch(StudieException e){
+	public Vector<StrataBean> getStrata() throws StudieException {
+
+		if (strata == null) {
+			try {
+				strata = Studie.getZugehoerigeStrata(id);
+			} catch (StudieException e) {
 				throw new StudieException("Strata nicht vorhanden.");
 			}
 		}
-		
+
 		return strata;
 	}
 
@@ -429,7 +436,7 @@ public class StudieBean extends Filter {
 	 * @return benutzerkontoId Id des Benutzerkonto.
 	 */
 	public long getBenutzerkontoId() {
-		return benutzerkontoId;
+		return aBenutzerkontoId;
 	}
 
 	/**
@@ -439,7 +446,7 @@ public class StudieBean extends Filter {
 	 *            Id des Benutzerkonto.
 	 */
 	public void setBenutzerkontoId(long benutzerkontoId) {
-		this.benutzerkontoId = benutzerkontoId;
+		this.aBenutzerkontoId = benutzerkontoId;
 	}
 
 	/**
@@ -470,8 +477,11 @@ public class StudieBean extends Filter {
 	 */
 	@Override
 	public String toString() {
-		return "id:\t"+this.id+"\trandomistationsId:\t"+this.randomisationId+"\tbeschreibung:\t"+this.beschreibung+"\tstartDatum\t"+this.startDatum+"\tendDatum:\t"
-		+this.endDatum+"\tstudienprotokollPfad\t"+this.studienprotokollPfad;
+		return "id:\t" + this.id + "\trandomistationsId:\t"
+				+ this.randomisationId + "\tbeschreibung:\t"
+				+ this.beschreibung + "\tstartDatum\t" + this.startDatum
+				+ "\tendDatum:\t" + this.endDatum + "\tstudienprotokollPfad\t"
+				+ this.studienprotokollPfad;
 	}
 
 	/**
@@ -483,38 +493,83 @@ public class StudieBean extends Filter {
 	 * @return <code>true</code>, wenn beide Kontos gleich sind, ansonsten
 	 *         <code>false</code>
 	 */
-	
+
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
+
+		if (zuvergleichendesObjekt == null) {
+			return false;
+		}
 		if (zuvergleichendesObjekt instanceof StudieBean) {
 			StudieBean beanZuvergleichen = (StudieBean) zuvergleichendesObjekt;
-
-			if (beanZuvergleichen.id != this.id) {
-				return false;
-			}
-			if (beanZuvergleichen.randomisationId != this.randomisationId) {
-				return false;
-			}
-			if(beanZuvergleichen.beschreibung!=null && beanZuvergleichen.beschreibung.equals(this.beschreibung)){
-				return false;
-			}
-			if (beanZuvergleichen.startDatum != null
-					&& !beanZuvergleichen.startDatum.equals(this.startDatum)) {
-				return false;
-			}
-			if (beanZuvergleichen.endDatum != null
-					&& !beanZuvergleichen.endDatum.equals(this.endDatum)) {
-				return false;
-			}
-			if (beanZuvergleichen.studienprotokollPfad != null
-					&& !beanZuvergleichen.studienprotokollPfad
-							.equals(this.studienprotokollPfad)) {
-				return false;
-			}
-			return true;
-
+			return (this.getId() == beanZuvergleichen.getId()
+					&& this.getRandomisationId() == beanZuvergleichen
+							.getRandomisationId()
+					&& this.getBeschreibung().equals(
+							beanZuvergleichen.getBeschreibung())
+					&& this.getStartDatum().getTimeInMillis() == beanZuvergleichen
+							.getStartDatum().getTimeInMillis()
+					&& this.getEndDatum().getTimeInMillis() == beanZuvergleichen
+							.getStartDatum().getTimeInMillis() && this
+					.getStudienprotokollpfad() == beanZuvergleichen
+					.getStudienprotokollpfad());
 		}
+
 		return false;
+
+		// if (zuvergleichendesObjekt == null) {
+		//			
+		// return false;
+		// }
+		//		
+		// if (zuvergleichendesObjekt instanceof StudienarmBean) {
+		// StudienarmBean beanZuvergleichen = (StudienarmBean)
+		// zuvergleichendesObjekt;
+		//
+		// return (this.getId() == beanZuvergleichen.getId()
+		// && this.getBeschreibung().equals(
+		// beanZuvergleichen.getBeschreibung())
+		// && this.getBezeichnung().equals(
+		// beanZuvergleichen.getBezeichnung())
+		// && this.getStatus() == beanZuvergleichen.getStatus()
+		// && this.getStudie() == beanZuvergleichen.getStudie()
+		// && this.getPatienten() == beanZuvergleichen.getPatienten() && this
+		// .getPatAnzahl() == beanZuvergleichen.getPatAnzahl() &&
+		// this.getStudieId()==beanZuvergleichen.getStudieId());
+		//
+		// }
+		// return false;
+		// }
+		// // if (zuvergleichendesObjekt instanceof StudieBean) {
+		// StudieBean beanZuvergleichen = (StudieBean) zuvergleichendesObjekt;
+		//
+		// if (beanZuvergleichen.id != this.id) {
+		// return false;
+		// }
+		// if (beanZuvergleichen.randomisationId != this.randomisationId) {
+		// return false;
+		// }
+		// if(beanZuvergleichen.beschreibung!=null &&
+		// beanZuvergleichen.beschreibung.equals(this.beschreibung)){
+		// return false;
+		// }
+		// if (beanZuvergleichen.startDatum != null
+		// && !beanZuvergleichen.startDatum.equals(this.startDatum)) {
+		// return false;
+		// }
+		// if (beanZuvergleichen.endDatum != null
+		// && !beanZuvergleichen.endDatum.equals(this.endDatum)) {
+		// return false;
+		// }
+		// if (beanZuvergleichen.studienprotokollPfad != null
+		// && !beanZuvergleichen.studienprotokollPfad
+		// .equals(this.studienprotokollPfad)) {
+		// return false;
+		// }
+		// return true;
+		//
+		// }
+		// return false;
 	}
 
 }
