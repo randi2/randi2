@@ -4,8 +4,13 @@ import java.util.Collection;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
+
+import com.meterware.httpunit.javascript.JavaScript.Link;
+
 import de.randi2.controller.Nachrichtendienst;
+import de.randi2.model.exceptions.NachrichtException;
 import de.randi2.model.fachklassen.beans.PersonBean;
+import de.randi2.utility.SystemException;
 
 /**
  * Kapselt eine Nachricht und implementiert die benoetigten Methoden.
@@ -15,6 +20,13 @@ import de.randi2.model.fachklassen.beans.PersonBean;
  */
 public class Nachricht {
 
+    /**
+     * Schlaegt der Versand fehl, wird eine {@link SystemException} mit dieser
+     * Mitteilung geworfen
+     */
+    public static final String NACHRICHTENVERSAND_FEHLGESCHLAGEN = "Es ist ein Fehler beim Nachrichtenversand aufgetreten. Bitte verst&auml;ndigen Sie den Systemadministrator.";
+
+    
     /**
      * SimpleMail Object
      */
@@ -59,13 +71,13 @@ public class Nachricht {
      *            Betreff der Mail
      * @param text
      *            Nachrichtentext der Mail
-     * @throws EmailException
+     * @throws NachrichtException
      *             Siehe {@link #setAbsender(PersonBean)},{@link #setBetreff(String)},
      *             {@link #setText(String)}, {@link #addEmpfaenger(Collection)},
      *             {@link #addEmpfaenger(PersonBean)}
      */
     public Nachricht(PersonBean absender, PersonBean empfaenger,
-            String betreff, String text) throws EmailException {
+            String betreff, String text) throws NachrichtException {
         initMail();
         this.setAbsender(absender);
         this.setBetreff(betreff);
@@ -87,13 +99,13 @@ public class Nachricht {
      *            Betreff der Mail
      * @param text
      *            Nachrichtentext der Mail
-     * @throws EmailException
+     * @throws NachrichtException
      *             Siehe {@link #setAbsender(PersonBean)},{@link #setBetreff(String)},
      *             {@link #setText(String)}, {@link #addEmpfaenger(Collection)},
      *             {@link #addEmpfaenger(PersonBean)}
      */
     public Nachricht(PersonBean absender, Collection<PersonBean> empfaenger,
-            String betreff, String text) throws EmailException {
+            String betreff, String text) throws NachrichtException {
         initMail();
         this.setAbsender(absender);
         this.setBetreff(betreff);
@@ -102,14 +114,35 @@ public class Nachricht {
     }
 
     /**
-     * Versendet die angelegte E-Mail
+     * Versendet die angelegte E-Mail<br>
+     * Es
      * 
-     * @throws EmailException
-     *             Das Versenden der Mail ist fehlgeschlagen
+     * @throws NachrichtException
+     *             {@link NachrichtException#ABSENDER_NULL},
+     *             {@link NachrichtException#LEERER_BETREFF},
+     *             {@link NachrichtException#EMPFEANGER_NULL}
+     * @throws SystemException
+     *             Das Versenden der Mail ist Fehlgeschlagen {@link #NACHRICHTENVERSAND_FEHLGESCHLAGEN}
+     *             
      * 
      */
-    public final void senden() throws EmailException {
-        aMail.send();
+    public final void senden() throws NachrichtException, SystemException {
+        if (aMail.getFromAddress() == null) {
+            throw new NachrichtException(NachrichtException.ABSENDER_NULL);
+        } else if (aMail.getSubject() == null) {
+            throw new NachrichtException(NachrichtException.LEERER_BETREFF);
+        }
+        // Inhalt sollte vorhangen sein, jedoch kann dieser nicht wieder der
+        // Mail gewonnen werden, daher keine Pruefung
+        try {
+            aMail.send();
+        } catch (EmailException e) {
+            if (e.getMessage().equals("At least one receiver address required")) {
+                throw new NachrichtException(NachrichtException.EMPFEANGER_NULL);
+            }
+            // FIXME Problem: Emfaenger wird nen gecheckt --BTheel
+            throw new SystemException(NACHRICHTENVERSAND_FEHLGESCHLAGEN);
+        }
     }
 
     /**
@@ -120,16 +153,27 @@ public class Nachricht {
      * 
      * @param absender
      *            PersonBean des Absenders
-     * @throws EmailException
-     *             die E-Mailadresse ist ungueltig oder der Absender ist
-     *             <code>null</code>
+     * @throws NachrichtException
+     *             {@link NachrichtException#ABSENDER_NULL},
+     *             {@link NachrichtException#PERSONBEAN_IST_FILTER},
+     *             {@link NachrichtException#UNGUELTIGE_ADRESSE}
      */
-    public final void setAbsender(PersonBean absender) throws EmailException {
+    public final void setAbsender(PersonBean absender)
+            throws NachrichtException {
         if (absender == null) {
-            throw new EmailException("Absender ist null");
+            throw new NachrichtException(NachrichtException.ABSENDER_NULL);
         }
-        aMail.setFrom(absender.getEmail(), absender.getVorname() + " "
-                + absender.getNachname());
+        if (absender.isFilter()) {
+            throw new NachrichtException(
+                    NachrichtException.PERSONBEAN_IST_FILTER);
+        }
+        try {
+            aMail.setFrom(absender.getEmail(), absender.getVorname() + " "
+                    + absender.getNachname());
+        } catch (EmailException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -140,9 +184,9 @@ public class Nachricht {
      * @throws EmailException
      *             Wenn (betreff == null) || (betreff.length() == 0)
      */
-    public final void setBetreff(String betreff) throws EmailException {
+    public final void setBetreff(String betreff) throws NachrichtException {
         if (betreff == null || betreff.length() == 0) {
-            throw new EmailException("Betreff darf nicht leer sein");
+            throw new NachrichtException(NachrichtException.LEERER_BETREFF);
         }
         aMail.setSubject(betreff);
     }
@@ -154,17 +198,31 @@ public class Nachricht {
      * 
      * @param empfaenger
      *            {@link PersonBean} des Empfaenger
-     * @throws EmailException
-     *             Die E-Mail-Adresse ist ungueltig oder Empfaenger ist null
+     * @throws NachrichtException
+     *             {@link NachrichtException#ABSENDER_NULL},
+     *             {@link NachrichtException#PERSONBEAN_IST_FILTER},
+     *             {@link NachrichtException#UNGUELTIGE_ADRESSE}
+     * 
      */
     public final void addEmpfaenger(PersonBean empfaenger)
-            throws EmailException {
+            throws NachrichtException {
         if (empfaenger == null) {
-            throw new EmailException("Empfaenger ist null");
+            throw new NachrichtException(NachrichtException.EMPFEANGER_NULL);
         }
-        aMail.addTo(empfaenger.getEmail(), empfaenger.getVorname() + " "
-                + empfaenger.getNachname());
-        System.out.println("Adde " + empfaenger.getEmail());
+        if (empfaenger.isFilter()) {
+            throw new NachrichtException(
+                    NachrichtException.PERSONBEAN_IST_FILTER);
+        }
+        try {
+            aMail.addTo(empfaenger.getEmail(), empfaenger.getVorname() + " "
+                    + empfaenger.getNachname());
+        } catch (EmailException e) {
+            // Die EMailadresse wird von dem JavaMail Framework als ungueltig
+            // agbewiesen.
+            // una problema grande!
+            throw new NachrichtException(NachrichtException.UNGUELTIGE_ADRESSE);
+        }
+
     }
 
     /**
@@ -174,14 +232,14 @@ public class Nachricht {
      * 
      * @param empfaenger
      *            Liste der Empfaenger
-     * @throws EmailException
-     *             Die E-Mail-Adresse (mindestens) eines Empfaengers ist
-     *             ungueltig oder die Collecion ist <code>null</code>
+     * @throws NachrichtException
+     *             {@link NachrichtException#EMPFEANGER_NULL}, vgl.
+     *             {@link Nachricht#addEmpfaenger(PersonBean)}
      */
     public final void addEmpfaenger(Collection<PersonBean> empfaenger)
-            throws EmailException {
+            throws NachrichtException {
         if (empfaenger == null) {
-            throw new EmailException("Empfaenger ist null");
+            throw new NachrichtException(NachrichtException.EMPFEANGER_NULL);
         }
         for (PersonBean bean : empfaenger) {
             addEmpfaenger(bean);
@@ -196,9 +254,14 @@ public class Nachricht {
      *            Text der Mitteilung
      * @throws EmailException
      *             Wenn (text == null) || (text.length() == 0)
+     *             {@link NachrichtException#LEERER_TEXT}
      */
-    public final void setText(String text) throws EmailException {
-        aMail.setMsg(text);
+    public final void setText(String text) throws NachrichtException {
+        try {
+            aMail.setMsg(text);
+        } catch (EmailException e) {
+            throw new NachrichtException(NachrichtException.LEERER_TEXT);
+        }
     }
 
     /**
@@ -217,12 +280,13 @@ public class Nachricht {
      * 
      * @param bounceopfer
      *            Person, die die Bouncemails erhalten soll
-     * @throws EmailException
-     *             Der Empfaenger ist <code>null</code>
+     * @throws NachrichtException @
+     *             {@link NachrichtException#BOUNCE_IST_NULL}
      */
-    public final void setBounce(PersonBean bounceopfer) throws EmailException {
+    public final void setBounce(PersonBean bounceopfer)
+            throws NachrichtException {
         if (bounceopfer == null) {
-            throw new EmailException("Empfaenger der Bouncemails ist null");
+            throw new NachrichtException(NachrichtException.BOUNCE_IST_NULL);
         }
         aMail.setBounceAddress(bounceopfer.getEmail());
     }
