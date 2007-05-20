@@ -9,7 +9,6 @@ import static org.junit.Assert.fail;
 
 import java.util.Collection;
 
-import org.apache.commons.mail.EmailException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;

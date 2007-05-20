@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.mail.EmailException;
 import org.apache.log4j.Logger;
 
+import de.randi2.model.exceptions.NachrichtException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Nachricht;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
@@ -43,15 +44,15 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
     public Nachrichtendienst() {
         if (user == null) {
             user = Config.getProperty(Config.Felder.RELEASE_MAIL_ACCOUNT);
-               System.out.println("Lade user: "+user);
+            System.out.println("Lade user: " + user);
         }
         if (pwd == null) {
             pwd = Config.getProperty(Config.Felder.RELEASE_MAIL_PASSWORD);
-            System.out.println("Lade pwd: "+pwd);
+            System.out.println("Lade pwd: " + pwd);
         }
         if (server == null) {
             server = Config.getProperty(Config.Felder.RELEASE_MAIL_SERVER);
-            System.out.println("Lade server: "+server);
+            System.out.println("Lade server: " + server);
         }
         Logger.getLogger(this.getClass()).debug("Lade Config, Initialisierung");
     }
@@ -128,7 +129,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
         String id = request.getParameter(requestParameter.ANFRAGE_ID.name());
         String empfaenger = request.getParameter(requestParameter.EMPFAENGER
                 .name());
-        
+
         String betreff = request.getParameter(requestParameter.BETREFF.name());
         betreff = betreff.trim();
         String nachrichtentext = request
@@ -143,7 +144,8 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
             // fehlerbehandlung
             if (empfaenger == null || empfaenger.length() == 0
                     || empfaenger.equals("")) {
-                // FIXME Vorlaufige Behandlung, Format steht nicht endgueltig fest--BTheel
+                // FIXME Vorlaufige Behandlung, Format steht nicht endgueltig
+                // fest--BTheel
                 fehlermeldung
                         .append("Bitte w&auml;hlen Sie einen Empf&auml;nger<br>");
             }
@@ -200,7 +202,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
             }
             try { // Betreff setzten
                 mail.setBetreff(betreff);
-            } catch (EmailException e) {
+            } catch (NachrichtException e) {
                 /*
                  * Die Exception fliegt, wenn betreff.length() == 0 oder
                  * betreff==null Dies wird oben bereits ausgeschlossen. Daher
@@ -209,7 +211,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
             }
             try { // Text setzten
                 mail.setText(nachrichtentext);
-            } catch (EmailException e) {
+            } catch (NachrichtException e) {
                 /*
                  * Die Exception fliegt, wenn nachrichtentext.length() == 0 oder
                  * nachrichtentext==null Dies wird oben bereits ausgeschlossen.
@@ -218,7 +220,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
             }
             try { // Fertige Mail versenden
                 mail.senden();
-            } catch (EmailException e) {
+            } catch (Exception e) {
                 /*
                  * Senden der Mail fehlgeschlagen. Exception stammt entweder
                  * direkt aus der Sun Java Mail API oder aus Commons Email.
@@ -227,8 +229,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
                  * Einfache Meldung an Benutzer, Exception loggen
                  */
                 request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
-                        "Das Versenden der Mail ist fehlgeschlagen.<br>"
-                                + "Bitte kontaktieren Sie den Systemoperator");
+                        Nachricht.NACHRICHTENVERSAND_FEHLGESCHLAGEN);
                 request.getRequestDispatcher("nachrichtendienst.jsp").forward(
                         request, response);
                 Logger.getLogger(this.getClass()).warn(
