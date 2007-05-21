@@ -15,6 +15,7 @@ import org.junit.Test;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.exceptions.RechtException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Rolle;
@@ -71,7 +72,7 @@ public class BenutzerkontoTest {
 	@Before
 	public void setUp() {
 		benutzername = "administrator";
-		passwort = "1$administrator";
+		passwort = KryptoUtil.getInstance().hashPasswort("1$administrator");
 
 		gesperrt = false;
 		rolle = Rolle.getStudienleiter();
@@ -81,7 +82,7 @@ public class BenutzerkontoTest {
 
 		try {
 			zentrum = new ZentrumBean(1, "institution", "abteilung", "Ort",
-					"11111", "Strasse", "12", 1, "Passwort", false);
+					"11111", "Strasse", "12", 1, KryptoUtil.getInstance().hashPasswort("Passwort"), false);
 		} catch (ZentrumException e1) {
 			e1.printStackTrace();
 		}
@@ -144,6 +145,11 @@ public class BenutzerkontoTest {
 	 */
 	@Test
 	public void testAnlegenBenutzer() throws DatenbankFehlerException, BenutzerkontoException {
+		ersterLogin = new GregorianCalendar(2006, 10, 20);
+		letzterLogin = new GregorianCalendar(2006, 11, 30);
+		passwort = KryptoUtil.getInstance().hashPasswort("user3PW");
+		bKontoBean = new BenutzerkontoBean(0,"userChef", passwort,
+					0,Rolle.getAdmin(),0,false, ersterLogin, letzterLogin);
 		Benutzerkonto.anlegenBenutzer(bKontoBean);
 	}
 
@@ -157,7 +163,7 @@ public class BenutzerkontoTest {
 	@Test
 	public void testGetBenutzerStudienleiter() throws BenutzerkontoException,
 			DatenbankFehlerException {
-		Benutzerkonto.getBenutzer("studienleiter");
+		Benutzerkonto.getBenutzer(Rolle.getStudienleiter().toString());
 	}
 
 	/**
@@ -170,7 +176,7 @@ public class BenutzerkontoTest {
 	@Test
 	public void testGetBenutzerAdministrator() throws BenutzerkontoException,
 			DatenbankFehlerException {
-		Benutzerkonto.getBenutzer("administrator");
+		Benutzerkonto.getBenutzer(Rolle.getAdmin().toString());
 	}
 
 	/**
@@ -183,7 +189,7 @@ public class BenutzerkontoTest {
 	@Test
 	public void testGetBenutzerSystemoperator() throws BenutzerkontoException,
 			DatenbankFehlerException {
-		Benutzerkonto.getBenutzer("systemoperator");
+		Benutzerkonto.getBenutzer(Rolle.getSysop().toString());
 	}
 
 	/**
@@ -196,7 +202,7 @@ public class BenutzerkontoTest {
 	@Test
 	public void testGetBenutzerStatistiker() throws BenutzerkontoException,
 			DatenbankFehlerException {
-		Benutzerkonto.getBenutzer("statistiker");
+		Benutzerkonto.getBenutzer(Rolle.getStatistiker().toString());
 	}
 
 	/**
@@ -209,7 +215,7 @@ public class BenutzerkontoTest {
 	@Test
 	public void testGetBenutzerStudienarzt() throws BenutzerkontoException,
 			DatenbankFehlerException {
-		Benutzerkonto.getBenutzer("sa@randi2.de");
+		Benutzerkonto.getBenutzer(Rolle.getStudienarzt().toString());
 	}
 
 	/**

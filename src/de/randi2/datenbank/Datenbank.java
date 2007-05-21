@@ -509,9 +509,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * Konstruktor der Datenbankklasse.
 	 */
 	public Datenbank() {
+		String pfad = "";
 		log = Logger.getLogger("Randi2.Datenaenderung");
 		try {
-		    String pfad=Datenbank.class.getResource("/conf/release/proxool_cfg.xml").getPath();
+		    pfad=Datenbank.class.getResource("/conf/release/proxool_cfg.xml").getPath();
 		    if(System.getProperty("os.name").indexOf("Win")!=-1) {
 			System.out.println("Windows installiert");
 			HttpUnitUtils.decode(Datenbank.class.getResource("/conf/release/proxool_cfg.xml").getPath());
