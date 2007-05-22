@@ -21,6 +21,7 @@ import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Studie.Status;
@@ -1494,6 +1495,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 				e.printStackTrace();
 				throw new DatenbankFehlerException(
 						DatenbankFehlerException.SCHREIBEN_ERR);
+			} catch (StudieException e) {
+				
+				// TODO was soll hier mit der Exception passieren?
+				// dhaehn
+				
 			}
 			studienarm.setId(id);
 			return studienarm;
@@ -1521,6 +1527,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 				e.printStackTrace();
 				throw new DatenbankFehlerException(
 						DatenbankFehlerException.SCHREIBEN_ERR);
+			} catch (StudieException e) {
+				
+				// TODO was soll hier mit der Exception passieren?
+				// dhaehn
+				
 			}
 		}
 		try {
