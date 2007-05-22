@@ -1,6 +1,7 @@
 package de.randi2.junittests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Vector;
@@ -10,6 +11,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.datenbank.DatenbankFactory;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.model.fachklassen.beans.PersonBean;
@@ -25,15 +28,16 @@ public class PersonTest {
 
 	private PersonBean testPB;
 
-	
-	 /**
-	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
-	     *
-	     */
-	    @BeforeClass
-	    public static void log(){
+	/**
+	 * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und
+	 * es funktioniert.
+	 * 
+	 */
+	@BeforeClass
+	public static void log() {
 		Log4jInit.initDebug();
-	    }
+	}
+
 	@Before
 	public void setUp() {
 		testPB = new PersonBean();
@@ -76,17 +80,24 @@ public class PersonTest {
 			fail("Bei der PersonBean Klasse trat ein Fehler auf: "
 					+ e.getMessage());
 		}
-		Vector<PersonBean> tempVec = null;
 		try {
+			// Speichern in der Datenbank
+			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(testPB);
+		} catch (DatenbankFehlerException e1) {
+			e1.printStackTrace();
+		}
+		Vector<PersonBean> tempVec = new Vector<PersonBean>();
+		try {
+			//Holen aus der Datenbank
 			tempVec = Person.suchen(testPB);
 		} catch (PersonException e) {
 			e.printStackTrace();
 		}
 		/*
-		 * Da wir wissen, dass sich zur Zeit in der Datebank 1 Person mit den
+		 * Da wir wissen, dass sich zur Zeit in der Datebank eine Person mit den
 		 * gesuchten Eigenschaften befindet.
 		 */
-		//assertTrue(tempVec.size() == 1);
+		assertTrue(tempVec.size() == 1);
 		assertEquals(tempVec.elementAt(0).getNachname(), "Obdenhoevel");
 		assertEquals(tempVec.elementAt(0).getVorname(), "Oliver");
 		/*
@@ -101,13 +112,14 @@ public class PersonTest {
 			fail("Bei der PersonBean Klasse trat ein Fehler auf: "
 					+ e.getMessage());
 		}
-		tempVec = null;
+		tempVec = new Vector<PersonBean>();
 		try {
+			//wird nicht gefunden, da nicht geschrieben wurde
 			tempVec = Person.suchen(testPB);
 		} catch (PersonException e) {
 			e.printStackTrace();
 		}
-		//assertTrue(tempVec.size() == 0);
+		assertTrue(tempVec.size() == 0);
 
 	}
 
