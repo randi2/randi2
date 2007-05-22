@@ -9,6 +9,7 @@ import de.randi2.datenbank.Filter;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.Studie;
+import de.randi2.model.fachklassen.Studienarm;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.utility.NullKonstanten;
@@ -25,7 +26,7 @@ public class StudienarmBean extends Filter {
 	/**
 	 * Die Id des Studienarms.
 	 */
-	private long id = NullKonstanten.NULL_LONG;
+	private long id = NullKonstanten.DUMMY_ID;
 
 	/**
 	 * Status dieses Studienarms (Wert der ENUM Status der Studien-Fachklasse).
@@ -50,7 +51,7 @@ public class StudienarmBean extends Filter {
 	/**
 	 * Die Id der Studier welcher dieser Arm zugeordnet ist.
 	 */
-	private long aStudieId = NullKonstanten.NULL_LONG;
+	private long aStudieId = NullKonstanten.DUMMY_ID;
 
 	/**
 	 * Die zugeordneten Patienten als Beans.
@@ -80,10 +81,9 @@ public class StudienarmBean extends Filter {
 	 *            Die Bezeichnung (Name) dieses Arms
 	 * @param beschreibung
 	 *            Die laengere Beschreibung dieses Arms
-	 * @throws StudienarmException
 	 */
 	public StudienarmBean(long id, long studieId, Studie.Status status,
-			String bezeichnung, String beschreibung) throws StudienarmException {
+			String bezeichnung, String beschreibung) {
 		super();
 		this.setId(id);
 		this.setStudieId(studieId);
@@ -153,17 +153,15 @@ public class StudienarmBean extends Filter {
 	/**
 	 * Liefert die Studie der dieser Arm zugeordnet ist.
 	 * 
-	 * @TODO Exception prüfen
 	 * @return die Studie als StudieBean
+	 * @throws StudieException
+	 *             wenn die Studie nicht gefunden wurde
 	 */
-	public StudieBean getStudie() {
+	public StudieBean getStudie() throws StudieException {
 		if (aStudie == null) {
-			try {
-				aStudie = Studie.get(aStudieId);
-			} catch (StudieException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
+			aStudie = Studie.get(aStudieId);
+
 		}
 		return aStudie;
 	}
@@ -175,16 +173,30 @@ public class StudienarmBean extends Filter {
 	 *            die zuzuordnende Studie als StudieBean
 	 */
 	public void setStudie(StudieBean studie) {
+
 		aStudie = studie;
+
+		if (studie != null) {
+
+			aStudieId = aStudie.getId();
+
+		}
+
 	}
 
 	/**
 	 * Liefert die zugeordneten Patienten als Vector von PatientBeans.
 	 * 
 	 * @return die zugeordneten Patienten als PatientBean
+	 * @throws StudienarmException
+	 *             falls die Patienten nicht geholt werden koennen
 	 */
-	public Vector<PatientBean> getPatienten() {
-		// TODO Proxy Logik
+	public Vector<PatientBean> getPatienten() throws StudienarmException {
+		if (aPatienten == null) {
+
+			aPatienten = Studienarm.getZugehoerigePatienten(this.getId());
+
+		}
 		return aPatienten;
 	}
 
@@ -206,11 +218,11 @@ public class StudienarmBean extends Filter {
 	public int getPatAnzahl() {
 
 		if (this.aPatienten == null) {
-			
+
 			return 0;
-			
+
 		}
-		
+
 		return aPatienten.size();
 
 	}
@@ -237,7 +249,7 @@ public class StudienarmBean extends Filter {
 	/**
 	 * Liefert Id der Studie welcher dieser Arm zugeordnet ist.
 	 * 
-	 * @return
+	 * @return die Id der zugeordneten Studie
 	 */
 	public long getStudieId() {
 		return aStudieId;
@@ -247,6 +259,7 @@ public class StudienarmBean extends Filter {
 	 * Setzt Id der Studie welcher dieser Arm zugeordnet ist.
 	 * 
 	 * @param studieId
+	 *            die Id der Studie
 	 */
 	public void setStudieId(long studieId) {
 		aStudieId = studieId;
@@ -293,27 +306,57 @@ public class StudienarmBean extends Filter {
 	 */
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
-		
+
 		if (zuvergleichendesObjekt == null) {
-			
+
 			return false;
 		}
-		
+
 		if (zuvergleichendesObjekt instanceof StudienarmBean) {
 			StudienarmBean beanZuvergleichen = (StudienarmBean) zuvergleichendesObjekt;
 
-			return (this.getId() == beanZuvergleichen.getId()
-					&& this.getBeschreibung().equals(
-							beanZuvergleichen.getBeschreibung())
-					&& this.getBezeichnung().equals(
-							beanZuvergleichen.getBezeichnung())
-					&& this.getStatus() == beanZuvergleichen.getStatus()
-					&& this.getStudie() == beanZuvergleichen.getStudie()
-					&& this.getPatienten() == beanZuvergleichen.getPatienten() && this
-					.getPatAnzahl() == beanZuvergleichen.getPatAnzahl() && this.getStudieId()==beanZuvergleichen.getStudieId());
+			try {
+
+				return (this.getId() == beanZuvergleichen.getId()
+						&& this.getBeschreibung().equals(
+								beanZuvergleichen.getBeschreibung())
+						&& this.getBezeichnung().equals(
+								beanZuvergleichen.getBezeichnung())
+						&& this.getStatus() == beanZuvergleichen.getStatus()
+						&& this.getStudie() == beanZuvergleichen.getStudie()
+						&& this.getPatienten() == beanZuvergleichen
+								.getPatienten()
+						&& this.getPatAnzahl() == beanZuvergleichen
+								.getPatAnzahl() && this.getStudieId() == beanZuvergleichen
+						.getStudieId());
+
+			} catch (Exception e) {
+
+				// wenn eine Exception fliegt, stimmt etwas nicht
+				return false;
+
+			}
 
 		}
 		return false;
+	}
+
+	/**
+	 * Liefert den HashCode des Objektes.<br>
+	 * Der HashCode entspricht der (Datenbank-)Id des Objektes. Ist das Objekt
+	 * noch nicht gespeichert worden, besitzt also die ID
+	 * {@link NullKonstanten#DUMMY_ID}, so wird der HashCode von
+	 * {@link java.lang.Object#hashCode()} geliefert.
+	 * 
+	 * @return HashCode des Objektes
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		if (id == NullKonstanten.DUMMY_ID) {
+			return super.hashCode();
+		}
+		return (int) id;
 	}
 
 }
