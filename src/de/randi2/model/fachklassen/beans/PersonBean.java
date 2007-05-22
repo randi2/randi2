@@ -554,6 +554,7 @@ public class PersonBean extends Filter {
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
 		if (zuvergleichendesObjekt instanceof PersonBean) {
+
 			PersonBean beanZuvergleichen = (PersonBean) zuvergleichendesObjekt;
 			if (beanZuvergleichen.email == null && this.email != null) {
 				return false;
@@ -561,15 +562,20 @@ public class PersonBean extends Filter {
 					&& !beanZuvergleichen.email.equals(this.email)) {
 				return false;
 			}
+
 			if (beanZuvergleichen.fax == null && this.fax != null) {
+
 				return false;
 			} else if (beanZuvergleichen.fax != null
 					&& !beanZuvergleichen.fax.equals(this.fax)) {
+
 				return false;
 			}
+
 			if (beanZuvergleichen.geschlecht != this.geschlecht) {
 				return false;
 			}
+
 			if (beanZuvergleichen.handynummer == null
 					&& this.handynummer != null) {
 				return false;
@@ -580,6 +586,7 @@ public class PersonBean extends Filter {
 			if (beanZuvergleichen.id != this.id) {
 				return false;
 			}
+
 			if (beanZuvergleichen.nachname == null && this.nachname != null) {
 				return false;
 			} else if (beanZuvergleichen.nachname != null
@@ -597,18 +604,22 @@ public class PersonBean extends Filter {
 							.endsWith(this.telefonnummer)) {
 				return false;
 			}
+
 			if (beanZuvergleichen.titel == null && this.titel != null) {
 				return false;
 			} else if (beanZuvergleichen.titel != null
-					&& beanZuvergleichen.titel.equals(this.titel)) {
+					&& !beanZuvergleichen.titel.titel.equals(this.titel.titel)) {
 				return false;
+
 			}
+
 			if (beanZuvergleichen.vorname == null && this.vorname != null) {
 				return false;
 			} else if (beanZuvergleichen.vorname != null
 					&& !beanZuvergleichen.vorname.equals(this.vorname)) {
 				return false;
 			}
+
 			return true;
 
 		}
