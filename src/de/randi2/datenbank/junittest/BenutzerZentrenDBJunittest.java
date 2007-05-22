@@ -61,7 +61,7 @@ public class BenutzerZentrenDBJunittest {
 	    bean=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(bean);
 	    
 	    //Suchen ueber id:
-	    AktivierungBean beanNachSuche=DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(bean.getAktivierungsId(), new AktivierungBean());
+	    AktivierungBean beanNachSuche=DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(bean.getId(), new AktivierungBean());
 	   assertEquals(bean,beanNachSuche);	   
 	    
 	    //Suchen ueber Werte:
@@ -73,7 +73,7 @@ public class BenutzerZentrenDBJunittest {
 	    assertEquals(bean,beanNachSuche); 
 	    
 	    //Bean aendern
-	    AktivierungBean beanAendern=new AktivierungBean(bean.getAktivierungsId(),new GregorianCalendar(2000,1,1),1,"1232323232");
+	    AktivierungBean beanAendern=new AktivierungBean(bean.getId(),new GregorianCalendar(2000,1,1),1,"1232323232");
 	    DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(beanAendern);
 	    assertFalse(bean.equals(beanAendern));
 	    
