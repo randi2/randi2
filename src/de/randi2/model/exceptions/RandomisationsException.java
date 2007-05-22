@@ -31,6 +31,11 @@ public class RandomisationsException extends SystemException {
 	public static final String STUDIE_NULL = "Die &uuml;bergebene Studie darf nicht null sein.";
 
 	/**
+	 * Fehler falls aktueller Studienarm nicht verwendet werden kann.
+	 */
+	public static final String ARM_NICHT_VERWENDBAR = "Dieser Studienarm kann nicht verwendet werden.";
+	
+	/**
 	 * Fehler falls versucht wird, einen neuen Block in der Datenbank anzulegen,
 	 * obwohl noch Werte existieren.
 	 */
