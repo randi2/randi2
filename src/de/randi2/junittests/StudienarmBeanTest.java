@@ -60,9 +60,19 @@ public class StudienarmBeanTest {
 		aStudienarmBean.setBezeichnung("Testbezeichnung");
 		aStudienarmBean.setStatus(Studie.Status.AKTIV);
 		aStudienarmBean.setStudieId(3434);
-		aStudienarmBean.setStudie(new StudieBean());
-		
+		aStudienarmBean.setStudie(new StudieBean(2323,"",null,null,"",23123));
+
 		Vector<PatientBean> aTestdaten = new Vector<PatientBean>();
+		aTestdaten.add(new PatientBean(213, "adsd", 'm', new GregorianCalendar(
+				2003, 3, 17), 3, new GregorianCalendar(2003, 3, 17), 3,
+				aStudienarmBean));
+		aTestdaten.add(new PatientBean(214, "adsd", 'm', new GregorianCalendar(
+				2003, 3, 17), 3, new GregorianCalendar(2003, 3, 17), 3,
+				aStudienarmBean));
+		aTestdaten.add(new PatientBean(215, "adsd", 'm', new GregorianCalendar(
+				2003, 3, 17), 3, new GregorianCalendar(2003, 3, 17), 3,
+				aStudienarmBean));
+
 		aTestdaten.add(new PatientBean(213,"adsd",'m',new GregorianCalendar(2003, 3, 17),3,new GregorianCalendar(2003, 3, 17),3,aStudienarmBean.getId(),190));
 		aTestdaten.add(new PatientBean(214,"adsd",'m',new GregorianCalendar(2003, 3, 17),3,new GregorianCalendar(2003, 3, 17),3,aStudienarmBean.getId(),190));
 		aTestdaten.add(new PatientBean(215,"adsd",'m',new GregorianCalendar(2003, 3, 17),3,new GregorianCalendar(2003, 3, 17),3,aStudienarmBean.getId(),190));
@@ -126,11 +136,18 @@ public class StudienarmBeanTest {
 	@Test
 	public void testSetStatus() {
 
-		for (Studie.Status aStatus : Studie.Status.values()) {
+		try {
 
-			aStudienarmBean.setStatus(aStatus);
-			assertTrue(aStudienarmBean.getStatus() == aStatus);
+			for (Studie.Status aStatus : Studie.Status.values()) {
 
+				aStudienarmBean.setStatus(aStatus);
+				assertTrue(aStudienarmBean.getStatus() == aStatus);
+
+			}
+
+		} catch (Exception e) {
+
+			fail(e.getMessage());
 		}
 
 	}
@@ -211,8 +228,8 @@ public class StudienarmBeanTest {
 
 		}
 
-		aStudienarmBean.setPatienten(aPatienten);
 		try {
+			aStudienarmBean.setPatienten(aPatienten);
 			assertTrue(aStudienarmBean.getPatienten() == aPatienten);
 			assertTrue(aStudienarmBean.getPatAnzahl() == aPatienten.size());
 		} catch (StudienarmException e) {
@@ -240,7 +257,7 @@ public class StudienarmBeanTest {
 
 			assertTrue(aStudienarmBean.getStudie().equals(aStudie));
 
-		} catch (StudieException e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			fail("Studie konnte nicht angelegt werden!");
 		}
@@ -258,9 +275,17 @@ public class StudienarmBeanTest {
 		Random zufall = new Random();
 		long aId = zufall.nextLong();
 
-		aStudienarmBean.setStudieId(aId);
+		try {
 
-		assertTrue(aStudienarmBean.getStudieId() == aId);
+			aStudienarmBean.setStudieId(aId);
+
+			assertTrue(aStudienarmBean.getStudieId() == aId);
+
+		} catch (Exception e) {
+
+			fail(e.getMessage());
+
+		}
 
 	}
 
