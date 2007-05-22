@@ -81,9 +81,11 @@ public class StudienarmBean extends Filter {
 	 *            Die Bezeichnung (Name) dieses Arms
 	 * @param beschreibung
 	 *            Die laengere Beschreibung dieses Arms
+	 * @throws StudienarmException
+	 *             wenn ein Fehler aufgetreten ist
 	 */
 	public StudienarmBean(long id, long studieId, Studie.Status status,
-			String bezeichnung, String beschreibung) {
+			String bezeichnung, String beschreibung) throws StudienarmException {
 		super();
 		this.setId(id);
 		this.setStudieId(studieId);
@@ -107,8 +109,13 @@ public class StudienarmBean extends Filter {
 	 * 
 	 * @param status
 	 *            Der zusetzende Status.
+	 * @throws StudienarmException#STATUS_UNGUELTIG
+	 *             wenn Status null ist
 	 */
-	public void setStatus(Studie.Status status) {
+	public void setStatus(Studie.Status status) throws StudienarmException {
+		if (status == null) {
+			throw new StudienarmException(StudienarmException.STATUS_UNGUELTIG);
+		}
 		aStatus = status;
 	}
 
@@ -172,15 +179,17 @@ public class StudienarmBean extends Filter {
 	 * @param studie
 	 *            die zuzuordnende Studie als StudieBean
 	 */
-	public void setStudie(StudieBean studie) {
+	public void setStudie(StudieBean studie) throws StudienarmException {
 
-		aStudie = studie;
+		if (studie == null) {
 
-		if (studie != null) {
-
-			aStudieId = aStudie.getId();
+			throw new StudienarmException(
+					StudienarmException.STUDIE_NICHT_GEFUNDEN);
 
 		}
+
+		this.setStudieId(studie.getId());
+		aStudie = studie;
 
 	}
 
@@ -205,8 +214,17 @@ public class StudienarmBean extends Filter {
 	 * 
 	 * @param patienten
 	 *            die zuzuordnenden Patienten als Vector von PatientBeans
+	 * @throws StudienarmException
+	 *             wenn der Vektor null ist
 	 */
-	public void setPatienten(Vector<PatientBean> patienten) {
+	public void setPatienten(Vector<PatientBean> patienten)
+			throws StudienarmException {
+		if (patienten == null) {
+
+			throw new StudienarmException(
+					StudienarmException.PATIENTEN_NICHT_GEFUNDEN);
+
+		}
 		aPatienten = patienten;
 	}
 
@@ -260,8 +278,16 @@ public class StudienarmBean extends Filter {
 	 * 
 	 * @param studieId
 	 *            die Id der Studie
+	 * @throws StudienarmException
+	 *             wenn die Studie nicht gefunden wird
 	 */
-	public void setStudieId(long studieId) {
+	public void setStudieId(long studieId) throws StudienarmException {
+		if (studieId == NullKonstanten.DUMMY_ID) {
+
+			throw new StudienarmException(
+					StudienarmException.STUDIE_NICHT_GEFUNDEN);
+
+		}
 		aStudieId = studieId;
 	}
 
