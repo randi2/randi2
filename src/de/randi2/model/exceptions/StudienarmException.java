@@ -17,6 +17,18 @@ public class StudienarmException extends BenutzerException {
 	public static final String PATIENTEN_NICHT_GEFUNDEN = "Die Patienten wurden nicht gefunden.";
 
 	/**
+	 * Diese Konstante wird uebergeben, wenn die Studie nicht gefunden
+	 * wurde.
+	 */
+	public static final String STUDIE_NICHT_GEFUNDEN = "Die Studie wurde nicht gefunden.";
+	
+	/**
+	 * Diese Konstante wird uebergeben, wenn der Status falsch gesetzt wurde.
+	 */
+	public static final String STATUS_UNGUELTIG = "Status falsch gesetzt.";
+
+	
+	/**
 	 * 
 	 * @param fehlermeldung
 	 */
