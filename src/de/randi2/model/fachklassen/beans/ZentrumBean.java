@@ -20,54 +20,56 @@ import de.randi2.utility.ValidierungsUtil;
 public class ZentrumBean extends Filter {
 
 	/**
+	 * Interne ID des Zentrums
+	 */
+	private long id = NullKonstanten.NULL_LONG;
+	
+	
+	/**
 	 * Name der Abteilung in der Institution.
 	 */
-	private String abteilung = null;
+	private String aAbteilung = null;
 
 	/**
 	 * Ein PersonBean mit der Daten des Ansprechpartners in dem Zentrum.
 	 */
-	private PersonBean ansprechpartner = null;
+	private PersonBean aAnsprechpartner = null;
 
 	/**
 	 * Die eindeutige ID des Ansprechpartners.
 	 */
-	private long ansprechpartnerId = NullKonstanten.NULL_LONG;
+	private long aAnsprechpartnerId = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Hausnummer
 	 */
-	private String hausnr = null;
+	private String aHausnr = null;
 
-	/**
-	 * Interne ID des Zentrums
-	 */
-	private long id = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Name der Institution.
 	 */
-	private String institution = null;
+	private String aInstitution = null;
 
 	/**
 	 * Ort
 	 */
-	private String ort = null;
+	private String aOrt = null;
 
 	/**
 	 * Passwort fuer das Zentrum (gehasht)
 	 */
-	private String passwort = null;
+	private String aPasswort = null;
 
 	/**
 	 * Postleitzahl
 	 */
-	private String plz = null;
+	private String aPlz = null;
 
 	/**
 	 * Strasse
 	 */
-	private String strasse = null;
+	private String aStrasse = null;
 
 	/**
 	 * Ist das Zentrum aktiviert und kann an Studien teilnehmen
@@ -196,7 +198,7 @@ public class ZentrumBean extends Filter {
 	 * @return String - Abteilung.
 	 */
 	public String getAbteilung() {
-		return abteilung;
+		return aAbteilung;
 	}
 
 	/**
@@ -207,19 +209,20 @@ public class ZentrumBean extends Filter {
 	 *             falls ein Fehler auftrat.
 	 */
 	public PersonBean getAnsprechpartner() throws PersonException {
-		if (ansprechpartner == null) {
-			ansprechpartner = Person.get(ansprechpartnerId);
+
+		if (aAnsprechpartner == null) {
+			aAnsprechpartner = Person.get(aAnsprechpartnerId);
 		}
-		return ansprechpartner;
+		return aAnsprechpartner;
 	}
 
 	/**
-	 * Get-Methoder fuer die Hausnummer.
+	 * Get-Methode fuer die Hausnummer.
 	 * 
 	 * @return die Hausnummer.
 	 */
 	public String getHausnr() {
-		return hausnr;
+		return aHausnr;
 	}
 
 	/**
@@ -238,7 +241,7 @@ public class ZentrumBean extends Filter {
 	 * 
 	 */
 	public String getInstitution() {
-		return institution;
+		return aInstitution;
 	}
 
 	/**
@@ -247,7 +250,7 @@ public class ZentrumBean extends Filter {
 	 * @return Den Ort.
 	 */
 	public String getOrt() {
-		return ort;
+		return aOrt;
 	}
 
 	/**
@@ -256,7 +259,7 @@ public class ZentrumBean extends Filter {
 	 * @return Das Passwort.
 	 */
 	public String getPasswort() {
-		return passwort;
+		return aPasswort;
 	}
 
 	/**
@@ -265,7 +268,7 @@ public class ZentrumBean extends Filter {
 	 * @return Die Postleitzahl.
 	 */
 	public String getPlz() {
-		return plz;
+		return aPlz;
 	}
 
 	/**
@@ -274,7 +277,7 @@ public class ZentrumBean extends Filter {
 	 * @return Die Strasse.
 	 */
 	public String getStrasse() {
-		return strasse;
+		return aStrasse;
 
 	}
 
@@ -295,7 +298,7 @@ public class ZentrumBean extends Filter {
 				throw new ZentrumException(ZentrumException.ABTEILUNG_FALSCH);
 			}
 		}
-		this.abteilung = abteilung;
+		this.aAbteilung = abteilung;
 	}
 
 	/**
@@ -315,10 +318,10 @@ public class ZentrumBean extends Filter {
 		}
 		if (ansprechpartner.getId() == NullKonstanten.NULL_LONG) {
 			throw new ZentrumException(
-					ZentrumException.ANSPRECHPARTNER_NOCH_NICHT_GESPEICHERT);
+					ZentrumException.ANSPRECHPARTNER_NICHT_GESPEICHERT);
 		} else {
-			this.ansprechpartner = ansprechpartner;
-			this.ansprechpartnerId = ansprechpartner.getId();
+			this.aAnsprechpartner = ansprechpartner;
+			this.aAnsprechpartnerId = ansprechpartner.getId();
 
 		}
 	}
@@ -331,7 +334,7 @@ public class ZentrumBean extends Filter {
 	 *            Datenbank.
 	 */
 	public void setAnsprechpartnerId(long id) {
-		this.ansprechpartnerId = id;
+		this.aAnsprechpartnerId = id;
 	}
 
 	/**
@@ -344,13 +347,13 @@ public class ZentrumBean extends Filter {
 	 */
 	public void setHausnr(String hausnr) throws ZentrumException {
 		if (this.isFilter()) {
-			this.hausnr = hausnr;
+			this.aHausnr = hausnr;
 		} else {
 			if (hausnr != null) {
 				if (!hausnr.matches("\\d{1,4}[a-b]{0,2}")) {
 					throw new ZentrumException(ZentrumException.HAUSNR_FALSCH);
 				}
-				this.hausnr = hausnr;
+				this.aHausnr = hausnr;
 			} else {
 				throw new ZentrumException(ZentrumException.HAUSNR_NULL);
 			}
@@ -378,14 +381,14 @@ public class ZentrumBean extends Filter {
 	public void setInstitution(String institution) throws ZentrumException {
 
 		if (this.isFilter()) {
-			this.institution = institution;
+			this.aInstitution = institution;
 		} else {
 			if (institution != null) {
 				if (!institution.matches(".{3,70}")) {
 					throw new ZentrumException(
 							ZentrumException.INSTITUTION_FALSCH);
 				}
-				this.institution = institution;
+				this.aInstitution = institution;
 			} else {
 				throw new ZentrumException(ZentrumException.INSTITUTION_NULL);
 			}
@@ -403,13 +406,13 @@ public class ZentrumBean extends Filter {
 	public void setOrt(String ort) throws ZentrumException {
 
 		if (this.isFilter()) {
-			this.ort = ort;
+			this.aOrt = ort;
 		} else {
 			if (ort != null) {
 				if (!ort.matches(".{3,50}")) {
 					throw new ZentrumException(ZentrumException.ORT_FALSCH);
 				}
-				this.ort = ort;
+				this.aOrt = ort;
 			} else {
 				throw new ZentrumException(ZentrumException.ORT_NULL);
 			}
@@ -431,7 +434,7 @@ public class ZentrumBean extends Filter {
 		if (hash.length() != 64) {
 			throw new ZentrumException(ZentrumException.PASSWORT_NULL);
 		}
-		this.passwort = hash;
+		this.aPasswort = hash;
 	}
 
 	/**
@@ -446,14 +449,14 @@ public class ZentrumBean extends Filter {
 	 */
 	public void setPasswortKlartext(String klartext) throws ZentrumException {
 		if (this.isFilter()) {
-			this.passwort = KryptoUtil.getInstance().hashPasswort(klartext);
+			this.aPasswort = KryptoUtil.getInstance().hashPasswort(klartext);
 		} else {
 			if (klartext != null) {
 				if (!(ValidierungsUtil.validierePasswortZeichen(klartext) && klartext
 						.matches(".{12}"))) {
 					throw new ZentrumException(ZentrumException.PASSWORT_FALSCH);
 				}
-				this.passwort = KryptoUtil.getInstance().hashPasswort(klartext);
+				this.aPasswort = KryptoUtil.getInstance().hashPasswort(klartext);
 			} else {
 				throw new ZentrumException(ZentrumException.PASSWORT_NULL);
 			}
@@ -472,13 +475,13 @@ public class ZentrumBean extends Filter {
 	public void setPlz(String plz) throws ZentrumException {
 
 		if (this.isFilter()) {
-			this.plz = plz;
+			this.aPlz = plz;
 		} else {
 			if (plz != null) {
 				if (!plz.matches("\\d{5}")) {
 					throw new ZentrumException(ZentrumException.PLZ_FALSCH);
 				}
-				this.plz = plz;
+				this.aPlz = plz;
 			} else {
 				throw new ZentrumException(ZentrumException.PLZ_NULL);
 			}
@@ -496,13 +499,13 @@ public class ZentrumBean extends Filter {
 	public void setStrasse(String strasse) throws ZentrumException {
 
 		if (this.isFilter()) {
-			this.strasse = strasse;
+			this.aStrasse = strasse;
 		} else {
 			if (strasse != null) {
 				if (!strasse.matches(".{3,50}")) {
 					throw new ZentrumException(ZentrumException.STRASSE_FALSCH);
 				}
-				this.strasse = strasse;
+				this.aStrasse = strasse;
 			} else {
 				throw new ZentrumException(ZentrumException.STRASSE_NULL);
 			}
@@ -549,7 +552,7 @@ public class ZentrumBean extends Filter {
 	 * @return id des Ansprechpartners
 	 */
 	public long getAnsprechpartnerId() {
-		return ansprechpartnerId;
+		return aAnsprechpartnerId;
 	}
 
 }
