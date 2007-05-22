@@ -20,7 +20,7 @@ public class Zentrum {
 	/**
 	 * Das zugehoerige ZentrumBean-Objekt.
 	 */
-	private ZentrumBean aZentrum;
+	private ZentrumBean aZentrumBean;
 
 	/**
 	 * Ein Konstruktor dieser Klasse.
@@ -29,7 +29,7 @@ public class Zentrum {
 	 *            das zugeoehrige ZentrumBean
 	 */
 	public Zentrum(ZentrumBean aZentrum) {
-		this.aZentrum = aZentrum;
+		this.aZentrumBean = aZentrum;
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class Zentrum {
 	 *         enthaelt.
 	 */
 	public ZentrumBean getZentrumBean() {
-		return aZentrum;
+		return aZentrumBean;
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class Zentrum {
 	 *             Die Exception tritt auf, wenn kein Zentrum zur ID gefunden
 	 *             wurde.
 	 */
-	public static ZentrumBean get(long zentrumId) throws ZentrumException {
+	public static ZentrumBean getZentrum(long zentrumId) throws ZentrumException {
 		ZentrumBean aBean = new ZentrumBean();
 		aBean.setFilter(true);
 		try {
@@ -103,6 +103,34 @@ public class Zentrum {
 		} catch (DatenbankFehlerException e) {
 			throw new ZentrumException(ZentrumException.ZENTRUM_NICHT_GEFUNDEN);
 		}
+	}
+	
+
+	/**
+	 * Erzeugt einen String mit allen Daten des Benutzers.
+	 * 
+	 * @return Der String mit allen Daten des Benutzers.
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return this.aZentrumBean.toString();
+	}
+
+	/**
+	 * Diese Methode dient zum Verlgeich von 2 Objekten dieser Klasse.
+	 * 
+	 * @param zuvergleichendesObjekt
+	 *            Objekt mit dem verglichen werden soll.
+	 * @return true - wenn die beiden Objekte identisch sind, false wenn das
+	 *         nicht der Fall ist.
+	 */
+	public boolean equals(Zentrum zuvergleichendesObjekt) {
+		if (this.aZentrumBean.equals(zuvergleichendesObjekt
+				.getZentrumBean())) {
+			return true;
+		}
+		return false;
 	}
 
 }
