@@ -13,7 +13,7 @@ values('1','nch','knochen','heilbronn','74081','hessstrasse','34','hess',0),
 insert into Benutzerkonto (Zentrum_zentrumsID,Person_personenID,loginname,passwort,rolle,gesperrt) 
 values ('1','1','frank','hess','Studienarzt',0),
 		('2','2','valentin','graeff','Studienleiter',0),
-		('3,','3','nadine','zwink','System Operator',1),
+		('3','3','nadine','zwink','System Operator',1),
 		('4','4','hans','dampf','Administrator',1);
 
 insert into Studie (Benutzerkonto_benutzerkontenID,name,beschreibung,startdatum,enddatum,studienprotokoll,randomisationArt,status_Studie) 
