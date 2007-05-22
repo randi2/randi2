@@ -350,6 +350,9 @@ public class BenutzerkontoBean extends Filter {
 	public void setBenutzer(PersonBean benutzer) throws BenutzerkontoException {
 		// keine Pruefung, da bei der Erzeugung der PersonBean schon alles
 		// geprueft wird
+		if(benutzer == null){
+			throw new BenutzerkontoException(BenutzerkontoException.BENUTZER_NULL);
+		}
 		this.setBenutzerId(benutzer.getId());
 		this.aBenutzer = benutzer;
 	}
@@ -619,6 +622,9 @@ public class BenutzerkontoBean extends Filter {
 	 *             gespeichert wurde.
 	 */
 	public void setZentrum(ZentrumBean zentrum) throws BenutzerkontoException {
+		if(zentrum==null){
+			throw new BenutzerkontoException(BenutzerkontoException.ZENTRUM_NULL);
+		}
 		this.setZentrumId(zentrum.getId());
 		this.aZentrum = zentrum;
 	}

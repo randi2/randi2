@@ -19,10 +19,11 @@ import de.randi2.utility.NullKonstanten;
  * @version $Id$
  */
 public class PatientBean extends Filter {
+
 	/**
 	 * Die eindeutige ID des Patienten.
 	 */
-	private long id = NullKonstanten.NULL_LONG;
+	private long id = NullKonstanten.DUMMY_ID;
 
 	/**
 	 * Die Initialen des Patienten.
@@ -62,7 +63,7 @@ public class PatientBean extends Filter {
 	/**
 	 * Die eindeutige ID des Studienarms.
 	 */
-	private long aStudienarmId = NullKonstanten.NULL_LONG;
+	private long aStudienarmId = NullKonstanten.DUMMY_ID;
 
 	/**
 	 * Das Benutzerkonto.
@@ -72,7 +73,7 @@ public class PatientBean extends Filter {
 	/**
 	 * Die eindeutige ID des Benutzerkontos.
 	 */
-	private long aBenutzerkontoId = NullKonstanten.NULL_LONG;
+	private long aBenutzerkontoId = NullKonstanten.DUMMY_ID;
 
 	/*
 	 * TODO In diesem Bean werden noch die Strate-Eigenschaften des Patienten
@@ -84,44 +85,6 @@ public class PatientBean extends Filter {
 	 * Standardkonstruktor von PatientBean mit Aufruf der Superklasse.
 	 */
 	public PatientBean() {
-	}
-
-	/**
-	 * Konstruktor von PatientBean.
-	 * 
-	 * @param id
-	 *            Die eindeutige ID des Patienten.
-	 * @param initialen
-	 *            Die Initialen des Patienten.
-	 * @param geschlecht
-	 *            Das Geschlecht des Patienten.
-	 * @param geburtsdatum
-	 *            Das Geburtstdatum des Patienten.
-	 * @param performanceStatus
-	 *            Der Performancestatus des Patienten.
-	 * @param datumAufklaerung
-	 *            Das Datum der Patientenaufklaerung.
-	 * @param koerperoberflaeche
-	 *            Die Koerperoberflaeche des Patienten.
-	 * @param studienarm
-	 *            Dem Patient zugeordneter Studienarm.
-	 * @throws PatientException -
-	 *             wenn ungueltige Daten uebergeben wurden
-	 */
-	public PatientBean(long id, String initialen, char geschlecht,
-			GregorianCalendar geburtsdatum, int performanceStatus,
-			GregorianCalendar datumAufklaerung, int koerperoberflaeche,
-			StudienarmBean studienarm) throws PatientException {
-
-		this.setId(id);
-		this.setInitialen(initialen);
-		this.setGeschlecht(geschlecht);
-		this.setGeburtsdatum(geburtsdatum);
-		this.setPerformanceStatus(performanceStatus);
-		this.setDatumAufklaerung(datumAufklaerung);
-		this.setKoerperoberflaeche(koerperoberflaeche);
-		this.setStudienarm(studienarm);
-		this.setStudienarmId(studienarm.getId());
 	}
 
 	/**
@@ -151,7 +114,7 @@ public class PatientBean extends Filter {
 	public PatientBean(long id, String initialen, char geschlecht,
 			GregorianCalendar geburtsdatum, int performanceStatus,
 			GregorianCalendar datumAufklaerung, int koerperoberflaeche,
-			int studienarmId, long benutzerkontoId) throws PatientException {
+			long studienarmId, long benutzerkontoId) throws PatientException {
 
 		this.setId(id);
 		this.setInitialen(initialen);
@@ -178,9 +141,15 @@ public class PatientBean extends Filter {
 	 * 
 	 * @param datumAufklaerung
 	 *            Setzt das Aufklärungsdatum.
+	 * @throws PatientException -
+	 *             wenn das uebergebene Datum in der Zukunft liegt.
 	 */
-	public void setDatumAufklaerung(GregorianCalendar datumAufklaerung) {
-		aDatumAufklaerung = datumAufklaerung;
+	public void setDatumAufklaerung(GregorianCalendar datumAufklaerung)
+			throws PatientException {
+		if ((new GregorianCalendar(Locale.GERMANY)).before(datumAufklaerung)) {
+			throw new PatientException(PatientException.DATUM_IN_DER_ZUKUNFT);
+		}
+		this.aDatumAufklaerung = datumAufklaerung;
 	}
 
 	/**
@@ -197,8 +166,14 @@ public class PatientBean extends Filter {
 	 * 
 	 * @param geburtsdatum
 	 *            Setzt das Geburtsdatum.
+	 * @throws PatientException -
+	 *             wenn das uebergebene Datum in der Zukunft liegt.
 	 */
-	public void setGeburtsdatum(GregorianCalendar geburtsdatum) {
+	public void setGeburtsdatum(GregorianCalendar geburtsdatum)
+			throws PatientException {
+		if ((new GregorianCalendar(Locale.GERMANY)).before(geburtsdatum)) {
+			throw new PatientException(PatientException.DATUM_IN_DER_ZUKUNFT);
+		}
 		aGeburtsdatum = geburtsdatum;
 	}
 
@@ -216,8 +191,13 @@ public class PatientBean extends Filter {
 	 * 
 	 * @param geschlecht
 	 *            Setzt das Geschlechts.
+	 * @throws PatientException -
+	 *             wenn das uebergebene Geschlecht falsch war.
 	 */
-	public void setGeschlecht(char geschlecht) {
+	public void setGeschlecht(char geschlecht) throws PatientException {
+		if (geschlecht != 'm' && geschlecht != 'w') {
+			throw new PatientException(PatientException.GESCHLECHT_FALSCH);
+		}
 		aGeschlecht = geschlecht;
 	}
 
@@ -274,8 +254,14 @@ public class PatientBean extends Filter {
 	 * 
 	 * @param performanceStatus
 	 *            Setzt den Performancestatus.
+	 * @throws PatientException -
+	 *             wenn der uebergebene Wert nicht korrekt ist.
 	 */
-	public void setPerformanceStatus(int performanceStatus) {
+	public void setPerformanceStatus(int performanceStatus)
+			throws PatientException {
+		if (performanceStatus < 0 || performanceStatus > 4) {
+			throw new PatientException(PatientException.PERFORMACE_STATUS_FALSH);
+		}
 		aPerformanceStatus = performanceStatus;
 	}
 
@@ -283,18 +269,21 @@ public class PatientBean extends Filter {
 	 * Get-Methode fuer die Rueckgabe eines StudienarmBeans.
 	 * 
 	 * @return Liefert das StudienarmBean.
-	 * @throws DatenbankFehlerException
-	 *             Wirft eine Exception, falls die Studienarm-ID
-	 *             <code>null</code> ist.
+	 * @throws PatientException
+	 *             Wirft eine Exception, falls die Studienarm-ID gleich dem
+	 *             DUMMY_ID ist o. wenn ein Fehler in der DB auftrat.
 	 */
-	public StudienarmBean getStudienarm() throws DatenbankFehlerException {
+	public StudienarmBean getStudienarm() throws PatientException {
 		if (aStudienarm == null) {
-
-			if (aStudienarmId == NullKonstanten.NULL_INT) {
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.ARGUMENT_IST_NULL);
+			if (aStudienarmId == NullKonstanten.DUMMY_ID) {
+				throw new PatientException(
+						PatientException.STUDIENARM_NICHT_VORHANDEN);
 			} else {
-				aStudienarm = Studienarm.getStudienarm(aStudienarmId);
+				try {
+					aStudienarm = Studienarm.getStudienarm(aStudienarmId);
+				} catch (DatenbankFehlerException e) {
+					throw new PatientException(PatientException.DB_FEHLER);
+				}
 			}
 		}
 		return aStudienarm;
@@ -305,9 +294,14 @@ public class PatientBean extends Filter {
 	 * 
 	 * @param studienarm
 	 *            Setzt das StudienarmBean.
+	 * @throws PatientException - wenn das uebergebene Objekt noch nicht in der DB gespeichert wurde.
 	 */
-	public void setStudienarm(StudienarmBean studienarm) {
-		aStudienarm = studienarm;
+	public void setStudienarm(StudienarmBean studienarm) throws PatientException {
+		if(studienarm==null){
+			throw new PatientException(PatientException.STUDIENARM_NULL);
+		}
+		this.setStudienarmId(studienarm.getId());
+		this.aStudienarm = studienarm;
 	}
 
 	/**
@@ -324,8 +318,12 @@ public class PatientBean extends Filter {
 	 * 
 	 * @param studienarmId
 	 *            Setzt die Studienarm-ID.
+	 * @throws PatientException - wenn die Id gleich der Dummy_Id ist.
 	 */
-	public void setStudienarmId(long studienarmId) {
+	public void setStudienarmId(long studienarmId) throws PatientException {
+		if(studienarmId==NullKonstanten.DUMMY_ID){
+			throw new PatientException(PatientException.STUDIENARM_NOCH_NICHT_GESPEICHERT);
+		}
 		aStudienarmId = studienarmId;
 	}
 
@@ -456,7 +454,7 @@ public class PatientBean extends Filter {
 							.getStudienarm()))) {
 						return false;
 					}
-				} catch (DatenbankFehlerException e) {
+				} catch (PatientException e) {
 					return false;
 				}
 			} else {
@@ -486,5 +484,22 @@ public class PatientBean extends Filter {
 		}
 
 	}
-
+	
+	/**
+	 * Liefert den HashCode des Objektes.<br>
+	 * Der HashCode entspricht der (Datenbank-)Id des Objektes. Ist das Objekt
+	 * noch nicht gespeichert worden, besitzt also die ID
+	 * {@link NullKonstanten#DUMMY_ID}, so wird der HashCode von
+	 * {@link java.lang.Object#hashCode()} geliefert.
+	 * 
+	 * @return HashCode des Objektes
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		if (id == NullKonstanten.DUMMY_ID) {
+			return super.hashCode();
+		}
+		return (int) id;
+	}
 }

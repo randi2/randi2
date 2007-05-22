@@ -63,9 +63,9 @@ public class StudienarmBeanTest {
 		aStudienarmBean.setStudie(new StudieBean());
 		
 		Vector<PatientBean> aTestdaten = new Vector<PatientBean>();
-		aTestdaten.add(new PatientBean(213,"adsd",'m',new GregorianCalendar(2003, 3, 17),3,new GregorianCalendar(2003, 3, 17),3,aStudienarmBean));
-		aTestdaten.add(new PatientBean(214,"adsd",'m',new GregorianCalendar(2003, 3, 17),3,new GregorianCalendar(2003, 3, 17),3,aStudienarmBean));
-		aTestdaten.add(new PatientBean(215,"adsd",'m',new GregorianCalendar(2003, 3, 17),3,new GregorianCalendar(2003, 3, 17),3,aStudienarmBean));
+		aTestdaten.add(new PatientBean(213,"adsd",'m',new GregorianCalendar(2003, 3, 17),3,new GregorianCalendar(2003, 3, 17),3,aStudienarmBean.getId(),190));
+		aTestdaten.add(new PatientBean(214,"adsd",'m',new GregorianCalendar(2003, 3, 17),3,new GregorianCalendar(2003, 3, 17),3,aStudienarmBean.getId(),190));
+		aTestdaten.add(new PatientBean(215,"adsd",'m',new GregorianCalendar(2003, 3, 17),3,new GregorianCalendar(2003, 3, 17),3,aStudienarmBean.getId(),190));
 						
 		
 		
@@ -201,7 +201,7 @@ public class StudienarmBeanTest {
 
 				aPatienten.add(new PatientBean(i, "abc" + i, 'm',
 						new GregorianCalendar(1983, 3, i), 3,
-						new GregorianCalendar(1983, 3, i), 5, aStudienarmBean));
+						new GregorianCalendar(1983, 3, i), 5, aStudienarmBean.getId(),190));
 
 			} catch (Exception e) {
 				System.out.println(e.getMessage());

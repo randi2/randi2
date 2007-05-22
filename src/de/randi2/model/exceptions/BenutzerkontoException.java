@@ -56,6 +56,16 @@ public class BenutzerkontoException extends BenutzerException {
 	public static final String ZENTRUM_NICHT_GESPEICHERT = "Das &uuml;bergebene Zentrum wurde noch nicht gespeichert!";
 
 	/**
+	 * Fehlermeldung, wenn null an die setZentrum() Methode uebergeben wurde.
+	 */
+	public static final String ZENTRUM_NULL = "Es wurde kein Zentrum &uuml;bergeben!";
+	
+	/**
+	 * Fehlermeldung, wenn null an die setBenutzer() Methode uebergeben wurde.
+	 */
+	public static final String BENUTZER_NULL = "Es wurde kein Benutzer &uuml;bergeben!";
+	
+	/**
 	 * Fehlermeldung, wenn die Rolle nicht uebergeben wurde.
 	 */
 	public static final String ROLLE_FEHLT = "Die Rolle des Benutzers wurde nicht &uuml;bergeben!";

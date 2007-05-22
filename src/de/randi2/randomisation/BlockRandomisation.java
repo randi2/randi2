@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.beans.PatientBean;
@@ -86,8 +87,15 @@ public class BlockRandomisation extends Randomisation {
 		}
 		// System.out.println(letztePosition);
 		// System.out.println(aBlock[letztePosition]);
-		aPatient.setStudienarm((StudienarmBean) this.studie.getStudienarme()
-				.toArray()[aBlock[letztePosition]]);
+		try {
+			aPatient.setStudienarm((StudienarmBean) this.studie
+					.getStudienarme().toArray()[aBlock[letztePosition]]);
+		} catch (PatientException e1) {
+			// TODO Da diese Klasse noch so wie so von uns (dhaehn und lplotni)
+			// ueberarbeitet wird - wird das ExceptionHandling an dieser Stelle
+			// noch nicht realisiert. (lplotni)
+			e1.printStackTrace();
+		}
 		// aPatient.setStudienarmId();
 		try {
 			super.studie.getStudienarme().elementAt(aBlock[letztePosition])
