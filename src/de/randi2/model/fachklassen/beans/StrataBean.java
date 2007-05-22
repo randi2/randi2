@@ -21,14 +21,14 @@ public class StrataBean extends Filter{
 	/**
 	 * Die Datenbank-Id des Strata-Typs.
 	 */
-	long id = NullKonstanten.NULL_LONG;
+	long id = NullKonstanten.DUMMY_ID;
 	
 	/**
 	 * Die moeglichen Auspraegungen eines Stratas als HashMap. Der Key-Parameter
 	 * stellt dabei die id des Stratas auf der Datenbank als {@link Long} dar.
 	 * Der value-Paramater den geschriebenen Wert des Stratas als {@link String}.
 	 */
-	private HashMap<Long, String> moeglicheAuspraegungen = null;
+	private HashMap<Long, String> aMoeglicheAuspraegungen = null;
 
 	/**
 	 * Die id des Stratas als long, falls ein aktuelles Strata gewaehlt ist.
@@ -54,7 +54,7 @@ public class StrataBean extends Filter{
 	 */
 	public StrataBean(long id, HashMap<Long, String> moeglicheAuspraegungen) throws StrataException{
 		this.id = id;
-		this.moeglicheAuspraegungen = moeglicheAuspraegungen;
+		this.aMoeglicheAuspraegungen = moeglicheAuspraegungen;
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class StrataBean extends Filter{
 	 */
 	public void setAuspraegungId(String auspraegung) {
 		Long aAuspraegungIdObjekt = CollectionUtil.getKeyFromHashMap(
-				moeglicheAuspraegungen, auspraegung);
+				aMoeglicheAuspraegungen, auspraegung);
 		if (aAuspraegungIdObjekt == null) {
 			// TODO Fehler!!!
 		} else {
@@ -120,7 +120,7 @@ public class StrataBean extends Filter{
 	 *         des Stratas als {@link String}.
 	 */
 	public HashMap<Long, String> getMoeglicheAuspraegungen() {
-		return moeglicheAuspraegungen;
+		return aMoeglicheAuspraegungen;
 	}
 	
     /**
