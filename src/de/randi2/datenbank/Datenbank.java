@@ -982,9 +982,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ "=?," + FelderPerson.EMAIL + "=?," + FelderPerson.FAX
 					+ "=?," + FelderPerson.TELEFONNUMMER + "=?,"
 					+ FelderPerson.HANDYNUMMER + "=?,"
-					+ FelderPerson.STELLVERTRETER + "=?," + " WHERE "
+					+ FelderPerson.STELLVERTRETER + "=?" + " WHERE "
 					+ FelderPerson.ID + "=?";
-			try {
+			try { System.out.println(sql);
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, person.getNachname());
 				pstmt.setString(2, person.getVorname());
@@ -1990,7 +1990,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			sql += FelderZentrum.HAUSNUMMER.toString()+" LIKE ? AND ";
 		}
 		
-		sql += FelderZentrum.AKTIVIERT+" = ? AND ";
+		sql += FelderZentrum.AKTIVIERT+" = ? ";
 		
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -2019,8 +2019,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 			rs.close();
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
 		} catch (ZentrumException g) {
+			g.printStackTrace();
 			throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
 		}
 		

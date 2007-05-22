@@ -59,12 +59,10 @@ public class BenutzerZentrenDBJunittest {
 
 	AktivierungBean bean =new AktivierungBean(NullKonstanten.NULL_LONG, new GregorianCalendar(), 1, "23423424242");
 	    bean=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(bean);
-	    System.out.println("ID des gespeicherten Aktivierungsbean "+bean.getAktivierungsId());
 	    
 	    //Suchen ueber id:
 	    AktivierungBean beanNachSuche=DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(bean.getAktivierungsId(), new AktivierungBean());
-	    System.out.println("ID des gesuchten Aktivierungsbean "+beanNachSuche.getAktivierungsId());
-	    assertEquals(bean,beanNachSuche);	   
+	   assertEquals(bean,beanNachSuche);	   
 	    
 	    //Suchen ueber Werte:
 	    bean.setFilter(true);
@@ -90,7 +88,6 @@ public class BenutzerZentrenDBJunittest {
 	BenutzerkontoBean benutzerbean=new BenutzerkontoBean(NullKonstanten.NULL_LONG,"benutzername",
 		KryptoUtil.getInstance().hashPasswort("Passwort").toString(),1,Rolle.getAdmin(),1,false,null,null);
 	benutzerbean=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(benutzerbean);
-	 System.out.println("ID des gespeicherten BenutzerkontoBean "+benutzerbean.getId());
 	//Suchen ueber id:
 	benutzerbean.setFilter(true);
 	BenutzerkontoBean beanNachsuche=DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(benutzerbean.getBenutzerId(), new BenutzerkontoBean());
@@ -102,7 +99,7 @@ public class BenutzerZentrenDBJunittest {
 	
 	
 	//Bean Aendern
-	BenutzerkontoBean benutzerAendern=new BenutzerkontoBean(benutzerbean.getBenutzerId(),"benutzername123",
+	BenutzerkontoBean benutzerAendern=new BenutzerkontoBean(benutzerbean.getBenutzerId(),"benutzername12",
 		KryptoUtil.getInstance().hashPasswort("Passwort12").toString(),1,Rolle.getStudienarzt(),1,true,new GregorianCalendar(),new GregorianCalendar());
 	    DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(benutzerAendern);
 	    assertFalse(benutzerbean.equals(benutzerAendern));
@@ -137,7 +134,7 @@ public class BenutzerZentrenDBJunittest {
 	// Ändern
 	PersonBean pBeanAendern = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(pBeanSchreiben.getId(), new PersonBean());
 	// Stellvertreter is man selber
-	pBeanAendern = new PersonBean(pBeanAendern.getId(), pBeanAendern.getId(), "Nachname1", "Vorname1", PersonBean.Titel.DR, 'm', "@wweb.de", "009878979", "0097987987987", "00980809809809");
+	pBeanAendern = new PersonBean(pBeanAendern.getId(), pBeanAendern.getId(), "Nachname1", "Vorname1", PersonBean.Titel.DR, 'm', "wurst@wweb.de", "009878979", "0097987987987", "00980809809809");
 	DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(pBeanAendern);
 	PersonBean pBeanNachAenderung = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(pBeanAendern.getId(), new PersonBean());
 	assertFalse(pBeanAendern.equals(pBeanNachAenderung));
