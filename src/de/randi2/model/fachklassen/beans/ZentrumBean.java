@@ -331,8 +331,13 @@ public class ZentrumBean extends Filter {
 	 *            die eindeutige (long) Id des Ansprechpartners aus der
 	 *            Datenbank.
 	 */
-	public void setAnsprechpartnerId(long id) {
+	public void setAnsprechpartnerId(long id) throws ZentrumException{
+		if (id != NullKonstanten.DUMMY_ID) {
 		this.aAnsprechpartnerId = id;
+		} else {
+			throw new ZentrumException(ZentrumException.ANSPRECHPARTNER_NICHT_GESPEICHERT);
+			
+		}
 	}
 
 	/**
