@@ -4,6 +4,10 @@ import java.util.Vector;
 
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.model.exceptions.StudieException;
+import de.randi2.model.exceptions.StudienarmException;
+import de.randi2.model.fachklassen.beans.PatientBean;
+import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 
 /**
@@ -21,8 +25,25 @@ import de.randi2.model.fachklassen.beans.StudienarmBean;
 public final class Studienarm {
 
 	// TODO wenn der Zustand sich nicht aendert und diese Klasse nur statische
-	// Methoden anbietet, sollte man hier private Konstruktor definieren. (lplotni)
-	
+	// Methoden anbietet, sollte man hier private Konstruktor definieren.
+	// (lplotni)
+
+	/**
+	 * Das zugehoerige StudienarmBean Objekt
+	 */
+	private StudienarmBean aStudienarmBean = null;
+
+	/**
+	 * Der Konstruktor dieser Klasse.
+	 * 
+	 * @param studienarmBean
+	 *            das zugehoerige StudienarmBean
+	 */
+	public Studienarm(StudienarmBean studienarmBean) {
+		super();
+		aStudienarmBean = studienarmBean;
+	}
+
 	/**
 	 * Diese Methode liefert nur das gewuenschte Objekt zurueckt.
 	 * 
@@ -32,7 +53,7 @@ public final class Studienarm {
 	 * @throws DatenbankFehlerException
 	 *             falls Fehler bei dem Vorgang auftraten.
 	 */
-	public static StudienarmBean get(long id) throws DatenbankFehlerException {
+	public static StudienarmBean getStudienarm(long id) throws DatenbankFehlerException {
 		StudienarmBean nullBean = new StudienarmBean();
 		nullBean.setFilter(true);
 		return DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(id,
@@ -55,6 +76,67 @@ public final class Studienarm {
 			throws DatenbankFehlerException {
 		return DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
 				gesuchtesBean);
+	}
+
+	/**
+	 * Liefert alle Patienten zu einem Studienarm.
+	 * 
+	 * @param studienarmId
+	 *            Id des Studienarms zur eindeutigen Zuordnung in der Datenbank.
+	 * @return gefundenePatienten
+	 * @throws StudienarmException
+	 *             Exception, wenn Studienarm nicht gefunden wurde.
+	 */
+	public static Vector<PatientBean> getZugehoerigePatienten(long studienarmId)
+			throws StudienarmException {
+		StudienarmBean studienarm = new StudienarmBean();
+		studienarm.setId(studienarmId);
+		Vector<PatientBean> gefundenePatienten = null;
+		try {
+			gefundenePatienten = DatenbankFactory.getAktuelleDBInstanz()
+					.suchenMitgliederObjekte(studienarm, new PatientBean());
+		} catch (DatenbankFehlerException e) {
+			throw new StudienarmException(
+					StudienarmException.PATIENTEN_NICHT_GEFUNDEN);
+		}
+
+		return gefundenePatienten;
+	}
+
+	/**
+	 * Erzeugt einen String mit allen Daten des Benutzers.
+	 * 
+	 * @return Der String mit allen Daten des Benutzers.
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return this.aStudienarmBean.toString();
+	}
+
+	/**
+	 * Diese Methode dient zum Verlgeich von 2 Objekten dieser Klasse.
+	 * 
+	 * @param zuvergleichendesObjekt
+	 *            Objekt mit dem verglichen werden soll.
+	 * @return true - wenn die beiden Objekte identisch sind, false wenn das
+	 *         nicht der Fall ist.
+	 */
+	public boolean equals(Studienarm zuvergleichendesObjekt) {
+		if (this.aStudienarmBean.equals(zuvergleichendesObjekt
+				.getStudienarmBean())) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Liefert das zugehoerige StudienarmBean.
+	 * 
+	 * @return das zugehoerige StudienarmBean
+	 */
+	public StudienarmBean getStudienarmBean() {
+		return aStudienarmBean;
 	}
 
 }
