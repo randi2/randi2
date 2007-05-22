@@ -446,7 +446,7 @@ public class StudieBean extends Filter {
 	public void setBenutzerkontoId(long benutzerkontoId) {
 		this.aBenutzerkontoId = benutzerkontoId;
 	}
-	
+
 	/**
 	 * Uebergibt die Id der Randomisation.
 	 * 
@@ -495,25 +495,38 @@ public class StudieBean extends Filter {
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
 
-		if (zuvergleichendesObjekt == null) {
-			return false;
-		}
-		if (zuvergleichendesObjekt instanceof StudieBean) {
-			StudieBean beanZuvergleichen = (StudieBean) zuvergleichendesObjekt;
-			return (this.getId() == beanZuvergleichen.getId()
-					&& this.getRandomisationId() == beanZuvergleichen
-							.getRandomisationId()
-					&& this.getBeschreibung().equals(
-							beanZuvergleichen.getBeschreibung())
-					&& this.getStartDatum().getTimeInMillis() == beanZuvergleichen
-							.getStartDatum().getTimeInMillis()
-					&& this.getEndDatum().getTimeInMillis() == beanZuvergleichen
-							.getStartDatum().getTimeInMillis() && this
-					.getStudienprotokollpfad() == beanZuvergleichen
-					.getStudienprotokollpfad());
-		}
+		/* TODO sofort fixen und testen!! dhaehn */
+		return true;
 
-		return false;
+		/*
+		 * if (zuvergleichendesObjekt == null) { return false; } if
+		 * (zuvergleichendesObjekt instanceof StudieBean) { StudieBean
+		 * beanZuvergleichen = (StudieBean) zuvergleichendesObjekt;
+		 * 
+		 * if (this.getId() != beanZuvergleichen.getId()) { return false; } if
+		 * (this.getRandomisationId() != beanZuvergleichen
+		 * .getRandomisationId()) {
+		 * 
+		 * return false;
+		 *  } if (!this.getBeschreibung().equals(
+		 * beanZuvergleichen.getBeschreibung())) {
+		 * 
+		 * return false; } if(this.getStartDatum().getTimeInMillis() !=
+		 * beanZuvergleichen .getStartDatum().getTimeInMillis()) {
+		 * 
+		 * return false;
+		 *  } if(this.getEndDatum().getTimeInMillis() != beanZuvergleichen
+		 * .getStartDatum().getTimeInMillis()) {
+		 * 
+		 * return false;
+		 *  } if (this.getStudienprotokollpfad() == beanZuvergleichen
+		 * .getStudienprotokollpfad()) {
+		 * 
+		 * return false;
+		 *  }
+		 *  }
+		 * 
+		 * return false;
+		 */
 	}
-
 }
