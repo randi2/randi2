@@ -16,42 +16,42 @@ public class PersonBean extends Filter {
 	/**
 	 * Die eindeutige Id der Person.
 	 */
-	private long id = NullKonstanten.NULL_LONG;
+	private long id = NullKonstanten.DUMMY_ID;
 
 	/**
 	 * Die E-Mailadresse der Person.
 	 */
-	private String email = null;
+	private String aEmail = null;
 
 	/**
 	 * Die Faxnummer der Person.
 	 */
-	private String fax = null;
+	private String aFax = null;
 
 	/**
 	 * Das Geschlecht der Person. 'm' feur maennlich oder 'w' fuer weiblich.
 	 */
-	private char geschlecht = NullKonstanten.NULL_CHAR;
+	private char aGeschlecht = NullKonstanten.NULL_CHAR;
 
 	/**
 	 * Die Handynummer der Person.
 	 */
-	private String handynummer = null;
+	private String aHandynummer = null;
 
 	/**
 	 * Der Nachname der Person.
 	 */
-	private String nachname = null;
+	private String aNachname = null;
 
 	/**
 	 * Die Telefonnummer der Person.
 	 */
-	private String telefonnummer = null;
+	private String aTelefonnummer = null;
 
 	/**
 	 * Der Titel der Person
 	 */
-	private Titel titel = Titel.KEIN_TITEL;
+	private Titel aTitel = Titel.KEIN_TITEL;
 
 	/**
 	 * Enumeration aller Titel
@@ -132,17 +132,17 @@ public class PersonBean extends Filter {
 	/**
 	 * Vorname der Person.
 	 */
-	private String vorname = null;
+	private String aVorname = null;
 
 	/**
 	 * Stellvertreter der Person.
 	 */
-	private PersonBean stellvertreter = null;
+	private PersonBean aStellvertreter = null;
 
 	/**
 	 * Eindeutige ID des Stellvertreters.
 	 */
-	private long stellvertreterId = NullKonstanten.NULL_LONG;
+	private long aStellvertreterId = NullKonstanten.DUMMY_ID;
 
 	/**
 	 * Ein einfacher Konstruktor.
@@ -202,7 +202,7 @@ public class PersonBean extends Filter {
 	 * @return email
 	 */
 	public String getEmail() {
-		return email;
+		return aEmail;
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class PersonBean extends Filter {
 	 * @return fax
 	 */
 	public String getFax() {
-		return fax;
+		return aFax;
 	}
 
 	/**
@@ -220,7 +220,7 @@ public class PersonBean extends Filter {
 	 * @return geschlecht
 	 */
 	public char getGeschlecht() {
-		return geschlecht;
+		return aGeschlecht;
 	}
 
 	/**
@@ -229,7 +229,7 @@ public class PersonBean extends Filter {
 	 * @return handynummer
 	 */
 	public String getHandynummer() {
-		return handynummer;
+		return aHandynummer;
 	}
 
 	/**
@@ -238,7 +238,7 @@ public class PersonBean extends Filter {
 	 * @return nachname
 	 */
 	public String getNachname() {
-		return nachname;
+		return aNachname;
 	}
 
 	/**
@@ -247,7 +247,7 @@ public class PersonBean extends Filter {
 	 * @return telefonnummer
 	 */
 	public String getTelefonnummer() {
-		return telefonnummer;
+		return aTelefonnummer;
 	}
 
 	/**
@@ -256,7 +256,7 @@ public class PersonBean extends Filter {
 	 * @return titel
 	 */
 	public Titel getTitel() {
-		return titel;
+		return aTitel;
 	}
 
 	/**
@@ -265,7 +265,7 @@ public class PersonBean extends Filter {
 	 * @return vorname
 	 */
 	public String getVorname() {
-		return vorname;
+		return aVorname;
 	}
 
 	/**
@@ -293,7 +293,7 @@ public class PersonBean extends Filter {
 				throw new PersonException(PersonException.EMAIL_UNGUELTIG);
 			}
 		}
-		this.email = email;
+		this.aEmail = email;
 	}
 
 	/**
@@ -311,7 +311,7 @@ public class PersonBean extends Filter {
 				throw new PersonException(PersonException.FAX_UNGUELTIG);
 			}
 		}
-		this.fax = fax;
+		this.aFax = fax;
 	}
 
 	/**
@@ -331,7 +331,7 @@ public class PersonBean extends Filter {
 				throw new PersonException(PersonException.GESCHLECHT_UNGUELTIG);
 			}
 		}
-		this.geschlecht = geschlecht;
+		this.aGeschlecht = geschlecht;
 	}
 
 	/**
@@ -350,7 +350,7 @@ public class PersonBean extends Filter {
 				throw new PersonException(PersonException.HANDY_UNGUELTIG);
 			}
 		}
-		this.handynummer = handynummer;
+		this.aHandynummer = handynummer;
 	}
 
 	/**
@@ -374,7 +374,7 @@ public class PersonBean extends Filter {
 				throw new PersonException(PersonException.NACHNAME_UNGUELTIG);
 			}
 		}
-		this.nachname = nachname;
+		this.aNachname = nachname;
 	}
 
 	/**
@@ -400,7 +400,7 @@ public class PersonBean extends Filter {
 						PersonException.TELEFONNUMMER_UNGUELTIG);
 			}
 		}
-		this.telefonnummer = telefonnummer;
+		this.aTelefonnummer = telefonnummer;
 	}
 
 	/**
@@ -419,7 +419,7 @@ public class PersonBean extends Filter {
 				throw new PersonException(PersonException.TITEL_UNGUELTIG);
 			}
 		}
-		this.titel = titel;
+		this.aTitel = titel;
 	}
 
 	/**
@@ -443,7 +443,7 @@ public class PersonBean extends Filter {
 				throw new PersonException(PersonException.VORNAME_UNGUELTIG);
 			}
 		}
-		this.vorname = vorname;
+		this.aVorname = vorname;
 	}
 
 	/**
@@ -475,10 +475,10 @@ public class PersonBean extends Filter {
 	 *             Fehler aufgetreten.
 	 */
 	public PersonBean getStellvertreter() throws PersonException {
-		if (stellvertreter == null) {
-			stellvertreter = Person.get(stellvertreterId);
+		if (aStellvertreter == null) {
+			aStellvertreter = Person.get(aStellvertreterId);
 		}
-		return stellvertreter;
+		return aStellvertreter;
 	}
 
 	/**
@@ -500,8 +500,8 @@ public class PersonBean extends Filter {
 			throw new PersonException(
 					PersonException.STELLVERTRETER_NOCH_NICHT_GESPEICHERT);
 		} else {
-			this.stellvertreter = stellvertreter;
-			this.stellvertreterId = stellvertreter.getId();
+			this.aStellvertreter = stellvertreter;
+			this.aStellvertreterId = stellvertreter.getId();
 		}
 
 	}
@@ -512,7 +512,7 @@ public class PersonBean extends Filter {
 	 * @return liefert die eindeutige ID des Stellvertreters
 	 */
 	public long getStellvertreterId() {
-		return stellvertreterId;
+		return aStellvertreterId;
 	}
 
 	/**
@@ -523,7 +523,7 @@ public class PersonBean extends Filter {
 	 *            Objekt in der Datenbank eindeutig identifiziert.
 	 */
 	public void setStellvertreterId(long stellvertreterId) {
-		this.stellvertreterId = stellvertreterId;
+		this.aStellvertreterId = stellvertreterId;
 	}
 
 	/**
@@ -535,11 +535,11 @@ public class PersonBean extends Filter {
 	 */
 	@Override
 	public String toString() {
-		return "id:\t" + this.id + "\tvorname:\t" + this.vorname
-				+ "\tnachname:\t" + this.nachname + "\temail:\t" + this.email
-				+ "\tfax:\t" + this.fax + "\thandy:\t" + this.handynummer
-				+ "\tstellvertreterId:\t" + this.stellvertreterId + "\ttel:\t"
-				+ this.telefonnummer;
+		return "id:\t" + this.id + "\tvorname:\t" + this.aVorname
+				+ "\tnachname:\t" + this.aNachname + "\temail:\t" + this.aEmail
+				+ "\tfax:\t" + this.aFax + "\thandy:\t" + this.aHandynummer
+				+ "\tstellvertreterId:\t" + this.aStellvertreterId + "\ttel:\t"
+				+ this.aTelefonnummer;
 	}
 
 	/**
@@ -556,67 +556,67 @@ public class PersonBean extends Filter {
 		if (zuvergleichendesObjekt instanceof PersonBean) {
 
 			PersonBean beanZuvergleichen = (PersonBean) zuvergleichendesObjekt;
-			if (beanZuvergleichen.email == null && this.email != null) {
+			if (beanZuvergleichen.aEmail == null && this.aEmail != null) {
 				return false;
-			} else if (beanZuvergleichen.email != null
-					&& !beanZuvergleichen.email.equals(this.email)) {
-				return false;
-			}
-
-			if (beanZuvergleichen.fax == null && this.fax != null) {
-
-				return false;
-			} else if (beanZuvergleichen.fax != null
-					&& !beanZuvergleichen.fax.equals(this.fax)) {
-
+			} else if (beanZuvergleichen.aEmail != null
+					&& !beanZuvergleichen.aEmail.equals(this.aEmail)) {
 				return false;
 			}
 
-			if (beanZuvergleichen.geschlecht != this.geschlecht) {
+			if (beanZuvergleichen.aFax == null && this.aFax != null) {
+
+				return false;
+			} else if (beanZuvergleichen.aFax != null
+					&& !beanZuvergleichen.aFax.equals(this.aFax)) {
+
 				return false;
 			}
 
-			if (beanZuvergleichen.handynummer == null
-					&& this.handynummer != null) {
+			if (beanZuvergleichen.aGeschlecht != this.aGeschlecht) {
 				return false;
-			} else if (beanZuvergleichen.handynummer != null
-					&& !beanZuvergleichen.handynummer.equals(this.handynummer)) {
+			}
+
+			if (beanZuvergleichen.aHandynummer == null
+					&& this.aHandynummer != null) {
+				return false;
+			} else if (beanZuvergleichen.aHandynummer != null
+					&& !beanZuvergleichen.aHandynummer.equals(this.aHandynummer)) {
 				return false;
 			}
 			if (beanZuvergleichen.id != this.id) {
 				return false;
 			}
 
-			if (beanZuvergleichen.nachname == null && this.nachname != null) {
+			if (beanZuvergleichen.aNachname == null && this.aNachname != null) {
 				return false;
-			} else if (beanZuvergleichen.nachname != null
-					&& !beanZuvergleichen.nachname.equals(this.nachname)) {
-				return false;
-			}
-			if (beanZuvergleichen.stellvertreterId != this.stellvertreterId) {
+			} else if (beanZuvergleichen.aNachname != null
+					&& !beanZuvergleichen.aNachname.equals(this.aNachname)) {
 				return false;
 			}
-			if (beanZuvergleichen.telefonnummer == null
-					&& this.telefonnummer != null) {
-				return false;
-			} else if (beanZuvergleichen.telefonnummer != null
-					&& !beanZuvergleichen.telefonnummer
-							.endsWith(this.telefonnummer)) {
+			if (beanZuvergleichen.aStellvertreterId != this.aStellvertreterId) {
 				return false;
 			}
-
-			if (beanZuvergleichen.titel == null && this.titel != null) {
+			if (beanZuvergleichen.aTelefonnummer == null
+					&& this.aTelefonnummer != null) {
 				return false;
-			} else if (beanZuvergleichen.titel != null
-					&& !beanZuvergleichen.titel.titel.equals(this.titel.titel)) {
+			} else if (beanZuvergleichen.aTelefonnummer != null
+					&& !beanZuvergleichen.aTelefonnummer
+							.endsWith(this.aTelefonnummer)) {
 				return false;
-
 			}
 
-			if (beanZuvergleichen.vorname == null && this.vorname != null) {
+			if (beanZuvergleichen.aTitel == null && this.aTitel != null) {
 				return false;
-			} else if (beanZuvergleichen.vorname != null
-					&& !beanZuvergleichen.vorname.equals(this.vorname)) {
+			} else if (beanZuvergleichen.aTitel != null
+					&& !beanZuvergleichen.aTitel.titel.equals(this.aTitel.titel)) {
+				return false;
+
+			}
+
+			if (beanZuvergleichen.aVorname == null && this.aVorname != null) {
+				return false;
+			} else if (beanZuvergleichen.aVorname != null
+					&& !beanZuvergleichen.aVorname.equals(this.aVorname)) {
 				return false;
 			}
 
