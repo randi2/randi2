@@ -5,6 +5,7 @@ import java.util.Random;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.RandomisationsException;
+import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
@@ -88,8 +89,15 @@ public class BlockRandomisation extends Randomisation {
 		aPatient.setStudienarm((StudienarmBean) this.studie.getStudienarme()
 				.toArray()[aBlock[letztePosition]]);
 		// aPatient.setStudienarmId();
-		super.studie.getStudienarme().elementAt(aBlock[letztePosition])
-				.getPatienten().add(aPatient);
+		try {
+			super.studie.getStudienarme().elementAt(aBlock[letztePosition])
+					.getPatienten().add(aPatient);
+		} catch (StudienarmException e) {
+
+			throw new RandomisationsException(
+					RandomisationsException.ARM_NICHT_VERWENDBAR);
+
+		}
 		letztePosition++;
 	}
 
