@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.beans.PatientBean;
@@ -60,6 +61,15 @@ public class StudienarmBeanTest {
 		aStudienarmBean.setStatus(Studie.Status.AKTIV);
 		aStudienarmBean.setStudieId(3434);
 		aStudienarmBean.setStudie(new StudieBean());
+		
+		Vector<PatientBean> aTestdaten = new Vector<PatientBean>();
+		aTestdaten.add(new PatientBean(213,"adsd",'m',new GregorianCalendar(2003, 3, 17),3,new GregorianCalendar(2003, 3, 17),3,aStudienarmBean));
+		aTestdaten.add(new PatientBean(214,"adsd",'m',new GregorianCalendar(2003, 3, 17),3,new GregorianCalendar(2003, 3, 17),3,aStudienarmBean));
+		aTestdaten.add(new PatientBean(215,"adsd",'m',new GregorianCalendar(2003, 3, 17),3,new GregorianCalendar(2003, 3, 17),3,aStudienarmBean));
+						
+		
+		
+		aStudienarmBean.setPatienten(aTestdaten);
 	}
 
 	/**
@@ -223,14 +233,14 @@ public class StudienarmBeanTest {
 	public void testSetStudie() {
 		try {
 			StudieBean aStudie = new StudieBean(34234, "dsfdsf",
-					new GregorianCalendar(1983, 3, 17), new GregorianCalendar(
+					new GregorianCalendar(2003, 3, 17), new GregorianCalendar(
 							1983, 3, 17), "sfsfa", 344);
 
 			aStudienarmBean.setStudie(aStudie);
 
 			assertTrue(aStudienarmBean.getStudie().equals(aStudie));
 
-		} catch (Exception e) {
+		} catch (StudieException e) {
 			System.out.println(e.getMessage());
 			fail("Studie konnte nicht angelegt werden!");
 		}
