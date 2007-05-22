@@ -1,6 +1,6 @@
 package de.randi2.junittests;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.RandomisationsException;
+import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
@@ -44,14 +45,16 @@ public class VollstaendigeRandomisationTest {
 
 	Randomisation testRandomisation = null;
 
-	 /**
-	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
-	     *
-	     */
-	    @BeforeClass
-	    public static void log(){
+	/**
+	 * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und
+	 * es funktioniert.
+	 * 
+	 */
+	@BeforeClass
+	public static void log() {
 		Log4jInit.initDebug();
-	    }
+	}
+
 	/**
 	 * Erstellt die wichtigen Variablen.
 	 * 
@@ -105,36 +108,45 @@ public class VollstaendigeRandomisationTest {
 			testPatienten[i].setInitialen("INI" + i);
 			testRandomisation.randomisierenPatient(testPatienten[i]);
 		}
+		try {
+			System.out.println("Arm 1: (" + testArm1.getPatienten().size()
+					+ ")");
+			Iterator<PatientBean> it = testArm1.getPatienten().iterator();
+			while (it.hasNext()) {
+				System.out.print(it.next().getInitialen() + ",");
+			}
+			System.out.println();
+			System.out.println();
 
-		System.out.println("Arm 1: (" + testArm1.getPatienten().size() + ")");
-		Iterator<PatientBean> it = testArm1.getPatienten().iterator();
-		while (it.hasNext()) {
-			System.out.print(it.next().getInitialen() + ",");
+			System.out.println("Arm 2: (" + testArm2.getPatienten().size()
+					+ ")");
+			it = testArm2.getPatienten().iterator();
+			while (it.hasNext()) {
+				System.out.print(it.next().getInitialen() + ",");
+			}
+			System.out.println();
+			System.out.println();
+
+			System.out.println("Arm 3: (" + testArm3.getPatienten().size()
+					+ ")");
+			it = testArm3.getPatienten().iterator();
+			while (it.hasNext()) {
+				System.out.print(it.next().getInitialen() + ",");
+			}
+			System.out.println();
+			System.out.println();
+
+			int anzPat = testArm1.getPatienten().size()
+					+ testArm2.getPatienten().size()
+					+ testArm3.getPatienten().size();
+
+			assertEquals(90, anzPat);
+
+		} catch (StudienarmException e) {
+
+			fail(e.getMessage());
+
 		}
-		System.out.println();
-		System.out.println();
-
-		System.out.println("Arm 2: (" + testArm2.getPatienten().size() + ")");
-		it = testArm2.getPatienten().iterator();
-		while (it.hasNext()) {
-			System.out.print(it.next().getInitialen() + ",");
-		}
-		System.out.println();
-		System.out.println();
-
-		System.out.println("Arm 3: (" + testArm3.getPatienten().size() + ")");
-		it = testArm3.getPatienten().iterator();
-		while (it.hasNext()) {
-			System.out.print(it.next().getInitialen() + ",");
-		}
-		System.out.println();
-		System.out.println();
-
-		int anzPat = testArm1.getPatienten().size()
-				+ testArm2.getPatienten().size()
-				+ testArm3.getPatienten().size();
-
-		assertEquals(90, anzPat);
 	}
 
 }

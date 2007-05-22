@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
@@ -32,14 +33,16 @@ public class StudienarmBeanTest {
 	// das zu testende Objekt
 	private StudienarmBean aStudienarmBean = null;
 
-	 /**
-	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
-	     *
-	     */
-	    @BeforeClass
-	    public static void log(){
+	/**
+	 * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und
+	 * es funktioniert.
+	 * 
+	 */
+	@BeforeClass
+	public static void log() {
 		Log4jInit.initDebug();
-	    }
+	}
+
 	/**
 	 * Method setUp() Erzeugt eine neue Instanz der Klasse StudieBean.
 	 * 
@@ -95,9 +98,9 @@ public class StudienarmBeanTest {
 	public void testEquals() {
 
 		StudienarmBean sa_null1 = null;
-		
+
 		assertFalse(aStudienarmBean.equals(sa_null1));
-		
+
 		StudienarmBean beanZuvergleichen = aStudienarmBean;
 		assertTrue(aStudienarmBean.equals(beanZuvergleichen));
 
@@ -199,9 +202,14 @@ public class StudienarmBeanTest {
 		}
 
 		aStudienarmBean.setPatienten(aPatienten);
+		try {
+			assertTrue(aStudienarmBean.getPatienten() == aPatienten);
+			assertTrue(aStudienarmBean.getPatAnzahl() == aPatienten.size());
+		} catch (StudienarmException e) {
 
-		assertTrue(aStudienarmBean.getPatienten() == aPatienten);
-		assertTrue(aStudienarmBean.getPatAnzahl() == aPatienten.size());
+			fail(e.getMessage());
+
+		}
 
 	}
 
