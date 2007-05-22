@@ -12,6 +12,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.datenbank.DatenbankFactory;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Zentrum;
@@ -101,8 +103,15 @@ public class ZentrumTest {
 			fail("Bei der ZentrumBean Klasse trat ein Fehler auf: "
 					+ e.getMessage());
 		}
+		try {
+			//Speichern in der Datenbank
+			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(testZB);
+		} catch (DatenbankFehlerException e1) {
+			e1.printStackTrace();
+		}
 		Vector<ZentrumBean> tempVec = new Vector<ZentrumBean>();
 		try {
+			//Holen aus der Datenbank
 			tempVec = Zentrum.suchenZentrum(testZB);
 		} catch (ZentrumException e) {
 			e.printStackTrace();
@@ -126,8 +135,9 @@ public class ZentrumTest {
 			fail("Bei der ZentrumBean Klasse trat ein Fehler auf: "
 					+ e.getMessage());
 		}
-		tempVec = null;
+		tempVec = new Vector<ZentrumBean>();
 		try {
+			//wird nich gefunden, da nicht geschrieben wurde
 			tempVec = Zentrum.suchenZentrum(testZB);
 		} catch (ZentrumException e) {
 			e.printStackTrace();
