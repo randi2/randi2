@@ -720,7 +720,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				+ FelderAktivierung.Id + "=?";
 		try {
 			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, aktivierung.getAktivierungsId());
+			pstmt.setLong(1, aktivierung.getId());
 			pstmt.executeUpdate(sql);
 			pstmt.close();
 		} catch (SQLException e) {
@@ -1267,7 +1267,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankFehlerException(
 					DatenbankFehlerException.CONNECTION_ERR);
 		}
-		if (aktivierung.getAktivierungsId() == NullKonstanten.NULL_LONG) {
+		if (aktivierung.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
 			long id = Long.MIN_VALUE;
 			sql = "INSERT INTO " + Tabellen.AKTIVIERUNG + " ("
@@ -1293,7 +1293,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				throw new DatenbankFehlerException(
 						DatenbankFehlerException.SCHREIBEN_ERR);
 			}
-			aktivierung.setAktivierungsId(id);
+			aktivierung.setId(id);
 			return aktivierung;
 		} else {
 			int j = 1;
@@ -1308,7 +1308,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(j++, aktivierung.getAktivierungsLink());
 				pstmt.setDate(j++, new Date(aktivierung.getVersanddatum()
 						.getTimeInMillis()));
-				pstmt.setLong(j++, aktivierung.getAktivierungsId());
+				pstmt.setLong(j++, aktivierung.getId());
 				pstmt.executeUpdate();
 				pstmt.close();
 			} catch (SQLException e) {
@@ -2052,7 +2052,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		int counter=0;
 		String sql = "SELECT * FROM "+Tabellen.AKTIVIERUNG.toString();
 		
-		if(aktivierung.getAktivierungsId()!=NullKonstanten.NULL_LONG) {			
+		if(aktivierung.getId()!=NullKonstanten.NULL_LONG) {			
 			sql+= " WHERE "+FelderAktivierung.Id.toString()+" = ? ";
 			counter++;
 		}
@@ -2087,8 +2087,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 		try {
 			counter=1;
 			pstmt = con.prepareStatement(sql);
-			if(aktivierung.getAktivierungsId()!=NullKonstanten.NULL_LONG) {	
-				pstmt.setLong(counter++, aktivierung.getAktivierungsId());
+			if(aktivierung.getId()!=NullKonstanten.NULL_LONG) {	
+				pstmt.setLong(counter++, aktivierung.getId());
 			}
 			if(aktivierung.getBenutzerkontoId()!=NullKonstanten.NULL_LONG) {
 				pstmt.setLong(counter++, aktivierung.getBenutzerkontoId());
