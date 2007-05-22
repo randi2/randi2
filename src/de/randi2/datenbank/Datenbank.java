@@ -20,6 +20,7 @@ import com.meterware.httpunit.HttpUnitUtils;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.exceptions.BenutzerException;
+import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.exceptions.ZentrumException;
@@ -1600,6 +1601,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 				e.printStackTrace();
 				throw new DatenbankFehlerException(
 						DatenbankFehlerException.SCHREIBEN_ERR);
+			}catch (PatientException e){
+				e.printStackTrace();
+				//TODO Die Behandlung dieser Exception ueberlasse ich euch :) (lplotni)
 			}
 			patient.setId(id);
 			return patient;
@@ -1634,6 +1638,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 				e.printStackTrace();
 				throw new DatenbankFehlerException(
 						DatenbankFehlerException.SCHREIBEN_ERR);
+			}catch (PatientException e){
+				e.printStackTrace();
+				//TODO Die Behandlung dieser Exception ueberlasse ich euch :) (lplotni)
 			}
 		}
 		try {
