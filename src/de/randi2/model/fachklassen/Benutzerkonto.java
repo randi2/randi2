@@ -14,18 +14,17 @@ import de.randi2.utility.KryptoUtil;
  * Diese Klasse bietet Methoden zur Verwaltung eines bestimmten Benutzerkontos
  * an. Beinhaltet auch es.
  * 
- * @version $Id: Benutzerkonto.java 2494 2007-05-09 06:36:45Z freifsch $
  * @author Lukasz Plotnicki [lplotni@stud.hs-heilbronn.de]
  * @author Frederik Reifschneider [Reifschneider@stud.hs-heidelberg.de]
  * 
- * 
+ * @version $Id: Benutzerkonto.java 2494 2007-05-09 06:36:45Z freifsch $
  */
 public class Benutzerkonto {
 
 	/**
 	 * Das zugehörige BenutzerkontoBean-Objekt.
 	 */
-	private BenutzerkontoBean aBenutzerkontoBean;
+	private BenutzerkontoBean aBenutzerkontoBean = null;
 
 	/**
 	 * Ein Konstruktor dieser Klasse.
@@ -65,11 +64,12 @@ public class Benutzerkonto {
 	 * @param aBenutzerkonto
 	 *            das Bentuzerkonto das angelegt werden soll.
 	 * @return Das aktualisierte Benutzerkonto.
-	 * @throws BenutzerkontoException Fehler der Benutzer konnte nicht angelegt werden
-	 *             
+	 * @throws BenutzerkontoException
+	 *             Fehler der Benutzer konnte nicht angelegt werden
+	 * 
 	 */
 	public static Benutzerkonto anlegenBenutzer(BenutzerkontoBean aBenutzerkonto)
-			throws BenutzerkontoException{
+			throws BenutzerkontoException {
 
 		BenutzerkontoBean aktualisierterBenutzer = null;
 		try {
@@ -86,30 +86,31 @@ public class Benutzerkonto {
 	 * Benutzer zu.
 	 */
 	private void sendenAktivierungsMail() {
-		// TODO nicht fuer Release 1
+		// TODO muss fuer Release2 unbedingt ausimplementiert werden! (lplotni)
 	}
 
 	/**
-	 * Diese statische Methode liefert das Bentutzerkonto Objekt zu dem
-	 * eingegebenenem Benutzername.
+	 * Diese statische Methode liefert das Bentutzerkonto Objekt zu der
+	 * eingegebenenem Id.
 	 * 
-	 * @param benutzername
-	 *            String, der dem Benutzername entspricht.
+	 * @param id
+	 *            die eindeutige Id aus der Datenbank.
 	 * @return Ein BenutzerkontoBean Objekt zu diesem Benutzername
 	 * @throws BenutzerkontoException
 	 *             wenn kein Benutzer mit diesem Banutzername vorhanden ist
-	 * @throws BenutzerkontoException Benutzer kann nicht gefunden werden, Fehler in DB?!
+	 * @throws BenutzerkontoException
+	 *             Benutzer kann nicht gefunden werden, Fehler in DB?!
 	 */
-	public static BenutzerkontoBean getBenutzer(String benutzername)
+	public static BenutzerkontoBean getBenutzer(long id)
 			throws BenutzerkontoException {
 		BenutzerkontoBean bk = new BenutzerkontoBean();
 		Vector<BenutzerkontoBean> konten;
-		bk.setBenutzername(benutzername);
+		bk.setBenutzerId(id);
 		bk.setFilter(true);
 		try {
 			konten = suchenBenutzer(bk);
 		} catch (DatenbankFehlerException e) {
-		    		throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
+			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		if (konten == null || konten.size() == 0) {
 			throw new BenutzerkontoException(
@@ -138,6 +139,9 @@ public class Benutzerkonto {
 	 *         nicht der Fall ist.
 	 */
 	public boolean equals(Benutzerkonto zuvergleichendesObjekt) {
+		if (zuvergleichendesObjekt == null) {
+			return false;
+		}
 		if (this.aBenutzerkontoBean.equals(zuvergleichendesObjekt
 				.getBenutzerkontobean())) {
 			return true;
@@ -169,51 +173,64 @@ public class Benutzerkonto {
 		return false;
 	}
 
-
 	/**
 	 * Die Methode liefert das zur benutzerkontoId gehoerige Bean.
-	 * @param benutzerkontoId gewuenschte Id
+	 * 
+	 * @param benutzerkontoId
+	 *            gewuenschte Id
 	 * @return das zur id zugehoerige BenutzerkontoBean
-	 * @throws BenutzerkontoException Fehlermeldung, falls Fehler mit DB
+	 * @throws BenutzerkontoException
+	 *             Fehlermeldung, falls Fehler mit DB
 	 */
-	public static BenutzerkontoBean get(long benutzerkontoId) throws BenutzerkontoException{
+	public static BenutzerkontoBean get(long benutzerkontoId)
+			throws BenutzerkontoException {
 		BenutzerkontoBean rueckgabe;
 		try {
-		    rueckgabe = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(benutzerkontoId, new BenutzerkontoBean());
+			rueckgabe = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(
+					benutzerkontoId, new BenutzerkontoBean());
 		} catch (DatenbankFehlerException e) {
-		    throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
+			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		return rueckgabe;
 	}
-	
+
 	/**
 	 * Liefert alle zum Benutzerkonto gehoerenden Patienten
+	 * 
 	 * @param kontoId
-	 * 			Id des Benutzerkontos zur eindeutigen Zuordnung in der Datenbank
-	 * @return
-	 * 			gefundene Patienten
+	 *            Id des Benutzerkontos zur eindeutigen Zuordnung in der
+	 *            Datenbank
+	 * @return gefundene Patienten
+	 * @throws BenutzerkontoException -
+	 *             wenn ein Fehler in der DB auftrat.
 	 */
-	public static Vector<PatientBean> getZugehoerigePatienten(long kontoId) {
+	public static Vector<PatientBean> getZugehoerigePatienten(long kontoId)
+			throws BenutzerkontoException {
 		BenutzerkontoBean konto = new BenutzerkontoBean();
 		konto.setId(kontoId);
-		Vector<PatientBean> gefundenePatienten=null;
+		Vector<PatientBean> gefundenePatienten = null;
 		try {
-			gefundenePatienten = DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(konto, new PatientBean() );
+			gefundenePatienten = DatenbankFactory.getAktuelleDBInstanz()
+					.suchenMitgliederObjekte(konto, new PatientBean());
 		} catch (DatenbankFehlerException e) {
-			// TODO hier etwas weiterleiten! (fred)
-			e.printStackTrace();
+			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
 		}
 		return gefundenePatienten;
 	}
-	
+
 	/**
 	 * 
 	 * Aktiviert das aktuelle Benutzerkonto
-	 * @param aktivierung das passende Aktivierungsbean
-	 * @throws BenutzerkontoException Fehler bei der Aktivierung
+	 * 
+	 * @param aktivierung
+	 *            das passende Aktivierungsbean
+	 * @throws BenutzerkontoException
+	 *             Fehler bei der Aktivierung
 	 */
-	public void aktiviereBenutzerkonto(AktivierungBean aktivierung) throws BenutzerkontoException{
-	    //TODO Ausimplementierung -->afreudli
+	public void aktiviereBenutzerkonto(AktivierungBean aktivierung)
+			throws BenutzerkontoException {
+		// TODO Ausimplementierung --> afreudli
+		this.sendenAktivierungsMail();
 	}
-	
+
 }

@@ -34,7 +34,7 @@ public class AktivierungBean extends Filter {
 	/**
 	 * Die ID der Aktivierung.
 	 */
-	private long id = NullKonstanten.NULL_LONG;
+	private long id = NullKonstanten.DUMMY_ID;
 
 	/**
 	 * Das Versanddatum, wann die Anmeldungsmail versand wurde.
@@ -49,7 +49,7 @@ public class AktivierungBean extends Filter {
 	/**
 	 * Die ID des Benutzerkontos.
 	 */
-	private long aBenutzerkontoId = NullKonstanten.NULL_LONG;
+	private long aBenutzerkontoId = NullKonstanten.DUMMY_ID;
 
 	/**
 	 * Der Aktivierungslink für die Vervollständigung der Anmeldung.
@@ -131,9 +131,8 @@ public class AktivierungBean extends Filter {
 			throw new AktivierungException(
 					AktivierungException.BENUTZERKONTO_NICHT_GESETZT);
 		}
-
-		this.aBenutzerkonto = benutzerkonto;
 		this.setBenutzerkontoId(benutzerkonto.getId());
+		this.aBenutzerkonto = benutzerkonto;
 	}
 
 	/**
@@ -155,7 +154,7 @@ public class AktivierungBean extends Filter {
 	 */
 	public void setBenutzerkontoId(long benutzerkontoId)
 			throws AktivierungException {
-		if (benutzerkontoId == NullKonstanten.NULL_LONG) {
+		if (benutzerkontoId == NullKonstanten.DUMMY_ID) {
 			throw new AktivierungException(
 					AktivierungException.BENUTZERKONTO_NICHT_GESPEICHERT);
 		}
@@ -272,4 +271,23 @@ public class AktivierungBean extends Filter {
 		}
 		return false;
 	}
+	
+	/**
+	 * Liefert den HashCode des Objektes.<br>
+	 * Der HashCode entspricht der (Datenbank-)Id des Objektes. Ist das Objekt
+	 * noch nicht gespeichert worden, besitzt also die ID
+	 * {@link NullKonstanten#DUMMY_ID}, so wird der HashCode von
+	 * {@link java.lang.Object#hashCode()} geliefert.
+	 * 
+	 * @return HashCode des Objektes
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		if (id == NullKonstanten.DUMMY_ID) {
+			return super.hashCode();
+		}
+		return (int) id;
+	}
 }
+

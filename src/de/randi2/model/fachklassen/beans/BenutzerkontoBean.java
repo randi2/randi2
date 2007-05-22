@@ -7,9 +7,11 @@ import java.util.Vector;
 import de.randi2.datenbank.Filter;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.model.fachklassen.Rolle;
+import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.ValidierungsUtil;
@@ -27,29 +29,34 @@ public class BenutzerkontoBean extends Filter {
 	/**
 	 * Zugehoeriges PersonBean zu diesem Benutzerkonto. 1:1 Beziehung
 	 */
-	private PersonBean benutzer = null;
+	private PersonBean aBenutzer = null;
 
 	/**
 	 * Die ID des zugehoerigen Benutzers. Fremdschlueschel zum PersonBean. 1:1
 	 * Beziehung
 	 */
-	private long benutzerId = NullKonstanten.NULL_LONG;
-	
+	private long aBenutzerId = NullKonstanten.NULL_LONG;
+
 	/**
-	 * Id des zugehoerigen Zentrums. Fremdschluessel zu ZentrumsBean
-	 * 1:N Beziehung
+	 * Das Zentrum zu dem das Benutzerkonto gehoert.
 	 */
-	private long zentrumId =NullKonstanten.NULL_LONG;
+	private ZentrumBean aZentrum = null;
+
+	/**
+	 * Id des zugehoerigen Zentrums. Fremdschluessel zu ZentrumsBean 1:N
+	 * Beziehung
+	 */
+	private long aZentrumId = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Benutzername des Kontoinhabers.
 	 */
-	private String benutzername = null;
+	private String aBenutzername = null;
 
 	/**
 	 * Zeitpunkt des ersten Logins
 	 */
-	private GregorianCalendar ersterLogin = null;
+	private GregorianCalendar aErsterLogin = null;
 
 	/**
 	 * Ein boolescher Wert, der dem Status gesperrt/entsperrt entspricht.
@@ -64,30 +71,30 @@ public class BenutzerkontoBean extends Filter {
 	/**
 	 * Zeitpunkt des letzten Logins
 	 */
-	private GregorianCalendar letzterLogin = null;
+	private GregorianCalendar aLetzterLogin = null;
 
 	/**
 	 * Passwort (md5 codiert)
 	 */
-	private String passwort = null;
+	private String aPasswort = null;
 
 	/**
 	 * Rolle des Benutzerkontos
 	 */
-	private Rolle rolle = null;
-	
-	/**
-	 * Patienten die von diesem Benutzerkonto zu einer Studie hinzugefuegt wurden
-	 */
-	private Vector<PatientBean> patienten=null;
+	private Rolle aRolle = null;
 
 	/**
-	 * Der Standardkonstruktor
+	 * Patienten die von diesem Benutzerkonto zu einer Studie hinzugefuegt
+	 * wurden
+	 */
+	private Vector<PatientBean> aPatienten = null;
+
+	/**
+	 * Der Standardkonstruktor fuer das NULL-Objekt.
 	 * 
 	 */
 	public BenutzerkontoBean() {
 	}
-
 
 	/**
 	 * Reduzierter Konstruktor, der die Attribute ersterLogin und letzterLogin
@@ -105,10 +112,11 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	public BenutzerkontoBean(String benutzername, String passwortHash,
 			PersonBean benutzer) throws BenutzerkontoException {
-		super();
+
 		this.setBenutzername(benutzername);
 		this.setPasswort(passwortHash);
 		this.setBenutzer(benutzer);
+		this.setErsterLogin(new GregorianCalendar());
 		this.setLetzterLogin(new GregorianCalendar());
 	}
 
@@ -123,7 +131,7 @@ public class BenutzerkontoBean extends Filter {
 	 * @param passwortHash
 	 *            das gehashte Passwort des Benutzers.
 	 * @param zentrumId
-	 * 			  Zentrum dem der Benutzer zugeordnet ist
+	 *            Zentrum dem der Benutzer zugeordnet ist
 	 * @param rolle
 	 *            Rolle des Benutzerkontos.
 	 * @param benutzerId
@@ -165,6 +173,8 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	public BenutzerkontoBean(String benutzername, String passwortKlartext)
 			throws BenutzerkontoException {
+		// TODO Hier koennte man eigentlich die filter-Eigenschaft sofort auf
+		// true setzen, oder? (lplotni)
 		this.setBenutzername(benutzername);
 		this.setPasswortKlartext(passwortKlartext);
 	}
@@ -180,67 +190,77 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
-	    	if (zuvergleichendesObjekt instanceof BenutzerkontoBean) {
-		    BenutzerkontoBean beanZuvergleichen = (BenutzerkontoBean) zuvergleichendesObjekt;
-		    if(beanZuvergleichen.benutzerId!=this.benutzerId){
+		if (zuvergleichendesObjekt == null) {
 			return false;
-		    }
-		    if(beanZuvergleichen.benutzername==null&&this.benutzername!=null){
-			return false;
-		    }
-		    else if(beanZuvergleichen.benutzername!=null&&!beanZuvergleichen.benutzername.equals(this.benutzername)){
-			return false;
-		    }
-		    if(beanZuvergleichen.ersterLogin==null&&this.ersterLogin!=null){
-			return false;
-		    }
-		    else if(beanZuvergleichen.ersterLogin!=null&&!beanZuvergleichen.ersterLogin.equals(this.ersterLogin)){
-			return false;
-		    }
-		    if(beanZuvergleichen.gesperrt!=this.gesperrt){
-			return false;
-		    }
-		    if(beanZuvergleichen.id!=this.id){
-			return false;
-		    }
-		    if(beanZuvergleichen.letzterLogin==null&&this.letzterLogin!=null){
-			return false;
-		    }
-		    else if(beanZuvergleichen.letzterLogin!=null&&!beanZuvergleichen.letzterLogin.equals(this.letzterLogin)){
-			return false;
-			
-		    }
-		    if(beanZuvergleichen.passwort==null&&this.passwort!=null){
-			return false;
-		    }
-		    else if(beanZuvergleichen.passwort!=null&&!beanZuvergleichen.passwort.equals(this.passwort)){
-			return false;
-		    }
-		    
-		    //Patienten werden nicht berücksichtigt
-		    return true;
-		    
+		}
+		if (zuvergleichendesObjekt instanceof BenutzerkontoBean) {
+			BenutzerkontoBean beanZuvergleichen = (BenutzerkontoBean) zuvergleichendesObjekt;
+			if (beanZuvergleichen.getBenutzerId() != this.aBenutzerId) {
+				return false;
+			}
+			if (beanZuvergleichen.getBenutzername() == null
+					&& this.aBenutzername != null) {
+				return false;
+			} else if (beanZuvergleichen.getBenutzername() != null
+					&& !beanZuvergleichen.getBenutzername().equals(
+							this.aBenutzername)) {
+				return false;
+			}
+			if (beanZuvergleichen.getErsterLogin() == null
+					&& this.aErsterLogin != null) {
+				return false;
+			} else if (beanZuvergleichen.getErsterLogin() != null
+					&& !(beanZuvergleichen.getErsterLogin().getTimeInMillis() == this.aErsterLogin
+							.getTimeInMillis())) {
+				return false;
+			}
+			if (beanZuvergleichen.isGesperrt() != this.gesperrt) {
+				return false;
+			}
+			if (beanZuvergleichen.getId() != this.id) {
+				return false;
+			}
+			if (beanZuvergleichen.getLetzterLogin() == null
+					&& this.aLetzterLogin != null) {
+				return false;
+			} else if (beanZuvergleichen.getLetzterLogin() != null
+					&& !(beanZuvergleichen.getLetzterLogin().getTimeInMillis() == this.aLetzterLogin
+							.getTimeInMillis())) {
+				return false;
+
+			}
+			if (beanZuvergleichen.getPasswort() == null
+					&& this.aPasswort != null) {
+				return false;
+			} else if (beanZuvergleichen.getPasswort() != null
+					&& !beanZuvergleichen.getPasswort().equals(this.aPasswort)) {
+				return false;
+			}
+			// Patienten werden nicht berücksichtigt
+			return true;
+
 		}
 		return false;
 	}
 
-	/** 
+	/**
 	 * Liefert den HashCode des Objektes.<br>
-	 * Der HashCode entspricht der (Datenbank-)Id des Objektes. 
-	 * Ist das Objekt noch nicht gespeichert worden, 
-	 * besitzt also die ID {@link NullKonstanten#DUMMY_ID}, so wird der HashCode von
+	 * Der HashCode entspricht der (Datenbank-)Id des Objektes. Ist das Objekt
+	 * noch nicht gespeichert worden, besitzt also die ID
+	 * {@link NullKonstanten#DUMMY_ID}, so wird der HashCode von
 	 * {@link java.lang.Object#hashCode()} geliefert.
+	 * 
 	 * @return HashCode des Objektes
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-	   if (id == NullKonstanten.DUMMY_ID){
-	       return super.hashCode();
-	   }
-	    return (int) id;
+		if (id == NullKonstanten.DUMMY_ID) {
+			return super.hashCode();
+		}
+		return (int) id;
 	}
-	
+
 	/**
 	 * Liefert den zugehoerigen Benutzer zu diesem Konto.
 	 * 
@@ -249,10 +269,10 @@ public class BenutzerkontoBean extends Filter {
 	 *             Fehler, falls die Person nicht ermittelt werden kann
 	 */
 	public PersonBean getBenutzer() throws PersonException {
-		if (benutzer == null) {
-			benutzer = Person.get(benutzerId);
+		if (aBenutzer == null) {
+			aBenutzer = Person.get(aBenutzerId);
 		}
-		return benutzer;
+		return aBenutzer;
 	}
 
 	/**
@@ -261,7 +281,7 @@ public class BenutzerkontoBean extends Filter {
 	 * @return benutzername
 	 */
 	public String getBenutzername() {
-		return benutzername;
+		return aBenutzername;
 	}
 
 	/**
@@ -270,7 +290,7 @@ public class BenutzerkontoBean extends Filter {
 	 * @return ersterLogin
 	 */
 	public GregorianCalendar getErsterLogin() {
-		return ersterLogin;
+		return aErsterLogin;
 	}
 
 	/**
@@ -288,7 +308,7 @@ public class BenutzerkontoBean extends Filter {
 	 * @return letzterLogin
 	 */
 	public GregorianCalendar getLetzterLogin() {
-		return letzterLogin;
+		return aLetzterLogin;
 	}
 
 	/**
@@ -297,7 +317,7 @@ public class BenutzerkontoBean extends Filter {
 	 * @return the passwort
 	 */
 	public String getPasswort() {
-		return passwort;
+		return aPasswort;
 	}
 
 	/**
@@ -306,8 +326,7 @@ public class BenutzerkontoBean extends Filter {
 	 * @return die Rolle
 	 */
 	public Rolle getRolle() {
-
-		return this.rolle;
+		return this.aRolle;
 	}
 
 	/**
@@ -324,11 +343,15 @@ public class BenutzerkontoBean extends Filter {
 	 * 
 	 * @param benutzer
 	 *            Personendaten des Benutzerkontos
+	 * @throws BenutzerkontoException -
+	 *             wenn das uebergebene Objekt noch nicht in der DB gespeichert
+	 *             wurde.
 	 */
-	public void setBenutzer(PersonBean benutzer) {
+	public void setBenutzer(PersonBean benutzer) throws BenutzerkontoException {
 		// keine Pruefung, da bei der Erzeugung der PersonBean schon alles
 		// geprueft wird
-		this.benutzer = benutzer;
+		this.setBenutzerId(benutzer.getId());
+		this.aBenutzer = benutzer;
 	}
 
 	/**
@@ -361,12 +384,15 @@ public class BenutzerkontoBean extends Filter {
 				throw new BenutzerkontoException(
 						BenutzerkontoException.BENUTZERNAME_ZU_LANG);
 			}
-			if (!filter && !(benutzername.matches("([A-Za-z0-9._-])*") || ValidierungsUtil.validiereEMailPattern(benutzername))) {
-				throw new BenutzerkontoException(BenutzerkontoException.BENUTZERNAME_ENTHAELT_UNGUELTIGE_ZEICHEN);
+			if (!filter
+					&& !(benutzername.matches("([A-Za-z0-9._-])*") || ValidierungsUtil
+							.validiereEMailPattern(benutzername))) {
+				throw new BenutzerkontoException(
+						BenutzerkontoException.BENUTZERNAME_ENTHAELT_UNGUELTIGE_ZEICHEN);
 			}
 
 		}
-		this.benutzername = benutzername;
+		this.aBenutzername = benutzername;
 	}
 
 	/**
@@ -381,9 +407,10 @@ public class BenutzerkontoBean extends Filter {
 			throws BenutzerkontoException {
 		// Testen, ob sich das Datum in der Zukunft befindet
 		if ((new GregorianCalendar(Locale.GERMANY)).before(ersterLogin)) {
-			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
+			throw new BenutzerkontoException(
+					BenutzerkontoException.DATUM_IN_DER_ZUKUNFT);
 		}
-		this.ersterLogin = ersterLogin;
+		this.aErsterLogin = ersterLogin;
 	}
 
 	/**
@@ -419,9 +446,10 @@ public class BenutzerkontoBean extends Filter {
 			throws BenutzerkontoException {
 		// Testen, ob sich das Datum in der Zukunft befindet
 		if ((new GregorianCalendar(Locale.GERMANY)).before(letzterLogin)) {
-			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
+			throw new BenutzerkontoException(
+					BenutzerkontoException.DATUM_IN_DER_ZUKUNFT);
 		}
-		this.letzterLogin = letzterLogin;
+		this.aLetzterLogin = letzterLogin;
 	}
 
 	/**
@@ -440,7 +468,7 @@ public class BenutzerkontoBean extends Filter {
 			throw new BenutzerkontoException(
 					BenutzerkontoException.PASSWORT_FEHLT);
 		}
-		this.passwort = hash;
+		this.aPasswort = hash;
 	}
 
 	/**
@@ -473,30 +501,34 @@ public class BenutzerkontoBean extends Filter {
 					BenutzerkontoException.PASSWORT_FEHLT);
 		}
 		if (klartext.length() < 6) {
-			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
+			throw new BenutzerkontoException(
+					BenutzerkontoException.PASSWORT_ZU_KURZ);
 		}
 
 		if (!(klartext.matches(".*[A-Za-z].*") && klartext.matches(".*[0-9].*") && klartext
 				.matches(".*[\\^,.\\-#+;:_'*!\"§$@&%/()=?|<>].*"))) {
-			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
+			throw new BenutzerkontoException(
+					BenutzerkontoException.PASSWORT_FALSH);
 		}
-		this.passwort = KryptoUtil.getInstance().hashPasswort(klartext);
+		this.aPasswort = KryptoUtil.getInstance().hashPasswort(klartext);
 	}
 
 	/**
-	 * Prueft ob die Rolle <code>null</code> ist und setzt bei negativem Test die Rolle.
+	 * Prueft ob die Rolle <code>null</code> ist und setzt bei negativem Test
+	 * die Rolle.
 	 * 
 	 * @param rolle
 	 *            Die Rolle des Benutzerkontos.
 	 * @throws BenutzerkontoException
-	 *             Wirft eine Exception, falls die Rolle <code>null</code> ist.
+	 *             Wirft eine Exception, falls die Rolle <code>null</code>
+	 *             ist.
 	 */
 	public void setRolle(Rolle rolle) throws BenutzerkontoException {
 		boolean filter = super.isFilter();
 		if (!filter && rolle == null) {
-			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
+			throw new BenutzerkontoException(BenutzerkontoException.ROLLE_FEHLT);
 		}
-		this.rolle = rolle;
+		this.aRolle = rolle;
 	}
 
 	/**
@@ -504,9 +536,15 @@ public class BenutzerkontoBean extends Filter {
 	 * 
 	 * @param id
 	 *            Fremdschluessel-Id fuer die Benutzerdaten
+	 * @throws BenutzerkontoException -
+	 *             wenn die uebergeben Id gleich dem DUMMY_ID ist.
 	 */
-	public void setBenutzerId(long id) {
-		this.benutzerId = id;
+	public void setBenutzerId(long id) throws BenutzerkontoException {
+		if (id == NullKonstanten.DUMMY_ID) {
+			throw new BenutzerkontoException(
+					BenutzerkontoException.BENUTZERKONTO_NICHT_GESPEICHERT);
+		}
+		this.aBenutzerId = id;
 
 	}
 
@@ -518,8 +556,8 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	public String toString() {
 
-		return "Benutzerkontoname: " + this.benutzername + "(Last LogIn: "
-				+ this.letzterLogin + ")";
+		return "Benutzerkontoname: " + this.aBenutzername + "(Last LogIn: "
+				+ this.aLetzterLogin + ")";
 
 	}
 
@@ -529,49 +567,83 @@ public class BenutzerkontoBean extends Filter {
 	 * @return benutzerID Die ID des Kontobenutzers.
 	 */
 	public long getBenutzerId() {
-		return benutzerId;
+		return aBenutzerId;
 	}
 
 	/**
 	 * Liefert alle von diesem Benutzer aufgenommenen Patienten
-	 * @return
-	 * 			Vector mit PatientBeans
+	 * 
+	 * @return Vector mit PatientBeans
+	 * @throws BenutzerkontoException - wenn ein Fehler in der DB auftrat.
 	 */
-	public Vector<PatientBean> getPatienten() {
-		if(patienten==null) {
-			patienten = Benutzerkonto.getZugehoerigePatienten(getId());
+	public Vector<PatientBean> getPatienten() throws BenutzerkontoException {
+		if (aPatienten == null) {
+			aPatienten = Benutzerkonto.getZugehoerigePatienten(getId());
 		}
-		return patienten;
+		return aPatienten;
 	}
-	
-	
 
 	/**
 	 * Setzt die von dieser Person aufgenommenen Patienten
+	 * 
 	 * @param patienten
-	 * 			Vector mit PatientBeans
+	 *            Vector mit PatientBeans
 	 */
 	public void setPatienten(Vector<PatientBean> patienten) {
-		this.patienten = patienten;
+		this.aPatienten = patienten;
 	}
 
+	/**
+	 * Die get-Methode fuer das zugehoerige ZentrumBean-Objekt.
+	 * 
+	 * @return ZentrumBean - das zugehoerige ZentrumBean Objekt zu dem
+	 *         Benutzerkonto
+	 * @throws ZentrumException -
+	 *             wenn kein entsprechendes Zentrum in der DB gefunden wurde.
+	 */
+	public ZentrumBean getZentrum() throws ZentrumException {
+		if (this.aZentrum == null) {
+			this.aZentrum = Zentrum.get(this.aZentrumId);
+		}
+		return this.aZentrum;
+	}
+
+	/**
+	 * Die set-Methode fuer das Zentrum-Attribut der Klasse.
+	 * 
+	 * @param zentrum -
+	 *            das zu dem Benutzerkonto zugehoerige ZentrumBean Objekt.
+	 * @throws BenutzerkontoException -
+	 *             wenn das uebergebene ZentrumBean nocht nicht in der DB
+	 *             gespeichert wurde.
+	 */
+	public void setZentrum(ZentrumBean zentrum) throws BenutzerkontoException {
+		this.setZentrumId(zentrum.getId());
+		this.aZentrum = zentrum;
+	}
 
 	/**
 	 * Liefert die ZentrumsId des zugehoerigen Zentrums
-	 * @return
-	 * 			ID des Zentrums
+	 * 
+	 * @return ID des Zentrums
 	 */
 	public long getZentrumId() {
-		return zentrumId;
+		return aZentrumId;
 	}
-
 
 	/**
 	 * Setzt die ID zum Zentrum, dem der Benutzer zugeordnet ist
+	 * 
 	 * @param zentrumId
-	 * 			ID des Zentrums
+	 *            ID des Zentrums
+	 * @throws BenutzerkontoException -
+	 *             wenn die Id gleich der Dummy_Id ist.
 	 */
-	public void setZentrumId(long zentrumId) {
-		this.zentrumId = zentrumId;
+	public void setZentrumId(long zentrumId) throws BenutzerkontoException {
+		if (zentrumId == NullKonstanten.DUMMY_ID) {
+			throw new BenutzerkontoException(
+					BenutzerkontoException.ZENTRUM_NICHT_GESPEICHERT);
+		}
+		this.aZentrumId = zentrumId;
 	}
 }

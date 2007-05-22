@@ -24,6 +24,7 @@ import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.Log4jInit;
+import de.randi2.utility.NullKonstanten;
 
 /**
  * TODO sobald in der Datenbank gespeichert werden kann, sind die
@@ -85,6 +86,7 @@ public class BenutzerkontoTest {
 					"11111", "Strasse", "12", 1, KryptoUtil.getInstance().hashPasswort("Passwort"), false);
 		} catch (ZentrumException e1) {
 			e1.printStackTrace();
+			fail(e1.getMessage());
 		}
 
 		try {
@@ -97,12 +99,14 @@ public class BenutzerkontoTest {
 					PersonBean.Titel.PROF, 'm', "user@hs-heilbronn.de",
 					"01760099334", "017600972487", "01760427424");
 
-			bKontoBean = new BenutzerkontoBean(0, benutzername, passwort, 1, rolle,
+			bKontoBean = new BenutzerkontoBean(NullKonstanten.DUMMY_ID, benutzername, passwort, 1, rolle,
 					0, gesperrt, ersterLogin, letzterLogin);
 		} catch (BenutzerkontoException e) {
 			e.printStackTrace();
+			fail(e.getMessage());
 		} catch (PersonException e) {
 			e.printStackTrace();
+			fail(e.getMessage());
 		}
 	}
 
@@ -161,61 +165,11 @@ public class BenutzerkontoTest {
 	 * @throws BenutzerkontoException
 	 */
 	@Test
-	public void testGetBenutzerStudienleiter() throws BenutzerkontoException,
+	public void testGetBenutzer() throws BenutzerkontoException,
 			DatenbankFehlerException {
-		Benutzerkonto.getBenutzer(Rolle.getStudienleiter().toString());
-	}
-
-	/**
-	 * Test method for
-	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
-	 * 
-	 * @throws DatenbankFehlerException
-	 * @throws BenutzerkontoException
-	 */
-	@Test
-	public void testGetBenutzerAdministrator() throws BenutzerkontoException,
-			DatenbankFehlerException {
-		Benutzerkonto.getBenutzer(Rolle.getAdmin().toString());
-	}
-
-	/**
-	 * Test method for
-	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
-	 * 
-	 * @throws DatenbankFehlerException
-	 * @throws BenutzerkontoException
-	 */
-	@Test
-	public void testGetBenutzerSystemoperator() throws BenutzerkontoException,
-			DatenbankFehlerException {
-		Benutzerkonto.getBenutzer(Rolle.getSysop().toString());
-	}
-
-	/**
-	 * Test method for
-	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
-	 * 
-	 * @throws DatenbankFehlerException
-	 * @throws BenutzerkontoException
-	 */
-	@Test
-	public void testGetBenutzerStatistiker() throws BenutzerkontoException,
-			DatenbankFehlerException {
-		Benutzerkonto.getBenutzer(Rolle.getStatistiker().toString());
-	}
-
-	/**
-	 * Test method for
-	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
-	 * 
-	 * @throws DatenbankFehlerException
-	 * @throws BenutzerkontoException
-	 */
-	@Test
-	public void testGetBenutzerStudienarzt() throws BenutzerkontoException,
-			DatenbankFehlerException {
-		Benutzerkonto.getBenutzer(Rolle.getStudienarzt().toString());
+		Benutzerkonto dummyBenutzerkonto = Benutzerkonto.anlegenBenutzer(bKontoBean);
+		BenutzerkontoBean benu2 = Benutzerkonto.getBenutzer(dummyBenutzerkonto.getBenutzerkontobean().getBenutzerId());
+		assertTrue(dummyBenutzerkonto.getBenutzerkontobean().equals(benu2));
 	}
 
 	/**
@@ -284,29 +238,9 @@ public class BenutzerkontoTest {
 	@Test
 	public void testPruefenPasswort() throws BenutzerkontoException,
 			DatenbankFehlerException {
-		String benutzernameNeu = "administrator";
-		String passwortNeu = "1$administrator";
-		String passwortAktuellerBenutzer = Benutzerkonto.getBenutzer(
-				benutzernameNeu).getPasswort();
-
-		assertTrue(KryptoUtil.getInstance().hashPasswort(passwortNeu).equals(
-				passwortAktuellerBenutzer));
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		// wird erstmal nicht benoetigt
-	}
-
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-		// wird erstmal nicht benoetigt
+		String pass = bKontoBean.getPasswort();
+		Benutzerkonto dummyBenu = new Benutzerkonto(bKontoBean);
+		dummyBenu.pruefenPasswort(pass);
 	}
 
 }
