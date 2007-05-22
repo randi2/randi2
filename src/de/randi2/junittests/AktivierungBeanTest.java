@@ -1,5 +1,8 @@
 package de.randi2.junittests;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import java.util.GregorianCalendar;
 
 import org.junit.BeforeClass;
@@ -12,7 +15,6 @@ import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.Log4jInit;
-import de.randi2.utility.NullKonstanten;
 
 /**
  * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
@@ -73,7 +75,8 @@ public class AktivierungBeanTest {
 	}
 
 	@Test
-	public void benutzerkontoOK() throws AktivierungException, BenutzerkontoException {
+	public void benutzerkontoOK() throws AktivierungException,
+			BenutzerkontoException {
 		AktivierungBean abean = new AktivierungBean();
 		abean.setBenutzerkonto(new BenutzerkontoBean(12, "randiTester",
 				KryptoUtil.getInstance().hashPasswort(
@@ -82,4 +85,30 @@ public class AktivierungBeanTest {
 						4, 20), new GregorianCalendar()));
 	}
 
+	@Test
+	public void equalsOK() throws AktivierungException {
+		AktivierungBean abean = new AktivierungBean(1, new GregorianCalendar(
+				2007, 4, 22), 12, "aaaaaaaaaaaaaaaaaaaa");
+		AktivierungBean abean2 = new AktivierungBean(1, new GregorianCalendar(
+				2007, 4, 22), 12, "aaaaaaaaaaaaaaaaaaaa");
+		assertEquals(abean, abean2);
+	}
+
+	@Test
+	public void equalsFalse() throws AktivierungException {
+		AktivierungBean abean = new AktivierungBean(1, new GregorianCalendar(
+				2007, 4, 22), 12, "aaaaaaaaaaaaaaaaaaaa");
+		AktivierungBean abean2 = new AktivierungBean(1, new GregorianCalendar(
+				2007, 4, 21), 12, "aaaaaaaaaaaaaaaaaaaa");
+		assertFalse(abean.equals(abean2));
+		abean2.setVersanddatum(new GregorianCalendar(2007, 4, 22));
+		abean2.setId(2);
+		assertFalse(abean.equals(abean2));
+		abean2.setId(1);
+		abean2.setBenutzerkontoId(2);
+		assertFalse(abean.equals(abean2));
+		abean2.setBenutzerkontoId(12);
+		abean2.setAktivierungsLink("aaaaaaaaaaaaabaaaaaa");
+		assertFalse(abean.equals(abean2));
+	}
 }

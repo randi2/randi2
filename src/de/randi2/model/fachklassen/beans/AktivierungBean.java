@@ -240,27 +240,30 @@ public class AktivierungBean extends Filter {
 	 */
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
+		if(zuvergleichendesObjekt==null){
+			return false;
+		}
 		if (zuvergleichendesObjekt instanceof AktivierungBean) {
 			AktivierungBean beanZuvergleichen = (AktivierungBean) zuvergleichendesObjekt;
-			if (beanZuvergleichen.id != this.id) {
+			if (beanZuvergleichen.getId() != this.id) {
 				return false;
 			}
-			if (beanZuvergleichen.aAktivierungsLink == null
+			if (beanZuvergleichen.getAktivierungsLink() == null
 					&& this.aAktivierungsLink != null) {
 				return false;
-			} else if (beanZuvergleichen.aAktivierungsLink != null
-					&& !beanZuvergleichen.aAktivierungsLink
+			} else if (beanZuvergleichen.getAktivierungsLink() != null
+					&& !beanZuvergleichen.getAktivierungsLink()
 							.equals(this.aAktivierungsLink)) {
 				return false;
 			}
-			if (beanZuvergleichen.aBenutzerkontoId != this.aBenutzerkontoId) {
+			if (beanZuvergleichen.getBenutzerkontoId() != this.aBenutzerkontoId) {
 				return false;
 			}
-			if (beanZuvergleichen.aVersanddatum == null
+			if (beanZuvergleichen.getVersanddatum() == null
 					&& this.aVersanddatum != null) {
 				return false;
-			} else if (beanZuvergleichen.aVersanddatum != null
-					&& !(beanZuvergleichen.aVersanddatum.getTimeInMillis()==
+			} else if (beanZuvergleichen.getVersanddatum() != null
+					&& !(beanZuvergleichen.getVersanddatum().getTimeInMillis()==
 							this.aVersanddatum.getTimeInMillis())) {
 				return false;
 			}
