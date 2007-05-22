@@ -896,23 +896,23 @@ public class PersonBeanTest {
 	/**
 	 * Testet die equals Methode an Hand zwei unterschiedlicher PersonBeans.
 	 */
-	// @Test
-	// public void testNotEquals() {
-	// try {
-	// PersonBean pb1 = new
-	// PersonBean(2,4,"wurst","hans",Titel.PROF,'m',"hans@wurst.de","022445409","016097753596","0223383434");
-	// PersonBean pb2 = new
-	// PersonBean(2,4,"wursat","hans",Titel.PROF,'m',"hans@wurst.de","022445409","016097753596","0223234214");
-	//    	
-	//
-	// assertTrue(!pb1.equals(pb2));
-	//    	    	
-	//    	
-	// } catch (PersonException pe) {
-	// fail("Personbean konnte nicht angelegt werden!");
-	// }
-	//    	
-	//    	
-	// }
-	//    
+	 @Test
+	 public void testNotEquals() {
+	 try {
+	 PersonBean pb1 = new
+	 PersonBean(2,4,"wurst","hans",Titel.PROF,'m',"hans@wurst.de","022445409","016097753596","0223383434");
+	 PersonBean pb2 = new
+	 PersonBean(2,4,"wursat","hans",Titel.PROF,'m',"hans@wurst.de","022445409","016097753596","0223234214");
+	    	
+	
+	 assertTrue(!pb1.equals(pb2));
+	    	    	
+	    	
+	 } catch (PersonException pe) {
+	 fail("Personbean konnte nicht angelegt werden!");
+	 }
+	    	
+	    	
+	 }
+	    
 }
