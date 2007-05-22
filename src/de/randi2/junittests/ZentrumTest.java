@@ -33,14 +33,17 @@ public class ZentrumTest {
 	private ZentrumBean testZB;
 
 	private Zentrum testZ;
-	 /**
-	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
-	     *
-	     */
-	    @BeforeClass
-	    public static void log(){
+
+	/**
+	 * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und
+	 * es funktioniert.
+	 * 
+	 */
+	@BeforeClass
+	public static void log() {
 		Log4jInit.initDebug();
-	    }
+	}
+
 	@Before
 	public void setUp() {
 		testZB = new ZentrumBean();
@@ -86,10 +89,6 @@ public class ZentrumTest {
 	 * Test Methode fuer suchenZentrum(). Sie sucht nach einem ZentrumBean(mit
 	 * Filter=true).
 	 * 
-	 * TODO Sobald die Funktionalitaet ein Zentrum zu speichern bzw. zu anlegen
-	 * gegeben wird, muss diese Methode umgeschrieben werden. Da dann sollte man
-	 * erstmal ein Zentrum erzeugen, speichern und dann danach suchen.
-	 * 
 	 * {@link de.randi2.model.fachklassen.Zentrum#suchenZentrum(de.randi2.model.fachklassen.beans.ZentrumBean)}.
 	 */
 	@Test
@@ -104,21 +103,21 @@ public class ZentrumTest {
 					+ e.getMessage());
 		}
 		try {
-			//Speichern in der Datenbank
+			// Speichern in der Datenbank
 			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(testZB);
 		} catch (DatenbankFehlerException e1) {
 			e1.printStackTrace();
 		}
 		Vector<ZentrumBean> tempVec = new Vector<ZentrumBean>();
 		try {
-			//Holen aus der Datenbank
+			// Holen aus der Datenbank
 			tempVec = Zentrum.suchenZentrum(testZB);
 		} catch (ZentrumException e) {
 			e.printStackTrace();
 		}
 		/*
-		 * Da wir wissen, dass sich zur Zeit in der Datenbank ein Zentrum
-		 * mit gesuchten Eigenschaften befindet.
+		 * Da wir wissen, dass sich zur Zeit in der Datenbank ein Zentrum mit
+		 * gesuchten Eigenschaften befindet.
 		 */
 		assertTrue(tempVec.size() == 1);
 		assertEquals(tempVec.elementAt(0).getInstitution(), "Institut1");
@@ -137,7 +136,7 @@ public class ZentrumTest {
 		}
 		tempVec = new Vector<ZentrumBean>();
 		try {
-			//wird nich gefunden, da nicht geschrieben wurde
+			// wird nich gefunden, da nicht geschrieben wurde
 			tempVec = Zentrum.suchenZentrum(testZB);
 		} catch (ZentrumException e) {
 			e.printStackTrace();
