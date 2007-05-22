@@ -23,8 +23,7 @@ public class ZentrumBean extends Filter {
 	 * Interne ID des Zentrums
 	 */
 	private long id = NullKonstanten.NULL_LONG;
-	
-	
+
 	/**
 	 * Name der Abteilung in der Institution.
 	 */
@@ -44,7 +43,6 @@ public class ZentrumBean extends Filter {
 	 * Hausnummer
 	 */
 	private String aHausnr = null;
-
 
 	/**
 	 * Name der Institution.
@@ -456,7 +454,8 @@ public class ZentrumBean extends Filter {
 						.matches(".{12}"))) {
 					throw new ZentrumException(ZentrumException.PASSWORT_FALSCH);
 				}
-				this.aPasswort = KryptoUtil.getInstance().hashPasswort(klartext);
+				this.aPasswort = KryptoUtil.getInstance()
+						.hashPasswort(klartext);
 			} else {
 				throw new ZentrumException(ZentrumException.PASSWORT_NULL);
 			}
