@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.PersonBean.Titel;
 import de.randi2.utility.Log4jInit;
@@ -862,6 +863,34 @@ public class PersonBeanTest {
 			fail("Personbean konnte nicht angelegt werden!");
 		}
 
+	}
+
+	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.beans.PersonBean#toString()}.
+	 */
+	@Test
+	public void testToString() {
+		try {
+			testPB.setEmail("holadiewaldfee@wald.com");
+			testPB.setFax("02847483928");
+			testPB.setHandynummer("01758392046");
+			testPB.setTelefonnummer("07245938473");
+			testPB.setStellvertreterId(45);
+			testPB.setId(57);
+			testPB.setNachname("Waldfee");
+			testPB.setVorname("Holadie");
+		} catch (PersonException e) {
+			e.printStackTrace();
+		}
+		String sollWert = "id:\t" + testPB.getId() + "\tvorname:\t"
+				+ testPB.getVorname() + "\tnachname:\t" + testPB.getNachname()
+				+ "\temail:\t" + testPB.getEmail() + "\tfax:\t"
+				+ testPB.getFax() + "\thandy:\t" + testPB.getHandynummer()
+				+ "\tstellvertreterId:\t" + testPB.getStellvertreterId()
+				+ "\ttel:\t" + testPB.getTelefonnummer();
+		String istWert = testPB.toString();
+		assertTrue(sollWert.equals(istWert));
 	}
 
 	/**
