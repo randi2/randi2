@@ -574,7 +574,8 @@ public class BenutzerkontoBean extends Filter {
 	 * Liefert alle von diesem Benutzer aufgenommenen Patienten
 	 * 
 	 * @return Vector mit PatientBeans
-	 * @throws BenutzerkontoException - wenn ein Fehler in der DB auftrat.
+	 * @throws BenutzerkontoException -
+	 *             wenn ein Fehler in der DB auftrat.
 	 */
 	public Vector<PatientBean> getPatienten() throws BenutzerkontoException {
 		if (aPatienten == null) {
@@ -603,7 +604,7 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	public ZentrumBean getZentrum() throws ZentrumException {
 		if (this.aZentrum == null) {
-			this.aZentrum = Zentrum.get(this.aZentrumId);
+			this.aZentrum = Zentrum.getZentrum(this.aZentrumId);
 		}
 		return this.aZentrum;
 	}
