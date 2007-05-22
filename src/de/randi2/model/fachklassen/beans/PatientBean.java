@@ -294,7 +294,7 @@ public class PatientBean extends Filter {
 				throw new DatenbankFehlerException(
 						DatenbankFehlerException.ARGUMENT_IST_NULL);
 			} else {
-				aStudienarm = Studienarm.get(aStudienarmId);
+				aStudienarm = Studienarm.getStudienarm(aStudienarmId);
 			}
 		}
 		return aStudienarm;
