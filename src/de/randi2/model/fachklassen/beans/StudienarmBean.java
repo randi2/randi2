@@ -160,7 +160,7 @@ public class StudienarmBean extends Filter {
 	public StudieBean getStudie() throws StudieException {
 		if (aStudie == null) {
 
-			aStudie = Studie.get(aStudieId);
+			aStudie = Studie.getStudie(aStudieId);
 
 		}
 		return aStudie;
