@@ -37,14 +37,17 @@ public class ZentrumBeanTest {
 	private PersonBean ansprechpartner;
 
 	private ZentrumBean zentrum = new ZentrumBean();
-	 /**
-	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
-	     *
-	     */
-	    @BeforeClass
-	    public static void log(){
+
+	/**
+	 * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und
+	 * es funktioniert.
+	 * 
+	 */
+	@BeforeClass
+	public static void log() {
 		Log4jInit.initDebug();
-	    }
+	}
+
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#ZentrumBean(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, de.randi2.model.fachklassen.beans.PersonBean, java.lang.String)}.
@@ -70,7 +73,7 @@ public class ZentrumBeanTest {
 		try {
 			new ZentrumBean(id, institution, abteilung, ort, plz, strasse,
 					hausnr, ansprechpartner.getId(), passwort, false);
-			
+
 		} catch (ZentrumException e) {
 			fail(e.getMessage());
 		}
@@ -151,7 +154,7 @@ public class ZentrumBeanTest {
 				.equals(
 						"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
 	}
-	
+
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setAnsprechpartner(de.randi2.model.fachklassen.beans.PersonBean)}.
@@ -181,14 +184,24 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testGetAnsprechpartner() {
+
 		try {
-			ansprechpartner = zentrum.getAnsprechpartner();
-		} catch (PersonException e) {
+
+			PersonBean ansprechpartner = new PersonBean(1, id, "nachname",
+					"vorname", PersonBean.Titel.PROF, 'm',
+					"user@hs-heilbronn.de", "01760099334", "017600972487",
+					"01760427424");
+
+			zentrum.setAnsprechpartner(ansprechpartner);
+
+			PersonBean ansprechpartner2 = zentrum.getAnsprechpartner();
+
+			assertTrue(ansprechpartner.equals(ansprechpartner2));
+
+		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}
-
-
 
 	/**
 	 * Test method for
