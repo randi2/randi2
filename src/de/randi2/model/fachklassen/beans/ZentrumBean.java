@@ -330,13 +330,16 @@ public class ZentrumBean extends Filter {
 	 * @param id
 	 *            die eindeutige (long) Id des Ansprechpartners aus der
 	 *            Datenbank.
+	 * @throws ZentrumException
+	 *             wenn die Id ungueltig ist
 	 */
-	public void setAnsprechpartnerId(long id) throws ZentrumException{
+	public void setAnsprechpartnerId(long id) throws ZentrumException {
 		if (id != NullKonstanten.DUMMY_ID) {
-		this.aAnsprechpartnerId = id;
+			this.aAnsprechpartnerId = id;
 		} else {
-			throw new ZentrumException(ZentrumException.ANSPRECHPARTNER_NICHT_GESPEICHERT);
-			
+			throw new ZentrumException(
+					ZentrumException.ANSPRECHPARTNER_NICHT_GESPEICHERT);
+
 		}
 	}
 
@@ -559,21 +562,22 @@ public class ZentrumBean extends Filter {
 		return aAnsprechpartnerId;
 	}
 
-	/** 
+	/**
 	 * Liefert den HashCode des Objektes.<br>
-	 * Der HashCode entspricht der (Datenbank-)Id des Objektes. 
-	 * Ist das Objekt noch nicht gespeichert worden, 
-	 * besitzt also die ID {@link NullKonstanten#DUMMY_ID}, so wird der HashCode von
+	 * Der HashCode entspricht der (Datenbank-)Id des Objektes. Ist das Objekt
+	 * noch nicht gespeichert worden, besitzt also die ID
+	 * {@link NullKonstanten#DUMMY_ID}, so wird der HashCode von
 	 * {@link java.lang.Object#hashCode()} geliefert.
+	 * 
 	 * @return HashCode des Objektes
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-	   if (id == NullKonstanten.DUMMY_ID){
-	       return super.hashCode();
-	   }
-	    return (int) id;
+		if (id == NullKonstanten.DUMMY_ID) {
+			return super.hashCode();
+		}
+		return (int) id;
 	}
-	
+
 }
