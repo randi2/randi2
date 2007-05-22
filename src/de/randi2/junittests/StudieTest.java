@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Studie;
+import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.utility.Log4jInit;
 
@@ -138,6 +139,10 @@ public class StudieTest {
 	@Test
 	 public void testGetZugehoerigeZentren(){
 		 
+		fail("implementieren, sofort!! dhaehn");
+				
+		
+		
 	 }
 
 	
@@ -148,6 +153,10 @@ public class StudieTest {
 	@Test
 	public void testGetStrata(){
 		
+		fail("implementieren, sofort!! dhaehn");
+				
+		
+		
 	}
 	
 	
@@ -157,6 +166,20 @@ public class StudieTest {
 	 */
 	@Test
 	public void testGet(){
+		
+		fail("implementieren, sofort!! dhaehn");
+				
+		
+		
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	public void testEquals(){
+		
+		fail("implementieren, sofort!! dhaehn");
 		
 	}
 }
