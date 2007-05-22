@@ -24,8 +24,6 @@ public class Studie {
 	 * Das zugehörige StudieBean-Objekt.
 	 */
 	private StudieBean aStudieBean = null;
-	
-	
 
 	/**
 	 * Enumeration Status der Studie
@@ -147,63 +145,71 @@ public class Studie {
 
 		return zugewieseneZentren;
 	}
-	 
+
 	/**
 	 * Liefert alle zur Studie gehoerenden Zentren
+	 * 
 	 * @param studieId
-	 * 			Id der studie zur eindeutigen Zuordnung in der Datenbank
-	 * @return
-	 * 			gefundene Zentren
-	 * @throws StudieException   
-	 *          Exception, wenn Zentrum nicht gefunden werden konnte.
+	 *            Id der studie zur eindeutigen Zuordnung in der Datenbank
+	 * @return gefundene Zentren
+	 * @throws StudieException
+	 *             Exception, wenn Zentrum nicht gefunden werden konnte.
 	 */
-	public static Vector<ZentrumBean> getZugehoerigeZentren(long studieId) throws StudieException {
+	public static Vector<ZentrumBean> getZugehoerigeZentren(long studieId)
+			throws StudieException {
 		StudieBean studie = new StudieBean();
 		studie.setId(studieId);
-		Vector<ZentrumBean> gefundenZentren=null;
+		Vector<ZentrumBean> gefundenZentren = null;
 		try {
-			gefundenZentren = DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(studie, new ZentrumBean() );
+			gefundenZentren = DatenbankFactory.getAktuelleDBInstanz()
+					.suchenMitgliederObjekte(studie, new ZentrumBean());
 		} catch (DatenbankFehlerException e) {
 			throw new StudieException("Zentrum konnte nicht gefunden werden.");
 		}
 		return gefundenZentren;
 	}
+
 	/**
 	 * Liefert alle Strata zur Studie.
-	 * @param studieId Id der Studie zur eindeutigen Zuordnung in der Datenbank.
-	 * @return  gefundeneStrata 
-	 * @throws StudieException Exception, wenn Strata nicht gefunden wurde.
+	 * 
+	 * @param studieId
+	 *            Id der Studie zur eindeutigen Zuordnung in der Datenbank.
+	 * @return gefundeneStrata
+	 * @throws StudieException
+	 *             Exception, wenn Strata nicht gefunden wurde.
 	 */
-	public static Vector<StrataBean> getZugehoerigeStrata(long studieId)throws StudieException{
+	public static Vector<StrataBean> getZugehoerigeStrata(long studieId)
+			throws StudieException {
 		StudieBean studie = new StudieBean();
 		studie.setId(studieId);
-		Vector<StrataBean> gefundeneStrata=null;	
+		Vector<StrataBean> gefundeneStrata = null;
 		try {
-			gefundeneStrata = DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(studie, new StrataBean() );
+			gefundeneStrata = DatenbankFactory.getAktuelleDBInstanz()
+					.suchenMitgliederObjekte(studie, new StrataBean());
 		} catch (DatenbankFehlerException e) {
 			throw new StudieException("Strata konnte nicht gefunden werden.");
 		}
-		
+
 		return gefundeneStrata;
 	}
-	
+
 	/**
 	 * Liefert die Studie mit der uebergebenen Id
 	 * 
 	 * @param studieId
 	 *            Die ID der angeforderten Studie.
-	 * @return StudieBean 
-	 * 				Ein StudieBean wird zurueckgegeben.
-	 * @throws StudieException  
-	 *              Exception, wenn ID der angeforderten Studie 
-	 *              nicht gefunden werden konnte.
+	 * @return StudieBean Ein StudieBean wird zurueckgegeben.
+	 * @throws StudieException
+	 *             Exception, wenn ID der angeforderten Studie nicht gefunden
+	 *             werden konnte.
 	 */
-	public static StudieBean get(long studieId) throws StudieException{
+	public static StudieBean getStudie(long studieId) throws StudieException {
 		StudieBean studie = new StudieBean();
 		try {
-			studie = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(studieId, studie);
+			studie = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(
+					studieId, studie);
 		} catch (DatenbankFehlerException e) {
-			throw new StudieException("ID der angeforderten Studie konnte nicht gefunden werden.");
+			throw new StudieException(StudieException.STUDIE_NICHT_GEFUNDEN);
 		}
 		return studie;
 	}
