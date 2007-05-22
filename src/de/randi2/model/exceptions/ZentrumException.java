@@ -70,7 +70,7 @@ public class ZentrumException extends BenutzerException {
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Strasse fehlt.
 	 */
-	public static final String STRASSE_NULL = "Die Straße wurde nicht eingegeben!";
+	public static final String STRASSE_NULL = "Die Straï¿½e wurde nicht eingegeben!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn das Passwort falsch ist.
@@ -87,7 +87,7 @@ public class ZentrumException extends BenutzerException {
 	 * setAnsprechpartner() Methode uebergeben wurde, noch nicht in der DB
 	 * gespeichert wurde.
 	 */
-	public static final String ANSPRECHPARTNER_NOCH_NICHT_GESPEICHERT = "Der &uuml;bergebene Ansprechpartner muss vorher gespeichert werden!";
+	public static final String ANSPRECHPARTNER_NICHT_GESPEICHERT = "Der &uuml;bergebene Ansprechpartner muss vorher gespeichert werden!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn an die setAnsprechpartner() Methode
