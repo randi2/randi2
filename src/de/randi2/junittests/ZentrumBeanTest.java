@@ -70,6 +70,7 @@ public class ZentrumBeanTest {
 		try {
 			new ZentrumBean(id, institution, abteilung, ort, plz, strasse,
 					hausnr, ansprechpartner.getId(), passwort, false);
+			
 		} catch (ZentrumException e) {
 			fail(e.getMessage());
 		}
@@ -150,20 +151,7 @@ public class ZentrumBeanTest {
 				.equals(
 						"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
 	}
-
-	/**
-	 * Test method for
-	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#getAnsprechpartner()}.
-	 */
-	@Test
-	public void testGetAnsprechpartner() {
-		try {
-			ansprechpartner = zentrum.getAnsprechpartner();
-		} catch (PersonException e) {
-			fail(e.getMessage());
-		}
-	}
-
+	
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#setAnsprechpartner(de.randi2.model.fachklassen.beans.PersonBean)}.
@@ -186,6 +174,21 @@ public class ZentrumBeanTest {
 			fail(e.getMessage());
 		}
 	}
+
+	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.beans.ZentrumBean#getAnsprechpartner()}.
+	 */
+	@Test
+	public void testGetAnsprechpartner() {
+		try {
+			ansprechpartner = zentrum.getAnsprechpartner();
+		} catch (PersonException e) {
+			fail(e.getMessage());
+		}
+	}
+
+
 
 	/**
 	 * Test method for
