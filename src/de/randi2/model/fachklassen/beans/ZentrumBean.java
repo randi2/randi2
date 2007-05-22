@@ -22,7 +22,7 @@ public class ZentrumBean extends Filter {
 	/**
 	 * Interne ID des Zentrums
 	 */
-	private long id = NullKonstanten.NULL_LONG;
+	private long id = NullKonstanten.DUMMY_ID;
 
 	/**
 	 * Name der Abteilung in der Institution.
@@ -37,7 +37,7 @@ public class ZentrumBean extends Filter {
 	/**
 	 * Die eindeutige ID des Ansprechpartners.
 	 */
-	private long aAnsprechpartnerId = NullKonstanten.NULL_LONG;
+	private long aAnsprechpartnerId = NullKonstanten.DUMMY_ID;
 
 	/**
 	 * Hausnummer
@@ -554,4 +554,21 @@ public class ZentrumBean extends Filter {
 		return aAnsprechpartnerId;
 	}
 
+	/** 
+	 * Liefert den HashCode des Objektes.<br>
+	 * Der HashCode entspricht der (Datenbank-)Id des Objektes. 
+	 * Ist das Objekt noch nicht gespeichert worden, 
+	 * besitzt also die ID {@link NullKonstanten#DUMMY_ID}, so wird der HashCode von
+	 * {@link java.lang.Object#hashCode()} geliefert.
+	 * @return HashCode des Objektes
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+	   if (id == NullKonstanten.DUMMY_ID){
+	       return super.hashCode();
+	   }
+	    return (int) id;
+	}
+	
 }
