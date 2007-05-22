@@ -1816,46 +1816,80 @@ public class Datenbank implements DatenbankSchnittstelle {
 		BenutzerkontoBean tmpBenutzerkonto;
 		Vector<BenutzerkontoBean> konten = new Vector<BenutzerkontoBean>();
 		//erstellen der SQL Abfrage
-		String sql ="SELECT * FROM "+Tabellen.BENUTZERKONTO.toString()+" WHERE ";
+		int counter=0;
+		String sql ="SELECT * FROM "+Tabellen.BENUTZERKONTO.toString();
 		
-		if(bk.getBenutzername()==null) {
-			sql += "(TRUE OR "+FelderBenutzerkonto.LOGINNAME.toString()+" LIKE ? ) AND ";
+		if(bk.getBenutzername()!=null) {
+			sql +=" WHERE "+ FelderBenutzerkonto.LOGINNAME.toString()+" LIKE ? ";
+			counter++;
 		}
-		else {
-			sql += FelderBenutzerkonto.LOGINNAME.toString()+" LIKE ?  AND ";
+		if(bk.getErsterLogin()!=null) {
+			if(counter==0) {
+				sql+= " WHERE ";
+			}else {
+				sql+= " AND ";
+			}
+			sql += FelderBenutzerkonto.ERSTERLOGIN.toString()+" = ? ";
+			counter++;
 		}
-		if(bk.getErsterLogin()==null) {
-			sql += "(TRUE OR "+FelderBenutzerkonto.ERSTERLOGIN.toString()+" = ? ) AND ";
+		if(bk.getLetzterLogin()!=null) {
+			if(counter==0) {
+				sql+= " WHERE ";
+			}else {
+				sql+= " AND ";
+			}
+			sql += FelderBenutzerkonto.LETZTERLOGIN.toString()+" = ? ";
+			counter++;
 		}
-		else {
-			sql += FelderBenutzerkonto.ERSTERLOGIN.toString()+" = ?  AND ";
+		if(bk.getRolle()!=null) {
+			if(counter==0) {
+				sql+= " WHERE ";
+			}else {
+				sql+= " AND ";
+			}
+			sql += FelderBenutzerkonto.ROLLEACCOUNT.toString()+" = ? ";
+			counter++;
 		}
-		if(bk.getLetzterLogin()==null) {
-			sql += "(TRUE OR "+FelderBenutzerkonto.LETZTERLOGIN.toString()+" = ? ) AND ";
+		
+		if(counter==0) {
+			sql+= " WHERE ";
+		}else {
+			sql+= " AND ";
 		}
-		else {
-			sql += FelderBenutzerkonto.LETZTERLOGIN.toString()+" = ?  AND ";
-		}
-		sql += FelderBenutzerkonto.ROLLEACCOUNT.toString()+" = ? AND ";
-		sql += FelderBenutzerkonto.GESPERRT.toString()+" = ? AND ";
+		sql += FelderBenutzerkonto.GESPERRT.toString()+" = ? ";
+		counter++;
+		
 		if(bk.getZentrumId()!=NullKonstanten.NULL_LONG) {
+			if(counter==0) {
+				sql+= " WHERE ";
+			}else {
+				sql+= " AND ";
+			}
 			sql+= FelderBenutzerkonto.ZENTRUMID.toString()+" = ?";
-		} else {
-			sql += "(TRUE OR "+FelderBenutzerkonto.ZENTRUMID.toString()+" = ? )";
 		}
 		
-		
+		System.out.println(sql);
 		try { 
 			//Prepared Statement erzeugen
 			pstmt = con.prepareStatement(sql);
 			int index = 1;
-			pstmt.setString(index++, bk.getBenutzername()+"%");
-			pstmt.setDate(index++, new Date(bk.getErsterLogin().getTimeInMillis()));
-			pstmt.setDate(index++, new Date(bk.getLetzterLogin().getTimeInMillis()));
-			pstmt.setString(index++, bk.getRolle().toString());
+			if(bk.getBenutzername()!=null) {
+				pstmt.setString(index++, bk.getBenutzername()+"%");
+			}			
+			if(bk.getErsterLogin()!=null) {
+				pstmt.setDate(index++, new Date(bk.getErsterLogin().getTimeInMillis()));
+			}
+			if(bk.getLetzterLogin()!=null) {
+				pstmt.setDate(index++, new Date(bk.getLetzterLogin().getTimeInMillis()));
+			}
+			if(bk.getRolle()!=null) {
+				pstmt.setString(index++, bk.getRolle().toString());		
+			}		
 			pstmt.setBoolean(index++, bk.isGesperrt());
-			pstmt.setLong(index++, bk.getZentrumId());
-			rs = pstmt.executeQuery();
+			if(bk.getZentrumId()!=NullKonstanten.NULL_LONG) {
+				pstmt.setLong(index++, bk.getZentrumId());
+			}			
+			rs = pstmt.executeQuery(); 
 			while(rs.next()) {
 				GregorianCalendar ersterLogin= new GregorianCalendar();
 				GregorianCalendar letzterLogin= new GregorianCalendar();
