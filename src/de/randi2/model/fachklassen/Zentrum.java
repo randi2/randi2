@@ -41,20 +41,15 @@ public class Zentrum {
 	 *            Felder entsprechen den Null-Werten aus der
 	 *            de.randi2.utility.NullKonstanten Klasse)
 	 * @return ein Vector mit gefundenen Objekten
-	 * @throws ZentrumException
+	 * @throws DatenbankFehlerException
 	 *             Falls ein Fehler in der Datenbank auftritt.
 	 */
 	public static Vector<ZentrumBean> suchenZentrum(ZentrumBean sZentrum)
-			throws ZentrumException {
+			throws DatenbankFehlerException {
 
 		Vector<ZentrumBean> gefundeneZentren = new Vector<ZentrumBean>();
-		try {
-			gefundeneZentren = DatenbankFactory.getAktuelleDBInstanz()
-					.suchenObjekt(sZentrum);
-		} catch (DatenbankFehlerException e) {
-			// TODO Konstante in ZentrumException
-			throw new ZentrumException("Zentren konnten nicht gefunden werden");
-		}
+		gefundeneZentren = DatenbankFactory.getAktuelleDBInstanz()
+				.suchenObjekt(sZentrum);
 
 		return gefundeneZentren;
 	}
@@ -90,21 +85,17 @@ public class Zentrum {
 	 * @param zentrumId
 	 *            Die ID des angeforderten Zentrums.
 	 * @return ZentrumBean Ein ZentrumBean wird zurueckgegeben.
-	 * @throws ZentrumException
+	 * @throws DatenbankFehlerException
 	 *             Die Exception tritt auf, wenn kein Zentrum zur ID gefunden
 	 *             wurde.
 	 */
-	public static ZentrumBean getZentrum(long zentrumId) throws ZentrumException {
+	public static ZentrumBean getZentrum(long zentrumId)
+			throws DatenbankFehlerException {
 		ZentrumBean aBean = new ZentrumBean();
 		aBean.setFilter(true);
-		try {
-			return DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(
-					zentrumId, aBean);
-		} catch (DatenbankFehlerException e) {
-			throw new ZentrumException(ZentrumException.ZENTRUM_NICHT_GEFUNDEN);
-		}
+		return DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(
+				zentrumId, aBean);
 	}
-	
 
 	/**
 	 * Erzeugt einen String mit allen Daten des Benutzers.
@@ -126,8 +117,7 @@ public class Zentrum {
 	 *         nicht der Fall ist.
 	 */
 	public boolean equals(Zentrum zuvergleichendesObjekt) {
-		if (this.aZentrumBean.equals(zuvergleichendesObjekt
-				.getZentrumBean())) {
+		if (this.aZentrumBean.equals(zuvergleichendesObjekt.getZentrumBean())) {
 			return true;
 		}
 		return false;
