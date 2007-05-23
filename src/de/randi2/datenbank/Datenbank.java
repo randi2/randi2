@@ -1159,8 +1159,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(i++, benutzerKonto.getPasswort());
 				pstmt.setLong(i++, benutzerKonto.getZentrumId());
 				pstmt.setString(i++, benutzerKonto.getRolle().getName());
-				pstmt.setDate(i++,new Date(benutzerKonto.getErsterLogin().getTimeInMillis()));
-				pstmt.setDate(i++, new Date(benutzerKonto.getLetzterLogin().getTimeInMillis()));
+				pstmt.setDate(i++, new Date(benutzerKonto.getErsterLogin()
+						.getTimeInMillis()));
+				pstmt.setDate(i++, new Date(benutzerKonto.getLetzterLogin()
+						.getTimeInMillis()));
 				pstmt.setBoolean(i++, benutzerKonto.isGesperrt());
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
@@ -1502,7 +1504,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankFehlerException(
+						DatenbankFehlerException.SCHREIBEN_ERR);
 			}
 		}
 		try {
@@ -1576,9 +1579,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 				e.printStackTrace();
 				throw new DatenbankFehlerException(
 						DatenbankFehlerException.SCHREIBEN_ERR);
-			}catch (PatientException e){
+			} catch (PatientException e) {
 				e.printStackTrace();
-				//TODO Die Behandlung dieser Exception ueberlasse ich euch :) (lplotni)
+				// TODO Die Behandlung dieser Exception ueberlasse ich euch :)
+				// (lplotni)
 			}
 			patient.setId(id);
 			return patient;
@@ -1613,9 +1617,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 				e.printStackTrace();
 				throw new DatenbankFehlerException(
 						DatenbankFehlerException.SCHREIBEN_ERR);
-			}catch (PatientException e){
+			} catch (PatientException e) {
 				e.printStackTrace();
-				//TODO Die Behandlung dieser Exception ueberlasse ich euch :) (lplotni)
+				// TODO Die Behandlung dieser Exception ueberlasse ich euch :)
+				// (lplotni)
 			}
 		}
 		try {
@@ -1690,10 +1695,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PersonBean tmpPerson;
 		Vector<PersonBean> personen = new Vector<PersonBean>();
 		// erstellen der SQL Abfrage
-		String sql = "SELECT * FROM " + Tabellen.PERSON.toString() ;
-		int counter=0;
+		String sql = "SELECT * FROM " + Tabellen.PERSON.toString();
+		int counter = 0;
 		if (person.getNachname() != null) {
-			sql += " WHERE "+FelderPerson.NACHNAME.toString() + " LIKE ? ";
+			sql += " WHERE " + FelderPerson.NACHNAME.toString() + " LIKE ? ";
 			counter++;
 		}
 		if (person.getVorname() != null) {
@@ -1704,7 +1709,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			sql += FelderPerson.VORNAME.toString() + " LIKE ? ";
 			counter++;
-		} 
+		}
 		if (person.getTitel() != null) {
 			if (counter == 0) {
 				sql += " WHERE ";
@@ -1764,44 +1769,46 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt = con.prepareStatement(sql);
 			int index = 1;
 			if (person.getNachname() != null) {
-				pstmt.setString(index++, person.getNachname() + "%");	
+				pstmt.setString(index++, person.getNachname() + "%");
 			}
 			if (person.getVorname() != null) {
-				pstmt.setString(index++, person.getVorname() + "%");	
+				pstmt.setString(index++, person.getVorname() + "%");
 			}
 			if (person.getTitel() != null) {
-				pstmt.setString(index++, person.getTitel().toString());	
+				pstmt.setString(index++, person.getTitel().toString());
 			}
 			if (person.getGeschlecht() != NullKonstanten.NULL_CHAR) {
-				pstmt.setString(index++, Character.toString(person.getGeschlecht()));	
+				pstmt.setString(index++, Character.toString(person
+						.getGeschlecht()));
 			}
 			if (person.getTelefonnummer() != null) {
-				pstmt.setString(index++, person.getTelefonnummer());	
+				pstmt.setString(index++, person.getTelefonnummer());
 			}
 			if (person.getHandynummer() != null) {
-				pstmt.setString(index++, person.getHandynummer());	
+				pstmt.setString(index++, person.getHandynummer());
 			}
 			if (person.getFax() != null) {
-				pstmt.setString(index++, person.getFax());	
+				pstmt.setString(index++, person.getFax());
 			}
 			if (person.getEmail() != null) {
-				pstmt.setString(index++, person.getEmail());	
-			}			
+				pstmt.setString(index++, person.getEmail());
+			}
 			rs = pstmt.executeQuery();
 			// durchlaufe ResultSet
 			while (rs.next()) {
 				// erstelle PersonBeans
-				long stellvertreterId= rs.getLong(FelderPerson.STELLVERTRETER.toString());
-				if(stellvertreterId==Types.NULL) {
-					stellvertreterId=NullKonstanten.DUMMY_ID;
+				long stellvertreterId = rs.getLong(FelderPerson.STELLVERTRETER
+						.toString());
+				if (stellvertreterId == Types.NULL) {
+					stellvertreterId = NullKonstanten.DUMMY_ID;
 				}
 				tmpPerson = new PersonBean(rs.getLong(FelderPerson.ID
-						.toString()),stellvertreterId, rs.getString(FelderPerson.NACHNAME
-						.toString()), rs.getString(FelderPerson.VORNAME
-						.toString()), Titel.parseTitel(rs
-						.getString(FelderPerson.TITEL.toString())), rs
-						.getString(FelderPerson.GESCHLECHT.toString())
-						.charAt(0),
+						.toString()), stellvertreterId, rs
+						.getString(FelderPerson.NACHNAME.toString()), rs
+						.getString(FelderPerson.VORNAME.toString()),
+						Titel.parseTitel(rs.getString(FelderPerson.TITEL
+								.toString())), rs.getString(
+								FelderPerson.GESCHLECHT.toString()).charAt(0),
 						rs.getString(FelderPerson.EMAIL.toString()), rs
 								.getString(FelderPerson.TELEFONNUMMER
 										.toString()),
@@ -1932,14 +1939,27 @@ public class Datenbank implements DatenbankSchnittstelle {
 			if (bk.getZentrumId() != NullKonstanten.NULL_LONG) {
 				pstmt.setLong(index++, bk.getZentrumId());
 			}
+						
 			rs = pstmt.executeQuery();
+
 			while (rs.next()) {
-				GregorianCalendar ersterLogin = new GregorianCalendar();
-				GregorianCalendar letzterLogin = new GregorianCalendar();
-				ersterLogin.setTime(rs.getDate(FelderBenutzerkonto.ERSTERLOGIN
-						.toString()));
-				letzterLogin.setTime(rs
-						.getDate(FelderBenutzerkonto.LETZTERLOGIN.toString()));
+
+				GregorianCalendar ersterLogin = null;
+				GregorianCalendar letzterLogin = null;
+
+				Date ersterLoginDate = rs
+						.getDate(FelderBenutzerkonto.ERSTERLOGIN.toString());
+				Date letzterLoginDate = rs
+						.getDate(FelderBenutzerkonto.LETZTERLOGIN.toString());
+
+				// Datum nur setzen, wenn Feld in Datenbank != null, dhaehn
+				if (ersterLoginDate != null && letzterLoginDate != null) {
+					ersterLogin = new GregorianCalendar();
+					letzterLogin = new GregorianCalendar();
+					ersterLogin.setTime(ersterLoginDate);
+					letzterLogin.setTime(letzterLoginDate);
+
+				}
 
 				tmpBenutzerkonto = new BenutzerkontoBean(rs
 						.getLong(FelderBenutzerkonto.ID.toString()), rs
@@ -1953,7 +1973,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 										.toString()), rs
 								.getBoolean(FelderBenutzerkonto.GESPERRT
 										.toString()), ersterLogin, letzterLogin);
+								System.out.println(tmpBenutzerkonto.toString());
+								
 				konten.add(tmpBenutzerkonto);
+			
 			}
 			pstmt.close();
 			rs.close();
@@ -1966,6 +1989,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} catch (SystemException g) {
 			// TODO hier muss etwas sinnvolles geworfen bzw geloggt werden.
 			// Tritt auf wenn eine Rechte Exception fliegt
+			g.printStackTrace();
 		}
 		try {
 			closeConnection(con);
@@ -1974,6 +1998,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankFehlerException(
 					DatenbankFehlerException.CONNECTION_ERR);
 		}
+		
 		return konten;
 	}
 
@@ -2001,9 +2026,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Vector<ZentrumBean> zentren = new Vector<ZentrumBean>();
 
 		String sql = "SELECT * FROM " + Tabellen.ZENTRUM.toString();
-		int counter=0;
+		int counter = 0;
 		if (zentrum.getInstitution() != null) {
-			sql += " WHERE "+FelderZentrum.INSTITUTION.toString() + " LIKE ? ";
+			sql += " WHERE " + FelderZentrum.INSTITUTION.toString()
+					+ " LIKE ? ";
 			counter++;
 		}
 
@@ -2015,7 +2041,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			sql += FelderZentrum.ABTEILUNGSNAME.toString() + " LIKE ? ";
 			counter++;
-		} 
+		}
 
 		if (zentrum.getOrt() != null) {
 			if (counter == 0) {
@@ -2025,7 +2051,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			sql += FelderZentrum.ORT.toString() + " LIKE ? ";
 			counter++;
-		} 
+		}
 
 		if (zentrum.getPlz() != null) {
 			if (counter == 0) {
@@ -2035,7 +2061,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			sql += FelderZentrum.PLZ.toString() + " LIKE ? ";
 			counter++;
-		} 
+		}
 
 		if (zentrum.getStrasse() != null) {
 			if (counter == 0) {
@@ -2056,7 +2082,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			sql += FelderZentrum.HAUSNUMMER.toString() + " LIKE ? ";
 			counter++;
 		}
-		
+
 		if (counter == 0) {
 			sql += " WHERE ";
 		} else {
@@ -2067,25 +2093,25 @@ public class Datenbank implements DatenbankSchnittstelle {
 		try {
 			pstmt = con.prepareStatement(sql);
 			int index = 1;
-			
+
 			if (zentrum.getInstitution() != null) {
 				pstmt.setString(index++, zentrum.getInstitution() + "%");
-			}			
+			}
 			if (zentrum.getAbteilung() != null) {
 				pstmt.setString(index++, zentrum.getAbteilung() + "%");
 			}
 			if (zentrum.getOrt() != null) {
-				pstmt.setString(index++, zentrum.getOrt() + "%");	
+				pstmt.setString(index++, zentrum.getOrt() + "%");
 			}
 			if (zentrum.getPlz() != null) {
-				pstmt.setString(index++, zentrum.getPlz() + "%");	
+				pstmt.setString(index++, zentrum.getPlz() + "%");
 			}
 			if (zentrum.getStrasse() != null) {
-				pstmt.setString(index++, zentrum.getStrasse() + "%");	
+				pstmt.setString(index++, zentrum.getStrasse() + "%");
 			}
 			if (zentrum.getHausnr() != null) {
-				pstmt.setString(index++, zentrum.getHausnr() + "%");	
-			}			
+				pstmt.setString(index++, zentrum.getHausnr() + "%");
+			}
 			pstmt.setBoolean(index++, zentrum.getIstAktiviert());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -2285,22 +2311,23 @@ public class Datenbank implements DatenbankSchnittstelle {
 				char[] tmp = rs.getString(FelderPerson.GESCHLECHT.toString())
 						.toCharArray();
 				try {
-					long stellvertreterId= rs.getLong(FelderPerson.STELLVERTRETER.toString());
-					if(stellvertreterId==Types.NULL) {
-						stellvertreterId=NullKonstanten.DUMMY_ID;
+					long stellvertreterId = rs
+							.getLong(FelderPerson.STELLVERTRETER.toString());
+					if (stellvertreterId == Types.NULL) {
+						stellvertreterId = NullKonstanten.DUMMY_ID;
 					}
-					tmpPerson = new PersonBean(
-							rs.getLong(FelderPerson.ID.toString()),
-							stellvertreterId,
-							rs.getString(FelderPerson.NACHNAME.toString()),
-							rs.getString(FelderPerson.VORNAME.toString()),
-							Titel.parseTitel(rs.getString(FelderPerson.TITEL
-									.toString())),
-							tmp[0],
-							rs.getString(FelderPerson.EMAIL.toString()),
-							rs.getString(FelderPerson.TELEFONNUMMER.toString()),
+					tmpPerson = new PersonBean(rs.getLong(FelderPerson.ID
+							.toString()), stellvertreterId, rs
+							.getString(FelderPerson.NACHNAME.toString()), rs
+							.getString(FelderPerson.VORNAME.toString()), Titel
+							.parseTitel(rs.getString(FelderPerson.TITEL
+									.toString())), tmp[0], rs
+							.getString(FelderPerson.EMAIL.toString()), rs
+							.getString(FelderPerson.TELEFONNUMMER.toString()),
 							rs.getString(FelderPerson.HANDYNUMMER.toString()),
 							rs.getString(FelderPerson.FAX.toString()));
+					
+					
 				} catch (PersonException e) {
 					e.printStackTrace();
 					throw new DatenbankFehlerException(
