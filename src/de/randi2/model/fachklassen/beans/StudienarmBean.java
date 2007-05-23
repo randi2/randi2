@@ -6,7 +6,7 @@ package de.randi2.model.fachklassen.beans;
 import java.util.Vector;
 
 import de.randi2.datenbank.Filter;
-import de.randi2.model.exceptions.StudieException;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Studienarm;
@@ -161,10 +161,10 @@ public class StudienarmBean extends Filter {
 	 * Liefert die Studie der dieser Arm zugeordnet ist.
 	 * 
 	 * @return die Studie als StudieBean
-	 * @throws StudieException
+	 * @throws DatenbankFehlerException
 	 *             wenn die Studie nicht gefunden wurde
 	 */
-	public StudieBean getStudie() throws StudieException {
+	public StudieBean getStudie() throws DatenbankFehlerException {
 		if (aStudie == null) {
 
 			aStudie = Studie.getStudie(aStudieId);
@@ -197,10 +197,10 @@ public class StudienarmBean extends Filter {
 	 * Liefert die zugeordneten Patienten als Vector von PatientBeans.
 	 * 
 	 * @return die zugeordneten Patienten als PatientBean
-	 * @throws StudienarmException
+	 * @throws DatenbankFehlerException
 	 *             falls die Patienten nicht geholt werden koennen
 	 */
-	public Vector<PatientBean> getPatienten() throws StudienarmException {
+	public Vector<PatientBean> getPatienten() throws DatenbankFehlerException {
 		if (aPatienten == null) {
 
 			aPatienten = Studienarm.getZugehoerigePatienten(this.getId());
