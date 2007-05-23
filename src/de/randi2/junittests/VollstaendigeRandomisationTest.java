@@ -108,7 +108,6 @@ public class VollstaendigeRandomisationTest {
 			testPatienten[i].setInitialen("INI" + i);
 			testRandomisation.randomisierenPatient(testPatienten[i]);
 		}
-		try {
 			System.out.println("Arm 1: (" + testArm1.getPatienten().size()
 					+ ")");
 			Iterator<PatientBean> it = testArm1.getPatienten().iterator();
@@ -142,11 +141,6 @@ public class VollstaendigeRandomisationTest {
 
 			assertEquals(90, anzPat);
 
-		} catch (StudienarmException e) {
-
-			fail(e.getMessage());
-
-		}
 	}
 
 }

@@ -163,7 +163,7 @@ public class BenutzerkontoBean extends Filter {
 	}
 
 	/**
-	 * Konstruktor nur fuer Loginzwecke.
+	 * Konstruktor nur fuer Loginzwecke. (Filtereigenschaft wird automatisch auf true gesetzt)
 	 * 
 	 * @param benutzername
 	 *            Benutzername
@@ -174,8 +174,7 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	public BenutzerkontoBean(String benutzername, String passwortKlartext)
 			throws BenutzerkontoException {
-		// TODO Hier koennte man eigentlich die filter-Eigenschaft sofort auf
-		// true setzen, oder? (lplotni)
+		super.setFilter(true);
 		this.setBenutzername(benutzername);
 		this.setPasswortKlartext(passwortKlartext);
 	}

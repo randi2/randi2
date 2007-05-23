@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Rolle;
@@ -104,7 +105,6 @@ public class StudieBeanTest {
 	 */
 	@Test
 	public void testSetBenutzerkonto() {
-		long benutzerId = 12;
 		rolle = Rolle.getAdmin();
 		letzterLogin = new GregorianCalendar(2006, 11, 1);
 		ersterLogin = new GregorianCalendar(2006, 11, 1);
@@ -115,6 +115,8 @@ public class StudieBeanTest {
 			studieBean.setBenutzerkonto(aBenutzer);
 			assertTrue(studieBean.getBenutzerkonto().equals(aBenutzer));
 		} catch (BenutzerkontoException e) {
+			fail(e.getMessage());
+		} catch (DatenbankFehlerException e){
 			fail(e.getMessage());
 		}
 

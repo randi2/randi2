@@ -74,7 +74,7 @@ public class VollstaendigeRandomisation extends Randomisation {
 
 		try {
 			studienarme.get(index).getPatienten().add(patient);
-		} catch (StudienarmException e) {
+		} catch (DatenbankFehlerException e) {
 			throw new RandomisationsException(
 					RandomisationsException.ARM_NICHT_VERWENDBAR);
 		}

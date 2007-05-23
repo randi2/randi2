@@ -100,7 +100,7 @@ public class BlockRandomisation extends Randomisation {
 		try {
 			super.studie.getStudienarme().elementAt(aBlock[letztePosition])
 					.getPatienten().add(aPatient);
-		} catch (StudienarmException e) {
+		} catch (DatenbankFehlerException e) {
 
 			throw new RandomisationsException(
 					RandomisationsException.ARM_NICHT_VERWENDBAR);

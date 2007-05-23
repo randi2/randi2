@@ -148,11 +148,11 @@ public class Studie {
 	 * Liefert alle zur Studie gehoerenden Zentren
 	 * 
 	 * @return gefundene Zentren
-	 * @throws StudieException
+	 * @throws DatenbankFehlerException
 	 *             Exception, wenn Zentrum nicht gefunden werden konnte.
 	 */
 	public Vector<ZentrumBean> getZugehoerigeZentren()
-			throws StudieException {
+			throws DatenbankFehlerException {
 		return Studie.getZugehoerigeZentren(this.aStudieBean.getId());
 	}
 	

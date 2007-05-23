@@ -11,7 +11,6 @@ import org.junit.Test;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.RandomisationsException;
-import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
@@ -123,7 +122,7 @@ public class BlockRandomisationTest {
 			assertEquals(30, testArm2.getPatienten().size());
 			assertEquals(30, testArm3.getPatienten().size());
 
-		} catch (StudienarmException e) {
+		} catch (DatenbankFehlerException e) {
 
 			fail(e.getMessage());
 

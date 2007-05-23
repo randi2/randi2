@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.beans.PersonBean;
@@ -158,7 +159,7 @@ public class ZentrumBeanTest {
 		}
 		try {
 			assertTrue(zentrum.getAnsprechpartner().equals(ansprechpartner));
-		} catch (PersonException e) {
+		} catch (DatenbankFehlerException e) {
 			fail(e.getMessage());
 		}
 	}

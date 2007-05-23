@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.beans.PatientBean;
@@ -232,6 +233,8 @@ public class StudienarmBeanTest {
 
 			fail(e.getMessage());
 
+		} catch (DatenbankFehlerException e){
+			fail(e.getMessage());
 		}
 
 	}

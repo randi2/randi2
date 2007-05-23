@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -115,7 +116,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	
 	    try {
 		gZentrum = Zentrum.suchenZentrum(sZentrum);
-	    } catch (BenutzerException e) {
+	    } catch (DatenbankFehlerException e) {
 		request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
 	    }
 	request.setAttribute("listeZentren", gZentrum);
@@ -149,13 +150,16 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		    gZentrum = Zentrum.suchenZentrum(sZentrum);
 		    } catch (BenutzerException e) {
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+		    } catch(DatenbankFehlerException e){
+		    	//TODO Ich weiß nicht, ob die Vorgehensweise korrekt ist - bitte den Zuständigen um Überprüfung! (lplotni)
+		    	request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
 		    }
 	    } else {
 		ZentrumBean sZentrum = new ZentrumBean();
 		sZentrum.setFilter(true);
 		try {
 		    gZentrum = Zentrum.suchenZentrum(sZentrum);
-		} catch (BenutzerException e) {
+		} catch (DatenbankFehlerException e) {
 		    request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
 		}
 	    }
@@ -168,7 +172,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	    Vector<ZentrumBean> gZentrum = null;
 	    try {
 		gZentrum = Zentrum.suchenZentrum(sZentrum);
-	    } catch (BenutzerException e) {
+	    } catch (DatenbankFehlerException e) {
 		request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
 	    }
 	    Iterator<ZentrumBean> itgZentrum = gZentrum.iterator();

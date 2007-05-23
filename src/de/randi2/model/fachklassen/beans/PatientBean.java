@@ -235,8 +235,15 @@ public class PatientBean extends Filter {
 	 * 
 	 * @param koerperoberflaeche
 	 *            Setzt die Koerperoberflaeche.
+	 * @throws PatientException -
+	 *             wenn der uebergeben Wert negativ ist.
 	 */
-	public void setKoerperoberflaeche(float koerperoberflaeche) {
+	public void setKoerperoberflaeche(float koerperoberflaeche)
+			throws PatientException {
+		if (koerperoberflaeche < 0) {
+			throw new PatientException(
+					PatientException.KOERPEROBERFLAECHE_NEGATIV);
+		}
 		aKoerperoberflaeche = koerperoberflaeche;
 	}
 
