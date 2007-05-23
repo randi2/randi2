@@ -3,8 +3,8 @@ package de.randi2.model.fachklassen.beans;
 import java.util.GregorianCalendar;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.AktivierungException;
-import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.NullKonstanten;
@@ -106,10 +106,10 @@ public class AktivierungBean extends Filter {
 	 * Get-Methode für das Benutzerkonto.
 	 * 
 	 * @return Liefert das Benutzerkonto.
-	 * @throws BenutzerkontoException
+	 * @throws DatenbankFehlerException
 	 *             Fehler
 	 */
-	public BenutzerkontoBean getBenutzerkonto() throws BenutzerkontoException {
+	public BenutzerkontoBean getBenutzerkonto() throws DatenbankFehlerException {
 		if (aBenutzerkonto == null) {
 			aBenutzerkonto = Benutzerkonto.get(aBenutzerkontoId);
 		}
@@ -200,7 +200,7 @@ public class AktivierungBean extends Filter {
 	public AktivierungBean(long id, GregorianCalendar versanddatum,
 			long benutzerkontoId, String aktivierungsLink)
 			throws AktivierungException {
-		
+
 		this.id = id;
 		this.aVersanddatum = versanddatum;
 		this.aBenutzerkontoId = benutzerkontoId;
@@ -223,9 +223,9 @@ public class AktivierungBean extends Filter {
 	 */
 	@Override
 	public String toString() {
-		return "id:\t" + this.id + "\tlink:\t"
-				+ this.aAktivierungsLink + "\tversand:\t" + this.aVersanddatum
-				+ "\tbenutzerid\t" + this.aBenutzerkontoId;
+		return "id:\t" + this.id + "\tlink:\t" + this.aAktivierungsLink
+				+ "\tversand:\t" + this.aVersanddatum + "\tbenutzerid\t"
+				+ this.aBenutzerkontoId;
 	}
 
 	/**
@@ -239,7 +239,7 @@ public class AktivierungBean extends Filter {
 	 */
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
-		if(zuvergleichendesObjekt==null){
+		if (zuvergleichendesObjekt == null) {
 			return false;
 		}
 		if (zuvergleichendesObjekt instanceof AktivierungBean) {
@@ -251,8 +251,8 @@ public class AktivierungBean extends Filter {
 					&& this.aAktivierungsLink != null) {
 				return false;
 			} else if (beanZuvergleichen.getAktivierungsLink() != null
-					&& !beanZuvergleichen.getAktivierungsLink()
-							.equals(this.aAktivierungsLink)) {
+					&& !beanZuvergleichen.getAktivierungsLink().equals(
+							this.aAktivierungsLink)) {
 				return false;
 			}
 			if (beanZuvergleichen.getBenutzerkontoId() != this.aBenutzerkontoId) {
@@ -262,8 +262,8 @@ public class AktivierungBean extends Filter {
 					&& this.aVersanddatum != null) {
 				return false;
 			} else if (beanZuvergleichen.getVersanddatum() != null
-					&& !(beanZuvergleichen.getVersanddatum().getTimeInMillis()==
-							this.aVersanddatum.getTimeInMillis())) {
+					&& !(beanZuvergleichen.getVersanddatum().getTimeInMillis() == this.aVersanddatum
+							.getTimeInMillis())) {
 				return false;
 			}
 			return true;
@@ -271,7 +271,7 @@ public class AktivierungBean extends Filter {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Liefert den HashCode des Objektes.<br>
 	 * Der HashCode entspricht der (Datenbank-)Id des Objektes. Ist das Objekt
@@ -290,4 +290,3 @@ public class AktivierungBean extends Filter {
 		return (int) id;
 	}
 }
-
