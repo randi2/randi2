@@ -112,7 +112,7 @@ public class ZentrumTest {
 		try {
 			// Holen aus der Datenbank
 			tempVec = Zentrum.suchenZentrum(testZB);
-		} catch (ZentrumException e) {
+		} catch (DatenbankFehlerException e) {
 			e.printStackTrace();
 		}
 		/*
@@ -138,7 +138,7 @@ public class ZentrumTest {
 		try {
 			// wird nich gefunden, da nicht geschrieben wurde
 			tempVec = Zentrum.suchenZentrum(testZB);
-		} catch (ZentrumException e) {
+		} catch (DatenbankFehlerException e) {
 			e.printStackTrace();
 		}
 		assertTrue(tempVec.size() == 0);
