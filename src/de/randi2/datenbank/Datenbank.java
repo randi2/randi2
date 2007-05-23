@@ -1701,67 +1701,103 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PersonBean tmpPerson;
 		Vector<PersonBean> personen = new Vector<PersonBean>();
 		// erstellen der SQL Abfrage
-		String sql = "SELECT * FROM " + Tabellen.PERSON.toString() + " WHERE ";
+		String sql = "SELECT * FROM " + Tabellen.PERSON.toString() ;
+		int counter=0;
 		if (person.getNachname() != null) {
-			sql += FelderPerson.NACHNAME.toString() + " LIKE ? AND ";
-		} else {// falls Nachname nicht gesetzt ist, fuehrt das TRUE OR dazu das
-				// die Bedingung in dem Fall immer wahr ist
-			sql += "(TRUE OR " + FelderPerson.NACHNAME.toString()
-					+ " LIKE ? AND ";
+			sql += " WHERE "+FelderPerson.NACHNAME.toString() + " LIKE ? ";
+			counter++;
 		}
 		if (person.getVorname() != null) {
-			sql += FelderPerson.VORNAME.toString() + " LIKE ? AND ";
-		} else {
-			sql += "(TRUE OR " + FelderPerson.VORNAME.toString()
-					+ " LIKE ?) AND ";
-		}
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderPerson.VORNAME.toString() + " LIKE ? ";
+			counter++;
+		} 
 		if (person.getTitel() != null) {
-			sql += FelderPerson.TITEL.toString() + " = ? AND ";
-		} else {
-			sql += "(TRUE OR " + FelderPerson.TITEL.toString() + " = ?) AND ";
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderPerson.TITEL.toString() + " = ? ";
+			counter++;
 		}
 		if (person.getGeschlecht() != NullKonstanten.NULL_CHAR) {
-			sql += FelderPerson.GESCHLECHT.toString() + " = ? AND ";
-		} else {
-			sql += "(TRUE OR " + FelderPerson.GESCHLECHT.toString()
-					+ " = ?) AND ";
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderPerson.GESCHLECHT.toString() + " = ? ";
+			counter++;
 		}
 		if (person.getTelefonnummer() != null) {
-			sql += FelderPerson.TELEFONNUMMER.toString() + " = ? AND ";
-		} else {
-			sql += "(TRUE OR " + FelderPerson.TELEFONNUMMER.toString()
-					+ " = ?) AND ";
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderPerson.TELEFONNUMMER.toString() + " = ? ";
+			counter++;
 		}
 		if (person.getHandynummer() != null) {
-			sql += FelderPerson.HANDYNUMMER.toString() + " = ? AND ";
-		} else {
-			sql += "(TRUE OR " + FelderPerson.HANDYNUMMER.toString()
-					+ " = ?) AND ";
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderPerson.HANDYNUMMER.toString() + " = ? ";
+			counter++;
 		}
 		if (person.getFax() != null) {
-			sql += FelderPerson.FAX.toString() + " = ? AND ";
-		} else {
-			sql += "(TRUE OR " + FelderPerson.FAX.toString() + " = ?) AND ";
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderPerson.FAX.toString() + " = ? ";
+			counter++;
 		}
 		if (person.getEmail() != null) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
 			sql += FelderPerson.EMAIL.toString() + "= ?";
-		} else {
-			sql += "(TRUE OR " + FelderPerson.EMAIL.toString() + " = ?)";
+			counter++;
 		}
 		try {
 			// Prepared Statement erzeugen
 			pstmt = con.prepareStatement(sql);
 			int index = 1;
-			pstmt.setString(index++, person.getNachname() + "%");
-			pstmt.setString(index++, person.getVorname() + "%");
-			pstmt.setString(index++, person.getTitel().toString());
-			pstmt
-					.setString(index++, Character.toString(person
-							.getGeschlecht()));
-			pstmt.setString(index++, person.getTelefonnummer());
-			pstmt.setString(index++, person.getHandynummer());
-			pstmt.setString(index++, person.getFax());
-			pstmt.setString(index++, person.getEmail());
+			if (person.getNachname() != null) {
+				pstmt.setString(index++, person.getNachname() + "%");	
+			}
+			if (person.getVorname() != null) {
+				pstmt.setString(index++, person.getVorname() + "%");	
+			}
+			if (person.getTitel() != null) {
+				pstmt.setString(index++, person.getTitel().toString());	
+			}
+			if (person.getGeschlecht() != NullKonstanten.NULL_CHAR) {
+				pstmt.setString(index++, Character.toString(person.getGeschlecht()));	
+			}
+			if (person.getTelefonnummer() != null) {
+				pstmt.setString(index++, person.getTelefonnummer());	
+			}
+			if (person.getHandynummer() != null) {
+				pstmt.setString(index++, person.getHandynummer());	
+			}
+			if (person.getFax() != null) {
+				pstmt.setString(index++, person.getFax());	
+			}
+			if (person.getEmail() != null) {
+				pstmt.setString(index++, person.getEmail());	
+			}			
 			rs = pstmt.executeQuery();
 			// durchlaufe ResultSet
 			while (rs.next()) {
