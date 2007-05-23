@@ -54,12 +54,16 @@ public class StudieException extends BenutzerException {
 	 * Diese Konstante wird uebergeben, wenn die Studie nicht gefunden wurde.
 	 */
 	public static final String STUDIE_NICHT_GEFUNDEN = "Die Studie wurde nicht gefunden.";
+	/**
+	 * Diese Konstante wird uebergeben, wenn Strata nicht gefunden wurde.
+	 */
+	public static final String STRATA_NICHT_GEFUNDEN="Strata nicht gefunden.";
 
 	/**
 	 * Ein Konstruktor dieser Klasse
 	 * 
-	 * @param arg0
-	 *            eine Konstante aus dieser Klasse als Message
+	  * @param fehlermeldung
+	 *            Fehlermeldung
 	 */
 	public StudieException(String fehlermeldung) {
 		super(fehlermeldung);

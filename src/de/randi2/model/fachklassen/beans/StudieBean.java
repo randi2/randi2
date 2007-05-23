@@ -134,16 +134,13 @@ public class StudieBean extends Filter {
 	 * 
 	 * @return benutzerkonto, Benutzerkonto
 	 * @throws BenutzerkontoException
+	 *             Exception, wenn beim Holen des entsprechendes
+	 *             Bentutzerkontoobjektes Probleme vorkamen.
 	 */
-	public BenutzerkontoBean getBenutzerkonto() {
+	public BenutzerkontoBean getBenutzerkonto() throws BenutzerkontoException {
 		if (aBenutzerkonto == null) {
 
-			try {
-				aBenutzerkonto = Benutzerkonto.get(aBenutzerkontoId);
-			} catch (BenutzerkontoException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			aBenutzerkonto = Benutzerkonto.get(aBenutzerkontoId);
 		}
 		return aBenutzerkonto;
 
@@ -358,12 +355,8 @@ public class StudieBean extends Filter {
 	 */
 	public Vector<ZentrumBean> getZentren() throws StudieException {
 		if (zentren == null) {
-			try {
-				zentren = Studie.getZugehoerigeZentren(id);
-			} catch (StudieException e) {
-				throw new StudieException(
-						"Zugehöriges Zentrum konnte nicht gefunden werden.");
-			}
+			zentren = Studie.getZugehoerigeZentren(id);
+
 		}
 		return zentren;
 	}
@@ -378,11 +371,7 @@ public class StudieBean extends Filter {
 	public Vector<StrataBean> getStrata() throws StudieException {
 
 		if (strata == null) {
-			try {
 				strata = Studie.getZugehoerigeStrata(id);
-			} catch (StudieException e) {
-				throw new StudieException("Strata nicht vorhanden.");
-			}
 		}
 
 		return strata;
@@ -494,7 +483,7 @@ public class StudieBean extends Filter {
 
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
-
+ 
 		/* TODO sofort fixen und testen!! dhaehn */
 		return true;
 
@@ -507,24 +496,19 @@ public class StudieBean extends Filter {
 		 * (this.getRandomisationId() != beanZuvergleichen
 		 * .getRandomisationId()) {
 		 * 
-		 * return false;
-		 *  } if (!this.getBeschreibung().equals(
+		 * return false; } if (!this.getBeschreibung().equals(
 		 * beanZuvergleichen.getBeschreibung())) {
 		 * 
 		 * return false; } if(this.getStartDatum().getTimeInMillis() !=
 		 * beanZuvergleichen .getStartDatum().getTimeInMillis()) {
 		 * 
-		 * return false;
-		 *  } if(this.getEndDatum().getTimeInMillis() != beanZuvergleichen
-		 * .getStartDatum().getTimeInMillis()) {
+		 * return false; } if(this.getEndDatum().getTimeInMillis() !=
+		 * beanZuvergleichen .getStartDatum().getTimeInMillis()) {
 		 * 
-		 * return false;
-		 *  } if (this.getStudienprotokollpfad() == beanZuvergleichen
-		 * .getStudienprotokollpfad()) {
+		 * return false; } if (this.getStudienprotokollpfad() ==
+		 * beanZuvergleichen .getStudienprotokollpfad()) {
 		 * 
-		 * return false;
-		 *  }
-		 *  }
+		 * return false; } }
 		 * 
 		 * return false;
 		 */

@@ -208,6 +208,18 @@ public class StudieBeanTest {
 			fail("[testSetNameLaenge] Exception, wenn Studienname zu lang oder zu kurz ist.");
 		}
 	}
+	/***
+	 * 
+	 * Test method for setName() Test method for
+	 * {@link de.randi2.model.fachklassen.beans.StudieBean#setName(java.lang.String)}.
+	 * 
+	 * @throws StudieException
+	 */
+	@Test(expected = StudieException.class)
+	public void testSetNameZuKurz() throws StudieException {
+		studieBean.setName("a");
+		assertTrue(studieBean.getName().equals("a"));
+	}
 
 	/**
 	 * Test method for setName() Test method for

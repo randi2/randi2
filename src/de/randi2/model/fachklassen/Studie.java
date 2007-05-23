@@ -164,7 +164,7 @@ public class Studie {
 			gefundenZentren = DatenbankFactory.getAktuelleDBInstanz()
 					.suchenMitgliederObjekte(studie, new ZentrumBean());
 		} catch (DatenbankFehlerException e) {
-			throw new StudieException("Zentrum konnte nicht gefunden werden.");
+			throw new StudieException(StudieException.STUDIE_NICHT_GEFUNDEN);
 		}
 		return gefundenZentren;
 	}
@@ -187,7 +187,7 @@ public class Studie {
 			gefundeneStrata = DatenbankFactory.getAktuelleDBInstanz()
 					.suchenMitgliederObjekte(studie, new StrataBean());
 		} catch (DatenbankFehlerException e) {
-			throw new StudieException("Strata konnte nicht gefunden werden.");
+			throw new StudieException(StudieException.STRATA_NICHT_GEFUNDEN);
 		}
 
 		return gefundeneStrata;
@@ -212,6 +212,30 @@ public class Studie {
 			throw new StudieException(StudieException.STUDIE_NICHT_GEFUNDEN);
 		}
 		return studie;
+	}
+	
+	/**
+	 * Erzeugt einen String mit allen Daten der Studie.
+	 * @return Der String mit Daten der Studie
+	 */
+	public String toString(){
+		
+		return this.aStudieBean.toString();
+	}
+	/**
+	 * Diese Methode dient zum Verlgeich von 2 Objekten dieser Klasse.
+	 * 
+	 * @param zuvergleichendesObjekt
+	 *            Objekt mit dem verglichen werden soll.
+	 * @return true - wenn die beiden Objekte identisch sind, false wenn das
+	 *         nicht der Fall ist.
+	 */
+	public boolean equals(Studie zuvergleichendesObjekt) {
+		if (this.aStudieBean.equals(zuvergleichendesObjekt.toString()
+				)) {
+			return true;
+		}
+		return false;
 	}
 
 }
