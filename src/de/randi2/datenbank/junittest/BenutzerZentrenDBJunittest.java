@@ -164,12 +164,14 @@ public class BenutzerZentrenDBJunittest {
 	assertEquals(zBeanSuchen, zBeanSchreiben);
 
 	// Suchen über Objekt
-	zBeanSuchen = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(zBeanSchreiben).firstElement();
+	//greife auf Last Element zu, da es mehrere Zentren mit den identischen Daten gibt und sich nur
+	//in der ID unterscheiden. Resultiert aus dem wiederholten einfuegen des gleichen Zentrums.
+	zBeanSuchen = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(zBeanSchreiben).lastElement();
 	assertEquals(zBeanSuchen, zBeanSchreiben);
 
 	// Ändern
 	ZentrumBean zBeanAendern = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(zBeanSchreiben.getId(), new ZentrumBean());
-	zBeanAendern = new ZentrumBean(zBeanAendern.getId(), "institution1", "abteilung1", "ort1", "12345", "strasse1", "1", NullKonstanten.NULL_LONG, KryptoUtil.getInstance().hashPasswort(
+	zBeanAendern = new ZentrumBean(zBeanAendern.getId(), "institution1", "abteilung1", "ort1", "12345", "strasse1", "1", 1, KryptoUtil.getInstance().hashPasswort(
 		"passwort1"), true);
 	ZentrumBean zBeanNachAenderung = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(zBeanAendern.getId(), new ZentrumBean());
 	assertFalse(zBeanAendern.equals(zBeanNachAenderung));

@@ -1987,59 +1987,92 @@ public class Datenbank implements DatenbankSchnittstelle {
 		ZentrumBean tmpZentrum;
 		Vector<ZentrumBean> zentren = new Vector<ZentrumBean>();
 
-		String sql = "SELECT * FROM " + Tabellen.ZENTRUM.toString() + " WHERE ";
-
-		if (zentrum.getInstitution() == null) {
-			sql += "(TRUE OR " + FelderZentrum.INSTITUTION.toString()
-					+ " LIKE ?) AND ";
-		} else {
-			sql += FelderZentrum.INSTITUTION.toString() + " LIKE ? AND ";
+		String sql = "SELECT * FROM " + Tabellen.ZENTRUM.toString();
+		int counter=0;
+		if (zentrum.getInstitution() != null) {
+			sql += " WHERE "+FelderZentrum.INSTITUTION.toString() + " LIKE ? ";
+			counter++;
 		}
 
-		if (zentrum.getAbteilung() == null) {
-			sql += "(TRUE OR " + FelderZentrum.ABTEILUNGSNAME.toString()
-					+ " LIKE ?) AND ";
-		} else {
-			sql += FelderZentrum.ABTEILUNGSNAME.toString() + " LIKE ? AND ";
+		if (zentrum.getAbteilung() != null) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderZentrum.ABTEILUNGSNAME.toString() + " LIKE ? ";
+			counter++;
+		} 
+
+		if (zentrum.getOrt() != null) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderZentrum.ORT.toString() + " LIKE ? ";
+			counter++;
+		} 
+
+		if (zentrum.getPlz() != null) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderZentrum.PLZ.toString() + " LIKE ? ";
+			counter++;
+		} 
+
+		if (zentrum.getStrasse() != null) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderZentrum.STRASSE.toString() + " LIKE ? ";
+			counter++;
 		}
 
-		if (zentrum.getOrt() == null) {
-			sql += "(TRUE OR " + FelderZentrum.ORT.toString() + " LIKE ?) AND ";
-		} else {
-			sql += FelderZentrum.ORT.toString() + " LIKE ? AND ";
+		if (zentrum.getHausnr() != null) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderZentrum.HAUSNUMMER.toString() + " LIKE ? ";
+			counter++;
 		}
-
-		if (zentrum.getPlz() == null) {
-			sql += "(TRUE OR " + FelderZentrum.PLZ.toString() + " LIKE ?) AND ";
+		
+		if (counter == 0) {
+			sql += " WHERE ";
 		} else {
-			sql += FelderZentrum.PLZ.toString() + " LIKE ? AND ";
+			sql += " AND ";
 		}
-
-		if (zentrum.getStrasse() == null) {
-			sql += "(TRUE OR " + FelderZentrum.STRASSE.toString()
-					+ " LIKE ?) AND ";
-		} else {
-			sql += FelderZentrum.STRASSE.toString() + " LIKE ? AND ";
-		}
-
-		if (zentrum.getHausnr() == null) {
-			sql += "(TRUE OR " + FelderZentrum.HAUSNUMMER.toString()
-					+ " LIKE ?) AND ";
-		} else {
-			sql += FelderZentrum.HAUSNUMMER.toString() + " LIKE ? AND ";
-		}
-
 		sql += FelderZentrum.AKTIVIERT + " = ? ";
 
-		try {
+		try { System.out.println(sql);
 			pstmt = con.prepareStatement(sql);
 			int index = 1;
-			pstmt.setString(index++, zentrum.getInstitution() + "%");
-			pstmt.setString(index++, zentrum.getAbteilung() + "%");
-			pstmt.setString(index++, zentrum.getOrt() + "%");
-			pstmt.setString(index++, zentrum.getPlz() + "%");
-			pstmt.setString(index++, zentrum.getStrasse() + "%");
-			pstmt.setString(index++, zentrum.getHausnr() + "%");
+			
+			if (zentrum.getInstitution() != null) {
+				pstmt.setString(index++, zentrum.getInstitution() + "%");
+			}			
+			if (zentrum.getAbteilung() != null) {
+				pstmt.setString(index++, zentrum.getAbteilung() + "%");
+			}
+			if (zentrum.getOrt() != null) {
+				pstmt.setString(index++, zentrum.getOrt() + "%");	
+			}
+			if (zentrum.getPlz() != null) {
+				pstmt.setString(index++, zentrum.getPlz() + "%");	
+			}
+			if (zentrum.getStrasse() != null) {
+				pstmt.setString(index++, zentrum.getStrasse() + "%");	
+			}
+			if (zentrum.getHausnr() != null) {
+				pstmt.setString(index++, zentrum.getHausnr() + "%");	
+			}			
 			pstmt.setBoolean(index++, zentrum.getIstAktiviert());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
