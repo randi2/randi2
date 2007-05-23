@@ -43,9 +43,9 @@
 <input type="hidden"
 	value="<%=DispatcherServlet.anfrage_id.JSP_INDEX_LOGIN %>"
 	name="anfrage_id">
-<p><input type="text" name="username" tabindex="1" z:required="true" z:message="Bitte geben Sie ihren Benutzernamen ein"></p>
+<p><input type="text" name="username" tabindex="1" z:required="true" z:length="{max: 50, min: 6}" z:message="Bitte geben Sie einen gültigen Benutzernamen ein"></p>
 <p>Kennwort</p>
-<p><input type="password" name="password" tabindex="2" z:required="true" z:message="Bitte geben Sie ihr Passwort ein"></p>
+<p><input type="password" name="password" tabindex="2" z:required="true" z:length="{min: 6}" z:message="Bitte geben Sie ein gültiges Passwort ein"></p>
 <p><input name="Submit" type="submit" tabindex="3" value="Login"></p>
 </form>
 <br>
