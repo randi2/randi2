@@ -4,17 +4,24 @@ values ('Hess','Frank','m','07131-1231232',null,null,'frank.hess@hs-heilbronn.de
 		('Nadine','Zwink','w','07131-5673456',null,null,'nzwinck@stud.hs-heilbronn.de'),
 		('Hans','Dampf','m','07131-123456',null,null,'hans.damp@allenGassen.de');
 
+
+#Passwoerter: 
+	#Frank Hess: 		1$hess80
+	#Valentin Graeff: 	1$graeff83
+	#Nadine Zwink: 		1$zwink83
+	#Hans Dampf: 		1$dampf75
+
 insert into Zentrum (Person_personenID,institution,abteilungsname,ort,plz,strasse,hausnummer,passwort,aktiviert) 
-values('1','nch','knochen','heilbronn','74081','hessstrasse','34','ea296627cef2bfcc55191afa82a1097794a8eeedc7e7def21d5359db8a2620ca',0),
-		('2','hno','nase','heilbronn','74081','graeffstrasse','23','3dfaf1603227588e7ddf07be2fa51bab950ff617e8c2432df7a7ac0e58aee18a',1),
-		('3','mzk','zahn','heilbronn','74081','zwinkstrasse','12','5305d984ca8af6f4f341cbcf500d8ff45fcce6e32b5fc41f00988bd0c9ab85d9',0),
-		('4','paed','kind','heilbronn','74081','dampfstrasse','44','c87828a6040236461796f3aceaab3a1b28a166227d498aa017eec4fa92bc1d77',1);
+values('1','nch','knochen','heilbronn','74081','hessstrasse','34','a2dc01d419169a14447c792bfb5ece25a50757c09f28798a2c4f51bea329e35d',0),
+		('2','hno','nase','heilbronn','74081','graeffstrasse','23','806092d3f870df2536c6685f6532d0fadead7d460127d34786443419ed364474',1),
+		('3','mzk','zahn','heilbronn','74081','zwinkstrasse','12','4bc34ee364f766e4877e3e6bc7fce62402910200967678714db8d7b4e062c1aa',0),
+		('4','paed','kind','heilbronn','74081','dampfstrasse','44','7422090dd18d88965d3c2273c6121af4595bbe5c11f0c7a847a158555a4f65be',1);
 
 insert into Benutzerkonto (Zentrum_zentrumsID,Person_personenID,loginname,passwort,rolle,gesperrt) 
-values ('1','1','frank','ea296627cef2bfcc55191afa82a1097794a8eeedc7e7def21d5359db8a2620ca','Studienarzt',0),
-		('2','2','valentin','3dfaf1603227588e7ddf07be2fa51bab950ff617e8c2432df7a7ac0e58aee18a','Studienleiter',0),
-		('3','3','nadine','5305d984ca8af6f4f341cbcf500d8ff45fcce6e32b5fc41f00988bd0c9ab85d9','System Operator',1),
-		('4','4','hans','c87828a6040236461796f3aceaab3a1b28a166227d498aa017eec4fa92bc1d77','Administrator',1);
+values ('1','1','frank80','a2dc01d419169a14447c792bfb5ece25a50757c09f28798a2c4f51bea329e35d','Studienarzt',0),
+		('2','2','valentin','806092d3f870df2536c6685f6532d0fadead7d460127d34786443419ed364474','Studienleiter',0),
+		('3','3','nadine','4bc34ee364f766e4877e3e6bc7fce62402910200967678714db8d7b4e062c1aa','System Operator',1),
+		('4','4','hans75','7422090dd18d88965d3c2273c6121af4595bbe5c11f0c7a847a158555a4f65be','Administrator',1);
 
 insert into Studie (Benutzerkonto_benutzerkontenID,name,beschreibung,startdatum,enddatum,studienprotokoll,randomisationArt,status_Studie) 
 values('1','hess','','2001-01-01','2005-05-05','c:na','Vollstaendige','fortsetzen'),

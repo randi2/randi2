@@ -25,10 +25,10 @@ public final class DBScriptUtil {
 	public static void main(String[] args) {
 		Log4jInit.initDebug();
 		
-		System.out.println ("Passwort Frank " + KryptoUtil.getInstance().hashPasswort("hess") + " Ende");
-		System.out.println ("Passwort Valentin " + KryptoUtil.getInstance().hashPasswort("graeff")+ " Ende");
-		System.out.println ("Passwort Nadine " + KryptoUtil.getInstance().hashPasswort("zwink")+ " Ende");
-		System.out.println ("Passwort Hans " + KryptoUtil.getInstance().hashPasswort("dampf")+ " Ende");
+		System.out.println ("Passwort Frank " + KryptoUtil.getInstance().hashPasswort("1$hess80") + " Ende");
+		System.out.println ("Passwort Valentin " + KryptoUtil.getInstance().hashPasswort("1$graeff83")+ " Ende");
+		System.out.println ("Passwort Nadine " + KryptoUtil.getInstance().hashPasswort("1$zwink83")+ " Ende");
+		System.out.println ("Passwort Hans " + KryptoUtil.getInstance().hashPasswort("1$dampf75")+ " Ende");
 	}
 
 }
