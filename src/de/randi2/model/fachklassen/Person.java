@@ -34,19 +34,15 @@ public final class Person {
 	 * @param id
 	 *            die eindeutige Id des gewuenschten Objektes.
 	 * @return PersonBean - das gewuenschte Objekt.
-	 * @throws PersonException -
+	 * @throws DatenbankFehlerException -
 	 *             falls das PersonBean Objekt zu der uebergebenen Id nicht
 	 *             existiert.
 	 */
-	public static PersonBean get(long id) throws PersonException {
+	public static PersonBean get(long id) throws DatenbankFehlerException {
 		PersonBean nullBean = new PersonBean();
 		nullBean.setFilter(true);
-		try {
-			return DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(id,
-					nullBean);
-		} catch (DatenbankFehlerException e) {
-			throw new PersonException(PersonException.PERSON_NICHT_GEFUNDEN);
-		}
+		return DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(id,
+				nullBean);
 	}
 
 	/**
@@ -57,16 +53,12 @@ public final class Person {
 	 *            ein PersonBean, in dem die gesuchten Eigenschaften gesetzt
 	 *            sind und alle andere NULL Werte enthalten.
 	 * @return ein Vector mit gefundenen PersonBeans.
-	 * @throws PersonException
+	 * @throws DatenbankFehlerException
 	 *             falls Fehler bei dem Vorgang auftraten.
 	 */
 	public static Vector<PersonBean> suchen(PersonBean gesuchtesBean)
-			throws PersonException {
-		try {
-			return DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
-					gesuchtesBean);
-		} catch (DatenbankFehlerException e) {
-			throw new PersonException(PersonException.DB_FEHLER);
-		}
+			throws DatenbankFehlerException {
+		return DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
+				gesuchtesBean);
 	}
 }
