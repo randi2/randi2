@@ -1,8 +1,8 @@
-insert into Person (nachname,vorname,geschlecht,telefonnummer,handynummer,fax,email)  
-values ('Hess','Frank','m','07131-1231232',null,null,'frank.hess@hs-heilbronn.de'),
-		('Graeff','Valentin','m','07131-3456',null,null,'vgraeff@stud.hs-heilbronn.de'),
-		('Nadine','Zwink','w','07131-5673456',null,null,'nzwinck@stud.hs-heilbronn.de'),
-		('Hans','Dampf','m','07131-123456',null,null,'hans.damp@allenGassen.de');
+insert into Person (nachname,vorname,titel,geschlecht,telefonnummer,handynummer,fax,email)  
+values ('Hess','Frank','Prof.','m','07131-1231232',null,null,'frank.hess@hs-heilbronn.de'),
+		('Graeff','Valentin','Dr.','m','07131-3456',null,null,'vgraeff@stud.hs-heilbronn.de'),
+		('Nadine','Zwink','kein Titel','w','07131-5673456',null,null,'nzwinck@stud.hs-heilbronn.de'),
+		('Hans','Dampf','Prof. Dr.','m','07131-123456',null,null,'hans.damp@allenGassen.de');
 
 
 #Passwoerter: 
@@ -18,10 +18,10 @@ values('1','nch','knochen','heilbronn','74081','hessstrasse','34','a2dc01d419169
 		('4','paed','kind','heilbronn','74081','dampfstrasse','44','7422090dd18d88965d3c2273c6121af4595bbe5c11f0c7a847a158555a4f65be',1);
 
 insert into Benutzerkonto (Zentrum_zentrumsID,Person_personenID,loginname,passwort,rolle,gesperrt) 
-values ('1','1','frank80','a2dc01d419169a14447c792bfb5ece25a50757c09f28798a2c4f51bea329e35d','Studienarzt',0),
-		('2','2','valentin','806092d3f870df2536c6685f6532d0fadead7d460127d34786443419ed364474','Studienleiter',0),
-		('3','3','nadine','4bc34ee364f766e4877e3e6bc7fce62402910200967678714db8d7b4e062c1aa','System Operator',1),
-		('4','4','hans75','7422090dd18d88965d3c2273c6121af4595bbe5c11f0c7a847a158555a4f65be','Administrator',1);
+values ('1','1','frank80','a2dc01d419169a14447c792bfb5ece25a50757c09f28798a2c4f51bea329e35d','STUDIENARZT',0),
+		('2','2','valentin','806092d3f870df2536c6685f6532d0fadead7d460127d34786443419ed364474','STUDIENLEITER',0),
+		('3','3','nadine','4bc34ee364f766e4877e3e6bc7fce62402910200967678714db8d7b4e062c1aa','SYSOP',1),
+		('4','4','hans75','7422090dd18d88965d3c2273c6121af4595bbe5c11f0c7a847a158555a4f65be','ADMIN',1);
 
 insert into Studie (Benutzerkonto_benutzerkontenID,name,beschreibung,startdatum,enddatum,studienprotokoll,randomisationArt,status_Studie) 
 values('1','hess','','2001-01-01','2005-05-05','c:na','Vollstaendige','fortsetzen'),
