@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
@@ -222,8 +223,12 @@ public class BenutzerkontoBeanTest extends Filter {
 		letzterLogin = new GregorianCalendar(2006, 11, 1);
 		ersterLogin = new GregorianCalendar(2006, 11, 1);
 
-		aKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzername, passwort, zentrumId, rolle, benutzerId,
-				gesperrt,ersterLogin, letzterLogin);
+		try {
+			aKonto = new BenutzerkontoBean(12,benutzername, passwort, zentrumId, rolle, benutzerId,
+					gesperrt,ersterLogin, letzterLogin);
+		} catch (DatenbankFehlerException e) {
+			fail(e.getMessage());
+		}
 
 		assertTrue(aKonto.equals(aKonto));
 	}
@@ -273,11 +278,16 @@ public class BenutzerkontoBeanTest extends Filter {
 		ersterLoginB = new GregorianCalendar(jahrLetzterLoginB,
 				monatLetzterLoginB - 1, tagLetzterLoginB);
 
-		aKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzername, passwort, zentrumId, rolle, benutzerId,
-				gesperrt,ersterLogin, letzterLogin);
-	    bKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzernameB, passwortB, zentrumId, rolleB,
-				benutzerIdB, gesperrtB, ersterLoginB,
-				letzterLoginB);
+		try {
+			aKonto = new BenutzerkontoBean(1,benutzername, passwort, zentrumId, rolle, benutzerId,
+					gesperrt,ersterLogin, letzterLogin);
+
+		    bKonto = new BenutzerkontoBean(1,benutzernameB, passwortB, zentrumId, rolleB,
+					benutzerIdB, gesperrtB, ersterLoginB,
+					letzterLoginB);
+		} catch (DatenbankFehlerException e) {
+			fail(e.getMessage());
+		}
 
 		assertFalse(aKonto.equals(bKonto));
 	}
@@ -310,10 +320,15 @@ public class BenutzerkontoBeanTest extends Filter {
 		ersterLogin = new GregorianCalendar(jahrLetzterLogin,
 				monatLetzterLogin - 1, tagLetzterLogin);
 
-		aKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzername, passwort, zentrumId, rolle, benutzerId,
-				false,  ersterLogin, letzterLogin);
-		cKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,"Abctest", "abc@cdef", zentrumId, null, benutzerId,
-				false, null, null);
+		try {
+			aKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzername, passwort, zentrumId, rolle, benutzerId,
+					false,  ersterLogin, letzterLogin);
+
+			cKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,"Abctest", "abc@cdef", zentrumId, null, benutzerId,
+					false, null, null);
+		} catch (DatenbankFehlerException e) {
+			fail(e.getMessage());
+		}
 
 		assertFalse(aKonto.equals(cKonto));
 	}

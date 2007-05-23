@@ -71,6 +71,8 @@ public class ZentrumBeanTest {
 
 		} catch (ZentrumException e) {
 			fail(e.getMessage());
+		} catch (DatenbankFehlerException e){
+			fail(e.getMessage());
 		}
 	}
 
@@ -409,7 +411,11 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetId() {
-		zentrum.setId(id);
+		try {
+			zentrum.setId(id);
+		} catch (DatenbankFehlerException e) {
+			fail(e.getMessage());
+		}
 		assertTrue(zentrum.getId() == id);
 	}
 

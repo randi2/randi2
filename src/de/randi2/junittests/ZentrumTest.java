@@ -65,6 +65,9 @@ public class ZentrumTest {
 		} catch (PersonException e2) {
 			fail("Beim Erzeugen eines PersonBeans trat ein Fehler auf: "
 					+ e2.getMessage());
+		} catch(DatenbankFehlerException e){
+			fail("Beim Erzeugen eines PersonBeans trat ein Fehler auf: "
+					+ e.getMessage());
 		}
 	}
 

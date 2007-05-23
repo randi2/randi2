@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
-import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Studienarm;
@@ -19,11 +18,6 @@ import de.randi2.utility.NullKonstanten;
  * @version $Id$
  */
 public class PatientBean extends Filter {
-
-	/**
-	 * Die eindeutige ID des Patienten.
-	 */
-	private long id = NullKonstanten.DUMMY_ID;
 
 	/**
 	 * Die Initialen des Patienten.
@@ -110,11 +104,14 @@ public class PatientBean extends Filter {
 	 *            Die ID des Benutzerkontos.
 	 * @throws PatientException -
 	 *             wenn die uebergebene Daten nicht valide waren
+	 * @throws DatenbankFehlerException -
+	 *             wenn eine inkorrekte Id uebergeben wurde
 	 */
 	public PatientBean(long id, String initialen, char geschlecht,
 			GregorianCalendar geburtsdatum, int performanceStatus,
 			GregorianCalendar datumAufklaerung, int koerperoberflaeche,
-			long studienarmId, long benutzerkontoId) throws PatientException {
+			long studienarmId, long benutzerkontoId) throws PatientException,
+			DatenbankFehlerException {
 
 		this.setId(id);
 		this.setInitialen(initialen);
@@ -340,25 +337,6 @@ public class PatientBean extends Filter {
 	}
 
 	/**
-	 * Get-Methode fuer die Rueckgabe der Patienten-ID.
-	 * 
-	 * @return Liefert die Petienten-ID.
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * Set-Methode fuer das Setzen der Patienten-ID.
-	 * 
-	 * @param id
-	 *            Setzt die Patienten-ID.
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	/**
 	 * Get-Methode fuer die Rueckgabe des BenutzerkontoBean.
 	 * 
 	 * @return Liefert das BenutzerkontoBean.
@@ -509,9 +487,9 @@ public class PatientBean extends Filter {
 	 */
 	@Override
 	public int hashCode() {
-		if (id == NullKonstanten.DUMMY_ID) {
+		if (this.getId() == NullKonstanten.DUMMY_ID) {
 			return super.hashCode();
 		}
-		return (int) id;
+		return (int) this.getId();
 	}
 }

@@ -2,7 +2,6 @@ package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
-import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.utility.KryptoUtil;
@@ -19,11 +18,6 @@ import de.randi2.utility.ValidierungsUtil;
  * 
  */
 public class ZentrumBean extends Filter {
-
-	/**
-	 * Interne ID des Zentrums
-	 */
-	private long id = NullKonstanten.DUMMY_ID;
 
 	/**
 	 * Name der Abteilung in der Institution.
@@ -111,11 +105,13 @@ public class ZentrumBean extends Filter {
 	 * @throws ZentrumException -
 	 *             wenn die Daten, die an den Konstruktor uebergeben wurden,
 	 *             nicht valide waren
+	 * @throws DatenbankFehlerException
+	 *             wenn eine inkorrekte Id uebergeben wurde.
 	 */
 	public ZentrumBean(long id, String institution, String abteilung,
 			String ort, String plz, String strasse, String hausnr,
 			long ansprechpartnerId, String passwortHash, boolean istAktiviert)
-			throws ZentrumException {
+			throws ZentrumException, DatenbankFehlerException {
 
 		this.setId(id);
 
@@ -204,7 +200,7 @@ public class ZentrumBean extends Filter {
 	 * Get-Methode fuer den Ansprechpartner.
 	 * 
 	 * @return Der Ansprechpartner.
-	 * @throws PersonException
+	 * @throws DatenbankFehlerException
 	 *             falls ein Fehler auftrat.
 	 */
 	public PersonBean getAnsprechpartner() throws DatenbankFehlerException {
@@ -222,15 +218,6 @@ public class ZentrumBean extends Filter {
 	 */
 	public String getHausnr() {
 		return aHausnr;
-	}
-
-	/**
-	 * Get-Methoder fuer die Id aus der Datenbank.
-	 * 
-	 * @return Die id auf der Datenbank.
-	 */
-	public long getId() {
-		return id;
 	}
 
 	/**
@@ -365,16 +352,6 @@ public class ZentrumBean extends Filter {
 				throw new ZentrumException(ZentrumException.HAUSNR_NULL);
 			}
 		}
-	}
-
-	/**
-	 * Set-Methoder fuer die Id auf der Datenbank.
-	 * 
-	 * @param id
-	 *            Die id auf der Datenbank.
-	 */
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	/**
@@ -575,10 +552,10 @@ public class ZentrumBean extends Filter {
 	 */
 	@Override
 	public int hashCode() {
-		if (id == NullKonstanten.DUMMY_ID) {
+		if (this.getId() == NullKonstanten.DUMMY_ID) {
 			return super.hashCode();
 		}
-		return (int) id;
+		return (int) this.getId();
 	}
 
 }

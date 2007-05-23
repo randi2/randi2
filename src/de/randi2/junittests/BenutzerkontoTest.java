@@ -85,8 +85,9 @@ public class BenutzerkontoTest {
 			zentrum = new ZentrumBean(1, "institution", "abteilung", "Ort",
 					"11111", "Strasse", "12", 1, KryptoUtil.getInstance().hashPasswort("Passwort"), false);
 		} catch (ZentrumException e1) {
-			e1.printStackTrace();
 			fail(e1.getMessage());
+		} catch (DatenbankFehlerException e){
+			fail(e.getMessage());
 		}
 
 		try {
@@ -105,6 +106,9 @@ public class BenutzerkontoTest {
 			e.printStackTrace();
 			fail(e.getMessage());
 		} catch (PersonException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (DatenbankFehlerException e){
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
@@ -210,6 +214,10 @@ public class BenutzerkontoTest {
 			}
 		} catch (BenutzerkontoException e) {
 			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (DatenbankFehlerException e){
+			e.printStackTrace();
+			fail(e.getMessage());
 		}
 
 	}

@@ -1,6 +1,3 @@
-/**
- * Das Beans-Package
- */
 package de.randi2.model.fachklassen.beans;
 
 import java.util.Vector;
@@ -22,11 +19,6 @@ import de.randi2.utility.NullKonstanten;
  * @version $Id: StudienarmBean.java 2435 2007-05-06 20:00:48Z freifsch $
  */
 public class StudienarmBean extends Filter {
-
-	/**
-	 * Die Id des Studienarms.
-	 */
-	private long id = NullKonstanten.DUMMY_ID;
 
 	/**
 	 * Status dieses Studienarms (Wert der ENUM Status der Studien-Fachklasse).
@@ -83,10 +75,13 @@ public class StudienarmBean extends Filter {
 	 *            Die laengere Beschreibung dieses Arms
 	 * @throws StudienarmException
 	 *             wenn ein Fehler aufgetreten ist
+	 * @throws DatenbankFehlerException
+	 *             wenn eine inkorrekte Id uebergeben wurde.
 	 */
 	public StudienarmBean(long id, long studieId, Studie.Status status,
-			String bezeichnung, String beschreibung) throws StudienarmException {
-		super();
+			String bezeichnung, String beschreibung)
+			throws StudienarmException, DatenbankFehlerException {
+
 		this.setId(id);
 		this.setStudieId(studieId);
 		this.aStatus = status;
@@ -109,7 +104,7 @@ public class StudienarmBean extends Filter {
 	 * 
 	 * @param status
 	 *            Der zusetzende Status.
-	 * @throws StudienarmException#STATUS_UNGUELTIG
+	 * @throws StudienarmException
 	 *             wenn Status null ist
 	 */
 	public void setStatus(Studie.Status status) throws StudienarmException {
@@ -178,6 +173,7 @@ public class StudienarmBean extends Filter {
 	 * 
 	 * @param studie
 	 *            die zuzuordnende Studie als StudieBean
+	 * @throws StudienarmException wenn die gewuenschte Studie nicht gefunden wurde.
 	 */
 	public void setStudie(StudieBean studie) throws StudienarmException {
 
@@ -246,25 +242,6 @@ public class StudienarmBean extends Filter {
 	}
 
 	/**
-	 * Liefert die ID dieses Arms in der Datenbank.
-	 * 
-	 * @return die ID dieses Studienarms
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * Setzt die ID dieses Arms in der Datenbank.
-	 * 
-	 * @param id
-	 *            die ID dieses Studienarms
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	/**
 	 * Liefert Id der Studie welcher dieser Arm zugeordnet ist.
 	 * 
 	 * @return die Id der zugeordneten Studie
@@ -301,7 +278,7 @@ public class StudienarmBean extends Filter {
 	@Override
 	public String toString() {
 
-		String output = "id:\t" + this.id + "\tstatus:\t" + this.aStatus
+		String output = "id:\t" + this.getId() + "\tstatus:\t" + this.aStatus
 				+ "\tbezeichnung:\t" + this.aBezeichnung + "\tbeschreibung:\t"
 				+ this.aBeschreibung + "\tstudieId:\t" + this.aStudieId
 				+ "\tstudienobjekt als string:\t" + this.aStudie.toString()
@@ -379,10 +356,10 @@ public class StudienarmBean extends Filter {
 	 */
 	@Override
 	public int hashCode() {
-		if (id == NullKonstanten.DUMMY_ID) {
+		if (this.getId() == NullKonstanten.DUMMY_ID) {
 			return super.hashCode();
 		}
-		return (int) id;
+		return (int) this.getId();
 	}
 
 }

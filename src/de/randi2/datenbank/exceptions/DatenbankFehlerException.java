@@ -13,7 +13,12 @@ import de.randi2.utility.SystemException;
  */
 @SuppressWarnings("serial")
 public class DatenbankFehlerException extends SystemException {
-
+	
+	/**
+	 * Fehlermeldung, wenn eine negative oder =0 Id an die setId() Methode uebergeben wurde.
+	 */
+	public static final String ID_FALSCH = "Es wurde keine positive Id uebergeben!";
+	
 	/**
 	 * Konstante falls Argument null.
 	 */

@@ -300,7 +300,11 @@ public class StudienarmBeanTest {
 		Random zufall = new Random();
 		long aId = zufall.nextLong();
 
-		aStudienarmBean.setId(aId);
+		try {
+			aStudienarmBean.setId(aId);
+		} catch (DatenbankFehlerException e) {
+			fail(e.getMessage());
+		}
 
 		assertTrue(aStudienarmBean.getId() == aId);
 

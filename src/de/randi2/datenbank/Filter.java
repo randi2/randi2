@@ -1,7 +1,7 @@
 package de.randi2.datenbank;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
-
+import de.randi2.utility.NullKonstanten;
 
 /**
  * <p>
@@ -36,45 +36,76 @@ import de.randi2.datenbank.exceptions.DatenbankFehlerException;
  * 
  */
 public class Filter {
-    /**
-     * Flag, die anzeigt, ob ein Bean als Filter eingesetzt werden soll oder
-     * nicht
-     */
-    private boolean isFilter = false;
 
-    /**
-     * Leerer Standartkonstruktor, {@link #isFilter} entspricht dem Defaultwert
-     */
-    public Filter() {
+	/**
+	 * Die eindeutige Id des Objektes, die dem Primary-Key aus der Datenbank
+	 * entspricht. Bei noch nicht gespeicherten Objekten ist das Attribut gleich
+	 * der DUMMY_ID Konstante aus der NullKonstanten Klasse.
+	 */
+	private long id = NullKonstanten.DUMMY_ID;
 
-    }
+	/**
+	 * Flag, die anzeigt, ob ein Bean als Filter eingesetzt werden soll oder
+	 * nicht
+	 */
+	private boolean isFilter = false;
 
-    /**
-     * Konstrukter Setzt die Flag {@link #isFilter} entsprechend des
-     * uebergebenen Parameters
-     * 
-     * @param filter
-     *            Wert, den die Flag {@link #isFilter} annehmen soll
-     */
-    public Filter(boolean filter) {
-        this.isFilter = filter;
-    }
+	/**
+	 * Leerer Standartkonstruktor, {@link #isFilter} entspricht dem Defaultwert
+	 */
+	public Filter() {
 
-    /**
-     * Setzt die Flag {@link #isFilter} entsprechend des Parameters
-     * @param filter
-     *            Wert, den die Flag {@link #isFilter} annehmen soll
-     */
-    public void setFilter(boolean filter) {
-        this.isFilter = filter;
-    }
+	}
 
-    /**
-     * Liefert den Status der Flag 
-     * @return <code>true</code>, wenn Objekt als Filter markiert
-     */
-    public boolean isFilter() {
-        return this.isFilter;
-    }
+	/**
+	 * Konstrukter Setzt die Flag {@link #isFilter} entsprechend des
+	 * uebergebenen Parameters
+	 * 
+	 * @param filter
+	 *            Wert, den die Flag {@link #isFilter} annehmen soll
+	 */
+	public Filter(boolean filter) {
+		this.isFilter = filter;
+	}
+
+	/**
+	 * Setzt die Flag {@link #isFilter} entsprechend des Parameters
+	 * 
+	 * @param filter
+	 *            Wert, den die Flag {@link #isFilter} annehmen soll
+	 */
+	public void setFilter(boolean filter) {
+		this.isFilter = filter;
+	}
+
+	/**
+	 * Liefert den Status der Flag
+	 * 
+	 * @return <code>true</code>, wenn Objekt als Filter markiert
+	 */
+	public boolean isFilter() {
+		return this.isFilter;
+	}
+	
+	/**
+	 * Die set-Methode fuer die Id - die uebergebene Id darf nicht negativ o. gleich 0 sein.
+	 * @param id - die neue Id des Objektes (muss ein positiver long Wert sein!)
+	 * @throws DatenbankFehlerException - bei einer uebergebener Id, die <=0 ist.
+	 */
+	public void setId(long id) throws DatenbankFehlerException{
+		if(id<=0){
+			throw new DatenbankFehlerException(DatenbankFehlerException.ID_FALSCH);
+		}else{
+			this.id = id;
+		}
+	}
+	
+	/**
+	 * Die get-Methode fuer das Id-Attribut der Klasse.
+	 * @return die eindeutige Id des Objektes.
+	 */
+	public long getId(){
+		return this.id;
+	}
 
 }

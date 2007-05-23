@@ -3,9 +3,9 @@ package de.randi2.model.fachklassen.beans;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Vector;
+
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
-import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Studie;
@@ -21,11 +21,6 @@ import de.randi2.utility.NullKonstanten;
  * 
  */
 public class StudieBean extends Filter {
-
-	/**
-	 * ID der Studie.
-	 */
-	private long id = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Name der Studie.
@@ -109,11 +104,13 @@ public class StudieBean extends Filter {
 	 *            Randomisations-Id
 	 * @throws StudieException
 	 *             wenn ein Fehler aufgetreten ist
+	 * @throws DatenbankFehlerException
+	 *             wenn eine inkorrekte Id uebergeben wurde
 	 */
 	public StudieBean(long id, String beschreibung,
 			GregorianCalendar startdatum, GregorianCalendar enddatum,
 			String studienprotokollPfad, long randomisationId)
-			throws StudieException {
+			throws StudieException, DatenbankFehlerException {
 
 		this.setId(id);
 		this.setBeschreibung(beschreibung);
@@ -250,18 +247,22 @@ public class StudieBean extends Filter {
 	public GregorianCalendar getStartDatum() {
 		return startDatum;
 	}
-	
+
 	/**
-	 * Methode setzt das Start- und Endedatum einer Studie.
-	 * Es finden folgende Überprüfugen statt:
-	 * - Ueberpruefung, ob das Startdatum der Studie in der Zukunft liegt
-	 * - Ueberpruefung, ob das Enddatum der Studie in der Zukunft liegt 
-	 * - Ueberpruefung, ob das Startdatum vor dem Enddatum liegt.
-	 * @param startDatum Startdatum der Studie
-	 * @param endDatum Enddatum der Studie
-	 * @throws StudieException eine der oben genannten Überprüfungen schlug fehl. 
+	 * Methode setzt das Start- und Endedatum einer Studie. Es finden folgende
+	 * Überprüfugen statt: - Ueberpruefung, ob das Startdatum der Studie in der
+	 * Zukunft liegt - Ueberpruefung, ob das Enddatum der Studie in der Zukunft
+	 * liegt - Ueberpruefung, ob das Startdatum vor dem Enddatum liegt.
+	 * 
+	 * @param startDatum
+	 *            Startdatum der Studie
+	 * @param endDatum
+	 *            Enddatum der Studie
+	 * @throws StudieException
+	 *             eine der oben genannten Überprüfungen schlug fehl.
 	 */
-	public void setStudienZeitraum(GregorianCalendar startDatum, GregorianCalendar endDatum) throws StudieException{
+	public void setStudienZeitraum(GregorianCalendar startDatum,
+			GregorianCalendar endDatum) throws StudieException {
 		// Testen, ob sich das Datum in der Zukunft befindet
 		if ((new GregorianCalendar(Locale.GERMANY)).after(startDatum)
 				|| (new GregorianCalendar(Locale.GERMANY)).after(endDatum)
@@ -270,26 +271,6 @@ public class StudieBean extends Filter {
 		}
 		this.endDatum = endDatum;
 		this.startDatum = startDatum;
-	}
-
-
-	/**
-	 * Liefert die ID der Studie.
-	 * 
-	 * @return id der Studie
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * Setzt die ID der Studie.
-	 * 
-	 * @param id
-	 *            der Studie.
-	 */
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	/**
@@ -344,7 +325,7 @@ public class StudieBean extends Filter {
 	 */
 	public Vector<ZentrumBean> getZentren() throws DatenbankFehlerException {
 		if (zentren == null) {
-			zentren = Studie.getZugehoerigeZentren(id);
+			zentren = Studie.getZugehoerigeZentren(this.getId());
 
 		}
 		return zentren;
@@ -360,7 +341,7 @@ public class StudieBean extends Filter {
 	public Vector<StrataBean> getStrata() throws DatenbankFehlerException {
 
 		if (strata == null) {
-				strata = Studie.getZugehoerigeStrata(id);
+			strata = Studie.getZugehoerigeStrata(this.getId());
 		}
 
 		return strata;
@@ -453,7 +434,7 @@ public class StudieBean extends Filter {
 	 */
 	@Override
 	public String toString() {
-		return "id:\t" + this.id + "\trandomistationsId:\t"
+		return "id:\t" + this.getId() + "\trandomistationsId:\t"
 				+ this.randomisationId + "\tbeschreibung:\t"
 				+ this.beschreibung + "\tstartDatum\t" + this.startDatum
 				+ "\tendDatum:\t" + this.endDatum + "\tstudienprotokollPfad\t"
@@ -472,7 +453,7 @@ public class StudieBean extends Filter {
 
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
- 
+
 		/* TODO sofort fixen und testen!! dhaehn */
 		return true;
 

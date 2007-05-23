@@ -1,6 +1,8 @@
 package de.randi2.model.fachklassen.beans;
 
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
@@ -32,11 +34,6 @@ public class AktivierungBean extends Filter {
 			+ ATTRIBUT_LINK + "=";
 
 	/**
-	 * Die ID der Aktivierung.
-	 */
-	private long id = NullKonstanten.DUMMY_ID;
-
-	/**
 	 * Das Versanddatum, wann die Anmeldungsmail versand wurde.
 	 */
 	private GregorianCalendar aVersanddatum = null;
@@ -55,25 +52,6 @@ public class AktivierungBean extends Filter {
 	 * Der Aktivierungslink für die Vervollständigung der Anmeldung.
 	 */
 	private String aAktivierungsLink = null;
-
-	/**
-	 * Get-Methode für die Aktivierungs-ID.
-	 * 
-	 * @return Liefert die Aktivierungs-ID.
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * Set-Methode für die Aktivierungs-ID.
-	 * 
-	 * @param aktivierungsId
-	 *            Setzt die Aktivierungs-ID.
-	 */
-	public void setId(long aktivierungsId) {
-		this.id = aktivierungsId;
-	}
 
 	/**
 	 * Get-Methode für den Aktivierungslink.
@@ -196,12 +174,14 @@ public class AktivierungBean extends Filter {
 	 * @throws AktivierungException
 	 *             Die Akivierungsdaten sind unzulaessig, Details sieh
 	 *             setMethoden.
+	 * @throws DatenbankFehlerException
+	 *             wenn die Id nicht korrekt ist
 	 */
 	public AktivierungBean(long id, GregorianCalendar versanddatum,
 			long benutzerkontoId, String aktivierungsLink)
-			throws AktivierungException {
+			throws AktivierungException, DatenbankFehlerException {
 
-		this.id = id;
+		super.setId(id);
 		this.aVersanddatum = versanddatum;
 		this.aBenutzerkontoId = benutzerkontoId;
 		this.aAktivierungsLink = aktivierungsLink;
@@ -223,7 +203,7 @@ public class AktivierungBean extends Filter {
 	 */
 	@Override
 	public String toString() {
-		return "id:\t" + this.id + "\tlink:\t" + this.aAktivierungsLink
+		return "id:\t" + this.getId() + "\tlink:\t" + this.aAktivierungsLink
 				+ "\tversand:\t" + this.aVersanddatum + "\tbenutzerid\t"
 				+ this.aBenutzerkontoId;
 	}
@@ -239,12 +219,15 @@ public class AktivierungBean extends Filter {
 	 */
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy",
+				Locale.GERMANY);
+
 		if (zuvergleichendesObjekt == null) {
 			return false;
 		}
 		if (zuvergleichendesObjekt instanceof AktivierungBean) {
 			AktivierungBean beanZuvergleichen = (AktivierungBean) zuvergleichendesObjekt;
-			if (beanZuvergleichen.getId() != this.id) {
+			if (beanZuvergleichen.getId() != this.getId()) {
 				return false;
 			}
 			if (beanZuvergleichen.getAktivierungsLink() == null
@@ -262,8 +245,9 @@ public class AktivierungBean extends Filter {
 					&& this.aVersanddatum != null) {
 				return false;
 			} else if (beanZuvergleichen.getVersanddatum() != null
-					&& !(beanZuvergleichen.getVersanddatum().getTimeInMillis() == this.aVersanddatum
-							.getTimeInMillis())) {
+					&& !(sdf.format(beanZuvergleichen.getVersanddatum()
+							.getTime()).equals(sdf.format(this
+							.getVersanddatum().getTime())))) {
 				return false;
 			}
 			return true;
@@ -284,9 +268,9 @@ public class AktivierungBean extends Filter {
 	 */
 	@Override
 	public int hashCode() {
-		if (id == NullKonstanten.DUMMY_ID) {
+		if (this.getId() == NullKonstanten.DUMMY_ID) {
 			return super.hashCode();
 		}
-		return (int) id;
+		return (int) this.getId();
 	}
 }

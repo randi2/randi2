@@ -64,7 +64,7 @@ public class Benutzerkonto {
 	 * @param aBenutzerkonto
 	 *            das Bentuzerkonto das angelegt werden soll.
 	 * @return Das aktualisierte Benutzerkonto.
-	 * @throws BenutzerkontoException
+	 * @throws DatenbankFehlerException
 	 *             Fehler der Benutzer konnte nicht angelegt werden
 	 * 
 	 */

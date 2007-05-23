@@ -1,5 +1,6 @@
 package de.randi2.model.fachklassen.beans;
 
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Vector;
@@ -7,8 +8,6 @@ import java.util.Vector;
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
-import de.randi2.model.exceptions.PersonException;
-import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.model.fachklassen.Rolle;
@@ -63,11 +62,6 @@ public class BenutzerkontoBean extends Filter {
 	 * Ein boolescher Wert, der dem Status gesperrt/entsperrt entspricht.
 	 */
 	private boolean gesperrt = false;
-
-	/**
-	 * ID des Benutzerkontos
-	 */
-	private long id = NullKonstanten.DUMMY_ID;
 
 	/**
 	 * Zeitpunkt des letzten Logins
@@ -145,13 +139,15 @@ public class BenutzerkontoBean extends Filter {
 	 *            Zeitpunkt des letzten Logins als GregorianCalendar
 	 * @throws BenutzerkontoException
 	 *             Wenn die uebergebenen Parametern nicht in Ordnung waren
+	 * @throws DatenbankFehlerException
+	 *             wenn die uebergebene Id nicht korrekt ist.
 	 */
 	public BenutzerkontoBean(long id, String benutzername, String passwortHash,
 			long zentrumId, Rolle rolle, long benutzerId, boolean gesperrt,
 			GregorianCalendar ersterLogin, GregorianCalendar letzterLogin)
-			throws BenutzerkontoException {
+			throws BenutzerkontoException, DatenbankFehlerException {
 
-		this.setId(id);
+		super.setId(id);
 		this.setBenutzername(benutzername);
 		this.setPasswort(passwortHash);
 		this.setZentrumId(zentrumId);
@@ -163,7 +159,8 @@ public class BenutzerkontoBean extends Filter {
 	}
 
 	/**
-	 * Konstruktor nur fuer Loginzwecke. (Filtereigenschaft wird automatisch auf true gesetzt)
+	 * Konstruktor nur fuer Loginzwecke. (Filtereigenschaft wird automatisch auf
+	 * true gesetzt)
 	 * 
 	 * @param benutzername
 	 *            Benutzername
@@ -190,6 +187,10 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy",
+				Locale.GERMANY);
+
 		if (zuvergleichendesObjekt == null) {
 			return false;
 		}
@@ -210,22 +211,24 @@ public class BenutzerkontoBean extends Filter {
 					&& this.aErsterLogin != null) {
 				return false;
 			} else if (beanZuvergleichen.getErsterLogin() != null
-					&& !(beanZuvergleichen.getErsterLogin().getTimeInMillis() == this.aErsterLogin
-							.getTimeInMillis())) {
+					&& !(sdf.format(beanZuvergleichen.getErsterLogin()
+							.getTime()).equals(sdf.format(this.getErsterLogin()
+							.getTime())))) {
 				return false;
 			}
 			if (beanZuvergleichen.isGesperrt() != this.gesperrt) {
 				return false;
 			}
-			if (beanZuvergleichen.getId() != this.id) {
+			if (beanZuvergleichen.getId() != this.getId()) {
 				return false;
 			}
 			if (beanZuvergleichen.getLetzterLogin() == null
 					&& this.aLetzterLogin != null) {
 				return false;
 			} else if (beanZuvergleichen.getLetzterLogin() != null
-					&& !(beanZuvergleichen.getLetzterLogin().getTimeInMillis() == this.aLetzterLogin
-							.getTimeInMillis())) {
+					&& !(sdf.format(beanZuvergleichen.getLetzterLogin()
+							.getTime()).equals(sdf.format(this.getLetzterLogin()
+									.getTime())))) {
 				return false;
 
 			}
@@ -255,10 +258,10 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	@Override
 	public int hashCode() {
-		if (id == NullKonstanten.DUMMY_ID) {
+		if (this.getId() == NullKonstanten.DUMMY_ID) {
 			return super.hashCode();
 		}
-		return (int) id;
+		return (int) this.getId();
 	}
 
 	/**
@@ -291,15 +294,6 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	public GregorianCalendar getErsterLogin() {
 		return aErsterLogin;
-	}
-
-	/**
-	 * Liefert die Id des BenutzerkontoBeans
-	 * 
-	 * @return Id
-	 */
-	public long getId() {
-		return id;
 	}
 
 	/**
@@ -350,8 +344,9 @@ public class BenutzerkontoBean extends Filter {
 	public void setBenutzer(PersonBean benutzer) throws BenutzerkontoException {
 		// keine Pruefung, da bei der Erzeugung der PersonBean schon alles
 		// geprueft wird
-		if(benutzer == null){
-			throw new BenutzerkontoException(BenutzerkontoException.BENUTZER_NULL);
+		if (benutzer == null) {
+			throw new BenutzerkontoException(
+					BenutzerkontoException.BENUTZER_NULL);
 		}
 		this.setBenutzerId(benutzer.getId());
 		this.aBenutzer = benutzer;
@@ -425,16 +420,6 @@ public class BenutzerkontoBean extends Filter {
 	 */
 	public void setGesperrt(boolean gesperrt) {
 		this.gesperrt = gesperrt;
-	}
-
-	/**
-	 * Setzt die Id.
-	 * 
-	 * @param id
-	 *            Id des Beans
-	 */
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	/**
@@ -527,8 +512,7 @@ public class BenutzerkontoBean extends Filter {
 	 *             ist.
 	 */
 	public void setRolle(Rolle rolle) throws BenutzerkontoException {
-		boolean filter = super.isFilter();
-		if (!filter && rolle == null) {
+		if (!(super.isFilter()) && rolle == null) {
 			throw new BenutzerkontoException(BenutzerkontoException.ROLLE_FEHLT);
 		}
 		this.aRolle = rolle;
@@ -558,10 +542,8 @@ public class BenutzerkontoBean extends Filter {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-
 		return "Benutzerkontoname: " + this.aBenutzername + "(Last LogIn: "
 				+ this.aLetzterLogin + ")";
-
 	}
 
 	/**
@@ -622,8 +604,9 @@ public class BenutzerkontoBean extends Filter {
 	 *             gespeichert wurde.
 	 */
 	public void setZentrum(ZentrumBean zentrum) throws BenutzerkontoException {
-		if(zentrum==null){
-			throw new BenutzerkontoException(BenutzerkontoException.ZENTRUM_NULL);
+		if (zentrum == null) {
+			throw new BenutzerkontoException(
+					BenutzerkontoException.ZENTRUM_NULL);
 		}
 		this.setZentrumId(zentrum.getId());
 		this.aZentrum = zentrum;

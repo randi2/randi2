@@ -3,6 +3,7 @@ package de.randi2.model.fachklassen.beans;
 import java.util.HashMap;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.StrataException;
 import de.randi2.utility.CollectionUtil;
 import de.randi2.utility.NullKonstanten;
@@ -18,10 +19,6 @@ import de.randi2.utility.NullKonstanten;
  */
 public class StrataBean extends Filter{
 
-	/**
-	 * Die Datenbank-Id des Strata-Typs.
-	 */
-	long id = NullKonstanten.DUMMY_ID;
 	
 	/**
 	 * Die moeglichen Auspraegungen eines Stratas als HashMap. Der Key-Parameter
@@ -50,16 +47,18 @@ public class StrataBean extends Filter{
 	 *            Key-Parameter stellt dabei die id des Stratas auf der
 	 *            Datenbank als {@link Long} dar. Der value-Paramater den
 	 *            geschriebenen Wert des Stratas als {@link String}.
-	 * @throws StrataException
+	 * @throws StrataException - bei augetretenen Fehlern
+	 * @throws DatenbankFehlerException - bei einer nicht korrekten Id
 	 */
-	public StrataBean(long id, HashMap<Long, String> moeglicheAuspraegungen) throws StrataException{
-		this.id = id;
+	public StrataBean(long id, HashMap<Long, String> moeglicheAuspraegungen) throws StrataException, DatenbankFehlerException{
+		super.setId(id);
 		this.aMoeglicheAuspraegungen = moeglicheAuspraegungen;
 	}
 
 	/**
 	 * ERzeugt ein Strata, mit einer aktuellen Auspraegung.
 	 * 
+	 * @param id - die Id des Beans
 	 * @param moeglicheAuspraegungen
 	 *            Die moeglichen Auspraegungen eines Stratas als HashMap. Der
 	 *            Key-Parameter stellt dabei die id des Stratas auf der
@@ -67,10 +66,11 @@ public class StrataBean extends Filter{
 	 *            geschriebenen Wert des Stratas als {@link String}.
 	 * @param aAuspragungId
 	 *            Die id des Stratas als long.
-	 * @throws StrataException
+	 * @throws StrataException - bei augetretenen Fehlern
+	 * @throws DatenbankFehlerException - bei einer nicht korrekten Id
 	 */
 	public StrataBean(long id, HashMap<Long, String> moeglicheAuspraegungen,
-			long aAuspragungId) throws StrataException{
+			long aAuspragungId) throws StrataException, DatenbankFehlerException{
 		this(id, moeglicheAuspraegungen);
 		this.aAuspraegungId = aAuspragungId;
 	}
@@ -98,7 +98,7 @@ public class StrataBean extends Filter{
 	/**
 	 * Setzt die aktuelle Auspraegungs-Id.
 	 * 
-	 * @param auspraegungId
+	 * @param auspraegung
 	 *            Das aktuelle Strata.
 	 */
 	public void setAuspraegungId(String auspraegung) {
