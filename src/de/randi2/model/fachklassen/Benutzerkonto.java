@@ -69,15 +69,11 @@ public class Benutzerkonto {
 	 * 
 	 */
 	public static Benutzerkonto anlegenBenutzer(BenutzerkontoBean aBenutzerkonto)
-			throws BenutzerkontoException {
+			throws DatenbankFehlerException {
 
 		BenutzerkontoBean aktualisierterBenutzer = null;
-		try {
-			aktualisierterBenutzer = DatenbankFactory.getAktuelleDBInstanz()
-					.schreibenObjekt(aBenutzerkonto);
-		} catch (DatenbankFehlerException e) {
-			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
-		}
+		aktualisierterBenutzer = DatenbankFactory.getAktuelleDBInstanz()
+				.schreibenObjekt(aBenutzerkonto);
 		return new Benutzerkonto(aktualisierterBenutzer);
 	}
 
@@ -98,20 +94,17 @@ public class Benutzerkonto {
 	 * @return Ein BenutzerkontoBean Objekt zu diesem Benutzername
 	 * @throws BenutzerkontoException
 	 *             wenn kein Benutzer mit diesem Banutzername vorhanden ist
-	 * @throws BenutzerkontoException
-	 *             Benutzer kann nicht gefunden werden, Fehler in DB?!
+	 * @throws DatenbankFehlerException
+	 *             Benutzer kann nicht in der DB gefunden werden
+	 * 
 	 */
 	public static BenutzerkontoBean getBenutzer(long id)
-			throws BenutzerkontoException {
+			throws BenutzerkontoException, DatenbankFehlerException {
 		BenutzerkontoBean bk = new BenutzerkontoBean();
 		Vector<BenutzerkontoBean> konten;
 		bk.setBenutzerId(id);
 		bk.setFilter(true);
-		try {
-			konten = suchenBenutzer(bk);
-		} catch (DatenbankFehlerException e) {
-			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
-		}
+		konten = suchenBenutzer(bk);
 		if (konten == null || konten.size() == 0) {
 			throw new BenutzerkontoException(
 					BenutzerkontoException.BENUTZER_NICHT_VORHANDEN);
@@ -179,18 +172,14 @@ public class Benutzerkonto {
 	 * @param benutzerkontoId
 	 *            gewuenschte Id
 	 * @return das zur id zugehoerige BenutzerkontoBean
-	 * @throws BenutzerkontoException
+	 * @throws DatenbankFehlerException
 	 *             Fehlermeldung, falls Fehler mit DB
 	 */
 	public static BenutzerkontoBean get(long benutzerkontoId)
-			throws BenutzerkontoException {
+			throws DatenbankFehlerException {
 		BenutzerkontoBean rueckgabe;
-		try {
-			rueckgabe = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(
-					benutzerkontoId, new BenutzerkontoBean());
-		} catch (DatenbankFehlerException e) {
-			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
-		}
+		rueckgabe = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(
+				benutzerkontoId, new BenutzerkontoBean());
 		return rueckgabe;
 	}
 
@@ -201,20 +190,16 @@ public class Benutzerkonto {
 	 *            Id des Benutzerkontos zur eindeutigen Zuordnung in der
 	 *            Datenbank
 	 * @return gefundene Patienten
-	 * @throws BenutzerkontoException -
+	 * @throws DatenbankFehlerException -
 	 *             wenn ein Fehler in der DB auftrat.
 	 */
 	public static Vector<PatientBean> getZugehoerigePatienten(long kontoId)
-			throws BenutzerkontoException {
+			throws DatenbankFehlerException {
 		BenutzerkontoBean konto = new BenutzerkontoBean();
 		konto.setId(kontoId);
 		Vector<PatientBean> gefundenePatienten = null;
-		try {
-			gefundenePatienten = DatenbankFactory.getAktuelleDBInstanz()
-					.suchenMitgliederObjekte(konto, new PatientBean());
-		} catch (DatenbankFehlerException e) {
-			throw new BenutzerkontoException(BenutzerkontoException.FEHLER);
-		}
+		gefundenePatienten = DatenbankFactory.getAktuelleDBInstanz()
+				.suchenMitgliederObjekte(konto, new PatientBean());
 		return gefundenePatienten;
 	}
 
