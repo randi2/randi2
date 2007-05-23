@@ -86,7 +86,7 @@ public class BenutzerZentrenDBJunittest {
     @Test
     public void testBenutzerkontobeanSpeichernSuchenAendern() throws BenutzerException,SystemException{
 	BenutzerkontoBean benutzerbean=new BenutzerkontoBean(NullKonstanten.NULL_LONG,"benutzername",
-		KryptoUtil.getInstance().hashPasswort("Passwort").toString(),1,Rolle.getAdmin(),1,false,null,null);
+		KryptoUtil.getInstance().hashPasswort("Passwort").toString(),1,Rolle.getAdmin(),1,false,new GregorianCalendar(),new GregorianCalendar());
 	benutzerbean=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(benutzerbean);
 	//Suchen ueber id:
 	benutzerbean.setFilter(true);
@@ -121,14 +121,13 @@ public class BenutzerZentrenDBJunittest {
 	pBeanSchreiben = new PersonBean(NullKonstanten.NULL_LONG, NullKonstanten.NULL_LONG, "Nachname", "Vorname", PersonBean.Titel.PROF_DR, 'w', "andreasd@web.de", "09878979", "097987987987",
 		"0980809809809");
 	pBeanSchreiben = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(pBeanSchreiben);
-	 System.out.println("ID des gespeicherten Personbeans "+pBeanSchreiben.getId());
 	// Suchen Über id
 	PersonBean pBeanSuchen = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(pBeanSchreiben.getId(), new PersonBean());
 	assertEquals(pBeanSchreiben, pBeanSuchen);
 
 	// Suchen über Objekt
 	pBeanSchreiben.setFilter(true);
-	pBeanSuchen = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(pBeanSchreiben).firstElement();
+	pBeanSuchen = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(pBeanSchreiben).lastElement();
 	assertEquals(pBeanSchreiben, pBeanSuchen);
 
 	// Ändern
@@ -137,8 +136,7 @@ public class BenutzerZentrenDBJunittest {
 	pBeanAendern = new PersonBean(pBeanAendern.getId(), pBeanAendern.getId(), "Nachname1", "Vorname1", PersonBean.Titel.DR, 'm', "wurst@wweb.de", "009878979", "0097987987987", "00980809809809");
 	DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(pBeanAendern);
 	PersonBean pBeanNachAenderung = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(pBeanAendern.getId(), new PersonBean());
-	assertFalse(pBeanAendern.equals(pBeanNachAenderung));
-
+	assertEquals(pBeanNachAenderung, pBeanAendern);
     }
 
     /**
@@ -157,7 +155,6 @@ public class BenutzerZentrenDBJunittest {
 	ZentrumBean zBeanSchreiben = new ZentrumBean(NullKonstanten.NULL_LONG, "institution", "abteilung", "ort", "01234", "strasse", "2", 1, KryptoUtil.getInstance().hashPasswort(
 		"passwort23423&$&§&§&§"), false);
 	zBeanSchreiben = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(zBeanSchreiben);
-	System.out.println("ID des gespeicherten Zentrumbeans "+zBeanSchreiben.getId());
 	// Suchen über ID
 	zBeanSchreiben.setFilter(true);
 	ZentrumBean zBeanSuchen = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(zBeanSchreiben.getId(), new ZentrumBean());

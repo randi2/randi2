@@ -951,7 +951,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(6, person.getFax());
 				pstmt.setString(7, person.getTelefonnummer());
 				pstmt.setString(8, person.getHandynummer());
-				if (person.getStellvertreterId() == NullKonstanten.NULL_LONG) {
+				if (person.getStellvertreterId() == NullKonstanten.DUMMY_ID) {
 					pstmt.setNull(9, Types.NULL);
 				} else {
 					pstmt.setLong(9, person.getStellvertreterId());
@@ -982,7 +982,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderPerson.STELLVERTRETER + "=?" + " WHERE "
 					+ FelderPerson.ID + "=?";
 			try {
-				System.out.println(sql);
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, person.getNachname());
 				pstmt.setString(2, person.getVorname());
@@ -1160,21 +1159,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(i++, benutzerKonto.getPasswort());
 				pstmt.setLong(i++, benutzerKonto.getZentrumId());
 				pstmt.setString(i++, benutzerKonto.getRolle().getName());
-				if (benutzerKonto.getErsterLogin() == null) {
-					pstmt.setDate(i++, new Date(System.currentTimeMillis()));
-				} else {
-					i++;
-					// pstmt.setNull(i++, Types.DATE);
-				}
-				// TODO Wo wird den letzterLogin und ersterLogin gesetzt? In der
-				// DB oder ausserhalb? (Fred)
-				pstmt.setDate(i++, new Date(System.currentTimeMillis()));
-				// if (benutzerKonto.getLetzterLogin() != null) {
-				// pstmt.setDate(i++, new Date(benutzerKonto.getLetzterLogin()
-				// .getTimeInMillis()));
-				// } else {
-				// pstmt.setNull(i++, Types.DATE);
-				// }
+				pstmt.setDate(i++,new Date(benutzerKonto.getErsterLogin().getTimeInMillis()));
+				pstmt.setDate(i++, new Date(benutzerKonto.getLetzterLogin().getTimeInMillis()));
 				pstmt.setBoolean(i++, benutzerKonto.isGesperrt());
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
@@ -1780,9 +1766,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 			// durchlaufe ResultSet
 			while (rs.next()) {
 				// erstelle PersonBeans
+				long stellvertreterId= rs.getLong(FelderPerson.STELLVERTRETER.toString());
+				if(stellvertreterId==Types.NULL) {
+					stellvertreterId=NullKonstanten.DUMMY_ID;
+				}
 				tmpPerson = new PersonBean(rs.getLong(FelderPerson.ID
-						.toString()), rs.getLong(FelderPerson.STELLVERTRETER
-						.toString()), rs.getString(FelderPerson.NACHNAME
+						.toString()),stellvertreterId, rs.getString(FelderPerson.NACHNAME
 						.toString()), rs.getString(FelderPerson.VORNAME
 						.toString()), Titel.parseTitel(rs
 						.getString(FelderPerson.TITEL.toString())), rs
@@ -1896,7 +1885,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 			sql += FelderBenutzerkonto.ZENTRUMID.toString() + " = ?";
 		}
 
-		System.out.println(sql);
 		try {
 			// Prepared Statement erzeugen
 			pstmt = con.prepareStatement(sql);
@@ -2051,7 +2039,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		sql += FelderZentrum.AKTIVIERT + " = ? ";
 
-		try { System.out.println(sql);
+		try {
 			pstmt = con.prepareStatement(sql);
 			int index = 1;
 			
@@ -2272,9 +2260,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 				char[] tmp = rs.getString(FelderPerson.GESCHLECHT.toString())
 						.toCharArray();
 				try {
+					long stellvertreterId= rs.getLong(FelderPerson.STELLVERTRETER.toString());
+					if(stellvertreterId==Types.NULL) {
+						stellvertreterId=NullKonstanten.DUMMY_ID;
+					}
 					tmpPerson = new PersonBean(
 							rs.getLong(FelderPerson.ID.toString()),
-							rs.getLong(FelderPerson.STELLVERTRETER.toString()),
+							stellvertreterId,
 							rs.getString(FelderPerson.NACHNAME.toString()),
 							rs.getString(FelderPerson.VORNAME.toString()),
 							Titel.parseTitel(rs.getString(FelderPerson.TITEL
