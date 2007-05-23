@@ -28,8 +28,8 @@
 		</tr>
 		<tr>
 		<td>Geburtsdatum *<br><input type="text" size="25" maxlength="30" name="Geburtsdatum" tabindex="2" value="14.03.1984" ></td>
-		<td><br>&nbsp;&nbsp;&nbsp;Geschlecht *<br><input type="radio" name="weiblich" tabindex="3">Weiblich
-			<input type="radio" name="maennlich" tabindex="4">M&auml;nnlich<br><br></td>
+		<td><br>&nbsp;&nbsp;&nbsp;Geschlecht *<br><input type="radio" name="geschlecht" value="weiblich" tabindex="3">Weiblich
+			<input type="radio" name="geschlecht"  value="maennlich" tabindex="4">M&auml;nnlich<br><br></td>
 		</tr>
 		<tr> 
 		<td>Datum der Patientenaufkl&auml;rung *<br><input type="text" size="25" maxlength="30" name="DatumAufklaerung" tabindex="5" value="20.12.1999" ></td>
