@@ -4,6 +4,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Vector;
 import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Benutzerkonto;
@@ -133,11 +134,11 @@ public class StudieBean extends Filter {
 	 * Liefert das Benutzerkonto.
 	 * 
 	 * @return benutzerkonto, Benutzerkonto
-	 * @throws BenutzerkontoException
+	 * @throws DatenbankFehlerException
 	 *             Exception, wenn beim Holen des entsprechendes
 	 *             Bentutzerkontoobjektes Probleme vorkamen.
 	 */
-	public BenutzerkontoBean getBenutzerkonto() throws BenutzerkontoException {
+	public BenutzerkontoBean getBenutzerkonto() throws DatenbankFehlerException {
 		if (aBenutzerkonto == null) {
 
 			aBenutzerkonto = Benutzerkonto.get(aBenutzerkontoId);
@@ -350,10 +351,10 @@ public class StudieBean extends Filter {
 	 * Liefert die Zentren, die an dieser Studie teilnehmen.
 	 * 
 	 * @return die teilnehmenden Zentren
-	 * @throws StudieException
+	 * @throws DatenbankFehlerException
 	 *             Exception, wenn zugehoeriges Zentrum nicht gefunden wurden.
 	 */
-	public Vector<ZentrumBean> getZentren() throws StudieException {
+	public Vector<ZentrumBean> getZentren() throws DatenbankFehlerException {
 		if (zentren == null) {
 			zentren = Studie.getZugehoerigeZentren(id);
 
@@ -365,10 +366,10 @@ public class StudieBean extends Filter {
 	 * Liefert die Schichten(Strata) der Studie.
 	 * 
 	 * @return strata Strata der Studie
-	 * @throws StudieException
+	 * @throws DatenbankFehlerException
 	 *             Exception, wenn keine Schichten gefunden wurden.
 	 */
-	public Vector<StrataBean> getStrata() throws StudieException {
+	public Vector<StrataBean> getStrata() throws DatenbankFehlerException {
 
 		if (strata == null) {
 				strata = Studie.getZugehoerigeStrata(id);
