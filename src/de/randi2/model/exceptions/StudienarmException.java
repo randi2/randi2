@@ -20,7 +20,7 @@ public class StudienarmException extends BenutzerException {
 	 * Diese Konstante wird uebergeben, wenn die Studie nicht gefunden
 	 * wurde.
 	 */
-	public static final String STUDIE_NICHT_GEFUNDEN = "Die Studie wurde nicht gefunden.";
+	public static final String STUDIE_NICHT_GEFUNDEN = StudieException.STUDIE_NICHT_GEFUNDEN;
 	
 	/**
 	 * Diese Konstante wird uebergeben, wenn der Status falsch gesetzt wurde.
