@@ -1,6 +1,7 @@
 package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Person;
@@ -157,7 +158,7 @@ public class ZentrumBean extends Filter {
 						this.getAnsprechpartner())) {
 					return false;
 				}
-			} catch (PersonException e) {
+			} catch (DatenbankFehlerException e) {
 				/*
 				 * Wenn das entsprechende Ansprechpartenr-Objekt, nicht gefunden
 				 * bzw. nicht geholt werden konnte, sind auch die beiden Objekte
@@ -206,7 +207,7 @@ public class ZentrumBean extends Filter {
 	 * @throws PersonException
 	 *             falls ein Fehler auftrat.
 	 */
-	public PersonBean getAnsprechpartner() throws PersonException {
+	public PersonBean getAnsprechpartner() throws DatenbankFehlerException {
 
 		if (aAnsprechpartner == null) {
 			aAnsprechpartner = Person.get(aAnsprechpartnerId);
