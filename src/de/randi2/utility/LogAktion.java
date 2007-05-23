@@ -19,12 +19,37 @@ public class LogAktion {
 	 * Das Benutzerkonto des Benutzers der die Aktion ausgefuehrt hat.
 	 */
 	private BenutzerkontoBean benutzer = null;
+	
+	
 
 	/**
 	 * Das Objekt in dem die in dieser Aktion geanderten Daten enthalten sind.
 	 */
 	private LogGeanderteDaten geanderteDaten = null;
 
+	/**
+	 * TODO Methode evtl wieder löschen
+	 * Erstellt eine Log Aktion.
+	 * Methode für ungültige Loginversuche (es kann bei zu kurzem Benutzernamen kein BenutzerkontoBean angelegt werden)
+	 * @param nachricht
+	 *			Nachricht die als Log-Text erscheinen soll. Darf nicht leer
+	 *          sein.
+	 * @param benutzer
+	 * 			Der Benutzernamen des Benutzers. Darf nicht leer sein.
+	 */
+	public LogAktion(String nachricht, String benutzer) {
+		super();
+		if (nachricht == null || nachricht.equals("")) {
+			throw new IllegalArgumentException(
+					"Nachricht darf nicht leer sein.");
+		}
+		this.nachricht = nachricht;
+		if (benutzer == null) {
+			throw new IllegalArgumentException("Benutzer darf nicht leer sein.");
+		}
+	}
+	
+	
 	/**
 	 * Erstellt eine Log Aktion. Dieser Konstruktor ist zu verwenden, wenn keine
 	 * Daten geaendert wurden.
@@ -43,7 +68,6 @@ public class LogAktion {
 					"Nachricht darf nicht leer sein.");
 		}
 		this.nachricht = nachricht;
-
 		if (benutzer == null) {
 			throw new IllegalArgumentException("Benutzer darf nicht leer sein.");
 		}
