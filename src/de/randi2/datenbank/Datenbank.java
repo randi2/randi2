@@ -1477,11 +1477,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 				e.printStackTrace();
 				throw new DatenbankFehlerException(
 						DatenbankFehlerException.SCHREIBEN_ERR);
-			} catch (StudieException e) {
-
-				// TODO was soll hier mit der Exception passieren?
-				// dhaehn
-
 			}
 			studienarm.setId(id);
 			return studienarm;
@@ -1507,13 +1502,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.SCHREIBEN_ERR);
-			} catch (StudieException e) {
-
-				// TODO was soll hier mit der Exception passieren?
-				// dhaehn
-
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
 			}
 		}
 		try {
