@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Vector;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
@@ -265,10 +266,10 @@ public class BenutzerkontoBean extends Filter {
 	 * Liefert den zugehoerigen Benutzer zu diesem Konto.
 	 * 
 	 * @return das entsprechende PersonBean zum Benutzerkonto
-	 * @throws PersonException
+	 * @throws DatenbankFehlerException
 	 *             Fehler, falls die Person nicht ermittelt werden kann
 	 */
-	public PersonBean getBenutzer() throws PersonException {
+	public PersonBean getBenutzer() throws DatenbankFehlerException {
 		if (aBenutzer == null) {
 			aBenutzer = Person.get(aBenutzerId);
 		}
@@ -577,10 +578,10 @@ public class BenutzerkontoBean extends Filter {
 	 * Liefert alle von diesem Benutzer aufgenommenen Patienten
 	 * 
 	 * @return Vector mit PatientBeans
-	 * @throws BenutzerkontoException -
+	 * @throws DatenbankFehlerException -
 	 *             wenn ein Fehler in der DB auftrat.
 	 */
-	public Vector<PatientBean> getPatienten() throws BenutzerkontoException {
+	public Vector<PatientBean> getPatienten() throws DatenbankFehlerException {
 		if (aPatienten == null) {
 			aPatienten = Benutzerkonto.getZugehoerigePatienten(getId());
 		}
@@ -602,10 +603,10 @@ public class BenutzerkontoBean extends Filter {
 	 * 
 	 * @return ZentrumBean - das zugehoerige ZentrumBean Objekt zu dem
 	 *         Benutzerkonto
-	 * @throws ZentrumException -
+	 * @throws DatenbankFehlerException -
 	 *             wenn kein entsprechendes Zentrum in der DB gefunden wurde.
 	 */
-	public ZentrumBean getZentrum() throws ZentrumException {
+	public ZentrumBean getZentrum() throws DatenbankFehlerException {
 		if (this.aZentrum == null) {
 			this.aZentrum = Zentrum.getZentrum(this.aZentrumId);
 		}
