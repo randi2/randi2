@@ -152,20 +152,16 @@ public class Studie {
 	 * @param studieId
 	 *            Id der studie zur eindeutigen Zuordnung in der Datenbank
 	 * @return gefundene Zentren
-	 * @throws StudieException
+	 * @throws DatenbankFehlerException
 	 *             Exception, wenn Zentrum nicht gefunden werden konnte.
 	 */
 	public static Vector<ZentrumBean> getZugehoerigeZentren(long studieId)
-			throws StudieException {
+			throws DatenbankFehlerException {
 		StudieBean studie = new StudieBean();
 		studie.setId(studieId);
 		Vector<ZentrumBean> gefundenZentren = null;
-		try {
-			gefundenZentren = DatenbankFactory.getAktuelleDBInstanz()
-					.suchenMitgliederObjekte(studie, new ZentrumBean());
-		} catch (DatenbankFehlerException e) {
-			throw new StudieException(StudieException.STUDIE_NICHT_GEFUNDEN);
-		}
+		gefundenZentren = DatenbankFactory.getAktuelleDBInstanz()
+				.suchenMitgliederObjekte(studie, new ZentrumBean());
 		return gefundenZentren;
 	}
 
@@ -175,20 +171,16 @@ public class Studie {
 	 * @param studieId
 	 *            Id der Studie zur eindeutigen Zuordnung in der Datenbank.
 	 * @return gefundeneStrata
-	 * @throws StudieException
+	 * @throws DatenbankFehlerException
 	 *             Exception, wenn Strata nicht gefunden wurde.
 	 */
 	public static Vector<StrataBean> getZugehoerigeStrata(long studieId)
-			throws StudieException {
+			throws DatenbankFehlerException {
 		StudieBean studie = new StudieBean();
 		studie.setId(studieId);
 		Vector<StrataBean> gefundeneStrata = null;
-		try {
-			gefundeneStrata = DatenbankFactory.getAktuelleDBInstanz()
-					.suchenMitgliederObjekte(studie, new StrataBean());
-		} catch (DatenbankFehlerException e) {
-			throw new StudieException(StudieException.STRATA_NICHT_GEFUNDEN);
-		}
+		gefundeneStrata = DatenbankFactory.getAktuelleDBInstanz()
+				.suchenMitgliederObjekte(studie, new StrataBean());
 
 		return gefundeneStrata;
 	}
@@ -199,29 +191,28 @@ public class Studie {
 	 * @param studieId
 	 *            Die ID der angeforderten Studie.
 	 * @return StudieBean Ein StudieBean wird zurueckgegeben.
-	 * @throws StudieException
+	 * @throws DatenbankFehlerException
 	 *             Exception, wenn ID der angeforderten Studie nicht gefunden
 	 *             werden konnte.
 	 */
-	public static StudieBean getStudie(long studieId) throws StudieException {
+	public static StudieBean getStudie(long studieId)
+			throws DatenbankFehlerException {
 		StudieBean studie = new StudieBean();
-		try {
-			studie = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(
-					studieId, studie);
-		} catch (DatenbankFehlerException e) {
-			throw new StudieException(StudieException.STUDIE_NICHT_GEFUNDEN);
-		}
+		studie = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(
+				studieId, studie);
 		return studie;
 	}
-	
+
 	/**
 	 * Erzeugt einen String mit allen Daten der Studie.
+	 * 
 	 * @return Der String mit Daten der Studie
 	 */
-	public String toString(){
-		
+	public String toString() {
+
 		return this.aStudieBean.toString();
 	}
+
 	/**
 	 * Diese Methode dient zum Verlgeich von 2 Objekten dieser Klasse.
 	 * 
@@ -231,8 +222,7 @@ public class Studie {
 	 *         nicht der Fall ist.
 	 */
 	public boolean equals(Studie zuvergleichendesObjekt) {
-		if (this.aStudieBean.equals(zuvergleichendesObjekt.toString()
-				)) {
+		if (this.aStudieBean.equals(zuvergleichendesObjekt.toString())) {
 			return true;
 		}
 		return false;
