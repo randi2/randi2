@@ -90,7 +90,7 @@ public class PersonTest {
 		try {
 			//Holen aus der Datenbank
 			tempVec = Person.suchen(testPB);
-		} catch (PersonException e) {
+		} catch (DatenbankFehlerException e) {
 			e.printStackTrace();
 		}
 		/*
@@ -116,7 +116,7 @@ public class PersonTest {
 		try {
 			//wird nicht gefunden, da nicht geschrieben wurde
 			tempVec = Person.suchen(testPB);
-		} catch (PersonException e) {
+		} catch (DatenbankFehlerException e) {
 			e.printStackTrace();
 		}
 		assertTrue(tempVec.size() == 0);
