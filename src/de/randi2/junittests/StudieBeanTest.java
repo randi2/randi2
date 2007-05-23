@@ -321,11 +321,13 @@ public class StudieBeanTest {
 	@Test
 	public void testSetId() {
 		try {
-			studieBean.setId(studieBean.getId());
+		studieBean.setId(110);
+		assertTrue(studieBean.getId()==110);
 		} catch (Exception e) {
-			fail("[FEHLER]testSetId() sollte keine Exception auslosen");
+			fail("[FEHLER]testSetId() sollte keine Exception ausloesen");
 		}
 	}
+	
 
 	/**
 	 * Test method for setBenutzerkontoId() Test method for
@@ -336,7 +338,8 @@ public class StudieBeanTest {
 	@Test
 	public void testSetBenutzerkontoId() {
 		try {
-			studieBean.setBenutzerkontoId(studieBean.getBenutzerkontoId());
+			studieBean.setBenutzerkontoId(134);
+			assertTrue(studieBean.getBenutzerkontoId()==134);
 		} catch (Exception e) {
 			fail("[FEHLER]testSetBenutzerkontoId() sollte keine Exception ausloesen");
 		}
@@ -351,7 +354,8 @@ public class StudieBeanTest {
 	@Test
 	public void testSetRandomisationId() {
 		try {
-			studieBean.setRandomisationId(studieBean.getBenutzerkontoId());
+			studieBean.setRandomisationId(145);
+			assertTrue(studieBean.getRandomisationId()==145);
 		} catch (Exception e) {
 			fail("[FEHLER]testSetRandomisationId() sollte keine Exception ausloesen");
 		}

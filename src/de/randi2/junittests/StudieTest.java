@@ -165,7 +165,7 @@ public class StudieTest {
 	 *
 	 */
 	@Test
-	public void testGet(){
+	public void testGetStudie(){
 		
 		fail("implementieren, sofort!! dhaehn");
 				
