@@ -294,10 +294,13 @@ public class PatientBean extends Filter {
 	 * 
 	 * @param studienarm
 	 *            Setzt das StudienarmBean.
-	 * @throws PatientException - wenn das uebergebene Objekt noch nicht in der DB gespeichert wurde.
+	 * @throws PatientException -
+	 *             wenn das uebergebene Objekt noch nicht in der DB gespeichert
+	 *             wurde.
 	 */
-	public void setStudienarm(StudienarmBean studienarm) throws PatientException {
-		if(studienarm==null){
+	public void setStudienarm(StudienarmBean studienarm)
+			throws PatientException {
+		if (studienarm == null) {
 			throw new PatientException(PatientException.STUDIENARM_NULL);
 		}
 		this.setStudienarmId(studienarm.getId());
@@ -318,11 +321,13 @@ public class PatientBean extends Filter {
 	 * 
 	 * @param studienarmId
 	 *            Setzt die Studienarm-ID.
-	 * @throws PatientException - wenn die Id gleich der Dummy_Id ist.
+	 * @throws PatientException -
+	 *             wenn die Id gleich der Dummy_Id ist.
 	 */
 	public void setStudienarmId(long studienarmId) throws PatientException {
-		if(studienarmId==NullKonstanten.DUMMY_ID){
-			throw new PatientException(PatientException.STUDIENARM_NOCH_NICHT_GESPEICHERT);
+		if (studienarmId == NullKonstanten.DUMMY_ID) {
+			throw new PatientException(
+					PatientException.STUDIENARM_NOCH_NICHT_GESPEICHERT);
 		}
 		aStudienarmId = studienarmId;
 	}
@@ -350,11 +355,11 @@ public class PatientBean extends Filter {
 	 * Get-Methode fuer die Rueckgabe des BenutzerkontoBean.
 	 * 
 	 * @return Liefert das BenutzerkontoBean.
-	 * @throws BenutzerkontoException -
+	 * @throws DatenbankFehlerException -
 	 *             wenn beim Holen des entsprechendes Bentutzerkontoobjektes
 	 *             Probleme vorkamen.
 	 */
-	public BenutzerkontoBean getBenutzerkonto() throws BenutzerkontoException {
+	public BenutzerkontoBean getBenutzerkonto() throws DatenbankFehlerException {
 		if (aBenutzerkonto == null) {
 			aBenutzerkonto = Benutzerkonto.get(aBenutzerkontoId);
 		}
@@ -468,7 +473,7 @@ public class PatientBean extends Filter {
 							.getBenutzerkonto()))) {
 						return false;
 					}
-				} catch (BenutzerkontoException e) {
+				} catch (DatenbankFehlerException e) {
 					return false;
 				}
 			} else {
@@ -484,7 +489,7 @@ public class PatientBean extends Filter {
 		}
 
 	}
-	
+
 	/**
 	 * Liefert den HashCode des Objektes.<br>
 	 * Der HashCode entspricht der (Datenbank-)Id des Objektes. Ist das Objekt
