@@ -46,6 +46,11 @@ public class PatientException extends BenutzerException {
 	 * Id) nocht nicht in der DB gespeichert wurde.
 	 */
 	public static final String STUDIENARM_NOCH_NICHT_GESPEICHERT = "Der Studienarm wurde noch nicht gespeichert!";
+	
+	/**
+	 * Fehlermeldung, wenn ein negativer Wert uebergeben wurde!
+	 */
+	public static final String KOERPEROBERFLAECHE_NEGATIV = "Die &uuml;bergebene K&ouml;rperoberfl&auml;che ist negativ!";
 
 	/**
 	 * Konstruktor dieser Klasse an den die Fehlermassage uebergeben werden
