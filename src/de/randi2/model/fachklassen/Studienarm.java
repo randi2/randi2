@@ -53,7 +53,8 @@ public final class Studienarm {
 	 * @throws DatenbankFehlerException
 	 *             falls Fehler bei dem Vorgang auftraten.
 	 */
-	public static StudienarmBean getStudienarm(long id) throws DatenbankFehlerException {
+	public static StudienarmBean getStudienarm(long id)
+			throws DatenbankFehlerException {
 		StudienarmBean nullBean = new StudienarmBean();
 		nullBean.setFilter(true);
 		return DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(id,
@@ -84,21 +85,16 @@ public final class Studienarm {
 	 * @param studienarmId
 	 *            Id des Studienarms zur eindeutigen Zuordnung in der Datenbank.
 	 * @return gefundenePatienten
-	 * @throws StudienarmException
+	 * @throws DatenbankFehlerException
 	 *             Exception, wenn Studienarm nicht gefunden wurde.
 	 */
 	public static Vector<PatientBean> getZugehoerigePatienten(long studienarmId)
-			throws StudienarmException {
+			throws DatenbankFehlerException {
 		StudienarmBean studienarm = new StudienarmBean();
 		studienarm.setId(studienarmId);
 		Vector<PatientBean> gefundenePatienten = null;
-		try {
-			gefundenePatienten = DatenbankFactory.getAktuelleDBInstanz()
-					.suchenMitgliederObjekte(studienarm, new PatientBean());
-		} catch (DatenbankFehlerException e) {
-			throw new StudienarmException(
-					StudienarmException.PATIENTEN_NICHT_GEFUNDEN);
-		}
+		gefundenePatienten = DatenbankFactory.getAktuelleDBInstanz()
+				.suchenMitgliederObjekte(studienarm, new PatientBean());
 
 		return gefundenePatienten;
 	}
