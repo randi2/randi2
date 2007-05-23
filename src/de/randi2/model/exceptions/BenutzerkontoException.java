@@ -59,12 +59,12 @@ public class BenutzerkontoException extends BenutzerException {
 	 * Fehlermeldung, wenn null an die setZentrum() Methode uebergeben wurde.
 	 */
 	public static final String ZENTRUM_NULL = "Es wurde kein Zentrum &uuml;bergeben!";
-	
+
 	/**
 	 * Fehlermeldung, wenn null an die setBenutzer() Methode uebergeben wurde.
 	 */
 	public static final String BENUTZER_NULL = "Es wurde kein Benutzer &uuml;bergeben!";
-	
+
 	/**
 	 * Fehlermeldung, wenn die Rolle nicht uebergeben wurde.
 	 */
@@ -81,11 +81,6 @@ public class BenutzerkontoException extends BenutzerException {
 	 * falsch ist.
 	 */
 	public static final String LOGIN_FEHLER = "Benutzername oder Passwort ist falsch.";
-
-	/**
-	 * Diese Konstante wird uebergeben, wenn keine Fehlerursache bekannt ist.
-	 */
-	public static final String FEHLER = "Ein unbekannter Fehler ist aufgetreten. Bitte erneut versuchen.";
 
 	/**
 	 * Fehlermeldung, wenn das uebergebene Datum in der Zukunft liegt.
