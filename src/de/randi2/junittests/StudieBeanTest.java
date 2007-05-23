@@ -1,9 +1,12 @@
 package de.randi2.junittests;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -69,19 +72,14 @@ public class StudieBeanTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-
 		studieBean = new StudieBean();
 		studieBean.setId(12);
-		studieBean.setBeschreibung("abcdefg");
-
-		String day = "15";
-		int tag = Integer.parseInt(day);
-		String month = "11";
-		int monat = Integer.parseInt(month);
-		String year = "2006";
-		int jahr = Integer.parseInt(year);
-		studieBean.setStartDatum(new GregorianCalendar(jahr, monat - 1, tag));
-		studieBean.setEndDatum(new GregorianCalendar(jahr, monat - 1, tag));
+		studieBean.setBeschreibung("Dies ist eine Beschreibung zu einer Studie.");
+		GregorianCalendar startDatum = new GregorianCalendar();
+		startDatum.add( Calendar.MONTH, +2 ); 
+		GregorianCalendar endDatum = new GregorianCalendar();
+		endDatum.add( Calendar.MONTH, +7 ); 
+		studieBean.setStudienZeitraum(startDatum, endDatum);
 		studieBean.setStudienprotokollPfad("pfad");
 		studieBean.setRandomisationId(122);
 	}
@@ -106,23 +104,18 @@ public class StudieBeanTest {
 	 */
 	@Test
 	public void testSetBenutzerkonto() {
-
 		long benutzerId = 12;
 		rolle = Rolle.getAdmin();
 		letzterLogin = new GregorianCalendar(2006, 11, 1);
 		ersterLogin = new GregorianCalendar(2006, 11, 1);
-
 		try {
 			aBenutzer = new BenutzerkontoBean(NullKonstanten.NULL_LONG,
 					"Benutzername", "abcdefg", 12, rolle, 32, false,
 					ersterLogin, letzterLogin);
-
 			studieBean.setBenutzerkonto(aBenutzer);
-
 			assertTrue(studieBean.getBenutzerkonto().equals(aBenutzer));
 		} catch (BenutzerkontoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail(e.getMessage());
 		}
 
 	}
@@ -138,39 +131,14 @@ public class StudieBeanTest {
 		// gueltige Beschreibung
 		String[] testeStudieBezeichnung = { "", "Studie Bezeichnung",
 				"abscadaskdjaslkjdklasjdklasjd" };
-
 		for (int i = 0; i < testeStudieBezeichnung.length; i++) {
 			studieBean.setBeschreibung(testeStudieBezeichnung[i]);
 			assertTrue(studieBean.getBeschreibung().equals(
 					testeStudieBezeichnung[i]));
 		}
+		assertFalse(studieBean.getBeschreibung().equals("test"));
 	}
 
-	/**
-	 * Test method for setEndDatum() Test method for
-	 * {@link de.randi2.model.fachklassen.beans.StudieBean#setEndDatum(java.util.GregorianCalendar)}.
-	 * 
-	 * Ueberpruefung des Enddatums einer Studie. Wenn Fehler (Datum befindet
-	 * sich in der Zukunft), soll StudieException geworfen werden.
-	 */
-	@Test
-	public void testSetEndDatum() {
-		try {
-			String day = "1";
-			int tag = Integer.parseInt(day);
-			String month = "2";
-			int monat = Integer.parseInt(month);
-			String year = "2006";
-			int jahr = Integer.parseInt(year);
-			endDatum = new GregorianCalendar(jahr, monat - 1, tag);
-			studieBean.setEndDatum(endDatum);
-			assertTrue(studieBean.getEndDatum().equals(endDatum));
-			assertFalse((new GregorianCalendar(Locale.GERMANY))
-					.before(endDatum));
-		} catch (Exception e) {
-			fail("[testSetEndDatum]Exception, wenn Zeit des Enddatums in der Zukunft liegt.");
-		}
-	}
 
 	/**
 	 * Test method for setName() Test method for
@@ -237,6 +205,48 @@ public class StudieBeanTest {
 			fail("[testSetNameOk] Es darf keine Exception geworfen werden.");
 		}
 	}
+	
+	/**
+	 * Ueberpruefung des korrekten Studienzeitraumes
+	 *
+	 */
+	@Test
+	public void testStudienzeitraum(){
+		//1. Startdatum in Vergangenheit und Enddatum in Zukunft
+		GregorianCalendar startDatum = new GregorianCalendar();
+		startDatum.add( Calendar.MONTH, -2 ); 
+		GregorianCalendar endDatum = new GregorianCalendar();
+		endDatum.add( Calendar.MONTH, +7 ); 
+		try {
+			studieBean.setStudienZeitraum(startDatum, endDatum);
+		} catch (StudieException e) {
+			assertEquals(StudieException.DATUM_FEHLER,e.getMessage());
+		}
+		//2. Enddatum in Vergangenheit und Startdatum in Zukunft
+		startDatum.add( Calendar.MONTH, +4 );
+		endDatum.add( Calendar.MONTH, -10 ); 
+		try {
+			studieBean.setStudienZeitraum(startDatum, endDatum);
+		} catch (StudieException e) {
+			assertEquals(StudieException.DATUM_FEHLER,e.getMessage());
+		}
+		//3. sowohl Startdatum als auch Enddatum in Zukunft, aber Startdatum nach Enddatum
+		startDatum.add( Calendar.MONTH, +1 );
+		endDatum.add( Calendar.MONTH, +4 ); 
+		try {
+			studieBean.setStudienZeitraum(startDatum, endDatum);
+		} catch (StudieException e) {
+			assertEquals(StudieException.DATUM_FEHLER,e.getMessage());
+		}
+		//4. alles okay
+		endDatum.add( Calendar.MONTH, +4 ); 
+		try {
+			studieBean.setStudienZeitraum(startDatum, endDatum);
+		} catch (StudieException e) {
+			fail(e.getMessage());
+		}
+		
+	}
 
 	/**
 	 * Test method for setRandomisationseigenschaften() Test method for
@@ -249,31 +259,6 @@ public class StudieBeanTest {
 	// public void testSetRandomisationseigenschaften() {
 	// fail("Not yet implemented");
 	// }
-	/**
-	 * Test method for setStartDatum() Test method for
-	 * {@link de.randi2.model.fachklassen.beans.StudieBean#setStartDatum(java.util.GregorianCalendar)}.
-	 * 
-	 * Ueberpruefung Startdatum. Wenn Fehler (Datum befindet sich in der
-	 * Vergangenheit), soll StudieException geworfen werden.
-	 */
-	@Test
-	public void testSetStartDatum() {
-		try {
-			String day = "1";
-			int tag = Integer.parseInt(day);
-			String month = "2";
-			int monat = Integer.parseInt(month);
-			String year = "2006";
-			int jahr = Integer.parseInt(year);
-			startDatum = new GregorianCalendar(jahr, monat - 1, tag);
-			studieBean.setStartDatum(startDatum);
-			assertTrue(studieBean.getStartDatum().equals(startDatum));
-
-		} catch (Exception e) {
-			fail("[testSetStartDatum]Exception, wenn Zeit des Enddatums in der Zukunft liegt.");
-		}
-
-	}
 
 	/**
 	 * Test method for setStudienarme() Test method for
@@ -375,6 +360,19 @@ public class StudieBeanTest {
 		assertFalse(studieBean.toString().equals(null));
 	}
 
+	
+	/**
+	 * Testet, ob zwei nicht identische Studien auch als nicht identisch erkannt werden.
+	 * 
+	 * TestMethode fuer
+	 * {@link de.randi2.model.fachklassen.beans.StudieBean#equals(Object)}.
+	 * 
+	 */
+	@Test
+	public void testEqualsFalse(){
+		//TODO
+	}
+	
 	/**
 	 * Testet, ob zwei identische Studien auch als identisch erkannt werden.
 	 * 
@@ -383,13 +381,8 @@ public class StudieBeanTest {
 	 * 
 	 */
 	@Test
-	public void testEquals() {
-
-		assertFalse(studieBean.equals(null));
-
-		StudieBean beanZuvergleichen = studieBean;
-		assertTrue(studieBean.equals(beanZuvergleichen));
-
+	public void testEqualsTrue(){
+		//TODO
 	}
 
 }

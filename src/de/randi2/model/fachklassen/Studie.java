@@ -124,10 +124,8 @@ public class Studie {
 	 *            das aktuelle PatientBean.
 	 * @return patient das aktuelle PatientBean.
 	 */
-	private PatientBean hinzufuegenPatient(PatientBean patient) {
+	private void hinzufuegenPatient(PatientBean patient) {
 		// TODO Algorithmus Implementierung
-
-		return patient;
 
 	}
 
@@ -142,12 +140,24 @@ public class Studie {
 	// TODO Ausimplementierung
 	public Vector<Studie> zuweisenZentrum(ZentrumBean aZentrum) {
 		Vector<Studie> zugewieseneZentren = null;
-
 		return zugewieseneZentren;
 	}
-
+	
+	
 	/**
 	 * Liefert alle zur Studie gehoerenden Zentren
+	 * 
+	 * @return gefundene Zentren
+	 * @throws StudieException
+	 *             Exception, wenn Zentrum nicht gefunden werden konnte.
+	 */
+	public Vector<ZentrumBean> getZugehoerigeZentren()
+			throws StudieException {
+		return Studie.getZugehoerigeZentren(this.aStudieBean.getId());
+	}
+	
+	/**
+	 * Liefert alle zu der Studie mit der angegebenen ID gehoerenden Zentren.
 	 * 
 	 * @param studieId
 	 *            Id der studie zur eindeutigen Zuordnung in der Datenbank

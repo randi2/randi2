@@ -117,8 +117,7 @@ public class StudieBean extends Filter {
 
 		this.setId(id);
 		this.setBeschreibung(beschreibung);
-		this.setStartDatum(startDatum);
-		this.setEndDatum(endDatum);
+		this.setStudienZeitraum(startDatum, endDatum);
 		this.setStudienprotokollPfad(studienprotokollPfad);
 		this.setRandomisationId(randomisationId);
 	}
@@ -183,22 +182,6 @@ public class StudieBean extends Filter {
 	 */
 	public GregorianCalendar getEndDatum() {
 		return endDatum;
-	}
-
-	/**
-	 * Ueberpruefung, ob das Enddatum der Studie in der Zukunft liegt.
-	 * 
-	 * @param endDatum
-	 *            Enddatum der Studie
-	 * @throws StudieException
-	 *             Wenn bei der Validierung ein Datumfehler aufgetreten ist.
-	 */
-	public void setEndDatum(GregorianCalendar endDatum) throws StudieException {
-		// Testen, ob sich das Datum in der Zukunft befindet
-		if ((new GregorianCalendar(Locale.GERMANY)).before(endDatum)) {
-			throw new StudieException(StudieException.DATUM_FEHLER);
-		}
-		this.endDatum = endDatum;
 	}
 
 	/**
@@ -267,23 +250,28 @@ public class StudieBean extends Filter {
 	public GregorianCalendar getStartDatum() {
 		return startDatum;
 	}
-
+	
 	/**
-	 * Ueberpruefung, ob das Startdatum der Studie in der Zukunft liegt.
-	 * 
-	 * @param startDatum
-	 *            Startdatum der Studie
-	 * @throws StudieException
-	 *             Wenn bei der Validierung ein Datumfehler aufgetreten ist.
+	 * Methode setzt das Start- und Endedatum einer Studie.
+	 * Es finden folgende Überprüfugen statt:
+	 * - Ueberpruefung, ob das Startdatum der Studie in der Zukunft liegt
+	 * - Ueberpruefung, ob das Enddatum der Studie in der Zukunft liegt 
+	 * - Ueberpruefung, ob das Startdatum vor dem Enddatum liegt.
+	 * @param startDatum Startdatum der Studie
+	 * @param endDatum Enddatum der Studie
+	 * @throws StudieException eine der oben genannten Überprüfungen schlug fehl. 
 	 */
-	public void setStartDatum(GregorianCalendar startDatum)
-			throws StudieException {
+	public void setStudienZeitraum(GregorianCalendar startDatum, GregorianCalendar endDatum) throws StudieException{
 		// Testen, ob sich das Datum in der Zukunft befindet
-		if ((new GregorianCalendar(Locale.GERMANY)).before(startDatum)) {
+		if ((new GregorianCalendar(Locale.GERMANY)).after(startDatum)
+				|| (new GregorianCalendar(Locale.GERMANY)).after(endDatum)
+				|| startDatum.after(endDatum)) {
 			throw new StudieException(StudieException.DATUM_FEHLER);
 		}
+		this.endDatum = endDatum;
 		this.startDatum = startDatum;
 	}
+
 
 	/**
 	 * Liefert die ID der Studie.

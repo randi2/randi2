@@ -23,7 +23,6 @@ import de.randi2.utility.Log4jInit;
  */
 public class StudieTest {
 
-
 	/**
 	 * Das zugehoerige StudieBean-Objekt.
 	 */
@@ -34,14 +33,16 @@ public class StudieTest {
 	 */
 	private Studie studie;
 
-	 /**
-	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
-	     *
-	     */
-	    @BeforeClass
-	    public static void log(){
+	/**
+	 * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und
+	 * es funktioniert.
+	 * 
+	 */
+	@BeforeClass
+	public static void log() {
 		Log4jInit.initDebug();
-	    }
+	}
+
 	/**
 	 * Method setUp() Erzeugt eine neue Instanz der Fachklasse Studie.
 	 * 
@@ -75,8 +76,6 @@ public class StudieTest {
 	public void testAnzeigenStatistik() {
 		fail("Not yet implemented");
 	}
-
-	
 
 	/**
 	 * Test method for zuweisenZentrum() Test method for
@@ -130,56 +129,47 @@ public class StudieTest {
 		}
 
 	}
-	
-	
-	/**
-	 * 
-	 *
-	 */
-	@Test
-	 public void testGetZugehoerigeZentren(){
-		 
-		fail("implementieren, sofort!! dhaehn");
-				
-		
-		
-	 }
 
-	
 	/**
 	 * 
-	 *
+	 * 
 	 */
 	@Test
-	public void testGetStrata(){
-		
+	public void testGetZugehoerigeZentren() {
+
 		fail("implementieren, sofort!! dhaehn");
-				
-		
-		
+
 	}
-	
-	
+
 	/**
 	 * 
-	 *
+	 * 
 	 */
 	@Test
-	public void testGetStudie(){
-		
+	public void testGetStrata() {
+
 		fail("implementieren, sofort!! dhaehn");
-				
-		
-		
+
 	}
-	
+
+	/**
+	 * 
+	 * 
+	 */
+	@Test
+	public void testGetStudie() {
+
+		fail("implementieren, sofort!! dhaehn");
+
+	}
+
 	/**
 	 * 
 	 */
 	@Test
-	public void testEquals(){
-		
+	public void testEquals() {
+
 		fail("implementieren, sofort!! dhaehn");
-		
+
 	}
 }
