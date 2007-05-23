@@ -1,6 +1,7 @@
 package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.utility.NullKonstanten;
@@ -471,10 +472,10 @@ public class PersonBean extends Filter {
 	 * Get-Methode fuer den Stellvertreter
 	 * 
 	 * @return Der Stellvertreter.
-	 * @throws PersonException
+	 * @throws DatenbankFehlerException
 	 *             Fehler aufgetreten.
 	 */
-	public PersonBean getStellvertreter() throws PersonException {
+	public PersonBean getStellvertreter() throws DatenbankFehlerException {
 		if (aStellvertreter == null) {
 			aStellvertreter = Person.get(aStellvertreterId);
 		}
@@ -580,7 +581,8 @@ public class PersonBean extends Filter {
 					&& this.aHandynummer != null) {
 				return false;
 			} else if (beanZuvergleichen.aHandynummer != null
-					&& !beanZuvergleichen.aHandynummer.equals(this.aHandynummer)) {
+					&& !beanZuvergleichen.aHandynummer
+							.equals(this.aHandynummer)) {
 				return false;
 			}
 			if (beanZuvergleichen.id != this.id) {
@@ -608,7 +610,8 @@ public class PersonBean extends Filter {
 			if (beanZuvergleichen.aTitel == null && this.aTitel != null) {
 				return false;
 			} else if (beanZuvergleichen.aTitel != null
-					&& !beanZuvergleichen.aTitel.titel.equals(this.aTitel.titel)) {
+					&& !beanZuvergleichen.aTitel.titel
+							.equals(this.aTitel.titel)) {
 				return false;
 
 			}
