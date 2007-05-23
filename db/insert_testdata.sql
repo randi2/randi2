@@ -5,16 +5,16 @@ values ('Hess','Frank','m','07131-1231232',null,null,'frank.hess@hs-heilbronn.de
 		('Hans','Dampf','m','07131-123456',null,null,'hans.damp@allenGassen.de');
 
 insert into Zentrum (Person_personenID,institution,abteilungsname,ort,plz,strasse,hausnummer,passwort,aktiviert) 
-values('1','nch','knochen','heilbronn','74081','hessstrasse','34','hess',0),
-		('2','hno','nase','heilbronn','74081','graeffstrasse','23','graeff',1),
-		('3','mzk','zahn','heilbronn','74081','zwinkstrasse','12','zwink',0),
-		('4','paed','kind','heilbronn','74081','dampfstrasse','44','dampf',1);
+values('1','nch','knochen','heilbronn','74081','hessstrasse','34','ea296627cef2bfcc55191afa82a1097794a8eeedc7e7def21d5359db8a2620ca',0),
+		('2','hno','nase','heilbronn','74081','graeffstrasse','23','3dfaf1603227588e7ddf07be2fa51bab950ff617e8c2432df7a7ac0e58aee18a',1),
+		('3','mzk','zahn','heilbronn','74081','zwinkstrasse','12','5305d984ca8af6f4f341cbcf500d8ff45fcce6e32b5fc41f00988bd0c9ab85d9',0),
+		('4','paed','kind','heilbronn','74081','dampfstrasse','44','c87828a6040236461796f3aceaab3a1b28a166227d498aa017eec4fa92bc1d77',1);
 
 insert into Benutzerkonto (Zentrum_zentrumsID,Person_personenID,loginname,passwort,rolle,gesperrt) 
-values ('1','1','frank','hess','Studienarzt',0),
-		('2','2','valentin','graeff','Studienleiter',0),
-		('3','3','nadine','zwink','System Operator',1),
-		('4','4','hans','dampf','Administrator',1);
+values ('1','1','frank','ea296627cef2bfcc55191afa82a1097794a8eeedc7e7def21d5359db8a2620ca','Studienarzt',0),
+		('2','2','valentin','3dfaf1603227588e7ddf07be2fa51bab950ff617e8c2432df7a7ac0e58aee18a','Studienleiter',0),
+		('3','3','nadine','5305d984ca8af6f4f341cbcf500d8ff45fcce6e32b5fc41f00988bd0c9ab85d9','System Operator',1),
+		('4','4','hans','c87828a6040236461796f3aceaab3a1b28a166227d498aa017eec4fa92bc1d77','Administrator',1);
 
 insert into Studie (Benutzerkonto_benutzerkontenID,name,beschreibung,startdatum,enddatum,studienprotokoll,randomisationArt,status_Studie) 
 values('1','hess','','2001-01-01','2005-05-05','c:na','Vollstaendige','fortsetzen'),

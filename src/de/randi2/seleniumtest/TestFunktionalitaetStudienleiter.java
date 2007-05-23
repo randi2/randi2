@@ -72,6 +72,41 @@ public class TestFunktionalitaetStudienleiter {
 		assertTrue(sel.isTextPresent("Studie ansehen"));
 	}
 
+	
+	/**
+	 * Ueberpruefung der Funktion BenutzerdatenAendern.
+	 * Es werden saemtliche Fehlermoeglichkeite ueberprueft
+	 * und getestet, ob auf Fehleingaben korrekt reagiert wird.
+	 */
+	
+	public void pruefeBenutzerAendern() {
+		
+		sel.open("http://www.iap.hs-heilbronn.de:8080/randi/");
+		sel.type("username", "studienleiter");
+		sel.type("password", "1$studienleiter");
+		sel.click("Submit");
+		sel.waitForPageToLoad("3000");
+		sel.click("link=Aspirin");
+		sel.waitForPageToLoad("3000");
+		assertTrue(sel.isTextPresent("Studie ansehen"));
+		
+		 sel.click("link=Benutzerdatenaten Ändern");
+		 assertTrue(sel.isTextPresent("Titel"));
+		 assertTrue(sel.isTextPresent("Nachname"));
+		 assertTrue(sel.isTextPresent("Vorname"));
+		 assertTrue(sel.isTextPresent("Geschlecht"));
+		 assertTrue(sel.isTextPresent("Institut"));
+		 assertTrue(sel.isTextPresent("E-Mail"));
+		 assertTrue(sel.isTextPresent("Telefonnummer"));
+		 assertTrue(sel.isTextPresent("Handynummer"));
+		 assertTrue(sel.isTextPresent("Fax"));
+		 assertTrue(sel.isTextPresent("Nachname Ansprechpartner"));
+		 assertTrue(sel.isTextPresent("Vorname Ansprechpartner"));
+		 assertTrue(sel.isTextPresent("Telefonnummer Ansprechpartner"));
+		
+	}
+	
+	
 	/**
 	 * Ueberpruefung, ob der Studienleiter 
 	 * auf die Seite StudiePausieren gelangt
