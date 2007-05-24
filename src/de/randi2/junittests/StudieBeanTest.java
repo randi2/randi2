@@ -1,39 +1,24 @@
 package de.randi2.junittests;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Vector;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
-import de.randi2.model.exceptions.BenutzerkontoException;
-import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.StudieException;
-import de.randi2.model.exceptions.StudienarmException;
-import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
-import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
-import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Log4jInit;
-import de.randi2.utility.NullKonstanten;
 
 /**
  * Testklasse fuer die Klasse StudieBean.
@@ -93,6 +78,8 @@ public class StudieBeanTest {
 		studieBean.setStudienZeitraum(startDatum, endDatum);
 		studieBean.setStudienprotokollPfad("pfad");
 		studieBean.setRandomisationId(122);
+		studieBean
+				.setRandomisationseigenschaften("Randomisationseigenschaften");
 	}
 
 	/**
@@ -388,6 +375,8 @@ public class StudieBeanTest {
 			studieVergleich.setStudienZeitraum(startVergleich, endVergleich);
 			studieVergleich.setStudienprotokollPfad("pfad Vergleich");
 			studieVergleich.setRandomisationId(124);
+			studieVergleich
+					.setRandomisationseigenschaften("Randomisationseigenschaften Vergleich");
 			assertFalse(studieBean.equals(studieVergleich));
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -406,17 +395,6 @@ public class StudieBeanTest {
 	public void testEqualsTrue() {
 
 		try {
-			studieBean = new StudieBean();
-			studieBean.setId(12);
-			studieBean
-					.setBeschreibung("Dies ist eine Beschreibung zu einer Studie.");
-			GregorianCalendar startDatum = new GregorianCalendar();
-			startDatum.add(Calendar.MONTH, +2);
-			GregorianCalendar endDatum = new GregorianCalendar();
-			endDatum.add(Calendar.MONTH, +7);
-			studieBean.setStudienZeitraum(startDatum, endDatum);
-			studieBean.setStudienprotokollPfad("pfad");
-			studieBean.setRandomisationId(122);
 			assertTrue(studieBean.equals(studieBean));
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -438,24 +416,18 @@ public class StudieBeanTest {
 		for (int i = 0; i < 10; i++) {
 
 			try {
-
 				zentrum.add(new ZentrumBean(i, "Instituition", "Abteilung",
 						"ort", "plz", "Strasse", "12", i, "PasswortHashsdf",
 						true));
-
 			} catch (Exception e) {
-
 				fail(e.getMessage());
 			}
-
 		}
-
 		try {
 			studieBean.setZentren(zentrum);
 			assertTrue(studieBean.getZentren() == zentrum);
 			assertTrue(studieBean.getAnzahlZentren() == zentrum.size());
 		} catch (Exception e) {
-
 			fail(e.getMessage());
 		}
 
@@ -472,15 +444,17 @@ public class StudieBeanTest {
 	public void testsetStrata() {
 		Vector<StrataBean> strata = new Vector<StrataBean>();
 
-		HashMap<Long, String> hash= new HashMap<Long, String>();
-		
-		
-		for (long i = 0; i < 10; i++) {
+		HashMap<Long, String> hash = new HashMap<Long, String>();
+		long key = 1;
+
+		hash.put(key, "Weiblich");
+
+		for (long i = 1; i < 10; i++) {
 
 			try {
 
-//				strata.add(i, hash);				// strata.add(i,i,"Auspraegung",i);
-				// TODO
+				strata.add(new StrataBean(i, hash));
+
 			} catch (Exception e) {
 
 				fail(e.getMessage());

@@ -4,13 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Vector;
-
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Studie;
-import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.Studie.Status;
 import de.randi2.utility.NullKonstanten;
 
@@ -20,7 +18,7 @@ import de.randi2.utility.NullKonstanten;
  * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
  * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
  * @version $Id$
- * 
+ *  
  */
 public class StudieBean extends Filter {
 
@@ -327,7 +325,7 @@ public class StudieBean extends Filter {
 	 */
 	public Vector<ZentrumBean> getZentren() throws DatenbankFehlerException {
 		if (zentren == null) {
-			
+
 			zentren = Studie.getZugehoerigeZentren(this.getId());
 
 		}
@@ -350,14 +348,15 @@ public class StudieBean extends Filter {
 		return zentren.size();
 
 	}
+
 	/**
 	 * Setzt die teilnehmenden Zentren
 	 * 
 	 * @param zentren
 	 *            zu setzenden Zentren
+	 * @throws StudieException, wenn Zentrum nicht gesetzt wurde.
 	 */
-	// TODO
-	public void setZentren(Vector<ZentrumBean> zentren)throws StudieException {
+	public void setZentren(Vector<ZentrumBean> zentren) throws StudieException {
 		this.zentren = zentren;
 	}
 
@@ -376,21 +375,33 @@ public class StudieBean extends Filter {
 
 		return strata;
 	}
-	//TODO
-	public void setStrata(Vector<StrataBean>strata)throws StudieException{
-		this.strata=strata;
-		
+
+	/**
+	 * Setzt die Strata einer Studie.
+	 * 
+	 * @param strata
+	 *            Strata einer Studie
+	 * @throws StudieException,
+	 *             wenn kein Strata nicht gesetzt wurde.
+	 */
+	public void setStrata(Vector<StrataBean> strata) throws StudieException {
+		this.strata = strata;
+
 	}
-	public int getAnzahlStrata(){
-		
-		if(strata==null){
+
+	/**
+	 * Gibt die Anzahl der Strata zu einer Studie zurueck.
+	 * 
+	 * @return Anzahl der Strata zu einer Studie.
+	 */
+	public int getAnzahlStrata() {
+
+		if (strata == null) {
 			return 0;
 		}
 		return strata.size();
-		
-	}
 
-	
+	}
 
 	/**
 	 * Uebergibt den aktuellen Status.
@@ -408,7 +419,7 @@ public class StudieBean extends Filter {
 	 * @param status
 	 *            Status der Studie
 	 * @throws StudieException
-	 *             StudieException
+	 *             StudieException, wenn Status nicht gesetzt wurde.
 	 */
 	public void setStatus(Status status) throws StudieException {
 
@@ -477,19 +488,17 @@ public class StudieBean extends Filter {
 	}
 
 	/**
-	 * Diese Methode prueft, ob zwei Kontos identisch sind. Zwei Kontos sind
+	 * Diese Methode prueft, ob zwei Studien identisch sind. Zwei Studien sind
 	 * identisch, wenn die Studieneigenschaften identisch sind.
 	 * 
 	 * @param zuvergleichendesObjekt
 	 *            das zu vergleichende Objekt vom selben Typ
-	 * @return <code>true</code>, wenn beide Kontos gleich sind, ansonsten
-	 *         <code>false</code>
+	 * @return true, wenn beide Studien gleich sind, ansonsten false
 	 */
 
 	@Override
 	public boolean equals(Object zuvergleichendesObjekt) {
 
-		/* TODO sofort fixen und testen!! dhaehn */
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy",
 				Locale.GERMANY);
 		StudieBean studieBean = null;
@@ -529,7 +538,11 @@ public class StudieBean extends Filter {
 			if (studieBean.getRandomisationId() != this.getRandomisationId()) {
 				return false;
 			}
-			if(studieBean.getStatus()!=this.getStatus()){
+			if (!studieBean.getRandomisationsart().equals(
+					this.randomisationsart)) {
+				return false;
+			}
+			if (studieBean.getStatus() != this.getStatus()) {
 				return false;
 			}
 		}
@@ -537,18 +550,7 @@ public class StudieBean extends Filter {
 		return true;
 
 	}
-	
-	public void addZentrum(ZentrumBean aZentrum){
-		try {
-			this.getZentren().add(aZentrum);
-		} catch (DatenbankFehlerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		
-		
-	}
+
+
 
 }

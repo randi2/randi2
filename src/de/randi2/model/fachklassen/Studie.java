@@ -110,7 +110,7 @@ public class Studie {
 	 *            Kriterien zum erstellen der Statistik.
 	 * @return StatistikBean, das aktuelle StudieBean.
 	 */
-	// TODO Implementierung
+	// TODO Implementierung, ab Release 2
 	public StatistikBean anzeigenStatistik(int kriterium) {
 
 		return null;
@@ -122,10 +122,10 @@ public class Studie {
 	 * 
 	 * @param patient
 	 *            das aktuelle PatientBean.
-	 * @return patient das aktuelle PatientBean.
 	 */
+
+	// TODO Methode wird evt. nicht gebraucht.(nach Absprache mit Frank)
 	private void hinzufuegenPatient(PatientBean patient) {
-		// TODO Methode wird evt. nicht gebraucht.
 
 	}
 
@@ -134,19 +134,14 @@ public class Studie {
 	 * 
 	 * @param aZentrum
 	 *            Das aktuelle ZentrumBean.
-	 * @return zugewieseneZentren, Zentren, die der Studie zugewiesen werden.
 	 * 
 	 */
-	// TODO Ausimplementierung
+	// TODO Klaerung mit der DB-Gruppe implementierung erfolgt danach(Frank)
 	public void zuweisenZentrum(ZentrumBean aZentrum) {
 		Vector<Studie> zugewieseneZentren = null;
-//		this.aStudieBean.
-		
-		
-	
+
 	}
-	
-	
+
 	/**
 	 * Liefert alle zur Studie gehoerenden Zentren
 	 * 
@@ -158,7 +153,7 @@ public class Studie {
 			throws DatenbankFehlerException {
 		return Studie.getZugehoerigeZentren(this.aStudieBean.getId());
 	}
-	
+
 	/**
 	 * Liefert alle zu der Studie mit der angegebenen ID gehoerenden Zentren.
 	 * 
@@ -199,7 +194,7 @@ public class Studie {
 	}
 
 	/**
-	 * Liefert die Studie mit der uebergebenen Id
+	 * Liefert die Studie mit der uebergebenen Id.
 	 * 
 	 * @param studieId
 	 *            Die ID der angeforderten Studie.
@@ -235,7 +230,7 @@ public class Studie {
 	 *         nicht der Fall ist.
 	 */
 	public boolean equals(Studie zuvergleichendesObjekt) {
-		if (this.aStudieBean.equals(zuvergleichendesObjekt.toString())) {
+		if (this.aStudieBean.equals(zuvergleichendesObjekt.aStudieBean)) {
 			return true;
 		}
 		return false;

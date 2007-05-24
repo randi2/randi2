@@ -1,22 +1,14 @@
 package de.randi2.junittests;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Studie;
-import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.utility.Log4jInit;
 
@@ -32,18 +24,10 @@ public class StudieTest {
 	/**
 	 * Das zugehoerige StudieBean-Objekt.
 	 */
-	private StudieBean studieBean,studieVergleich;
-	
-
+	private StudieBean studieBean, studieVergleich;
 
 	/**
-	 * Das zugehoerige Studie-Objekt.
-	 */
-	private Studie studie;
-
-	/**
-	 * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und
-	 * es funktioniert.
+	 * Initialisiert den Logger.
 	 * 
 	 */
 	@BeforeClass
@@ -60,7 +44,20 @@ public class StudieTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		studie = new Studie(studieBean);
+		studieBean = new StudieBean();
+		studieBean.setId(122);
+		studieBean
+				.setBeschreibung("Dies ist eine Beschreibung zu einer Studie.");
+		GregorianCalendar startDatum = new GregorianCalendar();
+		startDatum.add(Calendar.MONTH, +2);
+		GregorianCalendar endDatum = new GregorianCalendar();
+		endDatum.add(Calendar.MONTH, +7);
+		studieBean.setStudienZeitraum(startDatum, endDatum);
+		studieBean.setStudienprotokollPfad("pfad");
+		studieBean.setRandomisationId(122);
+		studieBean
+				.setRandomisationseigenschaften("Randomisationseigenschaften");
+		studieBean.setStatus(Studie.Status.AKTIV);
 	}
 
 	/**
@@ -71,40 +68,41 @@ public class StudieTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
+		studieBean = null;
 	}
 
 	/**
-	 * Test method for anzeigenStatistik() Test method for
-	 * {@link de.randi2.model.fachklassen.Studie#anzeigenStatistik(int)}.
-	 * 
 	 * Ueberpruefung, ob eine Statistik nach den vorgegebenen Kriterien
 	 * angezeigt wird.
+	 * 
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.Studie#anzeigenStatistik(int)}.
+	 * 
+	 * 
 	 */
+	// TODO Klaerung Frank
 	@Test
 	public void testAnzeigenStatistik() {
 		fail("Not yet implemented");
 	}
 
 	/**
-	 * Test method for zuweisenZentrum() Test method for
+	 * Ueberpruefung, ob Zentrum gesetzt wurde, um es einer Studie zuzuweisen.
+	 * 
+	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Studie#zuweisenZentrum()}.
 	 * 
-	 * Ueberpruefung, ob Zentrum gesetzt wurde, um es einer Studie zuzuweisen.
+	 * 
 	 */
+	// TODO Klaerung Frank
 	@Test
 	public void testZuweisenZentrum() {
-		// try{
-		// studie.zuweisenZentrum(studie.getZentrum());
-		// }
-		// catch(Exception e){
-		// fail("[]");
-		// }
+		fail("Not yet implemented");
 	}
-
-	
 
 	/**
 	 * Testet StatusEnum
+	 * 
 	 */
 	@Test
 	public void testStudieParser() {
@@ -112,9 +110,9 @@ public class StudieTest {
 		Studie.Status testeStatus;
 		try {
 			Studie.Status.parseStatus("Test");
-			fail("[FEHLER]testStudieParser sollte eine Exception auslösen");
-		} catch (Exception e) {
 
+		} catch (Exception e) {
+			assertEquals(StudieException.STATUS_UNGUELTIG,e.getMessage());
 		}
 		for (Studie.Status aStatus : Studie.Status.values()) {
 			try {
@@ -122,114 +120,114 @@ public class StudieTest {
 				assertEquals(testeStatus, aStatus);
 				assertEquals(testeStatus.toString(), aStatus.toString());
 			} catch (StudieException e) {
-				fail("[FEHLER]testStudieParser");
+				fail(e.getMessage());
 			}
 
 		}
 
 	}
+
+	/**
+	 * Testet, ob die Zentren der Studie zugeordnet werden koennen.
+	 * 
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.Studie#getZugehoerigeZentren()}.
+	 */
+	// TODO Klaerung Frank
 	@Test
-	public void testStaticGetZugehoerigeZentren(){
-		fail("ads");
+	public void testStaticGetZugehoerigeZentren() {
+		fail("Not yet implemented");
 	}
 
 	/**
+	 * Testet, ob die Zentren der Studie zugeordnet werden koennen.
 	 * 
-	 * 
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.Studie#getZugehoerigeZentren()}.
 	 */
+	// TODO Klaerung Frank
 	@Test
 	public void testGetZugehoerigeZentren() {
 
-		fail("implementieren, sofort!! dhaehn");
-
-	}
-	@Test
-	public void testgetZugehoerigeStrata(){
-		fail("ads");
-	}
-
-	/**
-	 * 
-	 * 
-	 */
-	@Test
-	public void testGetStrata() {
-
-		fail("implementieren, sofort!! dhaehn");
+		fail("Not yet implemented");
 
 	}
 
 	/**
+	 * Testet, ob die Strata der Studie zugeordnet werden koennen.
 	 * 
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.Studie#getZugehoerigeStrata()}.
 	 * 
 	 */
+	// TODO Klaerung Frank
+	@Test
+	public void testgetZugehoerigeStrata() {
+		fail("Not yet implemented");
+	}
+
+	/**
+	 * Testet, ob zur Id die richtige Studie gefunden und ausgelesen werden
+	 * konnte.
+	 * 
+	 * Test method for 
+	 * {@link de.randi2.model.fachklassen.Studie#getStudie()}.
+	 */
+	// TODO Klaerung Frank
 	@Test
 	public void testGetStudie() {
 
-		fail("implementieren, sofort!! dhaehn");
+		fail("Not yet implemented");
 
 	}
 
 	/**
-	 * @throws StudieException 
-	 * @throws Exception 
+	 * Testet, ob zwei nicht identische Studien auch als nicht identisch erkannt
+	 * werden.
 	 * 
+	 * Test method for 
+	 * {@link de.randi2.model.fachklassen.Studie#equals(Object)}.
 	 */
 	@Test
-	public void testEqualsFalse() throws Exception {
-		studieBean = new StudieBean();
-		studieBean.setId(122);
-		studieBean
-				.setBeschreibung("Dies ist eine Beschreibung zu einer Studie.");
-		GregorianCalendar startDatum = new GregorianCalendar();
-		startDatum.add(Calendar.MONTH, +2);
-		GregorianCalendar endDatum = new GregorianCalendar();
-		endDatum.add(Calendar.MONTH, +7);
-		studieBean.setStudienZeitraum(startDatum, endDatum);
-		studieBean.setStudienprotokollPfad("pfad");
-		studieBean.setRandomisationId(122);
-		studieBean.setStatus(Studie.Status.AKTIV);
-		
-		studieVergleich = new StudieBean();
-		studieVergleich.setId(122);
-		studieVergleich
-				.setBeschreibung("Dies ist eine Beschreibung zu einer Studie.");
-		GregorianCalendar startDatumVergleich = new GregorianCalendar();
-		startDatumVergleich.add(Calendar.MONTH, +2);
-		GregorianCalendar endDatumVergleich = new GregorianCalendar();
-		endDatumVergleich.add(Calendar.MONTH, +7);
-		studieVergleich.setStudienZeitraum(startDatumVergleich, endDatumVergleich);
-		studieVergleich.setStudienprotokollPfad("pfad");
-		studieVergleich.setRandomisationId(122);
-		studieVergleich.setStatus(Studie.Status.BEENDET);
-		
-		//TODO
-		
-		assertFalse(studieBean.equals(studieVergleich));
+	public void testEqualsFalse() {
+		try {
+
+			studieVergleich = new StudieBean();
+			studieVergleich.setId(122);
+			studieVergleich
+					.setBeschreibung("Dies ist eine Beschreibung zu einer Studie.");
+			GregorianCalendar startDatumVergleich = new GregorianCalendar();
+			startDatumVergleich.add(Calendar.MONTH, +2);
+			GregorianCalendar endDatumVergleich = new GregorianCalendar();
+			endDatumVergleich.add(Calendar.MONTH, +7);
+			studieVergleich.setStudienZeitraum(startDatumVergleich,
+					endDatumVergleich);
+			studieVergleich.setStudienprotokollPfad("pfad");
+			studieVergleich.setRandomisationId(122);
+			studieVergleich.setStatus(Studie.Status.BEENDET);
+			studieVergleich
+					.setRandomisationseigenschaften("Randomisationseigenschaften");
+			assertFalse(studieBean.equals(studieVergleich));
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
 
 	}
+
+	/**
+	 * Testet, ob zwei identische Studien auch als identisch erkannt werden.
+	 * 
+	 * Test method for 
+	 * {@link de.randi2.model.fachklassen.Studie#equals(Object)}.
+	 */
 	@Test
-	public void testEqualsTrue()throws Exception{
-		
-		studieBean = new StudieBean();
-		studieBean.setId(122);
-		studieBean
-				.setBeschreibung("Dies ist eine Beschreibung zu einer Studie.");
-		GregorianCalendar startDatum = new GregorianCalendar();
-		startDatum.add(Calendar.MONTH, +2);
-		GregorianCalendar endDatum = new GregorianCalendar();
-		endDatum.add(Calendar.MONTH, +7);
-		studieBean.setStudienZeitraum(startDatum, endDatum);
-		studieBean.setStudienprotokollPfad("pfad");
-		studieBean.setRandomisationId(122);
-		studieBean.setStatus(Studie.Status.AKTIV);
-		
-		
+	public void testEqualsTrue() {
+		try{
 		assertTrue(studieBean.equals(studieBean));
-		
-		
-	}
+		}catch(Exception e){
+			fail(e.getMessage());
+		}
 
-	
+	}
 
 }
