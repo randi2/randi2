@@ -287,8 +287,7 @@ public class StudieBean extends Filter {
 	 * 
 	 * @param studienarme
 	 *            Studienarme
-	 * @throws StudieException
-	 *             StudieException
+	 * @throws StudieException wenn Studienarme nicht gesetzt wurden
 	 */
 	public void setStudienarme(Vector<StudienarmBean> studienarme)
 			throws StudieException {
@@ -354,7 +353,7 @@ public class StudieBean extends Filter {
 	 * 
 	 * @param zentren
 	 *            zu setzenden Zentren
-	 * @throws StudieException, wenn Zentrum nicht gesetzt wurde.
+	 * @throws StudieException wenn Zentrum nicht gesetzt wurde.
 	 */
 	public void setZentren(Vector<ZentrumBean> zentren) throws StudieException {
 		this.zentren = zentren;
@@ -381,7 +380,7 @@ public class StudieBean extends Filter {
 	 * 
 	 * @param strata
 	 *            Strata einer Studie
-	 * @throws StudieException,
+	 * @throws StudieException
 	 *             wenn kein Strata nicht gesetzt wurde.
 	 */
 	public void setStrata(Vector<StrataBean> strata) throws StudieException {
@@ -419,7 +418,7 @@ public class StudieBean extends Filter {
 	 * @param status
 	 *            Status der Studie
 	 * @throws StudieException
-	 *             StudieException, wenn Status nicht gesetzt wurde.
+	 *             StudieException wenn Status nicht gesetzt wurde.
 	 */
 	public void setStatus(Status status) throws StudieException {
 
