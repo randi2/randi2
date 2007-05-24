@@ -1,13 +1,19 @@
 package de.randi2.junittests;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
@@ -26,7 +32,9 @@ public class StudieTest {
 	/**
 	 * Das zugehoerige StudieBean-Objekt.
 	 */
-	private StudieBean studieBean;
+	private StudieBean studieBean,studieVergleich;
+	
+
 
 	/**
 	 * Das zugehoerige Studie-Objekt.
@@ -93,16 +101,7 @@ public class StudieTest {
 		// }
 	}
 
-	/**
-	 * Test method for hinzufuegenPatient() Test method for
-	 * {@link de.randi2.model.fachklassen.Studie#hinzufuegenPatient()}.
-	 * 
-	 * Ueberpruefung, ob ein Patient einer Studie zugewiesen wird.
-	 */
-	@Test
-	public void testHinzufuegenPatient() {
-		fail("Not yet implemented");
-	}
+	
 
 	/**
 	 * Testet StatusEnum
@@ -129,6 +128,10 @@ public class StudieTest {
 		}
 
 	}
+	@Test
+	public void testStaticGetZugehoerigeZentren(){
+		fail("ads");
+	}
 
 	/**
 	 * 
@@ -139,6 +142,10 @@ public class StudieTest {
 
 		fail("implementieren, sofort!! dhaehn");
 
+	}
+	@Test
+	public void testgetZugehoerigeStrata(){
+		fail("ads");
 	}
 
 	/**
@@ -164,12 +171,65 @@ public class StudieTest {
 	}
 
 	/**
+	 * @throws StudieException 
+	 * @throws Exception 
 	 * 
 	 */
 	@Test
-	public void testEquals() {
-
-		fail("implementieren, sofort!! dhaehn");
+	public void testEqualsFalse() throws Exception {
+		studieBean = new StudieBean();
+		studieBean.setId(122);
+		studieBean
+				.setBeschreibung("Dies ist eine Beschreibung zu einer Studie.");
+		GregorianCalendar startDatum = new GregorianCalendar();
+		startDatum.add(Calendar.MONTH, +2);
+		GregorianCalendar endDatum = new GregorianCalendar();
+		endDatum.add(Calendar.MONTH, +7);
+		studieBean.setStudienZeitraum(startDatum, endDatum);
+		studieBean.setStudienprotokollPfad("pfad");
+		studieBean.setRandomisationId(122);
+		studieBean.setStatus(Studie.Status.AKTIV);
+		
+		studieVergleich = new StudieBean();
+		studieVergleich.setId(122);
+		studieVergleich
+				.setBeschreibung("Dies ist eine Beschreibung zu einer Studie.");
+		GregorianCalendar startDatumVergleich = new GregorianCalendar();
+		startDatumVergleich.add(Calendar.MONTH, +2);
+		GregorianCalendar endDatumVergleich = new GregorianCalendar();
+		endDatumVergleich.add(Calendar.MONTH, +7);
+		studieVergleich.setStudienZeitraum(startDatumVergleich, endDatumVergleich);
+		studieVergleich.setStudienprotokollPfad("pfad");
+		studieVergleich.setRandomisationId(122);
+		studieVergleich.setStatus(Studie.Status.BEENDET);
+		
+		//TODO
+		
+		assertFalse(studieBean.equals(studieVergleich));
 
 	}
+	@Test
+	public void testEqualsTrue()throws Exception{
+		
+		studieBean = new StudieBean();
+		studieBean.setId(122);
+		studieBean
+				.setBeschreibung("Dies ist eine Beschreibung zu einer Studie.");
+		GregorianCalendar startDatum = new GregorianCalendar();
+		startDatum.add(Calendar.MONTH, +2);
+		GregorianCalendar endDatum = new GregorianCalendar();
+		endDatum.add(Calendar.MONTH, +7);
+		studieBean.setStudienZeitraum(startDatum, endDatum);
+		studieBean.setStudienprotokollPfad("pfad");
+		studieBean.setRandomisationId(122);
+		studieBean.setStatus(Studie.Status.AKTIV);
+		
+		
+		assertTrue(studieBean.equals(studieBean));
+		
+		
+	}
+
+	
+
 }

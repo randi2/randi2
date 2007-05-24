@@ -1,5 +1,6 @@
 package de.randi2.model.fachklassen.beans;
 
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Vector;
@@ -9,6 +10,7 @@ import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Studie;
+import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.Studie.Status;
 import de.randi2.utility.NullKonstanten;
 
@@ -325,10 +327,38 @@ public class StudieBean extends Filter {
 	 */
 	public Vector<ZentrumBean> getZentren() throws DatenbankFehlerException {
 		if (zentren == null) {
+			
 			zentren = Studie.getZugehoerigeZentren(this.getId());
 
 		}
 		return zentren;
+	}
+
+	/**
+	 * Liefert die Anzahl der zugeordneten Zentren.
+	 * 
+	 * @return die Anzahl zugeordneten Zentren.
+	 */
+	public int getAnzahlZentren() {
+
+		if (this.zentren == null) {
+
+			return 0;
+
+		}
+
+		return zentren.size();
+
+	}
+	/**
+	 * Setzt die teilnehmenden Zentren
+	 * 
+	 * @param zentren
+	 *            zu setzenden Zentren
+	 */
+	// TODO
+	public void setZentren(Vector<ZentrumBean> zentren)throws StudieException {
+		this.zentren = zentren;
 	}
 
 	/**
@@ -346,16 +376,21 @@ public class StudieBean extends Filter {
 
 		return strata;
 	}
-
-	/**
-	 * Setzt die teilnehmenden Zentren
-	 * 
-	 * @param zentren
-	 *            zu setzenden Zentren
-	 */
-	public void setZentren(Vector<ZentrumBean> zentren) {
-		this.zentren = zentren;
+	//TODO
+	public void setStrata(Vector<StrataBean>strata)throws StudieException{
+		this.strata=strata;
+		
 	}
+	public int getAnzahlStrata(){
+		
+		if(strata==null){
+			return 0;
+		}
+		return strata.size();
+		
+	}
+
+	
 
 	/**
 	 * Uebergibt den aktuellen Status.
@@ -455,32 +490,65 @@ public class StudieBean extends Filter {
 	public boolean equals(Object zuvergleichendesObjekt) {
 
 		/* TODO sofort fixen und testen!! dhaehn */
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy",
+				Locale.GERMANY);
+		StudieBean studieBean = null;
+
+		if (zuvergleichendesObjekt == null) {
+			return false;
+		}
+		if (zuvergleichendesObjekt instanceof StudieBean) {
+			studieBean = (StudieBean) zuvergleichendesObjekt;
+
+			if (studieBean.getId() != this.getId()) {
+				return false;
+
+			}
+			if (!studieBean.getBeschreibung().equals(this.getBeschreibung())) {
+				return false;
+			}
+			if (studieBean.getStartDatum() == null
+					&& this.getStartDatum() != null) {
+				return false;
+			} else if (studieBean.getStartDatum() != null
+					&& !(sdf.format(studieBean.getStartDatum().getTime())
+							.equals(sdf.format(this.getStartDatum().getTime())))) {
+				return false;
+			}
+			if (studieBean.getEndDatum() == null && this.getEndDatum() != null) {
+				return false;
+			} else if (studieBean.getEndDatum() != null
+					&& !(sdf.format(studieBean.getEndDatum().getTime())
+							.equals(sdf.format(this.getEndDatum().getTime())))) {
+				return false;
+			}
+			if (!studieBean.getStudienprotokollpfad().equals(
+					this.getStudienprotokollpfad())) {
+				return false;
+			}
+			if (studieBean.getRandomisationId() != this.getRandomisationId()) {
+				return false;
+			}
+			if(studieBean.getStatus()!=this.getStatus()){
+				return false;
+			}
+		}
+
 		return true;
 
-		/*
-		 * if (zuvergleichendesObjekt == null) { return false; } if
-		 * (zuvergleichendesObjekt instanceof StudieBean) { StudieBean
-		 * beanZuvergleichen = (StudieBean) zuvergleichendesObjekt;
-		 * 
-		 * if (this.getId() != beanZuvergleichen.getId()) { return false; } if
-		 * (this.getRandomisationId() != beanZuvergleichen
-		 * .getRandomisationId()) {
-		 * 
-		 * return false; } if (!this.getBeschreibung().equals(
-		 * beanZuvergleichen.getBeschreibung())) {
-		 * 
-		 * return false; } if(this.getStartDatum().getTimeInMillis() !=
-		 * beanZuvergleichen .getStartDatum().getTimeInMillis()) {
-		 * 
-		 * return false; } if(this.getEndDatum().getTimeInMillis() !=
-		 * beanZuvergleichen .getStartDatum().getTimeInMillis()) {
-		 * 
-		 * return false; } if (this.getStudienprotokollpfad() ==
-		 * beanZuvergleichen .getStudienprotokollpfad()) {
-		 * 
-		 * return false; } }
-		 * 
-		 * return false;
-		 */
 	}
+	
+	public void addZentrum(ZentrumBean aZentrum){
+		try {
+			this.getZentren().add(aZentrum);
+		} catch (DatenbankFehlerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+	}
+
 }

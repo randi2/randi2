@@ -125,7 +125,7 @@ public class Studie {
 	 * @return patient das aktuelle PatientBean.
 	 */
 	private void hinzufuegenPatient(PatientBean patient) {
-		// TODO Algorithmus Implementierung
+		// TODO Methode wird evt. nicht gebraucht.
 
 	}
 
@@ -138,9 +138,12 @@ public class Studie {
 	 * 
 	 */
 	// TODO Ausimplementierung
-	public Vector<Studie> zuweisenZentrum(ZentrumBean aZentrum) {
+	public void zuweisenZentrum(ZentrumBean aZentrum) {
 		Vector<Studie> zugewieseneZentren = null;
-		return zugewieseneZentren;
+//		this.aStudieBean.
+		
+		
+	
 	}
 	
 	
