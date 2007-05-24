@@ -10,7 +10,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.model.exceptions.PersonException;
-import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.PersonBean.Titel;
 import de.randi2.utility.Log4jInit;
