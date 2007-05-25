@@ -546,6 +546,9 @@ public class StudieBean extends Filter {
 				return false;
 
 			}
+			if(!studieBean.getName().equals(this.getName())){
+				return false;
+			}
 			if (!studieBean.getBeschreibung().equals(this.getBeschreibung())) {
 				return false;
 			}
@@ -576,6 +579,16 @@ public class StudieBean extends Filter {
 				return false;
 			}
 			if (studieBean.getStatus() != this.getStatus()) {
+				return false;
+			}
+			if(studieBean.getAnzahlZentren()!=this.getAnzahlZentren()){
+				return false;
+			}
+			if(studieBean.getAnzahlStrata()!=this.getAnzahlStrata()){
+				return false;
+			}
+			//TODO getStudienarme
+			if(studieBean.getBenutzerkontoId()!=this.getBenutzerkontoId()){
 				return false;
 			}
 		}
