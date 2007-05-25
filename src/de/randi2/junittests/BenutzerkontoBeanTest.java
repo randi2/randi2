@@ -14,7 +14,6 @@ import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.Log4jInit;
-import de.randi2.utility.NullKonstanten;
 
 /**
  * Testklasse fuer die Klasse BenutzerkontoBean.
@@ -321,10 +320,10 @@ public class BenutzerkontoBeanTest extends Filter {
 				monatLetzterLogin - 1, tagLetzterLogin);
 
 		try {
-			aKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,benutzername, passwort, zentrumId, rolle, benutzerId,
+			aKonto = new BenutzerkontoBean(14,benutzername, passwort, zentrumId, rolle, benutzerId,
 					false,  ersterLogin, letzterLogin);
 
-			cKonto = new BenutzerkontoBean(NullKonstanten.NULL_LONG,"Abctest", "abc@cdef", zentrumId, null, benutzerId,
+			cKonto = new BenutzerkontoBean(13,"Abctest", "abc@cdef", zentrumId, null, benutzerId,
 					false, null, null);
 		} catch (DatenbankFehlerException e) {
 			fail(e.getMessage());
@@ -443,7 +442,7 @@ public class BenutzerkontoBeanTest extends Filter {
 	@Test
 	public void testSetId() {
 		try {
-			aKonto.setId(aKonto.getId());
+			aKonto.setId(13);
 		} catch (Exception e) {
 			fail("[FEHLER]testSetId() sollte keine Exception auslösen");
 		}
