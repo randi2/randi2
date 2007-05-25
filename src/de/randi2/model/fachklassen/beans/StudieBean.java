@@ -18,29 +18,29 @@ import de.randi2.utility.NullKonstanten;
  * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
  * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
  * @version $Id$
- *  
+ * 
  */
 public class StudieBean extends Filter {
 
 	/**
 	 * Name der Studie.
 	 */
-	private String name = null;
+	private String aName = null;
 
 	/**
 	 * Beschreibung der Studie.
 	 */
-	private String beschreibung = null;
+	private String aBeschreibung = null;
 
 	/**
 	 * Das Startdatum der Studie.
 	 */
-	private GregorianCalendar startDatum = null;
+	private GregorianCalendar aStartDatum = null;
 
 	/**
 	 * Das Enddatum der Studie.
 	 */
-	private GregorianCalendar endDatum = null;
+	private GregorianCalendar aEndDatum = null;
 
 	/**
 	 * Der Pfad des hinterlegten Protokolls der Studie.
@@ -55,22 +55,22 @@ public class StudieBean extends Filter {
 	/**
 	 * Typ der Randomisation.
 	 */
-	private String randomisationsart = null;
+	private String aRandomisationsart = null;
 
 	/**
 	 * ID der Randomisation.
 	 */
-	private long randomisationId = NullKonstanten.NULL_LONG;
+	private long aRandomisationId = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Das Zentrum der Studie.
 	 */
-	private Vector<ZentrumBean> zentren = null;
+	private Vector<ZentrumBean> aZentren = null;
 
 	/**
 	 * Strata der Studie.
 	 */
-	private Vector<StrataBean> strata = null;
+	private Vector<StrataBean> aStrata = null;
 
 	/**
 	 * Das Benutzerkonto der Studie.
@@ -85,7 +85,7 @@ public class StudieBean extends Filter {
 	/**
 	 * Status der Studie.
 	 */
-	private Status status = null;
+	private Status aStatus = null;
 
 	/**
 	 * Konstruktor mit allen Attributen der Klasse.
@@ -114,7 +114,7 @@ public class StudieBean extends Filter {
 
 		this.setId(id);
 		this.setBeschreibung(beschreibung);
-		this.setStudienZeitraum(startDatum, endDatum);
+		this.setStudienZeitraum(aStartDatum, aEndDatum);
 		this.setStudienprotokollPfad(studienprotokollPfad);
 		this.setRandomisationId(randomisationId);
 	}
@@ -159,7 +159,7 @@ public class StudieBean extends Filter {
 	 * @return beschreibung, Beschreibung der Studie.
 	 */
 	public String getBeschreibung() {
-		return beschreibung;
+		return aBeschreibung;
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class StudieBean extends Filter {
 	 *            Beschreibung der Studie.
 	 */
 	public void setBeschreibung(String beschreibung) {
-		this.beschreibung = beschreibung;
+		this.aBeschreibung = beschreibung;
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class StudieBean extends Filter {
 	 * @return endDatum, Enddatum der Studie.
 	 */
 	public GregorianCalendar getEndDatum() {
-		return endDatum;
+		return aEndDatum;
 	}
 
 	/**
@@ -187,7 +187,7 @@ public class StudieBean extends Filter {
 	 * @return name, Name der Studie wird uebergeben.
 	 */
 	public String getName() {
-		return name;
+		return aName;
 	}
 
 	/**
@@ -214,7 +214,7 @@ public class StudieBean extends Filter {
 			if (name.length() < 3 || name.length() > 50) {
 				throw new StudieException(StudieException.STUDIENNAME_UNGUELTIG);
 			}
-			this.name = name;
+			this.aName = name;
 		}
 
 	}
@@ -225,7 +225,7 @@ public class StudieBean extends Filter {
 	 * @return randomisationsart, Randomisationsart der Studie.
 	 */
 	public String getRandomisationsart() {
-		return randomisationsart;
+		return aRandomisationsart;
 	}
 
 	/**
@@ -236,7 +236,7 @@ public class StudieBean extends Filter {
 	 *            Randomisationsklasse
 	 */
 	public void setRandomisationseigenschaften(String randomisationsart) {
-		this.randomisationsart = randomisationsart;
+		this.aRandomisationsart = randomisationsart;
 	}
 
 	/**
@@ -245,7 +245,7 @@ public class StudieBean extends Filter {
 	 * @return startDatum, Start der Studie.
 	 */
 	public GregorianCalendar getStartDatum() {
-		return startDatum;
+		return aStartDatum;
 	}
 
 	/**
@@ -269,8 +269,8 @@ public class StudieBean extends Filter {
 				|| startDatum.after(endDatum)) {
 			throw new StudieException(StudieException.DATUM_FEHLER);
 		}
-		this.endDatum = endDatum;
-		this.startDatum = startDatum;
+		this.aEndDatum = endDatum;
+		this.aStartDatum = startDatum;
 	}
 
 	/**
@@ -287,7 +287,8 @@ public class StudieBean extends Filter {
 	 * 
 	 * @param studienarme
 	 *            Studienarme
-	 * @throws StudieException wenn Studienarme nicht gesetzt wurden
+	 * @throws StudieException
+	 *             wenn Studienarme nicht gesetzt wurden
 	 */
 	public void setStudienarme(Vector<StudienarmBean> studienarme)
 			throws StudieException {
@@ -323,12 +324,12 @@ public class StudieBean extends Filter {
 	 *             Exception, wenn zugehoeriges Zentrum nicht gefunden wurden.
 	 */
 	public Vector<ZentrumBean> getZentren() throws DatenbankFehlerException {
-		if (zentren == null) {
+		if (aZentren == null) {
 
-			zentren = Studie.getZugehoerigeZentren(this.getId());
+			aZentren = Studie.getZugehoerigeZentren(this.getId());
 
 		}
-		return zentren;
+		return aZentren;
 	}
 
 	/**
@@ -338,13 +339,13 @@ public class StudieBean extends Filter {
 	 */
 	public int getAnzahlZentren() {
 
-		if (this.zentren == null) {
+		if (this.aZentren == null) {
 
 			return 0;
 
 		}
 
-		return zentren.size();
+		return aZentren.size();
 
 	}
 
@@ -353,10 +354,11 @@ public class StudieBean extends Filter {
 	 * 
 	 * @param zentren
 	 *            zu setzenden Zentren
-	 * @throws StudieException wenn Zentrum nicht gesetzt wurde.
+	 * @throws StudieException
+	 *             wenn Zentrum nicht gesetzt wurde.
 	 */
 	public void setZentren(Vector<ZentrumBean> zentren) throws StudieException {
-		this.zentren = zentren;
+		this.aZentren = zentren;
 	}
 
 	/**
@@ -368,11 +370,11 @@ public class StudieBean extends Filter {
 	 */
 	public Vector<StrataBean> getStrata() throws DatenbankFehlerException {
 
-		if (strata == null) {
-			strata = Studie.getZugehoerigeStrata(this.getId());
+		if (aStrata == null) {
+			aStrata = Studie.getZugehoerigeStrata(this.getId());
 		}
 
-		return strata;
+		return aStrata;
 	}
 
 	/**
@@ -384,7 +386,7 @@ public class StudieBean extends Filter {
 	 *             wenn kein Strata nicht gesetzt wurde.
 	 */
 	public void setStrata(Vector<StrataBean> strata) throws StudieException {
-		this.strata = strata;
+		this.aStrata = strata;
 
 	}
 
@@ -395,10 +397,10 @@ public class StudieBean extends Filter {
 	 */
 	public int getAnzahlStrata() {
 
-		if (strata == null) {
+		if (aStrata == null) {
 			return 0;
 		}
-		return strata.size();
+		return aStrata.size();
 
 	}
 
@@ -409,7 +411,7 @@ public class StudieBean extends Filter {
 	 */
 	public Status getStatus() {
 
-		return this.status;
+		return this.aStatus;
 	}
 
 	/**
@@ -427,7 +429,7 @@ public class StudieBean extends Filter {
 			if (status == null) {
 				throw new StudieException(StudieException.STATUSFEHLER);
 			}
-			this.status = status;
+			this.aStatus = status;
 
 		}
 	}
@@ -457,7 +459,7 @@ public class StudieBean extends Filter {
 	 * @return randomisationId Id der Randomisation.
 	 */
 	public long getRandomisationId() {
-		return randomisationId;
+		return aRandomisationId;
 	}
 
 	/**
@@ -467,7 +469,7 @@ public class StudieBean extends Filter {
 	 *            Id der Randomisation.
 	 */
 	public void setRandomisationId(long randomisationId) {
-		this.randomisationId = randomisationId;
+		this.aRandomisationId = randomisationId;
 	}
 
 	/**
@@ -479,11 +481,43 @@ public class StudieBean extends Filter {
 	 */
 	@Override
 	public String toString() {
-		return "id:\t" + this.getId() + "\trandomistationsId:\t"
-				+ this.randomisationId + "\tbeschreibung:\t"
-				+ this.beschreibung + "\tstartDatum\t" + this.startDatum
-				+ "\tendDatum:\t" + this.endDatum + "\tstudienprotokollPfad\t"
-				+ this.studienprotokollPfad;
+		String studieString = "id:\t" + this.getId() + "\name:\t" + this.aName
+				+ "\tbeschreibung:\t" + this.aBeschreibung + "\tstartDatum\t"
+				+ this.aStartDatum + "\tendDatum:\t" + this.aEndDatum
+				+ "\tstudienprotokollPfad\t" + this.studienprotokollPfad
+				+ "\trandomisationsart\t" + this.getRandomisationsart()
+				+ "\trandomistationsId:\t" + this.aRandomisationId
+				+ "\tbenutzerkontobject:\t" + this.aBenutzerkonto
+				+ "\tbenutzerkontoid:\t" + this.getBenutzerkontoId()
+				+ "\tstatus:\t" + this.aStatus;
+
+		if (aStudienarme == null) {
+			studieString += "\tstudienarme:\t" + "keine Studienarme";
+		} else {
+			for (int i = 0; i < aStudienarme.size(); i++) {
+				studieString += "\tstudienarme:\t"
+						+ aStudienarme.elementAt(i).toString();
+			}
+		}
+
+		if (aZentren == null) {
+			studieString += "\tzentren:\t" + "keine Zentren";
+		} else {
+			for (int i = 0; i < aZentren.size(); i++) {
+				studieString += "\tzentren:\t"
+						+ aZentren.elementAt(i).toString();
+			}
+		}
+		if (aStrata == null) {
+			studieString += "keine Strata";
+		} else {
+			for (int i = 0; i < aStrata.size(); i++) {
+				studieString += "\tzentren:\t"
+						+ aStrata.elementAt(i).toString();
+			}
+		}
+
+		return studieString;
 	}
 
 	/**
@@ -538,7 +572,7 @@ public class StudieBean extends Filter {
 				return false;
 			}
 			if (!studieBean.getRandomisationsart().equals(
-					this.randomisationsart)) {
+					this.aRandomisationsart)) {
 				return false;
 			}
 			if (studieBean.getStatus() != this.getStatus()) {
@@ -549,7 +583,5 @@ public class StudieBean extends Filter {
 		return true;
 
 	}
-
-
 
 }
