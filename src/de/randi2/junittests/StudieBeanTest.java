@@ -171,7 +171,7 @@ public class StudieBeanTest {
 					testeStudieBezeichnung[i]));
 		}
 		assertFalse(studieBean.getBeschreibung().equals("test"));
-	}
+	} 
  
 	/**
 	 * 
