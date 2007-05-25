@@ -7,7 +7,6 @@ import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,7 +14,6 @@ import org.junit.Test;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
-import de.randi2.model.exceptions.RechtException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Rolle;
@@ -24,14 +22,9 @@ import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.Log4jInit;
-import de.randi2.utility.NullKonstanten;
 
 /**
- * TODO sobald in der Datenbank gespeichert werden kann, sind die
- * testGetBenutzer.. Methoden Unsinn, da diese Benutzer nicht mehr vorhanden
- * sein werden. Vielmehr sollte dann einmal ein Benutzerkonto in der Datenbank
- * gespeichert werden und dieses dann via Benutzerkonto.getBenutzer(..)
- * ausgelesen werden und kontrolliert werden, ob diese dann identisch sind
+ * Testklasse fuer die Klasse Benutzerkonto.
  * 
  * 
  * @author Katharina Chruscz [kchruscz@stud.hs-heilbronn.de]
@@ -46,8 +39,6 @@ public class BenutzerkontoTest {
 
 	private Rolle rolle;
 
-	// TODO Spaeter wird Titel als eine Enum realisiert werden - deswegen muss
-	// man das auch danach anpassen
 	private PersonBean benutzer;
 
 	private PersonBean ansprechpartner;
@@ -100,7 +91,7 @@ public class BenutzerkontoTest {
 					PersonBean.Titel.PROF, 'm', "user@hs-heilbronn.de",
 					"01760099334", "017600972487", "01760427424");
 
-			bKontoBean = new BenutzerkontoBean(NullKonstanten.DUMMY_ID, benutzername, passwort, 1, rolle,
+			bKontoBean = new BenutzerkontoBean(13, benutzername, passwort, 1, rolle,
 					0, gesperrt, ersterLogin, letzterLogin);
 		} catch (BenutzerkontoException e) {
 			e.printStackTrace();
@@ -153,11 +144,6 @@ public class BenutzerkontoTest {
 	 */
 	@Test
 	public void testAnlegenBenutzer() throws DatenbankFehlerException, BenutzerkontoException {
-		ersterLogin = new GregorianCalendar(2006, 10, 20);
-		letzterLogin = new GregorianCalendar(2006, 11, 30);
-		passwort = KryptoUtil.getInstance().hashPasswort("user3PW");
-		bKontoBean = new BenutzerkontoBean(0,"userChef", passwort,
-					0,Rolle.getAdmin(),0,false, ersterLogin, letzterLogin);
 		Benutzerkonto.anlegenBenutzer(bKontoBean);
 	}
 
@@ -205,7 +191,7 @@ public class BenutzerkontoTest {
 		BenutzerkontoBean anderesKontoBean;
 
 		try {
-			anderesKontoBean = new BenutzerkontoBean(0, benutzername2, passwort2, 1,
+			anderesKontoBean = new BenutzerkontoBean(12, benutzername2, passwort2, 1,
 					rolle, 0, gesperrt, ersterLogin, letzterLogin);
 			anderesKontoBean.setFilter(true);
 			Benutzerkonto cKonto = new Benutzerkonto(anderesKontoBean);
