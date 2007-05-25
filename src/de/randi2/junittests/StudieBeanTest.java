@@ -1,6 +1,7 @@
 package de.randi2.junittests;
 
 import static org.junit.Assert.*;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Studie;
@@ -17,6 +19,7 @@ import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
+import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Log4jInit;
 
@@ -67,8 +70,15 @@ public class StudieBeanTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		
+		HashMap<Long, String> hash = new HashMap<Long, String>();
+		long key = 1;
+
+		hash.put(key, "Weiblich");
 		studieBean = new StudieBean();
 		studieBean.setId(12);
+		studieBean.setName("Studiename");
+		studieBean.setStatus(Studie.Status.BEENDET);
 		studieBean
 				.setBeschreibung("Dies ist eine Beschreibung zu einer Studie.");
 		GregorianCalendar startDatum = new GregorianCalendar();
@@ -80,6 +90,27 @@ public class StudieBeanTest {
 		studieBean.setRandomisationId(122);
 		studieBean
 				.setRandomisationseigenschaften("Randomisationseigenschaften");
+		
+		Vector<ZentrumBean> aTestZentrum = new Vector<ZentrumBean>();
+
+		aTestZentrum.add(new ZentrumBean(12, "Instituition", "Abteilung",
+				"ort", "64668", "Strasse", "12", 1, 
+				"oe?jie3Yiesaoe?jie3Yiesaoe?jie3Yiesaoe?jie3Yiesaoe?jie3Yiesa414a",true));
+		studieBean.setZentren(aTestZentrum);
+		
+		Vector<StrataBean> aTestStrata = new Vector<StrataBean>();
+
+		aTestStrata.add(new StrataBean(12, hash));
+		studieBean.setStrata(aTestStrata);
+		
+		Vector<StudienarmBean> aTestStudienarm = new Vector<StudienarmBean>();
+		
+		aTestStudienarm.add(new StudienarmBean(12,34,Studie.Status.AKTIV,"Bezeichnung","Beschreibung"));
+		studieBean.setStudienarme(aTestStudienarm);
+		
+		
+		
+		
 	}
 
 	/**
@@ -364,12 +395,16 @@ public class StudieBeanTest {
 	@Test
 	public void testEqualsFalse() {
 		try {
+			HashMap<Long, String> hash = new HashMap<Long, String>();
+			
 			studieVergleich = new StudieBean();
 			studieVergleich.setId(13);
+			studieVergleich.setName("NamederVergleichStudie");
+			studieVergleich.setStatus(Studie.Status.AKTIV);
 			studieVergleich
 					.setBeschreibung("Dies ist eine Beschreibung der zu vergleichenden Studie.");
 			GregorianCalendar startVergleich = new GregorianCalendar();
-			startVergleich.add(Calendar.MONTH, +1);
+	 		startVergleich.add(Calendar.MONTH, +1);
 			GregorianCalendar endVergleich = new GregorianCalendar();
 			endVergleich.add(Calendar.MONTH, +6);
 			studieVergleich.setStudienZeitraum(startVergleich, endVergleich);
@@ -377,12 +412,30 @@ public class StudieBeanTest {
 			studieVergleich.setRandomisationId(124);
 			studieVergleich
 					.setRandomisationseigenschaften("Randomisationseigenschaften Vergleich");
+			Vector<ZentrumBean> aTestZentrum = new Vector<ZentrumBean>();
+
+			aTestZentrum.add(new ZentrumBean(12, "InstituitionVergleich", "AbteilungVergleich",
+					"ort", "64668", "Strassen", "13", 1, 
+					"oe?jie3Yiesaoe?jie3Yiesaoe?jie3Yiesaoe?jie3Yiesaoe?jie3Yiesa414a",true));
+			studieBean.setZentren(aTestZentrum);
+			
+			Vector<StrataBean> aTestStrata = new Vector<StrataBean>();
+
+			aTestStrata.add(new StrataBean(12, hash));
+			studieBean.setStrata(aTestStrata);
+			
+			Vector<StudienarmBean> aTestStudienarm = new Vector<StudienarmBean>();
+			
+			aTestStudienarm.add(new StudienarmBean(12,34,Studie.Status.AKTIV,"Bezeichnung","Beschreibung"));
+			studieBean.setStudienarme(aTestStudienarm);
+			
 			assertFalse(studieBean.equals(studieVergleich));
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 
 	}
+
 
 	/**
 	 * Testet, ob zwei identische Studien auch als identisch erkannt werden.
@@ -417,7 +470,7 @@ public class StudieBeanTest {
 
 			try {
 				zentrum.add(new ZentrumBean(i, "Instituition", "Abteilung",
-						"ort", "plz", "Strasse", "12", i, "PasswortHashsdf",
+						"ort", "64668", "Strasse", "12", i, "PasswortHashsdf",
 						true));
 			} catch (Exception e) {
 				fail(e.getMessage());
