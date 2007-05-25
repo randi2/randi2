@@ -293,7 +293,6 @@ public class StudieBean extends Filter {
 	public void setStudienarme(Vector<StudienarmBean> studienarme)
 			throws StudieException {
 		aStudienarme = studienarme;
-
 	}
 
 	/**
@@ -587,7 +586,6 @@ public class StudieBean extends Filter {
 			if(studieBean.getAnzahlStrata()!=this.getAnzahlStrata()){
 				return false;
 			}
-			//TODO getStudienarme
 			if(studieBean.getBenutzerkontoId()!=this.getBenutzerkontoId()){
 				return false;
 			}

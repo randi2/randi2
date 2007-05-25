@@ -172,7 +172,7 @@ public class StudieBeanTest {
 		}
 		assertFalse(studieBean.getBeschreibung().equals("test"));
 	}
-
+ 
 	/**
 	 * 
 	 * Ueberpruefung des Studiennames. Wenn kein Studienname vorhanden ist, wird
