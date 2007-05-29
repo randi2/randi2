@@ -22,7 +22,6 @@ import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.PersonException;
-import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Studie.Status;
@@ -30,6 +29,7 @@ import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
+import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -146,7 +146,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		/**
 		 * Id des Zentrums.
 		 */
-		ID("zentrumsId"),
+		ID("zentrumsID"),
 		/**
 		 * Id des Ansprechpartners.
 		 */
@@ -220,7 +220,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		/**
 		 * Die Id der Person.
 		 */
-		ID("personenId"),
+		ID("personenID"),
 		/**
 		 * Der Nachname der Person.
 		 */
@@ -286,14 +286,46 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Enum Klasse welche die Felder der Tabelle Benutzerkonto repraesentiert.
 	 * 
-	 * @author Kai Marco Krupka [kai.krupka@urz.uni-heidelberg.de]
+	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
 	 * 
 	 */
 	private enum FelderBenutzerkonto {
-		ID("benutzerkontenId"), LOGINNAME("loginname"), PASSWORT("passwort"), PERSONID(
-				"Person_personenID"), ZENTRUMID("Zentrum_zentrumsID"), ROLLEACCOUNT(
-				"rolle"), ERSTERLOGIN("erster_login"), LETZTERLOGIN(
-				"letzter_login"), GESPERRT("gesperrt");
+		/**
+		 * Die Id des Benutzerkontos
+		 */
+		ID("benutzerkontenID"), 
+		/**
+		 * Der Loginname für das Benutzerkonto. 
+		 */
+		LOGINNAME("loginname"), 
+		/**
+		 * Das Passwort für den Login.
+		 */
+		PASSWORT("passwort"), 
+		/**
+		 * Die Id der zugehörigen Person.
+		 */
+		PERSONID("Person_personenID"), 
+		/**
+		 * Die Id des zugehörigen Zentrums.
+		 */
+		ZENTRUMID("Zentrum_zentrumsID"), 
+		/**
+		 * Die Rolle des Benutzers.
+		 */
+		ROLLEACCOUNT("rolle"), 
+		/**
+		 * Das Datum des ersten Logins.
+		 */
+		ERSTERLOGIN("erster_login"), 
+		/**
+		 * Das Datum des letzten Login.
+		 */
+		LETZTERLOGIN("letzter_login"), 
+		/**
+		 * Der Sperrungsstatus des Benutzers.
+		 */
+		GESPERRT("gesperrt");
 
 		/**
 		 * Name eines Feldes.
@@ -323,12 +355,26 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Enum Klasse welche die Felder der Tabelle Aktivierung repraesentiert.
 	 * 
-	 * @author Kai Marco Krupka [kai.krupka@urz.uni-heidelberg.de]
+	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
 	 * 
 	 */
 	private enum FelderAktivierung {
-		Id("aktivierungsId"), BENUTZER("Benutzerkonto_benutzerkontenId"), LINK(
-				"aktivierungslink"), VERSANDDATUM("versanddatum");
+		/**
+		 * Die Id der Aktivierung.
+		 */
+		Id("aktivierungsID"), 
+		/**
+		 * Die Id des zugehörigen Benutzerkontos.
+		 */
+		BENUTZER("Benutzerkonto_benutzerkontenID"), 
+		/**
+		 * Der Aktivierungslink für die Aktivierung des Kontos.
+		 */
+		LINK("aktivierungslink"), 
+		/**
+		 * Das Versanddatum des Aktivierungslink.
+		 */
+		VERSANDDATUM("versanddatum");
 
 		/**
 		 * Name eines Feldes.
@@ -358,14 +404,46 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Enum Klasse welche die Felder der Tabelle Studie repraesentiert.
 	 * 
-	 * @author Kai Marco Krupka [kai.krupka@urz.uni-heidelberg.de]
+	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
 	 * 
 	 */
 	private enum FelderStudie {
-		ID("studienId"), BENUTZER("Benutzerkonto_benutzerkontenId"), NAME(
-				"name"), BESCHREIBUNG("beschreibung"), STARTDATUM("startdatum"), ENDDATUM(
-				"enddatum"), PROTOKOLL("studienprotokoll"), RANDOMISATIONSART(
-				"randomisationsart"), STATUS("status_studie");
+		/**
+		 * Die Id der Studie.
+		 */
+		ID("studienID"), 
+		/**
+		 * Die Id der zugehörigen Studie.
+		 */
+		BENUTZER("Benutzerkonto_benutzerkontenID"), 
+		/**
+		 * Der Name der Studie.
+		 */
+		NAME("name"), 
+		/**
+		 * Die Beschreibung der Studie.
+		 */
+		BESCHREIBUNG("beschreibung"), 
+		/**
+		 * Das Startdatum der Studie.
+		 */
+		STARTDATUM("startdatum"), 
+		/**
+		 * Das Enddatum der Studie.
+		 */
+		ENDDATUM("enddatum"), 
+		/**
+		 * Der Pfad des Studienprotokolls.
+		 */
+		PROTOKOLL("studienprotokoll"), 
+		/**
+		 * Die Art der Randomisation.
+		 */
+		RANDOMISATIONSART("randomisationsart"), 
+		/**
+		 * Der Status der Studie.
+		 */
+		STATUS("status_studie");
 
 		/**
 		 * Name eines Feldes.
@@ -395,13 +473,30 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Enum Klasse welche die Felder der Tabelle Studienarm repraesentiert.
 	 * 
-	 * @author Kai Marco Krupka [kai.krupka@urz.uni-heidelberg.de]
+	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
 	 * 
 	 */
 	private enum FelderStudienarm {
-		ID("studienarmId"), STUDIE("Studie_studienId"), STATUS(
-				"status_aktivitaet"), BEZEICHNUNG("bezeichnung"), BESCHREIBUNG(
-				"beschreibung");
+		/**
+		 * Die Id des Studienarms.
+		 */
+		ID("studienarmID"), 
+		/**
+		 * Die Id der Studie.
+		 */
+		STUDIE("Studie_studienID"), 
+		/**
+		 * Der Status des Studienarms.
+		 */
+		STATUS("status_aktivitaet"), 
+		/**
+		 * Die Bezeichnung des Studienarms.
+		 */
+		BEZEICHNUNG("bezeichnung"), 
+		/**
+		 * Die Beschreibung des Studienarms.
+		 */
+		BESCHREIBUNG("beschreibung");
 
 		/**
 		 * Name eines Feldes.
@@ -431,15 +526,46 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Enum Klasse welche die Felder der Tabelle Patient repraesentiert.
 	 * 
-	 * @author Kai Marco Krupka [kai.krupka@urz.uni-heidelberg.de]
+	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
 	 * 
 	 */
 	private enum FelderPatient {
-		ID("patientenId"), BENUTZER("Benutzerkonto_benutzerkontenId"), STUDIENARM(
-				"Studienarm_studienarmId"), INITIALEN("initialen"), GEBURTSDATUM(
-				"geburtsdatum"), GESCHLECHT("geschlecht"), AUFKLAERUNGSDATUM(
-				"aufklaerungsdatum"), KOERPEROBERFLAECHE("koerperoberflaeche"), PERFORMANCESTATUS(
-				"performancestatus");
+		/**
+		 * Die Id des Patienten.
+		 */
+		ID("patientenID"), 
+		/**
+		 * Die Id des zugehörigen Benutzers.
+		 */
+		BENUTZER("Benutzerkonto_benutzerkontenID"), 
+		/**
+		 * Die Id des zugehörigen Studienarms.
+		 */
+		STUDIENARM("Studienarm_studienarmID"), 
+		/**
+		 * Die Initialen des Patienten.
+		 */
+		INITIALEN("initialen"), 
+		/**
+		 * Das Geburtsdatum des Patienten.
+		 */
+		GEBURTSDATUM("geburtsdatum"), 
+		/**
+		 * das Geschlecht des Patienten.
+		 */
+		GESCHLECHT("geschlecht"), 
+		/**
+		 * Das Datum der Aufklärung.
+		 */
+		AUFKLAERUNGSDATUM("aufklaerungsdatum"), 
+		/**
+		 * Die Koerperoberflaeche des Patienten.
+		 */
+		KOERPEROBERFLAECHE("koerperoberflaeche"), 
+		/**
+		 * Der Performancestatus.
+		 */
+		PERFORMANCESTATUS("performancestatus");
 
 		/**
 		 * Name eines Feldes.
@@ -467,12 +593,23 @@ public class Datenbank implements DatenbankSchnittstelle {
 	}
 
 	/**
-	 * Felder der Tabelle Block
+	 * Felder der Tabelle Block.
 	 * 
-	 * @author Frederik Reifschneider
+	 * @author Frederik Reifschneider [Reifschneider@stud.uni-heidelberg.de]
 	 */
 	private enum FelderBlock {
-		ID("blockId"), STUDIEID("Studie_studienId"), BLOCKWERT("blockwert");
+		/**
+		 * Die Id der Blockrandomisation.
+		 */
+		ID("blockID"), 
+		/**
+		 * Die Id der Studie.
+		 */
+		STUDIEID("Studie_studienID"),
+		/**
+		 * Der Blockwert der Randomisation.
+		 */
+		BLOCKWERT("blockwert");
 
 		/**
 		 * Name eines Feldes
@@ -499,6 +636,102 @@ public class Datenbank implements DatenbankSchnittstelle {
 			return this.name;
 		}
 	}
+	
+	/**
+	 * Felder der Tabelle StrataTypen.
+	 * 
+	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
+	 */
+	private enum FelderStrataTypen {
+		/**
+		 * Die Id des StrataTyps.
+		 */
+		Id("strata_TypenID"), 
+		/**
+		 * Die Id der zugehörigen Studie.
+		 */
+		STUDIEID("Studie_studienID"),
+		/**
+		 * Der Name des Stratatypen.
+		 */
+		NAME("name"),
+		/**
+		 * Die Beschreibung des Stratatypen.
+		 */
+		BESCHREIBUNG("beschreibung");
+
+		/**
+		 * Name eines Feldes
+		 */
+		private String name = "";
+
+		/**
+		 * Konstruktor.
+		 * 
+		 * @param name
+		 *            Name eines Feldes.
+		 */
+		private FelderStrataTypen(String name) {
+			this.name = name;
+		}
+
+		/**
+		 * liefert den Namen des Feldes
+		 * 
+		 * @return String mit Namen des Feldes
+		 * @see java.lang.Enum#toString()
+		 */
+		public String toString() {
+			return this.name;
+		}
+	}
+	
+	/**
+	 * Felder der Tabelle StrataAuspraegung.
+	 * 
+	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
+	 */
+	private enum FelderStrataAuspraegung {
+		/**
+		 * Die Id der Strataauspraegung.
+		 */
+		Id("strata_WerteID"), 
+		/**
+		 * Die Id des zugehörigen Stratatypen.
+		 */
+		STRATAID("Strata_Typen_strata_TypenID"),
+		/**
+		 * Der Wert der Strataauspraegung.
+		 */
+		WERT("wert");
+		
+		/**
+		 * Name eines Feldes
+		 */
+		private String name = "";
+
+		/**
+		 * Konstruktor.
+		 * 
+		 * @param name
+		 *            Name eines Feldes.
+		 */
+		private FelderStrataAuspraegung(String name) {
+			this.name = name;
+		}
+
+		/**
+		 * liefert den Namen des Feldes
+		 * 
+		 * @return String mit Namen des Feldes
+		 * @see java.lang.Enum#toString()
+		 */
+		public String toString() {
+			return this.name;
+		}
+	}
+	
+	
 
 	/**
 	 * Konstruktor der Datenbankklasse.
@@ -532,40 +765,50 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankFehlerException(
 					DatenbankFehlerException.ARGUMENT_IST_NULL);
 		} else {
-			// ZentrumBean löschen
+			// ZentrumBean loeschen
 			if (zuLoeschendesObjekt instanceof ZentrumBean) {
 				ZentrumBean zentrum = (ZentrumBean) zuLoeschendesObjekt;
 				this.loeschenZentrum(zentrum);
 			}
-			// PersonBean löschen
-			if (zuLoeschendesObjekt instanceof PersonBean) {
+			// PersonBean loeschen
+			else if (zuLoeschendesObjekt instanceof PersonBean) {
 				PersonBean person = (PersonBean) zuLoeschendesObjekt;
 				this.loeschenPerson(person);
 			}
-			// Benutzerkonto löschen
-			if (zuLoeschendesObjekt instanceof BenutzerkontoBean) {
+			// Benutzerkonto loeschen
+			else if (zuLoeschendesObjekt instanceof BenutzerkontoBean) {
 				BenutzerkontoBean benutzer = (BenutzerkontoBean) zuLoeschendesObjekt;
 				this.loeschenBenutzerkonto(benutzer);
 			}
-			// Aktivierung löschen
-			if (zuLoeschendesObjekt instanceof AktivierungBean) {
+			// Aktivierung loeschen
+			else if (zuLoeschendesObjekt instanceof AktivierungBean) {
 				AktivierungBean aktivierung = (AktivierungBean) zuLoeschendesObjekt;
 				this.loeschenAktivierung(aktivierung);
 			}
-			// Studie löschen
-			if (zuLoeschendesObjekt instanceof StudieBean) {
+			// Studie loeschen
+			else if (zuLoeschendesObjekt instanceof StudieBean) {
 				StudieBean studie = (StudieBean) zuLoeschendesObjekt;
 				this.loeschenStudie(studie);
 			}
-			// Studienarm löschen
-			if (zuLoeschendesObjekt instanceof StudienarmBean) {
+			// Studienarm loeschen
+			else if (zuLoeschendesObjekt instanceof StudienarmBean) {
 				StudienarmBean studienarm = (StudienarmBean) zuLoeschendesObjekt;
 				this.loeschenStudienarm(studienarm);
 			}
-			// Patient löschen
-			if (zuLoeschendesObjekt instanceof PatientBean) {
+			// Patient loeschen
+			else if (zuLoeschendesObjekt instanceof PatientBean) {
 				PatientBean patient = (PatientBean) zuLoeschendesObjekt;
 				this.loeschenPatient(patient);
+			}
+			//Block loeschen
+			else if (zuLoeschendesObjekt instanceof Block) {
+				Block block = (Block) zuLoeschendesObjekt;
+				this.loeschenBlock(block);
+			}
+			//Strata loeschen
+			else if (zuLoeschendesObjekt instanceof StrataBean) {
+				StrataBean strata = (StrataBean) zuLoeschendesObjekt;
+				this.loeschenStrata(strata);
 			}
 		}
 	}
@@ -817,10 +1060,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 	}
 
 	/**
-	 * Loescht das übergebene Patientenobjekt aus der Datenbank.
+	 * Loescht das uebergebene Patientenobjekt aus der Datenbank.
 	 * 
 	 * @param patient
-	 *            zu löschendes PatientBean.
+	 *            zu loeschendes PatientBean.
 	 * @throws DatenbankFehlerException
 	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
@@ -855,6 +1098,29 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankFehlerException(
 					DatenbankFehlerException.CONNECTION_ERR);
 		}
+	}
+	
+
+	/**
+	 * Loescht das uebergebene Blockobjekt aus der Datenbank.
+	 * @param block
+	 * 			zu loeschendes Blockobjekt.
+	 * @throws DatenbankFehlerException
+	 * 				wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
+	 */
+	private void loeschenBlock(Block block) throws DatenbankFehlerException{
+		//TODO Implementierung folgt.
+	}
+	
+	/**
+	 * Loescht das uebergebene Strataobjekt aus der Datenbank.
+	 * @param strata
+	 * 			zu loeschendes Strataobjekt.
+	 * @throws DatenbankFehlerException
+	 * 				wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
+	 */
+	private void loeschenStrata(StrataBean strata) throws DatenbankFehlerException{
+		//TODO Implementierung folgt.
 	}
 
 	/**
@@ -894,13 +1160,24 @@ public class Datenbank implements DatenbankSchnittstelle {
 				StudieBean studie = (StudieBean) zuSchreibendesObjekt;
 				return (T) this.schreibenStudie(studie);
 			}
-			if (zuSchreibendesObjekt instanceof StudienarmBean) {
+			//StudienarmBean
+			else if (zuSchreibendesObjekt instanceof StudienarmBean) {
 				StudienarmBean studienarm = (StudienarmBean) zuSchreibendesObjekt;
 				return (T) this.schreibenStudienarm(studienarm);
 			}
-			if (zuSchreibendesObjekt instanceof PatientBean) {
+			//PatientenBean
+			else if (zuSchreibendesObjekt instanceof PatientBean) {
 				PatientBean patient = (PatientBean) zuSchreibendesObjekt;
 				return (T) this.schreibenPatient(patient);
+			}
+			//Block
+			else if (zuSchreibendesObjekt instanceof Block) {
+				Block block = (Block) zuSchreibendesObjekt;
+				return (T) this.schreibenBlock(block);				
+			}
+			if (zuSchreibendesObjekt instanceof StrataBean) {
+				StrataBean strata = (StrataBean) zuSchreibendesObjekt;
+				return (T) schreibenStrata(strata);
 			}
 		}
 		return null;
@@ -1159,13 +1436,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(i++, benutzerKonto.getPasswort());
 				pstmt.setLong(i++, benutzerKonto.getZentrumId());
 				pstmt.setString(i++, benutzerKonto.getRolle().getName());
-				if(benutzerKonto.getErsterLogin()==null) {
+				if(benutzerKonto.getErsterLogin()== null) {
 					pstmt.setNull(i++, Types.DATE);
 				} else {
 					pstmt.setDate(i++, new Date(benutzerKonto.getErsterLogin()
 							.getTimeInMillis()));
 				}
-				if(benutzerKonto.getLetzterLogin()==null) {
+				if(benutzerKonto.getLetzterLogin()== null) {
 					pstmt.setNull(i++, Types.DATE);
 				} else {
 					pstmt.setDate(i++, new Date(benutzerKonto.getLetzterLogin()
@@ -1364,7 +1641,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, studie.getBenutzerkontoId());
 				pstmt.setString(i++, studie.getName());
-				if (studie.getBeschreibung() != "") {
+				if (!studie.getBeschreibung().equals("")) {
 					pstmt.setString(i++, studie.getBeschreibung());
 				} else {
 					pstmt.setNull(i++, Types.NULL);
@@ -1403,7 +1680,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, studie.getBenutzerkontoId());
 				pstmt.setString(j++, studie.getName());
-				if (studie.getBeschreibung() != "") {
+				if (!studie.getBeschreibung().equals("")) {
 					pstmt.setString(j++, studie.getBeschreibung());
 				} else {
 					pstmt.setNull(j++, Types.NULL);
@@ -1472,7 +1749,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setLong(i++, studienarm.getStudie().getId());
 				pstmt.setString(i++, studienarm.getStatus().toString());
 				pstmt.setString(i++, studienarm.getBezeichnung());
-				if (studienarm.getBeschreibung() != "") {
+				if (!studienarm.getBeschreibung().equals("")) {
 					pstmt.setString(i++, studienarm.getBeschreibung());
 				} else {
 					pstmt.setNull(i++, Types.NULL);
@@ -1503,7 +1780,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setLong(j++, studienarm.getStudie().getId());
 				pstmt.setString(j++, studienarm.getStatus().toString());
 				pstmt.setString(j++, studienarm.getBezeichnung());
-				if (studienarm.getBeschreibung() != "") {
+				if (!studienarm.getBeschreibung().equals("")) {
 					pstmt.setString(j++, studienarm.getBeschreibung());
 				} else {
 					pstmt.setNull(j++, Types.NULL);
@@ -1640,12 +1917,45 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		return null;
 	}
+	
+	/**
+	 * Speichert bzw. aktualisiert die übergebenen Blockdaten.
+	 * 
+	 * @param block
+	 *            welche(r) gespeichert (ohne Id) oder aktualisiert (mit Id)
+	 *            werden soll.
+	 * @return das gespeicherte Objekt MIT Id, bzw. <code>null</code> falls
+	 *         ein Update durchgeführt wurde.
+	 * @throws DatenbankFehlerException
+	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 */
+	private Block schreibenBlock(Block block) throws DatenbankFehlerException {
+		//TODO Implementierung fehlt.
+		return null;
+	}
+	
+	/**
+	 * Speichert bzw. aktualisiert die übergebenen Stratadaten.
+	 * 
+	 * @param strata
+	 *            welche(r) gespeichert (ohne Id) oder aktualisiert (mit Id)
+	 *            werden soll.
+	 * @return das gespeicherte Objekt MIT Id, bzw. <code>null</code> falls
+	 *         ein Update durchgeführt wurde.
+	 * @throws DatenbankFehlerException
+	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 */
+	private StrataBean schreibenStrata(StrataBean strata) throws DatenbankFehlerException {
+//		TODO Implementierung fehlt.
+		return null;
+	}
 
 	/**
 	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * 
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenObjekt(de.randi2.datenbank.Filter)
 	 */
+	@SuppressWarnings("unchecked")
 	public <T extends Filter> Vector<T> suchenObjekt(T zuSuchendesObjekt)
 			throws DatenbankFehlerException {
 		// pruefe ob Argument ungleich null ist
@@ -2780,6 +3090,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenMitgliederObjekte(de.randi2.datenbank.Filter,
 	 *      de.randi2.datenbank.Filter)
 	 */
+	@SuppressWarnings("unchecked")
 	public <T extends Filter, U extends Filter> Vector<T> suchenMitgliederObjekte(
 			U vater, T kind) throws DatenbankFehlerException {
 		if (vater instanceof ZentrumBean && kind instanceof PersonBean) {
@@ -2812,7 +3123,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * Baut Verbindung zur Datenbank auf
 	 * 
 	 * @return Connectionobjekt welches Zugriff auf die Datenbank ermoeglicht.
-	 * @throws SQLException
+	 * @throws SQLException Falls ein Fehler beim Verbindungsaufbau auftritt.
 	 */
 	protected Connection getConnection() throws SQLException {
 		Connection con = DriverManager.getConnection("proxool.randi2");
@@ -2824,8 +3135,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Trennt Verbindung zur Datenbank.
 	 * 
-	 * @throws SQLException
-	 * @throws DBExceptions
+	 * @param con das Connection Objekt.
+	 * @throws SQLException Falls ein Fehler bei der Verbindungstrennung auftritt.
 	 */
 	protected void closeConnection(Connection con) throws SQLException {
 		if (con != null && !con.isClosed()) {

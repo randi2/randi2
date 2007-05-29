@@ -11,7 +11,7 @@ import de.randi2.utility.NullKonstanten;
  * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]
  * @version $Id: Block.java 2445 2007-05-07 09:13:25Z jthoenes $
  */
-public final class Block {
+public final class Block extends Filter{
 
 	/**
 	 * Niemand soll diese Klasse instanzieren koennen.
