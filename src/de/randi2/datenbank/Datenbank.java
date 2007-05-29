@@ -1967,19 +1967,19 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankFehlerException(
 					DatenbankFehlerException.SUCHOBJEKT_IST_KEIN_FILTER);
 		}
-
+		//PersonBean
 		if (zuSuchendesObjekt instanceof PersonBean) {
 			return (Vector<T>) suchenPerson((PersonBean) zuSuchendesObjekt);
 		}
-
+		//BenutzerkontoBean
 		if (zuSuchendesObjekt instanceof BenutzerkontoBean) {
 			return (Vector<T>) suchenBenutzerkonto((BenutzerkontoBean) zuSuchendesObjekt);
 		}
-
+		//ZentrumBean
 		if (zuSuchendesObjekt instanceof ZentrumBean) {
 			return (Vector<T>) suchenZentrum((ZentrumBean) zuSuchendesObjekt);
 		}
-
+		//AktivierungBean
 		if (zuSuchendesObjekt instanceof AktivierungBean) {
 			return (Vector<T>) suchenAktivierung((AktivierungBean) zuSuchendesObjekt);
 		}
