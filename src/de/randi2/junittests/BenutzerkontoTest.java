@@ -13,15 +13,12 @@ import org.junit.Test;
 
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
-import de.randi2.model.exceptions.PersonException;
-import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
-import de.randi2.model.fachklassen.beans.PersonBean;
-import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.Log4jInit;
+import de.randi2.utility.NullKonstanten;
 
 /**
  * Testklasse fuer die Klasse Benutzerkonto.
@@ -33,19 +30,13 @@ import de.randi2.utility.Log4jInit;
  */
 public class BenutzerkontoTest {
 
-	private BenutzerkontoBean bKontoBean;
+	private BenutzerkontoBean bKontoBean, bKontoBean2;
 
 	private String benutzername, passwort;
 
 	private Rolle rolle;
 
-	private PersonBean benutzer;
-
-	private PersonBean ansprechpartner;
-
 	private boolean gesperrt;
-
-	private ZentrumBean zentrum;
 
 	private GregorianCalendar ersterLogin, letzterLogin;
 
@@ -73,30 +64,11 @@ public class BenutzerkontoTest {
 		letzterLogin = new GregorianCalendar(2006, 11, 30);
 
 		try {
-			zentrum = new ZentrumBean(1, "institution", "abteilung", "Ort",
-					"11111", "Strasse", "12", 1, KryptoUtil.getInstance().hashPasswort("Passwort"), false);
-		} catch (ZentrumException e1) {
-			fail(e1.getMessage());
-		} catch (DatenbankFehlerException e){
-			fail(e.getMessage());
-		}
-
-		try {
-
-			benutzer = new PersonBean(0, 0, "nachname", "vorname",
-					PersonBean.Titel.PROF, 'm', "user@hs-heilbronn.de",
-					"01760099334", "017600972487", "01760427424");
-
-			ansprechpartner = new PersonBean(0, 0, "nachname", "vorname",
-					PersonBean.Titel.PROF, 'm', "user@hs-heilbronn.de",
-					"01760099334", "017600972487", "01760427424");
-
-			bKontoBean = new BenutzerkontoBean(13, benutzername, passwort, 1, rolle,
-					0, gesperrt, ersterLogin, letzterLogin);
+			bKontoBean = new BenutzerkontoBean(NullKonstanten.NULL_LONG, benutzername, passwort, 5, rolle,
+					1, gesperrt, ersterLogin, letzterLogin);
+			bKontoBean2 = new BenutzerkontoBean(NullKonstanten.NULL_LONG, benutzername, passwort, 5, rolle,
+					1, gesperrt, null, null);
 		} catch (BenutzerkontoException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		} catch (PersonException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		} catch (DatenbankFehlerException e){
@@ -157,8 +129,8 @@ public class BenutzerkontoTest {
 	@Test
 	public void testGetBenutzer() throws BenutzerkontoException,
 			DatenbankFehlerException {
-		Benutzerkonto dummyBenutzerkonto = Benutzerkonto.anlegenBenutzer(bKontoBean);
-		BenutzerkontoBean benu2 = Benutzerkonto.getBenutzer(dummyBenutzerkonto.getBenutzerkontobean().getBenutzerId());
+		Benutzerkonto dummyBenutzerkonto = Benutzerkonto.anlegenBenutzer(bKontoBean2);
+		BenutzerkontoBean benu2 = Benutzerkonto.getBenutzer(dummyBenutzerkonto.getBenutzerkontobean().getId());
 		assertTrue(dummyBenutzerkonto.getBenutzerkontobean().equals(benu2));
 	}
 

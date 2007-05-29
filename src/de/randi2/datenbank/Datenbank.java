@@ -1159,10 +1159,18 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(i++, benutzerKonto.getPasswort());
 				pstmt.setLong(i++, benutzerKonto.getZentrumId());
 				pstmt.setString(i++, benutzerKonto.getRolle().getName());
-				pstmt.setDate(i++, new Date(benutzerKonto.getErsterLogin()
-						.getTimeInMillis()));
-				pstmt.setDate(i++, new Date(benutzerKonto.getLetzterLogin()
-						.getTimeInMillis()));
+				if(benutzerKonto.getErsterLogin()==null) {
+					pstmt.setNull(i++, Types.DATE);
+				} else {
+					pstmt.setDate(i++, new Date(benutzerKonto.getErsterLogin()
+							.getTimeInMillis()));
+				}
+				if(benutzerKonto.getLetzterLogin()==null) {
+					pstmt.setNull(i++, Types.DATE);
+				} else {
+					pstmt.setDate(i++, new Date(benutzerKonto.getLetzterLogin()
+							.getTimeInMillis()));
+				}
 				pstmt.setBoolean(i++, benutzerKonto.isGesperrt());
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();

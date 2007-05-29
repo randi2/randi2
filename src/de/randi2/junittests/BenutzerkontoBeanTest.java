@@ -52,13 +52,13 @@ public class BenutzerkontoBeanTest extends Filter {
 	}
 	
 	/**
-	     * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
-	     *
-	     */
-	    @BeforeClass
-	    public static void log(){
+	 * Initialisiert den Logger. Bitte log4j.lcf.pat in log4j.lcf umbenennen und es funktioniert.
+	 *
+	 */
+	@BeforeClass
+	public static void log(){
 		Log4jInit.initDebug();
-	    }
+	}
 
 	/** 
 	 * Method tearDown() 
@@ -69,6 +69,8 @@ public class BenutzerkontoBeanTest extends Filter {
 	@After
 	public void tearDown() throws Exception {
 		aKonto = null;
+		bKonto = null;
+		cKonto = null;
 	}
 
 	/**
@@ -107,8 +109,12 @@ public class BenutzerkontoBeanTest extends Filter {
 	@Test
 	public final void testSetBenutzernameErlaubteZeichen()
 			throws BenutzerkontoException {
-		aKonto.setBenutzername("hanswursthausen");
-		assertTrue(aKonto.getBenutzername().equals("hanswursthausen"));
+		aKonto.setBenutzername("miller.x");
+		assertTrue(aKonto.getBenutzername().equals("miller.x"));
+		aKonto.setBenutzername("t3stname_bla2");
+		assertTrue(aKonto.getBenutzername().equals("t3stname_bla2"));
+		aKonto.setBenutzername("t3stname-bla2");
+		assertTrue(aKonto.getBenutzername().equals("t3stname-bla2"));
 	}
 
 	/**
@@ -154,7 +160,7 @@ public class BenutzerkontoBeanTest extends Filter {
 	public final void testSetPasswortLaenge()
 			throws BenutzerkontoException {
 	    @SuppressWarnings("unused")
-		BenutzerkontoBean benutzerkonto = new BenutzerkontoBean("Benutzerkonto","");
+		BenutzerkontoBean benutzerkonto = new BenutzerkontoBean("Benutzerkonto","pw");
 	    aKonto.setFilter(false);		
 	}
 
@@ -225,11 +231,13 @@ public class BenutzerkontoBeanTest extends Filter {
 		try {
 			aKonto = new BenutzerkontoBean(12,benutzername, passwort, zentrumId, rolle, benutzerId,
 					gesperrt,ersterLogin, letzterLogin);
+			bKonto = new BenutzerkontoBean(12,benutzername, passwort, zentrumId, rolle, benutzerId,
+					gesperrt,ersterLogin, letzterLogin);
 		} catch (DatenbankFehlerException e) {
 			fail(e.getMessage());
 		}
 
-		assertTrue(aKonto.equals(aKonto));
+		assertTrue(aKonto.equals(bKonto));
 	}
 
 	/**
@@ -424,10 +432,15 @@ public class BenutzerkontoBeanTest extends Filter {
 	public void testSetRolle() {
 		try {
 			aKonto.setRolle(Rolle.getAdmin());
+			assertTrue(aKonto.getRolle().equals(Rolle.getAdmin()));
 			aKonto.setRolle(Rolle.getStatistiker());
+			assertTrue(aKonto.getRolle().equals(Rolle.getStatistiker()));
 			aKonto.setRolle(Rolle.getStudienarzt());
+			assertTrue(aKonto.getRolle().equals(Rolle.getStudienarzt()));
 			aKonto.setRolle(Rolle.getStudienleiter());
+			assertTrue(aKonto.getRolle().equals(Rolle.getStudienleiter()));
 			aKonto.setRolle(Rolle.getSysop());
+			assertTrue(aKonto.getRolle().equals(Rolle.getSysop()));
 		} catch (Exception e) {
 			fail("[FEHLER]testSetRolle() sollte keine Exception auslösen");
 		}
@@ -443,6 +456,7 @@ public class BenutzerkontoBeanTest extends Filter {
 	public void testSetId() {
 		try {
 			aKonto.setId(13);
+			assertTrue(aKonto.getId()==13);
 		} catch (Exception e) {
 			fail("[FEHLER]testSetId() sollte keine Exception auslösen");
 		}
