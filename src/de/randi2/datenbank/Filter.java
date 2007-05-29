@@ -93,10 +93,10 @@ public class Filter {
 	 * @throws DatenbankFehlerException - bei einer uebergebener Id, die <=0 ist.
 	 */
 	public void setId(long id) throws DatenbankFehlerException{
-		if(id<=0){
-			throw new DatenbankFehlerException(DatenbankFehlerException.ID_FALSCH);
-		}else{
+		if(id>0 || id==NullKonstanten.NULL_LONG){
 			this.id = id;
+		}else{
+			throw new DatenbankFehlerException(DatenbankFehlerException.ID_FALSCH);
 		}
 	}
 	
