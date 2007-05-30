@@ -4,8 +4,7 @@
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ page 
-	import="de.randi2.model.fachklassen.beans.*"%>
+<%@ page import="de.randi2.model.fachklassen.beans.*"%>
 <%
 			Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
 			.getAttribute("aBenutzer")).getRolle().getRollenname();
@@ -66,7 +65,7 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 </table>
 <br>
 <br>
-<table width="100%" cellspacing="0" cellpadding="0">
+<table width="600" cellspacing="0" cellpadding="0">
 	<tr class="tblrow1" align="center">
 		<th width="30%">Name</th>
 		<th width="60%">Leitendes Zentrum</th>
@@ -74,7 +73,7 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 	</tr>
 	<tr class="tblrow2">
 		<td align="center"><a href="studie_ansehen.jsp">Aspirin</a></td>
-		<td align="center">Uniklinkium Heidelberg, allg. Medizin</td>
+		<td align="center">Von Hand eingetragen I</td>
 		<td align="center">aktiv</td>
 		<%
 		if (aRolle == Rolle.Rollen.ADMIN) {
@@ -87,7 +86,7 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 	</tr>
 	<tr class="tblrow1">
 		<td align="center">GemTex5</td>
-		<td align="center">DKFZ</td>
+		<td align="center">Von Hand eingetragen II</td>
 		<td align="center">aktiv</td>
 		<%
 		if (aRolle == Rolle.Rollen.ADMIN) {
@@ -100,7 +99,7 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 	</tr>
 	<tr class="tblrow2">
 		<td align="center">XXX</td>
-		<td align="center">AM Wroclaw, Onkologia</td>
+		<td align="center">Von Hand eingetragen III</td>
 		<td align="center">aktiv</td>
 		<%
 		if (aRolle == Rolle.Rollen.ADMIN) {

@@ -5,7 +5,10 @@
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.*"%>
 
-<%Iterator listeZentren=((Vector)request.getAttribute("listeZentren")).iterator(); %>
+<%
+			Iterator listeZentren = ((Vector) request
+			.getAttribute("listeZentren")).iterator();
+%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
        "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -40,25 +43,29 @@ suchen </b></legend>
 	</tr>
 
 	<%
-		String reihe="tblrow2";
-		int tabindex=1;
-		while(listeZentren.hasNext()){
-		ZentrumBean aktuellesZentrum=(ZentrumBean)listeZentren.next();
+		String reihe = "tblrow2";
+		int tabindex = 1;
+		while (listeZentren.hasNext()) {
+			ZentrumBean aktuellesZentrum = (ZentrumBean) listeZentren
+			.next();
 	%>
 
 	<tr class="<%=reihe %>">
-		<td><%=aktuellesZentrum.getInstitution() %></td>
-		<td><%=aktuellesZentrum.getAbteilung() %></td>
+		<td><%=aktuellesZentrum.getInstitution()%></td>
+		<td><%=aktuellesZentrum.getAbteilung()%></td>
 		<td><input type="password"
 			name="zentrum_passwort<%=aktuellesZentrum.getId() %>"
-			tabindex="<%=tabindex %>" z:required="true"></td>
+			tabindex="<%=tabindex %>" z:required="true"
+			z:message="Passwort erforderlich"></td>
 		<td><input type="submit"
 			name="bestaetigen<%=aktuellesZentrum.getId() %>" value="weiter">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	</tr>
 	<%
-		tabindex++;
-		if(reihe.equals("tblrow1"))reihe="tblrow2";
-		else reihe="tblrow1";
+			tabindex++;
+			if (reihe.equals("tblrow1"))
+				reihe = "tblrow2";
+			else
+				reihe = "tblrow1";
 		}
 	%>
 

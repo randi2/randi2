@@ -40,16 +40,14 @@
 		<td>Zentrum1</td>
 		<td>Abteilung xyz</td>
 		<td>aktiv</td>
-		<td>
-	
-		<%--if (aBenutzer.getBenutzername().equals("sl")) {	--%> 
-			<a href="zentrum_anzeigen_sl.jsp"> <input type="submit" name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> 
-			<a href="zentrum_studie_zuordnen.jsp"> <input type="submit" name="studie_hinzufuegen" value="Zu Studie hinzuf?gen"></a> 
-		<%--  } else if (aBenutzer.getBenutzername().equals("admin")) {
- 					--%> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit" name="zentrum_auswaehlen" value="Zentrum anzeigen"></a>
-		<%-- } --%>
-		
-		</td>
+		<td><%--if (aBenutzer.getBenutzername().equals("sl")) {	--%> <a
+			href="zentrum_anzeigen_sl.jsp"> <input type="submit"
+			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <a
+			href="zentrum_studie_zuordnen.jsp"> <input type="submit"
+			name="studie_hinzufuegen" value="Zu Studie hinzuf?gen"></a> <%--  } else if (aBenutzer.getBenutzername().equals("admin")) {
+ 					--%> <a href="zentrum_anzeigen_admin.jsp"> <input
+			type="submit" name="zentrum_auswaehlen" value="Zentrum anzeigen"></a>
+		<%-- } --%></td>
 
 	</tr>
 	<tr class="tblrow1">
@@ -57,8 +55,7 @@
 		<td>Abteilung2</td>
 		<td>inaktiv</td>
 
-		<td>
-		<%--
+		<td><%--
 				if (aBenutzer.getBenutzername().equals("sl")) {
 				--%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
 			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%--

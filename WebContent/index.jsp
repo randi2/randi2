@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
+<%@ page language="java" contentType="text/html; charset=utf-8;"
 	pageEncoding="utf-8"%>
 
 <%@ page import="de.randi2.controller.DispatcherServlet"%>
@@ -6,23 +6,25 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8;" />
 <title>RANDI 2</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/style_login.css" />
 <script type="text/javascript" src="js/prototype.js"></script>
 <script type="text/javascript" src="js/zebda.js"></script>
+
 </head>
 
 <body>
-<!--  RELEASE 2 --> 
+<!--  RELEASE 2 -->
 <div id="header"><img src="images/dkfz_logo.gif" width="337"
 	height="63" title="" alt=""></div>
 
 <div id="breadcrumb">
-<table class="breadcrumb_tbl" width="100%" height="25"
-	summary="Impressum">
+<table class="breadcrumb_tbl" width="100%" summary="Impressum">
 	<tr>
 		<td align="right" valign="middle" height="25"><a
 			href="impressum.jsp" id="logout_link">Impressum</a></td>
@@ -43,9 +45,12 @@
 <input type="hidden"
 	value="<%=DispatcherServlet.anfrage_id.JSP_INDEX_LOGIN %>"
 	name="anfrage_id">
-<p><input type="text" name="username" tabindex="1" z:required="true" z:length="{max: 50, min: 6}" z:message="Bitte geben Sie einen gültigen Benutzernamen ein"></p>
+<p><input type="text" name="username" tabindex="1" z:required="true" z:required_message="Bitte Namen eingeben"
+	z:length="{max: 50, min: 6}" z:length_message="Fehlerhafter Benutzername"></p>
 <p>Kennwort</p>
-<p><input type="password" name="password" tabindex="2" z:required="true" z:length="{min: 6}" z:message="Bitte geben Sie ein gültiges Passwort ein"></p>
+<p><input type="password" name="password" tabindex="2"
+	z:required="true" z:required_message="Bitte Passwort eingeben" z:length="{min: 6}"
+	z:length_message="Fehlerhaftes Passwort"></p>
 <p><input name="Submit" type="submit" tabindex="3" value="Login"></p>
 </form>
 <br>
