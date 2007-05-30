@@ -51,7 +51,7 @@ suchen </b></legend>
 		<td><%=aktuellesZentrum.getAbteilung() %></td>
 		<td><input type="password"
 			name="zentrum_passwort<%=aktuellesZentrum.getId() %>"
-			tabindex="<%=tabindex %>"></td>
+			tabindex="<%=tabindex %>" z:required="true"></td>
 		<td><input type="submit"
 			name="bestaetigen<%=aktuellesZentrum.getId() %>" value="weiter">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	</tr>
