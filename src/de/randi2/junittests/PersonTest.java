@@ -67,7 +67,7 @@ public class PersonTest {
 	 * Test Methode fuer suchen(PersonBean gesuchtesBean). Sie sucht nach einem
 	 * PersonBean(mit Filter=true).
 	 * 
-	 * {@link de.randi2.model.fachklassen.Person#suchen(de.randi2.model.fachklassen.beans.PersonBean)}.
+	 * {@link de.randi2.model.fachklassen.Person#suchenPerson(de.randi2.model.fachklassen.beans.PersonBean)}.
 	 */
 	@Test
 	public void testSuchenPerson() {
@@ -76,6 +76,9 @@ public class PersonTest {
 		try {
 			testPB.setNachname("Obdenhoevel");
 			testPB.setVorname("Oliver");
+			testPB.setGeschlecht('m');
+			testPB.setEmail("blablabl@web.de");
+			testPB.setTelefonnummer("072383984738");
 		} catch (PersonException e) {
 			fail("Bei der PersonBean Klasse trat ein Fehler auf: "
 					+ e.getMessage());
@@ -89,7 +92,7 @@ public class PersonTest {
 		Vector<PersonBean> tempVec = new Vector<PersonBean>();
 		try {
 			//Holen aus der Datenbank
-			tempVec = Person.suchen(testPB);
+			tempVec = Person.suchenPerson(testPB);
 		} catch (DatenbankFehlerException e) {
 			e.printStackTrace();
 		}
@@ -115,7 +118,7 @@ public class PersonTest {
 		tempVec = new Vector<PersonBean>();
 		try {
 			//wird nicht gefunden, da nicht geschrieben wurde
-			tempVec = Person.suchen(testPB);
+			tempVec = Person.suchenPerson(testPB);
 		} catch (DatenbankFehlerException e) {
 			e.printStackTrace();
 		}
