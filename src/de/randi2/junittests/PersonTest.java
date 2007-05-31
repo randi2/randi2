@@ -77,7 +77,7 @@ public class PersonTest {
 			testPB.setNachname("Obdenhoevel");
 			testPB.setVorname("Oliver");
 			testPB.setGeschlecht('m');
-			testPB.setEmail("blablabl@web.de");
+			testPB.setEmail("blablabla@web.de");
 			testPB.setTelefonnummer("072383984738");
 		} catch (PersonException e) {
 			fail("Bei der PersonBean Klasse trat ein Fehler auf: "
@@ -86,60 +86,77 @@ public class PersonTest {
 		try {
 			// Speichern in der Datenbank
 			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(testPB);
-		} catch (DatenbankFehlerException e1) {
-			e1.printStackTrace();
-		}
-		Vector<PersonBean> tempVec = new Vector<PersonBean>();
-		try {
-			//Holen aus der Datenbank
+			// Initialisierung eines Vektors
+			Vector<PersonBean> tempVec = new Vector<PersonBean>();
+			// Holen aus der Datenbank
 			tempVec = Person.suchenPerson(testPB);
+			/*
+			 * Da wir wissen, dass sich zur Zeit in der Datenbank eine Person
+			 * mit den gesuchten Eigenschaften befindet.
+			 */
+			assertTrue(tempVec.size() == 1);
+			assertEquals(tempVec.elementAt(0).getNachname(), "Obdenhoevel");
+			assertEquals(tempVec.elementAt(0).getVorname(), "Oliver");
+			assertEquals(tempVec.elementAt(0).getGeschlecht(), 'm');
+			assertEquals(tempVec.elementAt(0).getEmail(), "blablabla@web.de");
+			assertEquals(tempVec.elementAt(0).getTelefonnummer(),
+					"072383984738");
+			/*
+			 * Suchen nach einer nicht existierenden Person - Ergebnis: keine
+			 * Person wird gefunden.
+			 */
+			testPB = new PersonBean();
+			testPB.setFilter(true);
+			try {
+				testPB.setNachname("Moooshammer");
+				testPB.setVorname("Alfred");
+				testPB.setGeschlecht('m');
+				testPB.setEmail("klingkling@web.de");
+				testPB.setTelefonnummer("07238330271");
+			} catch (PersonException e) {
+				fail("Bei der PersonBean Klasse trat ein Fehler auf: "
+						+ e.getMessage());
+			}
+			tempVec = new Vector<PersonBean>();
+			// wird nicht gefunden, da nicht geschrieben wurde
+			tempVec = Person.suchenPerson(testPB);
+			assertTrue(tempVec.size() == 0);
 		} catch (DatenbankFehlerException e) {
-			e.printStackTrace();
+			fail("In der Datenbank trat ein Fehler auf: " + e.getMessage());
 		}
-		/*
-		 * Da wir wissen, dass sich zur Zeit in der Datebank eine Person mit den
-		 * gesuchten Eigenschaften befindet.
-		 */
-		assertTrue(tempVec.size() == 1);
-		assertEquals(tempVec.elementAt(0).getNachname(), "Obdenhoevel");
-		assertEquals(tempVec.elementAt(0).getVorname(), "Oliver");
-		/*
-		 * Suchen nach einer nicht existierenden Person - Ergebnis: keine Person
-		 * wird gefunden.
-		 */
+	}
+
+	/**
+	 * Test Methode fuer get(long id).
+	 * 
+	 * {@link de.randi2.model.fachklassen.Person#suchen(de.randi2.model.fachklassen.beans.PersonBean)}.
+	 */
+	@Test
+	public void testGet() {
 		testPB = new PersonBean();
 		testPB.setFilter(true);
 		try {
-			testPB.setNachname("Moooshammer");
+			testPB.setNachname("Meisner");
+			testPB.setVorname("Albert");
+			testPB.setGeschlecht('m');
+			testPB.setEmail("blubblub@web.de");
+			testPB.setTelefonnummer("07238323498");
 		} catch (PersonException e) {
 			fail("Bei der PersonBean Klasse trat ein Fehler auf: "
 					+ e.getMessage());
 		}
-		tempVec = new Vector<PersonBean>();
 		try {
-			//wird nicht gefunden, da nicht geschrieben wurde
+			// schreiben in die Datenbank
+			testPB = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+					testPB);
+			Vector<PersonBean> tempVec = new Vector<PersonBean>();
+			// Holen aus der Datenbank
 			tempVec = Person.suchenPerson(testPB);
+			// Suchen mit der ID des neuen Datenbankeintrags
+			PersonBean vergleichPB = Person.get(tempVec.elementAt(0).getId());
+			assertEquals(vergleichPB, testPB);
 		} catch (DatenbankFehlerException e) {
-			e.printStackTrace();
+			fail("In der Datenbank trat ein Fehler auf: " + e.getMessage());
 		}
-		assertTrue(tempVec.size() == 0);
-
 	}
-
-	/**
-	 * TODO Unsicher, ob ich die Methode brauche, da die Datenbank auch separat
-	 * getestet wird. Test Methode fuer get(long id).
-	 * 
-	 * {@link de.randi2.model.fachklassen.Person#suchen(de.randi2.model.fachklassen.beans.PersonBean)}.
-	 */
-	// @Test
-	// public void testGet() {
-	// PersonBean testBean = new PersonBean();
-	// try {
-	// testBean =
-	// DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(testPB);
-	// } catch (DatenbankFehlerException e) {
-	// e.printStackTrace();
-	// }
-	// }
 }
