@@ -56,7 +56,7 @@ public final class Person {
 	 * @throws DatenbankFehlerException
 	 *             falls Fehler bei dem Vorgang auftraten.
 	 */
-	public static Vector<PersonBean> suchen(PersonBean gesuchtesBean)
+	public static Vector<PersonBean> suchenPerson(PersonBean gesuchtesBean)
 			throws DatenbankFehlerException {
 		return DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
 				gesuchtesBean);
