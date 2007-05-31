@@ -20,8 +20,10 @@ import com.meterware.httpunit.HttpUnitUtils;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.exceptions.BenutzerException;
+import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.exceptions.RechtException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Studie.Status;
@@ -2755,6 +2757,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		BenutzerkontoBean benutzerkonto = null;
+		GregorianCalendar ersterLogin = new GregorianCalendar();
+		GregorianCalendar letzterLogin = new GregorianCalendar();
 
 		try {
 			con = this.getConnection();
@@ -2770,15 +2774,29 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, id);
 			rs = pstmt.executeQuery();
-
-			// benutzerkonto = new BenutzerkontoBean
-			// (rs.getLong(FelderBenutzerkonto.ID.toString()),
-			// rs.getString(FelderBenutzerkonto.LOGINNAME.toString()),
-			// rs.getString(FelderBenutzerkonto.PASSWORT.toString()),
-			// rs.getString(FelderBenutzerkonto.ROLLEACCOUNT.toString()),
-			// rs.getLong(FelderBenutzerkonto.ID.toString()),
-			// rs.getBoolean(FelderBenutzerkonto.GESPERRT.toString()),
-			// rs.getLong(FelderBenutzerkonto.ID.toString());
+			if(!rs.getDate(FelderBenutzerkonto.ERSTERLOGIN.toString()).equals(null)) {
+				ersterLogin.setTime(rs.getDate(FelderBenutzerkonto.ERSTERLOGIN.toString()));
+			}
+			if(!rs.getDate(FelderBenutzerkonto.ERSTERLOGIN.toString()).equals(null)) {
+				letzterLogin.setTime(rs.getDate(FelderBenutzerkonto.ERSTERLOGIN.toString()));
+			}
+			try {
+				benutzerkonto = new BenutzerkontoBean
+					(rs.getLong(FelderBenutzerkonto.ID.toString()),
+							rs.getString(FelderBenutzerkonto.LOGINNAME.toString()),
+							rs.getString(FelderBenutzerkonto.PASSWORT.toString()),
+							rs.getLong(FelderBenutzerkonto.ZENTRUMID.toString()),
+							Rolle.getRolle(rs.getString(FelderBenutzerkonto.ROLLEACCOUNT.toString())),
+							rs.getLong(FelderBenutzerkonto.PERSONID.toString()),
+							rs.getBoolean(FelderBenutzerkonto.GESPERRT.toString()),
+							ersterLogin, letzterLogin);
+			} catch (BenutzerkontoException e) {
+				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
+			} catch (RechtException e) {
+				e.printStackTrace();
+				throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
+			}
 
 			rs.close();
 			pstmt.close();

@@ -1,7 +1,6 @@
 package de.randi2.junittests;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.GregorianCalendar;
 import java.util.Vector;
@@ -30,7 +29,7 @@ import de.randi2.utility.NullKonstanten;
  */
 public class BenutzerkontoTest {
 
-	private BenutzerkontoBean bKontoBean, bKontoBean2;
+	private BenutzerkontoBean bKontoBean;
 
 	private String benutzername, passwort;
 
@@ -50,7 +49,7 @@ public class BenutzerkontoTest {
 		Log4jInit.initDebug();
 	    }
 	/**
-	 * @throws java.lang.Exception
+	 * Füllt ein BenutzerkontoBean mit Daten.
 	 */
 	@Before
 	public void setUp() {
@@ -64,10 +63,8 @@ public class BenutzerkontoTest {
 		letzterLogin = new GregorianCalendar(2006, 11, 30);
 
 		try {
-			bKontoBean = new BenutzerkontoBean(NullKonstanten.NULL_LONG, benutzername, passwort, 5, rolle,
+			bKontoBean = new BenutzerkontoBean(NullKonstanten.DUMMY_ID, benutzername, passwort, 4, rolle,
 					1, gesperrt, ersterLogin, letzterLogin);
-			bKontoBean2 = new BenutzerkontoBean(NullKonstanten.NULL_LONG, benutzername, passwort, 5, rolle,
-					1, gesperrt, null, null);
 		} catch (BenutzerkontoException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -78,10 +75,10 @@ public class BenutzerkontoTest {
 	}
 
 	/**
-	 * @throws java.lang.Exception
+	 * Setzt das BenutzerkontoBean <code>null</code>.
 	 */
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		bKontoBean = null;
 	}
 
@@ -90,48 +87,64 @@ public class BenutzerkontoTest {
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#Benutzerkonto(de.randi2.model.fachklassen.beans.BenutzerkontoBean)}.
 	 */
 	@Test
-	public void testBenutzerkonto() throws Exception {
+	public void testBenutzerkonto() {
 		new Benutzerkonto(bKontoBean);
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#suchenBenutzer(de.randi2.model.fachklassen.beans.BenutzerkontoBean)}.
-	 * 
-	 * @throws DatenbankFehlerException
 	 */
 	@Test
-	public void testSuchenBenutzer() throws DatenbankFehlerException {
-		Vector suchErgebnisse = new Vector();
-		bKontoBean.setFilter(true);
-		suchErgebnisse = Benutzerkonto.suchenBenutzer(bKontoBean);
+	public void testSuchenBenutzer() {
+		Vector<BenutzerkontoBean> benuV = new Vector<BenutzerkontoBean>();
+		Benutzerkonto dummyBenutzerkonto;
+		try {
+			dummyBenutzerkonto = Benutzerkonto.anlegenBenutzer(bKontoBean);
+			dummyBenutzerkonto.getBenutzerkontobean().setFilter(true);
+			benuV = Benutzerkonto.suchenBenutzer(dummyBenutzerkonto.getBenutzerkontobean());
+		} catch (DatenbankFehlerException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		
+		assertEquals(benuV.elementAt(0).getBenutzername(), bKontoBean.getBenutzername());
+		assertEquals(benuV.elementAt(0).getRolle().toString(), bKontoBean.getRolle().toString());
+		assertEquals(benuV.elementAt(0).getPasswort(), bKontoBean.getPasswort());
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#anlegenBenutzer(de.randi2.model.fachklassen.beans.BenutzerkontoBean)}.
-	 * 
-	 * @throws DatenbankFehlerException
-	 * @throws BenutzerkontoException 
 	 */
 	@Test
-	public void testAnlegenBenutzer() throws DatenbankFehlerException, BenutzerkontoException {
-		Benutzerkonto.anlegenBenutzer(bKontoBean);
+	public void testAnlegenBenutzer() {
+		try {
+			Benutzerkonto.anlegenBenutzer(bKontoBean);
+		} catch (DatenbankFehlerException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
 	}
 
 	/**
 	 * Test method for
-	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getBenutzer(java.lang.String)}.
-	 * 
-	 * @throws DatenbankFehlerException
-	 * @throws BenutzerkontoException
+	 * {@link de.randi2.model.fachklassen.Benutzerkonto#get(java.lang.String)}.
 	 */
 	@Test
-	public void testGetBenutzer() throws BenutzerkontoException,
-			DatenbankFehlerException {
-		Benutzerkonto dummyBenutzerkonto = Benutzerkonto.anlegenBenutzer(bKontoBean2);
-		BenutzerkontoBean benu2 = Benutzerkonto.getBenutzer(dummyBenutzerkonto.getBenutzerkontobean().getId());
-		assertTrue(dummyBenutzerkonto.getBenutzerkontobean().equals(benu2));
+	public void testGet() {
+		Benutzerkonto bKonto;
+		BenutzerkontoBean bean = new BenutzerkontoBean();
+		try {
+			bKonto = Benutzerkonto.anlegenBenutzer(bKontoBean);
+			bean = Benutzerkonto.get(bKonto.getBenutzerkontobean().getId());
+			assertEquals(bKontoBean.getBenutzername(), bean.getBenutzername());
+			assertEquals(bKontoBean.getRolle().toString(), bean.getRolle().toString());
+		} catch (DatenbankFehlerException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}		
+		
 	}
 
 	/**
@@ -186,24 +199,16 @@ public class BenutzerkontoTest {
 	 */
 	@Test
 	public void testGetBenutzerkontobean() {
-		try {
-			Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
-			assertTrue(bKonto.getBenutzerkontobean().equals(bKontoBean));
-		} catch (Exception e) {
-			fail("Fehler bei testGetBenutzerkontobean");
-		}
+		Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
+		assertTrue(bKonto.getBenutzerkontobean().equals(bKontoBean));
 	}
 
 	/**
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Benutzerkonto#pruefenPasswort(java.lang.String)}.
-	 * 
-	 * @throws DatenbankFehlerException
-	 * @throws BenutzerkontoException
 	 */
 	@Test
-	public void testPruefenPasswort() throws BenutzerkontoException,
-			DatenbankFehlerException {
+	public void testPruefenPasswort() {
 		String pass = bKontoBean.getPasswort();
 		Benutzerkonto dummyBenu = new Benutzerkonto(bKontoBean);
 		dummyBenu.pruefenPasswort(pass);
