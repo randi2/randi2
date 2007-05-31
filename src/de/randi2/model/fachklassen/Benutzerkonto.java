@@ -86,33 +86,6 @@ public class Benutzerkonto {
 	}
 
 	/**
-	 * Diese statische Methode liefert das Bentutzerkonto Objekt zu der
-	 * eingegebenenem Id.
-	 * 
-	 * @param id
-	 *            die eindeutige Id aus der Datenbank.
-	 * @return Ein BenutzerkontoBean Objekt zu diesem Benutzername
-	 * @throws BenutzerkontoException
-	 *             wenn kein Benutzer mit diesem Banutzername vorhanden ist
-	 * @throws DatenbankFehlerException
-	 *             Benutzer kann nicht in der DB gefunden werden
-	 * 
-	 */
-	public static BenutzerkontoBean getBenutzer(long id)
-			throws BenutzerkontoException, DatenbankFehlerException {
-		BenutzerkontoBean bk = new BenutzerkontoBean();
-		Vector<BenutzerkontoBean> konten;
-		bk.setBenutzerId(id);
-		bk.setFilter(true);
-		konten = suchenBenutzer(bk);
-		if (konten == null || konten.size() == 0) {
-			throw new BenutzerkontoException(
-					BenutzerkontoException.BENUTZER_NICHT_VORHANDEN);
-		}
-		return konten.get(0);
-	}
-
-	/**
 	 * Erzeugt einen String mit allen Daten des Benutzers.
 	 * 
 	 * @return Der String mit allen Daten des Benutzers.
