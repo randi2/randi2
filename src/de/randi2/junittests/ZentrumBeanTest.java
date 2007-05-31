@@ -12,6 +12,7 @@ import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Log4jInit;
+import de.randi2.utility.NullKonstanten;
 
 /**
  * Die get() Methoden werden bei den set() Methoden mitgetestet.
@@ -412,6 +413,7 @@ public class ZentrumBeanTest {
 	@Test
 	public void testSetId() {
 		try {
+			id=NullKonstanten.DUMMY_ID;
 			zentrum.setId(id);
 		} catch (DatenbankFehlerException e) {
 			fail(e.getMessage());

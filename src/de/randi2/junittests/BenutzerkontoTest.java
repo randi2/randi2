@@ -15,6 +15,7 @@ import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
+import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.Log4jInit;
 import de.randi2.utility.NullKonstanten;
@@ -29,7 +30,7 @@ import de.randi2.utility.NullKonstanten;
  */
 public class BenutzerkontoTest {
 
-	private BenutzerkontoBean bKontoBean;
+	private BenutzerkontoBean bKontoBean, bKontoBean2;
 
 	private String benutzername, passwort;
 
@@ -65,6 +66,8 @@ public class BenutzerkontoTest {
 		try {
 			bKontoBean = new BenutzerkontoBean(NullKonstanten.DUMMY_ID, benutzername, passwort, 4, rolle,
 					1, gesperrt, ersterLogin, letzterLogin);
+			bKontoBean2 = new BenutzerkontoBean(13, "Fehlername", passwort, 4, Rolle.getSysop(),
+					1, true, ersterLogin, letzterLogin);
 		} catch (BenutzerkontoException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -107,10 +110,20 @@ public class BenutzerkontoTest {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
-		
-		assertEquals(benuV.elementAt(0).getBenutzername(), bKontoBean.getBenutzername());
-		assertEquals(benuV.elementAt(0).getRolle().toString(), bKontoBean.getRolle().toString());
-		assertEquals(benuV.elementAt(0).getPasswort(), bKontoBean.getPasswort());
+		for(int i = 0; i< benuV.size(); i++) {
+			assertEquals(benuV.elementAt(i).getBenutzername(), bKontoBean.getBenutzername());
+			assertEquals(benuV.elementAt(i).getRolle().toString(), bKontoBean.getRolle().toString());
+			assertEquals(benuV.elementAt(i).getPasswort(), bKontoBean.getPasswort());
+		}
+		//Test mit nicht gefunden
+		try {
+			bKontoBean2.setFilter(true);
+			benuV = Benutzerkonto.suchenBenutzer(bKontoBean2);
+		} catch (DatenbankFehlerException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		assertTrue(benuV.size()== 0);
 	}
 
 	/**
@@ -129,7 +142,7 @@ public class BenutzerkontoTest {
 
 	/**
 	 * Test method for
-	 * {@link de.randi2.model.fachklassen.Benutzerkonto#get(java.lang.String)}.
+	 * {@link de.randi2.model.fachklassen.Benutzerkonto#get(java.lang.long)}.
 	 */
 	@Test
 	public void testGet() {
@@ -143,8 +156,15 @@ public class BenutzerkontoTest {
 		} catch (DatenbankFehlerException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
-		}		
-		
+		}	
+		try {
+			bKontoBean2.setFilter(true);
+			bean = Benutzerkonto.get(bKontoBean2.getId());
+		} catch (DatenbankFehlerException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		assertEquals(null, bean);
 	}
 
 	/**
@@ -200,7 +220,7 @@ public class BenutzerkontoTest {
 	@Test
 	public void testGetBenutzerkontobean() {
 		Benutzerkonto bKonto = new Benutzerkonto(bKontoBean);
-		assertTrue(bKonto.getBenutzerkontobean().equals(bKontoBean));
+		assertEquals(bKonto.getBenutzerkontobean(),bKontoBean);
 	}
 
 	/**
@@ -214,4 +234,32 @@ public class BenutzerkontoTest {
 		dummyBenu.pruefenPasswort(pass);
 	}
 
+	/**
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.Benutzerkonto#getZugehoerigePatienten(java.lang.long)}.
+	 */
+	@Test
+	public void testGetZugehoerigePatienten() {
+		Benutzerkonto bKonto;
+		Vector <PatientBean> pBean = new Vector <PatientBean>();
+		try {
+			bKonto = Benutzerkonto.anlegenBenutzer(bKontoBean);
+			pBean = Benutzerkonto.getZugehoerigePatienten(bKonto.getBenutzerkontobean().getId());
+			for(int i = 0; i<pBean.size(); i++) {
+				assertEquals(pBean.elementAt(i).getBenutzerkontoId(), bKonto.getBenutzerkontobean().getId());
+			}
+		} catch (DatenbankFehlerException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}	
+		try {
+			bKontoBean2.setFilter(true);
+			pBean = Benutzerkonto.getZugehoerigePatienten(bKontoBean2.getId());
+		} catch (DatenbankFehlerException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		assertEquals(null, pBean);
+		
+	}
 }

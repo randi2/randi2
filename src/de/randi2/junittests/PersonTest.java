@@ -94,13 +94,14 @@ public class PersonTest {
 			 * Da wir wissen, dass sich zur Zeit in der Datenbank eine Person
 			 * mit den gesuchten Eigenschaften befindet.
 			 */
-			assertTrue(tempVec.size() == 1);
-			assertEquals(tempVec.elementAt(0).getNachname(), "Obdenhoevel");
-			assertEquals(tempVec.elementAt(0).getVorname(), "Oliver");
-			assertEquals(tempVec.elementAt(0).getGeschlecht(), 'm');
-			assertEquals(tempVec.elementAt(0).getEmail(), "blablabla@web.de");
-			assertEquals(tempVec.elementAt(0).getTelefonnummer(),
-					"072383984738");
+			for(int i = 0; i<tempVec.size(); i++) {
+				assertEquals(tempVec.elementAt(i).getNachname(), "Obdenhoevel");
+				assertEquals(tempVec.elementAt(i).getVorname(), "Oliver");
+				assertEquals(tempVec.elementAt(i).getGeschlecht(), 'm');
+				assertEquals(tempVec.elementAt(i).getEmail(), "blablabla@web.de");
+				assertEquals(tempVec.elementAt(i).getTelefonnummer(),
+						"072383984738");
+			}
 			/*
 			 * Suchen nach einer nicht existierenden Person - Ergebnis: keine
 			 * Person wird gefunden.

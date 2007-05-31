@@ -113,9 +113,10 @@ public class ZentrumTest {
 			 * Da wir wissen, dass sich zur Zeit in der Datenbank ein Zentrum
 			 * mit gesuchten Eigenschaften befindet.
 			 */
-			assertTrue(tempVec.size() == 1);
-			assertEquals(tempVec.elementAt(0).getInstitution(), "Institution1");
-			assertEquals(tempVec.elementAt(0).getAbteilung(), "Abteilung1");
+			for(int i = 0; i < tempVec.size(); i++) {
+				assertEquals(tempVec.elementAt(i).getInstitution(), "Institution1");
+				assertEquals(tempVec.elementAt(i).getAbteilung(), "Abteilung1");
+			}
 			/*
 			 * Jetzt suchen wir nach einem nicht existierendem Zentrum -
 			 * Ergebnis: kein Zentrum wird gefunden.
