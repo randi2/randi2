@@ -14,10 +14,8 @@ import org.junit.Test;
 
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
-import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Zentrum;
-import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Log4jInit;
 
@@ -48,26 +46,18 @@ public class ZentrumTest {
 	public void setUp() {
 		testZB = new ZentrumBean();
 		try {
-			testZB.setId(1);
 			testZB.setInstitution("HS Heilbronn");
 			testZB.setAbteilung("Medizinische Infromatik");
-			testZB.setAnsprechpartner(new PersonBean(1, 0, "Mueller", "Martin",
-					PersonBean.Titel.DR, 'm', "mmueller@hs-heilbronn.de",
-					"07131400500", "0176554422", null));
+			testZB.setAnsprechpartnerId(3);
 			testZB.setOrt("Heilbronn");
 			testZB.setPlz("74081");
 			testZB.setStrasse("Max Planck Strasse");
 			testZB.setHausnr("1a");
 			testZB.setPasswortKlartext("teig!!eeThu3");
+			testZB.setIstAktiviert(true);
 		} catch (ZentrumException e1) {
 			fail("Beim Erzeugen eines ZentrumBeans trat ein Fehler auf: "
 					+ e1.getMessage());
-		} catch (PersonException e2) {
-			fail("Beim Erzeugen eines PersonBeans trat ein Fehler auf: "
-					+ e2.getMessage());
-		} catch(DatenbankFehlerException e){
-			fail("Beim Erzeugen eines PersonBeans trat ein Fehler auf: "
-					+ e.getMessage());
 		}
 	}
 
@@ -99,8 +89,15 @@ public class ZentrumTest {
 		testZB = new ZentrumBean();
 		testZB.setFilter(true);
 		try {
-			testZB.setInstitution("Institut1");
+			testZB.setInstitution("Institution1");
 			testZB.setAbteilung("Abteilung1");
+			testZB.setOrt("Heilbronn");
+			testZB.setPlz("74081");
+			testZB.setStrasse("Max Planck Strasse");
+			testZB.setHausnr("1a");
+			testZB.setPasswortKlartext("teig!!eeThu3");
+			testZB.setAnsprechpartnerId(2);
+			testZB.setIstAktiviert(true);
 		} catch (ZentrumException e) {
 			fail("Bei der ZentrumBean Klasse trat ein Fehler auf: "
 					+ e.getMessage());
@@ -108,44 +105,36 @@ public class ZentrumTest {
 		try {
 			// Speichern in der Datenbank
 			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(testZB);
-		} catch (DatenbankFehlerException e1) {
-			e1.printStackTrace();
-		}
-		Vector<ZentrumBean> tempVec = new Vector<ZentrumBean>();
-		try {
+			// Initialisierung des Vektors
+			Vector<ZentrumBean> tempVec = new Vector<ZentrumBean>();
 			// Holen aus der Datenbank
 			tempVec = Zentrum.suchenZentrum(testZB);
-		} catch (DatenbankFehlerException e) {
-			e.printStackTrace();
-		}
-		/*
-		 * Da wir wissen, dass sich zur Zeit in der Datenbank ein Zentrum mit
-		 * gesuchten Eigenschaften befindet.
-		 */
-		assertTrue(tempVec.size() == 1);
-		assertEquals(tempVec.elementAt(0).getInstitution(), "Institut1");
-		assertEquals(tempVec.elementAt(0).getAbteilung(), "Abteilung1");
-		/*
-		 * Jetzt suchen wir nach einem nicht existierendem Zentrum - Ergebnis:
-		 * kein Zentrum wird gefunden.
-		 */
-		testZB = new ZentrumBean();
-		testZB.setFilter(true);
-		try {
-			testZB.setInstitution("Uni Heidelberg");
-		} catch (ZentrumException e) {
-			fail("Bei der ZentrumBean Klasse trat ein Fehler auf: "
-					+ e.getMessage());
-		}
-		tempVec = new Vector<ZentrumBean>();
-		try {
-			// wird nich gefunden, da nicht geschrieben wurde
+			/*
+			 * Da wir wissen, dass sich zur Zeit in der Datenbank ein Zentrum
+			 * mit gesuchten Eigenschaften befindet.
+			 */
+			assertTrue(tempVec.size() == 1);
+			assertEquals(tempVec.elementAt(0).getInstitution(), "Institution1");
+			assertEquals(tempVec.elementAt(0).getAbteilung(), "Abteilung1");
+			/*
+			 * Jetzt suchen wir nach einem nicht existierendem Zentrum -
+			 * Ergebnis: kein Zentrum wird gefunden.
+			 */
+			testZB = new ZentrumBean();
+			testZB.setFilter(true);
+			try {
+				testZB.setInstitution("Uni Heidelberg");
+			} catch (ZentrumException e) {
+				fail("Bei der ZentrumBean Klasse trat ein Fehler auf: "
+						+ e.getMessage());
+			}
+			tempVec = new Vector<ZentrumBean>();
+			// wird nicht gefunden, da nicht geschrieben wurde
 			tempVec = Zentrum.suchenZentrum(testZB);
+			assertTrue(tempVec.size() == 0);
 		} catch (DatenbankFehlerException e) {
-			e.printStackTrace();
+			fail("In der Datenbank trat ein Fehler auf: " + e.getMessage());
 		}
-		assertTrue(tempVec.size() == 0);
-
 	}
 
 	/**
@@ -157,5 +146,53 @@ public class ZentrumTest {
 		testZ = new Zentrum(testZB);
 		assertTrue(testZ.pruefenPasswort("teig!!eeThu3"));
 		assertFalse(testZ.pruefenPasswort("falschesPW"));
+	}
+
+	/**
+	 * Test Methode fuer getZentrumBean()
+	 * {@link de.randi2.model.fachklassen.Zentrum#getZentrumBean()}.
+	 */
+	@Test
+	public void testGetZentrumBean() {
+		testZ = new Zentrum(testZB);
+		assertTrue(testZ.getZentrumBean().equals(testZB));
+	}
+
+	/**
+	 * Test Methode fuer getZentrum(long zentrumId)
+	 * {@link de.randi2.model.fachklassen.Zentrum#getZentrum(long)}.
+	 */
+	@Test
+	public void testGetZentrum() {
+		testZB = new ZentrumBean();
+		testZB.setFilter(true);
+		try {
+			testZB.setInstitution("Irgendwas");
+			testZB.setAbteilung("Irgendeine");
+			testZB.setOrt("Irgendwo");
+			testZB.setPlz("74081");
+			testZB.setStrasse("Egalstrasse");
+			testZB.setHausnr("23");
+			testZB.setPasswortKlartext("teig!!eeThu3");
+			testZB.setAnsprechpartnerId(2);
+			testZB.setIstAktiviert(true);
+		} catch (ZentrumException e1) {
+			fail("Beim ZentrumBean trat ein Fehler auf: " + e1.getMessage());
+		}
+		try {
+			// schreiben in die Datenbank
+			testZB = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+					testZB);
+			// Initialisierung des Vektors
+			Vector<ZentrumBean> tempVec = new Vector<ZentrumBean>();
+			// Holen aus der Datenbank
+			tempVec = Zentrum.suchenZentrum(testZB);
+			// Suchen mit der ID des neuen Datenbankeintrags
+			ZentrumBean vergleichZB = Zentrum.getZentrum(tempVec.elementAt(0)
+					.getId());
+			assertEquals(vergleichZB, testZB);
+		} catch (DatenbankFehlerException e) {
+			fail("In der Datenbank trat ein Fehler auf: " + e.getMessage());
+		}
 	}
 }
