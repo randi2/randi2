@@ -14,6 +14,7 @@ import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.Log4jInit;
+import de.randi2.utility.NullKonstanten;
 
 /**
  * Testklasse fuer die Klasse BenutzerkontoBean.
@@ -455,8 +456,8 @@ public class BenutzerkontoBeanTest extends Filter {
 	@Test
 	public void testSetId() {
 		try {
-			aKonto.setId(13);
-			assertTrue(aKonto.getId()==13);
+			aKonto.setId(NullKonstanten.DUMMY_ID);
+			assertTrue(aKonto.getId()==NullKonstanten.DUMMY_ID);
 		} catch (Exception e) {
 			fail("[FEHLER]testSetId() sollte keine Exception auslösen");
 		}
