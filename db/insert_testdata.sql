@@ -4,18 +4,24 @@ values ('Hess','Frank','Prof.','m','07131-1231232',null,null,'frank.hess@hs-heil
         ('Nadine','Zwink','kein Titel','w','07131-5673456',null,null,'nzwinck@stud.hs-heilbronn.de'),
         ('Hans','Dampf','Prof. Dr.','m','07131-123456',null,null,'hans.damp@allenGassen.de');
 
+#Passwoerter Zentren:
+		# 1) )dL*mGPeIBB+
+		# 2) 6bA&vbn8EhNt
+		# 3) 5Q5JRpT6NUYR
+		# 4) 9$5WIPsK3n22
 
-#Passwoerter: 
+
+insert into Zentrum (Person_personenID,institution,abteilungsname,ort,plz,strasse,hausnummer,passwort,aktiviert) 
+values('1','nch','knochen','heilbronn','74081','hessstrasse','34',')dL*mGPeIBB+',0),
+        ('2','hno','nase','heilbronn','74081','graeffstrasse','23','6bA&vbn8EhNt',1),
+        ('3','mzk','zahn','heilbronn','74081','zwinkstrasse','12','5Q5JRpT6NUYR',0),
+        ('4','paed','kind','heilbronn','74081','dampfstrasse','44','9$5WIPsK3n22',1);
+
+#Passwoerter User: 
     #Frank Hess:         1$hess80
     #Valentin Graeff:     1$graeff83
     #Nadine Zwink:         1$zwink83
     #Hans Dampf:         1$dampf75
-
-insert into Zentrum (Person_personenID,institution,abteilungsname,ort,plz,strasse,hausnummer,passwort,aktiviert) 
-values('1','nch','knochen','heilbronn','74081','hessstrasse','34','a2dc01d419169a14447c792bfb5ece25a50757c09f28798a2c4f51bea329e35d',0),
-        ('2','hno','nase','heilbronn','74081','graeffstrasse','23','806092d3f870df2536c6685f6532d0fadead7d460127d34786443419ed364474',1),
-        ('3','mzk','zahn','heilbronn','74081','zwinkstrasse','12','4bc34ee364f766e4877e3e6bc7fce62402910200967678714db8d7b4e062c1aa',0),
-        ('4','paed','kind','heilbronn','74081','dampfstrasse','44','7422090dd18d88965d3c2273c6121af4595bbe5c11f0c7a847a158555a4f65be',1);
 
 insert into Benutzerkonto (Zentrum_zentrumsID,Person_personenID,loginname,passwort,rolle,gesperrt) 
 values ('1','1','frank80','a2dc01d419169a14447c792bfb5ece25a50757c09f28798a2c4f51bea329e35d','STUDIENARZT',0),

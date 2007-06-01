@@ -36,6 +36,11 @@ public final class DBScriptUtil {
 				+ KryptoUtil.getInstance().hashPasswort("1$zwink83") + " Ende");
 		System.out.println("Passwort Hans "
 				+ KryptoUtil.getInstance().hashPasswort("1$dampf75") + " Ende");
+		
+		System.out.println("Passwort1  " + KryptoUtil.getInstance().generatePasswort(12));
+		System.out.println("Passwort2  " + KryptoUtil.getInstance().generatePasswort(12));
+		System.out.println("Passwort3  " + KryptoUtil.getInstance().generatePasswort(12));
+		System.out.println("Passwort4  " + KryptoUtil.getInstance().generatePasswort(12));
 	}
 
 }
