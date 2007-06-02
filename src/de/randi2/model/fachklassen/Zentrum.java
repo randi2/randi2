@@ -62,7 +62,7 @@ public class Zentrum {
 	 * @return true, wenn das Passwort richtig ist. False, bei falchem Passwort.
 	 */
 	public boolean pruefenPasswort(String passwort) {
-		if (KryptoUtil.getInstance().hashPasswort(passwort).equals(
+		if (passwort!=null&&KryptoUtil.getInstance().hashPasswort(passwort).equals(
 				this.getZentrumBean().getPasswort())) {
 			return true;
 		}
