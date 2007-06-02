@@ -10,6 +10,7 @@ import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
+import de.randi2.utility.Config;
 
 /**
  * Das Aktivierungservlet wird NUR angesprochen wenn der Benutzer den Aktivierungslink anklickt.
@@ -41,7 +42,7 @@ public class AktivierungServlet extends javax.servlet.http.HttpServlet implement
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	//Url zum Testen http://localhost:8080/RANDI2/Aktivierung?link=aaaaaaaaaaaaaaaaaaaa
-	String id = (String) request.getParameter(AktivierungBean.ATTRIBUT_LINK);
+	String id = (String) request.getParameter(Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_ATTRIBUT));
 	AktivierungBean beanZumSuchen=new AktivierungBean();
 	beanZumSuchen.setFilter(true);
 	try {

@@ -5,6 +5,10 @@ import java.util.Properties;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
+import com.meterware.httpunit.HttpUnitUtils;
+
+import de.randi2.datenbank.Datenbank;
+
 import java.io.FileOutputStream;
 
 
@@ -222,6 +226,16 @@ public final class Config {
          * Debug gibt einen Log auf der Console aus
          */
         RELEASE_MAIL_DEBUG,
+        
+        /**
+         * 
+         */
+        RELEASE_AKTIVIERUNG_ATTRIBUT,
+        
+        /**
+         * 
+         */
+        RELEASE_AKTIVIERUNG_LINK,
 
         /**
          * Speicherung ob System gesperrt ist oder nicht.

@@ -23,17 +23,6 @@ import de.randi2.utility.NullKonstanten;
 public class AktivierungBean extends Filter {
 
 	/**
-	 * Name des Attributes fuer die Aktivierung
-	 */
-	public static final String ATTRIBUT_LINK = "link";
-
-	/**
-	 * Kompletter Url Preafix String
-	 */
-	public static final String PRAEFIX_LINK = "http://localhost/Aktivierung?"
-			+ ATTRIBUT_LINK + "=";
-
-	/**
 	 * Das Versanddatum, wann die Anmeldungsmail versand wurde.
 	 */
 	private GregorianCalendar aVersanddatum = null;

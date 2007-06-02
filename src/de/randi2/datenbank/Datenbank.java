@@ -745,8 +745,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pfad = Datenbank.class.getResource("/conf/release/proxool_cfg.xml")
 					.getPath();
 			if (System.getProperty("os.name").indexOf("Win") != -1) {
-				System.out.println("Windows installiert");
-				HttpUnitUtils.decode(Datenbank.class.getResource(
+				Logger.getLogger(this.getClass()).debug("Betriebssystem: Windows");
+				pfad=HttpUnitUtils.decode(Datenbank.class.getResource(
 						"/conf/release/proxool_cfg.xml").getPath());
 			}
 

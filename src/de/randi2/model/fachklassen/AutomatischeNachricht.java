@@ -14,8 +14,10 @@ import de.randi2.model.exceptions.NachrichtException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
+import de.randi2.utility.Config;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.SystemException;
+import de.randi2.utility.Config.Felder;
 
 /* XXX @Andi Ich habe an der Nachricht.java rumgeschraubt, was auch Auswirkungen auf diese Klasse hat.
  * So wurden alle EMailExceptions, die aus der Klasse rausgingen, in NachrichtException ueberfuehrt.
@@ -164,7 +166,7 @@ public class AutomatischeNachricht extends Nachricht {
                         // FIXME--afreudli Zu klären wie 1:1 Beziehungen
                         // umgesetzt werden (Fachklasse?!)
                         nachrichtentext.replace("#Aktivierungslink#",
-                                AktivierungBean.PRAEFIX_LINK
+                                Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_LINK)
                                         + "Hier kommt dann der Link");
                         break;
                     case BENUTZER_ENTSPERREN:

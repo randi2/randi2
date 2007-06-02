@@ -336,7 +336,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    // Ungueltiger Benutzername/Passwort
 	    weiterleitungBeiFehler("Loginfehler:<br> Bitte Benutzername und Passwort &uuml;berpr&uuml;fen", request, response);
 
-	    LogAktion a = new LogAktion("Ungueltige Benutzername/Passwort Kombination eingegeben.", sBenutzer);
+	    LogAktion a = new LogAktion("Ungueltige Benutzername/Passwort Kombination eingegeben.","Benutzername war:"+(String) request.getParameter("username"));
 	    // FIXME LogMsg eindeutig genug?--Btheel
 	    Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
 	}// catch
