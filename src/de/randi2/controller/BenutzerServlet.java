@@ -1,6 +1,7 @@
 package de.randi2.controller;
 
 import java.io.IOException;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -10,15 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Zentrum;
+import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
+import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.LogAktion;
 import de.randi2.utility.LogLayout;
 import de.randi2.utility.NullKonstanten;
@@ -368,9 +372,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	String fax = request.getParameter("Fax");
 	String handynummer = request.getParameter("Handy");
 	String institut = request.getParameter("Institut");
-	String zent = request.getParameter("aZentrum");
-	int zentrumID = Integer.parseInt(zent);
-	ZentrumBean zentrum = null;
 	String titel = request.getParameter("Titel");
 	PersonBean.Titel titelenum = null;
 
@@ -381,26 +382,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		break;
 	    }
 	}
-
-	// FIXME Dirty Fix: Da noch keine Suche nach Zentrumbeans möglich
-	// @Andy: man kann doch ein ZentrumBean einfach erzeugen, dazu
-	// brauchen
-	// wir keine konstante in der Zentrum Klasse. Oder steckt noch
-	// was
-	// dahinter? (Lukasz)
-	ZentrumBean sZentrum = new ZentrumBean();
-	sZentrum.setFilter(true);
-	Vector<ZentrumBean> gZentrum = null;
-	try {
-	    gZentrum = Zentrum.suchenZentrum(sZentrum);
-	Iterator<ZentrumBean> itgZentrum = gZentrum.iterator();
-	while (itgZentrum.hasNext()) {
-	    ZentrumBean aZentrumBean = itgZentrum.next();
-	    if (aZentrumBean.getId() == zentrumID) {
-		zentrum = aZentrumBean;
-	    }
-	}
-	// Ende Dirty Fix
 
 	// Geschlecht abfragen
 	if (request.getParameter("maennlich") != null) {
@@ -419,6 +400,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	// Benutzer anlegen
 	// Hier findet die Überprüfung der Daten auf Serverseite statt,
 	// Fehler wird an Benutzer weiter gegeben
+	try{
+		//Person erzeugen und in DB speichern
 	PersonBean aPerson = null;
 	    aPerson = new PersonBean();
 	    aPerson.setNachname(nachname);
@@ -428,12 +411,22 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    aPerson.setEmail(email);
 	    aPerson.setTelefonnummer(telefon);
 	    aPerson.setHandynummer(handynummer);
-	    aPerson.setFax(fax);
-
+		aPerson.setFax(fax);
+		aPerson=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aPerson);
+	    
+		//Zugehöriges Benutzerkonto erstellen und in DB Speichern
 	    BenutzerkontoBean aBenutzerkonto;
-	    aBenutzerkonto = new BenutzerkontoBean(email, passwort, aPerson);
-	    Benutzerkonto.anlegenBenutzer(aBenutzerkonto);
+	    aBenutzerkonto = new BenutzerkontoBean(email, KryptoUtil.getInstance().hashPasswort(passwort), aPerson);
+	    aBenutzerkonto.setZentrum((ZentrumBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.ZENTRUM_BENUTZER_ANLEGEN.toString()));
+	    aBenutzerkonto.setRolle(Rolle.getStudienarzt());
+	    aBenutzerkonto.setErsterLogin(null);
+	    aBenutzerkonto.setLetzterLogin(null);
+	    aBenutzerkonto.setGesperrt(true);
+	    aBenutzerkonto=Benutzerkonto.anlegenBenutzer(aBenutzerkonto).getBenutzerkontobean();
 	    request.getRequestDispatcher("/benutzer_anlegen_vier.jsp").forward(request, response);
+	    
+	    //Aktivierung erstellen
+	    AktivierungBean aktivierung=new AktivierungBean(NullKonstanten.DUMMY_ID,new GregorianCalendar(),aBenutzerkonto.getBenutzerId(),"aktivierung");
 
 	// Falls ein Fehler aufgetreten ist, request wieder auffüllen
 	} catch (BenutzerException e) {
@@ -452,7 +445,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    request.setAttribute("Email", email);
 	    request.setAttribute("Telefon", telefon);
 	    request.setAttribute("Fax", fax);
-	    request.setAttribute("aZentrum", zentrum.getId());
 	    request.setAttribute("Handy", handynummer);
 	    request.setAttribute("Institut", institut);
 	    request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());

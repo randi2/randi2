@@ -180,7 +180,8 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 						Zentrum aZentrum = new Zentrum(aZentrumBean);
 						// Zentrum Passwort richtig
 						if (aZentrum.pruefenPasswort(request.getParameter("zentrum_passwort" + aZentrumBean.getId()))) {
-							// ID des Zentrum reinschreiben!
+							//Zentrum an die Session binden
+							request.getSession().setAttribute(DispatcherServlet.sessionParameter.ZENTRUM_BENUTZER_ANLEGEN.toString(),aZentrum.getZentrumBean());
 							request.setAttribute("aZentrum", aZentrum.getZentrumBean().getId());
 							request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
 						}

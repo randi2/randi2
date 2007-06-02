@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@ page%>
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/zebda.js"></script>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
        "http://www.w3.org/TR/html4/strict.dtd">
@@ -19,8 +20,6 @@
 <form action="DispatcherServlet" method="post"><input
 	type="hidden" name="anfrage_id"
 	value="<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER.name() %>">
-<input type="hidden" name="aZentrum"
-	value="<%=request.getAttribute("aZentrum") %>">
 <h1>Benutzer anlegen</h1>
 <%@include file="include/inc_nachricht.jsp"%>
 <fieldset style="width: 60%"><legend><b>Pers&ouml;nliche

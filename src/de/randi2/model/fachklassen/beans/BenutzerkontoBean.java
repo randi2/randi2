@@ -529,7 +529,7 @@ public class BenutzerkontoBean extends Filter {
 	public void setBenutzerId(long id) throws BenutzerkontoException {
 		if (id == NullKonstanten.DUMMY_ID) {
 			throw new BenutzerkontoException(
-					BenutzerkontoException.BENUTZERKONTO_NICHT_GESPEICHERT);
+					BenutzerkontoException.FK_PERSON_NICHT_GESPEICHERT);
 		}
 		this.aBenutzerId = id;
 
