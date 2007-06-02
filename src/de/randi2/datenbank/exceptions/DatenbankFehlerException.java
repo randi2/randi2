@@ -62,6 +62,11 @@ public class DatenbankFehlerException extends SystemException {
 	 * Konstante, falls beim Verbinden oder Trennen ein Fehler auftritt.
 	 */
 	public static final String CONNECTION_ERR="Es sind Probleme mit der Verbindung zur Datenbank aufgetreten.";
+	
+	/**
+	 * Konstante, falls bei der Proxool Konfiguration ein Fehler auftritt
+	 */
+	public static final String PROXOOL_CONF_ERR="Fehler bei der Konfiguration des Connectionspool aufgetreten.";
 
 	/**
 	 * Konstruktor.
