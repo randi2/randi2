@@ -10,7 +10,7 @@ import org.apache.log4j.PropertyConfigurator;
  * Apache Tomcats.
  * 
  * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]
- * @version $Id: Log4jInit.java 1828 2007-04-06 18:31:47Z jthoenes $
+ * @version $Id$
  * 
  */
 public class Log4jInit extends HttpServlet {
@@ -41,7 +41,7 @@ public class Log4jInit extends HttpServlet {
 	 */
 	public static void initDebug() {
 		// System.getProperties().list(System.out);
-		String dateiPfad = "WebContent/WEB-INF/log4j.lcf";
+		String dateiPfad = "WebContent/WEB-INF/log4j.lcf.pat";
 
 		PropertyConfigurator.configureAndWatch(dateiPfad);
 		Logger.getLogger(Log4jInit.class).debug("Log4J System konfigueriert.");

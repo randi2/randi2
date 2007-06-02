@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -25,6 +26,7 @@ import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.RechtException;
 import de.randi2.model.exceptions.ZentrumException;
+import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Studie.Status;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
@@ -36,6 +38,9 @@ import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.model.fachklassen.beans.PersonBean.Titel;
+import de.randi2.utility.LogAktion;
+import de.randi2.utility.LogGeanderteDaten;
+import de.randi2.utility.LogLayout;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.SystemException;
 
@@ -44,12 +49,10 @@ import de.randi2.utility.SystemException;
  * Datenbankklasse
  * </p>
  * 
- * @version $Id: Datenbank.java 2451 2007-05-07 19:36:27Z freifsch $
+ * @version $Id$
  * @author Frederik Reifschneider [Reifschneider@stud.uni-heidelberg.de]
  */
 public class Datenbank implements DatenbankSchnittstelle {
-	// TODO es muss bei allen schreib zugriffen geloggt werden!!
-	// TODO Exception Handling.
 
 	/**
 	 * Logging Objekt
@@ -740,7 +743,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	public Datenbank() {
 		String pfad = "";
-		log = Logger.getLogger("Randi2.Datenaenderung");
+		log = Logger.getLogger(LogLayout.DATENAENDERUNG);
 		try {
 			pfad = Datenbank.class.getResource("/conf/release/proxool_cfg.xml")
 					.getPath();
@@ -749,10 +752,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pfad=HttpUnitUtils.decode(Datenbank.class.getResource(
 						"/conf/release/proxool_cfg.xml").getPath());
 			}
-
 			JAXPConfigurator.configure(pfad, false);
 		} catch (ProxoolException e) {
-			e.printStackTrace();
+			new DatenbankFehlerException(DatenbankFehlerException.PROXOOL_CONF_ERR);
 		}
 	}
 
@@ -1198,12 +1200,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	private PersonBean schreibenPerson(PersonBean person)
 			throws DatenbankFehlerException {
 		Connection con = null;
+		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
 		try {
-			con = getConnection();
+			con = getConnection();			
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
 		}
 		String sql;
 		PreparedStatement pstmt;
@@ -1220,6 +1221,19 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderPerson.STELLVERTRETER + ")"
 					+ "VALUES (NULL,?,?,?,?,?,?,?,?,?)";
 			try {
+				//Fuellen der Hashmap mit Daten fuer das Loggen
+				geaenderteDaten.put(FelderPerson.NACHNAME.toString(), person.getNachname());
+				geaenderteDaten.put(FelderPerson.VORNAME.toString(), person.getVorname());
+				geaenderteDaten.put(FelderPerson.GESCHLECHT.toString(), String.valueOf(person.getGeschlecht()));
+				geaenderteDaten.put(FelderPerson.TITEL.toString(), person.getTitel().toString());
+				geaenderteDaten.put(FelderPerson.EMAIL.toString(), person.getEmail());
+				geaenderteDaten.put(FelderPerson.FAX.toString(), person.getFax());
+				geaenderteDaten.put(FelderPerson.TELEFONNUMMER.toString(), person.getTelefonnummer());
+				geaenderteDaten.put(FelderPerson.HANDYNUMMER.toString(), person.getHandynummer());
+				if (person.getStellvertreterId() == NullKonstanten.DUMMY_ID) {
+					geaenderteDaten.put(FelderPerson.STELLVERTRETER.toString(), String.valueOf(person.getStellvertreterId()));
+				}				
+				//Erstellung des Statements
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
 				pstmt.setString(1, person.getNachname());
@@ -1244,23 +1258,56 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
 			}
 			person.setId(id);
+			//loggen eines neuen Datensatzes
+			loggenDaten(person, geaenderteDaten, 1);
 			return person;
 		}
 		// vorhandene Person wird aktualisiert
 		else {
-			sql = "UPDATE " + Tabellen.PERSON + " SET " + FelderPerson.NACHNAME
-					+ "=?," + FelderPerson.VORNAME + "=?,"
-					+ FelderPerson.GESCHLECHT + "=?," + FelderPerson.TITEL
-					+ "=?," + FelderPerson.EMAIL + "=?," + FelderPerson.FAX
-					+ "=?," + FelderPerson.TELEFONNUMMER + "=?,"
-					+ FelderPerson.HANDYNUMMER + "=?,"
-					+ FelderPerson.STELLVERTRETER + "=?" + " WHERE "
-					+ FelderPerson.ID + "=?";
+			PersonBean person_old = (PersonBean) suchenObjektId(person.getId(), person);
+			sql = "UPDATE " + Tabellen.PERSON + " SET " + 
+			FelderPerson.NACHNAME+ "=?," + 
+			FelderPerson.VORNAME + "=?," + 
+			FelderPerson.GESCHLECHT + "=?," + 
+			FelderPerson.TITEL+ "=?," + 
+			FelderPerson.EMAIL + "=?," + 
+			FelderPerson.FAX+ "=?," + 
+			FelderPerson.TELEFONNUMMER + "=?,"+ 
+			FelderPerson.HANDYNUMMER + "=?,"+ 
+			FelderPerson.STELLVERTRETER + "=?" + 
+			" WHERE "+ FelderPerson.ID + "=?";
 			try {
+				//Fuellen der Hashmap mit Daten fuer das Loggen
+				if(!person.getNachname().equals(person_old.getNachname())) {
+					geaenderteDaten.put(FelderPerson.NACHNAME.toString(), person.getNachname());
+				}
+				if(!person.getVorname().equals(person_old.getVorname())) {
+					geaenderteDaten.put(FelderPerson.VORNAME.toString(), person.getVorname());
+				}
+				if(person.getGeschlecht()!=person_old.getGeschlecht()) {
+					geaenderteDaten.put(FelderPerson.GESCHLECHT.toString(), String.valueOf(person.getGeschlecht()));
+				}
+				if(!person.getTitel().equals(person_old.getTitel())) {
+					geaenderteDaten.put(FelderPerson.TITEL.toString(), person.getTitel().toString());
+				}
+				if(!person.getEmail().equals(person_old.getEmail())) {
+					geaenderteDaten.put(FelderPerson.EMAIL.toString(), person.getEmail());
+				}
+				if(!person.getFax().equals(person_old.getFax())) {
+					geaenderteDaten.put(FelderPerson.FAX.toString(), person.getFax());
+				}
+				if(!person.getTelefonnummer().equals(person_old.getTelefonnummer())) {
+					geaenderteDaten.put(FelderPerson.TELEFONNUMMER.toString(), person.getTelefonnummer());
+				}
+				if(!person.getHandynummer().equals(person_old.getHandynummer())) {
+					geaenderteDaten.put(FelderPerson.HANDYNUMMER.toString(), person.getHandynummer());
+				}
+				if (person.getStellvertreterId() != person_old.getStellvertreterId()) {
+					geaenderteDaten.put(FelderPerson.STELLVERTRETER.toString(), String.valueOf(person.getStellvertreterId()));
+				}					
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, person.getNachname());
 				pstmt.setString(2, person.getVorname());
@@ -1275,19 +1322,19 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.executeUpdate();
 				pstmt.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
 				throw new DatenbankFehlerException(
 						DatenbankFehlerException.SCHREIBEN_ERR);
 			} finally {
 				try {
 					closeConnection(con);
 				} catch (SQLException e) {
-					e.printStackTrace();
 					throw new DatenbankFehlerException(
 							DatenbankFehlerException.CONNECTION_ERR);
 				}
 			}
-		}
+			//loggen eines geaenderten Datensatzes
+			loggenDaten(person, geaenderteDaten, 2);
+		} 
 		return person;
 	}
 
@@ -3165,7 +3212,49 @@ public class Datenbank implements DatenbankSchnittstelle {
 	protected void closeConnection(Connection con) throws SQLException {
 		if (con != null && !con.isClosed()) {
 			con.close();
+		}		
+	}
+	
+	/**
+	 * Loggt eine Datenaenderung
+	 * @param <T>
+	 * @param aObjekt aktuelles Bean dessen Daten geloggt werden
+	 * @param oObjekt falls Daten geaendert wurden enthaelt dieses Bean den alten Datensatz
+	 * @param logart
+	 * 			1 falls Objekt neu angelegt wurde
+	 * 			2 falls Objekt geandert wurde
+	 * 			3 falls Objekt geloescht wurde	
+	 */
+	private <T extends Filter> void   loggenDaten(T aObjekt, HashMap<String, String> geaenderteDaten, int logart) {
+		String text=null;
+		//TODO tmp Benutzer entfernen!
+		BenutzerkontoBean tmp=null;
+		try {
+			tmp = new BenutzerkontoBean("Franz","test66!!");
+		} catch (BenutzerkontoException e) {
+			e.printStackTrace();
 		}
+		switch(logart) { 
+		
+		case 1: text = "neuer Datensatz";
+//			geanderteDaten.put("neuer Datensatz", aObjekt.toString());
+//			log.info(new LogAktion("Datensatz neu angelegt.",tmp, 
+//					new LogGeanderteDaten(aObjekt.getId(),aObjekt.getClass().getSimpleName(),geanderteDaten))); break;	
+		case 2: text = "geaenderter Datensatz";
+//			geanderteDaten.put("alter Datensatz",oObjekt.toString());
+//			geanderteDaten.put("neuer Datensatz",aObjekt.toString());
+//			log.info(new LogAktion("Datensatz geaendert.",tmp,
+//				new LogGeanderteDaten(aObjekt.getId(),aObjekt.getClass().getSimpleName(),geanderteDaten)));
+				break;
+		
+		case 3: text = "geloeschter Datensatz";
+//			geanderteDaten.put("geloeschter Datensatz",oObjekt.toString());
+//			log.info(new LogAktion("Datensatz geloescht.",null,
+//					new LogGeanderteDaten(aObjekt.getId(),aObjekt.getClass().getSimpleName(),geanderteDaten)));
+					break;		
+		}
+		log.info(new LogAktion(text,tmp, 
+				new LogGeanderteDaten(aObjekt.getId(),aObjekt.getClass().getSimpleName(),geaenderteDaten)));
 	}
 
 }
