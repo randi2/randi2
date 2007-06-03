@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import de.randi2.datenbank.Filter;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Studienarm;
@@ -104,14 +104,14 @@ public class PatientBean extends Filter {
 	 *            Die ID des Benutzerkontos.
 	 * @throws PatientException -
 	 *             wenn die uebergebene Daten nicht valide waren
-	 * @throws DatenbankFehlerException -
+	 * @throws DatenbankExceptions -
 	 *             wenn eine inkorrekte Id uebergeben wurde
 	 */
 	public PatientBean(long id, String initialen, char geschlecht,
 			GregorianCalendar geburtsdatum, int performanceStatus,
 			GregorianCalendar datumAufklaerung, int koerperoberflaeche,
 			long studienarmId, long benutzerkontoId) throws PatientException,
-			DatenbankFehlerException {
+			DatenbankExceptions {
 
 		this.setId(id);
 		this.setInitialen(initialen);
@@ -285,7 +285,7 @@ public class PatientBean extends Filter {
 			} else {
 				try {
 					aStudienarm = Studienarm.getStudienarm(aStudienarmId);
-				} catch (DatenbankFehlerException e) {
+				} catch (DatenbankExceptions e) {
 					throw new PatientException(PatientException.DB_FEHLER);
 				}
 			}
@@ -340,11 +340,11 @@ public class PatientBean extends Filter {
 	 * Get-Methode fuer die Rueckgabe des BenutzerkontoBean.
 	 * 
 	 * @return Liefert das BenutzerkontoBean.
-	 * @throws DatenbankFehlerException -
+	 * @throws DatenbankExceptions -
 	 *             wenn beim Holen des entsprechendes Bentutzerkontoobjektes
 	 *             Probleme vorkamen.
 	 */
-	public BenutzerkontoBean getBenutzerkonto() throws DatenbankFehlerException {
+	public BenutzerkontoBean getBenutzerkonto() throws DatenbankExceptions {
 		if (aBenutzerkonto == null) {
 			aBenutzerkonto = Benutzerkonto.get(aBenutzerkontoId);
 		}
@@ -458,7 +458,7 @@ public class PatientBean extends Filter {
 							.getBenutzerkonto()))) {
 						return false;
 					}
-				} catch (DatenbankFehlerException e) {
+				} catch (DatenbankExceptions e) {
 					return false;
 				}
 			} else {

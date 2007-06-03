@@ -3,7 +3,7 @@ package de.randi2.randomisation;
 import java.util.Arrays;
 import java.util.Random;
 
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.exceptions.StudienarmException;
@@ -79,7 +79,7 @@ public class BlockRandomisation extends Randomisation {
 	 */
 	@Override
 	public void randomisierenPatient(PatientBean aPatient)
-			throws RandomisationsException, DatenbankFehlerException {
+			throws RandomisationsException, DatenbankExceptions {
 
 		if (letztePosition > aBlock.length - 1) {
 			aBlock = erzeugeNeuenBlock();
@@ -100,7 +100,7 @@ public class BlockRandomisation extends Randomisation {
 		try {
 			super.studie.getStudienarme().elementAt(aBlock[letztePosition])
 					.getPatienten().add(aPatient);
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 
 			throw new RandomisationsException(
 					RandomisationsException.ARM_NICHT_VERWENDBAR);

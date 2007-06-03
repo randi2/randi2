@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
@@ -86,7 +86,7 @@ public class BlockRandomisationTest {
 				testBlockrandomisation.randomisierenPatient(testPatienten[i]);
 			} catch (RandomisationsException e) {
 				fail(e.getMessage());
-			} catch (DatenbankFehlerException e1) {
+			} catch (DatenbankExceptions e1) {
 				fail(e1.getMessage());
 			}
 		}
@@ -122,7 +122,7 @@ public class BlockRandomisationTest {
 			assertEquals(30, testArm2.getPatienten().size());
 			assertEquals(30, testArm3.getPatienten().size());
 
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 
 			fail(e.getMessage());
 

@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Vector;
 import de.randi2.datenbank.Filter;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Studie;
@@ -104,13 +104,13 @@ public class StudieBean extends Filter {
 	 *            Randomisations-Id
 	 * @throws StudieException
 	 *             wenn ein Fehler aufgetreten ist
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wenn eine inkorrekte Id uebergeben wurde
 	 */
 	public StudieBean(long id, String beschreibung,
 			GregorianCalendar startdatum, GregorianCalendar enddatum,
 			String studienprotokollPfad, long randomisationId)
-			throws StudieException, DatenbankFehlerException {
+			throws StudieException, DatenbankExceptions {
 
 		this.setId(id);
 		this.setBeschreibung(beschreibung);
@@ -130,11 +130,11 @@ public class StudieBean extends Filter {
 	 * Liefert das Benutzerkonto.
 	 * 
 	 * @return benutzerkonto, Benutzerkonto
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Exception, wenn beim Holen des entsprechendes
 	 *             Bentutzerkontoobjektes Probleme vorkamen.
 	 */
-	public BenutzerkontoBean getBenutzerkonto() throws DatenbankFehlerException {
+	public BenutzerkontoBean getBenutzerkonto() throws DatenbankExceptions {
 		if (aBenutzerkonto == null) {
 
 			aBenutzerkonto = Benutzerkonto.get(aBenutzerkontoId);
@@ -319,10 +319,10 @@ public class StudieBean extends Filter {
 	 * Liefert die Zentren, die an dieser Studie teilnehmen.
 	 * 
 	 * @return die teilnehmenden Zentren
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Exception, wenn zugehoeriges Zentrum nicht gefunden wurden.
 	 */
-	public Vector<ZentrumBean> getZentren() throws DatenbankFehlerException {
+	public Vector<ZentrumBean> getZentren() throws DatenbankExceptions {
 		if (aZentren == null) {
 
 			aZentren = Studie.getZugehoerigeZentren(this.getId());
@@ -364,10 +364,10 @@ public class StudieBean extends Filter {
 	 * Liefert die Schichten(Strata) der Studie.
 	 * 
 	 * @return strata Strata der Studie
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Exception, wenn keine Schichten gefunden wurden.
 	 */
-	public Vector<StrataBean> getStrata() throws DatenbankFehlerException {
+	public Vector<StrataBean> getStrata() throws DatenbankExceptions {
 
 		if (aStrata == null) {
 			aStrata = Studie.getZugehoerigeStrata(this.getId());

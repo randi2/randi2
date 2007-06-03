@@ -2,7 +2,7 @@ package de.randi2.datenbank;
 
 import java.util.Vector;
 
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 
 /**
  * Diese Klasse repraesentiert eine Schnittstelle fuer den Datenbankzugriff.
@@ -32,19 +32,19 @@ public interface DatenbankSchnittstelle {
 	 *            das zusuchende Objekt mit Attributen als Filter, darf nicht
 	 *            <code>null</code> sein.
 	 * @return ein Vektor von auf die Filterung zutreffenden Objekten
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Folgende Messages sind moeglich:
 	 *             <ul>
-	 *             <li>DatenbankFehlerException.ARGUMENT_IST_NULL: Versuchter
+	 *             <li>DatenbankExceptions.ARGUMENT_IST_NULL: Versuchter
 	 *             Methodenaufruf mit <code>null</code> </li>
-	 *             <li>DatenbankFehlerException.SUCHOBJEKT_IST_KEIN_FILTER: Das
+	 *             <li>DatenbankExceptions.SUCHOBJEKT_IST_KEIN_FILTER: Das
 	 *             Objekt, welches zum Suchen eingesetzt wurde, war kein Filter
 	 *             (vlg. {@link Filter})</li>
-	 *             <li>DatenbankFehlerException.CONNECTION_ERR</li>
+	 *             <li>DatenbankExceptions.CONNECTION_ERR</li>
 	 *             </ul>
 	 */
 	<T extends Filter> Vector<T> suchenObjekt(T zuSuchendesObjekt)
-			throws DatenbankFehlerException;
+			throws DatenbankExceptions;
 
 	/**
 	 * <p>
@@ -59,17 +59,17 @@ public interface DatenbankSchnittstelle {
 	 *            das zuschreibende Objekt
 	 * @return das geschriebene Objekt. Objekt enthaelt jetzt die ID des
 	 *         Datensatzes in der Datenbank
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Folgende Messages sind moeglich:
 	 *             <ul>
-	 *             <li>DatenbankFehlerException.ARGUMENT_IST_NULL: Versuchter
+	 *             <li>DatenbankExceptions.ARGUMENT_IST_NULL: Versuchter
 	 *             Methodenaufruf mit <code>null</code> </li>
-	 *             <li>DatenbankFehlerException.SCHREIBEN_ERR</li>
-	 *             <li>DatenbankFehlerException.CONNECTION_ERR</li>
+	 *             <li>DatenbankExceptions.SCHREIBEN_ERR</li>
+	 *             <li>DatenbankExceptions.CONNECTION_ERR</li>
 	 *             </ul>
 	 */
 	<T extends Filter> T schreibenObjekt(T zuSchreibendesObjekt)
-			throws DatenbankFehlerException;
+			throws DatenbankExceptions;
 
 	/**
 	 * <p>
@@ -83,17 +83,17 @@ public interface DatenbankSchnittstelle {
 	 * @param nullObjekt
 	 *            Ein Nullobjekt der jeweiligen Klasse.
 	 * @return Das gesuchte Objekt.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Folgende Messages sind moeglich:
 	 *             <ul>
-	 *             <li>DatenbankFehlerException.ARGUMENT_IST_NULL: Versuchter
+	 *             <li>DatenbankExceptions.ARGUMENT_IST_NULL: Versuchter
 	 *             Methodenaufruf mit <code>null</code> </li>
-	 *             <li>DatenbankFehlerException.ID_NICHT_VORHANDEN</li>
-	 *             <li>DatenbankFehlerException.CONNECTION_ERR</li>
+	 *             <li>DatenbankExceptions.ID_NICHT_VORHANDEN</li>
+	 *             <li>DatenbankExceptions.CONNECTION_ERR</li>
 	 *             </ul>
 	 */
 	<T extends Filter> T suchenObjektId(long id, T nullObjekt)
-			throws DatenbankFehlerException;
+			throws DatenbankExceptions;
 
 	/**
 	 * <p>
@@ -117,14 +117,14 @@ public interface DatenbankSchnittstelle {
 	 *            beschraenken die Liste auf selbige ein. Ein Null-Objekt
 	 *            bewirkt die Rueckgabe der gesamten Liste.
 	 * @return Die Liste der gefundenen Kinder.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 * 				Folgende Messages sind moeglich:
 	 * 				<ul>
-	 * 					<li>DatenbankFehlerException.CONNECTION_ERR</li>
+	 * 					<li>DatenbankExceptions.CONNECTION_ERR</li>
 	 * 				</ul>
 	 */
 	<T extends Filter, U extends Filter> Vector<T> suchenMitgliederObjekte(
-			U vater, T kind) throws DatenbankFehlerException;
+			U vater, T kind) throws DatenbankExceptions;
 
 	/**
 	 * <p>
@@ -136,16 +136,42 @@ public interface DatenbankSchnittstelle {
 	 * @param zuLoeschendesObjekt
 	 *            Objekt das geloescht werden soll. Die ID des zuloeschenden
 	 *            Objekts muss gesetzt sein.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Folgende Messages sind moeglich:
 	 *             <ul>
-	 *             <li>DatenbankFehlerException.ARGUMENT_IST_NULL: Versuchter
+	 *             <li>DatenbankExceptions.ARGUMENT_IST_NULL: Versuchter
 	 *             Methodenaufruf mit <code>null</code> </li>
-	 *             <li>DatenbankFehlerException.LOESCHEN_ERR</li>
-	 *             <li>DatenbankFehlerException.CONNECTION_ERR</li>
+	 *             <li>DatenbankExceptions.LOESCHEN_ERR</li>
+	 *             <li>DatenbankExceptions.CONNECTION_ERR</li>
 	 *             </ul>
 	 */
 	<T extends Filter> void loeschenObjekt(T zuLoeschendesObjekt)
-			throws DatenbankFehlerException;
+			throws DatenbankExceptions;
+	
+	/**
+	 * <p>
+	 * Diese Methode liefert zu dem gegebenen <code>vater</code> das zugehoerige 
+	 * Kind. Ein Null-Objekt erlaubt die Rückgabe des Kindobjektes.
+	 * </p>
+	 * 
+	 * @param <T>
+	 *            Der Typ des Kind-Objekts.
+	 * @param <U>
+	 *            Der Typ des Vater-Objekts.
+	 * @param vater
+	 *            Vater-Objekt, dessen Mitglieder/Kinder gesucht werden sollen.
+	 *            Das Objekt muss auf jeden Fall die eigene ID enthalten, die es
+	 *            in der Datenbank identifiziert.
+	 * @param kind
+	 *            NullObjekt des Kindes.
+	 * @return Das gefundene Kind.
+	 * @throws DatenbankExceptions
+	 * 				Folgende Messages sind moeglich:
+	 * 				<ul>
+	 * 					<li>DatenbankExceptions.CONNECTION_ERR</li>
+	 * 					<li>DatenbankExceptions.VECTOR_RELATION_FEHLER</li>
+	 * 				</ul>
+	 */
+	<T extends Filter, U extends Filter> T suchenMitgliedEinsZuEins(U vater, T kind) throws DatenbankExceptions;
 
 }

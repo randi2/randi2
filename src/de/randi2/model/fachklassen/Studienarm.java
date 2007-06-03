@@ -3,7 +3,7 @@ package de.randi2.model.fachklassen;
 import java.util.Vector;
 
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.beans.PatientBean;
@@ -50,11 +50,11 @@ public final class Studienarm {
 	 * @param id
 	 *            ID des gesuchten Studiearms.
 	 * @return StudienarmBean - das gewuenschte Objekt.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             falls Fehler bei dem Vorgang auftraten.
 	 */
 	public static StudienarmBean getStudienarm(long id)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		StudienarmBean nullBean = new StudienarmBean();
 		nullBean.setFilter(true);
 		return DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(id,
@@ -70,11 +70,11 @@ public final class Studienarm {
 	 *            ein StudienarmBean, in dem die gesuchten Eigenschaften gesetzt
 	 *            sind und alle andere NULL Werte enthalten.
 	 * @return ein Vector mit gefundenen StudienarmBeans.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             falls Fehler bei dem Vorgang auftraten.
 	 */
 	public static Vector<StudienarmBean> suchen(StudienarmBean gesuchtesBean)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		return DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
 				gesuchtesBean);
 	}
@@ -85,11 +85,11 @@ public final class Studienarm {
 	 * @param studienarmId
 	 *            Id des Studienarms zur eindeutigen Zuordnung in der Datenbank.
 	 * @return gefundenePatienten
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Exception, wenn Studienarm nicht gefunden wurde.
 	 */
 	public static Vector<PatientBean> getZugehoerigePatienten(long studienarmId)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		StudienarmBean studienarm = new StudienarmBean();
 		studienarm.setId(studienarmId);
 		Vector<PatientBean> gefundenePatienten = null;

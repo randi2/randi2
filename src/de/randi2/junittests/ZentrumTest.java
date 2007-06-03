@@ -13,7 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -133,7 +133,7 @@ public class ZentrumTest {
 			// wird nicht gefunden, da nicht geschrieben wurde
 			tempVec = Zentrum.suchenZentrum(testZB);
 			assertTrue(tempVec.size() == 0);
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			fail("In der Datenbank trat ein Fehler auf: " + e.getMessage());
 		}
 	}
@@ -192,7 +192,7 @@ public class ZentrumTest {
 			ZentrumBean vergleichZB = Zentrum.getZentrum(tempVec.elementAt(0)
 					.getId());
 			assertEquals(vergleichZB, testZB);
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			fail("In der Datenbank trat ein Fehler auf: " + e.getMessage());
 		}
 	}

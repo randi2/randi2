@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import de.randi2.datenbank.Filter;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
@@ -234,7 +234,7 @@ public class BenutzerkontoBeanTest extends Filter {
 					gesperrt,ersterLogin, letzterLogin);
 			bKonto = new BenutzerkontoBean(12,benutzername, passwort, zentrumId, rolle, benutzerId,
 					gesperrt,ersterLogin, letzterLogin);
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			fail(e.getMessage());
 		}
 
@@ -293,7 +293,7 @@ public class BenutzerkontoBeanTest extends Filter {
 		    bKonto = new BenutzerkontoBean(1,benutzernameB, passwortB, zentrumId, rolleB,
 					benutzerIdB, gesperrtB, ersterLoginB,
 					letzterLoginB);
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			fail(e.getMessage());
 		}
 
@@ -334,7 +334,7 @@ public class BenutzerkontoBeanTest extends Filter {
 
 			cKonto = new BenutzerkontoBean(13,"Abctest", "abc@cdef", zentrumId, null, benutzerId,
 					false, null, null);
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			fail(e.getMessage());
 		}
 

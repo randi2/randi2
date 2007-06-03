@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.model.fachklassen.beans.PersonBean;
@@ -122,7 +122,7 @@ public class PersonTest {
 			// wird nicht gefunden, da nicht geschrieben wurde
 			tempVec = Person.suchenPerson(testPB);
 			assertTrue(tempVec.size() == 0);
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			fail("In der Datenbank trat ein Fehler auf: " + e.getMessage());
 		}
 	}
@@ -156,7 +156,7 @@ public class PersonTest {
 			// Suchen mit der ID des neuen Datenbankeintrags
 			PersonBean vergleichPB = Person.get(tempVec.elementAt(0).getId());
 			assertEquals(vergleichPB, testPB);
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			fail("In der Datenbank trat ein Fehler auf: " + e.getMessage());
 		}
 	}

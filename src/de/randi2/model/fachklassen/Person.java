@@ -3,7 +3,7 @@ package de.randi2.model.fachklassen;
 import java.util.Vector;
 
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.fachklassen.beans.PersonBean;
 
 /**
@@ -33,11 +33,11 @@ public final class Person {
 	 * @param id
 	 *            die eindeutige Id des gewuenschten Objektes.
 	 * @return PersonBean - das gewuenschte Objekt.
-	 * @throws DatenbankFehlerException -
+	 * @throws DatenbankExceptions -
 	 *             falls das PersonBean Objekt zu der uebergebenen Id nicht
 	 *             existiert.
 	 */
-	public static PersonBean get(long id) throws DatenbankFehlerException {
+	public static PersonBean get(long id) throws DatenbankExceptions {
 		PersonBean nullBean = new PersonBean();
 		nullBean.setFilter(true);
 		return DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(id,
@@ -52,11 +52,11 @@ public final class Person {
 	 *            ein PersonBean, in dem die gesuchten Eigenschaften gesetzt
 	 *            sind und alle andere NULL Werte enthalten.
 	 * @return ein Vector mit gefundenen PersonBeans.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             falls Fehler bei dem Vorgang auftraten.
 	 */
 	public static Vector<PersonBean> suchenPerson(PersonBean gesuchtesBean)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		return DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
 				gesuchtesBean);
 	}

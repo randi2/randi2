@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.Studie;
@@ -97,12 +97,12 @@ public class VollstaendigeRandomisationTest {
 	 * 
 	 * @throws RandomisationsException
 	 *             Duerfte bei erfolgreichen Testlauf nicht auftreten.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Duerfte bei erfolgreichen Testlauf nicht auftreten.
 	 */
 	@Test
 	public void testRandomisierenPatient() throws RandomisationsException,
-			DatenbankFehlerException {
+			DatenbankExceptions {
 		for (int i = 0; i < 90; i++) {
 			testPatienten[i] = new PatientBean();
 			testPatienten[i].setInitialen("INI" + i);

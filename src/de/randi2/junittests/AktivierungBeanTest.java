@@ -9,7 +9,7 @@ import java.util.GregorianCalendar;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Rolle;
@@ -86,7 +86,7 @@ public class AktivierungBeanTest {
 							KryptoUtil.getInstance().generatePasswort(10)), 13,
 					Rolle.getStudienarzt(), 14, false, new GregorianCalendar(
 							2007, 4, 20), new GregorianCalendar()));
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			fail(e.getMessage());
 		}
 	}
@@ -103,7 +103,7 @@ public class AktivierungBeanTest {
 					12, "aaaaaaaaaaaaaaaaaaaa");
 
 			assertEquals(abean, abean2);
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			fail(e.getMessage());
 		}
 
@@ -128,7 +128,7 @@ public class AktivierungBeanTest {
 			abean2.setBenutzerkontoId(12);
 			abean2.setAktivierungsLink("aaaaaaaaaaaaabaaaaaa");
 			assertFalse(abean.equals(abean2));
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			fail(e.getMessage());
 		}
 		

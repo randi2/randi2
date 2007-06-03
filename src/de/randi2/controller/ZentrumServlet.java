@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -117,7 +117,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
 		try {
 			gZentrum = Zentrum.suchenZentrum(sZentrum);
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
 		}
 		request.setAttribute("listeZentren", gZentrum);
@@ -157,7 +157,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				request.setAttribute("listeZentren", gZentrum);
 			} catch (BenutzerException e) {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
-			} catch (DatenbankFehlerException e) {
+			} catch (DatenbankExceptions e) {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
 			}
 			
@@ -193,7 +193,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 						}
 					}
 				}
-			} catch (DatenbankFehlerException e) {
+			} catch (DatenbankExceptions e) {
 				//Fehler zurück!
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
 				request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp").forward(request, response);

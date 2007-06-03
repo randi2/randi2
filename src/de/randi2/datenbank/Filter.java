@@ -1,6 +1,6 @@
 package de.randi2.datenbank;
 
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.utility.NullKonstanten;
 
 /**
@@ -11,8 +11,8 @@ import de.randi2.utility.NullKonstanten;
  * <p>
  * Beans, die als Suchfilter dienen, muessen die Flag {@link #isFilter} auf
  * <code>true</code> gesetzt bekommen, anderenfalls werden sie mit einer
- * {@link DatenbankFehlerException} (Msg:
- * {@link DatenbankFehlerException#SUCHOBJEKT_IST_KEIN_FILTER}) abgewiesen.
+ * {@link DatenbankExceptions} (Msg:
+ * {@link DatenbankExceptions#SUCHOBJEKT_IST_KEIN_FILTER}) abgewiesen.
  * </p>
  * <p>
  * per Default ist die Flag {@link #isFilter} auf <code>false</code> gesetzt.
@@ -90,13 +90,13 @@ public class Filter {
 	/**
 	 * Die set-Methode fuer die Id - die uebergebene Id darf nicht negativ o. gleich 0 sein.
 	 * @param id - die neue Id des Objektes (muss ein positiver long Wert sein!)
-	 * @throws DatenbankFehlerException - bei einer uebergebener Id, die <=0 ist.
+	 * @throws DatenbankExceptions - bei einer uebergebener Id, die <=0 ist.
 	 */
-	public void setId(long id) throws DatenbankFehlerException{
+	public void setId(long id) throws DatenbankExceptions{
 		if(id>0 || id==NullKonstanten.NULL_LONG){
 			this.id = id;
 		}else{
-			throw new DatenbankFehlerException(DatenbankFehlerException.ID_FALSCH);
+			throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
 		}
 	}
 	

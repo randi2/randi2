@@ -3,7 +3,7 @@ package de.randi2.model.fachklassen.beans;
 import java.util.HashMap;
 
 import de.randi2.datenbank.Filter;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.StrataException;
 import de.randi2.utility.CollectionUtil;
 import de.randi2.utility.NullKonstanten;
@@ -48,9 +48,9 @@ public class StrataBean extends Filter{
 	 *            Datenbank als {@link Long} dar. Der value-Paramater den
 	 *            geschriebenen Wert des Stratas als {@link String}.
 	 * @throws StrataException - bei augetretenen Fehlern
-	 * @throws DatenbankFehlerException - bei einer nicht korrekten Id
+	 * @throws DatenbankExceptions - bei einer nicht korrekten Id
 	 */
-	public StrataBean(long id, HashMap<Long, String> moeglicheAuspraegungen) throws StrataException, DatenbankFehlerException{
+	public StrataBean(long id, HashMap<Long, String> moeglicheAuspraegungen) throws StrataException, DatenbankExceptions{
 		super.setId(id);
 		this.aMoeglicheAuspraegungen = moeglicheAuspraegungen;
 	}
@@ -67,10 +67,10 @@ public class StrataBean extends Filter{
 	 * @param aAuspragungId
 	 *            Die id des Stratas als long.
 	 * @throws StrataException - bei augetretenen Fehlern
-	 * @throws DatenbankFehlerException - bei einer nicht korrekten Id
+	 * @throws DatenbankExceptions - bei einer nicht korrekten Id
 	 */
 	public StrataBean(long id, HashMap<Long, String> moeglicheAuspraegungen,
-			long aAuspragungId) throws StrataException, DatenbankFehlerException{
+			long aAuspragungId) throws StrataException, DatenbankExceptions{
 		this(id, moeglicheAuspraegungen);
 		this.aAuspraegungId = aAuspragungId;
 	}

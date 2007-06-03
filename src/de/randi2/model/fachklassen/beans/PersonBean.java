@@ -1,7 +1,7 @@
 package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.utility.NullKonstanten;
@@ -472,10 +472,10 @@ public class PersonBean extends Filter {
 	 * Get-Methode fuer den Stellvertreter
 	 * 
 	 * @return Der Stellvertreter.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Fehler aufgetreten.
 	 */
-	public PersonBean getStellvertreter() throws DatenbankFehlerException {
+	public PersonBean getStellvertreter() throws DatenbankExceptions {
 		if (aStellvertreter == null) {
 			aStellvertreter = Person.get(aStellvertreterId);
 		}

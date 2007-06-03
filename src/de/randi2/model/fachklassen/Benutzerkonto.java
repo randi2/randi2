@@ -3,7 +3,7 @@ package de.randi2.model.fachklassen;
 import java.util.Vector;
 
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
@@ -45,11 +45,11 @@ public class Benutzerkonto {
 	 *            irrelevante Felder entsprechen den Null-Werten aus der
 	 *            de.randi2.utility.NullKonstanten Klasse)
 	 * @return ein Vector mit gefundenen Objekten
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Wird geworfen, wenn ein Datenbankfehler auftritt.
 	 */
 	public static Vector<BenutzerkontoBean> suchenBenutzer(
-			BenutzerkontoBean sBenutzerkonto) throws DatenbankFehlerException {
+			BenutzerkontoBean sBenutzerkonto) throws DatenbankExceptions {
 		Vector<BenutzerkontoBean> gefundeneKonten;
 		gefundeneKonten = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
 				sBenutzerkonto);
@@ -64,12 +64,12 @@ public class Benutzerkonto {
 	 * @param aBenutzerkonto
 	 *            das Bentuzerkonto das angelegt werden soll.
 	 * @return Das aktualisierte Benutzerkonto.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Fehler der Benutzer konnte nicht angelegt werden
 	 * 
 	 */
 	public static Benutzerkonto anlegenBenutzer(BenutzerkontoBean aBenutzerkonto)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 
 		BenutzerkontoBean aktualisierterBenutzer = null;
 		aktualisierterBenutzer = DatenbankFactory.getAktuelleDBInstanz()
@@ -139,11 +139,11 @@ public class Benutzerkonto {
 	 * @param benutzerkontoId
 	 *            gewuenschte Id
 	 * @return das zur id zugehoerige BenutzerkontoBean
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Fehlermeldung, falls Fehler mit DB
 	 */
 	public static BenutzerkontoBean get(long benutzerkontoId)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		BenutzerkontoBean rueckgabe;
 		rueckgabe = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(
 				benutzerkontoId, new BenutzerkontoBean());
@@ -157,11 +157,11 @@ public class Benutzerkonto {
 	 *            Id des Benutzerkontos zur eindeutigen Zuordnung in der
 	 *            Datenbank
 	 * @return gefundene Patienten
-	 * @throws DatenbankFehlerException -
+	 * @throws DatenbankExceptions -
 	 *             wenn ein Fehler in der DB auftrat.
 	 */
 	public static Vector<PatientBean> getZugehoerigePatienten(long kontoId)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		BenutzerkontoBean konto = new BenutzerkontoBean();
 		konto.setId(kontoId);
 		Vector<PatientBean> gefundenePatienten = null;

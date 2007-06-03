@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.fachklassen.AutomatischeNachricht;
@@ -294,7 +294,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 	    try { // Benutzer in der DB suchen
 		gBenutzer = Benutzerkonto.suchenBenutzer(sBenutzer);
-	    } catch (DatenbankFehlerException e) {
+	    } catch (DatenbankExceptions e) {
 		// Interner Fehler, wird nicht an Benutzer weitergegeben
 		Logger.getLogger(this.getClass()).fatal("Fehler bei Benutzerfilterung", e);
 	    }
@@ -456,7 +456,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    request.setAttribute("Institut", institut);
 	    request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
 	    request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
-	}catch(DatenbankFehlerException e){
+	}catch(DatenbankExceptions e){
 		//TODO Bitte hier ordentliches Exception-Handlin einbauen! (lplotni)
 	} catch (SystemException e) {
 		// TODO Auto-generated catch block

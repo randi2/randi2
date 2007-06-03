@@ -18,7 +18,7 @@ import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
 import com.meterware.httpunit.HttpUnitUtils;
 
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
@@ -754,7 +754,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			JAXPConfigurator.configure(pfad, false);
 		} catch (ProxoolException e) {
-			new DatenbankFehlerException(DatenbankFehlerException.PROXOOL_CONF_ERR);
+			new DatenbankExceptions(DatenbankExceptions.PROXOOL_CONF_ERR);
 		}
 	}
 
@@ -764,10 +764,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#loeschenObjekt(de.randi2.datenbank.Filter)
 	 */
 	public <T extends Filter> void loeschenObjekt(T zuLoeschendesObjekt)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		if (zuLoeschendesObjekt == null) {
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.ARGUMENT_IST_NULL);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.ARGUMENT_IST_NULL);
 		} else {
 			// ZentrumBean loeschen
 			if (zuLoeschendesObjekt instanceof ZentrumBean) {
@@ -822,11 +822,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @param zentrum
 	 *            zu löschendes ZentrumBean.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
 	private void loeschenZentrum(ZentrumBean zentrum)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
@@ -834,8 +834,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		sql = "DELETE FROM " + Tabellen.ZENTRUM + " WHERE " + FelderZentrum.ID
 				+ "=?";
@@ -846,15 +846,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.LOESCHEN_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.LOESCHEN_ERR);
 		}
 		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 	}
 
@@ -863,11 +863,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @param person
 	 *            zu löschendes PersonBean.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
 	private void loeschenPerson(PersonBean person)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
@@ -875,8 +875,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		sql = "DELETE FROM " + Tabellen.PERSON + " WHERE " + FelderPerson.ID
 				+ "=?";
@@ -887,15 +887,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.LOESCHEN_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.LOESCHEN_ERR);
 		}
 		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 	}
 
@@ -904,11 +904,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @param benutzer
 	 *            zu löschendes BenutzerkontoBean.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
 	private void loeschenBenutzerkonto(BenutzerkontoBean benutzer)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
@@ -916,8 +916,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		sql = "DELETE FROM " + Tabellen.BENUTZERKONTO + " WHERE "
 				+ FelderBenutzerkonto.ID + "=?";
@@ -928,15 +928,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.LOESCHEN_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.LOESCHEN_ERR);
 		}
 		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 	}
 
@@ -945,11 +945,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @param aktivierung
 	 *            zu löschendes AktivierungBean.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
 	private void loeschenAktivierung(AktivierungBean aktivierung)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
@@ -957,8 +957,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		sql = "DELETE FROM " + Tabellen.AKTIVIERUNG + " WHERE "
 				+ FelderAktivierung.Id + "=?";
@@ -969,15 +969,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.LOESCHEN_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.LOESCHEN_ERR);
 		}
 		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 	}
 
@@ -986,11 +986,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @param studie
 	 *            zu löschendes StudieBean.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
 	private void loeschenStudie(StudieBean studie)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
@@ -998,8 +998,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		sql = "DELETE FROM " + Tabellen.STUDIE + " WHERE " + FelderStudie.ID
 				+ "=?";
@@ -1010,15 +1010,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.LOESCHEN_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.LOESCHEN_ERR);
 		}
 		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 	}
 
@@ -1027,11 +1027,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @param studienarm
 	 *            zu löschendes StudienarmBean.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
 	private void loeschenStudienarm(StudienarmBean studienarm)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
@@ -1039,8 +1039,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		sql = "DELETE FROM " + Tabellen.STUDIENARM + " WHERE "
 				+ FelderStudienarm.ID + "=?";
@@ -1051,15 +1051,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.LOESCHEN_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.LOESCHEN_ERR);
 		}
 		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 	}
 
@@ -1068,11 +1068,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @param patient
 	 *            zu loeschendes PatientBean.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
 	private void loeschenPatient(PatientBean patient)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = "";
@@ -1080,8 +1080,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		sql = "DELETE FROM " + Tabellen.PATIENT + " WHERE " + FelderPatient.ID
 				+ "=?";
@@ -1092,15 +1092,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.LOESCHEN_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.LOESCHEN_ERR);
 		}
 		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 	}
 	
@@ -1109,10 +1109,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * Loescht das uebergebene Blockobjekt aus der Datenbank.
 	 * @param block
 	 * 			zu loeschendes Blockobjekt.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 * 				wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
-	private void loeschenBlock(Block block) throws DatenbankFehlerException{
+	private void loeschenBlock(Block block) throws DatenbankExceptions{
 		//TODO Implementierung folgt.
 	}
 	
@@ -1120,10 +1120,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * Loescht das uebergebene Strataobjekt aus der Datenbank.
 	 * @param strata
 	 * 			zu loeschendes Strataobjekt.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 * 				wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
 	 */
-	private void loeschenStrata(StrataBean strata) throws DatenbankFehlerException{
+	private void loeschenStrata(StrataBean strata) throws DatenbankExceptions{
 		//TODO Implementierung folgt.
 	}
 
@@ -1134,10 +1134,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends Filter> T schreibenObjekt(T zuSchreibendesObjekt)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		if (zuSchreibendesObjekt == null) {
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.ARGUMENT_IST_NULL);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.ARGUMENT_IST_NULL);
 		} else {
 			// ZentrumBean schreiben
 			if (zuSchreibendesObjekt instanceof ZentrumBean) {
@@ -1194,17 +1194,17 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            zu schreibendes PersonBean
 	 * @return PersonBean mit vergebener Id oder null falls nur ein Update
 	 *         durchgefuehrt wurde
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private PersonBean schreibenPerson(PersonBean person)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
 		try {
 			con = getConnection();			
 		} catch (SQLException e) {
-			throw new DatenbankFehlerException(DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 		}
 		String sql;
 		PreparedStatement pstmt;
@@ -1258,7 +1258,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			person.setId(id);
 			//loggen eines neuen Datensatzes
@@ -1322,14 +1322,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.executeUpdate();
 				pstmt.close();
 			} catch (SQLException e) {
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(
+						DatenbankExceptions.SCHREIBEN_ERR);
 			} finally {
 				try {
 					closeConnection(con);
 				} catch (SQLException e) {
-					throw new DatenbankFehlerException(
-							DatenbankFehlerException.CONNECTION_ERR);
+					throw new DatenbankExceptions(
+							DatenbankExceptions.CONNECTION_ERR);
 				}
 			}
 			//loggen eines geaenderten Datensatzes
@@ -1345,18 +1345,18 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            zu speicherndes Zentrum
 	 * @return das Zentrum mit der vergebenen eindeutigen Id bzw. das
 	 *         aktualisierte Zentrum
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private ZentrumBean schreibenZentrum(ZentrumBean zentrum)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		try {
 			con = getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		String sql;
 		PreparedStatement pstmt;
@@ -1392,8 +1392,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			zentrum.setId(id);
 			return zentrum;
@@ -1424,16 +1424,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 		}
 		try {
 			closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		return null;
 	}
@@ -1446,11 +1446,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            werden soll.
 	 * @return das gespeicherte Objekt MIT Id, bzw. <code>null</code> falls
 	 *         ein Update durchgeführt wurde.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private BenutzerkontoBean schreibenBenutzerKonto(
-			BenutzerkontoBean benutzerKonto) throws DatenbankFehlerException {
+			BenutzerkontoBean benutzerKonto) throws DatenbankExceptions {
 		Connection con = null;
 		String sql = "";
 		PreparedStatement pstmt = null;
@@ -1459,8 +1459,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = this.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		// Neues Benutzerkonto
 		if (benutzerKonto.getId() == NullKonstanten.NULL_LONG) {
@@ -1506,8 +1506,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			benutzerKonto.setId(id);
 			return benutzerKonto;
@@ -1550,16 +1550,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 		}
 		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		return null;
 	}
@@ -1572,11 +1572,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            soll.
 	 * @return das gespeicherte Objekt MIT Id, bzw. <code>null</code> falls
 	 *         ein Update durchgeführt wurde.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private AktivierungBean schreibenAktivierung(AktivierungBean aktivierung)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		String sql = "";
 		PreparedStatement pstmt = null;
@@ -1585,8 +1585,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = this.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		if (aktivierung.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
@@ -1611,8 +1611,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			aktivierung.setId(id);
 			return aktivierung;
@@ -1634,15 +1634,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(
+						DatenbankExceptions.SCHREIBEN_ERR);
 			} finally {
 				try {
 					this.closeConnection(con);
 				} catch (SQLException e) {
 					e.printStackTrace();
-					throw new DatenbankFehlerException(
-							DatenbankFehlerException.CONNECTION_ERR);
+					throw new DatenbankExceptions(
+							DatenbankExceptions.CONNECTION_ERR);
 				}
 			}
 		}
@@ -1658,11 +1658,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            soll.
 	 * @return das gespeicherte Objekt MIT Id, bzw <code>null</code> falls ein
 	 *         Update durchgeführt wurde.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private StudieBean schreibenStudie(StudieBean studie)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		String sql = "";
 		PreparedStatement pstmt = null;
@@ -1671,8 +1671,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = this.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		if (studie.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
@@ -1710,8 +1710,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			studie.setId(id);
 			return studie;
@@ -1745,16 +1745,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 		}
 		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		return null;
 	}
@@ -1767,11 +1767,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            werden soll.
 	 * @return das gespeicherte Objekt MIT Id, bzw. <code>null</code> falls
 	 *         ein Update durchgeführt wurde.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private StudienarmBean schreibenStudienarm(StudienarmBean studienarm)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		String sql = "";
 		PreparedStatement pstmt = null;
@@ -1780,8 +1780,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = this.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		if (studienarm.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
@@ -1811,8 +1811,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			studienarm.setId(id);
 			return studienarm;
@@ -1838,16 +1838,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 		}
 		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		return null;
 	}
@@ -1860,11 +1860,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            werden soll.
 	 * @return das gespeicherte Objekt MIT Id, bzw. <code>null</code> falls
 	 *         ein Update durchgeführt wurde.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
 	private PatientBean schreibenPatient(PatientBean patient)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		String sql = "";
 		PreparedStatement pstmt = null;
@@ -1873,8 +1873,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = this.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		if (patient.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
@@ -1911,8 +1911,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(
+						DatenbankExceptions.SCHREIBEN_ERR);
 			} catch (PatientException e) {
 				e.printStackTrace();
 				// TODO Die Behandlung dieser Exception ueberlasse ich euch :)
@@ -1949,8 +1949,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DatenbankFehlerException(
-						DatenbankFehlerException.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(
+						DatenbankExceptions.SCHREIBEN_ERR);
 			} catch (PatientException e) {
 				e.printStackTrace();
 				// TODO Die Behandlung dieser Exception ueberlasse ich euch :)
@@ -1961,8 +1961,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		return null;
 	}
@@ -1975,10 +1975,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            werden soll.
 	 * @return das gespeicherte Objekt MIT Id, bzw. <code>null</code> falls
 	 *         ein Update durchgeführt wurde.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
-	private Block schreibenBlock(Block block) throws DatenbankFehlerException {
+	private Block schreibenBlock(Block block) throws DatenbankExceptions {
 		//TODO Implementierung fehlt.
 		return null;
 	}
@@ -1991,10 +1991,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            werden soll.
 	 * @return das gespeicherte Objekt MIT Id, bzw. <code>null</code> falls
 	 *         ein Update durchgeführt wurde.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
-	private StrataBean schreibenStrata(StrataBean strata) throws DatenbankFehlerException {
+	private StrataBean schreibenStrata(StrataBean strata) throws DatenbankExceptions {
 //		TODO Implementierung fehlt.
 		return null;
 	}
@@ -2006,15 +2006,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends Filter> Vector<T> suchenObjekt(T zuSuchendesObjekt)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		// pruefe ob Argument ungleich null ist
 		if (zuSuchendesObjekt == null) {
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.ARGUMENT_IST_NULL);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.ARGUMENT_IST_NULL);
 		}// pruefe ob Filter auf true gesetzt ist
 		if (!zuSuchendesObjekt.isFilter()) {
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.SUCHOBJEKT_IST_KEIN_FILTER);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.SUCHOBJEKT_IST_KEIN_FILTER);
 		}
 		//PersonBean
 		if (zuSuchendesObjekt instanceof PersonBean) {
@@ -2044,18 +2044,18 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            PersonBean Objekt welches als Filter dient. Es wird nach allen
 	 *            Attribute ungleich den Nullkonstanten in der Datenbank gesucht
 	 * @return Vector mit gefundenen Personen
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             siehe {@link DatenbankSchnittstelle#suchenObjekt(Filter)}
 	 * 
 	 */
 	private Vector<PersonBean> suchenPerson(PersonBean person)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con;
 		try {
 			con = getConnection();
 		} catch (SQLException e) {
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		PreparedStatement pstmt;
 		ResultSet rs;
@@ -2189,15 +2189,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (BenutzerException f) {
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.UNGUELTIGE_DATEN);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
 		}
 		try {
 			closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		return personen;
 	}
@@ -2211,20 +2211,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            nach allen Attribute ungleich den Nullkonstanten in der
 	 *            Datenbank gesucht
 	 * @return Vector mit gefundenen Benutzerkonten
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             SQL Exceptions werden weitergeleitet und automatisch geloggt.
 	 *             Probleme beim erstellen der Personen Objekte werden mit
-	 *             {@link DatenbankFehlerException#UNGUELTIGE_DATEN} dem
+	 *             {@link DatenbankExceptions#UNGUELTIGE_DATEN} dem
 	 *             Benutzer mitgeteilt Rechte Verletzungen werden geloggt.
 	 */
 	private Vector<BenutzerkontoBean> suchenBenutzerkonto(BenutzerkontoBean bk)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con;
 		try {
 			con = getConnection();
 		} catch (SQLException e) {
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		PreparedStatement pstmt;
 		ResultSet rs;
@@ -2348,11 +2348,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 			rs.close();
 		} catch (SQLException e) {
-			throw new DatenbankFehlerException(e, sql);
+			throw new DatenbankExceptions(e, sql);
 		} catch (BenutzerException f) {
 			f.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.UNGUELTIGE_DATEN);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
 		} catch (SystemException g) {
 			// TODO hier muss etwas sinnvolles geworfen bzw geloggt werden.
 			// Tritt auf wenn eine Rechte Exception fliegt
@@ -2362,8 +2362,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		
 		return konten;
@@ -2376,16 +2376,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @param zentrum
 	 *            Zentrum mit gesetzten Eigenschaften nach denen gesucht wird.
 	 * @return Vector mit gefundenen Zentren
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 */
 	private Vector<ZentrumBean> suchenZentrum(ZentrumBean zentrum)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con;
 		try {
 			con = getConnection();
 		} catch (SQLException e) {
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		PreparedStatement pstmt;
 		ResultSet rs;
@@ -2499,12 +2499,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.UNGUELTIGE_DATEN);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
 		} catch (ZentrumException g) {
 			g.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.UNGUELTIGE_DATEN);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
 		}
 
 		return zentren;
@@ -2517,16 +2517,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @param aktivierung
 	 *            Bean mit Suchparametern
 	 * @return Vector mit gefundenen Aktivierungsbeans
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 */
 	private Vector<AktivierungBean> suchenAktivierung(
-			AktivierungBean aktivierung) throws DatenbankFehlerException {
+			AktivierungBean aktivierung) throws DatenbankExceptions {
 		Connection con;
 		try {
 			con = getConnection();
 		} catch (SQLException e) {
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		PreparedStatement pstmt;
 		ResultSet rs;
@@ -2612,7 +2612,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends Filter> T suchenObjektId(long id, T nullObjekt)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		if (nullObjekt instanceof PersonBean) {
 			PersonBean person = this.suchenPersonId(id);
 			return (T) person;
@@ -2652,10 +2652,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            zu suchende Id.
 	 * @return Person mit zutreffender Id, null falls keine Person mit
 	 *         entsprechender Id gefunden wurde.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Falls bei der Suche ein Fehler auftrat.
 	 */
-	private PersonBean suchenPersonId(long id) throws DatenbankFehlerException {
+	private PersonBean suchenPersonId(long id) throws DatenbankExceptions {
 		Connection con = null;
 		PreparedStatement pstmt;
 		ResultSet rs = null;
@@ -2664,8 +2664,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		String sql;
 		sql = "SELECT * FROM " + Tabellen.PERSON + " WHERE " + FelderPerson.ID
@@ -2697,8 +2697,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 					
 				} catch (PersonException e) {
 					e.printStackTrace();
-					throw new DatenbankFehlerException(
-							DatenbankFehlerException.UNGUELTIGE_DATEN);
+					throw new DatenbankExceptions(
+							DatenbankExceptions.UNGUELTIGE_DATEN);
 					// sollte hier lieber die Person Exception weitergeleitet
 					// werden? wie sieht es mit logging aus?
 				}
@@ -2707,15 +2707,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.SUCHEN_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.SUCHEN_ERR);
 		}
 		try {
 			closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		return tmpPerson;
 
@@ -2728,11 +2728,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            zu suchende Id.
 	 * @return Zentrum mit zugehöriger Id, null falls kein Zentrum mit
 	 *         entsprechender Id gefunden wurde.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             falls bei der Suche ein Fehler auftrat.
 	 */
 	private ZentrumBean suchenZentrumId(long id)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		String sql = "";
 		PreparedStatement pstmt = null;
@@ -2743,8 +2743,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = this.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 
 		sql = "SELECT * FROM " + Tabellen.ZENTRUM + " WHERE "
@@ -2770,19 +2770,19 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.SUCHEN_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.SUCHEN_ERR);
 		} catch (BenutzerException e) {
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.UNGUELTIGE_DATEN);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
 		}
 
 		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		return zentrum;
 	}
@@ -2794,11 +2794,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            zu suchende Id.
 	 * @return Benutzerkonto mit zugehöriger Id, null falls kein Benutzerkonto
 	 *         mit entsprechender Id gefunden wurde.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             falls bei der Suche ein Fehler auftrat.
 	 */
 	private BenutzerkontoBean suchenBenutzerkontoId(long id)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		String sql = "";
 		PreparedStatement pstmt = null;
@@ -2811,8 +2811,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = this.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 
 		sql = "SELECT * FROM " + Tabellen.BENUTZERKONTO + " WHERE "
@@ -2822,12 +2822,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.setLong(1, id);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				if(!rs.getDate(FelderBenutzerkonto.ERSTERLOGIN.toString()).equals(null)) {
+				if(rs.getDate(FelderBenutzerkonto.ERSTERLOGIN.toString())!=null) {
 					ersterLogin.setTime(rs.getDate(FelderBenutzerkonto.ERSTERLOGIN.toString()));
 				} else {
 					ersterLogin = null;
 				}
-				if(!rs.getDate(FelderBenutzerkonto.ERSTERLOGIN.toString()).equals(null)) {
+				if(rs.getDate(FelderBenutzerkonto.ERSTERLOGIN.toString())!=null) {
 					letzterLogin.setTime(rs.getDate(FelderBenutzerkonto.ERSTERLOGIN.toString()));
 				} else {
 					letzterLogin = null;
@@ -2844,10 +2844,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 								ersterLogin, letzterLogin);
 				} catch (BenutzerkontoException e) {
 					e.printStackTrace();
-					throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
+					throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
 				} catch (RechtException e) {
 					e.printStackTrace();
-					throw new DatenbankFehlerException(DatenbankFehlerException.UNGUELTIGE_DATEN);
+					throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
 				}
 
 				rs.close();
@@ -2855,16 +2855,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.SUCHEN_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.SUCHEN_ERR);
 		}
 
 		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		return benutzerkonto;
 	}
@@ -2877,11 +2877,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            zu suchende Id.
 	 * @return Aktivierung mit zugehöriger Id, null falls keine Aktivierung mit
 	 *         entsprechender Id gefunden wurde.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             falls bei der Suche ein Fehler auftrat.
 	 */
 	private AktivierungBean suchenAktivierungId(long id)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		Connection con = null;
 		String sql = "";
 		PreparedStatement pstmt = null;
@@ -2893,8 +2893,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = this.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 
 		sql = "SELECT * FROM " + Tabellen.AKTIVIERUNG + " WHERE "
@@ -2915,20 +2915,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.SUCHEN_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.SUCHEN_ERR);
 		} catch (BenutzerException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.UNGUELTIGE_DATEN);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
 		}
 
 		try {
 			this.closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		return aktivierung;
 	}
@@ -2941,10 +2941,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            zu suchende Id.
 	 * @return StudienBean, das zur uebergebenen Id gehoert. Null, falls keine
 	 *         Studie mit entsprechender Id gefunden wurde.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wenn bei der Suche ein Fehler auftrat.
 	 */
-	private StudieBean suchenStudieId(long id) throws DatenbankFehlerException {
+	private StudieBean suchenStudieId(long id) throws DatenbankExceptions {
 
 		Connection con = null;
 		PreparedStatement pstmt;
@@ -2957,8 +2957,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		String sql;
 		sql = "SELECT * FROM " + Tabellen.STUDIE + " WHERE " + FelderStudie.ID
@@ -2986,23 +2986,23 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 				} catch (BenutzerException e) {
 					e.printStackTrace();
-					throw new DatenbankFehlerException(
-							DatenbankFehlerException.UNGUELTIGE_DATEN);
+					throw new DatenbankExceptions(
+							DatenbankExceptions.UNGUELTIGE_DATEN);
 				}
 			}
 			rs.close();
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.SUCHEN_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.SUCHEN_ERR);
 		}
 		try {
 			closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		return tmpStudie;
 	}
@@ -3015,11 +3015,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            zu suchende Id.
 	 * @return StudienarmBean, das zur uebergebenen Id gehoert. Null, falls kein
 	 *         Studienarm mit entsprechender Id gefunden wurde.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wenn bei der Suche ein Fehler auftrat.
 	 */
 	private StudienarmBean suchenStudienarmId(long id)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 
 		Connection con = null;
 		PreparedStatement pstmt;
@@ -3030,8 +3030,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		String sql;
 		sql = "SELECT * FROM " + Tabellen.PATIENT + " WHERE "
@@ -3054,23 +3054,23 @@ public class Datenbank implements DatenbankSchnittstelle {
 											.toString()));
 				} catch (BenutzerException e) {
 					e.printStackTrace();
-					throw new DatenbankFehlerException(
-							DatenbankFehlerException.UNGUELTIGE_DATEN);
+					throw new DatenbankExceptions(
+							DatenbankExceptions.UNGUELTIGE_DATEN);
 				}
 			}
 			rs.close();
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.SUCHEN_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.SUCHEN_ERR);
 		}
 		try {
 			closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		return tmpStudienarm;
 
@@ -3084,11 +3084,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            zu suchende Id.
 	 * @return PatientBean, das zur uebergebenen Id gehoert. Null, falls kein
 	 *         Patient mit entsprechender Id gefunden wurde.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wenn bei der Suche ein Fehler auftrat.
 	 */
 	private PatientBean suchenPatientId(long id)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 
 		Connection con = null;
 		PreparedStatement pstmt;
@@ -3101,8 +3101,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			con = getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		String sql;
 		sql = "SELECT * FROM " + Tabellen.PATIENT + " WHERE "
@@ -3133,23 +3133,23 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 				} catch (BenutzerException e) {
 					e.printStackTrace();
-					throw new DatenbankFehlerException(
-							DatenbankFehlerException.UNGUELTIGE_DATEN);
+					throw new DatenbankExceptions(
+							DatenbankExceptions.UNGUELTIGE_DATEN);
 				}
 			}
 			rs.close();
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.SUCHEN_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.SUCHEN_ERR);
 		}
 		try {
 			closeConnection(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DatenbankFehlerException(
-					DatenbankFehlerException.CONNECTION_ERR);
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
 		}
 		return tmpPatient;
 
@@ -3163,32 +3163,142 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends Filter, U extends Filter> Vector<T> suchenMitgliederObjekte(
-			U vater, T kind) throws DatenbankFehlerException {
-		if (vater instanceof ZentrumBean && kind instanceof PersonBean) {
+			U vater, T kind) throws DatenbankExceptions {
+		//1:n V Zentrum: K Benutzerkonto
+		if (vater instanceof ZentrumBean && kind instanceof BenutzerkontoBean) {
 			ZentrumBean zentrum = (ZentrumBean) vater;
-			PersonBean ansprechpartner = suchenAnsprechpartner(zentrum
-					.getAnsprechpartnerId());
-			Vector<T> personVec = new Vector<T>();
-			personVec.add((T) ansprechpartner);
-			return personVec;
+			BenutzerkontoBean bKonto = (BenutzerkontoBean) kind;
+			try {
+				bKonto.setZentrumId(zentrum.getId());
+			} catch (BenutzerkontoException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
+			}
+			Vector<BenutzerkontoBean> kontoVector = suchenBenutzerkontoKindZ(bKonto);
+			return (Vector<T>) kontoVector;			
+		}
+		return null;
+	}
+	
+	/**
+	 * Methode sucht die Benutzerkonten des zugehoerigen Zentrums.
+	 * 
+	 * @param konto
+	 *            Das leere BenutzerkontoBean mit eventuellen zusätzlichen Suchkriterien.
+	 * @return Vector mit BenutzerkontoBean.
+	 * @throws DatenbankExceptions
+	 *          	Falls ein DB Fehler auftritt.
+	 */
+	private Vector<BenutzerkontoBean> suchenBenutzerkontoKindZ(BenutzerkontoBean konto) throws DatenbankExceptions{
+		Vector<BenutzerkontoBean> kontoVector = suchenObjekt(konto);
+		return kontoVector;
+	}
+
+	/**
+	 * Dokumentation siehe Schnittstellenbeschreibung
+	 * 
+	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenMitgliederObjekt(de.randi2.datenbank.Filter,
+	 *      de.randi2.datenbank.Filter)
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends Filter, U extends Filter> T suchenMitgliedEinsZuEins(U vater, T kind) throws DatenbankExceptions {
+		//1:1 V Person: K Zentrum
+		if (vater instanceof PersonBean && kind instanceof ZentrumBean) {
+			PersonBean person = (PersonBean) vater;
+			ZentrumBean zentrum = (ZentrumBean) kind;
+			try {
+				zentrum.setAnsprechpartnerId(person.getId());
+			} catch (ZentrumException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
+			}
+			ZentrumBean zentrumRes = suchenZentrumKind(zentrum);
+			return (T) zentrumRes;
+		}
+		//1:1 V Person: K Benutzerkonto
+		if(vater instanceof PersonBean && kind instanceof BenutzerkontoBean) {
+			PersonBean person = (PersonBean) vater;
+			BenutzerkontoBean bKonto = (BenutzerkontoBean) kind;
+			try {
+				bKonto.setBenutzerId(person.getId());
+			} catch (BenutzerkontoException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
+			}
+			BenutzerkontoBean kontoRes = suchenBenutzerkontoKindP(bKonto);
+			return (T) kontoRes;
+		}
+		//1:1 V Benutzerkonto: K Aktivierung
+		if (vater instanceof BenutzerkontoBean && kind instanceof AktivierungBean) {
+			BenutzerkontoBean bKonto = (BenutzerkontoBean) vater;
+			AktivierungBean aktivierung = (AktivierungBean) kind;
+			try {
+				aktivierung.setBenutzerkontoId(bKonto.getId());
+			} catch (AktivierungException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
+			}
+			AktivierungBean aktivierungRes = suchenAktivierungKind(aktivierung);
+			return (T) aktivierungRes;	
+			
 		}
 		return null;
 	}
 
 	/**
-	 * Methode sucht den Ansprechpartner eines Zentrums
+	 * Methode sucht das Zentrum eines Ansprechpartners.
 	 * 
-	 * @param id
-	 *            Ansprechpartner des Ansprechpartners, welche im ZentrumBean
-	 *            der aufrufenden Methode gespeichert st
-	 * @return Ansprechpartner
-	 * @throws DatenbankFehlerException
-	 *             Falls ein DB Fehler auftritt
+	 * @param zentrum
+	 *            Das leere ZentrumBean mit eventuellen zusätzlichen Suchkriterien.
+	 * @return Das ZentrumBean der Suche.
+	 * @throws DatenbankExceptions
+	 *          	Falls ein DB Fehler auftritt.
 	 */
-	private PersonBean suchenAnsprechpartner(long id)
-			throws DatenbankFehlerException {
-		return suchenObjektId(id, new PersonBean());
+	private ZentrumBean suchenZentrumKind(ZentrumBean zentrum) throws DatenbankExceptions {
+		Vector<ZentrumBean> zVector = suchenObjekt(zentrum);
+		if(zVector.size()==1) {
+			return zVector.elementAt(0);
+		} else {
+			throw new DatenbankExceptions(DatenbankExceptions.VECTOR_RELATION_FEHLER);
+		}
 	}
+	
+	/**
+	 * Methode sucht das Benutzerkonto der Person.
+	 * 
+	 * @param konto
+	 *            Das leere BenutzerkontoBean mit eventuellen zusätzlichen Suchkriterien.
+	 * @return Das BenutzerkontoBean.
+	 * @throws DatenbankExceptions
+	 *          	Falls ein DB Fehler auftritt.
+	 */
+	private BenutzerkontoBean suchenBenutzerkontoKindP(BenutzerkontoBean konto) throws DatenbankExceptions {
+		Vector <BenutzerkontoBean> kontoVector  = suchenObjekt(konto);
+		if(kontoVector.size()==1) {
+			return kontoVector.elementAt(0);
+		} else {
+			throw new DatenbankExceptions(DatenbankExceptions.VECTOR_RELATION_FEHLER);
+		}
+	}
+
+	/**
+	 * Methode sucht die Aktivierung des Benutzerkontos.
+	 * 
+	 * @param aktivierung
+	 *            Das leere AktivierungBean mit eventuellen zusätzlichen Suchkriterien.
+	 * @return AktivierungBean mit allen Eigenschaften.
+	 * @throws DatenbankExceptions
+	 *          	Falls ein DB Fehler auftritt.
+	 */
+	private AktivierungBean suchenAktivierungKind(AktivierungBean aktivierung) throws DatenbankExceptions {
+		Vector<AktivierungBean> aktivierungVector = suchenObjekt(aktivierung);
+		if(aktivierungVector.size()==1) {
+			return aktivierungVector.elementAt(0);
+		} else {
+			throw new DatenbankExceptions(DatenbankExceptions.VECTOR_RELATION_FEHLER);
+		}
+	}
+	
 
 	/**
 	 * Baut Verbindung zur Datenbank auf

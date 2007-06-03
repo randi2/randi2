@@ -3,7 +3,7 @@ package de.randi2.randomisation;
 import java.util.Random;
 import java.util.Vector;
 
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.exceptions.StudienarmException;
@@ -60,7 +60,7 @@ public class VollstaendigeRandomisation extends Randomisation {
 	 *            Methode, ist der Patient einem Studienarm hinzugefuegt.
 	 * @throws RandomisationsException
 	 *             Wenn der Patient nicht zur Verwalteten Studie gehoert.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Falls ein Fehler in der Datenbank auftritt.
 	 * @see Randomisation#randomisierePatient(PatientBean patient)
 	 * @see RandomisationsException#PATIENT_NICHT_IN_STUDIE
@@ -68,13 +68,13 @@ public class VollstaendigeRandomisation extends Randomisation {
 	 */
 	@Override
 	public void randomisierenPatient(PatientBean patient)
-			throws RandomisationsException, DatenbankFehlerException {
+			throws RandomisationsException, DatenbankExceptions {
 		Vector<StudienarmBean> studienarme = super.studie.getStudienarme();
 		int index = (int) (this.zufall.nextDouble() * (studienarme.size()));
 
 		try {
 			studienarme.get(index).getPatienten().add(patient);
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			throw new RandomisationsException(
 					RandomisationsException.ARM_NICHT_VERWENDBAR);
 		}

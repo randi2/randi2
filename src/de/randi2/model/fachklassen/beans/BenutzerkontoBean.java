@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.Vector;
 
 import de.randi2.datenbank.Filter;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Person;
@@ -145,13 +145,13 @@ public class BenutzerkontoBean extends Filter implements Serializable {
 	 *            Zeitpunkt des letzten Logins als GregorianCalendar
 	 * @throws BenutzerkontoException
 	 *             Wenn die uebergebenen Parametern nicht in Ordnung waren
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wenn die uebergebene Id nicht korrekt ist.
 	 */
 	public BenutzerkontoBean(long id, String benutzername, String passwortHash,
 			long zentrumId, Rolle rolle, long benutzerId, boolean gesperrt,
 			GregorianCalendar ersterLogin, GregorianCalendar letzterLogin)
-			throws BenutzerkontoException, DatenbankFehlerException {
+			throws BenutzerkontoException, DatenbankExceptions {
 
 		super.setId(id);
 		this.setBenutzername(benutzername);
@@ -274,10 +274,10 @@ public class BenutzerkontoBean extends Filter implements Serializable {
 	 * Liefert den zugehoerigen Benutzer zu diesem Konto.
 	 * 
 	 * @return das entsprechende PersonBean zum Benutzerkonto
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Fehler, falls die Person nicht ermittelt werden kann
 	 */
-	public PersonBean getBenutzer() throws DatenbankFehlerException {
+	public PersonBean getBenutzer() throws DatenbankExceptions {
 		if (aBenutzer == null) {
 			aBenutzer = Person.get(aBenutzerId);
 		}
@@ -565,10 +565,10 @@ public class BenutzerkontoBean extends Filter implements Serializable {
 	 * Liefert alle von diesem Benutzer aufgenommenen Patienten
 	 * 
 	 * @return Vector mit PatientBeans
-	 * @throws DatenbankFehlerException -
+	 * @throws DatenbankExceptions -
 	 *             wenn ein Fehler in der DB auftrat.
 	 */
-	public Vector<PatientBean> getPatienten() throws DatenbankFehlerException {
+	public Vector<PatientBean> getPatienten() throws DatenbankExceptions {
 		if (aPatienten == null) {
 			aPatienten = Benutzerkonto.getZugehoerigePatienten(getId());
 		}
@@ -590,10 +590,10 @@ public class BenutzerkontoBean extends Filter implements Serializable {
 	 * 
 	 * @return ZentrumBean - das zugehoerige ZentrumBean Objekt zu dem
 	 *         Benutzerkonto
-	 * @throws DatenbankFehlerException -
+	 * @throws DatenbankExceptions -
 	 *             wenn kein entsprechendes Zentrum in der DB gefunden wurde.
 	 */
-	public ZentrumBean getZentrum() throws DatenbankFehlerException {
+	public ZentrumBean getZentrum() throws DatenbankExceptions {
 		if (this.aZentrum == null) {
 			this.aZentrum = Zentrum.getZentrum(this.aZentrumId);
 		}

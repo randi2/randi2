@@ -7,12 +7,12 @@ import de.randi2.utility.SystemException;
 /**
  * Diese Exception zeigt einen generellen Fehler beim Datenbankzugriff auf.
  * 
- * @version $Id: DatenbankFehlerException.java 1205 2007-02-03 13:50:44Z
+ * @version $Id: DatenbankExceptions.java 1205 2007-02-03 13:50:44Z
  *          jthoenes $
  * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
  */
 @SuppressWarnings("serial")
-public class DatenbankFehlerException extends SystemException {
+public class DatenbankExceptions extends SystemException {
 	
 	/**
 	 * Fehlermeldung, wenn eine negative oder =0 Id an die setId() Methode uebergeben wurde.
@@ -69,12 +69,17 @@ public class DatenbankFehlerException extends SystemException {
 	public static final String PROXOOL_CONF_ERR="Fehler bei der Konfiguration des Connectionspool aufgetreten.";
 
 	/**
+	 * Wenn der Vector bei einer 1:1 Relation mehr als ein ergebnis liefert, muss eine Exception geworfen werden.
+	 */
+	public static final String VECTOR_RELATION_FEHLER="Suche ergab mehr als ein Ergebnis, trotz 1:1 Beziehung.";
+	
+	/**
 	 * Konstruktor.
 	 * 
 	 * @param msg
 	 *            Eine Nachricht aus der Liste der Konstanten.
 	 */
-	public DatenbankFehlerException(String msg) {
+	public DatenbankExceptions(String msg) {
 		super(msg);
 	}
 	
@@ -84,7 +89,7 @@ public class DatenbankFehlerException extends SystemException {
 	 * @param msg
 	 *            Eine Nachricht aus der Liste der Konstanten.
 	 */
-	public DatenbankFehlerException(SQLException e, String sql) {
+	public DatenbankExceptions(SQLException e, String sql) {
 		// TODO SQLException auswerten
 	}
 

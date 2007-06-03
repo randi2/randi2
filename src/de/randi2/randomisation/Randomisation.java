@@ -1,6 +1,6 @@
 package de.randi2.randomisation;
 
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
@@ -62,11 +62,11 @@ public abstract class Randomisation {
 	 *             Tritt auf, falls die Randomisation nicht durchgefuehrt werden
 	 *             kann, weil der Patient entweder nicht die korrekten Strata
 	 *             fuer diese Studie hat oder nicht in der korrekten Studie ist.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Falls ein Fehler in der Datenbank auftritt.
 	 */
 	public abstract void randomisierenPatient(PatientBean patient)
-			throws RandomisationsException, DatenbankFehlerException;
+			throws RandomisationsException, DatenbankExceptions;
 
 	/**
 	 * Gibt den Namen des verwendeten Algorithmus zurueck.

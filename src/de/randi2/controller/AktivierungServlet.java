@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.utility.Config;
@@ -51,7 +51,7 @@ public class AktivierungServlet extends javax.servlet.http.HttpServlet implement
 	} catch (AktivierungException e1) {
 	    // TODO Auto-generated catch block
 	    e1.printStackTrace();
-	} catch (DatenbankFehlerException e) {
+	} catch (DatenbankExceptions e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}

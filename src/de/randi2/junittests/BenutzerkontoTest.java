@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Rolle;
@@ -71,7 +71,7 @@ public class BenutzerkontoTest {
 		} catch (BenutzerkontoException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
-		} catch (DatenbankFehlerException e){
+		} catch (DatenbankExceptions e){
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
@@ -106,7 +106,7 @@ public class BenutzerkontoTest {
 			dummyBenutzerkonto = Benutzerkonto.anlegenBenutzer(bKontoBean);
 			dummyBenutzerkonto.getBenutzerkontobean().setFilter(true);
 			benuV = Benutzerkonto.suchenBenutzer(dummyBenutzerkonto.getBenutzerkontobean());
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
@@ -119,7 +119,7 @@ public class BenutzerkontoTest {
 		try {
 			bKontoBean2.setFilter(true);
 			benuV = Benutzerkonto.suchenBenutzer(bKontoBean2);
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
@@ -134,7 +134,7 @@ public class BenutzerkontoTest {
 	public void testAnlegenBenutzer() {
 		try {
 			Benutzerkonto.anlegenBenutzer(bKontoBean);
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
@@ -153,14 +153,14 @@ public class BenutzerkontoTest {
 			bean = Benutzerkonto.get(bKonto.getBenutzerkontobean().getId());
 			assertEquals(bKontoBean.getBenutzername(), bean.getBenutzername());
 			assertEquals(bKontoBean.getRolle().toString(), bean.getRolle().toString());
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}	
 		try {
 			bKontoBean2.setFilter(true);
 			bean = Benutzerkonto.get(bKontoBean2.getId());
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
@@ -206,7 +206,7 @@ public class BenutzerkontoTest {
 		} catch (BenutzerkontoException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
-		} catch (DatenbankFehlerException e){
+		} catch (DatenbankExceptions e){
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
@@ -248,14 +248,14 @@ public class BenutzerkontoTest {
 			for(int i = 0; i<pBean.size(); i++) {
 				assertEquals(pBean.elementAt(i).getBenutzerkontoId(), bKonto.getBenutzerkontobean().getId());
 			}
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}	
 		try {
 			bKontoBean2.setFilter(true);
 			pBean = Benutzerkonto.getZugehoerigePatienten(bKontoBean2.getId());
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}

@@ -3,7 +3,7 @@ package de.randi2.model.fachklassen;
 import java.util.Vector;
 
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StatistikBean;
@@ -146,11 +146,11 @@ public class Studie {
 	 * Liefert alle zur Studie gehoerenden Zentren
 	 * 
 	 * @return gefundene Zentren
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Exception, wenn Zentrum nicht gefunden werden konnte.
 	 */
 	public Vector<ZentrumBean> getZugehoerigeZentren()
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		return Studie.getZugehoerigeZentren(this.aStudieBean.getId());
 	}
 
@@ -160,11 +160,11 @@ public class Studie {
 	 * @param studieId
 	 *            Id der studie zur eindeutigen Zuordnung in der Datenbank
 	 * @return gefundene Zentren
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Exception, wenn Zentrum nicht gefunden werden konnte.
 	 */
 	public static Vector<ZentrumBean> getZugehoerigeZentren(long studieId)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		StudieBean studie = new StudieBean();
 		studie.setId(studieId);
 		Vector<ZentrumBean> gefundenZentren = null;
@@ -179,11 +179,11 @@ public class Studie {
 	 * @param studieId
 	 *            Id der Studie zur eindeutigen Zuordnung in der Datenbank.
 	 * @return gefundeneStrata
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Exception, wenn Strata nicht gefunden wurde.
 	 */
 	public static Vector<StrataBean> getZugehoerigeStrata(long studieId)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		StudieBean studie = new StudieBean();
 		studie.setId(studieId);
 		Vector<StrataBean> gefundeneStrata = null;
@@ -199,12 +199,12 @@ public class Studie {
 	 * @param studieId
 	 *            Die ID der angeforderten Studie.
 	 * @return StudieBean Ein StudieBean wird zurueckgegeben.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Exception, wenn ID der angeforderten Studie nicht gefunden
 	 *             werden konnte.
 	 */
 	public static StudieBean getStudie(long studieId)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		StudieBean studie = new StudieBean();
 		studie = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(
 				studieId, studie);

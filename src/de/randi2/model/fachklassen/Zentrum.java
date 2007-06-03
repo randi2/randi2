@@ -3,7 +3,7 @@ package de.randi2.model.fachklassen;
 import java.util.Vector;
 
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.KryptoUtil;
@@ -41,11 +41,11 @@ public class Zentrum {
 	 *            Felder entsprechen den Null-Werten aus der
 	 *            de.randi2.utility.NullKonstanten Klasse)
 	 * @return ein Vector mit gefundenen Objekten
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Falls ein Fehler in der Datenbank auftritt.
 	 */
 	public static Vector<ZentrumBean> suchenZentrum(ZentrumBean sZentrum)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 
 		Vector<ZentrumBean> gefundeneZentren = new Vector<ZentrumBean>();
 		gefundeneZentren = DatenbankFactory.getAktuelleDBInstanz()
@@ -85,12 +85,12 @@ public class Zentrum {
 	 * @param zentrumId
 	 *            Die ID des angeforderten Zentrums.
 	 * @return ZentrumBean Ein ZentrumBean wird zurueckgegeben.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Die Exception tritt auf, wenn kein Zentrum zur ID gefunden
 	 *             wurde.
 	 */
 	public static ZentrumBean getZentrum(long zentrumId)
-			throws DatenbankFehlerException {
+			throws DatenbankExceptions {
 		ZentrumBean aBean = new ZentrumBean();
 		aBean.setFilter(true);
 		return DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(

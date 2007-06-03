@@ -10,7 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Rolle;
@@ -523,7 +523,7 @@ public class StudieBeanTest {
 
 			fail(e.getMessage());
 
-		} catch (DatenbankFehlerException e) {
+		} catch (DatenbankExceptions e) {
 			fail(e.getMessage());
 		}
 

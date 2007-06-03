@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import de.randi2.datenbank.Filter;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.utility.KryptoUtil;
@@ -73,10 +73,10 @@ public class AktivierungBean extends Filter {
 	 * Get-Methode für das Benutzerkonto.
 	 * 
 	 * @return Liefert das Benutzerkonto.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             Fehler
 	 */
-	public BenutzerkontoBean getBenutzerkonto() throws DatenbankFehlerException {
+	public BenutzerkontoBean getBenutzerkonto() throws DatenbankExceptions {
 		if (aBenutzerkonto == null) {
 			aBenutzerkonto = Benutzerkonto.get(aBenutzerkontoId);
 		}
@@ -163,12 +163,12 @@ public class AktivierungBean extends Filter {
 	 * @throws AktivierungException
 	 *             Die Akivierungsdaten sind unzulaessig, Details sieh
 	 *             setMethoden.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wenn die Id nicht korrekt ist
 	 */
 	public AktivierungBean(long id, GregorianCalendar versanddatum,
 			long benutzerkontoId, String aktivierungsLink)
-			throws AktivierungException, DatenbankFehlerException {
+			throws AktivierungException, DatenbankExceptions {
 
 		super.setId(id);
 		this.aVersanddatum = versanddatum;

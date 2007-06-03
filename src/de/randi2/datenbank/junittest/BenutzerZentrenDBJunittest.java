@@ -10,7 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
@@ -55,7 +55,7 @@ public class BenutzerZentrenDBJunittest {
          * gespeichert und gesucht werden kann.
          */
     @Test
-    public void testAktivierungsbeanSpeichernSuchenAendern() throws BenutzerException,DatenbankFehlerException{
+    public void testAktivierungsbeanSpeichernSuchenAendern() throws BenutzerException,DatenbankExceptions{
 
 	AktivierungBean bean =new AktivierungBean(NullKonstanten.NULL_LONG, new GregorianCalendar(), 1, "23423424242");
 	    bean=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(bean);
@@ -111,11 +111,11 @@ public class BenutzerZentrenDBJunittest {
          * 
          * @throws PersonException
          *                 Fehler im Test
-         * @throws DatenbankFehlerException
+         * @throws DatenbankExceptions
          *                 Fehler im Test
          */
     @Test
-    public void testPersonbeanSpeichernSuchenAendern() throws PersonException, DatenbankFehlerException {
+    public void testPersonbeanSpeichernSuchenAendern() throws PersonException, DatenbankExceptions {
 
 	PersonBean pBeanSchreiben = null;
 	pBeanSchreiben = new PersonBean(NullKonstanten.NULL_LONG, NullKonstanten.NULL_LONG, "Nachname", "Vorname", PersonBean.Titel.PROF_DR, 'w', "andreasd@web.de", "09878979", "097987987987",
@@ -146,11 +146,11 @@ public class BenutzerZentrenDBJunittest {
          * kann.
          * 
          * @throws ZentrumException
-         * @throws DatenbankFehlerException
+         * @throws DatenbankExceptions
          * @throws PersonException
          */
     @Test
-    public void testZentrumbeanSpeichernSuchenAendern() throws ZentrumException, DatenbankFehlerException, PersonException {
+    public void testZentrumbeanSpeichernSuchenAendern() throws ZentrumException, DatenbankExceptions, PersonException {
 
 	ZentrumBean zBeanSchreiben = new ZentrumBean(NullKonstanten.NULL_LONG, "institution", "abteilung", "ort", "01234", "strasse", "2", 1, KryptoUtil.getInstance().hashPasswort(
 		"passwort23423&$&§&§&§"), false);

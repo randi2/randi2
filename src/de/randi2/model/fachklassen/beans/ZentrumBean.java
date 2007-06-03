@@ -1,7 +1,7 @@
 package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
-import de.randi2.datenbank.exceptions.DatenbankFehlerException;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.utility.KryptoUtil;
@@ -105,13 +105,13 @@ public class ZentrumBean extends Filter {
 	 * @throws ZentrumException -
 	 *             wenn die Daten, die an den Konstruktor uebergeben wurden,
 	 *             nicht valide waren
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             wenn eine inkorrekte Id uebergeben wurde.
 	 */
 	public ZentrumBean(long id, String institution, String abteilung,
 			String ort, String plz, String strasse, String hausnr,
 			long ansprechpartnerId, String passwortHash, boolean istAktiviert)
-			throws ZentrumException, DatenbankFehlerException {
+			throws ZentrumException, DatenbankExceptions {
 
 		this.setId(id);
 
@@ -154,7 +154,7 @@ public class ZentrumBean extends Filter {
 						this.getAnsprechpartner())) {
 					return false;
 				}
-			} catch (DatenbankFehlerException e) {
+			} catch (DatenbankExceptions e) {
 				/*
 				 * Wenn das entsprechende Ansprechpartenr-Objekt, nicht gefunden
 				 * bzw. nicht geholt werden konnte, sind auch die beiden Objekte
@@ -200,10 +200,10 @@ public class ZentrumBean extends Filter {
 	 * Get-Methode fuer den Ansprechpartner.
 	 * 
 	 * @return Der Ansprechpartner.
-	 * @throws DatenbankFehlerException
+	 * @throws DatenbankExceptions
 	 *             falls ein Fehler auftrat.
 	 */
-	public PersonBean getAnsprechpartner() throws DatenbankFehlerException {
+	public PersonBean getAnsprechpartner() throws DatenbankExceptions {
 
 		if (aAnsprechpartner == null) {
 			aAnsprechpartner = Person.get(aAnsprechpartnerId);
