@@ -59,9 +59,13 @@ public class ZentrumBeanTest {
 		plz = "12345";
 		strasse = "strasse";
 		hausnr = "23";
-		ansprechpartner = new PersonBean(1, id, "nachname", "vorname",
-				PersonBean.Titel.PROF, 'm', "user@hs-heilbronn.de",
-				"01760099334", "017600972487", "01760427424");
+		try {
+			ansprechpartner = new PersonBean(1, id, "nachname", "vorname",
+					PersonBean.Titel.PROF, 'm', "user@hs-heilbronn.de",
+					"01760099334", "017600972487", "01760427424");
+		} catch (DatenbankExceptions e1) {
+			fail(e1.getMessage());
+		}
 		// Da der Konstruktor ein "geheshtes" Passwort erwartet, muss die Laenge
 		// von diesem = 64 sein
 		passwort = "oe?jie3Yiesaoe?jie3Yiesaoe?jie3Yiesaoe?jie3Yiesaoe?jie3Yiesa414a";
@@ -152,9 +156,13 @@ public class ZentrumBeanTest {
 	 */
 	@Test
 	public void testSetAnsprechpartner() throws PersonException {
-		ansprechpartner = new PersonBean(1, id, "nachname", "vorname",
-				PersonBean.Titel.PROF, 'm', "user@hs-heilbronn.de",
-				"01760099334", "017600972487", "01760427424");
+		try {
+			ansprechpartner = new PersonBean(1, id, "nachname", "vorname",
+					PersonBean.Titel.PROF, 'm', "user@hs-heilbronn.de",
+					"01760099334", "017600972487", "01760427424");
+		} catch (DatenbankExceptions e2) {
+			fail(e2.getMessage());
+		}
 		try {
 			zentrum.setAnsprechpartner(ansprechpartner);
 		} catch (ZentrumException e1) {
