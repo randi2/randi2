@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.PersonBean.Titel;
@@ -860,6 +861,8 @@ public class PersonBeanTest {
 
 		} catch (PersonException pe) {
 			fail("Personbean konnte nicht angelegt werden!");
+		} catch (DatenbankExceptions e) {
+			fail(e.getMessage());
 		}
 
 	}
@@ -881,6 +884,8 @@ public class PersonBeanTest {
 			testPB.setVorname("Holadie");
 		} catch (PersonException e) {
 			e.printStackTrace();
+		} catch (DatenbankExceptions ex) {
+			fail(ex.getMessage());
 		}
 		String sollWert = "id:\t" + testPB.getId() + "\tvorname:\t"
 				+ testPB.getVorname() + "\tnachname:\t" + testPB.getNachname()
@@ -895,23 +900,24 @@ public class PersonBeanTest {
 	/**
 	 * Testet die equals Methode an Hand zwei unterschiedlicher PersonBeans.
 	 */
-	 @Test
-	 public void testNotEquals() {
-	 try {
-	 PersonBean pb1 = new
-	 PersonBean(2,4,"wurst","hans",Titel.PROF,'m',"hans@wurst.de","022445409","016097753596","0223383434");
-	 PersonBean pb2 = new
-	 PersonBean(2,4,"wursat","hans",Titel.PROF,'m',"hans@wurst.de","022445409","016097753596","0223234214");
-	    	
-	
-	 assertTrue(!pb1.equals(pb2));
-	    	    	
-	    	
-	 } catch (PersonException pe) {
-	 fail("Personbean konnte nicht angelegt werden!");
-	 }
-	    	
-	    	
-	 }
-	    
+	@Test
+	public void testNotEquals() {
+		try {
+			PersonBean pb1 = new PersonBean(2, 4, "wurst", "hans", Titel.PROF,
+					'm', "hans@wurst.de", "022445409", "016097753596",
+					"0223383434");
+			PersonBean pb2 = new PersonBean(2, 4, "wursat", "hans", Titel.PROF,
+					'm', "hans@wurst.de", "022445409", "016097753596",
+					"0223234214");
+
+			assertTrue(!pb1.equals(pb2));
+
+		} catch (PersonException pe) {
+			fail("Personbean konnte nicht angelegt werden!");
+		} catch (DatenbankExceptions e) {
+			fail(e.getMessage());
+		}
+
+	}
+
 }
