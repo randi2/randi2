@@ -1,5 +1,6 @@
 package de.randi2.model.fachklassen.beans;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -24,7 +25,12 @@ import de.randi2.utility.ValidierungsUtil;
  * @author Thomas Willert [twillert@stud.hs-heilbronn.de]
  * @version $Id: BenutzerkontoBean.java 2493 2007-05-09 06:30:40Z freifsch $
  */
-public class BenutzerkontoBean extends Filter {
+public class BenutzerkontoBean extends Filter implements Serializable {
+
+	/**
+	 * Die generierte SerialVersionUID.
+	 */
+	private static final long serialVersionUID = -6437364808003565859L;
 
 	/**
 	 * Zugehoeriges PersonBean zu diesem Benutzerkonto. 1:1 Beziehung
