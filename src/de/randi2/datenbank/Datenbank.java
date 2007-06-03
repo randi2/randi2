@@ -25,9 +25,10 @@ import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.RechtException;
+import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.exceptions.ZentrumException;
-import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Rolle;
+import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.Studie.Status;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
@@ -2283,7 +2284,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			sql += FelderBenutzerkonto.ZENTRUMID.toString() + " = ?";
 		}
-
+		//FIXME --afreudli Es fehlt Vergleich nach PersonenId.
 		try {
 			// Prepared Statement erzeugen
 			pstmt = con.prepareStatement(sql);
@@ -3166,10 +3167,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 			U vater, T kind) throws DatenbankExceptions {
 		//1:n V Zentrum: K Benutzerkonto
 		if (vater instanceof ZentrumBean && kind instanceof BenutzerkontoBean) {
-			ZentrumBean zentrum = (ZentrumBean) vater;
 			BenutzerkontoBean bKonto = (BenutzerkontoBean) kind;
 			try {
-				bKonto.setZentrumId(zentrum.getId());
+				bKonto.setZentrumId(((ZentrumBean) vater).getId());
 			} catch (BenutzerkontoException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
@@ -3177,6 +3177,37 @@ public class Datenbank implements DatenbankSchnittstelle {
 			Vector<BenutzerkontoBean> kontoVector = suchenBenutzerkontoKindZ(bKonto);
 			return (Vector<T>) kontoVector;			
 		}
+		//1:n V Benutzerkonto : K Patient
+		if (vater instanceof BenutzerkontoBean && kind instanceof PatientBean) {
+			PatientBean patient = (PatientBean) kind;
+			patient.setBenutzerkontoId(((BenutzerkontoBean) vater).getId());
+			Vector<PatientBean> patientenVector = suchenPatientKindB(patient);
+			return (Vector<T>) patientenVector;			
+		}
+		//1:n V Studie : K Studienarm
+		if (vater instanceof StudieBean && kind instanceof StudienarmBean) {
+			StudienarmBean studienarm = (StudienarmBean) kind;
+			try {
+				studienarm.setStudieId(((StudieBean) vater).getId());
+			} catch (StudienarmException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
+			}
+			Vector<StudienarmBean> studienarmVector = suchenStudienarmKind(studienarm);
+			return (Vector<T>)studienarmVector;
+		}
+		//1:n V Studienarm : K Patient
+		if (kind instanceof PatientBean && vater instanceof StudienarmBean) {
+			PatientBean patient = (PatientBean) kind;
+			try {
+				patient.setStudienarmId(((StudienarmBean)vater).getId());
+			} catch (PatientException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
+			}
+			Vector<PatientBean> patientVector = suchenPatientKindS(patient);
+			return (Vector<T>)patientVector;
+		}		
 		return null;
 	}
 	
@@ -3185,13 +3216,99 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @param konto
 	 *            Das leere BenutzerkontoBean mit eventuellen zusätzlichen Suchkriterien.
-	 * @return Vector mit BenutzerkontoBean.
+	 * @return Vector mit BenutzerkontoBeans.
 	 * @throws DatenbankExceptions
 	 *          	Falls ein DB Fehler auftritt.
 	 */
 	private Vector<BenutzerkontoBean> suchenBenutzerkontoKindZ(BenutzerkontoBean konto) throws DatenbankExceptions{
 		Vector<BenutzerkontoBean> kontoVector = suchenObjekt(konto);
 		return kontoVector;
+	}
+	
+	/**
+	 * Methode sucht die Patienten des zugehoerigen Benutzerkontos.
+	 * 
+	 * @param patient
+	 *            Das leere PatientBean mit eventuellen zusätzlichen Suchkriterien.
+	 * @return Vector mit PatientBeans.
+	 * @throws DatenbankExceptions
+	 *          	Falls ein DB Fehler auftritt.
+	 */
+	private Vector<PatientBean> suchenPatientKindB(PatientBean patient) throws DatenbankExceptions{
+		Vector<PatientBean> patientVector = suchenObjekt(patient);
+		return patientVector;
+	}
+// TODO --kkrupka BlockBean fehlt.	
+//	/**
+//	 * Methode sucht die Blöcke der zugehoerigen Studie.
+//	 * 
+//	 * @param block
+//	 *            Das leere BlockBean mit eventuellen zusätzlichen Suchkriterien.
+//	 * @return Vector mit BlockBeans.
+//	 * @throws DatenbankExceptions
+//	 *          	Falls ein DB Fehler auftritt.
+//	 */
+//	private Vector<BlockBean> suchenBlockKind(BlockBean block) throws DatenbankExceptions{
+//		Vector<BlockBean> blockVector = suchenObjekt(block);
+//		return blockVector;
+//	}
+	
+	/**
+	 * Methode sucht die Studienarme der zugehoerigen Studie.
+	 * 
+	 * @param studienarm
+	 *            Das leere StudienarmBean mit eventuellen zusätzlichen Suchkriterien.
+	 * @return Vector mit StudienarmBeans.
+	 * @throws DatenbankExceptions
+	 *          	Falls ein DB Fehler auftritt.
+	 */
+	private Vector<StudienarmBean> suchenStudienarmKind(StudienarmBean studienarm) throws DatenbankExceptions{
+		Vector<StudienarmBean> studienarmVector = suchenObjekt(studienarm);
+		return studienarmVector;
+	}
+	
+	/**
+	 * Methode sucht die Patienten des zugehoerigen Studienarms.
+	 * 
+	 * @param patient
+	 *            Das leere PatientBean mit eventuellen zusätzlichen Suchkriterien.
+	 * @return Vector mit PatientBeans.
+	 * @throws DatenbankExceptions
+	 *          	Falls ein DB Fehler auftritt.
+	 */
+	private Vector<PatientBean> suchenPatientKindS(PatientBean patient) throws DatenbankExceptions{
+		Vector<PatientBean> patientVector = suchenObjekt(patient);
+		return patientVector;
+	}
+	
+	/**
+	 * Methode sucht die Zentrum der zugehoerigen Studie.
+	 * 
+	 * @param zentrum
+	 *            Das leere ZentrumBean mit eventuellen zusätzlichen Suchkriterien.
+	 * @return Vector mit ZentrumBeans.
+	 * @throws DatenbankExceptions
+	 *          	Falls ein DB Fehler auftritt.
+	 */
+	private Vector<ZentrumBean> suchenZentrumKind(ZentrumBean zentrum) throws DatenbankExceptions{
+		//TODO --kkrupka JOIN!!
+		Vector<ZentrumBean> zentrumVector = suchenObjekt(zentrum);
+		return zentrumVector;
+	}
+	
+	/**
+	 * Methode sucht die Studien der zugehoerigen Zentrum.
+	 * 
+	 * @param studie
+	 *            Das leere StudieBean mit eventuellen zusätzlichen Suchkriterien.
+	 * @return Vector mit StudieBeans.
+	 * @throws DatenbankExceptions
+	 *          	Falls ein DB Fehler auftritt.
+	 */
+	private Vector<StudieBean> suchenStudieKind(StudieBean studie) throws DatenbankExceptions{
+		//TODO --kkrupka JOIN!!!
+		Vector<StudieBean> studieVector = suchenObjekt(studie);
+		return studieVector;
 	}
 
 	/**
@@ -3202,45 +3319,27 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends Filter, U extends Filter> T suchenMitgliedEinsZuEins(U vater, T kind) throws DatenbankExceptions {
+		kind.setFilter(true);
 		//1:1 V Person: K Zentrum
 		if (vater instanceof PersonBean && kind instanceof ZentrumBean) {
-			PersonBean person = (PersonBean) vater;
-			ZentrumBean zentrum = (ZentrumBean) kind;
-			try {
-				zentrum.setAnsprechpartnerId(person.getId());
-			} catch (ZentrumException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
-			}
-			ZentrumBean zentrumRes = suchenZentrumKind(zentrum);
-			return (T) zentrumRes;
+			ZentrumBean zentrum = suchenZentrumKind(((PersonBean)vater).getId());
+			return (T) zentrum;
 		}
 		//1:1 V Person: K Benutzerkonto
 		if(vater instanceof PersonBean && kind instanceof BenutzerkontoBean) {
-			PersonBean person = (PersonBean) vater;
-			BenutzerkontoBean bKonto = (BenutzerkontoBean) kind;
-			try {
-				bKonto.setBenutzerId(person.getId());
-			} catch (BenutzerkontoException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
-			}
-			BenutzerkontoBean kontoRes = suchenBenutzerkontoKindP(bKonto);
-			return (T) kontoRes;
+			BenutzerkontoBean bKonto = suchenBenutzerkontoKindP(((PersonBean) vater).getId());
+			return (T) bKonto;
 		}
 		//1:1 V Benutzerkonto: K Aktivierung
 		if (vater instanceof BenutzerkontoBean && kind instanceof AktivierungBean) {
-			BenutzerkontoBean bKonto = (BenutzerkontoBean) vater;
-			AktivierungBean aktivierung = (AktivierungBean) kind;
-			try {
-				aktivierung.setBenutzerkontoId(bKonto.getId());
-			} catch (AktivierungException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
-			}
-			AktivierungBean aktivierungRes = suchenAktivierungKind(aktivierung);
-			return (T) aktivierungRes;	
+			AktivierungBean aktivierung = suchenAktivierungKind(((BenutzerkontoBean) vater).getId());
+			return (T) aktivierung;	
 			
+		}
+		//1:1 V Benutzerkonto: K Studie
+		if (vater instanceof BenutzerkontoBean && kind instanceof StudieBean) {
+			StudieBean studie = suchenStudieKind(((BenutzerkontoBean) vater).getId());
+			return (T) studie;
 		}
 		return null;
 	}
@@ -3248,55 +3347,52 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Methode sucht das Zentrum eines Ansprechpartners.
 	 * 
-	 * @param zentrum
-	 *            Das leere ZentrumBean mit eventuellen zusätzlichen Suchkriterien.
-	 * @return Das ZentrumBean der Suche.
+	 * @param id
+	 *            Die Id des Ansprechpartners.
+	 * @return Das ZentrumBean mit allen Eigenschaften.
 	 * @throws DatenbankExceptions
 	 *          	Falls ein DB Fehler auftritt.
 	 */
-	private ZentrumBean suchenZentrumKind(ZentrumBean zentrum) throws DatenbankExceptions {
-		Vector<ZentrumBean> zVector = suchenObjekt(zentrum);
-		if(zVector.size()==1) {
-			return zVector.elementAt(0);
-		} else {
-			throw new DatenbankExceptions(DatenbankExceptions.VECTOR_RELATION_FEHLER);
-		}
+	private ZentrumBean suchenZentrumKind(long id) throws DatenbankExceptions {
+		return suchenObjektId(id, new ZentrumBean());
 	}
 	
 	/**
 	 * Methode sucht das Benutzerkonto der Person.
 	 * 
-	 * @param konto
-	 *            Das leere BenutzerkontoBean mit eventuellen zusätzlichen Suchkriterien.
-	 * @return Das BenutzerkontoBean.
+	 * @param id
+	 *            Die Id der Person.
+	 * @return Das BenutzerkontoBean mit allen Eigenschaften..
 	 * @throws DatenbankExceptions
 	 *          	Falls ein DB Fehler auftritt.
 	 */
-	private BenutzerkontoBean suchenBenutzerkontoKindP(BenutzerkontoBean konto) throws DatenbankExceptions {
-		Vector <BenutzerkontoBean> kontoVector  = suchenObjekt(konto);
-		if(kontoVector.size()==1) {
-			return kontoVector.elementAt(0);
-		} else {
-			throw new DatenbankExceptions(DatenbankExceptions.VECTOR_RELATION_FEHLER);
-		}
+	private BenutzerkontoBean suchenBenutzerkontoKindP(long id) throws DatenbankExceptions {
+		return suchenObjektId(id, new BenutzerkontoBean());
 	}
 
 	/**
 	 * Methode sucht die Aktivierung des Benutzerkontos.
 	 * 
-	 * @param aktivierung
-	 *            Das leere AktivierungBean mit eventuellen zusätzlichen Suchkriterien.
+	 * @param id
+	 *          Die Id des Benutzerkontos.
 	 * @return AktivierungBean mit allen Eigenschaften.
 	 * @throws DatenbankExceptions
 	 *          	Falls ein DB Fehler auftritt.
 	 */
-	private AktivierungBean suchenAktivierungKind(AktivierungBean aktivierung) throws DatenbankExceptions {
-		Vector<AktivierungBean> aktivierungVector = suchenObjekt(aktivierung);
-		if(aktivierungVector.size()==1) {
-			return aktivierungVector.elementAt(0);
-		} else {
-			throw new DatenbankExceptions(DatenbankExceptions.VECTOR_RELATION_FEHLER);
-		}
+	private AktivierungBean suchenAktivierungKind(long id) throws DatenbankExceptions {
+		return suchenObjektId(id, new AktivierungBean());
+	}
+	
+	/**
+	 * Methode sucht die Studie des Benutzerkontos.
+	 * @param id
+	 * 			Die Id des Benutzerkontos
+	 * @return StudieBean mit allen Eigenschaften.
+	 * @throws DatenbankExceptions
+	 * 				Falls ein DB Fehler auftritt.
+	 */
+	private StudieBean suchenStudieKind(long id) throws DatenbankExceptions{
+		return suchenObjektId(id, new StudieBean());
 	}
 	
 
