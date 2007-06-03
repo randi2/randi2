@@ -41,9 +41,8 @@ public class PersonTest {
 	@Before
 	public void setUp() {
 		testPB = new PersonBean();
+		testPB.setFilter(true);
 		try {
-			testPB.setId(1);
-			testPB.setStellvertreterId(1);
 			testPB.setNachname("Hitzelmeier");
 			testPB.setVorname("Antonius");
 			testPB.setTitel(PersonBean.Titel.DR);
@@ -71,18 +70,6 @@ public class PersonTest {
 	 */
 	@Test
 	public void testSuchenPerson() {
-		testPB = new PersonBean();
-		testPB.setFilter(true);
-		try {
-			testPB.setNachname("Obdenhoevel");
-			testPB.setVorname("Oliver");
-			testPB.setGeschlecht('m');
-			testPB.setEmail("blablabla@web.de");
-			testPB.setTelefonnummer("072383984738");
-		} catch (PersonException e) {
-			fail("Bei der PersonBean Klasse trat ein Fehler auf: "
-					+ e.getMessage());
-		}
 		try {
 			// Speichern in der Datenbank
 			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(testPB);
@@ -94,33 +81,39 @@ public class PersonTest {
 			 * Da wir wissen, dass sich zur Zeit in der Datenbank eine Person
 			 * mit den gesuchten Eigenschaften befindet.
 			 */
-			for(int i = 0; i<tempVec.size(); i++) {
-				assertEquals(tempVec.elementAt(i).getNachname(), "Obdenhoevel");
-				assertEquals(tempVec.elementAt(i).getVorname(), "Oliver");
+			for (int i = 0; i < tempVec.size(); i++) {
+				assertEquals(tempVec.elementAt(i).getNachname(), "Hitzelmeier");
+				assertEquals(tempVec.elementAt(i).getVorname(), "Antonius");
+				assertEquals(tempVec.elementAt(i).getTitel(),
+						PersonBean.Titel.DR);
 				assertEquals(tempVec.elementAt(i).getGeschlecht(), 'm');
-				assertEquals(tempVec.elementAt(i).getEmail(), "blablabla@web.de");
+				assertEquals(tempVec.elementAt(i).getEmail(),
+						"antonhitzel@gmx.net");
 				assertEquals(tempVec.elementAt(i).getTelefonnummer(),
-						"072383984738");
+						"04738-4839278");
+				assertEquals(tempVec.elementAt(i).getHandynummer(),
+						"017394837263");
+				assertEquals(tempVec.elementAt(i).getFax(), "05748/38291");
 			}
 			/*
 			 * Suchen nach einer nicht existierenden Person - Ergebnis: keine
 			 * Person wird gefunden.
 			 */
-			testPB = new PersonBean();
-			testPB.setFilter(true);
+			PersonBean atestPB = new PersonBean();
+			atestPB.setFilter(true);
 			try {
-				testPB.setNachname("Moooshammer");
-				testPB.setVorname("Alfred");
-				testPB.setGeschlecht('m');
-				testPB.setEmail("klingkling@web.de");
-				testPB.setTelefonnummer("07238330271");
+				atestPB.setNachname("Moooshammer");
+				atestPB.setVorname("Alfred");
+				atestPB.setGeschlecht('m');
+				atestPB.setEmail("klingkling@web.de");
+				atestPB.setTelefonnummer("07238330271");
 			} catch (PersonException e) {
 				fail("Bei der PersonBean Klasse trat ein Fehler auf: "
 						+ e.getMessage());
 			}
 			tempVec = new Vector<PersonBean>();
 			// wird nicht gefunden, da nicht geschrieben wurde
-			tempVec = Person.suchenPerson(testPB);
+			tempVec = Person.suchenPerson(atestPB);
 			assertTrue(tempVec.size() == 0);
 		} catch (DatenbankExceptions e) {
 			fail("In der Datenbank trat ein Fehler auf: " + e.getMessage());
@@ -134,8 +127,6 @@ public class PersonTest {
 	 */
 	@Test
 	public void testGet() {
-		testPB = new PersonBean();
-		testPB.setFilter(true);
 		try {
 			testPB.setNachname("Meisner");
 			testPB.setVorname("Albert");
@@ -147,14 +138,10 @@ public class PersonTest {
 					+ e.getMessage());
 		}
 		try {
-			// schreiben in die Datenbank
+			// schreiben in die Datenbank, Rueckgabewert ist inklusive ID !!!
 			testPB = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 					testPB);
-			Vector<PersonBean> tempVec = new Vector<PersonBean>();
-			// Holen aus der Datenbank
-			tempVec = Person.suchenPerson(testPB);
-			// Suchen mit der ID des neuen Datenbankeintrags
-			PersonBean vergleichPB = Person.get(tempVec.elementAt(0).getId());
+			PersonBean vergleichPB = Person.get(testPB.getId());
 			assertEquals(vergleichPB, testPB);
 		} catch (DatenbankExceptions e) {
 			fail("In der Datenbank trat ein Fehler auf: " + e.getMessage());
