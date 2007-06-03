@@ -228,14 +228,19 @@ public final class Config {
         RELEASE_MAIL_DEBUG,
         
         /**
-         * 
+         * RequestAttribut fuer die Aktivierung	
          */
         RELEASE_AKTIVIERUNG_ATTRIBUT,
         
         /**
-         * 
+         * Link PRAEFIX fuer den Aktivierungslink,ohne Nummer
          */
         RELEASE_AKTIVIERUNG_LINK,
+        
+        /**
+         * Gueltigkeitsdauer des Aktivierungsllinks in Stunden
+         */
+        RELEASE_AKTIVIERUNG_GUELTIGKEIT,
 
         /**
          * Speicherung ob System gesperrt ist oder nicht.

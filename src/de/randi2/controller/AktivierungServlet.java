@@ -19,41 +19,49 @@ import de.randi2.utility.Config;
  */
 public class AktivierungServlet extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet {
 
-    /**
+	/**
 	 * Default Serial
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-     * Diese Methode nimmt HTTP-Get-Requests gemaess HTTP-Servlet Definition
-     * entgegen. Hier werden Anfragen abgearbeitet, die die Aktivierung des Benutzers  betreffen.
-     * 
-     * @param request
-     *            Der Request fuer das Servlet.
-     * @param response
-     *            Der Response des Servlets.
-     * @throws IOException
-     *             Falls Fehler in den E/A-Verarbeitung.
-     * @throws ServletException
-     *             Falls Fehler in der HTTP-Verarbeitung auftreten.
-     * 
-     * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest request,
-     *      HttpServletResponse response)
-     */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	//Url zum Testen http://localhost:8080/RANDI2/Aktivierung?link=aaaaaaaaaaaaaaaaaaaa
-	String id = (String) request.getParameter(Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_ATTRIBUT));
-	AktivierungBean beanZumSuchen=new AktivierungBean();
-	beanZumSuchen.setFilter(true);
-	try {
-	    beanZumSuchen.setAktivierungsLink(id);
-	    beanZumSuchen=DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(beanZumSuchen).firstElement();
-	} catch (AktivierungException e1) {
-	    // TODO Auto-generated catch block
-	    e1.printStackTrace();
-	} catch (DatenbankExceptions e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	 * Diese Methode nimmt HTTP-Get-Requests gemaess HTTP-Servlet Definition
+	 * entgegen. Hier werden Anfragen abgearbeitet, die die Aktivierung des Benutzers  betreffen.
+	 * 
+	 * @param request
+	 *            Der Request fuer das Servlet.
+	 * @param response
+	 *            Der Response des Servlets.
+	 * @throws IOException
+	 *             Falls Fehler in den E/A-Verarbeitung.
+	 * @throws ServletException
+	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest request,
+	 *      HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String aktivierung = (String) request.getParameter(Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_ATTRIBUT));
+		try {
+
+			//Suchen ob Aktivierung vorhanden
+			AktivierungBean sAktivierung = new AktivierungBean();
+			sAktivierung.setAktivierungsLink(aktivierung);
+			sAktivierung.setFilter(true);
+			sAktivierung = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(sAktivierung).firstElement();
+			long versanddatumPlusGueltigkeit=sAktivierung.getVersanddatum().getTimeInMillis()+Long.getLong(Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_GUELTIGKEIT))*60*1000;
+			if(versanddatumPlusGueltigkeit>System.currentTimeMillis())
+			{
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Aktivierung ist abgelaufen, bitte registrieren Sie sich erneut.");
+				
+			}
+
+		} catch (AktivierungException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (DatenbankExceptions e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-    }
 }
