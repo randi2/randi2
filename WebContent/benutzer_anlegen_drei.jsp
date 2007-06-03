@@ -48,11 +48,18 @@ Angaben</b></legend>
 		<td>Vorname *<br>
 		<input type="text" size="25" maxlength="30" name="Vorname"
 			value="<%if(request.getAttribute("Vorname")!=null){out.print(request.getAttribute("Vorname"));} %>"
-			tabindex="2"></td>
+			tabindex="2" z:required="true"
+			z:required_message="Bitte Vornamen eingeben"
+			z:length="{max: 50, min: 2}"
+			z:length_message="Vorname muss 2 bis 50 Zeichen lang sein"></td>
 		<td>&nbsp;&nbsp;&nbsp;Nachname *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Nachname" tabindex="3"
-			value="<%if(request.getAttribute("Nachname")!=null){out.print(request.getAttribute("Nachname"));} %>"></td>
+			name="Nachname"
+			value="<%if(request.getAttribute("Nachname")!=null){out.print(request.getAttribute("Nachname"));} %>"
+			tabindex="3" z:required="true"
+			z:required_message="Bitte Nachnamen eingeben"
+			z:length="{max: 50, min: 2}"
+			z:length_message="Nachname muss 2 bis 50 Zeichen lang sein"></td>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
@@ -65,13 +72,17 @@ Angaben</b></legend>
 		<td>Passwort *<br>
 		<input type="password" size="25" maxlength="30" name="Passwort"
 			value="<%if(request.getAttribute("Passwort")!=null){out.print(request.getAttribute("Passwort"));} %>"
-			tabindex="6"></td>
+			tabindex="6" z:required="true"
+			z:required_message="Bitte Passwort eingeben" z:length="{min: 6}"
+			z:length_message="Passwort muss mind. 6 Zeichen lang sein"></td>
 	</tr>
 	<tr>
 		<td>Passwort wiederholen *<br>
 		<input type="password" size="25" maxlength="30" name="Passwort_wh"
 			value="<%if(request.getAttribute("Passwort_wh")!=null){out.print(request.getAttribute("Passwort_wh"));} %>"
-			tabindex="7"></td>
+			tabindex="7" z:required="true"
+			z:required_message="Bitte Passwort eingeben" z:length="{min: 6}"
+			z:length_message="Passwort muss mind. 6 Zeichen lang sein"></td>
 	</tr>
 </table>
 </fieldset>
@@ -80,21 +91,33 @@ Angaben</b></legend>
 <table>
 	<tr>
 		<td>E-Mail *<br>
-		<input type="text" size="25" maxlength="30" name="Email" tabindex="8"
-			value="<%if(request.getAttribute("Email")!=null){out.print(request.getAttribute("Email"));} %>"></td>
+		<input type="text" size="25" maxlength="30" name="Email"
+			value="<%if(request.getAttribute("Email")!=null){out.print(request.getAttribute("Email"));} %>"
+			tabindex="8" z:required="true"
+			z:required_message="Bitte eMail-Adresse eingeben"
+			z:length="{max: 255}"
+			z:length_message="Email-Adresse darf max. 255 Zeichen lang sein"></td>
 		<td>&nbsp;&nbsp;&nbsp;Telefonnummer *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Telefon" tabindex="9"
-			value="<%if(request.getAttribute("Telefon")!=null){out.print(request.getAttribute("Telefon"));} %>"></td>
+			name="Telefon"
+			value="<%if(request.getAttribute("Telefon")!=null){out.print(request.getAttribute("Telefon"));} %>"
+			tabindex="9" z:required="true"
+			z:required_message="Bitte Telefonnummer eingeben"
+			z:length="{max: 26, min: 6}"
+			z:length_message="Telefonnummer muss 6 bis 26 Zeichen lang sein"></td>
 	</tr>
 	<tr>
 		<td>Handy<br>
-		<input type="text" size="25" maxlength="30" name="Handy" tabindex="10"
-			value="<%if(request.getAttribute("Handy")!=null){out.print(request.getAttribute("Handy"));} %>"></td>
+		<input type="text" size="25" maxlength="30" name="Handy"
+			value="<%if(request.getAttribute("Handy")!=null){out.print(request.getAttribute("Handy"));} %>"
+			tabindex="10" z:length="{max: 26, min: 7}"
+			z:length_message="Handynummer muss 7 bis 26 Zeichen lang sein"></td>
 		<td>&nbsp;&nbsp;&nbsp;Fax<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Fax" tabindex="11"
-			value="<%if(request.getAttribute("Fax")!=null){out.print(request.getAttribute("Fax"));} %>"></td>
+			name="Fax"
+			value="<%if(request.getAttribute("Fax")!=null){out.print(request.getAttribute("Fax"));} %>"
+			tabindex="11" z:length="{max: 26, min: 6}"
+			z:length_message="Handynummer muss 6 bis 26 Zeichen lang sein"></td>
 	</tr>
 </table>
 </fieldset>
