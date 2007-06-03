@@ -15,6 +15,7 @@ import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankFehlerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.BenutzerException;
+import de.randi2.model.fachklassen.AutomatischeNachricht;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Zentrum;
@@ -22,10 +23,12 @@ import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
+import de.randi2.utility.Config;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.LogAktion;
 import de.randi2.utility.LogLayout;
 import de.randi2.utility.NullKonstanten;
+import de.randi2.utility.SystemException;
 
 /**
  * Diese Klasse repraesentiert das BENUTZERSERVLET, welches Aktionen an die
@@ -426,8 +429,11 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    request.getRequestDispatcher("/benutzer_anlegen_vier.jsp").forward(request, response);
 	    
 	    //Aktivierung erstellen
+	    //TODO -->afreudliUNIQUE AKTIVIERUNGSLINK BEACHTEN
 	    AktivierungBean aktivierung=new AktivierungBean(NullKonstanten.DUMMY_ID,new GregorianCalendar(),aBenutzerkonto.getBenutzerId(),KryptoUtil.getInstance().getAktivierungslink());
 	    aktivierung=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aktivierung);
+	    AutomatischeNachricht aktivierungMail=new AutomatischeNachricht(aPerson,AutomatischeNachricht.autoNachricht.AKTIVIERUNG);
+	    aktivierungMail.senden();
 
 	// Falls ein Fehler aufgetreten ist, request wieder auffüllen
 	} catch (BenutzerException e) {
@@ -452,6 +458,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
 	}catch(DatenbankFehlerException e){
 		//TODO Bitte hier ordentliches Exception-Handlin einbauen! (lplotni)
+	} catch (SystemException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 	}
     }
     /**

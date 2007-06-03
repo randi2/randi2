@@ -4,8 +4,9 @@
 <comment>als dynamische Textelemente sind bisher gestattet #Anrede#, #Aktivierungslink#,#passwort#,#Absender#</comment>
 	<email name="aktivierung">
 		<betreff>Das ist der Betreff</betreff>
-		<emailtext>#Anrede#
-		\n Wie mit Ihnen bereits besprochen anbei der Aktivierungslink für Ihr Auto : #Aktivierungslink#
+		<emailtext>
+		#Anrede#
+		Wie mit Ihnen bereits besprochen anbei der Aktivierungslink für Ihr Auto : #Aktivierungslink#
 		Mit freundlichen Grüßen
 		#Absender#
 		</emailtext>

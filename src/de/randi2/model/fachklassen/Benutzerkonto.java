@@ -77,13 +77,7 @@ public class Benutzerkonto {
 		return new Benutzerkonto(aktualisierterBenutzer);
 	}
 
-	/**
-	 * Diese Methode generiert die Aktivierungsnachricht und schickt dem
-	 * Benutzer zu.
-	 */
-	private void sendenAktivierungsMail() {
-		// TODO muss fuer Release2 unbedingt ausimplementiert werden! (lplotni)
-	}
+
 
 	/**
 	 * Erzeugt einen String mit allen Daten des Benutzers.
@@ -188,7 +182,7 @@ public class Benutzerkonto {
 	public void aktiviereBenutzerkonto(AktivierungBean aktivierung)
 			throws BenutzerkontoException {
 		// TODO Ausimplementierung --> afreudli
-		this.sendenAktivierungsMail();
+		//this.sendenAktivierungsMail();
 	}
 
 }

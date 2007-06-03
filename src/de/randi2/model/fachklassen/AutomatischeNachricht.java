@@ -10,6 +10,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
+import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.model.exceptions.NachrichtException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
@@ -128,6 +129,7 @@ public class AutomatischeNachricht extends Nachricht {
     public AutomatischeNachricht(PersonBean empfaenger,
             autoNachricht artAutomatischeNachricht) throws NachrichtException, SystemException {
         super();
+        initMail();
         String betreff = "";
         String nachrichtentext = "";
         // Systemabsender erstellen
@@ -138,7 +140,7 @@ public class AutomatischeNachricht extends Nachricht {
             // Vollstaendigkeit, oder? --Btheel
             absenderRandi = new PersonBean(NullKonstanten.NULL_LONG,
                     NullKonstanten.NULL_LONG, "Randi2", "Randi2",
-                    PersonBean.Titel.KEIN_TITEL, 'm', "randi2@randi2.de",
+                    PersonBean.Titel.KEIN_TITEL, 'm', Config.getProperty(Config.Felder.RELEASE_MAIL_RANDI2MAILADRESSE),
                     "098098080", "09809809808", "089789797");
 
             String dateiname = AutomatischeNachricht.class.getResource(
@@ -163,9 +165,8 @@ public class AutomatischeNachricht extends Nachricht {
                             nachrichtentext);
                     switch (artAutomatischeNachricht) {
                     case AKTIVIERUNG:
-                        // FIXME--afreudli Zu klären wie 1:1 Beziehungen
-                        // umgesetzt werden (Fachklasse?!)
-                        nachrichtentext.replace("#Aktivierungslink#",
+                    	//DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(empfaenger, kind)
+                        nachrichtentext=nachrichtentext.replace("#Aktivierungslink#",
                                 Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_LINK)
                                         + "Hier kommt dann der Link");
                         break;
@@ -182,8 +183,6 @@ public class AutomatischeNachricht extends Nachricht {
                     }
                 }
             }
-            // XXX @Andi Hab hier SystemExc. gesetzt, macht mMn mehr sin, da das Fehler
-            // sind, mit dem der Benutzer nix anfangen kann --Btheel (Quickfix)
         } catch (PersonException e) {
             //throw new EmailException("Systemabsender falsch gesetzt");
             throw new SystemException("Systemabsender falsch gesetzt");
@@ -227,16 +226,14 @@ public class AutomatischeNachricht extends Nachricht {
      *         Anrede ersetzt ist.
      */
     private String setzeAnrede(PersonBean empfaenger, String text) {
-        String rueckgabe = text;
         if (empfaenger.getGeschlecht() == 'w') {
-            rueckgabe.replace("#Anrede#", "Sehr geehrte Frau "
+            return text.replace("#Anrede#", "Sehr geehrte Frau "
                     + empfaenger.getTitel().toString() + " "
                     + empfaenger.getNachname());
         } else {
-            rueckgabe.replace("#Anrede#", "Sehr geehrter Herr "
+            return text.replace("#Anrede#", "Sehr geehrter Herr "
                     + empfaenger.getTitel().toString() + " "
                     + empfaenger.getNachname());
         }
-        return rueckgabe;
     }
 }
