@@ -17,6 +17,7 @@ import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
+import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.Log4jInit;
 
 /**
@@ -45,9 +46,10 @@ public class ZentrumTest {
 	@Before
 	public void setUp() {
 		testZB = new ZentrumBean();
+		testZB.setFilter(true);
 		try {
 			testZB.setInstitution("HS Heilbronn");
-			testZB.setAbteilung("Medizinische Infromatik");
+			testZB.setAbteilung("Medizinische Informatik");
 			testZB.setAnsprechpartnerId(3);
 			testZB.setOrt("Heilbronn");
 			testZB.setPlz("74081");
@@ -86,22 +88,6 @@ public class ZentrumTest {
 	 */
 	@Test
 	public void testSuchenZentrum() {
-		testZB = new ZentrumBean();
-		testZB.setFilter(true);
-		try {
-			testZB.setInstitution("Institution1");
-			testZB.setAbteilung("Abteilung1");
-			testZB.setOrt("Heilbronn");
-			testZB.setPlz("74081");
-			testZB.setStrasse("Max Planck Strasse");
-			testZB.setHausnr("1a");
-			testZB.setPasswortKlartext("teig!!eeThu3");
-			testZB.setAnsprechpartnerId(2);
-			testZB.setIstAktiviert(true);
-		} catch (ZentrumException e) {
-			fail("Bei der ZentrumBean Klasse trat ein Fehler auf: "
-					+ e.getMessage());
-		}
 		try {
 			// Speichern in der Datenbank
 			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(testZB);
@@ -114,24 +100,31 @@ public class ZentrumTest {
 			 * mit gesuchten Eigenschaften befindet.
 			 */
 			for(int i = 0; i < tempVec.size(); i++) {
-				assertEquals(tempVec.elementAt(i).getInstitution(), "Institution1");
-				assertEquals(tempVec.elementAt(i).getAbteilung(), "Abteilung1");
+				assertEquals(tempVec.elementAt(i).getInstitution(), "HS Heilbronn");
+				assertEquals(tempVec.elementAt(i).getAbteilung(), "Medizinische Informatik");
+				assertTrue(tempVec.elementAt(i).getAnsprechpartnerId() == 3);
+				assertEquals(tempVec.elementAt(i).getOrt(), "Heilbronn");
+				assertEquals(tempVec.elementAt(i).getPlz(), "74081");
+				assertEquals(tempVec.elementAt(i).getStrasse(), "Max Planck Strasse");
+				assertEquals(tempVec.elementAt(i).getHausnr(), "1a");
+				assertEquals(tempVec.elementAt(i).getPasswort(), KryptoUtil.getInstance().hashPasswort("teig!!eeThu3"));
+				assertEquals(tempVec.elementAt(i).getIstAktiviert(), true);
 			}
 			/*
 			 * Jetzt suchen wir nach einem nicht existierendem Zentrum -
 			 * Ergebnis: kein Zentrum wird gefunden.
 			 */
-			testZB = new ZentrumBean();
-			testZB.setFilter(true);
+			ZentrumBean atestZB = new ZentrumBean();
+			atestZB.setFilter(true);
 			try {
-				testZB.setInstitution("Uni Heidelberg");
+				atestZB.setInstitution("Uni Heidelberg");
 			} catch (ZentrumException e) {
 				fail("Bei der ZentrumBean Klasse trat ein Fehler auf: "
 						+ e.getMessage());
 			}
 			tempVec = new Vector<ZentrumBean>();
 			// wird nicht gefunden, da nicht geschrieben wurde
-			tempVec = Zentrum.suchenZentrum(testZB);
+			tempVec = Zentrum.suchenZentrum(atestZB);
 			assertTrue(tempVec.size() == 0);
 		} catch (DatenbankExceptions e) {
 			fail("In der Datenbank trat ein Fehler auf: " + e.getMessage());
@@ -165,32 +158,11 @@ public class ZentrumTest {
 	 */
 	@Test
 	public void testGetZentrum() {
-		testZB = new ZentrumBean();
-		testZB.setFilter(true);
-		try {
-			testZB.setInstitution("Irgendwas");
-			testZB.setAbteilung("Irgendeine");
-			testZB.setOrt("Irgendwo");
-			testZB.setPlz("74081");
-			testZB.setStrasse("Egalstrasse");
-			testZB.setHausnr("23");
-			testZB.setPasswortKlartext("teig!!eeThu3");
-			testZB.setAnsprechpartnerId(2);
-			testZB.setIstAktiviert(true);
-		} catch (ZentrumException e1) {
-			fail("Beim ZentrumBean trat ein Fehler auf: " + e1.getMessage());
-		}
 		try {
 			// schreiben in die Datenbank
 			testZB = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 					testZB);
-			// Initialisierung des Vektors
-			Vector<ZentrumBean> tempVec = new Vector<ZentrumBean>();
-			// Holen aus der Datenbank
-			tempVec = Zentrum.suchenZentrum(testZB);
-			// Suchen mit der ID des neuen Datenbankeintrags
-			ZentrumBean vergleichZB = Zentrum.getZentrum(tempVec.elementAt(0)
-					.getId());
+			ZentrumBean vergleichZB = Zentrum.getZentrum(testZB.getId());
 			assertEquals(vergleichZB, testZB);
 		} catch (DatenbankExceptions e) {
 			fail("In der Datenbank trat ein Fehler auf: " + e.getMessage());
