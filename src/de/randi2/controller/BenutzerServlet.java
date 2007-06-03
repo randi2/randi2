@@ -426,7 +426,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    request.getRequestDispatcher("/benutzer_anlegen_vier.jsp").forward(request, response);
 	    
 	    //Aktivierung erstellen
-	    AktivierungBean aktivierung=new AktivierungBean(NullKonstanten.DUMMY_ID,new GregorianCalendar(),aBenutzerkonto.getBenutzerId(),"aktivierung");
+	    AktivierungBean aktivierung=new AktivierungBean(NullKonstanten.DUMMY_ID,new GregorianCalendar(),aBenutzerkonto.getBenutzerId(),KryptoUtil.getInstance().getAktivierungslink());
+	    aktivierung=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aktivierung);
 
 	// Falls ein Fehler aufgetreten ist, request wieder auffüllen
 	} catch (BenutzerException e) {
