@@ -14,6 +14,7 @@ import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.model.exceptions.NachrichtException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
+import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.utility.Config;
 import de.randi2.utility.NullKonstanten;
@@ -166,9 +167,13 @@ public class AutomatischeNachricht extends Nachricht {
                     switch (artAutomatischeNachricht) {
                     case AKTIVIERUNG:
                     	//DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(empfaenger, kind)
+                    	empfaenger.setFilter(true);
+                    	BenutzerkontoBean konto=DatenbankFactory.getAktuelleDBInstanz().suchenMitgliedEinsZuEins(empfaenger,new BenutzerkontoBean());
+                    	konto.setFilter(true);
+                    	String aktivierungslink=DatenbankFactory.getAktuelleDBInstanz().suchenMitgliedEinsZuEins(konto, new AktivierungBean()).getAktivierungsLink();
                         nachrichtentext=nachrichtentext.replace("#Aktivierungslink#",
                                 Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_LINK)
-                                        + "Hier kommt dann der Link");
+                                        + aktivierungslink);
                         break;
                     case BENUTZER_ENTSPERREN:
                         // TODO--afreudli gibt es hie was dynamisches?!

@@ -15,11 +15,6 @@ import de.randi2.utility.NullKonstanten;
 public class PersonBean extends Filter {
 
 	/**
-	 * Die eindeutige Id der Person.
-	 */
-	private long id = NullKonstanten.DUMMY_ID;
-
-	/**
 	 * Die E-Mailadresse der Person.
 	 */
 	private String aEmail = null;
@@ -179,13 +174,14 @@ public class PersonBean extends Filter {
 	 *            Faxnummer der Person.
 	 * @throws PersonException
 	 *             Wenn bei der Validierung einer Person Probleme auftreten.
+	 * @throws DatenbankExceptions 
 	 */
 	public PersonBean(long id, long stellvertreterId, String nachname,
 			String vorname, Titel titel, char geschlecht, String email,
 			String telefonnummer, String handynummer, String fax)
-			throws PersonException {
+			throws PersonException, DatenbankExceptions {
 		super();
-		this.setId(id);
+		super.setId(id);
 		this.setStellvertreterId(stellvertreterId);
 		this.setNachname(nachname);
 		this.setVorname(vorname);
@@ -448,27 +444,6 @@ public class PersonBean extends Filter {
 	}
 
 	/**
-	 * Die Get-Methode fuer die Id des Objektes.
-	 * 
-	 * @return id Die eindeutige Id (long) des Objektes, die auch das Objekt in
-	 *         der Datenbank eindeutig identifiziert.
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * Die Set-Methode fuer die Id des Objektes.
-	 * 
-	 * @param id
-	 *            Die eindeutige Id (long) des Objektes, die auch das Objekt in
-	 *            der Datenbank eindeutig identifiziert.
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	/**
 	 * Get-Methode fuer den Stellvertreter
 	 * 
 	 * @return Der Stellvertreter.
@@ -536,7 +511,7 @@ public class PersonBean extends Filter {
 	 */
 	@Override
 	public String toString() {
-		return "id:\t" + this.id + "\tvorname:\t" + this.aVorname
+		return "id:\t" + super.getId() + "\tvorname:\t" + this.aVorname
 				+ "\tnachname:\t" + this.aNachname + "\temail:\t" + this.aEmail
 				+ "\tfax:\t" + this.aFax + "\thandy:\t" + this.aHandynummer
 				+ "\tstellvertreterId:\t" + this.aStellvertreterId + "\ttel:\t"
@@ -585,7 +560,7 @@ public class PersonBean extends Filter {
 							.equals(this.aHandynummer)) {
 				return false;
 			}
-			if (beanZuvergleichen.id != this.id) {
+			if (beanZuvergleichen.getId() != this.getId()) {
 				return false;
 			}
 

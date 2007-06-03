@@ -10,7 +10,9 @@ import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
+import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.Config;
+import de.randi2.utility.Jsp;
 
 /**
  * Das Aktivierungservlet wird NUR angesprochen wenn der Benutzer den Aktivierungslink anklickt.
@@ -50,18 +52,31 @@ public class AktivierungServlet extends javax.servlet.http.HttpServlet implement
 			sAktivierung.setFilter(true);
 			sAktivierung = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(sAktivierung).firstElement();
 			long versanddatumPlusGueltigkeit=sAktivierung.getVersanddatum().getTimeInMillis()+Long.getLong(Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_GUELTIGKEIT))*60*1000;
-			if(versanddatumPlusGueltigkeit>System.currentTimeMillis())
-			{
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Aktivierung ist abgelaufen, bitte registrieren Sie sich erneut.");
+			if(versanddatumPlusGueltigkeit>System.currentTimeMillis()){
+				//request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Aktivierung ist abgelaufen, bitte registrieren Sie sich erneut.");
+				request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_FEHLER).forward(request, response);
+				
+			}
+			else{
+				//Status Benutzerkonto umsetzen
+				BenutzerkontoBean aBenutzerkonto=sAktivierung.getBenutzerkonto();
+				aBenutzerkonto.setGesperrt(false);
+				aBenutzerkonto=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzerkonto);
+				
+				//Aktivierung loeschen
+				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(sAktivierung);
+				
+				request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_OK).forward(request, response);
+				
+				
 				
 			}
 
 		} catch (AktivierungException e1) {
-			// TODO Auto-generated catch block
+			request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_FEHLER).forward(request, response);
 			e1.printStackTrace();
 		} catch (DatenbankExceptions e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_FEHLER).forward(request, response);
 		}
 	}
 }

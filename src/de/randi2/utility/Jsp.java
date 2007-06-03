@@ -120,6 +120,15 @@ public final class Jsp {
 	 * Konstante fuer jsp-Seite
 	 */
 	public static final String LOGOUT = "/logout.jsp";
+	
+	/**
+	 * Konstante fuer jsp-Seite
+	 */
+	public static final String NACH_AKTIVIERUNGSLINK_FEHLER="/nach_aktivierungslink_fehler.jsp";
+	/**
+	 * Konstante fuer jsp-Seite
+	 */
+	public static final String NACH_AKTIVIERUNGSLINK_OK="/nach_aktivierungslink_ok.jsp";
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
