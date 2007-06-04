@@ -743,7 +743,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * Konstruktor der Datenbankklasse.
 	 */
 	public Datenbank() {
-		String pfad = "";
+		String pfad = ""; 
 		log = Logger.getLogger(LogLayout.DATENAENDERUNG);
 		try {
 			pfad = Datenbank.class.getResource("/conf/release/proxool_cfg.xml")
@@ -754,9 +754,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 						"/conf/release/proxool_cfg.xml").getPath());
 			}
 			JAXPConfigurator.configure(pfad, false);
-		} catch (ProxoolException e) {
+		} catch (ProxoolException e) {			
 			new DatenbankExceptions(DatenbankExceptions.PROXOOL_CONF_ERR);
+			log.error(DatenbankExceptions.CONNECTION_ERR, e);
 		}
+		log.info("Datenbank initialisiert");
 	}
 
 	/**
@@ -2284,7 +2286,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			sql += FelderBenutzerkonto.ZENTRUMID.toString() + " = ?";
 		}
-		//FIXME --afreudli Es fehlt Vergleich nach PersonenId.
+		if (bk.getId() != NullKonstanten.NULL_LONG) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderBenutzerkonto.ID.toString() + " = ?";
+		}
 		try {
 			// Prepared Statement erzeugen
 			pstmt = con.prepareStatement(sql);
@@ -2306,6 +2315,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.setBoolean(index++, bk.isGesperrt());
 			if (bk.getZentrumId() != NullKonstanten.NULL_LONG) {
 				pstmt.setLong(index++, bk.getZentrumId());
+			}
+			if (bk.getId() != NullKonstanten.NULL_LONG) {
+				pstmt.setLong(index++, bk.getId());
 			}
 						
 			rs = pstmt.executeQuery();
