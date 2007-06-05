@@ -1,3 +1,5 @@
+use randi2;
+
 insert into Person (nachname,vorname,titel,geschlecht,telefonnummer,handynummer,fax,email)  
 values ('Hess','Frank','Prof.','m','07131-1231232',null,null,'frank.hess@hs-heilbronn.de'),
         ('Graeff','Valentin','Dr.','m','07131-3456',null,null,'vgraeff@stud.hs-heilbronn.de'),
