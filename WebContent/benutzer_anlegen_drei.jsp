@@ -63,9 +63,9 @@ Angaben</b></legend>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
-		<input type="radio" name="weiblich"
+		<input type="radio" name="Geschlecht" value="w" 
 			<%if(request.getAttribute("weiblich")!=null){out.print("checked");} %>>weiblich
-		<input type="radio" name="maennlich"
+		<input type="radio" name="Geschlecht" value="m"
 			<%if(request.getAttribute("maennlich")!=null){out.print("checked");} %>>m&auml;nnlich</td>
 	</tr>
 	<tr>
@@ -110,14 +110,14 @@ Angaben</b></legend>
 		<td>Handy<br>
 		<input type="text" size="25" maxlength="30" name="Handy"
 			value="<%if(request.getAttribute("Handy")!=null){out.print(request.getAttribute("Handy"));} %>"
-			tabindex="10" z:length="{max: 26, min: 7}"
-			z:length_message="Handynummer muss 7 bis 26 Zeichen lang sein"></td>
+			tabindex="10" /> <!-- z:length="{max: 26, min: 7}"
+			z:length_message="Handynummer muss 7 bis 26 Zeichen lang sein"--> </td>
 		<td>&nbsp;&nbsp;&nbsp;Fax<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
 			name="Fax"
 			value="<%if(request.getAttribute("Fax")!=null){out.print(request.getAttribute("Fax"));} %>"
-			tabindex="11" z:length="{max: 26, min: 6}"
-			z:length_message="Handynummer muss 6 bis 26 Zeichen lang sein"></td>
+			tabindex="11" /><!--  z:required="false" z:length="{max: 26, min: 6}"
+			z:length_message="Faxnummer muss 6 bis 26 Zeichen lang sein"--></td>
 	</tr>
 </table>
 </fieldset>
