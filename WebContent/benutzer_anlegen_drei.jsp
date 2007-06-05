@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<script type="text/javascript" src="js/prototype.js"></script>
-<script type="text/javascript" src="js/zebda.js"></script>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
        "http://www.w3.org/TR/html4/strict.dtd">
@@ -12,12 +10,16 @@
 
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="de.randi2.controller.DispatcherServlet"%>
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/zebda.js"></script>
+<script type="text/javascript" src="js/passwordmeter.js"></script>
+
 </head>
 <body>
 <%@include file="include/inc_header_clean.jsp"%>
 
 <div id="content">
-<form action="DispatcherServlet" method="post"><input
+<form action="DispatcherServlet" method="post" name="user" id="user"><input
 	type="hidden" name="anfrage_id"
 	value="<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER.name() %>">
 <h1>Benutzer anlegen</h1>
@@ -70,11 +72,30 @@ Angaben</b></legend>
 	</tr>
 	<tr>
 		<td>Passwort *<br>
-		<input type="password" size="25" maxlength="30" name="Passwort"
+		<input type="password" size="25" maxlength="30" name="Passwort" id="Passwort"
 			value="<%if(request.getAttribute("Passwort")!=null){out.print(request.getAttribute("Passwort"));} %>"
-			tabindex="6" z:required="true"
+			tabindex="6" onkeyup="testPassword(document.forms.user.Passwort.value);" z:required="true"
 			z:required_message="Bitte Passwort eingeben" z:length="{min: 6}"
 			z:length_message="Passwort muss mind. 6 Zeichen lang sein"></td>
+			<td>
+		<a id=Words>
+			<table border=0 cellpadding=0 cellspacing=0>
+				<tr>
+					<td class=bold width=100>St&auml;rke:</td>
+					<td>
+						<table cellpadding=0 cellspacing=2>
+							<tr>
+								<td height=15 width=150 bgcolor=#dddddd></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</a>
+			
+		
+		
+		</td>
 	</tr>
 	<tr>
 		<td>Passwort wiederholen *<br>
