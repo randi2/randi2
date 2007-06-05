@@ -2286,13 +2286,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			sql += FelderBenutzerkonto.ZENTRUMID.toString() + " = ?";
 		}
-		if (bk.getId() != NullKonstanten.NULL_LONG) {
+		if (bk.getBenutzerId() != NullKonstanten.NULL_LONG) {
 			if (counter == 0) {
 				sql += " WHERE ";
 			} else {
 				sql += " AND ";
 			}
-			sql += FelderBenutzerkonto.ID.toString() + " = ?";
+			sql += FelderBenutzerkonto.PERSONID.toString() + " = ?";
 		}
 		try {
 			// Prepared Statement erzeugen
@@ -2316,8 +2316,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			if (bk.getZentrumId() != NullKonstanten.NULL_LONG) {
 				pstmt.setLong(index++, bk.getZentrumId());
 			}
-			if (bk.getId() != NullKonstanten.NULL_LONG) {
-				pstmt.setLong(index++, bk.getId());
+			if (bk.getBenutzerId() != NullKonstanten.NULL_LONG) {
+				pstmt.setLong(index++, bk.getBenutzerId());
 			}
 						
 			rs = pstmt.executeQuery();
