@@ -14,6 +14,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<script language="Javascript" src="js/motionpack.js"> </script>
 <title>Randi2 :: Benutzer anlegen</title>
 
 </head>
@@ -30,11 +31,39 @@ suchen </b></legend>
 <form action="DispatcherServlet" method="POST"><input
 	type="hidden" name="anfrage_id"
 	value="<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI.name() %>">
-<p>Name&nbsp;der&nbsp;Institution:&nbsp;&nbsp;/Name Abteilung <br>
-<input type="Text" name="name_institution" value="" size="30"
-	maxlength="50">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="Text"
-	name="name_abteilung" value="" size="30" maxlength="50"> <input
-	type="submit" name="Filtern" value="Filtern"></p>
+	
+<img alt="Filter anzeigen" src="images/find.png" onmousedown="toggleSlide('mydiv');" title="Filter anzeigen" style="cursor:pointer"/>
+<div id="mydiv" style="display:none; overflow:hidden; height: 75px;">
+<table width="90%">
+	<tr>
+		<td>
+			Name&nbsp;der&nbsp;Institution:
+		</td>
+		<td>
+			Name&nbsp;der&nbsp;Abteilung:
+		</td>
+		<td>
+			&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<input type="Text" name="name_institution" value="" size="30"
+	maxlength="50"/>
+		</td>
+		<td>
+			<input type="Text"
+	name="name_abteilung" value="" size="30" maxlength="50"/>
+		</td>
+		<td>
+			<input
+	type="submit" name="Filtern" value="Filtern"/>
+		</td>
+	</tr>
+</table>
+	</div>
+	
+	
 <table width="90%">
 	<tr class="tblrow1" align="left">
 		<th width="40%">Name der Institution</th>
