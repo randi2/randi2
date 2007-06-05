@@ -368,7 +368,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	String fehlernachricht = "";
 	String vorname = request.getParameter("Vorname");
 	String nachname = request.getParameter("Nachname");
-	char geschlecht = NullKonstanten.NULL_CHAR;
+	char geschlecht = request.getParameter("Geschlecht").charAt(0);
 	String passwort = null;
 	String email = request.getParameter("Email");
 	String telefon = request.getParameter("Telefon");
@@ -385,13 +385,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		break;
 	    }
 	}
-
-	// Geschlecht abfragen
-	if (request.getParameter("maennlich") != null) {
-	    geschlecht = 'm';
-	} else if (request.getParameter("weiblich") != null) {
-	    geschlecht = 'w';
-	}
+	
 	// Wiederholte Passworteingabe prüfen
 	if (request.getParameter("Passwort") != null && request.getParameter("Passwort_wh") != null) {
 	    if (request.getParameter("Passwort").equals(request.getParameter("Passwort_wh"))) {
