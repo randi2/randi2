@@ -7,14 +7,14 @@ values ('Hess','Frank','Prof.','m','07131-1231232',null,null,'frank.hess@hs-heil
         ('Hans','Dampf','Prof. Dr.','m','07131-123456',null,null,'hans.damp@allenGassen.de');
 
 #Passwoerter Zentren:
-		# 1) nch!"§knochen
+		# 1) nch1!"§knochen
 		# 2) hno!"§nase
 		# 3) mzk!"§zahn
 		# 4) paed!"§kind
 
 
 insert into Zentrum (Person_personenID,institution,abteilungsname,ort,plz,strasse,hausnummer,passwort,aktiviert) 
-values('1','nch','knochen','heilbronn','74081','hessstrasse','34','e4daf35c3c78e719d7b1ca6c16c8f8522d68b88352cb7068e010f46e3c1948c1',0),
+values('1','nch','knochen','heilbronn','74081','hessstrasse','34','bb3e54d3b82b9dd48d45f91e18b0fb9396f4c3c5aadc4ebfdd4103c8c3cb507a',1),
         ('2','hno','nase','heilbronn','74081','graeffstrasse','23','091c32a7a4f07be62d314c43768f4f9551bfab318522c69419064d0b1436c2ba',1),
         ('3','mzk','zahn','heilbronn','74081','zwinkstrasse','12','8cf0a1ed41b621c4d5a1096ba53f1a2814943b54dab6eb39256f9cc7132b1cd2',0),
         ('4','paed','kind','heilbronn','74081','dampfstrasse','44','4623de6469aff3cdb1761fb6219fe0cd180873376cc588287c6b44504100bc6c',1);
