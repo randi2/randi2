@@ -46,7 +46,7 @@
 		<td>
 		<label for="empfaenger"><b>Empf&auml;nger:</b> (An folgende Benutzer k&ouml;nnen Sie eine Nachricht versenden)</label><br>
 		<select id="empfaenger" name="<%= Nachrichtendienst.requestParameter.EMPFAENGER.name() %>" tabindex="1" z:required="true" z:message="Bitte wählen Sie einen Empfänger aus">
-		<%= Nachrichtendienst.getEmpfaengerListe(null)%>
+		<%= Nachrichtendienst.getEmpfaengerListe((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer"),request.getSession())%>
 		</select>
 		</td>
 	</tr>
