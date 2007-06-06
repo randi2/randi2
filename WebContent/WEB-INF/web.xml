@@ -2,6 +2,18 @@
 <web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>
 	RANDI2</display-name>
+	
+	<!-- Proxool AdminServlet, nur fuer Debug -->
+	<servlet>
+	  	<servlet-name>Admin</servlet-name>
+  		<servlet-class>org.logicalcobwebs.proxool.admin.servlet.AdminServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+  		<servlet-name>Admin</servlet-name>
+  		<url-pattern>/admin</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>log4j-init</servlet-name>
 		<servlet-class>de.randi2.utility.Log4jInit</servlet-class>
