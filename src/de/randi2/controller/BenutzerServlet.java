@@ -434,7 +434,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    AktivierungBean aktivierung=new AktivierungBean(NullKonstanten.DUMMY_ID,new GregorianCalendar(),aBenutzerkonto.getId(),KryptoUtil.getInstance().getAktivierungslink());
 	    aktivierung=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aktivierung);
 	    AutomatischeNachricht aktivierungMail=new AutomatischeNachricht(aPerson,AutomatischeNachricht.autoNachricht.AKTIVIERUNG);
-	    //aktivierungMail.senden();
+	    aktivierungMail.senden();
 
 	// Falls ein Fehler aufgetreten ist, request wieder auffüllen
 	} catch (BenutzerException e) {
