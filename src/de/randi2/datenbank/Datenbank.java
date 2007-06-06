@@ -3031,12 +3031,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 							.toString()));
 
 					tmpStudie = new StudieBean(rs.getLong(FelderStudie.ID
-							.toString()), rs
-							.getString(FelderStudie.BESCHREIBUNG.toString()),
+							.toString()), 
+							rs.getString(FelderStudie.BESCHREIBUNG.toString()),
+							rs.getString(FelderStudie.NAME.toString()),
+							rs.getLong(FelderStudie.BENUTZER.toString()),
 							startDatum, endDatum, rs
 									.getString(FelderStudie.PROTOKOLL
 											.toString()), rs
-									.getLong(FelderStudie.RANDOMISATIONSART
+									.getString(FelderStudie.RANDOMISATIONSART
 											.toString()));
 
 				} catch (BenutzerException e) {
@@ -3228,15 +3230,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 				e.printStackTrace();
 				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
 			}
-			Vector<BenutzerkontoBean> kontoVector = suchenBenutzerkontoKindZ(bKonto);
-			return (Vector<T>) kontoVector;			
+			return (Vector<T>) suchenBenutzerkontoKindZ(bKonto);		
 		}
 		//1:n V Benutzerkonto : K Patient
 		if (vater instanceof BenutzerkontoBean && kind instanceof PatientBean) {
 			PatientBean patient = (PatientBean) kind;
 			patient.setBenutzerkontoId(((BenutzerkontoBean) vater).getId());
-			Vector<PatientBean> patientenVector = suchenPatientKindB(patient);
-			return (Vector<T>) patientenVector;			
+			return (Vector<T>) suchenPatientKindB(patient);			
 		}
 		//1:n V Studie : K Studienarm
 		if (vater instanceof StudieBean && kind instanceof StudienarmBean) {
@@ -3247,8 +3247,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				e.printStackTrace();
 				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
 			}
-			Vector<StudienarmBean> studienarmVector = suchenStudienarmKind(studienarm);
-			return (Vector<T>)studienarmVector;
+			return (Vector<T>)suchenStudienarmKind(studienarm);
 		}
 		//1:n V Studienarm : K Patient
 		if (kind instanceof PatientBean && vater instanceof StudienarmBean) {
@@ -3259,9 +3258,18 @@ public class Datenbank implements DatenbankSchnittstelle {
 				e.printStackTrace();
 				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
 			}
-			Vector<PatientBean> patientVector = suchenPatientKindS(patient);
-			return (Vector<T>)patientVector;
-		}		
+			return (Vector<T>) suchenPatientKindS(patient);
+		}
+		//1:n V Studie : K Zentrum
+		if (kind instanceof ZentrumBean && vater instanceof StudieBean) {
+			ZentrumBean zentrum = (ZentrumBean) kind;
+			return (Vector<T>) suchenZentrumKind(zentrum, ((StudieBean)vater).getId());
+		}
+		//1:n V Zentrum : K Studie
+		if (kind instanceof StudieBean && vater instanceof ZentrumBean) {
+			StudieBean studie = (StudieBean) kind;
+			return (Vector<T>) suchenStudieKind(studie, ((ZentrumBean)vater).getId());
+		}
 		return null;
 	}
 	
@@ -3340,12 +3348,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @param zentrum
 	 *            Das leere ZentrumBean mit eventuellen zusätzlichen Suchkriterien.
-	 * @param zentrumId Die Id des Zentrums.
+	 * @param studieId Die Id der Studie.
 	 * @return Vector mit ZentrumBeans.
 	 * @throws DatenbankExceptions
 	 *          	Falls ein DB Fehler auftritt.
 	 */
-	private Vector<ZentrumBean> suchenZentrumKind(ZentrumBean zentrum, long zentrumId) throws DatenbankExceptions{
+	private Vector<ZentrumBean> suchenZentrumKind(ZentrumBean zentrum, long studieId) throws DatenbankExceptions{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -3362,7 +3370,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				"=? AND " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.ZENTRUMID + "=" + "zentrum."+FelderZentrum.ID; 
 		try {
 			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, zentrumId);
+			pstmt.setLong(1, studieId);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				try {
@@ -3404,13 +3412,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @param studie
 	 *            Das leere StudieBean mit eventuellen zusätzlichen Suchkriterien.
-	 * @param studieId
+	 * @param zentrumId Die Id des Zentrums.
 	 * 			Die Id der Studie.
 	 * @return Vector mit StudieBeans.
 	 * @throws DatenbankExceptions
 	 *          	Falls ein DB Fehler auftritt.
 	 */
-	private Vector<StudieBean> suchenStudieKind(StudieBean studie, long studieId) throws DatenbankExceptions{
+	private Vector<StudieBean> suchenStudieKind(StudieBean studie, long zentrumId) throws DatenbankExceptions{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -3425,12 +3433,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 			e.printStackTrace();
 			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 		}
-		//FIXME --kkrupka Noch falscher JOIN!!!!!
-		sql = "SELECT * FROM " + Tabellen.ZENTRUM +" zentrum where " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.STUDIENID + 
-				"=? AND " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.ZENTRUMID + "=" + "zentrum."+FelderZentrum.ID; 
+		sql = "SELECT * FROM " + Tabellen.STUDIE +" studie where " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.ZENTRUMID + 
+				"=? AND " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.STUDIENID + "=" + "studie."+FelderStudie.ID; 
 		try {
 			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, studieId);
+			pstmt.setLong(1, zentrumId);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				try {
@@ -3439,9 +3446,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 					
 					studieBean = new StudieBean(rs.getLong(FelderStudie.ID.toString()), 
 							rs.getString(FelderStudie.BESCHREIBUNG.toString()),
+							rs.getString(FelderStudie.NAME.toString()),
+							rs.getLong(FelderStudie.BENUTZER.toString()),
 							startDatum, endDatum,
-							rs.getString(FelderStudie.PROTOKOLL.toString()),
-							rs.getLong(FelderStudie.RANDOMISATIONSART.toString()));
+							rs.getString(FelderStudie.PROTOKOLL.toString()), 
+							rs.getString(FelderStudie.RANDOMISATIONSART.toString()));
 				} catch (StudieException e) {
 					e.printStackTrace();
 					throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
