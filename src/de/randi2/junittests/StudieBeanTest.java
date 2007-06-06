@@ -87,7 +87,6 @@ public class StudieBeanTest {
 		endDatum.add(Calendar.MONTH, +7);
 		studieBean.setStudienZeitraum(startDatum, endDatum);
 		studieBean.setStudienprotokollPfad("pfad");
-		studieBean.setRandomisationId(122);
 		studieBean
 				.setRandomisationseigenschaften("Randomisationseigenschaften");
 		
@@ -365,24 +364,6 @@ public class StudieBeanTest {
 		}
 	}
 
-	/**
-	 * Ueberpruefung, ob die ID der Randomisation gesetzt wurde.
-	 * 
-	 * Test method for
-	 * {@link de.randi2.randomisation.fachklassen.BenutzerkontoBean#setRandomisationId()}.
-	 * 
-	 * 
-	 */
-	@Test
-	public void testSetRandomisationId() {
-		try {
-			studieBean.setRandomisationId(145);
-			assertTrue(studieBean.getRandomisationId() == 145);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-
-	}
 
 	/**
 	 * Testet, ob zwei nicht identische Studien auch als nicht identisch erkannt
@@ -409,7 +390,6 @@ public class StudieBeanTest {
 			endVergleich.add(Calendar.MONTH, +6);
 			studieVergleich.setStudienZeitraum(startVergleich, endVergleich);
 			studieVergleich.setStudienprotokollPfad("pfad Vergleich");
-			studieVergleich.setRandomisationId(124);
 			studieVergleich
 					.setRandomisationseigenschaften("Randomisationseigenschaften Vergleich");
 			Vector<ZentrumBean> aTestZentrum = new Vector<ZentrumBean>();

@@ -57,10 +57,6 @@ public class StudieBean extends Filter {
 	 */
 	private String aRandomisationsart = null;
 
-	/**
-	 * ID der Randomisation.
-	 */
-	private long aRandomisationId = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Das Zentrum der Studie.
@@ -80,7 +76,7 @@ public class StudieBean extends Filter {
 	/**
 	 * Id des Benutzerkontos.
 	 */
-	private long aBenutzerkontoId = NullKonstanten.NULL_LONG;
+	private long aBenutzerkontoId = NullKonstanten.DUMMY_ID;
 
 	/**
 	 * Status der Studie.
@@ -88,35 +84,44 @@ public class StudieBean extends Filter {
 	private Status aStatus = null;
 
 	/**
-	 * Konstruktor mit allen Attributen der Klasse.
+	 * Konstruktor mit allen Attributen der Klasse, die aus der Datenbank
+	 * ausgelesen werden können. Dieser Konstruktor ist auch nur für die
+	 * Datenbank gedacht.
 	 * 
 	 * @param id
 	 *            Id der Studie
 	 * @param beschreibung
 	 *            Beschreibung der Studie
+	 * @param name
+	 *            Name der Studie.
+	 * @param benutzerId
+	 *            Id des Benutzerkontos des Studienleiters
 	 * @param startdatum
 	 *            Startdatum der Studie
 	 * @param enddatum
 	 *            Enddatum der Studie
 	 * @param studienprotokollPfad
 	 *            Studienprotokollpfad der Studie
-	 * @param randomisationId
-	 *            Randomisations-Id
+	 * @param randomisationsart
+	 *            Die Art der Randomisation
 	 * @throws StudieException
 	 *             wenn ein Fehler aufgetreten ist
 	 * @throws DatenbankExceptions
 	 *             wenn eine inkorrekte Id uebergeben wurde
 	 */
-	public StudieBean(long id, String beschreibung,
-			GregorianCalendar startdatum, GregorianCalendar enddatum,
-			String studienprotokollPfad, long randomisationId)
+	public StudieBean(long id, String beschreibung, String name,
+			long benutzerId, GregorianCalendar startdatum,
+			GregorianCalendar enddatum, String studienprotokollPfad,
+			String randomisationsart )
 			throws StudieException, DatenbankExceptions {
-
-		this.setId(id);
+		
+		super.setId(id);
 		this.setBeschreibung(beschreibung);
+		this.setName(name);
+		this.setBenutzerkontoId(benutzerId);
 		this.setStudienZeitraum(aStartDatum, aEndDatum);
 		this.setStudienprotokollPfad(studienprotokollPfad);
-		this.setRandomisationId(randomisationId);
+		this.setRandomisationseigenschaften(randomisationsart);
 	}
 
 	/**
@@ -453,25 +458,6 @@ public class StudieBean extends Filter {
 	}
 
 	/**
-	 * Uebergibt die Id der Randomisation.
-	 * 
-	 * @return randomisationId Id der Randomisation.
-	 */
-	public long getRandomisationId() {
-		return aRandomisationId;
-	}
-
-	/**
-	 * Setzt die Id der Randomisation.
-	 * 
-	 * @param randomisationId
-	 *            Id der Randomisation.
-	 */
-	public void setRandomisationId(long randomisationId) {
-		this.aRandomisationId = randomisationId;
-	}
-
-	/**
 	 * Liefert einen String der alle Parameter formatiert enthaelt.
 	 * 
 	 * @return String der alle Parameter formatiert enthaelt.
@@ -485,7 +471,6 @@ public class StudieBean extends Filter {
 				+ this.aStartDatum + "\tendDatum:\t" + this.aEndDatum
 				+ "\tstudienprotokollPfad\t" + this.studienprotokollPfad
 				+ "\trandomisationsart\t" + this.getRandomisationsart()
-				+ "\trandomistationsId:\t" + this.aRandomisationId
 				+ "\tbenutzerkontobject:\t" + this.aBenutzerkonto
 				+ "\tbenutzerkontoid:\t" + this.getBenutzerkontoId()
 				+ "\tstatus:\t" + this.aStatus;
@@ -545,7 +530,7 @@ public class StudieBean extends Filter {
 				return false;
 
 			}
-			if(!studieBean.getName().equals(this.getName())){
+			if (!studieBean.getName().equals(this.getName())) {
 				return false;
 			}
 			if (!studieBean.getBeschreibung().equals(this.getBeschreibung())) {
@@ -570,9 +555,6 @@ public class StudieBean extends Filter {
 					this.getStudienprotokollpfad())) {
 				return false;
 			}
-			if (studieBean.getRandomisationId() != this.getRandomisationId()) {
-				return false;
-			}
 			if (!studieBean.getRandomisationsart().equals(
 					this.aRandomisationsart)) {
 				return false;
@@ -580,13 +562,13 @@ public class StudieBean extends Filter {
 			if (studieBean.getStatus() != this.getStatus()) {
 				return false;
 			}
-			if(studieBean.getAnzahlZentren()!=this.getAnzahlZentren()){
+			if (studieBean.getAnzahlZentren() != this.getAnzahlZentren()) {
 				return false;
 			}
-			if(studieBean.getAnzahlStrata()!=this.getAnzahlStrata()){
+			if (studieBean.getAnzahlStrata() != this.getAnzahlStrata()) {
 				return false;
 			}
-			if(studieBean.getBenutzerkontoId()!=this.getBenutzerkontoId()){
+			if (studieBean.getBenutzerkontoId() != this.getBenutzerkontoId()) {
 				return false;
 			}
 		}

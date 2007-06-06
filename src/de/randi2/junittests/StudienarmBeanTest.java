@@ -19,6 +19,7 @@ import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
+import de.randi2.randomisation.VollstaendigeRandomisation;
 import de.randi2.utility.Log4jInit;
 
 /**
@@ -60,8 +61,8 @@ public class StudienarmBeanTest {
 		aStudienarmBean.setBezeichnung("Testbezeichnung");
 		aStudienarmBean.setStatus(Studie.Status.AKTIV);
 		aStudienarmBean.setStudieId(3434);
-		aStudienarmBean.setStudie(new StudieBean(2323, "", null, null, "",
-				23123));
+		aStudienarmBean.setStudie(new StudieBean(2323, "","test studie",123, null, null, "",
+				VollstaendigeRandomisation.NAME));
 
 		Vector<PatientBean> aTestdaten = new Vector<PatientBean>();
 
@@ -248,9 +249,8 @@ public class StudienarmBeanTest {
 	@Test
 	public void testSetStudie() {
 		try {
-			StudieBean aStudie = new StudieBean(34234, "dsfdsf",
-					new GregorianCalendar(2003, 3, 17), new GregorianCalendar(
-							1983, 3, 17), "sfsfa", 344);
+			StudieBean aStudie = new StudieBean(2323, "","test studie",123, new GregorianCalendar(2000,11,30), new GregorianCalendar(2007,11,30), "",
+					VollstaendigeRandomisation.NAME);
 
 			aStudienarmBean.setStudie(aStudie);
 

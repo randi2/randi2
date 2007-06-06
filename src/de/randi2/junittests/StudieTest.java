@@ -54,7 +54,6 @@ public class StudieTest {
 		endDatum.add(Calendar.MONTH, +7);
 		studieBean.setStudienZeitraum(startDatum, endDatum);
 		studieBean.setStudienprotokollPfad("pfad");
-		studieBean.setRandomisationId(122);
 		studieBean
 				.setRandomisationseigenschaften("Randomisationseigenschaften");
 		studieBean.setStatus(Studie.Status.AKTIV);
@@ -203,7 +202,6 @@ public class StudieTest {
 			studieVergleich.setStudienZeitraum(startDatumVergleich,
 					endDatumVergleich);
 			studieVergleich.setStudienprotokollPfad("pfad");
-			studieVergleich.setRandomisationId(122);
 			studieVergleich.setStatus(Studie.Status.BEENDET);
 			studieVergleich
 					.setRandomisationseigenschaften("Randomisationseigenschaften");
