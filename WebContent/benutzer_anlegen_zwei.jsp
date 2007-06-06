@@ -11,14 +11,14 @@
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
        "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<html >
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <script language="Javascript" src="js/motionpack.js"> </script>
 <title>Randi2 :: Benutzer anlegen</title>
 
 </head>
-<body>
+<body onload="toggleSlide('filterdiv');">
 <%@include file="include/inc_header_clean.jsp"%>
 
 <div id="content">
@@ -32,8 +32,9 @@ suchen </b></legend>
 	type="hidden" name="anfrage_id"
 	value="<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI.name() %>">
 	
-<img alt="Filter anzeigen" src="images/find.png" onmousedown="toggleSlide('mydiv');" title="Filter anzeigen" style="cursor:pointer"/>
-<div id="mydiv" style="display:none; overflow:hidden; height: 75px;">
+<img alt="Filter anzeigen" src="images/find.png" onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen" style="cursor:pointer"/>
+Filter
+<div id="filterdiv" style="overflow:hidden; height: 75px;">
 <table width="90%">
 	<tr>
 		<td>
