@@ -145,16 +145,8 @@ Angaben</b></legend>
 <br>
 
 
-
-<table>
-	<tr>
-		<td><input type="submit" name="anlegen" value="Anlegen"
-			tabindex="13">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-		<td><input type="submit" name="abbrechen"
-			value="   Zur&uuml;ck   " tabindex="14"
-			onClick="location.href='benutzer_anlegen_zwei'"></td>
-	</tr>
-</table>
+<input type="submit" name="anlegen" value="Anlegen"
+			tabindex="13">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </form>
 <br>
 &nbsp;Die mit '*' gekennzeichneten Felder sind Pflichtfelder. <%@include
