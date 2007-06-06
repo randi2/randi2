@@ -364,11 +364,12 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
     */
     private void classDispatcherservletBenutzerRegistrierenVier(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    	
 	// Alle Attribute des request inititalisieren
-	String fehlernachricht = "";
+	//String fehlernachricht = "";
 	String vorname = request.getParameter("Vorname");
 	String nachname = request.getParameter("Nachname");
-	char geschlecht = request.getParameter("Geschlecht").charAt(0);
+	char geschlecht='\0';
 	String passwort = null;
 	String email = request.getParameter("Email");
 	String telefon = request.getParameter("Telefon");
@@ -377,7 +378,13 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	String institut = request.getParameter("Institut");
 	String titel = request.getParameter("Titel");
 	PersonBean.Titel titelenum = null;
-
+	try{
+		//Geschlecht gesetzt pruefen
+		if(request.getParameter("Geschlecht")==null)
+		{
+			throw new BenutzerkontoException("Bitte Geschlecht ausw&auml;hlen");
+		}
+		geschlecht=request.getParameter("Geschlecht").charAt(0);
 	// Konvertierung String enum
 	for (PersonBean.Titel t : PersonBean.Titel.values()) {
 	    if (titel.equals(t.toString())) {
@@ -391,13 +398,13 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    if (request.getParameter("Passwort").equals(request.getParameter("Passwort_wh"))) {
 		passwort = request.getParameter("Passwort");
 	    } else {
-		fehlernachricht += "Passwort und wiederholtes Passwort sind nicht gleich";
+	    	throw new BenutzerkontoException("Passwort und wiederholtes Passwort sind nicht gleich");
+
 	    }
 	}
 	// Benutzer anlegen
 	// Hier findet die Überprüfung der Daten auf Serverseite statt,
 	// Fehler wird an Benutzer weiter gegeben
-	try{
 		//Person erzeugen und in DB speichern
 	PersonBean aPerson = null;
 	    aPerson = new PersonBean();
@@ -436,9 +443,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    request.setAttribute("Vorname", vorname);
 	    request.setAttribute("Nachname", nachname);
 	    if (geschlecht == 'm') {
-		request.setAttribute("maennlich", "maennlich");
+		request.setAttribute("Geschlecht", "m");
 	    } else if (geschlecht == 'w') {
-		request.setAttribute("weiblich", "weiblich");
+		request.setAttribute("Geschlecht", "w");
 	    }
 	    request.setAttribute("Titel", titelenum);
 	    request.setAttribute("Passwort", request.getParameter("Passwort"));
@@ -456,7 +463,10 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-    }
+
+	}
+ 
+
     /**
     *   VORLAEUFIGE METHODE, SPAETERE VEREINIGUNG MIT  'classDispatcherservletBenutzerRegistrierenVier'
     *

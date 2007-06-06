@@ -66,9 +66,9 @@ Angaben</b></legend>
 	<tr>
 		<td>Geschlecht *<br>
 		<input type="radio" name="Geschlecht" value="w" 
-			<%if(request.getAttribute("weiblich")!=null){out.print("checked");} %>>weiblich
+			<%if(request.getAttribute("Geschlecht")!=null&&request.getAttribute("Geschlecht").equals("w")){out.print("checked");} %>>weiblich
 		<input type="radio" name="Geschlecht" value="m"
-			<%if(request.getAttribute("maennlich")!=null){out.print("checked");} %>>m&auml;nnlich</td>
+			<%if(request.getAttribute("Geschlecht")!=null&&request.getAttribute("Geschlecht").equals("m")){out.print("checked");} %>>m&auml;nnlich</td>
 	</tr>
 	<tr>
 		<td>Passwort *<br>

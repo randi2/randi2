@@ -518,6 +518,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
      */
     private void weiterleitungAufIndex(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
+    	//Session immer killen wenn auf Indexjsp
+    	request.getSession(false).invalidate();
         if (istSystemGesperrt) {// System gesperrt
             Logger
                     .getLogger(this.getClass())
