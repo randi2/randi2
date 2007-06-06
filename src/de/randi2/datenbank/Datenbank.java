@@ -25,6 +25,7 @@ import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.RechtException;
+import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Rolle;
@@ -723,6 +724,47 @@ public class Datenbank implements DatenbankSchnittstelle {
 		 *            Name eines Feldes.
 		 */
 		private FelderStrataAuspraegung(String name) {
+			this.name = name;
+		}
+
+		/**
+		 * liefert den Namen des Feldes
+		 * 
+		 * @return String mit Namen des Feldes
+		 * @see java.lang.Enum#toString()
+		 */
+		public String toString() {
+			return this.name;
+		}
+	}
+	
+	/**
+	 * Felder der Tabelle StrataAuspraegung.
+	 * 
+	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
+	 */
+	private enum FelderStudieHasZentrum {
+		/**
+		 * Die Id der Studie.
+		 */
+		STUDIENID("Studie_studienID"), 
+		/**
+		 * Die Id des Zentrums.
+		 */
+		ZENTRUMID("Strata_Typen_strata_TypenID");
+		
+		/**
+		 * Name eines Feldes
+		 */
+		private String name = "";
+
+		/**
+		 * Konstruktor.
+		 * 
+		 * @param name
+		 *            Name eines Feldes.
+		 */
+		private FelderStudieHasZentrum(String name) {
 			this.name = name;
 		}
 
@@ -3294,18 +3336,67 @@ public class Datenbank implements DatenbankSchnittstelle {
 	}
 	
 	/**
-	 * Methode sucht die Zentrum der zugehoerigen Studie.
+	 * Methode sucht die Zentren der zugehoerigen Studie.
 	 * 
 	 * @param zentrum
 	 *            Das leere ZentrumBean mit eventuellen zusätzlichen Suchkriterien.
+	 * @param zentrumId Die Id des Zentrums.
 	 * @return Vector mit ZentrumBeans.
 	 * @throws DatenbankExceptions
 	 *          	Falls ein DB Fehler auftritt.
 	 */
-	private Vector<ZentrumBean> suchenZentrumKind(ZentrumBean zentrum) throws DatenbankExceptions{
-		//TODO --kkrupka JOIN!!
-		Vector<ZentrumBean> zentrumVector = suchenObjekt(zentrum);
-		return zentrumVector;
+	private Vector<ZentrumBean> suchenZentrumKind(ZentrumBean zentrum, long zentrumId) throws DatenbankExceptions{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ZentrumBean zentrumBean = new ZentrumBean();
+		Vector <ZentrumBean> zVector = new Vector<ZentrumBean>();
+		String sql = "";
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
+		}
+		sql = "SELECT * FROM " + Tabellen.ZENTRUM +" zentrum where " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.STUDIENID + 
+				"=? AND " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.ZENTRUMID + "=" + "zentrum."+FelderZentrum.ID; 
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, zentrumId);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				try {
+					zentrumBean = new ZentrumBean(rs.getLong(FelderZentrum.ID
+							.toString()), rs.getString(FelderZentrum.INSTITUTION
+							.toString()), rs.getString(FelderZentrum.ABTEILUNGSNAME
+							.toString()), rs
+							.getString(FelderZentrum.ORT.toString()), rs
+							.getString(FelderZentrum.PLZ.toString()), rs
+							.getString(FelderZentrum.STRASSE.toString()), rs
+							.getString(FelderZentrum.HAUSNUMMER.toString()), rs
+							.getLong(FelderZentrum.ANSPRECHPARTNERID.toString()),
+							rs.getString(FelderZentrum.PASSWORT.toString()), rs
+									.getBoolean(FelderZentrum.AKTIVIERT.toString()));
+				} catch (ZentrumException e) {
+					e.printStackTrace();
+					throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+				}
+				zVector.add(zentrumBean);
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+		} finally {
+			try {
+				closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
+			}
+		}
+		return zVector;
 	}
 	
 	/**
@@ -3313,14 +3404,64 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @param studie
 	 *            Das leere StudieBean mit eventuellen zusätzlichen Suchkriterien.
+	 * @param studieId
+	 * 			Die Id der Studie.
 	 * @return Vector mit StudieBeans.
 	 * @throws DatenbankExceptions
 	 *          	Falls ein DB Fehler auftritt.
 	 */
-	private Vector<StudieBean> suchenStudieKind(StudieBean studie) throws DatenbankExceptions{
-		//TODO --kkrupka JOIN!!!
-		Vector<StudieBean> studieVector = suchenObjekt(studie);
-		return studieVector;
+	private Vector<StudieBean> suchenStudieKind(StudieBean studie, long studieId) throws DatenbankExceptions{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StudieBean studieBean = new StudieBean();
+		GregorianCalendar startDatum = null;
+		GregorianCalendar endDatum = null;
+		Vector <StudieBean> sVector = new Vector<StudieBean>();
+		String sql = "";
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
+		}
+		//FIXME --kkrupka Noch falscher JOIN!!!!!
+		sql = "SELECT * FROM " + Tabellen.ZENTRUM +" zentrum where " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.STUDIENID + 
+				"=? AND " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.ZENTRUMID + "=" + "zentrum."+FelderZentrum.ID; 
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, studieId);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				try {
+					startDatum.setTime(rs.getDate(FelderStudie.STARTDATUM.toString()));
+					endDatum.setTime(rs.getDate(FelderStudie.ENDDATUM.toString()));
+					
+					studieBean = new StudieBean(rs.getLong(FelderStudie.ID.toString()), 
+							rs.getString(FelderStudie.BESCHREIBUNG.toString()),
+							startDatum, endDatum,
+							rs.getString(FelderStudie.PROTOKOLL.toString()),
+							rs.getLong(FelderStudie.RANDOMISATIONSART.toString()));
+				} catch (StudieException e) {
+					e.printStackTrace();
+					throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+				}
+				sVector.add(studieBean);
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+		} finally {
+			try {
+				closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
+			}
+		}
+		return sVector;
 	}
 
 	/**
@@ -3334,79 +3475,73 @@ public class Datenbank implements DatenbankSchnittstelle {
 		kind.setFilter(true);
 		//1:1 V Person: K Zentrum
 		if (vater instanceof PersonBean && kind instanceof ZentrumBean) {
-			ZentrumBean zentrum = suchenZentrumKind(((PersonBean)vater).getId());
-			return (T) zentrum;
+			Vector<ZentrumBean> zVector = new Vector<ZentrumBean>();
+			ZentrumBean zentrum = (ZentrumBean)kind;
+			try {
+				zentrum.setAnsprechpartnerId(((PersonBean)vater).getId());
+			} catch (ZentrumException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			}
+			zVector = suchenObjekt(zentrum);
+			if(zVector.size()==1){
+				zentrum = zVector.elementAt(0);
+				return (T) zentrum;
+			} else {
+				throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			}			
 		}
 		//1:1 V Person: K Benutzerkonto
 		if(vater instanceof PersonBean && kind instanceof BenutzerkontoBean) {
-			BenutzerkontoBean bKonto = suchenBenutzerkontoKindP(((PersonBean) vater).getId());
-			return (T) bKonto;
+			Vector <BenutzerkontoBean> kVector = new Vector<BenutzerkontoBean>();
+			BenutzerkontoBean bKonto = (BenutzerkontoBean) kind;
+			try {
+				bKonto.setBenutzerId(((PersonBean) vater).getId());
+			} catch (BenutzerkontoException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			}
+			kVector = suchenObjekt(bKonto);
+			if(kVector.size()==1){
+				bKonto = kVector.elementAt(0);
+				return (T) bKonto;
+			} else {
+				throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			}	
 		}
 		//1:1 V Benutzerkonto: K Aktivierung
 		if (vater instanceof BenutzerkontoBean && kind instanceof AktivierungBean) {
-			AktivierungBean aktivierung = suchenAktivierungKind(((BenutzerkontoBean) vater).getId());
-			return (T) aktivierung;	
-			
+			Vector<AktivierungBean>aVector = new Vector<AktivierungBean>();
+			AktivierungBean aktivierung = (AktivierungBean)kind;
+			try {
+				aktivierung.setBenutzerkontoId(((BenutzerkontoBean) vater).getId());
+			} catch (AktivierungException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			}
+			aVector = suchenObjekt(aktivierung);
+			if(aVector.size()==1){
+				aktivierung = aVector.elementAt(0);
+				return (T) aktivierung;
+			} else {
+				throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			}
 		}
 		//1:1 V Benutzerkonto: K Studie
 		if (vater instanceof BenutzerkontoBean && kind instanceof StudieBean) {
-			StudieBean studie = suchenStudieKind(((BenutzerkontoBean) vater).getId());
-			return (T) studie;
+			Vector<StudieBean>sVector = new Vector<StudieBean>();
+			StudieBean studie = (StudieBean) kind;
+			studie.setBenutzerkontoId(((BenutzerkontoBean) vater).getId());
+			sVector = suchenObjekt(studie);
+			if(sVector.size()==1){
+				studie = sVector.elementAt(0);
+				return (T) studie;
+			} else {
+				throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			}
 		}
 		return null;
 	}
-
-	/**
-	 * Methode sucht das Zentrum eines Ansprechpartners.
-	 * 
-	 * @param id
-	 *            Die Id des Ansprechpartners.
-	 * @return Das ZentrumBean mit allen Eigenschaften.
-	 * @throws DatenbankExceptions
-	 *          	Falls ein DB Fehler auftritt.
-	 */
-	private ZentrumBean suchenZentrumKind(long id) throws DatenbankExceptions {
-		return suchenObjektId(id, new ZentrumBean());
-	}
-	
-	/**
-	 * Methode sucht das Benutzerkonto der Person.
-	 * 
-	 * @param id
-	 *            Die Id der Person.
-	 * @return Das BenutzerkontoBean mit allen Eigenschaften..
-	 * @throws DatenbankExceptions
-	 *          	Falls ein DB Fehler auftritt.
-	 */
-	private BenutzerkontoBean suchenBenutzerkontoKindP(long id) throws DatenbankExceptions {
-		return suchenObjektId(id, new BenutzerkontoBean());
-	}
-
-	/**
-	 * Methode sucht die Aktivierung des Benutzerkontos.
-	 * 
-	 * @param id
-	 *          Die Id des Benutzerkontos.
-	 * @return AktivierungBean mit allen Eigenschaften.
-	 * @throws DatenbankExceptions
-	 *          	Falls ein DB Fehler auftritt.
-	 */
-	private AktivierungBean suchenAktivierungKind(long id) throws DatenbankExceptions {
-		return suchenObjektId(id, new AktivierungBean());
-	}
-	
-	/**
-	 * Methode sucht die Studie des Benutzerkontos.
-	 * @param id
-	 * 			Die Id des Benutzerkontos
-	 * @return StudieBean mit allen Eigenschaften.
-	 * @throws DatenbankExceptions
-	 * 				Falls ein DB Fehler auftritt.
-	 */
-	private StudieBean suchenStudieKind(long id) throws DatenbankExceptions{
-		return suchenObjektId(id, new StudieBean());
-	}
-	
 
 	/**
 	 * Baut Verbindung zur Datenbank auf
