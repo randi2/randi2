@@ -29,7 +29,6 @@ import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Rolle;
-import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.Studie.Status;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
@@ -293,7 +292,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Enum Klasse welche die Felder der Tabelle Benutzerkonto repraesentiert.
 	 * 
-	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
+	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 * 
 	 */
 	private enum FelderBenutzerkonto {
@@ -362,7 +361,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Enum Klasse welche die Felder der Tabelle Aktivierung repraesentiert.
 	 * 
-	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
+	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 * 
 	 */
 	private enum FelderAktivierung {
@@ -411,7 +410,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Enum Klasse welche die Felder der Tabelle Studie repraesentiert.
 	 * 
-	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
+	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 * 
 	 */
 	private enum FelderStudie {
@@ -480,7 +479,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Enum Klasse welche die Felder der Tabelle Studienarm repraesentiert.
 	 * 
-	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
+	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 * 
 	 */
 	private enum FelderStudienarm {
@@ -533,7 +532,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Enum Klasse welche die Felder der Tabelle Patient repraesentiert.
 	 * 
-	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
+	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 * 
 	 */
 	private enum FelderPatient {
@@ -647,7 +646,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Felder der Tabelle StrataTypen.
 	 * 
-	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
+	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 */
 	private enum FelderStrataTypen {
 		/**
@@ -696,7 +695,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Felder der Tabelle StrataAuspraegung.
 	 * 
-	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
+	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 */
 	private enum FelderStrataAuspraegung {
 		/**
@@ -739,9 +738,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 	}
 	
 	/**
-	 * Felder der Tabelle StrataAuspraegung.
+	 * Felder der Tabelle StudieHasZentrum.
 	 * 
-	 * @author Kai Marco Krupka [kai.krupka@stud.hs-heilbronn.de]
+	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 */
 	private enum FelderStudieHasZentrum {
 		/**
@@ -887,19 +886,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, zentrum.getId());
-			pstmt.executeUpdate(sql);
+			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.LOESCHEN_ERR);
-		}
-		try {
-			this.closeConnection(con);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.CONNECTION_ERR);
+		} finally {
+			try {
+				this.closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(
+						DatenbankExceptions.CONNECTION_ERR);
+			}
 		}
 	}
 
@@ -928,19 +928,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, person.getId());
-			pstmt.executeUpdate(sql);
+			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.LOESCHEN_ERR);
-		}
-		try {
-			this.closeConnection(con);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.CONNECTION_ERR);
+		} finally {
+			try {
+				this.closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(
+						DatenbankExceptions.CONNECTION_ERR);
+			}
 		}
 	}
 
@@ -969,19 +970,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, benutzer.getId());
-			pstmt.executeUpdate(sql);
+			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.LOESCHEN_ERR);
-		}
-		try {
-			this.closeConnection(con);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.CONNECTION_ERR);
+		} finally {
+			try {
+				this.closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(
+						DatenbankExceptions.CONNECTION_ERR);
+			}
 		}
 	}
 
@@ -1016,13 +1018,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.LOESCHEN_ERR);
-		}
-		try {
-			this.closeConnection(con);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.CONNECTION_ERR);
+		} finally {
+			try {
+				this.closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(
+						DatenbankExceptions.CONNECTION_ERR);
+			}
 		}
 	}
 
@@ -1051,19 +1054,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, studie.getId());
-			pstmt.executeUpdate(sql);
+			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.LOESCHEN_ERR);
-		}
-		try {
-			this.closeConnection(con);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.CONNECTION_ERR);
+		} finally {
+			try {
+				this.closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(
+						DatenbankExceptions.CONNECTION_ERR);
+			}
 		}
 	}
 
@@ -1092,19 +1096,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, studienarm.getId());
-			pstmt.executeUpdate(sql);
+			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.LOESCHEN_ERR);
-		}
-		try {
-			this.closeConnection(con);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.CONNECTION_ERR);
+		} finally {
+			try {
+				this.closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(
+						DatenbankExceptions.CONNECTION_ERR);
+			}
 		}
 	}
 
@@ -1133,19 +1138,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, patient.getId());
-			pstmt.executeUpdate(sql);
+			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.LOESCHEN_ERR);
-		}
-		try {
-			this.closeConnection(con);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.CONNECTION_ERR);
+		} finally {
+			try {
+				this.closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(
+						DatenbankExceptions.CONNECTION_ERR);
+			}
 		}
 	}
 	
@@ -3497,7 +3503,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				zentrum = zVector.elementAt(0);
 				return (T) zentrum;
 			} else {
-				throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+				throw new DatenbankExceptions(DatenbankExceptions.VECTOR_RELATION_FEHLER);
 			}			
 		}
 		//1:1 V Person: K Benutzerkonto
@@ -3515,7 +3521,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				bKonto = kVector.elementAt(0);
 				return (T) bKonto;
 			} else {
-				throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+				throw new DatenbankExceptions(DatenbankExceptions.VECTOR_RELATION_FEHLER);
 			}	
 		}
 		//1:1 V Benutzerkonto: K Aktivierung
@@ -3533,7 +3539,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				aktivierung = aVector.elementAt(0);
 				return (T) aktivierung;
 			} else {
-				throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+				throw new DatenbankExceptions(DatenbankExceptions.VECTOR_RELATION_FEHLER);
 			}
 		}
 		//1:1 V Benutzerkonto: K Studie
@@ -3546,7 +3552,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				studie = sVector.elementAt(0);
 				return (T) studie;
 			} else {
-				throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+				throw new DatenbankExceptions(DatenbankExceptions.VECTOR_RELATION_FEHLER);
 			}
 		}
 		return null;
@@ -3579,15 +3585,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 	
 	/**
 	 * Loggt eine Datenaenderung
-	 * @param <T>
+	 * @param <T> Filterobjekt.
 	 * @param aObjekt aktuelles Bean dessen Daten geloggt werden
-	 * @param oObjekt falls Daten geaendert wurden enthaelt dieses Bean den alten Datensatz
+	 * @param geaenderteDaten Enthält die geaenderten Daten in einer HasMap.
 	 * @param logart
 	 * 			1 falls Objekt neu angelegt wurde
 	 * 			2 falls Objekt geandert wurde
 	 * 			3 falls Objekt geloescht wurde	
+	 * @throws DatenbankExceptions Fehler beim Loggen.
 	 */
-	private <T extends Filter> void   loggenDaten(T aObjekt, HashMap<String, String> geaenderteDaten, int logart) {
+	private <T extends Filter> void   loggenDaten(T aObjekt, HashMap<String, String> geaenderteDaten, int logart) throws DatenbankExceptions {
 		String text=null;
 		//TODO tmp Benutzer entfernen!
 		BenutzerkontoBean tmp=null;
@@ -3602,7 +3609,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 		case 2: text = "geaenderter Datensatz"; break;
 		
-		case 3: text = "geloeschter Datensatz"; break;		
+		case 3: text = "geloeschter Datensatz"; break;	
+		
+		default: throw new DatenbankExceptions(DatenbankExceptions.LOG_FEHLER);
 		}
 		log.info(new LogAktion(text,tmp, 
 				new LogGeanderteDaten(aObjekt.getId(),aObjekt.getClass().getSimpleName(),geaenderteDaten)));

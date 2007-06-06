@@ -74,6 +74,11 @@ public class DatenbankExceptions extends SystemException {
 	public static final String VECTOR_RELATION_FEHLER="Suche ergab mehr als ein Ergebnis, trotz 1:1 Beziehung.";
 	
 	/**
+	 * Fehler beim Datenbanklogging.
+	 */
+	public static final String LOG_FEHLER="Es trat ein Fehler beim Logging für die Datenbank auf.";
+	
+	/**
 	 * Konstruktor.
 	 * 
 	 * @param msg
@@ -85,11 +90,12 @@ public class DatenbankExceptions extends SystemException {
 	
 	/**
 	 * Konstruktor.
-	 * 
+	 * @param e 
+	 * 			Die SQLException.
 	 * @param msg
 	 *            Eine Nachricht aus der Liste der Konstanten.
 	 */
-	public DatenbankExceptions(SQLException e, String sql) {
+	public DatenbankExceptions(SQLException e, String msg) {
 		// TODO SQLException auswerten
 	}
 
