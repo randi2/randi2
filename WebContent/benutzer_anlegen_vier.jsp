@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Randi2 :: Letzer Schritt der Registrierung</title>
+<title>Randi2 :: Letzter Schritt der Registrierung</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
