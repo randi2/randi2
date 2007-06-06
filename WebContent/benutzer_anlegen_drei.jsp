@@ -102,8 +102,8 @@ Angaben</b></legend>
 		<input type="password" size="25" maxlength="30" name="Passwort_wh"
 			value="<%if(request.getAttribute("Passwort_wh")!=null){out.print(request.getAttribute("Passwort_wh"));} %>"
 			tabindex="7" z:required="true"
-			z:required_message="Bitte Passwort eingeben" z:length="{min: 6}"
-			z:length_message="Passwort muss mind. 6 Zeichen lang sein"></td>
+			z:required_message="Bitte Passwort-Wiederholung eingeben" z:length="{min: 6}"
+			z:length_message="Wiederholungs-Passwort muss ebenfalls mind. 6 Zeichen lang sein"></td>
 	</tr>
 </table>
 </fieldset>
