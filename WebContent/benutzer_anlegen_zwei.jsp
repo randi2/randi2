@@ -16,9 +16,15 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <script language="Javascript" src="js/motionpack.js"> </script>
 <title>Randi2 :: Benutzer anlegen</title>
-
+<script type="text/javascript">
+<!--
+	function hideFilter(){
+		document.getElementById('filterdiv').style.display = 'none';
+	}
+//-->
+</script>
 </head>
-<body onload="toggleSlide('filterdiv');">
+<body onload="hideFilter();">
 <%@include file="include/inc_header_clean.jsp"%>
 
 <div id="content">

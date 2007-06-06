@@ -15,8 +15,15 @@
 <title>Randi2 :: Studie ausw&auml;hlen</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <script language="Javascript" src="js/motionpack.js"> </script>
+<script type="text/javascript">
+<!--
+	function hideFilter(){
+		document.getElementById('filterdiv').style.display = 'none';
+	}
+//-->
+</script>
 </head>
-<body onload="toggleSlide('filterdiv');">
+<body onload="hideFilter();">
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
 <h1>Studie ausw&auml;hlen</h1>
