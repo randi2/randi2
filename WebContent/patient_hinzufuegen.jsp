@@ -50,8 +50,8 @@
 </form>
 <table>
 		<tr>
-		<td><input type="button" name="bestaetigen" value="Best&auml;tigen" tabindex="8" onclick="location.href='studie_ansehen.jsp'">&nbsp;&nbsp;&nbsp;</td>
-		<td><input type="button" name="abbrechen" value="Abbrechen" tabindex="9" onclick="location.href='studie_ansehen.jsp'"></td>
+		<td><input type=submit name="bestaetigen" value="Best&auml;tigen" tabindex="8" onclick="location.href='studie_ansehen.jsp'">&nbsp;&nbsp;&nbsp;</td>
+		<td><input type=submit name="abbrechen" value="Abbrechen" tabindex="9" onclick="location.href='studie_ansehen.jsp'"></td>
 		</tr>
 		</table><br>
 <%@include file="include/inc_footer.jsp"%>

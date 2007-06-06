@@ -44,7 +44,7 @@
 			href="zentrum_anzeigen_sl.jsp"> <input type="submit"
 			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <a
 			href="zentrum_studie_zuordnen.jsp"> <input type="submit"
-			name="studie_hinzufuegen" value="Zu Studie hinzuf?gen"></a> <%--  } else if (aBenutzer.getBenutzername().equals("admin")) {
+			name="studie_hinzufuegen" value="Zu Studie hinzuf&uuml;gen"></a> <%--  } else if (aBenutzer.getBenutzername().equals("admin")) {
  					--%> <a href="zentrum_anzeigen_admin.jsp"> <input
 			type="submit" name="zentrum_auswaehlen" value="Zentrum anzeigen"></a>
 		<%-- } --%></td>

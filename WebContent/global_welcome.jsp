@@ -22,7 +22,7 @@
 <%@include file="include/inc_footer.jsp"%>
   </div>
 <div id="show_none">
-<%--@include file="include/inc_menue.jsp"--%>
+<%@include file="include/inc_menue.jsp"%>
 </div>
 </body>
 </html>
