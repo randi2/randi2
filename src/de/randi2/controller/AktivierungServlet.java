@@ -51,7 +51,9 @@ public class AktivierungServlet extends javax.servlet.http.HttpServlet implement
 			sAktivierung.setAktivierungsLink(aktivierung);
 			sAktivierung.setFilter(true);
 			sAktivierung = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(sAktivierung).firstElement();
-			long versanddatumPlusGueltigkeit=sAktivierung.getVersanddatum().getTimeInMillis()+Long.getLong(Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_GUELTIGKEIT))*60*1000;
+			long versanddatumPlusGueltigkeit=sAktivierung.getVersanddatum().getTimeInMillis();
+			System.out.println(Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_GUELTIGKEIT));
+			int gul=Integer.valueOf(Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_GUELTIGKEIT).toString())*60*1000;
 			if(versanddatumPlusGueltigkeit>System.currentTimeMillis()){
 				//request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Aktivierung ist abgelaufen, bitte registrieren Sie sich erneut.");
 				request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_FEHLER).forward(request, response);
