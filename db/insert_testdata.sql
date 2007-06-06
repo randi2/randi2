@@ -16,7 +16,7 @@ values ('Hess','Frank','Prof.','m','07131-1231232',null,null,'frank.hess@hs-heil
 insert into Zentrum (Person_personenID,institution,abteilungsname,ort,plz,strasse,hausnummer,passwort,aktiviert) 
 values('1','nch','knochen','heilbronn','74081','hessstrasse','34','d4f6e47af8fd9d5623e75a34cc9b846f0b05e85d2eda3cd03ec043852cb49f73',1),
         ('2','hno','nase','heilbronn','74081','graeffstrasse','23','e67d754bb223a82c27d7d5b6c065ccb75dc0081e255729989b8e3ff640f2a4bb',1),
-        ('3','mzk','zahn','heilbronn','74081','zwinkstrasse','12','2bc665df3b6ea2ab4683f2e6dca239446b24128c70e127b46a461182bf94f12b',0),
+        ('3','mzk','zahn','heilbronn','74081','zwinkstrasse','12','2bc665df3b6ea2ab4683f2e6dca239446b24128c70e127b46a461182bf94f12b',1),
         ('4','paed','kind','heilbronn','74081','dampfstrasse','44','7e629eb01372c76aa67ab6019ca780f3f7855fa0c7b0efbff06516287ae4d2db',1);
 
 #Passwoerter User: 
@@ -28,8 +28,8 @@ values('1','nch','knochen','heilbronn','74081','hessstrasse','34','d4f6e47af8fd9
 insert into Benutzerkonto (Zentrum_zentrumsID,Person_personenID,loginname,passwort,rolle,gesperrt) 
 values ('1','1','frank80','a2dc01d419169a14447c792bfb5ece25a50757c09f28798a2c4f51bea329e35d','STUDIENARZT',0),
         ('2','2','valentin','806092d3f870df2536c6685f6532d0fadead7d460127d34786443419ed364474','STUDIENLEITER',0),
-        ('3','3','nadine','4bc34ee364f766e4877e3e6bc7fce62402910200967678714db8d7b4e062c1aa','SYSOP',1),
-        ('4','4','hans75','7422090dd18d88965d3c2273c6121af4595bbe5c11f0c7a847a158555a4f65be','ADMIN',1);
+        ('3','3','nadine','4bc34ee364f766e4877e3e6bc7fce62402910200967678714db8d7b4e062c1aa','SYSOP',0),
+        ('4','4','hans75','7422090dd18d88965d3c2273c6121af4595bbe5c11f0c7a847a158555a4f65be','ADMIN',0);
 
 insert into Studie (Benutzerkonto_benutzerkontenID,name,beschreibung,startdatum,enddatum,studienprotokoll,randomisationArt,status_Studie) 
 values('1','hess','','2001-01-01','2005-05-05','c:na','VOLLSTAENDIGE','fortsetzen'),
