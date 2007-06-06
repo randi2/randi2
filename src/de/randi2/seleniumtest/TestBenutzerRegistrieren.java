@@ -58,6 +58,57 @@ public class TestBenutzerRegistrieren{
 		assertTrue(sel.isTextPresent("Herzlich Willkommen"));
 	}
 	
+	@Test
+	public void falschesZentrumspasswort(){
+		sel.open("http://www.iap.hs-heilbronn.de:8080/randinightly/index.jsp");
+		
+		sel.click("//input[@value='Benutzer registrieren']");
+		sel.waitForPageToLoad("30000");
+	
+		sel.click("//input[@value='Akzeptieren']");
+		sel.waitForPageToLoad("30000");
+		assertTrue(sel.isTextPresent("Benutzer anlegen"));
+		assertTrue(sel.isTextPresent("Zentrum suchen"));
+		
+		sel.type("zentrum_passwort1", "asdasd");
+	
+		sel.click("bestaetigen1");
+		sel.waitForPageToLoad("30000");
+		assertTrue(sel.isTextPresent("Falsches Zentrumpasswort"));
+		
+		sel.click("abbrechen");
+		sel.waitForPageToLoad("30000");
+		assertTrue(sel.isTextPresent("Benutzer anlegen"));
+		assertTrue(sel.isTextPresent("Haftungsausschluss"));
+		
+		sel.click("abbrechen");
+		sel.waitForPageToLoad("30000");
+		assertTrue(sel.isTextPresent("Herzlich Willkommen"));
+		
+	}
+	
+	@Test
+	public void korrektesZentrumspasswort(){
+		sel.open("http://www.iap.hs-heilbronn.de:8080/randinightly/index.jsp");
+		
+		sel.click("//input[@value='Benutzer registrieren']");
+		sel.waitForPageToLoad("30000");
+	
+		sel.click("//input[@value='Akzeptieren']");
+		sel.waitForPageToLoad("30000");
+		assertTrue(sel.isTextPresent("Benutzer anlegen"));
+		assertTrue(sel.isTextPresent("Zentrum suchen"));
+		
+		sel.type("zentrum_passwort1", "nch1!$knochen80");
+	
+		sel.click("bestaetigen1");
+		sel.waitForPageToLoad("30000");
+		assertTrue(sel.isTextPresent("Benutzer anlegen"));
+		
+		
+		
+	}
+	
 	
 	
 	 @AfterClass
