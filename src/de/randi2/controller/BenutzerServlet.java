@@ -431,15 +431,14 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    
 	    //Aktivierung erstellen
 	    //TODO -->afreudliUNIQUE AKTIVIERUNGSLINK BEACHTEN
-	    AktivierungBean aktivierung=new AktivierungBean(NullKonstanten.DUMMY_ID,new GregorianCalendar(),aBenutzerkonto.getBenutzerId(),KryptoUtil.getInstance().getAktivierungslink());
+	    AktivierungBean aktivierung=new AktivierungBean(NullKonstanten.DUMMY_ID,new GregorianCalendar(),aBenutzerkonto.getId(),KryptoUtil.getInstance().getAktivierungslink());
 	    aktivierung=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aktivierung);
 	    AutomatischeNachricht aktivierungMail=new AutomatischeNachricht(aPerson,AutomatischeNachricht.autoNachricht.AKTIVIERUNG);
 	    aktivierungMail.senden();
 
 	// Falls ein Fehler aufgetreten ist, request wieder auffüllen
 	} catch (BenutzerException e) {
-
-	    
+		
 	    request.setAttribute("Vorname", vorname);
 	    request.setAttribute("Nachname", nachname);
 	    if (geschlecht == 'm') {
