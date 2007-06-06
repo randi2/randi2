@@ -47,8 +47,10 @@ public class Nachricht {
     protected final void initMail() {
         aMail = new SimpleEmail();
         aMail.setHostName(Nachrichtendienst.getServer());
-        aMail.setAuthentication(Nachrichtendienst.getUser(), Nachrichtendienst
-                .getPwd());
+        //falls Benutzer und Passwort, setzte die Authentication
+        if (Nachrichtendienst.getUser()!=null && Nachrichtendienst.getUser().trim()!="" &&
+        	Nachrichtendienst.getPwd()!=null && Nachrichtendienst.getPwd().trim()!="")  
+        	aMail.setAuthentication(Nachrichtendienst.getUser(), Nachrichtendienst.getPwd());
         aMail.setDebug(debug);
     }
 
