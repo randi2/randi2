@@ -174,6 +174,7 @@ public class AutomatischeNachricht extends Nachricht {
                         nachrichtentext=nachrichtentext.replace("#Aktivierungslink#",
                                 Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_LINK)
                                         + aktivierungslink);
+                        empfaenger.setFilter(false);
                         break;
                     case BENUTZER_ENTSPERREN:
                         // TODO--afreudli gibt es hie was dynamisches?!
