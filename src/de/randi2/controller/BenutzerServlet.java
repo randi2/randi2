@@ -457,7 +457,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
 	    request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
 	}catch(DatenbankExceptions e){
-		//TODO Bitte hier ordentliches Exception-Handlin einbauen! (lplotni)
+		e.printStackTrace();
 	} catch (SystemException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

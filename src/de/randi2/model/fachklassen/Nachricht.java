@@ -4,10 +4,12 @@ import java.util.Collection;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
+import org.apache.log4j.Logger;
 
 import com.meterware.httpunit.javascript.JavaScript.Link;
 
 import de.randi2.controller.Nachrichtendienst;
+import de.randi2.datenbank.LogDemo;
 import de.randi2.model.exceptions.NachrichtException;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.utility.SystemException;
@@ -140,7 +142,8 @@ public class Nachricht {
             if (e.getMessage().equals("At least one receiver address required")) {
                 throw new NachrichtException(NachrichtException.EMPFEANGER_NULL);
             }
-            // FIXME Problem: Emfaenger wird nen gecheckt --BTheel
+            Logger.getLogger(this.getClass()).debug("Mailversand fehlgeschlagen",e);
+            e.printStackTrace();
             throw new SystemException(NACHRICHTENVERSAND_FEHLGESCHLAGEN);
         }
     }

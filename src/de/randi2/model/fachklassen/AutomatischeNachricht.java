@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.mail.EmailException;
+import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -168,7 +169,9 @@ public class AutomatischeNachricht extends Nachricht {
                     case AKTIVIERUNG:
                     	//DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(empfaenger, kind)
                     	empfaenger.setFilter(true);
-                    	BenutzerkontoBean konto=DatenbankFactory.getAktuelleDBInstanz().suchenMitgliedEinsZuEins(empfaenger,new BenutzerkontoBean());
+                    	BenutzerkontoBean sbean=new BenutzerkontoBean();
+                    	sbean.setGesperrt(true);
+                    	BenutzerkontoBean konto=DatenbankFactory.getAktuelleDBInstanz().suchenMitgliedEinsZuEins(empfaenger,sbean);
                     	konto.setFilter(true);
                     	String aktivierungslink=DatenbankFactory.getAktuelleDBInstanz().suchenMitgliedEinsZuEins(konto, new AktivierungBean()).getAktivierungsLink();
                         nachrichtentext=nachrichtentext.replace("#Aktivierungslink#",
@@ -203,6 +206,7 @@ public class AutomatischeNachricht extends Nachricht {
         super.addEmpfaenger(empfaenger);
         super.setBetreff(betreff);
         super.setText(nachrichtentext);
+        Logger.getLogger(this.getClass()).debug("Email-Text ist: "+nachrichtentext);
     }
 
     /**
