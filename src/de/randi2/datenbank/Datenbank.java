@@ -873,6 +873,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throws DatenbankExceptions {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		HashMap<String, String> geloeschteDaten = new HashMap<String, String>();
 		String sql = "";
 		try {
 			con = getConnection();
@@ -884,6 +885,17 @@ public class Datenbank implements DatenbankSchnittstelle {
 		sql = "DELETE FROM " + Tabellen.ZENTRUM + " WHERE " + FelderZentrum.ID
 				+ "=?";
 		try {
+			//HasMap für Log
+			geloeschteDaten.put(FelderZentrum.ANSPRECHPARTNERID.toString(), String.valueOf(zentrum.getAnsprechpartnerId()));
+			geloeschteDaten.put(FelderZentrum.INSTITUTION.toString(), zentrum.getInstitution());
+			geloeschteDaten.put(FelderZentrum.ABTEILUNGSNAME.toString(), zentrum.getAbteilung());
+			geloeschteDaten.put(FelderZentrum.ORT.toString(), zentrum.getOrt());
+			geloeschteDaten.put(FelderZentrum.PLZ.toString(), zentrum.getPlz());
+			geloeschteDaten.put(FelderZentrum.STRASSE.toString(), zentrum.getStrasse());
+			geloeschteDaten.put(FelderZentrum.HAUSNUMMER.toString(), zentrum.getHausnr());
+			geloeschteDaten.put(FelderZentrum.PASSWORT.toString(), zentrum.getPasswort());
+			geloeschteDaten.put(FelderZentrum.AKTIVIERT.toString(), String.valueOf(zentrum.getIstAktiviert()));
+			//SQL
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, zentrum.getId());
 			pstmt.executeUpdate();
@@ -901,6 +913,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.CONNECTION_ERR);
 			}
 		}
+		this.loggenDaten(zentrum, geloeschteDaten, LogKonstanten.LOESCHE_DATENSATZ);
 	}
 
 	/**
