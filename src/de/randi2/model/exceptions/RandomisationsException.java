@@ -14,12 +14,6 @@ import de.randi2.utility.SystemException;
 public class RandomisationsException extends SystemException {
 
 	/**
-	 * Fehler falls der zu randomisierende Patient andere Strata als die Studie
-	 * hat.
-	 */
-	public static final String FALSCHE_STRATA = "Die Strata des Patienten entsprechen nicht den Strata, die f&uuml;r ";
-
-	/**
 	 * Fehler falls die gewaehlte Blockgroesse kein Vielfaches der Anzahl der
 	 * Studienarme ist.
 	 */
@@ -35,12 +29,6 @@ public class RandomisationsException extends SystemException {
 	 */
 	public static final String ARM_NICHT_VERWENDBAR = "Dieser Studienarm kann nicht verwendet werden.";
 	
-	/**
-	 * Fehler falls versucht wird, einen neuen Block in der Datenbank anzulegen,
-	 * obwohl noch Werte existieren.
-	 */
-	public static final String WERTE_EXISTIEREN = "Zu dem uebergebenen Block existieren noch Werte in der Datenbank.";
-
 	/**
 	 * Ein Konstruktor dieser Klasse
 	 * 

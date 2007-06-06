@@ -502,7 +502,7 @@ public class BenutzerkontoBean extends Filter implements Serializable {
 		if (!(klartext.matches(".*[A-Za-z].*") && klartext.matches(".*[0-9].*") && klartext
 				.matches(".*[\\^,.\\-#+;:_'*!\"§$@&%/()=?|<>].*"))) {
 			throw new BenutzerkontoException(
-					BenutzerkontoException.PASSWORT_FALSH);
+					BenutzerkontoException.PASSWORT_FALSCH);
 		}
 		this.aPasswort = KryptoUtil.getInstance().hashPasswort(klartext);
 	}

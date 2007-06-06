@@ -13,7 +13,7 @@ public class PatientException extends BenutzerException {
 	/**
 	 * Fehlermeldung, wenn das eingegebene Datum in der Zukunft liegt.
 	 */
-	public static final String DATUM_IN_DER_ZUKUNFT = "Das eingegebene Datum liegt in der Zukunft!";
+	public static final String DATUM_IN_DER_ZUKUNFT = BenutzerkontoException.DATUM_IN_DER_ZUKUNFT;
 
 	/**
 	 * Fehlermeldung, wenn das uebergebene Geschlecht falsch war.
@@ -23,7 +23,7 @@ public class PatientException extends BenutzerException {
 	/**
 	 * Fehlermeldung, wenn der eingegebene Performance-Status nicht korrekt ist.
 	 */
-	public static final String PERFORMACE_STATUS_FALSH = "Der &uuml;bergebene Performance-Status ist Falsch!\n(Korrekte Werte: 0,1,2,3,4)";
+	public static final String PERFORMANCE_STATUS_FALSCH = "Der &uuml;bergebene Performance-Status ist Falsch!\n(Korrekte Werte: 0,1,2,3,4)";
 
 	/**
 	 * Fehlermeldung, wenn das gewuenschte Studienarm nicht vorhanden ist.
@@ -36,7 +36,7 @@ public class PatientException extends BenutzerException {
 	public static final String STUDIENARM_NULL = "Es wurde kein Studienarm &uuml;bergeben!";
 
 	/**
-	 * Fehlermeldung, wenn beim Zugreiffen auf die DB ein Fehler aufgetreten
+	 * Fehlermeldung, wenn beim Zugriff auf die DB ein Fehler aufgetreten
 	 * ist.
 	 */
 	public static final String DB_FEHLER = "Ein Fehler in der Datenbank ist aufgetreten!";

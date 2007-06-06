@@ -264,7 +264,7 @@ public class PatientBean extends Filter {
 	public void setPerformanceStatus(int performanceStatus)
 			throws PatientException {
 		if (performanceStatus < 0 || performanceStatus > 4) {
-			throw new PatientException(PatientException.PERFORMACE_STATUS_FALSH);
+			throw new PatientException(PatientException.PERFORMANCE_STATUS_FALSCH);
 		}
 		aPerformanceStatus = performanceStatus;
 	}

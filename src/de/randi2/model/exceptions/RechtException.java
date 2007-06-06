@@ -18,7 +18,7 @@ public class RechtException extends SystemException {
     /**
      * Das uebergebene Argument entspricht keinem Rollennamen ({@link Rolle.Rollen} ) 
      */
-    public static final String UNGUELITGES_ARGUMENT="Ungueltiges Argument";
+    public static final String UNGUELTIGES_ARGUMENT="Ungueltiges Argument";
     /**
      * Erstellt eine neue RechtException mit der uebergebenen Mitteilung
      * @param msg Mitteilung/ Begruendung der Exception

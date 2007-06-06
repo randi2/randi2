@@ -4,10 +4,7 @@ import java.util.Vector;
 
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
-import de.randi2.model.exceptions.StudieException;
-import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.beans.PatientBean;
-import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 
 /**

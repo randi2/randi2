@@ -180,7 +180,7 @@ public class NachrichtTest {
             fail("null sollte nicht erlaubt sein");
         } catch (Exception e) {
             assertTrue(e instanceof NachrichtException);
-            assertEquals(NachrichtException.EMPFEANGER_NULL, e.getMessage());
+            assertEquals(NachrichtException.EMPFAENGER_NULL, e.getMessage());
         }
 
         try {// Filter hinzufuegen

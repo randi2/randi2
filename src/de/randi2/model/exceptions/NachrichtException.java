@@ -23,7 +23,7 @@ public class NachrichtException extends BenutzerException {
     /**
      * Uebergebenes {@link PersonBean} ist <code>null</code>
      */
-    public static final String EMPFEANGER_NULL = "Empf&auml;nger ist null";
+    public static final String EMPFAENGER_NULL = "Empf&auml;nger ist null";
 
     /**
      * PersonBean ist Filter, somit nicht zwingend vollstaendig, bzw. mit

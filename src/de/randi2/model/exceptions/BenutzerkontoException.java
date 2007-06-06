@@ -17,18 +17,6 @@ public class BenutzerkontoException extends BenutzerException {
 	 */
 
 	/**
-	 * Diese Konstante wird uebergeben, wenn ein Fehler bei dem "Benutzer
-	 * anlegen" Prozess aufgetreten ist.
-	 */
-	public static final String ANLEGEN_FEHLER = "Der Benutzer konnte nicht angelegt werden";
-
-	/**
-	 * Diese Konstante wird uebergeben, wenn der gewollte Benutzer nicht
-	 * vorhanden ist.
-	 */
-	public static final String BENUTZER_NICHT_VORHANDEN = "Der gesuchte Benutzer ist nicht vorhanden";
-
-	/**
 	 * Diese Konstante wird uebergeben, wenn der Benutzername fehlt.
 	 */
 	public static final String BENUTZERNAME_FEHLT = "Bitte Benutzername eingeben.";
@@ -73,13 +61,7 @@ public class BenutzerkontoException extends BenutzerException {
 	 * Fehlermeldung, wenn das uebergebene Passwort den Anspruechen nicht
 	 * genuegt.
 	 */
-	public static final String PASSWORT_FALSH = "Das Passwort entspricht nicht den Vorgaben!\n(Mind. ein Sonderzeichen und eine Ziffer)";
-
-	/**
-	 * Diese Konstante wird uebergeben, wenn der Benutzername oder das Passwort
-	 * falsch ist.
-	 */
-	public static final String LOGIN_FEHLER = "Benutzername oder Passwort ist falsch.";
+	public static final String PASSWORT_FALSCH = "Das Passwort entspricht nicht den Vorgaben!\n(Mind. ein Sonderzeichen und eine Ziffer)";
 
 	/**
 	 * Fehlermeldung, wenn das uebergebene Datum in der Zukunft liegt.

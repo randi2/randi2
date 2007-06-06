@@ -13,21 +13,6 @@ package de.randi2.model.exceptions;
 public class PersonException extends BenutzerException {
 
 	/**
-	 * Diese Konstante wird uebergeben, wenn das Person Objekt in der Datenbank
-	 * nicht gefunden werden konnte und somit auch durch die get() Methode nicht
-	 * zurueckgeliefert werden konnte. (Der entsprechende Datenbank-Fehler kann
-	 * in der log Datei gefunden werden.)
-	 */
-	public static final String PERSON_NICHT_GEFUNDEN = "Die gew&uuml;nschte Person konnte nicht geladen werden.";
-
-	/**
-	 * Diese Konstante wird uebergeben, wenn waehrend des Such-Vorgangs ein
-	 * Fehler in der DB aufgetreten ist. Die entsprechende DB-Fehlermeldung ist
-	 * in der log-Datei zu finden.
-	 */
-	public static final String DB_FEHLER = "W&auml;hrend des Such-Vorgangs ist ein Fehler aufgetreten.";
-
-	/**
 	 * Diese Konstante wird uebergeben, wenn der Nachname fehlt.
 	 */
 	public static final String NACHNAME_FEHLT = "Bitte Nachname eingeben.";
@@ -101,12 +86,6 @@ public class PersonException extends BenutzerException {
 	 */
 	public static final String TITEL_UNGUELTIG = "Titel muss Prof. / Dr. / Prof. Dr. / (leer) sein";
 
-	/**
-	 * Diese Konstante wird uebergeben, wenn ein unbekannter Fehler aufgetreten
-	 * ist.
-	 */
-	public static final String FEHLER = "Ein unbekannter Fehler ist aufgetreten. Bitte erneut versuchen.";
-	
 	/**
 	 * Diese Konstante wird uebergeben, wenn das PersonBean Objekt, das an die
 	 * setStellvertreter() Methode uebergeben wurde, noch nicht in der DB

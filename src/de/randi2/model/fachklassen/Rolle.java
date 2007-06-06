@@ -312,7 +312,7 @@ public final class Rolle {
         } else if (rollenname.equals(Rollen.SYSOP.toString())) {
             return getSysop();
         }
-        throw new RechtException(RechtException.UNGUELITGES_ARGUMENT);
+        throw new RechtException(RechtException.UNGUELTIGES_ARGUMENT);
 
     }
 

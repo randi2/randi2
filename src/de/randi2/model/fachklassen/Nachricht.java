@@ -142,7 +142,7 @@ public class Nachricht {
             aMail.send();
         } catch (EmailException e) {
             if (e.getMessage().equals("At least one receiver address required")) {
-                throw new NachrichtException(NachrichtException.EMPFEANGER_NULL);
+                throw new NachrichtException(NachrichtException.EMPFAENGER_NULL);
             }
             Logger.getLogger(this.getClass()).debug("Mailversand fehlgeschlagen",e);
             e.printStackTrace();
@@ -212,7 +212,7 @@ public class Nachricht {
     public final void addEmpfaenger(PersonBean empfaenger)
             throws NachrichtException {
         if (empfaenger == null) {
-            throw new NachrichtException(NachrichtException.EMPFEANGER_NULL);
+            throw new NachrichtException(NachrichtException.EMPFAENGER_NULL);
         }
         if (empfaenger.isFilter()) {
             throw new NachrichtException(
@@ -244,7 +244,7 @@ public class Nachricht {
     public final void addEmpfaenger(Collection<PersonBean> empfaenger)
             throws NachrichtException {
         if (empfaenger == null) {
-            throw new NachrichtException(NachrichtException.EMPFEANGER_NULL);
+            throw new NachrichtException(NachrichtException.EMPFAENGER_NULL);
         }
         for (PersonBean bean : empfaenger) {
             addEmpfaenger(bean);

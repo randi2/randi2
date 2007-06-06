@@ -186,7 +186,7 @@ public class RolleTest {
             fail("Pruefung gg ungueltiges Argument missglueckt");
         } catch (Exception e) {
             assertTrue(e instanceof RechtException);
-            assertEquals(RechtException.UNGUELITGES_ARGUMENT, e.getMessage());
+            assertEquals(RechtException.UNGUELTIGES_ARGUMENT, e.getMessage());
 
         }
         // noch nen wirres argument
@@ -195,7 +195,7 @@ public class RolleTest {
             fail("Pruefung gg ungueltiges Argument missglueckt");
         } catch (Exception e) {
             assertTrue(e instanceof RechtException);
-            assertEquals(RechtException.UNGUELITGES_ARGUMENT, e.getMessage());
+            assertEquals(RechtException.UNGUELTIGES_ARGUMENT, e.getMessage());
 
         }
     }
