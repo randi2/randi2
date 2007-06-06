@@ -14,8 +14,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Randi2 :: Studie ausw&auml;hlen</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<script language="Javascript" src="js/motionpack.js"> </script>
 </head>
-<body>
+<body onload="toggleSlide('filterdiv');">
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
 <h1>Studie ausw&auml;hlen</h1>
@@ -36,7 +37,12 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 <br>
 <%
 }
-%> <!--  TODO Table  BUG #2-->
+%> 
+<img alt="Filter anzeigen" src="images/find.png" onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen" style="cursor:pointer"/>
+Filter
+
+<!--  TODO Table  BUG #2-->
+<div id="filterdiv" style="overflow:hidden; height: 100px;">
 <table width="600" border="0" cellspacing="5" cellpadding="2"
 	bgcolor="#e3e3e3">
 	<tr>
@@ -63,6 +69,7 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 			value="Aktualisieren" style="width: 100px"></td>
 	</tr>
 </table>
+</div>
 <br>
 <br>
 <table width="600" cellspacing="0" cellpadding="0">
