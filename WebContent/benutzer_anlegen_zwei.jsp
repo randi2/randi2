@@ -23,6 +23,10 @@
 	}
 //-->
 </script>
+<link rel="stylesheet" type="text/css" href="js/ext/resources/css/ext-all.css" />
+<!-- GC --> <link rel="stylesheet" type="text/css" href="../../resources/css/xtheme-gray.css" /><!-- LIBS -->     <script type="text/javascript" src="js/ext/adapter/yui/yui-utilities.js"></script>     <script type="text/javascript" src="js/ext/adapter/yui/ext-yui-adapter.js"></script>     <!-- ENDLIBS -->
+<script type="text/javascript" src="js/ext/ext-all.js"></script>
+<script type="text/javascript" src="js/benutzer_anlegen_zwei.js"></script>
 </head>
 <body onload="hideFilter();">
 <%@include file="include/inc_header_clean.jsp"%>
@@ -32,7 +36,7 @@
 <h1>Benutzer anlegen</h1>
 <%@include file="include/inc_nachricht.jsp"%>
 
-<fieldset style="width: 60%"><legend><b>Zentrum
+<fieldset style="width: 90%;"><legend><b>Zentrum
 suchen </b></legend>
 <form action="DispatcherServlet" method="POST"><input
 	type="hidden" name="anfrage_id"
@@ -68,18 +72,21 @@ Filter
 		</td>
 	</tr>
 </table>
-	</div>
+</div>
 	
 	
-<table width="90%">
-	<tr class="tblrow1" align="left">
-		<th width="40%">Name der Institution</th>
-		<th width="30%">Abteilung</th>
-		<th width="20%">Passwort</th>
-	</tr>
+<table width="90%" id="zentren">
+	<thead align="left" >
+		<tr style="background:#eeeeee;">
+			<th width="40%">Name der Institution</th>
+			<th width="30%">Abteilung</th>
+			<th width="20%">Passwort</th>
+			<th width="20%">Aktion</th>
+		</tr>
+	</thead>
 
 	<%
-		String reihe = "tblrow2";
+		String reihe = "tblrow1";
 		int tabindex = 1;
 		while (listeZentren.hasNext()) {
 			ZentrumBean aktuellesZentrum = (ZentrumBean) listeZentren
@@ -92,13 +99,14 @@ Filter
 		<td><input type="password"
 			name="zentrum_passwort<%=aktuellesZentrum.getId() %>"
 			tabindex="<%=tabindex %>" z:required="true"
-			z:message="Passwort erforderlich"></td>
+			z:message="Passwort erforderlich"></input></td>
 		<td><input type="submit"
-			name="bestaetigen<%=aktuellesZentrum.getId() %>" value="weiter">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			name="bestaetigen<%=aktuellesZentrum.getId() %>" value="weiter"></input>
+		</td>
 	</tr>
 	<%
 			tabindex++;
-			if (reihe.equals("tblrow1"))
+		if (reihe.equals("tblrow1"))
 				reihe = "tblrow2";
 			else
 				reihe = "tblrow1";
