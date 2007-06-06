@@ -3454,22 +3454,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		switch(logart) { 
 		
-		case 1: text = "neuer Datensatz";
-//			geanderteDaten.put("neuer Datensatz", aObjekt.toString());
-//			log.info(new LogAktion("Datensatz neu angelegt.",tmp, 
-//					new LogGeanderteDaten(aObjekt.getId(),aObjekt.getClass().getSimpleName(),geanderteDaten))); break;	
-		case 2: text = "geaenderter Datensatz";
-//			geanderteDaten.put("alter Datensatz",oObjekt.toString());
-//			geanderteDaten.put("neuer Datensatz",aObjekt.toString());
-//			log.info(new LogAktion("Datensatz geaendert.",tmp,
-//				new LogGeanderteDaten(aObjekt.getId(),aObjekt.getClass().getSimpleName(),geanderteDaten)));
-				break;
+		case 1: text = "neuer Datensatz"; break;
+
+		case 2: text = "geaenderter Datensatz"; break;
 		
-		case 3: text = "geloeschter Datensatz";
-//			geanderteDaten.put("geloeschter Datensatz",oObjekt.toString());
-//			log.info(new LogAktion("Datensatz geloescht.",null,
-//					new LogGeanderteDaten(aObjekt.getId(),aObjekt.getClass().getSimpleName(),geanderteDaten)));
-					break;		
+		case 3: text = "geloeschter Datensatz"; break;		
 		}
 		log.info(new LogAktion(text,tmp, 
 				new LogGeanderteDaten(aObjekt.getId(),aObjekt.getClass().getSimpleName(),geaenderteDaten)));
