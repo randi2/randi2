@@ -97,16 +97,16 @@ public class LogLayout extends Layout {
 					DateFormat.MEDIUM, DateFormat.MEDIUM).format(
 					new Date(event.timeStamp));
 			buf.append("\t<randi2log:zeit>" + zeitString
-					+ "<randi2log:zeit>\r\n");
+					+ "</randi2log:zeit>\r\n");
 
 			buf.append("\t<randi2log:art>" + event.getLoggerName()
-					+ "<randi2log:art>\r\n");
+					+ "</randi2log:art>\r\n");
 
 			buf.append("\t<randi2log:stufe>" + event.getLevel()
-					+ "<randi2log:stufe>\r\n");
+					+ "</randi2log:stufe>\r\n");
 
 			buf.append("\t<randi2log:nachricht>" + aktion.getNachricht()
-					+ "<randi2log:nachricht>\r\n");
+					+ "</randi2log:nachricht>\r\n");
 
 			if (aktion.getGeanderteDaten() != null) {
 				buf.append("\t<randi2log:daten objekt=\""
@@ -121,14 +121,14 @@ public class LogLayout extends Layout {
 					String typ = itTypen.next();
 					String wert = daten.get(typ);
 					buf.append("\t\t<randi2log:eintrag typ=\"" + typ + "\">"
-							+ wert + "<randi2log:eintrag>\r\n");
+							+ wert + "</randi2log:eintrag>\r\n");
 				}
 
-				buf.append("<randi2log:daten>\r\n");
+				buf.append("</randi2log:daten>\r\n");
 			}
 			//FIXME SIEHE BUG 111
 			//buf.append("\t<randi2log:benutzer>" + aktion.getBenutzernamen()
-					//+ "<randi2log:benutzer>\r\n");
+					//+ "</randi2log:benutzer>\r\n");
 
 			// buf.append("\t<randi2log:>" + +"<randi2log:>\r\n");
 
