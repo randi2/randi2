@@ -14,6 +14,8 @@ import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
+import de.randi2.utility.Jsp;
+import de.randi2.utility.Parameter;
 
 /**
  * Diese Klasse repraesentiert das ZENTRUMSERVLET, welches Aktionen an die
@@ -43,7 +45,9 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Pruefung des Zentrumpassworts bei Benutzerregistierung
 		 */
-		CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI
+		CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI,
+		
+		ClASS_DISPATCHERSERVLET_ZENTRUM_ANLEGEN
 
 	}
 
@@ -91,6 +95,11 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		// Schritt 3.2 ZENTRUMAUSWAHL->BENUTZERDATEN_EINGEBEN
 		else if (id.equals(ZentrumServlet.anfrage_id.CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI.name())) {
 			this.classDispatcherservletBenutzerRegistrierenDrei(request, response);
+		}	
+		//Neues Zentrum anlegen
+		else if	(id.equals(anfrage_id.ClASS_DISPATCHERSERVLET_ZENTRUM_ANLEGEN.name())){
+			this.classDispatcherservletZentrumAnlegen(request, response);
+				
 		} else {
 			// TODO Hier muss noch entschieden werden,was passiert
 		}
@@ -201,5 +210,31 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		}
 
 		// keine Filterung
+	}
+	private void classDispatcherservletZentrumAnlegen(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
+		//Zentrum zusammenbauen
+		ZentrumBean aZentrum=new ZentrumBean();
+		try{
+		aZentrum.setInstitution(request.getParameter(Parameter.zentrum.INSTITUTION.name()));
+		aZentrum.setAbteilung(request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name()));
+		aZentrum.setStrasse(request.getParameter(Parameter.zentrum.STRASSE.name()));
+		aZentrum.setHausnr(request.getParameter(Parameter.zentrum.HAUSNUMMER.name()));
+		aZentrum.setPlz(request.getParameter(Parameter.zentrum.PLZ.name()));
+		aZentrum.setOrt(request.getParameter(Parameter.zentrum.ORT.name()));
+		}
+		catch(BenutzerException e)
+		{
+			
+			request.setAttribute(Parameter.zentrum.INSTITUTION.name(), request.getParameter(Parameter.zentrum.INSTITUTION.name()));
+			request.setAttribute(Parameter.zentrum.ABTEILUNGSNAME.name(), request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name()));
+			request.setAttribute(Parameter.zentrum.STRASSE.name(), request.getParameter(Parameter.zentrum.STRASSE.name()));
+			request.setAttribute(Parameter.zentrum.HAUSNUMMER.name(), request.getParameter(Parameter.zentrum.HAUSNUMMER.name()));
+			request.setAttribute(Parameter.zentrum.PLZ.name(), request.getParameter(Parameter.zentrum.PLZ.name()));
+			request.setAttribute(Parameter.zentrum.ORT.name(), request.getParameter(Parameter.zentrum.ORT.name()));
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+			request.getRequestDispatcher(Jsp.ZENTRUM_ANLEGEN).forward(request, response);
+		}
+		
+		
 	}
 }

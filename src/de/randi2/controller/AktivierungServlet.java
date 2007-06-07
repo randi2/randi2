@@ -1,6 +1,7 @@
 package de.randi2.controller;
 
 import java.io.IOException;
+import java.util.NoSuchElementException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -51,11 +52,9 @@ public class AktivierungServlet extends javax.servlet.http.HttpServlet implement
 			sAktivierung.setAktivierungsLink(aktivierung);
 			sAktivierung.setFilter(true);
 			sAktivierung = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(sAktivierung).firstElement();
-			long versanddatumPlusGueltigkeit=sAktivierung.getVersanddatum().getTimeInMillis();
-			System.out.println(Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_GUELTIGKEIT));
-			int gul=Integer.valueOf(Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_GUELTIGKEIT).toString())*60*1000;
-			if(versanddatumPlusGueltigkeit>System.currentTimeMillis()){
-				//request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Aktivierung ist abgelaufen, bitte registrieren Sie sich erneut.");
+			long versanddatumPlusGueltigkeit=sAktivierung.getVersanddatum().getTimeInMillis()+Integer.valueOf(Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_GUELTIGKEIT).toString())*60*1000;
+			long aktuell=System.currentTimeMillis();
+			if(versanddatumPlusGueltigkeit<System.currentTimeMillis()){
 				request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_FEHLER).forward(request, response);
 				
 			}
@@ -78,6 +77,11 @@ public class AktivierungServlet extends javax.servlet.http.HttpServlet implement
 			request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_FEHLER).forward(request, response);
 			e1.printStackTrace();
 		} catch (DatenbankExceptions e) {
+			request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_FEHLER).forward(request, response);
+		}
+		//Aktivierung ist nicht in DB
+		catch(NoSuchElementException e)
+		{
 			request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_FEHLER).forward(request, response);
 		}
 	}

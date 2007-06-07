@@ -82,6 +82,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
          * Benutzer klickt Benutzer registieren auf index.jsp
          */
         JSP_INDEX_BENUTZER_REGISTRIEREN_EINS,
+        
+        JSP_ZENTRUM_ANLEGEN,
 
         /**
          * Benutzer hat Disclaimer akzeptiert. (Benutzer registrieren)
@@ -431,6 +433,13 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         // [end]
         // WEITERLEITUNGEN FUER ZENTRUMSERVLET
         // [start]
+        else if(id.equals(anfrage_id.JSP_ZENTRUM_ANLEGEN.name()))
+        {
+        	request.setAttribute("anfrage_id", ZentrumServlet.anfrage_id.ClASS_DISPATCHERSERVLET_ZENTRUM_ANLEGEN.name());
+        	request.getRequestDispatcher("ZentrumServlet").forward(request, response);
+        }
+        
+        
         // [end]
 
         // SONSTIGE WEITERLEITUNGEN
