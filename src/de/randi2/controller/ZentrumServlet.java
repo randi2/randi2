@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.fachklassen.Zentrum;
+import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Jsp;
 import de.randi2.utility.Parameter;
@@ -214,17 +215,24 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	private void classDispatcherservletZentrumAnlegen(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
 		//Zentrum zusammenbauen
 		ZentrumBean aZentrum=new ZentrumBean();
+		PersonBean aPerson=new PersonBean();
 		try{
-		aZentrum.setInstitution(request.getParameter(Parameter.zentrum.INSTITUTION.name()));
-		aZentrum.setAbteilung(request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name()));
-		aZentrum.setStrasse(request.getParameter(Parameter.zentrum.STRASSE.name()));
-		aZentrum.setHausnr(request.getParameter(Parameter.zentrum.HAUSNUMMER.name()));
-		aZentrum.setPlz(request.getParameter(Parameter.zentrum.PLZ.name()));
-		aZentrum.setOrt(request.getParameter(Parameter.zentrum.ORT.name()));
+			//Zentrum setzen
+			aZentrum.setInstitution(request.getParameter(Parameter.zentrum.INSTITUTION.name()));
+			aZentrum.setAbteilung(request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name()));
+			aZentrum.setStrasse(request.getParameter(Parameter.zentrum.STRASSE.name()));
+			aZentrum.setHausnr(request.getParameter(Parameter.zentrum.HAUSNUMMER.name()));
+			aZentrum.setPlz(request.getParameter(Parameter.zentrum.PLZ.name()));
+			aZentrum.setOrt(request.getParameter(Parameter.zentrum.ORT.name()));
+			//Person setzen
+			aPerson.setVorname(request.getParameter(Parameter.person.VORNAME.name()));
+			aPerson.setNachname(request.getParameter(Parameter.person.NACHNAME.name()));
+			aPerson.setTelefonnummer(request.getParameter(Parameter.person.TELEFONNUMMER.name()));
+			aPerson.setFax(request.getParameter(Parameter.person.FAX.name()));
+			aPerson.setEmail(request.getParameter(Parameter.person.EMAIL.name()));
 		}
-		catch(BenutzerException e)
-		{
-			
+		catch(BenutzerException e){
+			//Zentrum zurückschicken
 			request.setAttribute(Parameter.zentrum.INSTITUTION.name(), request.getParameter(Parameter.zentrum.INSTITUTION.name()));
 			request.setAttribute(Parameter.zentrum.ABTEILUNGSNAME.name(), request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name()));
 			request.setAttribute(Parameter.zentrum.STRASSE.name(), request.getParameter(Parameter.zentrum.STRASSE.name()));
@@ -232,6 +240,13 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 			request.setAttribute(Parameter.zentrum.PLZ.name(), request.getParameter(Parameter.zentrum.PLZ.name()));
 			request.setAttribute(Parameter.zentrum.ORT.name(), request.getParameter(Parameter.zentrum.ORT.name()));
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+
+			//Person zurückschicken
+			request.setAttribute(Parameter.person.VORNAME.name(),request.getParameter(Parameter.person.VORNAME.name()));
+			request.setAttribute(Parameter.person.NACHNAME.name(),request.getParameter(Parameter.person.NACHNAME.name()));
+			request.setAttribute(Parameter.person.TELEFONNUMMER.name(),request.getParameter(Parameter.person.TELEFONNUMMER.name()));
+			request.setAttribute(Parameter.person.FAX.name(),request.getParameter(Parameter.person.FAX.name()));
+			request.setAttribute(Parameter.person.EMAIL.name(),request.getParameter(Parameter.person.EMAIL.name()));
 			request.getRequestDispatcher(Jsp.ZENTRUM_ANLEGEN).forward(request, response);
 		}
 		

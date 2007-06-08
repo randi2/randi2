@@ -18,6 +18,7 @@
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
 <h1>Neues Zentrum anlegen</h1>
+<%@include file="include/inc_nachricht.jsp"%>
 <form action="DispatcherServlet" method="POST" name="zentrum_anlegen">
 <input type="hidden"
 	value="<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANLEGEN %>"
@@ -26,13 +27,15 @@
 <table>
 	<tr>
 		<td>Name der Institution *<br>
-		<input type="text" size="46" maxlength="40" name="<%=Parameter.zentrum.INSTITUTION %>"
+		<input type="text" size="46" maxlength="40" name="<%=Parameter.zentrum.INSTITUTION %>"   
+		value="<%if(request.getAttribute(Parameter.zentrum.INSTITUTION.name())!=null){out.print(request.getAttribute(Parameter.zentrum.INSTITUTION.name()));} %>"
 			tabindex="1"></td>
 
 	</tr>
 	<tr>
 		<td>Name der genauen Abteilung *<br>
-		<input type="text" size="46" maxlength="40" name="<%=Parameter.zentrum.ABTEILUNGSNAME %>"
+		<input type="text" size="46" maxlength="40" name="<%=Parameter.zentrum.ABTEILUNGSNAME %>" 
+		value="<%if(request.getAttribute(Parameter.zentrum.ABTEILUNGSNAME.name())!=null){out.print(request.getAttribute(Parameter.zentrum.ABTEILUNGSNAME.name()));} %>"
 			tabindex="2"></td>
 
 	</tr>
@@ -42,16 +45,23 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hausnr
 		* <br>
 		<input type="text" size="30" maxlength="30" name=<%=Parameter.zentrum.STRASSE %>
-			tabindex="3" value=""> &nbsp;&nbsp;&nbsp; <input type="text"
-			size="8" maxlength="8" name="<%=Parameter.zentrum.HAUSNUMMER %>" tabindex="4" value=""></td>
+		value="<%if(request.getAttribute(Parameter.zentrum.STRASSE.name())!=null){out.print(request.getAttribute(Parameter.zentrum.STRASSE.name()));} %>"
+			tabindex="3"> &nbsp;&nbsp;&nbsp; <input type="text"
+			size="8" maxlength="8" name="<%=Parameter.zentrum.HAUSNUMMER %>"
+			 value="<%if(request.getAttribute(Parameter.zentrum.HAUSNUMMER.name())!=null){out.print(request.getAttribute(Parameter.zentrum.HAUSNUMMER.name()));} %>"
+			  tabindex="4"></td>
 
 	</tr>
 	<tr>
 		<td>PLZ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ort * <br>
-		<input type="text" size="6" maxlength="6" name="<%=Parameter.zentrum.ORT%>" tabindex="5"
-			value="">&nbsp;&nbsp;&nbsp; <input type="text" size="33"
-			maxlength="33" name="<%=Parameter.zentrum.ORT %>" tabindex="6" value=""></td>
+		<input type="text" size="6" maxlength="6" name="<%=Parameter.zentrum.PLZ%>"
+		 value="<%if(request.getAttribute(Parameter.zentrum.PLZ.name())!=null){out.print(request.getAttribute(Parameter.zentrum.PLZ.name()));} %>"
+		 tabindex="5"
+			>&nbsp;&nbsp;&nbsp; <input type="text" size="33"
+			maxlength="33" name="<%=Parameter.zentrum.ORT %>"  
+			value="<%if(request.getAttribute(Parameter.zentrum.ORT.name())!=null){out.print(request.getAttribute(Parameter.zentrum.ORT.name()));} %>"
+			tabindex="6"></td>
 
 	</tr>
 
@@ -62,26 +72,35 @@
 <table>
 	<tr>
 		<td>Vorname *<br>
-		<input type="text" size"38" maxlength="40" name="<%=Parameter.person.VORNAME %>" tabindex="7"
-			value="">&nbsp;&nbsp;&nbsp;</td>
+		<input type="text" size"38" maxlength="40" name="<%=Parameter.person.VORNAME %>"
+		value="<%if(request.getAttribute(Parameter.person.VORNAME.name())!=null){out.print(request.getAttribute(Parameter.person.VORNAME.name()));} %>"
+		tabindex="7"
+			>&nbsp;&nbsp;&nbsp;</td>
 		<td>Nachname *<br>
 		<input type="text" size="38" maxlength="40" name="<%=Parameter.person.NACHNAME %>"
-			tabindex="8" value=""></td>
+		 value="<%if(request.getAttribute(Parameter.person.NACHNAME.name())!=null){out.print(request.getAttribute(Parameter.person.NACHNAME.name()));} %>"
+			tabindex="8"></td>
 	</tr>
 	<tr>
 		<td>Telefon *<br>
-		<input type="text" size="40" maxlength="40" name="<%=Parameter.person.TELEFONNUMMER %>" tabindex="9"
-			value=""></td>
+		<input type="text" size="40" maxlength="40" name="<%=Parameter.person.TELEFONNUMMER %>"
+		value="<%if(request.getAttribute(Parameter.person.TELEFONNUMMER.name())!=null){out.print(request.getAttribute(Parameter.person.TELEFONNUMMER.name()));} %>"
+		tabindex="9"
+			></td>
 	</tr>
 	<tr>
 		<td>Fax<br>
-		<input type="text" size="40" maxlength="40" name="<%=Parameter.person.FAX %>" tabindex="10"
-			value=""></td>
+		<input type="text" size="40" maxlength="40" name="<%=Parameter.person.FAX %>"
+		value="<%if(request.getAttribute(Parameter.person.FAX.name())!=null){out.print(request.getAttribute(Parameter.person.FAX.name()));} %>"
+		tabindex="10"
+			></td>
 	</tr>
 	<tr>
 		<td>Email *<br>
-		<input type="text" size="46" maxlength="50" name="<%=Parameter.person.EMAIL %>" tabindex="11"
-			value="">
+		<input type="text" size="46" maxlength="50" name="<%=Parameter.person.EMAIL %>"
+		value="<%if(request.getAttribute(Parameter.person.EMAIL.name())!=null){out.print(request.getAttribute(Parameter.person.EMAIL.name()));} %>"
+		tabindex="11"
+			>
 			<input type="submit" name="Submit"
 			value="Zentrum anlegen" tabindex="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	</tr>
