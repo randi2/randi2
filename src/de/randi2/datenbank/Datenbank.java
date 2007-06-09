@@ -16,6 +16,8 @@ import org.apache.log4j.Logger;
 import org.logicalcobwebs.proxool.ProxoolException;
 import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
+import sun.nio.cs.ext.DoubleByteEncoder;
+
 import com.meterware.httpunit.HttpUnitUtils;
 
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
@@ -1323,6 +1325,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(DatenbankExceptions.SCHREIBEN_ERR);
+			} finally {
+				try {
+					this.closeConnection(con);
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw new DatenbankExceptions(
+							DatenbankExceptions.CONNECTION_ERR);
+				}
 			}
 			person.setId(id);
 			//loggen eines neuen Datensatzes
@@ -2090,8 +2100,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		//PatientBean
 		if (zuSuchendesObjekt instanceof PatientBean) {
-			return (Vector<T>) suchenPatient((PatientBean) zuSuchendesObjekt);
-			
+			return (Vector<T>) suchenPatient((PatientBean) zuSuchendesObjekt);			
+		}
+		//StudienarmBean
+		if (zuSuchendesObjekt instanceof StudienarmBean) {
+			return (Vector<T>) suchenStudienarm((StudienarmBean) zuSuchendesObjekt); 			
 		}
 
 		return null;
@@ -2252,13 +2265,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} catch (BenutzerException f) {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.UNGUELTIGE_DATEN);
-		}
-		try {
-			closeConnection(con);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.CONNECTION_ERR);
+		}finally {
+			try {
+				this.closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(
+						DatenbankExceptions.CONNECTION_ERR);
+			}
 		}
 		return personen;
 	}
@@ -2457,13 +2471,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 			g.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.UNGUELTIGE_DATEN);
-		}
-		try {
-			closeConnection(con);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.CONNECTION_ERR);
+		} finally {
+			try {
+				this.closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(
+						DatenbankExceptions.CONNECTION_ERR);
+			}
 		}
 		
 		return konten;
@@ -2476,7 +2491,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @param zentrum
 	 *            Zentrum mit gesetzten Eigenschaften nach denen gesucht wird.
 	 * @return Vector mit gefundenen Zentren
-	 * @throws DatenbankExceptions Wirft eine Exception bei Fehlern während der Suche.
+	 * @throws DatenbankExceptions
 	 */
 	private Vector<ZentrumBean> suchenZentrum(ZentrumBean zentrum)
 			throws DatenbankExceptions {
@@ -2605,6 +2620,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 			g.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.UNGUELTIGE_DATEN);
+		} finally {
+			try {
+				this.closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(
+						DatenbankExceptions.CONNECTION_ERR);
+			}
 		}
 
 		return zentren;
@@ -2617,7 +2640,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @param aktivierung
 	 *            Bean mit Suchparametern
 	 * @return Vector mit gefundenen Aktivierungsbeans
-	 * @throws DatenbankExceptions Wirft eine Exception falls ein Fehler während der Suche auftritt.
+	 * @throws DatenbankExceptions
 	 */
 	private Vector<AktivierungBean> suchenAktivierung(
 			AktivierungBean aktivierung) throws DatenbankExceptions {
@@ -2696,11 +2719,21 @@ public class Datenbank implements DatenbankSchnittstelle {
 								.getString(FelderAktivierung.LINK.toString()));
 				aktivierungen.add(tmpAktivierung);
 			}
+			pstmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (AktivierungException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+		} finally {
+			try {
+				this.closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(
+						DatenbankExceptions.CONNECTION_ERR);
+			}
 		}
 		return aktivierungen;
 	}
@@ -2850,19 +2883,130 @@ public class Datenbank implements DatenbankSchnittstelle {
 								rs.getInt(FelderPatient.KOERPEROBERFLAECHE.toString()),
 								rs.getLong(FelderPatient.STUDIENARM.toString()),
 								rs.getLong(FelderPatient.BENUTZER.toString()));
-				patienten.add(pat);
-				
+				patienten.add(pat);				
 			}
+			pstmt.close();
+			rs.close();
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
 		} catch (PatientException e) {
 			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+		} finally {
+			try {
+				this.closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(
+						DatenbankExceptions.CONNECTION_ERR);
+			}
+		}
+		return patienten;
+	}
+	
+	/**
+	 * Sucht alle Studienarme in der DB die den Kriterien im uebergebenen Suchbean entsprechen.
+	 * 
+	 * @param arm
+	 * 			Bean mit gesetztem Filter. Felder die ungleich der Nullkonstanten sind
+	 * 			werden in die Abfrage mit einbezogen
+	 * @return
+	 * 			Vector mit gefundenen Studienarmen 
+	 * @throws DatenbankExceptions
+	 * 			Falls Fehler auftreten
+	 */
+	private Vector<StudienarmBean> suchenStudienarm(StudienarmBean arm) throws DatenbankExceptions {
+		Connection con;
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
+		}
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StudienarmBean sarm = null;
+		Vector<StudienarmBean> studienarme = new Vector<StudienarmBean>();
+		int counter = 0;
+		String sql = "SELECT * FROM " + Tabellen.STUDIENARM.toString();
+		
+		if(arm.getStudieId()!=NullKonstanten.NULL_LONG) {
+			sql+=" WHERE "+FelderStudienarm.STUDIE.toString()+" = ?";
+			counter++;
+		}
+		if(arm.getStatus()!=null) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql+=FelderStudienarm.STATUS.toString()+" = ?";
+			counter++;
+		}
+		if(arm.getBeschreibung()!=null) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql+=FelderStudienarm.BESCHREIBUNG.toString()+" LIKE ?";
+			counter++;
+		}
+		if(arm.getBezeichnung()!=null) {
+			sql+=FelderStudienarm.BEZEICHNUNG.toString()+" LIKE ?";
+			counter++;
 		}
 		
-		
-		return patienten;
+		try {
+			pstmt = con.prepareStatement(sql);
+			counter=1;
+			if(arm.getStudieId()!=NullKonstanten.NULL_LONG) {
+				pstmt.setLong(counter++, arm.getStudieId());
+			}
+			if(arm.getStatus()!=null) {
+				pstmt.setString(counter++, arm.getStatus().toString());
+			}
+			if(arm.getBeschreibung()!=null) {
+				pstmt.setString(counter++, "%"+arm.getBeschreibung()+"%");
+			}
+			if(arm.getBezeichnung()!=null) {
+				pstmt.setString(counter++, "%"+arm.getBezeichnung()+"%");
+			}
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				sarm = new StudienarmBean(rs
+						.getLong(FelderStudienarm.ID.toString()), rs
+						.getLong(FelderStudienarm.STUDIE.toString()),
+						Status.parseStatus(rs
+								.getString(FelderStudienarm.STATUS
+										.toString())), rs
+								.getString(FelderStudienarm.BEZEICHNUNG
+										.toString()), rs
+								.getString(FelderStudienarm.BESCHREIBUNG
+										.toString()));
+				studienarme.add(sarm);
+			}
+			pstmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+		} catch (StudienarmException f) {
+			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+		} catch (StudieException g) {
+			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+		} finally {
+			try {
+				this.closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(
+						DatenbankExceptions.CONNECTION_ERR);
+			}
+		}
+			
+		return studienarme;
 	}
 
 	/**
@@ -3769,8 +3913,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		return con;
 	}
 
-	// "jdbc:mysql://"+Config.getProperty(Config.Felder.RELEASE_DB_HOST)+":"+Config.getProperty(Config.Felder.RELEASE_DB_PORT)+"/randi2",Config.getProperty(Config.Felder.RELEASE_DB_NUTZERNAME),Config.getProperty(Config.Felder.RELEASE_DB_PASSWORT
-
 	/**
 	 * Trennt Verbindung zur Datenbank.
 	 * 
@@ -3816,5 +3958,4 @@ public class Datenbank implements DatenbankSchnittstelle {
 		log.info(new LogAktion(text,tmp, 
 				new LogGeanderteDaten(aObjekt.getId(),aObjekt.getClass().getSimpleName(),geaenderteDaten)));
 	}
-
 }
