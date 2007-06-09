@@ -5,6 +5,7 @@ import java.util.Vector;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.StudieException;
+import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StatistikBean;
 import de.randi2.model.fachklassen.beans.StrataBean;
@@ -102,6 +103,15 @@ public class Studie {
 		super();
 		this.aStudieBean = studieBean;
 	}
+	
+	/**
+	 * Liefert das aktuelle StudieBean.
+	 * 
+	 * @return StudieBean aktuelle StudieBean, das alle Daten zur Studie enthaelt.
+	 */
+	public StudieBean getStudieBean() {
+		return this.aStudieBean;
+	}
 
 	/**
 	 * Die Methode zeigt eine Statistik nach bestimmten Kriterien an.
@@ -118,18 +128,6 @@ public class Studie {
 	}
 
 	/**
-	 * Die Methode fügt eine Patient einer Studie zu.
-	 * 
-	 * @param patient
-	 *            das aktuelle PatientBean.
-	 */
-
-	// TODO Methode wird evt. nicht gebraucht.(nach Absprache mit Frank)
-	private void hinzufuegenPatient(PatientBean patient) {
-
-	}
-
-	/**
 	 * Diese Methode weist ein Zentrum einer Studie hinzu.
 	 * 
 	 * @param aZentrum
@@ -139,6 +137,8 @@ public class Studie {
 	// TODO Klaerung mit der DB-Gruppe implementierung erfolgt danach(Frank)
 	public void zuweisenZentrum(ZentrumBean aZentrum) {
 		Vector<Studie> zugewieseneZentren = null;
+		
+		
 
 	}
 
