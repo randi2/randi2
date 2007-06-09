@@ -16,8 +16,6 @@ import org.apache.log4j.Logger;
 import org.logicalcobwebs.proxool.ProxoolException;
 import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
-import sun.nio.cs.ext.DoubleByteEncoder;
-
 import com.meterware.httpunit.HttpUnitUtils;
 
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
@@ -2478,7 +2476,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @param zentrum
 	 *            Zentrum mit gesetzten Eigenschaften nach denen gesucht wird.
 	 * @return Vector mit gefundenen Zentren
-	 * @throws DatenbankExceptions
+	 * @throws DatenbankExceptions Wirft eine Exception bei Fehlern während der Suche.
 	 */
 	private Vector<ZentrumBean> suchenZentrum(ZentrumBean zentrum)
 			throws DatenbankExceptions {
@@ -2619,7 +2617,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @param aktivierung
 	 *            Bean mit Suchparametern
 	 * @return Vector mit gefundenen Aktivierungsbeans
-	 * @throws DatenbankExceptions
+	 * @throws DatenbankExceptions Wirft eine Exception falls ein Fehler während der Suche auftritt.
 	 */
 	private Vector<AktivierungBean> suchenAktivierung(
 			AktivierungBean aktivierung) throws DatenbankExceptions {
@@ -2852,6 +2850,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 								rs.getInt(FelderPatient.KOERPEROBERFLAECHE.toString()),
 								rs.getLong(FelderPatient.STUDIENARM.toString()),
 								rs.getLong(FelderPatient.BENUTZER.toString()));
+				patienten.add(pat);
 				
 			}
 		}
