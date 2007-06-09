@@ -16,8 +16,6 @@ import org.apache.log4j.Logger;
 import org.logicalcobwebs.proxool.ProxoolException;
 import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
-import sun.nio.cs.ext.DoubleByteEncoder;
-
 import com.meterware.httpunit.HttpUnitUtils;
 
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
@@ -1435,6 +1433,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql;
 		PreparedStatement pstmt;
 		ResultSet rs;
+		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
 		// neues Zentrum da Id der Nullkonstante entspricht
 		if (zentrum.getId() == NullKonstanten.NULL_LONG) {
 			long id = Long.MIN_VALUE;
@@ -1447,6 +1446,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderZentrum.PASSWORT + "," + FelderZentrum.AKTIVIERT
 					+ ")" + "VALUES (NULL,?,?,?,?,?,?,?,?,?);";
 			try {
+				geaenderteDaten.put(FelderZentrum.INSTITUTION.toString(),zentrum.getInstitution() );
+				geaenderteDaten.put(FelderZentrum.ABTEILUNGSNAME.toString(),zentrum.getAbteilung() );
+				geaenderteDaten.put(FelderZentrum.ANSPRECHPARTNERID.toString(),String.valueOf(zentrum.getAnsprechpartnerId()));
+				geaenderteDaten.put(FelderZentrum.STRASSE.toString(), zentrum.getStrasse());
+				geaenderteDaten.put(FelderZentrum.HAUSNUMMER.toString(), String.valueOf(zentrum.getHausnr()));
+				geaenderteDaten.put(FelderZentrum.PLZ.toString(),String.valueOf(zentrum.getPlz()) );
+				geaenderteDaten.put(FelderZentrum.ORT.toString(), zentrum.getOrt());
+				geaenderteDaten.put(FelderZentrum.PASSWORT.toString(),zentrum.getPasswort() );
+				geaenderteDaten.put(FelderZentrum.AKTIVIERT.toString(),String.valueOf(zentrum.getIstAktiviert()) );
+				
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
 				pstmt.setString(1, zentrum.getInstitution());
@@ -1470,10 +1479,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			zentrum.setId(id);
+			loggenDaten(zentrum, geaenderteDaten, LogKonstanten.NEUER_DATENSATZ);
 			return zentrum;
 		}
 		// vorhandenes Zentrum wird aktualisiert
 		else {
+			//in der DB gespeichertes altes Zentrum
+			ZentrumBean zentrum_old = (ZentrumBean) suchenObjektId(zentrum.getId(), zentrum);
+			//sql Query
 			sql = "UPDATE " + Tabellen.ZENTRUM + " SET "
 					+ FelderZentrum.INSTITUTION + "=?,"
 					+ FelderZentrum.ABTEILUNGSNAME + "=?,"
@@ -1482,8 +1495,35 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ "=?," + FelderZentrum.PLZ + "=?," + FelderZentrum.ORT
 					+ "=?," + FelderZentrum.PASSWORT + "=?,"
 					+ FelderZentrum.AKTIVIERT + "=?" + " WHERE "
-					+ FelderPerson.ID + "=?";
+					+ FelderZentrum.ID + "=?";
 			try {
+				if(!zentrum.getInstitution().equals(zentrum_old.getInstitution())) {
+					geaenderteDaten.put(FelderZentrum.INSTITUTION.toString(), zentrum.getInstitution());
+				}
+				if(!zentrum.getAbteilung().equals(zentrum_old.getAbteilung())) {
+					geaenderteDaten.put(FelderZentrum.ABTEILUNGSNAME.toString(), zentrum.getAbteilung());
+				}
+				if(zentrum.getAnsprechpartnerId()!=zentrum_old.getAnsprechpartnerId()) {
+					geaenderteDaten.put(FelderZentrum.ANSPRECHPARTNERID.toString(), String.valueOf(zentrum.getAnsprechpartnerId()));
+				}
+				if(!zentrum.getStrasse().equals(zentrum_old.getStrasse())) {
+					geaenderteDaten.put(FelderZentrum.STRASSE.toString(), zentrum.getStrasse());
+				}
+				if(zentrum.getHausnr()!=zentrum_old.getHausnr()) {
+					geaenderteDaten.put(FelderZentrum.HAUSNUMMER.toString(), String.valueOf(zentrum.getHausnr()));
+				}
+				if(zentrum.getPlz()!=zentrum_old.getPlz()) {
+					geaenderteDaten.put(FelderZentrum.PLZ.toString(), String.valueOf(zentrum.getPlz()));
+				}
+				if(!zentrum.getOrt().equals(zentrum_old.getOrt())) {
+					geaenderteDaten.put(FelderZentrum.ORT.toString(), zentrum.getOrt());
+				}
+				if(!zentrum.getPasswort().equals(zentrum_old.getPasswort())) {
+					geaenderteDaten.put(FelderZentrum.PASSWORT.toString(), zentrum.getPasswort());
+				}
+				if(zentrum.getIstAktiviert()!=zentrum_old.getIstAktiviert()) {
+					geaenderteDaten.put(FelderZentrum.AKTIVIERT.toString(), String.valueOf(zentrum.getIstAktiviert()));
+				}
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, zentrum.getInstitution());
 				pstmt.setString(2, zentrum.getAbteilung());
@@ -1493,7 +1533,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(6, zentrum.getPlz());
 				pstmt.setString(7, zentrum.getOrt());
 				pstmt.setString(8, zentrum.getPasswort());
-				pstmt.setLong(9, zentrum.getId());
+				pstmt.setBoolean(9, zentrum.getIstAktiviert());
+				pstmt.setLong(10, zentrum.getId());
 				pstmt.executeUpdate();
 				pstmt.close();
 			} catch (SQLException e) {
@@ -1509,7 +1550,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
-		return null;
+		//loggen des geaenderten Datensatzes
+		loggenDaten(zentrum, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);
+		return zentrum;
 	}
 
 	/**
@@ -2492,6 +2535,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            Zentrum mit gesetzten Eigenschaften nach denen gesucht wird.
 	 * @return Vector mit gefundenen Zentren
 	 * @throws DatenbankExceptions
+	 * 				falls bei der Suche ein Fehler auftrat
 	 */
 	private Vector<ZentrumBean> suchenZentrum(ZentrumBean zentrum)
 			throws DatenbankExceptions {
