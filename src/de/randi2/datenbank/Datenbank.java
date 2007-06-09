@@ -16,6 +16,8 @@ import org.apache.log4j.Logger;
 import org.logicalcobwebs.proxool.ProxoolException;
 import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
+import sun.nio.cs.ext.DoubleByteEncoder;
+
 import com.meterware.httpunit.HttpUnitUtils;
 
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
@@ -541,7 +543,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		 */
 		ID("patientenID"), 
 		/**
-		 * Die Id des zugehörigen Benutzers.
+		 * Die Id des zugehörigen Benutzers, welcher den Patient aufgenommen hat.
 		 */
 		BENUTZER("Benutzerkonto_benutzerkontenID"), 
 		/**
@@ -1957,7 +1959,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, patient.getBenutzerkontoId());
-				pstmt.setLong(i++, patient.getStudienarm().getId());
+				pstmt.setLong(i++, patient.getStudienarmId());
 				pstmt.setString(i++, patient.getInitialen());
 				pstmt.setDate(i++, new Date(patient.getGeburtsdatum()
 						.getTimeInMillis()));
@@ -1977,11 +1979,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.SCHREIBEN_ERR);
-			} catch (PatientException e) {
-				e.printStackTrace();
-				// TODO Die Behandlung dieser Exception ueberlasse ich euch :)
-				// (lplotni)
-			}
+			} 
 			patient.setId(id);
 			return patient;
 		} else {
@@ -1999,7 +1997,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			try {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, patient.getBenutzerkontoId());
-				pstmt.setLong(j++, patient.getStudienarm().getId());
+				pstmt.setLong(j++, patient.getStudienarmId());
 				pstmt.setString(j++, patient.getInitialen());
 				pstmt.setDate(j++, new Date(patient.getGeburtsdatum()
 						.getTimeInMillis()));
@@ -2015,10 +2013,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.SCHREIBEN_ERR);
-			} catch (PatientException e) {
-				e.printStackTrace();
-				// TODO Die Behandlung dieser Exception ueberlasse ich euch :)
-				// (lplotni)
 			}
 		}
 		try {
@@ -2095,6 +2089,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 		//AktivierungBean
 		if (zuSuchendesObjekt instanceof AktivierungBean) {
 			return (Vector<T>) suchenAktivierung((AktivierungBean) zuSuchendesObjekt);
+		}
+		//PatientBean
+		if (zuSuchendesObjekt instanceof PatientBean) {
+			return (Vector<T>) suchenPatient((PatientBean) zuSuchendesObjekt);
+			
 		}
 
 		return null;
@@ -2303,23 +2302,51 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ " LIKE ? ";
 			counter++;
 		}
-		if (bk.getErsterLogin() != null) {
-			if (counter == 0) {
-				sql += " WHERE ";
-			} else {
-				sql += " AND ";
+		
+		//falls erster und letzter Login gesetzt sind wird der Bereich dazwischen gesucht
+		if(bk.getLetzterLogin()!=null && bk.getErsterLogin()!=null) {
+			if(bk.getErsterLogin().after(bk.getLetzterLogin())) {
+				throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
 			}
-			sql += FelderBenutzerkonto.ERSTERLOGIN.toString() + " = ? ";
-			counter++;
-		}
-		if (bk.getLetzterLogin() != null) {
-			if (counter == 0) {
-				sql += " WHERE ";
-			} else {
-				sql += " AND ";
+			if (bk.getErsterLogin() != null) {
+				if (counter == 0) {
+					sql += " WHERE ";
+				} else {
+					sql += " AND ";
+				}
+				sql += FelderBenutzerkonto.ERSTERLOGIN.toString() + " >= ? ";
+				counter++;
 			}
-			sql += FelderBenutzerkonto.LETZTERLOGIN.toString() + " = ? ";
-			counter++;
+			
+			if (bk.getLetzterLogin() != null) {
+				if (counter == 0) {
+					sql += " WHERE ";
+				} else {
+					sql += " AND ";
+				}
+				sql += FelderBenutzerkonto.LETZTERLOGIN.toString() + " <= ? ";
+				counter++;
+			}
+			
+		} else {
+			if (bk.getErsterLogin() != null) {
+				if (counter == 0) {
+					sql += " WHERE ";
+				} else {
+					sql += " AND ";
+				}
+				sql += FelderBenutzerkonto.ERSTERLOGIN.toString() + " = ? ";
+				counter++;
+			}
+			if (bk.getLetzterLogin() != null) {
+				if (counter == 0) {
+					sql += " WHERE ";
+				} else {
+					sql += " AND ";
+				}
+				sql += FelderBenutzerkonto.LETZTERLOGIN.toString() + " = ? ";
+				counter++;
+			}			
 		}
 		if (bk.getRolle() != null) {
 			if (counter == 0) {
@@ -2330,6 +2357,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			sql += FelderBenutzerkonto.ROLLEACCOUNT.toString() + " = ? ";
 			counter++;
 		}
+		
 
 		if (counter == 0) {
 			sql += " WHERE ";
@@ -2428,9 +2456,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.UNGUELTIGE_DATEN);
 		} catch (SystemException g) {
-			// TODO hier muss etwas sinnvolles geworfen bzw geloggt werden.
-			// Tritt auf wenn eine Rechte Exception fliegt
 			g.printStackTrace();
+			throw new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
 		}
 		try {
 			closeConnection(con);
@@ -2673,9 +2701,169 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (AktivierungException e) {
-			// TODO Werde hier noch sinnvoll Exceptions abfangen (Fred)
+			e.printStackTrace();
+			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
 		}
 		return aktivierungen;
+	}
+	
+	/**
+	 * Sucht alle Patienten in der DB die den Kriterien im uebergebenen Suchbean entsprechen.
+	 * 
+	 * @param patient
+	 * 			Bean mit gesetztem Filter. Felder die ungleich der Nullkonstanten sind
+	 * 			werden in die Abfrage mit einbezogen
+	 * @return
+	 * 			Vector mit gefundenen Patienten 
+	 * @throws DatenbankExceptions
+	 * 			Falls Fehler auftreten
+	 */
+	private Vector<PatientBean> suchenPatient(PatientBean patient) throws DatenbankExceptions {
+		Connection con;
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
+		}
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		PatientBean pat = null;
+		Vector<PatientBean> patienten = new Vector<PatientBean>();
+		int counter = 0;
+		String sql = "SELECT * FROM " + Tabellen.PATIENT.toString();
+		
+		if(patient.getBenutzerkontoId()!=NullKonstanten.NULL_LONG) {
+			sql+= " WHERE "+patient.getBenutzerkontoId()+" = ? ";
+				counter++;
+		}
+		if(patient.getStudienarmId()!=NullKonstanten.NULL_LONG) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderPatient.STUDIENARM.toString()+" = ? ";
+			counter++;
+		}
+		if(patient.getInitialen()!=null) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql+=FelderPatient.INITIALEN.toString()+" = ? ";
+			counter++;
+		}
+		if(patient.getGeburtsdatum()!=null) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql+=FelderPatient.GEBURTSDATUM.toString()+" = ?";
+			counter++;
+		}
+		if(patient.getGeschlecht()!=NullKonstanten.NULL_CHAR) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql+=FelderPatient.GESCHLECHT.toString()+" = ?";
+			counter++;
+		}
+		if(patient.getDatumAufklaerung()!=null) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql+=FelderPatient.AUFKLAERUNGSDATUM.toString()+" = ?";
+			counter++;
+		}
+		if(patient.getKoerperoberflaeche()!=NullKonstanten.NULL_FLOAT) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql+=FelderPatient.KOERPEROBERFLAECHE.toString()+" = ? ";
+			counter++;
+		}
+		if(patient.getPerformanceStatus()!=NullKonstanten.NULL_INT) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql+=FelderPatient.PERFORMANCESTATUS.toString()+" = ?";
+			counter++;
+		}
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			counter=1;
+			if(patient.getBenutzerkontoId()!=NullKonstanten.NULL_LONG) {
+				pstmt.setLong(counter++, patient.getBenutzerkontoId());
+				
+			}
+			if(patient.getStudienarmId()!=NullKonstanten.NULL_LONG) {
+				pstmt.setLong(counter++, patient.getStudienarmId());
+			}
+			if(patient.getInitialen()!=null) {
+				pstmt.setString(counter++, patient.getInitialen());
+			}
+			if(patient.getGeburtsdatum()!=null) {
+				pstmt.setDate(counter++, new Date(patient.getGeburtsdatum().getTimeInMillis()));
+			}
+			if(patient.getGeschlecht()!=NullKonstanten.NULL_CHAR) {
+				pstmt.setString(counter++, String.valueOf(patient.getGeschlecht()));
+			}
+			if(patient.getDatumAufklaerung()!=null) {
+				pstmt.setDate(counter++, new Date(patient.getDatumAufklaerung().getTimeInMillis()));
+			}
+			if(patient.getKoerperoberflaeche()!=NullKonstanten.NULL_FLOAT) {
+				pstmt.setFloat(counter++, patient.getKoerperoberflaeche());
+			}
+			if(patient.getPerformanceStatus()!=NullKonstanten.NULL_INT) {
+				pstmt.setInt(counter++, patient.getPerformanceStatus());
+			}
+			rs = pstmt.executeQuery();
+			
+			GregorianCalendar geburtsdatum = null;
+			GregorianCalendar aufklaerungsdatum = null;
+			
+			while(rs.next()) {
+				geburtsdatum = new GregorianCalendar();
+				aufklaerungsdatum = new GregorianCalendar();
+				geburtsdatum.setTime(rs.getDate(FelderPatient.GEBURTSDATUM
+						.toString()));
+				aufklaerungsdatum
+						.setTime(rs.getDate(FelderPatient.AUFKLAERUNGSDATUM
+								.toString()));
+				
+				pat = new PatientBean(rs.getLong(FelderPatient.ID
+						.toString()), rs.getString(FelderPatient.INITIALEN.toString()), 
+								rs.getString(FelderPatient.GESCHLECHT.toString()).toCharArray()[0], 
+								geburtsdatum,
+								rs.getInt(FelderPatient.PERFORMANCESTATUS.toString()), 
+								aufklaerungsdatum, 
+								rs.getInt(FelderPatient.KOERPEROBERFLAECHE.toString()),
+								rs.getLong(FelderPatient.STUDIENARM.toString()),
+								rs.getLong(FelderPatient.BENUTZER.toString()));
+				
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+		} catch (PatientException e) {
+			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+		}
+		
+		
+		return patienten;
 	}
 
 	/**
