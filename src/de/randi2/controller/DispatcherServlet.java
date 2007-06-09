@@ -129,7 +129,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         /**
          * Aufforderung, einen Studienleiter mit den gesendeten Daten anzulegen
          */
-        AKTION_STUDIENLEITER_ANLEGEN
+        AKTION_STUDIENLEITER_ANLEGEN,
+        
+        /**
+         * Benutzer suchen.
+         */
+        BENUTZER_SUCHEN
 
     }
 
@@ -433,10 +438,14 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
         // [end]
         // WEITERLEITUNGEN FUER ZENTRUMSERVLET
         // [start]
-        else if(id.equals(anfrage_id.JSP_ZENTRUM_ANLEGEN.name()))
-        {
+        else if(id.equals(anfrage_id.JSP_ZENTRUM_ANLEGEN.name())) {
         	request.setAttribute("anfrage_id", ZentrumServlet.anfrage_id.ClASS_DISPATCHERSERVLET_ZENTRUM_ANLEGEN.name());
         	request.getRequestDispatcher("ZentrumServlet").forward(request, response);
+        }
+        //Benutzer suchen
+        else if (id.equals(anfrage_id.BENUTZER_SUCHEN.name())) {
+            request.setAttribute("anfrage_id",BenutzerServlet.anfrage_id.AKTION_BENUTZER_SUCHEN.name());
+            request.getRequestDispatcher("BenutzerServlet").forward(request, response);
         }
         
         

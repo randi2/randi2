@@ -17,6 +17,7 @@ import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.fachklassen.AutomatischeNachricht;
 import de.randi2.model.fachklassen.Benutzerkonto;
+import de.randi2.model.fachklassen.Person;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
@@ -24,6 +25,7 @@ import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Config;
+import de.randi2.utility.Jsp;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.LogAktion;
 import de.randi2.utility.LogLayout;
@@ -67,8 +69,12 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	/**
 	 * Aufforderung, aus den uebergebenen Daten einen Benutzer zu generieren
 	 */
-	AKTION_BENUTZER_ANLEGEN
+	AKTION_BENUTZER_ANLEGEN,
 
+	/**
+	 * Aufforderung, aus den uebergebenen Daten einen Benutzer zu generieren
+	 */
+	AKTION_BENUTZER_SUCHEN
     }
 
     /**
@@ -115,6 +121,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    this.classDispatcherservletBenutzerRegistrierenVier(request, response);
 	} else if (id.equals(anfrage_id.AKTION_BENUTZER_ANLEGEN.name())) {
 	    benutzerRegistieren(request, response);
+	} else if (id.equals(BenutzerServlet.anfrage_id.AKTION_BENUTZER_SUCHEN.name())) {
+		suchenBenutzer(request, response);
 	}
 
 	// if
@@ -380,8 +388,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	PersonBean.Titel titelenum = null;
 	try{
 		//Geschlecht gesetzt pruefen
-		if(request.getParameter("Geschlecht")==null)
-		{
+		if(request.getParameter("Geschlecht")==null){
 			throw new BenutzerkontoException("Bitte Geschlecht ausw&auml;hlen");
 		}
 		geschlecht=request.getParameter("Geschlecht").charAt(0);
@@ -483,5 +490,49 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
     */
     private void benutzerRegistieren(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	Logger.getLogger(this.getClass()).debug("BenutzerServlet.benutzerRegistieren()");
+    }
+    
+    /**
+     * Methode für die Suchanfrage an die Datenbank für die Ausgabe der Benutzer.
+     *
+     * @param request
+     *            Der Request fuer das Servlet.
+     * @param response
+     *            Der Response Servlet.
+     * @throws IOException
+     *             Falls Fehler in den E/A-Verarbeitung.
+     * @throws ServletException
+     *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+     * 
+     * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+     *      HttpServletResponse response)
+     */
+    private void suchenBenutzer (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    	BenutzerkontoBean bKonto = new BenutzerkontoBean();
+    	PersonBean person = null;
+    	ZentrumBean zentrum = null;
+    	Vector<BenutzerkontoBean> benutzerVec = null;
+    	Vector<PersonBean>personVec = null;
+    	Vector<ZentrumBean>zentrumVec = null;
+    	Iterator<BenutzerkontoBean>it = null;
+    	bKonto.setFilter(true);    	
+    	try {
+			benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
+			 it = benutzerVec.iterator();
+			while(it.hasNext()) {
+				bKonto = it.next();
+				person = Person.get(bKonto.getBenutzerId());
+				personVec.add(person);
+				zentrum = Zentrum.getZentrum(bKonto.getZentrumId());
+				zentrumVec.add(zentrum);
+			}
+		} catch (DatenbankExceptions e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+		}
+		
+		request.setAttribute("listeBenutzer", benutzerVec);
+		request.setAttribute("listePerson", personVec);
+		request.setAttribute("listeZentrum", zentrumVec);
+		request.getRequestDispatcher(Jsp.ADMIN_LISTE).forward(request, response);
     }
 }

@@ -2,9 +2,12 @@
 	pageEncoding="utf-8"%>
 	<%@ page 
 	import= "de.randi2.model.fachklassen.beans.*"
+	import= "de.randi2.utility.*"
 	import= "java.util.GregorianCalendar"
 	import= "java.text.SimpleDateFormat" 
 	import= "java.util.Locale"
+	import= "java.util.Iterator"
+	import= "java.util.Vector"
 %>
 <jsp:setProperty name="user" property="*" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -47,30 +50,34 @@
 	<th width="20%"> E-Mail </th>
 	<th width="20%"> Aktionen </th>
 </tr>
-<tr class="tblrow2">
-	<td>M&uuml;ller</td>
-	<td> Chriz </td>
-	<td> cmueller </td>
-	<td> Institut </td>
-	<td> blablabla@web.de </td>
+<%
+	Iterator listeBenutzer = ((Vector)request.getAttribute("listeBenutzer")).iterator();
+	Iterator listePerson = ((Vector)request.getAttribute("listePerson")).iterator();
+	Iterator listeZentrum = ((Vector)request.getAttribute("listeZentrum")).iterator();
+	String reihe = "tblrow1"; 
+	int tabIndex = 1;
+	while(listeBenutzer.hasNext() && listePerson.hasNext() && listeZentrum.hasNext()) {
+		BenutzerkontoBean bKonto = (BenutzerkontoBean)listeBenutzer.next();
+		PersonBean person = (PersonBean)listePerson.next();
+		ZentrumBean zentrum = (ZentrumBean)listeZentrum.next();
+%>
+	<tr class="<%=reihe%>">
+	<td><%=person.getNachname()%></td>
+	<td><%=person.getVorname()%></td>
+	<td><%=bKonto.getBenutzername()%></td>
+	<td><%=zentrum.getInstitution()%></td>
+	<td><%=person.getEmail()%></td>
 <td> <a class="il_ContainerItemCommand" href="admin_anzeigen.jsp">anzeigen</a><a class="il_ContainerItemCommand" href="benutzer_sperren.jsp">sperren</a><a class="il_ContainerItemCommand" href="">l&ouml;schen</a></td>
 </tr>
-<tr class="tblrow1">
-	<td> Berger </td>
-	<td> Peter </td>
-	<td> pberger </td>
-	<td> Institut </td>
-	<td> blablabla@freenet.de </td>
-<td> <a class="il_ContainerItemCommand" href="admin_anzeigen.jsp">anzeigen</a><a class="il_ContainerItemCommand" href="benutzer_sperren.jsp">sperren</a><a class="il_ContainerItemCommand" href="">l&ouml;schen</a></td>
-</tr>
-<tr class="tblrow2">
-	<td> Yildiz </td>
-	<td> Bahty </td>
-	<td> byildiz </td>
-	<td> Institut </td>
-	<td> blablabla@gmx.de </td>
-<td> <a class="il_ContainerItemCommand" href="admin_anzeigen.jsp">anzeigen</a><a class="il_ContainerItemCommand" href="benutzer_sperren.jsp">sperren</a><a class="il_ContainerItemCommand" href="">l&ouml;schen</a></td>
-</tr>
+<%
+		tabIndex++;
+		if(reihe.equals("tabrow1")) {
+			reihe = "tblrow2";
+		} else {
+			reihe = "tblrow1";
+		}
+	}
+%>
 </table>
 	<%@include file="include/inc_footer.jsp"%>
   </div>
