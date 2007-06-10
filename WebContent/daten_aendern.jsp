@@ -13,8 +13,7 @@
 	import="de.randi2.model.fachklassen.*"
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"
-	import="de.randi2.utility.*"
-	import="de.randi2.controller.*"%>
+	import="de.randi2.utility.*" import="de.randi2.controller.*"%>
 </head>
 
 <body>
@@ -67,8 +66,8 @@ Angaben</b></legend>
 			disabled>m&auml;nnlich</td>
 	</tr>
 	<tr>
-		<!-- TODO: Wenn Passwort nicht geaendert werden soll, dann muss bei leer gelassenen Feldern das alte Passwort
-	weiter verwendet werden. Wie geht das? -->
+		<!-- TODO: Wenn Passwort nicht geaendert werden soll, dann wird bei leer gelassenen Feldern
+		das alte Passwort weiter verwendet. -->
 		<td>Passwort *<br>
 		<input type="password" size="25" maxlength="30" name="Passwort"
 			tabindex="6" value=""></td>
