@@ -74,7 +74,12 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	/**
 	 * Aufforderung, aus den uebergebenen Daten einen Benutzer zu generieren
 	 */
-	AKTION_BENUTZER_SUCHEN
+	AKTION_BENUTZER_SUCHEN,
+	
+	/**
+	 * Benutzerdaten aendern
+	 */
+	BENUTZERDATEN_AENDERN
     }
 
     /**
@@ -123,12 +128,19 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	    benutzerRegistieren(request, response);
 	} else if (id.equals(BenutzerServlet.anfrage_id.AKTION_BENUTZER_SUCHEN.name())) {
 		suchenBenutzer(request, response);
+	} else if (id.equals(BenutzerServlet.anfrage_id.BENUTZERDATEN_AENDERN.name())) {
+		aendernBenutzer(request, response);
 	}
 
 	// if
     }// doPost
 
-    /**
+    private void aendernBenutzer(HttpServletRequest request, HttpServletResponse response) {
+		// TODO twillert
+		System.out.println("Bin da, wer noch?");
+	}
+
+	/**
      * Prueft, ob der Benutzer Sysop ist und leitet die Anfrage entsprechend
      * weiter
      * <p>
