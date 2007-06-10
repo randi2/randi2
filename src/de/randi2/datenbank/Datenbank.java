@@ -1342,6 +1342,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		// vorhandene Person wird aktualisiert
 		else {
 			PersonBean person_old = (PersonBean) suchenObjektId(person.getId(), person);
+			boolean geaendert = false;
 			sql = "UPDATE " + Tabellen.PERSON + " SET " + 
 			FelderPerson.NACHNAME+ "=?," + 
 			FelderPerson.VORNAME + "=?," + 
@@ -1355,32 +1356,41 @@ public class Datenbank implements DatenbankSchnittstelle {
 			" WHERE "+ FelderPerson.ID + "=?";
 			try {
 				//Fuellen der Hashmap mit Daten fuer das Loggen
-				if(!person.getNachname().equals(person_old.getNachname())) {
+				if(pruefenStringAufAenderung(person.getNachname(), person_old.getNachname())) {
 					geaenderteDaten.put(FelderPerson.NACHNAME.toString(), person.getNachname());
+					geaendert=true;
 				}
-				if(!person.getVorname().equals(person_old.getVorname())) {
+				if(pruefenStringAufAenderung(person.getVorname(), person_old.getVorname())) {
 					geaenderteDaten.put(FelderPerson.VORNAME.toString(), person.getVorname());
+					geaendert=true;
 				}
 				if(person.getGeschlecht()!=person_old.getGeschlecht()) {
 					geaenderteDaten.put(FelderPerson.GESCHLECHT.toString(), String.valueOf(person.getGeschlecht()));
+					geaendert=true;
 				}
-				if(!person.getTitel().equals(person_old.getTitel())) {
+				if(pruefenStringAufAenderung(person.getTitel().toString(), person_old.getTitel().toString())) {
 					geaenderteDaten.put(FelderPerson.TITEL.toString(), person.getTitel().toString());
+					geaendert=true;
 				}
-				if(!person.getEmail().equals(person_old.getEmail())) {
+				if(pruefenStringAufAenderung(person.getEmail(), person_old.getEmail())) {
 					geaenderteDaten.put(FelderPerson.EMAIL.toString(), person.getEmail());
+					geaendert=true;
 				}
-				if(!person.getFax().equals(person_old.getFax())) {
+				if(pruefenStringAufAenderung(person.getFax(), person_old.getFax())) {
 					geaenderteDaten.put(FelderPerson.FAX.toString(), person.getFax());
+					geaendert=true;
 				}
-				if(!person.getTelefonnummer().equals(person_old.getTelefonnummer())) {
+				if(pruefenStringAufAenderung(person.getTelefonnummer(), person_old.getTelefonnummer())) {
 					geaenderteDaten.put(FelderPerson.TELEFONNUMMER.toString(), person.getTelefonnummer());
+					geaendert=true;
 				}
-				if(!person.getHandynummer().equals(person_old.getHandynummer())) {
+				if(pruefenStringAufAenderung(person.getHandynummer(), person_old.getHandynummer())) {
 					geaenderteDaten.put(FelderPerson.HANDYNUMMER.toString(), person.getHandynummer());
+					geaendert=true;
 				}
 				if (person.getStellvertreterId() != person_old.getStellvertreterId()) {
 					geaenderteDaten.put(FelderPerson.STELLVERTRETER.toString(), String.valueOf(person.getStellvertreterId()));
+					geaendert=true;
 				}					
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, person.getNachname());
@@ -1407,7 +1417,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 				}
 			}
 			//loggen eines geaenderten Datensatzes
-			loggenDaten(person, geaenderteDaten, 2);
+			if(geaendert==true) {
+				loggenDaten(person, geaenderteDaten, 2);
+			}			
 		} 
 		return person;
 	}
@@ -4065,5 +4077,25 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		log.info(new LogAktion(text,tmp, 
 				new LogGeanderteDaten(aObjekt.getId(),aObjekt.getClass().getSimpleName(),geaenderteDaten)));
+	}
+	
+	/**
+	 * Prueft zwei Strings ob sie unterschiedlich sind
+	 * @param arg0
+	 * @param arg1
+	 * @return
+	 * 			true falls geaendert
+	 */
+	private boolean pruefenStringAufAenderung(String arg0, String arg1) {
+		if(arg0!=null && arg1==null) {
+			return true;
+		}
+		if(arg0==null && arg1!=null) {
+			return true;
+		}
+		if(!arg0.equals(arg1)) {
+			return true;
+		}
+		return false;
 	}
 }
