@@ -13,14 +13,17 @@
 	import="de.randi2.model.fachklassen.*"
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"
-	import="de.randi2.utility.*"%>
+	import="de.randi2.utility.*"
+	import="de.randi2.controller.*"%>
 </head>
 
 <body>
 <%@include file="include/inc_header.jsp"%>
 
 <div id="content">
-<form>
+<form action="DispatcherServlet" method="post" name="user" id="user"><input
+	type="hidden" name="anfrage_id"
+	value="<%=DispatcherServlet.anfrage_id.JSP_DATEN_AENDERN.name() %>">
 <h1>Daten &auml;ndern</h1>
 <fieldset style="width: 60%"><legend><b>Pers&ouml;nliche
 Angaben</b></legend>
@@ -68,16 +71,12 @@ Angaben</b></legend>
 	weiter verwendet werden. Wie geht das? -->
 		<td>Passwort *<br>
 		<input type="password" size="25" maxlength="30" name="Passwort"
-			tabindex="6" value="1$hess80" z:required="true"
-			z:required_message="Bitte Passwort eingeben" z:length="{min: 6}"
-			z:length_message="Passwort muss mind. 6 Zeichen lang sein"></td>
+			tabindex="6" value=""></td>
 	</tr>
 	<tr>
 		<td>Passwort wiederholen *<br>
 		<input type="password" size="25" maxlength="30" name="Passwort_wh"
-			tabindex="7" value="1$hess80" z:required="true"
-			z:required_message="Bitte Passwort eingeben" z:length="{min: 6}"
-			z:length_message="Passwort muss mind. 6 Zeichen lang sein"></td>
+			tabindex="7" value=""></td>
 	</tr>
 </table>
 </fieldset>
@@ -123,7 +122,7 @@ zum Ansprechpartner</b></legend>
 <table>
 	<tr>
 		<td>Vorname *<br>
-		<input type="text" size="25" maxlength="30" name="Vorname"
+		<input type="text" size="25" maxlength="30" name="VornameA"
 			tabindex="12"
 			value="<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getVorname() != null){out.print(aPerson.getStellvertreter().getVorname());}}%>"
 			z:required="true" z:required_message="Bitte Vornamen eingeben"
@@ -131,7 +130,7 @@ zum Ansprechpartner</b></legend>
 			z:length_message="Vorname muss 2 bis 50 Zeichen lang sein"></td>
 		<td>&nbsp;&nbsp;&nbsp;Nachname *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Nachname" tabindex="13"
+			name="NachnameA" tabindex="13"
 			value="<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getNachname() != null){out.print(aPerson.getStellvertreter().getNachname());}}%>"
 			z:required="true" z:required_message="Bitte Nachnamen eingeben"
 			z:length="{max: 50, min: 2}"
@@ -139,7 +138,7 @@ zum Ansprechpartner</b></legend>
 	</tr>
 	<tr>
 		<td>Telefonnummer *<br>
-		<input type="text" size="25" maxlength="30" name="Telefon"
+		<input type="text" size="25" maxlength="30" name="TelefonA"
 			tabindex="14"
 			value="<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getTelefonnummer() != null){out.print(aPerson.getStellvertreter().getTelefonnummer());}}%>"
 			z:required="true" z:required_message="Bitte Telefonnummer eingeben"
