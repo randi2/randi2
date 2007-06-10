@@ -8,8 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -1568,10 +1570,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	private BenutzerkontoBean schreibenBenutzerKonto(
 			BenutzerkontoBean benutzerKonto) throws DatenbankExceptions {
+		//JDBC var
 		Connection con = null;
 		String sql = "";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		//Logging var
+		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.GERMANY);	
 		try {
 			con = this.getConnection();
 		} catch (SQLException e) {
@@ -1595,9 +1601,23 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderBenutzerkonto.GESPERRT + ")"
 					+ " VALUES (NULL,?,?,?,?,?,?,?,?)";
 			try {
+				//HashMap fuellen
+				geaenderteDaten.put(FelderBenutzerkonto.LOGINNAME.toString(), benutzerKonto.getBenutzername());
+				geaenderteDaten.put(FelderBenutzerkonto.PASSWORT.toString(), benutzerKonto.getPasswort());
+				geaenderteDaten.put(FelderBenutzerkonto.ZENTRUMID.toString(), String.valueOf(benutzerKonto.getZentrumId()));
+				geaenderteDaten.put(FelderBenutzerkonto.ROLLEACCOUNT.toString(), benutzerKonto.getRolle().getName());
+				if(benutzerKonto.getErsterLogin()!= null) {
+					geaenderteDaten.put(FelderBenutzerkonto.ERSTERLOGIN.toString(), sdf.format(benutzerKonto.getErsterLogin().getTime()));
+				}
+				if(benutzerKonto.getLetzterLogin()!= null) {
+					geaenderteDaten.put(FelderBenutzerkonto.LETZTERLOGIN.toString(), sdf.format(benutzerKonto.getLetzterLogin().getTime()));
+				}				
+				geaenderteDaten.put(FelderBenutzerkonto.GESPERRT.toString(), String.valueOf(benutzerKonto.isGesperrt()));
+				//JDBC Statement erzeugen
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, benutzerKonto.getBenutzerId());
+				geaenderteDaten.put(FelderBenutzerkonto.PERSONID.toString(), String.valueOf(benutzerKonto.getBenutzerId()));
 				pstmt.setString(i++, benutzerKonto.getBenutzername());
 				pstmt.setString(i++, benutzerKonto.getPasswort());
 				pstmt.setLong(i++, benutzerKonto.getZentrumId());
@@ -1627,6 +1647,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			benutzerKonto.setId(id);
+			loggenDaten(benutzerKonto, geaenderteDaten, LogKonstanten.NEUER_DATENSATZ);
 			return benutzerKonto;
 
 		} else {
@@ -1642,6 +1663,28 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderBenutzerkonto.GESPERRT + "= ? " + "WHERE "
 					+ FelderBenutzerkonto.ID + "= ? ";
 			try {
+				//HashMap fuellen
+				BenutzerkontoBean bk_old = suchenObjektId(benutzerKonto.getId(),new BenutzerkontoBean());
+				if(!benutzerKonto.getBenutzername().equals(bk_old.getBenutzername())) {
+					geaenderteDaten.put(FelderBenutzerkonto.LOGINNAME.toString(), benutzerKonto.getBenutzername());
+				}				
+				if(!benutzerKonto.getPasswort().equals(bk_old.getPasswort())) {
+					geaenderteDaten.put(FelderBenutzerkonto.PASSWORT.toString(), benutzerKonto.getPasswort());
+				}
+				if(benutzerKonto.getZentrumId()!=bk_old.getZentrumId()) {
+					geaenderteDaten.put(FelderBenutzerkonto.ZENTRUMID.toString(), String.valueOf(benutzerKonto.getZentrumId()));
+				}
+				if(!benutzerKonto.getRolle().getName().equals(bk_old.getRolle().getName())) {
+					geaenderteDaten.put(FelderBenutzerkonto.ROLLEACCOUNT.toString(), benutzerKonto.getRolle().getName());
+				}
+				if(!benutzerKonto.getErsterLogin().equals(bk_old.getErsterLogin())) {
+					geaenderteDaten.put(FelderBenutzerkonto.ERSTERLOGIN.toString(), sdf.format(benutzerKonto.getErsterLogin().getTime()));
+				}
+				if(!benutzerKonto.getLetzterLogin().equals(bk_old.getLetzterLogin())) {
+					geaenderteDaten.put(FelderBenutzerkonto.LETZTERLOGIN.toString(), sdf.format(benutzerKonto.getLetzterLogin().getTime()));
+				}				
+				geaenderteDaten.put(FelderBenutzerkonto.GESPERRT.toString(), String.valueOf(benutzerKonto.isGesperrt()));
+				//JDBC Statement erzeugen
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, benutzerKonto.getBenutzerId());
 				pstmt.setString(j++, benutzerKonto.getBenutzername());
@@ -1678,7 +1721,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
-		return null;
+		loggenDaten(benutzerKonto, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);
+		return benutzerKonto;
 	}
 
 	/**
