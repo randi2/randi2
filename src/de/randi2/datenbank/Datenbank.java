@@ -1742,6 +1742,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);	
 		try {
 			con = this.getConnection();
 		} catch (SQLException e) {
@@ -1758,6 +1760,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderAktivierung.VERSANDDATUM + ") "
 					+ " VALUES (NULL,?,?,?)";
 			try {
+				//Hashmap fuellen
+				geaenderteDaten.put(FelderAktivierung.BENUTZER.toString(), String.valueOf(aktivierung.getBenutzerkontoId()));
+				geaenderteDaten.put(FelderAktivierung.LINK.toString(), aktivierung.getAktivierungsLink());
+				geaenderteDaten.put(FelderAktivierung.VERSANDDATUM.toString(), sdf.format(aktivierung.getVersanddatum().getTime()));
+				//Statement erzeugen
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, aktivierung.getBenutzerkontoId());
@@ -1776,6 +1783,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			aktivierung.setId(id);
+			loggenDaten(aktivierung, geaenderteDaten, LogKonstanten.NEUER_DATENSATZ);
 			return aktivierung;
 		} else {
 			int j = 1;
@@ -1785,6 +1793,18 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderAktivierung.VERSANDDATUM + "=?  " + "WHERE "
 					+ FelderAktivierung.Id + "=?";
 			try {
+				//Hashmap fuellen
+				AktivierungBean ak_old = suchenObjektId(aktivierung.getId(), new AktivierungBean());
+				if(aktivierung.getBenutzerkontoId()!=ak_old.getBenutzerkontoId()) {
+					geaenderteDaten.put(FelderAktivierung.BENUTZER.toString(), String.valueOf(aktivierung.getBenutzerkontoId()));
+				}
+				if(!aktivierung.getAktivierungsLink().equals(ak_old.getAktivierungsLink())) {
+					geaenderteDaten.put(FelderAktivierung.LINK.toString(), aktivierung.getAktivierungsLink());
+				}
+				if(!aktivierung.getVersanddatum().equals(ak_old.getVersanddatum())) {
+					geaenderteDaten.put(FelderAktivierung.VERSANDDATUM.toString(), sdf.format(aktivierung.getVersanddatum().getTime()));
+				}				
+				//statement erzeugen
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, aktivierung.getBenutzerkontoId());
 				pstmt.setString(j++, aktivierung.getAktivierungsLink());
@@ -1807,8 +1827,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				}
 			}
 		}
-
-		return null;
+		loggenDaten(aktivierung, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);
+		return aktivierung;
 	}
 
 	/**
