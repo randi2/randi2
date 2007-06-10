@@ -1,24 +1,21 @@
 package de.randi2.junittests;
 
 import static org.junit.Assert.*;
-
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Vector;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
-import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.StudieException;
-import de.randi2.model.fachklassen.Benutzerkonto;
-import de.randi2.model.fachklassen.Person;
 import de.randi2.model.fachklassen.Studie;
-import de.randi2.model.fachklassen.Zentrum;
-import de.randi2.model.fachklassen.beans.PersonBean;
+import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
+import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Log4jInit;
 
@@ -36,7 +33,7 @@ public class StudieTest {
 	 */
 	private StudieBean studieBean, studieVergleich;
 
-	private Studie studie;
+	private Studie studie2, studie;
 
 	/**
 	 * Initialisiert den Logger.
@@ -48,7 +45,7 @@ public class StudieTest {
 	}
 
 	/**
-	 * Method setUp() Erzeugt eine neue Instanz der Fachklasse Studie.
+	 * StudieBean wird mit Daten gefüllt.
 	 * 
 	 * @throws Exception,
 	 *             Fehler, wenn keine Instanz der Fachklasse Studie erzeugt
@@ -57,9 +54,14 @@ public class StudieTest {
 	@Before
 	public void setUp() throws Exception {
 
+		HashMap<Long, String> hash = new HashMap<Long, String>();
+		long key = 1;
+
+		hash.put(key, "Weiblich");
 		studieBean = new StudieBean();
-		studieBean.setFilter(true);
-		studieBean.setId(122);
+		studieBean.setId(12);
+		studieBean.setName("Studiename");
+		studieBean.setStatus(Studie.Status.BEENDET);
 		studieBean
 				.setBeschreibung("Dies ist eine Beschreibung zu einer Studie.");
 		GregorianCalendar startDatum = new GregorianCalendar();
@@ -70,19 +72,60 @@ public class StudieTest {
 		studieBean.setStudienprotokollPfad("pfad");
 		studieBean
 				.setRandomisationseigenschaften("Randomisationseigenschaften");
-		studieBean.setStatus(Studie.Status.AKTIV);
+
+		Vector<ZentrumBean> aTestZentrum = new Vector<ZentrumBean>();
+
+		aTestZentrum
+				.add(new ZentrumBean(
+						12,
+						"Instituition",
+						"Abteilung",
+						"ort",
+						"64668",
+						"Strasse",
+						"12",
+						1,
+						"oe?jie3Yiesaoe?jie3Yiesaoe?jie3Yiesaoe?jie3Yiesaoe?jie3Yiesa414a",
+						true));
+		studieBean.setZentren(aTestZentrum);
+
+		Vector<StrataBean> aTestStrata = new Vector<StrataBean>();
+
+		aTestStrata.add(new StrataBean(12, hash));
+		studieBean.setStrata(aTestStrata);
+
+		Vector<StudienarmBean> aTestStudienarm = new Vector<StudienarmBean>();
+
+		aTestStudienarm.add(new StudienarmBean(12, 34, Studie.Status.AKTIV,
+				"Bezeichnung", "Beschreibung"));
+		studieBean.setStudienarme(aTestStudienarm);
+
+		// Ï
+//		 studieBean = new StudieBean();
+//		 studieBean.setFilter(true);
+//		 studieBean.setId(122);
+//		 studieBean
+//		 .setBeschreibung("Dies ist eine Beschreibung zu einer Studie.");
+//		 GregorianCalendar startDatum = new GregorianCalendar();
+//		 startDatum.add(Calendar.MONTH, +2);
+//		 GregorianCalendar endDatum = new GregorianCalendar();
+//		 endDatum.add(Calendar.MONTH, +7);
+//		 studieBean.setStudienZeitraum(startDatum, endDatum);
+//		 studieBean.setStudienprotokollPfad("pfad");
+//		 studieBean
+//		 .setRandomisationseigenschaften("Randomisationseigenschaften");
+//		 studieBean.setStatus(Studie.Status.AKTIV);
 	}
-	
+
 	/**
 	 * Testet, ob eine Instanz der Klasse Studie angelegt werden konnte.
-	 *
+	 * 
 	 */
 	@Test
 	public void testStudie() {
-		studie=new Studie(studieBean);
-		assertEquals(studieBean, studie.getStudieBean());
-	}
+		studie = new Studie(studieBean);
 
+	}
 
 	/**
 	 * Method tearDown() Dem Studien-Objekt wird der Wert "null" zugewiesen.
@@ -93,35 +136,6 @@ public class StudieTest {
 	@After
 	public void tearDown() throws Exception {
 		studieBean = null;
-	}
-
-	/**
-	 * Ueberpruefung, ob eine Statistik nach den vorgegebenen Kriterien
-	 * angezeigt wird.
-	 * 
-	 * Test method for
-	 * {@link de.randi2.model.fachklassen.Studie#anzeigenStatistik(int}.
-	 * 
-	 * 
-	 */
-	// TODO Klaerung Frank
-//	@Test
-	public void testAnzeigenStatistik() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Ueberpruefung, ob Zentrum gesetzt wurde, um es einer Studie zuzuweisen.
-	 * 
-	 * Test method for
-	 * {@link de.randi2.model.fachklassen.Studie#zuweisenZentrum()}.
-	 * 
-	 * 
-	 */
-	// TODO Klaerung Frank
-//	@Test
-	public void testZuweisenZentrum() {
-		fail("Not yet implemented");
 	}
 
 	/**
@@ -151,15 +165,14 @@ public class StudieTest {
 
 	}
 
-	
 	/**
 	 * Testet, ob die Zentren der Studie zugeordnet werden koennen.
 	 * 
 	 * Test method for
 	 * {@link de.randi2.model.fachklassen.Studie#getZugehoerigeZentren()}.
 	 */
-	
-//	@Test
+
+	@Test
 	public void testGetZugehoerigeZentren() {
 
 		fail("Not yet implemented");
@@ -174,7 +187,7 @@ public class StudieTest {
 	 * 
 	 */
 	// TODO Klaerung Frank
-//	@Test
+	@Test
 	public void testgetZugehoerigeStrata() {
 		fail("Not yet implemented");
 	}
@@ -185,19 +198,59 @@ public class StudieTest {
 	 * 
 	 * Test method for {@link de.randi2.model.fachklassen.Studie#getStudie()}.
 	 */
-	
+
 	@Test
 	public void testGetStudie() {
 		try {
-			
-			studieBean = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
-					studieBean);
-			StudieBean vergleichStudieBean = Studie.getStudie(studieBean.getId());				
+
+			studieBean = DatenbankFactory.getAktuelleDBInstanz()
+					.schreibenObjekt(studieBean);
+			StudieBean vergleichStudieBean = Studie.getStudie(studieBean
+					.getId());
 			assertEquals(vergleichStudieBean, studieBean);
 		} catch (DatenbankExceptions e) {
 			fail(e.getMessage());
-		
+
+		}
 	}
+
+	/**
+	 * Testet die Methode getStudieBean.
+	 * 
+	 */
+	@Test
+	public void testGetStudieBean() {
+		Studie studie = new Studie(studieBean);
+		assertEquals(studie.getStudieBean(), studieBean);
+	}
+
+	/**
+	 * Ueberpruefung, ob eine Statistik nach den vorgegebenen Kriterien
+	 * angezeigt wird.
+	 * 
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.Studie#anzeigenStatistik(int}.
+	 * 
+	 * 
+	 */
+	// TODO Klaerung Frank
+	@Test
+	public void testAnzeigenStatistik() {
+		fail("Not yet implemented");
+	}
+
+	/**
+	 * Ueberpruefung, ob Zentrum gesetzt wurde, um es einer Studie zuzuweisen.
+	 * 
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.Studie#zuweisenZentrum()}.
+	 * 
+	 * 
+	 */
+
+	@Test
+	public void testZuweisenZentrum() {
+		fail("Not yet implemented");
 	}
 
 	/**
@@ -215,7 +268,7 @@ public class StudieTest {
 			studieVergleich
 					.setBeschreibung("Dies ist eine Beschreibung zu einer Studie.");
 			GregorianCalendar startDatumVergleich = new GregorianCalendar();
-			startDatumVergleich.add(Calendar.MONTH, +2);
+			startDatumVergleich.add(Calendar.MONTH, +3);
 			GregorianCalendar endDatumVergleich = new GregorianCalendar();
 			endDatumVergleich.add(Calendar.MONTH, +7);
 			studieVergleich.setStudienZeitraum(startDatumVergleich,
