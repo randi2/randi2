@@ -58,7 +58,9 @@ public class StudieException extends BenutzerException {
 	 * Diese Konstante wird uebergeben, wenn Strata nicht gefunden wurde.
 	 */
 	public static final String STRATA_NICHT_GEFUNDEN="Strata nicht gefunden.";
-
+	/**
+	 * Diese Konstante wird uebergeben, wenn ein Zentrum einer Studie bereits zugeordnet wurde.
+	 */
 	public static final String ZENTRUM_EXISTIERT = "Zentrum wurde bereits der Studie zugeordnet.";
 
 	/**
