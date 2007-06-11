@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
  * Diese Klasse repraesentiert das STUDIESERVLET, welches Aktionen an die
  * Studie-Fachklasse, die JSPs und an den DISPATCHER weiterleitet.
  * 
- * @version $Id $
+ * @version $Id$
  * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
  * 
  */
