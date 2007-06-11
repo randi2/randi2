@@ -47,44 +47,36 @@ public class TestLoginLogoutRelease2{
 		 sel.type("username", "hans75");
 		 sel.type("password", "");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
-		 
+		 assertEquals("Bitte Passwort eingeben\nFehlerhaftes Passwort", sel.getAlert()); 
+		
 		 sel.type("username", "");
 		 sel.type("password", "1$dampf75");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));		 
-		 
+		 assertEquals("Bitte Namen eingeben\nFehlerhafter Benutzername", sel.getAlert());
+		  
 		 sel.type("username", "xyz");
 		 sel.type("password", "1$dampf75");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
+		 assertEquals("Fehlerhafter Benutzername", sel.getAlert());
 		 
 		 sel.type("username", "hans75");
 		 sel.type("password", "xyz");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
-		 
+		 assertEquals("Fehlerhaftes Passwort", sel.getAlert());
+					 
 		 sel.type("username", "aaaaaaaaaaaaaaaa");
 		 sel.type("password", "1$dampf75");
 		 sel.click("Submit");
 		 sel.waitForPageToLoad("30000");
 		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
+		 assertTrue(sel.isTextPresent("Loginfehler"));
 		 
 		 sel.type("username", "hans75");
 		 sel.type("password", "hhhhhhhhhhh");
 		 sel.click("Submit");
 		 sel.waitForPageToLoad("30000");
 		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
+		 assertTrue(sel.isTextPresent("Loginfehler"));
 		 
 		 //Wenn Eingaben richtig
 		 sel.type("username", "hans75");
@@ -92,7 +84,7 @@ public class TestLoginLogoutRelease2{
 		 sel.click("Submit");
 		 sel.waitForPageToLoad("30000");
 		 assertTrue(sel.isTextPresent("Willkommen Systemadministrator"));
-		 assertTrue(sel.isTextPresent("Frau Trude Wurst (ADMIN)"));
+		 assertTrue(sel.isTextPresent("Herr Dampf Hans (ADMIN)"));
 		 assertTrue(sel.isTextPresent("Benutzerverwaltung"));
 		 assertTrue(sel.isTextPresent("Daten ändern"));
 		 assertTrue(sel.isTextPresent("Benutzer anzeigen"));
@@ -101,14 +93,13 @@ public class TestLoginLogoutRelease2{
 		 assertTrue(sel.isTextPresent("Zentrum anlegen"));
 		 assertTrue(sel.isTextPresent("Studienverwaltung"));
 		 assertTrue(sel.isTextPresent("Systemadministration"));
-		 assertTrue(sel.isTextPresent("Studienleiter anlegen"));
-			
+		 assertTrue(sel.isTextPresent("Studienleiter anlegen"));			
 		  
 		 //Logout
 		 sel.clickAt("logout_link", "Logout");
 		 sel.waitForPageToLoad("30000");
 		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 
+				 
   	}//pruefeLoginAdmin()
 	
 	
@@ -130,57 +121,49 @@ public class TestLoginLogoutRelease2{
 		 sel.type("username", "valentin");
 		 sel.type("password", "");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
-		 
+		 assertEquals("Bitte Passwort eingeben\nFehlerhaftes Passwort", sel.getAlert()); 
+					 
 		 sel.type("username", "");
 		 sel.type("password", "1$graeff83");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));		 
+		 assertEquals("Bitte Namen eingeben\nFehlerhafter Benutzername", sel.getAlert());
 		 
 		 sel.type("username", "xyz");
 		 sel.type("password", "1$graeff83");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
+		 assertEquals("Fehlerhafter Benutzername", sel.getAlert());
 		 
 		 sel.type("username", "valentin");
 		 sel.type("password", "xyz");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
+		 assertEquals("Fehlerhaftes Passwort", sel.getAlert());
 		 
-		 sel.type("username", "valentinr");
+		 sel.type("username", "valentin");
 		 sel.type("password", "aaaaaaaa");
 		 sel.click("Submit");
 		 sel.waitForPageToLoad("30000");
 		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
-		 
+		 assertTrue(sel.isTextPresent("Loginfehler"));
+				 
 		 sel.type("username", "aaaaaaaaaaaaaaaa");
 		 sel.type("password", "1$graeff83");
 		 sel.click("Submit");
 		 sel.waitForPageToLoad("30000");
 		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
-		 
+		 assertTrue(sel.isTextPresent("Loginfehler"));
+		
 		 //Wenn Eingaben richtig
 		 sel.type("username", "valentin");
 		 sel.type("password", "1$graeff83");
 		 sel.click("Submit");
 		 sel.waitForPageToLoad("30000");
 		 assertTrue(sel.isTextPresent("Studie auswählen"));
-		 assertTrue(sel.isTextPresent("Frau Birgit Wurst (STUDIENLEITER)"));
+		 assertTrue(sel.isTextPresent("Herr Valentin Graeff (STUDIENLEITER)"));
 		 
 		 sel.click("link=Aspirin");
 		 sel.waitForPageToLoad("30000");
 		 assertTrue(sel.isTextPresent("Studie ansehen"));
-		 assertTrue(sel.isTextPresent("Frau Birgit Wurst (STUDIENLEITER)"));		 
+		 assertTrue(sel.isTextPresent("Herr Valentin Graeff (STUDIENLEITER)"));		 
 		 assertTrue(sel.isTextPresent("Benutzerverwaltung"));
 		 assertTrue(sel.isTextPresent("Daten ändern"));
 		 assertFalse(sel.isTextPresent("Benutzer anzeigen"));
@@ -219,44 +202,36 @@ public class TestLoginLogoutRelease2{
 		 sel.type("username", "frank80");
 		 sel.type("password", "");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
-		 
+		 assertEquals("Bitte Passwort eingeben\nFehlerhaftes Passwort", sel.getAlert()); 
+					 
 		 sel.type("username", "");
 		 sel.type("password", "1$hess80");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));		 
+		 assertEquals("Bitte Namen eingeben\nFehlerhafter Benutzername", sel.getAlert());
 		 
 		 sel.type("username", "xyz");
 		 sel.type("password", "1$hess80");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
+		 assertEquals("Fehlerhafter Benutzername", sel.getAlert());
 		 
 		 sel.type("username", "frank80");
 		 sel.type("password", "xyz");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
-		  
+		 assertEquals("Fehlerhaftes Passwort", sel.getAlert());
+		 
 		 sel.type("username", "frank80");
 		 sel.type("password", "aaaaaaa");
 		 sel.click("Submit");
 		 sel.waitForPageToLoad("30000");
 		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
-		 
+		 assertTrue(sel.isTextPresent("Loginfehler"));
+		
 		 sel.type("username", "aaaaaaaaaaaaaaaa");
 		 sel.type("password", "1$hess80");
 		 sel.click("Submit");
 		 sel.waitForPageToLoad("30000");
 		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
+		 assertTrue(sel.isTextPresent("Loginfehler"));
 		 
 		 //Wenn Eingaben richtig
 		 sel.type("username", "frank80");
@@ -264,13 +239,13 @@ public class TestLoginLogoutRelease2{
 		 sel.click("Submit");
 		 sel.waitForPageToLoad("30000");
 		 assertTrue(sel.isTextPresent("Studie auswählen"));
-		 assertTrue(sel.isTextPresent("Herr Hans Wurst"));
+		 assertTrue(sel.isTextPresent("Herr Frank Hess"));
 		 
 		 
 		 sel.click("link=Aspirin");
 		 sel.waitForPageToLoad("30000");
 		 assertTrue(sel.isTextPresent("Studie ansehen"));
-		 assertTrue(sel.isTextPresent("Herr Hans Wurst"));		 
+		 assertTrue(sel.isTextPresent("Herr Frank Hess"));		 
 		 assertTrue(sel.isTextPresent("Benutzerverwaltung"));
 		 assertTrue(sel.isTextPresent("Daten ändern"));
 		 assertFalse(sel.isTextPresent("Studienärzte anzeigen"));
@@ -310,52 +285,44 @@ public class TestLoginLogoutRelease2{
 		 sel.type("username", "nadine");
 		 sel.type("password", "");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
-		 
+		 assertEquals("Bitte Passwort eingeben\nFehlerhaftes Passwort", sel.getAlert()); 
+					 
 		 sel.type("username", "");
 		 sel.type("password", "1$zwink83");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));		 
+		 assertEquals("Bitte Namen eingeben\nFehlerhafter Benutzername", sel.getAlert());
 		 
 		 sel.type("username", "xyz");
 		 sel.type("password", "1$zwink83");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
+		 assertEquals("Fehlerhafter Benutzername", sel.getAlert());
 		 
 		 sel.type("username", "nadine");
 		 sel.type("password", "xyz");
 		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
+		 assertEquals("Fehlerhaftes Passwort", sel.getAlert());
 		 
 		 sel.type("username", "nadine");
 		 sel.type("password", "aaaaaaa");
 		 sel.click("Submit");
 		 sel.waitForPageToLoad("30000");
 		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
+		 assertTrue(sel.isTextPresent("Loginfehler"));
 		 
 		 sel.type("username", "aaaaaaaaaaaaaaaa");
 		 sel.type("password", "1$zwink83");
 		 sel.click("Submit");
 		 sel.waitForPageToLoad("30000");
 		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler: Bitte Benutzername und Passwort überprüfen"));
+		 assertTrue(sel.isTextPresent("Loginfehler"));
 		 
-		//Wenn Eingaben richtig
+		 //Wenn Eingaben richtig
 		 sel.type("username", "nadine");
 		 sel.type("password", "1$zwink83");
 		 sel.click("Submit");
 		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Willkommen Systemadministrator"));
-		 assertTrue(sel.isTextPresent("Herr Hans Maulwurf (SYSOP)"));	
+		 assertTrue(sel.isTextPresent("Systemadministration"));
+		 assertTrue(sel.isTextPresent("Frau Zwink Nadine (SYSOP)"));	
 		 assertTrue(sel.isTextPresent("Benutzerverwaltung"));
 		 assertTrue(sel.isTextPresent("Admins anzeigen"));
 		 assertFalse(sel.isTextPresent("Daten ändern"));
@@ -380,101 +347,6 @@ public class TestLoginLogoutRelease2{
 	}//pruefeLoginSysop()
 
 	
-	/**
-	 * Pruefen von Benutzername und Passwort des Statistikers.
-	 * Pruefen, ob Stat die für ihn berechtige Seite mit 
-	 * Menuepunkte zu sehen bekommt.
-	 
-	@Test
-    public void pruefeLoginStat() {
-
-	     //Seite oeffnen
-		sel.open("http://www.iap.hs-heilbronn.de:8080/randinightly/");
-			 
-		 //Überprüfung der Eingaben des Benutzernamens und Passwortes
-		 //für Test-Szenarium: statistiker/1$statistiker - Kombination		 
-		 
-		 //Überprüfung der Eingabe von Benutzername und Passwort
-		 sel.type("username", "statistiker");
-		 sel.type("password", "");
-		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler"));
-		 
-		 sel.type("username", "");
-		 sel.type("password", "1$statistiker");
-		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler"));		 
-		 
-		 sel.type("username", "xyz");
-		 sel.type("password", "1$statistiker");
-		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler"));
-		 
-		 sel.type("username", "statistiker");
-		 sel.type("password", "xyz");
-		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler"));
-		 
-		 sel.type("username", "a");
-		 sel.type("password", "1$statistiker");
-		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler"));
-		 
-		 sel.type("username", "statistiker");
-		 sel.type("password", "a");
-		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler"));
-		 
-		 sel.type("username", "aaaaaaaaaaaaaaaa");
-		 sel.type("password", "1$statistiker");
-		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 assertTrue(sel.isTextPresent("Loginfehler"));
-		 
-		 
-		 //Wenn Eingaben richtig
-		 sel.type("username", "statistiker");
-		 sel.type("password", "1$statistiker");
-		 sel.click("Submit");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Studie ansehen"));
-		 assertTrue(sel.isTextPresent("Frau Irene Kaese (STATISTIKER)"));
-		 assertTrue(sel.isTextPresent("Studienverwaltung"));
-		 assertTrue(sel.isTextPresent("Studie ansehen"));
-		 assertFalse(sel.isTextPresent("Patient hinzufügen"));		 
-		 assertFalse(sel.isTextPresent("Benutzerverwaltung"));
-		 assertFalse(sel.isTextPresent("Admins anzeigen"));
-		 assertFalse(sel.isTextPresent("Daten ändern"));
-		 assertFalse(sel.isTextPresent("Studienärzte anzeigen"));
-		 assertFalse(sel.isTextPresent("Benutzer anzeigen"));
-		 assertFalse(sel.isTextPresent("Systemadministration"));
-		 assertFalse(sel.isTextPresent("System sperren"));
-		 assertFalse(sel.isTextPresent("Admin anlegen"));
-		 assertFalse(sel.isTextPresent("Studienleiter anlegen"));
-		 assertFalse(sel.isTextPresent("Zentrenverwaltung"));
-		 assertFalse(sel.isTextPresent("Zentren anzeigen"));
-		 assertFalse(sel.isTextPresent("Zentrum anlegen"));		 
-		 		 
-		 //Logout
-		 sel.clickAt("logout_link", "Logout");
-		 sel.waitForPageToLoad("30000");
-		 assertTrue(sel.isTextPresent("Herzlich Willkommen"));
-		 	
-	}//pruefeLoginStat()
-	*/
 	
 	 @AfterClass
 	 public static void tearDownAfterClass() 
