@@ -1267,7 +1267,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	private PersonBean schreibenPerson(PersonBean person)
 			throws DatenbankExceptions {
-		Connection con = null;		
+		Connection con = null;
+		String sql = "";
 		try {
 			con = getConnection();			
 		} catch (SQLException e) {
@@ -1288,7 +1289,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 			geaenderteDaten.put(FelderPerson.STELLVERTRETER.toString(), String.valueOf(person.getStellvertreterId()));
 		}
 		//JDBC
-		String sql;
 		PreparedStatement pstmt;
 		ResultSet rs;
 		// neue Person da Id der Nullkonstante entspricht
@@ -1412,8 +1412,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.executeUpdate();
 				pstmt.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
+				throw new DatenbankExceptions(e, sql,
 						DatenbankExceptions.SCHREIBEN_ERR);
 			} finally {
 				try {
@@ -2438,6 +2437,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	private Vector<BenutzerkontoBean> suchenBenutzerkonto(BenutzerkontoBean bk)
 			throws DatenbankExceptions {
 		Connection con;
+		String sql = "";
 		try {
 			con = getConnection();
 		} catch (SQLException e) {
@@ -2450,7 +2450,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Vector<BenutzerkontoBean> konten = new Vector<BenutzerkontoBean>();
 		// erstellen der SQL Abfrage
 		int counter = 0;
-		String sql = "SELECT * FROM " + Tabellen.BENUTZERKONTO.toString();
+		sql = "SELECT * FROM " + Tabellen.BENUTZERKONTO.toString();
 
 		if (bk.getBenutzername() != null) {
 			sql += " WHERE " + FelderBenutzerkonto.LOGINNAME.toString()
@@ -2607,7 +2607,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 			rs.close();
 		} catch (SQLException e) {
-			throw new DatenbankExceptions(e, sql);
+			throw new DatenbankExceptions(e, sql, DatenbankExceptions.SUCHEN_ERR);
 		} catch (BenutzerException f) {
 			f.printStackTrace();
 			throw new DatenbankExceptions(

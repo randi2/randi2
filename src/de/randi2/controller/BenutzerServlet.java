@@ -151,9 +151,11 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	 *            Der request fuer das Servlet.
 	 * @param response
 	 *            Der Response des Servlets.
+	 * @throws IOException 
+	 * @throws ServletException 
 	 */
 	private void aendernBenutzer(HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response) throws ServletException, IOException {
 
 		// Alle aenderbaren Attribute des request inititalisieren
 		String titel = request.getParameter("Titel");
@@ -218,6 +220,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			// ueber die ID an die Person verlinkt wird
 			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aPerson);
 			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzer);
+			//TODO hier noch erfolgreich nachricht einfuegen
+			request.getRequestDispatcher("global_welcome.jsp").forward(
+					request, response);
 		} catch (DatenbankExceptions e) {
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 					.getMessage());
