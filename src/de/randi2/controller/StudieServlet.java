@@ -20,6 +20,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 
 	/**
+	 * Serial Version
+	 */
+	private static final long serialVersionUID = 7L;
+
+	/**
 	 * Die Anfrage_id zur Verwendung im Dispatcher Servlet
 	 */
 	public enum anfrage_id {
