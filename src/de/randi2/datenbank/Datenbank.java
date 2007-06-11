@@ -1272,6 +1272,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 		}
+		//Loggen
 		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
 		//Fuellen der Hashmap mit Daten fuer das Loggen
 		geaenderteDaten.put(FelderPerson.NACHNAME.toString(), person.getNachname());
@@ -1343,8 +1344,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		// vorhandene Person wird aktualisiert
 		else {
-			PersonBean person_old = (PersonBean) suchenObjektId(person.getId(), person);
-			boolean geaendert = false;
 			sql = "UPDATE " + Tabellen.PERSON + " SET " + 
 			FelderPerson.NACHNAME+ "=?," + 
 			FelderPerson.VORNAME + "=?," + 
@@ -1424,9 +1423,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				}
 			}
 			//loggen eines geaenderten Datensatzes
-			if(geaendert==true) {
-				loggenDaten(person, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);
-			}			
+			loggenDaten(person, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);						
 		} 
 		return person;
 	}
@@ -1505,8 +1502,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		// vorhandenes Zentrum wird aktualisiert
 		else {
-			//in der DB gespeichertes altes Zentrum
-			ZentrumBean zentrum_old = (ZentrumBean) suchenObjektId(zentrum.getId(), zentrum);
 			//sql Query
 			sql = "UPDATE " + Tabellen.ZENTRUM + " SET "
 					+ FelderZentrum.INSTITUTION + "=?,"
