@@ -76,7 +76,7 @@
 		} else {
 			reihe = "tblrow1";
 		}
-	}
+	}//while
 %>
 </table>
 	<%@include file="include/inc_footer.jsp"%>

@@ -5,6 +5,7 @@
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
 <%Rolle.Rollen aRolleMenue=((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer")).getRolle().getRollenname(); %>
+<%@page import="de.randi2.controller.DispatcherServlet"%>
 <div id="menue">
 
 <div id="navigation">
@@ -16,8 +17,9 @@
 	&auml;ndern</a></li>
 	<% } %>
 	<% if (aRolleMenue==Rolle.Rollen.ADMIN) { %>
-	<li><a class="sub_BV n" href="admin_liste.jsp">Benutzer
-	anzeigen</a></li>
+	<li><form action="DispatcherServlet" method="POST">
+	<input type="hidden" name="anfrage_id" value="<%=DispatcherServlet.anfrage_id.BENUTZER_SUCHEN.name()%>" />
+	<input type="submit" name="" value="Benutzer anzeigen"/></form></li>
 	<% } %>
 	<% if (aRolleMenue==Rolle.Rollen.STUDIENLEITER) { %>
 	<li><a class="sub_BV n" href="studienaerzte_liste.jsp">Studien&auml;rzte

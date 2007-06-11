@@ -704,19 +704,17 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		Vector<ZentrumBean> zentrumVec = null;
 		Iterator<BenutzerkontoBean> it = null;
 		bKonto.setFilter(true);
-		try {
-			benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
-			it = benutzerVec.iterator();
-			while (it.hasNext()) {
-				bKonto = it.next();
-				person = Person.get(bKonto.getBenutzerId());
-				personVec.add(person);
-				zentrum = Zentrum.getZentrum(bKonto.getZentrumId());
-				zentrumVec.add(zentrum);
-			}
-		} catch (DatenbankExceptions e) {
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-					.getMessage());
+		benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
+		it = benutzerVec.iterator();
+		
+		while (it.hasNext()) {
+			bKonto = it.next();
+			person = Person.get(bKonto.getBenutzerId());
+			personVec = new Vector<PersonBean>();
+			personVec.add(person);
+			zentrum = Zentrum.getZentrum(bKonto.getZentrumId());
+			zentrumVec = new Vector<ZentrumBean>();
+			zentrumVec.add(zentrum);
 		}
 
 		request.setAttribute("listeBenutzer", benutzerVec);
