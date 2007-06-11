@@ -31,12 +31,8 @@ body {
   right: 10px;
 }
 
-#nachricht {
-border-bottom: solid #ff0000 2px;
-border-top: solid #ff0000 2px;
-border-left: solid #ff0000 2px;
-border-right: solid #ff0000 2px;
-/*Positionierung des Fehler-Divs auf der Loginseite*/
+.nachricht {
+	/*Positionierung des Fehler-Divs auf der Loginseite*/
 	position: relative;
 	top: 10px;
 	width: 500px;
@@ -45,7 +41,16 @@ bottom-margin: 20px;
 
 }
 
-.erfolgreich {
+#fehler_nachricht {
+
+border-bottom: solid #ff0000 2px;
+border-top: solid #ff0000 2px;
+border-left: solid #ff0000 2px;
+border-right: solid #ff0000 2px;
+}	
+
+
+#fehler_erfolgreich {
 border-bottom: solid green 2px;
 border-top: solid green 2px;
 border-left: solid green 2px;
