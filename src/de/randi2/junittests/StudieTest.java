@@ -34,7 +34,6 @@ public class StudieTest {
 	 */
 	private StudieBean studieBean, studieVergleich;
 
-
 	/**
 	 * Initialisiert den Logger.
 	 * 
@@ -225,7 +224,7 @@ public class StudieTest {
 	@Test
 	public void testZuweisenZentrum() {
 		try {
-			// Test 1. Neue Zentrum hinzufuegen--> Länge +1
+			// Test 1. Neue Zentrum hinzufuegen--> Vektorlaenge +1
 			Studie studie = new Studie(studieBean);
 			ZentrumBean aZentrumBean = new ZentrumBean();
 			int anzahlZentren = studie.getZugehoerigeZentren().size();
@@ -246,10 +245,9 @@ public class StudieTest {
 			assertEquals(studie.getZugehoerigeZentren().size(),
 					anzahlZentren + 1);
 
-			// Test 2. Zentrum, dass schon enthalten ist im Vector versuchen
-			// reinzuschreiben--> Laenge
+			// Test 2. Zentrum versuchen in den Vector zu schreiben, obwohl es schon vorhanden ist.
+			// --> Vectorlaenge muss gleich bleiben
 			anzahlZentren = studie.getZugehoerigeZentren().size();
-
 			studie.zuweisenZentrum(aZentrumBean);
 
 			assertEquals(studie.getZugehoerigeZentren().size(), anzahlZentren);

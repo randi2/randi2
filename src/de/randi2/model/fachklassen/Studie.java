@@ -23,6 +23,9 @@ public class Studie {
 	 */
 	private StudieBean aStudieBean = null;
 
+	/**
+	 * Zentren, die zur Studie zugewiesen werden.
+	 */
 	private Vector<ZentrumBean> zugewieseneZentren = null;
 
 	/**
@@ -65,7 +68,7 @@ public class Studie {
 		/**
 		 * Gibt den Status als String zurueck.
 		 * 
-		 * @return den Status
+		 * @return Status der Studie
 		 */
 
 		public String toString() {
@@ -118,7 +121,7 @@ public class Studie {
 	 * 
 	 * @param kriterium
 	 *            Kriterien zum erstellen der Statistik.
-	 * @return StatistikBean, das aktuelle StudieBean.
+	 * @return StatistikBean das aktuelle StudieBean.
 	 */
 	// TODO Implementierung, ab Release 2
 	public StatistikBean anzeigenStatistik(int kriterium) {
@@ -127,26 +130,24 @@ public class Studie {
 
 	}
 
-	// 1. zugewiesenZentren Vektor muss != null, d.h. schon aus der DB geholt
-	// sein ansonsten aus DB holen
-	// 2. das aZentrum darf noch nicht in zugewieseneZentren drin sein
-	// 3. aZentrum in zugewiesenZentren schreiben
-	// 4. die aktuelle Studie speichern
-
 	/**
 	 * Diese Methode weist ein Zentrum einer Studie hinzu.
 	 * 
 	 * @param aZentrum
 	 *            Das aktuelle ZentrumBean.
-	 * 
+	 * @throws StudieException
+	 *             Exception,wenn ein Zentrum einer Studie schon zugewiesen
+	 *             wurde.
+	 * @throws DatenbankExceptions
+	 *             Exception, wenn ein Fehler in der Datenbank auftritt.
 	 */
-	
+
 	public void zuweisenZentrum(ZentrumBean aZentrum) throws StudieException,
 			DatenbankExceptions {
 
 		zugewieseneZentren = getZugehoerigeZentren();
 
-		// ob die Id des Zentrums schon in Vector vorhanden
+		// Testet, ob das Zentrum schon vorhanden ist
 		if (zugewieseneZentren.contains(aZentrum)) {
 			throw new StudieException(StudieException.ZENTRUM_EXISTIERT);
 		} else {
@@ -161,9 +162,9 @@ public class Studie {
 	/**
 	 * Liefert alle zur Studie gehoerenden Zentren
 	 * 
-	 * @return gefundene Zentren
 	 * @throws DatenbankExceptions
-	 *             Exception, wenn Zentrum nicht gefunden werden konnte.
+	 *             Exception, wenn ein Fehler in der Datenbank auftritt.
+	 * @return alle gefundenen Zentren
 	 */
 	public Vector<ZentrumBean> getZugehoerigeZentren()
 			throws DatenbankExceptions {
@@ -174,10 +175,10 @@ public class Studie {
 	 * Liefert alle zu der Studie mit der angegebenen ID gehoerenden Zentren.
 	 * 
 	 * @param studieId
-	 *            Id der studie zur eindeutigen Zuordnung in der Datenbank
-	 * @return gefundene Zentren
+	 *            Id der studie zur eindeutigen Zuordnung in der Datenbank.
 	 * @throws DatenbankExceptions
-	 *             Exception, wenn Zentrum nicht gefunden werden konnte.
+	 *             Exception, wenn ein Fehler in der Datenbank auftritt.
+	 * @return alle gefundenen Zentren
 	 */
 	public static Vector<ZentrumBean> getZugehoerigeZentren(long studieId)
 			throws DatenbankExceptions {
@@ -192,9 +193,10 @@ public class Studie {
 	 * 
 	 * @param studieId
 	 *            Id der Studie zur eindeutigen Zuordnung in der Datenbank.
-	 * @return gefundeneStrata
 	 * @throws DatenbankExceptions
-	 *             Exception, wenn Strata nicht gefunden wurde.
+	 *             Exception, wenn ein Fehler in der Datenbank auftritt.
+	 * @return gefundeneStrata
+	 * 
 	 */
 	public static Vector<StrataBean> getZugehoerigeStrata(long studieId)
 			throws DatenbankExceptions {
@@ -214,8 +216,7 @@ public class Studie {
 	 *            Die ID der angeforderten Studie.
 	 * @return StudieBean Ein StudieBean wird zurueckgegeben.
 	 * @throws DatenbankExceptions
-	 *             Exception, wenn ID der angeforderten Studie nicht gefunden
-	 *             werden konnte.
+	 *             Exception, wenn ein Fehler in der Datenbank auftritt.
 	 */
 	public static StudieBean getStudie(long studieId)
 			throws DatenbankExceptions {
