@@ -47,6 +47,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	 * Fehlermeldungen von der GUI aus dem Request zu gewinnen
 	 */
 	public static final String FEHLERNACHRICHT = "fehlernachricht";
+	
+	/**
+	 * Name der Nachricht_ok -Variablen im Reqeust. Wird in inc_nachricht_erfolgreich.jsp.
+	 * Sonst nicht verwenden!!!
+	 */
+	public static final String NACHRICHT_OK="nachricht_ok";
 
 	/**
 	 * Konstruktor.

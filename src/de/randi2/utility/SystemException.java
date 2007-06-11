@@ -1,5 +1,7 @@
 package de.randi2.utility;
 
+import javax.servlet.ServletException;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -12,7 +14,7 @@ import org.apache.log4j.Logger;
  * @version $Id: SystemException.java 2418 2007-05-04 14:37:12Z jthoenes $
  * 
  */
-public class SystemException extends Exception {
+public class SystemException extends ServletException {
     
 
 	/**

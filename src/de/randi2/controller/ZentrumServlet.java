@@ -9,14 +9,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jdt.internal.compiler.ast.ThrowStatement;
 
+import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Jsp;
+import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.Parameter;
+import de.randi2.utility.SystemException;
 
 /**
  * Diese Klasse repraesentiert das ZENTRUMSERVLET, welches Aktionen an die
@@ -224,12 +228,26 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 			aZentrum.setHausnr(request.getParameter(Parameter.zentrum.HAUSNUMMER.name()));
 			aZentrum.setPlz(request.getParameter(Parameter.zentrum.PLZ.name()));
 			aZentrum.setOrt(request.getParameter(Parameter.zentrum.ORT.name()));
+			aZentrum.setIstAktiviert(true);
+			String passwort=KryptoUtil.getInstance().generatePasswort(KryptoUtil.ZENTRUM_PASSWORT_LAENGE);
+			aZentrum.setPasswortKlartext(passwort);
+
+			
 			//Person setzen
 			aPerson.setVorname(request.getParameter(Parameter.person.VORNAME.name()));
 			aPerson.setNachname(request.getParameter(Parameter.person.NACHNAME.name()));
 			aPerson.setTelefonnummer(request.getParameter(Parameter.person.TELEFONNUMMER.name()));
 			aPerson.setFax(request.getParameter(Parameter.person.FAX.name()));
 			aPerson.setEmail(request.getParameter(Parameter.person.EMAIL.name()));
+			//Person speichern
+			aPerson=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aPerson);
+			
+			//Zentrum speichern
+			aZentrum.setAnsprechpartnerId(aPerson.getId());
+			aZentrum=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aZentrum);
+			request.setAttribute(DispatcherServlet.NACHRICHT_OK, "Das Zentrum: "+aZentrum.getInstitution()+"wurde erfolgreich angelegt.\t"+"Passwort:\t"+passwort);
+			request.getRequestDispatcher(Jsp.ZENTRUM_ANLEGEN).forward(request, response);
+			
 		}
 		catch(BenutzerException e){
 			//Zentrum zurückschicken
