@@ -66,12 +66,12 @@
 		<table align="left">
 		<tr>
 
-		<td><a href="zentrum_anzeigen.jsp"><input type="button" name="zurueck" value="zur�ck" tabindex="13"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td><a href="zentrum_anzeigen.jsp"><input type="button" name="zurueck" value="zur&uuml;ck" tabindex="13"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td><input type="button" name="aendern" value="&Auml;nderungen speichern" tabindex="14">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td><input type="button" name="aktivieren" value="Zentrum aktivieren" tabindex="15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td><input type="button" name="deaktivieren" value="Zentrum deaktivieren" tabindex="16">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		</tr>
-		</table><br><br>
+		</table><br><br>   
 		
 	
 <div id="show_none"><%@include file="include/inc_footer.jsp"%></div>
