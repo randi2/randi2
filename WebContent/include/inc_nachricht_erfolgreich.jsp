@@ -6,7 +6,7 @@
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
 <%if(request.getAttribute(DispatcherServlet.NACHRICHT_OK)!=null){%>
 <center>
-<div id="nachricht" class="erfolgreich"><%= request.getAttribute(DispatcherServlet.NACHRICHT_OK)%>
+<div class="nachricht" id="erfolgreich_nachricht"><%= request.getAttribute(DispatcherServlet.NACHRICHT_OK)%>
 </div>
 </center>
 <%} %>

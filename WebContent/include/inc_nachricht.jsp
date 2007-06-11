@@ -6,7 +6,7 @@
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
 <%if(request.getAttribute(DispatcherServlet.FEHLERNACHRICHT)!=null){%>
 <center>
-<div id="nachricht" class="warnung"><%= request.getAttribute(DispatcherServlet.FEHLERNACHRICHT)%>
+<div class="nachricht" id="fehler_nachricht"><%= request.getAttribute(DispatcherServlet.FEHLERNACHRICHT)%>
 </div>
 </center>
 <%} %>
