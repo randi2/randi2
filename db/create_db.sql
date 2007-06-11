@@ -124,7 +124,7 @@ CREATE TABLE Aktivierung (
   aktivierungsID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   Benutzerkonto_benutzerkontenID INT UNSIGNED NOT NULL,
   aktivierungslink CHAR(20) NOT NULL,
-  versanddatum DATE NOT NULL,
+  versanddatum DATETIME NOT NULL,
   PRIMARY KEY(aktivierungsID),
   INDEX Aktivierung_FKIndex1(Benutzerkonto_benutzerkontenID),
   FOREIGN KEY(Benutzerkonto_benutzerkontenID)

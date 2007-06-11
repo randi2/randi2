@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
@@ -1641,13 +1642,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 				if(benutzerKonto.getErsterLogin()== null) {
 					pstmt.setNull(i++, Types.DATE);
 				} else {
-					pstmt.setDate(i++, new Date(benutzerKonto.getErsterLogin()
+					pstmt.setTimestamp(i++, new Timestamp(benutzerKonto.getErsterLogin()
 							.getTimeInMillis()));
 				}
 				if(benutzerKonto.getLetzterLogin()== null) {
 					pstmt.setNull(i++, Types.DATE);
 				} else {
-					pstmt.setDate(i++, new Date(benutzerKonto.getLetzterLogin()
+					pstmt.setTimestamp(i++, new Timestamp(benutzerKonto.getLetzterLogin()
 							.getTimeInMillis()));
 				}
 				pstmt.setBoolean(i++, benutzerKonto.isGesperrt());
@@ -1785,7 +1786,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, aktivierung.getBenutzerkontoId());
 				pstmt.setString(i++, aktivierung.getAktivierungsLink());
-				pstmt.setDate(i++, new Date(aktivierung.getVersanddatum()
+				pstmt.setTimestamp(i++, new Timestamp(aktivierung.getVersanddatum()
 						.getTimeInMillis()));
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
