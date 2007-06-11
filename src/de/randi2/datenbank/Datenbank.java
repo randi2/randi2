@@ -1916,7 +1916,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						sql+="("+tmp.getId()+"),";
 					}
 					sql+="-1)"; 
-					sql2 = sql2.substring(0, sql2.length()-1); //letztes Komma entfernen
+					sql2 = sql2.substring(0, sql2.length()-1) + " ON DUPLICATE KEY UPDATE"; //letztes Komma entfernen
 					Statement stmt = con.createStatement();
 					stmt.executeUpdate(sql);
 					stmt.executeUpdate(sql2);
@@ -1959,6 +1959,25 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(j++, studie.getStatus().toString());
 				pstmt.executeUpdate();
 				pstmt.close();
+				//Speichern der Abhaengigen Zentren
+				sql ="DELETE FROM "+Tabellen.STUDIE_ZENTRUM.toString()+" WHERE "+FelderStudieHasZentrum.STUDIENID+toString()+
+				" = ? AND "+FelderStudieHasZentrum.ZENTRUMID+toString()+" NOT IN (";
+				String sql2 = "INSERT INTO "+Tabellen.STUDIE_ZENTRUM.toString()+" VALUES ";
+				if(studie.getZentren()!=null) {
+					Iterator<ZentrumBean> it = studie.getZentren().iterator();
+					ZentrumBean tmp;
+					while(it.hasNext()) {
+						tmp = it.next();
+						sql+= tmp.getId()+",";
+						sql+="("+tmp.getId()+"),";
+					}
+					sql+="-1)"; 
+					sql2 = sql2.substring(0, sql2.length()-1) + " ON DUPLICATE KEY UPDATE"; //letztes Komma entfernen
+					Statement stmt = con.createStatement();
+					stmt.executeUpdate(sql);
+					stmt.executeUpdate(sql2);
+					stmt.close();
+				}	
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
