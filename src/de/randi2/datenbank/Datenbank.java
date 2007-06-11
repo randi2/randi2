@@ -11,6 +11,7 @@ import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Vector;
 
@@ -1265,13 +1266,26 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	private PersonBean schreibenPerson(PersonBean person)
 			throws DatenbankExceptions {
-		Connection con = null;
-		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
+		Connection con = null;		
 		try {
 			con = getConnection();			
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 		}
+		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
+		//Fuellen der Hashmap mit Daten fuer das Loggen
+		geaenderteDaten.put(FelderPerson.NACHNAME.toString(), person.getNachname());
+		geaenderteDaten.put(FelderPerson.VORNAME.toString(), person.getVorname());
+		geaenderteDaten.put(FelderPerson.GESCHLECHT.toString(), String.valueOf(person.getGeschlecht()));
+		geaenderteDaten.put(FelderPerson.TITEL.toString(), person.getTitel().toString());
+		geaenderteDaten.put(FelderPerson.EMAIL.toString(), person.getEmail());
+		geaenderteDaten.put(FelderPerson.FAX.toString(), person.getFax());
+		geaenderteDaten.put(FelderPerson.TELEFONNUMMER.toString(), person.getTelefonnummer());
+		geaenderteDaten.put(FelderPerson.HANDYNUMMER.toString(), person.getHandynummer());
+		if (person.getStellvertreterId() != NullKonstanten.DUMMY_ID) {
+			geaenderteDaten.put(FelderPerson.STELLVERTRETER.toString(), String.valueOf(person.getStellvertreterId()));
+		}
+		//JDBC
 		String sql;
 		PreparedStatement pstmt;
 		ResultSet rs;
@@ -1286,19 +1300,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderPerson.HANDYNUMMER + ","
 					+ FelderPerson.STELLVERTRETER + ")"
 					+ "VALUES (NULL,?,?,?,?,?,?,?,?,?)";
-			try {
-				//Fuellen der Hashmap mit Daten fuer das Loggen
-				geaenderteDaten.put(FelderPerson.NACHNAME.toString(), person.getNachname());
-				geaenderteDaten.put(FelderPerson.VORNAME.toString(), person.getVorname());
-				geaenderteDaten.put(FelderPerson.GESCHLECHT.toString(), String.valueOf(person.getGeschlecht()));
-				geaenderteDaten.put(FelderPerson.TITEL.toString(), person.getTitel().toString());
-				geaenderteDaten.put(FelderPerson.EMAIL.toString(), person.getEmail());
-				geaenderteDaten.put(FelderPerson.FAX.toString(), person.getFax());
-				geaenderteDaten.put(FelderPerson.TELEFONNUMMER.toString(), person.getTelefonnummer());
-				geaenderteDaten.put(FelderPerson.HANDYNUMMER.toString(), person.getHandynummer());
-				if (person.getStellvertreterId() == NullKonstanten.DUMMY_ID) {
-					geaenderteDaten.put(FelderPerson.STELLVERTRETER.toString(), String.valueOf(person.getStellvertreterId()));
-				}				
+			try {						
 				//Erstellung des Statements
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
@@ -1336,7 +1338,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			person.setId(id);
 			//loggen eines neuen Datensatzes
-			loggenDaten(person, geaenderteDaten, 1);
+			loggenDaten(person, geaenderteDaten, LogKonstanten.NEUER_DATENSATZ);
 			return person;
 		}
 		// vorhandene Person wird aktualisiert
@@ -1356,42 +1358,42 @@ public class Datenbank implements DatenbankSchnittstelle {
 			" WHERE "+ FelderPerson.ID + "=?";
 			try {
 				//Fuellen der Hashmap mit Daten fuer das Loggen
-				if(pruefenStringAufAenderung(person.getNachname(), person_old.getNachname())) {
-					geaenderteDaten.put(FelderPerson.NACHNAME.toString(), person.getNachname());
-					geaendert=true;
-				}
-				if(pruefenStringAufAenderung(person.getVorname(), person_old.getVorname())) {
-					geaenderteDaten.put(FelderPerson.VORNAME.toString(), person.getVorname());
-					geaendert=true;
-				}
-				if(person.getGeschlecht()!=person_old.getGeschlecht()) {
-					geaenderteDaten.put(FelderPerson.GESCHLECHT.toString(), String.valueOf(person.getGeschlecht()));
-					geaendert=true;
-				}
-				if(pruefenStringAufAenderung(person.getTitel().toString(), person_old.getTitel().toString())) {
-					geaenderteDaten.put(FelderPerson.TITEL.toString(), person.getTitel().toString());
-					geaendert=true;
-				}
-				if(pruefenStringAufAenderung(person.getEmail(), person_old.getEmail())) {
-					geaenderteDaten.put(FelderPerson.EMAIL.toString(), person.getEmail());
-					geaendert=true;
-				}
-				if(pruefenStringAufAenderung(person.getFax(), person_old.getFax())) {
-					geaenderteDaten.put(FelderPerson.FAX.toString(), person.getFax());
-					geaendert=true;
-				}
-				if(pruefenStringAufAenderung(person.getTelefonnummer(), person_old.getTelefonnummer())) {
-					geaenderteDaten.put(FelderPerson.TELEFONNUMMER.toString(), person.getTelefonnummer());
-					geaendert=true;
-				}
-				if(pruefenStringAufAenderung(person.getHandynummer(), person_old.getHandynummer())) {
-					geaenderteDaten.put(FelderPerson.HANDYNUMMER.toString(), person.getHandynummer());
-					geaendert=true;
-				}
-				if (person.getStellvertreterId() != person_old.getStellvertreterId()) {
-					geaenderteDaten.put(FelderPerson.STELLVERTRETER.toString(), String.valueOf(person.getStellvertreterId()));
-					geaendert=true;
-				}					
+//				if(pruefenStringAufAenderung(person.getNachname(), person_old.getNachname())) {
+//					geaenderteDaten.put(FelderPerson.NACHNAME.toString(), person.getNachname());
+//					geaendert=true;
+//				}
+//				if(pruefenStringAufAenderung(person.getVorname(), person_old.getVorname())) {
+//					geaenderteDaten.put(FelderPerson.VORNAME.toString(), person.getVorname());
+//					geaendert=true;
+//				}
+//				if(person.getGeschlecht()!=person_old.getGeschlecht()) {
+//					geaenderteDaten.put(FelderPerson.GESCHLECHT.toString(), String.valueOf(person.getGeschlecht()));
+//					geaendert=true;
+//				}
+//				if(pruefenStringAufAenderung(person.getTitel().toString(), person_old.getTitel().toString())) {
+//					geaenderteDaten.put(FelderPerson.TITEL.toString(), person.getTitel().toString());
+//					geaendert=true;
+//				}
+//				if(pruefenStringAufAenderung(person.getEmail(), person_old.getEmail())) {
+//					geaenderteDaten.put(FelderPerson.EMAIL.toString(), person.getEmail());
+//					geaendert=true;
+//				}
+//				if(pruefenStringAufAenderung(person.getFax(), person_old.getFax())) {
+//					geaenderteDaten.put(FelderPerson.FAX.toString(), person.getFax());
+//					geaendert=true;
+//				}
+//				if(pruefenStringAufAenderung(person.getTelefonnummer(), person_old.getTelefonnummer())) {
+//					geaenderteDaten.put(FelderPerson.TELEFONNUMMER.toString(), person.getTelefonnummer());
+//					geaendert=true;
+//				}
+//				if(pruefenStringAufAenderung(person.getHandynummer(), person_old.getHandynummer())) {
+//					geaenderteDaten.put(FelderPerson.HANDYNUMMER.toString(), person.getHandynummer());
+//					geaendert=true;
+//				}
+//				if (person.getStellvertreterId() != person_old.getStellvertreterId()) {
+//					geaenderteDaten.put(FelderPerson.STELLVERTRETER.toString(), String.valueOf(person.getStellvertreterId()));
+//					geaendert=true;
+//				}					
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, person.getNachname());
 				pstmt.setString(2, person.getVorname());
@@ -1401,11 +1403,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(6, person.getFax());
 				pstmt.setString(7, person.getTelefonnummer());
 				pstmt.setString(8, person.getHandynummer());
-				pstmt.setLong(9, person.getStellvertreterId());
+				if (person.getStellvertreterId() == NullKonstanten.DUMMY_ID) {
+					pstmt.setNull(9, Types.NULL);
+				} else {
+					pstmt.setLong(9, person.getStellvertreterId());
+				}
 				pstmt.setLong(10, person.getId());
 				pstmt.executeUpdate();
 				pstmt.close();
 			} catch (SQLException e) {
+				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.SCHREIBEN_ERR);
 			} finally {
@@ -1418,7 +1425,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			//loggen eines geaenderten Datensatzes
 			if(geaendert==true) {
-				loggenDaten(person, geaenderteDaten, 2);
+				loggenDaten(person, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);
 			}			
 		} 
 		return person;
@@ -1447,7 +1454,17 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql;
 		PreparedStatement pstmt;
 		ResultSet rs;
-		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
+		//Loggen
+		HashMap<String, String> geaenderteDaten = new HashMap<String, String>();
+		geaenderteDaten.put(FelderZentrum.INSTITUTION.toString(),zentrum.getInstitution() );
+		geaenderteDaten.put(FelderZentrum.ABTEILUNGSNAME.toString(),zentrum.getAbteilung() );
+		geaenderteDaten.put(FelderZentrum.ANSPRECHPARTNERID.toString(),String.valueOf(zentrum.getAnsprechpartnerId()));
+		geaenderteDaten.put(FelderZentrum.STRASSE.toString(), zentrum.getStrasse());
+		geaenderteDaten.put(FelderZentrum.HAUSNUMMER.toString(), String.valueOf(zentrum.getHausnr()));
+		geaenderteDaten.put(FelderZentrum.PLZ.toString(),String.valueOf(zentrum.getPlz()) );
+		geaenderteDaten.put(FelderZentrum.ORT.toString(), zentrum.getOrt());
+		geaenderteDaten.put(FelderZentrum.PASSWORT.toString(),zentrum.getPasswort() );
+		geaenderteDaten.put(FelderZentrum.AKTIVIERT.toString(),String.valueOf(zentrum.getIstAktiviert()) );
 		// neues Zentrum da Id der Nullkonstante entspricht
 		if (zentrum.getId() == NullKonstanten.NULL_LONG) {
 			long id = Long.MIN_VALUE;
@@ -1459,17 +1476,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ "," + FelderZentrum.PLZ + "," + FelderZentrum.ORT + ","
 					+ FelderZentrum.PASSWORT + "," + FelderZentrum.AKTIVIERT
 					+ ")" + "VALUES (NULL,?,?,?,?,?,?,?,?,?);";
-			try {
-				geaenderteDaten.put(FelderZentrum.INSTITUTION.toString(),zentrum.getInstitution() );
-				geaenderteDaten.put(FelderZentrum.ABTEILUNGSNAME.toString(),zentrum.getAbteilung() );
-				geaenderteDaten.put(FelderZentrum.ANSPRECHPARTNERID.toString(),String.valueOf(zentrum.getAnsprechpartnerId()));
-				geaenderteDaten.put(FelderZentrum.STRASSE.toString(), zentrum.getStrasse());
-				geaenderteDaten.put(FelderZentrum.HAUSNUMMER.toString(), String.valueOf(zentrum.getHausnr()));
-				geaenderteDaten.put(FelderZentrum.PLZ.toString(),String.valueOf(zentrum.getPlz()) );
-				geaenderteDaten.put(FelderZentrum.ORT.toString(), zentrum.getOrt());
-				geaenderteDaten.put(FelderZentrum.PASSWORT.toString(),zentrum.getPasswort() );
-				geaenderteDaten.put(FelderZentrum.AKTIVIERT.toString(),String.valueOf(zentrum.getIstAktiviert()) );
-				
+			try {								
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
 				pstmt.setString(1, zentrum.getInstitution());
@@ -1511,33 +1518,33 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderZentrum.AKTIVIERT + "=?" + " WHERE "
 					+ FelderZentrum.ID + "=?";
 			try {
-				if(!zentrum.getInstitution().equals(zentrum_old.getInstitution())) {
-					geaenderteDaten.put(FelderZentrum.INSTITUTION.toString(), zentrum.getInstitution());
-				}
-				if(!zentrum.getAbteilung().equals(zentrum_old.getAbteilung())) {
-					geaenderteDaten.put(FelderZentrum.ABTEILUNGSNAME.toString(), zentrum.getAbteilung());
-				}
-				if(zentrum.getAnsprechpartnerId()!=zentrum_old.getAnsprechpartnerId()) {
-					geaenderteDaten.put(FelderZentrum.ANSPRECHPARTNERID.toString(), String.valueOf(zentrum.getAnsprechpartnerId()));
-				}
-				if(!zentrum.getStrasse().equals(zentrum_old.getStrasse())) {
-					geaenderteDaten.put(FelderZentrum.STRASSE.toString(), zentrum.getStrasse());
-				}
-				if(zentrum.getHausnr()!=zentrum_old.getHausnr()) {
-					geaenderteDaten.put(FelderZentrum.HAUSNUMMER.toString(), String.valueOf(zentrum.getHausnr()));
-				}
-				if(zentrum.getPlz()!=zentrum_old.getPlz()) {
-					geaenderteDaten.put(FelderZentrum.PLZ.toString(), String.valueOf(zentrum.getPlz()));
-				}
-				if(!zentrum.getOrt().equals(zentrum_old.getOrt())) {
-					geaenderteDaten.put(FelderZentrum.ORT.toString(), zentrum.getOrt());
-				}
-				if(!zentrum.getPasswort().equals(zentrum_old.getPasswort())) {
-					geaenderteDaten.put(FelderZentrum.PASSWORT.toString(), zentrum.getPasswort());
-				}
-				if(zentrum.getIstAktiviert()!=zentrum_old.getIstAktiviert()) {
-					geaenderteDaten.put(FelderZentrum.AKTIVIERT.toString(), String.valueOf(zentrum.getIstAktiviert()));
-				}
+//				if(!zentrum.getInstitution().equals(zentrum_old.getInstitution())) {
+//					geaenderteDaten.put(FelderZentrum.INSTITUTION.toString(), zentrum.getInstitution());
+//				}
+//				if(!zentrum.getAbteilung().equals(zentrum_old.getAbteilung())) {
+//					geaenderteDaten.put(FelderZentrum.ABTEILUNGSNAME.toString(), zentrum.getAbteilung());
+//				}
+//				if(zentrum.getAnsprechpartnerId()!=zentrum_old.getAnsprechpartnerId()) {
+//					geaenderteDaten.put(FelderZentrum.ANSPRECHPARTNERID.toString(), String.valueOf(zentrum.getAnsprechpartnerId()));
+//				}
+//				if(!zentrum.getStrasse().equals(zentrum_old.getStrasse())) {
+//					geaenderteDaten.put(FelderZentrum.STRASSE.toString(), zentrum.getStrasse());
+//				}
+//				if(zentrum.getHausnr()!=zentrum_old.getHausnr()) {
+//					geaenderteDaten.put(FelderZentrum.HAUSNUMMER.toString(), String.valueOf(zentrum.getHausnr()));
+//				}
+//				if(zentrum.getPlz()!=zentrum_old.getPlz()) {
+//					geaenderteDaten.put(FelderZentrum.PLZ.toString(), String.valueOf(zentrum.getPlz()));
+//				}
+//				if(!zentrum.getOrt().equals(zentrum_old.getOrt())) {
+//					geaenderteDaten.put(FelderZentrum.ORT.toString(), zentrum.getOrt());
+//				}
+//				if(!zentrum.getPasswort().equals(zentrum_old.getPasswort())) {
+//					geaenderteDaten.put(FelderZentrum.PASSWORT.toString(), zentrum.getPasswort());
+//				}
+//				if(zentrum.getIstAktiviert()!=zentrum_old.getIstAktiviert()) {
+//					geaenderteDaten.put(FelderZentrum.AKTIVIERT.toString(), String.valueOf(zentrum.getIstAktiviert()));
+//				}
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, zentrum.getInstitution());
 				pstmt.setString(2, zentrum.getAbteilung());
@@ -1582,14 +1589,27 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	private BenutzerkontoBean schreibenBenutzerKonto(
 			BenutzerkontoBean benutzerKonto) throws DatenbankExceptions {
-		//JDBC var
+		//JDBC
 		Connection con = null;
 		String sql = "";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		//Logging var
+		//Logging
 		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.GERMANY);	
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.GERMANY);
+		//HashMap fuellen
+		geaenderteDaten.put(FelderBenutzerkonto.LOGINNAME.toString(), benutzerKonto.getBenutzername());
+		geaenderteDaten.put(FelderBenutzerkonto.PASSWORT.toString(), benutzerKonto.getPasswort());
+		geaenderteDaten.put(FelderBenutzerkonto.ZENTRUMID.toString(), String.valueOf(benutzerKonto.getZentrumId()));
+		geaenderteDaten.put(FelderBenutzerkonto.ROLLEACCOUNT.toString(), benutzerKonto.getRolle().getName());
+		
+		if(benutzerKonto.getErsterLogin()!= null) {
+			geaenderteDaten.put(FelderBenutzerkonto.ERSTERLOGIN.toString(), sdf.format(benutzerKonto.getErsterLogin().getTime()));
+		}
+		if(benutzerKonto.getLetzterLogin()!= null) {
+			geaenderteDaten.put(FelderBenutzerkonto.LETZTERLOGIN.toString(), sdf.format(benutzerKonto.getLetzterLogin().getTime()));
+		}				
+		geaenderteDaten.put(FelderBenutzerkonto.GESPERRT.toString(), String.valueOf(benutzerKonto.isGesperrt()));
 		try {
 			con = this.getConnection();
 		} catch (SQLException e) {
@@ -1613,18 +1633,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderBenutzerkonto.GESPERRT + ")"
 					+ " VALUES (NULL,?,?,?,?,?,?,?,?)";
 			try {
-				//HashMap fuellen
-				geaenderteDaten.put(FelderBenutzerkonto.LOGINNAME.toString(), benutzerKonto.getBenutzername());
-				geaenderteDaten.put(FelderBenutzerkonto.PASSWORT.toString(), benutzerKonto.getPasswort());
-				geaenderteDaten.put(FelderBenutzerkonto.ZENTRUMID.toString(), String.valueOf(benutzerKonto.getZentrumId()));
-				geaenderteDaten.put(FelderBenutzerkonto.ROLLEACCOUNT.toString(), benutzerKonto.getRolle().getName());
-				if(benutzerKonto.getErsterLogin()!= null) {
-					geaenderteDaten.put(FelderBenutzerkonto.ERSTERLOGIN.toString(), sdf.format(benutzerKonto.getErsterLogin().getTime()));
-				}
-				if(benutzerKonto.getLetzterLogin()!= null) {
-					geaenderteDaten.put(FelderBenutzerkonto.LETZTERLOGIN.toString(), sdf.format(benutzerKonto.getLetzterLogin().getTime()));
-				}				
-				geaenderteDaten.put(FelderBenutzerkonto.GESPERRT.toString(), String.valueOf(benutzerKonto.isGesperrt()));
+				
 				//JDBC Statement erzeugen
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
@@ -1676,26 +1685,26 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderBenutzerkonto.ID + "= ? ";
 			try {
 				//HashMap fuellen
-				BenutzerkontoBean bk_old = suchenObjektId(benutzerKonto.getId(),new BenutzerkontoBean());
-				if(!benutzerKonto.getBenutzername().equals(bk_old.getBenutzername())) {
-					geaenderteDaten.put(FelderBenutzerkonto.LOGINNAME.toString(), benutzerKonto.getBenutzername());
-				}				
-				if(!benutzerKonto.getPasswort().equals(bk_old.getPasswort())) {
-					geaenderteDaten.put(FelderBenutzerkonto.PASSWORT.toString(), benutzerKonto.getPasswort());
-				}
-				if(benutzerKonto.getZentrumId()!=bk_old.getZentrumId()) {
-					geaenderteDaten.put(FelderBenutzerkonto.ZENTRUMID.toString(), String.valueOf(benutzerKonto.getZentrumId()));
-				}
-				if(!benutzerKonto.getRolle().getName().equals(bk_old.getRolle().getName())) {
-					geaenderteDaten.put(FelderBenutzerkonto.ROLLEACCOUNT.toString(), benutzerKonto.getRolle().getName());
-				}
-				if(!benutzerKonto.getErsterLogin().equals(bk_old.getErsterLogin())) {
-					geaenderteDaten.put(FelderBenutzerkonto.ERSTERLOGIN.toString(), sdf.format(benutzerKonto.getErsterLogin().getTime()));
-				}
-				if(!benutzerKonto.getLetzterLogin().equals(bk_old.getLetzterLogin())) {
-					geaenderteDaten.put(FelderBenutzerkonto.LETZTERLOGIN.toString(), sdf.format(benutzerKonto.getLetzterLogin().getTime()));
-				}				
-				geaenderteDaten.put(FelderBenutzerkonto.GESPERRT.toString(), String.valueOf(benutzerKonto.isGesperrt()));
+//				BenutzerkontoBean bk_old = suchenObjektId(benutzerKonto.getId(),new BenutzerkontoBean());
+//				if(!benutzerKonto.getBenutzername().equals(bk_old.getBenutzername())) {
+//					geaenderteDaten.put(FelderBenutzerkonto.LOGINNAME.toString(), benutzerKonto.getBenutzername());
+//				}				
+//				if(!benutzerKonto.getPasswort().equals(bk_old.getPasswort())) {
+//					geaenderteDaten.put(FelderBenutzerkonto.PASSWORT.toString(), benutzerKonto.getPasswort());
+//				}
+//				if(benutzerKonto.getZentrumId()!=bk_old.getZentrumId()) {
+//					geaenderteDaten.put(FelderBenutzerkonto.ZENTRUMID.toString(), String.valueOf(benutzerKonto.getZentrumId()));
+//				}
+//				if(!benutzerKonto.getRolle().getName().equals(bk_old.getRolle().getName())) {
+//					geaenderteDaten.put(FelderBenutzerkonto.ROLLEACCOUNT.toString(), benutzerKonto.getRolle().getName());
+//				}
+//				if(!benutzerKonto.getErsterLogin().equals(bk_old.getErsterLogin())) {
+//					geaenderteDaten.put(FelderBenutzerkonto.ERSTERLOGIN.toString(), sdf.format(benutzerKonto.getErsterLogin().getTime()));
+//				}
+//				if(!benutzerKonto.getLetzterLogin().equals(bk_old.getLetzterLogin())) {
+//					geaenderteDaten.put(FelderBenutzerkonto.LETZTERLOGIN.toString(), sdf.format(benutzerKonto.getLetzterLogin().getTime()));
+//				}				
+//				geaenderteDaten.put(FelderBenutzerkonto.GESPERRT.toString(), String.valueOf(benutzerKonto.isGesperrt()));
 				//JDBC Statement erzeugen
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, benutzerKonto.getBenutzerId());
@@ -1756,6 +1765,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 		ResultSet rs = null;
 		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);	
+		//Hashmap fuellen
+		geaenderteDaten.put(FelderAktivierung.BENUTZER.toString(), String.valueOf(aktivierung.getBenutzerkontoId()));
+		geaenderteDaten.put(FelderAktivierung.LINK.toString(), aktivierung.getAktivierungsLink());
+		geaenderteDaten.put(FelderAktivierung.VERSANDDATUM.toString(), sdf.format(aktivierung.getVersanddatum().getTime()));
 		try {
 			con = this.getConnection();
 		} catch (SQLException e) {
@@ -1771,11 +1784,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ ", " + FelderAktivierung.LINK + ", "
 					+ FelderAktivierung.VERSANDDATUM + ") "
 					+ " VALUES (NULL,?,?,?)";
-			try {
-				//Hashmap fuellen
-				geaenderteDaten.put(FelderAktivierung.BENUTZER.toString(), String.valueOf(aktivierung.getBenutzerkontoId()));
-				geaenderteDaten.put(FelderAktivierung.LINK.toString(), aktivierung.getAktivierungsLink());
-				geaenderteDaten.put(FelderAktivierung.VERSANDDATUM.toString(), sdf.format(aktivierung.getVersanddatum().getTime()));
+			try {				
 				//Statement erzeugen
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
@@ -1806,16 +1815,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderAktivierung.Id + "=?";
 			try {
 				//Hashmap fuellen
-				AktivierungBean ak_old = suchenObjektId(aktivierung.getId(), new AktivierungBean());
-				if(aktivierung.getBenutzerkontoId()!=ak_old.getBenutzerkontoId()) {
-					geaenderteDaten.put(FelderAktivierung.BENUTZER.toString(), String.valueOf(aktivierung.getBenutzerkontoId()));
-				}
-				if(!aktivierung.getAktivierungsLink().equals(ak_old.getAktivierungsLink())) {
-					geaenderteDaten.put(FelderAktivierung.LINK.toString(), aktivierung.getAktivierungsLink());
-				}
-				if(!aktivierung.getVersanddatum().equals(ak_old.getVersanddatum())) {
-					geaenderteDaten.put(FelderAktivierung.VERSANDDATUM.toString(), sdf.format(aktivierung.getVersanddatum().getTime()));
-				}				
+//				AktivierungBean ak_old = suchenObjektId(aktivierung.getId(), new AktivierungBean());
+//				if(aktivierung.getBenutzerkontoId()!=ak_old.getBenutzerkontoId()) {
+//					geaenderteDaten.put(FelderAktivierung.BENUTZER.toString(), String.valueOf(aktivierung.getBenutzerkontoId()));
+//				}
+//				if(!aktivierung.getAktivierungsLink().equals(ak_old.getAktivierungsLink())) {
+//					geaenderteDaten.put(FelderAktivierung.LINK.toString(), aktivierung.getAktivierungsLink());
+//				}
+//				if(!aktivierung.getVersanddatum().equals(ak_old.getVersanddatum())) {
+//					geaenderteDaten.put(FelderAktivierung.VERSANDDATUM.toString(), sdf.format(aktivierung.getVersanddatum().getTime()));
+//				}				
 				//statement erzeugen
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, aktivierung.getBenutzerkontoId());
@@ -1899,8 +1908,27 @@ public class Datenbank implements DatenbankSchnittstelle {
 				rs = pstmt.getGeneratedKeys();
 				rs.next();
 				id = rs.getLong(1);
+				//Speichern der Abhaengigen Zentren
+				sql ="DELETE FROM "+Tabellen.STUDIE_ZENTRUM.toString()+" WHERE "+FelderStudieHasZentrum.STUDIENID+toString()+
+				" = ? AND "+FelderStudieHasZentrum.ZENTRUMID+toString()+" NOT IN (";
+				String sql2 = "INSERT INTO "+Tabellen.STUDIE_ZENTRUM.toString()+" VALUES ";
+				if(studie.getZentren()!=null) {
+					Iterator<ZentrumBean> it = studie.getZentren().iterator();
+					ZentrumBean tmp;
+					while(it.hasNext()) {
+						tmp = it.next();
+						sql+= tmp.getId()+",";
+						sql+="("+tmp.getId()+"),";
+					}
+					sql+="-1)"; 
+					sql2 = sql2.substring(0, sql2.length()-1); //letztes Komma entfernen
+					Statement stmt = con.createStatement();
+					stmt.executeUpdate(sql);
+					stmt.executeUpdate(sql2);
+					stmt.close();
+				}				
 				rs.close();
-				pstmt.close();
+				pstmt.close();				
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -2519,7 +2547,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt = con.prepareStatement(sql);
 			int index = 1;
 			if (bk.getBenutzername() != null) {
-				pstmt.setString(index++, bk.getBenutzername() + "%");
+				pstmt.setString(index++, bk.getBenutzername()+"%");
 			}
 			if (bk.getErsterLogin() != null) {
 				pstmt.setDate(index++, new Date(bk.getErsterLogin()
@@ -4086,6 +4114,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @return
 	 * 			true falls geaendert
 	 */
+	@Deprecated
 	private boolean pruefenStringAufAenderung(String arg0, String arg1) {
 		if(arg0!=null && arg1==null) {
 			return true;
