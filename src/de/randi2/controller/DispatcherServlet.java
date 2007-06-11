@@ -502,17 +502,16 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	 * @return <code>true</code>, wenn der Benutzer asngemeldet ist,
 	 *         anderenfalls <code>false</code>.
 	 */
-	private boolean isBenutzerAngemeldet(HttpServletRequest request) {
-		// TODO Auslagerung nach BenutzerServlet --Btheel
-		Logger.getLogger(this.getClass()).debug(
+	protected static boolean isBenutzerAngemeldet(HttpServletRequest request) {
+		Logger.getLogger(DispatcherServlet.class).debug(
 				"DispatcherServlet.isBenutzerAngemeldet()");
 		boolean isSessionGueltig = request.isRequestedSessionIdValid();
-		Logger.getLogger(this.getClass()).debug(
+		Logger.getLogger(DispatcherServlet.class).debug(
 				"Pruefe: Session noch gueltg? " + isSessionGueltig);
 
 		boolean isKontoangebunden = ((request.getSession()
 				.getAttribute("aBenutzer")) != null);
-		Logger.getLogger(this.getClass()).debug(
+		Logger.getLogger(DispatcherServlet.class).debug(
 				"Pruefe: Benutzerkonto an Session gebunden? "
 						+ isKontoangebunden);
 		return (isSessionGueltig & isKontoangebunden);//
