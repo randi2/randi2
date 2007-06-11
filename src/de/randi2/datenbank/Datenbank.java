@@ -1825,7 +1825,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, aktivierung.getBenutzerkontoId());
 				pstmt.setString(j++, aktivierung.getAktivierungsLink());
-				pstmt.setDate(j++, new Date(aktivierung.getVersanddatum()
+				pstmt.setTimestamp(j++, new Timestamp(aktivierung.getVersanddatum()
 						.getTimeInMillis()));
 				pstmt.setLong(j++, aktivierung.getId());
 				pstmt.executeUpdate();
@@ -2571,18 +2571,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 				GregorianCalendar ersterLogin = null;
 				GregorianCalendar letzterLogin = null;
 
-				Date ersterLoginDate = rs
-						.getDate(FelderBenutzerkonto.ERSTERLOGIN.toString());
-				Date letzterLoginDate = rs
-						.getDate(FelderBenutzerkonto.LETZTERLOGIN.toString());
+				Timestamp ersterLoginDate = rs
+						.getTimestamp(FelderBenutzerkonto.ERSTERLOGIN.toString());
+				Timestamp letzterLoginDate = rs
+						.getTimestamp(FelderBenutzerkonto.LETZTERLOGIN.toString());
 
 				// Datum nur setzen, wenn Feld in Datenbank != null, dhaehn
-				if (ersterLoginDate != null && letzterLoginDate != null) {
-					ersterLogin = new GregorianCalendar();
-					letzterLogin = new GregorianCalendar();
+				if (ersterLoginDate != null) {
+					ersterLogin = new GregorianCalendar();					
 					ersterLogin.setTime(ersterLoginDate);
+					
+				}
+				if(letzterLoginDate!=null) {
+					letzterLogin = new GregorianCalendar();
 					letzterLogin.setTime(letzterLoginDate);
-
 				}
 
 				tmpBenutzerkonto = new BenutzerkontoBean(rs
@@ -2847,14 +2849,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(counter++, aktivierung.getAktivierungsLink());
 			}
 			if (aktivierung.getVersanddatum() != null) {
-				pstmt.setDate(counter++, new Date(aktivierung.getVersanddatum()
+				pstmt.setTimestamp(counter++, new Timestamp(aktivierung.getVersanddatum()
 						.getTimeInMillis()));
 			}
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				GregorianCalendar versanddatum = new GregorianCalendar();
-				versanddatum.setTime(rs.getDate(FelderAktivierung.VERSANDDATUM
+				versanddatum.setTime(rs.getTimestamp(FelderAktivierung.VERSANDDATUM
 						.toString()));
 				tmpAktivierung = new AktivierungBean(rs
 						.getLong(FelderAktivierung.Id.toString()),
@@ -3453,7 +3455,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.setLong(1, id);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				cal.setTime(rs.getDate(FelderAktivierung.VERSANDDATUM
+				cal.setTime(rs.getTimestamp(FelderAktivierung.VERSANDDATUM
 						.toString()));
 				aktivierung = new AktivierungBean(rs
 						.getLong(FelderAktivierung.Id.toString()), cal, rs
