@@ -40,7 +40,18 @@ border-right: solid #ff0000 2px;
 	position: relative;
 	top: 10px;
 	width: 500px;
+top-margin: 20px;
+bottom-margin: 20px;
+
 }
+
+.erfolgreich {
+border-bottom: solid green 2px;
+border-top: solid green 2px;
+border-left: solid green 2px;
+border-right: solid green 2px;	
+}	
+	
 
 #breadcrumb {
   height: 25px;
