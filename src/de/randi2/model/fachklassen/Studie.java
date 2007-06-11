@@ -23,6 +23,8 @@ public class Studie {
 	 */
 	private StudieBean aStudieBean = null;
 
+	private Vector<ZentrumBean> zugewieseneZentren = null;
+
 	/**
 	 * Enumeration Status der Studie
 	 */
@@ -100,11 +102,12 @@ public class Studie {
 		super();
 		this.aStudieBean = studieBean;
 	}
-	
+
 	/**
 	 * Liefert das aktuelle StudieBean.
 	 * 
-	 * @return StudieBean aktuelle StudieBean, das alle Daten zur Studie enthaelt.
+	 * @return StudieBean aktuelle StudieBean, das alle Daten zur Studie
+	 *         enthaelt.
 	 */
 	public StudieBean getStudieBean() {
 		return this.aStudieBean;
@@ -124,6 +127,12 @@ public class Studie {
 
 	}
 
+	// 1. zugewiesenZentren Vektor muss != null, d.h. schon aus der DB geholt
+	// sein ansonsten aus DB holen
+	// 2. das aZentrum darf noch nicht in zugewieseneZentren drin sein
+	// 3. aZentrum in zugewiesenZentren schreiben
+	// 4. die aktuelle Studie speichern
+
 	/**
 	 * Diese Methode weist ein Zentrum einer Studie hinzu.
 	 * 
@@ -131,12 +140,22 @@ public class Studie {
 	 *            Das aktuelle ZentrumBean.
 	 * 
 	 */
-	// TODO Klaerung mit der DB-Gruppe implementierung erfolgt danach(Frank)
-	public void zuweisenZentrum(ZentrumBean aZentrum) {
-		Vector<Studie> zugewieseneZentren = null;
-		
-		
+	
+	public void zuweisenZentrum(ZentrumBean aZentrum) throws StudieException,
+			DatenbankExceptions {
 
+		zugewieseneZentren = getZugehoerigeZentren();
+
+		// ob die Id des Zentrums schon in Vector vorhanden
+		if (zugewieseneZentren.contains(aZentrum)) {
+			throw new StudieException(StudieException.ZENTRUM_EXISTIERT);
+		} else {
+			zugewieseneZentren.add(aZentrum);
+			aStudieBean.setZentren(zugewieseneZentren);
+			DatenbankFactory.getAktuelleDBInstanz()
+					.schreibenObjekt(aStudieBean);
+
+		}
 	}
 
 	/**
@@ -164,10 +183,8 @@ public class Studie {
 			throws DatenbankExceptions {
 		StudieBean studie = new StudieBean();
 		studie.setId(studieId);
-		Vector<ZentrumBean> gefundenZentren = null;
-		gefundenZentren = DatenbankFactory.getAktuelleDBInstanz()
-				.suchenMitgliederObjekte(studie, new ZentrumBean());
-		return gefundenZentren;
+		return DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(
+				studie, new ZentrumBean());
 	}
 
 	/**

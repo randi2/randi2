@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +34,6 @@ public class StudieTest {
 	 */
 	private StudieBean studieBean, studieVergleich;
 
-	private Studie studie2, studie;
 
 	/**
 	 * Initialisiert den Logger.
@@ -99,22 +99,6 @@ public class StudieTest {
 		aTestStudienarm.add(new StudienarmBean(12, 34, Studie.Status.AKTIV,
 				"Bezeichnung", "Beschreibung"));
 		studieBean.setStudienarme(aTestStudienarm);
-
-		// Ï
-//		 studieBean = new StudieBean();
-//		 studieBean.setFilter(true);
-//		 studieBean.setId(122);
-//		 studieBean
-//		 .setBeschreibung("Dies ist eine Beschreibung zu einer Studie.");
-//		 GregorianCalendar startDatum = new GregorianCalendar();
-//		 startDatum.add(Calendar.MONTH, +2);
-//		 GregorianCalendar endDatum = new GregorianCalendar();
-//		 endDatum.add(Calendar.MONTH, +7);
-//		 studieBean.setStudienZeitraum(startDatum, endDatum);
-//		 studieBean.setStudienprotokollPfad("pfad");
-//		 studieBean
-//		 .setRandomisationseigenschaften("Randomisationseigenschaften");
-//		 studieBean.setStatus(Studie.Status.AKTIV);
 	}
 
 	/**
@@ -123,7 +107,7 @@ public class StudieTest {
 	 */
 	@Test
 	public void testStudie() {
-		studie = new Studie(studieBean);
+		Studie studie = new Studie(studieBean);
 
 	}
 
@@ -175,8 +159,26 @@ public class StudieTest {
 	@Test
 	public void testGetZugehoerigeZentren() {
 
-		fail("Not yet implemented");
+		Vector<StudieBean> studieBean2 = new Vector<StudieBean>();
 
+		try {
+			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(studieBean);
+
+			studieBean2 = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
+					studieBean);
+			Vector<ZentrumBean> zentren = studieBean.getZentren();
+			Iterator<ZentrumBean> itDb = zentren.iterator();
+			Iterator<ZentrumBean> itaktuell = studieBean.getZentren()
+					.iterator();
+			assertEquals(zentren.size(), studieBean.getZentren().size());
+			while (itDb.hasNext()) {
+				while (itaktuell.hasNext()) {
+					assertEquals(itDb.next(), itaktuell.next());
+				}
+			}
+		} catch (DatenbankExceptions e) {
+			fail(e.getMessage());
+		}
 	}
 
 	/**
@@ -186,10 +188,75 @@ public class StudieTest {
 	 * {@link de.randi2.model.fachklassen.Studie#getZugehoerigeStrata()}.
 	 * 
 	 */
-	// TODO Klaerung Frank
 	@Test
 	public void testgetZugehoerigeStrata() {
-		fail("Not yet implemented");
+		
+		Vector<StudieBean> studieBeanStrata = new Vector<StudieBean>();
+
+		try {
+			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(studieBean);
+
+			studieBeanStrata = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
+					studieBean);
+			Vector<StrataBean> strata = studieBean.getStrata();
+			Iterator<StrataBean> itDb = strata.iterator();
+			Iterator<StrataBean> itaktuell = studieBean.getStrata()
+					.iterator();
+			assertEquals(strata.size(), studieBean.getStrata().size());
+			while (itDb.hasNext()) {
+				while (itaktuell.hasNext()) {
+					assertEquals(itDb.next(), itaktuell.next());
+				}
+			}
+		} catch (DatenbankExceptions e) {
+			fail(e.getMessage());
+		}
+
+	}
+
+	/**
+	 * Ueberpruefung, ob Zentrum gesetzt wurde, um es einer Studie zuzuweisen.
+	 * 
+	 * Test method for
+	 * {@link de.randi2.model.fachklassen.Studie#zuweisenZentrum()}.
+	 * 
+	 * 
+	 */ 
+	@Test
+	public void testZuweisenZentrum() {
+		try {
+			// Test 1. Neue Zentrum hinzufuegen--> Länge +1
+			Studie studie = new Studie(studieBean);
+			ZentrumBean aZentrumBean = new ZentrumBean();
+			int anzahlZentren = studie.getZugehoerigeZentren().size();
+
+			aZentrumBean.setId(34);
+			aZentrumBean.setInstitution("Institut");
+			aZentrumBean.setAbteilung("AbteilungBla");
+			aZentrumBean.setOrt("OrtZotzenbach");
+			aZentrumBean.setPlz("68342");
+			aZentrumBean.setStrasse("Ahornweg");
+			aZentrumBean.setHausnr("23a");
+			aZentrumBean.setAnsprechpartnerId(56);
+			aZentrumBean.setPasswort("Hasdbasdasdasasdas");
+			aZentrumBean.setIstAktiviert(true);
+			
+			studie.zuweisenZentrum(aZentrumBean);
+
+			assertEquals(studie.getZugehoerigeZentren().size(),
+					anzahlZentren + 1);
+
+			// Test 2. Zentrum, dass schon enthalten ist im Vector versuchen
+			// reinzuschreiben--> Laenge
+			anzahlZentren = studie.getZugehoerigeZentren().size();
+
+			studie.zuweisenZentrum(aZentrumBean);
+
+			assertEquals(studie.getZugehoerigeZentren().size(), anzahlZentren);
+
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
 	}
 
 	/**
@@ -233,23 +300,9 @@ public class StudieTest {
 	 * 
 	 * 
 	 */
-	// TODO Klaerung Frank
+	// TODO spaeter Klaerung Frank
 	@Test
 	public void testAnzeigenStatistik() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Ueberpruefung, ob Zentrum gesetzt wurde, um es einer Studie zuzuweisen.
-	 * 
-	 * Test method for
-	 * {@link de.randi2.model.fachklassen.Studie#zuweisenZentrum()}.
-	 * 
-	 * 
-	 */
-
-	@Test
-	public void testZuweisenZentrum() {
 		fail("Not yet implemented");
 	}
 

@@ -59,7 +59,7 @@ public class StudieBean extends Filter {
 
 
 	/**
-	 * Das Zentrum der Studie.
+	 * Die zu der Studie zugeordnete Zentren.
 	 */
 	private Vector<ZentrumBean> aZentren = null;
 
