@@ -49,7 +49,7 @@ CREATE TABLE Benutzerkonto (
   benutzerkontenID INT UNSIGNED NOT NULL AUTO_INCREMENT,
   Zentrum_zentrumsID INT UNSIGNED NOT NULL,
   Person_personenID INT UNSIGNED NOT NULL,
-  loginname VARCHAR(50) NOT NULL,
+  loginname VARCHAR(50) UNIQUE NOT NULL,
   passwort CHAR(64) NOT NULL,
   rolle VARCHAR(25) NOT NULL,
   erster_login DATETIME NULL,
