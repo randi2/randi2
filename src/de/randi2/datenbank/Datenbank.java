@@ -449,7 +449,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		/**
 		 * Die Art der Randomisation.
 		 */
-		RANDOMISATIONSART("randomisationsArt"), 
+		RANDOMISATIONSART("randomisationArt"), 
 		/**
 		 * Der Status der Studie.
 		 */
