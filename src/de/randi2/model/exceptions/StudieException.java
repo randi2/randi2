@@ -54,19 +54,28 @@ public class StudieException extends BenutzerException {
 	 * Diese Konstante wird uebergeben, wenn die Studie nicht gefunden wurde.
 	 */
 	public static final String STUDIE_NICHT_GEFUNDEN = "Die Studie wurde nicht gefunden.";
+
 	/**
 	 * Diese Konstante wird uebergeben, wenn Strata nicht gefunden wurde.
 	 */
-	public static final String STRATA_NICHT_GEFUNDEN="Strata nicht gefunden.";
+	public static final String STRATA_NICHT_GEFUNDEN = "Strata nicht gefunden.";
+
 	/**
-	 * Diese Konstante wird uebergeben, wenn ein Zentrum einer Studie bereits zugeordnet wurde.
+	 * Diese Konstante wird uebergeben, wenn ein Zentrum einer Studie bereits
+	 * zugeordnet wurde.
 	 */
 	public static final String ZENTRUM_EXISTIERT = "Zentrum wurde bereits der Studie zugeordnet.";
 
 	/**
+	 * Diese Konstante wird uebergeben, wenn die uebergebene BenutzerkontoId
+	 * gleich der Dummy_id Konstante oder negativ ist.
+	 */
+	public static final String BENUTZERKONTO_ID_FEHLERHAFT = "Es wurde eine negative ID &uuml;bergeben!";
+
+	/**
 	 * Ein Konstruktor dieser Klasse
 	 * 
-	  * @param fehlermeldung
+	 * @param fehlermeldung
 	 *            Fehlermeldung
 	 */
 	public StudieException(String fehlermeldung) {

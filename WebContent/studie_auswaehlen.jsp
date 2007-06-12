@@ -4,10 +4,17 @@
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ page import="de.randi2.model.fachklassen.beans.*"%>
+<%@ page import="de.randi2.model.fachklassen.beans.*"
+	import="java.util.Iterator" import="java.util.Vector"%>
+<%@page import="de.randi2.controller.StudieServlet"%>
 <%
 			Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
 			.getAttribute("aBenutzer")).getRolle().getRollenname();
+	
+	 Iterator listeStudien = ((Vector) request.getAttribute(StudieServlet.requestParameter.LISTE_DER_STUDIEN.name())).iterator();
+	
+	
+	
 %>
 <html>
 <head>
@@ -22,6 +29,18 @@
 	}
 //-->
 </script>
+<link rel="stylesheet" type="text/css"
+	href="js/ext/resources/css/ext-all.css" />
+<!-- GC -->
+<link rel="stylesheet" type="text/css"
+	href="../../resources/css/xtheme-gray.css" />
+<!-- LIBS -->
+<script type="text/javascript" src="js/ext/adapter/yui/yui-utilities.js"></script>
+<script type="text/javascript"
+	src="js/ext/adapter/yui/ext-yui-adapter.js"></script>
+<!-- ENDLIBS -->
+<script type="text/javascript" src="js/ext/ext-all.js"></script>
+<script type="text/javascript" src="js/studie_auswahlen.js"></script>
 </head>
 <body onload="hideFilter();">
 <%@include file="include/inc_header.jsp"%>
@@ -44,11 +63,9 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 <br>
 <%
 }
-%> 
-<img alt="Filter anzeigen" src="images/find.png" onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen" style="cursor:pointer"/>
-Filter
-
-<!--  TODO Table  BUG #2-->
+%> <img alt="Filter anzeigen" src="images/find.png"
+	onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen"
+	style="cursor:pointer" /> Filter <!--  TODO Table  BUG #2-->
 <div id="filterdiv" style="overflow:hidden; height: 100px;">
 <table width="600" border="0" cellspacing="5" cellpadding="2"
 	bgcolor="#e3e3e3">
@@ -79,51 +96,39 @@ Filter
 </div>
 <br>
 <br>
-<table width="600" cellspacing="0" cellpadding="0">
-	<tr class="tblrow1" align="center">
-		<th width="30%">Name</th>
-		<th width="60%">Leitendes Zentrum</th>
-		<th width="10%">Status</th>
+<table width="600" cellspacing="0" cellpadding="0" id="studien">
+	<thead align="left">
+		<tr style="background:#eeeeee;">
+			<th width="20%">Name</th>
+			<th width="50%">Leitendes Zentrum</th>
+			<th width="10%">Status</th>
+			<th width="20%">Auswahl</th>
+		</tr>
+	</thead>
+	<%
+		String reihe = "tblrow1";
+		int tabindex = 1;
+		while (listeStudien.hasNext()) {
+			StudieBean aStudie = (StudieBean) listeStudien.next();
+	%>
+
+	<tr class="<%=reihe %>">
+		<td><%=aStudie.getName()%></td>
+		<td><%=aStudie.getBenutzerkonto().getZentrum()
+								.getInstitution()%></td>
+		<td><%=aStudie.getStatus().toString()%></td>
+		<td><input type="submit" name="aStudieId<%=aStudie.getId() %>"
+			value="weiter"></input></td>
 	</tr>
-	<tr class="tblrow2">
-		<td align="center"><a href="studie_ansehen.jsp">Aspirin</a></td>
-		<td align="center">Von Hand eingetragen I</td>
-		<td align="center">aktiv</td>
-		<%
-		if (aRolle == Rolle.Rollen.ADMIN) {
-		%>
-		<td><a class="il_ContainerItemCommand"
-			href="studie_abbrechen.jsp">abbrechen</a></td>
-		<%
+	<%
+			tabindex++;
+			if (reihe.equals("tblrow1")) {
+				reihe = "tblrow2";
+			} else {
+				reihe = "tblrow1";
+			}
 		}
-		%>
-	</tr>
-	<tr class="tblrow1">
-		<td align="center">GemTex5</td>
-		<td align="center">Von Hand eingetragen II</td>
-		<td align="center">aktiv</td>
-		<%
-		if (aRolle == Rolle.Rollen.ADMIN) {
-		%>
-		<td><a class="il_ContainerItemCommand"
-			href="studie_abbrechen.jsp">abbrechen</a></td>
-		<%
-		}
-		%>
-	</tr>
-	<tr class="tblrow2">
-		<td align="center">XXX</td>
-		<td align="center">Von Hand eingetragen III</td>
-		<td align="center">aktiv</td>
-		<%
-		if (aRolle == Rolle.Rollen.ADMIN) {
-		%>
-		<td><a class="il_ContainerItemCommand"
-			href="studie_abbrechen.jsp">abbrechen</a></td>
-		<%
-		}
-		%>
-	</tr>
+	%>
 </table>
 
 <%@include file="include/inc_footer.jsp"%></div>

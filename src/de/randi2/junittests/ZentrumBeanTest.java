@@ -11,6 +11,7 @@ import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
+import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.Log4jInit;
 import de.randi2.utility.NullKonstanten;
 
@@ -42,6 +43,15 @@ public class ZentrumBeanTest {
 	@BeforeClass
 	public static void log() {
 		Log4jInit.initDebug();
+	}
+	
+	@Test
+	public void passwortHash(){
+		System.out.println(KryptoUtil.getInstance().hashPasswort("nch1!$knochen80"));
+		System.out.println(KryptoUtil.getInstance().hashPasswort("hno1!$nase80"));
+		System.out.println(KryptoUtil.getInstance().hashPasswort("mzk1!$zahn80"));
+		System.out.println(KryptoUtil.getInstance().hashPasswort("paed1!$kind80"));
+		
 	}
 
 	/**

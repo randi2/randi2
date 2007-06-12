@@ -13,8 +13,8 @@ import org.apache.log4j.Logger;
 
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
-import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.BenutzerException;
+import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.AutomatischeNachricht;
 import de.randi2.model.fachklassen.Benutzerkonto;
@@ -25,7 +25,6 @@ import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
-import de.randi2.utility.Config;
 import de.randi2.utility.Jsp;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.LogAktion;
@@ -151,8 +150,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	 *            Der request fuer das Servlet.
 	 * @param response
 	 *            Der Response des Servlets.
-	 * @throws IOException 
-	 * @throws ServletException 
+	 * @throws IOException
+	 * @throws ServletException
 	 */
 	private void aendernBenutzer(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -182,8 +181,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			if (request.getParameter("Passwort").equals(
 					request.getParameter("Passwort_wh"))) {
 				passwort = request.getParameter("Passwort");
-			}
-			else {
+			} else {
 				passwort = "";
 			}
 		}
@@ -203,10 +201,10 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				}
 				aPerson.setFax(fax);
 				if (passwort != null) {
-					if(!(passwort.trim().equals(""))) {
+					if (!(passwort.trim().equals(""))) {
 						String hash = KryptoUtil.getInstance().hashPasswort(
 								passwort);
-						aBenutzer.setPasswort(hash);	
+						aBenutzer.setPasswort(hash);
 					}
 				}
 			} catch (PersonException e) {
@@ -220,9 +218,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			// ueber die ID an die Person verlinkt wird
 			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aPerson);
 			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzer);
-			//TODO hier noch erfolgreich nachricht einfuegen
-			request.getRequestDispatcher("global_welcome.jsp").forward(
-					request, response);
+			// TODO hier noch erfolgreich nachricht einfuegen
+			request.getRequestDispatcher("global_welcome.jsp").forward(request,
+					response);
 		} catch (DatenbankExceptions e) {
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 					.getMessage());
@@ -315,23 +313,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		// Session
 		// binden
 		Logger.getLogger(this.getClass()).debug("Binde Benutzer an Session");
-
-		if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.STUDIENARZT) {
-			request.getRequestDispatcher("/studie_auswaehlen.jsp").forward(
-					request, response);
-			loggeKorrekteanmeldung(aBenutzer);
-			return;
-		} else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.STUDIENLEITER) {
-			request.getRequestDispatcher("/studie_auswaehlen.jsp").forward(
-					request, response);
-			loggeKorrekteanmeldung(aBenutzer);
-			return;
-		} else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.STATISTIKER) {
-			request.getRequestDispatcher("/studie_ansehen.jsp").forward(
-					request, response);
-			loggeKorrekteanmeldung(aBenutzer);
-			return;
-		} else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.ADMIN) {
+		
+		if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.ADMIN) {
 			request.getRequestDispatcher("/global_welcome.jsp").forward(
 					request, response);
 			loggeKorrekteanmeldung(aBenutzer);
@@ -339,6 +322,13 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		} else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.SYSOP) {
 			request.getRequestDispatcher("/systemadministration.jsp").forward(
 					request, response);
+			loggeKorrekteanmeldung(aBenutzer);
+			return;
+		}else{
+			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
+			StudieServlet.anfrage_id.STUDIE_AUSWAEHLEN);
+			request.getRequestDispatcher("StudieServlet").forward(request,
+			response);
 			loggeKorrekteanmeldung(aBenutzer);
 			return;
 		}
@@ -706,7 +696,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		bKonto.setFilter(true);
 		benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
 		it = benutzerVec.iterator();
-		
+
 		while (it.hasNext()) {
 			bKonto = it.next();
 			person = Person.get(bKonto.getBenutzerId());

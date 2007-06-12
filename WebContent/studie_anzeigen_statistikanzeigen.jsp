@@ -22,7 +22,7 @@
 	<legend><b>Studienangaben</b></legend>
 		<table>
 		<tr>
-		<td><br>Anzahl von weiblichen und männlichen Patienten in Bezug auf alle Patienten</td>
+		<td><br>Anzahl von weiblichen und mï¿½nnlichen Patienten in Bezug auf alle Patienten</td>
 		<td></td>
 		<td><br><input type="checkbox" name="EineCheckBox1" tabindex="1"> </td>
 		</tr>

@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-	<display-name>
-	RANDI2</display-name>
-	
+<web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>RANDI2</display-name>
+
 	<!-- Proxool AdminServlet, nur fuer Debug -->
 	<servlet>
-	  	<servlet-name>Admin</servlet-name>
-  		<servlet-class>org.logicalcobwebs.proxool.admin.servlet.AdminServlet</servlet-class>
+		<servlet-name>Admin</servlet-name>
+		<servlet-class>
+			org.logicalcobwebs.proxool.admin.servlet.AdminServlet
+		</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-  		<servlet-name>Admin</servlet-name>
-  		<url-pattern>/admin</url-pattern>
+		<servlet-name>Admin</servlet-name>
+		<url-pattern>/admin</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -24,55 +28,62 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<description>
-		</description>
-		<display-name>
-		BenutzerServlet</display-name>
+		<description></description>
+		<display-name>BenutzerServlet</display-name>
 		<servlet-name>BenutzerServlet</servlet-name>
 		<servlet-class>
-		de.randi2.controller.BenutzerServlet</servlet-class>
+			de.randi2.controller.BenutzerServlet
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<description></description>
+		<display-name>DispatcherServlet</display-name>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<servlet-class>
+			de.randi2.controller.DispatcherServlet
+		</servlet-class>
+	</servlet>
+
+	<servlet>
+		<description></description>
+		<display-name>ZentrumServlet</display-name>
+		<servlet-name>ZentrumServlet</servlet-name>
+		<servlet-class>
+			de.randi2.controller.ZentrumServlet
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<description>Ist zustaendig fuer die Studie</description>
+		<display-name>StudieServlet</display-name>
+		<servlet-name>StudieServlet</servlet-name>
+		<servlet-class>
+			de.randi2.controller.StudieServlet
+		</servlet-class>
 	</servlet>
 	<servlet>
 		<description>
+			Ermoeglicht den Nachrichtenversand ueber das System
 		</description>
-		<display-name>
-		DispatcherServlet</display-name>
-		<servlet-name>DispatcherServlet</servlet-name>
+		<display-name>Nachrichtendienst</display-name>
+		<servlet-name>Nachrichtendienst</servlet-name>
 		<servlet-class>
-		de.randi2.controller.DispatcherServlet</servlet-class>
+			de.randi2.controller.Nachrichtendienst
+		</servlet-class>
 	</servlet>
-	
-		<servlet>
-		<description>
-		</description>
-		<display-name>
-		ZentrumServlet</display-name>
-		<servlet-name>ZentrumServlet</servlet-name>
+	<servlet>
+		<description></description>
+		<display-name>AktivierungServlet</display-name>
+		<servlet-name>AktivierungServlet</servlet-name>
 		<servlet-class>
-		de.randi2.controller.ZentrumServlet</servlet-class>
+			de.randi2.controller.AktivierungServlet
+		</servlet-class>
 	</servlet>
-		<servlet>
-			<description>
-			Ermoeglicht den Nachrichtenversand ueber das System</description>
-			<display-name>
-			Nachrichtendienst</display-name>
-			<servlet-name>Nachrichtendienst</servlet-name>
-			<servlet-class>
-			de.randi2.controller.Nachrichtendienst</servlet-class>
-		</servlet>
-		<servlet>
-			<description>
-			</description>
-			<display-name>
-			AktivierungServlet</display-name>
-			<servlet-name>AktivierungServlet</servlet-name>
-			<servlet-class>
-			de.randi2.controller.AktivierungServlet</servlet-class>
-		</servlet>
-		<listener>
-			<listener-class>de.randi2.controller.listener.SessionListener</listener-class>
-		</listener>
-		<servlet-mapping>
+	<listener>
+		<listener-class>
+			de.randi2.controller.listener.SessionListener
+		</listener-class>
+	</listener>
+	<servlet-mapping>
 		<servlet-name>BenutzerServlet</servlet-name>
 		<url-pattern>/BenutzerServlet</url-pattern>
 	</servlet-mapping>
@@ -80,35 +91,39 @@
 		<servlet-name>DispatcherServlet</servlet-name>
 		<url-pattern>/DispatcherServlet</url-pattern>
 	</servlet-mapping>
-		<servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>ZentrumServlet</servlet-name>
 		<url-pattern>/ZentrumServlet</url-pattern>
 	</servlet-mapping>
-		<servlet-mapping>
-			<servlet-name>Nachrichtendienst</servlet-name>
-			<url-pattern>/Nachrichtendienst</url-pattern>
-		</servlet-mapping>
-		<servlet-mapping>
-			<servlet-name>AktivierungServlet</servlet-name>
-			<url-pattern>/Aktivierung</url-pattern>
-		</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StudieServlet</servlet-name>
+		<url-pattern>/StudieServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Nachrichtendienst</servlet-name>
+		<url-pattern>/Nachrichtendienst</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AktivierungServlet</servlet-name>
+		<url-pattern>/Aktivierung</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
 		<welcome-file>DispatcherServlet</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-	  <filter>
-    <filter-name>FilterExtended</filter-name>
-    <filter-class>de.randi2.controller.FilterExtended</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>FilterExtended</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping> 
-    <error-page>
-    <exception-type>java.lang.Throwable</exception-type>
-    <location>/error_page.jsp</location>
-</error-page> 
+	<filter>
+		<filter-name>FilterExtended</filter-name>
+		<filter-class>de.randi2.controller.FilterExtended</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>FilterExtended</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/error_page.jsp</location>
+	</error-page>
 
 </web-app>

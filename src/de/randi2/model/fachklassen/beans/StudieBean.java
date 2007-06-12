@@ -57,7 +57,6 @@ public class StudieBean extends Filter {
 	 */
 	private String aRandomisationsart = null;
 
-
 	/**
 	 * Die zu der Studie zugeordnete Zentren.
 	 */
@@ -104,6 +103,9 @@ public class StudieBean extends Filter {
 	 *            Studienprotokollpfad der Studie
 	 * @param randomisationsart
 	 *            Die Art der Randomisation
+	 * 
+	 * @param status
+	 *            Status der Studie
 	 * @throws StudieException
 	 *             wenn ein Fehler aufgetreten ist
 	 * @throws DatenbankExceptions
@@ -112,9 +114,9 @@ public class StudieBean extends Filter {
 	public StudieBean(long id, String beschreibung, String name,
 			long benutzerId, GregorianCalendar startdatum,
 			GregorianCalendar enddatum, String studienprotokollPfad,
-			String randomisationsart )
-			throws StudieException, DatenbankExceptions {
-		
+			String randomisationsart, Status status) throws StudieException,
+			DatenbankExceptions {
+
 		super.setId(id);
 		this.setBeschreibung(beschreibung);
 		this.setName(name);
@@ -122,6 +124,7 @@ public class StudieBean extends Filter {
 		this.setStudienZeitraum(startdatum, enddatum);
 		this.setStudienprotokollPfad(studienprotokollPfad);
 		this.setRandomisationseigenschaften(randomisationsart);
+		this.setStatus(status);
 	}
 
 	/**
@@ -219,9 +222,8 @@ public class StudieBean extends Filter {
 			if (name.length() < 3 || name.length() > 50) {
 				throw new StudieException(StudieException.STUDIENNAME_UNGUELTIG);
 			}
-			this.aName = name;
 		}
-
+		this.aName = name;
 	}
 
 	/**
@@ -269,11 +271,13 @@ public class StudieBean extends Filter {
 	public void setStudienZeitraum(GregorianCalendar startDatum,
 			GregorianCalendar endDatum) throws StudieException {
 		// Testen, ob sich das Datum in der Zukunft befindet
-		if ((new GregorianCalendar(Locale.GERMANY)).after(startDatum)
-				|| (new GregorianCalendar(Locale.GERMANY)).after(endDatum)
-				|| startDatum.after(endDatum)) {
-			throw new StudieException(StudieException.DATUM_FEHLER);
-		}
+//		if ((new GregorianCalendar(Locale.GERMANY)).after(startDatum)
+//				|| (new GregorianCalendar(Locale.GERMANY)).after(endDatum)
+//				|| startDatum.after(endDatum)) {
+//			//TODO Sysout loeschen
+//			System.out.println("++++++++++++++++++++++++DATUM");
+//			throw new StudieException(StudieException.DATUM_FEHLER);
+//		}
 		this.aEndDatum = endDatum;
 		this.aStartDatum = startDatum;
 	}
@@ -432,10 +436,10 @@ public class StudieBean extends Filter {
 
 			if (status == null) {
 				throw new StudieException(StudieException.STATUSFEHLER);
-			}
-			this.aStatus = status;
-
+			}	
 		}
+		
+		this.aStatus = status;
 	}
 
 	/**
@@ -452,8 +456,12 @@ public class StudieBean extends Filter {
 	 * 
 	 * @param benutzerkontoId
 	 *            Id des Benutzerkonto.
+	 * @throws StudieException wenn die uebergebene Id fehlerhaft ist
 	 */
-	public void setBenutzerkontoId(long benutzerkontoId) {
+	public void setBenutzerkontoId(long benutzerkontoId) throws StudieException {
+		if(benutzerkontoId==NullKonstanten.DUMMY_ID||benutzerkontoId<0){
+			throw new StudieException(StudieException.BENUTZERKONTO_ID_FEHLERHAFT);
+		}
 		this.aBenutzerkontoId = benutzerkontoId;
 	}
 
