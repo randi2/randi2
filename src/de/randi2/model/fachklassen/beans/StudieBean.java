@@ -119,7 +119,7 @@ public class StudieBean extends Filter {
 		this.setBeschreibung(beschreibung);
 		this.setName(name);
 		this.setBenutzerkontoId(benutzerId);
-		this.setStudienZeitraum(aStartDatum, aEndDatum);
+		this.setStudienZeitraum(startdatum, enddatum);
 		this.setStudienprotokollPfad(studienprotokollPfad);
 		this.setRandomisationseigenschaften(randomisationsart);
 	}
