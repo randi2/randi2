@@ -449,7 +449,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		/**
 		 * Die Art der Randomisation.
 		 */
-		RANDOMISATIONSART("randomisationsart"), 
+		RANDOMISATIONSART("randomisationsArt"), 
 		/**
 		 * Der Status der Studie.
 		 */
@@ -1913,21 +1913,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 					while(it.hasNext()) {
 						tmp = it.next();
 						sql+= tmp.getId()+",";
-						sql+="("+tmp.getId()+"),";
+						sql+="("+id+","+tmp.getId()+"),";
 					}
 					sql+="-1)"; 
 					sql2 = sql2.substring(0, sql2.length()-1) + " ON DUPLICATE KEY UPDATE"; //letztes Komma entfernen
-					Statement stmt = con.createStatement();
-					stmt.executeUpdate(sql);
-					stmt.executeUpdate(sql2);
-					stmt.close();
+					pstmt = con.prepareStatement(sql);
+					pstmt.setLong(1, id);
+					pstmt.executeUpdate();
+					pstmt = con.prepareStatement(sql2);
+					pstmt.executeUpdate();
 				}				
 				rs.close();
 				pstmt.close();				
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(e,sql,DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			studie.setId(id);
 			return studie;
@@ -1969,19 +1968,18 @@ public class Datenbank implements DatenbankSchnittstelle {
 					while(it.hasNext()) {
 						tmp = it.next();
 						sql+= tmp.getId()+",";
-						sql+="("+tmp.getId()+"),";
+						sql+="("+studie.getId()+","+tmp.getId()+"),";
 					}
 					sql+="-1)"; 
 					sql2 = sql2.substring(0, sql2.length()-1) + " ON DUPLICATE KEY UPDATE"; //letztes Komma entfernen
-					Statement stmt = con.createStatement();
-					stmt.executeUpdate(sql);
-					stmt.executeUpdate(sql2);
-					stmt.close();
+					pstmt = con.prepareStatement(sql);
+					pstmt.setLong(1, studie.getId());
+					pstmt.executeUpdate();
+					pstmt = con.prepareStatement(sql2);
+					pstmt.executeUpdate();
 				}	
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(e,sql,DatenbankExceptions.SCHREIBEN_ERR);
 			}
 		}
 		try {
@@ -1991,7 +1989,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
-		return null;
+		return studie;
 	}
 
 	/**
