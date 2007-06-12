@@ -453,7 +453,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		/**
 		 * Der Status der Studie.
 		 */
-		STATUS("status_studie");
+		STATUS("status_Studie");
 
 		/**
 		 * Name eines Feldes.
@@ -754,7 +754,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		/**
 		 * Die Id des Zentrums.
 		 */
-		ZENTRUMID("Strata_Typen_strata_TypenID");
+		ZENTRUMID("Zentrum_zentrumsID");
 		
 		/**
 		 * Name eines Feldes
