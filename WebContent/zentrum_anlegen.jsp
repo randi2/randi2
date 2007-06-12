@@ -19,7 +19,6 @@
 <div id="content">
 <h1>Neues Zentrum anlegen</h1>
 <%@include file="include/inc_nachricht.jsp"%>
-<%@include file="include/inc_nachricht_erfolgreich.jsp" %>
 <form action="DispatcherServlet" method="POST" name="zentrum_anlegen">
 <input type="hidden"
 	value="<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANLEGEN %>"

@@ -4,9 +4,15 @@
 	import="de.randi2.model.fachklassen.beans.*"
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
-<%if(request.getAttribute(DispatcherServlet.FEHLERNACHRICHT)!=null){%>
-<center>
-<div class="nachricht" id="fehler_nachricht"><%= request.getAttribute(DispatcherServlet.FEHLERNACHRICHT)%>
-</div>
-</center>
-<%} %>
+<%
+if (request.getAttribute(DispatcherServlet.NACHRICHT_OK) != null) {
+%>
+<center><div class="nachricht" id="erfolgreich_nachricht">
+<%=request.getAttribute(DispatcherServlet.NACHRICHT_OK)%>
+</div></center>
+<%}%>
+<%if (request.getAttribute(DispatcherServlet.FEHLERNACHRICHT) != null) {%>
+<center><div class="nachricht" id="fehler_nachricht">
+<%=request.getAttribute(DispatcherServlet.FEHLERNACHRICHT)%>
+</div></center>
+<%}%>

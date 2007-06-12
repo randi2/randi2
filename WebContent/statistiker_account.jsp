@@ -24,7 +24,7 @@
 	<legend><b>Statistiker</b></legend>
 		<table>
 		<tr>
-		<td>Soll ein Statistiker-Account für die Studie angelegt werden ?</td>
+		<td>Soll ein Statistiker-Account fÃ¼r die Studie angelegt werden ?</td>
 		</tr>
 		<tr>
 		<td><br><input type="button" name="entsp_ja" value=" Ja " tabindex="1" onclick="location.href=''">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
