@@ -2265,6 +2265,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 		if (zuSuchendesObjekt instanceof StudienarmBean) {
 			return (Vector<T>) suchenStudienarm((StudienarmBean) zuSuchendesObjekt); 			
 		}
+		
+		if (zuSuchendesObjekt instanceof StudieBean) {
+			return (Vector<T>) suchenStudie((StudieBean) zuSuchendesObjekt);
+			
+		}
 
 		return null;
 	}
