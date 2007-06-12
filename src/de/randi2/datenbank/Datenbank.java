@@ -3173,6 +3173,169 @@ public class Datenbank implements DatenbankSchnittstelle {
 			
 		return studienarme;
 	}
+	
+	private Vector<StudieBean> suchenStudie(StudieBean studie) throws DatenbankExceptions{
+		Connection con;
+		try {
+			con = getConnection();
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(
+					DatenbankExceptions.CONNECTION_ERR);
+		}
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StudieBean tmpStudie = null;
+		GregorianCalendar startDatum = null;
+		GregorianCalendar endDatum = null;
+		Vector<StudieBean> studien = new Vector<StudieBean>();
+		int counter = 0;
+		String sql = "SELECT * FROM " + Tabellen.STUDIE.toString();
+		if(studie.getBenutzerkontoId()!=NullKonstanten.NULL_LONG) {
+			sql+=" WHERE "+FelderStudie.BENUTZER.toString()+" = ?";
+			counter++;
+		}
+		if(studie.getName()!=null) {
+			if(counter==0) {
+				sql+= " WHERE ";				
+			} else {
+				sql+= " AND ";
+			}
+			sql+= FelderStudie.NAME.toString()+" LIKE ?";
+			counter++;
+		}
+		if(studie.getBeschreibung()!=null) {
+			if(counter==0) {
+				sql+= " WHERE ";				
+			} else {
+				sql+= " AND ";
+			}
+			sql+= FelderStudie.BESCHREIBUNG.toString()+" LIKE ? ";
+			counter++;
+		}
+		//falls Start- und Enddatum gesetzt sind wird der Bereich dazwischen gesucht
+		if(studie.getStartDatum()!=null && studie.getEndDatum()!=null) {
+			if(studie.getStartDatum().after(studie.getEndDatum())) {
+				throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+			}
+				if (counter == 0) {
+					sql += " WHERE ";
+				} else {
+					sql += " AND ";
+				}
+				sql += FelderBenutzerkonto.ERSTERLOGIN.toString() + " >= ? ";
+				counter++;
+					sql += " AND ";				
+				sql += FelderBenutzerkonto.LETZTERLOGIN.toString() + " <= ? ";
+				counter++;
+		} else {
+			if (studie.getStartDatum() != null) {
+				if (counter == 0) {
+					sql += " WHERE ";
+				} else {
+					sql += " AND ";
+				}
+				sql += FelderBenutzerkonto.ERSTERLOGIN.toString() + " = ? ";
+				counter++;
+			}
+			if (studie.getEndDatum() != null) {
+				if (counter == 0) {
+					sql += " WHERE ";
+				} else {
+					sql += " AND ";
+				}
+				sql += FelderBenutzerkonto.LETZTERLOGIN.toString() + " = ? ";
+				counter++;
+			}
+		}
+		if(studie.getStudienprotokollpfad()!=null) {
+			if(counter==0) {
+				sql+= " WHERE ";				
+			} else {
+				sql+= " AND ";
+			}
+			sql+= FelderStudie.PROTOKOLL.toString()+" LIKE ? ";
+			counter++;
+		}
+		if(studie.getRandomisationsart()!=null) {
+			if(counter==0) {
+				sql+= " WHERE ";				
+			} else {
+				sql+= " AND ";
+			}
+			sql+= FelderStudie.RANDOMISATIONSART.toString()+" = ? ";
+			counter++;
+		}
+		if(studie.getStatus()!=null) {
+			if(counter==0) {
+				sql+= " WHERE ";				
+			} else {
+				sql+= " AND ";
+			}
+			sql+= FelderStudie.STATUS.toString()+" = ? ";
+			counter++;
+		}		
+		try {
+			pstmt = con.prepareStatement(sql);
+			counter=1;
+			if(studie.getBenutzerkontoId()!=NullKonstanten.NULL_LONG) {
+				pstmt.setLong(counter++, studie.getBenutzerkontoId());
+			}
+			if(studie.getName()!=null) {
+				pstmt.setString(counter++, studie.getName());
+			}
+			if(studie.getBeschreibung()!=null) {
+				pstmt.setString(counter++, studie.getBeschreibung());
+			}
+			if (studie.getStartDatum() != null) {
+				pstmt.setDate(counter++, new Date(studie.getStartDatum().getTimeInMillis()));
+				}
+			if (studie.getEndDatum() != null) {
+				pstmt.setDate(counter++, new Date(studie.getEndDatum().getTimeInMillis()));
+				}			
+			if(studie.getStudienprotokollpfad()!=null) {
+				pstmt.setString(counter++, studie.getStudienprotokollpfad());
+			}
+			if(studie.getRandomisationsart()!=null) {
+				pstmt.setString(counter++, studie.getRandomisationsart());
+			}
+			if(studie.getStatus()!=null) {
+				pstmt.setString(counter++, studie.getStatus().toString());
+			}
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				startDatum = new GregorianCalendar();
+				startDatum.setTime(rs.getDate(FelderStudie.STARTDATUM.toString()));
+				endDatum = new GregorianCalendar();
+				endDatum.setTime(rs.getDate(FelderStudie.ENDDATUM.toString()));
+				tmpStudie = new StudieBean(rs.getLong(FelderStudie.ID
+						.toString()), 
+						rs.getString(FelderStudie.BESCHREIBUNG.toString()),
+						rs.getString(FelderStudie.NAME.toString()),
+						rs.getLong(FelderStudie.BENUTZER.toString()),
+						startDatum, endDatum, rs
+								.getString(FelderStudie.PROTOKOLL
+										.toString()), rs
+								.getString(FelderStudie.RANDOMISATIONSART
+										.toString()));
+				studien.add(tmpStudie);
+			}
+			pstmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SUCHEN_ERR);
+		} catch (StudieException e) {
+			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+		}  finally {
+			try {
+				this.closeConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DatenbankExceptions(
+						DatenbankExceptions.CONNECTION_ERR);
+			}
+		}
+		return studien;
+	}
 
 	/**
 	 * Dokumentation siehe Schnittstellenbeschreibung
