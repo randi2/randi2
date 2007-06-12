@@ -3319,7 +3319,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 								.getString(FelderStudie.PROTOKOLL
 										.toString()), rs
 								.getString(FelderStudie.RANDOMISATIONSART
-										.toString()));
+										.toString()),Status.parseStatus(rs.getString(FelderStudie.STATUS.toString())));
 				studien.add(tmpStudie);
 			}
 			pstmt.close();
@@ -3327,6 +3327,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SUCHEN_ERR);
 		} catch (StudieException e) {
+			//TODO PrintStackTrace spaeter loeschen - lplotni
+			e.printStackTrace();
 			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
 		}  finally {
 			try {
@@ -3720,7 +3722,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 									.getString(FelderStudie.PROTOKOLL
 											.toString()), rs
 									.getString(FelderStudie.RANDOMISATIONSART
-											.toString()));
+											.toString()),Status.parseStatus(rs.getString(FelderStudie.STATUS.toString())));
 
 				} catch (BenutzerException e) {
 					e.printStackTrace();
@@ -4131,7 +4133,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 							rs.getLong(FelderStudie.BENUTZER.toString()),
 							startDatum, endDatum,
 							rs.getString(FelderStudie.PROTOKOLL.toString()), 
-							rs.getString(FelderStudie.RANDOMISATIONSART.toString()));
+							rs.getString(FelderStudie.RANDOMISATIONSART.toString()),Status.parseStatus(rs.getString(FelderStudie.STATUS.toString())));
 				} catch (StudieException e) {
 					e.printStackTrace();
 					throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
@@ -4221,7 +4223,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 		if (vater instanceof BenutzerkontoBean && kind instanceof StudieBean) {
 			Vector<StudieBean>sVector = new Vector<StudieBean>();
 			StudieBean studie = (StudieBean) kind;
-			studie.setBenutzerkontoId(((BenutzerkontoBean) vater).getId());
+			try {
+				studie.setBenutzerkontoId(((BenutzerkontoBean) vater).getId());
+			} catch (StudieException e) {
+				// TODO Stack-Trace spaeter loeschen - lplotni
+				e.printStackTrace();
+				throw new DatenbankExceptions(StudieException.BENUTZERKONTO_ID_FEHLERHAFT);
+			}
 			sVector = suchenObjekt(studie);
 			if(sVector.size()==1){
 				studie = sVector.elementAt(0);
