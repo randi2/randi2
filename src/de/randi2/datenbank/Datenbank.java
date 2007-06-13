@@ -2027,6 +2027,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
+		//Loggen
+		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
+		geaenderteDaten.put(FelderStudienarm.STUDIE.toString(), String.valueOf(studienarm.getStudieId()));
+		geaenderteDaten.put(FelderStudienarm.STATUS.toString(), studienarm.getStatus().toString());
+		geaenderteDaten.put(FelderStudienarm.BEZEICHNUNG.toString(), studienarm.getBezeichnung());
+		geaenderteDaten.put(FelderStudienarm.BESCHREIBUNG.toString(), studienarm.getBeschreibung());
+		
 		if (studienarm.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
 			long id = Long.MIN_VALUE;
@@ -2059,6 +2066,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			studienarm.setId(id);
+			loggenDaten(studienarm, geaenderteDaten, LogKonstanten.NEUER_DATENSATZ);
 			return studienarm;
 		} else {
 			int j = 1;
@@ -2085,6 +2093,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				throw new DatenbankExceptions(
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
+			loggenDaten(studienarm, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		}
 		try {
 			this.closeConnection(con);
