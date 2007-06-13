@@ -2102,7 +2102,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
-		return null;
+		return studienarm;
 	}
 
 	/**
@@ -2129,6 +2129,17 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
+		//Loggen
+		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.GERMANY);
+		geaenderteDaten.put(FelderPatient.BENUTZER.toString(), String.valueOf(patient.getBenutzerkontoId()));
+		geaenderteDaten.put(FelderPatient.STUDIENARM.toString(), String.valueOf(patient.getStudienarmId()));
+		geaenderteDaten.put(FelderPatient.GEBURTSDATUM.toString(), sdf.format(patient.getGeburtsdatum()));
+		geaenderteDaten.put(FelderPatient.GESCHLECHT.toString(), String.valueOf(patient.getGeschlecht()));
+		geaenderteDaten.put(FelderPatient.AUFKLAERUNGSDATUM.toString(), sdf.format(patient.getDatumAufklaerung()));
+		geaenderteDaten.put(FelderPatient.KOERPEROBERFLAECHE.toString(), String.valueOf(patient.getKoerperoberflaeche()));
+		geaenderteDaten.put(FelderPatient.PERFORMANCESTATUS.toString(), String.valueOf(patient.getPerformanceStatus()));
+		
 		if (patient.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
 			long id = Long.MIN_VALUE;
@@ -2168,6 +2179,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			} 
 			patient.setId(id);
+			loggenDaten(patient, geaenderteDaten, LogKonstanten.NEUER_DATENSATZ);
 			return patient;
 		} else {
 			int j = 1;
@@ -2201,6 +2213,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				throw new DatenbankExceptions(
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
+			loggenDaten(patient, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		}
 		try {
 			this.closeConnection(con);
@@ -2209,7 +2222,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
-		return null;
+		return patient;
 	}
 	
 	/**
