@@ -33,14 +33,14 @@
 	href="js/ext/resources/css/ext-all.css" />
 <!-- GC -->
 <link rel="stylesheet" type="text/css"
-	href="../../resources/css/xtheme-gray.css" />
+	href="js/ext/resources/css/xtheme-gray.css" />
 <!-- LIBS -->
 <script type="text/javascript" src="js/ext/adapter/yui/yui-utilities.js"></script>
 <script type="text/javascript"
 	src="js/ext/adapter/yui/ext-yui-adapter.js"></script>
 <!-- ENDLIBS -->
 <script type="text/javascript" src="js/ext/ext-all.js"></script>
-<script type="text/javascript" src="js/studie_auswahlen.js"></script>
+<script type="text/javascript" src="js/studie_auswaehlen.js"></script>
 </head>
 <body onload="hideFilter();">
 <%@include file="include/inc_header.jsp"%>
