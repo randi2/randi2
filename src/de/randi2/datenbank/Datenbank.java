@@ -1871,6 +1871,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
+		HashMap<String, String> geaenderteDaten = new HashMap<String, String>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.GERMANY);
+		geaenderteDaten.put(FelderStudie.BENUTZER.toString(),String.valueOf(studie.getBenutzerkontoId()));
+		geaenderteDaten.put(FelderStudie.NAME.toString(), studie.getName());
+		geaenderteDaten.put(FelderStudie.BESCHREIBUNG.toString(), studie.getBeschreibung());
+		geaenderteDaten.put(FelderStudie.STARTDATUM.toString(), sdf.format(studie.getStartDatum()));
+		geaenderteDaten.put(FelderStudie.ENDDATUM.toString(), sdf.format(studie.getEndDatum()));
+		geaenderteDaten.put(FelderStudie.RANDOMISATIONSART.toString(), studie.getRandomisationsart());
+		geaenderteDaten.put(FelderStudie.STATUS.toString(), studie.getStatus().toString());
 		if (studie.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
 			long id = Long.MIN_VALUE;
@@ -1929,6 +1938,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				throw new DatenbankExceptions(e,sql,DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			studie.setId(id);
+			loggenDaten(studie, geaenderteDaten, LogKonstanten.NEUER_DATENSATZ);
 			return studie;
 		} else {
 			int j = 1;
@@ -1981,6 +1991,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			} catch (SQLException e) {
 				throw new DatenbankExceptions(e,sql,DatenbankExceptions.SCHREIBEN_ERR);
 			}
+			loggenDaten(studie, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		}
 		try {
 			this.closeConnection(con);
