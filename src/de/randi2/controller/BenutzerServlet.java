@@ -259,6 +259,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					// TODO hier noch erfolgreich nachricht einfuegen
 					request.getRequestDispatcher("global_welcome.jsp").forward(
 							request, response);
+				} else {
+					request.getRequestDispatcher("daten_aendern.jsp").forward(
+							request, response);
 				}
 			} catch (Exception e) {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e

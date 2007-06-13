@@ -6,6 +6,7 @@
 
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Randi2 :: Benutzer &auml;ndern</title>
 
@@ -66,7 +67,7 @@ Angaben</b></legend>
 			disabled>m&auml;nnlich</td>
 	</tr>
 	<tr>
-		<!-- TODO: Wenn Passwort nicht geaendert werden soll, dann wird bei leer gelassenen Feldern
+		<!-- Wenn Passwort nicht geaendert werden soll, dann wird bei leer gelassenen Feldern
 		das alte Passwort weiter verwendet. -->
 		<td>Passwort *<br>
 		<input type="password" size="25" maxlength="30" name="Passwort"
@@ -90,7 +91,8 @@ Angaben</b></legend>
 		<td>&nbsp;&nbsp;&nbsp;Telefonnummer *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
 			name="Telefon" tabindex="9"
-			value="<%out.print(aPerson.getTelefonnummer());%>" z:length="{max: 26, min: 6}"
+			value="<%out.print(aPerson.getTelefonnummer());%>"
+			z:length="{max: 26, min: 6}"
 			z:length_message="Telefonnummer muss 6 bis 26 Zeichen lang sein"></td>
 	</tr>
 	<tr>
@@ -115,8 +117,8 @@ Angaben</b></legend>
 <br>
 
 <fieldset style="width: 60%"><legend><b>Angaben
-zum Ansprechpartner</b></legend>
-<p>Sobald ein Ansprechpartner angegeben wird, sind alle Felder
+zum Stellvertreter</b></legend>
+<p>Sobald ein Stellvertreter angegeben wird, sind alle Felder
 auszuf&uuml;llen. Sonst keine.</p>
 <table>
 	<tr>
@@ -124,12 +126,14 @@ auszuf&uuml;llen. Sonst keine.</p>
 		<input type="text" size="25" maxlength="30" name="VornameA"
 			tabindex="12"
 			value="<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getVorname() != null){out.print(aPerson.getStellvertreter().getVorname());}}%>"
-			z:length="{max: 50, min: 2}" z:length_message="Vorname muss 2 bis 50 Zeichen lang sein"></td>
+			z:length="{max: 50, min: 2}"
+			z:length_message="Vorname muss 2 bis 50 Zeichen lang sein"></td>
 		<td>&nbsp;&nbsp;&nbsp;Nachname *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
 			name="NachnameA" tabindex="13"
 			value="<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getNachname() != null){out.print(aPerson.getStellvertreter().getNachname());}}%>"
-			z:length="{max: 50, min: 2}" z:length_message="Nachname muss 2 bis 50 Zeichen lang sein"></td>
+			z:length="{max: 50, min: 2}"
+			z:length_message="Nachname muss 2 bis 50 Zeichen lang sein"></td>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
@@ -144,14 +148,15 @@ auszuf&uuml;llen. Sonst keine.</p>
 		<input type="text" size="25" maxlength="30" name="TelefonA"
 			tabindex="14"
 			value="<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getTelefonnummer() != null){out.print(aPerson.getStellvertreter().getTelefonnummer());}}%>"
-			z:length="{max: 26, min: 6}" z:length_message="Telefonnummer muss 6 bis 26 Zeichen lang sein">
+			z:length="{max: 26, min: 6}"
+			z:length_message="Telefonnummer muss 6 bis 26 Zeichen lang sein">
 		</td>
 		<td>E-Mail *<br>
 		<input type="text" size="25" maxlength="30" name="EmailA" tabindex="8"
 			value="<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getEmail() != null){out.print(aPerson.getStellvertreter().getEmail());}}%>">
 		</td>
-		<td><input type="submit" name="loeschenA" value="Ansprechpartner entfernen"
-			tabindex="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<td><input type="submit" name="loeschenA"
+			value="Ansprechpartner entfernen" tabindex="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		</td>
 	</tr>
 </table>

@@ -9,18 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.eclipse.jdt.internal.compiler.ast.ThrowStatement;
 
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
+import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Zentrum;
+import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Jsp;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.Parameter;
-import de.randi2.utility.SystemException;
 
 /**
  * Diese Klasse repraesentiert das ZENTRUMSERVLET, welches Aktionen an die
@@ -120,8 +121,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				.name())) {
 			this.classDispatcherservletZentrumAnlegen(request, response);
 
-		} else if (id.equals(ZentrumServlet.anfrage_id.ZENTRUM_AENDERN
-				.name())) {
+		} else if (id.equals(ZentrumServlet.anfrage_id.ZENTRUM_AENDERN.name())) {
 			aendernZentrum(request, response);
 		} else {
 			// TODO Hier muss noch entschieden werden,was passiert
@@ -135,11 +135,94 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 *            Requestobjekt
 	 * @param response
 	 *            Responseobjekt
+	 * @throws IOException
+	 *             Fehler bei E/A
+	 * @throws ServletException
+	 *             Fehler bei HTTP
 	 */
 	private void aendernZentrum(HttpServletRequest request,
-			HttpServletResponse response) {
-		// TODO Auto-generated method stub
+			HttpServletResponse response) throws ServletException, IOException {
 
+		// Alle aenderbaren Attribute des request inititalisieren
+		String institution = request.getParameter("Institution");
+		String abteilung = request.getParameter("Abteilung");
+		String ort = request.getParameter("Ort");
+		String plz = request.getParameter("PLZ");
+		String strasse = request.getParameter("Strasse");
+		String hausnr = request.getParameter("Hausnummer");
+		String nachnameA = request.getParameter("NachnameA");
+		String vornameA = request.getParameter("VornameA");
+		String telefonA = request.getParameter("TelefonA");
+		String faxA = request.getParameter("FaxA");
+		String emailA = request.getParameter("EmailA");
+		// String geschlechtA = ...
+		String passwort = null;
+
+		// Wiederholte Passworteingabe pruefen
+		if (request.getParameter("Passwort") != null
+				&& request.getParameter("Passwort_wh") != null) {
+			if (request.getParameter("Passwort").equals(
+					request.getParameter("Passwort_wh"))) {
+				passwort = request.getParameter("Passwort");
+			} else {
+				passwort = "";
+			}
+		}
+
+		BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request.getSession())
+				.getAttribute("aBenutzer");
+		try {
+			ZentrumBean aZentrum = aBenutzer.getZentrum();
+			try {
+				aZentrum.setInstitution(institution);
+				aZentrum.setAbteilung(abteilung);
+				aZentrum.setPlz(plz);
+				aZentrum.setOrt(ort);
+				aZentrum.setStrasse(strasse);
+				aZentrum.setHausnr(hausnr);
+				if (aZentrum.getAnsprechpartner() != null) {
+					aZentrum.getAnsprechpartner().setNachname(nachnameA);
+					aZentrum.getAnsprechpartner().setVorname(vornameA);
+					aZentrum.getAnsprechpartner().setTelefonnummer(telefonA);
+					aZentrum.getAnsprechpartner().setFax(faxA);
+					aZentrum.getAnsprechpartner().setEmail(emailA);
+					// aZentrum.getAnsprechpartner().setGeschlecht(geschlechtA);
+					DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+							aZentrum.getAnsprechpartner());
+				} else {
+					PersonBean aPerson = new PersonBean();
+					aPerson.setNachname(nachnameA);
+					aPerson.setVorname(vornameA);
+					aPerson.setTelefonnummer(telefonA);
+					aPerson.setFax(faxA);
+					aPerson.setEmail(emailA);
+					aPerson.setGeschlecht('m');
+					aPerson = DatenbankFactory.getAktuelleDBInstanz()
+					.schreibenObjekt(aPerson);
+					aZentrum.setAnsprechpartnerId(aPerson.getId());
+				}
+				if (passwort != null) {
+					if (!(passwort.trim().equals(""))) {
+						String hash = KryptoUtil.getInstance().hashPasswort(
+								passwort);
+						aZentrum.setPasswort(hash);
+					}
+				}
+			} catch (ZentrumException e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
+			} catch (PersonException e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
+			}
+			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aZentrum);
+			// TODO hier noch erfolgreich nachricht einfuegen twillert
+			request.getRequestDispatcher("global_welcome.jsp").forward(request,
+					response);
+		} catch (DatenbankExceptions e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
+		}
 	}
 
 	/**
