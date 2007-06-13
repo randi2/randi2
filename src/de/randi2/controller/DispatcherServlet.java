@@ -47,12 +47,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	 * Fehlermeldungen von der GUI aus dem Request zu gewinnen
 	 */
 	public static final String FEHLERNACHRICHT = "fehlernachricht";
-	
+
 	/**
-	 * Name der Nachricht_ok -Variablen im Reqeust. Wird in inc_nachricht_erfolgreich.jsp.
-	 * Sonst nicht verwenden!!!
+	 * Name der Nachricht_ok -Variablen im Reqeust. Wird in
+	 * inc_nachricht_erfolgreich.jsp. Sonst nicht verwenden!!!
 	 */
-	public static final String NACHRICHT_OK="nachricht_ok";
+	public static final String NACHRICHT_OK = "nachricht_ok";
 
 	/**
 	 * Konstruktor.
@@ -146,7 +146,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Benutzer suchen.
 		 */
-		BENUTZER_SUCHEN
+		BENUTZER_SUCHEN,
+
+		/**
+		 * Zentrum aendern
+		 */
+		JSP_ZENTRUM_AENDERN
 
 	}
 
@@ -158,7 +163,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Konto des Benutzers (BenutzerkontoBean)
 		 */
-		A_Benutzer, //XXX Konto ist als 'aBenutzer' gebunden, nicht ueber diese Kosntante
+		A_Benutzer, // XXX Konto ist als 'aBenutzer' gebunden, nicht ueber diese
+					// Kosntante
 
 		/**
 		 * Zentrum fuer das sich der Benutzer anmeldet.
@@ -454,6 +460,13 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			request.setAttribute("anfrage_id",
 					BenutzerServlet.anfrage_id.BENUTZERDATEN_AENDERN.name());
 			request.getRequestDispatcher("BenutzerServlet").forward(request,
+					response);
+		} else if (id.equals(anfrage_id.JSP_ZENTRUM_AENDERN.name())) {
+			Logger.getLogger(this.getClass()).debug(
+					"Leite Anfrage an ZentrumServlet weiter");
+			request.setAttribute("anfrage_id",
+					ZentrumServlet.anfrage_id.ZENTRUM_AENDERN.name());
+			request.getRequestDispatcher("ZentrumServlet").forward(request,
 					response);
 		}
 

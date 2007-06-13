@@ -90,9 +90,7 @@ Angaben</b></legend>
 		<td>&nbsp;&nbsp;&nbsp;Telefonnummer *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
 			name="Telefon" tabindex="9"
-			value="<%out.print(aPerson.getTelefonnummer());%>" z:required="true"
-			z:required_message="Bitte Telefonnummer eingeben"
-			z:length="{max: 26, min: 6}"
+			value="<%out.print(aPerson.getTelefonnummer());%>" z:length="{max: 26, min: 6}"
 			z:length_message="Telefonnummer muss 6 bis 26 Zeichen lang sein"></td>
 	</tr>
 	<tr>
@@ -126,16 +124,12 @@ auszuf&uuml;llen. Sonst keine.</p>
 		<input type="text" size="25" maxlength="30" name="VornameA"
 			tabindex="12"
 			value="<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getVorname() != null){out.print(aPerson.getStellvertreter().getVorname());}}%>"
-			z:required="true" z:required_message="Bitte Vornamen eingeben"
-			z:length="{max: 50, min: 2}"
-			z:length_message="Vorname muss 2 bis 50 Zeichen lang sein"></td>
+			z:length="{max: 50, min: 2}" z:length_message="Vorname muss 2 bis 50 Zeichen lang sein"></td>
 		<td>&nbsp;&nbsp;&nbsp;Nachname *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
 			name="NachnameA" tabindex="13"
 			value="<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getNachname() != null){out.print(aPerson.getStellvertreter().getNachname());}}%>"
-			z:required="true" z:required_message="Bitte Nachnamen eingeben"
-			z:length="{max: 50, min: 2}"
-			z:length_message="Nachname muss 2 bis 50 Zeichen lang sein"></td>
+			z:length="{max: 50, min: 2}" z:length_message="Nachname muss 2 bis 50 Zeichen lang sein"></td>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
@@ -150,9 +144,7 @@ auszuf&uuml;llen. Sonst keine.</p>
 		<input type="text" size="25" maxlength="30" name="TelefonA"
 			tabindex="14"
 			value="<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getTelefonnummer() != null){out.print(aPerson.getStellvertreter().getTelefonnummer());}}%>"
-			z:required="true" z:required_message="Bitte Telefonnummer eingeben"
-			z:length="{max: 26, min: 6}"
-			z:length_message="Telefonnummer muss 6 bis 26 Zeichen lang sein">
+			z:length="{max: 26, min: 6}" z:length_message="Telefonnummer muss 6 bis 26 Zeichen lang sein">
 		</td>
 		<td>E-Mail *<br>
 		<input type="text" size="25" maxlength="30" name="EmailA" tabindex="8"
