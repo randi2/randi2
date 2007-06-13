@@ -13,7 +13,7 @@
        "http://www.w3.org/TR/html4/strict.dtd">
 <html >
 <head>
-<link rel="stylesheet" type="text/css" href="css/style.css">
+
 <script language="Javascript" src="js/motionpack.js"> </script>
 <title>Randi2 :: Benutzer anlegen</title>
 <script type="text/javascript">
@@ -24,9 +24,12 @@
 //-->
 </script>
 <link rel="stylesheet" type="text/css" href="js/ext/resources/css/ext-all.css" />
-<!-- GC --> <link rel="stylesheet" type="text/css" href="js/ext/resources/css/xtheme-gray.css" /><!-- LIBS -->     <script type="text/javascript" src="js/ext/adapter/yui/yui-utilities.js"></script>     <script type="text/javascript" src="js/ext/adapter/yui/ext-yui-adapter.js"></script>     <!-- ENDLIBS -->
+
+ <script type="text/javascript" src="js/ext/adapter/yui/yui-utilities.js"></script>    
+ <script type="text/javascript" src="js/ext/adapter/yui/ext-yui-adapter.js"></script>     <!-- ENDLIBS -->
 <script type="text/javascript" src="js/ext/ext-all.js"></script>
 <script type="text/javascript" src="js/benutzer_anlegen_zwei.js"></script>
+<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body onload="hideFilter();">
 <%@include file="include/inc_header_clean.jsp"%>
@@ -43,7 +46,7 @@ suchen </b></legend>
 	value="<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI.name() %>">
 	
 <img alt="Filter anzeigen" src="images/find.png" onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen" style="cursor:pointer"/>
-Filter
+<b>Filter ein-/ausblenden</b>
 <div id="filterdiv" style="overflow:hidden; height: 75px;">
 <table width="90%">
 	<tr>

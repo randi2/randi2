@@ -65,44 +65,43 @@ Angaben</b></legend>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
-		<input type="radio" name="Geschlecht" value="w" 
+		<input type="radio" name="Geschlecht" value="w"
 			<%if(request.getAttribute("Geschlecht")!=null&&request.getAttribute("Geschlecht").equals("w")){out.print("checked");} %>>weiblich
 		<input type="radio" name="Geschlecht" value="m"
 			<%if(request.getAttribute("Geschlecht")!=null&&request.getAttribute("Geschlecht").equals("m")){out.print("checked");} %>>m&auml;nnlich</td>
 	</tr>
 	<tr>
 		<td>Passwort *<br>
-		<input type="password" size="25" maxlength="30" name="Passwort" id="Passwort"
+		<input type="password" size="25" maxlength="30" name="Passwort"
+			id="Passwort"
 			value="<%if(request.getAttribute("Passwort")!=null){out.print(request.getAttribute("Passwort"));} %>"
-			tabindex="6" onkeyup="testPassword(document.forms.user.Passwort.value);" z:required="true"
-			z:required_message="Bitte Passwort eingeben" z:length="{min: 6}"
+			tabindex="6"
+			onkeyup="testPassword(document.forms.user.Passwort.value);"
+			z:required="true" z:required_message="Bitte Passwort eingeben"
+			z:length="{min: 6}"
 			z:length_message="Passwort muss mind. 6 Zeichen lang sein"></td>
-			<td>
-		<a id=Words>
-			<table border=0 cellpadding=0 cellspacing=0>
-				<tr>
-					<td class=bold width=100>St&auml;rke:</td>
-					<td>
-						<table cellpadding=0 cellspacing=2>
-							<tr>
-								<td height=15 width=150 bgcolor=#dddddd></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
-		</a>
-			
-		
-		
-		</td>
+		<td><a id=Words>
+		<table border=0 cellpadding=0 cellspacing=0>
+			<tr>
+				<td class=bold width=100>St&auml;rke:</td>
+				<td>
+				<table cellpadding=0 cellspacing=2>
+					<tr>
+						<td height=15 width=150 bgcolor=#dddddd></td>
+					</tr>
+				</table>
+				</td>
+			</tr>
+		</table>
+		</a></td>
 	</tr>
 	<tr>
 		<td>Passwort wiederholen *<br>
 		<input type="password" size="25" maxlength="30" name="Passwort_wh"
 			value="<%if(request.getAttribute("Passwort_wh")!=null){out.print(request.getAttribute("Passwort_wh"));} %>"
 			tabindex="7" z:required="true"
-			z:required_message="Bitte Passwort-Wiederholung eingeben" z:length="{min: 6}"
+			z:required_message="Bitte Passwort-Wiederholung eingeben"
+			z:length="{min: 6}"
 			z:length_message="Wiederholungs-Passwort muss ebenfalls mind. 6 Zeichen lang sein"></td>
 	</tr>
 </table>
@@ -132,7 +131,7 @@ Angaben</b></legend>
 		<input type="text" size="25" maxlength="30" name="Handy"
 			value="<%if(request.getAttribute("Handy")!=null){out.print(request.getAttribute("Handy"));} %>"
 			tabindex="10" /> <!-- z:length="{max: 26, min: 7}"
-			z:length_message="Handynummer muss 7 bis 26 Zeichen lang sein"--> </td>
+			z:length_message="Handynummer muss 7 bis 26 Zeichen lang sein"--></td>
 		<td>&nbsp;&nbsp;&nbsp;Fax<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
 			name="Fax"
@@ -145,8 +144,7 @@ Angaben</b></legend>
 <br>
 
 
-<input type="submit" name="anlegen" value="Anlegen"
-			tabindex="13">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="submit" name="anlegen" value="Anlegen" tabindex="13">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </form>
 <br>
 &nbsp;Die mit '*' gekennzeichneten Felder sind Pflichtfelder. <%@include

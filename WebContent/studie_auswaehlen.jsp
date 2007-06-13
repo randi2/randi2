@@ -10,17 +10,16 @@
 <%
 			Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
 			.getAttribute("aBenutzer")).getRolle().getRollenname();
-	
-	 Iterator listeStudien = ((Vector) request.getAttribute(StudieServlet.requestParameter.LISTE_DER_STUDIEN.name())).iterator();
-	
-	
-	
+
+	Iterator listeStudien = ((Vector) request
+			.getAttribute(StudieServlet.requestParameter.LISTE_DER_STUDIEN
+			.name())).iterator();
 %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Randi2 :: Studie ausw&auml;hlen</title>
-<link rel="stylesheet" type="text/css" href="css/style.css">
+
 <script language="Javascript" src="js/motionpack.js"> </script>
 <script type="text/javascript">
 <!--
@@ -32,8 +31,7 @@
 <link rel="stylesheet" type="text/css"
 	href="js/ext/resources/css/ext-all.css" />
 <!-- GC -->
-<link rel="stylesheet" type="text/css"
-	href="js/ext/resources/css/xtheme-gray.css" />
+<!-- link rel="stylesheet" type="text/css" 	href="js/ext/resources/css/xtheme-gray.css" /-->
 <!-- LIBS -->
 <script type="text/javascript" src="js/ext/adapter/yui/yui-utilities.js"></script>
 <script type="text/javascript"
@@ -41,6 +39,8 @@
 <!-- ENDLIBS -->
 <script type="text/javascript" src="js/ext/ext-all.js"></script>
 <script type="text/javascript" src="js/studie_auswaehlen.js"></script>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+
 </head>
 <body onload="hideFilter();">
 <%@include file="include/inc_header.jsp"%>
@@ -65,7 +65,7 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 }
 %> <img alt="Filter anzeigen" src="images/find.png"
 	onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen"
-	style="cursor:pointer" /> Filter <!--  TODO Table  BUG #2-->
+	style="cursor:pointer" /><b> Filter ein-/ausblenden </b><!--  TODO Table  BUG #2-->
 <div id="filterdiv" style="overflow:hidden; height: 100px;">
 <table width="600" border="0" cellspacing="5" cellpadding="2"
 	bgcolor="#e3e3e3">

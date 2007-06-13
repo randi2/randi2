@@ -35,14 +35,24 @@ Ext.grid.TableGrid = function(table, config) {
             name: name,
             mapping: 'td:nth('+(i+1)+')/@innerHTML'
         }));
-
-		cols.push(Ext.applyIf(ch[i] || {}, {
+		if (i<2){
+			cols.push(Ext.applyIf(ch[i] || {}, {
 			'header': text,
 			'dataIndex': name,
 			'width': h.offsetWidth,
 			'tooltip': h.title,
             'sortable': true
         }));
+		}else{
+				cols.push(Ext.applyIf(ch[i] || {}, {
+			'header': text,
+			'dataIndex': name,
+			'width': h.offsetWidth,
+			'tooltip': h.title,
+            'sortable': false
+        }));
+		}
+		
 	}
 
     var ds  = new Ext.data.Store({

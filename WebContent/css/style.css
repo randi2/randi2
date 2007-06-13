@@ -39,7 +39,7 @@ body {
 top-margin: 20px;
 bottom-margin: 20px;
 background-color: white;
-
+  font-weight: bold;
 }
 
 #fehler_nachricht {
