@@ -101,24 +101,24 @@
 		value="<%if(request.getAttribute(Parameter.person.EMAIL.name())!=null){out.print(request.getAttribute(Parameter.person.EMAIL.name()));} %>"
 		tabindex="11"
 			>
-			<input type="submit" name="Submit"
-			value="Zentrum anlegen" tabindex="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	</tr>
 </table>
 </fieldset>
 <br>
 
 &nbsp;Felder mit '*' sind Pflichtfelder und m&uuml;ssen ausgef&uuml;llt
-werden.</form>
+werden.
 <table>
 
 	<tr>
-		<td><input type="button" name="passwort_anfordern"
-			value="Passwort anfordern" tabindex="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-		<td><input type="button" name="abbrechen" value="Abbrechen"
+		<td><input type="submit" name="Submit"
+			value="Zentrum anlegen" tabindex="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td><input type="button" name="abbrechen" value="Formular zur&uuml;cksetzen"
 			tabindex="13"></td>
 	</tr>
 </table>
+
 <br>
 <%@include file="include/inc_footer.jsp"%></div>
 <div id="show_none"></div>

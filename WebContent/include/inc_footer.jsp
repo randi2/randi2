@@ -4,7 +4,7 @@
 	import="de.randi2.model.fachklassen.*"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
 <%
-	String formatiertesDatum = "Fehler beim Datum";
+	String formatiertesDatum = null;
 	BenutzerkontoBean aBenutzerkontoFooter = (BenutzerkontoBean) request
 			.getSession().getAttribute("aBenutzer");
 	if (aBenutzerkontoFooter != null) {
@@ -17,12 +17,10 @@
 		}
 	}
 %>
-
-<%--@page import="java.util.GregorianCalendar"--%>
 <br>
 <table width="100%" border="0" cellPadding="0" cellSpacing="0">
 	<tr>
-		<td align="right" class="footer">letzter Zugriff: <%=formatiertesDatum%>
-		:: copyright</td>
+		<td align="right" class="footer"><%if(formatiertesDatum!=null){out.print("letzter Zugriff:"+formatiertesDatum+"::");}%>
+		copyright</td>
 	</tr>
 </table>

@@ -451,6 +451,14 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 								request, response);
 					} else {
 						// Konto korrekt, normaler Ablauf
+						if(aBenutzer.getLetzterLogin()==null)
+						{
+						//aBenutzer.setLetzterLogin(new GregorianCalendar());
+						aBenutzer.setErsterLogin(new GregorianCalendar());
+						aBenutzer=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzer);
+						}
+						DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzer);
+						
 						weiterleitungLoginKorrekt(aBenutzer, request, response);
 					}
 				}// if

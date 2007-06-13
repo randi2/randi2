@@ -126,11 +126,10 @@ public class LogLayout extends Layout {
 
 				buf.append("</randi2log:daten>\r\n");
 			}
-			//FIXME SIEHE BUG 111
-			//buf.append("\t<randi2log:benutzer>" + aktion.getBenutzernamen()
-					//+ "</randi2log:benutzer>\r\n");
+			buf.append("\t<randi2log:benutzer>" + aktion.getBenutzernamen()
+					+ "</randi2log:benutzer>\r\n");
 
-			// buf.append("\t<randi2log:>" + +"<randi2log:>\r\n");
+			// buf.append("\t<randi2log:>" + +"</randi2log:>\r\n");
 
 			buf.append("</randi2log:aktion>\r\n\n");
 
