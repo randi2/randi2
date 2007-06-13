@@ -16,15 +16,21 @@ import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.utility.Jsp;
 
 /**
- * Diese Klasse repraesentiert das STUDIEZENTRUMSERVLET, welches Aktionen von
- * Zentren zu Studie hinzufügt und verwaltet.
+ * Diese Klasse repraesentiert das STUDIENZENTRUMSERVLET, um
+ * Zentren einer Studie zu verwalten.
  * 
- * @version $Id:
+ * @version $Id: $
  * @author Thomas Ganszky, Katharina Chruscz
  * 
  */
 public class StudienzentrumServlet extends javax.servlet.http.HttpServlet {
 
+
+
+	/**
+	 * Default Serial
+	 */
+	private static final long serialVersionUID = 3723410281193995084L;
 
 
 	/**
@@ -76,11 +82,7 @@ public class StudienzentrumServlet extends javax.servlet.http.HttpServlet {
 		 */
 	}
 	
-	/**
-	 * Default Serial
-	 */
-	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Konstruktor.
 	 * 
