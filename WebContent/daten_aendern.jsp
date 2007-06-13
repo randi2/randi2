@@ -118,6 +118,8 @@ Angaben</b></legend>
 
 <fieldset style="width: 60%"><legend><b>Angaben
 zum Ansprechpartner</b></legend>
+<p>Sobald ein Ansprechpartner angegeben wird, sind alle Felder
+auszuf&uuml;llen. Sonst keine.</p>
 <table>
 	<tr>
 		<td>Vorname *<br>
@@ -136,13 +138,29 @@ zum Ansprechpartner</b></legend>
 			z:length_message="Nachname muss 2 bis 50 Zeichen lang sein"></td>
 	</tr>
 	<tr>
+		<td>Geschlecht *<br>
+		<input type="radio" name="weiblichA"
+			<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getGeschlecht() == 'w'){out.print("checked");}}%>>weiblich
+		<input type="radio" name="maennlichA"
+			<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getGeschlecht() == 'm'){out.print("checked");}}%>>m&auml;nnlich
+		</td>
+	</tr>
+	<tr>
 		<td>Telefonnummer *<br>
 		<input type="text" size="25" maxlength="30" name="TelefonA"
 			tabindex="14"
 			value="<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getTelefonnummer() != null){out.print(aPerson.getStellvertreter().getTelefonnummer());}}%>"
 			z:required="true" z:required_message="Bitte Telefonnummer eingeben"
 			z:length="{max: 26, min: 6}"
-			z:length_message="Telefonnummer muss 6 bis 26 Zeichen lang sein"></td>
+			z:length_message="Telefonnummer muss 6 bis 26 Zeichen lang sein">
+		</td>
+		<td>E-Mail *<br>
+		<input type="text" size="25" maxlength="30" name="EmailA" tabindex="8"
+			value="<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getEmail() != null){out.print(aPerson.getStellvertreter().getEmail());}}%>">
+		</td>
+		<td><input type="submit" name="loeschenA" value="Ansprechpartner entfernen"
+			tabindex="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</td>
 	</tr>
 </table>
 </fieldset>
