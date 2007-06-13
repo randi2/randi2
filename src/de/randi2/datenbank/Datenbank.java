@@ -4049,8 +4049,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 			e.printStackTrace();
 			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 		}
-		sql = "SELECT * FROM " + Tabellen.ZENTRUM +" zentrum where " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.STUDIENID + 
-				"=? AND " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.ZENTRUMID + "=" + "zentrum."+FelderZentrum.ID; 
+		sql = "SELECT "+Tabellen.ZENTRUM+".* FROM " + Tabellen.ZENTRUM+","+
+		Tabellen.STUDIE_ZENTRUM+" WHERE " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.STUDIENID + 
+				"= ? AND " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.ZENTRUMID + "=" + Tabellen.ZENTRUM+"."+FelderZentrum.ID; 
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, studieId);
@@ -4116,8 +4117,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			e.printStackTrace();
 			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 		}
-		sql = "SELECT * FROM " + Tabellen.STUDIE +" studie where " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.ZENTRUMID + 
-				"=? AND " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.STUDIENID + "=" + "studie."+FelderStudie.ID; 
+		sql = "SELECT "+Tabellen.STUDIE+".* FROM " + Tabellen.STUDIE+","+Tabellen.STUDIE_ZENTRUM +" WHERE " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.ZENTRUMID + 
+				"= ? AND " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.STUDIENID + "=" + Tabellen.STUDIE+"."+FelderStudie.ID; 
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, zentrumId);
