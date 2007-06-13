@@ -16,8 +16,6 @@ import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.utility.Jsp;
 
 /**
- * Zentren zu Studie verwalten: Kathy + Thomas
- * 
  * Diese Klasse repraesentiert das STUDIEZENTRUMSERVLET, welches Aktionen von
  * Zentren zu Studie hinzufügt und verwaltet.
  * 
