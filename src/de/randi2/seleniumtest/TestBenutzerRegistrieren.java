@@ -112,15 +112,13 @@ public class TestBenutzerRegistrieren {
 		sel.click("document.user.Geschlecht[1]");
 		sel.type("Passwort", "12!\"AAaayyyyyyyyyy)9");
 		sel.type("Passwort_wh", "12!\"AAaayyyyyyyyyy)9");
-		// sel.click("anlegen");
 		sel.type("Telefon", "012123123");
-	//	sel.click("anlegen");
 		sel.type("Email", "bla@blamail.bla");
-		sel.type("Telefon", "123123");
+		sel.type("Telefon", "0123123");
 		sel.click("anlegen");
 
-		// TODO Schreibfehler ist korrigiert, aber noch nicht im nightly
-		assertTrue(sel.isTextPresent("Letzer Schritt der Registrierung"));
+	
+		assertTrue(sel.isTextPresent("Letzter Schritt der Registrierung"));
 		assertTrue(sel
 				.isTextPresent("Sie erhalten in Kürze eine Email mit einem Aktivierungslink."));
 
