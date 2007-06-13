@@ -46,24 +46,24 @@
 		<td>
 		<label for="empfaenger"><b>Empf&auml;nger:</b> (An folgende Benutzer k&ouml;nnen Sie eine Nachricht versenden)</label><br>
 		<select id="empfaenger" name="<%= Nachrichtendienst.requestParameter.EMPFAENGER.name() %>" tabindex="1" z:required="true" z:message="Bitte wählen Sie einen Empfänger aus">
-		<%= Nachrichtendienst.getEmpfaengerListe((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer"),request.getSession())%>
+		<%= Nachrichtendienst.getEmpfaengerListe(request)%>
 		</select>
 		</td>
 	</tr>
 	<tr>
 		<td><label for="betreff"><b>Betreff:</b></label><br>
-		<input type="text" name="<%=Nachrichtendienst.requestParameter.BETREFF.name() %>" id="betreff" size="50" z:required="true" z:message="Bitte geben Sie einen Betreff ein" value="<%=betreff%>"></td>
+		<input type="text" name="<%=Nachrichtendienst.requestParameter.BETREFF.name() %>" id="betreff" size="50" tabindex="2" z:required="true" z:message="Bitte geben Sie einen Betreff ein" value="<%=betreff%>"></td>
 	</tr>
 	<tr>
 		<td><label for="text"><b>Nachrichtentext:</b></label><br>
-		<textarea name="<%=Nachrichtendienst.requestParameter.NACHRICHTENTEXT.name() %>" id="text" rows="7" cols="50" z:required="true" z:message="Bitte geben Sie einen Nachrichtentext ein"><%=nachrichtentext %></textarea><br>
+		<textarea name="<%=Nachrichtendienst.requestParameter.NACHRICHTENTEXT.name() %>" id="text" rows="7" cols="50" tabindex="3" z:required="true" z:message="Bitte geben Sie einen Nachrichtentext ein"><%=nachrichtentext %></textarea><br>
 		</td>
 	</tr>
 	<tr>
 		<td><input type="submit" name="bestaetigen"
-			value="Nachricht versenden" tabindex="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			value="Nachricht versenden" tabindex="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="reset" name="abbrechen" value="Formular l&ouml;schen"
-			tabindex="3"></td>
+			tabindex="5"></td>
 	</tr>
 </table>
 </fieldset>

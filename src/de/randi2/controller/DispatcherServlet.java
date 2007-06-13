@@ -158,7 +158,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Konto des Benutzers (BenutzerkontoBean)
 		 */
-		A_Benutzer,
+		A_Benutzer, //XXX Konto ist als 'aBenutzer' gebunden, nicht ueber diese Kosntante
 
 		/**
 		 * Zentrum fuer das sich der Benutzer anmeldet.
