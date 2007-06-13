@@ -763,4 +763,145 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		request.getRequestDispatcher(Jsp.ADMIN_LISTE)
 				.forward(request, response);
 	}
+	
+	
+	
+
+		/**
+		 * Methode zum Erstellen eines Studienleiteraccounts
+		 * 
+		 * @param request
+		 *            Der Request fuer das Servlet.
+		 * @param response
+		 *            Der Response Servlet.
+		 * @throws IOException
+		 *             Falls Fehler in den E/A-Verarbeitung.
+		 * @throws ServletException
+		 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+		 */
+		private void classDispatcherservletStudienleiterAnlegen(
+				HttpServletRequest request, HttpServletResponse response)
+					throws ServletException, IOException {
+			
+
+//			 Alle Attribute des request inititalisieren
+			// String fehlernachricht = "";
+			String vorname = request.getParameter("Vorname");
+			String nachname = request.getParameter("Nachname");
+			char geschlecht = '\0';
+			String passwort = null;
+			String email = request.getParameter("Email");
+			String telefon = request.getParameter("Telefon");
+			String fax = request.getParameter("Fax");
+			String handynummer = request.getParameter("Handy");
+			String institut = request.getParameter("Institut");
+			String titel = request.getParameter("Titel");
+			PersonBean.Titel titelenum = null;
+			String vornameA = request.getParameter("VornameA");
+			String nachnameA = request.getParameter("NachnameA");
+			char geschlechtA = '\0';
+			String telefonA = request.getParameter("TelfonA");
+			String emailA = request.getParameter("EmailA");
+			
+			
+			try {
+				// Geschlecht gesetzt pruefen
+				if (request.getParameter("Geschlecht") == null) {
+					throw new BenutzerkontoException(
+							"Bitte Geschlecht ausw&auml;hlen");
+				}
+				geschlecht = request.getParameter("Geschlecht").charAt(0);
+				// Konvertierung String enum
+				for (PersonBean.Titel t : PersonBean.Titel.values()) {
+					if (titel.equals(t.toString())) {
+						titelenum = t;
+						break;
+					}
+				}
+
+				// Wiederholte Passworteingabe prüfen
+				if (request.getParameter("Passwort") != null
+						&& request.getParameter("Passwort_wh") != null) {
+					if (request.getParameter("Passwort").equals(
+							request.getParameter("Passwort_wh"))) {
+						passwort = request.getParameter("Passwort");
+					} else {
+						throw new BenutzerkontoException(
+								"Passwort und wiederholtes Passwort sind nicht gleich");
+
+					}
+				}
+				// Benutzer anlegen
+				// Hier findet die Überprüfung der Daten auf Serverseite statt,
+				// Fehler wird an Benutzer weiter gegeben
+				// Person erzeugen und in DB speichern
+				PersonBean aPerson = null;
+				aPerson = new PersonBean();
+				aPerson.setNachname(nachname);
+				aPerson.setVorname(vorname);
+				aPerson.setTitel(titelenum);
+				aPerson.setGeschlecht(geschlecht);
+				aPerson.setEmail(email);
+				aPerson.setTelefonnummer(telefon);
+				aPerson.setHandynummer(handynummer);
+				aPerson.setFax(fax);
+				aPerson.getStellvertreter().setNachname(nachnameA);
+				aPerson.getStellvertreter().setVorname(vornameA);
+				aPerson.getStellvertreter().setGeschlecht(geschlechtA);
+				aPerson.getStellvertreter().setTelefonnummer(telefonA);
+				aPerson.getStellvertreter().setEmail(emailA);
+				aPerson = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+						aPerson);
+
+				// Zugehöriges Benutzerkonto erstellen und in DB Speichern
+				BenutzerkontoBean aBenutzerkonto;
+				aBenutzerkonto = new BenutzerkontoBean(email, KryptoUtil
+						.getInstance().hashPasswort(passwort), aPerson);
+				aBenutzerkonto
+						.setZentrum((ZentrumBean) request
+								.getSession()
+								.getAttribute(
+										DispatcherServlet.sessionParameter.ZENTRUM_BENUTZER_ANLEGEN
+												.toString()));
+				aBenutzerkonto.setRolle(Rolle.getStudienleiter());
+				aBenutzerkonto.setErsterLogin(null);
+				aBenutzerkonto.setLetzterLogin(null);
+				aBenutzerkonto.setGesperrt(true);
+				aBenutzerkonto = Benutzerkonto.anlegenBenutzer(aBenutzerkonto)
+						.getBenutzerkontobean();
+				request.getRequestDispatcher("/studienleiter_anlegen_zwei.jsp").forward(
+						request, response);
+
+			} catch (BenutzerException e) {
+
+				request.setAttribute("Vorname", vorname);
+				request.setAttribute("Nachname", nachname);
+				if (geschlecht == 'm') {
+					request.setAttribute("Geschlecht", "m");
+				} else if (geschlecht == 'w') {
+					request.setAttribute("Geschlecht", "w");
+				}
+				request.setAttribute("Titel", titelenum);
+				request.setAttribute("Passwort", request.getParameter("Passwort"));
+				request.setAttribute("Passwort_wh", request
+						.getParameter("Passwort_wh"));
+				request.setAttribute("Email", email);
+				request.setAttribute("Telefon", telefon);
+				request.setAttribute("Fax", fax);
+				request.setAttribute("Handy", handynummer);
+				request.setAttribute("Institut", institut);
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
+				request.getRequestDispatcher("/studienleiter_anlegen.jsp").forward(
+						request, response);
+			} catch (DatenbankExceptions e) {
+				e.printStackTrace();
+			} catch (SystemException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+
+			}
+		
 }
