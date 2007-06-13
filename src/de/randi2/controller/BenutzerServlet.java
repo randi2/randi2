@@ -253,11 +253,13 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
 						.getSession()).getAttribute("aBenutzer");
 				PersonBean aPerson = aBenutzer.getBenutzer();
-				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(
-						aPerson.getStellvertreter());
-				// TODO hier noch erfolgreich nachricht einfuegen
-				request.getRequestDispatcher("global_welcome.jsp").forward(
-						request, response);
+				if (aPerson.getStellvertreter() != null) {
+					DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(
+							aPerson.getStellvertreter());
+					// TODO hier noch erfolgreich nachricht einfuegen
+					request.getRequestDispatcher("global_welcome.jsp").forward(
+							request, response);
+				}
 			} catch (Exception e) {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 						.getMessage());
@@ -489,14 +491,16 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 								request, response);
 					} else {
 						// Konto korrekt, normaler Ablauf
-						if(aBenutzer.getLetzterLogin()==null)
-						{
-						//aBenutzer.setLetzterLogin(new GregorianCalendar());
-						aBenutzer.setErsterLogin(new GregorianCalendar());
-						aBenutzer=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzer);
+						if (aBenutzer.getLetzterLogin() == null) {
+							// aBenutzer.setLetzterLogin(new
+							// GregorianCalendar());
+							aBenutzer.setErsterLogin(new GregorianCalendar());
+							aBenutzer = DatenbankFactory.getAktuelleDBInstanz()
+									.schreibenObjekt(aBenutzer);
 						}
-						DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzer);
-						
+						DatenbankFactory.getAktuelleDBInstanz()
+								.schreibenObjekt(aBenutzer);
+
 						weiterleitungLoginKorrekt(aBenutzer, request, response);
 					}
 				}// if
