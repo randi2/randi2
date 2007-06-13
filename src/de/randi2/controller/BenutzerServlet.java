@@ -690,8 +690,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		PersonBean person = null;
 		ZentrumBean zentrum = null;
 		Vector<BenutzerkontoBean> benutzerVec = null;
-		Vector<PersonBean> personVec = null;
-		Vector<ZentrumBean> zentrumVec = null;
+		Vector<PersonBean> personVec =  new Vector<PersonBean>();
+		Vector<ZentrumBean> zentrumVec = new Vector<ZentrumBean>();
 		Iterator<BenutzerkontoBean> it = null;
 		bKonto.setFilter(true);
 		benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
@@ -699,11 +699,11 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 		while (it.hasNext()) {
 			bKonto = it.next();
+			
 			person = Person.get(bKonto.getBenutzerId());
-			personVec = new Vector<PersonBean>();
 			personVec.add(person);
+			
 			zentrum = Zentrum.getZentrum(bKonto.getZentrumId());
-			zentrumVec = new Vector<ZentrumBean>();
 			zentrumVec.add(zentrum);
 		}
 
