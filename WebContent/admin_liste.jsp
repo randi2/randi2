@@ -9,7 +9,6 @@
 	import= "java.util.Iterator"
 	import= "java.util.Vector"
 %>
-<jsp:setProperty name="user" property="*" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -51,7 +50,7 @@
 	<th width="20%"> Aktionen </th>
 </tr>
 <%
-	Iterator listeBenutzer = ((Vector)request.getAttribute("listeBenutzer")).iterator();
+Iterator listeBenutzer = ((Vector)request.getAttribute("listeBenutzer")).iterator();
 	Iterator listePerson = ((Vector)request.getAttribute("listePerson")).iterator();
 	Iterator listeZentrum = ((Vector)request.getAttribute("listeZentrum")).iterator();
 	String reihe = "tblrow1"; 
@@ -71,7 +70,7 @@
 </tr>
 <%
 		tabIndex++;
-		if(reihe.equals("tabrow1")) {
+		if(reihe.equals("tblrow1")) {
 			reihe = "tblrow2";
 		} else {
 			reihe = "tblrow1";
