@@ -5,6 +5,7 @@
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="de.randi2.utility.Config"%>
 <html>
 
 <head>
@@ -20,7 +21,7 @@
 
 <body>
 <!--  RELEASE 2 -->
-<div id="header"><img src="images/dkfz_logo.gif" width="337"
+<div id="header"><img src="<%=Config.getProperty(Config.Felder.RELEASE_BILD_LOGO) %>" width="337"
 	height="63" title="" alt=""></div>
 
 <div id="breadcrumb">
@@ -33,7 +34,7 @@
 <%@include file="include/inc_nachricht.jsp"%></div>
 
 <div id="inhalt_login">
-<p><img id="bild_login" src="images/heidelberg.jpg" width="537"
+<p><img id="bild_login" src="<%=Config.getProperty(Config.Felder.RELEASE_BILD_STARTSEITE) %>" width="537"
 	height="291" alt="Heidelberg"></p>
 </div>
 

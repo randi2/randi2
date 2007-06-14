@@ -241,6 +241,16 @@ public final class Config {
          * Gueltigkeitsdauer des Aktivierungsllinks in Stunden
          */
         RELEASE_AKTIVIERUNG_GUELTIGKEIT,
+        
+        /**
+         * Pfad zum Logo, dass links oben angezeigt wird
+         */
+        RELEASE_BILD_LOGO,
+        
+        /**
+         * Pfad zum Bild auf der Startseite
+         */
+        RELEASE_BILD_STARTSEITE,
 
         /**
          * Speicherung ob System gesperrt ist oder nicht.

@@ -20,7 +20,8 @@
 		return;
 	}
 %>
-<div id="header"><img src="images/dkfz_logo.gif" width="337"
+<%@page import="de.randi2.utility.Config"%>
+<div id="header"><img src="<%=Config.getProperty(Config.Felder.RELEASE_BILD_LOGO) %>" width="337"
 	height="63" title="" alt=""></div>
 
 <div id="breadcrumb">
