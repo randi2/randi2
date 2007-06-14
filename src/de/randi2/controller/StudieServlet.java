@@ -112,15 +112,14 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String id = (String) request.getParameter("anfrage_id");
-		String idAttribute = (String) request.getAttribute("anfrage_id");
+		String id = (String) request.getParameter(DispatcherServlet.requestParameter.ANFRAGE_Id.name());
+		String idAttribute = (String) request.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id.name());
 		if (idAttribute != null) {
 			id = idAttribute;
 		}
 		Logger.getLogger(this.getClass()).debug(id);
 
-		if (request.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
-				.name()) == anfrage_id.STUDIE_AUSWAEHLEN) {
+		if (id.equals(anfrage_id.STUDIE_AUSWAEHLEN.name())) {
 			// Die studie_auswaehlen.jsp soll angezeigt werden.
 			StudieBean leeresObjekt = new StudieBean();
 			leeresObjekt.setFilter(true);
