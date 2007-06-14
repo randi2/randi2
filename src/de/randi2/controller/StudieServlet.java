@@ -131,7 +131,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			request.setAttribute(requestParameter.LISTE_DER_STUDIEN.name(), listeStudien);
 			request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN).forward(request,
 					response);
-		} else if (request.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id.name())== anfrage_id.AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE) {
+		} else if (id.equals(anfrage_id.AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE.name())) {
 			
 			request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request, response);
 			
