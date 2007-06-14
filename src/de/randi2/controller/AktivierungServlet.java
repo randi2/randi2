@@ -18,7 +18,8 @@ import de.randi2.utility.Jsp;
 /**
  * Das Aktivierungservlet wird NUR angesprochen wenn der Benutzer den Aktivierungslink anklickt.
  * Es überprüft ob zu einem Aktivierungslink der zugehörige Eintrag in der Datenbank existiert.
- *
+ *@author Andreas Freudling [afreudli@stud.hs-heilbronn.de]
+ *@version $Id$
  */
 public class AktivierungServlet extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet {
 

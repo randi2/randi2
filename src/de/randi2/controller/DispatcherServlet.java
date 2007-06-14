@@ -14,6 +14,7 @@ import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.Config;
 import de.randi2.utility.LogAktion;
 import de.randi2.utility.LogLayout;
+import de.randi2.utility.Parameter;
 import de.randi2.utility.Config.Felder;
 
 /**
@@ -90,7 +91,15 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 */
 		JSP_INDEX_BENUTZER_REGISTRIEREN_EINS,
 
+		/**
+		 * Admin möchte ein neues Zentrum anlegen
+		 */
 		JSP_ZENTRUM_ANLEGEN,
+		
+		/**
+		 * Ein Nutzer lässt sich ein neues Passwort zuschicken
+		 */
+		JSP_PASSWORT_VERGESSEN,
 
 		/**
 		 * Benutzer hat Disclaimer akzeptiert. (Benutzer registrieren)
@@ -488,6 +497,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 					BenutzerServlet.anfrage_id.AKTION_BENUTZER_SUCHEN.name());
 			request.getRequestDispatcher("BenutzerServlet").forward(request,
 					response);
+		}
+		
+		else if(id.equals(anfrage_id.JSP_PASSWORT_VERGESSEN.name())){
+			request.setAttribute(Parameter.anfrage_id, BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_PASSWORT_VERGESSEN.name());
+			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
 		}
 
 		// [end]

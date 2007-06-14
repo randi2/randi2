@@ -54,7 +54,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI,
 
 		/**
-		 * 
+		 * Admin legt ein neues Zentrum an
 		 */
 		ClASS_DISPATCHERSERVLET_ZENTRUM_ANLEGEN,
 

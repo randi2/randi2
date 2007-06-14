@@ -65,6 +65,11 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		 * Letzter Schritt der Benutzeranmeldung, Eingabe der Persondaten
 		 */
 		CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER,
+		
+		/**
+		 * Nutzer lässt sich ein neues Passwort zuschicken
+		 */
+		CLASS_DISPATCHERSERVLET_PASSWORT_VERGESSEN,
 
 		/**
 		 * Aufforderung, aus den uebergebenen Daten einen Benutzer zu generieren
@@ -137,6 +142,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		} else if (id.equals(BenutzerServlet.anfrage_id.BENUTZERDATEN_AENDERN
 				.name())) {
 			aendernBenutzer(request, response);
+		}
+		else if (id.equals(anfrage_id.CLASS_DISPATCHERSERVLET_PASSWORT_VERGESSEN.name())){
+			this.classDispatcherServletPasswortVergessen(request, response);
 		}
 
 		// if
@@ -903,8 +911,27 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-
 			}
+		
+		/**
+		 * Methode zum Zusenden eines neuen Passworts an den Studienarzt
+		 * 
+		 * @param request
+		 *            Der Request fuer das Servlet.
+		 * @param response
+		 *            Der Response Servlet.
+		 * @throws IOException
+		 *             Falls Fehler in den E/A-Verarbeitung.
+		 * @throws ServletException
+		 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+		 */
+		private void classDispatcherServletPasswortVergessen(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		
+			
+			
+			
+		}
+		
 		
 }
