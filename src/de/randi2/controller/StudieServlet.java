@@ -36,8 +36,13 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Eine Studie soll vom Benutzer ausgewaehlt werden.
 		 */
-		STUDIE_AUSWAEHLEN
-
+		STUDIE_AUSWAEHLEN,
+		
+		/**
+		 * Anlegen einer neuen Studie 
+		 */
+		AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE
+		
 	}
 
 	/**
@@ -126,6 +131,10 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			request.setAttribute(requestParameter.LISTE_DER_STUDIEN.name(), listeStudien);
 			request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN).forward(request,
 					response);
+		} else if (request.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id.name())== anfrage_id.AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE) {
+			
+			request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request, response);
+			
 		}
 	}
 }
