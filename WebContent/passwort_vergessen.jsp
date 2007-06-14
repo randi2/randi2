@@ -30,7 +30,7 @@ anfordern<br>
 <table>
 	<tr>
 		<td>Benutzername<br>
-		<input type="text" size="20" maxlength="50" name="<%=Parameter.benutzerkonto.PASSWORT %>"
+		<input type="text" size="20" maxlength="50" name="<%=Parameter.benutzerkonto.LOGINNAME.name() %>"
 			tabindex="1"></td>
 
 	</tr>

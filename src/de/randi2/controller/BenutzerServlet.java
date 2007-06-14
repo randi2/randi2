@@ -3,6 +3,7 @@ package de.randi2.controller;
 import java.io.IOException;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Vector;
 
 import javax.servlet.ServletException;
@@ -15,6 +16,7 @@ import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
+import de.randi2.model.exceptions.NachrichtException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.AutomatischeNachricht;
 import de.randi2.model.fachklassen.Benutzerkonto;
@@ -30,6 +32,7 @@ import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.LogAktion;
 import de.randi2.utility.LogLayout;
 import de.randi2.utility.NullKonstanten;
+import de.randi2.utility.Parameter;
 import de.randi2.utility.SystemException;
 
 /**
@@ -673,7 +676,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					.schreibenObjekt(aktivierung);
 			AutomatischeNachricht aktivierungMail = new AutomatischeNachricht(
 					aPerson, AutomatischeNachricht.autoNachricht.AKTIVIERUNG);
-			// aktivierungMail.senden();
+			 aktivierungMail.senden();
 
 			// Falls ein Fehler aufgetreten ist, request wieder auffüllen
 		} catch (BenutzerException e) {
@@ -927,6 +930,52 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		 */
 		private void classDispatcherServletPasswortVergessen(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
+			boolean fehler=false;
+			
+			//Benutzerkonto auslesen
+			String benutzername=request.getParameter(Parameter.benutzerkonto.LOGINNAME.name());
+			BenutzerkontoBean aBenutzerkonto=new BenutzerkontoBean();
+			try {
+				//TODO --afreudli wer darf sein Passwort ändern?!
+				aBenutzerkonto.setBenutzername(benutzername);
+				aBenutzerkonto.setFilter(true);
+				aBenutzerkonto=DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(aBenutzerkonto).firstElement();
+				
+				//Neues Passwort generieren und reinschreiben;
+				String neuesPasswort=KryptoUtil.getInstance().generatePasswort(12);
+				
+				aBenutzerkonto.setPasswort(KryptoUtil.getInstance().hashPasswort(neuesPasswort));
+				aBenutzerkonto=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzerkonto);
+				
+				AutomatischeNachricht autoNachricht=new AutomatischeNachricht(aBenutzerkonto.getBenutzer(),neuesPasswort);
+				Logger.getLogger(this.getClass()).debug("Neues Passwort ist:\t"+neuesPasswort);
+				//TODO --afreudli NAch debuggen Kommentar entfernen
+				//autoNachricht.senden();
+				
+			//Am Benutzernamen ist was falsch	
+			} catch (BenutzerkontoException e) {
+				fehler=true;
+			}
+			//Nutzer ist nicht in DB
+			catch(NoSuchElementException e){
+				fehler=true;
+			} catch (NachrichtException e) {
+				fehler=true;
+			}
+			
+			//Logging
+			if(fehler){
+				Logger.getLogger(this.getClass()).info("Neue Passwort fuer:\t"+benutzername+" wurde NICHT versandt.");
+				
+			}
+			else{
+				Logger.getLogger(this.getClass()).info("Neue Passwort fuer:\t"+benutzername+"  WURDE versandt.");
+			}
+				//Es kommt immer OK Nachricht, da Sicherheitsrelevant
+				request.setAttribute(DispatcherServlet.NACHRICHT_OK, "Sollte dieser Loginname im System vorhanden sein, so erhalten sie in Kürze eine Email mit einem neuen Passwort");
+				request.getRequestDispatcher(Jsp.PASSWORT_VERGESSEN).forward(request, response);
+	
+			
 		
 			
 			
