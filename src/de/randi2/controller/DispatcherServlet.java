@@ -95,7 +95,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Admin möchte ein neues Zentrum anlegen
 		 */
 		JSP_ZENTRUM_ANLEGEN,
-		
+
 		/**
 		 * Ein Nutzer lässt sich ein neues Passwort zuschicken
 		 */
@@ -165,8 +165,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Neue Studie anlegen
 		 */
-		JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE,
-		
+		JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE
+
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Konto des Benutzers (BenutzerkontoBean)
 		 */
 		A_Benutzer, // XXX Konto ist als 'aBenutzer' gebunden, nicht ueber diese
-					// Kosntante
+		// Kosntante
 
 		/**
 		 * Zentrum fuer das sich der Benutzer anmeldet.
@@ -503,22 +503,30 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			request.getRequestDispatcher("BenutzerServlet").forward(request,
 					response);
 		}
-		
-		else if(id.equals(anfrage_id.JSP_PASSWORT_VERGESSEN.name())){
-			request.setAttribute(Parameter.anfrage_id, BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_PASSWORT_VERGESSEN.name());
-			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
+
+		else if (id.equals(anfrage_id.JSP_PASSWORT_VERGESSEN.name())) {
+			request
+					.setAttribute(
+							Parameter.anfrage_id,
+							BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_PASSWORT_VERGESSEN
+									.name());
+			request.getRequestDispatcher("BenutzerServlet").forward(request,
+					response);
 		}
 
 		// [end]
-		
+
 		// WEITERLEITUNG FUER STUDIESERVLET
 		// [start]
 		else if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE.name())) {
-		
+
 			// neue Studie anlegen
-			request.setAttribute("anfrage_id", StudieServlet.anfrage_id.AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE.name());
-			request.getRequestDispatcher("StudieServlet").forward(request, response);
-			
+			request.setAttribute(Parameter.anfrage_id,
+					StudieServlet.anfrage_id.AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE
+							.name());
+			request.getRequestDispatcher("StudieServlet").forward(request,
+					response);
+
 		}
 		// [end]
 
