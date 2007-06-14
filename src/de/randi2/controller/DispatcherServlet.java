@@ -160,8 +160,13 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Zentrum aendern
 		 */
-		JSP_ZENTRUM_AENDERN
+		JSP_ZENTRUM_AENDERN,
 
+		/**
+		 * Neue Studie anlegen
+		 */
+		JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE,
+		
 	}
 
 	/**
@@ -504,6 +509,17 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
 		}
 
+		// [end]
+		
+		// WEITERLEITUNG FUER STUDIESERVLET
+		// [start]
+		else if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE.name())) {
+		
+			// neue Studie anlegen
+			request.setAttribute("anfrage_id", StudieServlet.anfrage_id.AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE.name());
+			request.getRequestDispatcher("StudieServlet").forward(request, response);
+			
+		}
 		// [end]
 
 		// SONSTIGE WEITERLEITUNGEN
