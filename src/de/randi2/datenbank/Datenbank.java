@@ -889,16 +889,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		sql = "DELETE FROM " + Tabellen.ZENTRUM + " WHERE " + FelderZentrum.ID
 				+ "=?";
 		try {
-			//HasMap für Log
-			geloeschteDaten.put(FelderZentrum.ANSPRECHPARTNERID.toString(), String.valueOf(zentrum.getAnsprechpartnerId()));
-			geloeschteDaten.put(FelderZentrum.INSTITUTION.toString(), zentrum.getInstitution());
-			geloeschteDaten.put(FelderZentrum.ABTEILUNGSNAME.toString(), zentrum.getAbteilung());
-			geloeschteDaten.put(FelderZentrum.ORT.toString(), zentrum.getOrt());
-			geloeschteDaten.put(FelderZentrum.PLZ.toString(), zentrum.getPlz());
-			geloeschteDaten.put(FelderZentrum.STRASSE.toString(), zentrum.getStrasse());
-			geloeschteDaten.put(FelderZentrum.HAUSNUMMER.toString(), zentrum.getHausnr());
-			geloeschteDaten.put(FelderZentrum.PASSWORT.toString(), zentrum.getPasswort());
-			geloeschteDaten.put(FelderZentrum.AKTIVIERT.toString(), String.valueOf(zentrum.getIstAktiviert()));
 			//SQL
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, zentrum.getId());
@@ -917,7 +907,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.CONNECTION_ERR);
 			}
 		}
-		this.loggenDaten(zentrum, geloeschteDaten, LogKonstanten.LOESCHE_DATENSATZ);
+		this.loggenDaten(zentrum, LogKonstanten.LOESCHE_DATENSATZ);
 	}
 
 	/**
@@ -960,6 +950,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.CONNECTION_ERR);
 			}
 		}
+		this.loggenDaten(person, LogKonstanten.LOESCHE_DATENSATZ);
 	}
 
 	/**
@@ -1002,6 +993,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.CONNECTION_ERR);
 			}
 		}
+		this.loggenDaten(benutzer, LogKonstanten.LOESCHE_DATENSATZ);
 	}
 
 	/**
@@ -1044,6 +1036,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.CONNECTION_ERR);
 			}
 		}
+		this.loggenDaten(aktivierung, LogKonstanten.LOESCHE_DATENSATZ);
 	}
 
 	/**
@@ -1086,6 +1079,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.CONNECTION_ERR);
 			}
 		}
+		this.loggenDaten(studie, LogKonstanten.LOESCHE_DATENSATZ);
 	}
 
 	/**
@@ -1128,6 +1122,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.CONNECTION_ERR);
 			}
 		}
+		this.loggenDaten(studienarm, LogKonstanten.LOESCHE_DATENSATZ);
 	}
 
 	/**
@@ -1170,6 +1165,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.CONNECTION_ERR);
 			}
 		}
+		this.loggenDaten(patient, LogKonstanten.LOESCHE_DATENSATZ);
 	}
 	
 
@@ -1274,20 +1270,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 		}
-		//Loggen
-		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
-		//Fuellen der Hashmap mit Daten fuer das Loggen
-		geaenderteDaten.put(FelderPerson.NACHNAME.toString(), person.getNachname());
-		geaenderteDaten.put(FelderPerson.VORNAME.toString(), person.getVorname());
-		geaenderteDaten.put(FelderPerson.GESCHLECHT.toString(), String.valueOf(person.getGeschlecht()));
-		geaenderteDaten.put(FelderPerson.TITEL.toString(), person.getTitel().toString());
-		geaenderteDaten.put(FelderPerson.EMAIL.toString(), person.getEmail());
-		geaenderteDaten.put(FelderPerson.FAX.toString(), person.getFax());
-		geaenderteDaten.put(FelderPerson.TELEFONNUMMER.toString(), person.getTelefonnummer());
-		geaenderteDaten.put(FelderPerson.HANDYNUMMER.toString(), person.getHandynummer());
-		if (person.getStellvertreterId() != NullKonstanten.DUMMY_ID) {
-			geaenderteDaten.put(FelderPerson.STELLVERTRETER.toString(), String.valueOf(person.getStellvertreterId()));
-		}
 		//JDBC
 		PreparedStatement pstmt;
 		ResultSet rs;
@@ -1340,7 +1322,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			person.setId(id);
 			//loggen eines neuen Datensatzes
-			loggenDaten(person, geaenderteDaten, LogKonstanten.NEUER_DATENSATZ);
+			loggenDaten(person,  LogKonstanten.NEUER_DATENSATZ);
 			return person;
 		}
 		// vorhandene Person wird aktualisiert
@@ -1386,7 +1368,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				}
 			}
 			//loggen eines geaenderten Datensatzes
-			loggenDaten(person, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);						
+			loggenDaten(person,  LogKonstanten.AKTUALISIERE_DATENSATZ);						
 		} 
 		return person;
 	}
@@ -1414,17 +1396,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql;
 		PreparedStatement pstmt;
 		ResultSet rs;
-		//Loggen
-		HashMap<String, String> geaenderteDaten = new HashMap<String, String>();
-		geaenderteDaten.put(FelderZentrum.INSTITUTION.toString(),zentrum.getInstitution() );
-		geaenderteDaten.put(FelderZentrum.ABTEILUNGSNAME.toString(),zentrum.getAbteilung() );
-		geaenderteDaten.put(FelderZentrum.ANSPRECHPARTNERID.toString(),String.valueOf(zentrum.getAnsprechpartnerId()));
-		geaenderteDaten.put(FelderZentrum.STRASSE.toString(), zentrum.getStrasse());
-		geaenderteDaten.put(FelderZentrum.HAUSNUMMER.toString(), String.valueOf(zentrum.getHausnr()));
-		geaenderteDaten.put(FelderZentrum.PLZ.toString(),String.valueOf(zentrum.getPlz()) );
-		geaenderteDaten.put(FelderZentrum.ORT.toString(), zentrum.getOrt());
-		geaenderteDaten.put(FelderZentrum.PASSWORT.toString(),zentrum.getPasswort() );
-		geaenderteDaten.put(FelderZentrum.AKTIVIERT.toString(),String.valueOf(zentrum.getIstAktiviert()) );
 		// neues Zentrum da Id der Nullkonstante entspricht
 		if (zentrum.getId() == NullKonstanten.NULL_LONG) {
 			long id = Long.MIN_VALUE;
@@ -1460,7 +1431,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			zentrum.setId(id);
-			loggenDaten(zentrum, geaenderteDaten, LogKonstanten.NEUER_DATENSATZ);
+			loggenDaten(zentrum, LogKonstanten.NEUER_DATENSATZ);
 			return zentrum;
 		}
 		// vorhandenes Zentrum wird aktualisiert
@@ -1503,7 +1474,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.CONNECTION_ERR);
 		}
 		//loggen des geaenderten Datensatzes
-		loggenDaten(zentrum, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);
+		loggenDaten(zentrum,  LogKonstanten.AKTUALISIERE_DATENSATZ);
 		return zentrum;
 	}
 
@@ -1525,22 +1496,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		//Logging
-		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.GERMANY);
-		//HashMap fuellen
-		geaenderteDaten.put(FelderBenutzerkonto.LOGINNAME.toString(), benutzerKonto.getBenutzername());
-		geaenderteDaten.put(FelderBenutzerkonto.PASSWORT.toString(), benutzerKonto.getPasswort());
-		geaenderteDaten.put(FelderBenutzerkonto.ZENTRUMID.toString(), String.valueOf(benutzerKonto.getZentrumId()));
-		geaenderteDaten.put(FelderBenutzerkonto.ROLLEACCOUNT.toString(), benutzerKonto.getRolle().getName());
-		
-		if(benutzerKonto.getErsterLogin()!= null) {
-			geaenderteDaten.put(FelderBenutzerkonto.ERSTERLOGIN.toString(), sdf.format(benutzerKonto.getErsterLogin().getTime()));
-		}
-		if(benutzerKonto.getLetzterLogin()!= null) {
-			geaenderteDaten.put(FelderBenutzerkonto.LETZTERLOGIN.toString(), sdf.format(benutzerKonto.getLetzterLogin().getTime()));
-		}				
-		geaenderteDaten.put(FelderBenutzerkonto.GESPERRT.toString(), String.valueOf(benutzerKonto.isGesperrt()));
 		try {
 			con = this.getConnection();
 		} catch (SQLException e) {
@@ -1568,8 +1523,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				//JDBC Statement erzeugen
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
-				pstmt.setLong(i++, benutzerKonto.getBenutzerId());
-				geaenderteDaten.put(FelderBenutzerkonto.PERSONID.toString(), String.valueOf(benutzerKonto.getBenutzerId()));
+				pstmt.setLong(i++, benutzerKonto.getBenutzerId());				
 				pstmt.setString(i++, benutzerKonto.getBenutzername());
 				pstmt.setString(i++, benutzerKonto.getPasswort());
 				pstmt.setLong(i++, benutzerKonto.getZentrumId());
@@ -1599,7 +1553,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			benutzerKonto.setId(id);
-			loggenDaten(benutzerKonto, geaenderteDaten, LogKonstanten.NEUER_DATENSATZ);
+			loggenDaten(benutzerKonto,  LogKonstanten.NEUER_DATENSATZ);
 			return benutzerKonto;
 
 		} else {
@@ -1652,7 +1606,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
-		loggenDaten(benutzerKonto, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);
+		loggenDaten(benutzerKonto, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		return benutzerKonto;
 	}
 
@@ -1673,12 +1627,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);	
-		//Hashmap fuellen
-		geaenderteDaten.put(FelderAktivierung.BENUTZER.toString(), String.valueOf(aktivierung.getBenutzerkontoId()));
-		geaenderteDaten.put(FelderAktivierung.LINK.toString(), aktivierung.getAktivierungsLink());
-		geaenderteDaten.put(FelderAktivierung.VERSANDDATUM.toString(), sdf.format(aktivierung.getVersanddatum().getTime()));
 		try {
 			con = this.getConnection();
 		} catch (SQLException e) {
@@ -1714,7 +1662,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			aktivierung.setId(id);
-			loggenDaten(aktivierung, geaenderteDaten, LogKonstanten.NEUER_DATENSATZ);
+			loggenDaten(aktivierung, LogKonstanten.NEUER_DATENSATZ);
 			return aktivierung;
 		} else {
 			int j = 1;
@@ -1747,7 +1695,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				}
 			}
 		}
-		loggenDaten(aktivierung, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);
+		loggenDaten(aktivierung, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		return aktivierung;
 	}
 
@@ -1775,15 +1723,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
-		HashMap<String, String> geaenderteDaten = new HashMap<String, String>();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.GERMANY);
-		geaenderteDaten.put(FelderStudie.BENUTZER.toString(),String.valueOf(studie.getBenutzerkontoId()));
-		geaenderteDaten.put(FelderStudie.NAME.toString(), studie.getName());
-		geaenderteDaten.put(FelderStudie.BESCHREIBUNG.toString(), studie.getBeschreibung());
-		geaenderteDaten.put(FelderStudie.STARTDATUM.toString(), sdf.format(studie.getStartDatum()));
-		geaenderteDaten.put(FelderStudie.ENDDATUM.toString(), sdf.format(studie.getEndDatum()));
-		geaenderteDaten.put(FelderStudie.RANDOMISATIONSART.toString(), studie.getRandomisationsart());
-		geaenderteDaten.put(FelderStudie.STATUS.toString(), studie.getStatus().toString());
 		if (studie.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
 			long id = Long.MIN_VALUE;
@@ -1842,7 +1781,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				throw new DatenbankExceptions(e,sql,DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			studie.setId(id);
-			loggenDaten(studie, geaenderteDaten, LogKonstanten.NEUER_DATENSATZ);
+			loggenDaten(studie, LogKonstanten.NEUER_DATENSATZ);
 			return studie;
 		} else {
 			int j = 1;
@@ -1895,7 +1834,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			} catch (SQLException e) {
 				throw new DatenbankExceptions(e,sql,DatenbankExceptions.SCHREIBEN_ERR);
 			}
-			loggenDaten(studie, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);
+			loggenDaten(studie, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		}
 		try {
 			this.closeConnection(con);
@@ -1931,12 +1870,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
-		//Loggen
-		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
-		geaenderteDaten.put(FelderStudienarm.STUDIE.toString(), String.valueOf(studienarm.getStudieId()));
-		geaenderteDaten.put(FelderStudienarm.STATUS.toString(), studienarm.getStatus().toString());
-		geaenderteDaten.put(FelderStudienarm.BEZEICHNUNG.toString(), studienarm.getBezeichnung());
-		geaenderteDaten.put(FelderStudienarm.BESCHREIBUNG.toString(), studienarm.getBeschreibung());
 		
 		if (studienarm.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
@@ -1970,7 +1903,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			studienarm.setId(id);
-			loggenDaten(studienarm, geaenderteDaten, LogKonstanten.NEUER_DATENSATZ);
+			loggenDaten(studienarm, LogKonstanten.NEUER_DATENSATZ);
 			return studienarm;
 		} else {
 			int j = 1;
@@ -1997,7 +1930,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				throw new DatenbankExceptions(
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
-			loggenDaten(studienarm, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);
+			loggenDaten(studienarm, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		}
 		try {
 			this.closeConnection(con);
@@ -2033,16 +1966,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
-		//Loggen
-		HashMap<String, String> geaenderteDaten = new HashMap<String, String>(); 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.GERMANY);
-		geaenderteDaten.put(FelderPatient.BENUTZER.toString(), String.valueOf(patient.getBenutzerkontoId()));
-		geaenderteDaten.put(FelderPatient.STUDIENARM.toString(), String.valueOf(patient.getStudienarmId()));
-		geaenderteDaten.put(FelderPatient.GEBURTSDATUM.toString(), sdf.format(patient.getGeburtsdatum()));
-		geaenderteDaten.put(FelderPatient.GESCHLECHT.toString(), String.valueOf(patient.getGeschlecht()));
-		geaenderteDaten.put(FelderPatient.AUFKLAERUNGSDATUM.toString(), sdf.format(patient.getDatumAufklaerung()));
-		geaenderteDaten.put(FelderPatient.KOERPEROBERFLAECHE.toString(), String.valueOf(patient.getKoerperoberflaeche()));
-		geaenderteDaten.put(FelderPatient.PERFORMANCESTATUS.toString(), String.valueOf(patient.getPerformanceStatus()));
 		
 		if (patient.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
@@ -2083,7 +2006,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			} 
 			patient.setId(id);
-			loggenDaten(patient, geaenderteDaten, LogKonstanten.NEUER_DATENSATZ);
+			loggenDaten(patient, LogKonstanten.NEUER_DATENSATZ);
 			return patient;
 		} else {
 			int j = 1;
@@ -2117,7 +2040,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				throw new DatenbankExceptions(
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
-			loggenDaten(patient, geaenderteDaten, LogKonstanten.AKTUALISIERE_DATENSATZ);
+			loggenDaten(patient, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		}
 		try {
 			this.closeConnection(con);
@@ -4213,9 +4136,88 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 			3 falls Objekt geloescht wurde	
 	 * @throws DatenbankExceptions Fehler beim Loggen.
 	 */
-	private <T extends Filter> void   loggenDaten(T aObjekt, HashMap<String, String> geaenderteDaten, int logart) throws DatenbankExceptions {
+	private <T extends Filter> void   loggenDaten(T aObjekt, int logart) throws DatenbankExceptions {
 		String text=null;
-		//TODO tmp Benutzer entfernen!
+		HashMap<String, String> geaenderteDaten = new HashMap<String, String>();
+		
+		if (aObjekt instanceof PersonBean) {
+			geaenderteDaten.put(FelderPerson.NACHNAME.toString(),((PersonBean) aObjekt).getNachname());
+			geaenderteDaten.put(FelderPerson.VORNAME.toString(),((PersonBean) aObjekt).getVorname());
+			geaenderteDaten.put(FelderPerson.GESCHLECHT.toString(), String.valueOf(((PersonBean) aObjekt).getGeschlecht()));
+			geaenderteDaten.put(FelderPerson.TITEL.toString(), ((PersonBean) aObjekt).getTitel().toString());
+			geaenderteDaten.put(FelderPerson.EMAIL.toString(), ((PersonBean) aObjekt).getEmail());
+			geaenderteDaten.put(FelderPerson.FAX.toString(), ((PersonBean) aObjekt).getFax());
+			geaenderteDaten.put(FelderPerson.TELEFONNUMMER.toString(), ((PersonBean) aObjekt).getTelefonnummer());
+			geaenderteDaten.put(FelderPerson.HANDYNUMMER.toString(), ((PersonBean) aObjekt).getHandynummer());
+			if (((PersonBean) aObjekt).getStellvertreterId() != NullKonstanten.DUMMY_ID) {
+				geaenderteDaten.put(FelderPerson.STELLVERTRETER.toString(), String.valueOf(((PersonBean) aObjekt).getStellvertreterId()));
+			}			
+		}
+		else if (aObjekt instanceof ZentrumBean) {
+			geaenderteDaten.put(FelderZentrum.INSTITUTION.toString(),((ZentrumBean) aObjekt).getInstitution() );
+			geaenderteDaten.put(FelderZentrum.ABTEILUNGSNAME.toString(),((ZentrumBean) aObjekt).getAbteilung() );
+			geaenderteDaten.put(FelderZentrum.ANSPRECHPARTNERID.toString(),String.valueOf(((ZentrumBean) aObjekt).getAnsprechpartnerId()));
+			geaenderteDaten.put(FelderZentrum.STRASSE.toString(), ((ZentrumBean) aObjekt).getStrasse());
+			geaenderteDaten.put(FelderZentrum.HAUSNUMMER.toString(), String.valueOf(((ZentrumBean) aObjekt).getHausnr()));
+			geaenderteDaten.put(FelderZentrum.PLZ.toString(),String.valueOf(((ZentrumBean) aObjekt).getPlz()) );
+			geaenderteDaten.put(FelderZentrum.ORT.toString(), ((ZentrumBean) aObjekt).getOrt());
+			geaenderteDaten.put(FelderZentrum.PASSWORT.toString(),((ZentrumBean) aObjekt).getPasswort() );
+			geaenderteDaten.put(FelderZentrum.AKTIVIERT.toString(),String.valueOf(((ZentrumBean) aObjekt).getIstAktiviert()) );
+			
+		}
+		else if (aObjekt instanceof BenutzerkontoBean) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.GERMANY);
+			geaenderteDaten.put(FelderBenutzerkonto.LOGINNAME.toString(),((BenutzerkontoBean) aObjekt).getBenutzername());
+			geaenderteDaten.put(FelderBenutzerkonto.PASSWORT.toString(), ((BenutzerkontoBean) aObjekt).getPasswort());
+			geaenderteDaten.put(FelderBenutzerkonto.ZENTRUMID.toString(), String.valueOf(((BenutzerkontoBean) aObjekt).getZentrumId()));
+			geaenderteDaten.put(FelderBenutzerkonto.ROLLEACCOUNT.toString(), ((BenutzerkontoBean) aObjekt).getRolle().getName());
+			if(((BenutzerkontoBean) aObjekt).getErsterLogin()!= null) {
+				geaenderteDaten.put(FelderBenutzerkonto.ERSTERLOGIN.toString(), sdf.format(((BenutzerkontoBean) aObjekt).getErsterLogin().getTime()));
+			}
+			if(((BenutzerkontoBean) aObjekt).getLetzterLogin()!= null) {
+				geaenderteDaten.put(FelderBenutzerkonto.LETZTERLOGIN.toString(), sdf.format(((BenutzerkontoBean) aObjekt).getLetzterLogin().getTime()));
+			}				
+			geaenderteDaten.put(FelderBenutzerkonto.GESPERRT.toString(), String.valueOf(((BenutzerkontoBean) aObjekt).isGesperrt()));
+			geaenderteDaten.put(FelderBenutzerkonto.PERSONID.toString(), String.valueOf(((BenutzerkontoBean) aObjekt).getBenutzerId()));
+			
+		}
+		else if (aObjekt instanceof AktivierungBean) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);	
+			geaenderteDaten.put(FelderAktivierung.BENUTZER.toString(), String.valueOf(((AktivierungBean) aObjekt).getBenutzerkontoId()));
+			geaenderteDaten.put(FelderAktivierung.LINK.toString(), ((AktivierungBean) aObjekt).getAktivierungsLink());
+			geaenderteDaten.put(FelderAktivierung.VERSANDDATUM.toString(), sdf.format(((AktivierungBean) aObjekt).getVersanddatum().getTime()));
+			
+		}
+		else if (aObjekt instanceof StudieBean) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.GERMANY);
+			geaenderteDaten.put(FelderStudie.BENUTZER.toString(),String.valueOf(((StudieBean) aObjekt).getBenutzerkontoId()));
+			geaenderteDaten.put(FelderStudie.NAME.toString(), ((StudieBean) aObjekt).getName());
+			geaenderteDaten.put(FelderStudie.BESCHREIBUNG.toString(), ((StudieBean) aObjekt).getBeschreibung());
+			geaenderteDaten.put(FelderStudie.STARTDATUM.toString(), sdf.format(((StudieBean) aObjekt).getStartDatum()));
+			geaenderteDaten.put(FelderStudie.ENDDATUM.toString(), sdf.format(((StudieBean) aObjekt).getEndDatum()));
+			geaenderteDaten.put(FelderStudie.RANDOMISATIONSART.toString(), ((StudieBean) aObjekt).getRandomisationsart());
+			geaenderteDaten.put(FelderStudie.STATUS.toString(), ((StudieBean) aObjekt).getStatus().toString());
+			
+		}
+		else if (aObjekt instanceof StudienarmBean) {
+			geaenderteDaten.put(FelderStudienarm.STUDIE.toString(), String.valueOf(((StudienarmBean) aObjekt).getStudieId()));
+			geaenderteDaten.put(FelderStudienarm.STATUS.toString(), ((StudienarmBean) aObjekt).getStatus().toString());
+			geaenderteDaten.put(FelderStudienarm.BEZEICHNUNG.toString(), ((StudienarmBean) aObjekt).getBezeichnung());
+			geaenderteDaten.put(FelderStudienarm.BESCHREIBUNG.toString(), ((StudienarmBean) aObjekt).getBeschreibung());
+			
+		}
+		else if (aObjekt instanceof PatientBean) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.GERMANY);
+			geaenderteDaten.put(FelderPatient.BENUTZER.toString(), String.valueOf(((PatientBean) aObjekt).getBenutzerkontoId()));
+			geaenderteDaten.put(FelderPatient.STUDIENARM.toString(), String.valueOf(((PatientBean) aObjekt).getStudienarmId()));
+			geaenderteDaten.put(FelderPatient.GEBURTSDATUM.toString(), sdf.format(((PatientBean) aObjekt).getGeburtsdatum()));
+			geaenderteDaten.put(FelderPatient.GESCHLECHT.toString(), String.valueOf(((PatientBean) aObjekt).getGeschlecht()));
+			geaenderteDaten.put(FelderPatient.AUFKLAERUNGSDATUM.toString(), sdf.format(((PatientBean) aObjekt).getDatumAufklaerung()));
+			geaenderteDaten.put(FelderPatient.KOERPEROBERFLAECHE.toString(), String.valueOf(((PatientBean) aObjekt).getKoerperoberflaeche()));
+			geaenderteDaten.put(FelderPatient.PERFORMANCESTATUS.toString(), String.valueOf(((PatientBean) aObjekt).getPerformanceStatus()));
+			
+		}
+		//TODO tmp Benutzer entfernen! bzw Loesung finden wie der Nutzer geloggt werden kann.
 		BenutzerkontoBean tmp=null;
 		try {
 			tmp = new BenutzerkontoBean("Franz","test66!!");
@@ -4235,25 +4237,5 @@ public class Datenbank implements DatenbankSchnittstelle {
 		log.info(new LogAktion(text,tmp, 
 				new LogGeanderteDaten(aObjekt.getId(),aObjekt.getClass().getSimpleName(),geaenderteDaten)));
 	}
-	
-	/**
-	 * Prueft zwei Strings ob sie unterschiedlich sind
-	 * @param arg0
-	 * @param arg1
-	 * @return
-	 * 			true falls geaendert
-	 */
-	@Deprecated
-	private boolean pruefenStringAufAenderung(String arg0, String arg1) {
-		if(arg0!=null && arg1==null) {
-			return true;
-		}
-		if(arg0==null && arg1!=null) {
-			return true;
-		}
-		if(!arg0.equals(arg1)) {
-			return true;
-		}
-		return false;
-	}
+
 }
