@@ -1356,44 +1356,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			FelderPerson.HANDYNUMMER + "=?,"+ 
 			FelderPerson.STELLVERTRETER + "=?" + 
 			" WHERE "+ FelderPerson.ID + "=?";
-			try {
-				//Fuellen der Hashmap mit Daten fuer das Loggen
-//				if(pruefenStringAufAenderung(person.getNachname(), person_old.getNachname())) {
-//					geaenderteDaten.put(FelderPerson.NACHNAME.toString(), person.getNachname());
-//					geaendert=true;
-//				}
-//				if(pruefenStringAufAenderung(person.getVorname(), person_old.getVorname())) {
-//					geaenderteDaten.put(FelderPerson.VORNAME.toString(), person.getVorname());
-//					geaendert=true;
-//				}
-//				if(person.getGeschlecht()!=person_old.getGeschlecht()) {
-//					geaenderteDaten.put(FelderPerson.GESCHLECHT.toString(), String.valueOf(person.getGeschlecht()));
-//					geaendert=true;
-//				}
-//				if(pruefenStringAufAenderung(person.getTitel().toString(), person_old.getTitel().toString())) {
-//					geaenderteDaten.put(FelderPerson.TITEL.toString(), person.getTitel().toString());
-//					geaendert=true;
-//				}
-//				if(pruefenStringAufAenderung(person.getEmail(), person_old.getEmail())) {
-//					geaenderteDaten.put(FelderPerson.EMAIL.toString(), person.getEmail());
-//					geaendert=true;
-//				}
-//				if(pruefenStringAufAenderung(person.getFax(), person_old.getFax())) {
-//					geaenderteDaten.put(FelderPerson.FAX.toString(), person.getFax());
-//					geaendert=true;
-//				}
-//				if(pruefenStringAufAenderung(person.getTelefonnummer(), person_old.getTelefonnummer())) {
-//					geaenderteDaten.put(FelderPerson.TELEFONNUMMER.toString(), person.getTelefonnummer());
-//					geaendert=true;
-//				}
-//				if(pruefenStringAufAenderung(person.getHandynummer(), person_old.getHandynummer())) {
-//					geaenderteDaten.put(FelderPerson.HANDYNUMMER.toString(), person.getHandynummer());
-//					geaendert=true;
-//				}
-//				if (person.getStellvertreterId() != person_old.getStellvertreterId()) {
-//					geaenderteDaten.put(FelderPerson.STELLVERTRETER.toString(), String.valueOf(person.getStellvertreterId()));
-//					geaendert=true;
-//				}					
+			try {					
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, person.getNachname());
 				pstmt.setString(2, person.getVorname());
@@ -1513,33 +1476,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderZentrum.AKTIVIERT + "=?" + " WHERE "
 					+ FelderZentrum.ID + "=?";
 			try {
-//				if(!zentrum.getInstitution().equals(zentrum_old.getInstitution())) {
-//					geaenderteDaten.put(FelderZentrum.INSTITUTION.toString(), zentrum.getInstitution());
-//				}
-//				if(!zentrum.getAbteilung().equals(zentrum_old.getAbteilung())) {
-//					geaenderteDaten.put(FelderZentrum.ABTEILUNGSNAME.toString(), zentrum.getAbteilung());
-//				}
-//				if(zentrum.getAnsprechpartnerId()!=zentrum_old.getAnsprechpartnerId()) {
-//					geaenderteDaten.put(FelderZentrum.ANSPRECHPARTNERID.toString(), String.valueOf(zentrum.getAnsprechpartnerId()));
-//				}
-//				if(!zentrum.getStrasse().equals(zentrum_old.getStrasse())) {
-//					geaenderteDaten.put(FelderZentrum.STRASSE.toString(), zentrum.getStrasse());
-//				}
-//				if(zentrum.getHausnr()!=zentrum_old.getHausnr()) {
-//					geaenderteDaten.put(FelderZentrum.HAUSNUMMER.toString(), String.valueOf(zentrum.getHausnr()));
-//				}
-//				if(zentrum.getPlz()!=zentrum_old.getPlz()) {
-//					geaenderteDaten.put(FelderZentrum.PLZ.toString(), String.valueOf(zentrum.getPlz()));
-//				}
-//				if(!zentrum.getOrt().equals(zentrum_old.getOrt())) {
-//					geaenderteDaten.put(FelderZentrum.ORT.toString(), zentrum.getOrt());
-//				}
-//				if(!zentrum.getPasswort().equals(zentrum_old.getPasswort())) {
-//					geaenderteDaten.put(FelderZentrum.PASSWORT.toString(), zentrum.getPasswort());
-//				}
-//				if(zentrum.getIstAktiviert()!=zentrum_old.getIstAktiviert()) {
-//					geaenderteDaten.put(FelderZentrum.AKTIVIERT.toString(), String.valueOf(zentrum.getIstAktiviert()));
-//				}
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, zentrum.getInstitution());
 				pstmt.setString(2, zentrum.getAbteilung());
@@ -1679,27 +1615,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderBenutzerkonto.GESPERRT + "= ? " + "WHERE "
 					+ FelderBenutzerkonto.ID + "= ? ";
 			try {
-				//HashMap fuellen
-//				BenutzerkontoBean bk_old = suchenObjektId(benutzerKonto.getId(),new BenutzerkontoBean());
-//				if(!benutzerKonto.getBenutzername().equals(bk_old.getBenutzername())) {
-//					geaenderteDaten.put(FelderBenutzerkonto.LOGINNAME.toString(), benutzerKonto.getBenutzername());
-//				}				
-//				if(!benutzerKonto.getPasswort().equals(bk_old.getPasswort())) {
-//					geaenderteDaten.put(FelderBenutzerkonto.PASSWORT.toString(), benutzerKonto.getPasswort());
-//				}
-//				if(benutzerKonto.getZentrumId()!=bk_old.getZentrumId()) {
-//					geaenderteDaten.put(FelderBenutzerkonto.ZENTRUMID.toString(), String.valueOf(benutzerKonto.getZentrumId()));
-//				}
-//				if(!benutzerKonto.getRolle().getName().equals(bk_old.getRolle().getName())) {
-//					geaenderteDaten.put(FelderBenutzerkonto.ROLLEACCOUNT.toString(), benutzerKonto.getRolle().getName());
-//				}
-//				if(!benutzerKonto.getErsterLogin().equals(bk_old.getErsterLogin())) {
-//					geaenderteDaten.put(FelderBenutzerkonto.ERSTERLOGIN.toString(), sdf.format(benutzerKonto.getErsterLogin().getTime()));
-//				}
-//				if(!benutzerKonto.getLetzterLogin().equals(bk_old.getLetzterLogin())) {
-//					geaenderteDaten.put(FelderBenutzerkonto.LETZTERLOGIN.toString(), sdf.format(benutzerKonto.getLetzterLogin().getTime()));
-//				}				
-//				geaenderteDaten.put(FelderBenutzerkonto.GESPERRT.toString(), String.valueOf(benutzerKonto.isGesperrt()));
 				//JDBC Statement erzeugen
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, benutzerKonto.getBenutzerId());
@@ -1808,18 +1723,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderAktivierung.LINK + "=? , "
 					+ FelderAktivierung.VERSANDDATUM + "=?  " + "WHERE "
 					+ FelderAktivierung.Id + "=?";
-			try {
-				//Hashmap fuellen
-//				AktivierungBean ak_old = suchenObjektId(aktivierung.getId(), new AktivierungBean());
-//				if(aktivierung.getBenutzerkontoId()!=ak_old.getBenutzerkontoId()) {
-//					geaenderteDaten.put(FelderAktivierung.BENUTZER.toString(), String.valueOf(aktivierung.getBenutzerkontoId()));
-//				}
-//				if(!aktivierung.getAktivierungsLink().equals(ak_old.getAktivierungsLink())) {
-//					geaenderteDaten.put(FelderAktivierung.LINK.toString(), aktivierung.getAktivierungsLink());
-//				}
-//				if(!aktivierung.getVersanddatum().equals(ak_old.getVersanddatum())) {
-//					geaenderteDaten.put(FelderAktivierung.VERSANDDATUM.toString(), sdf.format(aktivierung.getVersanddatum().getTime()));
-//				}				
+			try {			
 				//statement erzeugen
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, aktivierung.getBenutzerkontoId());
