@@ -3967,8 +3967,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StudieBean studieBean = new StudieBean();
-		GregorianCalendar startDatum = null;
-		GregorianCalendar endDatum = null;
+		GregorianCalendar startDatum = new GregorianCalendar();
+		GregorianCalendar endDatum = new GregorianCalendar();
 		Vector <StudieBean> sVector = new Vector<StudieBean>();
 		String sql = "";
 		try {

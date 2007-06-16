@@ -380,7 +380,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			return;
 		} else {
 			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
-					.name(), StudieServlet.anfrage_id.STUDIE_AUSWAEHLEN);
+					.name(), StudieServlet.anfrage_id.STUDIE_AUSWAEHLEN.name());
 			request.getRequestDispatcher("StudieServlet").forward(request,
 					response);
 			loggeKorrekteanmeldung(aBenutzer);

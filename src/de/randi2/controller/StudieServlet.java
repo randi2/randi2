@@ -10,7 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import de.randi2.datenbank.DatenbankFactory;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.exceptions.StudieException;
+import de.randi2.model.fachklassen.Rolle;
+import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
+import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Jsp;
 
 /**
@@ -37,12 +42,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Eine Studie soll vom Benutzer ausgewaehlt werden.
 		 */
 		STUDIE_AUSWAEHLEN,
-		
+
 		/**
-		 * Anlegen einer neuen Studie 
+		 * Anlegen einer neuen Studie
 		 */
 		AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE
-		
+
 	}
 
 	/**
@@ -112,8 +117,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String id = (String) request.getParameter(DispatcherServlet.requestParameter.ANFRAGE_Id.name());
-		String idAttribute = (String) request.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id.name());
+		String id = (String) request
+				.getParameter(DispatcherServlet.requestParameter.ANFRAGE_Id
+						.name());
+		String idAttribute = (String) request
+				.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
+						.name());
 		if (idAttribute != null) {
 			id = idAttribute;
 		}
@@ -121,18 +130,56 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 		if (id.equals(anfrage_id.STUDIE_AUSWAEHLEN.name())) {
 			// Die studie_auswaehlen.jsp soll angezeigt werden.
-			StudieBean leeresObjekt = new StudieBean();
-			leeresObjekt.setFilter(true);
-			Vector<StudieBean> listeStudien = DatenbankFactory
-					.getAktuelleDBInstanz().suchenObjekt(leeresObjekt);
-			System.out.println(listeStudien.size());
-			System.out.println(requestParameter.LISTE_DER_STUDIEN.name());
-			request.setAttribute(requestParameter.LISTE_DER_STUDIEN.name(), listeStudien);
-			request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN).forward(request,
+			studieAuswaehlen(request, response);
+		} else if (id.equals(anfrage_id.AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE
+				.name())) {
+
+			request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request,
 					response);
-		} else if (id.equals(anfrage_id.AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE.name())) {
-			
-			request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request, response);
+
+		}
+	}
+
+	/**
+	 * Diese Methode kuemmert sich um die Logik, die mit dem Prozess "Studie
+	 * auswaehlen" verbunden ist. Je nach der Rolle des eingeloggten Benutzers,
+	 * werden entsprechende Studien geholt.
+	 * 
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	private void studieAuswaehlen(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		BenutzerkontoBean aBenutzer = (BenutzerkontoBean) request.getSession()
+				.getAttribute("aBenutzer");
+		Rolle aRolle = aBenutzer.getRolle();
+
+		StudieBean leeresObjekt = new StudieBean();
+		leeresObjekt.setFilter(true);
+		
+		Vector<StudieBean> listeStudien = null;
+
+		if (aRolle == Rolle.getStudienarzt()) {
+			// der eingeloggte Benutzer ist ein Studienarzt
+			 listeStudien = DatenbankFactory
+					.getAktuelleDBInstanz().suchenMitgliederObjekte(
+							aBenutzer.getZentrum(), leeresObjekt);
+			request.setAttribute(requestParameter.LISTE_DER_STUDIEN.name(),
+					listeStudien);
+			request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN).forward(
+					request, response);
+		} else if (aRolle == Rolle.getStatistiker()) {
+			// der eingeloggte Benutzer ist ein Statistiker - hier muss keine
+			// Auswahl erfolgen, wird zu seiner Studie geleitet
+		} else if(aRolle == Rolle.getStudienleiter()){
+			// der eingeloggte Benutzer ist ein Studienleiter
+			leeresObjekt.setBenutzerkonto(aBenutzer);
+			listeStudien = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(leeresObjekt);
+			request.setAttribute(requestParameter.LISTE_DER_STUDIEN.name(),
+					listeStudien);
+			request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN).forward(
+					request, response);
 			
 		}
 	}

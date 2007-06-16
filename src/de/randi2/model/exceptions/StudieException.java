@@ -12,10 +12,9 @@ package de.randi2.model.exceptions;
 public class StudieException extends BenutzerException {
 
 	/**
-	 * Diese Konstante wird uebergeben, wenn das Datum nicht in der Zukunft
-	 * liegt.
+	 * Diese Konstante wird uebergeben, wenn das uebergebene Startdatum nicht vor dem Enddatum liegt.
 	 */
-	public static final String DATUM_FEHLER = "Datum liegt nicht in der Zukunft.";
+	public static final String DATUM_FEHLER = "Startdatum darf nicht vor dem Enddatum leigen!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn der Studienname nicht eingegeben

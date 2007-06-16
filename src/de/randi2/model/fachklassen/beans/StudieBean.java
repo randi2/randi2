@@ -256,28 +256,21 @@ public class StudieBean extends Filter {
 	}
 
 	/**
-	 * Methode setzt das Start- und Endedatum einer Studie. Es finden folgende
-	 * Überprüfugen statt: - Ueberpruefung, ob das Startdatum der Studie in der
-	 * Zukunft liegt - Ueberpruefung, ob das Enddatum der Studie in der Zukunft
-	 * liegt - Ueberpruefung, ob das Startdatum vor dem Enddatum liegt.
+	 * Methode setzt das Start- und Endedatum einer Studie. Es wird ueberprueft,
+	 * ob das uebergebene Startdatum vor dem uebergebenen Enddatum liegt.
 	 * 
 	 * @param startDatum
 	 *            Startdatum der Studie
 	 * @param endDatum
 	 *            Enddatum der Studie
 	 * @throws StudieException
-	 *             eine der oben genannten Überprüfungen schlug fehl.
+	 *             die Überprüfungen der Parameter schlug fehl.
 	 */
 	public void setStudienZeitraum(GregorianCalendar startDatum,
 			GregorianCalendar endDatum) throws StudieException {
-		// Testen, ob sich das Datum in der Zukunft befindet
-//		if ((new GregorianCalendar(Locale.GERMANY)).after(startDatum)
-//				|| (new GregorianCalendar(Locale.GERMANY)).after(endDatum)
-//				|| startDatum.after(endDatum)) {
-//			//TODO Sysout loeschen
-//			System.out.println("++++++++++++++++++++++++DATUM");
-//			throw new StudieException(StudieException.DATUM_FEHLER);
-//		}
+		if(!endDatum.after(startDatum)){
+			throw new StudieException(StudieException.DATUM_FEHLER);
+		}
 		this.aEndDatum = endDatum;
 		this.aStartDatum = startDatum;
 	}
@@ -436,9 +429,9 @@ public class StudieBean extends Filter {
 
 			if (status == null) {
 				throw new StudieException(StudieException.STATUSFEHLER);
-			}	
+			}
 		}
-		
+
 		this.aStatus = status;
 	}
 
@@ -456,11 +449,13 @@ public class StudieBean extends Filter {
 	 * 
 	 * @param benutzerkontoId
 	 *            Id des Benutzerkonto.
-	 * @throws StudieException wenn die uebergebene Id fehlerhaft ist
+	 * @throws StudieException
+	 *             wenn die uebergebene Id fehlerhaft ist
 	 */
 	public void setBenutzerkontoId(long benutzerkontoId) throws StudieException {
-		if(benutzerkontoId==NullKonstanten.DUMMY_ID||benutzerkontoId<0){
-			throw new StudieException(StudieException.BENUTZERKONTO_ID_FEHLERHAFT);
+		if (benutzerkontoId == NullKonstanten.DUMMY_ID || benutzerkontoId < 0) {
+			throw new StudieException(
+					StudieException.BENUTZERKONTO_ID_FEHLERHAFT);
 		}
 		this.aBenutzerkontoId = benutzerkontoId;
 	}
