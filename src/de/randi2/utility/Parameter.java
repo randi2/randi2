@@ -178,5 +178,22 @@ public class Parameter {
 		GESPERRT
 	}
 	
+	public enum studie {
+		
+		NAME,
+		BESCHREIBUNG,
+		STARTDATUM,
+		ENDDATUM,
+		STUDIENPROTOKOLL,
+		STATISTIKER_BOOL
+		
+	}
+	
+	public enum studienarm {
+		
+		
+		
+	}
+	
 
 }
