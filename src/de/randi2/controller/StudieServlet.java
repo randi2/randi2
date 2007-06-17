@@ -1,6 +1,7 @@
 package de.randi2.controller;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Vector;
 
 import javax.servlet.ServletException;
@@ -56,7 +57,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Filtern der Studien.
 		 */
-		JSP_STUDIE_AUSWAEHLEN_FILTERN;
+		JSP_STUDIE_AUSWAEHLEN_FILTERN,
+		
+		/**
+		 * Die Studie wurde auf der Seite studie_auswaehlen.jsp ausgewaehlt
+		 */
+		JSP_STUDIE_AUSWAEHLEN;
 
 	}
 
@@ -155,6 +161,31 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN_FILTERN.name())) {
 				// Die studie_auswaehlen.jsp wird erneut angezeigt
 				studieAuswaehlen(request, response);
+			}else if(id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN.name())){
+				//Benutzer hat eine Studie ausgewaehlt
+				try {
+					// Erstmal alle vorhandenen Zentren suchen
+					StudieBean aStudie = new StudieBean();
+					aStudie.setFilter(true);
+					Iterator<StudieBean> iterator = Studie.sucheStudie(aStudie).iterator();
+					while (iterator.hasNext()) {
+						aStudie = iterator.next();
+						String suche = "aStudieId" + aStudie.getId();
+						if (request.getParameter(suche) != null) {
+							//Ausgewaehlte Studie wird an die Session gebunden
+							Logger.getLogger(this.getClass()).debug("Binde Studie an Session");
+							request.getSession().setAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name(), aStudie);
+							request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request, response);
+							break;
+						}
+					}
+				} catch (DatenbankExceptions e) {
+					// Fehler zurück!
+					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+							.getMessage());
+					request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp")
+							.forward(request, response);
+				}
 			}
 		} else {
 			// TODO an dieser Stelle würde ich einfach auf index.jsp

@@ -85,15 +85,16 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 		<td align="left" id="filterbezeichnung">Status</td>
 		<td align="left" style="width: 200px"><select size="1"
 			id="filterfeld" name="status">
-			<% 
-			StringBuffer status = new StringBuffer();
-			for(int i=0;i<Studie.Status.values().length;i++){
-				status.append(Studie.Status.values()[i].toString());
+			<%
+				StringBuffer status = new StringBuffer();
+				for (int i = 0; i < Studie.Status.values().length; i++) {
+					status.append(Studie.Status.values()[i].toString());
 			%>
-			<option><%=status %></option>
-			<% 
-			status.delete(0,status.length());
-			} %>
+			<option><%=status%></option>
+			<%
+				status.delete(0, status.length());
+				}
+			%>
 		</select></td>
 	</tr>
 	<tr>
@@ -105,8 +106,8 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 				ZentrumBean tempZentrum = null;
 				while (listeZentren.hasNext()) {
 					tempZentrum = (ZentrumBean) listeZentren.next();
-					zentrumString.append(tempZentrum.getInstitution()).append(" / ").append(
-					tempZentrum.getAbteilung());
+					zentrumString.append(tempZentrum.getInstitution())
+					.append(" / ").append(tempZentrum.getAbteilung());
 			%>
 			<option><%=zentrumString%></option>
 			<%
@@ -124,6 +125,10 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 </form>
 <br>
 <br>
+<form action="StudieServlet" method="POST"><input type="hidden"
+	name="<%=DispatcherServlet.requestParameter.ANFRAGE_Id
+		.name() %>"
+	value="<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>">
 <table width="600" cellspacing="0" cellpadding="0" id="studien">
 	<thead align="left">
 		<tr style="background:#eeeeee;">
@@ -158,6 +163,7 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 		}
 	%>
 </table>
+</form>
 
 <%@include file="include/inc_footer.jsp"%></div>
 <%
