@@ -7,6 +7,7 @@ import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.beans.StatistikBean;
 import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
+import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 
 /**
@@ -224,6 +225,24 @@ public class Studie {
 		studie = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(
 				studieId, studie);
 		return studie;
+	}
+
+	/**
+	 * Diese Mehtode liert die Studienarme der Studie.
+	 * 
+	 * @param studie -
+	 *            Stuide, der Studienarme gefordert werden.
+	 * @return ein Vector mit allen zu der Stuide vorhandenen Stuidenarmen
+	 * @throws DatenbankExceptions
+	 *             wenn waehrend des Prozesses was schief lief
+	 */
+	public static Vector<StudienarmBean> getStudienarme(StudieBean studie)
+			throws DatenbankExceptions {
+		studie.setFilter(true);
+		StudienarmBean dummyBean = new StudienarmBean();
+		dummyBean.setFilter(true);
+		return DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(
+				studie, dummyBean);
 	}
 
 	/**

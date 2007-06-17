@@ -7,8 +7,17 @@
 %>
 <%@ page 
 		import= "de.randi2.model.fachklassen.beans.*"%>
-<%Rolle.Rollen aRolle=((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer")).getRolle().getRollenname(); %>
+<%
+	Rolle.Rollen aRolle=((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer")).getRolle().getRollenname(); 
+	StudieBean aStudie = (StudieBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name());
+	Vector<StudienarmBean> aStudienarme = aStudie.getStudienarme();
+	int counter = aStudienarme.size();
+	SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy",Locale.GERMANY);
+
+
+%>
    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="java.util.Vector"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -19,10 +28,6 @@
 <%@include file="include/inc_header.jsp"%> 
 <div id="content">
 <h1>Studie ansehen</h1>
-
-
-
-
 <table width="100%">
 	<tr class="tblrow1" align="left">
 		<th width="10%">Name der Studie</th>
@@ -31,23 +36,35 @@
 		<th width="10%">Enddatum</th>
 	</tr>
 	<tr class="tblrow2" align="left">
-		<td>Aspirin</td>
-		<td>12.03.2003</td>
-		<td>30.08.2006</td>
-		<td>protokoll</td>
+		<td><%=aStudie.getName() %></td>
+		<td><%=aStudie.getBeschreibung() %></td>
+		<td><%=formater.format(aStudie.getStartDatum().getTime()) %></td>
+		<td><%=formater.format(aStudie.getEndDatum().getTime()) %></td>
 	</tr>
 </table><br><br><br>
 <table>
 	<tr class="tblrow1" align="left">
 		<th width="10%">Studienprotokoll</th>
 		<th width="10%">Arme der Studie</th>
-		<th width="10%">Randomisationsbezogene Eigenschaften</th>
+		<th width="10%">Randomisationsart</th>
 	</tr>
 	<tr class="tblrow2" align="left">
-		<td>Aspirin</td>
-		<td>12.03.2003</td>
-		<td>30.08.2006</td>
+		<td><a href="<%=aStudie.getStudienprotokollpfad() %>"><%=aStudie.getStudienprotokollpfad() %></a></td>
+		<td><%=aStudienarme.get(aStudienarme.size()-counter).getBezeichnung()%><%counter--; %></td>
+		<td><%=aStudie.getRandomisationsart() %></td>
 	</tr>
+	<%
+		while(counter>=0){
+	%>
+		<tr align="left">
+		<td></td>
+		<td><%=aStudienarme.get(aStudienarme.size()-counter).getBezeichnung()%><%counter--; %></td>
+		<td></td>
+		</tr>		
+	<%	
+	}
+	%>
+	
 </table><br><br><br>
 <table>
 	<tr class="tblrow1" align="left">
@@ -55,8 +72,8 @@
 		<th width="10%">Verantwortliche(r) Studienleiter(in)</th>
 	</tr>
 	<tr class="tblrow2" align="left">
-		<td>protokoll</td>
-		<td>blablabla</td>
+		<td><%=aStudie.getBenutzerkonto().getZentrum().getInstitution() %></td>
+		<td><%=(aStudie.getBenutzerkonto().getBenutzer().getVorname()+" "+aStudie.getBenutzerkonto().getBenutzer().getNachname() ) %></td>
 	</tr>
 </table><br><br><br>
 

@@ -60,9 +60,11 @@ public class BlockRandomisation extends Randomisation {
 	 *            (Muss ein Vielfaches der Anzahl der Studienarme sein!)
 	 * @throws RandomisationsException
 	 *             wird geworfen, falls die Parametern falsch sind.
+	 * @throws DatenbankExceptions
+	 *             wenn bei dem Prozess Fehler in der DB auftraten
 	 */
 	public BlockRandomisation(StudieBean aStudie, int aBlockgroesse)
-			throws RandomisationsException {
+			throws RandomisationsException, DatenbankExceptions {
 		super(NAME, aStudie);
 		this.setAnzahlArme(aStudie.getStudienarme().size());
 		this.setBlockgroesse(aBlockgroesse);

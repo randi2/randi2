@@ -93,7 +93,7 @@ DROP TABLE IF EXISTS `Studienarm`;
 CREATE TABLE Studienarm (
   studienarmID INT UNSIGNED NOT NULL AUTO_INCREMENT,
   Studie_studienID INT UNSIGNED NOT NULL,
-  status_aktivitaet TINYINT UNSIGNED NOT NULL,
+  status_aktivitaet VARCHAR(25) NOT NULL,
   bezeichnung VARCHAR(50) NOT NULL,
   beschreibung TEXT NULL,
   PRIMARY KEY(studienarmID),

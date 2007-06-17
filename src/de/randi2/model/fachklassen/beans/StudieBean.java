@@ -291,8 +291,12 @@ public class StudieBean extends Filter {
 	 * Gibt die Anzahl der Studienarme zurueck.
 	 * 
 	 * @return studienarme, Anzahl der Studienarme.
+	 * @throws DatenbankExceptions wenn bei dem Prozess Fehler auftraten
 	 */
-	public Vector<StudienarmBean> getStudienarme() {
+	public Vector<StudienarmBean> getStudienarme() throws DatenbankExceptions {
+		if(aStudienarme == null){
+			aStudienarme = Studie.getStudienarme(this);
+		}
 		return aStudienarme;
 	}
 

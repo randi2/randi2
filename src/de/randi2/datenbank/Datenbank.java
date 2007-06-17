@@ -89,7 +89,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		/**
 		 * Die Repräsentation der Studienarmtabelle aus der Datenbank.
 		 */
-		STUDIENARM("Studiearm"),
+		STUDIENARM("Studienarm"),
 		/**
 		 * Die Repräsentation der Studientabelle aus der Datenbank.
 		 */
