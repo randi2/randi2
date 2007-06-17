@@ -12,6 +12,7 @@ import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.model.fachklassen.Rolle;
+import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.NullKonstanten;
@@ -58,6 +59,17 @@ public class BenutzerkontoBean extends Filter implements Serializable {
 	 * Benutzername des Kontoinhabers.
 	 */
 	private String aBenutzername = null;
+	
+	/**
+	 * Zugehoerige Studie zum BenutzerkontoBean.
+	 */
+	private StudieBean aStudie = null;
+	
+	/**
+	 * Id der zugehoerigen Studie.
+	 */
+	private long aStudieId = NullKonstanten.NULL_LONG;
+	
 
 	/**
 	 * Zeitpunkt des ersten Logins
@@ -641,5 +653,20 @@ public class BenutzerkontoBean extends Filter implements Serializable {
 					BenutzerkontoException.ZENTRUM_NICHT_GESPEICHERT);
 		}
 		this.aZentrumId = zentrumId;
+	}
+	
+	/**
+	 * Liefert die Studie zum BenutzerkontoBean.
+	 * 
+	 * @return studie, Studie
+	 * @throws DatenbankExceptions
+	 *             Exception, wenn beim Holen des entsprechendes
+	 *             Studieobjektes Probleme vorkamen.
+	 */
+	public StudieBean getStudie() throws DatenbankExceptions {
+		if (aStudie == null) {
+			aStudie = Studie.getStudie(aStudieId);
+		}
+		return aStudie;
 	}
 }
