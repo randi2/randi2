@@ -7,6 +7,7 @@
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="java.util.Iterator" import="java.util.Vector"%>
 <%@page import="de.randi2.controller.StudieServlet"%>
+<%@page import="de.randi2.utility.Parameter"%>
 <%
 			Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
 			.getAttribute("aBenutzer")).getRolle().getRollenname();
@@ -54,12 +55,12 @@
 if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 %>
 <form action="DispatcherServlet" method="POST"><input
-	type="hidden" name="anfrage_id"
-	value="JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE"><input type="submit"
+	type="hidden" name="<%=Parameter.anfrage_id%>"
+	value="<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE.name() %>"><input type="submit"
 	value="Neue Studie anlegen"></form>
 &nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;
 <form action="DispatcherServlet" method="POST"><input
-	type="hidden" name="anfrage_id"
+	type="hidden" name="<%=Parameter.anfrage_id%>"
 	value="JSP_STUDIE_AUSWAEHLEN_SIMULATION"><input type="submit"
 	value="Simulation"></form>
 <br>
@@ -73,8 +74,7 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 	style="cursor:pointer" /><b> Filter ein-/ausblenden </b><!--  TODO Table  BUG #2-->
 <div id="filterdiv" style="overflow:hidden; height: 100px;"><input
 	type="hidden"
-	name="<%=DispatcherServlet.requestParameter.ANFRAGE_Id
-		.name() %>"
+	name="<%=Parameter.anfrage_id %>"
 	value="<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN_FILTERN.name() %>">
 <table width="600" border="0" cellspacing="5" cellpadding="2"
 	bgcolor="#e3e3e3">
