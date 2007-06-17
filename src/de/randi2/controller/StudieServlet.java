@@ -1,6 +1,7 @@
 package de.randi2.controller;
 
 import java.io.IOException;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Vector;
 import javax.servlet.ServletException;
@@ -18,6 +19,7 @@ import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
+import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Jsp;
 
@@ -64,8 +66,14 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Pausieren einer Studie
 		 */
 		AKTION_STUDIE_PAUSIEREN,
+		
 		/**
-		 * Aendern einer Studie
+		 * studie_aendern.jsp wurde gewaehlt.
+		 */
+		JSP_STUDIE_AENDERN,
+		
+		/**
+		 * Aendert einer bereits vorhandenen Studie.
 		 */
 		AKTION_STUDIE_AENDERN;
 
@@ -83,7 +91,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Liste der gefundenen Studien
 		 */
-		LISTE_DER_STUDIEN("listeStudien");
+		LISTE_DER_STUDIEN("listeStudien"),
+		
+		/**
+		 * Arme der gefundenen Studien
+		 */
+		ARME_DER_STUDIEN("studienarme");
 
 		/**
 		 * String Version des Parameters
@@ -201,7 +214,18 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				}
 			}
 
-		} else {
+		} 
+		else if (id.equals(anfrage_id.JSP_STUDIE_AENDERN.name())) {
+			//studieAendern.jsp soll angezeigt werden
+			studieAendern(request, response);
+		}
+		
+		else if (id.equals(anfrage_id.AKTION_STUDIE_AENDERN.name())) {
+			//Studie soll geaendert werden
+			request.getRequestDispatcher(Jsp.STUDIE_AENDERN).forward(
+					request, response);
+		}
+		else {
 			// TODO an dieser Stelle würde ich einfach auf index.jsp
 			// weiterleiten; gibt's andere Vorschläge (lplotni 17. Jun)
 			// request.getRequestDispatcher("DispatcherServlet").forward(request,
@@ -381,5 +405,107 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		return null;
 	}
 
-	
+	/**
+	 * Aenderbare Daten einer bereits in der Datenbank bestehenden Studie
+	 * werden gesetzt.
+	 * 
+	 * @param request
+	 *            Der request fuer das Servlet.
+	 * @param response
+	 *            Der Response des Servlets.
+	 * @throws IOException
+	 *             Falls Fehler in der E/A-Verarbeitung.
+	 * @throws ServletException
+	 *             Falls Fehler in der HTTP-Verarbeitung.
+	 */
+	private void studieAendern(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		
+		if (request.getParameter("loeschenA") == null) {			
+			
+			// Alle aenderbaren Attribute des request inititalisieren
+			String studienName = request.getParameter("Name der Studie");
+			String beschreibung = request.getParameter("Beschreibung der Studie");
+			String startDatum = request.getParameter("Startdatum");
+			String endDatum = request.getParameter("Enddatum");
+			String studienprotokoll = request.getParameter("Studienprotokoll");
+			String studienarme=requestParameter.ARME_DER_STUDIEN.name();
+			String eigenschaften = request.getParameter("Randomisationsbezogene Eigenschaften");
+			String institution = request.getParameter("Leitende Institution");
+			String studienleiter= request.getParameter("Verantwortliche(r) Studienleiter(in)");
+			
+			
+			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
+					.getSession()).getAttribute("aBenutzer");
+			try {
+				StudieBean aStudieBean = aBenutzer.getStudie();				
+				try {
+					Vector<StudienarmBean> studienArme = aStudieBean.getStudienarme();
+					GregorianCalendar aStartDatum = aStudieBean.getStartDatum();
+					GregorianCalendar aEndDatum = aStudieBean.getEndDatum();
+					aStudieBean.setStudienZeitraum(aStartDatum, aEndDatum);
+					aStudieBean.setBeschreibung(beschreibung);
+					if (aStudieBean.getBenutzerkonto()!= null) {
+						aStudieBean.setName(studienName);
+						aStudieBean.setStudienprotokollPfad(studienprotokoll);
+						aStudieBean.setStudienarme(studienArme);
+						aStudieBean.setRandomisationseigenschaften(eigenschaften);
+						aStudieBean.setInstitution(institution);
+						aStudieBean.setStudienleiter(studienleiter);
+						/**aStudieBean.getBenutzerkonto().setName(studienName);
+						aStudieBean.getBenutzerkonto().setStudienprotokollPfad(studienprotokoll);
+						//aStudieBean.getBenutzerkonto().setStudienarme(studienarme);
+						aStudieBean.getBenutzerkonto().setRandomisationseigenschaften(eigenschaften);
+						aStudieBean.getBenutzerkonto().setInstitution(institution);
+						aStudieBean.getBenutzerkonto().setStudienleiter(studienleiter);*/
+						DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+								aStudieBean.getBenutzerkonto());
+					} else {
+						BenutzerkontoBean bBenutzer = new BenutzerkontoBean();
+						/**bBenutzer.setName(studienName);
+						bBenutzer.setStudienprotokollPfad(studienprotokoll);
+						//bBenutzer.setStudienarme(studienarme);
+						bBenutzer.setRandomisationseigenschaften(eigenschaften);
+						bBenutzer.setInstitution(institution);
+						bBenutzer.setStudienleiter(studienleiter);
+						*/
+						bBenutzer = DatenbankFactory.getAktuelleDBInstanz()
+						.schreibenObjekt(bBenutzer);
+						aStudieBean.setBenutzerkontoId(aBenutzer.getId());
+						}
+					
+				} catch (Exception e) {
+					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+							.getMessage());
+				} 
+				DatenbankFactory.getAktuelleDBInstanz()
+						.schreibenObjekt(aStudieBean);
+				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+						aBenutzer);
+				request.getRequestDispatcher("global_welcome.jsp").forward(
+						request, response);
+			} catch (DatenbankExceptions e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
+			}
+		} else {
+			try {
+				BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
+						.getSession()).getAttribute("aBenutzer");
+				StudieBean aStudie = aBenutzer.getStudie();
+				if (aStudie.getBenutzerkonto() != null) {
+					DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(
+							aStudie.getBenutzerkonto());
+					request.getRequestDispatcher("global_welcome.jsp").forward(
+							request, response);
+				} else {
+					request.getRequestDispatcher("studie_aendern.jsp").forward(
+							request, response);
+				}
+			} catch (Exception e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
+			}
+		}
+	}
 }
