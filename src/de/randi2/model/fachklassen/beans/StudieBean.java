@@ -156,9 +156,11 @@ public class StudieBean extends Filter {
 	 * 
 	 * @param aBenutzerkonto
 	 *            Benutzerkonto
+	 * @throws StudieException wenn die ID des Beans nicht korrekt ist.
 	 */
-	public void setBenutzerkonto(BenutzerkontoBean aBenutzerkonto) {
-		this.aBenutzerkonto = aBenutzerkonto;
+	public void setBenutzerkonto(BenutzerkontoBean aBenutzerkonto) throws StudieException {
+		this.setBenutzerkontoId(aBenutzerkonto.getBenutzerId());
+		this.aBenutzerkonto = aBenutzerkonto;	
 	}
 
 	/**

@@ -177,13 +177,45 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Konto des Benutzers (BenutzerkontoBean)
 		 */
-		A_Benutzer, // XXX Konto ist als 'aBenutzer' gebunden, nicht ueber diese
-		// Kosntante
+		A_Benutzer("aBenutzer"), // XXX Konto ist als 'aBenutzer' gebunden,
+									// nicht ueber diese
+		// Kosntante (lplotni 17. Juni: warum denn ?)
 
 		/**
 		 * Zentrum fuer das sich der Benutzer anmeldet.
 		 */
-		ZENTRUM_BENUTZER_ANLEGEN
+		ZENTRUM_BENUTZER_ANLEGEN("aZentrum"),
+
+		/**
+		 * Die von dem Benutzer ausgewählte, aktuelle Studie
+		 */
+		AKTUELLE_STUDIE("aStudie");
+
+		/**
+		 * String Version des Parameters
+		 */
+		private String parameter = null;
+
+		/**
+		 * Setzt die String Repraesentation des Parameters
+		 * 
+		 * @param parameter
+		 *            String Repraesentation des Parameters
+		 */
+		private sessionParameter(String parameter) {
+			this.parameter = parameter;
+		}
+		
+		/**
+		 * Liefert die String Repraesentation des Parameters
+		 * 
+		 * @return String Repraesentation des Parameters
+		 * @see java.lang.Enum#toString()
+		 */
+		@Override
+		public String toString() {
+			return this.parameter;
+		}
 	}
 
 	/**

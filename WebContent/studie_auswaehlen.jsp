@@ -14,6 +14,9 @@
 	Iterator listeStudien = ((Vector) request
 			.getAttribute(StudieServlet.requestParameter.LISTE_DER_STUDIEN
 			.name())).iterator();
+	Iterator listeZentren = ((Vector) request
+			.getAttribute(StudieServlet.requestParameter.LISTE_DER_ZENTREN
+			.name())).iterator();
 %>
 <html>
 <head>
@@ -67,6 +70,10 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 	onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen"
 	style="cursor:pointer" /><b> Filter ein-/ausblenden </b><!--  TODO Table  BUG #2-->
 <div id="filterdiv" style="overflow:hidden; height: 100px;">
+<form action="StudieServlet" method="POST">
+<input
+	type="hidden" name="anfrage_id"
+	value="JSP_STUDIE_AUSWAEHLEN_AKTUALISIEREN">
 <table width="600" border="0" cellspacing="5" cellpadding="2"
 	bgcolor="#e3e3e3">
 	<tr>
@@ -75,7 +82,7 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 			name="name" id="filterfeld"></td>
 		<td align="left" id="filterbezeichnung">Status</td>
 		<td align="left" style="width: 200px"><select size="1"
-			id="filterfeld">
+			id="filterfeld" name="status">
 			<option>gestartet</option>
 			<option>aktiv</option>
 			<option>pausiert</option>
@@ -84,8 +91,21 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 	</tr>
 	<tr>
 		<td align="left" id="filterbezeichnung">Zentrum</td>
-		<td align="left" colspan="3"><select size="1" id="filterfeld">
-			<option>Uniklinikum Heidelberg, Hygieneinstitut</option>
+		<td align="left" colspan="3"><select size="1" id="filterfeld"
+			name="zentrum">
+			<%
+				StringBuffer zentrumString = new StringBuffer();
+				ZentrumBean tempZentrum = null;
+				while (listeZentren.hasNext()) {
+					tempZentrum = (ZentrumBean) listeZentren.next();
+					zentrumString.append(tempZentrum.getInstitution()).append(
+					tempZentrum.getAbteilung());
+			%>
+			<option><%=zentrumString%></option>
+			<%
+				zentrumString.delete(0, zentrumString.length() - 1);
+				}
+			%>
 		</select></td>
 	</tr>
 	<tr>
@@ -93,6 +113,7 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 			value="Aktualisieren" style="width: 100px"></td>
 	</tr>
 </table>
+</form>
 </div>
 <br>
 <br>

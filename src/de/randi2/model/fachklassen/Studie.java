@@ -227,6 +227,22 @@ public class Studie {
 	}
 
 	/**
+	 * Sucht in der Datenbank nach einer Studie bzw. Studien, die die
+	 * Eigenschaften enthalten in dem uebergebenen Bean erfuellen.
+	 * 
+	 * @param gesuchteStudie -
+	 *            ein Bean mit gesuchten Eigenschaften der Studie
+	 * @return - alle Studien, die die gesuchten Eigenschaften erfüllen.
+	 * @throws DatenbankExceptions
+	 *             wenn bei dem Vorgang fehler auftraten
+	 */
+	public static Vector<StudieBean> sucheStudie(StudieBean gesuchteStudie)
+			throws DatenbankExceptions {
+		return DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
+				gesuchteStudie);
+	}
+
+	/**
 	 * Erzeugt einen String mit allen Daten der Studie.
 	 * 
 	 * @return Der String mit Daten der Studie
@@ -244,11 +260,20 @@ public class Studie {
 	 * @return true - wenn die beiden Objekte identisch sind, false wenn das
 	 *         nicht der Fall ist.
 	 */
-	public boolean equals(Studie zuvergleichendesObjekt) {
-		if (this.aStudieBean.equals(zuvergleichendesObjekt.aStudieBean)) {
-			return true;
+	@Override
+	public boolean equals(Object zuvergleichendesObjekt) {
+		if (zuvergleichendesObjekt == null) {
+			return false;
 		}
-		return false;
+		if (this.aStudieBean == null) {
+			return false;
+		}
+		if (zuvergleichendesObjekt instanceof Studie) {
+			return this.aStudieBean.equals(((Studie) zuvergleichendesObjekt)
+					.getStudieBean());
+		} else {
+			return false;
+		}
 	}
 
 }

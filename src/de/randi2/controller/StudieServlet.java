@@ -4,15 +4,19 @@ import java.io.IOException;
 import java.util.Vector;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import de.randi2.controller.DispatcherServlet.sessionParameter;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Rolle;
+import de.randi2.model.fachklassen.Studie;
+import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -41,7 +45,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Eine Studie soll vom Benutzer ausgewaehlt werden.
 		 */
-		STUDIE_AUSWAEHLEN,
+		AKTION_STUDIE_AUSWAEHLEN,
 
 		/**
 		 * Anlegen einer neuen Studie
@@ -55,7 +59,10 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 * 
 	 */
 	public static enum requestParameter {
-
+		/**
+		 * Liste der im System gespeicherten Zentren
+		 */
+		LISTE_DER_ZENTREN("listeZentren"),
 		/**
 		 * Liste der gefundenen Studien
 		 */
@@ -125,15 +132,21 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 						.name());
 		if (idAttribute != null) {
 			id = idAttribute;
+		} else if (id == null) {
+			// TODO an dieser Stelle würde ich einfach auf index.jsp
+			// weiterleiten; gibt's andere Vorschläge (lplotni 17. Jun)
+			request.getRequestDispatcher("DispatcherServlet").forward(request,
+					response);
 		}
+
 		Logger.getLogger(this.getClass()).debug(id);
 
-		if (id.equals(anfrage_id.STUDIE_AUSWAEHLEN.name())) {
+		if (id.equals(anfrage_id.AKTION_STUDIE_AUSWAEHLEN.name())) {
 			// Die studie_auswaehlen.jsp soll angezeigt werden.
 			studieAuswaehlen(request, response);
 		} else if (id.equals(anfrage_id.AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE
 				.name())) {
-
+			// Neue Studie soll angelegt werden
 			request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request,
 					response);
 
@@ -145,8 +158,15 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 * auswaehlen" verbunden ist. Je nach der Rolle des eingeloggten Benutzers,
 	 * werden entsprechende Studien geholt.
 	 * 
+	 * @param request
+	 *            {@link HttpServlet}
+	 * @param response
+	 *            {@link HttpServlet}
+	 * 
 	 * @throws IOException
+	 *             {@link HttpServlet}
 	 * @throws ServletException
+	 *             {@link HttpServlet}
 	 */
 	private void studieAuswaehlen(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -155,32 +175,75 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				.getAttribute("aBenutzer");
 		Rolle aRolle = aBenutzer.getRolle();
 
-		StudieBean leeresObjekt = new StudieBean();
-		leeresObjekt.setFilter(true);
-		
+		StudieBean leereStudie = new StudieBean();
+		leereStudie.setFilter(true);
+
+		ZentrumBean leeresZentrum = new ZentrumBean();
+		leeresZentrum.setFilter(true);
+		leeresZentrum.setIstAktiviert(true);
+
 		Vector<StudieBean> listeStudien = null;
+		Vector<ZentrumBean> listeZentren = null;
 
 		if (aRolle == Rolle.getStudienarzt()) {
 			// der eingeloggte Benutzer ist ein Studienarzt
-			 listeStudien = DatenbankFactory
-					.getAktuelleDBInstanz().suchenMitgliederObjekte(
-							aBenutzer.getZentrum(), leeresObjekt);
+			listeZentren = Zentrum.suchenZentrum(leeresZentrum);
+			request.setAttribute(requestParameter.LISTE_DER_ZENTREN.name(),
+					listeZentren);
+			if (request.getParameter("Aktualiesieren") != null) {
+				System.out.println(request.getParameter("name"));
+				System.out.println(request.getParameter("status"));
+				System.out.println(request.getParameter("zentrum"));
+			} else {
+				listeStudien = DatenbankFactory.getAktuelleDBInstanz()
+						.suchenMitgliederObjekte(aBenutzer.getZentrum(),
+								leereStudie);
+			}
 			request.setAttribute(requestParameter.LISTE_DER_STUDIEN.name(),
 					listeStudien);
 			request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN).forward(
 					request, response);
 		} else if (aRolle == Rolle.getStatistiker()) {
 			// der eingeloggte Benutzer ist ein Statistiker - hier muss keine
-			// Auswahl erfolgen, wird zu seiner Studie geleitet
-		} else if(aRolle == Rolle.getStudienleiter()){
+			// Auswahl erfolgen; die Studie, die er ansehen darf, wird aus der
+			// DB geholt und an die Session gebunden; studie_ansehen.jsp wird
+			// automatisch aufgerufen.
+			try {
+				leereStudie.setBenutzerkonto(aBenutzer);
+			} catch (StudieException e) {
+				// TODO Dem Benutzer muss eine Meldung angezeigt werden (lplotni
+				// 17. Jun)
+				e.printStackTrace();
+			}
+			listeStudien = Studie.sucheStudie(leereStudie);
+			StudieBean aStudie = listeStudien.firstElement();
+			request.getSession().setAttribute(
+					sessionParameter.AKTUELLE_STUDIE.name(), aStudie);
+			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
+					response);
+		} else if (aRolle == Rolle.getStudienleiter()) {
 			// der eingeloggte Benutzer ist ein Studienleiter
-			leeresObjekt.setBenutzerkonto(aBenutzer);
-			listeStudien = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(leeresObjekt);
+			listeZentren = Zentrum.suchenZentrum(leeresZentrum);
+			request.setAttribute(requestParameter.LISTE_DER_ZENTREN.name(),
+					listeZentren);
+			try {
+				leereStudie.setBenutzerkonto(aBenutzer);
+			} catch (StudieException e) {
+				// TODO Dem Benutzer muss eine Meldung angezeigt werden (lplotni
+				// 17. Jun)
+				e.printStackTrace();
+			}
+			listeStudien = Studie.sucheStudie(leereStudie);
 			request.setAttribute(requestParameter.LISTE_DER_STUDIEN.name(),
 					listeStudien);
 			request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN).forward(
 					request, response);
-			
+
 		}
+	}
+
+	private Vector<StudieBean> studieFiltern(String name, Studie.Status status,
+			long zentrumId) {
+		return null;
 	}
 }
