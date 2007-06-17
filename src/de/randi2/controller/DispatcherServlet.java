@@ -575,7 +575,17 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 					response);
 
 		}
-		
+		else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN.name())) {
+
+			// neue Studie anlegen
+			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
+					.name(),
+					StudieServlet.anfrage_id.AKTION_STUDIE_ANLEGEN
+							.name());
+			request.getRequestDispatcher("StudieServlet").forward(request,
+					response);
+
+		}
 		else if(id.equals((anfrage_id.JSP_STUDIE_PAUSIEREN_EINS.name()))) {
 			// Studie pausieren
 			 
