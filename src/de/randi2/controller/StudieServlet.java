@@ -22,6 +22,7 @@ import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Jsp;
+import de.randi2.utility.NullKonstanten;
 
 /**
  * Diese Klasse repraesentiert das STUDIESERVLET, welches Aktionen an die
@@ -173,10 +174,13 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				studieAuswaehlen(request, response);
 			} else if (id.equals(anfrage_id.AKTION_STUDIE_AUSWAEHLEN_NEUESTUDIE
 					.name())) {
-				// Neue Studie soll angelegt werden
+				// Formular fuer neue Studie aufrufen
 				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
 						request, response);
-
+			} else if (id.equals(anfrage_id.AKTION_STUDIE_ANLEGEN.name())) {
+				// Neue Studie anlegen
+				//StudieBean aStudie = new StudieBean(NullKonstanten.DUMMY_ID,);
+				
 			}
 
 		} else if (id != null) {
