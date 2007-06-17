@@ -47,11 +47,10 @@
 	value="<%=DispatcherServlet.anfrage_id.JSP_INDEX_LOGIN %>"
 	name="anfrage_id">
 <p><input type="text" name="username" tabindex="1" z:required="true" z:required_message="Bitte Namen eingeben"
-	z:length="{max: 50, min: 6}" z:length_message="Fehlerhafter Benutzername"></p>
+	></p>
 <p>Kennwort</p>
 <p><input type="password" name="password" tabindex="2"
-	z:required="true" z:required_message="Bitte Passwort eingeben" z:length="{min: 6}"
-	z:length_message="Fehlerhaftes Passwort"></p>
+	z:required="true" z:required_message="Bitte Passwort eingeben"></p>
 <p><input name="Submit" type="submit" tabindex="3" value="Login"></p>
 </form>
 <br>

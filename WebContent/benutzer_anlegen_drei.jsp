@@ -50,16 +50,14 @@ Angaben</b></legend>
 		<td>Vorname *<br>
 		<input type="text" size="25" maxlength="30" name="Vorname"
 			value="<%if(request.getAttribute("Vorname")!=null){out.print(request.getAttribute("Vorname"));} %>"
-			tabindex="2" z:required="true"
-			z:required_message="Bitte Vornamen eingeben"
+			tabindex="2"
 			z:length="{max: 50, min: 2}"
 			z:length_message="Vorname muss 2 bis 50 Zeichen lang sein"></td>
 		<td>&nbsp;&nbsp;&nbsp;Nachname *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
 			name="Nachname"
 			value="<%if(request.getAttribute("Nachname")!=null){out.print(request.getAttribute("Nachname"));} %>"
-			tabindex="3" z:required="true"
-			z:required_message="Bitte Nachnamen eingeben"
+			tabindex="3"
 			z:length="{max: 50, min: 2}"
 			z:length_message="Nachname muss 2 bis 50 Zeichen lang sein"></td>
 	</tr>
@@ -77,7 +75,6 @@ Angaben</b></legend>
 			value="<%if(request.getAttribute("Passwort")!=null){out.print(request.getAttribute("Passwort"));} %>"
 			tabindex="6"
 			onkeyup="testPassword(document.forms.user.Passwort.value);"
-			z:required="true" z:required_message="Bitte Passwort eingeben"
 			z:length="{min: 6}"
 			z:length_message="Passwort muss mind. 6 Zeichen lang sein"></td>
 		<td><a id=Words>
@@ -99,8 +96,7 @@ Angaben</b></legend>
 		<td>Passwort wiederholen *<br>
 		<input type="password" size="25" maxlength="30" name="Passwort_wh"
 			value="<%if(request.getAttribute("Passwort_wh")!=null){out.print(request.getAttribute("Passwort_wh"));} %>"
-			tabindex="7" z:required="true"
-			z:required_message="Bitte Passwort-Wiederholung eingeben"
+			tabindex="7"
 			z:length="{min: 6}"
 			z:length_message="Wiederholungs-Passwort muss ebenfalls mind. 6 Zeichen lang sein"></td>
 	</tr>
@@ -121,8 +117,7 @@ Angaben</b></legend>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
 			name="Telefon"
 			value="<%if(request.getAttribute("Telefon")!=null){out.print(request.getAttribute("Telefon"));} %>"
-			tabindex="9" z:required="true"
-			z:required_message="Bitte Telefonnummer eingeben"
+			tabindex="9"
 			z:length="{max: 26, min: 6}"
 			z:length_message="Telefonnummer muss 6 bis 26 Zeichen lang sein"></td>
 	</tr>
