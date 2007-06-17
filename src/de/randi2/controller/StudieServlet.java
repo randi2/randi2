@@ -130,27 +130,28 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		String idAttribute = (String) request
 				.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
 						.name());
+		
 		if (idAttribute != null) {
 			id = idAttribute;
+			Logger.getLogger(this.getClass()).debug(id);
+
+			if (id.equals(anfrage_id.AKTION_STUDIE_AUSWAEHLEN.name())) {
+				// Die studie_auswaehlen.jsp soll angezeigt werden.
+				studieAuswaehlen(request, response);
+			} else if (id.equals(anfrage_id.AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE
+					.name())) {
+				// Neue Studie soll angelegt werden
+				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request,
+						response);
+
+			}
 		} else if (id == null) {
 			// TODO an dieser Stelle würde ich einfach auf index.jsp
 			// weiterleiten; gibt's andere Vorschläge (lplotni 17. Jun)
-			request.getRequestDispatcher("DispatcherServlet").forward(request,
-					response);
-		}
-
-		Logger.getLogger(this.getClass()).debug(id);
-
-		if (id.equals(anfrage_id.AKTION_STUDIE_AUSWAEHLEN.name())) {
-			// Die studie_auswaehlen.jsp soll angezeigt werden.
-			studieAuswaehlen(request, response);
-		} else if (id.equals(anfrage_id.AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE
-				.name())) {
-			// Neue Studie soll angelegt werden
-			request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request,
-					response);
-
-		}
+			//request.getRequestDispatcher("DispatcherServlet").forward(request,
+			//		response);
+			System.out.println("???");
+		}	
 	}
 
 	/**
