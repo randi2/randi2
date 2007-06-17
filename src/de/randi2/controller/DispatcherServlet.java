@@ -165,7 +165,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Neue Studie anlegen
 		 */
-		JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE
+		JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE,
 
 		/**
 		 * Studie pausieren
