@@ -54,7 +54,7 @@
 		<td><%=aStudie.getRandomisationsart() %></td>
 	</tr>
 	<%
-		while(counter>=0){
+		while(counter>0){
 	%>
 		<tr align="left">
 		<td></td>
@@ -62,7 +62,8 @@
 		<td></td>
 		</tr>		
 	<%	
-	}
+	counter--;
+		}
 	%>
 	
 </table><br><br><br>
