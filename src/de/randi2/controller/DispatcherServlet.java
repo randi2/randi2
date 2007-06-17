@@ -554,7 +554,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 			// neue Studie anlegen
 			request.setAttribute(Parameter.anfrage_id,
-					StudieServlet.anfrage_id.AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE
+					StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN_NEUESTUDIE
 							.name());
 			request.getRequestDispatcher("StudieServlet").forward(request,
 					response);

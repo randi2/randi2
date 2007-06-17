@@ -52,7 +52,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Anlegen einer neuen Studie
 		 */
-		AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE,
+		AKTION_STUDIE_AUSWAEHLEN_NEUESTUDIE,
 
 		/**
 		 * Filtern der Studien.
@@ -149,7 +149,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			if (id.equals(anfrage_id.AKTION_STUDIE_AUSWAEHLEN.name())) {
 				// Die studie_auswaehlen.jsp soll angezeigt werden.
 				studieAuswaehlen(request, response);
-			} else if (id.equals(anfrage_id.AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE
+			} else if (id.equals(anfrage_id.AKTION_STUDIE_AUSWAEHLEN_NEUESTUDIE
 					.name())) {
 				// Neue Studie soll angelegt werden
 				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
