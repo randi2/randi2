@@ -58,6 +58,16 @@ public class StudieBean extends Filter {
 	private String aRandomisationsart = null;
 
 	/**
+	 * Institution der Studie.
+	 */
+	private String aInstitution = null;
+	
+	/**
+	 * Studienleiter der Studie.
+	 */
+	private String aStudienleiter = null;
+	
+	/**
 	 * Die zu der Studie zugeordnete Zentren.
 	 */
 	private Vector<ZentrumBean> aZentren = null;
@@ -460,6 +470,46 @@ public class StudieBean extends Filter {
 					StudieException.BENUTZERKONTO_ID_FEHLERHAFT);
 		}
 		this.aBenutzerkontoId = benutzerkontoId;
+	}
+	
+	/**
+	 * Die Methode uebergibt die Institution der Studie.
+	 * 
+	 * @return institution, Institution der Studie.
+	 */
+	public String getInstitution() {
+		return aInstitution;
+	}
+
+	/**
+	 * Setzt die Institution.
+	 * 
+	 * @param institution
+	 *            ein String - Konstante aus der entsprechender
+	 *            Institutionsklasse
+	 */
+	public void setInstitution(String institution) {
+		this.aInstitution = institution;
+	}
+	
+	/**
+	 * Die Methode uebergibt den Studienleiter der Studie.
+	 * 
+	 * @return studienleiter, Studienleiter der Studie.
+	 */
+	public String getStudienleiter() {
+		return aStudienleiter;
+	}
+
+	/**
+	 * Setzt den Studienleiter.
+	 * 
+	 * @param studienleiter
+	 *            ein String - Konstante aus der entsprechender
+	 *            Studienleiterklasse
+	 */
+	public void setStudienleiter(String studienleiter) {
+		this.aStudienleiter = studienleiter;
 	}
 
 	/**
