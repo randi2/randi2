@@ -163,10 +163,15 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		JSP_ZENTRUM_AENDERN,
 
 		/**
-		 * Neue Studie anlegen
+		 * "Neue Studie anlegen" auswaehlen
 		 */
 		JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE,
-
+		
+		/**
+		 * Neue Studie anlegen
+		 */
+		JSP_STUDIE_ANLEGEN,
+		
 		/**
 		 * Studie pausieren
 		 */
