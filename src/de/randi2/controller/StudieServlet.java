@@ -49,7 +49,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		AKTION_STUDIE_AUSWAEHLEN,
 
 		/**
-		 * Anlegen einer neuen Studie
+		 * "Anlegen einer neuen Studie" auswaehlen
 		 */
 		AKTION_STUDIE_AUSWAEHLEN_NEUESTUDIE,
 
@@ -75,8 +75,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Aendert einer bereits vorhandenen Studie.
 		 */
-		AKTION_STUDIE_AENDERN;
-
+		AKTION_STUDIE_AENDERN,
+		
+		/**
+		 * Neue Studie hinzufuegen
+		 */
+		AKTION_STUDIE_ANLEGEN
 	}
 
 	/**
