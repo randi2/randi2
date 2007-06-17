@@ -165,7 +165,16 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Neue Studie anlegen
 		 */
-		JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE
+		JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE,
+
+		/**
+		 * Studie pausieren
+		 */
+		JSP_STUDIE_PAUSIEREN_EINS,
+		/**
+		 * Studie aendern
+		 */
+		JSP_STUDIE_AENDERN;
 
 	}
 
@@ -178,7 +187,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Konto des Benutzers (BenutzerkontoBean)
 		 */
 		A_Benutzer("aBenutzer"), // XXX Konto ist als 'aBenutzer' gebunden,
-									// nicht ueber diese
+		// nicht ueber diese
 		// Kosntante (lplotni 17. Juni: warum denn ?)
 
 		/**
@@ -205,7 +214,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		private sessionParameter(String parameter) {
 			this.parameter = parameter;
 		}
-		
+
 		/**
 		 * Liefert die String Repraesentation des Parameters
 		 * 
@@ -559,6 +568,18 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			request.getRequestDispatcher("StudieServlet").forward(request,
 					response);
 
+		}
+		
+		else if(id.equals((anfrage_id.JSP_STUDIE_PAUSIEREN_EINS.name()))) {
+			// Studie pausieren
+			 
+			request.setAttribute(Parameter.anfrage_id, StudieServlet.anfrage_id.AKTION_STUDIE_PAUSIEREN);
+			request.getRequestDispatcher("StudieServlet").forward(request, response);
+		}
+		else if(id.equals((anfrage_id.JSP_STUDIE_AENDERN.name()))){
+			
+			request.setAttribute(Parameter.anfrage_id, StudieServlet.anfrage_id.AKTION_STUDIE_AENDERN); 
+			request.getRequestDispatcher("StudieServlet").forward(request, response);
 		}
 		// [end]
 

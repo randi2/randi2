@@ -14,6 +14,9 @@
 <body>
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
+<form action="DispatcherServlet" method="post" name="user" id="user"><input
+	type="hidden" name="anfrage_id"
+	value="<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AENDERN.name() %>"> 
 <h1>Studie &auml;ndern</h1>
 <form>
 <fieldset><legend><b>Studienangaben</b></legend>

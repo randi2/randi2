@@ -15,11 +15,15 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<%@include file="include/inc_header.jsp"%>
-
+<%@include file="include/inc_header.jsp"%>    
+ 
 <div id="content">
+<form action="DispatcherServlet" method="post" name="user" id="user"><input
+	type="hidden" name="anfrage_id"
+	value="<%=DispatcherServlet.anfrage_id.JSP_STUDIE_PAUSIEREN_EINS.name() %>">
+	
+
 <h1>Studie pausieren</h1>
-<form>
 <fieldset style="width:60%">
 	<legend><b>Studie</b></legend>
 		<table>
