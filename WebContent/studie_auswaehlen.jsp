@@ -66,14 +66,16 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 <br>
 <%
 }
-%> <img alt="Filter anzeigen" src="images/find.png"
+%>
+<form action="StudieServlet" method="POST"><img
+	alt="Filter anzeigen" src="images/find.png"
 	onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen"
 	style="cursor:pointer" /><b> Filter ein-/ausblenden </b><!--  TODO Table  BUG #2-->
-<div id="filterdiv" style="overflow:hidden; height: 100px;">
-<form action="StudieServlet" method="POST">
-<input
-	type="hidden" name="anfrage_id"
-	value="JSP_STUDIE_AUSWAEHLEN_AKTUALISIEREN">
+<div id="filterdiv" style="overflow:hidden; height: 100px;"><input
+	type="hidden"
+	name="<%=DispatcherServlet.requestParameter.ANFRAGE_Id
+		.name() %>"
+	value="<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN_FILTERN.name() %>">
 <table width="600" border="0" cellspacing="5" cellpadding="2"
 	bgcolor="#e3e3e3">
 	<tr>
@@ -83,10 +85,15 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 		<td align="left" id="filterbezeichnung">Status</td>
 		<td align="left" style="width: 200px"><select size="1"
 			id="filterfeld" name="status">
-			<option>gestartet</option>
-			<option>aktiv</option>
-			<option>pausiert</option>
-			<option>abgeschlossen</option>
+			<% 
+			StringBuffer status = new StringBuffer();
+			for(int i=0;i<Studie.Status.values().length;i++){
+				status.append(Studie.Status.values()[i].toString());
+			%>
+			<option><%=status %></option>
+			<% 
+			status.delete(0,status.length());
+			} %>
 		</select></td>
 	</tr>
 	<tr>
@@ -98,23 +105,23 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 				ZentrumBean tempZentrum = null;
 				while (listeZentren.hasNext()) {
 					tempZentrum = (ZentrumBean) listeZentren.next();
-					zentrumString.append(tempZentrum.getInstitution()).append(
+					zentrumString.append(tempZentrum.getInstitution()).append(" / ").append(
 					tempZentrum.getAbteilung());
 			%>
 			<option><%=zentrumString%></option>
 			<%
-				zentrumString.delete(0, zentrumString.length() - 1);
+				zentrumString.delete(0, zentrumString.length());
 				}
 			%>
 		</select></td>
 	</tr>
 	<tr>
-		<td align="right" colspan="4"><input type="submit"
-			value="Aktualisieren" style="width: 100px"></td>
+		<td align="right" colspan="4"><input type="submit" name="filtern"
+			value="Filtern" style="width: 100px"></td>
 	</tr>
 </table>
-</form>
 </div>
+</form>
 <br>
 <br>
 <table width="600" cellspacing="0" cellpadding="0" id="studien">

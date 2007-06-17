@@ -14,6 +14,7 @@ import de.randi2.controller.DispatcherServlet.sessionParameter;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.StudieException;
+import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Zentrum;
@@ -50,7 +51,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Anlegen einer neuen Studie
 		 */
-		AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE
+		AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE,
+
+		/**
+		 * Filtern der Studien.
+		 */
+		JSP_STUDIE_AUSWAEHLEN_FILTERN;
 
 	}
 
@@ -130,28 +136,33 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		String idAttribute = (String) request
 				.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
 						.name());
-		
+
 		if (idAttribute != null) {
 			id = idAttribute;
 			Logger.getLogger(this.getClass()).debug(id);
-
 			if (id.equals(anfrage_id.AKTION_STUDIE_AUSWAEHLEN.name())) {
 				// Die studie_auswaehlen.jsp soll angezeigt werden.
 				studieAuswaehlen(request, response);
 			} else if (id.equals(anfrage_id.AKTION_STUDIEAUSWAEHLEN_NEUESTUDIE
 					.name())) {
 				// Neue Studie soll angelegt werden
-				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request,
-						response);
+				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
+						request, response);
 
 			}
-		} else if (id == null) {
+		} else if (id != null) {
+			Logger.getLogger(this.getClass()).debug(id);
+			if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN_FILTERN.name())) {
+				// Die studie_auswaehlen.jsp wird erneut angezeigt
+				studieAuswaehlen(request, response);
+			}
+		} else {
 			// TODO an dieser Stelle würde ich einfach auf index.jsp
 			// weiterleiten; gibt's andere Vorschläge (lplotni 17. Jun)
-			//request.getRequestDispatcher("DispatcherServlet").forward(request,
-			//		response);
+			// request.getRequestDispatcher("DispatcherServlet").forward(request,
+			// response);
 			System.out.println("???");
-		}	
+		}
 	}
 
 	/**
@@ -188,13 +199,23 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 		if (aRolle == Rolle.getStudienarzt()) {
 			// der eingeloggte Benutzer ist ein Studienarzt
+			Logger.getLogger(this.getClass()).debug(
+					"studieAuswahl - Studienarzt");
 			listeZentren = Zentrum.suchenZentrum(leeresZentrum);
 			request.setAttribute(requestParameter.LISTE_DER_ZENTREN.name(),
 					listeZentren);
-			if (request.getParameter("Aktualiesieren") != null) {
-				System.out.println(request.getParameter("name"));
-				System.out.println(request.getParameter("status"));
-				System.out.println(request.getParameter("zentrum"));
+			if (request.getParameter("filtern") != null) {
+				try {
+					listeStudien = studieFiltern(request.getParameter("name"),
+							Studie.Status.parseStatus(request
+									.getParameter("status")), request
+									.getParameter("zentrum"));
+				} catch (StudieException e) {
+					// TODO Dem Benutzer muss eine Meldung angezeigt werden
+					// (lplotni
+					// 17. Jun)
+					e.printStackTrace();
+				}
 			} else {
 				listeStudien = DatenbankFactory.getAktuelleDBInstanz()
 						.suchenMitgliederObjekte(aBenutzer.getZentrum(),
@@ -209,6 +230,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			// Auswahl erfolgen; die Studie, die er ansehen darf, wird aus der
 			// DB geholt und an die Session gebunden; studie_ansehen.jsp wird
 			// automatisch aufgerufen.
+			Logger.getLogger(this.getClass()).debug(
+					"studieAuswahl - Statistiker");
 			try {
 				leereStudie.setBenutzerkonto(aBenutzer);
 			} catch (StudieException e) {
@@ -224,17 +247,35 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					response);
 		} else if (aRolle == Rolle.getStudienleiter()) {
 			// der eingeloggte Benutzer ist ein Studienleiter
+			Logger.getLogger(this.getClass()).debug(
+					"studieAuswahl - Studienleiter");
 			listeZentren = Zentrum.suchenZentrum(leeresZentrum);
 			request.setAttribute(requestParameter.LISTE_DER_ZENTREN.name(),
 					listeZentren);
-			try {
-				leereStudie.setBenutzerkonto(aBenutzer);
-			} catch (StudieException e) {
-				// TODO Dem Benutzer muss eine Meldung angezeigt werden (lplotni
-				// 17. Jun)
-				e.printStackTrace();
+			if (request.getParameter("filtern") != null) {
+				try {
+					listeStudien = studieFiltern(request.getParameter("name"),
+							Studie.Status.parseStatus(request
+									.getParameter("status")), request
+									.getParameter("zentrum"));
+				} catch (StudieException e) {
+					// TODO Dem Benutzer muss eine Meldung angezeigt werden
+					// (lplotni
+					// 17. Jun)
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					leereStudie.setBenutzerkonto(aBenutzer);
+				} catch (StudieException e) {
+					// TODO Dem Benutzer muss eine Meldung angezeigt werden
+					// (lplotni
+					// 17. Jun)
+					e.printStackTrace();
+				}
+				listeStudien = Studie.sucheStudie(leereStudie);
 			}
-			listeStudien = Studie.sucheStudie(leereStudie);
+
 			request.setAttribute(requestParameter.LISTE_DER_STUDIEN.name(),
 					listeStudien);
 			request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN).forward(
@@ -243,8 +284,54 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		}
 	}
 
+	/**
+	 * Diese Methode filtert gemaess den Kriterien die Liste der Studien.
+	 * 
+	 * @param name -
+	 *            Name der gesuchten Studie
+	 * @param status -
+	 *            Status der gesuchten Studie
+	 * @param zentrumString -
+	 *            das leitende Zentrum der gesuchten Studie //TODO Hier ensteht
+	 *            ein Problem, da wir nirgendswo diese Eigenschaft speichern
+	 *            (lplotni 17. Juni)
+	 * @return - Vector mit den gefundenen StudienBeans
+	 * @throws DatenbankExceptions wenn bei dem Vorgang Fehler in der DB auftraten
+	 */
 	private Vector<StudieBean> studieFiltern(String name, Studie.Status status,
-			long zentrumId) {
+			String zentrumString) throws DatenbankExceptions {
+		Logger.getLogger(this.getClass()).debug("studieFiltern");
+		StudieBean gStudie = new StudieBean();
+		gStudie.setFilter(true);
+		ZentrumBean gZentrum = new ZentrumBean();
+		gZentrum.setFilter(true);
+		gZentrum.setIstAktiviert(true);
+
+		StringBuffer tempString = new StringBuffer(zentrumString);
+
+		try {
+			gZentrum.setInstitution(tempString.toString().substring(0,
+					tempString.indexOf(" / ")));
+			gZentrum.setAbteilung(tempString.toString().substring(
+					tempString.indexOf(" / ") + 3, tempString.length()));
+			gZentrum = Zentrum.suchenZentrum(gZentrum).firstElement();
+			System.out.println(gZentrum.toString());
+			if (name != null) {
+				gStudie.setName(name);
+			}
+			gStudie.setStatus(status);
+			return DatenbankFactory.getAktuelleDBInstanz()
+					.suchenMitgliederObjekte(gZentrum, gStudie);
+
+		} catch (StudieException e) {
+			// TODO Dem Benutzer muss eine Meldung angezeigt werden (lplotni
+			// 17. Jun)
+			e.printStackTrace();
+		} catch (ZentrumException e) {
+			// TODO Dem Benutzer muss eine Meldung angezeigt werden (lplotni
+			// 17. Jun)
+			e.printStackTrace();
+		}
 		return null;
 	}
 }
