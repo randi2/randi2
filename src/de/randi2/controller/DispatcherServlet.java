@@ -165,7 +165,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Neue Studie anlegen
 		 */
-		JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE,
+		JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE
 
 		/**
 		 * Studie pausieren
@@ -187,7 +187,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Konto des Benutzers (BenutzerkontoBean)
 		 */
 		A_Benutzer("aBenutzer"), // XXX Konto ist als 'aBenutzer' gebunden,
-		// nicht ueber diese
+									// nicht ueber diese
 		// Kosntante (lplotni 17. Juni: warum denn ?)
 
 		/**
@@ -214,7 +214,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		private sessionParameter(String parameter) {
 			this.parameter = parameter;
 		}
-
+		
 		/**
 		 * Liefert die String Repraesentation des Parameters
 		 * 
@@ -562,7 +562,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		else if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE.name())) {
 
 			// neue Studie anlegen
-			request.setAttribute(Parameter.anfrage_id,
+			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
+					.name(),
 					StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN_NEUESTUDIE
 							.name());
 			request.getRequestDispatcher("StudieServlet").forward(request,
