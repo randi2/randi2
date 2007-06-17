@@ -23,7 +23,7 @@
 <fieldset><legend><b>Studienangaben</b></legend>
 <table>
 	<%
-		//Holen der Studie, das angezeigt und geaendert werden soll.
+		//Holen der Studie, die angezeigt und geaendert werden soll.
 		StudieBean aStudieBean = aBenutzer.getStudie();
 	%>
 	<tr>
@@ -42,14 +42,11 @@
 		<td>Startdatum *<br>
 		<input type="text" size="40" maxlength="40" name="Startdatum"
 			tabindex="3" value="Vorerst nur ein Textfeld">
-			  value="<%if(aStudieBean.getStartDatum().after(Calender.Date)){out.print(aStudieBean.getStartDatum());}%>">
-			  z:message="Startdatum liegt in der Vergangenheit">
-			</td>
+			value="<%out.print(aStudieBean.getStartDatum());%>"</td>
 		<td>Enddatum *<br>
 		<input type="text" size="40" maxlength="40" name="Enddatum"
 			tabindex="4" value="Vorerst nur ein Textfeld">
-			  value="<%if(aStudieBean.getEndDatum().after(Calender.Date)){out.print(aStudieBean.getEndDatum());}%>">
-			  z:message="Enddatum liegt in der Vergangenheit">
+			value="<%out.print(aStudieBean.getEndDatum());%>"
 			</td>
 	</tr>
 	<tr>
