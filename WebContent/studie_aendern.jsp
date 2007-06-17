@@ -16,27 +16,41 @@
 <div id="content">
 <form action="DispatcherServlet" method="post" name="user" id="user"><input
 	type="hidden" name="anfrage_id"
-	value="<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AENDERN.name() %>"> 
+	value="<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AENDERN.name() %>">
+	
 <h1>Studie &auml;ndern</h1>
-<form>
+
 <fieldset><legend><b>Studienangaben</b></legend>
 <table>
+	<%
+		//Holen der Studie, das angezeigt und geaendert werden soll.
+		StudieBean aStudieBean = aBenutzer.getStudie();
+	%>
 	<tr>
-		<td>Name der Studie *<br>
+		<td>Name der Studie<br>
 		<input type="text" size="40" maxlength="40" name="Name_Studie"
-			tabindex="1"></td>
+			tabindex="1"> readonly value="<%out.print(aStudieBean.getName());%>"
+			</td>
 	</tr>
 	<tr>
 		<td>Beschreibung der Studie *<br>
-		<textarea cols="37" rows="4" name="Studie_Beschreibung" tabindex="2"></textarea></td>
+		<textarea cols="37" rows="4" name="Studie_Beschreibung" tabindex="2"></textarea>
+			value="<%out.print(aStudieBean.getBeschreibung());%>"
+		</td>
 	</tr>
 	<tr>
 		<td>Startdatum *<br>
 		<input type="text" size="40" maxlength="40" name="Startdatum"
-			tabindex="3" value="Vorerst nur ein Textfeld"></td>
+			tabindex="3" value="Vorerst nur ein Textfeld">
+			  value="<%if(aStudieBean.getStartDatum().after(Calender.Date)){out.print(aStudieBean.getStartDatum());}%>">
+			  z:message="Startdatum liegt in der Vergangenheit">
+			</td>
 		<td>Enddatum *<br>
 		<input type="text" size="40" maxlength="40" name="Enddatum"
-			tabindex="4" value="Vorerst nur ein Textfeld"></td>
+			tabindex="4" value="Vorerst nur ein Textfeld">
+			  value="<%if(aStudieBean.getEndDatum().after(Calender.Date)){out.print(aStudieBean.getEndDatum());}%>">
+			  z:message="Enddatum liegt in der Vergangenheit">
+			</td>
 	</tr>
 	<tr>
 
@@ -48,9 +62,10 @@
 <table>
 	<tbody>
 		<tr>
-			<td>Studienprotokoll *&nbsp;&nbsp;&nbsp;<input name="Datei"
+			<td>Studienprotokoll &nbsp;&nbsp;&nbsp;<input name="Datei"
 				size="50" maxlength="100000" accept="text/*" id="datei" tabindex="5"
-				type="file"><br>
+				type="file"> readonly value="<%out.print(aStudieBean.getStudienprotokollpfad());%>"
+			<br>
 			<br>
 			</td>
 		</tr>
@@ -67,33 +82,43 @@
 					</tr>
 					<tr>
 						<td><input name="studienarm1" value="Studienarm1" size="30"
-							type="text"></td>
+							type="text"> readonly value="<%out.print(aStudieBean.getStudienarme());%>"
+						</td>
 						<td><input name="beschreibung1" value="..." size="80"
-							type="text"></td>
+							type="text"> readonly value="<%out.print(aStudieBean.getBeschreibung());%>"
+						</td>
 					</tr>
 					<tr>
 						<td><input name="studienarm2" value="Studienarm2" size="30"
-							type="text"></td>
+							type="text"> readonly value="<%out.print(aStudieBean.getStudienarme());%>"
+						</td>
 						<td><input name="beschreibung2" value="..." size="80"
-							type="text"></td>
+							type="text"> readonly value="<%out.print(aStudieBean.getBeschreibung());%>"
+						</td>
 					</tr>
 					<tr>
 						<td><input name="studienarm3" value="Studienarm3" size="30"
-							type="text"></td>
+							type="text"> readonly value="<%out.print(aStudieBean.getStudienarme());%>"
+						</td>
 						<td><input name="beschreibung3" value="..." size="80"
-							type="text"></td>
+							type="text"> readonly value="<%out.print(aStudieBean.getBeschreibung());%>"
+						</td>
 					</tr>
 					<tr>
 						<td><input name="studienarm4" value="Studienarm4" size="30"
-							type="text"></td>
+							type="text"> readonly value="<%out.print(aStudieBean.getStudienarme());%>"
+						</td>
 						<td><input name="beschreibung4" value="..." size="80"
-							type="text"></td>
+							type="text"> readonly value="<%out.print(aStudieBean.getBeschreibung());%>"
+						</td>
 					</tr>
 					<tr>
 						<td><input name="studienarm5" value="Studienarm5" size="30"
-							type="text"></td>
+							type="text"> readonly value="<%out.print(aStudieBean.getStudienarme());%>"
+						</td>
 						<td><input name="beschreibung5" value="..." size="80"
-							type="text"></td>
+							type="text"> readonly value="<%out.print(aStudieBean.getBeschreibung());%>"
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -105,20 +130,24 @@
 	<tbody>
 		<tr>
 			<td><br>
-			Randomisationsbezogene Eigenschaften *<br>
+			Randomisationsbezogene Eigenschaften<br>
 			<textarea cols="37" rows="4"
-				name="Randomisationsbezogene_Eigenschaften" tabindex="6"></textarea></td>
+				name="Randomisationsbezogene_Eigenschaften" tabindex="6"></textarea>
+				readonly value="<%out.print(aStudieBean.getRandomisationseigenschaften());%>"
+				</td>
 		</tr>
 		<tr>
 			<td><br>
 			Leitende Institution<br>
 			<input size="40" maxlength="40" name="ID_Institution" tabindex="7"
-				type="text"></td>
+				type="text"> readonly value="<%out.print(aStudieBean.getInstitution());%>"
+				</td>
 			<td></td>
 			<td><br>
 			Verantwortliche(r) Studienleiter(in)<br>
 			<input size="40" maxlength="40" name="ID_Studienleiter" tabindex="8"
-				type="text"></td>
+				type="text"> readonly value="<%out.print(aStudieBean.getStudienleiter());%>"
+				</td>
 		</tr>
 	</tbody>
 </table>
