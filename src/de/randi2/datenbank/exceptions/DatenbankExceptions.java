@@ -79,6 +79,12 @@ public class DatenbankExceptions extends SystemException {
 	 * Fehler beim Datenbanklogging.
 	 */
 	public static final String LOG_FEHLER = "Es trat ein Fehler beim Logging für die Datenbank auf.";
+	
+	/**
+	 * Fehler tritt auf wenn versucht wird zu schreiben oder zu loeschen und bei Filter (von dem alle Beans erben) das aktuelle Benutzerkontobean 
+	 * nicht gesetzt wurde. Dies wird fuer das Logging benoetigt.
+	 */
+	public static final String KEIN_BK_EINGETRAGEN="Es wurde versucht eine schreibende Aktion auf der Datenbank auszufuehren ohne das das aktuelle Benutzerkonto, beim Filter, gesetzt wurden.";
 
 	/**
 	 * Konstruktor.

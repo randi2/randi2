@@ -4180,13 +4180,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 			geaenderteDaten.put(FelderPatient.PERFORMANCESTATUS.toString(), String.valueOf(((PatientBean) aObjekt).getPerformanceStatus()));
 			
 		}
-		//TODO tmp Benutzer entfernen! bzw Loesung finden wie der Nutzer geloggt werden kann.
-		BenutzerkontoBean tmp=null;
-		try {
-			tmp = new BenutzerkontoBean("Franz","test66!!");
-		} catch (BenutzerkontoException e) {
-			e.printStackTrace();
+		//Benutzerkonto welches die Aktion ausgeloest hat
+		BenutzerkontoBean ausfuehrendesBkBean= aObjekt.getBenutzerkontoLogging();
+		if(ausfuehrendesBkBean==null) {
+			throw new DatenbankExceptions(DatenbankExceptions.KEIN_BK_EINGETRAGEN);
 		}
+		
 		switch(logart) { 
 		
 		case 1: text = "neuer Datensatz"; break;
@@ -4197,7 +4196,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		
 		default: throw new DatenbankExceptions(DatenbankExceptions.LOG_FEHLER);
 		}
-		log.info(new LogAktion(text,tmp, 
+		log.info(new LogAktion(text,ausfuehrendesBkBean, 
 				new LogGeanderteDaten(aObjekt.getId(),aObjekt.getClass().getSimpleName(),geaenderteDaten)));
 	}
 
