@@ -3,8 +3,8 @@ use randi2;
 insert into Person (nachname,vorname,titel,geschlecht,telefonnummer,handynummer,fax,email)  
 values ('Hess','Frank','Prof.','m','07131-1231232',null,null,'frank.hess@hs-heilbronn.de'),
         ('Graeff','Valentin','Dr.','m','07131-3456',null,null,'vgraeff@stud.hs-heilbronn.de'),
-        ('Nadine','Zwink','kein Titel','w','07131-5673456',null,null,'nzwinck@stud.hs-heilbronn.de'),
-        ('Hans','Dampf','Prof. Dr.','m','07131-123456',null,null,'hans.damp@allenGassen.de');
+        ('Zwink','Nadine','kein Titel','w','07131-5673456',null,null,'nzwinck@stud.hs-heilbronn.de'),
+        ('Dampf','Hans','Prof. Dr.','m','07131-123456',null,null,'hans.damp@allenGassen.de');
 
 #Passwoerter Zentren:
 		# Nch Knochen: nch1!$knochen80
