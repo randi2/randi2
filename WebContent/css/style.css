@@ -302,6 +302,15 @@ a.il_ContainerItemTitle:link, a.il_ContainerItemTitle:visited, a.il_ContainerIte
 {
 	text-decoration: none;
 }
+
+.tblrow3 {
+	font:12px arial, sans-serif;
+	background-color: #e3e3e3;
+	color:#000000;
+	padding:3px;
+	font-weight:bold;
+}
+
 .tblrow2 {
 	font:12px arial, sans-serif;
 	background-color: #e3e3e3;
@@ -323,3 +332,4 @@ a.il_ContainerItemTitle:link, a.il_ContainerItemTitle:visited, a.il_ContainerIte
 	border: solid #CC3300 2px;
 	background-color: #FFFFFF;
 	}
+

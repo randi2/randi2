@@ -55,10 +55,11 @@
 <%@include file="include/inc_header.jsp"%>
 
 <div id="content">
-<form>
+<form method="post">
 <h1>Zentrum suchen</h1>
 <fieldset style="width: 90%;"><legend><b>Zentrum
-suchen </b></legend> <img alt="Filter anzeigen" src="images/find.png"
+suchen </b></legend><br />
+&nbsp;&nbsp;&nbsp; <img alt="Filter anzeigen" src="images/find.png"
 	onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen"
 	style="cursor:pointer" /> <b>Filter ein-/ausblenden</b>
 <div id="filterdiv" style="overflow:hidden; height: 75px;">
@@ -76,6 +77,7 @@ suchen </b></legend> <img alt="Filter anzeigen" src="images/find.png"
 		<td><input type="submit" name="Filtern" value="Filtern" /></td>
 	</tr>
 </table>
+
 </div>
 <br />
 <br />
@@ -165,20 +167,22 @@ suchen </b></legend> <img alt="Filter anzeigen" src="images/find.png"
 	<%
 			if (reihe.equals("tblrow1")) {
 			reihe = "tblrow2";
-				}
-
-				else {
+				} else {
 			reihe = "tblrow1";
 				}
 				i++;
 			}
 		}
 	%>
+
+
+</table>
+<table width="90%" border="0" cellspacing="5" cellpadding="2" >
+	
 	<tr>
 		<td><input type="button" name="zurueck" value="Zur&uuml;ck"
 			tabindex="1" onclick="location.href='studie_ansehen.jsp'"></td>
 	</tr>
-
 </table>
 </fieldset>
 <div id="show_none"><%@include file="include/inc_footer.jsp"%></div>
