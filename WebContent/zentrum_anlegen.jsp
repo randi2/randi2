@@ -153,7 +153,7 @@ werden.
 	</tr>
 </table>
 
-<br>
+<br></form>
 <%@include file="include/inc_footer.jsp"%></div>
 <div id="show_none"></div>
 <div id="show_none">
