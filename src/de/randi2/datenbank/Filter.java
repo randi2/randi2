@@ -1,6 +1,7 @@
 package de.randi2.datenbank;
 
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.NullKonstanten;
 
 /**
@@ -36,6 +37,13 @@ import de.randi2.utility.NullKonstanten;
  * 
  */
 public class Filter {
+	
+	
+	
+	/**
+	 * Dieses Benutzerkonto muss gesetzt werden, wenn Aktionen mit dem Objekt durchgeführt werden die geloggt werden müssen.
+	 */
+	private BenutzerkontoBean benutzerkontoLogging=null;
 
 	/**
 	 * Die eindeutige Id des Objektes, die dem Primary-Key aus der Datenbank
@@ -106,6 +114,22 @@ public class Filter {
 	 */
 	public long getId(){
 		return this.id;
+	}
+
+	/**
+	 * Liefert das Benutzerkonto, dass die Logging Informationen enthält.
+	 * @return Benutzerkonto, das die Logging Informationen enthält.
+	 */
+	public BenutzerkontoBean getBenutzerkontoLogging() {
+		return benutzerkontoLogging;
+	}
+
+	/**
+	 * Muss gesetzt werden, wenn Aktionen durchgeführt werden, die geloggt werden müssen.
+	 * @param benutzerkontoLogging Benutzerkonto, dessen Informationen geloggt werden muessen.
+	 */
+	public void setBenutzerkontoLogging(BenutzerkontoBean benutzerkontoLogging) {
+		this.benutzerkontoLogging = benutzerkontoLogging;
 	}
 
 }
