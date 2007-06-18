@@ -852,11 +852,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 				PatientBean patient = (PatientBean) zuLoeschendesObjekt;
 				this.loeschenPatient(patient);
 			}
-			//Block loeschen
-			else if (zuLoeschendesObjekt instanceof Block) {
-				Block block = (Block) zuLoeschendesObjekt;
-				this.loeschenBlock(block);
-			}
 			//Strata loeschen
 			else if (zuLoeschendesObjekt instanceof StrataBean) {
 				StrataBean strata = (StrataBean) zuLoeschendesObjekt;
@@ -1168,17 +1163,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		this.loggenDaten(patient, LogKonstanten.LOESCHE_DATENSATZ);
 	}
 	
-
-	/**
-	 * Loescht das uebergebene Blockobjekt aus der Datenbank.
-	 * @param block
-	 * 			zu loeschendes Blockobjekt.
-	 * @throws DatenbankExceptions
-	 * 				wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
-	 */
-	private void loeschenBlock(Block block) throws DatenbankExceptions{
-		//TODO Implementierung folgt.
-	}
 	
 	/**
 	 * Loescht das uebergebene Strataobjekt aus der Datenbank.
@@ -1237,11 +1221,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 			else if (zuSchreibendesObjekt instanceof PatientBean) {
 				PatientBean patient = (PatientBean) zuSchreibendesObjekt;
 				return (T) this.schreibenPatient(patient);
-			}
-			//Block
-			else if (zuSchreibendesObjekt instanceof Block) {
-				Block block = (Block) zuSchreibendesObjekt;
-				return (T) this.schreibenBlock(block);				
 			}
 			if (zuSchreibendesObjekt instanceof StrataBean) {
 				StrataBean strata = (StrataBean) zuSchreibendesObjekt;
@@ -2050,22 +2029,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.CONNECTION_ERR);
 		}
 		return patient;
-	}
-	
-	/**
-	 * Speichert bzw. aktualisiert die übergebenen Blockdaten.
-	 * 
-	 * @param block
-	 *            welche(r) gespeichert (ohne Id) oder aktualisiert (mit Id)
-	 *            werden soll.
-	 * @return das gespeicherte Objekt MIT Id, bzw. <code>null</code> falls
-	 *         ein Update durchgeführt wurde.
-	 * @throws DatenbankExceptions
-	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
-	 */
-	private Block schreibenBlock(Block block) throws DatenbankExceptions {
-		//TODO Implementierung fehlt.
-		return null;
 	}
 	
 	/**
