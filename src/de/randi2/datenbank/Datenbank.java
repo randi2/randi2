@@ -818,20 +818,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.ARGUMENT_IST_NULL);
 		} else {
 			// ZentrumBean loeschen
-			if (zuLoeschendesObjekt instanceof ZentrumBean) {
-				ZentrumBean zentrum = (ZentrumBean) zuLoeschendesObjekt;
-				this.loeschenZentrum(zentrum);
-			}
+//			if (zuLoeschendesObjekt instanceof ZentrumBean) {
+//				ZentrumBean zentrum = (ZentrumBean) zuLoeschendesObjekt;
+//				this.loeschenZentrum(zentrum);
+//			}
 			// PersonBean loeschen
-			else if (zuLoeschendesObjekt instanceof PersonBean) {
+			if (zuLoeschendesObjekt instanceof PersonBean) {
 				PersonBean person = (PersonBean) zuLoeschendesObjekt;
 				this.loeschenPerson(person);
 			}
 			// Benutzerkonto loeschen
-			else if (zuLoeschendesObjekt instanceof BenutzerkontoBean) {
-				BenutzerkontoBean benutzer = (BenutzerkontoBean) zuLoeschendesObjekt;
-				this.loeschenBenutzerkonto(benutzer);
-			}
+//			else if (zuLoeschendesObjekt instanceof BenutzerkontoBean) {
+//				BenutzerkontoBean benutzer = (BenutzerkontoBean) zuLoeschendesObjekt;
+//				this.loeschenBenutzerkonto(benutzer);
+//			}
 			// Aktivierung loeschen
 			else if (zuLoeschendesObjekt instanceof AktivierungBean) {
 				AktivierungBean aktivierung = (AktivierungBean) zuLoeschendesObjekt;
@@ -843,20 +843,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 				this.loeschenStudie(studie);
 			}
 			// Studienarm loeschen
-			else if (zuLoeschendesObjekt instanceof StudienarmBean) {
-				StudienarmBean studienarm = (StudienarmBean) zuLoeschendesObjekt;
-				this.loeschenStudienarm(studienarm);
-			}
+//			else if (zuLoeschendesObjekt instanceof StudienarmBean) {
+//				StudienarmBean studienarm = (StudienarmBean) zuLoeschendesObjekt;
+//				this.loeschenStudienarm(studienarm);
+//			}
 			// Patient loeschen
-			else if (zuLoeschendesObjekt instanceof PatientBean) {
-				PatientBean patient = (PatientBean) zuLoeschendesObjekt;
-				this.loeschenPatient(patient);
-			}
+//			else if (zuLoeschendesObjekt instanceof PatientBean) {
+//				PatientBean patient = (PatientBean) zuLoeschendesObjekt;
+//				this.loeschenPatient(patient);
+//			}
 			//Strata loeschen
-			else if (zuLoeschendesObjekt instanceof StrataBean) {
-				StrataBean strata = (StrataBean) zuLoeschendesObjekt;
-				this.loeschenStrata(strata);
-			}
+//			else if (zuLoeschendesObjekt instanceof StrataBean) {
+//				StrataBean strata = (StrataBean) zuLoeschendesObjekt;
+//				this.loeschenStrata(strata);
+//			}
 		}
 	}
 
