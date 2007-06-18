@@ -223,3 +223,5 @@ CREATE TABLE Strata_Werte_has_Patient (
       ON UPDATE NO ACTION
 )
 TYPE=InnoDB;
+
+ALTER TABLE `Block` ADD `strataKombination` TEXT NOT NULL ;
