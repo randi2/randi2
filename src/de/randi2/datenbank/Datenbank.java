@@ -3048,10 +3048,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 				} else {
 					sql += " AND ";
 				}
-				sql += FelderBenutzerkonto.ERSTERLOGIN.toString() + " >= ? ";
+				sql += FelderStudie.STARTDATUM.toString() + " >= ? ";
 				counter++;
 					sql += " AND ";				
-				sql += FelderBenutzerkonto.LETZTERLOGIN.toString() + " <= ? ";
+				sql += FelderStudie.ENDDATUM.toString() + " <= ? ";
 				counter++;
 		} else {
 			if (studie.getStartDatum() != null) {
@@ -3060,7 +3060,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				} else {
 					sql += " AND ";
 				}
-				sql += FelderBenutzerkonto.ERSTERLOGIN.toString() + " = ? ";
+				sql += FelderStudie.STARTDATUM.toString() + " = ? ";
 				counter++;
 			}
 			if (studie.getEndDatum() != null) {
@@ -3069,7 +3069,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				} else {
 					sql += " AND ";
 				}
-				sql += FelderBenutzerkonto.LETZTERLOGIN.toString() + " = ? ";
+				sql += FelderStudie.ENDDATUM.toString() + " = ? ";
 				counter++;
 			}
 		}
@@ -3942,9 +3942,69 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		sql = "SELECT "+Tabellen.STUDIE+".* FROM " + Tabellen.STUDIE+","+Tabellen.STUDIE_ZENTRUM +" WHERE " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.ZENTRUMID + 
 				"= ? AND " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.STUDIENID + "=" + Tabellen.STUDIE+"."+FelderStudie.ID; 
+		//Filterung (Copy Paste aus suchenStudie
+		if(studie.getBenutzerkontoId()!=NullKonstanten.NULL_LONG) {
+			sql+=" AND "+Tabellen.STUDIE+"."+FelderStudie.BENUTZER.toString()+" = ?";
+		}
+		if(studie.getName()!=null) {
+			sql+= " AND "+Tabellen.STUDIE+"."+FelderStudie.NAME.toString()+" LIKE ?";
+		}
+		if(studie.getBeschreibung()!=null) {
+			sql+=" AND "+ Tabellen.STUDIE+"."+FelderStudie.BESCHREIBUNG.toString()+" LIKE ? ";
+		}
+		//falls Start- und Enddatum gesetzt sind wird der Bereich dazwischen gesucht
+		if(studie.getStartDatum()!=null && studie.getEndDatum()!=null) {
+			if(studie.getStartDatum().after(studie.getEndDatum())) {
+				throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+			}
+				sql += " AND "+Tabellen.STUDIE+"."+FelderStudie.STARTDATUM.toString() + " >= ? ";
+					sql += " AND ";				
+				sql += Tabellen.STUDIE+"."+FelderStudie.ENDDATUM.toString() + " <= ? ";
+		} else {
+			if (studie.getStartDatum() != null) {
+				sql += " AND "+Tabellen.STUDIE+"."+FelderStudie.STARTDATUM.toString() + " = ? ";
+			}
+			if (studie.getEndDatum() != null) {
+				sql += " AND "+Tabellen.STUDIE+"."+FelderStudie.ENDDATUM.toString() + " = ? ";
+			}
+		}
+		if(studie.getStudienprotokollpfad()!=null) {
+			sql+= " AND "+Tabellen.STUDIE+"."+FelderStudie.PROTOKOLL.toString()+" LIKE ? ";
+		}
+		if(studie.getRandomisationsart()!=null) {
+			sql+= " AND "+Tabellen.STUDIE+"."+FelderStudie.RANDOMISATIONSART.toString()+" = ? ";
+		}
+		if(studie.getStatus()!=null) {
+			sql+= " AND "+Tabellen.STUDIE+"."+FelderStudie.STATUS.toString()+" = ? ";
+		}
 		try {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, zentrumId);
+			pstmt = con.prepareStatement(sql);			
+			int counter=1;
+			pstmt.setLong(counter++, zentrumId);
+			if(studie.getBenutzerkontoId()!=NullKonstanten.NULL_LONG) {
+				pstmt.setLong(counter++, studie.getBenutzerkontoId());
+			}
+			if(studie.getName()!=null) {
+				pstmt.setString(counter++, studie.getName());
+			}
+			if(studie.getBeschreibung()!=null) {
+				pstmt.setString(counter++, studie.getBeschreibung());
+			}
+			if (studie.getStartDatum() != null) {
+				pstmt.setDate(counter++, new Date(studie.getStartDatum().getTimeInMillis()));
+				}
+			if (studie.getEndDatum() != null) {
+				pstmt.setDate(counter++, new Date(studie.getEndDatum().getTimeInMillis()));
+				}			
+			if(studie.getStudienprotokollpfad()!=null) {
+				pstmt.setString(counter++, studie.getStudienprotokollpfad());
+			}
+			if(studie.getRandomisationsart()!=null) {
+				pstmt.setString(counter++, studie.getRandomisationsart());
+			}
+			if(studie.getStatus()!=null) {
+				pstmt.setString(counter++, studie.getStatus().toString());
+			}
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				try {
