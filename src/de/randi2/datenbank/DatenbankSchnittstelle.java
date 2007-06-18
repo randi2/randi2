@@ -18,8 +18,20 @@ public interface DatenbankSchnittstelle {
 	 * Diese Methode sucht alle in der Datenbank gespeicherten Objekte, welche
 	 * der Filterung, die durch das uebergebene Objekt definiert wurde,
 	 * entsprechen. Dabei werden alle Attribute welche != null bzw. !=
-	 * null-Konstanten (siehe {@link de.randi2.utility.NullKonstanten}) sind,
+	 * Null-Konstanten (siehe {@link de.randi2.utility.NullKonstanten}) sind,
 	 * als Filter verwendet.
+	 * </p>
+	 * <p>
+	 * Strings werden mit LIKE abgeprueft.
+	 * Numerische Werte werden auf Gleichheit geprueft.
+	 * Datum Werte werden auf Gleichheit geprueft, außer es werden
+	 * ,wie z.B. bei Studie das Start- und Enddatum, zwei Werte uebergeben.
+	 * In diesem Fall wird der Bereich zwischen den beiden Werte gesucht.
+	 * Boolsche Werte werden standardmaessig mit <code>false</code> initialisiert.
+	 * Diese muessen bei Bedarf explizit gesetzt werden. Um z.B. alle Studien zu erhalten
+	 * muessen zwei Abfragen geschickt werden. Diese duerfen sich nur im Wert aktiv unterscheiden. 
+	 * Die gelieferten Vektoren (mit jeweils allen aktiven und nicht aktiven Studien) koennen
+	 * dann addiert werden.
 	 * </p>
 	 * <p>
 	 * Falls keine Objekte der Filterung entsprechen, wird ein leerer Vektor
