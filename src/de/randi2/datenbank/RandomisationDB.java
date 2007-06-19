@@ -55,7 +55,7 @@ public final class RandomisationDB extends Filter {
 	}
 
 	/**
-	 * Speichert einen Block in der Datenbank
+	 * Speichert einen Block in der Datenbank.
 	 * 
 	 * @param block
 	 *            Der zu speichernde Block.
@@ -133,14 +133,14 @@ public final class RandomisationDB extends Filter {
 					DatenbankExceptions.SCHREIBEN_ERR);
 		}
 
-		ConnectionFactory.getInstanz().closeConnection();
+		ConnectionFactory.getInstanz().closeConnection(c);
 
 	}
 
 	/**
 	 * Gibt den naechsten Wert fuer die Randomisation zu dieser Studie zurueck.
 	 * 
-	 * @return Den naechsten Wert oder {@link NullKonstanten#NULL_LONG} falls
+	 * @return Den naechsten Wert oder {@link NullKonstanten#NULL_INT} falls
 	 *         keine Werte mehr zu dieser Studie existieren.
 	 */
 	public static synchronized long getNext(StudieBean s,
@@ -196,7 +196,7 @@ public final class RandomisationDB extends Filter {
 			}
 		}
 
-		ConnectionFactory.getInstanz().closeConnection();
+		ConnectionFactory.getInstanz().closeConnection(c);
 		return wert;
 	}
 
@@ -231,11 +231,43 @@ public final class RandomisationDB extends Filter {
 	 *         Studienarms als {@link Long} belegt. Die zweite Stelle der
 	 *         HashMap ist mit die Anzahl der zugeordneten Patienten als
 	 *         {@link Integer}.
+	 * @throws DatenbankExceptions 
 	 */
-	// Erstmal auskommentiert, weil vermtl. nur zum testen der Blockrandomsation noetig
-	/*public static HashMap<Long, Integer> getAnzahlPatientenZuStudienarmen(
-			long studienID) {
-		return null;
-	}*/
+	public static HashMap<Long, Integer> getAnzahlPatientenZuStudienarmen(
+			long studienID) throws DatenbankExceptions {
+		HashMap<Long, Integer> patInArmen = new HashMap<Long, Integer>();
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		ResultSet rs = null;
+		ResultSet rs2 = null;
+		Connection con=null;
+		Connection con2=null;
+		String sql ="SELECT studienarm.studienarmID FROM studienarm, studie WHERE studie.studienID=? AND studie.studienID = studienarm.studienarmID " ;
+		String sql2 ="select count(*) anzahl from studienarm, patient where patient.studienarm_studienarmID = studienarm.studienarmID and studienarm.studienarmid=?";
+		try {
+			con = ConnectionFactory.getInstanz().getConnection();
+			con2 = ConnectionFactory.getInstanz().getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, studienID);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {				
+				pstmt2 = con2.prepareStatement(sql2);
+				pstmt2.setLong(1, rs.getLong("studienarmID")); 
+				rs2 = pstmt2.executeQuery();
+				if(rs2.next()) { 
+					patInArmen.put(rs.getLong("studienarmID"), rs2.getInt("anzahl"));	
+				}				
+			}			
+		} catch (DatenbankExceptions e) {
+			throw e;
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SUCHEN_ERR);
+		} finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
+			ConnectionFactory.getInstanz().closeConnection(con2);
+		}
+		
+		return patInArmen;
+	}
 
 }
