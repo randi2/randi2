@@ -64,7 +64,7 @@ Angaben</b></legend>
 		<input type="text" size="25" maxlength="30" id="EMail" name="EMail"
 			tabindex="5" z:required="true" z:message="Bitte E-Mail angeben"
 			z:email="true"
-			z:email_message="Bitte geben sie eine g¸ltige E-Mail Adresse"></td>
+			z:email_message="Bitte geben sie eine gÅ¾ltige E-Mail Adresse"></td>
 
 		<td><label for="Fax">Fax<br>
 		<input type="text" size="25" maxlength="30" id="Fax" name="Fax"
@@ -90,6 +90,24 @@ Angaben</b></legend>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
 			id="TelSek" name="TelSek" tabindex="7" z:required="true"
 			z:message="Bitte Telefonnummer der Sekret&auml;rin angeben"></td>
+	</tr>
+</table>
+</fieldset>
+<fieldset style="width: 60%"><legend><b>Angaben
+zum Ansprechpartner</b></legend>
+<table>
+	<tr>
+		<td>Vorname *<br>
+		<input type="text" size="25" maxlength="30" name="Vorname"
+			tabindex="12" value="$ansprechpartner_vorn"></td>
+		<td>&nbsp;&nbsp;&nbsp;Nachname *<br>
+		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
+			name="Nachname" tabindex="13" value="$ansprechpartner_nachn"></td>
+	</tr>
+	<tr>
+		<td>Telefonnummer *<br>
+		<input type="text" size="25" maxlength="30" name="Telefon"
+			tabindex="14" value="$ansprechpartner_telenr"></td>
 	</tr>
 </table>
 </fieldset>

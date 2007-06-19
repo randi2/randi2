@@ -2,6 +2,13 @@
 	import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
 	import="de.randi2.controller.DispatcherServlet"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+String vorname = (String)request.getAttribute("Vorname");
+if (vorname == null){
+	vorname ="";
+}
+
+%>
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -35,7 +42,8 @@ Angaben</b></legend> <label for="Titel">Titel*:</label><br>
 	<tr>
 		<td><label for="Vorname">Vorname *</label><br>
 		<input type="text" size="25" maxlength="30" id="Vorname"
-			name="Vorname" tabindex="2" z:required="true"
+			name="Vorname" tabindex="2" value="<%=vorname%>" 
+			z:required="true"
 			z:message="Bitte Vornamen angeben"></td>
 		<td><label for="Nachname">Nachname *</label><br>
 		<input type="text" size="25" maxlength="30" id="Nachname"
@@ -55,7 +63,7 @@ Angaben</b></legend> <label for="Titel">Titel*:</label><br>
 <table>
 	<tr>
 		<td><label for="EMail">E-Mail Adresse *</label><br>
-		<input type="text" size="25" maxlength="30" id="EMail" name="EMail"
+		<input type="text" size="25" maxlength="30" id="Email" name="Email"
 			tabindex="5" z:required="true" z:message="Bitte E-Mail angeben"
 			z:email="true"
 			z:email_message="Bitte geben sie eine gültige E-Mail Adresse"></td>
@@ -72,6 +80,24 @@ Angaben</b></legend> <label for="Titel">Titel*:</label><br>
 		<td>&nbsp;&nbsp;&nbsp;<label for="Institut">Institut *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
 			id="Institut" name="Institut" tabindex="8"></label></td>
+	</tr>
+</table>
+</fieldset>
+<fieldset style="width: 60%"><legend><b>Angaben
+zum Ansprechpartner</b></legend>
+<table>
+	<tr>
+		<td>Vorname *<br>
+		<input type="text" size="25" maxlength="30" name="VornameA"
+			tabindex="12" value="$ansprechpartner_vorn"></td>
+		<td>&nbsp;&nbsp;&nbsp;Nachname *<br>
+		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
+			name="NachnameA" tabindex="13" value="$ansprechpartner_nachn"></td>
+	</tr>
+	<tr>
+		<td>Telefonnummer *<br>
+		<input type="text" size="25" maxlength="30" name="TelefonA"
+			tabindex="14" value="$ansprechpartner_telenr"></td>
 	</tr>
 </table>
 </fieldset>

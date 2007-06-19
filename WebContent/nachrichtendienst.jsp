@@ -6,14 +6,14 @@
 	import="de.randi2.controller.DispatcherServlet"%>
 <%
 	PersonBean aPerson = ((BenutzerkontoBean)session.getAttribute("aBenutzer")).getBenutzer();
-	// Feldervorbelegungen
+//Feldervorbelegungen
 	String betreff = (String)request.getAttribute(Nachrichtendienst.requestParameter.BETREFF.name());
 	if (betreff==null){
-	    betreff="";
+    	betreff="Default-Betreff";
 	}
-   	String nachrichtentext= (String)request.getAttribute(Nachrichtendienst.requestParameter.NACHRICHTENTEXT.name());
+	String nachrichtentext= (String)request.getAttribute(Nachrichtendienst.requestParameter.NACHRICHTENTEXT.name());
 	if (nachrichtentext==null){
-	    nachrichtentext="";
+	    nachrichtentext="Default-nachrichtentext";
 	}   	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -52,7 +52,7 @@
 	</tr>
 	<tr>
 		<td><label for="betreff"><b>Betreff:</b></label><br>
-		<input type="text" name="<%=Nachrichtendienst.requestParameter.BETREFF.name() %>" id="betreff" size="50" tabindex="2" z:required="true" z:message="Bitte geben Sie einen Betreff ein" value="<%=betreff%>"></td>
+		<input type="text" name="<%=Nachrichtendienst.requestParameter.BETREFF.name() %>" id="betreff" size="50" tabindex="2" z:required="true" z:message="Bitte geben Sie einen Betreff ein" value="<%=betreff %>"></td>
 	</tr>
 	<tr>
 		<td><label for="text"><b>Nachrichtentext:</b></label><br>
