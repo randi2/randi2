@@ -837,7 +837,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -857,7 +857,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.CONNECTION_ERR);
@@ -881,7 +881,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -900,7 +900,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.CONNECTION_ERR);
@@ -924,7 +924,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -943,7 +943,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.CONNECTION_ERR);
@@ -967,7 +967,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -986,7 +986,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.CONNECTION_ERR);
@@ -1010,7 +1010,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -1029,7 +1029,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.CONNECTION_ERR);
@@ -1053,7 +1053,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -1072,7 +1072,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.CONNECTION_ERR);
@@ -1096,7 +1096,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -1115,7 +1115,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.CONNECTION_ERR);
@@ -1207,7 +1207,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();			
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 		}
 		//JDBC
@@ -1254,7 +1254,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			} finally {
 				try {
 					ConnectionFactory.getInstanz().closeConnection();
-				} catch (SQLException e) {
+				} catch (DatenbankExceptions e) {
 					e.printStackTrace();
 					throw new DatenbankExceptions(
 							DatenbankExceptions.CONNECTION_ERR);
@@ -1302,7 +1302,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			} finally {
 				try {
 					ConnectionFactory.getInstanz().closeConnection();
-				} catch (SQLException e) {
+				} catch (DatenbankExceptions e) {
 					throw new DatenbankExceptions(
 							DatenbankExceptions.CONNECTION_ERR);
 				}
@@ -1328,7 +1328,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Connection con = null;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -1408,7 +1408,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		try {
 			ConnectionFactory.getInstanz().closeConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -1438,7 +1438,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		ResultSet rs = null;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -1541,7 +1541,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		try {
 			ConnectionFactory.getInstanz().closeConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -1569,7 +1569,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		ResultSet rs = null;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -1628,7 +1628,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			} finally {
 				try {
 					ConnectionFactory.getInstanz().closeConnection();
-				} catch (SQLException e) {
+				} catch (DatenbankExceptions e) {
 					e.printStackTrace();
 					throw new DatenbankExceptions(
 							DatenbankExceptions.CONNECTION_ERR);
@@ -1658,7 +1658,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		ResultSet rs = null;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -1778,7 +1778,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		try {
 			ConnectionFactory.getInstanz().closeConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -1805,7 +1805,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		ResultSet rs = null;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -1874,7 +1874,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		try {
 			ConnectionFactory.getInstanz().closeConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -1901,7 +1901,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		ResultSet rs = null;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -1984,7 +1984,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		try {
 			ConnectionFactory.getInstanz().closeConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -2075,7 +2075,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Connection con;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
@@ -2216,7 +2216,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.CONNECTION_ERR);
@@ -2246,7 +2246,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
@@ -2425,7 +2425,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.CONNECTION_ERR);
@@ -2450,7 +2450,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Connection con;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
@@ -2575,7 +2575,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.CONNECTION_ERR);
@@ -2599,7 +2599,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Connection con;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
@@ -2681,7 +2681,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.CONNECTION_ERR);
@@ -2705,7 +2705,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Connection con;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
@@ -2848,7 +2848,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.CONNECTION_ERR);
@@ -2872,7 +2872,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Connection con;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
@@ -2951,7 +2951,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.CONNECTION_ERR);
@@ -2965,7 +2965,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Connection con;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
 		}
@@ -3111,13 +3111,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SUCHEN_ERR);
 		} catch (StudieException e) {
-			//TODO PrintStackTrace spaeter loeschen - lplotni
-			e.printStackTrace();
 			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
 		}  finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
 						DatenbankExceptions.CONNECTION_ERR);
@@ -3184,7 +3182,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PersonBean tmpPerson = null;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -3234,7 +3232,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		try {
 			ConnectionFactory.getInstanz().closeConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -3263,7 +3261,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -3301,7 +3299,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 		try {
 			ConnectionFactory.getInstanz().closeConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -3331,7 +3329,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -3383,7 +3381,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 		try {
 			ConnectionFactory.getInstanz().closeConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -3413,7 +3411,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -3447,7 +3445,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 		try {
 			ConnectionFactory.getInstanz().closeConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -3477,7 +3475,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -3523,7 +3521,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		try {
 			ConnectionFactory.getInstanz().closeConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -3552,7 +3550,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -3591,7 +3589,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		try {
 			ConnectionFactory.getInstanz().closeConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -3623,7 +3621,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -3670,7 +3668,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		try {
 			ConnectionFactory.getInstanz().closeConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -3767,20 +3765,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Vector<PatientBean> patientVector = suchenObjekt(patient);
 		return patientVector;
 	}
-// TODO --kkrupka BlockBean fehlt.	
-//	/**
-//	 * Methode sucht die Blöcke der zugehoerigen Studie.
-//	 * 
-//	 * @param block
-//	 *            Das leere BlockBean mit eventuellen zusätzlichen Suchkriterien.
-//	 * @return Vector mit BlockBeans.
-//	 * @throws DatenbankExceptions
-//	 *          	Falls ein DB Fehler auftritt.
-//	 */
-//	private Vector<BlockBean> suchenBlockKind(BlockBean block) throws DatenbankExceptions{
-//		Vector<BlockBean> blockVector = suchenObjekt(block);
-//		return blockVector;
-//	}
 	
 	/**
 	 * Methode sucht die Studienarme der zugehoerigen Studie.
@@ -3829,7 +3813,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 		}
@@ -3867,7 +3851,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 			}
@@ -3897,7 +3881,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (SQLException e) {
+		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 		}
@@ -3993,7 +3977,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			try {
 				ConnectionFactory.getInstanz().closeConnection();
-			} catch (SQLException e) {
+			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 			}
@@ -4071,7 +4055,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 			try {
 				studie.setBenutzerkontoId(((BenutzerkontoBean) vater).getId());
 			} catch (StudieException e) {
-				// TODO Stack-Trace spaeter loeschen - lplotni
 				e.printStackTrace();
 				throw new DatenbankExceptions(StudieException.BENUTZERKONTO_ID_FEHLERHAFT);
 			}
