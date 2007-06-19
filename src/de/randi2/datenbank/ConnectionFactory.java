@@ -25,8 +25,11 @@ public class ConnectionFactory {
 	
 	private static ConnectionFactory aConFac = null;
 	
+	/**
+	 * Konstruktor
+	 */
 	private ConnectionFactory() {
-		String pfad;
+		String pfad;		
 		try {
 			pfad = Datenbank.class.getResource("/conf/release/proxool_cfg.xml")
 					.getPath();
@@ -36,9 +39,10 @@ public class ConnectionFactory {
 						"/conf/release/proxool_cfg.xml").getPath());
 			}
 			JAXPConfigurator.configure(pfad, false);
-		} catch (ProxoolException e) {			
+		} catch (ProxoolException e) {	
 			new DatenbankExceptions(DatenbankExceptions.PROXOOL_CONF_ERR);
 		}
+		Logger.getLogger(this.getClass()).info("ConnectionFactory initialisiert!");
 	}
 	
 	/**

@@ -788,21 +788,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * Konstruktor der Datenbankklasse.
 	 */
 	public Datenbank() {
-//		String pfad = ""; 
 		log = Logger.getLogger(LogLayout.DATENAENDERUNG);
-//		try {
-//			pfad = Datenbank.class.getResource("/conf/release/proxool_cfg.xml")
-//					.getPath();
-//			if (System.getProperty("os.name").indexOf("Win") != -1) {
-//				Logger.getLogger(this.getClass()).debug("Betriebssystem: Windows");
-//				pfad=HttpUnitUtils.decode(Datenbank.class.getResource(
-//						"/conf/release/proxool_cfg.xml").getPath());
-//			}
-//			JAXPConfigurator.configure(pfad, false);
-//		} catch (ProxoolException e) {			
-//			new DatenbankExceptions(DatenbankExceptions.PROXOOL_CONF_ERR);
-//			log.error(DatenbankExceptions.CONNECTION_ERR, e);
-//		}
 		log.info("Datenbank initialisiert");
 	}
 
@@ -817,21 +803,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.ARGUMENT_IST_NULL);
 		} else {
-			// ZentrumBean loeschen
-//			if (zuLoeschendesObjekt instanceof ZentrumBean) {
-//				ZentrumBean zentrum = (ZentrumBean) zuLoeschendesObjekt;
-//				this.loeschenZentrum(zentrum);
-//			}
 			// PersonBean loeschen
 			if (zuLoeschendesObjekt instanceof PersonBean) {
 				PersonBean person = (PersonBean) zuLoeschendesObjekt;
 				this.loeschenPerson(person);
 			}
-			// Benutzerkonto loeschen
-//			else if (zuLoeschendesObjekt instanceof BenutzerkontoBean) {
-//				BenutzerkontoBean benutzer = (BenutzerkontoBean) zuLoeschendesObjekt;
-//				this.loeschenBenutzerkonto(benutzer);
-//			}
 			// Aktivierung loeschen
 			else if (zuLoeschendesObjekt instanceof AktivierungBean) {
 				AktivierungBean aktivierung = (AktivierungBean) zuLoeschendesObjekt;
@@ -842,21 +818,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 				StudieBean studie = (StudieBean) zuLoeschendesObjekt;
 				this.loeschenStudie(studie);
 			}
-			// Studienarm loeschen
-//			else if (zuLoeschendesObjekt instanceof StudienarmBean) {
-//				StudienarmBean studienarm = (StudienarmBean) zuLoeschendesObjekt;
-//				this.loeschenStudienarm(studienarm);
-//			}
-			// Patient loeschen
-//			else if (zuLoeschendesObjekt instanceof PatientBean) {
-//				PatientBean patient = (PatientBean) zuLoeschendesObjekt;
-//				this.loeschenPatient(patient);
-//			}
-			//Strata loeschen
-//			else if (zuLoeschendesObjekt instanceof StrataBean) {
-//				StrataBean strata = (StrataBean) zuLoeschendesObjekt;
-//				this.loeschenStrata(strata);
-//			}
 		}
 	}
 
@@ -4124,29 +4085,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		return null;
 	}
-
-//	/**
-//	 * Baut Verbindung zur Datenbank auf
-//	 * 
-//	 * @return Connectionobjekt welches Zugriff auf die Datenbank ermoeglicht.
-//	 * @throws SQLException Falls ein Fehler beim Verbindungsaufbau auftritt.
-//	 */
-//	protected Connection getConnection() throws SQLException {
-//		Connection con = DriverManager.getConnection("proxool.randi2");
-//		return con;
-//	}
-//
-//	/**
-//	 * Trennt Verbindung zur Datenbank.
-//	 * 
-//	 * @param con das Connection Objekt.
-//	 * @throws SQLException Falls ein Fehler bei der Verbindungstrennung auftritt.
-//	 */
-//	protected void closeConnection(Connection con) throws SQLException {
-//		if (con != null && !con.isClosed()) {
-//			con.close();
-//		}		
-//	}
 	
 	/**
 	 * Loggt eine Datenaenderung

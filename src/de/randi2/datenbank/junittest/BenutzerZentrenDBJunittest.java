@@ -12,6 +12,7 @@ import org.junit.Test;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
+import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Rolle;
@@ -56,8 +57,11 @@ public class BenutzerZentrenDBJunittest {
          */
     @Test
     public void testAktivierungsbeanSpeichernSuchenAendern() throws BenutzerException,DatenbankExceptions{
-
+    BenutzerkontoBean tmp = new BenutzerkontoBean();
+    tmp.setFilter(true);
+    tmp.setBenutzername("JUnitDB");
 	AktivierungBean bean =new AktivierungBean(NullKonstanten.NULL_LONG, new GregorianCalendar(), 1, "23423424242");
+	bean.setBenutzerkontoLogging(tmp);
 	    bean=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(bean);
 	    
 	    //Suchen ueber id:
@@ -74,6 +78,7 @@ public class BenutzerZentrenDBJunittest {
 	    
 	    //Bean aendern
 	    AktivierungBean beanAendern=new AktivierungBean(bean.getId(),new GregorianCalendar(2000,1,1),1,"1232323232");
+	    beanAendern.setBenutzerkontoLogging(tmp);
 	    DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(beanAendern);
 	    assertFalse(bean.equals(beanAendern));
 	    
@@ -85,8 +90,12 @@ public class BenutzerZentrenDBJunittest {
          */
     @Test
     public void testBenutzerkontobeanSpeichernSuchenAendern() throws BenutzerException,SystemException{
+    	BenutzerkontoBean tmp = new BenutzerkontoBean();
+        tmp.setFilter(true);
+        tmp.setBenutzername("JUnitDB");
 	BenutzerkontoBean benutzerbean=new BenutzerkontoBean(NullKonstanten.NULL_LONG,"benutzername",
 		KryptoUtil.getInstance().hashPasswort("Passwort").toString(),1,Rolle.getAdmin(),1,false,new GregorianCalendar(),new GregorianCalendar());
+	benutzerbean.setBenutzerkontoLogging(tmp);
 	benutzerbean=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(benutzerbean);
 	//Suchen ueber id:
 	benutzerbean.setFilter(true);
@@ -101,6 +110,7 @@ public class BenutzerZentrenDBJunittest {
 	//Bean Aendern
 	BenutzerkontoBean benutzerAendern=new BenutzerkontoBean(benutzerbean.getBenutzerId(),"benutzername12",
 		KryptoUtil.getInstance().hashPasswort("Passwort12").toString(),1,Rolle.getStudienarzt(),1,true,new GregorianCalendar(),new GregorianCalendar());
+	benutzerAendern.setBenutzerkontoLogging(tmp);
 	    DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(benutzerAendern);
 	    assertFalse(benutzerbean.equals(benutzerAendern));
     }
@@ -113,13 +123,18 @@ public class BenutzerZentrenDBJunittest {
          *                 Fehler im Test
          * @throws DatenbankExceptions
          *                 Fehler im Test
+     * @throws BenutzerkontoException 
          */
     @Test
-    public void testPersonbeanSpeichernSuchenAendern() throws PersonException, DatenbankExceptions {
+    public void testPersonbeanSpeichernSuchenAendern() throws PersonException, DatenbankExceptions, BenutzerkontoException {
+    	BenutzerkontoBean tmp = new BenutzerkontoBean();
+        tmp.setFilter(true);
+        tmp.setBenutzername("JUnitDB");
 
 	PersonBean pBeanSchreiben = null;
 	pBeanSchreiben = new PersonBean(NullKonstanten.NULL_LONG, NullKonstanten.NULL_LONG, "Nachname", "Vorname", PersonBean.Titel.PROF_DR, 'w', "andreasd@web.de", "09878979", "097987987987",
 		"0980809809809");
+	pBeanSchreiben.setBenutzerkontoLogging(tmp);
 	pBeanSchreiben = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(pBeanSchreiben);
 	// Suchen Über id
 	PersonBean pBeanSuchen = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(pBeanSchreiben.getId(), new PersonBean());
@@ -134,6 +149,7 @@ public class BenutzerZentrenDBJunittest {
 	PersonBean pBeanAendern = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(pBeanSchreiben.getId(), new PersonBean());
 	// Stellvertreter is man selber
 	pBeanAendern = new PersonBean(pBeanAendern.getId(), pBeanAendern.getId(), "Nachname1", "Vorname1", PersonBean.Titel.DR, 'm', "wurst@wweb.de", "009878979", "0097987987987", "00980809809809");
+	pBeanAendern.setBenutzerkontoLogging(tmp);
 	DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(pBeanAendern);
 	PersonBean pBeanNachAenderung = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(pBeanAendern.getId(), new PersonBean());
 	assertEquals(pBeanNachAenderung, pBeanAendern);
@@ -148,12 +164,17 @@ public class BenutzerZentrenDBJunittest {
          * @throws ZentrumException
          * @throws DatenbankExceptions
          * @throws PersonException
+     * @throws BenutzerkontoException 
          */
     @Test
-    public void testZentrumbeanSpeichernSuchenAendern() throws ZentrumException, DatenbankExceptions, PersonException {
-
+    public void testZentrumbeanSpeichernSuchenAendern() throws ZentrumException, DatenbankExceptions, PersonException, BenutzerkontoException {
+    	BenutzerkontoBean tmp = new BenutzerkontoBean();
+        tmp.setFilter(true);
+        tmp.setBenutzername("JUnitDB");
+        
 	ZentrumBean zBeanSchreiben = new ZentrumBean(NullKonstanten.NULL_LONG, "institution", "abteilung", "ort", "01234", "strasse", "2", 1, KryptoUtil.getInstance().hashPasswort(
 		"passwort23423&$&§&§&§"), false);
+	zBeanSchreiben.setBenutzerkontoLogging(tmp);
 	zBeanSchreiben = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(zBeanSchreiben);
 	// Suchen über ID
 	zBeanSchreiben.setFilter(true);
@@ -170,8 +191,8 @@ public class BenutzerZentrenDBJunittest {
 	ZentrumBean zBeanAendern = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(zBeanSchreiben.getId(), new ZentrumBean());
 	zBeanAendern = new ZentrumBean(zBeanAendern.getId(), "institution1", "abteilung1", "ort1", "12345", "strasse1", "1", 1, KryptoUtil.getInstance().hashPasswort(
 		"passwort1"), true);
+	zBeanAendern.setBenutzerkontoLogging(tmp);
 	DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(zBeanAendern);
 	ZentrumBean zBeanNachAenderung = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(zBeanAendern.getId(), new ZentrumBean());
-	
     }
 }
