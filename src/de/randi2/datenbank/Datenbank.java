@@ -3819,10 +3819,53 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		sql = "SELECT "+Tabellen.ZENTRUM+".* FROM " + Tabellen.ZENTRUM+","+
 		Tabellen.STUDIE_ZENTRUM+" WHERE " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.STUDIENID + 
-				"= ? AND " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.ZENTRUMID + "=" + Tabellen.ZENTRUM+"."+FelderZentrum.ID; 
+				"= ? AND " + Tabellen.STUDIE_ZENTRUM+"."+FelderStudieHasZentrum.ZENTRUMID + "=" + Tabellen.ZENTRUM+"."+FelderZentrum.ID;
+		
+		if (zentrum.getInstitution() != null) {
+			sql += " AND " + FelderZentrum.INSTITUTION.toString()
+					+ " LIKE ? ";
+		}
+		if (zentrum.getAbteilung() != null) {
+			sql += " AND " +FelderZentrum.ABTEILUNGSNAME.toString() + " LIKE ? ";
+		}
+		if (zentrum.getOrt() != null) {
+			sql += " AND " +FelderZentrum.ORT.toString() + " LIKE ? ";
+		}
+		if (zentrum.getPlz() != null) {
+			sql += " AND " +FelderZentrum.PLZ.toString() + " LIKE ? ";
+		}
+		if (zentrum.getStrasse() != null) {
+			sql += " AND " +FelderZentrum.STRASSE.toString() + " LIKE ? ";
+		}
+		if (zentrum.getHausnr() != null) {
+			sql += " AND " +FelderZentrum.HAUSNUMMER.toString() + " LIKE ? ";
+		}
+		sql += " AND " +FelderZentrum.AKTIVIERT + " = ? ";
+		
 		try {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, studieId);
+			pstmt = con.prepareStatement(sql);			
+			int index = 1;
+			pstmt.setLong(index++, studieId);
+			if (zentrum.getInstitution() != null) {
+				pstmt.setString(index++, zentrum.getInstitution() + "%");
+			}
+			if (zentrum.getAbteilung() != null) {
+				pstmt.setString(index++, zentrum.getAbteilung() + "%");
+			}
+			if (zentrum.getOrt() != null) {
+				pstmt.setString(index++, zentrum.getOrt() + "%");
+			}
+			if (zentrum.getPlz() != null) {
+				pstmt.setString(index++, zentrum.getPlz() + "%");
+			}
+			if (zentrum.getStrasse() != null) {
+				pstmt.setString(index++, zentrum.getStrasse() + "%");
+			}
+			if (zentrum.getHausnr() != null) {
+				pstmt.setString(index++, zentrum.getHausnr() + "%");
+			}
+			pstmt.setBoolean(index++, zentrum.getIstAktiviert());
+			
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				try {
