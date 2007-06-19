@@ -261,6 +261,12 @@ public final class Config {
          * Fehlermeldung die fuer die Systemsperrung gespeichert wird.
          */
         SYSTEMSPERRUNG_FEHLERMELDUNG,
+        
+        /**
+         * Name, der fuer den Systemdummy bein Logging verwendet wird
+         */
+        RELEASE_SYSTEMDUMMY_NAME,
+
     }
 
     /**
