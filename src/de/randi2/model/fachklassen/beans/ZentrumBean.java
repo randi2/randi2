@@ -1,5 +1,8 @@
 package de.randi2.model.fachklassen.beans;
 
+import java.util.Collection;
+
+import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.ZentrumException;
@@ -69,6 +72,8 @@ public class ZentrumBean extends Filter {
 	 */
 	private boolean istAktiviert = false;
 
+	private Collection<BenutzerkontoBean> konten=null;
+	
 	/**
 	 * Einfacher Konstruktor von dieser Klasse.
 	 */
@@ -188,6 +193,19 @@ public class ZentrumBean extends Filter {
 	}
 
 	/**
+	 * Liefert alle Benutzer, die diesem Zentrum zugeordnet sind, in einer Collection 
+	 * @return Collection aller assoziierten Benutzerkonten
+	 * @throws DatenbankExceptions 
+	 */
+	public Collection<BenutzerkontoBean> getBenutzerkonten() throws DatenbankExceptions{
+		// Liest jedesmal die Daten aus der DB, um Aktualistaet zu gewaehrleisten.
+		// XXX GGf. Methode erweitern. --BTheel 
+		BenutzerkontoBean filter = new BenutzerkontoBean();
+		filter.setFilter(true);
+		return (DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(this, filter));
+	}
+	
+	/**
 	 * Get-Methode fuer die Abteilung.
 	 * 
 	 * @return String - Abteilung.
@@ -211,6 +229,8 @@ public class ZentrumBean extends Filter {
 		return aAnsprechpartner;
 	}
 
+	
+	
 	/**
 	 * Get-Methode fuer die Hausnummer.
 	 * 
