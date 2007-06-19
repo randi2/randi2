@@ -265,7 +265,7 @@ public class Nachricht {
 	 */
 	public final void addEmpfaenger(Collection<PersonBean> empfaenger)
 			throws NachrichtException {
-		if (empfaenger == null) {
+		if (empfaenger == null || empfaenger.size()==0) {
 			throw new NachrichtException(NachrichtException.EMPFAENGER_NULL);
 		}
 		for (PersonBean bean : empfaenger) {
