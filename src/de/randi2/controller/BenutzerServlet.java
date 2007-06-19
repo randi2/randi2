@@ -12,7 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+
 import de.randi2.datenbank.DatenbankFactory;
+import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
@@ -23,6 +26,7 @@ import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Zentrum;
+import de.randi2.model.fachklassen.Recht.Rechtenamen;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
@@ -68,7 +72,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		 * Letzter Schritt der Benutzeranmeldung, Eingabe der Persondaten
 		 */
 		CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER,
-		
+
 		/**
 		 * Nutzer lässt sich ein neues Passwort zuschicken
 		 */
@@ -138,15 +142,16 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			this.classDispatcherservletBenutzerRegistrierenVier(request,
 					response);
 		} else if (id.equals(anfrage_id.AKTION_BENUTZER_ANLEGEN.name())) {
-			benutzerRegistieren(request, response);
+			classDispatcherservletStudienleiterAnlegen(request, response);
 		} else if (id.equals(BenutzerServlet.anfrage_id.AKTION_BENUTZER_SUCHEN
 				.name())) {
 			suchenBenutzer(request, response);
 		} else if (id.equals(BenutzerServlet.anfrage_id.BENUTZERDATEN_AENDERN
 				.name())) {
 			aendernBenutzer(request, response);
-		}
-		else if (id.equals(anfrage_id.CLASS_DISPATCHERSERVLET_PASSWORT_VERGESSEN.name())){
+		} else if (id
+				.equals(anfrage_id.CLASS_DISPATCHERSERVLET_PASSWORT_VERGESSEN
+						.name())) {
 			this.classDispatcherServletPasswortVergessen(request, response);
 		}
 
@@ -380,7 +385,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			return;
 		} else {
 			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
-					.name(), StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN.name());
+					.name(), StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN
+					.name());
 			request.getRequestDispatcher("StudieServlet").forward(request,
 					response);
 			loggeKorrekteanmeldung(aBenutzer);
@@ -509,11 +515,13 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 							// aBenutzer.setLetzterLogin(new
 							// GregorianCalendar());
 							aBenutzer.setErsterLogin(new GregorianCalendar());
+							// Logging Konto setzten
+							aBenutzer.setBenutzerkontoLogging(Filter
+									.getSystemdummy());
+							// Erster Login setzten
 							aBenutzer = DatenbankFactory.getAktuelleDBInstanz()
 									.schreibenObjekt(aBenutzer);
 						}
-						DatenbankFactory.getAktuelleDBInstanz()
-								.schreibenObjekt(aBenutzer);
 
 						weiterleitungLoginKorrekt(aBenutzer, request, response);
 					}
@@ -561,10 +569,18 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					"Loginfehler:<br> Bitte Benutzername und Passwort &uuml;berpr&uuml;fen",
 					request, response);
 
+			BenutzerkontoBean dummy = new BenutzerkontoBean();
+			dummy.setFilter(true);
+			try {
+				dummy
+						.setBenutzername((String) request
+								.getParameter("username"));
+			} catch (BenutzerkontoException e1) {
+			}
+
 			LogAktion a = new LogAktion(
 					"Ungueltige Benutzername/Passwort Kombination eingegeben.",
-					"Benutzername war:"
-							+ (String) request.getParameter("username"));
+					dummy);
 			// FIXME LogMsg eindeutig genug?--Btheel
 			Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
 		}// catch
@@ -676,7 +692,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					.schreibenObjekt(aktivierung);
 			AutomatischeNachricht aktivierungMail = new AutomatischeNachricht(
 					aPerson, AutomatischeNachricht.autoNachricht.AKTIVIERUNG);
-			 aktivierungMail.senden();
+			aktivierungMail.senden();
 
 			// Falls ein Fehler aufgetreten ist, request wieder auffüllen
 		} catch (BenutzerException e) {
@@ -708,28 +724,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			e.printStackTrace();
 		}
 
-	}
-
-	/**
-	 * VORLAEUFIGE METHODE, SPAETERE VEREINIGUNG MIT
-	 * 'classDispatcherservletBenutzerRegistrierenVier'
-	 * 
-	 * @param request
-	 *            Der Request fuer das Servlet.
-	 * @param response
-	 *            Der Response Servlet.
-	 * @throws IOException
-	 *             Falls Fehler in den E/A-Verarbeitung.
-	 * @throws ServletException
-	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
-	 *      HttpServletResponse response)
-	 */
-	private void benutzerRegistieren(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		Logger.getLogger(this.getClass()).debug(
-				"BenutzerServlet.benutzerRegistieren()");
 	}
 
 	/**
@@ -777,210 +771,290 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		request.getRequestDispatcher(Jsp.ADMIN_LISTE)
 				.forward(request, response);
 	}
-	
-	
-	
 
-		/**
-		 * Methode zum Erstellen eines Studienleiteraccounts
-		 * 
-		 * @param request
-		 *            Der Request fuer das Servlet.
-		 * @param response
-		 *            Der Response Servlet.
-		 * @throws IOException
-		 *             Falls Fehler in den E/A-Verarbeitung.
-		 * @throws ServletException
-		 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
-		 */
-		private void classDispatcherservletStudienleiterAnlegen(
-				HttpServletRequest request, HttpServletResponse response)
-					throws ServletException, IOException {
-			
+	/**
+	 * Methode zum Erstellen eines Studienleiteraccounts
+	 * 
+	 * @param request
+	 *            Der Request fuer das Servlet.
+	 * @param response
+	 *            Der Response Servlet.
+	 * @throws IOException
+	 *             Falls Fehler in den E/A-Verarbeitung.
+	 * @throws ServletException
+	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+	 */
+	/**
+	 * Methode zum Erstellen eines Studienleiteraccounts
+	 * 
+	 * @param request
+	 *            Der Request fuer das Servlet.
+	 * @param response
+	 *            Der Response Servlet.
+	 * @throws IOException
+	 *             Falls Fehler in den E/A-Verarbeitung.
+	 * @throws ServletException
+	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+	 */
+	private void classDispatcherservletStudienleiterAnlegen(
+			HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-//			 Alle Attribute des request inititalisieren
-			// String fehlernachricht = "";
-			String vorname = request.getParameter("Vorname");
-			String nachname = request.getParameter("Nachname");
-			char geschlecht = '\0';
-			String passwort = null;
-			String email = request.getParameter("Email");
-			String telefon = request.getParameter("Telefon");
-			String fax = request.getParameter("Fax");
-			String handynummer = request.getParameter("Handy");
-			String institut = request.getParameter("Institut");
-			String titel = request.getParameter("Titel");
-			PersonBean.Titel titelenum = null;
-			String vornameA = request.getParameter("VornameA");
-			String nachnameA = request.getParameter("NachnameA");
-			char geschlechtA = '\0';
-			String telefonA = request.getParameter("TelfonA");
-			String emailA = request.getParameter("EmailA");
-			
-			
-			try {
-				// Geschlecht gesetzt pruefen
-				if (request.getParameter("Geschlecht") == null) {
-					throw new BenutzerkontoException(
-							"Bitte Geschlecht ausw&auml;hlen");
+		// Alle Attribute des request inititalisieren
+		// String fehlernachricht = "";
+		String vorname = request.getParameter("Vorname");
+		String nachname = request.getParameter("Nachname");
+		char geschlecht = '\0';
+		String passwort = KryptoUtil.getInstance().generatePasswort(10);
+		String email = request.getParameter("Email");
+		String telefon = request.getParameter("Telefon");
+		String fax = request.getParameter("Fax");
+		String handynummer = request.getParameter("Handy");
+		String institut = request.getParameter("Institut");
+		String titel = request.getParameter("Titel");
+		PersonBean.Titel titelenum = null;
+		String vornameA = request.getParameter("VornameA");
+		String nachnameA = request.getParameter("NachnameA");
+		String telefonA = request.getParameter("TelefonA");
+		// String emailA = request.getParameter("EmailA");
+
+		System.out.println(" - - - ");
+		System.out.println(passwort);
+		System.out.println(" - - - ");
+
+		Rolle rolle = ((BenutzerkontoBean) request.getSession().getAttribute(
+				"aBenutzer")).getRolle();
+
+		try {
+			// Geschlecht gesetzt pruefen
+			if (request.getParameter("Geschlecht") == null) {
+				throw new BenutzerkontoException(
+						"Bitte Geschlecht ausw&auml;hlen");
+			}
+			geschlecht = request.getParameter("Geschlecht").charAt(0);
+			// Konvertierung String enum
+			for (PersonBean.Titel t : PersonBean.Titel.values()) {
+				if (titel.equals(t.toString())) {
+					titelenum = t;
+					break;
 				}
-				geschlecht = request.getParameter("Geschlecht").charAt(0);
-				// Konvertierung String enum
-				for (PersonBean.Titel t : PersonBean.Titel.values()) {
-					if (titel.equals(t.toString())) {
-						titelenum = t;
-						break;
-					}
-				}
+			}
+			/*
+			 * // Wiederholte Passworteingabe prüfen if
+			 * (request.getParameter("Passwort") != null &&
+			 * request.getParameter("Passwort_wh") != null) { if
+			 * (request.getParameter("Passwort").equals(
+			 * request.getParameter("Passwort_wh"))) { passwort =
+			 * request.getParameter("Passwort"); } else { throw new
+			 * BenutzerkontoException( "Passwort und wiederholtes Passwort sind
+			 * nicht gleich"); } }
+			 */
+			// Benutzer anlegen
+			PersonBean aPerson = null;
+			aPerson = new PersonBean();
+			aPerson.setNachname(nachname);
+			aPerson.setVorname(vorname);
+			aPerson.setTitel(titelenum);
+			aPerson.setGeschlecht(geschlecht);
+			aPerson.setEmail(email);
+			aPerson.setTelefonnummer(telefon);
+			aPerson.setHandynummer(handynummer);
+			aPerson.setFax(fax);
 
-				// Wiederholte Passworteingabe prüfen
-				if (request.getParameter("Passwort") != null
-						&& request.getParameter("Passwort_wh") != null) {
-					if (request.getParameter("Passwort").equals(
-							request.getParameter("Passwort_wh"))) {
-						passwort = request.getParameter("Passwort");
-					} else {
-						throw new BenutzerkontoException(
-								"Passwort und wiederholtes Passwort sind nicht gleich");
+			PersonBean rolf = new PersonBean();
+			rolf.setNachname(nachnameA);
+			rolf.setVorname(vornameA);
+			rolf.setTelefonnummer(telefonA);
+			rolf.setEmail("Benjamin.Theel@hatta.de");// XXX
 
-					}
-				}
-				// Benutzer anlegen
-				// Hier findet die Überprüfung der Daten auf Serverseite statt,
-				// Fehler wird an Benutzer weiter gegeben
-				// Person erzeugen und in DB speichern
-				PersonBean aPerson = null;
-				aPerson = new PersonBean();
-				aPerson.setNachname(nachname);
-				aPerson.setVorname(vorname);
-				aPerson.setTitel(titelenum);
-				aPerson.setGeschlecht(geschlecht);
-				aPerson.setEmail(email);
-				aPerson.setTelefonnummer(telefon);
-				aPerson.setHandynummer(handynummer);
-				aPerson.setFax(fax);
-				aPerson.getStellvertreter().setNachname(nachnameA);
-				aPerson.getStellvertreter().setVorname(vornameA);
-				aPerson.getStellvertreter().setGeschlecht(geschlechtA);
-				aPerson.getStellvertreter().setTelefonnummer(telefonA);
-				aPerson.getStellvertreter().setEmail(emailA);
-				aPerson = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
-						aPerson);
+			BenutzerkontoBean anleger = (BenutzerkontoBean) request
+					.getSession().getAttribute("aBenutzer");
 
-				// Zugehöriges Benutzerkonto erstellen und in DB Speichern
-				BenutzerkontoBean aBenutzerkonto;
-				aBenutzerkonto = new BenutzerkontoBean(email, KryptoUtil
-						.getInstance().hashPasswort(passwort), aPerson);
-				aBenutzerkonto
-						.setZentrum((ZentrumBean) request
-								.getSession()
-								.getAttribute(
-										DispatcherServlet.sessionParameter.ZENTRUM_BENUTZER_ANLEGEN
-												.toString()));
+			rolf.setBenutzerkontoLogging(anleger);
+			rolf = DatenbankFactory.getAktuelleDBInstanz()
+					.schreibenObjekt(rolf);
+
+			aPerson.setStellvertreter(rolf);
+			// aPerson.getStellvertreter().setNachname(nachnameA);
+			// aPerson.getStellvertreter().setVorname(vornameA);
+			// aPerson.getStellvertreter().setTelefonnummer(telefonA);
+			// aPerson.getStellvertreter().setEmail(emailA);
+			aPerson.setBenutzerkontoLogging(anleger);
+			aPerson = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+					aPerson);
+
+			// Zugehöriges Benutzerkonto erstellen und in DB Speichern
+
+			String benutzername = "peter5454";
+
+			BenutzerkontoBean aBenutzerkonto;
+			aBenutzerkonto = new BenutzerkontoBean(benutzername, KryptoUtil
+					.getInstance().hashPasswort(passwort), aPerson);
+			aBenutzerkonto.setZentrumId(4); // XXX
+			/*
+			 * aBenutzerkonto.setZentrum((ZentrumBean)
+			 * request.getSession().getAttribute(DispatcherServlet.
+			 * sessionParameter.ZENTRUM_BENUTZER_ANLEGEN.toString()));
+			 */
+
+			if (rolle.besitzenRolleRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN)) {
 				aBenutzerkonto.setRolle(Rolle.getStudienleiter());
-				aBenutzerkonto.setErsterLogin(null);
-				aBenutzerkonto.setLetzterLogin(null);
-				aBenutzerkonto.setGesperrt(true);
-				aBenutzerkonto = Benutzerkonto.anlegenBenutzer(aBenutzerkonto)
-						.getBenutzerkontobean();
-				request.getRequestDispatcher("/studienleiter_anlegen_zwei.jsp").forward(
-						request, response);
+			}
+			if (rolle.besitzenRolleRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN)) {
+				aBenutzerkonto.setRolle(Rolle.getAdmin());
+			}
 
-			} catch (BenutzerException e) {
+			aBenutzerkonto.setErsterLogin(null);
+			aBenutzerkonto.setLetzterLogin(null);
+			aBenutzerkonto.setGesperrt(true);
+			aBenutzerkonto.setBenutzerkontoLogging(anleger);
 
-				request.setAttribute("Vorname", vorname);
-				request.setAttribute("Nachname", nachname);
-				if (geschlecht == 'm') {
-					request.setAttribute("Geschlecht", "m");
-				} else if (geschlecht == 'w') {
-					request.setAttribute("Geschlecht", "w");
-				}
-				request.setAttribute("Titel", titelenum);
-				request.setAttribute("Passwort", request.getParameter("Passwort"));
-				request.setAttribute("Passwort_wh", request
-						.getParameter("Passwort_wh"));
-				request.setAttribute("Email", email);
-				request.setAttribute("Telefon", telefon);
-				request.setAttribute("Fax", fax);
-				request.setAttribute("Handy", handynummer);
-				request.setAttribute("Institut", institut);
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-						.getMessage());
-				request.getRequestDispatcher("/studienleiter_anlegen.jsp").forward(
+			Benutzerkonto konto = Benutzerkonto.anlegenBenutzer(aBenutzerkonto);
+
+			// Mitteilungsversand
+			// Passwort
+			AutomatischeNachricht passwortmail = new AutomatischeNachricht(
+					aBenutzerkonto.getBenutzer(), passwort);
+			passwortmail.senden();
+			// Aktivierungsmail
+			AktivierungBean aktivierung = new AktivierungBean(
+					NullKonstanten.DUMMY_ID, new GregorianCalendar(), konto
+							.getBenutzerkontobean().getId(), KryptoUtil
+							.getInstance().getAktivierungslink());
+			
+			aktivierung.setBenutzerkontoLogging(Filter.getSystemdummy());
+			aktivierung = DatenbankFactory.getAktuelleDBInstanz()
+					.schreibenObjekt(aktivierung);
+			AutomatischeNachricht aktivierungMail = new AutomatischeNachricht(
+					konto.getBenutzerkontobean().getBenutzer(),
+					AutomatischeNachricht.autoNachricht.AKTIVIERUNG);
+			aktivierungMail.senden();
+			// Nachricht an anleger
+
+			if (rolle.besitzenRolleRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN)) {
+				request.getRequestDispatcher("/studienleiter_anlegen_zwei.jsp")
+						.forward(request, response);
+			}
+			if (rolle.besitzenRolleRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN)) {
+				request.getRequestDispatcher("/admin_anlegen_zwei.jsp")
+						.forward(request, response);
+			}
+
+		} catch (Exception e) {
+
+			request.setAttribute("Vorname", vorname);
+			request.setAttribute("Nachname", nachname);
+
+			if (geschlecht == 'm') {
+				request.setAttribute("Geschlecht", "m");
+
+			} else if (geschlecht == 'w') {
+				request.setAttribute("Geschlecht", "w");
+			}
+
+			request.setAttribute("Titel", titelenum);
+			// request.setAttribute("Passwort",
+			// request.getParameter("Passwort"));
+			// request.setAttribute("Passwort_wh",
+			// request.getParameter("Passwort_wh"));
+			request.setAttribute("Email", email);
+			request.setAttribute("Telefon", telefon);
+			request.setAttribute("Fax", fax);
+			request.setAttribute("Handy", handynummer);
+			request.setAttribute("Institut", institut);
+			request.setAttribute("VornameA", vornameA);
+			request.setAttribute("NachnameA", nachnameA);
+			request.setAttribute("TelefonA", telefonA);
+			// request.setAttribute("EmailA", emailA);
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
+
+			if (rolle.besitzenRolleRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN)) {
+				request.getRequestDispatcher("/studienleiter_anlegen.jsp")
+						.forward(request, response);
+			}
+			if (rolle.besitzenRolleRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN)) {
+				request.getRequestDispatcher("/admin_anlegen.jsp").forward(
 						request, response);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-			} catch (SystemException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-			}
-		
-		/**
-		 * Methode zum Zusenden eines neuen Passworts an den Studienarzt
-		 * 
-		 * @param request
-		 *            Der Request fuer das Servlet.
-		 * @param response
-		 *            Der Response Servlet.
-		 * @throws IOException
-		 *             Falls Fehler in den E/A-Verarbeitung.
-		 * @throws ServletException
-		 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
-		 */
-		private void classDispatcherServletPasswortVergessen(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException {
-			boolean fehler=false;
-			
-			//Benutzerkonto auslesen
-			String benutzername=request.getParameter(Parameter.benutzerkonto.LOGINNAME.name());
-			BenutzerkontoBean aBenutzerkonto=new BenutzerkontoBean();
-			try {
-				//TODO --afreudli wer darf sein Passwort ändern?!
-				aBenutzerkonto.setBenutzername(benutzername);
-				aBenutzerkonto.setFilter(true);
-				aBenutzerkonto=DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(aBenutzerkonto).firstElement();
-				
-				//Neues Passwort generieren und reinschreiben;
-				String neuesPasswort=KryptoUtil.getInstance().generatePasswort(12);
-				
-				aBenutzerkonto.setPasswort(KryptoUtil.getInstance().hashPasswort(neuesPasswort));
-				aBenutzerkonto=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzerkonto);
-				
-				AutomatischeNachricht autoNachricht=new AutomatischeNachricht(aBenutzerkonto.getBenutzer(),neuesPasswort);
-				Logger.getLogger(this.getClass()).debug("Neues Passwort ist:\t"+neuesPasswort);
-				//TODO --afreudli NAch debuggen Kommentar entfernen
-				//autoNachricht.senden();
-				
-			//Am Benutzernamen ist was falsch	
-			} catch (BenutzerkontoException e) {
-				fehler=true;
-			}
-			//Nutzer ist nicht in DB
-			catch(NoSuchElementException e){
-				fehler=true;
-			} catch (NachrichtException e) {
-				fehler=true;
-			}
-			
-			//Logging
-			if(fehler){
-				Logger.getLogger(this.getClass()).info("Neue Passwort fuer:\t"+benutzername+" wurde NICHT versandt.");
-				
-			}
-			else{
-				Logger.getLogger(this.getClass()).info("Neue Passwort fuer:\t"+benutzername+"  WURDE versandt.");
-			}
-				//Es kommt immer OK Nachricht, da Sicherheitsrelevant
-				request.setAttribute(DispatcherServlet.NACHRICHT_OK, "Sollte dieser Loginname im System vorhanden sein, so erhalten sie in Kürze eine Email mit einem neuen Passwort");
-				request.getRequestDispatcher(Jsp.PASSWORT_VERGESSEN).forward(request, response);
-	
-			
-		
-			
-			
-			
+
 		}
-		
-		
+	}
+
+	/**
+	 * Methode zum Zusenden eines neuen Passworts an den Studienarzt
+	 * 
+	 * @param request
+	 *            Der Request fuer das Servlet.
+	 * @param response
+	 *            Der Response Servlet.
+	 * @throws IOException
+	 *             Falls Fehler in den E/A-Verarbeitung.
+	 * @throws ServletException
+	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+	 */
+	private void classDispatcherServletPasswortVergessen(
+			HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		boolean fehler = false;
+
+		// Benutzerkonto auslesen
+		String benutzername = request
+				.getParameter(Parameter.benutzerkonto.LOGINNAME.name());
+		BenutzerkontoBean aBenutzerkonto = new BenutzerkontoBean();
+		try {
+			// TODO --afreudli wer darf sein Passwort ändern?!
+			aBenutzerkonto.setBenutzername(benutzername);
+			aBenutzerkonto.setFilter(true);
+			aBenutzerkonto = DatenbankFactory.getAktuelleDBInstanz()
+					.suchenObjekt(aBenutzerkonto).firstElement();
+
+			// Neues Passwort generieren und reinschreiben;
+			String neuesPasswort = KryptoUtil.getInstance()
+					.generatePasswort(12);
+
+			aBenutzerkonto.setPasswort(KryptoUtil.getInstance().hashPasswort(
+					neuesPasswort));
+			aBenutzerkonto = DatenbankFactory.getAktuelleDBInstanz()
+					.schreibenObjekt(aBenutzerkonto);
+
+			AutomatischeNachricht autoNachricht = new AutomatischeNachricht(
+					aBenutzerkonto.getBenutzer(), neuesPasswort);
+			Logger.getLogger(this.getClass()).debug(
+					"Neues Passwort ist:\t" + neuesPasswort);
+			// TODO --afreudli NAch debuggen Kommentar entfernen
+			// autoNachricht.senden();
+
+			// Am Benutzernamen ist was falsch
+		} catch (BenutzerkontoException e) {
+			fehler = true;
+		}
+		// Nutzer ist nicht in DB
+		catch (NoSuchElementException e) {
+			fehler = true;
+		} catch (NachrichtException e) {
+			fehler = true;
+		}
+
+		// Logging
+		if (fehler) {
+			Logger.getLogger(this.getClass()).info(
+					"Neue Passwort fuer:\t" + benutzername
+							+ " wurde NICHT versandt.");
+
+		} else {
+			Logger.getLogger(this.getClass()).info(
+					"Neue Passwort fuer:\t" + benutzername
+							+ "  WURDE versandt.");
+		}
+		// Es kommt immer OK Nachricht, da Sicherheitsrelevant
+		request
+				.setAttribute(
+						DispatcherServlet.NACHRICHT_OK,
+						"Sollte dieser Loginname im System vorhanden sein, so erhalten sie in Kürze eine Email mit einem neuen Passwort");
+		request.getRequestDispatcher(Jsp.PASSWORT_VERGESSEN).forward(request,
+				response);
+
+	}
+
 }

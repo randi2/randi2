@@ -320,7 +320,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 					.name())) {
 				weiterleitungSystemSperrung(request, response);
 			} else if (id.equals(anfrage_id.AKTION_LOGOUT.name())) {
-				Logger.getLogger(this.getClass()).fatal("Benutzer ausloggen");
+				//Logger.getLogger(this.getClass()).fatal("Benutzer ausloggen");
 				loggeBenutzerAus(request, response);
 				return;
 			}
@@ -656,9 +656,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	 */
 	private void loggeBenutzerAus(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auslagerung nach BenutzerServlet --Btheel
-		Logger.getLogger(this.getClass()).debug(
-				"DispatcherServlet.loggeBenutzerAus()");
+		
+		Logger.getLogger(this.getClass()).debug("loggeBenutzerAus()");
 		LogAktion a = new LogAktion("Benutzer hat sich ausgeloggt",
 				(BenutzerkontoBean) request.getSession().getAttribute(
 						"aBenutzer"));

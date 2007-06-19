@@ -28,10 +28,12 @@ import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Config;
+import de.randi2.utility.LogAktion;
+import de.randi2.utility.LogLayout;
 import de.randi2.utility.SystemException;
 
 /**
- * Ermoeglicht das Versenden von nachrichten ueber das RANDI2-System.
+ * Ermoeglicht das Versenden von Nachrichten ueber das RANDI2-System.
  * 
  * Es wird aus dem Request anhand der Parameter {@link requestParameter} eine
  * Nachricht gebaut, die dann an die angegebenen Empfaenger verschickt wird. Der
@@ -44,8 +46,12 @@ import de.randi2.utility.SystemException;
  * geschickt wird.
  * 
  */
-@SuppressWarnings("serial")
 public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
+	/**
+	 * Automatisch gernerierte Serial
+	 */
+	private static final long serialVersionUID = 6761132208973208969L;
+
 	/*
 	 * Sehenden Auges werden die Datenbank-IDs der Beans als Identifikatoren im
 	 * HTML-Quellcode stehen. Theoretisch waere es so moeglich, einen
@@ -310,17 +316,19 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			 * Daher wird Exception hier ignoriert.
 			 */
 		}
+		Collection<PersonBean> liste = null;
 		try {
-			Collection<PersonBean> liste = fetchEmpfaenger(identifikator,
+			liste = baueEmpfaengerliste(identifikator,
 					beanID);
 			// XXX liste checken --Btheel
 			mail.addEmpfaenger(liste);
 		} catch (NachrichtException e1) {
 			// empfaenger null, Filter oder Ungueltige EMailadrese Alles
 			// zustände, die nicht auftreten sollten.
-			e1.printStackTrace(); // XXX entfernen
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
-					Nachricht.NACHRICHTENVERSAND_FEHLGESCHLAGEN);
+					"Es wurden keine Empf&auml;nger gefunden");
+			request.setAttribute(requestParameter.BETREFF.name(), betreff);
+			request.setAttribute(requestParameter.NACHRICHTENTEXT.name(), nachrichtentext);
 			request.getRequestDispatcher("nachrichtendienst.jsp").forward(
 					request, response);
 			Logger.getLogger(this.getClass()).warn(
@@ -331,6 +339,17 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 		try { // Fertige Mail versenden
 			// mail.senden();
 			System.err.println("Versand der Mail (erstetzt mail.versenden())");
+			
+			StringBuffer buffer = new StringBuffer();
+			for (PersonBean personBean : liste) {
+				buffer.append(personBean.getId()+",");
+			}
+			buffer.append(".");
+			LogAktion aktion = new LogAktion(
+					"Nachricht versendet an Personen: "+buffer.toString(), (BenutzerkontoBean)request.getSession().getAttribute(
+					"aBenutzer"));
+			Logger.getLogger(LogLayout.NACHRICHTENVERSAND).info(aktion);
+
 		} catch (Exception e) {
 			/*
 			 * Senden der Mail fehlgeschlagen. Exception stammt entweder direkt
@@ -360,26 +379,68 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 		return;
 	}
 
-	private synchronized Collection<PersonBean> fetchEmpfaenger(
-			Identifikator identifikaktor, long id) {
-		// DatenbankSchnittstelle db = DatenbankFactory.getAktuelleDBInstanz();
+	/**
+	 * Baut anhand eines Identifikators und einer ID die Empfaenderliste
+	 * zusammen
+	 * 
+	 * @param identifikaktor
+	 *            Identifiziert die Art der ID
+	 * 
+	 * @param id
+	 *            DatenbankID des Objectes, Ausnahme: ist die ID
+	 * @link {@link #ALLE}, so werden alle assoziierten Objekte angefuegh
+	 * @return Eine Collection mit den Persoen, die die Nachricht empfangen
+	 *         empfangen sollen.
+	 * @throws DatenbankExceptions
+	 */
+	private synchronized Collection<PersonBean> baueEmpfaengerliste(
+			Identifikator identifikaktor, long id) throws DatenbankExceptions {
+		DatenbankSchnittstelle db = DatenbankFactory.getAktuelleDBInstanz();
 		Vector<PersonBean> personen = new Vector<PersonBean>();
 
 		if (Identifikator.BK.equals(identifikaktor)) {
-			try {
-				personen.add(Person.get(id));
-			} catch (DatenbankExceptions e) {
-				// TODO ExceptionHandling
-				e.printStackTrace();
+			Logger.getLogger(this.getClass()).debug(
+					"Suche Benutzerkonto ID: " + id);
+			personen.add(Person.get(id));
+		} else if (Identifikator.ZENTRUM.equals(identifikaktor)) {
+			Logger.getLogger(this.getClass()).debug("Suche Zentrum ID: " + id);
+			Collection<BenutzerkontoBean> konten = null;
+			if (id == ALLE) {
+				StudieBean studie = Studie.getStudie(4); // Workaround, bis
+				// Bean an Session
+				Collection<ZentrumBean> zentren;
+				if (studie == null) {// wenn null, dann ist der Account
+					// unabhaengig von einer Studie, ergo
+					// Admin oder Sysop-> Alle Zentren
+					// gewinnen
+					ZentrumBean filter = new ZentrumBean();
+					filter.setFilter(true);
+					zentren = db.suchenObjekt(filter);
+				} else { // Studiengebundener Account
+					zentren = studie.getZentren();
+				}
+				for (ZentrumBean zentrum : zentren) {
+					konten = new Vector<BenutzerkontoBean>();
+					// Collection<BenutzerkontoBean> tmpKonten =
+					// zentrum.getBenutzerkonten();
+					// if (tmpKonten != null){
+					konten.addAll(zentrum.getBenutzerkonten());
+					// }
+				}
+			} else {
+				BenutzerkontoBean filter = new BenutzerkontoBean();
+				filter.setFilter(true);
+				konten = (Zentrum.getZentrum(id)).getBenutzerkonten();
 			}
-		}/*
-			 * else if (Identifikator.ZENTRUM.equals(identifikaktor)){
-			 * ZentrumBean suchdummy = Zentrum.getZentrum(id); //XXX Geht das?
-			 * db.suchenMitgliederObjekte(Zentrum.getZentrum(id), new
-			 * PersonBean()); } //FRAGE Waere eine gewinnung der
-			 * Zentrumsmitglieder via Zentrum.getMitglieder nicht sinnvoll?
-			 * --BTHEEL
-			 */
+			for (BenutzerkontoBean konto : konten) {
+				Logger.getLogger(this.getClass()).debug(
+						"Fuege " + konto.getBenutzer().getNachname() + " ID:"
+								+ konto.getBenutzer().getId()
+								+ " der Empfaengerliste hinzu");
+				personen.add(konto.getBenutzer());
+			}
+
+		}
 		return personen;
 	}
 
@@ -454,7 +515,8 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 		} else if (aBenutzer.getRolle() == Rolle.getSysop()) {
 			sucheZentren(null, menu, db);
 		}
-
+		Logger.getLogger(Nachrichtendienst.class).debug(
+				"Liefere Empfaengerliste aus");
 		return menu.toString();
 	}
 
@@ -483,22 +545,24 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 		} else {
 			zentren = studie.getZentren();
 		}
-		menu.append("<optgroup label=\"Mitteilung an alle Zentren\">\n");
-		menu.append("<option value=\"" + Identifikator.ZENTRUM + SEPERATOR
-				+ ALLE + "\">");
-		menu.append("Alle Zentren dieser Studie");
-		menu.append("</option>\n");
-		menu.append("</optgroup>\n");
-		// Einzele Zentren
-		for (ZentrumBean zentrumBean : zentren) {
+		if (zentren != null) {
+			menu.append("<optgroup label=\"Mitteilung an alle Zentren\">\n");
+			menu.append("<option value=\"" + Identifikator.ZENTRUM + SEPERATOR
+					+ ALLE + "\">");
+			menu.append("Alle Zentren dieser Studie");
+			menu.append("</option>\n");
+			menu.append("</optgroup>\n");
+			// Einzele Zentren
 			menu
 					.append("<optgroup label=\"Mitteilung an ein Zentrum dieser Studie\">\n");
-			menu.append("<option value=\"" + Identifikator.ZENTRUM + SEPERATOR
-					+ zentrumBean.getId() + "\">");
-			menu.append(zentrumBean.getInstitution());
-			menu.append("</option>\n");
+			for (ZentrumBean zentrumBean : zentren) {
+				menu.append("<option value=\"" + Identifikator.ZENTRUM
+						+ SEPERATOR + zentrumBean.getId() + "\">");
+				menu.append(zentrumBean.getInstitution());
+				menu.append("</option>\n");
+			}
+			menu.append("</optgroup>\n");
 		}
-		menu.append("</optgroup>\n");
 	}
 
 	private synchronized static void sucheStudienleiter(StudieBean studie,
@@ -557,35 +621,29 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			e.printStackTrace();
 			throw new SystemException();
 		}
-		try {
-			Collection<BenutzerkontoBean> result = db.suchenObjekt(dummyBean);
-			System.out.println(result.toString());
-			if (result.size() != 0) {
-				menu.append("<optgroup label=\"Mitteilung an "
-						+ rolle.getName() + "\">\n");
 
-				String key;
-				ZentrumBean zentrum;
+		Collection<BenutzerkontoBean> result = db.suchenObjekt(dummyBean);
+		if (result.size() != 0) {
+			menu.append("<optgroup label=\"Mitteilung an " + rolle.getName()
+					+ "\">\n");
 
-				for (BenutzerkontoBean aKonto : result) {
-					key = Identifikator.BK + SEPERATOR + aKonto.getId();
+			String key;
+			ZentrumBean zentrum;
 
-					menu.append("<option value=\"" + key + "\">"
-							+ aKonto.getBenutzer().getNachname() + ", "
-							+ aKonto.getBenutzer().getVorname());
-					zentrum = aKonto.getZentrum();
-					// FRAGE sind Zentrum, Institut und Abteilung IMMER gesetzt?
-					menu.append(" (" + zentrum.getInstitution() + ", "
-							+ zentrum.getAbteilung() + ")");
-					menu.append("</option>\n");
-				}
-				menu.append("</optgroup>");
+			for (BenutzerkontoBean aKonto : result) {
+				key = Identifikator.BK + SEPERATOR + aKonto.getId();
 
+				menu.append("<option value=\"" + key + "\">"
+						+ aKonto.getBenutzer().getNachname() + ", "
+						+ aKonto.getBenutzer().getVorname());
+				zentrum = aKonto.getZentrum();
+				// FRAGE sind Zentrum, Institut und Abteilung IMMER gesetzt?
+				menu.append(" (" + zentrum.getInstitution() + ", "
+						+ zentrum.getAbteilung() + ")");
+				menu.append("</option>\n");
 			}
-		} catch (DatenbankExceptions e) {
-			// TODO Auto-generated catch block
-			// FRAGE Verwendung von Systemexception korrekt?
-			throw new SystemException();
+			menu.append("</optgroup>");
+
 		}
 	}
 
@@ -597,7 +655,6 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 	public static final String getPwd() {
 		if (pwd == null) {
 			pwd = Config.getProperty(Config.Felder.RELEASE_MAIL_PASSWORD);
-			System.out.println("Lade pwd: " + pwd);
 		}
 		return pwd;
 	}
@@ -610,7 +667,6 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 	public static final String getServer() {
 		if (server == null) {
 			server = Config.getProperty(Config.Felder.RELEASE_MAIL_SERVER);
-			System.out.println("Lade server: " + server);
 		}
 		return server;
 	}
@@ -623,7 +679,6 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 	public static final String getUser() {
 		if (user == null) {
 			user = Config.getProperty(Config.Felder.RELEASE_MAIL_ACCOUNT);
-			System.out.println("Lade user: " + user);
 		}
 		return user;
 	}
