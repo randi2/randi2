@@ -30,6 +30,11 @@ public class RandomisationsException extends SystemException {
 	public static final String ARM_NICHT_VERWENDBAR = "Dieser Studienarm kann nicht verwendet werden.";
 	
 	/**
+	 * Fehler falls versuch wird, einen neuen Block in der Tabelle zu speichern, obwohl noch Werte in der Datenbank vorhanden sind.
+	 */
+	public static final String NOCH_RANDOMISATIONS_WERTE_VORHANDEN = "Neuer Block kann nicht angelegt werden. Noch werte in der Blocktabelle vorhanden.";
+
+	/**
 	 * Ein Konstruktor dieser Klasse
 	 * 
 	 * @param arg0

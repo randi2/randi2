@@ -1,7 +1,12 @@
 package de.randi2.datenbank;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.utility.NullKonstanten;
@@ -16,6 +21,33 @@ import de.randi2.utility.NullKonstanten;
 public final class RandomisationDB extends Filter {
 
 	/**
+	 * Name der Blocktabelle
+	 */
+	private static final String BLOCK_TABLE = "Block";
+
+	/**
+	 * Felder der Blocktabelle
+	 * 
+	 * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]
+	 * @version $Id: Block.java 2445 2007-05-07 09:13:25Z jthoenes $
+	 * 
+	 */
+	private enum Block {
+		ID("blockId"), StudieID("Studie_studienId"), WERT("blockwert"), KOMBINATION(
+				"strataKombination");
+
+		private String name = null;
+
+		private Block(String n) {
+			this.name = n;
+		}
+
+		public String toString() {
+			return this.name;
+		}
+	}
+
+	/**
 	 * Niemand soll diese Klasse instanzieren koennen.
 	 * 
 	 */
@@ -23,30 +55,149 @@ public final class RandomisationDB extends Filter {
 	}
 
 	/**
-	 * Speichert einen Block in der Datenbank.
+	 * Speichert einen Block in der Datenbank
 	 * 
 	 * @param block
 	 *            Der zu speichernde Block.
 	 * @param s
 	 *            Die Studie zu der der Block gespeichert werden soll.
+	 * @throws DatenbankExceptions
+	 *             Bei Fehlern in der Datenbank.
 	 * @throws RandomisationsException
-	 *             Falls noch Werte zu dieser Studie in der Datenbank
-	 *             existieren.
-	 * @see RandomisationsException#WERTE_EXISTIEREN
+	 *             Tritt in der Form
+	 *             {@link RandomisationsException#NOCH_RANDOMISATIONS_WERTE_VORHANDEN}
+	 *             auf, falls versucht wird einen Block zu speichern, zu dem
+	 *             noch Werte existieren.
 	 */
-	public static synchronized void speichernBlock(int[] block, StudieBean s)
-			throws RandomisationsException {
+	public static synchronized void speichernBlock(long[] block, StudieBean s,
+			String strataKombination) throws RandomisationsException,
+			DatenbankExceptions {
+
+		Connection c = ConnectionFactory.getInstanz().getConnection();
+		String sql = "";
+		try {
+
+			sql = "SELECT COUNT(" + Block.ID + ") FROM " + BLOCK_TABLE
+					+ " WHERE " + Block.StudieID + " = ? ";
+
+			if (strataKombination == null) {
+				sql += " AND " + Block.KOMBINATION + " IS NULL";
+			} else {
+				sql += " AND " + Block.KOMBINATION + " = ?";
+			}
+
+			PreparedStatement pstmt;
+			ResultSet rs;
+			pstmt = c.prepareStatement(sql);
+
+			pstmt.setLong(1, s.getId());
+			if (strataKombination != null) {
+				pstmt.setString(2, strataKombination);
+			}
+
+			rs = pstmt.executeQuery();
+			rs.next();
+			int count = rs.getInt(1);
+
+			if (count > 0) {
+				throw new RandomisationsException(
+						RandomisationsException.NOCH_RANDOMISATIONS_WERTE_VORHANDEN);
+			}
+
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
+		}
+
+		sql = "";
+
+		try {
+
+			sql = "INSERT INTO " + BLOCK_TABLE + " ( " + Block.StudieID + ", "
+					+ Block.KOMBINATION + ", " + Block.WERT
+					+ " ) VALUES (?,?,?)";
+
+			for (int i = 0; i < block.length; i++) {
+				PreparedStatement pstmt;
+				pstmt = c.prepareStatement(sql);
+
+				pstmt.setLong(1, s.getId());
+				pstmt.setString(2, strataKombination);
+				pstmt.setLong(3, block[i]);
+
+				pstmt.execute();
+			}
+
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SCHREIBEN_ERR);
+		}
+
+		ConnectionFactory.getInstanz().closeConnection();
 
 	}
 
 	/**
 	 * Gibt den naechsten Wert fuer die Randomisation zu dieser Studie zurueck.
 	 * 
-	 * @return Den naechsten Wert oder {@link NullKonstanten#NULL_INT} falls
+	 * @return Den naechsten Wert oder {@link NullKonstanten#NULL_LONG} falls
 	 *         keine Werte mehr zu dieser Studie existieren.
 	 */
-	public static synchronized int getNext() {
-		return NullKonstanten.NULL_INT;
+	public static synchronized long getNext(StudieBean s,
+			String strataKombination) throws DatenbankExceptions {
+		Connection c = ConnectionFactory.getInstanz().getConnection();
+		String sql = "";
+		long id = NullKonstanten.NULL_LONG;
+		long wert = NullKonstanten.NULL_LONG;
+		try {
+
+			sql = "SELECT " + Block.ID + ", " + Block.WERT + " FROM "
+					+ BLOCK_TABLE + " WHERE " + Block.StudieID + " = ? ";
+
+			if (strataKombination == null) {
+				sql += " AND " + Block.KOMBINATION + " IS NULL";
+			} else {
+				sql += " AND " + Block.KOMBINATION + " = ?";
+			}
+			sql += " ORDER BY " + Block.ID + " ASC";
+
+			PreparedStatement pstmt;
+			ResultSet rs;
+			pstmt = c.prepareStatement(sql);
+
+			pstmt.setLong(1, s.getId());
+			if (strataKombination != null) {
+				pstmt.setString(2, strataKombination);
+			}
+
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				id = rs.getLong(1);
+				wert = rs.getLong(2);
+			}
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
+		}
+
+		sql = "";
+
+		if (id != NullKonstanten.NULL_LONG) {
+			try {
+				sql = "DELETE FROM " + BLOCK_TABLE + " WHERE " + Block.ID
+						+ " = ?";
+
+				PreparedStatement pstmt = c.prepareStatement(sql);
+				pstmt.setLong(1, id);
+				pstmt.execute();
+			} catch (SQLException e) {
+				throw new DatenbankExceptions(e, sql,
+						DatenbankExceptions.LOESCHEN_ERR);
+			}
+		}
+
+		ConnectionFactory.getInstanz().closeConnection();
+		return wert;
 	}
 
 	/**
@@ -64,10 +215,11 @@ public final class RandomisationDB extends Filter {
 	 *         HashMap ist mit die Anzahl der zugeordneten Patienten als
 	 *         {@link Integer}.
 	 */
-	public static HashMap<Long, Integer> getAnzahlPatientenZuStudienarmen(
+//	 Erstmal auskommentiert, weil vermtl. nur zum testen der Stratabasierten-Blockrandomsation noetig
+	/*public static HashMap<Long, Integer> getAnzahlPatientenZuStudienarmen(
 			long studienID, String strataKombination) {
 		return null;
-	}
+	}*/
 
 	/**
 	 * Gibt die Anzahl der Patienten zu allen Studienarmen der Studie zurueck.
@@ -80,9 +232,10 @@ public final class RandomisationDB extends Filter {
 	 *         HashMap ist mit die Anzahl der zugeordneten Patienten als
 	 *         {@link Integer}.
 	 */
-	public static HashMap<Long, Integer> getAnzahlPatientenZuStudienarmen(
+	// Erstmal auskommentiert, weil vermtl. nur zum testen der Blockrandomsation noetig
+	/*public static HashMap<Long, Integer> getAnzahlPatientenZuStudienarmen(
 			long studienID) {
 		return null;
-	}
+	}*/
 
 }
