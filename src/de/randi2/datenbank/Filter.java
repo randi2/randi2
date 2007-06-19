@@ -1,8 +1,13 @@
 package de.randi2.datenbank;
 
+import org.apache.log4j.Logger;
+
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
+import de.randi2.utility.Config;
 import de.randi2.utility.NullKonstanten;
+import static de.randi2.utility.Config.Felder;
 
 /**
  * <p>
@@ -37,13 +42,17 @@ import de.randi2.utility.NullKonstanten;
  * 
  */
 public class Filter {
-	
-	
-	
+
 	/**
-	 * Dieses Benutzerkonto muss gesetzt werden, wenn Aktionen mit dem Objekt durchgeführt werden die geloggt werden müssen.
+	 * Repraesentiert das System bei schreibenden Datenbankzugriffen
 	 */
-	private BenutzerkontoBean benutzerkontoLogging=null;
+	private static BenutzerkontoBean SYSTEMDUMMY_KONTO = null;
+
+	/**
+	 * Dieses Benutzerkonto muss gesetzt werden, wenn Aktionen mit dem Objekt
+	 * durchgeführt werden die geloggt werden müssen.
+	 */
+	private BenutzerkontoBean benutzerkontoLogging = null;
 
 	/**
 	 * Die eindeutige Id des Objektes, die dem Primary-Key aus der Datenbank
@@ -62,7 +71,6 @@ public class Filter {
 	 * Leerer Standartkonstruktor, {@link #isFilter} entspricht dem Defaultwert
 	 */
 	public Filter() {
-
 	}
 
 	/**
@@ -74,6 +82,28 @@ public class Filter {
 	 */
 	public Filter(boolean filter) {
 		this.isFilter = filter;
+	}
+
+	/**
+	 * Legt den Systemdummy an
+	 */
+	public static BenutzerkontoBean getSystemdummy() {
+		if (SYSTEMDUMMY_KONTO == null) {
+			SYSTEMDUMMY_KONTO = new BenutzerkontoBean();
+			SYSTEMDUMMY_KONTO.setFilter(true);
+			try {
+				SYSTEMDUMMY_KONTO.setBenutzername(Config
+						.getProperty(Felder.RELEASE_SYSTEMDUMMY_NAME));
+				/*
+				 * SYSTEMDUMMY_KONTO.setId(Long.valueOf(Config
+				 * .getProperty(Felder.RELEASE_SYSTEMDUMMY_NAME)));
+				 */
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		Logger.getLogger(Filter.class).debug("Lege Systemdummy an");
+		return SYSTEMDUMMY_KONTO;
 	}
 
 	/**
@@ -94,39 +124,49 @@ public class Filter {
 	public boolean isFilter() {
 		return this.isFilter;
 	}
-	
+
 	/**
-	 * Die set-Methode fuer die Id - die uebergebene Id darf nicht negativ o. gleich 0 sein.
-	 * @param id - die neue Id des Objektes (muss ein positiver long Wert sein!)
-	 * @throws DatenbankExceptions - bei einer uebergebener Id, die <=0 ist.
+	 * Die set-Methode fuer die Id - die uebergebene Id darf nicht negativ o.
+	 * gleich 0 sein.
+	 * 
+	 * @param id -
+	 *            die neue Id des Objektes (muss ein positiver long Wert sein!)
+	 * @throws DatenbankExceptions -
+	 *             bei einer uebergebener Id, die <=0 ist.
 	 */
-	public void setId(long id) throws DatenbankExceptions{
-		if(id>0 || id==NullKonstanten.NULL_LONG){
+	public void setId(long id) throws DatenbankExceptions {
+		if (id > 0 || id == NullKonstanten.NULL_LONG) {
 			this.id = id;
-		}else{
+		} else {
 			throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
 		}
 	}
-	
+
 	/**
 	 * Die get-Methode fuer das Id-Attribut der Klasse.
+	 * 
 	 * @return die eindeutige Id des Objektes.
 	 */
-	public long getId(){
+	public long getId() {
 		return this.id;
 	}
 
 	/**
 	 * Liefert das Benutzerkonto, dass die Logging Informationen enthält.
+	 * 
 	 * @return Benutzerkonto, das die Logging Informationen enthält.
+	 * @throws BenutzerkontoException
 	 */
 	public BenutzerkontoBean getBenutzerkontoLogging() {
 		return benutzerkontoLogging;
 	}
 
 	/**
-	 * Muss gesetzt werden, wenn Aktionen durchgeführt werden, die geloggt werden müssen.
-	 * @param benutzerkontoLogging Benutzerkonto, dessen Informationen geloggt werden muessen.
+	 * Muss gesetzt werden, wenn Aktionen durchgeführt werden, die geloggt
+	 * werden müssen.
+	 * 
+	 * @param benutzerkontoLogging
+	 *            Benutzerkonto, dessen Informationen geloggt werden muessen.
 	 */
 	public void setBenutzerkontoLogging(BenutzerkontoBean benutzerkontoLogging) {
 		this.benutzerkontoLogging = benutzerkontoLogging;
