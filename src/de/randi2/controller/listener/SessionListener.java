@@ -7,8 +7,10 @@ import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import org.apache.log4j.Logger;
+
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.model.exceptions.BenutzerkontoException;
+import de.randi2.datenbank.Filter;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.SystemException;
 
@@ -106,6 +108,7 @@ public class SessionListener implements HttpSessionAttributeListener, HttpSessio
 	 * @see javax.servlet.http.HttpSessionListener#sessionCreated(javax.servlet.http.HttpSessionEvent)
 	 */
 	public void sessionCreated(HttpSessionEvent arg0) {
+		Logger.getLogger(this.getClass()).debug("Session wurde erzeugt");
 	}
 
 	/**
@@ -121,12 +124,13 @@ public class SessionListener implements HttpSessionAttributeListener, HttpSessio
 		if (aBenutzer != null) {
 			try {
 				aBenutzer.setLetzterLogin(new GregorianCalendar());
+				aBenutzer.setBenutzerkontoLogging(Filter.getSystemdummy());
 				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzer);
-				System.err.println("Konto aktualisiert");
+				Logger.getLogger(this.getClass()).debug("Aktualisiere 'LetzterLogin' fuer Konto "+aBenutzer.getBenutzername());
 			} catch (Exception e) {
-				e.printStackTrace(); // FIXME Entfernen --BTheel
 				new SystemException("Setzten des letzten Logins fehlgeschlagen");
 			}
 		}
+		Logger.getLogger(this.getClass()).debug("Session wurde zerstoert");
 	}
 }
