@@ -788,21 +788,21 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * Konstruktor der Datenbankklasse.
 	 */
 	public Datenbank() {
-		String pfad = ""; 
+//		String pfad = ""; 
 		log = Logger.getLogger(LogLayout.DATENAENDERUNG);
-		try {
-			pfad = Datenbank.class.getResource("/conf/release/proxool_cfg.xml")
-					.getPath();
-			if (System.getProperty("os.name").indexOf("Win") != -1) {
-				Logger.getLogger(this.getClass()).debug("Betriebssystem: Windows");
-				pfad=HttpUnitUtils.decode(Datenbank.class.getResource(
-						"/conf/release/proxool_cfg.xml").getPath());
-			}
-			JAXPConfigurator.configure(pfad, false);
-		} catch (ProxoolException e) {			
-			new DatenbankExceptions(DatenbankExceptions.PROXOOL_CONF_ERR);
-			log.error(DatenbankExceptions.CONNECTION_ERR, e);
-		}
+//		try {
+//			pfad = Datenbank.class.getResource("/conf/release/proxool_cfg.xml")
+//					.getPath();
+//			if (System.getProperty("os.name").indexOf("Win") != -1) {
+//				Logger.getLogger(this.getClass()).debug("Betriebssystem: Windows");
+//				pfad=HttpUnitUtils.decode(Datenbank.class.getResource(
+//						"/conf/release/proxool_cfg.xml").getPath());
+//			}
+//			JAXPConfigurator.configure(pfad, false);
+//		} catch (ProxoolException e) {			
+//			new DatenbankExceptions(DatenbankExceptions.PROXOOL_CONF_ERR);
+//			log.error(DatenbankExceptions.CONNECTION_ERR, e);
+//		}
 		log.info("Datenbank initialisiert");
 	}
 
@@ -875,7 +875,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		HashMap<String, String> geloeschteDaten = new HashMap<String, String>();
 		String sql = "";
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -895,7 +895,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
 			try {
-				this.closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -919,7 +919,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt = null;
 		String sql = "";
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -938,7 +938,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
 			try {
-				this.closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -962,7 +962,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt = null;
 		String sql = "";
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -981,7 +981,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
 			try {
-				this.closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -1005,7 +1005,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt = null;
 		String sql = "";
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1024,7 +1024,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
 			try {
-				this.closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -1048,7 +1048,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt = null;
 		String sql = "";
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1067,7 +1067,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
 			try {
-				this.closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -1091,7 +1091,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt = null;
 		String sql = "";
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1110,7 +1110,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
 			try {
-				this.closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -1134,7 +1134,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt = null;
 		String sql = "";
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1153,7 +1153,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
 			try {
-				this.closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -1245,7 +1245,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Connection con = null;
 		String sql = "";
 		try {
-			con = getConnection();			
+			con = ConnectionFactory.getInstanz().getConnection();			
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 		}
@@ -1292,7 +1292,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				throw new DatenbankExceptions(DatenbankExceptions.SCHREIBEN_ERR);
 			} finally {
 				try {
-					this.closeConnection(con);
+					ConnectionFactory.getInstanz().closeConnection();
 				} catch (SQLException e) {
 					e.printStackTrace();
 					throw new DatenbankExceptions(
@@ -1340,7 +1340,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			} finally {
 				try {
-					closeConnection(con);
+					ConnectionFactory.getInstanz().closeConnection();
 				} catch (SQLException e) {
 					throw new DatenbankExceptions(
 							DatenbankExceptions.CONNECTION_ERR);
@@ -1366,7 +1366,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throws DatenbankExceptions {
 		Connection con = null;
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1446,7 +1446,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 		}
 		try {
-			closeConnection(con);
+			ConnectionFactory.getInstanz().closeConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1476,7 +1476,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			con = this.getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1579,7 +1579,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 		}
 		try {
-			this.closeConnection(con);
+			ConnectionFactory.getInstanz().closeConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1607,7 +1607,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			con = this.getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1666,7 +1666,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			} finally {
 				try {
-					this.closeConnection(con);
+					ConnectionFactory.getInstanz().closeConnection();
 				} catch (SQLException e) {
 					e.printStackTrace();
 					throw new DatenbankExceptions(
@@ -1696,7 +1696,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			con = this.getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1816,7 +1816,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			loggenDaten(studie, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		}
 		try {
-			this.closeConnection(con);
+			ConnectionFactory.getInstanz().closeConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1843,7 +1843,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			con = this.getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1912,7 +1912,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			loggenDaten(studienarm, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		}
 		try {
-			this.closeConnection(con);
+			ConnectionFactory.getInstanz().closeConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1939,7 +1939,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			con = this.getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -2022,7 +2022,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			loggenDaten(patient, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		}
 		try {
-			this.closeConnection(con);
+			ConnectionFactory.getInstanz().closeConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -2113,7 +2113,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throws DatenbankExceptions {
 		Connection con;
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -2254,7 +2254,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.UNGUELTIGE_DATEN);
 		}finally {
 			try {
-				this.closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -2284,7 +2284,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Connection con;
 		String sql = "";
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -2463,7 +2463,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.UNGUELTIGE_DATEN);
 		} finally {
 			try {
-				this.closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -2488,7 +2488,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throws DatenbankExceptions {
 		Connection con;
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -2613,7 +2613,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.UNGUELTIGE_DATEN);
 		} finally {
 			try {
-				this.closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -2637,7 +2637,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			AktivierungBean aktivierung) throws DatenbankExceptions {
 		Connection con;
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -2719,7 +2719,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
 		} finally {
 			try {
-				this.closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -2743,7 +2743,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	private Vector<PatientBean> suchenPatient(PatientBean patient) throws DatenbankExceptions {
 		Connection con;
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -2886,7 +2886,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
 		} finally {
 			try {
-				this.closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -2910,7 +2910,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	private Vector<StudienarmBean> suchenStudienarm(StudienarmBean arm) throws DatenbankExceptions {
 		Connection con;
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -2989,7 +2989,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
 		} finally {
 			try {
-				this.closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -3003,7 +3003,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	private Vector<StudieBean> suchenStudie(StudieBean studie) throws DatenbankExceptions{
 		Connection con;
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(
 					DatenbankExceptions.CONNECTION_ERR);
@@ -3155,7 +3155,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
 		}  finally {
 			try {
-				this.closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -3222,7 +3222,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		ResultSet rs = null;
 		PersonBean tmpPerson = null;
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3272,7 +3272,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.SUCHEN_ERR);
 		}
 		try {
-			closeConnection(con);
+			ConnectionFactory.getInstanz().closeConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3301,7 +3301,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		ZentrumBean zentrum = null;
 
 		try {
-			con = this.getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3339,7 +3339,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 
 		try {
-			this.closeConnection(con);
+			ConnectionFactory.getInstanz().closeConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3369,7 +3369,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		GregorianCalendar letzterLogin = new GregorianCalendar();
 
 		try {
-			con = this.getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3421,7 +3421,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 
 		try {
-			this.closeConnection(con);
+			ConnectionFactory.getInstanz().closeConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3451,7 +3451,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		AktivierungBean aktivierung = null;
 
 		try {
-			con = this.getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3485,7 +3485,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 
 		try {
-			this.closeConnection(con);
+			ConnectionFactory.getInstanz().closeConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3515,7 +3515,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		GregorianCalendar endDatum = new GregorianCalendar();
 
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3561,7 +3561,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.SUCHEN_ERR);
 		}
 		try {
-			closeConnection(con);
+			ConnectionFactory.getInstanz().closeConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3590,7 +3590,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		StudienarmBean tmpStudienarm = null;
 
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3629,7 +3629,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.SUCHEN_ERR);
 		}
 		try {
-			closeConnection(con);
+			ConnectionFactory.getInstanz().closeConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3661,7 +3661,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		GregorianCalendar aufklaerungsdatum = new GregorianCalendar();
 
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3708,7 +3708,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.SUCHEN_ERR);
 		}
 		try {
-			closeConnection(con);
+			ConnectionFactory.getInstanz().closeConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3867,7 +3867,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Vector <ZentrumBean> zVector = new Vector<ZentrumBean>();
 		String sql = "";
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
@@ -3905,7 +3905,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
 		} finally {
 			try {
-				closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
@@ -3935,7 +3935,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Vector <StudieBean> sVector = new Vector<StudieBean>();
 		String sql = "";
 		try {
-			con = getConnection();
+			con = ConnectionFactory.getInstanz().getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
@@ -4031,7 +4031,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
 		} finally {
 			try {
-				closeConnection(con);
+				ConnectionFactory.getInstanz().closeConnection();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
@@ -4125,28 +4125,28 @@ public class Datenbank implements DatenbankSchnittstelle {
 		return null;
 	}
 
-	/**
-	 * Baut Verbindung zur Datenbank auf
-	 * 
-	 * @return Connectionobjekt welches Zugriff auf die Datenbank ermoeglicht.
-	 * @throws SQLException Falls ein Fehler beim Verbindungsaufbau auftritt.
-	 */
-	protected Connection getConnection() throws SQLException {
-		Connection con = DriverManager.getConnection("proxool.randi2");
-		return con;
-	}
-
-	/**
-	 * Trennt Verbindung zur Datenbank.
-	 * 
-	 * @param con das Connection Objekt.
-	 * @throws SQLException Falls ein Fehler bei der Verbindungstrennung auftritt.
-	 */
-	protected void closeConnection(Connection con) throws SQLException {
-		if (con != null && !con.isClosed()) {
-			con.close();
-		}		
-	}
+//	/**
+//	 * Baut Verbindung zur Datenbank auf
+//	 * 
+//	 * @return Connectionobjekt welches Zugriff auf die Datenbank ermoeglicht.
+//	 * @throws SQLException Falls ein Fehler beim Verbindungsaufbau auftritt.
+//	 */
+//	protected Connection getConnection() throws SQLException {
+//		Connection con = DriverManager.getConnection("proxool.randi2");
+//		return con;
+//	}
+//
+//	/**
+//	 * Trennt Verbindung zur Datenbank.
+//	 * 
+//	 * @param con das Connection Objekt.
+//	 * @throws SQLException Falls ein Fehler bei der Verbindungstrennung auftritt.
+//	 */
+//	protected void closeConnection(Connection con) throws SQLException {
+//		if (con != null && !con.isClosed()) {
+//			con.close();
+//		}		
+//	}
 	
 	/**
 	 * Loggt eine Datenaenderung
