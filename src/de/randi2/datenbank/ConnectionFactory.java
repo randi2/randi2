@@ -23,7 +23,6 @@ import de.randi2.datenbank.exceptions.DatenbankExceptions;
  */
 public class ConnectionFactory {
 	
-	private Connection con = null;
 	
 	private static ConnectionFactory aConFac = null;
 	
@@ -66,13 +65,13 @@ public class ConnectionFactory {
 	 * @throws SQLException Falls ein Fehler beim Verbindungsaufbau auftritt.
 	 */
 	public Connection getConnection() throws DatenbankExceptions {
-		if(con==null) {
+		Connection con=null;
 			try {
-				this.con = DriverManager.getConnection("proxool.randi2");
+				con = DriverManager.getConnection("proxool.randi2");
 			} catch (SQLException e) {
 				throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 			}
-		}		
+				
 		return con;
 	}
 
@@ -83,7 +82,7 @@ public class ConnectionFactory {
 	 * @throws DatenbankExceptions 
 	 * @throws SQLException Falls ein Fehler bei der Verbindungstrennung auftritt.
 	 */
-	public void closeConnection() throws DatenbankExceptions {
+	public void closeConnection(Connection con) throws DatenbankExceptions {
 		try {
 			if (con != null && !con.isClosed()) {
 				con.close();

@@ -856,7 +856,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -899,7 +899,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -942,7 +942,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -985,7 +985,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -1029,7 +1029,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -1072,7 +1072,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -1115,7 +1115,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -1254,7 +1254,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				throw new DatenbankExceptions(DatenbankExceptions.SCHREIBEN_ERR);
 			} finally {
 				try {
-					ConnectionFactory.getInstanz().closeConnection();
+					ConnectionFactory.getInstanz().closeConnection(con);
 				} catch (DatenbankExceptions e) {
 					e.printStackTrace();
 					throw new DatenbankExceptions(
@@ -1302,7 +1302,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			} finally {
 				try {
-					ConnectionFactory.getInstanz().closeConnection();
+					ConnectionFactory.getInstanz().closeConnection(con);
 				} catch (DatenbankExceptions e) {
 					throw new DatenbankExceptions(
 							DatenbankExceptions.CONNECTION_ERR);
@@ -1408,7 +1408,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 		}
 		try {
-			ConnectionFactory.getInstanz().closeConnection();
+			ConnectionFactory.getInstanz().closeConnection(con);
 		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1541,7 +1541,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 		}
 		try {
-			ConnectionFactory.getInstanz().closeConnection();
+			ConnectionFactory.getInstanz().closeConnection(con);
 		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1628,7 +1628,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			} finally {
 				try {
-					ConnectionFactory.getInstanz().closeConnection();
+					ConnectionFactory.getInstanz().closeConnection(con);
 				} catch (DatenbankExceptions e) {
 					e.printStackTrace();
 					throw new DatenbankExceptions(
@@ -1778,7 +1778,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			loggenDaten(studie, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		}
 		try {
-			ConnectionFactory.getInstanz().closeConnection();
+			ConnectionFactory.getInstanz().closeConnection(con);
 		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1874,7 +1874,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			loggenDaten(studienarm, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		}
 		try {
-			ConnectionFactory.getInstanz().closeConnection();
+			ConnectionFactory.getInstanz().closeConnection(con);
 		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -1984,7 +1984,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			loggenDaten(patient, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		}
 		try {
-			ConnectionFactory.getInstanz().closeConnection();
+			ConnectionFactory.getInstanz().closeConnection(con);
 		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -2216,7 +2216,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.UNGUELTIGE_DATEN);
 		}finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -2425,7 +2425,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.UNGUELTIGE_DATEN);
 		} finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -2575,7 +2575,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.UNGUELTIGE_DATEN);
 		} finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -2681,7 +2681,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
 		} finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -2848,7 +2848,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
 		} finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -2951,7 +2951,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
 		} finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -3115,7 +3115,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
 		}  finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(
@@ -3232,7 +3232,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.SUCHEN_ERR);
 		}
 		try {
-			ConnectionFactory.getInstanz().closeConnection();
+			ConnectionFactory.getInstanz().closeConnection(con);
 		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3299,7 +3299,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 
 		try {
-			ConnectionFactory.getInstanz().closeConnection();
+			ConnectionFactory.getInstanz().closeConnection(con);
 		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3381,7 +3381,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 
 		try {
-			ConnectionFactory.getInstanz().closeConnection();
+			ConnectionFactory.getInstanz().closeConnection(con);
 		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3445,7 +3445,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 
 		try {
-			ConnectionFactory.getInstanz().closeConnection();
+			ConnectionFactory.getInstanz().closeConnection(con);
 		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3521,7 +3521,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.SUCHEN_ERR);
 		}
 		try {
-			ConnectionFactory.getInstanz().closeConnection();
+			ConnectionFactory.getInstanz().closeConnection(con);
 		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3589,7 +3589,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.SUCHEN_ERR);
 		}
 		try {
-			ConnectionFactory.getInstanz().closeConnection();
+			ConnectionFactory.getInstanz().closeConnection(con);
 		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3668,7 +3668,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.SUCHEN_ERR);
 		}
 		try {
-			ConnectionFactory.getInstanz().closeConnection();
+			ConnectionFactory.getInstanz().closeConnection(con);
 		} catch (DatenbankExceptions e) {
 			e.printStackTrace();
 			throw new DatenbankExceptions(
@@ -3894,7 +3894,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
 		} finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
@@ -4020,7 +4020,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
 		} finally {
 			try {
-				ConnectionFactory.getInstanz().closeConnection();
+				ConnectionFactory.getInstanz().closeConnection(con);
 			} catch (DatenbankExceptions e) {
 				e.printStackTrace();
 				throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
