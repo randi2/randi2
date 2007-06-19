@@ -100,8 +100,8 @@ public final class RandomisationDB extends Filter {
 			int count = rs.getInt(1);
 
 			if (count > 0) {
-				throw new RandomisationsException(
-						RandomisationsException.NOCH_RANDOMISATIONS_WERTE_VORHANDEN);
+//				throw new RandomisationsException(
+//						RandomisationsException.NOCH_RANDOMISATIONS_WERTE_VORHANDEN);
 			}
 
 		} catch (SQLException e) {
@@ -237,34 +237,23 @@ public final class RandomisationDB extends Filter {
 			long studienID) throws DatenbankExceptions {
 		HashMap<Long, Integer> patInArmen = new HashMap<Long, Integer>();
 		PreparedStatement pstmt = null;
-		PreparedStatement pstmt2 = null;
 		ResultSet rs = null;
-		ResultSet rs2 = null;
 		Connection con=null;
-		Connection con2=null;
-		String sql ="SELECT studienarm.studienarmID FROM studienarm, studie WHERE studie.studienID=? AND studie.studienID = studienarm.studienarmID " ;
-		String sql2 ="select count(*) anzahl from studienarm, patient where patient.studienarm_studienarmID = studienarm.studienarmID and studienarm.studienarmid=?";
+		String sql ="select st.studienarmID,count(p.patientenID) anzahl from studie s, studienarm st, patient p where s.studienID=st.Studie_studienID and p.Studienarm_studienarmID=st.studienarmID and s.studienID=? group by st.studienarmID" ;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
-			con2 = ConnectionFactory.getInstanz().getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, studienID);
 			rs = pstmt.executeQuery();
-			while(rs.next()) {				
-				pstmt2 = con2.prepareStatement(sql2);
-				pstmt2.setLong(1, rs.getLong("studienarmID")); 
-				rs2 = pstmt2.executeQuery();
-				if(rs2.next()) { 
-					patInArmen.put(rs.getLong("studienarmID"), rs2.getInt("anzahl"));	
-				}				
-			}			
-		} catch (DatenbankExceptions e) {
-			throw e;
+			while(rs.next()) {
+				patInArmen.put(rs.getLong("st.studienarmID"), rs.getInt("anzahl"));
+			}
+			pstmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SUCHEN_ERR);
 		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
-			ConnectionFactory.getInstanz().closeConnection(con2);
 		}
 		
 		return patInArmen;
