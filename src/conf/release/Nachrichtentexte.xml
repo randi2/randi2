@@ -15,7 +15,8 @@
 	<email name="passwort">
 	<betreff>Randi 2:: Neues Passwort</betreff>
 		<emailtext>#Anrede#
-		Anbei erhalten sie Ihr neues Passwort für Randi2: #passwort#.
+		Anbei erhalten sie Ihr neues Passwort für Randi2:
+		#passwort#
 		Mit freundlichen Grüßen
 		#Absender#
 		</emailtext>
