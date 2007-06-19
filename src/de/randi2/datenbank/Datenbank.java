@@ -1016,10 +1016,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.CONNECTION_ERR);
 		}
 		sql = "DELETE FROM " + Tabellen.STUDIE + " WHERE " + FelderStudie.ID
-				+ "=?";
+				+ "= ? AND "+Tabellen.STUDIE+"."+FelderStudie.STATUS+" = ?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, studie.getId());
+			pstmt.setString(2, Status.INVORBEREITUNG.toString());
 			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
