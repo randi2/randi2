@@ -36,7 +36,7 @@ Ext.grid.TableGrid = function(table, config) {
             mapping: 'td:nth('+(i+1)+')/@innerHTML'
         }));
 
-		if (i<4){
+		if (i<3){
 			cols.push(Ext.applyIf(ch[i] || {}, {
 			'header': text,
 			'dataIndex': name,
