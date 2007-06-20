@@ -47,7 +47,7 @@ public class PersonBean extends Filter {
 	/**
 	 * Der Titel der Person
 	 */
-	private Titel aTitel = Titel.KEIN_TITEL;
+	private Titel aTitel = null;
 
 	/**
 	 * Enumeration aller Titel

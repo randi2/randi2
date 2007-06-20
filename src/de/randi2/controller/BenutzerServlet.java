@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
-
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
@@ -21,6 +19,7 @@ import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.NachrichtException;
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.AutomatischeNachricht;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Person;
@@ -145,7 +144,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			classDispatcherservletStudienleiterAnlegen(request, response);
 		} else if (id.equals(BenutzerServlet.anfrage_id.AKTION_BENUTZER_SUCHEN
 				.name())) {
-			suchenBenutzer(request, response);
+			classDispatcherServletBenutzerSuchen(request, response);
 		} else if (id.equals(BenutzerServlet.anfrage_id.BENUTZERDATEN_AENDERN
 				.name())) {
 			aendernBenutzer(request, response);
@@ -751,7 +750,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)
 	 */
-	private void suchenBenutzer(HttpServletRequest request,
+	private void classDispatcherServletBenutzerSuchen(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		BenutzerkontoBean bKonto = new BenutzerkontoBean();
 		PersonBean person = null;
@@ -759,26 +758,118 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		Vector<BenutzerkontoBean> benutzerVec = null;
 		Vector<PersonBean> personVec = new Vector<PersonBean>();
 		Vector<ZentrumBean> zentrumVec = new Vector<ZentrumBean>();
-		Iterator<BenutzerkontoBean> it = null;
+		Iterator<BenutzerkontoBean> it_B = null;
+		Iterator<PersonBean>it_P = null;
+		Iterator<ZentrumBean>it_Z = null;
+		boolean gesuchtKonto = false;
+		boolean gesuchtPerson = false;
+		int counter = 0;
 		bKonto.setFilter(true);
-		benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
-		it = benutzerVec.iterator();
+		
+		if(((String)request.getParameter("Aktualisieren")) != null) {
+			try {
+				if((String)request.getParameter(Parameter.benutzerkonto.LOGINNAME.name())!=null) {
+					bKonto.setBenutzername(request.getParameter(Parameter.benutzerkonto.LOGINNAME.name()));
+					gesuchtKonto = true;
+				}
+				benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
+				
+				if(((String)request.getParameter(Parameter.person.VORNAME.name()))!=null || 
+						((String)request.getParameter(Parameter.person.NACHNAME.name()))!=null ||
+						((String)request.getParameter(Parameter.person.EMAIL.name()))!=null) {
+					person = new PersonBean();
+					person.setFilter(true);
+					person.setVorname(request.getParameter(Parameter.person.VORNAME.name()));
+					person.setNachname(request.getParameter(Parameter.person.NACHNAME.name()));
+					person.setEmail(request.getParameter(Parameter.person.EMAIL.name()));
+					
+					personVec = Person.suchenPerson(person);
+					gesuchtPerson = true;
+					if(!gesuchtKonto) {
+						it_P = personVec.iterator();
+						
+						while(counter <= benutzerVec.size()) {
+							bKonto = benutzerVec.elementAt(counter);
+							counter++;
+							while(it_P.hasNext()){
+								person = it_P.next();
+								if(bKonto.getBenutzerId()!=person.getId()) {
+									benutzerVec.remove(bKonto);
+									counter--;
+								}
+							}
+							it_P = personVec.iterator();
+						}
+					}
+				} else {
+					person = new PersonBean();
+					person.setFilter(true);
+					personVec = Person.suchenPerson(person);
+				}
+				if((String)request.getParameter(Parameter.zentrum.INSTITUTION.name())!=null) {
+					zentrum = new ZentrumBean();
+					zentrum.setFilter(true);
+					zentrum.setInstitution(request.getParameter(Parameter.zentrum.INSTITUTION.name()));
+					
+					zentrumVec = Zentrum.suchenZentrum(zentrum);
+					if(!gesuchtKonto && !gesuchtPerson) {
+						//TODO --kkrupka
+					}
+					else if(!gesuchtPerson) {
+						it_P = personVec.iterator();
+						
+						while(counter <= benutzerVec.size()) {
+							bKonto = benutzerVec.elementAt(counter);
+							counter++;
+							while(it_P.hasNext()){
+								person = it_P.next();
+								if(bKonto.getBenutzerId()!=person.getId()) {
+									benutzerVec.remove(bKonto);
+									counter--;
+								}
+							}
+							it_P = personVec.iterator();
+						}
+					}		
+				} else {
+					zentrum = new ZentrumBean();
+					zentrum.setFilter(true);
+					zentrumVec = Zentrum.suchenZentrum(zentrum);
+					
+					//TODO --kkrupka versch. Fälle
+				}
+				
+			} catch (PersonException e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+			} catch (ZentrumException e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+			} catch (BenutzerkontoException e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+			}
+		} else {
+			benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
+			it_B = benutzerVec.iterator();
 
-		while (it.hasNext()) {
-			bKonto = it.next();
+			while (it_B.hasNext()) {
+				bKonto = it_B.next();
 
-			person = Person.get(bKonto.getBenutzerId());
-			personVec.add(person);
+				person = Person.get(bKonto.getBenutzerId());
+				personVec.add(person);
 
-			zentrum = Zentrum.getZentrum(bKonto.getZentrumId());
-			zentrumVec.add(zentrum);
+				zentrum = Zentrum.getZentrum(bKonto.getZentrumId());
+				zentrumVec.add(zentrum);
+			}
 		}
+			
+		
 
 		request.setAttribute("listeBenutzer", benutzerVec);
 		request.setAttribute("listePerson", personVec);
 		request.setAttribute("listeZentrum", zentrumVec);
 		request.getRequestDispatcher(Jsp.ADMIN_LISTE)
-				.forward(request, response);
+				.forward(request, response);	
+		
+		
 	}
 
 	/**
