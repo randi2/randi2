@@ -448,44 +448,50 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	}
 
 	/**
+	 * Diese Methode nimmt HTTP-POST-Request gemaess HTTP-Servlet Definition
+	 * entgegen. Hier werden Anfragen verarbeitet, die Zentren betreffen.
 	 * 
 	 * @param request
+	 *            Der Request fuer das Servlet.
 	 * @param response
-	 * @throws ServletException
+	 *            Der Response Servlet.
 	 * @throws IOException
+	 *             Falls Fehler in den E/A-Verarbeitung.
+	 * @throws ServletException
+	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
 	 */
+	private void studieStatus(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+//TODO implementieren
+		StudieBean aStudieBean = new StudieBean();
+		Studie.Status statusenum = null;
+		String statusStudie = request.getParameter((Parameter.studie.STATUS)
+				.name());
 
-	private void studieStatus(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+		// Konvertierung String enum
+		for (Studie.Status s : Studie.Status.values()) {
+			if (statusStudie.equals(statusStudie.toString())) {
+				statusenum = s;
+				break;
+			}
+		}
 
-		// if (request.getParameter("") == null) {
-		//
-		// // Alle aenderbaren Attribute des request inititalisieren
-		//		
-		//
-		//		
-		//			
-		// // Konvertierung String enum
-		// for(Studie.Status s : Studie.Status.values()){
-		// if (status.equals(status.toString())) {
-		// statusenum = s;
-		// break;
-		// }
-		// }
-		//			
-		// StudieBean aStudieBean = new StudieBean();
-		//			
-		// try {
-		// aStudieBean.setStatus(statusenum);
-		//			
-		//			
-		// } catch (StudieException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		//			
-		//			
-		// }
+		try {
+			aStudieBean.setStatus(statusenum);
+
+			request.getRequestDispatcher("global_welcome.jsp").forward(request,
+					response);
+
+		} catch (Exception e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
+		}
+		try {
+			DatenbankFactory.getAktuelleDBInstanz()
+					.schreibenObjekt(aStudieBean);
+		} catch (DatenbankExceptions e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
+		}
 	}
 
 	/**
