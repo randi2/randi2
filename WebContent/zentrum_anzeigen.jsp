@@ -48,7 +48,7 @@
 	src="js/ext/adapter/yui/ext-yui-adapter.js"></script>
 <!-- ENDLIBS -->
 <script type="text/javascript" src="js/ext/ext-all.js"></script>
-<script type="text/javascript" src="js/benutzer_anlegen_zwei.js"></script>
+<script type="text/javascript" src="js/zentrum_anzeigen.js"></script>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body onload="hideFilter();">
@@ -56,6 +56,7 @@
 
 <div id="content">
 <form method="post">
+
 <h1>Zentrum suchen</h1>
 <fieldset style="width: 90%;"><legend><b>Zentrum
 suchen </b></legend><br />
@@ -177,8 +178,8 @@ suchen </b></legend><br />
 
 
 </table>
-<table width="90%" border="0" cellspacing="5" cellpadding="2" >
-	
+<table width="90%" border="0" cellspacing="5" cellpadding="2">
+
 	<tr>
 		<td><input type="button" name="zurueck" value="Zur&uuml;ck"
 			tabindex="1" onclick="location.href='studie_ansehen.jsp'"></td>
