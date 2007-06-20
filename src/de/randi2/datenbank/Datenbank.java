@@ -815,50 +815,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 	}
 
-	/**
-	 * Loescht das übergebene Zentrumsobjekt aus der Datenbank.
-	 * 
-	 * @param zentrum
-	 *            zu löschendes ZentrumBean.
-	 * @throws DatenbankExceptions
-	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
-	 */
-	private void loeschenZentrum(ZentrumBean zentrum)
-			throws DatenbankExceptions {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		HashMap<String, String> geloeschteDaten = new HashMap<String, String>();
-		String sql = "";
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.CONNECTION_ERR);
-		}
-		sql = "DELETE FROM " + Tabellen.ZENTRUM + " WHERE " + FelderZentrum.ID
-				+ "=?";
-		try {
-			//SQL
-			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, zentrum.getId());
-			pstmt.executeUpdate();
-			pstmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.LOESCHEN_ERR);
-		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
-		}
-		this.loggenDaten(zentrum, LogKonstanten.LOESCHE_DATENSATZ);
-	}
+	
 
 	/**
 	 * Loescht das übergebene Personenobjekt aus der Datenbank.
@@ -903,48 +860,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		this.loggenDaten(person, LogKonstanten.LOESCHE_DATENSATZ);
 	}
 
-	/**
-	 * Loescht das übergebene Benutzerkontenobjekt aus der Datenbank.
-	 * 
-	 * @param benutzer
-	 *            zu löschendes BenutzerkontoBean.
-	 * @throws DatenbankExceptions
-	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
-	 */
-	private void loeschenBenutzerkonto(BenutzerkontoBean benutzer)
-			throws DatenbankExceptions {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		String sql = "";
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.CONNECTION_ERR);
-		}
-		sql = "DELETE FROM " + Tabellen.BENUTZERKONTO + " WHERE "
-				+ FelderBenutzerkonto.ID + "=?";
-		try {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, benutzer.getId());
-			pstmt.executeUpdate();
-			pstmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.LOESCHEN_ERR);
-		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
-		}
-		this.loggenDaten(benutzer, LogKonstanten.LOESCHE_DATENSATZ);
-	}
+	
 
 	/**
 	 * Loescht das übergebene Aktivierungsobjekt aus der Datenbank.
@@ -1033,103 +949,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 		this.loggenDaten(studie, LogKonstanten.LOESCHE_DATENSATZ);
 	}
 
-	/**
-	 * Loescht das übergebene Studienarmobjekt aus der Datenbank.
-	 * 
-	 * @param studienarm
-	 *            zu löschendes StudienarmBean.
-	 * @throws DatenbankExceptions
-	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
-	 */
-	private void loeschenStudienarm(StudienarmBean studienarm)
-			throws DatenbankExceptions {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		String sql = "";
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.CONNECTION_ERR);
-		}
-		sql = "DELETE FROM " + Tabellen.STUDIENARM + " WHERE "
-				+ FelderStudienarm.ID + "=?";
-		try {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, studienarm.getId());
-			pstmt.executeUpdate();
-			pstmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.LOESCHEN_ERR);
-		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
-		}
-		this.loggenDaten(studienarm, LogKonstanten.LOESCHE_DATENSATZ);
-	}
+	
 
-	/**
-	 * Loescht das uebergebene Patientenobjekt aus der Datenbank.
-	 * 
-	 * @param patient
-	 *            zu loeschendes PatientBean.
-	 * @throws DatenbankExceptions
-	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
-	 */
-	private void loeschenPatient(PatientBean patient)
-			throws DatenbankExceptions {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		String sql = "";
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.CONNECTION_ERR);
-		}
-		sql = "DELETE FROM " + Tabellen.PATIENT + " WHERE " + FelderPatient.ID
-				+ "=?";
-		try {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, patient.getId());
-			pstmt.executeUpdate();
-			pstmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(
-					DatenbankExceptions.LOESCHEN_ERR);
-		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
-		}
-		this.loggenDaten(patient, LogKonstanten.LOESCHE_DATENSATZ);
-	}
-	
-	
-	/**
-	 * Loescht das uebergebene Strataobjekt aus der Datenbank.
-	 * @param strata
-	 * 			zu loeschendes Strataobjekt.
-	 * @throws DatenbankExceptions
-	 * 				wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
-	 */
-	private void loeschenStrata(StrataBean strata) throws DatenbankExceptions{
-		//TODO Implementierung folgt.
-	}
 
 	/**
 	 * Dokumentation siehe Schnittstellenbeschreibung
