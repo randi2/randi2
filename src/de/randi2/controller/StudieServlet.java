@@ -69,17 +69,22 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Pausieren einer Studie
 		 */
 		AKTION_STUDIE_PAUSIEREN,
-		
+
 		/**
 		 * studie_aendern.jsp wurde gewaehlt.
 		 */
 		JSP_STUDIE_AENDERN,
-		
+
+		/**
+		 * zentrum_anzeigen.jsp
+		 */
+		JSP_ZENTRUM_ANZEIGEN,
+
 		/**
 		 * Aendert einer bereits vorhandenen Studie.
 		 */
 		AKTION_STUDIE_AENDERN,
-		
+
 		/**
 		 * Neue Studie hinzufuegen
 		 */
@@ -99,7 +104,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Liste der gefundenen Studien
 		 */
 		LISTE_DER_STUDIEN("listeStudien");
-	
 
 		/**
 		 * String Version des Parameters
@@ -136,6 +140,40 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 */
 	public StudieServlet() {
 		super();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String id = (String) request
+				.getParameter(DispatcherServlet.requestParameter.ANFRAGE_Id
+						.name());
+		String idAttribute = (String) request
+				.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
+						.name());
+
+		if (idAttribute != null) {
+			id = idAttribute;
+			Logger.getLogger(this.getClass()).debug(id);
+
+		} else if (id != null) {
+			Logger.getLogger(this.getClass()).debug(id);
+			if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
+				// Aufruf der Methode
+			}
+		} else {
+			// TODO an dieser Stelle würde ich einfach auf index.jsp
+			// weiterleiten; gibt's andere Vorschläge (lplotni 17. Jun)
+			// request.getRequestDispatcher("DispatcherServlet").forward(request,
+			// response);
+			System.out.println("???");
+		}
 	}
 
 	/**
@@ -177,11 +215,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 						request, response);
 			} else if (id.equals(anfrage_id.AKTION_STUDIE_ANLEGEN.name())) {
 				// Neue Studie anlegen
-				//StudieBean aStudie = new StudieBean(NullKonstanten.DUMMY_ID,);
-				
-			}
-			else if (id.equals(anfrage_id.AKTION_STUDIE_AENDERN.name())) {
-				//Studie soll geaendert werden
+				// StudieBean aStudie = new
+				// StudieBean(NullKonstanten.DUMMY_ID,);
+
+			} else if (id.equals(anfrage_id.AKTION_STUDIE_AENDERN.name())) {
+				// Studie soll geaendert werden
 				request.getRequestDispatcher(Jsp.STUDIE_AENDERN).forward(
 						request, response);
 			}
@@ -223,13 +261,13 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp")
 							.forward(request, response);
 				}
-			}
-			else if (id.equals(anfrage_id.JSP_STUDIE_AENDERN.name())) {
-				//studieAendern.jsp soll angezeigt werden
+			} else if (id.equals(anfrage_id.JSP_STUDIE_AENDERN.name())) {
+				// studieAendern.jsp soll angezeigt werden
 				studieAendern(request, response);
+			} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
+
 			}
-		} 
-		else {
+		} else {
 			// TODO an dieser Stelle würde ich einfach auf index.jsp
 			// weiterleiten; gibt's andere Vorschläge (lplotni 17. Jun)
 			// request.getRequestDispatcher("DispatcherServlet").forward(request,
@@ -408,50 +446,51 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		}
 		return null;
 	}
+
 	/**
 	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
-	 * @throws IOException  
+	 * @throws IOException
 	 */
-	
+
 	private void studieStatus(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException{
-		
-//		if (request.getParameter("") == null) {
-//
-////			 Alle aenderbaren Attribute des request inititalisieren
-//		
-//
-//		
-//			
-//			// Konvertierung String enum
-//			for(Studie.Status s : Studie.Status.values()){
-//				if (status.equals(status.toString())) {
-//					statusenum = s;
-//					break;
-//				}
-//			}
-//			
-//			StudieBean aStudieBean = new StudieBean();
-//			
-//			try {
-//				aStudieBean.setStatus(statusenum);
-//			
-//			
-//			} catch (StudieException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			
-//			
-//		}
+			HttpServletResponse response) throws ServletException, IOException {
+
+		// if (request.getParameter("") == null) {
+		//
+		// // Alle aenderbaren Attribute des request inititalisieren
+		//		
+		//
+		//		
+		//			
+		// // Konvertierung String enum
+		// for(Studie.Status s : Studie.Status.values()){
+		// if (status.equals(status.toString())) {
+		// statusenum = s;
+		// break;
+		// }
+		// }
+		//			
+		// StudieBean aStudieBean = new StudieBean();
+		//			
+		// try {
+		// aStudieBean.setStatus(statusenum);
+		//			
+		//			
+		// } catch (StudieException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		//			
+		//			
+		// }
 	}
 
 	/**
-	 * Aenderbare Daten einer bereits in der Datenbank bestehenden Studie
-	 * werden gesetzt.
+	 * Aenderbare Daten einer bereits in der Datenbank bestehenden Studie werden
+	 * gesetzt.
 	 * 
 	 * @param request
 	 *            Der request fuer das Servlet.
@@ -464,44 +503,60 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 */
 	private void studieAendern(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
-		if (request.getParameter("loeschenA") == null) {			
-			
+
+		if (request.getParameter("loeschenA") == null) {
+
 			// Alle aenderbaren Attribute des request inititalisieren
-			String startDatum = request.getParameter((Parameter.studie.STARTDATUM).name());
-			String endDatum = request.getParameter((Parameter.studie.ENDDATUM).name());
-			String studienarme=request.getParameter((Parameter.studie.ARME_STUDIE).name());
-			
-			
-			
+			String startDatum = request
+					.getParameter((Parameter.studie.STARTDATUM).name());
+			String endDatum = request.getParameter((Parameter.studie.ENDDATUM)
+					.name());
+			String studienarme = request
+					.getParameter((Parameter.studie.ARME_STUDIE).name());
+
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
 					.getSession()).getAttribute("aBenutzer");
 			try {
-				StudieBean aStudieBean = aBenutzer.getStudie();				
+				StudieBean aStudieBean = aBenutzer.getStudie();
 				try {
-					Vector<StudienarmBean> studienArme = aStudieBean.getStudienarme();
+					Vector<StudienarmBean> studienArme = aStudieBean
+							.getStudienarme();
 					GregorianCalendar aStartDatum = aStudieBean.getStartDatum();
 					GregorianCalendar aEndDatum = aStudieBean.getEndDatum();
-					aStudieBean.setStudienZeitraum(aStartDatum,aEndDatum);
-					aStudieBean.setBeschreibung(request.getParameter((Parameter.studie.BESCHREIBUNG).name()));
-					if (aStudieBean.getBenutzerkonto()!= null) {
-						aStudieBean.setName(request.getParameter((Parameter.studie.NAME).name()));
-						aStudieBean.setStudienprotokollPfad(request.getParameter((Parameter.studie.STUDIENPROTOKOLL).name()));
+					aStudieBean.setStudienZeitraum(aStartDatum, aEndDatum);
+					aStudieBean.setBeschreibung(request
+							.getParameter((Parameter.studie.BESCHREIBUNG)
+									.name()));
+					if (aStudieBean.getBenutzerkonto() != null) {
+						aStudieBean.setName(request
+								.getParameter((Parameter.studie.NAME).name()));
+						aStudieBean
+								.setStudienprotokollPfad(request
+										.getParameter((Parameter.studie.STUDIENPROTOKOLL)
+												.name()));
 						aStudieBean.setStudienarme(studienArme);
-						aStudieBean.setRandomisationseigenschaften(request.getParameter((Parameter.studie.RANDOMISATIONSEIGENSCHAFTEN).name()));
-						aStudieBean.setInstitution(request.getParameter((Parameter.studie.INSTITUT).name()));
-						aStudieBean.setStudienleiter(request.getParameter((Parameter.studie.STUDIENLEITER).name()));
-						
-						DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
-								aStudieBean.getBenutzerkonto());
+						aStudieBean
+								.setRandomisationseigenschaften(request
+										.getParameter((Parameter.studie.RANDOMISATIONSEIGENSCHAFTEN)
+												.name()));
+						aStudieBean.setInstitution(request
+								.getParameter((Parameter.studie.INSTITUT)
+										.name()));
+						aStudieBean.setStudienleiter(request
+								.getParameter((Parameter.studie.STUDIENLEITER)
+										.name()));
+
+						DatenbankFactory
+								.getAktuelleDBInstanz()
+								.schreibenObjekt(aStudieBean.getBenutzerkonto());
 					}
-					
+
 				} catch (Exception e) {
 					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 							.getMessage());
-				} 
-				DatenbankFactory.getAktuelleDBInstanz()
-						.schreibenObjekt(aStudieBean);
+				}
+				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+						aStudieBean);
 				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 						aBenutzer);
 				request.getRequestDispatcher("global_welcome.jsp").forward(

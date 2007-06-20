@@ -3,7 +3,9 @@
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="de.randi2.controller.DispatcherServlet"
 	import="java.util.GregorianCalendar"
-	import="java.text.SimpleDateFormat" import="java.util.*"%>
+	import="java.text.SimpleDateFormat" import="java.util.*"
+	import="de.randi2.controller.StudieServlet"
+	%>
 
 
 <%
@@ -29,6 +31,7 @@
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="de.randi2.utility.Parameter"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -55,8 +58,9 @@
 <%@include file="include/inc_header.jsp"%>
 
 <div id="content">
-<form method="post">
-
+<form action="StudieServlet" method="post">
+<input type="hidden" name="<%=Parameter.anfrage_id %>"
+	value="<%=StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name() %>">
 <h1>Zentrum suchen</h1>
 <fieldset style="width: 90%;"><legend><b>Zentrum
 suchen </b></legend><br />
@@ -71,9 +75,9 @@ suchen </b></legend><br />
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td><input type="Text" name="name_institution" value="" size="30"
+		<td><input type="Text" name="<%=Parameter.zentrum.INSTITUTION %>" value="" size="30"
 			maxlength="50" /></td>
-		<td><input type="Text" name="name_abteilung" value="" size="30"
+		<td><input type="Text" name="<%=Parameter.zentrum.ABTEILUNGSNAME %>" value="" size="30"
 			maxlength="50" /></td>
 		<td><input type="submit" name="Filtern" value="Filtern" /></td>
 	</tr>

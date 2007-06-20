@@ -6,6 +6,7 @@
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
 <%Rolle.Rollen aRolleMenue=((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer")).getRolle().getRollenname(); %>
 <%@page import="de.randi2.controller.DispatcherServlet"%>
+<%@page import="de.randi2.controller.StudieServlet"%>
 <div id="menue">
 
 <div id="navigation">
@@ -32,11 +33,12 @@
 <% } %> <% if (aRolleMenue==Rolle.Rollen.STUDIENLEITER|| aRolleMenue==Rolle.Rollen.ADMIN) { %>
 <ul>
 	<li class="top_m">Zentrenverwaltung</li>
-	<li><a class="sub_ZV n entry" href="zentrum_anzeigen.jsp">Zentren
+	<li><a class="sub_ZV n entry" href="StudieServlet">Zentren
 	anzeigen</a></li>
 	<% if (aRolleMenue==Rolle.Rollen.ADMIN) { %>
-	<li><a class="sub_ZV n entry" href="zentrum_anlegen.jsp">Zentrum
-	anlegen</a></li>
+	<li><form action="StudieServlet" method="POST">
+	<input type="hidden" name="anfrage_id" value="<%=StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name()%>" />
+	<input type="submit" name="" value="Zentrum anzeigen"/></form></li>
 	<% } %>
 </ul>
 <% } %> <% if (aRolleMenue!=Rolle.Rollen.SYSOP) { %>
