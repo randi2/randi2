@@ -61,7 +61,12 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Zentrumsdaten aendern
 		 */
-		ZENTRUM_AENDERN
+		ZENTRUM_AENDERN,
+		
+		/**
+		 * Zentrum anzeigen
+		 */
+		ZENTRUM_ANZEIGEN
 	}
 
 	/**
@@ -115,7 +120,10 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
 		} else if (id.equals(ZentrumServlet.anfrage_id.ZENTRUM_AENDERN.name())) {
 			aendernZentrum(request, response);
-		} else {
+		} 
+		else if (id.equals(ZentrumServlet.anfrage_id.ZENTRUM_ANZEIGEN.name())) {
+			this.zentrenFiltern(request, response);
+		}else {
 			// TODO Hier muss noch entschieden werden,was passiert
 		}
 	}
@@ -325,7 +333,13 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
 		// keine Filterung
 	}
-
+/**
+ * 
+ * @param request
+ * @param response
+ * @throws ServletException
+ * @throws IOException
+ */
 	private void classDispatcherservletZentrumAnlegen(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Zentrum zusammenbauen
 		ZentrumBean aZentrum = new ZentrumBean();
@@ -392,4 +406,84 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		}
 
 	}
+	
+	
+	
+	/**
+	 * Methode wird aufgerufen um bei der Benutzerregistrierung nach Zentren zu
+	 * filtern, bzw. das Zentrumpasswort zu ueberpruefen
+	 * 
+	 * @param request
+	 *            Requestobjekt
+	 * @param response
+	 *            Responseobjekt
+	 * @throws ServletException
+	 *             Fehler in der Http-Verarbeitung
+	 * @throws IOException
+	 *             Fehler in der IO-Verarbaitung
+	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+	 *      HttpServletResponse response)
+	 */
+	private void zentrenFiltern(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Filterung
+		if (((String) request.getParameter("Filtern")) != null) {
+			try {
+				Vector<ZentrumBean> gZentrum = null;
+				if (((String) request.getParameter("name_institution")) != "" && ((String) request.getParameter("name_abteilung")) != "") {
+					ZentrumBean sZentrum = new ZentrumBean();
+
+					// Filter setzen
+					sZentrum.setFilter(true);
+					sZentrum.setInstitution(request.getParameter("name_institution"));
+					sZentrum.setAbteilung(request.getParameter("name_abteilung"));
+					sZentrum.setIstAktiviert(true);
+					gZentrum = Zentrum.suchenZentrum(sZentrum);
+
+				} else {
+					ZentrumBean sZentrum = new ZentrumBean();
+					sZentrum.setFilter(true);
+					gZentrum = Zentrum.suchenZentrum(sZentrum);
+				}
+				request.setAttribute("listeZentren", gZentrum);
+			} catch (BenutzerException e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+			} catch (DatenbankExceptions e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+			}
+
+			request.getRequestDispatcher("/studie_ansehen.jsp").forward(request, response);
+		} else {
+			try {
+				// Erstmal alle vorhandenen Zentren suchen
+				ZentrumBean sZentrum = new ZentrumBean();
+				sZentrum.setFilter(true);
+				sZentrum.setIstAktiviert(true);
+				Vector<ZentrumBean> gZentrum = null;
+
+				gZentrum = Zentrum.suchenZentrum(sZentrum);
+
+				Iterator<ZentrumBean> itgZentrum = gZentrum.iterator();
+				while (itgZentrum.hasNext()) {
+					ZentrumBean aZentrumBean = itgZentrum.next();
+					String suche = "bestaetigen" + aZentrumBean.getId();
+					if (request.getParameter(suche) != null) {
+						Zentrum aZentrum = new Zentrum(aZentrumBean);
+						
+					
+					}
+				}
+			} catch (DatenbankExceptions e) {
+				// Fehler zurück!
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+				request.getRequestDispatcher("/studie_ansehen.jsp").forward(request, response);
+			}
+		}
+
+		// keine Filterung
+	}
+
+	
+	
+	
+	
 }

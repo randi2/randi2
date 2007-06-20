@@ -56,8 +56,8 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 %>
 <form action="DispatcherServlet" method="POST"><input
 	type="hidden" name="<%=Parameter.anfrage_id%>"
-	value="<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE.name() %>"><input type="submit"
-	value="Neue Studie anlegen"></form>
+	value="<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE.name() %>"><input
+	type="submit" value="Neue Studie anlegen"></form>
 &nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;
 <form action="DispatcherServlet" method="POST"><input
 	type="hidden" name="<%=Parameter.anfrage_id%>"
@@ -73,8 +73,7 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 	onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen"
 	style="cursor:pointer" /><b> Filter ein-/ausblenden </b><!--  TODO Table  BUG #2-->
 <div id="filterdiv" style="overflow:hidden; height: 100px;"><input
-	type="hidden"
-	name="<%=Parameter.anfrage_id %>"
+	type="hidden" name="<%=Parameter.anfrage_id %>"
 	value="<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN_FILTERN.name() %>">
 <table width="600" border="0" cellspacing="5" cellpadding="2"
 	bgcolor="#e3e3e3">

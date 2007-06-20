@@ -1,8 +1,8 @@
 <%@ page import="de.randi2.model.fachklassen.*"
 	import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
-		import="de.randi2.model.fachklassen.beans.*"
-		import= "de.randi2.model.fachklassen.beans.AktivierungBean"
-		import="java.util.GregorianCalendar"
+	import="de.randi2.model.fachklassen.beans.*"
+	import="de.randi2.model.fachklassen.beans.AktivierungBean"
+	import="java.util.GregorianCalendar"
 	import="de.randi2.model.fachklassen.beans.PersonBean"%>
 <%
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
@@ -21,12 +21,12 @@
 	}
 %>
 <%@page import="de.randi2.utility.Config"%>
-<div id="header"><img src="<%=Config.getProperty(Config.Felder.RELEASE_BILD_LOGO) %>" width="337"
-	height="63" title="" alt=""></div>
+<div id="header"><img
+	src="<%=Config.getProperty(Config.Felder.RELEASE_BILD_LOGO) %>"
+	width="337" height="63" title="" alt=""></div>
 
 <div id="breadcrumb">
-<table width="100%" border="0" cellSpacing="2"
-	class="breadcrumb_tbl">
+<table width="100%" border="0" cellSpacing="2" class="breadcrumb_tbl">
 	<tr>
 		<td>
 		<%
