@@ -62,12 +62,9 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	 */
 	public DispatcherServlet() {
 		super();
-		istSystemGesperrt = Boolean.valueOf(Config
-				.getProperty(Felder.SYSTEMSPERRUNG_SYSTEMSPERRUNG));
-		Logger.getLogger(this.getClass()).debug(
-				"Lade Mitteilung (System gesperrt) aus Config");
-		meldungSystemGesperrt = Config
-				.getProperty(Felder.SYSTEMSPERRUNG_FEHLERMELDUNG);
+		istSystemGesperrt = Boolean.valueOf(Config.getProperty(Felder.SYSTEMSPERRUNG_SYSTEMSPERRUNG));
+		Logger.getLogger(this.getClass()).debug("Lade Mitteilung (System gesperrt) aus Config");
+		meldungSystemGesperrt = Config.getProperty(Felder.SYSTEMSPERRUNG_FEHLERMELDUNG);
 	}
 
 	/**
@@ -166,12 +163,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * "Neue Studie anlegen" auswaehlen
 		 */
 		JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE,
-		
+
 		/**
 		 * Neue Studie anlegen
 		 */
 		JSP_STUDIE_ANLEGEN,
-		
+
 		/**
 		 * Studie pausieren
 		 */
@@ -192,7 +189,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Konto des Benutzers (BenutzerkontoBean)
 		 */
 		A_Benutzer("aBenutzer"), // XXX Konto ist als 'aBenutzer' gebunden,
-									// nicht ueber diese
+		// nicht ueber diese
 		// Kosntante (lplotni 17. Juni: warum denn ?)
 
 		/**
@@ -219,7 +216,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		private sessionParameter(String parameter) {
 			this.parameter = parameter;
 		}
-		
+
 		/**
 		 * Liefert die String Repraesentation des Parameters
 		 * 
@@ -307,23 +304,15 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	 *      HttpServletResponse response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Logger.getLogger(this.getClass()).debug("Request, Typ 'GET' empfangen");
 
 		String id = (String) request.getParameter("anfrage_id");
 
 		if (isBenutzerAngemeldet(request) && id != null) {
-			// wurde eine Id mitgesendet _und_ der benutzer ist angemeldet
+//			 wurde eine Id mitgesendet _und_ der benutzer ist angemeldet
 			Logger.getLogger(this.getClass()).debug("[GET]anfrage_id: " + id);
-			if (id.equals(DispatcherServlet.anfrage_id.JSP_SYSTEM_SPERREN
-					.name())) {
-				weiterleitungSystemSperrung(request, response);
-			} else if (id.equals(anfrage_id.AKTION_LOGOUT.name())) {
-				//Logger.getLogger(this.getClass()).fatal("Benutzer ausloggen");
-				loggeBenutzerAus(request, response);
-				return;
-			}
+			doPost(request, response);
 		} else { /*
 					 * keine anfrage_id empfangen oder der benutzer ist nicht
 					 * angemeldet -> Weiterleitung auf den entsprechenden Index
@@ -351,8 +340,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	 *      HttpServletResponse response)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String id = (String) request.getParameter("anfrage_id");
 		String idAttribute = (String) request.getAttribute("anfrage_id");
@@ -365,8 +353,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			 * dort --Btheel
 			 */
 			doGet(request, response);
-			Logger.getLogger(this.getClass()).debug(
-					"Anfrage-Id == null, Anfrage nach doGet umleiten");
+			Logger.getLogger(this.getClass()).debug("Anfrage-Id == null, Anfrage nach doGet umleiten");
 		}
 		if (idAttribute != null) {
 			id = idAttribute;
@@ -381,49 +368,32 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 		// Benutzer registrieren
 		// Schritt 1.1: STARTSEITE->DISCLAIMER
-		else if (id
-				.equals(DispatcherServlet.anfrage_id.JSP_INDEX_BENUTZER_REGISTRIEREN_EINS
-						.name())) {
+		else if (id.equals(DispatcherServlet.anfrage_id.JSP_INDEX_BENUTZER_REGISTRIEREN_EINS.name())) {
 
-			request.getRequestDispatcher("/benutzer_anlegen_eins.jsp").forward(
-					request, response);
+			request.getRequestDispatcher("/benutzer_anlegen_eins.jsp").forward(request, response);
 
 		}
 		// Schritt 2.1:DISCLAIMER->ZENTRUMAUSWAHL
-		else if (id
-				.equals(DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI
-						.name())) {
+		else if (id.equals(DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI.name())) {
 
-			request.setAttribute("anfrage_id",
-					"CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI");
-			request.getRequestDispatcher("ZentrumServlet").forward(request,
-					response);
+			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI");
+			request.getRequestDispatcher("ZentrumServlet").forward(request, response);
 		}
 
 		// Schritt 3.1: ZENTRUMAUSWAHL: Filterung
 		// Schritt 3.2 ZENTRUMAUSWAHL->BENUTZERDATEN_EINGEBEN
-		else if (id
-				.equals(DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI
-						.name())) {
-			request.setAttribute("anfrage_id",
-					"CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI");
-			request.getRequestDispatcher("ZentrumServlet").forward(request,
-					response);
+		else if (id.equals(DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI.name())) {
+			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI");
+			request.getRequestDispatcher("ZentrumServlet").forward(request, response);
 
 		}
 
 		// Schritt 4: BENUTZERDATEN_EINGEBEN->
-		else if (id
-				.equals(DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER
-						.name())) {
-			request.setAttribute("anfrage_id",
-					"CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER");
-			request.getRequestDispatcher("BenutzerServlet").forward(request,
-					response);
+		else if (id.equals(DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER.name())) {
+			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_VIER");
+			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
 
-		} else if (id
-				.equals(DispatcherServlet.anfrage_id.AKTION_SYSTEM_ENTSPERREN
-						.name())) {
+		} else if (id.equals(DispatcherServlet.anfrage_id.AKTION_SYSTEM_ENTSPERREN.name())) {
 			if (!isBenutzerAngemeldet(request)) { // Benutzer nicht angemeldet
 				BenutzerkontoBean anonymous = new BenutzerkontoBean();
 				// FIXME FRAGE LogAktion mit String anstatt BenutzerkontoBean
@@ -431,36 +401,26 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				// anonymous.setBenutzername("Unangemeldeter Benutzer [IP:
 				// "+request.getRemoteAddr()+"]");
 
-				LogAktion a = new LogAktion(
-						"Versuchte Systemsperrung ohne Login", anonymous);
+				LogAktion a = new LogAktion("Versuchte Systemsperrung ohne Login", anonymous);
 				Logger.getLogger(LogLayout.RECHTEVERLETZUNG).warn(a);
 				return;
 			}
-			if (!(((BenutzerkontoBean) request.getSession().getAttribute(
-					"aBenutzer")).getRolle())
+			if (!(((BenutzerkontoBean) request.getSession().getAttribute("aBenutzer")).getRolle())
 					.besitzenRolleRecht(Recht.Rechtenamen.SYSTEM_SPERREN)) {
 				// Der User besitzt keine entsprechenden Rechte
-				LogAktion a = new LogAktion(
-						"Versuchte Systemsperrung ohne ausreichende Rechte"
-								+ getMeldungSystemGesperrt(),
-						(BenutzerkontoBean) request.getSession().getAttribute(
-								"aBenutzer"));
+				LogAktion a = new LogAktion("Versuchte Systemsperrung ohne ausreichende Rechte" + getMeldungSystemGesperrt(),
+						(BenutzerkontoBean) request.getSession().getAttribute("aBenutzer"));
 				Logger.getLogger(LogLayout.RECHTEVERLETZUNG).warn(a);
 				return;
 			}
 			this.setSystemGesperrt(false);
-			Logger.getLogger(this.getClass()).debug(
-					"Schalte System wieder frei");
-			LogAktion a = new LogAktion("System wurde entsperrt",
-					(BenutzerkontoBean) request.getSession().getAttribute(
-							"aBenutzer"));
+			Logger.getLogger(this.getClass()).debug("Schalte System wieder frei");
+			LogAktion a = new LogAktion("System wurde entsperrt", (BenutzerkontoBean) request.getSession().getAttribute("aBenutzer"));
 			Logger.getLogger(LogLayout.ADMINISTRATION).info(a);
-			request.getRequestDispatcher("/system_sperren.jsp").forward(
-					request, response);
+			request.getRequestDispatcher("/system_sperren.jsp").forward(request, response);
 			return;
 
-		} else if (id.equals(DispatcherServlet.anfrage_id.AKTION_SYSTEM_SPERREN
-				.name())) {
+		} else if (id.equals(DispatcherServlet.anfrage_id.AKTION_SYSTEM_SPERREN.name())) {
 			if (!isBenutzerAngemeldet(request)) { // Benutzer nicht angemeldet
 				BenutzerkontoBean anonymous = new BenutzerkontoBean();
 				// FIXME FRAGE LogAktion mit String anstatt BenutzerkontoBean
@@ -468,96 +428,62 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				// anonymous.setBenutzername("Unangemeldeter Benutzer [IP:
 				// "+request.getRemoteAddr()+"]");
 
-				LogAktion a = new LogAktion(
-						"Versuchte Systemsperrung ohne Login", anonymous);
+				LogAktion a = new LogAktion("Versuchte Systemsperrung ohne Login", anonymous);
 				Logger.getLogger(LogLayout.RECHTEVERLETZUNG).warn(a);
 				return;
 			}
-			if (!(((BenutzerkontoBean) request.getSession().getAttribute(
-					"aBenutzer")).getRolle())
+			if (!(((BenutzerkontoBean) request.getSession().getAttribute("aBenutzer")).getRolle())
 					.besitzenRolleRecht(Recht.Rechtenamen.SYSTEM_SPERREN)) {
 				// Der User besitzt keine entsprechenden Rechte
-				LogAktion a = new LogAktion(
-						"Versuchte Systemsperrung ohne ausreichende Rechte"
-								+ getMeldungSystemGesperrt(),
-						(BenutzerkontoBean) request.getSession().getAttribute(
-								"aBenutzer"));
+				LogAktion a = new LogAktion("Versuchte Systemsperrung ohne ausreichende Rechte" + getMeldungSystemGesperrt(),
+						(BenutzerkontoBean) request.getSession().getAttribute("aBenutzer"));
 				Logger.getLogger(LogLayout.RECHTEVERLETZUNG).warn(a);
 				return;
 			}
 			this.setSystemGesperrt(true);
 
-			String meldung = StringEscapeUtils.escapeHtml((String) request
-					.getParameter(requestParameter.MITTEILUNG_SYSTEM_GESPERRT
-							.toString()));
+			String meldung = StringEscapeUtils.escapeHtml((String) request.getParameter(requestParameter.MITTEILUNG_SYSTEM_GESPERRT.toString()));
 			this.setMeldungSystemGesperrt(meldung);
 
-			Logger.getLogger(this.getClass()).debug(
-					"Sperre System. Grund: '" + getMeldungSystemGesperrt()
-							+ "'");
-			LogAktion a = new LogAktion("System wurde gesperrt, Grund: '"
-					+ getMeldungSystemGesperrt() + "'",
-					(BenutzerkontoBean) request.getSession().getAttribute(
-							"aBenutzer"));
+			Logger.getLogger(this.getClass()).debug("Sperre System. Grund: '" + getMeldungSystemGesperrt() + "'");
+			LogAktion a = new LogAktion("System wurde gesperrt, Grund: '" + getMeldungSystemGesperrt() + "'", (BenutzerkontoBean) request
+					.getSession().getAttribute("aBenutzer"));
 			Logger.getLogger(LogLayout.ADMINISTRATION).info(a);
-			request.getRequestDispatcher("/system_sperren.jsp").forward(
-					request, response);
+			request.getRequestDispatcher("/system_sperren.jsp").forward(request, response);
 			return;
-		} else if (id.equals(DispatcherServlet.anfrage_id.JSP_SYSTEM_SPERREN
-				.name())) {
+		} else if (id.equals(DispatcherServlet.anfrage_id.JSP_SYSTEM_SPERREN.name())) {
 			weiterleitungSystemSperrung(request, response);
 			return;
 		} else if (id.equals(anfrage_id.AKTION_ADMIN_ANLEGEN.name())) {
-			Logger.getLogger(this.getClass()).debug(
-					"Leite Anfrage an BenutzerServlet weiter");
-			request.setAttribute("anfrage_id",
-					BenutzerServlet.anfrage_id.AKTION_BENUTZER_ANLEGEN.name());
-			request.getRequestDispatcher("BenutzerServlet").forward(request,
-					response);
+			Logger.getLogger(this.getClass()).debug("Leite Anfrage an BenutzerServlet weiter");
+			request.setAttribute("anfrage_id", BenutzerServlet.anfrage_id.AKTION_BENUTZER_ANLEGEN.name());
+			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
 		} else if (id.equals(anfrage_id.JSP_DATEN_AENDERN.name())) {
-			Logger.getLogger(this.getClass()).debug(
-					"Leite Anfrage an BenutzerServlet weiter");
-			request.setAttribute("anfrage_id",
-					BenutzerServlet.anfrage_id.BENUTZERDATEN_AENDERN.name());
-			request.getRequestDispatcher("BenutzerServlet").forward(request,
-					response);
+			Logger.getLogger(this.getClass()).debug("Leite Anfrage an BenutzerServlet weiter");
+			request.setAttribute("anfrage_id", BenutzerServlet.anfrage_id.BENUTZERDATEN_AENDERN.name());
+			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
 		} else if (id.equals(anfrage_id.JSP_ZENTRUM_AENDERN.name())) {
-			Logger.getLogger(this.getClass()).debug(
-					"Leite Anfrage an ZentrumServlet weiter");
-			request.setAttribute("anfrage_id",
-					ZentrumServlet.anfrage_id.ZENTRUM_AENDERN.name());
-			request.getRequestDispatcher("ZentrumServlet").forward(request,
-					response);
+			Logger.getLogger(this.getClass()).debug("Leite Anfrage an ZentrumServlet weiter");
+			request.setAttribute("anfrage_id", ZentrumServlet.anfrage_id.ZENTRUM_AENDERN.name());
+			request.getRequestDispatcher("ZentrumServlet").forward(request, response);
 		}
 
 		// [end]
 		// WEITERLEITUNGEN FUER ZENTRUMSERVLET
 		// [start]
 		else if (id.equals(anfrage_id.JSP_ZENTRUM_ANLEGEN.name())) {
-			request
-					.setAttribute(
-							"anfrage_id",
-							ZentrumServlet.anfrage_id.ClASS_DISPATCHERSERVLET_ZENTRUM_ANLEGEN
-									.name());
-			request.getRequestDispatcher("ZentrumServlet").forward(request,
-					response);
+			request.setAttribute("anfrage_id", ZentrumServlet.anfrage_id.ClASS_DISPATCHERSERVLET_ZENTRUM_ANLEGEN.name());
+			request.getRequestDispatcher("ZentrumServlet").forward(request, response);
 		}
 		// Benutzer suchen
 		else if (id.equals(anfrage_id.BENUTZER_SUCHEN.name())) {
-			request.setAttribute("anfrage_id",
-					BenutzerServlet.anfrage_id.AKTION_BENUTZER_SUCHEN.name());
-			request.getRequestDispatcher("BenutzerServlet").forward(request,
-					response);
+			request.setAttribute("anfrage_id", BenutzerServlet.anfrage_id.AKTION_BENUTZER_SUCHEN.name());
+			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
 		}
 
 		else if (id.equals(anfrage_id.JSP_PASSWORT_VERGESSEN.name())) {
-			request
-					.setAttribute(
-							Parameter.anfrage_id,
-							BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_PASSWORT_VERGESSEN
-									.name());
-			request.getRequestDispatcher("BenutzerServlet").forward(request,
-					response);
+			request.setAttribute(Parameter.anfrage_id, BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_PASSWORT_VERGESSEN.name());
+			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
 		}
 
 		// [end]
@@ -567,35 +493,35 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		else if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE.name())) {
 
 			// neue Studie anlegen
-			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
-					.name(),
-					StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN_NEUESTUDIE
-							.name());
-			request.getRequestDispatcher("StudieServlet").forward(request,
-					response);
+			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id.name(), StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN_NEUESTUDIE
+					.name());
+			request.getRequestDispatcher("StudieServlet").forward(request, response);
 
-		}
-		else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN.name())) {
+		} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN.name())) {
 
 			// neue Studie anlegen
-			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
-					.name(),
-					StudieServlet.anfrage_id.AKTION_STUDIE_ANLEGEN
-							.name());
-			request.getRequestDispatcher("StudieServlet").forward(request,
-					response);
+			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id.name(), StudieServlet.anfrage_id.AKTION_STUDIE_ANLEGEN.name());
+			request.getRequestDispatcher("StudieServlet").forward(request, response);
 
-		}
-		else if(id.equals((anfrage_id.JSP_STUDIE_PAUSIEREN_EINS.name()))) {
+		} else if (id.equals((anfrage_id.JSP_STUDIE_PAUSIEREN_EINS.name()))) {
 			// Studie pausieren
-			 
+
 			request.setAttribute(Parameter.anfrage_id, StudieServlet.anfrage_id.AKTION_STUDIE_PAUSIEREN);
 			request.getRequestDispatcher("StudieServlet").forward(request, response);
-		}
-		else if(id.equals((anfrage_id.JSP_STUDIE_AENDERN.name()))){
-			
-			request.setAttribute(Parameter.anfrage_id, StudieServlet.anfrage_id.AKTION_STUDIE_AENDERN); 
+		} else if (id.equals((anfrage_id.JSP_STUDIE_AENDERN.name()))) {
+
+			request.setAttribute(Parameter.anfrage_id, StudieServlet.anfrage_id.AKTION_STUDIE_AENDERN);
 			request.getRequestDispatcher("StudieServlet").forward(request, response);
+		} else if (id.equals(anfrage_id.BENUTZER_SUCHEN.name())) {
+			request.setAttribute("anfrage_id", BenutzerServlet.anfrage_id.AKTION_BENUTZER_SUCHEN.name());
+			request.getRequestDispatcher("BenutzerServlet").forward(request, response);
+		}
+		if (id.equals(DispatcherServlet.anfrage_id.JSP_SYSTEM_SPERREN.name())) {
+			weiterleitungSystemSperrung(request, response);
+		} else if (id.equals(anfrage_id.AKTION_LOGOUT.name())) {
+			// Logger.getLogger(this.getClass()).fatal("Benutzer ausloggen");
+			loggeBenutzerAus(request, response);
+			return;
 		}
 		// [end]
 
@@ -603,8 +529,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		// Schwerer Fehler: Falscher Request
 		else {
 			System.out.println("Scheiße");
-			Logger.getLogger(this.getClass()).debug(
-					"Kein Block in POST fuer die ID '" + id + "' gefunden");
+			Logger.getLogger(this.getClass()).debug("Kein Block in POST fuer die ID '" + id + "' gefunden");
 			// TODO Hier muss noch entschieden werden,was passiert
 			// Vorschlag: Konnte man als potentienllen Angriff werten und
 			// entsprechend loggen --BTheel
@@ -623,17 +548,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	 *         anderenfalls <code>false</code>.
 	 */
 	protected static boolean isBenutzerAngemeldet(HttpServletRequest request) {
-		Logger.getLogger(DispatcherServlet.class).debug(
-				"DispatcherServlet.isBenutzerAngemeldet()");
+		Logger.getLogger(DispatcherServlet.class).debug("DispatcherServlet.isBenutzerAngemeldet()");
 		boolean isSessionGueltig = request.isRequestedSessionIdValid();
-		Logger.getLogger(DispatcherServlet.class).debug(
-				"Pruefe: Session noch gueltg? " + isSessionGueltig);
+		Logger.getLogger(DispatcherServlet.class).debug("Pruefe: Session noch gueltg? " + isSessionGueltig);
 
-		boolean isKontoangebunden = ((request.getSession()
-				.getAttribute("aBenutzer")) != null);
-		Logger.getLogger(DispatcherServlet.class).debug(
-				"Pruefe: Benutzerkonto an Session gebunden? "
-						+ isKontoangebunden);
+		boolean isKontoangebunden = ((request.getSession().getAttribute("aBenutzer")) != null);
+		Logger.getLogger(DispatcherServlet.class).debug("Pruefe: Benutzerkonto an Session gebunden? " + isKontoangebunden);
 		return (isSessionGueltig & isKontoangebunden);//
 	}
 
@@ -654,13 +574,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)
 	 */
-	private void loggeBenutzerAus(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		
+	private void loggeBenutzerAus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		Logger.getLogger(this.getClass()).debug("loggeBenutzerAus()");
-		LogAktion a = new LogAktion("Benutzer hat sich ausgeloggt",
-				(BenutzerkontoBean) request.getSession().getAttribute(
-						"aBenutzer"));
+		LogAktion a = new LogAktion("Benutzer hat sich ausgeloggt", (BenutzerkontoBean) request.getSession().getAttribute("aBenutzer"));
 		Logger.getLogger(LogLayout.LOGIN_LOGOUT).info(a);
 		request.getSession().invalidate(); // Alte session zerstoeren
 		request.getSession(); // Neue session eroeffnetn
@@ -684,27 +601,17 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)
 	 */
-	private void weiterleitungAufIndex(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	private void weiterleitungAufIndex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Session immer killen wenn auf Indexjsp
 		request.getSession(false).invalidate();
 		if (istSystemGesperrt) {// System gesperrt
-			Logger
-					.getLogger(this.getClass())
-					.debug(
-							"System gesperrt, leite nach 'index_gesperrt.jsp' um (korrekter Ablauf) ");
-			request.setAttribute(requestParameter.MITTEILUNG_SYSTEM_GESPERRT
-					.toString(), meldungSystemGesperrt);
-			request.getRequestDispatcher("index_gesperrt.jsp").forward(request,
-					response);
+			Logger.getLogger(this.getClass()).debug("System gesperrt, leite nach 'index_gesperrt.jsp' um (korrekter Ablauf) ");
+			request.setAttribute(requestParameter.MITTEILUNG_SYSTEM_GESPERRT.toString(), meldungSystemGesperrt);
+			request.getRequestDispatcher("index_gesperrt.jsp").forward(request, response);
 			return;
 		} else {// System offen
-			Logger
-					.getLogger(this.getClass())
-					.debug(
-							"System offen, leite nach 'index.jsp' um' (korrekter Ablauf)");
-			request.getRequestDispatcher("index.jsp")
-					.forward(request, response);
+			Logger.getLogger(this.getClass()).debug("System offen, leite nach 'index.jsp' um' (korrekter Ablauf)");
+			request.getRequestDispatcher("index.jsp").forward(request, response);
 			return;
 		}
 	}
@@ -725,14 +632,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)
 	 */
-	private void weiterleitungSystemSperrung(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute(requestParameter.IST_SYSTEM_GESPERRT.toString(),
-				istSystemGesperrt);
-		request.setAttribute(requestParameter.MITTEILUNG_SYSTEM_GESPERRT
-				.toString(), meldungSystemGesperrt);
-		request.getRequestDispatcher("/system_sperren_main.jsp").forward(
-				request, response);
+	private void weiterleitungSystemSperrung(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute(requestParameter.IST_SYSTEM_GESPERRT.toString(), istSystemGesperrt);
+		request.setAttribute(requestParameter.MITTEILUNG_SYSTEM_GESPERRT.toString(), meldungSystemGesperrt);
+		request.getRequestDispatcher("/system_sperren_main.jsp").forward(request, response);
 		return;
 
 	}
@@ -752,23 +655,18 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)
 	 */
-	private void weiterleitungBenutzerAnmelden(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		Logger.getLogger(this.getClass()).debug(
-				"DispatcherServlet.weiterleitungBenutzerAnmelden()");
+	private void weiterleitungBenutzerAnmelden(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Logger.getLogger(this.getClass()).debug("DispatcherServlet.weiterleitungBenutzerAnmelden()");
 		request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_LOGIN1");
 		// request.setAttribute(requestParameter.IST_SYSTEM_GESPERRT.toString(),
 		// istSystemGesperrt);
-		request.setAttribute(requestParameter.IST_SYSTEM_GESPERRT.toString(),
-				istSystemGesperrt);
+		request.setAttribute(requestParameter.IST_SYSTEM_GESPERRT.toString(), istSystemGesperrt);
 		if (istSystemGesperrt) {
 			// Request verliert Attr. deshalb neu setzten
-			request.setAttribute(requestParameter.MITTEILUNG_SYSTEM_GESPERRT
-					.toString(), meldungSystemGesperrt);
+			request.setAttribute(requestParameter.MITTEILUNG_SYSTEM_GESPERRT.toString(), meldungSystemGesperrt);
 
 		}
-		request.getRequestDispatcher("BenutzerServlet").forward(request,
-				response);
+		request.getRequestDispatcher("BenutzerServlet").forward(request, response);
 
 	}
 
@@ -791,8 +689,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	public void setSystemGesperrt(boolean istSystemGesperrt) {
 		this.istSystemGesperrt = istSystemGesperrt;
 		// Config.setSystemGesperrt(istSystemGesperrt);
-		Logger.getLogger(this.getClass()).debug(
-				"System gesperrt geaendert nach " + istSystemGesperrt);
+		Logger.getLogger(this.getClass()).debug("System gesperrt geaendert nach " + istSystemGesperrt);
 
 	}
 
