@@ -29,7 +29,7 @@ public class RandomisationDBTest {
 			RandomisationsException {
 		long werte[] = { 12, 13, 12, 14, 15, 15, 14, 13 };
 		StudieBean s = new StudieBean();
-		s.setId(3l);
+		s.setId(1l);
 		RandomisationDB.speichernBlock(werte, s, null);
 
 		assertEquals(12l, RandomisationDB.getNext(s, null));

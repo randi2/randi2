@@ -33,7 +33,7 @@ public final class RandomisationDB extends Filter {
 	 * 
 	 */
 	private enum Block {
-		ID("blockId"), StudieID("Studie_studienId"), WERT("blockwert"), KOMBINATION(
+		ID("blockId"), StudieID("Studie_studienID"), WERT("blockwert"), KOMBINATION(
 				"strataKombination");
 
 		private String name = null;
