@@ -42,6 +42,11 @@ public class DatenbankExceptions extends SystemException {
 	 * auftritt
 	 */
 	public static final String SCHREIBEN_ERR = "Beim Schreiben trat ein Fehler auf.";
+	
+	/**
+	 * Fliegt falls versucht wurde einen Tester mit einem bereits vorhandenen Loginname anzulegen.
+	 */
+	public static final String TESTER_EXISTIERT_ERR ="Dieser Loginname ist bereits vergeben. Bitte w&auml;hlen sie einen Anderen.";
 
 	/**
 	 * Allgemeine Fehlerkonstante fuer Fehler die beim Loeschen auftretten.

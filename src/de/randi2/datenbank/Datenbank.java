@@ -1483,8 +1483,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 				rs.close();
 				pstmt.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
+				if(e.getErrorCode()==1062) {
+					throw new DatenbankExceptions(DatenbankExceptions.TESTER_EXISTIERT_ERR);
+				}
+				throw new DatenbankExceptions(e,sql,
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			benutzerKonto.setId(id);
