@@ -54,7 +54,7 @@
 <%
 if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 %>
-<form action="DispatcherServlet" method="POST"><input
+<form action="DispatcherServlet" method="GET"><input
 	type="hidden" name="<%=Parameter.anfrage_id%>"
 	value="<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE.name() %>"><input
 	type="submit" value="Neue Studie anlegen"></form>

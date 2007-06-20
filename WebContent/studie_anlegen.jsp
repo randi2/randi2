@@ -8,8 +8,8 @@
 	import="java.util.Iterator" import="java.util.Vector"%>
 <%@page import="de.randi2.controller.*"%><%@page import="de.randi2.utility.*"%>
 <%
-		//	Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
-		//	.getAttribute("aBenutzer")).getRolle().getRollenname();
+		Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
+			.getAttribute("aBenutzer")).getRolle().getRollenname();
 %>
 <html>
 <head>
@@ -24,7 +24,90 @@
 	src="js/ext/adapter/yui/ext-yui-adapter.js"></script>
 <!-- ENDLIBS -->
 <script type="text/javascript" src="js/ext/ext-all.js"></script>
-<script type="text/javascript" src="js/studie_anlegen.js"></script>
+<script>
+Ext.onReady(function(){
+
+	Ext.QuickTips.init();
+	Ext.form.Field.prototype.msgTarget = 'side';
+
+    var form_studie_anlegen = new Ext.form.Form({
+        labelAlign: 'left',
+        labelWidth: 175,
+        url:'DispatcherServlet',
+		buttonAlign: 'right'
+    });
+
+    var studie_name = new Ext.form.TextField({
+        fieldLabel: 'Name der Studie',
+        name: '<%=Parameter.studie.NAME.name() %>',
+        allowBlank:false,
+        width:190
+    });
+
+    var studie_beschreibung = new Ext.form.TextArea({
+        fieldLabel: 'Beschreibung der Studie',
+        name: '<%=Parameter.studie.BESCHREIBUNG.name() %>',
+        allowBlank:false,
+        width:190
+    });
+
+    var studie_startdatum = new Ext.form.DateField({
+        fieldLabel: 'Startdatum',
+        name: '<%=Parameter.studie.STARTDATUM.name() %>',
+        width:90,
+        allowBlank:false,
+		format:'d.m.Y'
+    });
+    
+    var studie_enddatum = new Ext.form.DateField({
+        fieldLabel: 'Startdatum',
+        name: '<%=Parameter.studie.ENDDATUM.name() %>',
+        width:90,
+        allowBlank:false,
+		format:'d.m.Y'
+    });
+
+	var studie_statistiker_boolean = new Ext.form.Checkbox({
+        fieldLabel: 'Statistiker Account anlegen',
+        name: '<%=Parameter.studie.STATISTIKER_BOOL.name() %>'
+    });
+
+    form_studie_anlegen.fieldset(
+        {legend:'Studienangaben'},
+		studie_name,
+		studie_beschreibung,
+		studie_startdatum,
+		studie_enddatum
+	);
+		
+	form_studie_anlegen.addButton('Best&auml;tigen', function(){
+		if (form_studie_anlegen.isValid()) {
+			form_studie_anlegen.submit({
+				params:{
+					action:'submit',
+					<%=Parameter.anfrage_id %>:'<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANLEGEN %>'
+				}, 
+				waitMsg:'Studie wird angelegt...'
+			});
+		}else{
+			Ext.MessageBox.alert('Errors', 'Die Eingaben waren fehlerhaft!');
+		}
+	}, form_studie_anlegen);
+	
+	form_studie_anlegen.addButton('Abbrechen', function(){
+		top.location.href='studie_auswaehlen.jsp';
+	}, form_studie_anlegen);
+	
+	form_studie_anlegen.render('studie_anlegen');
+	
+
+	
+	
+
+});
+
+
+</script>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>

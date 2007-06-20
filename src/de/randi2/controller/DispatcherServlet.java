@@ -336,7 +336,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		String id = (String) request.getParameter("anfrage_id");
 		String idAttribute = (String) request.getAttribute("anfrage_id");
 		// falls ID null dann leite auf den Index weiter
-		if (id == null || id.trim().equals("")) {
+		if ((id == null || id.trim().equals("")) && (idAttribute == null)) {
 			weiterleitungAufIndex(request, response);
 		} else {
 			Logger.getLogger(this.getClass()).debug("[POST]anfrage_id: " + id);
@@ -393,7 +393,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 					.equals(DispatcherServlet.anfrage_id.AKTION_SYSTEM_ENTSPERREN
 							.name())) {
 				if (!isBenutzerAngemeldet(request)) { // Benutzer nicht
-														// angemeldet
+					// angemeldet
 					BenutzerkontoBean anonymous = new BenutzerkontoBean();
 					// FIXME FRAGE LogAktion mit String anstatt
 					// BenutzerkontoBean
@@ -433,7 +433,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 					.equals(DispatcherServlet.anfrage_id.AKTION_SYSTEM_SPERREN
 							.name())) {
 				if (!isBenutzerAngemeldet(request)) { // Benutzer nicht
-														// angemeldet
+					// angemeldet
 					BenutzerkontoBean anonymous = new BenutzerkontoBean();
 					// FIXME FRAGE LogAktion mit String anstatt
 					// BenutzerkontoBean

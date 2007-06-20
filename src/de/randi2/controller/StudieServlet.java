@@ -159,34 +159,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String id = (String) request.getParameter("anfrage_id");
-		String idAttribute = (String) request.getAttribute(id);
-
-		if (idAttribute != null) {
-			id = idAttribute;
-			Logger.getLogger(this.getClass()).debug(id);
-
-		} else if (id != null) {
-			Logger.getLogger(this.getClass()).debug(id);
-			if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
-				request.setAttribute("zugehoerigeZentren", this
-						.getZugehoerigeZentren(request, response));
-				request.setAttribute("nichtZugehoerigeZentren", this
-						.getNichtZugehoerigeZentren(request, response));
-				// Weiterleitung zum Zentrum
-				request.getRequestDispatcher("/zentrum_anzeigen.jsp").forward(
-						request, response);
-
-			}
-		} else {
-			// TODO an dieser Stelle würde ich einfach auf index.jsp
-			// weiterleiten; gibt's andere Vorschläge (lplotni 17. Jun)
-			// request.getRequestDispatcher("DispatcherServlet").forward(request,
-			// response);
-			System.out.println("Die drei Fragezeichen sind beim Getten");
-			System.out.println("Anfrage ID ist " + id);
-
-		}
+		this.doPost(request, response);
+		
 	}
 
 	/**
@@ -285,6 +259,15 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				request.setAttribute("anfrage_id", "ZENTRUM_ANZEIGEN");
 				request.getRequestDispatcher("ZentrumServlet").forward(request,
 						response);
+
+			} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
+				request.setAttribute("zugehoerigeZentren", this
+						.getZugehoerigeZentren(request, response));
+				request.setAttribute("nichtZugehoerigeZentren", this
+						.getNichtZugehoerigeZentren(request, response));
+				// Weiterleitung zum Zentrum
+				request.getRequestDispatcher("/zentrum_anzeigen.jsp").forward(
+						request, response);
 
 			}
 		} else {
