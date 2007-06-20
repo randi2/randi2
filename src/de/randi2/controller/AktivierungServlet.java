@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.randi2.datenbank.DatenbankFactory;
+import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
@@ -53,7 +54,7 @@ public class AktivierungServlet extends javax.servlet.http.HttpServlet implement
 			sAktivierung.setAktivierungsLink(aktivierung);
 			sAktivierung.setFilter(true);
 			sAktivierung = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(sAktivierung).firstElement();
-			long versanddatumPlusGueltigkeit=sAktivierung.getVersanddatum().getTimeInMillis()+Integer.valueOf(Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_GUELTIGKEIT).toString())*60*1000;
+			long versanddatumPlusGueltigkeit=sAktivierung.getVersanddatum().getTimeInMillis()+Integer.valueOf(Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_GUELTIGKEIT).toString())*60*60*1000;
 			long aktuell=System.currentTimeMillis();
 			if(versanddatumPlusGueltigkeit<System.currentTimeMillis()){
 				request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_FEHLER).forward(request, response);
@@ -63,9 +64,11 @@ public class AktivierungServlet extends javax.servlet.http.HttpServlet implement
 				//Status Benutzerkonto umsetzen
 				BenutzerkontoBean aBenutzerkonto=sAktivierung.getBenutzerkonto();
 				aBenutzerkonto.setGesperrt(false);
+				aBenutzerkonto.setBenutzerkontoLogging(Filter.getSystemdummy());
 				aBenutzerkonto=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzerkonto);
 				
 				//Aktivierung loeschen
+				sAktivierung.setBenutzerkontoLogging(Filter.getSystemdummy());
 				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(sAktivierung);
 				
 				request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_OK).forward(request, response);
@@ -78,11 +81,13 @@ public class AktivierungServlet extends javax.servlet.http.HttpServlet implement
 			request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_FEHLER).forward(request, response);
 			e1.printStackTrace();
 		} catch (DatenbankExceptions e) {
+			e.printStackTrace();
 			request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_FEHLER).forward(request, response);
 		}
 		//Aktivierung ist nicht in DB
 		catch(NoSuchElementException e)
 		{
+			e.printStackTrace();
 			request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_FEHLER).forward(request, response);
 		}
 	}
