@@ -18,6 +18,7 @@ import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
+import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -182,6 +183,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				//StudieBean aStudie = new StudieBean(NullKonstanten.DUMMY_ID,);
 				
 			}
+			else if (id.equals(anfrage_id.AKTION_STUDIE_AENDERN.name())) {
+				//Studie soll geaendert werden
+				request.getRequestDispatcher(Jsp.STUDIE_AENDERN).forward(
+						request, response);
+			}
 
 		} else if (id != null) {
 			Logger.getLogger(this.getClass()).debug(id);
@@ -221,18 +227,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 							.forward(request, response);
 				}
 			}
-
+			else if (id.equals(anfrage_id.JSP_STUDIE_AENDERN.name())) {
+				//studieAendern.jsp soll angezeigt werden
+				studieAendern(request, response);
+			}
 		} 
-		else if (id.equals(anfrage_id.JSP_STUDIE_AENDERN.name())) {
-			//studieAendern.jsp soll angezeigt werden
-			studieAendern(request, response);
-		}
-		
-		else if (id.equals(anfrage_id.AKTION_STUDIE_AENDERN.name())) {
-			//Studie soll geaendert werden
-			request.getRequestDispatcher(Jsp.STUDIE_AENDERN).forward(
-					request, response);
-		}
 		else {
 			// TODO an dieser Stelle würde ich einfach auf index.jsp
 			// weiterleiten; gibt's andere Vorschläge (lplotni 17. Jun)
@@ -412,6 +411,56 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		}
 		return null;
 	}
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException  
+	 */
+	
+	private void studieStatus(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException{
+		
+		if (request.getParameter("loeschenA") == null) {
+
+//			 Alle aenderbaren Attribute des request inititalisieren
+			String studienName = request.getParameter("Name der Studie");
+			String status = request.getParameter("Status");
+			Studie.Status statusenum = null;
+			String beschreibung = request.getParameter("Beschreibung der Studie");
+			String startDatum = request.getParameter("Startdatum");
+			String endDatum = request.getParameter("Enddatum");
+			String studienprotokoll = request.getParameter("Studienprotokoll");
+			String studienarme=requestParameter.ARME_DER_STUDIEN.name();
+			String eigenschaften = request.getParameter("Randomisationsbezogene Eigenschaften");
+			String institution = request.getParameter("Leitende Institution");
+			String studienleiter= request.getParameter("Verantwortliche(r) Studienleiter(in)");
+
+		
+			
+			// Konvertierung String enum
+			for(Studie.Status s : Studie.Status.values()){
+				if (status.equals(status.toString())) {
+					statusenum = s;
+					break;
+				}
+			}
+			
+			StudieBean aStudieBean = new StudieBean();
+			
+			try {
+				aStudieBean.setStatus(statusenum);
+			
+			
+			} catch (StudieException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		}
+	}
 
 	/**
 	 * Aenderbare Daten einer bereits in der Datenbank bestehenden Studie
@@ -460,6 +509,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 						aStudieBean.setRandomisationseigenschaften(eigenschaften);
 						aStudieBean.setInstitution(institution);
 						aStudieBean.setStudienleiter(studienleiter);
+						
 						/**aStudieBean.getBenutzerkonto().setName(studienName);
 						aStudieBean.getBenutzerkonto().setStudienprotokollPfad(studienprotokoll);
 						//aStudieBean.getBenutzerkonto().setStudienarme(studienarme);
