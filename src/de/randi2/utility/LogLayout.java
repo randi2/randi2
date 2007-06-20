@@ -44,6 +44,8 @@ public class LogLayout extends Layout {
 	public static final String RECHTEVERLETZUNG = OBERKLASSE
 			+ "Rechteverletzung";
 
+	public static final String NACHRICHTENVERSAND = OBERKLASSE + "Nachrichtversand";
+	
 	/**
 	 * Standartgroesse des String-Buffers fuer das Log.
 	 */
