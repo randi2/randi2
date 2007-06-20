@@ -33,13 +33,12 @@
 <% } %> <% if (aRolleMenue==Rolle.Rollen.STUDIENLEITER|| aRolleMenue==Rolle.Rollen.ADMIN) { %>
 <ul>
 	<li class="top_m">Zentrenverwaltung</li>
-	<li><a class="sub_ZV n entry" href="StudieServlet">Zentren
-	anzeigen</a></li>
-	<% if (aRolleMenue==Rolle.Rollen.ADMIN) { %>
-	<li><form action="StudieServlet" method="POST">
-	<input type="hidden" name="anfrage_id" value="<%=StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name()%>" />
-	<input type="submit" name="" value="Zentrum anzeigen"/></form></li>
-	<% } %>
+	<li>
+	<a class="sub_BV n" href="StudieServlet?anfrage_id=<%=StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name() %>">Zentren anzeigen</a>
+	</li>
+	
+	
+	<%-- } --%>
 </ul>
 <% } %> <% if (aRolleMenue!=Rolle.Rollen.SYSOP) { %>
 <ul>
