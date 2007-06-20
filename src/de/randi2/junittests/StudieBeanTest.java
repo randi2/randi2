@@ -99,7 +99,8 @@ public class StudieBeanTest {
 		
 		Vector<StrataBean> aTestStrata = new Vector<StrataBean>();
 
-		aTestStrata.add(new StrataBean(12, hash));
+		// TODO an neues Strata anpassen
+		// aTestStrata.add(new StrataBean(12, hash));
 		studieBean.setStrata(aTestStrata);
 		
 		Vector<StudienarmBean> aTestStudienarm = new Vector<StudienarmBean>();
@@ -401,7 +402,8 @@ public class StudieBeanTest {
 			
 			Vector<StrataBean> aTestStrata = new Vector<StrataBean>();
 
-			aTestStrata.add(new StrataBean(12, hash));
+			// TODO an neues Strata anpassen
+			//aTestStrata.add(new StrataBean(12, hash));
 			studieBean.setStrata(aTestStrata);
 			
 			Vector<StudienarmBean> aTestStudienarm = new Vector<StudienarmBean>();
@@ -486,7 +488,8 @@ public class StudieBeanTest {
 
 			try {
 
-				strata.add(new StrataBean(i, hash));
+				// TODO an neues Strata anpassen
+				//strata.add(new StrataBean(i, hash));
 
 			} catch (Exception e) {
 
