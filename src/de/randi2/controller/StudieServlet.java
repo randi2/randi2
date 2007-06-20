@@ -18,12 +18,10 @@ import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
-import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Jsp;
-import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.Parameter;
 
 /**
@@ -142,11 +140,21 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		super();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Diese Methode nimmt HTTP-GET-Request gemaess HTTP-Servlet Definition
+	 * entgegen. Hier werden Anfragen verarbeitet, die Zentren betreffen.
 	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
-	 *      javax.servlet.http.HttpServletResponse)
+	 * @param request
+	 *            Der Request fuer das Servlet.
+	 * @param response
+	 *            Der Response Servlet.
+	 * @throws IOException
+	 *             Falls Fehler in den E/A-Verarbeitung.
+	 * @throws ServletException
+	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+	 *      HttpServletResponse response)
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request,
@@ -460,8 +468,9 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 * @throws ServletException
 	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
 	 */
-	private void studieStatus(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
-//TODO implementieren
+	private void studieStatus(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO implementieren
 		StudieBean aStudieBean = new StudieBean();
 		Studie.Status statusenum = null;
 		String statusStudie = request.getParameter((Parameter.studie.STATUS)
