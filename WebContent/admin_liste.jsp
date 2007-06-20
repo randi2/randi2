@@ -50,7 +50,7 @@
 	<th width="20%"> Aktionen </th>
 </tr>
 <%
-Iterator listeBenutzer = ((Vector)request.getAttribute("listeBenutzer")).iterator();
+	Iterator listeBenutzer = ((Vector)request.getAttribute("listeBenutzer")).iterator();
 	Iterator listePerson = ((Vector)request.getAttribute("listePerson")).iterator();
 	Iterator listeZentrum = ((Vector)request.getAttribute("listeZentrum")).iterator();
 	String reihe = "tblrow1"; 

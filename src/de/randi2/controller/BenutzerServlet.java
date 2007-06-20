@@ -157,6 +157,12 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 		// if
 	}// doPost
+	
+	@Override
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
+	}
 
 	/**
 	 * Die Methode aendert die Benutzerdaten bei einem bereits bestehenden

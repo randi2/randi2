@@ -18,9 +18,9 @@
 	&auml;ndern</a></li>
 	<% } %>
 	<% if (aRolleMenue==Rolle.Rollen.ADMIN) { %>
-	<li><form action="DispatcherServlet" method="POST">
-	<input type="hidden" name="anfrage_id" value="<%=DispatcherServlet.anfrage_id.BENUTZER_SUCHEN.name()%>" />
-	<input type="submit" name="" value="Benutzer anzeigen"/></form></li>
+	<li>
+	<a class="sub_BV n" href="DispatcherServlet?anfrage_id=<%=DispatcherServlet.anfrage_id.BENUTZER_SUCHEN.name() %>">Benutzer suchen</a>
+	</li>
 	<% } %>
 	<% if (aRolleMenue==Rolle.Rollen.STUDIENLEITER) { %>
 	<li><a class="sub_BV n" href="studienaerzte_liste.jsp">Studien&auml;rzte
