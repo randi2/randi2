@@ -177,18 +177,54 @@ public class Parameter {
 		 */
 		GESPERRT
 	}
-	
+	/**
+	 * Attribute des StudieBeans.
+	 *
+	 */
 	public enum studie {
-		
+		/**
+		 * Attribut der Klasse StudieBean. Details siehe {@link StudieBean}
+		 */
 		NAME,
+		/**
+		 * Attribut der Klasse StudieBean. Details siehe {@link StudieBean}
+		 */
 		BESCHREIBUNG,
+		/**
+		 * Attribut der Klasse StudieBean. Details siehe {@link StudieBean}
+		 */
 		STARTDATUM,
+		/**
+		 * Attribut der Klasse StudieBean. Details siehe {@link StudieBean}
+		 */
 		ENDDATUM,
+		/**
+		 * Attribut der Klasse StudieBean. Details siehe {@link StudieBean}
+		 */
 		STUDIENPROTOKOLL,
+		/**
+		 * Attribut der Klasse StudieBean. Details siehe {@link StudieBean}
+		 */
 		STATISTIKER_BOOL,
+		/**
+		 * Attribut der Klasse StudieBean. Details siehe {@link StudieBean}
+		 */
 		ARME_STUDIE,
+		/**
+		 * Attribut der Klasse StudieBean. Details siehe {@link StudieBean}
+		 */
 		RANDOMISATIONSEIGENSCHAFTEN,
+		/**
+		 * Attribut der Klasse StudieBean. Details siehe {@link StudieBean}
+		 */
 		INSTITUT,
+		/**
+		 * Attribut der Klasse StudieBean. Details siehe {@link StudieBean}
+		 */
+		STATUS,
+		/**
+		 * Attribut der Klasse StudieBean. Details siehe {@link StudieBean}
+		 */
 		STUDIENLEITER;
 		
 	}
