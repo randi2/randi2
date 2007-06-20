@@ -69,11 +69,10 @@ public class PatientBean extends Filter {
 	 */
 	private long aBenutzerkontoId = NullKonstanten.DUMMY_ID;
 
-	/*
-	 * TODO In diesem Bean werden noch die Strate-Eigenschaften des Patienten
-	 * gespeicher. Da aber die Vorgehensweise bzgl. der Stratas noch nicht
-	 * geklaert wurde, koennte es noch nicht umgesetzt werden. (lplotni)
+	/**
+	 * Serialisierter String, der die Strata Kombination dieses Patienten repraesentiert
 	 */
+	private String strata_gruppe=null;
 
 	/**
 	 * Standardkonstruktor von PatientBean mit Aufruf der Superklasse.
@@ -110,7 +109,7 @@ public class PatientBean extends Filter {
 	public PatientBean(long id, String initialen, char geschlecht,
 			GregorianCalendar geburtsdatum, int performanceStatus,
 			GregorianCalendar datumAufklaerung, int koerperoberflaeche,
-			long studienarmId, long benutzerkontoId) throws PatientException,
+			long studienarmId, long benutzerkontoId, String strataGruppe) throws PatientException,
 			DatenbankExceptions {
 
 		this.setId(id);
@@ -122,6 +121,7 @@ public class PatientBean extends Filter {
 		this.setKoerperoberflaeche(koerperoberflaeche);
 		this.setStudienarmId(studienarmId);
 		this.setBenutzerkontoId(benutzerkontoId);
+		this.setStrata_gruppe(strataGruppe);
 	}
 
 	/**
@@ -473,6 +473,23 @@ public class PatientBean extends Filter {
 			return false;
 		}
 
+	}
+
+	/**
+	 * Liefert den serialisierten String mit der Strata Kombination des Patienten
+	 * @return
+	 * 		Strata Kombination
+	 */
+	public String getStrata_gruppe() {
+		return strata_gruppe;
+	}
+
+	/**
+	 * Setzt die Stratagruppe
+	 * @param strata_gruppe
+	 */
+	public void setStrata_gruppe(String strata_gruppe) {
+		this.strata_gruppe = strata_gruppe;
 	}
 
 	/**

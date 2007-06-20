@@ -68,13 +68,13 @@ public class StudienarmBeanTest {
 
 		aTestdaten.add(new PatientBean(213, "adsd", 'm', new GregorianCalendar(
 				2003, 3, 17), 3, new GregorianCalendar(2003, 3, 17), 3,
-				aStudienarmBean.getId(), 190));
+				aStudienarmBean.getId(), 190,null));
 		aTestdaten.add(new PatientBean(214, "adsd", 'm', new GregorianCalendar(
 				2003, 3, 17), 3, new GregorianCalendar(2003, 3, 17), 3,
-				aStudienarmBean.getId(), 190));
+				aStudienarmBean.getId(), 190,null));
 		aTestdaten.add(new PatientBean(215, "adsd", 'm', new GregorianCalendar(
 				2003, 3, 17), 3, new GregorianCalendar(2003, 3, 17), 3,
-				aStudienarmBean.getId(), 190));
+				aStudienarmBean.getId(), 190,null));
 
 		aStudienarmBean.setPatienten(aTestdaten);
 	}
@@ -216,7 +216,7 @@ public class StudienarmBeanTest {
 				aPatienten.add(new PatientBean(i, "abc" + i, 'm',
 						new GregorianCalendar(1983, 3, i), 3,
 						new GregorianCalendar(1983, 3, i), 5, aStudienarmBean
-								.getId(), 190));
+								.getId(), 190,null));
 
 			} catch (Exception e) {
 				System.out.println(e.getMessage());

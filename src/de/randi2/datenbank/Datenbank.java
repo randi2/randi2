@@ -2,7 +2,6 @@ package de.randi2.datenbank;
 
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,10 +16,6 @@ import java.util.Locale;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
-import org.logicalcobwebs.proxool.ProxoolException;
-import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
-
-import com.meterware.httpunit.HttpUnitUtils;
 
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.AktivierungException;
@@ -114,12 +109,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		/**
 		 * Die Repräsentation der Strata_Auspraegungs-Tabelle aus der Datenbank.
 		 */
-		STRATA_AUSPRAEGUNG("Strata_Auspraegung"),
-		/**
-		 * Die Repräsentation der Strata_Werte_has_Zentrum-Tabelle aus der
-		 * Datenbank (n:m-Relation).
-		 */
-		STRATA_PATIENT("Strata_Werte_has_Patient");
+		STRATA_AUSPRAEGUNG("Strata_Auspraegung");
 
 		/**
 		 * Der Name der Tabellen.
@@ -575,7 +565,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 		/**
 		 * Der Performancestatus.
 		 */
-		PERFORMANCESTATUS("performancestatus");
+		PERFORMANCESTATUS("performancestatus"),
+		/**
+		 * Serialisierter String mit der fuer diesen Patienten spezifischen Stratakombination
+		 */
+		STRATA_GRUPPE("strata_gruppe");
 
 		/**
 		 * Name eines Feldes.
@@ -2835,7 +2829,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 								aufklaerungsdatum, 
 								rs.getInt(FelderPatient.KOERPEROBERFLAECHE.toString()),
 								rs.getLong(FelderPatient.STUDIENARM.toString()),
-								rs.getLong(FelderPatient.BENUTZER.toString()));
+								rs.getLong(FelderPatient.BENUTZER.toString()),
+								rs.getString(FelderPatient.STRATA_GRUPPE.toString()));
 				patienten.add(pat);				
 			}
 			pstmt.close();
@@ -3652,7 +3647,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 									.getInt(FelderPatient.KOERPEROBERFLAECHE
 											.toString()),
 							rs.getInt(FelderPatient.STUDIENARM.toString()), rs
-									.getLong(FelderPatient.BENUTZER.toString()));
+									.getLong(FelderPatient.BENUTZER.toString()),rs.getString(FelderPatient.STRATA_GRUPPE.toString()));
 
 				} catch (BenutzerException e) {
 					e.printStackTrace();
