@@ -15,10 +15,7 @@ import org.apache.log4j.PropertyConfigurator;
  */
 public class Log4jInit extends HttpServlet {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	
 
 	/**
 	 * Ermittelt den Pfad der Konfigurationsdatei und initialisiert die Log4j

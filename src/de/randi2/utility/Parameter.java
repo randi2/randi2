@@ -16,7 +16,7 @@ public class Parameter {
 	/**
 	 * Konstante fuer die Anfrage-ID, anhande der die Herkunft aller Anfragen ermittelt wird.
 	 */
-	public static final String anfrage_id="anfrage_id";
+	public static final String anfrageID="anfrage_id";
 	
 	/**
 	 * Attribute des Zentrumbeans.

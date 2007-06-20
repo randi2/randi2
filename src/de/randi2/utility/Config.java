@@ -1,15 +1,10 @@
 package de.randi2.utility;
 
+import java.io.FileOutputStream;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
-
-import com.meterware.httpunit.HttpUnitUtils;
-
-import de.randi2.datenbank.Datenbank;
-
-import java.io.FileOutputStream;
 
 
 /**
