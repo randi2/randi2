@@ -182,13 +182,18 @@ public class AutomatischeNachricht extends Nachricht {
      *         Anrede ersetzt ist.
      */
     private String setzeAnrede(PersonBean empfaenger, String text) {
+    	String titel="";
+    	if(!empfaenger.getTitel().equals(PersonBean.Titel.KEIN_TITEL))
+    	{
+    		titel=empfaenger.getTitel().toString();
+    	}
         if (empfaenger.getGeschlecht() == 'w') {
             return text.replace("#Anrede#", "Sehr geehrte Frau "
-                    + empfaenger.getTitel().toString() + " "
+                    + titel + " "
                     + empfaenger.getNachname());
         } else {
             return text.replace("#Anrede#", "Sehr geehrter Herr "
-                    + empfaenger.getTitel().toString() + " "
+                    + titel + " "
                     + empfaenger.getNachname());
         }
     }

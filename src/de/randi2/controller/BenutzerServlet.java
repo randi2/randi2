@@ -666,6 +666,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			aPerson.setTelefonnummer(telefon);
 			aPerson.setHandynummer(handynummer);
 			aPerson.setFax(fax);
+			aPerson.setBenutzerkontoLogging(Filter.getSystemdummy());
 			aPerson = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 					aPerson);
 
@@ -683,6 +684,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			aBenutzerkonto.setErsterLogin(null);
 			aBenutzerkonto.setLetzterLogin(null);
 			aBenutzerkonto.setGesperrt(true);
+			aBenutzerkonto.setBenutzerkontoLogging(Filter.getSystemdummy());
 			aBenutzerkonto = Benutzerkonto.anlegenBenutzer(aBenutzerkonto)
 					.getBenutzerkontobean();
 			request.getRequestDispatcher("/benutzer_anlegen_vier.jsp").forward(
@@ -694,6 +696,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					NullKonstanten.DUMMY_ID, new GregorianCalendar(),
 					aBenutzerkonto.getId(), KryptoUtil.getInstance()
 							.getAktivierungslink());
+			aktivierung.setBenutzerkontoLogging(Filter.getSystemdummy());
 			aktivierung = DatenbankFactory.getAktuelleDBInstanz()
 					.schreibenObjekt(aktivierung);
 			AutomatischeNachricht aktivierungMail = new AutomatischeNachricht(
@@ -701,7 +704,16 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			aktivierungMail.senden();
 
 			// Falls ein Fehler aufgetreten ist, request wieder auffüllen
-		} catch (BenutzerException e) {
+		} catch (Exception e) {
+
+			if (e instanceof BenutzerException) {
+
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+
+			} else if (e instanceof DatenbankExceptions && e.getMessage().equals(DatenbankExceptions.TESTER_EXISTIERT_ERR)) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Benutzer ist bereits vorhanden. Bitte anderen Benutzernamen w&auml;hlen.");
+			} else
+				throw new SystemException("Fehler bei Aktivierung");
 
 			request.setAttribute("Vorname", vorname);
 			request.setAttribute("Nachname", nachname);
@@ -712,22 +724,13 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			}
 			request.setAttribute("Titel", titelenum);
 			request.setAttribute("Passwort", request.getParameter("Passwort"));
-			request.setAttribute("Passwort_wh", request
-					.getParameter("Passwort_wh"));
+			request.setAttribute("Passwort_wh", request.getParameter("Passwort_wh"));
 			request.setAttribute("Email", email);
 			request.setAttribute("Telefon", telefon);
 			request.setAttribute("Fax", fax);
 			request.setAttribute("Handy", handynummer);
 			request.setAttribute("Institut", institut);
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-					.getMessage());
-			request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(
-					request, response);
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-		} catch (SystemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
 		}
 
 	}
