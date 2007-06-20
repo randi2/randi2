@@ -6,36 +6,17 @@
 	import="java.text.SimpleDateFormat" import="java.util.*"
 	import="de.randi2.controller.StudieServlet"
 	%>
-
-
-<%
-			StudieBean aSession = (StudieBean) request.getSession()
-			.getAttribute(
-			DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
-			.name());
-	Vector<ZentrumBean> zugehoerigeZentren = aSession.getZentren();
-	ZentrumBean zb = new ZentrumBean();
-	zb.setIstAktiviert(true);
-	zb.setFilter(true);
-
-	Vector<ZentrumBean> zentrenliste = Zentrum.suchenZentrum(zb);
-
-	for (int y = 0; y < zentrenliste.size(); y++) {
-		for (int x = 0; x < zugehoerigeZentren.size(); x++) {
-			if (zentrenliste.elementAt(y).equals(
-			zugehoerigeZentren.elementAt(x))) {
-		zentrenliste.removeElementAt(y);
-			}
-		}
-	}
-%>
-
+<% 	Vector<ZentrumBean> zugehoerigeZentren = (Vector<ZentrumBean>) request.getAttribute("zugehoerigeZentren"); 
+ 	Vector<ZentrumBean> nichtZugehoerigeZentren = (Vector<ZentrumBean>)request.getAttribute("nichtZugehoerigeZentren"); 
+ 	StudieBean aSession = (StudieBean) request.getSession().getAttribute(
+				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name());%>
+ 	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="de.randi2.utility.Parameter"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Randi2 :: Benutzerverwaltung</title>
+<title>Randi2 :: Benutzerverwaltung </title>
 <script type="text/javascript">
 <!--
 	function hideFilter(){
@@ -140,17 +121,17 @@ suchen </b></legend><br />
 			}
 		}
 		i = 0;
-		if (!zentrenliste.isEmpty()) {
-			while (i < zentrenliste.size()) {
-				if (zentrenliste.elementAt(i).getIstAktiviert()) {
+		if (!nichtZugehoerigeZentren.isEmpty()) {
+			while (i < nichtZugehoerigeZentren.size()) {
+				if (nichtZugehoerigeZentren.elementAt(i).getIstAktiviert()) {
 			aktiv = "aktiv";
 				} else {
 			aktiv = "inaktiv";
 				}
 	%>
 	<tr class=<%=reihe %>>
-		<td><%=zentrenliste.elementAt(i).getInstitution()%></td>
-		<td><%=zentrenliste.elementAt(i).getAbteilung()%></td>
+		<td><%=nichtZugehoerigeZentren.elementAt(i).getInstitution()%></td>
+		<td><%=nichtZugehoerigeZentren.elementAt(i).getAbteilung()%></td>
 		<td><%=aktiv%></td>
 		<td>
 		<%
