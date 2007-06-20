@@ -305,21 +305,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Logger.getLogger(this.getClass()).debug("Request, Typ 'GET' empfangen");
-
-		String id = (String) request.getParameter("anfrage_id");
-
-		if (isBenutzerAngemeldet(request) && id != null) {
-//			 wurde eine Id mitgesendet _und_ der benutzer ist angemeldet
-			Logger.getLogger(this.getClass()).debug("[GET]anfrage_id: " + id);
-			doPost(request, response);
-		} else { /*
-					 * keine anfrage_id empfangen oder der benutzer ist nicht
-					 * angemeldet -> Weiterleitung auf den entsprechenden Index
-					 */
-			weiterleitungAufIndex(request, response);
-		}
-
+		doPost(request, response);
 	}
 
 	// TODO Bitte Kommentar ueberpruefen und ggf. anpassen.
@@ -344,17 +330,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 		String id = (String) request.getParameter("anfrage_id");
 		String idAttribute = (String) request.getAttribute("anfrage_id");
-
-		Logger.getLogger(this.getClass()).debug("[POST]anfrage_id: " + id);
-
+		//falls ID null dann leite auf den Index weiter
 		if (id == null) {
-			/*
-			 * ist keine ID gesetzt, so wird auf doGet umgeleitet Weitere Logik
-			 * dort --Btheel
-			 */
-			doGet(request, response);
-			Logger.getLogger(this.getClass()).debug("Anfrage-Id == null, Anfrage nach doGet umleiten");
+			weiterleitungAufIndex(request, response);
 		}
+		Logger.getLogger(this.getClass()).debug("[POST]anfrage_id: " + id);
 		if (idAttribute != null) {
 			id = idAttribute;
 		}
@@ -369,13 +349,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		// Benutzer registrieren
 		// Schritt 1.1: STARTSEITE->DISCLAIMER
 		else if (id.equals(DispatcherServlet.anfrage_id.JSP_INDEX_BENUTZER_REGISTRIEREN_EINS.name())) {
-
 			request.getRequestDispatcher("/benutzer_anlegen_eins.jsp").forward(request, response);
-
 		}
 		// Schritt 2.1:DISCLAIMER->ZENTRUMAUSWAHL
 		else if (id.equals(DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI.name())) {
-
 			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI");
 			request.getRequestDispatcher("ZentrumServlet").forward(request, response);
 		}
@@ -385,7 +362,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		else if (id.equals(DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI.name())) {
 			request.setAttribute("anfrage_id", "CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI");
 			request.getRequestDispatcher("ZentrumServlet").forward(request, response);
-
 		}
 
 		// Schritt 4: BENUTZERDATEN_EINGEBEN->
