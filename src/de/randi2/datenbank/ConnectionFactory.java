@@ -8,8 +8,6 @@ import org.apache.log4j.Logger;
 import org.logicalcobwebs.proxool.ProxoolException;
 import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 
-import sun.nio.cs.ext.DoubleByteEncoder;
-
 import com.meterware.httpunit.HttpUnitUtils;
 
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
