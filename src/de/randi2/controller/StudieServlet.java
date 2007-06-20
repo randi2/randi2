@@ -24,6 +24,7 @@ import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Jsp;
 import de.randi2.utility.NullKonstanten;
+import de.randi2.utility.Parameter;
 
 /**
  * Diese Klasse repraesentiert das STUDIESERVLET, welches Aktionen an die
@@ -97,12 +98,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Liste der gefundenen Studien
 		 */
-		LISTE_DER_STUDIEN("listeStudien"),
-		
-		/**
-		 * Arme der gefundenen Studien
-		 */
-		ARME_DER_STUDIEN("studienarme");
+		LISTE_DER_STUDIEN("listeStudien");
+	
 
 		/**
 		 * String Version des Parameters
@@ -422,44 +419,34 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	private void studieStatus(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException{
 		
-		if (request.getParameter("loeschenA") == null) {
-
-//			 Alle aenderbaren Attribute des request inititalisieren
-			String studienName = request.getParameter("Name der Studie");
-			String status = request.getParameter("Status");
-			Studie.Status statusenum = null;
-			String beschreibung = request.getParameter("Beschreibung der Studie");
-			String startDatum = request.getParameter("Startdatum");
-			String endDatum = request.getParameter("Enddatum");
-			String studienprotokoll = request.getParameter("Studienprotokoll");
-			String studienarme=requestParameter.ARME_DER_STUDIEN.name();
-			String eigenschaften = request.getParameter("Randomisationsbezogene Eigenschaften");
-			String institution = request.getParameter("Leitende Institution");
-			String studienleiter= request.getParameter("Verantwortliche(r) Studienleiter(in)");
-
-		
-			
-			// Konvertierung String enum
-			for(Studie.Status s : Studie.Status.values()){
-				if (status.equals(status.toString())) {
-					statusenum = s;
-					break;
-				}
-			}
-			
-			StudieBean aStudieBean = new StudieBean();
-			
-			try {
-				aStudieBean.setStatus(statusenum);
-			
-			
-			} catch (StudieException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-		}
+//		if (request.getParameter("") == null) {
+//
+////			 Alle aenderbaren Attribute des request inititalisieren
+//		
+//
+//		
+//			
+//			// Konvertierung String enum
+//			for(Studie.Status s : Studie.Status.values()){
+//				if (status.equals(status.toString())) {
+//					statusenum = s;
+//					break;
+//				}
+//			}
+//			
+//			StudieBean aStudieBean = new StudieBean();
+//			
+//			try {
+//				aStudieBean.setStatus(statusenum);
+//			
+//			
+//			} catch (StudieException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			
+//			
+//		}
 	}
 
 	/**
@@ -481,15 +468,10 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		if (request.getParameter("loeschenA") == null) {			
 			
 			// Alle aenderbaren Attribute des request inititalisieren
-			String studienName = request.getParameter("Name der Studie");
-			String beschreibung = request.getParameter("Beschreibung der Studie");
-			String startDatum = request.getParameter("Startdatum");
-			String endDatum = request.getParameter("Enddatum");
-			String studienprotokoll = request.getParameter("Studienprotokoll");
-			String studienarme=requestParameter.ARME_DER_STUDIEN.name();
-			String eigenschaften = request.getParameter("Randomisationsbezogene Eigenschaften");
-			String institution = request.getParameter("Leitende Institution");
-			String studienleiter= request.getParameter("Verantwortliche(r) Studienleiter(in)");
+			String startDatum = request.getParameter((Parameter.studie.STARTDATUM).name());
+			String endDatum = request.getParameter((Parameter.studie.ENDDATUM).name());
+			String studienarme=request.getParameter((Parameter.studie.ARME_STUDIE).name());
+			
 			
 			
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
@@ -500,37 +482,19 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					Vector<StudienarmBean> studienArme = aStudieBean.getStudienarme();
 					GregorianCalendar aStartDatum = aStudieBean.getStartDatum();
 					GregorianCalendar aEndDatum = aStudieBean.getEndDatum();
-					aStudieBean.setStudienZeitraum(aStartDatum, aEndDatum);
-					aStudieBean.setBeschreibung(beschreibung);
+					aStudieBean.setStudienZeitraum(aStartDatum,aEndDatum);
+					aStudieBean.setBeschreibung(request.getParameter((Parameter.studie.BESCHREIBUNG).name()));
 					if (aStudieBean.getBenutzerkonto()!= null) {
-						aStudieBean.setName(studienName);
-						aStudieBean.setStudienprotokollPfad(studienprotokoll);
+						aStudieBean.setName(request.getParameter((Parameter.studie.NAME).name()));
+						aStudieBean.setStudienprotokollPfad(request.getParameter((Parameter.studie.STUDIENPROTOKOLL).name()));
 						aStudieBean.setStudienarme(studienArme);
-						aStudieBean.setRandomisationseigenschaften(eigenschaften);
-						aStudieBean.setInstitution(institution);
-						aStudieBean.setStudienleiter(studienleiter);
+						aStudieBean.setRandomisationseigenschaften(request.getParameter((Parameter.studie.RANDOMISATIONSEIGENSCHAFTEN).name()));
+						aStudieBean.setInstitution(request.getParameter((Parameter.studie.INSTITUT).name()));
+						aStudieBean.setStudienleiter(request.getParameter((Parameter.studie.STUDIENLEITER).name()));
 						
-						/**aStudieBean.getBenutzerkonto().setName(studienName);
-						aStudieBean.getBenutzerkonto().setStudienprotokollPfad(studienprotokoll);
-						//aStudieBean.getBenutzerkonto().setStudienarme(studienarme);
-						aStudieBean.getBenutzerkonto().setRandomisationseigenschaften(eigenschaften);
-						aStudieBean.getBenutzerkonto().setInstitution(institution);
-						aStudieBean.getBenutzerkonto().setStudienleiter(studienleiter);*/
 						DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 								aStudieBean.getBenutzerkonto());
-					} else {
-						BenutzerkontoBean bBenutzer = new BenutzerkontoBean();
-						/**bBenutzer.setName(studienName);
-						bBenutzer.setStudienprotokollPfad(studienprotokoll);
-						//bBenutzer.setStudienarme(studienarme);
-						bBenutzer.setRandomisationseigenschaften(eigenschaften);
-						bBenutzer.setInstitution(institution);
-						bBenutzer.setStudienleiter(studienleiter);
-						*/
-						bBenutzer = DatenbankFactory.getAktuelleDBInstanz()
-						.schreibenObjekt(bBenutzer);
-						aStudieBean.setBenutzerkontoId(aBenutzer.getId());
-						}
+					}
 					
 				} catch (Exception e) {
 					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
