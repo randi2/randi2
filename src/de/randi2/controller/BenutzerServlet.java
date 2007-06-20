@@ -787,15 +787,18 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					gesuchtPerson = true;
 					if(!gesuchtKonto) {
 						it_P = personVec.iterator();
+						it_B = benutzerVec.iterator();
 						
-						while(counter <= benutzerVec.size()) {
+						while(it_B.hasNext()) {
 							bKonto = benutzerVec.elementAt(counter);
-							counter++;
+							
 							while(it_P.hasNext()){
 								person = it_P.next();
 								if(bKonto.getBenutzerId()!=person.getId()) {
 									benutzerVec.remove(bKonto);
-									counter--;
+								} else {
+									counter++;
+									it_B.next();
 								}
 							}
 							it_P = personVec.iterator();
@@ -817,15 +820,18 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					}
 					else if(!gesuchtPerson) {
 						it_P = personVec.iterator();
+						it_B = benutzerVec.iterator();
 						
-						while(counter <= benutzerVec.size()) {
+						while(it_B.hasNext()) {
 							bKonto = benutzerVec.elementAt(counter);
-							counter++;
+
 							while(it_P.hasNext()){
 								person = it_P.next();
 								if(bKonto.getBenutzerId()!=person.getId()) {
 									benutzerVec.remove(bKonto);
-									counter--;
+								} else {
+									counter++;
+									it_B.next();
 								}
 							}
 							it_P = personVec.iterator();
