@@ -585,7 +585,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 								.name());
 				request.getRequestDispatcher("BenutzerServlet").forward(
 						request, response);
-			}
+			} else
 			if (id.equals(DispatcherServlet.anfrage_id.JSP_SYSTEM_SPERREN
 					.name())) {
 				weiterleitungSystemSperrung(request, response);
