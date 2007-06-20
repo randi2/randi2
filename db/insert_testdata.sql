@@ -7,10 +7,10 @@ values ('Hess','Frank','Prof.','m','07131-1231232',null,null,'frank.hess@hs-heil
         ('Dampf','Hans','Prof. Dr.','m','07131-123456',null,null,'hans.damp@allenGassen.de');
 
 #Passwoerter Zentren:
-		# Nch Knochen: nch1!$knochen80
-		# Hno Nase: hno1!$nase80
-		# Mzk Zahn: mzk1!$zahn80
-		# Paed Kind: paed1!$kind80
+        # Nch Knochen: nch1!$knochen80
+        # Hno Nase: hno1!$nase80
+        # Mzk Zahn: mzk1!$zahn80
+        # Paed Kind: paed1!$kind80
 
 
 insert into Zentrum (Person_personenID,institution,abteilungsname,ort,plz,strasse,hausnummer,passwort,aktiviert) 
@@ -75,11 +75,6 @@ values('1','10'),
         ('3','30'),
         ('4','40');
 
-insert into Strata_Werte_has_Patient(Strata_Auspraegung_strata_WerteID,Patient_patientenID) 
-values('1','1'),
-        ('2','2'),
-        ('3','3'),
-        ('4','4');
 
 insert into Studie_has_Zentrum(Studie_studienID, Zentrum_zentrumsID)
 values('1','1'),
