@@ -348,7 +348,8 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			LogAktion aktion = new LogAktion(
 					"Nachricht versendet an Personen: "+buffer.toString(), (BenutzerkontoBean)request.getSession().getAttribute(
 					"aBenutzer"));
-			Logger.getLogger(LogLayout.NACHRICHTENVERSAND).info(aktion);
+			//TODO Die untere Konstante gibt es in der LogLayout Klasse nicht - bitte verbessern (lplotni 20. Juni)
+			//Logger.getLogger(LogLayout.NACHRICHTENVERSAND).info(aktion);
 
 		} catch (Exception e) {
 			/*
