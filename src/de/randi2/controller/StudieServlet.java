@@ -159,12 +159,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String id = (String) request
-				.getParameter(DispatcherServlet.requestParameter.ANFRAGE_Id
-						.name());
-		String idAttribute = (String) request
-				.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
-						.name());
+		String id = (String) request.getParameter("anfrage_id");
+		String idAttribute = (String) request.getAttribute(id);
 
 		if (idAttribute != null) {
 			id = idAttribute;
@@ -173,14 +169,23 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		} else if (id != null) {
 			Logger.getLogger(this.getClass()).debug(id);
 			if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
-				// Aufruf der Methode
+				request.setAttribute("zugehoerigeZentren", this
+						.getZugehoerigeZentren(request, response));
+				request.setAttribute("nichtZugehoerigeZentren", this
+						.getNichtZugehoerigeZentren(request, response));
+				// Weiterleitung zum Zentrum
+				request.getRequestDispatcher("/zentrum_anzeigen.jsp").forward(
+						request, response);
+
 			}
 		} else {
 			// TODO an dieser Stelle würde ich einfach auf index.jsp
 			// weiterleiten; gibt's andere Vorschläge (lplotni 17. Jun)
 			// request.getRequestDispatcher("DispatcherServlet").forward(request,
 			// response);
-			System.out.println("???");
+			System.out.println("Die drei Fragezeichen sind beim Getten");
+			System.out.println("Anfrage ID ist " + id);
+
 		}
 	}
 
@@ -206,6 +211,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		String id = (String) request
 				.getParameter(DispatcherServlet.requestParameter.ANFRAGE_Id
 						.name());
+
 		String idAttribute = (String) request
 				.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
 						.name());
@@ -280,7 +286,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			// weiterleiten; gibt's andere Vorschläge (lplotni 17. Jun)
 			// request.getRequestDispatcher("DispatcherServlet").forward(request,
 			// response);
-			System.out.println("???");
+			System.out.println("Die drei Fragezeichen beim Posten");
+			System.out.println("Anfrage ID ist " + id);
 		}
 	}
 
@@ -599,5 +606,63 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 						.getMessage());
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	private Vector<ZentrumBean> getZugehoerigeZentren(
+			HttpServletRequest request, HttpServletResponse response) {
+		StudieBean aSession = (StudieBean) request.getSession().getAttribute(
+				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name());
+		Vector<ZentrumBean> zugehoerigeZentren = null;
+		try {
+			zugehoerigeZentren = aSession.getZentren();
+		} catch (DatenbankExceptions e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return zugehoerigeZentren;
+
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	private Vector<ZentrumBean> getNichtZugehoerigeZentren(
+			HttpServletRequest request, HttpServletResponse response) {
+		ZentrumBean zb = new ZentrumBean();
+		zb.setIstAktiviert(true);
+		zb.setFilter(true);
+
+		Vector<ZentrumBean> zentrenliste = null;
+		try {
+			zentrenliste = Zentrum.suchenZentrum(zb);
+		} catch (DatenbankExceptions e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Vector<ZentrumBean> zugehoerigeZentren = (Vector<ZentrumBean>) request
+				.getAttribute("zugehoerigeZentren");
+
+		// Vector<ZentrumBean> zugehoerigeZentren =
+		// getZugehoerigeZentren(request, response);
+		for (int y = 0; y < zentrenliste.size(); y++) {
+			for (int x = 0; x < zugehoerigeZentren.size(); x++) {
+				if (zentrenliste.elementAt(y).equals(
+						zugehoerigeZentren.elementAt(x))) {
+					zentrenliste.removeElementAt(y);
+				}
+
+			}
+		}
+		return zentrenliste;
+
 	}
 }
