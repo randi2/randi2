@@ -472,6 +472,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		// TODO implementieren
 		StudieBean aStudieBean = new StudieBean();
 		Studie.Status statusenum = null;
+		
 		String statusStudie = request.getParameter((Parameter.studie.STATUS)
 				.name());
 
@@ -528,10 +529,10 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			String studienarme = request
 					.getParameter((Parameter.studie.ARME_STUDIE).name());
 
-			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
-					.getSession()).getAttribute("aBenutzer");
+			Studie aStudie = (Studie) (request
+					.getSession()).getAttribute("aStudie");
 			try {
-				StudieBean aStudieBean = aBenutzer.getStudie();
+				StudieBean aStudieBean = aStudie.getStudie();
 				try {
 					Vector<StudienarmBean> studienArme = aStudieBean
 							.getStudienarme();
@@ -571,8 +572,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				}
 				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 						aStudieBean);
-				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
-						aBenutzer);
+//				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+//						aStudie);
 				request.getRequestDispatcher("global_welcome.jsp").forward(
 						request, response);
 			} catch (DatenbankExceptions e) {
@@ -581,18 +582,18 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			}
 		} else {
 			try {
-				BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
-						.getSession()).getAttribute("aBenutzer");
-				StudieBean aStudie = aBenutzer.getStudie();
-				if (aStudie.getBenutzerkonto() != null) {
-					DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(
-							aStudie.getBenutzerkonto());
-					request.getRequestDispatcher("global_welcome.jsp").forward(
-							request, response);
-				} else {
-					request.getRequestDispatcher("studie_aendern.jsp").forward(
-							request, response);
-				}
+//				BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
+//						.getSession()).getAttribute("aBenutzer");
+//				StudieBean aStudie = aBenutzer.getStudie();
+//				if (aStudie.getBenutzerkonto() != null) {
+//					DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(
+//							aStudie.getBenutzerkonto());
+//					request.getRequestDispatcher("global_welcome.jsp").forward(
+//							request, response);
+//				} else {
+//					request.getRequestDispatcher("studie_aendern.jsp").forward(
+//							request, response);
+//				}
 			} catch (Exception e) {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 						.getMessage());
