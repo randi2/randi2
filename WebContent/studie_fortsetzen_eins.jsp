@@ -17,17 +17,17 @@
 
 <div id="content">
 <h1>Studie fortsetzen</h1>
-<form>
+<form action="DispatcherServlet" method="post" name="user" id="user"><input
+	type="hidden" name="anfrage_id"
+	value="<%=DispatcherServlet.anfrage_id.JSP_STUDIE_FORTSETZEN_EINS.name() %>">
 <fieldset style="width:60%"><legend><b>Studie</b></legend>
 <table>
 	<tr>
 		<td>Sind Sie sicher, dass Sie die Studie fortsetzen wollen?</td>
 	</tr>
 	<tr>
-		<td><input type="button" name="entsp_ja" value="Ja" tabindex="1"
-			onclick="location.href=''">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
-			type="button" name="entsp_nein" value="Nein" tabindex="2"
-			onclick="location.href='studienliste_sl.jsp'"></td>
+		<td><input type="submit" name="entsp_ja" value="Ja" tabindex="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+		<input type="button" name="entsp_nein" value="Nein" tabindex="2" onclick="location.href='studienliste_sl.jsp'"></td>
 	</tr>
 </table>
 

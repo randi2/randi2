@@ -28,6 +28,7 @@
 <%@include file="include/inc_header.jsp"%> 
 <div id="content">
 <h1>Studie ansehen</h1>
+<%@include file="include/inc_nachricht.jsp"%>
 <table width="100%">
 	<tr class="tblrow1" align="left">
 		<th width="10%">Name der Studie</th>
