@@ -568,11 +568,13 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 			} else if (id.equals((anfrage_id.JSP_STUDIE_PAUSIEREN_EINS.name()))) {
 				// Studie pausieren
-
-				request.setAttribute(Parameter.anfrage_id,
-						StudieServlet.anfrage_id.AKTION_STUDIE_PAUSIEREN);
+				
+				request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
+						StudieServlet.anfrage_id.AKTION_STUDIE_PAUSIEREN.name()); 
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
+				
+				
 			} else if (id.equals((anfrage_id.JSP_STUDIE_AENDERN.name()))) {
 
 				request.setAttribute(Parameter.anfrage_id,

@@ -22,7 +22,7 @@
 	type="hidden" name="anfrage_id"
 	value="<%=DispatcherServlet.anfrage_id.JSP_STUDIE_PAUSIEREN_EINS.name() %>">
 	
-
+ 
 <h1>Studie pausieren</h1>
 <fieldset style="width:60%">
 	<legend><b>Studie</b></legend>
@@ -30,8 +30,8 @@
 		<tr>
 		<td>Sind Sie sicher, dass Sie die Studie pausieren wollen?</td>
 		</tr>
-		<tr>
-		<td><input type="button" name="entsp_ja" value="Ja" tabindex="1" onclick="location.href=''">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<tr> 
+		<td><input type="submit" name="entsp_ja" value="Ja" tabindex="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="button" name="entsp_nein" value="Nein" tabindex="2" onclick="location.href='studie_ansehen.jsp'"></td>
 		</tr>
 		</table>

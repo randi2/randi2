@@ -70,10 +70,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Die Studie wurde auf der Seite studie_auswaehlen.jsp ausgewaehlt
 		 */
 		JSP_STUDIE_AUSWAEHLEN,
+
+		JSP_STATUS_AENDERN,
 		/**
-		 * Pausieren einer Studie
+		 * Status der Studie aendern.
 		 */
-		AKTION_STUDIE_PAUSIEREN,
+		AKTION_STATUS_AENDERN,
 
 		/**
 		 * studie_aendern.jsp wurde gewaehlt.
@@ -84,6 +86,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * zentrum_anzeigen.jsp
 		 */
 		JSP_ZENTRUM_ANZEIGEN,
+
+		AKTION_STUDIE_PAUSIEREN,
 
 		/**
 		 * Aendert einer bereits vorhandenen Studie.
@@ -193,7 +197,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		String id = (String) request
 				.getParameter(DispatcherServlet.requestParameter.ANFRAGE_Id
 						.name());
-		System.out.println("Aktion ist " + aktion);
+		 System.out.println("Aktion ist " + aktion);
 		String idAttribute = (String) request
 				.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
 						.name());
@@ -219,6 +223,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				// Studie soll geaendert werden
 				request.getRequestDispatcher(Jsp.STUDIE_AENDERN).forward(
 						request, response);
+			} else if (id.equals(anfrage_id.AKTION_STATUS_AENDERN.name())) {
+				// Status aendern
+				request.getRequestDispatcher(Jsp.STUDIE_PAUSIEREN_EINS)
+						.forward(request, response);
+
 			}
 
 		} else if (id != null) {
@@ -261,7 +270,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			} else if (id.equals(anfrage_id.JSP_STUDIE_AENDERN.name())) {
 				// studieAendern.jsp soll angezeigt werden
 				studieAendern(request, response);
-			} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
+			} else if (id.equals(anfrage_id.JSP_STATUS_AENDERN.name())) {
+				studieStatus(request, response);
+			}
+
+			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
 
 				request.setAttribute("anfrage_id", "ZENTRUM_ANZEIGEN");
 				request.getRequestDispatcher("ZentrumServlet").forward(request,
@@ -488,25 +501,28 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			if (statusStudie.equals(statusStudie.toString())) {
 				statusenum = s;
 				break;
-			}  
-		} 
+			}
+		}
 
 		try {
 			aStudieBean.setStatus(statusenum);
+
 			// Studie pausiert
-
-			try {
-				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
-						aStudieBean);
-			} catch (DatenbankExceptions e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-						.getMessage());
-			}
-
-		} catch (Exception e) {
-			System.out.println("Status OK");
 			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 					this.STATUS_GEAENDERT);
+			request.getRequestDispatcher("studie_ansehen.jsp").forward(request,
+					response);
+
+			DatenbankFactory.getAktuelleDBInstanz()
+					.schreibenObjekt(aStudieBean);
+		} catch (DatenbankExceptions e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
+			request.getRequestDispatcher("studie_ansehen.jsp").forward(request,
+					response);
+		} catch (StudieException e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
 			request.getRequestDispatcher("studie_ansehen.jsp").forward(request,
 					response);
 		}
