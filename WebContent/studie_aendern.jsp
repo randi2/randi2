@@ -28,41 +28,43 @@
 	<%
 	StudieBean aStudieBean = (StudieBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name());
 	Calendar cal = new GregorianCalendar();
-	SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy",Locale.GERMANY);
+	SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy",Locale.GERMANY);
 	Vector<StudienarmBean> aStudienarme = aStudieBean.getStudienarme();
 	int counter = aStudienarme.size();
 	%>
 	<tr>
 		<td>Name der Studie<br>
 		<input type="text" size="40" maxlength="40" name="Parameter.studie.NAME"
-			tabindex="1"> readonly value="<%out.print(aStudieBean.getName());%>"
+			tabindex="1" readonly value="<%=aStudieBean.getName()%>">
 			</td>
 	</tr>
 	<tr>
 		<td>Beschreibung der Studie *<br>
-		<textarea cols="37" rows="4" name="Parameter.studie.BESCHREIBUNG" tabindex="2"></textarea>
-			value="<%out.print(aStudieBean.getBeschreibung());%>"
+		<textarea cols="37" rows="4" name="Parameter.studie.BESCHREIBUNG" tabindex="2">
+		<%=aStudieBean.getBeschreibung()%>
+		</textarea>
 		</td>
 	</tr>
 	<tr>
 		<td>Startdatum *<br>
 		<input type="text" size="40" maxlength="40" name="Parameter.studie.STARTDATUM"
-			tabindex="3" value="Vorerst nur ein Textfeld">
-			  value="<%if(aStudieBean.getStartDatum().after(cal.get(Calendar.DATE))&& aStudieBean.getStartDatum().after(cal.get(Calendar.MONTH)+1)
-			          && aStudieBean.getStartDatum().after(cal.get(Calendar.YEAR))){out.print(aStudieBean.getStartDatum());}%>"
-			  z:message="Startdatum liegt in der Vergangenheit"
-			   readonly value="<%if(aStudieBean.getStartDatum().before(cal.get(Calendar.DATE))&& aStudieBean.getStartDatum().before(cal.get(Calendar.MONTH)+1)
-			          && aStudieBean.getStartDatum().before(cal.get(Calendar.YEAR))){out.print(aStudieBean.getStartDatum());}%>"
-			  
+			tabindex="3" value="<%=
+				formatter.format(aStudieBean.getStartDatum().getTime())
+			%>"
+			   <% 
+			   	if(aStudieBean.getStartDatum().before(cal.get(Calendar.DATE)))
+			   		out.print(" readonly ");
+			   	%>
+			  >
 			</td>
 		<td>Enddatum *<br>
 		<input type="text" size="40" maxlength="40" name="Parameter.studie.ENDDATUM"
-			tabindex="4" value="Vorerst nur ein Textfeld">
-			  value="<%if(aStudieBean.getEndDatum().after(cal.get(Calendar.DATE))&& aStudieBean.getEndDatum().after(cal.get(Calendar.MONTH)+1)
-			          && aStudieBean.getEndDatum().after(cal.get(Calendar.YEAR))){out.print(aStudieBean.getEndDatum());}%>"
-			  z:message="Enddatum liegt in der Vergangenheit"
-			   readonly value="<%if(aStudieBean.getEndDatum().before(cal.get(Calendar.DATE))&& aStudieBean.getEndDatum().before(cal.get(Calendar.MONTH)+1)
-			          && aStudieBean.getEndDatum().before(cal.get(Calendar.YEAR))){out.print(aStudieBean.getEndDatum());}%>"
+			tabindex="4" value="<%=formatter.format(aStudieBean.getEndDatum().getTime())%>"
+			<% 
+			   	if(aStudieBean.getEndDatum().before(cal.get(Calendar.DATE)))
+			   		out.print(" readonly ");
+			 %>
+			>
 			</td>
 	</tr>
 	<tr>
@@ -77,7 +79,7 @@
 		<tr>
 			<td>Studienprotokoll &nbsp;&nbsp;&nbsp;<input name="Parameter.studie.STUDIENPROTOKOLL"
 				size="50" maxlength="100000" accept="text/*" id="datei" tabindex="5"
-				type="file"> readonly value="<%out.print(aStudieBean.getStudienprotokollpfad());%>"
+				type="file" readonly="readonly" value="<%out.print(aStudieBean.getStudienprotokollpfad());%>">
 			<br>
 			<br>
 			</td>
@@ -125,21 +127,21 @@
 			<td><br>
 			Randomisationsbezogene Eigenschaften<br>
 			<textarea cols="37" rows="4"
-				name="Parameter.studie.RANDOMISATIONSEIGENSCHAFTEN" tabindex="6"></textarea>
-				readonly value="<%out.print(aStudieBean.getRandomisationsart());%>"
+				name="Parameter.studie.RANDOMISATIONSEIGENSCHAFTEN" tabindex="6"
+				readonly value="<%out.print(aStudieBean.getRandomisationsart());%>"></textarea>
 				</td>
 		</tr>
 		<tr>
 			<td><br>
 			Leitende Institution<br>
 			<input size="40" maxlength="40" name="Parameter.studie.INSTITUT" tabindex="7"
-				type="text"> readonly value="<%out.print(aStudieBean.getInstitution());%>"
+				type="text" readonly value="<%out.print(aStudieBean.getInstitution());%>">
 				</td>
 			<td></td>
 			<td><br>
 			Verantwortliche(r) Studienleiter(in)<br>
 			<input size="40" maxlength="40" name="Parameter.studie.STUDIENLEITER" tabindex="8"
-				type="text"> readonly value="<%out.print(aStudieBean.getStudienleiter());%>"
+				type="text" readonly value="<%out.print(aStudieBean.getStudienleiter());%>">
 				</td>
 		</tr>
 	</tbody>
