@@ -16,11 +16,9 @@
 <script language="Javascript" src="js/motionpack.js"> </script>
 <title>Randi2 :: Benutzerverwaltung</title>
 <script type="text/javascript">
-<!--
 	function hideFilter(){
 		document.getElementById('filterdiv').style.display = 'none';
 	}
-//-->
 </script>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
@@ -35,7 +33,7 @@
 	
 <img alt="Filter anzeigen" src="images/find.png" onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen" style="cursor:pointer"/>
 <b>Filter ein-/ausblenden</b>
-<div id="filterdiv" style="overflow:hidden; height: 75px;">
+<div id="filterdiv" style="overflow:hidden; height: 90px;">
 <table width="90%">
 	<tr>
 		<td>

@@ -66,7 +66,12 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Zentrum anzeigen
 		 */
-		ZENTRUM_ANZEIGEN
+		ZENTRUM_ANZEIGEN,
+		
+		/**
+		 * Zentrum anzeigen beim Admin.
+		 */
+		AKTION_ZENTRUM_ANZEIGEN_ADMIN
 	}
 
 	/**
@@ -123,10 +128,15 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		} 
 		else if (id.equals(ZentrumServlet.anfrage_id.ZENTRUM_ANZEIGEN.name())) {
 			this.zentrenFiltern(request, response);
-		}else {
+		}
+		else if(id.equals(ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ANZEIGEN_ADMIN.name())){
+			classDispatcherServlet(request,response);
+		}
+		else {
 			// TODO Hier muss noch entschieden werden,was passiert
 		}
 	}
+
 
 	/**
 	 * Setzt aenderbare Daten eines vorhandenen Zentrums neu.
@@ -480,6 +490,38 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		}
 
 		// keine Filterung
+	}
+	
+	/**
+	 * Methode wird aufgerufen um beim Adminmenü nach Zentren zu
+	 * filtern.
+	 * 
+	 * @param request
+	 *            Requestobjekt
+	 * @param response
+	 *            Responseobjekt
+	 * @throws ServletException
+	 *             Fehler in der Http-Verarbeitung
+	 * @throws IOException
+	 *             Fehler in der IO-Verarbaitung
+	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+	 *      HttpServletResponse response)
+	 */
+	private void classDispatcherServlet(HttpServletRequest request, HttpServletResponse response) {
+		ZentrumBean zentrum = new ZentrumBean();
+		PersonBean person = new PersonBean();
+		Vector<ZentrumBean>zentrumVec = new Vector<ZentrumBean>();
+		Vector<PersonBean>personVec = new Vector<PersonBean>();
+		zentrum.setFilter(true);
+		try {
+			zentrumVec = Zentrum.suchenZentrum(zentrum);
+			request.setAttribute("listeZentrum", zentrumVec);
+			request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN_ADMIN).forward(request, response);
+		} catch (ServletException e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+		} catch (IOException e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+		}
 	}
 
 	

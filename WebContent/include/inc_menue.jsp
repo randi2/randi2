@@ -7,6 +7,7 @@
 <%Rolle.Rollen aRolleMenue=((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer")).getRolle().getRollenname(); %>
 <%@page import="de.randi2.controller.DispatcherServlet"%>
 <%@page import="de.randi2.controller.StudieServlet"%>
+<%@page import="de.randi2.controller.ZentrumServlet"%>
 <div id="menue">
 
 <div id="navigation">
@@ -30,7 +31,7 @@
 	<li><a class="sub_BV n" href="admin_liste.jsp">Admins anzeigen</a></li>
 	<%	} %>
 </ul>
-<% } %> <% if (aRolleMenue==Rolle.Rollen.STUDIENLEITER|| aRolleMenue==Rolle.Rollen.ADMIN) { %>
+<% } %> <% if (aRolleMenue==Rolle.Rollen.STUDIENLEITER) { %>
 <ul>
 	<li class="top_m">Zentrenverwaltung</li>
 	<li>
@@ -40,7 +41,15 @@
 	
 	<%-- } --%>
 </ul>
-<% } %> <% if (aRolleMenue!=Rolle.Rollen.SYSOP) { %>
+<% } %>  <% if (aRolleMenue==Rolle.Rollen.ADMIN) { %>
+<ul>
+	<li class="top_m">Zentrenverwaltung</li>
+	<li>
+	<a class="sub_BV n" href="DispatcherServlet?anfrage_id=<%=DispatcherServlet.anfrage_id.ZENTRUM_ANZEIGEN_ADMIN.name() %>">Zentren anzeigen</a>
+	</li>
+
+</ul>
+<% } %><% if (aRolleMenue!=Rolle.Rollen.SYSOP) { %>
 <ul>
 	<li class="top_m">Studienverwaltung</li>
 	<% if (aRolleMenue==Rolle.Rollen.ADMIN) { %>

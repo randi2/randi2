@@ -763,7 +763,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		Iterator<ZentrumBean>it_Z = null;
 		boolean gesuchtKonto = false;
 		boolean gesuchtPerson = false;
-		int counter = 0;
+		boolean gesuchtZentrum = false;
 		bKonto.setFilter(true);
 		
 		if(((String)request.getParameter("Aktualisieren")) != null) {
@@ -785,9 +785,11 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					
 					personVec = Person.suchenPerson(person);
 					gesuchtPerson = true;
+					
 					if(!gesuchtKonto) {
 						it_P = personVec.iterator();
 						it_B = benutzerVec.iterator();
+						int counter = 0;
 						
 						while(it_B.hasNext()) {
 							bKonto = benutzerVec.elementAt(counter);
@@ -816,15 +818,51 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					
 					zentrumVec = Zentrum.suchenZentrum(zentrum);
 					if(!gesuchtKonto && !gesuchtPerson) {
-						//TODO --kkrupka
+						//TODO --kkrupka Probleme
+//						it_P = personVec.iterator();
+//						it_B = benutzerVec.iterator();
+//						it_Z = zentrumVec.iterator();						
+//						int counter = 0;
+//						while(it_B.hasNext()){
+//							bKonto = benutzerVec.elementAt(counter);
+//							
+//							while(it_Z.hasNext()){
+//								zentrum = it_Z.next();
+//								if(bKonto.getBenutzerId()!=zentrum.getId()) {
+//									benutzerVec.remove(bKonto);
+//								} else {
+//									counter++;
+//									it_B.next();
+//								}
+//							}
+//							it_Z = zentrumVec.iterator();
+//						}
+//						it_B = benutzerVec.iterator();
+//						counter = 0;
+//						while(it_B.hasNext()) {
+//							bKonto = benutzerVec.elementAt(counter);
+//
+//							while(it_P.hasNext()){
+//								person = it_P.next();
+//								if(bKonto.getBenutzerId()!=person.getId()) {
+//									benutzerVec.remove(bKonto);
+//								} else {
+//									counter++;
+//									it_B.next();
+//								}
+//							}
+//							it_P = personVec.iterator();
+//						}
+						
 					}
-					else if(!gesuchtPerson) {
+					else if(!gesuchtKonto) {
 						it_P = personVec.iterator();
 						it_B = benutzerVec.iterator();
+						int counter = 0;
 						
 						while(it_B.hasNext()) {
 							bKonto = benutzerVec.elementAt(counter);
-
+							
 							while(it_P.hasNext()){
 								person = it_P.next();
 								if(bKonto.getBenutzerId()!=person.getId()) {
@@ -836,13 +874,44 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 							}
 							it_P = personVec.iterator();
 						}
-					}		
+					}
+					else if(!gesuchtPerson) {
+						//TODO --kkrupka Probleme
+//						it_P = personVec.iterator();
+//						it_B = benutzerVec.iterator();
+//						int counter = 0;
+//						while(it_B.hasNext()) {
+//							bKonto = benutzerVec.elementAt(counter);
+//
+//							while(it_P.hasNext()){
+//								person = it_P.next();
+//								if(bKonto.getBenutzerId()!=person.getId()) {
+//									personVec.remove(person);
+//								} else {
+//									counter++;
+//									it_B.next();
+//								}
+//							}
+//							it_P = personVec.iterator();
+//						}
+					}
 				} else {
 					zentrum = new ZentrumBean();
 					zentrum.setFilter(true);
 					zentrumVec = Zentrum.suchenZentrum(zentrum);
-					
-					//TODO --kkrupka versch. Fälle
+					//TODO --kkrupka zu implementierende Fälle
+					if(!gesuchtZentrum && !gesuchtKonto){
+						
+					}
+					else if(!gesuchtZentrum || !gesuchtPerson) {
+						
+					}
+					else if(!gesuchtZentrum){
+						
+					}
+				}
+				if(personVec.size() != benutzerVec.size() || personVec.size() != zentrumVec.size() || benutzerVec.size() != zentrumVec.size()) {
+					//TODO wegen 1:n Beziehungsprobleme
 				}
 				
 			} catch (PersonException e) {

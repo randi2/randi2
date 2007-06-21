@@ -179,8 +179,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Studie aendern
 		 */
-		JSP_STUDIE_AENDERN;
+		JSP_STUDIE_AENDERN,
 
+		/**
+		 * Zentrum anzeigen beim Admin.
+		 */
+		ZENTRUM_ANZEIGEN_ADMIN;
 	}
 
 	/**
@@ -597,6 +601,13 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				loggeBenutzerAus(request, response);
 				return;
 			}
+			else if (id.equals(anfrage_id.ZENTRUM_ANZEIGEN_ADMIN.name())) {
+			request.setAttribute("anfrage_id",
+					ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ANZEIGEN_ADMIN
+							.name());
+			request.getRequestDispatcher("ZentrumServlet").forward(
+					request, response);
+		}
 			// [end]
 
 			// SONSTIGE WEITERLEITUNGEN

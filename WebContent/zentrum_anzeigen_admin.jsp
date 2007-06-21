@@ -4,6 +4,9 @@
 	import= "java.util.GregorianCalendar"
 	import= "java.text.SimpleDateFormat" 
 	import= "java.util.Locale"
+	import= "de.randi2.utility.*"
+	import= "java.util.Iterator"
+	import= "java.util.Vector"
 %>
 <%@ page import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
 	%>
@@ -19,27 +22,39 @@
 <body>
 <%@include file="include/inc_header.jsp"%>
 
+<%
+Iterator listeZentrum = ((Vector)request.getAttribute("listeZentrum")).iterator(); 
+Iterator listePerson = ((Vector)request.getAttribute("listePerson")).iterator(); 
+ZentrumBean zentrum = new ZentrumBean();
+PersonBean person = new PersonBean();
+if(listeZentrum.hasNext() && listePerson.hasNext()){
+	zentrum = (ZentrumBean)listeZentrum.next();
+	person = (PersonBean)listePerson.next();
+}
+%>
 <div id="content">
 <h1>Zentrum anzeigen</h1>
-<form>
+<form action="DispatcherServlet" method="POST"><input
+	type="hidden" name="anfrage_id"
+	value="<%=DispatcherServlet.anfrage_id.ZENTRUM_ANZEIGEN_ADMIN.name() %>">
 <fieldset style="width: 60%">
 	<legend><b>Angaben zum Zentrum</b></legend>
 		<table>
 		<tr>
-		<td>Name der Institution *<br><input type="text" size="49" maxlength="40" name="Name_Institution" tabindex="1" value="$Name der Institution"></td>
+		<td>Name der Institution *<br><input type="text" size="49" maxlength="40" name="<%=Parameter.zentrum.INSTITUTION %>" tabindex="1" value="<%=zentrum.getInstitution() %>"></td>
 		</tr>
 		<tr>
-		<td>Name der genauen Abteilung *<br><input type="text" size="49" maxlength="40" name="Zentrum_Abteilung" tabindex="2" value="$Name der Abteilung"></td>
+		<td>Name der genauen Abteilung *<br><input type="text" size="49" maxlength="40" name="<%=Parameter.zentrum.ABTEILUNGSNAME %>" tabindex="2" value="<%=zentrum.getAbteilung() %>"></td>
 		</tr>
 		<tr>
-		<td>Ort *<br><input type="text" size="40" maxlength="40" name="Ort" tabindex="3" value="$Ort"></td>
-		<td>PLZ *<br><input type="text" size="6" maxlength="6" name="PLZ" tabindex="4" value="$PLZ"></td>
+		<td>Ort *<br><input type="text" size="40" maxlength="40" name="<%=Parameter.zentrum.ORT %>" tabindex="3" value="<%=zentrum.getOrt() %>"></td>
+		<td>PLZ *<br><input type="text" size="6" maxlength="6" name="<%=Parameter.zentrum.PLZ %>" tabindex="4" value="<%=zentrum.getPlz() %>"></td>
                  </tr>       <tr>
-                 <td>Strasse * <br><input type="text" size="40" maxlength="40" name="strasse" tabindex="5" value="$Strasse"></td>
-                 <td>Hausnummer *<br><input type="text" size"10" maxlength="11" name="hausnummer" tabindex="6" value="$Hausnummer"></td>
+                 <td>Strasse * <br><input type="text" size="40" maxlength="40" name="<%=Parameter.zentrum.STRASSE %>" tabindex="5" value="<%=zentrum.getStrasse() %>"></td>
+                 <td>Hausnummer *<br><input type="text" size"10" maxlength="11" name="<%=Parameter.zentrum.HAUSNUMMER %>" tabindex="6" value="<%=zentrum.getHausnr() %>"></td>
 		</tr>
 		<tr>
-                 <td>Passwort * <br><input type="password" size"20" maxlength="20" name="hausnummer" tabindex="7" value=""></td>
+                 <td>Passwort * <br><input type="password" size"20" maxlength="20" name="<%=Parameter.zentrum.PASSWORT %>" tabindex="7" value=""></td>
 		</tr>
 		</table>
 </fieldset><br>
@@ -47,17 +62,17 @@
 	<legend><b>Angaben zum Ansprechpartner</b></legend>
 		<table>
 		<tr>
-		<td>Nachname *<br><input type="text" size"40" maxlength="40" name="nachname" tabindex="8" value="$Nachname"></td>
-                 <td>Vorname *<br><input type="text" size"40" maxlength="40" name="vorname" tabindex="9" value="$Vorname"></td>
+		<td>Nachname *<br><input type="text" size"40" maxlength="40" name="<%=Parameter.person.NACHNAME %>" tabindex="8" value="<%=person.getNachname() %>"></td>
+                 <td>Vorname *<br><input type="text" size"40" maxlength="40" name="<%=Parameter.person.VORNAME %>" tabindex="9" value="<%=person.getVorname() %>"></td>
 		</tr>
 		<tr>
-		<td>Telefon *<br><input type="text" size"40" maxlength="40" name="telefon" tabindex="10" value="$Telefonnummer"></td>
+		<td>Telefon *<br><input type="text" size"40" maxlength="40" name="<%=Parameter.person.TELEFONNUMMER %>" tabindex="10" value="<%=person.getTelefonnummer() %>"></td>
 		</tr>
 		<tr>
-		<td>Fax<br><input type="text" size"40" maxlength="40" name="fax" tabindex="11" value="$Fax"></td>
+		<td>Fax<br><input type="text" size"40" maxlength="40" name="<%=Parameter.person.FAX %>" tabindex="11" value="<%=person.getFax() %>"></td>
 		</tr>
 		<tr>
-		<td>Email *<br><input type="text" size"40" maxlength="40" name="email" tabindex="12" value="$Email"></td>
+		<td>Email *<br><input type="text" size"40" maxlength="40" name="<%=Parameter.person.EMAIL %>" tabindex="12" value="<%=person.getEmail() %>"></td>
 		</tr>
 
 		</table>
