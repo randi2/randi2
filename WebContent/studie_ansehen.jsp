@@ -100,7 +100,6 @@
 				<table align="center">
 					<tr>						
 						<td><input type="button" name="studie_aendern" value="&Auml;ndern" tabindex="2" onclick="location.href='studie_aendern.jsp'">&nbsp;&nbsp;</td>						
-						</td>
 					<% if(aStudie.getStatus().equals(Studie.Status.AKTIV)) { %>
 						<td><input type="button" name="studie_pausieren" value="Pausieren" tabindex="3" onclick="location.href='studie_pausieren_eins.jsp'">&nbsp;&nbsp;</td>
 						<%					}		%>
