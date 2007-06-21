@@ -177,6 +177,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 */
 		JSP_STUDIE_PAUSIEREN_EINS,
 		/**
+		 * Studie fortsetzen
+		 */
+		JSP_STUDIE_FORTSETZEN_EINS,
+		/**
 		 * Studie aendern
 		 */
 		JSP_STUDIE_AENDERN,
@@ -572,14 +576,22 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 			} else if (id.equals((anfrage_id.JSP_STUDIE_PAUSIEREN_EINS.name()))) {
 				// Studie pausieren
-				
 				request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
 						StudieServlet.anfrage_id.AKTION_STUDIE_PAUSIEREN.name()); 
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
-				
-				
-			} else if (id.equals((anfrage_id.JSP_STUDIE_AENDERN.name()))) {
+			} else if (id.equals((anfrage_id.JSP_STUDIE_FORTSETZEN_EINS.name()))) {
+			// Studie fortsetzen
+			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
+					StudieServlet.anfrage_id.AKTION_STUDIE_FORTSETZEN.name()); 
+			request.getRequestDispatcher("StudieServlet").forward(request,
+					response);
+			
+			
+		}
+			
+			
+			else if (id.equals((anfrage_id.JSP_STUDIE_AENDERN.name()))) {
 
 				request.setAttribute(Parameter.anfrage_id,
 						StudieServlet.anfrage_id.AKTION_STUDIE_AENDERN);
