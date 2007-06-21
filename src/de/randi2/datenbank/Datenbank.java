@@ -4000,9 +4000,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			geaenderteDaten.put(FelderStudie.BENUTZER.toString(),String.valueOf(((StudieBean) aObjekt).getBenutzerkontoId()));
 			geaenderteDaten.put(FelderStudie.NAME.toString(), ((StudieBean) aObjekt).getName());
 			geaenderteDaten.put(FelderStudie.BESCHREIBUNG.toString(), ((StudieBean) aObjekt).getBeschreibung());
-			//@TODO prüfen warum das nicht geht
-			//geaenderteDaten.put(FelderStudie.STARTDATUM.toString(), sdf.format(((StudieBean) aObjekt).getStartDatum()));
-			//geaenderteDaten.put(FelderStudie.ENDDATUM.toString(), sdf.format(((StudieBean) aObjekt).getEndDatum()));
+			geaenderteDaten.put(FelderStudie.STARTDATUM.toString(), sdf.format(((StudieBean) aObjekt).getStartDatum().getTime()));
+			geaenderteDaten.put(FelderStudie.ENDDATUM.toString(), sdf.format(((StudieBean) aObjekt).getEndDatum().getTime()));
 			geaenderteDaten.put(FelderStudie.RANDOMISATIONSART.toString(), ((StudieBean) aObjekt).getRandomisationsart());
 			geaenderteDaten.put(FelderStudie.STATUS.toString(), ((StudieBean) aObjekt).getStatus().toString());
 			
