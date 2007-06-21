@@ -108,9 +108,6 @@
 						</form>
 						</td>
 
-						
-						
-						</td>
 					<% if(aStudie.getStatus().equals(Studie.Status.AKTIV)) { %>
 						<td><input type="button" name="studie_pausieren" value="Pausieren" tabindex="3" onclick="location.href='studie_pausieren_eins.jsp'">&nbsp;&nbsp;</td>
 						<%					}		%>
