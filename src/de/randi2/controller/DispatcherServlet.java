@@ -593,7 +593,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			
 			else if (id.equals((anfrage_id.JSP_STUDIE_AENDERN.name()))) {
 
-				request.setAttribute(Parameter.anfrage_id,
+				request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
+						.name(),
 						StudieServlet.anfrage_id.AKTION_STUDIE_AENDERN);
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);

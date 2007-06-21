@@ -1567,13 +1567,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(j++, studie.getStudienprotokollpfad());
 				pstmt.setString(j++, studie.getRandomisationsart());
 				pstmt.setString(j++, studie.getStatus().toString());
+				pstmt.setLong(j++, studie.getId());
 				pstmt.executeUpdate();
 				pstmt.close();
 				//Speichern der Abhaengigen Zentren
-				sql ="DELETE FROM "+Tabellen.STUDIE_ZENTRUM.toString()+" WHERE "+FelderStudieHasZentrum.STUDIENID+toString()+
-				" = ? AND "+FelderStudieHasZentrum.ZENTRUMID+toString()+" NOT IN (";
+				sql ="DELETE FROM "+Tabellen.STUDIE_ZENTRUM.toString()+" WHERE "+FelderStudieHasZentrum.STUDIENID.toString()+
+				" = ? AND "+FelderStudieHasZentrum.ZENTRUMID.toString()+" NOT IN (";
 				String sql2 = "INSERT INTO "+Tabellen.STUDIE_ZENTRUM.toString()+" VALUES ";
-				if(studie.getZentren()!=null) {
+				if(studie.getZentren()!=null&&studie.getZentren().size()>0) {
 					Iterator<ZentrumBean> it = studie.getZentren().iterator();
 					ZentrumBean tmp;
 					while(it.hasNext()) {
@@ -3999,8 +4000,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 			geaenderteDaten.put(FelderStudie.BENUTZER.toString(),String.valueOf(((StudieBean) aObjekt).getBenutzerkontoId()));
 			geaenderteDaten.put(FelderStudie.NAME.toString(), ((StudieBean) aObjekt).getName());
 			geaenderteDaten.put(FelderStudie.BESCHREIBUNG.toString(), ((StudieBean) aObjekt).getBeschreibung());
-			geaenderteDaten.put(FelderStudie.STARTDATUM.toString(), sdf.format(((StudieBean) aObjekt).getStartDatum()));
-			geaenderteDaten.put(FelderStudie.ENDDATUM.toString(), sdf.format(((StudieBean) aObjekt).getEndDatum()));
+			//@TODO prüfen warum das nicht geht
+			//geaenderteDaten.put(FelderStudie.STARTDATUM.toString(), sdf.format(((StudieBean) aObjekt).getStartDatum()));
+			//geaenderteDaten.put(FelderStudie.ENDDATUM.toString(), sdf.format(((StudieBean) aObjekt).getEndDatum()));
 			geaenderteDaten.put(FelderStudie.RANDOMISATIONSART.toString(), ((StudieBean) aObjekt).getRandomisationsart());
 			geaenderteDaten.put(FelderStudie.STATUS.toString(), ((StudieBean) aObjekt).getStatus().toString());
 			
