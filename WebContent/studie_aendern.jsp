@@ -26,10 +26,11 @@
 <table>
 	<%
 		//Holen der Studie, das angezeigt und geaendert werden soll.
-		StudieBean aStudieBean = aBenutzer
 		
+		StudieBean aStudieBean = (StudieBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name());
 		//Calendar-Objekt fuer End- und Startdatum
 		Calendar cal = new GregorianCalendar();
+		SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy",Locale.GERMANY);
 	%>
 	<tr>
 		<td>Name der Studie<br>
