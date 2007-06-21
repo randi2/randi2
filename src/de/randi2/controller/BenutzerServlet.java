@@ -819,40 +819,40 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					zentrumVec = Zentrum.suchenZentrum(zentrum);
 					if(!gesuchtKonto && !gesuchtPerson) {
 						//TODO --kkrupka Probleme
-//						it_P = personVec.iterator();
-//						it_B = benutzerVec.iterator();
-//						it_Z = zentrumVec.iterator();						
-//						int counter = 0;
-//						while(it_B.hasNext()){
-//							bKonto = benutzerVec.elementAt(counter);
-//							
-//							while(it_Z.hasNext()){
-//								zentrum = it_Z.next();
-//								if(bKonto.getBenutzerId()!=zentrum.getId()) {
-//									benutzerVec.remove(bKonto);
-//								} else {
-//									counter++;
-//									it_B.next();
-//								}
-//							}
-//							it_Z = zentrumVec.iterator();
-//						}
-//						it_B = benutzerVec.iterator();
-//						counter = 0;
-//						while(it_B.hasNext()) {
-//							bKonto = benutzerVec.elementAt(counter);
-//
-//							while(it_P.hasNext()){
-//								person = it_P.next();
-//								if(bKonto.getBenutzerId()!=person.getId()) {
-//									benutzerVec.remove(bKonto);
-//								} else {
-//									counter++;
-//									it_B.next();
-//								}
-//							}
-//							it_P = personVec.iterator();
-//						}
+						it_P = personVec.iterator();
+						it_B = benutzerVec.iterator();
+						it_Z = zentrumVec.iterator();						
+						int counter = 0;
+						while(it_B.hasNext()){
+							bKonto = benutzerVec.elementAt(counter);
+							
+							while(it_Z.hasNext()){
+								zentrum = it_Z.next();
+								if(bKonto.getBenutzerId()!=zentrum.getId()) {
+									benutzerVec.remove(bKonto);
+								} else {
+									counter++;
+									it_B.next();
+								}
+							}
+							it_Z = zentrumVec.iterator();
+						}
+						it_Z = zentrumVec.iterator();
+						counter = 0;
+						while(it_P.hasNext()) {
+							person = personVec.elementAt(counter);
+
+							while(it_Z.hasNext()){
+								zentrum = it_Z.next();
+								if(person.getId() != zentrum.getAnsprechpartnerId()) {
+									personVec.remove(person);
+								} else {
+									counter++;
+									it_P.next();
+								}
+							}
+							it_Z = zentrumVec.iterator();
+						}
 						
 					}
 					else if(!gesuchtKonto) {
@@ -876,24 +876,23 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 						}
 					}
 					else if(!gesuchtPerson) {
-						//TODO --kkrupka Probleme
-//						it_P = personVec.iterator();
-//						it_B = benutzerVec.iterator();
-//						int counter = 0;
-//						while(it_B.hasNext()) {
-//							bKonto = benutzerVec.elementAt(counter);
-//
-//							while(it_P.hasNext()){
-//								person = it_P.next();
-//								if(bKonto.getBenutzerId()!=person.getId()) {
-//									personVec.remove(person);
-//								} else {
-//									counter++;
-//									it_B.next();
-//								}
-//							}
-//							it_P = personVec.iterator();
-//						}
+						it_P = personVec.iterator();
+						it_Z = zentrumVec.iterator();
+						int counter = 0;
+						while(it_P.hasNext()) {
+							person = personVec.elementAt(counter);
+
+							while(it_Z.hasNext()){
+								zentrum = it_Z.next();
+								if(person.getId() != zentrum.getAnsprechpartnerId()) {
+									personVec.remove(person);
+								} else {
+									counter++;
+									it_P.next();
+								}
+							}
+							it_Z = zentrumVec.iterator();
+						}
 					}
 				} else {
 					zentrum = new ZentrumBean();
