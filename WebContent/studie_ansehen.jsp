@@ -98,16 +98,9 @@
 		<fieldset>
 			<legend><b>Studienauswahl</b></legend>
 				<table align="center">
-					<tr>
-						<td>
-						
-						<form action="DispatcherServlet" method="POST" id="studienAktionen">
-						<input type="hidden" name="anfrage_id"
-						value="<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AENDERN.name() %>">
-						<input type="submit" name="studie_aendern" value="&Auml;ndern" tabindex="2">&nbsp;&nbsp;
-						</form>
+					<tr>						
+						<td><input type="button" name="studie_aendern" value="&Auml;ndern" tabindex="2" onclick="location.href='studie_aendern.jsp'">&nbsp;&nbsp;</td>						
 						</td>
-
 					<% if(aStudie.getStatus().equals(Studie.Status.AKTIV)) { %>
 						<td><input type="button" name="studie_pausieren" value="Pausieren" tabindex="3" onclick="location.href='studie_pausieren_eins.jsp'">&nbsp;&nbsp;</td>
 						<%					}		%>
