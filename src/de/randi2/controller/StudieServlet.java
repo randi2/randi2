@@ -38,6 +38,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 * Serial Version
 	 */
 	private static final long serialVersionUID = 7L;
+	
+	/**
+	 * Meldung, wenn der Aenderungsvorgang einer Studie erfolgreich war.
+	 */
+	private static final String AENDERUNG_STUDIE_ERFOLGREICH = "Die Studie wurde erfolgreich geändert.";
 
 	/**
 	 * Die Anfrage_id zur Verwendung im Studie Servlet
@@ -519,8 +524,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	private void studieAendern(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		if (request.getParameter("loeschenA") == null) {
-
 			// Alle aenderbaren Attribute des request inititalisieren
 			String startDatum = request
 					.getParameter((Parameter.studie.STARTDATUM).name());
@@ -529,10 +532,9 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			String studienarme = request
 					.getParameter((Parameter.studie.ARME_STUDIE).name());
 
-			Studie aStudie = (Studie) (request
+			StudieBean aStudieBean = (StudieBean) (request
 					.getSession()).getAttribute("aStudie");
 			try {
-				StudieBean aStudieBean = aStudie.getStudie();
 				try {
 					Vector<StudienarmBean> studienArme = aStudieBean
 							.getStudienarme();
@@ -542,64 +544,24 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					aStudieBean.setBeschreibung(request
 							.getParameter((Parameter.studie.BESCHREIBUNG)
 									.name()));
-					if (aStudieBean.getBenutzerkonto() != null) {
-						aStudieBean.setName(request
-								.getParameter((Parameter.studie.NAME).name()));
-						aStudieBean
-								.setStudienprotokollPfad(request
-										.getParameter((Parameter.studie.STUDIENPROTOKOLL)
-												.name()));
-						aStudieBean.setStudienarme(studienArme);
-						aStudieBean
-								.setRandomisationseigenschaften(request
-										.getParameter((Parameter.studie.RANDOMISATIONSEIGENSCHAFTEN)
-												.name()));
-						aStudieBean.setInstitution(request
-								.getParameter((Parameter.studie.INSTITUT)
-										.name()));
-						aStudieBean.setStudienleiter(request
-								.getParameter((Parameter.studie.STUDIENLEITER)
-										.name()));
-
-						DatenbankFactory
+					
+					DatenbankFactory
 								.getAktuelleDBInstanz()
-								.schreibenObjekt(aStudieBean.getBenutzerkonto());
-					}
+								.schreibenObjekt(aStudieBean);					
 
 				} catch (Exception e) {
 					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 							.getMessage());
 				}
-				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
-						aStudieBean);
-//				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
-//						aStudie);
-				request.getRequestDispatcher("global_welcome.jsp").forward(
+				request.setAttribute(DispatcherServlet.NACHRICHT_OK, this.AENDERUNG_STUDIE_ERFOLGREICH);
+				request.getRequestDispatcher("studie_auswaehlen.jsp").forward(
 						request, response);
 			} catch (DatenbankExceptions e) {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 						.getMessage());
 			}
-		} else {
-			try {
-//				BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
-//						.getSession()).getAttribute("aBenutzer");
-//				StudieBean aStudie = aBenutzer.getStudie();
-//				if (aStudie.getBenutzerkonto() != null) {
-//					DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(
-//							aStudie.getBenutzerkonto());
-//					request.getRequestDispatcher("global_welcome.jsp").forward(
-//							request, response);
-//				} else {
-//					request.getRequestDispatcher("studie_aendern.jsp").forward(
-//							request, response);
-//				}
-			} catch (Exception e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-						.getMessage());
-			}
-		}
-	}
+		} 
+	
 
 	/**
 	 * 
