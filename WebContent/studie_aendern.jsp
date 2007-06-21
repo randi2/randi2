@@ -4,6 +4,7 @@
 	import="de.randi2.model.fachklassen.*"
 	import="java.util.GregorianCalendar"
 	import="java.util.Calendar"
+	import="java.util.Vector"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"
 	import="de.randi2.utility.*" import="de.randi2.controller.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -25,12 +26,11 @@
 <fieldset><legend><b>Studienangaben</b></legend>
 <table>
 	<%
-		//Holen der Studie, das angezeigt und geaendert werden soll.
-		
-		StudieBean aStudieBean = (StudieBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name());
-		//Calendar-Objekt fuer End- und Startdatum
-		Calendar cal = new GregorianCalendar();
-		SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy",Locale.GERMANY);
+	StudieBean aStudieBean = (StudieBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name());
+	Calendar cal = new GregorianCalendar();
+	SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy",Locale.GERMANY);
+	Vector<StudienarmBean> aStudienarme = aStudieBean.getStudienarme();
+	int counter = aStudienarme.size();
 	%>
 	<tr>
 		<td>Name der Studie<br>
@@ -94,45 +94,25 @@
 						<th align="left">Beschreibung</th>
 					</tr>
 					<tr>
-						<td><input name="studienarm1" value="Parameter.studie.ARME_STUDIE" size="30"
-							type="text"> readonly value="<%out.print(aStudieBean.getStudienarme());%>"
-						</td>
-						<td><input name="beschreibung1" value="Parameter.studie.BESCHREIBUNG" size="80"
-							type="text"> readonly value="<%out.print(aStudieBean.getBeschreibung());%>"
-						</td>
-					</tr>
-					<tr>
-						<td><input name="studienarm2" value="Parameter.studie.ARME_STUDIE" size="30"
-							type="text"> readonly value="<%out.print(aStudieBean.getStudienarme());%>"
-						</td>
-						<td><input name="beschreibung2" value="Parameter.studie.BESCHREIBUNG" size="80"
-							type="text"> readonly value="<%out.print(aStudieBean.getBeschreibung());%>"
+						<td><input name="studienarm" value="Parameter.studie.ARME_STUDIE" size="30"
+							type="text" 
+							readonly value="<%out.print(aStudienarme.get(aStudienarme.size()-counter).getBezeichnung());%>"
+							<%counter--; %>>
 						</td>
 					</tr>
-					<tr>
-						<td><input name="studienarm3" value="Parameter.studie.ARME_STUDIE" size="30"
-							type="text"> readonly value="<%out.print(aStudieBean.getStudienarme());%>"
-						</td>
-						<td><input name="beschreibung3" value="Parameter.studie.BESCHREIBUNG" size="80"
-							type="text"> readonly value="<%out.print(aStudieBean.getBeschreibung());%>"
-						</td>
-					</tr>
-					<tr>
-						<td><input name="studienarm4" value="Parameter.studie.ARME_STUDIE" size="30"
-							type="text"> readonly value="<%out.print(aStudieBean.getStudienarme());%>"
-						</td>
-						<td><input name="beschreibung4" value="Parameter.studie.BESCHREIBUNG" size="80"
-							type="text"> readonly value="<%out.print(aStudieBean.getBeschreibung());%>"
-						</td>
-					</tr>
-					<tr>
-						<td><input name="studienarm5" value="Parameter.studie.ARME_STUDIE" size="30"
-							type="text"> readonly value="<%out.print(aStudieBean.getStudienarme());%>"
-						</td>
-						<td><input name="beschreibung5" value="Parameter.studie.BESCHREIBUNG" size="80"
-							type="text"> readonly value="<%out.print(aStudieBean.getBeschreibung());%>"
-						</td>
-					</tr>
+					<%
+						while(counter>0){
+					%>
+						<tr align="left">
+						<td></td>
+						<td><%=aStudienarme.get(aStudienarme.size()-counter).getBezeichnung()%><%counter--; %></td>
+						<td></td>
+						</tr>		
+					<%	
+						counter--;
+						}
+					%>
+					
 				</tbody>
 			</table>
 			</td>
