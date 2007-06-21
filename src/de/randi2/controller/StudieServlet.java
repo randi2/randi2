@@ -87,7 +87,15 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 */
 		JSP_ZENTRUM_ANZEIGEN,
 
+		/**
+		 * 
+		 */
 		AKTION_STUDIE_PAUSIEREN,
+
+		/**
+		 * 
+		 */
+		AKTION_STUDIE_FORTSETZEN,
 
 		/**
 		 * Aendert einer bereits vorhandenen Studie.
@@ -228,7 +236,14 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				request.getRequestDispatcher(Jsp.STUDIE_PAUSIEREN_EINS)
 						.forward(request, response);
 
+			}else if (id.equals(anfrage_id.AKTION_STUDIE_FORTSETZEN.name())) {
+				// Status aendern
+				studieStatus(request, response,Studie.Status.AKTIV);
+			}else if (id.equals(anfrage_id.AKTION_STUDIE_PAUSIEREN.name())) {
+				// Status aendern
+				studieStatus(request, response, Studie.Status.PAUSE);
 			}
+			
 
 		} else if (id != null) {
 			Logger.getLogger(this.getClass()).debug(id);
@@ -270,8 +285,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			} else if (id.equals(anfrage_id.JSP_STUDIE_AENDERN.name())) {
 				// studieAendern.jsp soll angezeigt werden
 				studieAendern(request, response);
-			} else if (id.equals(anfrage_id.JSP_STATUS_AENDERN.name())) {
-				studieStatus(request, response);
 			}
 
 			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
@@ -488,39 +501,22 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
 	 */
 	private void studieStatus(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response, Studie.Status status) throws ServletException, IOException {
 		// TODO implementieren
-		StudieBean aStudieBean = new StudieBean();
+		//StudieBean aStudieBean = new StudieBean();
 		Studie.Status statusenum = null;
-
-		String statusStudie = request.getParameter((Parameter.studie.STATUS)
-				.name());
-
-		// Konvertierung String enum
-		for (Studie.Status s : Studie.Status.values()) {
-			if (statusStudie.equals(statusStudie.toString())) {
-				statusenum = s;
-				break;
-			}
-		}
+		StudieBean aStudie = (StudieBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name());
 
 		try {
-			aStudieBean.setStatus(statusenum);
-
-			// Studie pausiert
+			aStudie.setStatus(status);
+			DatenbankFactory.getAktuelleDBInstanz()
+					.schreibenObjekt(aStudie);
+//			 Studie pausiert
 			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 					this.STATUS_GEAENDERT);
 			request.getRequestDispatcher("studie_ansehen.jsp").forward(request,
 					response);
-
-			DatenbankFactory.getAktuelleDBInstanz()
-					.schreibenObjekt(aStudieBean);
-		} catch (DatenbankExceptions e) {
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-					.getMessage());
-			request.getRequestDispatcher("studie_ansehen.jsp").forward(request,
-					response);
-		} catch (StudieException e) {
+		} catch (Exception e) {
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 					.getMessage());
 			request.getRequestDispatcher("studie_ansehen.jsp").forward(request,
