@@ -50,6 +50,9 @@
 			  value="<%if(aStudieBean.getStartDatum().after(cal.get(Calendar.DATE))&& aStudieBean.getStartDatum().after(cal.get(Calendar.MONTH)+1)
 			          && aStudieBean.getStartDatum().after(cal.get(Calendar.YEAR))){out.print(aStudieBean.getStartDatum());}%>"
 			  z:message="Startdatum liegt in der Vergangenheit"
+			   readonly value="<%if(aStudieBean.getStartDatum().before(cal.get(Calendar.DATE))&& aStudieBean.getStartDatum().before(cal.get(Calendar.MONTH)+1)
+			          && aStudieBean.getStartDatum().before(cal.get(Calendar.YEAR))){out.print(aStudieBean.getStartDatum());}%>"
+			  
 			</td>
 		<td>Enddatum *<br>
 		<input type="text" size="40" maxlength="40" name="Parameter.studie.ENDDATUM"
@@ -57,6 +60,8 @@
 			  value="<%if(aStudieBean.getEndDatum().after(cal.get(Calendar.DATE))&& aStudieBean.getEndDatum().after(cal.get(Calendar.MONTH)+1)
 			          && aStudieBean.getEndDatum().after(cal.get(Calendar.YEAR))){out.print(aStudieBean.getEndDatum());}%>"
 			  z:message="Enddatum liegt in der Vergangenheit"
+			   readonly value="<%if(aStudieBean.getEndDatum().before(cal.get(Calendar.DATE))&& aStudieBean.getEndDatum().before(cal.get(Calendar.MONTH)+1)
+			          && aStudieBean.getEndDatum().before(cal.get(Calendar.YEAR))){out.print(aStudieBean.getEndDatum());}%>"
 			</td>
 	</tr>
 	<tr>
