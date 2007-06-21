@@ -26,7 +26,7 @@
 <table>
 	<%
 		//Holen der Studie, das angezeigt und geaendert werden soll.
-		StudieBean aStudieBean = aBenutzer.getStudie();
+		StudieBean aStudieBean = aBenutzer
 		
 		//Calendar-Objekt fuer End- und Startdatum
 		Calendar cal = new GregorianCalendar();

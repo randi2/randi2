@@ -655,18 +655,4 @@ public class BenutzerkontoBean extends Filter implements Serializable {
 		this.aZentrumId = zentrumId;
 	}
 	
-	/**
-	 * Liefert die Studie zum BenutzerkontoBean.
-	 * 
-	 * @return studie, Studie
-	 * @throws DatenbankExceptions
-	 *             Exception, wenn beim Holen des entsprechendes
-	 *             Studieobjektes Probleme vorkamen.
-	 */
-	public StudieBean getStudie() throws DatenbankExceptions {
-		if (aStudie == null) {
-			aStudie = Studie.getStudie(aStudieId);
-		}
-		return aStudie;
-	}
 }

@@ -9,6 +9,7 @@ import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
+import de.randi2.utility.NullKonstanten;
 
 /**
  * Fachklasse Studie
@@ -23,6 +24,11 @@ public class Studie {
 	 * Das zugehörige StudieBean-Objekt.
 	 */
 	private StudieBean aStudieBean = null;
+	
+	/**
+	 * Id der zugehoerigen Studie.
+	 */
+	private long aStudieId = NullKonstanten.NULL_LONG;
 
 	/**
 	 * Zentren, die zur Studie zugewiesen werden.
@@ -225,6 +231,20 @@ public class Studie {
 		studie = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(
 				studieId, studie);
 		return studie;
+	}
+	/**
+	 * Liefert die Studie zum BenutzerkontoBean.
+	 * 
+	 * @return studie, Studie
+	 * @throws DatenbankExceptions
+	 *             Exception, wenn beim Holen des entsprechendes
+	 *             Studieobjektes Probleme vorkamen.
+	 */
+	public StudieBean getStudie() throws DatenbankExceptions {
+		if (aStudieBean == null) {
+			aStudieBean = Studie.getStudie(aStudieId);
+		}
+		return aStudieBean;
 	}
 
 	/**

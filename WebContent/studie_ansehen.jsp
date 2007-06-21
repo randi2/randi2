@@ -99,7 +99,12 @@
 				<table align="center">
 					<tr>
 						<td><input type="button" name="studie_aendern" value="&Auml;ndern" tabindex="2" onclick="location.href='studie_aendern.jsp'">&nbsp;&nbsp;</td>
+					<% if(aStudie.getStatus().equals(Studie.Status.AKTIV)) { %>
 						<td><input type="button" name="studie_pausieren" value="Pausieren" tabindex="3" onclick="location.href='studie_pausieren_eins.jsp'">&nbsp;&nbsp;</td>
+						<%					}		%>
+						<%if(aStudie.getStatus().equals(Studie.Status.PAUSE)) { %> 
+						<td><input type="button" name="studie_fortsetzen" value="Fortsetzen" tabindex="3" onclick="location.href='studie_fortsetzen_eins.jsp'">&nbsp;&nbsp;</td>
+						<%					}		%>
 						<td><input type="button" name="arm" value="Arm ausw&auml;hlen" tabindex="4" onclick="location.href='armauswaehlen_eins.jsp'">&nbsp;&nbsp;</td>
 						<!--<td><input type="button" name="simulation" value="Simulation" tabindex="5" onclick="location.href='simulation.jsp'">&nbsp;&nbsp;</td>-->
 						<td><input type="button" name="statistik" value="Statistik anzeigen" tabindex="6" onclick="location.href='studie_anzeigen_statistikanzeigen.jsp'">&nbsp;&nbsp;</td>

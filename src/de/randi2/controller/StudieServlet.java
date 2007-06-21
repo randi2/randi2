@@ -38,11 +38,13 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 * Serial Version
 	 */
 	private static final long serialVersionUID = 7L;
-	
+
 	/**
 	 * Meldung, wenn der Aenderungsvorgang einer Studie erfolgreich war.
 	 */
 	private static final String AENDERUNG_STUDIE_ERFOLGREICH = "Die Studie wurde erfolgreich geändert.";
+
+	public static final String STATUS_GEAENDERT = "Der Status wurde erfolgreich geaendert!";
 
 	/**
 	 * Die Anfrage_id zur Verwendung im Studie Servlet
@@ -165,7 +167,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		this.doPost(request, response);
-		
+
 	}
 
 	/**
@@ -477,7 +479,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		// TODO implementieren
 		StudieBean aStudieBean = new StudieBean();
 		Studie.Status statusenum = null;
-		
+
 		String statusStudie = request.getParameter((Parameter.studie.STATUS)
 				.name());
 
@@ -486,26 +488,29 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			if (statusStudie.equals(statusStudie.toString())) {
 				statusenum = s;
 				break;
-			}
-		}
+			}  
+		} 
 
 		try {
 			aStudieBean.setStatus(statusenum);
+			// Studie pausiert
 
-			request.getRequestDispatcher("global_welcome.jsp").forward(request,
-					response);
+			try {
+				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+						aStudieBean);
+			} catch (DatenbankExceptions e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
+			}
 
 		} catch (Exception e) {
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-					.getMessage());
+			System.out.println("Status OK");
+			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+					this.STATUS_GEAENDERT);
+			request.getRequestDispatcher("studie_ansehen.jsp").forward(request,
+					response);
 		}
-		try {
-			DatenbankFactory.getAktuelleDBInstanz()
-					.schreibenObjekt(aStudieBean);
-		} catch (DatenbankExceptions e) {
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-					.getMessage());
-		}
+
 	}
 
 	/**
@@ -524,44 +529,49 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	private void studieAendern(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-			// Alle aenderbaren Attribute des request inititalisieren
-			String startDatum = request
-					.getParameter((Parameter.studie.STARTDATUM).name());
-			String endDatum = request.getParameter((Parameter.studie.ENDDATUM)
-					.name());
-			String studienarme = request
-					.getParameter((Parameter.studie.ARME_STUDIE).name());
+		// Alle aenderbaren Attribute des request inititalisieren
+		String startDatum = request.getParameter((Parameter.studie.STARTDATUM)
+				.name());
+		String endDatum = request.getParameter((Parameter.studie.ENDDATUM)
+				.name());
+		String studienarme = request
+				.getParameter((Parameter.studie.ARME_STUDIE).name());
 
-			StudieBean aStudieBean = (StudieBean) (request
-					.getSession()).getAttribute("aStudie");
+		Studie aStudie = (Studie) (request.getSession())
+				.getAttribute("aStudie");
+
+		StudieBean aStudieBean = (StudieBean) (request.getSession())
+				.getAttribute("aStudie");
+
+		try {
 			try {
-				try {
-					Vector<StudienarmBean> studienArme = aStudieBean
-							.getStudienarme();
-					GregorianCalendar aStartDatum = aStudieBean.getStartDatum();
-					GregorianCalendar aEndDatum = aStudieBean.getEndDatum();
-					aStudieBean.setStudienZeitraum(aStartDatum, aEndDatum);
-					aStudieBean.setBeschreibung(request
-							.getParameter((Parameter.studie.BESCHREIBUNG)
-									.name()));
-					
-					DatenbankFactory
-								.getAktuelleDBInstanz()
-								.schreibenObjekt(aStudieBean);					
+				Vector<StudienarmBean> studienArme = aStudieBean
+						.getStudienarme();
+				GregorianCalendar aStartDatum = aStudieBean.getStartDatum();
+				GregorianCalendar aEndDatum = aStudieBean.getEndDatum();
+				aStudieBean.setStudienZeitraum(aStartDatum, aEndDatum);
+				aStudieBean.setBeschreibung(request
+						.getParameter((Parameter.studie.BESCHREIBUNG).name()));
 
-				} catch (Exception e) {
-					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-							.getMessage());
-				}
-				request.setAttribute(DispatcherServlet.NACHRICHT_OK, this.AENDERUNG_STUDIE_ERFOLGREICH);
-				request.getRequestDispatcher("studie_auswaehlen.jsp").forward(
-						request, response);
-			} catch (DatenbankExceptions e) {
+				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+						aStudieBean);
+
+			} catch (Exception e) {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 						.getMessage());
 			}
-		} 
-	
+
+			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+					this.AENDERUNG_STUDIE_ERFOLGREICH);
+			request.getRequestDispatcher("studie_auswaehlen.jsp").forward(
+
+			request, response);
+		} catch (DatenbankExceptions e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
+		}
+
+	}
 
 	/**
 	 * 
