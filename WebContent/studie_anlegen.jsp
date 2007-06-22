@@ -106,7 +106,7 @@ Ext.onReady(function(){
     form_studie_anlegen.fieldset(
         {legend:'Statistik und Auswertung'},
 		studie_statistiker_boolean
-	);
+	); 
 	
 	form_studie_anlegen.addButton('Best&auml;tigen', function(){
 		if (this.isValid()) {
