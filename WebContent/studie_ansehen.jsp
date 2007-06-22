@@ -53,7 +53,7 @@
 		<td><a href="<%=aStudie.getStudienprotokollpfad() %>"><%=aStudie.getStudienprotokollpfad() %></a></td>
 		<td><%=aStudienarme.get(aStudienarme.size()-counter).getBezeichnung()%><%counter--; %></td>
 		<td><%=aStudie.getRandomisationsart() %></td>
-	</tr>
+	</tr> 
 	<%
 		while(counter>0){
 	%>

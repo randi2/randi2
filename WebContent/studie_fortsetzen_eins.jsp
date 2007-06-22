@@ -27,7 +27,7 @@
 	</tr>
 	<tr>
 		<td><input type="submit" name="entsp_ja" value="Ja" tabindex="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-		<input type="button" name="entsp_nein" value="Nein" tabindex="2" onclick="location.href='studienliste_sl.jsp'"></td>
+		<input type="button" name="entsp_nein" value="Nein" tabindex="2" onclick="location.href='studie_ansehen.jsp'"></td>
 	</tr>
 </table>
 

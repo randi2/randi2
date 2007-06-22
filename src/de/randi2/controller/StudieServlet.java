@@ -46,7 +46,9 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 * Meldung, wenn der Aenderungsvorgang einer Studie erfolgreich war.
 	 */
 	private static final String AENDERUNG_STUDIE_ERFOLGREICH = "Die Studie wurde erfolgreich geändert.";
-
+	/**
+	 * Meldung, wenn der Status erfolgreich geaendert wurde.
+	 */
 	public static final String STATUS_GEAENDERT = "Der Status wurde erfolgreich geaendert!";
 
 	/**
@@ -74,6 +76,9 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 */
 		JSP_STUDIE_AUSWAEHLEN,
 
+		/**
+		 * Eine Studie soll geaendert werden.
+		 */
 		JSP_STATUS_AENDERN,
 		/**
 		 * Status der Studie aendern.
@@ -91,12 +96,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		JSP_ZENTRUM_ANZEIGEN,
 
 		/**
-		 * 
+		 * Eine Studie wird pausiert.
 		 */
 		AKTION_STUDIE_PAUSIEREN,
 
 		/**
-		 * 
+		 * Eine pausierte Studie wird fortgesetzt.
 		 */
 		AKTION_STUDIE_FORTSETZEN,
 
@@ -504,6 +509,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 *            Der Request fuer das Servlet.
 	 * @param response
 	 *            Der Response Servlet.
+	 * @param status Status der Studie, der geaendert wird.
 	 * @throws IOException
 	 *             Falls Fehler in den E/A-Verarbeitung.
 	 * @throws ServletException
@@ -511,16 +517,15 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 */
 	private void studieStatus(HttpServletRequest request,
 			HttpServletResponse response, Studie.Status status) throws ServletException, IOException {
-		// TODO implementieren
-		//StudieBean aStudieBean = new StudieBean();
-		Studie.Status statusenum = null;
+		
 		StudieBean aStudie = (StudieBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name());
 
 		try {
 			aStudie.setStatus(status);
 			DatenbankFactory.getAktuelleDBInstanz()
 					.schreibenObjekt(aStudie);
-//			 Studie pausiert
+			//Studie erfolgreich pausiert
+			//TODO Meldung an den Benutzer
 			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 					this.STATUS_GEAENDERT);
 			request.getRequestDispatcher("studie_ansehen.jsp").forward(request,
