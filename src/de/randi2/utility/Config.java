@@ -261,7 +261,11 @@ public final class Config {
          * Name, der fuer den Systemdummy bein Logging verwendet wird
          */
         RELEASE_SYSTEMDUMMY_NAME,
-
+        
+        /**
+         * Der Disclaimer
+         */
+        RELEASE_DISCLAIMER,
     }
 
     /**
