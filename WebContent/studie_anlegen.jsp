@@ -17,14 +17,7 @@
 <html>
 <head>
 <title>Randi2 :: Studie anlegen</title>
-<link rel="stylesheet" type="text/css"
-	href="js/ext/resources/css/ext-all.css" />
-<!-- GC -->
-<script type="text/javascript" src="js/ext/adapter/yui/yui-utilities.js"></script>
-<script type="text/javascript"
-	src="js/ext/adapter/yui/ext-yui-adapter.js"></script>
-<!-- ENDLIBS -->
-<script type="text/javascript" src="js/ext/ext-all.js"></script>
+<%@include file="include/inc_extjs.jsp"%>
 <script>
 Ext.onReady(function(){
 
@@ -121,14 +114,14 @@ Ext.onReady(function(){
 	
 	<!--  Die ANFRAGE_ID fuer ABBRECHEN wird hier gesetzt. dhaehn	-->
 	form_studie_anlegen.addButton('Abbrechen', function(){
-		top.location.href='DispatcherServlet?<%=Parameter.anfrage_id %>=<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANLEGEN %>';
+		top.location.href='DispatcherServlet?<%=Parameter.anfrage_id %>=<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANLEGEN.name() %>';
 	}, form_studie_anlegen);
 	
 			
 	form_studie_anlegen.render('studie_anlegen');
 	
 	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
-	form_studie_anlegen.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANLEGEN %>'});	
+	form_studie_anlegen.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANLEGEN.name() %>'});	
 
 	<!-- folgende Zeile ermoeglicht File-Uploads via POST -->
 	form_studie_anlegen.el.enctype = 'multipart/form-data';
