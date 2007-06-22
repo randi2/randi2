@@ -12,14 +12,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8;" />
 <title>RANDI 2</title>
-<link rel="stylesheet" type="text/css"
-	href="js/ext/resources/css/ext-all.css" />
-<!-- GC -->
-<script type="text/javascript" src="js/ext/adapter/yui/yui-utilities.js"></script>
-<script type="text/javascript"
-	src="js/ext/adapter/yui/ext-yui-adapter.js"></script>
-<!-- ENDLIBS -->
-<script type="text/javascript" src="js/ext/ext-all.js"></script>
+<%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/style_login.css" />
 <script>
@@ -39,7 +32,7 @@ Ext.onReady(function(){
         name: '<%=Parameter.benutzerkonto.LOGINNAME.name() %>',
         allowBlank:false,
         blankText:'Bitte Namen eingeben!',
-        width:100
+        width:150
     });
     
      var login_passwort = new Ext.form.TextField({
@@ -48,7 +41,7 @@ Ext.onReady(function(){
         allowBlank:false,
         blankText:'Bitte Passwort eingeben!',
         inputType:'password',
-        width:100
+        width:150
     });
 	
 	form_login.addButton('Login', function(){
