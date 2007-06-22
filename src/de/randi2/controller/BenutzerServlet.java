@@ -484,8 +484,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 		try {
 			sBenutzer = new BenutzerkontoBean((String) request
-					.getParameter("username"), (String) request
-					.getParameter("password"));
+					.getParameter(Parameter.benutzerkonto.LOGINNAME.name()), (String) request
+					.getParameter(Parameter.benutzerkonto.PASSWORT.name()));
 			// Filter setzen
 			sBenutzer.setFilter(true);
 			Vector<BenutzerkontoBean> gBenutzer = null;
@@ -508,7 +508,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				if (!aBenutzer.isGesperrt()
 						&& new Benutzerkonto(aBenutzer)
 								.pruefenPasswort((String) request
-										.getParameter("password"))) {
+										.getParameter(Parameter.benutzerkonto.PASSWORT.name()))) {
 					// Konto nicht gesperrt und PW korrekt
 					if (isSystemGesperrt) {
 						// Konto korrekt, aber System gesperrt

@@ -567,6 +567,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN.name())) {
 
+				System.out.println("test");
+				
 				// neue Studie anlegen
 				request.setAttribute(
 						DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
