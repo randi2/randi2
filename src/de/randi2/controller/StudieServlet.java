@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Vector;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
+
 import de.randi2.controller.DispatcherServlet.sessionParameter;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
@@ -161,7 +164,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 	/**
 	 * Diese Methode nimmt HTTP-GET-Request gemaess HTTP-Servlet Definition
-	 * entgegen. Hier werden Anfragen verarbeitet, die Zentren betreffen.
+	 * entgegen. Die Anfragen werden direkt an doPost() weitergeleitet.
 	 * 
 	 * @param request
 	 *            Der Request fuer das Servlet.
@@ -226,6 +229,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				// Neue Studie anlegen
 				// StudieBean aStudie = new
 				// StudieBean(NullKonstanten.DUMMY_ID,);
+
+				System.out.println("3333");
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Fehler beim Anlegen");
+				
+				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
+						request, response);
 
 			} else if (id.equals(anfrage_id.AKTION_STUDIE_AENDERN.name())) {
 				// Studie soll geaendert werden
