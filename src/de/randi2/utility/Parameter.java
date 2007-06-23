@@ -177,6 +177,11 @@ public class Parameter {
 		/**
 		 * Attribut der Klasse BenutzerkontoBean. Details siehe {@link BenutzerkontoBean}
 		 */
+		PASSWORT_WIEDERHOLUNG,
+		
+		/**
+		 * Attribut der Klasse BenutzerkontoBean. Details siehe {@link BenutzerkontoBean}
+		 */
 		ROLLE,
 		
 		/**
