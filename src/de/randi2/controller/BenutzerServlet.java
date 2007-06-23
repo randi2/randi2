@@ -579,7 +579,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			try {
 				dummy
 						.setBenutzername((String) request
-								.getParameter("username"));
+								.getParameter(Parameter.benutzerkonto.LOGINNAME.name()));
 			} catch (BenutzerkontoException e1) {
 			}
 
@@ -613,24 +613,23 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 		// Alle Attribute des request inititalisieren
 		// String fehlernachricht = "";
-		String vorname = request.getParameter("Vorname");
-		String nachname = request.getParameter("Nachname");
+		String vorname = request.getParameter(Parameter.person.VORNAME.name());
+		String nachname = request.getParameter(Parameter.person.NACHNAME.name());
 		char geschlecht = '\0';
 		String passwort = null;
-		String email = request.getParameter("Email");
-		String telefon = request.getParameter("Telefon");
-		String fax = request.getParameter("Fax");
-		String handynummer = request.getParameter("Handy");
-		String institut = request.getParameter("Institut");
-		String titel = request.getParameter("Titel");
+		String email = request.getParameter(Parameter.person.EMAIL.name());
+		String telefon = request.getParameter(Parameter.person.TELEFONNUMMER.name());
+		String fax = request.getParameter(Parameter.person.FAX.name());
+		String handynummer = request.getParameter(Parameter.person.HANDYNUMMER.name());
+		String titel = request.getParameter(Parameter.person.TITEL.name());
 		PersonBean.Titel titelenum = null;
 		try {
 			// Geschlecht gesetzt pruefen
-			if (request.getParameter("Geschlecht") == null) {
+			if (request.getParameter(Parameter.person.GESCHLECHT.name()) == null) {
 				throw new BenutzerkontoException(
 						"Bitte Geschlecht ausw&auml;hlen");
 			}
-			geschlecht = request.getParameter("Geschlecht").charAt(0);
+			geschlecht = request.getParameter(Parameter.person.GESCHLECHT.name()).charAt(0);
 			// Konvertierung String enum
 			for (PersonBean.Titel t : PersonBean.Titel.values()) {
 				if (titel.equals(t.toString())) {
@@ -640,14 +639,14 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			}
 
 			// Wiederholte Passworteingabe prüfen
-			if (request.getParameter("Passwort") != null
-					&& request.getParameter("Passwort_wh") != null) {
-				if (request.getParameter("Passwort").equals(
-						request.getParameter("Passwort_wh"))) {
-					passwort = request.getParameter("Passwort");
+			if (request.getParameter(Parameter.benutzerkonto.PASSWORT.name()) != null
+					&& request.getParameter(Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG.name()) != null) {
+				if (request.getParameter(Parameter.benutzerkonto.PASSWORT.name()).equals(
+						request.getParameter(Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG.name()))) {
+					passwort = request.getParameter(Parameter.benutzerkonto.PASSWORT.name());
 				} else {
 					throw new BenutzerkontoException(
-							"Passwort und wiederholtes Passwort sind nicht gleich");
+							BenutzerkontoException.PASSWORT_STIMMT_NICHT_UEBEREIN);
 
 				}
 			}
@@ -714,21 +713,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			} else
 				throw new SystemException("Fehler bei Aktivierung");
 
-			request.setAttribute("Vorname", vorname);
-			request.setAttribute("Nachname", nachname);
-			if (geschlecht == 'm') {
-				request.setAttribute("Geschlecht", "m");
-			} else if (geschlecht == 'w') {
-				request.setAttribute("Geschlecht", "w");
-			}
-			request.setAttribute("Titel", titelenum);
-			request.setAttribute("Passwort", request.getParameter("Passwort"));
-			request.setAttribute("Passwort_wh", request.getParameter("Passwort_wh"));
-			request.setAttribute("Email", email);
-			request.setAttribute("Telefon", telefon);
-			request.setAttribute("Fax", fax);
-			request.setAttribute("Handy", handynummer);
-			request.setAttribute("Institut", institut);
+
 			request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
 		}
 
