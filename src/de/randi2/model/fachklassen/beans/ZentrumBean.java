@@ -5,6 +5,7 @@ import java.util.Collection;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.utility.KryptoUtil;
@@ -576,6 +577,12 @@ public class ZentrumBean extends Filter {
 			return super.hashCode();
 		}
 		return (int) this.getId();
+	}
+
+	@Override
+	public void validate() throws BenutzerException {
+		// FIXME sihe #169
+		
 	}
 
 }

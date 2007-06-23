@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Studienarm;
@@ -360,6 +361,12 @@ public class StudienarmBean extends Filter {
 			return super.hashCode();
 		}
 		return (int) this.getId();
+	}
+
+	@Override
+	public void validate() throws BenutzerException {
+		// FIXME siehe #168
+		
 	}
 
 }

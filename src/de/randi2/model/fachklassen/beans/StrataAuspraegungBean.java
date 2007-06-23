@@ -143,4 +143,19 @@ public class StrataAuspraegungBean extends Filter implements
 		s += "\t\t Name: " + this.name + "\n";
 		return s;
 	}
+
+	/**
+	 * Prueft ob alle Pflichtfelder besetzt sind.
+	 * 
+	 * @throws StrataException
+	 *             Falls dem nicht so ist.
+	 */
+	@Override
+	public void validate() throws StrataException {
+		if (this.name == null) {
+			throw new StrataException(
+					StrataException.STRATA_AUSPRAEGUNG_NAME_LEER);
+		}
+
+	}
 }

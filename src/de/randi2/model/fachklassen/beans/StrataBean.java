@@ -214,4 +214,21 @@ public class StrataBean extends Filter {
 		this.name = name.trim();
 	}
 
+	/**
+	 * Prueft ob alle Pflichtfelder besetzt sind.
+	 * 
+	 * @throws StrataException
+	 *             Falls dem nicht so ist.
+	 */
+	@Override
+	public void validate() throws StrataException {
+		if (this.auspraegungen == null) {
+			throw new StrataException(StrataException.STRATA_AUSPRAEGUNGEN_LEER);
+		}
+		if (this.name == null) {
+			throw new StrataException(StrataException.STRATA_NAME_LEER);
+		}
+
+	}
+
 }

@@ -2,6 +2,7 @@ package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.utility.NullKonstanten;
@@ -602,5 +603,11 @@ public class PersonBean extends Filter {
 
 		}
 		return false;
+	}
+
+	@Override
+	public void validate() throws BenutzerException {
+		// FIXME siehe #166
+		
 	}
 }

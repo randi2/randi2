@@ -7,6 +7,7 @@ import java.util.Locale;
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.AktivierungException;
+import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.NullKonstanten;
@@ -261,5 +262,11 @@ public class AktivierungBean extends Filter {
 			return super.hashCode();
 		}
 		return (int) this.getId();
+	}
+
+	@Override
+	public void validate() throws BenutzerException {
+		// TODO Auto-generated method stub
+		
 	}
 }

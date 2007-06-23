@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Person;
@@ -653,6 +654,12 @@ public class BenutzerkontoBean extends Filter implements Serializable {
 					BenutzerkontoException.ZENTRUM_NICHT_GESPEICHERT);
 		}
 		this.aZentrumId = zentrumId;
+	}
+
+	@Override
+	public void validate() throws BenutzerException {
+		// FIXME Siehe #164
+		
 	}
 	
 }

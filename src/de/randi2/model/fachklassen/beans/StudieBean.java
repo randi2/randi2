@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Vector;
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Studie;
@@ -634,6 +635,12 @@ public class StudieBean extends Filter {
 
 		return true;
 
+	}
+
+	@Override
+	public void validate() throws BenutzerException {
+		// FIXME siehe #167
+		
 	}
 
 }
