@@ -2,13 +2,31 @@
 	import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
 	import="de.randi2.controller.DispatcherServlet"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <%
 String vorname = (String)request.getAttribute("Vorname");
-if (vorname == null){
-	vorname ="";
-}
+String nachname = (String)request.getAttribute("Nachname");
+String benutzername = (String)request.getAttribute("Benutzername");
+String email = (String)request.getAttribute("Email");
+String telefon = (String)request.getAttribute("Telefon");
+String fax = (String)request.getAttribute("Fax");
+String institut = (String)request.getAttribute("Institut");
+String vornameA = (String)request.getAttribute("VornameA");
+String nachnameA = (String)request.getAttribute("NachnameA");
+String telefonA = (String)request.getAttribute("TelefonA");
 
+	if (vorname == null)vorname ="";
+	if(nachname == null)nachname="";
+	if(benutzername == null)benutzername="";
+	if(email == null)email="";
+	if(telefon == null)telefon="";
+	if(fax == null)fax="";
+	if(institut == null)institut="";
+	if(vornameA == null)vornameA="";
+	if(nachnameA == null)nachnameA="";
+	if(telefonA == null)telefonA="";
 %>
+
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -46,7 +64,7 @@ Angaben</b></legend> <label for="Titel">Titel*:</label><br>
 			z:required="true"
 			z:message="Bitte Vornamen angeben"></td>
 		<td><label for="Nachname">Nachname *</label><br>
-		<input type="text" size="25" maxlength="30" id="Nachname"
+		<input type="text" size="25" maxlength="30" id="Nachname" value="<%=nachname%>"
 			name="Nachname" tabindex="3" z:required="true"
 			z:message="Bitte Nachnamen angeben"></td>
 	</tr>
@@ -56,29 +74,35 @@ Angaben</b></legend> <label for="Titel">Titel*:</label><br>
 			for="maennlich">m&auml;nnlich</label> <input type="radio"
 			id="weiblich" name="Geschlecht" value="w"><label
 			for="weiblich">weiblich</label></td>
+		<td>Benutzername *<br>
+		<input type="text" size="25" maxlength="30" id="Benutzername"
+		name="Benutzername" tabindex="" value="<%=benutzername %>"
+		z:required="true"
+		z:message="Bitte Benutzernamen angeben"></td>
 	</tr>
 </table>
 </fieldset>
+<br>
 <fieldset style="width: 60%"><legend><b>Kontaktdaten</b></legend>
 <table>
 	<tr>
 		<td><label for="EMail">E-Mail Adresse *</label><br>
-		<input type="text" size="25" maxlength="30" id="Email" name="Email"
+		<input type="text" size="25" maxlength="30" id="Email" name="Email" value="<%=email%>"
 			tabindex="5" z:required="true" z:message="Bitte E-Mail angeben"
 			z:email="true"
 			z:email_message="Bitte geben sie eine gültige E-Mail Adresse"></td>
 		<td>&nbsp;&nbsp;&nbsp;<label for="Telefon">Telefonnummer
 		*</label><br>
-		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
+		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30" value="<%=telefon %>"
 			id="Telefon" name="Telefon" tabindex="6" z:required="true"
 			z:message="Bitte Telefonnummer angeben"></td>
 	</tr>
 	<tr>
 		<td><label for="Fax">Fax<br>
-		<input type="text" size="25" maxlength="30" id="Fax" name="Fax"
+		<input type="text" size="25" maxlength="30" id="Fax" name="Fax" value="<%=fax %>"
 			tabindex="7"></label></td>
 		<td>&nbsp;&nbsp;&nbsp;<label for="Institut">Institut *<br>
-		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
+		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30" value="<%=institut %>"
 			id="Institut" name="Institut" tabindex="8"></label></td>
 	</tr>
 </table>
@@ -88,15 +112,15 @@ zum Ansprechpartner</b></legend>
 <table>
 	<tr>
 		<td>Vorname *<br>
-		<input type="text" size="25" maxlength="30" name="VornameA"
+		<input type="text" size="25" maxlength="30" name="VornameA" value="<%=vornameA %>"
 			tabindex="12" value="$ansprechpartner_vorn"></td>
 		<td>&nbsp;&nbsp;&nbsp;Nachname *<br>
-		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
+		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30" value="<%=nachnameA %>"
 			name="NachnameA" tabindex="13" value="$ansprechpartner_nachn"></td>
 	</tr>
 	<tr>
 		<td>Telefonnummer *<br>
-		<input type="text" size="25" maxlength="30" name="TelefonA"
+		<input type="text" size="25" maxlength="30" name="TelefonA" value="<%=telefonA %>"
 			tabindex="14" value="$ansprechpartner_telenr"></td>
 	</tr>
 </table>

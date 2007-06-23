@@ -141,7 +141,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			this.classDispatcherservletBenutzerRegistrierenVier(request,
 					response);
 		} else if (id.equals(anfrage_id.AKTION_BENUTZER_ANLEGEN.name())) {
-			classDispatcherservletStudienleiterAnlegen(request, response);
+			classDispatcherservletStudienleiterAdminAnlegen(request, response);
 		} else if (id.equals(BenutzerServlet.anfrage_id.AKTION_BENUTZER_SUCHEN
 				.name())) {
 			classDispatcherServletBenutzerSuchen(request, response);
@@ -970,7 +970,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	 * @throws ServletException
 	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
 	 */
-	private void classDispatcherservletStudienleiterAnlegen(
+	private void classDispatcherservletStudienleiterAdminAnlegen(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -990,6 +990,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		String vornameA = request.getParameter("VornameA");
 		String nachnameA = request.getParameter("NachnameA");
 		String telefonA = request.getParameter("TelefonA");
+		String benutzername = request.getParameter("Benutzername");
 		// String emailA = request.getParameter("EmailA");
 
 		System.out.println(" - - - ");
@@ -1058,8 +1059,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					aPerson);
 
 			// Zugehöriges Benutzerkonto erstellen und in DB Speichern
-
-			String benutzername = "peter5454";
 
 			BenutzerkontoBean aBenutzerkonto;
 			aBenutzerkonto = new BenutzerkontoBean(benutzername, KryptoUtil
