@@ -3,6 +3,7 @@ package de.randi2.datenbank;
 import org.apache.log4j.Logger;
 
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.Config;
@@ -41,7 +42,7 @@ import static de.randi2.utility.Config.Felder;
  * @version $Id: Filter.java 1828 2007-04-06 18:31:47Z jthoenes $
  * 
  */
-public class Filter {
+public abstract class Filter {
 
 	/**
 	 * Repraesentiert das System bei schreibenden Datenbankzugriffen
@@ -171,5 +172,15 @@ public class Filter {
 	public void setBenutzerkontoLogging(BenutzerkontoBean benutzerkontoLogging) {
 		this.benutzerkontoLogging = benutzerkontoLogging;
 	}
+
+	/**
+	 * Diese Methode wird vor dem Speichern in der Datenbank aufgerufen. Sie
+	 * stellt sicher, dass alle Pflichtfelder mit Set-Methoden belegt worden
+	 * sind.
+	 * 
+	 * @throws BenutzerException
+	 *             Wenn etwas fehlschlaegt eine Exception des jeweiligen Beans.
+	 */
+	public abstract void validate() throws BenutzerException;
 
 }

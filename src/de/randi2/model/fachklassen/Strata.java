@@ -10,6 +10,7 @@ import java.util.TreeSet;
 
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.exceptions.StrataException;
 import de.randi2.model.fachklassen.beans.StrataAuspraegungBean;
 import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
@@ -100,25 +101,29 @@ public final class Strata {
 	}
 
 	/**
+	 * Holt alle Strata mit Auspraegungen zu der uebergebenen Studie.
 	 * 
 	 * @param studie
-	 * @return
+	 *            Die Studie deren Stata geholt werden sollen.
+	 * @return Die Strata und zugehoerige Auspraegungen.
 	 * @throws DatenbankExceptions
+	 *             Bei Fehlern in der Datenbank.
+	 * @throws StrataException
+	 *             Falls fehlerhafte Werte in der Datenbank stehen.
 	 */
 	public static Collection<StrataBean> getAll(StudieBean studie)
-			throws DatenbankExceptions {
-		return DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(
-				studie, StrataBean.NULL);
-	}
+			throws DatenbankExceptions, StrataException {
+		Collection<StrataBean> strata = DatenbankFactory.getAktuelleDBInstanz()
+				.suchenMitgliederObjekte(studie, StrataBean.NULL);
 
-	/**
-	 * 
-	 * @return
-	 */
-	public static Collection<StrataAuspraegungBean> getStrataKombinationenList(
-			String kombString) {
-		// TODO Ausimplementieren
-		return null;
+		for (StrataBean s : strata) {
+			Collection<StrataAuspraegungBean> sAs = DatenbankFactory
+					.getAktuelleDBInstanz().suchenMitgliederObjekte(
+							StrataBean.NULL, StrataAuspraegungBean.NULL);
+			s.setAuspraegungen(sAs);
+		}
+
+		return strata;
 	}
 
 }

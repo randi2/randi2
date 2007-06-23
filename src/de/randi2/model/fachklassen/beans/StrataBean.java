@@ -149,6 +149,10 @@ public class StrataBean extends Filter {
 			throw new StrataException(StrataException.STRATA_AUSPRAEGUNGEN_LEER);
 		}
 		this.auspraegungen = new TreeSet<StrataAuspraegungBean>(auspraegungen);
+
+		for (StrataAuspraegungBean sA : this.auspraegungen) {
+			sA.setStrata(this);
+		}
 	}
 
 	/**
@@ -201,9 +205,12 @@ public class StrataBean extends Filter {
 	 *             {@link StrataException#STRATA_NAME_LEER}.
 	 */
 	public void setName(String name) throws StrataException {
-		if (name == null || name.trim().equals("")) {
-			throw new StrataException(StrataException.STRATA_NAME_LEER);
+		if (!super.isFilter()) {
+			if (name == null || name.trim().equals("")) {
+				throw new StrataException(StrataException.STRATA_NAME_LEER);
+			}
 		}
+
 		this.name = name.trim();
 	}
 

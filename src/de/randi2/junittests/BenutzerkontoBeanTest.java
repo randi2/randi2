@@ -22,7 +22,7 @@ import de.randi2.utility.NullKonstanten;
  * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
  * @version $Id: BenutzerkontoBeanTest.java 2441 2007-05-07 08:08:23Z jthoenes $
  */
-public class BenutzerkontoBeanTest extends Filter {
+public class BenutzerkontoBeanTest {
 
 	/**
 	 * Zugehörige BenutzerkontoBean-Objekte.
