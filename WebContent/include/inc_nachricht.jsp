@@ -7,12 +7,12 @@
 <%
 if (request.getAttribute(DispatcherServlet.NACHRICHT_OK) != null) {
 %>
-<center><div class="nachricht" id="erfolgreich_nachricht">
+<center><br><div class="nachricht" id="erfolgreich_nachricht">
 <%=request.getAttribute(DispatcherServlet.NACHRICHT_OK)%>
 </div></center>
 <%}%>
 <%if (request.getAttribute(DispatcherServlet.FEHLERNACHRICHT) != null) {%>
 <center><div class="nachricht" id="fehler_nachricht">
 <%=request.getAttribute(DispatcherServlet.FEHLERNACHRICHT)%>
-</div></center>
+</div></center><br>
 <%}%>
