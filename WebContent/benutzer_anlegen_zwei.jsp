@@ -47,13 +47,6 @@
 
 <script language="Javascript" src="js/motionpack.js"> </script>
 <title>Randi2 :: Benutzer anlegen</title>
-<script type="text/javascript">
-<!--
-	function hideFilter(){
-		document.getElementById('filterdiv').style.display = 'none';
-	}
-//-->
-</script>
 <%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <script language="Javascript" src="js/inlinebutton.js"> </script>
