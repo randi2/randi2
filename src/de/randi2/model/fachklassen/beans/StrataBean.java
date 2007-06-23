@@ -1,13 +1,13 @@
 package de.randi2.model.fachklassen.beans;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.Collection;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.Vector;
 
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.StrataException;
-import de.randi2.utility.CollectionUtil;
-import de.randi2.utility.NullKonstanten;
 
 /**
  * Die Klasse StrataBean kapselt die Eigenschaft eines Stratas. Sie kann - wenn
@@ -15,16 +15,32 @@ import de.randi2.utility.NullKonstanten;
  * 
  * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]
  * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
- * @version $Id: StrataBean.java 2406 2007-05-04 13:25:10Z kkrupka $
+ * @version $Id$
  * 
  */
 public class StrataBean extends Filter {
 
+	/**
+	 * Der Name des Stratas.
+	 */
 	private String name;
 
+	/**
+	 * Eine Beschreibung die angibt, wie die Strata-Auspraegung eines Patienten
+	 * ermittelt werden sollen und evtl. Bezugspunkte (z.B. Alter am 1.1.2007)
+	 * angibt.
+	 */
 	private String beschreibung;
 
-	private List<StrataAuspraegungBean> auspraegungen;
+	/**
+	 * Die Liste der moeglichen Auspraegungen zu diesem Strata.
+	 */
+	private SortedSet<StrataAuspraegungBean> auspraegungen;
+
+	/**
+	 * Das Null-Objekt zum Strata-Bean.
+	 */
+	public static final StrataBean NULL = new StrataBean();
 
 	/**
 	 * Default-Konstruktor. Erzeugt ein Null-Objekt.
@@ -34,49 +50,55 @@ public class StrataBean extends Filter {
 	}
 
 	/**
-	 * Erzeugt ein StrataBean, ohne eine aktuelle Auspraegung mit anzugeben.
+	 * Erzeugt ein StrataBean, ohne anzugeben.
 	 * 
 	 * @param id
 	 *            ID
-	 * @param moeglicheAuspraegungen
-	 *            Die moeglichen Auspraegungen eines Stratas als HashMap. Der
-	 *            Key-Parameter stellt dabei die id des Stratas auf der
-	 *            Datenbank als {@link Long} dar. Der value-Paramater den
-	 *            geschriebenen Wert des Stratas als {@link String}.
+	 * @param name
+	 *            Der Name des Stratas. Darf nicht leer oder <code>null</code>
+	 *            sein.
+	 * @param beschreibung
+	 *            Eine Beschreibung die angibt, wie die Strata-Auspraegung eines
+	 *            Patienten ermittelt werden sollen und evtl. Bezugspunkte (z.B.
+	 *            Alter am 1.1.2007) angibt. v
 	 * @throws StrataException -
 	 *             bei augetretenen Fehlern
 	 * @throws DatenbankExceptions -
 	 *             bei einer nicht korrekten Id
 	 */
+	// FRAGE Wie sinnvoll ist dieser Konstruktor?
 	public StrataBean(long id, String name, String beschreibung)
 			throws StrataException, DatenbankExceptions {
 		super.setId(id);
-		this.name = name;
-		this.beschreibung = beschreibung;
+		this.setName(name);
+		this.setBeschreibung(beschreibung);
 	}
 
 	/**
-	 * ERzeugt ein Strata, mit einer aktuellen Auspraegung.
+	 * Erzeugt ein StrataBean, ohne anzugeben.
 	 * 
-	 * @param id -
-	 *            die Id des Beans
-	 * @param moeglicheAuspraegungen
-	 *            Die moeglichen Auspraegungen eines Stratas als HashMap. Der
-	 *            Key-Parameter stellt dabei die id des Stratas auf der
-	 *            Datenbank als {@link Long} dar. Der value-Paramater den
-	 *            geschriebenen Wert des Stratas als {@link String}.
-	 * @param aAuspragungId
-	 *            Die id des Stratas als long.
+	 * @param id
+	 *            ID
+	 * @param name
+	 *            Der Name des Stratas. Darf nicht leer oder <code>null</code>
+	 *            sein.
+	 * @param beschreibung
+	 *            Eine Beschreibung die angibt, wie die Strata-Auspraegung eines
+	 *            Patienten ermittelt werden sollen und evtl. Bezugspunkte (z.B.
+	 *            Alter am 1.1.2007) angibt. Darf ggf. auch leer bzw.
+	 *            <code>null</code> sein.
+	 * @param auspraegungen
+	 *            Die Liste der moeglichen Auspraegungen. Darf nicht leer sein.
 	 * @throws StrataException -
 	 *             bei augetretenen Fehlern
 	 * @throws DatenbankExceptions -
 	 *             bei einer nicht korrekten Id
 	 */
 	public StrataBean(long id, String name, String beschreibung,
-			List<StrataAuspraegungBean> auspraegung) throws StrataException,
-			DatenbankExceptions {
+			Collection<StrataAuspraegungBean> auspraegungen)
+			throws StrataException, DatenbankExceptions {
 		this(id, name, beschreibung);
-		
+		this.setAuspraegungen(auspraegungen);
 	}
 
 	/**
@@ -88,52 +110,101 @@ public class StrataBean extends Filter {
 	 */
 	@Override
 	public String toString() {
-		// FIXME implementieren
-		return null;
+		String s = "";
+		s += "Klasse: " + this.getClass().toString() + "\n";
+		s += "\t Name:\t" + this.name + "\n";
+		s += "\t Beschreibung:\t" + this.beschreibung + "\n";
+		for (StrataAuspraegungBean sA : this.getAuspraegungen()) {
+			s += "\t" + sA.toString();
+		}
+		return s;
 	}
 
 	/**
-	 * Diese Methode prueft, ob zwei Kontos identisch sind. Zwei Kontos sind
-	 * identisch, wenn Benutzernamen identisch sind.
+	 * Gibt die moeglichen Auspraegungen eines Stratas zurueck.
 	 * 
-	 * @param zuvergleichendesObjekt
-	 *            das zu vergleichende Objekt vom selben Typ
-	 * @return <code>true</code>, wenn beide Kontos gleich sind, ansonstenm
-	 *         <code>false</code>
+	 * @return Die moeglichen Auspraegungen.
 	 */
-	@Override
-	public boolean equals(Object zuvergleichendesObjekt) {
-		if (zuvergleichendesObjekt instanceof StrataBean) {
-			StrataBean beanZuvergleichen = (StrataBean) zuvergleichendesObjekt;
-			// FIXME Ausimplementieren
-			return true;
-
+	public Collection<StrataAuspraegungBean> getAuspraegungen() {
+		// FIXME Klaeren ob an dieser Stelle Lazy-Loading sinnvoll ist.
+		if (auspraegungen == null) {
+			return new Vector<StrataAuspraegungBean>();
+		} else {
+			return auspraegungen;
 		}
-		return false;
 	}
 
-	public List<StrataAuspraegungBean> getAuspraegungen() {
-		return auspraegungen;
+	/**
+	 * Setzt die Auspraegungen.
+	 * 
+	 * @param auspraegungen
+	 *            Die Liste der moeglichen Auspraegungen. Darf nicht leer sein.
+	 * @throws StrataException
+	 *             Falls die Liste leer ist, mit
+	 *             {@link StrataException#STRATA_AUSPRAEGUNGEN_LEER}.
+	 */
+	public void setAuspraegungen(Collection<StrataAuspraegungBean> auspraegungen)
+			throws StrataException {
+		if (auspraegungen == null || auspraegungen.isEmpty()) {
+			throw new StrataException(StrataException.STRATA_AUSPRAEGUNGEN_LEER);
+		}
+		this.auspraegungen = new TreeSet<StrataAuspraegungBean>(auspraegungen);
 	}
 
-	public void setAuspraegungen(List<StrataAuspraegungBean> auspraegungen) {
-		this.auspraegungen = auspraegungen;
-	}
-
+	/**
+	 * Gibt die Beschreibung zurueck.
+	 * 
+	 * @return Eine Beschreibung die angibt, wie die Strata-Auspraegung eines
+	 *         Patienten ermittelt werden sollen und evtl. Bezugspunkte (z.B.
+	 *         Alter am 1.1.2007) angibt. Kann ggf. auch <code>null</code>
+	 *         sein.
+	 */
 	public String getBeschreibung() {
 		return beschreibung;
 	}
 
+	/**
+	 * Setzt die Beschreibung.
+	 * 
+	 * @param beschreibung
+	 *            Eine Beschreibung die angibt, wie die Strata-Auspraegung eines
+	 *            Patienten ermittelt werden sollen und evtl. Bezugspunkte (z.B.
+	 *            Alter am 1.1.2007) angibt. Darf ggf. auch leer bzw.
+	 *            <code>null</code> sein.
+	 */
 	public void setBeschreibung(String beschreibung) {
+		// Beschreibung darf leer sein.
+		// Wenn sie leer ist, auf null setzen.
+		if (beschreibung != null && beschreibung.trim().equals("")) {
+			beschreibung = null;
+		}
 		this.beschreibung = beschreibung;
 	}
 
+	/**
+	 * Gibt den Namen zurueck.
+	 * 
+	 * @return Der Name des Stratas.
+	 */
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	/**
+	 * Setzt den Namen des Stratas.
+	 * 
+	 * @param name
+	 *            Der Name des Stratas. Darf nicht leer oder <code>null</code>
+	 *            sein.
+	 * @throws StrataException
+	 *             Falls der Name leer oder <code>null</code> ist, mit
+	 *             {@link StrataException#STRATA_NAME_LEER}.
+	 */
+	public void setName(String name) throws StrataException {
+		if (name == null || name.trim().equals("")) {
+			throw new StrataException(StrataException.STRATA_NAME_LEER);
+		}
+		this.name = name.trim();
 	}
 
 }

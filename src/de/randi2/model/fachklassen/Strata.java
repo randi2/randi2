@@ -1,0 +1,124 @@
+package de.randi2.model.fachklassen;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import de.randi2.datenbank.DatenbankFactory;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.fachklassen.beans.StrataAuspraegungBean;
+import de.randi2.model.fachklassen.beans.StrataBean;
+import de.randi2.model.fachklassen.beans.StudieBean;
+
+/**
+ * Die Fachklasse Strata bietet Methoden an, die das Verarbeiten der Strata- und
+ * StrataAuspaegungsBeans unterstuetzen. Insbesondere wird das Speichern von
+ * Strata-Informationen in die Datenbank unterstuetzt.
+ * 
+ * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]
+ * @version $Id$
+ * 
+ */
+public final class Strata {
+
+	/**
+	 * Leerkonstruktor.
+	 * 
+	 */
+	private Strata() {
+	}
+
+	/**
+	 * Erzeugt aus der Liste der StrataKombinationen einen eindeutigen String.
+	 * Der String kann mit einem Patienten gespeichert werden und so seine
+	 * eindeutige Strata-Kombination darstellen.
+	 * 
+	 * @param komb
+	 *            Die verschiedenen Strata Auspraegungen die in den String
+	 *            geschrieben werden sollen.
+	 * @return Der serialisierte String.
+	 */
+	public static String getStratakombinationsString(
+			Collection<StrataAuspraegungBean> komb) {
+		String kombinationString = "";
+		SortedSet<StrataAuspraegungBean> kombSorted = new TreeSet<StrataAuspraegungBean>(
+				komb);
+
+		for (StrataAuspraegungBean sA : kombSorted) {
+			kombinationString += "#" + sA.getStrata().getId() + "="
+					+ sA.getId();
+		}
+		kombinationString += "#";
+
+		return kombinationString;
+
+	}
+
+	/**
+	 * Erzeugt aus der Liste der StrataKombinationen einen eindeutigen String.
+	 * Der String kann mit einem Patienten gespeichert werden und so seine
+	 * eindeutige Strata-Kombination darstellen.
+	 * 
+	 * @param komb
+	 *            Repraesentation des verschiedenen Strataauspraegungen als
+	 *            HashMap (StrataId,StrataAuspraegungId).
+	 * @return Der serialisierte String.
+	 */
+	public static String getStratakombinationsString(HashMap<Long, Long> komb) {
+		String kombinationString = "";
+		SortedMap<Long, Long> kombSorted = new TreeMap<Long, Long>(komb);
+
+		Set<Long> keysSorted = kombSorted.keySet();
+
+		for (Long strataId : keysSorted) {
+			kombinationString += "#" + strataId + "="
+					+ kombSorted.get(strataId);
+		}
+		kombinationString += "#";
+
+		return kombinationString;
+
+	}
+
+	/**
+	 * Liefert das StrataBean zu der uebergebenen Id zurueck.
+	 * 
+	 * @param id
+	 *            Die Id des gesuchten Strata.
+	 * @return Das StrataBean.
+	 * @throws DatenbankExceptions
+	 *             falls das StrataBean Objekt zu der uebergebenen Id nicht
+	 *             existiert.
+	 */
+	public static StrataBean get(long id) throws DatenbankExceptions {
+		return DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(id,
+				StrataBean.NULL);
+	}
+
+	/**
+	 * 
+	 * @param studie
+	 * @return
+	 * @throws DatenbankExceptions
+	 */
+	public static Collection<StrataBean> getAll(StudieBean studie)
+			throws DatenbankExceptions {
+		return DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(
+				studie, StrataBean.NULL);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static Collection<StrataAuspraegungBean> getStrataKombinationenList(
+			String kombString) {
+		// TODO Ausimplementieren
+		return null;
+	}
+
+}
