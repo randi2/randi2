@@ -2,6 +2,6 @@
 <br>
 <table width="100%" border="0" cellPadding="0" cellSpacing="0">
 	<tr>
-		<td align="right" class="footer">copyright</td>
+		<td align="right" class="footer">&copy; RANDI2</td>
 	</tr>
 </table>
