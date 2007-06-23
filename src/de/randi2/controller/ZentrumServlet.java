@@ -276,16 +276,16 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 */
 	private void classDispatcherservletBenutzerRegistrierenDrei(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Filterung
-		if (((String) request.getParameter("Filtern")) != null) {
+		if (((String) request.getParameter(Parameter.filter)) != null) {
 			try {
 				Vector<ZentrumBean> gZentrum = null;
-				if (((String) request.getParameter("name_institution")) != "" && ((String) request.getParameter("name_abteilung")) != "") {
+				if (((String) request.getParameter(Parameter.zentrum.INSTITUTION.name())) != "" && ((String) request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name())) != "") {
 					ZentrumBean sZentrum = new ZentrumBean();
 
 					// Filter setzen
 					sZentrum.setFilter(true);
-					sZentrum.setInstitution(request.getParameter("name_institution"));
-					sZentrum.setAbteilung(request.getParameter("name_abteilung"));
+					sZentrum.setInstitution(request.getParameter(Parameter.zentrum.INSTITUTION.name()));
+					sZentrum.setAbteilung(request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name()));
 					sZentrum.setIstAktiviert(true);
 					gZentrum = Zentrum.suchenZentrum(sZentrum);
 
@@ -315,11 +315,11 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				Iterator<ZentrumBean> itgZentrum = gZentrum.iterator();
 				while (itgZentrum.hasNext()) {
 					ZentrumBean aZentrumBean = itgZentrum.next();
-					String suche = "bestaetigen" + aZentrumBean.getId();
+					String suche = Parameter.bestaetigen + aZentrumBean.getId();
 					if (request.getParameter(suche) != null) {
 						Zentrum aZentrum = new Zentrum(aZentrumBean);
 						// Zentrum Passwort richtig
-						if (aZentrum.pruefenPasswort(request.getParameter("zentrum_passwort" + aZentrumBean.getId()))) {
+						if (aZentrum.pruefenPasswort(request.getParameter(Parameter.zentrum.PASSWORT.name() + aZentrumBean.getId()))) {
 							// Zentrum an die Session binden
 							request.getSession()
 									.setAttribute(DispatcherServlet.sessionParameter.ZENTRUM_BENUTZER_ANLEGEN.toString(), aZentrum.getZentrumBean());
