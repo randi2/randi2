@@ -19,6 +19,23 @@ public class Parameter {
 	public static final String anfrage_id="anfrage_id";
 	
 	/**
+	 * Konstante fuer die Filtermaske, anhand der entschieden wird ob die Maske benutzt wurde oder nicht.
+	 */
+	public static final String filter="Filtern";	
+	
+	/**
+	 * Konstante fuer die Bestaetigungsmaske, anhand der entschieden wird ob die Maske benutzt wurde oder nicht.
+	 */
+	public static final String bestaetigen="bestaetigen";	
+		
+	/**
+	 * Konstante fuer die Bestaetigungsmaske, anhand der entschieden wird ob die Maske benutzt wurde oder nicht.
+	 */
+	public static final String weiter="weiter";	
+			
+	
+	
+	/**
 	 * Attribute des Zentrumbeans.
 	 *
 	 */
