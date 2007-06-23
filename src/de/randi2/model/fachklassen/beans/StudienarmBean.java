@@ -5,6 +5,7 @@ import java.util.Vector;
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
+import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Studienarm;
@@ -131,6 +132,7 @@ public class StudienarmBean extends Filter {
 	 *            die Beschreibung als String
 	 */
 	public void setBeschreibung(String beschreibung) {
+		
 		aBeschreibung = beschreibung;
 	}
 
@@ -148,8 +150,23 @@ public class StudienarmBean extends Filter {
 	 * 
 	 * @param bezeichnung
 	 *            die zusetzende Bezeichnung
+	 * @throws StudienarmException wenn die Bezeichnung ungueltig ist
 	 */
-	public void setBezeichnung(String bezeichnung) {
+	public void setBezeichnung(String bezeichnung) throws StudienarmException {
+
+		if (!this.isFilter()) {
+			if (bezeichnung == null) {
+				throw new StudienarmException(StudienarmException.BEZEICHNUNG_UNGUELTIG);
+			}
+			bezeichnung = bezeichnung.trim();
+			if (bezeichnung.length() == 0) {
+				throw new StudienarmException(StudienarmException.BEZEICHNUNG_UNGUELTIG);
+			}
+			if (bezeichnung.length() < 3|| bezeichnung.length() > 50) {
+				throw new StudienarmException(StudienarmException.BEZEICHNUNG_UNGUELTIG);
+			}
+		}
+		
 		aBezeichnung = bezeichnung;
 	}
 
@@ -363,9 +380,29 @@ public class StudienarmBean extends Filter {
 		return (int) this.getId();
 	}
 
+	/**
+	 * @see de.randi2.datenbank.Filter#validate()
+	 */
 	@Override
 	public void validate() throws BenutzerException {
-		// FIXME siehe #168
+		
+		if (this.aStatus==null) {
+			
+			throw new StudienarmException(StudienarmException.STUDIENARM_UNGUELTIG);
+			
+		}
+		
+		if (this.aBezeichnung==null) {
+			
+			throw new StudienarmException(StudienarmException.BEZEICHNUNG_UNGUELTIG);			
+			
+		}
+		
+		if (this.aStudie==null && this.aStudieId==NullKonstanten.DUMMY_ID) {
+			
+			throw new StudienarmException(StudienarmException.STUDIE_NICHT_GEFUNDEN);
+			
+		}
 		
 	}
 

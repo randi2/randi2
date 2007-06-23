@@ -27,6 +27,16 @@ public class StudienarmException extends BenutzerException {
 	 */
 	public static final String STATUS_UNGUELTIG = "Status falsch gesetzt.";
 
+	/**
+	 * Diese Konstante wird uebergeben, wenn die Instanz kein gueltiger Studienarm (mit allen Pflichtfeldern) ist.
+	 */
+	public static final String STUDIENARM_UNGUELTIG = "Die Pflichtfelder wurden nicht ausgefuellt!";
+	
+	/**
+	 * Diese Konstante wird uebergeben, wenn die Bezeichnung ungueltig ist.
+	 */
+	public static final String BEZEICHNUNG_UNGUELTIG = "Die Bezeichnung ist ungueltig!";
+		
 	
 	/**
 	 * 
