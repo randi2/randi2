@@ -32,6 +32,12 @@ public class BenutzerkontoException extends BenutzerException {
 	public static final String PASSWORT_ZU_KURZ = "Das eingegebene Passwort ist zu kurz (Min. 6 Zeichen)!";
 
 	/**
+	 * Fehlermeldung, wenn das Passwort nicht mit der Wiederholung uebereinstimmt.
+	 */
+	public static final String PASSWORT_STIMMT_NICHT_UEBEREIN = "Passwort und wiederholtes Passwort sind nicht gleich";
+	
+	
+	/**
 	 * Fehlermeldung, wenn das uebergebene PersonObjekt noch nicht in der DB gepeichert wurde
 	 */
 	public static final String FK_PERSON_NICHT_GESPEICHERT = "Das &uuml;bergebene PersonObjekt wurde noch nicht gespeichert!";
