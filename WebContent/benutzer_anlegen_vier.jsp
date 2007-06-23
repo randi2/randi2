@@ -26,10 +26,5 @@ Sie erhalten in K&uuml;rze eine Email mit einem Aktivierungslink.
 		
 		<%@include file="include/inc_footer.jsp"%>
 	</div>
-	<div id="show_none">
-</div>
-<div id="show_none">
-
-</div>
 </body>
 </html>
