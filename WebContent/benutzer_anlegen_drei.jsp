@@ -3,144 +3,328 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
        "http://www.w3.org/TR/html4/strict.dtd">
+<%@page import="de.randi2.utility.Parameter"%>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="css/style.css">
+
 <title>Randi2 :: Benutzer anlegen</title>
 
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="de.randi2.controller.DispatcherServlet"%>
+<%
+
+	String aVorname = "";
+	String aNachname = "";
+	String aTitel = "";
+	String aGeschlecht = "";
+	String aTelefonnummer = "";
+	String aHandynummer = "";
+	String aFax = "";
+	String aEmail = "";
+	
+	if (request.getParameter(Parameter.person.VORNAME.name())==null) {
+		
+		aVorname = "";
+		
+	} else {
+		
+		aVorname = request.getParameter(Parameter.person.VORNAME.name());
+		
+	}
+	
+	if (request.getParameter(Parameter.person.NACHNAME.name())==null) {
+		
+		aNachname = "";
+		
+	} else {
+		
+		aNachname = request.getParameter(Parameter.person.NACHNAME.name());
+		
+	}
+	
+	if (request.getParameter(Parameter.person.TITEL.name())==null) {
+		
+		aTitel = "Kein Titel";
+		
+	} else {
+		
+		aTitel = request.getParameter(Parameter.person.TITEL.name());
+		
+	}
+	
+	if (request.getParameter(Parameter.person.GESCHLECHT.name())==null) {
+		
+		aGeschlecht = "bitte auswaehlen";
+		
+	} else {
+		
+		aGeschlecht = request.getParameter(Parameter.person.GESCHLECHT.name());
+		
+	}
+	
+	if (request.getParameter(Parameter.person.TELEFONNUMMER.name())==null) {
+		
+		aTelefonnummer = "";
+		
+	} else {
+		
+		aTelefonnummer = request.getParameter(Parameter.person.TELEFONNUMMER.name());
+		
+	}
+	
+	if (request.getParameter(Parameter.person.HANDYNUMMER.name())==null) {
+		
+		aHandynummer = "";
+		
+	} else {
+		
+		aHandynummer = request.getParameter(Parameter.person.HANDYNUMMER.name());
+		
+	}
+
+	if (request.getParameter(Parameter.person.FAX.name())==null) {
+		
+		aFax = "";
+		
+	} else {
+		
+		aFax = request.getParameter(Parameter.person.FAX.name());
+		
+	}
+	
+	if (request.getParameter(Parameter.person.EMAIL.name())==null) {
+		
+		aEmail = "";
+		
+	} else {
+		
+		aEmail = request.getParameter(Parameter.person.EMAIL.name());
+		
+	}
+	
+%>
 <script type="text/javascript" src="js/prototype.js"></script>
 <script type="text/javascript" src="js/zebda.js"></script>
 <script type="text/javascript" src="js/passwordmeter.js"></script>
+<%@include file="include/inc_extjs.jsp"%>
+<script>
+Ext.onReady(function(){
 
+	Ext.QuickTips.init();
+	Ext.form.Field.prototype.msgTarget = 'side';
+
+    var form_benutzer_anlegen = new Ext.form.Form({
+        labelAlign: 'left',
+        labelWidth: 200,
+		buttonAlign: 'left',
+    });
+    
+    var titel = new Ext.form.ComboBox({
+        fieldLabel: 'Titel:',
+        hiddenName:'<%=Parameter.person.TITEL.name()%>',
+        store: new Ext.data.SimpleStore({
+            fields: ['titel'],
+            data : [
+			<%
+				StringBuffer titel = new StringBuffer();
+				for (int i = 0; i < PersonBean.Titel.values().length; i++) {
+					titel.append(PersonBean.Titel.values()[i].toString());
+			%>
+			['<%=titel%>'],
+			<%
+					titel.delete(0, titel.length());
+				}
+			%>
+            ]
+        }),
+        displayField:'titel',
+        typeAhead: true,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText:'<%=aTitel %>',
+        selectOnFocus:true,
+        editable:false,
+        width:140
+    });
+    
+    var vorname = new Ext.form.TextField({
+        fieldLabel: 'Vorname *:',
+        name: '<%=Parameter.person.VORNAME.name() %>',
+        value: '<%=aVorname %>',
+        width:190,
+        allowBlank:false,
+        minLength:2,
+        maxLength:50,
+        maxLengthText:'Vorname muss 2 bis 50 Zeichen lang sein!',
+        minLengthText:'Vorname muss 2 bis 50 Zeichen lang sein!',
+        blankText:'Bitte Ihren Vornamen eintragen!'
+    });
+    
+    var nachname = new Ext.form.TextField({
+        fieldLabel: 'Nachname *:',
+        name: '<%=Parameter.person.NACHNAME.name() %>',
+        value: '<%=aNachname %>',
+        width:190,
+        allowBlank:false,
+        minLength:2,
+        maxLength:50,
+        maxLengthText:'Nachname muss 2 bis 50 Zeichen lang sein!',
+        minLengthText:'Nachname muss 2 bis 50 Zeichen lang sein!',
+        blankText:'Bitte Ihren Nachnamen eintragen!'
+    });
+    
+    var geschlecht = new Ext.form.ComboBox({
+        fieldLabel: 'Geschlecht *:',
+        hiddenName:'<%=Parameter.person.GESCHLECHT.name()%>',
+        store: new Ext.data.SimpleStore({
+            fields: ['geschlecht'],
+            data : [['weiblich'],['maennlich']
+            ]
+        }),
+        displayField:'geschlecht',
+        typeAhead: true,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText:'<%=aGeschlecht %>',
+        selectOnFocus:true,
+        editable:false,
+        width:140,
+        allowBlank:false,
+        blankText:'Bitte Ihr Geschlecht auswaehlen!'
+    });
+    
+    var passwort = new Ext.form.TextField({
+        fieldLabel: 'Passwort *:',
+        name: '<%=Parameter.benutzerkonto.PASSWORT.name() %>',
+        value: '',
+        allowBlank:false,
+        width:190,
+        inputType:'password',
+        minLength:6,
+        minLengthText:'Das Passwort muss mindestens 6 Zeichen umfassen!',
+        blankText:'Bitte ein Passwort eingeben!'
+    });
+    
+    var passwort_wh = new Ext.form.TextField({
+        fieldLabel: 'Passwort wiederholen *:',
+        name: '<%=Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG.name() %>',
+        value: '',
+        allowBlank:false,
+        width:190,
+        inputType:'password',
+		minLength:6,
+        minLengthText:'Das Passwort muss mindestens 6 Zeichen umfassen!',
+        blankText:'Bitte das Passwort erneut eingeben!'
+    });
+    
+    form_benutzer_anlegen.fieldset({legend:'Pers&ouml;nliche Angaben',
+    labelSeparator:''},
+    titel,
+    vorname,
+    nachname,
+    geschlecht,passwort, passwort_wh);
+    
+    Ext.form.VTypes['emailText'] = 'Bitte eine gueltige E-Mail eintragen!';
+    
+    var email = new Ext.form.TextField({
+        fieldLabel: 'E-Mail *:',
+        name: '<%=Parameter.person.EMAIL.name() %>',
+        value: '<%=aEmail %>',
+        width:190,
+        allowBlank:false,
+        minLength:2,
+        maxLength:255,
+        maxLengthText:'E-Mail muss 2 bis 255 Zeichen lang sein!',
+        minLengthText:'E-Mail muss 2 bis 255 Zeichen lang sein!',
+        blankText:'Bitte Ihre E-Mail eintragen!',
+        vtype:'email'
+    });
+    
+    var telefon = new Ext.form.TextField({
+        fieldLabel: 'Telefon *:',
+        name: '<%=Parameter.person.TELEFONNUMMER.name() %>',
+        value: '<%=aTelefonnummer %>',
+        width:190,
+        allowBlank:false,
+        minLength:6,
+        maxLength:26,
+        maxLengthText:'Telefonnummer muss 6 bis 26 Zeichen lang sein!',
+        minLengthText:'Telefonnummer muss 6 bis 26 Zeichen lang sein!',
+        blankText:'Bitte Ihre Telefonnummer eintragen!'
+    });
+    
+    var handy = new Ext.form.TextField({
+        fieldLabel: 'Handy:',
+        name: '<%=Parameter.person.HANDYNUMMER.name() %>',
+        value: '<%=aHandynummer %>',
+        width:190,
+        allowBlank:true,
+        minLength:7,
+        maxLength:26,
+        maxLengthText:'Handynummer muss 7 bis 26 Zeichen lang sein!',
+        minLengthText:'Handynummer muss 7 bis 26 Zeichen lang sein!'
+    });
+
+    var fax = new Ext.form.TextField({
+        fieldLabel: 'Fax:',
+        name: '<%=Parameter.person.FAX.name() %>',
+        value: '<%=aFax %>',
+        width:190,
+        allowBlank:true,
+        minLength:6,
+        maxLength:26,
+        maxLengthText:'Faxnummer muss 6 bis 26 Zeichen lang sein!',
+        minLengthText:'Faxnummer muss 6 bis 26 Zeichen lang sein!'
+    });
+
+    form_benutzer_anlegen.fieldset({legend:'Kontaktdaten',
+    labelSeparator:''},
+    email,
+    telefon,
+    handy,
+    fax);
+    
+
+    
+	form_benutzer_anlegen.addButton('Anlegen', function(){
+		if (this.isValid()) {
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+		}else{
+			Ext.MessageBox.alert('Errors', 'Die Eingaben waren fehlerhaft!');
+		}
+	}, form_benutzer_anlegen);
+	
+	
+	<!--  Die ANFRAGE_ID fuer ABBRECHEN wird hier gesetzt. dhaehn	-->
+	form_benutzer_anlegen.addButton('Abbrechen', function(){
+		top.location.href='DispatcherServlet';
+	}, form_benutzer_anlegen);  
+
+    form_benutzer_anlegen.render('form_benutzer_anlegen');    
+    
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_benutzer_anlegen.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER.name() %>'});	
+    
+    
+   });
+</script>
+<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 <%@include file="include/inc_header_clean.jsp"%>
 
+
+
 <div id="content">
-<form action="DispatcherServlet" method="post" name="user" id="user"><input
-	type="hidden" name="anfrage_id"
-	value="<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER.name() %>">
 <h1>Benutzer anlegen</h1>
 <%@include file="include/inc_nachricht.jsp"%>
-<fieldset style="width: 60%"><legend><b>Pers&ouml;nliche
-Angaben</b></legend>
-<table height="244">
-	<tr>
-		<td>Titel<br>
-		<select name="Titel">
-			<%
-					for (PersonBean.Titel e : PersonBean.Titel.values()) {
-					out.print("<option value=\"" + e.toString() + "\"");//1. Option Teil
-					//Ist der Titel bereits selected?!
-					if ((PersonBean.Titel) request.getAttribute("Titel") != null
-					&& ((PersonBean.Titel) request.getAttribute("Titel")) == e) {
-						out.print("selected");
-					}
-					//Ende Option, Option Text
-					out.print(">" + e.toString() + "</option>");
+<div id="form_benutzer_anlegen"></div>
 
-				}
-			%>
-		</select><br>
-		</td>
-	</tr>
-	<tr>
-		<td>Vorname *<br>
-		<input type="text" size="25" maxlength="30" name="Vorname"
-			value="<%if(request.getAttribute("Vorname")!=null){out.print(request.getAttribute("Vorname"));} %>"
-			tabindex="2"
-			z:length="{max: 50, min: 2}"
-			z:length_message="Vorname muss 2 bis 50 Zeichen lang sein"></td>
-		<td>&nbsp;&nbsp;&nbsp;Nachname *<br>
-		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Nachname"
-			value="<%if(request.getAttribute("Nachname")!=null){out.print(request.getAttribute("Nachname"));} %>"
-			tabindex="3"
-			z:length="{max: 50, min: 2}"
-			z:length_message="Nachname muss 2 bis 50 Zeichen lang sein"></td>
-	</tr>
-	<tr>
-		<td>Geschlecht *<br>
-		<input type="radio" name="Geschlecht" value="w"
-			<%if(request.getAttribute("Geschlecht")!=null&&request.getAttribute("Geschlecht").equals("w")){out.print("checked");} %>>weiblich
-		<input type="radio" name="Geschlecht" value="m"
-			<%if(request.getAttribute("Geschlecht")!=null&&request.getAttribute("Geschlecht").equals("m")){out.print("checked");} %>>m&auml;nnlich</td>
-	</tr>
-	<tr>
-		<td>Passwort *<br>
-		<input type="password" size="25" maxlength="30" name="Passwort"
-			id="Passwort"
-			value="<%if(request.getAttribute("Passwort")!=null){out.print(request.getAttribute("Passwort"));} %>"
-			tabindex="6"
-			onkeyup="testPassword(document.forms.user.Passwort.value);"
-			z:length="{min: 6}"
-			z:length_message="Passwort muss mind. 6 Zeichen lang sein"></td>
-		<td><a id=Words>
-		<table border=0 cellpadding=0 cellspacing=0>
-			<tr>
-				<td class=bold width=100>St&auml;rke:</td>
-				<td>
-				<table cellpadding=0 cellspacing=2>
-					<tr>
-						<td height=15 width=150 bgcolor=#dddddd></td>
-					</tr>
-				</table>
-				</td>
-			</tr>
-		</table>
-		</a></td>
-	</tr>
-	<tr>
-		<td>Passwort wiederholen *<br>
-		<input type="password" size="25" maxlength="30" name="Passwort_wh"
-			value="<%if(request.getAttribute("Passwort_wh")!=null){out.print(request.getAttribute("Passwort_wh"));} %>"
-			tabindex="7"
-			z:length="{min: 6}"
-			z:length_message="Wiederholungs-Passwort muss ebenfalls mind. 6 Zeichen lang sein"></td>
-	</tr>
-</table>
-</fieldset>
-<br>
-<fieldset style="width: 60%"><legend><b>Kontaktdaten</b></legend>
-<table>
-	<tr>
-		<td>E-Mail *<br>
-		<input type="text" size="25" maxlength="30" name="Email"
-			value="<%if(request.getAttribute("Email")!=null){out.print(request.getAttribute("Email"));} %>"
-			tabindex="8" z:required="true"
-			z:required_message="Bitte eMail-Adresse eingeben"
-			z:length="{max: 255}"
-			z:length_message="Email-Adresse darf max. 255 Zeichen lang sein"></td>
-		<td>&nbsp;&nbsp;&nbsp;Telefonnummer *<br>
-		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Telefon"
-			value="<%if(request.getAttribute("Telefon")!=null){out.print(request.getAttribute("Telefon"));} %>"
-			tabindex="9"
-			z:length="{max: 26, min: 6}"
-			z:length_message="Telefonnummer muss 6 bis 26 Zeichen lang sein"></td>
-	</tr>
-	<tr>
-		<td>Handy<br>
-		<input type="text" size="25" maxlength="30" name="Handy"
-			value="<%if(request.getAttribute("Handy")!=null){out.print(request.getAttribute("Handy"));} %>"
-			tabindex="10" /> <!-- z:length="{max: 26, min: 7}"
-			z:length_message="Handynummer muss 7 bis 26 Zeichen lang sein"--></td>
-		<td>&nbsp;&nbsp;&nbsp;Fax<br>
-		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
-			name="Fax"
-			value="<%if(request.getAttribute("Fax")!=null){out.print(request.getAttribute("Fax"));} %>"
-			tabindex="11" /><!--  z:required="false" z:length="{max: 26, min: 6}"
-			z:length_message="Faxnummer muss 6 bis 26 Zeichen lang sein"--></td>
-	</tr>
-</table>
-</fieldset>
-<br>
-
-
-<input type="submit" name="anlegen" value="Anlegen" tabindex="13">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</form>
 <br>
 &nbsp;Die mit '*' gekennzeichneten Felder sind Pflichtfelder. <%@include
 	file="include/inc_footer_clean.jsp"%></div>
