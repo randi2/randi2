@@ -35,6 +35,12 @@ public class RandomisationsException extends SystemException {
 	public static final String NOCH_RANDOMISATIONS_WERTE_VORHANDEN = "Neuer Block kann nicht angelegt werden. Noch werte in der Blocktabelle vorhanden.";
 
 	/**
+	 * Fehler bei Auswahl eines ungueltigen Randomisationsalgorithmus
+	 */
+	public static final String ALGORITHMUS_UNGUELTIG = "Ungueltiger Randomisationsalgorithmus!";
+	
+	
+	/**
 	 * Ein Konstruktor dieser Klasse
 	 * 
 	 * @param arg0
