@@ -618,6 +618,8 @@ public class PersonBean extends Filter {
 				|| this.aStellvertreter.aNachname == null
 				|| this.aStellvertreter.aVorname == null
 				|| this.aStellvertreter.aTelefonnummer == null) {
+			// bitte nur Exception Konstanten verwenden!!! - dhaehn
+			// FIXME Bug 173
 			throw new PersonException("Pflichtfelder sind teilweise leer.");
 		}
 	}
