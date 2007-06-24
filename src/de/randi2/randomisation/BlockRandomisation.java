@@ -29,7 +29,7 @@ public class BlockRandomisation extends Randomisation {
 	/**
 	 * Diese String-Konstante enthaelt den Namen des Randomisationsalgorithmus.
 	 */
-	private static final String NAME = "Blockrandomisation ohne Strata";
+	public static final String NAME = "Blockrandomisation ohne Strata";
 
 	/**
 	 * Die Anzahl der Studienarme der zugehoerigen Studie.

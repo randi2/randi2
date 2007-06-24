@@ -31,7 +31,7 @@ public class VollstaendigeRandomisation extends Randomisation {
 	/**
 	 * Der Name der Randomistaion
 	 */
-	public static final String NAME = "Vollständige Randomisation";
+	public static final String NAME = "Vollstaendige Randomisation";
 
 	/**
 	 * Erzeugt eine Randomisationsverwaltung fuer die vollstaendige

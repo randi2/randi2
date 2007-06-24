@@ -22,9 +22,9 @@ public abstract class Randomisation {
 		/**
 		 * Blockrandomisation ohne Strata
 		 */
-		BLOCKRANDOMISATION_OHNE_STRATA("Blockrandomisation ohne Strata"),
+		BLOCKRANDOMISATION_OHNE_STRATA(BlockRandomisation.NAME),
 
-		VOLLSTAENDIGE_RANDOMISATION("Vollstaendige Randomisation");
+		VOLLSTAENDIGE_RANDOMISATION(VollstaendigeRandomisation.NAME);
 
 		/**
 		 * Der Algorithmus als String.
