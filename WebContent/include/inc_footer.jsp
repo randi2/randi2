@@ -21,6 +21,6 @@
 <table width="100%" border="0" cellPadding="0" cellSpacing="0">
 	<tr>
 		<td align="right" class="footer"><%if(formatiertesDatum!=null){out.print("letzter Zugriff:"+formatiertesDatum+"::");}%>
-		copyright</td>
+		&nbsp;&copy; RANDI2</td>
 	</tr>
 </table>
