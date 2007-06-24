@@ -1,4 +1,7 @@
 	<%@page import="de.randi2.utility.Config"%>
+<%@page import="de.randi2.utility.Parameter"%>
+<%@page import="de.randi2.utility.Jsp"%>
+<%@page import="de.randi2.controller.DispatcherServlet"%>
 <div id="header">
 		<img src="<%=Config.getProperty(Config.Felder.RELEASE_BILD_LOGO) %>" width="337"
 		height="63" title="" alt="">
@@ -8,7 +11,7 @@
 	<table class="breadcrumb_tbl" width="100%" summary="Impressum">
 		<tr>
 			<td align="right" width="100%"><a href="DispatcherServlet" id="logout_link"><img src="images/home.gif" width="22" height="22" border="0" title="Zurueck zum Login" alt="Zurueck zum Login"></a></td>
-			<td align="right" valign="middle"><a href="impressum.jsp" id="logout_link">Impressum</a></td>
+			<td align="right" valign="middle"><a href="DispatcherServlet?<%=Parameter.anfrage_id %>=<%=DispatcherServlet.anfrage_id.JSP_HEADER_IMPRESSUM %>" id="logout_link">Impressum</a></td>
 		</tr>
 	</table>
 	</div>
