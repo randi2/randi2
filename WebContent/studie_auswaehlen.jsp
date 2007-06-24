@@ -9,6 +9,8 @@
 <%@page import="de.randi2.controller.StudieServlet"%>
 <%@page import="de.randi2.utility.Parameter"%>
 <%
+			request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(),"Studie ausw&auml;hlen");
+
 			Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
 			.getAttribute("aBenutzer")).getRolle().getRollenname();
 
@@ -22,7 +24,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Randi2 :: Studie ausw&auml;hlen</title>
+<title>Randi2 :: <%=request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString()) %></title>
 
 <script language="Javascript" src="js/motionpack.js"> </script>
 <script type="text/javascript">
