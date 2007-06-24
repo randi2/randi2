@@ -38,10 +38,10 @@ values('1','hess','irgendwelche Beschreibung der Studie','Vollstaendige Randomis
         ('4','dampf','irgendwelche Beschreibung der Studie','Blockrandomisation ohne Strata','2004-04-04','2008-08-08','f:na','aktiv');
 
 insert into Studienarm (Studie_studienID,status_aktivitaet,bezeichnung,beschreibung) 
-values('1','aktiv','0',null),
-        ('2','aktiv','1',null),
-        ('3','aktiv','1',null),
-        ('4','aktiv','0',null);
+values('1','aktiv','irgendeine Bezeichnung','Beschreibund 1'),
+        ('2','aktiv','irgendeine Bezeichnung','Beschreibund 2'),
+        ('3','aktiv','irgendeine Bezeichnung','Beschreibund 3'),
+        ('4','aktiv','irgendeine Bezeichnung','Beschreibund 4');
 
 insert into Block (Studie_studienID, blockwert)
 values ('1','12'),
