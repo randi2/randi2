@@ -1,9 +1,11 @@
 package de.randi2.randomisation;
 
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
+import de.randi2.model.fachklassen.beans.PersonBean.Titel;
 
 /**
  * Die Klasse Randomisation gibt die Schnittstelle fuer die
@@ -15,6 +17,67 @@ import de.randi2.model.fachklassen.beans.StudieBean;
  * 
  */
 public abstract class Randomisation {
+
+	public static enum Algorithmen {
+		/**
+		 * Blockrandomisation ohne Strata
+		 */
+		BLOCKRANDOMISATION_OHNE_STRATA("Blockrandomisation ohne Strata"),
+
+		VOLLSTAENDIGE_RANDOMISATION("Vollstaendige Randomisation");
+
+		/**
+		 * Der Algorithmus als String.
+		 */
+		private String algorithmus = null;
+
+		/**
+		 * Weist den String dem tatsaechlichen Algorithmus zu.
+		 * 
+		 * @param algorithmus
+		 *            Der Parameter enthaelt den Algorithmus-String.
+		 */
+		private Algorithmen(String algorithmus) {
+			this.algorithmus = algorithmus;
+		}
+
+		/**
+		 * Gibt den Algorithmus als String zurueck.
+		 * 
+		 * @return der Algorithmus
+		 */
+		@Override
+		public String toString() {
+			return this.algorithmus;
+		}
+
+		/**
+		 * Ueberfuehrt einen String in das entsprechende Algorithmus-Element
+		 * 
+		 * @param algorithmus
+		 *            String Repraesentation eines Algorithmuses
+		 * 
+		 * @return Algorithmusrepraesentation in Form des Enumelementes
+		 * @throws PersonException
+		 *             Msg == {@link PersonException#TITEL_UNGUELTIG} wenn
+		 *             String keinen gueltiges Element repraesentiert
+		 * 
+		 */
+		public static Algorithmen parseAlgorithmen(String algorithmus)
+				throws RandomisationsException {
+
+			for (Algorithmen aAlgorithmus : Algorithmen.values()) {
+				if (algorithmus.equals(aAlgorithmus.toString())) {
+					return aAlgorithmus;
+				}
+
+			}
+
+			throw new RandomisationsException(
+					RandomisationsException.ALGORITHMUS_UNGUELTIG);
+		}
+
+	}
 
 	/**
 	 * Der Name des Algorithmus.
