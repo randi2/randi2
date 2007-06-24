@@ -71,9 +71,10 @@ public class PatientBean extends Filter {
 	private long aBenutzerkontoId = NullKonstanten.DUMMY_ID;
 
 	/**
-	 * Serialisierter String, der die Strata Kombination dieses Patienten repraesentiert
+	 * Serialisierter String, der die Strata Kombination dieses Patienten
+	 * repraesentiert
 	 */
-	private String strata_gruppe=null;
+	private String aStrataGruppe = null;
 
 	/**
 	 * Standardkonstruktor von PatientBean mit Aufruf der Superklasse.
@@ -102,6 +103,9 @@ public class PatientBean extends Filter {
 	 *            Die eindeutige ID des Studienarms.
 	 * @param benutzerkontoId
 	 *            Die ID des Benutzerkontos.
+	 * @param strataGruppe -
+	 *            ein serialisierter String, die die Stratagruppe des Patienten
+	 *            eindeutig beschreibt
 	 * @throws PatientException -
 	 *             wenn die uebergebene Daten nicht valide waren
 	 * @throws DatenbankExceptions -
@@ -110,8 +114,8 @@ public class PatientBean extends Filter {
 	public PatientBean(long id, String initialen, char geschlecht,
 			GregorianCalendar geburtsdatum, int performanceStatus,
 			GregorianCalendar datumAufklaerung, int koerperoberflaeche,
-			long studienarmId, long benutzerkontoId, String strataGruppe) throws PatientException,
-			DatenbankExceptions {
+			long studienarmId, long benutzerkontoId, String strataGruppe)
+			throws PatientException, DatenbankExceptions {
 
 		this.setId(id);
 		this.setInitialen(initialen);
@@ -122,7 +126,7 @@ public class PatientBean extends Filter {
 		this.setKoerperoberflaeche(koerperoberflaeche);
 		this.setStudienarmId(studienarmId);
 		this.setBenutzerkontoId(benutzerkontoId);
-		this.setStrata_gruppe(strataGruppe);
+		this.setStrataGruppe(strataGruppe);
 	}
 
 	/**
@@ -265,7 +269,8 @@ public class PatientBean extends Filter {
 	public void setPerformanceStatus(int performanceStatus)
 			throws PatientException {
 		if (performanceStatus < 0 || performanceStatus > 4) {
-			throw new PatientException(PatientException.PERFORMANCE_STATUS_FALSCH);
+			throw new PatientException(
+					PatientException.PERFORMANCE_STATUS_FALSCH);
 		}
 		aPerformanceStatus = performanceStatus;
 	}
@@ -345,7 +350,7 @@ public class PatientBean extends Filter {
 	 *             wenn beim Holen des entsprechendes Bentutzerkontoobjektes
 	 *             Probleme vorkamen.
 	 */
-	public BenutzerkontoBean getBenutzerkonto() throws DatenbankExceptions {
+	public BenutzerkontoBean getBenutzerkonto() throws DatenbankExceptions{
 		if (aBenutzerkonto == null) {
 			aBenutzerkonto = Benutzerkonto.get(aBenutzerkontoId);
 		}
@@ -357,8 +362,10 @@ public class PatientBean extends Filter {
 	 * 
 	 * @param benutzerkonto
 	 *            Setzt das BenutzerkontoBean.
+	 * @throws PatientException - wenn das uebergebene Objekt noch nicht persistent ist.
 	 */
-	public void setBenutzerkonto(BenutzerkontoBean benutzerkonto) {
+	public void setBenutzerkonto(BenutzerkontoBean benutzerkonto) throws PatientException {
+		this.setBenutzerkontoId(benutzerkonto.getId());
 		this.aBenutzerkonto = benutzerkonto;
 	}
 
@@ -376,8 +383,12 @@ public class PatientBean extends Filter {
 	 * 
 	 * @param benutzerkontoId
 	 *            Setzt die Benutzerkonto-ID.
+	 * @throws PatientException wenn eine falsche Id uebergeben wurde.
 	 */
-	public void setBenutzerkontoId(long benutzerkontoId) {
+	public void setBenutzerkontoId(long benutzerkontoId) throws PatientException {
+		if(benutzerkontoId<0){
+			throw new PatientException(PatientException.BENUTZERKONTOID_FALSCH);
+		}
 		this.aBenutzerkontoId = benutzerkontoId;
 	}
 
@@ -477,20 +488,23 @@ public class PatientBean extends Filter {
 	}
 
 	/**
-	 * Liefert den serialisierten String mit der Strata Kombination des Patienten
-	 * @return
-	 * 		Strata Kombination
+	 * Liefert den serialisierten String mit der Strata Kombination des
+	 * Patienten
+	 * 
+	 * @return Strata Kombination
 	 */
-	public String getStrata_gruppe() {
-		return strata_gruppe;
+	public String getStrataGruppe() {
+		return aStrataGruppe;
 	}
 
 	/**
 	 * Setzt die Stratagruppe
-	 * @param strata_gruppe
+	 * 
+	 * @param strataGruppe -
+	 *            die neue Stratagruppe des Patienten in serlialisiertet Form
 	 */
-	public void setStrata_gruppe(String strata_gruppe) {
-		this.strata_gruppe = strata_gruppe;
+	public void setStrataGruppe(String strataGruppe) {
+		this.aStrataGruppe = strataGruppe;
 	}
 
 	/**
@@ -511,9 +525,47 @@ public class PatientBean extends Filter {
 		return (int) this.getId();
 	}
 
+	/**
+	 * Diese Methode ueberprueft, ob alle notwendigen Atributte des Objektes
+	 * gesetzt wurden. Zu diesen gehoeren:
+	 * aInitialen
+	 * aGeburtsdatum
+	 * aGeschlecht
+	 * aDatumAufklaerung
+	 * aKoerperoberflaeche
+	 * aPerformanceStatus
+	 * aBenutzerkontoId
+	 * aStudienarmId
+	 * 
+	 * @throws BenutzerException - wenn ein Fehler bei der Ueberpruefung auftrat
+	 */
 	@Override
 	public void validate() throws BenutzerException {
-		// FIXME siehe # 165
-		
+		if(this.getInitialen()==null){
+			throw new PatientException(PatientException.INITIALEN_NULL);
+		}else{
+			if(this.getInitialen().equals("")){
+				throw new PatientException(PatientException.INITIALEN_LEER);
+			}
+		}
+		if(this.getGeburtsdatum()==null||this.getDatumAufklaerung()==null){
+			throw new PatientException(PatientException.DATUM_NULL);
+		}
+		if(this.getGeschlecht()==NullKonstanten.NULL_CHAR){
+			throw new PatientException(PatientException.GESCHLECHT_NULL);
+		}
+		if(this.getKoerperoberflaeche()==NullKonstanten.NULL_FLOAT){
+			throw new PatientException(PatientException.KOERPEROBERFLACHE_NULL);
+		}
+		if(this.getPerformanceStatus()==NullKonstanten.NULL_INT){
+			throw new PatientException(PatientException.PERFORMANCE_NULL);
+		}
+		if(this.getBenutzerkontoId()==NullKonstanten.DUMMY_ID){
+			throw new PatientException(PatientException.BENUTZERKONTO_NULL);
+		}
+		if(this.getStudienarmId()==NullKonstanten.DUMMY_ID){
+			throw new PatientException(PatientException.STUDIENARM_NULL);
+		}
+
 	}
 }

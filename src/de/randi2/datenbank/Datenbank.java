@@ -3504,7 +3504,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 		// 1:n V Benutzerkonto : K Patient
 		if (vater instanceof BenutzerkontoBean && kind instanceof PatientBean) {
 			PatientBean patient = (PatientBean) kind;
-			patient.setBenutzerkontoId(((BenutzerkontoBean) vater).getId());
+			try {
+				patient.setBenutzerkontoId(((BenutzerkontoBean) vater).getId());
+			} catch (PatientException e) {
+				//TODO Sinnvole Fehlerbehandlung ueberlasse ich euch - meine lieben Datenbankpro's (lplotni 24. Juni)
+				e.printStackTrace();
+			}
 			return (Vector<T>) suchenPatientKindB(patient);
 		}
 		// 1:n V Studie : K Studienarm
