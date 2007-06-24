@@ -11,6 +11,7 @@ import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Studie.Status;
+import de.randi2.randomisation.Randomisation;
 import de.randi2.utility.NullKonstanten;
 
 /**
@@ -88,6 +89,8 @@ public class StudieBean extends Filter {
 	 */
 	private long aBenutzerkontoId = NullKonstanten.DUMMY_ID;
 
+	private Randomisation.Algorithmen aAlgorithmus = null;
+	
 	/**
 	 * Status der Studie.
 	 */
@@ -122,7 +125,7 @@ public class StudieBean extends Filter {
 	 * @throws DatenbankExceptions
 	 *             wenn eine inkorrekte Id uebergeben wurde
 	 */
-	public StudieBean(long id, String beschreibung, String name,
+	public StudieBean(long id, String beschreibung, String name, Randomisation.Algorithmen algorithmus,
 			long benutzerId, GregorianCalendar startdatum,
 			GregorianCalendar enddatum, String studienprotokollPfad,
 			String randomisationsart, Status status) throws StudieException,
@@ -130,6 +133,7 @@ public class StudieBean extends Filter {
 
 		super.setId(id);
 		this.setBeschreibung(beschreibung);
+		this.setAlgorithmus(algorithmus);
 		this.setName(name);
 		this.setBenutzerkontoId(benutzerId);
 		this.setStudienZeitraum(startdatum, enddatum);
@@ -641,6 +645,29 @@ public class StudieBean extends Filter {
 	public void validate() throws BenutzerException {
 		// FIXME siehe #167
 		
+	}
+
+	public Randomisation.Algorithmen getAlgorithmus() {
+		return aAlgorithmus;
+	}
+
+	/**
+	 * Setzt den Algorithmus. Es sind nur Werte der Enum Randomisation.Algorithmen erlaubt!
+	 * 
+	 * @param algorithmus der gewuenschte Algorithmus
+	 * @throws StudieException falls ein ungueltiger Algorithmus uebergeben wurde
+	 */
+	public void setAlgorithmus(Randomisation.Algorithmen algorithmus) throws StudieException{
+	
+		if (!this.isFilter()) {
+			if (algorithmus == null) {
+				
+				throw new StudieException(StudieException.ALGORITHMUS_UNGUELTIG);
+				
+			}
+		}
+		
+		aAlgorithmus = algorithmus;
 	}
 
 }
