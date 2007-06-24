@@ -75,6 +75,7 @@ CREATE TABLE Studie (
   Benutzerkonto_benutzerkontenID INT UNSIGNED NOT NULL,
   name VARCHAR(50) NOT NULL,
   beschreibung TEXT NULL,
+  randomisationsalgorithmus VARCHAR(50) NULL,
   startdatum DATE NOT NULL,
   enddatum DATE NOT NULL,
   studienprotokoll VARCHAR(255) NOT NULL,
