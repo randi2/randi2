@@ -266,6 +266,11 @@ public final class Config {
          * Der Disclaimer
          */
         RELEASE_DISCLAIMER,
+        
+        /**
+         * Das Impressum
+         */
+        RELEASE_IMPRESSUM,
     }
 
     /**
