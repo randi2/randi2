@@ -121,7 +121,7 @@ Ext.onReady(function(){
 <table class="breadcrumb_tbl" width="100%" summary="Impressum">
 	<tr>
 		<td align="right" valign="middle" height="25"><a
-			href="impressum.jsp" id="logout_link">Impressum</a></td>
+			href="DispatcherServlet?<%=Parameter.anfrage_id %>=<%=DispatcherServlet.anfrage_id.JSP_HEADER_IMPRESSUM %>" id="logout_link">Impressum</a></td>
 	</tr>
 </table>
 <%@include file="include/inc_nachricht.jsp"%></div>
