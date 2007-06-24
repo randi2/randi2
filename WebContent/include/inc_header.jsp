@@ -14,7 +14,7 @@
 			StudieBean aStudie_header = (StudieBean) (request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString()));
 			
 			String aLocation = (String) request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString());
-			String aStudieName = aStudie_header.getName();
+			String aStudieName = "";
 			
 			if (aLocation == null) {
 				
@@ -22,10 +22,13 @@
 				
 			}
 			
-			if (aStudieName == null) {
+			if (aStudie_header == null) {
 				
 				aStudieName = "KEINE STUDIE GEWAEHLT!";
 				
+			} else {
+				
+				aStudieName = aStudie_header.getName();
 			}
 			
 	PersonBean aPersonHeader = null;
