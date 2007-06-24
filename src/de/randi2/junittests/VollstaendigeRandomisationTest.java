@@ -68,7 +68,7 @@ public class VollstaendigeRandomisationTest {
 		bald.setTimeInMillis(heute.getTimeInMillis() + 1000 * 60 * 60 * 24
 				* 365);
 
-		testStudieBean = new StudieBean(1, "mutter","test studie",2, heute, bald,
+		testStudieBean = new StudieBean(1, "mutter","test studie",null,2, heute, bald,
 				"./empty.txt", VollstaendigeRandomisation.NAME,Studie.Status.AKTIV);
 		testArm1 = new StudienarmBean(123, 1, Studie.Status.AKTIV, "ARM 1",
 				"desc1");
