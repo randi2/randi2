@@ -177,7 +177,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		} else if (id.equals(ZentrumServlet.anfrage_id.ZENTRUM_AENDERN.name())) {
 			aendernZentrum(request, response);
 		} else if (id.equals(ZentrumServlet.anfrage_id.ZENTRUM_ANZEIGEN.name())) {
-				this.zentrenFiltern2(request, response);
+			this.classDispatcherservletZentrumAnzeigen(response, request);
 		} else if (id
 				.equals(ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ANZEIGEN_ADMIN
 						.name())) {
@@ -188,6 +188,29 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		} else {
 			// TODO Hier muss noch entschieden werden,was passiert
 		}
+	}
+
+	/**
+	 * Funktion die ausgefuehrt wird, das Servlet von der
+	 * Studienzentrenverwaltung aufgerufen wird
+	 * 
+	 * @param response
+	 *            Requestobjekt
+	 * @param request
+	 *            Responseobjekt
+	 * @throws IOException
+	 *             Fehler bei E/A
+	 * @throws ServletException
+	 *             Fehler bei HTTP
+	 */
+	private void classDispatcherservletZentrumAnzeigen(
+			HttpServletResponse response, HttpServletRequest request)
+			throws ServletException, IOException {
+
+		this.zentrenFiltern2(request, response);
+
+		request.getRequestDispatcher("/zentrum_anzeigen.jsp").forward(request,
+				response);
 	}
 
 	/**
@@ -666,8 +689,8 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	}
 
 	/**
-	 * Methode wird aufgerufen um die Zentren, die zu einer Studie hinzugefuegt werden
-	 * koennen zu filtern.
+	 * Methode wird aufgerufen um die Zentren, die zu einer Studie hinzugefuegt
+	 * werden koennen zu filtern.
 	 * 
 	 * @param request
 	 *            Requestobjekt
@@ -676,7 +699,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 * @throws ServletException
 	 *             Fehler in der Http-Verarbeitung
 	 * @throws IOException
-	 *             Fehler in der IO-Verarbaitung
+	 *             Fehler in der IO-Verarbeitung
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)
 	 */
@@ -692,17 +715,13 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
 					// Filter setzen
 					sZentrum.setFilter(true);
-					sZentrum.setInstitution(request
-							.getParameter("INSTITUTION"));
+					sZentrum
+							.setInstitution(request.getParameter("INSTITUTION"));
 					sZentrum.setAbteilung(request
 							.getParameter("ABTEILUNGSNAME"));
 					sZentrum.setIstAktiviert(true);
 					gZentrum = Zentrum.suchenZentrum(sZentrum);
 
-				} else {
-					ZentrumBean sZentrum = new ZentrumBean();
-					sZentrum.setFilter(true);
-					gZentrum = Zentrum.suchenZentrum(sZentrum);
 				}
 				request.setAttribute("listeZentren", gZentrum);
 			} catch (BenutzerException e) {
@@ -712,18 +731,8 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 						.getMessage());
 			}
-
-			request.getRequestDispatcher("/zentrum_anzeigen.jsp").forward(
-					request, response);
-		} else {
-		//Kein Filter gesetzt
-			request.getRequestDispatcher("/zentrum_anzeigen.jsp").forward(
-					request, response);
 		}
 
 	}
-
-
-
 
 }
