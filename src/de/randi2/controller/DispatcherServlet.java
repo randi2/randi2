@@ -187,7 +187,25 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Neue Studie anlegen
 		 */
 		JSP_STUDIE_ANLEGEN,
+		
+		/**
+		 * Neuen Studienarm zu Studie hinzufuegen
+		 */
+		JSP_STUDIE_ANLEGEN_ADD_STUDIENARM,
 
+		/**
+		 * Studienarm von Studie entfernen
+		 */
+		JSP_STUDIE_ANLEGEN_DEL_STUDIENARM,		
+		/**
+		 * Neuen Strata zu Studie hinzufuegen
+		 */
+		JSP_STUDIE_ANLEGEN_ADD_STRATA,
+
+		/**
+		 * Strata von Studie entfernen
+		 */
+		JSP_STUDIE_ANLEGEN_DEL_STRATA,	
 		/**
 		 * Studie pausieren
 		 */
@@ -280,8 +298,17 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Haelt die Begruendung der Systemsperrung (String)
 		 */
-		MITTEILUNG_SYSTEM_GESPERRT("mitteilung_system_gesperrt");
+		MITTEILUNG_SYSTEM_GESPERRT("mitteilung_system_gesperrt"),
 
+		/**
+		 * Anzahl an Strata
+		 */
+		ANZAHL_STRATA("anzahl_strata"),
+		/**
+		 * Anzahl an Armen
+		 */
+		ANZAHL_ARME("anzahl_arme");
+		
 		/**
 		 * String Version des Parameters
 		 */
@@ -601,7 +628,36 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						StudieServlet.anfrage_id.AKTION_STUDIE_ANLEGEN.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
+				
+			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_ADD_STRATA.name())) {
+				
+				// neue Strata zu Studie
+				request.setAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString(),((Integer)request.getAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString())) + 1);
+				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request,
+						response);
+				
+			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_ADD_STUDIENARM.name())) {
 
+				// neuer Studienarm zu Studie
+				request.setAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME.toString(),((Integer)request.getAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME.toString())) + 1);
+				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request,
+						response);
+
+			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_DEL_STRATA.name())) {
+				
+				// neue Strata zu Studie
+				request.setAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString(),((Integer)request.getAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString())) - 1);
+				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request,
+						response);
+				
+			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_DEL_STUDIENARM.name())) {
+
+				// neuer Studienarm zu Studie
+				request.setAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME.toString(),((Integer)request.getAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME.toString())) - 1);
+				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request,
+						response);
+
+				
 			} else if (id.equals((anfrage_id.JSP_STUDIE_PAUSIEREN_EINS.name()))) {
 				// Studie pausieren
 				request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
