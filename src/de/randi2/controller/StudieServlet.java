@@ -1,6 +1,7 @@
 package de.randi2.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Vector;
@@ -46,6 +47,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 * Meldung, wenn der Aenderungsvorgang einer Studie erfolgreich war.
 	 */
 	private static final String AENDERUNG_STUDIE_ERFOLGREICH = "Die Studie wurde erfolgreich geändert.";
+
 	/**
 	 * Meldung, wenn der Status erfolgreich geaendert wurde.
 	 */
@@ -209,15 +211,16 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String aktion = (String) request.getAttribute("anfrage_id");
+		String aktion = (String) request.getParameter("anfrage_id");
 		String id = (String) request
 				.getParameter(DispatcherServlet.requestParameter.ANFRAGE_Id
 						.name());
-		 System.out.println("Aktion ist " + aktion);
+		if (id == null) {
+			id = aktion;
+		}
 		String idAttribute = (String) request
 				.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
 						.name());
-		System.out.println("IDAttrib ist " + idAttribute);
 
 		if (idAttribute != null) {
 			id = idAttribute;
@@ -236,8 +239,9 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				// StudieBean(NullKonstanten.DUMMY_ID,);
 
 				System.out.println("3333");
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Fehler beim Anlegen");
-				
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+						"Fehler beim Anlegen");
+
 				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
 						request, response);
 
@@ -250,14 +254,13 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				request.getRequestDispatcher(Jsp.STUDIE_PAUSIEREN_EINS)
 						.forward(request, response);
 
-			}else if (id.equals(anfrage_id.AKTION_STUDIE_FORTSETZEN.name())) {
+			} else if (id.equals(anfrage_id.AKTION_STUDIE_FORTSETZEN.name())) {
 				// Status aendern
-				studieStatus(request, response,Studie.Status.AKTIV);
-			}else if (id.equals(anfrage_id.AKTION_STUDIE_PAUSIEREN.name())) {
+				studieStatus(request, response, Studie.Status.AKTIV);
+			} else if (id.equals(anfrage_id.AKTION_STUDIE_PAUSIEREN.name())) {
 				// Status aendern
 				studieStatus(request, response, Studie.Status.PAUSE);
 			}
-			
 
 		} else if (id != null) {
 			Logger.getLogger(this.getClass()).debug(id);
@@ -302,31 +305,39 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			}
 
 			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
-
 				request.setAttribute("anfrage_id", "ZENTRUM_ANZEIGEN");
-				request.getRequestDispatcher("ZentrumServlet").forward(request,
-						response);
-
-			} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
 				request.setAttribute("zugehoerigeZentren", this
 						.getZugehoerigeZentren(request, response));
 				request.setAttribute("nichtZugehoerigeZentren", this
 						.getNichtZugehoerigeZentren(request, response));
-				// Weiterleitung zum Zentrum
-				request.getRequestDispatcher("/zentrum_anzeigen.jsp").forward(
-						request, response);
+				request.getRequestDispatcher("ZentrumServlet").forward(request,
+						response);
 
 			}
 		} else {
+			if (id == null && idAttribute == null) {
+
+			}
 			// TODO an dieser Stelle würde ich einfach auf index.jsp
 			// weiterleiten; gibt's andere Vorschläge (lplotni 17. Jun)
 			// request.getRequestDispatcher("DispatcherServlet").forward(request,
 			// response);
-			System.out.println("Die drei Fragezeichen beim Posten");
+			response.setContentType("text/html");
+			PrintWriter out = response.getWriter();
+			out
+					.println("<html><head><title>Fehlerseite bei doPost</title></head>");
+			out.println("<body><h1>Ein Fehler ist aufgetreten </h1>");
+			out.println("<p> ");
 
-			System.out.println("Anfrage ID ist " + id);
-			id = (String) request.getAttribute("Filtern");
-			System.out.println("Attrib ID ist " + id);
+			out
+					.println("query string ist " + request.getQueryString()
+							+ "<br>");
+			out.println("</p><p>");
+			out.println("request anfrage_id ist " + aktion);
+			out.println("<br>dispatcher servlet anfrage_ID ist " + id + "<br>");
+			out.println("</p>");
+			out.println("</body>");
+			
 		}
 	}
 
@@ -481,7 +492,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			gZentrum.setAbteilung(tempString.toString().substring(
 					tempString.indexOf(" / ") + 3, tempString.length()));
 			gZentrum = Zentrum.suchenZentrum(gZentrum).firstElement();
-			System.out.println(gZentrum.toString());
+			//System.out.println(gZentrum.toString());
 			if (name != null) {
 				gStudie.setName(name);
 			}
@@ -509,23 +520,25 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 *            Der Request fuer das Servlet.
 	 * @param response
 	 *            Der Response Servlet.
-	 * @param status Status der Studie, der geaendert wird.
+	 * @param status
+	 *            Status der Studie, der geaendert wird.
 	 * @throws IOException
 	 *             Falls Fehler in den E/A-Verarbeitung.
 	 * @throws ServletException
 	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
 	 */
 	private void studieStatus(HttpServletRequest request,
-			HttpServletResponse response, Studie.Status status) throws ServletException, IOException {
-		
-		StudieBean aStudie = (StudieBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name());
+			HttpServletResponse response, Studie.Status status)
+			throws ServletException, IOException {
+
+		StudieBean aStudie = (StudieBean) request.getSession().getAttribute(
+				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name());
 
 		try {
 			aStudie.setStatus(status);
-			DatenbankFactory.getAktuelleDBInstanz()
-					.schreibenObjekt(aStudie);
-			//Studie erfolgreich pausiert
-			//TODO Meldung an den Benutzer
+			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aStudie);
+			// Studie erfolgreich pausiert
+			// TODO Meldung an den Benutzer
 			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 					this.STATUS_GEAENDERT);
 			request.getRequestDispatcher("studie_ansehen.jsp").forward(request,
@@ -600,10 +613,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	}
 
 	/**
+	 * Diese Methode erstellt einen Vektor mit den Zentren, die der aktuellen
+	 * Studie zugeordnet sind
 	 * 
 	 * @param request
 	 * @param response
-	 * @return
+	 * @return Vektor der Zentren, die der Studie zugeordnet sind
 	 */
 	private Vector<ZentrumBean> getZugehoerigeZentren(
 			HttpServletRequest request, HttpServletResponse response) {
@@ -621,10 +636,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	}
 
 	/**
+	 * Diese Methode erstellt einen Vektor mit den Zentren, die der aktuellen
+	 * Studie nicht zugeordnet sind
 	 * 
 	 * @param request
 	 * @param response
-	 * @return
+	 * @return Vektor der Zentren, die der Studie nicht zugeordnet sind
 	 */
 	private Vector<ZentrumBean> getNichtZugehoerigeZentren(
 			HttpServletRequest request, HttpServletResponse response) {

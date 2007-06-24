@@ -18,6 +18,7 @@ import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
+import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Jsp;
 import de.randi2.utility.KryptoUtil;
@@ -62,12 +63,17 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		 * Zentrumsdaten aendern
 		 */
 		ZENTRUM_AENDERN,
-		
+
 		/**
 		 * Zentrum anzeigen
 		 */
 		ZENTRUM_ANZEIGEN,
-		
+
+		/**
+		 * Zentrum anzeigen bei Studienverwaltung
+		 */
+		JSP_ZENTRUM_ANZEIGEN,
+
 		/**
 		 * Zentrum anzeigen beim Admin.
 		 */
@@ -81,6 +87,43 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 */
 	public ZentrumServlet() {
 		super();
+	}
+
+	// TODO Bitte Kommentar ueberpruefen und ggf. anpassen.
+	/**
+	 * Diese Methode nimmt HTTP-GET-Request gemaess HTTP-Servlet Definition
+	 * entgegen.
+	 * <p>
+	 * Ist das System geperrt, so wird die Anfrage auf die Seite
+	 * <source>index_gesperrt.jsp</source> umgeleitet, ansonsten wird die Seite
+	 * <source>index.jsp</source> aufgerufen.
+	 * </p>
+	 * <p>
+	 * Es ist erforderlich, das fuer einen gueltigen Aufruf sowohl eine
+	 * anfrage_id gesetzt als auch der Benutzer eingeloggt ist.
+	 * 
+	 * @param request
+	 *            Der Request fuer das Servlet.
+	 * @param response
+	 *            Der Response Servlet.
+	 * @throws IOException
+	 *             Falls Fehler in den E/A-Verarbeitung.
+	 * @throws ServletException
+	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+	 *      HttpServletResponse response)
+	 */
+	@Override
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		String id = (String) request.getParameter("anfrage_id");
+		String idAttribute = (String) request.getAttribute("anfrage_id");
+		if (idAttribute != null) {
+			request.setAttribute("anfrage_id", idAttribute);
+		}
+		doPost(request, response);
 	}
 
 	/**
@@ -100,7 +143,8 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 *      HttpServletResponse response)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		String id = (String) request.getParameter("anfrage_id");
 		String idAttribute = (String) request.getAttribute("anfrage_id");
 		if (idAttribute != null) {
@@ -110,33 +154,41 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
 		// Benutzer registrieren
 		// Schritt 2.1
-		if (id.equals(ZentrumServlet.anfrage_id.CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI.name())) {
-			this.classDispatcherservletBenutzerRegistrierenZwei(request, response);
+		if (id
+				.equals(ZentrumServlet.anfrage_id.CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_ZWEI
+						.name())) {
+			this.classDispatcherservletBenutzerRegistrierenZwei(request,
+					response);
 
 		}
 		// Schritt 3.1: ZENTRUMAUSWAHL: Filterung
 		// Schritt 3.2 ZENTRUMAUSWAHL->BENUTZERDATEN_EINGEBEN
-		else if (id.equals(ZentrumServlet.anfrage_id.CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI.name())) {
-			this.classDispatcherservletBenutzerRegistrierenDrei(request, response);
+		else if (id
+				.equals(ZentrumServlet.anfrage_id.CLASS_DISPATCHERSERVLET_BENUTZER_REGISTRIEREN_DREI
+						.name())) {
+			this.classDispatcherservletBenutzerRegistrierenDrei(request,
+					response);
 		}
 		// Neues Zentrum anlegen
-		else if (id.equals(anfrage_id.ClASS_DISPATCHERSERVLET_ZENTRUM_ANLEGEN.name())) {
+		else if (id.equals(anfrage_id.ClASS_DISPATCHERSERVLET_ZENTRUM_ANLEGEN
+				.name())) {
 			this.classDispatcherservletZentrumAnlegen(request, response);
 
 		} else if (id.equals(ZentrumServlet.anfrage_id.ZENTRUM_AENDERN.name())) {
 			aendernZentrum(request, response);
-		} 
-		else if (id.equals(ZentrumServlet.anfrage_id.ZENTRUM_ANZEIGEN.name())) {
-			this.zentrenFiltern(request, response);
-		}
-		else if(id.equals(ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ANZEIGEN_ADMIN.name())){
-			classDispatcherServlet(request,response);
-		}
-		else {
+		} else if (id.equals(ZentrumServlet.anfrage_id.ZENTRUM_ANZEIGEN.name())) {
+				this.zentrenFiltern2(request, response);
+		} else if (id
+				.equals(ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ANZEIGEN_ADMIN
+						.name())) {
+			classDispatcherServlet(request, response);
+		} else if (id.equals(ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN
+				.name())) {
+			classDispatcherservletBenutzerRegistrierenDrei(request, response);
+		} else {
 			// TODO Hier muss noch entschieden werden,was passiert
 		}
 	}
-
 
 	/**
 	 * Setzt aenderbare Daten eines vorhandenen Zentrums neu.
@@ -150,7 +202,8 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 * @throws ServletException
 	 *             Fehler bei HTTP
 	 */
-	private void aendernZentrum(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void aendernZentrum(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 
 		// Alle aenderbaren Attribute des request inititalisieren
 		String institution = request.getParameter("Institution");
@@ -168,15 +221,18 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		String passwort = null;
 
 		// Wiederholte Passworteingabe pruefen
-		if (request.getParameter("Passwort") != null && request.getParameter("Passwort_wh") != null) {
-			if (request.getParameter("Passwort").equals(request.getParameter("Passwort_wh"))) {
+		if (request.getParameter("Passwort") != null
+				&& request.getParameter("Passwort_wh") != null) {
+			if (request.getParameter("Passwort").equals(
+					request.getParameter("Passwort_wh"))) {
 				passwort = request.getParameter("Passwort");
 			} else {
 				passwort = "";
 			}
 		}
 
-		BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request.getSession()).getAttribute("aBenutzer");
+		BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request.getSession())
+				.getAttribute("aBenutzer");
 		try {
 			ZentrumBean aZentrum = aBenutzer.getZentrum();
 			try {
@@ -193,7 +249,8 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 					aZentrum.getAnsprechpartner().setFax(faxA);
 					aZentrum.getAnsprechpartner().setEmail(emailA);
 					// aZentrum.getAnsprechpartner().setGeschlecht(geschlechtA);
-					DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aZentrum.getAnsprechpartner());
+					DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+							aZentrum.getAnsprechpartner());
 				} else {
 					PersonBean aPerson = new PersonBean();
 					aPerson.setNachname(nachnameA);
@@ -202,25 +259,31 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 					aPerson.setFax(faxA);
 					aPerson.setEmail(emailA);
 					aPerson.setGeschlecht('m');
-					aPerson = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aPerson);
+					aPerson = DatenbankFactory.getAktuelleDBInstanz()
+							.schreibenObjekt(aPerson);
 					aZentrum.setAnsprechpartnerId(aPerson.getId());
 				}
 				if (passwort != null) {
 					if (!(passwort.trim().equals(""))) {
-						String hash = KryptoUtil.getInstance().hashPasswort(passwort);
+						String hash = KryptoUtil.getInstance().hashPasswort(
+								passwort);
 						aZentrum.setPasswort(hash);
 					}
 				}
 			} catch (ZentrumException e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
 			} catch (PersonException e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
 			}
 			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aZentrum);
 			// TODO hier noch erfolgreich nachricht einfuegen twillert
-			request.getRequestDispatcher("global_welcome.jsp").forward(request, response);
+			request.getRequestDispatcher("global_welcome.jsp").forward(request,
+					response);
 		} catch (DatenbankExceptions e) {
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
 		}
 	}
 
@@ -239,7 +302,9 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)
 	 */
-	private void classDispatcherservletBenutzerRegistrierenZwei(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void classDispatcherservletBenutzerRegistrierenZwei(
+			HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// Nach allen vorhandenen Zentren suchen
 		// @Andy - wieder die gleiche Geschichte, mit der Konstante
 		// (siehe
@@ -252,11 +317,13 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		try {
 			gZentrum = Zentrum.suchenZentrum(sZentrum);
 		} catch (DatenbankExceptions e) {
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
 		}
 		request.setAttribute("listeZentren", gZentrum);
 		// Schritt 2.1.3
-		request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp").forward(request, response);
+		request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp").forward(
+				request, response);
 	}
 
 	/**
@@ -274,18 +341,29 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)
 	 */
-	private void classDispatcherservletBenutzerRegistrierenDrei(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void classDispatcherservletBenutzerRegistrierenDrei(
+			HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// Filterung
 		if (((String) request.getParameter(Parameter.filter)) != null) {
 			try {
 				Vector<ZentrumBean> gZentrum = null;
-				if (((String) request.getParameter(Parameter.zentrum.INSTITUTION.name())) != "" && ((String) request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name())) != "") {
+				if (((String) request
+						.getParameter(Parameter.zentrum.INSTITUTION.name())) != ""
+						&& ((String) request
+								.getParameter(Parameter.zentrum.ABTEILUNGSNAME
+										.name())) != "") {
 					ZentrumBean sZentrum = new ZentrumBean();
 
 					// Filter setzen
 					sZentrum.setFilter(true);
-					sZentrum.setInstitution(request.getParameter(Parameter.zentrum.INSTITUTION.name()));
-					sZentrum.setAbteilung(request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name()));
+					sZentrum
+							.setInstitution(request
+									.getParameter(Parameter.zentrum.INSTITUTION
+											.name()));
+					sZentrum.setAbteilung(request
+							.getParameter(Parameter.zentrum.ABTEILUNGSNAME
+									.name()));
 					sZentrum.setIstAktiviert(true);
 					gZentrum = Zentrum.suchenZentrum(sZentrum);
 
@@ -296,12 +374,15 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				}
 				request.setAttribute("listeZentren", gZentrum);
 			} catch (BenutzerException e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
 			} catch (DatenbankExceptions e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
 			}
 
-			request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp").forward(request, response);
+			request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp").forward(
+					request, response);
 		} else {
 			try {
 				// Erstmal alle vorhandenen Zentren suchen
@@ -319,106 +400,155 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 					if (request.getParameter(suche) != null) {
 						Zentrum aZentrum = new Zentrum(aZentrumBean);
 						// Zentrum Passwort richtig
-						if (aZentrum.pruefenPasswort(request.getParameter(Parameter.zentrum.PASSWORT.name() + aZentrumBean.getId()))) {
+						if (aZentrum.pruefenPasswort(request
+								.getParameter(Parameter.zentrum.PASSWORT.name()
+										+ aZentrumBean.getId()))) {
 							// Zentrum an die Session binden
-							request.getSession()
-									.setAttribute(DispatcherServlet.sessionParameter.ZENTRUM_BENUTZER_ANLEGEN.toString(), aZentrum.getZentrumBean());
-							request.setAttribute("aZentrum", aZentrum.getZentrumBean().getId());
-							request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
+							request
+									.getSession()
+									.setAttribute(
+											DispatcherServlet.sessionParameter.ZENTRUM_BENUTZER_ANLEGEN
+													.toString(),
+											aZentrum.getZentrumBean());
+							request.setAttribute("aZentrum", aZentrum
+									.getZentrumBean().getId());
+							request.getRequestDispatcher(
+									"/benutzer_anlegen_drei.jsp").forward(
+									request, response);
 						}
 						// Zentrum Passwort falsch
 						else {
 							request.setAttribute("listeZentren", gZentrum);
-							request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Falsches Zentrumpasswort");
-							request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp").forward(request, response);
+							request.setAttribute(
+									DispatcherServlet.FEHLERNACHRICHT,
+									"Falsches Zentrumpasswort");
+							request.getRequestDispatcher(
+									"/benutzer_anlegen_zwei.jsp").forward(
+									request, response);
 						}
 					}
 				}
 			} catch (DatenbankExceptions e) {
 				// Fehler zurück!
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
-				request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp").forward(request, response);
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
+				request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp")
+						.forward(request, response);
 			}
 		}
 
 		// keine Filterung
 	}
-/**
- * 
- * @param request
- * @param response
- * @throws ServletException
- * @throws IOException
- */
-	private void classDispatcherservletZentrumAnlegen(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private void classDispatcherservletZentrumAnlegen(
+			HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// Zentrum zusammenbauen
 		ZentrumBean aZentrum = new ZentrumBean();
 		PersonBean aPerson = new PersonBean();
 		try {
 			// Zentrum setzen
-			aZentrum.setInstitution(request.getParameter(Parameter.zentrum.INSTITUTION.name()));
-			aZentrum.setAbteilung(request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name()));
-			aZentrum.setStrasse(request.getParameter(Parameter.zentrum.STRASSE.name()));
-			aZentrum.setHausnr(request.getParameter(Parameter.zentrum.HAUSNUMMER.name()));
+			aZentrum.setInstitution(request
+					.getParameter(Parameter.zentrum.INSTITUTION.name()));
+			aZentrum.setAbteilung(request
+					.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name()));
+			aZentrum.setStrasse(request.getParameter(Parameter.zentrum.STRASSE
+					.name()));
+			aZentrum.setHausnr(request
+					.getParameter(Parameter.zentrum.HAUSNUMMER.name()));
 			aZentrum.setPlz(request.getParameter(Parameter.zentrum.PLZ.name()));
 			aZentrum.setOrt(request.getParameter(Parameter.zentrum.ORT.name()));
 			aZentrum.setIstAktiviert(true);
-			String passwort = KryptoUtil.getInstance().generatePasswort(KryptoUtil.ZENTRUM_PASSWORT_LAENGE);
+			String passwort = KryptoUtil.getInstance().generatePasswort(
+					KryptoUtil.ZENTRUM_PASSWORT_LAENGE);
 			aZentrum.setPasswortKlartext(passwort);
 
 			// Person setzen
-			aPerson.setVorname(request.getParameter(Parameter.person.VORNAME.name()));
-			aPerson.setNachname(request.getParameter(Parameter.person.NACHNAME.name()));
-			//Wurde das Geschlecht eingetragen
+			aPerson.setVorname(request.getParameter(Parameter.person.VORNAME
+					.name()));
+			aPerson.setNachname(request.getParameter(Parameter.person.NACHNAME
+					.name()));
+			// Wurde das Geschlecht eingetragen
 			if (request.getParameter(Parameter.person.GESCHLECHT.name()) != null) {
-				aPerson.setGeschlecht(request.getParameter(Parameter.person.GESCHLECHT.name()).charAt(0));
+				aPerson.setGeschlecht(request.getParameter(
+						Parameter.person.GESCHLECHT.name()).charAt(0));
 			}
-			//Fehlt das Geschlecht
-			else{
+			// Fehlt das Geschlecht
+			else {
 				throw new PersonException(PersonException.GESCHLECHT_FEHLT);
 			}
-		
-			aPerson.setTelefonnummer(request.getParameter(Parameter.person.TELEFONNUMMER.name()));
+
+			aPerson.setTelefonnummer(request
+					.getParameter(Parameter.person.TELEFONNUMMER.name()));
 			aPerson.setFax(request.getParameter(Parameter.person.FAX.name()));
-			aPerson.setEmail(request.getParameter(Parameter.person.EMAIL.name()));
+			aPerson.setEmail(request
+					.getParameter(Parameter.person.EMAIL.name()));
 			// Person speichern
-			aPerson = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aPerson);
+			aPerson = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+					aPerson);
 
 			// Zentrum speichern
 			aZentrum.setAnsprechpartnerId(aPerson.getId());
-			aZentrum = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aZentrum);
-			request.setAttribute(DispatcherServlet.NACHRICHT_OK, "Das Zentrum: " + aZentrum.getInstitution() + "wurde erfolgreich angelegt.\t" + "Passwort:\t"
-					+ passwort);
-			request.getRequestDispatcher(Jsp.ZENTRUM_ANLEGEN).forward(request, response);
+			aZentrum = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+					aZentrum);
+			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+					"Das Zentrum: " + aZentrum.getInstitution()
+							+ "wurde erfolgreich angelegt.\t" + "Passwort:\t"
+							+ passwort);
+			request.getRequestDispatcher(Jsp.ZENTRUM_ANLEGEN).forward(request,
+					response);
 
 		} catch (BenutzerException e) {
 			// Zentrum zurückschicken
-			request.setAttribute(Parameter.zentrum.INSTITUTION.name(), request.getParameter(Parameter.zentrum.INSTITUTION.name()));
-			request.setAttribute(Parameter.zentrum.ABTEILUNGSNAME.name(), request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name()));
-			request.setAttribute(Parameter.zentrum.STRASSE.name(), request.getParameter(Parameter.zentrum.STRASSE.name()));
-			request.setAttribute(Parameter.zentrum.HAUSNUMMER.name(), request.getParameter(Parameter.zentrum.HAUSNUMMER.name()));
-			request.setAttribute(Parameter.zentrum.PLZ.name(), request.getParameter(Parameter.zentrum.PLZ.name()));
-			request.setAttribute(Parameter.zentrum.ORT.name(), request.getParameter(Parameter.zentrum.ORT.name()));
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+			request.setAttribute(Parameter.zentrum.INSTITUTION.name(), request
+					.getParameter(Parameter.zentrum.INSTITUTION.name()));
+			request.setAttribute(Parameter.zentrum.ABTEILUNGSNAME.name(),
+					request.getParameter(Parameter.zentrum.ABTEILUNGSNAME
+							.name()));
+			request.setAttribute(Parameter.zentrum.STRASSE.name(), request
+					.getParameter(Parameter.zentrum.STRASSE.name()));
+			request.setAttribute(Parameter.zentrum.HAUSNUMMER.name(), request
+					.getParameter(Parameter.zentrum.HAUSNUMMER.name()));
+			request.setAttribute(Parameter.zentrum.PLZ.name(), request
+					.getParameter(Parameter.zentrum.PLZ.name()));
+			request.setAttribute(Parameter.zentrum.ORT.name(), request
+					.getParameter(Parameter.zentrum.ORT.name()));
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
 
 			// Person zurückschicken
-			request.setAttribute(Parameter.person.VORNAME.name(), request.getParameter(Parameter.person.VORNAME.name()));
-			request.setAttribute(Parameter.person.NACHNAME.name(), request.getParameter(Parameter.person.NACHNAME.name()));
-			//Falls das Geschlecht bereits gesetzt wurde wieder eintragen
+			request.setAttribute(Parameter.person.VORNAME.name(), request
+					.getParameter(Parameter.person.VORNAME.name()));
+			request.setAttribute(Parameter.person.NACHNAME.name(), request
+					.getParameter(Parameter.person.NACHNAME.name()));
+			// Falls das Geschlecht bereits gesetzt wurde wieder eintragen
 			if (request.getParameter(Parameter.person.GESCHLECHT.name()) != null) {
-				System.out.println(request.getParameter(Parameter.person.GESCHLECHT.name()));
-			request.setAttribute(Parameter.person.GESCHLECHT.name(), request.getParameter(Parameter.person.GESCHLECHT.name()));
+				System.out.println(request
+						.getParameter(Parameter.person.GESCHLECHT.name()));
+				request.setAttribute(Parameter.person.GESCHLECHT.name(),
+						request
+								.getParameter(Parameter.person.GESCHLECHT
+										.name()));
 			}
-			request.setAttribute(Parameter.person.TELEFONNUMMER.name(), request.getParameter(Parameter.person.TELEFONNUMMER.name()));
-			request.setAttribute(Parameter.person.FAX.name(), request.getParameter(Parameter.person.FAX.name()));
-			request.setAttribute(Parameter.person.EMAIL.name(), request.getParameter(Parameter.person.EMAIL.name()));
-			request.getRequestDispatcher(Jsp.ZENTRUM_ANLEGEN).forward(request, response);
+			request.setAttribute(Parameter.person.TELEFONNUMMER.name(), request
+					.getParameter(Parameter.person.TELEFONNUMMER.name()));
+			request.setAttribute(Parameter.person.FAX.name(), request
+					.getParameter(Parameter.person.FAX.name()));
+			request.setAttribute(Parameter.person.EMAIL.name(), request
+					.getParameter(Parameter.person.EMAIL.name()));
+			request.getRequestDispatcher(Jsp.ZENTRUM_ANLEGEN).forward(request,
+					response);
 		}
 
 	}
-	
-	
-	
+
 	/**
 	 * Methode wird aufgerufen um bei der Benutzerregistrierung nach Zentren zu
 	 * filtern, bzw. das Zentrumpasswort zu ueberpruefen
@@ -434,18 +564,22 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)
 	 */
-	private void zentrenFiltern(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void zentrenFiltern(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// Filterung
 		if (((String) request.getParameter("Filtern")) != null) {
 			try {
 				Vector<ZentrumBean> gZentrum = null;
-				if (((String) request.getParameter("name_institution")) != "" && ((String) request.getParameter("name_abteilung")) != "") {
+				if (((String) request.getParameter("name_institution")) != ""
+						&& ((String) request.getParameter("name_abteilung")) != "") {
 					ZentrumBean sZentrum = new ZentrumBean();
 
 					// Filter setzen
 					sZentrum.setFilter(true);
-					sZentrum.setInstitution(request.getParameter("name_institution"));
-					sZentrum.setAbteilung(request.getParameter("name_abteilung"));
+					sZentrum.setInstitution(request
+							.getParameter("name_institution"));
+					sZentrum.setAbteilung(request
+							.getParameter("name_abteilung"));
 					sZentrum.setIstAktiviert(true);
 					gZentrum = Zentrum.suchenZentrum(sZentrum);
 
@@ -456,12 +590,15 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				}
 				request.setAttribute("listeZentren", gZentrum);
 			} catch (BenutzerException e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
 			} catch (DatenbankExceptions e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
 			}
 
-			request.getRequestDispatcher("/studie_ansehen.jsp").forward(request, response);
+			request.getRequestDispatcher("/studie_ansehen.jsp").forward(
+					request, response);
 		} else {
 			try {
 				// Erstmal alle vorhandenen Zentren suchen
@@ -478,23 +615,23 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 					String suche = "bestaetigen" + aZentrumBean.getId();
 					if (request.getParameter(suche) != null) {
 						Zentrum aZentrum = new Zentrum(aZentrumBean);
-						
-					
+
 					}
 				}
 			} catch (DatenbankExceptions e) {
 				// Fehler zurück!
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
-				request.getRequestDispatcher("/studie_ansehen.jsp").forward(request, response);
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
+				request.getRequestDispatcher("/studie_ansehen.jsp").forward(
+						request, response);
 			}
 		}
 
 		// keine Filterung
 	}
-	
+
 	/**
-	 * Methode wird aufgerufen um beim Adminmenü nach Zentren zu
-	 * filtern.
+	 * Methode wird aufgerufen um beim Adminmenü nach Zentren zu filtern.
 	 * 
 	 * @param request
 	 *            Requestobjekt
@@ -507,25 +644,86 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)
 	 */
-	private void classDispatcherServlet(HttpServletRequest request, HttpServletResponse response) {
+	private void classDispatcherServlet(HttpServletRequest request,
+			HttpServletResponse response) {
 		ZentrumBean zentrum = new ZentrumBean();
 		PersonBean person = new PersonBean();
-		Vector<ZentrumBean>zentrumVec = new Vector<ZentrumBean>();
-		Vector<PersonBean>personVec = new Vector<PersonBean>();
+		Vector<ZentrumBean> zentrumVec = new Vector<ZentrumBean>();
+		Vector<PersonBean> personVec = new Vector<PersonBean>();
 		zentrum.setFilter(true);
 		try {
 			zentrumVec = Zentrum.suchenZentrum(zentrum);
 			request.setAttribute("listeZentrum", zentrumVec);
-			request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN_ADMIN).forward(request, response);
+			request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN_ADMIN).forward(
+					request, response);
 		} catch (ServletException e) {
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
 		} catch (IOException e) {
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
 		}
 	}
 
-	
-	
-	
-	
+	/**
+	 * Methode wird aufgerufen um die Zentren, die zu einer Studie hinzugefuegt werden
+	 * koennen zu filtern.
+	 * 
+	 * @param request
+	 *            Requestobjekt
+	 * @param response
+	 *            Responseobjekt
+	 * @throws ServletException
+	 *             Fehler in der Http-Verarbeitung
+	 * @throws IOException
+	 *             Fehler in der IO-Verarbaitung
+	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+	 *      HttpServletResponse response)
+	 */
+	private void zentrenFiltern2(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// Filterung
+		if (((String) request.getParameter("Filtern")) != null) {
+			try {
+				Vector<ZentrumBean> gZentrum = null;
+				if (((String) request.getParameter("INSTITUTION")) != ""
+						&& ((String) request.getParameter("ABTEILUNGSNAME")) != "") {
+					ZentrumBean sZentrum = new ZentrumBean();
+
+					// Filter setzen
+					sZentrum.setFilter(true);
+					sZentrum.setInstitution(request
+							.getParameter("INSTITUTION"));
+					sZentrum.setAbteilung(request
+							.getParameter("ABTEILUNGSNAME"));
+					sZentrum.setIstAktiviert(true);
+					gZentrum = Zentrum.suchenZentrum(sZentrum);
+
+				} else {
+					ZentrumBean sZentrum = new ZentrumBean();
+					sZentrum.setFilter(true);
+					gZentrum = Zentrum.suchenZentrum(sZentrum);
+				}
+				request.setAttribute("listeZentren", gZentrum);
+			} catch (BenutzerException e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
+			} catch (DatenbankExceptions e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
+			}
+
+			request.getRequestDispatcher("/zentrum_anzeigen.jsp").forward(
+					request, response);
+		} else {
+		//Kein Filter gesetzt
+			request.getRequestDispatcher("/zentrum_anzeigen.jsp").forward(
+					request, response);
+		}
+
+	}
+
+
+
+
 }
