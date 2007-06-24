@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import de.randi2.model.fachklassen.Recht;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.Config;
+import de.randi2.utility.Jsp;
 import de.randi2.utility.LogAktion;
 import de.randi2.utility.LogLayout;
 import de.randi2.utility.Parameter;
@@ -86,6 +87,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 */
 		JSP_INDEX_LOGIN,
 
+		/**
+		 * Benutzer klickt Impressum link
+		 */
+		JSP_HEADER_IMPRESSUM,
+		
 		/**
 		 * Benutzer klickt Benutzer registieren auf index.jsp
 		 */
@@ -622,7 +628,9 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 							.name());
 			request.getRequestDispatcher("ZentrumServlet").forward(
 					request, response);
-		}
+			} else if (id.equals(anfrage_id.JSP_HEADER_IMPRESSUM.name())) {
+				request.getRequestDispatcher(Jsp.IMPRESSUM).forward(request,response);
+			}
 			// [end]
 
 			// SONSTIGE WEITERLEITUNGEN
