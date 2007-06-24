@@ -69,8 +69,6 @@ public class StudieTest {
 		endDatum.add(Calendar.MONTH, +7);
 		studieBean.setStudienZeitraum(startDatum, endDatum);
 		studieBean.setStudienprotokollPfad("pfad");
-		studieBean
-				.setRandomisationseigenschaften("Randomisationseigenschaften");
 
 		Vector<ZentrumBean> aTestZentrum = new Vector<ZentrumBean>();
 
@@ -327,8 +325,6 @@ public class StudieTest {
 					endDatumVergleich);
 			studieVergleich.setStudienprotokollPfad("pfad");
 			studieVergleich.setStatus(Studie.Status.BEENDET);
-			studieVergleich
-					.setRandomisationseigenschaften("Randomisationseigenschaften");
 			assertFalse(studieBean.equals(studieVergleich));
 		} catch (Exception e) {
 			fail(e.getMessage());

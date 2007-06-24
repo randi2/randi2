@@ -45,6 +45,7 @@ import de.randi2.utility.LogGeanderteDaten;
 import de.randi2.utility.LogLayout;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.SystemException;
+import de.randi2.utility.Config.Felder;
 
 /**
  * <p>
@@ -442,10 +443,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		 * Der Pfad des Studienprotokolls.
 		 */
 		PROTOKOLL("studienprotokoll"),
-		/**
-		 * Die Art der Randomisation.
-		 */
-		RANDOMISATIONSART("randomisationArt"),
 		/**
 		 * Der Status der Studie.
 		 */
@@ -1465,10 +1462,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 				sql = "INSERT INTO " + Tabellen.STUDIE + " (" + FelderStudie.ID
 						+ ", " + FelderStudie.BENUTZER + ", "
 						+ FelderStudie.NAME + ", " + FelderStudie.BESCHREIBUNG
-						+ ", " + FelderStudie.STARTDATUM + ", "
+						+ ", " + FelderStudie.RANDOMISATIONSALGORITHMUS + ", "
+						+ FelderStudie.STARTDATUM + ", "
 						+ FelderStudie.ENDDATUM + ", " + FelderStudie.PROTOKOLL
-						+ ", " + FelderStudie.RANDOMISATIONSART + ", "
-						+ FelderStudie.STATUS + ") "
+						+ ", " + FelderStudie.STATUS + ") "
 						+ "VALUES (NULL,?,?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
@@ -1479,12 +1476,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 				} else {
 					pstmt.setNull(i++, Types.NULL);
 				}
+				pstmt.setString(i++, studie.getAlgorithmus().toString());
 				pstmt.setDate(i++, new Date(studie.getStartDatum()
 						.getTimeInMillis()));
 				pstmt.setDate(i++, new Date(studie.getEndDatum()
 						.getTimeInMillis()));
 				pstmt.setString(i++, studie.getStudienprotokollpfad());
-				pstmt.setString(i++, studie.getRandomisationsart());
 				pstmt.setString(i++, studie.getStatus().toString());
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
@@ -1509,7 +1506,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					sql += "-1)";
 					sql2 = sql2.substring(0, sql2.length() - 1)
 							+ " ON DUPLICATE KEY UPDATE"; // letztes Komma
-															// entfernen
+					// entfernen
 					pstmt = con.prepareStatement(sql);
 					pstmt.setLong(1, id);
 					pstmt.executeUpdate();
@@ -1530,9 +1527,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 			sql = "UPDATE " + Tabellen.STUDIE + " SET " + FelderStudie.BENUTZER
 					+ "=?, " + FelderStudie.NAME + "=?, "
 					+ FelderStudie.BESCHREIBUNG + "=?, "
+					+ FelderStudie.RANDOMISATIONSALGORITHMUS + "=?, "
 					+ FelderStudie.STARTDATUM + "=?, " + FelderStudie.ENDDATUM
 					+ "=?, " + FelderStudie.PROTOKOLL + "=?, "
-					+ FelderStudie.RANDOMISATIONSART + "=?, "
 					+ FelderStudie.STATUS + "=? " + "WHERE " + FelderStudie.ID
 					+ "=?";
 			try {
@@ -1544,12 +1541,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 				} else {
 					pstmt.setNull(j++, Types.NULL);
 				}
+				pstmt.setString(j++, studie.getAlgorithmus().toString());
 				pstmt.setDate(j++, new Date(studie.getStartDatum()
 						.getTimeInMillis()));
 				pstmt.setDate(j++, new Date(studie.getEndDatum()
 						.getTimeInMillis()));
 				pstmt.setString(j++, studie.getStudienprotokollpfad());
-				pstmt.setString(j++, studie.getRandomisationsart());
 				pstmt.setString(j++, studie.getStatus().toString());
 				pstmt.setLong(j++, studie.getId());
 				pstmt.executeUpdate();
@@ -1575,7 +1572,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					sql += "-1)";
 					sql2 = sql2.substring(0, sql2.length() - 1)
 							+ " ON DUPLICATE KEY UPDATE"; // letztes Komma
-															// entfernen
+					// entfernen
 					pstmt = con.prepareStatement(sql);
 					pstmt.setLong(1, studie.getId());
 					pstmt.executeUpdate();
@@ -2744,6 +2741,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			e.printStackTrace();
 			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
 		} catch (StudienarmException f) {
+			f.printStackTrace();
 			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
 		} catch (StudieException g) {
 			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
@@ -2798,6 +2796,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 			sql += FelderStudie.BESCHREIBUNG.toString() + " LIKE ? ";
 			counter++;
 		}
+		if (studie.getAlgorithmus() != null) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderStudie.RANDOMISATIONSALGORITHMUS.toString()
+					+ " LIKE ? ";
+			counter++;
+		}
 		// falls Start- und Enddatum gesetzt sind wird der Bereich dazwischen
 		// gesucht
 		if (studie.getStartDatum() != null && studie.getEndDatum() != null) {
@@ -2844,15 +2852,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 			sql += FelderStudie.PROTOKOLL.toString() + " LIKE ? ";
 			counter++;
 		}
-		if (studie.getRandomisationsart() != null) {
-			if (counter == 0) {
-				sql += " WHERE ";
-			} else {
-				sql += " AND ";
-			}
-			sql += FelderStudie.RANDOMISATIONSART.toString() + " = ? ";
-			counter++;
-		}
 		if (studie.getStatus() != null) {
 			if (counter == 0) {
 				sql += " WHERE ";
@@ -2874,6 +2873,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 			if (studie.getBeschreibung() != null) {
 				pstmt.setString(counter++, studie.getBeschreibung());
 			}
+			if (studie.getAlgorithmus() != null) {
+				pstmt.setString(counter++, studie.getAlgorithmus().toString());
+			}
 			if (studie.getStartDatum() != null) {
 				pstmt.setDate(counter++, new Date(studie.getStartDatum()
 						.getTimeInMillis()));
@@ -2884,9 +2886,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			if (studie.getStudienprotokollpfad() != null) {
 				pstmt.setString(counter++, studie.getStudienprotokollpfad());
-			}
-			if (studie.getRandomisationsart() != null) {
-				pstmt.setString(counter++, studie.getRandomisationsart());
 			}
 			if (studie.getStatus() != null) {
 				pstmt.setString(counter++, studie.getStatus().toString());
@@ -2905,12 +2904,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 						Algorithmen
 								.parseAlgorithmen(rs
 										.getString(FelderStudie.RANDOMISATIONSALGORITHMUS
-												.toString())),
-						rs.getLong(FelderStudie.BENUTZER.toString()),
-						startDatum,
-						endDatum,
-						rs.getString(FelderStudie.PROTOKOLL.toString()),
-						rs.getString(FelderStudie.RANDOMISATIONSART.toString()),
+												.toString())), rs
+								.getLong(FelderStudie.BENUTZER.toString()),
+						startDatum, endDatum, rs
+								.getString(FelderStudie.PROTOKOLL.toString()),
 						Status.parseStatus(rs.getString(FelderStudie.STATUS
 								.toString())));
 				studien.add(tmpStudie);
@@ -3313,8 +3310,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 									.getLong(FelderStudie.BENUTZER.toString()),
 							startDatum, endDatum, rs
 									.getString(FelderStudie.PROTOKOLL
-											.toString()), rs
-									.getString(FelderStudie.RANDOMISATIONSART
 											.toString()), Status.parseStatus(rs
 									.getString(FelderStudie.STATUS.toString())));
 
@@ -3782,6 +3777,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 			sql += " AND " + Tabellen.STUDIE + "."
 					+ FelderStudie.BESCHREIBUNG.toString() + " LIKE ? ";
 		}
+		if (studie.getAlgorithmus() != null) {
+			sql += " AND " + Tabellen.STUDIE + "."
+					+ FelderStudie.RANDOMISATIONSALGORITHMUS.toString()
+					+ " LIKE ? ";
+		}
 		// falls Start- und Enddatum gesetzt sind wird der Bereich dazwischen
 		// gesucht
 		if (studie.getStartDatum() != null && studie.getEndDatum() != null) {
@@ -3808,10 +3808,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 			sql += " AND " + Tabellen.STUDIE + "."
 					+ FelderStudie.PROTOKOLL.toString() + " LIKE ? ";
 		}
-		if (studie.getRandomisationsart() != null) {
-			sql += " AND " + Tabellen.STUDIE + "."
-					+ FelderStudie.RANDOMISATIONSART.toString() + " = ? ";
-		}
 		if (studie.getStatus() != null) {
 			sql += " AND " + Tabellen.STUDIE + "."
 					+ FelderStudie.STATUS.toString() + " = ? ";
@@ -3829,6 +3825,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 			if (studie.getBeschreibung() != null) {
 				pstmt.setString(counter++, studie.getBeschreibung());
 			}
+			if (studie.getAlgorithmus() != null) {
+				pstmt.setString(counter++, studie.getAlgorithmus().toString());
+			}
 			if (studie.getStartDatum() != null) {
 				pstmt.setDate(counter++, new Date(studie.getStartDatum()
 						.getTimeInMillis()));
@@ -3839,9 +3838,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			if (studie.getStudienprotokollpfad() != null) {
 				pstmt.setString(counter++, studie.getStudienprotokollpfad());
-			}
-			if (studie.getRandomisationsart() != null) {
-				pstmt.setString(counter++, studie.getRandomisationsart());
 			}
 			if (studie.getStatus() != null) {
 				pstmt.setString(counter++, studie.getStatus().toString());
@@ -3865,8 +3861,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 									.getLong(FelderStudie.BENUTZER.toString()),
 							startDatum, endDatum, rs
 									.getString(FelderStudie.PROTOKOLL
-											.toString()), rs
-									.getString(FelderStudie.RANDOMISATIONSART
 											.toString()), Status.parseStatus(rs
 									.getString(FelderStudie.STATUS.toString())));
 				} catch (StudieException e) {
@@ -4100,12 +4094,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 					((StudieBean) aObjekt).getName());
 			geaenderteDaten.put(FelderStudie.BESCHREIBUNG.toString(),
 					((StudieBean) aObjekt).getBeschreibung());
+			geaenderteDaten.put(FelderStudie.RANDOMISATIONSALGORITHMUS
+					.toString(), ((StudieBean) aObjekt).getAlgorithmus()
+					.toString());
 			geaenderteDaten.put(FelderStudie.STARTDATUM.toString(), sdf
 					.format(((StudieBean) aObjekt).getStartDatum().getTime()));
 			geaenderteDaten.put(FelderStudie.ENDDATUM.toString(), sdf
 					.format(((StudieBean) aObjekt).getEndDatum().getTime()));
-			geaenderteDaten.put(FelderStudie.RANDOMISATIONSART.toString(),
-					((StudieBean) aObjekt).getRandomisationsart());
 			geaenderteDaten.put(FelderStudie.STATUS.toString(),
 					((StudieBean) aObjekt).getStatus().toString());
 

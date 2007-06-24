@@ -87,8 +87,6 @@ public class StudieBeanTest {
 		endDatum.add(Calendar.MONTH, +7);
 		studieBean.setStudienZeitraum(startDatum, endDatum);
 		studieBean.setStudienprotokollPfad("pfad");
-		studieBean
-				.setRandomisationseigenschaften("Randomisationseigenschaften");
 		
 		Vector<ZentrumBean> aTestZentrum = new Vector<ZentrumBean>();
 
@@ -391,8 +389,6 @@ public class StudieBeanTest {
 			endVergleich.add(Calendar.MONTH, +6);
 			studieVergleich.setStudienZeitraum(startVergleich, endVergleich);
 			studieVergleich.setStudienprotokollPfad("pfad Vergleich");
-			studieVergleich
-					.setRandomisationseigenschaften("Randomisationseigenschaften Vergleich");
 			Vector<ZentrumBean> aTestZentrum = new Vector<ZentrumBean>();
 
 			aTestZentrum.add(new ZentrumBean(12, "InstituitionVergleich", "AbteilungVergleich",

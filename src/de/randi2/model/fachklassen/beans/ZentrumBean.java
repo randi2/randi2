@@ -579,9 +579,28 @@ public class ZentrumBean extends Filter {
 		return (int) this.getId();
 	}
 
+	/**
+	 * DI
+	 */
 	@Override
 	public void validate() throws BenutzerException {
-		// FIXME sihe #169
+		// [*,ä] Name der Institution := 3..70 Zeichen
+		// [*,ä] Name der genauen Abteilung in der Institution := 3..70 Zeichen
+		// [*,ä] Ort := 3..50 Zeichen
+		// [*,ä] PLZ := \d{5}, 5 Zeichen (ergibt sich)
+		// [*,ä] Strasse := 3..50 Zeichen
+		// [*,ä] Hausnummer := \d{1,4}[a-b]{0,2}
+		// [*,ä] Name des Ansprechpartners := 3..50 Zeichen
+		// [*,ä] Vorname des Ansprechpartners := 3..50 Zeichen
+		// [*,ä] Telefonnummer des Ansprechpartners := 0(\d){2,10}/(\d){3,15},
+		// 6..26 Zeichen (ergibt sich)
+		// [ä] Fax := 0(\d){2,10}/(\d){3,15}, 6..26 Zeichen (ergibt sich)
+		// [*,ä] E-Mail des Ansprechpartners :=
+		// [_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4},
+		// 6..255 Zeichen (Maximum muss überprüft werden)
+		// [*,ä] Passwort für das Zentrum := Passwort erzeugt mit "pwgen -Bny 12
+		// 1"
+		// immer 12 Zeichen lang, wird jedoch als Hash-Wert gespeichert.
 		
 	}
 

@@ -55,20 +55,15 @@ public class StudieBean extends Filter {
 	private Vector<StudienarmBean> aStudienarme = null;
 
 	/**
-	 * Typ der Randomisation.
-	 */
-	private String aRandomisationsart = null;
-
-	/**
 	 * Institution der Studie.
 	 */
 	private String aInstitution = null;
-	
+
 	/**
 	 * Studienleiter der Studie.
 	 */
 	private String aStudienleiter = null;
-	
+
 	/**
 	 * Die zu der Studie zugeordnete Zentren.
 	 */
@@ -89,8 +84,12 @@ public class StudieBean extends Filter {
 	 */
 	private long aBenutzerkontoId = NullKonstanten.DUMMY_ID;
 
+	/**
+	 * Enthaelt den Name des Randomisationsalgorithmus - diese Namen sind in der
+	 * enum der Randomisationsklasse zu finden.
+	 */
 	private Randomisation.Algorithmen aAlgorithmus = null;
-	
+
 	/**
 	 * Status der Studie.
 	 */
@@ -107,6 +106,9 @@ public class StudieBean extends Filter {
 	 *            Beschreibung der Studie
 	 * @param name
 	 *            Name der Studie.
+	 * @param algorithmus -
+	 *            beschreibt den Randomisationsalgorithmus, der bei dieser
+	 *            Studie angewandt wird.
 	 * @param benutzerId
 	 *            Id des Benutzerkontos des Studienleiters
 	 * @param startdatum
@@ -115,9 +117,6 @@ public class StudieBean extends Filter {
 	 *            Enddatum der Studie
 	 * @param studienprotokollPfad
 	 *            Studienprotokollpfad der Studie
-	 * @param randomisationsart
-	 *            Die Art der Randomisation
-	 * 
 	 * @param status
 	 *            Status der Studie
 	 * @throws StudieException
@@ -125,20 +124,19 @@ public class StudieBean extends Filter {
 	 * @throws DatenbankExceptions
 	 *             wenn eine inkorrekte Id uebergeben wurde
 	 */
-	public StudieBean(long id, String beschreibung, String name, Randomisation.Algorithmen algorithmus,
-			long benutzerId, GregorianCalendar startdatum,
-			GregorianCalendar enddatum, String studienprotokollPfad,
-			String randomisationsart, Status status) throws StudieException,
+	public StudieBean(long id, String beschreibung, String name,
+			Randomisation.Algorithmen algorithmus, long benutzerId,
+			GregorianCalendar startdatum, GregorianCalendar enddatum,
+			String studienprotokollPfad, Status status) throws StudieException,
 			DatenbankExceptions {
 
 		super.setId(id);
 		this.setBeschreibung(beschreibung);
-		this.setAlgorithmus(algorithmus);
 		this.setName(name);
+		this.setAlgorithmus(algorithmus);
 		this.setBenutzerkontoId(benutzerId);
 		this.setStudienZeitraum(startdatum, enddatum);
 		this.setStudienprotokollPfad(studienprotokollPfad);
-		this.setRandomisationseigenschaften(randomisationsart);
 		this.setStatus(status);
 	}
 
@@ -171,11 +169,13 @@ public class StudieBean extends Filter {
 	 * 
 	 * @param aBenutzerkonto
 	 *            Benutzerkonto
-	 * @throws StudieException wenn die ID des Beans nicht korrekt ist.
+	 * @throws StudieException
+	 *             wenn die ID des Beans nicht korrekt ist.
 	 */
-	public void setBenutzerkonto(BenutzerkontoBean aBenutzerkonto) throws StudieException {
+	public void setBenutzerkonto(BenutzerkontoBean aBenutzerkonto)
+			throws StudieException {
 		this.setBenutzerkontoId(aBenutzerkonto.getBenutzerId());
-		this.aBenutzerkonto = aBenutzerkonto;	
+		this.aBenutzerkonto = aBenutzerkonto;
 	}
 
 	/**
@@ -244,26 +244,6 @@ public class StudieBean extends Filter {
 	}
 
 	/**
-	 * Die Methode uebergibt die Randomisationsart der Studie.
-	 * 
-	 * @return randomisationsart, Randomisationsart der Studie.
-	 */
-	public String getRandomisationsart() {
-		return aRandomisationsart;
-	}
-
-	/**
-	 * Setzt die Randomisationsart.
-	 * 
-	 * @param randomisationsart
-	 *            ein String - Konstante aus der entsprechender
-	 *            Randomisationsklasse
-	 */
-	public void setRandomisationseigenschaften(String randomisationsart) {
-		this.aRandomisationsart = randomisationsart;
-	}
-
-	/**
 	 * Gibt das Startdatum der Studie zurueck.
 	 * 
 	 * @return startDatum, Start der Studie.
@@ -285,7 +265,7 @@ public class StudieBean extends Filter {
 	 */
 	public void setStudienZeitraum(GregorianCalendar startDatum,
 			GregorianCalendar endDatum) throws StudieException {
-		if(!endDatum.after(startDatum)){
+		if (!endDatum.after(startDatum)) {
 			throw new StudieException(StudieException.DATUM_FEHLER);
 		}
 		this.aEndDatum = endDatum;
@@ -296,10 +276,11 @@ public class StudieBean extends Filter {
 	 * Gibt die Anzahl der Studienarme zurueck.
 	 * 
 	 * @return studienarme, Anzahl der Studienarme.
-	 * @throws DatenbankExceptions wenn bei dem Prozess Fehler auftraten
+	 * @throws DatenbankExceptions
+	 *             wenn bei dem Prozess Fehler auftraten
 	 */
 	public Vector<StudienarmBean> getStudienarme() throws DatenbankExceptions {
-		if(aStudienarme == null){
+		if (aStudienarme == null) {
 			aStudienarme = Studie.getStudienarme(this);
 		}
 		return aStudienarme;
@@ -480,7 +461,7 @@ public class StudieBean extends Filter {
 		}
 		this.aBenutzerkontoId = benutzerkontoId;
 	}
-	
+
 	/**
 	 * Die Methode uebergibt die Institution der Studie.
 	 * 
@@ -500,7 +481,7 @@ public class StudieBean extends Filter {
 	public void setInstitution(String institution) {
 		this.aInstitution = institution;
 	}
-	
+
 	/**
 	 * Die Methode uebergibt den Studienleiter der Studie.
 	 * 
@@ -534,7 +515,7 @@ public class StudieBean extends Filter {
 				+ "\tbeschreibung:\t" + this.aBeschreibung + "\tstartDatum\t"
 				+ this.aStartDatum + "\tendDatum:\t" + this.aEndDatum
 				+ "\tstudienprotokollPfad\t" + this.studienprotokollPfad
-				+ "\trandomisationsart\t" + this.getRandomisationsart()
+				+ "\trandomisationsalogorithmus\t" + this.getAlgorithmus().toString()
 				+ "\tbenutzerkontobject:\t" + this.aBenutzerkonto
 				+ "\tbenutzerkontoid:\t" + this.getBenutzerkontoId()
 				+ "\tstatus:\t" + this.aStatus;
@@ -619,8 +600,7 @@ public class StudieBean extends Filter {
 					this.getStudienprotokollpfad())) {
 				return false;
 			}
-			if (!studieBean.getRandomisationsart().equals(
-					this.aRandomisationsart)) {
+			if (!(studieBean.getAlgorithmus()==this.getAlgorithmus())) {
 				return false;
 			}
 			if (studieBean.getStatus() != this.getStatus()) {
@@ -644,29 +624,37 @@ public class StudieBean extends Filter {
 	@Override
 	public void validate() throws BenutzerException {
 		// FIXME siehe #167
-		
+
 	}
 
+	/**
+	 * Liefert den Randomisationsalgorithmus
+	 * @return - ein Element aus der Randomisation.Algorithmen enum
+	 */
 	public Randomisation.Algorithmen getAlgorithmus() {
 		return aAlgorithmus;
 	}
 
 	/**
-	 * Setzt den Algorithmus. Es sind nur Werte der Enum Randomisation.Algorithmen erlaubt!
+	 * Setzt den Algorithmus. Es sind nur Werte der Enum
+	 * Randomisation.Algorithmen erlaubt!
 	 * 
-	 * @param algorithmus der gewuenschte Algorithmus
-	 * @throws StudieException falls ein ungueltiger Algorithmus uebergeben wurde
+	 * @param algorithmus
+	 *            der gewuenschte Algorithmus
+	 * @throws StudieException
+	 *             falls ein ungueltiger Algorithmus uebergeben wurde
 	 */
-	public void setAlgorithmus(Randomisation.Algorithmen algorithmus) throws StudieException{
-	
+	public void setAlgorithmus(Randomisation.Algorithmen algorithmus)
+			throws StudieException {
+
 		if (!this.isFilter()) {
 			if (algorithmus == null) {
-				
+
 				throw new StudieException(StudieException.ALGORITHMUS_UNGUELTIG);
-				
+
 			}
 		}
-		
+
 		aAlgorithmus = algorithmus;
 	}
 

@@ -47,12 +47,12 @@
 	<tr class="tblrow1" align="left">
 		<th width="10%">Studienprotokoll</th>
 		<th width="10%">Arme der Studie</th>
-		<th width="10%">Randomisationsart</th>
+		<th width="10%">Algorithmus</th>
 	</tr>
 	<tr class="tblrow2" align="left">
 		<td><a href="<%=aStudie.getStudienprotokollpfad() %>"><%=aStudie.getStudienprotokollpfad() %></a></td>
 		<td><%=aStudienarme.get(aStudienarme.size()-counter).getBezeichnung()%><%counter--; %></td>
-		<td><%=aStudie.getRandomisationsart() %></td>
+		<td><%=aStudie.getAlgorithmus() %></td>
 	</tr> 
 	<%
 		while(counter>0){
