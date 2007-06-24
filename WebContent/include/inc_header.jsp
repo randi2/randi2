@@ -56,9 +56,14 @@
 	<tr>
 		<td>
 		<%
-		if (aRolleHeader != Rolle.Rollen.SYSOP) {
+		if (aRolleHeader != Rolle.Rollen.SYSOP && request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString())!="Studie anlegen" && request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString())!="Studie ausw&auml;hlen") {
 		%> <span id="studie_highlight">Aktuelle Studie <%= aStudieName %></span> &gt;
 		<%=aLocation %> <%
+		} else {
+		%>
+			<span id="studie_highlight">RANDI2</span> &gt;
+			<%=aLocation %>
+		<%
 		}
 		%>
 		</td>
