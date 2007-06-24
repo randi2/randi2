@@ -12,7 +12,57 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Randi2 :: Passwort vergessen</title>
+<%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<script>
+Ext.onReady(function(){
+
+	Ext.QuickTips.init();
+	Ext.form.Field.prototype.msgTarget = 'side';
+
+    var form_pw = new Ext.form.Form({
+        labelAlign: 'left',
+        labelWidth: 140,
+		buttonAlign: 'left',
+    });
+    
+    var benutzername = new Ext.form.TextField({
+        fieldLabel: 'Benutzername *',
+        name: '<%=Parameter.benutzerkonto.LOGINNAME.name() %>',
+        value: '',
+        width:190,
+        allowBlank:false,
+        blankText:'Bitte Ihren Benutzernamen eintragen!'
+    });    
+    
+	form_pw.addButton('Neues Passwort anfordern', function(){
+		if (this.isValid()) {
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+		}else{
+			Ext.MessageBox.alert('Errors', 'Die Eingaben waren fehlerhaft!');
+		}
+	}, form_pw);
+	
+	<!--  Die ANFRAGE_ID fuer ABBRECHEN wird hier gesetzt. dhaehn	-->
+	form_pw.addButton('Abbrechen', function(){
+		top.location.href='DispatcherServlet';
+	}, form_pw);    
+
+    form_pw.fieldset({legend:'Ihr Account'},
+    benutzername);
+    
+    form_pw.render('form_pw');
+
+<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_pw.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_PASSWORT_VERGESSEN.name() %>'});	
+    
+    });
+</script>
 </head>
 <body>
 <%@include file="include/inc_nachricht.jsp"%>
@@ -20,34 +70,9 @@
 <div id="content">
 
 <h1>Passwort anfordern</h1>
-<br>
-<form action="DispatcherServlet" method="POST"><input
-	type="hidden" name="<%=Parameter.anfrage_id %>"
-	value="<%=DispatcherServlet.anfrage_id.JSP_PASSWORT_VERGESSEN.name() %>">
-<fieldset style="width:60%"><legend><b>Passwort
-anfordern<br>
-</b></legend>
-<table>
-	<tr>
-		<td>Benutzername<br>
-		<input type="text" size="20" maxlength="50" name="<%=Parameter.benutzerkonto.LOGINNAME.name() %>"
-			tabindex="1"></td>
-
-	</tr>
-
-</table>
-</fieldset>
+<div id="form_pw"></div>
 
 <br>
-<table>
-	<tr>
-		<td><input type="submit" name="anfordern" value="Neues Passwort anfordern"
-			tabindex="2">&nbsp;&nbsp;&nbsp;</td>
-		<td><input type="button" name="abbrechen" value="Zur&uuml;ck zur Startseite"
-			tabindex="3" onClick="top.location.href='index.jsp'"></td>
-	</tr>
-</table>
-</form>
 <%@include file="include/inc_footer.jsp"%></div>
 <div id="show_none"></div>
 <div id="show_none"></div>
