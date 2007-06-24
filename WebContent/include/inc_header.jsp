@@ -14,10 +14,17 @@
 			StudieBean aStudie_header = (StudieBean) (request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString()));
 			
 			String aLocation = (String) request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString());
+			String aStudieName = aStudie_header.getName();
 			
 			if (aLocation == null) {
 				
 				aLocation = "KEIN TITEL GESETZT!";
+				
+			}
+			
+			if (aStudieName == null) {
+				
+				aStudieName = "KEINE STUDIE GEWAEHLT!";
 				
 			}
 			
@@ -47,7 +54,7 @@
 		<td>
 		<%
 		if (aRolleHeader != Rolle.Rollen.SYSOP) {
-		%> <span id="studie_highlight">Aktuelle Studie <%= aStudie_header.getName() %></span> &gt;
+		%> <span id="studie_highlight">Aktuelle Studie <%= aStudieName %></span> &gt;
 		<%=aLocation %> <%
 		}
 		%>
