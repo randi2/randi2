@@ -72,6 +72,11 @@ public class StudieException extends BenutzerException {
 	public static final String BENUTZERKONTO_ID_FEHLERHAFT = "Es wurde eine negative ID &uuml;bergeben!";
 
 	/**
+	 * Diese Konstante bedeutet, dass der gewaehlte Algorithmus ungueltig ist.
+	 */
+	public static final String ALGORITHMUS_UNGUELTIG = RandomisationsException.ALGORITHMUS_UNGUELTIG;
+	
+	/**
 	 * Ein Konstruktor dieser Klasse
 	 * 
 	 * @param fehlermeldung
