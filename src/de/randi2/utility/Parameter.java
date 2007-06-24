@@ -237,6 +237,10 @@ public class Parameter {
 		 */
 		RANDOMISATIONSEIGENSCHAFTEN,
 		/**
+		 * Name des Randomisationsalgorithmus
+		 */
+		RANDOMISATIONSALGORITHMUS,
+		/**
 		 * Attribut der Klasse StudieBean. Details siehe {@link StudieBean}
 		 */
 		INSTITUT,
