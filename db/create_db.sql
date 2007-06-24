@@ -79,7 +79,6 @@ CREATE TABLE Studie (
   startdatum DATE NOT NULL,
   enddatum DATE NOT NULL,
   studienprotokoll VARCHAR(255) NOT NULL,
-  randomisationArt VARCHAR(100) NOT NULL,
   status_Studie VARCHAR(25) NOT NULL,
   PRIMARY KEY(studienID),
   INDEX Studie_FKIndex1(Benutzerkonto_benutzerkontenID),
