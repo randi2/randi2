@@ -147,6 +147,16 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Aufforderung, den Benutzer aus dem System abzumelden
 		 */
 		AKTION_LOGOUT,
+		
+		/**
+		 * Aufforderung, den Nachrichtendienst anzuzeigen
+		 */
+		JSP_HEADER_NACHRICHTENDIENST,
+		
+		/**
+		 * Aufforderung, die Hilfe anzuzeigen
+		 */
+		JSP_HEADER_HILFE,
 
 		/**
 		 * Aufforderung, einen Admin mit den gesendeten Daten anzulegen
@@ -630,6 +640,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 					request, response);
 			} else if (id.equals(anfrage_id.JSP_HEADER_IMPRESSUM.name())) {
 				request.getRequestDispatcher(Jsp.IMPRESSUM).forward(request,response);
+			} else if (id.equals(anfrage_id.JSP_HEADER_HILFE.name())) {
+				request.getRequestDispatcher(Jsp.HILFE).forward(request,response);
+			} else if (id.equals(anfrage_id.JSP_HEADER_NACHRICHTENDIENST.name())) {
+				request.getRequestDispatcher(Jsp.NACHRICHTENDIENST).forward(request,response);
 			}
 			// [end]
 
