@@ -98,6 +98,11 @@ public class PersonException extends BenutzerException {
 	 * NULL uebergeben wurde.
 	 */
 	public static final String STELLVERTRETER_NULL = "Kein Stellvertreter wurde &uuml;bergeben!";
+	
+	/**
+	 * Diese Konstante wird uebergeben, wenn nicht alle Pflichtfelder ausgefuellt wurden.
+	 */
+	public static final String PFLICHTFELD_NULL = "Pflichtfelder sind teilweise leer!";
 
 
 	/**
