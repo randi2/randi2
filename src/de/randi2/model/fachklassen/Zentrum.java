@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
-import de.randi2.model.exceptions.ZentrumException;
+import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.KryptoUtil;
 
@@ -62,8 +62,9 @@ public class Zentrum {
 	 * @return true, wenn das Passwort richtig ist. False, bei falchem Passwort.
 	 */
 	public boolean pruefenPasswort(String passwort) {
-		if (passwort!=null&&KryptoUtil.getInstance().hashPasswort(passwort).equals(
-				this.getZentrumBean().getPasswort())) {
+		if (passwort != null
+				&& KryptoUtil.getInstance().hashPasswort(passwort).equals(
+						this.getZentrumBean().getPasswort())) {
 			return true;
 		}
 		return false;
@@ -98,12 +99,32 @@ public class Zentrum {
 	}
 
 	/**
+	 * Die Methode liefert alle Mitglieder-Benutzerkonten zu dem uebergebenen
+	 * ZentrumBean.
+	 * 
+	 * @param aZentrum -
+	 *            das ZentrumBean, dessen Mitglieder geholt werden sollen.
+	 * @return ein Vector mit allen Mitglieder-Benutzerkonten
+	 * @throws DatenbankExceptions -
+	 *             falls seits der DB ein Fehler aufgetreten ist
+	 */
+	public static Vector<BenutzerkontoBean> getMitglieder(ZentrumBean aZentrum)
+			throws DatenbankExceptions {
+
+		BenutzerkontoBean filter = new BenutzerkontoBean();
+		filter.setFilter(true);
+		return (DatenbankFactory.getAktuelleDBInstanz()
+				.suchenMitgliederObjekte(aZentrum, filter));
+	}
+
+	/**
 	 * Erzeugt einen String mit allen Daten des Benutzers.
 	 * 
 	 * @return Der String mit allen Daten des Benutzers.
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		return this.aZentrumBean.toString();
 	}
@@ -116,11 +137,19 @@ public class Zentrum {
 	 * @return true - wenn die beiden Objekte identisch sind, false wenn das
 	 *         nicht der Fall ist.
 	 */
-	public boolean equals(Zentrum zuvergleichendesObjekt) {
-		if (this.aZentrumBean.equals(zuvergleichendesObjekt.getZentrumBean())) {
-			return true;
+	@Override
+	public boolean equals(Object zuvergleichendesObjekt) {
+		if (zuvergleichendesObjekt == null) {
+			return false;
+		} else {
+			if (zuvergleichendesObjekt instanceof Zentrum) {
+				if (this.aZentrumBean.equals(((Zentrum) zuvergleichendesObjekt)
+						.getZentrumBean())) {
+					return true;
+				}
+			}
+			return false;
 		}
-		return false;
 	}
 
 }

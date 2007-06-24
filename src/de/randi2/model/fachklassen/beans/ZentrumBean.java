@@ -2,12 +2,12 @@ package de.randi2.model.fachklassen.beans;
 
 import java.util.Collection;
 
-import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Person;
+import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.ValidierungsUtil;
@@ -73,8 +73,11 @@ public class ZentrumBean extends Filter {
 	 */
 	private boolean istAktiviert = false;
 
-	private Collection<BenutzerkontoBean> konten=null;
-	
+	/**
+	 * Die Mitglieder-Benutzerkonten.
+	 */
+	private Collection<BenutzerkontoBean> aBenutzerkonten = null;
+
 	/**
 	 * Einfacher Konstruktor von dieser Klasse.
 	 */
@@ -194,18 +197,21 @@ public class ZentrumBean extends Filter {
 	}
 
 	/**
-	 * Liefert alle Benutzer, die diesem Zentrum zugeordnet sind, in einer Collection 
+	 * Liefert alle Benutzer, die diesem Zentrum zugeordnet sind, in einer
+	 * Collection.
+	 * 
 	 * @return Collection aller assoziierten Benutzerkonten
-	 * @throws DatenbankExceptions 
+	 * @throws DatenbankExceptions -
+	 *             falls seits der DB ein Fehler aufgetreten ist
 	 */
-	public Collection<BenutzerkontoBean> getBenutzerkonten() throws DatenbankExceptions{
-		// Liest jedesmal die Daten aus der DB, um Aktualistaet zu gewaehrleisten.
-		// XXX GGf. Methode erweitern. --BTheel 
-		BenutzerkontoBean filter = new BenutzerkontoBean();
-		filter.setFilter(true);
-		return (DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(this, filter));
+	public Collection<BenutzerkontoBean> getBenutzerkonten()
+			throws DatenbankExceptions {
+		if(aBenutzerkonten==null){
+			aBenutzerkonten = Zentrum.getMitglieder(this);
+		}
+		return aBenutzerkonten;
 	}
-	
+
 	/**
 	 * Get-Methode fuer die Abteilung.
 	 * 
@@ -230,8 +236,6 @@ public class ZentrumBean extends Filter {
 		return aAnsprechpartner;
 	}
 
-	
-	
 	/**
 	 * Get-Methode fuer die Hausnummer.
 	 * 
@@ -580,28 +584,68 @@ public class ZentrumBean extends Filter {
 	}
 
 	/**
-	 * DI
+	 * Diese Methode ueberprueft, ob alle notwendigen Attribute bei einem Objekt
+	 * dieser Klasse gesetzt wurden. Zu diesen gehoeren: aInstitution aAbteilung
+	 * aOrt aStrasse aHausnr aPlz aAnsprechpartnerId aPasswort
+	 * 
+	 * @throws BenutzerException -
+	 *             wenn die Ueberprufung der Felder fehl schlug
 	 */
 	@Override
 	public void validate() throws BenutzerException {
-		// [*,ä] Name der Institution := 3..70 Zeichen
-		// [*,ä] Name der genauen Abteilung in der Institution := 3..70 Zeichen
-		// [*,ä] Ort := 3..50 Zeichen
-		// [*,ä] PLZ := \d{5}, 5 Zeichen (ergibt sich)
-		// [*,ä] Strasse := 3..50 Zeichen
-		// [*,ä] Hausnummer := \d{1,4}[a-b]{0,2}
-		// [*,ä] Name des Ansprechpartners := 3..50 Zeichen
-		// [*,ä] Vorname des Ansprechpartners := 3..50 Zeichen
-		// [*,ä] Telefonnummer des Ansprechpartners := 0(\d){2,10}/(\d){3,15},
-		// 6..26 Zeichen (ergibt sich)
-		// [ä] Fax := 0(\d){2,10}/(\d){3,15}, 6..26 Zeichen (ergibt sich)
-		// [*,ä] E-Mail des Ansprechpartners :=
-		// [_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4},
-		// 6..255 Zeichen (Maximum muss überprüft werden)
-		// [*,ä] Passwort für das Zentrum := Passwort erzeugt mit "pwgen -Bny 12
-		// 1"
-		// immer 12 Zeichen lang, wird jedoch als Hash-Wert gespeichert.
-		
+		if (this.getInstitution() == null) {
+			throw new ZentrumException(ZentrumException.INSTITUTION_NULL);
+		} else {
+			if (this.getInstitution().equals("")) {
+				throw new ZentrumException(ZentrumException.INSTITUTION_LEER);
+			}
+		}
+		if (this.getAbteilung() == null) {
+			throw new ZentrumException(ZentrumException.ABTEILUNG_NULL);
+		} else {
+			if (this.getAbteilung().equals("")) {
+				throw new ZentrumException(ZentrumException.ABTEILUNG_LEER);
+			}
+		}
+		if (this.getOrt() == null) {
+			throw new ZentrumException(ZentrumException.ORT_NULL);
+		} else {
+			if (this.getOrt().equals("")) {
+				throw new ZentrumException(ZentrumException.ORT_LEER);
+			}
+		}
+		if (this.getStrasse() == null) {
+			throw new ZentrumException(ZentrumException.STRASSE_NULL);
+		} else {
+			if (this.getStrasse().equals("")) {
+				throw new ZentrumException(ZentrumException.STRASSE_LEER);
+			}
+		}
+		if (this.getHausnr() == null) {
+			throw new ZentrumException(ZentrumException.HAUSNR_NULL);
+		} else {
+			if (this.getHausnr().equals("")) {
+				throw new ZentrumException(ZentrumException.HAUSNR_LEER);
+			}
+		}
+		if (this.getPlz() == null) {
+			throw new ZentrumException(ZentrumException.PLZ_NULL);
+		} else {
+			if (this.getPlz().equals("")) {
+				throw new ZentrumException(ZentrumException.PLZ_LEER);
+			}
+		}
+		if (this.getAnsprechpartnerId() == NullKonstanten.DUMMY_ID) {
+			throw new ZentrumException(
+					ZentrumException.ANSPRECHPARTNER_NICHT_GESPEICHERT);
+		}
+		if (this.getPasswort() == null) {
+			throw new ZentrumException(ZentrumException.PASSWORT_NULL);
+		} else {
+			if (this.getPasswort().length() < 64) {
+				throw new ZentrumException(ZentrumException.PASSWORT_FALSCH);
+			}
+		}
 	}
 
 }

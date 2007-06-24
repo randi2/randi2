@@ -21,6 +21,11 @@ public class ZentrumException extends BenutzerException {
 	 * Diese Konstante wird uebergeben, wenn die Abteilung fehlt.
 	 */
 	public static final String ABTEILUNG_NULL = "Die Abteilung wurde nicht eingegeben!";
+	
+	/**
+	 * Diese Konstante wird uebergeben, wenn der Abteilungsstring leer ist.
+	 */
+	public static final String ABTEILUNG_LEER = "Die Abteilung ist leer";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Hausnummer falsch ist.
@@ -31,6 +36,11 @@ public class ZentrumException extends BenutzerException {
 	 * Diese Konstante wird uebergeben, wenn die Hausnummer fehlt.
 	 */
 	public static final String HAUSNR_NULL = "Die Hausnummer wurde nicht eingegeben!";
+	
+	/**
+	 * Diese Konstante wird uebergeben, wenn der Hausnummerstring leer ist.
+	 */
+	public static final String HAUSNR_LEER = "Die Hausnummer ist leer";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Institution falsch ist.
@@ -41,6 +51,11 @@ public class ZentrumException extends BenutzerException {
 	 * Diese Konstante wird uebergeben, wenn die Institution fehlt.
 	 */
 	public static final String INSTITUTION_NULL = "Die Institution wurde nicht eingegeben!";
+	
+	/**
+	 * Diese Konstante wird uebergeben, wenn der Institutionsstring leer ist.
+	 */
+	public static final String INSTITUTION_LEER = "Die Institution ist leer";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn der Ort falsch ist.
@@ -53,6 +68,11 @@ public class ZentrumException extends BenutzerException {
 	public static final String ORT_NULL = "Der Ort wurde nicht eingegeben!";
 
 	/**
+	 * Diese Konstante wird uebergeben, wen der Ortstring leer ist.
+	 */
+	public static final String ORT_LEER = "Der Ort ist leer!";
+	
+	/**
 	 * Diese Konstante wird uebergeben, wenn die PLZ falsch ist.
 	 */
 	public static final String PLZ_FALSCH = "Die eingegenene Postleitzahl ist falsch!";
@@ -63,14 +83,24 @@ public class ZentrumException extends BenutzerException {
 	public static final String PLZ_NULL = "Die Postleitzahl wurde nicht eingegeben!";
 
 	/**
+	 * Diese Konstante wird uebergeben, wenn der PLZString leer ist.
+	 */
+	public static final String PLZ_LEER = "Die Postleitzahl ist leer";
+	
+	/**
 	 * Diese Konstante wird uebergeben, wenn die Strasse falsch ist.
 	 */
-	public static final String STRASSE_FALSCH = "Die eingegebene Strasse falsch!";
+	public static final String STRASSE_FALSCH = "Die eingegebene Straße falsch!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Strasse fehlt.
 	 */
-	public static final String STRASSE_NULL = "Die Stra�e wurde nicht eingegeben!";
+	public static final String STRASSE_NULL = "Die Straße wurde nicht eingegeben!";
+	
+	/**
+	 * Diese Konstante wird uebergeben, wenn der Strassestring leer ist.
+	 */
+	public static final String STRASSE_LEER = "Die Straße ist leer";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn das Passwort falsch ist.
