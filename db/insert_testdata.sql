@@ -31,11 +31,11 @@ values ('1','1','frank80','a2dc01d419169a14447c792bfb5ece25a50757c09f28798a2c4f5
         ('3','3','nadine','4bc34ee364f766e4877e3e6bc7fce62402910200967678714db8d7b4e062c1aa','SYSOP',0),
         ('4','4','hans75','7422090dd18d88965d3c2273c6121af4595bbe5c11f0c7a847a158555a4f65be','ADMIN',0);
 
-insert into Studie (Benutzerkonto_benutzerkontenID,name,beschreibung,randomisationsalgorithmus,startdatum,enddatum,studienprotokoll,randomisationArt,status_Studie) 
-values('1','hess','irgendwelche Beschreibung der Studie','Vollstaendige Randomisation','2001-01-01','2009-05-05','c:na','VOLLSTAENDIGE','aktiv'),
-        ('2','graeff','irgendwelche Beschreibung der Studie','Vollstaendige Randomisation','2002-02-02','2010-06-06','d:na','BLOCK','aktiv'),
-        ('3','zwink','irgendwelche Beschreibung der Studie','Blockrandomisation ohne Strata','2003-03-03','2017-07-07','e:na','BLOCK MIT STRATA','aktiv'),
-        ('4','dampf','irgendwelche Beschreibung der Studie','Blockrandomisation ohne Strata','2004-04-04','2008-08-08','f:na','MINIMISATION','aktiv');
+insert into Studie (Benutzerkonto_benutzerkontenID,name,beschreibung,randomisationsalgorithmus,startdatum,enddatum,studienprotokoll,status_Studie) 
+values('1','hess','irgendwelche Beschreibung der Studie','Vollstaendige Randomisation','2001-01-01','2009-05-05','c:na','aktiv'),
+        ('2','graeff','irgendwelche Beschreibung der Studie','Vollstaendige Randomisation','2002-02-02','2010-06-06','d:na','aktiv'),
+        ('3','zwink','irgendwelche Beschreibung der Studie','Blockrandomisation ohne Strata','2003-03-03','2017-07-07','e:na','aktiv'),
+        ('4','dampf','irgendwelche Beschreibung der Studie','Blockrandomisation ohne Strata','2004-04-04','2008-08-08','f:na','aktiv');
 
 insert into Studienarm (Studie_studienID,status_aktivitaet,bezeichnung,beschreibung) 
 values('1','aktiv','0',null),
