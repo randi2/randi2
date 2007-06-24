@@ -369,7 +369,7 @@ public class ZentrumBean extends Filter {
 			this.aHausnr = hausnr;
 		} else {
 			if (hausnr != null) {
-				if (!hausnr.matches("\\d{1,4}[a-b]{0,2}")) {
+				if (hausnr.length()>20) {
 					throw new ZentrumException(ZentrumException.HAUSNR_FALSCH);
 				}
 				this.aHausnr = hausnr;

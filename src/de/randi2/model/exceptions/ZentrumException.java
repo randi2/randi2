@@ -30,7 +30,7 @@ public class ZentrumException extends BenutzerException {
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Hausnummer falsch ist.
 	 */
-	public static final String HAUSNR_FALSCH = "Die eingegebene Hausnummer ist falsch!";
+	public static final String HAUSNR_FALSCH = "Die eingegebene Hausnummer ist falsch! (Max. 20 Zeichen)";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Hausnummer fehlt.
