@@ -36,6 +36,7 @@ public class ValidierungUtilTest {
 		assertEquals("+4971168582271", ValidierungsUtil.validiereRufnummer("(07 11) 685 - 8 22 71"));
 		assertEquals("+3226749810", ValidierungsUtil.validiereRufnummer(" +32.2.674.9810 "));
 		assertEquals("+49214521342", ValidierungsUtil.validiereRufnummer(" 02145/21342 "));
+		assertEquals("+33214521342", ValidierungsUtil.validiereRufnummer("0033 2145/21342 "));
 		assertEquals(null, ValidierungsUtil.validiereRufnummer("(07 11) 685 - 8 22 d71")); // falsche Zeichen
 		assertEquals(null, ValidierungsUtil.validiereRufnummer("07131")); // Zu kurz
 		assertEquals(null, ValidierungsUtil.validiereRufnummer("32.2.674")); // Falsche Anfang

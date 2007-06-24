@@ -52,8 +52,11 @@ public final class ValidierungsUtil {
 		}
 		l.debug(nummer + " post for");
 
+		l.debug(nummer.substring(0, 2));
 		if (nummer.charAt(0) == '+') {
 			nummer = nummer.substring(1, nummer.length());
+		} else if (nummer.substring(0, 2).equals("00")) {
+			nummer = nummer.substring(2, nummer.length());
 		} else if (nummer.charAt(0) == '0') {
 			nummer = "49" + nummer.substring(1, nummer.length());
 		} else {
