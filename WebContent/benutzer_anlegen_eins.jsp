@@ -59,7 +59,7 @@ Ext.onReady(function(){
     
     });
 </script>
-<title>BRandi2 :: Benutzer anlegen</title>
+<title>Randi2 :: <%= request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString()) %></title>
 
 </head>
 <body>

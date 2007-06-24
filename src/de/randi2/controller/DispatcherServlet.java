@@ -268,6 +268,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		ANFRAGE_Id("anfrage_id"),
 
 		/**
+		 * Titel der aktuellen JSP
+		 */
+		TITEL("titel"),
+		
+		/**
 		 * Systemstatus gesperrt[true|false] (boolean)
 		 */
 		IST_SYSTEM_GESPERRT("system_gesperrt"),
@@ -359,6 +364,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 		String id = (String) request.getParameter("anfrage_id");
 		String idAttribute = (String) request.getAttribute("anfrage_id");
+		
+		// bei jedem Zugriff, Titel zuruecksetzen
+		request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(), null);
+		
 		// falls ID null dann leite auf den Index weiter
 		if ((id == null || id.trim().equals("")) && (idAttribute == null)) {
 			weiterleitungAufIndex(request, response);
@@ -380,6 +389,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			else if (id
 					.equals(DispatcherServlet.anfrage_id.JSP_INDEX_BENUTZER_REGISTRIEREN_EINS
 							.name())) {
+				request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(), "Benutzer anlegen");
 				request.getRequestDispatcher("/benutzer_anlegen_eins.jsp")
 						.forward(request, response);
 			}

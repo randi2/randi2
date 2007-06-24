@@ -6,8 +6,21 @@
 	import="de.randi2.model.fachklassen.beans.PersonBean"
 	import="de.randi2.controller.DispatcherServlet"%>
 <%
+
+
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
 			.getSession()).getAttribute("aBenutzer");
+
+			StudieBean aStudie = (StudieBean) (request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString()));
+			
+			String aLocation = (String) request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString());
+			
+			if (aLocation == null) {
+				
+				aLocation = "KEIN TITEL GESETZT!";
+				
+			}
+			
 	PersonBean aPersonHeader = null;
 	Rolle.Rollen aRolleHeader = null;
 
@@ -23,6 +36,7 @@
 %>
 <%@page import="de.randi2.utility.Config"%>
 <%@page import="de.randi2.utility.Parameter"%>
+<%@page import="de.randi2.controller.StudieServlet"%>
 <div id="header"><img
 	src="<%=Config.getProperty(Config.Felder.RELEASE_BILD_LOGO) %>"
 	width="337" height="63" title="" alt=""></div>
@@ -33,8 +47,8 @@
 		<td>
 		<%
 		if (aRolleHeader != Rolle.Rollen.SYSOP) {
-		%> <span id="studie_highlight">Aktuelle Studie $NAME</span> &gt;
-		$AKTUELLE_ANSICHT <%
+		%> <span id="studie_highlight">Aktuelle Studie <%= aStudie.getName() %></span> &gt;
+		<%=aLocation %> <%
 		}
 		%>
 		</td>
