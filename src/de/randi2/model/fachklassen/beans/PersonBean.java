@@ -2,10 +2,10 @@ package de.randi2.model.fachklassen.beans;
 
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
-import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.utility.NullKonstanten;
+import de.randi2.utility.ValidierungsUtil;
 
 /**
  * Diese Klasse repraesentiert eine Person.
@@ -175,7 +175,8 @@ public class PersonBean extends Filter {
 	 *            Faxnummer der Person.
 	 * @throws PersonException
 	 *             Wenn bei der Validierung einer Person Probleme auftreten.
-	 * @throws DatenbankExceptions 
+	 * @throws DatenbankExceptions
+	 *             Bei Fehler in der Datenbank
 	 */
 	public PersonBean(long id, long stellvertreterId, String nachname,
 			String vorname, Titel titel, char geschlecht, String email,
@@ -286,8 +287,7 @@ public class PersonBean extends Filter {
 			if (email.length() > 255) {
 				throw new PersonException(PersonException.EMAIL_UNGUELTIG);
 			}
-			if (!email
-					.matches("[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4}")) {
+			if (!ValidierungsUtil.validiereEMailPattern(email)) {
 				throw new PersonException(PersonException.EMAIL_UNGUELTIG);
 			}
 		}
@@ -305,7 +305,7 @@ public class PersonBean extends Filter {
 	public void setFax(String fax) throws PersonException {
 		if (fax != null) {
 			fax = fax.trim();
-			if (!fax.matches("(\\+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
+			if (ValidierungsUtil.validiereRufnummer(fax) == null) {
 				throw new PersonException(PersonException.FAX_UNGUELTIG);
 			}
 		}
@@ -343,8 +343,7 @@ public class PersonBean extends Filter {
 	public void setHandynummer(String handynummer) throws PersonException {
 		if (handynummer != null) {
 			handynummer = handynummer.trim();
-			if (!handynummer
-					.matches("(\\+\\d{2,3}|0)(\\d){3,10}[-/]?(\\d){3,15}")) {
+			if (ValidierungsUtil.validiereRufnummer(handynummer) == null) {
 				throw new PersonException(PersonException.HANDY_UNGUELTIG);
 			}
 		}
@@ -392,8 +391,7 @@ public class PersonBean extends Filter {
 			if (telefonnummer.length() == 0) {
 				throw new PersonException(PersonException.TELEFONNUMMER_FEHLT);
 			}
-			if (!telefonnummer
-					.matches("(\\+\\d{2,3}|0)(\\d){2,10}[-/]?(\\d){3,15}")) {
+			if (ValidierungsUtil.validiereRufnummer(telefonnummer) == null) {
 				throw new PersonException(
 						PersonException.TELEFONNUMMER_UNGUELTIG);
 			}
@@ -605,9 +603,22 @@ public class PersonBean extends Filter {
 		return false;
 	}
 
-	@Override
-	public void validate() throws BenutzerException {
-		// FIXME siehe #166
-		
+	/**
+	 * Erzeugt eine Exception, falls nicht alle Pflichtfelder gesetzt sind.
+	 * 
+	 * @see de.randi2.datenbank.Filter#validate()
+	 * @throws PersonException
+	 *             Falls Pflichtfelder nicht gesetzt sind.
+	 */
+	public void validate() throws PersonException {
+		if (this.aNachname == null || this.aVorname == null
+				|| this.aTelefonnummer == null
+				|| this.aGeschlecht == NullKonstanten.NULL_CHAR
+				|| this.aEmail == null
+				|| this.aStellvertreter.aNachname == null
+				|| this.aStellvertreter.aVorname == null
+				|| this.aStellvertreter.aTelefonnummer == null) {
+			throw new PersonException("Pflichtfelder sind teilweise leer.");
+		}
 	}
 }
