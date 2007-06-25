@@ -4,6 +4,7 @@ import java.util.Vector;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.StudieException;
+import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.StatistikBean;
 import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
@@ -281,6 +282,25 @@ public class Studie {
 				gesuchteStudie);
 	}
 
+	/**
+	 * Mit Hilfe dieser Methode, kann eine Studie angelegt werden.
+	 * 
+	 * @param aStudie
+	 *            die Studie die angelegt werden soll.
+	 * @return Die aktualisierte Studie.
+	 * @throws DatenbankExceptions
+	 *             Fehler der Benutzer konnte nicht angelegt werden
+	 * 
+	 */
+	public static Studie anlegenBenutzer(StudieBean aStudie)
+			throws DatenbankExceptions {
+
+		StudieBean aktualisierteStudie = null;
+		aktualisierteStudie = DatenbankFactory.getAktuelleDBInstanz()
+				.schreibenObjekt(aStudie);
+		return new Studie(aktualisierteStudie);
+	}
+	
 	/**
 	 * Erzeugt einen String mit allen Daten der Studie.
 	 * 
