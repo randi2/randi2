@@ -515,7 +515,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 */
 	private void studieStatus(HttpServletRequest request,
 			HttpServletResponse response, Studie.Status status) throws ServletException, IOException {
-		
+		 
 		StudieBean aStudie = (StudieBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name());
 
 		try {

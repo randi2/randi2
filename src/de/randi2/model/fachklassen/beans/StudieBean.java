@@ -8,6 +8,7 @@ import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.StudieException;
+import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Studie.Status;
@@ -230,10 +231,10 @@ public class StudieBean extends Filter {
 		if (!this.isFilter()) {
 
 			if (name == null) {
-				throw new StudieException(StudieException.STUDIENNAME_FEHLT);
+				throw new StudieException(StudieException.STUDIENNAME_LEER);
 			}
 			if (name.length() == 0) {
-				throw new StudieException(StudieException.STUDIENNAME_FEHLT);
+				throw new StudieException(StudieException.STUDIENNAME_LEER);
 			}
 
 			if (name.length() < 3 || name.length() > 50) {
@@ -243,7 +244,7 @@ public class StudieBean extends Filter {
 		this.aName = name;
 	}
 
-	/**
+	/** 
 	 * Gibt das Startdatum der Studie zurueck.
 	 * 
 	 * @return startDatum, Start der Studie.
@@ -620,10 +621,54 @@ public class StudieBean extends Filter {
 		return true;
 
 	}
-
+	/**
+	 * Diese Methode ueberprueft, ob alle notwendigen Attribute bei einem Objekt
+	 * dieser Klasse gesetzt wurden. 
+	 * 
+	 * @throws StudieException -
+	 *             wenn die Ueberprufung der Felder fehl schlug
+	 */
 	@Override
-	public void validate() throws BenutzerException {
-		// FIXME siehe #167
+	public void validate() throws StudieException {
+
+		if (this.aAlgorithmus == null) {
+			throw new StudieException(StudieException.ALGORITHMUS_UNGUELTIG);
+		} else {
+			if (this.aAlgorithmus.equals("")) {
+				throw new StudieException(StudieException.ALGORITHMUS_UNGUELTIG);
+			}
+		}
+		if (this.aEndDatum == null) {
+			throw new StudieException(StudieException.ENDDATUM_LEER);
+		} else {
+			if (this.aEndDatum.equals("")) {
+				throw new StudieException(StudieException.ENDDATUM_LEER);
+			}
+		}
+		if (this.aName == null) {
+			throw new StudieException(StudieException.STUDIENNAME_LEER);
+		} else {
+			if (this.aName.equals("")) {
+				throw new StudieException(StudieException.STUDIENNAME_LEER); 
+			}
+		}
+		if (this.aStartDatum == null) {
+			throw new StudieException(StudieException.STARTDATUM_LEER);
+		} else {
+			if (this.aStartDatum.equals("")) {
+				throw new StudieException(StudieException.STARTDATUM_LEER);
+			}
+		}
+		if (this.studienprotokollPfad == null) {
+			throw new StudieException(StudieException.STUDIENPROTOKOLL_LEER);
+		} else {
+			if (this.studienprotokollPfad.equals("")) {
+				throw new StudieException(StudieException.STUDIENPROTOKOLL_LEER);
+			}
+		}
+		
+		 
+		
 
 	}
 

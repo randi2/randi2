@@ -20,7 +20,7 @@ public class StudieException extends BenutzerException {
 	 * Diese Konstante wird uebergeben, wenn der Studienname nicht eingegeben
 	 * wurde.
 	 */
-	public static final String STUDIENNAME_FEHLT = "Bitte Studienname eingeben.";
+	public static final String STUDIENNAME_LEER = "Bitte Studienname eingeben.";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn der Studienname zu kurz oder zu
@@ -32,7 +32,7 @@ public class StudieException extends BenutzerException {
 	 * Diese Konstante wird uebergeben,wenn die Studienarme nicht eingetragen
 	 * wurden.
 	 */
-	public static final String STUDIENARM_FEHLT = "Studiennarme nicht eingetragen.";
+	public static final String STUDIENARM_LEER = "Studienname nicht eingetragen.";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn der Studienarm ungueltig.
@@ -55,11 +55,6 @@ public class StudieException extends BenutzerException {
 	public static final String STUDIE_NICHT_GEFUNDEN = "Die Studie wurde nicht gefunden.";
 
 	/**
-	 * Diese Konstante wird uebergeben, wenn Strata nicht gefunden wurde.
-	 */
-	public static final String STRATA_NICHT_GEFUNDEN = "Strata nicht gefunden.";
-
-	/**
 	 * Diese Konstante wird uebergeben, wenn ein Zentrum einer Studie bereits
 	 * zugeordnet wurde.
 	 */
@@ -75,6 +70,19 @@ public class StudieException extends BenutzerException {
 	 * Diese Konstante bedeutet, dass der gewaehlte Algorithmus ungueltig ist.
 	 */
 	public static final String ALGORITHMUS_UNGUELTIG = RandomisationsException.ALGORITHMUS_UNGUELTIG;
+	/**
+	 * Diese Konstante bedeutet, dass das Enddatum nicht gesetzt wurde.
+	 */
+	public static final String ENDDATUM_LEER = "Das Enddatum ist leer.";
+	/**
+	 * Diese Konstante bedeutet, dass das Startdatum nicht gesetzt wurde.
+	 */
+	public static final String STARTDATUM_LEER = "Das Startdatum ist leer.";
+	/**
+	 * Diese Konstante wird uebergeben, wenn kein Studienprotokoll hochgeladen wurde.
+	 */
+	public static final String STUDIENPROTOKOLL_LEER = "Das Studienprotokoll ist leer.";
+	
 	
 	/**
 	 * Ein Konstruktor dieser Klasse

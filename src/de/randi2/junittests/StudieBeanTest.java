@@ -186,7 +186,7 @@ public class StudieBeanTest {
 
 			studieBean.setName("");
 		} catch (Exception e) {
-			assertEquals(StudieException.STUDIENNAME_FEHLT, e.getMessage());
+			assertEquals(StudieException.STUDIENNAME_LEER, e.getMessage());
 		}
 	}
 
