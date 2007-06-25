@@ -275,7 +275,12 @@ public final class Config {
         /**
          * Fehlermeldung die angezeigt wird, wenn JS nicht aktiviert ist
          */
-        RELEASE_JS_NICHT_AKTIVIERT
+        RELEASE_JS_NICHT_AKTIVIERT,
+        
+        /**
+         * Pfad fuer Studienprotokolle
+         */
+        RELEASE_UPLOAD_PATH,
     }
 
     /**
