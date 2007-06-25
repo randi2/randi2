@@ -286,5 +286,12 @@ public class Parameter {
 		
 	}
 	
+	public enum hilfe {
+		
+		UNTERSEITE
+		
+		
+	}
+	
 
 }

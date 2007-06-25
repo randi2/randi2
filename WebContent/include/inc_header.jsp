@@ -5,6 +5,71 @@
 	import="java.util.GregorianCalendar"
 	import="de.randi2.model.fachklassen.beans.PersonBean"
 	import="de.randi2.controller.DispatcherServlet"%>
+<script>
+
+// create the RANDI2 HELP Dialog!
+var LayoutExample = function(){
+    // everything in this space is private and only accessible in the HelloWorld block
+    
+    // define some private variables
+    var dialog, showBtn;
+    
+
+    // return a public interface
+    return {
+        init : function(){
+             showBtn = Ext.get('show-dialog-btn');
+             // attach to click event
+             showBtn.on('click', this.showDialog, this);
+             
+        },
+        
+        showDialog : function(){
+            if(!dialog){ // lazy initialize the dialog and only create it once
+                dialog = new Ext.LayoutDialog("randi_help", { 
+                        modal:true,
+                        width:600,
+                        height:400,
+                        shadow:true,
+                        minWidth:300,
+                        minHeight:300,
+                        proxyDrag: true,
+                        west: {
+	                        split:true,
+	                        initialSize: 150,
+	                        minSize: 100,
+	                        maxSize: 250,
+	                        titlebar: true,
+	                        collapsible: true,
+	                        animate: true
+	                    },
+	                    center: {
+	                        autoScroll:true,
+	                        tabPosition: 'top',
+	                        closeOnTab: true,
+	                        alwaysShowTabs: true
+	                    }
+                });
+                dialog.addKeyListener(27, dialog.hide, dialog);
+                dialog.addButton('Close', dialog.hide, dialog);
+                
+                var layout = dialog.getLayout();
+                layout.beginUpdate();
+                layout.add('west', new Ext.ContentPanel('index', {title: 'Index'}));
+	            layout.add('center', new Ext.ContentPanel('center', {title: '<%= (String) request
+	    			.getAttribute(DispatcherServlet.requestParameter.TITEL
+	    					.toString()) %>'}));
+				layout.endUpdate();
+            }
+            dialog.show(showBtn.dom);
+        }
+    };
+}();
+
+// using onDocumentReady instead of window.onload initializes the application
+// when the DOM is ready, without waiting for images and other resources to load
+Ext.EventManager.onDocumentReady(LayoutExample.init, LayoutExample, true);
+</script>
 <%
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
 			.getSession()).getAttribute("aBenutzer");
@@ -105,17 +170,25 @@
 			onClick="document.forms['nachrichtendienst_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_HEADER_NACHRICHTENDIENST.name() %>';document.forms['nachrichtendienst_form'].submit();">&nbsp;<%
 		}
 		%><img src="images/help.gif" border="0" alt="Hilfe" title="Hilfe"
-			width="22" height="22" style="cursor:pointer"
-			onClick="document.forms['hilfe_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_HEADER_HILFE.name() %>';document.forms['hilfe_form'].submit();"></td>
+			width="22" height="22" style="cursor:pointer" id="show-dialog-btn"></td>
 	</tr>
 </table>
 <form action="DispatcherServlet" method="POST"
 			name="nachrichtendienst_form" id="nachrichtendienst_form"><input
 			type="hidden" name="<%=Parameter.anfrage_id %>" value=""></form>
-<form action="DispatcherServlet" method="POST" name="hilfe_form"
-			id="hilfe_form"><input type="hidden"
-			name="<%=Parameter.anfrage_id %>" value=""></form>
 		<form action="DispatcherServlet" method="POST" name="logout_form"
 			id="logout_form"><input type="hidden"
 			name="<%=Parameter.anfrage_id %>" value=""></form>
+</div>
+<div id="randi_help" style="visibility:hidden;">
+    <div class="x-dlg-hd">RANDI2 Hilfe</div>
+
+    <div class="x-dlg-bd">
+        <div id="index" class="x-layout-inactive-content">
+	        INDEX
+	    </div>
+	    <div id="center" class="x-layout-inactive-content" style="padding:10px;">
+			TEST
+	    </div>
+    </div>
 </div>
