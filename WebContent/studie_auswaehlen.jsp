@@ -1,28 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>	
+	pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
-			request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(),"Studie ausw&auml;hlen");
+			request.setAttribute(DispatcherServlet.requestParameter.TITEL
+			.toString(), "Studie ausw&auml;hlen");
 
-			Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
-			.getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString())).getRolle().getRollenname();
+	Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
+			.getAttribute(
+			DispatcherServlet.sessionParameter.A_Benutzer
+			.toString())).getRolle().getRollenname();
 
 	Iterator listeStudien = ((Vector) request
 			.getAttribute(StudieServlet.requestParameter.LISTE_DER_STUDIEN
 			.toString())).iterator();
-	
+
 	Iterator listeStudien2 = ((Vector) request
 			.getAttribute(StudieServlet.requestParameter.LISTE_DER_STUDIEN
 			.toString())).iterator();
-	
+
 	String aStudie_Name = "";
-	if(request.getParameter(Parameter.studie.NAME.toString())!=null){
-		aStudie_Name = (String) request.getParameter(Parameter.studie.NAME.toString());
+	if (request.getParameter(Parameter.studie.NAME.toString()) != null) {
+		aStudie_Name = (String) request
+		.getParameter(Parameter.studie.NAME.toString());
 	}
-	
-	String aStudie_Status = "";
-	if(request.getParameter(Parameter.studie.STATUS.toString())!=null){
-		aStudie_Status = request.getParameter(Parameter.studie.STATUS.toString());
+
+	String aStudie_Status = Studie.Status.AKTIV.toString();
+	if (request.getParameter(Parameter.studie.STATUS.toString()) != null) {
+		aStudie_Status = request.getParameter(Parameter.studie.STATUS
+		.toString());
 	}
 %>
 <%@page import="java.util.Iterator"%>
@@ -33,7 +38,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Randi2 :: <%=request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString()) %></title>
+<title>Randi2 :: <%=request
+									.getAttribute(DispatcherServlet.requestParameter.TITEL
+											.toString())%></title>
 
 <%@include file="include/inc_extjs.jsp"%>
 <script>
@@ -142,9 +149,50 @@ Ext.onReady(function(){
 	%>
 	
 	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
-	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN_FILTERN%>'});	
+	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN%>'});	
 	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.filter %>', type:'hidden', value: '<%=Parameter.filter %>'});	
+	
+	<!-- Die Buttons für den SL -->
+	
+	var form_neue_studie = new Ext.form.Form({
+        labelAlign: 'left',
+        labelWidth: 0,
+		buttonAlign: 'center'
+    });
+    
+    var form_simulation = new Ext.form.Form({
+        labelAlign: 'left',
+        labelWidth: 0,
+		buttonAlign: 'center'
+    });
+    
+	form_neue_studie.addButton('Neue Studie anlegen', function(){
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+	}, form_neue_studie);    
 
+	form_neue_studie.render('form_neue_studie');
+	
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_neue_studie.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE.name() %>'});	
+
+	form_simulation.addButton('Simulation', function(){
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+	}, form_simulation);    
+
+	form_simulation.render('form_simulation');
+	
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_simulation.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_SIMULATION%>'});	
 
 });
 
@@ -238,16 +286,18 @@ Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
 <%
 if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 %>
-<form action="DispatcherServlet" method="POST"><input
-	type="hidden" name="<%=Parameter.anfrage_id%>"
-	value="<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE.name() %>"><input
-	type="submit" value="Neue Studie anlegen"></form>
-&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;
-<form action="DispatcherServlet" method="POST"><input
-	type="hidden" name="<%=Parameter.anfrage_id%>"
-	value="JSP_STUDIE_AUSWAEHLEN_SIMULATION"><input type="submit"
-	value="Simulation"></form>
-<br>
+<table cellPadding="0" cellSpacing="0" border="0">
+	<tr>
+		<td align="right">
+
+		<div id="form_neue_studie"></div>
+		</td>
+		<td>&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;</td>
+		<td align="left">
+		<div id="form_simulation"></div>
+		</td>
+	</tr>
+</table>
 <br>
 <%
 }
@@ -255,7 +305,7 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 <div id="form_filter"></div>
 <br>
 <table width="90%" id="studien">
-	<thead align="left" >
+	<thead align="left">
 		<tr style="background:#eeeeee;">
 			<th width="40%">Name der Studie</th>
 			<th width="30%">Leitendes Zentrum</th>
@@ -267,30 +317,33 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 		String reihe = "tblrow1";
 		int tabindex = 1;
 		while (listeStudien2.hasNext()) {
-			StudieBean aktuelleStudie = (StudieBean) listeStudien2
-			.next();
+			StudieBean aktuelleStudie = (StudieBean) listeStudien2.next();
 	%>
 
 	<tr class="<%=reihe %>">
-		<td><span style="cursor:pointer" onClick="var frm = document.getElementById('form_filter');
+		<td><span style="cursor:pointer"
+			onClick="var frm = document.getElementById('form_filter');
 						frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
 						frm.<%=Parameter.filter %>.value = '';
 						frm.aStudieId<%=aktuelleStudie.getId() %>.value = 'weiter';
 						frm.submit();"><%=aktuelleStudie.getName()%></span></td>
-		<td><span style="cursor:pointer" onClick="var frm = document.getElementById('form_filter');
+		<td><span style="cursor:pointer"
+			onClick="var frm = document.getElementById('form_filter');
 						frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
 						frm.<%=Parameter.filter %>.value = '';
 						frm.aStudieId<%=aktuelleStudie.getId() %>.value = 'weiter';
-						frm.submit();"><%=aktuelleStudie.getBenutzerkonto().getZentrum().getInstitution()%></span></td>
-		<td><span style="cursor:pointer" onClick="var frm = document.getElementById('form_filter');
+						frm.submit();"><%=aktuelleStudie.getBenutzerkonto().getZentrum()
+								.getInstitution()%></span></td>
+		<td><span style="cursor:pointer"
+			onClick="var frm = document.getElementById('form_filter');
 						frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
 						frm.<%=Parameter.filter %>.value = '';
 						frm.aStudieId<%=aktuelleStudie.getId() %>.value = 'weiter';
-						frm.submit();"><%=aktuelleStudie.getStatus().toString() %></span></td>
+						frm.submit();"><%=aktuelleStudie.getStatus().toString()%></span></td>
 	</tr>
 	<%
 			tabindex++;
-		if (reihe.equals("tblrow1"))
+			if (reihe.equals("tblrow1"))
 				reihe = "tblrow2";
 			else
 				reihe = "tblrow1";

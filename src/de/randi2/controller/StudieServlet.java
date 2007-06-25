@@ -248,7 +248,9 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 									.setAttribute(
 											DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
 													.toString(), aStudie);
-							request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(), "Studie ansehen");
+							request.setAttribute(
+									DispatcherServlet.requestParameter.TITEL
+											.toString(), "Studie ansehen");
 							request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN)
 									.forward(request, response);
 							break;
@@ -294,10 +296,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 		} else if (id != null) {
 			Logger.getLogger(this.getClass()).debug(id);
-			if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN_FILTERN.name())) {
-				// Die studie_auswaehlen.jsp wird erneut angezeigt
-				studieAuswaehlen(request, response);
-			} else if (id.equals(anfrage_id.JSP_STUDIE_AENDERN.name())) {
+			if (id.equals(anfrage_id.JSP_STUDIE_AENDERN.name())) {
 				// studieAendern.jsp soll angezeigt werden
 				studieAendern(request, response);
 			}
@@ -350,15 +349,13 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		BenutzerkontoBean aBenutzer = (BenutzerkontoBean) request.getSession()
-				.getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString());
+				.getAttribute(
+						DispatcherServlet.sessionParameter.A_Benutzer
+								.toString());
 		Rolle aRolle = aBenutzer.getRolle();
 
 		StudieBean leereStudie = new StudieBean();
 		leereStudie.setFilter(true);
-
-		ZentrumBean leeresZentrum = new ZentrumBean();
-		leeresZentrum.setFilter(true);
-		leeresZentrum.setIstAktiviert(true);
 
 		Vector<StudieBean> listeStudien = null;
 
@@ -366,13 +363,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			// der eingeloggte Benutzer ist ein Studienarzt
 			Logger.getLogger(this.getClass()).debug(
 					"studieAuswahl - Studienarzt");
-			
-			if (request.getParameter("filtern") != null) {
+
+			if (request.getParameter(Parameter.filter) != null) {
 				try {
-					listeStudien = studieFiltern(request.getParameter("name"),
+					listeStudien = studieFiltern(request.getParameter(Parameter.studie.NAME.toString()),
 							Studie.Status.parseStatus(request
-									.getParameter("status")), request
-									.getParameter("zentrum"));
+									.getParameter(Parameter.studie.STATUS.toString())), aBenutzer.getZentrum());
 				} catch (StudieException e) {
 					// TODO Dem Benutzer muss eine Meldung angezeigt werden
 					// (lplotni
@@ -412,12 +408,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			// der eingeloggte Benutzer ist ein Studienleiter
 			Logger.getLogger(this.getClass()).debug(
 					"studieAuswahl - Studienleiter");
-			if (request.getParameter("filtern") != null) {
+			if (request.getParameter(Parameter.filter) != null) {
 				try {
-					listeStudien = studieFiltern(request.getParameter("name"),
+					listeStudien = studieFiltern(request.getParameter(Parameter.studie.NAME.toString()),
 							Studie.Status.parseStatus(request
-									.getParameter("status")), request
-									.getParameter("zentrum"));
+									.getParameter(Parameter.studie.STATUS.toString())), aBenutzer.getZentrum());
 				} catch (StudieException e) {
 					// TODO Dem Benutzer muss eine Meldung angezeigt werden
 					// (lplotni
@@ -451,44 +446,29 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 *            Name der gesuchten Studie
 	 * @param status -
 	 *            Status der gesuchten Studie
-	 * @param zentrumString -
-	 *            das leitende Zentrum der gesuchten Studie //TODO Hier ensteht
-	 *            ein Problem, da wir nirgendswo diese Eigenschaft speichern
-	 *            (lplotni 17. Juni)
+	 * @param aZentrum -
+	 *            das ZentrumBean von dem eingeloggten Benutzer
 	 * @return - Vector mit den gefundenen StudienBeans
 	 * @throws DatenbankExceptions
 	 *             wenn bei dem Vorgang Fehler in der DB auftraten
 	 */
 	private Vector<StudieBean> studieFiltern(String name, Studie.Status status,
-			String zentrumString) throws DatenbankExceptions {
+			ZentrumBean aZentrum) throws DatenbankExceptions {
+	
 		Logger.getLogger(this.getClass()).debug("studieFiltern");
+
 		StudieBean gStudie = new StudieBean();
 		gStudie.setFilter(true);
-		ZentrumBean gZentrum = new ZentrumBean();
-		gZentrum.setFilter(true);
-		gZentrum.setIstAktiviert(true);
-
-		StringBuffer tempString = new StringBuffer(zentrumString);
 
 		try {
-			gZentrum.setInstitution(tempString.toString().substring(0,
-					tempString.indexOf(" / ")));
-			gZentrum.setAbteilung(tempString.toString().substring(
-					tempString.indexOf(" / ") + 3, tempString.length()));
-			gZentrum = Zentrum.suchenZentrum(gZentrum).firstElement();
-			System.out.println(gZentrum.toString());
 			if (name != null) {
 				gStudie.setName(name);
 			}
 			gStudie.setStatus(status);
 			return DatenbankFactory.getAktuelleDBInstanz()
-					.suchenMitgliederObjekte(gZentrum, gStudie);
+					.suchenMitgliederObjekte(aZentrum, gStudie);
 
 		} catch (StudieException e) {
-			// TODO Dem Benutzer muss eine Meldung angezeigt werden (lplotni
-			// 17. Jun)
-			e.printStackTrace();
-		} catch (ZentrumException e) {
 			// TODO Dem Benutzer muss eine Meldung angezeigt werden (lplotni
 			// 17. Jun)
 			e.printStackTrace();
@@ -554,24 +534,35 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	private void classDispatcherservletStudieAnlegen(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		String aName = request.getParameter(Parameter.studie.NAME.name());
-		String aBezeichnung = request.getParameter(Parameter.studie.BESCHREIBUNG.name());
-		String aStartdatum = request.getParameter(Parameter.studie.STARTDATUM.name());
-		String aEnddatum = request.getParameter(Parameter.studie.ENDDATUM.name());
-		String aProtokoll = request.getParameter(Parameter.studie.STUDIENPROTOKOLL.name());
-		BenutzerkontoBean aStudienleiter = ((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString()));
-		String aStatistikerAnlegen = request.getParameter(Parameter.studie.STATISTIKER_BOOL.name());
-		int aAnzahl_Arme = (Integer.parseInt(request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.name())));
-		int aAnzahl_Strata = (Integer.parseInt(request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.name())));
-		String aAlgorithmus = request.getParameter(Parameter.studie.RANDOMISATIONSALGORITHMUS.name());
-		int aBlockgroesse = (Integer.parseInt(request.getParameter(Parameter.studie.BLOCKGROESSE.name())));
-		
-		
-		
+		String aBezeichnung = request
+				.getParameter(Parameter.studie.BESCHREIBUNG.name());
+		String aStartdatum = request.getParameter(Parameter.studie.STARTDATUM
+				.name());
+		String aEnddatum = request.getParameter(Parameter.studie.ENDDATUM
+				.name());
+		String aProtokoll = request
+				.getParameter(Parameter.studie.STUDIENPROTOKOLL.name());
+		BenutzerkontoBean aStudienleiter = ((BenutzerkontoBean) request
+				.getSession().getAttribute(
+						DispatcherServlet.sessionParameter.A_Benutzer
+								.toString()));
+		String aStatistikerAnlegen = request
+				.getParameter(Parameter.studie.STATISTIKER_BOOL.name());
+		int aAnzahl_Arme = (Integer.parseInt(request
+				.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME
+						.name())));
+		int aAnzahl_Strata = (Integer.parseInt(request
+				.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA
+						.name())));
+		String aAlgorithmus = request
+				.getParameter(Parameter.studie.RANDOMISATIONSALGORITHMUS.name());
+		int aBlockgroesse = (Integer.parseInt(request
+				.getParameter(Parameter.studie.BLOCKGROESSE.name())));
+
 		StudieBean aStudie = new StudieBean();
-		
-		
+
 		this.weiterleitungBeiFehler("Fehler beim Anlegen!", request, response);
 	}
 
