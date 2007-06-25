@@ -738,27 +738,37 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	 */
 	private void classDispatcherServletBenutzerSuchen(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		BenutzerkontoBean bKonto = new BenutzerkontoBean();
+		BenutzerkontoBean bKonto = null;
 		PersonBean person = null;
 		ZentrumBean zentrum = null;
 		Vector<BenutzerkontoBean> benutzerVec = null;
 		Vector<PersonBean> personVec = new Vector<PersonBean>();
 		Vector<ZentrumBean> zentrumVec = new Vector<ZentrumBean>();
+		Vector<BenutzerkontoBean>tmpBVec = new Vector<BenutzerkontoBean>();
+		Vector<ZentrumBean>tmpZVec= new Vector<ZentrumBean>();
+		PersonBean[] pArr = null;
+		BenutzerkontoBean[] bArr = null;
+		ZentrumBean[] zArr = null;
 		Iterator<BenutzerkontoBean> it_B = null;
 		Iterator<PersonBean>it_P = null;
 		Iterator<ZentrumBean>it_Z = null;
 		boolean gesuchtKonto = false;
 		boolean gesuchtPerson = false;
 		boolean gesuchtZentrum = false;
-		bKonto.setFilter(true);
 		
 		if(((String)request.getParameter("Aktualisieren")) != null) {
 			try {
 				if((String)request.getParameter(Parameter.benutzerkonto.LOGINNAME.name())!=null) {
+					bKonto = new BenutzerkontoBean();
 					bKonto.setBenutzername(request.getParameter(Parameter.benutzerkonto.LOGINNAME.name()));
+					bKonto.setFilter(true);
+					benutzerVec = new Vector<BenutzerkontoBean>();
+					benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
+					bKonto.setGesperrt(true);
+					benutzerVec.addAll(Benutzerkonto.suchenBenutzer(bKonto));
 					gesuchtKonto = true;
 				}
-				benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
+				
 				
 				if(((String)request.getParameter(Parameter.person.VORNAME.name()))!=null || 
 						((String)request.getParameter(Parameter.person.NACHNAME.name()))!=null ||
@@ -768,118 +778,77 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					person.setVorname(request.getParameter(Parameter.person.VORNAME.name()));
 					person.setNachname(request.getParameter(Parameter.person.NACHNAME.name()));
 					person.setEmail(request.getParameter(Parameter.person.EMAIL.name()));
-					
+					personVec = new Vector<PersonBean>();
 					personVec = Person.suchenPerson(person);
+					
+					pArr = new PersonBean[personVec.size()];
+					personVec.toArray(pArr);
 					gesuchtPerson = true;
 					
 					if(!gesuchtKonto) {
-						it_P = personVec.iterator();
-						it_B = benutzerVec.iterator();
+						benutzerVec = new Vector<BenutzerkontoBean>();
 						int counter = 0;
-						
-						while(it_B.hasNext()) {
-							bKonto = benutzerVec.elementAt(counter);
+						bKonto = new BenutzerkontoBean();
+						PersonBean gefundenePerson = new PersonBean();
+						while(counter < personVec.size()) {
+							gefundenePerson = (PersonBean)pArr[counter++];
 							
-							while(it_P.hasNext()){
-								person = it_P.next();
-								if(bKonto.getBenutzerId()!=person.getId()) {
-									benutzerVec.remove(bKonto);
-								} else {
-									counter++;
-									it_B.next();
-								}
+							bKonto.setBenutzerId(gefundenePerson.getId());
+							bKonto.setFilter(true);
+							tmpBVec = Benutzerkonto.suchenBenutzer(bKonto);
+							bKonto.setGesperrt(true);
+							tmpBVec.addAll(Benutzerkonto.suchenBenutzer(bKonto));
+							it_B = tmpBVec.iterator();
+							while(tmpBVec.size()>0 && it_B.hasNext()){
+								benutzerVec.add(it_B.next());
 							}
-							it_P = personVec.iterator();
 						}
+						gesuchtKonto = true;
 					}
-				} else {
-					person = new PersonBean();
-					person.setFilter(true);
-					personVec = Person.suchenPerson(person);
 				}
 				if((String)request.getParameter(Parameter.zentrum.INSTITUTION.name())!=null) {
 					zentrum = new ZentrumBean();
-					zentrum.setFilter(true);
 					zentrum.setInstitution(request.getParameter(Parameter.zentrum.INSTITUTION.name()));
-					
+					zentrum.setFilter(true);
+					zentrumVec = new Vector<ZentrumBean>();
 					zentrumVec = Zentrum.suchenZentrum(zentrum);
-					if(!gesuchtKonto && !gesuchtPerson) {
-						//TODO --kkrupka Probleme
-						it_P = personVec.iterator();
-						it_B = benutzerVec.iterator();
-						it_Z = zentrumVec.iterator();						
+					zentrum.setIstAktiviert(true);
+					zentrumVec.addAll(Zentrum.suchenZentrum(zentrum));
+					
+					zArr = new ZentrumBean[zentrumVec.size()];
+					zentrumVec.toArray(zArr);
+					
+					if (!gesuchtKonto) {
 						int counter = 0;
-						while(it_B.hasNext()){
-							bKonto = benutzerVec.elementAt(counter);
-							
-							while(it_Z.hasNext()){
-								zentrum = it_Z.next();
-								if(bKonto.getBenutzerId()!=zentrum.getId()) {
-									benutzerVec.remove(bKonto);
-								} else {
-									counter++;
-									it_B.next();
-								}
-							}
-							it_Z = zentrumVec.iterator();
-						}
-						it_Z = zentrumVec.iterator();
-						counter = 0;
-						while(it_P.hasNext()) {
-							person = personVec.elementAt(counter);
+						bKonto = new BenutzerkontoBean();
+						while (counter < zentrumVec.size()) {
+							zentrum = (ZentrumBean)zArr[counter++];
 
-							while(it_Z.hasNext()){
-								zentrum = it_Z.next();
-								if(person.getId() != zentrum.getAnsprechpartnerId()) {
-									personVec.remove(person);
-								} else {
-									counter++;
-									it_P.next();
-								}
-							}
-							it_Z = zentrumVec.iterator();
-						}
-						
-					}
-					else if(!gesuchtKonto) {
-						it_P = personVec.iterator();
-						it_B = benutzerVec.iterator();
-						int counter = 0;
-						
-						while(it_B.hasNext()) {
-							bKonto = benutzerVec.elementAt(counter);
-							
-							while(it_P.hasNext()){
-								person = it_P.next();
-								if(bKonto.getBenutzerId()!=person.getId()) {
-									benutzerVec.remove(bKonto);
-								} else {
-									counter++;
-									it_B.next();
-								}
-							}
-							it_P = personVec.iterator();
-						}
-					}
-					else if(!gesuchtPerson) {
-						it_P = personVec.iterator();
-						it_Z = zentrumVec.iterator();
-						int counter = 0;
-						while(it_P.hasNext()) {
-							person = personVec.elementAt(counter);
+							bKonto.setZentrumId(zentrum.getId());
+							bKonto.setFilter(true);
 
-							while(it_Z.hasNext()){
-								zentrum = it_Z.next();
-								if(person.getId() != zentrum.getAnsprechpartnerId()) {
-									personVec.remove(person);
-								} else {
-									counter++;
-									it_P.next();
-								}
+							tmpBVec = Benutzerkonto.suchenBenutzer(bKonto);
+							bKonto.setGesperrt(true);
+							tmpBVec.addAll(Benutzerkonto.suchenBenutzer(bKonto));
+							it_B = tmpBVec.iterator();
+							while (tmpBVec.size() > 0 && it_B.hasNext()) {
+								benutzerVec.add(it_B.next());
 							}
-							it_Z = zentrumVec.iterator();
 						}
+						gesuchtKonto = true;
 					}
+					if(!gesuchtPerson) {
+						int counter = 0;
+						person = new PersonBean();
+						while (counter < zentrumVec.size()) {
+							zentrum = (ZentrumBean)zArr[counter++];
+							
+							person = Zentrum.getZugehoerigePerson(zentrum.getId());
+							personVec.add(person);
+						}
+						gesuchtPerson = true;
+					}
+					gesuchtZentrum = true;
 				} else {
 					zentrum = new ZentrumBean();
 					zentrum.setFilter(true);
@@ -907,6 +876,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
 			}
 		} else {
+			bKonto = new BenutzerkontoBean();
+			bKonto.setFilter(true);
 			benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
 			it_B = benutzerVec.iterator();
 
