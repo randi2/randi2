@@ -92,10 +92,12 @@ font {
 
 #logout_link {
 	color: #ffffff;
+	text-decoration: underline;
 }
 
 #logout_link :hover {
 	color: #ff0000;
+	text-decoration: underline;
 }
 
 img {
