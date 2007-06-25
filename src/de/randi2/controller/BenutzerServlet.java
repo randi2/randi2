@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import de.randi2.datenbank.Datenbank;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
@@ -1173,6 +1174,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			aBenutzerkonto.setPasswort(KryptoUtil.getInstance().hashPasswort(
 					neuesPasswort));
+			aBenutzerkonto.setBenutzerkontoLogging(Filter.getSystemdummy());
 			aBenutzerkonto = DatenbankFactory.getAktuelleDBInstanz()
 					.schreibenObjekt(aBenutzerkonto);
 
