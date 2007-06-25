@@ -7,6 +7,7 @@
 <%
 if (request.getAttribute(DispatcherServlet.NACHRICHT_OK) != null) {
 %>
+<%@page import="de.randi2.utility.Config"%>
 <center><br><div class="nachricht" id="erfolgreich_nachricht">
 <%=request.getAttribute(DispatcherServlet.NACHRICHT_OK)%>
 </div></center>
@@ -16,3 +17,11 @@ if (request.getAttribute(DispatcherServlet.NACHRICHT_OK) != null) {
 <%=request.getAttribute(DispatcherServlet.FEHLERNACHRICHT)%>
 </div></center><br>
 <%}%>
+<script>
+</script>
+<noscript> 
+<center>
+<div class="nachricht" id="JS_FEHLT"><%=Config.getProperty(Config.Felder.RELEASE_JS_NICHT_AKTIVIERT) %>
+</div>
+</center>
+</noscript>

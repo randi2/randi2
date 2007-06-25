@@ -141,12 +141,7 @@ Ext.onReady(function(){
 <br>
 
 
-<noscript> 
-<center>
-<div class="nachricht" id="JS_FEHLT"><%=Config.getProperty(Config.Felder.RELEASE_JS_NICHT_AKTIVIERT) %>
-</div>
-</center>
-</noscript>
+
 <table cellPadding="0" cellSpacing="0" border="0">
 	<tr>
 		<td align="right">
