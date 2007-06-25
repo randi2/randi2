@@ -77,6 +77,9 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 */
 		JSP_STUDIE_AUSWAEHLEN,
 
+		/**
+		 * Wenn eine Studie ausgewaehlt wurde und angezeigt werden soll
+		 */
 		AKTION_STUDIE_AUSGEWAEHLT,
 
 		/**
