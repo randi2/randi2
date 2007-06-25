@@ -146,6 +146,8 @@ Ext.onReady(function(){
 	var grid = new Ext.grid.TableGrid("studien");
     grid.render();
 
+});
+
 /**
  * @class Ext.grid.TableGrid
  * @extends Ext.grid.Grid
