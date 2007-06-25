@@ -23,6 +23,16 @@ public class StrataException extends BenutzerException {
 	 * Falls der Auspraegungsname leer ist.
 	 */
 	public static final String STRATA_AUSPRAEGUNG_NAME_LEER = "Eine Strata Auspraegung muss einen Namen haben";
+	
+	/**
+	 * Fehlermeldung falls das Strata noch nicht in der DB gespeichert wurde.
+	 */
+	public static final String STRATA_BEAN_NICHT_GESPEICHERT= "Das &uuml;bergebene Srata wurde noch nicht gespeichert!";
+	
+	/**
+	 * Fehlermeldung, wenn null an die setStudie() Methode uebergeben wurde.
+	 */
+	public static final String STUDIE_NULL="&Uuml;bergebene Studie ist null!";
 
 	/**
 	 * Konstruktor.

@@ -1449,7 +1449,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						+ " NOT IN (";
 				String sql2 = "INSERT INTO "
 						+ Tabellen.STUDIE_ZENTRUM.toString() + " VALUES ";
-				if (studie.getZentren() != null) {
+				if (studie.getZentren() != null || !studie.getZentren().isEmpty()) {
 					Iterator<ZentrumBean> it = studie.getZentren().iterator();
 					ZentrumBean tmp;
 					while (it.hasNext()) {
@@ -1604,7 +1604,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderStudienarm.STUDIE + "=?, "
 					+ FelderStudienarm.STATUS + "=?, "
 					+ FelderStudienarm.BEZEICHNUNG + "=?, "
-					+ FelderStudienarm.BESCHREIBUNG + "=?, " + "WHERE "
+					+ FelderStudienarm.BESCHREIBUNG + "=? " + "WHERE "
 					+ FelderStudienarm.ID + "=?";
 			try {
 				pstmt = con.prepareStatement(sql);
@@ -1699,7 +1699,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderPatient.GESCHLECHT + "=?, "
 					+ FelderPatient.AUFKLAERUNGSDATUM + "=?, "
 					+ FelderPatient.KOERPEROBERFLAECHE + "=?, "
-					+ FelderPatient.PERFORMANCESTATUS + "=?, " + "WHERE "
+					+ FelderPatient.PERFORMANCESTATUS + "=? " + "WHERE "
 					+ FelderPatient.ID + "=?";
 			try {
 				pstmt = con.prepareStatement(sql);
@@ -1741,8 +1741,63 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	private StrataBean schreibenStrata(StrataBean strata)
 			throws DatenbankExceptions {
-		// TODO Implementierung fehlt.
-		return null;
+		Connection con = null;
+		String sql = "";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = ConnectionFactory.getInstanz().getConnection();
+		} catch (DatenbankExceptions e) {
+			e.printStackTrace();
+			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
+		}
+		try {
+		if(strata.getId()==NullKonstanten.NULL_LONG) {
+			int counter=1;
+			long id = Long.MIN_VALUE;
+			sql= "INSERT  INTO "+Tabellen.STRATA_TYPEN+"("
+					+FelderStrataTypen.Id+","+FelderStrataTypen.STUDIEID+","+FelderStrataTypen.NAME+","+
+					FelderStrataTypen.BESCHREIBUNG+") VALUES "+"(NULL,?,?,?)" ;
+			
+			
+				pstmt = con.prepareStatement(sql);
+				pstmt.setLong(counter++, strata.getStudienID());
+				pstmt.setString(counter++, strata.getName());
+				pstmt.setString(counter++, strata.getBeschreibung());
+				pstmt.executeUpdate();
+				rs = pstmt.getGeneratedKeys();
+				rs.next();
+				id = rs.getLong(1);
+				rs.close();
+				pstmt.close();
+
+			strata.setId(id);
+			loggenDaten(strata, LogKonstanten.NEUER_DATENSATZ);
+			return strata;
+		} else {
+			int counter=1;
+			sql+="UPDATE "+Tabellen.STRATA_TYPEN+" SET "+
+			FelderStrataTypen.STUDIEID+" = ? , "+
+			FelderStrataTypen.NAME+" = ? , "+
+			FelderStrataTypen.BESCHREIBUNG+" = ? WHERE "+
+			FelderStrataTypen.Id+" = ? ";
+			
+				pstmt = con.prepareStatement(sql);
+				pstmt.setLong(counter++, strata.getStudienID());
+				pstmt.setString(counter++, strata.getName());
+				pstmt.setString(counter++, strata.getBeschreibung());
+				pstmt.setLong(counter++, strata.getId());
+				pstmt.executeUpdate();
+				pstmt.close();						
+		}
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SCHREIBEN_ERR);
+		} finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
+		}
+		loggenDaten(strata, LogKonstanten.AKTUALISIERE_DATENSATZ);
+		return strata;
+		
 	}
 
 	/**

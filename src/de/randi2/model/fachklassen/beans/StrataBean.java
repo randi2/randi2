@@ -7,7 +7,10 @@ import java.util.Vector;
 
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.exceptions.StrataException;
+import de.randi2.model.fachklassen.Studie;
+import de.randi2.utility.NullKonstanten;
 
 /**
  * Die Klasse StrataBean kapselt die Eigenschaft eines Stratas. Sie kann - wenn
@@ -31,6 +34,16 @@ public class StrataBean extends Filter {
 	 * angibt.
 	 */
 	private String beschreibung;
+	
+	/**
+	 * ID der Studie zu der das StrataBean gehoert
+	 */
+	private long studienID = NullKonstanten.NULL_LONG;
+	
+	/**
+	 * Studie zu der das StrataBean gehoert
+	 */
+	private StudieBean studie = null;
 
 	/**
 	 * Die Liste der moeglichen Auspraegungen zu diesem Strata.
@@ -183,6 +196,58 @@ public class StrataBean extends Filter {
 			beschreibung = null;
 		}
 		this.beschreibung = beschreibung;
+	}
+	
+	
+
+	/**
+	 * Liefert die zugehoerige Studie
+	 * @return
+	 * 			zugehoerige Studie
+	 * @throws DatenbankExceptions
+	 */
+	public StudieBean getStudie() throws DatenbankExceptions {
+		if(this.studie==null) {
+			this.studie = Studie.getStudie(this.studienID);
+		}
+		return studie;
+	}
+
+	/**
+	 * Set Methode fuer Studie Attribut der Klasse
+	 * @param studie
+	 * 				zu setzende Studie
+	 * @throws StrataException
+	 */
+	public void setStudie(StudieBean studie) throws StrataException {
+		if(studie==null) {
+			throw new StrataException(StrataException.STUDIE_NULL);
+		}
+		this.studienID= studie.getId();
+		this.studie = studie;
+	}
+
+	/**
+	 * Liefert die ID der zugehoerigen Studie
+	 * @return
+	 * 			id der Studie
+	 */
+	public long getStudienID() {
+		return studienID;
+	}
+
+	/**
+	 * Set Methode fuer die StudienID
+	 * @param studienID
+	 * 				zu setzende Id
+	 * @throws StrataException 
+	 */
+	public void setStudienID(long studienID) throws StrataException {
+		if (studienID == NullKonstanten.DUMMY_ID) {
+			throw new StrataException(
+					StrataException.STRATA_BEAN_NICHT_GESPEICHERT);
+		}
+		this.studienID = studienID;
 	}
 
 	/**
