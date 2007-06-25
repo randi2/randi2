@@ -30,12 +30,12 @@
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
-	<%@include file="include/inc_extjs.jsp"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Randi2 :: <%=request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString()) %></title>
-<link rel="stylesheet" type="text/css" href="css/style.css">
+
+<%@include file="include/inc_extjs.jsp"%>
 <script>
 Ext.onReady(function(){
 
@@ -88,7 +88,7 @@ Ext.onReady(function(){
     
     var filter = form_filter.fieldset({legend:'<img src="images/find.png"> Filterfunktion',style:''});
     var linksoben = new Ext.form.Column({width:'200'});
-    var rechtsoben = new Ext.form.Column({width:'200'});
+    var rechtsoben = new Ext.form.Column({width:'300'});
     
     
     form_filter.start(linksoben);
@@ -230,6 +230,7 @@ Ext.grid.TableGrid = function(table, config) {
 
 Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
 </script>
+<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 <%@include file="include/inc_header.jsp"%>
