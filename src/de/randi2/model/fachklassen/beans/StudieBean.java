@@ -97,7 +97,7 @@ public class StudieBean extends Filter {
 	/**
 	 * Falls die Studie mit Blockrandomisation konfiguriert ist, wird hier die Blockgroesse gespeichert
 	 */
-	private int blockgroesse= NullKonstanten.NULL_INT;
+	private int aBlockgroesse= NullKonstanten.NULL_INT;
 
 	/**
 	 * Konstruktor mit allen Attributen der Klasse, die aus der Datenbank
@@ -715,7 +715,7 @@ public class StudieBean extends Filter {
 	 * 			Blockgroesse
 	 */
 	public int getBlockgroesse() {
-		return blockgroesse;
+		return aBlockgroesse;
 	}
 
 	/**
@@ -728,9 +728,9 @@ public class StudieBean extends Filter {
 		if(blockgroesse<2) {
 			throw new StudieException(StudieException.BLOCKGROESSE_ZU_KLEIN);
 		}
-		this.blockgroesse = blockgroesse;
+		this.aBlockgroesse = blockgroesse;
 	}
-	
+
 	
 
 }
