@@ -3507,8 +3507,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			try {
 				patient.setBenutzerkontoId(((BenutzerkontoBean) vater).getId());
 			} catch (PatientException e) {
-				//TODO Sinnvole Fehlerbehandlung ueberlasse ich euch - meine lieben Datenbankpro's (lplotni 24. Juni)
 				e.printStackTrace();
+				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
 			}
 			return (Vector<T>) suchenPatientKindB(patient);
 		}
@@ -4127,11 +4127,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 			geaenderteDaten.put(FelderPatient.STUDIENARM.toString(), String
 					.valueOf(((PatientBean) aObjekt).getStudienarmId()));
 			geaenderteDaten.put(FelderPatient.GEBURTSDATUM.toString(), sdf
-					.format(((PatientBean) aObjekt).getGeburtsdatum()));
+					.format(((PatientBean) aObjekt).getGeburtsdatum().getTime()));
 			geaenderteDaten.put(FelderPatient.GESCHLECHT.toString(), String
 					.valueOf(((PatientBean) aObjekt).getGeschlecht()));
 			geaenderteDaten.put(FelderPatient.AUFKLAERUNGSDATUM.toString(), sdf
-					.format(((PatientBean) aObjekt).getDatumAufklaerung()));
+					.format(((PatientBean) aObjekt).getDatumAufklaerung().getTime()));
 			geaenderteDaten.put(FelderPatient.KOERPEROBERFLAECHE.toString(),
 					String.valueOf(((PatientBean) aObjekt)
 							.getKoerperoberflaeche()));
