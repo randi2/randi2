@@ -556,6 +556,23 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
 		
+		String aName = request.getParameter(Parameter.studie.NAME.name());
+		String aBezeichnung = request.getParameter(Parameter.studie.BESCHREIBUNG.name());
+		String aStartdatum = request.getParameter(Parameter.studie.STARTDATUM.name());
+		String aEnddatum = request.getParameter(Parameter.studie.ENDDATUM.name());
+		String aProtokoll = request.getParameter(Parameter.studie.STUDIENPROTOKOLL.name());
+		BenutzerkontoBean aStudienleiter = ((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString()));
+		String aStatistikerAnlegen = request.getParameter(Parameter.studie.STATISTIKER_BOOL.name());
+		int aAnzahl_Arme = (Integer.parseInt(request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.name())));
+		int aAnzahl_Strata = (Integer.parseInt(request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.name())));
+		String aAlgorithmus = request.getParameter(Parameter.studie.RANDOMISATIONSALGORITHMUS.name());
+		int aBlockgroesse = (Integer.parseInt(request.getParameter(Parameter.studie.BLOCKGROESSE.name())));
+		
+		
+		
+		StudieBean aStudie = new StudieBean();
+		
+		
 		this.weiterleitungBeiFehler("Fehler beim Anlegen!", request, response);
 	}
 	
