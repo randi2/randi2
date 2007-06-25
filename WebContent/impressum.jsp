@@ -2,9 +2,6 @@
        "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<%
-System.out.println("hallo");
-%>
 <%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Randi2 :: Impressum</title>
@@ -45,20 +42,15 @@ Ext.onReady(function(){
 <%@include file="include/inc_header_clean.jsp"%>
 
 <div id="content">
-<%
-System.out.println("hallo2");
-%>
+
 <h1>Impressum</h1>
-	<div id="form_imprint"></div>
+<div id="form_imprint"></div>
 
 <br>
 <%@include file="include/inc_footer_clean.jsp"%>
 </div>
 
 
-<%
-System.out.println("hallo3");
-%>
 
 </body>
 </html>

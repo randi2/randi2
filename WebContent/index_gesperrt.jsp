@@ -6,7 +6,7 @@
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@page import="de.randi2.utility.Config"%>
+<%@page import="de.randi2.utility.*"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -21,15 +21,21 @@ ihr Verst&auml;ndnis</title>
 </head>
 
 <body>
-<div id="header"><img src="<%=Config.getProperty(Config.Felder.RELEASE_BILD_LOGO) %>" width="337"
-	height="63" title="" alt=""></div>
+<div id="header"><img
+	src="<%=Config.getProperty(Config.Felder.RELEASE_BILD_LOGO) %>"
+	width="337" height="63" title="" alt=""></div>
 
 <div id="breadcrumb">
 <table class="breadcrumb_tbl" width="100%" height="25"
 	summary="Impressum">
 	<tr>
-		<td align="right" valign="middle" height="25"><a
-			href="impressum.jsp" id="logout_link">Impressum</a></td>
+		<td align="right" valign="middle" height="25">
+		<form action="DispatcherServlet" method="POST" name="impressum_form"
+			id="impressum_form"><input type="hidden"
+			name="<%=Parameter.anfrage_id %>" value=""></form>
+		<span id="logout_link" style="cursor:pointer"
+			onClick="document.forms['impressum_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_HEADER_IMPRESSUM.name() %>';document.forms['impressum_form'].submit();">
+		Impressum</span></td>
 	</tr>
 </table>
 <%@include file="include/inc_nachricht.jsp"%></div>
