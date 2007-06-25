@@ -265,7 +265,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			} else if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN.name())) {
 				// Benutzer hat eine Studie ausgewaehlt
 				try {
-					// Erstmal alle vorhandenen Zentren suchen
+					// Erstmal alle vorhandenen Studien suchen
 					StudieBean aStudie = new StudieBean();
 					aStudie.setFilter(true);
 					Iterator<StudieBean> iterator = Studie.sucheStudie(aStudie)
@@ -281,7 +281,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 									.getSession()
 									.setAttribute(
 											DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
-													.name(), aStudie);
+													.toString(), aStudie);
 							request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN)
 									.forward(request, response);
 							break;
@@ -405,7 +405,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			listeStudien = Studie.sucheStudie(leereStudie);
 			StudieBean aStudie = listeStudien.firstElement();
 			request.getSession().setAttribute(
-					sessionParameter.AKTUELLE_STUDIE.name(), aStudie);
+					sessionParameter.AKTUELLE_STUDIE.toString(), aStudie);
 			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
 					response);
 		} else if (aRolle == Rolle.getStudienleiter()) {
@@ -413,7 +413,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			Logger.getLogger(this.getClass()).debug(
 					"studieAuswahl - Studienleiter");
 			listeZentren = Zentrum.suchenZentrum(leeresZentrum);
-			request.setAttribute(requestParameter.LISTE_DER_ZENTREN.name(),
+			request.setAttribute(requestParameter.LISTE_DER_ZENTREN.toString(),
 					listeZentren);
 			if (request.getParameter("filtern") != null) {
 				try {
@@ -439,7 +439,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				listeStudien = Studie.sucheStudie(leereStudie);
 			}
 
-			request.setAttribute(requestParameter.LISTE_DER_STUDIEN.name(),
+			request.setAttribute(requestParameter.LISTE_DER_STUDIEN.toString(),
 					listeStudien);
 			request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN).forward(
 					request, response);
@@ -516,7 +516,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	private void studieStatus(HttpServletRequest request,
 			HttpServletResponse response, Studie.Status status) throws ServletException, IOException {
 		 
-		StudieBean aStudie = (StudieBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name());
+		StudieBean aStudie = (StudieBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
 
 		try {
 			aStudie.setStatus(status);
@@ -608,7 +608,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	private Vector<ZentrumBean> getZugehoerigeZentren(
 			HttpServletRequest request, HttpServletResponse response) {
 		StudieBean aSession = (StudieBean) request.getSession().getAttribute(
-				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name());
+				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
 		Vector<ZentrumBean> zugehoerigeZentren = null;
 		try {
 			zugehoerigeZentren = aSession.getZentren();
