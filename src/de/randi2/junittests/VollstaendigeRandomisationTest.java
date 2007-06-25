@@ -69,7 +69,7 @@ public class VollstaendigeRandomisationTest {
 				* 365);
 
 		testStudieBean = new StudieBean(1, "mutter","test studie",null,2, heute, bald,
-				"./empty.txt",Studie.Status.AKTIV);
+				"./empty.txt",Studie.Status.AKTIV,2);
 		testArm1 = new StudienarmBean(123, 1, Studie.Status.AKTIV, "ARM 1",
 				"desc1");
 		testArm1.setPatienten(new Vector<PatientBean>());

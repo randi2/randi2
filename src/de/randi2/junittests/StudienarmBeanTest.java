@@ -61,7 +61,7 @@ public class StudienarmBeanTest {
 		aStudienarmBean.setBezeichnung("Testbezeichnung");
 		aStudienarmBean.setStatus(Studie.Status.AKTIV);
 		aStudienarmBean.setStudieId(3434);
-		aStudienarmBean.setStudie(new StudieBean(2323, "","test studie",null,123, null, null, "",Studie.Status.AKTIV));
+		aStudienarmBean.setStudie(new StudieBean(2323, "","test studie",null,123, null, null, "",Studie.Status.AKTIV,2));
 
 		Vector<PatientBean> aTestdaten = new Vector<PatientBean>();
 
@@ -249,7 +249,7 @@ public class StudienarmBeanTest {
 	public void testSetStudie() {
 		try {
 			StudieBean aStudie = new StudieBean(2323, "","test studie",null,123, new GregorianCalendar(2000,11,30), new GregorianCalendar(2007,11,30), "",
-					Studie.Status.AKTIV);
+					Studie.Status.AKTIV,2);
 
 			aStudienarmBean.setStudie(aStudie);
 
