@@ -720,7 +720,9 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			request.getRequestDispatcher("ZentrumServlet").forward(
 					request, response);
 			} else if (id.equals(anfrage_id.JSP_HEADER_IMPRESSUM.name())) {
+				System.out.println("TESTTTTT");
 				request.getRequestDispatcher(Jsp.IMPRESSUM).forward(request,response);
+				return;
 			} else if (id.equals(anfrage_id.JSP_HEADER_HILFE.name())) {
 				request.getRequestDispatcher(Jsp.HILFE).forward(request,response);
 			} else if (id.equals(anfrage_id.JSP_HEADER_NACHRICHTENDIENST.name())) {
