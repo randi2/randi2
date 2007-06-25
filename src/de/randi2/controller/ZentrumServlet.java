@@ -117,12 +117,6 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-		String id = (String) request.getParameter("anfrage_id");
-		String idAttribute = (String) request.getAttribute("anfrage_id");
-		if (idAttribute != null) {
-			request.setAttribute("anfrage_id", idAttribute);
-		}
 		doPost(request, response);
 	}
 
