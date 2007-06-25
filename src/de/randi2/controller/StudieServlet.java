@@ -384,7 +384,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 						.suchenMitgliederObjekte(aBenutzer.getZentrum(),
 								leereStudie);
 			}
-			request.setAttribute(requestParameter.LISTE_DER_STUDIEN.name(),
+			request.setAttribute(requestParameter.LISTE_DER_STUDIEN.toString(),
 					listeStudien);
 			request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN).forward(
 					request, response);
