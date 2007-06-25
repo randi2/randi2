@@ -350,7 +350,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		BenutzerkontoBean aBenutzer = (BenutzerkontoBean) request.getSession()
-				.getAttribute("aBenutzer");
+				.getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString());
 		Rolle aRolle = aBenutzer.getRolle();
 
 		StudieBean leereStudie = new StudieBean();
@@ -361,15 +361,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		leeresZentrum.setIstAktiviert(true);
 
 		Vector<StudieBean> listeStudien = null;
-		Vector<ZentrumBean> listeZentren = null;
 
 		if (aRolle == Rolle.getStudienarzt()) {
 			// der eingeloggte Benutzer ist ein Studienarzt
 			Logger.getLogger(this.getClass()).debug(
 					"studieAuswahl - Studienarzt");
-			listeZentren = Zentrum.suchenZentrum(leeresZentrum);
-			request.setAttribute(requestParameter.LISTE_DER_ZENTREN.name(),
-					listeZentren);
+			
 			if (request.getParameter("filtern") != null) {
 				try {
 					listeStudien = studieFiltern(request.getParameter("name"),
@@ -415,9 +412,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			// der eingeloggte Benutzer ist ein Studienleiter
 			Logger.getLogger(this.getClass()).debug(
 					"studieAuswahl - Studienleiter");
-			listeZentren = Zentrum.suchenZentrum(leeresZentrum);
-			request.setAttribute(requestParameter.LISTE_DER_ZENTREN.toString(),
-					listeZentren);
 			if (request.getParameter("filtern") != null) {
 				try {
 					listeStudien = studieFiltern(request.getParameter("name"),

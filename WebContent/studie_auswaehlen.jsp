@@ -5,15 +5,15 @@
 			request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(),"Studie ausw&auml;hlen");
 
 			Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
-			.getAttribute("aBenutzer")).getRolle().getRollenname();
+			.getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString())).getRolle().getRollenname();
 
 	Iterator listeStudien = ((Vector) request
 			.getAttribute(StudieServlet.requestParameter.LISTE_DER_STUDIEN
-			.name())).iterator();
+			.toString())).iterator();
 	
 	Iterator listeStudien2 = ((Vector) request
 			.getAttribute(StudieServlet.requestParameter.LISTE_DER_STUDIEN
-			.name())).iterator();
+			.toString())).iterator();
 	
 	String aStudie_Name = "";
 	if(request.getParameter(Parameter.studie.NAME.toString())!=null){
@@ -235,7 +235,6 @@ Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
 <h1>Studie ausw&auml;hlen</h1>
-
 <%
 if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 %>
