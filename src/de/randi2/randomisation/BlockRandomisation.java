@@ -22,6 +22,7 @@ import de.randi2.utility.NullKonstanten;
  * 
  * @author Daniel Haehn [dhaehn@hs-heilbronn.de]
  * @author Lukasz Plotnicki [lplotni@stud.hs-heilbronn.de]
+ * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]
  * @version $Id$
  * 
  */
@@ -58,8 +59,32 @@ public class BlockRandomisation extends Randomisation {
 	}
 
 	/**
+	 * Konstruktor fuer erbenede Klassen. Erzeugt ein Objekt dieser Klasse, das
+	 * dem Blockrandomisieren der Patienten von einer Studie dient, zusaetzlich
+	 * wird der Name der Randomisation ueberschrieben.
+	 * 
+	 * @param name
+	 *            Name des Randomisationsalgorithmus der erbenden Klasse.
+	 * @param aStudie
+	 *            StudieBean - ein Bean der zugehoerigen Studie.
+	 * @param aBlockgroesse
+	 *            int - die Blockgroesse, mit der der Algorithmus arbeiten soll.
+	 *            (Muss ein Vielfaches der Anzahl der Studienarme sein!)
+	 * @throws RandomisationsException
+	 *             wird geworfen, falls die Parametern falsch sind.
+	 * @throws DatenbankExceptions
+	 *             wenn bei dem Prozess Fehler in der DB auftraten
+	 */
+	protected BlockRandomisation(String name, StudieBean aStudie,
+			int aBlockgroesse) throws RandomisationsException,
+			DatenbankExceptions {
+		super(name, aStudie);
+		this.setBlockgroesse(aBlockgroesse);
+	}
+
+	/**
 	 * Diese Methode ordnet einem uebergebenen Patienten einen zufaelligen
-	 * Studienarm zu.
+	 * Studienarm zu, so dass die Anzahl der Patienten ausbalanciert ist.
 	 * 
 	 * @param aPatient
 	 *            der zuzuordnende Patient
@@ -93,8 +118,6 @@ public class BlockRandomisation extends Randomisation {
 			// TODO klaeren, wie hier mit einem Fehler umgegangen werden soll.
 
 		}
-		// System.out.println(letztePosition);
-		// System.out.println(aBlock[letztePosition]);
 		try {
 			StudienarmBean sA = Studienarm.getStudienarm(studienArmId);
 			aPatient.setStudienarm(sA);
@@ -115,7 +138,7 @@ public class BlockRandomisation extends Randomisation {
 	 * @throws DatenbankExceptions
 	 *             Bei Fehlern bei der Kommunikation mit der Datenbank.
 	 */
-	private int[] erzeugeNeuenBlock() throws DatenbankExceptions {
+	protected int[] erzeugeNeuenBlock() throws DatenbankExceptions {
 		Random myRandom = new Random();
 		int zufallszahl = 0;
 		int[] block = new int[this.blockgroesse];
@@ -162,7 +185,7 @@ public class BlockRandomisation extends Randomisation {
 	 * @throws DatenbankExceptions
 	 *             Bei Fehlern in der Kommunikation der Datenbank.
 	 */
-	private void setBlockgroesse(int blockgroesse)
+	protected void setBlockgroesse(int blockgroesse)
 			throws RandomisationsException, DatenbankExceptions {
 		if (blockgroesse % this.studie.getStudienarme().size() != 0) {
 			throw new RandomisationsException(
