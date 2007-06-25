@@ -222,7 +222,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Studie auswaehlen
 		 */
 		JSP_STUDIE_AUSWAEHLEN,
-		
+
 		/**
 		 * Simulation einer Studie.
 		 */
@@ -630,19 +630,31 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
 
-			} else if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN
-					.toString())) {
-				// Studie wurde ausgewaehlt
-				request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
-						.name(), StudieServlet.anfrage_id.AKTION_STUDIE_AUSGEWAEHLT
-						.toString());
+			} else if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN.toString())) {
+				if (request.getParameter(Parameter.filter) == null) {
+					// Studie wurde ausgewaehlt
+					request.setAttribute(
+							DispatcherServlet.requestParameter.ANFRAGE_Id
+									.name(),
+							StudieServlet.anfrage_id.AKTION_STUDIE_AUSGEWAEHLT
+									.toString());
+
+				} else {
+					// auf der studie_auswaehlen.jsp wird die liste gefiltert
+					request.setAttribute(
+							DispatcherServlet.requestParameter.ANFRAGE_Id
+									.name(),
+							StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN
+									.toString());
+
+				}
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
 
-			}else if(id.equals(anfrage_id.JSP_SIMULATION.toString())){
-				//Weiterleitung auf die Simulation seite
+			} else if (id.equals(anfrage_id.JSP_SIMULATION.toString())) {
+				// Weiterleitung auf die Simulation seite
 				request.getRequestDispatcher(Jsp.SIMULATION).forward(request,
-						response);		
+						response);
 			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN.name())) {
 
 				// neue Studie anlegen
