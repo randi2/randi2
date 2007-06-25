@@ -792,9 +792,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				request.getRequestDispatcher(Jsp.IMPRESSUM).forward(request,
 						response);
 
-			} else if (id.equals(anfrage_id.JSP_HEADER_HILFE.name())) {
-				request.getRequestDispatcher(Jsp.HILFE).forward(request,
-						response);
 			} else if (id
 					.equals(anfrage_id.JSP_HEADER_NACHRICHTENDIENST.name())) {
 				request.getRequestDispatcher(Jsp.NACHRICHTENDIENST).forward(
