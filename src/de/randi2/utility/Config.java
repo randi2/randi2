@@ -271,6 +271,11 @@ public final class Config {
          * Das Impressum
          */
         RELEASE_IMPRESSUM,
+        
+        /**
+         * Fehlermeldung die angezeigt wird, wenn JS nicht aktiviert ist
+         */
+        RELEASE_JS_NICHT_AKTIVIERT
     }
 
     /**

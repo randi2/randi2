@@ -54,6 +54,14 @@ body {
 	border-left: solid green 2px;
 	border-right: solid green 2px;
 }
+#JS_FEHLT{
+	width:300px;
+	border-bottom: solid #ff0000 4px;
+	border-top: solid #ff0000 4px;
+	border-left: solid #ff0000 4px;
+	border-right: solid #ff0000 4px;
+	}
+	
 
 #breadcrumb {
 	height: 25px;
