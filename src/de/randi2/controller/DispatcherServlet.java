@@ -91,7 +91,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Benutzer klickt Impressum link
 		 */
 		JSP_HEADER_IMPRESSUM,
-		
+
 		/**
 		 * Benutzer klickt Benutzer registieren auf index.jsp
 		 */
@@ -147,12 +147,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Aufforderung, den Benutzer aus dem System abzumelden
 		 */
 		AKTION_LOGOUT,
-		
+
 		/**
 		 * Aufforderung, den Nachrichtendienst anzuzeigen
 		 */
 		JSP_HEADER_NACHRICHTENDIENST,
-		
+
 		/**
 		 * Aufforderung, die Hilfe anzuzeigen
 		 */
@@ -187,7 +187,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Neue Studie anlegen
 		 */
 		JSP_STUDIE_ANLEGEN,
-		
+
 		/**
 		 * Neuen Studienarm zu Studie hinzufuegen
 		 */
@@ -196,7 +196,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Studienarm von Studie entfernen
 		 */
-		JSP_STUDIE_ANLEGEN_DEL_STUDIENARM,		
+		JSP_STUDIE_ANLEGEN_DEL_STUDIENARM,
 		/**
 		 * Neuen Strata zu Studie hinzufuegen
 		 */
@@ -205,7 +205,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Strata von Studie entfernen
 		 */
-		JSP_STUDIE_ANLEGEN_DEL_STRATA,	
+		JSP_STUDIE_ANLEGEN_DEL_STRATA,
 		/**
 		 * Studie pausieren
 		 */
@@ -292,7 +292,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Titel der aktuellen JSP
 		 */
 		TITEL("titel"),
-		
+
 		/**
 		 * Systemstatus gesperrt[true|false] (boolean)
 		 */
@@ -311,7 +311,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Anzahl an Armen
 		 */
 		ANZAHL_ARME("anzahl_arme");
-		
+
 		/**
 		 * String Version des Parameters
 		 */
@@ -392,14 +392,17 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		String id = (String) request.getParameter("anfrage_id");
-		String idAttribute = (String) request.getAttribute("anfrage_id");
+		String id = (String) request.getParameter(Parameter.anfrage_id);
+		String idAttribute = (String) request
+				.getAttribute(Parameter.anfrage_id);
 
 		// bei jedem Zugriff, Titel zuruecksetzen
-		request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(), null);
-		
+		request.setAttribute(DispatcherServlet.requestParameter.TITEL
+				.toString(), null);
+
 		// falls ID null dann leite auf den Index weiter
 		if ((id == null || id.trim().equals("")) && (idAttribute == null)) {
+
 			weiterleitungAufIndex(request, response);
 		} else {
 			Logger.getLogger(this.getClass()).debug("[POST]anfrage_id: " + id);
@@ -419,7 +422,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			else if (id
 					.equals(DispatcherServlet.anfrage_id.JSP_INDEX_BENUTZER_REGISTRIEREN_EINS
 							.name())) {
-				request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(), "Benutzer anlegen");
+				request.setAttribute(DispatcherServlet.requestParameter.TITEL
+						.toString(), "Benutzer anlegen");
 				request.getRequestDispatcher("/benutzer_anlegen_eins.jsp")
 						.forward(request, response);
 			}
@@ -621,13 +625,13 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
 
-			} else if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN
-					.name())) {
+			} else if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN.name())) {
 
 				// neue Studie anlegen
-				request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
-						.name(), StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN
-						.name());
+				request.setAttribute(
+						DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
+						StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN
+								.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
 
@@ -639,61 +643,125 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						StudieServlet.anfrage_id.AKTION_STUDIE_ANLEGEN.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
-				
-			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_ADD_STRATA.name())) {
+
+			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_ADD_STRATA
+					.name())) {
 
 				// neue Strata zu Studie
-				request.setAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME.toString(),(Integer.parseInt(request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()))));
-				request.setAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString(),(Integer.parseInt(request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()))) + 1);
-				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request,
-						response);
-				
-			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_ADD_STUDIENARM.name())) {
+				request
+						.setAttribute(
+								DispatcherServlet.requestParameter.ANZAHL_ARME
+										.toString(),
+								(Integer
+										.parseInt(request
+												.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME
+														.toString()))));
+				request
+						.setAttribute(
+								DispatcherServlet.requestParameter.ANZAHL_STRATA
+										.toString(),
+								(Integer
+										.parseInt(request
+												.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA
+														.toString()))) + 1);
+				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
+						request, response);
+
+			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_ADD_STUDIENARM
+					.name())) {
 
 				// neuer Studienarm zu Studie
-				request.setAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString(),(Integer.parseInt(request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()))));
-				request.setAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME.toString(),(Integer.parseInt(request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()))) + 1);
-				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request,
-						response);
+				request
+						.setAttribute(
+								DispatcherServlet.requestParameter.ANZAHL_STRATA
+										.toString(),
+								(Integer
+										.parseInt(request
+												.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA
+														.toString()))));
+				request
+						.setAttribute(
+								DispatcherServlet.requestParameter.ANZAHL_ARME
+										.toString(),
+								(Integer
+										.parseInt(request
+												.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME
+														.toString()))) + 1);
+				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
+						request, response);
 
-			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_DEL_STRATA.name())) {
-				
+			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_DEL_STRATA
+					.name())) {
+
 				// neue Strata zu Studie
-				request.setAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME.toString(),(Integer.parseInt(request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()))));
-				request.setAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString(),(Integer.parseInt(request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()))) - 1);
-				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request,
-						response);
-				
-			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_DEL_STUDIENARM.name())) {
+				request
+						.setAttribute(
+								DispatcherServlet.requestParameter.ANZAHL_ARME
+										.toString(),
+								(Integer
+										.parseInt(request
+												.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME
+														.toString()))));
+				request
+						.setAttribute(
+								DispatcherServlet.requestParameter.ANZAHL_STRATA
+										.toString(),
+								(Integer
+										.parseInt(request
+												.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA
+														.toString()))) - 1);
+				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
+						request, response);
+
+			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_DEL_STUDIENARM
+					.name())) {
 
 				// neuer Studienarm zu Studie
-				request.setAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString(),(Integer.parseInt(request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()))));
-				request.setAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME.toString(),(Integer.parseInt(request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()))) - 1);
-				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request,
-						response);
+				request
+						.setAttribute(
+								DispatcherServlet.requestParameter.ANZAHL_STRATA
+										.toString(),
+								(Integer
+										.parseInt(request
+												.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA
+														.toString()))));
+				request
+						.setAttribute(
+								DispatcherServlet.requestParameter.ANZAHL_ARME
+										.toString(),
+								(Integer
+										.parseInt(request
+												.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME
+														.toString()))) - 1);
+				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
+						request, response);
 
-				
 			} else if (id.equals((anfrage_id.JSP_STUDIE_PAUSIEREN_EINS.name()))) {
 				// Studie pausieren
-				request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
-						StudieServlet.anfrage_id.AKTION_STUDIE_PAUSIEREN.name()); 
+				request
+						.setAttribute(
+								DispatcherServlet.requestParameter.ANFRAGE_Id
+										.name(),
+								StudieServlet.anfrage_id.AKTION_STUDIE_PAUSIEREN
+										.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
-			} else if (id.equals((anfrage_id.JSP_STUDIE_FORTSETZEN_EINS.name()))) {
-			// Studie fortsetzen
-			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
-					StudieServlet.anfrage_id.AKTION_STUDIE_FORTSETZEN.name()); 
-			request.getRequestDispatcher("StudieServlet").forward(request,
-					response);
-			
-			
-		}
-			
-			
+			} else if (id
+					.equals((anfrage_id.JSP_STUDIE_FORTSETZEN_EINS.name()))) {
+				// Studie fortsetzen
+				request.setAttribute(
+						DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
+						StudieServlet.anfrage_id.AKTION_STUDIE_FORTSETZEN
+								.name());
+				request.getRequestDispatcher("StudieServlet").forward(request,
+						response);
+
+			}
+
 			else if (id.equals((anfrage_id.JSP_STUDIE_AENDERN.name()))) {
 
-				request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
-						.name(),
+				request.setAttribute(
+						DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
 						StudieServlet.anfrage_id.AKTION_STUDIE_AENDERN);
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
@@ -703,30 +771,35 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 								.name());
 				request.getRequestDispatcher("BenutzerServlet").forward(
 						request, response);
-			} else
-			if (id.equals(DispatcherServlet.anfrage_id.JSP_SYSTEM_SPERREN
-					.name())) {
+			} else if (id
+					.equals(DispatcherServlet.anfrage_id.JSP_SYSTEM_SPERREN
+							.name())) {
 				weiterleitungSystemSperrung(request, response);
 			} else if (id.equals(anfrage_id.AKTION_LOGOUT.name())) {
 				// Logger.getLogger(this.getClass()).fatal("Benutzer
 				// ausloggen");
 				loggeBenutzerAus(request, response);
 				return;
-			}
-			else if (id.equals(anfrage_id.ZENTRUM_ANZEIGEN_ADMIN.name())) {
-			request.setAttribute("anfrage_id",
-					ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ANZEIGEN_ADMIN
-							.name());
-			request.getRequestDispatcher("ZentrumServlet").forward(
-					request, response);
+			} else if (id.equals(anfrage_id.ZENTRUM_ANZEIGEN_ADMIN.name())) {
+				request.setAttribute("anfrage_id",
+						ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ANZEIGEN_ADMIN
+								.name());
+				request.getRequestDispatcher("ZentrumServlet").forward(request,
+						response);
 			} else if (id.equals(anfrage_id.JSP_HEADER_IMPRESSUM.name())) {
-				System.out.println("TESTTTTT");
-				request.getRequestDispatcher(Jsp.IMPRESSUM).forward(request,response);
-				return;
+
+				request.setAttribute("anfrage_id",
+						anfrage_id.JSP_HEADER_IMPRESSUM.name());
+				request.getRequestDispatcher(Jsp.IMPRESSUM).forward(request,
+						response);
+
 			} else if (id.equals(anfrage_id.JSP_HEADER_HILFE.name())) {
-				request.getRequestDispatcher(Jsp.HILFE).forward(request,response);
-			} else if (id.equals(anfrage_id.JSP_HEADER_NACHRICHTENDIENST.name())) {
-				request.getRequestDispatcher(Jsp.NACHRICHTENDIENST).forward(request,response);
+				request.getRequestDispatcher(Jsp.HILFE).forward(request,
+						response);
+			} else if (id
+					.equals(anfrage_id.JSP_HEADER_NACHRICHTENDIENST.name())) {
+				request.getRequestDispatcher(Jsp.NACHRICHTENDIENST).forward(
+						request, response);
 			}
 			// [end]
 
