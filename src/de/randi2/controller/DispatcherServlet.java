@@ -222,6 +222,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Studie auswaehlen
 		 */
 		JSP_STUDIE_AUSWAEHLEN,
+		
+		/**
+		 * Simulation einer Studie.
+		 */
+		JSP_SIMULATION,
 		/**
 		 * Zentrum anzeigen beim Admin.
 		 */
@@ -634,6 +639,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
 
+			}else if(id.equals(anfrage_id.JSP_SIMULATION.toString())){
+				//Weiterleitung auf die Simulation seite
+				request.getRequestDispatcher(Jsp.SIMULATION).forward(request,
+						response);		
 			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN.name())) {
 
 				// neue Studie anlegen
