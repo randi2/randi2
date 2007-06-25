@@ -80,9 +80,10 @@ public class StrataBean extends Filter {
 	 *             bei einer nicht korrekten Id
 	 */
 	// FRAGE Wie sinnvoll ist dieser Konstruktor?
-	public StrataBean(long id, String name, String beschreibung)
+	public StrataBean(long id,long studienID, String name, String beschreibung)
 			throws StrataException, DatenbankExceptions {
 		super.setId(id);
+		this.setStudienID(studienID);
 		this.setName(name);
 		this.setBeschreibung(beschreibung);
 	}
@@ -107,10 +108,10 @@ public class StrataBean extends Filter {
 	 * @throws DatenbankExceptions -
 	 *             bei einer nicht korrekten Id
 	 */
-	public StrataBean(long id, String name, String beschreibung,
+	public StrataBean(long id, long studienID, String name, String beschreibung,
 			Collection<StrataAuspraegungBean> auspraegungen)
 			throws StrataException, DatenbankExceptions {
-		this(id, name, beschreibung);
+		this(id, studienID, name, beschreibung);
 		this.setAuspraegungen(auspraegungen);
 	}
 
