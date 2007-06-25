@@ -91,6 +91,11 @@ public class BenutzerkontoException extends BenutzerException {
 	public static final String BENUTZERNAME_ZU_LANG = "Der eingegebene Benutzername ist zu lang (max. 50 Zeichen)";
 
 	/**
+	 * Diese Konstante wird uebergeben, wenn nicht alle Pflichtfelder ausgefuellt wurden.
+	 */
+	public static final String PFLICHTFELD_NULL = "Pflichtfelder sind (teilweise) leer!";
+	
+	/**
 	 * Ein Konstruktor dieser Klasse
 	 * 
 	 * @param arg0

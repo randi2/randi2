@@ -658,7 +658,10 @@ public class BenutzerkontoBean extends Filter implements Serializable {
 
 	@Override
 	public void validate() throws BenutzerException {
-		// FIXME Siehe #164
+		if(this.aBenutzername == null || this.aPasswort == null ||
+				this.aRolle == null) {
+			throw new BenutzerkontoException(BenutzerkontoException.PFLICHTFELD_NULL);
+		}
 		
 	}
 	
