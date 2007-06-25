@@ -6,11 +6,13 @@
 <%@ page import="de.randi2.model.fachklassen.beans.*"%>
 <%
 			Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
-			.getAttribute("aBenutzer")).getRolle().getRollenname();
+			.getAttribute(
+			DispatcherServlet.sessionParameter.A_Benutzer
+			.toString())).getRolle().getRollenname();
 	StudieBean aStudie = (StudieBean) request.getSession()
 			.getAttribute(
 			DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
-			.name());
+			.toString());
 	Vector<StudienarmBean> aStudienarme = aStudie.getStudienarme();
 	int counter = aStudienarme.size();
 	SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy",
@@ -125,25 +127,21 @@
 							.getBezeichnung()%></li>
 						</ul>
 						<%
-							//TODO counter richtigstellen 
-							//counter--;
-							int counter2 = 4;
+						counter--;
 						%>
 						</td>
 					</tr>
 					<%
-					//TODO counter
-					while (counter2 > 0) {
+					while (counter > 0) {
 					%>
 					<tr align="left">
 						<td class="tblrow1">
 						<ul>
-							<li><%=aStudienarme.get(aStudienarme.size()-counter)
+							<li><%=aStudienarme.get(aStudienarme.size() - counter)
 								.getBezeichnung()%></li>
 						</ul>
 						<%
-						//TODO counter--;
-						counter2--;
+						counter--;
 						%>
 						</td>
 					</tr>
@@ -169,12 +167,13 @@
 					</tr>
 				</tbody>
 			</table>
-			
+
 			</td>
 		</tr>
 	</tbody>
 </table>
-<form><!-- </fieldset> --> 
+<form>
+</fieldset>
 
 <!--   fieldset><legend><b>M&ouml;liche Aktionen</b></legend>--> <%
  if (aRolle == Rolle.Rollen.STATISTIKER) {
@@ -257,8 +256,8 @@
 </form>
 <%
 }
-%> </form></fieldset><%@include file="include/inc_footer.jsp"%>
-</div>
+%>
+<%@include file="include/inc_footer.jsp"%></div>
 <%@include file="include/inc_menue.jsp"%>
 </body>
 </html>
