@@ -46,6 +46,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 * Meldung, wenn der Aenderungsvorgang einer Studie erfolgreich war.
 	 */
 	private static final String AENDERUNG_STUDIE_ERFOLGREICH = "Die Studie wurde erfolgreich geändert.";
+
 	/**
 	 * Meldung, wenn der Status erfolgreich geaendert wurde.
 	 */
@@ -75,6 +76,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Die Studie wurde auf der Seite studie_auswaehlen.jsp ausgewaehlt
 		 */
 		JSP_STUDIE_AUSWAEHLEN,
+
+		AKTION_STUDIE_AUSGEWAEHLT,
 
 		/**
 		 * Eine Studie soll geaendert werden.
@@ -217,52 +220,15 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		String idAttribute = (String) request
 				.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
 						.name());
-		
+
 		if (idAttribute != null) {
 			id = idAttribute;
 			Logger.getLogger(this.getClass()).debug(id);
-			if (id.equals(anfrage_id.AKTION_STUDIE_AUSWAEHLEN.name())) {
+			if (id.equals(anfrage_id.AKTION_STUDIE_AUSWAEHLEN.toString())) {
 				// Die studie_auswaehlen.jsp soll angezeigt werden.
 				studieAuswaehlen(request, response);
-			} else if (id.equals(anfrage_id.AKTION_STUDIE_AUSWAEHLEN_NEUESTUDIE
-					.name())) {
-				// Formular fuer neue Studie aufrufen
-				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
-						request, response);
-			} else if (id.equals(anfrage_id.AKTION_STUDIE_ANLEGEN.name())) {
-				// Neue Studie anlegen
-				// StudieBean aStudie = new
-				// StudieBean(NullKonstanten.DUMMY_ID,);
-
-				this.classDispatcherservletStudieAnlegen(request, response);
-				
-				return;
-				
-
-			} else if (id.equals(anfrage_id.AKTION_STUDIE_AENDERN.name())) {
-				// Studie soll geaendert werden
-				request.getRequestDispatcher(Jsp.STUDIE_AENDERN).forward(
-						request, response);
-			} else if (id.equals(anfrage_id.AKTION_STATUS_AENDERN.name())) {
-				// Status aendern
-				request.getRequestDispatcher(Jsp.STUDIE_PAUSIEREN_EINS)
-						.forward(request, response);
-
-			}else if (id.equals(anfrage_id.AKTION_STUDIE_FORTSETZEN.name())) {
-				// Status aendern
-				studieStatus(request, response,Studie.Status.AKTIV);
-			}else if (id.equals(anfrage_id.AKTION_STUDIE_PAUSIEREN.name())) {
-				// Status aendern
-				studieStatus(request, response, Studie.Status.PAUSE);
-			}
-			
-
-		} else if (id != null) {
-			Logger.getLogger(this.getClass()).debug(id);
-			if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN_FILTERN.name())) {
-				// Die studie_auswaehlen.jsp wird erneut angezeigt
-				studieAuswaehlen(request, response);
-			} else if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN.name())) {
+			} else if (id.equals(anfrage_id.AKTION_STUDIE_AUSGEWAEHLT
+					.toString())) {
 				// Benutzer hat eine Studie ausgewaehlt
 				try {
 					// Erstmal alle vorhandenen Studien suchen
@@ -282,6 +248,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 									.setAttribute(
 											DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
 													.toString(), aStudie);
+							request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(), "Studie ansehen");
 							request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN)
 									.forward(request, response);
 							break;
@@ -291,9 +258,45 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					// Fehler zurück!
 					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 							.getMessage());
-					request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp")
+					request.getRequestDispatcher("/studie_auswaehlen.jsp")
 							.forward(request, response);
 				}
+			} else if (id.equals(anfrage_id.AKTION_STUDIE_AUSWAEHLEN_NEUESTUDIE
+					.name())) {
+				// Formular fuer neue Studie aufrufen
+				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
+						request, response);
+			} else if (id.equals(anfrage_id.AKTION_STUDIE_ANLEGEN.name())) {
+				// Neue Studie anlegen
+				// StudieBean aStudie = new
+				// StudieBean(NullKonstanten.DUMMY_ID,);
+
+				this.classDispatcherservletStudieAnlegen(request, response);
+
+				return;
+
+			} else if (id.equals(anfrage_id.AKTION_STUDIE_AENDERN.name())) {
+				// Studie soll geaendert werden
+				request.getRequestDispatcher(Jsp.STUDIE_AENDERN).forward(
+						request, response);
+			} else if (id.equals(anfrage_id.AKTION_STATUS_AENDERN.name())) {
+				// Status aendern
+				request.getRequestDispatcher(Jsp.STUDIE_PAUSIEREN_EINS)
+						.forward(request, response);
+
+			} else if (id.equals(anfrage_id.AKTION_STUDIE_FORTSETZEN.name())) {
+				// Status aendern
+				studieStatus(request, response, Studie.Status.AKTIV);
+			} else if (id.equals(anfrage_id.AKTION_STUDIE_PAUSIEREN.name())) {
+				// Status aendern
+				studieStatus(request, response, Studie.Status.PAUSE);
+			}
+
+		} else if (id != null) {
+			Logger.getLogger(this.getClass()).debug(id);
+			if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN_FILTERN.name())) {
+				// Die studie_auswaehlen.jsp wird erneut angezeigt
+				studieAuswaehlen(request, response);
 			} else if (id.equals(anfrage_id.JSP_STUDIE_AENDERN.name())) {
 				// studieAendern.jsp soll angezeigt werden
 				studieAendern(request, response);
@@ -507,23 +510,25 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 *            Der Request fuer das Servlet.
 	 * @param response
 	 *            Der Response Servlet.
-	 * @param status Status der Studie, der geaendert wird.
+	 * @param status
+	 *            Status der Studie, der geaendert wird.
 	 * @throws IOException
 	 *             Falls Fehler in den E/A-Verarbeitung.
 	 * @throws ServletException
 	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
 	 */
 	private void studieStatus(HttpServletRequest request,
-			HttpServletResponse response, Studie.Status status) throws ServletException, IOException {
-		 
-		StudieBean aStudie = (StudieBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
+			HttpServletResponse response, Studie.Status status)
+			throws ServletException, IOException {
+
+		StudieBean aStudie = (StudieBean) request.getSession().getAttribute(
+				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
 
 		try {
 			aStudie.setStatus(status);
-			DatenbankFactory.getAktuelleDBInstanz()
-					.schreibenObjekt(aStudie);
-			//Studie erfolgreich pausiert
-			//TODO Meldung an den Benutzer
+			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aStudie);
+			// Studie erfolgreich pausiert
+			// TODO Meldung an den Benutzer
 			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 					this.STATUS_GEAENDERT);
 			request.getRequestDispatcher("studie_ansehen.jsp").forward(request,
@@ -536,7 +541,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		}
 
 	}
-	
+
 	/**
 	 * Realisiert das anlegen einer neuen Studie
 	 * 
@@ -554,7 +559,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 */
 	private void classDispatcherservletStudieAnlegen(
 			HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
+			throws ServletException, IOException {
 		
 		String aName = request.getParameter(Parameter.studie.NAME.name());
 		String aBezeichnung = request.getParameter(Parameter.studie.BESCHREIBUNG.name());
@@ -575,7 +580,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		
 		this.weiterleitungBeiFehler("Fehler beim Anlegen!", request, response);
 	}
-	
+
 	/**
 	 * Weiterleitung der Anfrage bei Fehler
 	 * <p>
@@ -609,12 +614,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
 				fehlermeldungAnBenutzer);
 
-		request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
-				request, response);
-		
-		
+		request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request,
+				response);
+
 	}
-	
+
 	/**
 	 * Aenderbare Daten einer bereits in der Datenbank bestehenden Studie werden
 	 * gesetzt.
