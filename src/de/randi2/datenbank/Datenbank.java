@@ -45,7 +45,6 @@ import de.randi2.utility.LogGeanderteDaten;
 import de.randi2.utility.LogLayout;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.SystemException;
-import de.randi2.utility.Config.Felder;
 
 /**
  * <p>
@@ -843,16 +842,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.LOESCHEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 		this.loggenDaten(person, LogKonstanten.LOESCHE_DATENSATZ);
 	}
@@ -884,16 +877,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.LOESCHEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 		this.loggenDaten(aktivierung, LogKonstanten.LOESCHE_DATENSATZ);
 	}
@@ -926,16 +913,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.LOESCHEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.LOESCHEN_ERR);
 		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 		this.loggenDaten(studie, LogKonstanten.LOESCHE_DATENSATZ);
 	}
@@ -1052,16 +1033,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 				rs.close();
 				pstmt.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(e, sql,
+						DatenbankExceptions.SCHREIBEN_ERR);
 			} finally {
-				try {
-					ConnectionFactory.getInstanz().closeConnection(con);
-				} catch (DatenbankExceptions e) {
-					e.printStackTrace();
-					throw new DatenbankExceptions(
-							DatenbankExceptions.CONNECTION_ERR);
-				}
+				ConnectionFactory.getInstanz().closeConnection(con);
 			}
 			person.setId(id);
 			// loggen eines neuen Datensatzes
@@ -1100,12 +1075,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				throw new DatenbankExceptions(e, sql,
 						DatenbankExceptions.SCHREIBEN_ERR);
 			} finally {
-				try {
-					ConnectionFactory.getInstanz().closeConnection(con);
-				} catch (DatenbankExceptions e) {
-					throw new DatenbankExceptions(
-							DatenbankExceptions.CONNECTION_ERR);
-				}
+
+				ConnectionFactory.getInstanz().closeConnection(con);
 			}
 			// loggen eines geaenderten Datensatzes
 			loggenDaten(person, LogKonstanten.AKTUALISIERE_DATENSATZ);
@@ -1165,8 +1136,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				rs.close();
 				pstmt.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(e, sql,
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			zentrum.setId(id);
 			loggenDaten(zentrum, LogKonstanten.NEUER_DATENSATZ);
@@ -1199,16 +1170,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.executeUpdate();
 				pstmt.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(e, sql,
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 		}
-		try {
-			ConnectionFactory.getInstanz().closeConnection(con);
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+
+		ConnectionFactory.getInstanz().closeConnection(con);
 		// loggen des geaenderten Datensatzes
 		loggenDaten(zentrum, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		return zentrum;
@@ -1232,12 +1199,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+
+		con = ConnectionFactory.getInstanz().getConnection();
 		// Neues Benutzerkonto
 		if (benutzerKonto.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
@@ -1284,8 +1247,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 			} catch (SQLException e) {
 				if (e.getErrorCode() == 1062) {
-					throw new DatenbankExceptions(
+					DatenbankExceptions de = new DatenbankExceptions(
 							DatenbankExceptions.TESTER_EXISTIERT_ERR);
+					de.initCause(e);
+					throw de;
 				}
 				throw new DatenbankExceptions(e, sql,
 						DatenbankExceptions.SCHREIBEN_ERR);
@@ -1332,16 +1297,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(e, sql,
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 		}
-		try {
-			ConnectionFactory.getInstanz().closeConnection(con);
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+
+		ConnectionFactory.getInstanz().closeConnection(con);
+
 		loggenDaten(benutzerKonto, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		return benutzerKonto;
 	}
@@ -1392,8 +1354,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				rs.close();
 				pstmt.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(e, sql,
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			aktivierung.setId(id);
 			loggenDaten(aktivierung, LogKonstanten.NEUER_DATENSATZ);
@@ -1416,16 +1378,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.executeUpdate();
 				pstmt.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(e, sql,
+						DatenbankExceptions.SCHREIBEN_ERR);
 			} finally {
-				try {
-					ConnectionFactory.getInstanz().closeConnection(con);
-				} catch (DatenbankExceptions e) {
-					e.printStackTrace();
-					throw new DatenbankExceptions(
-							DatenbankExceptions.CONNECTION_ERR);
-				}
+
+				ConnectionFactory.getInstanz().closeConnection(con);
 			}
 		}
 		loggenDaten(aktivierung, LogKonstanten.AKTUALISIERE_DATENSATZ);
@@ -1449,12 +1406,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+
+		con = ConnectionFactory.getInstanz().getConnection();
+
 		if (studie.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
 			long id = Long.MIN_VALUE;
@@ -1585,12 +1539,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			loggenDaten(studie, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		}
-		try {
-			ConnectionFactory.getInstanz().closeConnection(con);
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+
+		ConnectionFactory.getInstanz().closeConnection(con);
+
 		return studie;
 	}
 
@@ -1611,12 +1562,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+
+		con = ConnectionFactory.getInstanz().getConnection();
 
 		if (studienarm.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
@@ -1645,8 +1592,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				rs.close();
 				pstmt.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(e, sql,
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			studienarm.setId(id);
 			loggenDaten(studienarm, LogKonstanten.NEUER_DATENSATZ);
@@ -1672,17 +1619,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.executeUpdate();
 				pstmt.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(e, sql,
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			loggenDaten(studienarm, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		}
-		try {
-			ConnectionFactory.getInstanz().closeConnection(con);
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+
+		ConnectionFactory.getInstanz().closeConnection(con);
+
 		return studienarm;
 	}
 
@@ -1703,12 +1647,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		String sql = "";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+		con = ConnectionFactory.getInstanz().getConnection();
 
 		if (patient.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
@@ -1744,8 +1683,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 				rs.close();
 				pstmt.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(e, sql,
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			patient.setId(id);
 			loggenDaten(patient, LogKonstanten.NEUER_DATENSATZ);
@@ -1778,17 +1717,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.executeUpdate();
 				pstmt.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.SCHREIBEN_ERR);
+				throw new DatenbankExceptions(e, sql,
+						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			loggenDaten(patient, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		}
-		try {
-			ConnectionFactory.getInstanz().closeConnection(con);
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+
+		ConnectionFactory.getInstanz().closeConnection(con);
+
 		return patient;
 	}
 
@@ -1873,11 +1809,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 	private Vector<PersonBean> suchenPerson(PersonBean person)
 			throws DatenbankExceptions {
 		Connection con;
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+
+		con = ConnectionFactory.getInstanz().getConnection();
 		PreparedStatement pstmt;
 		ResultSet rs;
 		PersonBean tmpPerson;
@@ -2008,17 +1941,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 			rs.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (BenutzerException f) {
-			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
+		} catch (BenutzerException e) {
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
 		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 		return personen;
 	}
@@ -2042,11 +1973,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throws DatenbankExceptions {
 		Connection con;
 		String sql = "";
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+		con = ConnectionFactory.getInstanz().getConnection();
 		PreparedStatement pstmt;
 		ResultSet rs;
 		BenutzerkontoBean tmpBenutzerkonto;
@@ -2215,22 +2142,19 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e, sql,
 					DatenbankExceptions.SUCHEN_ERR);
-		} catch (BenutzerException f) {
-			f.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
-		} catch (SystemException g) {
-			g.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+		} catch (BenutzerException e) {
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
+		} catch (SystemException e) {
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
 		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-
 		return konten;
 	}
 
@@ -2363,19 +2287,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 			rs.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
-		} catch (ZentrumException g) {
-			g.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+		} catch (ZentrumException e) {
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
 		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 
 		return zentren;
@@ -2393,11 +2313,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 	private Vector<AktivierungBean> suchenAktivierung(
 			AktivierungBean aktivierung) throws DatenbankExceptions {
 		Connection con;
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+		con = ConnectionFactory.getInstanz().getConnection();
+
 		PreparedStatement pstmt;
 		ResultSet rs;
 		AktivierungBean tmpAktivierung;
@@ -2470,18 +2387,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 			rs.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
 		} catch (AktivierungException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
 		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 		return aktivierungen;
 	}
@@ -2499,12 +2413,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 */
 	private Vector<PatientBean> suchenPatient(PatientBean patient)
 			throws DatenbankExceptions {
-		Connection con;
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+		Connection con = ConnectionFactory.getInstanz().getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		PatientBean pat = null;
@@ -2641,18 +2550,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 			rs.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
 		} catch (PatientException e) {
-			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
 		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 		return patienten;
 	}
@@ -2738,21 +2644,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 			rs.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
-		} catch (StudienarmException f) {
-			f.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
-		} catch (StudieException g) {
-			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
+		} catch (StudienarmException e) {
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
+		} catch (StudieException e) {
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
 		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 
 		return studienarme;
@@ -2918,17 +2823,17 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(e, sql,
 					DatenbankExceptions.SUCHEN_ERR);
 		} catch (StudieException e) {
-			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
 		} catch (RandomisationsException e) {
-			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
 		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 		return studien;
 	}
@@ -3033,15 +2938,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 			rs.close();
 			pstmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
 		}
-		try {
-			ConnectionFactory.getInstanz().closeConnection(con);
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+
+		ConnectionFactory.getInstanz().closeConnection(con);
+
 		return tmpPerson;
 
 	}
@@ -3063,12 +2965,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		ResultSet rs = null;
 		ZentrumBean zentrum = null;
 
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+		con = ConnectionFactory.getInstanz().getConnection();
 
 		sql = "SELECT * FROM " + Tabellen.ZENTRUM + " WHERE "
 				+ FelderZentrum.ID + " =?";
@@ -3092,18 +2989,17 @@ public class Datenbank implements DatenbankSchnittstelle {
 			rs.close();
 			pstmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
 		} catch (BenutzerException e) {
-			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
 		}
 
-		try {
-			ConnectionFactory.getInstanz().closeConnection(con);
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+		ConnectionFactory.getInstanz().closeConnection(con);
 		return zentrum;
 	}
 
@@ -3172,29 +3068,26 @@ public class Datenbank implements DatenbankSchnittstelle {
 											.toString()), ersterLogin,
 							letzterLogin);
 				} catch (BenutzerkontoException e) {
-					e.printStackTrace();
-					throw new DatenbankExceptions(
+					DatenbankExceptions de = new DatenbankExceptions(
 							DatenbankExceptions.UNGUELTIGE_DATEN);
+					de.initCause(e);
+					throw de;
 				} catch (RechtException e) {
-					e.printStackTrace();
-					throw new DatenbankExceptions(
+					DatenbankExceptions de = new DatenbankExceptions(
 							DatenbankExceptions.UNGUELTIGE_DATEN);
+					de.initCause(e);
+					throw de;
 				}
 
 				rs.close();
 				pstmt.close();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
 		}
 
-		try {
-			ConnectionFactory.getInstanz().closeConnection(con);
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+		ConnectionFactory.getInstanz().closeConnection(con);
 		return benutzerkonto;
 	}
 
@@ -3218,12 +3111,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		GregorianCalendar cal = new GregorianCalendar();
 		AktivierungBean aktivierung = null;
 
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+		con = ConnectionFactory.getInstanz().getConnection();
 
 		sql = "SELECT * FROM " + Tabellen.AKTIVIERUNG + " WHERE "
 				+ FelderAktivierung.Id + " =?";
@@ -3242,19 +3130,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 			rs.close();
 			pstmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
 		} catch (BenutzerException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.UNGUELTIGE_DATEN);
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
 		}
 
-		try {
-			ConnectionFactory.getInstanz().closeConnection(con);
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+		ConnectionFactory.getInstanz().closeConnection(con);
 		return aktivierung;
 	}
 
@@ -3278,12 +3163,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 		GregorianCalendar startDatum = new GregorianCalendar();
 		GregorianCalendar endDatum = new GregorianCalendar();
 
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+		con = ConnectionFactory.getInstanz().getConnection();
+
 		String sql;
 		sql = "SELECT * FROM " + Tabellen.STUDIE + " WHERE " + FelderStudie.ID
 				+ " = ?";
@@ -3314,27 +3195,27 @@ public class Datenbank implements DatenbankSchnittstelle {
 									.getString(FelderStudie.STATUS.toString())));
 
 				} catch (BenutzerException e) {
-					e.printStackTrace();
-					throw new DatenbankExceptions(
+					DatenbankExceptions de = new DatenbankExceptions(
 							DatenbankExceptions.UNGUELTIGE_DATEN);
+					de.initCause(e);
+					throw de;
 				} catch (RandomisationsException e) {
-					throw new DatenbankExceptions(
+					DatenbankExceptions de = new DatenbankExceptions(
 							DatenbankExceptions.UNGUELTIGE_DATEN);
+					de.initCause(e);
+					throw de;
 
 				}
 			}
 			rs.close();
 			pstmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
 		}
-		try {
-			ConnectionFactory.getInstanz().closeConnection(con);
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+
+		ConnectionFactory.getInstanz().closeConnection(con);
+
 		return tmpStudie;
 	}
 
@@ -3357,12 +3238,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 		ResultSet rs = null;
 		StudienarmBean tmpStudienarm = null;
 
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+		con = ConnectionFactory.getInstanz().getConnection();
+
 		String sql;
 		sql = "SELECT * FROM " + Tabellen.PATIENT + " WHERE "
 				+ FelderStudienarm.ID + " = ?";
@@ -3383,23 +3260,19 @@ public class Datenbank implements DatenbankSchnittstelle {
 									.getString(FelderStudienarm.BESCHREIBUNG
 											.toString()));
 				} catch (BenutzerException e) {
-					e.printStackTrace();
-					throw new DatenbankExceptions(
+					DatenbankExceptions de = new DatenbankExceptions(
 							DatenbankExceptions.UNGUELTIGE_DATEN);
+					de.initCause(e);
+					throw de;
 				}
 			}
 			rs.close();
 			pstmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
 		}
-		try {
-			ConnectionFactory.getInstanz().closeConnection(con);
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+		ConnectionFactory.getInstanz().closeConnection(con);
 		return tmpStudienarm;
 
 	}
@@ -3424,12 +3297,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		GregorianCalendar geburtsdatum = new GregorianCalendar();
 		GregorianCalendar aufklaerungsdatum = new GregorianCalendar();
 
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+		con = ConnectionFactory.getInstanz().getConnection();
 		String sql;
 		sql = "SELECT * FROM " + Tabellen.PATIENT + " WHERE "
 				+ FelderPatient.ID + " = ?";
@@ -3460,23 +3328,21 @@ public class Datenbank implements DatenbankSchnittstelle {
 											.toString()));
 
 				} catch (BenutzerException e) {
-					e.printStackTrace();
-					throw new DatenbankExceptions(
+					DatenbankExceptions de = new DatenbankExceptions(
 							DatenbankExceptions.UNGUELTIGE_DATEN);
+					de.initCause(e);
+					throw de;
 				}
 			}
 			rs.close();
 			pstmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
 		}
-		try {
-			ConnectionFactory.getInstanz().closeConnection(con);
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+
+		ConnectionFactory.getInstanz().closeConnection(con);
+
 		return tmpPatient;
 
 	}
@@ -3507,8 +3373,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 			try {
 				patient.setBenutzerkontoId(((BenutzerkontoBean) vater).getId());
 			} catch (PatientException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
+				DatenbankExceptions de = new DatenbankExceptions(
+						DatenbankExceptions.ID_FALSCH);
+				de.initCause(e);
+				throw de;
 			}
 			return (Vector<T>) suchenPatientKindB(patient);
 		}
@@ -3518,8 +3386,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 			try {
 				studienarm.setStudieId(((StudieBean) vater).getId());
 			} catch (StudienarmException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
+				DatenbankExceptions de = new DatenbankExceptions(
+						DatenbankExceptions.UNGUELTIGE_DATEN);
+				de.initCause(e);
+				throw de;
 			}
 			return (Vector<T>) suchenStudienarmKind(studienarm);
 		}
@@ -3529,8 +3399,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 			try {
 				patient.setStudienarmId(((StudienarmBean) vater).getId());
 			} catch (PatientException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
+				DatenbankExceptions de = new DatenbankExceptions(
+						DatenbankExceptions.UNGUELTIGE_DATEN);
+				de.initCause(e);
+				throw de;
 			}
 			return (Vector<T>) suchenPatientKindS(patient);
 		}
@@ -3633,12 +3505,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 		ZentrumBean zentrumBean = new ZentrumBean();
 		Vector<ZentrumBean> zVector = new Vector<ZentrumBean>();
 		String sql = "";
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+
+		con = ConnectionFactory.getInstanz().getConnection();
+
 		sql = "SELECT " + Tabellen.ZENTRUM + ".* FROM " + Tabellen.ZENTRUM
 				+ "," + Tabellen.STUDIE_ZENTRUM + " WHERE "
 				+ Tabellen.STUDIE_ZENTRUM + "."
@@ -3721,16 +3590,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 			rs.close();
 			pstmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
 		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 		return zVector;
 	}
@@ -3757,12 +3620,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		GregorianCalendar endDatum = new GregorianCalendar();
 		Vector<StudieBean> sVector = new Vector<StudieBean>();
 		String sql = "";
-		try {
-			con = ConnectionFactory.getInstanz().getConnection();
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
-		}
+		con = ConnectionFactory.getInstanz().getConnection();
 		sql = "SELECT " + Tabellen.STUDIE + ".* FROM " + Tabellen.STUDIE + ","
 				+ Tabellen.STUDIE_ZENTRUM + " WHERE " + Tabellen.STUDIE_ZENTRUM
 				+ "." + FelderStudieHasZentrum.ZENTRUMID + "= ? AND "
@@ -3869,28 +3727,24 @@ public class Datenbank implements DatenbankSchnittstelle {
 											.toString()), Status.parseStatus(rs
 									.getString(FelderStudie.STATUS.toString())));
 				} catch (StudieException e) {
-					e.printStackTrace();
-					throw new DatenbankExceptions(
-							DatenbankExceptions.SUCHEN_ERR);
+					DatenbankExceptions de = new DatenbankExceptions(
+							DatenbankExceptions.UNGUELTIGE_DATEN);
+					de.initCause(e);
+					throw de;
 				} catch (RandomisationsException e) {
-					throw new DatenbankExceptions(
-							DatenbankExceptions.SUCHEN_ERR);
+					DatenbankExceptions de = new DatenbankExceptions(
+							DatenbankExceptions.UNGUELTIGE_DATEN);
+					de.initCause(e);
+					throw de;
 				}
 				sVector.add(studieBean);
 			}
 			rs.close();
 			pstmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+			throw new DatenbankExceptions(e, sql, DatenbankExceptions.SUCHEN_ERR);
 		} finally {
-			try {
-				ConnectionFactory.getInstanz().closeConnection(con);
-			} catch (DatenbankExceptions e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						DatenbankExceptions.CONNECTION_ERR);
-			}
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 		return sVector;
 	}
@@ -3912,8 +3766,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 			try {
 				zentrum.setAnsprechpartnerId(((PersonBean) vater).getId());
 			} catch (ZentrumException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+				DatenbankExceptions de = new DatenbankExceptions(
+						DatenbankExceptions.SUCHEN_ERR);
+				de.initCause(e);
+				throw de;
 			}
 			zVector = suchenObjekt(zentrum);
 			if (zVector.size() == 1) {
@@ -3931,8 +3787,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 			try {
 				bKonto.setBenutzerId(((PersonBean) vater).getId());
 			} catch (BenutzerkontoException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+				DatenbankExceptions de = new DatenbankExceptions(
+						DatenbankExceptions.SUCHEN_ERR);
+				de.initCause(e);
+				throw de;
 			}
 			kVector = suchenObjekt(bKonto);
 			if (kVector.size() == 1) {
@@ -3952,8 +3810,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 				aktivierung.setBenutzerkontoId(((BenutzerkontoBean) vater)
 						.getId());
 			} catch (AktivierungException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(DatenbankExceptions.SUCHEN_ERR);
+				DatenbankExceptions de = new DatenbankExceptions(
+						DatenbankExceptions.SUCHEN_ERR);
+				de.initCause(e);
+				throw de;
 			}
 			aVector = suchenObjekt(aktivierung);
 			if (aVector.size() == 1) {
@@ -3971,9 +3831,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 			try {
 				studie.setBenutzerkontoId(((BenutzerkontoBean) vater).getId());
 			} catch (StudieException e) {
-				e.printStackTrace();
-				throw new DatenbankExceptions(
-						StudieException.BENUTZERKONTO_ID_FEHLERHAFT);
+				DatenbankExceptions de = new DatenbankExceptions(
+						DatenbankExceptions.SUCHEN_ERR);
+				de.initCause(e);
+				throw de;
 			}
 			sVector = suchenObjekt(studie);
 			if (sVector.size() == 1) {
