@@ -24,7 +24,7 @@ Ext.onReady(function(){
     var form_login = new Ext.form.Form({
         labelAlign: 'left',
         labelWidth: 100,
-		buttonAlign: 'left',
+		buttonAlign: 'left'
     });
 
     var login_name = new Ext.form.TextField({
@@ -68,13 +68,13 @@ Ext.onReady(function(){
     var form_benutzer_registrieren = new Ext.form.Form({
         labelAlign: 'left',
         labelWidth: 0,
-		buttonAlign: 'center',
+		buttonAlign: 'center'
     });
     
     var form_passwort_vergessen = new Ext.form.Form({
         labelAlign: 'left',
         labelWidth: 0,
-		buttonAlign: 'center',
+		buttonAlign: 'center'
     });
     
 	form_benutzer_registrieren.addButton('Benutzer registrieren', function(){
