@@ -95,6 +95,11 @@ public class StudieBean extends Filter {
 	 * Status der Studie.
 	 */
 	private Status aStatus = null;
+	
+	/**
+	 * Falls die Studie mit Blockrandomisation konfiguriert ist, wird hier die Blockgroesse gespeichert
+	 */
+	private int blockgroesse= NullKonstanten.NULL_INT;
 
 	/**
 	 * Konstruktor mit allen Attributen der Klasse, die aus der Datenbank
@@ -120,6 +125,8 @@ public class StudieBean extends Filter {
 	 *            Studienprotokollpfad der Studie
 	 * @param status
 	 *            Status der Studie
+	 * @param blockgroesse
+	 * 			  Gibt die Blockgroesse fuer Blockrandomisation an
 	 * @throws StudieException
 	 *             wenn ein Fehler aufgetreten ist
 	 * @throws DatenbankExceptions
@@ -128,7 +135,7 @@ public class StudieBean extends Filter {
 	public StudieBean(long id, String beschreibung, String name,
 			Randomisation.Algorithmen algorithmus, long benutzerId,
 			GregorianCalendar startdatum, GregorianCalendar enddatum,
-			String studienprotokollPfad, Status status) throws StudieException,
+			String studienprotokollPfad, Status status, int blockgroesse) throws StudieException,
 			DatenbankExceptions {
 
 		super.setId(id);
@@ -139,6 +146,7 @@ public class StudieBean extends Filter {
 		this.setStudienZeitraum(startdatum, enddatum);
 		this.setStudienprotokollPfad(studienprotokollPfad);
 		this.setStatus(status);
+		this.setBlockgroesse(blockgroesse);
 	}
 
 	/**
@@ -702,5 +710,29 @@ public class StudieBean extends Filter {
 
 		aAlgorithmus = algorithmus;
 	}
+
+	/**
+	 * Get-Methode fuer die Blockgroesse
+	 * @return
+	 * 			Blockgroesse
+	 */
+	public int getBlockgroesse() {
+		return blockgroesse;
+	}
+
+	/**
+	 * Set Methode fuer die Blockgroesse
+	 * @param blockgroesse
+	 * 				zu setzende Blockgroesse
+	 * @throws StudieException 
+	 */
+	public void setBlockgroesse(int blockgroesse) throws StudieException {
+		if(blockgroesse<2) {
+			throw new StudieException(StudieException.BLOCKGROESSE_ZU_KLEIN);
+		}
+		this.blockgroesse = blockgroesse;
+	}
+	
+	
 
 }

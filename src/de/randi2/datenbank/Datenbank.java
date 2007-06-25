@@ -446,7 +446,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 		/**
 		 * Der Status der Studie.
 		 */
-		STATUS("status_Studie");
+		STATUS("status_Studie"),
+		
+		/**
+		 * Groesse eines Blockes, falls Blockrandomisation gewaehlt ist
+		 */
+		BLOCKGROESSE("blockgroesse");
 
 		/**
 		 * Name eines Feldes.
@@ -1434,8 +1439,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 						+ ", " + FelderStudie.RANDOMISATIONSALGORITHMUS + ", "
 						+ FelderStudie.STARTDATUM + ", "
 						+ FelderStudie.ENDDATUM + ", " + FelderStudie.PROTOKOLL
-						+ ", " + FelderStudie.STATUS + ") "
-						+ "VALUES (NULL,?,?,?,?,?,?,?,?)";
+						+ ", " + FelderStudie.STATUS +","+FelderStudie.BLOCKGROESSE+ ") "
+						+ "VALUES (NULL,?,?,?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, studie.getBenutzerkontoId());
@@ -1452,6 +1457,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						.getTimeInMillis()));
 				pstmt.setString(i++, studie.getStudienprotokollpfad());
 				pstmt.setString(i++, studie.getStatus().toString());
+				pstmt.setInt(i++, studie.getBlockgroesse());
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
 				rs.next();
@@ -1499,7 +1505,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderStudie.RANDOMISATIONSALGORITHMUS + "=?, "
 					+ FelderStudie.STARTDATUM + "=?, " + FelderStudie.ENDDATUM
 					+ "=?, " + FelderStudie.PROTOKOLL + "=?, "
-					+ FelderStudie.STATUS + "=? " + "WHERE " + FelderStudie.ID
+					+ FelderStudie.STATUS + "=?, "+FelderStudie.BLOCKGROESSE+" = ? " + " WHERE " + FelderStudie.ID
 					+ "=?";
 			try {
 				pstmt = con.prepareStatement(sql);
@@ -1517,6 +1523,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						.getTimeInMillis()));
 				pstmt.setString(j++, studie.getStudienprotokollpfad());
 				pstmt.setString(j++, studie.getStatus().toString());
+				pstmt.setInt(j++, studie.getBlockgroesse());
 				pstmt.setLong(j++, studie.getId());
 				pstmt.executeUpdate();
 				pstmt.close();
@@ -2884,7 +2891,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 						startDatum, endDatum, rs
 								.getString(FelderStudie.PROTOKOLL.toString()),
 						Status.parseStatus(rs.getString(FelderStudie.STATUS
-								.toString())));
+								.toString())), rs.getInt(FelderStudie.BLOCKGROESSE
+								.toString()));
 				studien.add(tmpStudie);
 			}
 			pstmt.close();
@@ -3268,7 +3276,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 							startDatum, endDatum, rs
 									.getString(FelderStudie.PROTOKOLL
 											.toString()), Status.parseStatus(rs
-									.getString(FelderStudie.STATUS.toString())));
+									.getString(FelderStudie.STATUS.toString())),
+									rs.getInt(FelderStudie.BLOCKGROESSE
+											.toString()));
 
 				} catch (BenutzerException e) {
 					DatenbankExceptions de = new DatenbankExceptions(
@@ -3837,7 +3847,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 							startDatum, endDatum, rs
 									.getString(FelderStudie.PROTOKOLL
 											.toString()), Status.parseStatus(rs
-									.getString(FelderStudie.STATUS.toString())));
+									.getString(FelderStudie.STATUS.toString())),
+									rs.getInt(FelderStudie.BLOCKGROESSE
+											.toString()));
 				} catch (StudieException e) {
 					DatenbankExceptions de = new DatenbankExceptions(
 							DatenbankExceptions.UNGUELTIGE_DATEN);
@@ -4081,6 +4093,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 					.format(((StudieBean) aObjekt).getEndDatum().getTime()));
 			geaenderteDaten.put(FelderStudie.STATUS.toString(),
 					((StudieBean) aObjekt).getStatus().toString());
+			geaenderteDaten.put(FelderStudie.BLOCKGROESSE.toString(), 
+					String.valueOf(((StudieBean) aObjekt).getBlockgroesse()));
 
 		} else if (aObjekt instanceof StudienarmBean) {
 			geaenderteDaten.put(FelderStudienarm.STUDIE.toString(), String

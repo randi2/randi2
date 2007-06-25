@@ -83,6 +83,11 @@ public class StudieException extends BenutzerException {
 	 */
 	public static final String STUDIENPROTOKOLL_LEER = "Das Studienprotokoll ist leer.";
 	
+	/**
+	 * Falls versucht wurde eine nicht erlaubte Blockgroesse zu setzen, wird diese Konstate uebergeben.
+	 */
+	public static final String BLOCKGROESSE_ZU_KLEIN="Die gewaehlte Blockgroesse ist zu klein.";
+	
 	
 	/**
 	 * Ein Konstruktor dieser Klasse
