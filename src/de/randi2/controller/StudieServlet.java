@@ -209,16 +209,15 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String aktion = (String) request.getAttribute("anfrage_id");
+
 		String id = (String) request
 				.getParameter(DispatcherServlet.requestParameter.ANFRAGE_Id
 						.name());
-		 System.out.println("Aktion ist " + aktion);
+
 		String idAttribute = (String) request
 				.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
 						.name());
-		System.out.println("IDAttrib ist " + idAttribute);
-
+		
 		if (idAttribute != null) {
 			id = idAttribute;
 			Logger.getLogger(this.getClass()).debug(id);
