@@ -169,14 +169,13 @@
 					</tr>
 				</tbody>
 			</table>
-			<br>
+			
 			</td>
 		</tr>
 	</tbody>
 </table>
-<form><!-- </fieldset> --> <br>
-<br>
-<br>
+<form><!-- </fieldset> --> 
+
 <!--   fieldset><legend><b>M&ouml;liche Aktionen</b></legend>--> <%
  if (aRolle == Rolle.Rollen.STATISTIKER) {
  %>
