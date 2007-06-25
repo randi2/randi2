@@ -724,7 +724,7 @@ public class StudieBean extends Filter {
 	 * Set Methode fuer die Blockgroesse
 	 * @param blockgroesse
 	 * 				zu setzende Blockgroesse
-	 * @throws StudieException 
+	 * @throws StudieException - wenn die uebergebene Blockgroesse kleiner als 2 ist.
 	 */
 	public void setBlockgroesse(int blockgroesse) throws StudieException {
 		if(blockgroesse<2) {
