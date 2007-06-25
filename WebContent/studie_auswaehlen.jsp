@@ -30,6 +30,7 @@
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
+	<%@include file="include/inc_extjs.jsp"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -228,7 +229,6 @@ Ext.grid.TableGrid = function(table, config) {
 };
 
 Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
-
 </script>
 </head>
 <body>
