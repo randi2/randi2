@@ -1,12 +1,15 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
        "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <%@ page import="de.randi2.controller.DispatcherServlet"
 	import="java.util.GregorianCalendar"
 	import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
-	import="de.randi2.model.fachklassen.beans.PersonBean"
+	import="de.randi2.model.fachklassen.beans.*"
 	import="de.randi2.model.fachklassen.*"
 	import="de.randi2.utility.Parameter"
+	import="java.text.SimpleDateFormat" import="java.util.*"%>
 	%>
 <head>
 <%@include file="include/inc_extjs.jsp"%>
@@ -74,6 +77,6 @@ Ext.onReady(function(){
 
 
 
-<%--<%@include file="include/inc_footer.jsp"%>--%></div>
+<%@include file="include/inc_footer.jsp"%></div>
 </body>
 </html>
