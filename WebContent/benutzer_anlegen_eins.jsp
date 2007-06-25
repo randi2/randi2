@@ -10,7 +10,7 @@
 	import="de.randi2.model.fachklassen.*"
 	import="de.randi2.utility.Parameter"
 	import="java.text.SimpleDateFormat" import="java.util.*"%>
-	%>
+
 <head>
 <%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
