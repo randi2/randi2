@@ -12,100 +12,103 @@
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="de.randi2.controller.DispatcherServlet"%>
 <%
-
 	String aVorname = "";
 	String aNachname = "";
-	String aTitel = "";
-	String aGeschlecht = "";
+	String aTitel = PersonBean.Titel.KEIN_TITEL.toString();
+	String aGeschlecht = "weiblich";
 	String aTelefonnummer = "";
 	String aHandynummer = "";
 	String aFax = "";
 	String aEmail = "";
-	
-	if (request.getParameter(Parameter.person.VORNAME.name())==null) {
-		
+
+	if (request.getParameter(Parameter.person.VORNAME.name()) == null) {
+
 		aVorname = "";
-		
+
 	} else {
-		
-		aVorname = request.getParameter(Parameter.person.VORNAME.name());
-		
-	}
-	
-	if (request.getParameter(Parameter.person.NACHNAME.name())==null) {
-		
-		aNachname = "";
-		
-	} else {
-		
-		aNachname = request.getParameter(Parameter.person.NACHNAME.name());
-		
-	}
-	
-	if (request.getParameter(Parameter.person.TITEL.name())==null) {
-		
-		aTitel = "Kein Titel";
-		
-	} else {
-		
-		aTitel = request.getParameter(Parameter.person.TITEL.name());
-		
-	}
-	
-	if (request.getParameter(Parameter.person.GESCHLECHT.name())==null) {
-		
-		aGeschlecht = "bitte auswaehlen";
-		
-	} else {
-		
-		aGeschlecht = request.getParameter(Parameter.person.GESCHLECHT.name());
-		
-	}
-	
-	if (request.getParameter(Parameter.person.TELEFONNUMMER.name())==null) {
-		
-		aTelefonnummer = "";
-		
-	} else {
-		
-		aTelefonnummer = request.getParameter(Parameter.person.TELEFONNUMMER.name());
-		
-	}
-	
-	if (request.getParameter(Parameter.person.HANDYNUMMER.name())==null) {
-		
-		aHandynummer = "";
-		
-	} else {
-		
-		aHandynummer = request.getParameter(Parameter.person.HANDYNUMMER.name());
-		
+
+		aVorname = request
+		.getParameter(Parameter.person.VORNAME.name());
+
 	}
 
-	if (request.getParameter(Parameter.person.FAX.name())==null) {
-		
+	if (request.getParameter(Parameter.person.NACHNAME.name()) == null) {
+
+		aNachname = "";
+
+	} else {
+
+		aNachname = request.getParameter(Parameter.person.NACHNAME
+		.name());
+
+	}
+
+	if (request.getParameter(Parameter.person.TITEL.name()) == null) {
+
+		aTitel = PersonBean.Titel.KEIN_TITEL.toString();
+
+	} else {
+
+		aTitel = request.getParameter(Parameter.person.TITEL.name());
+
+	}
+
+	if (request.getParameter(Parameter.person.GESCHLECHT.name()) == null
+			|| ((String) request
+			.getParameter(Parameter.person.GESCHLECHT.name()))
+			.equals("bitte auswaehlen")) {
+
+		aGeschlecht = "weiblich";
+
+	} else {
+
+		aGeschlecht = request.getParameter(Parameter.person.GESCHLECHT
+		.name());
+
+	}
+
+	if (request.getParameter(Parameter.person.TELEFONNUMMER.name()) == null) {
+
+		aTelefonnummer = "";
+
+	} else {
+
+		aTelefonnummer = request
+		.getParameter(Parameter.person.TELEFONNUMMER.name());
+
+	}
+
+	if (request.getParameter(Parameter.person.HANDYNUMMER.name()) == null) {
+
+		aHandynummer = "";
+
+	} else {
+
+		aHandynummer = request
+		.getParameter(Parameter.person.HANDYNUMMER.name());
+
+	}
+
+	if (request.getParameter(Parameter.person.FAX.name()) == null) {
+
 		aFax = "";
-		
+
 	} else {
-		
+
 		aFax = request.getParameter(Parameter.person.FAX.name());
-		
+
 	}
-	
-	if (request.getParameter(Parameter.person.EMAIL.name())==null) {
-		
+
+	if (request.getParameter(Parameter.person.EMAIL.name()) == null) {
+
 		aEmail = "";
-		
+
 	} else {
-		
+
 		aEmail = request.getParameter(Parameter.person.EMAIL.name());
-		
+
 	}
-	
 %>
-<script type="text/javascript" src="js/prototype.js"></script>
-<script type="text/javascript" src="js/zebda.js"></script>
-<script type="text/javascript" src="js/passwordmeter.js"></script>
 <%@include file="include/inc_extjs.jsp"%>
 <script>
 Ext.onReady(function(){
@@ -142,6 +145,7 @@ Ext.onReady(function(){
         mode: 'local',
         triggerAction: 'all',
         emptyText:'<%=aTitel %>',
+        value:'<%=aTitel %>',
         selectOnFocus:true,
         editable:false,
         width:140
@@ -185,8 +189,18 @@ Ext.onReady(function(){
         typeAhead: true,
         mode: 'local',
         triggerAction: 'all',
-        emptyText:'<%=aGeschlecht %>',
-        selectOnFocus:true,
+        <%
+        	if(aGeschlecht.equals("maennlich")) {
+        %>
+		value:'maennlich',
+		<%
+        	} else if(aGeschlecht.equals("weiblich")) {
+		%>
+		value:'weiblich',
+		<%
+			}
+		%>
+		selectOnFocus:true,
         editable:false,
         width:140,
         allowBlank:false,
