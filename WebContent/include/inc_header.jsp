@@ -11,6 +11,8 @@
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
 			.getSession()).getAttribute("aBenutzer");
 
+			Rolle seineRolle = aBenutzer.getRolle();
+
 			StudieBean aStudie_header = (StudieBean) (request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString()));
 			
 			String aLocation = (String) request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString());
@@ -79,10 +81,10 @@
 		%>(<span id="rolle_highlight"><%=aRolleHeader%></span>)<%
 		}
 		%> :: <a href="DispatcherServlet?<%=Parameter.anfrage_id%>=<%=DispatcherServlet.anfrage_id.AKTION_LOGOUT %>" id="logout_link">Logout</a>&nbsp;&nbsp;&nbsp;</td>
-		<td align="right" width="48"><a href="DispatcherServlet?<%=Parameter.anfrage_id%>=<%=DispatcherServlet.anfrage_id.JSP_HEADER_NACHRICHTENDIENST %>"><img
-			src="images/message.gif" border="0" alt="Nachricht senden"
-			title="Nachricht senden" width="22" height="22"></a>&nbsp;<a
-			href="DispatcherServlet?<%=Parameter.anfrage_id%>=<%=DispatcherServlet.anfrage_id.JSP_HEADER_HILFE %>"><img src="images/help.gif" border="0"
+		<td align="right" width="48">
+		<%
+		if ((aStudie_header != null & (seineRolle == Rolle.getStudienarzt() | seineRolle== Rolle.getStudienleiter()) | seineRolle == Rolle.getStatistiker()) || seineRolle == Rolle.getAdmin() || seineRolle== Rolle.getSysop()){%><a href="DispatcherServlet?<%=Parameter.anfrage_id%>=<%=DispatcherServlet.anfrage_id.JSP_HEADER_NACHRICHTENDIENST %>"><img
+			src="images/message.gif" border="0" alt="Nachricht senden" title="Nachricht senden" width="22" height="22"></a>&nbsp;<% }%><a href="DispatcherServlet?<%=Parameter.anfrage_id%>=<%=DispatcherServlet.anfrage_id.JSP_HEADER_HILFE %>"><img src="images/help.gif" border="0"
 			alt="Hilfe" title="Hilfe" width="22" height="22"></a></td>
 	</tr>
 </table>
