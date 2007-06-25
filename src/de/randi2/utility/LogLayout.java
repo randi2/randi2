@@ -44,6 +44,9 @@ public class LogLayout extends Layout {
 	public static final String RECHTEVERLETZUNG = OBERKLASSE
 			+ "Rechteverletzung";
 
+	/**
+	 * Klasse fuer Nachrichtenversand
+	 */
 	public static final String NACHRICHTENVERSAND = OBERKLASSE + "Nachrichtversand";
 	
 	/**
