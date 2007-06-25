@@ -53,32 +53,10 @@ var LayoutExample = function(){
                 dialog.addKeyListener(27, dialog.hide, dialog);
                 dialog.addButton('Close', dialog.hide, dialog);
                 
-	           var tree = new Tree.TreePanel('folders', {
-	                animate:true, 
-	                enableDD:true,
-	                containerScroll: true,
-	                ddGroup: 'organizerDD',
-	                rootVisible:false
-	            });
-	            var root = new Tree.TreeNode({
-	                text: 'Albums', 
-	                allowDrag:false,
-	                allowDrop:false
-	            });
-	            tree.setRootNode(root);
-	            
-	            root.appendChild(
-	                new Tree.TreeNode({text:'Album 1', allowDrag:false}),
-	                new Tree.TreeNode({text:'Album 2', allowDrag:false}),
-	                new Tree.TreeNode({text:'Album 3', allowDrag:false})
-	            );
-                
-                var index_cp = new Ext.ContentPanel('index', {title: 'Index'});
-                index_cp.add(tree);
-                
+
                 var layout = dialog.getLayout();
                 layout.beginUpdate();
-                layout.add('west', tree);
+                layout.add('west', new Ext.ContentPanel('index', {title: 'Index'}));
 	            layout.add('center', new Ext.ContentPanel('center', {title: '<%= (String) request
 	    			.getAttribute(DispatcherServlet.requestParameter.TITEL
 	    					.toString()) %>'}));
