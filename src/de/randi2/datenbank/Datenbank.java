@@ -841,6 +841,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.setLong(1, person.getId());
 			pstmt.executeUpdate();
 			pstmt.close();
+			
+			//Foreign Key Stellvertreter:
+			PersonBean stellvertreter = new PersonBean();
+			PersonBean aktualisierendePerson = new PersonBean();
+			Vector<PersonBean>pVec = new Vector<PersonBean>();
+			stellvertreter.setStellvertreterId(person.getId());
+			stellvertreter.setFilter(true);
+			pVec = suchenPerson(stellvertreter);
+			Iterator<PersonBean>it = pVec.iterator();
+			while(it.hasNext()){
+				aktualisierendePerson = it.next();
+				aktualisierendePerson.setStellvertreterId(NullKonstanten.DUMMY_ID);
+				schreibenPerson(aktualisierendePerson);
+			}
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e, sql,
 					DatenbankExceptions.LOESCHEN_ERR);
