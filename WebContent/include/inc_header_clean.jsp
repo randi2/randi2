@@ -11,7 +11,16 @@
 	<table class="breadcrumb_tbl" width="100%" summary="Impressum">
 		<tr>
 			<td align="right" width="100%"><a href="DispatcherServlet" id="logout_link"><img src="images/home.gif" width="22" height="22" border="0" title="Zurueck zum Login" alt="Zurueck zum Login"></a></td>
-			<td align="right" valign="middle"><a href="DispatcherServlet?<%=Parameter.anfrage_id %>=<%=DispatcherServlet.anfrage_id.JSP_HEADER_IMPRESSUM %>" id="logout_link">Impressum</a></td>
+			<td align="right" valign="middle">
+				<form action="DispatcherServlet" method="POST" id="impressum_form">
+					<input type="hidden" name="<%=Parameter.anfrage_id %>" value="<%=DispatcherServlet.anfrage_id.JSP_HEADER_IMPRESSUM.name() %>">
+					<a href="" id="logout_link" onClick="
+						var frm = document.getElementById('impressum_form');
+						frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_HEADER_IMPRESSUM.name() %>';
+						frm.submit();"> Impressum
+					</a>
+				</form>
+			</td>
 		</tr>
 	</table>
 	</div>
