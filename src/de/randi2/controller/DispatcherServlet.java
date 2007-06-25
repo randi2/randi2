@@ -625,13 +625,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
 
-			} else if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN.name())) {
-
-				// neue Studie anlegen
-				request.setAttribute(
-						DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
-						StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN
-								.name());
+			} else if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN
+					.toString())) {
+				// Studie wurde ausgewaehlt
+				request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
+						.name(), StudieServlet.anfrage_id.AKTION_STUDIE_AUSGEWAEHLT
+						.toString());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
 
