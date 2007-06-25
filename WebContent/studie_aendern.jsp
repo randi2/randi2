@@ -128,7 +128,7 @@
 			Randomisationsbezogene Eigenschaften<br>
 			<textarea cols="37" rows="4"
 				name="Parameter.studie.RANDOMISATIONSEIGENSCHAFTEN" tabindex="6"
-				readonly value="<%out.print(aStudieBean.getRandomisationsart());%>"></textarea>
+				readonly value="<%--out.print(aStudieBean.getRandomisationsart());--%>"></textarea>
 				</td>
 		</tr>
 		<tr>

@@ -4,7 +4,8 @@
 	import="de.randi2.model.fachklassen.beans.PersonBean"
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"
-	import="de.randi2.controller.DispatcherServlet"%>
+	import="de.randi2.controller.DispatcherServlet"
+	import="de.randi2.model.fachklassen.beans.StudieBean"%>
 <%
 			boolean gesperrt = (Boolean) request
 			.getAttribute("system_gesperrt");

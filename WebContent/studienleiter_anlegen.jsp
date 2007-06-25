@@ -3,7 +3,8 @@
 	import="de.randi2.controller.DispatcherServlet"
 	import= "java.util.GregorianCalendar"
 	import= "java.text.SimpleDateFormat" 
-	import= "java.util.Locale"%>
+	import= "java.util.Locale"
+	import="de.randi2.model.fachklassen.beans.StudieBean"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%
