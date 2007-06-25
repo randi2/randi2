@@ -46,6 +46,7 @@ Ext.onReady(function(){
         labelAlign: 'top',
         labelWidth: 0,
 		buttonAlign: 'left',
+		id:'form_filter'
     });
     
     var studie_name = new Ext.form.TextField({
@@ -118,24 +119,20 @@ Ext.onReady(function(){
 	
     form_filter.render('form_filter');
 	
-	
-	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
-	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN_FILTERN%>'});	
-	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.filter %>', type:'hidden', value: '<%=Parameter.filter %>'});	
+
+
     
+	var grid = new Ext.grid.TableGrid("studien");
+    grid.render();
+
     <%
 		while (listeStudien.hasNext()) {
 			StudieBean aktuelleStudie = (StudieBean) listeStudien
 			.next();
 	%>    
 	
-	    var form_studie<%=aktuelleStudie.getId() %> = new Ext.form.Form({
-	        labelAlign: 'left',
-	        labelWidth: 0,
-			buttonAlign: 'left',
-			
-	    });
-	     
+	form_filter.el.createChild({tag: 'input', name: 'aStudieId<%=aktuelleStudie.getId() %>', type:'hidden', value: ''});	
+   
     
 	<%
 		}	
@@ -143,9 +140,11 @@ Ext.onReady(function(){
     	
     
 	%>
-    
-	var grid = new Ext.grid.TableGrid("studien");
-    grid.render();
+	
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN_FILTERN%>'});	
+	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.filter %>', type:'hidden', value: '<%=Parameter.filter %>'});	
+
 
 });
 
@@ -274,9 +273,21 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 	%>
 
 	<tr class="<%=reihe %>">
-		<td><%=aktuelleStudie.getName()%></td>
-		<td><%=aktuelleStudie.getBenutzerkonto().getZentrum().getInstitution()%></td>
-		<td><%=aktuelleStudie.getStatus().toString() %></td>
+		<td><a href="" onClick="var frm = document.getElementById('form_filter');
+						frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
+						frm.<%=Parameter.filter %>.value = '';
+						frm.aStudieId<%=aktuelleStudie.getId() %>.value = 'weiter';
+						frm.submit();"><%=aktuelleStudie.getName()%></a></td>
+		<td><a href="" onClick="var frm = document.getElementById('form_filter');
+						frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
+						frm.<%=Parameter.filter %>.value = '';
+						frm.aStudieId<%=aktuelleStudie.getId() %>.value = 'weiter';
+						frm.submit();"><%=aktuelleStudie.getBenutzerkonto().getZentrum().getInstitution()%></a></td>
+		<td><a href="" onClick="var frm = document.getElementById('form_filter');
+						frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
+						frm.<%=Parameter.filter %>.value = '';
+						frm.aStudieId<%=aktuelleStudie.getId() %>.value = 'weiter';
+						frm.submit();"><%=aktuelleStudie.getStatus().toString() %></a></td>
 	</tr>
 	<%
 			tabindex++;
