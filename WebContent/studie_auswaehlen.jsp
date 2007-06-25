@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
-<%@ page import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
-	import="java.util.GregorianCalendar"
-	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
+	pageEncoding="utf-8"%>	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ page import="de.randi2.model.fachklassen.beans.*"
-	import="java.util.Iterator" import="java.util.Vector"%>
-<%@page import="de.randi2.controller.StudieServlet"%>
-<%@page import="de.randi2.utility.Parameter"%>
 <%
 			request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(),"Studie ausw&auml;hlen");
 
@@ -17,38 +10,226 @@
 	Iterator listeStudien = ((Vector) request
 			.getAttribute(StudieServlet.requestParameter.LISTE_DER_STUDIEN
 			.name())).iterator();
-	Iterator listeZentren = ((Vector) request
-			.getAttribute(StudieServlet.requestParameter.LISTE_DER_ZENTREN
+	
+	Iterator listeStudien2 = ((Vector) request
+			.getAttribute(StudieServlet.requestParameter.LISTE_DER_STUDIEN
 			.name())).iterator();
+	
+	String aStudie_Name = "";
+	if(request.getParameter(Parameter.studie.NAME.toString())!=null){
+		aStudie_Name = (String) request.getParameter(Parameter.studie.NAME.toString());
+	}
+	
+	String aStudie_Status = "";
+	if(request.getParameter(Parameter.studie.STATUS.toString())!=null){
+		aStudie_Status = request.getParameter(Parameter.studie.STATUS.toString());
+	}
 %>
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.Vector"%>
+<%@ page import="de.randi2.model.fachklassen.beans.*"
+	import="java.util.GregorianCalendar"
+	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Randi2 :: <%=request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString()) %></title>
-
-<script language="Javascript" src="js/motionpack.js"> </script>
-<script type="text/javascript">
-<!--
-	function hideFilter(){
-		document.getElementById('filterdiv').style.display = 'none';
-	}
-//-->
-</script>
-<link rel="stylesheet" type="text/css"
-	href="js/ext/resources/css/ext-all.css" />
-<!-- GC -->
-<!-- link rel="stylesheet" type="text/css" 	href="js/ext/resources/css/xtheme-gray.css" /-->
-<!-- LIBS -->
-<script type="text/javascript" src="js/ext/adapter/yui/yui-utilities.js"></script>
-<script type="text/javascript"
-	src="js/ext/adapter/yui/ext-yui-adapter.js"></script>
-<!-- ENDLIBS -->
-<script type="text/javascript" src="js/ext/ext-all.js"></script>
-<script type="text/javascript" src="js/studie_auswaehlen.js"></script>
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<script>
+Ext.onReady(function(){
 
+	Ext.QuickTips.init();
+	Ext.form.Field.prototype.msgTarget = 'side';
+
+    var form_filter = new Ext.form.Form({
+        labelAlign: 'top',
+        labelWidth: 0,
+		buttonAlign: 'left',
+    });
+    
+    var studie_name = new Ext.form.TextField({
+        fieldLabel: 'Name der Studie',
+        name: '<%=Parameter.studie.NAME.toString() %>',
+        value: '<%=aStudie_Name %>',
+        allowBlank:true,
+        width:190
+    });
+
+    
+    var studie_status = new Ext.form.ComboBox({
+        fieldLabel: 'Status der Studie',
+        hiddenName:'<%=Parameter.studie.STATUS.toString()%>',
+        store: new Ext.data.SimpleStore({
+            fields: ['status'],
+            data : [
+			<%
+				StringBuffer status = new StringBuffer();
+				for (int i = 0; i < Studie.Status.values().length; i++) {
+					status.append(Studie.Status.values()[i].toString());
+			%>
+			['<%=status%>'],
+			<%
+					status.delete(0, status.length());
+				}
+			%>
+            ]
+        }),
+        displayField:'status',
+        typeAhead: true,
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText:'<%=aStudie_Status%>',
+        value:'<%=aStudie_Status%>',
+        selectOnFocus:true,
+        editable:false,
+        width:250
+    });
+    
+    var filter = form_filter.fieldset({legend:'<img src="images/find.png"> Filterfunktion',style:''});
+    var linksoben = new Ext.form.Column({width:'200'});
+    var rechtsoben = new Ext.form.Column({width:'200'});
+    
+    
+    form_filter.start(linksoben);
+    form_filter.add(studie_name);
+    form_filter.end(linksoben);
+    form_filter.start(rechtsoben);
+    form_filter.add(studie_status);
+    form_filter.end(rechtsoben);
+    
+
+    
+	form_filter.addButton('Filtern', function(){
+		if (this.isValid()) {
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+		}else{
+			Ext.MessageBox.alert('Errors', 'Die Eingaben waren fehlerhaft!');
+		}
+	}, form_filter);
+	
+	
+
+	
+    form_filter.render('form_filter');
+	
+	
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN_FILTERN%>'});	
+	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.filter %>', type:'hidden', value: '<%=Parameter.filter %>'});	
+    
+    <%
+		while (listeStudien.hasNext()) {
+			StudieBean aktuelleStudie = (StudieBean) listeStudien
+			.next();
+	%>    
+	
+	    var form_studie<%=aktuelleStudie.getId() %> = new Ext.form.Form({
+	        labelAlign: 'left',
+	        labelWidth: 0,
+			buttonAlign: 'left',
+			
+	    });
+	     
+    
+	<%
+		}	
+    
+    	
+    
+	%>
+    
+	var grid = new Ext.grid.TableGrid("studien");
+    grid.render();
+
+/**
+ * @class Ext.grid.TableGrid
+ * @extends Ext.grid.Grid
+ * A Grid which creates itself from an existing HTML table element.
+ * @constructor
+ * @param {String/HTMLElement/Ext.Element} table The table element from which this grid will be created - 
+ * The table MUST have some type of size defined for the grid to fill. The container will be 
+ * automatically set to position relative if it isn't already.
+ * @param {Object} config A config object that sets properties on this grid and has two additional (optional)
+ * properties: fields and columns which allow for customizing data fields and columns for this grid.
+ * @history
+ * 2007-03-01 Original version by Nige "Animal" White
+ * 2007-03-10 jvs Slightly refactored to reuse existing classes
+ */
+Ext.grid.TableGrid = function(table, config) {
+    config = config || {};
+    var cf = config.fields || [], ch = config.columns || [];
+    table = Ext.get(table);
+
+    var ct = table.insertSibling();
+
+    var fields = [], cols = [];
+    var headers = table.query("thead th");
+	for (var i = 0, h; h = headers[i]; i++) {
+		var text = h.innerHTML;
+		var name = 'tcol-'+i;
+
+        fields.push(Ext.applyIf(cf[i] || {}, {
+            name: name,
+            mapping: 'td:nth('+(i+1)+')/@innerHTML'
+        }));
+		if (i<2){
+			cols.push(Ext.applyIf(ch[i] || {}, {
+			'header': text,
+			'dataIndex': name,
+			'width': h.offsetWidth,
+			'tooltip': h.title,
+            'sortable': true
+        }));
+		}else{
+				cols.push(Ext.applyIf(ch[i] || {}, {
+			'header': text,
+			'dataIndex': name,
+			'width': h.offsetWidth,
+			'tooltip': h.title,
+            'sortable': false
+        }));
+		}
+		
+	}
+
+    var ds  = new Ext.data.Store({
+        reader: new Ext.data.XmlReader({
+            record:'tbody tr'
+        }, fields)
+    });
+
+	ds.loadData(table.dom);
+
+    var cm = new Ext.grid.ColumnModel(cols);
+
+    if(config.width || config.height){
+        ct.setSize(config.width || 'auto', config.height || 'auto');
+    }
+    if(config.remove !== false){
+        table.remove();
+    }
+
+    Ext.grid.TableGrid.superclass.constructor.call(this, ct,
+        Ext.applyIf(config, {
+            'ds': ds,
+            'cm': cm,
+            'sm': new Ext.grid.RowSelectionModel(),
+            autoHeight:true,
+            autoWidth:true
+        }
+    ));
+};
+
+Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
+
+</script>
 </head>
-<body onload="hideFilter();">
+<body>
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
 <h1>Studie ausw&auml;hlen</h1>
@@ -70,101 +251,40 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 <%
 }
 %>
-<form action="StudieServlet" method="POST"><img
-	alt="Filter anzeigen" src="images/find.png"
-	onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen"
-	style="cursor:pointer" /><b> Filter ein-/ausblenden </b><!--  TODO Table  BUG #2-->
-<div id="filterdiv" style="overflow:hidden; height: 100px;"><input
-	type="hidden" name="<%=Parameter.anfrage_id %>"
-	value="<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN_FILTERN.name() %>">
-<table width="600" border="0" cellspacing="5" cellpadding="2"
-	bgcolor="#e3e3e3">
-	<tr>
-		<td align="left" id="filterbezeichnung">Name</td>
-		<td align="left" style="width: 200px"><input type="text"
-			name="name" id="filterfeld"></td>
-		<td align="left" id="filterbezeichnung">Status</td>
-		<td align="left" style="width: 200px"><select size="1"
-			id="filterfeld" name="status">
-			<%
-				StringBuffer status = new StringBuffer();
-				for (int i = 0; i < Studie.Status.values().length; i++) {
-					status.append(Studie.Status.values()[i].toString());
-			%>
-			<option><%=status%></option>
-			<%
-				status.delete(0, status.length());
-				}
-			%>
-		</select></td>
-	</tr>
-	<tr>
-		<td align="left" id="filterbezeichnung">Zentrum</td>
-		<td align="left" colspan="3"><select size="1" id="filterfeld"
-			name="zentrum">
-			<%
-				StringBuffer zentrumString = new StringBuffer();
-				ZentrumBean tempZentrum = null;
-				while (listeZentren.hasNext()) {
-					tempZentrum = (ZentrumBean) listeZentren.next();
-					zentrumString.append(tempZentrum.getInstitution())
-					.append(" / ").append(tempZentrum.getAbteilung());
-			%>
-			<option><%=zentrumString%></option>
-			<%
-				zentrumString.delete(0, zentrumString.length());
-				}
-			%>
-		</select></td>
-	</tr>
-	<tr>
-		<td align="right" colspan="4"><input type="submit" name="filtern"
-			value="Filtern" style="width: 100px"></td>
-	</tr>
-</table>
-</div>
-</form>
+<div id="form_filter"></div>
 <br>
-<br>
-<form action="StudieServlet" method="POST"><input type="hidden"
-	name="<%=DispatcherServlet.requestParameter.ANFRAGE_Id
-		.name() %>"
-	value="<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>">
-<table width="600" cellspacing="0" cellpadding="0" id="studien">
-	<thead align="left">
+<table width="90%" id="studien">
+	<thead align="left" >
 		<tr style="background:#eeeeee;">
-			<th width="20%">Name</th>
-			<th width="50%">Leitendes Zentrum</th>
-			<th width="10%">Status</th>
-			<th width="20%">Auswahl</th>
+			<th width="40%">Name der Studie</th>
+			<th width="30%">Leitendes Zentrum</th>
+			<th width="40%">Status</th>
 		</tr>
 	</thead>
+
 	<%
 		String reihe = "tblrow1";
 		int tabindex = 1;
-		while (listeStudien.hasNext()) {
-			StudieBean aStudie = (StudieBean) listeStudien.next();
+		while (listeStudien2.hasNext()) {
+			StudieBean aktuelleStudie = (StudieBean) listeStudien2
+			.next();
 	%>
 
 	<tr class="<%=reihe %>">
-		<td><%=aStudie.getName()%></td>
-		<td><%=aStudie.getBenutzerkonto().getZentrum()
-								.getInstitution()%></td>
-		<td><%=aStudie.getStatus().toString()%></td>
-		<td><input type="submit" name="aStudieId<%=aStudie.getId() %>"
-			value="weiter"></input></td>
+		<td><%=aktuelleStudie.getName()%></td>
+		<td><%=aktuelleStudie.getBenutzerkonto().getZentrum().getInstitution()%></td>
+		<td><%=aktuelleStudie.getStatus().toString() %></td>
 	</tr>
 	<%
 			tabindex++;
-			if (reihe.equals("tblrow1")) {
+		if (reihe.equals("tblrow1"))
 				reihe = "tblrow2";
-			} else {
+			else
 				reihe = "tblrow1";
-			}
 		}
 	%>
+
 </table>
-</form>
 
 <%@include file="include/inc_footer.jsp"%></div>
 <%
