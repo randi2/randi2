@@ -27,17 +27,17 @@ public abstract class Randomisation {
 		/**
 		 * Blockrandomisation mit Strata
 		 */
-		BLOCKRANDOMISATION_MIT_STRATA(StrataBlockRandomisation.class.toString()),
+		BLOCKRANDOMISATION_MIT_STRATA(StrataBlockRandomisation.class.getSimpleName()),
 
 		/**
 		 * Blockrandomisation ohne Strata
 		 */
-		BLOCKRANDOMISATION_OHNE_STRATA(BlockRandomisation.class.toString()),
+		BLOCKRANDOMISATION_OHNE_STRATA(BlockRandomisation.class.getSimpleName()),
 
 		/**
 		 * Vollstaendige Randomisation
 		 */
-		VOLLSTAENDIGE_RANDOMISATION(VollstaendigeRandomisation.class.toString());
+		VOLLSTAENDIGE_RANDOMISATION(VollstaendigeRandomisation.class.getSimpleName());
 
 		/**
 		 * Der Algorithmus als String.
