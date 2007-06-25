@@ -257,6 +257,31 @@ public class Parameter {
 	
 	public enum studienarm {
 		
+		/**
+		 * Die Bezeichnung (kurz)
+		 */
+		BEZEICHNUNG,
+		/**
+		 * Die Beschreibung (lang)
+		 */
+		BESCHREIBUNG
+		
+	}
+	
+	public enum strata {
+		
+		/**
+		 * Der Name der Strata
+		 */
+		NAME,
+		/**
+		 * Die Beschreibung der Strata
+		 */
+		BESCHREIBUNG,
+		/**
+		 * Die Auspraegungen der Strata
+		 */
+		AUSPRAEGUNGEN
 		
 		
 	}
