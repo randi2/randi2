@@ -25,6 +25,7 @@ import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.exceptions.RechtException;
+import de.randi2.model.exceptions.StrataException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.exceptions.ZentrumException;
@@ -2944,6 +2945,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 			StudienarmBean studienarm = this.suchenStudienarmId(id);
 			return (T) studienarm;
 		}
+		if (nullObjekt instanceof StrataBean) {
+			StrataBean strata = this.suchenStrataId(id);
+			return (T) strata;
+			
+		}
+		
 
 		return null;
 	}
@@ -3414,6 +3421,42 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 		return tmpPatient;
 
+	}
+	
+	/**
+	 * @param id
+	 * @return
+	 * @throws DatenbankExceptions
+	 */
+	private StrataBean suchenStrataId(long id) throws DatenbankExceptions{
+		Connection con = null;
+		PreparedStatement pstmt;
+		ResultSet rs = null;
+		StrataBean tmpStrata = null;
+		con = ConnectionFactory.getInstanz().getConnection();
+		String sql;
+		sql = "SELECT * FROM " + Tabellen.STRATA_TYPEN + " WHERE "
+				+ FelderStrataTypen.Id + " = ?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				tmpStrata = new StrataBean(rs.getLong(FelderStrataTypen.Id.toString()),
+						rs.getLong(FelderStrataTypen.STUDIEID.toString()),
+						rs.getString(FelderStrataTypen.NAME.toString()),
+						rs.getString(FelderStrataTypen.BESCHREIBUNG.toString()));
+			}
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SCHREIBEN_ERR);
+		} catch (StrataException e) {
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
+		}
+		ConnectionFactory.getInstanz().closeConnection(con);
+		return tmpStrata;
 	}
 
 	/**
@@ -4069,6 +4112,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 					String.valueOf(((PatientBean) aObjekt)
 							.getPerformanceStatus()));
 
+		} else if (aObjekt instanceof StrataBean) {
+			geaenderteDaten.put(FelderStrataTypen.STUDIEID.toString(), String.valueOf(((StrataBean) aObjekt).getId()));
+			geaenderteDaten.put(FelderStrataTypen.NAME.toString(), ((StrataBean) aObjekt).getName());
+			geaenderteDaten.put(FelderStrataTypen.BESCHREIBUNG.toString(), ((StrataBean) aObjekt).getBeschreibung());			
 		}
 		// Benutzerkonto welches die Aktion ausgeloest hat
 		BenutzerkontoBean ausfuehrendesBkBean = aObjekt
