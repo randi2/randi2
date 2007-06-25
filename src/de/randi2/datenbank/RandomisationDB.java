@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.RandomisationsException;
+import de.randi2.model.fachklassen.Strata;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.utility.NullKonstanten;
 
@@ -100,8 +101,8 @@ public final class RandomisationDB {
 			int count = rs.getInt(1);
 
 			if (count > 0) {
-//				throw new RandomisationsException(
-//						RandomisationsException.NOCH_RANDOMISATIONS_WERTE_VORHANDEN);
+				// throw new RandomisationsException(
+				// RandomisationsException.NOCH_RANDOMISATIONS_WERTE_VORHANDEN);
 			}
 
 		} catch (SQLException e) {
@@ -140,7 +141,30 @@ public final class RandomisationDB {
 	/**
 	 * Gibt den naechsten Wert fuer die Randomisation zu dieser Studie zurueck.
 	 * 
-	 * @return Den naechsten Wert oder {@link NullKonstanten#NULL_INT} falls
+	 * @param s
+	 *            Studie zu der der naechste Wert gesucht werden soll.
+	 * @return Den naechsten Wert oder {@link NullKonstanten#NULL_LONG} falls
+	 *         keine Werte mehr zu dieser Studie existieren.
+	 * @throws DatenbankExceptions
+	 *             Bei Fehlern in der Datenbank.
+	 */
+	public static synchronized long getNext(StudieBean s)
+			throws DatenbankExceptions {
+		return getNext(s, null);
+	}
+
+	/**
+	 * Gibt den naechsten Wert fuer die Randomisation zu dieser Studie zurueck.
+	 * 
+	 * @param s
+	 *            Studie zu der der naechste Wert gesucht werden soll.
+	 * @param strataKombination
+	 *            String aus der Methode
+	 *            {@link Strata#getStratakombinationsString(java.util.Collection)}
+	 *            oder {@link Strata#getStratakombinationsString(HashMap)} der
+	 *            die Strata-Kombination des zu Randomisierenden Patienten
+	 *            enthaelt.
+	 * @return Den naechsten Wert oder {@link NullKonstanten#NULL_LONG} falls
 	 *         keine Werte mehr zu dieser Studie existieren.
 	 */
 	public static synchronized long getNext(StudieBean s,
@@ -215,11 +239,12 @@ public final class RandomisationDB {
 	 *         HashMap ist mit die Anzahl der zugeordneten Patienten als
 	 *         {@link Integer}.
 	 */
-//	 Erstmal auskommentiert, weil vermtl. nur zum testen der Stratabasierten-Blockrandomsation noetig
-	/*public static HashMap<Long, Integer> getAnzahlPatientenZuStudienarmen(
-			long studienID, String strataKombination) {
-		return null;
-	}*/
+	// Erstmal auskommentiert, weil vermtl. nur zum testen der
+	// Stratabasierten-Blockrandomsation noetig
+	/*
+	 * public static HashMap<Long, Integer> getAnzahlPatientenZuStudienarmen(
+	 * long studienID, String strataKombination) { return null; }
+	 */
 
 	/**
 	 * Gibt die Anzahl der Patienten zu allen Studienarmen der Studie zurueck.
@@ -231,31 +256,33 @@ public final class RandomisationDB {
 	 *         Studienarms als {@link Long} belegt. Die zweite Stelle der
 	 *         HashMap ist mit die Anzahl der zugeordneten Patienten als
 	 *         {@link Integer}.
-	 * @throws DatenbankExceptions 
+	 * @throws DatenbankExceptions
 	 */
 	public static HashMap<Long, Integer> getAnzahlPatientenZuStudienarmen(
 			long studienID) throws DatenbankExceptions {
 		HashMap<Long, Integer> patInArmen = new HashMap<Long, Integer>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		Connection con=null;
-		String sql ="select st.studienarmID,count(p.patientenID) anzahl from studie s, studienarm st, patient p where s.studienID=st.Studie_studienID and p.Studienarm_studienarmID=st.studienarmID and s.studienID=? group by st.studienarmID" ;
+		Connection con = null;
+		String sql = "select st.studienarmID,count(p.patientenID) anzahl from studie s, studienarm st, patient p where s.studienID=st.Studie_studienID and p.Studienarm_studienarmID=st.studienarmID and s.studienID=? group by st.studienarmID";
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, studienID);
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				patInArmen.put(rs.getLong("st.studienarmID"), rs.getInt("anzahl"));
+			while (rs.next()) {
+				patInArmen.put(rs.getLong("st.studienarmID"), rs
+						.getInt("anzahl"));
 			}
 			pstmt.close();
 			rs.close();
 		} catch (SQLException e) {
-			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SUCHEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
 		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-		
+
 		return patInArmen;
 	}
 

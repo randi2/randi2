@@ -28,9 +28,10 @@ public class RandomisationsException extends SystemException {
 	 * Fehler falls aktueller Studienarm nicht verwendet werden kann.
 	 */
 	public static final String ARM_NICHT_VERWENDBAR = "Dieser Studienarm kann nicht verwendet werden.";
-	
+
 	/**
-	 * Fehler falls versuch wird, einen neuen Block in der Tabelle zu speichern, obwohl noch Werte in der Datenbank vorhanden sind.
+	 * Fehler falls versuch wird, einen neuen Block in der Tabelle zu speichern,
+	 * obwohl noch Werte in der Datenbank vorhanden sind.
 	 */
 	public static final String NOCH_RANDOMISATIONS_WERTE_VORHANDEN = "Neuer Block kann nicht angelegt werden. Noch werte in der Blocktabelle vorhanden.";
 
@@ -38,8 +39,13 @@ public class RandomisationsException extends SystemException {
 	 * Fehler bei Auswahl eines ungueltigen Randomisationsalgorithmus
 	 */
 	public static final String ALGORITHMUS_UNGUELTIG = "Ungueltiger Randomisationsalgorithmus!";
-	
-	
+
+	/**
+	 * Fehler falls eine unerwartete Exception aus den Fachklassen wider
+	 * Erwarten aufgetreten ist.
+	 */
+	public static final String FACHEXCEPTION_AUFGETRETEN = "Es ist eine Exception aus der Fachklasse aufgetreten (siehe Cause), die in diesem Zusammenhang nicht auftreten darf";
+
 	/**
 	 * Ein Konstruktor dieser Klasse
 	 * 

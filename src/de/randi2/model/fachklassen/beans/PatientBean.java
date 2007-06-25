@@ -300,21 +300,25 @@ public class PatientBean extends Filter {
 	}
 
 	/**
-	 * Set-Methode fuer das Setzen des StudienarmBean.
+	 * Set-Methode fuer das Setzen des StudienarmBean. Die Verbindung wird auch
+	 * automatisch mit im Studienarm geschrieben.
 	 * 
 	 * @param studienarm
 	 *            Setzt das StudienarmBean.
 	 * @throws PatientException -
 	 *             wenn das uebergebene Objekt noch nicht in der DB gespeichert
 	 *             wurde.
+	 * @throws DatenbankExceptions
+	 *             Falls Probleme in der Datenbank auftreten.
 	 */
 	public void setStudienarm(StudienarmBean studienarm)
-			throws PatientException {
+			throws PatientException, DatenbankExceptions {
 		if (studienarm == null) {
 			throw new PatientException(PatientException.STUDIENARM_NULL);
 		}
 		this.setStudienarmId(studienarm.getId());
 		this.aStudienarm = studienarm;
+		studienarm.getPatienten().add(this);
 	}
 
 	/**
@@ -350,7 +354,7 @@ public class PatientBean extends Filter {
 	 *             wenn beim Holen des entsprechendes Bentutzerkontoobjektes
 	 *             Probleme vorkamen.
 	 */
-	public BenutzerkontoBean getBenutzerkonto() throws DatenbankExceptions{
+	public BenutzerkontoBean getBenutzerkonto() throws DatenbankExceptions {
 		if (aBenutzerkonto == null) {
 			aBenutzerkonto = Benutzerkonto.get(aBenutzerkontoId);
 		}
@@ -362,9 +366,11 @@ public class PatientBean extends Filter {
 	 * 
 	 * @param benutzerkonto
 	 *            Setzt das BenutzerkontoBean.
-	 * @throws PatientException - wenn das uebergebene Objekt noch nicht persistent ist.
+	 * @throws PatientException -
+	 *             wenn das uebergebene Objekt noch nicht persistent ist.
 	 */
-	public void setBenutzerkonto(BenutzerkontoBean benutzerkonto) throws PatientException {
+	public void setBenutzerkonto(BenutzerkontoBean benutzerkonto)
+			throws PatientException {
 		this.setBenutzerkontoId(benutzerkonto.getId());
 		this.aBenutzerkonto = benutzerkonto;
 	}
@@ -383,10 +389,12 @@ public class PatientBean extends Filter {
 	 * 
 	 * @param benutzerkontoId
 	 *            Setzt die Benutzerkonto-ID.
-	 * @throws PatientException wenn eine falsche Id uebergeben wurde.
+	 * @throws PatientException
+	 *             wenn eine falsche Id uebergeben wurde.
 	 */
-	public void setBenutzerkontoId(long benutzerkontoId) throws PatientException {
-		if(benutzerkontoId<0){
+	public void setBenutzerkontoId(long benutzerkontoId)
+			throws PatientException {
+		if (benutzerkontoId < 0) {
 			throw new PatientException(PatientException.BENUTZERKONTOID_FALSCH);
 		}
 		this.aBenutzerkontoId = benutzerkontoId;
@@ -527,43 +535,39 @@ public class PatientBean extends Filter {
 
 	/**
 	 * Diese Methode ueberprueft, ob alle notwendigen Atributte des Objektes
-	 * gesetzt wurden. Zu diesen gehoeren:
-	 * aInitialen
-	 * aGeburtsdatum
-	 * aGeschlecht
-	 * aDatumAufklaerung
-	 * aKoerperoberflaeche
-	 * aPerformanceStatus
-	 * aBenutzerkontoId
+	 * gesetzt wurden. Zu diesen gehoeren: aInitialen aGeburtsdatum aGeschlecht
+	 * aDatumAufklaerung aKoerperoberflaeche aPerformanceStatus aBenutzerkontoId
 	 * aStudienarmId
 	 * 
-	 * @throws BenutzerException - wenn ein Fehler bei der Ueberpruefung auftrat
+	 * @throws BenutzerException -
+	 *             wenn ein Fehler bei der Ueberpruefung auftrat
 	 */
 	@Override
 	public void validate() throws BenutzerException {
-		if(this.getInitialen()==null){
+		if (this.getInitialen() == null) {
 			throw new PatientException(PatientException.INITIALEN_NULL);
-		}else{
-			if(this.getInitialen().equals("")){
+		} else {
+			if (this.getInitialen().equals("")) {
 				throw new PatientException(PatientException.INITIALEN_LEER);
 			}
 		}
-		if(this.getGeburtsdatum()==null||this.getDatumAufklaerung()==null){
+		if (this.getGeburtsdatum() == null
+				|| this.getDatumAufklaerung() == null) {
 			throw new PatientException(PatientException.DATUM_NULL);
 		}
-		if(this.getGeschlecht()==NullKonstanten.NULL_CHAR){
+		if (this.getGeschlecht() == NullKonstanten.NULL_CHAR) {
 			throw new PatientException(PatientException.GESCHLECHT_NULL);
 		}
-		if(this.getKoerperoberflaeche()==NullKonstanten.NULL_FLOAT){
+		if (this.getKoerperoberflaeche() == NullKonstanten.NULL_FLOAT) {
 			throw new PatientException(PatientException.KOERPEROBERFLACHE_NULL);
 		}
-		if(this.getPerformanceStatus()==NullKonstanten.NULL_INT){
+		if (this.getPerformanceStatus() == NullKonstanten.NULL_INT) {
 			throw new PatientException(PatientException.PERFORMANCE_NULL);
 		}
-		if(this.getBenutzerkontoId()==NullKonstanten.DUMMY_ID){
+		if (this.getBenutzerkontoId() == NullKonstanten.DUMMY_ID) {
 			throw new PatientException(PatientException.BENUTZERKONTO_NULL);
 		}
-		if(this.getStudienarmId()==NullKonstanten.DUMMY_ID){
+		if (this.getStudienarmId() == NullKonstanten.DUMMY_ID) {
 			throw new PatientException(PatientException.STUDIENARM_NULL);
 		}
 

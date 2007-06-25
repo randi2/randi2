@@ -6,7 +6,6 @@ import java.util.Vector;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.RandomisationsException;
-import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
@@ -73,16 +72,12 @@ public class VollstaendigeRandomisation extends Randomisation {
 		int index = (int) (this.zufall.nextDouble() * (studienarme.size()));
 
 		try {
-			studienarme.get(index).getPatienten().add(patient);
-		} catch (DatenbankExceptions e) {
-			throw new RandomisationsException(
-					RandomisationsException.ARM_NICHT_VERWENDBAR);
-		}
-		try {
 			patient.setStudienarm(studienarme.get(index));
 		} catch (PatientException e) {
-			// TODO Wird dem jthoenes ueberlassen ;) (lplotni)
-			e.printStackTrace();
+			RandomisationsException re = new RandomisationsException(
+					RandomisationsException.FACHEXCEPTION_AUFGETRETEN);
+			re.initCause(e);
+			throw re;
 		}
 	}
 

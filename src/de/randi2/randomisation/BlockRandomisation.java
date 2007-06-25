@@ -3,10 +3,11 @@ package de.randi2.randomisation;
 import java.util.Arrays;
 import java.util.Random;
 
+import de.randi2.datenbank.RandomisationDB;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.RandomisationsException;
-import de.randi2.model.exceptions.StudienarmException;
+import de.randi2.model.fachklassen.Studienarm;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
@@ -32,22 +33,9 @@ public class BlockRandomisation extends Randomisation {
 	public static final String NAME = "Blockrandomisation ohne Strata";
 
 	/**
-	 * Die Anzahl der Studienarme der zugehoerigen Studie.
-	 */
-	private int aAnzahlArme = NullKonstanten.NULL_INT;
-
-	/**
 	 * Die festdefinierte Blockgroesse - ein vielfaches der Anzahl der Arme.
 	 */
-	private int aBlockgroesse = NullKonstanten.NULL_INT;
-
-	/**
-	 * Ein int Array, das den Block repraesentiert und die IDs der Studienarme
-	 * enthaelt.
-	 */
-	private int[] aBlock = null;
-
-	private int letztePosition = NullKonstanten.NULL_INT;
+	private int blockgroesse = NullKonstanten.NULL_INT;
 
 	/**
 	 * Erzeugt ein Objekt dieser Klasse, das dem Blockrandomisieren der
@@ -66,10 +54,7 @@ public class BlockRandomisation extends Randomisation {
 	public BlockRandomisation(StudieBean aStudie, int aBlockgroesse)
 			throws RandomisationsException, DatenbankExceptions {
 		super(NAME, aStudie);
-		this.setAnzahlArme(aStudie.getStudienarme().size());
 		this.setBlockgroesse(aBlockgroesse);
-		aBlock = erzeugeNeuenBlock();
-		letztePosition = 0;
 	}
 
 	/**
@@ -78,37 +63,47 @@ public class BlockRandomisation extends Randomisation {
 	 * 
 	 * @param aPatient
 	 *            der zuzuordnende Patient
+	 * @throws RandomisationsException
+	 *             Bei nicht gueltigen Situationen die waehrend der
+	 *             Randomisation auftreten.
+	 * @throws DatenbankExceptions
+	 *             Falls Fehler in der Datenbankkommunikation auftreten.
 	 */
 	@Override
 	public void randomisierenPatient(PatientBean aPatient)
 			throws RandomisationsException, DatenbankExceptions {
 
-		if (letztePosition > aBlock.length - 1) {
-			aBlock = erzeugeNeuenBlock();
-			letztePosition = 0;
+		long studienArmId = RandomisationDB.getNext(this.studie);
+
+		if (studienArmId == NullKonstanten.NULL_LONG) {
+			// Es ist kein Block mehr gespeichert, also wird ein neuer Erzeugt
+			int block[] = erzeugeNeuenBlock();
+			// Uebertragen der Int-Indizes in Ids der Studienarme
+			long blockStudienarme[] = new long[block.length];
+			for (int i = 0; i < block.length; i++) {
+				blockStudienarme[i] = ((StudienarmBean) this.studie
+						.getStudienarme().toArray()[i]).getId();
+			}
+
+			// Speichern des Blocks
+			RandomisationDB.speichernBlock(blockStudienarme, this.studie, null);
+
+			// Holen der ersten Id
+			studienArmId = RandomisationDB.getNext(this.studie);
+			// TODO klaeren, wie hier mit einem Fehler umgegangen werden soll.
+
 		}
 		// System.out.println(letztePosition);
 		// System.out.println(aBlock[letztePosition]);
 		try {
-			aPatient.setStudienarm((StudienarmBean) this.studie
-					.getStudienarme().toArray()[aBlock[letztePosition]]);
-		} catch (PatientException e1) {
-			// TODO Da diese Klasse noch so wie so von uns (dhaehn und lplotni)
-			// ueberarbeitet wird - wird das ExceptionHandling an dieser Stelle
-			// noch nicht realisiert. (lplotni)
-			e1.printStackTrace();
+			StudienarmBean sA = Studienarm.getStudienarm(studienArmId);
+			aPatient.setStudienarm(sA);
+		} catch (PatientException e) {
+			RandomisationsException re = new RandomisationsException(
+					RandomisationsException.FACHEXCEPTION_AUFGETRETEN);
+			re.initCause(e);
+			throw re;
 		}
-		// aPatient.setStudienarmId();
-		try {
-			super.studie.getStudienarme().elementAt(aBlock[letztePosition])
-					.getPatienten().add(aPatient);
-		} catch (DatenbankExceptions e) {
-
-			throw new RandomisationsException(
-					RandomisationsException.ARM_NICHT_VERWENDBAR);
-
-		}
-		letztePosition++;
 	}
 
 	/**
@@ -117,15 +112,17 @@ public class BlockRandomisation extends Randomisation {
 	 * 
 	 * @return ein Array mit int Werten, die den ID's der Studienarme
 	 *         entsprechen.
+	 * @throws DatenbankExceptions
+	 *             Bei Fehlern bei der Kommunikation mit der Datenbank.
 	 */
-	private int[] erzeugeNeuenBlock() {
+	private int[] erzeugeNeuenBlock() throws DatenbankExceptions {
 		Random myRandom = new Random();
 		int zufallszahl = 0;
-		int[] block = new int[getBlockgroesse()];
-		int[] zufallsZahlen = new int[getBlockgroesse()];
+		int[] block = new int[this.blockgroesse];
+		int[] zufallsZahlen = new int[this.blockgroesse];
 		int zaehler = 0;
 		// die beiden Arrays werden mit gleichen Zufallszahlen belegt
-		for (int i = 0; i < getBlockgroesse(); i++) {
+		for (int i = 0; i < this.blockgroesse; i++) {
 			zufallszahl = myRandom.nextInt();
 			block[i] = zufallszahl;
 			zufallsZahlen[i] = zufallszahl;
@@ -138,8 +135,8 @@ public class BlockRandomisation extends Randomisation {
 			for (int a = 0; a < zufallsZahlen.length; a++) {
 				if (zufallsZahlen[a] == block[i]) {
 					zaehler = 0;
-					for (int b = getAnzahlArme() - 1; b < zufallsZahlen.length; b = b
-							+ getAnzahlArme()) {
+					for (int b = this.studie.getStudienarme().size() - 1; b < zufallsZahlen.length; b = b
+							+ this.studie.getStudienarme().size()) {
 						if (a <= b) {
 							block[i] = zaehler;
 						} else {
@@ -155,35 +152,6 @@ public class BlockRandomisation extends Randomisation {
 	}
 
 	/**
-	 * Diese Methode liefert die Anzhal der Arme - mit der der Algorithmus
-	 * arbeitet.
-	 * 
-	 * @return aAnzahlArme int
-	 */
-	private int getAnzahlArme() {
-		return aAnzahlArme;
-	}
-
-	/**
-	 * Diese Methode setzt das Attribut aAnzahlarme.
-	 * 
-	 * @param anzahlArme
-	 *            der neue int Wert, der der Anzhal der Arme entspricht.
-	 */
-	private void setAnzahlArme(int anzahlArme) {
-		aAnzahlArme = anzahlArme;
-	}
-
-	/**
-	 * Diese Methode liefert die eingestellte Blockgroesse.
-	 * 
-	 * @return aBlockgroesse - int - die eingestellte Blockgroesse.
-	 */
-	private int getBlockgroesse() {
-		return aBlockgroesse;
-	}
-
-	/**
 	 * Diese Methode setzt das Attribut aBlockgroesse.
 	 * 
 	 * @param blockgroesse
@@ -191,14 +159,16 @@ public class BlockRandomisation extends Randomisation {
 	 * @throws RandomisationsException
 	 *             falls die Blockgroesse kein Vielfaches der Anzhal der
 	 *             Studienarme ist.
+	 * @throws DatenbankExceptions
+	 *             Bei Fehlern in der Kommunikation der Datenbank.
 	 */
 	private void setBlockgroesse(int blockgroesse)
-			throws RandomisationsException {
-		if (blockgroesse % aAnzahlArme != 0) {
+			throws RandomisationsException, DatenbankExceptions {
+		if (blockgroesse % this.studie.getStudienarme().size() != 0) {
 			throw new RandomisationsException(
 					RandomisationsException.BLOCKGROESSE_KEIN_VIELFACHES_DER_ARMEANZAHL);
 		}
-		aBlockgroesse = blockgroesse;
+		this.blockgroesse = blockgroesse;
 	}
 
 }
