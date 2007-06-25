@@ -1,11 +1,9 @@
 package de.randi2.randomisation;
 
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
-import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
-import de.randi2.model.fachklassen.beans.PersonBean.Titel;
 
 /**
  * Die Klasse Randomisation gibt die Schnittstelle fuer die
@@ -18,13 +16,28 @@ import de.randi2.model.fachklassen.beans.PersonBean.Titel;
  */
 public abstract class Randomisation {
 
+	/**
+	 * Enumeration zu den moeglichen Algorithmen.
+	 * 
+	 * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]
+	 * 
+	 */
 	public static enum Algorithmen {
+
+		/**
+		 * Blockrandomisation mit Strata
+		 */
+		BLOCKRANDOMISATION_MIT_STRATA(StrataBlockRandomisation.class.toString()),
+
 		/**
 		 * Blockrandomisation ohne Strata
 		 */
-		BLOCKRANDOMISATION_OHNE_STRATA(BlockRandomisation.NAME),
+		BLOCKRANDOMISATION_OHNE_STRATA(BlockRandomisation.class.toString()),
 
-		VOLLSTAENDIGE_RANDOMISATION(VollstaendigeRandomisation.NAME);
+		/**
+		 * Vollstaendige Randomisation
+		 */
+		VOLLSTAENDIGE_RANDOMISATION(VollstaendigeRandomisation.class.toString());
 
 		/**
 		 * Der Algorithmus als String.
@@ -58,9 +71,8 @@ public abstract class Randomisation {
 		 *            String Repraesentation eines Algorithmuses
 		 * 
 		 * @return Algorithmusrepraesentation in Form des Enumelementes
-		 * @throws PersonException
-		 *             Msg == {@link PersonException#TITEL_UNGUELTIG} wenn
-		 *             String keinen gueltiges Element repraesentiert
+		 * @throws RandomisationsException
+		 *             Falls ein ungueltiger Algorithmus gewaehlt wurde.
 		 * 
 		 */
 		public static Algorithmen parseAlgorithmen(String algorithmus)

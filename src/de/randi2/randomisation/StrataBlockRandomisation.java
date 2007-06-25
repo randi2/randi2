@@ -19,7 +19,8 @@ import de.randi2.utility.NullKonstanten;
  * </p>
  * 
  * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]
- * @version $Id$
+ * @version $Id: StrataBlockRandomisation.java 3998 2007-06-25 08:58:41Z
+ *          jthoenes $
  * 
  */
 public class StrataBlockRandomisation extends BlockRandomisation {
@@ -65,7 +66,7 @@ public class StrataBlockRandomisation extends BlockRandomisation {
 	public void randomisierenPatient(PatientBean aPatient)
 			throws RandomisationsException, DatenbankExceptions {
 
-		String strataKombination = "";
+		String strataKombination = aPatient.getStrataGruppe();
 
 		long studienArmId = RandomisationDB.getNext(this.studie,
 				strataKombination);
