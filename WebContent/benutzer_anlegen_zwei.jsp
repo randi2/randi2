@@ -78,7 +78,7 @@ Ext.onReady(function(){
         width:190
     });
     
-    var filter = form_filter.fieldset({legend:'<img src="images/find.png"> Filterfunktion</img>',style:''});
+    var filter = form_filter.fieldset({legend:'<img src="images/find.png"> Filterfunktion',style:''});
     var linksoben = new Ext.form.Column({width:'200'});
     var rechtsoben = new Ext.form.Column({width:'200'});
     
