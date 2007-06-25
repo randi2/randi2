@@ -5,6 +5,8 @@ import java.util.Vector;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
+import de.randi2.model.fachklassen.beans.PatientBean;
+import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.KryptoUtil;
 
@@ -115,6 +117,26 @@ public class Zentrum {
 		filter.setFilter(true);
 		return (DatenbankFactory.getAktuelleDBInstanz()
 				.suchenMitgliederObjekte(aZentrum, filter));
+	}
+	
+	/**
+	 * Liefert die zum Zentrum gehoerenden Person
+	 * 
+	 * @param zentrumId
+	 *            Id des Zentrums zur eindeutigen Zuordnung in der
+	 *            Datenbank
+	 * @return gefundene Person
+	 * @throws DatenbankExceptions -
+	 *             wenn ein Fehler in der DB auftrat.
+	 */
+	public static PersonBean getZugehoerigePerson(long zentrumId)
+			throws DatenbankExceptions {
+		ZentrumBean zentrum = new ZentrumBean();
+		zentrum.setId(zentrumId);
+		PersonBean gefundenePerson = null;
+		gefundenePerson = DatenbankFactory.getAktuelleDBInstanz()
+				.suchenMitgliedEinsZuEins(zentrum, new PersonBean());
+		return gefundenePerson;
 	}
 
 	/**
