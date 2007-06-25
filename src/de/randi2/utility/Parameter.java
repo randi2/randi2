@@ -235,7 +235,7 @@ public class Parameter {
 		/**
 		 * Attribut der Klasse StudieBean. Details siehe {@link StudieBean}
 		 */
-		RANDOMISATIONSEIGENSCHAFTEN,
+		BLOCKGROESSE,
 		/**
 		 * Name des Randomisationsalgorithmus
 		 */
