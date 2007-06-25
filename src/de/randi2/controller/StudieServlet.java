@@ -234,10 +234,10 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				// StudieBean aStudie = new
 				// StudieBean(NullKonstanten.DUMMY_ID,);
 
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Fehler beim Anlegen");
+				this.classDispatcherservletStudieAnlegen(request, response);
 				
-				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
-						request, response);
+				return;
+				
 
 			} else if (id.equals(anfrage_id.AKTION_STUDIE_AENDERN.name())) {
 				// Studie soll geaendert werden
@@ -536,7 +536,68 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		}
 
 	}
+	
+	/**
+	 * Realisiert das anlegen einer neuen Studie
+	 * 
+	 * @param request
+	 *            Der Request fuer das Servlet.
+	 * @param response
+	 *            Der Response Servlet.
+	 * @throws IOException
+	 *             Falls Fehler in den E/A-Verarbeitung.
+	 * @throws ServletException
+	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+	 *      HttpServletResponse response)
+	 */
+	private void classDispatcherservletStudieAnlegen(
+			HttpServletRequest request, HttpServletResponse response)
+	throws ServletException, IOException {
+		
+		this.weiterleitungBeiFehler("Fehler beim Anlegen!", request, response);
+	}
+	
+	/**
+	 * Weiterleitung der Anfrage bei Fehler
+	 * <p>
+	 * Leitet den Benutzer auf die entsprechende Indexseite weiter, abhaengig
+	 * davon, ob das System gesperrt ist oder nicht.
+	 * </p>
+	 * <p>
+	 * Die uebergebene Fehlermeldung wird an den Request als
+	 * {@link DispatcherServlet#FEHLERNACHRICHT} angefuegt.
+	 * </p>
+	 * 
+	 * @param fehlermeldungAnBenutzer
+	 *            Fehlermeldung, die dem Benutzer angzeigt wird
+	 * @param request
+	 *            Der Request fuer das Servlet.
+	 * @param response
+	 *            Der Response Servlet.
+	 * @throws IOException
+	 *             Falls Fehler in den E/A-Verarbeitung.
+	 * @throws ServletException
+	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+	 *      HttpServletResponse response)
+	 */
+	private void weiterleitungBeiFehler(String fehlermeldungAnBenutzer,
+			HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
+		// Fehlermeldung anfuegen
+		request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+				fehlermeldungAnBenutzer);
+
+		request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
+				request, response);
+		
+		
+	}
+	
 	/**
 	 * Aenderbare Daten einer bereits in der Datenbank bestehenden Studie werden
 	 * gesetzt.
