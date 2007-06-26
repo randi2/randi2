@@ -7,23 +7,21 @@
 	import="de.randi2.controller.StudieServlet"
 	import="de.randi2.utility.Parameter" import="de.randi2.utility.*"%>
 <%
-		request.setAttribute(DispatcherServlet.requestParameter.TITEL
-		.toString(), JspTitel.ZENTRUM_ANZEIGEN.toString());
+			request.setAttribute(DispatcherServlet.requestParameter.TITEL
+			.toString(), JspTitel.ZENTRUM_ANZEIGEN.toString());
 %>
 <%
-	Vector<ZentrumBean> zugehoerigeZentren = (Vector<ZentrumBean>) request
-	.getAttribute("zugehoerigeZentren");
-
+			Vector<ZentrumBean> zugehoerigeZentren = (Vector<ZentrumBean>) request
+			.getAttribute("zugehoerigeZentren");
 	Vector<ZentrumBean> nichtZugehoerigeZentren = (Vector<ZentrumBean>) request
-	.getAttribute("nichtZugehoerigeZentren");
-
+			.getAttribute("nichtZugehoerigeZentren");
 	Vector<ZentrumBean> gefilterteZentren = (Vector<ZentrumBean>) request
-	.getAttribute("listeZentren");
+			.getAttribute("listeZentren");
 
 	StudieBean aSession = (StudieBean) request.getSession()
-	.getAttribute(
-	DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
-	.name());
+			.getAttribute(
+			DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+			.name());
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -31,7 +29,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Randi2 :: <%=request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString())%></title>
+<title>Randi2 :: <%=request
+									.getAttribute(DispatcherServlet.requestParameter.TITEL
+											.toString())%></title>
 
 <script type="text/javascript">
 <!--
@@ -64,8 +64,8 @@
 <%@include file="include/inc_header.jsp"%>
 
 <div id="content">
-<form action="StudieServlet" method="post"><input type="hidden"
-	name="<%=Parameter.anfrage_id %>"
+<form action="DispatcherServlet" method="post"><input
+	type="hidden" name="<%=Parameter.anfrage_id %>"
 	value="<%=StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name() %>">
 
 <h1>Zentrum suchen</h1>
@@ -93,48 +93,37 @@ suchen </b></legend><br />
 			size="30" maxlength="50" /></td>
 		<td><input type="submit" name="Filtern" value="Filtern" /></td>
 	</tr>
+
 </table>
 
 </div>
 <br />
 <br />
 
-<table width="90%" border="0" cellspacing="5" cellpadding="2"
-	id="zentren">
-	<thead align="left">
-		<tr style="background:#eeeeee;" class="tblrow1">
-			<th width="35%">Name der Institution</th>
-			<th width="35%">Abteilung</th>
-			<th width="10%">Status</th>
-			<th width="20%">Aktion</th>
-		</tr>
-	</thead>
-
+<table width="90%" border="0" cellspacing="5" cellpadding="2">
 	<%
-		String reihe = "tblrow1";
-		String aktiv = "aktiv";
-		int anzahlZentren = aSession.getAnzahlZentren();
+		String aktiv = null;
 		int i = 0;
-
+		String reihe = "tblrow2";
 		if (gefilterteZentren != null) {
 			while (i < gefilterteZentren.size()) {
-		if (gefilterteZentren.elementAt(i).getIstAktiviert()) {
+				if (gefilterteZentren.elementAt(i).getIstAktiviert()) {
 			aktiv = "aktiv";
-		} else {
+				} else {
 			aktiv = "inaktiv";
-		}
+				}
 	%>
 	<tr class=<%=reihe %>>
 		<td><%=gefilterteZentren.elementAt(i).getInstitution()%></td>
 		<td><%=gefilterteZentren.elementAt(i).getAbteilung()%></td>
-		<td align=center><%=aktiv%></td>
+		<td style="text-align: center;"><%=aktiv%></td>
 		<td width="40px">
 		<%
 		if (aBenutzer.getRolle().toString().equals("STUDIENLEITER")) {
 		%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
 			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
-                                 	} else if (aBenutzer.getRolle().toString().equals(
-                                 	"ADMINISTRATOR")) {
+ 			} else if (aBenutzer.getRolle().toString().equals(
+ 			"ADMINISTRATOR")) {
  %> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
 			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
  }
@@ -145,102 +134,89 @@ suchen </b></legend><br />
 	<%
 			if (reihe.equals("tblrow1")) {
 			reihe = "tblrow2";
-		} else {
+				} else {
 			reihe = "tblrow1";
-		}
-		i++;
+				}
+				i++;
 			}
 
 		} else {
-
+			i=0;
 			if (zugehoerigeZentren != null) {
-		while (i < anzahlZentren) {
-			if (zugehoerigeZentren.elementAt(i).getIstAktiviert()) {
-		aktiv = "aktiv";
-			} else {
-		aktiv = "inaktiv";
-			}
-	%>
-	<tr class=<%=reihe %>>
-		<td><%=zugehoerigeZentren.elementAt(i)
-										.getInstitution()%></td>
-		<td><%=zugehoerigeZentren.elementAt(i)
-										.getAbteilung()%></td>
-		<td align=center><%=aktiv%></td>
-		<td width="40px">
-		<%
-				if (aBenutzer.getRolle().toString().equals(
-				"STUDIENLEITER")) {
-		%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
-			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
-                                 		} else if (aBenutzer.getRolle().toString().equals(
-                                 		"ADMINISTRATOR")) {
- %> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
-			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
- }
- %>
-		</td>
-	</tr>
+				while (i < zugehoerigeZentren.size()) {
+					if (zugehoerigeZentren.elementAt(i).getIstAktiviert()) {
+				aktiv = "aktiv";
+					} else {
+				aktiv = "inaktiv";
+					}
+		%>
+		<tr class=<%=reihe %>>
+			<td><%=zugehoerigeZentren.elementAt(i).getInstitution()%></td>
+			<td><%=zugehoerigeZentren.elementAt(i).getAbteilung()%></td>
+			<td style="text-align: center;"><%=aktiv%></td>
+			<td width="40px">
+			<%
+			if (aBenutzer.getRolle().toString().equals("STUDIENLEITER")) {
+			%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
+				name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
+	 			} else if (aBenutzer.getRolle().toString().equals(
+	 			"ADMINISTRATOR")) {
+	 %> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
+				name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
+	 }
+	 %>
+			</td>
+		</tr>
 
-	<%
-		if (reihe.equals("tblrow1")) {
-		reihe = "tblrow2";
-			} else {
-		reihe = "tblrow1";
+		<%
+				if (reihe.equals("tblrow1")) {
+				reihe = "tblrow2";
+					} else {
+				reihe = "tblrow1";
+					}
+					i++;
+				}
+
 			}
-			i++;
-		}
-			}
-			i = 0;
+			i=0;
 			if (nichtZugehoerigeZentren != null) {
-		while (i < nichtZugehoerigeZentren.size()) {
-			if (nichtZugehoerigeZentren.elementAt(i)
-			.getIstAktiviert()) {
-		aktiv = "aktiv";
-			} else {
-		aktiv = "inaktiv";
-			}
-	%>
-	<tr class=<%=reihe %>>
-		<td><%=nichtZugehoerigeZentren.elementAt(i)
-										.getInstitution()%></td>
-		<td><%=nichtZugehoerigeZentren.elementAt(i)
-										.getAbteilung()%></td>
-		<td><%=aktiv%></td>
-		<td>
+				while (i < nichtZugehoerigeZentren.size()) {
+					if (nichtZugehoerigeZentren.elementAt(i).getIstAktiviert()) {
+				aktiv = "aktiv";
+					} else {
+				aktiv = "inaktiv";
+					}
+		%>
+		<tr class=<%=reihe %>>
+			<td><%=nichtZugehoerigeZentren.elementAt(i).getInstitution()%></td>
+			<td><%=nichtZugehoerigeZentren.elementAt(i).getAbteilung()%></td>
+			<td style="text-align: center;"><%=aktiv%></td>
+			<td width="40px">
+			<%
+			if (aBenutzer.getRolle().toString().equals("STUDIENLEITER")) {
+			%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
+				name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
+	 			} else if (aBenutzer.getRolle().toString().equals(
+	 			"ADMINISTRATOR")) {
+	 %> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
+				name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
+	 }
+	 %>
+			</td>
+		</tr>
+
 		<%
-				if (aBenutzer.getRolle().toString().equals(
-				"STUDIENLEITER")) {
-		%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
-			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <br>
-		<a href="zentrum_studie_zuordnen.jsp"> <input type="submit"
-			name="studie_hinzufuegen" value="Zu Studie hinzuf&uuml;gen"></a>
-		<%
-				} else if (aBenutzer.getRolle().toString().equals(
-				"ADMINISTRATOR")) {
-		%> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
-			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
- }
- %>
-		</td>
-	</tr>
+				if (reihe.equals("tblrow1")) {
+				reihe = "tblrow2";
+					} else {
+				reihe = "tblrow1";
+					}
+					i++;
+				}
 
-	<%
-		if (reihe.equals("tblrow1")) {
-		reihe = "tblrow2";
-			} else {
-		reihe = "tblrow1";
 			}
-			i++;
-		}
-			}
-		}
+	}
 	%>
-
-
-</table>
-<table width="90%" border="0" cellspacing="5" cellpadding="2">
-
 	<tr>
 		<td><input type="button" name="zurueck" value="Zur&uuml;ck"
 			tabindex="1" onclick="location.href='studie_ansehen.jsp'"></td>

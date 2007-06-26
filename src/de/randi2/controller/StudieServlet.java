@@ -215,7 +215,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
 		String id = (String) request
 				.getParameter(DispatcherServlet.requestParameter.ANFRAGE_Id
 						.name());
@@ -223,7 +222,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		String idAttribute = (String) request
 				.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
 						.name());
-
+		
 		if (idAttribute != null) {
 			id = idAttribute;
 			Logger.getLogger(this.getClass()).debug(id);
@@ -295,6 +294,19 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			} else if (id.equals(anfrage_id.AKTION_STUDIE_PAUSIEREN.name())) {
 				// Status aendern
 				studieStatus(request, response, Studie.Status.PAUSE);
+			} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
+				request.setAttribute("zugehoerigeZentren", this
+						.getZugehoerigeZentren(request, response));
+				request.setAttribute("nichtZugehoerigeZentren", this
+						.getNichtZugehoerigeZentren(request, response));
+				if (((String) request.getParameter("Filtern")) != null) {
+					request.getRequestDispatcher("ZentrumServlet").forward(
+							request, response);
+				} else {
+					
+					request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
+							request, response);
+				}
 			}
 
 		} else if (id != null) {
@@ -304,22 +316,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				studieAendern(request, response);
 			}
 
-			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
-
-				request.setAttribute("anfrage_id", "ZENTRUM_ANZEIGEN");
-				request.getRequestDispatcher("ZentrumServlet").forward(request,
-						response);
-
-			} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
-				request.setAttribute("zugehoerigeZentren", this
-						.getZugehoerigeZentren(request, response));
-				request.setAttribute("nichtZugehoerigeZentren", this
-						.getNichtZugehoerigeZentren(request, response));
-				// Weiterleitung zum Zentrum
-				request.getRequestDispatcher("/zentrum_anzeigen.jsp").forward(
-						request, response);
-
-			}
 		} else {
 			// TODO an dieser Stelle würde ich einfach auf index.jsp
 			// weiterleiten; gibt's andere Vorschläge (lplotni 17. Jun)
@@ -327,9 +323,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			// response);
 			System.out.println("Die drei Fragezeichen beim Posten");
 
-			System.out.println("Anfrage ID ist " + id);
-			id = (String) request.getAttribute("Filtern");
-			System.out.println("Attrib ID ist " + id);
+			
 		}
 	}
 
@@ -369,9 +363,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 			if (request.getParameter(Parameter.filter) != null) {
 				try {
-					listeStudien = studieFiltern(request.getParameter(Parameter.studie.NAME.toString()),
+					listeStudien = studieFiltern(request
+							.getParameter(Parameter.studie.NAME.toString()),
 							Studie.Status.parseStatus(request
-									.getParameter(Parameter.studie.STATUS.toString())), aBenutzer.getZentrum());
+									.getParameter(Parameter.studie.STATUS
+											.toString())), aBenutzer
+									.getZentrum());
 				} catch (StudieException e) {
 					// TODO Dem Benutzer muss eine Meldung angezeigt werden
 					// (lplotni
@@ -413,9 +410,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					"studieAuswahl - Studienleiter");
 			if (request.getParameter(Parameter.filter) != null) {
 				try {
-					listeStudien = studieFiltern(request.getParameter(Parameter.studie.NAME.toString()),
+					listeStudien = studieFiltern(request
+							.getParameter(Parameter.studie.NAME.toString()),
 							Studie.Status.parseStatus(request
-									.getParameter(Parameter.studie.STATUS.toString())), aBenutzer.getZentrum());
+									.getParameter(Parameter.studie.STATUS
+											.toString())), aBenutzer
+									.getZentrum());
 				} catch (StudieException e) {
 					// TODO Dem Benutzer muss eine Meldung angezeigt werden
 					// (lplotni
@@ -457,7 +457,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 */
 	private Vector<StudieBean> studieFiltern(String name, Studie.Status status,
 			ZentrumBean aZentrum) throws DatenbankExceptions {
-	
+
 		Logger.getLogger(this.getClass()).debug("studieFiltern");
 
 		StudieBean gStudie = new StudieBean();

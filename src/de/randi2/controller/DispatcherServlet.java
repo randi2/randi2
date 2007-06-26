@@ -223,6 +223,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Studie auswaehlen
 		 */
 		JSP_STUDIE_AUSWAEHLEN,
+		/**
+		 * Zentrenverwaltung für Studie
+		 */
+		JSP_ZENTRUM_ANZEIGEN,
 
 		/**
 		 * Simulation einer Studie.
@@ -401,7 +405,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		String id = (String) request.getParameter(Parameter.anfrage_id);
 		String idAttribute = (String) request
 				.getAttribute(Parameter.anfrage_id);
-
 		// bei jedem Zugriff, Titel zuruecksetzen
 		request.setAttribute(DispatcherServlet.requestParameter.TITEL
 				.toString(), null);
@@ -618,7 +621,19 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 			// WEITERLEITUNG FUER STUDIESERVLET
 			// [start]
-			else if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE
+
+			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
+
+				if (request.getParameter(Parameter.filter) == null) {
+					request.setAttribute("listeZentren", null);
+				} 
+				request.setAttribute(
+						DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
+						StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name());
+				request.getRequestDispatcher("StudieServlet").forward(request,
+						response);
+
+			} else if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE
 					.name())) {
 
 				// neue Studie anlegen
@@ -802,11 +817,13 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				loggeBenutzerAus(request, response);
 				return;
 			} else if (id.equals(anfrage_id.ZENTRUM_ANZEIGEN_ADMIN.name())) {
+
 				request.setAttribute("anfrage_id",
 						ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ANZEIGEN_ADMIN
 								.name());
 				request.getRequestDispatcher("ZentrumServlet").forward(request,
 						response);
+
 			} else if (id.equals(anfrage_id.JSP_HEADER_IMPRESSUM.name())) {
 
 				request.setAttribute("anfrage_id",
@@ -816,7 +833,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 			} else if (id
 					.equals(anfrage_id.JSP_HEADER_NACHRICHTENDIENST.name())) {
-				request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(),JspTitel.NACHRICHTENDIENST);
+				request.setAttribute(DispatcherServlet.requestParameter.TITEL
+						.toString(), JspTitel.NACHRICHTENDIENST);
 				request.getRequestDispatcher(Jsp.NACHRICHTENDIENST).forward(
 						request, response);
 			}
