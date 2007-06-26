@@ -13,6 +13,7 @@ import de.randi2.model.fachklassen.Recht;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.Config;
 import de.randi2.utility.Jsp;
+import de.randi2.utility.JspTitel;
 import de.randi2.utility.LogAktion;
 import de.randi2.utility.LogLayout;
 import de.randi2.utility.Parameter;
@@ -815,6 +816,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 			} else if (id
 					.equals(anfrage_id.JSP_HEADER_NACHRICHTENDIENST.name())) {
+				request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(),JspTitel.NACHRICHTENDIENST);
 				request.getRequestDispatcher(Jsp.NACHRICHTENDIENST).forward(
 						request, response);
 			}
