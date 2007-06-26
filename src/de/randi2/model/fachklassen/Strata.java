@@ -42,6 +42,7 @@ public final class Strata {
 	 *            Die verschiedenen Strata Auspraegungen die in den String
 	 *            geschrieben werden sollen.
 	 * @return Der serialisierte String.
+	 * @throws DatenbankExceptions 
 	 */
 	public static String getStratakombinationsString(
 			Collection<StrataAuspraegungBean> komb) {
@@ -50,7 +51,7 @@ public final class Strata {
 				komb);
 
 		for (StrataAuspraegungBean sA : kombSorted) {
-			kombinationString += "#" + sA.getStrata().getId() + "="
+			kombinationString += "#" + sA.getStrataID() + "="
 					+ sA.getId();
 		}
 		kombinationString += "#";

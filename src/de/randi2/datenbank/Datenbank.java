@@ -35,6 +35,7 @@ import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
+import de.randi2.model.fachklassen.beans.StrataAuspraegungBean;
 import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
@@ -849,18 +850,18 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.close();
 			
 			//Foreign Key Stellvertreter:
-			PersonBean stellvertreter = new PersonBean();
-			PersonBean aktualisierendePerson = new PersonBean();
-			Vector<PersonBean>pVec = new Vector<PersonBean>();
-			stellvertreter.setStellvertreterId(person.getId());
-			stellvertreter.setFilter(true);
-			pVec = suchenPerson(stellvertreter);
-			Iterator<PersonBean>it = pVec.iterator();
-			while(it.hasNext()){
-				aktualisierendePerson = it.next();
-				aktualisierendePerson.setStellvertreterId(NullKonstanten.DUMMY_ID);
-				schreibenPerson(aktualisierendePerson);
-			}
+//			PersonBean stellvertreter = new PersonBean();
+//			PersonBean aktualisierendePerson = new PersonBean();
+//			Vector<PersonBean>pVec = new Vector<PersonBean>();
+//			stellvertreter.setStellvertreterId(person.getId());
+//			stellvertreter.setFilter(true);
+//			pVec = suchenPerson(stellvertreter);
+//			Iterator<PersonBean>it = pVec.iterator();
+//			while(it.hasNext()){
+//				aktualisierendePerson = it.next();
+//				aktualisierendePerson.setStellvertreterId(NullKonstanten.DUMMY_ID);
+//				schreibenPerson(aktualisierendePerson);
+//			}
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e, sql,
 					DatenbankExceptions.LOESCHEN_ERR);
@@ -1822,6 +1823,74 @@ public class Datenbank implements DatenbankSchnittstelle {
 		
 	}
 
+	/**
+	 * Speichert bzw. aktualisiert die uebergebene Strataauspraegung.
+	 * 
+	 * @param auspr
+	 *            welche(r) gespeichert (ohne Id) oder aktualisiert (mit Id)
+	 *            werden soll.
+	 * @return das gespeicherte Objekt MIT Id, bzw. <code>null</code> falls
+	 *         ein Update durchgeführt wurde.
+	 * @throws DatenbankExceptions
+	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
+	 */
+	private StrataAuspraegungBean schreibenStrataAuspraegung(StrataAuspraegungBean auspr)
+			throws DatenbankExceptions {
+		Connection con = null;
+		String sql = "";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = ConnectionFactory.getInstanz().getConnection();
+		} catch (DatenbankExceptions e) {
+			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
+		}
+		try {
+		if(auspr.getId()==NullKonstanten.NULL_LONG) {
+			int counter=1;
+			long id = Long.MIN_VALUE;
+			sql= "INSERT  INTO "+Tabellen.STRATA_AUSPRAEGUNG+"("
+					+FelderStrataAuspraegung.Id+","+FelderStrataAuspraegung.STRATAID+","+
+					FelderStrataAuspraegung.WERT+") VALUES "+"(NULL,?,?)" ;
+			
+			
+				pstmt = con.prepareStatement(sql);
+				pstmt.setLong(counter++,auspr.getStrata().getId());
+				pstmt.setString(counter++, auspr.getName());
+				pstmt.executeUpdate();
+				rs = pstmt.getGeneratedKeys();
+				rs.next();
+				id = rs.getLong(1);
+				rs.close();
+				pstmt.close();
+
+				auspr.setId(id);
+			loggenDaten(auspr, LogKonstanten.NEUER_DATENSATZ);
+			return auspr;
+		} else {
+			int counter=1;
+			sql+="UPDATE "+Tabellen.STRATA_AUSPRAEGUNG+" SET "+
+			FelderStrataAuspraegung.STRATAID+" = ? , "+
+			FelderStrataAuspraegung.WERT+" = ? WHERE "+
+			FelderStrataAuspraegung.Id+" = ? ";
+			
+				pstmt = con.prepareStatement(sql);
+				pstmt.setLong(counter++, auspr.getId());
+				pstmt.setLong(counter++,auspr.getStrata().getId());
+				pstmt.setString(counter++, auspr.getName());
+				pstmt.executeUpdate();
+				pstmt.close();						
+		}
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SCHREIBEN_ERR);
+		} finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
+		}
+		loggenDaten(auspr, LogKonstanten.AKTUALISIERE_DATENSATZ);
+		return auspr;
+		
+	}
+	
 	/**
 	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * 
@@ -4200,6 +4269,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 			geaenderteDaten.put(FelderStrataTypen.STUDIEID.toString(), String.valueOf(((StrataBean) aObjekt).getId()));
 			geaenderteDaten.put(FelderStrataTypen.NAME.toString(), ((StrataBean) aObjekt).getName());
 			geaenderteDaten.put(FelderStrataTypen.BESCHREIBUNG.toString(), ((StrataBean) aObjekt).getBeschreibung());			
+		} else if (aObjekt instanceof StrataAuspraegungBean) {
+			geaenderteDaten.put(FelderStrataAuspraegung.STRATAID.toString(), 
+					String.valueOf(((StrataAuspraegungBean) aObjekt).getStrata().getId()));
+			geaenderteDaten.put(FelderStrataAuspraegung.STRATAID.toString(), 
+					((StrataAuspraegungBean) aObjekt).getName());			
 		}
 		// Benutzerkonto welches die Aktion ausgeloest hat
 		BenutzerkontoBean ausfuehrendesBkBean = aObjekt

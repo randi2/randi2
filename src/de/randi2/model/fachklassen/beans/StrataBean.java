@@ -67,6 +67,8 @@ public class StrataBean extends Filter {
 	 * 
 	 * @param id
 	 *            ID
+	 * @param studienID
+	 * 			  ID der Studie zur der das Bean gehoert
 	 * @param name
 	 *            Der Name des Stratas. Darf nicht leer oder <code>null</code>
 	 *            sein.
@@ -93,6 +95,8 @@ public class StrataBean extends Filter {
 	 * 
 	 * @param id
 	 *            ID
+	 * @param studienID
+	 * 			  ID der Studie zur der das Bean gehoert
 	 * @param name
 	 *            Der Name des Stratas. Darf nicht leer oder <code>null</code>
 	 *            sein.
@@ -206,6 +210,7 @@ public class StrataBean extends Filter {
 	 * @return
 	 * 			zugehoerige Studie
 	 * @throws DatenbankExceptions
+	 * 			Falls beim Suchen in der DB ein Fehler auftritt.
 	 */
 	public StudieBean getStudie() throws DatenbankExceptions {
 		if(this.studie==null) {
@@ -219,6 +224,8 @@ public class StrataBean extends Filter {
 	 * @param studie
 	 * 				zu setzende Studie
 	 * @throws StrataException
+	 * 			Falls das uebergebene Bean <code>null</code> ist
+	 *   		{@link StrataException#STUDIE_NULL}
 	 */
 	public void setStudie(StudieBean studie) throws StrataException {
 		if(studie==null) {
