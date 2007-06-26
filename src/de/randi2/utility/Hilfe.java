@@ -1,5 +1,11 @@
 package de.randi2.utility;
 
+import java.util.HashMap;
+
+import org.eclipse.jdt.internal.compiler.ast.ThisReference;
+
+import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
+
 import de.randi2.model.exceptions.HilfeException;
 import de.randi2.model.exceptions.RandomisationsException;
 
@@ -13,7 +19,15 @@ import de.randi2.model.exceptions.RandomisationsException;
  */
 public class Hilfe {
 
-	public static String[][] unterseiten = new String[][] {
+	/**
+	 * Die Hashmap fuer den schnellen Zugriff
+	 */
+	private HashMap<String, String> hilfeMap = new HashMap<String, String>();
+
+	/**
+	 * Die Unterseiten mit dem jeweiligen Hilfe-Text
+	 */
+	private static String[][] unterseiten = new String[][] {
 
 	{
 			JspTitel.STUDIE_AUSWAEHLEN,
@@ -21,16 +35,58 @@ public class Hilfe {
 
 	};
 
-	public static String getHilfe(String titel) {
+	/**
+	 * Singleton Instanz
+	 */
+	private static Hilfe thisInstance = null;
+
+	/**
+	 * Liefert immer eine Instanz dieser Klasse.
+	 * 
+	 * @return eine Instanz dieser Klasse
+	 */
+	public static Hilfe getInstance() {
+		if (thisInstance == null) {
+			thisInstance = new Hilfe();
+		}
+		return thisInstance;
+	}
+
+	/**
+	 * Der Konstruktor
+	 * 
+	 */
+	private Hilfe() {
 
 		for (int i = 0; i < unterseiten.length; i++) {
 
-			if (Hilfe.unterseiten[i][0].equals(titel))
-				return Hilfe.unterseiten[i][1];
+			hilfeMap.put(unterseiten[i][0], unterseiten[i][1]);
 
 		}
 
-		return "Hier existiert noch keine Hilfe!";
+	}
+
+	/**
+	 * Liefert den Hilfe-Text zu einer Unterseite
+	 * 
+	 * @param titel
+	 *            der Titel der Jsp-Seite, muss ein Eintrag von JspTitel.class
+	 *            sein
+	 * @return der Hilfe-Text
+	 */
+	public String getHilfe(String titel) {
+
+		String ausgabe = hilfeMap.get(titel);
+
+		if (ausgabe != null) {
+
+			return ausgabe;
+
+		} else {
+
+			return "Hier existiert noch keine Hilfe!";
+
+		}
 
 	}
 

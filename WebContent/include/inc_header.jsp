@@ -175,7 +175,7 @@ Ext.EventManager.onDocumentReady(Hilfe.init, Hilfe, true);
     <div class="x-dlg-hd">RANDI2 Hilfe</div>
     <div class="x-dlg-bd">
 	    <div id="center" class="x-layout-inactive-content" style="padding:10px; font: 10px arial, sans-serif;">
-			<%= Hilfe.getHilfe((String) request
+			<%= Hilfe.getInstance().getHilfe((String) request
 			.getAttribute(DispatcherServlet.requestParameter.TITEL
 					.toString())) %>
 	    </div>
