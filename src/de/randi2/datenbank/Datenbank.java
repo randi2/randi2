@@ -3820,6 +3820,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 			return (Vector<T>) suchenStudieKind(studie, ((ZentrumBean) vater)
 					.getId());
 		}
+		//1:n V Strata : K StrataAuspraegung
+		if (kind instanceof StrataAuspraegungBean && vater instanceof StrataBean) {
+			StudieBean studie = (StudieBean) kind;
+			return (Vector<T>) suchenStrataAuspraegungKind((StrataAuspraegungBean) kind, vater.getId());
+		}
 		return null;
 	}
 
@@ -4151,6 +4156,28 @@ public class Datenbank implements DatenbankSchnittstelle {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 		return sVector;
+	}
+	
+	/**
+	 * Sucht zu einem Strata alle Auspraegungen
+	 * @param auspr
+	 * 			leeres StrataAuspraegungsBeans mit eventuellen Suchkriterien.
+	 * @param id
+	 * 			id des StrataBeans
+	 * @return
+	 * 		alle gefundenen StrataAuspraegungen
+	 * @throws DatenbankExceptions 
+	 * 				Falls bei der Suche Fehler auftreten
+	 */
+	private Vector<StrataAuspraegungBean> suchenStrataAuspraegungKind(StrataAuspraegungBean auspr, long id) throws DatenbankExceptions {
+		try {
+			auspr.setStrataID(id);
+		} catch (StrataException e) {
+			DatenbankExceptions d = new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
+			d.initCause(e);
+			throw d;
+		}
+		return suchenStrataAuspraegung(auspr);
 	}
 
 	/**
