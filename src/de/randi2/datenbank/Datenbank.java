@@ -1941,7 +1941,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 			return (Vector<T>) suchenStudie((StudieBean) zuSuchendesObjekt);
 
 		}
-
+		if (zuSuchendesObjekt instanceof StrataBean) {
+			return (Vector<T>) suchenStrata((StrataBean) zuSuchendesObjekt);
+		} 
+		if (zuSuchendesObjekt instanceof StrataAuspraegungBean) {
+			return (Vector<T>) suchenStrataAuspraegung((StrataAuspraegungBean) zuSuchendesObjekt);
+		}
 		return null;
 	}
 
@@ -2814,6 +2819,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 		return studienarme;
 	}
 
+	/**
+	 * Sucht nach Studien die die Kriterien im Suchbean erfuellen.
+	 * @param studie
+	 * 			Suchbean. Filter muss gesetzt sein. Attribute ungleich Nullkonstanten werden in Suche einbezogen.
+	 * @return
+	 * 			gefundene Studien
+	 * @throws DatenbankExceptions
+	 * 			Falls Fehler bei der Suche auftritt
+	 */
 	private Vector<StudieBean> suchenStudie(StudieBean studie)
 			throws DatenbankExceptions {
 		Connection con;
@@ -2990,6 +3004,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 		return studien;
 	}
 	
+	/**
+	 * Sucht in der DB nach StrataBeans die den Kriterien im uebergebenen Filterbean entsprechen
+	 * @param sb
+	 * 			Suchbean, bei dem Filter gesetzt sein muss. Werte ungleich den Nullkonstanten werden
+	 * 			in die Suche mit einbezogen
+	 * @return
+	 * 			Vector mit uebereinstimmenden Beans
+	 * @throws DatenbankExceptions
+	 * 			Falls ein Fehler bei der Suche auftritt
+	 */
 	private Vector<StrataBean> suchenStrata(StrataBean sb) throws DatenbankExceptions {
 		Connection con;
 		try {
@@ -3002,9 +3026,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 		StrataBean tmpStrata = null;
 		Vector<StrataBean> strata = new Vector<StrataBean>();
 		int counter = 0;
-		String sql = "SELECT * FROM " + Tabellen.STUDIE.toString();
+		String sql = "SELECT * FROM " + Tabellen.STRATA_TYPEN.toString();
 		if(sb.getName()!=null) {
-			sql+=" WHERE "+FelderStrataTypen.NAME+" = ? ";
+			sql+=" WHERE "+FelderStrataTypen.NAME+" LIKE ? ";
 			counter++;
 		}
 		if(sb.getBeschreibung()!=null) {
@@ -3013,7 +3037,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			} else {
 				sql += " AND ";
 			}
-			sql+=FelderStrataTypen.BESCHREIBUNG+" = ? ";
+			sql+=FelderStrataTypen.BESCHREIBUNG+" LIKE ? ";
 			counter++;
 		}
 		if(sb.getStudienID()!=NullKonstanten.NULL_LONG) {
@@ -3030,10 +3054,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 			counter=1;
 			pstmt = con.prepareStatement(sql);
 			if(sb.getName()!=null) {
-				pstmt.setString(counter++, sb.getName());
+				pstmt.setString(counter++, sb.getName()+"%");
 			}
 			if(sb.getBeschreibung()!=null) {
-				pstmt.setString(counter++, sb.getBeschreibung());
+				pstmt.setString(counter++, sb.getBeschreibung()+"%");
 			}
 			if(sb.getStudienID()!=NullKonstanten.NULL_LONG) {
 				pstmt.setLong(counter++, sb.getStudienID());
@@ -3058,6 +3082,72 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		
 		return strata;
+	}
+	
+	/**
+	 * Sucht alle StrataAuspraegungen die den Kriterien im Suchbean entsprechen
+	 * @param auspr
+	 * 			Suchbean. Filter muss gesetzt sein. Attribute ungleich Nullkonstanten werden in Suche einbezogen.
+	 * @return
+	 * 			gefundene StrataAuspraegungen
+	 * @throws DatenbankExceptions
+	 * 			Falls ein Fehler bei der Suche auftritt
+	 */
+	private Vector<StrataAuspraegungBean> suchenStrataAuspraegung(StrataAuspraegungBean auspr) 
+	throws DatenbankExceptions{
+		Connection con;
+		try {
+			con = ConnectionFactory.getInstanz().getConnection();
+		} catch (DatenbankExceptions e) {
+			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
+		}
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StrataAuspraegungBean tmpAuspr = null;
+		Vector<StrataAuspraegungBean> auspraegungen = new Vector<StrataAuspraegungBean>();
+		int counter = 0;
+		String sql = "SELECT * FROM " + Tabellen.STRATA_AUSPRAEGUNG.toString();
+		if(auspr.getStrataID()!=NullKonstanten.NULL_LONG) {
+			sql+=" WHERE "+FelderStrataAuspraegung.STRATAID+" = ? ";
+			counter++;
+		}
+		if(auspr.getName()!= null) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql+=FelderStrataAuspraegung.WERT+" LIKE ? ";
+			counter++;
+		}
+		try {
+			counter = 1;
+			pstmt = con.prepareStatement(sql);
+			if(auspr.getStrataID()!=NullKonstanten.NULL_LONG) {
+				pstmt.setLong(counter++, auspr.getStrataID());
+			}
+			if(auspr.getName()!= null) {
+				pstmt.setString(counter++, auspr.getName());
+			}
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				tmpAuspr = new StrataAuspraegungBean(
+						rs.getLong(FelderStrataAuspraegung.Id.toString()),
+						rs.getLong(FelderStrataAuspraegung.STRATAID.toString()),
+						rs.getString(FelderStrataAuspraegung.WERT.toString()));
+				auspraegungen.add(tmpAuspr);
+			}
+		} catch(SQLException e) {
+			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SUCHEN_ERR);
+		}  catch (StrataException e) {
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
+		}finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
+		}
+			return auspraegungen;
 	}
 
 	/**
