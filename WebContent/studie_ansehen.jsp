@@ -44,7 +44,7 @@
 	cellspacing="2">
 	<tbody>
 		<tr>
-			<td style="width: 300px; text-align: left vertical-align: top;">
+			<td style="width: 300px; text-align: left; vertical-align: top;">
 			<table style="text-align: left; width: 100%;" border="0"
 				cellpadding="2" cellspacing="2">
 				<tbody>
