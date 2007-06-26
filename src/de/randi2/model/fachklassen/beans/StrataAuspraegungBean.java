@@ -54,8 +54,10 @@ public class StrataAuspraegungBean extends Filter implements
 	 * @throws StrataException
 	 *             Falls der Name der Auspraegung leer ist, mit
 	 *             {@link StrataException#STRATA_AUSPRAEGUNG_NAME_LEER}.
+	 * @throws DatenbankExceptions 
 	 */
-	public StrataAuspraegungBean(long strataID, String name) throws StrataException {
+	public StrataAuspraegungBean(long id, long strataID, String name) throws StrataException, DatenbankExceptions {
+		this.setId(id);
 		this.setName(name);
 	}
 
@@ -71,10 +73,11 @@ public class StrataAuspraegungBean extends Filter implements
 	 * @throws StrataException
 	 *             Falls der Name der Auspraegung leer ist, mit
 	 *             {@link StrataException#STRATA_AUSPRAEGUNG_NAME_LEER}.
+	 * @throws DatenbankExceptions 
 	 */
-	public StrataAuspraegungBean(long strataID, String name, StrataBean strata)
-			throws StrataException {
-		this(strataID, name);
+	public StrataAuspraegungBean(long id, long strataID, String name, StrataBean strata)
+			throws StrataException, DatenbankExceptions {
+		this(id, strataID, name);
 		this.setStrata(strata);
 	}
 

@@ -988,10 +988,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 				PatientBean patient = (PatientBean) zuSchreibendesObjekt;
 				return (T) this.schreibenPatient(patient);
 			}
-			if (zuSchreibendesObjekt instanceof StrataBean) {
+			else if (zuSchreibendesObjekt instanceof StrataBean) {
 				StrataBean strata = (StrataBean) zuSchreibendesObjekt;
 				return (T) schreibenStrata(strata);
-			}
+			} 
+			else if (zuSchreibendesObjekt instanceof StrataAuspraegungBean) {
+				StrataAuspraegungBean auspr = (StrataAuspraegungBean) zuSchreibendesObjekt;
+				return (T) schreibenStrataAuspraegung(auspr);
+			} 
+			
 		}
 		return null;
 	}
@@ -3097,6 +3102,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 			return (T) strata;
 			
 		}
+		if (nullObjekt instanceof StrataAuspraegungBean) {
+			StrataAuspraegungBean auspr = this.suchenStrataAuspraegungId(id);
+			return (T) auspr;			
+		}
+		
 		
 
 		return null;
@@ -3595,6 +3605,47 @@ public class Datenbank implements DatenbankSchnittstelle {
 						rs.getLong(FelderStrataTypen.STUDIEID.toString()),
 						rs.getString(FelderStrataTypen.NAME.toString()),
 						rs.getString(FelderStrataTypen.BESCHREIBUNG.toString()));
+			}
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SCHREIBEN_ERR);
+		} catch (StrataException e) {
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
+		}
+		ConnectionFactory.getInstanz().closeConnection(con);
+		return tmpStrata;
+	}
+	
+	/**
+	 * Sucht die Strataauspraegung mit der uebergebenen ID
+	 * @param id
+	 * 			ID
+	 * @return
+	 * 			gefundene Strata Auspraegung
+	 * @throws DatenbankExceptions
+	 * 				Falls beim suchen ein Fehler auftritt.
+	 */
+	private StrataAuspraegungBean suchenStrataAuspraegungId(long id) throws DatenbankExceptions{
+		Connection con = null;
+		PreparedStatement pstmt;
+		ResultSet rs = null;
+		StrataAuspraegungBean tmpStrata = null;
+		con = ConnectionFactory.getInstanz().getConnection();
+		String sql;
+		sql = "SELECT * FROM " + Tabellen.STRATA_AUSPRAEGUNG + " WHERE "
+				+ FelderStrataAuspraegung.Id + " = ?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				tmpStrata = new StrataAuspraegungBean(
+						rs.getLong(FelderStrataAuspraegung.Id.toString()),
+						rs.getLong(FelderStrataAuspraegung.STRATAID.toString()),
+						rs.getString(FelderStrataAuspraegung.WERT.toString())				
+				);
 			}
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SCHREIBEN_ERR);
@@ -4271,7 +4322,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			geaenderteDaten.put(FelderStrataTypen.BESCHREIBUNG.toString(), ((StrataBean) aObjekt).getBeschreibung());			
 		} else if (aObjekt instanceof StrataAuspraegungBean) {
 			geaenderteDaten.put(FelderStrataAuspraegung.STRATAID.toString(), 
-					String.valueOf(((StrataAuspraegungBean) aObjekt).getStrata().getId()));
+					String.valueOf(((StrataAuspraegungBean) aObjekt).getStrataID()));
 			geaenderteDaten.put(FelderStrataAuspraegung.STRATAID.toString(), 
 					((StrataAuspraegungBean) aObjekt).getName());			
 		}
