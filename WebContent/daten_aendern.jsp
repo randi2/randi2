@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-
+<%@ page import="de.randi2.utility.*"%>
+<%
+		request.setAttribute(DispatcherServlet.requestParameter.TITEL
+		.toString(), JspTitel.DATEN_AENDERN.toString());
+%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
        "http://www.w3.org/TR/html4/strict.dtd">
 
@@ -8,7 +12,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<title>Randi2 :: Benutzer &auml;ndern</title>
+<title>Randi2 :: <%=request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString())%></title>
 
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="de.randi2.model.fachklassen.*"
@@ -32,18 +36,18 @@ Angaben</b></legend>
 		<td>Titel<br>
 		<select name="Titel">
 			<%
-				//Holen des PersonBeans des aktuell angemeldeten Benutzers
-				PersonBean aPerson = aBenutzer.getBenutzer();
+					//Holen des PersonBeans des aktuell angemeldeten Benutzers
+					PersonBean aPerson = aBenutzer.getBenutzer();
 
-				for (PersonBean.Titel e : PersonBean.Titel.values()) {
-					out.print("<option value=\"" + e.toString() + "\"");//1. Option Teil
-					//aktueller Titel
-					if (aPerson.getTitel() != null && aPerson.getTitel() == e) {
-						out.print("selected");
+					for (PersonBean.Titel e : PersonBean.Titel.values()) {
+						out.print("<option value=\"" + e.toString() + "\"");//1. Option Teil
+						//aktueller Titel
+						if (aPerson.getTitel() != null && aPerson.getTitel() == e) {
+					out.print("selected");
+						}
+						//Ende Option, Option Text
+						out.print(">" + e.toString() + "</option>");
 					}
-					//Ende Option, Option Text
-					out.print(">" + e.toString() + "</option>");
-				}
 			%>
 		</select></td>
 	</tr>

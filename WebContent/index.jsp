@@ -6,13 +6,19 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="de.randi2.utility.Config"%>
-<%@page import="de.randi2.utility.Parameter"%>
+<%@page import="de.randi2.utility.*"%>
+<%
+			request.setAttribute(DispatcherServlet.requestParameter.TITEL
+			.toString(), JspTitel.INDEX.toString());
+%>
 <html>
 
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8;" />
-<title>RANDI 2</title>
+<title>RANDI2 :: <%=request
+									.getAttribute(DispatcherServlet.requestParameter.TITEL
+											.toString())%></title>
 <%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/style_login.css" />

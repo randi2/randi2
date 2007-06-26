@@ -3,13 +3,20 @@
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="de.randi2.model.fachklassen.beans.AktivierungBean"
 	import="java.util.GregorianCalendar"
-	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
+	import="java.text.SimpleDateFormat" import="java.util.Locale"
+	import="de.randi2.utility.*"%>
+<%
+			request.setAttribute(DispatcherServlet.requestParameter.TITEL
+			.toString(), JspTitel.STUDIE_FORTSETZEN_EINS.toString());
+%>
 <jsp:setProperty name="user" property="*" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Randi2 :: Studie fortsetzen</title>
+<title>Randi2 :: <%=request
+									.getAttribute(DispatcherServlet.requestParameter.TITEL
+											.toString())%></title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
@@ -26,8 +33,9 @@
 		<td>Sind Sie sicher, dass Sie die Studie fortsetzen wollen?</td>
 	</tr>
 	<tr>
-		<td><input type="submit" name="entsp_ja" value="Ja" tabindex="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-		<input type="button" name="entsp_nein" value="Nein" tabindex="2" onclick="location.href='studie_ansehen.jsp'"></td>
+		<td><input type="submit" name="entsp_ja" value="Ja" tabindex="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="button" name="entsp_nein" value="Nein" tabindex="2"
+			onclick="location.href='studie_ansehen.jsp'"></td>
 	</tr>
 </table>
 

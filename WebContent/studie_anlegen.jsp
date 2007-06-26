@@ -25,7 +25,7 @@
 	GregorianCalendar heute = new GregorianCalendar();
 
 	request.setAttribute(DispatcherServlet.requestParameter.TITEL
-			.toString(), "Studie anlegen");
+			.toString(), JspTitel.STUDIE_ANLEGEN.toString());
 
 	boolean aArmeEntfernenMoeglich = true;
 	boolean aStrataEntfernenMoeglich = true;
@@ -97,9 +97,8 @@
 			GregorianCalendar gc = new GregorianCalendar();
 			gc.setTime(d);
 
-			aStartdatum = "new Date("
-			+ gc.get(GregorianCalendar.YEAR) + ","
-			+ gc.get(GregorianCalendar.MONTH) + ","
+			aStartdatum = "new Date(" + gc.get(GregorianCalendar.YEAR)
+			+ "," + gc.get(GregorianCalendar.MONTH) + ","
 			+ gc.get(GregorianCalendar.DAY_OF_MONTH) + ")";
 
 		} catch (Exception e) {
@@ -120,27 +119,25 @@
 	} else {
 
 		aEnddatum = request.getParameter(Parameter.studie.ENDDATUM
-				.name());
+		.name());
 
-				try {
-					SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy",
-					Locale.GERMAN);
-					sdf.setCalendar(Calendar.getInstance());
-					Date d = sdf.parse(aEnddatum);
-					GregorianCalendar gc = new GregorianCalendar();
-					gc.setTime(d);
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy",
+			Locale.GERMAN);
+			sdf.setCalendar(Calendar.getInstance());
+			Date d = sdf.parse(aEnddatum);
+			GregorianCalendar gc = new GregorianCalendar();
+			gc.setTime(d);
 
-					aEnddatum = "new Date("
-					+ gc.get(GregorianCalendar.YEAR) + ","
-					+ gc.get(GregorianCalendar.MONTH) + ","
-					+ gc.get(GregorianCalendar.DAY_OF_MONTH) + ")";
+			aEnddatum = "new Date(" + gc.get(GregorianCalendar.YEAR)
+			+ "," + gc.get(GregorianCalendar.MONTH) + ","
+			+ gc.get(GregorianCalendar.DAY_OF_MONTH) + ")";
 
-				} catch (Exception e) {
-					aEnddatum = "new Date("
-					+ heute.get(GregorianCalendar.YEAR) + ","
-					+ heute.get(GregorianCalendar.MONTH) + ","
-					+ heute.get(GregorianCalendar.DAY_OF_MONTH) + ")";
-				}
+		} catch (Exception e) {
+			aEnddatum = "new Date(" + heute.get(GregorianCalendar.YEAR)
+			+ "," + heute.get(GregorianCalendar.MONTH) + ","
+			+ heute.get(GregorianCalendar.DAY_OF_MONTH) + ")";
+		}
 
 	}
 

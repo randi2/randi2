@@ -1,15 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-	<%@ page import= "de.randi2.model.fachklassen.beans.*"
-	import= "java.util.GregorianCalendar"
-	import= "java.text.SimpleDateFormat" 
-	import= "java.util.Locale"
-%><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+<%@ page import="de.randi2.model.fachklassen.beans.*"
+	import="java.util.GregorianCalendar"
+	import="java.text.SimpleDateFormat" import="java.util.Locale"
+	import="de.randi2.utility.*"%>
+<%
+			request.setAttribute(DispatcherServlet.requestParameter.TITEL
+			.toString(), JspTitel.DATEN_AENDERN_SL_ADMIN.toString());
+%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
        "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<title>Randi2 :: Benutzer &auml;ndern</title>
+<title>Randi2 :: <%=request
+									.getAttribute(DispatcherServlet.requestParameter.TITEL
+											.toString())%></title>
 
 </head>
 <body>

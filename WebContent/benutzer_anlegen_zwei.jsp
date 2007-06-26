@@ -1,52 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ page import="de.randi2.model.fachklassen.beans.*"
-	import="de.randi2.utility.Parameter"
+	import="de.randi2.utility.*"
 	import="de.randi2.controller.DispatcherServlet"
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.*"%>
 
 <%
+			request.setAttribute(DispatcherServlet.requestParameter.TITEL
+			.toString(), JspTitel.BENUTZER_ANLEGEN_ZWEI.toString());
 
-			String aInstitution;
-			String aAbteilung;
+	String aInstitution;
+	String aAbteilung;
 
+	if (request.getParameter(Parameter.zentrum.INSTITUTION.name()) == null) {
 
-			if (request.getParameter(Parameter.zentrum.INSTITUTION.name())==null) {
-				
-				aInstitution = "";
-				
-			} else {
-				
-				aInstitution = (String)request.getParameter(Parameter.zentrum.INSTITUTION.name());
-				
-			}
-			if (request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name())==null) {
-				
-				aAbteilung = "";
-				
-				
-			} else {
-				
-				aAbteilung = (String)request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name());
-				
-			}
+		aInstitution = "";
 
+	} else {
 
-			Iterator listeZentren = ((Vector) request
+		aInstitution = (String) request
+		.getParameter(Parameter.zentrum.INSTITUTION.name());
+
+	}
+	if (request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name()) == null) {
+
+		aAbteilung = "";
+
+	} else {
+
+		aAbteilung = (String) request
+		.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name());
+
+	}
+
+	Iterator listeZentren = ((Vector) request
 			.getAttribute("listeZentren")).iterator();
 
-			Iterator listeZentren2 = ((Vector) request
+	Iterator listeZentren2 = ((Vector) request
 			.getAttribute("listeZentren")).iterator();
-
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
        "http://www.w3.org/TR/html4/strict.dtd">
-<html >
+<html>
 <head>
 
 <script language="Javascript" src="js/motionpack.js"> </script>
-<title>Randi2 :: Benutzer anlegen</title>
+<title>Randi2 :: <%=request
+									.getAttribute(DispatcherServlet.requestParameter.TITEL
+											.toString())%></title>
 <%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <script language="Javascript" src="js/inlinebutton.js"> </script>
@@ -266,7 +268,7 @@ Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
 <div id="form_filter"></div>
 <br>
 <table width="90%" id="zentren">
-	<thead align="left" >
+	<thead align="left">
 		<tr style="background:#eeeeee;">
 			<th width="40%">Name der Institution</th>
 			<th width="30%">Abteilung</th>
@@ -285,11 +287,13 @@ Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
 	<tr class="<%=reihe %>">
 		<td><%=aktuellesZentrum.getInstitution()%></td>
 		<td><%=aktuellesZentrum.getAbteilung()%></td>
-		<td><div id="form_zentrum<%=aktuellesZentrum.getId() %>"></div></td>
+		<td>
+		<div id="form_zentrum<%=aktuellesZentrum.getId() %>"></div>
+		</td>
 	</tr>
 	<%
 			tabindex++;
-		if (reihe.equals("tblrow1"))
+			if (reihe.equals("tblrow1"))
 				reihe = "tblrow2";
 			else
 				reihe = "tblrow1";

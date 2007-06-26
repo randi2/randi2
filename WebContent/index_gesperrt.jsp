@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" import="de.randi2.controller.DispatcherServlet"%>
 
-<%@ page%>
+<%@ page import="de.randi2.utility.*"%>
+<%
+			request.setAttribute(DispatcherServlet.requestParameter.TITEL
+			.toString(), JspTitel.INDEX_GESPERRT.toString());
+%>
 
 
 
@@ -10,8 +14,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>RANDI 2: Das System ist zur Zeit gesperrt! Wir bitten um
-ihr Verst&auml;ndnis</title>
+<title>RANDI2 :: <%=request
+									.getAttribute(DispatcherServlet.requestParameter.TITEL
+											.toString())%></title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/style_login.css" />
 <link rel="stylesheet" type="text/css"

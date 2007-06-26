@@ -2,9 +2,16 @@
        "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
+<%@page import="de.randi2.utility.*"%>
+<%
+			request.setAttribute(DispatcherServlet.requestParameter.TITEL
+			.toString(), JspTitel.IMPRESSUM.toString());
+%>
 <%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<title>Randi2 :: Impressum</title>
+<title>Randi2 :: <%=request
+									.getAttribute(DispatcherServlet.requestParameter.TITEL
+											.toString())%></title>
 <script>
 Ext.onReady(function(){
 

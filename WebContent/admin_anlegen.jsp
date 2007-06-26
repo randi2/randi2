@@ -1,19 +1,22 @@
 <%@ page import="de.randi2.model.fachklassen.beans.PersonBean"
 	import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
 	import="de.randi2.controller.DispatcherServlet"
-	import="de.randi2.model.fachklassen.beans.StudieBean"%>
+	import="de.randi2.model.fachklassen.beans.StudieBean"
+	import="de.randi2.utility.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
+		request.setAttribute(DispatcherServlet.requestParameter.TITEL
+		.toString(), JspTitel.ADMIN_ANLEGEN.toString());
+
 String vorname = (String)request.getAttribute("Vorname");
 if (vorname == null){
 	vorname ="";
 }
-
 %>
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<title>Randi2 :: Administrator anlegen</title>
+<title>Randi2 :: <%=request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString())%></title>
 <script type="text/javascript" src="js/prototype.js"></script>
 <script type="text/javascript" src="js/zebda.js"></script>
 
@@ -32,19 +35,18 @@ Angaben</b></legend> <label for="Titel">Titel*:</label><br>
 	<tr>
 		<td><select id="Titel" name="Titel" tabindex="1">
 			<%
-		for (PersonBean.Titel aTitel: PersonBean.Titel.values()){
-		    %>
+			for (PersonBean.Titel aTitel: PersonBean.Titel.values()){
+			%>
 			<option value="<%=aTitel.toString()%>"><%=aTitel.toString()%></option>
-			<%		    
-		}
-		%>
+			<%
+			}
+			%>
 		</select></td>
 	</tr>
 	<tr>
 		<td><label for="Vorname">Vorname *</label><br>
 		<input type="text" size="25" maxlength="30" id="Vorname"
-			name="Vorname" tabindex="2" value="<%=vorname%>" 
-			z:required="true"
+			name="Vorname" tabindex="2" value="<%=vorname%>" z:required="true"
 			z:message="Bitte Vornamen angeben"></td>
 		<td><label for="Nachname">Nachname *</label><br>
 		<input type="text" size="25" maxlength="30" id="Nachname"

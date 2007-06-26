@@ -7,10 +7,12 @@
 	import="java.util.GregorianCalendar"
 	import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
 	import="de.randi2.model.fachklassen.beans.*"
-	import="de.randi2.model.fachklassen.*"
-	import="de.randi2.utility.Parameter"
+	import="de.randi2.model.fachklassen.*" import="de.randi2.utility.*"
 	import="java.text.SimpleDateFormat" import="java.util.*"%>
-
+<%
+			request.setAttribute(DispatcherServlet.requestParameter.TITEL
+			.toString(), JspTitel.BENUTZER_ANLEGEN_EINS.toString());
+%>
 <head>
 <%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -62,7 +64,9 @@ Ext.onReady(function(){
     
     });
 </script>
-<title>Randi2 :: <%= request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString()) %></title>
+<title>Randi2 :: <%=request
+									.getAttribute(DispatcherServlet.requestParameter.TITEL
+											.toString())%></title>
 
 </head>
 <body>

@@ -13,7 +13,6 @@ var LayoutExample = function(){
     
     // define some private variables
     var dialog, showBtn;
-    var Tree = Ext.tree;
 
     // return a public interface
     return {
@@ -56,7 +55,8 @@ var LayoutExample = function(){
 
                 var layout = dialog.getLayout();
                 layout.beginUpdate();
-                layout.add('west', new Ext.ContentPanel('index', {title: 'Index'}));
+
+                layout.add('west', new Ext.ContentPanel(index, {title: 'Index',autoScroll:true}));
 	            layout.add('center', new Ext.ContentPanel('center', {title: '<%= (String) request
 	    			.getAttribute(DispatcherServlet.requestParameter.TITEL
 	    					.toString()) %>'}));
@@ -185,8 +185,8 @@ Ext.EventManager.onDocumentReady(LayoutExample.init, LayoutExample, true);
     <div class="x-dlg-hd">RANDI2 Hilfe</div>
 
     <div class="x-dlg-bd">
-        <div id="index" class="x-layout-inactive-content">
-	        INDEX
+        <div id="index" class="x-layout-inactive-content" style="overflow:auto;">
+		INDEX
 	    </div>
 	    <div id="center" class="x-layout-inactive-content" style="padding:10px;">
 			TEST

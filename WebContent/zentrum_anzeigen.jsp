@@ -5,21 +5,25 @@
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.*"
 	import="de.randi2.controller.StudieServlet"
-	import="de.randi2.utility.Parameter"%>
+	import="de.randi2.utility.Parameter" import="de.randi2.utility.*"%>
 <%
-			Vector<ZentrumBean> zugehoerigeZentren = (Vector<ZentrumBean>) request
-			.getAttribute("zugehoerigeZentren");
+		request.setAttribute(DispatcherServlet.requestParameter.TITEL
+		.toString(), JspTitel.ZENTRUM_ANZEIGEN.toString());
+%>
+<%
+	Vector<ZentrumBean> zugehoerigeZentren = (Vector<ZentrumBean>) request
+	.getAttribute("zugehoerigeZentren");
 
 	Vector<ZentrumBean> nichtZugehoerigeZentren = (Vector<ZentrumBean>) request
-			.getAttribute("nichtZugehoerigeZentren");
+	.getAttribute("nichtZugehoerigeZentren");
 
 	Vector<ZentrumBean> gefilterteZentren = (Vector<ZentrumBean>) request
-			.getAttribute("listeZentren");
+	.getAttribute("listeZentren");
 
 	StudieBean aSession = (StudieBean) request.getSession()
-			.getAttribute(
-			DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
-			.name());
+	.getAttribute(
+	DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+	.name());
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -27,7 +31,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Randi2 :: Benutzerverwaltung</title>
+<title>Randi2 :: <%=request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString())%></title>
 
 <script type="text/javascript">
 <!--
@@ -81,10 +85,12 @@ suchen </b></legend><br />
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td><input type="Text" name="<%=Parameter.zentrum.INSTITUTION.name() %>"
-			value="" size="30" maxlength="50" /></td>
-		<td><input type="Text" name="<%=Parameter.zentrum.ABTEILUNGSNAME.name() %>" 
-		value="" size="30" maxlength="50" /></td>
+		<td><input type="Text"
+			name="<%=Parameter.zentrum.INSTITUTION.name() %>" value="" size="30"
+			maxlength="50" /></td>
+		<td><input type="Text"
+			name="<%=Parameter.zentrum.ABTEILUNGSNAME.name() %>" value=""
+			size="30" maxlength="50" /></td>
 		<td><input type="submit" name="Filtern" value="Filtern" /></td>
 	</tr>
 </table>
@@ -112,11 +118,11 @@ suchen </b></legend><br />
 
 		if (gefilterteZentren != null) {
 			while (i < gefilterteZentren.size()) {
-				if (gefilterteZentren.elementAt(i).getIstAktiviert()) {
+		if (gefilterteZentren.elementAt(i).getIstAktiviert()) {
 			aktiv = "aktiv";
-				} else {
+		} else {
 			aktiv = "inaktiv";
-				}
+		}
 	%>
 	<tr class=<%=reihe %>>
 		<td><%=gefilterteZentren.elementAt(i).getInstitution()%></td>
@@ -127,8 +133,8 @@ suchen </b></legend><br />
 		if (aBenutzer.getRolle().toString().equals("STUDIENLEITER")) {
 		%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
 			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
- 			} else if (aBenutzer.getRolle().toString().equals(
- 			"ADMINISTRATOR")) {
+                                 	} else if (aBenutzer.getRolle().toString().equals(
+                                 	"ADMINISTRATOR")) {
  %> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
 			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
  }
@@ -139,20 +145,20 @@ suchen </b></legend><br />
 	<%
 			if (reihe.equals("tblrow1")) {
 			reihe = "tblrow2";
-				} else {
+		} else {
 			reihe = "tblrow1";
-				}
-				i++;
+		}
+		i++;
 			}
 
 		} else {
 
 			if (zugehoerigeZentren != null) {
-				while (i < anzahlZentren) {
+		while (i < anzahlZentren) {
 			if (zugehoerigeZentren.elementAt(i).getIstAktiviert()) {
-				aktiv = "aktiv";
+		aktiv = "aktiv";
 			} else {
-				aktiv = "inaktiv";
+		aktiv = "inaktiv";
 			}
 	%>
 	<tr class=<%=reihe %>>
@@ -163,12 +169,12 @@ suchen </b></legend><br />
 		<td align=center><%=aktiv%></td>
 		<td width="40px">
 		<%
-						if (aBenutzer.getRolle().toString().equals(
-						"STUDIENLEITER")) {
+				if (aBenutzer.getRolle().toString().equals(
+				"STUDIENLEITER")) {
 		%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
 			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
- 				} else if (aBenutzer.getRolle().toString().equals(
- 				"ADMINISTRATOR")) {
+                                 		} else if (aBenutzer.getRolle().toString().equals(
+                                 		"ADMINISTRATOR")) {
  %> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
 			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
  }
@@ -177,22 +183,22 @@ suchen </b></legend><br />
 	</tr>
 
 	<%
-				if (reihe.equals("tblrow1")) {
-				reihe = "tblrow2";
+		if (reihe.equals("tblrow1")) {
+		reihe = "tblrow2";
 			} else {
-				reihe = "tblrow1";
+		reihe = "tblrow1";
 			}
 			i++;
-				}
+		}
 			}
 			i = 0;
 			if (nichtZugehoerigeZentren != null) {
-				while (i < nichtZugehoerigeZentren.size()) {
+		while (i < nichtZugehoerigeZentren.size()) {
 			if (nichtZugehoerigeZentren.elementAt(i)
-					.getIstAktiviert()) {
-				aktiv = "aktiv";
+			.getIstAktiviert()) {
+		aktiv = "aktiv";
 			} else {
-				aktiv = "inaktiv";
+		aktiv = "inaktiv";
 			}
 	%>
 	<tr class=<%=reihe %>>
@@ -203,15 +209,15 @@ suchen </b></legend><br />
 		<td><%=aktiv%></td>
 		<td>
 		<%
-						if (aBenutzer.getRolle().toString().equals(
-						"STUDIENLEITER")) {
+				if (aBenutzer.getRolle().toString().equals(
+				"STUDIENLEITER")) {
 		%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
 			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <br>
 		<a href="zentrum_studie_zuordnen.jsp"> <input type="submit"
 			name="studie_hinzufuegen" value="Zu Studie hinzuf&uuml;gen"></a>
 		<%
-						} else if (aBenutzer.getRolle().toString().equals(
-						"ADMINISTRATOR")) {
+				} else if (aBenutzer.getRolle().toString().equals(
+				"ADMINISTRATOR")) {
 		%> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
 			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
  }
@@ -220,13 +226,13 @@ suchen </b></legend><br />
 	</tr>
 
 	<%
-				if (reihe.equals("tblrow1")) {
-				reihe = "tblrow2";
+		if (reihe.equals("tblrow1")) {
+		reihe = "tblrow2";
 			} else {
-				reihe = "tblrow1";
+		reihe = "tblrow1";
 			}
 			i++;
-				}
+		}
 			}
 		}
 	%>

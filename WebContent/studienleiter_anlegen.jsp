@@ -1,15 +1,19 @@
 <%@ page import="de.randi2.model.fachklassen.beans.PersonBean"
 	import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
 	import="de.randi2.controller.DispatcherServlet"
-	import= "java.util.GregorianCalendar"
-	import= "java.text.SimpleDateFormat" 
-	import= "java.util.Locale"
-	import="de.randi2.model.fachklassen.beans.StudieBean"%>
+	import="java.util.GregorianCalendar"
+	import="java.text.SimpleDateFormat" import="java.util.Locale"
+	import="de.randi2.model.fachklassen.beans.StudieBean"
+	import="de.randi2.utility.*"%>
+<%
+		request.setAttribute(DispatcherServlet.requestParameter.TITEL
+		.toString(), JspTitel.STUDIENLEITER_ANLEGEN.toString());
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<title>Randi2 :: Studienleiter anlegen</title>
+<title>Randi2 :: <%=request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString())%></title>
 <script type="text/javascript" src="js/prototype.js"></script>
 <script type="text/javascript" src="js/zebda.js"></script>
 

@@ -3,27 +3,32 @@
 <%@ page import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
-<%@ page import="de.randi2.model.fachklassen.beans.*"%>
+<%@ page import="de.randi2.model.fachklassen.beans.*"
+	import="de.randi2.utility.*"%>
 <%
-			Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
-			.getAttribute(
-			DispatcherServlet.sessionParameter.A_Benutzer
-			.toString())).getRolle().getRollenname();
+		request.setAttribute(DispatcherServlet.requestParameter.TITEL
+		.toString(), JspTitel.STUDIE_ANSEHEN.toString());
+%>
+<%
+	Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
+	.getAttribute(
+	DispatcherServlet.sessionParameter.A_Benutzer
+	.toString())).getRolle().getRollenname();
 	StudieBean aStudie = (StudieBean) request.getSession()
-			.getAttribute(
-			DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
-			.toString());
+	.getAttribute(
+	DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+	.toString());
 	Vector<StudienarmBean> aStudienarme = aStudie.getStudienarme();
 	int counter = aStudienarme.size();
 	SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy",
-			Locale.GERMANY);
+	Locale.GERMANY);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="java.util.Vector"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Randi2 :: Studie anzeigen</title>
+<title>Randi2 :: <%=request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString())%></title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
@@ -256,8 +261,7 @@
 </form>
 <%
 }
-%>
-<%@include file="include/inc_footer.jsp"%></div>
+%> <%@include file="include/inc_footer.jsp"%></div>
 <%@include file="include/inc_menue.jsp"%>
 </body>
 </html>
