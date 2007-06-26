@@ -126,6 +126,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER,
 
 		/**
+		 * Zentrenverwaltung für Studie
+		 */
+		JSP_ZENTRUM_ANZEIGEN,
+		
+		/**
 		 * Benutzerdaten aendern
 		 */
 		JSP_DATEN_AENDERN,
