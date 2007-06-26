@@ -303,7 +303,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					request.getRequestDispatcher("ZentrumServlet").forward(
 							request, response);
 				} else {
-					
 					request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
 							request, response);
 				}
