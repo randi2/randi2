@@ -152,6 +152,10 @@ Ext.onReady(function(){
 	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
 	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN%>'});	
 	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.filter %>', type:'hidden', value: '<%=Parameter.filter %>'});	
+		
+	<%
+	if (aRolle == Rolle.Rollen.STUDIENLEITER) {
+	%>
 	
 	<!-- Die Buttons für den SL -->
 	
@@ -194,6 +198,12 @@ Ext.onReady(function(){
 	
 	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
 	form_simulation.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_SIMULATION%>'});	
+
+<%
+
+}
+
+%>
 
 });
 

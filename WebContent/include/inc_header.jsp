@@ -4,14 +4,15 @@
 	import="de.randi2.model.fachklassen.beans.AktivierungBean"
 	import="java.util.GregorianCalendar"
 	import="de.randi2.model.fachklassen.beans.PersonBean"
-	import="de.randi2.controller.DispatcherServlet"%>
+	import="de.randi2.controller.DispatcherServlet"
+	import="de.randi2.utility.Hilfe"
+	import="de.randi2.utility.JspTitel"
+	%>
 <script>
 
 // create the RANDI2 HELP Dialog!
-var LayoutExample = function(){
-    // everything in this space is private and only accessible in the HelloWorld block
-    
-    // define some private variables
+var Hilfe = function(){
+
     var dialog, showBtn;
 
     // return a public interface
@@ -33,15 +34,6 @@ var LayoutExample = function(){
                         minWidth:300,
                         minHeight:300,
                         proxyDrag: true,
-                        west: {
-	                        split:true,
-	                        initialSize: 150,
-	                        minSize: 100,
-	                        maxSize: 250,
-	                        titlebar: true,
-	                        collapsible: true,
-	                        animate: true
-	                    },
 	                    center: {
 	                        autoScroll:true,
 	                        tabPosition: 'top',
@@ -50,13 +42,11 @@ var LayoutExample = function(){
 	                    }
                 });
                 dialog.addKeyListener(27, dialog.hide, dialog);
-                dialog.addButton('Close', dialog.hide, dialog);
+                dialog.addButton('Schliessen', dialog.hide, dialog);
                 
 
                 var layout = dialog.getLayout();
                 layout.beginUpdate();
-
-                layout.add('west', new Ext.ContentPanel(index, {title: 'Index',autoScroll:true}));
 	            layout.add('center', new Ext.ContentPanel('center', {title: '<%= (String) request
 	    			.getAttribute(DispatcherServlet.requestParameter.TITEL
 	    					.toString()) %>'}));
@@ -69,7 +59,7 @@ var LayoutExample = function(){
 
 // using onDocumentReady instead of window.onload initializes the application
 // when the DOM is ready, without waiting for images and other resources to load
-Ext.EventManager.onDocumentReady(LayoutExample.init, LayoutExample, true);
+Ext.EventManager.onDocumentReady(Hilfe.init, Hilfe, true);
 </script>
 <%
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
@@ -183,13 +173,11 @@ Ext.EventManager.onDocumentReady(LayoutExample.init, LayoutExample, true);
 </div>
 <div id="randi_help" style="visibility:hidden;">
     <div class="x-dlg-hd">RANDI2 Hilfe</div>
-
     <div class="x-dlg-bd">
-        <div id="index" class="x-layout-inactive-content" style="overflow:auto;">
-		INDEX
-	    </div>
-	    <div id="center" class="x-layout-inactive-content" style="padding:10px;">
-			TEST
+	    <div id="center" class="x-layout-inactive-content" style="padding:10px; font: 10px arial, sans-serif;">
+			<%= Hilfe.getHilfe((String) request
+			.getAttribute(DispatcherServlet.requestParameter.TITEL
+					.toString())) %>
 	    </div>
     </div>
 </div>
