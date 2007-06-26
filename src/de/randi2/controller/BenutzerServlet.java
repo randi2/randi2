@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.jasper.tagplugins.jstl.core.Param;
 import org.apache.log4j.Logger;
 
 import de.randi2.datenbank.Datenbank;
@@ -157,7 +158,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 		// if
 	}// doPost
-	
+
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -485,8 +486,10 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 		try {
 			sBenutzer = new BenutzerkontoBean((String) request
-					.getParameter(Parameter.benutzerkonto.LOGINNAME.name()), (String) request
-					.getParameter(Parameter.benutzerkonto.PASSWORT.name()));
+					.getParameter(Parameter.benutzerkonto.LOGINNAME.name()),
+					(String) request
+							.getParameter(Parameter.benutzerkonto.PASSWORT
+									.name()));
 			// Filter setzen
 			sBenutzer.setFilter(true);
 			Vector<BenutzerkontoBean> gBenutzer = null;
@@ -509,7 +512,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				if (!aBenutzer.isGesperrt()
 						&& new Benutzerkonto(aBenutzer)
 								.pruefenPasswort((String) request
-										.getParameter(Parameter.benutzerkonto.PASSWORT.name()))) {
+										.getParameter(Parameter.benutzerkonto.PASSWORT
+												.name()))) {
 					// Konto nicht gesperrt und PW korrekt
 					if (isSystemGesperrt) {
 						// Konto korrekt, aber System gesperrt
@@ -580,7 +584,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			try {
 				dummy
 						.setBenutzername((String) request
-								.getParameter(Parameter.benutzerkonto.LOGINNAME.name()));
+								.getParameter(Parameter.benutzerkonto.LOGINNAME
+										.name()));
 			} catch (BenutzerkontoException e1) {
 			}
 
@@ -615,13 +620,16 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		// Alle Attribute des request inititalisieren
 		// String fehlernachricht = "";
 		String vorname = request.getParameter(Parameter.person.VORNAME.name());
-		String nachname = request.getParameter(Parameter.person.NACHNAME.name());
+		String nachname = request
+				.getParameter(Parameter.person.NACHNAME.name());
 		char geschlecht = '\0';
 		String passwort = null;
 		String email = request.getParameter(Parameter.person.EMAIL.name());
-		String telefon = request.getParameter(Parameter.person.TELEFONNUMMER.name());
+		String telefon = request.getParameter(Parameter.person.TELEFONNUMMER
+				.name());
 		String fax = request.getParameter(Parameter.person.FAX.name());
-		String handynummer = request.getParameter(Parameter.person.HANDYNUMMER.name());
+		String handynummer = request.getParameter(Parameter.person.HANDYNUMMER
+				.name());
 		String titel = request.getParameter(Parameter.person.TITEL.name());
 		PersonBean.Titel titelenum = null;
 		try {
@@ -630,7 +638,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				throw new BenutzerkontoException(
 						"Bitte Geschlecht ausw&auml;hlen");
 			}
-			geschlecht = request.getParameter(Parameter.person.GESCHLECHT.name()).charAt(0);
+			geschlecht = request.getParameter(
+					Parameter.person.GESCHLECHT.name()).charAt(0);
 			// Konvertierung String enum
 			for (PersonBean.Titel t : PersonBean.Titel.values()) {
 				if (titel.equals(t.toString())) {
@@ -641,10 +650,18 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			// Wiederholte Passworteingabe prüfen
 			if (request.getParameter(Parameter.benutzerkonto.PASSWORT.name()) != null
-					&& request.getParameter(Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG.name()) != null) {
-				if (request.getParameter(Parameter.benutzerkonto.PASSWORT.name()).equals(
-						request.getParameter(Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG.name()))) {
-					passwort = request.getParameter(Parameter.benutzerkonto.PASSWORT.name());
+					&& request
+							.getParameter(Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG
+									.name()) != null) {
+				if (request
+						.getParameter(Parameter.benutzerkonto.PASSWORT.name())
+						.equals(
+								request
+										.getParameter(Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG
+												.name()))) {
+					passwort = request
+							.getParameter(Parameter.benutzerkonto.PASSWORT
+									.name());
 				} else {
 					throw new BenutzerkontoException(
 							BenutzerkontoException.PASSWORT_STIMMT_NICHT_UEBEREIN);
@@ -707,15 +724,20 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			if (e instanceof BenutzerException) {
 
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
 
-			} else if (e instanceof DatenbankExceptions && e.getMessage().equals(DatenbankExceptions.TESTER_EXISTIERT_ERR)) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Benutzer ist bereits vorhanden. Bitte anderen Benutzernamen w&auml;hlen.");
+			} else if (e instanceof DatenbankExceptions
+					&& e.getMessage().equals(
+							DatenbankExceptions.TESTER_EXISTIERT_ERR)) {
+				request
+						.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+								"Benutzer ist bereits vorhanden. Bitte anderen Benutzernamen w&auml;hlen.");
 			} else
 				throw new SystemException("Fehler bei Aktivierung");
 
-
-			request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(request, response);
+			request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(
+					request, response);
 		}
 
 	}
@@ -736,31 +758,35 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)
 	 */
-	private void classDispatcherServletBenutzerSuchen(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	private void classDispatcherServletBenutzerSuchen(
+			HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		BenutzerkontoBean bKonto = null;
 		PersonBean person = null;
 		ZentrumBean zentrum = null;
 		Vector<BenutzerkontoBean> benutzerVec = null;
 		Vector<PersonBean> personVec = new Vector<PersonBean>();
 		Vector<ZentrumBean> zentrumVec = new Vector<ZentrumBean>();
-		Vector<BenutzerkontoBean>tmpBVec = new Vector<BenutzerkontoBean>();
-		Vector<ZentrumBean>tmpZVec= new Vector<ZentrumBean>();
+		Vector<BenutzerkontoBean> tmpBVec = new Vector<BenutzerkontoBean>();
+		Vector<ZentrumBean> tmpZVec = new Vector<ZentrumBean>();
 		PersonBean[] pArr = null;
 		BenutzerkontoBean[] bArr = null;
 		ZentrumBean[] zArr = null;
 		Iterator<BenutzerkontoBean> it_B = null;
-		Iterator<PersonBean>it_P = null;
-		Iterator<ZentrumBean>it_Z = null;
+		Iterator<PersonBean> it_P = null;
+		Iterator<ZentrumBean> it_Z = null;
 		boolean gesuchtKonto = false;
 		boolean gesuchtPerson = false;
 		boolean gesuchtZentrum = false;
-		
-		if(((String)request.getParameter("Aktualisieren")) != null) {
+
+		if (((String) request.getParameter("Aktualisieren")) != null) {
 			try {
-				if((String)request.getParameter(Parameter.benutzerkonto.LOGINNAME.name())!=null) {
+				if ((String) request
+						.getParameter(Parameter.benutzerkonto.LOGINNAME.name()) != null) {
 					bKonto = new BenutzerkontoBean();
-					bKonto.setBenutzername(request.getParameter(Parameter.benutzerkonto.LOGINNAME.name()));
+					bKonto.setBenutzername(request
+							.getParameter(Parameter.benutzerkonto.LOGINNAME
+									.name()));
 					bKonto.setFilter(true);
 					benutzerVec = new Vector<BenutzerkontoBean>();
 					benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
@@ -768,68 +794,43 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					benutzerVec.addAll(Benutzerkonto.suchenBenutzer(bKonto));
 					gesuchtKonto = true;
 				}
-				
-				
-				if(((String)request.getParameter(Parameter.person.VORNAME.name()))!=null || 
-						((String)request.getParameter(Parameter.person.NACHNAME.name()))!=null ||
-						((String)request.getParameter(Parameter.person.EMAIL.name()))!=null) {
+
+				if (((String) request.getParameter(Parameter.person.VORNAME
+						.name())) != null
+						|| ((String) request
+								.getParameter(Parameter.person.NACHNAME.name())) != null
+						|| ((String) request
+								.getParameter(Parameter.person.EMAIL.name())) != null) {
 					person = new PersonBean();
 					person.setFilter(true);
-					person.setVorname(request.getParameter(Parameter.person.VORNAME.name()));
-					person.setNachname(request.getParameter(Parameter.person.NACHNAME.name()));
-					person.setEmail(request.getParameter(Parameter.person.EMAIL.name()));
+					person.setVorname(request
+							.getParameter(Parameter.person.VORNAME.name()));
+					person.setNachname(request
+							.getParameter(Parameter.person.NACHNAME.name()));
+					person.setEmail(request.getParameter(Parameter.person.EMAIL
+							.name()));
 					personVec = new Vector<PersonBean>();
 					personVec = Person.suchenPerson(person);
-					
+
 					pArr = new PersonBean[personVec.size()];
 					personVec.toArray(pArr);
 					gesuchtPerson = true;
-					
-					if(!gesuchtKonto) {
+
+					if (!gesuchtKonto) {
 						benutzerVec = new Vector<BenutzerkontoBean>();
 						int counter = 0;
 						bKonto = new BenutzerkontoBean();
 						PersonBean gefundenePerson = new PersonBean();
-						while(counter < personVec.size()) {
-							gefundenePerson = (PersonBean)pArr[counter++];
-							
+						while (counter < personVec.size()) {
+							gefundenePerson = (PersonBean) pArr[counter++];
+
 							bKonto.setBenutzerId(gefundenePerson.getId());
 							bKonto.setFilter(true);
 							tmpBVec = Benutzerkonto.suchenBenutzer(bKonto);
 							bKonto.setGesperrt(true);
-							tmpBVec.addAll(Benutzerkonto.suchenBenutzer(bKonto));
-							it_B = tmpBVec.iterator();
-							while(tmpBVec.size()>0 && it_B.hasNext()){
-								benutzerVec.add(it_B.next());
-							}
-						}
-						gesuchtKonto = true;
-					}
-				}
-				if((String)request.getParameter(Parameter.zentrum.INSTITUTION.name())!=null) {
-					zentrum = new ZentrumBean();
-					zentrum.setInstitution(request.getParameter(Parameter.zentrum.INSTITUTION.name()));
-					zentrum.setFilter(true);
-					zentrumVec = new Vector<ZentrumBean>();
-					zentrumVec = Zentrum.suchenZentrum(zentrum);
-					zentrum.setIstAktiviert(true);
-					zentrumVec.addAll(Zentrum.suchenZentrum(zentrum));
-					
-					zArr = new ZentrumBean[zentrumVec.size()];
-					zentrumVec.toArray(zArr);
-					
-					if (!gesuchtKonto) {
-						int counter = 0;
-						bKonto = new BenutzerkontoBean();
-						while (counter < zentrumVec.size()) {
-							zentrum = (ZentrumBean)zArr[counter++];
-
-							bKonto.setZentrumId(zentrum.getId());
-							bKonto.setFilter(true);
-
-							tmpBVec = Benutzerkonto.suchenBenutzer(bKonto);
-							bKonto.setGesperrt(true);
-							tmpBVec.addAll(Benutzerkonto.suchenBenutzer(bKonto));
+							tmpBVec
+									.addAll(Benutzerkonto
+											.suchenBenutzer(bKonto));
 							it_B = tmpBVec.iterator();
 							while (tmpBVec.size() > 0 && it_B.hasNext()) {
 								benutzerVec.add(it_B.next());
@@ -837,13 +838,52 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 						}
 						gesuchtKonto = true;
 					}
-					if(!gesuchtPerson) {
+				}
+				if ((String) request.getParameter(Parameter.zentrum.INSTITUTION
+						.name()) != null) {
+					zentrum = new ZentrumBean();
+					zentrum
+							.setInstitution(request
+									.getParameter(Parameter.zentrum.INSTITUTION
+											.name()));
+					zentrum.setFilter(true);
+					zentrumVec = new Vector<ZentrumBean>();
+					zentrumVec = Zentrum.suchenZentrum(zentrum);
+					zentrum.setIstAktiviert(true);
+					zentrumVec.addAll(Zentrum.suchenZentrum(zentrum));
+
+					zArr = new ZentrumBean[zentrumVec.size()];
+					zentrumVec.toArray(zArr);
+
+					if (!gesuchtKonto) {
+						int counter = 0;
+						bKonto = new BenutzerkontoBean();
+						while (counter < zentrumVec.size()) {
+							zentrum = (ZentrumBean) zArr[counter++];
+
+							bKonto.setZentrumId(zentrum.getId());
+							bKonto.setFilter(true);
+
+							tmpBVec = Benutzerkonto.suchenBenutzer(bKonto);
+							bKonto.setGesperrt(true);
+							tmpBVec
+									.addAll(Benutzerkonto
+											.suchenBenutzer(bKonto));
+							it_B = tmpBVec.iterator();
+							while (tmpBVec.size() > 0 && it_B.hasNext()) {
+								benutzerVec.add(it_B.next());
+							}
+						}
+						gesuchtKonto = true;
+					}
+					if (!gesuchtPerson) {
 						int counter = 0;
 						person = new PersonBean();
 						while (counter < zentrumVec.size()) {
-							zentrum = (ZentrumBean)zArr[counter++];
-							
-							person = Zentrum.getZugehoerigePerson(zentrum.getId());
+							zentrum = (ZentrumBean) zArr[counter++];
+
+							person = Zentrum.getZugehoerigePerson(zentrum
+									.getId());
 							personVec.add(person);
 						}
 						gesuchtPerson = true;
@@ -853,27 +893,30 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					zentrum = new ZentrumBean();
 					zentrum.setFilter(true);
 					zentrumVec = Zentrum.suchenZentrum(zentrum);
-					//TODO --kkrupka zu implementierende Fälle
-					if(!gesuchtZentrum && !gesuchtKonto){
-						
-					}
-					else if(!gesuchtZentrum || !gesuchtPerson) {
-						
-					}
-					else if(!gesuchtZentrum){
-						
+					// TODO --kkrupka zu implementierende Fälle
+					if (!gesuchtZentrum && !gesuchtKonto) {
+
+					} else if (!gesuchtZentrum || !gesuchtPerson) {
+
+					} else if (!gesuchtZentrum) {
+
 					}
 				}
-				if(personVec.size() != benutzerVec.size() || personVec.size() != zentrumVec.size() || benutzerVec.size() != zentrumVec.size()) {
-					//TODO wegen 1:n Beziehungsprobleme
+				if (personVec.size() != benutzerVec.size()
+						|| personVec.size() != zentrumVec.size()
+						|| benutzerVec.size() != zentrumVec.size()) {
+					// TODO wegen 1:n Beziehungsprobleme
 				}
-				
+
 			} catch (PersonException e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
 			} catch (ZentrumException e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
 			} catch (BenutzerkontoException e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
 			}
 		} else {
 			bKonto = new BenutzerkontoBean();
@@ -891,16 +934,13 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				zentrumVec.add(zentrum);
 			}
 		}
-			
-		
 
 		request.setAttribute("listeBenutzer", benutzerVec);
 		request.setAttribute("listePerson", personVec);
 		request.setAttribute("listeZentrum", zentrumVec);
 		request.getRequestDispatcher(Jsp.ADMIN_LISTE)
-				.forward(request, response);	
-		
-		
+				.forward(request, response);
+
 	}
 
 	/**
@@ -933,37 +973,43 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 		// Alle Attribute des request inititalisieren
 		// String fehlernachricht = "";
-		String vorname = request.getParameter("Vorname");
-		String nachname = request.getParameter("Nachname");
+		String vorname = request.getParameter(Parameter.person.VORNAME.name());
+		String nachname = request
+				.getParameter(Parameter.person.NACHNAME.name());
 		char geschlecht = '\0';
 		String passwort = KryptoUtil.getInstance().generatePasswort(10);
-		String email = request.getParameter("Email");
-		String telefon = request.getParameter("Telefon");
-		String fax = request.getParameter("Fax");
-		String handynummer = request.getParameter("Handy");
-		String institut = request.getParameter("Institut");
-		String titel = request.getParameter("Titel");
-		PersonBean.Titel titelenum = null;
-		String vornameA = request.getParameter("VornameA");
-		String nachnameA = request.getParameter("NachnameA");
-		String telefonA = request.getParameter("TelefonA");
-		String benutzername = request.getParameter("Benutzername");
-		// String emailA = request.getParameter("EmailA");
+		String email = request.getParameter(Parameter.person.EMAIL.name());
+		String telefon = request.getParameter(Parameter.person.TELEFONNUMMER
+				.name());
+		String fax = request.getParameter(Parameter.person.FAX.name());
 
-		System.out.println(" - - - ");
-		System.out.println(passwort);
-		System.out.println(" - - - ");
+		String institut = request
+				.getParameter(Parameter.benutzerkonto.ZENTRUM_FK.name());
+		String titel = request.getParameter(Parameter.person.TITEL.name());
+		PersonBean.Titel titelenum = null;
+		String vornameA = request
+				.getParameter(Parameter.person.STELLVERTRETER_VORNAME.name());
+		String nachnameA = request
+				.getParameter(Parameter.person.STELLVERTRETER_NACHNAME.name());
+		String telefonA = request
+				.getParameter(Parameter.person.STELLVERTRETER_TELEFONNUMMER
+						.name());
+		String benutzername = request
+				.getParameter(Parameter.benutzerkonto.LOGINNAME.name());
+		long zentrumId = -1l;
+		System.out.println("Zentrum: " + institut);
 
 		Rolle rolle = ((BenutzerkontoBean) request.getSession().getAttribute(
 				"aBenutzer")).getRolle();
 
 		try {
 			// Geschlecht gesetzt pruefen
-			if (request.getParameter("Geschlecht") == null) {
+			if (request.getParameter(Parameter.person.GESCHLECHT.name()) == null) {
 				throw new BenutzerkontoException(
 						"Bitte Geschlecht ausw&auml;hlen");
 			}
-			geschlecht = request.getParameter("Geschlecht").charAt(0);
+			geschlecht = request.getParameter(
+					Parameter.person.GESCHLECHT.name()).charAt(0);
 			// Konvertierung String enum
 			for (PersonBean.Titel t : PersonBean.Titel.values()) {
 				if (titel.equals(t.toString())) {
@@ -971,16 +1017,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					break;
 				}
 			}
-			/*
-			 * // Wiederholte Passworteingabe prüfen if
-			 * (request.getParameter("Passwort") != null &&
-			 * request.getParameter("Passwort_wh") != null) { if
-			 * (request.getParameter("Passwort").equals(
-			 * request.getParameter("Passwort_wh"))) { passwort =
-			 * request.getParameter("Passwort"); } else { throw new
-			 * BenutzerkontoException( "Passwort und wiederholtes Passwort sind
-			 * nicht gleich"); } }
-			 */
+
 			// Benutzer anlegen
 			PersonBean aPerson = null;
 			aPerson = new PersonBean();
@@ -990,14 +1027,15 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			aPerson.setGeschlecht(geschlecht);
 			aPerson.setEmail(email);
 			aPerson.setTelefonnummer(telefon);
-			aPerson.setHandynummer(handynummer);
 			aPerson.setFax(fax);
 
 			PersonBean rolf = new PersonBean();
 			rolf.setNachname(nachnameA);
 			rolf.setVorname(vornameA);
 			rolf.setTelefonnummer(telefonA);
-			rolf.setEmail("Benjamin.Theel@hatta.de");// XXX
+			rolf.setEmail("dummyEmail@fuerden.nl"); // Sonst knallts inner Db
+			rolf.setTitel(PersonBean.Titel.KEIN_TITEL);// Sonst knallts inner
+			// Db
 
 			BenutzerkontoBean anleger = (BenutzerkontoBean) request
 					.getSession().getAttribute("aBenutzer");
@@ -1007,10 +1045,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					.schreibenObjekt(rolf);
 
 			aPerson.setStellvertreter(rolf);
-			// aPerson.getStellvertreter().setNachname(nachnameA);
-			// aPerson.getStellvertreter().setVorname(vornameA);
-			// aPerson.getStellvertreter().setTelefonnummer(telefonA);
-			// aPerson.getStellvertreter().setEmail(emailA);
+
 			aPerson.setBenutzerkontoLogging(anleger);
 			aPerson = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 					aPerson);
@@ -1020,12 +1055,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			BenutzerkontoBean aBenutzerkonto;
 			aBenutzerkonto = new BenutzerkontoBean(benutzername, KryptoUtil
 					.getInstance().hashPasswort(passwort), aPerson);
-			aBenutzerkonto.setZentrumId(4); // XXX
-			/*
-			 * aBenutzerkonto.setZentrum((ZentrumBean)
-			 * request.getSession().getAttribute(DispatcherServlet.
-			 * sessionParameter.ZENTRUM_BENUTZER_ANLEGEN.toString()));
-			 */
+
+			zentrumId = Long.valueOf(institut);
+			aBenutzerkonto.setZentrumId(zentrumId);
 
 			if (rolle.besitzenRolleRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN)) {
 				aBenutzerkonto.setRolle(Rolle.getStudienleiter());
@@ -1051,7 +1083,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					NullKonstanten.DUMMY_ID, new GregorianCalendar(), konto
 							.getBenutzerkontobean().getId(), KryptoUtil
 							.getInstance().getAktivierungslink());
-			
+
 			aktivierung.setBenutzerkontoLogging(Filter.getSystemdummy());
 			aktivierung = DatenbankFactory.getAktuelleDBInstanz()
 					.schreibenObjekt(aktivierung);
@@ -1061,53 +1093,53 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			aktivierungMail.senden();
 			// Nachricht an anleger
 
-			if (rolle.besitzenRolleRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN)) {
-				request.getRequestDispatcher("/studienleiter_anlegen_zwei.jsp")
-						.forward(request, response);
-			}
-			if (rolle.besitzenRolleRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN)) {
-				request.getRequestDispatcher("/admin_anlegen_zwei.jsp")
-						.forward(request, response);
-			}
+			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+					"Account erfolgreich angelegt.");
+			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
+					.toString(), DispatcherServlet.anfrage_id.JSP_ADMIN_ANLEGEN
+					.name());
+			request.getRequestDispatcher("/DispatcherServlet").forward(request,
+					response);
 
 		} catch (Exception e) {
 
-			request.setAttribute("Vorname", vorname);
-			request.setAttribute("Nachname", nachname);
+			request.setAttribute(Parameter.person.VORNAME.name(), vorname);
+			request.setAttribute(Parameter.person.NACHNAME.name(), nachname);
+
+			request.setAttribute(Parameter.person.EMAIL.name(), email);
+			request
+					.setAttribute(Parameter.person.TELEFONNUMMER.name(),
+							telefon);
+			request.setAttribute(Parameter.person.FAX.name(), fax);
+
+			request.setAttribute(Parameter.benutzerkonto.ZENTRUM_FK.name(),
+					zentrumId);
+			request.setAttribute(Parameter.person.TITEL.name(), titelenum
+					.toString());
+			request.setAttribute(
+					Parameter.person.STELLVERTRETER_VORNAME.name(), vornameA);
+			request.setAttribute(Parameter.person.STELLVERTRETER_NACHNAME
+					.name(), nachnameA);
+			request.setAttribute(Parameter.person.STELLVERTRETER_TELEFONNUMMER
+					.name(), telefonA);
+			request.setAttribute(Parameter.benutzerkonto.LOGINNAME.name(),
+					benutzername);
 
 			if (geschlecht == 'm') {
-				request.setAttribute("Geschlecht", "m");
+				request.setAttribute(Parameter.person.GESCHLECHT.name(), "m");
 
 			} else if (geschlecht == 'w') {
-				request.setAttribute("Geschlecht", "w");
+				request.setAttribute(Parameter.person.GESCHLECHT.name(), "w");
 			}
 
-			request.setAttribute("Titel", titelenum);
-			// request.setAttribute("Passwort",
-			// request.getParameter("Passwort"));
-			// request.setAttribute("Passwort_wh",
-			// request.getParameter("Passwort_wh"));
-			request.setAttribute("Email", email);
-			request.setAttribute("Telefon", telefon);
-			request.setAttribute("Fax", fax);
-			request.setAttribute("Handy", handynummer);
-			request.setAttribute("Institut", institut);
-			request.setAttribute("VornameA", vornameA);
-			request.setAttribute("NachnameA", nachnameA);
-			request.setAttribute("TelefonA", telefonA);
-			// request.setAttribute("EmailA", emailA);
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 					.getMessage());
 
-			if (rolle.besitzenRolleRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN)) {
-				request.getRequestDispatcher("/studienleiter_anlegen.jsp")
-						.forward(request, response);
-			}
-			if (rolle.besitzenRolleRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN)) {
-				request.getRequestDispatcher("/admin_anlegen.jsp").forward(
-						request, response);
-			}
-
+			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
+					.toString(), DispatcherServlet.anfrage_id.JSP_ADMIN_ANLEGEN
+					.name());
+			request.getRequestDispatcher("/DispatcherServlet").forward(request,
+					response);
 		}
 	}
 

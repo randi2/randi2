@@ -192,8 +192,14 @@ public class Studie {
 			throws DatenbankExceptions {
 		StudieBean studie = new StudieBean();
 		studie.setId(studieId);
+		
+		// Workaround: es werden nur aktivierte Zentren geliefert --Btheel
+		ZentrumBean zentrumDummy = new ZentrumBean();
+		zentrumDummy.setFilter(true);
+		zentrumDummy.setIstAktiviert(true);
+		
 		return DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(
-				studie, new ZentrumBean());
+				studie, zentrumDummy);
 	}
 
 	/**

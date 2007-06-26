@@ -165,6 +165,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		AKTION_ADMIN_ANLEGEN,
 
 		/**
+		 * Aufforderung, den Request an die entsprechende Seite umzuleiten
+		 */
+		JSP_ADMIN_ANLEGEN,
+		
+		/**
 		 * Aufforderung, einen Studienleiter mit den gesendeten Daten anzulegen
 		 */
 		AKTION_STUDIENLEITER_ANLEGEN,
@@ -223,10 +228,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Studie auswaehlen
 		 */
 		JSP_STUDIE_AUSWAEHLEN,
-		/**
-		 * Zentrenverwaltung für Studie
-		 */
-		JSP_ZENTRUM_ANZEIGEN,
 
 		/**
 		 * Simulation einer Studie.
@@ -320,8 +321,13 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Anzahl an Armen
 		 */
-		ANZAHL_ARME("anzahl_arme");
+		ANZAHL_ARME("anzahl_arme"),
 
+		/**
+		 * Liste der Zentren
+		 */
+		LISTE_ZENTREN("listeZentren");
+		
 		/**
 		 * String Version des Parameters
 		 */
@@ -403,8 +409,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		String id = (String) request.getParameter(Parameter.anfrage_id);
+		// idAttribute nicht entfernen, benutzen dies fuer die Weiterleitung aus dem Benutzerservlet --Btheel
 		String idAttribute = (String) request
 				.getAttribute(Parameter.anfrage_id);
+
 		// bei jedem Zugriff, Titel zuruecksetzen
 		request.setAttribute(DispatcherServlet.requestParameter.TITEL
 				.toString(), null);
@@ -584,7 +592,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						ZentrumServlet.anfrage_id.ZENTRUM_AENDERN.name());
 				request.getRequestDispatcher("ZentrumServlet").forward(request,
 						response);
-			}
+			} else if(id.equals(anfrage_id.JSP_ADMIN_ANLEGEN.name())){
+				ZentrumServlet.bindeZentrenListeAnRequest(request);
+				request.getRequestDispatcher(Jsp.ADMIN_ANLEGEN).forward(request,
+						response);
+				}
 
 			// [end]
 			// WEITERLEITUNGEN FUER ZENTRUMSERVLET
@@ -817,13 +829,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				loggeBenutzerAus(request, response);
 				return;
 			} else if (id.equals(anfrage_id.ZENTRUM_ANZEIGEN_ADMIN.name())) {
-
 				request.setAttribute("anfrage_id",
 						ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ANZEIGEN_ADMIN
 								.name());
 				request.getRequestDispatcher("ZentrumServlet").forward(request,
 						response);
-
 			} else if (id.equals(anfrage_id.JSP_HEADER_IMPRESSUM.name())) {
 
 				request.setAttribute("anfrage_id",
@@ -833,8 +843,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 			} else if (id
 					.equals(anfrage_id.JSP_HEADER_NACHRICHTENDIENST.name())) {
-				request.setAttribute(DispatcherServlet.requestParameter.TITEL
-						.toString(), JspTitel.NACHRICHTENDIENST);
+				request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(),JspTitel.NACHRICHTENDIENST);
 				request.getRequestDispatcher(Jsp.NACHRICHTENDIENST).forward(
 						request, response);
 			}

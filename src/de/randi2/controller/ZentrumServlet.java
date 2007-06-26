@@ -342,6 +342,21 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp").forward(
 				request, response);
 	}
+	
+	protected static void bindeZentrenListeAnRequest(HttpServletRequest request)throws ServletException, IOException{
+		ZentrumBean sZentrum = new ZentrumBean();
+		sZentrum.setIstAktiviert(true);
+		sZentrum.setFilter(true);
+		Vector<ZentrumBean> gZentrum = null;
+
+		try {
+			gZentrum = Zentrum.suchenZentrum(sZentrum);
+		} catch (DatenbankExceptions e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
+		}
+		request.setAttribute(DispatcherServlet.requestParameter.LISTE_ZENTREN.toString(), gZentrum);
+	}
 
 	/**
 	 * Methode wird aufgerufen um bei der Benutzerregistrierung nach Zentren zu

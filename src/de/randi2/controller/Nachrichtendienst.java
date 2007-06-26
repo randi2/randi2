@@ -18,6 +18,7 @@ import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.NachrichtException;
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Nachricht;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.model.fachklassen.Rolle;
@@ -31,6 +32,7 @@ import de.randi2.utility.Config;
 import de.randi2.utility.LogAktion;
 import de.randi2.utility.LogLayout;
 import de.randi2.utility.SystemException;
+import static de.randi2.controller.DispatcherServlet.sessionParameter;
 
 /**
  * Ermoeglicht das Versenden von Nachrichten ueber das RANDI2-System.
@@ -176,7 +178,10 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 		String id = request.getParameter(requestParameter.ANFRAGE_ID.name());
 		String empfaengerString = request
 				.getParameter(requestParameter.EMPFAENGER.name());
-
+		
+		Logger.getLogger("Anfrage_id: '" + id+"'");
+		Logger.getLogger("Empfaenger-Code: '" + empfaengerString+"'");
+		
 		String betreff = request.getParameter(requestParameter.BETREFF.name());
 		String nachrichtentext = request
 				.getParameter(requestParameter.NACHRICHTENTEXT.name());
@@ -225,7 +230,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			fehlermeldung
 					.append("Bitte w&auml;hlen Sie einen Empf&auml;nger<br>");
 		}
-		// Gueltiger Identifikator, valide Beanid
+		// Gueltiger Identifikator, valide BeanID
 		Identifikator identifikator = null;
 		long beanID = -1l;
 		try {
@@ -318,9 +323,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 		}
 		Collection<PersonBean> liste = null;
 		try {
-			liste = baueEmpfaengerliste(identifikator,
-					beanID);
-			// XXX liste checken --Btheel
+			liste = baueEmpfaengerliste(identifikator, beanID);
 			mail.addEmpfaenger(liste);
 		} catch (NachrichtException e1) {
 			// empfaenger null, Filter oder Ungueltige EMailadrese Alles
@@ -328,7 +331,8 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
 					"Es wurden keine Empf&auml;nger gefunden");
 			request.setAttribute(requestParameter.BETREFF.name(), betreff);
-			request.setAttribute(requestParameter.NACHRICHTENTEXT.name(), nachrichtentext);
+			request.setAttribute(requestParameter.NACHRICHTENTEXT.name(),
+					nachrichtentext);
 			request.getRequestDispatcher("nachrichtendienst.jsp").forward(
 					request, response);
 			Logger.getLogger(this.getClass()).warn(
@@ -337,19 +341,8 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			return;
 		}
 		try { // Fertige Mail versenden
-			// mail.senden();
-			System.err.println("Versand der Mail (erstetzt mail.versenden())");
-			
-			StringBuffer buffer = new StringBuffer();
-			for (PersonBean personBean : liste) {
-				buffer.append(personBean.getId()+",");
-			}
-			buffer.append(".");
-			LogAktion aktion = new LogAktion(
-					"Nachricht versendet an Personen: "+buffer.toString(), (BenutzerkontoBean)request.getSession().getAttribute(
-					"aBenutzer"));
-			
-			Logger.getLogger(LogLayout.NACHRICHTENVERSAND).info(aktion);
+			mail.senden(); // FIXME
+			Logger.getLogger(this.getClass()).debug("Versende Mail");
 
 		} catch (Exception e) {
 			/*
@@ -398,6 +391,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			Identifikator identifikaktor, long id) throws DatenbankExceptions {
 		DatenbankSchnittstelle db = DatenbankFactory.getAktuelleDBInstanz();
 		Vector<PersonBean> personen = new Vector<PersonBean>();
+		Logger.getLogger("Baue Liste");
 
 		if (Identifikator.BK.equals(identifikaktor)) {
 			Logger.getLogger(this.getClass()).debug(
@@ -416,6 +410,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 					// gewinnen
 					ZentrumBean filter = new ZentrumBean();
 					filter.setFilter(true);
+					filter.setIstAktiviert(true);
 					zentren = db.suchenObjekt(filter);
 				} else { // Studiengebundener Account
 					zentren = studie.getZentren();
@@ -483,8 +478,10 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 		DatenbankSchnittstelle db = DatenbankFactory.getAktuelleDBInstanz();
 
 		BenutzerkontoBean aBenutzer = (BenutzerkontoBean) request.getSession()
-				.getAttribute("aBenutzer");
-		StudieBean aStudie = Studie.getStudie(4); // XXX
+				.getAttribute(sessionParameter.A_Benutzer.toString());
+		StudieBean aStudie = (StudieBean) request.getSession().getAttribute(
+				sessionParameter.AKTUELLE_STUDIE.toString());
+		// StudieBean aStudie = Studie.getStudie(4); // XXX
 		// Workaround,
 		// warte
 		// auf
@@ -495,16 +492,17 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 		menu
 				.append("<option value=\"\"> -- Bitte ausw&auml;hlen -- </option>\n");
 
-		// Einzelnachtichten
+		// Einzelnachrichten
 		if (aBenutzer.getRolle() == Rolle.getStudienarzt()) {
 			sucheStudienleiter(aStudie, menu, db, false);
-			sucheRolle(Rolle.getAdmin(), menu, db);
+			sucheRolle(Rolle.getAdmin(), false, menu, db);
 		} else if (aBenutzer.getRolle() == Rolle.getStudienleiter()) {
-			sucheRolle(Rolle.getAdmin(), menu, db);
+			sucheRolle(Rolle.getAdmin(), false, menu, db);
 		} else if (aBenutzer.getRolle() == Rolle.getAdmin()) {
-			sucheRolle(Rolle.getSysop(), menu, db);
+			sucheRolle(Rolle.getSysop(), true, menu, db);
+			sucheRolle(Rolle.getStudienleiter(), false, menu, db);
 		} else if (aBenutzer.getRolle() == Rolle.getSysop()) {
-			sucheRolle(Rolle.getAdmin(), menu, db);
+			sucheRolle(Rolle.getAdmin(), true, menu, db);
 		} else if (aBenutzer.getRolle() == Rolle.getStatistiker()) {
 			sucheStudienleiter(aStudie, menu, db, true);
 		}
@@ -512,7 +510,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 		if (aBenutzer.getRolle() == Rolle.getStudienleiter()) {
 			sucheZentren(aStudie, menu, db);
 		} else if (aBenutzer.getRolle() == Rolle.getAdmin()) {
-
+			sucheZentren(null, menu, db);
 		} else if (aBenutzer.getRolle() == Rolle.getSysop()) {
 			sucheZentren(null, menu, db);
 		}
@@ -542,14 +540,17 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			DatenbankSchnittstelle db) throws SystemException {
 		Collection<ZentrumBean> zentren;
 		if (studie == null) {
-			zentren = db.suchenObjekt(new ZentrumBean());
+			ZentrumBean dummy = new ZentrumBean();
+			dummy.setFilter(true);
+			dummy.setIstAktiviert(true);
+			zentren = db.suchenObjekt(dummy);
 		} else {
 			zentren = studie.getZentren();
 		}
-		if (zentren != null) {
+		if (zentren != null && zentren.size() != 0) {
 			menu.append("<optgroup label=\"Mitteilung an alle Zentren\">\n");
-			menu.append("<option value=\"" + Identifikator.ZENTRUM + SEPERATOR
-					+ ALLE + "\">");
+			menu.append("\t<option value=\"" + Identifikator.ZENTRUM
+					+ SEPERATOR + ALLE + "\">");
 			menu.append("Alle Zentren dieser Studie");
 			menu.append("</option>\n");
 			menu.append("</optgroup>\n");
@@ -557,7 +558,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			menu
 					.append("<optgroup label=\"Mitteilung an ein Zentrum dieser Studie\">\n");
 			for (ZentrumBean zentrumBean : zentren) {
-				menu.append("<option value=\"" + Identifikator.ZENTRUM
+				menu.append("\t<option value=\"" + Identifikator.ZENTRUM
 						+ SEPERATOR + zentrumBean.getId() + "\">");
 				menu.append(zentrumBean.getInstitution());
 				menu.append("</option>\n");
@@ -571,7 +572,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			throws SystemException {
 		PersonBean dude = studie.getBenutzerkonto().getBenutzer();
 
-		menu.append("<optgroup label=\"Mitteilung an Studienleiter\">\n");
+		menu.append("<optgroup label=\"Mitteilung an STUDIENLEITER\">\n");
 		menu.append("<option value=\"" + Identifikator.BK + SEPERATOR
 				+ dude.getId() + "\"");
 		if (preSelect) {
@@ -591,24 +592,22 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 	 * Entnimmt aus der Datenbank alle Konten mit der Rolle und fuegt diese an
 	 * den Stringbuffer an
 	 * 
+	 * @param anAlle
+	 *            fuegt einen Eintrag "An alle Rolleninhaber" in das Menue mit
+	 *            ein
 	 * @param menu
 	 *            Buffer, der das Menue generiert
 	 * @param db
 	 *            Instanz der Datenbank
+	 * 
 	 * @throws SystemException
 	 *             Wenn (DummyKontoBean != Filter & Rolle == <code>null</code>)
 	 *             {@link BenutzerkontoBean#setRolle(Rolle)}, Datenbankfehler
 	 *             {@link Datenbank#schreibenObjekt(de.randi2.datenbank.Filter)}
 	 */
-	private synchronized static void sucheRolle(Rolle rolle, StringBuffer menu,
-			DatenbankSchnittstelle db) throws SystemException {
-		/*
-		 * Sehenden Auges werden die IDs der Benutzerkonten als Identifikatoren
-		 * im HTML-Quellcode stehen. Theoretisch waere es so moeglich, einen
-		 * gefaelschten Request an das System zu schicken und so an beliebige
-		 * Konten Nachrichten zu verschicken.
-		 * 
-		 */
+	private synchronized static void sucheRolle(Rolle rolle, boolean anAlle,
+			StringBuffer menu, DatenbankSchnittstelle db)
+			throws SystemException {
 		BenutzerkontoBean dummyBean = new BenutzerkontoBean();
 		dummyBean.setFilter(true);
 
@@ -616,10 +615,10 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			dummyBean.setRolle(rolle);
 		} catch (BenutzerkontoException e) {
 			/*
-			 * XXX Exception wird geworfen, wenn !Filter und Rolle null,
-			 * Exception kann nicht auftreten
+			 * Exception wird geworfen, wenn !Filter und Rolle null, Exception
+			 * kann nicht auftreten
 			 */
-			e.printStackTrace();
+			e.printStackTrace(); // XXX printStacktrace() entfernen --BTheel
 			throw new SystemException();
 		}
 
@@ -634,16 +633,52 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			for (BenutzerkontoBean aKonto : result) {
 				key = Identifikator.BK + SEPERATOR + aKonto.getId();
 
-				menu.append("<option value=\"" + key + "\">"
+				menu.append("\t<option value=\"" + key + "\">"
 						+ aKonto.getBenutzer().getNachname() + ", "
 						+ aKonto.getBenutzer().getVorname());
 				zentrum = aKonto.getZentrum();
 				// FRAGE sind Zentrum, Institut und Abteilung IMMER gesetzt?
-				menu.append(" (" + zentrum.getInstitution() + ", "
-						+ zentrum.getAbteilung() + ")");
-				menu.append("</option>\n");
+				menu.append(" (Zentrum: " + zentrum.getInstitution() + ", "
+						+ zentrum.getAbteilung());
+
+				if (rolle == Rolle.getStudienleiter()) {
+					// Name der studie anhaengen
+					Vector<StudieBean> studien = null;
+					StudieBean dummy = new StudieBean();
+					dummy.setFilter(true);
+
+					try {
+						dummy.setBenutzerkonto(aKonto);
+					} catch (StudieException e) {
+						/*
+						 * Kann nicht auftreten, ID des Beans ist korrekt, da es
+						 * bereits so aus der DB geholt wird, sollte trotzdem
+						 * eine Exception fliegen, ist die DB inkosistent
+						 */
+						throw new SystemException(e.getMessage());
+					}
+					studien = Studie.sucheStudie(dummy);
+					if (studien != null && studien.size() == 1) {
+						// Benutzer leitet genau eine studie, andere Faelle
+						// sollten
+						// nach Systemarchitektur nicht auftreten
+
+						menu.append(", Studie: "
+								+ studien.firstElement().getName() + "");
+					}
+
+				}
+				menu.append(")</option>\n");
 			}
-			menu.append("</optgroup>");
+			menu.append("</optgroup>\n");
+			if (anAlle) {
+				menu.append("<optgroup label=\"Mitteilung an alle "
+						+ rolle.getName() + "\">\n");
+				menu.append("\t<option value=\"" + Identifikator.BK + SEPERATOR
+						+ ALLE
+						+ "\"> Mitteilung an alle Rolleninhaber</option>\n");
+				menu.append("</optgroup>\n");
+			}
 
 		}
 	}
