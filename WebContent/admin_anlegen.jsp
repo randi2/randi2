@@ -2,6 +2,7 @@
 	import="de.randi2.model.fachklassen.beans.BenutzerkontoBean"
 	import="de.randi2.controller.DispatcherServlet"
 	import="de.randi2.model.fachklassen.beans.StudieBean"
+		import="de.randi2.model.fachklassen.beans.ZentrumBean"
 	import="de.randi2.utility.*" import="java.util.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
