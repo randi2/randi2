@@ -241,7 +241,15 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Zentrum anzeigen beim Admin.
 		 */
-		ZENTRUM_ANZEIGEN_ADMIN;
+		ZENTRUM_ANZEIGEN_ADMIN, 
+		/**
+		 * Zentrum ansehen
+		 */
+		JSP_ZENTRUM_ANSEHEN,
+		/**
+		 * Studie ansehen
+		 */
+		JSP_STUDIE_ANSEHEN;
 	}
 
 	/**
