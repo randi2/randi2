@@ -64,8 +64,15 @@
 	anzeigen</a></li>
 	<% } %>
 	<% if (aRolleMenue==Rolle.Rollen.STUDIENLEITER|| aRolleMenue==Rolle.Rollen.STUDIENARZT||aRolleMenue==Rolle.Rollen.STATISTIKER) { %>
-	<li><a class="sub_SV n entry" href="studie_ansehen.jsp">Studie
-	ansehen</a></li>
+	
+	<li class="sub_BV n"><form action="DispatcherServlet" method="POST" name="studieAnsehen_form"
+			id="studieAnsehen_form"><input type="hidden"
+			name="<%=Parameter.anfrage_id %>" value=""></form>
+		<span  id="studieAnsehen_link" style="cursor:pointer"
+			onClick="document.forms['studieAnsehen_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name() %>';document.forms['studieAnsehen_form'].submit();">
+		Studie ansehen</span></li>
+	
+	
 	<% } %>
 	<% if (aRolleMenue==Rolle.Rollen.STUDIENARZT) { %>
 	<li><a class="sub_SV n entry" href="patient_hinzufuegen.jsp">Patient
