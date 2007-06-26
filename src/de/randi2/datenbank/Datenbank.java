@@ -2915,6 +2915,76 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		return studien;
 	}
+	
+	private Vector<StrataBean> suchenStrata(StrataBean sb) throws DatenbankExceptions {
+		Connection con;
+		try {
+			con = ConnectionFactory.getInstanz().getConnection();
+		} catch (DatenbankExceptions e) {
+			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
+		}
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StrataBean tmpStrata = null;
+		Vector<StrataBean> strata = new Vector<StrataBean>();
+		int counter = 0;
+		String sql = "SELECT * FROM " + Tabellen.STUDIE.toString();
+		if(sb.getName()!=null) {
+			sql+=" WHERE "+FelderStrataTypen.NAME+" = ? ";
+			counter++;
+		}
+		if(sb.getBeschreibung()!=null) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql+=FelderStrataTypen.BESCHREIBUNG+" = ? ";
+			counter++;
+		}
+		if(sb.getStudienID()!=NullKonstanten.NULL_LONG) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql+=FelderStrataTypen.STUDIEID+" = ? ";
+			counter++;
+		}
+		
+		try {
+			counter=1;
+			pstmt = con.prepareStatement(sql);
+			if(sb.getName()!=null) {
+				pstmt.setString(counter++, sb.getName());
+			}
+			if(sb.getBeschreibung()!=null) {
+				pstmt.setString(counter++, sb.getBeschreibung());
+			}
+			if(sb.getStudienID()!=NullKonstanten.NULL_LONG) {
+				pstmt.setLong(counter++, sb.getStudienID());
+			}
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				tmpStrata = new StrataBean(rs.getLong(FelderStrataTypen.Id.toString()),
+						rs.getLong(FelderStrataTypen.STUDIEID.toString()),
+						rs.getString(FelderStrataTypen.NAME.toString()),
+						rs.getString(FelderStrataTypen.BESCHREIBUNG.toString()));
+				strata.add(tmpStrata);
+			}
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SUCHEN_ERR);
+		} catch (StrataException e) {
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.UNGUELTIGE_DATEN);
+			de.initCause(e);
+			throw de;
+		}finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
+		}
+		
+		return strata;
+	}
 
 	/**
 	 * Dokumentation siehe Schnittstellenbeschreibung
