@@ -268,6 +268,10 @@ public final class Jsp {
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
+	public static final String ZENTRUM_ANSEHEN = "/zentrum_ansehen.jsp";
+	/**
+	 * Konstante fuer jsp-Seite
+	 */
 	public static final String ZENTRUM_STUDIE_ZUORDNEN = "/zentrum_studie_zuordnen.jsp";
 
 }

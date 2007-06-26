@@ -263,6 +263,11 @@ public final class JspTitel {
 	 * Konstante fuer jsp-Seite
 	 */
 	public static final String ZENTRUM_ANZEIGEN_SL= "Zentrum anzeigen";
+	
+	/**
+	 * Konstante fuer jsp-Seite
+	 */
+	public static final String ZENTRUM_ANSEHEN= "Zentrum anzeigen";
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
