@@ -8,6 +8,7 @@
 <%@page import="de.randi2.controller.DispatcherServlet"%>
 <%@page import="de.randi2.controller.StudieServlet"%>
 <%@page import="de.randi2.controller.ZentrumServlet"%>
+<%@page import="de.randi2.utility.Parameter"%>
 <div id="menue">
 
 <div id="navigation">
@@ -34,10 +35,12 @@
 <% } %> <% if (aRolleMenue==Rolle.Rollen.STUDIENLEITER) { %>
 <ul>
 	<li class="top_m">Zentrenverwaltung</li>
-	<li>
-	<a class="sub_BV n" href="StudieServlet?anfrage_id=<%=StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name() %>">Zentren anzeigen</a>
-	</li>
-	
+	<li class="sub_BV n"><form action="DispatcherServlet" method="POST" name="zentrenAnzeigen_form"
+			id="zentrenAnzeigen_form"><input type="hidden"
+			name="<%=Parameter.anfrage_id %>" value=""></form>
+		<span  id="zentrenAnzeigen_link" style="cursor:pointer"
+			onClick="document.forms['zentrenAnzeigen_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name() %>';document.forms['zentrenAnzeigen_form'].submit();">
+		Zentren anzeigen</span></li>
 	
 	<%-- } --%>
 </ul>
@@ -47,6 +50,7 @@
 	<li>
 	<a class="sub_BV n" href="DispatcherServlet?anfrage_id=<%=DispatcherServlet.anfrage_id.ZENTRUM_ANZEIGEN_ADMIN.name() %>">Zentren anzeigen</a>
 	</li>
+	
 
 </ul>
 <% } %><% if (aRolleMenue!=Rolle.Rollen.SYSOP) { %>
