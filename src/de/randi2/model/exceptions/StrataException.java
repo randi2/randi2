@@ -33,6 +33,11 @@ public class StrataException extends BenutzerException {
 	 * Fehlermeldung, wenn null an die setStudie() Methode uebergeben wurde.
 	 */
 	public static final String STUDIE_NULL="&Uuml;bergebene Studie ist null!";
+	
+	/**
+	 *  Fehlermeldung, wenn null an die setStrata() Methode von StrataAuspraegungBean uebergeben wurde.
+	 */
+	public static final String STRATA_NULL="Das &uuml;bergebene Strata ist null!";
 
 	/**
 	 * Konstruktor.
