@@ -97,11 +97,8 @@ suchen </b></legend><br />
 </table>
 
 </div>
-<br />
-<br />
 
-<table width="90%" border="0" cellspacing="5" cellpadding="2"
-	id="zentren">
+<table width="90%" id="zentren">
 	<thead align="left">
 		<tr style="background:#eeeeee;">
 			<th width="30%">Name der Institution</th>
@@ -207,12 +204,20 @@ suchen </b></legend><br />
 		<td><%=nichtZugehoerigeZentren.elementAt(i)
 										.getAbteilung()%></td>
 		<td style="text-align: center;"><%=aktiv%></td>
-		<td width="40px">
+		<td width="40px" style="text-align: center;">
+		
+		
+		
 		<%
 						if (aBenutzer.getRolle().toString().equals(
 						"STUDIENLEITER")) {
-		%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
-			name="zentrum_auswaehlen" value="Zentrum anzeigen!n"></a> <%
+		%>
+		<form action="DispatcherServlet" method="POST"
+			name="zentrumAnsehen_form" id="zentrumAnsehen_form">
+		<span id="zentrumAnsehen_link" style="cursor:pointer"
+			onClick="document.forms['zentrumAnsehen_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';document.forms['zentrumAnsehen_form'].submit();">
+		<b>Zum Zentrum</b></span>
+		<%
  				} else if (aBenutzer.getRolle().toString().equals(
  				"ADMINISTRATOR")) {
  %> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
@@ -237,8 +242,13 @@ suchen </b></legend><br />
 </table>
 <table width=90%>
 	<tr>
-		<td><input type="button" name="zurueck" value="Zur&uuml;ck"
-			tabindex="1" onclick="location.href='studie_ansehen.jsp'"></td>
+		<td><br>
+		<form action="DispatcherServlet" method="POST"
+			name="zentrenAnzeigen_form" id="zentrenAnzeigen_form"><input
+			type="hidden" name="<%=Parameter.anfrage_id %>" value=""></form>
+		<span id="zentrenAnzeigen_link" style="cursor:pointer"
+			onClick="document.forms['zentrenAnzeigen_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name() %>';document.forms['zentrenAnzeigen_form'].submit();">
+		<b>zurück zur Studie</b></span></td>
 	</tr>
 </table>
 </fieldset>
