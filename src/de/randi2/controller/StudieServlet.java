@@ -347,8 +347,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 							request, response);
 				}
 
-			}
-			else if (id.equals(anfrage_id.JSP_PATIENT_HINZUFUEGEN.name())) {
+			} else if (id.equals(anfrage_id.JSP_PATIENT_HINZUFUEGEN.name())) {
 				System.out.println("easy");
 			}
 
@@ -709,8 +708,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 	}
 
-	
-
 	/**
 	 * Diese Methode erstellt einen Vektor mit den Zentren, die der aktuellen
 	 * Studie zugeordnet sind
@@ -771,7 +768,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		return zentrenliste;
 
 	}
-	
+
 	private void patientHinzufuegen(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
@@ -788,14 +785,17 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					Parameter.patient.INITIALEN.toString()).trim();
 			GregorianCalendar geburtsdatum = new GregorianCalendar();
 			GregorianCalendar datumAufklaerung = new GregorianCalendar();
-			char geschlecht = request.getParameter(Parameter.patient.GESCHLECHT.toString()).trim().charAt(
-					0);
+			char geschlecht = request.getParameter(
+					Parameter.patient.GESCHLECHT.toString()).trim().charAt(0);
 			geburtsdatum.setTime(DateFormat.getDateInstance(DateFormat.MEDIUM,
 					Locale.GERMANY).parse(
-					request.getParameter(Parameter.patient.GEBURTSDATUM.toString()).trim()));
+					request.getParameter(
+							Parameter.patient.GEBURTSDATUM.toString()).trim()));
 			datumAufklaerung.setTime(DateFormat.getDateInstance(
 					DateFormat.MEDIUM, Locale.GERMANY).parse(
-					request.getParameter(Parameter.patient.DATUMAUFKLAERUNG.toString()).trim()));
+					request.getParameter(
+							Parameter.patient.DATUMAUFKLAERUNG.toString())
+							.trim()));
 			float koerperOberflaeche = 0f;
 
 			koerperOberflaeche = Float.parseFloat(request.getParameter(
@@ -864,4 +864,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
 					request, response);
 		}
+
+	}
 }
