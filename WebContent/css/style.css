@@ -264,20 +264,17 @@ h1 {
 	
 }
 
-#navigation A:hover,#navigation A:active,#navigation A:focus {
-	color: red;
+#navigation Span:hover,#navigation A:active,#navigation A:focus {
+	color: #CC3300;
 }
 
-#navigation A.sub_BV,#navigation A.sub_ZV,#navigation A.sub_SV,#navigation A.sub_ND,#navigation A.sub_SA
-	{
-	display: block;
+#navigation Span.sub_SA {
 	font: normal 0.84em sans-serif;
 	padding: 5;
 	padding-left: 24px;
 	border-top: none;
 	margin: 0px 0 0 0;
 }
-
 #navigation A.n { /*display: none;*/
 	
 }
