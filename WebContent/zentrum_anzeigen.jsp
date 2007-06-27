@@ -96,7 +96,7 @@ suchen </b></legend><br />
 	onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen"
 	style="cursor:pointer" /> <b>Filter ein-/ausblenden</b>
 
-<div id="filterdiv" style="overflow:hidden; height: 75px;">
+<div id="filterdiv" style="overflow:hidden; height: 70px;">
 <table width="90%">
 	<tr>
 		<td>Name&nbsp;der&nbsp;Institution:</td>
@@ -114,10 +114,9 @@ suchen </b></legend><br />
 	</tr>
 
 </table>
-
-</div>
-
-<table width="90%" id="zentren">
+</div></fieldset></form><fieldset style="width: 90%;">
+<form>
+<table width="100%" id="zentren">
 	<thead align="left">
 		<tr style="background:#eeeeee;">
 			<th width="30%">Name der Institution</th>
@@ -130,8 +129,7 @@ suchen </b></legend><br />
 
 		<%
 			String aktiv = null;
-			int i = 0;
-			int tabindex = 1;
+				int tabindex = 1;
 			String reihe = "tblrow2";
 			if (gefilterteZentren != null) {
 
@@ -175,7 +173,6 @@ suchen </b></legend><br />
 				}
 
 			} else {
-				i = 0;
 				if (zugehoerigeZentren != null) {
 
 					
@@ -263,6 +260,7 @@ suchen </b></legend><br />
 		%>
 	</tbody>
 </table>
+</form>
 <table width=90%>
 	<tr>
 		<td><br>
@@ -278,7 +276,7 @@ suchen </b></legend><br />
 <div id="show_none"><%@include file="include/inc_footer.jsp"%></div>
 
 
-</form>
+
 </div>
 
 <div id="show_BV"><%@include file="include/inc_menue.jsp"%>
