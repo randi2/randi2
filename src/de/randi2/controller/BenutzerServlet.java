@@ -222,13 +222,14 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
 					.getSession()).getAttribute("aBenutzer");
 			aBenutzer.setBenutzerkontoLogging(aBenutzer);
-			//try {
+			try {
 				PersonBean aPerson = aBenutzer.getBenutzer();
 				aPerson.setBenutzerkontoLogging(aBenutzer);
-				try {
+				//try {
 					aPerson.setTitel(titelenum);
 					aPerson.setTelefonnummer(telefon);
 					aPerson.setHandynummer(handynummer);
+					aPerson.setFax(fax);
 					if (aPerson.getStellvertreter() != null) {
 						aPerson.getStellvertreter().setNachname(nachnameA);
 						aPerson.getStellvertreter().setVorname(vornameA);
@@ -247,7 +248,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 								.schreibenObjekt(bPerson);
 						aPerson.setStellvertreterId(bPerson.getId());
 					}
-					aPerson.setFax(fax);
+
 					if (passwort != null) {
 						if (!(passwort.trim().equals(""))) {
 							String hash = KryptoUtil.getInstance()
@@ -255,24 +256,21 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 							aBenutzer.setPasswort(hash);
 						}
 					}
-				} catch (PersonException e) {
-					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-							.getMessage());
-					request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
-							request, response);
-				} catch (BenutzerkontoException e) {
+				DatenbankFactory.getAktuelleDBInstanz()
+						.schreibenObjekt(aPerson);
+				aBenutzer=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+						aBenutzer);
+				request.getSession().setAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString(), aBenutzer);
+				request.setAttribute(DispatcherServlet.NACHRICHT_OK, "Daten erfolgreich ge&auml;ndert.");
+				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
+						request, response);
+			}
+			 catch (BenutzerException e) {
 					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 							.getMessage());
 					request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
 							request, response);
 				}
-				DatenbankFactory.getAktuelleDBInstanz()
-						.schreibenObjekt(aPerson);
-				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
-						aBenutzer);
-				request.setAttribute(DispatcherServlet.NACHRICHT_OK, "Daten erfolgreich ge&auml;ndert.");
-				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
-						request, response);
 			//} catch (DatenbankExceptions e) {
 				//request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 					//	.getMessage());
@@ -280,7 +278,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					//	request, response);
 			//}
 		} else {
-			try {
+//			try {
 				BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
 						.getSession()).getAttribute("aBenutzer");
 				aBenutzer.setBenutzerkontoLogging(aBenutzer);
@@ -297,12 +295,12 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
 							request, response);
 				}
-			} catch (Exception e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-						.getMessage());
-				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
-						request, response);
-			}
+//			} catch (Exception e) {
+//				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+//						.getMessage());
+//				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
+//						request, response);
+//			}
 		}
 	}
 
