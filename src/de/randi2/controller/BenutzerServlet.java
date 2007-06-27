@@ -192,7 +192,10 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			String nachnameA = request.getParameter("NachnameA");
 			String vornameA = request.getParameter("VornameA");
 			String telefonA = request.getParameter("TelefonA");
-			// char geschlechtA = request.getParameter("");
+			char geschlechtA = NullKonstanten.NULL_CHAR;
+			if (request.getParameter("geschlecht") != null) {
+				geschlechtA = request.getParameter("geschlecht").charAt(0);
+			}
 			String emailA = request.getParameter("EmailA");
 			String fax = request.getParameter("Fax");
 			String passwort = null;
@@ -218,8 +221,10 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
 					.getSession()).getAttribute("aBenutzer");
-			try {
+			aBenutzer.setBenutzerkontoLogging(aBenutzer);
+			//try {
 				PersonBean aPerson = aBenutzer.getBenutzer();
+				aPerson.setBenutzerkontoLogging(aBenutzer);
 				try {
 					aPerson.setTitel(titelenum);
 					aPerson.setTelefonnummer(telefon);
@@ -229,17 +234,15 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 						aPerson.getStellvertreter().setVorname(vornameA);
 						aPerson.getStellvertreter().setTelefonnummer(telefonA);
 						aPerson.getStellvertreter().setEmail(emailA);
-						// siehe unten
-						// aPerson.getStellvertreter().setGeschlecht(geschlechtA);
+						aPerson.getStellvertreter().setGeschlecht(geschlechtA);
 					} else {
 						PersonBean bPerson = new PersonBean();
+						bPerson.setBenutzerkontoLogging(aBenutzer);
 						bPerson.setNachname(nachnameA);
 						bPerson.setVorname(vornameA);
 						bPerson.setTelefonnummer(telefonA);
 						bPerson.setEmail(emailA);
-						// TODO muss noch ueberlegen wie ich das mit dem
-						// Geschlecht mache. twillert
-						bPerson.setGeschlecht('m');
+						bPerson.setGeschlecht(geschlechtA);
 						bPerson = DatenbankFactory.getAktuelleDBInstanz()
 								.schreibenObjekt(bPerson);
 						aPerson.setStellvertreterId(bPerson.getId());
@@ -255,41 +258,50 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				} catch (PersonException e) {
 					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 							.getMessage());
+					request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
+							request, response);
 				} catch (BenutzerkontoException e) {
 					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 							.getMessage());
+					request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
+							request, response);
 				}
 				DatenbankFactory.getAktuelleDBInstanz()
 						.schreibenObjekt(aPerson);
 				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 						aBenutzer);
-				// TODO hier noch erfolgreich nachricht einfuegen
-				request.getRequestDispatcher("global_welcome.jsp").forward(
+				request.setAttribute(DispatcherServlet.NACHRICHT_OK, "Daten erfolgreich ge&auml;ndert.");
+				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
 						request, response);
-			} catch (DatenbankExceptions e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-						.getMessage());
-			}
+			//} catch (DatenbankExceptions e) {
+				//request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					//	.getMessage());
+				//request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
+					//	request, response);
+			//}
 		} else {
 			try {
-				// datenbank muss dann quasi selber den fremdschluessel ueberall
-				// loeschen
 				BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
 						.getSession()).getAttribute("aBenutzer");
+				aBenutzer.setBenutzerkontoLogging(aBenutzer);
 				PersonBean aPerson = aBenutzer.getBenutzer();
+				aPerson.setBenutzerkontoLogging(aBenutzer);
 				if (aPerson.getStellvertreter() != null) {
 					DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(
 							aPerson.getStellvertreter());
-					// TODO hier noch erfolgreich nachricht einfuegen
-					request.getRequestDispatcher("global_welcome.jsp").forward(
+					request.setAttribute(DispatcherServlet.NACHRICHT_OK, "Stellverteter erfolgreich entfernt.");
+					request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
 							request, response);
 				} else {
-					request.getRequestDispatcher("daten_aendern.jsp").forward(
+					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Kein Stellvertreter zum Entfernen vorhanden.");
+					request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
 							request, response);
 				}
 			} catch (Exception e) {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 						.getMessage());
+				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
+						request, response);
 			}
 		}
 	}

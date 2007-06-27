@@ -23,6 +23,7 @@
 
 <body>
 <%@include file="include/inc_header.jsp"%>
+<%@include file="include/inc_nachricht.jsp"%>
 
 <div id="content">
 <form action="DispatcherServlet" method="post" name="user" id="user"><input
@@ -54,20 +55,20 @@ Angaben</b></legend>
 	<tr>
 		<td>Vorname *<br>
 		<input type="text" size="25" maxlength="30" name="Vorname"
-			tabindex="2" readonly value="<%out.print(aPerson.getVorname());%>"
+			tabindex="2" readonly value="<%if (aPerson.getVorname() != null) {out.print(aPerson.getVorname());}%>"
 			tabindex="2""></td>
 
 		<td>&nbsp;&nbsp;&nbsp;Nachname *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
 			name="Nachname" tabindex="3" readonly
-			value="<%out.print(aPerson.getNachname());%>"></td>
+			value="<%if (aPerson.getNachname() != null) {out.print(aPerson.getNachname());}%>"></td>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
-		<input type="radio" name="weiblich"
-			<%if (aPerson.getGeschlecht() == 'w') {out.print("checked");}%>
-			disabled>weiblich <input type="radio" name="maennlich"
-			<%if (aPerson.getGeschlecht() == 'm') {out.print("checked");}%>
+		<input type="radio" name="geschlecht"
+			<%if (aPerson.getGeschlecht() != NullKonstanten.NULL_CHAR && aPerson.getGeschlecht() == 'w') {out.print("checked");}%>
+			disabled>weiblich <input type="radio" name="geschlecht"
+			<%if (aPerson.getGeschlecht() != NullKonstanten.NULL_CHAR && aPerson.getGeschlecht() == 'm') {out.print("checked");}%>
 			disabled>m&auml;nnlich</td>
 	</tr>
 	<tr>
@@ -91,11 +92,11 @@ Angaben</b></legend>
 	<tr>
 		<td>E-Mail *<br>
 		<input type="text" size="25" maxlength="30" name="Email" tabindex="8"
-			value="<%out.print(aPerson.getEmail());%>" readonly></td>
+			value="<%if (aPerson.getEmail() != null) {out.print(aPerson.getEmail());}%>" readonly></td>
 		<td>&nbsp;&nbsp;&nbsp;Telefonnummer *<br>
 		&nbsp;&nbsp;&nbsp;<input type="text" size="25" maxlength="30"
 			name="Telefon" tabindex="9"
-			value="<%out.print(aPerson.getTelefonnummer());%>"
+			value="<%if (aPerson.getTelefonnummer() != null) {out.print(aPerson.getTelefonnummer());}%>"
 			z:length="{max: 26, min: 6}"
 			z:length_message="Telefonnummer muss 6 bis 26 Zeichen lang sein"></td>
 	</tr>
@@ -141,9 +142,9 @@ auszuf&uuml;llen. Sonst keine.</p>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
-		<input type="radio" name="weiblichA"
+		<input type="radio" name="geschlechtA"
 			<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getGeschlecht() == 'w'){out.print("checked");}}%>>weiblich
-		<input type="radio" name="maennlichA"
+		<input type="radio" name="geschlechtA"
 			<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getGeschlecht() == 'm'){out.print("checked");}}%>>m&auml;nnlich
 		</td>
 	</tr>
