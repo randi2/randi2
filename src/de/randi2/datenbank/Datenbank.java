@@ -2930,6 +2930,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			sql += FelderStudie.STATUS.toString() + " = ? ";
 			counter++;
+		} 
+		if(studie.getBlockgroesse()!=NullKonstanten.NULL_INT) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderStudie.BLOCKGROESSE.toString() + " = ? ";
+			counter++;
 		}
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -2959,6 +2968,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			if (studie.getStatus() != null) {
 				pstmt.setString(counter++, studie.getStatus().toString());
+			}
+			if(studie.getBlockgroesse()!=NullKonstanten.NULL_INT) {
+				pstmt.setInt(counter++, studie.getBlockgroesse());
 			}
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
