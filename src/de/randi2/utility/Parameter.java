@@ -151,10 +151,21 @@ public class Parameter {
 		 * Attribut der Klasse PersonBean. Details siehe {@link PersonBean}
 		 */
 		STELLVERTRETER_NACHNAME,
+		
 		/**
 		 * Attribut der Klasse PersonBean. Details siehe {@link PersonBean}
 		 */
-		STELLVERTRETER_TELEFONNUMMER
+		STELLVERTRETER_TELEFONNUMMER,
+		
+		/**
+		 * Attribut der Klasse PersonBean. Details siehe {@link PersonBean}
+		 */
+		STELLVERTRETER_TITEL,
+		
+		/**
+		 * Attribut der Klasse PersonBean. Details siehe {@link PersonBean}
+		 */
+		STELLVERTRETER_EMAIL
 	}
 	
 	/**

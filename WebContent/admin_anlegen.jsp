@@ -84,6 +84,15 @@
 	if (aBenutzername == null) {
 		aBenutzername = "";
 	}
+	String aTitelA = (String) request.getAttribute(Parameter.person.STELLVERTRETER_TITEL.name());
+	if(aTitelA == null) {
+		aTitelA = "";
+	}
+	String aEmailA = (String) request.getAttribute(Parameter.person.STELLVERTRETER_EMAIL.name());
+	if (aEmailA == null) {
+	aEmailA = "";
+	}
+	
 %>
 <html>
 <head>
@@ -250,7 +259,7 @@ Ext.onReady(function(){
     var telefon = new Ext.form.TextField({
         fieldLabel: 'Telefon *:',
         name: '<%=Parameter.person.TELEFONNUMMER.name() %>',
-        value: '<%=aTelefon %>',
+        value: '<%=aTelefon%>',
         width:190,
         allowBlank:false,
         minLength:6,
@@ -318,10 +327,63 @@ Ext.onReady(function(){
         blankText:'Bitte Ihre Telefonnummer eintragen!'
     });
     
+    
+     var emailStell = new Ext.form.TextField({
+        fieldLabel: 'E-Mail *:',
+        name: '<%=Parameter.person.STELLVERTRETER_EMAIL.name()%>',
+        value: '<%=aEmailA %>',
+        width:190,
+        allowBlank:false,
+        minLength:2,
+        maxLength:255,
+        maxLengthText:'E-Mail muss 2 bis 255 Zeichen lang sein!',
+        minLengthText:'E-Mail muss 2 bis 255 Zeichen lang sein!',
+        blankText:'Bitte Ihre E-Mail eintragen!',
+        vtype:'email'
+    });
+    
+    
+     var titelStell = new Ext.form.ComboBox({
+        fieldLabel: 'Titel:',
+        hiddenName:'<%=Parameter.person.STELLVERTRETER_TITEL.name()%>',
+        store: new Ext.data.SimpleStore({
+            fields: ['titelStell'],
+            data : [
+			<%
+				StringBuffer titelStell = new StringBuffer();
+				for (int i = 0; i < PersonBean.Titel.values().length; i++) {
+					titelStell.append(PersonBean.Titel.values()[i].toString());
+			%>
+			['<%=titelStell%>'],
+			<%
+					titelStell.delete(0, titelStell.length());
+				}
+			%>
+            ]
+        }),
+        displayField:'titelStell',
+        typeAhead: true,
+        mode: 'local',
+        triggerAction: 'all',
+        <% if (!aTitelA.equals("")){%>
+        	selectByValue:'<%=aTitelA %>',
+        <%}%>        	
+        emptyText:'--Bitte auswählen--',
+        selectOnFocus:true,
+        editable:false,
+        width:140
+    });
+    
+    
+    
+    
+    
     form_admin_anlegen.fieldset({legend:'Ansprechpartner',
     labelSeparator:''},
     vornameStell,
     nachnameStell,
+    titelStell,
+    emailStell,
     telefonStell);
     
 	form_admin_anlegen.addButton('Anlegen', function(){

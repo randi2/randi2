@@ -943,18 +943,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 	}
 
-	/**
-	 * Methode zum Erstellen eines Studienleiteraccounts
-	 * 
-	 * @param request
-	 *            Der Request fuer das Servlet.
-	 * @param response
-	 *            Der Response Servlet.
-	 * @throws IOException
-	 *             Falls Fehler in den E/A-Verarbeitung.
-	 * @throws ServletException
-	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
-	 */
+
 	/**
 	 * Methode zum Erstellen eines Studienleiteraccounts
 	 * 
@@ -994,6 +983,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		String telefonA = request
 				.getParameter(Parameter.person.STELLVERTRETER_TELEFONNUMMER
 						.name());
+		String emailA = request.getParameter(Parameter.person.STELLVERTRETER_EMAIL.name());
+		String titelA = request.getParameter(Parameter.person.STELLVERTRETER_TITEL.name());
+		PersonBean.Titel titelAenum = null;
 		String benutzername = request
 				.getParameter(Parameter.benutzerkonto.LOGINNAME.name());
 		long zentrumId = -1l;
@@ -1018,6 +1010,15 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				}
 			}
 
+			for (PersonBean.Titel tA : PersonBean.Titel.values()) {
+				if (titelA.equals(tA.toString())) {
+					titelAenum = tA;
+					break;
+				}
+			}
+
+			
+
 			// Benutzer anlegen
 			PersonBean aPerson = null;
 			aPerson = new PersonBean();
@@ -1033,9 +1034,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			rolf.setNachname(nachnameA);
 			rolf.setVorname(vornameA);
 			rolf.setTelefonnummer(telefonA);
-			rolf.setEmail("dummyEmail@fuerden.nl"); // Sonst knallts inner Db
-			rolf.setTitel(PersonBean.Titel.KEIN_TITEL);// Sonst knallts inner
-			// Db
+			rolf.setEmail(emailA);
+			rolf.setTitel(titelAenum);
 
 			BenutzerkontoBean anleger = (BenutzerkontoBean) request
 					.getSession().getAttribute("aBenutzer");
@@ -1124,6 +1124,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					.name(), telefonA);
 			request.setAttribute(Parameter.benutzerkonto.LOGINNAME.name(),
 					benutzername);
+			request.setAttribute(Parameter.person.STELLVERTRETER_EMAIL.name(), emailA);
+			request.setAttribute(Parameter.person.STELLVERTRETER_TITEL.name(), titelAenum);
 
 			if (geschlecht == 'm') {
 				request.setAttribute(Parameter.person.GESCHLECHT.name(), "m");
