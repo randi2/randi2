@@ -296,7 +296,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Studie ansehen
 		 */
-		JSP_STUDIE_ANSEHEN;
+		JSP_STUDIE_ANSEHEN,
+		/**
+		 * Button bei Zentrum suchen.
+		 */
+		ZENTRUM_AENDERN_SPERREN;
 	}
 
 	/**

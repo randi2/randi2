@@ -21,9 +21,13 @@
 </head>
 <body onload="hideFilter();">
 <%@include file="include/inc_header.jsp"%>
+<form action="DispatcherServlet" method="POST" name="liste_form" id="liste_form">
+<input type="hidden" name="<%=Parameter.anfrage_id %>" value="<%=DispatcherServlet.anfrage_id.ZENTRUM_AENDERN_SPERREN.name() %>" />
+<input type="hidden" name="button" value="" />
+</form>
 <div id="content">
-<h1>Zentren anzeigen</h1>
-<fieldset style="width: 90%;"><legend><b>Zentren anzeigen</b></legend>
+<h1>Zentren suchen</h1>
+<fieldset style="width: 90%;"><legend><b>Zentren suchen</b></legend>
 <form action="DispatcherServlet" method="POST"><input type="hidden" name="anfrage_id"
 	value="<%=DispatcherServlet.anfrage_id.ZENTRUM_ANZEIGEN_ADMIN.name() %>">
 
@@ -54,9 +58,11 @@
 			value="Aktualisieren" /></td>
 	</tr>
 </table>
+</form>
 <p></p>
 </div>
-<p></p>
+
+
 <table width="90%">
 	<thead align="left">
 		<tr class="tblrow1" align="left">
@@ -69,6 +75,7 @@
 		Iterator listeZentrum = ((Vector) request.getAttribute("listeZentrum")).iterator();
 		String reihe = "tblrow1";
 		int tabIndex = 1;
+		boolean aktiviert = false;
 		while (listeZentrum.hasNext()) {
 			ZentrumBean zentrum = (ZentrumBean) listeZentrum.next();
 	%>
@@ -76,7 +83,8 @@
 		<td><%=zentrum.getInstitution()%></td>
 		<td><%=zentrum.getAbteilung()%></td>
 		<%
-			if(zentrum.getIstAktiviert()){
+			aktiviert = zentrum.getIstAktiviert();
+			if(aktiviert){
 		%>
 		<td>aktiviert</td>
 		<%
@@ -86,10 +94,24 @@
 		<%
 			}
 		%>
-		<td><a class="il_ContainerItemCommand" href="zentrum_anzeigen.jsp">anzeigen</a><a 
-		class="il_ContainerItemCommand" href="zentrum_aendern.jsp">&auml;ndern</a><a
-			class="il_ContainerItemCommand" href="">aktivieren</a><a
-			class="il_ContainerItemCommand" href="">deaktivieren</a></td>
+		<td><span  id="anzeige_aendern_link" style="cursor:pointer"
+			onClick="document.forms['liste_form'].button.value = 'a_<%=zentrum.getId() %>';document.forms['liste_form'].submit();">
+		anzeigen/&auml;ndern
+		</span></td>
+		<td><span  id="sperren_link" style="cursor:pointer"
+			onClick="document.forms['liste_form'].button.value = 's_<%=zentrum.getId() %>';document.forms['liste_form'].submit();">		
+		<%
+		if(aktiviert){
+		%>
+			deaktivieren
+		<%
+		} else {
+		%>	
+			aktivieren
+		<%
+			}
+		%>
+		</span></td>
 	</tr>
 	<%
 			tabIndex++;
@@ -101,9 +123,8 @@
 		}//while
 	%>
 </table>
-</form>
 </fieldset>
-<%@include file="include/inc_footer.jsp"%></div>
+<div><%@include file="include/inc_footer.jsp"%></div>
 <div id="show_none"></div>
 <div id="show_none"><%@include file="include/inc_menue.jsp"%>
 </div>
