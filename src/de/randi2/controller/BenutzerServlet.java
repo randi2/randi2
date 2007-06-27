@@ -1009,7 +1009,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					break;
 				}
 			}
-
+			//Konvertierung String enumStellvertreter
 			for (PersonBean.Titel tA : PersonBean.Titel.values()) {
 				if (titelA.equals(tA.toString())) {
 					titelAenum = tA;
