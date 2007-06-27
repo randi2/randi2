@@ -184,6 +184,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 		if (request.getParameter("loeschenA") == null) {
 
+			// wichtiger boolean
+			boolean wurdeStellvertreterGesetzt = true;
+
 			// Alle aenderbaren Attribute des request inititalisieren
 			String titel = request.getParameter("Titel");
 			PersonBean.Titel titelenum = null;
@@ -238,16 +241,23 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				} else {
 					PersonBean bPerson = new PersonBean();
 					bPerson.setBenutzerkontoLogging(aBenutzer);
-					bPerson.setNachname(nachnameA);
-					bPerson.setVorname(vornameA);
-					bPerson.setTelefonnummer(telefonA);
-					bPerson.setEmail(emailA);
-					bPerson.setGeschlecht(geschlechtA);
-					bPerson = DatenbankFactory.getAktuelleDBInstanz()
-							.schreibenObjekt(bPerson);
-					aPerson.setStellvertreterId(bPerson.getId());
+					if (nachnameA != null || !nachnameA.trim().equals("")
+							|| vornameA != null || !vornameA.trim().equals("")
+							|| telefonA != null || !telefonA.trim().equals("")
+							|| emailA != null || !emailA.trim().equals("")
+							|| geschlechtA != NullKonstanten.NULL_CHAR) {
+						bPerson.setNachname(nachnameA);
+						bPerson.setVorname(vornameA);
+						bPerson.setTelefonnummer(telefonA);
+						bPerson.setEmail(emailA);
+						bPerson.setGeschlecht(geschlechtA);
+						bPerson = DatenbankFactory.getAktuelleDBInstanz()
+								.schreibenObjekt(bPerson);
+						aPerson.setStellvertreterId(bPerson.getId());
+					} else {
+						wurdeStellvertreterGesetzt = false;
+					}
 				}
-
 				if (passwort != null) {
 					if (!(passwort.trim().equals(""))) {
 						String hash = KryptoUtil.getInstance().hashPasswort(
@@ -262,8 +272,13 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				request.getSession().setAttribute(
 						DispatcherServlet.sessionParameter.A_Benutzer
 								.toString(), aBenutzer);
-				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
-						"Daten erfolgreich ge&auml;ndert.");
+				if (wurdeStellvertreterGesetzt) {
+					request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+							"Daten erfolgreich ge&auml;ndert.");
+				} else {
+					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+							"Der Stellvertreter wurde nicht gesetzt.");
+				}
 				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
 						request, response);
 			} catch (BenutzerException e) {
