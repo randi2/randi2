@@ -29,6 +29,7 @@ import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.Recht.Rechtenamen;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
+import de.randi2.model.fachklassen.beans.BenutzerSuchenBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -761,185 +762,196 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	private void classDispatcherServletBenutzerSuchen(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		BenutzerkontoBean bKonto = null;
-		PersonBean person = null;
-		ZentrumBean zentrum = null;
-		Vector<BenutzerkontoBean> benutzerVec = null;
-		Vector<PersonBean> personVec = new Vector<PersonBean>();
-		Vector<ZentrumBean> zentrumVec = new Vector<ZentrumBean>();
-		Vector<BenutzerkontoBean> tmpBVec = new Vector<BenutzerkontoBean>();
-		Vector<ZentrumBean> tmpZVec = new Vector<ZentrumBean>();
-		PersonBean[] pArr = null;
-		BenutzerkontoBean[] bArr = null;
-		ZentrumBean[] zArr = null;
-		Iterator<BenutzerkontoBean> it_B = null;
-		Iterator<PersonBean> it_P = null;
-		Iterator<ZentrumBean> it_Z = null;
-		boolean gesuchtKonto = false;
-		boolean gesuchtPerson = false;
-		boolean gesuchtZentrum = false;
-
-		if (((String) request.getParameter("Aktualisieren")) != null) {
-			try {
-				if ((String) request
-						.getParameter(Parameter.benutzerkonto.LOGINNAME.name()) != null) {
-					bKonto = new BenutzerkontoBean();
-					bKonto.setBenutzername(request
-							.getParameter(Parameter.benutzerkonto.LOGINNAME
-									.name()));
-					bKonto.setFilter(true);
-					benutzerVec = new Vector<BenutzerkontoBean>();
-					benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
-					bKonto.setGesperrt(true);
-					benutzerVec.addAll(Benutzerkonto.suchenBenutzer(bKonto));
-					gesuchtKonto = true;
-				}
-
-				if (((String) request.getParameter(Parameter.person.VORNAME
-						.name())) != null
-						|| ((String) request
-								.getParameter(Parameter.person.NACHNAME.name())) != null
-						|| ((String) request
-								.getParameter(Parameter.person.EMAIL.name())) != null) {
-					person = new PersonBean();
-					person.setFilter(true);
-					person.setVorname(request
-							.getParameter(Parameter.person.VORNAME.name()));
-					person.setNachname(request
-							.getParameter(Parameter.person.NACHNAME.name()));
-					person.setEmail(request.getParameter(Parameter.person.EMAIL
-							.name()));
-					personVec = new Vector<PersonBean>();
-					personVec = Person.suchenPerson(person);
-
-					pArr = new PersonBean[personVec.size()];
-					personVec.toArray(pArr);
-					gesuchtPerson = true;
-
-					if (!gesuchtKonto) {
-						benutzerVec = new Vector<BenutzerkontoBean>();
-						int counter = 0;
-						bKonto = new BenutzerkontoBean();
-						PersonBean gefundenePerson = new PersonBean();
-						while (counter < personVec.size()) {
-							gefundenePerson = (PersonBean) pArr[counter++];
-
-							bKonto.setBenutzerId(gefundenePerson.getId());
-							bKonto.setFilter(true);
-							tmpBVec = Benutzerkonto.suchenBenutzer(bKonto);
-							bKonto.setGesperrt(true);
-							tmpBVec
-									.addAll(Benutzerkonto
-											.suchenBenutzer(bKonto));
-							it_B = tmpBVec.iterator();
-							while (tmpBVec.size() > 0 && it_B.hasNext()) {
-								benutzerVec.add(it_B.next());
-							}
-						}
-						gesuchtKonto = true;
-					}
-				}
-				if ((String) request.getParameter(Parameter.zentrum.INSTITUTION
-						.name()) != null) {
-					zentrum = new ZentrumBean();
-					zentrum
-							.setInstitution(request
-									.getParameter(Parameter.zentrum.INSTITUTION
-											.name()));
-					zentrum.setFilter(true);
-					zentrumVec = new Vector<ZentrumBean>();
-					zentrumVec = Zentrum.suchenZentrum(zentrum);
-					zentrum.setIstAktiviert(true);
-					zentrumVec.addAll(Zentrum.suchenZentrum(zentrum));
-
-					zArr = new ZentrumBean[zentrumVec.size()];
-					zentrumVec.toArray(zArr);
-
-					if (!gesuchtKonto) {
-						int counter = 0;
-						bKonto = new BenutzerkontoBean();
-						while (counter < zentrumVec.size()) {
-							zentrum = (ZentrumBean) zArr[counter++];
-
-							bKonto.setZentrumId(zentrum.getId());
-							bKonto.setFilter(true);
-
-							tmpBVec = Benutzerkonto.suchenBenutzer(bKonto);
-							bKonto.setGesperrt(true);
-							tmpBVec
-									.addAll(Benutzerkonto
-											.suchenBenutzer(bKonto));
-							it_B = tmpBVec.iterator();
-							while (tmpBVec.size() > 0 && it_B.hasNext()) {
-								benutzerVec.add(it_B.next());
-							}
-						}
-						gesuchtKonto = true;
-					}
-					if (!gesuchtPerson) {
-						int counter = 0;
-						person = new PersonBean();
-						while (counter < zentrumVec.size()) {
-							zentrum = (ZentrumBean) zArr[counter++];
-
-							person = Zentrum.getZugehoerigePerson(zentrum
-									.getId());
-							personVec.add(person);
-						}
-						gesuchtPerson = true;
-					}
-					gesuchtZentrum = true;
-				} else {
-					zentrum = new ZentrumBean();
-					zentrum.setFilter(true);
-					zentrumVec = Zentrum.suchenZentrum(zentrum);
-					// TODO --kkrupka zu implementierende Fälle
-					if (!gesuchtZentrum && !gesuchtKonto) {
-
-					} else if (!gesuchtZentrum || !gesuchtPerson) {
-
-					} else if (!gesuchtZentrum) {
-
-					}
-				}
-				if (personVec.size() != benutzerVec.size()
-						|| personVec.size() != zentrumVec.size()
-						|| benutzerVec.size() != zentrumVec.size()) {
-					// TODO wegen 1:n Beziehungsprobleme
-				}
-
-			} catch (PersonException e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-						.getMessage());
-			} catch (ZentrumException e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-						.getMessage());
-			} catch (BenutzerkontoException e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-						.getMessage());
-			}
-		} else {
-			bKonto = new BenutzerkontoBean();
-			bKonto.setFilter(true);
-			benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
-			it_B = benutzerVec.iterator();
-
-			while (it_B.hasNext()) {
-				bKonto = it_B.next();
-
-				person = Person.get(bKonto.getBenutzerId());
-				personVec.add(person);
-
-				zentrum = Zentrum.getZentrum(bKonto.getZentrumId());
-				zentrumVec.add(zentrum);
-			}
-		}
-
+//		BenutzerkontoBean bKonto = null;
+//		PersonBean person = null;
+//		ZentrumBean zentrum = null;
+//		Vector<BenutzerkontoBean> benutzerVec = null;
+//		Vector<PersonBean> personVec = new Vector<PersonBean>();
+//		Vector<ZentrumBean> zentrumVec = new Vector<ZentrumBean>();
+//		Vector<BenutzerkontoBean> tmpBVec = new Vector<BenutzerkontoBean>();
+//		Vector<ZentrumBean> tmpZVec = new Vector<ZentrumBean>();
+//		PersonBean[] pArr = null;
+//		BenutzerkontoBean[] bArr = null;
+//		ZentrumBean[] zArr = null;
+//		Iterator<BenutzerkontoBean> it_B = null;
+//		Iterator<PersonBean> it_P = null;
+//		Iterator<ZentrumBean> it_Z = null;
+//		boolean gesuchtKonto = false;
+//		boolean gesuchtPerson = false;
+//		boolean gesuchtZentrum = false;
+//
+//		if (((String) request.getParameter("Aktualisieren")) != null) {
+//			try {
+//				if ((String) request
+//						.getParameter(Parameter.benutzerkonto.LOGINNAME.name()) != null) {
+//					bKonto = new BenutzerkontoBean();
+//					bKonto.setBenutzername(request
+//							.getParameter(Parameter.benutzerkonto.LOGINNAME
+//									.name()));
+//					bKonto.setFilter(true);
+//					benutzerVec = new Vector<BenutzerkontoBean>();
+//					benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
+//					bKonto.setGesperrt(true);
+//					benutzerVec.addAll(Benutzerkonto.suchenBenutzer(bKonto));
+//					gesuchtKonto = true;
+//				}
+//
+//				if (((String) request.getParameter(Parameter.person.VORNAME
+//						.name())) != null
+//						|| ((String) request
+//								.getParameter(Parameter.person.NACHNAME.name())) != null
+//						|| ((String) request
+//								.getParameter(Parameter.person.EMAIL.name())) != null) {
+//					person = new PersonBean();
+//					person.setFilter(true);
+//					person.setVorname(request
+//							.getParameter(Parameter.person.VORNAME.name()));
+//					person.setNachname(request
+//							.getParameter(Parameter.person.NACHNAME.name()));
+//					person.setEmail(request.getParameter(Parameter.person.EMAIL
+//							.name()));
+//					personVec = new Vector<PersonBean>();
+//					personVec = Person.suchenPerson(person);
+//
+//					pArr = new PersonBean[personVec.size()];
+//					personVec.toArray(pArr);
+//					gesuchtPerson = true;
+//
+//					if (!gesuchtKonto) {
+//						benutzerVec = new Vector<BenutzerkontoBean>();
+//						int counter = 0;
+//						bKonto = new BenutzerkontoBean();
+//						PersonBean gefundenePerson = new PersonBean();
+//						while (counter < personVec.size()) {
+//							gefundenePerson = (PersonBean) pArr[counter++];
+//
+//							bKonto.setBenutzerId(gefundenePerson.getId());
+//							bKonto.setFilter(true);
+//							tmpBVec = Benutzerkonto.suchenBenutzer(bKonto);
+//							bKonto.setGesperrt(true);
+//							tmpBVec
+//									.addAll(Benutzerkonto
+//											.suchenBenutzer(bKonto));
+//							it_B = tmpBVec.iterator();
+//							while (tmpBVec.size() > 0 && it_B.hasNext()) {
+//								benutzerVec.add(it_B.next());
+//							}
+//						}
+//						gesuchtKonto = true;
+//					}
+//				}
+//				if ((String) request.getParameter(Parameter.zentrum.INSTITUTION
+//						.name()) != null) {
+//					zentrum = new ZentrumBean();
+//					zentrum
+//							.setInstitution(request
+//									.getParameter(Parameter.zentrum.INSTITUTION
+//											.name()));
+//					zentrum.setFilter(true);
+//					zentrumVec = new Vector<ZentrumBean>();
+//					zentrumVec = Zentrum.suchenZentrum(zentrum);
+//					zentrum.setIstAktiviert(true);
+//					zentrumVec.addAll(Zentrum.suchenZentrum(zentrum));
+//
+//					zArr = new ZentrumBean[zentrumVec.size()];
+//					zentrumVec.toArray(zArr);
+//
+//					if (!gesuchtKonto) {
+//						int counter = 0;
+//						bKonto = new BenutzerkontoBean();
+//						while (counter < zentrumVec.size()) {
+//							zentrum = (ZentrumBean) zArr[counter++];
+//
+//							bKonto.setZentrumId(zentrum.getId());
+//							bKonto.setFilter(true);
+//
+//							tmpBVec = Benutzerkonto.suchenBenutzer(bKonto);
+//							bKonto.setGesperrt(true);
+//							tmpBVec
+//									.addAll(Benutzerkonto
+//											.suchenBenutzer(bKonto));
+//							it_B = tmpBVec.iterator();
+//							while (tmpBVec.size() > 0 && it_B.hasNext()) {
+//								benutzerVec.add(it_B.next());
+//							}
+//						}
+//						gesuchtKonto = true;
+//					}
+//					if (!gesuchtPerson) {
+//						int counter = 0;
+//						person = new PersonBean();
+//						while (counter < zentrumVec.size()) {
+//							zentrum = (ZentrumBean) zArr[counter++];
+//
+//							person = Zentrum.getZugehoerigePerson(zentrum
+//									.getId());
+//							personVec.add(person);
+//						}
+//						gesuchtPerson = true;
+//					}
+//					gesuchtZentrum = true;
+//				} else {
+//					zentrum = new ZentrumBean();
+//					zentrum.setFilter(true);
+//					zentrumVec = Zentrum.suchenZentrum(zentrum);
+//					// TODO --kkrupka zu implementierende Fälle
+//					if (!gesuchtZentrum && !gesuchtKonto) {
+//
+//					} else if (!gesuchtZentrum || !gesuchtPerson) {
+//
+//					} else if (!gesuchtZentrum) {
+//
+//					}
+//				}
+//				if (personVec.size() != benutzerVec.size()
+//						|| personVec.size() != zentrumVec.size()
+//						|| benutzerVec.size() != zentrumVec.size()) {
+//					// TODO wegen 1:n Beziehungsprobleme
+//				}
+//
+//			} catch (PersonException e) {
+//				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+//						.getMessage());
+//			} catch (ZentrumException e) {
+//				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+//						.getMessage());
+//			} catch (BenutzerkontoException e) {
+//				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+//						.getMessage());
+//			}
+//		} else {
+//			bKonto = new BenutzerkontoBean();
+//			bKonto.setFilter(true);
+//			benutzerVec = Benutzerkonto.suchenBenutzer(bKonto);
+//			it_B = benutzerVec.iterator();
+//
+//			while (it_B.hasNext()) {
+//				bKonto = it_B.next();
+//
+//				person = Person.get(bKonto.getBenutzerId());
+//				personVec.add(person);
+//
+//				zentrum = Zentrum.getZentrum(bKonto.getZentrumId());
+//				zentrumVec.add(zentrum);
+//			}
+//		}
+//
+//		request.setAttribute("listeBenutzer", benutzerVec);
+//		request.setAttribute("listePerson", personVec);
+//		request.setAttribute("listeZentrum", zentrumVec);
+//		request.getRequestDispatcher(Jsp.ADMIN_LISTE)
+//				.forward(request, response);
+		BenutzerSuchenBean benutzer = new BenutzerSuchenBean();		
+		Vector<BenutzerSuchenBean> benutzerVec = new Vector<BenutzerSuchenBean>();
+		
+		benutzer.setNachname(request.getParameter(Parameter.person.NACHNAME.name()));
+		benutzer.setVorname(request.getParameter(Parameter.person.VORNAME.name()));
+		benutzer.setEmail(request.getParameter(Parameter.person.EMAIL.name()));
+		benutzer.setLoginname(request.getParameter(Parameter.benutzerkonto.LOGINNAME.name()));
+		benutzer.setInstitut(request.getParameter(Parameter.zentrum.INSTITUTION.name()));
+		benutzer.setFilter(true);
+		benutzerVec = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(benutzer);
 		request.setAttribute("listeBenutzer", benutzerVec);
-		request.setAttribute("listePerson", personVec);
-		request.setAttribute("listeZentrum", zentrumVec);
-		request.getRequestDispatcher(Jsp.ADMIN_LISTE)
-				.forward(request, response);
 
 	}
 

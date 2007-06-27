@@ -83,25 +83,17 @@ suchen </b></legend>
 	<%
 				Iterator listeBenutzer = ((Vector) request
 				.getAttribute("listeBenutzer")).iterator();
-		Iterator listePerson = ((Vector) request
-				.getAttribute("listePerson")).iterator();
-		Iterator listeZentrum = ((Vector) request
-				.getAttribute("listeZentrum")).iterator();
 		String reihe = "tblrow1";
 		int tabIndex = 1;
-		while (listeBenutzer.hasNext() && listePerson.hasNext()
-				&& listeZentrum.hasNext()) {
-			BenutzerkontoBean bKonto = (BenutzerkontoBean) listeBenutzer
-			.next();
-			PersonBean person = (PersonBean) listePerson.next();
-			ZentrumBean zentrum = (ZentrumBean) listeZentrum.next();
+		while (listeBenutzer.hasNext()) {
+			BenutzerSuchenBean benutzer = (BenutzerSuchenBean) listeBenutzer.next();
 	%>
 	<tr class="<%=reihe%>">
-		<td><%=person.getNachname()%></td>
-		<td><%=person.getVorname()%></td>
-		<td><%=bKonto.getBenutzername()%></td>
-		<td><%=zentrum.getInstitution()%></td>
-		<td><%=person.getEmail()%></td>
+		<td><%=benutzer.getNachname()%></td>
+		<td><%=benutzer.getVorname()%></td>
+		<td><%=benutzer.getLoginname()%></td>
+		<td><%=benutzer.getInstitut()%></td>
+		<td><%=benutzer.getEmail()%></td>
 		<td><a class="il_ContainerItemCommand" href="admin_anzeigen.jsp">anzeigen</a><a
 			class="il_ContainerItemCommand" href="benutzer_sperren.jsp">sperren</a><a
 			class="il_ContainerItemCommand" href="">l&ouml;schen</a></td>

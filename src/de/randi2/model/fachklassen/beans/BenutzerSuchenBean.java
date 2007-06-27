@@ -40,6 +40,8 @@ public class BenutzerSuchenBean extends Filter {
 		this.loginname = loginname;
 		this.institut = institut;
 	}
+	public BenutzerSuchenBean() {
+	}
 	public long getBenutzerId() {
 		return benutzerId;
 	}
