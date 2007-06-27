@@ -47,14 +47,8 @@ values('1','aktiv','irgendeine Bezeichnung','Beschreibund 1'),
         ('2','aktiv','irgendeine Bezeichnung','Beschreibund 2'),
         ('3','aktiv','irgendeine Bezeichnung','Beschreibund 3'),
         ('4','aktiv','irgendeine Bezeichnung','Beschreibund 4'),
-         ('2','aktiv','irgendeine','Beschreibadsfund 5'),
-          ('2','aktiv','irgendeine Beung','Beschreadsfibund 6');
-
-insert into Block (Studie_studienID, blockwert)
-values ('1','12'),
-        ('2','14'),
-        ('3','16'),
-        ('4','18');
+        ('2','aktiv','irgendeine','Beschreibadsfund 5'),
+        ('2','aktiv','irgendeine Beung','Beschreadsfibund 6');
 
 insert into Aktivierung (Benutzerkonto_benutzerkontenID,aktivierungslink,versanddatum) 
 values('1','http://www.eins.de','2005-12-05'),
