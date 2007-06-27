@@ -238,6 +238,7 @@ Ext.onReady(function(){
 		msgTarget: 'side',
 		allowBlank: false,
 		inputType: 'file',
+		readOnly: true,
 		name: '<%=Parameter.studie.STUDIENPROTOKOLL.name() %>',
 		fieldLabel: 'Studienprotokoll',
 		width: 250,
