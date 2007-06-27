@@ -65,10 +65,10 @@ values('1','http://www.eins.de','2005-12-05'),
 
 
 insert into Patient(Benutzerkonto_benutzerkontenID,studienarm_studienarmID,initialen,geburtsdatum,geschlecht,aufklaerungsdatum,koerperoberflaeche,performancestatus) 
-values('1','1','fh','2003-12-03','MAENNLICH','2001-01-01','23','1'),
-        ('2','2','vg','1984-01-01','MAENNLICH','2002-02-02','32','2'),
-        ('3','3','nz','1875-03-03','WEIBLICH','2003-03-03','45','3'),
-        ('4','4','hd','1973-05-05','MAENNLICH','2004-04-04','56','0');
+values('1','1','fh','2003-12-03','m','2001-01-01','23','1'),
+        ('2','2','vg','1984-01-01','m','2002-02-02','32','2'),
+        ('3','3','nz','1875-03-03','w','2003-03-03','45','3'),
+        ('4','4','hd','1973-05-05','m','2004-04-04','56','0');
 
 insert into Strata_Typen(Studie_studienID,name,beschreibung) 
 values('1','eins','woass koane'),
