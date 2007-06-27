@@ -3578,7 +3578,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		con = ConnectionFactory.getInstanz().getConnection();
 
 		String sql;
-		sql = "SELECT * FROM " + Tabellen.PATIENT + " WHERE "
+		sql = "SELECT * FROM " + Tabellen.STUDIENARM + " WHERE "
 				+ FelderStudienarm.ID + " = ?";
 		try {
 			pstmt = con.prepareStatement(sql);
