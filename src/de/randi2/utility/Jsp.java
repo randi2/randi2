@@ -250,6 +250,10 @@ public final class Jsp {
 	 */
 	public static final String ZENTRUM_ANLEGEN = "/zentrum_anlegen.jsp";
 	/**
+	 * Konstante fuer Jsp-Seite
+	 */
+	public static final String ZENTRUM_AENDERN = "/zentrum_aendern.jsp";
+	/**
 	 * Konstante fuer jsp-Seite
 	 */
 	public static final String ZENTRUM_ANZEIGEN = "/zentrum_anzeigen.jsp";

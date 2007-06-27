@@ -38,8 +38,7 @@ zum Zentrum</b></legend>
 <table>
 	<%
 		//Holen des Zentrums, das angezeigt und geaendert werden soll.
-		//TODO: Muss noch KORRIGIERT werden!!!
-		ZentrumBean aZentrum = aBenutzer.getZentrum();
+		ZentrumBean aZentrum = (ZentrumBean) request.getAttribute("aZentrum");
 	%>
 	<tr>
 		<td>Name der Institution *<br>
@@ -106,9 +105,9 @@ zum Zentrum</b></legend>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
-		<input type="radio" name="weiblich"
+		<input type="radio" name="geschlechtA" value="w"
 			<%if (aZentrum != null) {if(aZentrum.getAnsprechpartner() != null){if(aZentrum.getAnsprechpartner().getGeschlecht() == 'w'){out.print("checked");}}}%>>weiblich
-		<input type="radio" name="maennlich"
+		<input type="radio" name="geschlechtA" value="m"
 			<%if (aZentrum != null) {if(aZentrum.getAnsprechpartner() != null){if(aZentrum.getAnsprechpartner().getGeschlecht() == 'm'){out.print("checked");}}}%>>m&auml;nnlich</td>
 	</tr>
 	<tr>

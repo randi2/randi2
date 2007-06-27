@@ -22,6 +22,7 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.model.fachklassen.beans.PersonBean.Titel;
 import de.randi2.utility.Jsp;
 import de.randi2.utility.KryptoUtil;
+import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.Parameter;
 
 /**
@@ -99,7 +100,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		 * Zentrum anzeigen bei Studienverwaltung
 		 */
 		JSP_ZENTRUM_ANZEIGEN,
-		
+
 		/**
 		 * Daten eines einzelnen Zentrums anzeigen
 		 */
@@ -210,14 +211,12 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		} else if (id.equals(ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN
 				.name())) {
 			classDispatcherservletZentrumAnzeigen(request, response);
-		}
-		else if (id.equals(ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN
+		} else if (id.equals(ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN
 				.name())) {
-			
+
 			request.getRequestDispatcher(Jsp.ZENTRUM_ANSEHEN).forward(request,
 					response);
-		}
-		else {
+		} else {
 			// TODO Hier muss noch entschieden werden,was passiert
 		}
 	}
@@ -235,33 +234,38 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 * @throws ServletException
 	 *             Fehler bei HTTP
 	 */
-	private void classDispatcherservletZentrenAnzeigenAdmin(HttpServletRequest request, HttpServletResponse response)
+	private void classDispatcherservletZentrenAnzeigenAdmin(
+			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-	
+
 		ZentrumBean zentrum = new ZentrumBean();
-		Vector<ZentrumBean>zVec = new Vector<ZentrumBean>();
-		Vector<ZentrumBean>tmp = new Vector<ZentrumBean>();
+		Vector<ZentrumBean> zVec = new Vector<ZentrumBean>();
+		Vector<ZentrumBean> tmp = new Vector<ZentrumBean>();
 		zentrum.setFilter(true);
 		if (((String) request.getParameter(Parameter.filter)) != null) {
 			try {
-				zentrum.setInstitution(request.getParameter(Parameter.zentrum.INSTITUTION.name()));
-				zentrum.setAbteilung(request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name()));
-				zentrum.setIstAktiviert(Boolean.getBoolean(request.getParameter(Parameter.zentrum.AKTIVIERT.name())));
+				zentrum.setInstitution(request
+						.getParameter(Parameter.zentrum.INSTITUTION.name()));
+				zentrum.setAbteilung(request
+						.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name()));
+				zentrum.setIstAktiviert(Boolean.getBoolean(request
+						.getParameter(Parameter.zentrum.AKTIVIERT.name())));
 				zVec = Zentrum.suchenZentrum(zentrum);
 			} catch (ZentrumException e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
-			}			
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
+			}
 		} else {
 			tmp = Zentrum.suchenZentrum(zentrum);
 			zentrum.setIstAktiviert(true);
 			zVec = Zentrum.suchenZentrum(zentrum);
 			zVec.addAll(tmp);
-		}		
+		}
 		request.setAttribute("listeZentrum", zVec);
-		request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN_ADMIN).forward(request,
-				response);
+		request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN_ADMIN).forward(
+				request, response);
 	}
-	
+
 	/**
 	 * Funktion die ausgefuehrt wird, das Servlet von der
 	 * Studienzentrenverwaltung aufgerufen wird
@@ -278,7 +282,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	private void classDispatcherservletZentrumAnzeigen(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-	
+
 		this.zentrenFiltern2(request, response);
 
 		request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(request,
@@ -312,7 +316,10 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		String telefonA = request.getParameter("TelefonA");
 		String faxA = request.getParameter("FaxA");
 		String emailA = request.getParameter("EmailA");
-		// String geschlechtA = ...
+		char geschlechtA = NullKonstanten.NULL_CHAR;
+		if (request.getParameter("geschlechtA") != null) {
+			geschlechtA = request.getParameter("geschlechtA").charAt(0);
+		}
 		String passwort = null;
 
 		// Wiederholte Passworteingabe pruefen
@@ -325,60 +332,65 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				passwort = "";
 			}
 		}
-
 		BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request.getSession())
 				.getAttribute("aBenutzer");
+		aBenutzer.setBenutzerkontoLogging(aBenutzer);
 		try {
-			ZentrumBean aZentrum = aBenutzer.getZentrum();
-			try {
-				aZentrum.setInstitution(institution);
-				aZentrum.setAbteilung(abteilung);
-				aZentrum.setPlz(plz);
-				aZentrum.setOrt(ort);
-				aZentrum.setStrasse(strasse);
-				aZentrum.setHausnr(hausnr);
-				if (aZentrum.getAnsprechpartner() != null) {
-					aZentrum.getAnsprechpartner().setNachname(nachnameA);
-					aZentrum.getAnsprechpartner().setVorname(vornameA);
-					aZentrum.getAnsprechpartner().setTelefonnummer(telefonA);
-					aZentrum.getAnsprechpartner().setFax(faxA);
-					aZentrum.getAnsprechpartner().setEmail(emailA);
-					// aZentrum.getAnsprechpartner().setGeschlecht(geschlechtA);
-					DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
-							aZentrum.getAnsprechpartner());
-				} else {
-					PersonBean aPerson = new PersonBean();
-					aPerson.setNachname(nachnameA);
-					aPerson.setVorname(vornameA);
-					aPerson.setTelefonnummer(telefonA);
-					aPerson.setFax(faxA);
-					aPerson.setEmail(emailA);
-					aPerson.setGeschlecht('m');
-					aPerson = DatenbankFactory.getAktuelleDBInstanz()
-							.schreibenObjekt(aPerson);
-					aZentrum.setAnsprechpartnerId(aPerson.getId());
+			ZentrumBean aZentrum = (ZentrumBean) request
+					.getAttribute("aZentrum");
+			aZentrum.setBenutzerkontoLogging(aBenutzer);
+			aZentrum.setInstitution(institution);
+			aZentrum.setAbteilung(abteilung);
+			aZentrum.setPlz(plz);
+			aZentrum.setOrt(ort);
+			aZentrum.setStrasse(strasse);
+			aZentrum.setHausnr(hausnr);
+			if (aZentrum.getAnsprechpartner() != null) {
+				aZentrum.getAnsprechpartner()
+						.setBenutzerkontoLogging(aBenutzer);
+				aZentrum.getAnsprechpartner().setNachname(nachnameA);
+				aZentrum.getAnsprechpartner().setVorname(vornameA);
+				aZentrum.getAnsprechpartner().setTelefonnummer(telefonA);
+				aZentrum.getAnsprechpartner().setFax(faxA);
+				aZentrum.getAnsprechpartner().setEmail(emailA);
+				aZentrum.getAnsprechpartner().setGeschlecht(geschlechtA);
+				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+						aZentrum.getAnsprechpartner());
+			} else {
+				PersonBean aPerson = new PersonBean();
+				aPerson.setBenutzerkontoLogging(aBenutzer);
+				aPerson.setNachname(nachnameA);
+				aPerson.setVorname(vornameA);
+				aPerson.setTelefonnummer(telefonA);
+				aPerson.setFax(faxA);
+				aPerson.setEmail(emailA);
+				aPerson.setGeschlecht(geschlechtA);
+				aPerson = DatenbankFactory.getAktuelleDBInstanz()
+						.schreibenObjekt(aPerson);
+				aZentrum.setAnsprechpartnerId(aPerson.getId());
+			}
+			if (passwort != null) {
+				if (!(passwort.trim().equals(""))) {
+					String hash = KryptoUtil.getInstance().hashPasswort(
+							passwort);
+					aZentrum.setPasswort(hash);
 				}
-				if (passwort != null) {
-					if (!(passwort.trim().equals(""))) {
-						String hash = KryptoUtil.getInstance().hashPasswort(
-								passwort);
-						aZentrum.setPasswort(hash);
-					}
-				}
-			} catch (ZentrumException e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-						.getMessage());
-			} catch (PersonException e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-						.getMessage());
 			}
 			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aZentrum);
-			// TODO hier noch erfolgreich nachricht einfuegen twillert
-			request.getRequestDispatcher("global_welcome.jsp").forward(request,
+			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+					"Daten erfolgreich ge&auml;ndert.");
+			request.getRequestDispatcher(Jsp.ZENTRUM_AENDERN).forward(request,
 					response);
-		} catch (DatenbankExceptions e) {
+		} catch (ZentrumException e) {
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 					.getMessage());
+			request.getRequestDispatcher(Jsp.ZENTRUM_AENDERN).forward(request,
+					response);
+		} catch (PersonException e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
+			request.getRequestDispatcher(Jsp.ZENTRUM_AENDERN).forward(request,
+					response);
 		}
 	}
 
@@ -420,8 +432,9 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		request.getRequestDispatcher("/benutzer_anlegen_zwei.jsp").forward(
 				request, response);
 	}
-	
-	protected static void bindeZentrenListeAnRequest(HttpServletRequest request)throws ServletException, IOException{
+
+	protected static void bindeZentrenListeAnRequest(HttpServletRequest request)
+			throws ServletException, IOException {
 		ZentrumBean sZentrum = new ZentrumBean();
 		sZentrum.setIstAktiviert(true);
 		sZentrum.setFilter(true);
@@ -433,7 +446,8 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 					.getMessage());
 		}
-		request.setAttribute(DispatcherServlet.requestParameter.LISTE_ZENTREN.toString(), gZentrum);
+		request.setAttribute(DispatcherServlet.requestParameter.LISTE_ZENTREN
+				.toString(), gZentrum);
 	}
 
 	/**
@@ -707,8 +721,8 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 						.getMessage());
 			}
 
-			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(
-					request, response);
+			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
+					response);
 		} else {
 			try {
 				// Erstmal alle vorhandenen Zentren suchen
@@ -739,7 +753,6 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
 		// keine Filterung
 	}
-
 
 	/**
 	 * Methode wird aufgerufen um die Zentren, die zu einer Studie hinzugefuegt
@@ -776,7 +789,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 					gZentrum = Zentrum.suchenZentrum(sZentrum);
 
 				}
-				
+
 				request.setAttribute("listeZentren", gZentrum);
 			} catch (BenutzerException e) {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
