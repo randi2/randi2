@@ -10,7 +10,7 @@ Anything outside the "proxool" tag is ignored. -->
       <property name="user" value="randi2"/>
       <property name="password" value="randi2"/>
     </driver-properties>
-    <maximum-connection-count>10</maximum-connection-count>
+    <maximum-connection-count>50</maximum-connection-count>
     <house-keeping-test-sql>select CURRENT_DATE</house-keeping-test-sql>
     <trace>true</trace>    
   </proxool>
