@@ -17,6 +17,7 @@
 <title>RANDI2 :: <%=request
 									.getAttribute(DispatcherServlet.requestParameter.TITEL
 											.toString())%></title>
+<%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/style_login.css" />
 <link rel="stylesheet" type="text/css"

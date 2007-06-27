@@ -59,7 +59,7 @@
 	}
 //-->
 </script>
-
+<%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css"
 	href="js/ext/resources/css/ext-all.css" />
 <script language="Javascript" src="js/motionpack.js"> </script>
@@ -73,7 +73,6 @@
 <script type="text/javascript" src="js/ext/ext-all.js"></script>
 
 <script type="text/javascript" src="js/zentrum_anzeigen.js"></script>
-
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 

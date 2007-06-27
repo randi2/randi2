@@ -9,6 +9,7 @@
        "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
+<%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Randi2 :: <%=request
 									.getAttribute(DispatcherServlet.requestParameter.TITEL

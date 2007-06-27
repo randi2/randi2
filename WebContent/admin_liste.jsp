@@ -21,6 +21,7 @@
 		document.getElementById('filterdiv').style.display = 'none';
 	}
 </script>
+<%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body onload="hideFilter();">

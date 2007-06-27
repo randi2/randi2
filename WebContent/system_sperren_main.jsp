@@ -38,6 +38,7 @@ if (gesperrt) {
 <%
 }
 %>
+<%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
