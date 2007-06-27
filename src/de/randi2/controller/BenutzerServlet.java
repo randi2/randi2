@@ -196,8 +196,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			String vornameA = request.getParameter("VornameA");
 			String telefonA = request.getParameter("TelefonA");
 			char geschlechtA = NullKonstanten.NULL_CHAR;
-			if (request.getParameter("geschlecht") != null) {
-				geschlechtA = request.getParameter("geschlecht").charAt(0);
+			if (request.getParameter("geschlechtA") != null) {
+				geschlechtA = request.getParameter("geschlechtA").charAt(0);
 			}
 			String emailA = request.getParameter("EmailA");
 			String fax = request.getParameter("Fax");
@@ -233,19 +233,20 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				aPerson.setHandynummer(handynummer);
 				aPerson.setFax(fax);
 				if (aPerson.getStellvertreter() != null) {
+					aPerson.getStellvertreter().setBenutzerkontoLogging(
+							aBenutzer);
 					aPerson.getStellvertreter().setNachname(nachnameA);
 					aPerson.getStellvertreter().setVorname(vornameA);
 					aPerson.getStellvertreter().setTelefonnummer(telefonA);
 					aPerson.getStellvertreter().setEmail(emailA);
 					aPerson.getStellvertreter().setGeschlecht(geschlechtA);
 				} else {
-					PersonBean bPerson = new PersonBean();
-					bPerson.setBenutzerkontoLogging(aBenutzer);
-					if (nachnameA != null || !nachnameA.trim().equals("")
-							|| vornameA != null || !vornameA.trim().equals("")
-							|| telefonA != null || !telefonA.trim().equals("")
-							|| emailA != null || !emailA.trim().equals("")
+					if (nachnameA != null || vornameA != null
+							|| telefonA != null || emailA != null
 							|| geschlechtA != NullKonstanten.NULL_CHAR) {
+						PersonBean bPerson = new PersonBean();
+						bPerson.setBenutzerkontoLogging(aBenutzer);
+						bPerson.setTitel(PersonBean.Titel.KEIN_TITEL);
 						bPerson.setNachname(nachnameA);
 						bPerson.setVorname(vornameA);
 						bPerson.setTelefonnummer(telefonA);
@@ -276,12 +277,14 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 							"Daten erfolgreich ge&auml;ndert.");
 				} else {
-					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
-							"Der Stellvertreter wurde nicht gesetzt.");
+					request
+							.setAttribute(DispatcherServlet.NACHRICHT_OK,
+									"Daten erfolgreich ge&auml;ndert. (Kein Stellvertreter gesetzt)");
 				}
 				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
 						request, response);
 			} catch (BenutzerException e) {
+				e.printStackTrace();
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 						.getMessage());
 				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
@@ -294,8 +297,15 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			PersonBean aPerson = aBenutzer.getBenutzer();
 			aPerson.setBenutzerkontoLogging(aBenutzer);
 			if (aPerson.getStellvertreter() != null) {
+				aPerson.getStellvertreter().setBenutzerkontoLogging(aBenutzer);
 				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(
 						aPerson.getStellvertreter());
+				BenutzerkontoBean bBenutzer = DatenbankFactory
+						.getAktuelleDBInstanz().suchenObjektId(
+								aBenutzer.getId(), new BenutzerkontoBean());
+				request.getSession().setAttribute(
+						DispatcherServlet.sessionParameter.A_Benutzer
+								.toString(), bBenutzer);
 				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 						"Stellverteter erfolgreich entfernt.");
 				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
