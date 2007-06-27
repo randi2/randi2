@@ -23,9 +23,10 @@
 
 <body>
 <%@include file="include/inc_header.jsp"%>
-<%@include file="include/inc_nachricht.jsp"%>
+
 
 <div id="content">
+<%@include file="include/inc_nachricht.jsp"%>
 <form action="DispatcherServlet" method="post" name="user" id="user"><input
 	type="hidden" name="anfrage_id"
 	value="<%=DispatcherServlet.anfrage_id.JSP_DATEN_AENDERN.name() %>">
@@ -142,9 +143,9 @@ auszuf&uuml;llen. Sonst keine.</p>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
-		<input type="radio" name="geschlechtA"
+		<input type="radio" name="geschlechtA" value="w"
 			<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getGeschlecht() == 'w'){out.print("checked");}}%>>weiblich
-		<input type="radio" name="geschlechtA"
+		<input type="radio" name="geschlechtA" value="m"
 			<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getGeschlecht() == 'm'){out.print("checked");}}%>>m&auml;nnlich
 		</td>
 	</tr>
@@ -161,7 +162,7 @@ auszuf&uuml;llen. Sonst keine.</p>
 			value="<%if(aPerson.getStellvertreter() != null){if (aPerson.getStellvertreter().getEmail() != null){out.print(aPerson.getStellvertreter().getEmail());}}%>">
 		</td>
 		<td><input type="submit" name="loeschenA"
-			value="Ansprechpartner entfernen" tabindex="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			value="Stellvertreter entfernen" tabindex="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		</td>
 	</tr>
 </table>
