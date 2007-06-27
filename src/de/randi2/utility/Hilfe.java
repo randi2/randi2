@@ -2,13 +2,6 @@ package de.randi2.utility;
 
 import java.util.HashMap;
 
-import org.eclipse.jdt.internal.compiler.ast.ThisReference;
-
-import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
-
-import de.randi2.model.exceptions.HilfeException;
-import de.randi2.model.exceptions.RandomisationsException;
-
 /**
  * 
  * Die Klasse Hilfe liefert die Inhalte der einzelnen Hilfe-Unterseiten.
@@ -29,11 +22,10 @@ public class Hilfe {
 	 */
 	private static String[][] unterseiten = new String[][] {
 
-	{
-			JspTitel.STUDIE_AUSWAEHLEN,
-			"Hier kann die Studie ausgew&auml;hlt werden!<br><br>Unter allen zur Verf&uuml;gung stehenden Studien kann gefiltert werden." },
-
-	};
+			{
+					JspTitel.STUDIE_AUSWAEHLEN,
+					"Hier kann die Studie ausgew&auml;hlt werden!<br><br>Unter allen zur Verf&uuml;gung stehenden Studien kann gefiltert werden." },
+			{ JspTitel.STUDIE_ANSEHEN, "Hier kann die Studie angesehen werden!" }, };
 
 	/**
 	 * Singleton Instanz
