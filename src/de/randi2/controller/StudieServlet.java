@@ -251,13 +251,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String id = (String) request
-				.getParameter(DispatcherServlet.requestParameter.ANFRAGE_Id
-						.name());
-
+		String id = (String) request.getParameter(Parameter.anfrage_id);
+		// idAttribute nicht entfernen, benutzen dies fuer die Weiterleitung aus
+		// dem Benutzerservlet --Btheel
 		String idAttribute = (String) request
-				.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
-						.name());
+				.getAttribute(Parameter.anfrage_id);
+		System.out.println(idAttribute + " " + id);
 
 		if (idAttribute != null) {
 			id = idAttribute;
@@ -348,9 +347,9 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 							request, response);
 				}
 
-			} else if (id.equals(anfrage_id.JSP_PATIENT_HINZUFUEGEN.name())) {
-				this.patientHinzufuegen(request, response);
-
+			}
+			else if (id.equals(anfrage_id.JSP_PATIENT_HINZUFUEGEN.name())) {
+				System.out.println("easy");
 			}
 
 		} else if (id != null) {
@@ -710,96 +709,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 	}
 
-	private void patientHinzufuegen(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-
-		try {
-
-			long studieId = Long.parseLong(request.getParameter("studieId")
-					.trim());
-			StudieBean aStudie = Studie.getStudie(studieId);
-
-			PatientBean aPatient = new PatientBean();
-
-			String initialen = request.getParameter("initialen").trim();
-			GregorianCalendar geburtsdatum = new GregorianCalendar();
-			GregorianCalendar datumAufklaerung = new GregorianCalendar();
-			char geschlecht = request.getParameter("geschlecht").trim().charAt(
-					0);
-			geburtsdatum.setTime(DateFormat.getDateInstance(DateFormat.MEDIUM,
-					Locale.GERMANY).parse(
-					request.getParameter("geburtsdatum").trim()));
-			datumAufklaerung.setTime(DateFormat.getDateInstance(
-					DateFormat.MEDIUM, Locale.GERMANY).parse(
-					request.getParameter("datumAufklaerung").trim()));
-			float koerperOberflaeche = 0f;
-
-			koerperOberflaeche = Float.parseFloat(request.getParameter(
-					"koerperOberflaeche").trim());
-
-			int performanceStatus = Integer.parseInt(request.getParameter(
-					"performanceStatus").trim());
-
-			aPatient.setBenutzerkonto((BenutzerkontoBean) request.getSession()
-					.getAttribute("aBenutzer"));
-			aPatient.setBenutzerkontoLogging((BenutzerkontoBean) request
-					.getSession().getAttribute("aBenutzer"));
-			aPatient.setInitialen(initialen);
-			aPatient.setGeburtsdatum(geburtsdatum);
-			aPatient.setDatumAufklaerung(datumAufklaerung);
-			aPatient.setGeschlecht(geschlecht);
-			aPatient.setKoerperoberflaeche(koerperOberflaeche);
-			aPatient.setPerformanceStatus(performanceStatus);
-
-			Algorithmen randAlg = aStudie.getAlgorithmus();
-			if (randAlg == Algorithmen.VOLLSTAENDIGE_RANDOMISATION) {
-				new VollstaendigeRandomisation(aStudie)
-						.randomisierenPatient(aPatient);
-			} else if (randAlg == Algorithmen.BLOCKRANDOMISATION_OHNE_STRATA) {
-				new BlockRandomisation(aStudie).randomisierenPatient(aPatient);
-			} else if (randAlg == Algorithmen.BLOCKRANDOMISATION_MIT_STRATA) {
-				HashMap<Long, Long> strataKombinationen = new HashMap<Long, Long>();
-				String strataGruppe = Strata.getStratakombinationsString(strataKombinationen);
-				aPatient.setStrataGruppe(strataGruppe);
-				
-				new StrataBlockRandomisation(aStudie).randomisierenPatient(aPatient);
-			}
-
-			Patient.speichern(aPatient);
-			Logger.getLogger(this.getClass()).debug(
-					"Patient mit ID " + aPatient.getId()
-							+ " erfolgreich in Studienarm mit ID "
-							+ aPatient.getStudienarmId() + " hinzugefuergt");
-
-			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
-					"Ihr Patient <b>" + aPatient.getInitialen()
-							+ "</b> wurde in den Studienarm <b>"
-							+ aPatient.getStudienarm().getBezeichnung()
-							+ "</b> randomisiert.");
-
-			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
-					request, response);
-
-		} catch (PatientException e) {
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-					.getMessage());
-			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
-					request, response);
-		} catch (ParseException e) {
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
-					"Bitte geben Sie Datumseingaben im Format TT.MM.JJJJ ein.");
-			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
-					request, response);
-		} catch (NumberFormatException e) {
-			request
-					.setAttribute(
-							DispatcherServlet.FEHLERNACHRICHT,
-							"Bitte geben Sie die Koerperoberflaeche als Zahl mit Dezimaltrennzeichen '.' ein.");
-			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
-					request, response);
-		}
-
-	}
+	
 
 	/**
 	 * Diese Methode erstellt einen Vektor mit den Zentren, die der aktuellen
@@ -861,4 +771,97 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		return zentrenliste;
 
 	}
+	
+	private void patientHinzufuegen(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		try {
+
+			StudieBean aStudie = ((StudieBean) request.getSession()
+					.getAttribute(
+							DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+									.toString()));
+
+			PatientBean aPatient = new PatientBean();
+
+			String initialen = request.getParameter(
+					Parameter.patient.INITIALEN.toString()).trim();
+			GregorianCalendar geburtsdatum = new GregorianCalendar();
+			GregorianCalendar datumAufklaerung = new GregorianCalendar();
+			char geschlecht = request.getParameter(Parameter.patient.GESCHLECHT.toString()).trim().charAt(
+					0);
+			geburtsdatum.setTime(DateFormat.getDateInstance(DateFormat.MEDIUM,
+					Locale.GERMANY).parse(
+					request.getParameter(Parameter.patient.GEBURTSDATUM.toString()).trim()));
+			datumAufklaerung.setTime(DateFormat.getDateInstance(
+					DateFormat.MEDIUM, Locale.GERMANY).parse(
+					request.getParameter(Parameter.patient.DATUMAUFKLAERUNG.toString()).trim()));
+			float koerperOberflaeche = 0f;
+
+			koerperOberflaeche = Float.parseFloat(request.getParameter(
+					Parameter.patient.KOERPEROBERFLAECHE.toString()).trim());
+
+			int performanceStatus = Integer.parseInt(request.getParameter(
+					Parameter.patient.PERFORMANCESTATUS.toString()).trim());
+
+			aPatient.setBenutzerkonto((BenutzerkontoBean) request.getSession()
+					.getAttribute("aBenutzer"));
+			aPatient.setBenutzerkontoLogging((BenutzerkontoBean) request
+					.getSession().getAttribute("aBenutzer"));
+			aPatient.setInitialen(initialen);
+			aPatient.setGeburtsdatum(geburtsdatum);
+			aPatient.setDatumAufklaerung(datumAufklaerung);
+			aPatient.setGeschlecht(geschlecht);
+			aPatient.setKoerperoberflaeche(koerperOberflaeche);
+			aPatient.setPerformanceStatus(performanceStatus);
+
+			Algorithmen randAlg = aStudie.getAlgorithmus();
+			if (randAlg == Algorithmen.VOLLSTAENDIGE_RANDOMISATION) {
+				new VollstaendigeRandomisation(aStudie)
+						.randomisierenPatient(aPatient);
+			} else if (randAlg == Algorithmen.BLOCKRANDOMISATION_OHNE_STRATA) {
+				new BlockRandomisation(aStudie).randomisierenPatient(aPatient);
+			} else if (randAlg == Algorithmen.BLOCKRANDOMISATION_MIT_STRATA) {
+				HashMap<Long, Long> strataKombinationen = new HashMap<Long, Long>();
+				String strataGruppe = Strata
+						.getStratakombinationsString(strataKombinationen);
+				aPatient.setStrataGruppe(strataGruppe);
+
+				new StrataBlockRandomisation(aStudie)
+						.randomisierenPatient(aPatient);
+			}
+
+			Patient.speichern(aPatient);
+			Logger.getLogger(this.getClass()).debug(
+					"Patient mit ID " + aPatient.getId()
+							+ " erfolgreich in Studienarm mit ID "
+							+ aPatient.getStudienarmId() + " hinzugefuergt");
+
+			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+					"Ihr Patient <b>" + aPatient.getInitialen()
+							+ "</b> wurde in den Studienarm <b>"
+							+ aPatient.getStudienarm().getBezeichnung()
+							+ "</b> randomisiert.");
+
+			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
+					request, response);
+
+		} catch (PatientException e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
+			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
+					request, response);
+		} catch (ParseException e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+					"Bitte geben Sie Datumseingaben im Format TT.MM.JJJJ ein.");
+			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
+					request, response);
+		} catch (NumberFormatException e) {
+			request
+					.setAttribute(
+							DispatcherServlet.FEHLERNACHRICHT,
+							"Bitte geben Sie die Koerperoberflaeche als Zahl mit Dezimaltrennzeichen '.' ein.");
+			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
+					request, response);
+		}
 }
