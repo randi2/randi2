@@ -115,7 +115,6 @@ public class BlockRandomisation extends Randomisation {
 
 			// Holen der ersten Id
 			studienArmId = RandomisationDB.getNext(this.studie);
-			// TODO klaeren, wie hier mit einem Fehler umgegangen werden soll.
 
 		}
 		try {
