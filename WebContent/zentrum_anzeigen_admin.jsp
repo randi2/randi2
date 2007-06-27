@@ -44,9 +44,12 @@
 	</tr>
 	<tr>
 		<td>Status:</td>
-		<td><input type="Text"
-			name="<%=Parameter.zentrum.AKTIVIERT.name() %>" value=""
-			size="30" maxlength="50" /></td>
+		<td><select name="<%=Parameter.zentrum.AKTIVIERT.name() %> size="3">
+		<%for(ZentrumServlet.aktiviertDeaktiviert aktdeakt: ZentrumServlet.aktiviertDeaktiviert.values()){ %>
+		<option <%if(aktdeakt.equals(aktdeakt.KEINE_AUSWAHL)){out.print("selected");} %>><%=aktdeakt.toString() %></option>
+		<%} %>
+		
+		</select></td>
 		<td><input type="submit" name="<%=Parameter.filter %>"
 			value="Aktualisieren" /></td>
 	</tr>

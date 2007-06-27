@@ -19,6 +19,7 @@ import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
+import de.randi2.model.fachklassen.beans.PersonBean.Titel;
 import de.randi2.utility.Jsp;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.Parameter;
@@ -33,6 +34,32 @@ import de.randi2.utility.Parameter;
  */
 public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
+	
+	public enum aktiviertDeaktiviert {
+		AKTIVIERT("aktiviert"), DEAKTIVIERT("deaktiviert"), KEINE_AUSWAHL("aktiviert/deaktiviert");
+
+		private String wert = null;
+
+		private aktiviertDeaktiviert(String wert) {
+			this.wert = wert;
+		}
+
+		@Override
+		public String toString() {
+			return this.wert;
+		}
+
+		public static aktiviertDeaktiviert parseTitel(String status) {
+
+			for (aktiviertDeaktiviert aktdeakt : aktiviertDeaktiviert.values()) {
+				if (status.equals(aktdeakt.toString())) {
+					return aktdeakt;
+				}
+			}
+			return null;
+
+		}
+	}
 	/**
 	 * Default Serial
 	 */
