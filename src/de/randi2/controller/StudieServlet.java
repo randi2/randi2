@@ -139,7 +139,19 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Liste der gefundenen Studien
 		 */
-		LISTE_DER_STUDIEN("listeStudien");
+		LISTE_DER_STUDIEN("listeStudien"),
+		/**
+		 * Zur Studie gehoerige Zentren
+		 */
+		ZUGHOERIGE_ZENTREN("zugehoerigeZentren"), 
+		/**
+		 * Nicht zur Studie gehoerige Zentren
+		 */
+		NICHT_ZUGEHOERIGE_ZENTREN("nichtZugehoerigeZentren"),
+		/**
+		 * Ergebnis der Filterung von Zentren
+		 */
+		GEFILTERTE_ZENTREN("listeZentren");
 
 		/**
 		 * String Version des Parameters
@@ -312,6 +324,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				if (((String) request.getParameter("Filtern")) != null) {
 					request.getRequestDispatcher("ZentrumServlet").forward(
 							request, response);
+					
 				} else {
 					request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
 							request, response);

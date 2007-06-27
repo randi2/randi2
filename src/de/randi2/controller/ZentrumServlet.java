@@ -212,7 +212,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	private void classDispatcherservletZentrumAnzeigen(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+	
 		this.zentrenFiltern2(request, response);
 
 		request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(request,
@@ -744,6 +744,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 					gZentrum = Zentrum.suchenZentrum(sZentrum);
 
 				}
+				
 				request.setAttribute("listeZentren", gZentrum);
 			} catch (BenutzerException e) {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
