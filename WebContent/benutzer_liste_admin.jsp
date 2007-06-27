@@ -126,10 +126,9 @@ suchen </b></legend>
 	%>
 </table>
 
-</fieldset>
-<%@include file="include/inc_footer.jsp"%></div>
-<div id="show_none"></div>
-<div id="show_none"><%@include file="include/inc_menue.jsp"%>
-</div>
+
+<%@include file="include/inc_footer.jsp"%>
+<%@include file="include/inc_menue.jsp"%>
+
 </body>
 </html>
