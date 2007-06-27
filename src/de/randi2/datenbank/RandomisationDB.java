@@ -127,7 +127,7 @@ public final class RandomisationDB {
 				pstmt.setLong(1, s.getId());
 				pstmt.setString(2, strataKombination);
 				pstmt.setLong(3, block[i]);
-				
+
 				Logger l = Logger.getLogger(RandomisationDB.class);
 				l.debug(s.getId() + "," + strataKombination + "," + block[i]);
 
@@ -243,13 +243,40 @@ public final class RandomisationDB {
 	 *         Studienarms als {@link Long} belegt. Die zweite Stelle der
 	 *         HashMap ist mit die Anzahl der zugeordneten Patienten als
 	 *         {@link Integer}.
+	 * @throws DatenbankExceptions
 	 */
 	// Erstmal auskommentiert, weil vermtl. nur zum testen der
 	// Stratabasierten-Blockrandomsation noetig
-	/*
-	 * public static HashMap<Long, Integer> getAnzahlPatientenZuStudienarmen(
-	 * long studienID, String strataKombination) { return null; }
-	 */
+	public static HashMap<Long, Integer> getAnzahlPatientenZuStudienarmen(
+			long studienID, String strataKombination)
+			throws DatenbankExceptions {
+		HashMap<Long, Integer> patInArmen = new HashMap<Long, Integer>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		String sql = "select st.studienarmID,count(p.patientenID) anzahl from studie s, studienarm st, patient p "
+				+ "where s.studienID=st.Studie_studienID and p.Studienarm_studienarmID=st.studienarmID and s.studienID=? and s.strata_gruppe = ? group by st.studienarmID";
+		try {
+			con = ConnectionFactory.getInstanz().getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, studienID);
+			pstmt.setString(2, strataKombination);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				patInArmen.put(rs.getLong("st.studienarmID"), rs
+						.getInt("anzahl"));
+			}
+			pstmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
+		} finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
+		}
+
+		return patInArmen;
+	}
 
 	/**
 	 * Gibt die Anzahl der Patienten zu allen Studienarmen der Studie zurueck.
