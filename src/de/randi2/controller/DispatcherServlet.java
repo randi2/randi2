@@ -112,6 +112,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Benutzer hat Disclaimer akzeptiert. (Benutzer registrieren)
 		 */
 		JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI,
+		
+		/**
+		 * Der Admin möchte sich einen Benutzer anzeigen lassen, oder sperren.
+		 */
+		JSP_BENUTZER_LISTE_ADMIN_ANZEIGEN_SPERREN,
 
 		/**
 		 * Benutzer filtert nach Zentren bzw. gibt sein Zentrumspasswort ein.
@@ -983,6 +988,12 @@ System.out.println(idAttribute+" "+id);
 				//TODO weiterleitung?!
 				request.getRequestDispatcher(Jsp.STUDIENLEITER_ANLEGEN).forward(
 						request, response);	
+			}
+				else if(id.equals(anfrage_id.JSP_BENUTZER_LISTE_ADMIN_ANZEIGEN_SPERREN.name())){
+					//TODO weiterleitung?!
+					request.setAttribute(Parameter.anfrage_id,BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_ANZEIGEN_SPERREN.name());
+					request.getRequestDispatcher("BenutzerServlet").forward(
+							request, response);
 	}
 			
 			// [end]

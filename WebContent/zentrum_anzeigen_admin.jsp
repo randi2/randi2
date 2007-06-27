@@ -41,8 +41,8 @@
 <table width="90%">
 	<tr>
 		<td>Name&nbsp;des&nbsp;Instituts:</td>
-		<td><select name="<%=Parameter.zentrum.INSTITUTION.name() %> size="3">
-		<option "selected">Alle Zentren</option>
+		<td><select name="<%=Parameter.zentrum.INSTITUTION.name() %>" size="3">
+		<option "selected"><%=ZentrumServlet.ALLE_ZENTREN %></option>
 		<%Iterator<ZentrumBean> it=Zentrum.getAlleZentrenAktiviertDeaktiviert().iterator();
 		while(it.hasNext()){%>
 			<option><%=it.next().getInstitution()%></option>
@@ -57,7 +57,7 @@
 	</tr>
 	<tr>
 		<td>Status:</td>
-		<td><select name="<%=Parameter.zentrum.AKTIVIERT.name() %> size="3">
+		<td><select name="<%=Parameter.zentrum.AKTIVIERT.name() %>" size="1">
 		<%for(ZentrumServlet.aktiviertDeaktiviert aktdeakt: ZentrumServlet.aktiviertDeaktiviert.values()){ %>
 		<option <%if(aktdeakt.equals(aktdeakt.KEINE_AUSWAHL)){out.print("selected");} %>><%=aktdeakt.toString() %></option>
 		<%} %>

@@ -8,7 +8,6 @@
 			request.setAttribute(DispatcherServlet.requestParameter.TITEL
 			.toString(), JspTitel.BENUTZER_ANZEIGEN_ADMIN.toString());
 %>
-<jsp:setProperty name="user" property="*" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,6 +20,12 @@
 </head>
 <body>
 <%@include file="include/inc_header.jsp"%>
+<% //Die 3 Objekte holen
+BenutzerkontoBean benutzerkonto=(BenutzerkontoBean)request.getAttribute("aBenutzer");
+ZentrumBean zentrum=benutzerkonto.getZentrum();
+PersonBean person=benutzerkonto.getBenutzer();
+
+%>
 <div id="content">
 <h1>Benutzer-Liste</h1>
 <table width="90%">
@@ -33,11 +38,11 @@
 
 	</tr>
 	<tr class="tblrow2" align="left">
-		<td>Dr.</td>
-		<td>Wurscht</td>
-		<td>Hans</td>
-		<td>m&auml;nnlich</td>
-		<td>Uli Hoenes Wurst GmbH</td>
+		<td><%=person.getTitel().toString() %></td>
+		<td><%=person.getNachname() %></td>
+		<td><%=person.getVorname() %></td>
+		<td><%if(person.getGeschlecht()=='w'){out.print("weiblich");}else{out.print("maennlich");} %></td>
+		<td><%=zentrum.getInstitution() %></td>
 
 	</tr>
 </table>
@@ -57,10 +62,10 @@
 		<th width="30%">Fax</th>
 	</tr>
 	<tr class="tblrow2" align="left">
-		<td>wurscht@wurscht.de</td>
-		<td>123456678</td>
-		<td>876287364786</td>
-		<td>872638746876</td>
+		<td><%=person.getEmail() %></td>
+		<td><%=person.getTelefonnummer() %></td>
+		<td><%=person.getHandynummer() %></td>
+		<td><%=person.getFax() %></td>
 	</tr>
 </table>
 <br>

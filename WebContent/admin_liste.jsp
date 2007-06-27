@@ -60,8 +60,8 @@ suchen </b></legend>
 	</tr>
 	<tr>
 		<td>Institut:</td>
-		<td><select name="<%=Parameter.zentrum.INSTITUTION.name() %> size="3">
-		<option "selected">Alle Zentren</option>
+		<td><select name="<%=Parameter.zentrum.INSTITUTION.name() %>" size="1">
+		<option "selected"><%=ZentrumServlet.ALLE_ZENTREN %></option>
 		<%Iterator<ZentrumBean> it=Zentrum.getAlleZentrenAktiviertDeaktiviert().iterator();
 		while(it.hasNext()){%>
 			<option><%=it.next().getInstitution()%></option>

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.servlet.ServletException;
@@ -79,6 +80,12 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		 * Nutzer lässt sich ein neues Passwort zuschicken
 		 */
 		CLASS_DISPATCHERSERVLET_PASSWORT_VERGESSEN,
+		
+		
+		/**
+		 * Admin kann sich den aktuellen Nutzer anzeigen, oder diesen sperren, entsperren.
+		 */
+		CLASS_DISPATCHERSERVLET_ANZEIGEN_SPERREN,
 
 		/**
 		 * Aufforderung, aus den uebergebenen Daten einen Benutzer zu generieren
@@ -155,6 +162,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				.equals(anfrage_id.CLASS_DISPATCHERSERVLET_PASSWORT_VERGESSEN
 						.name())) {
 			this.classDispatcherServletPasswortVergessen(request, response);
+		}else if( id.equals(anfrage_id.CLASS_DISPATCHERSERVLET_ANZEIGEN_SPERREN.name()))
+		{
+			this.classDispatcherServletAnzeigenSperren(request, response);
 		}
 
 		// if
@@ -797,13 +807,15 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		benutzer.setEmail(request.getParameter(Parameter.person.EMAIL.name()));
 		benutzer.setLoginname(request
 				.getParameter(Parameter.benutzerkonto.LOGINNAME.name()));
+		if(request.getParameter(Parameter.zentrum.INSTITUTION.name())!=null&&!request.getParameter(Parameter.zentrum.INSTITUTION.name()).equals(ZentrumServlet.ALLE_ZENTREN)){
 		benutzer.setInstitut(request.getParameter(Parameter.zentrum.INSTITUTION
 				.name()));
+		}
 		benutzer.setFilter(true);
 		benutzerVec = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
 				benutzer);
 		request.setAttribute("listeBenutzer", benutzerVec);
-		request.getRequestDispatcher(Jsp.ADMIN_LISTE)
+		request.getRequestDispatcher(Jsp.BENUTZER_LISTE_ADMIN)
 				.forward(request, response);
 	}
 
@@ -1086,5 +1098,24 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				response);
 
 	}
+	
+	private void classDispatcherServletAnzeigenSperren(HttpServletRequest request, HttpServletResponse response)
+	throws ServletException, IOException {
+		String button=request.getParameter("button");
+		StringTokenizer st= new StringTokenizer(button,"_");
+		String art=st.nextToken();
+		long id=Long.parseLong(st.nextToken());
+		BenutzerkontoBean aBenutzer=DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(id, new BenutzerkontoBean());
+		request.setAttribute("aBenutzer", aBenutzer);
+		if(art.equals("a"))
+		{
+			request.getRequestDispatcher(Jsp.BENUTZER_ANZEIGEN_ADMIN).forward(request, response);
+		}
+		else if(art.equals("s")){
+			
+			request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(request, response);
+		}
+	}
+
 
 }

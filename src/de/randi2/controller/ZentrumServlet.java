@@ -35,7 +35,10 @@ import de.randi2.utility.Parameter;
  */
 public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
-	
+	/**
+	 * Konstante wenn nach allen Zentren gesucht werden soll
+	 */
+	public static final String ALLE_ZENTREN="Alle Zentren";
 	public enum aktiviertDeaktiviert {
 		AKTIVIERT("aktiviert"), DEAKTIVIERT("deaktiviert"), KEINE_AUSWAHL("aktiviert/deaktiviert");
 
@@ -244,8 +247,10 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		zentrum.setFilter(true);
 		if (((String) request.getParameter(Parameter.filter)) != null) {
 			try {
+				if(request.getParameter(Parameter.zentrum.INSTITUTION.name())!=null&&!request.getParameter(Parameter.zentrum.INSTITUTION.name()).equals(ZentrumServlet.ALLE_ZENTREN)){
 				zentrum.setInstitution(request
 						.getParameter(Parameter.zentrum.INSTITUTION.name()));
+				}
 				zentrum.setAbteilung(request
 						.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name()));
 				zentrum.setIstAktiviert(Boolean.getBoolean(request
