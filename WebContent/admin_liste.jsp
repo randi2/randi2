@@ -59,9 +59,15 @@ suchen </b></legend>
 	</tr>
 	<tr>
 		<td>Institut:</td>
-		<td><input type="Text"
-			name="<%=Parameter.zentrum.INSTITUTION.name() %>" value="" size="30"
-			maxlength="70" /></td>
+		<td><select name="<%=Parameter.zentrum.INSTITUTION.name() %> size="3">
+		<option "selected">Alle Zentren</option>
+		<%Iterator<ZentrumBean> it=Zentrum.getAlleZentrenAktiviertDeaktiviert().iterator();
+		while(it.hasNext()){%>
+			<option><%=it.next().getInstitution()%></option>
+		<%} %>
+		
+		</select>
+		</td>
 		<td><input type="submit" name="Aktualisieren"
 			value="Aktualisieren" /></td>
 	</tr>

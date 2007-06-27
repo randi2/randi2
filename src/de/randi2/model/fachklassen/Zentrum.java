@@ -173,5 +173,26 @@ public class Zentrum {
 			return false;
 		}
 	}
+	
+	
+	
+	/**
+	 * Liefert alle Zentren, die im System gespeichert sind, egal ob aktiviert oder deaktiviert.
+	 * @return Alle Zentren im System
+	 * @throws DatenbankExceptions {@link DatenbankExceptions}
+	 */
+	public static Vector<ZentrumBean> getAlleZentrenAktiviertDeaktiviert() throws DatenbankExceptions{
+		ZentrumBean suchen=new ZentrumBean();
+		suchen.setFilter(true);
+		suchen.setIstAktiviert(false);
+		//Deaktivierte holen
+		Vector<ZentrumBean> rueckgabe=Zentrum.suchenZentrum(suchen);
+		
+		//Aktivierte holen
+		suchen.setIstAktiviert(true);
+		rueckgabe.addAll(Zentrum.suchenZentrum(suchen));
+		
+		return  rueckgabe;
+	}
 
 }
