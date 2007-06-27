@@ -73,6 +73,11 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		 * Zentrum anzeigen bei Studienverwaltung
 		 */
 		JSP_ZENTRUM_ANZEIGEN,
+		
+		/**
+		 * Daten eines einzelnen Zentrums anzeigen
+		 */
+		JSP_ZENTRUM_ANSEHEN,
 
 		/**
 		 * Zentrum anzeigen beim Admin.
@@ -179,7 +184,14 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		} else if (id.equals(ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN
 				.name())) {
 			classDispatcherservletZentrumAnzeigen(request, response);
-		} else {
+		}
+		else if (id.equals(ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN
+				.name())) {
+			
+			request.getRequestDispatcher(Jsp.ZENTRUM_ANSEHEN).forward(request,
+					response);
+		}
+		else {
 			// TODO Hier muss noch entschieden werden,was passiert
 		}
 	}

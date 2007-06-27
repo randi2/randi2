@@ -614,6 +614,17 @@ System.out.println(idAttribute+" "+id);
 			// [end]
 			// WEITERLEITUNGEN FUER ZENTRUMSERVLET
 			// [start]
+			
+			
+			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANSEHEN.name())) {
+				request
+						.setAttribute(
+								"anfrage_id",
+								ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name());
+				request.getRequestDispatcher("ZentrumServlet").forward(request,
+						response);
+			}
+			
 			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANLEGEN.name())) {
 				request
 						.setAttribute(
