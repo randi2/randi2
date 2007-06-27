@@ -1907,10 +1907,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		// pruefe ob Argument ungleich null ist
 		if (zuSuchendesObjekt == null) {
 			throw new DatenbankExceptions(DatenbankExceptions.ARGUMENT_IST_NULL);
-		}// pruefe ob Filter auf true gesetzt ist
-		if (!zuSuchendesObjekt.isFilter()) {
-			throw new DatenbankExceptions(
-					DatenbankExceptions.SUCHOBJEKT_IST_KEIN_FILTER);
 		}
 		// PersonBean
 		if (zuSuchendesObjekt instanceof PersonBean) {
