@@ -225,82 +225,72 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			try {
 				PersonBean aPerson = aBenutzer.getBenutzer();
 				aPerson.setBenutzerkontoLogging(aBenutzer);
-				//try {
-					aPerson.setTitel(titelenum);
-					aPerson.setTelefonnummer(telefon);
-					aPerson.setHandynummer(handynummer);
-					aPerson.setFax(fax);
-					if (aPerson.getStellvertreter() != null) {
-						aPerson.getStellvertreter().setNachname(nachnameA);
-						aPerson.getStellvertreter().setVorname(vornameA);
-						aPerson.getStellvertreter().setTelefonnummer(telefonA);
-						aPerson.getStellvertreter().setEmail(emailA);
-						aPerson.getStellvertreter().setGeschlecht(geschlechtA);
-					} else {
-						PersonBean bPerson = new PersonBean();
-						bPerson.setBenutzerkontoLogging(aBenutzer);
-						bPerson.setNachname(nachnameA);
-						bPerson.setVorname(vornameA);
-						bPerson.setTelefonnummer(telefonA);
-						bPerson.setEmail(emailA);
-						bPerson.setGeschlecht(geschlechtA);
-						bPerson = DatenbankFactory.getAktuelleDBInstanz()
-								.schreibenObjekt(bPerson);
-						aPerson.setStellvertreterId(bPerson.getId());
-					}
+				aPerson.setTitel(titelenum);
+				aPerson.setTelefonnummer(telefon);
+				aPerson.setHandynummer(handynummer);
+				aPerson.setFax(fax);
+				if (aPerson.getStellvertreter() != null) {
+					aPerson.getStellvertreter().setNachname(nachnameA);
+					aPerson.getStellvertreter().setVorname(vornameA);
+					aPerson.getStellvertreter().setTelefonnummer(telefonA);
+					aPerson.getStellvertreter().setEmail(emailA);
+					aPerson.getStellvertreter().setGeschlecht(geschlechtA);
+				} else {
+					PersonBean bPerson = new PersonBean();
+					bPerson.setBenutzerkontoLogging(aBenutzer);
+					bPerson.setNachname(nachnameA);
+					bPerson.setVorname(vornameA);
+					bPerson.setTelefonnummer(telefonA);
+					bPerson.setEmail(emailA);
+					bPerson.setGeschlecht(geschlechtA);
+					bPerson = DatenbankFactory.getAktuelleDBInstanz()
+							.schreibenObjekt(bPerson);
+					aPerson.setStellvertreterId(bPerson.getId());
+				}
 
-					if (passwort != null) {
-						if (!(passwort.trim().equals(""))) {
-							String hash = KryptoUtil.getInstance()
-									.hashPasswort(passwort);
-							aBenutzer.setPasswort(hash);
-						}
+				if (passwort != null) {
+					if (!(passwort.trim().equals(""))) {
+						String hash = KryptoUtil.getInstance().hashPasswort(
+								passwort);
+						aBenutzer.setPasswort(hash);
 					}
+				}
 				DatenbankFactory.getAktuelleDBInstanz()
 						.schreibenObjekt(aPerson);
-				aBenutzer=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
-						aBenutzer);
-				request.getSession().setAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString(), aBenutzer);
-				request.setAttribute(DispatcherServlet.NACHRICHT_OK, "Daten erfolgreich ge&auml;ndert.");
+				aBenutzer = DatenbankFactory.getAktuelleDBInstanz()
+						.schreibenObjekt(aBenutzer);
+				request.getSession().setAttribute(
+						DispatcherServlet.sessionParameter.A_Benutzer
+								.toString(), aBenutzer);
+				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+						"Daten erfolgreich ge&auml;ndert.");
+				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
+						request, response);
+			} catch (BenutzerException e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
 				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
 						request, response);
 			}
-			 catch (BenutzerException e) {
-					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-							.getMessage());
-					request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
-							request, response);
-				}
-			//} catch (DatenbankExceptions e) {
-				//request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-					//	.getMessage());
-				//request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
-					//	request, response);
-			//}
 		} else {
-//			try {
-				BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
-						.getSession()).getAttribute("aBenutzer");
-				aBenutzer.setBenutzerkontoLogging(aBenutzer);
-				PersonBean aPerson = aBenutzer.getBenutzer();
-				aPerson.setBenutzerkontoLogging(aBenutzer);
-				if (aPerson.getStellvertreter() != null) {
-					DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(
-							aPerson.getStellvertreter());
-					request.setAttribute(DispatcherServlet.NACHRICHT_OK, "Stellverteter erfolgreich entfernt.");
-					request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
-							request, response);
-				} else {
-					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Kein Stellvertreter zum Entfernen vorhanden.");
-					request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
-							request, response);
-				}
-//			} catch (Exception e) {
-//				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-//						.getMessage());
-//				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
-//						request, response);
-//			}
+			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
+					.getSession()).getAttribute("aBenutzer");
+			aBenutzer.setBenutzerkontoLogging(aBenutzer);
+			PersonBean aPerson = aBenutzer.getBenutzer();
+			aPerson.setBenutzerkontoLogging(aBenutzer);
+			if (aPerson.getStellvertreter() != null) {
+				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(
+						aPerson.getStellvertreter());
+				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+						"Stellverteter erfolgreich entfernt.");
+				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
+						request, response);
+			} else {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+						"Kein Stellvertreter zum Entfernen vorhanden.");
+				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
+						request, response);
+			}
 		}
 	}
 
@@ -772,20 +762,25 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	private void classDispatcherServletBenutzerSuchen(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		BenutzerSuchenBean benutzer = new BenutzerSuchenBean();		
+		BenutzerSuchenBean benutzer = new BenutzerSuchenBean();
 		Vector<BenutzerSuchenBean> benutzerVec = new Vector<BenutzerSuchenBean>();
-		
-		benutzer.setNachname(request.getParameter(Parameter.person.NACHNAME.name()));
-		benutzer.setVorname(request.getParameter(Parameter.person.VORNAME.name()));
-		benutzer.setEmail(request.getParameter(Parameter.person.EMAIL.name()));
-		benutzer.setLoginname(request.getParameter(Parameter.benutzerkonto.LOGINNAME.name()));
-		benutzer.setInstitut(request.getParameter(Parameter.zentrum.INSTITUTION.name()));
-		benutzer.setFilter(true);
-		benutzerVec = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(benutzer);
-		request.setAttribute("listeBenutzer", benutzerVec);
-		request.getRequestDispatcher(Jsp.ADMIN_LISTE).forward(request, response);
-	}
 
+		benutzer.setNachname(request.getParameter(Parameter.person.NACHNAME
+				.name()));
+		benutzer.setVorname(request.getParameter(Parameter.person.VORNAME
+				.name()));
+		benutzer.setEmail(request.getParameter(Parameter.person.EMAIL.name()));
+		benutzer.setLoginname(request
+				.getParameter(Parameter.benutzerkonto.LOGINNAME.name()));
+		benutzer.setInstitut(request.getParameter(Parameter.zentrum.INSTITUTION
+				.name()));
+		benutzer.setFilter(true);
+		benutzerVec = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
+				benutzer);
+		request.setAttribute("listeBenutzer", benutzerVec);
+		request.getRequestDispatcher(Jsp.ADMIN_LISTE)
+				.forward(request, response);
+	}
 
 	/**
 	 * Methode zum Erstellen eines Studienleiteraccounts
@@ -826,8 +821,10 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		String telefonA = request
 				.getParameter(Parameter.person.STELLVERTRETER_TELEFONNUMMER
 						.name());
-		String emailA = request.getParameter(Parameter.person.STELLVERTRETER_EMAIL.name());
-		String titelA = request.getParameter(Parameter.person.STELLVERTRETER_TITEL.name());
+		String emailA = request
+				.getParameter(Parameter.person.STELLVERTRETER_EMAIL.name());
+		String titelA = request
+				.getParameter(Parameter.person.STELLVERTRETER_TITEL.name());
 		PersonBean.Titel titelAenum = null;
 		String benutzername = request
 				.getParameter(Parameter.benutzerkonto.LOGINNAME.name());
@@ -852,15 +849,13 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					break;
 				}
 			}
-			//Konvertierung String enumStellvertreter
+			// Konvertierung String enumStellvertreter
 			for (PersonBean.Titel tA : PersonBean.Titel.values()) {
 				if (titelA.equals(tA.toString())) {
 					titelAenum = tA;
 					break;
 				}
 			}
-
-			
 
 			// Benutzer anlegen
 			PersonBean aPerson = null;
@@ -967,8 +962,10 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					.name(), telefonA);
 			request.setAttribute(Parameter.benutzerkonto.LOGINNAME.name(),
 					benutzername);
-			request.setAttribute(Parameter.person.STELLVERTRETER_EMAIL.name(), emailA);
-			request.setAttribute(Parameter.person.STELLVERTRETER_TITEL.name(), titelAenum);
+			request.setAttribute(Parameter.person.STELLVERTRETER_EMAIL.name(),
+					emailA);
+			request.setAttribute(Parameter.person.STELLVERTRETER_TITEL.name(),
+					titelAenum);
 
 			if (geschlecht == 'm') {
 				request.setAttribute(Parameter.person.GESCHLECHT.name(), "m");
