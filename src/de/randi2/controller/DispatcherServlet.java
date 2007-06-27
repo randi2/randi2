@@ -300,7 +300,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Button bei Zentrum suchen.
 		 */
-		ZENTRUM_AENDERN_SPERREN;
+		ZENTRUM_AENDERN_SPERREN,
+		
+		/**
+		 * Button bei Patient hinzufuegen.
+		 */
+		JSP_PATIENT_HINZUFUEGEN_AUSFUEHREN;
 	}
 
 	/**

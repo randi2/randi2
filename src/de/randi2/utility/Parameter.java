@@ -280,6 +280,10 @@ public class Parameter {
 		
 	}
 	
+	/**
+	 * Attribute des Studienarms
+	 *
+	 */
 	public enum studienarm {
 		
 		/**
@@ -293,6 +297,10 @@ public class Parameter {
 		
 	}
 	
+	/**
+	 * Attribute einer Strata-Eigenschaft
+	 *
+	 */
 	public enum strata {
 		
 		/**
@@ -311,10 +319,51 @@ public class Parameter {
 		
 	}
 	
-	public enum hilfe {
+	/**
+	 * Attribute eines Patienten
+	 *
+	 */
+	public enum patient {
 		
-		UNTERSEITE
+		/**
+		 * INITIALEN
+		 */
+		INITIALEN,
 		
+		/**
+		 * GEBURTSDATUM
+		 */
+		GEBURTSDATUM,
+		
+		/**
+		 * GESCHLECHT
+		 */
+		GESCHLECHT,
+		
+		/**
+		 * PERFORMANCESTATUS
+		 */
+		PERFORMANCESTATUS,
+		
+		/**
+		 * DATUMAUFKLAERUNG
+		 */
+		DATUMAUFKLAERUNG,
+		
+		/**
+		 * KOERPEROBERFLAECHE
+		 */
+		KOERPEROBERFLAECHE,
+		
+		/**
+		 * STRATAGRUPPE
+		 */
+		STRATAGRUPPE,
+		
+		/**
+		 * STRATAAUSPRAEGUNG
+		 */
+		AUSPRAEGUNG
 		
 	}
 	
