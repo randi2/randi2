@@ -171,14 +171,14 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		} else if (id.equals(ZentrumServlet.anfrage_id.ZENTRUM_AENDERN.name())) {
 			aendernZentrum(request, response);
 		} else if (id.equals(ZentrumServlet.anfrage_id.ZENTRUM_ANZEIGEN.name())) {
-			this.classDispatcherservletZentrumAnzeigen(response, request);
+			this.classDispatcherservletZentrumAnzeigen(request, response);
 		} else if (id
 				.equals(ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ANZEIGEN_ADMIN
 						.name())) {
 			classDispatcherServlet(request, response);
 		} else if (id.equals(ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN
 				.name())) {
-			classDispatcherservletBenutzerRegistrierenDrei(request, response);
+			classDispatcherservletZentrumAnzeigen(request, response);
 		} else {
 			// TODO Hier muss noch entschieden werden,was passiert
 		}
@@ -198,7 +198,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 *             Fehler bei HTTP
 	 */
 	private void classDispatcherservletZentrumAnzeigen(
-			HttpServletResponse response, HttpServletRequest request)
+			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		this.zentrenFiltern2(request, response);
