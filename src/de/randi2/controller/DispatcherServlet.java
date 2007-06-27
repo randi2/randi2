@@ -425,7 +425,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		// idAttribute nicht entfernen, benutzen dies fuer die Weiterleitung aus dem Benutzerservlet --Btheel
 		String idAttribute = (String) request
 				.getAttribute(Parameter.anfrage_id);
-
+System.out.println(idAttribute+" "+id);
 		// bei jedem Zugriff, Titel zuruecksetzen
 		request.setAttribute(DispatcherServlet.requestParameter.TITEL
 				.toString(), null);
@@ -647,6 +647,14 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			// WEITERLEITUNG FUER STUDIESERVLET
 			// [start]
 
+			else if (id.equals(anfrage_id.JSP_STUDIE_ANSEHEN.name())) {
+				request.setAttribute(
+						DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
+						StudieServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name());
+				request.getRequestDispatcher("StudieServlet").forward(request,
+						response);
+
+			}
 			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
 
 				if (request.getParameter(Parameter.filter) == null) {
@@ -866,6 +874,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			// Schwerer Fehler: Falscher Request
 			else {
 				System.out.println("Scheiße");
+				System.out.println(idAttribute+" "+id);
 				Logger.getLogger(this.getClass()).debug(
 						"Kein Block in POST fuer die ID '" + id + "' gefunden");
 				// TODO Hier muss noch entschieden werden,was passiert

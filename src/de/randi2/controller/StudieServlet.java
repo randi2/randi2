@@ -119,7 +119,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Neue Studie hinzufuegen
 		 */
-		AKTION_STUDIE_ANLEGEN
+		AKTION_STUDIE_ANLEGEN,
+		
+		/**
+		 * Studie ansehen
+		 */
+		JSP_STUDIE_ANSEHEN;
 	}
 
 	/**
@@ -294,6 +299,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			} else if (id.equals(anfrage_id.AKTION_STUDIE_PAUSIEREN.name())) {
 				// Status aendern
 				studieStatus(request, response, Studie.Status.PAUSE);
+			} 
+			else if (id.equals(anfrage_id.JSP_STUDIE_ANSEHEN.name())) {
+				// Status aendern
+				request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(
+						request, response);
 			} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
 				request.setAttribute("zugehoerigeZentren", this
 						.getZugehoerigeZentren(request, response));
