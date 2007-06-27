@@ -179,7 +179,7 @@
 		</tr>
 	</tbody>
 </table>
-<form>
+
 </fieldset>
 
 <!--   fieldset><legend><b>M&ouml;liche Aktionen</b></legend>--> <%
