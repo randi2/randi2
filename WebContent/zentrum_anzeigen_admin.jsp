@@ -21,26 +21,29 @@
 </head>
 <body onload="hideFilter();">
 <%@include file="include/inc_header.jsp"%>
-<form action="DispatcherServlet" method="POST" name="liste_form" id="liste_form">
-<input type="hidden" name="<%=Parameter.anfrage_id %>" value="<%=DispatcherServlet.anfrage_id.ZENTRUM_AENDERN_SPERREN.name() %>" />
-<input type="hidden" name="button" value="" />
-</form>
 <div id="content">
 <h1>Zentren suchen</h1>
 <fieldset style="width: 90%;"><legend><b>Zentren suchen</b></legend>
-<form action="DispatcherServlet" method="POST"><input type="hidden" name="anfrage_id"
-	value="<%=DispatcherServlet.anfrage_id.ZENTRUM_ANZEIGEN_ADMIN.name() %>">
+
 
 <img alt="Filter anzeigen" src="images/find.png"
 	onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen"
 	style="cursor:pointer" /> <b>Filter ein-/ausblenden</b>
 <div id="filterdiv" style="overflow:hidden; height: 70px;">
+<form action="DispatcherServlet" method="POST"><input type="hidden" name="anfrage_id"
+	value="<%=DispatcherServlet.anfrage_id.ZENTRUM_ANZEIGEN_ADMIN.name() %>">
 <table width="90%">
 	<tr>
 		<td>Name&nbsp;des&nbsp;Instituts:</td>
-		<td><input type="Text"
-			name="<%=Parameter.zentrum.INSTITUTION.name() %>" value="" size="30"
-			maxlength="70" /></td>
+		<td><select name="<%=Parameter.zentrum.INSTITUTION.name() %> size="3">
+		<option "selected">Alle Zentren</option>
+		<%Iterator<ZentrumBean> it=Zentrum.getAlleZentrenAktiviertDeaktiviert().iterator();
+		while(it.hasNext()){%>
+			<option><%=it.next().getInstitution()%></option>
+		<%} %>
+		
+		</select>
+		</td>
 		<td>Abteilungsname:</td>
 		<td><input type="Text"
 			name="<%=Parameter.zentrum.ABTEILUNGSNAME.name() %>" value="" size="30"
@@ -61,7 +64,10 @@
 </form>
 <p></p>
 </div>
-
+<form action="DispatcherServlet" method="POST" name="liste_form" id="liste_form">
+<input type="hidden" name="<%=Parameter.anfrage_id %>" value="<%=DispatcherServlet.anfrage_id.ZENTRUM_AENDERN_SPERREN.name() %>" />
+<input type="hidden" name="button" value="" />
+</form>
 
 <table width="90%">
 	<thead align="left">
@@ -124,9 +130,8 @@
 	%>
 </table>
 </fieldset>
-<div><%@include file="include/inc_footer.jsp"%></div>
+<%@include file="include/inc_footer.jsp"%></div>
 <div id="show_none"></div>
-<div id="show_none"><%@include file="include/inc_menue.jsp"%>
-</div>
+<div id="show_none"><%@include file="include/inc_menue.jsp"%></div>
 </body>
 </html>

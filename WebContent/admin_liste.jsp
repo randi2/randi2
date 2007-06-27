@@ -101,8 +101,7 @@ suchen </b></legend>
 		<td><%=benutzer.getInstitut()%></td>
 		<td><%=benutzer.getEmail()%></td>
 		<td><a class="il_ContainerItemCommand" href="admin_anzeigen.jsp">anzeigen</a><a
-			class="il_ContainerItemCommand" href="benutzer_sperren.jsp">sperren</a><a
-			class="il_ContainerItemCommand" href="">l&ouml;schen</a></td>
+			class="il_ContainerItemCommand" href="benutzer_sperren.jsp">sperren</a>
 	</tr>
 	<%
 			tabIndex++;
