@@ -203,7 +203,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
 		this.zentrenFiltern2(request, response);
 
-		request.getRequestDispatcher("/zentrum_anzeigen.jsp").forward(request,
+		request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(request,
 				response);
 	}
 
@@ -315,7 +315,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 * @throws ServletException
 	 *             Fehler in der Http-Verarbeitung
 	 * @throws IOException
-	 *             Fehler in der IO-Verarbaitung
+	 *             Fehler in der IO-Verarbeitung
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)
 	 */
@@ -629,7 +629,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 						.getMessage());
 			}
 
-			request.getRequestDispatcher("/studie_ansehen.jsp").forward(
+			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(
 					request, response);
 		} else {
 			try {
@@ -654,7 +654,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				// Fehler zurück!
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 						.getMessage());
-				request.getRequestDispatcher("/studie_ansehen.jsp").forward(
+				request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(
 						request, response);
 			}
 		}
