@@ -47,8 +47,8 @@ values('1','aktiv','irgendeine Bezeichnung','Beschreibund 1'),
         ('2','aktiv','irgendeine Bezeichnung','Beschreibund 2'),
         ('3','aktiv','irgendeine Bezeichnung','Beschreibund 3'),
         ('4','aktiv','irgendeine Bezeichnung','Beschreibund 4'),
-         ('2','aktiv','irgendeine Bezeicadsfhnung','Beschreibadsfund 5'),
-          ('2','aktiv','irgendeine Bezeichnung','Beschreadsfibund 6');
+         ('2','aktiv','irgendeine','Beschreibadsfund 5'),
+          ('2','aktiv','irgendeine Beung','Beschreadsfibund 6');
 
 insert into Block (Studie_studienID, blockwert)
 values ('1','12'),

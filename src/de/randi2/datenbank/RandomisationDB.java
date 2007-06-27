@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.fachklassen.Strata;
@@ -125,6 +127,9 @@ public final class RandomisationDB {
 				pstmt.setLong(1, s.getId());
 				pstmt.setString(2, strataKombination);
 				pstmt.setLong(3, block[i]);
+				
+				Logger l = Logger.getLogger(RandomisationDB.class);
+				l.debug(s.getId() + "," + strataKombination + "," + block[i]);
 
 				pstmt.execute();
 			}

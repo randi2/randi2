@@ -107,7 +107,7 @@ public class BlockRandomisation extends Randomisation {
 			long blockStudienarme[] = new long[block.length];
 			for (int i = 0; i < block.length; i++) {
 				blockStudienarme[i] = ((StudienarmBean) this.studie
-						.getStudienarme().toArray()[i]).getId();
+						.getStudienarme().toArray()[block[i]]).getId();
 			}
 
 			// Speichern des Blocks

@@ -67,7 +67,9 @@ public class ConnectionFactory {
 			try {
 				con = DriverManager.getConnection("proxool.randi2");
 			} catch (SQLException e) {
-				throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
+				DatenbankExceptions de = new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
+				de.initCause(e);
+				throw de;
 			}
 				
 		return con;

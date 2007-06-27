@@ -32,7 +32,15 @@ public class SystemException extends ServletException {
 		Logger log = Logger.getLogger(this.getClass());
 		log.error("Nicht behebbarer Systemfehler.", this);
 	}
-
+	
+	
+	@Override
+	public synchronized Throwable initCause(Throwable cause) {
+		Logger log = Logger.getLogger(this.getClass());
+		log.error("Verursacht durch", cause);
+		return super.initCause(cause);
+	}
+	
 	/**
 	 * Konstruktor mit der Angabe eine spezialisierten Fehlermeldung.
 	 * 
