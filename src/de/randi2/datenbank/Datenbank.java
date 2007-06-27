@@ -1966,23 +1966,23 @@ private Vector<BenutzerSuchenBean> suchenBenutzerSuchen(BenutzerSuchenBean bean)
 			FelderBenutzerkonto.ZENTRUMID.toString(),FelderZentrum.ID.toString(),FelderBenutzerkonto.PERSONID.toString(),FelderPerson.ID.toString());
 	int counter = 0;
 	if (bean.getVorname() != null) {
-		sql += " WHERE " + FelderPerson.VORNAME.toString() + " LIKE ? ";
+		sql += " AND p." + FelderPerson.VORNAME.toString() + " LIKE ? ";
 		counter++;
 	}
 	if (bean.getNachname() != null) {
-		sql += " WHERE " + FelderPerson.NACHNAME.toString() + " LIKE ? ";
+		sql += " AND p." + FelderPerson.NACHNAME.toString() + " LIKE ? ";
 		counter++;
 	}
 	if (bean.getLoginname() != null) {
-		sql += " WHERE " + FelderBenutzerkonto.LOGINNAME.toString() + " LIKE ? ";
+		sql += " AND b." + FelderBenutzerkonto.LOGINNAME.toString() + " LIKE ? ";
 		counter++;
 	}
 	if (bean.getEmail() != null) {
-		sql += " WHERE " + FelderPerson.EMAIL.toString() + " LIKE ? ";
+		sql += " AND p." + FelderPerson.EMAIL.toString() + " LIKE ? ";
 		counter++;
 	}
 	if (bean.getInstitut() != null) {
-		sql += " WHERE " + FelderZentrum.INSTITUTION.toString() + " LIKE ? ";
+		sql += " AND z." + FelderZentrum.INSTITUTION.toString() + " LIKE ? ";
 		counter++;
 	}
 	

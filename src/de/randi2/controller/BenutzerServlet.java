@@ -952,6 +952,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		benutzer.setFilter(true);
 		benutzerVec = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(benutzer);
 		request.setAttribute("listeBenutzer", benutzerVec);
+		request.getRequestDispatcher(Jsp.ADMIN_LISTE).forward(request, response);
 
 	}
 
