@@ -44,18 +44,15 @@ public class BlockRandomisation extends Randomisation {
 	 * 
 	 * @param aStudie
 	 *            StudieBean - ein Bean der zugehoerigen Studie.
-	 * @param aBlockgroesse
-	 *            int - die Blockgroesse, mit der der Algorithmus arbeiten soll.
-	 *            (Muss ein Vielfaches der Anzahl der Studienarme sein!)
 	 * @throws RandomisationsException
 	 *             wird geworfen, falls die Parametern falsch sind.
 	 * @throws DatenbankExceptions
 	 *             wenn bei dem Prozess Fehler in der DB auftraten
 	 */
-	public BlockRandomisation(StudieBean aStudie, int aBlockgroesse)
+	public BlockRandomisation(StudieBean aStudie)
 			throws RandomisationsException, DatenbankExceptions {
 		super(NAME, aStudie);
-		this.setBlockgroesse(aBlockgroesse);
+		this.setBlockgroesse(aStudie.getBlockgroesse());
 	}
 
 	/**
@@ -67,19 +64,15 @@ public class BlockRandomisation extends Randomisation {
 	 *            Name des Randomisationsalgorithmus der erbenden Klasse.
 	 * @param aStudie
 	 *            StudieBean - ein Bean der zugehoerigen Studie.
-	 * @param aBlockgroesse
-	 *            int - die Blockgroesse, mit der der Algorithmus arbeiten soll.
-	 *            (Muss ein Vielfaches der Anzahl der Studienarme sein!)
 	 * @throws RandomisationsException
 	 *             wird geworfen, falls die Parametern falsch sind.
 	 * @throws DatenbankExceptions
 	 *             wenn bei dem Prozess Fehler in der DB auftraten
 	 */
-	protected BlockRandomisation(String name, StudieBean aStudie,
-			int aBlockgroesse) throws RandomisationsException,
+	protected BlockRandomisation(String name, StudieBean aStudie) throws RandomisationsException,
 			DatenbankExceptions {
 		super(name, aStudie);
-		this.setBlockgroesse(aBlockgroesse);
+		this.setBlockgroesse(aStudie.getBlockgroesse());
 	}
 
 	/**

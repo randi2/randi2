@@ -36,17 +36,14 @@ public class StrataBlockRandomisation extends BlockRandomisation {
 	 * 
 	 * @param aStudie
 	 *            StudieBean - ein Bean der zugehoerigen Studie.
-	 * @param aBlockgroesse
-	 *            int - die Blockgroesse, mit der der Algorithmus arbeiten soll.
-	 *            (Muss ein Vielfaches der Anzahl der Studienarme sein!)
 	 * @throws RandomisationsException
 	 *             wird geworfen, falls die Parametern falsch sind.
 	 * @throws DatenbankExceptions
 	 *             wenn bei dem Prozess Fehler in der DB auftraten
 	 */
-	public StrataBlockRandomisation(StudieBean aStudie, int aBlockgroesse)
+	public StrataBlockRandomisation(StudieBean aStudie)
 			throws RandomisationsException, DatenbankExceptions {
-		super(NAME, aStudie, aBlockgroesse);
+		super(NAME, aStudie);
 	}
 
 	/**

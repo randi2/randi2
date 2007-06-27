@@ -1,8 +1,12 @@
 package de.randi2.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Vector;
 
 import javax.servlet.ServletException;
@@ -11,19 +15,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.logicalcobwebs.cglib.core.Local;
 
 import de.randi2.controller.DispatcherServlet.sessionParameter;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.exceptions.ZentrumException;
+import de.randi2.model.fachklassen.Patient;
 import de.randi2.model.fachklassen.Rolle;
+import de.randi2.model.fachklassen.Strata;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
+import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
+import de.randi2.randomisation.BlockRandomisation;
+import de.randi2.randomisation.Randomisation;
+import de.randi2.randomisation.StrataBlockRandomisation;
+import de.randi2.randomisation.VollstaendigeRandomisation;
+import de.randi2.randomisation.Randomisation.Algorithmen;
 import de.randi2.utility.Jsp;
 import de.randi2.utility.Parameter;
 
@@ -120,11 +134,16 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Neue Studie hinzufuegen
 		 */
 		AKTION_STUDIE_ANLEGEN,
-		
+
 		/**
 		 * Studie ansehen
 		 */
-		JSP_STUDIE_ANSEHEN;
+		JSP_STUDIE_ANSEHEN,
+
+		/**
+		 * Patient hinzufuegen & Randomisieren
+		 */
+		JSP_PATIENT_HINZUFUEGEN;
 	}
 
 	/**
@@ -143,7 +162,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Zur Studie gehoerige Zentren
 		 */
-		ZUGHOERIGE_ZENTREN("zugehoerigeZentren"), 
+		ZUGHOERIGE_ZENTREN("zugehoerigeZentren"),
 		/**
 		 * Nicht zur Studie gehoerige Zentren
 		 */
@@ -239,7 +258,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		String idAttribute = (String) request
 				.getAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
 						.name());
-		
+
 		if (idAttribute != null) {
 			id = idAttribute;
 			Logger.getLogger(this.getClass()).debug(id);
@@ -311,8 +330,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			} else if (id.equals(anfrage_id.AKTION_STUDIE_PAUSIEREN.name())) {
 				// Status aendern
 				studieStatus(request, response, Studie.Status.PAUSE);
-			} 
-			else if (id.equals(anfrage_id.JSP_STUDIE_ANSEHEN.name())) {
+			} else if (id.equals(anfrage_id.JSP_STUDIE_ANSEHEN.name())) {
 				// Status aendern
 				request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(
 						request, response);
@@ -324,11 +342,15 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				if (((String) request.getParameter("Filtern")) != null) {
 					request.getRequestDispatcher("ZentrumServlet").forward(
 							request, response);
-					
+
 				} else {
 					request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
 							request, response);
 				}
+
+			} else if (id.equals(anfrage_id.JSP_PATIENT_HINZUFUEGEN.name())) {
+				this.patientHinzufuegen(request, response);
+
 			}
 
 		} else if (id != null) {
@@ -345,7 +367,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			// response);
 			System.out.println("Die drei Fragezeichen beim Posten");
 
-			
 		}
 	}
 
@@ -689,6 +710,97 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 	}
 
+	private void patientHinzufuegen(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		try {
+
+			long studieId = Long.parseLong(request.getParameter("studieId")
+					.trim());
+			StudieBean aStudie = Studie.getStudie(studieId);
+
+			PatientBean aPatient = new PatientBean();
+
+			String initialen = request.getParameter("initialen").trim();
+			GregorianCalendar geburtsdatum = new GregorianCalendar();
+			GregorianCalendar datumAufklaerung = new GregorianCalendar();
+			char geschlecht = request.getParameter("geschlecht").trim().charAt(
+					0);
+			geburtsdatum.setTime(DateFormat.getDateInstance(DateFormat.MEDIUM,
+					Locale.GERMANY).parse(
+					request.getParameter("geburtsdatum").trim()));
+			datumAufklaerung.setTime(DateFormat.getDateInstance(
+					DateFormat.MEDIUM, Locale.GERMANY).parse(
+					request.getParameter("datumAufklaerung").trim()));
+			float koerperOberflaeche = 0f;
+
+			koerperOberflaeche = Float.parseFloat(request.getParameter(
+					"koerperOberflaeche").trim());
+
+			int performanceStatus = Integer.parseInt(request.getParameter(
+					"performanceStatus").trim());
+
+			aPatient.setBenutzerkonto((BenutzerkontoBean) request.getSession()
+					.getAttribute("aBenutzer"));
+			aPatient.setBenutzerkontoLogging((BenutzerkontoBean) request
+					.getSession().getAttribute("aBenutzer"));
+			aPatient.setInitialen(initialen);
+			aPatient.setGeburtsdatum(geburtsdatum);
+			aPatient.setDatumAufklaerung(datumAufklaerung);
+			aPatient.setGeschlecht(geschlecht);
+			aPatient.setKoerperoberflaeche(koerperOberflaeche);
+			aPatient.setPerformanceStatus(performanceStatus);
+
+			Algorithmen randAlg = aStudie.getAlgorithmus();
+			if (randAlg == Algorithmen.VOLLSTAENDIGE_RANDOMISATION) {
+				new VollstaendigeRandomisation(aStudie)
+						.randomisierenPatient(aPatient);
+			} else if (randAlg == Algorithmen.BLOCKRANDOMISATION_OHNE_STRATA) {
+				new BlockRandomisation(aStudie).randomisierenPatient(aPatient);
+			} else if (randAlg == Algorithmen.BLOCKRANDOMISATION_MIT_STRATA) {
+				HashMap<Long, Long> strataKombinationen = new HashMap<Long, Long>();
+				String strataGruppe = Strata.getStratakombinationsString(strataKombinationen);
+				aPatient.setStrataGruppe(strataGruppe);
+				
+				new StrataBlockRandomisation(aStudie).randomisierenPatient(aPatient);
+			}
+
+			Patient.speichern(aPatient);
+			Logger.getLogger(this.getClass()).debug(
+					"Patient mit ID " + aPatient.getId()
+							+ " erfolgreich in Studienarm mit ID "
+							+ aPatient.getStudienarmId() + " hinzugefuergt");
+
+			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+					"Ihr Patient <b>" + aPatient.getInitialen()
+							+ "</b> wurde in den Studienarm <b>"
+							+ aPatient.getStudienarm().getBezeichnung()
+							+ "</b> randomisiert.");
+
+			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
+					request, response);
+
+		} catch (PatientException e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
+			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
+					request, response);
+		} catch (ParseException e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+					"Bitte geben Sie Datumseingaben im Format TT.MM.JJJJ ein.");
+			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
+					request, response);
+		} catch (NumberFormatException e) {
+			request
+					.setAttribute(
+							DispatcherServlet.FEHLERNACHRICHT,
+							"Bitte geben Sie die Koerperoberflaeche als Zahl mit Dezimaltrennzeichen '.' ein.");
+			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
+					request, response);
+		}
+
+	}
+
 	/**
 	 * Diese Methode erstellt einen Vektor mit den Zentren, die der aktuellen
 	 * Studie zugeordnet sind
@@ -719,20 +831,19 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 * @param request
 	 * @param response
 	 * @return Vektor der Zentren, die der Studie nicht zugeordnet sind
+	 * @throws DatenbankExceptions
 	 */
 	private Vector<ZentrumBean> getNichtZugehoerigeZentren(
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response)
+			throws DatenbankExceptions {
 		ZentrumBean zb = new ZentrumBean();
 		zb.setIstAktiviert(true);
 		zb.setFilter(true);
 
 		Vector<ZentrumBean> zentrenliste = null;
-		try {
-			zentrenliste = Zentrum.suchenZentrum(zb);
-		} catch (DatenbankExceptions e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		zentrenliste = Zentrum.suchenZentrum(zb);
+
 		Vector<ZentrumBean> zugehoerigeZentren = (Vector<ZentrumBean>) request
 				.getAttribute("zugehoerigeZentren");
 

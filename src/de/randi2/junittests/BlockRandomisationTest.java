@@ -72,7 +72,7 @@ public class BlockRandomisationTest {
 		studienarme.add(testArm3);
 		testStudieBean.setStudienarme(studienarme);
 
-		testBlockrandomisation = new BlockRandomisation(testStudieBean, 9);
+		testBlockrandomisation = new BlockRandomisation(testStudieBean);
 
 		testPatienten = new PatientBean[90];
 		for (int i = 0; i < 90; i++) {
