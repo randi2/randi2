@@ -15,8 +15,17 @@
 			.getAttribute("zugehoerigeZentren");
 	Vector<ZentrumBean> nichtZugehoerigeZentren = (Vector<ZentrumBean>) request
 			.getAttribute("nichtZugehoerigeZentren");
-	Vector<ZentrumBean> gefilterteZentren = (Vector<ZentrumBean>) request
-			.getAttribute("listeZentren");
+	Iterator filterZentren = null;
+	Vector<ZentrumBean> gefilterteZentren = null;
+	
+	try {
+		filterZentren = ((Vector) request
+		.getAttribute(StudieServlet.requestParameter.GEFILTERTE_ZENTREN
+				.toString())).iterator();
+		gefilterteZentren = (Vector<ZentrumBean>) request.getAttribute(StudieServlet.requestParameter.GEFILTERTE_ZENTREN
+				.toString());
+	} catch (NullPointerException npe) {
+	}
 
 	StudieBean aSession = (StudieBean) request.getSession()
 			.getAttribute(
@@ -106,45 +115,51 @@ suchen </b></legend><br />
 			<th width="10%">Status</th>
 			<th width="30%">Aktion</th>
 		</tr>
-	</thead>
+	</thead><tbody>
 
 	<%
 		String aktiv = null;
 		int i = 0;
 		String reihe = "tblrow2";
 		if (gefilterteZentren != null) {
-			while (i < gefilterteZentren.size()) {
-				if (gefilterteZentren.elementAt(i).getIstAktiviert()) {
+			
+			int tabindex = 1;
+			while (filterZentren.hasNext()) {
+				ZentrumBean aktuellesZentrum = (ZentrumBean) filterZentren
+				.next();
+				if (aktuellesZentrum.getIstAktiviert()) {
 			aktiv = "aktiv";
 				} else {
 			aktiv = "inaktiv";
 				}
 	%>
-	<tr class=<%=reihe %>>
-		<td><%=gefilterteZentren.elementAt(i).getInstitution()%></td>
-		<td><%=gefilterteZentren.elementAt(i).getAbteilung()%></td>
-		<td style="text-align: center;"><%=aktiv%></td>
-		<td width="40px">
-		<%
-		if (aBenutzer.getRolle().toString().equals("STUDIENLEITER")) {
-		%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
-			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
- 			} else if (aBenutzer.getRolle().toString().equals(
- 			"ADMINISTRATOR")) {
- %> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
-			name="zentrum_auswaehlen" value="Zentrum anzeigen"></a> <%
- }
- %>
-		</td>
-	</tr>
 
+	<tr class="<%=reihe %>">
+		<td><span style="cursor:pointer"
+			onClick="var frm = document.getElementById('form_filter');
+							frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
+							frm.<%=Parameter.filter %>.value = '';
+							frm.aStudieId<%=aktuellesZentrum.getId() %>.value = 'weiter';
+							frm.submit();"><%=aktuellesZentrum.getInstitution()%></span></td>
+		<td><span style="cursor:pointer"
+			onClick="var frm = document.getElementById('form_filter');
+							frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
+							frm.<%=Parameter.filter %>.value = '';
+							frm.aStudieId<%=aktuellesZentrum.getId() %>.value = 'weiter';
+							frm.submit();"><%=aktuellesZentrum.getAbteilung()%></span></td>
+		<td><span style="cursor:pointer"
+			onClick="var frm = document.getElementById('form_filter');
+							frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
+							frm.<%=Parameter.filter %>.value = '';
+							frm.aStudieId<%=aktuellesZentrum.getId() %>.value = 'weiter';
+							frm.submit();"><%=aktiv%></span></td>
+	</tr>
 	<%
-			if (reihe.equals("tblrow1")) {
+				tabindex++;
+				if (reihe.equals("tblrow1"))
 			reihe = "tblrow2";
-				} else {
+				else
 			reihe = "tblrow1";
-				}
-				i++;
 			}
 
 		} else {
@@ -205,25 +220,22 @@ suchen </b></legend><br />
 										.getAbteilung()%></td>
 		<td style="text-align: center;"><%=aktiv%></td>
 		<td width="40px" style="text-align: center;">
-		
-		
-		
 		<%
 						if (aBenutzer.getRolle().toString().equals(
 						"STUDIENLEITER")) {
 		%>
 		<form action="DispatcherServlet" method="POST"
-			name="zentrumAnsehen_form" id="zentrumAnsehen_form">
-		<span id="zentrumAnsehen_link" style="cursor:pointer"
+			name="zentrumAnsehen_form" id="zentrumAnsehen_form"><span
+			id="zentrumAnsehen_link" style="cursor:pointer"
 			onClick="document.forms['zentrumAnsehen_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';document.forms['zentrumAnsehen_form'].submit();">
-		<b>Zum Zentrum</b></span>
-		<%
+		<b>Zum Zentrum</b></span> <%
  				} else if (aBenutzer.getRolle().toString().equals(
  				"ADMINISTRATOR")) {
  %> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
 			name="zentrum_auswaehlen" value="Zentrum anzeigen!n"></a> <%
  }
  %>
+		
 		</td>
 	</tr>
 
@@ -238,7 +250,7 @@ suchen </b></legend><br />
 
 			}
 		}
-	%>
+	%></tbody>
 </table>
 <table width=90%>
 	<tr>
