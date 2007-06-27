@@ -18,7 +18,6 @@ import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
-import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Jsp;
 import de.randi2.utility.KryptoUtil;
@@ -180,7 +179,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		} else if (id
 				.equals(ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ANZEIGEN_ADMIN
 						.name())) {
-			classDispatcherservletZentrumAnzeigen(request, response);
+			classDispatcherservletZentrenAnzeigenAdmin(request, response);
 		} else if (id.equals(ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN
 				.name())) {
 			classDispatcherservletZentrumAnzeigen(request, response);
@@ -196,6 +195,46 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		}
 	}
 
+	/**
+	 * Funktion die ausgefuehrt wird, das Servlet von der
+	 * Studienzentrenverwaltung aufgerufen wird
+	 * 
+	 * @param response
+	 *            Requestobjekt
+	 * @param request
+	 *            Responseobjekt
+	 * @throws IOException
+	 *             Fehler bei E/A
+	 * @throws ServletException
+	 *             Fehler bei HTTP
+	 */
+	private void classDispatcherservletZentrenAnzeigenAdmin(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+	
+		ZentrumBean zentrum = new ZentrumBean();
+		Vector<ZentrumBean>zVec = new Vector<ZentrumBean>();
+		Vector<ZentrumBean>tmp = new Vector<ZentrumBean>();
+		zentrum.setFilter(true);
+		if (((String) request.getParameter(Parameter.filter)) != null) {
+			try {
+				zentrum.setInstitution(request.getParameter(Parameter.zentrum.INSTITUTION.name()));
+				zentrum.setAbteilung(request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.name()));
+				zentrum.setIstAktiviert(Boolean.getBoolean(request.getParameter(Parameter.zentrum.AKTIVIERT.name())));
+				zVec = Zentrum.suchenZentrum(zentrum);
+			} catch (ZentrumException e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e.getMessage());
+			}			
+		} else {
+			tmp = Zentrum.suchenZentrum(zentrum);
+			zentrum.setIstAktiviert(true);
+			zVec = Zentrum.suchenZentrum(zentrum);
+			zVec.addAll(tmp);
+		}		
+		request.setAttribute("listeZentrum", zVec);
+		request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN_ADMIN).forward(request,
+				response);
+	}
+	
 	/**
 	 * Funktion die ausgefuehrt wird, das Servlet von der
 	 * Studienzentrenverwaltung aufgerufen wird
