@@ -77,11 +77,13 @@ suchen </b></legend>
 <p></p>
 </div>
 <p></p>
-<table width="90%">
 <form action="DispatcherServlet" method="POST" name="liste_form" id="liste_form">
 <input type="hidden" name="<%=Parameter.anfrage_id %>" value="<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_LISTE_ADMIN_ANZEIGEN_SPERREN.name() %>" />
-<input type="hidden" name="button" value="" />
-</form>
+<input type="hidden" name="button" value="" /></form>
+<table width="90%">
+
+
+
 	<thead align="left">
 		<tr class="tblrow1" align="left">
 			<th width="10%">Nachname</th>
