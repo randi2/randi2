@@ -134,11 +134,58 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Benutzerdaten aendern
 		 */
 		JSP_DATEN_AENDERN,
+		
+		/**
+		 * Im Menue wird Daten aendern angklickt
+		 */
+		JSP_INC_MENUE_DATEN_AENDERN,
+		
+		/**
+		 *Der Admin lässt sich die Studien anzeigen 
+		 */
+		JSP_INC_MENUE_STUDIEN_ANZEIGEN,
+		
+		/**
+		 * Im Menue wird Patient hinzufuegen gewählt
+		 */
+		JSP_INC_MENUE_PATIENT_HINZUFUEGEN,
+		/**
+		 * Im Menue wird die Studienaerzte_Liste angeforderz
+		 */
+		JSP_INC_MENUE_STUDIENAERZTE_LISTE,
+		
+		/**
+		 * Im Menue wird die Liste der Admins angefordert
+		 */
+		JSP_INC_MENUE_ADMIN_LISTE,
+		
+		/**
+		 * Im Menue wird Systemadministration gewählt
+		 */
+		JSP_INC_MENUE_SYSTEMADMINISTRATION,
+		
+		/**
+		 * System sperren wird aufgerufen
+		 */
+		JSP_INC_MENUE_SYSTEMSPERREN,
+		
+		/**
+		 * Admin anlegen wird geklickt
+		 */
+		JSP_INC_MENUE_ADMIN_ANLEGEN,
+		
+		/**
+		 * Ein Studienleiter soll angelegt werden.
+		 */
+		JSP_INC_MENUE_STUDIENLEITER_ANLEGEN,
+		
 
 		/**
 		 * Leitet den Forward der system_sperren.jsp weiter (kommt als get)
 		 */
 		JSP_SYSTEM_SPERREN,
+		
+
 
 		/**
 		 * Aufforderung das System zu Entsperren
@@ -879,6 +926,56 @@ System.out.println(idAttribute+" "+id);
 				request.getRequestDispatcher(Jsp.NACHRICHTENDIENST).forward(
 						request, response);
 			}
+			else if(id.equals(anfrage_id.JSP_INC_MENUE_STUDIEN_ANZEIGEN.name())){
+				//TODO noch fertig machen
+				request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN).forward(
+						request, response);
+				
+			}
+			else if (id.equals(anfrage_id.JSP_INC_MENUE_DATEN_AENDERN.name())){
+				//TODO weiterleitung?!
+				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
+						request, response);
+				
+			}
+			else if (id.equals(anfrage_id.JSP_INC_MENUE_STUDIENAERZTE_LISTE.name())){
+				//TODO weiterleitung?!
+				request.getRequestDispatcher(Jsp.STUDIENARZTE_LISTE).forward(
+						request, response);
+				
+			}
+			else if(id.equals(anfrage_id.JSP_INC_MENUE_ADMIN_LISTE.name())){
+//				TODO weiterleitung?!
+				request.getRequestDispatcher(Jsp.ADMIN_LISTE).forward(
+						request, response);
+			
+			}
+			else if(id.equals(anfrage_id.JSP_INC_MENUE_PATIENT_HINZUFUEGEN.name())){
+				//TODO weiterleitung?!
+						request.getRequestDispatcher(Jsp.PATIENT_HINZUFUEGEN).forward(
+								request, response);	
+			}			
+			else if(id.equals(anfrage_id.JSP_INC_MENUE_SYSTEMADMINISTRATION.name())){
+				//TODO weiterleitung?!
+				request.getRequestDispatcher(Jsp.SYSTEMADMINISTRATION).forward(
+						request, response);	
+	}
+			else if(id.equals(anfrage_id.JSP_INC_MENUE_SYSTEMSPERREN.name())){
+				//TODO weiterleitung?!
+				request.getRequestDispatcher(Jsp.SYSTEM_SPERREN).forward(
+						request, response);	
+	}
+			else if(id.equals(anfrage_id.JSP_INC_MENUE_ADMIN_ANLEGEN.name())){
+				//TODO weiterleitung?!
+				request.getRequestDispatcher(Jsp.ADMIN_ANLEGEN).forward(
+						request, response);	
+	}
+			else if(id.equals(anfrage_id.JSP_INC_MENUE_STUDIENLEITER_ANLEGEN.name())){
+				//TODO weiterleitung?!
+				request.getRequestDispatcher(Jsp.STUDIENLEITER_ANLEGEN).forward(
+						request, response);	
+	}
+			
 			// [end]
 
 			// SONSTIGE WEITERLEITUNGEN
