@@ -12,19 +12,29 @@
 %>
 <%
 			Vector<ZentrumBean> zugehoerigeZentren = (Vector<ZentrumBean>) request
-			.getAttribute("zugehoerigeZentren");
+			.getAttribute(StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
+			.toString());
+	Iterator itZugehoerigeZentren = null;
+
 	Vector<ZentrumBean> nichtZugehoerigeZentren = (Vector<ZentrumBean>) request
-			.getAttribute("nichtZugehoerigeZentren");
+			.getAttribute(StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN
+			.toString());
+
+	Iterator itNichtZugehoerigeZentren = null;
+
 	Iterator filterZentren = null;
 	Vector<ZentrumBean> gefilterteZentren = null;
-	
 	try {
+		itZugehoerigeZentren = zugehoerigeZentren.iterator();
+		itNichtZugehoerigeZentren = nichtZugehoerigeZentren.iterator();
 		filterZentren = ((Vector) request
 		.getAttribute(StudieServlet.requestParameter.GEFILTERTE_ZENTREN
 				.toString())).iterator();
-		gefilterteZentren = (Vector<ZentrumBean>) request.getAttribute(StudieServlet.requestParameter.GEFILTERTE_ZENTREN
+		gefilterteZentren = (Vector<ZentrumBean>) request
+		.getAttribute(StudieServlet.requestParameter.GEFILTERTE_ZENTREN
 				.toString());
 	} catch (NullPointerException npe) {
+		;
 	}
 
 	StudieBean aSession = (StudieBean) request.getSession()
@@ -115,142 +125,143 @@ suchen </b></legend><br />
 			<th width="10%">Status</th>
 			<th width="30%">Aktion</th>
 		</tr>
-	</thead><tbody>
+	</thead>
+	<tbody>
 
-	<%
-		String aktiv = null;
-		int i = 0;
-		String reihe = "tblrow2";
-		if (gefilterteZentren != null) {
-			
+		<%
+			String aktiv = null;
+			int i = 0;
 			int tabindex = 1;
-			while (filterZentren.hasNext()) {
-				ZentrumBean aktuellesZentrum = (ZentrumBean) filterZentren
-				.next();
-				if (aktuellesZentrum.getIstAktiviert()) {
-			aktiv = "aktiv";
-				} else {
-			aktiv = "inaktiv";
-				}
-	%>
+			String reihe = "tblrow2";
+			if (gefilterteZentren != null) {
 
-	<tr class="<%=reihe %>">
-		<td><span style="cursor:pointer"
-			onClick="var frm = document.getElementById('form_filter');
-							frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
-							frm.<%=Parameter.filter %>.value = '';
-							frm.aStudieId<%=aktuellesZentrum.getId() %>.value = 'weiter';
-							frm.submit();"><%=aktuellesZentrum.getInstitution()%></span></td>
-		<td><span style="cursor:pointer"
-			onClick="var frm = document.getElementById('form_filter');
-							frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
-							frm.<%=Parameter.filter %>.value = '';
-							frm.aStudieId<%=aktuellesZentrum.getId() %>.value = 'weiter';
-							frm.submit();"><%=aktuellesZentrum.getAbteilung()%></span></td>
-		<td><span style="cursor:pointer"
-			onClick="var frm = document.getElementById('form_filter');
-							frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
-							frm.<%=Parameter.filter %>.value = '';
-							frm.aStudieId<%=aktuellesZentrum.getId() %>.value = 'weiter';
-							frm.submit();"><%=aktiv%></span></td>
-	</tr>
-	<%
-				tabindex++;
-				if (reihe.equals("tblrow1"))
-			reihe = "tblrow2";
-				else
-			reihe = "tblrow1";
-			}
 
-		} else {
-			i = 0;
-			if (zugehoerigeZentren != null) {
-				while (i < zugehoerigeZentren.size()) {
-			if (zugehoerigeZentren.elementAt(i).getIstAktiviert()) {
+				while (filterZentren.hasNext()) {
+					ZentrumBean aktuellesZentrum = (ZentrumBean) filterZentren
+					.next();
+					if (aktuellesZentrum.getIstAktiviert()) {
 				aktiv = "aktiv";
-			} else {
+					} else {
 				aktiv = "inaktiv";
-			}
-	%>
-	<tr class=<%=reihe %>>
-		<td><%=zugehoerigeZentren.elementAt(i)
-										.getInstitution()%></td>
-		<td><%=zugehoerigeZentren.elementAt(i)
-										.getAbteilung()%></td>
-		<td style="text-align: center;"><%=aktiv%></td>
-		<td width="40px">
-		<%
-						if (aBenutzer.getRolle().toString().equals(
-						"STUDIENLEITER")) {
-		%> <a href="zentrum_anzeigen_sl.jsp"> <input type="submit"
-			name="zentrum_auswaehlen" value="Zentrum anzeigen*"></a> <%
- 				} else if (aBenutzer.getRolle().toString().equals(
- 				"ADMINISTRATOR")) {
- %> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
-			name="zentrum_auswaehlen" value="Zentrum anzeigen*"></a> <%
- }
- %>
-		</td>
-	</tr>
-
-	<%
-				if (reihe.equals("tblrow1")) {
-				reihe = "tblrow2";
-			} else {
-				reihe = "tblrow1";
-			}
-			i++;
-				}
-
-			}
-			i = 0;
-			if (nichtZugehoerigeZentren != null) {
-				while (i < nichtZugehoerigeZentren.size()) {
-			if (nichtZugehoerigeZentren.elementAt(i)
-					.getIstAktiviert()) {
-				aktiv = "aktiv";
-			} else {
-				aktiv = "inaktiv";
-			}
-	%>
-	<tr class=<%=reihe %>>
-		<td><%=nichtZugehoerigeZentren.elementAt(i)
-										.getInstitution()%></td>
-		<td><%=nichtZugehoerigeZentren.elementAt(i)
-										.getAbteilung()%></td>
-		<td style="text-align: center;"><%=aktiv%></td>
-		<td width="40px" style="text-align: center;">
-		<%
-						if (aBenutzer.getRolle().toString().equals(
-						"STUDIENLEITER")) {
+					}
 		%>
-		<form action="DispatcherServlet" method="POST"
-			name="zentrumAnsehen_form" id="zentrumAnsehen_form"><span
-			id="zentrumAnsehen_link" style="cursor:pointer"
-			onClick="document.forms['zentrumAnsehen_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';document.forms['zentrumAnsehen_form'].submit();">
-		<b>Zum Zentrum</b></span> <%
- 				} else if (aBenutzer.getRolle().toString().equals(
- 				"ADMINISTRATOR")) {
- %> <a href="zentrum_anzeigen_admin.jsp"> <input type="submit"
-			name="zentrum_auswaehlen" value="Zentrum anzeigen!n"></a> <%
- }
- %>
-		
-		</td>
-	</tr>
 
-	<%
-				if (reihe.equals("tblrow1")) {
+		<tr class="<%=reihe %>">
+			<td><span style="cursor:pointer"
+				onClick="var frm = document.getElementById('form_filter');
+							frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
+							frm.<%=Parameter.filter %>.value = '';
+							frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
+							frm.submit();"><%=aktuellesZentrum.getInstitution()%></span></td>
+			<td><span style="cursor:pointer"
+				onClick="var frm = document.getElementById('form_filter');
+							frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
+							frm.<%=Parameter.filter %>.value = '';
+							frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
+							frm.submit();"><%=aktuellesZentrum.getAbteilung()%></span></td>
+			<td><span style="cursor:pointer"
+				onClick="var frm = document.getElementById('form_filter');
+							frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
+							frm.<%=Parameter.filter %>.value = '';
+							frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
+							frm.submit();"><%=aktiv%></span></td>
+		</tr>
+		<%
+					tabindex++;
+					if (reihe.equals("tblrow1"))
 				reihe = "tblrow2";
-			} else {
+					else
 				reihe = "tblrow1";
-			}
-			i++;
 				}
 
-			}
-		}
-	%></tbody>
+			} else {
+				i = 0;
+				if (zugehoerigeZentren != null) {
+
+					
+					while (itZugehoerigeZentren.hasNext()) {
+						ZentrumBean aktuellesZentrum = (ZentrumBean) itZugehoerigeZentren
+						.next();
+						if (aktuellesZentrum.getIstAktiviert()) {
+					aktiv = "aktiv";
+						} else {
+					aktiv = "inaktiv";
+						}
+			%>
+
+			<tr class="<%=reihe %>">
+				<td><span style="cursor:pointer"
+					onClick="var frm = document.getElementById('form_filter');
+								frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
+								frm.<%=Parameter.filter %>.value = '';
+								frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
+								frm.submit();"><%=aktuellesZentrum.getInstitution()%></span></td>
+				<td><span style="cursor:pointer"
+					onClick="var frm = document.getElementById('form_filter');
+								frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
+								frm.<%=Parameter.filter %>.value = '';
+								frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
+								frm.submit();"><%=aktuellesZentrum.getAbteilung()%></span></td>
+				<td><span style="cursor:pointer"
+					onClick="var frm = document.getElementById('form_filter');
+								frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
+								frm.<%=Parameter.filter %>.value = '';
+								frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
+								frm.submit();"><%=aktiv%></span></td>
+			</tr>
+			<%
+						tabindex++;
+						if (reihe.equals("tblrow1"))
+					reihe = "tblrow2";
+						else
+					reihe = "tblrow1";
+					}
+
+				}		
+				if (nichtZugehoerigeZentren != null) {
+
+					
+					while (itNichtZugehoerigeZentren.hasNext()) {
+						ZentrumBean aktuellesZentrum = (ZentrumBean) itNichtZugehoerigeZentren
+						.next();
+						if (aktuellesZentrum.getIstAktiviert()) {
+					aktiv = "aktiv";
+						} else {
+					aktiv = "inaktiv";
+						}
+			%>
+
+			<tr class="<%=reihe %>">
+				<td><span style="cursor:pointer"
+					onClick="var frm = document.getElementById('form_filter');
+								frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
+								frm.<%=Parameter.filter %>.value = '';
+								frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
+								frm.submit();"><%=aktuellesZentrum.getInstitution()%></span></td>
+				<td><span style="cursor:pointer"
+					onClick="var frm = document.getElementById('form_filter');
+								frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
+								frm.<%=Parameter.filter %>.value = '';
+								frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
+								frm.submit();"><%=aktuellesZentrum.getAbteilung()%></span></td>
+				<td><span style="cursor:pointer"
+					onClick="var frm = document.getElementById('form_filter');
+								frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
+								frm.<%=Parameter.filter %>.value = '';
+								frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
+								frm.submit();"><%=aktiv%></span></td>
+			</tr>
+			<%
+						tabindex++;
+						if (reihe.equals("tblrow1"))
+					reihe = "tblrow2";
+						else
+					reihe = "tblrow1";
+					}
+
+				}	}
+		%>
+	</tbody>
 </table>
 <table width=90%>
 	<tr>
