@@ -23,9 +23,34 @@ public class Hilfe {
 	private static String[][] unterseiten = new String[][] {
 
 			{
-					JspTitel.STUDIE_AUSWAEHLEN,
-					"Hier kann die Studie ausgew&auml;hlt werden!<br><br>Unter allen zur Verf&uuml;gung stehenden Studien kann gefiltert werden." },
-			{ JspTitel.STUDIE_ANSEHEN, "Hier kann die Studie angesehen werden!" }, };
+				JspTitel.STUDIE_AUSWAEHLEN,
+					"Hier kann die Studie ausgew&auml;hlt werden!<br><br>Unter allen zur Verf&uuml;gung stehenden Studien kann gefiltert werden." 
+			},
+			{ 
+				JspTitel.STUDIE_ANSEHEN, "Hier kann die ausgew&auml;lte Studie angesehen werden!" 
+			}, 
+			
+			{
+				JspTitel.STUDIENARZTE_LISTE, "Hier werden alle Studien&auml;rzte, die an der aktuell ausgew&auml;lten Studie beteiligt sind. <br><br> Unter allen zur Verf&uuml;gung stehenden Studien&auml;rzten kann gefiltert werden."
+			}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	};
 
 	/**
 	 * Singleton Instanz
