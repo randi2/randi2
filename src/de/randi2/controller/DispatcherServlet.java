@@ -369,11 +369,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	public static enum requestParameter {
 
 		/**
-		 * Id der Anfrage an den Dispatcher
-		 */
-		ANFRAGE_Id("anfrage_id"),
-
-		/**
 		 * Titel der aktuellen JSP
 		 */
 		TITEL("titel"),
@@ -721,7 +716,7 @@ System.out.println(idAttribute+" "+id);
 
 			else if (id.equals(anfrage_id.JSP_STUDIE_ANSEHEN.name())) {
 				request.setAttribute(
-						DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
+						Parameter.anfrage_id.toString(),
 						StudieServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
@@ -733,7 +728,7 @@ System.out.println(idAttribute+" "+id);
 					request.setAttribute("listeZentren", null);
 				} 
 				request.setAttribute(
-						DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
+						Parameter.anfrage_id.toString(),
 						StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
@@ -744,8 +739,7 @@ System.out.println(idAttribute+" "+id);
 				// neue Studie anlegen
 				request
 						.setAttribute(
-								DispatcherServlet.requestParameter.ANFRAGE_Id
-										.name(),
+								Parameter.anfrage_id.toString(),
 								StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN_NEUESTUDIE
 										.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
@@ -755,16 +749,14 @@ System.out.println(idAttribute+" "+id);
 				if (request.getParameter(Parameter.filter) == null) {
 					// Studie wurde ausgewaehlt
 					request.setAttribute(
-							DispatcherServlet.requestParameter.ANFRAGE_Id
-									.name(),
+							Parameter.anfrage_id.toString(),
 							StudieServlet.anfrage_id.AKTION_STUDIE_AUSGEWAEHLT
 									.toString());
 
 				} else {
 					// auf der studie_auswaehlen.jsp wird die liste gefiltert
 					request.setAttribute(
-							DispatcherServlet.requestParameter.ANFRAGE_Id
-									.name(),
+							Parameter.anfrage_id.toString(),
 							StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN
 									.toString());
 
@@ -780,7 +772,7 @@ System.out.println(idAttribute+" "+id);
 
 				// neue Studie anlegen
 				request.setAttribute(
-						DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
+						Parameter.anfrage_id.toString(),
 						StudieServlet.anfrage_id.AKTION_STUDIE_ANLEGEN.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
@@ -881,8 +873,7 @@ System.out.println(idAttribute+" "+id);
 				// Studie pausieren
 				request
 						.setAttribute(
-								DispatcherServlet.requestParameter.ANFRAGE_Id
-										.name(),
+								Parameter.anfrage_id.toString(),
 								StudieServlet.anfrage_id.AKTION_STUDIE_PAUSIEREN
 										.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
@@ -891,7 +882,7 @@ System.out.println(idAttribute+" "+id);
 					.equals((anfrage_id.JSP_STUDIE_FORTSETZEN_EINS.name()))) {
 				// Studie fortsetzen
 				request.setAttribute(
-						DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
+						Parameter.anfrage_id.toString(),
 						StudieServlet.anfrage_id.AKTION_STUDIE_FORTSETZEN
 								.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
@@ -902,7 +893,7 @@ System.out.println(idAttribute+" "+id);
 			else if (id.equals((anfrage_id.JSP_STUDIE_AENDERN.name()))) {
 
 				request.setAttribute(
-						DispatcherServlet.requestParameter.ANFRAGE_Id.name(),
+						Parameter.anfrage_id.toString(),
 						StudieServlet.anfrage_id.AKTION_STUDIE_AENDERN);
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);

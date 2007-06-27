@@ -427,8 +427,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			loggeKorrekteanmeldung(aBenutzer);
 			return;
 		} else {
-			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
-					.name(), StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN
+			request.setAttribute(Parameter.anfrage_id.toString(), StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN
 					.name());
 			request.getRequestDispatcher("StudieServlet").forward(request,
 					response);
@@ -970,8 +969,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 					"Account erfolgreich angelegt.");
-			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
-					.toString(), DispatcherServlet.anfrage_id.JSP_ADMIN_ANLEGEN
+			request.setAttribute(Parameter.anfrage_id.toString(), DispatcherServlet.anfrage_id.JSP_ADMIN_ANLEGEN
 					.name());
 			request.getRequestDispatcher("/DispatcherServlet").forward(request,
 					response);
@@ -1014,8 +1012,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 					.getMessage());
 
-			request.setAttribute(DispatcherServlet.requestParameter.ANFRAGE_Id
-					.toString(), DispatcherServlet.anfrage_id.JSP_ADMIN_ANLEGEN
+			request.setAttribute(Parameter.anfrage_id.toString(), DispatcherServlet.anfrage_id.JSP_ADMIN_ANLEGEN
 					.name());
 			request.getRequestDispatcher("/DispatcherServlet").forward(request,
 					response);
