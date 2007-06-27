@@ -51,7 +51,7 @@
 			id="zentrenAnzeigen_form"><input type="hidden"
 			name="<%=Parameter.anfrage_id %>" value=""></form>
 		<span  id="zentrenAnzeigen_link" style="cursor:pointer"
-			onClick="document.forms['zentrenAnzeigen_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name() %>';document.forms['zentrenAnzeigen_form'].submit();">
+			onClick="document.forms['zentrenAnzeigen_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.ZENTRUM_ANZEIGEN_ADMIN.name() %>';document.forms['zentrenAnzeigen_form'].submit();">
 		Zentren anzeigen</span></li>
 	
 	<%-- } --%>

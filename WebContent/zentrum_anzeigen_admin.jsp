@@ -25,15 +25,11 @@
 <%@include file="include/inc_header.jsp"%>
 
 <%
-			Iterator listeZentrum = ((Vector) request
+	Iterator listeZentrum = ((Vector) request
 			.getAttribute("listeZentrum")).iterator();
-	Iterator listePerson = ((Vector) request
-			.getAttribute("listePerson")).iterator();
 	ZentrumBean zentrum = new ZentrumBean();
-	PersonBean person = new PersonBean();
-	if (listeZentrum.hasNext() && listePerson.hasNext()) {
+	if (listeZentrum.hasNext()) {
 		zentrum = (ZentrumBean) listeZentrum.next();
-		person = (PersonBean) listePerson.next();
 	}
 %>
 <div id="content">
@@ -91,29 +87,29 @@ zum Ansprechpartner</b></legend>
 		<td>Nachname *<br>
 		<input type="text" size"40" maxlength="40"
 			name="<%=Parameter.person.NACHNAME %>" tabindex="8"
-			value="<%=person.getNachname() %>"></td>
+			value="<%=zentrum.getAnsprechpartner().getNachname() %>"></td>
 		<td>Vorname *<br>
 		<input type="text" size"40" maxlength="40"
 			name="<%=Parameter.person.VORNAME %>" tabindex="9"
-			value="<%=person.getVorname() %>"></td>
+			value="<%=zentrum.getAnsprechpartner().getVorname() %>"></td>
 	</tr>
 	<tr>
 		<td>Telefon *<br>
 		<input type="text" size"40" maxlength="40"
 			name="<%=Parameter.person.TELEFONNUMMER %>" tabindex="10"
-			value="<%=person.getTelefonnummer() %>"></td>
+			value="<%=zentrum.getAnsprechpartner().getTelefonnummer() %>"></td>
 	</tr>
 	<tr>
 		<td>Fax<br>
 		<input type="text" size"40" maxlength="40"
 			name="<%=Parameter.person.FAX %>" tabindex="11"
-			value="<%=person.getFax() %>"></td>
+			value="<%=zentrum.getAnsprechpartner().getFax() %>"></td>
 	</tr>
 	<tr>
 		<td>Email *<br>
 		<input type="text" size"40" maxlength="40"
 			name="<%=Parameter.person.EMAIL %>" tabindex="12"
-			value="<%=person.getEmail() %>"></td>
+			value="<%=zentrum.getAnsprechpartner().getEmail() %>"></td>
 	</tr>
 
 </table>
