@@ -1,4 +1,9 @@
+SET FOREIGN_KEY_CHECKS=0;
+
+SET AUTOCOMMIT=0;
+START TRANSACTION;
 use randi2;
+
 
 insert into Person (nachname,vorname,titel,geschlecht,telefonnummer,handynummer,fax,email)  
 values ('Hess','Frank','Prof.','m','07131-1231232',null,null,'frank.hess@hs-heilbronn.de'),
@@ -41,9 +46,9 @@ insert into Studienarm (Studie_studienID,status_aktivitaet,bezeichnung,beschreib
 values('1','aktiv','irgendeine Bezeichnung','Beschreibund 1'),
         ('2','aktiv','irgendeine Bezeichnung','Beschreibund 2'),
         ('3','aktiv','irgendeine Bezeichnung','Beschreibund 3'),
-        ('4','aktiv','irgendeine Bezeichnung','Beschreibund 4');
+        ('4','aktiv','irgendeine Bezeichnung','Beschreibund 4'),
          ('2','aktiv','irgendeine Bezeicadsfhnung','Beschreibadsfund 5'),
-          ('2','aktiv','irgendeine Bezeichnung','Beschreadsfibund 6'),
+          ('2','aktiv','irgendeine Bezeichnung','Beschreadsfibund 6');
 
 insert into Block (Studie_studienID, blockwert)
 values ('1','12'),
@@ -83,4 +88,8 @@ values('1','1'),
         ('2','2'),
         ('3','3'),
         ('4','4');
+        
+SET FOREIGN_KEY_CHECKS=1;
+
+COMMIT;
 
