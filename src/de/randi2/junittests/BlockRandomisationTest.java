@@ -80,8 +80,8 @@ public class BlockRandomisationTest {
 
 		testBlockrandomisation = new BlockRandomisation(testStudieBean);
 
-		testPatienten = new PatientBean[90];
-		for (int i = 0; i < 90; i++) {
+		testPatienten = new PatientBean[18];
+		for (int i = 0; i < 18; i++) {
 			testPatienten[i] = new PatientBean();
 			testPatienten[i].setInitialen("TP" + i);
 			testPatienten[i].setGeburtsdatum(new GregorianCalendar());
@@ -103,7 +103,7 @@ public class BlockRandomisationTest {
 
 	@Test
 	public void testRandomisierenPatient() {
-		for (int i = 0; i < 90; i++) {
+		for (int i = 0; i < 18; i++) {
 			try {
 				testBlockrandomisation.randomisierenPatient(testPatienten[i]);
 				Patient.speichern(testPatienten[i]);
@@ -142,9 +142,9 @@ public class BlockRandomisationTest {
 
 			}
 
-			assertEquals(30, testArm1.getPatienten().size());
-			assertEquals(30, testArm2.getPatienten().size());
-			assertEquals(30, testArm3.getPatienten().size());
+			assertEquals(6, testArm1.getPatienten().size());
+			assertEquals(6, testArm2.getPatienten().size());
+			assertEquals(6, testArm3.getPatienten().size());
 
 		} catch (DatenbankExceptions e) {
 

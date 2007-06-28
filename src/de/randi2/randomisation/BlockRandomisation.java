@@ -150,7 +150,7 @@ public class BlockRandomisation extends Randomisation {
 			for (int a = 0; a < zufallsZahlen.length; a++) {
 				if (zufallsZahlen[a] == block[i]) {
 					zaehler = 0;
-					for (int b = this.studie.getStudienarme().size() - 1; b < zufallsZahlen.length; b = b
+					for (int b = this.studie.getStudienarme().size()-1; b < zufallsZahlen.length; b = b
 							+ this.studie.getStudienarme().size()) {
 						if (a <= b) {
 							block[i] = zaehler;

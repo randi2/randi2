@@ -15,14 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.logicalcobwebs.cglib.core.Local;
 
 import de.randi2.controller.DispatcherServlet.sessionParameter;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.StudieException;
-import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Patient;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Strata;
@@ -34,7 +32,6 @@ import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.randomisation.BlockRandomisation;
-import de.randi2.randomisation.Randomisation;
 import de.randi2.randomisation.StrataBlockRandomisation;
 import de.randi2.randomisation.VollstaendigeRandomisation;
 import de.randi2.randomisation.Randomisation.Algorithmen;
@@ -549,7 +546,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			// Studie erfolgreich pausiert
 			// TODO Meldung an den Benutzer
 			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
-					this.STATUS_GEAENDERT);
+					STATUS_GEAENDERT);
 			request.getRequestDispatcher("studie_ansehen.jsp").forward(request,
 					response);
 		} catch (Exception e) {
@@ -844,20 +841,25 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 							+ aPatient.getStudienarm().getBezeichnung()
 							+ "</b> randomisiert.");
 
-			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
+			request.getRequestDispatcher("/studie_ansehen.jsp").forward(
 					request, response);
 
 		} catch (PatientException e) {
+			Logger.getLogger(this.getClass()).debug("Fehler", e);
+			
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 					.getMessage());
 			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
 					request, response);
 		} catch (ParseException e) {
+			Logger.getLogger(this.getClass()).debug("Fehler", e);
+			
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
 					"Bitte geben Sie Datumseingaben im Format TT.MM.JJJJ ein.");
 			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
 					request, response);
 		} catch (NumberFormatException e) {
+			Logger.getLogger(this.getClass()).debug("Fehler", e);
 			request
 					.setAttribute(
 							DispatcherServlet.FEHLERNACHRICHT,
