@@ -36,12 +36,13 @@ values ('1','1','frank80','a2dc01d419169a14447c792bfb5ece25a50757c09f28798a2c4f5
         ('3','3','nadine','4bc34ee364f766e4877e3e6bc7fce62402910200967678714db8d7b4e062c1aa','SYSOP',0),
         ('4','4','hans75','7422090dd18d88965d3c2273c6121af4595bbe5c11f0c7a847a158555a4f65be','ADMIN',0);
 
-insert into Studie (Benutzerkonto_benutzerkontenID,name,beschreibung,randomisationsalgorithmus,startdatum,enddatum,studienprotokoll,status_Studie,blockgroesse) 
-values('1','hess','irgendwelche Beschreibung der Studie','de.randi2.randomisation.BlockRandomisation','2001-01-01','2009-05-05','c:na','aktiv','6'),
-        ('2','graeff','irgendwelche Beschreibung der Studie','de.randi2.randomisation.VollstaendigeRandomisation','2002-02-02','2010-06-06','d:na','aktiv','2'),
-        ('3','zwink','irgendwelche Beschreibung der Studie','de.randi2.randomisation.BlockRandomisation','2003-03-03','2017-07-07','e:na','aktiv','2'),
-        ('4','dampf','irgendwelche Beschreibung der Studie','de.randi2.randomisation.BlockRandomisation','2004-04-04','2008-08-08','f:na','aktiv','2'),
-        ('1','hess','irgendwelche Beschreibung der Studie','de.randi2.randomisation.StrataBlockRandomisation','2001-01-01','2009-05-05','c:na','aktiv','6');
+INSERT INTO `Studie` (`studienID`, `Benutzerkonto_benutzerkontenID`, `name`, `beschreibung`, `randomisationsalgorithmus`, `startdatum`, `enddatum`, `studienprotokoll`, `status_Studie`, `blockgroesse`) VALUES 
+(1, 1, 'hess (Blockrando)', 'irgendwelche Beschreibung der Studie', 'BlockRandomisation', '2001-01-01', '2009-05-05', 'c:na', 'aktiv', 6),
+(2, 2, 'graeff', 'irgendwelche Beschreibung der Studie', 'VollstaendigeRandomisation', '2002-02-02', '2010-06-06', 'd:na', 'aktiv', 2),
+(3, 3, 'zwink', 'irgendwelche Beschreibung der Studie', 'BlockRandomisation', '2003-03-03', '2017-07-07', 'e:na', 'aktiv', 2),
+(4, 4, 'dampf', 'irgendwelche Beschreibung der Studie', 'BlockRandomisation', '2004-04-04', '2008-08-08', 'f:na', 'aktiv', 2),
+(5, 1, 'hess (StrataBlockRando)', 'irgendwelche Beschreibung der Studie', 'StrataBlockRandomisation', '2001-01-01', '2009-05-05', 'c:na', 'aktiv', 6);
+
 
 insert into Studienarm (Studie_studienID,status_aktivitaet,bezeichnung,beschreibung) 
 values('1','aktiv','irgendeine Bezeichnung','Beschreibund 1'),
@@ -49,9 +50,12 @@ values('1','aktiv','irgendeine Bezeichnung','Beschreibund 1'),
         ('3','aktiv','irgendeine Bezeichnung','Beschreibund 3'),
         ('4','aktiv','irgendeine Bezeichnung','Beschreibund 4'),
         ('2','aktiv','irgendeine','Beschreibadsfund 5'),
-        ('2','aktiv','irgendeine Beung','Beschreadsfibund 6');
+        ('2','aktiv','irgendeine Beung','Beschreadsfibund 6'),
         ('1','aktiv','irgendeine Bezeichnung','Beschreibund 7'),
         ('1','aktiv','irgendeine Bezeichnung','Beschreibund 8'),
+        ('5','aktiv','irgendeine Bezeichnung','Beschreibund 9'),
+        ('5','aktiv','irgendeine Bezeichnung','Beschreibund 10'),
+        ('5','aktiv','irgendeine Bezeichnung','Beschreibund 11');
 
 insert into Aktivierung (Benutzerkonto_benutzerkontenID,aktivierungslink,versanddatum) 
 values('1','http://www.eins.de','2005-12-05'),
@@ -67,18 +71,6 @@ values('1','1','fh','2003-12-03','m','2001-01-01','23','1'),
         ('3','3','nz','1875-03-03','w','2003-03-03','45','3'),
         ('4','4','hd','1973-05-05','m','2004-04-04','56','0');
 
-insert into Strata_Typen(Studie_studienID,name,beschreibung) 
-values('1','eins','woass koane'),
-        ('2','zwei','immer noch ned'),
-        ('3','drei','auch jetzt noch nicht'),
-        ('4','vier','nie mehr');
-
-insert into Strata_Auspraegung(strata_Typen_strata_TypenID,wert) 
-values('1','10'),
-        ('2','20'),
-        ('3','30'),
-        ('4','40');
-
 
 insert into Studie_has_Zentrum(Studie_studienID, Zentrum_zentrumsID)
 values('1','1'),
@@ -87,6 +79,25 @@ values('1','1'),
         ('4','4'),
         ('5', '1');
         
+        
+INSERT INTO `Strata_Auspraegung` (`strata_WerteID`, `Strata_Typen_strata_TypenID`, `wert`) VALUES 
+(1, 1, '0-10'),
+(2, 1, '11-20'),
+(3, 1, '21-30'),
+(4, 1, '>31'),
+(5, 2, 'braun'),
+(6, 2, 'rot'),
+(7, 2, 'blau'),
+(8, 2, 'grün');
+
+-- 
+-- Daten für Tabelle `Strata_Typen`
+-- 
+
+INSERT INTO `Strata_Typen` (`strata_TypenID`, `Studie_studienID`, `name`, `beschreibung`) VALUES 
+(1, 5, 'Alter', 'Das Alter der Patienten zum 1.1.2000'),
+(2, 5, 'Augenfarbe des Patienten', 'Die Augenfarbe des Patienten');
+
         
 SET FOREIGN_KEY_CHECKS=1;
 
