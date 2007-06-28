@@ -214,73 +214,30 @@ Ext.onReady(function(){
         width:140
     });
     
-    var vorname = new Ext.form.TextField({
+	var vorname = new Ext.form.MiscField({
         fieldLabel: 'Vorname:',
-        name: '<%=Parameter.person.VORNAME.name() %>',
         value: '<%=aVorname %>',
-        width:190,
-        allowBlank:false,
-        editable:false,
-        minLength:2,
-        maxLength:50,
-        readOnly:true,
-        maxLengthText:'Vorname muss 2 bis 50 Zeichen lang sein!',
-        minLengthText:'Vorname muss 2 bis 50 Zeichen lang sein!',
-        blankText:'Bitte Ihren Vornamen eintragen!'
-    });
+        width:190
+	});    
     
-    var nachname = new Ext.form.TextField({
+	var nachname = new Ext.form.MiscField({
         fieldLabel: 'Nachname:',
-        name: '<%=Parameter.person.NACHNAME.name() %>',
         value: '<%=aNachname %>',
-        width:190,
-        editable:false,
-        allowBlank:false,
-        minLength:2,
-        readOnly:true,
-        maxLength:50,
-        maxLengthText:'Nachname muss 2 bis 50 Zeichen lang sein!',
-        minLengthText:'Nachname muss 2 bis 50 Zeichen lang sein!',
-        blankText:'Bitte Ihren Nachnamen eintragen!'
-    });
+        width:190
+	});    
     
-    var geschlecht = new Ext.form.ComboBox({
+	var geschlecht = new Ext.form.MiscField({
         fieldLabel: 'Geschlecht:',
-        hiddenName:'<%=Parameter.person.GESCHLECHT.name()%>',
-        store: new Ext.data.SimpleStore({
-            fields: ['geschlecht'],
-            data : [['<%
+        value: '<%
         	if(aGeschlecht=='m') {
         %>maennlich<%
         	} else if(aGeschlecht=='w') {
 		%>weiblich<%
 			}
-		%>']]
-            
-        }),
-        displayField:'geschlecht',
-        typeAhead: true,
-        mode: 'local',
-        triggerAction: 'all',
-        <%
-        	if(aGeschlecht=='m') {
-        %>
-		value:'maennlich',
-		<%
-        	} else if(aGeschlecht=='w') {
-		%>
-		value:'weiblich',
-		<%
-			}
-		%>
-		selectOnFocus:true,
-        editable:false,
-        width:140,
-        allowBlank:false,
-        readOnly:true,
-        blankText:'Bitte Ihr Geschlecht auswaehlen!'
-    });
-    
+		%>',
+        width:190
+	});    
+        
     var passwort = new Ext.form.TextField({
         fieldLabel: 'Neues Passwort *:',
         name: '<%=Parameter.benutzerkonto.PASSWORT.name() %>',
@@ -311,16 +268,12 @@ Ext.onReady(function(){
     vorname,
     nachname,
     geschlecht,passwort, passwort_wh);
- 
-    var email = new Ext.form.TextField({
+
+	var email = new Ext.form.MiscField({
         fieldLabel: 'E-Mail:',
-        name: '<%=Parameter.person.EMAIL.name() %>',
         value: '<%=aEmail %>',
-        width:190,
-        allowBlank:false,
-        editable:false,
-        readOnly:true
-    });
+        width:190
+	});     
     
     var telefon = new Ext.form.TextField({
         fieldLabel: 'Telefon *:',

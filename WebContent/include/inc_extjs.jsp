@@ -7,3 +7,4 @@
 	src="js/ext/adapter/yui/ext-yui-adapter.js"></script>
 <!-- ENDLIBS -->
 <script type="text/javascript" src="js/ext/ext-all.js"></script>
+<script type="text/javascript" src="js/miscfield.js"></script>
