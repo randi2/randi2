@@ -63,7 +63,7 @@ Ext.EventManager.onDocumentReady(Hilfe.init, Hilfe, true);
 </script>
 <%
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
-			.getSession()).getAttribute("aBenutzer");
+			.getSession()).getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString());
 
 	Rolle seineRolle = aBenutzer.getRolle();
 
