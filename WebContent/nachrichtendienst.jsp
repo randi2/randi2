@@ -30,61 +30,98 @@ request.setAttribute(DispatcherServlet.requestParameter.TITEL
 <%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Randi2 :: <%=request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString()) %></title>
-<script type="text/javascript" src="js/prototype.js"></script>
-<script type="text/javascript" src="js/zebda.js"></script>
+<script>
+Ext.onReady(function(){
+
+	Ext.QuickTips.init();
+	Ext.form.Field.prototype.msgTarget = 'side';
+
+    var form_nachrichtendienst = new Ext.form.Form({
+        labelAlign: 'left',
+        labelWidth: 130,
+		buttonAlign: 'left',
+		id: 'form_nachrichtendienst'
+    });
+    
+	var absender = new Ext.form.MiscField({
+        fieldLabel: 'Absender:',
+        value: '<%= aPerson.getVorname() %>&nbsp;<%= aPerson.getNachname() %>',
+        width:190
+	});    
+	
+
+	var email = new Ext.form.MiscField({
+        fieldLabel: 'E-Mail:',
+        value: '<%= aPerson.getEmail() %>',
+        width:190
+	});    	
+
+	var empfaenger = new Ext.form.MiscField({
+        fieldLabel: 'Empf&auml;nger *:',
+        value: '<select class=\'x-combo-list x-combo-list-hd\' name=\'<%= Nachrichtendienst.requestParameter.EMPFAENGER.name() %>\'><%=Nachrichtendienst.getEmpfaengerListe(request).replaceAll("\"","\\\\'").replaceAll("\n","")%></select>',
+        width:190
+	});    	
+
+    var betreff = new Ext.form.TextField({
+        fieldLabel: 'Betreff *:',
+        name: '<%=Nachrichtendienst.requestParameter.BETREFF.name() %>',
+        value: '',
+        allowBlank:false,
+        width:400,
+        value:'<%=betreff %>',
+        blankText:'Bitte einen Betreff eingeben!'
+    });
+    
+	var nachricht = new Ext.form.TextField({
+        fieldLabel: 'Nachricht *:',
+        name: '<%=Nachrichtendienst.requestParameter.NACHRICHTENTEXT.name() %>',
+        value: '<%=nachrichtentext %>',
+        allowBlank:false,
+        width:400,
+        height:200,
+        blankText:'Bitte eine Nachricht eingeben!'
+    });    
+    
+    form_nachrichtendienst.fieldset({legend:'Mitteilung schreiben',
+    labelSeparator:''},absender,email,empfaenger,betreff,nachricht);
+    
+	form_nachrichtendienst.addButton('Senden', function(){
+		if (this.isValid()) {
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+		}else{
+			Ext.MessageBox.alert('Errors', 'Die Eingaben waren fehlerhaft!');
+		}
+	}, form_nachrichtendienst);
+	
+	
+	<!--  Die ANFRAGE_ID fuer ABBRECHEN wird hier gesetzt. dhaehn	-->
+	form_nachrichtendienst.addButton('Abbrechen', function(){
+
+            history.back();
+
+	}, form_nachrichtendienst);
+
+    form_nachrichtendienst.render('form_nachrichtendienst');    
+    
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_nachrichtendienst.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=Nachrichtendienst.anfrage_id.VERSENDE_NACHRICHT.name() %>'});	
+    
+    
+ });
+</script>
 </head>
 <body>
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
 <h1>Nachrichtendienst</h1>
 <%@include file="include/inc_nachricht.jsp"%>
-<form action="Nachrichtendienst" method="post" id="Nachrichtenversand">
-<input type="hidden"
-	name="<%=Nachrichtendienst.requestParameter.ANFRAGE_ID.name()%>"
-	value="<%=Nachrichtendienst.anfrage_id.VERSENDE_NACHRICHT.name() %>">
-<fieldset><legend><b>Mitteilung schreiben</b></legend>
-<table border="0">
-	<tr>
-		<td><b>Absender:</b>&nbsp;<%= aPerson.getVorname() %>&nbsp;<%=aPerson.getNachname()%><br>
-		<b>E-Mail:</b>&nbsp;<%=aPerson.getEmail()%></td>
-	</tr>
-	<tr>
-		<td><label for="empfaenger"><b>Empf&auml;nger:</b> (An
-		folgende Benutzer k&ouml;nnen Sie eine Nachricht versenden)</label><br>
-		<select id="empfaenger"
-			name="<%= Nachrichtendienst.requestParameter.EMPFAENGER.name() %>"
-			tabindex="1" z:required="true"
-			z:message="Bitte wählen Sie einen Empfänger aus">
-			<%=Nachrichtendienst.getEmpfaengerListe(request)%>
-		</select></td>
-	</tr>
-	<tr>
-		<td><label for="betreff"><b>Betreff:</b></label><br>
-		<input type="text"
-			name="<%=Nachrichtendienst.requestParameter.BETREFF.name() %>"
-			id="betreff" size="50" tabindex="2" z:required="true"
-			z:message="Bitte geben Sie einen Betreff ein" value="<%=betreff %>"></td>
-	</tr>
-	<tr>
-		<td><label for="text"><b>Nachrichtentext:</b></label><br>
-		<textarea
-			name="<%=Nachrichtendienst.requestParameter.NACHRICHTENTEXT.name() %>"
-			id="text" rows="7" cols="50" tabindex="3" z:required="true"
-			z:message="Bitte geben Sie einen Nachrichtentext ein"><%=nachrichtentext%></textarea><br>
-		</td>
-	</tr>
-	<tr>
-		<td><input type="submit" name="bestaetigen"
-			value="Nachricht versenden" tabindex="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="reset" name="abbrechen" value="Formular l&ouml;schen"
-			tabindex="5"></td>
-	</tr>
-</table>
-</fieldset>
-</form>
-<br>
+<div id="form_nachrichtendienst"></div>
 <%@include file="include/inc_footer.jsp"%></div>
-<div id="show_none"><%@include file="include/inc_menue.jsp"%>
-</div>
+<%@include file="include/inc_menue.jsp"%>
 </body>
 </html>
