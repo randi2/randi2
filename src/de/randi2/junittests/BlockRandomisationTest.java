@@ -41,6 +41,7 @@ public class BlockRandomisationTest {
 	StudienarmBean testArm2 = new StudienarmBean();
 
 	StudienarmBean testArm3 = new StudienarmBean();
+	StudienarmBean testArm4 = new StudienarmBean();
 
 	PatientBean[] testPatienten = null;
 
@@ -68,14 +69,16 @@ public class BlockRandomisationTest {
 		testStudieBean = new StudieBean();
 		testStudieBean.setName("Test Studie");
 		testStudieBean.setId(2);
-		testStudieBean.setBlockgroesse(9);
+		testStudieBean.setBlockgroesse(3);
 		Vector<StudienarmBean> studienarme = new Vector<StudienarmBean>();
 		testArm1.setId(2);
 		testArm2.setId(5);
 		testArm3.setId(6);
+		testArm4.setId(7);
 		studienarme.add(testArm1);
 		studienarme.add(testArm2);
 		studienarme.add(testArm3);
+		//studienarme.add(testArm4);
 		testStudieBean.setStudienarme(studienarme);
 
 		testBlockrandomisation = new BlockRandomisation(testStudieBean);
@@ -133,18 +136,18 @@ public class BlockRandomisationTest {
 
 			}
 
-			System.out.println("\r\nArm 3: ");
+			/*System.out.println("\r\nArm 3: ");
 			for (int i = 0; i < testArm3.getPatienten().size(); i++) {
 
 				System.out.print(testArm3.getPatienten().elementAt(i)
 						.getInitialen()
 						+ ",");
 
-			}
+			}*/
 
-			assertEquals(6, testArm1.getPatienten().size());
-			assertEquals(6, testArm2.getPatienten().size());
-			assertEquals(6, testArm3.getPatienten().size());
+			assertEquals(9, testArm1.getPatienten().size());
+			assertEquals(9, testArm2.getPatienten().size());
+			//assertEquals(6, testArm3.getPatienten().size());
 
 		} catch (DatenbankExceptions e) {
 

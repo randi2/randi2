@@ -38,6 +38,8 @@ public class BlockRandomisation extends Randomisation {
 	 */
 	private int blockgroesse = NullKonstanten.NULL_INT;
 
+	private int anzahlArme = NullKonstanten.NULL_INT;
+
 	/**
 	 * Erzeugt ein Objekt dieser Klasse, das dem Blockrandomisieren der
 	 * Patienten von einer Studie dient.
@@ -52,6 +54,7 @@ public class BlockRandomisation extends Randomisation {
 	public BlockRandomisation(StudieBean aStudie)
 			throws RandomisationsException, DatenbankExceptions {
 		super(NAME, aStudie);
+		this.anzahlArme = aStudie.getStudienarme().size();
 		this.setBlockgroesse(aStudie.getBlockgroesse());
 	}
 
@@ -69,9 +72,10 @@ public class BlockRandomisation extends Randomisation {
 	 * @throws DatenbankExceptions
 	 *             wenn bei dem Prozess Fehler in der DB auftraten
 	 */
-	protected BlockRandomisation(String name, StudieBean aStudie) throws RandomisationsException,
-			DatenbankExceptions {
+	protected BlockRandomisation(String name, StudieBean aStudie)
+			throws RandomisationsException, DatenbankExceptions {
 		super(name, aStudie);
+		this.anzahlArme = aStudie.getStudienarme().size();
 		this.setBlockgroesse(aStudie.getBlockgroesse());
 	}
 
@@ -130,37 +134,19 @@ public class BlockRandomisation extends Randomisation {
 	 * @throws DatenbankExceptions
 	 *             Bei Fehlern bei der Kommunikation mit der Datenbank.
 	 */
-	protected int[] erzeugeNeuenBlock() throws DatenbankExceptions {
-		Random myRandom = new Random();
-		int zufallszahl = 0;
-		int[] block = new int[this.blockgroesse];
-		int[] zufallsZahlen = new int[this.blockgroesse];
-		int zaehler = 0;
-		// die beiden Arrays werden mit gleichen Zufallszahlen belegt
-		for (int i = 0; i < this.blockgroesse; i++) {
-			zufallszahl = myRandom.nextInt();
-			block[i] = zufallszahl;
-			zufallsZahlen[i] = zufallszahl;
-		}
-		// das zufallszahlen Array wird aufsteigend sortiert
-		Arrays.sort(zufallsZahlen);
-		// in dem Block Array werden jetzt die entsprechende IDs der
-		// Studienarme gespeichert
-		for (int i = 0; i < block.length; i++) {
-			for (int a = 0; a < zufallsZahlen.length; a++) {
-				if (zufallsZahlen[a] == block[i]) {
-					zaehler = 0;
-					for (int b = this.studie.getStudienarme().size()-1; b < zufallsZahlen.length; b = b
-							+ this.studie.getStudienarme().size()) {
-						if (a <= b) {
-							block[i] = zaehler;
-						} else {
-							zaehler++;
-						}
+	private int[] erzeugeNeuenBlock() throws DatenbankExceptions {
 
-					}
-				}
-			}
+		int[] block = new int[this.blockgroesse];
+		int[] anzahl = new int[this.anzahlArme];
+
+		Random r = new Random();
+		
+		int plaetzeProStudie = this.blockgroesse / this.anzahlArme;
+		for (int i = 0; i < block.length; i++) {
+			do {
+				block[i] = r.nextInt(this.anzahlArme);
+			} while ((anzahl[block[i]] + 1) > plaetzeProStudie);
+			anzahl[block[i]]++;
 		}
 
 		return block;
@@ -179,7 +165,7 @@ public class BlockRandomisation extends Randomisation {
 	 */
 	protected void setBlockgroesse(int blockgroesse)
 			throws RandomisationsException, DatenbankExceptions {
-		if (blockgroesse % this.studie.getStudienarme().size() != 0) {
+		if (blockgroesse % this.anzahlArme != 0) {
 			throw new RandomisationsException(
 					RandomisationsException.BLOCKGROESSE_KEIN_VIELFACHES_DER_ARMEANZAHL);
 		}
