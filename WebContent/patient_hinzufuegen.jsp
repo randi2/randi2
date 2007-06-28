@@ -3,7 +3,8 @@
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="de.randi2.model.fachklassen.beans.AktivierungBean"
 	import="java.util.*" import="java.text.SimpleDateFormat"
-	import="java.util.Locale" import="de.randi2.utility.*"%>
+	import="java.util.Locale" import="de.randi2.utility.*"
+	import="de.randi2.controller.StudieServlet"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="de.randi2.randomisation.Randomisation"%>
 <html>
@@ -402,7 +403,7 @@ Ext.onReady(function(){
     form_patient_adden.render('form_patient_adden');    
     
 	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
-	form_patient_adden.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_PATIENT_HINZUFUEGEN_AUSFUEHREN.name() %>'});	
+	form_patient_adden.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_PATIENT_HINZUFUEGEN.name() %>'});	
     
     
    });
