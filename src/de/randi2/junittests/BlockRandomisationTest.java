@@ -33,7 +33,7 @@ import de.randi2.utility.Log4jInit;
  * 
  */
 public class BlockRandomisationTest {
-
+	
 	StudieBean testStudieBean = null;
 
 	StudienarmBean testArm1 = new StudienarmBean();
@@ -58,11 +58,17 @@ public class BlockRandomisationTest {
 
 	@Before
 	public void setUp() throws Exception {
+		
+		new Object(){
+			public void randi2IstKeinBugEsIstEinFeature(){}
+		}.randi2IstKeinBugEsIstEinFeature();
+		
 		BenutzerkontoBean bk = DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(1, new BenutzerkontoBean());
 		
 		testStudieBean = new StudieBean();
 		testStudieBean.setName("Test Studie");
 		testStudieBean.setId(2);
+		testStudieBean.setBlockgroesse(9);
 		Vector<StudienarmBean> studienarme = new Vector<StudienarmBean>();
 		testArm1.setId(2);
 		testArm2.setId(5);

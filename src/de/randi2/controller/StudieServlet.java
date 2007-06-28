@@ -261,95 +261,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		if (idAttribute != null) {
 			id = idAttribute;
 			Logger.getLogger(this.getClass()).debug(id);
-			if (id.equals(anfrage_id.AKTION_STUDIE_AUSWAEHLEN.toString())) {
-				// Die studie_auswaehlen.jsp soll angezeigt werden.
-				studieAuswaehlen(request, response);
-			} else if (id.equals(anfrage_id.AKTION_STUDIE_AUSGEWAEHLT
-					.toString())) {
-				// Benutzer hat eine Studie ausgewaehlt
-				try {
-					// Erstmal alle vorhandenen Studien suchen
-					StudieBean aStudie = new StudieBean();
-					aStudie.setFilter(true);
-					Iterator<StudieBean> iterator = Studie.sucheStudie(aStudie)
-							.iterator();
-					while (iterator.hasNext()) {
-						aStudie = iterator.next();
-						String suche = "aStudieId" + aStudie.getId();
-						if (request.getParameter(suche) != null) {
-							// Ausgewaehlte Studie wird an die Session gebunden
-							Logger.getLogger(this.getClass()).debug(
-									"Binde Studie an Session");
-							request
-									.getSession()
-									.setAttribute(
-											DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
-													.toString(), aStudie);
-							request.setAttribute(
-									DispatcherServlet.requestParameter.TITEL
-											.toString(), "Studie ansehen");
-							request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN)
-									.forward(request, response);
-							break;
-						}
-					}
-				} catch (DatenbankExceptions e) {
-					// Fehler zurück!
-					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-							.getMessage());
-					request.getRequestDispatcher("/studie_auswaehlen.jsp")
-							.forward(request, response);
-				}
-			} else if (id.equals(anfrage_id.AKTION_STUDIE_AUSWAEHLEN_NEUESTUDIE
-					.name())) {
-				// Formular fuer neue Studie aufrufen
-				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
-						request, response);
-			} else if (id.equals(anfrage_id.AKTION_STUDIE_ANLEGEN.name())) {
-				// Neue Studie anlegen
-				// StudieBean aStudie = new
-				// StudieBean(NullKonstanten.DUMMY_ID,);
-
-				this.classDispatcherservletStudieAnlegen(request, response);
-
-				return;
-
-			} else if (id.equals(anfrage_id.AKTION_STUDIE_AENDERN.name())) {
-				// Studie soll geaendert werden
-				request.getRequestDispatcher(Jsp.STUDIE_AENDERN).forward(
-						request, response);
-			} else if (id.equals(anfrage_id.AKTION_STATUS_AENDERN.name())) {
-				// Status aendern
-				request.getRequestDispatcher(Jsp.STUDIE_PAUSIEREN_EINS)
-						.forward(request, response);
-
-			} else if (id.equals(anfrage_id.AKTION_STUDIE_FORTSETZEN.name())) {
-				// Status aendern
-				studieStatus(request, response, Studie.Status.AKTIV);
-			} else if (id.equals(anfrage_id.AKTION_STUDIE_PAUSIEREN.name())) {
-				// Status aendern
-				studieStatus(request, response, Studie.Status.PAUSE);
-			} else if (id.equals(anfrage_id.JSP_STUDIE_ANSEHEN.name())) {
-				// Status aendern
-				request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(
-						request, response);
-			} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
-				request.setAttribute("zugehoerigeZentren", this
-						.getZugehoerigeZentren(request, response));
-				request.setAttribute("nichtZugehoerigeZentren", this
-						.getNichtZugehoerigeZentren(request, response));
-				if (((String) request.getParameter("Filtern")) != null) {
-					request.getRequestDispatcher("ZentrumServlet").forward(
-							request, response);
-
-				} else {
-					request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
-							request, response);
-				}
-
-			} else if (id.equals(anfrage_id.JSP_PATIENT_HINZUFUEGEN.name())) {
-				System.out.println("easy");
-			}
 
 		} else if (id != null) {
 			Logger.getLogger(this.getClass()).debug(id);
@@ -364,6 +275,96 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			// request.getRequestDispatcher("DispatcherServlet").forward(request,
 			// response);
 			System.out.println("Die drei Fragezeichen beim Posten");
+
+		}
+
+		if (id.equals(anfrage_id.AKTION_STUDIE_AUSWAEHLEN.toString())) {
+			// Die studie_auswaehlen.jsp soll angezeigt werden.
+			studieAuswaehlen(request, response);
+		} else if (id.equals(StudieServlet.anfrage_id.JSP_PATIENT_HINZUFUEGEN
+				.name())) {
+			this.patientHinzufuegen(request, response);
+		} else if (id.equals(anfrage_id.AKTION_STUDIE_AUSGEWAEHLT.toString())) {
+			// Benutzer hat eine Studie ausgewaehlt
+			try {
+				// Erstmal alle vorhandenen Studien suchen
+				StudieBean aStudie = new StudieBean();
+				aStudie.setFilter(true);
+				Iterator<StudieBean> iterator = Studie.sucheStudie(aStudie)
+						.iterator();
+				while (iterator.hasNext()) {
+					aStudie = iterator.next();
+					String suche = "aStudieId" + aStudie.getId();
+					if (request.getParameter(suche) != null) {
+						// Ausgewaehlte Studie wird an die Session gebunden
+						Logger.getLogger(this.getClass()).debug(
+								"Binde Studie an Session");
+						request
+								.getSession()
+								.setAttribute(
+										DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+												.toString(), aStudie);
+						request.setAttribute(
+								DispatcherServlet.requestParameter.TITEL
+										.toString(), "Studie ansehen");
+						request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN)
+								.forward(request, response);
+						break;
+					}
+				}
+			} catch (DatenbankExceptions e) {
+				// Fehler zurück!
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
+				request.getRequestDispatcher("/studie_auswaehlen.jsp").forward(
+						request, response);
+			}
+		} else if (id.equals(anfrage_id.AKTION_STUDIE_AUSWAEHLEN_NEUESTUDIE
+				.name())) {
+			// Formular fuer neue Studie aufrufen
+			request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(request,
+					response);
+		} else if (id.equals(anfrage_id.AKTION_STUDIE_ANLEGEN.name())) {
+			// Neue Studie anlegen
+			// StudieBean aStudie = new
+			// StudieBean(NullKonstanten.DUMMY_ID,);
+
+			this.classDispatcherservletStudieAnlegen(request, response);
+
+			return;
+
+		} else if (id.equals(anfrage_id.AKTION_STUDIE_AENDERN.name())) {
+			// Studie soll geaendert werden
+			request.getRequestDispatcher(Jsp.STUDIE_AENDERN).forward(request,
+					response);
+		} else if (id.equals(anfrage_id.AKTION_STATUS_AENDERN.name())) {
+			// Status aendern
+			request.getRequestDispatcher(Jsp.STUDIE_PAUSIEREN_EINS).forward(
+					request, response);
+
+		} else if (id.equals(anfrage_id.AKTION_STUDIE_FORTSETZEN.name())) {
+			// Status aendern
+			studieStatus(request, response, Studie.Status.AKTIV);
+		} else if (id.equals(anfrage_id.AKTION_STUDIE_PAUSIEREN.name())) {
+			// Status aendern
+			studieStatus(request, response, Studie.Status.PAUSE);
+		} else if (id.equals(anfrage_id.JSP_STUDIE_ANSEHEN.name())) {
+			// Status aendern
+			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
+					response);
+		} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
+			request.setAttribute("zugehoerigeZentren", this
+					.getZugehoerigeZentren(request, response));
+			request.setAttribute("nichtZugehoerigeZentren", this
+					.getNichtZugehoerigeZentren(request, response));
+			if (((String) request.getParameter("Filtern")) != null) {
+				request.getRequestDispatcher("ZentrumServlet").forward(request,
+						response);
+
+			} else {
+				request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
+						request, response);
+			}
 
 		}
 	}

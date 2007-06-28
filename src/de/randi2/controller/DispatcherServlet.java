@@ -112,7 +112,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Benutzer hat Disclaimer akzeptiert. (Benutzer registrieren)
 		 */
 		JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI,
-		
+
 		/**
 		 * Der Admin möchte sich einen Benutzer anzeigen lassen, oder sperren.
 		 */
@@ -134,22 +134,22 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Zentrenverwaltung für Studie
 		 */
 		JSP_ZENTRUM_ANZEIGEN,
-		
+
 		/**
 		 * Benutzerdaten aendern
 		 */
 		JSP_DATEN_AENDERN,
-		
+
 		/**
 		 * Im Menue wird Daten aendern angklickt
 		 */
 		JSP_INC_MENUE_DATEN_AENDERN,
-		
+
 		/**
-		 *Der Admin lässt sich die Studien anzeigen 
+		 * Der Admin lässt sich die Studien anzeigen
 		 */
 		JSP_INC_MENUE_STUDIEN_ANZEIGEN,
-		
+
 		/**
 		 * Im Menue wird Patient hinzufuegen gewählt
 		 */
@@ -158,39 +158,36 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Im Menue wird die Studienaerzte_Liste angeforderz
 		 */
 		JSP_INC_MENUE_STUDIENAERZTE_LISTE,
-		
+
 		/**
 		 * Im Menue wird die Liste der Admins angefordert
 		 */
 		JSP_INC_MENUE_ADMIN_LISTE,
-		
+
 		/**
 		 * Im Menue wird Systemadministration gewählt
 		 */
 		JSP_INC_MENUE_SYSTEMADMINISTRATION,
-		
+
 		/**
 		 * System sperren wird aufgerufen
 		 */
 		JSP_INC_MENUE_SYSTEMSPERREN,
-		
+
 		/**
 		 * Admin anlegen wird geklickt
 		 */
 		JSP_INC_MENUE_ADMIN_ANLEGEN,
-		
+
 		/**
 		 * Ein Studienleiter soll angelegt werden.
 		 */
 		JSP_INC_MENUE_STUDIENLEITER_ANLEGEN,
-		
 
 		/**
 		 * Leitet den Forward der system_sperren.jsp weiter (kommt als get)
 		 */
 		JSP_SYSTEM_SPERREN,
-		
-
 
 		/**
 		 * Aufforderung das System zu Entsperren
@@ -225,7 +222,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Aufforderung, den Request an die entsprechende Seite umzuleiten
 		 */
 		JSP_ADMIN_ANLEGEN,
-		
+
 		/**
 		 * Aufforderung, einen Studienleiter mit den gesendeten Daten anzulegen
 		 */
@@ -293,7 +290,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Zentrum anzeigen beim Admin.
 		 */
-		ZENTRUM_ANZEIGEN_ADMIN, 
+		ZENTRUM_ANZEIGEN_ADMIN,
 		/**
 		 * Zentrum ansehen
 		 */
@@ -306,7 +303,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Button bei Zentrum suchen.
 		 */
 		ZENTRUM_AENDERN_SPERREN,
-		
+
 		/**
 		 * Button bei Patient hinzufuegen.
 		 */
@@ -396,7 +393,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Liste der Zentren
 		 */
 		LISTE_ZENTREN("listeZentren");
-		
+
 		/**
 		 * String Version des Parameters
 		 */
@@ -478,10 +475,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		String id = (String) request.getParameter(Parameter.anfrage_id);
-		// idAttribute nicht entfernen, benutzen dies fuer die Weiterleitung aus dem Benutzerservlet --Btheel
+		// idAttribute nicht entfernen, benutzen dies fuer die Weiterleitung aus
+		// dem Benutzerservlet --Btheel
 		String idAttribute = (String) request
 				.getAttribute(Parameter.anfrage_id);
-System.out.println(idAttribute+" "+id);
+		System.out.println(idAttribute + " " + id);
 		// bei jedem Zugriff, Titel zuruecksetzen
 		request.setAttribute(DispatcherServlet.requestParameter.TITEL
 				.toString(), null);
@@ -661,26 +659,23 @@ System.out.println(idAttribute+" "+id);
 						ZentrumServlet.anfrage_id.ZENTRUM_AENDERN.name());
 				request.getRequestDispatcher("ZentrumServlet").forward(request,
 						response);
-			} else if(id.equals(anfrage_id.JSP_ADMIN_ANLEGEN.name())){
+			} else if (id.equals(anfrage_id.JSP_ADMIN_ANLEGEN.name())) {
 				ZentrumServlet.bindeZentrenListeAnRequest(request);
-				request.getRequestDispatcher(Jsp.ADMIN_ANLEGEN).forward(request,
-						response);
-				}
+				request.getRequestDispatcher(Jsp.ADMIN_ANLEGEN).forward(
+						request, response);
+			}
 
 			// [end]
 			// WEITERLEITUNGEN FUER ZENTRUMSERVLET
 			// [start]
-			
-			
+
 			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANSEHEN.name())) {
-				request
-						.setAttribute(
-								"anfrage_id",
-								ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name());
+				request.setAttribute("anfrage_id",
+						ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name());
 				request.getRequestDispatcher("ZentrumServlet").forward(request,
 						response);
 			}
-			
+
 			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANLEGEN.name())) {
 				request
 						.setAttribute(
@@ -715,20 +710,17 @@ System.out.println(idAttribute+" "+id);
 			// [start]
 
 			else if (id.equals(anfrage_id.JSP_STUDIE_ANSEHEN.name())) {
-				request.setAttribute(
-						Parameter.anfrage_id.toString(),
+				request.setAttribute(Parameter.anfrage_id.toString(),
 						StudieServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
 
-			}
-			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
+			} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
 
 				if (request.getParameter(Parameter.filter) == null) {
 					request.setAttribute("listeZentren", null);
-				} 
-				request.setAttribute(
-						Parameter.anfrage_id.toString(),
+				}
+				request.setAttribute(Parameter.anfrage_id.toString(),
 						StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
@@ -748,15 +740,13 @@ System.out.println(idAttribute+" "+id);
 			} else if (id.equals(anfrage_id.JSP_STUDIE_AUSWAEHLEN.toString())) {
 				if (request.getParameter(Parameter.filter) == null) {
 					// Studie wurde ausgewaehlt
-					request.setAttribute(
-							Parameter.anfrage_id.toString(),
+					request.setAttribute(Parameter.anfrage_id.toString(),
 							StudieServlet.anfrage_id.AKTION_STUDIE_AUSGEWAEHLT
 									.toString());
 
 				} else {
 					// auf der studie_auswaehlen.jsp wird die liste gefiltert
-					request.setAttribute(
-							Parameter.anfrage_id.toString(),
+					request.setAttribute(Parameter.anfrage_id.toString(),
 							StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN
 									.toString());
 
@@ -771,8 +761,7 @@ System.out.println(idAttribute+" "+id);
 			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN.name())) {
 
 				// neue Studie anlegen
-				request.setAttribute(
-						Parameter.anfrage_id.toString(),
+				request.setAttribute(Parameter.anfrage_id.toString(),
 						StudieServlet.anfrage_id.AKTION_STUDIE_ANLEGEN.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
@@ -881,8 +870,7 @@ System.out.println(idAttribute+" "+id);
 			} else if (id
 					.equals((anfrage_id.JSP_STUDIE_FORTSETZEN_EINS.name()))) {
 				// Studie fortsetzen
-				request.setAttribute(
-						Parameter.anfrage_id.toString(),
+				request.setAttribute(Parameter.anfrage_id.toString(),
 						StudieServlet.anfrage_id.AKTION_STUDIE_FORTSETZEN
 								.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
@@ -892,8 +880,7 @@ System.out.println(idAttribute+" "+id);
 
 			else if (id.equals((anfrage_id.JSP_STUDIE_AENDERN.name()))) {
 
-				request.setAttribute(
-						Parameter.anfrage_id.toString(),
+				request.setAttribute(Parameter.anfrage_id.toString(),
 						StudieServlet.anfrage_id.AKTION_STUDIE_AENDERN);
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
@@ -927,73 +914,77 @@ System.out.println(idAttribute+" "+id);
 
 			} else if (id
 					.equals(anfrage_id.JSP_HEADER_NACHRICHTENDIENST.name())) {
-				request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(),JspTitel.NACHRICHTENDIENST);
+				request.setAttribute(DispatcherServlet.requestParameter.TITEL
+						.toString(), JspTitel.NACHRICHTENDIENST);
 				request.getRequestDispatcher(Jsp.NACHRICHTENDIENST).forward(
 						request, response);
-			}
-			else if(id.equals(anfrage_id.JSP_INC_MENUE_STUDIEN_ANZEIGEN.name())){
-				//TODO noch fertig machen
+			} else if (id.equals(anfrage_id.JSP_INC_MENUE_STUDIEN_ANZEIGEN
+					.name())) {
+				// TODO noch fertig machen
 				request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN).forward(
 						request, response);
-				
-			}
-			else if (id.equals(anfrage_id.JSP_INC_MENUE_DATEN_AENDERN.name())){
-				//TODO weiterleitung?!
+
+			} else if (id.equals(anfrage_id.JSP_INC_MENUE_DATEN_AENDERN.name())) {
+				// TODO weiterleitung?!
 				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
 						request, response);
-				
-			}
-			else if (id.equals(anfrage_id.JSP_INC_MENUE_STUDIENAERZTE_LISTE.name())){
-				//TODO weiterleitung?!
+
+			} else if (id.equals(anfrage_id.JSP_INC_MENUE_STUDIENAERZTE_LISTE
+					.name())) {
+				// TODO weiterleitung?!
 				request.getRequestDispatcher(Jsp.STUDIENARZTE_LISTE).forward(
 						request, response);
-				
-			}
-			else if(id.equals(anfrage_id.JSP_INC_MENUE_ADMIN_LISTE.name())){
-//				TODO weiterleitung?!
-				request.getRequestDispatcher(Jsp.ADMIN_LISTE).forward(
+
+			} else if (id.equals(anfrage_id.JSP_INC_MENUE_ADMIN_LISTE.name())) {
+				// TODO weiterleitung?!
+				request.getRequestDispatcher(Jsp.ADMIN_LISTE).forward(request,
+						response);
+
+			} else if (id.equals(anfrage_id.JSP_INC_MENUE_PATIENT_HINZUFUEGEN
+					.name())) {
+				// TODO weiterleitung?!
+				request.getRequestDispatcher(Jsp.PATIENT_HINZUFUEGEN).forward(
 						request, response);
-			
-			}
-			else if(id.equals(anfrage_id.JSP_INC_MENUE_PATIENT_HINZUFUEGEN.name())){
-				//TODO weiterleitung?!
-						request.getRequestDispatcher(Jsp.PATIENT_HINZUFUEGEN).forward(
-								request, response);	
-			}			
-			else if(id.equals(anfrage_id.JSP_INC_MENUE_SYSTEMADMINISTRATION.name())){
-				//TODO weiterleitung?!
+			} else if (id.equals(anfrage_id.JSP_INC_MENUE_SYSTEMADMINISTRATION
+					.name())) {
+				// TODO weiterleitung?!
 				request.getRequestDispatcher(Jsp.SYSTEMADMINISTRATION).forward(
-						request, response);	
-	}
-			else if(id.equals(anfrage_id.JSP_INC_MENUE_SYSTEMSPERREN.name())){
-				//TODO weiterleitung?!
+						request, response);
+			} else if (id.equals(anfrage_id.JSP_INC_MENUE_SYSTEMSPERREN.name())) {
+				// TODO weiterleitung?!
 				request.getRequestDispatcher(Jsp.SYSTEM_SPERREN).forward(
-						request, response);	
-	}
-			else if(id.equals(anfrage_id.JSP_INC_MENUE_ADMIN_ANLEGEN.name())){
-				//TODO weiterleitung?!
+						request, response);
+			} else if (id.equals(anfrage_id.JSP_INC_MENUE_ADMIN_ANLEGEN.name())) {
+				// TODO weiterleitung?!
 				request.getRequestDispatcher(Jsp.ADMIN_ANLEGEN).forward(
-						request, response);	
-	}
-			else if(id.equals(anfrage_id.JSP_INC_MENUE_STUDIENLEITER_ANLEGEN.name())){
-				//TODO weiterleitung?!
-				request.getRequestDispatcher(Jsp.STUDIENLEITER_ANLEGEN).forward(
-						request, response);	
+						request, response);
+			} else if (id.equals(anfrage_id.JSP_INC_MENUE_STUDIENLEITER_ANLEGEN
+					.name())) {
+				// TODO weiterleitung?!
+				request.getRequestDispatcher(Jsp.STUDIENLEITER_ANLEGEN)
+						.forward(request, response);
+			} else if (id
+					.equals(anfrage_id.JSP_BENUTZER_LISTE_ADMIN_ANZEIGEN_SPERREN
+							.name())) {
+				// TODO weiterleitung?!
+				request
+						.setAttribute(
+								Parameter.anfrage_id,
+								BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_ANZEIGEN_SPERREN
+										.name());
+				request.getRequestDispatcher("BenutzerServlet").forward(
+						request, response);
+			} else if(id.equals(StudieServlet.anfrage_id.JSP_PATIENT_HINZUFUEGEN.name())){
+				this.weiterleitenPatientHinzufuegenHttpServletRequest(request, response);
 			}
-				else if(id.equals(anfrage_id.JSP_BENUTZER_LISTE_ADMIN_ANZEIGEN_SPERREN.name())){
-					//TODO weiterleitung?!
-					request.setAttribute(Parameter.anfrage_id,BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_ANZEIGEN_SPERREN.name());
-					request.getRequestDispatcher("BenutzerServlet").forward(
-							request, response);
-	}
-			
+
 			// [end]
 
 			// SONSTIGE WEITERLEITUNGEN
 			// Schwerer Fehler: Falscher Request
 			else {
 				System.out.println("Scheiße");
-				System.out.println(idAttribute+" "+id);
+				System.out.println(idAttribute + " " + id);
 				Logger.getLogger(this.getClass()).debug(
 						"Kein Block in POST fuer die ID '" + id + "' gefunden");
 				// TODO Hier muss noch entschieden werden,was passiert
@@ -1167,6 +1158,15 @@ System.out.println(idAttribute+" "+id);
 		}
 		request.getRequestDispatcher("BenutzerServlet").forward(request,
 				response);
+
+	}
+
+	private void weiterleitenPatientHinzufuegenHttpServletRequest(
+			HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.getRequestDispatcher("StudieServlet").forward(request,
+				response);
+
 
 	}
 
