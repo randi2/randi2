@@ -92,10 +92,6 @@
 <% } %> <% if (aRolleMenue==Rolle.Rollen.SYSOP || aRolleMenue==Rolle.Rollen.ADMIN) { %>
 <ul>
 	<% if (aRolleMenue==Rolle.Rollen.SYSOP) { %>
-	<li class="top_m">
-	<span  class="sub_SA n entry" style="cursor:pointer"
-			onClick="document.forms['menue_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_INC_MENUE_SYSTEMADMINISTRATION.name() %>';document.forms['menue_form'].submit();">
-		Patient	hinzuf&uuml;gen</span></li>
 	<li class="sub_SA n entry">
 	<span  class="sub_SA n entry" style="cursor:pointer"
 			onClick="document.forms['menue_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_INC_MENUE_SYSTEMSPERREN.name() %>';document.forms['menue_form'].submit();">
