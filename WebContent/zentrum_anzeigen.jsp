@@ -19,7 +19,7 @@
 	Vector<ZentrumBean> nichtZugehoerigeZentren = (Vector<ZentrumBean>) request
 			.getAttribute(StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN
 			.toString());
-
+	ZentrumBean aktuellesZentrum = null;
 	Iterator itNichtZugehoerigeZentren = null;
 
 	Iterator filterZentren = null;
@@ -36,11 +36,6 @@
 	} catch (NullPointerException npe) {
 		;
 	}
-
-	StudieBean aSession = (StudieBean) request.getSession()
-			.getAttribute(
-			DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
-			.name());
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -52,6 +47,8 @@
 									.getAttribute(DispatcherServlet.requestParameter.TITEL
 											.toString())%></title>
 
+<%@include file="include/inc_extjs.jsp"%>
+
 <script type="text/javascript">
 <!--
 	function hideFilter(){
@@ -60,18 +57,10 @@
 //-->
 </script>
 <%@include file="include/inc_extjs.jsp"%>
-<link rel="stylesheet" type="text/css"
-	href="js/ext/resources/css/ext-all.css" />
+
+
+
 <script language="Javascript" src="js/motionpack.js"> </script>
-
-<script type="text/javascript" src="js/ext/adapter/yui/yui-utilities.js"></script>
-
-<script type="text/javascript"
-	src="js/ext/adapter/yui/ext-yui-adapter.js"></script>
-<!-- ENDLIBS -->
-
-<script type="text/javascript" src="js/ext/ext-all.js"></script>
-
 <script type="text/javascript" src="js/zentrum_anzeigen.js"></script>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
@@ -113,9 +102,11 @@ suchen </b></legend><br />
 	</tr>
 
 </table>
-</div></fieldset></form><fieldset style="width: 90%;">
-<form>
-<table width="100%" id="zentren">
+<div id="form_filter"></div>
+</div>
+</fieldset>
+</form>
+<table width="90%" id="zentren">
 	<thead align="left">
 		<tr style="background:#eeeeee;">
 			<th width="30%">Name der Institution</th>
@@ -128,14 +119,12 @@ suchen </b></legend><br />
 
 		<%
 			String aktiv = null;
-				int tabindex = 1;
+			int tabindex = 1;
 			String reihe = "tblrow2";
 			if (gefilterteZentren != null) {
 
-
 				while (filterZentren.hasNext()) {
-					ZentrumBean aktuellesZentrum = (ZentrumBean) filterZentren
-					.next();
+					aktuellesZentrum = (ZentrumBean) filterZentren.next();
 					if (aktuellesZentrum.getIstAktiviert()) {
 				aktiv = "aktiv";
 					} else {
@@ -144,24 +133,16 @@ suchen </b></legend><br />
 		%>
 
 		<tr class="<%=reihe %>">
-			<td><span style="cursor:pointer"
-				onClick="var frm = document.getElementById('form_filter');
-							frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
-							frm.<%=Parameter.filter %>.value = '';
-							frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
-							frm.submit();"><%=aktuellesZentrum.getInstitution()%></span></td>
-			<td><span style="cursor:pointer"
-				onClick="var frm = document.getElementById('form_filter');
-							frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
-							frm.<%=Parameter.filter %>.value = '';
-							frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
-							frm.submit();"><%=aktuellesZentrum.getAbteilung()%></span></td>
-			<td><span style="cursor:pointer"
-				onClick="var frm = document.getElementById('form_filter');
-							frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
-							frm.<%=Parameter.filter %>.value = '';
-							frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
-							frm.submit();"><%=aktiv%></span></td>
+			<td><%=aktuellesZentrum.getInstitution()%></td>
+			<td><%=aktuellesZentrum.getAbteilung()%></td>
+			<td><%=aktiv%></td>
+			<td>
+			<form action="DispatcherServlet" method="POST"
+				name="zentrenAnzeigen_form<%=tabindex %>" id="zentrenAnzeigen_form<%=tabindex %>"><input
+				type="hidden" name="<%=Parameter.anfrage_id %>" value=""></form>
+			<span id="zentrenAnzeigen_link<%=tabindex %>>" style="cursor:pointer"
+				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
+			<b>zurück zur Studie</b></span></td>
 		</tr>
 		<%
 					tabindex++;
@@ -174,104 +155,91 @@ suchen </b></legend><br />
 			} else {
 				if (zugehoerigeZentren != null) {
 
-					
 					while (itZugehoerigeZentren.hasNext()) {
-						ZentrumBean aktuellesZentrum = (ZentrumBean) itZugehoerigeZentren
+				aktuellesZentrum = (ZentrumBean) itZugehoerigeZentren
 						.next();
-						if (aktuellesZentrum.getIstAktiviert()) {
+				if (aktuellesZentrum.getIstAktiviert()) {
 					aktiv = "aktiv";
-						} else {
+				} else {
 					aktiv = "inaktiv";
-						}
-			%>
+				}
+		%>
 
-			<tr class="<%=reihe %>">
-				<td><span style="cursor:pointer"
-					onClick="var frm = document.getElementById('form_filter');
-								frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
-								frm.<%=Parameter.filter %>.value = '';
-								frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
-								frm.submit();"><%=aktuellesZentrum.getInstitution()%></span></td>
-				<td><span style="cursor:pointer"
-					onClick="var frm = document.getElementById('form_filter');
-								frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
-								frm.<%=Parameter.filter %>.value = '';
-								frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
-								frm.submit();"><%=aktuellesZentrum.getAbteilung()%></span></td>
-				<td><span style="cursor:pointer"
-					onClick="var frm = document.getElementById('form_filter');
-								frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
-								frm.<%=Parameter.filter %>.value = '';
-								frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
-								frm.submit();"><%=aktiv%></span></td>
-			</tr>
-			<%
-						tabindex++;
-						if (reihe.equals("tblrow1"))
+		<tr class="<%=reihe %>">
+			<td><%=aktuellesZentrum.getInstitution()%></td>
+			<td><%=aktuellesZentrum.getAbteilung()%></td>
+			<td><%=aktiv%></td>
+			<td>
+			<form action="DispatcherServlet" method="POST"
+				name="zentrenAnzeigen_form<%=tabindex %>" id="zentrenAnzeigen_form<%=tabindex %>"><input
+				type="hidden" name="<%=Parameter.anfrage_id %>" value=""></form>
+			<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
+				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';document.forms['zentrenAnzeigen_form'].submit();">
+			<b>Zentrumsdetails</b></span></td>
+		</tr>
+		<%
+				tabindex++;
+				if (reihe.equals("tblrow1"))
 					reihe = "tblrow2";
-						else
+				else
 					reihe = "tblrow1";
 					}
 
-				}		
+				}
 				if (nichtZugehoerigeZentren != null) {
 
-					
 					while (itNichtZugehoerigeZentren.hasNext()) {
-						ZentrumBean aktuellesZentrum = (ZentrumBean) itNichtZugehoerigeZentren
+				aktuellesZentrum = (ZentrumBean) itNichtZugehoerigeZentren
 						.next();
-						if (aktuellesZentrum.getIstAktiviert()) {
+				if (aktuellesZentrum.getIstAktiviert()) {
 					aktiv = "aktiv";
-						} else {
+				} else {
 					aktiv = "inaktiv";
-						}
-			%>
+				}
+		%>
 
-			<tr class="<%=reihe %>">
-				<td><span style="cursor:pointer"
-					onClick="var frm = document.getElementById('form_filter');
-								frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
-								frm.<%=Parameter.filter %>.value = '';
-								frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
-								frm.submit();"><%=aktuellesZentrum.getInstitution()%></span></td>
-				<td><span style="cursor:pointer"
-					onClick="var frm = document.getElementById('form_filter');
-								frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
-								frm.<%=Parameter.filter %>.value = '';
-								frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
-								frm.submit();"><%=aktuellesZentrum.getAbteilung()%></span></td>
-				<td><span style="cursor:pointer"
-					onClick="var frm = document.getElementById('form_filter');
-								frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
-								frm.<%=Parameter.filter %>.value = '';
-								frm.aZentrumId<%=aktuellesZentrum.getId() %>.value = 'weiter';
-								frm.submit();"><%=aktiv%></span></td>
-			</tr>
-			<%
-						tabindex++;
-						if (reihe.equals("tblrow1"))
+		<tr class="<%=reihe %>">
+			<td><%=aktuellesZentrum.getInstitution()%></td>
+			<td><%=aktuellesZentrum.getAbteilung()%></td>
+			<td><%=aktiv%></td>
+			<td>
+			<form action="DispatcherServlet" method="POST"
+				name="zentrenAnzeigen_form<%=tabindex %>" id="zentrenAnzeigen_form<%=tabindex %>"><input
+				type="hidden" name="<%=Parameter.studie.ZENTRUM.toString()%>"
+				value="<%=aktuellesZentrum %>"><input type="hidden"
+				name="<%=Parameter.anfrage_id %>" value="hallo"></form>
+			<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
+				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
+			<b>Zentrumsdetails</b></span></td>
+		</tr>
+		<%
+				tabindex++;
+				if (reihe.equals("tblrow1"))
 					reihe = "tblrow2";
-						else
+				else
 					reihe = "tblrow1";
 					}
 
-				}	}
+				}
+			}
 		%>
 	</tbody>
 </table>
-</form>
+
 <table width=90%>
 	<tr>
-		<td><br>
+		<td><%=Parameter.studie.ZENTRUM.toString()%><br>
 		<form action="DispatcherServlet" method="POST"
-			name="zentrenAnzeigen_form" id="zentrenAnzeigen_form"><input
-			type="hidden" name="<%=Parameter.anfrage_id %>" value=""></form>
-		<span id="zentrenAnzeigen_link" style="cursor:pointer"
-			onClick="document.forms['zentrenAnzeigen_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name() %>';document.forms['zentrenAnzeigen_form'].submit();">
+			name="zentrenAnzeigen_form<%=tabindex %>" id="zentrenAnzeigen_form<%=tabindex %>"><input
+			type="hidden" name="<%=Parameter.anfrage_id %>" value=""> <input
+			type="hidden" name="<%=Parameter.studie.ZENTRUM.toString()%>"
+			value="<%=aktuellesZentrum %>"></form>
+		<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
+			onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
 		<b>zurück zur Studie</b></span></td>
 	</tr>
 </table>
-</fieldset>
+
 <div id="show_none"><%@include file="include/inc_footer.jsp"%></div>
 
 
