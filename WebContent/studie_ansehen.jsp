@@ -95,10 +95,12 @@
 				cellpadding="2" cellspacing="2">
 				<tbody>
 					<tr class="tblrow3" align="left">
-						<td>Beschreibung</td>
+						<td style="width: 50%; text-align: left;">Beschreibung</td>
+						<td>Status der Studie</td>
 					</tr>
 					<tr align="left" class="tblrow1">
 						<td><%=aStudie.getBeschreibung()%></td>
+						<td><%=aStudie.getStatus().toString() %></td>
 					</tr>
 				</tbody>
 			</table>
