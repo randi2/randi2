@@ -60,7 +60,8 @@
 
 
 
-<script language="Javascript" src="js/motionpack.js"> </script>
+<script language="Javascript" src="js/motionpack.js"
+	type="text/javascript"> </script>
 <script type="text/javascript" src="js/zentrum_anzeigen.js"></script>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
@@ -138,9 +139,9 @@ suchen </b></legend><br />
 			<td><%=aktiv%></td>
 			<td>
 			<form action="DispatcherServlet" method="POST"
-				name="zentrenAnzeigen_form<%=tabindex %>" id="zentrenAnzeigen_form<%=tabindex %>">
-				<input
-				type="hidden" name="<%=Parameter.zentrum.ZENTRUM_ID.toString()%>"
+				name="zentrenAnzeigen_form<%=tabindex %>"
+				id="zentrenAnzeigen_form<%=tabindex %>"><input type="hidden"
+				name="<%=Parameter.zentrum.ZENTRUM_ID.toString()%>"
 				value="<%=aktuellesZentrum.getId() %>"><input type="hidden"
 				name="<%=Parameter.anfrage_id %>" value="hallo"></form>
 			<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
@@ -176,9 +177,9 @@ suchen </b></legend><br />
 			<td><%=aktiv%></td>
 			<td>
 			<form action="DispatcherServlet" method="POST"
-				name="zentrenAnzeigen_form<%=tabindex %>" id="zentrenAnzeigen_form<%=tabindex %>">
-				<input
-				type="hidden" name="<%=Parameter.zentrum.ZENTRUM_ID.toString()%>"
+				name="zentrenAnzeigen_form<%=tabindex %>"
+				id="zentrenAnzeigen_form<%=tabindex %>"><input type="hidden"
+				name="<%=Parameter.zentrum.ZENTRUM_ID.toString()%>"
 				value="<%=aktuellesZentrum.getId() %>"><input type="hidden"
 				name="<%=Parameter.anfrage_id %>" value="hallo"></form>
 			<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
@@ -214,9 +215,9 @@ suchen </b></legend><br />
 			<td><%=aktiv%></td>
 			<td>
 			<form action="DispatcherServlet" method="POST"
-				name="zentrenAnzeigen_form<%=tabindex %>" id="zentrenAnzeigen_form<%=tabindex %>">
-				<input
-				type="hidden" name="<%=Parameter.zentrum.ZENTRUM_ID.toString()%>"
+				name="zentrenAnzeigen_form<%=tabindex %>"
+				id="zentrenAnzeigen_form<%=tabindex %>"><input type="hidden"
+				name="<%=Parameter.zentrum.ZENTRUM_ID.toString()%>"
 				value="<%=aktuellesZentrum.getId() %>"><input type="hidden"
 				name="<%=Parameter.anfrage_id %>" value="hallo"></form>
 			<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
@@ -239,13 +240,14 @@ suchen </b></legend><br />
 	</tbody>
 </table>
 
-<table width=90%>
+<table width="90%">
 	<tr>
 		<td><br>
 		<form action="DispatcherServlet" method="POST"
-			name="zentrenAnzeigen_form<%=tabindex %>" id="zentrenAnzeigen_form<%=tabindex %>"><input
-			type="hidden" name="<%=Parameter.anfrage_id %>" value=""> <input
-			type="hidden" name="<%=Parameter.studie.ZENTRUM.toString()%>"
+			name="zentrenAnzeigen_form<%=tabindex %>"
+			id="zentrenAnzeigen_form<%=tabindex %>"><input type="hidden"
+			name="<%=Parameter.anfrage_id %>" value=""> <input
+			type="hidden" name="einName"
 			value="<%=aktuellesZentrum.getId() %>"></form>
 		<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
 			onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
