@@ -1960,7 +1960,7 @@ private Vector<BenutzerSuchenBean> suchenBenutzerSuchen(BenutzerSuchenBean bean)
 	ResultSet rs;
 	Vector<BenutzerSuchenBean> sbenutzer = new Vector<BenutzerSuchenBean>();
 	// erstellen der SQL Abfrage
-	String sql =String.format("select p.%1$s,b.%2$s,z.%3$s, p.%4$s,p.%5$s,p.%6$s,b.%7$s,z.%8$s from person p, benutzerkonto b, zentrum z where" +
+	String sql =String.format("select p.%1$s,b.%2$s,z.%3$s, p.%4$s,p.%5$s,p.%6$s,b.%7$s,z.%8$s from "+Tabellen.PERSON+" p, "+Tabellen.BENUTZERKONTO+" b, "+Tabellen.ZENTRUM+" z where" +
 			" b.%9$s=z.%10$s and b.%11$s=p.%12$s",FelderPerson.ID.toString(),FelderBenutzerkonto.ID.toString(),FelderZentrum.ID.toString(),FelderPerson.NACHNAME.toString(),FelderPerson.VORNAME.toString(),
 			FelderPerson.EMAIL.toString(),FelderBenutzerkonto.LOGINNAME.toString(),FelderZentrum.INSTITUTION.toString(),
 			FelderBenutzerkonto.ZENTRUMID.toString(),FelderZentrum.ID.toString(),FelderBenutzerkonto.PERSONID.toString(),FelderPerson.ID.toString());
