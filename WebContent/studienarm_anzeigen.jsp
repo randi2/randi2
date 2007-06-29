@@ -5,9 +5,12 @@
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
 <%
 			request.setAttribute(DispatcherServlet.requestParameter.TITEL
-			.toString(), JspTitel.ARMAUSWAEHLEN_EINS.toString());
+			.toString(), JspTitel.STUDIENARM_ANZEIGEN.toString());
+
+	StudienarmBean aStudienarm = (StudienarmBean) request
+			.getAttribute(StudieServlet.requestParameter.AKTUELLER_STUDIENARM
+			.toString());
 %>
-<jsp:setProperty name="user" property="*" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,53 +20,106 @@
 											.toString())%></title>
 <%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<script>
+Ext.onReady(function(){
+
+	Ext.QuickTips.init();
+	Ext.form.Field.prototype.msgTarget = 'side';
+	
+	var form_beenden = new Ext.form.Form({
+		id:'beenden_button',
+        labelAlign: 'left',
+        labelWidth: 0,
+		buttonAlign: 'center'
+    });
+    
+	form_beenden.addButton('Studienarm beenden', function(){
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+	}, form_beenden);    
+
+	form_beenden.render('form_beenden');
+	form_beenden.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.AKTION_LOGOUT %>'});
+	form_beenden.el.createChild({tag: 'input', name: '<%=Parameter.studienarm.ID.toString() %>', type:'hidden', value: '<%=aStudienarm.getId() %>'});
+	
+});
+</script>
 </head>
 <body>
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
-<h1>Studienarm beenden</h1>
-<table width="90%">
-	<tr class="tblrow1" align="left">
-		<th width="30%">Bezeichnung des Arms</th>
-		<th width="30%">Beschreibung des Arms</th>
-		<th width="30%">Anzahl der Patienten</th>
-
-	</tr>
-	<tr class="tblrow2">
-		<td>Ulna</td>
-		<td>Elle</td>
-		<td>2</td>
-		<td><a class="il_ContainerItemCommand" href="">beenden</a></td>
-
-	</tr>
-	<tr class="tblrow1">
-		<td>Radius</td>
-		<td>Speiche</td>
-		<td>2</td>
-		<td><a class="il_ContainerItemCommand" href="">beenden</a></td>
-
-	</tr>
-	<tr class="tblrow2">
-		<td>Clavia</td>
-		<td>Schl&uuml;sselbein</td>
-		<td>2</td>
-		<td><a class="il_ContainerItemCommand" href="">beenden</a></td>
-
-	</tr>
-</table>
-<br>
-<br>
-<table align="left">
+<h1>Studienarm</h1>
+<fieldset>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2"
+	cellspacing="2">
+	<tbody>
+		<tr>
+			<td style="width: 300px; text-align: left; vertical-align: top;">
+			<table style="text-align: left; width: 100%;" border="0"
+				cellpadding="2" cellspacing="2">
+				<tbody>
+					<tr class="tblrow3">
+						<td>Studienarmbezeichnung: &nbsp;</td>
+					</tr>
+					<tr class="tblrow1">
+						<td>
+						<h3><%=aStudienarm.getBezeichnung()%></h3>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" rowspan="1">
+			<table style="text-align: left; width: 100%;" border="0"
+				cellpadding="2" cellspacing="2">
+				<tbody>
+					<tr class="tblrow3" align="left">
+						<td style="width: 50%; text-align: left;">Studienarmbeschreibung</td>
+						<td>Status des Studienarms</td>
+					</tr>
+					<tr align="left" class="tblrow1">
+						<td><%=aStudienarm.getBeschreibung()%></td>
+						<td><%=aStudienarm.getStatus().toString()%></td>
+					</tr>
+				</tbody>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="text-align: left; width: 50%; vertical-align: top;">
+			<table style="text-align: left; width: 100%;" border="0"
+				cellpadding="2" cellspacing="2">
+				<tbody>
+					<tr class="tblrow3">
+						<td>Anzahl der Patienten in dem Arm</td>
+					</tr>
+					<tr>
+						<td class="tblrow1"><%=aStudienarm.getPatienten().size()%></td>
+					</tr>
+				</tbody>
+				
+			</table>
+			</tr>
+			</tbody>
+			</table>
+</fieldset>
+<table cellPadding="0" cellSpacing="0" border="0">
 	<tr>
-		<td><input type="button" name="entsp_ja" value="Zur&uuml;ck"
-			tabindex="1" onclick="location.href='studie_ansehen.jsp'"></td>
+		<td align="left">
+		<div id="form_beenden"></div>
+		</td>
 	</tr>
 </table>
-
-<%@include file="include/inc_footer.jsp"%></div>
-<div id="show_none"></div>
-<div id="show_none"><%@include file="include/inc_menue.jsp"%>
+<%@include file="include/inc_footer.jsp"%>
 </div>
+<%@include file="include/inc_menue.jsp"%>
 </body>
 </html>
 

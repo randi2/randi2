@@ -24,6 +24,7 @@ public class StudienarmBean extends Filter {
 
 	/**
 	 * Status dieses Studienarms (Wert der ENUM Status der Studien-Fachklasse).
+	 * Unterschiedlich zu einer Studie darf dieser Status entweder aktiv oder beendet sein.
 	 */
 	private Studie.Status aStatus = null;
 

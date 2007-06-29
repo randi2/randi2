@@ -25,6 +25,7 @@ import de.randi2.model.fachklassen.Patient;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Strata;
 import de.randi2.model.fachklassen.Studie;
+import de.randi2.model.fachklassen.Studienarm;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PatientBean;
@@ -197,7 +198,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Ergebnis der Filterung von Zentren
 		 */
-		GEFILTERTE_ZENTREN("listeZentren");
+		GEFILTERTE_ZENTREN("listeZentren"),
+		
+		/**
+		 * Aktueller Studienarm
+		 */
+		AKTUELLER_STUDIENARM("aStudienarm");
 
 		/**
 		 * String Version des Parameters
@@ -394,6 +400,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 		}else if(id.equals(anfrage_id.AKTION_STUDIENARM_ANZEIGEN.toString())){
 			//Dem Benutzer wird der ausgewählte Studienarm der Studie angezeigt.
+			StudienarmBean aStudienarm = (StudienarmBean) Studienarm.getStudienarm( Long.parseLong(request.getParameter(Parameter.studienarm.ID.toString())));
+			request.setAttribute(requestParameter.AKTUELLER_STUDIENARM.toString(), aStudienarm);
 			request.getRequestDispatcher(Jsp.STUDIENARM_ANZEIGEN).forward(request, response);
 		}
 	}

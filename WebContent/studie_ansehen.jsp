@@ -6,33 +6,156 @@
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="de.randi2.utility.*"%>
 <%
-		request.setAttribute(DispatcherServlet.requestParameter.TITEL
-		.toString(), JspTitel.STUDIE_ANSEHEN.toString());
+			request.setAttribute(DispatcherServlet.requestParameter.TITEL
+			.toString(), JspTitel.STUDIE_ANSEHEN.toString());
 %>
 <%
-	Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
-	.getAttribute(
-	DispatcherServlet.sessionParameter.A_Benutzer
-	.toString())).getRolle().getRollenname();
+			Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
+			.getAttribute(
+			DispatcherServlet.sessionParameter.A_Benutzer
+			.toString())).getRolle().getRollenname();
 	StudieBean aStudie = (StudieBean) request.getSession()
-	.getAttribute(
-	DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
-	.toString());
+			.getAttribute(
+			DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+			.toString());
 	Vector<StudienarmBean> aStudienarme = aStudie.getStudienarme();
 	int counter = aStudienarme.size();
 	SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy",
-	Locale.GERMANY);
+			Locale.GERMANY);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="java.util.Vector"%>
-<%@page import="de.randi2.model.fachklassen.Rolle.Rollen"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Randi2 :: <%=request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString())%></title>
+<title>Randi2 :: <%=request
+									.getAttribute(DispatcherServlet.requestParameter.TITEL
+											.toString())%></title>
 <%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<script>
+Ext.onReady(function(){
 
+	Ext.QuickTips.init();
+	Ext.form.Field.prototype.msgTarget = 'side';
+
+	<!-- Die Buttons für den SL -->
+	
+	var form_aendern = new Ext.form.Form({
+		id:'aendern_button',
+        labelAlign: 'left',
+        labelWidth: 0,
+		buttonAlign: 'center'
+    });
+    
+    var form_status = new Ext.form.Form({
+    	id:'status_button',
+        labelAlign: 'left',
+        labelWidth: 0,
+		buttonAlign: 'center'
+    });
+    
+    var form_statistik = new Ext.form.Form({
+    	id:'statistik_button',
+        labelAlign: 'left',
+        labelWidth: 0,
+		buttonAlign: 'center'
+    });
+    
+    var form_random = new Ext.form.Form({
+    	id:'randomErg_button',
+        labelAlign: 'left',
+        labelWidth: 0,
+		buttonAlign: 'center'
+    });
+    
+	form_aendern.addButton('&Auml;ndern', function(){
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+	}, form_aendern);    
+
+	form_aendern.render('form_aendern');
+	
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	<!-- Die anfrage_id muss spaeter angepasst werden - sobald man das Aendern der Studie ausimplementiert! Erstmal wird man automatisch ausgeloggt! lplotni-->
+	form_aendern.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.AKTION_LOGOUT %>'});	
+	
+	<%
+		if (aStudie.getStatus().equals(Studie.Status.AKTIV)) {
+		%>
+		form_status.addButton('Pausieren', function(){
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+	}, form_status);    
+
+	form_status.render('form_status');
+	
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_status.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STUDIE_PAUSIEREN.toString()%>'});
+		
+		<%
+		}
+		%>
+	<%
+	if (aStudie.getStatus().equals(Studie.Status.PAUSE)) {
+	%>
+		form_status.addButton('Fortsetzen', function(){
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+	}, form_status);    
+
+	form_status.render('form_status');
+	
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_status.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STUDIE_FORTSETZEN.toString()%>'});
+		
+	<%
+	}
+	%>
+	form_statistik.addButton('Statistik', function(){
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+	}, form_statistik);    
+
+	form_statistik.render('form_statistik');
+	
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	<!-- Die anfrage_id muss spaeter angepasst werden - sobald man die Statistik ausimplementiert! Erstmal wird man automatisch ausgeloggt! lplotni-->
+	form_statistik.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.AKTION_LOGOUT %>'});	
+	
+	form_random.addButton('Randomisationsergebnisse', function(){
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+	}, form_random);    
+
+	form_random.render('form_random');
+	
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	<!-- Die anfrage_id muss spaeter angepasst werden - sobald man sich die Randomisationsergebniss anzeigen kann! Erstmal wird man automatisch ausgeloggt! lplotni-->
+	form_random.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.AKTION_LOGOUT %>'});	
+	
+});
+</script>
 </head>
 
 
@@ -134,24 +257,33 @@
 					while (counter > 0) {
 					%>
 					<tr align="left">
-						<td class="tblrow1"><%=aStudienarme.get(aStudienarme.size() - counter)
-								.getBezeichnung()%> <%
- if(aRolle == Rolle.Rollen.STUDIENLEITER) {
- %>
+						<%
+						if (aRolle == Rolle.Rollen.STUDIENLEITER) {
+						%>
+						
+						<td class="tblrow1">
 						<form action="DispatcherServlet" method="POST" name="studienarm"
 							id="studienarm"><input type="hidden"
 							name="<%=Parameter.anfrage_id %>" value=""> <input
 							type="hidden" name="<%=Parameter.studienarm.ID.toString() %>"
 							value=""></form>
-						<img src="images/anzeigen.gif"
+						<%=aStudienarme.get(aStudienarme.size() - counter)
+									.getBezeichnung()%> <img src="images/anzeigen.gif"
 							onClick="document.forms['studienarm'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STUDIENARM_ANZEIGEN.toString() %>';document.forms['studienarm'].<%=Parameter.studienarm.ID.toString()%>.value = '<%=aStudienarme.get(aStudienarme.size() - counter)
-							.getId() %>';document.forms['studienarm'].submit();">
+							.getId() %>';document.forms['studienarm'].submit();"></td>
+						<%
+						} else {
+						%>
+						
+						<td class="tblrow1"><%=aStudienarme.get(aStudienarme.size() - counter)
+									.getBezeichnung()%></td>
 						<%
 						}
-						%> <%
- counter--;
- %>
-						</td>
+						%>
+						<%
+						counter--;
+						%>
+
 					</tr>
 					<%
 					}
@@ -182,90 +314,51 @@
 </table>
 
 </fieldset>
-
-<!--   fieldset><legend><b>M&ouml;liche Aktionen</b></legend>--> <%
- if (aRolle == Rolle.Rollen.STATISTIKER) {
- %>
-<form>
-<fieldset><legend><b>Studienauswahl</b></legend>
-<table align="center">
-	<tr>
-		<td><input type="button" name="statistik"
-			value="Statistik anzeigen" tabindex="6"
-			onclick="location.href='studie_anzeigen_statistikanzeigen.jsp'">&nbsp;&nbsp;</td>
-		<td><input type="button" name="randomisation"
-			value="Randomisationsergebnisse" tabindex="7"
-			onclick="location.href='ergebnisse.jsp'">&nbsp;&nbsp;</td>
-	</tr>
-</table>
-</fieldset>
-</form>
 <%
-}
-%> <%
- if (aRolle == Rolle.Rollen.STUDIENLEITER) {
- %>
-<form action="DispatcherServlet" method="POST" name="studie_form"
-	id="studie_form"><input type="hidden"
-	name="<%=Parameter.anfrage_id %>" value="">
-<fieldset><legend><b>Studienauswahl</b></legend>
-<table align="center">
+if (aRolle == Rolle.Rollen.STUDIENLEITER) {
+%>
+<table cellPadding="0" cellSpacing="0" border="0">
 	<tr>
-		<td><input type="button" name="studie_aendern"
-			value="&Auml;ndern" tabindex="2"
-			onclick="location.href='studie_aendern.jsp'">&nbsp;&nbsp;</td>
-		<%
-		if (aStudie.getStatus().equals(Studie.Status.AKTIV)) {
-		%>
-		<td><input type="button" name="studie_pausieren"
-			value="Pausieren" tabindex="3"
-			onClick="document.forms['studie_form'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STUDIE_PAUSIEREN.toString() %>';document.forms['studie_form'].submit();">&nbsp;&nbsp;</td>
-		<%
-		}
-		%>
-		<%
-		if (aStudie.getStatus().equals(Studie.Status.PAUSE)) {
-		%>
-		<td><input type="button" name="studie_fortsetzen"
-			value="Fortsetzen" tabindex="3"
-			onClick="document.forms['studie_form'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STUDIE_FORTSETZEN.toString() %>';document.forms['studie_form'].submit();">&nbsp;&nbsp;
+		<td align="right">
+		<div id="form_aendern"></div>
 		</td>
-		<%
-		}
-		%>
-		<!--<td><input type="button" name="simulation" value="Simulation" tabindex="5" onclick="location.href='simulation.jsp'">&nbsp;&nbsp;</td>-->
-		<td><input type="button" name="statistik"
-			value="Statistik anzeigen" tabindex="6"
-			onclick="location.href='studie_anzeigen_statistikanzeigen.jsp'">&nbsp;&nbsp;</td>
-		<td><input type="button" name="randomisation"
-			value="Randomisationsergebnisse" tabindex="7"
-			onclick="location.href='ergebnisse.jsp'">&nbsp;&nbsp;</td>
+		<td>&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;</td>
+		<td align="left">
+		<div id="form_status"></div>
+		</td>
+		<td>&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;</td>
+		<td align="left">
+		<div id="form_statistik"></div>
+		</td>
+		<td>&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;</td>
+		<td align="left">
+		<div id="form_random"></div>
+		</td>
 	</tr>
 </table>
-</fieldset>
-</form>
+<br>
 <%
 }
-%> <%
- if (aRolle == Rolle.Rollen.ADMIN) {
- %>
-<form>
-<fieldset><legend><b>Studienauswahl</b></legend>
-<table align="center">
+%> 
+<%
+if (aRolle == Rolle.Rollen.ADMIN || aRolle == Rolle.Rollen.STATISTIKER) {
+%>
+<table cellPadding="0" cellSpacing="0" border="0">
 	<tr>
-		<td><input type="button" name="statistik"
-			value="Statistik anzeigen" tabindex="6"
-			onclick="location.href='studie_anzeigen_statistikanzeigen.jsp'">&nbsp;&nbsp;</td>
-		<td><input type="button" name="randomisation"
-			value="Randomisationsergebnisse" tabindex="7"
-			onclick="location.href='ergebnisse.jsp'">&nbsp;&nbsp;</td>
+		<td align="left">
+		<div id="form_statistik"></div>
+		</td>
+		<td>&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;</td>
+		<td align="left">
+		<div id="form_random"></div>
+		</td>
 	</tr>
 </table>
-</fieldset>
-</form>
+<br>
 <%
 }
-%> <%@include file="include/inc_footer.jsp"%></div>
+%>
+<%@include file="include/inc_footer.jsp"%></div>
 <%@include file="include/inc_menue.jsp"%>
 </body>
 </html>

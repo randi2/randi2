@@ -28,7 +28,7 @@ public final class JspTitel {
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
-	public static final String ARMAUSWAEHLEN_EINS = "Studienarm ausw&auml;ehlen";
+	public static final String STUDIENARM_ANZEIGEN = "Studienarm anzegien";
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
