@@ -245,7 +245,7 @@ Ext.onReady(function(){
         name: '<%=Parameter.patient.KOERPEROBERFLAECHE.name() %>',
         value: '<%=aKoerperoberflaeche %>',
         decimalPrecision: 2,
-        decimalSeparator: ',',
+        decimalSeparator: '.',
         allowNegative: false,
         allowDecimals: true,
         width:190,
