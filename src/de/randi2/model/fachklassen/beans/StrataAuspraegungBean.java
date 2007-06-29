@@ -180,9 +180,9 @@ public class StrataAuspraegungBean extends Filter implements
 	 * @return Einen int-Wert gemaess {@link Comparable#compareTo(Object)}.
 	 */
 	public int compareTo(StrataAuspraegungBean o) {
-		if (strata.getId() < o.strata.getId()) {
+		if (this.strataID < o.strataID) {
 			return -1;
-		} else if (strata.getId() > o.strata.getId()) {
+		} else if (this.strataID > o.strataID) {
 			return 1;
 		} else {
 			return 0;

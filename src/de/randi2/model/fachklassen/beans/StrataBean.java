@@ -5,6 +5,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.AktivierungException;
@@ -35,12 +37,12 @@ public class StrataBean extends Filter {
 	 * angibt.
 	 */
 	private String beschreibung;
-	
+
 	/**
 	 * ID der Studie zu der das StrataBean gehoert
 	 */
 	private long studienID = NullKonstanten.NULL_LONG;
-	
+
 	/**
 	 * Studie zu der das StrataBean gehoert
 	 */
@@ -69,7 +71,7 @@ public class StrataBean extends Filter {
 	 * @param id
 	 *            ID
 	 * @param studienID
-	 * 			  ID der Studie zur der das Bean gehoert
+	 *            ID der Studie zur der das Bean gehoert
 	 * @param name
 	 *            Der Name des Stratas. Darf nicht leer oder <code>null</code>
 	 *            sein.
@@ -83,7 +85,7 @@ public class StrataBean extends Filter {
 	 *             bei einer nicht korrekten Id
 	 */
 	// FRAGE Wie sinnvoll ist dieser Konstruktor?
-	public StrataBean(long id,long studienID, String name, String beschreibung)
+	public StrataBean(long id, long studienID, String name, String beschreibung)
 			throws StrataException, DatenbankExceptions {
 		super.setId(id);
 		this.setStudienID(studienID);
@@ -97,7 +99,7 @@ public class StrataBean extends Filter {
 	 * @param id
 	 *            ID
 	 * @param studienID
-	 * 			  ID der Studie zur der das Bean gehoert
+	 *            ID der Studie zur der das Bean gehoert
 	 * @param name
 	 *            Der Name des Stratas. Darf nicht leer oder <code>null</code>
 	 *            sein.
@@ -113,8 +115,8 @@ public class StrataBean extends Filter {
 	 * @throws DatenbankExceptions -
 	 *             bei einer nicht korrekten Id
 	 */
-	public StrataBean(long id, long studienID, String name, String beschreibung,
-			Collection<StrataAuspraegungBean> auspraegungen)
+	public StrataBean(long id, long studienID, String name,
+			String beschreibung, Collection<StrataAuspraegungBean> auspraegungen)
 			throws StrataException, DatenbankExceptions {
 		this(id, studienID, name, beschreibung);
 		this.setAuspraegungen(auspraegungen);
@@ -124,6 +126,7 @@ public class StrataBean extends Filter {
 	 * Liefert einen String der alle Parameter formatiert enthaelt.
 	 * 
 	 * @return String der alle Parameter formatiert enthaelt.
+	 * @throws DatenbankExceptions
 	 * @see java.lang.Object#toString()
 	 * 
 	 */
@@ -133,8 +136,12 @@ public class StrataBean extends Filter {
 		s += "Klasse: " + this.getClass().toString() + "\n";
 		s += "\t Name:\t" + this.name + "\n";
 		s += "\t Beschreibung:\t" + this.beschreibung + "\n";
-		for (StrataAuspraegungBean sA : this.getAuspraegungen()) {
-			s += "\t" + sA.toString();
+		try {
+			for (StrataAuspraegungBean sA : this.getAuspraegungen()) {
+				s += "\t" + sA.toString();
+			}
+		} catch (DatenbankExceptions e) {
+			Logger.getLogger(this.getClass()).debug("Fehler in toString", e);
 		}
 		return s;
 	}
@@ -143,16 +150,15 @@ public class StrataBean extends Filter {
 	 * Gibt die moeglichen Auspraegungen eines Stratas zurueck.
 	 * 
 	 * @return Die moeglichen Auspraegungen.
+	 * @throws DatenbankExceptions
 	 */
-	public Collection<StrataAuspraegungBean> getAuspraegungen() {
-		// FIXME Klaeren ob an dieser Stelle Lazy-Loading sinnvoll ist.
-		// FIXME Die Auspraegungen werden garnicht geladen!! dhaehn
-		// FIXME es wird immer ein leerer Vektor geliefert BUG #190
+	public Collection<StrataAuspraegungBean> getAuspraegungen()
+			throws DatenbankExceptions {
 		if (auspraegungen == null) {
-			return new Vector<StrataAuspraegungBean>();
-		} else {
-			return auspraegungen;
+			this.auspraegungen = new TreeSet<StrataAuspraegungBean>(Strata
+					.getAuspraegungen(this));
 		}
+		return auspraegungen;
 	}
 
 	/**
@@ -205,18 +211,16 @@ public class StrataBean extends Filter {
 		}
 		this.beschreibung = beschreibung;
 	}
-	
-	
 
 	/**
 	 * Liefert die zugehoerige Studie
-	 * @return
-	 * 			zugehoerige Studie
+	 * 
+	 * @return zugehoerige Studie
 	 * @throws DatenbankExceptions
-	 * 			Falls beim Suchen in der DB ein Fehler auftritt.
+	 *             Falls beim Suchen in der DB ein Fehler auftritt.
 	 */
 	public StudieBean getStudie() throws DatenbankExceptions {
-		if(this.studie==null) {
+		if (this.studie == null) {
 			this.studie = Studie.getStudie(this.studienID);
 		}
 		return studie;
@@ -224,24 +228,25 @@ public class StrataBean extends Filter {
 
 	/**
 	 * Set Methode fuer Studie Attribut der Klasse
+	 * 
 	 * @param studie
-	 * 				zu setzende Studie
+	 *            zu setzende Studie
 	 * @throws StrataException
-	 * 			Falls das uebergebene Bean <code>null</code> ist
-	 *   		{@link StrataException#STUDIE_NULL}
+	 *             Falls das uebergebene Bean <code>null</code> ist
+	 *             {@link StrataException#STUDIE_NULL}
 	 */
 	public void setStudie(StudieBean studie) throws StrataException {
-		if(studie==null) {
+		if (studie == null) {
 			throw new StrataException(StrataException.STUDIE_NULL);
 		}
-		this.studienID= studie.getId();
+		this.studienID = studie.getId();
 		this.studie = studie;
 	}
 
 	/**
 	 * Liefert die ID der zugehoerigen Studie
-	 * @return
-	 * 			id der Studie
+	 * 
+	 * @return id der Studie
 	 */
 	public long getStudienID() {
 		return studienID;
@@ -249,9 +254,10 @@ public class StrataBean extends Filter {
 
 	/**
 	 * Set Methode fuer die StudienID
+	 * 
 	 * @param studienID
-	 * 				zu setzende Id
-	 * @throws StrataException 
+	 *            zu setzende Id
+	 * @throws StrataException
 	 */
 	public void setStudienID(long studienID) throws StrataException {
 		if (studienID == NullKonstanten.DUMMY_ID) {
