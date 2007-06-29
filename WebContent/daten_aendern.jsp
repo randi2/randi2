@@ -7,161 +7,246 @@
 	import="de.randi2.utility.*" import="de.randi2.controller.*"%>
 <%@ page import="de.randi2.utility.*"%>
 <%
-
-// es werden als Namen fuer die Formularfelder die Werte aus Parameter.person.* und Parameter.benutzerkonto.* benutzt.
-// die Parameter.anfrage_id fuer den Dispatcher ist DispatcherServlet.anfrage_id.JSP_DATEN_AENDERN.name()
-// in der JS funktion eraseStellvertreter steht wie mann erkennen kann ob ein stellvertreter gesetzt ist, oder nciht
-
-// FIXME BEIM STELLVERTRETER: es muss unbedingt noch realisiert werden, dass wenn Parameter gesetzt wurden (sprich das Formular schon mal abgeschickt wurde, jedoch fehlerhaft war), dass dann nicht immer die Werte vom aktuellen Bean genommen werden, sondern die requestParameter
-// ist nurn bischen JSP arbeit
+	// es werden als Namen fuer die Formularfelder die Werte aus Parameter.person.* und Parameter.benutzerkonto.* benutzt.
+	// die Parameter.anfrage_id fuer den Dispatcher ist DispatcherServlet.anfrage_id.JSP_DATEN_AENDERN.name()
+	// ein Stellvertreter ist Pflicht bei den rollen admin und studienleiter
 
 	request.setAttribute(DispatcherServlet.requestParameter.TITEL
-	.toString(), JspTitel.DATEN_AENDERN.toString());
+			.toString(), JspTitel.DATEN_AENDERN.toString());
 
 	BenutzerkontoBean aBenutzer_form = (BenutzerkontoBean) (request
-	.getSession()).getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString());
+			.getSession())
+			.getAttribute(DispatcherServlet.sessionParameter.A_Benutzer
+			.toString());
 
-	
 	PersonBean aPerson = aBenutzer_form.getBenutzer();
 	PersonBean aStellvertreter = aPerson.getStellvertreter();
 
+	String aVorname = aPerson.getVorname();
+	String aNachname = aPerson.getNachname();
+	String aTitel = aPerson.getTitel().toString();
+	char aGeschlecht = aPerson.getGeschlecht();
+	String aTelefonnummer = aPerson.getTelefonnummer();
+	String aHandynummer = aPerson.getHandynummer();
+	String aFax = aPerson.getFax();
+	String aEmail = aPerson.getEmail();
 
-String aVorname = aPerson.getVorname();
-String aNachname = aPerson.getNachname();
-String aTitel = aPerson.getTitel().toString();
-char aGeschlecht = aPerson.getGeschlecht();
-String aTelefonnummer = aPerson.getTelefonnummer();
-String aHandynummer = aPerson.getHandynummer();
-String aFax = aPerson.getFax();
-String aEmail = aPerson.getEmail();
+	String aStellvertreterVorname = null;
+	String aStellvertreterNachname = null;
+	String aStellvertreterTitel = null;
+	String aStellvertreterTelefon = null;
+	char aStellvertreterGeschlecht = NullKonstanten.NULL_CHAR;
+	String aStellvertreterEmail = null;
 
-String aStellvertreterVorname = null;
-String aStellvertreterNachname = null;
-String aStellvertreterTitel = null;
-String aStellvertreterTelefon = null;
-char aStellvertreterGeschlecht = NullKonstanten.NULL_CHAR;
-String aStellvertreterEmail = null;
+	if (aStellvertreter != null) {
 
-if(aStellvertreter!=null) {
+		aStellvertreterVorname = aStellvertreter.getVorname();
+		aStellvertreterNachname = aStellvertreter.getNachname();
 
-	aStellvertreterVorname = aStellvertreter.getVorname();
-	aStellvertreterNachname = aStellvertreter.getNachname();
+		if (aStellvertreter.getTitel() == null) {
+			aStellvertreterTitel = PersonBean.Titel.KEIN_TITEL
+			.toString();
+		} else {
+			aStellvertreterTitel = aStellvertreter.getTitel()
+			.toString();
 
-	if (aStellvertreter.getTitel()==null) {
-		aStellvertreterTitel = PersonBean.Titel.KEIN_TITEL.toString();
-	} else {
-		aStellvertreterTitel = aStellvertreter.getTitel().toString();
-	
+		}
+		aStellvertreterGeschlecht = aPerson.getGeschlecht();
+		aStellvertreterTelefon = aStellvertreter.getTelefonnummer();
+		aStellvertreterEmail = aStellvertreter.getEmail();
+
 	}
-aStellvertreterGeschlecht  = aPerson.getGeschlecht();
-aStellvertreterTelefon = aStellvertreter.getTelefonnummer();
-aStellvertreterEmail = aStellvertreter.getEmail();
 
-}
+	if (aVorname == null) {
 
-if(aVorname==null) {
-	
-	aVorname = "";
-	
-}
-if(aNachname==null) {
-	
-	aNachname = "";
-	
-}
+		aVorname = "";
 
-if (request.getParameter(Parameter.person.TITEL.name()) == null) {
+	}
+	if (aNachname == null) {
 
-	aTitel = aPerson.getTitel().toString();
+		aNachname = "";
 
-} else {
+	}
 
-	aTitel = request.getParameter(Parameter.person.TITEL.name());
+	if (request.getParameter(Parameter.person.TITEL.name()) == null) {
 
-}
+		aTitel = aPerson.getTitel().toString();
 
+	} else {
 
-if (request.getParameter(Parameter.person.TELEFONNUMMER.name()) == null) {
+		aTitel = request.getParameter(Parameter.person.TITEL.name());
 
-	aTelefonnummer = aPerson.getTelefonnummer();
+	}
 
-} else {
+	if (request.getParameter(Parameter.person.TELEFONNUMMER.name()) == null) {
 
-	aTelefonnummer = request
-	.getParameter(Parameter.person.TELEFONNUMMER.name());
+		aTelefonnummer = aPerson.getTelefonnummer();
 
-}
+	} else {
 
-if (request.getParameter(Parameter.person.HANDYNUMMER.name()) == null) {
+		aTelefonnummer = request
+		.getParameter(Parameter.person.TELEFONNUMMER.name());
 
-	aHandynummer = aPerson.getHandynummer();
+	}
 
-} else {
+	if (request.getParameter(Parameter.person.HANDYNUMMER.name()) == null) {
 
-	aHandynummer = request
-	.getParameter(Parameter.person.HANDYNUMMER.name());
+		aHandynummer = aPerson.getHandynummer();
 
-}
+	} else {
 
-if (request.getParameter(Parameter.person.FAX.name()) == null) {
+		aHandynummer = request
+		.getParameter(Parameter.person.HANDYNUMMER.name());
 
-	aFax = aPerson.getFax();
+	}
 
-} else {
+	if (request.getParameter(Parameter.person.FAX.name()) == null) {
 
-	aFax = request.getParameter(Parameter.person.FAX.name());
+		aFax = aPerson.getFax();
 
-}
+	} else {
 
-if (aTelefonnummer==null) {
-	
-	aTelefonnummer = "";
-	
-}
+		aFax = request.getParameter(Parameter.person.FAX.name());
 
-if (aHandynummer==null) {
-	
-	aHandynummer = "";
-	
-}
+	}
 
-if (aFax==null) {
-	
-	aFax = "";
-	
-}
+	if (aTelefonnummer == null) {
 
-if(aEmail==null){
-	aEmail="";
-}
+		aTelefonnummer = "";
 
-if(aStellvertreterVorname==null) {
-	
-	aStellvertreterVorname = "";
-}
-if(aStellvertreterNachname==null) {
-	
-	aStellvertreterNachname = "";
-}
-if(aStellvertreterTelefon==null) {
-	
-	aStellvertreterTelefon = "";
-}
-if(aStellvertreterEmail==null) {
-	
-	aStellvertreterEmail = "";
-}
-if(aStellvertreterGeschlecht==NullKonstanten.NULL_LONG) {
-	
-	aStellvertreterGeschlecht = 'w';
-	
-}
-if(aStellvertreterTitel==null) {
-	
-	aStellvertreterTitel = PersonBean.Titel.KEIN_TITEL.toString();
-	
-}
+	}
 
+	if (aHandynummer == null) {
+
+		aHandynummer = "";
+
+	}
+
+	if (aFax == null) {
+
+		aFax = "";
+
+	}
+
+	if (aEmail == null) {
+		aEmail = "";
+	}
+
+	if (request.getParameter(Parameter.person.STELLVERTRETER_VORNAME
+			.name()) == null) {
+
+		if (aStellvertreter != null)
+			aStellvertreterVorname = aStellvertreter.getVorname();
+
+	} else {
+
+		aStellvertreterVorname = request
+		.getParameter(Parameter.person.STELLVERTRETER_VORNAME
+				.name());
+
+	}
+
+	if (aStellvertreterVorname == null) {
+
+		aStellvertreterVorname = "";
+	}
+
+	if (request.getParameter(Parameter.person.STELLVERTRETER_NACHNAME
+			.name()) == null) {
+
+		if (aStellvertreter != null)
+			aStellvertreterNachname = aStellvertreter.getNachname();
+
+	} else {
+
+		aStellvertreterNachname = request
+		.getParameter(Parameter.person.STELLVERTRETER_NACHNAME
+				.name());
+
+	}
+
+	if (aStellvertreterNachname == null) {
+
+		aStellvertreterNachname = "";
+	}
+
+	if (request
+			.getParameter(Parameter.person.STELLVERTRETER_TELEFONNUMMER
+			.name()) == null) {
+
+		if (aStellvertreter != null)
+			aStellvertreterTelefon = aStellvertreter.getTelefonnummer();
+
+	} else {
+
+		aStellvertreterTelefon = request
+		.getParameter(Parameter.person.STELLVERTRETER_TELEFONNUMMER
+				.name());
+
+	}
+
+	if (aStellvertreterTelefon == null) {
+
+		aStellvertreterTelefon = "";
+	}
+
+	if (request.getParameter(Parameter.person.STELLVERTRETER_EMAIL
+			.name()) == null) {
+
+		if (aStellvertreter != null)
+			aStellvertreterEmail = aStellvertreter.getEmail();
+
+	} else {
+
+		aStellvertreterEmail = request
+		.getParameter(Parameter.person.STELLVERTRETER_EMAIL
+				.name());
+
+	}
+
+	if (aStellvertreterEmail == null) {
+
+		aStellvertreterEmail = "";
+	}
+
+	if (request.getParameter(Parameter.person.STELLVERTRETER_GESCHLECHT
+			.name()) == null) {
+
+		if (aStellvertreter != null)
+			aStellvertreterGeschlecht = aStellvertreter.getGeschlecht();
+
+	} else {
+
+		aStellvertreterGeschlecht = request.getParameter(
+		Parameter.person.STELLVERTRETER_GESCHLECHT.name())
+		.charAt(0);
+
+	}
+
+	if (aStellvertreterGeschlecht == NullKonstanten.NULL_LONG) {
+
+		aStellvertreterGeschlecht = 'w';
+
+	}
+
+	if (request.getParameter(Parameter.person.STELLVERTRETER_TITEL
+			.name()) == null) {
+
+		//aStellvertreterTitel = aStellvertreter.getTitel().toString();
+
+	} else {
+
+		aStellvertreterTitel = request
+		.getParameter(Parameter.person.STELLVERTRETER_TITEL
+				.name());
+
+	}
+
+	if (aStellvertreterTitel == null) {
+
+		aStellvertreterTitel = PersonBean.Titel.KEIN_TITEL.toString();
+
+	}
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
        "http://www.w3.org/TR/html4/strict.dtd">
@@ -171,7 +256,9 @@ if(aStellvertreterTitel==null) {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<title>Randi2 :: <%=request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString())%></title>
+<title>Randi2 :: <%=request
+									.getAttribute(DispatcherServlet.requestParameter.TITEL
+											.toString())%></title>
 <script>
 Ext.onReady(function(){
 
@@ -319,15 +406,24 @@ Ext.onReady(function(){
     handy,
     fax);
     
+    <%
+    
+    if ((aBenutzer_form.getRolle().getRollenname()==Rolle.Rollen.ADMIN) || (aBenutzer_form.getRolle().getRollenname()==Rolle.Rollen.STUDIENLEITER)) {
+    	
+    
+    
+    %>
+    
 	var stellvertreter_vorname = new Ext.form.TextField({
         fieldLabel: 'Vorname *:',
         name: '<%=Parameter.person.STELLVERTRETER_VORNAME.name() %>',
         value: '<%=aStellvertreterVorname %>',
         width:190,
-        allowBlank:true,
+        allowBlank:false,
         editable:true,
         minLength:2,
         maxLength:50,
+        blankText:'Bitte den Vornamen des Stellvertreters eintragen!',
         maxLengthText:'Vorname muss 2 bis 50 Zeichen lang sein!',
         minLengthText:'Vorname muss 2 bis 50 Zeichen lang sein!'
     });
@@ -337,10 +433,11 @@ Ext.onReady(function(){
         name: '<%=Parameter.person.STELLVERTRETER_NACHNAME.name() %>',
         value: '<%=aStellvertreterNachname %>',
         width:190,
-        allowBlank:true,
+        allowBlank:false,
         editable:true,
         minLength:2,
         maxLength:50,
+        blankText:'Bitte den Nachnamen des Stellvertreters eintragen!',
         maxLengthText:'Nachname muss 2 bis 50 Zeichen lang sein!',
         minLengthText:'Nachname muss 2 bis 50 Zeichen lang sein!'
     });
@@ -372,7 +469,7 @@ Ext.onReady(function(){
         editable:false,
         width:140,
         allowBlank:true,
-        blankText:'Bitte Ihr Geschlecht auswaehlen!'
+        blankText:'Bitte das Geschlecht des Stellvertreters auswaehlen!'
     });
     
     var stellvertreter_titel = new Ext.form.ComboBox({
@@ -409,9 +506,10 @@ Ext.onReady(function(){
         name: '<%=Parameter.person.STELLVERTRETER_TELEFONNUMMER.name() %>',
         value: '<%=aStellvertreterTelefon %>',
         width:190,
-        allowBlank:true,
+        allowBlank:false,
         minLength:6,
         maxLength:26,
+        blankText:'Bitte die Telefonnummer des Stellvertreters eintragen!',
         maxLengthText:'Telefonnummer muss 6 bis 26 Zeichen lang sein!',
         minLengthText:'Telefonnummer muss 6 bis 26 Zeichen lang sein!'
     });
@@ -423,15 +521,16 @@ Ext.onReady(function(){
         name: '<%=Parameter.person.STELLVERTRETER_EMAIL.name() %>',
         value: '<%=aStellvertreterEmail %>',
         width:190,
-        allowBlank:true,
+        allowBlank:false,
         minLength:2,
         maxLength:255,
         maxLengthText:'E-Mail muss 2 bis 255 Zeichen lang sein!',
         minLengthText:'E-Mail muss 2 bis 255 Zeichen lang sein!',
+        blankText:'Bitte die E-Mail des Stellvertreters eintragen!',
         vtype:'email'
     });
     
-    form_daten_aendern.fieldset({legend:'Angaben zum Stellvertreter <img src="images/remove-user-blue.gif" style="cursor:pointer" onmousedown="eraseStellvertreter()" title="Den Stellvertreter l&ouml;schen!">',
+    form_daten_aendern.fieldset({legend:'Angaben zum Stellvertreter',
     labelSeparator:''},
     stellvertreter_titel,
     stellvertreter_vorname,
@@ -439,6 +538,12 @@ Ext.onReady(function(){
     stellvertreter_geschlecht,
     stellvertreter_telefon,
     stellvertreter_email);
+    
+    <%
+    
+    }
+    
+    %>
     
 	form_daten_aendern.addButton('Speichern', function(){
 		if (this.isValid()) {
@@ -495,13 +600,12 @@ function eraseStellvertreter() {
 <%@include file="include/inc_header.jsp"%>
 
 
-<div id="content">
-<%@include file="include/inc_nachricht.jsp"%>
+<div id="content"><%@include file="include/inc_nachricht.jsp"%>
 <h1>Daten &auml;ndern</h1>
 <div id="form_daten_aendern"></div>
 
 
-&nbsp;Die mit '*' gekennzeichneten Felder sind Pflichtfelder. Bei der Einrichtung eines Stellvertreters sind alle Felder n&ouml;tig. <%@include
+&nbsp;Die mit '*' gekennzeichneten Felder sind Pflichtfelder. <%@include
 	file="include/inc_footer.jsp"%></div>
 <%@include file="include/inc_menue.jsp"%>
 </body>
