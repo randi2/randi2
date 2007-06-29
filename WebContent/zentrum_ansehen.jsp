@@ -4,7 +4,9 @@
 	import="de.randi2.model.fachklassen.beans.AktivierungBean"
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"
-	import="de.randi2.utility.*"%>
+	import="de.randi2.utility.*"
+%>
+
 <%
 			request.setAttribute(DispatcherServlet.requestParameter.TITEL
 			.toString(), JspTitel.ZENTRUM_ANSEHEN.toString());
@@ -22,6 +24,7 @@
 									.getAttribute(DispatcherServlet.requestParameter.TITEL
 											.toString())%></title>
 <%@include file="include/inc_extjs.jsp"%>
+
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
@@ -68,14 +71,20 @@ zum Zentrum</b></legend>
 <br>
 <fieldset style="width: 60%"><legend><b>Angaben
 zum Ansprechpartner</b></legend>
+
 <table>
+<% 
+if(aPerson!=null){ 
+%>
+
 	<tr>
 		<td>Nachname *<br>
 		<input type="text" size"40" maxlength="40" name="nachname"
 			tabindex="8" value="<%=aPerson.getNachname() %>"></td>
 		<td>Vorname *<br>
+		
 		<input type="text" size"40" maxlength="40" name="vorname" tabindex="9"
-			value="=<%aPerson.getVorname() %>"></td>
+			value="<%=aPerson.getVorname() %>"></td>
 	</tr>
 	<tr>
 		<td>Telefon *<br>
@@ -93,6 +102,13 @@ zum Ansprechpartner</b></legend>
 			value="<%=aPerson.getEmail() %>"></td>
 	</tr>
 
+
+
+
+<%}else{
+%>
+<tr style="text-align: center;"><td><h2>Kein Ansprechpartner vorhanden</h2></td></tr>
+<%} %>
 </table>
 </fieldset>
 </form>
