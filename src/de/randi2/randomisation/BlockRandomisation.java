@@ -2,6 +2,7 @@ package de.randi2.randomisation;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Vector;
 
 import de.randi2.datenbank.RandomisationDB;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
@@ -79,6 +80,24 @@ public class BlockRandomisation extends Randomisation {
 		this.setBlockgroesse(aStudie.getBlockgroesse());
 	}
 
+	private BlockRandomisation(int anzSA, int blockGr, StudieBean aStudie)
+			throws RandomisationsException {
+		super(NAME, aStudie);
+		this.anzahlArme = anzSA;
+		this.blockgroesse = blockGr;
+	}
+
+	public static int[] getErzeugtenBlock(int anzSa, int blockGr) {
+		BlockRandomisation b = null;
+		try {
+			b = new BlockRandomisation(anzSa, blockGr, new StudieBean());
+		} catch (RandomisationsException e) {
+			e.printStackTrace();
+		}
+
+		return b.erzeugeNeuenBlock();
+	}
+
 	/**
 	 * Diese Methode ordnet einem uebergebenen Patienten einen zufaelligen
 	 * Studienarm zu, so dass die Anzahl der Patienten ausbalanciert ist.
@@ -131,23 +150,26 @@ public class BlockRandomisation extends Randomisation {
 	 * 
 	 * @return ein Array mit int Werten, die den ID's der Studienarme
 	 *         entsprechen.
-	 * @throws DatenbankExceptions
-	 *             Bei Fehlern bei der Kommunikation mit der Datenbank.
 	 */
-	public int[] erzeugeNeuenBlock() throws DatenbankExceptions {
+	public int[] erzeugeNeuenBlock() {
 
 		int[] block = new int[this.blockgroesse];
-		int[] anzahl = new int[this.anzahlArme];
-
+		int plaetzeProStudie = this.blockgroesse/this.anzahlArme;
+		Vector<Integer> plaetze = new Vector<Integer>();
 		Random r = new Random();
 		
-		int plaetzeProStudie = this.blockgroesse / this.anzahlArme;
-		for (int i = 0; i < block.length; i++) {
-			do {
-				block[i] = r.nextInt(this.anzahlArme);
-			} while ((anzahl[block[i]] + 1) > plaetzeProStudie);
-			anzahl[block[i]]++;
+		for(int i = 0; i < plaetzeProStudie; i++){
+			for(int j = 0; j < this.anzahlArme; j++){
+				plaetze.add(new Integer(j));
+			}
 		}
+		
+		for(int i = 0; i < block.length; i++){
+			int index = r.nextInt(plaetze.size());
+			block[i] = plaetze.get(index);
+			plaetze.remove(index);
+		}
+		
 
 		return block;
 	}
