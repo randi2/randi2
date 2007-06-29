@@ -1,6 +1,5 @@
 package de.randi2.randomisation;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Vector;
 
@@ -114,7 +113,29 @@ public class BlockRandomisation extends Randomisation {
 	public void randomisierenPatient(PatientBean aPatient)
 			throws RandomisationsException, DatenbankExceptions {
 
-		long studienArmId = RandomisationDB.getNext(this.studie);
+		this.randomisierenPatient(aPatient, null);
+	}
+
+	/**
+	 * Diese Methode ordnet einem uebergebenen Patienten einen zufaelligen
+	 * Studienarm zu, so dass die Anzahl der Patienten ausbalanciert ist.
+	 * 
+	 * @param aPatient
+	 *            der zuzuordnende Patient
+	 * @param strataKombination
+	 *            Die StrataKombination des Patienten.
+	 * @throws RandomisationsException
+	 *             Bei nicht gueltigen Situationen die waehrend der
+	 *             Randomisation auftreten.
+	 * 
+	 * @throws DatenbankExceptions
+	 *             Falls Fehler in der Datenbankkommunikation auftreten.
+	 */
+	protected void randomisierenPatient(PatientBean aPatient,
+			String strataKombination) throws RandomisationsException,
+			DatenbankExceptions {
+
+		long studienArmId = RandomisationDB.getNext(this.studie, strataKombination);
 
 		if (studienArmId == NullKonstanten.NULL_LONG) {
 			// Es ist kein Block mehr gespeichert, also wird ein neuer Erzeugt
@@ -127,10 +148,10 @@ public class BlockRandomisation extends Randomisation {
 			}
 
 			// Speichern des Blocks
-			RandomisationDB.speichernBlock(blockStudienarme, this.studie, null);
+			RandomisationDB.speichernBlock(blockStudienarme, this.studie, strataKombination);
 
 			// Holen der ersten Id
-			studienArmId = RandomisationDB.getNext(this.studie);
+			studienArmId = RandomisationDB.getNext(this.studie, strataKombination);
 
 		}
 		try {
@@ -154,22 +175,21 @@ public class BlockRandomisation extends Randomisation {
 	public int[] erzeugeNeuenBlock() {
 
 		int[] block = new int[this.blockgroesse];
-		int plaetzeProStudie = this.blockgroesse/this.anzahlArme;
+		int plaetzeProStudie = this.blockgroesse / this.anzahlArme;
 		Vector<Integer> plaetze = new Vector<Integer>();
 		Random r = new Random();
-		
-		for(int i = 0; i < plaetzeProStudie; i++){
-			for(int j = 0; j < this.anzahlArme; j++){
+
+		for (int i = 0; i < plaetzeProStudie; i++) {
+			for (int j = 0; j < this.anzahlArme; j++) {
 				plaetze.add(new Integer(j));
 			}
 		}
-		
-		for(int i = 0; i < block.length; i++){
+
+		for (int i = 0; i < block.length; i++) {
 			int index = r.nextInt(plaetze.size());
 			block[i] = plaetze.get(index);
 			plaetze.remove(index);
 		}
-		
 
 		return block;
 	}

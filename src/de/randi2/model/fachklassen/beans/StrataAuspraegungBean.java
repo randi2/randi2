@@ -31,7 +31,7 @@ public class StrataAuspraegungBean extends Filter implements
 	 * ID des zugehoerigen StrataBeans
 	 */
 	private long strataID = NullKonstanten.NULL_LONG;
-	
+
 	/**
 	 * Das Null-Objekt zum Strata-Bean.
 	 */
@@ -49,14 +49,19 @@ public class StrataAuspraegungBean extends Filter implements
 	 * 
 	 * @param name
 	 *            Der Name der Strata Auspraegung.
+	 * @param id
+	 *            ID des in der Datenbank.
 	 * @param strataID
-	 * 			  ID des zugehoerigen Stratabeans
+	 *            ID des zugehoerigen Stratabeans
 	 * @throws StrataException
 	 *             Falls der Name der Auspraegung leer ist, mit
 	 *             {@link StrataException#STRATA_AUSPRAEGUNG_NAME_LEER}.
-	 * @throws DatenbankExceptions 
+	 * @throws DatenbankExceptions
+	 *             Falls ein Problem in der Datenbank auftritt.
 	 */
-	public StrataAuspraegungBean(long id, long strataID, String name) throws StrataException, DatenbankExceptions {
+	public StrataAuspraegungBean(long id, long strataID, String name)
+			throws StrataException, DatenbankExceptions {
+		this.strataID=strataID;
 		this.setId(id);
 		this.setName(name);
 	}
@@ -64,20 +69,21 @@ public class StrataAuspraegungBean extends Filter implements
 	/**
 	 * Konstrukor.
 	 * 
+	 * @param id
+	 *            ID des in der Datenbank-
 	 * @param name
 	 *            Der Name der Strata Auspraegung.
 	 * @param strata
 	 *            Das Strata zu dem die Auspraegung gehoert.
-	 * @param strataID
-	 * 			  ID des zugehoerigen Stratabeans
 	 * @throws StrataException
 	 *             Falls der Name der Auspraegung leer ist, mit
 	 *             {@link StrataException#STRATA_AUSPRAEGUNG_NAME_LEER}.
-	 * @throws DatenbankExceptions 
+	 * @throws DatenbankExceptions
+	 *             Falls ein Problem in der Datenbank auftritt.
 	 */
-	public StrataAuspraegungBean(long id, long strataID, String name, StrataBean strata)
-			throws StrataException, DatenbankExceptions {
-		this(id, strataID, name);
+	public StrataAuspraegungBean(long id,  String name,
+			StrataBean strata) throws StrataException, DatenbankExceptions {
+		this(id, strata.getId(), name);
 		this.setStrata(strata);
 	}
 
@@ -114,12 +120,12 @@ public class StrataAuspraegungBean extends Filter implements
 	 * Gibt das Strata zurueck.
 	 * 
 	 * @return Das Strata zu dem die Auspraegung gehoert.
-	 * @throws DatenbankExceptions 
-	 * 			Falls beim suchen in der DB Fehler auftraten.
+	 * @throws DatenbankExceptions
+	 *             Falls beim suchen in der DB Fehler auftraten.
 	 */
 	public StrataBean getStrata() throws DatenbankExceptions {
-		if(this.strata==null) {
-			this.strata = Strata.get(this.strataID); 
+		if (this.strata == null) {
+			this.strata = Strata.get(this.strataID);
 		}
 		return strata;
 	}
@@ -129,23 +135,21 @@ public class StrataAuspraegungBean extends Filter implements
 	 * 
 	 * @param strata
 	 *            Das Strata zu dem die Auspraegung gehoert.
-	 * @throws StrataException 
-	 * 				Falls das uebergebene Bean <code>null</code> ist
+	 * @throws StrataException
+	 *             Falls das uebergebene Bean <code>null</code> ist
 	 */
 	public void setStrata(StrataBean strata) throws StrataException {
-		if(strata==null) {
+		if (strata == null) {
 			throw new StrataException(StrataException.STRATA_NULL);
 		}
-		this.strataID= strata.getId();
+		this.strataID = strata.getId();
 		this.strata = strata;
 	}
-	
-	
 
 	/**
 	 * Liefert die ID des zugehoerigen StrataBeans
-	 * @return
-	 * 			ID
+	 * 
+	 * @return ID
 	 */
 	public long getStrataID() {
 		return strataID;
@@ -153,10 +157,11 @@ public class StrataAuspraegungBean extends Filter implements
 
 	/**
 	 * Set-Methode fuer ID des zugehoerigen StrataBeans
+	 * 
 	 * @param strataID
-	 * 				besagte ID
+	 *            besagte ID
 	 * @throws StrataException
-	 * 				Falls die ID der Dummy ID entspricht
+	 *             Falls die ID der Dummy ID entspricht
 	 */
 	public void setStrataID(long strataID) throws StrataException {
 		if (strataID == NullKonstanten.DUMMY_ID) {

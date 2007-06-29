@@ -142,22 +142,7 @@ public final class RandomisationDB {
 		ConnectionFactory.getInstanz().closeConnection(c);
 
 	}
-
-	/**
-	 * Gibt den naechsten Wert fuer die Randomisation zu dieser Studie zurueck.
-	 * 
-	 * @param s
-	 *            Studie zu der der naechste Wert gesucht werden soll.
-	 * @return Den naechsten Wert oder {@link NullKonstanten#NULL_LONG} falls
-	 *         keine Werte mehr zu dieser Studie existieren.
-	 * @throws DatenbankExceptions
-	 *             Bei Fehlern in der Datenbank.
-	 */
-	public static synchronized long getNext(StudieBean s)
-			throws DatenbankExceptions {
-		return getNext(s, null);
-	}
-
+	
 	/**
 	 * Gibt den naechsten Wert fuer die Randomisation zu dieser Studie zurueck.
 	 * 

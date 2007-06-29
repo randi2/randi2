@@ -63,38 +63,6 @@ public class StrataBlockRandomisation extends BlockRandomisation {
 	public void randomisierenPatient(PatientBean aPatient)
 			throws RandomisationsException, DatenbankExceptions {
 
-		String strataKombination = aPatient.getStrataGruppe();
-
-		long studienArmId = RandomisationDB.getNext(this.studie,
-				strataKombination);
-
-		if (studienArmId == NullKonstanten.NULL_LONG) {
-			// Es ist kein Block mehr gespeichert, also wird ein neuer Erzeugt
-			int block[] = erzeugeNeuenBlock();
-			// Uebertragen der Int-Indizes in Ids der Studienarme
-			long blockStudienarme[] = new long[block.length];
-			for (int i = 0; i < block.length; i++) {
-				blockStudienarme[i] = ((StudienarmBean) this.studie
-						.getStudienarme().toArray()[i]).getId();
-			}
-
-			// Speichern des Blocks
-			RandomisationDB.speichernBlock(blockStudienarme, this.studie,
-					strataKombination);
-
-			// Holen der ersten Id
-			studienArmId = RandomisationDB.getNext(this.studie);
-			// TODO klaeren, wie hier mit einem Fehler umgegangen werden soll.
-
-		}
-		try {
-			StudienarmBean sA = Studienarm.getStudienarm(studienArmId);
-			aPatient.setStudienarm(sA);
-		} catch (PatientException e) {
-			RandomisationsException re = new RandomisationsException(
-					RandomisationsException.FACHEXCEPTION_AUFGETRETEN);
-			re.initCause(e);
-			throw re;
-		}
+		super.randomisierenPatient(aPatient, aPatient.getStrataGruppe());
 	}
 }
