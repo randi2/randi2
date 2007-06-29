@@ -38,24 +38,27 @@ values ('1','1','frank80','a2dc01d419169a14447c792bfb5ece25a50757c09f28798a2c4f5
 
 INSERT INTO `Studie` (`studienID`, `Benutzerkonto_benutzerkontenID`, `name`, `beschreibung`, `randomisationsalgorithmus`, `startdatum`, `enddatum`, `studienprotokoll`, `status_Studie`, `blockgroesse`) VALUES 
 (1, 1, 'hess (Blockrando)', 'irgendwelche Beschreibung der Studie', 'BlockRandomisation', '2001-01-01', '2009-05-05', 'c:na', 'aktiv', 6),
-(2, 2, 'graeff', 'irgendwelche Beschreibung der Studie', 'VollstaendigeRandomisation', '2002-02-02', '2010-06-06', 'd:na', 'aktiv', 2),
+(2, 2, 'graeff (Vollstaend)', 'irgendwelche Beschreibung der Studie', 'VollstaendigeRandomisation', '2002-02-02', '2010-06-06', 'd:na', 'aktiv', 2),
 (3, 3, 'zwink', 'irgendwelche Beschreibung der Studie', 'BlockRandomisation', '2003-03-03', '2017-07-07', 'e:na', 'aktiv', 2),
 (4, 4, 'dampf', 'irgendwelche Beschreibung der Studie', 'BlockRandomisation', '2004-04-04', '2008-08-08', 'f:na', 'aktiv', 2),
 (5, 1, 'hess (StrataBlockRando)', 'irgendwelche Beschreibung der Studie', 'StrataBlockRandomisation', '2001-01-01', '2009-05-05', 'c:na', 'aktiv', 6);
 
 
 insert into Studienarm (Studie_studienID,status_aktivitaet,bezeichnung,beschreibung) 
-values('1','aktiv','irgendeine Bezeichnung','Beschreibund 1'),
-        ('2','aktiv','irgendeine Bezeichnung','Beschreibund 2'),
-        ('3','aktiv','irgendeine Bezeichnung','Beschreibund 3'),
-        ('4','aktiv','irgendeine Bezeichnung','Beschreibund 4'),
-        ('2','aktiv','irgendeine','Beschreibadsfund 5'),
-        ('2','aktiv','irgendeine Beung','Beschreadsfibund 6'),
-        ('1','aktiv','irgendeine Bezeichnung','Beschreibund 7'),
-        ('1','aktiv','irgendeine Bezeichnung','Beschreibund 8'),
-        ('5','aktiv','irgendeine Bezeichnung','Beschreibund 9'),
-        ('5','aktiv','irgendeine Bezeichnung','Beschreibund 10'),
-        ('5','aktiv','irgendeine Bezeichnung','Beschreibund 11');
+values('1','aktiv','SA1','Beschreibund 1'),
+        ('2','aktiv','SA2','Beschreibund 2'),
+        ('3','aktiv','SA3','Beschreibund 3'),
+        ('4','aktiv','SA4','Beschreibund 4'),
+        ('2','aktiv','SA5','Beschreibadsfund 5'),
+        ('2','aktiv','SA6','Beschreadsfibund 6'),
+        ('1','aktiv','SA7','Beschreibund 7'),
+        ('1','aktiv','SA8','Beschreibund 8'),
+        ('5','aktiv','SA9','Beschreibund 9'),
+        ('5','aktiv','SA10','Beschreibund 10'),
+        ('5','aktiv','SA11','Beschreibund 11'),
+        ('2','aktiv','SA12','Beschreibund 12'),
+        ('2','aktiv','SA13','Beschreibund 13'),
+        ('2','aktiv','SA14','Beschreibund 15');
 
 insert into Aktivierung (Benutzerkonto_benutzerkontenID,aktivierungslink,versanddatum) 
 values('1','http://www.eins.de','2005-12-05'),
@@ -77,6 +80,7 @@ values('1','1'),
         ('2','2'),
         ('3','3'),
         ('4','4'),
+        ('2', '1'),
         ('5', '1');
         
         
