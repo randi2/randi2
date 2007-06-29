@@ -37,10 +37,14 @@
 		if (aStrata == null) {
 	
 	// koennte ein Fehler sein, was soll passieren?
-	
-		}
-		mitStrata = true;
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,"Fehler beim Auslesen der Strata!");
+			mitStrata = false;
+			
+		} else {
 		
+			mitStrata = true;
+		
+		}
 	}
 
 	GregorianCalendar heute = new GregorianCalendar();
@@ -418,6 +422,8 @@ Ext.onReady(function(){
 <%@include file="include/inc_header.jsp"%>
 
 <div id="content">
+<%@include file="include/inc_nachricht.jsp"%>
+
 <h1>Patient hinzuf&uuml;gen</h1>
 <div id="form_patient_adden"></div>
 <br>
