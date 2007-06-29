@@ -475,6 +475,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		// bei jedem Zugriff, Titel zuruecksetzen
 		request.setAttribute(DispatcherServlet.requestParameter.TITEL
 				.toString(), null);
+		System.out.println("!!!!!!!!!!!!!!!!!"+id);
 		// falls ID null dann leite auf den Index weiter
 		if ((id == null || id.trim().equals("")) && (idAttribute == null)) {
 
@@ -719,17 +720,20 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			// [start]
 
 			else if (id.equals(anfrage_id.JSP_STUDIE_ANSEHEN.name())) {
-				request.setAttribute(Parameter.anfrage_id.toString(),
+				request.setAttribute(Parameter.anfrage_id,
 						StudieServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
-
+			}else if(id.equals(StudieServlet.anfrage_id.JSP_STUDIENARM_ANZEIGEN.toString())){
+				//Der Benutzer will sich ein Studienarm anzeigen lassen
+				request.setAttribute(Parameter.anfrage_id, StudieServlet.anfrage_id.AKTION_STUDIENARM_ANZEIGEN.toString());
+				request.getRequestDispatcher("StudieServlet").forward(request, response);
 			} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
 
 				if (request.getParameter(Parameter.filter) == null) {
 					request.setAttribute("listeZentren", null);
 				}
-				request.setAttribute(Parameter.anfrage_id.toString(),
+				request.setAttribute(Parameter.anfrage_id,
 						StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);

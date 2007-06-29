@@ -126,6 +126,16 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Prozess bestaetigt
 		 */
 		JSP_STUDIE_PAUSIEREN_JA,
+		
+		/**
+		 * Ein ausgewählter Studienarm soll angezeigt werden.
+		 */
+		JSP_STUDIENARM_ANZEIGEN,
+		
+		/**
+		 * Ein ausgewählter Studienarm wird angezeigt.
+		 */
+		AKTION_STUDIENARM_ANZEIGEN,
 
 		/**
 		 * zentrum_anzeigen.jsp
@@ -382,6 +392,9 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 						request, response);
 			}
 
+		}else if(id.equals(anfrage_id.AKTION_STUDIENARM_ANZEIGEN.toString())){
+			//Dem Benutzer wird der ausgewählte Studienarm der Studie angezeigt.
+			request.getRequestDispatcher(Jsp.STUDIENARM_ANZEIGEN).forward(request, response);
 		}
 	}
 

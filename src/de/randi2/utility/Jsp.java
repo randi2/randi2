@@ -27,10 +27,6 @@ public final class Jsp {
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
-	public static final String ARMAUSWAEHLEN_EINS = "/armauswaehlen_eins.jsp";
-	/**
-	 * Konstante fuer jsp-Seite
-	 */
 	public static final String ARMBEENDEN = "/armbeenden.jsp";
 	/**
 	 * Konstante fuer jsp-Seite
@@ -189,6 +185,10 @@ public final class Jsp {
 	 * Konstante fuer jsp-Seite
 	 */
 	public static final String STUDIE_PAUSIEREN = "/studie_pausieren.jsp";
+	/**
+	 * Konstante fuer jsp-Seite
+	 */
+	public static final String STUDIENARM_ANZEIGEN = "/studienarm_anzeigen.jsp";
 	/**
 	 * Konstante fuer jsp-Seite
 	 */

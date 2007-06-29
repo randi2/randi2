@@ -295,7 +295,12 @@ public class Parameter {
 		/**
 		 * Die Beschreibung (lang)
 		 */
-		BESCHREIBUNG
+		BESCHREIBUNG,
+		
+		/**
+		 * Eindeutige ID des Studienarms
+		 */
+		ID
 		
 	}
 	

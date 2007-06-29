@@ -25,6 +25,7 @@
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="java.util.Vector"%>
+<%@page import="de.randi2.model.fachklassen.Rolle.Rollen"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -130,26 +131,24 @@
 					<tr class="tblrow3">
 						<td>Studienarme</td>
 					</tr>
-					<tr align="left">
-						<td class="tblrow1">
-						<ul>
-							<li><%=aStudienarme.get(aStudienarme.size() - counter)
-							.getBezeichnung()%></li>
-						</ul>
-						<%
-						counter--;
-						%>
-						</td>
-					</tr>
+					<%if(aRolle == Rolle.Rollen.STUDIENLEITER) {%>
+					<form action="DispatcherServlet" method="POST" name="studienarm"
+					id="studienarm"><input type="hidden"
+					name="<%=Parameter.anfrage_id %>" value="">
+					<input type="hidden"
+					name="<%=Parameter.studienarm.ID.toString() %>" value="">
+					<%} %>
 					<%
 					while (counter > 0) {
 					%>
 					<tr align="left">
 						<td class="tblrow1">
-						<ul>
-							<li><%=aStudienarme.get(aStudienarme.size() - counter)
-								.getBezeichnung()%></li>
-						</ul>
+						<%=aStudienarme.get(aStudienarme.size() - counter)
+								.getBezeichnung()%>
+						<%if(aRolle == Rolle.Rollen.STUDIENLEITER) {%>
+						<img src="images/anzeigen.gif" onClick="document.forms['studienarm'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STUDIENARM_ANZEIGEN.toString() %>';document.forms['studienarm'].<%=Parameter.studienarm.ID.toString()%>.value = '<%=aStudienarme.get(aStudienarme.size() - counter)
+							.getId() %>';document.forms['studienarm'].submit();">
+						<%} %>
 						<%
 						counter--;
 						%>
@@ -236,8 +235,6 @@
 		<%
 		}
 		%>
-		<td><input type="button" name="arm" value="Arm ausw&auml;hlen"
-			tabindex="4" onclick="location.href='armauswaehlen_eins.jsp'">&nbsp;&nbsp;</td>
 		<!--<td><input type="button" name="simulation" value="Simulation" tabindex="5" onclick="location.href='simulation.jsp'">&nbsp;&nbsp;</td>-->
 		<td><input type="button" name="statistik"
 			value="Statistik anzeigen" tabindex="6"
