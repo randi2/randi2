@@ -340,6 +340,7 @@ Ext.onReady(function(){
 	        <%}%>
 	        displayField:'auspraegung',
 	        typeAhead: true,
+	        valueField:'id',
 	        mode: 'local',
 	        triggerAction: 'all',
 			selectOnFocus:true,
