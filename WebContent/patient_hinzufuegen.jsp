@@ -349,13 +349,12 @@ Ext.onReady(function(){
 	        blankText:'Bitte die Auspraegung auswaehlen!'
 	    });    
 		
-		var strata_beschreibung<%=aStrataId%> = new Ext.form.TextArea({
+		var strata_beschreibung<%=aStrataId%> = new Ext.form.MiscField({
 			msgTarget: 'side',
 			name: '<%=Parameter.strata.BESCHREIBUNG.name() %><%=aStrataId%>',
 			fieldLabel: 'Beschreibung:',
 			value: '<%=aStratabeschreibung%>',
 			width: 250,
-			height:50,
 			editable:false
 		});    
     
