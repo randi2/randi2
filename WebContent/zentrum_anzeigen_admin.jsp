@@ -35,7 +35,7 @@
 <img alt="Filter anzeigen" src="images/find.png"
 	onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen"
 	style="cursor:pointer" /> <b>Filter ein-/ausblenden</b>
-<div id="filterdiv" style="overflow:hidden; height: 80px;">
+<div id="filterdiv" style="overflow:hidden; height: 100px;">
 <form action="DispatcherServlet" method="POST"><input type="hidden" name="anfrage_id"
 	value="<%=DispatcherServlet.anfrage_id.ZENTRUM_ANZEIGEN_ADMIN.name() %>">
 <table width="90%">

@@ -90,8 +90,8 @@ suchen </b></legend>
 			<th width="10%">Vorname</th>
 			<th width="10%">Loginname</th>
 			<th width="30%">Institut</th>
-			<th width="20%">E-Mail</th>
-			<th width="20%">Aktionen</th>
+			<th width="25%">E-Mail</th>
+			<th width="15%">Aktionen</th>
 		</tr>
 	</thead>
 	<%
