@@ -34,12 +34,12 @@ import de.randi2.model.fachklassen.Studienarm;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PatientBean;
-<<<<<<< .mine
+
 import de.randi2.model.fachklassen.beans.StrataAuspraegungBean;
 import de.randi2.model.fachklassen.beans.StrataBean;
-=======
+
 import de.randi2.model.fachklassen.beans.StrataBean;
->>>>>>> .r4388
+
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
