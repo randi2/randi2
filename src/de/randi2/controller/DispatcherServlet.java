@@ -1005,7 +1005,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			// SONSTIGE WEITERLEITUNGEN
 			// Schwerer Fehler: Falscher Request
 			else {
-				System.out.println("Scheiße");
+				System.out.println("Schwerer Fehler: Falscher Request bei Dispatcher Servlet");
 				System.out.println(idAttribute + " " + id);
 				Logger.getLogger(this.getClass()).debug(
 						"Kein Block in POST fuer die ID '" + id + "' gefunden");
