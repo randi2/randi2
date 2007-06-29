@@ -192,25 +192,23 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	private void aendernBenutzer(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		if (request.getParameter("loeschenA") == null) {
-
 			// wichtiger boolean
 			boolean wurdeStellvertreterGesetzt = true;
 
 			// Alle aenderbaren Attribute des request inititalisieren
-			String titel = request.getParameter("Titel");
+			String titel = request.getParameter(Parameter.person.TITEL.toString());
 			PersonBean.Titel titelenum = null;
-			String telefon = request.getParameter("Telefon");
-			String handynummer = request.getParameter("Handy");
-			String nachnameA = request.getParameter("NachnameA");
-			String vornameA = request.getParameter("VornameA");
-			String telefonA = request.getParameter("TelefonA");
+			String telefon = request.getParameter(Parameter.person.TELEFONNUMMER.toString());
+			String handynummer = request.getParameter(Parameter.person.HANDYNUMMER.toString());
+			String nachnameA = request.getParameter(Parameter.person.STELLVERTRETER_NACHNAME.toString());
+			String vornameA = request.getParameter(Parameter.person.STELLVERTRETER_VORNAME.toString());
+			String telefonA = request.getParameter(Parameter.person.STELLVERTRETER_TELEFONNUMMER.toString());
 			char geschlechtA = NullKonstanten.NULL_CHAR;
-			if (request.getParameter("geschlechtA") != null) {
-				geschlechtA = request.getParameter("geschlechtA").charAt(0);
+			if (request.getParameter(Parameter.person.STELLVERTRETER_GESCHLECHT.toString()) != null) {
+				geschlechtA = request.getParameter(Parameter.person.STELLVERTRETER_GESCHLECHT.toString()).charAt(0);
 			}
-			String emailA = request.getParameter("EmailA");
-			String fax = request.getParameter("Fax");
+			String emailA = request.getParameter(Parameter.person.STELLVERTRETER_EMAIL.toString());
+			String fax = request.getParameter(Parameter.person.FAX.toString());
 			String passwort = null;
 
 			// Konvertierung String enum
@@ -222,18 +220,18 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			}
 
 			// Wiederholte Passworteingabe pruefen
-			if (request.getParameter("Passwort") != null
-					&& request.getParameter("Passwort_wh") != null) {
-				if (request.getParameter("Passwort").equals(
-						request.getParameter("Passwort_wh"))) {
-					passwort = request.getParameter("Passwort");
+			if (request.getParameter(Parameter.benutzerkonto.PASSWORT.toString()) != null
+					&& request.getParameter(Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG.toString()) != null) {
+				if (request.getParameter(Parameter.benutzerkonto.PASSWORT.toString()).equals(
+						request.getParameter(Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG.toString()))) {
+					passwort = request.getParameter(Parameter.benutzerkonto.PASSWORT.toString());
 				} else {
 					passwort = "";
 				}
 			}
 
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
-					.getSession()).getAttribute("aBenutzer");
+					.getSession()).getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString());
 			aBenutzer.setBenutzerkontoLogging(aBenutzer);
 			try {
 				PersonBean aPerson = aBenutzer.getBenutzer();
@@ -300,33 +298,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
 						request, response);
 			}
-		} else {
-			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
-					.getSession()).getAttribute("aBenutzer");
-			aBenutzer.setBenutzerkontoLogging(aBenutzer);
-			PersonBean aPerson = aBenutzer.getBenutzer();
-			aPerson.setBenutzerkontoLogging(aBenutzer);
-			if (aPerson.getStellvertreter() != null) {
-				aPerson.getStellvertreter().setBenutzerkontoLogging(aBenutzer);
-				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(
-						aPerson.getStellvertreter());
-				BenutzerkontoBean bBenutzer = DatenbankFactory
-						.getAktuelleDBInstanz().suchenObjektId(
-								aBenutzer.getId(), new BenutzerkontoBean());
-				request.getSession().setAttribute(
-						DispatcherServlet.sessionParameter.A_Benutzer
-								.toString(), bBenutzer);
-				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
-						"Stellverteter erfolgreich entfernt.");
-				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
-						request, response);
-			} else {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
-						"Kein Stellvertreter zum Entfernen vorhanden.");
-				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
-						request, response);
-			}
-		}
+
+		
 	}
 
 	/**
