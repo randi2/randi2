@@ -28,8 +28,10 @@ public class BenutzerSuchenBean extends Filter {
 	private String email=null;
 	private String loginname=null;
 	private String institut=null;
+	//Nicht zum Filtern, sondern nur zur Anzeige gedacht
+	private boolean gesperrt=false;
 	
-	public BenutzerSuchenBean(long benutzerId, long zentrumId, long personId, String vorname, String nachname, String email, String loginname, String institut) {
+	public BenutzerSuchenBean(long benutzerId, long zentrumId, long personId, String vorname, String nachname, String email, String loginname, String institut, boolean gesperrt) {
 		super();
 		this.benutzerId = benutzerId;
 		this.zentrumId = zentrumId;
@@ -39,6 +41,7 @@ public class BenutzerSuchenBean extends Filter {
 		this.email = email;
 		this.loginname = loginname;
 		this.institut = institut;
+		this.gesperrt=gesperrt;
 	}
 	public BenutzerSuchenBean() {
 	}
@@ -96,6 +99,12 @@ public class BenutzerSuchenBean extends Filter {
 		{
 			throw new PersonException("Daten ungueltig");
 		}
+	}
+	public boolean isGesperrt() {
+		return gesperrt;
+	}
+	public void setGesperrt(boolean gesperrt) {
+		this.gesperrt = gesperrt;
 	}
 
 }

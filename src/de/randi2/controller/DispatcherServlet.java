@@ -299,7 +299,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Button bei Patient hinzufuegen.
 		 */
-		JSP_PATIENT_HINZUFUEGEN_AUSFUEHREN;
+		JSP_PATIENT_HINZUFUEGEN_AUSFUEHREN,
+		
+		/**
+		 * Ein Benutzer soll gesperrt bzw. entsperrt werden.
+		 */
+		JSP_BENUTZER_SPERREN_SPERREN_ENTSPERREN;
 	}
 
 	/**
@@ -322,7 +327,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Die von dem Benutzer ausgewählte, aktuelle Studie
 		 */
-		AKTUELLE_STUDIE("aStudie");
+		AKTUELLE_STUDIE("aStudie"),
+		
+		/**
+		 * Wird an die Session gebunden, wenn der Admin einen Benutzer sperren, entsperren will.
+		 */
+		BENUTZER_SPERREN_ENTSPERREN_ADMIN("bSperren");
 
 		/**
 		 * String Version des Parameters
@@ -1004,6 +1014,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				// TODO weiterleitung?!
 				request.setAttribute(Parameter.anfrage_id,ZentrumServlet.anfrage_id.CLASS_DISPATCHERSERVLET_ZENTRUM_ANZEIGEN_SPERREN.name());
 				request.getRequestDispatcher("ZentrumServlet").forward(request, response);
+			}
+			else if(id.equals(anfrage_id.JSP_BENUTZER_SPERREN_SPERREN_ENTSPERREN.name())){
+				request.setAttribute(Parameter.anfrage_id, BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_SPERREN_ENTSPERREN.name());
+				request.getRequestDispatcher("BenutzerServlet").forward(request, response);
 			}
 
 			// [end]

@@ -55,7 +55,7 @@ public class AutomatischeNachricht extends Nachricht {
 	/**
 	 * Das neue Passwort des Nutzers
 	 */
-	private String neuesPasswort=null;
+	private String inhaltNichtDB=null;
     /**
      * Auswahl der automatischen Nachrichten. Bitte Änderungen auch 1:1 in die
      * Datei Nachrichtentexte.xml übernehmen.
@@ -83,7 +83,12 @@ public class AutomatischeNachricht extends Nachricht {
         /**
          * Nachricht wenn ein neues Passwort zugesendet wird.
          */
-        NEUES_PASSWORT("passwort");
+        NEUES_PASSWORT("passwort"), 
+        
+        /**
+         *Der Studienleiter bzw. Admin bekommt sein passwort zugeschichkt 
+         */
+        PASSWORT_SL_ADMIN("passwortSlAdmin");
 
         /**
          * Korrespondierendes Attribut Name in der Datei
@@ -125,14 +130,14 @@ public class AutomatischeNachricht extends Nachricht {
      * Konstruktor darf nur verwendet werden, wenn ein Neues Passwort zugesendet werden soll!!! 
      * Sonst bitte {@link AutomatischeNachricht#AutomatischeNachricht(PersonBean, de.randi2.model.fachklassen.AutomatischeNachricht.autoNachricht)} verwenden.
      * @param empfaenger Empfaenger
-     * @param neuesPasswort Das neue Passwort, dass an den Emfaenger geschickt werden soll.
+     * @param inhaltNichtDB Inhalt der nicht in der DB gespeichert wurde, z. B. Passwort, Nachricht bei Benutzer sperren, entsperren
      * @throws SystemException 
      * @throws NachrichtException 
      */
-    public AutomatischeNachricht(PersonBean empfaenger, String neuesPasswort) throws NachrichtException, SystemException{
+    public AutomatischeNachricht(PersonBean empfaenger, String inhaltNichtDB, autoNachricht automatischeNachricht) throws NachrichtException, SystemException{
     	super();
-    	this.neuesPasswort=neuesPasswort;
-    	konstruktorAusgelagert(empfaenger,autoNachricht.NEUES_PASSWORT);
+    	this.inhaltNichtDB=inhaltNichtDB;
+    	konstruktorAusgelagert(empfaenger,automatischeNachricht);
     }
     
 
@@ -253,14 +258,24 @@ public class AutomatischeNachricht extends Nachricht {
 
                     break;
                 case BENUTZER_ENTSPERREN:
-                    // TODO--afreudli gibt es hie was dynamisches?!
+                	nachrichtentext=nachrichtentext.replace("#EntSperren#",this.inhaltNichtDB);
                     break;
                 case BENUTZER_SPERREN:
-                    // TODO--afreudli gibt es hier was dynamisches
+                	nachrichtentext=nachrichtentext.replace("#EntSperren#",this.inhaltNichtDB);
                     break;
                 case NEUES_PASSWORT:
-                	if(neuesPasswort!=null){
-                		nachrichtentext=nachrichtentext.replace("#passwort#", this.neuesPasswort);
+                	if(inhaltNichtDB!=null){
+                		nachrichtentext=nachrichtentext.replace("#passwort#", this.inhaltNichtDB);
+                	
+                	}
+                	else{
+                	throw new NachrichtException("Zur Zusendung eines neuen Passworts bitte anderen Konstruktor verwenden");
+                	}
+                	break;
+                	
+                case PASSWORT_SL_ADMIN:
+                	if(inhaltNichtDB!=null){
+                		nachrichtentext=nachrichtentext.replace("#passwort#", this.inhaltNichtDB);
                 	
                 	}
                 	else{

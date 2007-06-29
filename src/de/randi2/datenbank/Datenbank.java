@@ -1951,82 +1951,83 @@ public class Datenbank implements DatenbankSchnittstelle {
 		return null;
 	}
 
-private Vector<BenutzerSuchenBean> suchenBenutzerSuchen(BenutzerSuchenBean bean) throws DatenbankExceptions {
-	Connection con;
+	private Vector<BenutzerSuchenBean> suchenBenutzerSuchen(BenutzerSuchenBean bean) throws DatenbankExceptions {
+		Connection con;
 
-	con = ConnectionFactory.getInstanz().getConnection();
-	PreparedStatement pstmt;
-	BenutzerSuchenBean ergebnisBean=null;
-	ResultSet rs;
-	Vector<BenutzerSuchenBean> sbenutzer = new Vector<BenutzerSuchenBean>();
-	// erstellen der SQL Abfrage
-	String sql =String.format("select p.%1$s,b.%2$s,z.%3$s, p.%4$s,p.%5$s,p.%6$s,b.%7$s,z.%8$s from "+Tabellen.PERSON+" p, "+Tabellen.BENUTZERKONTO+" b, "+Tabellen.ZENTRUM+" z where" +
-			" b.%9$s=z.%10$s and b.%11$s=p.%12$s",FelderPerson.ID.toString(),FelderBenutzerkonto.ID.toString(),FelderZentrum.ID.toString(),FelderPerson.NACHNAME.toString(),FelderPerson.VORNAME.toString(),
-			FelderPerson.EMAIL.toString(),FelderBenutzerkonto.LOGINNAME.toString(),FelderZentrum.INSTITUTION.toString(),
-			FelderBenutzerkonto.ZENTRUMID.toString(),FelderZentrum.ID.toString(),FelderBenutzerkonto.PERSONID.toString(),FelderPerson.ID.toString());
-	int counter = 0;
-	if (bean.getVorname() != null) {
-		sql += " AND p." + FelderPerson.VORNAME.toString() + " LIKE ? ";
-		counter++;
-	}
-	if (bean.getNachname() != null) {
-		sql += " AND p." + FelderPerson.NACHNAME.toString() + " LIKE ? ";
-		counter++;
-	}
-	if (bean.getLoginname() != null) {
-		sql += " AND b." + FelderBenutzerkonto.LOGINNAME.toString() + " LIKE ? ";
-		counter++;
-	}
-	if (bean.getEmail() != null) {
-		sql += " AND p." + FelderPerson.EMAIL.toString() + " LIKE ? ";
-		counter++;
-	}
-	if (bean.getInstitut() != null) {
-		sql += " AND z." + FelderZentrum.INSTITUTION.toString() + " LIKE ? ";
-		counter++;
-	}
-	
-try{
-	pstmt = con.prepareStatement(sql);
-	int index = 1;
-	if (bean.getVorname() != null) {
-		pstmt.setString(index++, bean.getVorname() + "%");
-	}
-	if (bean.getNachname() != null) {
-		pstmt.setString(index++, bean.getNachname() + "%");
-	}
-	if (bean.getLoginname() != null) {
-		pstmt.setString(index++, bean.getLoginname() + "%");
-	}
-	if (bean.getEmail() != null) {
-		pstmt.setString(index++, bean.getEmail() + "%");
-	}
-	if (bean.getInstitut() != null) {
-		pstmt.setString(index++, bean.getInstitut() + "%");
-	}
-	rs = pstmt.executeQuery();
-	while (rs.next()) {
-		// erstelle PersonBeans
+		con = ConnectionFactory.getInstanz().getConnection();
+		PreparedStatement pstmt;
+		BenutzerSuchenBean ergebnisBean=null;
+		ResultSet rs;
+		Vector<BenutzerSuchenBean> sbenutzer = new Vector<BenutzerSuchenBean>();
+		//Nach aktiviert deaktivier wird nicht verglichen
+		// erstellen der SQL Abfrage
+		String sql =String.format("select p.%1$s,b.%2$s,z.%3$s, p.%4$s,p.%5$s,p.%6$s,b.%7$s,b.%13$s,z.%8$s from person p, benutzerkonto b, zentrum z where" +
+				" b.%9$s=z.%10$s and b.%11$s=p.%12$s",FelderPerson.ID.toString(),FelderBenutzerkonto.ID.toString(),FelderZentrum.ID.toString(),FelderPerson.NACHNAME.toString(),FelderPerson.VORNAME.toString(),
+				FelderPerson.EMAIL.toString(),FelderBenutzerkonto.LOGINNAME.toString(),FelderZentrum.INSTITUTION.toString(),
+				FelderBenutzerkonto.ZENTRUMID.toString(),FelderZentrum.ID.toString(),FelderBenutzerkonto.PERSONID.toString(),FelderPerson.ID.toString(),FelderBenutzerkonto.GESPERRT.toString());
+		int counter = 0;
+		if (bean.getVorname() != null) {
+			sql += " AND p." + FelderPerson.VORNAME.toString() + " LIKE ? ";
+			counter++;
+		}
+		if (bean.getNachname() != null) {
+			sql += " AND p." + FelderPerson.NACHNAME.toString() + " LIKE ? ";
+			counter++;
+		}
+		if (bean.getLoginname() != null) {
+			sql += " AND b." + FelderBenutzerkonto.LOGINNAME.toString() + " LIKE ? ";
+			counter++;
+		}
+		if (bean.getEmail() != null) {
+			sql += " AND p." + FelderPerson.EMAIL.toString() + " LIKE ? ";
+			counter++;
+		}
+		if (bean.getInstitut() != null) {
+			sql += " AND z." + FelderZentrum.INSTITUTION.toString() + " LIKE ? ";
+			counter++;
+		}
+		
+	try{
+		pstmt = con.prepareStatement(sql);
+		int index = 1;
+		if (bean.getVorname() != null) {
+			pstmt.setString(index++, bean.getVorname() + "%");
+		}
+		if (bean.getNachname() != null) {
+			pstmt.setString(index++, bean.getNachname() + "%");
+		}
+		if (bean.getLoginname() != null) {
+			pstmt.setString(index++, bean.getLoginname() + "%");
+		}
+		if (bean.getEmail() != null) {
+			pstmt.setString(index++, bean.getEmail() + "%");
+		}
+		if (bean.getInstitut() != null) {
+			pstmt.setString(index++, bean.getInstitut() + "%");
+		}
+		rs = pstmt.executeQuery();
+		while (rs.next()) {
+			// erstelle PersonBeans
 
-		ergebnisBean= new BenutzerSuchenBean(rs.getLong(FelderBenutzerkonto.ID.toString()),rs.getLong(FelderZentrum.ID.toString()),rs.getLong(FelderPerson.ID.toString()),
-				rs.getString(FelderPerson.VORNAME.toString()),//vor
-				rs.getString(FelderPerson.NACHNAME.toString()),//nach
-				rs.getString(FelderPerson.EMAIL.toString()),//email
-				rs.getString(FelderBenutzerkonto.LOGINNAME.toString()),//loginname
-				rs.getString(FelderZentrum.INSTITUTION.toString()));//institut
+			ergebnisBean= new BenutzerSuchenBean(rs.getLong(FelderBenutzerkonto.ID.toString()),rs.getLong(FelderZentrum.ID.toString()),rs.getLong(FelderPerson.ID.toString()),
+					rs.getString(FelderPerson.VORNAME.toString()),//vor
+					rs.getString(FelderPerson.NACHNAME.toString()),//nach
+					rs.getString(FelderPerson.EMAIL.toString()),//email
+					rs.getString(FelderBenutzerkonto.LOGINNAME.toString()),//loginname
+					rs.getString(FelderZentrum.INSTITUTION.toString()),rs.getBoolean(FelderBenutzerkonto.GESPERRT.toString()));//institut
 
-		// fuege Person dem Vector hinzu
-		sbenutzer.add(ergebnisBean);
-	}} catch (SQLException e) {
-	DatenbankExceptions de = new DatenbankExceptions(
-			DatenbankExceptions.SUCHEN_ERR);
-	de.initCause(e);
-	throw de;
-} finally {
-	ConnectionFactory.getInstanz().closeConnection(con);
-}
-return sbenutzer;
+			// fuege Person dem Vector hinzu
+			sbenutzer.add(ergebnisBean);
+		}} catch (SQLException e) {
+		DatenbankExceptions de = new DatenbankExceptions(
+				DatenbankExceptions.SUCHEN_ERR);
+		de.initCause(e);
+		throw de;
+	} finally {
+		ConnectionFactory.getInstanz().closeConnection(con);
 	}
+	return sbenutzer;
+		}
 
 	/**
 	 * Sucht alle Personen aus der Tabelle {@link Tabellen#PERSON} welche den

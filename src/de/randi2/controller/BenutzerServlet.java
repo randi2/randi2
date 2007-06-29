@@ -86,6 +86,12 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		 * Admin kann sich den aktuellen Nutzer anzeigen, oder diesen sperren, entsperren.
 		 */
 		CLASS_DISPATCHERSERVLET_ANZEIGEN_SPERREN,
+		
+		
+		/**
+		 * Der aktuelle Benutzer wird gesperrt, entsperrt oder das Sperren wird abgebrochen
+		 */
+		CLASS_DISPATCHERSERVLET_SPERREN_ENTSPERREN,
 
 		/**
 		 * Aufforderung, aus den uebergebenen Daten einen Benutzer zu generieren
@@ -167,6 +173,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			this.classDispatcherServletAnzeigenSperren(request, response);
 		}
 
+		else if (id.equals(anfrage_id.CLASS_DISPATCHERSERVLET_SPERREN_ENTSPERREN.name())){
+			this.classDispatcherservletSperrenEntsperren(request, response);
+		}
 		// if
 	}// doPost
 
@@ -923,7 +932,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			// Mitteilungsversand
 			// Passwort
 			AutomatischeNachricht passwortmail = new AutomatischeNachricht(
-					aBenutzerkonto.getBenutzer(), passwort);
+					aBenutzerkonto.getBenutzer(), passwort,AutomatischeNachricht.autoNachricht.PASSWORT_SL_ADMIN);
 			passwortmail.senden();
 			// Aktivierungsmail
 			AktivierungBean aktivierung = new AktivierungBean(
@@ -1031,7 +1040,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					.schreibenObjekt(aBenutzerkonto);
 
 			AutomatischeNachricht autoNachricht = new AutomatischeNachricht(
-					aBenutzerkonto.getBenutzer(), neuesPasswort);
+					aBenutzerkonto.getBenutzer(), neuesPasswort,AutomatischeNachricht.autoNachricht.NEUES_PASSWORT);
 			Logger.getLogger(this.getClass()).debug(
 					"Neues Passwort ist:\t" + neuesPasswort);
 			// TODO --afreudli NAch debuggen Kommentar entfernen
@@ -1076,16 +1085,73 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		String art=st.nextToken();
 		long id=Long.parseLong(st.nextToken());
 		BenutzerkontoBean aBenutzer=DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(id, new BenutzerkontoBean());
-		request.setAttribute("aBenutzer", aBenutzer);
-		if(art.equals("a"))
-		{
+		if(art.equals("a")){
+			request.setAttribute("aBenutzer", aBenutzer);
 			request.getRequestDispatcher(Jsp.BENUTZER_ANZEIGEN_ADMIN).forward(request, response);
 		}
 		else if(art.equals("s")){
-			
+			request.getSession().setAttribute(DispatcherServlet.sessionParameter.BENUTZER_SPERREN_ENTSPERREN_ADMIN.toString(), aBenutzer);
 			request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(request, response);
 		}
 	}
-
+	private void classDispatcherservletSperrenEntsperren(HttpServletRequest request, HttpServletResponse response)
+	throws ServletException, IOException{
+		String submit=request.getParameter("sperrenEntsperren");
+		//Es wird gesperrt oder entsperrt
+		if(submit!=null)
+		{
+			BenutzerkontoBean aBenutzer=(BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.BENUTZER_SPERREN_ENTSPERREN_ADMIN.toString());
+			aBenutzer.setBenutzerkontoLogging((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString()));
+			//Achtung es wurde keine Nachricht eingegebn
+			String nachricht=request.getParameter("nachricht");
+			if(nachricht==null)
+			{
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Bitte geben Sie einen Text ein.");
+				request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(request, response);
+				return;
+			}
+			try{
+			//Benutzer wird entsperrt
+			if(aBenutzer.isGesperrt()){
+				
+				aBenutzer.setGesperrt(false);
+				AutomatischeNachricht aNachricht= new AutomatischeNachricht(aBenutzer.getBenutzer(),nachricht,AutomatischeNachricht.autoNachricht.BENUTZER_SPERREN);
+				
+				//TODO --afreudli Kommentar entfernen
+				//aNachricht.senden();
+	
+				
+			}
+			//Benutzer wird entsperrt
+			else
+			{
+				aBenutzer.setGesperrt(true);
+				AutomatischeNachricht aNachricht= new AutomatischeNachricht(aBenutzer.getBenutzer(),nachricht,AutomatischeNachricht.autoNachricht.BENUTZER_ENTSPERREN);
+//				TODO --afreudli Kommentar entfernen
+				//aNachricht.senden();
+			}
+			//Benutzer schreiben
+			aBenutzer.setBenutzerkontoLogging((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString()));
+			aBenutzer=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzer);
+			request.setAttribute(DispatcherServlet.NACHRICHT_OK, "Änderung wurde erfolgeich durchgef&uuml;hrt");
+			request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(request, response);
+			return;
+			
+			}
+			catch (NachrichtException e){
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Achtung Nachricht wurde nicht versand");
+				request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(request, response);
+				return;
+				
+			}
+			
+		}
+		//Sperren wird abgebrochen
+		else{
+			request.getSession().removeAttribute(DispatcherServlet.sessionParameter.BENUTZER_SPERREN_ENTSPERREN_ADMIN.toString());
+			this.classDispatcherServletBenutzerSuchen(request, response);
+		}
+		
+	}
 
 }

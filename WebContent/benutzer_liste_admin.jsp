@@ -9,6 +9,7 @@
 			.toString(), JspTitel.ADMIN_LISTE.toString());
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="de.randi2.controller.ZentrumServlet"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -110,11 +111,11 @@ suchen </b></legend>
 		<td><%=benutzer.getEmail()%></td>
 		<td><span  id="benutzer_anzeigen_link" style="cursor:pointer"
 			onClick="document.forms['liste_form'].button.value = 'a_<%=benutzer.getBenutzerId() %>';document.forms['liste_form'].submit();">
-		anzeigen/&auml;ndern
+		anzeigen
 		</span></td>
 		<td><span  id="sperren_link" style="cursor:pointer"
 			onClick="document.forms['liste_form'].button.value = 's_<%=benutzer.getBenutzerId() %>';document.forms['liste_form'].submit();">		
-		EntSperren
+		<%if(benutzer.isGesperrt()){out.print("Entsperren");}else{out.print("Sperren");} %>
 		</span></td>
 	</tr>
 	<%
