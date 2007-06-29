@@ -129,7 +129,6 @@ public final class Strata {
 		Collection<StrataAuspraegungBean> sAs = DatenbankFactory
 				.getAktuelleDBInstanz().suchenMitgliederObjekte(
 						s, StrataAuspraegungBean.NULL);
-		System.out.println(sAs);
 		return sAs;
 	}
 

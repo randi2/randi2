@@ -51,7 +51,7 @@ public class StrataBean extends Filter {
 	/**
 	 * Die Liste der moeglichen Auspraegungen zu diesem Strata.
 	 */
-	private SortedSet<StrataAuspraegungBean> auspraegungen;
+	private Vector<StrataAuspraegungBean> auspraegungen;
 
 	/**
 	 * Das Null-Objekt zum Strata-Bean.
@@ -155,10 +155,11 @@ public class StrataBean extends Filter {
 	public Collection<StrataAuspraegungBean> getAuspraegungen()
 			throws DatenbankExceptions {
 		if (auspraegungen == null) {
-			this.auspraegungen = new TreeSet<StrataAuspraegungBean>(Strata
+			this.auspraegungen = new Vector<StrataAuspraegungBean>(Strata
 					.getAuspraegungen(this));
 		}
-		return auspraegungen;
+		System.out.println(this.auspraegungen);
+		return this.auspraegungen;
 	}
 
 	/**
@@ -175,7 +176,7 @@ public class StrataBean extends Filter {
 		if (auspraegungen == null || auspraegungen.isEmpty()) {
 			throw new StrataException(StrataException.STRATA_AUSPRAEGUNGEN_LEER);
 		}
-		this.auspraegungen = new TreeSet<StrataAuspraegungBean>(auspraegungen);
+		this.auspraegungen = new Vector<StrataAuspraegungBean>(auspraegungen);
 
 		for (StrataAuspraegungBean sA : this.auspraegungen) {
 			sA.setStrata(this);

@@ -193,6 +193,7 @@ public class BlockRandomisationTest {
 				fail("Ueberschreiten des 0.95 Quantils durch Komb. " + i + "= "
 						+ grades[i]);
 			}
+			System.out.println(i + ": " + grades[i]);
 		}
 
 	}

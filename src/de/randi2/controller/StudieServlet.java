@@ -20,6 +20,7 @@ import de.randi2.controller.DispatcherServlet.sessionParameter;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.PatientException;
+import de.randi2.model.exceptions.StrataException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.Patient;
@@ -30,6 +31,7 @@ import de.randi2.model.fachklassen.Studienarm;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PatientBean;
+import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -108,7 +110,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * studie_aendern.jsp wurde gewaehlt.
 		 */
 		JSP_STUDIE_AENDERN,
-		
+
 		/**
 		 * Anfragen "studienarm beenden" von der studienarm_anzeigen.jsp
 		 */
@@ -123,27 +125,27 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Studie soll fortgesetzt werden
 		 */
 		JSP_STUDIE_FORTSETZEN,
-		
+
 		/**
 		 * Prozess bestaetigt
 		 */
 		JSP_STUDIE_FORTSETZEN_JA,
-		
+
 		/**
 		 * Studie soll pausiert werde
 		 */
 		JSP_STUDIE_PAUSIEREN,
-		
+
 		/**
 		 * Prozess bestaetigt
 		 */
 		JSP_STUDIE_PAUSIEREN_JA,
-		
+
 		/**
 		 * Ein ausgewählter Studienarm soll angezeigt werden.
 		 */
 		JSP_STUDIENARM_ANZEIGEN,
-		
+
 		/**
 		 * Ein ausgewählter Studienarm wird angezeigt.
 		 */
@@ -210,7 +212,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Ergebnis der Filterung von Zentren
 		 */
 		GEFILTERTE_ZENTREN("listeZentren"),
-		
+
 		/**
 		 * Aktueller Studienarm
 		 */
@@ -382,8 +384,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					response);
 		} else if (id.equals(anfrage_id.AKTION_STATUS_AENDERN.name())) {
 			// Status aendern
-			request.getRequestDispatcher(Jsp.STUDIE_PAUSIEREN).forward(
-					request, response);
+			request.getRequestDispatcher(Jsp.STUDIE_PAUSIEREN).forward(request,
+					response);
 
 		} else if (id.equals(anfrage_id.AKTION_STUDIE_FORTSETZEN.name())) {
 			// Status aendern
@@ -409,11 +411,16 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 						request, response);
 			}
 
-		}else if(id.equals(anfrage_id.AKTION_STUDIENARM_ANZEIGEN.toString())){
-			//Dem Benutzer wird der ausgewählte Studienarm der Studie angezeigt.
-			StudienarmBean aStudienarm = (StudienarmBean) Studienarm.getStudienarm( Long.parseLong(request.getParameter(Parameter.studienarm.ID.toString())));
-			request.setAttribute(requestParameter.AKTUELLER_STUDIENARM.toString(), aStudienarm);
-			request.getRequestDispatcher(Jsp.STUDIENARM_ANZEIGEN).forward(request, response);
+		} else if (id.equals(anfrage_id.AKTION_STUDIENARM_ANZEIGEN.toString())) {
+			// Dem Benutzer wird der ausgewählte Studienarm der Studie
+			// angezeigt.
+			StudienarmBean aStudienarm = (StudienarmBean) Studienarm
+					.getStudienarm(Long.parseLong(request
+							.getParameter(Parameter.studienarm.ID.toString())));
+			request.setAttribute(requestParameter.AKTUELLER_STUDIENARM
+					.toString(), aStudienarm);
+			request.getRequestDispatcher(Jsp.STUDIENARM_ANZEIGEN).forward(
+					request, response);
 		}else if(id.equals(anfrage_id.AKTION_STUDIENARM_BEENDEN.toString())){
 			//Ein Arm der Studie wird beendet
 			StudienarmBean aStudienarm = (StudienarmBean) Studienarm.getStudienarm( Long.parseLong(request.getParameter(Parameter.studienarm.ID.toString())));
@@ -612,7 +619,10 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 		try {
 			aStudie.setStatus(status);
-			aStudie.setBenutzerkontoLogging((BenutzerkontoBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString()));
+			aStudie.setBenutzerkontoLogging((BenutzerkontoBean) request
+					.getSession().getAttribute(
+							DispatcherServlet.sessionParameter.A_Benutzer
+									.toString()));
 			aStudie = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aStudie);
 			//Ersetze die alte Studie, die an die Session gebunden ist.
 			request.getSession().setAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString(), aStudie);
@@ -893,6 +903,18 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				new BlockRandomisation(aStudie).randomisierenPatient(aPatient);
 			} else if (randAlg == Algorithmen.BLOCKRANDOMISATION_MIT_STRATA) {
 				HashMap<Long, Long> strataKombinationen = new HashMap<Long, Long>();
+				Vector<StrataBean> sV = new Vector<StrataBean>(Strata
+						.getAll(aStudie));
+
+				for (StrataBean s : sV) {
+					String sAIdString = request.getParameter(
+							Parameter.patient.AUSPRAEGUNG.name() + s.getId());
+					long sAId = Integer.parseInt(sAIdString
+							.trim());
+					strataKombinationen
+							.put(new Long(s.getId()), new Long(sAId));
+				}
+
 				String strataGruppe = Strata
 						.getStratakombinationsString(strataKombinationen);
 				aPatient.setStrataGruppe(strataGruppe);
@@ -918,14 +940,14 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 		} catch (PatientException e) {
 			Logger.getLogger(this.getClass()).debug("Fehler", e);
-			
+
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 					.getMessage());
 			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
 					request, response);
 		} catch (ParseException e) {
 			Logger.getLogger(this.getClass()).debug("Fehler", e);
-			
+
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
 					"Bitte geben Sie Datumseingaben im Format TT.MM.JJJJ ein.");
 			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
@@ -938,6 +960,10 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 							"Bitte geben Sie die Koerperoberflaeche als Zahl mit Dezimaltrennzeichen '.' ein.");
 			request.getRequestDispatcher("/patient_hinzufuegen.jsp").forward(
 					request, response);
+		} catch (StrataException e) {
+			IOException ioe = new IOException();
+			ioe.initCause(e);
+			throw ioe;
 		}
 
 	}
