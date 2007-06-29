@@ -134,7 +134,7 @@ public class BlockRandomisation extends Randomisation {
 	 * @throws DatenbankExceptions
 	 *             Bei Fehlern bei der Kommunikation mit der Datenbank.
 	 */
-	private int[] erzeugeNeuenBlock() throws DatenbankExceptions {
+	public int[] erzeugeNeuenBlock() throws DatenbankExceptions {
 
 		int[] block = new int[this.blockgroesse];
 		int[] anzahl = new int[this.anzahlArme];
