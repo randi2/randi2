@@ -15,7 +15,7 @@
 	String aStartdatum = "";
 	String aEnddatum = "";
 	String aStatistiker = "false";
-	String aAlgorithmus = "bitte auswaehlen";
+	String aAlgorithmus = Randomisation.Algorithmen.VOLLSTAENDIGE_RANDOMISATION.toString();
 	String aStrataname = "";
 	String aStratabeschreibung = "";
 	String aStrataauspraegungen = "";
@@ -154,7 +154,7 @@
 	if (request.getParameter(Parameter.studie.RANDOMISATIONSALGORITHMUS
 			.name()) == null) {
 
-		aAlgorithmus = "bitte auswaehlen";
+		aAlgorithmus = Randomisation.Algorithmen.VOLLSTAENDIGE_RANDOMISATION.toString();
 
 	} else {
 
@@ -187,7 +187,7 @@ Ext.onReady(function(){
     });
 
     var studie_name = new Ext.form.TextField({
-        fieldLabel: 'Name der Studie',
+        fieldLabel: 'Name der Studie *',
         name: '<%=Parameter.studie.NAME.name() %>',
         allowBlank:false,
         minLength:3,
@@ -204,12 +204,12 @@ Ext.onReady(function(){
         fieldLabel: 'Beschreibung der Studie',
         name: '<%=Parameter.studie.BESCHREIBUNG.name() %>',
         allowBlank:true,
-        value:'<%=aBeschreibung%>',
+        value:'<%=aBeschreibung.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r")%>',
         width:300
     });
 
     var studie_startdatum = new Ext.form.DateField({
-        fieldLabel: 'Startdatum',
+        fieldLabel: 'Startdatum *',
         name: '<%=Parameter.studie.STARTDATUM.name() %>',
         width:100,
         allowBlank:false,
@@ -219,7 +219,7 @@ Ext.onReady(function(){
     });
     
     var studie_enddatum = new Ext.form.DateField({
-        fieldLabel: 'Enddatum',
+        fieldLabel: 'Enddatum *',
         name: '<%=Parameter.studie.ENDDATUM.name() %>',
         width:100,
         allowBlank:false,
@@ -238,9 +238,9 @@ Ext.onReady(function(){
 		msgTarget: 'side',
 		allowBlank: false,
 		inputType: 'file',
-		readOnly: true,
+		readOnly: false,
 		name: '<%=Parameter.studie.STUDIENPROTOKOLL.name() %>',
-		fieldLabel: 'Studienprotokoll',
+		fieldLabel: 'Studienprotokoll *',
 		width: 250,
 		blankText: 'Ein Studienprotokoll wird ben&ouml;tigt!'
 	});    
@@ -255,7 +255,7 @@ Ext.onReady(function(){
 	);
 	
     var algorithmus = new Ext.form.ComboBox({
-        fieldLabel: 'Randomisationsalgorithmus',
+        fieldLabel: 'Randomisationsalgorithmus *',
         hiddenName:'<%=Parameter.studie.RANDOMISATIONSALGORITHMUS.name()%>',
         store: new Ext.data.SimpleStore({
             fields: ['algorithmus'],
@@ -276,15 +276,45 @@ Ext.onReady(function(){
         typeAhead: true,
         mode: 'local',
         triggerAction: 'all',
-        emptyText:'<%=aAlgorithmus%>',
         value:'<%=aAlgorithmus%>',
         selectOnFocus:true,
         editable:false,
         width:250
     });
+    
+
+	
+	
+	var blockgroesse = new Ext.form.NumberField({
+		msgTarget: 'side',
+		allowBlank: false,
+        allowNegative: false,
+        allowDecimals: false,
+		readOnly: false,
+		name: '<%=Parameter.studie.BLOCKGROESSE.name() %>',
+		fieldLabel: 'Blockgr&ouml;sse *',
+		width: 100,
+        minValue:0,
+        maxValue:10000,
+        invalidText:'Bitte einen Wert zwischen 0-10000 eingeben!',
+        maxText:'Bitte einen Wert zwischen 0-10000 eingeben!',
+        minText:'Bitte einen Wert zwischen 0-10000 eingeben!',
+        blankText:'Bitte die Blockgroesse eintragen!',
+        nanText:'Bitte einen Wert zwischen 0-10000 eingeben!'
+	});    	
+	
+	form_studie_anlegen.fieldset({legend:'Randomisation'},algorithmus,blockgroesse);
+	
+	
 	
 
 	form_studie_anlegen.fieldset({legend:'Randomisation'},algorithmus);
+	
+	<%
+	
+		}
+	
+	%>
 	
 	form_studie_anlegen.fieldset({legend:'Stratakonfiguration <img src="images/add-page-green.gif" style="cursor:pointer" onmousedown="addStrata()">&nbsp;<% if (aStrataEntfernenMoeglich) { %><img src="images/omit-page-green.gif" style="cursor:pointer" onmousedown="delStrata()"><% } %>',labelAlign:'top'});
 	<%
@@ -348,7 +378,7 @@ Ext.onReady(function(){
 		allowBlank: true,
 		name: '<%=Parameter.strata.BESCHREIBUNG.name() %><%=i%>',
 		fieldLabel: 'Beschreibung',
-		value: '<%=aStratabeschreibung%>',
+		value: '<%=aStratabeschreibung.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r")%>',
 		width: 250,
 		height:50
 	});    
@@ -358,7 +388,7 @@ Ext.onReady(function(){
 		allowBlank: false,
 		name: '<%=Parameter.strata.AUSPRAEGUNGEN.name() %><%=i%>',
 		fieldLabel: 'Auspr&auml;gungen',
-		value: '<%=aStrataauspraegungen%>',
+		value: '<%=aStrataauspraegungen.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r")%>',
 		width: 250,
 		height:100,
 		blankText: 'Mindestens eine Auspr&auml;gung wird ben&ouml;tigt!'
@@ -438,7 +468,7 @@ Ext.onReady(function(){
 		allowBlank: true,
 		name: '<%=Parameter.studienarm.BESCHREIBUNG.name() %><%=i%>',
 		fieldLabel: 'Beschreibung',
-		value: '<%=aArmbeschreibung%>',
+		value: '<%=aArmbeschreibung.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r")%>',
 		width: 250,
 		height:50
 	});    
