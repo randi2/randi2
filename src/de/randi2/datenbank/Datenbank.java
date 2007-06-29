@@ -3910,7 +3910,7 @@ return sbenutzer;
 			return (Vector<T>) suchenStudieKind(studie, ((ZentrumBean) vater)
 					.getId());
 		}
-		//1:n V Strata : K StrataAuspraegung
+		//1:n V Sudie : K Strata
 		if (kind instanceof StrataBean && vater instanceof StudieBean) {
 			return (Vector<T>) suchenStrataKind((StrataBean) kind, vater.getId());
 		}
