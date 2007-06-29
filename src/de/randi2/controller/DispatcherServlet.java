@@ -672,8 +672,26 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANSEHEN.name())) {
 				request.setAttribute("anfrage_id",
 						ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name());
-				request.getRequestDispatcher("ZentrumServlet").forward(request,
-						response);
+				if((request.getParameter(Parameter.zentrum.ZENTRUM_ID.toString())!=null)){
+					//ID vorhanden, zentrumdetails werden angezeigt
+					String idx = request.getParameter(Parameter.zentrum.ZENTRUM_ID.toString());
+					request.setAttribute(Parameter.zentrum.ZENTRUM_ID.toString(),
+							idx);
+					
+					request.getRequestDispatcher("ZentrumServlet").forward(request,
+							response);
+				}else{
+					//aus irgendwelchen Gründen Zentrum_ID nicht vorhanden, 
+					//leite zurück letzten seite
+					if (request.getParameter(Parameter.filter) == null) {
+						request.setAttribute("listeZentren", null);
+					}
+					request.setAttribute(Parameter.anfrage_id.toString(),
+							StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name());
+					request.getRequestDispatcher("StudieServlet").forward(request,
+							response);
+				}
+				
 			}
 
 			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANLEGEN.name())) {

@@ -94,7 +94,7 @@ if(aPerson!=null){
 	<tr>
 		<td>Fax<br>
 		<input type="text" size"40" maxlength="40" name="fax" tabindex="11"
-			value="<%=aPerson.getFax()%>"></td>
+			value="<%=aPerson.getFax()%>"><% if(aPerson.getFax()==null){%>das ding ist null<%} %></td>
 	</tr>
 	<tr>
 		<td>Email *<br>
@@ -120,7 +120,7 @@ if(aPerson!=null){
 	
 		<td><span  class="sub_SA n entry" style="cursor:pointer"
 			onClick="document.forms['back_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name() %>';document.forms['back_form'].submit();">
-		<b>zurück zu den Zentren</b></span></td>
+		<b>zur&uuml;ck zu den Zentren</b></span></td>
 	</tr>
 </table>
 <br>

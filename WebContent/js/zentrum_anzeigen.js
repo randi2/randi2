@@ -2,6 +2,13 @@ Ext.onReady(function() {
     var grid = new Ext.grid.TableGrid("zentren");
     grid.render();
     
+    
+    	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN %>'});	
+	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.filter %>', type:'hidden', value: '<%=Parameter.filter %>'});	
+	
+    
+    
 });
 
 /**
