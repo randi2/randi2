@@ -78,6 +78,7 @@ suchen </b></legend>
 <p></p>
 </div>
 <p></p>
+<div>
 <form action="DispatcherServlet" method="POST" name="liste_form" id="liste_form">
 <input type="hidden" name="<%=Parameter.anfrage_id %>" value="<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_LISTE_ADMIN_ANZEIGEN_SPERREN.name() %>" />
 <input type="hidden" name="button" value="" /></form>
