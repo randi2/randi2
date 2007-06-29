@@ -2,6 +2,7 @@ package de.randi2.controller;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.servlet.ServletException;
@@ -112,7 +113,12 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Zentrum anzeigen beim Admin.
 		 */
-		AKTION_ZENTRUM_ANZEIGEN_ADMIN
+		AKTION_ZENTRUM_ANZEIGEN_ADMIN,
+		
+		/**
+		 * Admin kann sich das aktuelle Zentrum anzeigen, oder diesen sperren, entsperren.
+		 */
+		CLASS_DISPATCHERSERVLET_ZENTRUM_ANZEIGEN_SPERREN
 	}
 
 	/**
@@ -219,6 +225,8 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
 			request.getRequestDispatcher(Jsp.ZENTRUM_ANSEHEN).forward(request,
 					response);
+		} else if (id.equals(ZentrumServlet.anfrage_id.CLASS_DISPATCHERSERVLET_ZENTRUM_ANZEIGEN_SPERREN.name())) {
+			classDispatcherservletZentrumAnzeigenSperren(request, response);
 		} else {
 			// TODO Hier muss noch entschieden werden,was passiert
 		}
@@ -805,6 +813,31 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 			}
 		}
 
+	}
+	
+	private void classDispatcherservletZentrumAnzeigenSperren(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException{
+		
+		String button=request.getParameter("button");
+		StringTokenizer st= new StringTokenizer(button,"_");
+		String art=st.nextToken();
+		long id=Long.parseLong(st.nextToken());
+		ZentrumBean aZentrum=DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(id, new ZentrumBean());
+		request.setAttribute("aZentrum", aZentrum);
+		if(art.equals("a"))
+		{
+			request.getRequestDispatcher(Jsp.ZENTRUM_AENDERN).forward(request, response);
+		}
+		else if(art.equals("s")){
+			if(aZentrum.getIstAktiviert()){
+				aZentrum.setIstAktiviert(false);
+			} else {
+				aZentrum.setIstAktiviert(true);
+			}
+			aZentrum.setFilter(true);
+			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aZentrum);
+		}
+		
 	}
 
 }

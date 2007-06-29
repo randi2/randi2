@@ -994,6 +994,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						request, response);
 			} else if(id.equals(StudieServlet.anfrage_id.JSP_PATIENT_HINZUFUEGEN.name())){
 				this.weiterleitenPatientHinzufuegenHttpServletRequest(request, response);
+			} else if (id.equals(anfrage_id.ZENTRUM_AENDERN_SPERREN.name())) {
+				// TODO weiterleitung?!
+				request.setAttribute(Parameter.anfrage_id,ZentrumServlet.anfrage_id.CLASS_DISPATCHERSERVLET_ZENTRUM_ANZEIGEN_SPERREN.name());
+				request.getRequestDispatcher("ZentrumServlet").forward(request, response);
 			}
 
 			// [end]

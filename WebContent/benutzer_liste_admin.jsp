@@ -127,10 +127,9 @@ suchen </b></legend>
 		}//while
 	%>
 </table>
-
-
-<%@include file="include/inc_footer.jsp"%>
-<%@include file="include/inc_menue.jsp"%>
-
+</fieldset>
+<%@include file="include/inc_footer.jsp"%></div>
+<div id="show_none"></div>
+<div id="show_none"><%@include file="include/inc_menue.jsp"%></div>
 </body>
 </html>
