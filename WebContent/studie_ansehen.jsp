@@ -38,8 +38,7 @@
 
 <body>
 <%@include file="include/inc_header.jsp"%>
-<div id="content">
-<%@include file="include/inc_nachricht.jsp"%>
+<div id="content"><%@include file="include/inc_nachricht.jsp"%>
 <h1>Studie ansehen</h1>
 <fieldset>
 <table style="text-align: left; width: 100%;" border="0" cellpadding="2"
@@ -101,7 +100,7 @@
 					</tr>
 					<tr align="left" class="tblrow1">
 						<td><%=aStudie.getBeschreibung()%></td>
-						<td><%=aStudie.getStatus().toString() %></td>
+						<td><%=aStudie.getStatus().toString()%></td>
 					</tr>
 				</tbody>
 			</table>
@@ -131,27 +130,27 @@
 					<tr class="tblrow3">
 						<td>Studienarme</td>
 					</tr>
-					<%if(aRolle == Rolle.Rollen.STUDIENLEITER) {%>
-					<form action="DispatcherServlet" method="POST" name="studienarm"
-					id="studienarm"><input type="hidden"
-					name="<%=Parameter.anfrage_id %>" value="">
-					<input type="hidden"
-					name="<%=Parameter.studienarm.ID.toString() %>" value="">
-					<%} %>
 					<%
 					while (counter > 0) {
 					%>
 					<tr align="left">
-						<td class="tblrow1">
-						<%=aStudienarme.get(aStudienarme.size() - counter)
-								.getBezeichnung()%>
-						<%if(aRolle == Rolle.Rollen.STUDIENLEITER) {%>
-						<img src="images/anzeigen.gif" onClick="document.forms['studienarm'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STUDIENARM_ANZEIGEN.toString() %>';document.forms['studienarm'].<%=Parameter.studienarm.ID.toString()%>.value = '<%=aStudienarme.get(aStudienarme.size() - counter)
+						<td class="tblrow1"><%=aStudienarme.get(aStudienarme.size() - counter)
+								.getBezeichnung()%> <%
+ if(aRolle == Rolle.Rollen.STUDIENLEITER) {
+ %>
+						<form action="DispatcherServlet" method="POST" name="studienarm"
+							id="studienarm"><input type="hidden"
+							name="<%=Parameter.anfrage_id %>" value=""> <input
+							type="hidden" name="<%=Parameter.studienarm.ID.toString() %>"
+							value=""></form>
+						<img src="images/anzeigen.gif"
+							onClick="document.forms['studienarm'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STUDIENARM_ANZEIGEN.toString() %>';document.forms['studienarm'].<%=Parameter.studienarm.ID.toString()%>.value = '<%=aStudienarme.get(aStudienarme.size() - counter)
 							.getId() %>';document.forms['studienarm'].submit();">
-						<%} %>
 						<%
-						counter--;
-						%>
+						}
+						%> <%
+ counter--;
+ %>
 						</td>
 					</tr>
 					<%
@@ -207,8 +206,8 @@
  if (aRolle == Rolle.Rollen.STUDIENLEITER) {
  %>
 <form action="DispatcherServlet" method="POST" name="studie_form"
-			id="studie_form"><input type="hidden"
-			name="<%=Parameter.anfrage_id %>" value="">
+	id="studie_form"><input type="hidden"
+	name="<%=Parameter.anfrage_id %>" value="">
 <fieldset><legend><b>Studienauswahl</b></legend>
 <table align="center">
 	<tr>
@@ -227,8 +226,7 @@
 		<%
 		if (aStudie.getStatus().equals(Studie.Status.PAUSE)) {
 		%>
-		<td>
-		<input type="button" name="studie_fortsetzen"
+		<td><input type="button" name="studie_fortsetzen"
 			value="Fortsetzen" tabindex="3"
 			onClick="document.forms['studie_form'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STUDIE_FORTSETZEN.toString() %>';document.forms['studie_form'].submit();">&nbsp;&nbsp;
 		</td>
