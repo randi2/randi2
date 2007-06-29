@@ -13,7 +13,6 @@ import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.fachklassen.Benutzerkonto;
 import de.randi2.model.fachklassen.Person;
 import de.randi2.model.fachklassen.Rolle;
-import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.NullKonstanten;

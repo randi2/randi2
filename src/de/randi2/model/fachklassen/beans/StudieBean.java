@@ -59,11 +59,6 @@ public class StudieBean extends Filter {
 	private String aInstitution = null;
 
 	/**
-	 * Studienleiter der Studie.
-	 */
-	private String aStudienleiter = null;
-
-	/**
 	 * Die zu der Studie zugeordnete Zentren.
 	 */
 	private Vector<ZentrumBean> aZentren = null;
@@ -74,12 +69,12 @@ public class StudieBean extends Filter {
 	private Vector<StrataBean> aStrata = null;
 
 	/**
-	 * Das Benutzerkonto der Studie.
+	 * Das Benutzerkonto der Studie - Benutzerkonto des Studienleiters.
 	 */
 	private BenutzerkontoBean aBenutzerkonto = null;
 
 	/**
-	 * Id des Benutzerkontos.
+	 * Id des Benutzerkontos (des Studienleiters)
 	 */
 	private long aBenutzerkontoId = NullKonstanten.DUMMY_ID;
 
@@ -487,26 +482,6 @@ public class StudieBean extends Filter {
 	 */
 	public void setInstitution(String institution) {
 		this.aInstitution = institution;
-	}
-
-	/**
-	 * Die Methode uebergibt den Studienleiter der Studie.
-	 * 
-	 * @return studienleiter, Studienleiter der Studie.
-	 */
-	public String getStudienleiter() {
-		return aStudienleiter;
-	}
-
-	/**
-	 * Setzt den Studienleiter.
-	 * 
-	 * @param studienleiter
-	 *            ein String - Konstante aus der entsprechender
-	 *            Studienleiterklasse
-	 */
-	public void setStudienleiter(String studienleiter) {
-		this.aStudienleiter = studienleiter;
 	}
 
 	/**
