@@ -6,8 +6,6 @@
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
 <%Rolle.Rollen aRolleMenue=((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer")).getRolle().getRollenname(); %>
 <%@page import="de.randi2.controller.DispatcherServlet"%>
-<%@page import="de.randi2.controller.StudieServlet"%>
-<%@page import="de.randi2.controller.ZentrumServlet"%>
 <%@page import="de.randi2.utility.Parameter"%>
 <div id="menue">
 

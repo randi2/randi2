@@ -61,7 +61,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	/**
 	 * Meldung, wenn der Status erfolgreich geaendert wurde.
 	 */
-	public static final String STATUS_GEAENDERT = "Der Status wurde erfolgreich geaendert!";
+	public static final String STATUS_GEAENDERT = "Status der Studie wurde erfolgreich geaendert!";
 
 	/**
 	 * Die Anfrage_id zur Verwendung im Studie Servlet
@@ -106,6 +106,26 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * studie_aendern.jsp wurde gewaehlt.
 		 */
 		JSP_STUDIE_AENDERN,
+		
+		/**
+		 * Studie soll fortgesetzt werden
+		 */
+		JSP_STUDIE_FORTSETZEN,
+		
+		/**
+		 * Prozess bestaetigt
+		 */
+		JSP_STUDIE_FORTSETZEN_JA,
+		
+		/**
+		 * Studie soll pausiert werde
+		 */
+		JSP_STUDIE_PAUSIEREN,
+		
+		/**
+		 * Prozess bestaetigt
+		 */
+		JSP_STUDIE_PAUSIEREN_JA,
 
 		/**
 		 * zentrum_anzeigen.jsp
@@ -253,7 +273,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		// dem Benutzerservlet --Btheel
 		String idAttribute = (String) request
 				.getAttribute(Parameter.anfrage_id);
-		System.out.println(idAttribute + " " + id);
 
 		if (idAttribute != null) {
 			id = idAttribute;
@@ -336,7 +355,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					response);
 		} else if (id.equals(anfrage_id.AKTION_STATUS_AENDERN.name())) {
 			// Status aendern
-			request.getRequestDispatcher(Jsp.STUDIE_PAUSIEREN_EINS).forward(
+			request.getRequestDispatcher(Jsp.STUDIE_PAUSIEREN).forward(
 					request, response);
 
 		} else if (id.equals(anfrage_id.AKTION_STUDIE_FORTSETZEN.name())) {
@@ -542,17 +561,23 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 		try {
 			aStudie.setStatus(status);
+			aStudie.setBenutzerkontoLogging((BenutzerkontoBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString()));
 			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aStudie);
-			// Studie erfolgreich pausiert
-			// TODO Meldung an den Benutzer
 			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 					STATUS_GEAENDERT);
-			request.getRequestDispatcher("studie_ansehen.jsp").forward(request,
+			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
 					response);
-		} catch (Exception e) {
+		} catch (DatenbankExceptions e) {
+			e.printStackTrace();
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 					.getMessage());
-			request.getRequestDispatcher("studie_ansehen.jsp").forward(request,
+			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
+					response);
+		} catch (StudieException e) {
+			e.printStackTrace();
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
+			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
 					response);
 		}
 

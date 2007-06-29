@@ -267,14 +267,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 */
 		JSP_STUDIE_ANLEGEN_DEL_STRATA,
 		/**
-		 * Studie pausieren
-		 */
-		JSP_STUDIE_PAUSIEREN_EINS,
-		/**
-		 * Studie fortsetzen
-		 */
-		JSP_STUDIE_FORTSETZEN_EINS,
-		/**
 		 * Studie aendern
 		 */
 		JSP_STUDIE_AENDERN,
@@ -483,7 +475,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		// bei jedem Zugriff, Titel zuruecksetzen
 		request.setAttribute(DispatcherServlet.requestParameter.TITEL
 				.toString(), null);
-
 		// falls ID null dann leite auf den Index weiter
 		if ((id == null || id.trim().equals("")) && (idAttribute == null)) {
 
@@ -876,24 +867,32 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
 						request, response);
 
-			} else if (id.equals((anfrage_id.JSP_STUDIE_PAUSIEREN_EINS.name()))) {
-				// Studie pausieren
+			} else if (id.equals(StudieServlet.anfrage_id.JSP_STUDIE_PAUSIEREN_JA.toString())) {
+				// Studie pausieren - wird durchgefürhrt
 				request
 						.setAttribute(
 								Parameter.anfrage_id.toString(),
 								StudieServlet.anfrage_id.AKTION_STUDIE_PAUSIEREN
-										.name());
+										.toString());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
 			} else if (id
-					.equals((anfrage_id.JSP_STUDIE_FORTSETZEN_EINS.name()))) {
-				// Studie fortsetzen
+					.equals(StudieServlet.anfrage_id.JSP_STUDIE_FORTSETZEN_JA.toString())) {
+				// Studie fortsetzen - wird durchgeführt
 				request.setAttribute(Parameter.anfrage_id.toString(),
 						StudieServlet.anfrage_id.AKTION_STUDIE_FORTSETZEN
-								.name());
+								.toString());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
 
+			} else if (id.equals(StudieServlet.anfrage_id.JSP_STUDIE_FORTSETZEN
+					.toString())) {
+				// studie_fortsetzen.jsp wird dem Benutzer angezeigt!
+				request.getRequestDispatcher(Jsp.STUDIE_FORTSETZEN).forward(request, response);
+			} else if (id.equals(StudieServlet.anfrage_id.JSP_STUDIE_PAUSIEREN
+					.toString())) {
+				// studie_pausieren.jsp wird dem Benutzer angezeigt!
+				request.getRequestDispatcher(Jsp.STUDIE_PAUSIEREN).forward(request, response);
 			}
 
 			else if (id.equals((anfrage_id.JSP_STUDIE_AENDERN.name()))) {
@@ -992,8 +991,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 										.name());
 				request.getRequestDispatcher("BenutzerServlet").forward(
 						request, response);
-			} else if(id.equals(StudieServlet.anfrage_id.JSP_PATIENT_HINZUFUEGEN.name())){
-				this.weiterleitenPatientHinzufuegenHttpServletRequest(request, response);
+			} else if (id
+					.equals(StudieServlet.anfrage_id.JSP_PATIENT_HINZUFUEGEN
+							.name())) {
+				this.weiterleitenPatientHinzufuegenHttpServletRequest(request,
+						response);
 			} else if (id.equals(anfrage_id.ZENTRUM_AENDERN_SPERREN.name())) {
 				// TODO weiterleitung?!
 				request.setAttribute(Parameter.anfrage_id,ZentrumServlet.anfrage_id.CLASS_DISPATCHERSERVLET_ZENTRUM_ANZEIGEN_SPERREN.name());
@@ -1186,9 +1188,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	private void weiterleitenPatientHinzufuegenHttpServletRequest(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getRequestDispatcher("StudieServlet").forward(request,
-				response);
-
+		request.getRequestDispatcher("StudieServlet")
+				.forward(request, response);
 
 	}
 

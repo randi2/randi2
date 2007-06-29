@@ -185,11 +185,11 @@ public final class JspTitel {
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
-	public static final String STUDIE_FORTSETZEN_EINS = "Studie fortsetzen";
+	public static final String STUDIE_FORTSETZEN = "Studie fortsetzen";
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
-	public static final String STUDIE_PAUSIEREN_EINS = "Studie pausieren";
+	public static final String STUDIE_PAUSIEREN = "Studie pausieren";
 	/**
 	 * Konstante fuer jsp-Seite
 	 */

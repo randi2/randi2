@@ -38,6 +38,7 @@
 <body>
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
+<%@include file="include/inc_nachricht.jsp"%>
 <h1>Studie ansehen</h1>
 <fieldset>
 <table style="text-align: left; width: 100%;" border="0" cellpadding="2"
@@ -204,7 +205,9 @@
 %> <%
  if (aRolle == Rolle.Rollen.STUDIENLEITER) {
  %>
-<form>
+<form action="DispatcherServlet" method="POST" name="studie_form"
+			id="studie_form"><input type="hidden"
+			name="<%=Parameter.anfrage_id %>" value="">
 <fieldset><legend><b>Studienauswahl</b></legend>
 <table align="center">
 	<tr>
@@ -216,16 +219,18 @@
 		%>
 		<td><input type="button" name="studie_pausieren"
 			value="Pausieren" tabindex="3"
-			onclick="location.href='studie_pausieren_eins.jsp'">&nbsp;&nbsp;</td>
+			onClick="document.forms['studie_form'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STUDIE_PAUSIEREN.toString() %>';document.forms['studie_form'].submit();">&nbsp;&nbsp;</td>
 		<%
 		}
 		%>
 		<%
 		if (aStudie.getStatus().equals(Studie.Status.PAUSE)) {
 		%>
-		<td><input type="button" name="studie_fortsetzen"
+		<td>
+		<input type="button" name="studie_fortsetzen"
 			value="Fortsetzen" tabindex="3"
-			onclick="location.href='studie_fortsetzen_eins.jsp'">&nbsp;&nbsp;</td>
+			onClick="document.forms['studie_form'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STUDIE_FORTSETZEN.toString() %>';document.forms['studie_form'].submit();">&nbsp;&nbsp;
+		</td>
 		<%
 		}
 		%>

@@ -184,11 +184,11 @@ public final class Jsp {
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
-	public static final String STUDIE_FORTSETZEN_EINS = "/studie_fortsetzen_eins.jsp";
+	public static final String STUDIE_FORTSETZEN = "/studie_fortsetzen.jsp";
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
-	public static final String STUDIE_PAUSIEREN_EINS = "/studie_pausieren_eins.jsp";
+	public static final String STUDIE_PAUSIEREN = "/studie_pausieren.jsp";
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
