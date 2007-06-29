@@ -1677,11 +1677,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		con = ConnectionFactory.getInstanz().getConnection();
-
+		try {
 		if (patient.getId() == NullKonstanten.NULL_LONG) {
 			int i = 1;
 			long id = Long.MIN_VALUE;
-			try {
+			
 				sql = "INSERT INTO " + Tabellen.PATIENT + " ("
 						+ FelderPatient.ID + ", " + FelderPatient.BENUTZER
 						+ ", " + FelderPatient.STUDIENARM + ", "
@@ -1711,10 +1711,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				id = rs.getLong(1);
 				rs.close();
 				pstmt.close();
-			} catch (SQLException e) {
-				throw new DatenbankExceptions(e, sql,
-						DatenbankExceptions.SCHREIBEN_ERR);
-			}
+		
 			patient.setId(id);
 			loggenDaten(patient, LogKonstanten.NEUER_DATENSATZ);
 			return patient;
@@ -1730,7 +1727,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ FelderPatient.KOERPEROBERFLAECHE + "=?, "
 					+ FelderPatient.PERFORMANCESTATUS + "=? " + "WHERE "
 					+ FelderPatient.ID + "=?";
-			try {
+		
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, patient.getBenutzerkontoId());
 				pstmt.setLong(j++, patient.getStudienarmId());
@@ -1745,14 +1742,17 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setInt(j++, patient.getPerformanceStatus());
 				pstmt.executeUpdate();
 				pstmt.close();
-			} catch (SQLException e) {
-				throw new DatenbankExceptions(e, sql,
-						DatenbankExceptions.SCHREIBEN_ERR);
-			}
+			 
 			loggenDaten(patient, LogKonstanten.AKTUALISIERE_DATENSATZ);
+		} 
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SCHREIBEN_ERR);
+		} finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 
-		ConnectionFactory.getInstanz().closeConnection(con);
+		
 
 		return patient;
 	}
@@ -3911,8 +3911,11 @@ return sbenutzer;
 					.getId());
 		}
 		//1:n V Strata : K StrataAuspraegung
+		if (kind instanceof StrataBean && vater instanceof StudieBean) {
+			return (Vector<T>) suchenStrataKind((StrataBean) kind, vater.getId());
+		}
+		//1:n V Strata : K StrataAuspraegung
 		if (kind instanceof StrataAuspraegungBean && vater instanceof StrataBean) {
-			StudieBean studie = (StudieBean) kind;
 			return (Vector<T>) suchenStrataAuspraegungKind((StrataAuspraegungBean) kind, vater.getId());
 		}
 		return null;
@@ -4257,7 +4260,7 @@ return sbenutzer;
 	 * @return
 	 * 		alle gefundenen StrataAuspraegungen
 	 * @throws DatenbankExceptions 
-	 * 				Falls bei der Suche Fehler auftreten
+	 * 				Falls bei der Suche Fehler auftritt
 	 */
 	private Vector<StrataAuspraegungBean> suchenStrataAuspraegungKind(StrataAuspraegungBean auspr, long id) throws DatenbankExceptions {
 		try {
@@ -4268,6 +4271,28 @@ return sbenutzer;
 			throw d;
 		}
 		return suchenStrataAuspraegung(auspr);
+	}
+	
+	/**
+	 * Sucht zu einer Studie alle Strata
+	 * @param strata
+	 * 			leeres StrataBeans mit eventuellen Suchkriterien.
+	 * @param id
+	 * 			id der Studie
+	 * @return
+	 * 		alle gefundenen Strata
+	 * @throws DatenbankExceptions 
+	 * 				Falls bei der Suche Fehler auftritt
+	 */
+	private Vector<StrataBean> suchenStrataKind(StrataBean strata, long id) throws DatenbankExceptions {
+		try {
+			strata.setStudienID(id);
+		} catch (StrataException e) {
+			DatenbankExceptions d = new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
+			d.initCause(e);
+			throw d;
+		}
+		return suchenStrata(strata);
 	}
 
 	/**
