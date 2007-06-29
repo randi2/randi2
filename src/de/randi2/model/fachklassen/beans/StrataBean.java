@@ -9,6 +9,7 @@ import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.exceptions.StrataException;
+import de.randi2.model.fachklassen.Strata;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.utility.NullKonstanten;
 
@@ -145,6 +146,8 @@ public class StrataBean extends Filter {
 	 */
 	public Collection<StrataAuspraegungBean> getAuspraegungen() {
 		// FIXME Klaeren ob an dieser Stelle Lazy-Loading sinnvoll ist.
+		// FIXME Die Auspraegungen werden garnicht geladen!! dhaehn
+		// FIXME es wird immer ein leerer Vektor geliefert BUG #190
 		if (auspraegungen == null) {
 			return new Vector<StrataAuspraegungBean>();
 		} else {
