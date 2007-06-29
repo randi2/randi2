@@ -25,7 +25,7 @@ Ext.onReady(function(){
 
 	Ext.QuickTips.init();
 	Ext.form.Field.prototype.msgTarget = 'side';
-	
+	<%if(aStudienarm.getStatus()!=Studie.Status.BEENDET){%>
 	var form_beenden = new Ext.form.Form({
 		id:'beenden_button',
         labelAlign: 'left',
@@ -43,9 +43,9 @@ Ext.onReady(function(){
 	}, form_beenden);    
 
 	form_beenden.render('form_beenden');
-	form_beenden.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.AKTION_LOGOUT %>'});
+	form_beenden.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STUDIENARM_BEENDEN.toString() %>'});
 	form_beenden.el.createChild({tag: 'input', name: '<%=Parameter.studienarm.ID.toString() %>', type:'hidden', value: '<%=aStudienarm.getId() %>'});
-	
+	<%}%>
 });
 </script>
 </head>
@@ -110,6 +110,7 @@ Ext.onReady(function(){
 			</tbody>
 			</table>
 </fieldset>
+<%if(aStudienarm.getStatus() != Studie.Status.BEENDET){ %>
 <table cellPadding="0" cellSpacing="0" border="0">
 	<tr>
 		<td align="left">
@@ -117,6 +118,7 @@ Ext.onReady(function(){
 		</td>
 	</tr>
 </table>
+<%} %>
 <%@include file="include/inc_footer.jsp"%>
 </div>
 <%@include file="include/inc_menue.jsp"%>

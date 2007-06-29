@@ -481,11 +481,9 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		// dem Benutzerservlet --Btheel
 		String idAttribute = (String) request
 				.getAttribute(Parameter.anfrage_id);
-		System.out.println(idAttribute + " " + id);
 		// bei jedem Zugriff, Titel zuruecksetzen
 		request.setAttribute(DispatcherServlet.requestParameter.TITEL
 				.toString(), null);
-		System.out.println("!!!!!!!!!!!!!!!!!"+id);
 		// falls ID null dann leite auf den Index weiter
 		if ((id == null || id.trim().equals("")) && (idAttribute == null)) {
 
@@ -781,6 +779,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				// Weiterleitung auf die Simulation seite
 				request.getRequestDispatcher(Jsp.SIMULATION).forward(request,
 						response);
+			}else if(id.equals(StudieServlet.anfrage_id.JSP_STUDIENARM_BEENDEN.toString())){
+				//Ein Arm soll beendet werden
+				request.setAttribute(Parameter.anfrage_id, StudieServlet.anfrage_id.AKTION_STUDIENARM_BEENDEN.toString());
+				request.getRequestDispatcher("StudieServlet").forward(request, response);
+				
 			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN.name())) {
 
 				// neue Studie anlegen

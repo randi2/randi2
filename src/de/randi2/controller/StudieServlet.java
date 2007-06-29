@@ -21,6 +21,7 @@ import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.StudieException;
+import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.Patient;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.model.fachklassen.Strata;
@@ -107,6 +108,16 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * studie_aendern.jsp wurde gewaehlt.
 		 */
 		JSP_STUDIE_AENDERN,
+		
+		/**
+		 * Anfragen "studienarm beenden" von der studienarm_anzeigen.jsp
+		 */
+		JSP_STUDIENARM_BEENDEN,
+		
+		/**
+		 * Ein Studienarm soll beendet werden
+		 */
+		AKTION_STUDIENARM_BEENDEN,
 		
 		/**
 		 * Studie soll fortgesetzt werden
@@ -403,6 +414,25 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			StudienarmBean aStudienarm = (StudienarmBean) Studienarm.getStudienarm( Long.parseLong(request.getParameter(Parameter.studienarm.ID.toString())));
 			request.setAttribute(requestParameter.AKTUELLER_STUDIENARM.toString(), aStudienarm);
 			request.getRequestDispatcher(Jsp.STUDIENARM_ANZEIGEN).forward(request, response);
+		}else if(id.equals(anfrage_id.AKTION_STUDIENARM_BEENDEN.toString())){
+			//Ein Arm der Studie wird beendet
+			StudienarmBean aStudienarm = (StudienarmBean) Studienarm.getStudienarm( Long.parseLong(request.getParameter(Parameter.studienarm.ID.toString())));
+			try {
+				aStudienarm.setStatus(Studie.Status.BEENDET);
+				aStudienarm.setBenutzerkontoLogging((BenutzerkontoBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString()));
+				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aStudienarm);
+				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+						STATUS_GEAENDERT);
+				request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
+						response);
+			} catch (StudienarmException e) {
+				e.printStackTrace();
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
+				request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
+						response);
+			}
+			
 		}
 	}
 
@@ -583,15 +613,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		try {
 			aStudie.setStatus(status);
 			aStudie.setBenutzerkontoLogging((BenutzerkontoBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString()));
-			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aStudie);
+			aStudie = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aStudie);
+			//Ersetze die alte Studie, die an die Session gebunden ist.
+			request.getSession().setAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString(), aStudie);
 			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 					STATUS_GEAENDERT);
-			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
-					response);
-		} catch (DatenbankExceptions e) {
-			e.printStackTrace();
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-					.getMessage());
 			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
 					response);
 		} catch (StudieException e) {
