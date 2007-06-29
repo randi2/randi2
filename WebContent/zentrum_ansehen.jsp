@@ -8,6 +8,11 @@
 <%
 			request.setAttribute(DispatcherServlet.requestParameter.TITEL
 			.toString(), JspTitel.ZENTRUM_ANSEHEN.toString());
+			long id = Long.parseLong((String) request.getAttribute(Parameter.zentrum.ZENTRUM_ID.toString()));
+			ZentrumBean aZentrum = Zentrum.getZentrum(id);
+			PersonBean aPerson = aZentrum.getAnsprechpartner();
+		
+
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -30,33 +35,33 @@ zum Zentrum</b></legend>
 	<tr>
 		<td>Name der Institution *<br>
 		<input type="text" size="49" maxlength="40" name="Name_Institution"
-			tabindex="1" value="$Name der Institution"></td>
+			tabindex="1" value="<%=aZentrum.getInstitution() %>"></td>
 	</tr>
 	<tr>
 		<td>Name der genauen Abteilung *<br>
 		<input type="text" size="49" maxlength="40" name="Zentrum_Abteilung"
-			tabindex="2" value="$Name der Abteilung"></td>
+			tabindex="2" value="<%=aZentrum.getAbteilung()%>"></td>
 	</tr>
 	<tr>
 		<td>Ort *<br>
 		<input type="text" size="40" maxlength="40" name="Ort" tabindex="3"
-			value="$Ort"></td>
+			value="<%=aZentrum.getOrt() %>"></td>
 		<td>PLZ *<br>
 		<input type="text" size="6" maxlength="6" name="PLZ" tabindex="4"
-			value="$PLZ"></td>
+			value="<%=aZentrum.getPlz() %>"></td>
 	</tr>
 	<tr>
 		<td>Strasse * <br>
 		<input type="text" size="40" maxlength="40" name="strasse"
-			tabindex="5" value="$Strasse"></td>
+			tabindex="5" value="<%=aZentrum.getStrasse() %>"></td>
 		<td>Hausnummer *<br>
 		<input type="text" size"10" maxlength="11" name="hausnummer"
-			tabindex="6" value="$Hausnummer"></td>
+			tabindex="6" value="<%=aZentrum.getHausnr() %>"></td>
 	</tr>
 	<tr>
 		<td>Passwort * <br>
 		<input type="password" size"20" maxlength="20" name="hausnummer"
-			tabindex="7" value=""></td>
+			tabindex="7" value="<%=aZentrum.getPasswort() %>"></td>
 	</tr>
 </table>
 </fieldset>
@@ -67,35 +72,39 @@ zum Ansprechpartner</b></legend>
 	<tr>
 		<td>Nachname *<br>
 		<input type="text" size"40" maxlength="40" name="nachname"
-			tabindex="8" value="$Nachname"></td>
+			tabindex="8" value="<%=aPerson.getNachname() %>"></td>
 		<td>Vorname *<br>
 		<input type="text" size"40" maxlength="40" name="vorname" tabindex="9"
-			value="$Vorname"></td>
+			value="=<%aPerson.getVorname() %>"></td>
 	</tr>
 	<tr>
 		<td>Telefon *<br>
 		<input type="text" size"40" maxlength="40" name="telefon"
-			tabindex="10" value="$Telefonnummer"></td>
+			tabindex="10" value="<%=aPerson.getTelefonnummer() %>"></td>
 	</tr>
 	<tr>
 		<td>Fax<br>
 		<input type="text" size"40" maxlength="40" name="fax" tabindex="11"
-			value="$Fax"></td>
+			value="<%=aPerson.getFax()%>"></td>
 	</tr>
 	<tr>
 		<td>Email *<br>
 		<input type="text" size"40" maxlength="40" name="email" tabindex="12"
-			value="$Email"></td>
+			value="<%=aPerson.getEmail() %>"></td>
 	</tr>
 
 </table>
 </fieldset>
 </form>
+<form action="DispatcherServlet" method="POST" name="back_form"
+			id="back_form"><input type="hidden"
+			name="<%=Parameter.anfrage_id %>" value=""></form>
 <table align="left">
 	<tr>
-
-		<td><a href="zentrum_anzeigen.jsp"><input type="button"
-			name="zurueck" value="zur&uuml;ck" tabindex="13"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	
+		<td><span  class="sub_SA n entry" style="cursor:pointer"
+			onClick="document.forms['back_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name() %>';document.forms['back_form'].submit();">
+		<b>zurück zu den Zentren</b></span></td>
 	</tr>
 </table>
 <br>

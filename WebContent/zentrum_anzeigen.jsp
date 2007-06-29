@@ -204,12 +204,15 @@ suchen </b></legend><br />
 			<td><%=aktiv%></td>
 			<td>
 			<form action="DispatcherServlet" method="POST"
-				name="zentrenAnzeigen_form<%=tabindex %>" id="zentrenAnzeigen_form<%=tabindex %>"><input
-				type="hidden" name="<%=Parameter.studie.ZENTRUM.toString()%>"
-				value="<%=aktuellesZentrum %>"><input type="hidden"
+				name="zentrenAnzeigen_form<%=tabindex %>" id="zentrenAnzeigen_form<%=tabindex %>">
+				<input
+				type="hidden" name="<%=Parameter.zentrum.ZENTRUM_ID.toString()%>"
+				value="<%=aktuellesZentrum.getId() %>"><input type="hidden"
 				name="<%=Parameter.anfrage_id %>" value="hallo"></form>
 			<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
-				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
+				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';
+
+				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
 			<b>Zentrumsdetails</b></span></td>
 		</tr>
 		<%
@@ -233,7 +236,7 @@ suchen </b></legend><br />
 			name="zentrenAnzeigen_form<%=tabindex %>" id="zentrenAnzeigen_form<%=tabindex %>"><input
 			type="hidden" name="<%=Parameter.anfrage_id %>" value=""> <input
 			type="hidden" name="<%=Parameter.studie.ZENTRUM.toString()%>"
-			value="<%=aktuellesZentrum %>"></form>
+			value="<%=aktuellesZentrum.getId() %>"></form>
 		<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
 			onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
 		<b>zurück zur Studie</b></span></td>
