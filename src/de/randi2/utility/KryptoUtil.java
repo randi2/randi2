@@ -156,12 +156,12 @@ public final class KryptoUtil {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Diese Methode liefert eine zufaellige Buchstabe zurueck.
+	 * @return - ein zufaelliges Char.
 	 */
 	public char getRandomChar() {
-		// FIXME
-		return '\0';
+		int charInt = (new Random()).nextInt(49);
+		return buchstaben[charInt];
 	}
 
 }
