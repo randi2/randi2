@@ -15,13 +15,16 @@
 	String aStartdatum = "";
 	String aEnddatum = "";
 	String aStatistiker = "false";
-	String aAlgorithmus = Randomisation.Algorithmen.VOLLSTAENDIGE_RANDOMISATION.toString();
+	String aAlgorithmus = Randomisation.Algorithmen.VOLLSTAENDIGE_RANDOMISATION
+			.toString();
 	String aStrataname = "";
 	String aStratabeschreibung = "";
+	int aBlockgroesse = NullKonstanten.NULL_INT;
 	String aStrataauspraegungen = "";
 	String aArmbezeichnung = "";
 	String aArmbeschreibung = "";
 
+	
 	GregorianCalendar heute = new GregorianCalendar();
 
 	request.setAttribute(DispatcherServlet.requestParameter.TITEL
@@ -32,53 +35,88 @@
 
 	if (request
 			.getAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME
-			.toString()) == null
-			|| (Integer) request
-			.getAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME
-			.toString()) < 3) {
+			.toString()) == null) {
 
 		request.setAttribute(
 		DispatcherServlet.requestParameter.ANZAHL_ARME
-				.toString(), 2);
+				.toString(), "2");
 		aArmeEntfernenMoeglich = false;
 
+	} else {
+
+		if ((Integer
+		.parseInt((String) request
+				.getAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME
+				.toString()))) < 3) {
+
+			request.setAttribute(
+			DispatcherServlet.requestParameter.ANZAHL_ARME
+			.toString(), "2");
+			aArmeEntfernenMoeglich = false;
+
+		}
+
 	}
+
 	if (request
 			.getAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA
-			.toString()) == null
-			|| (Integer) request
-			.getAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA
-			.toString()) < 2) {
+			.toString()) == null) {
 
 		request.setAttribute(
 		DispatcherServlet.requestParameter.ANZAHL_STRATA
-				.toString(), 1);
+				.toString(), "1");
 		aStrataEntfernenMoeglich = false;
 
-	}
+	} else {
 
-	if (request.getParameter(Parameter.studie.NAME.name()) == null) {
+		if ((Integer
+		.parseInt((String) request
+				.getAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA
+				.toString()))) < 2) {
+
+			request.setAttribute(
+			DispatcherServlet.requestParameter.ANZAHL_STRATA
+			.toString(), "1");
+			aStrataEntfernenMoeglich = false;
+
+		}
+
+	}	
+	
+
+	if (request.getAttribute(Parameter.studie.NAME.name()) == null) {
 
 		aName = "";
 
 	} else {
 
-		aName = request.getParameter(Parameter.studie.NAME.name());
+		aName = (String) request.getAttribute(Parameter.studie.NAME
+		.name());
 
 	}
 
-	if (request.getParameter(Parameter.studie.BESCHREIBUNG.name()) == null) {
+	if (request.getAttribute(Parameter.studie.BLOCKGROESSE.name()) == null) {
+
+		aBlockgroesse = 0;
+
+	} else {
+
+		aBlockgroesse = (Integer.parseInt((String) request
+		.getAttribute(Parameter.studie.BLOCKGROESSE.name())));
+
+	}
+	if (request.getAttribute(Parameter.studie.BESCHREIBUNG.name()) == null) {
 
 		aBeschreibung = "";
 
 	} else {
 
-		aBeschreibung = request
-		.getParameter(Parameter.studie.BESCHREIBUNG.name());
+		aBeschreibung = (String) request
+		.getAttribute(Parameter.studie.BESCHREIBUNG.name());
 
 	}
 
-	if (request.getParameter(Parameter.studie.STARTDATUM.name()) == null) {
+	if (request.getAttribute(Parameter.studie.STARTDATUM.name()) == null) {
 
 		aStartdatum = "new Date(" + heute.get(GregorianCalendar.YEAR)
 		+ "," + heute.get(GregorianCalendar.MONTH) + ","
@@ -86,8 +124,8 @@
 
 	} else {
 
-		aStartdatum = request.getParameter(Parameter.studie.STARTDATUM
-		.name());
+		aStartdatum = (String) request
+		.getAttribute(Parameter.studie.STARTDATUM.name());
 
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy",
@@ -107,12 +145,12 @@
 			+ heute.get(GregorianCalendar.MONTH) + ","
 			+ heute.get(GregorianCalendar.DAY_OF_MONTH) + ")";
 		} finally {
-			
+
 		}
 
 	}
 
-	if (request.getParameter(Parameter.studie.ENDDATUM.name()) == null) {
+	if (request.getAttribute(Parameter.studie.ENDDATUM.name()) == null) {
 
 		aEnddatum = "new Date(" + heute.get(GregorianCalendar.YEAR)
 		+ "," + heute.get(GregorianCalendar.MONTH) + ","
@@ -120,8 +158,8 @@
 
 	} else {
 
-		aEnddatum = request.getParameter(Parameter.studie.ENDDATUM
-		.name());
+		aEnddatum = (String) request
+		.getAttribute(Parameter.studie.ENDDATUM.name());
 
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy",
@@ -140,12 +178,12 @@
 			+ "," + heute.get(GregorianCalendar.MONTH) + ","
 			+ heute.get(GregorianCalendar.DAY_OF_MONTH) + ")";
 		} finally {
-			
+
 		}
 
 	}
 
-	if (request.getParameter(Parameter.studie.STATISTIKER_BOOL.name()) == null) {
+	if (request.getAttribute(Parameter.studie.STATISTIKER_BOOL.name()) == null) {
 
 		aStatistiker = "false";
 
@@ -155,15 +193,16 @@
 
 	}
 
-	if (request.getParameter(Parameter.studie.RANDOMISATIONSALGORITHMUS
+	if (request.getAttribute(Parameter.studie.RANDOMISATIONSALGORITHMUS
 			.name()) == null) {
 
-		aAlgorithmus = Randomisation.Algorithmen.VOLLSTAENDIGE_RANDOMISATION.toString();
+		aAlgorithmus = Randomisation.Algorithmen.VOLLSTAENDIGE_RANDOMISATION
+		.toString();
 
 	} else {
 
-		aAlgorithmus = request
-		.getParameter(Parameter.studie.RANDOMISATIONSALGORITHMUS
+		aAlgorithmus = (String) request
+		.getAttribute(Parameter.studie.RANDOMISATIONSALGORITHMUS
 				.name());
 
 	}
@@ -171,6 +210,7 @@
 	Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
 			.getAttribute("aBenutzer")).getRolle().getRollenname();
 %>
+<%@page import="de.randi2.randomisation.Randomisation.Algorithmen"%>
 <html>
 <head>
 <title>Randi2 :: <%=request
@@ -187,6 +227,7 @@ Ext.onReady(function(){
         labelAlign: 'left',
         labelWidth: 250,
 		buttonAlign: 'right',
+		fileUpload: true,
 		id:'form_studie_anlegen'
     });
 
@@ -258,38 +299,21 @@ Ext.onReady(function(){
 		fileField
 	);
 	
-    var algorithmus = new Ext.form.ComboBox({
+	var algorithmus = new Ext.form.MiscField({
         fieldLabel: 'Randomisationsalgorithmus *',
-        hiddenName:'<%=Parameter.studie.RANDOMISATIONSALGORITHMUS.name()%>',
-        store: new Ext.data.SimpleStore({
-            fields: ['algorithmus'],
-            data : [
-			<%
+        value: '<select class=\'x-combo-list x-combo-list-hd\' name=\'<%=Parameter.studie.RANDOMISATIONSALGORITHMUS.name()%>\' onChange=\'refreshRandomisation()\'><%
 				StringBuffer algorithmus = new StringBuffer();
 				for (int i = 0; i < Randomisation.Algorithmen.values().length; i++) {
 					algorithmus.append(Randomisation.Algorithmen.values()[i].toString());
-			%>
-			['<%=algorithmus%>'],
-			<%
+			%><option value="<%=algorithmus%>"<% if (algorithmus.toString().equals(aAlgorithmus)) {%> selected<% } %>><%=algorithmus%></option>,<%
 					algorithmus.delete(0, algorithmus.length());
 				}
-			%>
-            ]
-        }),
-        displayField:'algorithmus',
-        typeAhead: true,
-        mode: 'local',
-        triggerAction: 'all',
-        value:'<%=aAlgorithmus%>',
-        selectOnFocus:true,
-        editable:false,
-        width:250
-    });
+			%></select>',
+        width:190
+	});    	
     
-    
+	<% if(aAlgorithmus.equals(Randomisation.Algorithmen.BLOCKRANDOMISATION_MIT_STRATA.toString()) || aAlgorithmus.equals(Randomisation.Algorithmen.BLOCKRANDOMISATION_OHNE_STRATA.toString()) ) { %>
 
-	
-	
 	var blockgroesse = new Ext.form.NumberField({
 		msgTarget: 'side',
 		allowBlank: false,
@@ -298,6 +322,7 @@ Ext.onReady(function(){
 		readOnly: false,
 		name: '<%=Parameter.studie.BLOCKGROESSE.name() %>',
 		fieldLabel: 'Blockgr&ouml;sse *',
+		value:'<%=aBlockgroesse%>',
 		width: 100,
         minValue:0,
         maxValue:10000,
@@ -310,45 +335,52 @@ Ext.onReady(function(){
 	
 	form_studie_anlegen.fieldset({legend:'Randomisation'},algorithmus,blockgroesse);
 	
+	<% } else { %>
+	
+	form_studie_anlegen.fieldset({legend:'Randomisation'},algorithmus);	
 	
 	
+	<% } %>
+	
+	<% if(aAlgorithmus.equals(Randomisation.Algorithmen.BLOCKRANDOMISATION_MIT_STRATA.toString())) { %>
+
 	
 	form_studie_anlegen.fieldset({legend:'Stratakonfiguration <img src="images/add-page-green.gif" style="cursor:pointer" onmousedown="addStrata()">&nbsp;<% if (aStrataEntfernenMoeglich) { %><img src="images/omit-page-green.gif" style="cursor:pointer" onmousedown="delStrata()"><% } %>',labelAlign:'top'});
 	<%
 	
-		for(int i=1;i<(Integer)request.getAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString())+1;i++) {
+		for(int i=1;i<(Integer.parseInt((String)request.getAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString())))+1;i++) {
 			
 			aStrataname = "";
 			aStratabeschreibung = "";
 			aStrataauspraegungen = "";
 			
-			if (request.getParameter(Parameter.strata.NAME.name()+i)==null) {
+			if (request.getAttribute(Parameter.strata.NAME.name()+i)==null) {
 				
 				aStrataname = "";
 				
 			} else {
 				
-				aStrataname = request.getParameter(Parameter.strata.NAME.name()+i);
+				aStrataname = (String)request.getAttribute(Parameter.strata.NAME.name()+i);
 				
 			}
 			
-			if (request.getParameter(Parameter.strata.BESCHREIBUNG.name()+i)==null) {
+			if (request.getAttribute(Parameter.strata.BESCHREIBUNG.name()+i)==null) {
 				
 				aStratabeschreibung = "";
 				
 			} else {
 				
-				aStratabeschreibung = request.getParameter(Parameter.strata.BESCHREIBUNG.name()+i);
+				aStratabeschreibung = (String)request.getAttribute(Parameter.strata.BESCHREIBUNG.name()+i);
 				
 			}
 			
-			if (request.getParameter(Parameter.strata.AUSPRAEGUNGEN.name()+i)==null) {
+			if (request.getAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i)==null) {
 				
 				aStrataauspraegungen = "";
 				
 			} else {
 				
-				aStrataauspraegungen = request.getParameter(Parameter.strata.AUSPRAEGUNGEN.name()+i);
+				aStrataauspraegungen = (String)request.getAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i);
 				
 			}
 			
@@ -384,7 +416,7 @@ Ext.onReady(function(){
 		msgTarget: 'side',
 		allowBlank: false,
 		name: '<%=Parameter.strata.AUSPRAEGUNGEN.name() %><%=i%>',
-		fieldLabel: 'Auspr&auml;gungen',
+		fieldLabel: 'Auspr&auml;gungen (pro Zeile eine m&ouml;gliche Auspr&auml;gung)',
 		value: '<%=aStrataauspraegungen.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r")%>',
 		width: 250,
 		height:100,
@@ -413,31 +445,36 @@ Ext.onReady(function(){
     
     %>
     form_studie_anlegen.end();
+    <%
+    
+	} // pruefen auf strata algorithmus
+	
+	%>
     form_studie_anlegen.fieldset({legend:'Studienarme <img src="images/add-page-red.gif" style="cursor:pointer" onmousedown="addStudienarm()">&nbsp;<% if(aArmeEntfernenMoeglich) { %><img src="images/omit-page-red.gif" style="cursor:pointer" onmousedown="delStudienarm()"><% } %>',labelAlign:'top'});
 	<%
 	
-		for(int i=1;i<(Integer)request.getAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME.toString())+1;i++) {
+		for(int i=1;i<(Integer.parseInt((String)request.getAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME.toString())))+1;i++) {
 			
 			aArmbezeichnung = "";
 			aArmbeschreibung = "";
 			
-			if (request.getParameter(Parameter.studienarm.BEZEICHNUNG.name()+i)==null) {
+			if (request.getAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i)==null) {
 				
 				aArmbezeichnung = "";
 				
 			} else {
 				
-				aArmbezeichnung = request.getParameter(Parameter.studienarm.BEZEICHNUNG.name()+i);
+				aArmbezeichnung = (String)request.getAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i);
 				
 			}
 			
-			if (request.getParameter(Parameter.studienarm.BESCHREIBUNG.name()+i)==null) {
+			if (request.getAttribute(Parameter.studienarm.BESCHREIBUNG.name()+i)==null) {
 				
 				aArmbeschreibung = "";
 				
 			} else {
 				
-				aArmbeschreibung = request.getParameter(Parameter.studienarm.BESCHREIBUNG.name()+i);
+				aArmbeschreibung = (String)request.getAttribute(Parameter.studienarm.BESCHREIBUNG.name()+i);
 				
 			}
 			
@@ -501,20 +538,16 @@ Ext.onReady(function(){
 	
 	form_studie_anlegen.addButton('Best&auml;tigen', function(){
 		if (this.isValid()) {
-		
+
             var frm = document.getElementById(this.id);
             frm.method = 'POST';
-            frm.action = 'DispatcherServlet';
+            frm.action = 'fileUpload';
+            frm.encoding = 'multipart/form-data';
 			frm.submit();
 			
 		}else{
 			Ext.MessageBox.alert('Errors', 'Die Eingaben waren fehlerhaft!');
 		}
-	}, form_studie_anlegen);
-	
-	<!--  Die ANFRAGE_ID fuer ABBRECHEN wird hier gesetzt. dhaehn	-->
-	form_studie_anlegen.addButton('Abbrechen', function(){
-		top.location.href='DispatcherServlet?<%=Parameter.anfrage_id %>=<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
 	}, form_studie_anlegen);
 	
 			
@@ -526,8 +559,7 @@ Ext.onReady(function(){
 	form_studie_anlegen.el.createChild({tag: 'input', name: '<%=DispatcherServlet.requestParameter.ANZAHL_ARME.toString() %>', type:'hidden', value: '<%=request.getAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()) %>'});	
 	form_studie_anlegen.el.createChild({tag: 'input', name: '<%=DispatcherServlet.requestParameter.ANZAHL_STRATA.toString() %>', type:'hidden', value: '<%=request.getAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()) %>'});	
 
-	<!-- folgende Zeile ermoeglicht File-Uploads via POST -->
-	form_studie_anlegen.el.enctype = 'multipart/form-data';
+
 
 });
 </script>
@@ -565,10 +597,19 @@ function delStrata() {
 
 }
 
+function refreshRandomisation() {
+
+	var frm = document.getElementById('form_studie_anlegen');
+	frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANLEGEN_REFRESH.name() %>';
+	frm.submit();
+
+}
+
 -->
 
 
 </script>
+
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
@@ -576,7 +617,6 @@ function delStrata() {
 <div id="content"><%@include file="include/inc_nachricht.jsp"%>
 <h1>Studie anlegen</h1>
 <div id="studie_anlegen"></div>
-
 <%@include file="include/inc_footer.jsp"%></div>
 </body>
 </html>

@@ -100,12 +100,11 @@ public class StudieBean extends Filter {
 	 * Status der Studie.
 	 */
 	private Status aStatus = null;
-
+	
 	/**
-	 * Falls die Studie mit Blockrandomisation konfiguriert ist, wird hier die
-	 * Blockgroesse gespeichert
+	 * Falls die Studie mit Blockrandomisation konfiguriert ist, wird hier die Blockgroesse gespeichert
 	 */
-	private int aBlockgroesse = NullKonstanten.NULL_INT;
+	private int aBlockgroesse= NullKonstanten.NULL_INT;
 
 	/**
 	 * Konstruktor mit allen Attributen der Klasse, die aus der Datenbank
@@ -765,7 +764,7 @@ public class StudieBean extends Filter {
 	 *             wenn die uebergebene Blockgroesse kleiner als 2 ist.
 	 */
 	public void setBlockgroesse(int blockgroesse) throws StudieException {
-		if (blockgroesse < 2) {
+		if(blockgroesse<2 && this.getAlgorithmus()!=Randomisation.Algorithmen.VOLLSTAENDIGE_RANDOMISATION) {
 			throw new StudieException(StudieException.BLOCKGROESSE_ZU_KLEIN);
 		}
 		this.aBlockgroesse = blockgroesse;

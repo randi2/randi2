@@ -1,14 +1,24 @@
 package de.randi2.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
+import com.missiondata.fileupload.MonitoredDiskFileItemFactory;
+
+import de.randi2.controller.FileUploadListener.FileUploadStats;
+import de.randi2.controller.FileUploadListener.FileUploadStatus;
 import de.randi2.model.fachklassen.Recht;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.Config;
@@ -249,6 +259,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		JSP_STUDIE_ANLEGEN,
 
 		/**
+		 * Refresh des Algorithmusses
+		 */
+		JSP_STUDIE_ANLEGEN_REFRESH,
+		
+		/**
 		 * Neuen Studienarm zu Studie hinzufuegen
 		 */
 		JSP_STUDIE_ANLEGEN_ADD_STUDIENARM,
@@ -300,7 +315,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Button bei Patient hinzufuegen.
 		 */
 		JSP_PATIENT_HINZUFUEGEN_AUSFUEHREN,
-
+		
 		/**
 		 * Ein Benutzer soll gesperrt bzw. entsperrt werden.
 		 */
@@ -328,10 +343,9 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Die von dem Benutzer ausgewählte, aktuelle Studie
 		 */
 		AKTUELLE_STUDIE("aStudie"),
-
+		
 		/**
-		 * Wird an die Session gebunden, wenn der Admin einen Benutzer sperren,
-		 * entsperren will.
+		 * Wird an die Session gebunden, wenn der Admin einen Benutzer sperren, entsperren will.
 		 */
 		BENUTZER_SPERREN_ENTSPERREN_ADMIN("bSperren");
 
@@ -801,101 +815,259 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN.name())) {
 
+
 				// neue Studie anlegen
 				request.setAttribute(Parameter.anfrage_id.toString(),
 						StudieServlet.anfrage_id.AKTION_STUDIE_ANLEGEN.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
 
+			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_REFRESH.name())) {
+
+				request.setAttribute(Parameter.studie.NAME.name(), request.getParameter(Parameter.studie.NAME.name()));
+				request.setAttribute(Parameter.studie.BESCHREIBUNG.name(), request.getParameter(Parameter.studie.BESCHREIBUNG.name()));
+				request.setAttribute(Parameter.studie.STARTDATUM.name(), request.getParameter(Parameter.studie.STARTDATUM.name()));
+				request.setAttribute(Parameter.studie.ENDDATUM.name(), request.getParameter(Parameter.studie.ENDDATUM.name()));
+				request.setAttribute(Parameter.studie.STUDIENPROTOKOLL.name(), request.getParameter(Parameter.studie.STUDIENPROTOKOLL.name()));
+				request.setAttribute(Parameter.studie.RANDOMISATIONSALGORITHMUS.name(), request.getParameter(Parameter.studie.RANDOMISATIONSALGORITHMUS.name()));
+				request.setAttribute(Parameter.studie.BLOCKGROESSE.name(), request.getParameter(Parameter.studie.BLOCKGROESSE.name()));
+				request.setAttribute(Parameter.studie.STATISTIKER_BOOL.name(), request.getParameter(Parameter.studie.STATISTIKER_BOOL.name()));
+				
+				for(int i=1;i<Integer.parseInt(
+						(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()))+1;i++){
+
+request.setAttribute(Parameter.strata.BESCHREIBUNG.name()+i, request.getParameter(Parameter.strata.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.strata.NAME.name()+i, request.getParameter(Parameter.strata.NAME.name()+i));			
+request.setAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i, request.getParameter(Parameter.strata.AUSPRAEGUNGEN.name()+i));			
+}
+
+for(int i=1;i<Integer.parseInt(
+(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()))+1;i++){
+
+request.setAttribute(Parameter.studienarm.BESCHREIBUNG.name()+i, request.getParameter(Parameter.studienarm.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParameter(Parameter.studienarm.BEZEICHNUNG.name()+i));			
+
+}	
+				
+				request
+				.setAttribute(
+						DispatcherServlet.requestParameter.ANZAHL_ARME
+								.toString(),
+										(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()));
+						
+				request
+				.setAttribute(
+						DispatcherServlet.requestParameter.ANZAHL_STRATA
+								.toString(),
+										(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()));
+				
+				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
+						request, response);
+
 			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_ADD_STRATA
 					.name())) {
 
-				// neue Strata zu Studie
+				request.setAttribute(Parameter.studie.NAME.name(), request.getParameter(Parameter.studie.NAME.name()));
+				request.setAttribute(Parameter.studie.BESCHREIBUNG.name(), request.getParameter(Parameter.studie.BESCHREIBUNG.name()));
+				request.setAttribute(Parameter.studie.STARTDATUM.name(), request.getParameter(Parameter.studie.STARTDATUM.name()));
+				request.setAttribute(Parameter.studie.ENDDATUM.name(), request.getParameter(Parameter.studie.ENDDATUM.name()));
+				request.setAttribute(Parameter.studie.STUDIENPROTOKOLL.name(), request.getParameter(Parameter.studie.STUDIENPROTOKOLL.name()));
+				request.setAttribute(Parameter.studie.RANDOMISATIONSALGORITHMUS.name(), request.getParameter(Parameter.studie.RANDOMISATIONSALGORITHMUS.name()));
+				request.setAttribute(Parameter.studie.BLOCKGROESSE.name(), request.getParameter(Parameter.studie.BLOCKGROESSE.name()));
+				request.setAttribute(Parameter.studie.STATISTIKER_BOOL.name(), request.getParameter(Parameter.studie.STATISTIKER_BOOL.name()));
+				
+				for(int i=1;i<Integer.parseInt(
+						(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()))+1;i++){
+
+request.setAttribute(Parameter.strata.BESCHREIBUNG.name()+i, request.getParameter(Parameter.strata.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.strata.NAME.name()+i, request.getParameter(Parameter.strata.NAME.name()+i));			
+request.setAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i, request.getParameter(Parameter.strata.AUSPRAEGUNGEN.name()+i));			
+}
+
+for(int i=1;i<Integer.parseInt(
+(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()))+1;i++){
+
+request.setAttribute(Parameter.studienarm.BESCHREIBUNG.name()+i, request.getParameter(Parameter.studienarm.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParameter(Parameter.studienarm.BEZEICHNUNG.name()+i));			
+
+}	
+				
 				request
-						.setAttribute(
-								DispatcherServlet.requestParameter.ANZAHL_ARME
-										.toString(),
-								(Integer
-										.parseInt(request
-												.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME
-														.toString()))));
+				.setAttribute(
+						DispatcherServlet.requestParameter.ANZAHL_ARME
+								.toString(),
+										(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()));
+						
+				request
+				.setAttribute(
+						DispatcherServlet.requestParameter.ANZAHL_STRATA
+								.toString(),
+										(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()));
+				
+				
+				// neue Strata zu Studie
 				request
 						.setAttribute(
 								DispatcherServlet.requestParameter.ANZAHL_STRATA
 										.toString(),
-								(Integer
-										.parseInt(request
-												.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA
-														.toString()))) + 1);
+										Integer.toString(Integer.parseInt(
+												(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString())) + 1));
 				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
 						request, response);
 
 			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_ADD_STUDIENARM
 					.name())) {
 
+
+				request.setAttribute(Parameter.studie.NAME.name(), request.getParameter(Parameter.studie.NAME.name()));
+				request.setAttribute(Parameter.studie.BESCHREIBUNG.name(), request.getParameter(Parameter.studie.BESCHREIBUNG.name()));
+				request.setAttribute(Parameter.studie.STARTDATUM.name(), request.getParameter(Parameter.studie.STARTDATUM.name()));
+				request.setAttribute(Parameter.studie.ENDDATUM.name(), request.getParameter(Parameter.studie.ENDDATUM.name()));
+				request.setAttribute(Parameter.studie.STUDIENPROTOKOLL.name(), request.getParameter(Parameter.studie.STUDIENPROTOKOLL.name()));
+				request.setAttribute(Parameter.studie.RANDOMISATIONSALGORITHMUS.name(), request.getParameter(Parameter.studie.RANDOMISATIONSALGORITHMUS.name()));
+				request.setAttribute(Parameter.studie.BLOCKGROESSE.name(), request.getParameter(Parameter.studie.BLOCKGROESSE.name()));
+				request.setAttribute(Parameter.studie.STATISTIKER_BOOL.name(), request.getParameter(Parameter.studie.STATISTIKER_BOOL.name()));
+				
+				for(int i=1;i<Integer.parseInt(
+						(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()))+1;i++){
+
+request.setAttribute(Parameter.strata.BESCHREIBUNG.name()+i, request.getParameter(Parameter.strata.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.strata.NAME.name()+i, request.getParameter(Parameter.strata.NAME.name()+i));			
+request.setAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i, request.getParameter(Parameter.strata.AUSPRAEGUNGEN.name()+i));			
+}
+
+for(int i=1;i<Integer.parseInt(
+(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()))+1;i++){
+
+request.setAttribute(Parameter.studienarm.BESCHREIBUNG.name()+i, request.getParameter(Parameter.studienarm.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParameter(Parameter.studienarm.BEZEICHNUNG.name()+i));			
+
+}	
+				
+				request
+				.setAttribute(
+						DispatcherServlet.requestParameter.ANZAHL_ARME
+								.toString(),
+										(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()));
+						
+				request
+				.setAttribute(
+						DispatcherServlet.requestParameter.ANZAHL_STRATA
+								.toString(),
+										(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()));				
+				
 				// neuer Studienarm zu Studie
 				request
-						.setAttribute(
-								DispatcherServlet.requestParameter.ANZAHL_STRATA
-										.toString(),
-								(Integer
-										.parseInt(request
-												.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA
-														.toString()))));
-				request
-						.setAttribute(
-								DispatcherServlet.requestParameter.ANZAHL_ARME
-										.toString(),
-								(Integer
-										.parseInt(request
-												.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME
-														.toString()))) + 1);
+				.setAttribute(
+						DispatcherServlet.requestParameter.ANZAHL_ARME
+								.toString(),
+						Integer.toString((Integer.parseInt((String)request
+										.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME
+												.toString()))) + 1));
 				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
 						request, response);
 
 			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_DEL_STRATA
 					.name())) {
 
+
+				request.setAttribute(Parameter.studie.NAME.name(), request.getParameter(Parameter.studie.NAME.name()));
+				request.setAttribute(Parameter.studie.BESCHREIBUNG.name(), request.getParameter(Parameter.studie.BESCHREIBUNG.name()));
+				request.setAttribute(Parameter.studie.STARTDATUM.name(), request.getParameter(Parameter.studie.STARTDATUM.name()));
+				request.setAttribute(Parameter.studie.ENDDATUM.name(), request.getParameter(Parameter.studie.ENDDATUM.name()));
+				request.setAttribute(Parameter.studie.STUDIENPROTOKOLL.name(), request.getParameter(Parameter.studie.STUDIENPROTOKOLL.name()));
+				request.setAttribute(Parameter.studie.RANDOMISATIONSALGORITHMUS.name(), request.getParameter(Parameter.studie.RANDOMISATIONSALGORITHMUS.name()));
+				request.setAttribute(Parameter.studie.BLOCKGROESSE.name(), request.getParameter(Parameter.studie.BLOCKGROESSE.name()));
+				request.setAttribute(Parameter.studie.STATISTIKER_BOOL.name(), request.getParameter(Parameter.studie.STATISTIKER_BOOL.name()));
+				
+				for(int i=1;i<Integer.parseInt(
+						(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()))+1;i++){
+
+request.setAttribute(Parameter.strata.BESCHREIBUNG.name()+i, request.getParameter(Parameter.strata.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.strata.NAME.name()+i, request.getParameter(Parameter.strata.NAME.name()+i));			
+request.setAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i, request.getParameter(Parameter.strata.AUSPRAEGUNGEN.name()+i));			
+}
+
+for(int i=1;i<Integer.parseInt(
+(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()))+1;i++){
+
+request.setAttribute(Parameter.studienarm.BESCHREIBUNG.name()+i, request.getParameter(Parameter.studienarm.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParameter(Parameter.studienarm.BEZEICHNUNG.name()+i));			
+
+}	
+				
+				request
+				.setAttribute(
+						DispatcherServlet.requestParameter.ANZAHL_ARME
+								.toString(),
+										(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()));
+						
+				request
+				.setAttribute(
+						DispatcherServlet.requestParameter.ANZAHL_STRATA
+								.toString(),
+										(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()));				
+				
 				// neue Strata zu Studie
 				request
-						.setAttribute(
-								DispatcherServlet.requestParameter.ANZAHL_ARME
-										.toString(),
-								(Integer
-										.parseInt(request
-												.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME
-														.toString()))));
-				request
-						.setAttribute(
-								DispatcherServlet.requestParameter.ANZAHL_STRATA
-										.toString(),
-								(Integer
-										.parseInt(request
-												.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA
-														.toString()))) - 1);
+				.setAttribute(
+						DispatcherServlet.requestParameter.ANZAHL_STRATA
+								.toString(),
+								Integer.toString((Integer.parseInt((String)request
+										.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA
+												.toString()))) - 1));
 				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
 						request, response);
 
 			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN_DEL_STUDIENARM
 					.name())) {
 
+
+				request.setAttribute(Parameter.studie.NAME.name(), request.getParameter(Parameter.studie.NAME.name()));
+				request.setAttribute(Parameter.studie.BESCHREIBUNG.name(), request.getParameter(Parameter.studie.BESCHREIBUNG.name()));
+				request.setAttribute(Parameter.studie.STARTDATUM.name(), request.getParameter(Parameter.studie.STARTDATUM.name()));
+				request.setAttribute(Parameter.studie.ENDDATUM.name(), request.getParameter(Parameter.studie.ENDDATUM.name()));
+				request.setAttribute(Parameter.studie.STUDIENPROTOKOLL.name(), request.getParameter(Parameter.studie.STUDIENPROTOKOLL.name()));
+				request.setAttribute(Parameter.studie.RANDOMISATIONSALGORITHMUS.name(), request.getParameter(Parameter.studie.RANDOMISATIONSALGORITHMUS.name()));
+				request.setAttribute(Parameter.studie.BLOCKGROESSE.name(), request.getParameter(Parameter.studie.BLOCKGROESSE.name()));
+				request.setAttribute(Parameter.studie.STATISTIKER_BOOL.name(), request.getParameter(Parameter.studie.STATISTIKER_BOOL.name()));
+				
+				for(int i=1;i<Integer.parseInt(
+												(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()))+1;i++){
+					
+					request.setAttribute(Parameter.strata.BESCHREIBUNG.name()+i, request.getParameter(Parameter.strata.BESCHREIBUNG.name()+i));			
+					request.setAttribute(Parameter.strata.NAME.name()+i, request.getParameter(Parameter.strata.NAME.name()+i));			
+					request.setAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i, request.getParameter(Parameter.strata.AUSPRAEGUNGEN.name()+i));			
+				}
+				
+				for(int i=1;i<Integer.parseInt(
+						(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()))+1;i++){
+
+					request.setAttribute(Parameter.studienarm.BESCHREIBUNG.name()+i, request.getParameter(Parameter.studienarm.BESCHREIBUNG.name()+i));			
+					request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParameter(Parameter.studienarm.BEZEICHNUNG.name()+i));			
+
+				}		
+				
+				request
+				.setAttribute(
+						DispatcherServlet.requestParameter.ANZAHL_ARME
+								.toString(),
+										(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()));
+						
+				request
+				.setAttribute(
+						DispatcherServlet.requestParameter.ANZAHL_STRATA
+								.toString(),
+										(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()));				
+				
 				// neuer Studienarm zu Studie
 				request
-						.setAttribute(
-								DispatcherServlet.requestParameter.ANZAHL_STRATA
-										.toString(),
-								(Integer
-										.parseInt(request
-												.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA
-														.toString()))));
-				request
-						.setAttribute(
-								DispatcherServlet.requestParameter.ANZAHL_ARME
-										.toString(),
-								(Integer
-										.parseInt(request
-												.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME
-														.toString()))) - 1);
+				.setAttribute(
+						DispatcherServlet.requestParameter.ANZAHL_ARME
+								.toString(),
+								Integer.toString((Integer.parseInt((String)request
+										.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME
+												.toString()))) - 1));
 				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
 						request, response);
 

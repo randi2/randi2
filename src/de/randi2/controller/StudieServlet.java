@@ -38,6 +38,8 @@ import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StrataAuspraegungBean;
 import de.randi2.model.fachklassen.beans.StrataBean;
 
+import de.randi2.model.fachklassen.beans.StrataBean;
+
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -689,12 +691,14 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 		try {
 		
-		String aName = request.getParameter(Parameter.studie.NAME.name());
-		String aBeschreibung = request
-				.getParameter(Parameter.studie.BESCHREIBUNG.name());
-		String aStartdatum = request.getParameter(Parameter.studie.STARTDATUM
+		String aName = (String)request.getAttribute(Parameter.studie.NAME.name());
+		String aBeschreibung = (String)request
+				.getAttribute(Parameter.studie.BESCHREIBUNG.name());
+		
+		
+		String aStartdatum = (String)request.getAttribute(Parameter.studie.STARTDATUM
 				.name());
-		String aEnddatum = request.getParameter(Parameter.studie.ENDDATUM
+		String aEnddatum = (String)request.getAttribute(Parameter.studie.ENDDATUM
 				.name());
 
 
@@ -716,29 +720,25 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 		
 		
-		String aProtokoll = request
-				.getParameter(Parameter.studie.STUDIENPROTOKOLL.name());
+		String aProtokoll = (String)request
+				.getAttribute(Parameter.studie.STUDIENPROTOKOLL.name());
 		BenutzerkontoBean aStudienleiter = ((BenutzerkontoBean) request
 				.getSession().getAttribute(
 						DispatcherServlet.sessionParameter.A_Benutzer
 								.toString()));
-		String aStatistikerAnlegen = request
-				.getParameter(Parameter.studie.STATISTIKER_BOOL.name());
-		int aAnzahl_Arme = (Integer.parseInt(request
-				.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME
-						.toString())));
-		int aAnzahl_Strata = (Integer.parseInt(request
-				.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA
-						.toString())));
-		request.setAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA
-						.toString(), aAnzahl_Strata);
-		request.setAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME
-				.toString(), aAnzahl_Arme);
-		Randomisation.Algorithmen aAlgorithmus = Randomisation.Algorithmen.parseAlgorithmen(request
-				.getParameter(Parameter.studie.RANDOMISATIONSALGORITHMUS.name()));
+		String aStatistikerAnlegen = (String)request
+				.getAttribute(Parameter.studie.STATISTIKER_BOOL.name());
+		int aAnzahl_Arme = ((Integer.parseInt(request
+				.getAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME
+						.toString()).toString())));
+		int aAnzahl_Strata = ((Integer.parseInt(request
+				.getAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA
+						.toString()).toString())));
+		Randomisation.Algorithmen aAlgorithmus = Randomisation.Algorithmen.parseAlgorithmen((String)request
+				.getAttribute(Parameter.studie.RANDOMISATIONSALGORITHMUS.name()));
 		
-		String aBlockgroesse_s = request
-		.getParameter(Parameter.studie.BLOCKGROESSE.name());
+		String aBlockgroesse_s = (String)request
+		.getAttribute(Parameter.studie.BLOCKGROESSE.name());
 		int aBlockgroesse = NullKonstanten.NULL_INT;
 		
 		if (aBlockgroesse_s != null) {
@@ -761,8 +761,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			// Alle Arme holen
 			StudienarmBean aArm = null;
 
-			String aArmBezeichnung = request.getParameter(Parameter.studienarm.BEZEICHNUNG.toString()+i);
-			String aArmBeschreibung = request.getParameter(Parameter.studienarm.BESCHREIBUNG.toString()+i);
+			String aArmBezeichnung = (String)request.getAttribute(Parameter.studienarm.BEZEICHNUNG.toString()+i);
+			String aArmBeschreibung = (String)request.getAttribute(Parameter.studienarm.BESCHREIBUNG.toString()+i);
 			
 			aArm = new StudienarmBean(NullKonstanten.DUMMY_ID,aStudieId,Studie.Status.AKTIV,aArmBezeichnung,aArmBeschreibung);
 			aArm.setBenutzerkontoLogging(aBenutzer);
@@ -770,34 +770,38 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 		}
 		
-		for (int i=1;i<aAnzahl_Strata+1;i++) {
-			
-			// Alle Strata holen
-			StrataBean aStrata = null;
-
-			String aStrataName = request.getParameter(Parameter.strata.NAME.toString()+i);
-			String aStrataBeschreibung = request.getParameter(Parameter.strata.BESCHREIBUNG.toString()+i);
-			String aAuspraegungen = request.getParameter(Parameter.strata.AUSPRAEGUNGEN.toString());
-			
-			
-			
-			aStrata = new StrataBean(NullKonstanten.DUMMY_ID,aStudieId,aStrataName,aStrataBeschreibung);
-			aStrata.setBenutzerkontoLogging(aBenutzer);
-			aStrata = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aStrata);
-			
-			long aStrataId = aStrata.getId();
-			
-			String[] aAuspraegungenArray = aAuspraegungen.split("\n",-2);
-			
-			for (int j=0;j<aAuspraegungenArray.length;j++) {
+		if(aAlgorithmus==Randomisation.Algorithmen.BLOCKRANDOMISATION_MIT_STRATA) { 
+		
+			for (int i=1;i<aAnzahl_Strata+1;i++) {
 				
-				// Alle Auspraegungen holen
-				StrataAuspraegungBean aAuspraegung = new StrataAuspraegungBean(NullKonstanten.DUMMY_ID,aStrataId,aAuspraegungenArray[j]);
-				aAuspraegung.setBenutzerkontoLogging(aBenutzer);
-				aAuspraegung = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aAuspraegung);
+				// Alle Strata holen
+				StrataBean aStrata = null;
+	
+				String aStrataName = (String)request.getAttribute(Parameter.strata.NAME.toString()+i);
+				String aStrataBeschreibung = (String)request.getAttribute(Parameter.strata.BESCHREIBUNG.toString()+i);
+				String aAuspraegungen = (String)request.getAttribute(Parameter.strata.AUSPRAEGUNGEN.toString()+i);
+				
+				
+				
+				aStrata = new StrataBean(NullKonstanten.DUMMY_ID,aStudieId,aStrataName,aStrataBeschreibung);
+				aStrata.setBenutzerkontoLogging(aBenutzer);
+				aStrata = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aStrata);
+				
+				long aStrataId = aStrata.getId();
+				
+				String[] aAuspraegungenArray = aAuspraegungen.split("\n",-2);
+				
+				for (int j=0;j<aAuspraegungenArray.length;j++) {
+					
+					// Alle Auspraegungen holen
+					StrataAuspraegungBean aAuspraegung = new StrataAuspraegungBean(NullKonstanten.DUMMY_ID,aStrataId,aAuspraegungenArray[j]);
+					aAuspraegung.setBenutzerkontoLogging(aBenutzer);
+					aAuspraegung = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aAuspraegung);
+					
+				}
 				
 			}
-			
+		
 		}
 		
 		// TODO Statistiker anlegen!

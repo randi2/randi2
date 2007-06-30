@@ -43,7 +43,22 @@
 			de.randi2.controller.DispatcherServlet
 		</servlet-class>
 	</servlet>
-
+	<servlet>
+		<description></description>
+		<display-name>AjaxUploadStatusServlet</display-name>
+		<servlet-name>uploadStatus</servlet-name>
+		<servlet-class>
+			de.randi2.controller.AjaxUploadStatusServlet
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<description></description>
+		<display-name>FileUploadServlet</display-name>
+		<servlet-name>fileUpload</servlet-name>
+		<servlet-class>
+			de.randi2.controller.FileUploadServlet
+		</servlet-class>
+	</servlet>
 	<servlet>
 		<description></description>
 		<display-name>ZentrumServlet</display-name>
@@ -90,6 +105,14 @@
 	<servlet-mapping>
 		<servlet-name>DispatcherServlet</servlet-name>
 		<url-pattern>/DispatcherServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	<servlet-name>fileUpload</servlet-name>
+	<url-pattern>/fileUpload</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	<servlet-name>uploadStatus</servlet-name>
+	<url-pattern>/UploadStatus</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>ZentrumServlet</servlet-name>

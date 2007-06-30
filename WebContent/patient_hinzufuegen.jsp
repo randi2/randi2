@@ -354,7 +354,7 @@ Ext.onReady(function(){
 			msgTarget: 'side',
 			name: '<%=Parameter.strata.BESCHREIBUNG.name() %><%=aStrataId%>',
 			fieldLabel: 'Beschreibung:',
-			value: '<%=aStratabeschreibung%>',
+			value: '<%=aStratabeschreibung.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r")%>',
 			width: 250,
 			editable:false
 		});    
