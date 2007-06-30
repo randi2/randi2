@@ -1155,8 +1155,8 @@ request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParam
 						request, response);
 			} else if (id.equals(anfrage_id.JSP_INC_MENUE_STUDIEN_ANZEIGEN
 					.name())) {
-				// TODO noch fertig machen
-				request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN).forward(
+				request.setAttribute(Parameter.anfrage_id, StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN.toString());
+				request.getRequestDispatcher("StudieServlet").forward(
 						request, response);
 
 			} else if (id.equals(anfrage_id.JSP_INC_MENUE_DATEN_AENDERN.name())) {
