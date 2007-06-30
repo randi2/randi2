@@ -377,9 +377,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 								.setAttribute(
 										DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
 												.toString(), aStudie);
-						request.setAttribute(
-								DispatcherServlet.requestParameter.TITEL
-										.toString(), "Studie ansehen");
 						request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN)
 								.forward(request, response);
 						break;
