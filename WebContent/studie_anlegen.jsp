@@ -106,6 +106,8 @@
 			+ heute.get(GregorianCalendar.YEAR) + ","
 			+ heute.get(GregorianCalendar.MONTH) + ","
 			+ heute.get(GregorianCalendar.DAY_OF_MONTH) + ")";
+		} finally {
+			
 		}
 
 	}
@@ -137,6 +139,8 @@
 			aEnddatum = "new Date(" + heute.get(GregorianCalendar.YEAR)
 			+ "," + heute.get(GregorianCalendar.MONTH) + ","
 			+ heute.get(GregorianCalendar.DAY_OF_MONTH) + ")";
+		} finally {
+			
 		}
 
 	}
@@ -282,6 +286,7 @@ Ext.onReady(function(){
         width:250
     });
     
+    
 
 	
 	
@@ -307,14 +312,6 @@ Ext.onReady(function(){
 	
 	
 	
-
-	form_studie_anlegen.fieldset({legend:'Randomisation'},algorithmus);
-	
-	<%
-	
-		}
-	
-	%>
 	
 	form_studie_anlegen.fieldset({legend:'Stratakonfiguration <img src="images/add-page-green.gif" style="cursor:pointer" onmousedown="addStrata()">&nbsp;<% if (aStrataEntfernenMoeglich) { %><img src="images/omit-page-green.gif" style="cursor:pointer" onmousedown="delStrata()"><% } %>',labelAlign:'top'});
 	<%
