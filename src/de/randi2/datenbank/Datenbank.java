@@ -1594,7 +1594,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						+ ", " + FelderStudienarm.STATUS + ", "
 						+ FelderStudienarm.BEZEICHNUNG + ", "
 						+ FelderStudienarm.BESCHREIBUNG + ") "
-						+ "VALUES (NULL,?,?,?,?,?,?,?,?)";
+						+ "VALUES (NULL,?,?,?,?)";
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, studienarm.getStudie().getId());
@@ -1636,6 +1636,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				} else {
 					pstmt.setNull(j++, Types.NULL);
 				}
+				pstmt.setLong(j++, studienarm.getId());
 				pstmt.executeUpdate();
 				pstmt.close();
 			} catch (SQLException e) {
