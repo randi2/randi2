@@ -740,7 +740,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		
 		long aStudieId = aStudie.getId();
 		
-		for (int i=0;i<aAnzahl_Arme;i++) {
+		for (int i=1;i<aAnzahl_Arme+1;i++) {
 			
 			// Alle Arme holen
 			StudienarmBean aArm = null;
@@ -749,11 +749,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			String aArmBeschreibung = request.getParameter(Parameter.studienarm.BESCHREIBUNG.toString()+i);
 			
 			aArm = new StudienarmBean(NullKonstanten.DUMMY_ID,aStudieId,Studie.Status.AKTIV,aArmBezeichnung,aArmBeschreibung);
+			aArm.setBenutzerkontoLogging(aBenutzer);
 			aArm = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aArm);
 
 		}
 		
-		for (int i=0;i<aAnzahl_Strata;i++) {
+		for (int i=1;i<aAnzahl_Strata+1;i++) {
 			
 			// Alle Strata holen
 			StrataBean aStrata = null;
@@ -765,6 +766,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			
 			
 			aStrata = new StrataBean(NullKonstanten.DUMMY_ID,aStudieId,aStrataName,aStrataBeschreibung);
+			aStrata.setBenutzerkontoLogging(aBenutzer);
 			aStrata = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aStrata);
 			
 			long aStrataId = aStrata.getId();
@@ -775,6 +777,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				
 				// Alle Auspraegungen holen
 				StrataAuspraegungBean aAuspraegung = new StrataAuspraegungBean(NullKonstanten.DUMMY_ID,aStrataId,aAuspraegungenArray[j]);
+				aAuspraegung.setBenutzerkontoLogging(aBenutzer);
 				aAuspraegung = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aAuspraegung);
 				
 			}

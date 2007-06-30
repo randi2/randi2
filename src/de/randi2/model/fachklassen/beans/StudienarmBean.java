@@ -88,6 +88,7 @@ public class StudienarmBean extends Filter {
 		this.setId(id);
 		this.setStudieId(studieId);
 		this.aStatus = status;
+		System.out.print(bezeichnung);
 		this.setBezeichnung(bezeichnung);
 		this.setBeschreibung(beschreibung);
 
