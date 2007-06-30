@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 
+import de.randi2.datenbank.StatistikDB;
 import de.randi2.utility.SystemException;
 
 /**
@@ -90,6 +91,16 @@ public class DatenbankExceptions extends SystemException {
 	 * nicht gesetzt wurde. Dies wird fuer das Logging benoetigt.
 	 */
 	public static final String KEIN_BK_EINGETRAGEN="Es wurde versucht eine schreibende Aktion auf der Datenbank auszufuehren ohne das das aktuelle Benutzerkonto, beim Filter, gesetzt wurden.";
+	
+	/**
+	 * Allgemeine Fehler Konstante fuer die Klasse {@link StatistikDB}
+	 */
+	public static final String STATISTIK_ERR="Fehler bei Erstellung der Statistik aufgetreten";
+	
+	/**
+	 * Fehlerkonstante wenn bei {@link StatistikDB#getVertPatMW(long)} auftrat
+	 */
+	public static final String STATISTIK_VIEW1="Statistik f&uuml;r Verteilung der m&auml;nnlichen und weiblichen Patienten in den Studienarmen konnte nicht erstellt werden.";
 
 	/**
 	 * Konstruktor.
