@@ -221,7 +221,7 @@ TYPE=InnoDB;
 CREATE VIEW verteilungPatMW AS
 select s.studienID as studienID, sa.studienarmID studienarmID, count(*) anzG,
 sum(case when geschlecht='m' then 1 else 0 end) as anzM, sum(case when geschlecht='w' then 1 else 0 end) as anzW
-from patient p, studie s, studienarm sa
+from Patient p, Studie s, Studienarm sa
 where s.studienID=sa.Studie_studienID and sa.studienarmID=p.Studienarm_studienarmID GROUP BY sa.studienarmID;
 
 SET FOREIGN_KEY_CHECKS=1;
