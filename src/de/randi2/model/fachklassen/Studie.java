@@ -6,7 +6,6 @@ import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
-import de.randi2.model.fachklassen.beans.StatistikBean;
 import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
@@ -125,21 +124,7 @@ public class Studie {
 	public StudieBean getStudieBean() {
 		return this.aStudieBean;
 	}
-
-	/**
-	 * Die Methode zeigt eine Statistik nach bestimmten Kriterien an.
-	 * 
-	 * @param kriterium
-	 *            Kriterien zum erstellen der Statistik.
-	 * @return StatistikBean das aktuelle StudieBean.
-	 */
-	public StatistikBean anzeigenStatistik(int kriterium) {
-		// TODO Wird für Release 3 ausimplementiert - vielleicht sogar heute
-		// (30. Juni lplotni)
-		return null;
-
-	}
-
+	
 	/**
 	 * Diese Methode weist ein Zentrum einer Studie hinzu.
 	 * 
