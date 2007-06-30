@@ -76,6 +76,7 @@ DROP TABLE IF EXISTS `Studie`;
 CREATE TABLE Studie (
    studienID INT UNSIGNED NOT NULL AUTO_INCREMENT,
   Benutzerkonto_benutzerkontenID INT UNSIGNED NOT NULL,
+  statistikerID INT UNSIGNED NULL,
   name VARCHAR(50) NOT NULL,
   beschreibung TEXT NULL,
   randomisationsalgorithmus VARCHAR(50) NULL,
@@ -89,7 +90,11 @@ CREATE TABLE Studie (
   FOREIGN KEY(Benutzerkonto_benutzerkontenID)
     REFERENCES Benutzerkonto(benutzerkontenID)
       ON DELETE RESTRICT
-      ON UPDATE CASCADE
+      ON UPDATE CASCADE,
+  FOREIGN KEY(statistikerID)
+      REFERENCES Benutzerkonto(benutzerkontenID)
+          ON DELETE SET NULL
+          ON UPDATE CASCADE
 )
 TYPE=InnoDB;
 
