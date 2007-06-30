@@ -38,9 +38,8 @@ Ext.onReady(function(){
 
 	Ext.QuickTips.init();
 	Ext.form.Field.prototype.msgTarget = 'side';
-
-	<!-- Die Buttons für den SL -->
 	
+	<%if(aRolle == Rolle.Rollen.STUDIENLEITER){%>
 	var form_aendern = new Ext.form.Form({
 		id:'aendern_button',
         labelAlign: 'left',
@@ -55,21 +54,7 @@ Ext.onReady(function(){
 		buttonAlign: 'center'
     });
     
-    var form_statistik = new Ext.form.Form({
-    	id:'statistik_button',
-        labelAlign: 'left',
-        labelWidth: 0,
-		buttonAlign: 'center'
-    });
-    
-    var form_random = new Ext.form.Form({
-    	id:'randomErg_button',
-        labelAlign: 'left',
-        labelWidth: 0,
-		buttonAlign: 'center'
-    });
-    
-	form_aendern.addButton('&Auml;ndern', function(){
+    	form_aendern.addButton('&Auml;ndern', function(){
 		
             var frm = document.getElementById(this.id);
             frm.method = 'POST';
@@ -144,7 +129,23 @@ Ext.onReady(function(){
 	<%
 	}
 	%>
-	form_statistik.addButton('Statistik', function(){
+    <%}%>
+    <%if(aRolle == Rolle.Rollen.STUDIENLEITER||aRolle == Rolle.Rollen.ADMIN||aRolle == Rolle.Rollen.STATISTIKER){%>
+    var form_statistik = new Ext.form.Form({
+    	id:'statistik_button',
+        labelAlign: 'left',
+        labelWidth: 0,
+		buttonAlign: 'center'
+    });
+    
+    var form_random = new Ext.form.Form({
+    	id:'randomErg_button',
+        labelAlign: 'left',
+        labelWidth: 0,
+		buttonAlign: 'center'
+    });
+    
+    	form_statistik.addButton('Statistik', function(){
 		
             var frm = document.getElementById(this.id);
             frm.method = 'POST';
@@ -173,7 +174,9 @@ Ext.onReady(function(){
 	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
 	<!-- Die anfrage_id muss spaeter angepasst werden - sobald man sich die Randomisationsergebniss anzeigen kann! Erstmal wird man automatisch ausgeloggt! lplotni-->
 	form_random.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.AKTION_LOGOUT %>'});	
-	
+    
+    <%}%>
+    
 });
 </script>
 </head>
@@ -288,7 +291,7 @@ Ext.onReady(function(){
 							type="hidden" name="<%=Parameter.studienarm.ID.toString() %>"
 							value=""></form>
 						<%=aStudienarme.get(aStudienarme.size() - counter)
-									.getBezeichnung()%> <img src="images/anzeigen.gif"
+									.getBezeichnung()+" "+"("+aStudienarme.get(aStudienarme.size() - counter).getStatus().toString()+")"%> <img src="images/anzeigen.gif"
 							onClick="document.forms['studienarm'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STUDIENARM_ANZEIGEN.toString() %>';document.forms['studienarm'].<%=Parameter.studienarm.ID.toString()%>.value = '<%=aStudienarme.get(aStudienarme.size() - counter)
 							.getId() %>';document.forms['studienarm'].submit();"></td>
 						<%
@@ -296,7 +299,7 @@ Ext.onReady(function(){
 						%>
 						
 						<td class="tblrow1"><%=aStudienarme.get(aStudienarme.size() - counter)
-									.getBezeichnung()%></td>
+									.getBezeichnung()+" "+"("+aStudienarme.get(aStudienarme.size() - counter).getStatus().toString()+")"%></td>
 						<%
 						}
 						%>

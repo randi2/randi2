@@ -5,8 +5,11 @@
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
 <%
-Rolle.Rollen aRolleMenue=((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer")).getRolle().getRollenname();
-Studie.Status aStudieStatusMenue = (Studie.Status) ((StudieBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString())).getStatus();
+Rolle.Rollen aRolleMenue=((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString())).getRolle().getRollenname();
+Studie.Status aStudieStatusMenue = null;
+if(aRolleMenue==Rolle.getStudienarzt().getRollenname()){
+	aStudieStatusMenue = (Studie.Status) ((StudieBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString())).getStatus();	
+}
 %>
 <%@page import="de.randi2.controller.DispatcherServlet"%>
 <%@page import="de.randi2.utility.Parameter"%>
