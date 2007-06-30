@@ -184,6 +184,9 @@ public class BlockRandomisationTest {
 		}
 
 		for (int i = 0; i < grades.length; i++) {
+			System.out.println(i + ": " + grades[i]);
+		}
+		for (int i = 0; i < grades.length; i++) {
 			if (grades[i] < quantil0_05) {
 				fail("Unterschreitung des 0.05 Quantils durch Komb. " + i
 						+ "= " + grades[i]);
@@ -193,29 +196,29 @@ public class BlockRandomisationTest {
 				fail("Ueberschreiten des 0.95 Quantils durch Komb. " + i + "= "
 						+ grades[i]);
 			}
-			System.out.println(i + ": " + grades[i]);
+
 		}
 
 	}
-	
+
 	@Test
-	public void testGrade(){
-		int block0[] = {0,0,1,1};
+	public void testGrade() {
+		int block0[] = { 0, 0, 1, 1 };
 		assertEquals(0, grade(block0, 2));
-		int block1[] = {0,1,0,1};
+		int block1[] = { 0, 1, 0, 1 };
 		assertEquals(1, grade(block1, 2));
-		int block2[] = {0,1,1,0};
+		int block2[] = { 0, 1, 1, 0 };
 		assertEquals(2, grade(block2, 2));
-		int block3[] = {1,0,0,1};
+		int block3[] = { 1, 0, 0, 1 };
 		assertEquals(3, grade(block3, 2));
-		int block4[] = {1,0,1,0};
+		int block4[] = { 1, 0, 1, 0 };
 		assertEquals(4, grade(block4, 2));
-		int block5[] = {1,1,0,0};
+		int block5[] = { 1, 1, 0, 0 };
 		assertEquals(5, grade(block5, 2));
 	}
 
 	private int grade(int block[], int anzArme) {
-		
+
 		if (block[0] == 0) {
 			if (block[1] == 0) {
 				if (block[2] == 1) {
@@ -240,9 +243,8 @@ public class BlockRandomisationTest {
 					if (block[3] == 1) {
 						return 3;
 					}
-				}
-				else{
-					if(block[3] == 0){
+				} else {
+					if (block[3] == 0) {
 						return 4;
 					}
 				}

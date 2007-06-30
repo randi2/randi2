@@ -13,6 +13,7 @@ import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.fachklassen.Strata;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.utility.NullKonstanten;
+import de.randi2.utility.Tabelle;
 
 /**
  * Die Klasse Block bietet einen Persitenzmechanismus fuer die Block-basierten
@@ -301,6 +302,11 @@ public final class RandomisationDB {
 		}
 
 		return patInArmen;
+	}
+	
+	
+	public static Tabelle getStatistikTabelle(StudieBean s){
+		return null;
 	}
 
 }
