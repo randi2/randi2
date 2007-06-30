@@ -59,7 +59,7 @@ public class Hilfe {
 					JspTitel.ADMIN_ANLEGEN,
 					"Hier k&ouml;nnen Sie einen neuen Administrator anlegen. <br> Alle Felder, die mit * makiert sind, sind Pflichtfelder, d.h. diese m&uuml;ssen ausgef&uuml;lt werden!" },
 			{
-					JspTitel.,
+					JspTitel.BENUTZER_LISTE_ADMIN,
 					"Hier werden alle im System eingetragenen Benutzer angezeigt. <br> <br> Mit der Filterfunktion <img src=\"images\\find.png\" k&ouml;nnen Sie je nach Vorname, Nachname, Loginname, E-Mail oder Institut einzeln oder nach Kombinationen daraus filtern. <br><br> Mit der Aktion \"anzeigen\" k&ouml;nnen Sie sich die Benutzerdetails der jeweiligen Benutzers anzeigen lassen. <br> Mit der Aktion \"sperren\" bzw. \"entsperren\" k&ouml;nnen Sie den jeweiligen Benutzer im System sperren bzw. entsperren.  " },
 					
 					{ 
