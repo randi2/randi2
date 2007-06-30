@@ -109,8 +109,7 @@ public class StudieBean extends Filter {
 
 	/**
 	 * Konstruktor mit allen Attributen der Klasse, die aus der Datenbank
-	 * ausgelesen werden können. Dieser Konstruktor ist auch nur für die
-	 * Datenbank gedacht. (STUDIE OHNE STATISTIKER)
+	 * ausgelesen werden können. (STUDIE OHNE STATISTIKER)
 	 * 
 	 * @param id
 	 *            Id der Studie
@@ -157,8 +156,7 @@ public class StudieBean extends Filter {
 
 	/**
 	 * Konstruktor mit allen Attributen der Klasse, die aus der Datenbank
-	 * ausgelesen werden können. Dieser Konstruktor ist auch nur für die
-	 * Datenbank gedacht. (STUDIE MIT STATISTIKER)
+	 * ausgelesen werden können. (DATENBANK KONSTRUKTOR)
 	 * 
 	 * @param id
 	 *            Id der Studie
@@ -183,7 +181,8 @@ public class StudieBean extends Filter {
 	 *            Gibt die Blockgroesse fuer Blockrandomisation an
 	 * @param statistikerId
 	 *            Id des Benutzerkontos des Statistikers, der fuer diese Studie
-	 *            eingerichtet wurde.
+	 *            eingerichtet wurde. (WENN KEIN STATISTIKER ZUR STUIDE
+	 *            VORHANDEN, BITTE DUMMY_ID UEBERGEBEN!)
 	 * @throws StudieException
 	 *             wenn ein Fehler aufgetreten ist
 	 * @throws DatenbankExceptions
@@ -783,7 +782,12 @@ public class StudieBean extends Filter {
 	public void setStatistiker(BenutzerkontoBean statistiker)
 			throws StudieException {
 		if (statistiker != null) {
-			this.setStatistikerId(statistiker.getId());
+			if (statistiker.getId() != NullKonstanten.DUMMY_ID) {
+				this.setStatistikerId(statistiker.getId());
+			} else {
+				throw new StudieException(
+						StudieException.BENUTZERKONTO_ID_FEHLERHAFT);
+			}
 			this.aStatistiker = statistiker;
 		} else {
 			throw new StudieException(StudieException.BENUTZERKONTOBEAN_NULL);
@@ -795,17 +799,10 @@ public class StudieBean extends Filter {
 	 * 
 	 * @param id -
 	 *            die eindeutige Id des Studienleiters.
-	 * @throws StudieException -
-	 *             wenn die uebergebene Id vermuten laesst, das das Objekt noch
-	 *             nicht persistent ist.
 	 */
-	public void setStatistikerId(long id) throws StudieException {
-		if (id != NullKonstanten.DUMMY_ID) {
-			this.aStatistikerId = id;
-		} else {
-			throw new StudieException(
-					StudieException.BENUTZERKONTO_ID_FEHLERHAFT);
-		}
+	public void setStatistikerId(long id) {
+		this.aStatistikerId = id;
+
 	}
 
 	/**
