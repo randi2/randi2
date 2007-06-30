@@ -1471,26 +1471,22 @@ public class Datenbank implements DatenbankSchnittstelle {
 				id = rs.getLong(1);
 				// Speichern der Abhaengigen Zentren
 				sql = "DELETE FROM " + Tabellen.STUDIE_ZENTRUM.toString()
-						+ " WHERE " + FelderStudieHasZentrum.STUDIENID
-						+ toString() + " = ? AND "
-						+ FelderStudieHasZentrum.ZENTRUMID + toString()
-						+ " NOT IN (";
+						+ " WHERE "
+						+ FelderStudieHasZentrum.STUDIENID.toString()
+						+ " = ? ";
 				String sql2 = "INSERT INTO "
 						+ Tabellen.STUDIE_ZENTRUM.toString() + " VALUES ";
-				if (studie.getZentren() != null || !studie.getZentren().isEmpty()) {
+				if (studie.getZentren() != null
+						&& studie.getZentren().size() > 0) {
 					Iterator<ZentrumBean> it = studie.getZentren().iterator();
 					ZentrumBean tmp;
 					while (it.hasNext()) {
 						tmp = it.next();
-						sql += tmp.getId() + ",";
-						sql2 += "(" + id + "," + tmp.getId() + "),";
+						sql2 += "(" + studie.getId() + "," + tmp.getId() + "),";
 					}
-					sql += "-1)";
-					sql2 = sql2.substring(0, sql2.length() - 1)
-							+ " ON DUPLICATE KEY UPDATE"; // letztes Komma
-					// entfernen
+					sql2 = sql2.substring(0, sql2.length() - 1);
 					pstmt = con.prepareStatement(sql);
-					pstmt.setLong(1, id);
+					pstmt.setLong(1, studie.getId());
 					pstmt.executeUpdate();
 					pstmt = con.prepareStatement(sql2);
 					pstmt.executeUpdate();
@@ -1538,9 +1534,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				sql = "DELETE FROM " + Tabellen.STUDIE_ZENTRUM.toString()
 						+ " WHERE "
 						+ FelderStudieHasZentrum.STUDIENID.toString()
-						+ " = ? AND "
-						+ FelderStudieHasZentrum.ZENTRUMID.toString()
-						+ " NOT IN (";
+						+ " = ? ";
 				String sql2 = "INSERT INTO "
 						+ Tabellen.STUDIE_ZENTRUM.toString() + " VALUES ";
 				if (studie.getZentren() != null
@@ -1549,19 +1543,17 @@ public class Datenbank implements DatenbankSchnittstelle {
 					ZentrumBean tmp;
 					while (it.hasNext()) {
 						tmp = it.next();
-						sql += tmp.getId() + ",";
-						sql += "(" + studie.getId() + "," + tmp.getId() + "),";
+						sql2 += "(" + studie.getId() + "," + tmp.getId() + "),";
 					}
-					sql += "-1)";
-					sql2 = sql2.substring(0, sql2.length() - 1)
-							+ " ON DUPLICATE KEY UPDATE"; // letztes Komma
-					// entfernen
+					sql2 = sql2.substring(0, sql2.length() - 1);
 					pstmt = con.prepareStatement(sql);
 					pstmt.setLong(1, studie.getId());
 					pstmt.executeUpdate();
 					pstmt = con.prepareStatement(sql2);
 					pstmt.executeUpdate();
 				}
+				rs.close();
+				pstmt.close();
 			} catch (SQLException e) {
 				throw new DatenbankExceptions(e, sql,
 						DatenbankExceptions.SCHREIBEN_ERR);
