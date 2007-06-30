@@ -1552,7 +1552,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 					pstmt = con.prepareStatement(sql2);
 					pstmt.executeUpdate();
 				}
-				rs.close();
 				pstmt.close();
 			} catch (SQLException e) {
 				throw new DatenbankExceptions(e, sql,
