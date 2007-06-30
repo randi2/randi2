@@ -36,7 +36,6 @@
 		<input type="button" name="entsp_nein"
 			value="Nein" tabindex="2"
 			onClick="document.forms['bestaetigung'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN%>';document.forms['bestaetigung'].submit();">&nbsp;&nbsp;</td>
-		</td>
 	</tr>
 </table>
 

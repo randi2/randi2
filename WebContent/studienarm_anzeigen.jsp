@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ page import="de.randi2.model.fachklassen.beans.*"
+	import="de.randi2.controller.*"
 	import="de.randi2.utility.*" import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
 <%

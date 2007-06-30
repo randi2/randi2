@@ -2,6 +2,7 @@
 	pageEncoding="utf-8"%>
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="de.randi2.model.fachklassen.beans.AktivierungBean"
+	import="de.randi2.controller.*"
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"
 	import="de.randi2.utility.*"%>
