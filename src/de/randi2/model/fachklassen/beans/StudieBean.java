@@ -14,7 +14,9 @@ import de.randi2.randomisation.Randomisation;
 import de.randi2.utility.NullKonstanten;
 
 /**
+ * <p>
  * Die Klasse repraesentiert eine Studie.
+ * </p>
  * 
  * @author Susanne Friedrich [sufriedr@stud.hs-heilbronn.de]
  * @author Nadine Zwink [nzwink@stud.hs-heilbronn.de]
@@ -79,6 +81,16 @@ public class StudieBean extends Filter {
 	private long aBenutzerkontoId = NullKonstanten.DUMMY_ID;
 
 	/**
+	 * Statistiker-Account fuer diese Studie.
+	 */
+	private BenutzerkontoBean aStatistiker = null;
+
+	/**
+	 * ID des Studienleiters.
+	 */
+	private long aStatistikerId = NullKonstanten.DUMMY_ID;
+
+	/**
 	 * Enthaelt den Name des Randomisationsalgorithmus - diese Namen sind in der
 	 * enum der Randomisationsklasse zu finden.
 	 */
@@ -88,16 +100,17 @@ public class StudieBean extends Filter {
 	 * Status der Studie.
 	 */
 	private Status aStatus = null;
-	
+
 	/**
-	 * Falls die Studie mit Blockrandomisation konfiguriert ist, wird hier die Blockgroesse gespeichert
+	 * Falls die Studie mit Blockrandomisation konfiguriert ist, wird hier die
+	 * Blockgroesse gespeichert
 	 */
-	private int aBlockgroesse= NullKonstanten.NULL_INT;
+	private int aBlockgroesse = NullKonstanten.NULL_INT;
 
 	/**
 	 * Konstruktor mit allen Attributen der Klasse, die aus der Datenbank
 	 * ausgelesen werden können. Dieser Konstruktor ist auch nur für die
-	 * Datenbank gedacht.
+	 * Datenbank gedacht. (STUDIE OHNE STATISTIKER)
 	 * 
 	 * @param id
 	 *            Id der Studie
@@ -119,7 +132,7 @@ public class StudieBean extends Filter {
 	 * @param status
 	 *            Status der Studie
 	 * @param blockgroesse
-	 * 			  Gibt die Blockgroesse fuer Blockrandomisation an
+	 *            Gibt die Blockgroesse fuer Blockrandomisation an
 	 * @throws StudieException
 	 *             wenn ein Fehler aufgetreten ist
 	 * @throws DatenbankExceptions
@@ -128,8 +141,8 @@ public class StudieBean extends Filter {
 	public StudieBean(long id, String beschreibung, String name,
 			Randomisation.Algorithmen algorithmus, long benutzerId,
 			GregorianCalendar startdatum, GregorianCalendar enddatum,
-			String studienprotokollPfad, Status status, int blockgroesse) throws StudieException,
-			DatenbankExceptions {
+			String studienprotokollPfad, Status status, int blockgroesse)
+			throws StudieException, DatenbankExceptions {
 
 		super.setId(id);
 		this.setBeschreibung(beschreibung);
@@ -140,6 +153,58 @@ public class StudieBean extends Filter {
 		this.setStudienprotokollPfad(studienprotokollPfad);
 		this.setStatus(status);
 		this.setBlockgroesse(blockgroesse);
+	}
+
+	/**
+	 * Konstruktor mit allen Attributen der Klasse, die aus der Datenbank
+	 * ausgelesen werden können. Dieser Konstruktor ist auch nur für die
+	 * Datenbank gedacht. (STUDIE MIT STATISTIKER)
+	 * 
+	 * @param id
+	 *            Id der Studie
+	 * @param beschreibung
+	 *            Beschreibung der Studie
+	 * @param name
+	 *            Name der Studie.
+	 * @param algorithmus -
+	 *            beschreibt den Randomisationsalgorithmus, der bei dieser
+	 *            Studie angewandt wird.
+	 * @param benutzerId
+	 *            Id des Benutzerkontos des Studienleiters
+	 * @param startdatum
+	 *            Startdatum der Studie
+	 * @param enddatum
+	 *            Enddatum der Studie
+	 * @param studienprotokollPfad
+	 *            Studienprotokollpfad der Studie
+	 * @param status
+	 *            Status der Studie
+	 * @param blockgroesse
+	 *            Gibt die Blockgroesse fuer Blockrandomisation an
+	 * @param statistikerId
+	 *            Id des Benutzerkontos des Statistikers, der fuer diese Studie
+	 *            eingerichtet wurde.
+	 * @throws StudieException
+	 *             wenn ein Fehler aufgetreten ist
+	 * @throws DatenbankExceptions
+	 *             wenn eine inkorrekte Id uebergeben wurde
+	 */
+	public StudieBean(long id, String beschreibung, String name,
+			Randomisation.Algorithmen algorithmus, long benutzerId,
+			GregorianCalendar startdatum, GregorianCalendar enddatum,
+			String studienprotokollPfad, Status status, int blockgroesse,
+			long statistikerId) throws StudieException, DatenbankExceptions {
+
+		super.setId(id);
+		this.setBeschreibung(beschreibung);
+		this.setName(name);
+		this.setAlgorithmus(algorithmus);
+		this.setBenutzerkontoId(benutzerId);
+		this.setStudienZeitraum(startdatum, enddatum);
+		this.setStudienprotokollPfad(studienprotokollPfad);
+		this.setStatus(status);
+		this.setBlockgroesse(blockgroesse);
+		this.setStatistikerId(statistikerId);
 	}
 
 	/**
@@ -245,7 +310,7 @@ public class StudieBean extends Filter {
 		this.aName = name;
 	}
 
-	/** 
+	/**
 	 * Gibt das Startdatum der Studie zurueck.
 	 * 
 	 * @return startDatum, Start der Studie.
@@ -497,10 +562,10 @@ public class StudieBean extends Filter {
 				+ "\tbeschreibung:\t" + this.aBeschreibung + "\tstartDatum\t"
 				+ this.aStartDatum + "\tendDatum:\t" + this.aEndDatum
 				+ "\tstudienprotokollPfad\t" + this.studienprotokollPfad
-				+ "\trandomisationsalogorithmus\t" + this.getAlgorithmus().toString()
-				+ "\tbenutzerkontobject:\t" + this.aBenutzerkonto
-				+ "\tbenutzerkontoid:\t" + this.getBenutzerkontoId()
-				+ "\tstatus:\t" + this.aStatus;
+				+ "\trandomisationsalogorithmus\t"
+				+ this.getAlgorithmus().toString() + "\tbenutzerkontobject:\t"
+				+ this.aBenutzerkonto + "\tbenutzerkontoid:\t"
+				+ this.getBenutzerkontoId() + "\tstatus:\t" + this.aStatus;
 
 		if (aStudienarme == null) {
 			studieString += "\tstudienarme:\t" + "keine Studienarme";
@@ -582,7 +647,7 @@ public class StudieBean extends Filter {
 					this.getStudienprotokollpfad())) {
 				return false;
 			}
-			if (!(studieBean.getAlgorithmus()==this.getAlgorithmus())) {
+			if (!(studieBean.getAlgorithmus() == this.getAlgorithmus())) {
 				return false;
 			}
 			if (studieBean.getStatus() != this.getStatus()) {
@@ -602,9 +667,10 @@ public class StudieBean extends Filter {
 		return true;
 
 	}
+
 	/**
 	 * Diese Methode ueberprueft, ob alle notwendigen Attribute bei einem Objekt
-	 * dieser Klasse gesetzt wurden. 
+	 * dieser Klasse gesetzt wurden.
 	 * 
 	 * @throws StudieException -
 	 *             wenn die Ueberprufung der Felder fehl schlug
@@ -630,7 +696,7 @@ public class StudieBean extends Filter {
 			throw new StudieException(StudieException.STUDIENNAME_LEER);
 		} else {
 			if (this.aName.equals("")) {
-				throw new StudieException(StudieException.STUDIENNAME_LEER); 
+				throw new StudieException(StudieException.STUDIENNAME_LEER);
 			}
 		}
 		if (this.aStartDatum == null) {
@@ -647,14 +713,12 @@ public class StudieBean extends Filter {
 				throw new StudieException(StudieException.STUDIENPROTOKOLL_LEER);
 			}
 		}
-		
-		 
-		
 
 	}
 
 	/**
 	 * Liefert den Randomisationsalgorithmus
+	 * 
 	 * @return - ein Element aus der Randomisation.Algorithmen enum
 	 */
 	public Randomisation.Algorithmen getAlgorithmus() {
@@ -686,8 +750,8 @@ public class StudieBean extends Filter {
 
 	/**
 	 * Get-Methode fuer die Blockgroesse
-	 * @return
-	 * 			Blockgroesse
+	 * 
+	 * @return Blockgroesse
 	 */
 	public int getBlockgroesse() {
 		return aBlockgroesse;
@@ -695,17 +759,85 @@ public class StudieBean extends Filter {
 
 	/**
 	 * Set Methode fuer die Blockgroesse
+	 * 
 	 * @param blockgroesse
-	 * 				zu setzende Blockgroesse
-	 * @throws StudieException - wenn die uebergebene Blockgroesse kleiner als 2 ist.
+	 *            zu setzende Blockgroesse
+	 * @throws StudieException -
+	 *             wenn die uebergebene Blockgroesse kleiner als 2 ist.
 	 */
 	public void setBlockgroesse(int blockgroesse) throws StudieException {
-		if(blockgroesse<2) {
+		if (blockgroesse < 2) {
 			throw new StudieException(StudieException.BLOCKGROESSE_ZU_KLEIN);
 		}
 		this.aBlockgroesse = blockgroesse;
 	}
 
-	
+	/**
+	 * Diese Methode setzt den Statistiker.
+	 * 
+	 * @param statistiker -
+	 *            BenutzerkontoBean, das dem Statistiker gehoert.
+	 * @throws StudieException -
+	 *             wenn Fehlert beim Prozess auftraten.
+	 */
+	public void setStatistiker(BenutzerkontoBean statistiker)
+			throws StudieException {
+		if (statistiker != null) {
+			this.setStatistikerId(statistiker.getId());
+			this.aStatistiker = statistiker;
+		} else {
+			throw new StudieException(StudieException.BENUTZERKONTOBEAN_NULL);
+		}
+	}
+
+	/**
+	 * Diese Methode setzt die Id des Studienleiters.
+	 * 
+	 * @param id -
+	 *            die eindeutige Id des Studienleiters.
+	 * @throws StudieException -
+	 *             wenn die uebergebene Id vermuten laesst, das das Objekt noch
+	 *             nicht persistent ist.
+	 */
+	public void setStatistikerId(long id) throws StudieException {
+		if (id != NullKonstanten.DUMMY_ID) {
+			this.aStatistikerId = id;
+		} else {
+			throw new StudieException(
+					StudieException.BENUTZERKONTO_ID_FEHLERHAFT);
+		}
+	}
+
+	/**
+	 * Diese Methode liefrt den Statistiker dieser Studie.
+	 * 
+	 * @return - Statistiker diese Studie.
+	 * @throws StudieException -
+	 *             wenn die ubergebene Id gleich dem DUMMY_ID ist.
+	 * @throws DatenbankExceptions -
+	 *             wenn ein Fehler bei der DB auftrat.
+	 */
+	public BenutzerkontoBean getStatistiker() throws StudieException,
+			DatenbankExceptions {
+		if (this.aStatistiker == null) {
+			if (aStatistikerId != NullKonstanten.DUMMY_ID) {
+				Benutzerkonto.get(this.aStatistikerId);
+			} else {
+				throw new StudieException(
+						StudieException.KEIN_STATISTIKER_VORHANDEN);
+			}
+		}
+		return this.aStatistiker;
+	}
+
+	/**
+	 * Liefert die Id des Statistkiers.
+	 * 
+	 * @return - eindeutige Id des Statistikers oder die DUMMY_ID falls der
+	 *         Statistiker nicht angelegt wurde.
+	 */
+	public long getStatistikerId() {
+		return this.aStatistikerId;
+	}
 
 }

@@ -59,17 +59,6 @@ public class BenutzerkontoBean extends Filter implements Serializable {
 	 * Benutzername des Kontoinhabers.
 	 */
 	private String aBenutzername = null;
-	
-	/**
-	 * Zugehoerige Studie zum BenutzerkontoBean.
-	 */
-	private StudieBean aStudie = null;
-	
-	/**
-	 * Id der zugehoerigen Studie.
-	 */
-	private long aStudieId = NullKonstanten.NULL_LONG;
-	
 
 	/**
 	 * Zeitpunkt des ersten Logins
@@ -654,7 +643,13 @@ public class BenutzerkontoBean extends Filter implements Serializable {
 		}
 		this.aZentrumId = zentrumId;
 	}
-
+	/**
+	 * Diese Methode ueberprueft, ob die Pflichtfelder in dem Bean gesetzt wurden. Zu diesen gehören:
+	 * aBenutzername
+	 * aPasswort
+	 * aRolle
+	 * @throws BenutzerException - wenn einer der genannten Attribute nicht gesetzt wurde!
+	 */
 	@Override
 	public void validate() throws BenutzerException {
 		if(this.aBenutzername == null || this.aPasswort == null ||

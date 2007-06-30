@@ -12,7 +12,20 @@ package de.randi2.model.exceptions;
 public class StudieException extends BenutzerException {
 
 	/**
-	 * Diese Konstante wird uebergeben, wenn das uebergebene Startdatum nicht vor dem Enddatum liegt.
+	 * Diese Konstante wird uebergeben, wenn ein NULL Objekt an die
+	 * setStatistiker() Methode uebergeben wird!
+	 */
+	public static final String BENUTZERKONTOBEAN_NULL = "Es wurde kein Benutzerkonto &uuml;bergeben!";
+
+	/**
+	 * Diese Konstante wird uebergeben, wenn die Methode getStatistiker()
+	 * aufgerufen wurde, obwohl es keinen Statistiker bei der Studie gibt.
+	 */
+	public static final String KEIN_STATISTIKER_VORHANDEN = "Es wurde kein Statistiker-Account f&uuml;r diese Studie eingerichtet!";
+
+	/**
+	 * Diese Konstante wird uebergeben, wenn das uebergebene Startdatum nicht
+	 * vor dem Enddatum liegt.
 	 */
 	public static final String DATUM_FEHLER = "Startdatum darf nicht vor dem Enddatum leigen!";
 
@@ -70,25 +83,29 @@ public class StudieException extends BenutzerException {
 	 * Diese Konstante bedeutet, dass der gewaehlte Algorithmus ungueltig ist.
 	 */
 	public static final String ALGORITHMUS_UNGUELTIG = RandomisationsException.ALGORITHMUS_UNGUELTIG;
+
 	/**
 	 * Diese Konstante bedeutet, dass das Enddatum nicht gesetzt wurde.
 	 */
 	public static final String ENDDATUM_LEER = "Das Enddatum ist leer.";
+
 	/**
 	 * Diese Konstante bedeutet, dass das Startdatum nicht gesetzt wurde.
 	 */
 	public static final String STARTDATUM_LEER = "Das Startdatum ist leer.";
+
 	/**
-	 * Diese Konstante wird uebergeben, wenn kein Studienprotokoll hochgeladen wurde.
+	 * Diese Konstante wird uebergeben, wenn kein Studienprotokoll hochgeladen
+	 * wurde.
 	 */
 	public static final String STUDIENPROTOKOLL_LEER = "Das Studienprotokoll ist leer.";
-	
+
 	/**
-	 * Falls versucht wurde eine nicht erlaubte Blockgroesse zu setzen, wird diese Konstate uebergeben.
+	 * Falls versucht wurde eine nicht erlaubte Blockgroesse zu setzen, wird
+	 * diese Konstate uebergeben.
 	 */
-	public static final String BLOCKGROESSE_ZU_KLEIN="Die gewaehlte Blockgroesse ist zu klein.";
-	
-	
+	public static final String BLOCKGROESSE_ZU_KLEIN = "Die gewaehlte Blockgroesse ist zu klein.";
+
 	/**
 	 * Ein Konstruktor dieser Klasse
 	 * 
