@@ -4,9 +4,13 @@
 	import="de.randi2.model.fachklassen.beans.*"
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
-<%Rolle.Rollen aRolleMenue=((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer")).getRolle().getRollenname(); %>
+<%
+Rolle.Rollen aRolleMenue=((BenutzerkontoBean)request.getSession().getAttribute("aBenutzer")).getRolle().getRollenname();
+Studie.Status aStudieStatusMenue = (Studie.Status) ((StudieBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString())).getStatus();
+%>
 <%@page import="de.randi2.controller.DispatcherServlet"%>
 <%@page import="de.randi2.utility.Parameter"%>
+<%@page import="de.randi2.model.fachklassen.Studie"%>
 <div id="menue">
 
 <div id="navigation">
@@ -82,7 +86,7 @@
 	
 	
 	<% } %>
-	<% if (aRolleMenue==Rolle.Rollen.STUDIENARZT) { %>
+	<% if (aRolleMenue==Rolle.Rollen.STUDIENARZT && aStudieStatusMenue==Studie.Status.AKTIV) { %>
 	<li class="sub_SV n entry">
 	<span  class="sub_SA n entry" style="cursor:pointer"
 			onClick="document.forms['menue_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_INC_MENUE_PATIENT_HINZUFUEGEN.name() %>';document.forms['menue_form'].submit();">
