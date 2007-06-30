@@ -215,7 +215,7 @@ public class StudieBean extends Filter {
 	}
 
 	/**
-	 * Liefert das Benutzerkonto.
+	 * Liefert das Benutzerkonto des Studienleiters.
 	 * 
 	 * @return benutzerkonto, Benutzerkonto
 	 * @throws DatenbankExceptions

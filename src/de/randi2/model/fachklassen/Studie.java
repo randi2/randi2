@@ -3,12 +3,15 @@ package de.randi2.model.fachklassen;
 import java.util.Vector;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.StudieException;
+import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.StatistikBean;
 import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
+import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.NullKonstanten;
 
 /**
@@ -24,7 +27,7 @@ public class Studie {
 	 * Das zugehörige StudieBean-Objekt.
 	 */
 	private StudieBean aStudieBean = null;
-	
+
 	/**
 	 * Id der zugehoerigen Studie.
 	 */
@@ -131,7 +134,8 @@ public class Studie {
 	 * @return StatistikBean das aktuelle StudieBean.
 	 */
 	public StatistikBean anzeigenStatistik(int kriterium) {
-		//TODO Wird für Release 3 ausimplementiert - vielleicht sogar heute (30. Juni lplotni)
+		// TODO Wird für Release 3 ausimplementiert - vielleicht sogar heute
+		// (30. Juni lplotni)
 		return null;
 
 	}
@@ -190,12 +194,12 @@ public class Studie {
 			throws DatenbankExceptions {
 		StudieBean studie = new StudieBean();
 		studie.setId(studieId);
-		
+
 		// Workaround: es werden nur aktivierte Zentren geliefert --Btheel
 		ZentrumBean zentrumDummy = new ZentrumBean();
 		zentrumDummy.setFilter(true);
 		zentrumDummy.setIstAktiviert(true);
-		
+
 		return DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(
 				studie, zentrumDummy);
 	}
@@ -237,13 +241,14 @@ public class Studie {
 				studieId, studie);
 		return studie;
 	}
+
 	/**
 	 * Liefert die Studie zum BenutzerkontoBean.
 	 * 
 	 * @return studie, Studie
 	 * @throws DatenbankExceptions
-	 *             Exception, wenn beim Holen des entsprechendes
-	 *             Studieobjektes Probleme vorkamen.
+	 *             Exception, wenn beim Holen des entsprechendes Studieobjektes
+	 *             Probleme vorkamen.
 	 */
 	public StudieBean getStudie() throws DatenbankExceptions {
 		if (aStudieBean == null) {
@@ -285,12 +290,88 @@ public class Studie {
 		return DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
 				gesuchteStudie);
 	}
-	
+
+	/**
+	 * Diese Methode erzeugt ein Statistiker-Account zur uebergenenen Studie.
+	 * (Das Account wird natuerlich automatisch gepeichert etc.) Ein
+	 * Statistiker-Benutzerkonto besitzt PersonBean und ZentrumBean von dem
+	 * Studienleiter - diese Werte dürfen aber nie in der GUI angezeigt werden.
+	 * 
+	 * @param studie -
+	 *            die Studie zu der ein Statistiker-Account angelegt werden
+	 *            soll.
+	 * @return - ein Object-Array mit zwei Elemnten. An der Position 0 befindet
+	 *         sich das modifizierte StudieBean (von dem man mit Hilfe der
+	 *         getStatistiker() Methode sich das neu angelegte
+	 *         Statistiker-Benutzerkonto holen kann) und an der Position 1
+	 *         befindet sich ein String mit dem Passwort (im Klartext) für den
+	 *         Statistiker.
+	 * @throws BenutzerkontoException -
+	 *             wenn ein Fehler beim Anlegen des neuen Benutzerkontos auftrat
+	 * @throws DatenbankExceptions -
+	 *             wenn ein Fehler beim Speichern der Studie o. des
+	 *             Statistiker-Benutzerkontos auftrat
+	 * @throws StudieException -
+	 *             wenn ein Fehler beim hinzufuegen des Statistikers zur Studie
+	 *             auftrat
+	 */
+	public static Object[] erzeugeStatistikerAccount(StudieBean studie)
+			throws DatenbankExceptions, BenutzerkontoException, StudieException {
+		Object[] returnArray = new Object[2];
+		BenutzerkontoBean statistiker = new BenutzerkontoBean();
+
+		statistiker.setBenutzerId(studie.getBenutzerkonto().getBenutzer()
+				.getId());
+		statistiker.setZentrumId(studie.getBenutzerkonto().getZentrumId());
+		statistiker.setBenutzername("statistiker" + studie.getId()
+				+ KryptoUtil.getInstance().getRandomChar());
+		returnArray[1] = KryptoUtil.getInstance().generatePasswort(8);
+		statistiker.setPasswort(KryptoUtil.getInstance().hashPasswort(
+				(String) returnArray[1]));
+		statistiker.setRolle(Rolle.getStatistiker());
+		statistiker.setGesperrt(false);
+		statistiker = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+				statistiker);
+		studie.setStatistiker(statistiker);
+		studie = DatenbankFactory.getAktuelleDBInstanz()
+				.schreibenObjekt(studie);
+		returnArray[0] = studie;
+
+		return returnArray;
+	}
+
+	/**
+	 * Diese Methode erzeugt ein neues Passwort fuer den Statistiker, der
+	 * bereits bei der Studie eingerichtet wurde.
+	 * 
+	 * @param studie -
+	 *            ein StudieBean mit vorhandenem Statistiker
+	 * @return das neue Passwort (Klartext)
+	 * @throws StudieException -
+	 *             wenn kein Statistiker bei der uebergebenen Studie vorhanden
+	 *             ist.
+	 * @throws DatenbankExceptions -
+	 *             wenn beim Speichern des aktualisierten Statistiker o. beim
+	 *             Holen des Alten ein Fehler auftrat
+	 * @throws BenutzerkontoException -
+	 *             wenn ein Fehler beim Setzten des Passworts auftrat.
+	 */
+	public static String erzeugeNeuesStatistikerPasswort(StudieBean studie)
+			throws DatenbankExceptions, StudieException, BenutzerkontoException {
+		BenutzerkontoBean statistiker = studie.getStatistiker();
+		String neuesPasswort = KryptoUtil.getInstance().generatePasswort(8);
+		statistiker.setPasswort(KryptoUtil.getInstance().hashPasswort(
+				neuesPasswort));
+		DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(statistiker);
+		return neuesPasswort;
+	}
+
 	/**
 	 * Erzeugt einen String mit allen Daten der Studie.
 	 * 
 	 * @return Der String mit Daten der Studie
 	 */
+	@Override
 	public String toString() {
 
 		return this.aStudieBean.toString();
