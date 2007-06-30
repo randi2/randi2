@@ -1483,7 +1483,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 					while (it.hasNext()) {
 						tmp = it.next();
 						sql += tmp.getId() + ",";
-						sql += "(" + id + "," + tmp.getId() + "),";
+						sql2 += "(" + id + "," + tmp.getId() + "),";
 					}
 					sql += "-1)";
 					sql2 = sql2.substring(0, sql2.length() - 1)
