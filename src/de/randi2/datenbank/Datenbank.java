@@ -1537,12 +1537,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(i++, studie.getStudienprotokollpfad());
 				pstmt.setString(i++, studie.getStatus().toString());
 				pstmt.setInt(i++, studie.getBlockgroesse());
-				pstmt.setLong(i++, studie.getId());
 				if (studie.getStatistikerId() == NullKonstanten.NULL_LONG) {
 					pstmt.setNull(i++, Types.NULL);
 				} else {
 					pstmt.setLong(i++, studie.getStatistikerId());
 				}
+				pstmt.setLong(i++, studie.getId());
 				pstmt.executeUpdate();
 				pstmt.close();
 				// Speichern der Abhaengigen Zentren
