@@ -4,7 +4,6 @@ import java.util.Vector;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.StudieException;
-import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.StatistikBean;
 import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
@@ -131,9 +130,8 @@ public class Studie {
 	 *            Kriterien zum erstellen der Statistik.
 	 * @return StatistikBean das aktuelle StudieBean.
 	 */
-	// TODO Implementierung, ab Release 2
 	public StatistikBean anzeigenStatistik(int kriterium) {
-
+		//TODO Wird für Release 3 ausimplementiert - vielleicht sogar heute (30. Juni lplotni)
 		return null;
 
 	}
@@ -286,25 +284,6 @@ public class Studie {
 			throws DatenbankExceptions {
 		return DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
 				gesuchteStudie);
-	}
-
-	/**
-	 * Mit Hilfe dieser Methode, kann eine Studie angelegt werden.
-	 * 
-	 * @param aStudie
-	 *            die Studie die angelegt werden soll.
-	 * @return Die aktualisierte Studie.
-	 * @throws DatenbankExceptions
-	 *             Fehler der Benutzer konnte nicht angelegt werden
-	 * 
-	 */
-	public static Studie anlegenBenutzer(StudieBean aStudie)
-			throws DatenbankExceptions {
-
-		StudieBean aktualisierteStudie = null;
-		aktualisierteStudie = DatenbankFactory.getAktuelleDBInstanz()
-				.schreibenObjekt(aStudie);
-		return new Studie(aktualisierteStudie);
 	}
 	
 	/**
