@@ -1600,7 +1600,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setLong(i++, studienarm.getStudie().getId());
 				pstmt.setString(i++, studienarm.getStatus().toString());
 				pstmt.setString(i++, studienarm.getBezeichnung());
-				if (!studienarm.getBeschreibung().equals("")) {
+				if (studienarm.getBeschreibung()!=null || !studienarm.getBeschreibung().equals("")) {
 					pstmt.setString(i++, studienarm.getBeschreibung());
 				} else {
 					pstmt.setNull(i++, Types.NULL);
@@ -1631,7 +1631,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setLong(j++, studienarm.getStudie().getId());
 				pstmt.setString(j++, studienarm.getStatus().toString());
 				pstmt.setString(j++, studienarm.getBezeichnung());
-				if (!studienarm.getBeschreibung().equals("")) {
+				if (studienarm.getBeschreibung()!=null || !studienarm.getBeschreibung().equals("")) {
 					pstmt.setString(j++, studienarm.getBeschreibung());
 				} else {
 					pstmt.setNull(j++, Types.NULL);
