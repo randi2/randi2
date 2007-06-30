@@ -38,8 +38,6 @@ import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StrataAuspraegungBean;
 import de.randi2.model.fachklassen.beans.StrataBean;
 
-import de.randi2.model.fachklassen.beans.StrataBean;
-
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
@@ -77,6 +75,9 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 */
 	public static final String STATUS_GEAENDERT = "Status der Studie wurde erfolgreich geaendert!";
 	
+	/**
+	 * Meldung, wenn ein Studienarm erfolgreicht beendet wurde.
+	 */
 	public static final String STUDIENARM_BEENDET = "Der ausgewählte Studienarm wurde beenden!";
 
 	/**
@@ -124,7 +125,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		JSP_STUDIE_AENDERN,
 
 		/**
-		 * Anfragen "studienarm beenden" von der studienarm_anzeigen.jsp
+		 * Anfrage "studienarm beenden" von der studienarm_anzeigen.jsp
 		 */
 		JSP_STUDIENARM_BEENDEN,
 		
@@ -142,6 +143,16 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Prozess bestaetigt
 		 */
 		JSP_STUDIE_FORTSETZEN_JA,
+		
+		/**
+		 * Studie starten auf der JSP Seite
+		 */
+		JSP_STUDIE_STARTEN,
+		
+		/**
+		 * Studie soll gestartet werden
+		 */
+		AKTION_STUDIE_STARTEN,
 
 		/**
 		 * Studie soll pausiert werde
@@ -152,6 +163,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Prozess bestaetigt
 		 */
 		JSP_STUDIE_PAUSIEREN_JA,
+		
+		/**
+		 * Prozess bestaetigt
+		 */
+		JSP_STUDIE_STARTEN_JA,
 
 		/**
 		 * Ein ausgewählter Studienarm soll angezeigt werden.
@@ -405,6 +421,9 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		} else if (id.equals(anfrage_id.AKTION_STUDIE_PAUSIEREN.name())) {
 			// Status aendern
 			studieStatus(request, response, Studie.Status.PAUSE);
+		} else if (id.equals(anfrage_id.AKTION_STUDIE_STARTEN.name())) {
+			// Status aendern
+			studieStatus(request, response, Studie.Status.AKTIV);
 		} else if (id.equals(anfrage_id.JSP_STUDIE_ANSEHEN.name())) {
 			// Status aendern
 			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,

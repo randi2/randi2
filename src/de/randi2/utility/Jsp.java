@@ -188,6 +188,10 @@ public final class Jsp {
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
+	public static final String STUDIE_STARTEN = "/studie_starten.jsp";
+	/**
+	 * Konstante fuer jsp-Seite
+	 */
 	public static final String STUDIENARM_ANZEIGEN = "/studienarm_anzeigen.jsp";
 	/**
 	 * Konstante fuer jsp-Seite

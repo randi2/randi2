@@ -300,7 +300,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Button bei Patient hinzufuegen.
 		 */
 		JSP_PATIENT_HINZUFUEGEN_AUSFUEHREN,
-		
+
 		/**
 		 * Ein Benutzer soll gesperrt bzw. entsperrt werden.
 		 */
@@ -328,9 +328,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Die von dem Benutzer ausgewählte, aktuelle Studie
 		 */
 		AKTUELLE_STUDIE("aStudie"),
-		
+
 		/**
-		 * Wird an die Session gebunden, wenn der Admin einen Benutzer sperren, entsperren will.
+		 * Wird an die Session gebunden, wenn der Admin einen Benutzer sperren,
+		 * entsperren will.
 		 */
 		BENUTZER_SPERREN_ENTSPERREN_ADMIN("bSperren");
 
@@ -672,26 +673,30 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANSEHEN.name())) {
 				request.setAttribute("anfrage_id",
 						ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name());
-				if((request.getParameter(Parameter.zentrum.ZENTRUM_ID.toString())!=null)){
-					//ID vorhanden, zentrumdetails werden angezeigt
-					String idx = request.getParameter(Parameter.zentrum.ZENTRUM_ID.toString());
-					request.setAttribute(Parameter.zentrum.ZENTRUM_ID.toString(),
-							idx);
-					
-					request.getRequestDispatcher("ZentrumServlet").forward(request,
-							response);
-				}else{
-					//aus irgendwelchen Gründen Zentrum_ID nicht vorhanden, 
-					//leite zurück letzten seite
+				if ((request.getParameter(Parameter.zentrum.ZENTRUM_ID
+						.toString()) != null)) {
+					// ID vorhanden, zentrumdetails werden angezeigt
+					String idx = request
+							.getParameter(Parameter.zentrum.ZENTRUM_ID
+									.toString());
+					request.setAttribute(Parameter.zentrum.ZENTRUM_ID
+							.toString(), idx);
+
+					request.getRequestDispatcher("ZentrumServlet").forward(
+							request, response);
+				} else {
+					// aus irgendwelchen Gründen Zentrum_ID nicht vorhanden,
+					// leite zurück letzten seite
 					if (request.getParameter(Parameter.filter) == null) {
 						request.setAttribute("listeZentren", null);
 					}
 					request.setAttribute(Parameter.anfrage_id.toString(),
-							StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name());
-					request.getRequestDispatcher("StudieServlet").forward(request,
-							response);
+							StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN
+									.name());
+					request.getRequestDispatcher("StudieServlet").forward(
+							request, response);
 				}
-				
+
 			}
 
 			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANLEGEN.name())) {
@@ -732,10 +737,15 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						StudieServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
-			}else if(id.equals(StudieServlet.anfrage_id.JSP_STUDIENARM_ANZEIGEN.toString())){
-				//Der Benutzer will sich ein Studienarm anzeigen lassen
-				request.setAttribute(Parameter.anfrage_id, StudieServlet.anfrage_id.AKTION_STUDIENARM_ANZEIGEN.toString());
-				request.getRequestDispatcher("StudieServlet").forward(request, response);
+			} else if (id
+					.equals(StudieServlet.anfrage_id.JSP_STUDIENARM_ANZEIGEN
+							.toString())) {
+				// Der Benutzer will sich ein Studienarm anzeigen lassen
+				request.setAttribute(Parameter.anfrage_id,
+						StudieServlet.anfrage_id.AKTION_STUDIENARM_ANZEIGEN
+								.toString());
+				request.getRequestDispatcher("StudieServlet").forward(request,
+						response);
 			} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
 
 				if (request.getParameter(Parameter.filter) == null) {
@@ -779,11 +789,16 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				// Weiterleitung auf die Simulation seite
 				request.getRequestDispatcher(Jsp.SIMULATION).forward(request,
 						response);
-			}else if(id.equals(StudieServlet.anfrage_id.JSP_STUDIENARM_BEENDEN.toString())){
-				//Ein Arm soll beendet werden
-				request.setAttribute(Parameter.anfrage_id, StudieServlet.anfrage_id.AKTION_STUDIENARM_BEENDEN.toString());
-				request.getRequestDispatcher("StudieServlet").forward(request, response);
-				
+			} else if (id
+					.equals(StudieServlet.anfrage_id.JSP_STUDIENARM_BEENDEN
+							.toString())) {
+				// Ein Arm soll beendet werden
+				request.setAttribute(Parameter.anfrage_id,
+						StudieServlet.anfrage_id.AKTION_STUDIENARM_BEENDEN
+								.toString());
+				request.getRequestDispatcher("StudieServlet").forward(request,
+						response);
+
 			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN.name())) {
 
 				// neue Studie anlegen
@@ -884,17 +899,18 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				request.getRequestDispatcher(Jsp.STUDIE_ANLEGEN).forward(
 						request, response);
 
-			} else if (id.equals(StudieServlet.anfrage_id.JSP_STUDIE_PAUSIEREN_JA.toString())) {
+			} else if (id
+					.equals(StudieServlet.anfrage_id.JSP_STUDIE_PAUSIEREN_JA
+							.toString())) {
 				// Studie pausieren - wird durchgefürhrt
-				request
-						.setAttribute(
-								Parameter.anfrage_id.toString(),
-								StudieServlet.anfrage_id.AKTION_STUDIE_PAUSIEREN
-										.toString());
+				request.setAttribute(Parameter.anfrage_id.toString(),
+						StudieServlet.anfrage_id.AKTION_STUDIE_PAUSIEREN
+								.toString());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
 			} else if (id
-					.equals(StudieServlet.anfrage_id.JSP_STUDIE_FORTSETZEN_JA.toString())) {
+					.equals(StudieServlet.anfrage_id.JSP_STUDIE_FORTSETZEN_JA
+							.toString())) {
 				// Studie fortsetzen - wird durchgeführt
 				request.setAttribute(Parameter.anfrage_id.toString(),
 						StudieServlet.anfrage_id.AKTION_STUDIE_FORTSETZEN
@@ -905,11 +921,24 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			} else if (id.equals(StudieServlet.anfrage_id.JSP_STUDIE_FORTSETZEN
 					.toString())) {
 				// studie_fortsetzen.jsp wird dem Benutzer angezeigt!
-				request.getRequestDispatcher(Jsp.STUDIE_FORTSETZEN).forward(request, response);
+				request.getRequestDispatcher(Jsp.STUDIE_FORTSETZEN).forward(
+						request, response);
 			} else if (id.equals(StudieServlet.anfrage_id.JSP_STUDIE_PAUSIEREN
 					.toString())) {
 				// studie_pausieren.jsp wird dem Benutzer angezeigt!
-				request.getRequestDispatcher(Jsp.STUDIE_PAUSIEREN).forward(request, response);
+				request.getRequestDispatcher(Jsp.STUDIE_PAUSIEREN).forward(
+						request, response);
+			} else if (id.equals(StudieServlet.anfrage_id.JSP_STUDIE_STARTEN
+					.toString())) {
+				// studie_starten.jsp wird dem Benutzer angezeigt!
+				request.getRequestDispatcher(Jsp.STUDIE_STARTEN).forward(
+						request, response);
+			}else if (id.equals(StudieServlet.anfrage_id.JSP_STUDIE_STARTEN_JA
+					.toString())) {
+				// Die Studie soll gestartet werden
+				request.setAttribute(Parameter.anfrage_id, StudieServlet.anfrage_id.AKTION_STUDIE_STARTEN.toString());
+				request.getRequestDispatcher("StudieServlet").forward(
+						request, response);
 			}
 
 			else if (id.equals((anfrage_id.JSP_STUDIE_AENDERN.name()))) {
@@ -1015,12 +1044,23 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						response);
 			} else if (id.equals(anfrage_id.ZENTRUM_AENDERN_SPERREN.name())) {
 				// TODO weiterleitung?!
-				request.setAttribute(Parameter.anfrage_id,ZentrumServlet.anfrage_id.CLASS_DISPATCHERSERVLET_ZENTRUM_ANZEIGEN_SPERREN.name());
-				request.getRequestDispatcher("ZentrumServlet").forward(request, response);
-			}
-			else if(id.equals(anfrage_id.JSP_BENUTZER_SPERREN_SPERREN_ENTSPERREN.name())){
-				request.setAttribute(Parameter.anfrage_id, BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_SPERREN_ENTSPERREN.name());
-				request.getRequestDispatcher("BenutzerServlet").forward(request, response);
+				request
+						.setAttribute(
+								Parameter.anfrage_id,
+								ZentrumServlet.anfrage_id.CLASS_DISPATCHERSERVLET_ZENTRUM_ANZEIGEN_SPERREN
+										.name());
+				request.getRequestDispatcher("ZentrumServlet").forward(request,
+						response);
+			} else if (id
+					.equals(anfrage_id.JSP_BENUTZER_SPERREN_SPERREN_ENTSPERREN
+							.name())) {
+				request
+						.setAttribute(
+								Parameter.anfrage_id,
+								BenutzerServlet.anfrage_id.CLASS_DISPATCHERSERVLET_SPERREN_ENTSPERREN
+										.name());
+				request.getRequestDispatcher("BenutzerServlet").forward(
+						request, response);
 			}
 
 			// [end]
@@ -1028,7 +1068,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			// SONSTIGE WEITERLEITUNGEN
 			// Schwerer Fehler: Falscher Request
 			else {
-				System.out.println("Schwerer Fehler: Falscher Request bei Dispatcher Servlet");
+				System.out
+						.println("Schwerer Fehler: Falscher Request bei Dispatcher Servlet");
 				System.out.println(idAttribute + " " + id);
 				Logger.getLogger(this.getClass()).debug(
 						"Kein Block in POST fuer die ID '" + id + "' gefunden");

@@ -189,6 +189,10 @@ public final class JspTitel {
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
+	public static final String STUDIE_STARTEN = "Studie starten";
+	/**
+	 * Konstante fuer jsp-Seite
+	 */
 	public static final String STUDIE_PAUSIEREN = "Studie pausieren";
 	/**
 	 * Konstante fuer jsp-Seite

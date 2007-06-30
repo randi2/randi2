@@ -124,6 +124,26 @@ Ext.onReady(function(){
 	<%
 	}
 	%>
+	<%
+	if (aStudie.getStatus().equals(Studie.Status.INVORBEREITUNG)) {
+	%>
+		form_status.addButton('Starten', function(){
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+	}, form_status);    
+
+	form_status.render('form_status');
+	
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_status.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STUDIE_STARTEN.toString()%>'});
+		
+	<%
+	}
+	%>
 	form_statistik.addButton('Statistik', function(){
 		
             var frm = document.getElementById(this.id);
