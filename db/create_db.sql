@@ -84,7 +84,7 @@ CREATE TABLE Studie (
   enddatum DATE NOT NULL,
   studienprotokoll VARCHAR(255) NOT NULL,
   status_Studie VARCHAR(25) NOT NULL,
-  blockgroesse SMALLINT NULL,
+  blockgroesse INT NULL,
   PRIMARY KEY(studienID),
   INDEX Studie_FKIndex1(Benutzerkonto_benutzerkontenID),
   FOREIGN KEY(Benutzerkonto_benutzerkontenID)
