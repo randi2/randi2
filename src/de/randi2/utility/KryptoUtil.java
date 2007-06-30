@@ -154,5 +154,14 @@ public final class KryptoUtil {
 		return code;
 
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public char getRandomChar() {
+		// FIXME
+		return '\0';
+	}
 
 }
