@@ -449,11 +449,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 		 * Der Status der Studie.
 		 */
 		STATUS("status_Studie"),
-		
+
 		/**
 		 * Groesse eines Blockes, falls Blockrandomisation gewaehlt ist
 		 */
-		BLOCKGROESSE("blockgroesse");
+		BLOCKGROESSE("blockgroesse"),
+
+		/**
+		 * Statistiker dieser Studie
+		 */
+		STATISTIKER("statistikerID");
 
 		/**
 		 * Name eines Feldes.
@@ -849,20 +854,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt.setLong(1, person.getId());
 			pstmt.executeUpdate();
 			pstmt.close();
-			
-			//Foreign Key Stellvertreter:
-//			PersonBean stellvertreter = new PersonBean();
-//			PersonBean aktualisierendePerson = new PersonBean();
-//			Vector<PersonBean>pVec = new Vector<PersonBean>();
-//			stellvertreter.setStellvertreterId(person.getId());
-//			stellvertreter.setFilter(true);
-//			pVec = suchenPerson(stellvertreter);
-//			Iterator<PersonBean>it = pVec.iterator();
-//			while(it.hasNext()){
-//				aktualisierendePerson = it.next();
-//				aktualisierendePerson.setStellvertreterId(NullKonstanten.DUMMY_ID);
-//				schreibenPerson(aktualisierendePerson);
-//			}
+
+			// Foreign Key Stellvertreter:
+			// PersonBean stellvertreter = new PersonBean();
+			// PersonBean aktualisierendePerson = new PersonBean();
+			// Vector<PersonBean>pVec = new Vector<PersonBean>();
+			// stellvertreter.setStellvertreterId(person.getId());
+			// stellvertreter.setFilter(true);
+			// pVec = suchenPerson(stellvertreter);
+			// Iterator<PersonBean>it = pVec.iterator();
+			// while(it.hasNext()){
+			// aktualisierendePerson = it.next();
+			// aktualisierendePerson.setStellvertreterId(NullKonstanten.DUMMY_ID);
+			// schreibenPerson(aktualisierendePerson);
+			// }
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e, sql,
 					DatenbankExceptions.LOESCHEN_ERR);
@@ -988,16 +993,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 			else if (zuSchreibendesObjekt instanceof PatientBean) {
 				PatientBean patient = (PatientBean) zuSchreibendesObjekt;
 				return (T) this.schreibenPatient(patient);
-			}
-			else if (zuSchreibendesObjekt instanceof StrataBean) {
+			} else if (zuSchreibendesObjekt instanceof StrataBean) {
 				StrataBean strata = (StrataBean) zuSchreibendesObjekt;
 				return (T) schreibenStrata(strata);
-			} 
-			else if (zuSchreibendesObjekt instanceof StrataAuspraegungBean) {
+			} else if (zuSchreibendesObjekt instanceof StrataAuspraegungBean) {
 				StrataAuspraegungBean auspr = (StrataAuspraegungBean) zuSchreibendesObjekt;
 				return (T) schreibenStrataAuspraegung(auspr);
-			} 
-			
+			}
+
 		}
 		return null;
 	}
@@ -1446,8 +1449,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 						+ ", " + FelderStudie.RANDOMISATIONSALGORITHMUS + ", "
 						+ FelderStudie.STARTDATUM + ", "
 						+ FelderStudie.ENDDATUM + ", " + FelderStudie.PROTOKOLL
-						+ ", " + FelderStudie.STATUS +","+FelderStudie.BLOCKGROESSE+ ") "
-						+ "VALUES (NULL,?,?,?,?,?,?,?,?,?)";
+						+ ", " + FelderStudie.STATUS + ","
+						+ FelderStudie.BLOCKGROESSE + ","
+						+ FelderStudie.STATISTIKER + ") "
+						+ "VALUES (NULL,?,?,?,?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, studie.getBenutzerkontoId());
@@ -1465,6 +1470,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setString(i++, studie.getStudienprotokollpfad());
 				pstmt.setString(i++, studie.getStatus().toString());
 				pstmt.setInt(i++, studie.getBlockgroesse());
+				if (studie.getStatistikerId() == NullKonstanten.NULL_LONG) {
+					pstmt.setNull(i++, Types.NULL);
+				} else {
+					pstmt.setLong(i++, studie.getStatistikerId());
+				}
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
 				rs.next();
@@ -1472,8 +1482,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				// Speichern der Abhaengigen Zentren
 				sql = "DELETE FROM " + Tabellen.STUDIE_ZENTRUM.toString()
 						+ " WHERE "
-						+ FelderStudieHasZentrum.STUDIENID.toString()
-						+ " = ? ";
+						+ FelderStudieHasZentrum.STUDIENID.toString() + " = ? ";
 				String sql2 = "INSERT INTO "
 						+ Tabellen.STUDIE_ZENTRUM.toString() + " VALUES ";
 				if (studie.getZentren() != null
@@ -1501,40 +1510,45 @@ public class Datenbank implements DatenbankSchnittstelle {
 			loggenDaten(studie, LogKonstanten.NEUER_DATENSATZ);
 			return studie;
 		} else {
-			int j = 1;
+			int i = 1;
 			sql = "UPDATE " + Tabellen.STUDIE + " SET " + FelderStudie.BENUTZER
 					+ "=?, " + FelderStudie.NAME + "=?, "
 					+ FelderStudie.BESCHREIBUNG + "=?, "
 					+ FelderStudie.RANDOMISATIONSALGORITHMUS + "=?, "
 					+ FelderStudie.STARTDATUM + "=?, " + FelderStudie.ENDDATUM
 					+ "=?, " + FelderStudie.PROTOKOLL + "=?, "
-					+ FelderStudie.STATUS + "=?, "+FelderStudie.BLOCKGROESSE+" = ? " + " WHERE " + FelderStudie.ID
-					+ "=?";
+					+ FelderStudie.STATUS + "=?, " + FelderStudie.BLOCKGROESSE
+					+ " = ?, " + FelderStudie.STATISTIKER + " = ? " + " WHERE "
+					+ FelderStudie.ID + "=?";
 			try {
 				pstmt = con.prepareStatement(sql);
-				pstmt.setLong(j++, studie.getBenutzerkontoId());
-				pstmt.setString(j++, studie.getName());
+				pstmt.setLong(i++, studie.getBenutzerkontoId());
+				pstmt.setString(i++, studie.getName());
 				if (!studie.getBeschreibung().equals("")) {
-					pstmt.setString(j++, studie.getBeschreibung());
+					pstmt.setString(i++, studie.getBeschreibung());
 				} else {
-					pstmt.setNull(j++, Types.NULL);
+					pstmt.setNull(i++, Types.NULL);
 				}
-				pstmt.setString(j++, studie.getAlgorithmus().toString());
-				pstmt.setDate(j++, new Date(studie.getStartDatum()
+				pstmt.setString(i++, studie.getAlgorithmus().toString());
+				pstmt.setDate(i++, new Date(studie.getStartDatum()
 						.getTimeInMillis()));
-				pstmt.setDate(j++, new Date(studie.getEndDatum()
+				pstmt.setDate(i++, new Date(studie.getEndDatum()
 						.getTimeInMillis()));
-				pstmt.setString(j++, studie.getStudienprotokollpfad());
-				pstmt.setString(j++, studie.getStatus().toString());
-				pstmt.setInt(j++, studie.getBlockgroesse());
-				pstmt.setLong(j++, studie.getId());
+				pstmt.setString(i++, studie.getStudienprotokollpfad());
+				pstmt.setString(i++, studie.getStatus().toString());
+				pstmt.setInt(i++, studie.getBlockgroesse());
+				pstmt.setLong(i++, studie.getId());
+				if (studie.getStatistikerId() == NullKonstanten.NULL_LONG) {
+					pstmt.setNull(i++, Types.NULL);
+				} else {
+					pstmt.setLong(i++, studie.getStatistikerId());
+				}
 				pstmt.executeUpdate();
 				pstmt.close();
 				// Speichern der Abhaengigen Zentren
 				sql = "DELETE FROM " + Tabellen.STUDIE_ZENTRUM.toString()
 						+ " WHERE "
-						+ FelderStudieHasZentrum.STUDIENID.toString()
-						+ " = ? ";
+						+ FelderStudieHasZentrum.STUDIENID.toString() + " = ? ";
 				String sql2 = "INSERT INTO "
 						+ Tabellen.STUDIE_ZENTRUM.toString() + " VALUES ";
 				if (studie.getZentren() != null
@@ -1600,12 +1614,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setLong(i++, studienarm.getStudie().getId());
 				pstmt.setString(i++, studienarm.getStatus().toString());
 				pstmt.setString(i++, studienarm.getBezeichnung());
-				if(studienarm.getBeschreibung()==null) {
+				if (studienarm.getBeschreibung() == null) {
 					pstmt.setNull(i++, Types.NULL);
-				}
-				else {
+				} else {
 					pstmt.setString(i++, studienarm.getBeschreibung());
-				} 
+				}
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
 				rs.next();
@@ -1632,12 +1645,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setLong(j++, studienarm.getStudie().getId());
 				pstmt.setString(j++, studienarm.getStatus().toString());
 				pstmt.setString(j++, studienarm.getBezeichnung());
-				if(studienarm.getBeschreibung()==null) {
+				if (studienarm.getBeschreibung() == null) {
 					pstmt.setNull(j++, Types.NULL);
-				}
-				else {
+				} else {
 					pstmt.setString(j++, studienarm.getBeschreibung());
-				} 
+				}
 				pstmt.setLong(j++, studienarm.getId());
 				pstmt.executeUpdate();
 				pstmt.close();
@@ -1672,10 +1684,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 		ResultSet rs = null;
 		con = ConnectionFactory.getInstanz().getConnection();
 		try {
-		if (patient.getId() == NullKonstanten.NULL_LONG) {
-			int i = 1;
-			long id = Long.MIN_VALUE;
-			
+			if (patient.getId() == NullKonstanten.NULL_LONG) {
+				int i = 1;
+				long id = Long.MIN_VALUE;
+
 				sql = "INSERT INTO " + Tabellen.PATIENT + " ("
 						+ FelderPatient.ID + ", " + FelderPatient.BENUTZER
 						+ ", " + FelderPatient.STUDIENARM + ", "
@@ -1705,23 +1717,23 @@ public class Datenbank implements DatenbankSchnittstelle {
 				id = rs.getLong(1);
 				rs.close();
 				pstmt.close();
-		
-			patient.setId(id);
-			loggenDaten(patient, LogKonstanten.NEUER_DATENSATZ);
-			return patient;
-		} else {
-			int j = 1;
-			sql = "UPDATE " + Tabellen.PATIENT + " SET "
-					+ FelderPatient.BENUTZER + "=?, "
-					+ FelderPatient.STUDIENARM + "=?, "
-					+ FelderPatient.INITIALEN + "=?, "
-					+ FelderPatient.GEBURTSDATUM + "=?, "
-					+ FelderPatient.GESCHLECHT + "=?, "
-					+ FelderPatient.AUFKLAERUNGSDATUM + "=?, "
-					+ FelderPatient.KOERPEROBERFLAECHE + "=?, "
-					+ FelderPatient.PERFORMANCESTATUS + "=? " + "WHERE "
-					+ FelderPatient.ID + "=?";
-		
+
+				patient.setId(id);
+				loggenDaten(patient, LogKonstanten.NEUER_DATENSATZ);
+				return patient;
+			} else {
+				int j = 1;
+				sql = "UPDATE " + Tabellen.PATIENT + " SET "
+						+ FelderPatient.BENUTZER + "=?, "
+						+ FelderPatient.STUDIENARM + "=?, "
+						+ FelderPatient.INITIALEN + "=?, "
+						+ FelderPatient.GEBURTSDATUM + "=?, "
+						+ FelderPatient.GESCHLECHT + "=?, "
+						+ FelderPatient.AUFKLAERUNGSDATUM + "=?, "
+						+ FelderPatient.KOERPEROBERFLAECHE + "=?, "
+						+ FelderPatient.PERFORMANCESTATUS + "=? " + "WHERE "
+						+ FelderPatient.ID + "=?";
+
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(j++, patient.getBenutzerkontoId());
 				pstmt.setLong(j++, patient.getStudienarmId());
@@ -1736,17 +1748,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setInt(j++, patient.getPerformanceStatus());
 				pstmt.executeUpdate();
 				pstmt.close();
-			 
-			loggenDaten(patient, LogKonstanten.AKTUALISIERE_DATENSATZ);
-		} 
+
+				loggenDaten(patient, LogKonstanten.AKTUALISIERE_DATENSATZ);
+			}
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e, sql,
 					DatenbankExceptions.SCHREIBEN_ERR);
 		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-
-		
 
 		return patient;
 	}
@@ -1775,14 +1785,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 		}
 		try {
-		if(strata.getId()==NullKonstanten.NULL_LONG) {
-			int counter=1;
-			long id = Long.MIN_VALUE;
-			sql= "INSERT  INTO "+Tabellen.STRATA_TYPEN+"("
-					+FelderStrataTypen.Id+","+FelderStrataTypen.STUDIEID+","+FelderStrataTypen.NAME+","+
-					FelderStrataTypen.BESCHREIBUNG+") VALUES "+"(NULL,?,?,?)" ;
-			
-			
+			if (strata.getId() == NullKonstanten.NULL_LONG) {
+				int counter = 1;
+				long id = Long.MIN_VALUE;
+				sql = "INSERT  INTO " + Tabellen.STRATA_TYPEN + "("
+						+ FelderStrataTypen.Id + ","
+						+ FelderStrataTypen.STUDIEID + ","
+						+ FelderStrataTypen.NAME + ","
+						+ FelderStrataTypen.BESCHREIBUNG + ") VALUES "
+						+ "(NULL,?,?,?)";
+
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(counter++, strata.getStudienID());
 				pstmt.setString(counter++, strata.getName());
@@ -1794,33 +1806,34 @@ public class Datenbank implements DatenbankSchnittstelle {
 				rs.close();
 				pstmt.close();
 
-			strata.setId(id);
-			loggenDaten(strata, LogKonstanten.NEUER_DATENSATZ);
-			return strata;
-		} else {
-			int counter=1;
-			sql+="UPDATE "+Tabellen.STRATA_TYPEN+" SET "+
-			FelderStrataTypen.STUDIEID+" = ? , "+
-			FelderStrataTypen.NAME+" = ? , "+
-			FelderStrataTypen.BESCHREIBUNG+" = ? WHERE "+
-			FelderStrataTypen.Id+" = ? ";
-			
+				strata.setId(id);
+				loggenDaten(strata, LogKonstanten.NEUER_DATENSATZ);
+				return strata;
+			} else {
+				int counter = 1;
+				sql += "UPDATE " + Tabellen.STRATA_TYPEN + " SET "
+						+ FelderStrataTypen.STUDIEID + " = ? , "
+						+ FelderStrataTypen.NAME + " = ? , "
+						+ FelderStrataTypen.BESCHREIBUNG + " = ? WHERE "
+						+ FelderStrataTypen.Id + " = ? ";
+
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(counter++, strata.getStudienID());
 				pstmt.setString(counter++, strata.getName());
 				pstmt.setString(counter++, strata.getBeschreibung());
 				pstmt.setLong(counter++, strata.getId());
 				pstmt.executeUpdate();
-				pstmt.close();						
-		}
+				pstmt.close();
+			}
 		} catch (SQLException e) {
-			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SCHREIBEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SCHREIBEN_ERR);
 		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 		loggenDaten(strata, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		return strata;
-		
+
 	}
 
 	/**
@@ -1834,8 +1847,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @throws DatenbankExceptions
 	 *             wirft Datenbankfehler bei Verbindungs- oder Schreibfehlern.
 	 */
-	private StrataAuspraegungBean schreibenStrataAuspraegung(StrataAuspraegungBean auspr)
-			throws DatenbankExceptions {
+	private StrataAuspraegungBean schreibenStrataAuspraegung(
+			StrataAuspraegungBean auspr) throws DatenbankExceptions {
 		Connection con = null;
 		String sql = "";
 		PreparedStatement pstmt = null;
@@ -1846,16 +1859,17 @@ public class Datenbank implements DatenbankSchnittstelle {
 			throw new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 		}
 		try {
-		if(auspr.getId()==NullKonstanten.NULL_LONG) {
-			int counter=1;
-			long id = Long.MIN_VALUE;
-			sql= "INSERT  INTO "+Tabellen.STRATA_AUSPRAEGUNG+"("
-					+FelderStrataAuspraegung.Id+","+FelderStrataAuspraegung.STRATAID+","+
-					FelderStrataAuspraegung.WERT+") VALUES "+"(NULL,?,?)" ;
-			
-			
+			if (auspr.getId() == NullKonstanten.NULL_LONG) {
+				int counter = 1;
+				long id = Long.MIN_VALUE;
+				sql = "INSERT  INTO " + Tabellen.STRATA_AUSPRAEGUNG + "("
+						+ FelderStrataAuspraegung.Id + ","
+						+ FelderStrataAuspraegung.STRATAID + ","
+						+ FelderStrataAuspraegung.WERT + ") VALUES "
+						+ "(NULL,?,?)";
+
 				pstmt = con.prepareStatement(sql);
-				pstmt.setLong(counter++,auspr.getStrata().getId());
+				pstmt.setLong(counter++, auspr.getStrata().getId());
 				pstmt.setString(counter++, auspr.getName());
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
@@ -1865,32 +1879,33 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 
 				auspr.setId(id);
-			loggenDaten(auspr, LogKonstanten.NEUER_DATENSATZ);
-			return auspr;
-		} else {
-			int counter=1;
-			sql+="UPDATE "+Tabellen.STRATA_AUSPRAEGUNG+" SET "+
-			FelderStrataAuspraegung.STRATAID+" = ? , "+
-			FelderStrataAuspraegung.WERT+" = ? WHERE "+
-			FelderStrataAuspraegung.Id+" = ? ";
-			
+				loggenDaten(auspr, LogKonstanten.NEUER_DATENSATZ);
+				return auspr;
+			} else {
+				int counter = 1;
+				sql += "UPDATE " + Tabellen.STRATA_AUSPRAEGUNG + " SET "
+						+ FelderStrataAuspraegung.STRATAID + " = ? , "
+						+ FelderStrataAuspraegung.WERT + " = ? WHERE "
+						+ FelderStrataAuspraegung.Id + " = ? ";
+
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(counter++, auspr.getId());
-				pstmt.setLong(counter++,auspr.getStrata().getId());
+				pstmt.setLong(counter++, auspr.getStrata().getId());
 				pstmt.setString(counter++, auspr.getName());
 				pstmt.executeUpdate();
-				pstmt.close();						
-		}
+				pstmt.close();
+			}
 		} catch (SQLException e) {
-			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SCHREIBEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SCHREIBEN_ERR);
 		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 		loggenDaten(auspr, LogKonstanten.AKTUALISIERE_DATENSATZ);
 		return auspr;
-		
+
 	}
-	
+
 	/**
 	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * 
@@ -1934,31 +1949,43 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		if (zuSuchendesObjekt instanceof StrataBean) {
 			return (Vector<T>) suchenStrata((StrataBean) zuSuchendesObjekt);
-		} 
+		}
 		if (zuSuchendesObjekt instanceof StrataAuspraegungBean) {
 			return (Vector<T>) suchenStrataAuspraegung((StrataAuspraegungBean) zuSuchendesObjekt);
 		}
-		if(zuSuchendesObjekt instanceof BenutzerSuchenBean){
-			return (Vector<T>)suchenBenutzerSuchen((BenutzerSuchenBean) zuSuchendesObjekt);
+		if (zuSuchendesObjekt instanceof BenutzerSuchenBean) {
+			return (Vector<T>) suchenBenutzerSuchen((BenutzerSuchenBean) zuSuchendesObjekt);
 		}
-		
+
 		return null;
 	}
 
-	private Vector<BenutzerSuchenBean> suchenBenutzerSuchen(BenutzerSuchenBean bean) throws DatenbankExceptions {
+	private Vector<BenutzerSuchenBean> suchenBenutzerSuchen(
+			BenutzerSuchenBean bean) throws DatenbankExceptions {
 		Connection con;
 
 		con = ConnectionFactory.getInstanz().getConnection();
 		PreparedStatement pstmt;
-		BenutzerSuchenBean ergebnisBean=null;
+		BenutzerSuchenBean ergebnisBean = null;
 		ResultSet rs;
 		Vector<BenutzerSuchenBean> sbenutzer = new Vector<BenutzerSuchenBean>();
-		//Nach aktiviert deaktivier wird nicht verglichen
+		// Nach aktiviert deaktivier wird nicht verglichen
 		// erstellen der SQL Abfrage
-		String sql =String.format("select p.%1$s,b.%2$s,z.%3$s, p.%4$s,p.%5$s,p.%6$s,b.%7$s,b.%13$s,z.%8$s from person p, benutzerkonto b, zentrum z where" +
-				" b.%9$s=z.%10$s and b.%11$s=p.%12$s",FelderPerson.ID.toString(),FelderBenutzerkonto.ID.toString(),FelderZentrum.ID.toString(),FelderPerson.NACHNAME.toString(),FelderPerson.VORNAME.toString(),
-				FelderPerson.EMAIL.toString(),FelderBenutzerkonto.LOGINNAME.toString(),FelderZentrum.INSTITUTION.toString(),
-				FelderBenutzerkonto.ZENTRUMID.toString(),FelderZentrum.ID.toString(),FelderBenutzerkonto.PERSONID.toString(),FelderPerson.ID.toString(),FelderBenutzerkonto.GESPERRT.toString());
+		String sql = String
+				.format(
+						"select p.%1$s,b.%2$s,z.%3$s, p.%4$s,p.%5$s,p.%6$s,b.%7$s,b.%13$s,z.%8$s from person p, benutzerkonto b, zentrum z where"
+								+ " b.%9$s=z.%10$s and b.%11$s=p.%12$s",
+						FelderPerson.ID.toString(), FelderBenutzerkonto.ID
+								.toString(), FelderZentrum.ID.toString(),
+						FelderPerson.NACHNAME.toString(), FelderPerson.VORNAME
+								.toString(), FelderPerson.EMAIL.toString(),
+						FelderBenutzerkonto.LOGINNAME.toString(),
+						FelderZentrum.INSTITUTION.toString(),
+						FelderBenutzerkonto.ZENTRUMID.toString(),
+						FelderZentrum.ID.toString(),
+						FelderBenutzerkonto.PERSONID.toString(),
+						FelderPerson.ID.toString(),
+						FelderBenutzerkonto.GESPERRT.toString());
 		int counter = 0;
 		if (bean.getVorname() != null) {
 			sql += " AND p." + FelderPerson.VORNAME.toString() + " LIKE ? ";
@@ -1969,7 +1996,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 			counter++;
 		}
 		if (bean.getLoginname() != null) {
-			sql += " AND b." + FelderBenutzerkonto.LOGINNAME.toString() + " LIKE ? ";
+			sql += " AND b." + FelderBenutzerkonto.LOGINNAME.toString()
+					+ " LIKE ? ";
 			counter++;
 		}
 		if (bean.getEmail() != null) {
@@ -1977,51 +2005,58 @@ public class Datenbank implements DatenbankSchnittstelle {
 			counter++;
 		}
 		if (bean.getInstitut() != null) {
-			sql += " AND z." + FelderZentrum.INSTITUTION.toString() + " LIKE ? ";
+			sql += " AND z." + FelderZentrum.INSTITUTION.toString()
+					+ " LIKE ? ";
 			counter++;
 		}
-		
-	try{
-		pstmt = con.prepareStatement(sql);
-		int index = 1;
-		if (bean.getVorname() != null) {
-			pstmt.setString(index++, bean.getVorname() + "%");
-		}
-		if (bean.getNachname() != null) {
-			pstmt.setString(index++, bean.getNachname() + "%");
-		}
-		if (bean.getLoginname() != null) {
-			pstmt.setString(index++, bean.getLoginname() + "%");
-		}
-		if (bean.getEmail() != null) {
-			pstmt.setString(index++, bean.getEmail() + "%");
-		}
-		if (bean.getInstitut() != null) {
-			pstmt.setString(index++, bean.getInstitut() + "%");
-		}
-		rs = pstmt.executeQuery();
-		while (rs.next()) {
-			// erstelle PersonBeans
 
-			ergebnisBean= new BenutzerSuchenBean(rs.getLong(FelderBenutzerkonto.ID.toString()),rs.getLong(FelderZentrum.ID.toString()),rs.getLong(FelderPerson.ID.toString()),
-					rs.getString(FelderPerson.VORNAME.toString()),//vor
-					rs.getString(FelderPerson.NACHNAME.toString()),//nach
-					rs.getString(FelderPerson.EMAIL.toString()),//email
-					rs.getString(FelderBenutzerkonto.LOGINNAME.toString()),//loginname
-					rs.getString(FelderZentrum.INSTITUTION.toString()),rs.getBoolean(FelderBenutzerkonto.GESPERRT.toString()));//institut
+		try {
+			pstmt = con.prepareStatement(sql);
+			int index = 1;
+			if (bean.getVorname() != null) {
+				pstmt.setString(index++, bean.getVorname() + "%");
+			}
+			if (bean.getNachname() != null) {
+				pstmt.setString(index++, bean.getNachname() + "%");
+			}
+			if (bean.getLoginname() != null) {
+				pstmt.setString(index++, bean.getLoginname() + "%");
+			}
+			if (bean.getEmail() != null) {
+				pstmt.setString(index++, bean.getEmail() + "%");
+			}
+			if (bean.getInstitut() != null) {
+				pstmt.setString(index++, bean.getInstitut() + "%");
+			}
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				// erstelle PersonBeans
 
-			// fuege Person dem Vector hinzu
-			sbenutzer.add(ergebnisBean);
-		}} catch (SQLException e) {
-		DatenbankExceptions de = new DatenbankExceptions(
-				DatenbankExceptions.SUCHEN_ERR);
-		de.initCause(e);
-		throw de;
-	} finally {
-		ConnectionFactory.getInstanz().closeConnection(con);
+				ergebnisBean = new BenutzerSuchenBean(rs
+						.getLong(FelderBenutzerkonto.ID.toString()), rs
+						.getLong(FelderZentrum.ID.toString()), rs
+						.getLong(FelderPerson.ID.toString()), rs
+						.getString(FelderPerson.VORNAME.toString()),// vor
+						rs.getString(FelderPerson.NACHNAME.toString()),// nach
+						rs.getString(FelderPerson.EMAIL.toString()),// email
+						rs.getString(FelderBenutzerkonto.LOGINNAME.toString()),// loginname
+						rs.getString(FelderZentrum.INSTITUTION.toString()), rs
+								.getBoolean(FelderBenutzerkonto.GESPERRT
+										.toString()));// institut
+
+				// fuege Person dem Vector hinzu
+				sbenutzer.add(ergebnisBean);
+			}
+		} catch (SQLException e) {
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.SUCHEN_ERR);
+			de.initCause(e);
+			throw de;
+		} finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
+		}
+		return sbenutzer;
 	}
-	return sbenutzer;
-		}
 
 	/**
 	 * Sucht alle Personen aus der Tabelle {@link Tabellen#PERSON} welche den
@@ -2894,12 +2929,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 	/**
 	 * Sucht nach Studien die die Kriterien im Suchbean erfuellen.
+	 * 
 	 * @param studie
-	 * 			Suchbean. Filter muss gesetzt sein. Attribute ungleich Nullkonstanten werden in Suche einbezogen.
-	 * @return
-	 * 			gefundene Studien
+	 *            Suchbean. Filter muss gesetzt sein. Attribute ungleich
+	 *            Nullkonstanten werden in Suche einbezogen.
+	 * @return gefundene Studien
 	 * @throws DatenbankExceptions
-	 * 			Falls Fehler bei der Suche auftritt
+	 *             Falls Fehler bei der Suche auftritt
 	 */
 	private Vector<StudieBean> suchenStudie(StudieBean studie)
 			throws DatenbankExceptions {
@@ -3003,14 +3039,23 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			sql += FelderStudie.STATUS.toString() + " = ? ";
 			counter++;
-		} 
-		if(studie.getBlockgroesse()!=NullKonstanten.NULL_INT) {
+		}
+		if (studie.getBlockgroesse() != NullKonstanten.NULL_INT) {
 			if (counter == 0) {
 				sql += " WHERE ";
 			} else {
 				sql += " AND ";
 			}
 			sql += FelderStudie.BLOCKGROESSE.toString() + " = ? ";
+			counter++;
+		}
+		if (studie.getStatistikerId() != NullKonstanten.NULL_LONG) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderStudie.STATISTIKER.toString() + " = ? ";
 			counter++;
 		}
 		try {
@@ -3020,13 +3065,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setLong(counter++, studie.getBenutzerkontoId());
 			}
 			if (studie.getName() != null) {
-				pstmt.setString(counter++, studie.getName());
+				pstmt.setString(counter++, studie.getName()+"%");
 			}
 			if (studie.getBeschreibung() != null) {
-				pstmt.setString(counter++, studie.getBeschreibung());
+				pstmt.setString(counter++, "%"+studie.getBeschreibung()+"%");
 			}
 			if (studie.getAlgorithmus() != null) {
-				pstmt.setString(counter++, studie.getAlgorithmus().toString());
+				pstmt.setString(counter++, studie.getAlgorithmus().toString()+"%");
 			}
 			if (studie.getStartDatum() != null) {
 				pstmt.setDate(counter++, new Date(studie.getStartDatum()
@@ -3037,13 +3082,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 						.getTimeInMillis()));
 			}
 			if (studie.getStudienprotokollpfad() != null) {
-				pstmt.setString(counter++, studie.getStudienprotokollpfad());
+				pstmt.setString(counter++, studie.getStudienprotokollpfad()+"%");
 			}
 			if (studie.getStatus() != null) {
 				pstmt.setString(counter++, studie.getStatus().toString());
 			}
-			if(studie.getBlockgroesse()!=NullKonstanten.NULL_INT) {
+			if (studie.getBlockgroesse() != NullKonstanten.NULL_INT) {
 				pstmt.setInt(counter++, studie.getBlockgroesse());
+			}
+			if (studie.getStatistikerId() != NullKonstanten.NULL_LONG) {
+				pstmt.setLong(counter++, studie.getStatistikerId());
 			}
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -3052,6 +3100,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 						.toString()));
 				endDatum = new GregorianCalendar();
 				endDatum.setTime(rs.getDate(FelderStudie.ENDDATUM.toString()));
+				long statistikerID = rs.getLong(FelderStudie.STATISTIKER
+						.toString());
+				if (statistikerID == Types.NULL) {
+					statistikerID = NullKonstanten.DUMMY_ID;
+				}
 				tmpStudie = new StudieBean(
 						rs.getLong(FelderStudie.ID.toString()),
 						rs.getString(FelderStudie.BESCHREIBUNG.toString()),
@@ -3064,8 +3117,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 						startDatum, endDatum, rs
 								.getString(FelderStudie.PROTOKOLL.toString()),
 						Status.parseStatus(rs.getString(FelderStudie.STATUS
-								.toString())), rs.getInt(FelderStudie.BLOCKGROESSE
-								.toString()));
+								.toString())), rs
+								.getInt(FelderStudie.BLOCKGROESSE.toString()),
+						statistikerID);
 				studien.add(tmpStudie);
 			}
 			pstmt.close();
@@ -3088,18 +3142,20 @@ public class Datenbank implements DatenbankSchnittstelle {
 		}
 		return studien;
 	}
-	
+
 	/**
-	 * Sucht in der DB nach StrataBeans die den Kriterien im uebergebenen Filterbean entsprechen
+	 * Sucht in der DB nach StrataBeans die den Kriterien im uebergebenen
+	 * Filterbean entsprechen
+	 * 
 	 * @param sb
-	 * 			Suchbean, bei dem Filter gesetzt sein muss. Werte ungleich den Nullkonstanten werden
-	 * 			in die Suche mit einbezogen
-	 * @return
-	 * 			Vector mit uebereinstimmenden Beans
+	 *            Suchbean, bei dem Filter gesetzt sein muss. Werte ungleich den
+	 *            Nullkonstanten werden in die Suche mit einbezogen
+	 * @return Vector mit uebereinstimmenden Beans
 	 * @throws DatenbankExceptions
-	 * 			Falls ein Fehler bei der Suche auftritt
+	 *             Falls ein Fehler bei der Suche auftritt
 	 */
-	private Vector<StrataBean> suchenStrata(StrataBean sb) throws DatenbankExceptions {
+	private Vector<StrataBean> suchenStrata(StrataBean sb)
+			throws DatenbankExceptions {
 		Connection con;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
@@ -3112,74 +3168,77 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Vector<StrataBean> strata = new Vector<StrataBean>();
 		int counter = 0;
 		String sql = "SELECT * FROM " + Tabellen.STRATA_TYPEN.toString();
-		if(sb.getName()!=null) {
-			sql+=" WHERE "+FelderStrataTypen.NAME+" LIKE ? ";
+		if (sb.getName() != null) {
+			sql += " WHERE " + FelderStrataTypen.NAME + " LIKE ? ";
 			counter++;
 		}
-		if(sb.getBeschreibung()!=null) {
+		if (sb.getBeschreibung() != null) {
 			if (counter == 0) {
 				sql += " WHERE ";
 			} else {
 				sql += " AND ";
 			}
-			sql+=FelderStrataTypen.BESCHREIBUNG+" LIKE ? ";
+			sql += FelderStrataTypen.BESCHREIBUNG + " LIKE ? ";
 			counter++;
 		}
-		if(sb.getStudienID()!=NullKonstanten.NULL_LONG) {
+		if (sb.getStudienID() != NullKonstanten.NULL_LONG) {
 			if (counter == 0) {
 				sql += " WHERE ";
 			} else {
 				sql += " AND ";
 			}
-			sql+=FelderStrataTypen.STUDIEID+" = ? ";
+			sql += FelderStrataTypen.STUDIEID + " = ? ";
 			counter++;
 		}
-		
+
 		try {
-			counter=1;
+			counter = 1;
 			pstmt = con.prepareStatement(sql);
-			if(sb.getName()!=null) {
-				pstmt.setString(counter++, sb.getName()+"%");
+			if (sb.getName() != null) {
+				pstmt.setString(counter++, sb.getName() + "%");
 			}
-			if(sb.getBeschreibung()!=null) {
-				pstmt.setString(counter++, sb.getBeschreibung()+"%");
+			if (sb.getBeschreibung() != null) {
+				pstmt.setString(counter++, sb.getBeschreibung() + "%");
 			}
-			if(sb.getStudienID()!=NullKonstanten.NULL_LONG) {
+			if (sb.getStudienID() != NullKonstanten.NULL_LONG) {
 				pstmt.setLong(counter++, sb.getStudienID());
 			}
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				tmpStrata = new StrataBean(rs.getLong(FelderStrataTypen.Id.toString()),
-						rs.getLong(FelderStrataTypen.STUDIEID.toString()),
-						rs.getString(FelderStrataTypen.NAME.toString()),
-						rs.getString(FelderStrataTypen.BESCHREIBUNG.toString()));
+			while (rs.next()) {
+				tmpStrata = new StrataBean(rs.getLong(FelderStrataTypen.Id
+						.toString()), rs.getLong(FelderStrataTypen.STUDIEID
+						.toString()), rs.getString(FelderStrataTypen.NAME
+						.toString()), rs
+						.getString(FelderStrataTypen.BESCHREIBUNG.toString()));
 				strata.add(tmpStrata);
 			}
 		} catch (SQLException e) {
-			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SUCHEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
 		} catch (StrataException e) {
 			DatenbankExceptions de = new DatenbankExceptions(
 					DatenbankExceptions.UNGUELTIGE_DATEN);
 			de.initCause(e);
 			throw de;
-		}finally {
+		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-		
+
 		return strata;
 	}
-	
+
 	/**
 	 * Sucht alle StrataAuspraegungen die den Kriterien im Suchbean entsprechen
+	 * 
 	 * @param auspr
-	 * 			Suchbean. Filter muss gesetzt sein. Attribute ungleich Nullkonstanten werden in Suche einbezogen.
-	 * @return
-	 * 			gefundene StrataAuspraegungen
+	 *            Suchbean. Filter muss gesetzt sein. Attribute ungleich
+	 *            Nullkonstanten werden in Suche einbezogen.
+	 * @return gefundene StrataAuspraegungen
 	 * @throws DatenbankExceptions
-	 * 			Falls ein Fehler bei der Suche auftritt
+	 *             Falls ein Fehler bei der Suche auftritt
 	 */
-	private Vector<StrataAuspraegungBean> suchenStrataAuspraegung(StrataAuspraegungBean auspr) 
-	throws DatenbankExceptions{
+	private Vector<StrataAuspraegungBean> suchenStrataAuspraegung(
+			StrataAuspraegungBean auspr) throws DatenbankExceptions {
 		Connection con;
 		try {
 			con = ConnectionFactory.getInstanz().getConnection();
@@ -3192,47 +3251,48 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Vector<StrataAuspraegungBean> auspraegungen = new Vector<StrataAuspraegungBean>();
 		int counter = 0;
 		String sql = "SELECT * FROM " + Tabellen.STRATA_AUSPRAEGUNG.toString();
-		if(auspr.getStrataID()!=NullKonstanten.NULL_LONG) {
-			sql+=" WHERE "+FelderStrataAuspraegung.STRATAID+" = ? ";
+		if (auspr.getStrataID() != NullKonstanten.NULL_LONG) {
+			sql += " WHERE " + FelderStrataAuspraegung.STRATAID + " = ? ";
 			counter++;
 		}
-		if(auspr.getName()!= null) {
+		if (auspr.getName() != null) {
 			if (counter == 0) {
 				sql += " WHERE ";
 			} else {
 				sql += " AND ";
 			}
-			sql+=FelderStrataAuspraegung.WERT+" LIKE ? ";
+			sql += FelderStrataAuspraegung.WERT + " LIKE ? ";
 			counter++;
 		}
 		try {
 			counter = 1;
 			pstmt = con.prepareStatement(sql);
-			if(auspr.getStrataID()!=NullKonstanten.NULL_LONG) {
+			if (auspr.getStrataID() != NullKonstanten.NULL_LONG) {
 				pstmt.setLong(counter++, auspr.getStrataID());
 			}
-			if(auspr.getName()!= null) {
+			if (auspr.getName() != null) {
 				pstmt.setString(counter++, auspr.getName());
 			}
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				tmpAuspr = new StrataAuspraegungBean(
-						rs.getLong(FelderStrataAuspraegung.Id.toString()),
-						rs.getLong(FelderStrataAuspraegung.STRATAID.toString()),
+			while (rs.next()) {
+				tmpAuspr = new StrataAuspraegungBean(rs
+						.getLong(FelderStrataAuspraegung.Id.toString()), rs
+						.getLong(FelderStrataAuspraegung.STRATAID.toString()),
 						rs.getString(FelderStrataAuspraegung.WERT.toString()));
 				auspraegungen.add(tmpAuspr);
 			}
-		} catch(SQLException e) {
-			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SUCHEN_ERR);
-		}  catch (StrataException e) {
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
+		} catch (StrataException e) {
 			DatenbankExceptions de = new DatenbankExceptions(
 					DatenbankExceptions.UNGUELTIGE_DATEN);
 			de.initCause(e);
 			throw de;
-		}finally {
+		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-			return auspraegungen;
+		return auspraegungen;
 	}
 
 	/**
@@ -3275,14 +3335,12 @@ public class Datenbank implements DatenbankSchnittstelle {
 		if (nullObjekt instanceof StrataBean) {
 			StrataBean strata = this.suchenStrataId(id);
 			return (T) strata;
-			
+
 		}
 		if (nullObjekt instanceof StrataAuspraegungBean) {
 			StrataAuspraegungBean auspr = this.suchenStrataAuspraegungId(id);
-			return (T) auspr;			
+			return (T) auspr;
 		}
-		
-		
 
 		return null;
 	}
@@ -3587,7 +3645,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 							.toString()));
 					endDatum.setTime(rs.getDate(FelderStudie.ENDDATUM
 							.toString()));
-
+					long statistikerID = rs.getLong(FelderStudie.STATISTIKER
+							.toString());
+					if (statistikerID == Types.NULL) {
+						statistikerID = NullKonstanten.DUMMY_ID;
+					}
 					tmpStudie = new StudieBean(
 							rs.getLong(FelderStudie.ID.toString()),
 							rs.getString(FelderStudie.BESCHREIBUNG.toString()),
@@ -3599,10 +3661,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 									.getLong(FelderStudie.BENUTZER.toString()),
 							startDatum, endDatum, rs
 									.getString(FelderStudie.PROTOKOLL
-											.toString()), Status.parseStatus(rs
-									.getString(FelderStudie.STATUS.toString())),
-									rs.getInt(FelderStudie.BLOCKGROESSE
-											.toString()));
+											.toString()),
+							Status.parseStatus(rs.getString(FelderStudie.STATUS
+									.toString())), rs
+									.getInt(FelderStudie.BLOCKGROESSE
+											.toString()), statistikerID);
 
 				} catch (BenutzerException e) {
 					DatenbankExceptions de = new DatenbankExceptions(
@@ -3756,13 +3819,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 		return tmpPatient;
 
 	}
-	
+
 	/**
 	 * @param id
 	 * @return
 	 * @throws DatenbankExceptions
 	 */
-	private StrataBean suchenStrataId(long id) throws DatenbankExceptions{
+	private StrataBean suchenStrataId(long id) throws DatenbankExceptions {
 		Connection con = null;
 		PreparedStatement pstmt;
 		ResultSet rs = null;
@@ -3775,14 +3838,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, id);
 			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				tmpStrata = new StrataBean(rs.getLong(FelderStrataTypen.Id.toString()),
-						rs.getLong(FelderStrataTypen.STUDIEID.toString()),
-						rs.getString(FelderStrataTypen.NAME.toString()),
-						rs.getString(FelderStrataTypen.BESCHREIBUNG.toString()));
+			if (rs.next()) {
+				tmpStrata = new StrataBean(rs.getLong(FelderStrataTypen.Id
+						.toString()), rs.getLong(FelderStrataTypen.STUDIEID
+						.toString()), rs.getString(FelderStrataTypen.NAME
+						.toString()), rs
+						.getString(FelderStrataTypen.BESCHREIBUNG.toString()));
 			}
 		} catch (SQLException e) {
-			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SCHREIBEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SCHREIBEN_ERR);
 		} catch (StrataException e) {
 			DatenbankExceptions de = new DatenbankExceptions(
 					DatenbankExceptions.UNGUELTIGE_DATEN);
@@ -3792,17 +3857,18 @@ public class Datenbank implements DatenbankSchnittstelle {
 		ConnectionFactory.getInstanz().closeConnection(con);
 		return tmpStrata;
 	}
-	
+
 	/**
 	 * Sucht die Strataauspraegung mit der uebergebenen ID
+	 * 
 	 * @param id
-	 * 			ID
-	 * @return
-	 * 			gefundene Strata Auspraegung
+	 *            ID
+	 * @return gefundene Strata Auspraegung
 	 * @throws DatenbankExceptions
-	 * 				Falls beim suchen ein Fehler auftritt.
+	 *             Falls beim suchen ein Fehler auftritt.
 	 */
-	private StrataAuspraegungBean suchenStrataAuspraegungId(long id) throws DatenbankExceptions{
+	private StrataAuspraegungBean suchenStrataAuspraegungId(long id)
+			throws DatenbankExceptions {
 		Connection con = null;
 		PreparedStatement pstmt;
 		ResultSet rs = null;
@@ -3815,15 +3881,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, id);
 			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				tmpStrata = new StrataAuspraegungBean(
-						rs.getLong(FelderStrataAuspraegung.Id.toString()),
-						rs.getLong(FelderStrataAuspraegung.STRATAID.toString()),
-						rs.getString(FelderStrataAuspraegung.WERT.toString())				
-				);
+			if (rs.next()) {
+				tmpStrata = new StrataAuspraegungBean(rs
+						.getLong(FelderStrataAuspraegung.Id.toString()), rs
+						.getLong(FelderStrataAuspraegung.STRATAID.toString()),
+						rs.getString(FelderStrataAuspraegung.WERT.toString()));
 			}
 		} catch (SQLException e) {
-			throw new DatenbankExceptions(e,sql,DatenbankExceptions.SCHREIBEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SCHREIBEN_ERR);
 		} catch (StrataException e) {
 			DatenbankExceptions de = new DatenbankExceptions(
 					DatenbankExceptions.UNGUELTIGE_DATEN);
@@ -3905,13 +3971,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 			return (Vector<T>) suchenStudieKind(studie, ((ZentrumBean) vater)
 					.getId());
 		}
-		//1:n V Sudie : K Strata
+		// 1:n V Sudie : K Strata
 		if (kind instanceof StrataBean && vater instanceof StudieBean) {
-			return (Vector<T>) suchenStrataKind((StrataBean) kind, vater.getId());
+			return (Vector<T>) suchenStrataKind((StrataBean) kind, vater
+					.getId());
 		}
-		//1:n V Strata : K StrataAuspraegung
-		if (kind instanceof StrataAuspraegungBean && vater instanceof StrataBean) {
-			return (Vector<T>) suchenStrataAuspraegungKind((StrataAuspraegungBean) kind, vater.getId());
+		// 1:n V Strata : K StrataAuspraegung
+		if (kind instanceof StrataAuspraegungBean
+				&& vater instanceof StrataBean) {
+			return (Vector<T>) suchenStrataAuspraegungKind(
+					(StrataAuspraegungBean) kind, vater.getId());
 		}
 		return null;
 	}
@@ -4178,13 +4247,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.setLong(counter++, studie.getBenutzerkontoId());
 			}
 			if (studie.getName() != null) {
-				pstmt.setString(counter++, studie.getName());
+				pstmt.setString(counter++, studie.getName()+"%");
 			}
 			if (studie.getBeschreibung() != null) {
-				pstmt.setString(counter++, studie.getBeschreibung());
+				pstmt.setString(counter++,"%"+ studie.getBeschreibung()+"%");
 			}
 			if (studie.getAlgorithmus() != null) {
-				pstmt.setString(counter++, studie.getAlgorithmus().toString());
+				pstmt.setString(counter++, studie.getAlgorithmus().toString()+"5");
 			}
 			if (studie.getStartDatum() != null) {
 				pstmt.setDate(counter++, new Date(studie.getStartDatum()
@@ -4195,7 +4264,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						.getTimeInMillis()));
 			}
 			if (studie.getStudienprotokollpfad() != null) {
-				pstmt.setString(counter++, studie.getStudienprotokollpfad());
+				pstmt.setString(counter++, studie.getStudienprotokollpfad()+"%");
 			}
 			if (studie.getStatus() != null) {
 				pstmt.setString(counter++, studie.getStatus().toString());
@@ -4219,9 +4288,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 									.getLong(FelderStudie.BENUTZER.toString()),
 							startDatum, endDatum, rs
 									.getString(FelderStudie.PROTOKOLL
-											.toString()), Status.parseStatus(rs
-									.getString(FelderStudie.STATUS.toString())),
-									rs.getInt(FelderStudie.BLOCKGROESSE
+											.toString()),
+							Status.parseStatus(rs.getString(FelderStudie.STATUS
+									.toString())), rs
+									.getInt(FelderStudie.BLOCKGROESSE
 											.toString()));
 				} catch (StudieException e) {
 					DatenbankExceptions de = new DatenbankExceptions(
@@ -4239,51 +4309,56 @@ public class Datenbank implements DatenbankSchnittstelle {
 			rs.close();
 			pstmt.close();
 		} catch (SQLException e) {
-			throw new DatenbankExceptions(e, sql, DatenbankExceptions.SUCHEN_ERR);
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
 		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 		return sVector;
 	}
-	
+
 	/**
 	 * Sucht zu einem Strata alle Auspraegungen
+	 * 
 	 * @param auspr
-	 * 			leeres StrataAuspraegungsBeans mit eventuellen Suchkriterien.
+	 *            leeres StrataAuspraegungsBeans mit eventuellen Suchkriterien.
 	 * @param id
-	 * 			id des StrataBeans
-	 * @return
-	 * 		alle gefundenen StrataAuspraegungen
-	 * @throws DatenbankExceptions 
-	 * 				Falls bei der Suche Fehler auftritt
+	 *            id des StrataBeans
+	 * @return alle gefundenen StrataAuspraegungen
+	 * @throws DatenbankExceptions
+	 *             Falls bei der Suche Fehler auftritt
 	 */
-	private Vector<StrataAuspraegungBean> suchenStrataAuspraegungKind(StrataAuspraegungBean auspr, long id) throws DatenbankExceptions {
+	private Vector<StrataAuspraegungBean> suchenStrataAuspraegungKind(
+			StrataAuspraegungBean auspr, long id) throws DatenbankExceptions {
 		try {
 			auspr.setStrataID(id);
 		} catch (StrataException e) {
-			DatenbankExceptions d = new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
+			DatenbankExceptions d = new DatenbankExceptions(
+					DatenbankExceptions.ID_FALSCH);
 			d.initCause(e);
 			throw d;
 		}
 		return suchenStrataAuspraegung(auspr);
 	}
-	
+
 	/**
 	 * Sucht zu einer Studie alle Strata
+	 * 
 	 * @param strata
-	 * 			leeres StrataBeans mit eventuellen Suchkriterien.
+	 *            leeres StrataBeans mit eventuellen Suchkriterien.
 	 * @param id
-	 * 			id der Studie
-	 * @return
-	 * 		alle gefundenen Strata
-	 * @throws DatenbankExceptions 
-	 * 				Falls bei der Suche Fehler auftritt
+	 *            id der Studie
+	 * @return alle gefundenen Strata
+	 * @throws DatenbankExceptions
+	 *             Falls bei der Suche Fehler auftritt
 	 */
-	private Vector<StrataBean> suchenStrataKind(StrataBean strata, long id) throws DatenbankExceptions {
+	private Vector<StrataBean> suchenStrataKind(StrataBean strata, long id)
+			throws DatenbankExceptions {
 		try {
 			strata.setStudienID(id);
 		} catch (StrataException e) {
-			DatenbankExceptions d = new DatenbankExceptions(DatenbankExceptions.ID_FALSCH);
+			DatenbankExceptions d = new DatenbankExceptions(
+					DatenbankExceptions.ID_FALSCH);
 			d.initCause(e);
 			throw d;
 		}
@@ -4510,8 +4585,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 					.format(((StudieBean) aObjekt).getEndDatum().getTime()));
 			geaenderteDaten.put(FelderStudie.STATUS.toString(),
 					((StudieBean) aObjekt).getStatus().toString());
-			geaenderteDaten.put(FelderStudie.BLOCKGROESSE.toString(), 
-					String.valueOf(((StudieBean) aObjekt).getBlockgroesse()));
+			geaenderteDaten.put(FelderStudie.BLOCKGROESSE.toString(), String
+					.valueOf(((StudieBean) aObjekt).getBlockgroesse()));
+			geaenderteDaten.put(FelderStudie.STATISTIKER.toString(), String
+					.valueOf(((StudieBean) aObjekt).getStatistikerId()));
 
 		} else if (aObjekt instanceof StudienarmBean) {
 			geaenderteDaten.put(FelderStudienarm.STUDIE.toString(), String
@@ -4530,12 +4607,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 					.valueOf(((PatientBean) aObjekt).getBenutzerkontoId()));
 			geaenderteDaten.put(FelderPatient.STUDIENARM.toString(), String
 					.valueOf(((PatientBean) aObjekt).getStudienarmId()));
-			geaenderteDaten.put(FelderPatient.GEBURTSDATUM.toString(), sdf
-					.format(((PatientBean) aObjekt).getGeburtsdatum().getTime()));
+			geaenderteDaten.put(FelderPatient.GEBURTSDATUM.toString(),
+					sdf.format(((PatientBean) aObjekt).getGeburtsdatum()
+							.getTime()));
 			geaenderteDaten.put(FelderPatient.GESCHLECHT.toString(), String
 					.valueOf(((PatientBean) aObjekt).getGeschlecht()));
 			geaenderteDaten.put(FelderPatient.AUFKLAERUNGSDATUM.toString(), sdf
-					.format(((PatientBean) aObjekt).getDatumAufklaerung().getTime()));
+					.format(((PatientBean) aObjekt).getDatumAufklaerung()
+							.getTime()));
 			geaenderteDaten.put(FelderPatient.KOERPEROBERFLAECHE.toString(),
 					String.valueOf(((PatientBean) aObjekt)
 							.getKoerperoberflaeche()));
@@ -4544,14 +4623,18 @@ public class Datenbank implements DatenbankSchnittstelle {
 							.getPerformanceStatus()));
 
 		} else if (aObjekt instanceof StrataBean) {
-			geaenderteDaten.put(FelderStrataTypen.STUDIEID.toString(), String.valueOf(((StrataBean) aObjekt).getId()));
-			geaenderteDaten.put(FelderStrataTypen.NAME.toString(), ((StrataBean) aObjekt).getName());
-			geaenderteDaten.put(FelderStrataTypen.BESCHREIBUNG.toString(), ((StrataBean) aObjekt).getBeschreibung());			
+			geaenderteDaten.put(FelderStrataTypen.STUDIEID.toString(), String
+					.valueOf(((StrataBean) aObjekt).getId()));
+			geaenderteDaten.put(FelderStrataTypen.NAME.toString(),
+					((StrataBean) aObjekt).getName());
+			geaenderteDaten.put(FelderStrataTypen.BESCHREIBUNG.toString(),
+					((StrataBean) aObjekt).getBeschreibung());
 		} else if (aObjekt instanceof StrataAuspraegungBean) {
-			geaenderteDaten.put(FelderStrataAuspraegung.STRATAID.toString(), 
-					String.valueOf(((StrataAuspraegungBean) aObjekt).getStrataID()));
-			geaenderteDaten.put(FelderStrataAuspraegung.STRATAID.toString(), 
-					((StrataAuspraegungBean) aObjekt).getName());			
+			geaenderteDaten.put(FelderStrataAuspraegung.STRATAID.toString(),
+					String.valueOf(((StrataAuspraegungBean) aObjekt)
+							.getStrataID()));
+			geaenderteDaten.put(FelderStrataAuspraegung.STRATAID.toString(),
+					((StrataAuspraegungBean) aObjekt).getName());
 		}
 		// Benutzerkonto welches die Aktion ausgeloest hat
 		BenutzerkontoBean ausfuehrendesBkBean = aObjekt
