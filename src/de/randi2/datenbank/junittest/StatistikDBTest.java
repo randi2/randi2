@@ -21,7 +21,7 @@ public class StatistikDBTest {
 	
 	@Test
 	public void getVertPatMW() throws DatenbankExceptions {
-		int studienID = 1; //ID der Studie zu der die Statistik erstellt wird
+		int studienID = 2; //ID der Studie zu der die Statistik erstellt wird
 		long[][] verteilung= StatistikDB.getVertPatMW(studienID);
 		System.out.println("<---STATISTIK TEST: Anzahl Patienten in Armen, sowie maennlich und weiblicher Anteil in Studie "+studienID+"--->");
 		for(int i = 0;i<verteilung.length;i++) {
