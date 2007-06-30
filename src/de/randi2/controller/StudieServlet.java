@@ -76,6 +76,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 * Meldung, wenn der Status erfolgreich geaendert wurde.
 	 */
 	public static final String STATUS_GEAENDERT = "Status der Studie wurde erfolgreich geaendert!";
+	
+	public static final String STUDIENARM_BEENDET = "Der ausgewählte Studienarm wurde beenden!";
 
 	/**
 	 * Die Anfrage_id zur Verwendung im Studie Servlet
@@ -439,7 +441,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				aStudienarm.setBenutzerkontoLogging((BenutzerkontoBean) request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString()));
 				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aStudienarm);
 				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
-						STATUS_GEAENDERT);
+						STUDIENARM_BEENDET);
 				request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
 						response);
 			} catch (StudienarmException e) {
