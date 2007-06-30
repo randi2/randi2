@@ -41,6 +41,7 @@ import de.randi2.utility.LogLayout;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.Parameter;
 import de.randi2.utility.SystemException;
+import de.randi2.utility.ValidierungsUtil;
 
 /**
  * Diese Klasse repraesentiert das BENUTZERSERVLET, welches Aktionen an die
@@ -80,16 +81,16 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		 * Nutzer lässt sich ein neues Passwort zuschicken
 		 */
 		CLASS_DISPATCHERSERVLET_PASSWORT_VERGESSEN,
-		
-		
+
 		/**
-		 * Admin kann sich den aktuellen Nutzer anzeigen, oder diesen sperren, entsperren.
+		 * Admin kann sich den aktuellen Nutzer anzeigen, oder diesen sperren,
+		 * entsperren.
 		 */
 		CLASS_DISPATCHERSERVLET_ANZEIGEN_SPERREN,
-		
-		
+
 		/**
-		 * Der aktuelle Benutzer wird gesperrt, entsperrt oder das Sperren wird abgebrochen
+		 * Der aktuelle Benutzer wird gesperrt, entsperrt oder das Sperren wird
+		 * abgebrochen
 		 */
 		CLASS_DISPATCHERSERVLET_SPERREN_ENTSPERREN,
 
@@ -168,12 +169,15 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				.equals(anfrage_id.CLASS_DISPATCHERSERVLET_PASSWORT_VERGESSEN
 						.name())) {
 			this.classDispatcherServletPasswortVergessen(request, response);
-		}else if( id.equals(anfrage_id.CLASS_DISPATCHERSERVLET_ANZEIGEN_SPERREN.name()))
-		{
+		} else if (id
+				.equals(anfrage_id.CLASS_DISPATCHERSERVLET_ANZEIGEN_SPERREN
+						.name())) {
 			this.classDispatcherServletAnzeigenSperren(request, response);
 		}
 
-		else if (id.equals(anfrage_id.CLASS_DISPATCHERSERVLET_SPERREN_ENTSPERREN.name())){
+		else if (id
+				.equals(anfrage_id.CLASS_DISPATCHERSERVLET_SPERREN_ENTSPERREN
+						.name())) {
 			this.classDispatcherservletSperrenEntsperren(request, response);
 		}
 		// if
@@ -201,114 +205,135 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	private void aendernBenutzer(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-			// wichtiger boolean
-			boolean wurdeStellvertreterGesetzt = true;
+		// wichtiger boolean
+		boolean wurdeStellvertreterGesetzt = true;
 
-			// Alle aenderbaren Attribute des request inititalisieren
-			String titel = request.getParameter(Parameter.person.TITEL.toString());
-			PersonBean.Titel titelenum = null;
-			String telefon = request.getParameter(Parameter.person.TELEFONNUMMER.toString());
-			String handynummer = request.getParameter(Parameter.person.HANDYNUMMER.toString());
-			String nachnameA = request.getParameter(Parameter.person.STELLVERTRETER_NACHNAME.toString());
-			String vornameA = request.getParameter(Parameter.person.STELLVERTRETER_VORNAME.toString());
-			String telefonA = request.getParameter(Parameter.person.STELLVERTRETER_TELEFONNUMMER.toString());
-			char geschlechtA = NullKonstanten.NULL_CHAR;
-			if (request.getParameter(Parameter.person.STELLVERTRETER_GESCHLECHT.toString()) != null) {
-				geschlechtA = request.getParameter(Parameter.person.STELLVERTRETER_GESCHLECHT.toString()).charAt(0);
+		// Alle aenderbaren Attribute des request inititalisieren
+		String titel = request.getParameter(Parameter.person.TITEL.toString());
+		PersonBean.Titel titelenum = null;
+		String telefon = request.getParameter(Parameter.person.TELEFONNUMMER
+				.toString());
+		String handynummer = request.getParameter(Parameter.person.HANDYNUMMER
+				.toString());
+		String nachnameA = request
+				.getParameter(Parameter.person.STELLVERTRETER_NACHNAME
+						.toString());
+		String vornameA = request
+				.getParameter(Parameter.person.STELLVERTRETER_VORNAME
+						.toString());
+		String telefonA = request
+				.getParameter(Parameter.person.STELLVERTRETER_TELEFONNUMMER
+						.toString());
+		char geschlechtA = NullKonstanten.NULL_CHAR;
+		if (request.getParameter(Parameter.person.STELLVERTRETER_GESCHLECHT
+				.toString()) != null) {
+			geschlechtA = request.getParameter(
+					Parameter.person.STELLVERTRETER_GESCHLECHT.toString())
+					.charAt(0);
+		}
+		String emailA = request
+				.getParameter(Parameter.person.STELLVERTRETER_EMAIL.toString());
+		String fax = request.getParameter(Parameter.person.FAX.toString());
+		String passwort = null;
+
+		// Konvertierung String enum
+		for (PersonBean.Titel t : PersonBean.Titel.values()) {
+			if (titel.equals(t.toString())) {
+				titelenum = t;
+				break;
 			}
-			String emailA = request.getParameter(Parameter.person.STELLVERTRETER_EMAIL.toString());
-			String fax = request.getParameter(Parameter.person.FAX.toString());
-			String passwort = null;
+		}
 
-			// Konvertierung String enum
-			for (PersonBean.Titel t : PersonBean.Titel.values()) {
-				if (titel.equals(t.toString())) {
-					titelenum = t;
-					break;
-				}
+		// Wiederholte Passworteingabe pruefen
+		if (request.getParameter(Parameter.benutzerkonto.PASSWORT.toString()) != null
+				&& request
+						.getParameter(Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG
+								.toString()) != null) {
+			if (request
+					.getParameter(Parameter.benutzerkonto.PASSWORT.toString())
+					.equals(
+							request
+									.getParameter(Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG
+											.toString()))
+					&& ValidierungsUtil.validierePasswortZeichen(request
+							.getParameter(Parameter.benutzerkonto.PASSWORT
+									.toString()))) {
+				passwort = request
+						.getParameter(Parameter.benutzerkonto.PASSWORT
+								.toString());
+			} else {
+				passwort = "";
 			}
+		}
 
-			// Wiederholte Passworteingabe pruefen
-			if (request.getParameter(Parameter.benutzerkonto.PASSWORT.toString()) != null
-					&& request.getParameter(Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG.toString()) != null) {
-				if (request.getParameter(Parameter.benutzerkonto.PASSWORT.toString()).equals(
-						request.getParameter(Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG.toString()))) {
-					passwort = request.getParameter(Parameter.benutzerkonto.PASSWORT.toString());
+		BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request.getSession())
+				.getAttribute(DispatcherServlet.sessionParameter.A_Benutzer
+						.toString());
+		aBenutzer.setBenutzerkontoLogging(aBenutzer);
+		try {
+			PersonBean aPerson = aBenutzer.getBenutzer();
+			aPerson.setBenutzerkontoLogging(aBenutzer);
+			aPerson.setTitel(titelenum);
+			aPerson.setTelefonnummer(telefon);
+			aPerson.setHandynummer(handynummer);
+			aPerson.setFax(fax);
+			if (aPerson.getStellvertreter() != null) {
+				aPerson.getStellvertreter().setBenutzerkontoLogging(aBenutzer);
+				aPerson.getStellvertreter().setNachname(nachnameA);
+				aPerson.getStellvertreter().setVorname(vornameA);
+				aPerson.getStellvertreter().setTelefonnummer(telefonA);
+				aPerson.getStellvertreter().setEmail(emailA);
+				aPerson.getStellvertreter().setGeschlecht(geschlechtA);
+			} else {
+				if (nachnameA != null || vornameA != null || telefonA != null
+						|| emailA != null
+						|| geschlechtA != NullKonstanten.NULL_CHAR) {
+					PersonBean bPerson = new PersonBean();
+					bPerson.setBenutzerkontoLogging(aBenutzer);
+					bPerson.setTitel(PersonBean.Titel.KEIN_TITEL);
+					bPerson.setNachname(nachnameA);
+					bPerson.setVorname(vornameA);
+					bPerson.setTelefonnummer(telefonA);
+					bPerson.setEmail(emailA);
+					bPerson.setGeschlecht(geschlechtA);
+					bPerson = DatenbankFactory.getAktuelleDBInstanz()
+							.schreibenObjekt(bPerson);
+					aPerson.setStellvertreterId(bPerson.getId());
 				} else {
-					passwort = "";
+					wurdeStellvertreterGesetzt = false;
 				}
 			}
-
-			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
-					.getSession()).getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString());
-			aBenutzer.setBenutzerkontoLogging(aBenutzer);
-			try {
-				PersonBean aPerson = aBenutzer.getBenutzer();
-				aPerson.setBenutzerkontoLogging(aBenutzer);
-				aPerson.setTitel(titelenum);
-				aPerson.setTelefonnummer(telefon);
-				aPerson.setHandynummer(handynummer);
-				aPerson.setFax(fax);
-				if (aPerson.getStellvertreter() != null) {
-					aPerson.getStellvertreter().setBenutzerkontoLogging(
-							aBenutzer);
-					aPerson.getStellvertreter().setNachname(nachnameA);
-					aPerson.getStellvertreter().setVorname(vornameA);
-					aPerson.getStellvertreter().setTelefonnummer(telefonA);
-					aPerson.getStellvertreter().setEmail(emailA);
-					aPerson.getStellvertreter().setGeschlecht(geschlechtA);
-				} else {
-					if (nachnameA != null || vornameA != null
-							|| telefonA != null || emailA != null
-							|| geschlechtA != NullKonstanten.NULL_CHAR) {
-						PersonBean bPerson = new PersonBean();
-						bPerson.setBenutzerkontoLogging(aBenutzer);
-						bPerson.setTitel(PersonBean.Titel.KEIN_TITEL);
-						bPerson.setNachname(nachnameA);
-						bPerson.setVorname(vornameA);
-						bPerson.setTelefonnummer(telefonA);
-						bPerson.setEmail(emailA);
-						bPerson.setGeschlecht(geschlechtA);
-						bPerson = DatenbankFactory.getAktuelleDBInstanz()
-								.schreibenObjekt(bPerson);
-						aPerson.setStellvertreterId(bPerson.getId());
-					} else {
-						wurdeStellvertreterGesetzt = false;
-					}
+			if (passwort != null) {
+				if (!(passwort.trim().equals(""))) {
+					String hash = KryptoUtil.getInstance().hashPasswort(
+							passwort);
+					aBenutzer.setPasswort(hash);
 				}
-				if (passwort != null) {
-					if (!(passwort.trim().equals(""))) {
-						String hash = KryptoUtil.getInstance().hashPasswort(
-								passwort);
-						aBenutzer.setPasswort(hash);
-					}
-				}
-				DatenbankFactory.getAktuelleDBInstanz()
-						.schreibenObjekt(aPerson);
-				aBenutzer = DatenbankFactory.getAktuelleDBInstanz()
-						.schreibenObjekt(aBenutzer);
-				request.getSession().setAttribute(
-						DispatcherServlet.sessionParameter.A_Benutzer
-								.toString(), aBenutzer);
-				if (wurdeStellvertreterGesetzt) {
-					request.setAttribute(DispatcherServlet.NACHRICHT_OK,
-							"Daten erfolgreich ge&auml;ndert.");
-				} else {
-					request
-							.setAttribute(DispatcherServlet.NACHRICHT_OK,
-									"Daten erfolgreich ge&auml;ndert. (Kein Stellvertreter gesetzt)");
-				}
-				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
-						request, response);
-			} catch (BenutzerException e) {
-				e.printStackTrace();
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-						.getMessage());
-				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
-						request, response);
 			}
+			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aPerson);
+			aBenutzer = DatenbankFactory.getAktuelleDBInstanz()
+					.schreibenObjekt(aBenutzer);
+			request.getSession().setAttribute(
+					DispatcherServlet.sessionParameter.A_Benutzer.toString(),
+					aBenutzer);
+			if (wurdeStellvertreterGesetzt) {
+				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+						"Daten erfolgreich ge&auml;ndert.");
+			} else {
+				request
+						.setAttribute(DispatcherServlet.NACHRICHT_OK,
+								"Daten erfolgreich ge&auml;ndert. (Kein Stellvertreter gesetzt)");
+			}
+			request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(request,
+					response);
+		} catch (BenutzerException e) {
+			e.printStackTrace();
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getMessage());
+			request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(request,
+					response);
+		}
 
-		
 	}
 
 	/**
@@ -409,8 +434,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			loggeKorrekteanmeldung(aBenutzer);
 			return;
 		} else {
-			request.setAttribute(Parameter.anfrage_id.toString(), StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN
-					.name());
+			request.setAttribute(Parameter.anfrage_id.toString(),
+					StudieServlet.anfrage_id.AKTION_STUDIE_AUSWAEHLEN.name());
 			request.getRequestDispatcher("StudieServlet").forward(request,
 					response);
 			loggeKorrekteanmeldung(aBenutzer);
@@ -788,16 +813,18 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		benutzer.setEmail(request.getParameter(Parameter.person.EMAIL.name()));
 		benutzer.setLoginname(request
 				.getParameter(Parameter.benutzerkonto.LOGINNAME.name()));
-		if(request.getParameter(Parameter.zentrum.INSTITUTION.name())!=null&&!request.getParameter(Parameter.zentrum.INSTITUTION.name()).equals(ZentrumServlet.ALLE_ZENTREN)){
-		benutzer.setInstitut(request.getParameter(Parameter.zentrum.INSTITUTION
-				.name()));
+		if (request.getParameter(Parameter.zentrum.INSTITUTION.name()) != null
+				&& !request.getParameter(Parameter.zentrum.INSTITUTION.name())
+						.equals(ZentrumServlet.ALLE_ZENTREN)) {
+			benutzer.setInstitut(request
+					.getParameter(Parameter.zentrum.INSTITUTION.name()));
 		}
 		benutzer.setFilter(true);
 		benutzerVec = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
 				benutzer);
 		request.setAttribute("listeBenutzer", benutzerVec);
-		request.getRequestDispatcher(Jsp.BENUTZER_LISTE_ADMIN)
-				.forward(request, response);
+		request.getRequestDispatcher(Jsp.BENUTZER_LISTE_ADMIN).forward(request,
+				response);
 	}
 
 	/**
@@ -932,7 +959,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			// Mitteilungsversand
 			// Passwort
 			AutomatischeNachricht passwortmail = new AutomatischeNachricht(
-					aBenutzerkonto.getBenutzer(), passwort,AutomatischeNachricht.autoNachricht.PASSWORT_SL_ADMIN);
+					aBenutzerkonto.getBenutzer(), passwort,
+					AutomatischeNachricht.autoNachricht.PASSWORT_SL_ADMIN);
 			passwortmail.senden();
 			// Aktivierungsmail
 			AktivierungBean aktivierung = new AktivierungBean(
@@ -951,8 +979,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 					"Account erfolgreich angelegt.");
-			request.setAttribute(Parameter.anfrage_id.toString(), DispatcherServlet.anfrage_id.JSP_ADMIN_ANLEGEN
-					.name());
+			request.setAttribute(Parameter.anfrage_id.toString(),
+					DispatcherServlet.anfrage_id.JSP_ADMIN_ANLEGEN.name());
 			request.getRequestDispatcher("/DispatcherServlet").forward(request,
 					response);
 
@@ -994,8 +1022,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 					.getMessage());
 
-			request.setAttribute(Parameter.anfrage_id.toString(), DispatcherServlet.anfrage_id.JSP_ADMIN_ANLEGEN
-					.name());
+			request.setAttribute(Parameter.anfrage_id.toString(),
+					DispatcherServlet.anfrage_id.JSP_ADMIN_ANLEGEN.name());
 			request.getRequestDispatcher("/DispatcherServlet").forward(request,
 					response);
 		}
@@ -1040,7 +1068,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					.schreibenObjekt(aBenutzerkonto);
 
 			AutomatischeNachricht autoNachricht = new AutomatischeNachricht(
-					aBenutzerkonto.getBenutzer(), neuesPasswort,AutomatischeNachricht.autoNachricht.NEUES_PASSWORT);
+					aBenutzerkonto.getBenutzer(), neuesPasswort,
+					AutomatischeNachricht.autoNachricht.NEUES_PASSWORT);
 			Logger.getLogger(this.getClass()).debug(
 					"Neues Passwort ist:\t" + neuesPasswort);
 			// TODO --afreudli NAch debuggen Kommentar entfernen
@@ -1077,81 +1106,112 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				response);
 
 	}
-	
-	private void classDispatcherServletAnzeigenSperren(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
-		String button=request.getParameter("button");
-		StringTokenizer st= new StringTokenizer(button,"_");
-		String art=st.nextToken();
-		long id=Long.parseLong(st.nextToken());
-		BenutzerkontoBean aBenutzer=DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(id, new BenutzerkontoBean());
-		if(art.equals("a")){
+
+	private void classDispatcherServletAnzeigenSperren(
+			HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String button = request.getParameter("button");
+		StringTokenizer st = new StringTokenizer(button, "_");
+		String art = st.nextToken();
+		long id = Long.parseLong(st.nextToken());
+		BenutzerkontoBean aBenutzer = DatenbankFactory.getAktuelleDBInstanz()
+				.suchenObjektId(id, new BenutzerkontoBean());
+		if (art.equals("a")) {
 			request.setAttribute("aBenutzer", aBenutzer);
-			request.getRequestDispatcher(Jsp.BENUTZER_ANZEIGEN_ADMIN).forward(request, response);
-		}
-		else if(art.equals("s")){
-			request.getSession().setAttribute(DispatcherServlet.sessionParameter.BENUTZER_SPERREN_ENTSPERREN_ADMIN.toString(), aBenutzer);
-			request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(request, response);
+			request.getRequestDispatcher(Jsp.BENUTZER_ANZEIGEN_ADMIN).forward(
+					request, response);
+		} else if (art.equals("s")) {
+			request
+					.getSession()
+					.setAttribute(
+							DispatcherServlet.sessionParameter.BENUTZER_SPERREN_ENTSPERREN_ADMIN
+									.toString(), aBenutzer);
+			request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(request,
+					response);
 		}
 	}
-	private void classDispatcherservletSperrenEntsperren(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException{
-		String submit=request.getParameter("sperrenEntsperren");
-		//Es wird gesperrt oder entsperrt
-		if(submit!=null)
-		{
-			BenutzerkontoBean aBenutzer=(BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.BENUTZER_SPERREN_ENTSPERREN_ADMIN.toString());
-			aBenutzer.setBenutzerkontoLogging((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString()));
-			//Achtung es wurde keine Nachricht eingegebn
-			String nachricht=request.getParameter("nachricht");
-			if(nachricht==null)
-			{
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Bitte geben Sie einen Text ein.");
-				request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(request, response);
+
+	private void classDispatcherservletSperrenEntsperren(
+			HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String submit = request.getParameter("sperrenEntsperren");
+		// Es wird gesperrt oder entsperrt
+		if (submit != null) {
+			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) request
+					.getSession()
+					.getAttribute(
+							DispatcherServlet.sessionParameter.BENUTZER_SPERREN_ENTSPERREN_ADMIN
+									.toString());
+			aBenutzer.setBenutzerkontoLogging((BenutzerkontoBean) request
+					.getSession().getAttribute(
+							DispatcherServlet.sessionParameter.A_Benutzer
+									.toString()));
+			// Achtung es wurde keine Nachricht eingegebn
+			String nachricht = request.getParameter("nachricht");
+			if (nachricht == null) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+						"Bitte geben Sie einen Text ein.");
+				request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(
+						request, response);
 				return;
 			}
-			try{
-			//Benutzer wird entsperrt
-			if(aBenutzer.isGesperrt()){
-				
-				aBenutzer.setGesperrt(false);
-				AutomatischeNachricht aNachricht= new AutomatischeNachricht(aBenutzer.getBenutzer(),nachricht,AutomatischeNachricht.autoNachricht.BENUTZER_SPERREN);
-				
-				//TODO --afreudli Kommentar entfernen
-				//aNachricht.senden();
-	
-				
-			}
-			//Benutzer wird entsperrt
-			else
-			{
-				aBenutzer.setGesperrt(true);
-				AutomatischeNachricht aNachricht= new AutomatischeNachricht(aBenutzer.getBenutzer(),nachricht,AutomatischeNachricht.autoNachricht.BENUTZER_ENTSPERREN);
-//				TODO --afreudli Kommentar entfernen
-				//aNachricht.senden();
-			}
-			//Benutzer schreiben
-			aBenutzer.setBenutzerkontoLogging((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString()));
-			aBenutzer=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzer);
-			request.setAttribute(DispatcherServlet.NACHRICHT_OK, "Änderung wurde erfolgeich durchgef&uuml;hrt");
-			request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(request, response);
-			return;
-			
-			}
-			catch (NachrichtException e){
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Achtung Nachricht wurde nicht versand");
-				request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(request, response);
+			try {
+				// Benutzer wird entsperrt
+				if (aBenutzer.isGesperrt()) {
+
+					aBenutzer.setGesperrt(false);
+					AutomatischeNachricht aNachricht = new AutomatischeNachricht(
+							aBenutzer.getBenutzer(),
+							nachricht,
+							AutomatischeNachricht.autoNachricht.BENUTZER_SPERREN);
+
+					// TODO --afreudli Kommentar entfernen
+					// aNachricht.senden();
+
+				}
+				// Benutzer wird entsperrt
+				else {
+					aBenutzer.setGesperrt(true);
+					AutomatischeNachricht aNachricht = new AutomatischeNachricht(
+							aBenutzer.getBenutzer(),
+							nachricht,
+							AutomatischeNachricht.autoNachricht.BENUTZER_ENTSPERREN);
+					// TODO --afreudli Kommentar entfernen
+					// aNachricht.senden();
+				}
+				// Benutzer schreiben
+				aBenutzer.setBenutzerkontoLogging((BenutzerkontoBean) request
+						.getSession().getAttribute(
+								DispatcherServlet.sessionParameter.A_Benutzer
+										.toString()));
+				aBenutzer = DatenbankFactory.getAktuelleDBInstanz()
+						.schreibenObjekt(aBenutzer);
+				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+						"Änderung wurde erfolgeich durchgef&uuml;hrt");
+				request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(
+						request, response);
 				return;
-				
+
+			} catch (NachrichtException e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+						"Achtung Nachricht wurde nicht versand");
+				request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(
+						request, response);
+				return;
+
 			}
-			
+
 		}
-		//Sperren wird abgebrochen
-		else{
-			request.getSession().removeAttribute(DispatcherServlet.sessionParameter.BENUTZER_SPERREN_ENTSPERREN_ADMIN.toString());
+		// Sperren wird abgebrochen
+		else {
+			request
+					.getSession()
+					.removeAttribute(
+							DispatcherServlet.sessionParameter.BENUTZER_SPERREN_ENTSPERREN_ADMIN
+									.toString());
 			this.classDispatcherServletBenutzerSuchen(request, response);
 		}
-		
+
 	}
 
 }
