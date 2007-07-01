@@ -502,6 +502,33 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		} else if (id.equals(anfrage_id.AKTION_STAT_PASSWORT_ERZEUGEN
 				.toString())) {
 			// Ein neues Passwort wird für den vorhandenen Statistiker erzeugt
+			StudieBean aStudie = (StudieBean) request.getSession()
+					.getAttribute(
+							DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+									.toString());
+			try {
+				String neuesPasswort = Studie
+						.erzeugeNeuesStatistikerPasswort(aStudie);
+				request.getSession().setAttribute(
+						DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+								.toString(),
+						DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(
+								aStudie.getId(), new StudieBean()));
+				// TODO Wenn Daniel den Bug mit Drucken beseitigt hat - müssen
+				// hier die gleichen Änderung vorgenommen werden!
+				String statistikerNachricht = "Ein neues Passwort wurde erzeugt:"
+					+ "<br>Passwort: "
+					+ neuesPasswort;
+				request.setAttribute(DispatcherServlet.NACHRICHT_OK,statistikerNachricht);
+			} catch (StudieException e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getLocalizedMessage());
+			} catch (BenutzerkontoException e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getLocalizedMessage());
+			}
+			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
+					response);
 
 		} else if (id.equals(anfrage_id.AKTION_STATISTIKER_ANLEGEN.toString())) {
 			// Ein Statistiker Accoutn wird für die aktuelle Studie erzeugt
@@ -521,7 +548,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				String statistikerPasswort = (String) returnWerte[1];
 				// TODO Wenn Daniel den Bug mit Drucken beseitigt hat - müssen
 				// hier die gleichen Änderung vorgenommen werden!
-				String statistikerNachricht = "<br><br>Ein Statistiker-Account wurde angelegt:<br><br>Login: "
+				String statistikerNachricht = "Ein Statistiker-Account wurde angelegt:<br><br>Login: "
 						+ statistikerLogin
 						+ "<br>Passwort: "
 						+ statistikerPasswort;
