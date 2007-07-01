@@ -465,8 +465,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 		} else if (id.equals(anfrage_id.AKTION_STUDIE_AENDERN.name())) {
 			// Studie soll geaendert werden
-			request.getRequestDispatcher(Jsp.STUDIE_AENDERN).forward(request,
-					response);
+			this.studieAendern(request, response);
 		} else if (id.equals(anfrage_id.AKTION_STATUS_AENDERN.name())) {
 			// Status aendern
 			request.getRequestDispatcher(Jsp.STUDIE_PAUSIEREN).forward(request,
