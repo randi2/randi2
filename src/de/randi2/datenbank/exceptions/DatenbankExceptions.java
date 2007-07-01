@@ -101,6 +101,11 @@ public class DatenbankExceptions extends SystemException {
 	 * Fehlerkonstante wenn bei {@link StatistikDB#getVertPatMW(long)} auftrat
 	 */
 	public static final String STATISTIK_VIEW1="Statistik f&uuml;r Verteilung der m&auml;nnlichen und weiblichen Patienten in den Studienarmen konnte nicht erstellt werden.";
+	
+	/**
+	 * Falls versucht wird die Statistik aufzurufen und es noch keine Patienten in dieser Studie gibt und die Queries somit keine Ergebnisse liefern
+	 */
+	public static final String STATISTIK_FEHLENDE_PATIENTE="Es sind noch keine Patienten in der Studie vorhanden.";
 
 	/**
 	 * Konstruktor.

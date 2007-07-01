@@ -53,7 +53,9 @@ public class StatistikDB {
 			rs = pstmt.executeQuery();
 			if(rs.next()) {				
 				anzahlReihen = rs.getInt(1)+1;
-			}			
+			} else {
+				throw new DatenbankExceptions(DatenbankExceptions.STATISTIK_FEHLENDE_PATIENTE);
+			}
 			if(anzahlReihen<1) {
 				throw new DatenbankExceptions(DatenbankExceptions.STATISTIK_VIEW1);
 			}
