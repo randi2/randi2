@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.Log4jInit;
 import de.randi2.utility.ValidierungsUtil;
 
@@ -74,5 +75,10 @@ public class ValidierungUtilTest {
 		assertTrue(ValidierungsUtil.validierePasswortZeichen("joh--7es"));
 		assertTrue(ValidierungsUtil.validierePasswortZeichen("l;1"));
 		
+	}
+	
+	@Test
+	public void testDummy(){
+		KryptoUtil.getInstance();
 	}
 }
