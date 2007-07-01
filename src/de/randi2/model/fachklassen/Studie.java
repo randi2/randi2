@@ -2,6 +2,7 @@ package de.randi2.model.fachklassen;
 
 import java.util.Vector;
 import de.randi2.datenbank.DatenbankFactory;
+import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.StudieException;
@@ -315,9 +316,11 @@ public class Studie {
 				(String) returnArray[1]));
 		statistiker.setRolle(Rolle.getStatistiker());
 		statistiker.setGesperrt(false);
+		statistiker.setBenutzerkontoLogging(Filter.getSystemdummy());
 		statistiker = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 				statistiker);
 		studie.setStatistiker(statistiker);
+		studie.setBenutzerkontoLogging(Filter.getSystemdummy());
 		studie = DatenbankFactory.getAktuelleDBInstanz()
 				.schreibenObjekt(studie);
 		returnArray[0] = studie;
@@ -347,6 +350,7 @@ public class Studie {
 		String neuesPasswort = KryptoUtil.getInstance().generatePasswort(8);
 		statistiker.setPasswort(KryptoUtil.getInstance().hashPasswort(
 				neuesPasswort));
+		statistiker.setBenutzerkontoLogging(Filter.getSystemdummy());
 		DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(statistiker);
 		return neuesPasswort;
 	}
