@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.mail.EmailException;
 import org.apache.log4j.Logger;
 
+import de.randi2.controller.DispatcherServlet.sessionParameter;
 import de.randi2.datenbank.Datenbank;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.DatenbankSchnittstelle;
@@ -29,10 +30,9 @@ import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Config;
-import de.randi2.utility.LogAktion;
-import de.randi2.utility.LogLayout;
+import de.randi2.utility.Parameter;
 import de.randi2.utility.SystemException;
-import static de.randi2.controller.DispatcherServlet.sessionParameter;
+import de.randi2.utility.Parameter.person;
 
 /**
  * Ermoeglicht das Versenden von Nachrichten ueber das RANDI2-System.
@@ -76,7 +76,27 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 	 */
 	private static String pwd = null;
 
-	private static long ALLE = -42l;
+	/**
+	 * Spezielle ID, die anzeigt, das die Nachricht an alle Admin sgehen soll
+	 */
+	private static long ALLE_ADMINS = -40l;
+	
+	/**
+	 * Spezielle ID, die anzeigt, das die Nachricht an alle Studienleiter gehen
+	 * soll
+	 */
+	private static long ALLE_STUDIENLEITER = -50l;
+	
+	/**
+	 * Spezielle ID, die anzeigt, das die Nachricht an alle Zentren einer Studie
+	 * gehen soll
+	 */
+	private static long ALLE_ZENTREN_DER_STUDIE = -60l;
+	
+	/**
+	 * Spezielle ID, die anzeigt, das die Nachricht an alle Zentren sgehen soll
+	 */
+	private static long ALLE_ZENTREN = -70l;
 
 	/**
 	 * Laed die benoetigten Einstellungen aus der Config
@@ -93,12 +113,12 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 	 * Gueltige Anfrage-Ids, die an das Servlet geschickt werden koennen.<br>
 	 * Das Servlet erwartet die ID in der Form, die $KONSTANTE.name() liefert.
 	 */
-	public enum anfrage_id {
+	protected enum anfrage_id {
 		/**
 		 * Weist das Servlet an, aus den Parametern des Requests eine Mail zu
 		 * bauen.
 		 */
-		VERSENDE_NACHRICHT
+		AKTION_NACHRICHT_VERSENDEN
 	}
 
 	/**
@@ -107,12 +127,6 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 	 * Das Servlet erwartet die ID in der Form, die $KONSTANTE.name() liefert.
 	 */
 	public enum requestParameter {
-		/**
-		 * Anfrage-Id {@link anfrage_id#VERSENDE_NACHRICHT} ist die einzige ID,
-		 * auf die das Servlet reagiert und nicht als potentiellen Angriff
-		 * wertet.
-		 */
-		ANFRAGE_ID,
 
 		/**
 		 * Feld mit dem Empfaenger der Mail
@@ -175,18 +189,23 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String id = request.getParameter(requestParameter.ANFRAGE_ID.name());
+		String id = request.getParameter(Parameter.anfrage_id);
+
 		String empfaengerString = request
 				.getParameter(requestParameter.EMPFAENGER.name());
-		
-		Logger.getLogger("Anfrage_id: '" + id+"'");
-		Logger.getLogger("Empfaenger-Code: '" + empfaengerString+"'");
-		
+
+		Logger.getLogger(this.getClass()).debug(
+				"Empfaenger-Code: '" + empfaengerString + "'");
+
 		String betreff = request.getParameter(requestParameter.BETREFF.name());
 		String nachrichtentext = request
 				.getParameter(requestParameter.NACHRICHTENTEXT.name());
 
-		if ((id == null) || (!id.equals(anfrage_id.VERSENDE_NACHRICHT.name()))
+		Identifikator identifikator = null;
+		long beanID = -1l;
+
+		if ((id == null)
+				|| (!id.equals(anfrage_id.AKTION_NACHRICHT_VERSENDEN.name()))
 				|| !DispatcherServlet.isBenutzerAngemeldet(request)) {
 			// Keine ID gesetzt, Falsche ID oder Benutzer nicht angemeldet
 			// FRAGE Ausreichende Behandlung? --BTheel:20070607
@@ -218,32 +237,31 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			// Empfaenger leer
 			fehlermeldung
 					.append("Bitte w&auml;hlen Sie einen Empf&auml;nger<br>");
-		}
+		} else {
+			// Gueltige Empfaenger IDentifikation? Splitten des Strings
+			String[] komponenten = empfaengerString.split(SEPERATOR);
 
-		// Gueltige Empfaenger IDentifikation?
-		String[] komponenten = empfaengerString.split(SEPERATOR);
-
-		if (!empfaengerString.contains(SEPERATOR) || komponenten.length != 2) {
-			Logger.getLogger(this.getClass()).warn(
-					"Aufbau des Empfaengerparameters ist illegal: "
-							+ empfaengerString);
-			fehlermeldung
-					.append("Bitte w&auml;hlen Sie einen Empf&auml;nger<br>");
-		}
-		// Gueltiger Identifikator, valide BeanID
-		Identifikator identifikator = null;
-		long beanID = -1l;
-		try {
-			identifikator = Identifikator.valueOf(komponenten[0]);
-			beanID = Long.valueOf(komponenten[1]);
-		} catch (Exception e) {
-			// ist Identifikator nicht Element der Enum, fliegt ne
-			// IllegalArgument
-			Logger.getLogger(this.getClass()).warn(
-					"Aufbau des Empfaengerparameters ist illegal: "
-							+ empfaengerString);
-			fehlermeldung
-					.append("Bitte w&auml;hlen Sie einen Empf&auml;nger<br>");
+			if (!empfaengerString.contains(SEPERATOR)
+					|| komponenten.length != 2) {
+				Logger.getLogger(this.getClass()).warn(
+						"Aufbau des Empfaengerparameters ist illegal: "
+								+ empfaengerString);
+				fehlermeldung
+						.append("Bitte w&auml;hlen Sie einen Empf&auml;nger<br>");
+			}
+			// Gueltiger Identifikator, valide BeanID
+			try {
+				identifikator = Identifikator.valueOf(komponenten[0]);
+				beanID = Long.valueOf(komponenten[1]);
+			} catch (Exception e) {
+				// ist Identifikator nicht Element der Enum, fliegt ne
+				// IllegalArgument
+				Logger.getLogger(this.getClass()).warn(
+						"Aufbau des Empfaengerparameters ist illegal: "
+								+ empfaengerString);
+				fehlermeldung
+						.append("Bitte w&auml;hlen Sie einen Empf&auml;nger<br>");
+			}
 		}
 
 		if (betreff == null || betreff.length() == 0) {
@@ -259,11 +277,9 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 					.name(), betreff);
 			request.setAttribute(requestParameter.NACHRICHTENTEXT.name(),
 					nachrichtentext);
-			// empfaenger zurueckgeben?!
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+			weiterleitenAufnachrichtendienstSeite(request, response, false,
 					fehlermeldung.toString());
-			request.getRequestDispatcher("nachrichtendienst.jsp").forward(
-					request, response);
+
 			return;
 		}
 		// Mail Bauen
@@ -298,10 +314,8 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 										.getAttribute("aBenutzer")));
 			}
 			// FIXME Fehlerbehandlung für den den Benutzer
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+			weiterleitenAufnachrichtendienstSeite(request, response, false,
 					Nachricht.NACHRICHTENVERSAND_FEHLGESCHLAGEN);
-			request.getRequestDispatcher("nachrichtendienst.jsp").forward(
-					request, response);
 		}
 		try { // Betreff setzten
 			mail.setBetreff(betreff);
@@ -323,26 +337,29 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 		}
 		Collection<PersonBean> liste = null;
 		try {
-			liste = baueEmpfaengerliste(identifikator, beanID);
+			liste = baueEmpfaengerliste(identifikator, beanID, request);
+			if (liste.size() == 0) {
+				throw new NachrichtException("aellerbaetsch!");
+			}
 			mail.addEmpfaenger(liste);
 		} catch (NachrichtException e1) {
 			// empfaenger null, Filter oder Ungueltige EMailadrese Alles
 			// zustände, die nicht auftreten sollten.
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
-					"Es wurden keine Empf&auml;nger gefunden");
+
 			request.setAttribute(requestParameter.BETREFF.name(), betreff);
 			request.setAttribute(requestParameter.NACHRICHTENTEXT.name(),
 					nachrichtentext);
-			request.getRequestDispatcher("nachrichtendienst.jsp").forward(
-					request, response);
+
+			weiterleitenAufnachrichtendienstSeite(request, response, false,
+					"Es wurden keine Empf&auml;nger gefunden");
+
 			Logger.getLogger(this.getClass()).warn(
 					"Versenden einer Mail fehlgeschlagen: " + e1.getClass()
 							+ " (" + e1.getMessage() + ")");
 			return;
 		}
 		try { // Fertige Mail versenden
-			mail.senden(); // FIXME
-			Logger.getLogger(this.getClass()).debug("Versende Mail");
+			mail.senden();
 
 		} catch (Exception e) {
 			/*
@@ -354,22 +371,21 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			 */
 			e.printStackTrace(); // XXX entfernen
 			// FRAGE hier lieber Systemexception? -- BTheel
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+
+			weiterleitenAufnachrichtendienstSeite(request, response, false,
 					Nachricht.NACHRICHTENVERSAND_FEHLGESCHLAGEN);
-			request.getRequestDispatcher("nachrichtendienst.jsp").forward(
-					request, response);
+
 			Logger.getLogger(this.getClass()).warn(
 					"Versenden einer Mail fehlgeschlagen: " + e.getClass()
 							+ " (" + e.getMessage() + ")");
 			return;
 
 		}
-		// Attris setzten fuer Folgeseite
-		request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+
+		// Weiterleiten, alles erfolgreich
+		weiterleitenAufnachrichtendienstSeite(request, response, true,
 				"Mitteilung erfolgreich verschickt");
-		// Weiterleiten
-		request.getRequestDispatcher("nachrichtendienst.jsp").forward(request,
-				response);
+
 		return;
 	}
 
@@ -383,25 +399,66 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 	 * @param id
 	 *            DatenbankID des Objectes, Ausnahme: ist die ID
 	 * @link {@link #ALLE}, so werden alle assoziierten Objekte angefuegh
+	 * @param request
+	 *            Ermoeglicht zugriff auf die Session
 	 * @return Eine Collection mit den Persoen, die die Nachricht empfangen
 	 *         empfangen sollen.
 	 * @throws DatenbankExceptions
 	 */
 	private synchronized Collection<PersonBean> baueEmpfaengerliste(
-			Identifikator identifikaktor, long id) throws DatenbankExceptions {
+			Identifikator identifikaktor, long id, HttpServletRequest request)
+			throws SystemException {
 		DatenbankSchnittstelle db = DatenbankFactory.getAktuelleDBInstanz();
 		Vector<PersonBean> personen = new Vector<PersonBean>();
-		Logger.getLogger("Baue Liste");
 
 		if (Identifikator.BK.equals(identifikaktor)) {
 			Logger.getLogger(this.getClass()).debug(
 					"Suche Benutzerkonto ID: " + id);
-			personen.add(Person.get(id));
+
+			BenutzerkontoBean suchdummy = new BenutzerkontoBean();
+			suchdummy.setFilter(true);
+
+			if (id >= 0) {
+				personen.add(Person.get(id));
+			} else { // an mehere Benutzer schicken
+				Vector<BenutzerkontoBean> konten = new Vector<BenutzerkontoBean>();
+				if (id == ALLE_ADMINS) {
+					Logger.getLogger(this.getClass())
+							.debug("Suche alle Admins");
+					try {
+						suchdummy.setRolle(Rolle.getAdmin());
+					} catch (BenutzerkontoException e) {
+						// FUBAR!!!
+						throw new SystemException(
+								"Rolle.getAdmin() liefert unmoeglicherweise null");
+					}
+				} else if (id == ALLE_STUDIENLEITER) {
+					Logger.getLogger(this.getClass()).debug(
+							"Suche alle Studienleiter");
+					try {
+						suchdummy.setRolle(Rolle.getStudienleiter());
+					} catch (BenutzerkontoException e) {
+						// FUBAR!!!
+						throw new SystemException(
+								"Rolle.getStudienleiter() liefert unmoeglicherweise null");
+					}
+				}
+				konten = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
+						suchdummy);
+				for (BenutzerkontoBean konto : konten) {
+					personen.add(konto.getBenutzer());
+				}
+			}
 		} else if (Identifikator.ZENTRUM.equals(identifikaktor)) {
 			Logger.getLogger(this.getClass()).debug("Suche Zentrum ID: " + id);
 			Collection<BenutzerkontoBean> konten = null;
-			if (id == ALLE) {
-				StudieBean studie = Studie.getStudie(4); // Workaround, bis
+			if (id == ALLE_ZENTREN_DER_STUDIE || id == ALLE_ZENTREN) {
+				// 
+				StudieBean studie = (StudieBean) request
+						.getSession()
+						.getAttribute(
+								DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+										.toString());
 				// Bean an Session
 				Collection<ZentrumBean> zentren;
 				if (studie == null) {// wenn null, dann ist der Account
@@ -415,24 +472,17 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 				} else { // Studiengebundener Account
 					zentren = studie.getZentren();
 				}
+				konten = new Vector<BenutzerkontoBean>();
 				for (ZentrumBean zentrum : zentren) {
-					konten = new Vector<BenutzerkontoBean>();
-					// Collection<BenutzerkontoBean> tmpKonten =
-					// zentrum.getBenutzerkonten();
-					// if (tmpKonten != null){
 					konten.addAll(zentrum.getBenutzerkonten());
-					// }
 				}
 			} else {
-				BenutzerkontoBean filter = new BenutzerkontoBean();
-				filter.setFilter(true);
 				konten = (Zentrum.getZentrum(id)).getBenutzerkonten();
 			}
+
 			for (BenutzerkontoBean konto : konten) {
 				Logger.getLogger(this.getClass()).debug(
-						"Fuege " + konto.getBenutzer().getNachname() + " ID:"
-								+ konto.getBenutzer().getId()
-								+ " der Empfaengerliste hinzu");
+						"Fuege  BK-ID hinzu: "+ konto.getBenutzer().getId());
 				personen.add(konto.getBenutzer());
 			}
 
@@ -499,8 +549,8 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 		} else if (aBenutzer.getRolle() == Rolle.getStudienleiter()) {
 			sucheRolle(Rolle.getAdmin(), false, menu, db);
 		} else if (aBenutzer.getRolle() == Rolle.getAdmin()) {
-			sucheRolle(Rolle.getSysop(), true, menu, db);
-			sucheRolle(Rolle.getStudienleiter(), false, menu, db);
+			sucheRolle(Rolle.getSysop(), false, menu, db);
+			sucheRolle(Rolle.getStudienleiter(), true, menu, db);
 		} else if (aBenutzer.getRolle() == Rolle.getSysop()) {
 			sucheRolle(Rolle.getAdmin(), true, menu, db);
 		} else if (aBenutzer.getRolle() == Rolle.getStatistiker()) {
@@ -514,8 +564,6 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 		} else if (aBenutzer.getRolle() == Rolle.getSysop()) {
 			sucheZentren(null, menu, db);
 		}
-		Logger.getLogger(Nachrichtendienst.class).debug(
-				"Liefere Empfaengerliste aus");
 		return menu.toString();
 	}
 
@@ -550,13 +598,22 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 		if (zentren != null && zentren.size() != 0) {
 			menu.append("<optgroup label=\"Mitteilung an alle Zentren\">\n");
 			menu.append("\t<option value=\"" + Identifikator.ZENTRUM
-					+ SEPERATOR + ALLE + "\">");
-			menu.append("Alle Zentren dieser Studie");
+					+ SEPERATOR);
+			if (studie != null) {
+				menu.append(+ALLE_ZENTREN_DER_STUDIE
+						+ "\">Alle Zentren dieser Studie");
+			} else {
+				menu.append(+ALLE_ZENTREN
+						+ "\">Alle aktivierten Zentren im System");
+			}
 			menu.append("</option>\n");
 			menu.append("</optgroup>\n");
 			// Einzele Zentren
-			menu
-					.append("<optgroup label=\"Mitteilung an ein Zentrum dieser Studie\">\n");
+			menu.append("<optgroup label=\"Mitteilung an ein Zentrum");
+			if (studie != null) {
+				menu.append("dieser Studie");
+			}
+			menu.append("\">\n");
 			for (ZentrumBean zentrumBean : zentren) {
 				menu.append("\t<option value=\"" + Identifikator.ZENTRUM
 						+ SEPERATOR + zentrumBean.getId() + "\">");
@@ -567,6 +624,21 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 		}
 	}
 
+	/**
+	 * Sucht anhand einer uebergebenen Studie den Studienleiter und fuegt diesen
+	 * Eintrag in das Dropdown mitein.
+	 * 
+	 * @param studie
+	 *            Studie, dessen Studienleiter gesucht werden soll
+	 * @param menu
+	 *            Dropdownmenue mit der Empfaengerliste
+	 * @param db
+	 *            Datenbankverbindung
+	 * @param preSelect
+	 *            Wenn <code>true</code> wird der Studienleiter vorselectiert.
+	 * @throws SystemException
+	 *             Auftretende Datenbankfehler werden weitergeleitet
+	 */
 	private synchronized static void sucheStudienleiter(StudieBean studie,
 			StringBuffer menu, DatenbankSchnittstelle db, boolean preSelect)
 			throws SystemException {
@@ -590,7 +662,9 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 
 	/**
 	 * Entnimmt aus der Datenbank alle Konten mit der Rolle und fuegt diese an
-	 * den Stringbuffer an
+	 * den Stringbuffer an<br>
+	 * Es wird nicht geprueft, ob das Konto berechtigt ist, Nachrichten an diese
+	 * Rolle zu schicken.
 	 * 
 	 * @param anAlle
 	 *            fuegt einen Eintrag "An alle Rolleninhaber" in das Menue mit
@@ -674,13 +748,62 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			if (anAlle) {
 				menu.append("<optgroup label=\"Mitteilung an alle "
 						+ rolle.getName() + "\">\n");
-				menu.append("\t<option value=\"" + Identifikator.BK + SEPERATOR
-						+ ALLE
-						+ "\"> Mitteilung an alle Rolleninhaber</option>\n");
+				menu
+						.append("\t<option value=\"" + Identifikator.BK
+								+ SEPERATOR);
+				if (rolle == Rolle.getAdmin()) {
+					menu.append(ALLE_ADMINS);
+				} else if (rolle == Rolle.getStudienleiter()) {
+					menu.append(ALLE_STUDIENLEITER);
+				}
+				menu.append("\"> Mitteilung an alle " + rolle.getName()
+						+ "</option>\n");
 				menu.append("</optgroup>\n");
 			}
 
 		}
+	}
+
+	/**
+	 * Leitet die Anfrage an den Dispatcher mit der
+	 * {@link DispatcherServlet.anfrage_id}
+	 * {@link DispatcherServlet.anfrage_id#JSP_HEADER_NACHRICHTENDIENST} (als
+	 * Attribut) weiter.<br>
+	 * Hierbei wird die Mitteilung, die uebergeben wird, ebenfalls als Attr. an
+	 * den Request gebunden.
+	 * 
+	 * @param erfolgreich
+	 *            Wenn <code>true</code>, der vorherige Vorgang also
+	 *            erfolgreich war, so wird die mitgelieferte Meldung unter
+	 *            {@link DispatcherServlet#NACHRICHT_OK} angebunden,
+	 *            anderenfalls unter {@link DispatcherServlet#FEHLERNACHRICHT}
+	 * @param meldung
+	 *            Meldung, die als Attribute an den Request gebunden wird.
+	 * @param request
+	 *            Resuest-Objekt
+	 * @param response
+	 *            Response-Objekt
+	 * @throws ServletException
+	 *             Siehe SuperKlasse
+	 * @throws IOException
+	 *             Siehe SuperKlasse
+	 */
+	private void weiterleitenAufnachrichtendienstSeite(
+			HttpServletRequest request, HttpServletResponse response,
+			boolean erfolgreich, String meldung) throws ServletException,
+			IOException {
+		String meldungsArt = DispatcherServlet.NACHRICHT_OK;
+		if (!erfolgreich) {
+			meldungsArt = DispatcherServlet.FEHLERNACHRICHT;
+		}
+		request.setAttribute(meldungsArt, meldung);
+
+		request.setAttribute(Parameter.anfrage_id
+				.toString(),
+				DispatcherServlet.anfrage_id.JSP_HEADER_NACHRICHTENDIENST
+						.name());
+		request.getRequestDispatcher("DispatcherServlet").forward(request,
+				response);
 	}
 
 	/**

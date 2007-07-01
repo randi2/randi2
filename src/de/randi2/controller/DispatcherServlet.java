@@ -352,7 +352,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Export als XLS
 		 */
-		JSP_ERGEBNISSE_EXPORT_XLS;
+		JSP_ERGEBNISSE_EXPORT_XLS, 
+		
+		/**
+		 * Aufforderung, eine Nachricht zu versenden
+		 */
+		AKTION_NACHRICHT_VERSENDEN;
 	}
 
 	/**
@@ -1942,11 +1947,15 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				request.getRequestDispatcher(Jsp.IMPRESSUM).forward(request,
 						response);
 
-			} else if (id
-					.equals(anfrage_id.JSP_HEADER_NACHRICHTENDIENST.name())) {
+			} 
+			// nachrichtenversand
+			else if (id.equals(anfrage_id.JSP_HEADER_NACHRICHTENDIENST.name())) {
 				request.setAttribute(DispatcherServlet.requestParameter.TITEL
 						.toString(), JspTitel.NACHRICHTENDIENST);
 				request.getRequestDispatcher(Jsp.NACHRICHTENDIENST).forward(
+						request, response);
+			} else if (id.equals(anfrage_id.AKTION_NACHRICHT_VERSENDEN.name())) {
+				request.getRequestDispatcher("Nachrichtendienst").forward(
 						request, response);
 			} else if (id.equals(anfrage_id.JSP_INC_MENUE_STUDIEN_ANZEIGEN
 					.name())) {

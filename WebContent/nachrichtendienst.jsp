@@ -16,11 +16,11 @@ request.setAttribute(DispatcherServlet.requestParameter.TITEL
 //Feldervorbelegungen
 	String betreff = (String)request.getAttribute(Nachrichtendienst.requestParameter.BETREFF.name());
 	if (betreff==null){
-    	betreff="Default-Betreff";
+    	betreff="";
 	}
 	String nachrichtentext= (String)request.getAttribute(Nachrichtendienst.requestParameter.NACHRICHTENTEXT.name());
 	if (nachrichtentext==null){
-	    nachrichtentext="Default-nachrichtentext";
+	    nachrichtentext="";
 	}   	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -109,7 +109,7 @@ Ext.onReady(function(){
     form_nachrichtendienst.render('form_nachrichtendienst');    
     
 	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
-	form_nachrichtendienst.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=Nachrichtendienst.anfrage_id.VERSENDE_NACHRICHT.name() %>'});	
+	form_nachrichtendienst.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.AKTION_NACHRICHT_VERSENDEN.name() %>'});	
     
     
  });
