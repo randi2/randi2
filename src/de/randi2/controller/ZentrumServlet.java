@@ -339,6 +339,14 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 */
 	private void aendernZentrum(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		
+		String button = request.getParameter("button");
+		StringTokenizer st = new StringTokenizer(button, "_");
+		String art = st.nextToken();
+		long id = Long.parseLong(st.nextToken());
+		ZentrumBean aZentrum = DatenbankFactory.getAktuelleDBInstanz()
+				.suchenObjektId(id, new ZentrumBean());
+		request.setAttribute("aZentrum", aZentrum);
 
 		// wichtiger boolean
 		boolean passwortGesetzt = false;
@@ -399,7 +407,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				.getAttribute("aBenutzer");
 		aBenutzer.setBenutzerkontoLogging(aBenutzer);
 		try {
-			ZentrumBean aZentrum = (ZentrumBean) request
+			aZentrum = (ZentrumBean) request
 					.getAttribute("aZentrum");
 			aZentrum.setBenutzerkontoLogging(aBenutzer);
 			aZentrum.setInstitution(institution);
