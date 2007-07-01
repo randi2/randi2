@@ -26,6 +26,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import de.randi2.controller.DispatcherServlet.sessionParameter;
 import de.randi2.datenbank.DatenbankFactory;
+import de.randi2.datenbank.StatistikDB;
 import de.randi2.datenbank.RandomisationDB;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerkontoException;
@@ -270,7 +271,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Aktueller Studienarm
 		 */
-		AKTUELLER_STUDIENARM("aStudienarm");
+		AKTUELLER_STUDIENARM("aStudienarm"),
+
+		/**
+		 * Statistik zur aktuellen Studie
+		 */
+		AKTUELLE_STATISTIK("aStatistik");
 
 		/**
 		 * String Version des Parameters
@@ -520,6 +526,16 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			// Dem Benutzer wird die Statistik zur ausgewähtlen Studie
 			// angezeigt!
 			Logger.getLogger(this.getClass()).debug("Statistik wird angezeigt");
+			request
+					.setAttribute(
+							requestParameter.AKTUELLE_STATISTIK.toString(),
+							StatistikDB
+									.getVertPatMW(((StudieBean) request
+											.getSession()
+											.getAttribute(
+													DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+															.toString()))
+											.getId()));
 			request.getRequestDispatcher(Jsp.STATISTIK_ANZEIGEN).forward(
 					request, response);
 		} else if (id
@@ -530,7 +546,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			this.makeCSVExport(request, response);
 		}
 	}
-
 	private void makeCSVExport(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException{
 
@@ -572,8 +587,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		
 
 	}
-
-	private void makeExcelExport(HttpServletRequest request,
+		private void makeExcelExport(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		try{
 			
@@ -608,7 +622,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		}
 
 	}
-
+	
 	/**
 	 * Diese Methode kuemmert sich um die Logik, die mit dem Prozess "Studie
 	 * auswaehlen" verbunden ist. Je nach der Rolle des eingeloggten Benutzers,
