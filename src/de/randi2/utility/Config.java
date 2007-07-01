@@ -281,6 +281,10 @@ public final class Config {
          * Pfad fuer Studienprotokolle
          */
         RELEASE_UPLOAD_PATH,
+        /**
+         * Pfad fuer temporaere Downloadfiles
+         */
+        RELEASE_UPLOAD_PATH_TMP,
     }
 
     /**

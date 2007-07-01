@@ -90,7 +90,7 @@ public class FileUploadListener implements OutputStreamListener {
 		}
 	}
 
-	enum FileUploadStatus {
+	public enum FileUploadStatus {
 		START("start"), NONE("none"), READING("reading"), ERROR("error"), DONE(
 				"done");
 

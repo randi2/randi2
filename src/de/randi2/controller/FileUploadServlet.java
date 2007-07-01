@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +17,8 @@ import org.apache.log4j.Logger;
 
 import com.missiondata.fileupload.MonitoredDiskFileItemFactory;
 
-import de.randi2.controller.FileUploadListener.FileUploadStats;
-import de.randi2.controller.FileUploadListener.FileUploadStatus;
+import de.randi2.controller.listener.FileUploadListener;
+import de.randi2.controller.listener.FileUploadListener.FileUploadStats;
 import de.randi2.utility.Config;
 import de.randi2.utility.Parameter;
 
@@ -84,7 +83,7 @@ public class FileUploadServlet extends HttpServlet {
 		} catch (Exception e) {
 
 			FileUploadStats stats = new FileUploadListener.FileUploadStats();
-			stats.setCurrentStatus(FileUploadStatus.ERROR);
+			stats.setCurrentStatus(FileUploadListener.FileUploadStatus.ERROR);
 			request.getSession().setAttribute("FILE_UPLOAD_STATS", stats);
 			e.printStackTrace();
 		}
