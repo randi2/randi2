@@ -806,6 +806,14 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		BenutzerSuchenBean benutzer = new BenutzerSuchenBean();
 		Vector<BenutzerSuchenBean> benutzerVec = new Vector<BenutzerSuchenBean>();
 
+		Rolle.Rollen aktuelleRolle=((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString())).getRolle().getRollenname();
+		
+		if(aktuelleRolle==Rolle.Rollen.STUDIENLEITER){
+			benutzer.setARolle(Rolle.getStudienarzt());
+		}
+		else if(aktuelleRolle==Rolle.Rollen.SYSOP){
+			benutzer.setARolle(Rolle.getAdmin());
+		}
 		//Kein Global Welcome Admin
 		if(request.getAttribute("Startseite")==null){
 			benutzer.setNachname(request.getParameter(Parameter.person.NACHNAME

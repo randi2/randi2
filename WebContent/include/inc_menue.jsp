@@ -42,14 +42,14 @@ if(aRolleMenue==Rolle.getStudienarzt().getRollenname()){
 	<% if (aRolleMenue==Rolle.Rollen.STUDIENLEITER) { %>
 	<li class="sub_BV n">
 		<span  class="sub_SA n entry" style="cursor:pointer"
-			onClick="document.forms['menue_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_INC_MENUE_STUDIENAERZTE_LISTE.name() %>';document.forms['menue_form'].submit();">
+			onClick="document.forms['menue_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.BENUTZER_SUCHEN.name() %>';document.forms['menue_form'].submit();">
 		Studien&auml;rzte
 	</span></li>
 	<%	} %>
 	<% if (aRolleMenue==Rolle.Rollen.SYSOP) { %>
 	<li class="sub_BV n">
 	<span  class="sub_SA n entry" style="cursor:pointer"
-			onClick="document.forms['menue_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_INC_MENUE_ADMIN_LISTE.name() %>';document.forms['menue_form'].submit();">
+			onClick="document.forms['menue_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.BENUTZER_SUCHEN.name() %>';document.forms['menue_form'].submit();">
 		Admins anzeigen
 	</span></li>
 	<%	} %>

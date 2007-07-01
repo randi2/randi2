@@ -30,6 +30,7 @@ import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Rolle;
+import de.randi2.model.fachklassen.Rolle.Rollen;
 import de.randi2.model.fachklassen.Studie.Status;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerSuchenBean;
@@ -1971,10 +1972,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Vector<BenutzerSuchenBean> sbenutzer = new Vector<BenutzerSuchenBean>();
 		// Nach aktiviert deaktivier wird nicht verglichen
 		// erstellen der SQL Abfrage
+		//Sysops tauchen nicht in Liste auf
 		String sql = String
 				.format(
 						"select p.%1$s,b.%2$s,z.%3$s, p.%4$s,p.%5$s,p.%6$s,b.%7$s,b.%13$s,z.%8$s from "+Tabellen.PERSON+" p, "+Tabellen.BENUTZERKONTO+" b, "+Tabellen.ZENTRUM+" z where"
-								+ " b.%9$s=z.%10$s and b.%11$s=p.%12$s",
+								+ " b.%9$s=z.%10$s and b.%11$s=p.%12$s and b.%14$s<>'%15$s'",
 						FelderPerson.ID.toString(), FelderBenutzerkonto.ID
 								.toString(), FelderZentrum.ID.toString(),
 						FelderPerson.NACHNAME.toString(), FelderPerson.VORNAME
@@ -1985,7 +1987,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 						FelderZentrum.ID.toString(),
 						FelderBenutzerkonto.PERSONID.toString(),
 						FelderPerson.ID.toString(),
-						FelderBenutzerkonto.GESPERRT.toString());
+						FelderBenutzerkonto.GESPERRT.toString(),
+						FelderBenutzerkonto.ROLLEACCOUNT.toString(),
+						Rollen.SYSOP.toString());
 		int counter = 0;
 		if (bean.getVorname() != null) {
 			sql += " AND p." + FelderPerson.VORNAME.toString() + " LIKE ? ";
@@ -2009,6 +2013,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 					+ " LIKE ? ";
 			counter++;
 		}
+		if (bean.getARolle() != null) {
+			sql += " AND b." + FelderBenutzerkonto.ROLLEACCOUNT.toString()+"=?";
+			counter++;
+		}
 
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -2027,6 +2035,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			if (bean.getInstitut() != null) {
 				pstmt.setString(index++, bean.getInstitut() + "%");
+			}
+			if(bean.getARolle()!=null)
+			{
+				pstmt.setString(index++, bean.getARolle().toString());
 			}
 			rs = pstmt.executeQuery();
 			while (rs.next()) {

@@ -3,6 +3,7 @@ package de.randi2.model.fachklassen.beans;
 import de.randi2.datenbank.Filter;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.fachklassen.Rolle;
 import de.randi2.utility.NullKonstanten;
 
 public class BenutzerSuchenBean extends Filter {
@@ -22,7 +23,10 @@ public class BenutzerSuchenBean extends Filter {
 	 */
 	private long personId=NullKonstanten.NULL_LONG;
 	
-	
+	/**
+	 * Rolle des Benutzerkontos
+	 */
+	private Rolle aRolle = null;
 	private String vorname=null;
 	private String nachname=null;
 	private String email=null;
@@ -105,6 +109,12 @@ public class BenutzerSuchenBean extends Filter {
 	}
 	public void setGesperrt(boolean gesperrt) {
 		this.gesperrt = gesperrt;
+	}
+	public Rolle getARolle() {
+		return aRolle;
+	}
+	public void setARolle(Rolle rolle) {
+		aRolle = rolle;
 	}
 
 }
