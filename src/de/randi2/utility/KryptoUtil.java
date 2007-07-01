@@ -134,7 +134,7 @@ public final class KryptoUtil {
 		}
 		
 		
-		for (int i = 2; i < length; i++) {
+		for (int i = 3; i < length; i++) {
 			passwort.append(zeichen[zufall.nextInt(zeichen.length)]);
 		}
 		return passwort.toString();
@@ -189,6 +189,13 @@ public final class KryptoUtil {
 	public char getRandomChar() {
 		int charInt = (new Random()).nextInt(49);
 		return zeichen[charInt];
+	}
+	
+	
+	public static void main(String args[]){
+		String p = KryptoUtil.getInstance().generatePasswort(8);
+		System.out.println(p);
+		System.out.println(p.length());
 	}
 
 }
