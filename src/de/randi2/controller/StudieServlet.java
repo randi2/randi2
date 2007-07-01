@@ -230,6 +230,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Studie ansehen
 		 */
 		JSP_STUDIE_ANSEHEN,
+		
+		/**
+		 * Das Studienprotokoll soll heruntergeladen werden
+		 */
+		JSP_STUDIE_ANSEHEN_PROTOKOLL_DOWNLOAD,
+		
 
 		/**
 		 * Patient hinzufuegen & Randomisieren
