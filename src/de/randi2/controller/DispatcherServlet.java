@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import de.randi2.model.fachklassen.Recht;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
+import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.utility.Config;
 import de.randi2.utility.Jsp;
 import de.randi2.utility.JspTitel;
@@ -317,7 +318,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Export als CSV
 		 */
 		JSP_ERGEBNISSE_EXPORT_CSV,
-		
+
 		/**
 		 * Export als XLS
 		 */
@@ -345,7 +346,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Die von dem Benutzer ausgewählte, aktuelle Studie
 		 */
 		AKTUELLE_STUDIE("aStudie"),
-		
+
 		/**
 		 * Wird an die Session gebunden, wenn der Admin einen Benutzer sperren,
 		 * entsperren will.
@@ -772,7 +773,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 								.toString());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
-			}else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
+			} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
 
 				if (request.getParameter(Parameter.filter) == null) {
 					request.setAttribute("listeZentren", null);
@@ -811,6 +812,22 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
 
+			} else if (id
+					.equals(StudieServlet.anfrage_id.JSP_STUDIE_ANSEHEN_PROTOKOLL_DOWNLOAD
+							.toString())) {
+				// Das Studienprotokoll wird heruntergeladen
+				Logger.getLogger(this.getClass()).debug(
+						"Leite Anfrage an DownloadServlet weiter");
+				request.setAttribute(
+						DownloadServlet.requestParameter.DATEI_NAME.toString(),
+						((StudieBean) request.getSession().getAttribute(
+								sessionParameter.AKTUELLE_STUDIE.toString()))
+								.getStudienprotokollpfad());
+				request.setAttribute(DownloadServlet.requestParameter.DATEI_ART
+						.toString(), DownloadServlet.dateiArt.STUDIENPROTOKOLL);
+				request.getRequestDispatcher("DownloadServlet").forward(
+						request, response);
+
 			} else if (id.equals(anfrage_id.JSP_SIMULATION.toString())) {
 				// Weiterleitung auf die Simulation seite
 				request.getRequestDispatcher(Jsp.SIMULATION).forward(request,
@@ -826,7 +843,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						response);
 
 			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN.name())) {
-
 
 				// neue Studie anlegen
 				request.setAttribute(Parameter.anfrage_id.toString(),
@@ -1615,8 +1631,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 					.getLogger(this.getClass())
 					.debug(
 							"System offen, leite nach 'index.jsp' um' (korrekter Ablauf)");
-			request.getRequestDispatcher(Jsp.INDEX)
-					.forward(request, response);
+			request.getRequestDispatcher(Jsp.INDEX).forward(request, response);
 			return;
 		}
 	}

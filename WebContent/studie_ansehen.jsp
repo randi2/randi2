@@ -25,6 +25,7 @@
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="java.util.Vector"%>
+<%@page import="de.randi2.controller.DownloadServlet"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -296,7 +297,7 @@ Ext.onReady(function(){
 							type="hidden" name="<%=Parameter.studienarm.ID.toString() %>"
 							value=""></form>
 						<%=aStudienarme.get(aStudienarme.size() - counter)
-									.getBezeichnung()+" "+"("+aStudienarme.get(aStudienarme.size() - counter).getStatus().toString()+")"%> <img src="images/anzeigen.gif"
+									.getBezeichnung()+" "+"("+aStudienarme.get(aStudienarme.size() - counter).getStatus().toString()+")"%> <img style="cursor:pointer" src="images/anzeigen.gif"
 							onClick="document.forms['studienarm'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STUDIENARM_ANZEIGEN.toString() %>';document.forms['studienarm'].<%=Parameter.studienarm.ID.toString()%>.value = '<%=aStudienarme.get(aStudienarme.size() - counter)
 							.getId() %>';document.forms['studienarm'].submit();"></td>
 						<%
@@ -330,8 +331,15 @@ Ext.onReady(function(){
 						<td>Studienprotokoll &nbsp;</td>
 					</tr>
 					<tr>
-						<td class="tblrow1"><a
-							href="<%=aStudie.getStudienprotokollpfad() %>"><%=aStudie.getStudienprotokollpfad()%></a></td>
+						<td class="tblrow1">
+						<form action="DispatcherServlet" method="POST" name="studienprotokoll"
+							id="studienprotokoll"><input type="hidden"
+							name="<%=Parameter.anfrage_id %>" value="<%=StudieServlet.anfrage_id.JSP_STUDIE_ANSEHEN_PROTOKOLL_DOWNLOAD.toString() %>">
+							</form>
+						<%=aStudie.getStudienprotokollpfad() %>
+						<img style="cursor:pointer" src="images/download.gif"
+							onClick="document.forms['studienprotokoll'].submit();">
+						</td>
 					</tr>
 				</tbody>
 			</table>
