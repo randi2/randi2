@@ -26,10 +26,7 @@
 		<servlet-class>
 			de.randi2.controller.FileUploadServlet
 		</servlet-class>
-	</servlet>
-<<<<<<< .mine
-=======
-	<servlet>
+	</servlet><servlet>
 		<description></description>
 		<display-name>ZentrumServlet</display-name>
 		<servlet-name>ZentrumServlet</servlet-name>
