@@ -317,7 +317,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Export als CSV
 		 */
 		JSP_ERGEBNISSE_EXPORT_CSV,
-
+		
 		/**
 		 * Export als XLS
 		 */
@@ -345,7 +345,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Die von dem Benutzer ausgewählte, aktuelle Studie
 		 */
 		AKTUELLE_STUDIE("aStudie"),
-
+		
 		/**
 		 * Wird an die Session gebunden, wenn der Admin einen Benutzer sperren,
 		 * entsperren will.
@@ -772,7 +772,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 								.toString());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
-			} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
+			}else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
 
 				if (request.getParameter(Parameter.filter) == null) {
 					request.setAttribute("listeZentren", null);
@@ -826,6 +826,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						response);
 
 			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN.name())) {
+
 
 				// neue Studie anlegen
 				request.setAttribute(Parameter.anfrage_id.toString(),
@@ -1605,9 +1606,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 					.getLogger(this.getClass())
 					.debug(
 							"System gesperrt, leite nach 'index_gesperrt.jsp' um (korrekter Ablauf) ");
-			request.setAttribute(requestParameter.MITTEILUNG_SYSTEM_GESPERRT
-					.toString(), meldungSystemGesperrt);
-			request.getRequestDispatcher("index_gesperrt.jsp").forward(request,
+			request.setAttribute(this.FEHLERNACHRICHT, meldungSystemGesperrt);
+			request.getRequestDispatcher(Jsp.INDEX_GESPERRT).forward(request,
 					response);
 			return;
 		} else {// System offen
@@ -1615,7 +1615,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 					.getLogger(this.getClass())
 					.debug(
 							"System offen, leite nach 'index.jsp' um' (korrekter Ablauf)");
-			request.getRequestDispatcher("index.jsp")
+			request.getRequestDispatcher(Jsp.INDEX)
 					.forward(request, response);
 			return;
 		}
