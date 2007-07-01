@@ -429,7 +429,7 @@ Ext.onReady(function(){
     });
     
 	var stellvertreter_nachname = new Ext.form.TextField({
-        fieldLabel: 'Vorname *:',
+        fieldLabel: 'Nachname *:',
         name: '<%=Parameter.person.STELLVERTRETER_NACHNAME.name() %>',
         value: '<%=aStellvertreterNachname %>',
         width:190,
@@ -563,7 +563,23 @@ Ext.onReady(function(){
 	form_daten_aendern.addButton('Abbrechen', function(){
 
             var frm = document.getElementById(this.id);
-			frm.<%=Parameter.anfrage_id %>.value='<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name() %>';	
+    <%
+    
+    if (aBenutzer_form.getRolle().getRollenname()==Rolle.Rollen.ADMIN) {
+    
+    %>
+			frm.<%=Parameter.anfrage_id %>.value='<%=DispatcherServlet.anfrage_id.BENUTZER_SUCHEN %>';
+	<%
+	
+    } else {
+	
+	%>
+			frm.<%=Parameter.anfrage_id %>.value='<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name() %>';
+	<%
+	
+    }
+	
+	%>	
             frm.method = 'POST';
             frm.action = 'DispatcherServlet';
 			frm.submit();
