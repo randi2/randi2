@@ -1,15 +1,12 @@
 package de.randi2.model.fachklassen.beans;
 
 import java.util.Collection;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
-import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.exceptions.StrataException;
 import de.randi2.model.fachklassen.Strata;
 import de.randi2.model.fachklassen.Studie;
@@ -24,7 +21,7 @@ import de.randi2.utility.NullKonstanten;
  * @version $Id$
  * 
  */
-public class StrataBean extends Filter {
+public class StrataBean extends Filter implements Comparable<StrataBean> {
 
 	/**
 	 * Der Name des Stratas.
@@ -151,6 +148,7 @@ public class StrataBean extends Filter {
 	 * 
 	 * @return Die moeglichen Auspraegungen.
 	 * @throws DatenbankExceptions
+	 *             Wenn ein Fehler in der Datenbank auftritt.
 	 */
 	public Collection<StrataAuspraegungBean> getAuspraegungen()
 			throws DatenbankExceptions {
@@ -158,7 +156,6 @@ public class StrataBean extends Filter {
 			this.auspraegungen = new Vector<StrataAuspraegungBean>(Strata
 					.getAuspraegungen(this));
 		}
-		System.out.println(this.auspraegungen);
 		return this.auspraegungen;
 	}
 
@@ -312,6 +309,16 @@ public class StrataBean extends Filter {
 			throw new StrataException(StrataException.STRATA_NAME_LEER);
 		}
 
+	}
+
+	public int compareTo(StrataBean o) {
+		if (this.getId() < o.getId()) {
+			return -1;
+		} else if (this.getId() > o.getId()) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 }

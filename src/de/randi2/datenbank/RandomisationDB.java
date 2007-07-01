@@ -1,16 +1,26 @@
 package de.randi2.datenbank;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.RandomisationsException;
+import de.randi2.model.exceptions.StrataException;
 import de.randi2.model.fachklassen.Strata;
+import de.randi2.model.fachklassen.Studie;
+import de.randi2.model.fachklassen.beans.StrataAuspraegungBean;
+import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.Tabelle;
@@ -109,6 +119,7 @@ public final class RandomisationDB {
 			}
 
 		} catch (SQLException e) {
+			ConnectionFactory.getInstanz().closeConnection(c);
 			throw new DatenbankExceptions(e, sql,
 					DatenbankExceptions.SUCHEN_ERR);
 		}
@@ -138,12 +149,12 @@ public final class RandomisationDB {
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e, sql,
 					DatenbankExceptions.SCHREIBEN_ERR);
+		} finally{
+			ConnectionFactory.getInstanz().closeConnection(c);
 		}
 
-		ConnectionFactory.getInstanz().closeConnection(c);
-
 	}
-	
+
 	/**
 	 * Gibt den naechsten Wert fuer die Randomisation zu dieser Studie zurueck.
 	 * 
@@ -191,6 +202,7 @@ public final class RandomisationDB {
 				wert = rs.getLong(2);
 			}
 		} catch (SQLException e) {
+			ConnectionFactory.getInstanz().closeConnection(c);
 			throw new DatenbankExceptions(e, sql,
 					DatenbankExceptions.SUCHEN_ERR);
 		}
@@ -209,9 +221,12 @@ public final class RandomisationDB {
 				throw new DatenbankExceptions(e, sql,
 						DatenbankExceptions.LOESCHEN_ERR);
 			}
+			finally{
+				ConnectionFactory.getInstanz().closeConnection(c);
+			}
 		}
+		
 
-		ConnectionFactory.getInstanz().closeConnection(c);
 		return wert;
 	}
 
@@ -303,10 +318,108 @@ public final class RandomisationDB {
 
 		return patInArmen;
 	}
-	
-	
-	public static Tabelle getStatistikTabelle(StudieBean s){
-		return null;
+
+	public static Tabelle getStatistikTabelle(StudieBean studie)
+			throws DatenbankExceptions, StrataException {
+
+		TreeSet<StrataBean> strata = new TreeSet<StrataBean>(Strata
+				.getAll(studie));
+
+		String kopfZeile[] = new String[6 + strata.size()];
+		int i = 0;
+		kopfZeile[i] = "Studienarm";
+		i++;
+		kopfZeile[i] = "Geburtsdatum";
+		i++;
+		kopfZeile[i] = "Geschlecht";
+		i++;
+		kopfZeile[i] = "Aufklärungsdatum";
+		i++;
+		kopfZeile[i] = "Körperoberfläche";
+		i++;
+		kopfZeile[i] = "Performancestatus";
+		i++;
+
+		for (StrataBean sB : strata) {
+			kopfZeile[i] = sB.getName();
+			i++;
+		}
+
+		Tabelle tab = new Tabelle(kopfZeile);
+
+		HashMap<String, String> strataAusprMap = new HashMap<String, String>();
+		for (StrataBean sB : strata) {
+			for (StrataAuspraegungBean sA : sB.getAuspraegungen()) {
+				String key = String.valueOf(sB.getId()) + "=" + String.valueOf(sA.getId());
+				strataAusprMap.put(key, sA.getName());
+			}
+		}
+
+		String zeile[] = new String[6 + strata.size()];
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+
+		String sql = "SELECT sA.bezeichnung, p.geburtsdatum, p.geschlecht, "
+				+ "p.aufklaerungsdatum, p.koerperoberflaeche, p.performancestatus "
+				+ ", p.strata_gruppe FROM Studie s "
+				+ "JOIN Studienarm sA ON (s.studienID = sA.Studie_studienID) "
+				+ "JOIN Patient p ON(sA.studienarmID = p.Studienarm_studienarmID) "
+				+ "WHERE s.studienID = ?";
+
+		try {
+			con = ConnectionFactory.getInstanz().getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, studie.getId());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				i = 0;
+				zeile[i] = rs.getString("sA.bezeichnung");
+				i++;
+				java.sql.Date gebSql = rs.getDate("p.geburtsdatum");
+				java.util.Date gebUtil = new Date(gebSql.getTime());
+				zeile[i] = DateFormat.getDateInstance(DateFormat.MEDIUM)
+						.format(gebUtil);
+				i++;
+				zeile[i] = rs.getString("p.geschlecht");
+				i++;
+				java.sql.Date aufSql = rs.getDate("p.aufklaerungsdatum");
+				java.util.Date aufUtil = new Date(aufSql.getTime());
+				zeile[i] = DateFormat.getDateInstance(DateFormat.MEDIUM)
+						.format(aufUtil);
+				;
+				i++;
+				zeile[i] = rs.getString("p.koerperoberflaeche");
+				i++;
+				zeile[i] = rs.getString("p.performancestatus");
+				i++;
+
+				String strataGruppe = rs.getString("p.strata_gruppe");
+				if (strataGruppe != null) {
+					String strataAusp[] = strataGruppe.split("#");
+					for (int j = 0; j < strataAusp.length; j++) {
+						if (!strataAusp[j].trim().equals("")) {
+							zeile[i] = strataAusprMap.get(strataAusp[j].trim());
+							i++;
+						}
+					}
+				}
+
+				tab.addZeile(zeile.clone());
+
+			}
+			pstmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.SUCHEN_ERR);
+		} finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
+		}
+
+		return tab;
+
 	}
 
 }
