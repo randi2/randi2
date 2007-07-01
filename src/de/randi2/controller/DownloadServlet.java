@@ -1,8 +1,8 @@
 package de.randi2.controller;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.randi2.utility.Config;
-import de.randi2.utility.SystemException;
+import de.randi2.utility.Jsp;
 
 /**
  * Diese Klasse realisiert Downloads.
@@ -34,7 +34,14 @@ public class DownloadServlet extends HttpServlet {
 	 */
 	public enum requestParameter {
 
-		DATEI_ART, DATEI_NAME
+		/**
+		 * Art der Datei -> siehe dateiArt enum
+		 */
+		DATEI_ART,
+		/**
+		 * Name der Datei
+		 */
+		DATEI_NAME
 
 	}
 
@@ -47,26 +54,50 @@ public class DownloadServlet extends HttpServlet {
 	 */
 	public enum dateiArt {
 
-		STUDIENPROTOKOLL, RANDOMISATIONSERGEBNISSE
+		/**
+		 * Wenn das Studienprotokoll heruntergeladen werden
+		 */
+		STUDIENPROTOKOLL,
+
+		/**
+		 * Wenn die Randomisationsergebnisse heruntergeladen werden
+		 */
+		RANDOMISATIONSERGEBNISSE
 
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Typische doGet-Servlet Methode.
 	 * 
 	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
 	 *      javax.servlet.http.HttpServletResponse)
+	 * @param request -
+	 *            ein Request Objekt
+	 * @param response -
+	 *            ein Response Objekt
+	 * @throws IOException -
+	 *             beim Problemen mit request-forrwarden
+	 * @throws ServletException -
+	 *             beim Problemen mit request-forrwarden
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doPost(request, response);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Typische doPost-Servlet Methode.
 	 * 
 	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
 	 *      javax.servlet.http.HttpServletResponse)
+	 * @param request -
+	 *            ein Request Objekt
+	 * @param response -
+	 *            ein Response Objekt
+	 * @throws IOException -
+	 *             beim Problemen mit request-forrwaren
+	 * @throws ServletException -
+	 *             beim Problemen mit request-forrwarden
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -78,8 +109,10 @@ public class DownloadServlet extends HttpServlet {
 		String aDateiPfad = "";
 
 		if (aDateiName == null || aDateiName.trim().equals("")) {
-
-			throw new SystemException("Ungueltiger Dateiname!");
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+					"Ungueltiger Dateiname!");
+			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
+					response);
 
 		}
 
@@ -96,25 +129,40 @@ public class DownloadServlet extends HttpServlet {
 
 		} else {
 
-			throw new SystemException("Fehler beim auswaehlen der Datei!");
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+					"Fehler beim auswaehlen der Datei!");
+			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
+					response);
 
 		}
+		try {
 
-		FileInputStream fileToDownload = new FileInputStream(aDateiPfad);
-		ServletOutputStream out = response.getOutputStream();
+			FileInputStream fileToDownload = new FileInputStream(aDateiPfad);
+			ServletOutputStream out = response.getOutputStream();
 
-		response.setContentType("application/x-download");
-		response.setHeader("Content-Disposition", "attachment; filename="
-				+ aDateiName);
-		response.setContentLength(fileToDownload.available());
+			response.setContentType("application/x-download");
+			response.setHeader("Content-Disposition", "attachment; filename="
+					+ aDateiName);
+			response.setContentLength(fileToDownload.available());
 
-		int c;
-		while ((c = fileToDownload.read()) != -1) {
-			out.write(c);
+			int c;
+			while ((c = fileToDownload.read()) != -1) {
+				out.write(c);
+			}
+			out.flush();
+			out.close();
+			fileToDownload.close();
+		} catch (FileNotFoundException e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getLocalizedMessage());
+			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
+					response);
+		} catch (IOException e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+					.getLocalizedMessage());
+			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
+					response);
 		}
-		out.flush();
-		out.close();
-		fileToDownload.close();
 
 	}
 }
