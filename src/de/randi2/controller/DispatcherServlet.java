@@ -836,7 +836,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				for(int i=1;i<Integer.parseInt(
 						(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()))+1;i++){
 
-request.setAttribute(Parameter.strata.BESCHREIBUNG.name()+i, request.getParameter(Parameter.strata.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.strata.STRATABESCHREIBUNG.name()+i, request.getParameter(Parameter.strata.STRATABESCHREIBUNG.name()+i));			
 request.setAttribute(Parameter.strata.NAME.name()+i, request.getParameter(Parameter.strata.NAME.name()+i));			
 request.setAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i, request.getParameter(Parameter.strata.AUSPRAEGUNGEN.name()+i));			
 }
@@ -844,7 +844,7 @@ request.setAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i, request.getParamet
 for(int i=1;i<Integer.parseInt(
 (String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()))+1;i++){
 
-request.setAttribute(Parameter.studienarm.BESCHREIBUNG.name()+i, request.getParameter(Parameter.studienarm.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.studienarm.ARMBESCHREIBUNG.name()+i, request.getParameter(Parameter.studienarm.ARMBESCHREIBUNG.name()+i));			
 request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParameter(Parameter.studienarm.BEZEICHNUNG.name()+i));			
 
 }	
@@ -879,7 +879,7 @@ request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParam
 				for(int i=1;i<Integer.parseInt(
 						(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()))+1;i++){
 
-request.setAttribute(Parameter.strata.BESCHREIBUNG.name()+i, request.getParameter(Parameter.strata.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.strata.STRATABESCHREIBUNG.name()+i, request.getParameter(Parameter.strata.STRATABESCHREIBUNG.name()+i));			
 request.setAttribute(Parameter.strata.NAME.name()+i, request.getParameter(Parameter.strata.NAME.name()+i));			
 request.setAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i, request.getParameter(Parameter.strata.AUSPRAEGUNGEN.name()+i));			
 }
@@ -887,7 +887,7 @@ request.setAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i, request.getParamet
 for(int i=1;i<Integer.parseInt(
 (String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()))+1;i++){
 
-request.setAttribute(Parameter.studienarm.BESCHREIBUNG.name()+i, request.getParameter(Parameter.studienarm.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.studienarm.ARMBESCHREIBUNG.name()+i, request.getParameter(Parameter.studienarm.ARMBESCHREIBUNG.name()+i));			
 request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParameter(Parameter.studienarm.BEZEICHNUNG.name()+i));			
 
 }	
@@ -931,7 +931,7 @@ request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParam
 				for(int i=1;i<Integer.parseInt(
 						(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()))+1;i++){
 
-request.setAttribute(Parameter.strata.BESCHREIBUNG.name()+i, request.getParameter(Parameter.strata.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.strata.STRATABESCHREIBUNG.name()+i, request.getParameter(Parameter.strata.STRATABESCHREIBUNG.name()+i));			
 request.setAttribute(Parameter.strata.NAME.name()+i, request.getParameter(Parameter.strata.NAME.name()+i));			
 request.setAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i, request.getParameter(Parameter.strata.AUSPRAEGUNGEN.name()+i));			
 }
@@ -939,7 +939,7 @@ request.setAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i, request.getParamet
 for(int i=1;i<Integer.parseInt(
 (String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()))+1;i++){
 
-request.setAttribute(Parameter.studienarm.BESCHREIBUNG.name()+i, request.getParameter(Parameter.studienarm.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.studienarm.ARMBESCHREIBUNG.name()+i, request.getParameter(Parameter.studienarm.ARMBESCHREIBUNG.name()+i));			
 request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParameter(Parameter.studienarm.BEZEICHNUNG.name()+i));			
 
 }	
@@ -983,7 +983,7 @@ request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParam
 				for(int i=1;i<Integer.parseInt(
 						(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()))+1;i++){
 
-request.setAttribute(Parameter.strata.BESCHREIBUNG.name()+i, request.getParameter(Parameter.strata.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.strata.STRATABESCHREIBUNG.name()+i, request.getParameter(Parameter.strata.STRATABESCHREIBUNG.name()+i));			
 request.setAttribute(Parameter.strata.NAME.name()+i, request.getParameter(Parameter.strata.NAME.name()+i));			
 request.setAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i, request.getParameter(Parameter.strata.AUSPRAEGUNGEN.name()+i));			
 }
@@ -991,7 +991,7 @@ request.setAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i, request.getParamet
 for(int i=1;i<Integer.parseInt(
 (String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()))+1;i++){
 
-request.setAttribute(Parameter.studienarm.BESCHREIBUNG.name()+i, request.getParameter(Parameter.studienarm.BESCHREIBUNG.name()+i));			
+request.setAttribute(Parameter.studienarm.ARMBESCHREIBUNG.name()+i, request.getParameter(Parameter.studienarm.ARMBESCHREIBUNG.name()+i));			
 request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParameter(Parameter.studienarm.BEZEICHNUNG.name()+i));			
 
 }	
@@ -1035,7 +1035,7 @@ request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParam
 				for(int i=1;i<Integer.parseInt(
 												(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString()))+1;i++){
 					
-					request.setAttribute(Parameter.strata.BESCHREIBUNG.name()+i, request.getParameter(Parameter.strata.BESCHREIBUNG.name()+i));			
+					request.setAttribute(Parameter.strata.STRATABESCHREIBUNG.name()+i, request.getParameter(Parameter.strata.STRATABESCHREIBUNG.name()+i));			
 					request.setAttribute(Parameter.strata.NAME.name()+i, request.getParameter(Parameter.strata.NAME.name()+i));			
 					request.setAttribute(Parameter.strata.AUSPRAEGUNGEN.name()+i, request.getParameter(Parameter.strata.AUSPRAEGUNGEN.name()+i));			
 				}
@@ -1043,7 +1043,7 @@ request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParam
 				for(int i=1;i<Integer.parseInt(
 						(String)request.getParameter(DispatcherServlet.requestParameter.ANZAHL_ARME.toString()))+1;i++){
 
-					request.setAttribute(Parameter.studienarm.BESCHREIBUNG.name()+i, request.getParameter(Parameter.studienarm.BESCHREIBUNG.name()+i));			
+					request.setAttribute(Parameter.studienarm.ARMBESCHREIBUNG.name()+i, request.getParameter(Parameter.studienarm.ARMBESCHREIBUNG.name()+i));			
 					request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParameter(Parameter.studienarm.BEZEICHNUNG.name()+i));			
 
 				}		

@@ -810,7 +810,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			StudienarmBean aArm = null;
 
 			String aArmBezeichnung = (String)request.getAttribute(Parameter.studienarm.BEZEICHNUNG.toString()+i);
-			String aArmBeschreibung = (String)request.getAttribute(Parameter.studienarm.BESCHREIBUNG.toString()+i);
+			String aArmBeschreibung = (String)request.getAttribute(Parameter.studienarm.ARMBESCHREIBUNG.toString()+i);
 			
 			aArm = new StudienarmBean(NullKonstanten.DUMMY_ID,aStudieId,Studie.Status.AKTIV,aArmBezeichnung,aArmBeschreibung);
 			aArm.setBenutzerkontoLogging(aBenutzer);
@@ -826,7 +826,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				StrataBean aStrata = null;
 	
 				String aStrataName = (String)request.getAttribute(Parameter.strata.NAME.toString()+i);
-				String aStrataBeschreibung = (String)request.getAttribute(Parameter.strata.BESCHREIBUNG.toString()+i);
+				String aStrataBeschreibung = (String)request.getAttribute(Parameter.strata.STRATABESCHREIBUNG.toString()+i);
 				String aAuspraegungen = (String)request.getAttribute(Parameter.strata.AUSPRAEGUNGEN.toString()+i);
 				
 				

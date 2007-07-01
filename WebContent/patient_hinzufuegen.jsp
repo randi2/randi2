@@ -3,7 +3,7 @@
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="de.randi2.model.fachklassen.beans.AktivierungBean"
 	import="java.util.*" import="java.text.SimpleDateFormat"
-	import="java.util.Locale" import="de.randi2.utility.*"
+	import="java.util.Locale" import="de.randi2.utility.*" import="de.randi2.utility.Parameter"
 	import="de.randi2.controller.StudieServlet"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="de.randi2.randomisation.Randomisation"%>
@@ -352,7 +352,7 @@ Ext.onReady(function(){
 		
 		var strata_beschreibung<%=aStrataId%> = new Ext.form.MiscField({
 			msgTarget: 'side',
-			name: '<%=Parameter.strata.BESCHREIBUNG.name() %><%=aStrataId%>',
+			name: '<%=Parameter.strata.STRATABESCHREIBUNG.name() %><%=aStrataId%>',
 			fieldLabel: 'Beschreibung:',
 			value: '<%=aStratabeschreibung.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r")%>',
 			width: 250,

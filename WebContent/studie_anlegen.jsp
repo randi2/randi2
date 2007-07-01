@@ -7,7 +7,7 @@
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="java.util.Iterator" import="java.util.*"%>
 <%@page import="de.randi2.controller.*"%>
-<%@page import="de.randi2.utility.*"%>
+<%@page import="de.randi2.utility.*" import="de.randi2.utility.Parameter" %>
 <%@page import="de.randi2.randomisation.Randomisation"%>
 <%
 	String aName = "";
@@ -364,13 +364,13 @@ Ext.onReady(function(){
 				
 			}
 			
-			if (request.getAttribute(Parameter.strata.BESCHREIBUNG.name()+i)==null) {
+			if (request.getAttribute(Parameter.strata.STRATABESCHREIBUNG.name()+i)==null) {
 				
 				aStratabeschreibung = "";
 				
 			} else {
 				
-				aStratabeschreibung = (String)request.getAttribute(Parameter.strata.BESCHREIBUNG.name()+i);
+				aStratabeschreibung = (String)request.getAttribute(Parameter.strata.STRATABESCHREIBUNG.name()+i);
 				
 			}
 			
@@ -405,7 +405,7 @@ Ext.onReady(function(){
 	var strata_beschreibung<%=i%> = new Ext.form.TextArea({
 		msgTarget: 'side',
 		allowBlank: true,
-		name: '<%=Parameter.strata.BESCHREIBUNG.name() %><%=i%>',
+		name: '<%=Parameter.strata.STRATABESCHREIBUNG.name() %><%=i%>',
 		fieldLabel: 'Beschreibung',
 		value: '<%=aStratabeschreibung.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r")%>',
 		width: 250,
@@ -468,13 +468,13 @@ Ext.onReady(function(){
 				
 			}
 			
-			if (request.getAttribute(Parameter.studienarm.BESCHREIBUNG.name()+i)==null) {
+			if (request.getAttribute(Parameter.studienarm.ARMBESCHREIBUNG.name()+i)==null) {
 				
 				aArmbeschreibung = "";
 				
 			} else {
 				
-				aArmbeschreibung = (String)request.getAttribute(Parameter.studienarm.BESCHREIBUNG.name()+i);
+				aArmbeschreibung = (String)request.getAttribute(Parameter.studienarm.ARMBESCHREIBUNG.name()+i);
 				
 			}
 			
@@ -500,7 +500,7 @@ Ext.onReady(function(){
 	var sa_beschreibung<%=i%> = new Ext.form.TextArea({
 		msgTarget: 'side',
 		allowBlank: true,
-		name: '<%=Parameter.studienarm.BESCHREIBUNG.name() %><%=i%>',
+		name: '<%=Parameter.studienarm.ARMBESCHREIBUNG.name() %><%=i%>',
 		fieldLabel: 'Beschreibung',
 		value: '<%=aArmbeschreibung.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r")%>',
 		width: 250,

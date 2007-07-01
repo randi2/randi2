@@ -295,7 +295,7 @@ public class Parameter {
 		/**
 		 * Die Beschreibung (lang)
 		 */
-		BESCHREIBUNG,
+		ARMBESCHREIBUNG,
 		
 		/**
 		 * Eindeutige ID des Studienarms
@@ -317,7 +317,7 @@ public class Parameter {
 		/**
 		 * Die Beschreibung der Strata
 		 */
-		BESCHREIBUNG,
+		STRATABESCHREIBUNG,
 		/**
 		 * Die Auspraegungen der Strata
 		 */

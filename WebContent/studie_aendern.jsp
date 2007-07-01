@@ -16,11 +16,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Randi2 :: <%=request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString())%></title>
-<%@include file="include/inc_extjs.jsp"%>
+
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<%@include file="include/inc_header.jsp"%>
+
 <div id="content">
 <form action="DispatcherServlet" method="post" name="user" id="user"><input
 	type="hidden" name="anfrage_id"
@@ -154,7 +154,7 @@
 			Verantwortliche(r) Studienleiter(in)<br>
 			<input size="40" maxlength="40" name="Parameter.studie.STUDIENLEITER"
 				tabindex="8" type="text" readonly
-				value="<%out.print(aStudieBean.getStudienleiter());%>"></td>
+				value="<%out.print(aStudieBean.getBenutzerkonto().getBenutzer().getVorname()+" "+aStudieBean.getBenutzerkonto().getBenutzer().getNachname());%>"></td>
 		</tr>
 	</tbody>
 </table>
