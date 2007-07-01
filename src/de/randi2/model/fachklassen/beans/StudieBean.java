@@ -817,7 +817,7 @@ public class StudieBean extends Filter {
 			DatenbankExceptions {
 		if (this.aStatistiker == null) {
 			if (aStatistikerId != NullKonstanten.DUMMY_ID) {
-				Benutzerkonto.get(this.aStatistikerId);
+				this.aStatistiker = Benutzerkonto.get(this.aStatistikerId);
 			} else {
 				throw new StudieException(
 						StudieException.KEIN_STATISTIKER_VORHANDEN);

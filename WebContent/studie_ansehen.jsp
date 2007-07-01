@@ -25,7 +25,7 @@
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="java.util.Vector"%>
-<%@page import="de.randi2.controller.DownloadServlet"%>
+<%@page import="de.randi2.model.exceptions.StudieException"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -48,14 +48,49 @@ Ext.onReady(function(){
 		buttonAlign: 'center'
     });
     
+    var form_statistiker = new Ext.form.Form({
+		id:'statistiker_button',
+        labelAlign: 'left',
+        labelWidth: 0,
+		buttonAlign: 'center'
+    });
+    
+    
     var form_status = new Ext.form.Form({
     	id:'status_button',
         labelAlign: 'left',
         labelWidth: 0,
 		buttonAlign: 'center'
     });
+   	
+   	<%
+   	try{
+   		BenutzerkontoBean stat = aStudie.getStatistiker();%>
+   		form_statistiker.addButton('Neues Passwort f&uuml;r <%=(stat.getBenutzername())%>', function(){
+			
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+	}, form_statistiker);
+   	<%
+   	}catch(StudieException e){
+   	%>
+    form_statistiker.addButton('Statistiker anlegen', function(){
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+	}, form_statistiker);
+	<%}%>	    
+
+	form_statistiker.render('form_statistiker');
+	form_statistiker.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%="TODO!!!" %>'});
     
-    	form_aendern.addButton('&Auml;ndern', function(){
+    form_aendern.addButton('&Auml;ndern', function(){
 		
             var frm = document.getElementById(this.id);
             frm.method = 'POST';
@@ -65,10 +100,7 @@ Ext.onReady(function(){
 	}, form_aendern);    
 
 	form_aendern.render('form_aendern');
-	
-	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
-	<!-- Die anfrage_id muss spaeter angepasst werden - sobald man das Aendern der Studie ausimplementiert! Erstmal wird man automatisch ausgeloggt! lplotni-->
-	form_aendern.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.AKTION_LOGOUT %>'});	
+	form_aendern.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN_AENDERN.toString()%>'});	
 	
 	<%
 		if (aStudie.getStatus().equals(Studie.Status.AKTIV)) {
@@ -369,6 +401,10 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 		<td>&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;</td>
 		<td align="left">
 		<div id="form_random"></div>
+		</td>
+		<td>&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;</td>
+		<td align="left">
+		<div id="form_statistiker"></div>
 		</td>
 	</tr>
 </table>
