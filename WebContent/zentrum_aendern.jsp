@@ -44,13 +44,13 @@ zum Zentrum</b></legend>
 	%>
 	<tr>
 		<td>Name der Institution *<br>
-		<input type="text" size="46" maxlength="40" name="<%Parameter.zentrum.INSTITUTION.toString(); %>"
+		<input type="text" size="46" maxlength="40" name="<%=Parameter.zentrum.INSTITUTION.toString() %>"
 			value="<%if(aZentrum != null) {out.print(aZentrum.getInstitution());}%>"
 			tabindex="1"></td>
 	</tr>
 	<tr>
 		<td>Name der genauen Abteilung *<br>
-		<input type="text" size="46" maxlength="40" name="<%Parameter.zentrum.ABTEILUNGSNAME.toString(); %>"
+		<input type="text" size="46" maxlength="40" name="<%=Parameter.zentrum.ABTEILUNGSNAME.toString() %>"
 			value="<%if(aZentrum != null) {out.print(aZentrum.getAbteilung());}%>"
 			tabindex="2"></td>
 	</tr>
@@ -60,20 +60,20 @@ zum Zentrum</b></legend>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		Hausnr * <br>
-		<input type="text" size="30" maxlength="30" name="<%Parameter.zentrum.STRASSE.toString(); %>"
+		<input type="text" size="30" maxlength="30" name="<%=Parameter.zentrum.STRASSE.toString() %>"
 			value="<%if(aZentrum != null) {out.print(aZentrum.getStrasse());}%>"
 			tabindex="3"> &nbsp;&nbsp;&nbsp; <input type="text" size="8"
-			maxlength="8" name="<%Parameter.zentrum.HAUSNUMMER.toString(); %>"
+			maxlength="8" name="<%=Parameter.zentrum.HAUSNUMMER.toString() %>"
 			value="<%if(aZentrum != null) {out.print(aZentrum.getHausnr());}%>"
 			tabindex="4"></td>
 	</tr>
 	<tr>
 		<td>PLZ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ort * <br>
-		<input type="text" size="6" maxlength="6" name="<%Parameter.zentrum.PLZ.toString(); %>"
+		<input type="text" size="6" maxlength="6" name="<%=Parameter.zentrum.PLZ.toString() %>"
 			value="<%if(aZentrum != null) {out.print(aZentrum.getPlz());}%>"
 			tabindex="5">&nbsp;&nbsp;&nbsp; <input type="text" size="33"
-			maxlength="33" name="<%Parameter.zentrum.ORT.toString(); %>"
+			maxlength="33" name="<%=Parameter.zentrum.ORT.toString() %>"
 			value="<%if(aZentrum != null) {out.print(aZentrum.getOrt());}%>"
 			tabindex="6"></td>
 
@@ -82,12 +82,12 @@ zum Zentrum</b></legend>
 		<!-- Wenn Passwort nicht geaendert werden soll, dann wird bei leer gelassenen Feldern
 		das alte Passwort weiter verwendet. -->
 		<td>Passwort *<br>
-		<input type="password" size="25" maxlength="30" name="<%Parameter.benutzerkonto.PASSWORT.toString(); %>"
+		<input type="password" size="25" maxlength="30" name="<%=Parameter.benutzerkonto.PASSWORT.toString() %>"
 			tabindex="6" value=""></td>
 	</tr>
 	<tr>
 		<td>Passwort wiederholen *<br>
-		<input type="password" size="25" maxlength="30" name="<%Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG.toString(); %>"
+		<input type="password" size="25" maxlength="30" name="<%=Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG.toString() %>"
 			tabindex="7" value=""></td>
 	</tr>
 </table>
@@ -97,30 +97,30 @@ zum Zentrum</b></legend>
 <table>
 	<tr>
 		<td>Vorname *<br>
-		<input type="text" size"38" maxlength="40" name="<%Parameter.person.VORNAME.toString(); %>"
+		<input type="text" size"38" maxlength="40" name="<%=Parameter.person.VORNAME.toString() %>"
 			value="<%if(aZentrum != null) {if(aZentrum.getAnsprechpartner() != null) {out.print(aZentrum.getAnsprechpartner().getVorname());}}%>"
 			tabindex="7">&nbsp;&nbsp;&nbsp;</td>
 		<td>Nachname *<br>
-		<input type="text" size="38" maxlength="40" name="<%Parameter.person.NACHNAME.toString(); %>"
+		<input type="text" size="38" maxlength="40" name="<%=Parameter.person.NACHNAME.toString() %>"
 			value="<%if(aZentrum != null) {if(aZentrum.getAnsprechpartner() != null) {out.print(aZentrum.getAnsprechpartner().getNachname());}}%>"
 			tabindex="8"></td>
 	</tr>
 	<tr>
 		<td>Geschlecht *<br>
-		<input type="radio" name="<%Parameter.person.GESCHLECHT.toString(); %>" value="w"
+		<input type="radio" name="<%=Parameter.person.GESCHLECHT.toString() %>" value="w"
 			<%if (aZentrum != null) {if(aZentrum.getAnsprechpartner() != null){if(aZentrum.getAnsprechpartner().getGeschlecht() == 'w'){out.print("checked");}}}%>>weiblich
-		<input type="radio" name="<%Parameter.person.GESCHLECHT.toString(); %>" value="m"
+		<input type="radio" name="<%=Parameter.person.GESCHLECHT.toString() %>" value="m"
 			<%if (aZentrum != null) {if(aZentrum.getAnsprechpartner() != null){if(aZentrum.getAnsprechpartner().getGeschlecht() == 'm'){out.print("checked");}}}%>>m&auml;nnlich</td>
 	</tr>
 	<tr>
 		<td>Telefon *<br>
-		<input type="text" size="40" maxlength="40" name="<%Parameter.person.TELEFONNUMMER.toString(); %>"
+		<input type="text" size="40" maxlength="40" name="<%=Parameter.person.TELEFONNUMMER.toString() %>"
 			value="<%if(aZentrum != null) {if(aZentrum.getAnsprechpartner() != null) {out.print(aZentrum.getAnsprechpartner().getTelefonnummer());}}%>"
 			tabindex="9"></td>
 	</tr>
 	<tr>
 		<td>Fax<br>
-		<input type="text" size="40" maxlength="40" name="<%Parameter.person.FAX.toString(); %>"
+		<input type="text" size="40" maxlength="40" name="<%=Parameter.person.FAX.toString() %>"
 			value="<%if(aZentrum != null) {
 						if(aZentrum.getAnsprechpartner() != null) {
 							String fax = aZentrum.getAnsprechpartner().getFax();
@@ -135,7 +135,7 @@ zum Zentrum</b></legend>
 	</tr>
 	<tr>
 		<td>Email *<br>
-		<input type="text" size="46" maxlength="50" name="<%Parameter.person.EMAIL.toString(); %>"
+		<input type="text" size="46" maxlength="50" name="<%=Parameter.person.EMAIL.toString() %>"
 			value="<%if(aZentrum != null) {if(aZentrum.getAnsprechpartner() != null) {out.print(aZentrum.getAnsprechpartner().getEmail());}}%>"
 			tabindex="11"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	</tr>
