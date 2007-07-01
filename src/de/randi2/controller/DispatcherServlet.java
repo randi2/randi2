@@ -1,24 +1,12 @@
 package de.randi2.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
 
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
-
-import com.missiondata.fileupload.MonitoredDiskFileItemFactory;
-
-import de.randi2.controller.FileUploadListener.FileUploadStats;
-import de.randi2.controller.FileUploadListener.FileUploadStatus;
 import de.randi2.model.fachklassen.Recht;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.Config;
@@ -760,7 +748,16 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 								.toString());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
-			} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
+			} else if (id
+					.equals(StudieServlet.anfrage_id.JSP_STATISTIK_ANZEIGEN
+							.toString())) {
+				// Der Benutzer will sich eine Statistik anzeigen lassen
+				request.setAttribute(Parameter.anfrage_id,
+						StudieServlet.anfrage_id.AKTION_STATISTIK_ANZEIGEN
+								.toString());
+				request.getRequestDispatcher("StudieServlet").forward(request,
+						response);
+			}else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
 
 				if (request.getParameter(Parameter.filter) == null) {
 					request.setAttribute("listeZentren", null);

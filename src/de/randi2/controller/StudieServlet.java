@@ -181,6 +181,18 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		AKTION_STUDIENARM_ANZEIGEN,
 
 		/**
+		 * Die Statistik soll dem Benutzer angezeigt werden (zu der ausgewählten
+		 * Studie)
+		 */
+		JSP_STATISTIK_ANZEIGEN,
+
+		/**
+		 * Die Statistik wird dem Benutzer angezeigt (zu der ausgewählten
+		 * Studie)
+		 */
+		AKTION_STATISTIK_ANZEIGEN,
+
+		/**
 		 * zentrum_anzeigen.jsp
 		 */
 		JSP_ZENTRUM_ANZEIGEN,
@@ -331,9 +343,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		
 		String id = (String) request.getParameter(Parameter.anfrage_id);
-		// idAttribute nicht entfernen, benutzen dies fuer die Weiterleitung aus
-		// dem Benutzerservlet --Btheel
 		String idAttribute = (String) request
 				.getAttribute(Parameter.anfrage_id);
 
@@ -349,11 +360,14 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			}
 
 		} else {
-			// TODO an dieser Stelle würde ich einfach auf index.jsp
-			// weiterleiten; gibt's andere Vorschläge (lplotni 17. Jun)
-			// request.getRequestDispatcher("DispatcherServlet").forward(request,
-			// response);
-			System.out.println("Die drei Fragezeichen beim Posten");
+			// Anfrage kann nicht bearbeitet werden - Benutzer wird ausgeloggt!
+			request
+					.setAttribute(
+							DispatcherServlet.FEHLERNACHRICHT,
+							"Ihre Anfrage konnte nicht bearbeitet werden!<br>Bitte loggen Sie sich enreut ein!");
+			request.setAttribute(Parameter.anfrage_id, DispatcherServlet.anfrage_id.AKTION_LOGOUT);
+			request.getRequestDispatcher("DispatcherServlet").forward(
+					request, response);
 
 		}
 
@@ -493,6 +507,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 						request, response);
 			}
 
+		} else if (id.equals(anfrage_id.AKTION_STATISTIK_ANZEIGEN.toString())) {
+			// Dem Benutzer wird die Statistik zur ausgewähtlen Studie
+			// angezeigt!
+			Logger.getLogger(this.getClass()).debug("Statistik wird angezeigt");
+			request.getRequestDispatcher(Jsp.STATISTIK_ANZEIGEN).forward(
+					request, response);
 		}
 	}
 
@@ -539,10 +559,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 											.toString())), aBenutzer
 									.getZentrum());
 				} catch (StudieException e) {
-					// TODO Dem Benutzer muss eine Meldung angezeigt werden
-					// (lplotni
-					// 17. Jun)
 					e.printStackTrace();
+					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+							.getMessage());
+					request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN)
+							.forward(request, response);
 				}
 			} else {
 				listeStudien = DatenbankFactory.getAktuelleDBInstanz()
@@ -561,11 +582,13 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			Logger.getLogger(this.getClass()).debug(
 					"studieAuswahl - Statistiker");
 			try {
-				leereStudie.setBenutzerkonto(aBenutzer);
+				leereStudie.setStatistiker(aBenutzer);
 			} catch (StudieException e) {
-				// TODO Dem Benutzer muss eine Meldung angezeigt werden (lplotni
-				// 17. Jun)
 				e.printStackTrace();
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getMessage());
+				request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN).forward(
+						request, response);
 			}
 			listeStudien = Studie.sucheStudie(leereStudie);
 			StudieBean aStudie = listeStudien.firstElement();
@@ -586,19 +609,21 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 											.toString())), aBenutzer
 									.getZentrum());
 				} catch (StudieException e) {
-					// TODO Dem Benutzer muss eine Meldung angezeigt werden
-					// (lplotni
-					// 17. Jun)
 					e.printStackTrace();
+					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+							.getMessage());
+					request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN)
+							.forward(request, response);
 				}
 			} else {
 				try {
 					leereStudie.setBenutzerkonto(aBenutzer);
 				} catch (StudieException e) {
-					// TODO Dem Benutzer muss eine Meldung angezeigt werden
-					// (lplotni
-					// 17. Jun)
 					e.printStackTrace();
+					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+							.getMessage());
+					request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN)
+							.forward(request, response);
 				}
 				listeStudien = Studie.sucheStudie(leereStudie);
 			}
@@ -622,8 +647,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					leereStudie.setStatus(Studie.Status.parseStatus(request
 							.getParameter(Parameter.studie.STATUS.toString())));
 				} catch (StudieException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+							.getMessage());
+					request.getRequestDispatcher(Jsp.STUDIE_AUSWAEHLEN)
+							.forward(request, response);
 				}
 				listeStudien = DatenbankFactory.getAktuelleDBInstanz()
 						.suchenObjekt(leereStudie);
@@ -650,29 +678,23 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 * @return - Vector mit den gefundenen StudienBeans
 	 * @throws DatenbankExceptions
 	 *             wenn bei dem Vorgang Fehler in der DB auftraten
+	 * @throws StudieException -
+	 *             wenn eine Fehler bei dem Studie-Objekt autgetreten sind.
 	 */
 	private Vector<StudieBean> studieFiltern(String name, Studie.Status status,
-			ZentrumBean aZentrum) throws DatenbankExceptions {
+			ZentrumBean aZentrum) throws DatenbankExceptions, StudieException {
 
 		Logger.getLogger(this.getClass()).debug("studieFiltern");
 
 		StudieBean gStudie = new StudieBean();
 		gStudie.setFilter(true);
 
-		try {
-			if (name != null) {
-				gStudie.setName(name);
-			}
-			gStudie.setStatus(status);
-			return DatenbankFactory.getAktuelleDBInstanz()
-					.suchenMitgliederObjekte(aZentrum, gStudie);
-
-		} catch (StudieException e) {
-			// TODO Dem Benutzer muss eine Meldung angezeigt werden (lplotni
-			// 17. Jun)
-			e.printStackTrace();
+		if (name != null) {
+			gStudie.setName(name);
 		}
-		return null;
+		gStudie.setStatus(status);
+		return DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(
+				aZentrum, gStudie);
 	}
 
 	/**

@@ -293,6 +293,7 @@ Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
 <body>
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
+<div id="content"><%@include file="include/inc_nachricht.jsp"%>
 <h1>Studie ausw&auml;hlen</h1>
 <%
 if (aRolle == Rolle.Rollen.STUDIENLEITER) {

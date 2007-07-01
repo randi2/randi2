@@ -155,10 +155,7 @@ Ext.onReady(function(){
 	}, form_statistik);    
 
 	form_statistik.render('form_statistik');
-	
-	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
-	<!-- Die anfrage_id muss spaeter angepasst werden - sobald man die Statistik ausimplementiert! Erstmal wird man automatisch ausgeloggt! lplotni-->
-	form_statistik.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.AKTION_LOGOUT %>'});	
+	form_statistik.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STATISTIK_ANZEIGEN.toString()%>'});	
 	
 	form_random.addButton('Randomisationsergebnisse', function(){
 		
