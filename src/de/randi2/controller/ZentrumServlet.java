@@ -26,6 +26,7 @@ import de.randi2.utility.Jsp;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.Parameter;
+import de.randi2.utility.ValidierungsUtil;
 
 /**
  * Diese Klasse repraesentiert das ZENTRUMSERVLET, welches Aktionen an die
@@ -378,7 +379,13 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 					.equals(
 							request
 									.getParameter(Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG
-											.toString()))) {
+											.toString()))
+					&& ValidierungsUtil.validierePasswortZeichen(request
+							.getParameter(Parameter.benutzerkonto.PASSWORT
+									.toString()))
+					&& request.getParameter(
+							Parameter.benutzerkonto.PASSWORT.toString())
+							.length() == 12) {
 				passwort = request
 						.getParameter(Parameter.benutzerkonto.PASSWORT
 								.toString());
