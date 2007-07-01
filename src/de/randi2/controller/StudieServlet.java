@@ -194,17 +194,17 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Ein Statistiker Accout soll für die aktuelle Studie angelegt werden
 		 */
 		JSP_STATISTIKER_ANLEGEN,
-		
+
 		/**
 		 * Ein Statistiker Account wird für die aktuelle Studie angelgt
 		 */
 		AKTION_STATISTIKER_ANLEGEN,
-		
+
 		/**
 		 * Ein neues Passwort soll für den Statistiker erzeugt werden
 		 */
 		JSP_STAT_PASSWORT_ERZEUGEN,
-		
+
 		/**
 		 * Ein neues Passwort wird für den Statistiker erzeugt
 		 */
@@ -250,12 +250,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Studie ansehen
 		 */
 		JSP_STUDIE_ANSEHEN,
-		
+
 		/**
 		 * Das Studienprotokoll soll heruntergeladen werden
 		 */
 		JSP_STUDIE_ANSEHEN_PROTOKOLL_DOWNLOAD,
-		
 
 		/**
 		 * Patient hinzufuegen & Randomisieren
@@ -500,12 +499,49 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 						request, response);
 			}
 
-		} else if (id.equals(anfrage_id.AKTION_STAT_PASSWORT_ERZEUGEN.toString())) {
+		} else if (id.equals(anfrage_id.AKTION_STAT_PASSWORT_ERZEUGEN
+				.toString())) {
 			// Ein neues Passwort wird für den vorhandenen Statistiker erzeugt
-			
-		}else if (id.equals(anfrage_id.AKTION_STATISTIKER_ANLEGEN.toString())) {
+
+		} else if (id.equals(anfrage_id.AKTION_STATISTIKER_ANLEGEN.toString())) {
 			// Ein Statistiker Accoutn wird für die aktuelle Studie erzeugt
-			
+
+			try {
+
+				Object[] returnWerte = Studie
+						.erzeugeStatistikerAccount((StudieBean) request
+								.getSession()
+								.getAttribute(
+										DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+												.toString()));
+
+				StudieBean aStudie = (StudieBean) returnWerte[0];
+				String statistikerLogin = aStudie.getStatistiker()
+						.getBenutzername();
+				String statistikerPasswort = (String) returnWerte[1];
+				// TODO Wenn Daniel den Bug mit Drucken beseitigt hat - müssen
+				// hier die gleichen Änderung vorgenommen werden!
+				String statistikerNachricht = "<br><br>Ein Statistiker-Account wurde angelegt:<br><br>Login: "
+						+ statistikerLogin
+						+ "<br>Passwort: "
+						+ statistikerPasswort;
+
+				request.getSession().setAttribute(
+						DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+								.toString(), aStudie);
+				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+						"Die Studie wurde erfolgreich eingerichtet!"
+								+ statistikerNachricht);
+			} catch (StudieException e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getLocalizedMessage());
+			} catch (BenutzerkontoException e) {
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
+						.getLocalizedMessage());
+			}
+			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
+					response);
+
 		} else if (id.equals(anfrage_id.AKTION_STUDIENARM_ANZEIGEN.toString())) {
 			// Dem Benutzer wird der ausgewählte Studienarm der Studie
 			// angezeigt.
@@ -571,90 +607,98 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			request.getRequestDispatcher(Jsp.STATISTIK_ANZEIGEN).forward(
 					request, response);
 		} else if (id
-				.equals(DispatcherServlet.anfrage_id.JSP_ERGEBNISSE_EXPORT_XLS.name())) {
+				.equals(DispatcherServlet.anfrage_id.JSP_ERGEBNISSE_EXPORT_XLS
+						.name())) {
 			this.makeExcelExport(request, response);
 		} else if (id
-				.equals(DispatcherServlet.anfrage_id.JSP_ERGEBNISSE_EXPORT_CSV.name())) {
+				.equals(DispatcherServlet.anfrage_id.JSP_ERGEBNISSE_EXPORT_CSV
+						.name())) {
 			this.makeCSVExport(request, response);
 		}
 	}
+
 	private void makeCSVExport(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException{
-
-		try{
-			
-			StudieBean aStudie = ((StudieBean) request.getSession()
-				.getAttribute(
-						DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
-								.toString()));
-		String dateiName = KryptoUtil.getInstance().generateDateiName(20) + ".csv"; 
-		
-		String dateiPfad = Config
-				.getProperty(Config.Felder.RELEASE_UPLOAD_PATH_TMP)
-				+ dateiName;
-		
-		File datei = new File(dateiPfad);
-		
-		
-		  FileWriter schreiber = new FileWriter(datei); 
-	      BufferedWriter  pufferSchreiber = new BufferedWriter(schreiber); 
-	      
-	      String csv = RandomisationDB.getStatistikTabelle(aStudie).getCSVString();
-	      
-	      pufferSchreiber.write(csv); 
-	      pufferSchreiber.close();
-	      
-	      
-	      request.setAttribute(DownloadServlet.requestParameter.DATEI_ART.name(), DownloadServlet.dateiArt.RANDOMISATIONSERGEBNISSE);
-	      request.setAttribute(DownloadServlet.requestParameter.DATEI_NAME.name(), dateiName);
-	      
-	      request.getRequestDispatcher("/DownloadServlet").forward(
-					request, response);
-	      
-		}catch(StrataException e){
-			IOException ioe = new IOException();
-			ioe.initCause(e);
-			throw ioe;
-		}
-		
-
-	}
-		private void makeExcelExport(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-		try{
-			
+
+		try {
+
 			StudieBean aStudie = ((StudieBean) request.getSession()
-				.getAttribute(
-						DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
-								.toString()));
-		String dateiName = KryptoUtil.getInstance().generateDateiName(20) + ".xls"; 
-		
-		String dateiPfad = Config
-				.getProperty(Config.Felder.RELEASE_UPLOAD_PATH_TMP)
-				+ dateiName;
-		
-		File datei = new File(dateiPfad);
-		
-		
-		  FileOutputStream schreiber = new FileOutputStream(datei); 
-	      HSSFWorkbook excelMappe = RandomisationDB.getStatistikTabelle(aStudie).getXLS();
-	      excelMappe.write(schreiber);
-	      schreiber.close();
-	      
-	      request.setAttribute(DownloadServlet.requestParameter.DATEI_ART.name(), DownloadServlet.dateiArt.RANDOMISATIONSERGEBNISSE);
-	      request.setAttribute(DownloadServlet.requestParameter.DATEI_NAME.name(), dateiName);
-	      
-	      request.getRequestDispatcher("/DownloadServlet").forward(
-					request, response);
-	      
-		}catch(StrataException e){
+					.getAttribute(
+							DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+									.toString()));
+			String dateiName = KryptoUtil.getInstance().generateDateiName(20)
+					+ ".csv";
+
+			String dateiPfad = Config
+					.getProperty(Config.Felder.RELEASE_UPLOAD_PATH_TMP)
+					+ dateiName;
+
+			File datei = new File(dateiPfad);
+
+			FileWriter schreiber = new FileWriter(datei);
+			BufferedWriter pufferSchreiber = new BufferedWriter(schreiber);
+
+			String csv = RandomisationDB.getStatistikTabelle(aStudie)
+					.getCSVString();
+
+			pufferSchreiber.write(csv);
+			pufferSchreiber.close();
+
+			request.setAttribute(DownloadServlet.requestParameter.DATEI_ART
+					.name(), DownloadServlet.dateiArt.RANDOMISATIONSERGEBNISSE);
+			request.setAttribute(DownloadServlet.requestParameter.DATEI_NAME
+					.name(), dateiName);
+
+			request.getRequestDispatcher("/DownloadServlet").forward(request,
+					response);
+
+		} catch (StrataException e) {
 			IOException ioe = new IOException();
 			ioe.initCause(e);
 			throw ioe;
 		}
 
 	}
-	
+
+	private void makeExcelExport(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException {
+		try {
+
+			StudieBean aStudie = ((StudieBean) request.getSession()
+					.getAttribute(
+							DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+									.toString()));
+			String dateiName = KryptoUtil.getInstance().generateDateiName(20)
+					+ ".xls";
+
+			String dateiPfad = Config
+					.getProperty(Config.Felder.RELEASE_UPLOAD_PATH_TMP)
+					+ dateiName;
+
+			File datei = new File(dateiPfad);
+
+			FileOutputStream schreiber = new FileOutputStream(datei);
+			HSSFWorkbook excelMappe = RandomisationDB.getStatistikTabelle(
+					aStudie).getXLS();
+			excelMappe.write(schreiber);
+			schreiber.close();
+
+			request.setAttribute(DownloadServlet.requestParameter.DATEI_ART
+					.name(), DownloadServlet.dateiArt.RANDOMISATIONSERGEBNISSE);
+			request.setAttribute(DownloadServlet.requestParameter.DATEI_NAME
+					.name(), dateiName);
+
+			request.getRequestDispatcher("/DownloadServlet").forward(request,
+					response);
+
+		} catch (StrataException e) {
+			IOException ioe = new IOException();
+			ioe.initCause(e);
+			throw ioe;
+		}
+
+	}
+
 	/**
 	 * Diese Methode kuemmert sich um die Logik, die mit dem Prozess "Studie
 	 * auswaehlen" verbunden ist. Je nach der Rolle des eingeloggten Benutzers,
@@ -1184,8 +1228,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		request.getRequestDispatcher(Jsp.STUDIE_AENDERN).forward(request,
 				response);
 
-	}	
-	
+	}
+
 	/**
 	 * Aenderbare Daten einer bereits in der Datenbank bestehenden Studie werden
 	 * gesetzt.
@@ -1204,14 +1248,18 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 		try {
 
-			StudieBean aStudieSession = ((StudieBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString()));
-			
-			if(aStudieSession.getStatus()!=Studie.Status.INVORBEREITUNG && aStudieSession.getStatus()!=Studie.Status.AKTIV) {
-				
+			StudieBean aStudieSession = ((StudieBean) request.getSession()
+					.getAttribute(
+							DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+									.toString()));
+
+			if (aStudieSession.getStatus() != Studie.Status.INVORBEREITUNG
+					&& aStudieSession.getStatus() != Studie.Status.AKTIV) {
+
 				throw new StudieException(StudieException.NICHT_AENDERBAR);
-				
+
 			}
-			
+
 			String aName = (String) request.getAttribute(Parameter.studie.NAME
 					.name());
 			String aBeschreibung = (String) request
@@ -1239,21 +1287,21 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 			String aProtokoll = (String) request
 					.getAttribute(Parameter.studie.STUDIENPROTOKOLL.name());
-			
-			if(aProtokoll!=null) {
-				
-				if(aProtokoll.trim().equals("")) {
-					
+
+			if (aProtokoll != null) {
+
+				if (aProtokoll.trim().equals("")) {
+
 					aProtokoll = aStudieSession.getStudienprotokollpfad();
-					
+
 				}
-				
+
 			} else {
-				
+
 				aProtokoll = aStudieSession.getStudienprotokollpfad();
-				
+
 			}
-			
+
 			BenutzerkontoBean aStudienleiter = ((BenutzerkontoBean) request
 					.getSession().getAttribute(
 							DispatcherServlet.sessionParameter.A_Benutzer
@@ -1288,15 +1336,14 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 									.toString());
 
 			long aStudieId = aStudieSession.getId();
-			
-			StudieBean aStudie = new StudieBean(aStudieId,
-					aBeschreibung, aName, aAlgorithmus, aBenutzer.getId(),
-					aStartdatum_gc, aEnddatum_gc, aProtokoll,
-					Studie.Status.INVORBEREITUNG, aBlockgroesse);
+
+			StudieBean aStudie = new StudieBean(aStudieId, aBeschreibung,
+					aName, aAlgorithmus, aBenutzer.getId(), aStartdatum_gc,
+					aEnddatum_gc, aProtokoll, Studie.Status.INVORBEREITUNG,
+					aBlockgroesse);
 			aStudie.setBenutzerkontoLogging(aBenutzer);
 			aStudie = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 					aStudie);
-
 
 			for (int i = 1; i < aAnzahl_Arme + 1; i++) {
 
@@ -1364,9 +1411,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				}
 
 			}
-
-
-
 
 			request.getSession().setAttribute(
 					DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
