@@ -46,8 +46,7 @@ public class StatistikDB {
 		long[][] daten=null;
 		try {
 			//ermitteln der Anzahl Studienarme (+ 1 fuer Gesamtzahl) 
-			sql = " SELECT count(distinct sa.studienarmID) FROM studie s, studienarm sa,patient p " +
-					"WHERE s.studienID = ? AND s.studienID=sa.Studie_studienID AND sa.studienarmID=p.Studienarm_studienarmID";
+			sql = " SELECT count(distinct sa.studienarmID) FROM studienarm sa,patient p WHERE sa.Studie_studienID = ?  AND sa.studienarmID=p.Studienarm_studienarmID";
 			pstmt = c.prepareStatement(sql);
 			pstmt.setLong(1, studienID);
 			int anzahlReihen = -1;
