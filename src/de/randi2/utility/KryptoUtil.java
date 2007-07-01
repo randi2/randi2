@@ -15,13 +15,11 @@ import org.apache.log4j.Logger;
  */
 public final class KryptoUtil {
 
-
 	/**
 	 * Der Zufallszahlgenerator.
 	 */
 	private Random zufall = null;
 
-	
 	/**
 	 * Die Singleton-Instance.
 	 */
@@ -31,12 +29,11 @@ public final class KryptoUtil {
 	 * Die Laenge des Aktivierungslink.
 	 */
 	public static final int AKTIVIERUNGSCODE_LAENGE = 20;
-	
-	
+
 	/**
 	 * Länge des Zentrum-Passworts
 	 */
-	public static final int ZENTRUM_PASSWORT_LAENGE=12;
+	public static final int ZENTRUM_PASSWORT_LAENGE = 12;
 
 	/**
 	 * Gibt eine Instanz von PasswortUtil zurueck.
@@ -66,17 +63,23 @@ public final class KryptoUtil {
 	 * Moegliche Buchstaben fuer das Passwort. 0, O, 1 und l sind bewusst aussen
 	 * vor gelassen worden, damit die Anzahl der Ablesefehler verringert wird.
 	 */
+	private final char[] zeichen;
+
 	private final char[] buchstaben = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
 			'i', 'j', 'k', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
 			'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
 			'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
-			'X', 'Y', 'Z', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b',
-			'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'n', 'o', 'p',
-			'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C',
-			'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'P', 'Q',
-			'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '2', '3', '4', '5',
-			'6', '7', '8', '9', '#', '+', ';', ':', '*', '!', '$', '%',
-			'&', '(', ')', '=', '?', '<', '>' };
+			'X', 'Y', 'Z', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm',
+			'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+			'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a',
+			'b' };
+
+	private final char[] ziffern = { '2', '3', '4', '5', '6', '7', '8', '9',
+			'2', '3', '4', '5', '6', '7', '8', '9' };
+
+	private final char[] sonderzeichen = { '#', '+', ';', ':', '*', '!', '$',
+			'%', '&', '(', ')', '=', '?', '<', '>' };
 
 	/**
 	 * Singleton-Konstruktor.
@@ -85,6 +88,17 @@ public final class KryptoUtil {
 	private KryptoUtil() {
 		Logger.getLogger(this.getClass()).debug(
 				"Iniziere PasswortUtil Singleton");
+
+		this.zeichen = new char[this.buchstaben.length + this.ziffern.length
+				+ this.sonderzeichen.length];
+		System.arraycopy(this.buchstaben, 0, this.zeichen, 0,
+				this.buchstaben.length);
+		System.arraycopy(this.ziffern, 0, this.zeichen, this.buchstaben.length,
+				this.ziffern.length);
+		System.arraycopy(this.sonderzeichen, 0, this.zeichen,
+				this.buchstaben.length + this.ziffern.length,
+				this.sonderzeichen.length);
+
 		zufall = new Random();
 		try {
 			this.hashfunktion = MessageDigest
@@ -107,13 +121,23 @@ public final class KryptoUtil {
 		Logger.getLogger(this.getClass()).debug(
 				"Generiere Passwort der Laenge " + length);
 
-		String passwort = new String();
+		StringBuffer passwort = new StringBuffer();
 
-		for (int i = 0; i < length; i++) {
-			int index = (int) (zufall.nextDouble() * (buchstaben.length - 1));
-			passwort += buchstaben[index];
+		if(length >= 1){
+			passwort.append(buchstaben[zufall.nextInt(buchstaben.length)]);
 		}
-		return passwort;
+		if(length >= 2){
+			passwort.append(ziffern[zufall.nextInt(ziffern.length)]);
+		}
+		if(length >= 3){
+			passwort.append(sonderzeichen[zufall.nextInt(sonderzeichen.length)]);
+		}
+		
+		
+		for (int i = 2; i < length; i++) {
+			passwort.append(zeichen[zufall.nextInt(zeichen.length)]);
+		}
+		return passwort.toString();
 	}
 
 	/**
@@ -149,19 +173,22 @@ public final class KryptoUtil {
 	 */
 	public String getAktivierungslink() {
 		String s = this.generatePasswort(AKTIVIERUNGSCODE_LAENGE);
-		String code=  this.hashPasswort(s).substring(0, AKTIVIERUNGSCODE_LAENGE);
-		Logger.getLogger(this.getClass()).debug("Aktvierungscode " + code + " erzeugt.");
+		String code = this.hashPasswort(s)
+				.substring(0, AKTIVIERUNGSCODE_LAENGE);
+		Logger.getLogger(this.getClass()).debug(
+				"Aktvierungscode " + code + " erzeugt.");
 		return code;
 
 	}
-	
+
 	/**
 	 * Diese Methode liefert eine zufaellige Buchstabe zurueck.
+	 * 
 	 * @return - ein zufaelliges Char.
 	 */
 	public char getRandomChar() {
 		int charInt = (new Random()).nextInt(49);
-		return buchstaben[charInt];
+		return zeichen[charInt];
 	}
 
 }
