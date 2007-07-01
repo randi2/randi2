@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import de.randi2.controller.DispatcherServlet.sessionParameter;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.StrataException;
 import de.randi2.model.exceptions.StudieException;
@@ -852,11 +853,27 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		
 		}
 		
-		// TODO Statistiker anlegen!
+		
+		String statistikerNachricht = "";
+		
+		
+		if (aStatistikerAnlegen != null) {
+		
+			if(aStatistikerAnlegen.equalsIgnoreCase("on")){
+				
+					Object[] returnWerte = Studie.erzeugeStatistikerAccount(aStudie);
+					
+					aStudie = (StudieBean)returnWerte[0];
+					String statistikerLogin = aStudie.getStatistiker().getBenutzername();
+					String statistikerPasswort = (String)returnWerte[1];
+					statistikerNachricht = "<br><br>Ein Statistiker-Account wurde angelegt:<br><br>Login: "+statistikerLogin+"<br>Passwort: "+statistikerPasswort+"<br>";
+			}
+		
+		}
 		
 		request.getSession().setAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString(), aStudie);
 		
-		request.setAttribute(DispatcherServlet.NACHRICHT_OK,"Die Studie wurde erfolgreich eingerichtet!");
+		request.setAttribute(DispatcherServlet.NACHRICHT_OK,"Die Studie wurde erfolgreich eingerichtet!"+statistikerNachricht);
 		
 		request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request, response);
 		
@@ -881,6 +898,10 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			e.printStackTrace();
 			this.weiterleitungBeiFehler("Systemfehler!", request, response);
 			
+		} catch (BenutzerkontoException e) {
+			
+			e.printStackTrace();
+			this.weiterleitungBeiFehler("Systemfehler!", request, response);
 		}
 	}
 
