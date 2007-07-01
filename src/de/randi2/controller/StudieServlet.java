@@ -189,7 +189,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Ein ausgewählter Studienarm wird angezeigt.
 		 */
 		AKTION_STUDIENARM_ANZEIGEN,
-		
+
 		/**
 		 * Ein Statistiker Accout soll für die aktuelle Studie angelegt werden
 		 */
@@ -1143,6 +1143,44 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	}
 
 	/**
+	 * Weiterleitung der Anfrage bei Fehler
+	 * <p>
+	 * Leitet den Benutzer auf die entsprechende Indexseite weiter, abhaengig
+	 * davon, ob das System gesperrt ist oder nicht.
+	 * </p>
+	 * <p>
+	 * Die uebergebene Fehlermeldung wird an den Request als
+	 * {@link DispatcherServlet#FEHLERNACHRICHT} angefuegt.
+	 * </p>
+	 * 
+	 * @param fehlermeldungAnBenutzer
+	 *            Fehlermeldung, die dem Benutzer angzeigt wird
+	 * @param request
+	 *            Der Request fuer das Servlet.
+	 * @param response
+	 *            Der Response Servlet.
+	 * @throws IOException
+	 *             Falls Fehler in den E/A-Verarbeitung.
+	 * @throws ServletException
+	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+	 *      HttpServletResponse response)
+	 */
+	private void weiterleitungBeiFehler2(String fehlermeldungAnBenutzer,
+			HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		// Fehlermeldung anfuegen
+		request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+				fehlermeldungAnBenutzer);
+
+		request.getRequestDispatcher(Jsp.STUDIE_AENDERN).forward(request,
+				response);
+
+	}	
+	
+	/**
 	 * Aenderbare Daten einer bereits in der Datenbank bestehenden Studie werden
 	 * gesetzt.
 	 * 
@@ -1336,23 +1374,23 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 		} catch (StrataException e) {
 
-			this.weiterleitungBeiFehler(e.getMessage(), request, response);
+			this.weiterleitungBeiFehler2(e.getMessage(), request, response);
 
 		} catch (StudienarmException e) {
 
-			this.weiterleitungBeiFehler(e.getMessage(), request, response);
+			this.weiterleitungBeiFehler2(e.getMessage(), request, response);
 
 		} catch (StudieException e) {
 
-			this.weiterleitungBeiFehler(e.getMessage(), request, response);
+			this.weiterleitungBeiFehler2(e.getMessage(), request, response);
 
 		} catch (ParseException e) {
 			e.printStackTrace();
-			this.weiterleitungBeiFehler("Systemfehler! ", request, response);
+			this.weiterleitungBeiFehler2("Systemfehler! ", request, response);
 
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
-			this.weiterleitungBeiFehler("Systemfehler!", request, response);
+			this.weiterleitungBeiFehler2("Systemfehler!", request, response);
 
 		}
 	}
