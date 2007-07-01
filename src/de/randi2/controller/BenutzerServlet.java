@@ -424,9 +424,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		Logger.getLogger(this.getClass()).debug("Binde Benutzer an Session");
 
 		if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.ADMIN) {
-			request.getRequestDispatcher("/global_welcome.jsp").forward(
-					request, response);
 			loggeKorrekteanmeldung(aBenutzer);
+			request.setAttribute("Startseite", new Object());
+			classDispatcherServletBenutzerSuchen(request,response);
 			return;
 		} else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.SYSOP) {
 			request.getRequestDispatcher("/systemadministration.jsp").forward(
@@ -806,18 +806,21 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		BenutzerSuchenBean benutzer = new BenutzerSuchenBean();
 		Vector<BenutzerSuchenBean> benutzerVec = new Vector<BenutzerSuchenBean>();
 
-		benutzer.setNachname(request.getParameter(Parameter.person.NACHNAME
-				.name()));
-		benutzer.setVorname(request.getParameter(Parameter.person.VORNAME
-				.name()));
-		benutzer.setEmail(request.getParameter(Parameter.person.EMAIL.name()));
-		benutzer.setLoginname(request
-				.getParameter(Parameter.benutzerkonto.LOGINNAME.name()));
-		if (request.getParameter(Parameter.zentrum.INSTITUTION.name()) != null
-				&& !request.getParameter(Parameter.zentrum.INSTITUTION.name())
-						.equals(ZentrumServlet.ALLE_ZENTREN)) {
-			benutzer.setInstitut(request
-					.getParameter(Parameter.zentrum.INSTITUTION.name()));
+		//Kein Global Welcome Admin
+		if(request.getAttribute("Startseite")==null){
+			benutzer.setNachname(request.getParameter(Parameter.person.NACHNAME
+					.name()));
+			benutzer.setVorname(request.getParameter(Parameter.person.VORNAME
+					.name()));
+			benutzer.setEmail(request.getParameter(Parameter.person.EMAIL.name()));
+			benutzer.setLoginname(request
+					.getParameter(Parameter.benutzerkonto.LOGINNAME.name()));
+			if (request.getParameter(Parameter.zentrum.INSTITUTION.name()) != null
+					&& !request.getParameter(Parameter.zentrum.INSTITUTION.name())
+							.equals(ZentrumServlet.ALLE_ZENTREN)) {
+				benutzer.setInstitut(request
+						.getParameter(Parameter.zentrum.INSTITUTION.name()));
+			}
 		}
 		benutzer.setFilter(true);
 		benutzerVec = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(

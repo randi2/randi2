@@ -70,6 +70,11 @@ if(aRolleMenue==Rolle.getStudienarzt().getRollenname()){
 			onClick="document.forms['menue_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.ZENTRUM_ANZEIGEN_ADMIN.name() %>';document.forms['menue_form'].submit();">
 		Zentren anzeigen</span>
 	</li>
+	<li class="sub_BV n">
+		<span  class="sub_SA n entry" style="cursor:pointer"
+			onClick="document.forms['menue_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANLEGEN %>';document.forms['menue_form'].submit();">
+		Zentrum anlegen</span>
+	</li>
 </ul>
 <% } %><% if (aRolleMenue!=Rolle.Rollen.SYSOP) { %>
 <ul>
