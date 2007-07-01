@@ -339,14 +339,6 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 */
 	private void aendernZentrum(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
-		String button = request.getParameter("button");
-		StringTokenizer st = new StringTokenizer(button, "_");
-		String art = st.nextToken();
-		long id = Long.parseLong(st.nextToken());
-		ZentrumBean aZentrum = DatenbankFactory.getAktuelleDBInstanz()
-				.suchenObjektId(id, new ZentrumBean());
-		request.setAttribute("aZentrum", aZentrum);
 
 		// wichtiger boolean
 		boolean passwortGesetzt = false;
@@ -354,6 +346,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		// Alle aenderbaren Attribute des request inititalisieren
 		String institution = request.getParameter(Parameter.zentrum.INSTITUTION
 				.toString());
+		System.out.println(institution);
 		String abteilung = request
 				.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString());
 		String ort = request.getParameter(Parameter.zentrum.ORT.toString());
@@ -407,8 +400,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				.getAttribute("aBenutzer");
 		aBenutzer.setBenutzerkontoLogging(aBenutzer);
 		try {
-			aZentrum = (ZentrumBean) request
-					.getAttribute("aZentrum");
+			ZentrumBean aZentrum = (ZentrumBean) request.getSession().getAttribute("aZentrum");
 			aZentrum.setBenutzerkontoLogging(aBenutzer);
 			aZentrum.setInstitution(institution);
 			aZentrum.setAbteilung(abteilung);
@@ -890,6 +882,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		ZentrumBean aZentrum = DatenbankFactory.getAktuelleDBInstanz()
 				.suchenObjektId(id, new ZentrumBean());
 		request.setAttribute("aZentrum", aZentrum);
+		request.getSession().setAttribute("aZentrum", aZentrum);
 		if (art.equals("a")) {
 			request.getRequestDispatcher(Jsp.ZENTRUM_AENDERN).forward(request,
 					response);

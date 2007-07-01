@@ -33,7 +33,6 @@
 <form action="DispatcherServlet" method="post" name="user" id="user"><input
 	type="hidden" name="anfrage_id"
 	value="<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_AENDERN.name() %>">
-	<input type="hidden" name="button" value="" >
 <h1>Zentrum aendern</h1>
 
 <fieldset style="width: 60%"><legend><b>Angaben
@@ -147,7 +146,6 @@ zum Zentrum</b></legend>
 <table>
 	<tr>
 		<td><input type="submit" name="Submit" value="Zentrum &auml;ndern"
-		onClick="document.forms['user'].button.value = 'a_<%=aZentrum.getId() %>';document.forms['user'].submit();"
 			tabindex="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td><input type="button" name="abbrechen" value="Abbrechen"
 			tabindex="13"></td>
