@@ -568,7 +568,7 @@ Ext.onReady(function(){
     if (aBenutzer_form.getRolle().getRollenname()==Rolle.Rollen.ADMIN) {
     
     %>
-			frm.<%=Parameter.anfrage_id %>.value='<%=DispatcherServlet.anfrage_id.BENUTZER_SUCHEN %>';
+			frm.<%=Parameter.anfrage_id %>.value='<%=DispatcherServlet.anfrage_id.BENUTZER_SUCHEN.name() %>';
 	<%
 	
     } else {
