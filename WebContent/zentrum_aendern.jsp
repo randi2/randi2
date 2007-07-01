@@ -144,7 +144,7 @@ zum Zentrum</b></legend>
 
 <table>
 	<tr>
-		<td><input type="submit" name="Submit" value="Zentrum aendern"
+		<td><input type="submit" name="Submit" value="Zentrum &auml;ndern"
 			tabindex="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td><input type="button" name="abbrechen" value="Abbrechen"
 			tabindex="13"></td>
