@@ -24,55 +24,71 @@ import de.randi2.utility.Config;
 import de.randi2.utility.Parameter;
 
 /**
- * @author Rick Reumann The majority of this code is taken from the example here
- *         http://www.ioncannon.net/java/38/ajax-file-upload-progress-for-java-using-commons-fileupload-and-prototype/
- *         That above example uses prototype for the AJAX implementation. The
- *         above link also provides the fileupload-ext jar which is used in this
- *         example.
+ * Diese Klasse realisiert HTTP POST Uploads.
+ * 
+ * @version $Id$
+ * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
+ * 
  */
 public class FileUploadServlet extends HttpServlet {
 
-    public void init(ServletConfig config) throws ServletException {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse)
+	 */
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doPost(request, response);
+	}
 
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse)
+	 */
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			String saveFilePath = Config
+					.getProperty(Config.Felder.RELEASE_UPLOAD_PATH);
+			FileUploadListener listener = new FileUploadListener(request
+					.getContentLength());
+			request.getSession().setAttribute("FILE_UPLOAD_STATS",
+					listener.getFileUploadStats());
+			DiskFileItemFactory factory = new MonitoredDiskFileItemFactory(
+					listener);
+			factory.setRepository(new File(saveFilePath));
+			ServletFileUpload upload = new ServletFileUpload(factory);
+			List items = upload.parseRequest(request);
+			for (Iterator i = items.iterator(); i.hasNext();) {
+				FileItem fileItem = (FileItem) i.next();
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
-    }
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            String saveFilePath = Config.getProperty(Config.Felder.RELEASE_UPLOAD_PATH);
-            FileUploadListener listener = new FileUploadListener(request.getContentLength());
-            request.getSession().setAttribute("FILE_UPLOAD_STATS", listener.getFileUploadStats());
-            DiskFileItemFactory factory = new MonitoredDiskFileItemFactory(listener);
-            factory.setRepository(new File(saveFilePath));
-            ServletFileUpload upload = new ServletFileUpload(factory);
-            List items = upload.parseRequest(request);
-            for (Iterator i = items.iterator(); i.hasNext();) {
-                FileItem fileItem = (FileItem) i.next();
-                
-                if (!fileItem.isFormField()) {
-                    fileItem.write(new File(saveFilePath + fileItem.getName()));
-                    request.setAttribute(Parameter.studie.STUDIENPROTOKOLL.toString(),fileItem.getName());
-                } else {
-                	Logger.getLogger(this.getClass()).debug((fileItem.getFieldName()+ "==" + fileItem.getString()));
-                	request.setAttribute(fileItem.getFieldName(), fileItem.getString());
-                	
-                }
-            }
-        	Logger.getLogger(this.getClass()).debug("Upload erfolgreich");
+				if (!fileItem.isFormField()) {
+					fileItem.write(new File(saveFilePath + fileItem.getName()));
+					request.setAttribute(Parameter.studie.STUDIENPROTOKOLL
+							.toString(), fileItem.getName());
+				} else {
+					Logger.getLogger(this.getClass()).debug(
+							(fileItem.getFieldName() + "==" + fileItem
+									.getString()));
+					request.setAttribute(fileItem.getFieldName(), fileItem
+							.getString());
 
-        } catch (Exception e) {
+				}
+			}
+			Logger.getLogger(this.getClass()).debug("Upload erfolgreich");
 
-            FileUploadStats stats = new FileUploadListener.FileUploadStats();
-            stats.setCurrentStatus(FileUploadStatus.ERROR);
-            request.getSession().setAttribute("FILE_UPLOAD_STATS", stats);
-            e.printStackTrace();
-        }
-        request.getRequestDispatcher("DispatcherServlet").forward(request,response);
-    	 }
+		} catch (Exception e) {
+
+			FileUploadStats stats = new FileUploadListener.FileUploadStats();
+			stats.setCurrentStatus(FileUploadStatus.ERROR);
+			request.getSession().setAttribute("FILE_UPLOAD_STATS", stats);
+			e.printStackTrace();
+		}
+		request.getRequestDispatcher("DispatcherServlet").forward(request,
+				response);
+	}
 }
-
-
-
-

@@ -3,101 +3,105 @@ package de.randi2.controller;
 import com.missiondata.fileupload.OutputStreamListener;
 
 /**
- * This Listener found here
- * http://www.ioncannon.net/java/38/ajax-file-upload-progress-for-java-using-commons-fileupload-and-prototype/
- * Rick Reumann modified it slightly and added Enum instead of using String for status. Also returns % complete.
+ * Diese Klasse ueberwacht HTTP Uploads (z.B. zur Ueberwachung via AJAX).
+ * 
+ * @version $Id$
+ * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
  * 
  */
-
 public class FileUploadListener implements OutputStreamListener {
-    private FileUploadStats fileUploadStats = new FileUploadStats();
+	private FileUploadStats fileUploadStats = new FileUploadStats();
 
-    public FileUploadListener(long totalSize) {
-        fileUploadStats.setTotalSize(totalSize);
-    }
+	public FileUploadListener(long totalSize) {
+		fileUploadStats.setTotalSize(totalSize);
+	}
 
-    public void start() {
-        fileUploadStats.setCurrentStatus(FileUploadStatus.START);
-    }
+	public void start() {
+		fileUploadStats.setCurrentStatus(FileUploadStatus.START);
+	}
 
-    public void bytesRead(int byteCount) {
-        fileUploadStats.incrementBytesRead(byteCount);
-        fileUploadStats.setCurrentStatus(FileUploadStatus.READING);
-    }
+	public void bytesRead(int byteCount) {
+		fileUploadStats.incrementBytesRead(byteCount);
+		fileUploadStats.setCurrentStatus(FileUploadStatus.READING);
+	}
 
-    public void error(String s) {
-        fileUploadStats.setCurrentStatus(FileUploadStatus.ERROR);
-    }
+	public void error(String s) {
+		fileUploadStats.setCurrentStatus(FileUploadStatus.ERROR);
+	}
 
-    public void done() {
-        fileUploadStats.setBytesRead(fileUploadStats.getTotalSize());
-        fileUploadStats.setCurrentStatus(FileUploadStatus.DONE);
-    }
+	public void done() {
+		fileUploadStats.setBytesRead(fileUploadStats.getTotalSize());
+		fileUploadStats.setCurrentStatus(FileUploadStatus.DONE);
+	}
 
-    public FileUploadStats getFileUploadStats() {
-        return fileUploadStats;
-    }
+	public FileUploadStats getFileUploadStats() {
+		return fileUploadStats;
+	}
 
-    public static class FileUploadStats {
-        
-        private long totalSize = 0;
-        private long bytesRead = 0;
-        private double percentComplete = 0.0;
-        private long startTime = System.currentTimeMillis();
-        private FileUploadStatus currentStatus = FileUploadStatus.NONE;
+	public static class FileUploadStats {
 
-        public long getTotalSize() {
-            return totalSize;
-        }
+		private long totalSize = 0;
 
-        public void setTotalSize(long totalSize) {
-            this.totalSize = totalSize;
-        }
+		private long bytesRead = 0;
 
-        public long getBytesRead() {
-            return bytesRead;
-        }
+		private double percentComplete = 0.0;
 
-        public long getElapsedTimeInMilliseconds() {
-            return (System.currentTimeMillis() - startTime);
-        }
+		private long startTime = System.currentTimeMillis();
 
-        public FileUploadStatus getCurrentStatus() {
-            return currentStatus;
-        }
-        
-        public double getPercentComplete() {
-            if ( totalSize != 0 ) {
-                percentComplete = (double)bytesRead/(double)totalSize;
-            }
-            return percentComplete;
-        }
-        public void setCurrentStatus(FileUploadStatus currentStatus) {
-            this.currentStatus = currentStatus;
-        }
+		private FileUploadStatus currentStatus = FileUploadStatus.NONE;
 
-        public void setBytesRead(long bytesRead) {
-            this.bytesRead = bytesRead;
-        }
+		public long getTotalSize() {
+			return totalSize;
+		}
 
-        public void incrementBytesRead(int byteCount) {
-            this.bytesRead += byteCount;
-        }
-    }
-    
-    enum FileUploadStatus {
-        START("start"),
-        NONE("none"),
-        READING("reading"),
-        ERROR("error"),
-        DONE("done");
-        
-        private String type;
-        FileUploadStatus(String type) {
-            this.type = type;
-        }
-        public String getType() {
-            return type;
-        }
-    }
+		public void setTotalSize(long totalSize) {
+			this.totalSize = totalSize;
+		}
+
+		public long getBytesRead() {
+			return bytesRead;
+		}
+
+		public long getElapsedTimeInMilliseconds() {
+			return (System.currentTimeMillis() - startTime);
+		}
+
+		public FileUploadStatus getCurrentStatus() {
+			return currentStatus;
+		}
+
+		public double getPercentComplete() {
+			if (totalSize != 0) {
+				percentComplete = (double) bytesRead / (double) totalSize;
+			}
+			return percentComplete;
+		}
+
+		public void setCurrentStatus(FileUploadStatus currentStatus) {
+			this.currentStatus = currentStatus;
+		}
+
+		public void setBytesRead(long bytesRead) {
+			this.bytesRead = bytesRead;
+		}
+
+		public void incrementBytesRead(int byteCount) {
+			this.bytesRead += byteCount;
+		}
+	}
+
+	enum FileUploadStatus {
+		START("start"), NONE("none"), READING("reading"), ERROR("error"), DONE(
+				"done");
+
+		private String type;
+
+		FileUploadStatus(String type) {
+			this.type = type;
+		}
+
+		public String getType() {
+			return type;
+		}
+	}
 }
