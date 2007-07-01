@@ -20,6 +20,7 @@ import com.missiondata.fileupload.MonitoredDiskFileItemFactory;
 import de.randi2.controller.listener.FileUploadListener;
 import de.randi2.controller.listener.FileUploadListener.FileUploadStats;
 import de.randi2.utility.Config;
+import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.Parameter;
 
 /**
@@ -65,10 +66,14 @@ public class FileUploadServlet extends HttpServlet {
 			for (Iterator i = items.iterator(); i.hasNext();) {
 				FileItem fileItem = (FileItem) i.next();
 
+				String aFilename = KryptoUtil.getInstance().generateDateiName(6)+KryptoUtil.getInstance().getRandomChar()+fileItem.getName();
+				
+				
+				
 				if (!fileItem.isFormField()) {
-					fileItem.write(new File(saveFilePath + fileItem.getName()));
+					fileItem.write(new File(saveFilePath + aFilename));
 					request.setAttribute(Parameter.studie.STUDIENPROTOKOLL
-							.toString(), fileItem.getName());
+							.toString(), aFilename);
 				} else {
 					Logger.getLogger(this.getClass()).debug(
 							(fileItem.getFieldName() + "==" + fileItem
