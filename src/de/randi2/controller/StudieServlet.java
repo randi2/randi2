@@ -59,6 +59,7 @@ import de.randi2.utility.Jsp;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.Parameter;
+import de.randi2.utility.SystemException;
 
 /**
  * Diese Klasse repraesentiert das STUDIESERVLET, welches Aktionen an die
@@ -1138,48 +1139,203 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	private void studieAendern(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		// Alle aenderbaren Attribute des request inititalisieren
-		String startDatum = request.getParameter((Parameter.studie.STARTDATUM)
-				.name());
-		String endDatum = request.getParameter((Parameter.studie.ENDDATUM)
-				.name());
-		String studienarme = request
-				.getParameter((Parameter.studie.ARME_STUDIE).name());
-
-		Studie aStudie = (Studie) (request.getSession())
-				.getAttribute("aStudie");
-
-		StudieBean aStudieBean = (StudieBean) (request.getSession())
-				.getAttribute("aStudie");
-
 		try {
-			try {
-				Vector<StudienarmBean> studienArme = aStudieBean
-						.getStudienarme();
-				GregorianCalendar aStartDatum = aStudieBean.getStartDatum();
-				GregorianCalendar aEndDatum = aStudieBean.getEndDatum();
-				aStudieBean.setStudienZeitraum(aStartDatum, aEndDatum);
-				aStudieBean.setBeschreibung(request
-						.getParameter((Parameter.studie.BESCHREIBUNG).name()));
 
-				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
-						aStudieBean);
+			StudieBean aStudieSession = ((StudieBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString()));
+			
+			if(aStudieSession.getStatus()!=Studie.Status.INVORBEREITUNG && aStudieSession.getStatus()!=Studie.Status.AKTIV) {
+				
+				throw new StudieException(StudieException.NICHT_AENDERBAR);
+				
+			}
+			
+			String aName = (String) request.getAttribute(Parameter.studie.NAME
+					.name());
+			String aBeschreibung = (String) request
+					.getAttribute(Parameter.studie.BESCHREIBUNG.name());
 
-			} catch (Exception e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-						.getMessage());
+			String aStartdatum = (String) request
+					.getAttribute(Parameter.studie.STARTDATUM.name());
+			String aEnddatum = (String) request
+					.getAttribute(Parameter.studie.ENDDATUM.name());
+
+			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy",
+					Locale.GERMANY);
+
+			sdf.setCalendar(Calendar.getInstance());
+
+			Date d_aStartdatum_gc = sdf.parse(aStartdatum);
+
+			GregorianCalendar aStartdatum_gc = new GregorianCalendar();
+			aStartdatum_gc.setTime(d_aStartdatum_gc);
+
+			Date d_aEnddatum_gc = sdf.parse(aEnddatum);
+
+			GregorianCalendar aEnddatum_gc = new GregorianCalendar();
+			aEnddatum_gc.setTime(d_aEnddatum_gc);
+
+			String aProtokoll = (String) request
+					.getAttribute(Parameter.studie.STUDIENPROTOKOLL.name());
+			
+			if(aProtokoll!=null) {
+				
+				if(aProtokoll.trim().equals("")) {
+					
+					aProtokoll = aStudieSession.getStudienprotokollpfad();
+					
+				}
+				
+			} else {
+				
+				aProtokoll = aStudieSession.getStudienprotokollpfad();
+				
+			}
+			
+			BenutzerkontoBean aStudienleiter = ((BenutzerkontoBean) request
+					.getSession().getAttribute(
+							DispatcherServlet.sessionParameter.A_Benutzer
+									.toString()));
+			String aStatistikerAnlegen = (String) request
+					.getAttribute(Parameter.studie.STATISTIKER_BOOL.name());
+			int aAnzahl_Arme = ((Integer.parseInt(request.getAttribute(
+					DispatcherServlet.requestParameter.ANZAHL_ARME.toString())
+					.toString())));
+			int aAnzahl_Strata = ((Integer.parseInt(request
+					.getAttribute(
+							DispatcherServlet.requestParameter.ANZAHL_STRATA
+									.toString()).toString())));
+			Randomisation.Algorithmen aAlgorithmus = Randomisation.Algorithmen
+					.parseAlgorithmen((String) request
+							.getAttribute(Parameter.studie.RANDOMISATIONSALGORITHMUS
+									.name()));
+
+			String aBlockgroesse_s = (String) request
+					.getAttribute(Parameter.studie.BLOCKGROESSE.name());
+			int aBlockgroesse = NullKonstanten.NULL_INT;
+
+			if (aBlockgroesse_s != null) {
+
+				aBlockgroesse = (Integer.parseInt(aBlockgroesse_s));
+
 			}
 
+			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) request
+					.getSession().getAttribute(
+							DispatcherServlet.sessionParameter.A_Benutzer
+									.toString());
+
+			long aStudieId = aStudieSession.getId();
+			
+			StudieBean aStudie = new StudieBean(aStudieId,
+					aBeschreibung, aName, aAlgorithmus, aBenutzer.getId(),
+					aStartdatum_gc, aEnddatum_gc, aProtokoll,
+					Studie.Status.INVORBEREITUNG, aBlockgroesse);
+			aStudie.setBenutzerkontoLogging(aBenutzer);
+			aStudie = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+					aStudie);
+
+
+			for (int i = 1; i < aAnzahl_Arme + 1; i++) {
+
+				// Alle Arme holen
+				StudienarmBean aArm = null;
+
+				String aArmBezeichnung = (String) request
+						.getAttribute(Parameter.studienarm.BEZEICHNUNG
+								.toString()
+								+ i);
+				String aArmBeschreibung = (String) request
+						.getAttribute(Parameter.studienarm.ARMBESCHREIBUNG
+								.toString()
+								+ i);
+
+				aArm = new StudienarmBean(NullKonstanten.DUMMY_ID, aStudieId,
+						Studie.Status.AKTIV, aArmBezeichnung, aArmBeschreibung);
+				aArm.setBenutzerkontoLogging(aBenutzer);
+				aArm = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+						aArm);
+
+			}
+
+			if (aAlgorithmus == Randomisation.Algorithmen.BLOCKRANDOMISATION_MIT_STRATA) {
+
+				for (int i = 1; i < aAnzahl_Strata + 1; i++) {
+
+					// Alle Strata holen
+					StrataBean aStrata = null;
+
+					String aStrataName = (String) request
+							.getAttribute(Parameter.strata.NAME.toString() + i);
+					String aStrataBeschreibung = (String) request
+							.getAttribute(Parameter.strata.STRATABESCHREIBUNG
+									.toString()
+									+ i);
+					String aAuspraegungen = (String) request
+							.getAttribute(Parameter.strata.AUSPRAEGUNGEN
+									.toString()
+									+ i);
+
+					aStrata = new StrataBean(NullKonstanten.DUMMY_ID,
+							aStudieId, aStrataName, aStrataBeschreibung);
+					aStrata.setBenutzerkontoLogging(aBenutzer);
+					aStrata = DatenbankFactory.getAktuelleDBInstanz()
+							.schreibenObjekt(aStrata);
+
+					long aStrataId = aStrata.getId();
+
+					String[] aAuspraegungenArray = aAuspraegungen.split("\n",
+							-2);
+
+					for (int j = 0; j < aAuspraegungenArray.length; j++) {
+
+						// Alle Auspraegungen holen
+						StrataAuspraegungBean aAuspraegung = new StrataAuspraegungBean(
+								NullKonstanten.DUMMY_ID, aStrataId,
+								aAuspraegungenArray[j]);
+						aAuspraegung.setBenutzerkontoLogging(aBenutzer);
+						aAuspraegung = DatenbankFactory.getAktuelleDBInstanz()
+								.schreibenObjekt(aAuspraegung);
+
+					}
+
+				}
+
+			}
+
+
+
+
+			request.getSession().setAttribute(
+					DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+							.toString(), aStudie);
+
 			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
-					this.AENDERUNG_STUDIE_ERFOLGREICH);
-			request.getRequestDispatcher("studie_auswaehlen.jsp").forward(
+					"Die Studie wurde erfolgreich ge&auml;ndert!");
 
-			request, response);
-		} catch (DatenbankExceptions e) {
-			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-					.getMessage());
+			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
+					response);
+
+		} catch (StrataException e) {
+
+			this.weiterleitungBeiFehler(e.getMessage(), request, response);
+
+		} catch (StudienarmException e) {
+
+			this.weiterleitungBeiFehler(e.getMessage(), request, response);
+
+		} catch (StudieException e) {
+
+			this.weiterleitungBeiFehler(e.getMessage(), request, response);
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+			this.weiterleitungBeiFehler("Systemfehler! ", request, response);
+
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			this.weiterleitungBeiFehler("Systemfehler!", request, response);
+
 		}
-
 	}
 
 	/**

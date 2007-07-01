@@ -16,6 +16,10 @@ public class StudieException extends BenutzerException {
 	 * setStatistiker() Methode uebergeben wird!
 	 */
 	public static final String BENUTZERKONTOBEAN_NULL = "Es wurde kein Benutzerkonto &uuml;bergeben!";
+	/**
+	 * Falls die Studie nicht aenderbar ist.
+	 */
+	public static final String NICHT_AENDERBAR = "Diese Studie ist nicht aenderbar!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn die Methode getStatistiker()
