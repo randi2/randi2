@@ -6,14 +6,14 @@ log4j.logger.de.randi2=ALL, DebugTXT
 # TODO: Auf der Konsole werden die folgenden Infos angezeigt
 # Jenachdem woran gearbeitet wird, sollten hier die Klassen/
 # Packages angepasst werden
-#log4j.logger.de.randi2.utility=ALL, Konsole, ArbeitDebugTXT
+log4j.logger.de.randi2.randomisation=ALL, Konsole, ArbeitDebugTXT
 log4j.logger.de.randi2.datenbank=ALL, Konsole, ArbeitDebugTXT
 
 # Anwendungslog
 log4j.logger.Randi2=ALL, AnwendungXML, Konsole
 
 #Proxoollog
-log4j.logger.org.logicalcobwebs.proxool.randi2 =ALL, Proxool
+log4j.logger.org.logicalcobwebs.proxool.randi2=ALL, Proxool
 
 
 ######################################################
