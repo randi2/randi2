@@ -74,6 +74,8 @@ Ext.onReady(function(){
 			frm.submit();
 			
 	}, form_statistiker);
+	form_statistiker.render('form_statistiker');
+	form_statistiker.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STAT_PASSWORT_ERZEUGEN.toString() %>'});
    	<%
    	}catch(StudieException e){
    	%>
@@ -85,10 +87,9 @@ Ext.onReady(function(){
 			frm.submit();
 			
 	}, form_statistiker);
-	<%}%>	    
-
 	form_statistiker.render('form_statistiker');
-	form_statistiker.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%="TODO!!!" %>'});
+	form_statistiker.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STATISTIKER_ANLEGEN.toString() %>'});
+	<%}%>	    
     
     form_aendern.addButton('&Auml;ndern', function(){
 		

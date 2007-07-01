@@ -189,7 +189,26 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Ein ausgewählter Studienarm wird angezeigt.
 		 */
 		AKTION_STUDIENARM_ANZEIGEN,
-
+		
+		/**
+		 * Ein Statistiker Accout soll für die aktuelle Studie angelegt werden
+		 */
+		JSP_STATISTIKER_ANLEGEN,
+		
+		/**
+		 * Ein Statistiker Account wird für die aktuelle Studie angelgt
+		 */
+		AKTION_STATISTIKER_ANLEGEN,
+		
+		/**
+		 * Ein neues Passwort soll für den Statistiker erzeugt werden
+		 */
+		JSP_STAT_PASSWORT_ERZEUGEN,
+		
+		/**
+		 * Ein neues Passwort wird für den Statistiker erzeugt
+		 */
+		AKTION_STAT_PASSWORT_ERZEUGEN,
 		/**
 		 * Die Statistik soll dem Benutzer angezeigt werden (zu der ausgewählten
 		 * Studie)

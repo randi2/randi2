@@ -862,6 +862,16 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				// Weiterleitung auf die Simulation seite
 				request.getRequestDispatcher(Jsp.SIMULATION).forward(request,
 						response);
+			} else if (id.equals(StudieServlet.anfrage_id.JSP_STATISTIKER_ANLEGEN.toString())) {
+				// Ein Statistiker Account soll angelegt werden - Weiterleitung zur StudieServlet
+				request.setAttribute(Parameter.anfrage_id, StudieServlet.anfrage_id.AKTION_STATISTIKER_ANLEGEN.toString());
+				request.getRequestDispatcher("StudieServlet").forward(request,
+						response);
+			} else if (id.equals(StudieServlet.anfrage_id.JSP_STAT_PASSWORT_ERZEUGEN.toString())) {
+				// Ein neues Passwort soll für den vorhandenen Statistiker erzeugt werden - Weiterleitung zur StudieServlet
+				request.setAttribute(Parameter.anfrage_id, StudieServlet.anfrage_id.AKTION_STAT_PASSWORT_ERZEUGEN.toString());
+				request.getRequestDispatcher("StudieServlet").forward(request,
+						response);
 			} else if (id
 					.equals(StudieServlet.anfrage_id.JSP_STUDIENARM_BEENDEN
 							.toString())) {
