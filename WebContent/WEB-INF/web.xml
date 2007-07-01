@@ -1,48 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="2.4"
-	xmlns="http://java.sun.com/xml/ns/j2ee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-	<display-name>RANDI2</display-name>
 
-	<!-- Proxool AdminServlet, nur fuer Debug -->
-	<servlet>
-		<servlet-name>Admin</servlet-name>
-		<servlet-class>
-			org.logicalcobwebs.proxool.admin.servlet.AdminServlet
-		</servlet-class>
-	</servlet>
+<web-app id="web-app_1" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
+   <display-name>RANDI2</display-name>
+   <distributable/>
 
-	<servlet-mapping>
-		<servlet-name>Admin</servlet-name>
-		<url-pattern>/admin</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>log4j-init</servlet-name>
-		<servlet-class>de.randi2.utility.Log4jInit</servlet-class>
-		<init-param>
-			<param-name>log4j-init-file</param-name>
-			<param-value>WEB-INF/log4j.lcf</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet>
-		<description></description>
-		<display-name>BenutzerServlet</display-name>
-		<servlet-name>BenutzerServlet</servlet-name>
-		<servlet-class>
-			de.randi2.controller.BenutzerServlet
-		</servlet-class>
-	</servlet>
-	<servlet>
-		<description></description>
-		<display-name>DispatcherServlet</display-name>
-		<servlet-name>DispatcherServlet</servlet-name>
-		<servlet-class>
-			de.randi2.controller.DispatcherServlet
-		</servlet-class>
-	</servlet>
+    <!--
+    To use non XDoclet filters, create a filters.xml file that
+    contains the additional filters (eg Sitemesh) and place it in your
+    project's merge dir.  Don't include filter-mappings in this file,
+    include them in a file called filter-mappings.xml and put that in
+    the same directory.
+    -->
 	<servlet>
 		<description></description>
 		<display-name>AjaxUploadStatusServlet</display-name>
@@ -59,6 +27,8 @@
 			de.randi2.controller.FileUploadServlet
 		</servlet-class>
 	</servlet>
+<<<<<<< .mine
+=======
 	<servlet>
 		<description></description>
 		<display-name>ZentrumServlet</display-name>
