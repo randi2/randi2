@@ -321,6 +321,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 */
 		JSP_STUDIE_ANSEHEN,
 		/**
+		 * Studie ansehen
+		 */
+		JSP_STUDIE_ANSEHEN_AENDERN,
+		/**
 		 * Button bei Zentrum suchen.
 		 */
 		ZENTRUM_AENDERN_SPERREN,
@@ -1407,6 +1411,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						StudieServlet.anfrage_id.AKTION_STUDIE_STARTEN
 								.toString());
 				request.getRequestDispatcher("StudieServlet").forward(request,
+						response);
+			} else if (id.equals(anfrage_id.JSP_STUDIE_ANSEHEN_AENDERN
+					.toString())) {
+				// Die Studie soll gestartet werden
+				request.getRequestDispatcher(Jsp.STUDIE_AENDERN).forward(request,
 						response);
 			} else if (id.equals(anfrage_id.JSP_STUDIE_AENDERN.name())) {
 
