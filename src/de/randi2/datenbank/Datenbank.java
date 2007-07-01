@@ -1697,8 +1697,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 						+ FelderPatient.GESCHLECHT + ", "
 						+ FelderPatient.AUFKLAERUNGSDATUM + ", "
 						+ FelderPatient.KOERPEROBERFLAECHE + ", "
-						+ FelderPatient.PERFORMANCESTATUS + ") "
-						+ "VALUES (NULL,?,?,?,?,?,?,?,?)";
+						+ FelderPatient.PERFORMANCESTATUS +" , "
+						+ FelderPatient.STRATA_GRUPPE+") "
+						+ "VALUES (NULL,?,?,?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS);
 				pstmt.setLong(i++, patient.getBenutzerkontoId());
@@ -1712,6 +1713,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						.getTimeInMillis()));
 				pstmt.setFloat(i++, patient.getKoerperoberflaeche());
 				pstmt.setInt(i++, patient.getPerformanceStatus());
+				pstmt.setString(i++, patient.getStrataGruppe());
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
 				rs.next();
@@ -1732,7 +1734,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 						+ FelderPatient.GESCHLECHT + "=?, "
 						+ FelderPatient.AUFKLAERUNGSDATUM + "=?, "
 						+ FelderPatient.KOERPEROBERFLAECHE + "=?, "
-						+ FelderPatient.PERFORMANCESTATUS + "=? " + "WHERE "
+						+ FelderPatient.PERFORMANCESTATUS + "=?, " 
+						+ FelderPatient.STRATA_GRUPPE+" = ? "+ " WHERE "
 						+ FelderPatient.ID + "=?";
 
 				pstmt = con.prepareStatement(sql);
@@ -1747,6 +1750,8 @@ public class Datenbank implements DatenbankSchnittstelle {
 						.getTimeInMillis()));
 				pstmt.setFloat(j++, patient.getKoerperoberflaeche());
 				pstmt.setInt(j++, patient.getPerformanceStatus());
+				pstmt.setString(j++, patient.getStrataGruppe());
+				pstmt.setLong(j++, patient.getId());
 				pstmt.executeUpdate();
 				pstmt.close();
 
@@ -2761,7 +2766,16 @@ public class Datenbank implements DatenbankSchnittstelle {
 			} else {
 				sql += " AND ";
 			}
-			sql += FelderPatient.PERFORMANCESTATUS.toString() + " = ?";
+			sql += FelderPatient.PERFORMANCESTATUS.toString() + " = ? ";
+			counter++;
+		}
+		if(patient.getStrataGruppe()!=null) {
+			if (counter == 0) {
+				sql += " WHERE ";
+			} else {
+				sql += " AND ";
+			}
+			sql += FelderPatient.STRATA_GRUPPE.toString() + " = ? ";
 			counter++;
 		}
 
@@ -2795,6 +2809,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			if (patient.getPerformanceStatus() != NullKonstanten.NULL_INT) {
 				pstmt.setInt(counter++, patient.getPerformanceStatus());
+			}
+			if(patient.getStrataGruppe()!=null) {
+				pstmt.setString(counter++, patient.getStrataGruppe());
 			}
 			rs = pstmt.executeQuery();
 
@@ -3418,9 +3435,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e, sql,
 					DatenbankExceptions.SUCHEN_ERR);
+		}finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-
-		ConnectionFactory.getInstanz().closeConnection(con);
 
 		return tmpPerson;
 
@@ -3475,9 +3492,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.UNGUELTIGE_DATEN);
 			de.initCause(e);
 			throw de;
+		}finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-
-		ConnectionFactory.getInstanz().closeConnection(con);
 		return zentrum;
 	}
 
@@ -3563,9 +3580,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e, sql,
 					DatenbankExceptions.SUCHEN_ERR);
+		}finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-
-		ConnectionFactory.getInstanz().closeConnection(con);
 		return benutzerkonto;
 	}
 
@@ -3615,9 +3632,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.UNGUELTIGE_DATEN);
 			de.initCause(e);
 			throw de;
+		}finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-
-		ConnectionFactory.getInstanz().closeConnection(con);
 		return aktivierung;
 	}
 
@@ -3697,10 +3714,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e, sql,
 					DatenbankExceptions.SUCHEN_ERR);
+		}finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-
-		ConnectionFactory.getInstanz().closeConnection(con);
-
 		return tmpStudie;
 	}
 
@@ -3756,8 +3772,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e, sql,
 					DatenbankExceptions.SUCHEN_ERR);
+		}finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-		ConnectionFactory.getInstanz().closeConnection(con);
 		return tmpStudienarm;
 
 	}
@@ -3824,9 +3841,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e, sql,
 					DatenbankExceptions.SUCHEN_ERR);
+		} finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 
-		ConnectionFactory.getInstanz().closeConnection(con);
+		
 
 		return tmpPatient;
 
@@ -3865,8 +3884,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.UNGUELTIGE_DATEN);
 			de.initCause(e);
 			throw de;
+		}finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-		ConnectionFactory.getInstanz().closeConnection(con);
 		return tmpStrata;
 	}
 
@@ -3907,8 +3927,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 					DatenbankExceptions.UNGUELTIGE_DATEN);
 			de.initCause(e);
 			throw de;
+		}finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-		ConnectionFactory.getInstanz().closeConnection(con);
 		return tmpStrata;
 	}
 
