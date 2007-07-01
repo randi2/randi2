@@ -866,7 +866,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					aStudie = (StudieBean)returnWerte[0];
 					String statistikerLogin = aStudie.getStatistiker().getBenutzername();
 					String statistikerPasswort = (String)returnWerte[1];
-					statistikerNachricht = "<br><br>Ein Statistiker-Account wurde angelegt:<br><br>Login: "+statistikerLogin+"<br>Passwort: "+statistikerPasswort+"<br>";
+					statistikerNachricht = "<br><br>Ein Statistiker-Account wurde angelegt:<br><br>Login: "+statistikerLogin+"<br>Passwort: "+statistikerPasswort+"<br><br><center><img src=\"images/printer-blue.gif\" onClick=\"javascript:popup(500,500,\'<html><head><title>Statistiker-Account zu Studie "+aStudie.getName()+"</title></head><body onload=\"window.print()\"><p style=\"font-family: arial, sans-serif;\"><img src=\"images/randilogo.png\"><br><br>Statistiker-Account zu Studie <b>"+aStudie.getName()+"</b>:<br><br>Login: "+statistikerLogin+"<br>Passwort: "+statistikerPasswort+"</body> </html>\')\"></center>";
 			}
 		
 		}
