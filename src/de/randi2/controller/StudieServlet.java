@@ -500,6 +500,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 						request, response);
 			}
 
+		} else if (id.equals(anfrage_id.AKTION_STAT_PASSWORT_ERZEUGEN.toString())) {
+			// Ein neues Passwort wird für den vorhandenen Statistiker erzeugt
+			
+		}else if (id.equals(anfrage_id.AKTION_STATISTIKER_ANLEGEN.toString())) {
+			// Ein Statistiker Accoutn wird für die aktuelle Studie erzeugt
+			
 		} else if (id.equals(anfrage_id.AKTION_STUDIENARM_ANZEIGEN.toString())) {
 			// Dem Benutzer wird der ausgewählte Studienarm der Studie
 			// angezeigt.
