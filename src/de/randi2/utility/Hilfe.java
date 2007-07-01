@@ -24,11 +24,11 @@ public class Hilfe {
 
 			{
 				JspTitel.STUDIE_AUSWAEHLEN,
-				"Hier können Sie durch Anklicken einer Studie diese ausw&auml;len. <br> Sie müssen Sie eine Studie ausw&auml;len, um weiter zu kommen. <br><br> Mit der Filterfunktion <img src=\"images\\find.png\"> k&ouml;nnen Sie unter allen verf&uuml;gbaren Studien filtern." 
+				"Hier können Sie durch Anklicken einer Studie diese ausw&auml;hlen. <br> Sie müssen eine Studie ausw&auml;hlen, um weiter zu kommen. <br><br> Mit der Filterfunktion <img src=\"images\\find.png\"> k&ouml;nnen Sie unter allen verf&uuml;gbaren Studien filtern." 
 			},
 			{ 		
 				JspTitel.STUDIE_ANSEHEN,
-				"Die ausgew&auml;lte Studie wird mit ihren Details angezeigt!" 
+				"Die ausgew&auml;hlte Studie wird mit ihren Details angezeigt!" 
 			},
 			{
 				JspTitel.DATEN_AENDERN,
