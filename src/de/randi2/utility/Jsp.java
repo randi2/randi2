@@ -83,7 +83,7 @@ public final class Jsp {
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
-	public static final String ERGEBNISSE = "/ergebnisse.jsp ";
+	public static final String ERGEBNISSE = "/ergebnisse.jsp";
 	/**
 	 * Konstante fuer jsp-Seite
 	 */

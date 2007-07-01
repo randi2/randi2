@@ -17,39 +17,78 @@
 											.toString())%></title>
 <%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<script>
+Ext.onReady(function(){
+
+	Ext.QuickTips.init();
+	Ext.form.Field.prototype.msgTarget = 'side';
+
+    var form_export_csv = new Ext.form.Form({
+        labelAlign: 'left',
+        labelWidth: 100,
+		buttonAlign: 'left'
+    });
+    
+    var form_export_xls = new Ext.form.Form({
+        labelAlign: 'left',
+        labelWidth: 100,
+		buttonAlign: 'left'
+    });
+
+	
+	form_export_csv.addButton('Export als .CSV!', function(){
+		if (this.isValid()) {
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+		}else{
+			Ext.MessageBox.alert('Errors', 'Die Eingaben waren fehlerhaft!');
+		}
+	}, form_export_csv);
+
+			
+	form_export_csv.render('form_export_csv');
+	
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_export_csv.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_ERGEBNISSE_EXPORT_CSV.name() %>'});	
+
+	form_export_xls.addButton('Export als .XLS!', function(){
+		if (this.isValid()) {
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+		}else{
+			Ext.MessageBox.alert('Errors', 'Die Eingaben waren fehlerhaft!');
+		}
+	}, form_export_xls);
+
+			
+	form_export_xls.render('form_export_xls');
+	
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_export_xls.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_ERGEBNISSE_EXPORT_XLS.name() %>'});	
+
+
+
+});
+
+
+</script>
 </head>
 <body>
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
-<h1>Studienergebnisse</h1>
-<form>
-<fieldset><legend><b>Export</b></legend>
-<table>
-	<tr>
-		<td>Export als *.csv</td>
-		<td><input type="button" name="exp_csv" value="download"
-			tabindex="1" onclick="location.href='ergebnisse_zwei.jsp'"></td>
-	</tr>
-	<tr>
-		<td><br>
-		Export als *.xls</td>
-		<td><input type="button" name="exp_xls" value="download"
-			tabindex="2" onclick="location.href='ergebnisse_zwei.jsp'"></td>
-	</tr>
-</table>
-</fieldset>
-</form>
-
-<table align="left">
-	<tr>
-		<td><input type="button" name="entsp_ja" value="Zur&uuml;ck"
-			tabindex="1" onclick="location.href='studie_ansehen.jsp'"></td>
-	</tr>
-</table>
-
-
+<h1>Studienergebnisse</h1><br>
+<p>W&auml;hlen Sie das gew&uuml;nschte Export-Format:</p><br><br>
+<div id="form_export_csv"></div>
+<div id="form_export_xls"></div>
 <%@include file="include/inc_footer.jsp"%></div>
 <div id="show_none"><%@include file="include/inc_menue.jsp"%>
-</div>
 </body>
 </html>

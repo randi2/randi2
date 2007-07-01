@@ -169,8 +169,7 @@ Ext.onReady(function(){
 	form_random.render('form_random');
 	
 	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
-	<!-- Die anfrage_id muss spaeter angepasst werden - sobald man sich die Randomisationsergebniss anzeigen kann! Erstmal wird man automatisch ausgeloggt! lplotni-->
-	form_random.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.AKTION_LOGOUT %>'});	
+	form_random.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_ERGEBNISSE %>'});	
     
     <%}%>
     

@@ -307,7 +307,22 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Ein Benutzer soll gesperrt bzw. entsperrt werden.
 		 */
-		JSP_BENUTZER_SPERREN_SPERREN_ENTSPERREN;
+		JSP_BENUTZER_SPERREN_SPERREN_ENTSPERREN,
+		
+		/**
+		 * Ergebnisse
+		 */
+		JSP_ERGEBNISSE,
+		
+		/**
+		 * Export als CSV
+		 */
+		JSP_ERGEBNISSE_EXPORT_CSV,
+		
+		/**
+		 * Export als XLS
+		 */
+		JSP_ERGEBNISSE_EXPORT_XLS;
 	}
 
 	/**
@@ -1230,6 +1245,20 @@ request.setAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i, request.getParam
 										.name());
 				request.getRequestDispatcher("BenutzerServlet").forward(
 						request, response);
+			} else if (id
+					.equals(anfrage_id.JSP_ERGEBNISSE
+							.name())) {
+
+				request.getRequestDispatcher(Jsp.ERGEBNISSE).forward(
+						request, response);
+			} else if (id
+					.equals(anfrage_id.JSP_ERGEBNISSE_EXPORT_XLS
+							.name())) {
+//				//FIXME @jthoenes: Datei generieren und dann request mit den Attributes an DownloadServlet leiten
+			} else if (id
+					.equals(anfrage_id.JSP_ERGEBNISSE_EXPORT_CSV
+							.name())) {
+				//FIXME @jthoenes: Datei generieren und dann request mit den Attributes an DownloadServlet leiten
 			}
 
 			// [end]
