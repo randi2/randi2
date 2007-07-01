@@ -549,8 +549,15 @@ public class BenutzerkontoBean extends Filter implements Serializable {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
+		String formatiertesDatum = "noch nicht eingeloggt";
+	
+		if (this.aLetzterLogin != null){
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy",
+				Locale.GERMANY);
+				formatiertesDatum = sdf.format(this.aLetzterLogin.getTime());
+		}
 		return "Benutzerkontoname: " + this.aBenutzername + "(Last LogIn: "
-				+ this.aLetzterLogin + ")";
+				+  formatiertesDatum+ ")";
 	}
 
 	/**
