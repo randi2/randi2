@@ -111,7 +111,7 @@ public final class Jsp {
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
-	public static final String INDEX_GESPERRT = "/index_gesperrt.jsp  ";
+	public static final String INDEX_GESPERRT = "/index_gesperrt.jsp";
 	/**
 	 * Konstante fuer jsp-Seite
 	 */

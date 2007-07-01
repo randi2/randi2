@@ -116,7 +116,7 @@ public final class JspTitel {
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
-	public static final String INDEX_GESPERRT = "Willkommen";
+	public static final String INDEX_GESPERRT = "System wurde gesperrt!";
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
