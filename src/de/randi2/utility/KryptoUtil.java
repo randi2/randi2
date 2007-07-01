@@ -190,12 +190,6 @@ public final class KryptoUtil {
 		int charInt = (new Random()).nextInt(49);
 		return zeichen[charInt];
 	}
-	
-	
-	public static void main(String args[]){
-		String p = KryptoUtil.getInstance().generatePasswort(8);
-		System.out.println(p);
-		System.out.println(p.length());
-	}
+
 
 }
