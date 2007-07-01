@@ -45,6 +45,14 @@
 	</servlet>
 	<servlet>
 		<description></description>
+		<display-name>DownloadServlet</display-name>
+		<servlet-name>DownloadServlet</servlet-name>
+		<servlet-class>
+			de.randi2.controller.DownloadServlet
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<description></description>
 		<display-name>AjaxUploadStatusServlet</display-name>
 		<servlet-name>uploadStatus</servlet-name>
 		<servlet-class>
@@ -105,6 +113,10 @@
 	<servlet-mapping>
 		<servlet-name>DispatcherServlet</servlet-name>
 		<url-pattern>/DispatcherServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DownloadServlet</servlet-name>
+		<url-pattern>/DownloadServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 	<servlet-name>fileUpload</servlet-name>

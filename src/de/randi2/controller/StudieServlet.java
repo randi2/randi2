@@ -1,5 +1,9 @@
 package de.randi2.controller;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -18,9 +22,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import de.randi2.controller.DispatcherServlet.sessionParameter;
 import de.randi2.datenbank.DatenbankFactory;
+import de.randi2.datenbank.RandomisationDB;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PatientException;
@@ -47,7 +53,9 @@ import de.randi2.randomisation.Randomisation;
 import de.randi2.randomisation.StrataBlockRandomisation;
 import de.randi2.randomisation.VollstaendigeRandomisation;
 import de.randi2.randomisation.Randomisation.Algorithmen;
+import de.randi2.utility.Config;
 import de.randi2.utility.Jsp;
+import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.Parameter;
 
@@ -343,7 +351,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
+
 		String id = (String) request.getParameter(Parameter.anfrage_id);
 		String idAttribute = (String) request
 				.getAttribute(Parameter.anfrage_id);
@@ -365,9 +373,10 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					.setAttribute(
 							DispatcherServlet.FEHLERNACHRICHT,
 							"Ihre Anfrage konnte nicht bearbeitet werden!<br>Bitte loggen Sie sich enreut ein!");
-			request.setAttribute(Parameter.anfrage_id, DispatcherServlet.anfrage_id.AKTION_LOGOUT);
-			request.getRequestDispatcher("DispatcherServlet").forward(
-					request, response);
+			request.setAttribute(Parameter.anfrage_id,
+					DispatcherServlet.anfrage_id.AKTION_LOGOUT);
+			request.getRequestDispatcher("DispatcherServlet").forward(request,
+					response);
 
 		}
 
@@ -513,7 +522,91 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			Logger.getLogger(this.getClass()).debug("Statistik wird angezeigt");
 			request.getRequestDispatcher(Jsp.STATISTIK_ANZEIGEN).forward(
 					request, response);
+		} else if (id
+				.equals(DispatcherServlet.anfrage_id.JSP_ERGEBNISSE_EXPORT_XLS.name())) {
+			this.makeExcelExport(request, response);
+		} else if (id
+				.equals(DispatcherServlet.anfrage_id.JSP_ERGEBNISSE_EXPORT_CSV.name())) {
+			this.makeCSVExport(request, response);
 		}
+	}
+
+	private void makeCSVExport(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException{
+
+		try{
+			
+			StudieBean aStudie = ((StudieBean) request.getSession()
+				.getAttribute(
+						DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+								.toString()));
+		String dateiName = KryptoUtil.getInstance().generateDateiName(20) + ".csv"; 
+		
+		String dateiPfad = Config
+				.getProperty(Config.Felder.RELEASE_UPLOAD_PATH_TMP)
+				+ dateiName;
+		
+		File datei = new File(dateiPfad);
+		
+		
+		  FileWriter schreiber = new FileWriter(datei); 
+	      BufferedWriter  pufferSchreiber = new BufferedWriter(schreiber); 
+	      
+	      String csv = RandomisationDB.getStatistikTabelle(aStudie).getCSVString();
+	      
+	      pufferSchreiber.write(csv); 
+	      pufferSchreiber.close();
+	      
+	      
+	      request.setAttribute(DownloadServlet.requestParameter.DATEI_ART.name(), DownloadServlet.dateiArt.RANDOMISATIONSERGEBNISSE);
+	      request.setAttribute(DownloadServlet.requestParameter.DATEI_NAME.name(), dateiName);
+	      
+	      request.getRequestDispatcher("/DownloadServlet").forward(
+					request, response);
+	      
+		}catch(StrataException e){
+			IOException ioe = new IOException();
+			ioe.initCause(e);
+			throw ioe;
+		}
+		
+
+	}
+
+	private void makeExcelExport(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException {
+		try{
+			
+			StudieBean aStudie = ((StudieBean) request.getSession()
+				.getAttribute(
+						DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+								.toString()));
+		String dateiName = KryptoUtil.getInstance().generateDateiName(20) + ".xls"; 
+		
+		String dateiPfad = Config
+				.getProperty(Config.Felder.RELEASE_UPLOAD_PATH_TMP)
+				+ dateiName;
+		
+		File datei = new File(dateiPfad);
+		
+		
+		  FileOutputStream schreiber = new FileOutputStream(datei); 
+	      HSSFWorkbook excelMappe = RandomisationDB.getStatistikTabelle(aStudie).getXLS();
+	      excelMappe.write(schreiber);
+	      schreiber.close();
+	      
+	      request.setAttribute(DownloadServlet.requestParameter.DATEI_ART.name(), DownloadServlet.dateiArt.RANDOMISATIONSERGEBNISSE);
+	      request.setAttribute(DownloadServlet.requestParameter.DATEI_NAME.name(), dateiName);
+	      
+	      request.getRequestDispatcher("/DownloadServlet").forward(
+					request, response);
+	      
+		}catch(StrataException e){
+			IOException ioe = new IOException();
+			ioe.initCause(e);
+			throw ioe;
+		}
+
 	}
 
 	/**

@@ -139,6 +139,27 @@ public final class KryptoUtil {
 		}
 		return passwort.toString();
 	}
+	
+	/**
+	 * Generiert ein Passwort beliebiger Laenge zufaellig.
+	 * 
+	 * @param length
+	 *            Die gewuenschte Laenge des Passwortes
+	 * @return Das generierte Passwort.
+	 */
+	public synchronized String generateDateiName(int length) {
+
+		Logger.getLogger(this.getClass()).debug(
+				"Generiere Passwort der Laenge " + length);
+
+		StringBuffer passwort = new StringBuffer();
+
+		for (int i = 0; i < length; i++) {
+			passwort.append(buchstaben[zufall.nextInt(buchstaben.length)]);
+		}
+		return passwort.toString();
+	}
+
 
 	/**
 	 * Erzeugt aus dem Passwort einen Hashwert der in der Datenbank gespeichert

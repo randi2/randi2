@@ -1,6 +1,24 @@
 package de.randi2.utility;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Vector;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+import de.randi2.datenbank.RandomisationDB;
+import de.randi2.datenbank.exceptions.DatenbankExceptions;
+import de.randi2.model.exceptions.StrataException;
+import de.randi2.model.fachklassen.Studie;
+import de.randi2.model.fachklassen.beans.StudieBean;
 
 /**
  * Wrapped eine Tabelle die nachher im CSV oder Excel-Format ausgegeben werden
@@ -81,9 +99,9 @@ public class Tabelle {
 		if (this.kopfzeile != null) {
 			for (int i = 0; i < kopfzeile.length; i++) {
 				if (i < kopfzeile.length - 1) {
-					csv.append(kopfzeile[i] + SPALTENTRENNER);
+					csv.append("\"" + kopfzeile[i] + "\"" +SPALTENTRENNER);
 				} else {
-					csv.append(kopfzeile[i] + ZEILENTRENNER);
+					csv.append("\"" +kopfzeile[i] + "\"" +ZEILENTRENNER);
 				}
 			}
 
@@ -92,14 +110,84 @@ public class Tabelle {
 		for (String zeile[] : this.inhalt) {
 			for (int i = 0; i < zeile.length; i++) {
 				if (i < zeile.length - 1) {
-					csv.append(zeile[i] + SPALTENTRENNER);
+					csv.append("\"" +zeile[i] + "\"" +SPALTENTRENNER);
 				} else {
-					csv.append(zeile[i] + ZEILENTRENNER);
+					csv.append("\"" +zeile[i] + "\"" +ZEILENTRENNER);
 				}
 			}
 		}
 
 		return csv.toString();
+	}
+
+	public HSSFWorkbook getXLS() {
+
+		HSSFWorkbook excelMappe = new HSSFWorkbook();
+		HSSFSheet excelSheet = excelMappe.createSheet();
+
+		HSSFRow reihe = null;
+		HSSFCell zelle = null;
+
+		HSSFCellStyle titelStyle = excelMappe.createCellStyle();
+		HSSFCellStyle datenStyle = excelMappe.createCellStyle();
+
+		HSSFFont titelFont = excelMappe.createFont();
+		HSSFFont datenFont = excelMappe.createFont();
+
+		titelFont.setFontHeightInPoints((short) 9);
+		titelFont.setColor((short) HSSFFont.COLOR_NORMAL);
+		titelFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+
+		datenFont.setFontHeightInPoints((short) 9);
+		datenFont.setColor((short) HSSFFont.COLOR_NORMAL);
+		datenFont.setBoldweight(HSSFFont.BOLDWEIGHT_NORMAL);
+
+		titelStyle.setFont(titelFont);
+		titelStyle.setBorderBottom(HSSFCellStyle.BORDER_DOUBLE);
+		titelStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+		titelStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+		titelStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+
+		datenStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+		datenStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+		datenStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+		datenStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+
+		titelStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("text"));
+		datenStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("text"));
+
+		// set the font
+		datenStyle.setFont(datenFont);
+
+		// set the sheet name in Unicode
+		excelMappe.setSheetName(0, "Randomisationsergebnisse");
+		// in case of compressed Unicode
+		// wb.setSheetName(0, "HSSF Test",
+		// HSSFWorkbook.ENCODING_COMPRESSED_UNICODE );
+		// create a sheet with 30 rows (0-29)
+
+		reihe = excelSheet.createRow((short) 0);
+		for (int i = 0; i < kopfzeile.length; i++) {
+			zelle = reihe.createCell((short) i);
+			zelle.setCellStyle(titelStyle);
+			zelle.setCellValue(new HSSFRichTextString(kopfzeile[i]));
+		}
+
+		int i = 0;
+		for (String zeile[] : this.inhalt) {
+			i++;
+			reihe = excelSheet.createRow((short) i);
+			for (int j = 0; j < zeile.length; j++) {
+				zelle = reihe.createCell((short) j);
+				zelle.setCellStyle(datenStyle);
+				zelle.setCellValue(new HSSFRichTextString(zeile[j]));
+			}
+		}
+
+		return excelMappe;
+
+		// wb.write(out);
+		// out.close();
 	}
 
 }
