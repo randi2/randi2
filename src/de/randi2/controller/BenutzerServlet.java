@@ -205,8 +205,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	private void aendernBenutzer(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		// wichtiger boolean
+		// wichtige boolean
 		boolean wurdeStellvertreterGesetzt = true;
+		boolean passwortGesetzt = true;
 
 		// Alle aenderbaren Attribute des request inititalisieren
 		String titel = request.getParameter(Parameter.person.TITEL.toString());
@@ -261,7 +262,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				passwort = request
 						.getParameter(Parameter.benutzerkonto.PASSWORT
 								.toString());
+				passwortGesetzt = true;
 			} else {
+				passwortGesetzt = false;
 				passwort = "";
 			}
 		}
@@ -316,13 +319,21 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			request.getSession().setAttribute(
 					DispatcherServlet.sessionParameter.A_Benutzer.toString(),
 					aBenutzer);
-			if (wurdeStellvertreterGesetzt) {
+			if (wurdeStellvertreterGesetzt && passwortGesetzt) {
 				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 						"Daten erfolgreich ge&auml;ndert.");
-			} else {
+			} else if (!wurdeStellvertreterGesetzt && passwortGesetzt) {
 				request
 						.setAttribute(DispatcherServlet.NACHRICHT_OK,
 								"Daten erfolgreich ge&auml;ndert. (Kein Stellvertreter gesetzt)");
+			} else if (!passwortGesetzt && wurdeStellvertreterGesetzt) {
+				request
+						.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+								"Passwort wurde nicht gesetzt. (Bitte Konventionen beachten!)");
+			} else if (!wurdeStellvertreterGesetzt && !passwortGesetzt) {
+				request
+						.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+								"Passwort wurde nicht gesetzt. (Ebenfalls kein Stellvertreter gesetzt)");
 			}
 			request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(request,
 					response);
@@ -333,7 +344,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(request,
 					response);
 		}
-
 	}
 
 	/**
