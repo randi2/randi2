@@ -485,15 +485,22 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
 					response);
 		} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
-			request.setAttribute("zugehoerigeZentren", this
-					.getZugehoerigeZentren(request, response));
-			request.setAttribute("nichtZugehoerigeZentren", this
-					.getNichtZugehoerigeZentren(request, response));
+			System.out
+					.println("im studieservlet sollen die zentren angezeigt werden");
+			Vector<ZentrumBean> zugZentren = this.getZugehoerigeZentren(
+					request, response);
+			request.setAttribute("zugehoerigeZentren", zugZentren);
+			Vector<ZentrumBean> nZugZentren = this.getNichtZugehoerigeZentren(
+					request, response);
+
+			request.setAttribute("nichtZugehoerigeZentren", nZugZentren);
 			if (((String) request.getParameter("Filtern")) != null) {
-				request.getRequestDispatcher("ZentrumServlet").forward(request,
-						response);
+				System.out.println("(StudieServlet) Filter ist an, leiten zum Zentrum weiter " + id);
+				request.getRequestDispatcher("ZentrumServlet").forward(request,	response);
 
 			} else {
+				System.out
+						.println("(studie servlet)hier erfolgt weiterleitung zur zentrum anzeigen seite");
 				request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
 						request, response);
 			}
@@ -516,9 +523,9 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				// TODO Wenn Daniel den Bug mit Drucken beseitigt hat - müssen
 				// hier die gleichen Änderung vorgenommen werden!
 				String statistikerNachricht = "Ein neues Passwort wurde erzeugt:"
-					+ "<br>Passwort: "
-					+ neuesPasswort;
-				request.setAttribute(DispatcherServlet.NACHRICHT_OK,statistikerNachricht);
+						+ "<br>Passwort: " + neuesPasswort;
+				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+						statistikerNachricht);
 			} catch (StudieException e) {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 						.getLocalizedMessage());
@@ -1484,6 +1491,9 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		StudieBean aSession = (StudieBean) request.getSession().getAttribute(
 				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
 		Vector<ZentrumBean> zugehoerigeZentren = null;
+		if(aSession==null){
+			System.out.println(" (studie servlet) aSession ist null");
+		}
 		try {
 			zugehoerigeZentren = aSession.getZentren();
 		} catch (DatenbankExceptions e) {
@@ -1509,24 +1519,21 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		ZentrumBean zb = new ZentrumBean();
 		zb.setIstAktiviert(true);
 		zb.setFilter(true);
-
-		Vector<ZentrumBean> zentrenliste = null;
-
-		zentrenliste = Zentrum.suchenZentrum(zb);
-
+//alle Zentren
+		Vector<ZentrumBean> zentrenliste = Zentrum.suchenZentrum(zb);
+//nur zugehörige Zentren
 		Vector<ZentrumBean> zugehoerigeZentren = (Vector<ZentrumBean>) request
 				.getAttribute("zugehoerigeZentren");
 
-		// Vector<ZentrumBean> zugehoerigeZentren =
-		// getZugehoerigeZentren(request, response);
-		for (int y = 0; y < zentrenliste.size(); y++) {
+		if(zugehoerigeZentren!=null ){
 			for (int x = 0; x < zugehoerigeZentren.size(); x++) {
-				if (zentrenliste.elementAt(y).equals(
-						zugehoerigeZentren.elementAt(x))) {
-					zentrenliste.removeElementAt(y);
+				ZentrumBean tmp = zugehoerigeZentren.elementAt(x);
+				if (zentrenliste.contains(tmp)){
+					System.out.println("Von den zugehoerigen zentren wird "+tmp.getAbteilung()+" geloescht");
+					zentrenliste.remove(tmp);
 				}
-
 			}
+
 		}
 		return zentrenliste;
 
