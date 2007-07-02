@@ -110,7 +110,7 @@ zum Zentrum</b></legend>
 		<input type="radio" name="<%=Parameter.person.GESCHLECHT.toString() %>" value="w"
 			<%if (aZentrum != null) {if(aZentrum.getAnsprechpartner() != null){if(aZentrum.getAnsprechpartner().getGeschlecht() == 'w'){out.print("checked");}}}%>>weiblich
 		<input type="radio" name="<%=Parameter.person.GESCHLECHT.toString() %>" value="m"
-			<%if (aZentrum != null) {if(aZentrum.getAnsprechpartner() != null){if(aZentrum.getAnsprechpartner().getGeschlecht() == 'm'){out.print("checked");}}}%>>m&auml;nnlich</td>
+			<%if (aZentrum != null) {if(aZentrum.getAnsprechpartner() != null){if(aZentrum.getAnsprechpartner().getGeschlecht() == 'm'){out.print("checked");}}}%>>maennlich</td>
 	</tr>
 	<tr>
 		<td>Telefon *<br>
