@@ -72,7 +72,7 @@ Ext.onReady(function(){
         blankText:'Bitte einen Betreff eingeben!'
     });
     
-	var nachricht = new Ext.form.TextField({
+	var nachricht = new Ext.form.TextArea({
         fieldLabel: 'Nachricht *:',
         name: '<%=Nachrichtendienst.requestParameter.NACHRICHTENTEXT.name() %>',
         value: '<%=nachrichtentext %>',
