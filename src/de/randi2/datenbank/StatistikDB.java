@@ -15,10 +15,60 @@ import de.randi2.datenbank.exceptions.DatenbankExceptions;
  */
 public class StatistikDB {
 	
+	
 	/**
-	 * Name der View fuer getAnzPatMW
+	 * Konstanten fuer die View getVerteilungPatMW
+	 * 
+	 * @author Frederik Reifschneider
 	 */
-	private static final String VIEW1= "verteilungPatMW";
+	private enum VIEW1 {
+		/**
+		 * Name der View
+		 */
+		NAME("verteilungPatMW"),
+		/**
+		 * Spalte studienID 
+		 */
+		STUDIE("studienID"),
+		/**
+		 * Spalte studienarmID
+		 */
+		STUDIENARM("studienarmID"),
+		/**
+		 * Spalte Gesamtzahl
+		 */
+		ANZAHLGESAMT("anzG"),
+		/**
+		 * Spalte Anzahl Maenner
+		 */
+		ANZAHLMAENNER("anzM"),
+		/**
+		 * Spalte Anzahl Frauen
+		 */
+		ANZAHLFRAUEN("anzF");
+		
+		/**
+		 * Konstruktor
+		 * @param text
+		 * 			Wert fuer Enum Feld
+		 */
+		private VIEW1(String text) {
+			this.text=text;
+		}
+		
+		/**
+		 * Name eines Feldes
+		 */
+		private String text ;
+		
+		/**
+		 * Liefert Feld Inhalt
+		 * @see java.lang.Enum#toString()
+		 */
+		public String toString() {
+			return this.text;
+		}
+	}
 	
 	
 	/**
@@ -72,7 +122,7 @@ public class StatistikDB {
 				i++;
 			}			
 			//Abfrage der View
-			sql = "SELECT * FROM "+VIEW1+" WHERE studienID = ?";
+			sql = "SELECT * FROM "+VIEW1.NAME+" WHERE "+VIEW1.STUDIE+" = ?";
 			pstmt = c.prepareStatement(sql);
 			pstmt.setLong(1, studienID);
 			rs = pstmt.executeQuery();
