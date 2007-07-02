@@ -87,8 +87,6 @@ values('1','1'),
         ('3','3'),
         ('4','4'),
         ('2', '1'),
-        ('5', '2'),
-        ('1', '2'),
         ('5', '1');
         
         
@@ -100,7 +98,7 @@ INSERT INTO `Strata_Auspraegung` (`strata_WerteID`, `Strata_Typen_strata_TypenID
 (5, 2, 'braun'),
 (6, 2, 'rot'),
 (7, 2, 'blau'),
-(8, 2, 'grün');
+(8, 2, 'gelb+blau=?');
 
 -- 
 -- Daten für Tabelle `Strata_Typen`
