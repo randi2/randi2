@@ -23,41 +23,88 @@ Ext.onReady(function(){
         labelWidth: 0,
 		buttonAlign: 'left',
     });
-    
+   
     var imprint_text = new Ext.form.TextArea({
         name: '',
         value:'<%=Config.getProperty(Config.Felder.RELEASE_IMPRESSUM) %>',
-        width:500,
-        height:500,
+        width:500, 
+        height:100,
         readOnly:true
-    });    
-	
-	<!--  Die ANFRAGE_ID fuer ABBRECHEN wird hier gesetzt. dhaehn	-->
-	form_imprint.addButton('Abbrechen', function(){
-		top.location.href='DispatcherServlet';
-	}, form_imprint);    
-
+    });   
+    var form_imprint3 = new Ext.form.Form({
+        labelAlign: 'left',
+        labelWidth: 0,
+		buttonAlign: 'left',
+    });
+   
+    var imprint_text3 = new Ext.form.TextArea({
+        name: '',
+        value:'DIESE SOFTWARE WIRD OHNE JEGLICHE SPEZIELLE ODER IMPLIZIERTE GARANTIEN ZUR VERFÜGUNG GESTELLT,DIE UNTER ANDEREM EINSCHLIESSEN: DIE IMPLIZIERTE GARANTIE DER VERWENDBARKEIT DER SOFTWARE FÜR EINEN BESTIMMTEN ZWECK. AUF KEINEN FALL SIND DIE ENTWICKLER FÜR IRGENDWELCHE DIREKTEN, INDIREKTEN, ZUFÄLLIGEN,  SPEZIELLEN, BEISPIELHAFTEN ODER FOLGENDEN SCHADEN (UNTER ANDEREM VERSCHAFFEN VON ERSATZGÜTERN ODER -DIENSTLEISTUNGEN; EINSCHRÄNKUNG DER NUTZUNGSFÄHIGKEIT; VERLUST VON NUTZUNGSFÄHIGKEIT; DATEN; PROFIT ODER GESCHÄFTSUNTERBRECHUNG),WIE AUCH IMMER VERURSACHT UND UNTER WELCHER VERPFLICHTUNG AUCH IMMER,OB IN VERTRAG, STRIKTER VERPFLICHTUNG ODER UNERLAUBTE HANDLUNG (INKLUSIVE FAHRLÄSSIGKEIT) VERANTWORTLICH, AUF WELCHEM WEG SIE AUCH IMMER DURCH DIE BENUTZUNG DIESER SOFTWARE ENTSTANDEN SIND, SOGAR, WENN SIE AUF DIE MÖGLICHKEIT EINES SOLCHEN SCHADENS HINGEWIESEN WORDEN SIND.',
+        width:500, 
+        height:100,
+        readOnly:true
+    });   
+     
+      
+   
+    
+    var form_imprint2 = new Ext.form.Form({
+        labelAlign: 'left',
+        labelWidth: 0,
+		buttonAlign: 'left',
+    });
+    
+    var imprint_text2 = new Ext.form.TextArea({
+        name: '',
+        value:'Die Webapplikation RANDI2 wurde im Rahmen des Softwarepraktikums WS2006/07 - SS07 entwickelt. Folgende Personen waren an der Entwicklung beteiligt:Chruscz Katharina, Freudling Andreas, Friedrich Susanne, Ganszky Thomas, Graeff Valentin,  Theel Benjamin, Thoenes Johannes, Willert Thomas, Zwink Nadine ', 
+        width:500, 
+        height:100,
+        readOnly:true
+    });      
+      
+     
+     
+	 
+     
     form_imprint.fieldset({legend:'Impressum und rechtliche Hinweise',hideLabels:true},
     imprint_text);
-    
-    form_imprint.render('form_imprint');
+   
+    form_imprint.fieldset({legend:'Entwicklung',hideLabels:true},
+    imprint_text2);
+     
+    form_imprint.fieldset({legend:'Haftungsausschuss',hideLabels:true},
+    imprint_text3);
+     
+   
 
-    });
+   
+    
+    <!--  Die ANFRAGE_ID fuer ABBRECHEN wird hier gesetzt. dhaehn	-->
+	form_imprint.addButton('Abbrechen', function(){
+		top.location.href='DispatcherServlet';
+	}, form_imprint);   
+	
+     form_imprint.render('form_imprint'); 
+  
+     
+    }); 
 </script>
 </head>
 <body>
 <%@include file="include/inc_header_clean.jsp"%>
-
+ 
 <div id="content">
-
 <h1>Impressum</h1>
 <div id="form_imprint"></div>
+ 
+ 
 
-<br>
+     
+   
+ </div>
+<br>  
 <%@include file="include/inc_footer_clean.jsp"%>
 </div>
-
-
 
 </body>
 </html>
