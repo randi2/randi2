@@ -2067,7 +2067,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		//aus Lesbarkeitsgründen verzicht auf Konstanten
 		String sql="select p.personenID,b.benutzerkontenID,z.zentrumsID, p.nachname,p.vorname,p.email,b.loginname,b.gesperrt,z.institution, ("
 				+" select COUNT(pat.patientenID)"
-				+" from patient pat"
+				+" from "+Tabellen.PATIENT+" pat"
 				+" WHERE pat.Benutzerkonto_benutzerkontenID=b.benutzerkontenID"
 				+") anzPatienten"
 				+" from Person p, Benutzerkonto b, Zentrum z, studie_has_zentrum sh"

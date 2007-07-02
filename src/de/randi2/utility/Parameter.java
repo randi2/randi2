@@ -224,7 +224,12 @@ public class Parameter {
 		/**
 		 * Attribut der Klasse BenutzerkontoBean. Details siehe {@link BenutzerkontoBean}
 		 */
-		GESPERRT
+		GESPERRT,
+		
+		/**
+		 * Textnachricht bei Sperrvorgang
+		 */
+		NACHRICHT
 	}
 	/**
 	 * Attribute des StudieBeans.

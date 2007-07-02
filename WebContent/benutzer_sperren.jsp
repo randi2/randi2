@@ -7,6 +7,18 @@
 	import="java.text.SimpleDateFormat" import="java.util.Locale"
 	import="de.randi2.utility.*"%>
 
+<%
+
+
+	BenutzerkontoBean benutzer=(BenutzerkontoBean)session.getAttribute(DispatcherServlet.sessionParameter.BENUTZER_SPERREN_ENTSPERREN_ADMIN.toString()); 
+
+
+	String aNachricht = request.getParameter(Parameter.benutzerkonto.NACHRICHT.toString());
+
+	if(aNachricht == null) { aNachricht = ""; }
+	
+%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,47 +27,83 @@
 									.getAttribute(DispatcherServlet.requestParameter.TITEL
 											.toString())%></title>
 <%@include file="include/inc_extjs.jsp"%>
+<script>
+Ext.onReady(function(){
+
+	Ext.QuickTips.init();
+	Ext.form.Field.prototype.msgTarget = 'side';
+
+    var form_sperren = new Ext.form.Form({
+        labelAlign: 'top',
+        labelWidth: 100,
+		buttonAlign: 'left'
+    });
+	
+	var hintfield = new Ext.form.MiscField({
+		fieldLabel: '',
+		value: 'Wollen sie den gew&auml;hlten Benutzer (Benutzername: <%= benutzer.getBenutzername()%>) wirklich <%if(!benutzer.isGesperrt()){out.print("sperren");}else{out.print("entsperren");} %>?',
+		width: 400,
+		height: 60
+	});    
+
+    var grund = new Ext.form.TextArea({
+        fieldLabel: 'Grund:',
+        name: '<%=Parameter.benutzerkonto.NACHRICHT.toString()%>',
+        allowBlank:false,
+        blankText:'Bitte einen Grund eingeben!',
+        width:250,
+        value:'<%=aNachricht.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r")%>',
+        height:150
+    });
+	
+    form_sperren.fieldset(
+        {legend:'Angaben zur Studie',labelSeparator:''},
+		
+		hintfield,
+		grund
+	);	
+	
+	form_sperren.addButton('<%if(!benutzer.isGesperrt()){out.print("Sperren");}else{out.print("Entsperren");} %>', function(){
+		if (this.isValid()) {
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+		}else{
+			Ext.MessageBox.alert('Fehler', 'Die Eingaben waren fehlerhaft!');
+		}
+	}, form_sperren);
+	
+
+	
+	form_sperren.render('form_sperren');
+	
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_sperren.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_SPERREN_SPERREN_ENTSPERREN.name() %>'});	
+
+
+});
+
+
+</script>					
+
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<form>
+
 <%@include file="include/inc_header.jsp"%>
 
-<%BenutzerkontoBean benutzer=(BenutzerkontoBean)session.getAttribute(DispatcherServlet.sessionParameter.BENUTZER_SPERREN_ENTSPERREN_ADMIN.toString()); %>
-<form action="DispatcherServlet" method="POST" name="sperren_form" id="sperren_form">
 <div id="content">
 <%@include file="include/inc_nachricht.jsp" %>
+
 <h1><%if(!benutzer.isGesperrt()){out.print("Benutzer sperren");}else{out.print("Benutzer entsperren");} %></h1>
 
-<input type="hidden" name="<%=Parameter.anfrage_id %>" value="<%=DispatcherServlet.anfrage_id.JSP_BENUTZER_SPERREN_SPERREN_ENTSPERREN.name() %>" />
-<fieldset style="width:60%"><legend><b>System</b></legend>
-<table>
-	<tr>
-		<td>Wollen sie den gewählten Benutzer (Benutzername: <%= benutzer.getBenutzername()%>) wirklich <%if(!benutzer.isGesperrt()){out.print("sperren");}else{out.print("entsperren");} %>?</td>
-	</tr>
-	<tr>
-		<td><br>
-		Geben Sie hier bitte Ihren Grund an</td>
-	</tr>
-	<tr>
-		<td><input type="text" name="nachricht" width="300"></td>
-	</tr>
-	<tr>
-		<td><br>
-				<td><input type="submit" name="sperrenEntsperren" value="<%if(!benutzer.isGesperrt()){out.print("Benutzer sperren");}else{out.print("Benutzer entsperren");} %>"
-			tabindex="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="submit" name="sperrenAbrechen" value="<%if(!benutzer.isGesperrt()){out.print("Benutzer sperren abbrechen");}else{out.print("Benutzer entsperren abbrechen");} %>" tabindex="2"></td>
-	</tr>
-</table>
+<div id="form_sperren"></div>
 
-</fieldset>
-<br>
-</div>
-</form>
-<div id="show_none"></div>
+<%@include file="include/inc_footer.jsp"%></div>
+<%@include file="include/inc_menue.jsp"%>
 
-<%@include file="include/inc_footer.jsp"%>
-<div id="show_none"><%@include file="include/inc_menue.jsp"%>
-</div>
 </body>
 </html>
