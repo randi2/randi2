@@ -718,7 +718,10 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						ZentrumServlet.anfrage_id.ZENTRUM_AENDERN.name());
 				request.getRequestDispatcher("ZentrumServlet").forward(request,
 						response);
-			} else if (id.equals(anfrage_id.JSP_ADMIN_ANLEGEN.name())) {
+			} else if (id.equals(anfrage_id.JSP_INC_MENUE_ADMIN_ANLEGEN.name())) {
+				request.setAttribute(DispatcherServlet.requestParameter.TITEL
+						.toString(), JspTitel.ADMIN_ANLEGEN.toString());
+				
 				ZentrumServlet.bindeZentrenListeAnRequest(request);
 				request.getRequestDispatcher(Jsp.ADMIN_ANLEGEN).forward(
 						request, response);
@@ -2035,15 +2038,15 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				// TODO weiterleitung?!
 				request.getRequestDispatcher(Jsp.SYSTEM_SPERREN).forward(
 						request, response);
-			} else if (id.equals(anfrage_id.JSP_INC_MENUE_ADMIN_ANLEGEN.name())) {
-				// TODO weiterleitung?!
-				request.getRequestDispatcher(Jsp.ADMIN_ANLEGEN).forward(
-						request, response);
+			
 			} else if (id.equals(anfrage_id.JSP_INC_MENUE_STUDIENLEITER_ANLEGEN
 					.name())) {
-				// TODO weiterleitung?!
-				request.getRequestDispatcher(Jsp.STUDIENLEITER_ANLEGEN)
-						.forward(request, response);
+				request.setAttribute(DispatcherServlet.requestParameter.TITEL
+						.toString(), JspTitel.STUDIENLEITER_ANLEGEN.toString());
+				
+				ZentrumServlet.bindeZentrenListeAnRequest(request);
+				request.getRequestDispatcher(Jsp.ADMIN_ANLEGEN).forward(
+						request, response);
 			} else if (id
 					.equals(anfrage_id.JSP_BENUTZER_LISTE_ADMIN_ANZEIGEN_SPERREN
 							.name())) {

@@ -6,8 +6,6 @@
 	import="de.randi2.utility.*" import="java.util.*" import="de.randi2.utility.Parameter"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
-			request.setAttribute(DispatcherServlet.requestParameter.TITEL
-			.toString(), JspTitel.ADMIN_ANLEGEN.toString());
 
 	Collection<ZentrumBean> zentren = (Vector<ZentrumBean>) request
 			.getAttribute(DispatcherServlet.requestParameter.LISTE_ZENTREN
@@ -418,7 +416,7 @@ Ext.onReady(function(){
 <body>
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
-<h1>Administratorenkonto anlegen</h1>
+<h1><%=request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString())%></h1>
 <%@include file="include/inc_nachricht.jsp"%>
 <div id="form_admin_anlegen"></div>
 </div>
