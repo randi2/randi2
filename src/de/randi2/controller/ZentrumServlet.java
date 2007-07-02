@@ -419,26 +419,29 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		Vector<ZentrumBean> nichtZugehZentren = (Vector<ZentrumBean>) request
 				.getAttribute("nichtZugehoerigeZentren");
 		Vector<ZentrumBean> tmp = new Vector<ZentrumBean>();
-		
+
 		ZentrumBean tmpElement = null;
-		
+
 		if (gefilterteZentren == null || gefilterteZentren.size() == 0) {
 			request.setAttribute("zugehoerigeZentren", null);
 			request.setAttribute("nichtZugehoerigeZentren", null);
 
 		} else {
-			System.out.println(" ");
 			for (int y = 0; y < zugehZentren.size(); y++) {
 
 				for (int i = 0; i < gefilterteZentren.size(); i++) {
 					tmpElement = gefilterteZentren.elementAt(i);
 					if ((zugehZentren.elementAt(y).equals(tmpElement))) {
 						tmp.add(tmpElement);
-						
+
 					}
 				}
 			}
-			request.setAttribute("zugehoerigeZentren", tmp);
+			if (tmp.size() == 0) {
+				request.setAttribute("zugehoerigeZentren", null);
+			} else {
+				request.setAttribute("zugehoerigeZentren", tmp);
+			}
 			tmp.clear();
 			for (int y = 0; y < nichtZugehZentren.size(); y++) {
 
@@ -450,9 +453,11 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				}
 			}
 		}
-
+		if (tmp.size() == 0) {
+			tmp = null;
+		}
 		request.setAttribute("nichtZugehoerigeZentren", tmp);
-
+		System.out.println("hier ist noch kein fehler, leiten weiter zum Anzeigen");
 		request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(request,
 				response);
 	}
