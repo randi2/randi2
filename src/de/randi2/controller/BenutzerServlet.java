@@ -324,7 +324,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				request
 						.setAttribute(
 								DispatcherServlet.FEHLERNACHRICHT,
-								"Passwort wurde nicht gesetzt. <br> (Mindestens 1 Sonderzeichen und 1 Zahl notwendig.)");
+								"Passwort wurde nicht gesetzt.\n(Mindestens 1 Sonderzeichen und 1 Zahl notwendig.)");
 			}
 			request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(request,
 					response);

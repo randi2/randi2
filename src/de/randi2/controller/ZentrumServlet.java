@@ -488,6 +488,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				}
 			}
 			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aZentrum);
+			request.getSession().setAttribute("aZentrum", aZentrum);
 			if (passwortGesetzt) {
 				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 						"Daten erfolgreich ge&auml;ndert.");
