@@ -225,7 +225,10 @@ suchen </b></legend><br />
 				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';
 
 				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
-			<b>Zentrumsdetails</b></span><span><b><br><br>Zentrum zur Studie hinzuf&uuml;gen</span></td>
+			<b>Zentrumsdetails</b></span><span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
+				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.AKTION_ZENTRUM_ZUWEISEN.name() %>';
+
+				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">><b><br>Zentrum zur Studie hinzuf&uuml;gen</span></td>
 		</tr>
 		<%
 				tabindex++;

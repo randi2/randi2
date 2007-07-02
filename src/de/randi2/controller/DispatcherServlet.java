@@ -218,6 +218,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Aufforderung, einen Admin mit den gesendeten Daten anzulegen
 		 */
 		AKTION_ADMIN_ANLEGEN,
+		
+		/**
+		 * Aktion ein Zentrum einer Studie zuzuweisen
+		 */
+		AKTION_ZENTRUM_ZUWEISEN,
 
 		/**
 		 * Aufforderung, den Request an die entsprechende Seite umzuleiten
@@ -722,6 +727,39 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			// [end]
 			// WEITERLEITUNGEN FUER ZENTRUMSERVLET
 			// [start]
+			
+			
+			
+			else if (id.equals(anfrage_id.AKTION_ZENTRUM_ZUWEISEN.name())) {
+				request.setAttribute("anfrage_id",
+						ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ZUWEISEN.name());
+				if ((request.getParameter(Parameter.zentrum.ZENTRUM_ID
+						.toString()) != null)) {
+					// ID vorhanden, zentrumdetails werden angezeigt
+					String idx = request
+							.getParameter(Parameter.zentrum.ZENTRUM_ID
+									.toString());
+					request.setAttribute(Parameter.zentrum.ZENTRUM_ID
+							.toString(), idx);
+
+					request.getRequestDispatcher("ZentrumServlet").forward(
+							request, response);
+					
+				} else {
+					// aus irgendwelchen Gründen Zentrum_ID nicht vorhanden,
+					// leite zurück letzten seite
+					if (request.getParameter(Parameter.filter) == null) {
+						request.setAttribute("listeZentren", null);
+					}
+					request.setAttribute(Parameter.anfrage_id.toString(),
+							StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN
+									.name());
+					request.getRequestDispatcher("StudieServlet").forward(
+							request, response);
+				}
+
+			}
+			
 
 			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANSEHEN.name())) {
 				request.setAttribute("anfrage_id",
@@ -785,6 +823,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			// WEITERLEITUNG FUER STUDIESERVLET
 			// [start]
 
+			
+			
 			else if (id.equals(anfrage_id.JSP_STUDIE_ANSEHEN.name())) {
 				request.setAttribute(Parameter.anfrage_id,
 						StudieServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name());

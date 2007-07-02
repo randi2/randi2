@@ -428,7 +428,15 @@ public class StudieBean extends Filter {
 	public void setZentren(Vector<ZentrumBean> zentren) throws StudieException {
 		this.aZentren = zentren;
 	}
-
+/**
+ * Die Methode fügt ein Zentrum der Studie hinzu
+ * @param sZentrum
+ */
+	public void addZentrum(ZentrumBean sZentrum){
+		//TODO wie soll das hinzufügen funktionieren? 
+		//Studie.zuweisenZentrum(sZentrum);
+		Studie.
+	}
 	/**
 	 * Liefert die Schichten(Strata) der Studie.
 	 * 
