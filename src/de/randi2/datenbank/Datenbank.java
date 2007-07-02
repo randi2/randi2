@@ -1982,13 +1982,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 				int counter = 1;
 				sql += "UPDATE " + Tabellen.STRATA_AUSPRAEGUNG + " SET "
 						+ FelderStrataAuspraegung.ID + " = ? , "
-						+ FelderStrataAuspraegung.STRATAID + " = ? WHERE "
-						+ FelderStrataAuspraegung.WERT + " = ? ";
+						+ FelderStrataAuspraegung.STRATAID + " = ? ,"
+						+ FelderStrataAuspraegung.WERT + " = ? WHERE "
+						+ FelderStrataAuspraegung.ID + " = ? ";
 
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(counter++, auspr.getId());
 				pstmt.setLong(counter++, auspr.getStrata().getId());
 				pstmt.setString(counter++, auspr.getName());
+				pstmt.setLong(counter++, auspr.getId());
 				pstmt.executeUpdate();
 				pstmt.close();
 			}
