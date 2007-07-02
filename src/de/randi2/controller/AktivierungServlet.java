@@ -54,7 +54,7 @@ public class AktivierungServlet extends javax.servlet.http.HttpServlet implement
 			sAktivierung.setAktivierungsLink(aktivierung);
 			sAktivierung.setFilter(true);
 			sAktivierung = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(sAktivierung).firstElement();
-			long versanddatumPlusGueltigkeit=sAktivierung.getVersanddatum().getTimeInMillis()+Integer.valueOf(Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_GUELTIGKEIT).toString())*60*60*1000;
+			long versanddatumPlusGueltigkeit=sAktivierung.getVersanddatum().getTimeInMillis()+Integer.valueOf(Config.getProperty(Config.Felder.RELEASE_AKTIVIERUNG_GUELTIGKEIT).toString().trim())*60*60*1000;
 			long aktuell=System.currentTimeMillis();
 			if(versanddatumPlusGueltigkeit<System.currentTimeMillis()){
 				request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_FEHLER).forward(request, response);
