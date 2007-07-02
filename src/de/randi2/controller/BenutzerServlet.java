@@ -1098,8 +1098,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					AutomatischeNachricht.autoNachricht.NEUES_PASSWORT);
 			Logger.getLogger(this.getClass()).debug(
 					"Neues Passwort ist:\t" + neuesPasswort);
-			// TODO --afreudli NAch debuggen Kommentar entfernen
-			// autoNachricht.senden();
+			
+			autoNachricht.senden();
 
 			// Am Benutzernamen ist was falsch
 		} catch (BenutzerkontoException e) {
@@ -1191,8 +1191,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 							nachricht,
 							AutomatischeNachricht.autoNachricht.BENUTZER_SPERREN);
 
-					// TODO --afreudli Kommentar entfernen
-					// aNachricht.senden();
+					aNachricht.senden();
 
 				}
 				// Benutzer wird entsperrt
@@ -1202,8 +1201,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 							aBenutzer.getBenutzer(),
 							nachricht,
 							AutomatischeNachricht.autoNachricht.BENUTZER_ENTSPERREN);
-					// TODO --afreudli Kommentar entfernen
-					// aNachricht.senden();
+					aNachricht.senden();
 				}
 				// Benutzer schreiben
 				aBenutzer.setBenutzerkontoLogging((BenutzerkontoBean) request
