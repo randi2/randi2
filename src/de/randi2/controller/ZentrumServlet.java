@@ -491,7 +491,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 			request.setAttribute("aZentrum", aZentrum);
 			if (passwortGesetzt) {
 				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
-						"Daten erfolgreich ge&auml;ndert.");
+						"Daten erfolgreich geaendert.");
 			} else {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
 						"Passwort wurde nicht gesetzt.\n"
