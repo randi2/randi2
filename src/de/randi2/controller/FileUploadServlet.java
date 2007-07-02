@@ -63,6 +63,7 @@ public class FileUploadServlet extends HttpServlet {
 			factory.setRepository(new File(saveFilePath));
 			ServletFileUpload upload = new ServletFileUpload(factory);
 			List items = upload.parseRequest(request);
+
 			for (Iterator i = items.iterator(); i.hasNext();) {
 				FileItem fileItem = (FileItem) i.next();
 
@@ -83,6 +84,8 @@ public class FileUploadServlet extends HttpServlet {
 
 				}
 			}
+			
+			
 			Logger.getLogger(this.getClass()).debug("Upload erfolgreich");
 
 		} catch (Exception e) {

@@ -305,7 +305,7 @@ Ext.onReady(function(){
 				StringBuffer algorithmus = new StringBuffer();
 				for (int i = 0; i < Randomisation.Algorithmen.values().length; i++) {
 					algorithmus.append(Randomisation.Algorithmen.values()[i].toString());
-			%><option value="<%=algorithmus%>"<% if (algorithmus.toString().equals(aAlgorithmus)) {%> selected<% } %>><%=algorithmus%></option>,<%
+			%><option value=\"<%=algorithmus%>\"<% if (algorithmus.toString().equals(aAlgorithmus)) {%> selected<% } %>><%=algorithmus%></option><%
 					algorithmus.delete(0, algorithmus.length());
 				}
 			%></select>',
@@ -546,7 +546,7 @@ Ext.onReady(function(){
 			frm.submit();
 			
 		}else{
-			Ext.MessageBox.alert('Errors', 'Die Eingaben waren fehlerhaft!');
+			Ext.MessageBox.alert('Fehler', 'Die Eingaben waren fehlerhaft!');
 		}
 	}, form_studie_anlegen);
 	

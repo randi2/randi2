@@ -17,8 +17,7 @@
 
 	if (aStudie_this.getStatus()!=Studie.Status.INVORBEREITUNG && aStudie_this.getStatus()!=Studie.Status.AKTIV) {
 		
-		%>Verbotener Zugriff!
-		<%
+		%><b>Verbotener Zugriff!</b><%
 		
 	} else {
 		
@@ -61,8 +60,9 @@
 		if (aStudienarme_o!=null) {
 			request.setAttribute(
 					DispatcherServlet.requestParameter.ANZAHL_ARME
-							.toString(), aStudienarme_o.size());
-					
+							.toString(), new Integer(aStudienarme_o.size()).toString());
+			aArmeEntfernenMoeglich = true;		
+			
 			if (aStudienarme_o.size() < 3) {
 				
 			
@@ -105,15 +105,15 @@
 		if (aStrata_o!=null) {
 			request.setAttribute(
 					DispatcherServlet.requestParameter.ANZAHL_STRATA
-							.toString(), aStrata_o.size());
-					
+							.toString(), new Integer(aStrata_o.size()).toString());
+			aStrataEntfernenMoeglich = true;
 			if (aStrata_o.size() < 2) {
 				
 			
 				request.setAttribute(
 						DispatcherServlet.requestParameter.ANZAHL_STRATA
 								.toString(), "1");
-						aArmeEntfernenMoeglich = false;
+						aStrataEntfernenMoeglich = false;
 
 			}
 			
@@ -122,7 +122,7 @@
 			request.setAttribute(
 					DispatcherServlet.requestParameter.ANZAHL_STRATA
 							.toString(), "1");
-					aArmeEntfernenMoeglich = false;
+			aStrataEntfernenMoeglich = false;
 			
 		}
 
@@ -319,9 +319,6 @@
 	Rolle.Rollen aRolle = ((BenutzerkontoBean) request.getSession()
 			.getAttribute("aBenutzer")).getRolle().getRollenname();
 %>
-<%@page import="de.randi2.randomisation.Randomisation.Algorithmen"%>
-<%@page import="de.randi2.randomisation.Randomisation.Algorithmen"%>
-<%@page import="de.randi2.randomisation.Randomisation.Algorithmen"%>
 <html>
 <head>
 <title>Randi2 :: <%=request
@@ -353,6 +350,9 @@ Ext.onReady(function(){
         maxLengthText:'Der Name muss 3 bis 50 Zeichen lang sein!',
         minLengthText:'Der Name muss 3 bis 50 Zeichen lang sein!',
         value:'<%=aName%>',
+        <% if (!allesAendern) { %>
+        readOnly:true,
+        <% } %>
         width:190
     });
 
@@ -361,6 +361,9 @@ Ext.onReady(function(){
         name: '<%=Parameter.studie.BESCHREIBUNG.name() %>',
         allowBlank:true,
         value:'<%=aBeschreibung.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r")%>',
+        <% if (!allesAendern) { %>
+        readOnly:true,
+        <% } %>        
         width:300
     });
 
@@ -371,6 +374,9 @@ Ext.onReady(function(){
         allowBlank:false,
         blankText:'Bitte das Startdatum w&auml;hlen!',
 		format:'d.m.Y',
+        <% if (!allesAendern) { %>
+        readOnly:true,
+        <% } %>
 		value:<%=aStartdatum%>
     });
     
@@ -406,11 +412,11 @@ Ext.onReady(function(){
 	
 	var algorithmus = new Ext.form.MiscField({
         fieldLabel: 'Randomisationsalgorithmus *',
-        value: '<select class=\'x-combo-list x-combo-list-hd\' name=\'<%=Parameter.studie.RANDOMISATIONSALGORITHMUS.name()%>\' onChange=\'refreshRandomisation()\'><%
+        value: '<select class=\'x-combo-list x-combo-list-hd\' name=\'<%=Parameter.studie.RANDOMISATIONSALGORITHMUS.name()%>\' onChange=\'refreshRandomisation()\'<% if (!allesAendern) { %> disabled<% } %>><%
 				StringBuffer algorithmus = new StringBuffer();
 				for (int i = 0; i < Randomisation.Algorithmen.values().length; i++) {
 					algorithmus.append(Randomisation.Algorithmen.values()[i].toString());
-			%><option value="<%=algorithmus%>"<% if (algorithmus.toString().equals(aAlgorithmus)) {%> selected<% } %>><%=algorithmus%></option>,<%
+			%><option value=\'<%=algorithmus%>\'<% if (algorithmus.toString().equals(aAlgorithmus)) {%> selected<% } %>><%=algorithmus%></option><%
 					algorithmus.delete(0, algorithmus.length());
 				}
 			%></select>',
@@ -435,6 +441,9 @@ Ext.onReady(function(){
         maxText:'Bitte einen Wert zwischen 0-10000 eingeben!',
         minText:'Bitte einen Wert zwischen 0-10000 eingeben!',
         blankText:'Bitte die Blockgroesse eintragen!',
+        <% if (!allesAendern) { %>
+        readOnly:true,
+        <% } %>
         nanText:'Bitte einen Wert zwischen 0-10000 eingeben!'
 	});    	
 	
@@ -449,8 +458,9 @@ Ext.onReady(function(){
 	
 	<% if(aAlgorithmus.equals(Randomisation.Algorithmen.BLOCKRANDOMISATION_MIT_STRATA.toString())) { %>
 
-	
-	form_studie_anlegen.fieldset({legend:'Stratakonfiguration <img src="images/add-page-green.gif" style="cursor:pointer" onmousedown="addStrata()">&nbsp;<% if (aStrataEntfernenMoeglich) { %><img src="images/omit-page-green.gif" style="cursor:pointer" onmousedown="delStrata()"><% } %>',labelAlign:'top'});
+	        
+
+	form_studie_anlegen.fieldset({legend:'Stratakonfiguration <% if (allesAendern) { %><img src="images/add-page-green.gif" style="cursor:pointer" onmousedown="addStrata()">&nbsp;<% if (aStrataEntfernenMoeglich) { %><img src="images/omit-page-green.gif" style="cursor:pointer" onmousedown="delStrata()"><% } %><% } %>',labelAlign:'top'});
 	<%
 	
 		for(int i=1;i<(Integer.parseInt((String)request.getAttribute(DispatcherServlet.requestParameter.ANZAHL_STRATA.toString())))+1;i++) {
@@ -458,7 +468,12 @@ Ext.onReady(function(){
 			aStrataname = "";
 			aStratabeschreibung = "";
 			aStrataauspraegungen = "";
-			StrataBean aStratabean = aStrata_o.get(i);
+			StrataBean aStratabean = null;
+			if(i<=aStrata_o.size()) {
+				
+				aStratabean = aStrata_o.get(i-1);
+				
+			}
 			
 			if (request.getAttribute(Parameter.strata.NAME.name()+i)==null) {
 				
@@ -528,7 +543,9 @@ Ext.onReady(function(){
 						
 						while(it.hasNext()) {
 							
-							aStrataauspraegungen += it.next() + "\r\n";
+							StrataAuspraegungBean aAuspraegung = (StrataAuspraegungBean)it.next();
+							
+							aStrataauspraegungen += aAuspraegung.getName() + "\r\n";
 							
 						}
 						
@@ -565,6 +582,9 @@ Ext.onReady(function(){
         invalidText:'Dieser Name ist ung&uuml;ltig!',
         maxLengthText:'Der Name muss 1 bis 100 Zeichen lang sein!',
         minLengthText:'Der Name muss 1 bis 100 Zeichen lang sein!',
+        <% if (!allesAendern) { %>
+        readOnly:true,
+        <% } %>
 		blankText: 'Ein Name wird ben&ouml;tigt!'
 	});    
 	
@@ -575,6 +595,9 @@ Ext.onReady(function(){
 		fieldLabel: 'Beschreibung',
 		value: '<%=aStratabeschreibung.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r")%>',
 		width: 250,
+        <% if (!allesAendern) { %>
+        readOnly:true,
+        <% } %>
 		height:50
 	});    
 	
@@ -586,6 +609,9 @@ Ext.onReady(function(){
 		value: '<%=aStrataauspraegungen.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r")%>',
 		width: 250,
 		height:100,
+        <% if (!allesAendern) { %>
+        readOnly:true,
+        <% } %>
 		blankText: 'Mindestens eine Auspr&auml;gung wird ben&ouml;tigt!'
 	});    	
 	
@@ -616,15 +642,19 @@ Ext.onReady(function(){
 	} // pruefen auf strata algorithmus
 	
 	%>
-    form_studie_anlegen.fieldset({legend:'Studienarme <img src="images/add-page-red.gif" style="cursor:pointer" onmousedown="addStudienarm()">&nbsp;<% if(aArmeEntfernenMoeglich) { %><img src="images/omit-page-red.gif" style="cursor:pointer" onmousedown="delStudienarm()"><% } %>',labelAlign:'top'});
+    form_studie_anlegen.fieldset({legend:'Studienarme <% if (allesAendern) { %><img src="images/add-page-red.gif" style="cursor:pointer" onmousedown="addStudienarm()">&nbsp;<% if(aArmeEntfernenMoeglich) { %><img src="images/omit-page-red.gif" style="cursor:pointer" onmousedown="delStudienarm()"><% } %><% } %>',labelAlign:'top'});
 	<%
 	
 		for(int i=1;i<(Integer.parseInt((String)request.getAttribute(DispatcherServlet.requestParameter.ANZAHL_ARME.toString())))+1;i++) {
 			
 			aArmbezeichnung = "";
 			aArmbeschreibung = "";
-			StudienarmBean aStudienarmBean = aStudienarme_o.get(i);
-			
+			StudienarmBean aStudienarmBean = null;
+			if(i<=aStudienarme_o.size()) {
+				
+				aStudienarmBean = aStudienarme_o.get(i-1);
+				
+			}
 			if (request.getAttribute(Parameter.studienarm.BEZEICHNUNG.name()+i)==null) {
 				
 				if (aStudienarmBean!=null) {
@@ -699,6 +729,9 @@ Ext.onReady(function(){
         maxLengthText:'Die Bezeichnung muss 3 bis 50 Zeichen lang sein!',
         minLengthText:'Die Bezeichnung muss 3 bis 50 Zeichen lang sein!',
 		width: 250,
+        <% if (!allesAendern) { %>
+        readOnly:true,
+        <% } %>
 		blankText: 'Eine Bezeichnung wird ben&ouml;tigt!'
 	});    
 	
@@ -709,6 +742,9 @@ Ext.onReady(function(){
 		fieldLabel: 'Beschreibung',
 		value: '<%=aArmbeschreibung.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r")%>',
 		width: 250,
+        <% if (!allesAendern) { %>
+        readOnly:true,
+        <% } %>
 		height:50
 	});    
 	
@@ -746,7 +782,7 @@ Ext.onReady(function(){
 			frm.submit();
 			
 		}else{
-			Ext.MessageBox.alert('Errors', 'Die Eingaben waren fehlerhaft!');
+			Ext.MessageBox.alert('Fehler', 'Die Eingaben waren fehlerhaft!');
 		}
 	}, form_studie_anlegen);
 	
@@ -814,12 +850,20 @@ function refreshRandomisation() {
 </head>
 <body>
 <%@include file="include/inc_header.jsp"%>
+<%
+if (!allesAendern) {
+	
+	request.setAttribute(DispatcherServlet.FEHLERNACHRICHT.toString(),"Da die Studie schon gestartet wurde, k&ouml;nnen nur das Enddatum sowie das Studienprotokoll ge&auml;ndert werden!");
+	
+}
+%>
 <div id="content"><%@include file="include/inc_nachricht.jsp"%>
-<h1>Studie anlegen</h1>
+<h1>Studie &auml;ndern</h1>
 <div id="studie_anlegen"></div>
 <br><br>
 Das Studienprotokoll wird ersetzt, wenn eine neue Datei ausgew&auml;hlt wird.<br>
 <%@include file="include/inc_footer.jsp"%></div>
+<%@include file="include/inc_menue.jsp"%>
 </body>
 </html>
 <%
