@@ -11,24 +11,25 @@
 			.toString(), JspTitel.ZENTRUM_ANZEIGEN.toString());
 %>
 <%
-			Vector<ZentrumBean> zugehoerigeZentren = (Vector<ZentrumBean>) request
-			.getAttribute(StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
-			.toString());
-	Iterator itZugehoerigeZentren = null;
-
-	Vector<ZentrumBean> nichtZugehoerigeZentren = (Vector<ZentrumBean>) request
-			.getAttribute(StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN
-			.toString());
+	Vector<ZentrumBean> zugehoerigeZentren = new Vector<ZentrumBean>();
+	Vector<ZentrumBean> nichtZugehoerigeZentren = new Vector<ZentrumBean>();
 	ZentrumBean aktuellesZentrum = null;
+	Iterator itZugehoerigeZentren = null;
 	Iterator itNichtZugehoerigeZentren = null;
+	try {
+		zugehoerigeZentren = (Vector<ZentrumBean>) request
+		.getAttribute(StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
+				.toString());
 
-try {
+		nichtZugehoerigeZentren = (Vector<ZentrumBean>) request
+		.getAttribute(StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN
+				.toString());
+
 		itZugehoerigeZentren = zugehoerigeZentren.iterator();
 		itNichtZugehoerigeZentren = nichtZugehoerigeZentren.iterator();
 	} catch (NullPointerException npe) {
 		;
 	}
-	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -99,6 +100,7 @@ suchen </b></legend><br />
 </div>
 </fieldset>
 </form>
+
 <table width="90%" id="zentren">
 	<thead align="left">
 		<tr style="background:#eeeeee;">
@@ -114,18 +116,17 @@ suchen </b></legend><br />
 			String aktiv = null;
 			int tabindex = 1;
 			String reihe = "tblrow2";
-		
-				if (zugehoerigeZentren != null
-				|| zugehoerigeZentren.size() != 0) {
 
-					while (itZugehoerigeZentren.hasNext()) {
-				aktuellesZentrum = (ZentrumBean) itZugehoerigeZentren
-						.next();
-				if (aktuellesZentrum.getIstAktiviert()) {
-					aktiv = "aktiv";
-				} else {
-					aktiv = "inaktiv";
-				}
+			if (zugehoerigeZentren != null) {
+
+				while (itZugehoerigeZentren.hasNext()) {
+					aktuellesZentrum = (ZentrumBean) itZugehoerigeZentren
+					.next();
+					if (aktuellesZentrum.getIstAktiviert()) {
+				aktiv = "aktiv";
+					} else {
+				aktiv = "inaktiv";
+					}
 		%>
 
 		<tr class="<%=reihe %>">
@@ -151,25 +152,24 @@ suchen </b></legend><br />
 			<b>Zentrum von Studie entfernen</b></span></td>
 		</tr>
 		<%
-				tabindex++;
-				if (reihe.equals("tblrow1"))
-					reihe = "tblrow2";
-				else
-					reihe = "tblrow1";
+					tabindex++;
+					if (reihe.equals("tblrow1")) {
+				reihe = "tblrow2";
+					} else
+				reihe = "tblrow1";
+				}
+
+			}
+			if (nichtZugehoerigeZentren != null) {
+
+				while (itNichtZugehoerigeZentren.hasNext()) {
+					aktuellesZentrum = (ZentrumBean) itNichtZugehoerigeZentren
+					.next();
+					if (aktuellesZentrum.getIstAktiviert()) {
+				aktiv = "aktiv";
+					} else {
+				aktiv = "inaktiv";
 					}
-
-				}
-				if (nichtZugehoerigeZentren != null
-				|| nichtZugehoerigeZentren.size() != 0) {
-
-					while (itNichtZugehoerigeZentren.hasNext()) {
-				aktuellesZentrum = (ZentrumBean) itNichtZugehoerigeZentren
-						.next();
-				if (aktuellesZentrum.getIstAktiviert()) {
-					aktiv = "aktiv";
-				} else {
-					aktiv = "inaktiv";
-				}
 		%>
 
 		<tr class="<%=reihe %>">
@@ -195,15 +195,14 @@ suchen </b></legend><br />
 			<b>Zentrum zur Studie hinzuf&uuml;gen</b></span></td>
 		</tr>
 		<%
-				tabindex++;
-				if (reihe.equals("tblrow1"))
-					reihe = "tblrow2";
-				else
-					reihe = "tblrow1";
-					}
-
+					tabindex++;
+					if (reihe.equals("tblrow1"))
+				reihe = "tblrow2";
+					else
+				reihe = "tblrow1";
 				}
-			
+
+			}
 		%>
 	</tbody>
 </table>
