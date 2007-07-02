@@ -1,3 +1,4 @@
+ALTER  DATABASE  `randi2`  DEFAULT  CHARACTER  SET latin1 COLLATE latin1_german2_ci;
 use randi2;
 
 SET FOREIGN_KEY_CHECKS=0;
