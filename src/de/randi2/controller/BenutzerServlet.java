@@ -635,12 +635,12 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			LogAktion a = new LogAktion(
 					"Ungueltige Benutzername/Passwort Kombination eingegeben.",
-					dummy);
+					dummy); 
 			// FIXME LogMsg eindeutig genug?--Btheel
 			Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
 		}// catch
 	}
-
+ 
 	/**
 	 * Realisiert den letzten Schritt des Benutzerregistierens. Die Eingabe der
 	 * Personendaten
@@ -1127,7 +1127,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		request
 				.setAttribute(
 						DispatcherServlet.NACHRICHT_OK,
-						"Sollte dieser Loginname im System vorhanden sein, so erhalten sie in Kürze eine Email mit einem neuen Passwort");
+						"Sollte dieser Loginname im System vorhanden sein, so erhalten Sie in Kürze eine Email mit einem neuen Passwort");
 		request.getRequestDispatcher(Jsp.PASSWORT_VERGESSEN).forward(request,
 				response);
 
