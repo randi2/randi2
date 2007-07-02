@@ -95,7 +95,7 @@ public class StatistikDB {
 		ResultSet rs = null;
 		long[][] daten=null;
 		try {
-			//ermitteln der Anzahl Studienarme (+ 1 fuer Gesamtzahl) 
+			//ermitteln der Anzahl Studienarme (+ 1 fuer Gesamtzahl)
 			sql = " SELECT count(distinct sa."+Datenbank.FelderStudienarm.ID+") FROM "+Datenbank.Tabellen.STUDIENARM+" sa WHERE sa."+Datenbank.FelderStudienarm.STUDIE+" = ? ";
 			pstmt = c.prepareStatement(sql);
 			pstmt.setLong(1, studienID);
@@ -108,26 +108,17 @@ public class StatistikDB {
 			}
 			if(anzahlReihen<1) {
 				throw new DatenbankExceptions(DatenbankExceptions.STATISTIK_VIEW1);
-			}
-			//ermitteln der Studienarme und IDs. Fuellen des Arrays mit den Studienarm IDs
-			sql ="SELECT "+Datenbank.FelderStudienarm.ID+" FROM "+Datenbank.Tabellen.STUDIENARM+" sa WHERE sa."+Datenbank.FelderStudienarm.STUDIE+" = ?";
-			pstmt = c.prepareStatement(sql);
-			pstmt.setLong(1, studienID);
-			rs = pstmt.executeQuery();
-			daten = new long[anzahlReihen][4];
-			daten[0][0] = studienID;
-			int i = 1; 
-			while(rs.next()) {
-				daten[i][0] = rs.getLong(1); //studienarmID
-				i++;
-			}			
+			}		
 			//Abfrage der View
+			daten = new long[anzahlReihen][4];
 			sql = "SELECT * FROM "+VIEW1.NAME+" WHERE "+VIEW1.STUDIE+" = ?";
 			pstmt = c.prepareStatement(sql);
 			pstmt.setLong(1, studienID);
 			rs = pstmt.executeQuery();
-			i=1;
+			daten[0][0] = studienID; 
+			int i=1;
 			while(rs.next()) {
+				daten[i][0] = rs.getLong(2); //studienarmID
 				daten[i][1] = rs.getLong(3); //gesamtzahl
 				daten[i][2] = rs.getLong(4); //maennlich
 				daten[i][3] = rs.getLong(5); //weiblich
@@ -136,12 +127,6 @@ public class StatistikDB {
 				daten[0][2] += daten[i][2]; 
 				daten[0][3] += daten[i][3];
 				i++;
-			}
-			//setze die restlichen Felder auf 0. Dies betrifft leere Studienarme
-			for(;i<anzahlReihen;i++) {
-				daten[i][1] = 0; //gesamtzahl
-				daten[i][2] = 0; //maennlich
-				daten[i][3] = 0; //weiblich
 			}
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e,sql,DatenbankExceptions.STATISTIK_VIEW1);

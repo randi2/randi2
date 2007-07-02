@@ -221,11 +221,11 @@ TYPE=InnoDB;
 # View ermittelt die Verteilung von Patienten pro Studienarm, sowie den maennlichen und weiblichen Anteil
 DROP VIEW IF EXISTS verteilungPatMW;
 CREATE VIEW verteilungPatMW AS
-select sa.Studie_studienID AS studienID, sa.studienarmID AS studienarmID, count(*) AS anzG,
+select sa.Studie_studienID AS studienID, sa.studienarmID AS studienarmID, count(p.patientenID) AS anzG,
 sum(case when geschlecht='m' then 1 else 0 end) AS anzM,
 sum(case when geschlecht='w' then 1 else 0 end) AS anzW
-from Patient p, Studienarm sa
-where sa.studienarmID=p.Studienarm_studienarmID GROUP BY sa.studienarmID;
+from Studienarm sa  left outer join Patient p
+on sa.studienarmID=p.Studienarm_studienarmID GROUP BY sa.studienarmID;
 
 SET FOREIGN_KEY_CHECKS=1;
 
