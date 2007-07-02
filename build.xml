@@ -10,12 +10,15 @@
 		<property name="junit_lib" value="/opt/junit4.1" />
 		<property name="tomcat_lib" value="/opt/tomcat/common/lib/" />
 		<property name="web_lib" value="WebContent/WEB-INF/lib" />
+		<property name="protokolle_dir" value="WebContent/WEB-INF/protokolle" />		
 		<!-- den build-Ordner loeschen-->
 		<delete dir="${build}" includeemptydirs="true" />
 		<!-- und wieder erstellen -->
 		<mkdir dir="${build}" />
 		<mkdir dir="${junit}" />
 		<mkdir dir="${doc_dir}" />
+		<mkdir dir="${protokolle_dir}" />
+		<chmod perm="644" dir="${protokolle_dir}"></chmod>
 	</target>
 
 	<!-- Target uebersetzt das Projekt, die Junit/Selenium-Tests werden erstmal aussen vor gelassen -->
