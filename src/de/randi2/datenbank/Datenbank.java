@@ -2064,11 +2064,17 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Vector<BenutzerSuchenBean> sBenutzer = new Vector<BenutzerSuchenBean>();
 		//aus Lesbarkeitsgründen verzicht auf Konstanten
 		//TODO Johannes wie bekomme ich da noch die raus, die 0 sind?!
-		String sql="select p.personenID,b.benutzerkontenID,z.zentrumsID, " +
-				"p.nachname,p.vorname,p.email,b.loginname,b.gesperrt,z.institution, count(pat.patientenID) " +
-				"from Person p, Benutzerkonto b, Zentrum z, studie_has_zentrum sh, patient pat " +
-				"where b.Zentrum_zentrumsID=z.zentrumsID and b.Person_personenID=p.personenID and b.rolle<>'SYSOP' " +
-				"and sh.Studie_studienID=? and sh.Zentrum_zentrumsID=z.ZentrumsID and pat.Benutzerkonto_benutzerkontenID=b.benutzerkontenID group by b.benutzerkontenID";
+		String sql="select p.personenID,b.benutzerkontenID,z.zentrumsID, p.nachname,p.vorname,p.email,b.loginname,b.gesperrt,z.institution, ("
+				+" select COUNT(pat.patientenID)"
+				+" from patient pat"
+				+" WHERE pat.Benutzerkonto_benutzerkontenID=b.benutzerkontenID"
+				+") anzPatienten"
+				+" from Person p, Benutzerkonto b, Zentrum z, studie_has_zentrum sh"
+				+" where b.Zentrum_zentrumsID=z.zentrumsID"
+				+" and b.Person_personenID=p.personenID"
+				+" and b.rolle<>'SYSOP'"
+				+" and sh.Studie_studienID=?"
+				+" and sh.Zentrum_zentrumsID=z.ZentrumsID";
 		int counter = 0;
 		if (bean.getVorname() != null) {
 			sql += " AND p." + FelderPerson.VORNAME.toString() + " LIKE ? ";
@@ -2096,6 +2102,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			sql += " AND b." + FelderBenutzerkonto.ROLLEACCOUNT.toString()+"=?";
 			counter++;
 		}
+		sql+=" group by b.benutzerkontenID";
 
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -2135,7 +2142,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						rs.getString(FelderBenutzerkonto.LOGINNAME.toString()),// loginname
 						rs.getString(FelderZentrum.INSTITUTION.toString()),//institut
 						rs.getBoolean(FelderBenutzerkonto.GESPERRT.toString()),//gesperrt
-						rs.getInt("count(pat.patientenID)"),//Pat_Anzahl
+						rs.getInt("anzPatienten"),//Pat_Anzahl
 						bean.getStudienID());//studienID=bean
 
 				// fuege Person dem Vector hinzu
