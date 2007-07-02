@@ -183,6 +183,8 @@ Ext.onReady(function(){
         allowBlank:false,
         minLength:2,
         maxLength:4,
+        regex:new RegExp('^[A-Z]{2,4}$'),
+        regexText:'Initialen duerfen nur Grossbuchstaben enthalten',
         maxLengthText:'Initialen duerfen nur 2-4 Zeichen lang sein!',
         minLengthText:'Initialen duerfen nur 2-4 Zeichen lang sein!',
         blankText:'Bitte die Initialen eintragen!'
