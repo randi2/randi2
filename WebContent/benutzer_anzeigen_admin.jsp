@@ -90,10 +90,10 @@ Nachfolgend finden Sie ausführliche Informationen zu den Kontaktdaten
 		<td><%=person.getVorname() %></td>
 		<td><%=person.getNachname() %></td>
 		<td><%if(person.getGeschlecht()=='w'){out.print("weiblich");}else{out.print("maennlich");} %></td>
-		<td><%=person.getHandynummer()%></td>
-		<td><%=person.getTelefonnummer()%></td>
-		<td><%=person.getFax() %></td>
-		<td><%=person.getEmail()%></td>
+		<td><%if(person.getHandynummer()!=null){out.print(person.getHandynummer());}else{out.print("k. A.");}%></td>
+		<td><%if(person.getTelefonnummer()!=null){out.print(person.getTelefonnummer());}else{out.print("k. A.");}%></td>
+		<td><%if(person.getFax()!=null){out.print(person.getFax());}else{out.print("k. A.");} %></td>
+		<td><%if(person.getEmail()!=null){out.print(person.getEmail());}else{out.print("k. A.");}%></td>
 
 	</tr>
 </table> 
