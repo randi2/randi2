@@ -118,7 +118,7 @@ Ext.onReady(function(){
 			frm.submit();
 			
 		}else{
-			Ext.MessageBox.alert('Errors', 'Die Eingaben waren fehlerhaft!');
+			Ext.MessageBox.alert('Fehler', 'Die Eingaben waren fehlerhaft!');
 		}
 	}, form_filter);
 	
