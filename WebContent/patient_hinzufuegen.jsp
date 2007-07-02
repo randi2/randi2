@@ -252,11 +252,11 @@ Ext.onReady(function(){
         allowBlank:false,
         minValue:0.05,
         maxValue:4,
-        invalidText:'Bitte einen Wert zwischen 0,05-4 eingeben!',
-        maxText:'Bitte einen Wert zwischen 0,05-4 eingeben!',
-        minText:'Bitte einen Wert zwischen 0,05-4 eingeben!',
+        invalidText:'Bitte einen Wert zwischen 0.05-4 eingeben!',
+        maxText:'Bitte einen Wert zwischen 0.05-4 eingeben!',
+        minText:'Bitte einen Wert zwischen 0.05-4 eingeben!',
         blankText:'Bitte die Koerperoberflaeche eintragen!',
-        nanText:'Bitte einen Wert zwischen 0,05-4 eingeben!'
+        nanText:'Bitte einen Wert zwischen 0.05-4 eingeben!'
     });
     
     var performancestatus = new Ext.form.ComboBox({
