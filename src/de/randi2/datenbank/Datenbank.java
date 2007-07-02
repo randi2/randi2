@@ -1981,9 +1981,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 			} else {
 				int counter = 1;
 				sql += "UPDATE " + Tabellen.STRATA_AUSPRAEGUNG + " SET "
-						+ FelderStrataAuspraegung.STRATAID + " = ? , "
-						+ FelderStrataAuspraegung.WERT + " = ? WHERE "
-						+ FelderStrataAuspraegung.ID + " = ? ";
+						+ FelderStrataAuspraegung.ID + " = ? , "
+						+ FelderStrataAuspraegung.STRATAID + " = ? WHERE "
+						+ FelderStrataAuspraegung.WERT + " = ? ";
 
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(counter++, auspr.getId());
