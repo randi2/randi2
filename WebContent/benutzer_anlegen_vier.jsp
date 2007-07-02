@@ -26,7 +26,12 @@
 
 <h1>Letzer Schritt der Registrierung</h1>
 <br>
-Sie erhalten in K&uuml;rze eine Email mit einem Aktivierungslink. <%@include
-	file="include/inc_footer.jsp"%></div>
+Sie erhalten in K&uuml;rze eine Email mit einem Aktivierungslink. 
+<br> 
+<p>Hier gelangen Sie wieder zur&uuml;ck zur <a href='index.jsp'> Startseite!</a></p>	
+<%@include file="include/inc_footer.jsp"%>
+	
+</div>
+
 </body>
 </html>
