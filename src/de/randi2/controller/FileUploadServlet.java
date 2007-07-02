@@ -67,25 +67,39 @@ public class FileUploadServlet extends HttpServlet {
 			for (Iterator i = items.iterator(); i.hasNext();) {
 				FileItem fileItem = (FileItem) i.next();
 
-				String aFilename = KryptoUtil.getInstance().generateDateiName(6)+KryptoUtil.getInstance().getRandomChar()+fileItem.getName();
-				
-				
-				
+				String aFilename = KryptoUtil.getInstance()
+						.generateDateiName(6)
+						+ KryptoUtil.getInstance().getRandomChar()
+						+ fileItem.getName();
+
 				if (!fileItem.isFormField()) {
-					fileItem.write(new File(saveFilePath + aFilename));
-					request.setAttribute(Parameter.studie.STUDIENPROTOKOLL
-							.toString(), aFilename);
+
+					if (fileItem.getName() != null) {
+
+						if (!fileItem.getName().trim().equals("")) {
+
+							fileItem.write(new File(saveFilePath + aFilename));
+							request.setAttribute(
+									Parameter.studie.STUDIENPROTOKOLL
+											.toString(), aFilename);
+
+						}
+
+					}
+
 				} else {
 					Logger.getLogger(this.getClass()).debug(
 							(fileItem.getFieldName() + "==" + fileItem
-									.getString().replaceAll("ä", "ae").replaceAll("ö", "oe").replaceAll("ü", "ue")));
+									.getString().replaceAll("ä", "ae")
+									.replaceAll("ö", "oe")
+									.replaceAll("ü", "ue")));
 					request.setAttribute(fileItem.getFieldName(), fileItem
-							.getString().trim().replaceAll("ä", "ae").replaceAll("ö", "oe").replaceAll("ü", "ue"));
+							.getString().trim().replaceAll("ä", "ae")
+							.replaceAll("ö", "oe").replaceAll("ü", "ue"));
 
 				}
 			}
-			
-			
+
 			Logger.getLogger(this.getClass()).debug("Upload erfolgreich");
 
 		} catch (Exception e) {
