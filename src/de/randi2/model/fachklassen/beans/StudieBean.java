@@ -435,7 +435,7 @@ public class StudieBean extends Filter {
 	public void addZentrum(ZentrumBean sZentrum){
 		//TODO wie soll das hinzufügen funktionieren? 
 		//Studie.zuweisenZentrum(sZentrum);
-		Studie.
+		
 	}
 	/**
 	 * Liefert die Schichten(Strata) der Studie.
