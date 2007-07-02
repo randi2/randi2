@@ -28,42 +28,28 @@ Ext.onReady(function(){
         name: '',
         value:'<%=Config.getProperty(Config.Felder.RELEASE_IMPRESSUM) %>',
         width:500, 
-        height:100,
+        height:120,
         readOnly:true
     });   
-    var form_imprint3 = new Ext.form.Form({
-        labelAlign: 'left',
-        labelWidth: 0,
-		buttonAlign: 'left',
-    });
    
     var imprint_text3 = new Ext.form.TextArea({
         name: '',
         value:'DIESE SOFTWARE WIRD OHNE JEGLICHE SPEZIELLE ODER IMPLIZIERTE GARANTIEN ZUR VERFÜGUNG GESTELLT,DIE UNTER ANDEREM EINSCHLIESSEN: DIE IMPLIZIERTE GARANTIE DER VERWENDBARKEIT DER SOFTWARE FÜR EINEN BESTIMMTEN ZWECK. AUF KEINEN FALL SIND DIE ENTWICKLER FÜR IRGENDWELCHE DIREKTEN, INDIREKTEN, ZUFÄLLIGEN,  SPEZIELLEN, BEISPIELHAFTEN ODER FOLGENDEN SCHADEN (UNTER ANDEREM VERSCHAFFEN VON ERSATZGÜTERN ODER -DIENSTLEISTUNGEN; EINSCHRÄNKUNG DER NUTZUNGSFÄHIGKEIT; VERLUST VON NUTZUNGSFÄHIGKEIT; DATEN; PROFIT ODER GESCHÄFTSUNTERBRECHUNG),WIE AUCH IMMER VERURSACHT UND UNTER WELCHER VERPFLICHTUNG AUCH IMMER,OB IN VERTRAG, STRIKTER VERPFLICHTUNG ODER UNERLAUBTE HANDLUNG (INKLUSIVE FAHRLÄSSIGKEIT) VERANTWORTLICH, AUF WELCHEM WEG SIE AUCH IMMER DURCH DIE BENUTZUNG DIESER SOFTWARE ENTSTANDEN SIND, SOGAR, WENN SIE AUF DIE MÖGLICHKEIT EINES SOLCHEN SCHADENS HINGEWIESEN WORDEN SIND.',
         width:500, 
-        height:100,
+        height:120,
         readOnly:true
-    });   
-     
-      
-   
-    
-    var form_imprint2 = new Ext.form.Form({
-        labelAlign: 'left',
-        labelWidth: 0,
-		buttonAlign: 'left',
-    });
+    });     
     
     var imprint_text2 = new Ext.form.TextArea({
         name: '',
-        value:'Die Webapplikation RANDI2 wurde im Rahmen des Softwarepraktikums WS2006/07 - SS07 entwickelt. Folgende Personen waren an der Entwicklung beteiligt:Chruscz Katharina, Freudling Andreas, Friedrich Susanne, Ganszky Thomas, Graeff Valentin,  Theel Benjamin, Thoenes Johannes, Willert Thomas, Zwink Nadine ', 
+        value:'Die Webapplikation RANDI2 wurde im Rahmen des Softwarepraktikums WS2006/07 - SS07 entwickelt.\nFolgende Personen waren an der Entwicklung beteiligt: \nChruscz Katharina, Freudling Andreas, Friedrich Susanne, Ganszky Thomas, Graeff Valentin,  Theel Benjamin, Thoenes Johannes, Willert Thomas, Zwink Nadine \n \nVerwendete Icons:  http://www.ndesign-studio.com', 
         width:500, 
-        height:100,
-        readOnly:true
+        height:120,  
+        readOnly:true  
     });      
+         
       
-     
-     
+      
 	 
      
     form_imprint.fieldset({legend:'Impressum und rechtliche Hinweise',hideLabels:true},
