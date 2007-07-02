@@ -31,7 +31,7 @@ public class StudieException extends BenutzerException {
 	 * Diese Konstante wird uebergeben, wenn das uebergebene Startdatum nicht
 	 * vor dem Enddatum liegt.
 	 */
-	public static final String DATUM_FEHLER = "Startdatum darf nicht vor dem Enddatum leigen!";
+	public static final String DATUM_FEHLER = "Enddatum darf nicht vor dem Startdatum liegen oder gleich sein!";
 
 	/**
 	 * Diese Konstante wird uebergeben, wenn der Studienname nicht eingegeben
