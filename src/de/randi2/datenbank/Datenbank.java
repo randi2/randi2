@@ -2063,7 +2063,6 @@ public class Datenbank implements DatenbankSchnittstelle {
 		ResultSet rs;
 		Vector<BenutzerSuchenBean> sBenutzer = new Vector<BenutzerSuchenBean>();
 		//aus Lesbarkeitsgründen verzicht auf Konstanten
-		//TODO Johannes wie bekomme ich da noch die raus, die 0 sind?!
 		String sql="select p.personenID,b.benutzerkontenID,z.zentrumsID, p.nachname,p.vorname,p.email,b.loginname,b.gesperrt,z.institution, ("
 				+" select COUNT(pat.patientenID)"
 				+" from patient pat"
