@@ -245,8 +245,6 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 			classDispatcherservletZentrumAnzeigenSperren(request, response);
 		} else if (id.equals(ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ZUWEISEN
 				.name())) {
-			// System.out.println("wir sind im zentrum beim aufruf der
-			// methode");
 			try {
 				classDispatcherservletZentrumHinzu(request, response);
 			} catch (StudieException e) {
@@ -278,7 +276,8 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		request.setAttribute(Parameter.anfrage_id.toString(),
 				StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name());
 		if (aSession != null) {
-			aSession.addZentrum(aSession, aZentrum);
+
+			aSession.addZentrum(aZentrum);
 
 			request.setAttribute(Parameter.anfrage_id.toString(),
 					StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name());
