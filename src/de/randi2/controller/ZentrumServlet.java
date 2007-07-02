@@ -420,7 +420,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
 		this.zentrenFiltern2(request, response);
 
-		request.getRequestDispatcher("StudieServlet")
+		request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN)
 				.forward(request, response);
 	}
 
@@ -936,6 +936,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		// keine Filterung
 	}
 
+
 	/**
 	 * Methode wird aufgerufen um die Zentren, die zu einer Studie hinzugefuegt
 	 * werden koennen zu filtern.
@@ -973,6 +974,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				}
 
 				request.setAttribute("listeZentren", gZentrum);
+				
 			} catch (BenutzerException e) {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 						.getMessage());
@@ -980,10 +982,11 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 						.getMessage());
 			}
+		}else{
+			request.setAttribute("listeZentren", null);
 		}
 
 	}
-
 	private void classDispatcherservletZentrumAnzeigenSperren(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
