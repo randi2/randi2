@@ -205,8 +205,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	private void aendernBenutzer(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		// wichtige boolean
-		boolean wurdeStellvertreterGesetzt = true;
+		// wichtiger boolean
 		boolean passwortGesetzt = true;
 
 		// Alle aenderbaren Attribute des request inititalisieren
@@ -302,8 +301,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					bPerson = DatenbankFactory.getAktuelleDBInstanz()
 							.schreibenObjekt(bPerson);
 					aPerson.setStellvertreterId(bPerson.getId());
-				} else {
-					wurdeStellvertreterGesetzt = false;
 				}
 			}
 			if (passwort != null) {
@@ -319,21 +316,14 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			request.getSession().setAttribute(
 					DispatcherServlet.sessionParameter.A_Benutzer.toString(),
 					aBenutzer);
-			if (wurdeStellvertreterGesetzt && passwortGesetzt) {
+			if (passwortGesetzt) {
 				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
-						"Daten erfolgreich ge&auml;ndert.");
-			} else if (!wurdeStellvertreterGesetzt && passwortGesetzt) {
+						"Daten erfolgreich geaendert.");
+			} else if (!passwortGesetzt) {
 				request
-						.setAttribute(DispatcherServlet.NACHRICHT_OK,
-								"Daten erfolgreich ge&auml;ndert. (Kein Stellvertreter gesetzt)");
-			} else if (!passwortGesetzt && wurdeStellvertreterGesetzt) {
-				request
-						.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
-								"Passwort wurde nicht gesetzt. (Bitte Konventionen beachten!)");
-			} else if (!wurdeStellvertreterGesetzt && !passwortGesetzt) {
-				request
-						.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
-								"Passwort wurde nicht gesetzt. (Ebenfalls kein Stellvertreter gesetzt)");
+						.setAttribute(
+								DispatcherServlet.FEHLERNACHRICHT,
+								"Passwort wurde nicht gesetzt. <br> (Mindestens 1 Sonderzeichen und 1 Zahl notwendig.)");
 			}
 			request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(request,
 					response);
@@ -436,7 +426,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.ADMIN) {
 			loggeKorrekteanmeldung(aBenutzer);
 			request.setAttribute("Startseite", new Object());
-			classDispatcherServletBenutzerSuchen(request,response);
+			classDispatcherServletBenutzerSuchen(request, response);
 			return;
 		} else if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.SYSOP) {
 			request.getRequestDispatcher("/systemadministration.jsp").forward(
@@ -816,26 +806,30 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		BenutzerSuchenBean benutzer = new BenutzerSuchenBean();
 		Vector<BenutzerSuchenBean> benutzerVec = new Vector<BenutzerSuchenBean>();
 
-		Rolle.Rollen aktuelleRolle=((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString())).getRolle().getRollenname();
-		
-		if(aktuelleRolle==Rolle.Rollen.STUDIENLEITER){
+		Rolle.Rollen aktuelleRolle = ((BenutzerkontoBean) request.getSession()
+				.getAttribute(
+						DispatcherServlet.sessionParameter.A_Benutzer
+								.toString())).getRolle().getRollenname();
+
+		if (aktuelleRolle == Rolle.Rollen.STUDIENLEITER) {
 			benutzer.setARolle(Rolle.getStudienarzt());
-		}
-		else if(aktuelleRolle==Rolle.Rollen.SYSOP){
+		} else if (aktuelleRolle == Rolle.Rollen.SYSOP) {
 			benutzer.setARolle(Rolle.getAdmin());
 		}
-		//Kein Global Welcome Admin
-		if(request.getAttribute("Startseite")==null){
+		// Kein Global Welcome Admin
+		if (request.getAttribute("Startseite") == null) {
 			benutzer.setNachname(request.getParameter(Parameter.person.NACHNAME
 					.name()));
 			benutzer.setVorname(request.getParameter(Parameter.person.VORNAME
 					.name()));
-			benutzer.setEmail(request.getParameter(Parameter.person.EMAIL.name()));
+			benutzer.setEmail(request.getParameter(Parameter.person.EMAIL
+					.name()));
 			benutzer.setLoginname(request
 					.getParameter(Parameter.benutzerkonto.LOGINNAME.name()));
 			if (request.getParameter(Parameter.zentrum.INSTITUTION.name()) != null
-					&& !request.getParameter(Parameter.zentrum.INSTITUTION.name())
-							.equals(ZentrumServlet.ALLE_ZENTREN)) {
+					&& !request.getParameter(
+							Parameter.zentrum.INSTITUTION.name()).equals(
+							ZentrumServlet.ALLE_ZENTREN)) {
 				benutzer.setInstitut(request
 						.getParameter(Parameter.zentrum.INSTITUTION.name()));
 			}
