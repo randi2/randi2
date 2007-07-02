@@ -70,7 +70,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @author Frederik Reifschneider [Reifschneider@stud.uni-heidelberg.de]
 	 */
-	private enum Tabellen {
+	public static enum Tabellen {
 		/**
 		 * Die Repräsentation der Zentrumstabelle aus der Datenbank.
 		 */
@@ -148,7 +148,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @author Frederik Reifschneider [Reifschneider@stud.uni-heidelberg.de]
 	 * 
 	 */
-	private enum FelderZentrum {
+	public static enum FelderZentrum {
 		/**
 		 * Id des Zentrums.
 		 */
@@ -221,7 +221,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @author Frederik Reifschneider [Reifschneider@stud.uni-heidelberg.de]
 	 * 
 	 */
-	private enum FelderPerson {
+	public static enum FelderPerson {
 
 		/**
 		 * Die Id der Person.
@@ -295,7 +295,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 * 
 	 */
-	private enum FelderBenutzerkonto {
+	public static enum FelderBenutzerkonto {
 		/**
 		 * Die Id des Benutzerkontos
 		 */
@@ -364,7 +364,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 * 
 	 */
-	private enum FelderAktivierung {
+	public static enum FelderAktivierung {
 		/**
 		 * Die Id der Aktivierung.
 		 */
@@ -413,7 +413,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 * 
 	 */
-	private enum FelderStudie {
+	public static enum FelderStudie {
 		/**
 		 * Die Id der Studie.
 		 */
@@ -492,7 +492,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 * 
 	 */
-	private enum FelderStudienarm {
+	public static enum FelderStudienarm {
 		/**
 		 * Die Id des Studienarms.
 		 */
@@ -545,7 +545,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 * 
 	 */
-	private enum FelderPatient {
+	public static enum FelderPatient {
 		/**
 		 * Die Id des Patienten.
 		 */
@@ -619,7 +619,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @author Frederik Reifschneider [Reifschneider@stud.uni-heidelberg.de]
 	 */
-	private enum FelderBlock {
+	public static enum FelderBlock {
 		/**
 		 * Die Id der Blockrandomisation.
 		 */
@@ -664,7 +664,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 */
-	private enum FelderStrataTypen {
+	public static enum FelderStrataTypen {
 		/**
 		 * Die Id des StrataTyps.
 		 */
@@ -713,7 +713,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 */
-	private enum FelderStrataAuspraegung {
+	public static enum FelderStrataAuspraegung {
 		/**
 		 * Die Id der Strataauspraegung.
 		 */
@@ -758,7 +758,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * 
 	 * @author Kai Marco Krupka [kkrupka@stud.hs-heilbronn.de]
 	 */
-	private enum FelderStudieHasZentrum {
+	public static enum FelderStudieHasZentrum {
 		/**
 		 * Die Id der Studie.
 		 */

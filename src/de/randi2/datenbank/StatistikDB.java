@@ -46,7 +46,7 @@ public class StatistikDB {
 		long[][] daten=null;
 		try {
 			//ermitteln der Anzahl Studienarme (+ 1 fuer Gesamtzahl) 
-			sql = " SELECT count(distinct sa.studienarmID) FROM studienarm sa WHERE sa.Studie_studienID = ? ";
+			sql = " SELECT count(distinct sa."+Datenbank.FelderStudienarm.ID+") FROM "+Datenbank.Tabellen.STUDIENARM+" sa WHERE sa."+Datenbank.FelderStudienarm.STUDIE+" = ? ";
 			pstmt = c.prepareStatement(sql);
 			pstmt.setLong(1, studienID);
 			int anzahlReihen = -1;
@@ -60,7 +60,7 @@ public class StatistikDB {
 				throw new DatenbankExceptions(DatenbankExceptions.STATISTIK_VIEW1);
 			}
 			//ermitteln der Studienarme und IDs. Fuellen des Arrays mit den Studienarm IDs
-			sql ="SELECT studienarmID FROM studienarm sa WHERE sa.Studie_studienID = ?";
+			sql ="SELECT "+Datenbank.FelderStudienarm.ID+" FROM "+Datenbank.Tabellen.STUDIENARM+" sa WHERE sa."+Datenbank.FelderStudienarm.STUDIE+" = ?";
 			pstmt = c.prepareStatement(sql);
 			pstmt.setLong(1, studienID);
 			rs = pstmt.executeQuery();
