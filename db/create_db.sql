@@ -219,6 +219,7 @@ CREATE TABLE Strata_Auspraegung (
 TYPE=InnoDB;
 
 # View ermittelt die Verteilung von Patienten pro Studienarm, sowie den maennlichen und weiblichen Anteil
+DROP VIEW verteilungPatMW IF EXISTS;
 CREATE VIEW verteilungPatMW AS
 select sa.Studie_studienID AS studienID, sa.studienarmID AS studienarmID, count(*) AS anzG,
 sum(case when geschlecht='m' then 1 else 0 end) AS anzM,
