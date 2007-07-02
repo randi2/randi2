@@ -255,7 +255,7 @@ Ext.onReady(function(){
         invalidText:'Bitte einen Wert zwischen 0.05-4 eingeben!',
         maxText:'Bitte einen Wert zwischen 0.05-4 eingeben!',
         minText:'Bitte einen Wert zwischen 0.05-4 eingeben!',
-        blankText:'Bitte die Koerperoberflaeche eintragen!',
+        blankText:'Bitte die Koerperoberfl&auml;che eintragen!',
         nanText:'Bitte einen Wert zwischen 0.05-4 eingeben!'
     });
     
@@ -278,7 +278,7 @@ Ext.onReady(function(){
         editable:false,
         width:140,
         allowBlank:false,
-        blankText:'Bitte den Performancestatus auswaehlen!'
+        blankText:'Bitte den Performancestatus ausw&auml;hlen!'
     });
 
       
