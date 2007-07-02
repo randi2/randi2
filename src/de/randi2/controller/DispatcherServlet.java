@@ -775,9 +775,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			
 			
 			else if (id.equals(anfrage_id.AKTION_ZENTRUM_ENTZIEHEN.name())) {
-				
-				System.out.println("wir sind im dispatcher bei AKTION_ZENTRUM_ENTZIEHEN");
-				request.setAttribute("anfrage_id",
+					request.setAttribute("anfrage_id",
 						ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ENTZIEHEN.name());
 				if ((request.getParameter(Parameter.zentrum.ZENTRUM_ID
 						.toString()) != null)) {
