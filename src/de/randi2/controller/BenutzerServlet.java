@@ -1160,9 +1160,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	private void classDispatcherservletSperrenEntsperren(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String submit = request.getParameter("sperrenEntsperren");
+		
 		// Es wird gesperrt oder entsperrt
-		if (submit != null) {
+		
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) request
 					.getSession()
 					.getAttribute(
@@ -1173,7 +1173,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 							DispatcherServlet.sessionParameter.A_Benutzer
 									.toString()));
 			// Achtung es wurde keine Nachricht eingegebn
-			String nachricht = request.getParameter("nachricht");
+			String nachricht = request.getParameter(Parameter.benutzerkonto.NACHRICHT.toString());
 			if (nachricht == null) {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
 						"Bitte geben Sie einen Text ein.");
@@ -1225,16 +1225,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			}
 
-		}
-		// Sperren wird abgebrochen
-		else {
-			request
-					.getSession()
-					.removeAttribute(
-							DispatcherServlet.sessionParameter.BENUTZER_SPERREN_ENTSPERREN_ADMIN
-									.toString());
-			this.classDispatcherServletBenutzerSuchen(request, response);
-		}
+		
 
 	}
 
