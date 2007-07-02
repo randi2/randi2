@@ -245,11 +245,12 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 			classDispatcherservletZentrumAnzeigenSperren(request, response);
 		} else if (id.equals(ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ZUWEISEN
 				.name())) {
-			//System.out.println("wir sind im zentrum beim aufruf der methode");
+			// System.out.println("wir sind im zentrum beim aufruf der
+			// methode");
 			try {
 				classDispatcherservletZentrumHinzu(request, response);
 			} catch (StudieException e) {
-				
+
 			}
 		} else {
 			// TODO Hier muss noch entschieden werden,was passiert
@@ -261,30 +262,29 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 * 
 	 * @param request
 	 * @param response
-	 * @throws StudieException 
+	 * @throws StudieException
 	 */
 	private void classDispatcherservletZentrumHinzu(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException, StudieException {
+			HttpServletResponse response) throws ServletException, IOException,
+			StudieException {
 		String idx = request.getParameter(Parameter.zentrum.ZENTRUM_ID
 				.toString());
-		
+
 		ZentrumBean aZentrum = Zentrum.getZentrum(Long.parseLong(idx));
-		
+
 		StudieBean aSession = (StudieBean) request.getSession().getAttribute(
 				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
-		
+
 		request.setAttribute(Parameter.anfrage_id.toString(),
-				StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN
-						.name());
-		if(aSession!=null ){
+				StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name());
+		if (aSession != null) {
 			aSession.addZentrum(aSession, aZentrum);
-		
+
 			request.setAttribute(Parameter.anfrage_id.toString(),
-				StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN
-						.name());
+					StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name());
 		}
-		request.getRequestDispatcher("StudieServlet").forward(
-				request, response);
+		request.getRequestDispatcher("StudieServlet")
+				.forward(request, response);
 	}
 
 	/**
@@ -368,8 +368,8 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
 		this.zentrenFiltern2(request, response);
 
-		request.getRequestDispatcher("StudieServlet").forward(request,
-				response);
+		request.getRequestDispatcher("StudieServlet")
+				.forward(request, response);
 	}
 
 	/**
@@ -388,7 +388,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		// wichtiger boolean
-		boolean passwortGesetzt = false;
+		boolean passwortGesetzt = true;
 
 		// Alle aenderbaren Attribute des request inititalisieren
 		String institution = request.getParameter(Parameter.zentrum.INSTITUTION
@@ -488,14 +488,15 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				}
 			}
 			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aZentrum);
-			request.getSession().setAttribute("aZentrum", aZentrum);
+			request.setAttribute("aZentrum", aZentrum);
 			if (passwortGesetzt) {
 				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 						"Daten erfolgreich ge&auml;ndert.");
 			} else {
-				request
-						.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
-								"Passwort wurde nicht gesetzt. (Bitte Konventionen beachten!");
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+						"Passwort wurde nicht gesetzt.\n"
+								+ "Mindestens 1 Zahl und 1 Sonderzeichen.\n"
+								+ "Laenge exakt 12 Zeichen.");
 			}
 			request.getRequestDispatcher(Jsp.ZENTRUM_AENDERN).forward(request,
 					response);
@@ -732,17 +733,23 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 			aPerson.setFax(request.getParameter(Parameter.person.FAX.name()));
 			aPerson.setEmail(request
 					.getParameter(Parameter.person.EMAIL.name()));
-			//Ansprchpartner auf Kein Titel setzten
+			// Ansprchpartner auf Kein Titel setzten
 			aPerson.setTitel(Titel.KEIN_TITEL);
 			// Person speichern
-			aPerson.setBenutzerkontoLogging((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString()));
+			aPerson.setBenutzerkontoLogging((BenutzerkontoBean) request
+					.getSession().getAttribute(
+							DispatcherServlet.sessionParameter.A_Benutzer
+									.toString()));
 			aPerson = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 					aPerson);
 
 			// Zentrum speichern
 			aZentrum.setAnsprechpartnerId(aPerson.getId());
-			//Logging
-			aZentrum.setBenutzerkontoLogging((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString()));
+			// Logging
+			aZentrum.setBenutzerkontoLogging((BenutzerkontoBean) request
+					.getSession().getAttribute(
+							DispatcherServlet.sessionParameter.A_Benutzer
+									.toString()));
 			aZentrum = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 					aZentrum);
 			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
@@ -947,8 +954,10 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				aZentrum.setIstAktiviert(true);
 			}
 			aZentrum.setFilter(true);
-			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request.getSession()).getAttribute(DispatcherServlet.sessionParameter.A_Benutzer
-					.toString());
+			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request
+					.getSession())
+					.getAttribute(DispatcherServlet.sessionParameter.A_Benutzer
+							.toString());
 			aZentrum.setBenutzerkontoLogging(aBenutzer);
 
 			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aZentrum);
