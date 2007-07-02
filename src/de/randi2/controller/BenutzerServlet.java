@@ -33,6 +33,7 @@ import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerSuchenBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
+import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Jsp;
 import de.randi2.utility.KryptoUtil;
@@ -806,30 +807,30 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		BenutzerSuchenBean benutzer = new BenutzerSuchenBean();
 		Vector<BenutzerSuchenBean> benutzerVec = new Vector<BenutzerSuchenBean>();
 
-		Rolle.Rollen aktuelleRolle = ((BenutzerkontoBean) request.getSession()
-				.getAttribute(
-						DispatcherServlet.sessionParameter.A_Benutzer
-								.toString())).getRolle().getRollenname();
-
-		if (aktuelleRolle == Rolle.Rollen.STUDIENLEITER) {
+		Rolle.Rollen aktuelleRolle=((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString())).getRolle().getRollenname();
+		
+		//Studienleiter bekommt nur Studienärzte zu sehen, 
+		//ABER MONSTERJOIN IN DB notwendig, deshalb StudienID setzen.
+		if(aktuelleRolle==Rolle.Rollen.STUDIENLEITER){
 			benutzer.setARolle(Rolle.getStudienarzt());
-		} else if (aktuelleRolle == Rolle.Rollen.SYSOP) {
+			benutzer.setStudienID(((StudieBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString())).getId());
+		}
+		//Sysop bekommt nur Admins zu sehen
+		else if(aktuelleRolle==Rolle.Rollen.SYSOP){
 			benutzer.setARolle(Rolle.getAdmin());
 		}
-		// Kein Global Welcome Admin
-		if (request.getAttribute("Startseite") == null) {
+		//Kein Global Welcome Admin
+		if(request.getAttribute("Startseite")==null){
 			benutzer.setNachname(request.getParameter(Parameter.person.NACHNAME
 					.name()));
 			benutzer.setVorname(request.getParameter(Parameter.person.VORNAME
 					.name()));
-			benutzer.setEmail(request.getParameter(Parameter.person.EMAIL
-					.name()));
+			benutzer.setEmail(request.getParameter(Parameter.person.EMAIL.name()));
 			benutzer.setLoginname(request
 					.getParameter(Parameter.benutzerkonto.LOGINNAME.name()));
 			if (request.getParameter(Parameter.zentrum.INSTITUTION.name()) != null
-					&& !request.getParameter(
-							Parameter.zentrum.INSTITUTION.name()).equals(
-							ZentrumServlet.ALLE_ZENTREN)) {
+					&& !request.getParameter(Parameter.zentrum.INSTITUTION.name())
+							.equals(ZentrumServlet.ALLE_ZENTREN)) {
 				benutzer.setInstitut(request
 						.getParameter(Parameter.zentrum.INSTITUTION.name()));
 			}
@@ -840,6 +841,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		request.setAttribute("listeBenutzer", benutzerVec);
 		request.getRequestDispatcher(Jsp.BENUTZER_LISTE_ADMIN).forward(request,
 				response);
+		
 	}
 
 	/**

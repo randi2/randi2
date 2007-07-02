@@ -72,7 +72,7 @@ if(aRolleMenue==Rolle.getStudienarzt().getRollenname()){
 	</li>
 	<li class="sub_BV n">
 		<span  class="sub_SA n entry" style="cursor:pointer"
-			onClick="document.forms['menue_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANLEGEN %>';document.forms['menue_form'].submit();">
+			onClick="document.forms['menue_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_INC_MENUE_ZENRUM_ANLEGEN.name() %>';document.forms['menue_form'].submit();">
 		Zentrum anlegen</span>
 	</li>
 </ul>

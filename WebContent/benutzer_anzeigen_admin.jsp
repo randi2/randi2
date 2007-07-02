@@ -153,7 +153,15 @@ Nachfolgend finden Sie Ausführliche Informationen zum Ansprechpartner des Benut
 	<tr>
 		<td><span class="sub_SA n entry" style="cursor:pointer"
 			onClick="document.forms['menue_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.BENUTZER_SUCHEN.name() %>';document.forms['menue_form'].submit();">
-		zur&uuml;ck zu Benutzer suchen
+		zur&uuml;ck zu
+		 <%
+//Rolle holen
+Rolle.Rollen aRolle=((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString())).getRolle().getRollenname(); 
+%>
+		 <%if(aRolle==Rolle.Rollen.ADMIN){out.print("Benutzer anzeigen/suchen");}
+else if(aRolle==Rolle.Rollen.STUDIENLEITER){out.print("Studien&auml;rzte anzeigen/suchen");}
+else if (aRolle==Rolle.Rollen.SYSOP){out.print("Admins anzeigen/suchen");}
+%>
 	</span></td>
 	</tr>
 </table>

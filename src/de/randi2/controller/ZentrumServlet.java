@@ -731,12 +731,17 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 			aPerson.setFax(request.getParameter(Parameter.person.FAX.name()));
 			aPerson.setEmail(request
 					.getParameter(Parameter.person.EMAIL.name()));
+			//Ansprchpartner auf Kein Titel setzten
+			aPerson.setTitel(Titel.KEIN_TITEL);
 			// Person speichern
+			aPerson.setBenutzerkontoLogging((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString()));
 			aPerson = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 					aPerson);
 
 			// Zentrum speichern
 			aZentrum.setAnsprechpartnerId(aPerson.getId());
+			//Logging
+			aZentrum.setBenutzerkontoLogging((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString()));
 			aZentrum = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 					aZentrum);
 			request.setAttribute(DispatcherServlet.NACHRICHT_OK,

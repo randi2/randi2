@@ -184,6 +184,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Ein Studienleiter soll angelegt werden.
 		 */
 		JSP_INC_MENUE_STUDIENLEITER_ANLEGEN,
+		
+		/**
+		 * Admin möchte Zentrum anlegen
+		 */
+		JSP_INC_MENUE_ZENRUM_ANLEGEN,
 
 		/**
 		 * Leitet den Forward der system_sperren.jsp weiter (kommt als get)
@@ -2092,6 +2097,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			} else if (id.equals(anfrage_id.JSP_ERGEBNISSE_EXPORT_CSV.name())) {
 				request.getRequestDispatcher("/StudieServlet").forward(request,
 						response);
+			}else if(id.equals(anfrage_id.JSP_INC_MENUE_ZENRUM_ANLEGEN.name())){
+				request.getRequestDispatcher(Jsp.ZENTRUM_ANLEGEN).forward(request, response);
 			}
 
 			// [end]

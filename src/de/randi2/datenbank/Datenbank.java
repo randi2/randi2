@@ -2053,8 +2053,103 @@ public class Datenbank implements DatenbankSchnittstelle {
 		if (zuSuchendesObjekt instanceof BenutzerSuchenBean) {
 			return (Vector<T>) suchenBenutzerSuchen((BenutzerSuchenBean) zuSuchendesObjekt);
 		}
-
 		return null;
+	}
+
+	private Vector<BenutzerSuchenBean> suchenBenutzerSuchenStudienleiter(BenutzerSuchenBean bean) throws DatenbankExceptions {
+		Connection con = ConnectionFactory.getInstanz().getConnection();
+		PreparedStatement pstmt;
+		BenutzerSuchenBean ergebnisBean = null;
+		ResultSet rs;
+		Vector<BenutzerSuchenBean> sBenutzer = new Vector<BenutzerSuchenBean>();
+		//aus Lesbarkeitsgründen verzicht auf Konstanten
+		//TODO Johannes wie bekomme ich da noch die raus, die 0 sind?!
+		String sql="select p.personenID,b.benutzerkontenID,z.zentrumsID, " +
+				"p.nachname,p.vorname,p.email,b.loginname,b.gesperrt,z.institution, count(pat.patientenID) " +
+				"from Person p, Benutzerkonto b, Zentrum z, studie_has_zentrum sh, patient pat " +
+				"where b.Zentrum_zentrumsID=z.zentrumsID and b.Person_personenID=p.personenID and b.rolle<>'SYSOP' " +
+				"and sh.Studie_studienID=? and sh.Zentrum_zentrumsID=z.ZentrumsID and pat.Benutzerkonto_benutzerkontenID=b.benutzerkontenID group by b.benutzerkontenID";
+		int counter = 0;
+		if (bean.getVorname() != null) {
+			sql += " AND p." + FelderPerson.VORNAME.toString() + " LIKE ? ";
+			counter++;
+		}
+		if (bean.getNachname() != null) {
+			sql += " AND p." + FelderPerson.NACHNAME.toString() + " LIKE ? ";
+			counter++;
+		}
+		if (bean.getLoginname() != null) {
+			sql += " AND b." + FelderBenutzerkonto.LOGINNAME.toString()
+					+ " LIKE ? ";
+			counter++;
+		}
+		if (bean.getEmail() != null) {
+			sql += " AND p." + FelderPerson.EMAIL.toString() + " LIKE ? ";
+			counter++;
+		}
+		if (bean.getInstitut() != null) {
+			sql += " AND z." + FelderZentrum.INSTITUTION.toString()
+					+ " LIKE ? ";
+			counter++;
+		}
+		if (bean.getARolle() != null) {
+			sql += " AND b." + FelderBenutzerkonto.ROLLEACCOUNT.toString()+"=?";
+			counter++;
+		}
+
+		try {
+			pstmt = con.prepareStatement(sql);
+			int index = 1;
+			pstmt.setLong(index++, bean.getStudienID());
+			if (bean.getVorname() != null) {
+				pstmt.setString(index++, bean.getVorname() + "%");
+			}
+			if (bean.getNachname() != null) {
+				pstmt.setString(index++, bean.getNachname() + "%");
+			}
+			if (bean.getLoginname() != null) {
+				pstmt.setString(index++, bean.getLoginname() + "%");
+			}
+			if (bean.getEmail() != null) {
+				pstmt.setString(index++, bean.getEmail() + "%");
+			}
+			if (bean.getInstitut() != null) {
+				pstmt.setString(index++, bean.getInstitut() + "%");
+			}
+			if(bean.getARolle()!=null)
+			{
+				pstmt.setString(index++, bean.getARolle().toString());
+			}
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				// erstelle PersonBeans
+
+				ergebnisBean = new BenutzerSuchenBean(rs
+						.getLong(FelderBenutzerkonto.ID.toString()), rs
+						.getLong(FelderZentrum.ID.toString()), rs
+						.getLong(FelderPerson.ID.toString()),
+						bean.getARolle(),//Rolle ==bean
+						rs.getString(FelderPerson.VORNAME.toString()),// vor
+						rs.getString(FelderPerson.NACHNAME.toString()),// nach
+						rs.getString(FelderPerson.EMAIL.toString()),// email
+						rs.getString(FelderBenutzerkonto.LOGINNAME.toString()),// loginname
+						rs.getString(FelderZentrum.INSTITUTION.toString()),//institut
+						rs.getBoolean(FelderBenutzerkonto.GESPERRT.toString()),//gesperrt
+						rs.getInt("count(pat.patientenID)"),//Pat_Anzahl
+						bean.getStudienID());//studienID=bean
+
+				// fuege Person dem Vector hinzu
+				sBenutzer.add(ergebnisBean);
+			}
+		} catch (SQLException e) {
+			DatenbankExceptions de = new DatenbankExceptions(
+					DatenbankExceptions.SUCHEN_ERR);
+			de.initCause(e);
+			throw de;
+		} finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
+		}			
+		return sBenutzer;
 	}
 
 	private Vector<BenutzerSuchenBean> suchenBenutzerSuchen(
@@ -2068,6 +2163,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 		Vector<BenutzerSuchenBean> sbenutzer = new Vector<BenutzerSuchenBean>();
 		// Nach aktiviert deaktivier wird nicht verglichen
 		// erstellen der SQL Abfrage
+		//Monsterjoin beim Studienleiter
+		if(bean.getStudienID()!=NullKonstanten.NULL_LONG){
+			return this.suchenBenutzerSuchenStudienleiter(bean);
+		}
 		//Sysops tauchen nicht in Liste auf
 		String sql = String
 				.format(

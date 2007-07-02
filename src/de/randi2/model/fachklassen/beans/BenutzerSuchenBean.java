@@ -8,6 +8,8 @@ import de.randi2.utility.NullKonstanten;
 
 public class BenutzerSuchenBean extends Filter {
 
+	
+
 	/**
 	 * Die ID des zugehoerigen Benutzers. Fremdschlueschel zum PersonBean. 1:1
 	 * Beziehung
@@ -35,6 +37,23 @@ public class BenutzerSuchenBean extends Filter {
 	//Nicht zum Filtern, sondern nur zur Anzeige gedacht
 	private boolean gesperrt=false;
 	
+	
+	private int patientenAnzahl=0;
+	private long studienID=NullKonstanten.NULL_LONG;
+	
+	
+	/**
+	 * Konstruktor für Admin und Sysop
+	 * @param benutzerId
+	 * @param zentrumId
+	 * @param personId
+	 * @param vorname
+	 * @param nachname
+	 * @param email
+	 * @param loginname
+	 * @param institut
+	 * @param gesperrt
+	 */
 	public BenutzerSuchenBean(long benutzerId, long zentrumId, long personId, String vorname, String nachname, String email, String loginname, String institut, boolean gesperrt) {
 		super();
 		this.benutzerId = benutzerId;
@@ -46,6 +65,36 @@ public class BenutzerSuchenBean extends Filter {
 		this.loginname = loginname;
 		this.institut = institut;
 		this.gesperrt=gesperrt;
+	}
+	/**
+	 * Konstruktor für Studienarzt.
+	 * @param benutzerId
+	 * @param zentrumId
+	 * @param personId
+	 * @param rolle
+	 * @param vorname
+	 * @param nachname
+	 * @param email
+	 * @param loginname
+	 * @param institut
+	 * @param gesperrt
+	 * @param patientenAnzahl
+	 * @param studienID
+	 */
+	public BenutzerSuchenBean(long benutzerId, long zentrumId, long personId, Rolle rolle, String vorname, String nachname, String email, String loginname, String institut, boolean gesperrt, int patientenAnzahl, long studienID) {
+		super();
+		this.benutzerId = benutzerId;
+		this.zentrumId = zentrumId;
+		this.personId = personId;
+		aRolle = rolle;
+		this.vorname = vorname;
+		this.nachname = nachname;
+		this.email = email;
+		this.loginname = loginname;
+		this.institut = institut;
+		this.gesperrt = gesperrt;
+		this.patientenAnzahl = patientenAnzahl;
+		this.studienID = studienID;
 	}
 	public BenutzerSuchenBean() {
 	}
@@ -115,6 +164,18 @@ public class BenutzerSuchenBean extends Filter {
 	}
 	public void setARolle(Rolle rolle) {
 		aRolle = rolle;
+	}
+	public int getPatientenAnzahl() {
+		return patientenAnzahl;
+	}
+	public void setPatientenAnzahl(int patientenAnzahl) {
+		this.patientenAnzahl = patientenAnzahl;
+	}
+	public long getStudienID() {
+		return studienID;
+	}
+	public void setStudienID(long studienID) {
+		this.studienID = studienID;
 	}
 
 }

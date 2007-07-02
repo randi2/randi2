@@ -10,6 +10,11 @@
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="de.randi2.controller.ZentrumServlet"%>
+<%
+//Rolle holen
+Rolle.Rollen aRolle=((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString())).getRolle().getRollenname(); 
+%>
+<%@page import="de.randi2.model.fachklassen.Rolle.Rollen"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -28,7 +33,11 @@
 <body onload="hideFilter();">
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
-<h1>Benutzer suchen</h1>
+<h1>
+<%if(aRolle==Rolle.Rollen.ADMIN){out.print("Benutzer anzeigen/suchen");}
+else if(aRolle==Rolle.Rollen.STUDIENLEITER){out.print("Studien&auml;rzte anzeigen/suchen");}
+else if (aRolle==Rolle.Rollen.SYSOP){out.print("Admins anzeigen/suchen");}
+%></h1>
 <fieldset style="width: 90%;"><legend><b>Benutzer
 suchen </b></legend>
 <form action="DispatcherServlet" method="POST"><input
@@ -93,6 +102,10 @@ suchen </b></legend>
 			<th width="10%">Loginname</th>
 			<th width="30%">Institut</th>
 			<th width="25%">E-Mail</th>
+			<%//Patientenanzahl in aktueller Studie, falls Studienleiter
+			if(aRolle==Rolle.Rollen.STUDIENLEITER){
+				out.print("<th>Patientenanzahl</th>");
+			}%>
 			<th width="15%">Aktionen</th>
 		</tr>
 	</thead>
@@ -110,6 +123,10 @@ suchen </b></legend>
 		<td><%=benutzer.getLoginname()%></td>
 		<td><%=benutzer.getInstitut()%></td>
 		<td><%=benutzer.getEmail()%></td>
+		<%//Patientenanzahl in aktueller Studie, falls Studienleiter
+			if(aRolle==Rolle.Rollen.STUDIENLEITER){
+				out.print("<td>"+benutzer.getPatientenAnzahl()+"</td>");
+			}%>
 		<td><span  id="benutzer_anzeigen_link" style="cursor:pointer"
 			onClick="document.forms['liste_form'].button.value = 'a_<%=benutzer.getBenutzerId() %>';document.forms['liste_form'].submit();">
 		anzeigen
