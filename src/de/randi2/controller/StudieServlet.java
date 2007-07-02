@@ -485,8 +485,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
 					response);
 		} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
-			System.out
-					.println("\nim studieservlet sollen die zentren angezeigt werden");
 			Vector<ZentrumBean> zugZentren = this.getZugehoerigeZentren(
 					request, response);
 			request.setAttribute("zugehoerigeZentren", zugZentren);
@@ -495,14 +493,10 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 			request.setAttribute("nichtZugehoerigeZentren", nZugZentren);
 			if (((String) request.getParameter("Filtern")) != null) {
-				System.out
-						.println("(StudieServlet) Filter ist an, leiten zum Zentrum weiter "
-								+ id);
-				request.getRequestDispatcher("ZentrumServlet").forward(request, response);
+				request.getRequestDispatcher("ZentrumServlet").forward(request,
+						response);
 
 			} else {
-				System.out
-						.println("(studie servlet)hier erfolgt weiterleitung zur zentrum anzeigen seite");
 				request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
 						request, response);
 			}
@@ -1493,14 +1487,14 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		StudieBean aSession = (StudieBean) request.getSession().getAttribute(
 				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
 		Vector<ZentrumBean> zugehoerigeZentren = null;
-		if (aSession == null) {
-			System.out.println(" (studie servlet) aSession ist null");
-		}
-		try {
-			zugehoerigeZentren = aSession.getZentren();
-		} catch (DatenbankExceptions e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (aSession != null) {
+		
+			try {
+				zugehoerigeZentren = aSession.getZentren();
+			} catch (DatenbankExceptions e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return zugehoerigeZentren;
 
