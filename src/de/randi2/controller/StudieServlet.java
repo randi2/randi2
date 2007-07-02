@@ -1646,6 +1646,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 	}
 
+
 	/**
 	 * Diese Methode erstellt einen Vektor mit den Zentren, die der aktuellen
 	 * Studie nicht zugeordnet sind
@@ -1664,8 +1665,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		// alle Zentren
 		Vector<ZentrumBean> zentrenliste = Zentrum.suchenZentrum(zb);
 		// nur zugehörige Zentren
-		Vector<ZentrumBean> zugehoerigeZentren = (Vector<ZentrumBean>) request
-				.getAttribute("zugehoerigeZentren");
+		Vector<ZentrumBean> zugehoerigeZentren = this.getZugehoerigeZentren(
+				request, response);
 
 		if (zugehoerigeZentren != null) {
 			for (int x = 0; x < zugehoerigeZentren.size(); x++) {
@@ -1679,6 +1680,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		return zentrenliste;
 
 	}
+
 
 	private void patientHinzufuegen(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
