@@ -228,7 +228,7 @@ suchen </b></legend><br />
 			<b>Zentrumsdetails</b></span><span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
 				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.AKTION_ZENTRUM_ZUWEISEN.name() %>';
 
-				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();"><b><br>Zentrum zur Studie hinzuf&uuml;gen</span></td>
+				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();"><br><b>Zentrum zur Studie hinzuf&uuml;gen</b></span></td>
 		</tr>
 		<%
 				tabindex++;
