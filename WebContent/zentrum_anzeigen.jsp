@@ -149,7 +149,7 @@ suchen </b></legend><br />
 
 				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
 
-			<b>Zentrumsdetails</b></span>				</td>
+			<b>Zentrumsdetails</b></span></td>
 		</tr>
 		<%
 					tabindex++;
@@ -160,7 +160,8 @@ suchen </b></legend><br />
 				}
 
 			} else {
-				if (zugehoerigeZentren != null) {
+				if (zugehoerigeZentren != null
+				|| zugehoerigeZentren.size() != 0) {
 
 					while (itZugehoerigeZentren.hasNext()) {
 				aktuellesZentrum = (ZentrumBean) itZugehoerigeZentren
@@ -187,7 +188,12 @@ suchen </b></legend><br />
 				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';
 
 				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
-			<b>Zentrumsdetails</b></span></td>
+			<b>Zentrumsdetails</b></span><span id="zentrenAnzeigen_link<%=tabindex %>"
+				style="cursor:pointer"
+				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.AKTION_ZENTRUM_ENTZIEHEN.name() %>';
+
+				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();"><br>
+			<b>Zentrum von Studie entfernen</b></span></td>
 		</tr>
 		<%
 				tabindex++;
@@ -198,7 +204,8 @@ suchen </b></legend><br />
 					}
 
 				}
-				if (nichtZugehoerigeZentren != null) {
+				if (nichtZugehoerigeZentren != null
+				|| nichtZugehoerigeZentren.size() != 0) {
 
 					while (itNichtZugehoerigeZentren.hasNext()) {
 				aktuellesZentrum = (ZentrumBean) itNichtZugehoerigeZentren
@@ -225,10 +232,12 @@ suchen </b></legend><br />
 				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';
 
 				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
-			<b>Zentrumsdetails</b></span><span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
+			<b>Zentrumsdetails</b></span><span id="zentrenAnzeigen_link<%=tabindex %>"
+				style="cursor:pointer"
 				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.AKTION_ZENTRUM_ZUWEISEN.name() %>';
 
-				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();"><br><b>Zentrum zur Studie hinzuf&uuml;gen</b></span></td>
+				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();"><br>
+			<b>Zentrum zur Studie hinzuf&uuml;gen</b></span></td>
 		</tr>
 		<%
 				tabindex++;
@@ -251,8 +260,7 @@ suchen </b></legend><br />
 			name="zentrenAnzeigen_form<%=tabindex %>"
 			id="zentrenAnzeigen_form<%=tabindex %>"><input type="hidden"
 			name="<%=Parameter.anfrage_id %>" value=""> <input
-			type="hidden" name="einName"
-			value="<%=aktuellesZentrum.getId() %>"></form>
+			type="hidden" name="einName" value="<%=aktuellesZentrum.getId() %>"></form>
 		<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
 			onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
 		<b>zurück zur Studie</b></span></td>
