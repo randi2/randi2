@@ -486,7 +486,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					response);
 		} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
 			System.out
-					.println("im studieservlet sollen die zentren angezeigt werden");
+					.println("\nim studieservlet sollen die zentren angezeigt werden");
 			Vector<ZentrumBean> zugZentren = this.getZugehoerigeZentren(
 					request, response);
 			request.setAttribute("zugehoerigeZentren", zugZentren);
@@ -495,8 +495,10 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 			request.setAttribute("nichtZugehoerigeZentren", nZugZentren);
 			if (((String) request.getParameter("Filtern")) != null) {
-				System.out.println("(StudieServlet) Filter ist an, leiten zum Zentrum weiter " + id);
-				request.getRequestDispatcher("ZentrumServlet").forward(request,	response);
+				System.out
+						.println("(StudieServlet) Filter ist an, leiten zum Zentrum weiter "
+								+ id);
+				request.getRequestDispatcher("ZentrumServlet").forward(request, response);
 
 			} else {
 				System.out
@@ -1491,7 +1493,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		StudieBean aSession = (StudieBean) request.getSession().getAttribute(
 				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
 		Vector<ZentrumBean> zugehoerigeZentren = null;
-		if(aSession==null){
+		if (aSession == null) {
 			System.out.println(" (studie servlet) aSession ist null");
 		}
 		try {
@@ -1519,17 +1521,16 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		ZentrumBean zb = new ZentrumBean();
 		zb.setIstAktiviert(true);
 		zb.setFilter(true);
-//alle Zentren
+		// alle Zentren
 		Vector<ZentrumBean> zentrenliste = Zentrum.suchenZentrum(zb);
-//nur zugehörige Zentren
+		// nur zugehörige Zentren
 		Vector<ZentrumBean> zugehoerigeZentren = (Vector<ZentrumBean>) request
 				.getAttribute("zugehoerigeZentren");
 
-		if(zugehoerigeZentren!=null ){
+		if (zugehoerigeZentren != null) {
 			for (int x = 0; x < zugehoerigeZentren.size(); x++) {
 				ZentrumBean tmp = zugehoerigeZentren.elementAt(x);
-				if (zentrenliste.contains(tmp)){
-					System.out.println("Von den zugehoerigen zentren wird "+tmp.getAbteilung()+" geloescht");
+				if (zentrenliste.contains(tmp)) {
 					zentrenliste.remove(tmp);
 				}
 			}

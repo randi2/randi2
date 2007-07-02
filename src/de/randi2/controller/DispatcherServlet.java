@@ -367,7 +367,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Aufforderung, eine Nachricht zu versenden
 		 */
-		AKTION_NACHRICHT_VERSENDEN;
+		AKTION_NACHRICHT_VERSENDEN,
+		
+		/**
+		 * Aktion zum Entziehen eines Zentrums von einer Studie
+		 */
+		AKTION_ZENTRUM_ENTZIEHEN;;
 	}
 
 	/**
@@ -741,6 +746,39 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			else if (id.equals(anfrage_id.AKTION_ZENTRUM_ZUWEISEN.name())) {
 				request.setAttribute("anfrage_id",
 						ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ZUWEISEN.name());
+				if ((request.getParameter(Parameter.zentrum.ZENTRUM_ID
+						.toString()) != null)) {
+					// ID vorhanden, zentrumdetails werden angezeigt
+					String idx = request
+							.getParameter(Parameter.zentrum.ZENTRUM_ID
+									.toString());
+					request.setAttribute(Parameter.zentrum.ZENTRUM_ID
+							.toString(), idx);
+
+					request.getRequestDispatcher("ZentrumServlet").forward(
+							request, response);
+					
+				} else {
+					// aus irgendwelchen Gründen Zentrum_ID nicht vorhanden,
+					// leite zurück letzten seite
+					if (request.getParameter(Parameter.filter) == null) {
+						request.setAttribute("listeZentren", null);
+					}
+					request.setAttribute(Parameter.anfrage_id.toString(),
+							StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN
+									.name());
+					request.getRequestDispatcher("StudieServlet").forward(
+							request, response);
+				}
+
+			}
+			
+			
+			else if (id.equals(anfrage_id.AKTION_ZENTRUM_ENTZIEHEN.name())) {
+				
+				System.out.println("wir sind im dispatcher bei AKTION_ZENTRUM_ENTZIEHEN");
+				request.setAttribute("anfrage_id",
+						ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ENTZIEHEN.name());
 				if ((request.getParameter(Parameter.zentrum.ZENTRUM_ID
 						.toString()) != null)) {
 					// ID vorhanden, zentrumdetails werden angezeigt

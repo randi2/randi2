@@ -133,7 +133,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		 * Aktion um ein Zentrum einer Studie zuzuweisen
 		 */
 		AKTION_ZENTRUM_ZUWEISEN,
-		
+
 		/**
 		 * Aktion um ein Zentrum einer Studie zu entziehen
 		 */
@@ -255,9 +255,57 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 			} catch (StudieException e) {
 
 			}
+		} else if (id.equals(ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ENTZIEHEN
+				.name())) {
+
+			try {
+				classDispatcherservletZentrumEntziehen(request, response);
+			} catch (NumberFormatException e) {
+
+			} catch (StudieException e) {
+			}
+
 		} else {
 			// TODO Hier muss noch entschieden werden,was passiert
 		}
+	}
+
+	/**
+	 * Methode um ein Zentrum von einer Studie zu entfernen
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws NumberFormatException
+	 * @throws StudieException
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	private void classDispatcherservletZentrumEntziehen(
+			HttpServletRequest request, HttpServletResponse response)
+			throws NumberFormatException, StudieException, ServletException,
+			IOException {
+
+		System.out.println("wir sind in der entziehen methode");
+		String idx = request.getParameter(Parameter.zentrum.ZENTRUM_ID
+				.toString());
+
+		ZentrumBean aZentrum = Zentrum.getZentrum(Long.parseLong(idx));
+
+		StudieBean aSession = (StudieBean) request.getSession().getAttribute(
+				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
+
+		if (aSession != null) {
+			System.out.println("aSession ist nicht null");
+			aSession.removeZentrum(aZentrum);
+			request.setAttribute(Parameter.anfrage_id.toString(),
+					StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name());
+			System.out.println("anfrageid gesetzt zu "
+					+ StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name());
+
+		}
+		System.out.println("weiter zur studieservlet");
+		request.getRequestDispatcher("StudieServlet")
+				.forward(request, response);
 	}
 
 	/**
