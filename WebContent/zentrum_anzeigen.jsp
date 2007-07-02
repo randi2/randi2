@@ -22,17 +22,9 @@
 	ZentrumBean aktuellesZentrum = null;
 	Iterator itNichtZugehoerigeZentren = null;
 
-	Iterator filterZentren = null;
-	Vector<ZentrumBean> gefilterteZentren = null;
-	try {
+try {
 		itZugehoerigeZentren = zugehoerigeZentren.iterator();
 		itNichtZugehoerigeZentren = nichtZugehoerigeZentren.iterator();
-		filterZentren = ((Vector) request
-		.getAttribute(StudieServlet.requestParameter.GEFILTERTE_ZENTREN
-				.toString())).iterator();
-		gefilterteZentren = (Vector<ZentrumBean>) request
-		.getAttribute(StudieServlet.requestParameter.GEFILTERTE_ZENTREN
-				.toString());
 	} catch (NullPointerException npe) {
 		;
 	}
@@ -122,44 +114,7 @@ suchen </b></legend><br />
 			String aktiv = null;
 			int tabindex = 1;
 			String reihe = "tblrow2";
-			if (gefilterteZentren != null) {
-
-				while (filterZentren.hasNext()) {
-					aktuellesZentrum = (ZentrumBean) filterZentren.next();
-					if (aktuellesZentrum.getIstAktiviert()) {
-				aktiv = "aktiv";
-					} else {
-				aktiv = "inaktiv";
-					}
-		%>
-
-		<tr class="<%=reihe %>">
-			<td><%=aktuellesZentrum.getInstitution()%></td>
-			<td><%=aktuellesZentrum.getAbteilung()%></td>
-			<td><%=aktiv%></td>
-			<td>
-			<form action="DispatcherServlet" method="POST"
-				name="zentrenAnzeigen_form<%=tabindex %>"
-				id="zentrenAnzeigen_form<%=tabindex %>"><input type="hidden"
-				name="<%=Parameter.zentrum.ZENTRUM_ID.toString()%>"
-				value="<%=aktuellesZentrum.getId() %>"><input type="hidden"
-				name="<%=Parameter.anfrage_id %>" value="hallo"></form>
-			<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
-				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';
-
-				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
-
-			<b>Zentrumsdetails</b></span></td>
-		</tr>
-		<%
-					tabindex++;
-					if (reihe.equals("tblrow1"))
-				reihe = "tblrow2";
-					else
-				reihe = "tblrow1";
-				}
-
-			} else {
+		
 				if (zugehoerigeZentren != null
 				|| zugehoerigeZentren.size() != 0) {
 
@@ -248,7 +203,7 @@ suchen </b></legend><br />
 					}
 
 				}
-			}
+			
 		%>
 	</tbody>
 </table>
