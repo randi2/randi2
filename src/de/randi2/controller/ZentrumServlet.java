@@ -297,7 +297,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 			aSession.removeZentrum(aZentrum);
 			request.setAttribute(Parameter.anfrage_id.toString(),
 					StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name());
-			}
+		}
 		request.getRequestDispatcher("StudieServlet")
 				.forward(request, response);
 	}
@@ -412,10 +412,49 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		this.zentrenFiltern2(request, response);
+		Vector<ZentrumBean> gefilterteZentren = this.zentrenFiltern2(request,
+				response);
+		Vector<ZentrumBean> zugehZentren = (Vector<ZentrumBean>) request
+				.getAttribute("zugehoerigeZentren");
+		Vector<ZentrumBean> nichtZugehZentren = (Vector<ZentrumBean>) request
+				.getAttribute("nichtZugehoerigeZentren");
+		Vector<ZentrumBean> tmp = new Vector<ZentrumBean>();
+		
+		ZentrumBean tmpElement = null;
+		
+		if (gefilterteZentren == null || gefilterteZentren.size() == 0) {
+			request.setAttribute("zugehoerigeZentren", null);
+			request.setAttribute("nichtZugehoerigeZentren", null);
 
-		request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN)
-				.forward(request, response);
+		} else {
+			System.out.println(" ");
+			for (int y = 0; y < zugehZentren.size(); y++) {
+
+				for (int i = 0; i < gefilterteZentren.size(); i++) {
+					tmpElement = gefilterteZentren.elementAt(i);
+					if ((zugehZentren.elementAt(y).equals(tmpElement))) {
+						tmp.add(tmpElement);
+						
+					}
+				}
+			}
+			request.setAttribute("zugehoerigeZentren", tmp);
+			tmp.clear();
+			for (int y = 0; y < nichtZugehZentren.size(); y++) {
+
+				for (int i = 0; i < gefilterteZentren.size(); i++) {
+					tmpElement = gefilterteZentren.elementAt(i);
+					if ((nichtZugehZentren.elementAt(y).equals(tmpElement))) {
+						tmp.add(tmpElement);
+					}
+				}
+			}
+		}
+
+		request.setAttribute("nichtZugehoerigeZentren", tmp);
+
+		request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(request,
+				response);
 	}
 
 	/**
@@ -439,7 +478,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		// Alle aenderbaren Attribute des request inititalisieren
 		String institution = request.getParameter(Parameter.zentrum.INSTITUTION
 				.toString());
-//		System.out.println(institution);
+		// System.out.println(institution);
 		String abteilung = request
 				.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString());
 		String ort = request.getParameter(Parameter.zentrum.ORT.toString());
@@ -830,8 +869,8 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 					.getParameter(Parameter.person.NACHNAME.name()));
 			// Falls das Geschlecht bereits gesetzt wurde wieder eintragen
 			if (request.getParameter(Parameter.person.GESCHLECHT.name()) != null) {
-//				System.out.println(request
-//						.getParameter(Parameter.person.GESCHLECHT.name()));
+				// System.out.println(request
+				// .getParameter(Parameter.person.GESCHLECHT.name()));
 				request.setAttribute(Parameter.person.GESCHLECHT.name(),
 						request
 								.getParameter(Parameter.person.GESCHLECHT
@@ -930,7 +969,6 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		// keine Filterung
 	}
 
-
 	/**
 	 * Methode wird aufgerufen um die Zentren, die zu einer Studie hinzugefuegt
 	 * werden koennen zu filtern.
@@ -945,8 +983,9 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 *             Fehler in der IO-Verarbeitung
 	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
 	 *      HttpServletResponse response)
+	 * @return Vektor der gefundenen ZentrumBeans
 	 */
-	private void zentrenFiltern2(HttpServletRequest request,
+	private Vector<ZentrumBean> zentrenFiltern2(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// Filterung
 		if (((String) request.getParameter("Filtern")) != null) {
@@ -964,11 +1003,11 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 							.getParameter("ABTEILUNGSNAME"));
 					sZentrum.setIstAktiviert(true);
 					gZentrum = Zentrum.suchenZentrum(sZentrum);
-					
+
 				}
 
-				request.setAttribute("listeZentren", gZentrum);
-				
+				return gZentrum;
+
 			} catch (BenutzerException e) {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 						.getMessage());
@@ -976,12 +1015,11 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 						.getMessage());
 			}
-		}else{
-			request.setAttribute("listeZentren", null);
 		}
+		return null;
 
 	}
-	
+
 	/**
 	 * 
 	 * @param request
