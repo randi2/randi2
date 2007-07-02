@@ -168,8 +168,6 @@ public class BlockRandomisationTest {
 		}
 	}
 
-	// 379316842
-
 	@Test
 	public void testErzuegeBlock2() {
 		int blocks[][] = new int[1000][8];
