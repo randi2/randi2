@@ -668,7 +668,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		/**
 		 * Die Id des StrataTyps.
 		 */
-		Id("strata_TypenID"),
+		ID("strata_TypenID"),
 		/**
 		 * Die Id der zugehörigen Studie.
 		 */
@@ -717,7 +717,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		/**
 		 * Die Id der Strataauspraegung.
 		 */
-		Id("strata_WerteID"),
+		ID("strata_WerteID"),
 		/**
 		 * Die Id des zugehörigen Stratatypen.
 		 */
@@ -826,6 +826,15 @@ public class Datenbank implements DatenbankSchnittstelle {
 			else if (zuLoeschendesObjekt instanceof StudieBean) {
 				StudieBean studie = (StudieBean) zuLoeschendesObjekt;
 				this.loeschenStudie(studie);
+			} else if (zuLoeschendesObjekt instanceof StudienarmBean) {
+				StudienarmBean arm = (StudienarmBean) zuLoeschendesObjekt;
+				this.loeschenStudienarm(arm);				
+			} else if (zuLoeschendesObjekt instanceof StrataBean) {
+				StrataBean strata = (StrataBean) zuLoeschendesObjekt;
+				this.loeschenStrata(strata);				
+			} else if (zuLoeschendesObjekt instanceof StrataAuspraegungBean) {
+				StrataAuspraegungBean auspr = (StrataAuspraegungBean) zuLoeschendesObjekt;
+				this.loeschenStrataAuspraegung(auspr);				
 			}
 		}
 	}
@@ -947,6 +956,88 @@ public class Datenbank implements DatenbankSchnittstelle {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 		this.loggenDaten(studie, LogKonstanten.LOESCHE_DATENSATZ);
+	}
+	
+	/**
+	 * Loescht das übergebene Studiearmnobjekt aus der Datenbank.
+	 * 
+	 * @param studiearm
+	 *            zu löschendes StudiearmBean.
+	 * @throws DatenbankExceptions
+	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
+	 */
+	private void loeschenStudienarm(StudienarmBean studienarm) throws DatenbankExceptions {
+		Connection con = ConnectionFactory.getInstanz().getConnection();;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		sql = "DELETE FROM " + Tabellen.STUDIENARM + " WHERE " + FelderStudienarm.ID
+				+ "= ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, studienarm.getId());
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.LOESCHEN_ERR);
+		} finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
+		}
+		this.loggenDaten(studienarm, LogKonstanten.LOESCHE_DATENSATZ);
+	}
+	
+	/**
+	 * Loescht das übergebene Strataobjekt aus der Datenbank.
+	 * 
+	 * @param strata
+	 *            zu löschendes StrataBean.
+	 * @throws DatenbankExceptions
+	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
+	 */
+	private void loeschenStrata(StrataBean strata) throws DatenbankExceptions {
+		Connection con = ConnectionFactory.getInstanz().getConnection();;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		sql = "DELETE FROM " + Tabellen.STRATA_TYPEN + " WHERE " + FelderStrataTypen.ID+ "= ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, strata.getId());
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.LOESCHEN_ERR);
+		} finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
+		}
+		this.loggenDaten(strata, LogKonstanten.LOESCHE_DATENSATZ);
+	}
+	
+	/**
+	 * Loescht das übergebene Strataobjekt aus der Datenbank.
+	 * 
+	 * @param auspr
+	 *            zu löschendes StrataBean.
+	 * @throws DatenbankExceptions
+	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
+	 */
+	private void loeschenStrataAuspraegung(StrataAuspraegungBean auspr) throws DatenbankExceptions {
+		Connection con = ConnectionFactory.getInstanz().getConnection();;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		sql = "DELETE FROM " + Tabellen.STRATA_AUSPRAEGUNG + " WHERE " + FelderStrataAuspraegung.ID+ "= ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, auspr.getId());
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.LOESCHEN_ERR);
+		} finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
+		}
+		this.loggenDaten(auspr, LogKonstanten.LOESCHE_DATENSATZ);
 	}
 
 	/**
@@ -1795,7 +1886,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				int counter = 1;
 				long id = Long.MIN_VALUE;
 				sql = "INSERT  INTO " + Tabellen.STRATA_TYPEN + "("
-						+ FelderStrataTypen.Id + ","
+						+ FelderStrataTypen.ID + ","
 						+ FelderStrataTypen.STUDIEID + ","
 						+ FelderStrataTypen.NAME + ","
 						+ FelderStrataTypen.BESCHREIBUNG + ") VALUES "
@@ -1821,7 +1912,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						+ FelderStrataTypen.STUDIEID + " = ? , "
 						+ FelderStrataTypen.NAME + " = ? , "
 						+ FelderStrataTypen.BESCHREIBUNG + " = ? WHERE "
-						+ FelderStrataTypen.Id + " = ? ";
+						+ FelderStrataTypen.ID + " = ? ";
 
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(counter++, strata.getStudienID());
@@ -1869,7 +1960,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				int counter = 1;
 				long id = Long.MIN_VALUE;
 				sql = "INSERT  INTO " + Tabellen.STRATA_AUSPRAEGUNG + "("
-						+ FelderStrataAuspraegung.Id + ","
+						+ FelderStrataAuspraegung.ID + ","
 						+ FelderStrataAuspraegung.STRATAID + ","
 						+ FelderStrataAuspraegung.WERT + ") VALUES "
 						+ "(NULL,?,?)";
@@ -1892,7 +1983,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				sql += "UPDATE " + Tabellen.STRATA_AUSPRAEGUNG + " SET "
 						+ FelderStrataAuspraegung.STRATAID + " = ? , "
 						+ FelderStrataAuspraegung.WERT + " = ? WHERE "
-						+ FelderStrataAuspraegung.Id + " = ? ";
+						+ FelderStrataAuspraegung.ID + " = ? ";
 
 				pstmt = con.prepareStatement(sql);
 				pstmt.setLong(counter++, auspr.getId());
@@ -3234,7 +3325,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				tmpStrata = new StrataBean(rs.getLong(FelderStrataTypen.Id
+				tmpStrata = new StrataBean(rs.getLong(FelderStrataTypen.ID
 						.toString()), rs.getLong(FelderStrataTypen.STUDIEID
 						.toString()), rs.getString(FelderStrataTypen.NAME
 						.toString()), rs
@@ -3305,7 +3396,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				tmpAuspr = new StrataAuspraegungBean(rs
-						.getLong(FelderStrataAuspraegung.Id.toString()), rs
+						.getLong(FelderStrataAuspraegung.ID.toString()), rs
 						.getLong(FelderStrataAuspraegung.STRATAID.toString()),
 						rs.getString(FelderStrataAuspraegung.WERT.toString()));
 				auspraegungen.add(tmpAuspr);
@@ -3864,13 +3955,13 @@ public class Datenbank implements DatenbankSchnittstelle {
 		con = ConnectionFactory.getInstanz().getConnection();
 		String sql;
 		sql = "SELECT * FROM " + Tabellen.STRATA_TYPEN + " WHERE "
-				+ FelderStrataTypen.Id + " = ?";
+				+ FelderStrataTypen.ID + " = ?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, id);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				tmpStrata = new StrataBean(rs.getLong(FelderStrataTypen.Id
+				tmpStrata = new StrataBean(rs.getLong(FelderStrataTypen.ID
 						.toString()), rs.getLong(FelderStrataTypen.STUDIEID
 						.toString()), rs.getString(FelderStrataTypen.NAME
 						.toString()), rs
@@ -3908,14 +3999,14 @@ public class Datenbank implements DatenbankSchnittstelle {
 		con = ConnectionFactory.getInstanz().getConnection();
 		String sql;
 		sql = "SELECT * FROM " + Tabellen.STRATA_AUSPRAEGUNG + " WHERE "
-				+ FelderStrataAuspraegung.Id + " = ?";
+				+ FelderStrataAuspraegung.ID + " = ?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, id);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				tmpStrata = new StrataAuspraegungBean(rs
-						.getLong(FelderStrataAuspraegung.Id.toString()), rs
+						.getLong(FelderStrataAuspraegung.ID.toString()), rs
 						.getLong(FelderStrataAuspraegung.STRATAID.toString()),
 						rs.getString(FelderStrataAuspraegung.WERT.toString()));
 			}
