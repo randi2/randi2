@@ -285,7 +285,6 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 			throws NumberFormatException, StudieException, ServletException,
 			IOException {
 
-		System.out.println("wir sind in der entziehen methode");
 		String idx = request.getParameter(Parameter.zentrum.ZENTRUM_ID
 				.toString());
 
@@ -295,15 +294,10 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
 
 		if (aSession != null) {
-			System.out.println("aSession ist nicht null");
 			aSession.removeZentrum(aZentrum);
 			request.setAttribute(Parameter.anfrage_id.toString(),
 					StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name());
-			System.out.println("anfrageid gesetzt zu "
-					+ StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name());
-
-		}
-		System.out.println("weiter zur studieservlet");
+			}
 		request.getRequestDispatcher("StudieServlet")
 				.forward(request, response);
 	}
@@ -445,7 +439,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		// Alle aenderbaren Attribute des request inititalisieren
 		String institution = request.getParameter(Parameter.zentrum.INSTITUTION
 				.toString());
-		System.out.println(institution);
+//		System.out.println(institution);
 		String abteilung = request
 				.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString());
 		String ort = request.getParameter(Parameter.zentrum.ORT.toString());
@@ -836,8 +830,8 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 					.getParameter(Parameter.person.NACHNAME.name()));
 			// Falls das Geschlecht bereits gesetzt wurde wieder eintragen
 			if (request.getParameter(Parameter.person.GESCHLECHT.name()) != null) {
-				System.out.println(request
-						.getParameter(Parameter.person.GESCHLECHT.name()));
+//				System.out.println(request
+//						.getParameter(Parameter.person.GESCHLECHT.name()));
 				request.setAttribute(Parameter.person.GESCHLECHT.name(),
 						request
 								.getParameter(Parameter.person.GESCHLECHT
@@ -970,7 +964,7 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 							.getParameter("ABTEILUNGSNAME"));
 					sZentrum.setIstAktiviert(true);
 					gZentrum = Zentrum.suchenZentrum(sZentrum);
-
+					
 				}
 
 				request.setAttribute("listeZentren", gZentrum);
@@ -987,6 +981,14 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		}
 
 	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	private void classDispatcherservletZentrumAnzeigenSperren(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
