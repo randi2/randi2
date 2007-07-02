@@ -33,11 +33,13 @@ public final class HttpServletRequestExtended extends HttpServletRequestWrapper 
 	    return null; 
 	}
 
+	
+	
 	int count = results.length;
 
 	String[] trimResults = new String[count];
 	for (int i = 0; i < count; i++) {
-	    trimResults[i] = results[i].trim();
+	    trimResults[i] = results[i].trim().replaceAll("ä", "ae").replaceAll("ö", "oe").replaceAll("ü", "ue");
 	}
 	return trimResults;
     }
@@ -57,6 +59,9 @@ public final class HttpServletRequestExtended extends HttpServletRequestWrapper 
 	    return null;
 	}
 	rueckgabewert=rueckgabewert.trim();
+	rueckgabewert.replaceAll("ä", "ae");
+	rueckgabewert.replaceAll("ö", "oe");
+	rueckgabewert.replaceAll("ü", "ue");
 	if (rueckgabewert.equals("")) {
 	    rueckgabewert = null;
 	}

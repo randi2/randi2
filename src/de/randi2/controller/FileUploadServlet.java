@@ -78,9 +78,9 @@ public class FileUploadServlet extends HttpServlet {
 				} else {
 					Logger.getLogger(this.getClass()).debug(
 							(fileItem.getFieldName() + "==" + fileItem
-									.getString()));
+									.getString().replaceAll("ä", "ae").replaceAll("ö", "oe").replaceAll("ü", "ue")));
 					request.setAttribute(fileItem.getFieldName(), fileItem
-							.getString());
+							.getString().trim().replaceAll("ä", "ae").replaceAll("ö", "oe").replaceAll("ü", "ue"));
 
 				}
 			}
