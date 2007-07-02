@@ -884,6 +884,15 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
 			} else if (id
+					.equals(StudieServlet.anfrage_id.JSP_STRATA_ANZEIGEN
+							.toString())) {
+				// Der Benutzer will sich die Strata anzeigen lassen
+				request.setAttribute(Parameter.anfrage_id,
+						StudieServlet.anfrage_id.AKTION_STRATA_ANZEIGEN
+								.toString());
+				request.getRequestDispatcher("StudieServlet").forward(request,
+						response);
+			} else if (id
 					.equals(StudieServlet.anfrage_id.JSP_STATISTIK_ANZEIGEN
 							.toString())) {
 				// Der Benutzer will sich eine Statistik anzeigen lassen
