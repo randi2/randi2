@@ -132,7 +132,12 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Aktion um ein Zentrum einer Studie zuzuweisen
 		 */
-		AKTION_ZENTRUM_ZUWEISEN;
+		AKTION_ZENTRUM_ZUWEISEN,
+		
+		/**
+		 * Aktion um ein Zentrum einer Studie zu entziehen
+		 */
+		AKTION_ZENTRUM_ENTZIEHEN;
 	}
 
 	/**
