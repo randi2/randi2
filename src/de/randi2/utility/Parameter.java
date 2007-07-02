@@ -309,6 +309,10 @@ public class Parameter {
 	 *
 	 */
 	public enum strata {
+		/**
+		 * Die eindeutige ID des Elementes
+		 */
+		ID,
 		
 		/**
 		 * Der Name der Strata

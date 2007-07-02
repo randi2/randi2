@@ -26,6 +26,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="java.util.Vector"%>
 <%@page import="de.randi2.model.exceptions.StudieException"%>
+<%@page import="de.randi2.randomisation.Randomisation"%>
+<%@page import="java.util.Iterator"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -303,6 +305,32 @@ Ext.onReady(function(){
 					<tr>
 						<td class="tblrow1"><%=aStudie.getAlgorithmus()%></td>
 					</tr>
+					<%
+					if(aStudie.getAlgorithmus()!=Randomisation.Algorithmen.VOLLSTAENDIGE_RANDOMISATION){ 
+						Iterator<StrataBean> strataIt = aStudie.getStrata().iterator();
+					%>
+					<tr class="tblrow3">
+						<td>Stratas der Studie</td>
+					</tr>
+						<%while(strataIt.hasNext()){ 
+						StrataBean aStrata = strataIt.next();
+						%>
+						<tr>
+						<td class="tblrow1">
+						<form action="DispatcherServlet" method="POST" name="strata"
+							id="strata"><input type="hidden"
+							name="<%=Parameter.anfrage_id %>" value="">
+							<input
+							type="hidden" name="<%=Parameter.strata.ID.toString() %>"
+							value="">
+							</form>
+						<%=aStrata.getName()%>
+						<img style="cursor:pointer" src="images/strata.gif"
+							onClick="document.forms['strata].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STRATA_ANZEIGEN.toString() %>';document.forms['studienarm'].<%=Parameter.strata.ID.toString()%>.value = '<%=aStrata.getId() %>';document.forms['strata'].submit();">
+						</td>
+						</tr>
+						<% } %>
+					<% } %>
 				</tbody>
 			</table>
 			<br>

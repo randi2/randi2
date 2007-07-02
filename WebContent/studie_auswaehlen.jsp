@@ -165,11 +165,11 @@ Ext.onReady(function(){
 		buttonAlign: 'center'
     });
     
-    var form_simulation = new Ext.form.Form({
-        labelAlign: 'left',
-        labelWidth: 0,
-		buttonAlign: 'center'
-    });
+<!--    var form_simulation = new Ext.form.Form({-->
+<!--        labelAlign: 'left',-->
+<!--        labelWidth: 0,-->
+<!--		buttonAlign: 'center'-->
+<!--    });-->
     
 	form_neue_studie.addButton('Neue Studie anlegen', function(){
 		
@@ -185,19 +185,19 @@ Ext.onReady(function(){
 	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
 	form_neue_studie.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN_NEUESTUDIE.name() %>'});	
 
-	form_simulation.addButton('Simulation', function(){
-		
-            var frm = document.getElementById(this.id);
-            frm.method = 'POST';
-            frm.action = 'DispatcherServlet';
-			frm.submit();
-			
-	}, form_simulation);    
-
-	form_simulation.render('form_simulation');
+<!--	form_simulation.addButton('Simulation', function(){-->
+<!--		-->
+<!--            var frm = document.getElementById(this.id);-->
+<!--            frm.method = 'POST';-->
+<!--            frm.action = 'DispatcherServlet';-->
+<!--			frm.submit();-->
+<!--			-->
+<!--	}, form_simulation);    -->
+<!---->
+<!--	form_simulation.render('form_simulation');-->
 	
 	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
-	form_simulation.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_SIMULATION%>'});	
+<!--	form_simulation.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_SIMULATION%>'});	-->
 
 <%
 
@@ -304,10 +304,10 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 
 		<div id="form_neue_studie"></div>
 		</td>
-		<td>&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;</td>
-		<td align="left">
-		<div id="form_simulation"></div>
-		</td>
+<!--		<td>&nbsp;&nbsp;&nbsp;::&nbsp;&nbsp;&nbsp;</td>-->
+<!--		<td align="left">-->
+<!--		<div id="form_simulation"></div>-->
+<!--		</td>-->
 	</tr>
 </table>
 <br>

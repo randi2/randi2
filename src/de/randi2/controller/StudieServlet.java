@@ -250,6 +250,16 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Studie ansehen
 		 */
 		JSP_STUDIE_ANSEHEN,
+		
+		/**
+		 * Die ausgewählte Strata soll angezeigt werden.
+		 */
+		JSP_STRATA_ANZEIGEN,
+		
+		/**
+		 * Die ausgewählte Strata wird angezeigt.
+		 */
+		AKTION_STRATA_ANZEIGEN,
 
 		/**
 		 * Das Studienprotokoll soll heruntergeladen werden
