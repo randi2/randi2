@@ -100,11 +100,12 @@ public class StudieBean extends Filter {
 	 * Status der Studie.
 	 */
 	private Status aStatus = null;
-	
+
 	/**
-	 * Falls die Studie mit Blockrandomisation konfiguriert ist, wird hier die Blockgroesse gespeichert
+	 * Falls die Studie mit Blockrandomisation konfiguriert ist, wird hier die
+	 * Blockgroesse gespeichert
 	 */
-	private int aBlockgroesse= NullKonstanten.NULL_INT;
+	private int aBlockgroesse = NullKonstanten.NULL_INT;
 
 	/**
 	 * Konstruktor mit allen Attributen der Klasse, die aus der Datenbank
@@ -428,19 +429,37 @@ public class StudieBean extends Filter {
 	public void setZentren(Vector<ZentrumBean> zentren) throws StudieException {
 		this.aZentren = zentren;
 	}
-/**
- * Die Methode fügt ein Zentrum der Studie hinzu
- * @param sZentrum
- * @throws StudieException 
- * @throws DatenbankExceptions 
- */
-	public void addZentrum(StudieBean aSession, ZentrumBean sZentrum) throws DatenbankExceptions, StudieException{
-		Studie stud = new Studie(aSession);
-		stud.zuweisenZentrum(sZentrum);
-		
-		
-		
+
+	/**
+	 * Die Methode fügt ein Zentrum der Studie hinzu
+	 * 
+	 * @param sZentrum
+	 * @throws StudieException
+	 * @throws DatenbankExceptions
+	 */
+	public void addZentrum(ZentrumBean sZentrum) throws DatenbankExceptions,
+			StudieException {
+		Studie stud = new Studie(this);
+		stud.zuweisenZentrum(this.getBenutzerkonto(), sZentrum);
+
 	}
+
+	/**
+	 * Die Methode entfernt ein Zentrum von der Studie
+	 * 
+	 * @param sZentrum
+	 * @throws StudieException
+	 * @throws DatenbankExceptions
+	 */
+	public void removeZentrum(ZentrumBean sZentrum) throws DatenbankExceptions,
+			StudieException {
+		if (aZentren.contains(sZentrum)) {
+			Studie stud = new Studie(this);
+			stud.entfernenZentrum(this.getBenutzerkonto(), sZentrum);
+		}
+
+	}
+
 	/**
 	 * Liefert die Schichten(Strata) der Studie.
 	 * 
@@ -776,7 +795,8 @@ public class StudieBean extends Filter {
 	 *             wenn die uebergebene Blockgroesse kleiner als 2 ist.
 	 */
 	public void setBlockgroesse(int blockgroesse) throws StudieException {
-		if(blockgroesse<2 && this.getAlgorithmus()!=Randomisation.Algorithmen.VOLLSTAENDIGE_RANDOMISATION) {
+		if (blockgroesse < 2
+				&& this.getAlgorithmus() != Randomisation.Algorithmen.VOLLSTAENDIGE_RANDOMISATION) {
 			throw new StudieException(StudieException.BLOCKGROESSE_ZU_KLEIN);
 		}
 		this.aBlockgroesse = blockgroesse;

@@ -1,6 +1,8 @@
 package de.randi2.model.fachklassen;
 
 import java.util.Vector;
+
+import de.randi2.controller.DispatcherServlet;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
@@ -125,12 +127,16 @@ public class Studie {
 	public StudieBean getStudieBean() {
 		return this.aStudieBean;
 	}
-	
+
 	/**
+	 * 
 	 * Diese Methode weist ein Zentrum einer Studie hinzu.
 	 * 
 	 * @param aZentrum
 	 *            Das aktuelle ZentrumBean.
+	 *            
+	 * @param aBenutzer
+	 * 				Benutzer der diese Aktion durchfuehrt
 	 * @throws StudieException
 	 *             Exception,wenn ein Zentrum einer Studie schon zugewiesen
 	 *             wurde.
@@ -138,17 +144,19 @@ public class Studie {
 	 *             Exception, wenn ein Fehler in der Datenbank auftritt.
 	 */
 
-	public void zuweisenZentrum(ZentrumBean aZentrum) throws StudieException,
-			DatenbankExceptions {
 
-		zugewieseneZentren = getZugehoerigeZentren();
+	public void zuweisenZentrum(BenutzerkontoBean aBenutzer,
+			ZentrumBean aZentrum) throws StudieException, DatenbankExceptions {
 
+			zugewieseneZentren = getZugehoerigeZentren();
+			System.out.println("wir sind beim zuweisenZentrum");
 		// Testet, ob das Zentrum schon vorhanden ist
 		if (zugewieseneZentren.contains(aZentrum)) {
 			throw new StudieException(StudieException.ZENTRUM_EXISTIERT);
 		} else {
 			zugewieseneZentren.add(aZentrum);
-//			aStudieBean.setBenutzerkonto(aBenutzerkonto)
+
+			aStudieBean.setBenutzerkontoLogging(aBenutzer);
 			aStudieBean.setZentren(zugewieseneZentren);
 			DatenbankFactory.getAktuelleDBInstanz()
 					.schreibenObjekt(aStudieBean);
@@ -390,5 +398,29 @@ public class Studie {
 			return false;
 		}
 	}
+/**
+ * 
+ * @param benutzerkonto
+ * @param zentrum
+ * @throws DatenbankExceptions 
+ * @throws StudieException 
+ */
+	public void entfernenZentrum(BenutzerkontoBean benutzerkonto, ZentrumBean zentrum) throws DatenbankExceptions, StudieException {
+
+		zugewieseneZentren = getZugehoerigeZentren();
+		System.out.println("wir sind beim zuweisenZentrum");
+	// Testet, ob das Zentrum schon vorhanden ist
+	if (!zugewieseneZentren.contains(zentrum)) {
+		throw new StudieException(StudieException.ZENTRUM_EXISTIERT);
+	} else {
+		zugewieseneZentren.remove(zentrum);
+
+		aStudieBean.setBenutzerkontoLogging(benutzerkonto);
+		aStudieBean.setZentren(zugewieseneZentren);
+		DatenbankFactory.getAktuelleDBInstanz()
+				.schreibenObjekt(aStudieBean);
+
+	}
+}
 
 }
