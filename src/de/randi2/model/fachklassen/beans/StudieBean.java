@@ -431,10 +431,14 @@ public class StudieBean extends Filter {
 /**
  * Die Methode fügt ein Zentrum der Studie hinzu
  * @param sZentrum
+ * @throws StudieException 
+ * @throws DatenbankExceptions 
  */
-	public void addZentrum(ZentrumBean sZentrum){
-		//TODO wie soll das hinzufügen funktionieren? 
-		//Studie.zuweisenZentrum(sZentrum);
+	public void addZentrum(StudieBean aSession, ZentrumBean sZentrum) throws DatenbankExceptions, StudieException{
+		Studie stud = new Studie(aSession);
+		stud.zuweisenZentrum(sZentrum);
+		
+		
 		
 	}
 	/**

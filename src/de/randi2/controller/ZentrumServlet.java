@@ -16,6 +16,7 @@ import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PersonException;
+import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Zentrum;
@@ -244,8 +245,12 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 			classDispatcherservletZentrumAnzeigenSperren(request, response);
 		} else if (id.equals(ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ZUWEISEN
 				.name())) {
-			System.out.println("wir sind im zentrum beim aufruf der methode");
-			classDispatcherservletZentrumHinzu(request, response);
+			//System.out.println("wir sind im zentrum beim aufruf der methode");
+			try {
+				classDispatcherservletZentrumHinzu(request, response);
+			} catch (StudieException e) {
+				
+			}
 		} else {
 			// TODO Hier muss noch entschieden werden,was passiert
 		}
@@ -256,19 +261,28 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	 * 
 	 * @param request
 	 * @param response
+	 * @throws StudieException 
 	 */
 	private void classDispatcherservletZentrumHinzu(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response) throws ServletException, IOException, StudieException {
 		String idx = request.getParameter(Parameter.zentrum.ZENTRUM_ID
 				.toString());
+		
 		ZentrumBean aZentrum = Zentrum.getZentrum(Long.parseLong(idx));
+		
 		StudieBean aSession = (StudieBean) request.getSession().getAttribute(
-				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.name());
-		System.out.println("sind im zentrum, id ist " +idx);
-		// Studie.zuweisenZentrum(aZentrum);
+				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
+		
 		request.setAttribute(Parameter.anfrage_id.toString(),
 				StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN
 						.name());
+		if(aSession!=null ){
+			aSession.addZentrum(aSession, aZentrum);
+		
+			request.setAttribute(Parameter.anfrage_id.toString(),
+				StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN
+						.name());
+		}
 		request.getRequestDispatcher("StudieServlet").forward(
 				request, response);
 	}

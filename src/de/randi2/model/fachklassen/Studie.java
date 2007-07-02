@@ -148,6 +148,7 @@ public class Studie {
 			throw new StudieException(StudieException.ZENTRUM_EXISTIERT);
 		} else {
 			zugewieseneZentren.add(aZentrum);
+//			aStudieBean.setBenutzerkonto(aBenutzerkonto)
 			aStudieBean.setZentren(zugewieseneZentren);
 			DatenbankFactory.getAktuelleDBInstanz()
 					.schreibenObjekt(aStudieBean);
