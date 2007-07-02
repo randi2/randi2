@@ -144,14 +144,25 @@ public class PatientBean extends Filter {
 	 * @param datumAufklaerung
 	 *            Setzt das Aufklärungsdatum.
 	 * @throws PatientException -
-	 *             wenn das uebergebene Datum in der Zukunft liegt.
+	 *             wenn das uebergebene Datum in der Zukunft liegt. (oder wenn
+	 *             das übergebene Datum vor dem Geburtsdatum liegt)
 	 */
 	public void setDatumAufklaerung(GregorianCalendar datumAufklaerung)
 			throws PatientException {
 		if ((new GregorianCalendar(Locale.GERMANY)).before(datumAufklaerung)) {
 			throw new PatientException(PatientException.DATUM_IN_DER_ZUKUNFT);
 		}
-		this.aDatumAufklaerung = datumAufklaerung;
+		if (this.aGeburtsdatum == null) {
+			this.aDatumAufklaerung = datumAufklaerung;
+		} else {
+			if (this.aGeburtsdatum.after(datumAufklaerung)) {
+				throw new PatientException(
+						PatientException.DATUM_VOR_GEBDATUM);
+			} else {
+				this.aDatumAufklaerung = datumAufklaerung;
+			}
+		}
+
 	}
 
 	/**
@@ -169,14 +180,24 @@ public class PatientBean extends Filter {
 	 * @param geburtsdatum
 	 *            Setzt das Geburtsdatum.
 	 * @throws PatientException -
-	 *             wenn das uebergebene Datum in der Zukunft liegt.
+	 *             wenn das uebergebene Datum in der Zukunft liegt. (oder nach
+	 *             dem Datum der Aufklaerung)
 	 */
 	public void setGeburtsdatum(GregorianCalendar geburtsdatum)
 			throws PatientException {
 		if ((new GregorianCalendar(Locale.GERMANY)).before(geburtsdatum)) {
 			throw new PatientException(PatientException.DATUM_IN_DER_ZUKUNFT);
 		}
-		aGeburtsdatum = geburtsdatum;
+		if (this.aDatumAufklaerung == null) {
+			this.aGeburtsdatum = geburtsdatum;
+		} else {
+			if (this.aDatumAufklaerung.before(geburtsdatum)) {
+				throw new PatientException(
+						PatientException.DATUM_IN_DER_ZUKUNFT);
+			} else {
+				this.aGeburtsdatum = geburtsdatum;
+			}
+		}
 	}
 
 	/**

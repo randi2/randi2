@@ -14,6 +14,11 @@ public class PatientException extends BenutzerException {
 	 * Fehlermeldung, wenn das eingegebene Datum in der Zukunft liegt.
 	 */
 	public static final String DATUM_IN_DER_ZUKUNFT = BenutzerkontoException.DATUM_IN_DER_ZUKUNFT;
+	
+	/**
+	 * Fehlermeldung, wenn das uebergebene Aufklaerungsdatum der Patienten vor seinem Geburtsdatum liegt.
+	 */
+	public static final String DATUM_VOR_GEBDATUM = "Das &uuml;bergebene Aufkl&auml;rungsdatum liegt vor dem Geburtsdatum!";
 
 	/**
 	 * Fehlermeldung, wenn das Aufklaerungsdatum/Geburtsdatum gleich null ist.
