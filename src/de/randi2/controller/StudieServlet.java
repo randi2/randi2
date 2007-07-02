@@ -311,7 +311,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Statistik zur aktuellen Studie
 		 */
-		AKTUELLE_STATISTIK("aStatistik");
+		AKTUELLE_STATISTIK("aStatistik"),
+		
+		/**
+		 * Die aktuelle Strata
+		 */
+		AKTUELLE_STRATA("aStrata");
 
 		/**
 		 * String Version des Parameters
@@ -591,7 +596,15 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					.toString(), aStudienarm);
 			request.getRequestDispatcher(Jsp.STUDIENARM_ANZEIGEN).forward(
 					request, response);
-		} else if (id.equals(anfrage_id.AKTION_STUDIENARM_BEENDEN.toString())) {
+		} else if (id.equals(anfrage_id.AKTION_STRATA_ANZEIGEN.toString())) {
+			// Dem Benutzer wird die ausgewählte Strata der Studie
+			// angezeigt.
+			StrataBean aStrata = Strata.get(Long.parseLong(request.getParameter(Parameter.strata.ID.toString())));
+			request.setAttribute(requestParameter.AKTUELLE_STRATA
+					.toString(), aStrata);
+			request.getRequestDispatcher(Jsp.STRATA_ANZEIGEN).forward(
+					request, response);
+		}else if (id.equals(anfrage_id.AKTION_STUDIENARM_BEENDEN.toString())) {
 			// Ein Arm der Studie wird beendet
 			StudienarmBean aStudienarm = (StudienarmBean) Studienarm
 					.getStudienarm(Long.parseLong(request

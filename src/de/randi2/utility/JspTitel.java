@@ -173,6 +173,10 @@ public final class JspTitel {
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
+	public static final String STRATA_ANZEIGEN = "Strata anzeigen";
+	/**
+	 * Konstante fuer jsp-Seite
+	 */
 	public static final String STUDIE_ANSEHEN = "Studie ansehen";
 	/**
 	 * Konstante fuer jsp-Seite

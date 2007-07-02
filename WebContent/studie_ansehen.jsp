@@ -326,7 +326,7 @@ Ext.onReady(function(){
 							</form>
 						<%=aStrata.getName()%>
 						<img style="cursor:pointer" src="images/strata.gif"
-							onClick="document.forms['strata].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STRATA_ANZEIGEN.toString() %>';document.forms['studienarm'].<%=Parameter.strata.ID.toString()%>.value = '<%=aStrata.getId() %>';document.forms['strata'].submit();">
+							onClick="document.forms['strata'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STRATA_ANZEIGEN.toString() %>';document.forms['strata'].<%=Parameter.strata.ID.toString()%>.value = '<%=aStrata.getId() %>';document.forms['strata'].submit();">
 						</td>
 						</tr>
 						<% } %>
@@ -354,13 +354,17 @@ Ext.onReady(function(){
 						<td class="tblrow1">
 						<form action="DispatcherServlet" method="POST" name="studienarm"
 							id="studienarm"><input type="hidden"
-							name="<%=Parameter.anfrage_id %>" value=""> <input
+							name="<%=Parameter.anfrage_id %>" value="">
+							<input
 							type="hidden" name="<%=Parameter.studienarm.ID.toString() %>"
-							value=""></form>
+							value="">
+							</form>
 						<%=aStudienarme.get(aStudienarme.size() - counter)
-									.getBezeichnung()+" "+"("+aStudienarme.get(aStudienarme.size() - counter).getStatus().toString()+")"%> <img style="cursor:pointer" src="images/anzeigen.gif"
+									.getBezeichnung()+" "+"("+aStudienarme.get(aStudienarme.size() - counter).getStatus().toString()+")"%>
+							<img style="cursor:pointer" src="images/anzeigen.gif"
 							onClick="document.forms['studienarm'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STUDIENARM_ANZEIGEN.toString() %>';document.forms['studienarm'].<%=Parameter.studienarm.ID.toString()%>.value = '<%=aStudienarme.get(aStudienarme.size() - counter)
-							.getId() %>';document.forms['studienarm'].submit();"></td>
+							.getId() %>';document.forms['studienarm'].submit();">
+							</td>
 						<%
 						} else {
 						%>

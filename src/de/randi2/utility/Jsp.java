@@ -156,6 +156,10 @@ public final class Jsp {
 	/**
 	 * Konstante fuer jsp-Seite
 	 */
+	public static final String STRATA_ANZEIGEN ="/strata_anzeigen.jsp";
+	/**
+	 * Konstante fuer jsp-Seite
+	 */
 	public static final String STUDIE_ABBRECHEN = "/studie_abbrechen.jsp";
 	/**
 	 * Konstante fuer jsp-Seite
