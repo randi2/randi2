@@ -947,28 +947,12 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 				aZentrum.setIstAktiviert(true);
 			}
 			aZentrum.setFilter(true);
-			BenutzerkontoBean bKonto = new BenutzerkontoBean();
-			bKonto.setFilter(true);
-			try {
-				bKonto.setZentrumId(aZentrum.getId());
-			} catch (BenutzerkontoException e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
-						.getMessage());
-			}
-			Vector<BenutzerkontoBean> benutzerVec = new Vector<BenutzerkontoBean>();
-			benutzerVec = DatenbankFactory.getAktuelleDBInstanz()
-					.suchenMitgliederObjekte(aZentrum, bKonto);
-			if (benutzerVec.elementAt(0) != null) {
-				aZentrum.setBenutzerkontoLogging(benutzerVec.elementAt(0));
-				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
-						aZentrum);
-				classDispatcherservletZentrenAnzeigenAdmin(request, response);
-			} else {
-				classDispatcherservletZentrenAnzeigenAdmin(request, response);
-			}
+			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) (request.getSession()).getAttribute(DispatcherServlet.sessionParameter.A_Benutzer
+					.toString());
+			aZentrum.setBenutzerkontoLogging(aBenutzer);
 
+			DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aZentrum);
+			classDispatcherservletZentrenAnzeigenAdmin(request, response);
 		}
-
 	}
-
 }

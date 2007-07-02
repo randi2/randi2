@@ -29,6 +29,7 @@
 <body onload="hideFilter();">
 <%@include file="include/inc_header.jsp"%>
 <div id="content">
+<%@include file="include/inc_nachricht.jsp" %>
 <h1>Zentren suchen</h1>
 <fieldset style="width: 90%;"><legend><b>Zentren suchen</b></legend>
 
