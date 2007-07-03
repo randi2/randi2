@@ -23,15 +23,11 @@
 		.getAttribute(StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
 				.toString());
 		
-		System.out.println(" >>>> " +zugehoerigeZentren.size()+ " toString: "+ StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
-				.toString());
 
 		nichtZugehoerigeZentren = (Vector<ZentrumBean>) request
 		.getAttribute(StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN
 				.toString());
-		System.out.println(" >>>> " +nichtZugehoerigeZentren.size()+ " "+ StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN
-				.toString());
-		
+			
 		itZugehoerigeZentren = zugehoerigeZentren.iterator();
 		itNichtZugehoerigeZentren = nichtZugehoerigeZentren.iterator();
 	} catch (NullPointerException npe) {

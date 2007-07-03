@@ -427,7 +427,6 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		if (gefilterteZentren == null || gefilterteZentren.size() == 0) {
 			zugehZentren.clear();
 			nichtZugehZentren.clear();
-			System.out.println("Keine Zentren gefunden");
 			request.setAttribute(StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN.toString(), zugehZentren);
 			request.setAttribute(StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN.toString(), nichtZugehZentren);
 
@@ -442,11 +441,9 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 					}
 				}
 			}
-			System.out.println(tmp.size()+" zugehörige Zentren gefunden");
 			if (tmp.size() == 0) {
 				request.setAttribute(StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN.toString(), tmp);
 			} else {
-				System.out.println(tmp.size() +" zugehörige Zentren wurden in tmp eingefügt und übergeben");
 				request.setAttribute(StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN.toString() , tmp);
 			}
 			Vector<ZentrumBean> tmp2 = new Vector<ZentrumBean>();
@@ -459,8 +456,6 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 					}
 				}
 			}
-			System.out.println(tmp2.size()+" nicht zugehörige Zentren gefunden");
-			System.out.println(tmp2.size() +" nicht zugehörige Zentren wurden in tmp eingefügt und übergeben");
 			request.setAttribute(StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN.toString(), tmp2);
 		}
 		
