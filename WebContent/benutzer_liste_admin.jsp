@@ -42,11 +42,9 @@ if (request.getParameter(Parameter.zentrum.INSTITUTION.toString()) != null) {
 //Rolle holen
 Rolle.Rollen aRolle=((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString())).getRolle().getRollenname(); 
 %>
-<%@page import="de.randi2.model.fachklassen.Rolle.Rollen"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script language="Javascript" src="js/motionpack.js"> </script>
 <title>Randi2 :: <%=request
 									.getAttribute(DispatcherServlet.requestParameter.TITEL
 											.toString())%></title>

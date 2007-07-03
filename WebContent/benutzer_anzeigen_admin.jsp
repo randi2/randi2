@@ -19,9 +19,6 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<form action="DispatcherServlet" method="POST" name="menue_form"
-			id="menue_form"><input type="hidden"
-			name="<%=Parameter.anfrage_id %>" value=""></form>
 <%@include file="include/inc_header.jsp"%>
 <% //Die 3 Objekte holen
 BenutzerkontoBean benutzerkonto=(BenutzerkontoBean)request.getAttribute("aBenutzer");
@@ -138,10 +135,8 @@ Nachfolgend finden Sie ausf&uuml;hrliche Informationen zum <b>Ansprechpartner</b
 	</tr>
 </table>
 
-<%@include file="include/inc_footer.jsp"%></div>
-
+<%@include file="include/inc_footer.jsp"%>
+</div>
 <%@include file="include/inc_menue.jsp"%>
-
 </body>
 </html>
-
