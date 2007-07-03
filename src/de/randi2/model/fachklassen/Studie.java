@@ -149,7 +149,6 @@ public class Studie {
 			ZentrumBean aZentrum) throws StudieException, DatenbankExceptions {
 
 			zugewieseneZentren = getZugehoerigeZentren();
-			System.out.println("wir sind beim zuweisenZentrum");
 		// Testet, ob das Zentrum schon vorhanden ist
 		if (zugewieseneZentren.contains(aZentrum)) {
 			throw new StudieException(StudieException.ZENTRUM_EXISTIERT);
@@ -408,7 +407,6 @@ public class Studie {
 	public void entfernenZentrum(BenutzerkontoBean benutzerkonto, ZentrumBean zentrum) throws DatenbankExceptions, StudieException {
 
 		zugewieseneZentren = getZugehoerigeZentren();
-		System.out.println("wir sind beim zuweisenZentrum");
 	// Testet, ob das Zentrum schon vorhanden ist
 	if (!zugewieseneZentren.contains(zentrum)) {
 		throw new StudieException(StudieException.ZENTRUM_EXISTIERT);
