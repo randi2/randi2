@@ -59,7 +59,6 @@ import de.randi2.utility.Jsp;
 import de.randi2.utility.KryptoUtil;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.Parameter;
-import de.randi2.utility.SystemException;
 
 /**
  * Diese Klasse repraesentiert das STUDIESERVLET, welches Aktionen an die
@@ -75,11 +74,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	 * Serial Version
 	 */
 	private static final long serialVersionUID = 7L;
-
-	/**
-	 * Meldung, wenn der Aenderungsvorgang einer Studie erfolgreich war.
-	 */
-	private static final String AENDERUNG_STUDIE_ERFOLGREICH = "Die Studie wurde erfolgreich geändert.";
 
 	/**
 	 * Meldung, wenn der Status erfolgreich geaendert wurde.
@@ -250,12 +244,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Studie ansehen
 		 */
 		JSP_STUDIE_ANSEHEN,
-		
+
 		/**
 		 * Die ausgewählte Strata soll angezeigt werden.
 		 */
 		JSP_STRATA_ANZEIGEN,
-		
+
 		/**
 		 * Die ausgewählte Strata wird angezeigt.
 		 */
@@ -312,7 +306,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		 * Statistik zur aktuellen Studie
 		 */
 		AKTUELLE_STATISTIK("aStatistik"),
-		
+
 		/**
 		 * Die aktuelle Strata
 		 */
@@ -502,27 +496,33 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
 			Vector<ZentrumBean> zugZentren = this.getZugehoerigeZentren(
 					request, response);
-			request.setAttribute(StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN.toString(), zugZentren);
+			request.setAttribute(
+					StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
+							.toString(), zugZentren);
 			Vector<ZentrumBean> nZugZentren = this.getNichtZugehoerigeZentren(
 					request, response);
 
-			request.setAttribute(StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN.toString(), nZugZentren);
+			request.setAttribute(
+					StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN
+							.toString(), nZugZentren);
 			if (((String) request.getParameter("Filtern")) != null) {
 				String a = "";
 				String b = "";
-				try{
-					 a = (String) request
-				
-						.getParameter(Parameter.zentrum.INSTITUTION.toString()).trim();
-				 b = (String) request
-				.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString()).trim();
-				}catch (NullPointerException npe){
+				try {
+					a = (String) request
+
+					.getParameter(Parameter.zentrum.INSTITUTION.toString())
+							.trim();
+					b = (String) request.getParameter(
+							Parameter.zentrum.ABTEILUNGSNAME.toString()).trim();
+				} catch (NullPointerException npe) {
 					;
 				}
-				if(!(a==null && b==null) && !(a.equals("")&&b.equals(""))){
-				request.getRequestDispatcher("ZentrumServlet").forward(request,
-						response);
-				}else{
+				if (!(a == null && b == null)
+						&& !(a.equals("") && b.equals(""))) {
+					request.getRequestDispatcher("ZentrumServlet").forward(
+							request, response);
+				} else {
 					request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
 							request, response);
 				}
@@ -549,10 +549,27 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 								aStudie.getId(), new StudieBean()));
 
 				String statistikerNachricht = "Ein neues Passwort wurde erzeugt:"
-						+ "<br>Passwort: " + neuesPasswort+ "<br><br><center><img src=\"images/printer-blue.gif\" onClick=\"javascript:popup();\" style=\"cursor:pointer\"></center><br><br>";
-						
-						request.getSession().setAttribute(DispatcherServlet.sessionParameter.PRINT_NACHRICHT.toString(), "Ein Statistiker-Account wurde angelegt:<br><br><b>Studie:</b> "+aStudie.getName()+"<br><br>Loginname: "+statistikerLogin+"<br>Passwort: "+neuesPasswort+"");
-						
+						+ "<br>Passwort: "
+						+ neuesPasswort
+						+ "<br><br><center><img src=\"images/printer-blue.gif\" onClick=\"javascript:popup();\" style=\"cursor:pointer\"></center><br><br>";
+
+				request
+						.getSession()
+						.setAttribute(
+								DispatcherServlet.sessionParameter.PRINT_NACHRICHT
+										.toString(),
+								"Ein Statistiker-Account wurde angelegt:<br><br><b>Studie:</b> "
+										+ aStudie.getName()
+										+ "<br><br>Loginname: "
+										+ ((StudieBean) request
+												.getSession()
+												.getAttribute(
+														DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
+																.toString()))
+												.getStatistiker()
+												.getBenutzername()
+										+ "<br>Passwort: " + neuesPasswort + "");
+
 				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 						statistikerNachricht);
 			} catch (StudieException e) {
@@ -586,10 +603,16 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				String statistikerNachricht = "Ein Statistiker-Account wurde angelegt:<br><br>Login: "
 						+ statistikerLogin
 						+ "<br>Passwort: "
-						+ statistikerPasswort+ "<br><br><center><img src=\"images/printer-blue.gif\" onClick=\"javascript:popup();\" style=\"cursor:pointer\"></center><br><br>";
-						
-						request.getSession().setAttribute(DispatcherServlet.sessionParameter.PRINT_NACHRICHT.toString(), "Ein Statistiker-Account wurde angelegt:<br><br><b>Studie:</b> "+aStudie.getName()+"<br><br>Loginname: "+statistikerLogin+"<br>Passwort: "+statistikerPasswort+"");
-						
+						+ statistikerPasswort
+						+ "<br><br><center><img src=\"images/printer-blue.gif\" onClick=\"javascript:popup();\" style=\"cursor:pointer\"></center><br><br>";
+
+				request.getSession().setAttribute(
+						DispatcherServlet.sessionParameter.PRINT_NACHRICHT
+								.toString(),
+						"Ein Statistiker-Account wurde angelegt:<br><br><b>Studie:</b> "
+								+ aStudie.getName() + "<br><br>Loginname: "
+								+ statistikerLogin + "<br>Passwort: "
+								+ statistikerPasswort + "");
 
 				request.getSession().setAttribute(
 						DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
@@ -619,12 +642,13 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		} else if (id.equals(anfrage_id.AKTION_STRATA_ANZEIGEN.toString())) {
 			// Dem Benutzer wird die ausgewählte Strata der Studie
 			// angezeigt.
-			StrataBean aStrata = Strata.get(Long.parseLong(request.getParameter(Parameter.strata.ID.toString())));
-			request.setAttribute(requestParameter.AKTUELLE_STRATA
-					.toString(), aStrata);
-			request.getRequestDispatcher(Jsp.STRATA_ANZEIGEN).forward(
-					request, response);
-		}else if (id.equals(anfrage_id.AKTION_STUDIENARM_BEENDEN.toString())) {
+			StrataBean aStrata = Strata.get(Long.parseLong(request
+					.getParameter(Parameter.strata.ID.toString())));
+			request.setAttribute(requestParameter.AKTUELLE_STRATA.toString(),
+					aStrata);
+			request.getRequestDispatcher(Jsp.STRATA_ANZEIGEN).forward(request,
+					response);
+		} else if (id.equals(anfrage_id.AKTION_STUDIENARM_BEENDEN.toString())) {
 			// Ein Arm der Studie wird beendet
 			StudienarmBean aStudienarm = (StudienarmBean) Studienarm
 					.getStudienarm(Long.parseLong(request
@@ -1139,8 +1163,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 					long aStrataId = aStrata.getId();
 
-					String[] aAuspraegungenArray = aAuspraegungen.trim().split("\n",
-							-2);
+					String[] aAuspraegungenArray = aAuspraegungen.trim().split(
+							"\n", -2);
 
 					for (int j = 0; j < aAuspraegungenArray.length; j++) {
 
@@ -1171,16 +1195,21 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					String statistikerLogin = aStudie.getStatistiker()
 							.getBenutzername();
 					String statistikerPasswort = (String) returnWerte[1];
-					
+
 					statistikerNachricht = "<br><br>Ein Statistiker-Account wurde angelegt:<br><br>Login: "
 							+ statistikerLogin
 							+ "<br>Passwort: "
 							+ statistikerPasswort
 							+ "<br><br><center><img src=\"images/printer-blue.gif\" onClick=\"javascript:popup();\" style=\"cursor:pointer\"></center><br><br>";
-					
-					request.getSession().setAttribute(DispatcherServlet.sessionParameter.PRINT_NACHRICHT.toString(), "Ein Statistiker-Account wurde angelegt:<br><br><b>Studie:</b> "+aStudie.getName()+"<br><br>Loginname: "+statistikerLogin+"<br>Passwort: "+statistikerPasswort+"");
-					
-					
+
+					request.getSession().setAttribute(
+							DispatcherServlet.sessionParameter.PRINT_NACHRICHT
+									.toString(),
+							"Ein Statistiker-Account wurde angelegt:<br><br><b>Studie:</b> "
+									+ aStudie.getName() + "<br><br>Loginname: "
+									+ statistikerLogin + "<br>Passwort: "
+									+ statistikerPasswort + "");
+
 				}
 
 			}
@@ -1329,8 +1358,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 			}
 
-			
-			
 			String aName = (String) request.getAttribute(Parameter.studie.NAME
 					.name());
 			String aBeschreibung = (String) request
@@ -1392,54 +1419,62 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 									.name()));
 
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) request
-			.getSession().getAttribute(
-					DispatcherServlet.sessionParameter.A_Benutzer
-							.toString());			
-			
-			if(aAlgorithmus!=aStudieSession.getAlgorithmus()) {
-				
+					.getSession().getAttribute(
+							DispatcherServlet.sessionParameter.A_Benutzer
+									.toString());
+
+			if (aAlgorithmus != aStudieSession.getAlgorithmus()) {
+
 				// Algorithmus wurde geaendert
-				if (aStudieSession.getAlgorithmus()==Randomisation.Algorithmen.BLOCKRANDOMISATION_MIT_STRATA){
-					
-					//alter Algorithmus war mit Strata also alle Strata loeschen
-					if (aStudieSession.getStrata().size()>0) {
-						
-						for(int l=0;l<aStudieSession.getStrata().size();l++){
-							
-							// es gibt noch alte, ungenutzte Strata in der DB -> loeschen!
-							StrataBean aTmpStrata = aStudieSession.getStrata().get(l);
+				if (aStudieSession.getAlgorithmus() == Randomisation.Algorithmen.BLOCKRANDOMISATION_MIT_STRATA) {
+
+					// alter Algorithmus war mit Strata also alle Strata
+					// loeschen
+					if (aStudieSession.getStrata().size() > 0) {
+
+						for (int l = 0; l < aStudieSession.getStrata().size(); l++) {
+
+							// es gibt noch alte, ungenutzte Strata in der DB ->
+							// loeschen!
+							StrataBean aTmpStrata = aStudieSession.getStrata()
+									.get(l);
 							aTmpStrata.setBenutzerkontoLogging(aBenutzer);
 
-							Object[] aAuspraegungenArray = aTmpStrata.getAuspraegungen().toArray();
-							
-							
-							if (aAuspraegungenArray.length>0) {
-								
-								for(int k=0;k<aAuspraegungenArray.length;k++){
-									
-									// es gibt noch alte, dann ungenutzte Auspraegungen in der DB -> loeschen!
+							Object[] aAuspraegungenArray = aTmpStrata
+									.getAuspraegungen().toArray();
 
-									StrataAuspraegungBean aTmpAuspraegung = (StrataAuspraegungBean)aAuspraegungenArray[k];
-									aTmpAuspraegung.setBenutzerkontoLogging(aBenutzer);
-									DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aTmpAuspraegung);
-									System.out.println("Folgende Auspraegung wurde geloescht: "+aTmpAuspraegung.getId());
+							if (aAuspraegungenArray.length > 0) {
+
+								for (int k = 0; k < aAuspraegungenArray.length; k++) {
+
+									// es gibt noch alte, dann ungenutzte
+									// Auspraegungen in der DB -> loeschen!
+
+									StrataAuspraegungBean aTmpAuspraegung = (StrataAuspraegungBean) aAuspraegungenArray[k];
+									aTmpAuspraegung
+											.setBenutzerkontoLogging(aBenutzer);
+									DatenbankFactory.getAktuelleDBInstanz()
+											.loeschenObjekt(aTmpAuspraegung);
+									System.out
+											.println("Folgende Auspraegung wurde geloescht: "
+													+ aTmpAuspraegung.getId());
 								}
-								
-							}
-							
-							DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aTmpStrata);
-							System.out.println("Folgende Strata wurde geloescht: "+aTmpStrata.getId());
-						
 
-						
+							}
+
+							DatenbankFactory.getAktuelleDBInstanz()
+									.loeschenObjekt(aTmpStrata);
+							System.out
+									.println("Folgende Strata wurde geloescht: "
+											+ aTmpStrata.getId());
+
 						}
-						
+
 					}
 				}
-				
+
 			}
-			
-			
+
 			String aBlockgroesse_s = (String) request
 					.getAttribute(Parameter.studie.BLOCKGROESSE.name());
 			int aBlockgroesse = NullKonstanten.NULL_INT;
@@ -1449,8 +1484,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				aBlockgroesse = (Integer.parseInt(aBlockgroesse_s));
 
 			}
-
-
 
 			long aStudieId = aStudieSession.getId();
 
@@ -1465,19 +1498,20 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			for (int i = 1; i < aAnzahl_Arme + 1; i++) {
 
 				Long aArmId = NullKonstanten.DUMMY_ID;
-				
-				if (aStudieSession.getStudienarme()!=null){
-					if (i<=aStudieSession.getStudienarme().size()) {
-					
-						StudienarmBean aArmOld = aStudieSession.getStudienarme().get(i-1);
+
+				if (aStudieSession.getStudienarme() != null) {
+					if (i <= aStudieSession.getStudienarme().size()) {
+
+						StudienarmBean aArmOld = aStudieSession
+								.getStudienarme().get(i - 1);
 						aArmId = aArmOld.getId();
-						
-						
+
 					} else {
-						
-						// hier handelt es sich auf alle faelle um einen neuen Studienarm
+
+						// hier handelt es sich auf alle faelle um einen neuen
+						// Studienarm
 						aArmId = NullKonstanten.DUMMY_ID;
-						
+
 					}
 				}
 				// Alle Arme holen
@@ -1499,19 +1533,23 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 						aArm);
 
 			}
-			
-			if (aAnzahl_Arme<aStudieSession.getStudienarme().size()) {
-				
-				for(int i=aAnzahl_Arme;i<aStudieSession.getStudienarme().size();i++){
-					
+
+			if (aAnzahl_Arme < aStudieSession.getStudienarme().size()) {
+
+				for (int i = aAnzahl_Arme; i < aStudieSession.getStudienarme()
+						.size(); i++) {
+
 					// es gibt noch alte, ungenutzte Arme in der DB -> loeschen!
-					StudienarmBean aTmpStudienarm = aStudieSession.getStudienarme().get(i);
+					StudienarmBean aTmpStudienarm = aStudieSession
+							.getStudienarme().get(i);
 					aTmpStudienarm.setBenutzerkontoLogging(aBenutzer);
-					DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aTmpStudienarm);
-					System.out.println("Folgender Arm wurde geloescht: "+aTmpStudienarm.getId());
-				
+					DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(
+							aTmpStudienarm);
+					System.out.println("Folgender Arm wurde geloescht: "
+							+ aTmpStudienarm.getId());
+
 				}
-				
+
 			}
 
 			if (aAlgorithmus == Randomisation.Algorithmen.BLOCKRANDOMISATION_MIT_STRATA) {
@@ -1519,22 +1557,23 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				for (int i = 1; i < aAnzahl_Strata + 1; i++) {
 
 					Long aStrataId = NullKonstanten.DUMMY_ID;
-					
-					if (aStudieSession.getStrata()!=null){
-						if (i<=aStudieSession.getStrata().size()) {
-						
-							StrataBean aStrataOld = aStudieSession.getStrata().get(i-1);
+
+					if (aStudieSession.getStrata() != null) {
+						if (i <= aStudieSession.getStrata().size()) {
+
+							StrataBean aStrataOld = aStudieSession.getStrata()
+									.get(i - 1);
 							aStrataId = aStrataOld.getId();
-							
-							
+
 						} else {
-							
-							// hier handelt es sich auf alle faelle um eine neue Strata
+
+							// hier handelt es sich auf alle faelle um eine neue
+							// Strata
 							aStrataId = NullKonstanten.DUMMY_ID;
-							
+
 						}
 					}
-					
+
 					// Alle Strata holen
 					StrataBean aStrata = null;
 
@@ -1549,39 +1588,40 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 									.toString()
 									+ i);
 
-					aStrata = new StrataBean(aStrataId,
-							aStudieId, aStrataName, aStrataBeschreibung);
+					aStrata = new StrataBean(aStrataId, aStudieId, aStrataName,
+							aStrataBeschreibung);
 					aStrata.setBenutzerkontoLogging(aBenutzer);
 					aStrata = DatenbankFactory.getAktuelleDBInstanz()
 							.schreibenObjekt(aStrata);
 
 					aStrataId = aStrata.getId();
 
-					String[] aAuspraegungenArray = aAuspraegungen.trim().split("\n",
-							-2);
+					String[] aAuspraegungenArray = aAuspraegungen.trim().split(
+							"\n", -2);
 
 					for (int j = 0; j < aAuspraegungenArray.length; j++) {
 
 						Long aAuspraegungId = NullKonstanten.DUMMY_ID;
-						
-						Object[] aAuspraegungenOld = aStrata.getAuspraegungen().toArray();
-						
-						if (aAuspraegungenOld.length!=0){
-							
-							if (j<=aStrata.getAuspraegungen().size()) {
-								
+
+						Object[] aAuspraegungenOld = aStrata.getAuspraegungen()
+								.toArray();
+
+						if (aAuspraegungenOld.length != 0) {
+
+							if (j <= aStrata.getAuspraegungen().size()) {
+
 								StrataAuspraegungBean aAuspraegungOld = (StrataAuspraegungBean) aAuspraegungenOld[j];
 								aAuspraegungId = aAuspraegungOld.getId();
-								
-								
+
 							} else {
-								
-								// hier handelt es sich auf alle faelle um eine neue Auspraegung
+
+								// hier handelt es sich auf alle faelle um eine
+								// neue Auspraegung
 								aAuspraegungId = NullKonstanten.DUMMY_ID;
-								
+
 							}
 						}
-						
+
 						// Alle Auspraegungen holen
 						StrataAuspraegungBean aAuspraegung = new StrataAuspraegungBean(
 								aAuspraegungId, aStrataId,
@@ -1591,38 +1631,49 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 								.schreibenObjekt(aAuspraegung);
 
 					}
-					
-					if (aAuspraegungenArray.length<aStrata.getAuspraegungen().size()) {
-						
-						for(int k=aAuspraegungenArray.length;k<aStrata.getAuspraegungen().size();k++){
-							
-							// es gibt noch alte, ungenutzte Auspraegungen in der DB -> loeschen!
 
-							Object[] aAuspraegungenOld = aStrata.getAuspraegungen().toArray();
-							
-							StrataAuspraegungBean aTmpAuspraegung = (StrataAuspraegungBean)aAuspraegungenOld[k];
+					if (aAuspraegungenArray.length < aStrata.getAuspraegungen()
+							.size()) {
+
+						for (int k = aAuspraegungenArray.length; k < aStrata
+								.getAuspraegungen().size(); k++) {
+
+							// es gibt noch alte, ungenutzte Auspraegungen in
+							// der DB -> loeschen!
+
+							Object[] aAuspraegungenOld = aStrata
+									.getAuspraegungen().toArray();
+
+							StrataAuspraegungBean aTmpAuspraegung = (StrataAuspraegungBean) aAuspraegungenOld[k];
 							aTmpAuspraegung.setBenutzerkontoLogging(aBenutzer);
-							DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aTmpAuspraegung);
-							System.out.println("Folgende Auspraegung wurde geloescht: "+aTmpAuspraegung.getId());
+							DatenbankFactory.getAktuelleDBInstanz()
+									.loeschenObjekt(aTmpAuspraegung);
+							System.out
+									.println("Folgende Auspraegung wurde geloescht: "
+											+ aTmpAuspraegung.getId());
 						}
-						
+
 					}
 
 				}
-				
-				if (aAnzahl_Strata<aStudieSession.getStrata().size()) {
-					
-					for(int l=aAnzahl_Strata;l<aStudieSession.getStrata().size();l++){
-						
-						// es gibt noch alte, ungenutzte Strata in der DB -> loeschen!
-						StrataBean aTmpStrata = aStudieSession.getStrata().get(l);
+
+				if (aAnzahl_Strata < aStudieSession.getStrata().size()) {
+
+					for (int l = aAnzahl_Strata; l < aStudieSession.getStrata()
+							.size(); l++) {
+
+						// es gibt noch alte, ungenutzte Strata in der DB ->
+						// loeschen!
+						StrataBean aTmpStrata = aStudieSession.getStrata().get(
+								l);
 						aTmpStrata.setBenutzerkontoLogging(aBenutzer);
-						DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aTmpStrata);
-						System.out.println("Folgende Strata wurde geloescht: "+aTmpStrata.getId());
+						DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(
+								aTmpStrata);
+						System.out.println("Folgende Strata wurde geloescht: "
+								+ aTmpStrata.getId());
 					}
-					
+
 				}
-				
 
 			}
 
@@ -1673,7 +1724,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
 		Vector<ZentrumBean> zugehoerigeZentren = new Vector<ZentrumBean>();
 		if (aSession != null) {
-		
+
 			try {
 				zugehoerigeZentren = aSession.getZentren();
 			} catch (DatenbankExceptions e) {
@@ -1684,7 +1735,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		return zugehoerigeZentren;
 
 	}
-
 
 	/**
 	 * Diese Methode erstellt einen Vektor mit den Zentren, die der aktuellen
@@ -1719,7 +1769,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		return zentrenliste;
 
 	}
-
 
 	private void patientHinzufuegen(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
