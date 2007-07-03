@@ -15,6 +15,7 @@
 			.getAttribute(
 			DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
 	ZentrumBean chefZentrum = null;
+	//TODO wenn nicht getestet wird auf false setzen!
 	boolean veraendernErlaubt = false;
 	if (aSession != null) {
 		chefZentrum= aSession.getBenutzerkonto()

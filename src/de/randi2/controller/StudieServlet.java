@@ -508,8 +508,24 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 			request.setAttribute(StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN.toString(), nZugZentren);
 			if (((String) request.getParameter("Filtern")) != null) {
+				String a = "";
+				String b = "";
+				try{
+					 a = (String) request
+				
+						.getParameter(Parameter.zentrum.INSTITUTION.toString()).trim();
+				 b = (String) request
+				.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString()).trim();
+				}catch (NullPointerException npe){
+					;
+				}
+				if(!(a==null && b==null) && !(a.equals("")&&b.equals(""))){
 				request.getRequestDispatcher("ZentrumServlet").forward(request,
 						response);
+				}else{
+					request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
+							request, response);
+				}
 
 			} else {
 				request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
