@@ -8,7 +8,8 @@
 	import="de.randi2.utility.*"%>
 
 <%
-
+request.setAttribute(DispatcherServlet.requestParameter.TITEL
+		.toString(), JspTitel.BENUTZER_SPERREN.toString());
 
 	BenutzerkontoBean benutzer=(BenutzerkontoBean)session.getAttribute(DispatcherServlet.sessionParameter.BENUTZER_SPERREN_ENTSPERREN_ADMIN.toString()); 
 
@@ -43,7 +44,7 @@ Ext.onReady(function(){
 		fieldLabel: '',
 		value: 'Wollen sie den gew&auml;hlten Benutzer (Benutzername: <%= benutzer.getBenutzername()%>) wirklich <%if(!benutzer.isGesperrt()){out.print("sperren");}else{out.print("entsperren");} %>?',
 		width: 400,
-		height: 60
+		height: 30
 	});    
 
     var grund = new Ext.form.TextArea({
