@@ -55,6 +55,20 @@ public class Hilfe {
 							+ "den Login und das Passwort merken sollte. Man kann dieses durch Anklicken von <img src=\"images\\printer-blue.gif\"> auch ausdrucken.</p>" },
 
 			/*
+			 * Studienleiter, Systemoperator, Administrator
+			 */
+			{
+					JspTitel.ADMIN_LISTE,
+					"<big style=\"font-weight:bold;\"><p> Personensuche</big></p>"
+					+ "<p> Mit der Filterfunktion <img src=\"images\\find.png\"> k&ouml;nnen Sie unter allen einsehbaren Benutzern nach dem Nachnamen "
+					+ "und/oder dem Vornamen und/oder Benutzernamen und/oder E-Mail und/oder Institution filtern.</p><br>" +
+							"<p>Je nachdem ob Sie als <big> Studienarzt, Studienleiter, Systemoperator </big>oder <big>Administrator </big>angemeldet sind, haben Sie " +
+							"unterschiedliche Funktionen zur Verf&uuml;gung: </p><br>" 
+							+ "<p> Mit <span style=\"font-style:italic;\">\"anzeigen\"</span> lassen sich die Benutzerdetails "
+							+ " anzeigen <br> </p>" +
+									"<p> Mit <span style=\"font-style:italic;\">\"sperren\" k&ouml;nnen Sie den Benutzer sperren. </p> "
+							 },
+			/*
 			 * Studienarzt
 			 */
 			{
@@ -136,13 +150,6 @@ public class Hilfe {
 					JspTitel.SYSTEMADMINISTRATION,
 					"<big style=\"font-weight:bold;\"><p> Willkommen in der Systemadministration.</big></p>"
 							+ "<p> Links befindet sich das Men&uuml; durch das Sie zu anderen Funktionen des System gelangen.</p>" },
-
-			{
-					JspTitel.ADMIN_LISTE,
-					"<big style=\"font-weight:bold;\"><p> Liste der Administrator im System</big></p>"
-							+ "<p><br> Mit <span style=\"font-style:italic;\">\"anzeigen\"</span> lassen sich die Benutzerdetails des Administrators"
-							+ " anzeigen <br> und mit <span style=\"font-style:italic;\">\"sperren\" k&ouml;nnen Sie einen Administrator "
-							+ "sperren.</p> " },
 
 			{
 					JspTitel.SYSTEM_SPERREN,
