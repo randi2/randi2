@@ -397,11 +397,7 @@ Ext.onReady(function(){
 		}
 	}, form_admin_anlegen);
 	
-	
-	<!--  Die ANFRAGE_ID fuer ABBRECHEN wird hier gesetzt. dhaehn	-->
-	form_admin_anlegen.addButton('Abbrechen', function(){
-		top.location.href='DispatcherServlet';
-	}, form_admin_anlegen);  
+
 
     form_admin_anlegen.render('form_admin_anlegen');    
     

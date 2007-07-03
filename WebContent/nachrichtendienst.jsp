@@ -75,7 +75,7 @@ Ext.onReady(function(){
 	var nachricht = new Ext.form.TextArea({
         fieldLabel: 'Nachricht *:',
         name: '<%=Nachrichtendienst.requestParameter.NACHRICHTENTEXT.name() %>',
-        value: '<%=nachrichtentext %>',
+        value: '<%=nachrichtentext.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r") %>',
         allowBlank:false,
         width:400,
         height:200,

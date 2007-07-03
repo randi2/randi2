@@ -52,13 +52,13 @@ Ext.onReady(function(){
         name: '<%=Parameter.benutzerkonto.NACHRICHT.toString()%>',
         allowBlank:false,
         blankText:'Bitte einen Grund eingeben!',
-        width:250,
+        width:350,
         value:'<%=aNachricht.replaceAll("\\n","\\\\n").replaceAll("\\r","\\\\r")%>',
         height:150
     });
 	
     form_sperren.fieldset(
-        {legend:'Angaben zur Studie',labelSeparator:''},
+        {legend:'Angaben zur Sperrung',labelSeparator:''},
 		
 		hintfield,
 		grund

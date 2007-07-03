@@ -54,10 +54,7 @@ Ext.onReady(function(){
 		}
 	}, form_pw);
 	
-	<!--  Die ANFRAGE_ID fuer ABBRECHEN wird hier gesetzt. dhaehn	-->
-	form_pw.addButton('Abbrechen', function(){
-		top.location.href='DispatcherServlet';
-	}, form_pw);    
+
 
     form_pw.fieldset({legend:'Ihr Account'},
     benutzername);

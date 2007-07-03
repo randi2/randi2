@@ -394,16 +394,7 @@ Ext.onReady(function(){
 		}
 	}, form_patient_adden);
 	
-	<!--  Die ANFRAGE_ID fuer ABBRECHEN wird hier gesetzt. dhaehn	-->
-	form_patient_adden.addButton('Abbrechen', function(){
 
-            var frm = document.getElementById(this.id);
-			frm.<%=Parameter.anfrage_id %>.value='<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name() %>';	
-            frm.method = 'POST';
-            frm.action = 'DispatcherServlet';
-			frm.submit();
-
-	}, form_patient_adden);
 	
 
     form_patient_adden.render('form_patient_adden');    

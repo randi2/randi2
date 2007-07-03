@@ -559,32 +559,7 @@ Ext.onReady(function(){
 	}, form_daten_aendern);
 	
 	
-	<!--  Die ANFRAGE_ID fuer ABBRECHEN wird hier gesetzt. dhaehn	-->
-	form_daten_aendern.addButton('Abbrechen', function(){
 
-            var frm = document.getElementById(this.id);
-    <%
-    
-    if (aBenutzer_form.getRolle().getRollenname()==Rolle.Rollen.ADMIN) {
-    
-    %>
-			frm.<%=Parameter.anfrage_id %>.value='<%=DispatcherServlet.anfrage_id.BENUTZER_SUCHEN.name() %>';
-	<%
-	
-    } else {
-	
-	%>
-			frm.<%=Parameter.anfrage_id %>.value='<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name() %>';
-	<%
-	
-    }
-	
-	%>	
-            frm.method = 'POST';
-            frm.action = 'DispatcherServlet';
-			frm.submit();
-
-	}, form_daten_aendern);
 
     form_daten_aendern.render('form_daten_aendern');    
     
