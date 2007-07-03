@@ -20,7 +20,7 @@ if (request.getParameter(Parameter.person.NACHNAME.toString()) != null) {
 	.getParameter(Parameter.person.NACHNAME.toString());
 }
 String aLoginname = "";
-if (request.getParameter(Parameter.benutzerkonto.LOGINNAME.toString()) != null) {
+if (request.getParameter(Parameter.benutzerkonto.LOGINNAME.toString()) != null&&request.getParameter(Parameter.benutzerkonto.PASSWORT.toString())==null) {
 	aLoginname = (String) request
 	.getParameter(Parameter.benutzerkonto.LOGINNAME.toString());
 }
