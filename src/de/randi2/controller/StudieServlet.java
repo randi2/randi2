@@ -494,51 +494,8 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
 					response);
 		} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
-			Vector<ZentrumBean> zugZentren = this.getZugehoerigeZentren(
-					request, response);
-			request.setAttribute(
-					StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
-							.toString(), zugZentren);
-			Vector<ZentrumBean> nZugZentren = this.getNichtZugehoerigeZentren(
-					request, response);
-
-			request.setAttribute(
-					StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN
-							.toString(), nZugZentren);
-			if (((String) request.getParameter("Filtern")) != null) {
-				String a = "";
-				String b = "";
-				try {
-					a = (String) request
-
-					.getParameter(Parameter.zentrum.INSTITUTION.toString());
-					b = (String) request.getParameter(
-							Parameter.zentrum.ABTEILUNGSNAME.toString());
-				} catch (NullPointerException npe) {
-					;
-				}
-				if (!(a == null && b == null)) {
-					
-					request.getRequestDispatcher("ZentrumServlet").forward(
-							request, response);
-				} else {
-					Vector<ZentrumBean> x = new Vector<ZentrumBean>();
-					request.setAttribute(
-							StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
-									.toString(), x);
-					request.setAttribute(
-							StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN
-									.toString(), x);
-					request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
-							request, response);
-				}
-
-			} else {
-				
-				
-				request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
-						request, response);
-			}
+			
+			zentrumAnzeigen(request, response);
 
 		} else if (id.equals(anfrage_id.AKTION_STAT_PASSWORT_ERZEUGEN
 				.toString())) {
@@ -719,6 +676,64 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 						.name())) {
 			this.makeCSVExport(request, response);
 		}
+	}
+/**
+ * Methode um Zentren anzuzeigen. 
+ * @param request
+ * @param response
+ * @throws ServletException
+ * @throws IOException
+ */
+	private void zentrumAnzeigen(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		
+		Vector<ZentrumBean> zugZentren = this.getZugehoerigeZentren(
+				request, response);
+		
+		request.setAttribute(
+				StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
+						.toString(), zugZentren);
+		Vector<ZentrumBean> nZugZentren = this.getNichtZugehoerigeZentren(
+				request, response);
+
+		request.setAttribute(
+				StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN
+						.toString(), nZugZentren);
+		if (((String) request.getParameter("Filtern")) != null) {
+			String a = "";
+			String b = "";
+			try {
+				a = (String) request
+
+				.getParameter(Parameter.zentrum.INSTITUTION.toString());
+				b = (String) request.getParameter(
+						Parameter.zentrum.ABTEILUNGSNAME.toString());
+			} catch (NullPointerException npe) {
+				;
+			}
+			if (!(a == null && b == null)) {
+				
+				request.getRequestDispatcher("ZentrumServlet").forward(
+						request, response);
+			} else {
+				Vector<ZentrumBean> x = new Vector<ZentrumBean>();
+				request.setAttribute(
+						StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
+								.toString(), zugZentren);
+				request.setAttribute(
+						StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN
+								.toString(), nZugZentren);
+				request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
+						request, response);
+			}
+
+		} else {
+			
+			
+			request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
+					request, response);
+		}
+		
 	}
 
 	private void makeCSVExport(HttpServletRequest request,
