@@ -11,41 +11,49 @@
 			.toString(), JspTitel.ZENTRUM_ANZEIGEN.toString());
 %>
 <%
+			StudieBean aSession = (StudieBean) request.getSession()
+			.getAttribute(
+			DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
+	ZentrumBean chefZentrum =null;
+	if (aSession != null) {
+		chefZentrum= aSession.getBenutzerkonto()
+		.getZentrum();
+	}
+
 	Vector<ZentrumBean> zugehoerigeZentren = new Vector<ZentrumBean>();
 	Vector<ZentrumBean> nichtZugehoerigeZentren = new Vector<ZentrumBean>();
 	ZentrumBean aktuellesZentrum = null;
 	Iterator itZugehoerigeZentren = null;
 	Iterator itNichtZugehoerigeZentren = null;
-	
-		
+
 	try {
 		zugehoerigeZentren = (Vector<ZentrumBean>) request
 		.getAttribute(StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
 				.toString());
-		
 
 		nichtZugehoerigeZentren = (Vector<ZentrumBean>) request
 		.getAttribute(StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN
 				.toString());
-			
+
 		itZugehoerigeZentren = zugehoerigeZentren.iterator();
 		itNichtZugehoerigeZentren = nichtZugehoerigeZentren.iterator();
+		System.out.println(aSession.getStatus().toString());
 	} catch (NullPointerException npe) {
 		;
 	}
-	
+
 	String aZentrumInstitution = "";
 	if (request.getParameter(Parameter.zentrum.INSTITUTION.toString()) != null) {
 		aZentrumInstitution = (String) request
 		.getParameter(Parameter.zentrum.INSTITUTION.toString());
 	}
 	String aZentrumAbteilung = "";
-	if (request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString()) != null) {
+	if (request.getParameter(Parameter.zentrum.ABTEILUNGSNAME
+			.toString()) != null) {
 		aZentrumAbteilung = (String) request
-		.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString());
+		.getParameter(Parameter.zentrum.ABTEILUNGSNAME
+				.toString());
 	}
-
-	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -230,7 +238,7 @@ Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
 <br>
 <table width="90%" id="zentren">
 	<thead align="left">
-		<tr style="background:#eeeeee;">
+		<tr style="background: #eeeeee;">
 			<th width="30%">Name der Institution</th>
 			<th width="30%">Name der Abteilung</th>
 			<th width="10%">Status</th>
@@ -249,7 +257,7 @@ Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
 				while (itZugehoerigeZentren.hasNext()) {
 					aktuellesZentrum = (ZentrumBean) itZugehoerigeZentren
 					.next();
-				
+
 					if (aktuellesZentrum.getIstAktiviert()) {
 				aktiv = "aktiv";
 					} else {
@@ -268,16 +276,21 @@ Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
 				name="<%=Parameter.zentrum.ZENTRUM_ID.toString()%>"
 				value="<%=aktuellesZentrum.getId() %>"><input type="hidden"
 				name="<%=Parameter.anfrage_id %>" value="hallo"></form>
-			<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
+			<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor: pointer"
 				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';
 
 				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
-			<b>Zentrumsdetails</b></span><span id="zentrenAnzeigen_link<%=tabindex %>"
-				style="cursor:pointer"
+			<b>Zentrumsdetails</b></span> <%
+ if (!aktuellesZentrum.equals(chefZentrum)) {
+ %> <span id="zentrenAnzeigen_link<%=tabindex %>"
+				style="cursor: pointer"
 				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.AKTION_ZENTRUM_ENTZIEHEN.name() %>';
 
 				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();"><br>
-			<b>Zentrum von Studie entfernen</b></span></td>
+			<b>Zentrum von Studie entfernen</b></span> <%
+ }
+ %>
+			</td>
 		</tr>
 		<%
 					tabindex++;
@@ -311,12 +324,12 @@ Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
 				name="<%=Parameter.zentrum.ZENTRUM_ID.toString()%>"
 				value="<%=aktuellesZentrum.getId() %>"><input type="hidden"
 				name="<%=Parameter.anfrage_id %>" value="hallo"></form>
-			<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
+			<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor: pointer"
 				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';
 
 				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
 			<b>Zentrumsdetails</b></span><span id="zentrenAnzeigen_link<%=tabindex %>"
-				style="cursor:pointer"
+				style="cursor: pointer"
 				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.AKTION_ZENTRUM_ZUWEISEN.name() %>';
 
 				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();"><br>
