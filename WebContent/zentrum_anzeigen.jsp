@@ -14,10 +14,14 @@
 			StudieBean aSession = (StudieBean) request.getSession()
 			.getAttribute(
 			DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
-	ZentrumBean chefZentrum =null;
+	ZentrumBean chefZentrum = null;
+	boolean veraendernErlaubt = false;
 	if (aSession != null) {
 		chefZentrum= aSession.getBenutzerkonto()
 		.getZentrum();
+	}
+	if(aSession.getStatus().toString().equals(Studie.Status.INVORBEREITUNG.toString())){
+		veraendernErlaubt = true;
 	}
 
 	Vector<ZentrumBean> zugehoerigeZentren = new Vector<ZentrumBean>();
@@ -37,7 +41,7 @@
 
 		itZugehoerigeZentren = zugehoerigeZentren.iterator();
 		itNichtZugehoerigeZentren = nichtZugehoerigeZentren.iterator();
-		System.out.println(aSession.getStatus().toString());
+		
 	} catch (NullPointerException npe) {
 		;
 	}
@@ -280,7 +284,7 @@ Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
 				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';
 
 				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
-			<b>Zentrumsdetails</b></span> <%
+			<b>Zentrumsdetails</b></span> <%if(veraendernErlaubt){
  if (!aktuellesZentrum.equals(chefZentrum)) {
  %> <span id="zentrenAnzeigen_link<%=tabindex %>"
 				style="cursor: pointer"
@@ -288,7 +292,7 @@ Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
 
 				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();"><br>
 			<b>Zentrum von Studie entfernen</b></span> <%
- }
+ }}
  %>
 			</td>
 		</tr>
