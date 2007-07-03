@@ -42,23 +42,19 @@ Ext.onReady(function(){
     
     var imprint_text2 = new Ext.form.TextArea({
         name: '',
-        value:'Die Webapplikation RANDI2 wurde im Rahmen des Softwarepraktikums WS2006/07 - SS07 entwickelt.\nFolgende Personen waren an der Entwicklung beteiligt: \nChruscz Katharina, Freudling Andreas, Friedrich Susanne, Ganszky Thomas, Graeff Valentin,  Theel Benjamin, Thoenes Johannes, Willert Thomas, Zwink Nadine \n \nVerwendete Icons:  http://www.ndesign-studio.com', 
+        value:'Die Webapplikation RANDI2 wurde im Rahmen des Softwarepraktikums an der Universität Heidelberg/HS Heilbronn im WS2006/07 - SS07 entwickelt.\n\nFolgende Personen waren an der Entwicklung beteiligt:\n\nChruscz Katharina, Freudling Andreas, Friedrich Susanne, Ganszky Thomas, Graeff Valentin, Haehn Daniel, Krupka Kai Marco, Noack Tino, Plotnicki Lukasz, Reifschneider Frederik, Theel Benjamin, Thoenes Johannes, Willert Thomas, Zwink Nadine \n \nVerwendete Icons:  http://www.ndesign-studio.com', 
         width:500, 
-        height:120,  
+        height:150,  
         readOnly:true  
     });      
-         
-      
-      
-	 
-     
+       
     form_imprint.fieldset({legend:'Impressum und rechtliche Hinweise',hideLabels:true},
     imprint_text);
    
     form_imprint.fieldset({legend:'Entwicklung',hideLabels:true},
     imprint_text2);
      
-    form_imprint.fieldset({legend:'Haftungsausschuss',hideLabels:true},
+    form_imprint.fieldset({legend:'Haftungsausschluss',hideLabels:true},
     imprint_text3);
      
    
