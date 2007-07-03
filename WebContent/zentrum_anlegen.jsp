@@ -288,6 +288,14 @@ Ext.onReady(function(){
 
 </script>
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<script language="JavaScript">
+
+function popup()
+{
+window.open('DispatcherServlet?<%=Parameter.anfrage_id%>=<%=DispatcherServlet.anfrage_id.JSP_PRINT.toString()%>','printjsp','width=300,height=300,directories=no,toolbar=no,location=no,menubar=no,scrollbars=no,status=no,resizable=no,dependent=no');
+}
+
+</script>
 </head>
 <body>
 <%@include file="include/inc_header.jsp"%>

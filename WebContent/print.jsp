@@ -16,5 +16,5 @@
 <%=request.getSession().getAttribute(DispatcherServlet.sessionParameter.PRINT_NACHRICHT.toString()) %>
 </p>
 <br><br>
-<input type="submit" value="Schliessen" onClick="window.close()">
+<center><input type="submit" value="Schliessen" onClick="window.close()"></center>
 </html>

@@ -845,8 +845,15 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 					aZentrum);
 			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 					"Das Zentrum: " + aZentrum.getInstitution()
-							+ "wurde erfolgreich angelegt.\t" + "Passwort:\t"
-							+ passwort);
+							+ "wurde erfolgreich angelegt.\t" + "<br>Passwort:\t"
+							+ passwort+ "<br><br><center><img src=\"images/printer-blue.gif\" onClick=\"javascript:popup();\" style=\"cursor:pointer\"></center><br><br>");
+
+			request.getSession().setAttribute(
+					DispatcherServlet.sessionParameter.PRINT_NACHRICHT
+							.toString(),
+					"Ein neues Zentrum wurde angelegt:<br><br><b>Zentrum:</b> "
+							+ aZentrum.getInstitution() + "<br>Passwort: "
+							+ passwort + "");
 			request.getRequestDispatcher(Jsp.ZENTRUM_ANLEGEN).forward(request,
 					response);
 
