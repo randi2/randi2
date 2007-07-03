@@ -716,8 +716,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				request.getRequestDispatcher("ZentrumServlet").forward(
 						request, response);
 			} else {
-				Vector<ZentrumBean> x = new Vector<ZentrumBean>();
-				request.setAttribute(
+					request.setAttribute(
 						StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
 								.toString(), zugZentren);
 				request.setAttribute(
