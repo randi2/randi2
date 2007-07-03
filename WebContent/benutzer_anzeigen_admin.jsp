@@ -133,8 +133,8 @@ Nachfolgend finden Sie ausf&uuml;hrliche Informationen zum <b>Ansprechpartner</b
 	</tr>
 	<tr class="tblrow2" align="left">
 		<td><%if(ansprechpartner!=null){out.print(ansprechpartner.getVorname());}else{out.print("k. A.");}%></td>
-		<td><%if(ansprechpartner!=null){out.print(ansprechpartner.getNachname());}out.print("k. A.");%></td>
-		<td><%if(ansprechpartner!=null){out.print(ansprechpartner.getTelefonnummer());}out.print("k. A.");%></td>
+		<td><%if(ansprechpartner!=null){out.print(ansprechpartner.getNachname());}else{out.print("k. A.");}%></td>
+		<td><%if(ansprechpartner!=null){out.print(ansprechpartner.getTelefonnummer());}else{out.print("k. A.");}%></td>
 	</tr>
 </table>
 
