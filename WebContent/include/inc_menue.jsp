@@ -25,7 +25,7 @@ if(aRolleMenue==Rolle.getStudienarzt().getRollenname()){
 <ul>
 	<li class="top_m">Benutzerverwaltung</li>
 	<% if (aRolleMenue!=Rolle.Rollen.SYSOP) { %>
-	<li><span class="sub_SA n entry" style="cursor:pointer"
+	<li class="sub_BV n"><span class="sub_SA n entry" style="cursor:pointer"
 			onClick="document.forms['menue_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_INC_MENUE_DATEN_AENDERN.name() %>';document.forms['menue_form'].submit();">
 		Daten &auml;ndern
 		</span>
