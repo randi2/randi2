@@ -321,7 +321,8 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 		<tr style="background:#eeeeee;">
 			<th width="40%">Name der Studie</th>
 			<th width="30%">Leitendes Zentrum</th>
-			<th width="40%">Status</th>
+			<th width="20%">Status</th>
+			<th width="34%">Aktion</th>
 		</tr>
 	</thead>
 
@@ -333,25 +334,16 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 	%>
 
 	<tr class="<%=reihe %>">
+		<td><%=aktuelleStudie.getName()%></td>
+		<td><%=aktuelleStudie.getBenutzerkonto().getZentrum()
+								.getInstitution()%></td>
+		<td><%=aktuelleStudie.getStatus().toString()%></td>
 		<td><span style="cursor:pointer"
 			onClick="var frm = document.getElementById('form_filter');
 						frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
 						frm.<%=Parameter.filter %>.value = '';
 						frm.aStudieId<%=aktuelleStudie.getId() %>.value = 'weiter';
-						frm.submit();"><%=aktuelleStudie.getName()%></span></td>
-		<td><span style="cursor:pointer"
-			onClick="var frm = document.getElementById('form_filter');
-						frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
-						frm.<%=Parameter.filter %>.value = '';
-						frm.aStudieId<%=aktuelleStudie.getId() %>.value = 'weiter';
-						frm.submit();"><%=aktuelleStudie.getBenutzerkonto().getZentrum()
-								.getInstitution()%></span></td>
-		<td><span style="cursor:pointer"
-			onClick="var frm = document.getElementById('form_filter');
-						frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
-						frm.<%=Parameter.filter %>.value = '';
-						frm.aStudieId<%=aktuelleStudie.getId() %>.value = 'weiter';
-						frm.submit();"><%=aktuelleStudie.getStatus().toString()%></span></td>
+						frm.submit();"><b>Ausw&auml;hlen</b></span></td>
 	</tr>
 	<%
 			tabindex++;

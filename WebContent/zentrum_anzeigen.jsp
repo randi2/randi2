@@ -229,7 +229,7 @@ Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
 	<thead align="left">
 		<tr style="background:#eeeeee;">
 			<th width="30%">Name der Institution</th>
-			<th width="30%">Abteilung</th>
+			<th width="30%">Name der Abteilung</th>
 			<th width="10%">Status</th>
 			<th width="30%">Aktion</th>
 		</tr>

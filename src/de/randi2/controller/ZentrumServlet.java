@@ -911,19 +911,19 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	private void zentrenFiltern(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// Filterung
-		if (((String) request.getParameter("Filtern")) != null) {
+		if (((String) request.getParameter(Parameter.filter)) != null) {
 			try {
 				Vector<ZentrumBean> gZentrum = null;
-				if (((String) request.getParameter("name_institution")) != ""
-						&& ((String) request.getParameter("name_abteilung")) != "") {
+				if (((String) request.getParameter(Parameter.zentrum.INSTITUTION.toString())) != ""
+						&& ((String) request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString())) != "") {
 					ZentrumBean sZentrum = new ZentrumBean();
 
 					// Filter setzen
 					sZentrum.setFilter(true);
 					sZentrum.setInstitution(request
-							.getParameter("name_institution"));
+							.getParameter(Parameter.zentrum.INSTITUTION.toString()));
 					sZentrum.setAbteilung(request
-							.getParameter("name_abteilung"));
+							.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString()));
 					sZentrum.setIstAktiviert(true);
 					gZentrum = Zentrum.suchenZentrum(sZentrum);
 
@@ -993,19 +993,19 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 	private Vector<ZentrumBean> zentrenFiltern2(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// Filterung
-		if (((String) request.getParameter("Filtern")) != null) {
+		if (((String) request.getParameter(Parameter.filter)) != null) {
 			try {
 				Vector<ZentrumBean> gZentrum = null;
-				if (((String) request.getParameter("INSTITUTION")) != ""
-						&& ((String) request.getParameter("ABTEILUNGSNAME")) != "") {
+				if (((String) request.getParameter(Parameter.zentrum.INSTITUTION.toString())) != ""
+						&& ((String) request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString())) != "") {
 					ZentrumBean sZentrum = new ZentrumBean();
 
 					// Filter setzen
 					sZentrum.setFilter(true);
 					sZentrum
-							.setInstitution(request.getParameter("INSTITUTION"));
+							.setInstitution(request.getParameter(Parameter.zentrum.INSTITUTION.toString()));
 					sZentrum.setAbteilung(request
-							.getParameter("ABTEILUNGSNAME"));
+							.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString()));
 					sZentrum.setIstAktiviert(true);
 					gZentrum = Zentrum.suchenZentrum(sZentrum);
 

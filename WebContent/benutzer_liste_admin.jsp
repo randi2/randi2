@@ -313,10 +313,9 @@ else if (aRolle==Rolle.Rollen.SYSOP){out.print("Admins anzeigen/suchen");}
 		<td><span  id="benutzer_anzeigen_link" style="cursor:pointer"
 			onClick="document.forms['liste_form'].button.value = 'a_<%=benutzer.getBenutzerId() %>';document.forms['liste_form'].submit();">
 		<b>Anzeigen</b>
-		</span></td>
-		<td><span  id="sperren_link" style="cursor:pointer"
-			onClick="document.forms['liste_form'].button.value = 's_<%=benutzer.getBenutzerId() %>';document.forms['liste_form'].submit();">		
-		<%if(benutzer.isGesperrt()){out.print("Entsperren");}else{out.print("Sperren");} %>
+		</span><br><span  id="sperren_link" style="cursor:pointer"
+			onClick="document.forms['liste_form'].button.value = 's_<%=benutzer.getBenutzerId() %>';document.forms['liste_form'].submit();"><b>		
+		<%if(benutzer.isGesperrt()){out.print("Entsperren");}else{out.print("Sperren");} %></b>
 		</span></td>
 	</tr>
 	<%
