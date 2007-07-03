@@ -16,32 +16,70 @@
 									.getAttribute(DispatcherServlet.requestParameter.TITEL
 											.toString())%></title>
 <%@include file="include/inc_extjs.jsp"%>
+<script>
+Ext.onReady(function(){
+
+	Ext.QuickTips.init();
+	Ext.form.Field.prototype.msgTarget = 'side';
+
+    var bestaetigen = new Ext.form.Form({
+        labelAlign: 'left',
+        labelWidth: 0,
+		buttonAlign: 'left',
+		id: 'form_nachrichtendienst'
+    });
+    
+	var text = new Ext.form.MiscField({
+        fieldLabel: '',
+        value: 'Soll die Studie wirklich gestartet werden?',
+        width:300
+	});    
+	
+    
+    bestaetigen.fieldset({legend:'Best&auml;tigen',
+    labelSeparator:''},text);
+    
+	bestaetigen.addButton('Ja', function(){
+		if (this.isValid()) {
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+		}else{
+			Ext.MessageBox.alert('Fehler', 'Die Eingaben waren fehlerhaft!');
+		}
+	}, bestaetigen);
+	
+	<!--  Die ANFRAGE_ID fuer ABBRECHEN wird hier gesetzt. dhaehn	-->
+	bestaetigen.addButton('Nein', function(){
+
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.<%=Parameter.anfrage_id %>.value='<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN%>';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+
+	}, bestaetigen);
+
+    bestaetigen.render('bestaetigen');    
+    
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	bestaetigen.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STUDIE_STARTEN_JA.name() %>'});	
+    
+    
+ });
+</script>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 <%@include file="include/inc_header.jsp"%>
 
 <div id="content">
-<form action="DispatcherServlet" method="post" name="bestaetigung" id="bestaetigung"><input
-	type="hidden" name="<%=Parameter.anfrage_id %>"
-	value="<%=StudieServlet.anfrage_id.JSP_STUDIE_STARTEN_JA.toString() %>">
 <h1>Studie starten</h1>
-<fieldset style="width:60%"><legend><b>Studie</b></legend>
-<table>
-	<tr>
-		<td>Sind Sie sicher, dass Sie die Studie starten wollen?</td>
-	</tr>
-	<tr>
-		<td><input type="submit" name="entsp_ja" value="Ja" tabindex="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="button" name="entsp_nein"
-			value="Nein" tabindex="2"
-			onClick="document.forms['bestaetigung'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN%>';document.forms['bestaetigung'].submit();">&nbsp;&nbsp;</td>
-	</tr>
-</table>
-
-</fieldset>
+<div id="bestaetigen"></div>
 <br>
-</form>
 <%@include file="include/inc_footer.jsp"%>
 </div>
 <%@include file="include/inc_menue.jsp"%>
