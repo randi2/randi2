@@ -560,6 +560,37 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		// dem Benutzerservlet --Btheel
 		String idAttribute = (String) request
 				.getAttribute(Parameter.anfrage_id);
+
+		// ------- Ueberpruefung, ob ueberhaupt noch eine Session vorhanden ist
+		// -------
+		if (request.getSession() == null) {
+			String anfrageId = (String) request
+					.getParameter(Parameter.anfrage_id);
+			if (!(anfrageId.equals(anfrage_id.JSP_INDEX_LOGIN.toString())
+					|| anfrageId
+							.equals(anfrage_id.JSP_INDEX_BENUTZER_REGISTRIEREN_EINS
+									.toString())
+					|| anfrageId.equals(anfrage_id.JSP_PASSWORT_VERGESSEN
+							.toString())
+					|| anfrageId.equals(anfrage_id.JSP_HEADER_IMPRESSUM
+							.toString())
+					|| anfrageId
+							.equals(anfrage_id.JSP_BENUTZER_ANLEGEN_EINS_BENUTZER_REGISTRIEREN_ZWEI
+									.toString())
+					|| anfrageId
+							.equals(anfrage_id.JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI
+									.toString())
+					|| anfrageId
+							.equals(anfrage_id.JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER
+									.toString()))) {
+					//Es ist keine Session vorhanden und die anfrage_id gehört nicht zu den zugelassenen!
+					//Benutzer wird auf die index.jsp weitergeleitet und bekommt eine entsprechende Meldung angezeigt
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Bitte loggen Sie sich erneut ein!");
+				request.getRequestDispatcher(Jsp.INDEX).forward(request, response);
+			}
+		}
+		// ------- ENDE -------
+
 		// bei jedem Zugriff, Titel zuruecksetzen
 		request.setAttribute(DispatcherServlet.requestParameter.TITEL
 				.toString(), null);
