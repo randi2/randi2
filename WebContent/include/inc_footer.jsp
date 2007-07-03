@@ -22,10 +22,7 @@
 <br>
 <form action="DispatcherServlet" method="POST" name="impressum_form2"
 			id="impressum_form2"><input type="hidden"
-			name="<%=Parameter.anfrage_id %>" value=""></form>
-		<span id="logout_link" style="cursor:pointer"
-			onClick="document.forms['impressum_form2'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_HEADER_IMPRESSUM.name() %>';document.forms['impressum_form'].submit();">
-		Impressum</span>
+			name="<%=Parameter.anfrage_id %>" value=""></form><br>
 <table width="100%" border="0" cellPadding="0" cellSpacing="0">
 	<tr>
 		<td align="right" class="footer"><%if(formatiertesDatum!=null){out.print("letzter Zugriff: "+formatiertesDatum+" ::");}%>

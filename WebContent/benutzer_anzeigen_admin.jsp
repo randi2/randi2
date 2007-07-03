@@ -32,9 +32,7 @@ PersonBean person=benutzerkonto.getBenutzer();
 <div id="content">
 <h1>Benutzerdetails</h1>
 <br>
-<br>
-<br>
-Nachfolgend finden Sie ausführliche Informationen zum Benutzerkonto.
+Nachfolgend finden Sie ausf&uuml;hrliche Informationen zum <b>Benutzerkonto</b>.
 <br>
 <br>
 <table width="90%">
@@ -67,10 +65,7 @@ Nachfolgend finden Sie ausführliche Informationen zum Benutzerkonto.
 </table>
 <br>
 <br>
-<br>
-<br>
-<br>
-Nachfolgend finden Sie ausführliche Informationen zu den Kontaktdaten
+Nachfolgend finden Sie ausf&uuml;hrliche Informationen zu den <b>Kontaktdaten</b>
 <br>
 <br>
 <table width="90%">
@@ -99,15 +94,12 @@ Nachfolgend finden Sie ausführliche Informationen zu den Kontaktdaten
 </table> 
 <br>
 <br>
-<br>
-<br>
-<br>
-Nachfolgend finden Sie ausführliche Informationen zu dem Zentrum in dem Benutzerkonto registriert ist.
+Nachfolgend finden Sie ausf&uuml;hrliche Informationen zu dem <b>Zentrum</b> in dem das Benutzerkonto registriert ist.
 <br>
 <br>
 <table width="90%">
 	<tr class="tblrow1" align="left">
-		<th width="5%">Instituion</th>
+		<th width="5%">Institution</th>
 		<th width="20%">Abteilung</th>
 		<th width="20%">Strasse</th>
 		<th width="13%">Hausnummer</th>
@@ -129,11 +121,8 @@ Nachfolgend finden Sie ausführliche Informationen zu dem Zentrum in dem Benutze
 </table>
 <br>
 <br>
-<br>
-<br>
-<br>
 <%PersonBean ansprechpartner=person.getStellvertreter(); %>
-Nachfolgend finden Sie Ausführliche Informationen zum Ansprechpartner des Benutzerkontos.
+Nachfolgend finden Sie ausf&uuml;hrliche Informationen zum <b>Ansprechpartner</b> des Benutzerkontos.
 <br>
 <br>
 <table width="90%">
@@ -148,27 +137,11 @@ Nachfolgend finden Sie Ausführliche Informationen zum Ansprechpartner des Benut
 		<td><%if(ansprechpartner!=null){out.print(ansprechpartner.getTelefonnummer());}out.print("k. A.");%></td>
 	</tr>
 </table>
-<p></p>
-<table align="left">
-	<tr>
-		<td><span class="sub_SA n entry" style="cursor:pointer"
-			onClick="document.forms['menue_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.BENUTZER_SUCHEN.name() %>';document.forms['menue_form'].submit();">
-		zur&uuml;ck zu
-		 <%
-//Rolle holen
-Rolle.Rollen aRolle=((BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString())).getRolle().getRollenname(); 
-%>
-		 <%if(aRolle==Rolle.Rollen.ADMIN){out.print("Benutzer anzeigen/suchen");}
-else if(aRolle==Rolle.Rollen.STUDIENLEITER){out.print("Studien&auml;rzte anzeigen/suchen");}
-else if (aRolle==Rolle.Rollen.SYSOP){out.print("Admins anzeigen/suchen");}
-%>
-	</span></td>
-	</tr>
-</table>
+
 <%@include file="include/inc_footer.jsp"%></div>
-<div id="show_none"></div>
-<div id="show_none"><%@include file="include/inc_menue.jsp"%>
-</div>
+
+<%@include file="include/inc_menue.jsp"%>
+
 </body>
 </html>
 
