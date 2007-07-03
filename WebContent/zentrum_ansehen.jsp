@@ -228,27 +228,14 @@
 
 
 
-<form action="DispatcherServlet" method="POST" name="back_form"
-	id="back_form"><input type="hidden"
-	name="<%=Parameter.anfrage_id %>" value=""></form>
-<table align="left">
-	<tr>
-
-		<td><span class="sub_SA n entry" style="cursor:pointer"
-			onClick="document.forms['back_form'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name() %>';document.forms['back_form'].submit();">
-		<b>zur&uuml;ck zu den Zentren</b></span></td>
-	</tr>
-</table>
 <br>
 <br>
 
 
-<div id="show_none"><%@include file="include/inc_footer.jsp"%></div>
+<%@include file="include/inc_footer.jsp"%></div>
 
 
-</div>
+<%@include file="include/inc_menue.jsp"%>
 
-<div id="show_BV"><%@include file="include/inc_menue.jsp"%>
-</div>
 </body>
 </html>
