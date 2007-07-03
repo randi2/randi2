@@ -869,41 +869,41 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-
 		// Alle Attribute des request inititalisieren
 
 		String vorname = request.getParameter(Parameter.person.VORNAME.name());
 		String nachname = request
 				.getParameter(Parameter.person.NACHNAME.name());
-		String geschlecht_tmp = request.getParameter(
-				Parameter.person.GESCHLECHT.name());
+		String geschlecht_tmp = request
+				.getParameter(Parameter.person.GESCHLECHT.name());
 		char geschlecht = '\0';
 		String passwort = KryptoUtil.getInstance().generatePasswort(10);
 		String email = request.getParameter(Parameter.person.EMAIL.name());
-		String telefon = request.getParameter(
-				Parameter.person.TELEFONNUMMER.name());
+		String telefon = request.getParameter(Parameter.person.TELEFONNUMMER
+				.name());
 		String fax = request.getParameter(Parameter.person.FAX.name());
 
-		String institut = request.getParameter(
-				Parameter.benutzerkonto.ZENTRUM_FK.name());
+		String institut = request
+				.getParameter(Parameter.benutzerkonto.ZENTRUM_FK.name());
 		String titel = request.getParameter(Parameter.person.TITEL.name());
 		PersonBean.Titel titelenum = null;
-		String vornameA = request.getParameter(
-				Parameter.person.STELLVERTRETER_VORNAME.name());
-		String nachnameA = request.getParameter(
-				Parameter.person.STELLVERTRETER_NACHNAME.name());
-		String telefonA = request.getParameter(
-				Parameter.person.STELLVERTRETER_TELEFONNUMMER.name());
-		String emailA = request.getParameter(
-				Parameter.person.STELLVERTRETER_EMAIL.name());
-		String titelA = request.getParameter(
-				Parameter.person.STELLVERTRETER_TITEL.name());
-		String geschlechtA_tmp = request.getParameter(
-				Parameter.person.STELLVERTRETER_GESCHLECHT.name());
+		String vornameA = request
+				.getParameter(Parameter.person.STELLVERTRETER_VORNAME.name());
+		String nachnameA = request
+				.getParameter(Parameter.person.STELLVERTRETER_NACHNAME.name());
+		String telefonA = request
+				.getParameter(Parameter.person.STELLVERTRETER_TELEFONNUMMER
+						.name());
+		String emailA = request
+				.getParameter(Parameter.person.STELLVERTRETER_EMAIL.name());
+		String titelA = request
+				.getParameter(Parameter.person.STELLVERTRETER_TITEL.name());
+		String geschlechtA_tmp = request
+				.getParameter(Parameter.person.STELLVERTRETER_GESCHLECHT.name());
 		char geschlechtA = '\0';
 		PersonBean.Titel titelAenum = null;
-		String benutzername = request.getParameter(
-				Parameter.benutzerkonto.LOGINNAME.name());
+		String benutzername = request
+				.getParameter(Parameter.benutzerkonto.LOGINNAME.name());
 		long zentrumId = -1l;
 
 		Rolle rolle = ((BenutzerkontoBean) request.getSession().getAttribute(
@@ -927,21 +927,25 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			}
 			// Geschlecht gesetzt pruefen
 			if (geschlecht_tmp == null || geschlecht_tmp.length() == 0) {
-				throw new Exception("Geschlecht des Accountinhabers nicht gesetzt");
+				throw new Exception(
+						"Geschlecht des Accountinhabers nicht gesetzt");
 			}
 			// Geschlecht setzten
 			geschlecht = geschlecht_tmp.charAt(0);
 
 			// GeschlechtA gesetzt pruefen
 			if (geschlechtA_tmp == null || geschlechtA_tmp.length() == 0) {
-				throw new Exception("Geschlecht des Stellvertreters nicht gesetzt");
+				throw new Exception(
+						"Geschlecht des Stellvertreters nicht gesetzt");
 			}
 			// Geschlecht setzten
 			geschlechtA = geschlechtA_tmp.charAt(0);
 
+			// Konto des Benutzers, der die neuen Accounts anlegt
+			BenutzerkontoBean anleger = (BenutzerkontoBean) request
+					.getSession().getAttribute("aBenutzer");
 
-
-			// Benutzer anlegen
+			// Benutzer(Person) anlegen
 			PersonBean aPerson = null;
 			aPerson = new PersonBean();
 			aPerson.setNachname(nachname);
@@ -951,7 +955,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			aPerson.setEmail(email);
 			aPerson.setTelefonnummer(telefon);
 			aPerson.setFax(fax);
-
+			aPerson.setBenutzerkontoLogging(anleger);
+			
+			// Stellvertreter basteln
 			PersonBean rolf = new PersonBean();
 			rolf.setNachname(nachnameA);
 			rolf.setGeschlecht(geschlechtA);
@@ -959,26 +965,14 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			rolf.setTelefonnummer(telefonA);
 			rolf.setEmail(emailA);
 			rolf.setTitel(titelAenum);
-
-			BenutzerkontoBean anleger = (BenutzerkontoBean) request
-					.getSession().getAttribute("aBenutzer");
-
 			rolf.setBenutzerkontoLogging(anleger);
-			rolf = DatenbankFactory.getAktuelleDBInstanz()
-					.schreibenObjekt(rolf);
 
-			aPerson.setStellvertreter(rolf);
-
-			aPerson.setBenutzerkontoLogging(anleger);
-			aPerson = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
-					aPerson);
-
-			// Zugehöriges Benutzerkonto erstellen und in DB Speichern
-
-			BenutzerkontoBean aBenutzerkonto;
-			aBenutzerkonto = new BenutzerkontoBean(benutzername, KryptoUtil
-					.getInstance().hashPasswort(passwort), aPerson);
-
+			// Konto anlegen
+			BenutzerkontoBean aBenutzerkonto = new BenutzerkontoBean();
+			aBenutzerkonto.setBenutzername(benutzername);
+			aBenutzerkonto.setPasswort(KryptoUtil.getInstance().hashPasswort(
+					passwort));
+						
 			zentrumId = Long.valueOf(institut);
 			aBenutzerkonto.setZentrumId(zentrumId);
 
@@ -994,29 +988,41 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			aBenutzerkonto.setGesperrt(true);
 			aBenutzerkonto.setBenutzerkontoLogging(anleger);
 
+			
+			// Alles wegspeichern
+			rolf = DatenbankFactory.getAktuelleDBInstanz()
+					.schreibenObjekt(rolf);
+			
+			aPerson.setStellvertreter(rolf);
+
+			aPerson = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
+					aPerson);
+			
+			aBenutzerkonto.setBenutzer(aPerson);
 			Benutzerkonto konto = Benutzerkonto.anlegenBenutzer(aBenutzerkonto);
 
-			// Mitteilungsversand
+					// Mitteilungsversand
 			// Passwort
+			
 			AutomatischeNachricht passwortmail = new AutomatischeNachricht(
 					aBenutzerkonto.getBenutzer(), passwort,
 					AutomatischeNachricht.autoNachricht.PASSWORT_SL_ADMIN);
 			passwortmail.senden();
 
 			// Aktivierungsmail
-			AktivierungBean aktivierung = new AktivierungBean(
-					NullKonstanten.DUMMY_ID, new GregorianCalendar(), konto
-							.getBenutzerkontobean().getId(), KryptoUtil
-							.getInstance().getAktivierungslink());
-
+			AktivierungBean aktivierung = new AktivierungBean();
+			aktivierung.setBenutzerkonto(konto.getBenutzerkontobean());
+			aktivierung.setAktivierungsLink(KryptoUtil.getInstance().getAktivierungslink());
+			aktivierung.setVersanddatum(new GregorianCalendar());
 			aktivierung.setBenutzerkontoLogging(Filter.getSystemdummy());
 			aktivierung = DatenbankFactory.getAktuelleDBInstanz()
 					.schreibenObjekt(aktivierung);
+			
 			AutomatischeNachricht aktivierungMail = new AutomatischeNachricht(
 					konto.getBenutzerkontobean().getBenutzer(),
 					AutomatischeNachricht.autoNachricht.AKTIVIERUNG);
 			aktivierungMail.senden();
-			// Nachricht an anleger
+			
 
 			request
 					.setAttribute(
@@ -1027,7 +1033,12 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			request.getRequestDispatcher("/DispatcherServlet").forward(request,
 					response);
 
-		} catch (Exception e) {
+		}catch (Exception e) {
+			e.printStackTrace();
+			
+			if (e instanceof DatenbankExceptions){
+				
+			}
 
 			request.setAttribute(Parameter.person.VORNAME.name(), vorname);
 			request.setAttribute(Parameter.person.NACHNAME.name(), nachname);
@@ -1053,7 +1064,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			request.setAttribute(Parameter.person.STELLVERTRETER_EMAIL.name(),
 					emailA);
 			request.setAttribute(Parameter.person.STELLVERTRETER_TITEL.name(),
-					titelAenum);
+					titelAenum.toString());
 
 			if (geschlecht == 'm') {
 				request.setAttribute(Parameter.person.GESCHLECHT.name(), "m");
@@ -1061,12 +1072,14 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			} else if (geschlecht == 'w') {
 				request.setAttribute(Parameter.person.GESCHLECHT.name(), "w");
 			}
-			
+
 			if (geschlechtA == 'm') {
-				request.setAttribute(Parameter.person.STELLVERTRETER_GESCHLECHT.name(), "m");
+				request.setAttribute(Parameter.person.STELLVERTRETER_GESCHLECHT
+						.name(), "m");
 
 			} else if (geschlechtA == 'w') {
-				request.setAttribute(Parameter.person.STELLVERTRETER_GESCHLECHT.name(), "w");
+				request.setAttribute(Parameter.person.STELLVERTRETER_GESCHLECHT
+						.name(), "w");
 			}
 
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e

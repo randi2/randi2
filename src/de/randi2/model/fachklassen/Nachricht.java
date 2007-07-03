@@ -241,7 +241,7 @@ public class Nachricht {
 					NachrichtException.PERSONBEAN_IST_FILTER);
 		}
 		try {
-			aMail.addTo(empfaenger.getEmail(), empfaenger.getVorname() + " "
+			aMail.addBcc(empfaenger.getEmail(), empfaenger.getVorname() + " "
 					+ empfaenger.getNachname());
 		} catch (EmailException e) {
 			// Die EMailadresse wird von dem JavaMail Framework als ungueltig

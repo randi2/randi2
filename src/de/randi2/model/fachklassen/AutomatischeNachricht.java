@@ -275,7 +275,12 @@ public class AutomatischeNachricht extends Nachricht {
                 	
                 case PASSWORT_SL_ADMIN:
                 	if(inhaltNichtDB!=null){
-                    	BenutzerkontoBean bkonto=DatenbankFactory.getAktuelleDBInstanz().suchenMitgliedEinsZuEins(empfaenger,new BenutzerkontoBean());
+                		
+                		BenutzerkontoBean suchdummy = new BenutzerkontoBean();
+                		suchdummy.setFilter(true);
+                		suchdummy.setGesperrt(true);
+                		
+                    	BenutzerkontoBean bkonto=DatenbankFactory.getAktuelleDBInstanz().suchenMitgliedEinsZuEins(empfaenger,suchdummy);
                 		nachrichtentext=nachrichtentext.replace("#passwort#", this.inhaltNichtDB);
                 		nachrichtentext=nachrichtentext.replace("#benutzername#", bkonto.getBenutzername());
                 	

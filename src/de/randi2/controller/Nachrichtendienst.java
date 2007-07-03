@@ -210,7 +210,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			// Keine ID gesetzt, Falsche ID oder Benutzer nicht angemeldet
 			// FRAGE Ausreichende Behandlung? --BTheel:20070607
 			Logger.getLogger(this.getClass()).warn(
-					"Illegaler Zugriff auf Nachrichtendienst");
+					"Illegaler Zugriff auf Nachrichtendienst von "+request.getRemoteAddr()+", User: "+request.getRemoteUser());
 			return;
 		}
 

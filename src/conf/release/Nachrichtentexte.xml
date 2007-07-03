@@ -43,12 +43,23 @@
 	</email>
 	<email name="passwortSlAdmin">
 		<betreff>RANDI2: Passwort</betreff>
-		<emailtext>#Anrede#
-		Nachfolgend erhalten sie ihr Passwort für Randi2: #passwort#
-		Ihr Benutzername lautet: #Benutzername
+<emailtext>
+#Anrede#
+Sie wurden im RANDI2-System registriert.
+Nachfolgend erhalten Sie ihre Zugangsdaten für Randi2: 
+Benutzername: #Benutzername#
+Passwort:     #passwort#
+
+Sobald Sie ihren Account über den Aktivierungslink, der ihnen seperat zugesand wurde, 
+aktiviert haben, können sie sich am System anmelden.   
+
+Bitte ändern sie umgehend ihr Passwort, sobald sie 
+sich das erste mal einloggen.
+Die Möglichkeit hierzu finden sie im Menü links 
+unter dem Punkt "Daten ändern". 
 		
-		Mit freundlichen Grüßen
-		#Absender#
+Mit freundlichen Grüßen
+#Absender#
 		</emailtext>
 	</email>
 </emails>
