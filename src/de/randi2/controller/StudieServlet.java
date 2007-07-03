@@ -511,15 +511,13 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				try {
 					a = (String) request
 
-					.getParameter(Parameter.zentrum.INSTITUTION.toString())
-							.trim();
+					.getParameter(Parameter.zentrum.INSTITUTION.toString());
 					b = (String) request.getParameter(
-							Parameter.zentrum.ABTEILUNGSNAME.toString()).trim();
+							Parameter.zentrum.ABTEILUNGSNAME.toString());
 				} catch (NullPointerException npe) {
 					;
 				}
-				if (!(a == null && b == null)
-						&& !(a.equals("") && b.equals(""))) {
+				if (!(a == null && b == null)) {
 					request.getRequestDispatcher("ZentrumServlet").forward(
 							request, response);
 				} else {
