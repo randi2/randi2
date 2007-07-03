@@ -122,7 +122,7 @@ Ext.EventManager.onDocumentReady(Hilfe.init, Hilfe, true);
 					.toString()) != "Studie anlegen"
 					&& request
 					.getAttribute(DispatcherServlet.requestParameter.TITEL
-					.toString()) != "Studie ausw&auml;hlen") {
+					.toString()) != "Studie ausw&auml;hlen" && aRolleHeader != Rolle.Rollen.ADMIN) {
 		%> <span id="studie_highlight">Aktuelle Studie <%=aStudieName%></span>
 		&gt; <%=aLocation%> <%
  } else {

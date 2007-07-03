@@ -16,7 +16,7 @@ if(aRolleMenue==Rolle.getStudienarzt().getRollenname()){
 <%@page import="de.randi2.model.fachklassen.Studie"%>
 <div id="menue">
 
-<div id="navigation">
+<div id="navigation" style="padding-left: 10px">
 <%--Das einzigste Geisterformular --%>
 <form action="DispatcherServlet" method="POST" name="menue_form"
 			id="menue_form"><input type="hidden"

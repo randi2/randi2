@@ -10,12 +10,12 @@ if (request.getAttribute(DispatcherServlet.NACHRICHT_OK) != null) {
 <%@page import="de.randi2.utility.Config"%>
 <center><br><div class="nachricht" id="erfolgreich_nachricht">
 <%=((String)request.getAttribute(DispatcherServlet.NACHRICHT_OK))%>
-</div></center>
+</div><br><br><br></center>
 <%}%>
 <%if (request.getAttribute(DispatcherServlet.FEHLERNACHRICHT) != null) {%>
 <center><div class="nachricht" id="fehler_nachricht">
 <%=request.getAttribute(DispatcherServlet.FEHLERNACHRICHT)%>
-</div></center><br>
+</div><br><br><br></center>
 <%}%>
 <script>
 </script>
