@@ -184,7 +184,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Ein Studienleiter soll angelegt werden.
 		 */
 		JSP_INC_MENUE_STUDIENLEITER_ANLEGEN,
-		
+
 		/**
 		 * Admin möchte Zentrum anlegen
 		 */
@@ -223,7 +223,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Aufforderung, einen Admin mit den gesendeten Daten anzulegen
 		 */
 		AKTION_ADMIN_ANLEGEN,
-		
+
 		/**
 		 * Aktion ein Zentrum einer Studie zuzuweisen
 		 */
@@ -358,21 +358,26 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Export als CSV
 		 */
 		JSP_ERGEBNISSE_EXPORT_CSV,
-		
+
 		/**
 		 * Export als XLS
 		 */
-		JSP_ERGEBNISSE_EXPORT_XLS, 
-		
+		JSP_ERGEBNISSE_EXPORT_XLS,
+
 		/**
 		 * Aufforderung, eine Nachricht zu versenden
 		 */
 		AKTION_NACHRICHT_VERSENDEN,
-		
+
 		/**
 		 * Aktion zum Entziehen eines Zentrums von einer Studie
 		 */
-		AKTION_ZENTRUM_ENTZIEHEN;;
+		AKTION_ZENTRUM_ENTZIEHEN,
+		/**
+		 * Druckenseite
+		 */
+		JSP_PRINT;
+
 	}
 
 	/**
@@ -396,7 +401,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		 * Die von dem Benutzer ausgewählte, aktuelle Studie
 		 */
 		AKTUELLE_STUDIE("aStudie"),
-		
+
+		/**
+		 * Drucken nachricht
+		 */
+		PRINT_NACHRICHT("print_nachricht"),
+
 		/**
 		 * Wird an die Session gebunden, wenn der Admin einen Benutzer sperren,
 		 * entsperren will.
@@ -728,10 +738,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						ZentrumServlet.anfrage_id.ZENTRUM_AENDERN.name());
 				request.getRequestDispatcher("ZentrumServlet").forward(request,
 						response);
-			} else if (id.equals(anfrage_id.JSP_INC_MENUE_ADMIN_ANLEGEN.name()) || id.equals(anfrage_id.JSP_ADMIN_ANLEGEN.name())) {
+			} else if (id.equals(anfrage_id.JSP_INC_MENUE_ADMIN_ANLEGEN.name())
+					|| id.equals(anfrage_id.JSP_ADMIN_ANLEGEN.name())) {
 				request.setAttribute(DispatcherServlet.requestParameter.TITEL
 						.toString(), JspTitel.ADMIN_ANLEGEN.toString());
-				
+
 				ZentrumServlet.bindeZentrenListeAnRequest(request);
 				request.getRequestDispatcher(Jsp.ADMIN_ANLEGEN).forward(
 						request, response);
@@ -740,12 +751,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			// [end]
 			// WEITERLEITUNGEN FUER ZENTRUMSERVLET
 			// [start]
-			
-			
-			
+
 			else if (id.equals(anfrage_id.AKTION_ZENTRUM_ZUWEISEN.name())) {
 				request.setAttribute("anfrage_id",
-						ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ZUWEISEN.name());
+						ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ZUWEISEN
+								.name());
 				if ((request.getParameter(Parameter.zentrum.ZENTRUM_ID
 						.toString()) != null)) {
 					// ID vorhanden, zentrumdetails werden angezeigt
@@ -757,7 +767,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 					request.getRequestDispatcher("ZentrumServlet").forward(
 							request, response);
-					
+
 				} else {
 					// aus irgendwelchen Gründen Zentrum_ID nicht vorhanden,
 					// leite zurück letzten seite
@@ -772,11 +782,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				}
 
 			}
-			
-			
+
 			else if (id.equals(anfrage_id.AKTION_ZENTRUM_ENTZIEHEN.name())) {
-					request.setAttribute("anfrage_id",
-						ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ENTZIEHEN.name());
+				request.setAttribute("anfrage_id",
+						ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ENTZIEHEN
+								.name());
 				if ((request.getParameter(Parameter.zentrum.ZENTRUM_ID
 						.toString()) != null)) {
 					// ID vorhanden, zentrumdetails werden angezeigt
@@ -788,7 +798,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 
 					request.getRequestDispatcher("ZentrumServlet").forward(
 							request, response);
-					
+
 				} else {
 					// aus irgendwelchen Gründen Zentrum_ID nicht vorhanden,
 					// leite zurück letzten seite
@@ -803,7 +813,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				}
 
 			}
-			
 
 			else if (id.equals(anfrage_id.JSP_ZENTRUM_ANSEHEN.name())) {
 				request.setAttribute("anfrage_id",
@@ -867,8 +876,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			// WEITERLEITUNG FUER STUDIESERVLET
 			// [start]
 
-			
-			
 			else if (id.equals(anfrage_id.JSP_STUDIE_ANSEHEN.name())) {
 				request.setAttribute(Parameter.anfrage_id,
 						StudieServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name());
@@ -883,9 +890,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 								.toString());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
-			} else if (id
-					.equals(StudieServlet.anfrage_id.JSP_STRATA_ANZEIGEN
-							.toString())) {
+			} else if (id.equals(StudieServlet.anfrage_id.JSP_STRATA_ANZEIGEN
+					.toString())) {
 				// Der Benutzer will sich die Strata anzeigen lassen
 				request.setAttribute(Parameter.anfrage_id,
 						StudieServlet.anfrage_id.AKTION_STRATA_ANZEIGEN
@@ -901,7 +907,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 								.toString());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
-			}else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
+			} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
 
 				if (request.getParameter(Parameter.filter) == null) {
 					request.setAttribute("listeZentren", null);
@@ -960,14 +966,24 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				// Weiterleitung auf die Simulation seite
 				request.getRequestDispatcher(Jsp.SIMULATION).forward(request,
 						response);
-			} else if (id.equals(StudieServlet.anfrage_id.JSP_STATISTIKER_ANLEGEN.toString())) {
-				// Ein Statistiker Account soll angelegt werden - Weiterleitung zur StudieServlet
-				request.setAttribute(Parameter.anfrage_id, StudieServlet.anfrage_id.AKTION_STATISTIKER_ANLEGEN.toString());
+			} else if (id
+					.equals(StudieServlet.anfrage_id.JSP_STATISTIKER_ANLEGEN
+							.toString())) {
+				// Ein Statistiker Account soll angelegt werden - Weiterleitung
+				// zur StudieServlet
+				request.setAttribute(Parameter.anfrage_id,
+						StudieServlet.anfrage_id.AKTION_STATISTIKER_ANLEGEN
+								.toString());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
-			} else if (id.equals(StudieServlet.anfrage_id.JSP_STAT_PASSWORT_ERZEUGEN.toString())) {
-				// Ein neues Passwort soll für den vorhandenen Statistiker erzeugt werden - Weiterleitung zur StudieServlet
-				request.setAttribute(Parameter.anfrage_id, StudieServlet.anfrage_id.AKTION_STAT_PASSWORT_ERZEUGEN.toString());
+			} else if (id
+					.equals(StudieServlet.anfrage_id.JSP_STAT_PASSWORT_ERZEUGEN
+							.toString())) {
+				// Ein neues Passwort soll für den vorhandenen Statistiker
+				// erzeugt werden - Weiterleitung zur StudieServlet
+				request.setAttribute(Parameter.anfrage_id,
+						StudieServlet.anfrage_id.AKTION_STAT_PASSWORT_ERZEUGEN
+								.toString());
 				request.getRequestDispatcher("StudieServlet").forward(request,
 						response);
 			} else if (id
@@ -981,7 +997,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						response);
 
 			} else if (id.equals(anfrage_id.JSP_STUDIE_ANLEGEN.name())) {
-
 
 				// neue Studie anlegen
 				request.setAttribute(Parameter.anfrage_id.toString(),
@@ -1523,10 +1538,9 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			} else if (id.equals(anfrage_id.JSP_STUDIE_ANSEHEN_AENDERN
 					.toString())) {
 				// Die Studie soll gestartet werden
-				request.getRequestDispatcher(Jsp.STUDIE_AENDERN).forward(request,
-						response);
+				request.getRequestDispatcher(Jsp.STUDIE_AENDERN).forward(
+						request, response);
 			} else if (id.equals(anfrage_id.JSP_STUDIE_AENDERN.name())) {
-
 
 				// neue Studie anlegen
 				request.setAttribute(Parameter.anfrage_id.toString(),
@@ -1648,7 +1662,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						request.getParameter(Parameter.studie.BLOCKGROESSE
 								.name()));
 
-
 				for (int i = 1; i < Integer
 						.parseInt((String) request
 								.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA
@@ -1745,7 +1758,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				request.setAttribute(Parameter.studie.BLOCKGROESSE.name(),
 						request.getParameter(Parameter.studie.BLOCKGROESSE
 								.name()));
-
 
 				for (int i = 1; i < Integer
 						.parseInt((String) request
@@ -1844,7 +1856,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						request.getParameter(Parameter.studie.BLOCKGROESSE
 								.name()));
 
-
 				for (int i = 1; i < Integer
 						.parseInt((String) request
 								.getParameter(DispatcherServlet.requestParameter.ANZAHL_STRATA
@@ -1941,7 +1952,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				request.setAttribute(Parameter.studie.BLOCKGROESSE.name(),
 						request.getParameter(Parameter.studie.BLOCKGROESSE
 								.name()));
-
 
 				for (int i = 1; i < Integer
 						.parseInt((String) request
@@ -2040,7 +2050,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				request.getRequestDispatcher(Jsp.IMPRESSUM).forward(request,
 						response);
 
-			} 
+			}
 			// nachrichtenversand
 			else if (id.equals(anfrage_id.JSP_HEADER_NACHRICHTENDIENST.name())) {
 				request.setAttribute(DispatcherServlet.requestParameter.TITEL
@@ -2088,12 +2098,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				// TODO weiterleitung?!
 				request.getRequestDispatcher(Jsp.SYSTEM_SPERREN).forward(
 						request, response);
-			
+
 			} else if (id.equals(anfrage_id.JSP_INC_MENUE_STUDIENLEITER_ANLEGEN
 					.name())) {
 				request.setAttribute(DispatcherServlet.requestParameter.TITEL
 						.toString(), JspTitel.STUDIENLEITER_ANLEGEN.toString());
-				
+
 				ZentrumServlet.bindeZentrenListeAnRequest(request);
 				request.getRequestDispatcher(Jsp.ADMIN_ANLEGEN).forward(
 						request, response);
@@ -2142,11 +2152,15 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			} else if (id.equals(anfrage_id.JSP_ERGEBNISSE_EXPORT_CSV.name())) {
 				request.getRequestDispatcher("/StudieServlet").forward(request,
 						response);
-			}else if(id.equals(anfrage_id.JSP_INC_MENUE_ZENRUM_ANLEGEN.name())){
-				request.getRequestDispatcher(Jsp.ZENTRUM_ANLEGEN).forward(request, response);
-			}
+			} else if (id
+					.equals(anfrage_id.JSP_INC_MENUE_ZENRUM_ANLEGEN.name())) {
+				request.getRequestDispatcher(Jsp.ZENTRUM_ANLEGEN).forward(
+						request, response);
 
-			// [end]
+			} else if (id.equals(anfrage_id.JSP_PRINT.name())) {
+				request.getRequestDispatcher(Jsp.JSP_PRINT).forward(request,
+						response);
+			} // [end]
 
 			// SONSTIGE WEITERLEITUNGEN
 			// Schwerer Fehler: Falscher Request
@@ -2260,8 +2274,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 					.getLogger(this.getClass())
 					.debug(
 							"System offen, leite nach 'index.jsp' um' (korrekter Ablauf)");
-			request.getRequestDispatcher(Jsp.INDEX)
-					.forward(request, response);
+			request.getRequestDispatcher(Jsp.INDEX).forward(request, response);
 			return;
 		}
 	}
