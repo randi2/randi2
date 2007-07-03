@@ -17,5 +17,4 @@
 </p>
 <br><br>
 <input type="submit" value="Schliessen" onClick="window.close()">
-</p>
 </html>
