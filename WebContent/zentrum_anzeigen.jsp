@@ -333,12 +333,12 @@ Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
 				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN.name() %>';
 
 				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
-			<b>Zentrumsdetails</b></span><span id="zentrenAnzeigen_link<%=tabindex %>"
+			<b>Zentrumsdetails</b></span><% if (!aktuellesZentrum.equals(chefZentrum)) { %><span id="zentrenAnzeigen_link<%=tabindex %>"
 				style="cursor: pointer"
 				onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.AKTION_ZENTRUM_ZUWEISEN.name() %>';
 
 				document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.zentrum.ZENTRUM_ID.toString()%>.value = '<%=aktuellesZentrum.getId() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();"><br>
-			<b>Zentrum zur Studie hinzuf&uuml;gen</b></span></td>
+			<b>Zentrum zur Studie hinzuf&uuml;gen</b></span><% } %></td>
 		</tr>
 		<%
 					tabindex++;

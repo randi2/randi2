@@ -518,14 +518,24 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					;
 				}
 				if (!(a == null && b == null)) {
+					
 					request.getRequestDispatcher("ZentrumServlet").forward(
 							request, response);
 				} else {
+					Vector<ZentrumBean> x = new Vector<ZentrumBean>();
+					request.setAttribute(
+							StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
+									.toString(), x);
+					request.setAttribute(
+							StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN
+									.toString(), x);
 					request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
 							request, response);
 				}
 
 			} else {
+				
+				
 				request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
 						request, response);
 			}
