@@ -31,11 +31,28 @@ public class Hilfe {
 							+ "von einer Studie diese ausw&auml;hlen. </big><br> Sie müssen eine Studie ausw&auml;hlen, um weiter zu kommen.</p> <br><br>"
 							+ "<p> Mit der Filterfunktion <img src=\"images\\find.png\"> k&ouml;nnen Sie unter allen verf&uuml;gbaren Studien nach einem Namen "
 							+ "und/oder dem Status filtern.</p>" },
+
+			/*
+			 * Studienarzt, Studienleiter und Administrator
+			 */
 			{
 					JspTitel.STUDIE_ANSEHEN,
-					"<p><big style=\"font-weight: bold;\">Hier wird die ausgew&auml;hlte Studie wird mit ihren Details angezeigt! </big></p><br><br>"
-							+ "<p> Durch Anklicken von <img src=\"images\\download.gif\"> kann das Studienprotokoll runtergeladen werden. </p><br><br>"
-							+ "<p> Links befindet sich das Men&uuml; durch das Sie zu anderen Funktionen des System gelangen.</p>" },
+					"<p><big style=\"font-weight: bold;\">Hier wird die ausgew&auml;hlte Studie wird mit ihren Details angezeigt! </big></p><br>"
+							+ "<p> Durch Anklicken von <img src=\"images\\download.gif\"> kann das Studienprotokoll runtergeladen werden. </p><br>"
+							+ "<p> Links befindet sich das Men&uuml; durch das Sie zu anderen Funktionen des System gelangen.</p><br><br>"
+							+ "<p> Wenn Sie als <big><u>Administrator</u></big> eingeloggt sind, stehen Ihnen folgende weitere M&ouml;glichkeiten zur Verf&uuml;gung:</p>"
+							+ "<p>- Unter <span style=\"font-style: italic;\"> Statistik </span> wird die aktuelle Statistik der Studie dargestellt. </p>"
+							+ "<p>- Bei <span style=\"font-style: italic;\"> Randomisationsergebnisse </span> kann man die Randomisationsergebnisse als .csv "
+							+ "oder .xls Datei exportieren. </p><br>"
+							+ "<p> Wenn Sie als <big><u>Studienleiter</u></big> eingeloggt sind, stehen Ihnen desweiteren noch zus&auml;ztliche Funktionen zur Verf&uuml;gung:</p>"
+							+ "<p>- Durch Anklicken von <img src=\"images\\anzeigen.gif\"> bei den Studienarmen, werden die Details der jeweiligen Studienarms"
+							+ "dargestellt. Bei den Details kann man auch den ausgew&auml;lten Studienarm beenden.</p>"
+							+ "<p>- Durch Anklicken von <span style=\"font-style: italic;\"> &Auml;ndern </span> kann man Details von der Studie &aendern. </p>"
+							+ "<p>- Durch Anklicken von <span style=\"font-style: italic;\"> Pausieren </span> bzw. <span style=\"font-style: italic;\">"
+							+ " Fortsetzen </span>  kann man eine aktive Studie pausieren bzw. eine pausierte Studie wieder fortsetzen. </p>"
+							+ "<p>- Um einen neuen Statistiker f&uuml:r die Studie zu erstellen: "
+							+ "<span style=\"font-style: italic;\"> Statistiker anlegen </span>. Hier sollte beachtet werden, dass man sich anschliessend"
+							+ "den Login und das Passwort merken sollte. Man kann dieses durch Anklicken von <img src=\"images\\printer-blue.gif\"> auch ausdrucken.</p>" },
 
 			/*
 			 * Studienarzt
@@ -99,10 +116,10 @@ public class Hilfe {
 
 			{
 					JspTitel.BENUTZER_SPERREN,
-					"<big style=\"font-weight:bold;\"><p> Hier k&ouml;nnen Sie den gew&auml;lten Benutzer sperren.</big></p>"
+					"<big style=\"font-weight:bold;\"><p> Hier k&ouml;nnen Sie den gew&auml;lten Benutzer sperren bzw. entsperren.</big></p>"
 							+ "<p><br> Sie m&uuml;ssen einen Grund angeben, weshalb Sie den Benutzer sperren m&ouml;chten. Mit "
-							+ "<span style=\"font-style:italic;\">\"Benutzer sperren\"</span> wird der Benutzer gesperrt <br> </p>" },
-			// Funktion für Benutzer entsperren fehlt noch!
+							+ "<span style=\"font-style:italic;\">\"Benutzer sperren\"</span> wird der Benutzer gesperrt <br> </p><br>"
+							+ "<p> Um einen Benutzer entsperren zu k&ouml;nnen brauchen Sie keinen Grund anzugeben.</p>" },
 
 			{
 					JspTitel.STUDIE_AENDERN,
@@ -127,18 +144,13 @@ public class Hilfe {
 							+ " anzeigen <br> und mit <span style=\"font-style:italic;\">\"sperren\" k&ouml;nnen Sie einen Administrator "
 							+ "sperren.</p> " },
 
-			// Jsp-Titel?
 			{
 					JspTitel.SYSTEM_SPERREN,
 					"<p><big style=\"font-weight: bold;\">Hier k&ouml;nnen Sie das System sperren bzw. entsperren! </big></p>" },
 			{
-					JspTitel.SYSTEM_ENTSPERREN_BEST,
-					"<p><big style=\"font-weight: bold;\">Hier k&ouml;nnen Sie das System entsperren! </big></p>" },
-
-			{
 					JspTitel.ADMIN_ANLEGEN,
 					"<p><big style=\"font-weight: bold;\">Hier k&ouml;nnen Sie einen neuen Administrator anlegen! </big></p>"
-							+ "<p>Alle Felder mit * gekennzeichnet m&uuml;ssen ausgef&uuml;llt werden. </p>" },
+							+ "<p>Alle Felder mit * gekennzeichnet m&uuml;ssen ausgef&uuml;llt werden. Die restlichen Felder sind freiwillige Angaben.</p>" },
 			{
 					JspTitel.ADMIN_ANLEGEN_ZWEI,
 					"<p><big style=\"font-weight: bold;\">Hier k&ouml;nnen Sie einen neuen Administrator anlegen! </big></p>"
