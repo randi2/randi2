@@ -547,10 +547,12 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 								.toString(),
 						DatenbankFactory.getAktuelleDBInstanz().suchenObjektId(
 								aStudie.getId(), new StudieBean()));
-				// TODO Wenn Daniel den Bug mit Drucken beseitigt hat - müssen
-				// hier die gleichen Änderung vorgenommen werden!
+
 				String statistikerNachricht = "Ein neues Passwort wurde erzeugt:"
-						+ "<br>Passwort: " + neuesPasswort;
+						+ "<br>Passwort: " + neuesPasswort+ "<br><br><center><img src=\"images/printer-blue.gif\" onClick=\"javascript:popup();\" style=\"cursor:pointer\"></center><br><br>";
+						
+						request.getSession().setAttribute(DispatcherServlet.sessionParameter.PRINT_NACHRICHT.toString(), "Ein Statistiker-Account wurde angelegt:<br><br><b>Studie:</b> "+aStudie.getName()+"<br><br>Loginname: "+statistikerLogin+"<br>Passwort: "+neuesPasswort+"");
+						
 				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
 						statistikerNachricht);
 			} catch (StudieException e) {
@@ -584,7 +586,10 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				String statistikerNachricht = "Ein Statistiker-Account wurde angelegt:<br><br>Login: "
 						+ statistikerLogin
 						+ "<br>Passwort: "
-						+ statistikerPasswort;
+						+ statistikerPasswort+ "<br><br><center><img src=\"images/printer-blue.gif\" onClick=\"javascript:popup();\" style=\"cursor:pointer\"></center><br><br>";
+						
+						request.getSession().setAttribute(DispatcherServlet.sessionParameter.PRINT_NACHRICHT.toString(), "Ein Statistiker-Account wurde angelegt:<br><br><b>Studie:</b> "+aStudie.getName()+"<br><br>Loginname: "+statistikerLogin+"<br>Passwort: "+statistikerPasswort+"");
+						
 
 				request.getSession().setAttribute(
 						DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
@@ -1166,20 +1171,16 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					String statistikerLogin = aStudie.getStatistiker()
 							.getBenutzername();
 					String statistikerPasswort = (String) returnWerte[1];
+					
 					statistikerNachricht = "<br><br>Ein Statistiker-Account wurde angelegt:<br><br>Login: "
 							+ statistikerLogin
 							+ "<br>Passwort: "
 							+ statistikerPasswort
-							+ "<br><br><center><img src=\"images/printer-blue.gif\" onClick=\""+
-							("javascript:popup(500,500,'<html><head><title>Statistiker-Account zu Studie "
-							+ aStudie.getName()
-							+ "</title></head><body onload=\'window.print()\'><p style=\'font-family: arial, sans-serif;\'><img src=\'images/randilogo.png\'><br><br>Statistiker-Account zu Studie <b>"
-							+ aStudie.getName()
-							+ "</b>:<br><br>Login: "
-							+ statistikerLogin
-							+ "<br>Passwort: "
-							+ statistikerPasswort
-							+ "</body> </html>'));").replaceAll("\\\"","\\\\\"")+"\"></center>";
+							+ "<br><br><center><img src=\"images/printer-blue.gif\" onClick=\"javascript:popup();\" style=\"cursor:pointer\"></center><br><br>";
+					
+					request.getSession().setAttribute(DispatcherServlet.sessionParameter.PRINT_NACHRICHT.toString(), "Ein Statistiker-Account wurde angelegt:<br><br><b>Studie:</b> "+aStudie.getName()+"<br><br>Loginname: "+statistikerLogin+"<br>Passwort: "+statistikerPasswort+"");
+					
+					
 				}
 
 			}
