@@ -502,11 +502,11 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 		} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
 			Vector<ZentrumBean> zugZentren = this.getZugehoerigeZentren(
 					request, response);
-			request.setAttribute("zugehoerigeZentren", zugZentren);
+			request.setAttribute(StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN.toString(), zugZentren);
 			Vector<ZentrumBean> nZugZentren = this.getNichtZugehoerigeZentren(
 					request, response);
 
-			request.setAttribute("nichtZugehoerigeZentren", nZugZentren);
+			request.setAttribute(StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN.toString(), nZugZentren);
 			if (((String) request.getParameter("Filtern")) != null) {
 				request.getRequestDispatcher("ZentrumServlet").forward(request,
 						response);
@@ -1655,7 +1655,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			HttpServletRequest request, HttpServletResponse response) {
 		StudieBean aSession = (StudieBean) request.getSession().getAttribute(
 				DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
-		Vector<ZentrumBean> zugehoerigeZentren = null;
+		Vector<ZentrumBean> zugehoerigeZentren = new Vector<ZentrumBean>();
 		if (aSession != null) {
 		
 			try {

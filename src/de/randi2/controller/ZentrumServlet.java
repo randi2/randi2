@@ -103,10 +103,10 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		 */
 		ZENTRUM_AENDERN,
 
-		/**
-		 * Zentrum anzeigen
-		 */
-		ZENTRUM_ANZEIGEN,
+//		/**
+//		 * Zentrum anzeigen
+//		 */
+//		ZENTRUM_ANZEIGEN,
 
 		/**
 		 * Zentrum anzeigen bei Studienverwaltung
@@ -230,16 +230,18 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 
 		} else if (id.equals(ZentrumServlet.anfrage_id.ZENTRUM_AENDERN.name())) {
 			aendernZentrum(request, response);
-		} else if (id.equals(ZentrumServlet.anfrage_id.ZENTRUM_ANZEIGEN.name())) {
-			this.classDispatcherservletZentrumAnzeigen(request, response);
-		} else if (id
+		} 
+//		else if (id.equals(ZentrumServlet.anfrage_id.ZENTRUM_ANZEIGEN.name())) {
+//			this.classDispatcherservletZentrumAnzeigen(request, response);
+//		}
+		else if (id.equals(ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN
+				.name())) {
+			classDispatcherservletZentrumAnzeigen(request, response);
+		}else if (id
 				.equals(ZentrumServlet.anfrage_id.AKTION_ZENTRUM_ANZEIGEN_ADMIN
 						.name())) {
 			classDispatcherservletZentrenAnzeigenAdmin(request, response);
-		} else if (id.equals(ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN
-				.name())) {
-			classDispatcherservletZentrumAnzeigen(request, response);
-		} else if (id.equals(ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN
+		}  else if (id.equals(ZentrumServlet.anfrage_id.JSP_ZENTRUM_ANSEHEN
 				.name())) {
 
 			request.getRequestDispatcher(Jsp.ZENTRUM_ANSEHEN).forward(request,
@@ -415,16 +417,19 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		Vector<ZentrumBean> gefilterteZentren = this.zentrenFiltern2(request,
 				response);
 		Vector<ZentrumBean> zugehZentren = (Vector<ZentrumBean>) request
-				.getAttribute("zugehoerigeZentren");
+				.getAttribute(StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN.toString());
 		Vector<ZentrumBean> nichtZugehZentren = (Vector<ZentrumBean>) request
-				.getAttribute("nichtZugehoerigeZentren");
+				.getAttribute(StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN.toString());
 		Vector<ZentrumBean> tmp = new Vector<ZentrumBean>();
 
 		ZentrumBean tmpElement = null;
 
 		if (gefilterteZentren == null || gefilterteZentren.size() == 0) {
-			request.setAttribute("zugehoerigeZentren", null);
-			request.setAttribute("nichtZugehoerigeZentren", null);
+			zugehZentren.clear();
+			nichtZugehZentren.clear();
+			System.out.println("Keine Zentren gefunden");
+			request.setAttribute(StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN.toString(), zugehZentren);
+			request.setAttribute(StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN.toString(), nichtZugehZentren);
 
 		} else {
 			for (int y = 0; y < zugehZentren.size(); y++) {
@@ -437,27 +442,28 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 					}
 				}
 			}
+			System.out.println(tmp.size()+" zugehörige Zentren gefunden");
 			if (tmp.size() == 0) {
-				request.setAttribute("zugehoerigeZentren", null);
+				request.setAttribute(StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN.toString(), tmp);
 			} else {
-				request.setAttribute("zugehoerigeZentren", tmp);
+				System.out.println(tmp.size() +" zugehörige Zentren wurden in tmp eingefügt und übergeben");
+				request.setAttribute(StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN.toString() , tmp);
 			}
-			tmp.clear();
+			Vector<ZentrumBean> tmp2 = new Vector<ZentrumBean>();
 			for (int y = 0; y < nichtZugehZentren.size(); y++) {
 
 				for (int i = 0; i < gefilterteZentren.size(); i++) {
 					tmpElement = gefilterteZentren.elementAt(i);
 					if ((nichtZugehZentren.elementAt(y).equals(tmpElement))) {
-						tmp.add(tmpElement);
+						tmp2.add(tmpElement);
 					}
 				}
 			}
+			System.out.println(tmp2.size()+" nicht zugehörige Zentren gefunden");
+			System.out.println(tmp2.size() +" nicht zugehörige Zentren wurden in tmp eingefügt und übergeben");
+			request.setAttribute(StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN.toString(), tmp2);
 		}
-		if (tmp.size() == 0) {
-			tmp = null;
-		}
-		request.setAttribute("nichtZugehoerigeZentren", tmp);
-		System.out.println("hier ist noch kein fehler, leiten weiter zum Anzeigen");
+		
 		request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(request,
 				response);
 	}
@@ -914,16 +920,21 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		if (((String) request.getParameter(Parameter.filter)) != null) {
 			try {
 				Vector<ZentrumBean> gZentrum = null;
-				if (((String) request.getParameter(Parameter.zentrum.INSTITUTION.toString())) != ""
-						&& ((String) request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString())) != "") {
+				if (((String) request
+						.getParameter(Parameter.zentrum.INSTITUTION.toString())) != ""
+						&& ((String) request
+								.getParameter(Parameter.zentrum.ABTEILUNGSNAME
+										.toString())) != "") {
 					ZentrumBean sZentrum = new ZentrumBean();
 
 					// Filter setzen
 					sZentrum.setFilter(true);
 					sZentrum.setInstitution(request
-							.getParameter(Parameter.zentrum.INSTITUTION.toString()));
+							.getParameter(Parameter.zentrum.INSTITUTION
+									.toString()));
 					sZentrum.setAbteilung(request
-							.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString()));
+							.getParameter(Parameter.zentrum.ABTEILUNGSNAME
+									.toString()));
 					sZentrum.setIstAktiviert(true);
 					gZentrum = Zentrum.suchenZentrum(sZentrum);
 
@@ -996,16 +1007,21 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		if (((String) request.getParameter(Parameter.filter)) != null) {
 			try {
 				Vector<ZentrumBean> gZentrum = null;
-				if (((String) request.getParameter(Parameter.zentrum.INSTITUTION.toString())) != ""
-						&& ((String) request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString())) != "") {
+				if (((String) request
+						.getParameter(Parameter.zentrum.INSTITUTION.toString())) != ""
+						&& ((String) request
+								.getParameter(Parameter.zentrum.ABTEILUNGSNAME
+										.toString())) != "") {
 					ZentrumBean sZentrum = new ZentrumBean();
 
 					// Filter setzen
 					sZentrum.setFilter(true);
-					sZentrum
-							.setInstitution(request.getParameter(Parameter.zentrum.INSTITUTION.toString()));
+					sZentrum.setInstitution(request
+							.getParameter(Parameter.zentrum.INSTITUTION
+									.toString()));
 					sZentrum.setAbteilung(request
-							.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString()));
+							.getParameter(Parameter.zentrum.ABTEILUNGSNAME
+									.toString()));
 					sZentrum.setIstAktiviert(true);
 					gZentrum = Zentrum.suchenZentrum(sZentrum);
 
