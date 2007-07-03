@@ -2070,7 +2070,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				+" from "+Tabellen.PATIENT+" pat"
 				+" WHERE pat.Benutzerkonto_benutzerkontenID=b.benutzerkontenID"
 				+") anzPatienten"
-				+" from Person p, Benutzerkonto b, Zentrum z, studie_has_zentrum sh"
+				+" from "+Tabellen.PERSON+" p, "+Tabellen.BENUTZERKONTO+" b, "+Tabellen.ZENTRUM+" z, "+Tabellen.STUDIE_ZENTRUM+" sh"
 				+" where b.Zentrum_zentrumsID=z.zentrumsID"
 				+" and b.Person_personenID=p.personenID"
 				+" and b.rolle<>'SYSOP'"
