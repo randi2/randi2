@@ -24,11 +24,16 @@ public class Hilfe {
 			// Rolle Studienarzt, Studienleiter
 			{
 					JspTitel.STUDIE_AUSWAEHLEN,
-					"<p><big style=\"font-weight: bold;\">Hier können Sie durch Anklicken einer Studie diese ausw&auml;hlen. </big><br> Sie müssen eine Studie ausw&auml;hlen, um weiter zu kommen.</p> <br><br><p> Mit der Filterfunktion <img src=\"images\\find.png\"> k&ouml;nnen Sie unter allen verf&uuml;gbaren Studien nach einem Namen und/oder dem Status filtern.</p>" },
+					"<p><big style=\"font-weight: bold;\">Hier können Sie durch Anklicken von <span style=\"font-style: italic;\"> ausw&auml;hlen</span> " +
+					"von einer Studie diese ausw&auml;hlen. </big><br> Sie müssen eine Studie ausw&auml;hlen, um weiter zu kommen.</p> <br><br>" +
+					"<p> Mit der Filterfunktion <img src=\"images\\find.png\"> k&ouml;nnen Sie unter allen verf&uuml;gbaren Studien nach einem Namen " +
+					"und/oder dem Status filtern.</p>" },
 			// Rolle Studienarzt, Studienleiter
 			{
 					JspTitel.STUDIE_ANSEHEN,
-					"<p><big style=\"font-weight: bold;\">Hier wird die ausgew&auml;hlte Studie wird mit ihren Details angezeigt! </big></p><br><br><p> Durch Anklicken von <img src=\"images\\download.gif\"> kann das Studienprotokoll runtergeladen werden. </p><br><br><p> Links befindet sich das Men&uuml; durch das Sie zu anderen Funktionen des System gelangen.</p>" },
+					"<p><big style=\"font-weight: bold;\">Hier wird die ausgew&auml;hlte Studie wird mit ihren Details angezeigt! </big></p><br><br>"+
+					"<p> Durch Anklicken von <img src=\"images\\download.gif\"> kann das Studienprotokoll runtergeladen werden. </p><br><br>" +
+					"<p> Links befindet sich das Men&uuml; durch das Sie zu anderen Funktionen des System gelangen.</p>" },
 			// Rolle Studienarzt
 			{
 					JspTitel.DATEN_AENDERN,
@@ -46,7 +51,7 @@ public class Hilfe {
 							+ "<br><p>Durch Anklicken von <img src=\"images\\add-page-red.gif\"> k&ouml;nnen weitere Studienarme hinzugef&uuml;gt werden. <br>"
 							+ "Durch <span style=\"font-style: italic;\">Bestätigen</span> können Sie die neue Studie speichern.</p><br>"
 							+ "<p><span  style=\"text-decoration: underline;\">Je nach Radomisationsart kommen noch weitere Pflichtangaben hinzu: </span><br></p><p> "
-							+ "- <span style=\"font-style: italic;\">BlockRandomisation:</span><br>Hier muss noch die Blockgr&amp;ouml:sse angegeben werden</p>"
+							+ "- <span style=\"font-style: italic;\">BlockRandomisation:</span><br>Hier muss noch die Blockgr&ouml;sse angegeben werden</p>"
 							+ "<p><br>-<span style=\"font-style: italic;\">StrataBlockRandomisation</span><br>Neben der Blockgrösse werden Angaben zur "
 							+ "Stratakonfiguration benötigt. Um weitere Strata hinzu zufügen zu können, betätigen Sie bitte "
 							+ "<img src=\"images\\add-page-green.gif\"> </p><br>" },
@@ -91,15 +96,9 @@ public class Hilfe {
 			// FUNKTIONIERT DOCH NICHT! Frage: JspTitel?!?
 				{
 					JspTitel.BENUTZER_SPERREN, "<big style=\"font-weight:bold;\"><p> Hier k&ouml;nnen Sie den gew&auml;lten Benutzer sperren.</big></p>" +
-							"<p><br> Mit <span style=\"font-style:italic;\">\"Benutzer sperren\"</span> wird der Benutzer gesperrt <br> und mit " +
-							" <span style=\"font-style:italic;\">\"Benutzer sperren abbrechen\" k&ouml;nnen Sie die Aktion abbrechen.</p>"
+							"<p><br> Sie m&uuml;ssen einen Grund angeben, weshalb Sie den Benutzer sperren m&ouml;chten. Mit <span style=\"font-style:italic;\">\"Benutzer sperren\"</span> wird der Benutzer gesperrt <br> </p>"
 				},
-				{
-					JspTitel.BENUTZER_SPERREN, "<big style=\"font-weight:bold;\"><p> Hier k&ouml;nnen Sie den gew&auml;lten Benutzer entsperren.</big></p>" +
-							"<p><br> Mit <span style=\"font-style:italic;\">\"Benutzer entsperren\"</span> wird der Benutzer entgesperrt <br> und mit " +
-							" <span style=\"font-style:italic;\">\"Benutzer entsperren abbrechen\" k&ouml;nnen Sie die Aktion abbrechen.</p>"
-				
-				},
+			// Das gleiche für entsperren fehlt noch! 
 				
 				
 				// Rolle Systemoperator
@@ -138,10 +137,40 @@ public class Hilfe {
 					{
 						JspTitel.ADMIN_ANLEGEN_ZWEI, 
 						"<p><big style=\"font-weight: bold;\">Hier k&ouml;nnen Sie einen neuen Administrator anlegen! </big></p>" +
-						"<p>Alle Felder mit * gekennzeichnet m&uuml;ssen ausgef&uuml;llt werden. </p>"
+						"<p>Alle Felder mit * gekennzeichnet m&uuml;ssen ausgef&uuml;llt werden. Die restlichen Felder sind freiwillige Angaben.</p>"
 					}	,
 						
-						
+				//Rolle Administrator
+					{
+						JspTitel.STUDIENLEITER_ANLEGEN, 
+						"<p><big style=\"font-weight: bold;\"> Hier k&ouml;nnen Sie einen neuen Studienleiter anlegen!</big></p>"+
+						"<p>Alle Felder mit * gekennzeichnet m&uuml;ssen ausgef&uuml;llt werden. Die restlichen Felder sind freiwillige Angaben.</p>"
+					},
+					// Rolle Administrator
+					{
+						JspTitel.ZENTRUM_ANLEGEN, 
+						"<p><big style=\"font-weight: bold;\"> Hier k&ouml;nnen Sie ein neues Zentrum anlegen!</big></p><br>"+
+						"<p>Alle Felder mit * gekennzeichnet m&uuml;ssen ausgef&uuml;llt werden. Die restlichen Felder sind freiwillige Angaben.</p><br>"+
+						"<p><span style=\"font-style:italic;\">WICHTIG! Bitte merken Sie das Passwort, das nach dem Anlegen oben angezeigt wird!</span><br>"+
+						"Unter \"Zentrum anzeigen\" im Men&uuml; k&ouml;nnen Sie sp&auml;ter das Zentrumspasswort &auml;ndern.</p>"
+					},
+					//Rolle Administrator
+					{
+						JspTitel.ZENTRUM_ANZEIGEN_ADMIN,
+						"<p><big style=\"font-weight:bold;\">Hier k&ouml;nnen Sie nach einem Zentrum suchen.</big></p><br>"+
+						"<p> Mit der Filterfunktion <img src=\"images\\find.png\"> k&ouml;nnen Sie unter allen verf&uuml;gbaren Zentren nach dem Namen der Institution " +
+						"und/oder dem Namen der Abteilung und/oder dem Status filtern.</p> <br><br> " +
+						"<p>Mit <span style=\"font-style:italic;\"> \"Anzeigen/&Auml;ndern\" </span> k&ouml;nnen Sie sich die Details des Zentrum anzeigen lassen" +
+						" und bei Bedarf diese &auml;ndern. <br><br> Mit <span style=\"font-style:italic;\"> \"Deaktivieren\" </span> bzw. <span style=\"font-style:italic;\"> " +
+						"\"Aktivieren\" </span> k&ouml;nnen Sie ein Zentrum deaktivieren bzw. aktivieren.</p>"
+					},
+					
+					//Rolle Administrator
+					{
+						JspTitel.ZENTRUM_AENDERN,
+						"<p><big style=\"font-weight:bold;\">Hier k&ouml;nnen Sie die Daten eines Zentrum ansehen und bei Bedarf &auml;ndern.</big></p><br>"+
+						"<p>Alle Felder mit * gekennzeichnet m&uuml;ssen ausgef&uuml;llt werden. Die restlichen Felder sind freiwillige Angaben.</p><br>"
+					},
 	};
 
 	/**
