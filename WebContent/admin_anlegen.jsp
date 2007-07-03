@@ -229,7 +229,7 @@ Ext.onReady(function(){
     var benutzername = new Ext.form.TextField({
         fieldLabel: 'Benutzername *:',
         name: '<%=Parameter.benutzerkonto.LOGINNAME.name() %>',
-        value: '',
+        value: '<%=aBenutzername%>',
         allowBlank:false,
         width:190,
         minLength:6,
