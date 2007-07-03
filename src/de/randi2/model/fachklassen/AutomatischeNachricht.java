@@ -282,7 +282,7 @@ public class AutomatischeNachricht extends Nachricht {
                 		
                     	BenutzerkontoBean bkonto=DatenbankFactory.getAktuelleDBInstanz().suchenMitgliedEinsZuEins(empfaenger,suchdummy);
                 		nachrichtentext=nachrichtentext.replace("#passwort#", this.inhaltNichtDB);
-                		nachrichtentext=nachrichtentext.replace("#benutzername#", bkonto.getBenutzername());
+                		nachrichtentext=nachrichtentext.replace("#Benutzername#", bkonto.getBenutzername());
                 	
                 	}
                 	else{
