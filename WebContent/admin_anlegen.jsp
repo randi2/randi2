@@ -94,7 +94,7 @@
 %>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="css/style.css">
+
 <title>Randi2 :: <%=request
 									.getAttribute(DispatcherServlet.requestParameter.TITEL
 											.toString())%></title>
@@ -438,7 +438,7 @@ Ext.onReady(function(){
     
    });
 </script>
-
+<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 <%@include file="include/inc_header.jsp"%>
