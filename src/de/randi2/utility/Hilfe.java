@@ -177,7 +177,7 @@ public class Hilfe {
 
 			{
 					JspTitel.BENUTZER_ANZEIGEN_ADMIN,
-					"<p><big style=\"font-weight:bold;\"> Hier werden Ihnen ausf&uuml;hrliche Informationen zum gew&auml;lten Benutzerkonto angezeigt." },
+					"<p><big style=\"font-weight:bold;\"> Hier werden Ihnen ausf&uuml;hrliche Informationen zum gew&auml;lten Benutzerkonto angezeigt.</big></p>" },
 
 	};
 
