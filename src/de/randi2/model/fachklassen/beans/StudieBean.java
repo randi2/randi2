@@ -109,7 +109,9 @@ public class StudieBean extends Filter {
 
 	/**
 	 * Konstruktor mit allen Attributen der Klasse, die aus der Datenbank
-	 * ausgelesen werden können. (STUDIE OHNE STATISTIKER)
+	 * ausgelesen werden können. (STUDIE OHNE STATISTIKER) Wenn das uebergebene
+	 * Enddatum schon abgelaufen wird, wird der Status der Studie automatisch
+	 * auf BEENDET gesetzt.
 	 * 
 	 * @param id
 	 *            Id der Studie
@@ -150,13 +152,21 @@ public class StudieBean extends Filter {
 		this.setBenutzerkontoId(benutzerId);
 		this.setStudienZeitraum(startdatum, enddatum);
 		this.setStudienprotokollPfad(studienprotokollPfad);
-		this.setStatus(status);
+
+		if (enddatum.before(new GregorianCalendar())) {
+			this.setStatus(Studie.Status.BEENDET);
+		} else {
+			this.setStatus(status);
+		}
+
 		this.setBlockgroesse(blockgroesse);
 	}
 
 	/**
 	 * Konstruktor mit allen Attributen der Klasse, die aus der Datenbank
-	 * ausgelesen werden können. (DATENBANK KONSTRUKTOR)
+	 * ausgelesen werden können. (DATENBANK KONSTRUKTOR) Wenn das uebergebene
+	 * Enddatum schon abgelaufen wird, wird der Status der Studie automatisch
+	 * auf BEENDET gesetzt.
 	 * 
 	 * @param id
 	 *            Id der Studie
@@ -201,7 +211,11 @@ public class StudieBean extends Filter {
 		this.setBenutzerkontoId(benutzerId);
 		this.setStudienZeitraum(startdatum, enddatum);
 		this.setStudienprotokollPfad(studienprotokollPfad);
-		this.setStatus(status);
+		if (enddatum.before(new GregorianCalendar())) {
+			this.setStatus(Studie.Status.BEENDET);
+		} else {
+			this.setStatus(status);
+		}
 		this.setBlockgroesse(blockgroesse);
 		this.setStatistikerId(statistikerId);
 	}
