@@ -8,12 +8,12 @@
 if (request.getAttribute(DispatcherServlet.NACHRICHT_OK) != null) {
 %>
 <%@page import="de.randi2.utility.Config"%>
-<center><br><div class="nachricht" id="erfolgreich_nachricht">
+<center><br><div class="nachricht" id="erfolgreich_nachricht"><br><br>
 <%=((String)request.getAttribute(DispatcherServlet.NACHRICHT_OK))%>
 </div><br><br><br></center>
 <%}%>
 <%if (request.getAttribute(DispatcherServlet.FEHLERNACHRICHT) != null) {%>
-<center><div class="nachricht" id="fehler_nachricht">
+<center><div class="nachricht" id="fehler_nachricht"><br><br>
 <%=request.getAttribute(DispatcherServlet.FEHLERNACHRICHT)%>
 </div><br><br><br></center>
 <%}%>

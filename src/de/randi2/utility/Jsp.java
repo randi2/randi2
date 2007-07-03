@@ -285,5 +285,9 @@ public final class Jsp {
 	 * Konstante fuer jsp-Seite
 	 */
 	public static final String ZENTRUM_STUDIE_ZUORDNEN = "/zentrum_studie_zuordnen.jsp";
+	/**
+	 * Konstante fuer jsp-Seite
+	 */
+	public static final String JSP_PRINT = "/print.jsp";
 
 }

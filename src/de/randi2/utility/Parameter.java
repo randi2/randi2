@@ -27,7 +27,7 @@ public class Parameter {
 	 * Konstante fuer die Bestaetigungsmaske, anhand der entschieden wird ob die Maske benutzt wurde oder nicht.
 	 */
 	public static final String bestaetigen="bestaetigen";	
-		
+	
 	/**
 	 * Konstante fuer die Bestaetigungsmaske, anhand der entschieden wird ob die Maske benutzt wurde oder nicht.
 	 */
