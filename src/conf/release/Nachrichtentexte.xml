@@ -1,7 +1,7 @@
 <?xml version="1.0"?> 
 
 <emails name="autonachrichten">
-<comment>als dynamische Textelemente sind bisher gestattet #Anrede#, #Aktivierungslink#,#passwort#,#Absender#, #EntSperren#</comment>
+<comment>als dynamische Textelemente sind bisher gestattet #Anrede#, #Aktivierungslink#,#passwort#,#Absender#, #EntSperren#, #Benutzername#</comment>
 	<email name="aktivierung">
 		<betreff>RANDI2: Aktivierung</betreff>
 		<emailtext>
@@ -45,7 +45,7 @@
 		<betreff>RANDI2: Passwort</betreff>
 		<emailtext>#Anrede#
 		Nachfolgend erhalten sie ihr Passwort für Randi2: #passwort#
-		#EntSperren#
+		Ihr Benutzername lautet: #Benutzername
 		
 		Mit freundlichen Grüßen
 		#Absender#
