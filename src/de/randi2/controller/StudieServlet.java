@@ -590,8 +590,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 						DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
 								.toString(), aStudie);
 				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
-						"Die Studie wurde erfolgreich eingerichtet!"
-								+ statistikerNachricht);
+						statistikerNachricht);
 			} catch (StudieException e) {
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 						.getLocalizedMessage());
