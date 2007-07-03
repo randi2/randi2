@@ -19,9 +19,12 @@
 <%@include file="include/inc_header_clean.jsp"%>
 
 <div id="content">
-<h1>Erfolgreich aktiviert.</h1>
+<h1>Erfolgreich aktiviert.</h1><br>
+<p>
 Willkommen bei Randi 2. Sie haben Ihren Benutzeraccount erfolgreich
 aktiviert. <br>
+<a href="DispatcherServlet" title="Zum Login">Hier</a> geht es weiter zum Login.
+</p>
 <%@include file="include/inc_footer_clean.jsp"%></div>
 </body>
 </html>

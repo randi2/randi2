@@ -635,12 +635,12 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			LogAktion a = new LogAktion(
 					"Ungueltige Benutzername/Passwort Kombination eingegeben.",
-					dummy); 
+					dummy);
 			// FIXME LogMsg eindeutig genug?--Btheel
 			Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
 		}// catch
 	}
- 
+
 	/**
 	 * Realisiert den letzten Schritt des Benutzerregistierens. Die Eingabe der
 	 * Personendaten
@@ -869,50 +869,47 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+
 		// Alle Attribute des request inititalisieren
-		// String fehlernachricht = "";
+
 		String vorname = request.getParameter(Parameter.person.VORNAME.name());
 		String nachname = request
 				.getParameter(Parameter.person.NACHNAME.name());
+		String geschlecht_tmp = request.getParameter(
+				Parameter.person.GESCHLECHT.name());
 		char geschlecht = '\0';
 		String passwort = KryptoUtil.getInstance().generatePasswort(10);
 		String email = request.getParameter(Parameter.person.EMAIL.name());
-		String telefon = request.getParameter(Parameter.person.TELEFONNUMMER
-				.name());
+		String telefon = request.getParameter(
+				Parameter.person.TELEFONNUMMER.name());
 		String fax = request.getParameter(Parameter.person.FAX.name());
 
-		String institut = request
-				.getParameter(Parameter.benutzerkonto.ZENTRUM_FK.name());
+		String institut = request.getParameter(
+				Parameter.benutzerkonto.ZENTRUM_FK.name());
 		String titel = request.getParameter(Parameter.person.TITEL.name());
 		PersonBean.Titel titelenum = null;
-		String vornameA = request
-				.getParameter(Parameter.person.STELLVERTRETER_VORNAME.name());
-		String nachnameA = request
-				.getParameter(Parameter.person.STELLVERTRETER_NACHNAME.name());
-		String telefonA = request
-				.getParameter(Parameter.person.STELLVERTRETER_TELEFONNUMMER
-						.name());
-		String emailA = request
-				.getParameter(Parameter.person.STELLVERTRETER_EMAIL.name());
-		String titelA = request
-				.getParameter(Parameter.person.STELLVERTRETER_TITEL.name());
+		String vornameA = request.getParameter(
+				Parameter.person.STELLVERTRETER_VORNAME.name());
+		String nachnameA = request.getParameter(
+				Parameter.person.STELLVERTRETER_NACHNAME.name());
+		String telefonA = request.getParameter(
+				Parameter.person.STELLVERTRETER_TELEFONNUMMER.name());
+		String emailA = request.getParameter(
+				Parameter.person.STELLVERTRETER_EMAIL.name());
+		String titelA = request.getParameter(
+				Parameter.person.STELLVERTRETER_TITEL.name());
+		String geschlechtA_tmp = request.getParameter(
+				Parameter.person.STELLVERTRETER_GESCHLECHT.name());
+		char geschlechtA = '\0';
 		PersonBean.Titel titelAenum = null;
-		String benutzername = request
-				.getParameter(Parameter.benutzerkonto.LOGINNAME.name());
+		String benutzername = request.getParameter(
+				Parameter.benutzerkonto.LOGINNAME.name());
 		long zentrumId = -1l;
-		System.out.println("Zentrum: " + institut);
 
 		Rolle rolle = ((BenutzerkontoBean) request.getSession().getAttribute(
 				"aBenutzer")).getRolle();
 
 		try {
-			// Geschlecht gesetzt pruefen
-			if (request.getParameter(Parameter.person.GESCHLECHT.name()) == null) {
-				throw new BenutzerkontoException(
-						"Bitte Geschlecht ausw&auml;hlen");
-			}
-			geschlecht = request.getParameter(
-					Parameter.person.GESCHLECHT.name()).charAt(0);
 			// Konvertierung String enum
 			for (PersonBean.Titel t : PersonBean.Titel.values()) {
 				if (titel.equals(t.toString())) {
@@ -921,12 +918,28 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				}
 			}
 			// Konvertierung String enumStellvertreter
+
 			for (PersonBean.Titel tA : PersonBean.Titel.values()) {
 				if (titelA.equals(tA.toString())) {
 					titelAenum = tA;
 					break;
 				}
 			}
+			// Geschlecht gesetzt pruefen
+			if (geschlecht_tmp == null || geschlecht_tmp.length() == 0) {
+				throw new Exception("Geschlecht des Accountinhabers nicht gesetzt");
+			}
+			// Geschlecht setzten
+			geschlecht = geschlecht_tmp.charAt(0);
+
+			// GeschlechtA gesetzt pruefen
+			if (geschlechtA_tmp == null || geschlechtA_tmp.length() == 0) {
+				throw new Exception("Geschlecht des Stellvertreters nicht gesetzt");
+			}
+			// Geschlecht setzten
+			geschlechtA = geschlechtA_tmp.charAt(0);
+
+
 
 			// Benutzer anlegen
 			PersonBean aPerson = null;
@@ -941,6 +954,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			PersonBean rolf = new PersonBean();
 			rolf.setNachname(nachnameA);
+			rolf.setGeschlecht(geschlechtA);
 			rolf.setVorname(vornameA);
 			rolf.setTelefonnummer(telefonA);
 			rolf.setEmail(emailA);
@@ -988,6 +1002,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					aBenutzerkonto.getBenutzer(), passwort,
 					AutomatischeNachricht.autoNachricht.PASSWORT_SL_ADMIN);
 			passwortmail.senden();
+
 			// Aktivierungsmail
 			AktivierungBean aktivierung = new AktivierungBean(
 					NullKonstanten.DUMMY_ID, new GregorianCalendar(), konto
@@ -1003,8 +1018,10 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			aktivierungMail.senden();
 			// Nachricht an anleger
 
-			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
-					"Account erfolgreich angelegt.");
+			request
+					.setAttribute(
+							DispatcherServlet.NACHRICHT_OK,
+							"Account erfolgreich angelegt.<br> Das Passwort und der Aktivierungslink wurden per E-Mail verschickt.");
 			request.setAttribute(Parameter.anfrage_id.toString(),
 					DispatcherServlet.anfrage_id.JSP_ADMIN_ANLEGEN.name());
 			request.getRequestDispatcher("/DispatcherServlet").forward(request,
@@ -1043,6 +1060,13 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			} else if (geschlecht == 'w') {
 				request.setAttribute(Parameter.person.GESCHLECHT.name(), "w");
+			}
+			
+			if (geschlechtA == 'm') {
+				request.setAttribute(Parameter.person.STELLVERTRETER_GESCHLECHT.name(), "m");
+
+			} else if (geschlechtA == 'w') {
+				request.setAttribute(Parameter.person.STELLVERTRETER_GESCHLECHT.name(), "w");
 			}
 
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
@@ -1098,7 +1122,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					AutomatischeNachricht.autoNachricht.NEUES_PASSWORT);
 			Logger.getLogger(this.getClass()).debug(
 					"Neues Passwort ist:\t" + neuesPasswort);
-			
+
 			autoNachricht.senden();
 
 			// Am Benutzernamen ist was falsch
@@ -1160,72 +1184,69 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 	private void classDispatcherservletSperrenEntsperren(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		// Es wird gesperrt oder entsperrt
-		
-			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) request
-					.getSession()
-					.getAttribute(
-							DispatcherServlet.sessionParameter.BENUTZER_SPERREN_ENTSPERREN_ADMIN
-									.toString());
+
+		BenutzerkontoBean aBenutzer = (BenutzerkontoBean) request
+				.getSession()
+				.getAttribute(
+						DispatcherServlet.sessionParameter.BENUTZER_SPERREN_ENTSPERREN_ADMIN
+								.toString());
+		aBenutzer.setBenutzerkontoLogging((BenutzerkontoBean) request
+				.getSession().getAttribute(
+						DispatcherServlet.sessionParameter.A_Benutzer
+								.toString()));
+		// Achtung es wurde keine Nachricht eingegebn
+		String nachricht = request
+				.getParameter(Parameter.benutzerkonto.NACHRICHT.toString());
+		if (nachricht == null) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+					"Bitte geben Sie einen Text ein.");
+			request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(request,
+					response);
+			return;
+		}
+		try {
+			// Benutzer wird entsperrt
+			if (aBenutzer.isGesperrt()) {
+
+				aBenutzer.setGesperrt(false);
+				AutomatischeNachricht aNachricht = new AutomatischeNachricht(
+						aBenutzer.getBenutzer(), nachricht,
+						AutomatischeNachricht.autoNachricht.BENUTZER_SPERREN);
+
+				aNachricht.senden();
+
+			}
+			// Benutzer wird entsperrt
+			else {
+				aBenutzer.setGesperrt(true);
+				AutomatischeNachricht aNachricht = new AutomatischeNachricht(
+						aBenutzer.getBenutzer(), nachricht,
+						AutomatischeNachricht.autoNachricht.BENUTZER_ENTSPERREN);
+				aNachricht.senden();
+			}
+			// Benutzer schreiben
 			aBenutzer.setBenutzerkontoLogging((BenutzerkontoBean) request
 					.getSession().getAttribute(
 							DispatcherServlet.sessionParameter.A_Benutzer
 									.toString()));
-			// Achtung es wurde keine Nachricht eingegebn
-			String nachricht = request.getParameter(Parameter.benutzerkonto.NACHRICHT.toString());
-			if (nachricht == null) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
-						"Bitte geben Sie einen Text ein.");
-				request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(
-						request, response);
-				return;
-			}
-			try {
-				// Benutzer wird entsperrt
-				if (aBenutzer.isGesperrt()) {
+			aBenutzer = DatenbankFactory.getAktuelleDBInstanz()
+					.schreibenObjekt(aBenutzer);
+			request.setAttribute(DispatcherServlet.NACHRICHT_OK,
+					"Änderung wurde erfolgeich durchgef&uuml;hrt");
+			request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(request,
+					response);
+			return;
 
-					aBenutzer.setGesperrt(false);
-					AutomatischeNachricht aNachricht = new AutomatischeNachricht(
-							aBenutzer.getBenutzer(),
-							nachricht,
-							AutomatischeNachricht.autoNachricht.BENUTZER_SPERREN);
+		} catch (NachrichtException e) {
+			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+					"Achtung Nachricht wurde nicht versand");
+			request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(request,
+					response);
+			return;
 
-					aNachricht.senden();
-
-				}
-				// Benutzer wird entsperrt
-				else {
-					aBenutzer.setGesperrt(true);
-					AutomatischeNachricht aNachricht = new AutomatischeNachricht(
-							aBenutzer.getBenutzer(),
-							nachricht,
-							AutomatischeNachricht.autoNachricht.BENUTZER_ENTSPERREN);
-					aNachricht.senden();
-				}
-				// Benutzer schreiben
-				aBenutzer.setBenutzerkontoLogging((BenutzerkontoBean) request
-						.getSession().getAttribute(
-								DispatcherServlet.sessionParameter.A_Benutzer
-										.toString()));
-				aBenutzer = DatenbankFactory.getAktuelleDBInstanz()
-						.schreibenObjekt(aBenutzer);
-				request.setAttribute(DispatcherServlet.NACHRICHT_OK,
-						"Änderung wurde erfolgeich durchgef&uuml;hrt");
-				request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(
-						request, response);
-				return;
-
-			} catch (NachrichtException e) {
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
-						"Achtung Nachricht wurde nicht versand");
-				request.getRequestDispatcher(Jsp.BENUTZER_SPERREN).forward(
-						request, response);
-				return;
-
-			}
-
-		
+		}
 
 	}
 

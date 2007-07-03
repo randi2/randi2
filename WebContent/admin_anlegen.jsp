@@ -206,7 +206,7 @@ Ext.onReady(function(){
         hiddenName:'<%=Parameter.person.GESCHLECHT.name()%>',
         store: new Ext.data.SimpleStore({
             fields: ['id','geschlecht'],
-            data : [['w','weiblich'],['m','maennlich']
+            data : [['w','weiblich'],['m','männlich']
             ]
         }),
         <% if (aGeschlecht!='\0'){%>
@@ -309,7 +309,7 @@ Ext.onReady(function(){
         hiddenName:'<%=Parameter.person.STELLVERTRETER_GESCHLECHT.name()%>',
         store: new Ext.data.SimpleStore({
             fields: ['id','geschlecht'],
-            data : [['w','weiblich'],['m','maennlich']
+            data : [['w','weiblich'],['m','männlich']
             ]
         }),
         <% if (aGeschlecht!='\0'){%>
