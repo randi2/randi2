@@ -30,6 +30,19 @@
 	} catch (NullPointerException npe) {
 		;
 	}
+	
+	String aZentrumInstitution = "";
+	if (request.getParameter(Parameter.zentrum.INSTITUTION.toString()) != null) {
+		aZentrumInstitution = (String) request
+		.getParameter(Parameter.zentrum.INSTITUTION.toString());
+	}
+	String aZentrumAbteilung = "";
+	if (request.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString()) != null) {
+		aZentrumAbteilung = (String) request
+		.getParameter(Parameter.zentrum.ABTEILUNGSNAME.toString());
+	}
+
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -42,65 +55,176 @@
 
 <%@include file="include/inc_extjs.jsp"%>
 
-<script type="text/javascript">
-<!--
-	function hideFilter(){
-		document.getElementById('filterdiv').style.display = 'none';
-	}
-//-->
-</script>
-<%@include file="include/inc_extjs.jsp"%>
-
 
 
 <script language="Javascript" src="js/motionpack.js"
 	type="text/javascript"> </script>
-<script type="text/javascript" src="js/zentrum_anzeigen.js"></script>
+<script>
+Ext.onReady(function() {
+
+
+	Ext.QuickTips.init();
+	Ext.form.Field.prototype.msgTarget = 'side';
+
+    var form_filter = new Ext.form.Form({
+        labelAlign: 'top',
+        labelWidth: 0,
+		buttonAlign: 'left',
+		id:'form_filter'
+    });
+    
+    var zentrum_institution = new Ext.form.TextField({
+        fieldLabel: 'Name der Institution',
+        name: '<%=Parameter.zentrum.INSTITUTION.toString() %>',
+        value: '<%=aZentrumInstitution %>',
+        allowBlank:true,
+        width:190
+    });
+    
+    var zentrum_abteilung = new Ext.form.TextField({
+        fieldLabel: 'Name der Abteilung',
+        name: '<%=Parameter.zentrum.ABTEILUNGSNAME.toString() %>',
+        value: '<%=aZentrumAbteilung %>',
+        allowBlank:true,
+        width:190
+    });
+
+    var filter = form_filter.fieldset({legend:'<img src="images/find.png"> Filterfunktion',style:''});
+    var linksoben = new Ext.form.Column({width:'200'});
+    var rechtsoben = new Ext.form.Column({width:'300'});
+    
+    
+    form_filter.start(linksoben);
+    form_filter.add(zentrum_institution);
+    form_filter.end(linksoben);
+    form_filter.start(rechtsoben);
+    form_filter.add(zentrum_abteilung);
+    form_filter.end(rechtsoben);
+
+	form_filter.addButton('Filtern', function(){
+		if (this.isValid()) {
+		
+            var frm = document.getElementById(this.id);
+            frm.method = 'POST';
+            frm.action = 'DispatcherServlet';
+			frm.submit();
+			
+		}else{
+			Ext.MessageBox.alert('Fehler', 'Die Eingaben waren fehlerhaft!');
+		}
+	}, form_filter);
+	
+	
+
+	
+    form_filter.render('form_filter');
+	
+	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN%>'});	
+	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.filter %>', type:'hidden', value: '<%=Parameter.filter %>'});	
+		
+
+    var grid = new Ext.grid.TableGrid("zentren");
+    grid.render();
+    
+    
+ 
+    
+});
+
+/**
+ * @class Ext.grid.TableGrid
+ * @extends Ext.grid.Grid
+ * A Grid which creates itself from an existing HTML table element.
+ * @constructor
+ * @param {String/HTMLElement/Ext.Element} table The table element from which this grid will be created - 
+ * The table MUST have some type of size defined for the grid to fill. The container will be 
+ * automatically set to position relative if it isn't already.
+ * @param {Object} config A config object that sets properties on this grid and has two additional (optional)
+ * properties: fields and columns which allow for customizing data fields and columns for this grid.
+ * @history
+ * 2007-03-01 Original version by Nige "Animal" White
+ * 2007-03-10 jvs Slightly refactored to reuse existing classes
+ */
+Ext.grid.TableGrid = function(table, config) {
+    config = config || {};
+    var cf = config.fields || [], ch = config.columns || [];
+    table = Ext.get(table);
+
+    var ct = table.insertSibling();
+
+    var fields = [], cols = [];
+    var headers = table.query("thead th");
+	for (var i = 0, h; h = headers[i]; i++) {
+		var text = h.innerHTML;
+		var name = 'tcol-'+i;
+
+        fields.push(Ext.applyIf(cf[i] || {}, {
+            name: name,
+            mapping: 'td:nth('+(i+1)+')/@innerHTML'
+        }));
+
+		if (i<3){
+			cols.push(Ext.applyIf(ch[i] || {}, {
+			'header': text,
+			'dataIndex': name,
+			'width': h.offsetWidth,
+			'tooltip': h.title,
+            'sortable': true
+        }));
+		}else{
+				cols.push(Ext.applyIf(ch[i] || {}, {
+			'header': text,
+			'dataIndex': name,
+			'width': h.offsetWidth,
+			'tooltip': h.title,
+            'sortable': false
+        }));
+		}
+	}
+
+    var ds  = new Ext.data.Store({
+        reader: new Ext.data.XmlReader({
+            record:'tbody tr'
+        }, fields)
+    });
+
+	ds.loadData(table.dom);
+
+    var cm = new Ext.grid.ColumnModel(cols);
+
+    if(config.width || config.height){
+        ct.setSize(config.width || 'auto', config.height || 'auto');
+    }
+    if(config.remove !== false){
+        table.remove();
+    }
+
+    Ext.grid.TableGrid.superclass.constructor.call(this, ct,
+        Ext.applyIf(config, {
+            'ds': ds,
+            'cm': cm,
+            'sm': new Ext.grid.RowSelectionModel(),
+            autoHeight:true,
+            autoWidth:true
+        }
+    ));
+};
+
+Ext.extend(Ext.grid.TableGrid, Ext.grid.Grid);
+
+</script>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-
-
-<body onload="hideFilter();">
+<body>
 
 <%@include file="include/inc_header.jsp"%>
 
 <div id="content">
-<form action="DispatcherServlet" method="post"><input
-	type="hidden" name="<%=Parameter.anfrage_id %>"
-	value="<%=StudieServlet.anfrage_id.JSP_ZENTRUM_ANZEIGEN.name() %>">
 
 <h1>Zentrum suchen</h1>
-
-<fieldset style="width: 90%;"><legend><b>Zentrum
-suchen </b></legend><br />
-
-&nbsp;&nbsp;&nbsp; <img alt="Filter anzeigen" src="images/find.png"
-	onmousedown="toggleSlide('filterdiv');" title="Filter anzeigen"
-	style="cursor:pointer" /> <b>Filter ein-/ausblenden</b>
-
-<div id="filterdiv" style="overflow:hidden; height: 70px;">
-<table width="90%">
-	<tr>
-		<td>Name&nbsp;der&nbsp;Institution:</td>
-		<td>Name&nbsp;der&nbsp;Abteilung:</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td><input type="Text"
-			name="<%=Parameter.zentrum.INSTITUTION.name() %>" value="" size="30"
-			maxlength="50" /></td>
-		<td><input type="Text"
-			name="<%=Parameter.zentrum.ABTEILUNGSNAME.name() %>" value=""
-			size="30" maxlength="50" /></td>
-		<td><input type="submit" name="Filtern" value="Filtern" /></td>
-	</tr>
-
-</table>
 <div id="form_filter"></div>
-</div>
-</fieldset>
-</form>
-
+<br>
 <table width="90%" id="zentren">
 	<thead align="left">
 		<tr style="background:#eeeeee;">
@@ -122,6 +246,7 @@ suchen </b></legend><br />
 				while (itZugehoerigeZentren.hasNext()) {
 					aktuellesZentrum = (ZentrumBean) itZugehoerigeZentren
 					.next();
+				
 					if (aktuellesZentrum.getIstAktiviert()) {
 				aktiv = "aktiv";
 					} else {
@@ -207,27 +332,10 @@ suchen </b></legend><br />
 	</tbody>
 </table>
 
-<table width="90%">
-	<tr>
-		<td><br>
-		<form action="DispatcherServlet" method="POST"
-			name="zentrenAnzeigen_form<%=tabindex %>"
-			id="zentrenAnzeigen_form<%=tabindex %>"><input type="hidden"
-			name="<%=Parameter.anfrage_id %>" value=""> <input
-			type="hidden" name="einName" value="<%=aktuellesZentrum.getId() %>"></form>
-		<span id="zentrenAnzeigen_link<%=tabindex %>" style="cursor:pointer"
-			onClick="document.forms['zentrenAnzeigen_form<%=tabindex %>'].<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_ANSEHEN.name() %>';document.forms['zentrenAnzeigen_form<%=tabindex %>'].submit();">
-		<b>zurück zur Studie</b></span></td>
-	</tr>
-</table>
-
-<div id="show_none"><%@include file="include/inc_footer.jsp"%></div>
+<%@include file="include/inc_footer.jsp"%></div>
 
 
+<%@include file="include/inc_menue.jsp"%>
 
-</div>
-
-<div id="show_BV"><%@include file="include/inc_menue.jsp"%>
-</div>
 </body>
 </html>
