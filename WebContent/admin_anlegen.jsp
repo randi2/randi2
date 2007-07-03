@@ -112,7 +112,7 @@ Ext.onReady(function(){
     });
     
     var titel = new Ext.form.ComboBox({
-        fieldLabel: 'Titel:',
+        fieldLabel: 'Titel *:',
         hiddenName:'<%=Parameter.person.TITEL.name()%>',
         store: new Ext.data.SimpleStore({
             fields: ['titel'],
@@ -138,12 +138,14 @@ Ext.onReady(function(){
         <%}%>        	
         emptyText:'--Bitte auswählen--',
         selectOnFocus:true,
+        allowBlank:false,
+		blankText:'Bitte einen Titel auswählen!',
         editable:false,
         width:140
     });
     
         var institut = new Ext.form.ComboBox({
-        fieldLabel: 'Institut:',
+        fieldLabel: 'Institut *:',
         hiddenName:'<%=Parameter.benutzerkonto.ZENTRUM_FK.name()%>',
         store: new Ext.data.SimpleStore({
             fields: ['id','zentrum'],
@@ -167,6 +169,8 @@ Ext.onReady(function(){
         triggerAction: 'all',
         emptyText:'--Bitte auswählen--',
 		selectOnFocus:true,
+		allowBlank:false,
+		blankText:'Bitte ein Institut auswählen!',
         editable:false,
         width:140
     });
@@ -217,8 +221,10 @@ Ext.onReady(function(){
         width:140,
         allowBlank:false,
         emptyText:'--Bitte auswählen--',
-        blankText:'Bitte das Geschlecht auswaehlen!'
+        blankText:'Bitte das Geschlecht auswählen!'
     });
+    
+    
     
     var benutzername = new Ext.form.TextField({
         fieldLabel: 'Benutzername *:',
@@ -298,6 +304,29 @@ Ext.onReady(function(){
         blankText:'Bitte Ihren Vornamen eintragen!'
     });
     
+        var geschlechtStell = new Ext.form.ComboBox({
+        fieldLabel: 'Geschlecht *:',
+        hiddenName:'<%=Parameter.person.STELLVERTRETER_GESCHLECHT.name()%>',
+        store: new Ext.data.SimpleStore({
+            fields: ['id','geschlecht'],
+            data : [['w','weiblich'],['m','maennlich']
+            ]
+        }),
+        <% if (aGeschlecht!='\0'){%>
+        selectByValue:'<%=aGeschlecht%>',
+        <%}%>
+        displayField:'geschlecht',
+        typeAhead: true,
+        mode: 'local',
+        triggerAction: 'all',
+		selectOnFocus:true,
+        editable:false,
+        width:140,
+        allowBlank:false,
+        emptyText:'--Bitte auswählen--',
+        blankText:'Bitte das Geschlecht auswählen!'
+    });
+    
     var nachnameStell = new Ext.form.TextField({
         fieldLabel: 'Nachname *:',
         name: '<%=Parameter.person.STELLVERTRETER_NACHNAME.name() %>',
@@ -319,7 +348,6 @@ Ext.onReady(function(){
         allowBlank:false,
         minLength:6,
         maxLength:26,
- 
         maxLengthText:'Telefonnummer muss 6 bis 26 Zeichen lang sein!',
         minLengthText:'Telefonnummer muss 6 bis 26 Zeichen lang sein!',
         blankText:'Bitte Ihre Telefonnummer eintragen!'
@@ -342,7 +370,7 @@ Ext.onReady(function(){
     
     
      var titelStell = new Ext.form.ComboBox({
-        fieldLabel: 'Titel:',
+        fieldLabel: 'Titel *:',
         hiddenName:'<%=Parameter.person.STELLVERTRETER_TITEL.name()%>',
         store: new Ext.data.SimpleStore({
             fields: ['titelStell'],
@@ -368,6 +396,8 @@ Ext.onReady(function(){
         <%}%>        	
         emptyText:'--Bitte auswählen--',
         selectOnFocus:true,
+        allowBlank:false,
+		blankText:'Bitte einen Titel auswählen!',
         editable:false,
         width:140
     });
@@ -378,9 +408,10 @@ Ext.onReady(function(){
     
     form_admin_anlegen.fieldset({legend:'Ansprechpartner',
     labelSeparator:''},
+    titelStell,
     vornameStell,
     nachnameStell,
-    titelStell,
+    geschlechtStell,
     emailStell,
     telefonStell);
     
@@ -393,7 +424,7 @@ Ext.onReady(function(){
 			frm.submit();
 			
 		}else{
-		Ext.MessageBox.alert('Fehler', 'Die Eingaben waren fehlerhaft!');
+		Ext.MessageBox.alert('Fehler', 'Die Eingaben waren fehlerhaft!<br>Bitte überprüfen Sie ihre Eingaben und füllen alle Pflichtfelder aus.');
 		}
 	}, form_admin_anlegen);
 	

@@ -728,7 +728,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						ZentrumServlet.anfrage_id.ZENTRUM_AENDERN.name());
 				request.getRequestDispatcher("ZentrumServlet").forward(request,
 						response);
-			} else if (id.equals(anfrage_id.JSP_INC_MENUE_ADMIN_ANLEGEN.name())) {
+			} else if (id.equals(anfrage_id.JSP_INC_MENUE_ADMIN_ANLEGEN.name()) || id.equals(anfrage_id.JSP_ADMIN_ANLEGEN.name())) {
 				request.setAttribute(DispatcherServlet.requestParameter.TITEL
 						.toString(), JspTitel.ADMIN_ANLEGEN.toString());
 				

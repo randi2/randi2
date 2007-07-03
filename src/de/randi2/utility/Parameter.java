@@ -167,7 +167,9 @@ public class Parameter {
 		 */
 		STELLVERTRETER_EMAIL,
 		
-		STELLVERTRETER_GESCHLECHT
+		/**
+		 * Attribut der Klasse PersonBean. Details siehe {@link PersonBean}
+		 */STELLVERTRETER_GESCHLECHT;
 	}
 	
 	/**
