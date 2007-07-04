@@ -9,6 +9,7 @@
 <%@page import="de.randi2.randomisation.Randomisation"%>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%
 
 	// 1 Formular via POST an Dispatcher mit Parameter.anfrage_id = DispatcherServlet.anfrage_id.JSP_PATIENT_HINZUFUEGEN_AUSFUEHREN
@@ -313,8 +314,6 @@ Ext.onReady(function(){
 			String aStratabeschreibung = dieseStrata.getBeschreibung();
 			
 			Iterator aAuspraegungen = dieseStrata.getAuspraegungen().iterator();
-
-			// FIXME objekte ueberpruefen (auf null etc.)
 			
 			
     %>
@@ -405,7 +404,6 @@ Ext.onReady(function(){
     
    });
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Randi2 :: <%=request
 									.getAttribute(DispatcherServlet.requestParameter.TITEL
 											.toString())%></title>

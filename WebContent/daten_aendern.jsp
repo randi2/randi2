@@ -5,7 +5,6 @@
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"
 	import="de.randi2.utility.*" import="de.randi2.controller.*"%>
-<%@ page import="de.randi2.utility.*"%>
 <%
 	// es werden als Namen fuer die Formularfelder die Werte aus Parameter.person.* und Parameter.benutzerkonto.* benutzt.
 	// die Parameter.anfrage_id fuer den Dispatcher ist DispatcherServlet.anfrage_id.JSP_DATEN_AENDERN.name()
@@ -253,7 +252,7 @@
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="include/inc_extjs.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Randi2 :: <%=request

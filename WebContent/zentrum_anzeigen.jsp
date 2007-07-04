@@ -15,7 +15,6 @@
 			.getAttribute(
 			DispatcherServlet.sessionParameter.AKTUELLE_STUDIE.toString());
 	ZentrumBean chefZentrum = null;
-	//TODO wenn nicht getestet wird auf false setzen!
 	boolean veraendernErlaubt = false;
 	if (aSession != null) {
 		chefZentrum= aSession.getBenutzerkonto()
@@ -64,17 +63,11 @@
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Randi2 :: <%=request
 									.getAttribute(DispatcherServlet.requestParameter.TITEL
 											.toString())%></title>
-
 <%@include file="include/inc_extjs.jsp"%>
-
-
-
-<script language="Javascript" src="js/motionpack.js"
-	type="text/javascript"> </script>
 <script>
 Ext.onReady(function() {
 

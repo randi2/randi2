@@ -34,8 +34,7 @@ if (request.getParameter(Parameter.zentrum.AKTIVIERT.name()) != null) {
 <%@page import="de.randi2.controller.ZentrumServlet"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script language="Javascript" src="js/motionpack.js"> </script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="include/inc_extjs.jsp"%>
 <script>
 Ext.onReady(function() {

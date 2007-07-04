@@ -32,7 +32,7 @@ if (aZentrum != null) {
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@include file="include/inc_extjs.jsp"%>
 <script>
 Ext.onReady(function(){

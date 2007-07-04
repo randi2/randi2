@@ -23,9 +23,7 @@ if(request.getAttribute(Parameter.person.GESCHLECHT.name())!=null){
 <%@page import="de.randi2.controller.DispatcherServlet"%>
 <html>
 <head>
-<script type="text/javascript" src="js/prototype.js"></script>
-<script type="text/javascript" src="js/zebda.js"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Randi2 :: <%=request
 									.getAttribute(DispatcherServlet.requestParameter.TITEL
 											.toString())%></title>

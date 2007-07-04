@@ -44,7 +44,7 @@
        "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script language="Javascript" src="js/motionpack.js"> </script>
 <title>Randi2 :: <%=request
 									.getAttribute(DispatcherServlet.requestParameter.TITEL

@@ -10,10 +10,8 @@
 			.toString(), JspTitel.INDEX.toString());
 %>
 <html>
-
 <head>
-
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8;" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>RANDI2 :: <%=request
 									.getAttribute(DispatcherServlet.requestParameter.TITEL
 											.toString())%></title>

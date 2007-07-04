@@ -8,6 +8,7 @@
 <%@page import="de.randi2.controller.DispatcherServlet;"%>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>RANDI2 :: <%=request
 									.getAttribute(DispatcherServlet.requestParameter.TITEL
 											.toString())%></title>
