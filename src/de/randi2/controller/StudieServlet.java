@@ -40,6 +40,7 @@ import de.randi2.model.fachklassen.Strata;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Studienarm;
 import de.randi2.model.fachklassen.Zentrum;
+import de.randi2.model.fachklassen.Studie.Status;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PatientBean;
 
@@ -494,7 +495,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			request.getRequestDispatcher(Jsp.STUDIE_ANSEHEN).forward(request,
 					response);
 		} else if (id.equals(anfrage_id.JSP_ZENTRUM_ANZEIGEN.name())) {
-			
+
 			zentrumAnzeigen(request, response);
 
 		} else if (id.equals(anfrage_id.AKTION_STAT_PASSWORT_ERZEUGEN
@@ -677,22 +678,23 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			this.makeCSVExport(request, response);
 		}
 	}
-/**
- * Methode um Zentren anzuzeigen. 
- * @param request
- * @param response
- * @throws ServletException
- * @throws IOException
- */
+
+	/**
+	 * Methode um Zentren anzuzeigen.
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	private void zentrumAnzeigen(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
-		Vector<ZentrumBean> zugZentren = this.getZugehoerigeZentren(
-				request, response);
-		
-		request.setAttribute(
-				StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
-						.toString(), zugZentren);
+
+		Vector<ZentrumBean> zugZentren = this.getZugehoerigeZentren(request,
+				response);
+
+		request.setAttribute(StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
+				.toString(), zugZentren);
 		Vector<ZentrumBean> nZugZentren = this.getNichtZugehoerigeZentren(
 				request, response);
 
@@ -706,33 +708,34 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				a = (String) request
 
 				.getParameter(Parameter.zentrum.INSTITUTION.toString());
-				b = (String) request.getParameter(
-						Parameter.zentrum.ABTEILUNGSNAME.toString());
+				b = (String) request
+						.getParameter(Parameter.zentrum.ABTEILUNGSNAME
+								.toString());
 			} catch (NullPointerException npe) {
 				;
 			}
 			if (!(a == null && b == null)) {
-				
-				request.getRequestDispatcher("ZentrumServlet").forward(
-						request, response);
+
+				request.getRequestDispatcher("ZentrumServlet").forward(request,
+						response);
 			} else {
-					request.setAttribute(
+				request.setAttribute(
 						StudieServlet.requestParameter.ZUGHOERIGE_ZENTREN
 								.toString(), zugZentren);
-				request.setAttribute(
-						StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN
-								.toString(), nZugZentren);
+				request
+						.setAttribute(
+								StudieServlet.requestParameter.NICHT_ZUGEHOERIGE_ZENTREN
+										.toString(), nZugZentren);
 				request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
 						request, response);
 			}
 
 		} else {
-			
-			
-			request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(
-					request, response);
+
+			request.getRequestDispatcher(Jsp.ZENTRUM_ANZEIGEN).forward(request,
+					response);
 		}
-		
+
 	}
 
 	private void makeCSVExport(HttpServletRequest request,
@@ -1792,6 +1795,18 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 	}
 
+	/**
+	 * Fuegt einen Patienten zu der aktuell ausgewaehlten Studie hinzu.
+	 * 
+	 * @param request
+	 *            Der Request.
+	 * @param response
+	 *            Die Antwort.
+	 * @throws ServletException
+	 *             SE.
+	 * @throws IOException
+	 *             IOE.
+	 */
 	private void patientHinzufuegen(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
@@ -1801,6 +1816,15 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					.getAttribute(
 							DispatcherServlet.sessionParameter.AKTUELLE_STUDIE
 									.toString()));
+
+			if (aStudie.getStatus() != Status.AKTIV) {
+
+				request
+						.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+								"Es k&ouml;nnen keine Patienten hinzufuegen, da die Studie nicht aktiv ist.");
+				request.getRequestDispatcher("/studie_ansehen.jsp").forward(
+						request, response);
+			}
 
 			PatientBean aPatient = new PatientBean();
 
