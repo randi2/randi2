@@ -676,6 +676,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				.name());
 		String titel = request.getParameter(Parameter.person.TITEL.name());
 		PersonBean.Titel titelenum = null;
+		PersonBean aPerson = null;
+		BenutzerkontoBean aBenutzerkonto=null;
+		AktivierungBean aktivierung=null;
 		try {
 			// Geschlecht gesetzt pruefen
 			if (request.getParameter(Parameter.person.GESCHLECHT.name()) == null) {
@@ -716,7 +719,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			// Hier findet die Überprüfung der Daten auf Serverseite statt,
 			// Fehler wird an Benutzer weiter gegeben
 			// Person erzeugen und in DB speichern
-			PersonBean aPerson = null;
+
 			aPerson = new PersonBean();
 			aPerson.setNachname(nachname);
 			aPerson.setVorname(vorname);
@@ -731,9 +734,11 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					aPerson);
 
 			// Zugehöriges Benutzerkonto erstellen und in DB Speichern
-			BenutzerkontoBean aBenutzerkonto;
-			aBenutzerkonto = new BenutzerkontoBean(email, KryptoUtil
-					.getInstance().hashPasswort(passwort), aPerson);
+			
+			aBenutzerkonto = new BenutzerkontoBean(email,passwort);
+			//dirty fix filter auf false
+			aBenutzerkonto.setFilter(false);
+			aBenutzerkonto.setBenutzer(aPerson);
 			aBenutzerkonto
 					.setZentrum((ZentrumBean) request
 							.getSession()
@@ -752,7 +757,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			// Aktivierung erstellen
 			// TODO -->afreudliUNIQUE AKTIVIERUNGSLINK BEACHTEN
-			AktivierungBean aktivierung = new AktivierungBean(
+			aktivierung = new AktivierungBean(
 					NullKonstanten.DUMMY_ID, new GregorianCalendar(),
 					aBenutzerkonto.getId(), KryptoUtil.getInstance()
 							.getAktivierungslink());
@@ -765,7 +770,15 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			// Falls ein Fehler aufgetreten ist, request wieder auffüllen
 		} catch (Exception e) {
-
+			if(aktivierung!=null&&aktivierung.getId()!=NullKonstanten.NULL_LONG){
+				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aktivierung);
+			}
+			if(aBenutzerkonto!=null&&aBenutzerkonto.getId()!=NullKonstanten.NULL_LONG){
+				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aBenutzerkonto);
+			}
+			if(aPerson!=null&&aPerson.getId()!=NullKonstanten.NULL_LONG){
+				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aPerson);
+			}			
 			if (e instanceof BenutzerException) {
 
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
