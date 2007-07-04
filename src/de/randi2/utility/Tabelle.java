@@ -1,8 +1,5 @@
 package de.randi2.utility;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Vector;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -13,12 +10,6 @@ import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-
-import de.randi2.datenbank.RandomisationDB;
-import de.randi2.datenbank.exceptions.DatenbankExceptions;
-import de.randi2.model.exceptions.StrataException;
-import de.randi2.model.fachklassen.Studie;
-import de.randi2.model.fachklassen.beans.StudieBean;
 
 /**
  * Wrapped eine Tabelle die nachher im CSV oder Excel-Format ausgegeben werden

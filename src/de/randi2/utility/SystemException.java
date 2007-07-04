@@ -15,9 +15,7 @@ import org.apache.log4j.Logger;
  * 
  */
 public class SystemException extends ServletException {
-    
 
-	
 	/**
 	 * Die nicht technische Fehlermeldung die dem Benutzer angezeigt werden
 	 * soll.
@@ -32,15 +30,21 @@ public class SystemException extends ServletException {
 		Logger log = Logger.getLogger(this.getClass());
 		log.error("Nicht behebbarer Systemfehler.", this);
 	}
-	
-	
+
+	/**
+	 * Ueberschreibt das initCause, damit auch die Cause geloggt wird.
+	 * 
+	 * @param cause
+	 *            Die Ursache.
+	 * @return {@link Throwable#initCause(Throwable)}}
+	 */
 	@Override
 	public synchronized Throwable initCause(Throwable cause) {
 		Logger log = Logger.getLogger(this.getClass());
 		log.error("Verursacht durch", cause);
 		return super.initCause(cause);
 	}
-	
+
 	/**
 	 * Konstruktor mit der Angabe eine spezialisierten Fehlermeldung.
 	 * 
@@ -64,4 +68,3 @@ public class SystemException extends ServletException {
 	}
 
 }
-

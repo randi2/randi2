@@ -65,6 +65,9 @@ public final class KryptoUtil {
 	 */
 	private final char[] zeichen;
 
+	/**
+	 * Buchstaben.
+	 */
 	private final char[] buchstaben = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
 			'i', 'j', 'k', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
 			'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
@@ -75,9 +78,15 @@ public final class KryptoUtil {
 			'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a',
 			'b' };
 
+	/**
+	 * Ziffern
+	 */
 	private final char[] ziffern = { '2', '3', '4', '5', '6', '7', '8', '9',
 			'2', '3', '4', '5', '6', '7', '8', '9' };
 
+	/**
+	 * Sonderzeichen.
+	 */
 	private final char[] sonderzeichen = { '#', '+', ';', ':', '*', '!', '$',
 			'%', '&', '(', ')', '=', '?', '<', '>' };
 
@@ -123,23 +132,23 @@ public final class KryptoUtil {
 
 		StringBuffer passwort = new StringBuffer();
 
-		if(length >= 1){
+		if (length >= 1) {
 			passwort.append(buchstaben[zufall.nextInt(buchstaben.length)]);
 		}
-		if(length >= 2){
+		if (length >= 2) {
 			passwort.append(ziffern[zufall.nextInt(ziffern.length)]);
 		}
-		if(length >= 3){
-			passwort.append(sonderzeichen[zufall.nextInt(sonderzeichen.length)]);
+		if (length >= 3) {
+			passwort
+					.append(sonderzeichen[zufall.nextInt(sonderzeichen.length)]);
 		}
-		
-		
+
 		for (int i = 3; i < length; i++) {
 			passwort.append(zeichen[zufall.nextInt(zeichen.length)]);
 		}
 		return passwort.toString();
 	}
-	
+
 	/**
 	 * Generiert ein Passwort beliebiger Laenge zufaellig.
 	 * 
@@ -159,7 +168,6 @@ public final class KryptoUtil {
 		}
 		return passwort.toString();
 	}
-
 
 	/**
 	 * Erzeugt aus dem Passwort einen Hashwert der in der Datenbank gespeichert
@@ -211,6 +219,5 @@ public final class KryptoUtil {
 		int charInt = (new Random()).nextInt(49);
 		return zeichen[charInt];
 	}
-
 
 }
