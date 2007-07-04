@@ -82,7 +82,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	/**
 	 * Meldung, wenn ein Studienarm erfolgreicht beendet wurde.
 	 */
-	public static final String STUDIENARM_BEENDET = "Der ausgewählte Studienarm wurde beenden!";
+	public static final String STUDIENARM_BEENDET = "Der ausgewählte Studienarm wurde beendet!";
 
 	/**
 	 * Die Anfrage_id zur Verwendung im Studie Servlet
