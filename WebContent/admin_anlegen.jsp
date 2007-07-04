@@ -95,8 +95,7 @@
 <html>
 <head>
 
-<title>Randi2 :: <%=request
-									.getAttribute(DispatcherServlet.requestParameter.TITEL
+<title>Randi2 :: <%=request.getAttribute(DispatcherServlet.requestParameter.TITEL
 											.toString())%></title>
 <%@include file="include/inc_extjs.jsp"%>
 <script>

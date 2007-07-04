@@ -875,6 +875,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			throws ServletException, IOException {
 
 		// Alle Attribute des request inititalisieren
+		
+		String seitentitel = (String) request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString());
 
 		String vorname = request.getParameter(Parameter.person.VORNAME.name());
 		String nachname = request
@@ -915,6 +917,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				"aBenutzer")).getRolle();
 
 		try {
+			
+			
 			// Konvertierung String enum
 			for (PersonBean.Titel t : PersonBean.Titel.values()) {
 				if (titel.equals(t.toString())) {
@@ -1028,6 +1032,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					AutomatischeNachricht.autoNachricht.AKTIVIERUNG);
 			aktivierungMail.senden();
 
+			request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(), seitentitel);
+			
 			request
 					.setAttribute(
 							DispatcherServlet.NACHRICHT_OK,
@@ -1043,6 +1049,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			if (e instanceof DatenbankExceptions) {
 
 			}
+			
 
 			request.setAttribute(Parameter.person.VORNAME.name(), vorname);
 			request.setAttribute(Parameter.person.NACHNAME.name(), nachname);
@@ -1089,6 +1096,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 					.getMessage());
 
+			
+			request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(), seitentitel);
 			request.setAttribute(Parameter.anfrage_id.toString(),
 					DispatcherServlet.anfrage_id.JSP_ADMIN_ANLEGEN.name());
 			request.getRequestDispatcher("/DispatcherServlet").forward(request,
