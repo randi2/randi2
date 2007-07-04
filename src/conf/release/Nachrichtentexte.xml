@@ -2,63 +2,67 @@
 
 <emails name="autonachrichten">
 <comment>als dynamische Textelemente sind bisher gestattet #Anrede#, #Aktivierungslink#,#passwort#,#Absender#, #EntSperren#, #Benutzername#</comment>
-	<email name="aktivierung">
-		<betreff>RANDI2: Aktivierung</betreff>
-		<emailtext>
-		#Anrede#
-		Nachfolgende erhalten Sie den Aktivierungslink für RANDI2 : #Aktivierungslink#
-		Mit freundlichen Grüßen
-		#Absender#
-		</emailtext>
-	</email>
+<email name="aktivierung">
+<betreff>RANDI2: Aktivierung</betreff>
+<emailtext>
+#Anrede#
+
+Nachfolgende erhalten Sie den Aktivierungslink fuer RANDI2 :
+#Aktivierungslink#
+
+Mit freundlichen Gruessen
+#Absender#
+</emailtext>
+</email>
 	
-	<email name="passwort">
-	<betreff>RANDI2:: Neues Passwort</betreff>
-		<emailtext>#Anrede#
-		Anbei erhalten Sie Ihr neues Passwort für Randi2:
-		#passwort#
-		Mit freundlichen Grüßen
-		#Absender#
-		</emailtext>
-	</email>
+<email name="passwort">
+<betreff>RANDI2:: Neues Passwort</betreff>
+<emailtext>#Anrede#
+Anbei erhalten Sie Ihr neues Passwort für Randi2:
+#passwort#
+Mit freundlichen Gruessen
+#Absender#
+</emailtext>
+</email>
 	
-	<email name="bsperren">
-		<betreff>RANDI2: Benutzerkonto wurde gesperrt</betreff>
-		<emailtext>#Anrede#
-		Ihr Benutzerkonto wurde gesperrt. Die Gründe sind nachfolgend angegeben.
-		#EntSperren#
-				Mit freundlichen Grüßen
-		#Absender#
-		</emailtext>
-	</email>
-		<email name="bentsperren">
-		<betreff>RANDI2: Benutzerkonto wurde entsperrt</betreff>
-		<emailtext>#Anrede#
-		Ihr Benutzerkonto wurde entsperrt. Nachfolgende sind die Gründe dafür angegeben.
-		#EntSperren#
-		
-		Mit freundlichen Grüßen
-		#Absender#
-		</emailtext>
-	</email>
-	<email name="passwortSlAdmin">
-		<betreff>RANDI2: Passwort</betreff>
+<email name="bsperren">
+<betreff>RANDI2: Benutzerkonto wurde gesperrt</betreff>
+<emailtext>#Anrede#
+Ihr Benutzerkonto wurde gesperrt. Die Gruende sind nachfolgend angegeben.
+#EntSperren#
+Mit freundlichen Gruessen
+#Absender#
+</emailtext>
+</email>
+<email name="bentsperren">
+<betreff>RANDI2: Benutzerkonto wurde entsperrt</betreff>
+<emailtext>#Anrede#
+Ihr Benutzerkonto wurde entsperrt. Nachfolgende sind die Gruende dafuer angegeben.
+#EntSperren#
+
+Mit freundlichen Gruessen
+#Absender#
+</emailtext>
+</email>
+<email name="passwortSlAdmin">
+<betreff>RANDI2: Passwort</betreff>
 <emailtext>
 #Anrede#
 Sie wurden im RANDI2-System registriert.
-Nachfolgend erhalten Sie ihre Zugangsdaten für Randi2: 
+
+Nachfolgend erhalten Sie ihre Zugangsdaten fuer Randi2: 
 Benutzername: #Benutzername#
 Passwort:     #passwort#
 
-Sobald Sie ihren Account über den Aktivierungslink, der ihnen seperat zugesand wurde, 
-aktiviert haben, können sie sich am System anmelden.   
+Sobald Sie ihren Account ueber den Aktivierungslink, der ihnen seperat zugesandt wurde, 
+aktiviert haben, koennen sie sich am System anmelden.   
 
-Bitte ändern sie umgehend ihr Passwort, sobald sie 
+Bitte aendern sie umgehend ihr Passwort, sobald sie 
 sich das erste mal einloggen.
-Die Möglichkeit hierzu finden sie im Menü links 
-unter dem Punkt "Daten ändern". 
+Die Moeglichkeit hierzu finden sie im Menue links 
+unter dem Punkt "Daten aendern". 
 		
-Mit freundlichen Grüßen
+Mit freundlichen Gruessen
 #Absender#
 		</emailtext>
 	</email>
