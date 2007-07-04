@@ -83,10 +83,9 @@ Ext.onReady(function(){
 
      
    
- </div>
-<br>  
+   
 <%@include file="include/inc_footer_clean.jsp"%>
-
+</div>
 
 </body>
 </html>
