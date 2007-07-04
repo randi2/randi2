@@ -9,6 +9,10 @@
 			.toString(), JspTitel.STRATA_ANZEIGEN.toString());
 			
 			StrataBean aStrata = (StrataBean) request.getAttribute(StudieServlet.requestParameter.AKTUELLE_STRATA.toString());
+			String beschreibung = "";
+			if(aStrata.getBeschreibung()!=null){
+				beschreibung = aStrata.getBeschreibung();
+			}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="java.util.Iterator"%>
@@ -67,7 +71,7 @@
 						<td style="width: 50%; text-align: left;">Beschreibung</td>
 					</tr>
 					<tr align="left" class="tblrow1">
-						<td><%=aStrata.getBeschreibung()%></td>
+						<td><%=beschreibung%></td>
 					</tr>
 				</tbody>
 			</table>
