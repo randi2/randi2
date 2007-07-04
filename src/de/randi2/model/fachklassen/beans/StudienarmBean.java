@@ -5,12 +5,9 @@ import java.util.Vector;
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
-import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.exceptions.StudienarmException;
 import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.Studienarm;
-import de.randi2.model.fachklassen.beans.PatientBean;
-import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.utility.NullKonstanten;
 
 /**
