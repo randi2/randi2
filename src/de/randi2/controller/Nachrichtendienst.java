@@ -207,7 +207,6 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 				|| (!id.equals(anfrage_id.AKTION_NACHRICHT_VERSENDEN.name()))
 				|| !DispatcherServlet.isBenutzerAngemeldet(request)) {
 			// Keine ID gesetzt, Falsche ID oder Benutzer nicht angemeldet
-			// FRAGE Ausreichende Behandlung? --BTheel:20070607
 			Logger.getLogger(this.getClass()).warn(
 					"Illegaler Zugriff auf Nachrichtendienst von "+request.getRemoteAddr()+", User: "+request.getRemoteUser());
 			return;
@@ -307,7 +306,6 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 								+ ((BenutzerkontoBean) request.getSession()
 										.getAttribute("aBenutzer")));
 			}
-			// FIXME Fehlerbehandlung für den den Benutzer
 			weiterleitenAufnachrichtendienstSeite(request, response, false,
 					Nachricht.NACHRICHTENVERSAND_FEHLGESCHLAGEN);
 		}

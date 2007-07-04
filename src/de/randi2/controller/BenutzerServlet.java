@@ -744,7 +744,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					request, response);
 
 			// Aktivierung erstellen
-			// TODO -->afreudliUNIQUE AKTIVIERUNGSLINK BEACHTEN
 			aktivierung = new AktivierungBean(NullKonstanten.DUMMY_ID,
 					new GregorianCalendar(), aBenutzerkonto.getId(), KryptoUtil
 							.getInstance().getAktivierungslink());
@@ -1141,7 +1140,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				.getParameter(Parameter.benutzerkonto.LOGINNAME.name());
 		BenutzerkontoBean aBenutzerkonto = new BenutzerkontoBean();
 		try {
-			// TODO --afreudli wer darf sein Passwort ändern?!
 			aBenutzerkonto.setBenutzername(benutzername);
 			aBenutzerkonto.setFilter(true);
 			aBenutzerkonto = DatenbankFactory.getAktuelleDBInstanz()
