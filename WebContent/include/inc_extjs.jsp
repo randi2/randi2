@@ -1,4 +1,3 @@
-<%@page import="de.randi2.controller.DispatcherServlet"%>
 <link rel="stylesheet" type="text/css"
 	href="js/ext/resources/css/ext-all.css" />
 <!-- GC -->
