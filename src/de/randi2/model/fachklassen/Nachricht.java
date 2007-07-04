@@ -55,9 +55,10 @@ public class Nachricht {
 		if (Nachrichtendienst.getUser() != null
 				&& Nachrichtendienst.getUser().trim().length() > 0
 				&& Nachrichtendienst.getPwd() != null
-				&& Nachrichtendienst.getPwd().trim().length() > 0)
+				&& Nachrichtendienst.getPwd().trim().length() > 0){
 			aMail.setAuthentication(Nachrichtendienst.getUser(),
 					Nachrichtendienst.getPwd());
+		}
 		aMail.setDebug(debug);
 	}
 

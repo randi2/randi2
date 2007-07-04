@@ -4,7 +4,7 @@ package de.randi2.model.exceptions;
  * Fehler, die beim Nachrichtenversand auftreten und an den Benutzer
  * weitergeleitet werden.
  * 
- * @author Benjamin Theel <BTheel@stud.hs-heilbronn.de>
+ * @author Benjamin Theel [BTheel@stud.hs-heilbronn.de]
  * @version $Id$
  */
 @SuppressWarnings("serial")

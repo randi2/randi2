@@ -780,8 +780,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				request
 						.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
 								"Benutzer ist bereits vorhanden. Bitte anderen Benutzernamen w&auml;hlen.");
-			} else
+			} else{
 				throw new SystemException("Fehler bei Aktivierung");
+			}
 
 			request.getRequestDispatcher("/benutzer_anlegen_drei.jsp").forward(
 					request, response);

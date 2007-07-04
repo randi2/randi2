@@ -41,7 +41,7 @@ import de.randi2.utility.SystemException;
  * Empfaenger wird aus einer Liste an die View ausgeliefert
  * {@link Nachrichtendienst#getEmpfaengerListe(BenutzerkontoBean)}. Hierbei
  * sind die Empfaenger wie folgt verschluesselt: {@link Identifikator} +
- * {@link Nachrichtendienst#SEPERATOR} + <ID des Beans>. Anstatt einer konkreten
+ * {@link Nachrichtendienst#SEPERATOR} + [ID des Beans]. Anstatt einer konkreten
  * Objekt-ID kann auch die Kosntante {@link #ALLE} verwendet werden. Sie
  * bewirkt, das die Mitteilung an alle zur Verfuegung stehenden Objekte
  * geschickt wird.

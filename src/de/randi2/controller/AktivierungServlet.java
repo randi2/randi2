@@ -85,8 +85,7 @@ public class AktivierungServlet extends javax.servlet.http.HttpServlet implement
 			request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_FEHLER).forward(request, response);
 		}
 		//Aktivierung ist nicht in DB
-		catch(NoSuchElementException e)
-		{
+		catch(NoSuchElementException e){
 			e.printStackTrace();
 			request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_FEHLER).forward(request, response);
 		}
