@@ -258,6 +258,9 @@ public final class JspTitel {
 	 * Konstante fuer jsp-Seite
 	 */
 	public static final String ZENTRUM_ANLEGEN = "Zentrum anlegen";
+	/**
+	 * Konstante fuer jsp-Seite
+	 */
 	public static final String ZENTRUM_AENDERN = "Zentrum &auml;ndern";
 	/**
 	 * Konstante fuer jsp-Seite

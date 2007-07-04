@@ -10,7 +10,7 @@ import java.util.HashMap;
  * @version $Id$
  * 
  */
-public class Hilfe {
+public final class Hilfe {
 
 	/**
 	 * Die Hashmap fuer den schnellen Zugriff
