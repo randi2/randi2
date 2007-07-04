@@ -757,9 +757,15 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						response);
 			} else if (id.equals(anfrage_id.JSP_INC_MENUE_ADMIN_ANLEGEN.name())
 					|| id.equals(anfrage_id.JSP_ADMIN_ANLEGEN.name())) {
+				
+				if (id.equals(anfrage_id.JSP_INC_MENUE_ADMIN_ANLEGEN.name())){	
 				request.setAttribute(DispatcherServlet.requestParameter.TITEL
 						.toString(), JspTitel.ADMIN_ANLEGEN.toString());
-
+				}
+				else {	
+					request.setAttribute(DispatcherServlet.requestParameter.TITEL
+							.toString(), JspTitel.STUDIENLEITER_ANLEGEN.toString());
+					}
 				ZentrumServlet.bindeZentrenListeAnRequest(request);
 				request.getRequestDispatcher(Jsp.ADMIN_ANLEGEN).forward(
 						request, response);

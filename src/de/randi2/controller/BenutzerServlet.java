@@ -876,7 +876,12 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		// Alle Attribute des request inititalisieren
 		
 		String seitentitel = (String) request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString());
-
+		System.out.println(seitentitel);
+		
+		PersonBean aPerson = null;
+		BenutzerkontoBean aBenutzerkonto=null;
+		AktivierungBean aktivierung=null;
+		
 		String vorname = request.getParameter(Parameter.person.VORNAME.name());
 		String nachname = request
 				.getParameter(Parameter.person.NACHNAME.name());
@@ -954,7 +959,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					.getSession().getAttribute("aBenutzer");
 
 			// Benutzer(Person) anlegen
-			PersonBean aPerson = null;
 			aPerson = new PersonBean();
 			aPerson.setNachname(nachname);
 			aPerson.setVorname(vorname);
@@ -976,7 +980,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			rolf.setBenutzerkontoLogging(anleger);
 
 			// Konto anlegen
-			BenutzerkontoBean aBenutzerkonto = new BenutzerkontoBean();
+			aBenutzerkonto = new BenutzerkontoBean();
 			aBenutzerkonto.setBenutzername(benutzername);
 			aBenutzerkonto.setPasswort(KryptoUtil.getInstance().hashPasswort(
 					passwort));
@@ -1017,7 +1021,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			passwortmail.senden();
 
 			// Aktivierungsmail
-			AktivierungBean aktivierung = new AktivierungBean();
+			aktivierung = new AktivierungBean();
 			aktivierung.setBenutzerkonto(konto.getBenutzerkontobean());
 			aktivierung.setAktivierungsLink(KryptoUtil.getInstance()
 					.getAktivierungslink());
@@ -1044,6 +1048,17 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+	
+			
+			if(aktivierung!=null&&aktivierung.getId()!=NullKonstanten.NULL_LONG){
+				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aktivierung);
+			}
+			if(aBenutzerkonto!=null&&aBenutzerkonto.getId()!=NullKonstanten.NULL_LONG){
+				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aBenutzerkonto);
+			}
+			if(aPerson!=null&&aPerson.getId()!=NullKonstanten.NULL_LONG){
+				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aPerson);
+			}
 
 			if (e instanceof DatenbankExceptions) {
 
