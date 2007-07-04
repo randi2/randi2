@@ -1120,6 +1120,16 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 			}
 
+			if (aAlgorithmus != Randomisation.Algorithmen.VOLLSTAENDIGE_RANDOMISATION) {
+
+				if (aBlockgroesse % aAnzahl_Arme != 0) {
+
+					throw new StudieException(
+							StudieException.BLOCKGROESSE_KEIN_VIELFACHES_DER_STUDIENARME);
+
+				}
+			}			
+			
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) request
 					.getSession().getAttribute(
 							DispatcherServlet.sessionParameter.A_Benutzer
@@ -1155,6 +1165,16 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				aArm = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 						aArm);
 
+			}
+
+			if (aAlgorithmus != Randomisation.Algorithmen.VOLLSTAENDIGE_RANDOMISATION) {
+
+				if (aBlockgroesse % aAnzahl_Arme != 0) {
+
+					throw new StudieException(
+							StudieException.BLOCKGROESSE_KEIN_VIELFACHES_DER_STUDIENARME);
+
+				}
 			}
 
 			if (aAlgorithmus == Randomisation.Algorithmen.BLOCKRANDOMISATION_MIT_STRATA) {
@@ -1437,11 +1457,21 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 					.parseAlgorithmen((String) request
 							.getAttribute(Parameter.studie.RANDOMISATIONSALGORITHMUS
 									.name()));
-
+			int aBlockgroesse = NullKonstanten.NULL_INT;
 			BenutzerkontoBean aBenutzer = (BenutzerkontoBean) request
 					.getSession().getAttribute(
 							DispatcherServlet.sessionParameter.A_Benutzer
 									.toString());
+
+			if (aAlgorithmus != Randomisation.Algorithmen.VOLLSTAENDIGE_RANDOMISATION) {
+
+				if (aBlockgroesse % aAnzahl_Arme != 0) {
+
+					throw new StudieException(
+							StudieException.BLOCKGROESSE_KEIN_VIELFACHES_DER_STUDIENARME);
+
+				}
+			}
 
 			if (aAlgorithmus != aStudieSession.getAlgorithmus()) {
 
@@ -1497,7 +1527,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 
 			String aBlockgroesse_s = (String) request
 					.getAttribute(Parameter.studie.BLOCKGROESSE.name());
-			int aBlockgroesse = NullKonstanten.NULL_INT;
 
 			if (aBlockgroesse_s != null) {
 
