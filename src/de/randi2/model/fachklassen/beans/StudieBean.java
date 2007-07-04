@@ -825,7 +825,7 @@ public class StudieBean extends DBObjekt {
 	 * Set Methode fuer die Blockgroesse
 	 * 
 	 * @param blockgroesse
-	 *            zu setzende Blockgroesse
+	 *            zu setzende Blockgroesse (muss ein Vielfaches der Anzhal der Studienarme sein.
 	 * @throws StudieException -
 	 *             wenn die uebergebene Blockgroesse kleiner als 2 ist.
 	 */
@@ -834,8 +834,9 @@ public class StudieBean extends DBObjekt {
 				&& this.getAlgorithmus() != Randomisation.Algorithmen.VOLLSTAENDIGE_RANDOMISATION) {
 			throw new StudieException(StudieException.BLOCKGROESSE_ZU_KLEIN);
 		}
-		// TODO
-		this.aBlockgroesse = blockgroesse;
+		
+		this.aBlockgroesse = blockgroesse;	
+		
 	}
 
 	/**
