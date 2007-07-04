@@ -38,6 +38,9 @@ public class BlockRandomisation extends Randomisation {
 	 */
 	private int blockgroesse = NullKonstanten.NULL_INT;
 
+	/**
+	 * Die Anzahl der Studienarme.
+	 */
 	private int anzahlArme = NullKonstanten.NULL_INT;
 
 	/**
@@ -79,6 +82,19 @@ public class BlockRandomisation extends Randomisation {
 		this.setBlockgroesse(aStudie.getBlockgroesse());
 	}
 
+	/**
+	 * Private Konstruktor zum Testen der Blockerzeugung.
+	 * 
+	 * @param anzSA
+	 *            Anzahl der Studiearme.
+	 * @param blockGr
+	 *            Blockgroesse. Muss ein Vielfaches der Studienarme sein (nicht
+	 *            geprueft).
+	 * @param aStudie
+	 *            Eine Dummy-Studie.
+	 * @throws RandomisationsException
+	 *             Falls Fehler auftreten.
+	 */
 	private BlockRandomisation(int anzSA, int blockGr, StudieBean aStudie)
 			throws RandomisationsException {
 		super(NAME, aStudie);
@@ -86,6 +102,16 @@ public class BlockRandomisation extends Randomisation {
 		this.blockgroesse = blockGr;
 	}
 
+	/**
+	 * Testet das Erzeugen von Blocks.
+	 * 
+	 * @param anzSa
+	 *            Anzahl der Studiearme.
+	 * @param blockGr
+	 *            Blockgroesse. Muss ein Vielfaches der Studienarme sein (nicht
+	 *            geprueft).
+	 * @return Ein erzeugter Block.
+	 */
 	public static int[] getErzeugtenBlock(int anzSa, int blockGr) {
 		BlockRandomisation b = null;
 		try {
@@ -135,7 +161,8 @@ public class BlockRandomisation extends Randomisation {
 			String strataKombination) throws RandomisationsException,
 			DatenbankExceptions {
 
-		long studienArmId = RandomisationDB.getNext(this.studie, strataKombination);
+		long studienArmId = RandomisationDB.getNext(this.studie,
+				strataKombination);
 
 		if (studienArmId == NullKonstanten.NULL_LONG) {
 			// Es ist kein Block mehr gespeichert, also wird ein neuer Erzeugt
@@ -148,10 +175,12 @@ public class BlockRandomisation extends Randomisation {
 			}
 
 			// Speichern des Blocks
-			RandomisationDB.speichernBlock(blockStudienarme, this.studie, strataKombination);
+			RandomisationDB.speichernBlock(blockStudienarme, this.studie,
+					strataKombination);
 
 			// Holen der ersten Id
-			studienArmId = RandomisationDB.getNext(this.studie, strataKombination);
+			studienArmId = RandomisationDB.getNext(this.studie,
+					strataKombination);
 
 		}
 		try {

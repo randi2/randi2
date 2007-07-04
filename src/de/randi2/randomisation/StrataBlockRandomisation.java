@@ -1,14 +1,9 @@
 package de.randi2.randomisation;
 
-import de.randi2.datenbank.RandomisationDB;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
-import de.randi2.model.exceptions.PatientException;
 import de.randi2.model.exceptions.RandomisationsException;
-import de.randi2.model.fachklassen.Studienarm;
 import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
-import de.randi2.model.fachklassen.beans.StudienarmBean;
-import de.randi2.utility.NullKonstanten;
 
 /**
  * <p>
