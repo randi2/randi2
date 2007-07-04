@@ -267,7 +267,7 @@ public class StudieBean extends DBObjekt {
 	 */
 	public void setBenutzerkonto(BenutzerkontoBean aBenutzerkonto)
 			throws StudieException {
-		this.setBenutzerkontoId(aBenutzerkonto.getBenutzerId());
+		this.setBenutzerkontoId(aBenutzerkonto.getId());
 		this.aBenutzerkonto = aBenutzerkonto;
 	}
 
