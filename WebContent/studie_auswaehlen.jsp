@@ -36,6 +36,7 @@
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="java.util.GregorianCalendar"
 	import="java.text.SimpleDateFormat" import="java.util.Locale"%>
+<%@page import="de.randi2.controller.StudieServlet"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

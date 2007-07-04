@@ -28,6 +28,7 @@
 <%@page import="de.randi2.model.exceptions.StudieException"%>
 <%@page import="de.randi2.randomisation.Randomisation"%>
 <%@page import="java.util.Iterator"%>
+<%@page import="de.randi2.controller.StudieServlet"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

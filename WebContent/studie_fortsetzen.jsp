@@ -5,6 +5,7 @@
 	import="java.text.SimpleDateFormat" 
 	import="java.util.Locale"
 	import="de.randi2.utility.*"%>
+<%@page import="de.randi2.controller.StudieServlet"%>
 <%
 			request.setAttribute(DispatcherServlet.requestParameter.TITEL
 			.toString(), JspTitel.STUDIE_FORTSETZEN.toString());
