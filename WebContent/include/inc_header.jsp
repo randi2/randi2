@@ -130,13 +130,16 @@ Ext.EventManager.onDocumentReady(Hilfe.init, Hilfe, true);
  %>
 		</td>
 		<td align="right">
+		<%if(aRolleHeader!= Rolle.Rollen.STATISTIKER){ %>
 		<%
 		if (aPersonHeader.getGeschlecht() == 'm') {
 		%>Herr<%
 		} else {
 		%>Frau<%
 		}
-		%>&nbsp;<%=aPersonHeader.getVorname()%>&nbsp;<%=aPersonHeader.getNachname()%>&nbsp;<%
+		%>&nbsp;<%=aPersonHeader.getVorname()%>&nbsp;<%=aPersonHeader.getNachname()%>&nbsp;
+		<%} %>
+		<%
 		if (aRolleHeader != Rolle.Rollen.STUDIENARZT) {
 		%>(<span id="rolle_highlight"><%=aRolleHeader%></span>)<%
 		}
