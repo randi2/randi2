@@ -40,14 +40,13 @@ Ext.onReady(function(){
         readOnly:true
     });     
     
-    var imprint_text2 = new Ext.form.TextArea({
-        name: '',
-        value:'Die Webapplikation RANDI2 wurde im Rahmen des Softwarepraktikums an der Universität Heidelberg/HS Heilbronn im WS2006/07 - SS07 entwickelt.\n\nFolgende Personen waren an der Entwicklung beteiligt:\n\nChruscz Katharina, Freudling Andreas, Friedrich Susanne, Ganszky Thomas, Graeff Valentin, Haehn Daniel, Krupka Kai Marco, Noack Tino, Plotnicki Lukasz, Reifschneider Frederik, Theel Benjamin, Thoenes Johannes, Willert Thomas, Zwink Nadine \n \nVerwendete Icons:  http://www.ndesign-studio.com', 
+    var imprint_text2 = new Ext.form.TextArea({ 
+        value:'Die Webapplikation RANDI2 wurde im Rahmen des Softwarepraktikums vom Studiengang Medizinische Informatik an der Universität Heidelberg/HS Heilbronn im\nWS2006/07 - SS07 entwickelt.\n\nFolgende Personen waren an der Entwicklung beteiligt:\n\nChruscz Katharina, Freudling Andreas, Friedrich Susanne, Ganszky Thomas, Graeff Valentin, Haehn Daniel, Hess Frank, Krupka Kai Marco, Noack Tino, Plotnicki Lukasz, Reifschneider Frederik, Theel Benjamin, Thönes Johannes, Willert Thomas, Zwink Nadine, Prof.Dr.Martin Haag \n \nVerwendete Icons:  http://www.ndesign-studio.com', 
         width:500, 
-        height:150,  
+        height:180,  
         readOnly:true  
-    });      
-       
+    });       
+              
     form_imprint.fieldset({legend:'Impressum und rechtliche Hinweise',hideLabels:true},
     imprint_text);
    
@@ -78,11 +77,6 @@ Ext.onReady(function(){
 <div id="content">
 <h1>Impressum</h1>
 <div id="form_imprint"></div>
- 
- 
-
-     
-   
    
 <%@include file="include/inc_footer_clean.jsp"%>
 </div>
