@@ -12,7 +12,6 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.NachrichtException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
@@ -21,7 +20,6 @@ import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.utility.Config;
 import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.SystemException;
-import de.randi2.utility.Config.Felder;
 /*
  * So wurden alle EMailExceptions, die aus der Klasse rausgingen, in NachrichtException ueberfuehrt.
  * Habe diese Anpassungen auch hier uebernommen.

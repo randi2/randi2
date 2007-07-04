@@ -22,13 +22,16 @@ public final class Patient {
 	private Patient() {
 	}
 
-	/*
-	 * TODO Diese Klasse wird erstmal nicht ausimplementiert bzw. nicht
-	 * vollstaendig ausimplementiert, da die Vorgehensweise bzgl. Stratas noch
-	 * nicht festgelegt wurde. (lplotni)
+	/**
+	 * Schreibt einen Patienten in die Datenbank.
+	 * 
+	 * @param pat
+	 *            Der zu schreibende Patient.
+	 * @throws DatenbankExceptions
+	 *             Falls Fehler in der Datenbank auftreten.
 	 */
-	public static void speichern(PatientBean p) throws DatenbankExceptions{
-		DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(p);
+	public static void speichern(PatientBean pat) throws DatenbankExceptions {
+		DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(pat);
 	}
 
 }

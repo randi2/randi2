@@ -124,11 +124,20 @@ public final class Strata {
 		return strata;
 	}
 
+	/**
+	 * Gibt alle Auspraegungen zu einem StrataBean zurueck.
+	 * 
+	 * @param strata
+	 *            Das StrataBean.
+	 * @return Die Liste der Auspraegungen.
+	 * @throws DatenbankExceptions
+	 *             Bei Fehlern in der Datenbank.
+	 */
 	public static Collection<StrataAuspraegungBean> getAuspraegungen(
-			StrataBean s) throws DatenbankExceptions {
+			StrataBean strata) throws DatenbankExceptions {
 		Collection<StrataAuspraegungBean> sAs = DatenbankFactory
-				.getAktuelleDBInstanz().suchenMitgliederObjekte(
-						s, StrataAuspraegungBean.NULL);
+				.getAktuelleDBInstanz().suchenMitgliederObjekte(strata,
+						StrataAuspraegungBean.NULL);
 		return sAs;
 	}
 

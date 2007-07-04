@@ -2,7 +2,6 @@ package de.randi2.model.fachklassen;
 
 import java.util.Vector;
 
-import de.randi2.controller.DispatcherServlet;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;

@@ -5,7 +5,6 @@ import java.util.Vector;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
-import de.randi2.model.fachklassen.beans.PatientBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.KryptoUtil;
