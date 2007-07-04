@@ -1824,6 +1824,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 								"Es k&ouml;nnen keine Patienten hinzufuegen, da die Studie nicht aktiv ist.");
 				request.getRequestDispatcher("/studie_ansehen.jsp").forward(
 						request, response);
+				return;
 			}
 
 			PatientBean aPatient = new PatientBean();
