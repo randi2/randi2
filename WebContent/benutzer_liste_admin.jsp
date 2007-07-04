@@ -35,6 +35,8 @@ if (request.getParameter(Parameter.zentrum.INSTITUTION.toString()) != null) {
 	.getParameter(Parameter.zentrum.INSTITUTION.toString());
 }
 
+BenutzerkontoBean aBenutzerListe = (BenutzerkontoBean)request.getSession().getAttribute(DispatcherServlet.sessionParameter.A_Benutzer.toString());
+
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="de.randi2.controller.ZentrumServlet"%>
@@ -311,10 +313,10 @@ else if (aRolle==Rolle.Rollen.SYSOP){out.print("Admins anzeigen/suchen");}
 		<td><span  id="benutzer_anzeigen_link" style="cursor:pointer"
 			onClick="document.forms['liste_form'].button.value = 'a_<%=benutzer.getBenutzerId() %>';document.forms['liste_form'].submit();">
 		<b>Anzeigen</b>
-		</span><br><span  id="sperren_link" style="cursor:pointer"
+		</span><br><% if(!aBenutzerListe.getBenutzername().equals(benutzer.getLoginname())){ %><span  id="sperren_link" style="cursor:pointer"
 			onClick="document.forms['liste_form'].button.value = 's_<%=benutzer.getBenutzerId() %>';document.forms['liste_form'].submit();"><b>		
 		<%if(benutzer.isGesperrt()){out.print("Entsperren");}else{out.print("Sperren");} %></b>
-		</span></td>
+		</span><% } %></td>
 	</tr>
 	<%
 			tabIndex++;
