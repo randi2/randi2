@@ -14,6 +14,19 @@ import de.randi2.datenbank.exceptions.DatenbankExceptions;
 public interface DatenbankSchnittstelle {
 
 	/**
+	 * Konstante fuer einen neuen Datensatz.
+	 */
+	public static final int NEUER_DATENSATZ = 1;
+	/**
+	 * Konstante fuer einen zu aktualisierende Datensatz.
+	 */
+	public static final int AKTUALISIERE_DATENSATZ = 2;
+	/**
+	 * Konstante fuer einen zu loeschenden Datensatz.
+	 */
+	public static final int LOESCHE_DATENSATZ = 3;
+
+	/**
 	 * <p>
 	 * Diese Methode sucht alle in der Datenbank gespeicherten Objekte, welche
 	 * der Filterung, die durch das uebergebene Objekt definiert wurde,

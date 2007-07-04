@@ -888,7 +888,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-		this.loggenDaten(person, LogKonstanten.LOESCHE_DATENSATZ);
+		this.loggenDaten(person, DatenbankSchnittstelle.LOESCHE_DATENSATZ);
 	}
 
 	/**
@@ -923,7 +923,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-		this.loggenDaten(aktivierung, LogKonstanten.LOESCHE_DATENSATZ);
+		this.loggenDaten(aktivierung, DatenbankSchnittstelle.LOESCHE_DATENSATZ);
 	}
 
 	/**
@@ -959,7 +959,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-		this.loggenDaten(studie, LogKonstanten.LOESCHE_DATENSATZ);
+		this.loggenDaten(studie, DatenbankSchnittstelle.LOESCHE_DATENSATZ);
 	}
 	
 	/**
@@ -987,7 +987,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-		this.loggenDaten(studienarm, LogKonstanten.LOESCHE_DATENSATZ);
+		this.loggenDaten(studienarm, DatenbankSchnittstelle.LOESCHE_DATENSATZ);
 	}
 	
 	/**
@@ -1014,7 +1014,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-		this.loggenDaten(strata, LogKonstanten.LOESCHE_DATENSATZ);
+		this.loggenDaten(strata, DatenbankSchnittstelle.LOESCHE_DATENSATZ);
 	}
 	
 	/**
@@ -1041,7 +1041,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-		this.loggenDaten(auspr, LogKonstanten.LOESCHE_DATENSATZ);
+		this.loggenDaten(auspr, DatenbankSchnittstelle.LOESCHE_DATENSATZ);
 	}
 	
 	/**
@@ -1068,7 +1068,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-		this.loggenDaten(bk, LogKonstanten.LOESCHE_DATENSATZ);
+		this.loggenDaten(bk, DatenbankSchnittstelle.LOESCHE_DATENSATZ);
 	}
 
 	/**
@@ -1193,7 +1193,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 			}
 			person.setId(id);
 			// loggen eines neuen Datensatzes
-			loggenDaten(person, LogKonstanten.NEUER_DATENSATZ);
+			loggenDaten(person, DatenbankSchnittstelle.NEUER_DATENSATZ);
 			return person;
 		}
 		// vorhandene Person wird aktualisiert
@@ -1232,7 +1232,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				ConnectionFactory.getInstanz().closeConnection(con);
 			}
 			// loggen eines geaenderten Datensatzes
-			loggenDaten(person, LogKonstanten.AKTUALISIERE_DATENSATZ);
+			loggenDaten(person, DatenbankSchnittstelle.AKTUALISIERE_DATENSATZ);
 		}
 		return person;
 	}
@@ -1293,7 +1293,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			zentrum.setId(id);
-			loggenDaten(zentrum, LogKonstanten.NEUER_DATENSATZ);
+			loggenDaten(zentrum, DatenbankSchnittstelle.NEUER_DATENSATZ);
 			return zentrum;
 		}
 		// vorhandenes Zentrum wird aktualisiert
@@ -1330,7 +1330,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 		ConnectionFactory.getInstanz().closeConnection(con);
 		// loggen des geaenderten Datensatzes
-		loggenDaten(zentrum, LogKonstanten.AKTUALISIERE_DATENSATZ);
+		loggenDaten(zentrum, DatenbankSchnittstelle.AKTUALISIERE_DATENSATZ);
 		return zentrum;
 	}
 
@@ -1409,7 +1409,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			benutzerKonto.setId(id);
-			loggenDaten(benutzerKonto, LogKonstanten.NEUER_DATENSATZ);
+			loggenDaten(benutzerKonto, DatenbankSchnittstelle.NEUER_DATENSATZ);
 			return benutzerKonto;
 
 		} else {
@@ -1457,7 +1457,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 
 		ConnectionFactory.getInstanz().closeConnection(con);
 
-		loggenDaten(benutzerKonto, LogKonstanten.AKTUALISIERE_DATENSATZ);
+		loggenDaten(benutzerKonto, DatenbankSchnittstelle.AKTUALISIERE_DATENSATZ);
 		return benutzerKonto;
 	}
 
@@ -1511,7 +1511,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			aktivierung.setId(id);
-			loggenDaten(aktivierung, LogKonstanten.NEUER_DATENSATZ);
+			loggenDaten(aktivierung, DatenbankSchnittstelle.NEUER_DATENSATZ);
 			return aktivierung;
 		} else {
 			int j = 1;
@@ -1538,7 +1538,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				ConnectionFactory.getInstanz().closeConnection(con);
 			}
 		}
-		loggenDaten(aktivierung, LogKonstanten.AKTUALISIERE_DATENSATZ);
+		loggenDaten(aktivierung, DatenbankSchnittstelle.AKTUALISIERE_DATENSATZ);
 		return aktivierung;
 	}
 
@@ -1630,7 +1630,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			studie.setId(id);
-			loggenDaten(studie, LogKonstanten.NEUER_DATENSATZ);
+			loggenDaten(studie, DatenbankSchnittstelle.NEUER_DATENSATZ);
 			return studie;
 		} else {
 			int i = 1;
@@ -1694,7 +1694,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				throw new DatenbankExceptions(e, sql,
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
-			loggenDaten(studie, LogKonstanten.AKTUALISIERE_DATENSATZ);
+			loggenDaten(studie, DatenbankSchnittstelle.AKTUALISIERE_DATENSATZ);
 		}
 
 		ConnectionFactory.getInstanz().closeConnection(con);
@@ -1753,7 +1753,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
 			studienarm.setId(id);
-			loggenDaten(studienarm, LogKonstanten.NEUER_DATENSATZ);
+			loggenDaten(studienarm, DatenbankSchnittstelle.NEUER_DATENSATZ);
 			return studienarm;
 		} else {
 			int j = 1;
@@ -1780,7 +1780,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				throw new DatenbankExceptions(e, sql,
 						DatenbankExceptions.SCHREIBEN_ERR);
 			}
-			loggenDaten(studienarm, LogKonstanten.AKTUALISIERE_DATENSATZ);
+			loggenDaten(studienarm, DatenbankSchnittstelle.AKTUALISIERE_DATENSATZ);
 		}
 
 		ConnectionFactory.getInstanz().closeConnection(con);
@@ -1844,7 +1844,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 
 				patient.setId(id);
-				loggenDaten(patient, LogKonstanten.NEUER_DATENSATZ);
+				loggenDaten(patient, DatenbankSchnittstelle.NEUER_DATENSATZ);
 				return patient;
 			} else {
 				int j = 1;
@@ -1877,7 +1877,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.executeUpdate();
 				pstmt.close();
 
-				loggenDaten(patient, LogKonstanten.AKTUALISIERE_DATENSATZ);
+				loggenDaten(patient, DatenbankSchnittstelle.AKTUALISIERE_DATENSATZ);
 			}
 		} catch (SQLException e) {
 			throw new DatenbankExceptions(e, sql,
@@ -1935,7 +1935,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 
 				strata.setId(id);
-				loggenDaten(strata, LogKonstanten.NEUER_DATENSATZ);
+				loggenDaten(strata, DatenbankSchnittstelle.NEUER_DATENSATZ);
 				return strata;
 			} else {
 				int counter = 1;
@@ -1959,7 +1959,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-		loggenDaten(strata, LogKonstanten.AKTUALISIERE_DATENSATZ);
+		loggenDaten(strata, DatenbankSchnittstelle.AKTUALISIERE_DATENSATZ);
 		return strata;
 
 	}
@@ -2007,7 +2007,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 				pstmt.close();
 
 				auspr.setId(id);
-				loggenDaten(auspr, LogKonstanten.NEUER_DATENSATZ);
+				loggenDaten(auspr, DatenbankSchnittstelle.NEUER_DATENSATZ);
 				return auspr;
 			} else {
 				int counter = 1;
@@ -2031,7 +2031,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 		} finally {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
-		loggenDaten(auspr, LogKonstanten.AKTUALISIERE_DATENSATZ);
+		loggenDaten(auspr, DatenbankSchnittstelle.AKTUALISIERE_DATENSATZ);
 		return auspr;
 
 	}

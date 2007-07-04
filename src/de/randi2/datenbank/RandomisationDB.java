@@ -6,11 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
@@ -18,7 +15,6 @@ import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.RandomisationsException;
 import de.randi2.model.exceptions.StrataException;
 import de.randi2.model.fachklassen.Strata;
-import de.randi2.model.fachklassen.Studie;
 import de.randi2.model.fachklassen.beans.StrataAuspraegungBean;
 import de.randi2.model.fachklassen.beans.StrataBean;
 import de.randi2.model.fachklassen.beans.StudieBean;
