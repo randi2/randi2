@@ -81,7 +81,6 @@ public class StrataBean extends Filter implements Comparable<StrataBean> {
 	 * @throws DatenbankExceptions -
 	 *             bei einer nicht korrekten Id
 	 */
-	// FRAGE Wie sinnvoll ist dieser Konstruktor?
 	public StrataBean(long id, long studienID, String name, String beschreibung)
 			throws StrataException, DatenbankExceptions {
 		super.setId(id);
@@ -256,6 +255,7 @@ public class StrataBean extends Filter implements Comparable<StrataBean> {
 	 * @param studienID
 	 *            zu setzende Id
 	 * @throws StrataException
+	 *             Falls die Studie noch nicht der Datenbank gespeichert ist.
 	 */
 	public void setStudienID(long studienID) throws StrataException {
 		if (studienID == NullKonstanten.DUMMY_ID) {
@@ -311,6 +311,13 @@ public class StrataBean extends Filter implements Comparable<StrataBean> {
 
 	}
 
+	/**
+	 * Vergleicht zwei StrataBeans anhand der Ids in der Datenbank.
+	 * 
+	 * @param o
+	 *            Das StrataBean mit dem verglichen werden soll.
+	 * @return Einen int gemaess {@link Comparable#compareTo(Object)}};
+	 */
 	public int compareTo(StrataBean o) {
 		if (this.getId() < o.getId()) {
 			return -1;

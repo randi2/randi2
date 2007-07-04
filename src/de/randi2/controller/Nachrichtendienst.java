@@ -369,7 +369,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			 * Fehler in tieferen Schichten wahrscheinlich --> Einfache Meldung
 			 * an Benutzer, Exception loggen
 			 */
-			e.printStackTrace(); // XXX entfernen
+			Logger.getLogger(this.getClass()).debug("", e);
 			// FRAGE hier lieber Systemexception? -- BTheel
 
 			weiterleitenAufnachrichtendienstSeite(request, response, false,
@@ -692,7 +692,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			 * Exception wird geworfen, wenn !Filter und Rolle null, Exception
 			 * kann nicht auftreten
 			 */
-			e.printStackTrace(); // XXX printStacktrace() entfernen --BTheel
+			Logger.getLogger(Nachrichtendienst.class).debug("", e);
 			throw new SystemException();
 		}
 
@@ -711,7 +711,6 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 						+ aKonto.getBenutzer().getNachname() + ", "
 						+ aKonto.getBenutzer().getVorname());
 				zentrum = aKonto.getZentrum();
-				// FRAGE sind Zentrum, Institut und Abteilung IMMER gesetzt?
 				menu.append(" (Zentrum: " + zentrum.getInstitution() + ", "
 						+ zentrum.getAbteilung());
 

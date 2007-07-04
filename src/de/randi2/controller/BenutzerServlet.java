@@ -2,7 +2,6 @@ package de.randi2.controller;
 
 import java.io.IOException;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -11,23 +10,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.jasper.tagplugins.jstl.core.Param;
 import org.apache.log4j.Logger;
 
-import de.randi2.datenbank.Datenbank;
 import de.randi2.datenbank.DatenbankFactory;
 import de.randi2.datenbank.Filter;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.NachrichtException;
-import de.randi2.model.exceptions.PersonException;
-import de.randi2.model.exceptions.ZentrumException;
 import de.randi2.model.fachklassen.AutomatischeNachricht;
 import de.randi2.model.fachklassen.Benutzerkonto;
-import de.randi2.model.fachklassen.Person;
 import de.randi2.model.fachklassen.Rolle;
-import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.Recht.Rechtenamen;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerSuchenBean;
@@ -613,8 +606,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 							"Mehr als einen Benutzer fuer '"
 									+ sBenutzer.getBenutzername()
 									+ "' in der Datenbank gefunden!");
-					// FIXME ist das Loggin hier Korrekt? Loggt der die Aktion
-					// in das Richtige Log? -BTheel
 				}
 			}// else
 		} catch (BenutzerkontoException e) {
@@ -631,6 +622,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 								.getParameter(Parameter.benutzerkonto.LOGINNAME
 										.name()));
 			} catch (BenutzerkontoException e1) {
+				Logger.getLogger(this.getClass()).debug("", e1);
 			}
 
 			LogAktion a = new LogAktion(
@@ -969,7 +961,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			aPerson.setTelefonnummer(telefon);
 			aPerson.setFax(fax);
 			aPerson.setBenutzerkontoLogging(anleger);
-			
+
 			// Stellvertreter basteln
 			PersonBean rolf = new PersonBean();
 			rolf.setNachname(nachnameA);
@@ -985,7 +977,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			aBenutzerkonto.setBenutzername(benutzername);
 			aBenutzerkonto.setPasswort(KryptoUtil.getInstance().hashPasswort(
 					passwort));
-						
+
 			zentrumId = Long.valueOf(institut);
 			aBenutzerkonto.setZentrumId(zentrumId);
 
@@ -1001,22 +993,21 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			aBenutzerkonto.setGesperrt(true);
 			aBenutzerkonto.setBenutzerkontoLogging(anleger);
 
-			
 			// Alles wegspeichern
 			rolf = DatenbankFactory.getAktuelleDBInstanz()
 					.schreibenObjekt(rolf);
-			
+
 			aPerson.setStellvertreter(rolf);
 
 			aPerson = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 					aPerson);
-			
+
 			aBenutzerkonto.setBenutzer(aPerson);
 			Benutzerkonto konto = Benutzerkonto.anlegenBenutzer(aBenutzerkonto);
 
-					// Mitteilungsversand
+			// Mitteilungsversand
 			// Passwort
-			
+
 			AutomatischeNachricht passwortmail = new AutomatischeNachricht(
 					aBenutzerkonto.getBenutzer(), passwort,
 					AutomatischeNachricht.autoNachricht.PASSWORT_SL_ADMIN);
@@ -1025,17 +1016,17 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			// Aktivierungsmail
 			AktivierungBean aktivierung = new AktivierungBean();
 			aktivierung.setBenutzerkonto(konto.getBenutzerkontobean());
-			aktivierung.setAktivierungsLink(KryptoUtil.getInstance().getAktivierungslink());
+			aktivierung.setAktivierungsLink(KryptoUtil.getInstance()
+					.getAktivierungslink());
 			aktivierung.setVersanddatum(new GregorianCalendar());
 			aktivierung.setBenutzerkontoLogging(Filter.getSystemdummy());
 			aktivierung = DatenbankFactory.getAktuelleDBInstanz()
 					.schreibenObjekt(aktivierung);
-			
+
 			AutomatischeNachricht aktivierungMail = new AutomatischeNachricht(
 					konto.getBenutzerkontobean().getBenutzer(),
 					AutomatischeNachricht.autoNachricht.AKTIVIERUNG);
 			aktivierungMail.senden();
-			
 
 			request
 					.setAttribute(
@@ -1046,11 +1037,11 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			request.getRequestDispatcher("/DispatcherServlet").forward(request,
 					response);
 
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			
-			if (e instanceof DatenbankExceptions){
-				
+
+			if (e instanceof DatenbankExceptions) {
+
 			}
 
 			request.setAttribute(Parameter.person.VORNAME.name(), vorname);

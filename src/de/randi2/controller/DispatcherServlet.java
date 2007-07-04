@@ -579,14 +579,17 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 									.toString())
 					|| anfrageId
 							.equals(anfrage_id.JSP_BENUTZER_ANLEGEN_ZWEI_BENUTZER_REGISTRIEREN_DREI
-									.toString())
-					|| anfrageId
-							.equals(anfrage_id.JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER
-									.toString()))) {
-					//Es ist keine Session vorhanden und die anfrage_id gehört nicht zu den zugelassenen!
-					//Benutzer wird auf die index.jsp weitergeleitet und bekommt eine entsprechende Meldung angezeigt
-				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, "Bitte loggen Sie sich erneut ein!");
-				request.getRequestDispatcher(Jsp.INDEX).forward(request, response);
+									.toString()) || anfrageId
+					.equals(anfrage_id.JSP_BENUTZER_ANLEGEN_DREI_BENUTZER_REGISTRIEREN_VIER
+							.toString()))) {
+				// Es ist keine Session vorhanden und die anfrage_id gehört
+				// nicht zu den zugelassenen!
+				// Benutzer wird auf die index.jsp weitergeleitet und bekommt
+				// eine entsprechende Meldung angezeigt
+				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT,
+						"Bitte loggen Sie sich erneut ein!");
+				request.getRequestDispatcher(Jsp.INDEX).forward(request,
+						response);
 			}
 		}
 		// ------- ENDE -------
@@ -2100,33 +2103,27 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 						response);
 
 			} else if (id.equals(anfrage_id.JSP_INC_MENUE_DATEN_AENDERN.name())) {
-				// TODO weiterleitung?!
 				request.getRequestDispatcher(Jsp.DATEN_AENDERN).forward(
 						request, response);
 
 			} else if (id.equals(anfrage_id.JSP_INC_MENUE_STUDIENAERZTE_LISTE
 					.name())) {
-				// TODO weiterleitung?!
 				request.getRequestDispatcher(Jsp.STUDIENARZTE_LISTE).forward(
 						request, response);
 
 			} else if (id.equals(anfrage_id.JSP_INC_MENUE_ADMIN_LISTE.name())) {
-				// TODO weiterleitung?!
 				request.getRequestDispatcher(Jsp.ADMIN_LISTE).forward(request,
 						response);
 
 			} else if (id.equals(anfrage_id.JSP_INC_MENUE_PATIENT_HINZUFUEGEN
 					.name())) {
-				// TODO weiterleitung?!
 				request.getRequestDispatcher(Jsp.PATIENT_HINZUFUEGEN).forward(
 						request, response);
 			} else if (id.equals(anfrage_id.JSP_INC_MENUE_SYSTEMADMINISTRATION
 					.name())) {
-				// TODO weiterleitung?!
 				request.getRequestDispatcher(Jsp.SYSTEMADMINISTRATION).forward(
 						request, response);
 			} else if (id.equals(anfrage_id.JSP_INC_MENUE_SYSTEMSPERREN.name())) {
-				// TODO weiterleitung?!
 				request.getRequestDispatcher(Jsp.SYSTEM_SPERREN).forward(
 						request, response);
 
@@ -2141,7 +2138,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			} else if (id
 					.equals(anfrage_id.JSP_BENUTZER_LISTE_ADMIN_ANZEIGEN_SPERREN
 							.name())) {
-				// TODO weiterleitung?!
 				request
 						.setAttribute(
 								Parameter.anfrage_id,
@@ -2155,7 +2151,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				this.weiterleitenPatientHinzufuegenHttpServletRequest(request,
 						response);
 			} else if (id.equals(anfrage_id.ZENTRUM_AENDERN_SPERREN.name())) {
-				// TODO weiterleitung?!
 				request
 						.setAttribute(
 								Parameter.anfrage_id,
@@ -2196,9 +2191,12 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 			// SONSTIGE WEITERLEITUNGEN
 			// Schwerer Fehler: Falscher Request
 			else {
-				System.out
-						.println("Schwerer Fehler: Falscher Request bei Dispatcher Servlet");
-				System.out.println(idAttribute + " " + id);
+
+				Logger
+						.getLogger(this.getClass())
+						.debug(
+								"Schwerer Fehler: Falscher Request bei Dispatcher Servlet");
+				Logger.getLogger(this.getClass()).debug(idAttribute + " " + id);
 				Logger.getLogger(this.getClass()).debug(
 						"Kein Block in POST fuer die ID '" + id + "' gefunden");
 				// TODO Hier muss noch entschieden werden,was passiert
@@ -2286,11 +2284,8 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	private void weiterleitungAufIndex(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// Session immer killen wenn auf Indexjsp
-		try {
-			request.getSession(false).invalidate();
-		} catch (NullPointerException e) {
-			// FIXME was soll hier passieren, dhaehn, einfach nix?
-		}
+
+		request.getSession(false).invalidate();
 		if (istSystemGesperrt) {// System gesperrt
 			Logger
 					.getLogger(this.getClass())

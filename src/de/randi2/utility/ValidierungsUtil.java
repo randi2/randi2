@@ -34,9 +34,6 @@ public final class ValidierungsUtil {
 	 *         enthaelt die Laendervorwahl mit fuehrendem + und nur Ziffern.
 	 *         (mit Nationalvorwahl ohne +).
 	 */
-	// FRAGE Wie sollen hier die Validierungsfehler idealerweise gehandhabt
-	// werden?
-	// jthoenes, 2007-05-04
 	public static String validiereRufnummer(String nummer) {
 		Logger l = Logger.getLogger(ValidierungsUtil.class);
 
