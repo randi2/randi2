@@ -44,6 +44,11 @@ public class StudieException extends BenutzerException {
 	 * lang ist.
 	 */
 	public static final String STUDIENNAME_UNGUELTIG = "Studienname zu kurz oder zu lang";
+	
+	/**
+	 * Diese Konstante wird uebergeben, wenn die Blockgroesse kein Vielfaches der Studienarmeanzahl ist!
+	 */
+	public static final String BLOCKGROESSE_KEIN_VIELFACHES_DER_STUDIENARME = "Die uebergebene Blockgroesse ist kein Vielfaches der Studienarmeanzahl!";
 
 	/**
 	 * Diese Konstante wird uebergeben,wenn die Studienarme nicht eingetragen
