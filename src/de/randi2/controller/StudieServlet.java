@@ -390,7 +390,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
 		String id = (String) request.getParameter(Parameter.anfrage_id);
 		String idAttribute = (String) request
 				.getAttribute(Parameter.anfrage_id);

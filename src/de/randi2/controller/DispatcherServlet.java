@@ -548,7 +548,11 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+		
+		// ENCODING AUF UTF-8 setzen
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		
 		String id = (String) request.getParameter(Parameter.anfrage_id);
 		// idAttribute nicht entfernen, benutzen dies fuer die Weiterleitung aus
 		// dem Benutzerservlet --Btheel
