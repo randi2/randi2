@@ -34,8 +34,6 @@ import de.randi2.utility.Config.Felder;
  */
 @SuppressWarnings("serial")
 public class DispatcherServlet extends javax.servlet.http.HttpServlet {
-	// TODO alle Parameter auf Enums umstellen. Task ist Code-Kosmetik, daher
-	// zweitrangig --BTheel
 	/**
 	 * Ist System gesperrt oder nicht.
 	 */
@@ -502,8 +500,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		}
 
 	}
-
-	// TODO Bitte Kommentar ueberpruefen und ggf. anpassen.
+	
 	/**
 	 * Diese Methode nimmt HTTP-GET-Request gemaess HTTP-Servlet Definition
 	 * entgegen.
@@ -534,7 +531,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		doPost(request, response);
 	}
 
-	// TODO Bitte Kommentar ueberpruefen und ggf. anpassen.
 	/**
 	 * Diese Methode nimmt HTTP-POST-Request gemaess HTTP-Servlet Definition
 	 * entgegen.

@@ -22,11 +22,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 public class Tabelle {
 
 	/**
-	 * Die Anzahl der Spalten
-	 */
-	private int anzSpalten = 0;
-
-	/**
 	 * Die Kopfzeile
 	 */
 	private String kopfzeile[];
@@ -53,7 +48,6 @@ public class Tabelle {
 	 *            Die Anzahl der Spalten
 	 */
 	public Tabelle(int anzSpalten) {
-		this.anzSpalten = anzSpalten;
 		kopfzeile = null;
 		this.inhalt = new Vector<String[]>();
 	}
@@ -66,7 +60,6 @@ public class Tabelle {
 	 */
 	public Tabelle(String[] kopfzeile) {
 		this.kopfzeile = kopfzeile;
-		this.anzSpalten = kopfzeile.length;
 		this.inhalt = new Vector<String[]>();
 	}
 
@@ -90,9 +83,9 @@ public class Tabelle {
 		if (this.kopfzeile != null) {
 			for (int i = 0; i < kopfzeile.length; i++) {
 				if (i < kopfzeile.length - 1) {
-					csv.append("\"" + kopfzeile[i] + "\"" +SPALTENTRENNER);
+					csv.append("\"" + kopfzeile[i] + "\"" + SPALTENTRENNER);
 				} else {
-					csv.append("\"" +kopfzeile[i] + "\"" +ZEILENTRENNER);
+					csv.append("\"" + kopfzeile[i] + "\"" + ZEILENTRENNER);
 				}
 			}
 
@@ -101,9 +94,9 @@ public class Tabelle {
 		for (String zeile[] : this.inhalt) {
 			for (int i = 0; i < zeile.length; i++) {
 				if (i < zeile.length - 1) {
-					csv.append("\"" +zeile[i] + "\"" +SPALTENTRENNER);
+					csv.append("\"" + zeile[i] + "\"" + SPALTENTRENNER);
 				} else {
-					csv.append("\"" +zeile[i] + "\"" +ZEILENTRENNER);
+					csv.append("\"" + zeile[i] + "\"" + ZEILENTRENNER);
 				}
 			}
 		}
@@ -111,6 +104,11 @@ public class Tabelle {
 		return csv.toString();
 	}
 
+	/**
+	 * Erzeugt ein Excel-Sheet und gibt es zurueck.
+	 * 
+	 * @return Das Excel-Sheet.
+	 */
 	public HSSFWorkbook getXLS() {
 
 		HSSFWorkbook excelMappe = new HSSFWorkbook();

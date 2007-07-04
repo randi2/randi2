@@ -265,8 +265,10 @@ public class AktivierungBean extends Filter {
 	}
 
 	@Override
-	public void validate() throws BenutzerException {
-		// TODO Auto-generated method stub
+	public void validate() throws AktivierungException {
+		if(this.aAktivierungsLink == null || this.aBenutzerkonto == null){
+			throw new AktivierungException("Pflichtfelder nicht gesetzt");
+		}
 		
 	}
 }

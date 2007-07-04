@@ -334,26 +334,5 @@ public class Nachricht {
 		isDummy = dummy;
 
 	}
-
-	public static void main(String[] args) {
-		Nachricht mail = new Nachricht();
-		try{
-		PersonBean from = new PersonBean(1, 0, "Nachname Absender",
-				"Vorname Absender", Titel.DR, 'm',
-				"Benjamin.THeel@stud.uni-hd.de", "0406786388", null, null);
-		PersonBean to = new PersonBean(1, 0, "Nachname To",
-				"Vorname TO", Titel.DR, 'm',
-				"Benjamin.THeel@stud.uni-hd.de", "0406786388", null, null);
-		mail.setAbsender(from);
-		mail.addEmpfaenger(to);
-		mail.setBetreff("TITTEN");
-		mail.setText("blablablabla");
-		mail.setDummy(true);
-		mail.senden();
-		}catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-	}
 }
 
