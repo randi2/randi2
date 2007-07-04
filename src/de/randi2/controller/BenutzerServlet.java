@@ -830,6 +830,10 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		else if (aktuelleRolle == Rolle.Rollen.SYSOP) {
 			benutzer.setARolle(Rolle.getAdmin());
 		}
+		else if (aktuelleRolle==Rolle.Rollen.ADMIN)
+		{
+			benutzer.setARolle(Rolle.getStudienarzt());
+		}
 		// Kein Global Welcome Admin
 		if (request.getAttribute("Startseite") == null) {
 			benutzer.setNachname(request.getParameter(Parameter.person.NACHNAME
@@ -851,6 +855,30 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		benutzer.setFilter(true);
 		benutzerVec = DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
 				benutzer);
+		//Falls die Rolle ADMIN ist müssen noch die SLs dazu
+		if (aktuelleRolle==Rolle.Rollen.ADMIN){
+			benutzer.setARolle(Rolle.getStudienleiter());
+			if (request.getAttribute("Startseite") == null) {
+				benutzer.setNachname(request.getParameter(Parameter.person.NACHNAME
+						.name()));
+				benutzer.setVorname(request.getParameter(Parameter.person.VORNAME
+						.name()));
+				benutzer.setEmail(request.getParameter(Parameter.person.EMAIL
+						.name()));
+				benutzer.setLoginname(request
+						.getParameter(Parameter.benutzerkonto.LOGINNAME.name()));
+				if (request.getParameter(Parameter.zentrum.INSTITUTION.name()) != null
+						&& !request.getParameter(
+								Parameter.zentrum.INSTITUTION.name()).equals(
+								ZentrumServlet.ALLE_ZENTREN)) {
+					benutzer.setInstitut(request
+							.getParameter(Parameter.zentrum.INSTITUTION.name()));
+				}
+			}
+			benutzer.setFilter(true);
+			benutzerVec.addAll(DatenbankFactory.getAktuelleDBInstanz().suchenObjekt(
+					benutzer));
+		}
 		request.setAttribute("listeBenutzer", benutzerVec);
 		request.getRequestDispatcher(Jsp.BENUTZER_LISTE_ADMIN).forward(request,
 				response);
@@ -1196,6 +1224,18 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 	}
 
+	/**
+	 * Methode die entscheidet welcher Benutzer aus der Benutzerliste angezeigt bzw. EntSperrt wird.
+	 * 
+	 * @param request
+	 *            Der Request fuer das Servlet.
+	 * @param response
+	 *            Der Response Servlet.
+	 * @throws IOException
+	 *             Falls Fehler in den E/A-Verarbeitung.
+	 * @throws ServletException
+	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+	 */
 	private void classDispatcherServletAnzeigenSperren(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -1220,6 +1260,18 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		}
 	}
 
+	/**
+	 * Ein Benutzer wird gesperrt oder entsperrt.
+	 * 
+	 * @param request
+	 *            Der Request fuer das Servlet.
+	 * @param response
+	 *            Der Response Servlet.
+	 * @throws IOException
+	 *             Falls Fehler in den E/A-Verarbeitung.
+	 * @throws ServletException
+	 *             Falls Fehler in der HTTP-Verarbeitung auftreten.
+	 */
 	private void classDispatcherservletSperrenEntsperren(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
