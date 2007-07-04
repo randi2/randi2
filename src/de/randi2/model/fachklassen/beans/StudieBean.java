@@ -111,7 +111,8 @@ public class StudieBean extends DBObjekt {
 	 * Konstruktor mit allen Attributen der Klasse, die aus der Datenbank
 	 * ausgelesen werden können. (STUDIE OHNE STATISTIKER) Wenn das uebergebene
 	 * Enddatum schon abgelaufen wird, wird der Status der Studie automatisch
-	 * auf BEENDET gesetzt.
+	 * auf BEENDET gesetzt. Wenn das Startdatum nach dem aktuellen Datum liegt,
+	 * wird die Studie automatisch auf AKTIV gesetzt.
 	 * 
 	 * @param id
 	 *            Id der Studie
@@ -159,6 +160,12 @@ public class StudieBean extends DBObjekt {
 			this.setStatus(status);
 		}
 
+		if (startdatum.after(new GregorianCalendar())) {
+			this.setStatus(Studie.Status.AKTIV);
+		} else {
+			this.setStatus(status);
+		}
+
 		this.setBlockgroesse(blockgroesse);
 	}
 
@@ -166,7 +173,8 @@ public class StudieBean extends DBObjekt {
 	 * Konstruktor mit allen Attributen der Klasse, die aus der Datenbank
 	 * ausgelesen werden können. (DATENBANK KONSTRUKTOR) Wenn das uebergebene
 	 * Enddatum schon abgelaufen wird, wird der Status der Studie automatisch
-	 * auf BEENDET gesetzt.
+	 * auf BEENDET gesetzt. Wenn das Startdatum nach dem aktuellen Datum liegt,
+	 * wird die Studie automatisch auf AKTIV gesetzt.
 	 * 
 	 * @param id
 	 *            Id der Studie
@@ -213,6 +221,11 @@ public class StudieBean extends DBObjekt {
 		this.setStudienprotokollPfad(studienprotokollPfad);
 		if (enddatum.before(new GregorianCalendar())) {
 			this.setStatus(Studie.Status.BEENDET);
+		} else {
+			this.setStatus(status);
+		}
+		if (startdatum.after(new GregorianCalendar())) {
+			this.setStatus(Studie.Status.AKTIV);
 		} else {
 			this.setStatus(status);
 		}
@@ -447,9 +460,9 @@ public class StudieBean extends DBObjekt {
 	/**
 	 * Die Methode fügt ein Zentrum der Studie hinzu
 	 * 
-	 * @param sZentrum
-	 * @throws StudieException
-	 * @throws DatenbankExceptions
+	 * @param sZentrum - Zentrum, das zur Studie hinzugefuegt werden soll
+	 * @throws StudieException - bei Fehlern
+	 * @throws DatenbankExceptions - bei Fehlern
 	 */
 	public void addZentrum(ZentrumBean sZentrum) throws DatenbankExceptions,
 			StudieException {
@@ -461,9 +474,9 @@ public class StudieBean extends DBObjekt {
 	/**
 	 * Die Methode entfernt ein Zentrum von der Studie
 	 * 
-	 * @param sZentrum
-	 * @throws StudieException
-	 * @throws DatenbankExceptions
+	 * @param sZentrum - Zentrum, das der Studie entzogen werden soll
+	 * @throws StudieException - bei Fehlern
+	 * @throws DatenbankExceptions - bei Fehlern
 	 */
 	public void removeZentrum(ZentrumBean sZentrum) throws DatenbankExceptions,
 			StudieException {
