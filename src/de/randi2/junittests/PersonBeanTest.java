@@ -649,60 +649,6 @@ public class PersonBeanTest {
 		}
 	}
 
-	// TODO Noch klären wie Enums getestet werden sollen.
-	// /**
-	// * Testet, ob eine PersonException geworfen wird, wenn der
-	// * Titelparameter nicht der Definition entspricht. Filter deaktiviert.
-	// */
-	// @Test
-	// public void testSetTitelFalschF() {
-	//
-	// try {
-	// testPB.setFilter(false);
-	// testPB.setTitel("");
-	// testPB.setTitel("123");
-	// fail();
-	// } catch (PersonException pe) {
-	// assertEquals(PersonException.TITEL_UNGUELTIG, pe.getMessage());
-	// }
-	//
-	// }
-	//	
-	// /**
-	// * Testet, ob eine PersonException geworfen wird, wenn der
-	// * Titelparameter nicht der Definition entspricht. Filter aktiviert.
-	// */
-	// @Test
-	// public void testSetTitelFalschT() {
-	//
-	// try {
-	// testPB.setFilter(true);
-	// testPB.setTitel("");
-	// testPB.setTitel("123");
-	//			
-	// } catch (Exception e) {
-	// fail("Sollte keine Exception schmeissen.");
-	// }
-	//
-	// }
-	//
-	// /**
-	// * Testet, ob eine Exception geworfen wird, obwohl der Titelparameter
-	// * korrekt per Definition ist.
-	// */
-	// @Test
-	// public void testSetTitelKorrekt() {
-	//
-	// try {
-	// testPB.setTitel(null);
-	// testPB.setTitel("Prof.");
-	// testPB.setTitel("Dr.");
-	// testPB.setTitel("Prof. Dr.");
-	// } catch (Exception e) {
-	// fail("Exception aufgetreten trotz richtiger Parameter.");
-	// }
-	// }
-
 	/**
 	 * Testet, ob eine PersonException geworfen wird, wenn der Vornameparameter
 	 * null ist (da Pflichtfeld). Filter deaktiviert.

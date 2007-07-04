@@ -18,20 +18,9 @@ import de.randi2.model.fachklassen.beans.AktivierungBean;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PersonBean;
 import de.randi2.utility.Config;
-import de.randi2.utility.NullKonstanten;
 import de.randi2.utility.SystemException;
-/*
- * So wurden alle EMailExceptions, die aus der Klasse rausgingen, in NachrichtException ueberfuehrt.
- * Habe diese Anpassungen auch hier uebernommen.
- * Leider entstanden dadurch Errors hier, da du in dem Const. EMailExceptions geworfen hast.
- * Ich habe die nach SystemException ueberfuehrt. da das ja keine Benutzerfehler sind, 
- * wenn die XMl- Geschichten fehlschlagen.
- * 
- * Meine Aenderungen sind mehr QuickFix als alles andere.
- * Naeheres Direkt an den Stellen (auch durch XXX gekennzeichnet)
- * 
- * Gruß Btheel
- */
+
+
 /**
  * Die Klasse erweitert Nachricht um automatisch generierte Email Nachrichten
  * die in der Datei Nachrichtentexte.xml in conf\release\ liegen. Automatisch
@@ -48,172 +37,174 @@ import de.randi2.utility.SystemException;
  */
 public class AutomatischeNachricht extends Nachricht {
 
-	
-	
 	/**
 	 * Das neue Passwort des Nutzers
 	 */
-	private String inhaltNichtDB=null;
-    /**
-     * Auswahl der automatischen Nachrichten. Bitte Änderungen auch 1:1 in die
-     * Datei Nachrichtentexte.xml übernehmen.
-     * 
-     * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
-     * 
-     */
-    public static enum autoNachricht {
+	private String inhaltNichtDB = null;
 
-        /**
-         * Aktivierungsnachricht
-         */
-        AKTIVIERUNG("aktivierung"),
+	/**
+	 * Auswahl der automatischen Nachrichten. Bitte Änderungen auch 1:1 in die
+	 * Datei Nachrichtentexte.xml übernehmen.
+	 * 
+	 * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
+	 * 
+	 */
+	public static enum autoNachricht {
 
-        /**
-         * Nachricht wenn ein Benutzer gesperrt wird
-         */
-        BENUTZER_SPERREN("bsperren"),
+		/**
+		 * Aktivierungsnachricht
+		 */
+		AKTIVIERUNG("aktivierung"),
 
-        /**
-         * Nachricht wenn ein Benutzer entsperrt wird.
-         */
-        BENUTZER_ENTSPERREN("bentsperren"),
+		/**
+		 * Nachricht wenn ein Benutzer gesperrt wird
+		 */
+		BENUTZER_SPERREN("bsperren"),
 
-        /**
-         * Nachricht wenn ein neues Passwort zugesendet wird.
-         */
-        NEUES_PASSWORT("passwort"), 
-        
-        /**
-         *Der Studienleiter bzw. Admin bekommt sein passwort zugeschichkt 
-         */
-        PASSWORT_SL_ADMIN("passwortSlAdmin");
+		/**
+		 * Nachricht wenn ein Benutzer entsperrt wird.
+		 */
+		BENUTZER_ENTSPERREN("bentsperren"),
 
-        /**
-         * Korrespondierendes Attribut Name in der Datei
-         * \config\release\Nachrichtentexte.xml
-         */
-        private String attributXmlDatei = "";
+		/**
+		 * Nachricht wenn ein neues Passwort zugesendet wird.
+		 */
+		NEUES_PASSWORT("passwort"),
 
-        /**
-         * Setzt das XML-Attribut Name
-         * 
-         * @param attributXmlDatei
-         *            Attribut name
-         */
-        private autoNachricht(String attributXmlDatei) {
-            this.attributXmlDatei = attributXmlDatei;
+		/**
+		 * Der Studienleiter bzw. Admin bekommt sein passwort zugeschichkt
+		 */
+		PASSWORT_SL_ADMIN("passwortSlAdmin");
 
-        }
+		/**
+		 * Korrespondierendes Attribut Name in der Datei
+		 * \config\release\Nachrichtentexte.xml
+		 */
+		private String attributXmlDatei = "";
 
-        /**
-         * Liefert die String-Repreasentation des Enum-Namens
-         * 
-         * @return Attribut Name in Xml-Datei
-         * @see java.lang.Enum#toString()
-         */
-        @Override
-        public String toString() {
-            return this.attributXmlDatei;
-        }
+		/**
+		 * Setzt das XML-Attribut Name
+		 * 
+		 * @param attributXmlDatei
+		 *            Attribut name
+		 */
+		private autoNachricht(String attributXmlDatei) {
+			this.attributXmlDatei = attributXmlDatei;
 
-    }
+		}
 
-    /**
-     * Absenderdaten die beim Senden einer automatischen Nachricht gesetzt
-     * werden.
-     */
-    private static PersonBean absenderRandi = null;
-    
-    /**
-     * Konstruktor darf nur verwendet werden, wenn ein Neues Passwort zugesendet werden soll!!! 
-     * Sonst bitte {@link AutomatischeNachricht#AutomatischeNachricht(PersonBean, de.randi2.model.fachklassen.AutomatischeNachricht.autoNachricht)} verwenden.
-     * @param empfaenger Empfaenger
-     * @param inhaltNichtDB Inhalt der nicht in der DB gespeichert wurde, z. B. Passwort, Nachricht bei Benutzer sperren, entsperren
-     * @throws SystemException 
-     * @throws NachrichtException 
-     */
-    public AutomatischeNachricht(PersonBean empfaenger, String inhaltNichtDB, autoNachricht automatischeNachricht) throws NachrichtException, SystemException{
-    	super();
-    	this.inhaltNichtDB=inhaltNichtDB;
-    	konstruktorAusgelagert(empfaenger,automatischeNachricht);
-    }
-    
+		/**
+		 * Liefert die String-Repreasentation des Enum-Namens
+		 * 
+		 * @return Attribut Name in Xml-Datei
+		 * @see java.lang.Enum#toString()
+		 */
+		@Override
+		public String toString() {
+			return this.attributXmlDatei;
+		}
 
-    /**
-     * Erzeugt eine automatische Nachricht. Genauer Textinhalt etc. wird aus der
-     * Datei conf/release/Nachrichtentexte.xml ausgelesen und dann mittels den
-     * Empfaengerdaten dynamisch zusammengebaut.
-     * 
-     * @param empfaenger
-     *            Empfaengerdaten
-     * @param artAutomatischeNachricht
-     *            Welche automatische Nachricht soll generiert werden
-     * @throws SystemException 
-     * @throws EmailException
-     *             {@link Nachricht}
-     */
-    public AutomatischeNachricht(PersonBean empfaenger,
-            autoNachricht artAutomatischeNachricht) throws NachrichtException, SystemException {
-        super();
-       konstruktorAusgelagert(empfaenger,artAutomatischeNachricht);
-    }
+	}
 
-    /**
-     * Ersetzt den String #Absender# durch einen personalisierten Absender{@link AutomatischeNachricht#absenderRandi}.
-     * 
-     * @param text
-     *            Nachrichtentext der #Absender# enthält
-     * @return Nachrichtentext, indem nun #Absender# durch einen
-     *         personalisierten Absender
-     *         {@link AutomatischeNachricht#absenderRandi}ersetzt ist.
-     */
-    private String setzeAbsender(String text) {
+	/**
+	 * Absenderdaten die beim Senden einer automatischen Nachricht gesetzt
+	 * werden.
+	 */
+	private static PersonBean absenderRandi = null;
 
-        return text.replace("#Absender#", AutomatischeNachricht.absenderRandi
-                .getNachname());
-    }
+	/**
+	 * Konstruktor darf nur verwendet werden, wenn ein Neues Passwort zugesendet
+	 * werden soll!!! Sonst bitte
+	 * {@link AutomatischeNachricht#AutomatischeNachricht(PersonBean, de.randi2.model.fachklassen.AutomatischeNachricht.autoNachricht)}
+	 * verwenden.
+	 * 
+	 * @param empfaenger
+	 *            Empfaenger
+	 * @param inhaltNichtDB
+	 *            Inhalt der nicht in der DB gespeichert wurde, z. B. Passwort,
+	 *            Nachricht bei Benutzer sperren, entsperren
+	 * @throws SystemException
+	 * @throws NachrichtException
+	 */
+	public AutomatischeNachricht(PersonBean empfaenger, String inhaltNichtDB,
+			autoNachricht automatischeNachricht) throws NachrichtException,
+			SystemException {
+		super();
+		this.inhaltNichtDB = inhaltNichtDB;
+		konstruktorAusgelagert(empfaenger, automatischeNachricht);
+	}
 
-    /**
-     * Ersetzt den String #Anrede# durch eine personalisierte Anrede (abhängig
-     * von Geschlecht, Name und Titel).
-     * 
-     * @param empfaenger
-     *            Daten des Empfängers
-     * @param text
-     *            Nachrichtentext der #Anrede# enthält
-     * @return Nachrichtentext, indem nun #Anrede# durch eine personalisierte
-     *         Anrede ersetzt ist.
-     */
-    private String setzeAnrede(PersonBean empfaenger, String text) {
-    	String titel="";
-    	if(!empfaenger.getTitel().equals(PersonBean.Titel.KEIN_TITEL))
-    	{
-    		titel=empfaenger.getTitel().toString();
-    	}
-        if (empfaenger.getGeschlecht() == 'w') {
-            return text.replace("#Anrede#", "Sehr geehrte Frau "
-                    + titel + " "
-                    + empfaenger.getNachname());
-        } else {
-            return text.replace("#Anrede#", "Sehr geehrter Herr "
-                    + titel + " "
-                    + empfaenger.getNachname());
-        }
-    }
-    private void konstruktorAusgelagert(PersonBean empfaenger, autoNachricht artAutomatischeNachricht) throws NachrichtException, SystemException{
+	/**
+	 * Erzeugt eine automatische Nachricht. Genauer Textinhalt etc. wird aus der
+	 * Datei conf/release/Nachrichtentexte.xml ausgelesen und dann mittels den
+	 * Empfaengerdaten dynamisch zusammengebaut.
+	 * 
+	 * @param empfaenger
+	 *            Empfaengerdaten
+	 * @param artAutomatischeNachricht
+	 *            Welche automatische Nachricht soll generiert werden
+	 * @throws SystemException
+	 * @throws EmailException
+	 *             {@link Nachricht}
+	 */
+	public AutomatischeNachricht(PersonBean empfaenger,
+			autoNachricht artAutomatischeNachricht) throws NachrichtException,
+			SystemException {
+		super();
+		konstruktorAusgelagert(empfaenger, artAutomatischeNachricht);
+	}
+
+	/**
+	 * Ersetzt den String #Absender# durch einen personalisierten Absender{@link AutomatischeNachricht#absenderRandi}.
+	 * 
+	 * @param text
+	 *            Nachrichtentext der #Absender# enthält
+	 * @return Nachrichtentext, indem nun #Absender# durch einen
+	 *         personalisierten Absender
+	 *         {@link AutomatischeNachricht#absenderRandi}ersetzt ist.
+	 */
+	private String setzeAbsender(String text) {
+
+		return text.replace("#Absender#", AutomatischeNachricht.absenderRandi
+				.getNachname());
+	}
+
+	/**
+	 * Ersetzt den String #Anrede# durch eine personalisierte Anrede (abhängig
+	 * von Geschlecht, Name und Titel).
+	 * 
+	 * @param empfaenger
+	 *            Daten des Empfängers
+	 * @param text
+	 *            Nachrichtentext der #Anrede# enthält
+	 * @return Nachrichtentext, indem nun #Anrede# durch eine personalisierte
+	 *         Anrede ersetzt ist.
+	 */
+	private String setzeAnrede(PersonBean empfaenger, String text) {
+		String titel = "";
+		if (!empfaenger.getTitel().equals(PersonBean.Titel.KEIN_TITEL)) {
+			titel = empfaenger.getTitel().toString();
+		}
+		if (empfaenger.getGeschlecht() == 'w') {
+			return text.replace("#Anrede#", "Sehr geehrte Frau " + titel + " "
+					+ empfaenger.getNachname());
+		} else {
+			return text.replace("#Anrede#", "Sehr geehrter Herr " + titel + " "
+					+ empfaenger.getNachname());
+		}
+	}
+
+	private void konstruktorAusgelagert(PersonBean empfaenger, autoNachricht artAutomatischeNachricht) throws NachrichtException, SystemException{
     initMail();
     String betreff = "";
     String nachrichtentext = "";
     // Systemabsender erstellen
     try {
 
-        // XXX @Andi: Du brauchst nur Vorname,Nachname und EMail setzten,
-        // den Rest brauche ich nicht. Das Bean prueft doch auch nicht auf
-        // Vollstaendigkeit, oder? --Btheel
-        absenderRandi = new PersonBean(NullKonstanten.NULL_LONG,
-                NullKonstanten.NULL_LONG, "Randi2", "Randi2",
-                PersonBean.Titel.KEIN_TITEL, 'm', Config.getProperty(Config.Felder.RELEASE_MAIL_RANDI2MAILADRESSE),
-                "098098080", "09809809808", "089789797");
+        absenderRandi = new PersonBean();
+        absenderRandi.setEmail(Config.getProperty(Config.Felder.RELEASE_MAIL_RANDI2MAILADRESSE));
+        absenderRandi.setVorname("Randi2");
+        absenderRandi.setNachname("Randi2");
 
         String dateiname = AutomatischeNachricht.class.getResource(
                 "/conf/release/Nachrichtentexte.xml").getPath();
@@ -237,12 +228,13 @@ public class AutomatischeNachricht extends Nachricht {
                         nachrichtentext);
                 
                 
-                //Benutzerkonto zur Person suchen:
+                // Benutzerkonto zur Person suchen:
 
             	
                 switch (artAutomatischeNachricht) {
                 case AKTIVIERUNG:
-                	//DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(empfaenger, kind)
+                	// DatenbankFactory.getAktuelleDBInstanz().suchenMitgliederObjekte(empfaenger,
+					// kind)
                     empfaenger.setFilter(true);
                 	BenutzerkontoBean sbean=new BenutzerkontoBean();
                 	sbean.setGesperrt(true);
@@ -296,13 +288,15 @@ public class AutomatischeNachricht extends Nachricht {
             }
         }
     } catch (PersonException e) {
-        //throw new EmailException("Systemabsender falsch gesetzt");
+        // throw new EmailException("Systemabsender falsch gesetzt");
         throw new SystemException("Systemabsender falsch gesetzt");
     } catch (JDOMException e) {
-        // throw new EmailException("Fehler beim einlesen von Nachrichtentexte.xml", e);
+        // throw new EmailException("Fehler beim einlesen von
+		// Nachrichtentexte.xml", e);
         throw new SystemException("Fehler beim einlesen von Nachrichtentexte.xml: " + e.getMessage());
     } catch (IOException e) {
-        //throw new EmailException("Fehler beim einlesen von Nachrichtentexte.xml", e);
+        // throw new EmailException("Fehler beim einlesen von
+		// Nachrichtentexte.xml", e);
         throw new SystemException("Fehler beim einlesen von Nachrichtentexte.xml: " + e.getMessage());
     }
     super.setAbsender(absenderRandi);

@@ -147,7 +147,6 @@ public class ZentrumServlet extends javax.servlet.http.HttpServlet {
 		super();
 	}
 
-	// TODO Bitte Kommentar ueberpruefen und ggf. anpassen.
 	/**
 	 * Diese Methode nimmt HTTP-GET-Request gemaess HTTP-Servlet Definition
 	 * entgegen.

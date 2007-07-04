@@ -364,9 +364,6 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		Logger.getLogger(this.getClass()).debug(
 				"System gesperrt, Kandidat == Sysop?");
 		if (aBenutzer.getRolle().getRollenname() == Rolle.Rollen.SYSOP) {
-			// FIXME Doppelt gemoppelt. Lieber Pruefung ob gesperrt mit in die
-			// normale weiterleitung nehmen
-			// Sicherstellen, das sich Sysop einloggen kann
 			weiterleitungLoginKorrekt(aBenutzer, request, response);
 		} else {
 
@@ -626,9 +623,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			}
 
 			LogAktion a = new LogAktion(
-					"Ungueltige Benutzername/Passwort Kombination eingegeben.",
+					"Benutzernamen oder Passwort eingegeben, die nicht den Konventionen von Randi2 entsprechen. Nicht eingeloggt.",
 					dummy);
-			// FIXME LogMsg eindeutig genug?--Btheel
 			Logger.getLogger(LogLayout.LOGIN_LOGOUT).warn(a);
 		}// catch
 	}
@@ -669,8 +665,8 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		String titel = request.getParameter(Parameter.person.TITEL.name());
 		PersonBean.Titel titelenum = null;
 		PersonBean aPerson = null;
-		BenutzerkontoBean aBenutzerkonto=null;
-		AktivierungBean aktivierung=null;
+		BenutzerkontoBean aBenutzerkonto = null;
+		AktivierungBean aktivierung = null;
 		try {
 			// Geschlecht gesetzt pruefen
 			if (request.getParameter(Parameter.person.GESCHLECHT.name()) == null) {
@@ -726,9 +722,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					aPerson);
 
 			// Zugehöriges Benutzerkonto erstellen und in DB Speichern
-			
-			aBenutzerkonto = new BenutzerkontoBean(email,passwort);
-			//dirty fix filter auf false
+
+			aBenutzerkonto = new BenutzerkontoBean(email, passwort);
+			// dirty fix filter auf false
 			aBenutzerkonto.setFilter(false);
 			aBenutzerkonto.setBenutzer(aPerson);
 			aBenutzerkonto
@@ -749,10 +745,9 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			// Aktivierung erstellen
 			// TODO -->afreudliUNIQUE AKTIVIERUNGSLINK BEACHTEN
-			aktivierung = new AktivierungBean(
-					NullKonstanten.DUMMY_ID, new GregorianCalendar(),
-					aBenutzerkonto.getId(), KryptoUtil.getInstance()
-							.getAktivierungslink());
+			aktivierung = new AktivierungBean(NullKonstanten.DUMMY_ID,
+					new GregorianCalendar(), aBenutzerkonto.getId(), KryptoUtil
+							.getInstance().getAktivierungslink());
 			aktivierung.setBenutzerkontoLogging(Filter.getSystemdummy());
 			aktivierung = DatenbankFactory.getAktuelleDBInstanz()
 					.schreibenObjekt(aktivierung);
@@ -762,15 +757,19 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			// Falls ein Fehler aufgetreten ist, request wieder auffüllen
 		} catch (Exception e) {
-			if(aktivierung!=null&&aktivierung.getId()!=NullKonstanten.NULL_LONG){
-				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aktivierung);
+			if (aktivierung != null
+					&& aktivierung.getId() != NullKonstanten.NULL_LONG) {
+				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(
+						aktivierung);
 			}
-			if(aBenutzerkonto!=null&&aBenutzerkonto.getId()!=NullKonstanten.NULL_LONG){
-				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aBenutzerkonto);
+			if (aBenutzerkonto != null
+					&& aBenutzerkonto.getId() != NullKonstanten.NULL_LONG) {
+				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(
+						aBenutzerkonto);
 			}
-			if(aPerson!=null&&aPerson.getId()!=NullKonstanten.NULL_LONG){
+			if (aPerson != null && aPerson.getId() != NullKonstanten.NULL_LONG) {
 				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aPerson);
-			}			
+			}
 			if (e instanceof BenutzerException) {
 
 				request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e

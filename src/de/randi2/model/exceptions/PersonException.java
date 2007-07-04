@@ -17,8 +17,6 @@ public class PersonException extends BenutzerException {
 	 */
 	public static final String NACHNAME_FEHLT = "Bitte Nachname eingeben.";
 
-	// TODO in der meldung stehen dann spater noch die echten konventionen
-
 	/**
 	 * Diese Konstante wird uebergeben, wenn der der Nachname nicht den
 	 * Konventionen.

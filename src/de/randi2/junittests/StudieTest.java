@@ -88,8 +88,7 @@ public class StudieTest {
 
 		Vector<StrataBean> aTestStrata = new Vector<StrataBean>();
 
-		// TODO an neues Strata anpassen
-		// aTestStrata.add(new StrataBean(12, hash));
+
 		studieBean.setStrata(aTestStrata);
 
 		Vector<StudienarmBean> aTestStudienarm = new Vector<StudienarmBean>();
@@ -237,7 +236,6 @@ public class StudieTest {
 			aZentrumBean.setAnsprechpartnerId(56);
 			aZentrumBean.setPasswort("Hasdbasdasdasasdas");
 			aZentrumBean.setIstAktiviert(true);
-			//TODO Verbesserung notwendig
 			//studie.zuweisenZentrum(aZentrumBean);
 
 			assertEquals(studie.getZugehoerigeZentren().size(),
@@ -247,8 +245,7 @@ public class StudieTest {
 			// schon vorhanden ist.
 			// --> Vectorlaenge muss gleich bleiben
 			anzahlZentren = studie.getZugehoerigeZentren().size();
-			//TODO Verbeserung notwendig
-			//studie.zuweisenZentrum(aZentrumBean);
+
 
 			assertEquals(studie.getZugehoerigeZentren().size(), anzahlZentren);
 
@@ -298,7 +295,7 @@ public class StudieTest {
 	 * 
 	 * 
 	 */
-	// TODO spaeter Klaerung Frank
+
 	@Test
 	public void testAnzeigenStatistik() {
 		fail("Not yet implemented");

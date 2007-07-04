@@ -148,21 +148,19 @@ public class Nachricht {
 		}
 		// Inhalt sollte vorhangen sein, jedoch kann dieser nicht wieder der
 		// Mail gewonnen werden, daher keine Pruefung
-		
-			try {
-				aMail.send();
-			} catch (EmailException e) {
-				if (e.getMessage().equals(
-						"At least one receiver address required")) {
-					throw new NachrichtException(
-							NachrichtException.EMPFAENGER_NULL);
-				}
-				Logger.getLogger(this.getClass()).debug(
-						"Mailversand fehlgeschlagen", e);
-				e.printStackTrace();
-				throw new SystemException(NACHRICHTENVERSAND_FEHLGESCHLAGEN);
+
+		try {
+			aMail.send();
+		} catch (EmailException e) {
+			if (e.getMessage().equals("At least one receiver address required")) {
+				throw new NachrichtException(NachrichtException.EMPFAENGER_NULL);
 			}
-		
+			Logger.getLogger(this.getClass()).debug(
+					"Mailversand fehlgeschlagen", e);
+			e.printStackTrace();
+			throw new SystemException(NACHRICHTENVERSAND_FEHLGESCHLAGEN);
+		}
+
 	}
 
 	/**
@@ -191,8 +189,7 @@ public class Nachricht {
 			aMail.setFrom(absender.getEmail(), absender.getVorname() + " "
 					+ absender.getNachname());
 		} catch (EmailException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.getLogger(this.getClass()).error("", e);
 		}
 	}
 
@@ -258,7 +255,7 @@ public class Nachricht {
 	 */
 	public final void addEmpfaenger(Collection<PersonBean> empfaenger)
 			throws NachrichtException {
-		if (empfaenger == null || empfaenger.size()==0) {
+		if (empfaenger == null || empfaenger.size() == 0) {
 			throw new NachrichtException(NachrichtException.EMPFAENGER_NULL);
 		}
 		for (PersonBean bean : empfaenger) {
@@ -335,4 +332,3 @@ public class Nachricht {
 
 	}
 }
-

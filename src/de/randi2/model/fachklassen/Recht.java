@@ -155,7 +155,7 @@ public class Recht {
 	 * @return Instanz des entsprechenden Rechtes.
 	 */
 	public static Recht getRecht(Rechtenamen name) {
-		// FIXME siehe bug #18: Bug wurde auf 'wont fix' gesetzt
+		// siehe bug #18: Bug wurde auf 'wont fix' gesetzt
 		if (name == null) {
 			throw new IllegalArgumentException(RechtException.NULL_ARGUMENT);
 		}

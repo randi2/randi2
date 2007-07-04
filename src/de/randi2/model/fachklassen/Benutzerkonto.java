@@ -170,19 +170,4 @@ public class Benutzerkonto {
 		return gefundenePatienten;
 	}
 
-	/**
-	 * 
-	 * Aktiviert das aktuelle Benutzerkonto
-	 * 
-	 * @param aktivierung
-	 *            das passende Aktivierungsbean
-	 * @throws BenutzerkontoException
-	 *             Fehler bei der Aktivierung
-	 */
-	public void aktiviereBenutzerkonto(AktivierungBean aktivierung)
-			throws BenutzerkontoException {
-		// TODO Ausimplementierung --> afreudli
-		//this.sendenAktivierungsMail();
-	}
-
 }

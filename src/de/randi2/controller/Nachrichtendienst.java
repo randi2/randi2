@@ -215,11 +215,6 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 
 		StringBuffer fehlermeldung = new StringBuffer();
 
-		/*
-		 * XXX Workaround waere angenehm, nachfolgende Aufrufe direkt in den
-		 * Fehlercheckblock mit einzuarbeiten. Derzeit nur keine gescheite
-		 * Loesung. So Redundant.
-		 */
 		if (empfaengerString != null) {
 			empfaengerString = empfaengerString.trim();
 		}
@@ -284,7 +279,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 		// Mail Bauen
 		Nachricht mail = new Nachricht();
 
-		mail.setDebug(true);// XXX ENtfernen --BTHEEL
+		//mail.setDebug(true);
 
 		try { // Absender setzten
 			mail.setAbsender(((BenutzerkontoBean) request.getSession()
@@ -368,8 +363,7 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			 * Fehler in tieferen Schichten wahrscheinlich --> Einfache Meldung
 			 * an Benutzer, Exception loggen
 			 */
-			Logger.getLogger(this.getClass()).debug("", e);
-			// FRAGE hier lieber Systemexception? -- BTheel
+			Logger.getLogger(this.getClass()).warn("", e);
 
 			weiterleitenAufnachrichtendienstSeite(request, response, false,
 					Nachricht.NACHRICHTENVERSAND_FEHLGESCHLAGEN);
@@ -377,7 +371,10 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 			Logger.getLogger(this.getClass()).warn(
 					"Versenden einer Mail fehlgeschlagen: " + e.getClass()
 							+ " (" + e.getMessage() + ")");
-			return;
+			
+			IOException ioe = new IOException();
+			ioe.initCause(e);
+			throw ioe;
 
 		}
 
@@ -530,14 +527,6 @@ public class Nachrichtendienst extends javax.servlet.http.HttpServlet {
 				.getAttribute(sessionParameter.A_Benutzer.toString());
 		StudieBean aStudie = (StudieBean) request.getSession().getAttribute(
 				sessionParameter.AKTUELLE_STUDIE.toString());
-		// StudieBean aStudie = Studie.getStudie(4); // XXX
-		// Workaround,
-		// warte
-		// auf
-		// Studie
-		// an
-		// Session
-		// --Btheel
 		menu
 				.append("<option value=\"\"> -- Bitte ausw&auml;hlen -- </option>\n");
 

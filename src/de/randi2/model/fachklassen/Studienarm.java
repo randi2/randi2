@@ -21,10 +21,6 @@ import de.randi2.model.fachklassen.beans.StudienarmBean;
  */
 public final class Studienarm {
 
-	// TODO wenn der Zustand sich nicht aendert und diese Klasse nur statische
-	// Methoden anbietet, sollte man hier private Konstruktor definieren.
-	// (lplotni)
-
 	/**
 	 * Das zugehoerige StudienarmBean Objekt
 	 */

@@ -562,8 +562,6 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 				String statistikerLogin = aStudie.getStatistiker()
 						.getBenutzername();
 				String statistikerPasswort = (String) returnWerte[1];
-				// TODO Wenn Daniel den Bug mit Drucken beseitigt hat - müssen
-				// hier die gleichen Änderung vorgenommen werden!
 				String statistikerNachricht = "Ein Statistiker-Account wurde angelegt:<br><br>Login: "
 						+ statistikerLogin
 						+ "<br>Passwort: "
@@ -1751,8 +1749,7 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			try {
 				zugehoerigeZentren = aSession.getZentren();
 			} catch (DatenbankExceptions e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Logger.getLogger(this.getClass()).debug("", e);
 			}
 		}
 		return zugehoerigeZentren;

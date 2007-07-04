@@ -386,9 +386,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		/**
 		 * Konto des Benutzers (BenutzerkontoBean)
 		 */
-		A_Benutzer("aBenutzer"), // XXX Konto ist als 'aBenutzer' gebunden,
-		// nicht ueber diese
-		// Kosntante (lplotni 17. Juni: warum denn ?)
+		A_Benutzer("aBenutzer"),
 
 		/**
 		 * Zentrum fuer das sich der Benutzer anmeldet.
@@ -500,7 +498,7 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 		}
 
 	}
-	
+
 	/**
 	 * Diese Methode nimmt HTTP-GET-Request gemaess HTTP-Servlet Definition
 	 * entgegen.
@@ -656,11 +654,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				if (!isBenutzerAngemeldet(request)) { // Benutzer nicht
 					// angemeldet
 					BenutzerkontoBean anonymous = new BenutzerkontoBean();
-					// FIXME FRAGE LogAktion mit String anstatt
-					// BenutzerkontoBean
-					// zum Loggen der IP?
-					// anonymous.setBenutzername("Unangemeldeter Benutzer [IP:
-					// "+request.getRemoteAddr()+"]");
 
 					LogAktion a = new LogAktion(
 							"Versuchte Systemsperrung ohne Login", anonymous);
@@ -696,12 +689,6 @@ public class DispatcherServlet extends javax.servlet.http.HttpServlet {
 				if (!isBenutzerAngemeldet(request)) { // Benutzer nicht
 					// angemeldet
 					BenutzerkontoBean anonymous = new BenutzerkontoBean();
-					// FIXME FRAGE LogAktion mit String anstatt
-					// BenutzerkontoBean
-					// zum Loggen der IP?
-					// anonymous.setBenutzername("Unangemeldeter Benutzer [IP:
-					// "+request.getRemoteAddr()+"]");
-
 					LogAktion a = new LogAktion(
 							"Versuchte Systemsperrung ohne Login", anonymous);
 					Logger.getLogger(LogLayout.RECHTEVERLETZUNG).warn(a);
