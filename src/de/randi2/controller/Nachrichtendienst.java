@@ -32,7 +32,6 @@ import de.randi2.model.fachklassen.beans.ZentrumBean;
 import de.randi2.utility.Config;
 import de.randi2.utility.Parameter;
 import de.randi2.utility.SystemException;
-import de.randi2.utility.Parameter.person;
 
 /**
  * Ermoeglicht das Versenden von Nachrichten ueber das RANDI2-System.

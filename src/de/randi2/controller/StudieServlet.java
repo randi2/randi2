@@ -26,8 +26,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import de.randi2.controller.DispatcherServlet.sessionParameter;
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.datenbank.StatistikDB;
 import de.randi2.datenbank.RandomisationDB;
+import de.randi2.datenbank.StatistikDB;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerkontoException;
 import de.randi2.model.exceptions.PatientException;
@@ -43,10 +43,8 @@ import de.randi2.model.fachklassen.Zentrum;
 import de.randi2.model.fachklassen.Studie.Status;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.model.fachklassen.beans.PatientBean;
-
 import de.randi2.model.fachklassen.beans.StrataAuspraegungBean;
 import de.randi2.model.fachklassen.beans.StrataBean;
-
 import de.randi2.model.fachklassen.beans.StudieBean;
 import de.randi2.model.fachklassen.beans.StudienarmBean;
 import de.randi2.model.fachklassen.beans.ZentrumBean;
