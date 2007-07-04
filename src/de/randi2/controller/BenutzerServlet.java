@@ -1252,17 +1252,17 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				aBenutzer.setGesperrt(false);
 				AutomatischeNachricht aNachricht = new AutomatischeNachricht(
 						aBenutzer.getBenutzer(), nachricht,
-						AutomatischeNachricht.autoNachricht.BENUTZER_SPERREN);
+						AutomatischeNachricht.autoNachricht.BENUTZER_ENTSPERREN);
 
 				aNachricht.senden();
 
 			}
-			// Benutzer wird entsperrt
+			// Benutzer wird gesperrt
 			else {
 				aBenutzer.setGesperrt(true);
 				AutomatischeNachricht aNachricht = new AutomatischeNachricht(
 						aBenutzer.getBenutzer(), nachricht,
-						AutomatischeNachricht.autoNachricht.BENUTZER_ENTSPERREN);
+						AutomatischeNachricht.autoNachricht.BENUTZER_SPERREN);
 				aNachricht.senden();
 			}
 			// Benutzer schreiben
