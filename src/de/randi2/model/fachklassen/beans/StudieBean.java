@@ -160,7 +160,8 @@ public class StudieBean extends DBObjekt {
 			this.setStatus(status);
 		}
 
-		if (startdatum.after(new GregorianCalendar())) {
+		if (startdatum.before(new GregorianCalendar())
+				|| startdatum.compareTo(new GregorianCalendar()) == 0) {
 			this.setStatus(Studie.Status.AKTIV);
 		} else {
 			this.setStatus(status);
@@ -224,7 +225,8 @@ public class StudieBean extends DBObjekt {
 		} else {
 			this.setStatus(status);
 		}
-		if (startdatum.after(new GregorianCalendar())) {
+		if (startdatum.before(new GregorianCalendar())
+				|| startdatum.compareTo(new GregorianCalendar()) == 0) {
 			this.setStatus(Studie.Status.AKTIV);
 		} else {
 			this.setStatus(status);
@@ -460,9 +462,12 @@ public class StudieBean extends DBObjekt {
 	/**
 	 * Die Methode fügt ein Zentrum der Studie hinzu
 	 * 
-	 * @param sZentrum - Zentrum, das zur Studie hinzugefuegt werden soll
-	 * @throws StudieException - bei Fehlern
-	 * @throws DatenbankExceptions - bei Fehlern
+	 * @param sZentrum -
+	 *            Zentrum, das zur Studie hinzugefuegt werden soll
+	 * @throws StudieException -
+	 *             bei Fehlern
+	 * @throws DatenbankExceptions -
+	 *             bei Fehlern
 	 */
 	public void addZentrum(ZentrumBean sZentrum) throws DatenbankExceptions,
 			StudieException {
@@ -474,9 +479,12 @@ public class StudieBean extends DBObjekt {
 	/**
 	 * Die Methode entfernt ein Zentrum von der Studie
 	 * 
-	 * @param sZentrum - Zentrum, das der Studie entzogen werden soll
-	 * @throws StudieException - bei Fehlern
-	 * @throws DatenbankExceptions - bei Fehlern
+	 * @param sZentrum -
+	 *            Zentrum, das der Studie entzogen werden soll
+	 * @throws StudieException -
+	 *             bei Fehlern
+	 * @throws DatenbankExceptions -
+	 *             bei Fehlern
 	 */
 	public void removeZentrum(ZentrumBean sZentrum) throws DatenbankExceptions,
 			StudieException {
@@ -826,6 +834,7 @@ public class StudieBean extends DBObjekt {
 				&& this.getAlgorithmus() != Randomisation.Algorithmen.VOLLSTAENDIGE_RANDOMISATION) {
 			throw new StudieException(StudieException.BLOCKGROESSE_ZU_KLEIN);
 		}
+		// TODO
 		this.aBlockgroesse = blockgroesse;
 	}
 
