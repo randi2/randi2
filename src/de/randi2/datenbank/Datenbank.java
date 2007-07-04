@@ -835,6 +835,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 			} else if (zuLoeschendesObjekt instanceof StrataAuspraegungBean) {
 				StrataAuspraegungBean auspr = (StrataAuspraegungBean) zuLoeschendesObjekt;
 				this.loeschenStrataAuspraegung(auspr);				
+			} else if (zuLoeschendesObjekt instanceof BenutzerkontoBean) {
+				BenutzerkontoBean bk = (BenutzerkontoBean) zuLoeschendesObjekt;
+				this.loeschenBenutzerkonto(bk);
+				
 			}
 		}
 	}
@@ -1038,6 +1042,33 @@ public class Datenbank implements DatenbankSchnittstelle {
 			ConnectionFactory.getInstanz().closeConnection(con);
 		}
 		this.loggenDaten(auspr, LogKonstanten.LOESCHE_DATENSATZ);
+	}
+	
+	/**
+	 * Loescht das übergebene Strataobjekt aus der Datenbank.
+	 * 
+	 * @param bk
+	 *            zu löschendes StrataBean.
+	 * @throws DatenbankExceptions
+	 *             wirft Datenbankfehler bei Verbindungs- oder Loeschfehlern.
+	 */
+	private void loeschenBenutzerkonto(BenutzerkontoBean bk) throws DatenbankExceptions {
+		Connection con = ConnectionFactory.getInstanz().getConnection();;
+		PreparedStatement pstmt = null;
+		String sql = "";
+		sql = "DELETE FROM " + Tabellen.BENUTZERKONTO + " WHERE " + FelderBenutzerkonto.ID+ "= ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, bk.getId());
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			throw new DatenbankExceptions(e, sql,
+					DatenbankExceptions.LOESCHEN_ERR);
+		} finally {
+			ConnectionFactory.getInstanz().closeConnection(con);
+		}
+		this.loggenDaten(bk, LogKonstanten.LOESCHE_DATENSATZ);
 	}
 
 	/**
