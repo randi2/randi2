@@ -60,14 +60,32 @@ public class Hilfe {
 			{
 					JspTitel.ADMIN_LISTE,
 					"<big style=\"font-weight:bold;\"><p> Personensuche</big></p>"
-					+ "<p> Mit der Filterfunktion <img src=\"images\\find.png\"> k&ouml;nnen Sie unter allen einsehbaren Benutzern nach dem Nachnamen "
-					+ "und/oder dem Vornamen und/oder Benutzernamen und/oder E-Mail und/oder Institution filtern.</p><br>" +
-							"<p>Je nachdem ob Sie als <big> Studienarzt, Studienleiter, Systemoperator </big>oder <big>Administrator </big>angemeldet sind, haben Sie " +
-							"unterschiedliche Funktionen zur Verf&uuml;gung: </p><br>" 
+							+ "<p> Mit der Filterfunktion <img src=\"images\\find.png\"> k&ouml;nnen Sie unter allen einsehbaren Benutzern nach dem Nachnamen "
+							+ "und/oder dem Vornamen und/oder Benutzernamen und/oder E-Mail und/oder Institution filtern.</p><br>"
+							+ "<p>Je nachdem ob Sie als <big> Studienarzt, Studienleiter, Systemoperator </big>oder <big>Administrator </big>angemeldet sind, haben Sie "
+							+ "unterschiedliche Funktionen zur Verf&uuml;gung: </p><br>"
 							+ "<p> Mit <span style=\"font-style:italic;\">\"anzeigen\"</span> lassen sich die Benutzerdetails "
-							+ " anzeigen <br> </p>" +
-									"<p> Mit <span style=\"font-style:italic;\">\"sperren\" k&ouml;nnen Sie den Benutzer sperren. </p> "
-							 },
+							+ " anzeigen <br> </p>"
+							+ "<p> Mit <span style=\"font-style:italic;\">\"sperren\" k&ouml;nnen Sie den Benutzer sperren. </p> " },
+			/*
+			 * Studienleiter, Administrator
+			 */
+			{
+					JspTitel.ZENTRUM_ANZEIGEN_ADMIN,
+					"<p><big style=\"font-weight:bold;\">Hier k&ouml;nnen Sie nach einem Zentrum suchen und dieses mit seinen Details anzeigen lassen.</big></p><br>"
+							+ "<p> Mit der Filterfunktion <img src=\"images\\find.png\"> k&ouml;nnen Sie unter allen verf&uuml;gbaren Zentren nach "
+							+ "dem Namen der Institution und/oder dem Namen der Abteilung und/oder dem Status filtern.</p> <br><br> "
+							+ "<p>Mit <span style=\"font-style:italic;\"> \"Anzeigen/&Auml;ndern\" </span> k&ouml;nnen Sie sich die Details des "
+							+ "Zentrum anzeigen lassen. <br><br> </p>"
+							+ "<p> Wenn Sie als <big> Studienleiter </big> angemeldet sind, k&ouml;nnen Sie durch"
+							+ "<span style=\"font-style:italic;\">  \"Zentrum zur Studie hinzuf&uuml;gen\" </span> wennn das Zentrum "
+							+ "noch nicht zur Studie hinzuf&uuml;gen. </p><br> "
+							+ "<p> Wenn Sie als <big> Administrator </big> angemeldet sind, k&ouml;nnen Sie durch <span style=\"font-style:italic;\">  "
+							+
+
+							"\"Deaktivieren\" </span> bzw. <span style=\"font-style:italic;\"> \"Aktivieren\" </span> k&ouml;nnen Sie "
+							+ "ein Zentrum deaktivieren bzw. aktivieren.</p>" },
+
 			/*
 			 * Studienarzt
 			 */
@@ -178,16 +196,6 @@ public class Hilfe {
 							+ "<p>Alle Felder mit * gekennzeichnet m&uuml;ssen ausgef&uuml;llt werden. Die restlichen Felder sind freiwillige Angaben.</p><br>"
 							+ "<p><span style=\"font-style:italic;\">WICHTIG! Bitte merken Sie das Passwort, das nach dem Anlegen oben angezeigt wird!</span><br>"
 							+ "Unter \"Zentrum anzeigen\" im Men&uuml; k&ouml;nnen Sie sp&auml;ter das Zentrumspasswort &auml;ndern.</p>" },
-
-			{
-					JspTitel.ZENTRUM_ANZEIGEN_ADMIN,
-					"<p><big style=\"font-weight:bold;\">Hier k&ouml;nnen Sie nach einem Zentrum suchen.</big></p><br>"
-							+ "<p> Mit der Filterfunktion <img src=\"images\\find.png\"> k&ouml;nnen Sie unter allen verf&uuml;gbaren Zentren nach "
-							+ "dem Namen der Institution und/oder dem Namen der Abteilung und/oder dem Status filtern.</p> <br><br> "
-							+ "<p>Mit <span style=\"font-style:italic;\"> \"Anzeigen/&Auml;ndern\" </span> k&ouml;nnen Sie sich die Details des "
-							+ "Zentrum anzeigen lassenund bei Bedarf diese &auml;ndern. <br><br> Mit <span style=\"font-style:italic;\"> "
-							+ "\"Deaktivieren\" </span> bzw. <span style=\"font-style:italic;\"> \"Aktivieren\" </span> k&ouml;nnen Sie "
-							+ "ein Zentrum deaktivieren bzw. aktivieren.</p>" },
 
 			{
 					JspTitel.ZENTRUM_AENDERN,
