@@ -31,6 +31,7 @@
 	if (scheisse != null) {
 		aGeschlecht = scheisse.charAt(0);
 	}
+	
 	String aEmail = (String) request
 			.getAttribute(Parameter.person.EMAIL.name());
 	if (aEmail == null) {
@@ -46,13 +47,8 @@
 	if (aFax == null) {
 		aFax = "";
 	}
-	
-	Object blablub = request.getAttribute(Parameter.benutzerkonto.ZENTRUM_FK.name());
-	long aInstitut = -1l;
-	if (blablub != null && blablub instanceof Long){
-		aInstitut = ((Long)blablub).longValue();
-	}
 
+	Long aInstitut = (Long) request.getAttribute(Parameter.benutzerkonto.ZENTRUM_FK.name());
 
 	String aTitel = (String) request
 			.getAttribute(Parameter.person.TITEL.name());
@@ -91,6 +87,11 @@
 	aEmailA = "";
 	}
 	
+	scheisse = (String) request.getAttribute(Parameter.person.STELLVERTRETER_GESCHLECHT.name());
+	char aGeschlechtA = '\0';
+	if (scheisse != null) {
+		aGeschlechtA = scheisse.charAt(0);
+		}
 %>
 <html>
 <head>
@@ -132,9 +133,9 @@ Ext.onReady(function(){
         typeAhead: true,
         mode: 'local',
         triggerAction: 'all',
-        <% if (!aTitel.equals("")){%>
-        	selectByValue:'<%=aTitel %>',
-        <%}%>        	
+        <%if (!aTitel.equals("")){%>
+        value:'<%=aTitel %>',
+        <%}%>
         emptyText:'--Bitte auswählen--',
         selectOnFocus:true,
         allowBlank:false,
@@ -158,8 +159,8 @@ Ext.onReady(function(){
             %>
             [<%=buf.toString()%>]
         }),
-        <% if (aInstitut!=-1l){%>
-        selectByValue:'<%=aInstitut%>',
+        <%if (aInstitut!=null){%>
+        value:'<%=aInstitut%>',
         <%}%>
         displayField:'zentrum',
         valueField:'id',
@@ -208,8 +209,10 @@ Ext.onReady(function(){
             data : [['w','weiblich'],['m','männlich']
             ]
         }),
-        <% if (aGeschlecht!='\0'){%>
-        selectByValue:'<%=aGeschlecht%>',
+        <%if (aGeschlecht == 'w'){%>
+        value:['weiblich'],
+        <%} else if (aGeschlecht == 'm'){%>
+        value:['männlich'],
         <%}%>
         displayField:'geschlecht',
         typeAhead: true,
@@ -222,7 +225,7 @@ Ext.onReady(function(){
         emptyText:'--Bitte auswählen--',
         blankText:'Bitte das Geschlecht auswählen!'
     });
-    
+
     
     
     var benutzername = new Ext.form.TextField({
@@ -303,7 +306,7 @@ Ext.onReady(function(){
         blankText:'Bitte Ihren Vornamen eintragen!'
     });
     
-        var geschlechtStell = new Ext.form.ComboBox({
+ var geschlechtStell = new Ext.form.ComboBox({
         fieldLabel: 'Geschlecht *:',
         hiddenName:'<%=Parameter.person.STELLVERTRETER_GESCHLECHT.name()%>',
         store: new Ext.data.SimpleStore({
@@ -311,8 +314,10 @@ Ext.onReady(function(){
             data : [['w','weiblich'],['m','männlich']
             ]
         }),
-        <% if (aGeschlecht!='\0'){%>
-        selectByValue:'<%=aGeschlecht%>',
+        <%if (aGeschlecht == 'w'){%>
+        value:['weiblich'],
+        <%} else if (aGeschlecht == 'm'){%>
+        value:['männlich'],
         <%}%>
         displayField:'geschlecht',
         typeAhead: true,
@@ -391,7 +396,7 @@ Ext.onReady(function(){
         mode: 'local',
         triggerAction: 'all',
         <% if (!aTitelA.equals("")){%>
-        	selectByValue:'<%=aTitelA %>',
+        	value:'<%=aTitelA %>',
         <%}%>        	
         emptyText:'--Bitte auswählen--',
         selectOnFocus:true,
@@ -448,6 +453,5 @@ Ext.onReady(function(){
 </div>
 <div id="show_SA"><%@include file="include/inc_menue.jsp"%>
 </div>
-
 </body>
 </html>

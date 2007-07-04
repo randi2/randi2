@@ -903,9 +903,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 		// Alle Attribute des request inititalisieren
 		
-		String seitentitel = (String) request.getAttribute(DispatcherServlet.requestParameter.TITEL.toString());
-		System.out.println(seitentitel);
-		
+	
 		PersonBean aPerson = null;
 		BenutzerkontoBean aBenutzerkonto=null;
 		AktivierungBean aktivierung=null;
@@ -943,14 +941,12 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		PersonBean.Titel titelAenum = null;
 		String benutzername = request
 				.getParameter(Parameter.benutzerkonto.LOGINNAME.name());
-		long zentrumId = -1l;
+		Long zentrumId = null;
 
 		Rolle rolle = ((BenutzerkontoBean) request.getSession().getAttribute(
 				"aBenutzer")).getRolle();
-
 		try {
-			
-			
+	
 			// Konvertierung String enum
 			for (PersonBean.Titel t : PersonBean.Titel.values()) {
 				if (titel.equals(t.toString())) {
@@ -986,6 +982,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			BenutzerkontoBean anleger = (BenutzerkontoBean) request
 					.getSession().getAttribute("aBenutzer");
 
+						
 			// Benutzer(Person) anlegen
 			aPerson = new PersonBean();
 			aPerson.setNachname(nachname);
@@ -1015,7 +1012,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			zentrumId = Long.valueOf(institut);
 			aBenutzerkonto.setZentrumId(zentrumId);
-
+			
 			if (rolle.besitzenRolleRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN)) {
 				aBenutzerkonto.setRolle(Rolle.getStudienleiter());
 			}
@@ -1063,21 +1060,27 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 					AutomatischeNachricht.autoNachricht.AKTIVIERUNG);
 			aktivierungMail.senden();
 
-			request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(), seitentitel);
 			
 			request
 					.setAttribute(
 							DispatcherServlet.NACHRICHT_OK,
 							"Account erfolgreich angelegt.<br> Das Passwort und der Aktivierungslink wurden per E-Mail verschickt.");
-			request.setAttribute(Parameter.anfrage_id.toString(),
-					DispatcherServlet.anfrage_id.JSP_ADMIN_ANLEGEN.name());
+			
+			if (rolle.besitzenRolleRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN)) {
+				request.setAttribute(Parameter.anfrage_id.toString(),
+						DispatcherServlet.anfrage_id.JSP_INC_MENUE_STUDIENLEITER_ANLEGEN.name());
+			}
+			if (rolle.besitzenRolleRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN)) {
+				request.setAttribute(Parameter.anfrage_id.toString(),
+						DispatcherServlet.anfrage_id.JSP_INC_MENUE_ADMIN_ANLEGEN.name());
+			}
+			
+			
 			request.getRequestDispatcher("/DispatcherServlet").forward(request,
 					response);
 
 		} catch (Exception e) {
-			e.printStackTrace();
-	
-			
+		
 			if(aktivierung!=null&&aktivierung.getId()!=NullKonstanten.NULL_LONG){
 				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aktivierung);
 			}
@@ -1088,10 +1091,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(aPerson);
 			}
 
-			if (e instanceof DatenbankExceptions) {
-
-			}
-			
+		
 
 			request.setAttribute(Parameter.person.VORNAME.name(), vorname);
 			request.setAttribute(Parameter.person.NACHNAME.name(), nachname);
@@ -1103,7 +1103,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			request.setAttribute(Parameter.person.FAX.name(), fax);
 
 			request.setAttribute(Parameter.benutzerkonto.ZENTRUM_FK.name(),
-					zentrumId);
+					Long.valueOf(institut));
 			request.setAttribute(Parameter.person.TITEL.name(), titelenum
 					.toString());
 			request.setAttribute(
@@ -1138,10 +1138,14 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			request.setAttribute(DispatcherServlet.FEHLERNACHRICHT, e
 					.getMessage());
 
-			
-			request.setAttribute(DispatcherServlet.requestParameter.TITEL.toString(), seitentitel);
-			request.setAttribute(Parameter.anfrage_id.toString(),
-					DispatcherServlet.anfrage_id.JSP_ADMIN_ANLEGEN.name());
+			if (rolle.besitzenRolleRecht(Rechtenamen.STULEIACCOUNTS_VERWALTEN)) {
+				request.setAttribute(Parameter.anfrage_id.toString(),
+						DispatcherServlet.anfrage_id.JSP_INC_MENUE_STUDIENLEITER_ANLEGEN.name());
+			}
+			if (rolle.besitzenRolleRecht(Rechtenamen.ADMINACCOUNTS_VERWALTEN)) {
+				request.setAttribute(Parameter.anfrage_id.toString(),
+						DispatcherServlet.anfrage_id.JSP_INC_MENUE_ADMIN_ANLEGEN.name());
+			}
 			request.getRequestDispatcher("/DispatcherServlet").forward(request,
 					response);
 		}
