@@ -122,7 +122,7 @@ Ext.EventManager.onDocumentReady(Hilfe.init, Hilfe, true);
 					&& request
 					.getAttribute(DispatcherServlet.requestParameter.TITEL
 					.toString()) != "Studie ausw&auml;hlen" && aRolleHeader != Rolle.Rollen.ADMIN) {
-		%> <span id="studie_highlight">Aktuelle Studie <%=aStudieName%></span>
+		%> <span id="studie_highlight">Aktuelle Studie: <%=aStudieName%></span>
 		&gt; <%=aLocation%> <%
  } else {
  %> <span id="studie_highlight">RANDI2</span> &gt; <%=aLocation%> <%
@@ -130,16 +130,13 @@ Ext.EventManager.onDocumentReady(Hilfe.init, Hilfe, true);
  %>
 		</td>
 		<td align="right">
-		<%if(aRolleHeader!= Rolle.Rollen.STATISTIKER){ %>
 		<%
 		if (aPersonHeader.getGeschlecht() == 'm') {
 		%>Herr<%
 		} else {
 		%>Frau<%
 		}
-		%>&nbsp;<%=aPersonHeader.getVorname()%>&nbsp;<%=aPersonHeader.getNachname()%>&nbsp;
-		<%} %>
-		<%
+		%>&nbsp;<%=aPersonHeader.getVorname()%>&nbsp;<%=aPersonHeader.getNachname()%>&nbsp;<%
 		if (aRolleHeader != Rolle.Rollen.STUDIENARZT) {
 		%>(<span id="rolle_highlight"><%=aRolleHeader%></span>)<%
 		}
