@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.DBObjekt;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.fachklassen.beans.AktivierungBean;
@@ -64,11 +64,11 @@ public class AktivierungServlet extends javax.servlet.http.HttpServlet implement
 				//Status Benutzerkonto umsetzen
 				BenutzerkontoBean aBenutzerkonto=sAktivierung.getBenutzerkonto();
 				aBenutzerkonto.setGesperrt(false);
-				aBenutzerkonto.setBenutzerkontoLogging(Filter.getSystemdummy());
+				aBenutzerkonto.setBenutzerkontoLogging(DBObjekt.getSystemdummy());
 				aBenutzerkonto=DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzerkonto);
 				
 				//Aktivierung loeschen
-				sAktivierung.setBenutzerkontoLogging(Filter.getSystemdummy());
+				sAktivierung.setBenutzerkontoLogging(DBObjekt.getSystemdummy());
 				DatenbankFactory.getAktuelleDBInstanz().loeschenObjekt(sAktivierung);
 				
 				request.getRequestDispatcher(Jsp.NACH_AKTIVIERUNGSLINK_OK).forward(request, response);

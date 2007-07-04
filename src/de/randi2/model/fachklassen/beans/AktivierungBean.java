@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.DBObjekt;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.AktivierungException;
 import de.randi2.model.fachklassen.Benutzerkonto;
@@ -20,7 +20,7 @@ import de.randi2.utility.NullKonstanten;
  * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
  * @version $Id: AktivierungBean.java 2448 2007-05-07 13:45:09Z afreudli $
  */
-public class AktivierungBean extends Filter {
+public class AktivierungBean extends DBObjekt {
 
 	/**
 	 * Das Versanddatum, wann die Anmeldungsmail versand wurde.

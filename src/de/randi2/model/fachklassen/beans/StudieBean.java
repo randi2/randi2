@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Vector;
-import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.DBObjekt;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.StudieException;
 import de.randi2.model.fachklassen.Benutzerkonto;
@@ -23,7 +23,7 @@ import de.randi2.utility.NullKonstanten;
  * @version $Id$
  * 
  */
-public class StudieBean extends Filter {
+public class StudieBean extends DBObjekt {
 
 	/**
 	 * Name der Studie.

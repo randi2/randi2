@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSessionListener;
 import org.apache.log4j.Logger;
 
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.DBObjekt;
 import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
 import de.randi2.utility.SystemException;
 
@@ -124,7 +124,7 @@ public class SessionListener implements HttpSessionAttributeListener, HttpSessio
 		if (aBenutzer != null) {
 			try {
 				aBenutzer.setLetzterLogin(new GregorianCalendar());
-				aBenutzer.setBenutzerkontoLogging(Filter.getSystemdummy());
+				aBenutzer.setBenutzerkontoLogging(DBObjekt.getSystemdummy());
 				DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(aBenutzer);
 				Logger.getLogger(this.getClass()).debug("Aktualisiere 'LetzterLogin' fuer Konto "+aBenutzer.getBenutzername());
 			} catch (Exception e) {

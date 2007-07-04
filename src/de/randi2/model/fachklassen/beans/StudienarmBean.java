@@ -2,7 +2,7 @@ package de.randi2.model.fachklassen.beans;
 
 import java.util.Vector;
 
-import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.DBObjekt;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.StudienarmException;
@@ -17,7 +17,7 @@ import de.randi2.utility.NullKonstanten;
  * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
  * @version $Id: StudienarmBean.java 2435 2007-05-06 20:00:48Z freifsch $
  */
-public class StudienarmBean extends Filter {
+public class StudienarmBean extends DBObjekt {
 
 	/**
 	 * Status dieses Studienarms (Wert der ENUM Status der Studien-Fachklasse).
@@ -380,7 +380,7 @@ public class StudienarmBean extends Filter {
 	}
 
 	/**
-	 * @see de.randi2.datenbank.Filter#validate()
+	 * @see de.randi2.datenbank.DBObjekt#validate()
 	 */
 	@Override
 	public void validate() throws BenutzerException {

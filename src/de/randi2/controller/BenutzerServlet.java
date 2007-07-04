@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import de.randi2.datenbank.DatenbankFactory;
-import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.DBObjekt;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
@@ -560,7 +560,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 							// GregorianCalendar());
 							aBenutzer.setErsterLogin(new GregorianCalendar());
 							// Logging Konto setzten
-							aBenutzer.setBenutzerkontoLogging(Filter
+							aBenutzer.setBenutzerkontoLogging(DBObjekt
 									.getSystemdummy());
 							// Erster Login setzten
 							aBenutzer = DatenbankFactory.getAktuelleDBInstanz()
@@ -717,7 +717,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			aPerson.setTelefonnummer(telefon);
 			aPerson.setHandynummer(handynummer);
 			aPerson.setFax(fax);
-			aPerson.setBenutzerkontoLogging(Filter.getSystemdummy());
+			aPerson.setBenutzerkontoLogging(DBObjekt.getSystemdummy());
 			aPerson = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 					aPerson);
 
@@ -737,7 +737,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			aBenutzerkonto.setErsterLogin(null);
 			aBenutzerkonto.setLetzterLogin(null);
 			aBenutzerkonto.setGesperrt(true);
-			aBenutzerkonto.setBenutzerkontoLogging(Filter.getSystemdummy());
+			aBenutzerkonto.setBenutzerkontoLogging(DBObjekt.getSystemdummy());
 			aBenutzerkonto = Benutzerkonto.anlegenBenutzer(aBenutzerkonto)
 					.getBenutzerkontobean();
 			request.getRequestDispatcher("/benutzer_anlegen_vier.jsp").forward(
@@ -748,7 +748,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			aktivierung = new AktivierungBean(NullKonstanten.DUMMY_ID,
 					new GregorianCalendar(), aBenutzerkonto.getId(), KryptoUtil
 							.getInstance().getAktivierungslink());
-			aktivierung.setBenutzerkontoLogging(Filter.getSystemdummy());
+			aktivierung.setBenutzerkontoLogging(DBObjekt.getSystemdummy());
 			aktivierung = DatenbankFactory.getAktuelleDBInstanz()
 					.schreibenObjekt(aktivierung);
 			AutomatischeNachricht aktivierungMail = new AutomatischeNachricht(
@@ -1022,7 +1022,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 			aktivierung.setAktivierungsLink(KryptoUtil.getInstance()
 					.getAktivierungslink());
 			aktivierung.setVersanddatum(new GregorianCalendar());
-			aktivierung.setBenutzerkontoLogging(Filter.getSystemdummy());
+			aktivierung.setBenutzerkontoLogging(DBObjekt.getSystemdummy());
 			aktivierung = DatenbankFactory.getAktuelleDBInstanz()
 					.schreibenObjekt(aktivierung);
 
@@ -1138,7 +1138,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 
 			aBenutzerkonto.setPasswort(KryptoUtil.getInstance().hashPasswort(
 					neuesPasswort));
-			aBenutzerkonto.setBenutzerkontoLogging(Filter.getSystemdummy());
+			aBenutzerkonto.setBenutzerkontoLogging(DBObjekt.getSystemdummy());
 			aBenutzerkonto = DatenbankFactory.getAktuelleDBInstanz()
 					.schreibenObjekt(aBenutzerkonto);
 

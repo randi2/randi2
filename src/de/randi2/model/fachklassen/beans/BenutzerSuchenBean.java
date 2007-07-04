@@ -1,12 +1,12 @@
 package de.randi2.model.fachklassen.beans;
 
-import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.DBObjekt;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Rolle;
 import de.randi2.utility.NullKonstanten;
 
-public class BenutzerSuchenBean extends Filter {
+public class BenutzerSuchenBean extends DBObjekt {
 
 	
 

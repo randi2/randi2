@@ -2,7 +2,7 @@ package de.randi2.model.fachklassen.beans;
 
 import java.util.Collection;
 
-import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.DBObjekt;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.ZentrumException;
@@ -21,7 +21,7 @@ import de.randi2.utility.ValidierungsUtil;
  * @version $Id: ZentrumBean.java 2383 2007-05-04 08:45:30Z lplotni $
  * 
  */
-public class ZentrumBean extends Filter {
+public class ZentrumBean extends DBObjekt {
 
 	/**
 	 * Name der Abteilung in der Institution.

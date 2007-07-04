@@ -1,6 +1,6 @@
 package de.randi2.model.fachklassen.beans;
 
-import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.DBObjekt;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.PersonException;
 import de.randi2.model.fachklassen.Person;
@@ -13,7 +13,7 @@ import de.randi2.utility.ValidierungsUtil;
  * @author Thomas Willert [twillert@stud.hs-heilbronn.de]
  * @version $Id: PersonBean.java 2399 2007-05-04 12:32:21Z kkrupka $
  */
-public class PersonBean extends Filter {
+public class PersonBean extends DBObjekt {
 
 	/**
 	 * Die E-Mailadresse der Person.
@@ -606,7 +606,7 @@ public class PersonBean extends Filter {
 	/**
 	 * Erzeugt eine Exception, falls nicht alle Pflichtfelder gesetzt sind.
 	 * 
-	 * @see de.randi2.datenbank.Filter#validate()
+	 * @see de.randi2.datenbank.DBObjekt#validate()
 	 * @throws PersonException
 	 *             Falls Pflichtfelder nicht gesetzt sind.
 	 */

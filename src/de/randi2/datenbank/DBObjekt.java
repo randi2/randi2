@@ -42,7 +42,7 @@ import static de.randi2.utility.Config.Felder;
  * @version $Id: Filter.java 1828 2007-04-06 18:31:47Z jthoenes $
  * 
  */
-public abstract class Filter {
+public abstract class DBObjekt {
 
 	/**
 	 * Repraesentiert das System bei schreibenden Datenbankzugriffen
@@ -71,7 +71,7 @@ public abstract class Filter {
 	/**
 	 * Leerer Standartkonstruktor, {@link #isFilter} entspricht dem Defaultwert
 	 */
-	public Filter() {
+	public DBObjekt() {
 	}
 
 	/**
@@ -81,7 +81,7 @@ public abstract class Filter {
 	 * @param filter
 	 *            Wert, den die Flag {@link #isFilter} annehmen soll
 	 */
-	public Filter(boolean filter) {
+	public DBObjekt(boolean filter) {
 		this.isFilter = filter;
 	}
 
@@ -103,7 +103,7 @@ public abstract class Filter {
 				e.printStackTrace();
 			}
 		}
-		Logger.getLogger(Filter.class).debug("Lege Systemdummy an");
+		Logger.getLogger(DBObjekt.class).debug("Lege Systemdummy an");
 		return SYSTEMDUMMY_KONTO;
 	}
 

@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.DBObjekt;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.PatientException;
@@ -18,7 +18,7 @@ import de.randi2.utility.NullKonstanten;
  * @author Lukasz Plotnicki [lplotni@stud.hs-heilbronn.de]
  * @version $Id$
  */
-public class PatientBean extends Filter {
+public class PatientBean extends DBObjekt {
 
 	/**
 	 * Die Initialen des Patienten.

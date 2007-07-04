@@ -805,9 +805,9 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * 
-	 * @see de.randi2.datenbank.DatenbankSchnittstelle#loeschenObjekt(de.randi2.datenbank.Filter)
+	 * @see de.randi2.datenbank.DatenbankSchnittstelle#loeschenObjekt(de.randi2.datenbank.DBObjekt)
 	 */
-	public <T extends Filter> void loeschenObjekt(T zuLoeschendesObjekt)
+	public <T extends DBObjekt> void loeschenObjekt(T zuLoeschendesObjekt)
 			throws DatenbankExceptions {
 		if (zuLoeschendesObjekt == null) {
 			throw new DatenbankExceptions(DatenbankExceptions.ARGUMENT_IST_NULL);
@@ -1074,10 +1074,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * 
-	 * @see de.randi2.datenbank.DatenbankSchnittstelle#schreibenObjekt(de.randi2.datenbank.Filter)
+	 * @see de.randi2.datenbank.DatenbankSchnittstelle#schreibenObjekt(de.randi2.datenbank.DBObjekt)
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends Filter> T schreibenObjekt(T zuSchreibendesObjekt)
+	public <T extends DBObjekt> T schreibenObjekt(T zuSchreibendesObjekt)
 			throws DatenbankExceptions {
 		if (zuSchreibendesObjekt == null) {
 			throw new DatenbankExceptions(DatenbankExceptions.ARGUMENT_IST_NULL);
@@ -2039,10 +2039,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * 
-	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenObjekt(de.randi2.datenbank.Filter)
+	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenObjekt(de.randi2.datenbank.DBObjekt)
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends Filter> Vector<T> suchenObjekt(T zuSuchendesObjekt)
+	public <T extends DBObjekt> Vector<T> suchenObjekt(T zuSuchendesObjekt)
 			throws DatenbankExceptions {
 		// pruefe ob Argument ungleich null ist
 		if (zuSuchendesObjekt == null) {
@@ -2313,7 +2313,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 *            Attribute ungleich den Nullkonstanten in der Datenbank gesucht
 	 * @return Vector mit gefundenen Personen
 	 * @throws DatenbankExceptions
-	 *             siehe {@link DatenbankSchnittstelle#suchenObjekt(Filter)}
+	 *             siehe {@link DatenbankSchnittstelle#suchenObjekt(DBObjekt)}
 	 * 
 	 */
 	private Vector<PersonBean> suchenPerson(PersonBean person)
@@ -3557,10 +3557,10 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * 
 	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenObjektId(long,
-	 *      de.randi2.datenbank.Filter)
+	 *      de.randi2.datenbank.DBObjekt)
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends Filter> T suchenObjektId(long id, T nullObjekt)
+	public <T extends DBObjekt> T suchenObjektId(long id, T nullObjekt)
 			throws DatenbankExceptions {
 		if (nullObjekt instanceof PersonBean) {
 			PersonBean person = this.suchenPersonId(id);
@@ -4165,11 +4165,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * 
-	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenMitgliederObjekte(de.randi2.datenbank.Filter,
-	 *      de.randi2.datenbank.Filter)
+	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenMitgliederObjekte(de.randi2.datenbank.DBObjekt,
+	 *      de.randi2.datenbank.DBObjekt)
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends Filter, U extends Filter> Vector<T> suchenMitgliederObjekte(
+	public <T extends DBObjekt, U extends DBObjekt> Vector<T> suchenMitgliederObjekte(
 			U vater, T kind) throws DatenbankExceptions {
 		// 1:n V Zentrum: K Benutzerkonto
 		if (vater instanceof ZentrumBean && kind instanceof BenutzerkontoBean) {
@@ -4630,11 +4630,11 @@ public class Datenbank implements DatenbankSchnittstelle {
 	/**
 	 * Dokumentation siehe Schnittstellenbeschreibung
 	 * 
-	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenMitgliederObjekt(de.randi2.datenbank.Filter,
-	 *      de.randi2.datenbank.Filter)
+	 * @see de.randi2.datenbank.DatenbankSchnittstelle#suchenMitgliederObjekt(de.randi2.datenbank.DBObjekt,
+	 *      de.randi2.datenbank.DBObjekt)
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends Filter, U extends Filter> T suchenMitgliedEinsZuEins(
+	public <T extends DBObjekt, U extends DBObjekt> T suchenMitgliedEinsZuEins(
 			U vater, T kind) throws DatenbankExceptions {
 		kind.setFilter(true);
 		// 1:1 V Person: K Zentrum
@@ -4741,7 +4741,7 @@ public class Datenbank implements DatenbankSchnittstelle {
 	 * @throws DatenbankExceptions
 	 *             Fehler beim Loggen.
 	 */
-	private <T extends Filter> void loggenDaten(T aObjekt, int logart)
+	private <T extends DBObjekt> void loggenDaten(T aObjekt, int logart)
 			throws DatenbankExceptions {
 		String text = null;
 		HashMap<String, String> geaenderteDaten = new HashMap<String, String>();

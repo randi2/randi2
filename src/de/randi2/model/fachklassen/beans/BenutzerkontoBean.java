@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Vector;
 
-import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.DBObjekt;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.BenutzerException;
 import de.randi2.model.exceptions.BenutzerkontoException;
@@ -26,7 +26,7 @@ import de.randi2.utility.ValidierungsUtil;
  * @author Thomas Willert [twillert@stud.hs-heilbronn.de]
  * @version $Id: BenutzerkontoBean.java 2493 2007-05-09 06:30:40Z freifsch $
  */
-public class BenutzerkontoBean extends Filter implements Serializable {
+public class BenutzerkontoBean extends DBObjekt implements Serializable {
 
 	/**
 	 * Die generierte SerialVersionUID.

@@ -1,6 +1,6 @@
 package de.randi2.model.fachklassen.beans;
 
-import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.DBObjekt;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.StrataException;
 import de.randi2.model.fachklassen.Strata;
@@ -14,7 +14,7 @@ import de.randi2.utility.NullKonstanten;
  * @see StrataBean
  * 
  */
-public class StrataAuspraegungBean extends Filter implements
+public class StrataAuspraegungBean extends DBObjekt implements
 		Comparable<StrataAuspraegungBean> {
 
 	/**

@@ -52,7 +52,7 @@ public interface DatenbankSchnittstelle {
 	 * </p>
 	 * 
 	 * @param <T>
-	 *            Klasse des Attributes, muss von {@link Filter} erben
+	 *            Klasse des Attributes, muss von {@link DBObjekt} erben
 	 * @param zuSuchendesObjekt
 	 *            das zusuchende Objekt mit Attributen als Filter, darf nicht
 	 *            <code>null</code> sein.
@@ -64,11 +64,11 @@ public interface DatenbankSchnittstelle {
 	 *             Methodenaufruf mit <code>null</code> </li>
 	 *             <li>DatenbankExceptions.SUCHOBJEKT_IST_KEIN_FILTER: Das
 	 *             Objekt, welches zum Suchen eingesetzt wurde, war kein Filter
-	 *             (vlg. {@link Filter})</li>
+	 *             (vlg. {@link DBObjekt})</li>
 	 *             <li>DatenbankExceptions.CONNECTION_ERR</li>
 	 *             </ul>
 	 */
-	<T extends Filter> Vector<T> suchenObjekt(T zuSuchendesObjekt)
+	<T extends DBObjekt> Vector<T> suchenObjekt(T zuSuchendesObjekt)
 			throws DatenbankExceptions;
 
 	/**
@@ -79,7 +79,7 @@ public interface DatenbankSchnittstelle {
 	 * </p>
 	 * 
 	 * @param <T>
-	 *            Klasse des Attributes, muss von {@link Filter} erben
+	 *            Klasse des Attributes, muss von {@link DBObjekt} erben
 	 * @param zuSchreibendesObjekt
 	 *            das zuschreibende Objekt
 	 * @return das geschriebene Objekt. Objekt enthaelt jetzt die ID des
@@ -93,7 +93,7 @@ public interface DatenbankSchnittstelle {
 	 *             <li>DatenbankExceptions.CONNECTION_ERR</li>
 	 *             </ul>
 	 */
-	<T extends Filter> T schreibenObjekt(T zuSchreibendesObjekt)
+	<T extends DBObjekt> T schreibenObjekt(T zuSchreibendesObjekt)
 			throws DatenbankExceptions;
 
 	/**
@@ -102,7 +102,7 @@ public interface DatenbankSchnittstelle {
 	 * </p>
 	 * 
 	 * @param <T>
-	 *            Klasse des Attributes, muss von {@link Filter} erben
+	 *            Klasse des Attributes, muss von {@link DBObjekt} erben
 	 * @param id
 	 *            Die ID des zu suchenden Objektes.
 	 * @param nullObjekt
@@ -117,7 +117,7 @@ public interface DatenbankSchnittstelle {
 	 *             <li>DatenbankExceptions.CONNECTION_ERR</li>
 	 *             </ul>
 	 */
-	<T extends Filter> T suchenObjektId(long id, T nullObjekt)
+	<T extends DBObjekt> T suchenObjektId(long id, T nullObjekt)
 			throws DatenbankExceptions;
 
 	/**
@@ -148,7 +148,7 @@ public interface DatenbankSchnittstelle {
 	 * 					<li>DatenbankExceptions.CONNECTION_ERR</li>
 	 * 				</ul>
 	 */
-	<T extends Filter, U extends Filter> Vector<T> suchenMitgliederObjekte(
+	<T extends DBObjekt, U extends DBObjekt> Vector<T> suchenMitgliederObjekte(
 			U vater, T kind) throws DatenbankExceptions;
 
 	/**
@@ -157,7 +157,7 @@ public interface DatenbankSchnittstelle {
 	 * </p>
 	 * 
 	 * @param <T>
-	 *            Klasse des Attributes, muss von {@link Filter} erben
+	 *            Klasse des Attributes, muss von {@link DBObjekt} erben
 	 * @param zuLoeschendesObjekt
 	 *            Objekt das geloescht werden soll. Die ID des zuloeschenden
 	 *            Objekts muss gesetzt sein.
@@ -170,7 +170,7 @@ public interface DatenbankSchnittstelle {
 	 *             <li>DatenbankExceptions.CONNECTION_ERR</li>
 	 *             </ul>
 	 */
-	<T extends Filter> void loeschenObjekt(T zuLoeschendesObjekt)
+	<T extends DBObjekt> void loeschenObjekt(T zuLoeschendesObjekt)
 			throws DatenbankExceptions;
 	
 	/**
@@ -197,6 +197,6 @@ public interface DatenbankSchnittstelle {
 	 * 					<li>DatenbankExceptions.VECTOR_RELATION_FEHLER</li>
 	 * 				</ul>
 	 */
-	<T extends Filter, U extends Filter> T suchenMitgliedEinsZuEins(U vater, T kind) throws DatenbankExceptions;
+	<T extends DBObjekt, U extends DBObjekt> T suchenMitgliedEinsZuEins(U vater, T kind) throws DatenbankExceptions;
 
 }

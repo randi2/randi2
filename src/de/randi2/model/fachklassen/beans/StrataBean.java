@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
-import de.randi2.datenbank.Filter;
+import de.randi2.datenbank.DBObjekt;
 import de.randi2.datenbank.exceptions.DatenbankExceptions;
 import de.randi2.model.exceptions.StrataException;
 import de.randi2.model.fachklassen.Strata;
@@ -21,7 +21,7 @@ import de.randi2.utility.NullKonstanten;
  * @version $Id$
  * 
  */
-public class StrataBean extends Filter implements Comparable<StrataBean> {
+public class StrataBean extends DBObjekt implements Comparable<StrataBean> {
 
 	/**
 	 * Der Name des Stratas.
