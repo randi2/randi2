@@ -1142,7 +1142,10 @@ public class StudieServlet extends javax.servlet.http.HttpServlet {
 			aStudie.setBenutzerkontoLogging(aBenutzer);
 			aStudie = DatenbankFactory.getAktuelleDBInstanz().schreibenObjekt(
 					aStudie);
-
+			
+			aStudie.addZentrum(aBenutzer.getZentrum());
+			
+			
 			long aStudieId = aStudie.getId();
 
 			for (int i = 1; i < aAnzahl_Arme + 1; i++) {

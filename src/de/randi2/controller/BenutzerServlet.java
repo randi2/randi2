@@ -944,7 +944,7 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 		Long zentrumId = null;
 
 		Rolle rolle = ((BenutzerkontoBean) request.getSession().getAttribute(
-				"aBenutzer")).getRolle();
+				DispatcherServlet.sessionParameter.A_Benutzer.toString())).getRolle();
 		try {
 	
 			// Konvertierung String enum
