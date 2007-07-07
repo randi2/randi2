@@ -333,6 +333,13 @@ Ext.onReady(function(){
 	        			['<%=aAuspraegung.getId()%>','<%=aAuspraegung.getName()%>'],
 	        			<%
 	        			}
+	            
+	            		if (aStratabeschreibung == null) {
+	            			
+	            			aStratabeschreibung = "";
+	            			
+	            		}
+	            
 	                    %>
 	            ]
 	        }),
