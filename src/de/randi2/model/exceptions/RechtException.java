@@ -1,16 +1,29 @@
-/*
- * This file is part of the RANDI2 Software. It is licensed under the GNU
- * GENERAL PUBLIC LICENSE Version 3. 
- *
- * You should have received a copy of the license with this file. You can
- * as well find the license under http://www.gnu.org/licenses/gpl.txt
+package de.randi2.model.exceptions;
+
+import de.randi2.model.fachklassen.Rolle;
+import de.randi2.utility.SystemException;
+
+
+/**
+ * Die RechtException wird bei fehlerhaften Methodenaufrufen der Klasse {@link Recht} geworfen. 
+ * @author BTheel [BTheel@stud.hs-heilbronn.de]
  */
- 
-/*
- * This file is part of the RANDI2 Software. It is licensed under the GNU
- * GENERAL PUBLIC LICENSE Version 3. 
- *
- * You should have received a copy of the license with this file. You can
- * as well find the license under http://www.gnu.org/licenses/gpl.txt
- */
- 
+@SuppressWarnings("serial")
+public class RechtException extends SystemException {
+
+    /**
+     * Das uebergebene Argument war <code>null</code>
+     */
+    public static final String NULL_ARGUMENT = "Ungueltiges Argument: 'null'";
+    /**
+     * Das uebergebene Argument entspricht keinem Rollennamen ({@link Rolle.Rollen} ) 
+     */
+    public static final String UNGUELTIGES_ARGUMENT="Ungueltiges Argument";
+    /**
+     * Erstellt eine neue RechtException mit der uebergebenen Mitteilung
+     * @param msg Mitteilung/ Begruendung der Exception
+     */
+    public RechtException(String msg){
+        super(msg);
+    }
+}

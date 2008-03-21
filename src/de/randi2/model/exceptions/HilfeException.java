@@ -1,16 +1,30 @@
-/*
- * This file is part of the RANDI2 Software. It is licensed under the GNU
- * GENERAL PUBLIC LICENSE Version 3. 
- *
- * You should have received a copy of the license with this file. You can
- * as well find the license under http://www.gnu.org/licenses/gpl.txt
+package de.randi2.model.exceptions;
+
+/**
+ * <p>
+ * Diese Klasse kappselt die Fehler, die innerhalb der Util-Klasse Hilfe
+ * auftreten koennen.
+ * </p>
+ * 
+ * @author Daniel Haehn [dhaehn@stud.hs-heilbronn.de]
+ * @version $Id$
+ * 
  */
- 
-/*
- * This file is part of the RANDI2 Software. It is licensed under the GNU
- * GENERAL PUBLIC LICENSE Version 3. 
- *
- * You should have received a copy of the license with this file. You can
- * as well find the license under http://www.gnu.org/licenses/gpl.txt
- */
- 
+public class HilfeException extends BenutzerException {
+
+	/**
+	 * Diese Konstante wird uebergeben, wenn die Unterseite fehlt.
+	 */
+	public static final String UNTERSEITE_FEHLT = "Zu diesem Thema existiert keine Hilfe!";
+
+	/**
+	 * Ein Konstruktor dieser Klasse
+	 * 
+	 * @param arg0
+	 *            eine Konstante aus dieser Klasse als Message
+	 */
+	public HilfeException(String arg0) {
+		super(arg0);
+	}
+
+}

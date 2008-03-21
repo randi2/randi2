@@ -1,16 +1,42 @@
-/*
- * This file is part of the RANDI2 Software. It is licensed under the GNU
- * GENERAL PUBLIC LICENSE Version 3. 
- *
- * You should have received a copy of the license with this file. You can
- * as well find the license under http://www.gnu.org/licenses/gpl.txt
+package de.randi2.model.exceptions;
+
+/**
+ * <p>
+ * Diese Klasse kapselt die Fehler, die innerhalb der Klasse Aktivierung
+ * auftreten koennen.
+ * </p>
+ * 
+ * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
+ * @version $Id: AktivierungException.java 2448 2007-05-07 13:45:09Z afreudli $
+ * 
  */
- 
-/*
- * This file is part of the RANDI2 Software. It is licensed under the GNU
- * GENERAL PUBLIC LICENSE Version 3. 
- *
- * You should have received a copy of the license with this file. You can
- * as well find the license under http://www.gnu.org/licenses/gpl.txt
- */
- 
+public class AktivierungException extends BenutzerException {
+
+	/**
+	 * Fehlermeldung, wenn ein Aktivierungsbean erstellt wird ohne ein
+	 * Benutzerkonto anzugeben.
+	 */
+	public static final String BENUTZERKONTO_NICHT_GESETZT = "Ein Aktivierungslink muss immer einem Benutzer zugeordnet sein.";
+
+	/**
+	 * Fehlermeldung, wenn das uebergebene Benutzerkontobean noch in der
+	 * Datenbank nicht gespeichert wurde.
+	 */
+	public static final String BENUTZERKONTO_NICHT_GESPEICHERT = "Das &uuml;bergebene Benutzerkonto wurde noch nicht gespeichert!";
+
+	/**
+	 * Fehlermeldung,wenn der Aktivierungslink die falsche Laenge hat.
+	 */
+	public static final String AKTIVIERUNGSLINK_FALSCHE_LAENGE = "Der Aktivierungslink hat die falsche Laenge";
+
+	/**
+	 * Erstellt eine Exception und haengt eine Fehlermeldung an.
+	 * 
+	 * @param fehlermeldung
+	 *            Fehlermeldung die an die Exception angehaengt wird.
+	 */
+	public AktivierungException(String fehlermeldung) {
+		super(fehlermeldung);
+	}
+
+}

@@ -1,16 +1,58 @@
-/*
- * This file is part of the RANDI2 Software. It is licensed under the GNU
- * GENERAL PUBLIC LICENSE Version 3. 
- *
- * You should have received a copy of the license with this file. You can
- * as well find the license under http://www.gnu.org/licenses/gpl.txt
+package de.randi2.model.exceptions;
+
+import de.randi2.utility.SystemException;
+
+/**
+ * Die Klasse kapselt die Fehler die waehrend der Randomisation auftreten. Es
+ * sollte darauf geachtet werden, dass bei normalen Programmablauf diese Fehler
+ * niemals auftreten. Insofern sollte ein Auftreten der Exception auf einen
+ * Programmierfehler hinweisen.
+ * 
+ * @author Johannes Thoenes [johannes.thoenes@urz.uni-heidelberg.de]
+ * @version $Id: RandomisationsException.java 2442 2007-05-07 08:45:21Z jthoenes $
  */
- 
-/*
- * This file is part of the RANDI2 Software. It is licensed under the GNU
- * GENERAL PUBLIC LICENSE Version 3. 
- *
- * You should have received a copy of the license with this file. You can
- * as well find the license under http://www.gnu.org/licenses/gpl.txt
- */
- 
+public class RandomisationsException extends SystemException {
+
+	/**
+	 * Fehler falls die gewaehlte Blockgroesse kein Vielfaches der Anzahl der
+	 * Studienarme ist.
+	 */
+	public static final String BLOCKGROESSE_KEIN_VIELFACHES_DER_ARMEANZAHL = "Die &uuml;bergebene Blockgr&ouml;sse ist kein Vielfaches der Anzahl der Studienarme.";
+
+	/**
+	 * Fehler falls die uebergebenen Studie null ist.
+	 */
+	public static final String STUDIE_NULL = "Die &uuml;bergebene Studie darf nicht null sein.";
+
+	/**
+	 * Fehler falls aktueller Studienarm nicht verwendet werden kann.
+	 */
+	public static final String ARM_NICHT_VERWENDBAR = "Dieser Studienarm kann nicht verwendet werden.";
+
+	/**
+	 * Fehler falls versuch wird, einen neuen Block in der Tabelle zu speichern,
+	 * obwohl noch Werte in der Datenbank vorhanden sind.
+	 */
+	public static final String NOCH_RANDOMISATIONS_WERTE_VORHANDEN = "Neuer Block kann nicht angelegt werden. Noch werte in der Blocktabelle vorhanden.";
+
+	/**
+	 * Fehler bei Auswahl eines ungueltigen Randomisationsalgorithmus
+	 */
+	public static final String ALGORITHMUS_UNGUELTIG = "Ungueltiger Randomisationsalgorithmus!";
+
+	/**
+	 * Fehler falls eine unerwartete Exception aus den Fachklassen wider
+	 * Erwarten aufgetreten ist.
+	 */
+	public static final String FACHEXCEPTION_AUFGETRETEN = "Es ist eine Exception aus der Fachklasse aufgetreten (siehe Cause), die in diesem Zusammenhang nicht auftreten darf";
+
+	/**
+	 * Ein Konstruktor dieser Klasse
+	 * 
+	 * @param arg0
+	 *            eine Konstante aus dieser Klasse als Message
+	 */
+	public RandomisationsException(String arg0) {
+		super(arg0);
+	}
+}
