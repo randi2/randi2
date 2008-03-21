@@ -1,47 +1,16 @@
-package de.randi2.utility;
-
-/**
- * In dieser Datei befinden sich die Null-Konstanten, die symbolisieren, dass
- * ein primitiver Datentyp in der Suche nicht gesetzt ist.
- * 
- * @author Andreas Freudling [afreudling@stud.hs-heilbronn.de]
- * @version $Id: NullKonstanten.java 1828 2007-04-06 18:31:47Z jthoenes $
+/*
+ * This file is part of the RANDI2 Software. It is licensed under the GNU
+ * GENERAL PUBLIC LICENSE Version 3. 
+ *
+ * You should have received a copy of the license with this file. You can
+ * as well find the license under http://www.gnu.org/licenses/gpl.txt
  */
-public class NullKonstanten {
-
-	/**
-	 * DUMMY_ID.
-	 */
-	public static final long DUMMY_ID = NullKonstanten.NULL_LONG;
-
-	/**
-	 * NULL-Konstante fuer long.
-	 */
-	public static final long NULL_LONG = Long.MIN_VALUE;
-
-	/**
-	 * NULL-Konstante fuer byte.
-	 */
-	public static final byte NULL_BYTE = Byte.MIN_VALUE;
-
-	/**
-	 * NULL-Konstante fuer char.
-	 */
-	public static final char NULL_CHAR = Character.MIN_VALUE;
-
-	/**
-	 * NULL-Konstante fuer double
-	 */
-	public static final double NULL_DOUBLE = Double.MIN_VALUE;
-
-	/**
-	 * NULL-Konstante fuer float.
-	 */
-	public static final float NULL_FLOAT = Float.MIN_VALUE;
-
-	/**
-	 * NULL-Konstante fuer int.
-	 */
-	public static final int NULL_INT = Integer.MIN_VALUE;
-
-}
+ 
+/*
+ * This file is part of the RANDI2 Software. It is licensed under the GNU
+ * GENERAL PUBLIC LICENSE Version 3. 
+ *
+ * You should have received a copy of the license with this file. You can
+ * as well find the license under http://www.gnu.org/licenses/gpl.txt
+ */
+ 

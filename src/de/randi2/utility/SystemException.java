@@ -1,70 +1,16 @@
-package de.randi2.utility;
-
-import javax.servlet.ServletException;
-
-import org.apache.log4j.Logger;
-
-/**
- * Die SystemException ist eine Exception in der Systemfehler gekapselt werden
- * koennen. Fehler die von ihr gekapselt werden, werden automatisch geloggt und
- * dem Benutzer wird eine verstaendliche Warnung ausgegeben, die auf der
- * Oberflaeche angezeigt werden kann.
- * 
- * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]
- * @version $Id: SystemException.java 2418 2007-05-04 14:37:12Z jthoenes $
- * 
+/*
+ * This file is part of the RANDI2 Software. It is licensed under the GNU
+ * GENERAL PUBLIC LICENSE Version 3. 
+ *
+ * You should have received a copy of the license with this file. You can
+ * as well find the license under http://www.gnu.org/licenses/gpl.txt
  */
-public class SystemException extends ServletException {
-
-	/**
-	 * Die nicht technische Fehlermeldung die dem Benutzer angezeigt werden
-	 * soll.
-	 */
-	private static final String FEHLERMELDUNG = "Es ist ein nicht behebbarer Fehler im System aufgetreten. Bitte verst&auml;ndigen Sie den Systemadministrator.";
-
-	/**
-	 * Loggt den Error in die Log-Datei.
-	 * 
-	 */
-	private void reportError() {
-		Logger log = Logger.getLogger(this.getClass());
-		log.error("Nicht behebbarer Systemfehler.", this);
-	}
-
-	/**
-	 * Ueberschreibt das initCause, damit auch die Cause geloggt wird.
-	 * 
-	 * @param cause
-	 *            Die Ursache.
-	 * @return {@link Throwable#initCause(Throwable)}}
-	 */
-	@Override
-	public synchronized Throwable initCause(Throwable cause) {
-		Logger log = Logger.getLogger(this.getClass());
-		log.error("Verursacht durch", cause);
-		return super.initCause(cause);
-	}
-
-	/**
-	 * Konstruktor mit der Angabe eine spezialisierten Fehlermeldung.
-	 * 
-	 * @param fehlermeldung
-	 *            Nicht-technische Fehlermeldung die dem Benutzer angezeigt
-	 *            werden soll.
-	 */
-	public SystemException(String fehlermeldung) {
-		super(fehlermeldung);
-		this.reportError();
-	}
-
-	/**
-	 * Konstruktor falls dem Benutzer die Standartfehlermeldung angezeigt werden
-	 * soll.
-	 * 
-	 */
-	public SystemException() {
-		super(FEHLERMELDUNG);
-		this.reportError();
-	}
-
-}
+ 
+/*
+ * This file is part of the RANDI2 Software. It is licensed under the GNU
+ * GENERAL PUBLIC LICENSE Version 3. 
+ *
+ * You should have received a copy of the license with this file. You can
+ * as well find the license under http://www.gnu.org/licenses/gpl.txt
+ */
+ 

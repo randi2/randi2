@@ -1,47 +1,16 @@
-package de.randi2.utility;
-
-import javax.servlet.http.HttpServlet;
-
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-
-/**
- * Die Klasse Log4jInit initialisiert die Log4j Log-Files beim Starten des
- * Apache Tomcats.
- * 
- * @author Johannes Thoenes [jthoenes@stud.hs-heilbronn.de]
- * @version $Id$
- * 
+/*
+ * This file is part of the RANDI2 Software. It is licensed under the GNU
+ * GENERAL PUBLIC LICENSE Version 3. 
+ *
+ * You should have received a copy of the license with this file. You can
+ * as well find the license under http://www.gnu.org/licenses/gpl.txt
  */
-public class Log4jInit extends HttpServlet {
-
-	
-
-	/**
-	 * Ermittelt den Pfad der Konfigurationsdatei und initialisiert die Log4j
-	 * Log-Files. Diese Methode ist für den Serverbetrieb im Netz.
-	 */
-	public void init() {
-		// System.getProperties().list(System.out);
-		String prefix = getServletContext().getRealPath("/");
-		String dateiName = getInitParameter("log4j-init-file");
-		if (dateiName != null) {
-			PropertyConfigurator.configureAndWatch(prefix + dateiName);
-			Logger.getLogger(this.getClass()).debug(
-					"Log4J System konfigueriert.");
-		}
-	}
-
-	/**
-	 * Ermittelt den Pfad der Konfigurationsdatei und initialisiert die Log4j
-	 * Log-Files. Diese Methode ist für den Debug- und Testmodus (lokal).
-	 */
-	public static void initDebug() {
-		// System.getProperties().list(System.out);
-		String dateiPfad = "WebContent/WEB-INF/log4j.lcf.pat";
-
-		PropertyConfigurator.configureAndWatch(dateiPfad);
-		Logger.getLogger(Log4jInit.class).debug("Log4J System konfigueriert.");
-
-	}
-}
+ 
+/*
+ * This file is part of the RANDI2 Software. It is licensed under the GNU
+ * GENERAL PUBLIC LICENSE Version 3. 
+ *
+ * You should have received a copy of the license with this file. You can
+ * as well find the license under http://www.gnu.org/licenses/gpl.txt
+ */
+ 

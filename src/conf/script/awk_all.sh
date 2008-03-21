@@ -12,20 +12,20 @@ let RUN=$2+0 # wenn der PARAMETER 0 oder leer ist, wird ein DRY-Run durchgefuert
 # Festlegen koennen.
 HOST=$(uname -n)
 if test $HOST == 'victoria-i'; then
-	WORKSPACE='/home/jthoenes/programming/workspace2/RANDI2'
+	WORKSPACE='/home/jthoenes/programming/java_wpc/RANDI2'
 else
 	echo 'Dein Workspace ist nicht im Skript eingetragen. Skript wird beendet!';
 	exit 1;
 fi;
 
 # Existiert das awk-File
-if test -f "$FILE";
-then
-	echo 'Verarbeite ' $FILE;
-else
-	echo 'Die angebebene AWK Datei ' $FILE  'existiert nicht. Skript wird beendet!';
-	exit 1;
-fi;
+#if test -f "$FILE";
+#then
+#	echo 'Verarbeite ' $FILE;
+#else
+#	echo 'Die angebebene AWK Datei ' $FILE  'existiert nicht. Skript wird beendet!';
+#	exit 1;
+#fi;
 
 # Sucht alle *.java Dateien im $1 uebergebenen Verzeichnis
 # unter Unterverzeichnissen und fuehrt das akw Kommando aus.
@@ -38,35 +38,16 @@ function run_awk {
 			run_awk $1/$f;
 		fi;
 		
-		# Java Dateien
-		if test -f $1/$f;
-		then
-		#	if [[ "$f" =~ '.*\.jsp' ]];
-		#		then
-				# AWK Aufrufen
-				do_awk $1/$f;
-		#	fi;
-		fi;
+		
+		
 	done
 
 }
 
 # Fuehrt das awk Kommando auf die uebergebene Datei aus.
 function do_awk {
-	if test 1 -eq $RUN; 
-	then
-		# Ich weiss nicht, woran es liegt, aber der Umweg ist notwendig
-		awk -f $FILE $1 > $1.tmp; 	
-		cp $1.tmp $1;
-		rm $1.tmp;
-	else
-		# Aenderungen an der Datei anzeigen
-		echo $1 ":"
-		awk -f $FILE $1 > $1.tmp;
-		diff $1 $1.tmp;
-		rm $1.tmp;
-		echo -e "\n ---- \n"
-	fi;
+	#if test 1 -eq $RUN; 
+	cat /home/jthoenes/programming/java_wpc/RANDI2/gpl.java $1 > $1.tmp;
 }
 
-run_awk $WORKSPACE/WebContent;
+run_awk $WORKSPACE/src/de;
