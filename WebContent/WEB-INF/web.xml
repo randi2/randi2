@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+<web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>RANDI2</display-name>
-    <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
-        <url-pattern>*.htm</url-pattern>
-    </servlet-mapping>
-    <session-config><session-timeout>45</session-timeout></session-config>
+	<session-config><session-timeout>45</session-timeout></session-config>
 	<!-- Proxool AdminServlet, nur fuer Debug -->
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    <servlet>
+	<servlet>
 		<servlet-name>Admin</servlet-name>
 		<servlet-class>
 			org.logicalcobwebs.proxool.admin.servlet.AdminServlet
 		</servlet-class>
 	</servlet>
 
-    <servlet>
-        <servlet-name>dispatcher</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <load-on-startup>2</load-on-startup>
-    </servlet>
-    <servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>Admin</servlet-name>
 		<url-pattern>/admin</url-pattern>
 	</servlet-mapping>
@@ -37,7 +28,7 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<description/>
+		<description></description>
 		<display-name>BenutzerServlet</display-name>
 		<servlet-name>BenutzerServlet</servlet-name>
 		<servlet-class>
@@ -45,7 +36,7 @@
 		</servlet-class>
 	</servlet>
 	<servlet>
-		<description/>
+		<description></description>
 		<display-name>DispatcherServlet</display-name>
 		<servlet-name>DispatcherServlet</servlet-name>
 		<servlet-class>
@@ -53,7 +44,7 @@
 		</servlet-class>
 	</servlet>
 	<servlet>
-		<description/>
+		<description></description>
 		<display-name>DownloadServlet</display-name>
 		<servlet-name>DownloadServlet</servlet-name>
 		<servlet-class>
@@ -61,7 +52,7 @@
 		</servlet-class>
 	</servlet>
 	<servlet>
-		<description/>
+		<description></description>
 		<display-name>AjaxUploadStatusServlet</display-name>
 		<servlet-name>uploadStatus</servlet-name>
 		<servlet-class>
@@ -69,7 +60,7 @@
 		</servlet-class>
 	</servlet>
 	<servlet>
-		<description/>
+		<description></description>
 		<display-name>FileUploadServlet</display-name>
 		<servlet-name>fileUpload</servlet-name>
 		<servlet-class>
@@ -77,7 +68,7 @@
 		</servlet-class>
 	</servlet>
 	<servlet>
-		<description/>
+		<description></description>
 		<display-name>ZentrumServlet</display-name>
 		<servlet-name>ZentrumServlet</servlet-name>
 		<servlet-class>
@@ -103,7 +94,7 @@
 		</servlet-class>
 	</servlet>
 	<servlet>
-		<description/>
+		<description></description>
 		<display-name>AktivierungServlet</display-name>
 		<servlet-name>AktivierungServlet</servlet-name>
 		<servlet-class>
@@ -157,11 +148,7 @@
 		<welcome-file>DispatcherServlet</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/applicationContext.xml</param-value>
-    </context-param>
-    <filter>
+	<filter>
 		<filter-name>FilterExtended</filter-name>
 		<filter-class>de.randi2.controller.FilterExtended</filter-class>
 	</filter>
