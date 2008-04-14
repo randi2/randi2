@@ -4,18 +4,10 @@ import java.io.File;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 
 import javax.persistence.Entity;
 
 import de.randi2.model.exceptions.StudieException;
-import de.randi2.model.fachklassen.Studie.Status;
-import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
-import de.randi2.model.fachklassen.beans.StrataBean;
-import de.randi2.model.fachklassen.beans.StudienarmBean;
-import de.randi2.model.fachklassen.beans.ZentrumBean;
-import de.randi2.randomisation.Randomisation;
-import de.randi2.utility.NullKonstanten;
 
 @Entity
 public class Trial extends AbstractDomainObject {
@@ -93,11 +85,11 @@ public class Trial extends AbstractDomainObject {
 	private GregorianCalendar startDate;
 	private GregorianCalendar endDate;
 	
-	private File studienprotokollPfad = null;
+	//private File studienprotokollPfad = null;
 	
-	private Person leader = null;
-	private Center leadingCenter = null;
-	private List<Center> centers = null;
+	//private Person leader = null;
+	//private Center leadingCenter = null;
+	//private List<Center> centers = null;
 	
 	
 	private TrialStatus status = null;
@@ -106,6 +98,46 @@ public class Trial extends AbstractDomainObject {
 	public HashMap<String, String> getFilterMap() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public GregorianCalendar getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(GregorianCalendar startDate) {
+		this.startDate = startDate;
+	}
+
+	public GregorianCalendar getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(GregorianCalendar endDate) {
+		this.endDate = endDate;
+	}
+
+	public TrialStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(TrialStatus status) {
+		this.status = status;
 	}
 
 }

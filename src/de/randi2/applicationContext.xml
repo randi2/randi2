@@ -34,8 +34,10 @@
 	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 <!--		<property name="sessionFactory" ref="sessionFactory"></property>-->
 	</bean>
-	
 	<context:annotation-config></context:annotation-config>
+	
+		<bean id="trialDAO" class="de.randi2.dao.TrialDaoHibernate">
+	</bean>
 	
 
 
