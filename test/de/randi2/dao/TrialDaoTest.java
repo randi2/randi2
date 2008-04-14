@@ -30,13 +30,12 @@ public class TrialDaoTest extends AbstractTransactionalDataSourceSpringContextTe
 		t1.setDescription("Blaaa Fasel Blubb");
 		t1.setStartDate(new GregorianCalendar(2007,Calendar.FEBRUARY,1));
 		t1.setEndDate(new GregorianCalendar(2009, Calendar.SEPTEMBER, 30));
-		t1.setStatus(TrialStatus.AKTIV);
+		t1.setStatus(TrialStatus.ACTIVE);
 		
 		trialDao.save(t1);
 		
 		Trial t2 = trialDao.get(t1.getId());
-		assertNotNull(t2);
-		
+		assertNotNull(t2);	
 	}
 
 }

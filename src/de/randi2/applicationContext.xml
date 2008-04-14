@@ -4,8 +4,7 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
-		default-autowire="byName"
-		>
+	default-autowire="byName">
 
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource">
@@ -13,7 +12,7 @@
 			<value>com.mysql.jdbc.Driver</value>
 		</property>
 		<property name="url">
-			<value>jdbc:mysql://localhost:3306/randi2_development</value>
+			<value>jdbc:mysql://localhost/randi2_development</value>
 		</property>
 		<property name="username">
 			<value>randi2</value>
@@ -22,23 +21,33 @@
 			<value>randi</value>
 		</property>
 	</bean>
-	
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-<!--		<property name="dataSource" ref="dataSource"></property>-->
-		<property name="hibernateProperties" value="org.hibernate.dialect.MySQL5Dialect"></property>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<!--		<property name="dataSource" ref="dataSource"></property>-->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQL5Dialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>
+<!--				<prop key="hibernate.connection.autocommit">true</prop>-->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
 		<property name="annotatedClasses">
 			<value>de.randi2.model.Trial</value>
 		</property>
 	</bean>
-	
-	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-<!--		<property name="sessionFactory" ref="sessionFactory"></property>-->
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<!--		<property name="sessionFactory" ref="sessionFactory"></property>-->
 	</bean>
 	<context:annotation-config></context:annotation-config>
-	
-		<bean id="trialDAO" class="de.randi2.dao.TrialDaoHibernate">
-	</bean>
-	
+
+	<bean id="trialDAO" class="de.randi2.dao.TrialDaoHibernate"></bean>
+
 
 
 </beans>

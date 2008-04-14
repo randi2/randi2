@@ -3,7 +3,6 @@ package de.randi2.model;
 import java.io.File;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.persistence.Entity;
 
@@ -17,26 +16,11 @@ public class Trial extends AbstractDomainObject {
 	 */
 	public static enum TrialStatus {
 
-		/**
-		 * Status aktiv
-		 */
-		AKTIV("aktiv"),
-		/**
-		 * Status in Vorbereitung
-		 */
-		INVORBEREITUNG("in Vorbereitung"),
-		/**
-		 * Status Studie beendet
-		 */
-		BEENDET("beendet"),
-		/**
-		 * Studie pausiert
-		 */
-		PAUSE("pausiert");
+		ACTIVE("active"),
+		IN_PREPARATION("in preparation"),
+		FINISHED("finished"),
+		PAUSED("paused");
 
-		/**
-		 * Den Status als String.
-		 */
 		private String status = null;
 
 		/**
@@ -58,25 +42,6 @@ public class Trial extends AbstractDomainObject {
 		public String toString() {
 			return this.status;
 		}
-
-		/**
-		 * Ueberfuehrt einen String in das entsprechende Status-Element
-		 * 
-		 * @param status
-		 *            Status der Studie
-		 * @return Status in Form eines Enumelementes
-		 * @throws StudieException
-		 *             StudieException
-		 */
-		public static TrialStatus parseStatus(String status) throws StudieException {
-
-			for (TrialStatus aStatus : TrialStatus.values()) {
-				if (status.equals(aStatus.toString())) {
-					return aStatus;
-				}
-			}
-			throw new StudieException(StudieException.STATUS_UNGUELTIG);
-		}
 	}
 	
 	
@@ -85,7 +50,7 @@ public class Trial extends AbstractDomainObject {
 	private GregorianCalendar startDate;
 	private GregorianCalendar endDate;
 	
-	//private File studienprotokollPfad = null;
+	private File protocol = null;
 	
 	//private Person leader = null;
 	//private Center leadingCenter = null;
@@ -138,6 +103,14 @@ public class Trial extends AbstractDomainObject {
 
 	public void setStatus(TrialStatus status) {
 		this.status = status;
+	}
+
+	public File getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(File protocol) {
+		this.protocol = protocol;
 	}
 
 }
