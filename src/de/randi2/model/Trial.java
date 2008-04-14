@@ -6,8 +6,6 @@ import java.util.HashMap;
 
 import javax.persistence.Entity;
 
-import de.randi2.model.exceptions.StudieException;
-
 @Entity
 public class Trial extends AbstractDomainObject {
 
