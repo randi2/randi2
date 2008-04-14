@@ -535,7 +535,16 @@ public class BenutzerServlet extends javax.servlet.http.HttpServlet {
 				Logger.getLogger(this.getClass()).fatal(
 						"Fehler bei Benutzerfilterung", e);
 			}
-			if (gBenutzer.size() == 1) { // _genau_ ein Konto gefunden
+			if (gBenutzer == null) {
+				
+				Logger.getLogger(this.getClass()).fatal(
+						"Datenbankserver nicht erreichbar!");				
+				
+				weiterleitungBeiFehler(
+						"Loginfehler:<br> Datenbankserver nicht erreichbar",
+						request, response);				
+				
+			} else if (gBenutzer.size() == 1) { // _genau_ ein Konto gefunden
 				Logger
 						.getLogger(this.getClass())
 						.debug(
