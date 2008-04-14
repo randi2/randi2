@@ -1,45 +1,61 @@
-<!-- ANT-Skript um einen Build des Randi-Projektes anzustossen -->
 <project name="randi2" default="war" basedir=".">
-
-	<target name="init">
-		<!-- festlegen der benoetigten Pfade -->
-		<property name="src" value="src" />
-		<property name="build" value="build" />
-		<property name="junit" value="junit" />
-		<property name="doc_dir" value="doc" />
-		<property name="junit_lib" value="/opt/junit4.1" />
-		<property name="tomcat_lib" value="/opt/tomcat/common/lib/" />
-		<property name="web_lib" value="WebContent/WEB-INF/lib" />
-		<property name="protokolle_dir" value="WebContent/WEB-INF/protokolle" />		
-		<!-- den build-Ordner loeschen-->
-		<delete dir="${build}" includeemptydirs="true" />
-		<!-- und wieder erstellen -->
+    <description>
+        Build-Skript RANDI2
+    </description>
+	
+	<property environment="env"/> <!-- enable env-vars-->
+	<property file="build.properties" /> <!-- reading prop file-->
+	
+	<property name="src" value="src" />
+	<property name="build" value="build" />
+	<property name="junit" value="junit" />
+	<property name="doc_dir" value="doc" />
+	<!--property name="junit_lib" value="" /-->
+	<property name="tomcat_lib" value="${env.CATALINA_HOME}/lib/" />
+	<property name="web_lib" value="WebContent/WEB-INF/lib" />
+	<property name="protokolle_dir" value="WebContent/WEB-INF/protokolle" />
+	
+	
+	
+	<path id="classpath.base">
+		<fileset dir="${tomcat_lib}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="WebContent/WEB-INF/lib">
+			<include name="*.jar" />
+		</fileset>
+    </path>
+	
+	<path id="classpath.test">
+		<fileset dir="${junit_lib}">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement location="${build}" />
+		<fileset dir="${build}" includes="*.jar" />
+    </path>
+	
+	
+	<target name="init" description="--> Init Build, make Dirs">
 		<mkdir dir="${build}" />
 		<mkdir dir="${junit}" />
 		<mkdir dir="${doc_dir}" />
 		<mkdir dir="${protokolle_dir}" />
-		<chmod perm="644" dir="${protokolle_dir}"></chmod>
+		<chmod perm="644" dir="${protokolle_dir}" />
 	</target>
 
 	<!-- Target uebersetzt das Projekt, die Junit/Selenium-Tests werden erstmal aussen vor gelassen -->
-	<target name="compile" depends="init">
-		<javac srcdir="${src}" deprecation="off" destdir="${build}" includes="**" failonerror="false">
-			<classpath>
-				<fileset dir="${tomcat_lib}">
-					<include name="*.jar" />
-				</fileset>
-				<fileset dir="${junit_lib}">
-					<include name="*.jar" />
-				</fileset>
-				<fileset dir="WebContent/WEB-INF/lib">
-					<include name="*.jar" />
-				</fileset>
-			</classpath>
+	<target name="compile" depends="init" description="--> compiling source">
+		<javac srcdir="${src}" 
+				deprecation="off" 
+				destdir="${build}" 
+				includes="**" 
+				failonerror="false">
+			<classpath refid="classpath.base" />
 		</javac>
 	</target>
 
 	<!-- Target erstellt die JavaDoc-Dokumentation -->
-	<target name="javadoc">
+	<target name="javadoc" description="--> generate javadoc">
 		 <javadoc packagenames="de.randi2.*"
 		           sourcepath="${src}"
 		           defaultexcludes="yes"
@@ -56,21 +72,11 @@
 	</target>
 	
 	<!-- Target fuehrt die Junit-Tests durch und erstellt die Dokumentation fuer die Tests-->
-	<target name="test" depends="compile">
-		<junit printsummary="yes" fork="true" haltonfailure="no">
-			<classpath>
-				<pathelement location="${build}" />
-				<fileset dir="${build}" includes="*.jar" />
-				<fileset dir="${tomcat_lib}">
-					<include name="*.jar" />
-				</fileset>
-				<fileset dir="${junit_lib}">
-					<include name="*.jar" />
-				</fileset>
-				<fileset dir="WebContent/WEB-INF/lib">
-					<include name="*.jar" />
-				</fileset>
-			</classpath>
+	<target name="test" depends="compile" description="--> running Tests">
+		<junit printsummary="yes" 
+				fork="true" 
+				haltonfailure="no">
+			<classpath refid="classpath.test" />
 			<formatter type="xml" />
 			<batchtest haltonfailure="no" todir="${junit}">
 				<fileset dir="${src}">
@@ -88,11 +94,13 @@
 	</target>
 
 	<!-- Target erstellt das war-Archiv -->
-	<target name="war" depends="compile">
-		<!-- kopiere die Conf Dateien -->
-		<copydir dest="${build}/conf" src="${src}/conf"></copydir>
+	<target name="war" depends="compile" description="--> Packing war">
+		<!-- prepare  -->
+		<copy toDir="${build}/conf" >
+			<fileset dir="${src}/conf"/>
+		</copy>
 		<copy file="WebContent/WEB-INF/log4j.lcf.server" tofile="WebContent/WEB-INF/log4j.lcf"/>
-		<!-- Datum einfuegen -->
+		
 		<war warfile="${build}/randinightly.war" webxml="WebContent/WEB-INF/web.xml">
 			<classes dir="${build}">
 				<patternset id="klassen">
@@ -108,8 +116,12 @@
 				</patternset>
 			</fileset>
 			<lib dir="${web_lib}" />
-			
 		</war>
 	</target>
-
+	
+	<target name="clean" description="--> clean up the mess">
+		<delete dir="${build}" includeemptydirs="true" />
+		<delete dir="${junit}" includeemptydirs="true" />
+		<delete dir="${doc_dir}" includeemptydirs="true" />
+	</target>
 </project>
