@@ -18,7 +18,7 @@ import de.randi2.randomisation.Randomisation;
 import de.randi2.utility.NullKonstanten;
 
 @Entity
-public class Trial extends PersistentDomainObject {
+public class Trial extends AbstractDomainObject {
 
 	/**
 	 * Enumeration Status der Studie

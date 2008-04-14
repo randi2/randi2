@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Version;
 
 @Entity
-public abstract class PersistentDomainObject implements Serializable{
+public abstract class AbstractDomainObject implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -21,11 +21,11 @@ public abstract class PersistentDomainObject implements Serializable{
 	
 	private boolean filter;
 	
-	protected PersistentDomainObject(){
+	protected AbstractDomainObject(){
 		this.filter = false;
 	}
 	
-	protected PersistentDomainObject(boolean _filter){
+	protected AbstractDomainObject(boolean _filter){
 		this.filter = filter;
 	}
 	
