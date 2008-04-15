@@ -22,6 +22,7 @@ public abstract class AbstractDomainObject implements Serializable{
 	@Version
 	private Integer version;
 	
+	
 	private boolean filter;
 	
 	protected AbstractDomainObject(){
@@ -29,7 +30,7 @@ public abstract class AbstractDomainObject implements Serializable{
 	}
 	
 	protected AbstractDomainObject(boolean _filter){
-		this.filter = filter;
+		this.filter = _filter;
 	}
 	
 	public abstract HashMap<String, String> getFilterMap();
@@ -52,7 +53,7 @@ public abstract class AbstractDomainObject implements Serializable{
 
 	private void setVersion(Integer _version) {
 		this.version = _version;
-	}	
+	}
 	
 	
 }
