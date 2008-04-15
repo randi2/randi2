@@ -32,13 +32,19 @@ public class ConnectionFactory {
 		try {
 			pfad = Datenbank.class.getResource("/conf/release/proxool_cfg.xml")
 					.getPath();
+			System.out.println(System.getProperty("os.name"));
 			if (System.getProperty("os.name").indexOf("Win") != -1) {
 				Logger.getLogger(this.getClass()).debug("Betriebssystem: Windows");
 				pfad=HttpUnitUtils.decode(Datenbank.class.getResource(
 						"/conf/release/proxool_cfg.xml").getPath());
 			}
+			if(System.getProperty("os.name").equalsIgnoreCase("mac os x")){
+				Logger.getLogger(this.getClass()).debug("Betriebssystem: MacOSX");
+				pfad=HttpUnitUtils.decode(Datenbank.class.getResource(
+				"/conf/release/proxool_cfg.xml").getPath());
+			}
 			JAXPConfigurator.configure(pfad, false);
-		} catch (ProxoolException e) {	
+		} catch (ProxoolException e) {
 			new DatenbankExceptions(DatenbankExceptions.PROXOOL_CONF_ERR);
 		}
 		Logger.getLogger(this.getClass()).info("ConnectionFactory initialisiert!");
@@ -66,6 +72,7 @@ public class ConnectionFactory {
 		Connection con=null;
 			try {
 				con = DriverManager.getConnection("proxool.randi2");
+				
 			} catch (SQLException e) {
 				DatenbankExceptions de = new DatenbankExceptions(DatenbankExceptions.CONNECTION_ERR);
 				de.initCause(e);
