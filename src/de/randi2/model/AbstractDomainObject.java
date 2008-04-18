@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 @Entity
@@ -17,12 +18,12 @@ public abstract class AbstractDomainObject implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE)
-	private Long id;
+	private long id;
 	
 	@Version
-	private Integer version;
+	private int version;
 	
-	
+	@Transient
 	private boolean filter;
 	
 	protected AbstractDomainObject(){
@@ -35,11 +36,11 @@ public abstract class AbstractDomainObject implements Serializable{
 	
 	public abstract HashMap<String, String> getFilterMap();
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public Integer getVersion() {
+	public int getVersion() {
 		return version;
 	}
 
@@ -47,11 +48,11 @@ public abstract class AbstractDomainObject implements Serializable{
 		return filter;
 	}
 
-	private void setId(Long _id) {
+	public void setId(long _id) {
 		this.id = _id;
 	}
 
-	private void setVersion(Integer _version) {
+	public void setVersion(int _version) {
 		this.version = _version;
 	}
 	

@@ -38,7 +38,7 @@ public class Log4jInit extends HttpServlet {
 	 */
 	public static void initDebug() {
 		// System.getProperties().list(System.out);
-		String dateiPfad = "WebContent/WEB-INF/log4j.lcf.pat";
+		String dateiPfad = "WebContent/WEB-INF/log4j.lcf";
 
 		PropertyConfigurator.configureAndWatch(dateiPfad);
 		Logger.getLogger(Log4jInit.class).debug("Log4J System konfigueriert.");

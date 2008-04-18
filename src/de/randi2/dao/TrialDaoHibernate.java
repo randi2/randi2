@@ -1,17 +1,19 @@
 package de.randi2.dao;
 
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Trial;
 
-public class TrialDaoHibernate extends HibernateDaoSupport implements TrialDao {
-
-	public Trial get(Long id) {
-		return (Trial) getSession().get(Trial.class, id);
+public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements TrialDao {
+	
+	public Trial get(long id) {
+		return (Trial) template.get(Trial.class, id);
 	}
 
+	
 	public void save(Trial trial) {
-		getSession().saveOrUpdate(trial);
+		template.saveOrUpdate(trial);
 	}
 
 }
