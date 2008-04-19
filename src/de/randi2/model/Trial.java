@@ -5,6 +5,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 
 @Entity
 public class Trial extends AbstractDomainObject {
@@ -43,6 +44,13 @@ public class Trial extends AbstractDomainObject {
 	}
 	
 	
+	// Name
+	public static final String NAME_NOT_EMPTY = "Der Name der Studie darf nicht leer sein.";
+	public static final String NAME_LENGTH = "Der Name der Studie muss zwischen 2 und 32 Zeichen lang sein.";
+	
+	public static final String START_DATE_NOT_EMTPY = "Das Startdatum der Studie darf nicht null sein.";
+	
+	
 	private String name;
 	private String description;
 	private GregorianCalendar startDate;
@@ -78,11 +86,12 @@ public class Trial extends AbstractDomainObject {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	
 	public GregorianCalendar getStartDate() {
 		return startDate;
 	}
 
+	
 	public void setStartDate(GregorianCalendar startDate) {
 		this.startDate = startDate;
 	}

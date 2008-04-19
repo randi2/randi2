@@ -39,6 +39,10 @@
 			<value>de.randi2.model.Trial</value>
 		</property>
 	</bean>
+	
+	
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+	</bean>
 
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
