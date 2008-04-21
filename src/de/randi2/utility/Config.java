@@ -286,16 +286,4 @@ public final class Config {
          */
         RELEASE_UPLOAD_PATH_TMP,
     }
-
-    /**
-     * Main-Methode zum Testen
-     * 
-     * @param args
-     *            Parameter bei Programmstart
-     */
-    public static void main(String[] args) {
-        for (Config.Felder e : Config.Felder.values()) {
-            System.out.println(Config.getProperty(e));
-        }
-    }
 }
