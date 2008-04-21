@@ -298,19 +298,19 @@ Ext.onReady(function(){
         value:'<%=aTitel %>',
         selectOnFocus:true,
         editable:false,
-        width:140
+        width:150
     });
     
 	var vorname = new Ext.form.MiscField({
         fieldLabel: 'Vorname:',
         value: '<%=aVorname %>',
-        width:190
+        width:150
 	});    
     
 	var nachname = new Ext.form.MiscField({
         fieldLabel: 'Nachname:',
         value: '<%=aNachname %>',
-        width:190
+        width:150
 	});    
     
 	var geschlecht = new Ext.form.MiscField({
@@ -322,7 +322,7 @@ Ext.onReady(function(){
 		%>weiblich<%
 			}
 		%>',
-        width:190
+        width:150
 	});    
         
     var passwort = new Ext.form.TextField({
@@ -330,7 +330,7 @@ Ext.onReady(function(){
         name: '<%=Parameter.benutzerkonto.PASSWORT.name() %>',
         value: '',
         allowBlank:true,
-        width:190,
+        width:150,
         inputType:'password',
         minLength:6,
         minLengthText:'Das Passwort muss mindestens 6 Zeichen umfassen!',
@@ -342,7 +342,7 @@ Ext.onReady(function(){
         name: '<%=Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG.name() %>',
         value: '',
         allowBlank:true,
-        width:190,
+        width:150,
         inputType:'password',
 		minLength:6,
         minLengthText:'Das Passwort muss mindestens 6 Zeichen umfassen!',
@@ -366,7 +366,7 @@ Ext.onReady(function(){
         fieldLabel: 'Telefon *:',
         name: '<%=Parameter.person.TELEFONNUMMER.name() %>',
         value: '<%=aTelefonnummer %>',
-        width:190,
+        width:150,
         allowBlank:false,
         minLength:6,
         maxLength:26,
@@ -379,7 +379,7 @@ Ext.onReady(function(){
         fieldLabel: 'Handy:',
         name: '<%=Parameter.person.HANDYNUMMER.name() %>',
         value: '<%=aHandynummer %>',
-        width:190,
+        width:150,
         allowBlank:true,
         minLength:7,
         maxLength:26,
@@ -391,7 +391,7 @@ Ext.onReady(function(){
         fieldLabel: 'Fax:',
         name: '<%=Parameter.person.FAX.name() %>',
         value: '<%=aFax %>',
-        width:190,
+        width:150,
         allowBlank:true,
         minLength:6,
         maxLength:26,
@@ -418,7 +418,7 @@ Ext.onReady(function(){
         fieldLabel: 'Vorname *:',
         name: '<%=Parameter.person.STELLVERTRETER_VORNAME.name() %>',
         value: '<%=aStellvertreterVorname %>',
-        width:190,
+        width:150,
         allowBlank:false,
         editable:true,
         minLength:2,
@@ -432,7 +432,7 @@ Ext.onReady(function(){
         fieldLabel: 'Nachname *:',
         name: '<%=Parameter.person.STELLVERTRETER_NACHNAME.name() %>',
         value: '<%=aStellvertreterNachname %>',
-        width:190,
+        width:150,
         allowBlank:false,
         editable:true,
         minLength:2,
@@ -467,7 +467,7 @@ Ext.onReady(function(){
 		%>
 		selectOnFocus:true,
         editable:false,
-        width:140,
+        width:150,
         allowBlank:true,
         blankText:'Bitte das Geschlecht des Stellvertreters auswaehlen!'
     });
@@ -498,14 +498,14 @@ Ext.onReady(function(){
         value:'<%=aStellvertreterTitel %>',
         selectOnFocus:true,
         editable:false,
-        width:140
+        width:150
     });
     
     var stellvertreter_telefon = new Ext.form.TextField({
         fieldLabel: 'Telefon *:',
         name: '<%=Parameter.person.STELLVERTRETER_TELEFONNUMMER.name() %>',
         value: '<%=aStellvertreterTelefon %>',
-        width:190,
+        width:150,
         allowBlank:false,
         minLength:6,
         maxLength:26,
@@ -520,7 +520,7 @@ Ext.onReady(function(){
         fieldLabel: 'E-Mail *:',
         name: '<%=Parameter.person.STELLVERTRETER_EMAIL.name() %>',
         value: '<%=aStellvertreterEmail %>',
-        width:190,
+        width:150,
         allowBlank:false,
         minLength:2,
         maxLength:255,

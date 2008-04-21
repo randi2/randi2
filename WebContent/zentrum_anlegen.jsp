@@ -84,7 +84,7 @@ Ext.onReady(function(){
         fieldLabel: 'Hausnr. *',
         name: '<%=Parameter.zentrum.HAUSNUMMER %>',
         value: '<%if(request.getAttribute(Parameter.zentrum.HAUSNUMMER.name())!=null){out.print(request.getAttribute(Parameter.zentrum.HAUSNUMMER.name()));} %>',
-        width:60,
+        width:190,
         allowBlank:false,
         minLength:1,
         maxLength:10,
@@ -97,7 +97,7 @@ Ext.onReady(function(){
         fieldLabel: 'Postleitzahl *',
         name: '<%=Parameter.zentrum.PLZ %>',
         value: '<%if(request.getAttribute(Parameter.zentrum.PLZ.name())!=null){out.print(request.getAttribute(Parameter.zentrum.PLZ.name()));} %>',
-        width:60,
+        width:190,
         allowNegative: false,
         allowDecimals: false,
         allowBlank:false,
@@ -194,7 +194,7 @@ Ext.onReady(function(){
 		%>
 		selectOnFocus:true,
         editable:false,
-        width:140,
+        width:190,
         allowBlank:true,
         blankText:'Bitte das Geschlecht des Stellvertreters auswaehlen!'
     });

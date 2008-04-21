@@ -156,14 +156,14 @@ Ext.onReady(function(){
         value:'<%=aTitel %>',
         selectOnFocus:true,
         editable:false,
-        width:140
+        width:150
     });
     
     var vorname = new Ext.form.TextField({
         fieldLabel: 'Vorname *:',
         name: '<%=Parameter.person.VORNAME.name() %>',
         value: '<%=aVorname %>',
-        width:190,
+        width:150,
         allowBlank:false,
         minLength:2,
         maxLength:50,
@@ -176,7 +176,7 @@ Ext.onReady(function(){
         fieldLabel: 'Nachname *:',
         name: '<%=Parameter.person.NACHNAME.name() %>',
         value: '<%=aNachname %>',
-        width:190,
+        width:150,
         allowBlank:false,
         minLength:2,
         maxLength:50,
@@ -210,7 +210,7 @@ Ext.onReady(function(){
 		%>
 		selectOnFocus:true,
         editable:false,
-        width:140,
+        width:150,
         allowBlank:false,
         blankText:'Bitte Ihr Geschlecht auswaehlen!'
     });
@@ -220,7 +220,7 @@ Ext.onReady(function(){
         name: '<%=Parameter.benutzerkonto.PASSWORT.name() %>',
         value: '',
         allowBlank:false,
-        width:190,
+        width:150,
         inputType:'password',
         minLength:6,
         minLengthText:'Das Passwort muss mindestens 6 Zeichen umfassen!',
@@ -232,7 +232,7 @@ Ext.onReady(function(){
         name: '<%=Parameter.benutzerkonto.PASSWORT_WIEDERHOLUNG.name() %>',
         value: '',
         allowBlank:false,
-        width:190,
+        width:150,
         inputType:'password',
 		minLength:6,
         minLengthText:'Das Passwort muss mindestens 6 Zeichen umfassen!',
@@ -252,7 +252,7 @@ Ext.onReady(function(){
         fieldLabel: 'E-Mail *:',
         name: '<%=Parameter.person.EMAIL.name() %>',
         value: '<%=aEmail %>',
-        width:190,
+        width:150,
         allowBlank:false,
         minLength:2,
         maxLength:255,
@@ -266,7 +266,7 @@ Ext.onReady(function(){
         fieldLabel: 'Telefon *:',
         name: '<%=Parameter.person.TELEFONNUMMER.name() %>',
         value: '<%=aTelefonnummer %>',
-        width:190,
+        width:150,
         allowBlank:false,
         minLength:6,
         maxLength:26,
@@ -279,7 +279,7 @@ Ext.onReady(function(){
         fieldLabel: 'Handy:',
         name: '<%=Parameter.person.HANDYNUMMER.name() %>',
         value: '<%=aHandynummer %>',
-        width:190,
+        width:150,
         allowBlank:true,
         minLength:7,
         maxLength:26,
@@ -291,7 +291,7 @@ Ext.onReady(function(){
         fieldLabel: 'Fax:',
         name: '<%=Parameter.person.FAX.name() %>',
         value: '<%=aFax %>',
-        width:190,
+        width:150,
         allowBlank:true,
         minLength:6,
         maxLength:26,

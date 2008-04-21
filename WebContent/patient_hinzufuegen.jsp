@@ -171,7 +171,7 @@ Ext.onReady(function(){
 
     var form_patient_adden = new Ext.form.Form({
         labelAlign: 'left',
-        labelWidth: 250,
+        labelWidth: 200,
 		buttonAlign: 'left',
 		id: 'form_patient_adden1'
     });
@@ -181,7 +181,7 @@ Ext.onReady(function(){
         fieldLabel: 'Initialen *',
         name: '<%=Parameter.patient.INITIALEN.name() %>',
         value: '<%=aInitialen %>',
-        width:70,
+        width:140,
         allowBlank:false,
         minLength:2,
         maxLength:4,
@@ -225,7 +225,7 @@ Ext.onReady(function(){
     var geburtsdatum = new Ext.form.DateField({
         fieldLabel: 'Geburtsdatum *',
         name: '<%=Parameter.patient.GEBURTSDATUM.name() %>',
-        width:100,
+        width:140,
         allowBlank:false,
         blankText:'Bitte das Geburtsdatum w&auml;hlen!',
 		format:'d.m.Y',
@@ -236,7 +236,7 @@ Ext.onReady(function(){
     var datumaufklaerung = new Ext.form.DateField({
         fieldLabel: 'Datum der Patientenaufkl&auml;rung *',
         name: '<%=Parameter.patient.DATUMAUFKLAERUNG.name() %>',
-        width:100,
+        width:140,
         allowBlank:false,
         blankText:'Bitte das Datum der Aufkl&auml;rung w&auml;hlen!',
 		format:'d.m.Y',
@@ -252,7 +252,7 @@ Ext.onReady(function(){
         decimalSeparator: '.',
         allowNegative: false,
         allowDecimals: true,
-        width:190,
+        width:140,
         allowBlank:false,
         minValue:0.05,
         maxValue:4,

@@ -141,7 +141,7 @@ Ext.onReady(function(){
         allowBlank:false,
 		blankText:'Bitte einen Titel auswählen!',
         editable:false,
-        width:140
+        width:150
     });
     
         var institut = new Ext.form.ComboBox({
@@ -172,14 +172,14 @@ Ext.onReady(function(){
 		allowBlank:false,
 		blankText:'Bitte ein Institut auswählen!',
         editable:false,
-        width:140
+        width:150
     });
     
     var vorname = new Ext.form.TextField({
         fieldLabel: 'Vorname *:',
         name: '<%=Parameter.person.VORNAME.name() %>',
         value: '<%=aVorname %>',
-        width:190,
+        width:150,
         allowBlank:false,
         minLength:2,
         maxLength:50,
@@ -192,7 +192,7 @@ Ext.onReady(function(){
         fieldLabel: 'Nachname *:',
         name: '<%=Parameter.person.NACHNAME.name() %>',
         value: '<%=aNachname %>',
-        width:190,
+        width:150,
         allowBlank:false,
         minLength:2,
         maxLength:50,
@@ -220,7 +220,7 @@ Ext.onReady(function(){
         triggerAction: 'all',
 		selectOnFocus:true,
         editable:false,
-        width:140,
+        width:150,
         allowBlank:false,
         emptyText:'--Bitte auswählen--',
         blankText:'Bitte das Geschlecht auswählen!'
@@ -233,7 +233,7 @@ Ext.onReady(function(){
         name: '<%=Parameter.benutzerkonto.LOGINNAME.name() %>',
         value: '<%=aBenutzername%>',
         allowBlank:false,
-        width:190,
+        width:150,
         minLength:6,
         minLengthText:'Der Benutzername muss mindestens 6 Zeichen umfassen!',
         blankText:'Bitte ein Benutzernamen eingeben!'
@@ -252,7 +252,7 @@ Ext.onReady(function(){
         fieldLabel: 'E-Mail *:',
         name: '<%=Parameter.person.EMAIL.name() %>',
         value: '<%=aEmail %>',
-        width:190,
+        width:150,
         allowBlank:false,
         minLength:2,
         maxLength:255,
@@ -266,7 +266,7 @@ Ext.onReady(function(){
         fieldLabel: 'Telefon *:',
         name: '<%=Parameter.person.TELEFONNUMMER.name() %>',
         value: '<%=aTelefon%>',
-        width:190,
+        width:150,
         allowBlank:false,
         minLength:6,
         maxLength:26,
@@ -279,7 +279,7 @@ Ext.onReady(function(){
         fieldLabel: 'Fax:',
         name: '<%=Parameter.person.FAX.name() %>',
         value: '<%=aFax %>',
-        width:190,
+        width:150,
         allowBlank:true,
         minLength:6,
         maxLength:26,
@@ -296,7 +296,7 @@ Ext.onReady(function(){
  var vornameStell = new Ext.form.TextField({
         fieldLabel: 'Vorname *:',
         name: '<%=Parameter.person.STELLVERTRETER_VORNAME.name() %>',
-        width:190,
+        width:150,
         allowBlank:false,
         value:'<%=aVornameA%>',
         minLength:2,
@@ -325,7 +325,7 @@ Ext.onReady(function(){
         triggerAction: 'all',
 		selectOnFocus:true,
         editable:false,
-        width:140,
+        width:150,
         allowBlank:false,
         emptyText:'--Bitte auswählen--',
         blankText:'Bitte das Geschlecht auswählen!'
@@ -335,7 +335,7 @@ Ext.onReady(function(){
         fieldLabel: 'Nachname *:',
         name: '<%=Parameter.person.STELLVERTRETER_NACHNAME.name() %>',
         value: '<%=aNachnameA %>',
-        width:190,
+        width:150,
         allowBlank:false,
         minLength:2,
         maxLength:50,
@@ -348,7 +348,7 @@ Ext.onReady(function(){
         fieldLabel: 'Telefon *:',
         name: '<%=Parameter.person.STELLVERTRETER_TELEFONNUMMER.name() %>',
         value: '<%=aTelefonA%>',
-        width:190,
+        width:150,
         allowBlank:false,
         minLength:6,
         maxLength:26,
@@ -362,7 +362,7 @@ Ext.onReady(function(){
         fieldLabel: 'E-Mail *:',
         name: '<%=Parameter.person.STELLVERTRETER_EMAIL.name()%>',
         value: '<%=aEmailA %>',
-        width:190,
+        width:150,
         allowBlank:false,
         minLength:2,
         maxLength:255,
@@ -403,7 +403,7 @@ Ext.onReady(function(){
         allowBlank:false,
 		blankText:'Bitte einen Titel auswählen!',
         editable:false,
-        width:140
+        width:150
     });
     
     
