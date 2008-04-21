@@ -140,7 +140,7 @@ Ext.onReady(function(){
 				for (int i = 0; i < PersonBean.Titel.values().length; i++) {
 					titel.append(PersonBean.Titel.values()[i].toString());
 			%>
-			['<%=titel%>'],
+			['<%=titel.toString()%>'],
 			<%
 					titel.delete(0, titel.length());
 				}
