@@ -331,7 +331,7 @@ Ext.onReady(function(){
 	        				StrataAuspraegungBean aAuspraegung = (StrataAuspraegungBean)aAuspraegungen.next();
 	
 	        			%>
-	        			['<%=aAuspraegung.getId()%>','<%=aAuspraegung.getName()%>'],
+	        			['<%=aAuspraegung.getId()%>','<%=aAuspraegung.getName()%>']<%if(aAuspraegungen.hasNext()){ %>,<%}%>
 	        			<%
 	        			}
 	            

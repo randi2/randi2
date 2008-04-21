@@ -109,6 +109,7 @@ Ext.onReady(function(){
         labelAlign: 'left',
         labelWidth: 200,
 		buttonAlign: 'left',
+		id: 'id_form_admin_anlegen'
     });
     
     var titel = new Ext.form.ComboBox({

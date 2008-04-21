@@ -38,7 +38,7 @@ Ext.onReady(function(){
         labelAlign: 'top',
         labelWidth: 200,
 		buttonAlign: 'left',
-		id: 'zentrum_aendern'
+		id: 'zentrum_aendern1'
     });
     
     var institution = new Ext.form.TextField({
