@@ -268,7 +268,7 @@ Ext.onReady(function(){
         labelAlign: 'left',
         labelWidth: 200,
 		buttonAlign: 'left',
-		id: 'form_daten_aendern'
+		id: 'form_daten_aendern1'
     });
     
     var titel = new Ext.form.ComboBox({
@@ -282,7 +282,8 @@ Ext.onReady(function(){
 				for (int i = 0; i < PersonBean.Titel.values().length; i++) {
 					titel.append(PersonBean.Titel.values()[i].toString());
 			%>
-			['<%=titel%>'],
+			['<%=titel.toString()%>']<% if(i!=PersonBean.Titel.values().length-1)
+			{%>,<%}%>
 			<%
 					titel.delete(0, titel.length());
 				}
@@ -571,7 +572,7 @@ Ext.onReady(function(){
 <script>
 function eraseStellvertreter() {
 
-	var frm = document.getElementById('form_daten_aendern');
+	var frm = document.getElementById('form_daten_aendern1');
 	frm.<%=Parameter.person.STELLVERTRETER_NACHNAME %>.value = '';
 	frm.<%=Parameter.person.STELLVERTRETER_VORNAME %>.value = '';
 	frm.<%=Parameter.person.STELLVERTRETER_EMAIL %>.value = '';
