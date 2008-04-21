@@ -10,7 +10,7 @@
 	import="de.randi2.model.fachklassen.*" import="de.randi2.utility.*"
 	import="java.text.SimpleDateFormat" import="java.util.*"%>
 <%
-			request.setAttribute(DispatcherServlet.requestParameter.TITEL
+	request.setAttribute(DispatcherServlet.requestParameter.TITEL
 			.toString(), JspTitel.BENUTZER_ANLEGEN_EINS.toString());
 %>
 <head>
@@ -27,10 +27,11 @@ Ext.onReady(function(){
         labelAlign: 'left',
         labelWidth: 0,
 		buttonAlign: 'left',
+		id: 'disclaimer'
     });
     
     var disclaimer_text = new Ext.form.TextArea({
-        name: '',
+        name: 'disclaimer_text',
         value:'<%=Config.getProperty(Config.Felder.RELEASE_DISCLAIMER) %>',
         width:500,
         height:500,
