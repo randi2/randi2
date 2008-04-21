@@ -11,11 +11,11 @@
 			DispatcherServlet.sessionParameter.A_Benutzer
 			.toString())).getRolle().getRollenname();
 
-	Iterator listeStudien = ((Vector) request
+	Iterator<StudieBean> listeStudien = ((Vector<StudieBean>) request
 			.getAttribute(StudieServlet.requestParameter.LISTE_DER_STUDIEN
 			.toString())).iterator();
 
-	Iterator listeStudien2 = ((Vector) request
+	Iterator<StudieBean> listeStudien2 = ((Vector<StudieBean>) request
 			.getAttribute(StudieServlet.requestParameter.LISTE_DER_STUDIEN
 			.toString())).iterator();
 
@@ -151,7 +151,7 @@ Ext.onReady(function(){
 	%>
 	
 	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
-	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN%>'});	
+	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name()%>'});	
 	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.filter %>', type:'hidden', value: '<%=Parameter.filter %>'});	
 		
 	<%
