@@ -62,6 +62,7 @@ Ext.onReady(function(){
         labelAlign: 'top',
         labelWidth: 0,
 		buttonAlign: 'left',
+		id: 'form_filter1'
     });
     
     var institution_name = new Ext.form.TextField({
@@ -127,6 +128,7 @@ Ext.onReady(function(){
 	        labelAlign: 'left',
 	        labelWidth: 0,
 			buttonAlign: 'left',
+			id: 'id_form_zentrum<%=aktuellesZentrum.getId() %>'
 			
 	    });
 	    
@@ -151,9 +153,6 @@ Ext.onReady(function(){
     
 	<%
 		}	
-    
-    	
-    
 	%>
     
 	var grid = new Ext.grid.TableGrid("zentren");
@@ -163,6 +162,7 @@ Ext.onReady(function(){
 	        labelAlign: 'left',
 	        labelWidth: 0,
 			buttonAlign: 'left',
+			id: 'form_abbrechen1'
 	    });
 
 	<!--  Die ANFRAGE_ID fuer ABBRECHEN wird hier gesetzt. dhaehn	-->
