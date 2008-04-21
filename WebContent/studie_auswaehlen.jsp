@@ -11,11 +11,11 @@
 			DispatcherServlet.sessionParameter.A_Benutzer
 			.toString())).getRolle().getRollenname();
 
-	Iterator listeStudien = ((Vector) request
+	Iterator<StudieBean> listeStudien = ((Vector<StudieBean>) request
 			.getAttribute(StudieServlet.requestParameter.LISTE_DER_STUDIEN
 			.toString())).iterator();
 
-	Iterator listeStudien2 = ((Vector) request
+	Iterator<StudieBean> listeStudien2 = ((Vector<StudieBean>) request
 			.getAttribute(StudieServlet.requestParameter.LISTE_DER_STUDIEN
 			.toString())).iterator();
 
@@ -55,7 +55,7 @@ Ext.onReady(function(){
         labelAlign: 'top',
         labelWidth: 0,
 		buttonAlign: 'left',
-		id:'form_filter'
+		id:'form_filter1'
     });
     
     var studie_name = new Ext.form.TextField({
@@ -134,27 +134,26 @@ Ext.onReady(function(){
 	var grid = new Ext.grid.TableGrid("studien");
     grid.render();
 
-	var inner = document.getElementById('form_filter').innerHTML;
     <%
 		while (listeStudien.hasNext()) {
 			StudieBean aktuelleStudie = (StudieBean) listeStudien
 			.next();
 	%>    
-	inner = inner + '<input type="hidden" name="aStudieId<%=aktuelleStudie.getId() %>" value=" ">';
-	 
+	
+	form_filter.el.createChild({tag: 'input', name: 'aStudieId<%=aktuelleStudie.getId() %>', type:'hidden', value: ''});	
+   
+    
 	<%
 		}	
     
     	
     
 	%>
-
-	inner = inner + '<input type="hidden" name="<%=Parameter.anfrage_id %>" value="<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN%>">';
-	inner = inner + '<input type="hidden" name="<%=Parameter.filter %>" value="<%=Parameter.filter %>">';
-	 
-
-	document.getElementById('form_filter').innerHTML = inner;
+	
 	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
+	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=StudieServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name()%>'});	
+	form_filter.el.createChild({tag: 'input', name: '<%=Parameter.filter %>', type:'hidden', value: '<%=Parameter.filter %>'});	
+		
 	<%
 	if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 	%>
@@ -341,11 +340,10 @@ if (aRolle == Rolle.Rollen.STUDIENLEITER) {
 								.getInstitution()%></td>
 		<td><%=aktuelleStudie.getStatus().toString()%></td>
 		<td><span style="cursor:pointer"
-			onClick="var frm = document.getElementById('form_filter');
-			
+			onClick="var frm = document.getElementById('form_filter1');
 						frm.<%=Parameter.anfrage_id %>.value = '<%=DispatcherServlet.anfrage_id.JSP_STUDIE_AUSWAEHLEN.name() %>';
-				 	frm.<%=Parameter.filter %>.value = '';
-						frm.aStudieId<%=aktuelleStudie.getId() %>.value = 'weiter'; 
+						frm.<%=Parameter.filter %>.value = '';
+						frm.aStudieId<%=aktuelleStudie.getId() %>.value = 'weiter';
 						frm.submit();"><b>Ausw&auml;hlen</b></span></td>
 	</tr>
 	<%
