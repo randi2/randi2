@@ -30,6 +30,7 @@ Ext.onReady(function(){
         labelAlign: 'left',
         labelWidth: 140,
 		buttonAlign: 'left',
+		id: 'form_pw1'
     });
     
     var benutzername = new Ext.form.TextField({

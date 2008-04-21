@@ -173,6 +173,7 @@ Ext.onReady(function(){
         labelAlign: 'left',
         labelWidth: 250,
 		buttonAlign: 'left',
+		id: 'form_patient_adden1'
     });
     
     
