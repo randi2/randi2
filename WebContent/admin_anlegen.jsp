@@ -123,7 +123,7 @@ Ext.onReady(function(){
 				for (int i = 0; i < PersonBean.Titel.values().length; i++) {
 					titel.append(PersonBean.Titel.values()[i].toString());
 			%>
-			['<%=titel%>'],
+			['<%=titel%>']<%if (i!=PersonBean.Titel.values().length-1){%>,<%}%>
 			<%
 					titel.delete(0, titel.length());
 				}
@@ -155,7 +155,11 @@ Ext.onReady(function(){
             StringBuffer buf = new StringBuffer();
             for (Iterator<ZentrumBean> i = zentren.iterator(); i.hasNext();) {
             	ZentrumBean bean = i.next();
-            	buf.append("['"+bean.getId()+"','"+bean.getInstitution()+", "+bean.getAbteilung()+"'],");
+            	if(i.hasNext()){
+            		buf.append("['"+bean.getId()+"','"+bean.getInstitution()+", "+bean.getAbteilung()+"'],");
+            	}else{
+            		buf.append("['"+bean.getId()+"','"+bean.getInstitution()+", "+bean.getAbteilung()+"']");
+            	}
             }
             %>
             [<%=buf.toString()%>]
@@ -385,7 +389,7 @@ Ext.onReady(function(){
 				for (int i = 0; i < PersonBean.Titel.values().length; i++) {
 					titelStell.append(PersonBean.Titel.values()[i].toString());
 			%>
-			['<%=titelStell%>'],
+			['<%=titelStell%>']<%if (i!=PersonBean.Titel.values().length-1){%>,<%}%>
 			<%
 					titelStell.delete(0, titelStell.length());
 				}
