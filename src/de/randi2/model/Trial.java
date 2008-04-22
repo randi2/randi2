@@ -2,10 +2,8 @@ package de.randi2.model;
 
 import java.io.File;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 
 @Entity
 public class Trial extends AbstractDomainObject {
@@ -51,10 +49,10 @@ public class Trial extends AbstractDomainObject {
 	public static final String START_DATE_NOT_EMTPY = "Das Startdatum der Studie darf nicht null sein.";
 	
 	
-	private String name;
-	private String description;
-	private GregorianCalendar startDate;
-	private GregorianCalendar endDate;
+	private String name = "";
+	private String description = "";
+	private GregorianCalendar startDate = new GregorianCalendar();
+	private GregorianCalendar endDate = new GregorianCalendar();
 	
 	private File protocol = null;
 	
@@ -63,13 +61,7 @@ public class Trial extends AbstractDomainObject {
 	//private List<Center> centers = null;
 	
 	
-	private TrialStatus status = null;
-	
-	@Override
-	public HashMap<String, String> getFilterMap() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	private TrialStatus status = TrialStatus.IN_PREPARATION;
 
 	public String getName() {
 		return name;
@@ -84,6 +76,9 @@ public class Trial extends AbstractDomainObject {
 	}
 
 	public void setDescription(String description) {
+		if(description == null){
+			description = "";
+		}
 		this.description = description;
 	}
 	

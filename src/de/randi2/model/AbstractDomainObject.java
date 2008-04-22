@@ -1,7 +1,6 @@
 package de.randi2.model;
 
 import java.io.Serializable;
-import java.util.HashMap;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.Transient;
 import javax.persistence.Version;
 
 @Entity
@@ -22,19 +20,6 @@ public abstract class AbstractDomainObject implements Serializable{
 	
 	@Version
 	private int version;
-	
-	@Transient
-	private boolean filter;
-	
-	protected AbstractDomainObject(){
-		this.filter = false;
-	}
-	
-	protected AbstractDomainObject(boolean _filter){
-		this.filter = _filter;
-	}
-	
-	public abstract HashMap<String, String> getFilterMap();
 
 	public long getId() {
 		return id;
@@ -42,10 +27,6 @@ public abstract class AbstractDomainObject implements Serializable{
 
 	public int getVersion() {
 		return version;
-	}
-
-	public boolean isFilter() {
-		return filter;
 	}
 
 	public void setId(long _id) {
