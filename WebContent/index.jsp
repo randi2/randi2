@@ -304,7 +304,7 @@ href="mailto:d.schrimpf@dkfz.de"><span style='color:#000099'>d.schrimpf@dkfz.de<
   none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
   mso-border-top-alt:solid black 1.0pt;mso-border-left-alt:solid black 1.0pt;
   padding:5.0pt 5.0pt 5.0pt 5.0pt;height:14.0pt'>
-  <p class=Text style='tab-stops:35.45pt 70.85pt 106.3pt 5.0cm'>Demoleiter</p>
+  <p class=Text style='tab-stops:35.45pt 70.85pt 106.3pt 5.0cm'>demoleiter</p>
   </td>
   <td width=160 valign=top style='width:160.2pt;border-top:none;border-left:
   none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
@@ -323,13 +323,13 @@ href="mailto:d.schrimpf@dkfz.de"><span style='color:#000099'>d.schrimpf@dkfz.de<
   none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
   mso-border-top-alt:solid black 1.0pt;mso-border-left-alt:solid black 1.0pt;
   padding:5.0pt 5.0pt 5.0pt 5.0pt;height:14.0pt'>
-  <p class=Text style='tab-stops:35.45pt 70.85pt 106.3pt 5.0cm'>Demostat</p>
+  <p class=Text style='tab-stops:35.45pt 70.85pt 106.3pt 5.0cm'>demostat</p>
   </td>
   <td width=160 valign=top style='width:160.2pt;border-top:none;border-left:
   none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
   mso-border-top-alt:solid black 1.0pt;mso-border-left-alt:solid black 1.0pt;
   padding:5.0pt 5.0pt 5.0pt 5.0pt;height:14.0pt'>
-  <p class=Text style='tab-stops:35.45pt 70.85pt 106.3pt 5.0cm'>1$statistiker</p>
+  <p class=Text style='tab-stops:35.45pt 70.85pt 106.3pt 5.0cm'>1$stat</p>
   </td>
  </tr>
  <tr style='page-break-inside:avoid;height:14.0pt'>
@@ -342,7 +342,7 @@ href="mailto:d.schrimpf@dkfz.de"><span style='color:#000099'>d.schrimpf@dkfz.de<
   none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
   mso-border-top-alt:solid black 1.0pt;mso-border-left-alt:solid black 1.0pt;
   padding:5.0pt 5.0pt 5.0pt 5.0pt;height:14.0pt'>
-  <p class=Text style='tab-stops:35.45pt 70.85pt 106.3pt 5.0cm'>Demoadmin</p>
+  <p class=Text style='tab-stops:35.45pt 70.85pt 106.3pt 5.0cm'>demoadmin</p>
   </td>
   <td width=160 valign=top style='width:160.2pt;border-top:none;border-left:
   none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
@@ -361,7 +361,7 @@ href="mailto:d.schrimpf@dkfz.de"><span style='color:#000099'>d.schrimpf@dkfz.de<
   none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
   mso-border-top-alt:solid black 1.0pt;mso-border-left-alt:solid black 1.0pt;
   padding:5.0pt 5.0pt 5.0pt 5.0pt;height:14.0pt'>
-  <p class=Text style='tab-stops:35.45pt 70.85pt 106.3pt 5.0cm'>Demosysop</p>
+  <p class=Text style='tab-stops:35.45pt 70.85pt 106.3pt 5.0cm'>demosysop</p>
   </td>
   <td width=160 valign=top style='width:160.2pt;border-top:none;border-left:
   none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;

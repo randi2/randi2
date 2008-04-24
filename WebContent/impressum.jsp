@@ -23,6 +23,7 @@ Ext.onReady(function(){
         labelAlign: 'left',
         labelWidth: 0,
 		buttonAlign: 'left',
+		id: 'id_form_imprint'
     });
    
     var imprint_text = new Ext.form.TextArea({

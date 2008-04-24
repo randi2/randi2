@@ -350,7 +350,7 @@ Ext.onReady(function(){
         <% if (!allesAendern) { %>
         readOnly:true,
         <% } %>
-        width:190
+        width:300
     });
 
     var studie_beschreibung = new Ext.form.TextArea({

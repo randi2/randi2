@@ -238,7 +238,7 @@ Ext.onReady(function(){
         maxLengthText:'Der Name muss 3 bis 50 Zeichen lang sein!',
         minLengthText:'Der Name muss 3 bis 50 Zeichen lang sein!',
         value:'<%=aName%>',
-        width:190
+        width:300
     });
 
     var studie_beschreibung = new Ext.form.TextArea({
