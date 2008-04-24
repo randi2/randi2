@@ -83,7 +83,8 @@ Ext.onReady(function(){
     var form_test_zugang = new Ext.form.Form({
         labelAlign: 'left',
         labelWidth: 0,
-		buttonAlign: 'center'
+		buttonAlign: 'center',
+		id:'id_form_test_zugang'
     });
     
 	form_benutzer_registrieren.addButton('Benutzer registrieren', function(){
@@ -114,13 +115,12 @@ Ext.onReady(function(){
 	<!--  Die ANFRAGE_ID fuer SUBMIT wird hier gesetzt. dhaehn	-->
 	form_passwort_vergessen.el.createChild({tag: 'input', name: '<%=Parameter.anfrage_id %>', type:'hidden', value: '<%=DispatcherServlet.anfrage_id.JSP_PASSWORT_VERGESSEN.name() %>'});	
 
-	form_test_zugang.addButton('Demozugang', Info, form_test_zugang);    
+	form_test_zugang.addButton('Demozugang', Info.sc, form_test_zugang);    
 
 	form_test_zugang.render('form_test_zugang');
 
 });
-</script>
-<script>
+
 // create the RANDI2 Demozugang Dialog!
 var Info = function(){
 
@@ -128,6 +128,7 @@ var Info = function(){
 
     // return a public interface
     return {
+    
         init : function(){
              showBtn = Ext.get('form_test_zugang');
              // attach to click event
@@ -173,7 +174,6 @@ Ext.EventManager.onDocumentReady(Info.init, Info, true);
 </head>
 
 <body>
-<!--  RELEASE 2 -->
 <div id="header"><img
 	src="<%=Config.getProperty(Config.Felder.RELEASE_BILD_LOGO) %>"
 	width="337" height="63" title="" alt=""></div>
@@ -206,9 +206,6 @@ Ext.EventManager.onDocumentReady(Info.init, Info, true);
 <br>
 <br>
 <br>
-
-
-
 <table cellPadding="0" cellSpacing="0" border="0">
 	<tr>
 		<td align="right">
@@ -234,10 +231,10 @@ Ext.EventManager.onDocumentReady(Info.init, Info, true);
 
 <p class=Text style='tab-stops:35.45pt 70.85pt 106.3pt 5.0cm 177.15pt 212.6pt 248.05pt 283.45pt 318.9pt 354.35pt 389.75pt 425.2pt 460.65pt'>Um
 das Kennenlernen des Systems Ihnen zu vereinfachen, stehen Ihnen folgende
-Demo-Benutzer zur Verfügung. Somit haben Sie die Möglichkeit, alle Features vom
-RANDI2 zu ausprobieren und zu testen. Falls Sie uns ihre Erfahrungen mitteilen
+Demo-Benutzer zur Verfügung. Somit haben Sie die Möglichkeit, alle Features von
+RANDI2 auszuprobieren und zu testen. Falls Sie uns ihre Erfahrungen mitteilen
 möchten, worüber wir uns wirklich freuen würden, schicken Sie bitte eine E-Mail
-an eine den beiden Adressen:</p>
+an eine der beiden Adressen:</p>
 
 <p class=Text style='tab-stops:35.45pt 70.85pt 106.3pt 5.0cm 177.15pt 212.6pt 248.05pt 283.45pt 318.9pt 354.35pt 389.75pt 425.2pt 460.65pt'><o:p>&nbsp;</o:p></p>
 

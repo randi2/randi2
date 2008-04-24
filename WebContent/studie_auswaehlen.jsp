@@ -78,7 +78,7 @@ Ext.onReady(function(){
 				for (int i = 0; i < Studie.Status.values().length; i++) {
 					status.append(Studie.Status.values()[i].toString());
 			%>
-			['<%=status%>'],
+			['<%=status%>']<%if (i!=Studie.Status.values().length-1){%>,<%}%>
 			<%
 					status.delete(0, status.length());
 				}

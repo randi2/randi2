@@ -79,7 +79,7 @@ Ext.onReady(function() {
         labelAlign: 'top',
         labelWidth: 0,
 		buttonAlign: 'left',
-		id:'form_filter'
+		id:'id_form_filter'
     });
     
     var zentrum_institution = new Ext.form.TextField({

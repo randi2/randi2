@@ -47,7 +47,7 @@ Ext.onReady(function() {
         labelAlign: 'top',
         labelWidth: 0,
 		buttonAlign: 'left',
-		id:'form_filter'
+		id:'id_form_filter'
     });
     
     var zentrum_institution = new Ext.form.TextField({
@@ -73,9 +73,10 @@ Ext.onReady(function() {
             fields: ['inst'],
             data : [
 			<%
+			int i = 0;
 			for(ZentrumServlet.aktiviertDeaktiviert aktdeakt: ZentrumServlet.aktiviertDeaktiviert.values()){ 
 			%>
-			['<%=aktdeakt.toString()%>'],
+			['<%=aktdeakt.toString()%>']<%if (i < ZentrumServlet.aktiviertDeaktiviert.values().length-1){%>,<%} i++;%>
 			<%
 					
 				}

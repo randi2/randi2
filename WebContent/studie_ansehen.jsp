@@ -317,8 +317,8 @@ window.open('DispatcherServlet?<%=Parameter.anfrage_id%>=<%=DispatcherServlet.an
 						%>
 						<tr>
 						<td class="tblrow1">
-						<form action="DispatcherServlet" method="POST" name="strata<%=Parameter.strata.ID.toString() %>"
-							id="strata<%=Parameter.strata.ID.toString() %>"><input type="hidden"
+						<form action="DispatcherServlet" method="POST" name="strata<%=aStrata.getId() %>"
+							id="strata<%=aStrata.getId() %>"><input type="hidden"
 							name="<%=Parameter.anfrage_id %>" value="">
 							<input
 							type="hidden" name="<%=Parameter.strata.ID.toString() %>"
@@ -326,7 +326,7 @@ window.open('DispatcherServlet?<%=Parameter.anfrage_id%>=<%=DispatcherServlet.an
 							</form>
 						<%=aStrata.getName()%>
 						<img style="cursor:pointer" src="images/strata.gif"
-							onClick="document.forms['strata<%=Parameter.strata.ID.toString() %>'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STRATA_ANZEIGEN.toString() %>';document.forms['strata<%=Parameter.strata.ID.toString() %>'].<%=Parameter.strata.ID.toString()%>.value = '<%=aStrata.getId() %>';document.forms['strata<%=Parameter.strata.ID.toString() %>'].submit();">
+							onClick="document.forms['strata<%=aStrata.getId() %>'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STRATA_ANZEIGEN.toString() %>';document.forms['strata<%=aStrata.getId() %>'].<%=Parameter.strata.ID.toString()%>.value = '<%=aStrata.getId() %>';document.forms['strata<%=aStrata.getId() %>'].submit();">
 						</td>
 						</tr>
 						<% } %>
@@ -352,8 +352,8 @@ window.open('DispatcherServlet?<%=Parameter.anfrage_id%>=<%=DispatcherServlet.an
 						%>
 						
 						<td class="tblrow1">
-						<form action="DispatcherServlet" method="POST" name="studienarm<%=Parameter.studienarm.ID.toString() %>"
-							id="studienarm<%=Parameter.studienarm.ID.toString() %>"><input type="hidden"
+						<form action="DispatcherServlet" method="POST" name="studienarm<%=aStudienarme.get(aStudienarme.size() - counter).getId() %>"
+							id="studienarm<%=aStudienarme.get(aStudienarme.size() - counter).getId() %>"><input type="hidden"
 							name="<%=Parameter.anfrage_id %>" value="">
 							<input
 							type="hidden" name="<%=Parameter.studienarm.ID.toString() %>"
@@ -362,8 +362,8 @@ window.open('DispatcherServlet?<%=Parameter.anfrage_id%>=<%=DispatcherServlet.an
 						<%=aStudienarme.get(aStudienarme.size() - counter)
 									.getBezeichnung()+" "+"("+aStudienarme.get(aStudienarme.size() - counter).getStatus().toString()+")"%>
 							<img style="cursor:pointer" src="images/anzeigen.gif"
-							onClick="document.forms['studienarm<%=Parameter.studienarm.ID.toString() %>'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STUDIENARM_ANZEIGEN.toString() %>';document.forms['studienarm<%=Parameter.studienarm.ID.toString() %>'].<%=Parameter.studienarm.ID.toString()%>.value = '<%=aStudienarme.get(aStudienarme.size() - counter)
-							.getId() %>';document.forms['studienarm<%=Parameter.studienarm.ID.toString() %>'].submit();">
+							onClick="document.forms['studienarm<%=aStudienarme.get(aStudienarme.size() - counter).getId() %>'].<%=Parameter.anfrage_id %>.value = '<%=StudieServlet.anfrage_id.JSP_STUDIENARM_ANZEIGEN.toString() %>';document.forms['studienarm<%=aStudienarme.get(aStudienarme.size() - counter).getId() %>'].<%=Parameter.studienarm.ID.toString()%>.value = '<%=aStudienarme.get(aStudienarme.size() - counter)
+							.getId() %>';document.forms['studienarm<%=aStudienarme.get(aStudienarme.size() - counter).getId() %>'].submit();">
 							</td>
 						<%
 						} else {

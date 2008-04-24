@@ -63,7 +63,7 @@ Ext.onReady(function() {
         labelAlign: 'top',
         labelWidth: 0,
 		buttonAlign: 'left',
-		id:'form_filter'
+		id:'id_form_filter'
     });
     
     var vorname = new Ext.form.TextField({
@@ -108,7 +108,7 @@ Ext.onReady(function() {
 			Iterator<ZentrumBean> it=Zentrum.getAlleZentrenAktiviertDeaktiviert().iterator();
 			while(it.hasNext()){
 			%>
-			['<%=it.next().getInstitution()%>'],
+			['<%=it.next().getInstitution()%>']<%if (it.hasNext()){%>,<%}%>
 			<%
 					
 				}
