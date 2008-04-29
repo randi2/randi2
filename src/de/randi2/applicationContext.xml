@@ -36,7 +36,10 @@
 			</props>
 		</property>
 		<property name="annotatedClasses">
-			<value>de.randi2.model.Trial</value>
+			<list>
+				<value>de.randi2.model.Trial</value>
+				<value>de.randi2.model.User</value>
+			</list>
 		</property>
 	</bean>
 	
@@ -46,11 +49,15 @@
 
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<!--		<property name="sessionFactory" ref="sessionFactory"></property>-->
+		<!-- <property name="sessionFactory" ref="sessionFactory"></property> -->
 	</bean>
 	<context:annotation-config></context:annotation-config>
 
 	<bean id="trialDAO" class="de.randi2.dao.TrialDaoHibernate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="userDAO" class="de.randi2.dao.UserDaoHibernate">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 </beans>
