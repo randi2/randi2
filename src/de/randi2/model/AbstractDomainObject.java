@@ -16,9 +16,12 @@ import javax.persistence.Version;
 @MappedSuperclass
 public abstract class AbstractDomainObject implements Serializable{
 	
+	public final static int MAX_VARCHAR_LENGTH = 255;
+	
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE)
-	private long id = Integer.MIN_VALUE;
+	private long id = Long.MIN_VALUE;
 	
 	@Version
 	private int version = Integer.MIN_VALUE;
@@ -31,11 +34,11 @@ public abstract class AbstractDomainObject implements Serializable{
 		return version;
 	}
 
-	public void setId(long _id) {
+	private void setId(long _id) {
 		this.id = _id;
 	}
 
-	public void setVersion(int _version) {
+	private void setVersion(int _version) {
 		this.version = _version;
 	}
 	

@@ -21,6 +21,7 @@
 			<list>
 				<value>de.randi2.model.Trial</value>
 				<value>de.randi2.model.User</value>
+				<value>de.randi2.model.Center</value>
 			</list>
 		</property>
 	</bean>
