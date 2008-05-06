@@ -8,7 +8,7 @@ public class UserHandler {
 	
 	private User user;
 
-	public void setUser(User user) {
+	public synchronized void setUser(User user) {
 		this.user = user;
 	}
 	
@@ -19,7 +19,7 @@ public class UserHandler {
 	
 	public String loginUser(){
 		try {
-			this.user = this.search(user.getLoginname(), user.getPassword());
+			this.setUser(this.search(user.getLoginname(), user.getPassword()));
 			return "success";
 		} catch (UserException e) {
 			return e.getLocalizedMessage();

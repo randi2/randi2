@@ -15,7 +15,6 @@
     <body>
     <ice:form>
 	<ice:panelGroup styleClass="componentBox">
-
 		<ice:panelGroup>
 			<ice:outputText value="RANDI2" />
 			<ice:outputText value="Version 0.4" />
@@ -25,21 +24,18 @@
 						rowClasses="textFieldNameRow, textFieldNameRow, textFieldCommentsRow">
 						<ice:outputLabel for="Login" value="Login:" />
 						<ice:inputText id="Login" size="25" maxlength="25"
-							value="#{usr.loginname}" partialSubmit="true" required="false"/>
+							value="#{usr.loginname}" partialSubmit="true" required="true"/>
 
 						<ice:outputLabel for="Password" value="Password:" />
 						
 						<ice:inputSecret id="Password" maxlength="10" size="25"
-							value="#{usr.password}" partialSubmit="true" redisplay="true" required="false"/>
-						<ice:commandButton value="Log in" action="#{userHandler.loginUser}" immediate="true"></ice:commandButton>
-						
-
+							value="#{usr.password}" partialSubmit="true" redisplay="true" required="true"/>
+							<ice:commandButton value="Log in" action="#{userHandler.loginUser}" immediate="true"></ice:commandButton>
 					</ice:panelGrid>
-				</ice:panelGroup>
-		
+		</ice:panelGroup>
 	</ice:panelGroup>
-</ice:form>
-    </body>
+	</ice:form>
+   	</body>
   </html>
 </f:view>
 </jsp:root>

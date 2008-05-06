@@ -12,12 +12,14 @@
 		<html>
 		<head>
 		<title><ice:outputText value="RANDI2" /></title>
-		<ice:outputStyle href="./xmlhttp/css/xp/xp.css" />
+		<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
 		</head>
 		<body>
-		<ice:form partialSubmit="true">
-		<!-- main menu declaration  -->
-		<ice:panelGroup styleClass="exampleBox menuBarContainer">
+		<ice:form partialSubmit="true" style="width: 418px">
+			<ice:panelBorder style="width: 531px; height: 189px">
+				<f:facet name="north">
+					<!-- main menu declaration  -->
+		<ice:panelGroup>
 			<ice:menuBar id="menuBar" orientation="horizontal">
 
 				<!-- File menu -->
@@ -52,10 +54,7 @@
 					<ice:menuItem id="logout" value="Logout">
 						<f:param name="myParam" value="Logout" />
 					</ice:menuItem>
-				</ice:menuItem>
-
-				<!-- Edit menu -->
-				<ice:menuItem value="Centers" id="center">
+				</ice:menuItem><ice:menuItem value="Centers" id="center">
 					<ice:menuItem id="myCenter" value="My center">
 					</ice:menuItem>
 					<ice:menuItem id="cSearch" value="Search">
@@ -63,6 +62,9 @@
 					<ice:menuItem id="create" value="Create">
 					</ice:menuItem>
 				</ice:menuItem>
+
+				<!-- Edit menu -->
+				
 
 				<!-- View menu -->
 				<ice:menuItem value="Trials" id="trials">
@@ -80,8 +82,36 @@
 				</ice:menuItem>
 			</ice:menuBar>
 		</ice:panelGroup>
-		
+				</f:facet>
+				<f:facet name="west">
+					<ice:panelCollapsible>
+					<f:facet name="header">
+						<ice:outputText value="Infos"></ice:outputText>
+					</f:facet>
+						<ice:panelGrid border="0" columns="2">
+							<ice:outputText value="Firstname"></ice:outputText>
+							<ice:outputText value="#{usr.firstname}"></ice:outputText>
+							<ice:outputText value="Surname"></ice:outputText>
+							<ice:outputText value="#{usr.surname}"></ice:outputText>
+							<ice:outputText value="Login"></ice:outputText>
+							<ice:outputText value="#{usr.loginname}"></ice:outputText>
+							<ice:outputText value="Pass"></ice:outputText>
+							<ice:outputText value="#{usr.password}"></ice:outputText>
+						</ice:panelGrid>
+
+					</ice:panelCollapsible>
+				</f:facet>
+				<f:facet name="east">
+				</f:facet>
+				<f:facet name="center">
+
+					<ice:graphicImage value="/img/randi2.png" style="width: 285px"></ice:graphicImage>
+				</f:facet>
+				<f:facet name="south">
+				</f:facet>
+			</ice:panelBorder>
 			<ice:messages />
+		
 		</ice:form>
 
 		</body>
