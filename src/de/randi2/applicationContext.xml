@@ -60,4 +60,12 @@
 	<bean id="userDAO" class="de.randi2.dao.UserDaoHibernate">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	
+	<!-- Random Instance for NOT Randomization purposes. For Randomization
+	use a seperate Instance for each call (even if it is inefficient! -->
+	<bean id="random" class="java.util.Random"></bean>
+	
+	<!-- Test-Tooling -->
+	<bean id="testStringUtil" class="de.randi2.utility.TestStringUtil"></bean>
+	
 </beans>

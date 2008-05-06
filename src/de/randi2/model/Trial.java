@@ -5,6 +5,9 @@ import java.util.GregorianCalendar;
 
 import javax.persistence.Entity;
 
+import org.hibernate.validator.Length;
+import org.hibernate.validator.NotEmpty;
+
 @Entity
 public class Trial extends AbstractDomainObject {
 
@@ -43,16 +46,18 @@ public class Trial extends AbstractDomainObject {
 	
 	
 	// Name
-	public static final String NAME_NOT_EMPTY = "Der Name der Studie darf nicht leer sein.";
-	public static final String NAME_LENGTH = "Der Name der Studie muss zwischen 2 und 32 Zeichen lang sein.";
-	
+	public static final String NAME_EMPTY = "Der Name der Studie darf nicht leer sein.";
+	public static final String NAME_TO_LONG = "Der Name darf maximal 255 Zeichen lang sein.";
 	public static final String START_DATE_NOT_EMTPY = "Das Startdatum der Studie darf nicht null sein.";
 	
+
+
+	 
+	private String name = null;
 	
-	private String name = "";
-	private String description = "";
-	private GregorianCalendar startDate = new GregorianCalendar();
-	private GregorianCalendar endDate = new GregorianCalendar();
+	private String description = null;
+	private GregorianCalendar startDate = null;
+	private GregorianCalendar endDate = null;
 	
 	private File protocol = null;
 	
@@ -63,6 +68,8 @@ public class Trial extends AbstractDomainObject {
 	
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
 
+	@NotEmpty(message = NAME_EMPTY)
+	@Length(max=255, message=NAME_TO_LONG)
 	public String getName() {
 		return name;
 	}
@@ -114,5 +121,4 @@ public class Trial extends AbstractDomainObject {
 	public void setProtocol(File protocol) {
 		this.protocol = protocol;
 	}
-
 }

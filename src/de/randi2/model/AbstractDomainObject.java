@@ -12,16 +12,16 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
 @Entity
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @MappedSuperclass
 public abstract class AbstractDomainObject implements Serializable{
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	@GeneratedValue(strategy=GenerationType.TABLE)
+	private long id = Integer.MIN_VALUE;
 	
 	@Version
-	private int version;
+	private int version = Integer.MIN_VALUE;
 
 	public long getId() {
 		return id;
@@ -38,6 +38,5 @@ public abstract class AbstractDomainObject implements Serializable{
 	public void setVersion(int _version) {
 		this.version = _version;
 	}
-	
 	
 }
