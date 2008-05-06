@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<jsp:directive.page contentType="text/html;charset=ISO-8859-1"
+		pageEncoding="ISO-8859-1" />
+	<f:view>
+		<ice:outputDeclaration doctypeRoot="HTML"
+			doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN"
+			doctypeSystem="http://www.w3.org/TR/html4/loose.dtd" />
+		<html>
+		<head>
+		<title><ice:outputText value="RANDI2" /></title>
+		<ice:outputStyle href="./xmlhttp/css/xp/xp.css" />
+		</head>
+		<body>
+		<ice:form partialSubmit="true">
+		<!-- main menu declaration  -->
+		<ice:panelGroup styleClass="exampleBox menuBarContainer">
+			<ice:menuBar id="menuBar" orientation="horizontal">
+
+				<!-- File menu -->
+				<ice:menuItem value="User" id="user">
+					<ice:menuItem id="details" value="Details">
+						<f:param name="myParam" value="Details" />
+					</ice:menuItem>
+					<ice:menuItem id="search" value="Search">
+						<f:param name="myParam" value="Search" />
+					</ice:menuItem>
+					<!-- ice:menuItem id="recent" value="Recent">
+						<f:param name="myParam" value="Recent" />
+						<ice:menuItem id="file1" value="File 1">
+							<f:param name="myParam" value="File 1" />
+						</ice:menuItem>
+						<ice:menuItem id="file2" value="File 2">
+							<f:param name="myParam" value="File 2" />
+							<ice:menuItem id="para1" value="Para 1">
+								<f:param name="myParam" value="Para 1" />
+							</ice:menuItem>
+							<ice:menuItem id="para2" value="Para 2">
+								<f:param name="myParam" value="Para 2" />
+							</ice:menuItem>
+							<ice:menuItem id="para3" value="Para 3" />
+						</ice:menuItem>
+						<ice:menuItem value="File 3" id="file3">
+							<f:param name="myParam" value="file3" />
+						</ice:menuItem>
+						<ice:menuItem value="File 4" id="file4" />
+					</ice:menuItem -->
+
+					<ice:menuItem id="logout" value="Logout">
+						<f:param name="myParam" value="Logout" />
+					</ice:menuItem>
+				</ice:menuItem>
+
+				<!-- Edit menu -->
+				<ice:menuItem value="Centers" id="center">
+					<ice:menuItem id="myCenter" value="My center">
+					</ice:menuItem>
+					<ice:menuItem id="cSearch" value="Search">
+					</ice:menuItem>
+					<ice:menuItem id="create" value="Create">
+					</ice:menuItem>
+				</ice:menuItem>
+
+				<!-- View menu -->
+				<ice:menuItem value="Trials" id="trials">
+					<ice:menuItem id="chooseT" value="Choose trial">
+					</ice:menuItem>
+					<ice:menuItem id="switchT" value="Switch trial">
+					</ice:menuItem>
+					<ice:menuItemSeparator/>
+					<ice:menuItem id="showMy" value="Show my trials">
+					</ice:menuItem>
+					<ice:menuItem id="showAll" value="Show all">
+					</ice:menuItem>
+					<ice:menuItem id="create" value="Create">
+					</ice:menuItem>
+				</ice:menuItem>
+			</ice:menuBar>
+		</ice:panelGroup>
+		
+			<ice:messages />
+		</ice:form>
+
+		</body>
+		</html>
+	</f:view>
+</jsp:root>

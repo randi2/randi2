@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app id="WebApp_ID">
+	<display-name>MyIceTest</display-name>
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>server</param-value>
+	</context-param>
+	<context-param>
+		<param-name>com.icesoft.faces.concurrentDOMViews</param-name>
+		<param-value>false</param-value>
+		<description>To allow multiple windows for a single application. See Concurrent DOM Views in Chapter 3. of Developer Guide.</description>
+	</context-param>
+	<context-param>
+		<param-name>com.icesoft.faces.synchronousUpdate</param-name>
+		<param-value>false</param-value>
+		<description>Turn on/off application-wide synchronous or asynchronous updates. See Synchronous and Asynchronous Updates in Chapter 3. of Developer Guide.</description>
+	</context-param>
+	<context-param>
+		<param-name>com.icesoft.faces.gmapKey</param-name>
+		<param-value>ABQIAAAADlu0ZiSTam64EKaCQr9eTRTOTuQNzJNXRlYRLknj4cQ89tFfpxTEqxQnVWL4k55OPICgF5_SOZE06A</param-value>
+		<description>A Google Maps API key is required if gMap component is used. Sign up for an API key from http://code.google.com/apis/maps/signup.html.</description>
+	</context-param>
+	<context-param>
+		<param-name>com.icesoft.faces.uploadDirectory</param-name>
+		<param-value>upload</param-value>
+	</context-param>
+	<context-param>
+		<param-name>com.icesoft.faces.uploadMaxFileSize</param-name>
+		<param-value>4048576</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+		<param-value>.jspx</param-value>
+	</context-param>
+	<listener>
+		<listener-class>com.icesoft.faces.util.event.servlet.ContextEventRepeater</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>
+		javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>Persistent Faces Servlet</servlet-name>
+		<servlet-class>
+		com.icesoft.faces.webapp.xmlhttp.PersistentFacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>Blocking Servlet</servlet-name>
+		<servlet-class>
+		com.icesoft.faces.webapp.xmlhttp.BlockingServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>uploadServlet</servlet-name>
+		<servlet-class>
+		com.icesoft.faces.component.inputfile.FileUploadServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Persistent Faces Servlet</servlet-name>
+		<url-pattern>*.jspx</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Persistent Faces Servlet</servlet-name>
+		<url-pattern>*.iface</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Persistent Faces Servlet</servlet-name>
+		<url-pattern>/xmlhttp/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Persistent Faces Servlet</servlet-name>
+		<url-pattern>/faces/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Blocking Servlet</servlet-name>
+		<url-pattern>/block/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>uploadServlet</servlet-name>
+		<url-pattern>/uploadHtml</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jspx</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

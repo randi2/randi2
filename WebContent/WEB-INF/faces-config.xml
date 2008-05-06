@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE faces-config PUBLIC
+    "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+    "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+
+<faces-config>
+	<managed-bean>
+		<managed-bean-name>
+		usr</managed-bean-name>
+		<managed-bean-class>
+		com.myicetest.models.User</managed-bean-class>
+		<managed-bean-scope>
+		session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>
+		userHandler</managed-bean-name>
+		<managed-bean-class>
+		com.myicetest.handlers.UserHandler</managed-bean-class>
+		<managed-bean-scope>
+		request</managed-bean-scope>
+		<managed-property>
+			<property-name>
+			user</property-name>
+			<property-class>
+			com.myicetest.models.User</property-class>
+			<value>#{usr}</value>
+		</managed-property>
+	</managed-bean>
+	<navigation-rule>
+		<display-name>
+		index</display-name>
+		<from-view-id>
+		/index.jspx</from-view-id>
+		<navigation-case>
+			<from-action>#{userHandler.loginUser}</from-action>
+			<from-outcome>
+			success</from-outcome>
+			<to-view-id>
+			/hello.jspx</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+</faces-config>
