@@ -4,14 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
-import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/de/randi2/applicationContext.xml" })
-public class DomainObjectTest<TC extends AbstractDomainObject> {
+public class DomainObjectTest<TC extends AbstractDomainObject>{
 
 	protected ClassValidator<TC> validator;
 	protected Class<TC> testClass;
