@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf12094643307690" configfile="/MyIceTest/WebContent/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="index" id="pf12100988702086" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf12100988702087" path="/index.jspx"/>
-  <nodes xsi:type="pageflow:PFPage" name="hello" id="pf12100988702088" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf12100988702087" path="/hello.jspx"/>
+  <nodes xsi:type="pageflow:PFPage" name="index" x="24" y="72" id="pf12100988702086" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf12100988702087" path="/index.jspx"/>
+  <nodes xsi:type="pageflow:PFPage" name="home" x="228" y="72" id="pf12100988702088" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf12100988702087" path="/home.jspx"/>
   <links id="pf12100988702087" target="pf12100988702088" source="pf12100988702086" outcome="success" fromaction="#{userHandler.loginUser}"/>
 </pageflow:Pageflow>

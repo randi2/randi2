@@ -8,8 +8,14 @@ public class UserHandler {
 	
 	private User user;
 
-	public synchronized void setUser(User user) {
+	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public User getUser(){
+		if(user==null)
+			this.user = new User();
+		return this.user;
 	}
 	
 	public String saveUser(){
