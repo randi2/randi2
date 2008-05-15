@@ -11,13 +11,14 @@ import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.CascadeType;
+
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @MappedSuperclass
 public abstract class AbstractDomainObject implements Serializable{
 	
 	public final static int MAX_VARCHAR_LENGTH = 255;
-	
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE)

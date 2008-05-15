@@ -1,6 +1,10 @@
 package de.randi2.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
@@ -16,6 +20,9 @@ public class Center extends AbstractDomainObject{
 	private String street = "";
 	private String postcode = "";
 	private String city = "";
+	
+	@ManyToMany(mappedBy="", targetEntity=Trial.class, cascade=CascadeType.ALL)
+	private List<Trial> trials;
 
 	@NotEmpty
 	@Length(max=MAX_VARCHAR_LENGTH)
@@ -64,6 +71,10 @@ public class Center extends AbstractDomainObject{
 			city = "";
 		}
 		this.city = city;
+	}
+
+	public List<Trial> getTrials() {
+		return this.trials;
 	}
 	
 	

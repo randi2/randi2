@@ -1,15 +1,23 @@
 package de.randi2.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
+import org.hibernate.validator.AssertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 
@@ -40,6 +48,8 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		assertNull(t.getEndDate());
 		assertEquals(Trial.TrialStatus.IN_PREPARATION, t.getStatus());
 		assertNull(t.getProtocol());
+		assertNotNull(t.getParticipatingCenters());
+		assertEquals(0, t.getParticipatingCenters().size());
 	}
 
 	@Test
@@ -216,7 +226,26 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 
 		validTrial.setStatus(Trial.TrialStatus.FINISHED);
 		assertEquals(Trial.TrialStatus.FINISHED, validTrial.getStatus());
-		assertValid(validTrial);
+	}
+	
+	@Test
+	@Transactional(propagation=Propagation.REQUIRED)
+	public void testParticipatingCenters(){
+		List<Center> cs = validTrial.getParticipatingCenters();
+		assertNotNull(cs);
+		final Center c = new Center();
+		c.setName("TestCenter");
+		cs.add(c);		
+		
+		hibernateTemplate.saveOrUpdate(validTrial);
+		Trial t = (Trial) hibernateTemplate.get(Trial.class, validTrial.getId());
+		assertEquals(1, t.getParticipatingCenters().size());
+		assertNotNull(t.getParticipatingCenters().get(0));
+		assertNotNull(t.getParticipatingCenters().get(0).getTrials());
+		assertNotNull(t.getParticipatingCenters().get(0).getTrials().contains(validTrial));
+		assertTrue(t.getParticipatingCenters().get(0).getTrials().contains(validTrial));
+		
+		
 	}
 
 	// @Test

@@ -1,10 +1,15 @@
 package de.randi2.model;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.validator.AssertTrue;
 import org.hibernate.validator.Length;
@@ -65,6 +70,11 @@ public class Trial extends AbstractDomainObject {
 	// private List<Center> centers = null;
 
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
+	
+	//private final CascadeType[] t = 
+	
+	@OneToMany(targetEntity=Center.class, cascade = CascadeType.ALL)
+	private List<Center> participatingCenters = new ArrayList<Center>();
 
 	@NotNull(message = NAME_EMPTY)
 	@NotEmpty(message = NAME_EMPTY)
@@ -135,5 +145,10 @@ public class Trial extends AbstractDomainObject {
 			return true;
 		}
 		return false;
+	}
+
+	
+	public List<Center> getParticipatingCenters() {
+		return this.participatingCenters;
 	}
 }

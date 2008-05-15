@@ -4,12 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -55,10 +53,6 @@ public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 	
 	protected void assertInvalid(TC invalidDO){
 		this.assertInvalid(invalidDO, new String[]{""});
-	}
-	
-	private void invalidExceptionHandling(Exception e){
-		
 	}
 	
 }
