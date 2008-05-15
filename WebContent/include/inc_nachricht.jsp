@@ -7,7 +7,7 @@
 <%
 if (request.getAttribute(DispatcherServlet.NACHRICHT_OK) != null) {
 %>
-<%@page import="de.randi2test.utility.Config"%>
+<%@page import="de.randi2.utility.Config"%>
 <center><br><div class="nachricht" id="erfolgreich_nachricht">
 <%=((String)request.getAttribute(DispatcherServlet.NACHRICHT_OK))%>
 </div><br><br><br></center>

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8" import="de.randi2test.utility.*"%>
+	pageEncoding="utf-8" import="de.randi2.utility.*"%>
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="de.randi2.model.fachklassen.beans.AktivierungBean"
 	import="java.util.GregorianCalendar"

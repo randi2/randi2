@@ -3,8 +3,8 @@
 
 <%@ page import="de.randi2.controller.DispatcherServlet"%>
 <!DOCTYPE PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@page import="de.randi2test.utility.Config"%>
-<%@page import="de.randi2test.utility.*"%>
+<%@page import="de.randi2.utility.Config"%>
+<%@page import="de.randi2.utility.*"%>
 <%
 			request.setAttribute(DispatcherServlet.requestParameter.TITEL
 			.toString(), JspTitel.INDEX.toString());
