@@ -10,7 +10,7 @@
 			.toString(), JspTitel.PASSWORT_VERGESSEN.toString());
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@page import="de.randi2.utility.Parameter"%>
+<%@page import="de.randi2test.utility.Parameter"%>
 <%@page import="de.randi2.controller.DispatcherServlet"%>
 <html>
 <head>

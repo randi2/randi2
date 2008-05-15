@@ -104,8 +104,8 @@ Ext.EventManager.onDocumentReady(Hilfe.init, Hilfe, true);
 		return;
 	}
 %>
-<%@page import="de.randi2.utility.Config"%>
-<%@page import="de.randi2.utility.Parameter"%>
+<%@page import="de.randi2test.utility.Config"%>
+<%@page import="de.randi2test.utility.Parameter"%>
 <div id="header"><img
 	src="<%=Config.getProperty(Config.Felder.RELEASE_BILD_LOGO) %>"
 	width="337" height="63" title="" alt=""></div>

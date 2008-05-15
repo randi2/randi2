@@ -12,7 +12,7 @@ if(aRolleMenue==Rolle.getStudienarzt().getRollenname()){
 }
 %>
 <%@page import="de.randi2.controller.DispatcherServlet"%>
-<%@page import="de.randi2.utility.Parameter"%>
+<%@page import="de.randi2test.utility.Parameter"%>
 <%@page import="de.randi2.model.fachklassen.Studie"%>
 <div id="menue">
 

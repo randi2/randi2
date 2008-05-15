@@ -43,4 +43,17 @@ public abstract class AbstractDomainObject implements Serializable{
 		this.version = _version;
 	}
 	
+	
+/*	@Override
+	public boolean equals(Object obj) {
+		try{
+			AbstractDomainObject dom = (AbstractDomainObject) obj;
+			System.out.println("inhere");
+			return dom.id == this.id /*&& dom.version == this.version;
+		}
+		catch(ClassCastException e){
+			return false;
+		}
+	}*/
+	
 }

@@ -1,6 +1,6 @@
 
-<%@page import="de.randi2.utility.Config"%>
-<%@page import="de.randi2.utility.Parameter"%>
+<%@page import="de.randi2test.utility.Config"%>
+<%@page import="de.randi2test.utility.Parameter"%>
 <%@page import="de.randi2.controller.DispatcherServlet"%>
 <div id="header"><img
 	src="<%=Config.getProperty(Config.Felder.RELEASE_BILD_LOGO) %>"

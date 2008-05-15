@@ -1,20 +1,23 @@
 package de.randi2.model;
 
 import java.io.File;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 import org.hibernate.validator.AssertTrue;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
+
+import de.randi2.utility.ManyToManyList;
 
 @Entity
 public class Trial extends AbstractDomainObject {
@@ -54,7 +57,7 @@ public class Trial extends AbstractDomainObject {
 	public static final String NAME_EMPTY = "Der Name der Studie darf nicht leer sein.";
 	public static final String NAME_TO_LONG = "Der Name darf maximal 255 Zeichen lang sein.";
 	public static final String START_DATE_NOT_EMTPY = "Das Startdatum der Studie darf nicht null sein.";
-	static final String NAME_WRONG_RANGE = "Die Datumswerte für das Start- und das Ende-Datum der Studie müssen in der richtigen zeitlichen Reihenfolge sein.";
+	public static final String NAME_WRONG_RANGE = "Die Datumswerte für das Start- und das Ende-Datum der Studie müssen in der richtigen zeitlichen Reihenfolge sein.";
 
 	private String name = "";
 
@@ -73,8 +76,45 @@ public class Trial extends AbstractDomainObject {
 	
 	//private final CascadeType[] t = 
 	
-	@OneToMany(targetEntity=Center.class, cascade = CascadeType.ALL)
-	private List<Center> participatingCenters = new ArrayList<Center>();
+	@ManyToMany(targetEntity=Center.class, cascade = CascadeType.ALL)
+	//@JoinTable(name="Trials_ParticipatingCenters", joinColumns = {@JoinColumn(name="trialId")}, inverseJoinColumns={@JoinColumn(name="centerId")})
+	private List<Center> participatingCenters = new AbstractList<Center>(){
+
+		List<Center> l = new ArrayList<Center>();
+		
+		@Override
+		public Center get(int index) {
+			return l.get(index);
+		}
+
+		@Override
+		public int size() {
+			return l.size();
+		}
+		
+		@Override
+		public Iterator<Center> iterator() {
+			return l.iterator();
+		}
+		
+		@Override
+		public boolean add(Center o) {
+			o.getTrials().add(Trial.this);
+			return l.add(o);
+		}
+		
+		
+		@Override
+		public boolean remove(Object o) {
+			try{
+				((Center)o).getTrials().remove(Trial.this);
+				return l.remove(o);
+			}
+			catch(ClassCastException e){
+				return false;
+			}
+		}
+	};
 
 	@NotNull(message = NAME_EMPTY)
 	@NotEmpty(message = NAME_EMPTY)
@@ -151,4 +191,11 @@ public class Trial extends AbstractDomainObject {
 	public List<Center> getParticipatingCenters() {
 		return this.participatingCenters;
 	}
+
+	public void setParticipatingCenters(List<Center> participatingCenters) {
+		this.participatingCenters = new ManyToManyList<Trial,Center>(this, Center.class, "participatingCenters", participatingCenters);
+		
+	}
+	
+	
 }

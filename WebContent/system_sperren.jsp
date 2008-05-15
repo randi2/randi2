@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="de.randi2.utility.*"%>
+	pageEncoding="UTF-8" import="de.randi2test.utility.*"%>
 <%
 			request.setAttribute(DispatcherServlet.requestParameter.TITEL
 			.toString(), JspTitel.SYSTEM_SPERREN.toString());

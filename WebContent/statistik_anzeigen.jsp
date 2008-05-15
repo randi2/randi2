@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8" import="de.randi2.utility.*"
+	pageEncoding="utf-8" import="de.randi2test.utility.*"
 	import="de.randi2.controller.*"%>
 <%
 			request.setAttribute(DispatcherServlet.requestParameter.TITEL

@@ -6,7 +6,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page import="de.randi2.model.fachklassen.beans.*"
 	import="java.util.Iterator" import="java.util.*"%>
-<%@page import="de.randi2.utility.*" import="de.randi2.utility.Parameter" %>
+<%@page import="de.randi2test.utility.*" import="de.randi2.utility.Parameter" %>
 <%@page import="de.randi2.randomisation.Randomisation"%>
 <%
 
