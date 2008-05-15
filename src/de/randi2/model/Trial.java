@@ -22,6 +22,29 @@ import de.randi2.utility.ManyToManyList;
 @Entity
 public class Trial extends AbstractDomainObject {
 
+	
+	private class CenterList extends ManyToManyList<Center>{
+		
+		public CenterList(){
+			super();
+		}
+		public CenterList(List<Center> l){
+			super();
+			super.addAll(l);
+		}
+
+		@Override
+		public boolean propagateAdd(Center element) {
+			return element.getTrials().add(Trial.this);
+		}
+
+		@Override
+		public boolean propagateRemove(Object element) throws ClassCastException{
+			return ((Center)element).getTrials().add(Trial.this);
+		}
+		
+	}
+	
 	/**
 	 * Enumeration Status der Studie
 	 */
@@ -78,43 +101,7 @@ public class Trial extends AbstractDomainObject {
 	
 	@ManyToMany(targetEntity=Center.class, cascade = CascadeType.ALL)
 	//@JoinTable(name="Trials_ParticipatingCenters", joinColumns = {@JoinColumn(name="trialId")}, inverseJoinColumns={@JoinColumn(name="centerId")})
-	private List<Center> participatingCenters = new AbstractList<Center>(){
-
-		List<Center> l = new ArrayList<Center>();
-		
-		@Override
-		public Center get(int index) {
-			return l.get(index);
-		}
-
-		@Override
-		public int size() {
-			return l.size();
-		}
-		
-		@Override
-		public Iterator<Center> iterator() {
-			return l.iterator();
-		}
-		
-		@Override
-		public boolean add(Center o) {
-			o.getTrials().add(Trial.this);
-			return l.add(o);
-		}
-		
-		
-		@Override
-		public boolean remove(Object o) {
-			try{
-				((Center)o).getTrials().remove(Trial.this);
-				return l.remove(o);
-			}
-			catch(ClassCastException e){
-				return false;
-			}
-		}
-	};
+	private List<Center> participatingCenters = new CenterList();
 
 	@NotNull(message = NAME_EMPTY)
 	@NotEmpty(message = NAME_EMPTY)
@@ -193,7 +180,7 @@ public class Trial extends AbstractDomainObject {
 	}
 
 	public void setParticipatingCenters(List<Center> participatingCenters) {
-		this.participatingCenters = new ManyToManyList<Trial,Center>(this, Center.class, "participatingCenters", participatingCenters);
+		this.participatingCenters = new CenterList(participatingCenters);
 		
 	}
 	
