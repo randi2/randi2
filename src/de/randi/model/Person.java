@@ -52,6 +52,9 @@ public class Person extends AbstractDomainObject {
 	}
 
 	public void setSurname(String surname) {
+		if(surname == null){
+			surname = "";
+		}		
 		this.surname = surname;
 	}
 

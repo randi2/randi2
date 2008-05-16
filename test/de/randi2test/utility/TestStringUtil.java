@@ -4,7 +4,7 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-public final class TestStringUtil {
+public class TestStringUtil {
 
 	@Autowired
 	private Random random;

@@ -6,11 +6,16 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 
-	<aop:aspectj-autoproxy />
-	<bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator"></bean>
-	
-	<bean id="domainModelAspect" class="de.randi2.aspects.DomainModelAspects"></bean>
-	
-	
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<bean
+		class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator">
+	</bean>
+
+
+	<bean id="domainModelAspect"
+		class="de.randi2.aspects.DomainModelAspects">
+	</bean>
+
+
 
 </beans>

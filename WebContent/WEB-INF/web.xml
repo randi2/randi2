@@ -1,164 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="2.4"
-	xmlns="http://java.sun.com/xml/ns/j2ee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-	<display-name>RANDI2</display-name>
-	<session-config><session-timeout>45</session-timeout></session-config>
-	<!-- Proxool AdminServlet, nur fuer Debug -->
-	<servlet>
-		<servlet-name>Admin</servlet-name>
-		<servlet-class>
-			org.logicalcobwebs.proxool.admin.servlet.AdminServlet
-		</servlet-class>
-	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>Admin</servlet-name>
-		<url-pattern>/admin</url-pattern>
-	</servlet-mapping>
+<web-app id="web-app_1" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
+   <display-name>RANDI2</display-name>
+   <distributable/>
 
-	<servlet>
-		<servlet-name>log4j-init</servlet-name>
-		<servlet-class>de.randi2.utility.Log4jInit</servlet-class>
-		<init-param>
-			<param-name>log4j-init-file</param-name>
-			<param-value>WEB-INF/log4j.lcf</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet>
-		<description></description>
-		<display-name>BenutzerServlet</display-name>
-		<servlet-name>BenutzerServlet</servlet-name>
-		<servlet-class>
-			de.randi2.controller.BenutzerServlet
-		</servlet-class>
-	</servlet>
-	<servlet>
-		<description></description>
-		<display-name>DispatcherServlet</display-name>
-		<servlet-name>DispatcherServlet</servlet-name>
-		<servlet-class>
-			de.randi2.controller.DispatcherServlet
-		</servlet-class>
-	</servlet>
-	<servlet>
-		<description></description>
-		<display-name>DownloadServlet</display-name>
-		<servlet-name>DownloadServlet</servlet-name>
-		<servlet-class>
-			de.randi2.controller.DownloadServlet
-		</servlet-class>
-	</servlet>
-	<servlet>
-		<description></description>
-		<display-name>AjaxUploadStatusServlet</display-name>
-		<servlet-name>uploadStatus</servlet-name>
-		<servlet-class>
-			de.randi2.controller.AjaxUploadStatusServlet
-		</servlet-class>
-	</servlet>
-	<servlet>
-		<description></description>
-		<display-name>FileUploadServlet</display-name>
-		<servlet-name>fileUpload</servlet-name>
-		<servlet-class>
-			de.randi2.controller.FileUploadServlet
-		</servlet-class>
-	</servlet>
-	<servlet>
-		<description></description>
-		<display-name>ZentrumServlet</display-name>
-		<servlet-name>ZentrumServlet</servlet-name>
-		<servlet-class>
-			de.randi2.controller.ZentrumServlet
-		</servlet-class>
-	</servlet>
-	<servlet>
-		<description>Ist zustaendig fuer die Studie</description>
-		<display-name>StudieServlet</display-name>
-		<servlet-name>StudieServlet</servlet-name>
-		<servlet-class>
-			de.randi2.controller.StudieServlet
-		</servlet-class>
-	</servlet>
-	<servlet>
-		<description>
-			Ermoeglicht den Nachrichtenversand ueber das System
-		</description>
-		<display-name>Nachrichtendienst</display-name>
-		<servlet-name>Nachrichtendienst</servlet-name>
-		<servlet-class>
-			de.randi2.controller.Nachrichtendienst
-		</servlet-class>
-	</servlet>
-	<servlet>
-		<description></description>
-		<display-name>AktivierungServlet</display-name>
-		<servlet-name>AktivierungServlet</servlet-name>
-		<servlet-class>
-			de.randi2.controller.AktivierungServlet
-		</servlet-class>
-	</servlet>
-	<listener>
-		<listener-class>
-			de.randi2.controller.listener.SessionListener
-		</listener-class>
-	</listener>
-	<servlet-mapping>
-		<servlet-name>BenutzerServlet</servlet-name>
-		<url-pattern>/BenutzerServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>DispatcherServlet</servlet-name>
-		<url-pattern>/DispatcherServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>DownloadServlet</servlet-name>
-		<url-pattern>/DownloadServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-	<servlet-name>fileUpload</servlet-name>
-	<url-pattern>/fileUpload</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-	<servlet-name>uploadStatus</servlet-name>
-	<url-pattern>/UploadStatus</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>ZentrumServlet</servlet-name>
-		<url-pattern>/ZentrumServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>StudieServlet</servlet-name>
-		<url-pattern>/StudieServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Nachrichtendienst</servlet-name>
-		<url-pattern>/Nachrichtendienst</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>AktivierungServlet</servlet-name>
-		<url-pattern>/Aktivierung</url-pattern>
-	</servlet-mapping>
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.htm</welcome-file>
-		<welcome-file>DispatcherServlet</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
-	<filter>
-		<filter-name>FilterExtended</filter-name>
-		<filter-class>de.randi2.controller.FilterExtended</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>FilterExtended</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	<error-page>
-		<exception-type>java.lang.Throwable</exception-type>
-		<location>/error_page.jsp</location>
-	</error-page>
+    <!--
+    To use non XDoclet filters, create a filters.xml file that
+    contains the additional filters (eg Sitemesh) and place it in your
+    project's merge dir.  Don't include filter-mappings in this file,
+    include them in a file called filter-mappings.xml and put that in
+    the same directory.
+    -->
 
-</web-app>
+    <!--
+    To use non XDoclet filter-mappings, create a filter-mappings.xml file that
+    contains the additional filter-mappings and place it in your
+    project's merge dir.
+    -->
+
+    <!--
+    To use non XDoclet listeners, create a listeners.xml file that
+    contains the additional listeners and place it in your
+    project's merge dir.
+    -->
+
+  <!--
+  To use non XDoclet servlets, create a servlets.xml file that
+  contains the additional servlets (eg Struts) and place it in your
+  project's merge dir.  Don't include servlet-mappings in this file,
+  include them in a file called servlet-mappings.xml and put that in
+  the same directory.
+  -->
+
+   <!--
+   To specify mime mappings, create a file named mime-mappings.xml, put it in your project's mergedir.
+   Organize mime-mappings.xml following this DTD slice:
+
+   <!ELEMENT mime-mapping (extension, mime-type)>
+   -->
+
+   <!--
+   To specify error pages, create a file named error-pages.xml, put it in your project's mergedir.
+   Organize error-pages.xml following this DTD slice:
+
+   <!ELEMENT error-page ((error-code | exception-type), location)>
+   -->
+
+  <!--
+  To add taglibs by xml, create a file called taglibs.xml and place it
+  in your merge dir.
+  -->
+
+   <!--
+   To set up security settings for your web app, create a file named web-security.xml, put it in your project's mergedir.
+   Organize web-security.xml following this DTD slice:
+
+   <!ELEMENT security-constraint (display-name?, web-resource-collection+, auth-constraint?, user-data-constraint?)>
+   <!ELEMENT web-resource-collection (web-resource-name, description?, url-pattern*, http-method*)>
+   <!ELEMENT web-resource-name (#PCDATA)>
+   <!ELEMENT url-pattern (#PCDATA)>
+   <!ELEMENT http-method (#PCDATA)>
+   <!ELEMENT user-data-constraint (description?, transport-guarantee)>
+   <!ELEMENT transport-guarantee (#PCDATA)>
+
+   <!ELEMENT login-config (auth-method?, realm-name?, form-login-config?)>
+   <!ELEMENT auth-method (#PCDATA)>
+   <!ELEMENT realm-name (#PCDATA)>
+   <!ELEMENT form-login-config (form-login-page, form-error-page)>
+   <!ELEMENT form-login-page (#PCDATA)>
+   <!ELEMENT form-error-page (#PCDATA)>
+   -->
+

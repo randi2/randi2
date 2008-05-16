@@ -9,7 +9,8 @@
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="/META-INF/configuration.properties">
+		<property name="location"
+			value="/META-INF/configuration.properties">
 		</property>
 		<property name="ignoreUnresolvablePlaceholders">
 			<value>true</value>
@@ -18,11 +19,11 @@
 	</bean>
 
 	<import resource="subconfig/database-mysql5.xml" />
-	<import resource="subconfig/hibernate.xml"/>
-	<import resource="subconfig/dao.xml"/>
-	<import resource="subconfig/aspects.xml"/>
-	
-	
+	<import resource="subconfig/hibernate.xml" />
+	<import resource="subconfig/dao.xml" />
+	<import resource="subconfig/aspects.xml" />
+
+
 	<!-- Random Instance for NOT Randomization purposes. For Randomization
 		use a seperate Instance for each call (even if it is inefficient! -->
 	<bean id="random" class="java.util.Random"></bean>
