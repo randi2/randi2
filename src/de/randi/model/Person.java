@@ -1,10 +1,12 @@
-package de.randi2.model;
+package de.randi.model;
 
 import javax.persistence.Entity;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 
+import de.randi2.model.AbstractDomainObject;
+import de.randi2.model.Center;
 import de.randi2.model.enumerations.Gender;
  
 @Entity

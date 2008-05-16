@@ -2,8 +2,8 @@ package de.randi2test.model.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.randi.model.Person;
 import de.randi2.model.Center;
-import de.randi2.model.Person;
 import de.randi2.model.Trial;
 import de.randi2test.utility.TestStringUtil;
 
@@ -12,7 +12,7 @@ public class ObjectFactory {
 	@Autowired
 	private TestStringUtil testStringUtil;
 	
-	public de.randi2.model.Person getPerson(){
+	public de.randi.model.Person getPerson(){
 		Person p = new Person();
 		return p;
 	}

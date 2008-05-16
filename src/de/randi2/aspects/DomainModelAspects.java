@@ -12,9 +12,10 @@ import de.randi2.model.Center;
 @Aspect
 public class DomainModelAspects {
 
-	@Before("execution(public * de.randi2..*(..))")
+	@Before("execution(* de.randi.*.*(..))")
 	public void doSomething(){
-		
+		System.out.println("hallo");
+		((Center) null).getCity();
 	}
 
 }
