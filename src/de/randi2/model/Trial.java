@@ -1,49 +1,24 @@
 package de.randi2.model;
 
 import java.io.File;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.AssertTrue;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
 
-import de.randi2.utility.ManyToManyList;
-
 @Entity
 public class Trial extends AbstractDomainObject {
 
-	
-	private class CenterList extends ManyToManyList<Center>{
-		
-		public CenterList(){
-			super();
-		}
-		public CenterList(List<Center> l){
-			super();
-			super.addAll(l);
-		}
-
-		@Override
-		public boolean propagateAdd(Center element) {
-			return element.getTrials().add(Trial.this);
-		}
-
-		@Override
-		public boolean propagateRemove(Object element) throws ClassCastException{
-			return ((Center)element).getTrials().add(Trial.this);
-		}
-		
-	}
 	
 	/**
 	 * Enumeration Status der Studie
@@ -92,16 +67,17 @@ public class Trial extends AbstractDomainObject {
 	private File protocol = null;
 
 	// private Person leader = null;
-	// private Center leadingCenter = null;
-	// private List<Center> centers = null;
+	
+	
+	@ManyToOne(cascade= CascadeType.ALL)
+	private Center leadingCenter = null;
 
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
 	
 	//private final CascadeType[] t = 
 	
 	@ManyToMany(targetEntity=Center.class, cascade = CascadeType.ALL)
-	//@JoinTable(name="Trials_ParticipatingCenters", joinColumns = {@JoinColumn(name="trialId")}, inverseJoinColumns={@JoinColumn(name="centerId")})
-	private List<Center> participatingCenters = new CenterList();
+	private List<Center> participatingCenters = new ArrayList<Center>();
 
 	@NotNull(message = NAME_EMPTY)
 	@NotEmpty(message = NAME_EMPTY)
@@ -180,8 +156,16 @@ public class Trial extends AbstractDomainObject {
 	}
 
 	public void setParticipatingCenters(List<Center> participatingCenters) {
-		this.participatingCenters = new CenterList(participatingCenters);
+		this.participatingCenters = participatingCenters;
+	}
+
+	public void setLeadingCenter(Center center) {
+		this.leadingCenter = center;
 		
+	}
+
+	public Center getLeadingCenter() {
+		return this.leadingCenter;
 	}
 	
 	

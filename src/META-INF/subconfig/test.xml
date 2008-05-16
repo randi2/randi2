@@ -7,5 +7,7 @@
 	<bean id="testStringUtil"
 		class="de.randi2test.utility.TestStringUtil">
 	</bean>
+	
+	<bean id="objectFactory" class="de.randi2test.model.util.ObjectFactory"></bean>
 
 </beans>

@@ -18,11 +18,13 @@ import org.hibernate.annotations.CascadeType;
 @MappedSuperclass
 public abstract class AbstractDomainObject implements Serializable{
 	
+	public final static int NOT_YET_SAVED_ID = Integer.MIN_VALUE;
+	
 	public final static int MAX_VARCHAR_LENGTH = 255;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE)
-	private long id = Long.MIN_VALUE;
+	private long id = NOT_YET_SAVED_ID;
 	
 	@Version
 	private int version = Integer.MIN_VALUE;
@@ -42,18 +44,5 @@ public abstract class AbstractDomainObject implements Serializable{
 	private void setVersion(int _version) {
 		this.version = _version;
 	}
-	
-	
-/*	@Override
-	public boolean equals(Object obj) {
-		try{
-			AbstractDomainObject dom = (AbstractDomainObject) obj;
-			System.out.println("inhere");
-			return dom.id == this.id /*&& dom.version == this.version;
-		}
-		catch(ClassCastException e){
-			return false;
-		}
-	}*/
 	
 }

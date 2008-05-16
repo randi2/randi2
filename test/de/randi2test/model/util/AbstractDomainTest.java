@@ -1,4 +1,4 @@
-package de.randi2test.model;
+package de.randi2test.model.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -22,6 +22,9 @@ public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 
 	@Autowired
 	protected TestStringUtil stringUtil;
+	
+	@Autowired
+	protected ObjectFactory factory;
 	
 	protected Class<TC> testClass;
 

@@ -3,9 +3,8 @@ package de.randi2.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
@@ -22,8 +21,8 @@ public class Center extends AbstractDomainObject{
 	private String postcode = "";
 	private String city = "";
 	
-	@ManyToMany(mappedBy="participatingCenters", targetEntity=Trial.class, cascade=CascadeType.ALL)
-	private List<Trial> trials = new ArrayList<Trial>();
+	//@Transient
+	//private List<Trial> trials = new ArrayList<Trial>();
 
 	@NotEmpty
 	@Length(max=MAX_VARCHAR_LENGTH)
@@ -73,15 +72,6 @@ public class Center extends AbstractDomainObject{
 		}
 		this.city = city;
 	}
-
-	public List<Trial> getTrials() {
-		return this.trials;
-	}
-
-	public void setTrials(List<Trial> trials) {
-		this.trials = trials;
-	}
-	
 
 	
 	

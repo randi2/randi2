@@ -5,7 +5,7 @@ import de.randi2.utility.SystemException;
 
 
 /**
- * Die RechtException wird bei fehlerhaften Methodenaufrufen der Klasse {@link Recht} geworfen. 
+ * Die RechtException wird bei fehlerhaften Methodenaufrufen der Klasse {@link Right} geworfen. 
  * @author BTheel [BTheel@stud.hs-heilbronn.de]
  */
 @SuppressWarnings("serial")

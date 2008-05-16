@@ -1,25 +1,24 @@
 package de.randi2test.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.hibernate.validator.AssertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
+import de.randi2.model.AbstractDomainObject;
+import de.randi2.model.Center;
+import de.randi2.model.Person;
 import de.randi2.model.Trial;
+import de.randi2test.model.util.AbstractDomainTest;
 
 
 
@@ -36,8 +35,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 	@Before
 	public void setUp() throws Exception {
 		// Valides Trial
-		validTrial = new Trial();
-		validTrial.setName("Aspirin vs. Placebo");
+		validTrial = factory.getTrial();
 
 	}
 
@@ -227,6 +225,76 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 
 		validTrial.setStatus(Trial.TrialStatus.FINISHED);
 		assertEquals(Trial.TrialStatus.FINISHED, validTrial.getStatus());
+	}
+	
+	@Test 
+	public void testLeader(){
+		Person p = factory.getPerson();
+		
+		//validTrial.setLeader(p);
+		
+		//p.getRollen().contains()
+	}
+	
+	@Test
+	public void testLeadingCenter(){
+		final Center c = factory.getCenter();
+		
+		validTrial.setLeadingCenter(c);
+		assertEquals(c, validTrial.getLeadingCenter());
+		
+		hibernateTemplate.saveOrUpdate(validTrial);
+		assertNotSame(AbstractDomainObject.NOT_YET_SAVED_ID, c.getId());
+		int version= c.getVersion();
+		
+		c.setName("RANDI2 TestCenter");
+		hibernateTemplate.saveOrUpdate(validTrial);
+		assertTrue(version < c.getVersion());
+		
+	}
+	
+	@Test
+	public void testPartCenters(){
+		List<Center> cl = validTrial.getParticipatingCenters();
+		
+		Center c1 = factory.getCenter();
+		Center c2 = factory.getCenter();
+		Center c3 = factory.getCenter();
+		
+		
+		cl.add(c1);
+		cl.add(c2);
+		cl.add(c3);
+		
+		hibernateTemplate.saveOrUpdate(validTrial);
+		assertNotSame(AbstractDomainObject.NOT_YET_SAVED_ID, c1.getId());
+		assertNotSame(AbstractDomainObject.NOT_YET_SAVED_ID, c2.getId());
+		assertNotSame(AbstractDomainObject.NOT_YET_SAVED_ID, c3.getId());
+		
+		hibernateTemplate.flush();
+		hibernateTemplate.refresh(validTrial);
+		
+		assertEquals(3, validTrial.getParticipatingCenters().size());
+		
+		cl = validTrial.getParticipatingCenters();
+		cl.remove(c2);
+		
+		hibernateTemplate.saveOrUpdate(validTrial);
+		
+		hibernateTemplate.flush();
+		hibernateTemplate.refresh(validTrial);
+		
+		assertEquals(2, validTrial.getParticipatingCenters().size());
+		
+		validTrial.getParticipatingCenters().get(0).setName("HB");
+		int version = validTrial.getParticipatingCenters().get(0).getVersion();
+		
+		hibernateTemplate.saveOrUpdate(validTrial);
+		
+		hibernateTemplate.flush();
+		hibernateTemplate.refresh(validTrial);
+		
+		assertTrue(version < validTrial.getParticipatingCenters().get(0).getVersion());
 	}
 	
 	// @Test
