@@ -11,10 +11,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
-import org.hibernate.annotations.CascadeType;
-
-@Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 @MappedSuperclass
 public abstract class AbstractDomainObject implements Serializable{
 	

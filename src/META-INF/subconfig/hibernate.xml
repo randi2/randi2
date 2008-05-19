@@ -5,7 +5,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 	default-autowire="byName">
 
-
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<!--		<property name="dataSource" ref="dataSource"></property>-->
@@ -20,9 +19,10 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>de.randi2.model.Trial</value>
-				<value>de.randi2.model.User</value>
 				<value>de.randi2.model.Center</value>
-				<value>de.randi.model.Person</value>
+				<value>de.randi2.model.Person</value>
+				<value>de.randi2.model.PersonRole</value>
+				<value>de.randi2.model.Login</value>
 			</list>
 		</property>
 	</bean>

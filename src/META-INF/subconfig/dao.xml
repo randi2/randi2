@@ -8,9 +8,6 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
-	<bean id="userDAO" class="de.randi2.dao.UserDaoHibernate">
-		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>
 
 
 </beans>

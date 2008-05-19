@@ -3,19 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+		default-autowire="byName">
+	
+	
+ <aop:aspectj-autoproxy/>
 
 
-	<aop:aspectj-autoproxy proxy-target-class="true" />
-	<bean
-		class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator">
-	</bean>
 
-
-	<bean id="domainModelAspect"
-		class="de.randi2.aspects.DomainModelAspects">
-	</bean>
-
+<bean id="domainModelAspects" class="de.randi2.aspects.DomainModelAspects"></bean>
 
 
 </beans>

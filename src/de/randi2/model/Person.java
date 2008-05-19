@@ -1,12 +1,15 @@
-package de.randi.model;
+package de.randi2.model;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 
-import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.Center;
 import de.randi2.model.enumerations.Gender;
  
 @Entity
@@ -27,24 +30,19 @@ public class Person extends AbstractDomainObject {
 	// Institutional Data
 	private Person assistant;
 	private Center center;
-	
-	// Login-Data
-	private String login;
 
+	// Login data
+	private Login login;
+	
+	@OneToMany(mappedBy="person")
+	private List<PersonRole> roles = new ArrayList<PersonRole>();
+	
 	public Center getCenter() {
 		return center;
 	}
 
 	public void setCenter(Center center) {
 		this.center = center;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
 	}
 
 	@NotEmpty
@@ -124,5 +122,20 @@ public class Person extends AbstractDomainObject {
 		this.assistant = assistant;
 	}
 
+	public Login getLogin() {
+		return login;
+	}
+
+	public void setLogin(Login login) {
+		this.login = login;
+	}
+
+	public void setRoles(List<PersonRole> _roles){
+		this.roles = _roles;
+	}
+	
+	public List<PersonRole> getRoles() {
+		return this.roles;
+	}
 
 }

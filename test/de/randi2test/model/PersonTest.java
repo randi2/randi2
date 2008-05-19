@@ -4,29 +4,29 @@ package de.randi2test.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import de.randi.model.Person;
-import de.randi2.model.AbstractDomainObject;
+import de.randi2.model.Person;
 import de.randi2test.model.util.AbstractDomainTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/META-INF/spring.xml", "/META-INF/subconfig/test.xml"})
-public class PersonTest {
+public class PersonTest extends AbstractDomainTest<Person>{
 
 	private Person validPerson;
 	
 	public PersonTest() {
-		//super(Person.class);
+		super(Person.class);
 	}
 	
 	@Before
 	public void setUp(){
-		validPerson = new Person();
+		validPerson = super.factory.getPerson();
 	}
 	
 	@Test
@@ -46,6 +46,7 @@ public class PersonTest {
 		assertNull(p.getCenter());
 		
 		assertNull(p.getLogin());
+		assertEquals(0, p.getRoles().size());
 	}
 	
 	@Test

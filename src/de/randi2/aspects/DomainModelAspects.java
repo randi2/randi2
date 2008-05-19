@@ -1,21 +1,20 @@
 package de.randi2.aspects;
 
-
-
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
-import de.randi2.model.Center;
-
-
 
 @Aspect
-public class DomainModelAspects {
+public class DomainModelAspects{
 
-	@Before("execution(* de.randi.*.*(..))")
-	public void doSomething(){
-		System.out.println("hallo");
-		((Center) null).getCity();
+	public DomainModelAspects(){
+		System.out.println("ich wurde konfiguriert");
 	}
-
+	
+	@Before("execution(* *.getFax())")
+	public void onGetFax(){
+		System.out.println("ich wurde gerufen");
+	}
+	
+	
 }
