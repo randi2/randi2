@@ -41,7 +41,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 
 	@Test
 	public void testConstructor() {
-		final Trial t = new Trial();
+		final Trial t = (Trial) context.getBean("trial");
 		assertEquals("", t.getName());
 		assertEquals("", t.getDescription());
 		assertNull(t.getStartDate());
@@ -70,6 +70,10 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		assertEquals(nameOK2, validTrial.getName());
 		assertValid(validTrial);
 
+		validTrial.setName(nameNull);
+		assertEquals("", validTrial.getName());
+		assertInvalid(validTrial, new String[]{Trial.NAME_EMPTY});
+
 		validTrial.setName(nameToLong);
 		assertEquals(nameToLong, validTrial.getName());
 		assertInvalid(validTrial, new String[]{Trial.NAME_TO_LONG});
@@ -82,9 +86,6 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		assertEquals(nameEmpty, validTrial.getName());
 		assertInvalid(validTrial, new String[]{Trial.NAME_EMPTY});
 		
-		validTrial.setName(nameNull);
-		assertEquals("", validTrial.getName());
-		assertInvalid(validTrial, new String[]{Trial.NAME_EMPTY});
 	}
 	
 	@Test

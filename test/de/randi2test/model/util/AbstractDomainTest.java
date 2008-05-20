@@ -8,6 +8,7 @@ import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -19,14 +20,10 @@ import de.randi2test.utility.TestStringUtil;
 @ContextConfiguration(locations = {"/META-INF/spring.xml", "/META-INF/subconfig/test.xml"})
 public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 
-	@Autowired
-	protected HibernateTemplate hibernateTemplate;
-
-	@Autowired
-	protected TestStringUtil stringUtil;
-	
-	@Autowired
-	protected ObjectFactory factory;
+	@Autowired protected HibernateTemplate hibernateTemplate;
+	@Autowired protected TestStringUtil stringUtil;
+	@Autowired protected ObjectFactory factory;
+	@Autowired protected ApplicationContext context; 
 	
 	protected Class<TC> testClass;
 
