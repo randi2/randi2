@@ -29,11 +29,7 @@ public class UserDaoHibernate extends AbstractDaoHibernate<User> implements User
 	
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public User search(String loginname){
-		String query = "from com.myicetest.models.User user where "
-			+ "user.loginname = :login ";
-		Query q  = template.getSessionFactory().getCurrentSession().createQuery(query);
-		q.setString("login", loginname);
-		List<User> users = q.list();
+		List<User> users = template.find("from User");
 		//TODO
 		return users.get(0);
 	}
