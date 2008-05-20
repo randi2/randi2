@@ -18,11 +18,12 @@
 
 	</bean>
 
-	<import resource="subconfig/aspects.xml" />
 
 	<import resource="subconfig/database-mysql5.xml" />
 	<import resource="subconfig/hibernate.xml" />
+	<import resource="subconfig/domain.xml"/>
 	<import resource="subconfig/dao.xml" />
+	<import resource="subconfig/aspects.xml" />
 
 
 	<!-- Random Instance for NOT Randomization purposes. For Randomization

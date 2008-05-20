@@ -4,6 +4,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
 
+
 @Aspect
 public class DomainModelAspects{
 
@@ -11,8 +12,8 @@ public class DomainModelAspects{
 		System.out.println("ich wurde konfiguriert");
 	}
 	
-	@Before("execution(* *.getFax())")
-	public void onGetFax(){
+	@Before("execution(public * de.randi2.model.*.get*(..))")
+	public void beforeSetString(){
 		System.out.println("ich wurde gerufen");
 	}
 	
