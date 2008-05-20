@@ -18,7 +18,8 @@
 		<ice:panelGroup>
 			<ice:outputText value="RANDI2" />
 			<ice:outputText value="Version 0.4" />
-		</ice:panelGroup>
+					<ice:messages tooltip="true" layout="list" styleClass="iceMsgsError"></ice:messages>
+				</ice:panelGroup>
 		<ice:panelGroup>
 					<ice:panelGrid columns="2" styleClass="verticalAlignTop"
 						rowClasses="textFieldNameRow, textFieldNameRow, textFieldCommentsRow">

@@ -1,5 +1,8 @@
 package com.myicetest.handlers;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import com.myicetest.dao.UserDaoHibernate;
 import com.myicetest.models.User;
 import com.myicetest.models.exceptions.UserException;
@@ -11,6 +14,9 @@ public class UserHandler {
 	
 	
 	private UserDaoHibernate userDao;
+	
+	public UserHandler(){
+	}
 	
 
 	public UserDaoHibernate getUserDao() {
@@ -34,7 +40,13 @@ public class UserHandler {
 	}
 	
 	public String saveUser(){
-		userDao.save(user);
+		User temp = new User();
+		temp.setFirstname("Lukasz");
+		temp.setSurname("Plotnicki");
+		temp.setLoginname("luki");
+		temp.setPassword("secret");
+		System.out.println("ID "+temp.getId());
+		userDao.save(temp);
 		return "Success";
 	}
 	
@@ -43,8 +55,9 @@ public class UserHandler {
 			this.setUser(this.search(user.getLoginname(), user.getPassword()));
 			saveUser();
 			return "success";
-		} catch (UserException e) {
-			return e.getLocalizedMessage();
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(e.getLocalizedMessage(), new FacesMessage(FacesMessage.SEVERITY_ERROR,e.toString(),e.getLocalizedMessage()));
+			return "error";
 		}
 		
 	}

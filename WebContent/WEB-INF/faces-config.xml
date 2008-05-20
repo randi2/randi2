@@ -12,39 +12,35 @@
 			org.springframework.web.jsf.DelegatingVariableResolver
 		</variable-resolver>
 	</application>
-	
-	
+
+
 	<managed-bean>
-		<managed-bean-name>
-		userHandler</managed-bean-name>
+		<managed-bean-name>userHandler</managed-bean-name>
 		<managed-bean-class>
-		com.myicetest.handlers.UserHandler</managed-bean-class>
-		<managed-bean-scope>
-		session</managed-bean-scope>
+			com.myicetest.handlers.UserHandler
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
-			<property-name>
-			user</property-name>
-			<property-class>
-			com.myicetest.models.User</property-class>
-			<value>#{usr}</value>
+			<property-name>user</property-name>
+			<property-class>com.myicetest.models.User</property-class>
+			<value>#{user}</value>
 		</managed-property>
 		<managed-property>
 			<property-name>userDao</property-name>
-			<property-class>com.myicetest.dao.UserDaoHibernate</property-class>
+			<property-class>
+				com.myicetest.dao.UserDaoHibernate
+			</property-class>
 			<value>#{userDao}</value>
 		</managed-property>
 	</managed-bean>
-	
-	
+
+
 	<navigation-rule>
-		<display-name>
-		index</display-name>
-		<from-view-id>
-		/index.jspx</from-view-id>
+		<display-name>index</display-name>
+		<from-view-id>/index.jspx</from-view-id>
 		<navigation-case>
 			<from-action>#{userHandler.loginUser}</from-action>
-			<from-outcome>
-			success</from-outcome>
+			<from-outcome>success</from-outcome>
 			<to-view-id>/home.jspx</to-view-id>
 		</navigation-case>
 	</navigation-rule>
