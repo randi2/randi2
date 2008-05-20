@@ -2,6 +2,7 @@ package com.myicetest.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +29,12 @@ public class UserDaoHibernate extends AbstractDaoHibernate<User> implements User
 	
 	public User search(String loginname){
 		String query = "from com.myicetest.models.User user where "
-			+ "user.loginname = " + loginname;
-		List<User> list = template.find(query);
+			+ "user.loginname = :login ";
+		Query q  = template.getSessionFactory().getCurrentSession().createQuery(query);
+		q.setString("login", loginname);
+		List<User> users =q.list();
 		//TODO
-		return list.get(0);
+		return users.get(0);
 	}
 
 }
