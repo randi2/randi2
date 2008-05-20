@@ -5,13 +5,10 @@ import javax.faces.context.FacesContext;
 
 import com.myicetest.dao.UserDaoHibernate;
 import com.myicetest.models.User;
-import com.myicetest.models.exceptions.UserException;
-import com.myicetest.models.exceptions.UserException.Messages;
 
 public class UserHandler {
 	
 	private User user;
-	
 	
 	private UserDaoHibernate userDao;
 	
@@ -40,38 +37,23 @@ public class UserHandler {
 	}
 	
 	public String saveUser(){
-		User temp = new User();
-		temp.setFirstname("Lukasz");
-		temp.setSurname("Plotnicki");
-		temp.setLoginname("luki");
-		temp.setPassword("secret");
-		System.out.println("ID "+temp.getId());
-		userDao.save(temp);
-		return "Success";
+		userDao.save(this.user);
+		return "success";
 	}
 	
 	public String loginUser(){
+		String pass = user.getPassword();
 		try {
-			this.setUser(this.search(user.getLoginname(), user.getPassword()));
-			saveUser();
-			return "success";
+			user = userDao.search(user.getLoginname());
+			if(user.getPassword().equals(pass))
+				return "success";
+			else
+				throw new Exception("Wrong login/password!");
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(e.getLocalizedMessage(), new FacesMessage(FacesMessage.SEVERITY_ERROR,e.toString(),e.getLocalizedMessage()));
 			return "error";
 		}
 		
-	}
-	
-	private User search(String login, String pass) throws UserException{
-		if(login.equals("lukasz")&&pass.equals("secret")){
-			return new User(){{
-				setFirstname("Lukasz");
-				setLoginname("lukasz");
-				setPassword("secret");
-				setSurname("Plotnicki");
-			}};
-		}else
-			throw new UserException(Messages.NOT_FOUND);
 	}
 	
 }
