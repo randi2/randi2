@@ -2,7 +2,6 @@ package com.myicetest.dao;
 
 import java.util.List;
 
-import org.hibernate.Query;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

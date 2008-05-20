@@ -46,7 +46,15 @@
 								<ice:menuItem value="Search" />
 							</ice:menuItem>
 						</ice:menuBar>
-						<ice:panelCollapsible expanded="true" style="width: 120px; margin-top: 30px">
+						
+						<br/>
+						<ice:outputConnectionStatus>
+						</ice:outputConnectionStatus>
+						
+					</ice:panelGroup>
+				</f:facet>
+				<f:facet name="second">
+					<ice:panelGroup style="padding:6px;">Main screen <ice:panelCollapsible expanded="true" style="width: 120px; margin-top: 30px">
 							<f:facet name="header">
 								<ice:outputText value="Infos (TEST)"></ice:outputText>
 							</f:facet>
@@ -60,15 +68,7 @@
 								<ice:outputText value="Pass"></ice:outputText>
 								<ice:outputText value="#{userHandler.user.password}"></ice:outputText>
 							</ice:panelGrid>
-						</ice:panelCollapsible>
-						<br/>
-						<ice:outputConnectionStatus>
-						</ice:outputConnectionStatus>
-						
-					</ice:panelGroup>
-				</f:facet>
-				<f:facet name="second">
-					<ice:panelGroup style="padding:6px;">Main screen </ice:panelGroup>
+						</ice:panelCollapsible></ice:panelGroup>
 				</f:facet>
 			</ice:panelDivider>
 
