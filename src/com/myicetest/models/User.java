@@ -1,6 +1,9 @@
 package com.myicetest.models;
 
-public class User {
+import javax.persistence.Entity;
+
+@Entity
+public class User  extends AbstractDomainObject{
 
 	private String firstname;
 	private String surname;
@@ -31,9 +34,6 @@ public class User {
 		this.password = password;
 	}
 	
-	public void save(){
-		this.toString();
-	}
 	
 	@Override
 	public String toString(){

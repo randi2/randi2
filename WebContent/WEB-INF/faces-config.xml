@@ -5,6 +5,15 @@
     "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
 
 <faces-config>
+
+
+	<application>
+		<variable-resolver>
+			org.springframework.web.jsf.DelegatingVariableResolver
+		</variable-resolver>
+	</application>
+	
+	
 	<managed-bean>
 		<managed-bean-name>
 		userHandler</managed-bean-name>
@@ -19,7 +28,14 @@
 			com.myicetest.models.User</property-class>
 			<value>#{usr}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>userDao</property-name>
+			<property-class>com.myicetest.dao.UserDaoHibernate</property-class>
+			<value>#{userDao}</value>
+		</managed-property>
 	</managed-bean>
+	
+	
 	<navigation-rule>
 		<display-name>
 		index</display-name>

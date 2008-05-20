@@ -1,5 +1,6 @@
 package com.myicetest.handlers;
 
+import com.myicetest.dao.UserDaoHibernate;
 import com.myicetest.models.User;
 import com.myicetest.models.exceptions.UserException;
 import com.myicetest.models.exceptions.UserException.Messages;
@@ -7,6 +8,20 @@ import com.myicetest.models.exceptions.UserException.Messages;
 public class UserHandler {
 	
 	private User user;
+	
+	
+	private UserDaoHibernate userDao;
+	
+
+	public UserDaoHibernate getUserDao() {
+		return userDao;
+	}
+
+	public void setUserDao(UserDaoHibernate userDao) {
+		this.userDao = userDao;
+	}
+	
+	
 
 	public void setUser(User user) {
 		this.user = user;
@@ -19,13 +34,14 @@ public class UserHandler {
 	}
 	
 	public String saveUser(){
-		this.user.save();
+		userDao.save(user);
 		return "Success";
 	}
 	
 	public String loginUser(){
 		try {
 			this.setUser(this.search(user.getLoginname(), user.getPassword()));
+			saveUser();
 			return "success";
 		} catch (UserException e) {
 			return e.getLocalizedMessage();
