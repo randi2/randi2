@@ -5,6 +5,8 @@ import javax.faces.context.FacesContext;
 
 import com.myicetest.dao.UserDaoHibernate;
 import com.myicetest.models.User;
+import com.myicetest.models.exceptions.UserException;
+import com.myicetest.models.exceptions.UserException.Messages;
 
 public class UserHandler {
 	
@@ -41,16 +43,25 @@ public class UserHandler {
 		return "success";
 	}
 	
+	public String logoutUser(){
+		if(user.getId() == user.NOT_YET_SAVED_ID){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error","User can't be logout!"));
+			return "error";
+		}
+		user = new User();
+		return "success";
+	}
+	
 	public String loginUser(){
 		String pass = user.getPassword();
 		try {
-			user = userDao.search(user.getLoginname());
+			user = userDao.get(user.getLoginname());
 			if(user.getPassword().equals(pass))
 				return "success";
 			else
-				throw new Exception("Wrong login/password!");
+				throw new UserException(Messages.WRONG_LOGIN);
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(e.getLocalizedMessage(), new FacesMessage(FacesMessage.SEVERITY_ERROR,e.toString(),e.getLocalizedMessage()));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(),e.toString()));
 			return "error";
 		}
 		

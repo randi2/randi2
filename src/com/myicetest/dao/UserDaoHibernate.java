@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myicetest.models.User;
+import com.myicetest.models.exceptions.UserException;
 
 
 public class UserDaoHibernate extends AbstractDaoHibernate<User> implements UserDao {
@@ -27,9 +28,10 @@ public class UserDaoHibernate extends AbstractDaoHibernate<User> implements User
 	}
 	
 	@Transactional(propagation = Propagation.SUPPORTS)
-	public User search(String loginname){
+	public User get(String loginname) throws UserException{
 		List<User> users = template.find("from User u where u.loginname = '"+loginname+"'");
-		//TODO
+		if(users.size()!=1)
+			throw new UserException(UserException.Messages.NOT_FOUND);
 		return users.get(0);
 	}
 

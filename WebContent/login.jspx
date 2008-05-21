@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<jsp:directive.page contentType="text/html;charset=ISO-8859-1"
+		pageEncoding="ISO-8859-1" />
+	<f:view>
+		<ice:outputDeclaration doctypeRoot="HTML"
+			doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN"
+			doctypeSystem="http://www.w3.org/TR/html4/loose.dtd" />
+		<html>
+		<head>
+		<title><ice:outputText value="Welcome to RANDI2 System" /></title>
+		<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
+		</head>
+		<body>
+		<ice:form>
+
+			<ice:panelGrid border="0" columns="2" cellspacing="20">
+				<f:facet name="footer">
+					<ice:panelGroup>
+						<ice:outputLink
+							value="#{facesContext.externalContext.requestContextPath}/terms.jspx">
+							<ice:outputText value="Terms of use"></ice:outputText>
+						</ice:outputLink>
+						<ice:outputLink
+							value="#{facesContext.externalContext.requestContextPath}/register.jspx">
+							<ice:outputText value="Register"></ice:outputText>
+						</ice:outputLink>
+					</ice:panelGroup>
+
+				</f:facet>
+				<ice:panelGroup>
+
+					<ice:graphicImage value="/img/randi2.png"
+						style="width: 141px; height: 47px"></ice:graphicImage>
+					<br />
+					<ice:outputText value="ver. 0.4 alpha 0.1"
+						style="font-family: Verdana, Arial, Sans-Serif; color: #3F70A3; margin-top: 6px; margin-bottom: 6px; margin-right: 6px; margin-left: 6px; padding-bottom: 6px; padding-top: 6px; padding-left: 6px; padding-right: 6px"></ice:outputText>
+
+
+				</ice:panelGroup>
+
+				<ice:messages tooltip="true" layout="list" globalOnly="true"></ice:messages>
+
+				<ice:graphicImage value="/img/icons/login.png" style="margin-left: 20px"></ice:graphicImage>
+				<ice:panelGrid columns="3" styleClass="verticalAlignTop"
+					rowClasses="textFieldNameRow, textFieldNameRow, textFieldCommentsRow">
+					<ice:outputLabel for="login" value="Login:" />
+					<ice:inputText id="login" size="25" maxlength="25"
+						value="#{userHandler.user.loginname}" partialSubmit="true"
+						required="true" />
+					<ice:message for="login" />
+
+					<ice:outputLabel for="password" value="Password:" />
+					<ice:inputSecret id="password" maxlength="10" size="25"
+						value="#{userHandler.user.password}" partialSubmit="true"
+						redisplay="true" required="true" />
+					<ice:message for="password" />
+					<ice:commandButton value="Log in" action="#{userHandler.loginUser}"></ice:commandButton>
+				</ice:panelGrid>
+
+			</ice:panelGrid>
+
+			<ice:panelGroup>
+
+			</ice:panelGroup>
+			<ice:panelGroup>
+
+
+			</ice:panelGroup>
+		</ice:form>
+		</body>
+		</html>
+	</f:view>
+</jsp:root>

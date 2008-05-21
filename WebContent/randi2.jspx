@@ -11,24 +11,32 @@
 			doctypeSystem="http://www.w3.org/TR/html4/loose.dtd" />
 		<html>
 		<head>
-		<title><ice:outputText value="Testpage" /></title>
+		<title><ice:outputText value="ICEfaces, Ajax for Java EE" /></title>
 		<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
 		</head>
 		<body>
+
+
 		<ice:form partialSubmit="true">
-			<ice:panelDivider orientation="vertical" dividerPosition="25"
-				style="width: 1135px; height: 696px; background-color: #FFFFFF; color: White;">
-				<f:facet name="first">
-					<ice:panelGroup style="padding:6px;">
+			<ice:messages />
+			<ice:panelBorder renderEast="false" renderSouth="false"
+				style="border-width:1px;border-style:solid;height:600px;width:800px;">
+				<f:facet name="north">
+					<ice:panelGroup style="text-align:left;">
 						<ice:graphicImage value="/img/randi2.png"
 							style="width: 141px; height: 47px"></ice:graphicImage>
-						<br />
+						
 						<ice:outputText value="ver. 0.4 alpha 0.1"
 							style="font-family: Verdana, Arial, Sans-Serif; color: #3F70A3; margin-top: 6px; margin-bottom: 6px; margin-right: 6px; margin-left: 6px; padding-bottom: 6px; padding-top: 6px; padding-left: 6px; padding-right: 6px"></ice:outputText>
+						
+					</ice:panelGroup>
+				</f:facet>
+				<f:facet name="west">
+					<ice:panelGroup style="width:50px;">
 						<ice:menuBar orientation="vertical">
 							<ice:menuItem value="User">
 								<ice:menuItem value="Personal details" />
-								<ice:menuItem value="Logout" />
+								<ice:menuItem value="Logout" action="#{userHandler.logoutUser}"/>
 								<ice:menuItemSeparator></ice:menuItemSeparator>
 								<ice:menuItem value="Create" />
 								<ice:menuItem value="Search" />
@@ -46,46 +54,37 @@
 								<ice:menuItem value="Create" />
 								<ice:menuItem value="Search" />
 							</ice:menuItem>
+							<ice:menuItemSeparator></ice:menuItemSeparator>
+							<ice:menuItem value="Help"/>
+							<ice:menuItem value="About"/>
 						</ice:menuBar>
-					</ice:panelGroup>
-				</f:facet>
-				<f:facet name="second">
-					<ice:panelGroup style="padding:6px;">
-						<ice:panelGrid border="0" columns="1">
-							<f:facet name="header">
-								<ice:panelGroup style="width: 771px">
-									<ice:outputLabel for="lUser" value="Current user:"></ice:outputLabel>
-									<ice:outputText id="lUser"
-										value="#{userHandler.user.loginname}"></ice:outputText>
-									<ice:commandButton value="Logout"></ice:commandButton>
-									<ice:commandButton value="Help"></ice:commandButton>
-									<ice:outputConnectionStatus></ice:outputConnectionStatus>
-								</ice:panelGroup>
-							</f:facet>
-							<ice:panelCollapsible expanded="true"
-								style="width: 120px; margin-top: 30px">
+						<ice:panelCollapsible expanded="true"
+								style="width: 155px; margin-top: 50px" toggleOnClick="false">
 								<f:facet name="header">
-									<ice:outputText value="Infos (TEST)"></ice:outputText>
+								<ice:outputText value="Information"></ice:outputText>
 								</f:facet>
 								<ice:panelGrid border="0" columns="2">
-									<ice:outputText value="Firstname"></ice:outputText>
-									<ice:outputText value="#{userHandler.user.firstname}"></ice:outputText>
-									<ice:outputText value="Surname"></ice:outputText>
-									<ice:outputText value="#{userHandler.user.surname}"></ice:outputText>
-									<ice:outputText value="Login"></ice:outputText>
-									<ice:outputText value="#{userHandler.user.loginname}"></ice:outputText>
-									<ice:outputText value="Pass"></ice:outputText>
-									<ice:outputText value="#{userHandler.user.password}"></ice:outputText>
+									<ice:outputLabel for="lUser" value="You are:"></ice:outputLabel>
+									<ice:outputText id="lUser" value="#{userHandler.user.loginname}"></ice:outputText>
+									<ice:outputLabel for="cStatus" value="Connection:"></ice:outputLabel>
+									<ice:outputConnectionStatus id="cStatus"></ice:outputConnectionStatus>
 								</ice:panelGrid>
 							</ice:panelCollapsible>
-						</ice:panelGrid>
-
 					</ice:panelGroup>
 				</f:facet>
-			</ice:panelDivider>
+				<f:facet name="east">
+					<ice:outputText value="E"></ice:outputText>
+				</f:facet>
+				<f:facet name="center">
+					<ice:panelGroup style="border-width:1px;border-style:solid;height:500px;">
+					<ice:outputText value="Center"></ice:outputText>
+					</ice:panelGroup>
+				</f:facet>
+				<f:facet name="south">
+					<ice:outputText value="South"></ice:outputText>
+				</f:facet>
+			</ice:panelBorder>
 
-
-			<ice:messages />
 
 		</ice:form>
 

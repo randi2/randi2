@@ -36,12 +36,24 @@
 
 
 	<navigation-rule>
-		<display-name>index</display-name>
-		<from-view-id>/index.jspx</from-view-id>
+		<display-name>login</display-name>
+		<from-view-id>/login.jspx</from-view-id>
 		<navigation-case>
 			<from-action>#{userHandler.loginUser}</from-action>
 			<from-outcome>success</from-outcome>
-			<to-view-id>/home.jspx</to-view-id>
+			<to-view-id>/randi2.jspx</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>randi2</display-name>
+		<from-view-id>/randi2.jspx</from-view-id>
+		<navigation-case>
+			<from-action>#{userHandler.logoutUser}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/logout.jsp</to-view-id>
+			<redirect/>
 		</navigation-case>
 	</navigation-rule>
 
