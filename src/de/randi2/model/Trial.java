@@ -15,6 +15,7 @@ import org.hibernate.validator.AssertTrue;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
+import org.springframework.beans.factory.annotation.Configurable;
 
 @Entity
 public class Trial extends AbstractDomainObject {
@@ -86,11 +87,11 @@ public class Trial extends AbstractDomainObject {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(String _name) {
 		/*if (name == null) {
 			name = "";
 		}*/
-		this.name = name;
+		this.name = _name;
 	}
 
 	public String getDescription() {

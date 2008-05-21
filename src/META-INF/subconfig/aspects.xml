@@ -4,12 +4,14 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
-		default-autowire="byName">
-	
-	
- <aop:aspectj-autoproxy  proxy-target-class="true"/>
+	default-autowire="byName">
 
-<bean id="domainModelAspects" class="de.randi2.aspects.DomainModelAspects"></bean>
+
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<bean id="domainModelAspects"
+		class="de.randi2.aspects.DomainModelAspects">
+	</bean>	
 
 
 </beans>
