@@ -15,12 +15,10 @@ import org.hibernate.validator.AssertTrue;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
-import org.springframework.beans.factory.annotation.Configurable;
 
 @Entity
 public class Trial extends AbstractDomainObject {
 
-	
 	/**
 	 * Enumeration Status der Studie
 	 */
@@ -52,11 +50,7 @@ public class Trial extends AbstractDomainObject {
 		}
 	}
 
-	// Name
-	public static final String NAME_EMPTY = "Der Name der Studie darf nicht leer sein.";
-	public static final String NAME_TO_LONG = "Der Name darf maximal 255 Zeichen lang sein.";
-	public static final String START_DATE_NOT_EMTPY = "Das Startdatum der Studie darf nicht null sein.";
-	public static final String NAME_WRONG_RANGE = "Die Datumswerte für das Start- und das Ende-Datum der Studie müssen in der richtigen zeitlichen Reihenfolge sein.";
+	public static final String DATES_WRONG_RANGE = "Die Datumswerte für das Start- und das Ende-Datum der Studie müssen in der richtigen zeitlichen Reihenfolge sein.";
 
 	private String name = "";
 
@@ -68,29 +62,28 @@ public class Trial extends AbstractDomainObject {
 	private File protocol = null;
 
 	// private Person leader = null;
-	
-	
-	@ManyToOne(cascade= CascadeType.ALL)
+
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Center leadingCenter = null;
 
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
-	
-	//private final CascadeType[] t = 
-	
-	@ManyToMany(targetEntity=Center.class, cascade = CascadeType.ALL)
+
+	// private final CascadeType[] t =
+
+	@ManyToMany(targetEntity = Center.class, cascade = CascadeType.ALL)
 	private List<Center> participatingCenters = new ArrayList<Center>();
 
-	@NotNull(message = NAME_EMPTY)
-	@NotEmpty(message = NAME_EMPTY)
-	@Length(max = 255, message = NAME_TO_LONG)
+	@NotNull()
+	@NotEmpty()
+	@Length(max = MAX_VARCHAR_LENGTH)
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String _name) {
-		/*if (name == null) {
-			name = "";
-		}*/
+		/*
+		 * if (name == null) { name = ""; }
+		 */
 		this.name = _name;
 	}
 
@@ -136,22 +129,21 @@ public class Trial extends AbstractDomainObject {
 	public void setProtocol(File protocol) {
 		this.protocol = protocol;
 	}
-	
-	@AssertTrue(message = NAME_WRONG_RANGE)
-	public boolean validateDateRange(){
-		if(this.startDate == null || this.endDate == null){
+
+	@AssertTrue(message = DATES_WRONG_RANGE)
+	public boolean validateDateRange() {
+		if (this.startDate == null || this.endDate == null) {
 			return true;
 		}
 		long startTime = this.startDate.getTimeInMillis();
 		long endTime = this.endDate.getTimeInMillis();
-		
-		if((endTime-startTime) >= 1*24*60*60*1000){
+
+		if ((endTime - startTime) >= 1 * 24 * 60 * 60 * 1000) {
 			return true;
 		}
 		return false;
 	}
 
-	
 	public List<Center> getParticipatingCenters() {
 		return this.participatingCenters;
 	}
@@ -162,12 +154,11 @@ public class Trial extends AbstractDomainObject {
 
 	public void setLeadingCenter(Center center) {
 		this.leadingCenter = center;
-		
+
 	}
 
 	public Center getLeadingCenter() {
 		return this.leadingCenter;
 	}
-	
-	
+
 }

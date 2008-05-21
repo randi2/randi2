@@ -1,16 +1,18 @@
 package de.randi2test.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -72,11 +74,11 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 
 		validTrial.setName(nameNull);
 		assertEquals("", validTrial.getName());
-		assertInvalid(validTrial, new String[]{Trial.NAME_EMPTY});
+		assertInvalid(validTrial, new String[]{/* validator.notEmpty */});
 
 		validTrial.setName(nameToLong);
 		assertEquals(nameToLong, validTrial.getName());
-		assertInvalid(validTrial, new String[]{Trial.NAME_TO_LONG});
+		assertInvalid(validTrial, new String[]{/* validator.size */});
 		
 		validTrial.setName(nameJustOK);
 		assertEquals(nameJustOK, validTrial.getName());
@@ -84,7 +86,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		
 		validTrial.setName(nameEmpty);
 		assertEquals(nameEmpty, validTrial.getName());
-		assertInvalid(validTrial, new String[]{Trial.NAME_EMPTY});
+		assertInvalid(validTrial, new String[]{/* validator.notEmpty */});
 		
 	}
 	
@@ -190,15 +192,15 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		assertValid(validTrial);
 		
 		this.setDateRange(startSame, endSame);
-		assertInvalid(validTrial, new String[]{Trial.NAME_WRONG_RANGE});
+		assertInvalid(validTrial, new String[]{Trial.DATES_WRONG_RANGE});
 		this.setDateRange(startWD, endWD);
-		assertInvalid(validTrial, new String[]{Trial.NAME_WRONG_RANGE});
+		assertInvalid(validTrial, new String[]{Trial.DATES_WRONG_RANGE});
 		
 		this.setDateRange(startSD, endSD);
-		assertInvalid(validTrial, new String[]{Trial.NAME_WRONG_RANGE});
+		assertInvalid(validTrial, new String[]{Trial.DATES_WRONG_RANGE});
 		
 		this.setDateRange(startJust, endJust);
-		assertInvalid(validTrial, new String[]{Trial.NAME_WRONG_RANGE});
+		assertInvalid(validTrial, new String[]{Trial.DATES_WRONG_RANGE});
 		
 		
 	}

@@ -7,8 +7,6 @@
 
 
 	<bean id="trial" class="de.randi2.model.Trial" scope="prototype"></bean>
-
-	<bean id="person" class="de.randi2.model.Person" scope="prototype">
-	</bean>
+	<bean id="person" class="de.randi2.model.Person" scope="prototype"></bean>
 
 </beans>
