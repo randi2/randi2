@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<jsp:directive.page contentType="text/html;charset=ISO-8859-1"
+		pageEncoding="ISO-8859-1" />
+	<f:view>
+		<ice:outputDeclaration doctypeRoot="HTML"
+			doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN"
+			doctypeSystem="http://www.w3.org/TR/html4/loose.dtd" />
+		<html>
+		<head>
+		<title><ice:outputText value="ICEfaces, Ajax for Java EE" /></title>
+		<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
+		</head>
+		<body>
+
+
+		<ice:form partialSubmit="true">
+			<ice:messages />
+			<ice:panelBorder renderEast="false" renderSouth="false"
+				style="border-width:1px;border-style:solid;height:600px;width:800px;">
+				<f:facet name="north">
+					<ice:panelGroup style="text-align:left;">
+						<ice:graphicImage value="/img/randi2.png"
+							style="width: 141px; height: 47px"></ice:graphicImage>
+						
+						<ice:outputText value="ver. 0.4 alpha 0.1"
+							style="font-family: Verdana, Arial, Sans-Serif; color: #3F70A3; margin-top: 6px; margin-bottom: 6px; margin-right: 6px; margin-left: 6px; padding-bottom: 6px; padding-top: 6px; padding-left: 6px; padding-right: 6px"></ice:outputText>
+						
+					</ice:panelGroup>
+				</f:facet>
+				<f:facet name="west">
+					<ice:panelGroup style="width:50px;">
+						<ice:menuBar orientation="vertical">
+							<ice:menuItem value="User">
+								<ice:menuItem value="Personal details" />
+								<ice:menuItem value="Logout" action="#{loginHandler.logoutUser}"/>
+								<ice:menuItemSeparator></ice:menuItemSeparator>
+								<ice:menuItem value="Create" />
+								<ice:menuItem value="Search" />
+							</ice:menuItem>
+							<ice:menuItem value="Trial">
+								<ice:menuItem value="Current trial" />
+								<ice:menuItem value="My trials" />
+								<ice:menuItemSeparator></ice:menuItemSeparator>
+								<ice:menuItem value="Create" />
+								<ice:menuItem value="Search" />
+							</ice:menuItem>
+							<ice:menuItem value="Center">
+								<ice:menuItem value="My center" />
+								<ice:menuItemSeparator></ice:menuItemSeparator>
+								<ice:menuItem value="Create" />
+								<ice:menuItem value="Search" />
+							</ice:menuItem>
+							<ice:menuItemSeparator></ice:menuItemSeparator>
+							<ice:menuItem value="Help"/>
+							<ice:menuItem value="About"/>
+						</ice:menuBar>
+						<ice:panelCollapsible expanded="true"
+								style="width: 155px; margin-top: 50px" toggleOnClick="false">
+								<f:facet name="header">
+								<ice:outputText value="Information"></ice:outputText>
+								</f:facet>
+								<ice:panelGrid border="0" columns="2">
+									<ice:outputLabel for="lUser" value="You are:"></ice:outputLabel>
+									<ice:outputText id="lUser" value="#{loginHandler.login.username}"></ice:outputText>
+									<ice:outputLabel for="cStatus" value="Connection:"></ice:outputLabel>
+									<ice:outputConnectionStatus id="cStatus"></ice:outputConnectionStatus>
+								</ice:panelGrid>
+							</ice:panelCollapsible>
+					</ice:panelGroup>
+				</f:facet>
+				<f:facet name="east">
+					<ice:outputText value="E"></ice:outputText>
+				</f:facet>
+				<f:facet name="center">
+					<ice:panelGroup style="border-width:1px;border-style:solid;height:500px;">
+					<ice:outputText value="Center"></ice:outputText>
+					</ice:panelGroup>
+				</f:facet>
+				<f:facet name="south">
+					<ice:outputText value="South"></ice:outputText>
+				</f:facet>
+			</ice:panelBorder>
+
+
+		</ice:form>
+
+		</body>
+		</html>
+	</f:view>
+</jsp:root>

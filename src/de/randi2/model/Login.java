@@ -61,8 +61,8 @@ public class Login extends AbstractDomainObject {
 		return password;
 	}
 
-	// Just a private setter for the persistence Provider
-	private void setPassword(String password) {
+	// Just a private setter for the persistence Provider //I've changed it only temporary to public ... (lpotni)
+	public void setPassword(String password) {
 		this.password = password;
 	}
 	

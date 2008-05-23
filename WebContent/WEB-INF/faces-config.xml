@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE faces-config PUBLIC
+    "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+    "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+
+<faces-config>
+
+
+	<application>
+		<variable-resolver>
+			org.springframework.web.jsf.DelegatingVariableResolver
+		</variable-resolver>
+	</application>
+	
+	<managed-bean>
+		<description>
+			This &quot;glueBean&quot; takes care of the Login and Person
+			Beans.
+		</description>
+		<managed-bean-name>loginHandler</managed-bean-name>
+		<managed-bean-class>
+			de.randi2.jsf.handlers.LoginHandler
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>login</property-name>
+			<property-class>de.randi2.model.Login</property-class>
+			<value>#{login}</value>
+		</managed-property>
+	</managed-bean>
+	<navigation-rule>
+		<display-name>
+		login</display-name>
+		<from-view-id>
+		/login.jspx</from-view-id>
+		<navigation-case>
+			<to-view-id>
+			/randi2.jspx</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+
+</faces-config>

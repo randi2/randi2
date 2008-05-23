@@ -10,7 +10,7 @@
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location"
-			value="/META-INF/configuration.properties">
+			value="classpath:META-INF/configuration.properties">
 		</property>
 		<property name="ignoreUnresolvablePlaceholders">
 			<value>true</value>
