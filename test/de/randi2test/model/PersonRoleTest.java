@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.PersonRole;
-import de.randi2.model.Righ;
+import de.randi2.model.Right;
 import de.randi2test.model.util.AbstractDomainTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -42,8 +42,8 @@ public class PersonRoleTest extends AbstractDomainTest<PersonRole>{
 		assertNotNull(validPersonRole);
 		assertNotNull(validPersonRole.getRights());
 		assertEquals(0, validPersonRole.getRights().size());
-		assertFalse(validPersonRole.hasRight(Righ.EDIT_TRIAL));
-		assertFalse(validPersonRole.hasRight(Righ.EDIT_TRIAL, factory.getTrial()));
+		assertFalse(validPersonRole.hasRight(Right.EDIT_TRIAL));
+		assertFalse(validPersonRole.hasRight(Right.EDIT_TRIAL, factory.getTrial()));
 	}
 	
 }

@@ -39,15 +39,15 @@ public class PersonRole extends AbstractDomainObject {
 		this.role = role;
 	}
 	
-	public List<Righ> getRights() {
+	public List<Right> getRights() {
 		return role.getRights();
 	}
 	
-	public boolean hasRight(Righ righ) {
+	public boolean hasRight(Right righ) {
 		return trial == null && role.hasRight(righ);
 	}
 	
-	public boolean hasRight(Righ righ, Trial _trial) {
+	public boolean hasRight(Right righ, Trial _trial) {
 		return trial != null && trial.equals(_trial) && role.hasRight(righ);
 	}
 	

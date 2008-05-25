@@ -21,7 +21,7 @@ import de.randi2.model.Center;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.PersonRole;
-import de.randi2.model.Righ;
+import de.randi2.model.Right;
 import de.randi2.model.Role;
 import de.randi2.model.Trial;
 import de.randi2.model.enumerations.Gender;
@@ -65,8 +65,8 @@ public class LoginDaoTest {
 		pr.setPerson(p);
 		Role r = new Role();
 		r.setName("testRole");
-		Vector<Righ> rights = new Vector<Righ>(1);
-		rights.add(Righ.EDIT_TRIAL);
+		Vector<Right> rights = new Vector<Right>(1);
+		rights.add(Right.EDIT_TRIAL);
 		r.setRights(rights);
 		Trial t = trialDao.get(1);
 		

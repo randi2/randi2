@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 public class Role extends AbstractDomainObject{
 	
 	private String name = "";
-	private List<Righ> rights = new ArrayList<Righ>();
+	private List<Right> rights = new ArrayList<Right>();
 	
 	public String getName() {
 		return name;
@@ -17,13 +17,13 @@ public class Role extends AbstractDomainObject{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public List<Righ> getRights() {
+	public List<Right> getRights() {
 		return rights;
 	}
-	public void setRights(List<Righ> rights) {
+	public void setRights(List<Right> rights) {
 		this.rights = rights;
 	}
-	public boolean hasRight(Righ righ) {
+	public boolean hasRight(Right righ) {
 		return rights.contains(righ);
 	}
 	

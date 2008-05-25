@@ -1,5 +1,5 @@
 package de.randi2.model;
 
-public enum Righ {
+public enum Right {
 	EDIT_TRIAL
 }
