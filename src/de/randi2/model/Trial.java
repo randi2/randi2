@@ -15,8 +15,10 @@ import org.hibernate.validator.AssertTrue;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
+import org.springframework.beans.factory.annotation.Configurable;
 
 @Entity
+@Configurable("trial")
 public class Trial extends AbstractDomainObject {
 
 	/**

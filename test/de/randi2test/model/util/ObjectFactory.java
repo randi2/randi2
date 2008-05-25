@@ -32,7 +32,7 @@ public class ObjectFactory {
 	}
 
 	public Trial getTrial() {
-		Trial t = (Trial) context.getBean("trial");
+		Trial t = new Trial();
 		t.setName(testStringUtil.getWithLength(10));
 		return t;
 	}

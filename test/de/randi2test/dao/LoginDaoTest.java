@@ -4,7 +4,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
 import java.util.GregorianCalendar;
-import java.util.Random;
 import java.util.Vector;
 
 import org.junit.Test;
@@ -27,23 +26,19 @@ import de.randi2.model.Role;
 import de.randi2.model.Trial;
 import de.randi2.model.enumerations.Gender;
 import de.randi2.model.enumerations.Titel;
+import de.randi2test.utility.TestStringUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/de/randi2/applicationContext.xml"})
+@ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml"})
 @Transactional
 public class LoginDaoTest {
 
-	@Autowired
-	private LoginDao loginDao;
+	@Autowired private LoginDao loginDao;
+	@Autowired private CenterDao centerDao;
+	@Autowired private PersonDao personDao;
+	@Autowired private TrialDao trialDao;
 	
-	@Autowired
-	private CenterDao centerDao;
-	
-	@Autowired
-	private PersonDao personDao;
-	
-	@Autowired
-	private TrialDao trialDao;
+	@Autowired private TestStringUtil stringUtil;
 	
 	@Test
 	public void CreateAndSaveTest(){
@@ -82,9 +77,12 @@ public class LoginDaoTest {
 		//Step four - creating a new login object
 		Login l = new Login();
 		l.setActive(true);
-		l.setUsername("test"+ new Random().nextInt());
+		
+		l.setUsername(stringUtil.getWithLength(12));
 		l.setPerson(p);
-		l.setPassword("test"); //TODO It should be changed, after clarifying the password topic.
+
+		//TODO It should be changed, after clarifying the password topic.
+		l.setPassword(stringUtil.getWithLength(6)); 
 		l.setFirstLoggedIn(new GregorianCalendar());
 		l.setLastLoggedIn(new GregorianCalendar());
 		

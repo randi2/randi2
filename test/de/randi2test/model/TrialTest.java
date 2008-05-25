@@ -43,7 +43,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 
 	@Test
 	public void testConstructor() {
-		final Trial t = (Trial) context.getBean("trial");
+		final Trial t = new Trial();
 		assertEquals("", t.getName());
 		assertEquals("", t.getDescription());
 		assertNull(t.getStartDate());
