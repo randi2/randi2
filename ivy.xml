@@ -1,4 +1,4 @@
-<ivy-module version="2.0">
+﻿<ivy-module version="2.0">
     <info organisation="net.sourceforge" module="randi2"/>
 	<configurations defaultconfmapping="runtime->runtime(*);compile->compile(*);test->test(*)">
 		<conf name="compile" description="Build Time dependencies"/>
@@ -34,7 +34,7 @@
 		<dependency org="hibernate.org" name="hibernate-validator" rev="3.0.0" conf="runtime;compile"/>
 		
 		
-		<dependency org="krysalis.org" name="jcharts" rev="1.0.0-alpha-1" conf="runtime;compile"/>
+		<!--dependency org="krysalis.org" name="jcharts" rev="1.0.0-alpha-1" conf="runtime;compile"/ -->
 		<dependency org="jboss.org" name="javassist" rev="3.4" conf="runtime;compile"/>
 		<dependency org="jdom.org" name="jdom" rev="1.0" conf="runtime;compile"/>
 		<dependency org="mysql.com" name="mysql-connector" rev="5.1.5" conf="runtime;compile"/>
