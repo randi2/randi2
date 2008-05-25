@@ -42,7 +42,7 @@
 		<managed-bean-class>
 			de.randi2.jsf.pages.Register
 		</managed-bean-class>
-		<managed-bean-scope>application</managed-bean-scope>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<description>The glueBean for the Center bean.</description>

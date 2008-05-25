@@ -1,10 +1,12 @@
 package de.randi2.jsf.pages;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
@@ -18,7 +20,7 @@ public class Register {
 	private Vector<SelectItem> titelItems;
 
 	private Vector<SelectItem> genderItems;
-	
+
 	private boolean termsPvisible = true;
 
 	public Register() {
@@ -32,8 +34,7 @@ public class Register {
 
 		messages.put("acceptB", "Accept");
 		messages.put("declineB", "Decline");
-		
-		
+
 		messages.put("titel", "RANDI2:Register");
 		messages.put("pTitel", "Titel");
 		messages.put("firstname", "Fristname");
@@ -76,19 +77,26 @@ public class Register {
 		}
 		return genderItems;
 	}
-	
-	public boolean getTermsPvisible(){
+
+	public boolean getTermsPvisible() {
 		return this.termsPvisible;
 	}
-	
-	public void acceptTerms(ActionEvent event){
+
+	public void acceptTerms(ActionEvent event) {
 		this.termsPvisible = false;
-		System.out.println("Changing!");
 	}
-	
-	public void declineTerms(ActionEvent event){
-		
+
+	public void declineTerms(ActionEvent event) {
+		this.termsPvisible = true;
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect(
+					FacesContext.getCurrentInstance().getExternalContext()
+							.getRequestContextPath()
+							+ "/login.jspx");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
 
 }

@@ -16,31 +16,29 @@
 		</head>
 		<body>
 		<ice:form>
-		<ice:panelPopup draggable="true" modal="true"
-			visible="#{register.termsPvisible}"
-			rendered="#{register.termsPvisible}"
-			style="width: 600px; height: auto">
-			<f:facet name="header">
-				<ice:outputText value="#{register.messages['termsPH']}"></ice:outputText>
-			</f:facet>
+			<ice:panelPopup draggable="true" modal="true"
+				visible="#{register.termsPvisible}"
+				rendered="#{register.termsPvisible}"
+				style="width: 600px; height: auto">
+				<f:facet name="header">
+					<ice:outputText value="#{register.messages['termsPH']}"></ice:outputText>
+				</f:facet>
 
-			<f:facet name="body">
-				<ice:panelGrid border="0" columns="1">
-					<f:facet name="footer">
-						<ice:panelGroup>
-							<ice:commandButton value="#{register.messages['acceptB']}"
-								actionListener="#{register.acceptTerms}"></ice:commandButton>
-							<ice:commandButton value="#{register.messages['declineB']}"></ice:commandButton>
-						</ice:panelGroup>
-					</f:facet>
-					<ice:outputText value="#{register.messages['terms']}"></ice:outputText>
+				<f:facet name="body">
+					<ice:panelGrid border="0" columns="1">
+						<f:facet name="footer">
+							<ice:panelGroup>
+								<ice:commandButton value="#{register.messages['acceptB']}"
+									actionListener="#{register.acceptTerms}"></ice:commandButton>
+								<ice:commandButton value="#{register.messages['declineB']}" actionListener="#{register.declineTerms}"></ice:commandButton>
+							</ice:panelGroup>
+						</f:facet>
+						<ice:outputText value="#{register.messages['terms']}"></ice:outputText>
+					</ice:panelGrid>
 
-
-				</ice:panelGrid>
-
-			</f:facet>
-		</ice:panelPopup>
-</ice:form>
+				</f:facet>
+			</ice:panelPopup>
+		</ice:form>
 		<ice:form partialSubmit="true">
 			<ice:messages globalOnly="true" />
 			<ice:panelBorder renderEast="false" renderSouth="false"
@@ -71,64 +69,64 @@
 							<ice:outputLabel for="titel"
 								value="#{register.messages['pTitel']}"></ice:outputLabel>
 							<ice:selectOneMenu id="titel" required="true"
-								value="#{loginHandler.person.title}">
+								value="#{loginHandler.person.title}" style="width: 234px">
 								<f:selectItems value="#{register.titelItems}" />
 							</ice:selectOneMenu>
 							<ice:message for="titel"></ice:message>
 							<ice:outputLabel for="firstname"
 								value="#{register.messages['firstname']}"></ice:outputLabel>
 							<ice:inputText id="firstname"
-								value="#{loginHandler.person.firstname}" required="true"></ice:inputText>
+								value="#{loginHandler.person.firstname}" required="true" style="width: 234px"></ice:inputText>
 							<ice:message for="firstname"></ice:message>
 							<ice:outputLabel for="surname"
 								value="#{register.messages['surname']}"></ice:outputLabel>
 							<ice:inputText id="surname"
-								value="#{loginHandler.person.surname}" required="true"></ice:inputText>
+								value="#{loginHandler.person.surname}" required="true" style="width: 235px"></ice:inputText>
 							<ice:message for="surname"></ice:message>
 							<ice:outputLabel for="gender"
 								value="#{register.messages['gender']}"></ice:outputLabel>
 							<ice:selectOneRadio id="gender" required="true"
-								value="#{loginHandler.person.gender}">
+								value="#{loginHandler.person.gender}" style="width: 351px">
 								<f:selectItems value="#{register.genderItems}" />
 							</ice:selectOneRadio>
 							<ice:message for="gender"></ice:message>
 
 						</ice:panelGrid>
 
-						<ice:panelGrid border="0" columns="3">
+						<ice:panelGrid border="0" columns="3" style="width: 698px">
 							<f:facet name="header">
 								<ice:outputText value="#{register.messages['contactH']}"></ice:outputText>
 							</f:facet>
 							<ice:outputLabel for="email"
 								value="#{register.messages['email']}"></ice:outputLabel>
 							<ice:inputText id="email" value="#{loginHandler.person.EMail}"
-								required="true"></ice:inputText>
+								required="true" style="width: 211px"></ice:inputText>
 							<ice:message for="email"></ice:message>
 							<ice:outputLabel for="phone"
 								value="#{register.messages['phone']}"></ice:outputLabel>
 							<ice:inputText id="phone" value="#{loginHandler.person.phone}"
-								required="true"></ice:inputText>
+								required="true" style="width: 209px"></ice:inputText>
 							<ice:message for="phone"></ice:message>
 							<ice:outputLabel for="mobile"
 								value="#{register.messages['mobile']}"></ice:outputLabel>
 							<ice:inputText id="mobile" value="#{loginHandler.person.mobile}"
-								required="true"></ice:inputText>
+								required="true" style="width: 208px"></ice:inputText>
 							<ice:message for="mobile"></ice:message>
 							<ice:outputLabel for="fax" value="#{register.messages['fax']}"></ice:outputLabel>
 							<ice:inputText id="fax" value="#{loginHandler.person.fax}"
-								required="true"></ice:inputText>
+								required="true" style="width: 212px"></ice:inputText>
 							<ice:message for="fax"></ice:message>
 
 						</ice:panelGrid>
 
-						<ice:panelGrid border="0" columns="3">
+						<ice:panelGrid border="0" columns="3" style="width: 700px">
 							<f:facet name="header">
 								<ice:outputText value="#{register.messages['institutionH']}"></ice:outputText>
 							</f:facet>
 							<ice:outputLabel for="center"
 								value="#{register.messages['center']}"></ice:outputLabel>
 							<ice:selectInputText id="center" required="true"
-								style="width: 100px; height: 40px;display: block;"
+								style="width: 286px; height: 40px;display: block;"
 								value="#{loginHandler.person.center}">
 								<f:selectItems value="#{centerHendler.dummyCenters}" />
 							</ice:selectInputText>
@@ -137,12 +135,12 @@
 								value="#{register.messages['assistant']}"></ice:outputLabel>
 							<ice:panelGroup>
 								<ice:selectInputText id="assistant"
-									style="width: 100px; height: 40px;display: block;"
+									style="width: 282px; height: 40px;display: block;"
 									value="#{loginHandler.person.assistant}">
 									<f:selectItems value="#{centerHendler.dummyMembers}" />
 								</ice:selectInputText>
 								<ice:commandButton id="addAssistant"
-									value="#{register.messages['assistantB']}"></ice:commandButton>
+									value="#{register.messages['assistantB']}" style="width: 285px"></ice:commandButton>
 							</ice:panelGroup>
 							<ice:message for="assistant"></ice:message>
 						</ice:panelGrid>
