@@ -1,0 +1,13 @@
+<ivysettings>
+  <settings defaultResolver="3dParty"/>
+  <caches defaultCacheDir="./ivy-cache">
+  </caches> 
+  <resolvers checkModified="true">
+			<filesystem name="3dParty">
+				<artifact pattern="../3rd Party/[organisation]/[artifact]/[revision]/jars/[artifact].[ext]" />
+				<artifact pattern="../3rd Party/[organisation]/[artifact]/jars/[artifact].[ext]" />
+				<artifact pattern="../3rd Party/[organisation]/jars/[artifact].[ext]" />
+				<artifact pattern="../3rd Party/[organisation]/[revision]/jars/[artifact].[ext]" />
+			</filesystem>
+	</resolvers>
+</ivysettings>

@@ -7,8 +7,8 @@ Anything outside the "proxool" tag is ignored. -->
     <driver-url>jdbc:mysql://localhost:3306/randi2</driver-url>
     <driver-class>com.mysql.jdbc.Driver</driver-class>
     <driver-properties>
-      <property name="user" value="randi2"/>
-      <property name="password" value="randi2"/>
+      <property name="user" value="root"/>
+      <property name="password" value="root"/>
     </driver-properties>
     <maximum-connection-count>50</maximum-connection-count>
     <house-keeping-test-sql>select CURRENT_DATE</house-keeping-test-sql>
