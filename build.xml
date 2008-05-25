@@ -312,7 +312,7 @@
 			</zipfileset>
 			
 		<!--packaging debug config -->
-			<zipfileset dir="${build.dir}" prefix="WEB-INF/">
+			<zipfileset dir="${build.dir}/config" prefix="WEB-INF/">
 				<include name="log4j.lcf"/>
 			</zipfileset>
 			
