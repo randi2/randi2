@@ -327,6 +327,7 @@
 		<zipfileset dir="${src.dir}/META-INF/" prefix="META-INF/">
 				<include name="persistence.xml"/>
 				<include name="spring.xml"/>
+				<include name="configuration.properties"/>
 				<include name="subconfig/dao.xml"/>
 				<include name="subconfig/database-mysql5.xml"/>
 				<include name="subconfig/hibernate.xml"/>
