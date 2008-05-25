@@ -1,26 +1,160 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<jsp:root version="1.2" 
-  xmlns:jsp="http://java.sun.com/JSP/Page"
-   xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:h="http://java.sun.com/jsf/html"
-  xmlns:ice="http://www.icesoft.com/icefaces/component">
-<jsp:directive.page contentType="text/html;charset=ISO-8859-1" pageEncoding="ISO-8859-1"/>
-<f:view>
-  <ice:outputDeclaration doctypeRoot="HTML" doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN" doctypeSystem="http://www.w3.org/TR/html4/loose.dtd"/>
-  <html>
-    <head>
-     <title><ice:outputText value="ICEfaces, Ajax for Java EE" /></title>
-     <ice:outputStyle href="./xmlhttp/css/xp/xp.css" />
-    </head>
-    <body>
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"
+		pageEncoding="UTF-8" />
+	<f:view>
+		<ice:outputDeclaration doctypeRoot="HTML"
+			doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN"
+			doctypeSystem="http://www.w3.org/TR/html4/loose.dtd" />
+		<html>
+		<head>
+		<title><ice:outputText value="#{register.messages['titel']}" /></title>
+		<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
+		</head>
+		<body>
+		<ice:form>
+		<ice:panelPopup draggable="true" modal="true"
+			visible="#{register.termsPvisible}"
+			rendered="#{register.termsPvisible}"
+			style="width: 600px; height: auto">
+			<f:facet name="header">
+				<ice:outputText value="#{register.messages['termsPH']}"></ice:outputText>
+			</f:facet>
 
-     <ice:outputText value="Thank you for using ICEfaces." />
-     <ice:form partialSubmit="true" >
-                 <ice:messages />
+			<f:facet name="body">
+				<ice:panelGrid border="0" columns="1">
+					<f:facet name="footer">
+						<ice:panelGroup>
+							<ice:commandButton value="#{register.messages['acceptB']}"
+								actionListener="#{register.acceptTerms}"></ice:commandButton>
+							<ice:commandButton value="#{register.messages['declineB']}"></ice:commandButton>
+						</ice:panelGroup>
+					</f:facet>
+					<ice:outputText value="#{register.messages['terms']}"></ice:outputText>
 
-     </ice:form>
 
-    </body>
-  </html>
-</f:view>
+				</ice:panelGrid>
+
+			</f:facet>
+		</ice:panelPopup>
+</ice:form>
+		<ice:form partialSubmit="true">
+			<ice:messages globalOnly="true" />
+			<ice:panelBorder renderEast="false" renderSouth="false"
+				renderWest="false"
+				style="border-width:1px;border-style:solid;height:600px;width:800px;">
+				<f:facet name="north">
+					<ice:panelGroup style="text-align:left;">
+						<ice:graphicImage value="/img/randi2.png"
+							style="width: 141px; height: 47px"></ice:graphicImage>
+
+						<ice:outputText value="ver. 0.4 alpha 0.1"
+							style="font-family: Verdana, Arial, Sans-Serif; color: #3F70A3; margin-top: 6px; margin-bottom: 6px; margin-right: 6px; margin-left: 6px; padding-bottom: 6px; padding-top: 6px; padding-left: 6px; padding-right: 6px"></ice:outputText>
+
+					</ice:panelGroup>
+				</f:facet>
+				<f:facet name="west">
+				</f:facet>
+				<f:facet name="east">
+				</f:facet>
+				<f:facet name="center">
+					<ice:panelGroup
+						style="border-width:1px;border-style:solid;height:500px;">
+
+						<ice:panelGrid border="0" columns="3">
+							<f:facet name="header">
+								<ice:outputText value="#{register.messages['personalH']}"></ice:outputText>
+							</f:facet>
+							<ice:outputLabel for="titel"
+								value="#{register.messages['pTitel']}"></ice:outputLabel>
+							<ice:selectOneMenu id="titel" required="true"
+								value="#{loginHandler.person.title}">
+								<f:selectItems value="#{register.titelItems}" />
+							</ice:selectOneMenu>
+							<ice:message for="titel"></ice:message>
+							<ice:outputLabel for="firstname"
+								value="#{register.messages['firstname']}"></ice:outputLabel>
+							<ice:inputText id="firstname"
+								value="#{loginHandler.person.firstname}" required="true"></ice:inputText>
+							<ice:message for="firstname"></ice:message>
+							<ice:outputLabel for="surname"
+								value="#{register.messages['surname']}"></ice:outputLabel>
+							<ice:inputText id="surname"
+								value="#{loginHandler.person.surname}" required="true"></ice:inputText>
+							<ice:message for="surname"></ice:message>
+							<ice:outputLabel for="gender"
+								value="#{register.messages['gender']}"></ice:outputLabel>
+							<ice:selectOneRadio id="gender" required="true"
+								value="#{loginHandler.person.gender}">
+								<f:selectItems value="#{register.genderItems}" />
+							</ice:selectOneRadio>
+							<ice:message for="gender"></ice:message>
+
+						</ice:panelGrid>
+
+						<ice:panelGrid border="0" columns="3">
+							<f:facet name="header">
+								<ice:outputText value="#{register.messages['contactH']}"></ice:outputText>
+							</f:facet>
+							<ice:outputLabel for="email"
+								value="#{register.messages['email']}"></ice:outputLabel>
+							<ice:inputText id="email" value="#{loginHandler.person.EMail}"
+								required="true"></ice:inputText>
+							<ice:message for="email"></ice:message>
+							<ice:outputLabel for="phone"
+								value="#{register.messages['phone']}"></ice:outputLabel>
+							<ice:inputText id="phone" value="#{loginHandler.person.phone}"
+								required="true"></ice:inputText>
+							<ice:message for="phone"></ice:message>
+							<ice:outputLabel for="mobile"
+								value="#{register.messages['mobile']}"></ice:outputLabel>
+							<ice:inputText id="mobile" value="#{loginHandler.person.mobile}"
+								required="true"></ice:inputText>
+							<ice:message for="mobile"></ice:message>
+							<ice:outputLabel for="fax" value="#{register.messages['fax']}"></ice:outputLabel>
+							<ice:inputText id="fax" value="#{loginHandler.person.fax}"
+								required="true"></ice:inputText>
+							<ice:message for="fax"></ice:message>
+
+						</ice:panelGrid>
+
+						<ice:panelGrid border="0" columns="3">
+							<f:facet name="header">
+								<ice:outputText value="#{register.messages['institutionH']}"></ice:outputText>
+							</f:facet>
+							<ice:outputLabel for="center"
+								value="#{register.messages['center']}"></ice:outputLabel>
+							<ice:selectInputText id="center" required="true"
+								style="width: 100px; height: 40px;display: block;"
+								value="#{loginHandler.person.center}">
+								<f:selectItems value="#{centerHendler.dummyCenters}" />
+							</ice:selectInputText>
+							<ice:message for="center"></ice:message>
+							<ice:outputLabel for="assistant"
+								value="#{register.messages['assistant']}"></ice:outputLabel>
+							<ice:panelGroup>
+								<ice:selectInputText id="assistant"
+									style="width: 100px; height: 40px;display: block;"
+									value="#{loginHandler.person.assistant}">
+									<f:selectItems value="#{centerHendler.dummyMembers}" />
+								</ice:selectInputText>
+								<ice:commandButton id="addAssistant"
+									value="#{register.messages['assistantB']}"></ice:commandButton>
+							</ice:panelGroup>
+							<ice:message for="assistant"></ice:message>
+						</ice:panelGrid>
+
+					</ice:panelGroup>
+				</f:facet>
+				<f:facet name="south">
+				</f:facet>
+			</ice:panelBorder>
+		</ice:form>
+
+		</body>
+		</html>
+	</f:view>
 </jsp:root>

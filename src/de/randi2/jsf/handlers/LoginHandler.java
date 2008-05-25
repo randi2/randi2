@@ -4,10 +4,14 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import de.randi2.model.Login;
+import de.randi2.model.Person;
 
 
 public class LoginHandler {
+	
 	private Login login;
+	
+	private Person person;
 
 	
 	public LoginHandler(){
@@ -23,6 +27,14 @@ public class LoginHandler {
 		if(login==null)
 			this.login = new Login();
 		return this.login;
+	}
+	
+	public Person getPerson(){
+		return this.person;
+	}
+	
+	public void setPerson(Person person){
+		this.person = person;
 	}
 	
 	public String saveUser(){

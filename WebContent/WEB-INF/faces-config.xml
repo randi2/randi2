@@ -12,7 +12,7 @@
 			org.springframework.web.jsf.DelegatingVariableResolver
 		</variable-resolver>
 	</application>
-	
+
 	<managed-bean>
 		<description>
 			This &quot;glueBean&quot; takes care of the Login and Person
@@ -28,15 +28,35 @@
 			<property-class>de.randi2.model.Login</property-class>
 			<value>#{login}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>person</property-name>
+			<property-class>de.randi2.model.Person</property-class>
+			<value>#{person}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>
+			This bean has all needed attributes for the register page.
+		</description>
+		<managed-bean-name>register</managed-bean-name>
+		<managed-bean-class>
+			de.randi2.jsf.pages.Register
+		</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<description>The glueBean for the Center bean.</description>
+		<managed-bean-name>centerHendler</managed-bean-name>
+		<managed-bean-class>
+			de.randi2.jsf.handlers.CenterHendler
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<navigation-rule>
-		<display-name>
-		login</display-name>
-		<from-view-id>
-		/login.jspx</from-view-id>
+		<display-name>login</display-name>
+		<from-view-id>/login.jspx</from-view-id>
 		<navigation-case>
-			<to-view-id>
-			/randi2.jspx</to-view-id>
+			<to-view-id>/randi2.jspx</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

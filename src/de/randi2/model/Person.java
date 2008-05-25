@@ -10,6 +10,7 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 
 import de.randi2.model.enumerations.Gender;
+import de.randi2.model.enumerations.Titel;
  
 @Entity
 public class Person extends AbstractDomainObject {
@@ -17,7 +18,7 @@ public class Person extends AbstractDomainObject {
 	// Persons Data
 	private String surname = "";
 	private String firstname = "";
-	private String title = "";
+	private Titel title = null;
 	private Gender gender = null;
 
 	// Contact Data
@@ -86,14 +87,14 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getTitle()
 	 */
-	public String getTitle() {
+	public Titel getTitle() {
 		return title;
 	}
 
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#setTitle(java.lang.String)
 	 */
-	public void setTitle(String title) {
+	public void setTitle(Titel title) {
 		this.title = title;
 	}
 
