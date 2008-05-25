@@ -17,14 +17,15 @@
 		</property>
 
 	</bean>
+	
 
 
 	<context:annotation-config />
-	<context:load-time-weaver aspectj-weaving="autodetect"/>
+	<context:spring-configured></context:spring-configured>
 
 	<import resource="classpath:META-INF/subconfig/database-mysql5.xml" />
 	<import resource="classpath:META-INF/subconfig/hibernate.xml" />
-	<import resource="classpath:META-INF/subconfig/domain.xml"/>
+<!--	<import resource="classpath:META-INF/subconfig/domain.xml"/>-->
 	<import resource="classpath:META-INF/subconfig/dao.xml" />
 	<import resource="classpath:META-INF/subconfig/aspects.xml" />
 

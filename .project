@@ -11,7 +11,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.eclipse.jdt.core.javabuilder</name>
+			<name>org.eclipse.ajdt.core.ajbuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -42,6 +42,7 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.eclipse.ajdt.ui.ajnature</nature>
 		<nature>org.springframework.ide.eclipse.core.springnature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>

@@ -1,0 +1,5 @@
+db.type=mysql5
+db.host=localhost
+db.database=randi2_development
+db.username=randi2
+db.password=randi2

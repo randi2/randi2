@@ -34,7 +34,7 @@ public class PersonTest extends AbstractDomainTest<Person>{
 		Person p = validPerson;
 		assertEquals("", p.getFirstname());
 		assertEquals("", p.getSurname());
-		assertEquals("", p.getTitle());
+		assertNull(p.getTitle());
 		assertNull(p.getGender());
 		
 		assertEquals("", p.getEMail());

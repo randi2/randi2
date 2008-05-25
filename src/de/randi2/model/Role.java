@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 @Entity
 public class Role extends AbstractDomainObject{
 	
-	private String name;
+	private String name = "";
 	private List<Righ> rights = new ArrayList<Righ>();
 	
 	public String getName() {

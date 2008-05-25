@@ -8,11 +8,13 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import de.randi2.model.enumerations.Gender;
 import de.randi2.model.enumerations.Titel;
  
 @Entity
+@Configurable
 public class Person extends AbstractDomainObject {
 
 	// Persons Data

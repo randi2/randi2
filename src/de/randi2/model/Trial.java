@@ -18,7 +18,7 @@ import org.hibernate.validator.NotNull;
 import org.springframework.beans.factory.annotation.Configurable;
 
 @Entity
-@Configurable("trial")
+@Configurable
 public class Trial extends AbstractDomainObject {
 
 	/**

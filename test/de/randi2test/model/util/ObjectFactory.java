@@ -20,7 +20,7 @@ public class ObjectFactory {
 	private ApplicationContext context;
 	
 	public Person getPerson(){
-		Person p = (Person) context.getBean("person"); 
+		Person p = new Person(); 
 		return p;
 	}
 	

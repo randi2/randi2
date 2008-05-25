@@ -74,11 +74,11 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 
 		validTrial.setName(nameNull);
 		assertEquals("", validTrial.getName());
-		assertInvalid(validTrial, new String[]{/* validator.notEmpty */});
+		assertInvalid(validTrial, new String[]{""/* validator.notEmpty */});
 
 		validTrial.setName(nameToLong);
 		assertEquals(nameToLong, validTrial.getName());
-		assertInvalid(validTrial, new String[]{/* validator.size */});
+		assertInvalid(validTrial, new String[]{""/* validator.size */});
 		
 		validTrial.setName(nameJustOK);
 		assertEquals(nameJustOK, validTrial.getName());
@@ -86,7 +86,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		
 		validTrial.setName(nameEmpty);
 		assertEquals(nameEmpty, validTrial.getName());
-		assertInvalid(validTrial, new String[]{/* validator.notEmpty */});
+		assertInvalid(validTrial, new String[]{""/* validator.notEmpty */});
 		
 	}
 	
