@@ -11,13 +11,10 @@ import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
 import de.randi2.model.enumerations.Gender;
-import de.randi2.model.enumerations.Titel;
 
 public class Register {
 
 	private HashMap<String, String> messages;
-
-	private Vector<SelectItem> titelItems;
 
 	private Vector<SelectItem> genderItems;
 
@@ -46,26 +43,19 @@ public class Register {
 		messages.put("fax", "Fax");
 		messages.put("center", "Center");
 		messages.put("assistant", "Assistant");
+		messages.put("cPassword", "Center password");
 
 		messages.put("personalH", "Personal Information");
 		messages.put("contactH", "Contact Information");
 		messages.put("institutionH", "Institution Information");
+		messages.put("confirmationH", "Confirmation");
 
 		messages.put("assistantB", "Add");
+		messages.put("registerB", "Register");
 	}
 
 	public Map<String, String> getMessages() {
 		return messages;
-	}
-
-	public List<SelectItem> getTitelItems() {
-		if (titelItems == null) {
-			titelItems = new Vector<SelectItem>(Titel.values().length);
-			for (Titel t : Titel.values()) {
-				titelItems.add(new SelectItem(t, t.toString()));
-			}
-		}
-		return titelItems;
 	}
 
 	public List<SelectItem> getGenderItems() {

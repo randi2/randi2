@@ -20,6 +20,7 @@ public class Center extends AbstractDomainObject{
 	private String street = "";
 	private String postcode = "";
 	private String city = "";
+	private String password = "";
 	
 	//@Transient
 	//private List<Trial> trials = new ArrayList<Trial>();
@@ -71,6 +72,15 @@ public class Center extends AbstractDomainObject{
 			city = "";
 		}
 		this.city = city;
+	}
+
+	//TODO Please annotate this filed. (lplotni)
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	

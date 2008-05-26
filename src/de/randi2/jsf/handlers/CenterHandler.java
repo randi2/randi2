@@ -7,7 +7,7 @@ import javax.faces.model.SelectItem;
 
 import de.randi2.model.Center;
 
-public class CenterHendler {
+public class CenterHandler {
 
 	private Vector<SelectItem> dummyCenters;
 	

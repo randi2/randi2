@@ -18,7 +18,7 @@
 
 
 		<ice:form partialSubmit="true">
-			<ice:messages />
+			<ice:messages showDetail="true" tooltip="true"/>
 			<ice:panelBorder renderEast="false" renderSouth="false"
 				style="border-width:1px;border-style:solid;height:600px;width:800px;">
 				<f:facet name="north">
@@ -35,7 +35,7 @@
 					<ice:panelGroup style="width:50px;">
 						<ice:menuBar orientation="vertical">
 							<ice:menuItem value="User">
-								<ice:menuItem value="Personal details" />
+								<ice:menuItem value="Personal details" action="#{loginHandler.logoutUser}" />
 								<ice:menuItem value="Logout" action="#{loginHandler.logoutUser}"/>
 								<ice:menuItemSeparator></ice:menuItemSeparator>
 								<ice:menuItem value="Create" />

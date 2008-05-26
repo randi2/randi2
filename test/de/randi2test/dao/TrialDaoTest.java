@@ -18,7 +18,7 @@ import de.randi2.model.Trial;
 import de.randi2.model.Trial.TrialStatus;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/de/randi2/applicationContext.xml"})
+@ContextConfiguration(locations = {"/META-INF/spring-test.xml"})
 @Transactional
 public class TrialDaoTest {
 

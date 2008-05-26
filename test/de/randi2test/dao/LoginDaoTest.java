@@ -25,7 +25,6 @@ import de.randi2.model.Right;
 import de.randi2.model.Role;
 import de.randi2.model.Trial;
 import de.randi2.model.enumerations.Gender;
-import de.randi2.model.enumerations.Titel;
 import de.randi2test.utility.TestStringUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,7 +47,7 @@ public class LoginDaoTest {
 		p.setFirstname("test");
 		p.setSurname("test");
 		p.setGender(Gender.MALE);
-		p.setTitle(Titel.PhD);
+		p.setTitle("Dipl");
 		p.setEMail("test@test.com");
 		p.setFax("11221122");
 		p.setMobile("222233332222");

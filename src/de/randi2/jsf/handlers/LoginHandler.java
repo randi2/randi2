@@ -39,16 +39,12 @@ public class LoginHandler {
 	
 	public String saveUser(){
 		//Es fehlt noch ein DAO
-		return "success";
+		return ApplicationHandler.SUCCESS;
 	}
 	
 	public String logoutUser(){
-		if(login.getId() == login.NOT_YET_SAVED_ID){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error","User can't be logout!"));
-			return "error";
-		}
-		login = new Login();
-		return "success";
+		System.out.println("LogoutUser wurde aufgerufen! (Bin drin!)");
+		return ApplicationHandler.SUCCESS;
 	}
 	
 	public String loginUser(){
@@ -56,13 +52,17 @@ public class LoginHandler {
 		try {
 			//login = loginDao.get(login.getLoginname());
 //			if(login.getPassword().equals(pass))
-				return "success";
+				return ApplicationHandler.SUCCESS;
 //			else
 //				throw new UserException(Messages.WRONG_LOGIN);
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(),e.toString()));
-			return "error";
+			return ApplicationHandler.ERROR;
 		}
 		
+	}
+	
+	public String registerUser(){
+		return ApplicationHandler.SUCCESS;
 	}
 }

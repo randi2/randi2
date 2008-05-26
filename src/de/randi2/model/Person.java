@@ -12,8 +12,7 @@ import org.hibernate.validator.NotEmpty;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import de.randi2.model.enumerations.Gender;
-import de.randi2.model.enumerations.Titel;
- 
+
 @Entity
 @Configurable
 public class Person extends AbstractDomainObject {
@@ -21,7 +20,7 @@ public class Person extends AbstractDomainObject {
 	// Persons Data
 	private String surname = "";
 	private String firstname = "";
-	private Titel title = null;
+	private String title = "";
 	private Gender gender = null;
 
 	// Contact Data
@@ -90,14 +89,14 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getTitle()
 	 */
-	public Titel getTitle() {
+	public String getTitle() {
 		return title;
 	}
 
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#setTitle(java.lang.String)
 	 */
-	public void setTitle(Titel title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
