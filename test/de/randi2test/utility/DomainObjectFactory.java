@@ -1,4 +1,4 @@
-package de.randi2test.model.util;
+package de.randi2test.utility;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -9,9 +9,8 @@ import de.randi2.model.Person;
 import de.randi2.model.PersonRole;
 import de.randi2.model.Role;
 import de.randi2.model.Trial;
-import de.randi2test.utility.TestStringUtil;
 
-public class ObjectFactory {
+public class DomainObjectFactory {
 
 	@Autowired
 	private TestStringUtil testStringUtil;

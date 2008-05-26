@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import de.randi2.model.Role;
-import de.randi2test.model.util.AbstractDomainTest;
+import de.randi2test.utility.AbstractDomainTest;
 
 public class RoleTest extends AbstractDomainTest<Role>{
 

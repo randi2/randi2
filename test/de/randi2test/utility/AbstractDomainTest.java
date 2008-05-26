@@ -1,4 +1,4 @@
-package de.randi2test.model.util;
+package de.randi2test.utility;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -14,7 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.AbstractDomainObject;
-import de.randi2test.utility.TestStringUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/META-INF/spring.xml", "/META-INF/subconfig/test.xml"})
@@ -22,7 +21,7 @@ public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 
 	@Autowired protected HibernateTemplate hibernateTemplate;
 	@Autowired protected TestStringUtil stringUtil;
-	@Autowired protected ObjectFactory factory;
+	@Autowired protected DomainObjectFactory factory;
 	@Autowired protected ApplicationContext context; 
 	
 	protected Class<TC> testClass;

@@ -17,40 +17,11 @@ import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
 import org.springframework.beans.factory.annotation.Configurable;
 
+import de.randi2.model.enumerations.TrialStatus;
+
 @Entity
 @Configurable
 public class Trial extends AbstractDomainObject {
-
-	/**
-	 * Enumeration Status der Studie
-	 */
-	public static enum TrialStatus {
-
-		ACTIVE("active"), IN_PREPARATION("in preparation"), FINISHED("finished"), PAUSED(
-				"paused");
-
-		private String status = null;
-
-		/**
-		 * Weist den String dem tatsaechlichen Status zu.
-		 * 
-		 * @param status
-		 *            Der Parameter enthaelt den Status-String.
-		 */
-		private TrialStatus(String status) {
-			this.status = status;
-		}
-
-		/**
-		 * Gibt den Status als String zurueck.
-		 * 
-		 * @return Status der Studie
-		 */
-
-		public String toString() {
-			return this.status;
-		}
-	}
 
 	public static final String DATES_WRONG_RANGE = "Die Datumswerte für das Start- und das Ende-Datum der Studie müssen in der richtigen zeitlichen Reihenfolge sein.";
 

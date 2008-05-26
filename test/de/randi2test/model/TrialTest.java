@@ -20,7 +20,8 @@ import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Center;
 import de.randi2.model.Person;
 import de.randi2.model.Trial;
-import de.randi2test.model.util.AbstractDomainTest;
+import de.randi2.model.enumerations.TrialStatus;
+import de.randi2test.utility.AbstractDomainTest;
 
 
 
@@ -48,7 +49,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		assertEquals("", t.getDescription());
 		assertNull(t.getStartDate());
 		assertNull(t.getEndDate());
-		assertEquals(Trial.TrialStatus.IN_PREPARATION, t.getStatus());
+		assertEquals(TrialStatus.IN_PREPARATION, t.getStatus());
 		assertNull(t.getProtocol());
 		assertEquals(0, t.getParticipatingCenters().size());
 	}
@@ -214,20 +215,20 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 
 	@Test
 	public void testStatus() {
-		validTrial.setStatus(Trial.TrialStatus.IN_PREPARATION);
-		assertEquals(Trial.TrialStatus.IN_PREPARATION, validTrial.getStatus());
+		validTrial.setStatus(TrialStatus.IN_PREPARATION);
+		assertEquals(TrialStatus.IN_PREPARATION, validTrial.getStatus());
 		assertValid(validTrial);
 
-		validTrial.setStatus(Trial.TrialStatus.ACTIVE);
-		assertEquals(Trial.TrialStatus.ACTIVE, validTrial.getStatus());
+		validTrial.setStatus(TrialStatus.ACTIVE);
+		assertEquals(TrialStatus.ACTIVE, validTrial.getStatus());
 		assertValid(validTrial);
 		
-		validTrial.setStatus(Trial.TrialStatus.PAUSED);
-		assertEquals(Trial.TrialStatus.PAUSED, validTrial.getStatus());
+		validTrial.setStatus(TrialStatus.PAUSED);
+		assertEquals(TrialStatus.PAUSED, validTrial.getStatus());
 		assertValid(validTrial);
 
-		validTrial.setStatus(Trial.TrialStatus.FINISHED);
-		assertEquals(Trial.TrialStatus.FINISHED, validTrial.getStatus());
+		validTrial.setStatus(TrialStatus.FINISHED);
+		assertEquals(TrialStatus.FINISHED, validTrial.getStatus());
 	}
 	
 	@Test 
