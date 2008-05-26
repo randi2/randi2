@@ -1,8 +1,8 @@
 package de.randi2test.dao;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNotSame;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,29 +11,30 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.randi2.dao.LoginDao;
+import de.randi2.dao.PersonDao;
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.Login;
+import de.randi2.model.Person;
 import de.randi2test.model.util.ObjectFactory;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml"})
 @Transactional
-public class LoginDaoTest {
+public class PersonDaoTest {
 
-	@Autowired private LoginDao loginDao;	
+	@Autowired private PersonDao dao;	
 	@Autowired private ObjectFactory factory;
 	
 	@Test
 	public void CreateAndSaveTest(){
 		
-		Login l = factory.getLogin();
 		
-		assertEquals(AbstractDomainObject.NOT_YET_SAVED_ID, l.getId());
-		loginDao.save(l);
-		assertNotSame(AbstractDomainObject.NOT_YET_SAVED_ID, l.getId());
+		Person p = factory.getPerson();
 		
-		assertNotNull(loginDao.get(l.getId()));
+		assertEquals(AbstractDomainObject.NOT_YET_SAVED_ID, p.getId());
+		dao.save(p);
+		assertNotSame(AbstractDomainObject.NOT_YET_SAVED_ID, p.getId());
+		
+		assertNotNull(dao.get(p.getId()));
 		
 		
 	}
