@@ -1,6 +1,6 @@
 package de.randi2.utility;
 
-import de.randi2.model.fachklassen.beans.BenutzerkontoBean;
+import de.randi2.model.Person;
 
 /**
  * Die Klasse LogAktion kapselt die Daten die zu einer zu loggenden Aktion
@@ -18,7 +18,7 @@ public class LogAktion {
 	/**
 	 * Das Benutzerkonto des Benutzers der die Aktion ausgefuehrt hat.
 	 */
-	private BenutzerkontoBean benutzer = null;
+	private Person benutzer = null;
 
 	/**
 	 * Das Objekt in dem die in dieser Aktion geanderten Daten enthalten sind.
@@ -58,7 +58,7 @@ public class LogAktion {
 	 *            Das Benutzerkonto des Benutzers der die Aktion ausgefuehrt
 	 *            hat. Darf nicht leer sein.
 	 */
-	public LogAktion(String nachricht, BenutzerkontoBean benutzer) {
+	public LogAktion(String nachricht, Person benutzer) {
 		super();
 		if (nachricht == null || nachricht.equals("")) {
 			throw new IllegalArgumentException(
@@ -85,7 +85,7 @@ public class LogAktion {
 	 *            Das Objekt in dem die in dieser Aktion geanderten Daten
 	 *            enthalten sind. Darf nicht leer sein.
 	 */
-	public LogAktion(String nachricht, BenutzerkontoBean benutzer,
+	public LogAktion(String nachricht, Person benutzer,
 			LogGeanderteDaten geanderteDaten) {
 		this(nachricht, benutzer);
 		if (geanderteDaten == null) {
@@ -102,7 +102,7 @@ public class LogAktion {
 	 * @return Der Benutzername.
 	 */
 	public String getBenutzernamen() {
-		return benutzer.getBenutzername();
+		return benutzer.getLogin().getUsername();
 	}
 
 	/**

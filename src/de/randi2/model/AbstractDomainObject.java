@@ -43,9 +43,8 @@ public abstract class AbstractDomainObject implements Serializable{
 		this.version = _version;
 	}
 	
-	public void validate(Field field){
-		String fieldname = field.getName();
-		//new Login().validate(Login.class.getField("username"));
+	public void validate(String field){
+		
 	} 
 	
 }

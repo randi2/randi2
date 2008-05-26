@@ -1,122 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
-<web-app id="WebApp_ID">
-	<display-name>RANDI2</display-name>
 
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>
-			classpath:META-INF/spring.xml
-		</param-value>
-	</context-param>
+<web-app id="web-app_1" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
+   <display-name>RANDI2</display-name>
+   <distributable/>
 
-	<context-param>
-		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-		<param-value>server</param-value>
-	</context-param>
-	<context-param>
-		<param-name>com.icesoft.faces.concurrentDOMViews</param-name>
-		<param-value>false</param-value>
-		<description>To allow multiple windows for a single application. See Concurrent DOM Views in Chapter 3. of Developer Guide.</description>
-	</context-param>
-	<context-param>
-		<param-name>com.icesoft.faces.synchronousUpdate</param-name>
-		<param-value>false</param-value>
-		<description>Turn on/off application-wide synchronous or asynchronous updates. See Synchronous and Asynchronous Updates in Chapter 3. of Developer Guide.</description>
-	</context-param>
-	<context-param>
-		<param-name>com.icesoft.faces.gmapKey</param-name>
-		<param-value>
-			ABQIAAAADlu0ZiSTam64EKaCQr9eTRTOTuQNzJNXRlYRLknj4cQ89tFfpxTEqxQnVWL4k55OPICgF5_SOZE06A
-		</param-value>
-		<description>A Google Maps API key is required if gMap component is used. Sign up for an API key from http://code.google.com/apis/maps/signup.html.</description>
-	</context-param>
-	<context-param>
-		<param-name>com.icesoft.faces.uploadDirectory</param-name>
-		<param-value>upload</param-value>
-	</context-param>
-	<context-param>
-		<param-name>com.icesoft.faces.uploadMaxFileSize</param-name>
-		<param-value>4048576</param-value>
-	</context-param>
-	<context-param>
-		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-		<param-value>.jspx</param-value>
-	</context-param>
+    <!--
+    To use non XDoclet filters, create a filters.xml file that
+    contains the additional filters (eg Sitemesh) and place it in your
+    project's merge dir.  Don't include filter-mappings in this file,
+    include them in a file called filter-mappings.xml and put that in
+    the same directory.
+    -->
 
-	<listener>
-		<listener-class>
-			org.springframework.web.context.ContextLoaderListener
-		</listener-class>
-	</listener>
-	<listener>
-		<listener-class>
-			org.springframework.web.context.request.RequestContextListener
-		</listener-class>
-	</listener>
+    <!--
+    To use non XDoclet filter-mappings, create a filter-mappings.xml file that
+    contains the additional filter-mappings and place it in your
+    project's merge dir.
+    -->
 
+    <!--
+    To use non XDoclet listeners, create a listeners.xml file that
+    contains the additional listeners and place it in your
+    project's merge dir.
+    -->
 
-	<listener>
-		<listener-class>
-			com.icesoft.faces.util.event.servlet.ContextEventRepeater
-		</listener-class>
-	</listener>
-	<servlet>
-		<servlet-name>Persistent Faces Servlet</servlet-name>
-		<servlet-class>
-			com.icesoft.faces.webapp.xmlhttp.PersistentFacesServlet
-		</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet>
-		<servlet-name>Blocking Servlet</servlet-name>
-		<servlet-class>
-			com.icesoft.faces.webapp.xmlhttp.BlockingServlet
-		</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet>
-		<servlet-name>uploadServlet</servlet-name>
-		<servlet-class>
-			com.icesoft.faces.component.inputfile.FileUploadServlet
-		</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet>
-		<servlet-name>Faces Servlet</servlet-name>
-		<servlet-class>
-		javax.faces.webapp.FacesServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Persistent Faces Servlet</servlet-name>
-		<url-pattern>*.jspx</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Persistent Faces Servlet</servlet-name>
-		<url-pattern>*.iface</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Persistent Faces Servlet</servlet-name>
-		<url-pattern>/xmlhttp/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Persistent Faces Servlet</servlet-name>
-		<url-pattern>/faces/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Blocking Servlet</servlet-name>
-		<url-pattern>/block/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>uploadServlet</servlet-name>
-		<url-pattern>/uploadHtml</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>/faces/*</url-pattern>
-	</servlet-mapping>
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-	</welcome-file-list>
+  <!--
+  To use non XDoclet servlets, create a servlets.xml file that
+  contains the additional servlets (eg Struts) and place it in your
+  project's merge dir.  Don't include servlet-mappings in this file,
+  include them in a file called servlet-mappings.xml and put that in
+  the same directory.
+  -->
+
+   <!--
+   To specify mime mappings, create a file named mime-mappings.xml, put it in your project's mergedir.
+   Organize mime-mappings.xml following this DTD slice:
+
+   <!ELEMENT mime-mapping (extension, mime-type)>
+   -->
+
+   <!--
+   To specify error pages, create a file named error-pages.xml, put it in your project's mergedir.
+   Organize error-pages.xml following this DTD slice:
+
+   <!ELEMENT error-page ((error-code | exception-type), location)>
+   -->
+
+  <!--
+  To add taglibs by xml, create a file called taglibs.xml and place it
+  in your merge dir.
+  -->
+
+   <!--
+   To set up security settings for your web app, create a file named web-security.xml, put it in your project's mergedir.
+   Organize web-security.xml following this DTD slice:
+
+   <!ELEMENT security-constraint (display-name?, web-resource-collection+, auth-constraint?, user-data-constraint?)>
+   <!ELEMENT web-resource-collection (web-resource-name, description?, url-pattern*, http-method*)>
+   <!ELEMENT web-resource-name (#PCDATA)>
+   <!ELEMENT url-pattern (#PCDATA)>
+   <!ELEMENT http-method (#PCDATA)>
+   <!ELEMENT user-data-constraint (description?, transport-guarantee)>
+   <!ELEMENT transport-guarantee (#PCDATA)>
+
+   <!ELEMENT login-config (auth-method?, realm-name?, form-login-config?)>
+   <!ELEMENT auth-method (#PCDATA)>
+   <!ELEMENT realm-name (#PCDATA)>
+   <!ELEMENT form-login-config (form-login-page, form-error-page)>
+   <!ELEMENT form-login-page (#PCDATA)>
+   <!ELEMENT form-error-page (#PCDATA)>
+   -->
+
 </web-app>
