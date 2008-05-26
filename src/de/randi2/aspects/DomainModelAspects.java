@@ -8,12 +8,10 @@ import org.aspectj.lang.annotation.Aspect;
 public class DomainModelAspects {
 
 	public DomainModelAspects() {
-		System.out.println("ich wurde konfiguriert");
 	}
 
 	@Around("execution(public void de.randi2.model.*.set*(java.lang.String))")
 	public void filterSetString(ProceedingJoinPoint pjp) throws Throwable {
-		System.out.println("String: " + pjp.getArgs()[0]);
 
 		String value = (pjp.getArgs()[0] != null) ? ((String) pjp.getArgs()[0])
 				.trim() : "";

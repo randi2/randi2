@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -117,6 +118,7 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getEMail()
 	 */
+	@Email
 	public String getEMail() {
 		return eMail;
 	}

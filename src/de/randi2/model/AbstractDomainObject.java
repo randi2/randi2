@@ -1,6 +1,7 @@
 package de.randi2.model;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,5 +42,10 @@ public abstract class AbstractDomainObject implements Serializable{
 	private void setVersion(int _version) {
 		this.version = _version;
 	}
+	
+	public void validate(Field field){
+		String fieldname = field.getName();
+		new Login().validate(Login.class.getField("username"));
+	} 
 	
 }
