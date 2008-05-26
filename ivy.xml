@@ -8,7 +8,7 @@
 	<dependencies>
 		<dependency org="apache.org" name="commons-beanutils" rev="1.6" conf="runtime;compile"/>
 		<dependency org="apache.org" name="commons-collections" rev="3.2" conf="runtime;compile"/>
-
+		<dependency org="apache.org" name="commons-digester" rev="1.8" conf="runtime;compile"/>
 		<dependency org="apache.org" name="commons-dbcp" rev="1.2.2" conf="runtime;compile"/>
 		<dependency org="apache.org" name="commons-email" rev="1.0" conf="runtime;compile"/>
 		<dependency org="apache.org" name="commons-fileupload" rev="1.1" conf="runtime;compile"/>
@@ -34,7 +34,7 @@
 		<dependency org="hibernate.org" name="hibernate-validator" rev="3.0.0" conf="runtime;compile"/>
 		
 		
-		<!--dependency org="krysalis.org" name="jcharts" rev="1.0.0-alpha-1" conf="runtime;compile"/ -->
+		<dependency org="krysalis.org" name="jcharts" rev="1.0.0-alpha-1" conf="runtime;compile"/>
 		<dependency org="jboss.org" name="javassist" rev="3.4" conf="runtime;compile"/>
 		<dependency org="jdom.org" name="jdom" rev="1.0" conf="runtime;compile"/>
 		<dependency org="mysql.com" name="mysql-connector" rev="5.1.5" conf="runtime;compile"/>
@@ -57,6 +57,7 @@
 				
 		<dependency org="sun.com" name="activation" rev="1.1" conf="runtime;compile"/>
 		<dependency org="sun.com" name="jstl-api" rev="1.1.1" conf="runtime;compile"/>
+		<dependency org="sun.com" name="jstl" rev="1.1" conf="runtime;compile"/>
 		<dependency org="sun.com" name="jta" rev="1.1" conf="runtime;compile"/>
 		<dependency org="sun.com" name="mail" rev="1.4" conf="runtime;compile"/>
 		<dependency org="sun.com" name="jsf-api" rev="1.1_02" conf="runtime;compile"/>
