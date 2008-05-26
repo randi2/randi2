@@ -12,6 +12,11 @@ import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
+import org.hibernate.validator.ClassValidator;
+import org.hibernate.validator.InvalidValue;
+
+import de.randi2.model.exceptions.ValidationException;
+
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 @MappedSuperclass
 public abstract class AbstractDomainObject implements Serializable{
@@ -44,7 +49,12 @@ public abstract class AbstractDomainObject implements Serializable{
 	}
 	
 	public void validate(String field){
+		ClassValidator val = new ClassValidator(this.getClass());
+		InvalidValue[] invalids = val.getInvalidValues(this, field);
 		
+		if(invalids.length > 0){
+			throw new ValidationException(invalids);
+		}
 	} 
 	
 }
