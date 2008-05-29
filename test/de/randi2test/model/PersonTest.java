@@ -4,6 +4,7 @@ package de.randi2test.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.AbstractDomainObject;
+import de.randi2.model.Center;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2test.utility.AbstractDomainTest;
@@ -93,6 +95,50 @@ public class PersonTest extends AbstractDomainTest<Person>{
 		Person p1 = p.getLogin().getPerson();
 		
 
+	}
+	
+	
+	@Test
+	public void testAssistant(){
+		Person assistant = factory.getPerson();
+		assistant.setSurname(stringUtil.getWithLength(20));
+		validPerson.setAssistant(assistant);
+		validPerson.setSurname(stringUtil.getWithLength(20));
+		assertNotNull(validPerson.getAssistant());
+		
+		
+		hibernateTemplate.saveOrUpdate(validPerson);
+		
+
+		assertTrue(validPerson.getAssistant().getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
+		
+		Person p = (Person) hibernateTemplate.get(Person.class, validPerson.getId());
+		
+		assertNotNull(p);
+		assertEquals(validPerson.getId(), p.getId());
+		assertNotNull(p.getAssistant());
+		assertEquals(assistant.getId(), p.getAssistant().getId());
+		}
+	
+	@Test
+	public void testCenter(){
+		Center center = factory.getCenter();
+		center.setName(stringUtil.getWithLength(20));
+		validPerson.setSurname(stringUtil.getWithLength(20));
+		validPerson.setCenter(center);
+		assertNotNull(validPerson.getCenter());
+		
+		
+		hibernateTemplate.saveOrUpdate(validPerson);
+		
+		assertTrue(validPerson.getCenter().getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
+		
+		Person p = (Person) hibernateTemplate.get(Person.class, validPerson.getId());
+		
+		assertNotNull(p);
+		assertEquals(validPerson.getId(), p.getId());
+		assertNotNull(p.getCenter());
+		assertEquals(center.getId(), p.getCenter().getId());
 	}
 
 }

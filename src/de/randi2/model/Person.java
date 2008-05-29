@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -33,8 +35,9 @@ public class Person extends AbstractDomainObject {
 	private String fax = "";
 	
 	// Institutional Data
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Person assistant;
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Center center;
 
 	// Login data
@@ -48,8 +51,6 @@ public class Person extends AbstractDomainObject {
 	 * @see de.randi2.model.PersonIF#getCenter()
 	 */
 	public Center getCenter() {
-		if(center==null)
-			center = new Center();
 		return center;
 	}
 
@@ -182,8 +183,6 @@ public class Person extends AbstractDomainObject {
 	 * @see de.randi2.model.PersonIF#getAssistant()
 	 */
 	public Person getAssistant() {
-		if(assistant==null)
-			assistant = new Person();
 		return assistant;
 	}
 
