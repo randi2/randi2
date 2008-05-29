@@ -31,14 +31,8 @@ public class RANDI2Validator implements Validator, Serializable{
 //		
 //		ResourceBundle rb = ResourceBundle.getBundle(messageBundle, locale);
 		
-		//TODO
-//		System.out.println(arg1.getId());
-//		System.out.println(arg2.toString());
-//		((Person)dObject).setTitle(arg2.toString());
-//		System.out.println(((Person)dObject).getTitle());
-//		System.out.println(dObject.getClass().getCanonicalName());
 		try{
-//			dObject.validate(arg1.getId());
+			dObject.checkValue(arg1.getId(), arg2);
 		}catch(ValidationException exp){
 			exp.printStackTrace();
 			throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,exp.getLocalizedMessage(),null));

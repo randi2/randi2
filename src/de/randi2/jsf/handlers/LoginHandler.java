@@ -9,6 +9,7 @@ import org.hibernate.validator.InvalidValue;
 import de.randi2.dao.LoginDao;
 import de.randi2.dao.PersonDao;
 import de.randi2.jsf.pages.Register;
+import de.randi2.model.Center;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 
@@ -18,6 +19,11 @@ public class LoginHandler {
 	private Login login;
 	
 	private Person person;
+	
+	private Person userAssistant;
+	
+	private Center userCenter;
+	
 	
 	private LoginDao loginDao;
 	
@@ -114,5 +120,25 @@ public class LoginHandler {
 	
 	private void showMessage(String message){
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,message,null));
+	}
+
+	public Person getUserAssistant() {
+		if(userAssistant==null)
+			userAssistant = new Person();
+		return userAssistant;
+	}
+
+	public void setUserAssistant(Person userAssistant) {
+		this.userAssistant = userAssistant;
+	}
+
+	public Center getUserCenter() {
+		if(userCenter==null)
+			userCenter = new Center();
+		return userCenter;
+	}
+
+	public void setUserCenter(Center userCenter) {
+		this.userCenter = userCenter;
 	}
 }

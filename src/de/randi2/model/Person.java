@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
+import org.hibernate.validator.NotNull;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import de.randi2.model.enumerations.Gender;
@@ -48,9 +49,8 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getCenter()
 	 */
+	@NotNull
 	public Center getCenter() {
-		if(center==null)
-			center = new Center();
 		return center;
 	}
 
@@ -183,8 +183,6 @@ public class Person extends AbstractDomainObject {
 	 * @see de.randi2.model.PersonIF#getAssistant()
 	 */
 	public Person getAssistant() {
-		if(assistant==null)
-			assistant = new Person();
 		return assistant;
 	}
 

@@ -203,16 +203,16 @@
 									value="#{register.messages['center']}"></ice:outputLabel>
 								<ice:selectInputText id="center"
 									style="height: 40px;display: block;"
-									value="#{loginHandler.person.center.name}">
+									value="#{loginHandler.userCenter.name}">
 									<f:selectItems value="#{centerHendler.dummyCenters}" />
 								</ice:selectInputText>
 								<ice:outputLabel for="assistant"
 									value="#{register.messages['assistant']}"></ice:outputLabel>
-								<!-- ice:selectInputText id="assistant"
+								<ice:selectInputText id="assistant"
 									style="height: 40px;display: block;float:left;"
-									value="#{loginHandler.person.assistant.surname}">
+									value="#{loginHandler.userAssistant.surname}">
 									<f:selectItems value="#{centerHendler.dummyMembers}" />
-								</ice:selectInputText -->
+								</ice:selectInputText>
 								<ice:commandButton id="addAssistant"
 									value="#{register.messages['assistantB']}"></ice:commandButton>
 							</ice:panelGrid>
@@ -224,7 +224,7 @@
 								<ice:outputLabel for="cPassword"
 									value="#{register.messages['cPassword']}"></ice:outputLabel>
 								<ice:inputSecret id="cPassword"
-									value="#{loginHandler.person.center.password}"></ice:inputSecret>
+									value="#{loginHandler.userCenter.password}"></ice:inputSecret>
 								<ice:commandButton type="submit" value="#{register.messages['registerB']}"
 									action="#{loginHandler.registerUser}"></ice:commandButton>
 								<ice:commandButton immediate="true" value="#{register.messages['cancelB']}"
