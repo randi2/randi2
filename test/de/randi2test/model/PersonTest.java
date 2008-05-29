@@ -2,8 +2,8 @@ package de.randi2test.model;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +11,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import de.randi2.model.AbstractDomainObject;
+import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2test.utility.AbstractDomainTest;
 
@@ -51,7 +53,7 @@ public class PersonTest extends AbstractDomainTest<Person>{
 	
 	@Test
 	public void testSurname(){
-	/*	validPerson.setSurname(stringUtil.getWithLength(1));
+		validPerson.setSurname(stringUtil.getWithLength(1));
 		assertEquals(stringUtil.getLastString(), validPerson.getSurname());
 		assertValid(validPerson);
 		
@@ -71,7 +73,26 @@ public class PersonTest extends AbstractDomainTest<Person>{
 		
 		validPerson.setSurname(null);
 		assertEquals("", validPerson.getSurname());
-		assertInvalid(validPerson);*/
+		assertInvalid(validPerson);
+	}
+	
+	@Test
+	public void testLogin(){
+		Login l = factory.getLogin();
+		validPerson.setSurname(stringUtil.getWithLength(20));
+		l.setUsername(stringUtil.getWithLength(Login.MIN_USERNAME_LENGTH));
+		validPerson.setLogin(l);
+		assertNotNull(validPerson.getLogin());
+		hibernateTemplate.saveOrUpdate(validPerson);
+		
+		Person p = (Person)hibernateTemplate.get(Person.class, validPerson.getId());
+		assertNotNull(p);
+		assertEquals(validPerson.getSurname(), p.getSurname());
+		assertNotNull(p.getLogin());
+		assertEquals(validPerson.getLogin().getId(), p.getLogin().getId());
+		Person p1 = p.getLogin().getPerson();
+		
+
 	}
 
 }

@@ -12,7 +12,7 @@ import org.hibernate.validator.Length;
 @Entity
 public class Login extends AbstractDomainObject {
 
-	public final static int MAX_USERNAME_LENGTH = 25;
+	public final static int MAX_USERNAME_LENGTH = 40;
 	public final static int MIN_USERNAME_LENGTH = 5;
 	
 	
