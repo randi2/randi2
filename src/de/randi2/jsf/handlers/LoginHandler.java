@@ -5,6 +5,7 @@ import javax.faces.context.FacesContext;
 
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import de.randi2.dao.LoginDao;
 import de.randi2.dao.PersonDao;
@@ -24,9 +25,9 @@ public class LoginHandler {
 	
 	private Center userCenter;
 	
-	
+	@Autowired
 	private LoginDao loginDao;
-	
+	@Autowired
 	private PersonDao personDao;
 
 	

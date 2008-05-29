@@ -27,7 +27,7 @@
 	<import resource="classpath:META-INF/subconfig/hibernate.xml" />
 <!--	<import resource="classpath:META-INF/subconfig/domain.xml"/>-->
 	<import resource="classpath:META-INF/subconfig/dao.xml" />
-	<import resource="classpath:META-INF/subconfig/handlers.xml" />
+<!-- 	<import resource="classpath:META-INF/subconfig/handlers.xml" /> -->
 	<import resource="classpath:META-INF/subconfig/aspects.xml" />
 
 
