@@ -48,9 +48,9 @@ public abstract class AbstractDomainObject implements Serializable{
 		this.version = _version;
 	}
 	
-	public void validate(String field){
+	public void checkValue(String field, Object value){
 		ClassValidator val = new ClassValidator(this.getClass());
-		InvalidValue[] invalids = val.getInvalidValues(this, field);
+		InvalidValue[] invalids = val.getPotentialInvalidValues(field, value);
 		
 		if(invalids.length > 0){
 			throw new ValidationException(invalids);
