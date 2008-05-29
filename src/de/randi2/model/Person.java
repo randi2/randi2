@@ -48,6 +48,8 @@ public class Person extends AbstractDomainObject {
 	 * @see de.randi2.model.PersonIF#getCenter()
 	 */
 	public Center getCenter() {
+		if(center==null)
+			center = new Center();
 		return center;
 	}
 
@@ -180,6 +182,8 @@ public class Person extends AbstractDomainObject {
 	 * @see de.randi2.model.PersonIF#getAssistant()
 	 */
 	public Person getAssistant() {
+		if(assistant==null)
+			assistant = new Person();
 		return assistant;
 	}
 

@@ -3,6 +3,7 @@ package de.randi2.jsf.handlers;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import de.randi2.dao.LoginDao;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 
@@ -12,13 +13,13 @@ public class LoginHandler {
 	private Login login;
 	
 	private Person person;
+	
+	private LoginDao loginDao;
 
 	
 	public LoginHandler(){
 	}
 	
-	
-
 	public void setLogin(Login login) {
 		this.login = login;
 	}
@@ -30,6 +31,8 @@ public class LoginHandler {
 	}
 	
 	public Person getPerson(){
+		if(person==null)
+			this.person = new Person();
 		return this.person;
 	}
 	
@@ -37,8 +40,31 @@ public class LoginHandler {
 		this.person = person;
 	}
 	
+	public LoginDao getLoginDao() {
+		return loginDao;
+	}
+
+	public void setLoginDao(LoginDao loginDao) {
+		this.loginDao = loginDao;
+	}
+
 	public String saveUser(){
 		//Es fehlt noch ein DAO
+		return ApplicationHandler.SUCCESS;
+	}
+	
+	public String registerUser(){
+		System.out.println("registerUser");
+		try{
+			this.getLogin().setPerson(this.getPerson());
+			this.getLogin().setUsername(person.getEMail());
+			this.getLogin().setPassword("test");
+			loginDao.save(this.getLogin());
+		}catch(Exception exp){
+			exp.printStackTrace();
+			showMessage(exp);
+			return ApplicationHandler.ERROR;
+		}
 		return ApplicationHandler.SUCCESS;
 	}
 	
@@ -56,13 +82,13 @@ public class LoginHandler {
 //			else
 //				throw new UserException(Messages.WRONG_LOGIN);
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(),e.toString()));
+			showMessage(e);
 			return ApplicationHandler.ERROR;
 		}
 		
 	}
 	
-	public String registerUser(){
-		return ApplicationHandler.SUCCESS;
+	private void showMessage(Exception e){
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(),e.toString()));
 	}
 }

@@ -31,7 +31,8 @@
 							<ice:panelGroup>
 								<ice:commandButton value="#{register.messages['acceptB']}"
 									actionListener="#{register.acceptTerms}"></ice:commandButton>
-								<ice:commandButton value="#{register.messages['declineB']}" actionListener="#{register.declineTerms}"></ice:commandButton>
+								<ice:commandButton value="#{register.messages['declineB']}"
+									actionListener="#{register.declineTerms}"></ice:commandButton>
 							</ice:panelGroup>
 						</f:facet>
 						<ice:outputText value="#{register.messages['terms']}"></ice:outputText>
@@ -40,10 +41,10 @@
 				</f:facet>
 			</ice:panelPopup>
 		</ice:form>
-		
+
 		<!-- The Registration Form  -->
 		<ice:form partialSubmit="true">
-			<ice:messages globalOnly="true" />
+			<ice:messages showDetail="true" showSummary="true" tooltip="true"/>
 			<ice:panelBorder renderEast="false" renderSouth="false"
 				renderWest="false"
 				style="border-width:1px;border-style:solid;height:600px;width:800px;">
@@ -62,92 +63,147 @@
 				<f:facet name="east">
 				</f:facet>
 				<f:facet name="center">
-					
-					
+
+
 					<ice:panelGroup
 						style="border-width:1px;border-style:solid;height:500px;">
 
 						<ice:panelGrid border="0" columns="2">
-					<ice:panelGrid border="0" columns="2">
-							<f:facet name="header">
-								<ice:outputText value="#{register.messages['personalH']}"></ice:outputText>
-							</f:facet>
-							<ice:outputLabel for="titel"
-								value="#{register.messages['pTitel']}"></ice:outputLabel>
-							<ice:inputText id="titel"
-								value="#{loginHandler.person.title}"></ice:inputText>
-							
-							<ice:outputLabel for="firstname"
-								value="#{register.messages['firstname']}"></ice:outputLabel>
-							<ice:inputText id="firstname"
-								value="#{loginHandler.person.firstname}"></ice:inputText>
-							<ice:outputLabel for="surname"
-								value="#{register.messages['surname']}"></ice:outputLabel>
-							<ice:inputText id="surname"
-								value="#{loginHandler.person.surname}"></ice:inputText>
-							<ice:outputLabel for="gender"
-								value="#{register.messages['gender']}"></ice:outputLabel>
-							<ice:selectOneRadio id="gender" 
-								value="#{loginHandler.person.gender}">
-								<f:selectItems value="#{register.genderItems}" />
-							</ice:selectOneRadio>
+							<ice:panelGroup>
+								<ice:panelGrid border="0" columns="2" style="float:left">
+									<f:facet name="header">
+										<ice:outputText value="#{register.messages['personalH']}"></ice:outputText>
+									</f:facet>
+									<ice:outputLabel for="title"
+										value="#{register.messages['pTitel']}"></ice:outputLabel>
+									<ice:panelGroup>
+										<ice:inputText id="title" value="#{loginHandler.person.title}"
+											partialSubmit="true">
+											<f:validator
+												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+											<f:attribute name="dObject" value="#{loginHandler.person}" />
+										</ice:inputText>
+										<ice:message for="title"></ice:message>
+									</ice:panelGroup>
+									<ice:outputLabel for="firstname"
+										value="#{register.messages['firstname']}"></ice:outputLabel>
+									<ice:panelGroup>
+										<ice:inputText id="firstname"
+											value="#{loginHandler.person.firstname}">
+											<f:validator
+												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+											<f:attribute name="dObject" value="#{loginHandler.person}" />
+										</ice:inputText>
+										<ice:message for="firstname"></ice:message>
+									</ice:panelGroup>
+									<ice:outputLabel for="surname"
+										value="#{register.messages['surname']}"></ice:outputLabel>
+									<ice:panelGroup>
+										<ice:inputText id="surname"
+											value="#{loginHandler.person.surname}">
+											<f:validator
+												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+											<f:attribute name="dObject" value="#{loginHandler.person}" />
+										</ice:inputText>
+										<ice:message for="surname"></ice:message>
+									</ice:panelGroup>
+									<ice:outputLabel for="gender"
+										value="#{register.messages['gender']}"></ice:outputLabel>
+									<ice:panelGroup>
+										<ice:selectOneRadio id="gender"
+											value="#{loginHandler.person.gender}">
+											<f:validator
+												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+											<f:converter converterId="de.randi2.jsf.converters.GENDER_CONVERTER"/>
+											<f:attribute name="dObject" value="#{loginHandler.person}" />
+											<f:selectItems value="#{register.genderItems}" />
+										</ice:selectOneRadio>
+										<ice:message for="gender"></ice:message>
+									</ice:panelGroup>
+								</ice:panelGrid>
+							</ice:panelGroup>
 
-						</ice:panelGrid>
+							<ice:panelGrid border="0" columns="2">
+								<f:facet name="header">
+									<ice:outputText value="#{register.messages['contactH']}"></ice:outputText>
+								</f:facet>
+								<ice:outputLabel for="email"
+									value="#{register.messages['email']}"></ice:outputLabel>
+								<ice:panelGroup>
+									<ice:inputText id="email" value="#{loginHandler.person.EMail}">
+										<f:validator
+											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+										<f:attribute name="dObject" value="#{loginHandler.person}" />
+									</ice:inputText>
+									<ice:message for="email"></ice:message>
+								</ice:panelGroup>
+								<ice:outputLabel for="phone"
+									value="#{register.messages['phone']}"></ice:outputLabel>
+								<ice:panelGroup>
+									<ice:inputText id="phone" value="#{loginHandler.person.phone}">
+										<f:validator
+											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+										<f:attribute name="dObject" value="#{loginHandler.person}" />
+									</ice:inputText>
+									<ice:message for="phone"></ice:message>
+								</ice:panelGroup>
+								<ice:outputLabel for="mobile"
+									value="#{register.messages['mobile']}"></ice:outputLabel>
+								<ice:panelGroup>
+									<ice:inputText id="mobile"
+										value="#{loginHandler.person.mobile}">
+										<f:validator
+											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+										<f:attribute name="dObject" value="#{loginHandler.person}" />
+									</ice:inputText>
+									<ice:message for="mobile"></ice:message>
+								</ice:panelGroup>
+								<ice:outputLabel for="fax" value="#{register.messages['fax']}"></ice:outputLabel>
+								<ice:panelGroup>
+									<ice:inputText id="fax" value="#{loginHandler.person.fax}">
+										<f:validator
+											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+										<f:attribute name="dObject" value="#{loginHandler.person}" />
+									</ice:inputText>
+									<ice:message for="fax"></ice:message>
+								</ice:panelGroup>
 
-						<ice:panelGrid border="0" columns="2">
-							<f:facet name="header">
-								<ice:outputText value="#{register.messages['contactH']}"></ice:outputText>
-							</f:facet>
-							<ice:outputLabel for="email"
-								value="#{register.messages['email']}"></ice:outputLabel>
-							<ice:inputText id="email" value="#{loginHandler.person.EMail}"></ice:inputText>
-							<ice:outputLabel for="phone"
-								value="#{register.messages['phone']}"></ice:outputLabel>
-							<ice:inputText id="phone" value="#{loginHandler.person.phone}"></ice:inputText>
-							<ice:outputLabel for="mobile"
-								value="#{register.messages['mobile']}"></ice:outputLabel>
-							<ice:inputText id="mobile" value="#{loginHandler.person.mobile}"></ice:inputText>
-							<ice:outputLabel for="fax" value="#{register.messages['fax']}"></ice:outputLabel>
-							<ice:inputText id="fax" value="#{loginHandler.person.fax}"></ice:inputText>
+							</ice:panelGrid>
 
-						</ice:panelGrid>
-
-						<ice:panelGrid border="0" columns="2">
-							<f:facet name="header">
-								<ice:outputText value="#{register.messages['institutionH']}"></ice:outputText>
-							</f:facet>
-							<ice:outputLabel for="center"
-								value="#{register.messages['center']}"></ice:outputLabel>
-							<ice:selectInputText id="center" 
-								style="height: 40px;display: block;"
-								value="#{loginHandler.person.center}">
-								<f:selectItems value="#{centerHendler.dummyCenters}" />
-							</ice:selectInputText>
-							<ice:outputLabel for="assistant"
-								value="#{register.messages['assistant']}"></ice:outputLabel>
-							<!-- ice:panelGroup -->
+							<ice:panelGrid border="0" columns="2">
+								<f:facet name="header">
+									<ice:outputText value="#{register.messages['institutionH']}"></ice:outputText>
+								</f:facet>
+								<ice:outputLabel for="center"
+									value="#{register.messages['center']}"></ice:outputLabel>
+								<ice:selectInputText id="center"
+									style="height: 40px;display: block;"
+									value="#{loginHandler.person.center.name}">
+									<f:selectItems value="#{centerHendler.dummyCenters}" />
+								</ice:selectInputText>
+								<ice:outputLabel for="assistant"
+									value="#{register.messages['assistant']}"></ice:outputLabel>
 								<ice:selectInputText id="assistant"
 									style="height: 40px;display: block;float:left;"
-									value="#{loginHandler.person.assistant}">
+									value="#{loginHandler.person.assistant.surname}">
 									<f:selectItems value="#{centerHendler.dummyMembers}" />
 								</ice:selectInputText>
 								<ice:commandButton id="addAssistant"
 									value="#{register.messages['assistantB']}"></ice:commandButton>
-							<!-- /ice:panelGroup -->
+							</ice:panelGrid>
+ 
+							<ice:panelGrid border="0" columns="2">
+								<f:facet name="header">
+									<ice:outputText value="#{register.messages['confirmationH']}"></ice:outputText>
+								</f:facet>
+								<ice:outputLabel for="cPassword"
+									value="#{register.messages['cPassword']}"></ice:outputLabel>
+								<ice:inputSecret id="cPassword"
+									value="#{loginHandler.person.center.password}"></ice:inputSecret>
+								<ice:commandButton type="submit" value="#{register.messages['registerB']}"
+									action="#{loginHandler.registerUser}"></ice:commandButton>
+							</ice:panelGrid>
 						</ice:panelGrid>
-						
-						<ice:panelGrid border="0" columns="2">
-							<f:facet name="header">
-								<ice:outputText value="#{register.messages['confirmationH']}"></ice:outputText>
-							</f:facet>
-							<ice:outputLabel for="cPassword"
-								value="#{register.messages['cPassword']}"></ice:outputLabel>
-							<ice:inputHidden id="cPassword" value="#{loginHandler.person.center.password}"></ice:inputHidden>
-							<ice:commandButton value="#{register.messages['registerB']}" action=""></ice:commandButton>
-
-						</ice:panelGrid>
-						
-					</ice:panelGrid>
 
 					</ice:panelGroup>
 				</f:facet>

@@ -12,10 +12,23 @@
 			org.springframework.web.jsf.DelegatingVariableResolver
 		</variable-resolver>
 	</application>
-
+	<validator>
+		<validator-id>
+			de.randi2.jsf.validators.RANDI2_VALIDATOR
+		</validator-id>
+		<validator-class>
+			de.randi2.jsf.validators.RANDI2Validator
+		</validator-class>
+	</validator>
+	<converter>
+	<converter-id>de.randi2.jsf.converters.GENDER_CONVERTER</converter-id>
+		<converter-class>
+		de.randi2.jsf.converters.GenderConverter</converter-class>
+	</converter>
+	
 	<managed-bean>
 		<description>
-			This &quot;glueBean&quot; takes care of the Login and Person
+			This glueBean takes care of the Login and Person
 			Beans.
 		</description>
 		<managed-bean-name>loginHandler</managed-bean-name>
@@ -26,14 +39,23 @@
 		<managed-property>
 			<property-name>login</property-name>
 			<property-class>de.randi2.model.Login</property-class>
-			<value>#{login}</value>
+			<null-value/>
 		</managed-property>
 		<managed-property>
 			<property-name>person</property-name>
 			<property-class>de.randi2.model.Person</property-class>
-			<value>#{person}</value>
+			<null-value/>
+		</managed-property>
+		<managed-property>
+			<property-name>
+			loginDao</property-name>
+			<property-class>
+			de.randi2.dao.LoginDao</property-class>
+			<value>#{loginDAO}
+			</value>
 		</managed-property>
 	</managed-bean>
+	
 	<managed-bean>
 		<description>
 			This bean has all needed attributes for the register page.
@@ -44,6 +66,7 @@
 		</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	
 	<managed-bean>
 		<description>The glueBean for the Center bean.</description>
 		<managed-bean-name>centerHendler</managed-bean-name>
@@ -52,6 +75,7 @@
 		</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	
 	<navigation-rule>
 		<display-name>login</display-name>
 		<from-view-id>/login.jspx</from-view-id>
@@ -59,10 +83,10 @@
 			<from-action>#{loginHandler.loginUser}</from-action>
 			<from-outcome>success</from-outcome>
 			<to-view-id>/randi2.jspx</to-view-id>
-			<redirect/>
+			<redirect />
 		</navigation-case>
 	</navigation-rule>
-	
+
 	<navigation-rule>
 		<display-name>randi2</display-name>
 		<from-view-id>/randi2.jspx</from-view-id>
@@ -70,9 +94,8 @@
 			<from-action>#{loginHandler.logoutUser}</from-action>
 			<from-outcome>success</from-outcome>
 			<to-view-id>/logout.jsp</to-view-id>
-			<redirect/>
+			<redirect />
 		</navigation-case>
 	</navigation-rule>
-
 
 </faces-config>
