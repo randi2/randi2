@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.hibernate.validator.ClassValidator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -193,7 +194,8 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		assertValid(validTrial);
 		
 		this.setDateRange(startSame, endSame);
-		assertInvalid(validTrial, new String[]{Trial.DATES_WRONG_RANGE});
+		assertInvalid(validTrial, new String[]{Trial.DATES_WRONG_RANGE});	
+		
 		this.setDateRange(startWD, endWD);
 		assertInvalid(validTrial, new String[]{Trial.DATES_WRONG_RANGE});
 		

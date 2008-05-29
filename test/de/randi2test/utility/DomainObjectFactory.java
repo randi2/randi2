@@ -20,6 +20,7 @@ public class DomainObjectFactory {
 	
 	public Person getPerson(){
 		Person p = new Person(); 
+		p.setCenter(this.getCenter());
 		return p;
 	}
 	

@@ -125,7 +125,8 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getEMail()
 	 */
-	@Email
+	// TODO @Email Should not be part of the programm 
+	// until tested
 	public String getEMail() {
 		return eMail;
 	}

@@ -42,7 +42,7 @@ public class PersonTest extends AbstractDomainTest<Person>{
 	
 	@Test
 	public void testConstructor(){
-		Person p = validPerson;
+		Person p = new Person();
 		assertEquals("", p.getFirstname());
 		assertEquals("", p.getSurname());
 		assertEquals("", p.getTitle());
