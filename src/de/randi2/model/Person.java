@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
@@ -34,6 +35,7 @@ public class Person extends AbstractDomainObject {
 	private Center center;
 
 	// Login data
+	@OneToOne
 	private Login login;
 	
 	@OneToMany(mappedBy="person")

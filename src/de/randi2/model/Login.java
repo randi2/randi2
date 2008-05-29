@@ -2,13 +2,17 @@ package de.randi2.model;
 
 import java.util.GregorianCalendar;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Login extends AbstractDomainObject {
 
-	
+	@OneToOne
 	private Person person = null;
+	
+	@Column(unique = true)
 	private String username = "";
 	private String password = null;
 	
@@ -17,6 +21,7 @@ public class Login extends AbstractDomainObject {
 	
 	private boolean active = false;
 
+	
 	public String getUsername() {
 		return username;
 	}
