@@ -91,6 +91,8 @@ public class LoginHandler {
 				showMessage(v.getPropertyName()+" : "+v.getMessage());
 			}
 			return ApplicationHandler.ERROR;
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		return ApplicationHandler.SUCCESS;
 	}
