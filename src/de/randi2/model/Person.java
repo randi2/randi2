@@ -3,7 +3,9 @@ package de.randi2.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -31,11 +33,12 @@ public class Person extends AbstractDomainObject {
 	private String fax = "";
 	
 	// Institutional Data
+	@ManyToOne
 	private Person assistant;
 	private Center center;
 
 	// Login data
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private Login login;
 	
 	@OneToMany(mappedBy="person")

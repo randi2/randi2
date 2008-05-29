@@ -2,14 +2,21 @@ package de.randi2.model;
 
 import java.util.GregorianCalendar;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
+import org.hibernate.validator.Length;
+
 @Entity
 public class Login extends AbstractDomainObject {
 
-	@OneToOne
+	public final static int MAX_USERNAME_LENGTH = 25;
+	public final static int MIN_USERNAME_LENGTH = 5;
+	
+	
+	@OneToOne(cascade=CascadeType.ALL)
 	private Person person = null;
 	
 	@Column(unique = true)
@@ -21,7 +28,7 @@ public class Login extends AbstractDomainObject {
 	
 	private boolean active = false;
 
-	
+	@Length(min=MIN_USERNAME_LENGTH, max=MAX_USERNAME_LENGTH)
 	public String getUsername() {
 		return username;
 	}
