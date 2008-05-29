@@ -19,6 +19,8 @@ public class Register {
 	private Vector<SelectItem> genderItems;
 
 	private boolean termsPvisible = true;
+	
+	private boolean regPvisible = false;
 
 	public Register() {
 		messages = new HashMap<String, String>();
@@ -31,6 +33,11 @@ public class Register {
 
 		messages.put("acceptB", "Accept");
 		messages.put("declineB", "Decline");
+		
+		
+		messages.put("regPH", "Registration successfull");
+		messages.put("regMessage", "A new account was created! An email with a confirmation link will be send shortly.");
+		messages.put("okB", "OK");
 
 		messages.put("titel", "RANDI2:Register");
 		messages.put("pTitel", "Titel");
@@ -52,6 +59,7 @@ public class Register {
 
 		messages.put("assistantB", "Add");
 		messages.put("registerB", "Register");
+		messages.put("cancelB", "Cancel");
 	}
 
 	public Map<String, String> getMessages() {
@@ -70,6 +78,14 @@ public class Register {
 
 	public boolean getTermsPvisible() {
 		return this.termsPvisible;
+	}
+	
+	public void setRegPvisible(boolean value){
+		this.regPvisible = value;
+	}
+	
+	public boolean getRegPvisible(){
+		return this.regPvisible;
 	}
 
 	public void acceptTerms(ActionEvent event) {

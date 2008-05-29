@@ -41,6 +41,31 @@
 				</f:facet>
 			</ice:panelPopup>
 		</ice:form>
+		
+		<!-- Registration Successfull Popup -->
+		<ice:form>
+			<ice:panelPopup draggable="true" modal="true"
+				visible="#{register.regPvisible}"
+				rendered="#{register.regPvisible}"
+				style="width: 600px; height: auto">
+				<f:facet name="header">
+					<ice:outputText value="#{register.messages['regPH']}"></ice:outputText>
+				</f:facet>
+
+				<f:facet name="body">
+					<ice:panelGrid border="0" columns="1">
+						<f:facet name="footer">
+							<ice:panelGroup>
+								<ice:commandButton value="#{register.messages['okB']}"
+									action="ok" immediate="true"></ice:commandButton>
+							</ice:panelGroup>
+						</f:facet>
+						<ice:outputText value="#{register.messages['regMessage']}"></ice:outputText>
+					</ice:panelGrid>
+
+				</f:facet>
+			</ice:panelPopup>
+		</ice:form>
 
 		<!-- The Registration Form  -->
 		<ice:form partialSubmit="true">
@@ -183,11 +208,11 @@
 								</ice:selectInputText>
 								<ice:outputLabel for="assistant"
 									value="#{register.messages['assistant']}"></ice:outputLabel>
-								<ice:selectInputText id="assistant"
+								<!-- ice:selectInputText id="assistant"
 									style="height: 40px;display: block;float:left;"
 									value="#{loginHandler.person.assistant.surname}">
 									<f:selectItems value="#{centerHendler.dummyMembers}" />
-								</ice:selectInputText>
+								</ice:selectInputText -->
 								<ice:commandButton id="addAssistant"
 									value="#{register.messages['assistantB']}"></ice:commandButton>
 							</ice:panelGrid>
@@ -202,6 +227,8 @@
 									value="#{loginHandler.person.center.password}"></ice:inputSecret>
 								<ice:commandButton type="submit" value="#{register.messages['registerB']}"
 									action="#{loginHandler.registerUser}"></ice:commandButton>
+								<ice:commandButton immediate="true" value="#{register.messages['cancelB']}"
+									actionListener="#{register.declineTerms}"></ice:commandButton>
 							</ice:panelGrid>
 						</ice:panelGrid>
 

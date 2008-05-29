@@ -3,7 +3,12 @@ package de.randi2.jsf.handlers;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.hibernate.validator.InvalidStateException;
+import org.hibernate.validator.InvalidValue;
+
 import de.randi2.dao.LoginDao;
+import de.randi2.dao.PersonDao;
+import de.randi2.jsf.pages.Register;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 
@@ -15,8 +20,18 @@ public class LoginHandler {
 	private Person person;
 	
 	private LoginDao loginDao;
+	
+	private PersonDao personDao;
 
 	
+	public PersonDao getPersonDao() {
+		return personDao;
+	}
+
+	public void setPersonDao(PersonDao personDao) {
+		this.personDao = personDao;
+	}
+
 	public LoginHandler(){
 	}
 	
@@ -60,9 +75,14 @@ public class LoginHandler {
 			this.getLogin().setUsername(person.getEMail());
 			this.getLogin().setPassword("test");
 			loginDao.save(this.getLogin());
-		}catch(Exception exp){
-			exp.printStackTrace();
-			showMessage(exp);
+
+			//TODO Test
+			((Register)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("register")).setRegPvisible(true);
+
+		}catch(InvalidStateException exp){
+			for(InvalidValue v:exp.getInvalidValues()){
+				showMessage(v.getPropertyName()+" : "+v.getMessage());
+			}
 			return ApplicationHandler.ERROR;
 		}
 		return ApplicationHandler.SUCCESS;
@@ -76,11 +96,11 @@ public class LoginHandler {
 	public String loginUser(){
 		String pass = login.getPassword();
 		try {
-			//login = loginDao.get(login.getLoginname());
-//			if(login.getPassword().equals(pass))
+			login = loginDao.get(login.getUsername());
+			if(login.getPassword().equals(pass))
 				return ApplicationHandler.SUCCESS;
-//			else
-//				throw new UserException(Messages.WRONG_LOGIN);
+			else
+				throw new Exception("Wrong login/password!");
 		} catch (Exception e) {
 			showMessage(e);
 			return ApplicationHandler.ERROR;
@@ -90,5 +110,9 @@ public class LoginHandler {
 	
 	private void showMessage(Exception e){
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(),e.toString()));
+	}
+	
+	private void showMessage(String message){
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,message,null));
 	}
 }

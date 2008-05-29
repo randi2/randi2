@@ -15,8 +15,9 @@
 		<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
 		</head>
 		<body>
+		
+		<!-- Login Form -->
 		<ice:form>
-
 			<ice:panelGrid border="0" columns="2" cellspacing="20">
 				<f:facet name="footer">
 					<ice:panelGroup>
