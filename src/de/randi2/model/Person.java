@@ -49,7 +49,7 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getCenter()
 	 */
-	@NotNull
+	//@NotNull
 	public Center getCenter() {
 		return center;
 	}

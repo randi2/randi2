@@ -16,6 +16,7 @@ import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Center;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
+import de.randi2.model.exceptions.ValidationException;
 import de.randi2test.utility.AbstractDomainTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,6 +32,12 @@ public class PersonTest extends AbstractDomainTest<Person>{
 	@Before
 	public void setUp(){
 		validPerson = super.factory.getPerson();
+	}
+	
+	@Test (expected=ValidationException.class)
+	public void testValidation(){
+		validPerson.checkValue("surname", stringUtil.getWithLength(400));
+		validPerson.checkValue("eMail", stringUtil.getWithLength(100));
 	}
 	
 	@Test

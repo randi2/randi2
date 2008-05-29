@@ -69,7 +69,7 @@
 
 		<!-- The Registration Form  -->
 		<ice:form partialSubmit="true">
-			<ice:messages showDetail="true" showSummary="true" tooltip="true"/>
+			<ice:messages globalOnly="true" showDetail="true" showSummary="true" tooltip="true"/>
 			<ice:panelBorder renderEast="false" renderSouth="false"
 				renderWest="false"
 				style="border-width:1px;border-style:solid;height:600px;width:800px;">
