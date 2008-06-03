@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<jsp:directive.page contentType="text/html;charset=ISO-8859-1"
-		pageEncoding="ISO-8859-1" />
+	<jsp:directive.page contentType="text/html;charset=UTF-8"
+		pageEncoding="UTF-8" />
 	<f:view>
 		<ice:outputDeclaration doctypeRoot="HTML"
 			doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -15,21 +15,35 @@
 		<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
 		</head>
 		<body>
-		
+
 		<!-- Login Form -->
 		<ice:form>
 			<ice:panelGrid border="0" columns="2" cellspacing="20">
 				<f:facet name="footer">
-					<ice:panelGroup>
-						<ice:outputLink
-							value="#{facesContext.externalContext.requestContextPath}/terms.jspx">
-							<ice:outputText value="Terms of use"></ice:outputText>
-						</ice:outputLink>
-						<ice:outputLink
-							value="#{facesContext.externalContext.requestContextPath}/register.jspx">
-							<ice:outputText value="Register"></ice:outputText>
-						</ice:outputLink>
-					</ice:panelGroup>
+					<ice:panelGrid columns="2" width="100%">
+
+						<!-- copyright and company stuff -->
+						<ice:panelGroup>
+							<table width="100%" cellpadding="0" cellspacing="0">
+								<tr>
+									<td align="center"><ice:panelGroup>
+										<ice:outputLink
+											value="#{facesContext.externalContext.requestContextPath}/terms.jspx">
+											<ice:outputText value="Terms of use"></ice:outputText>
+										</ice:outputLink>
+										<ice:outputLink
+											value="#{facesContext.externalContext.requestContextPath}/register.jspx">
+											<ice:outputText value="Register"></ice:outputText>
+										</ice:outputLink>
+									</ice:panelGroup></td>
+								</tr>
+							</table>
+						</ice:panelGroup>
+
+
+
+					</ice:panelGrid>
+
 
 				</f:facet>
 				<ice:panelGroup>
@@ -45,7 +59,8 @@
 
 				<ice:messages tooltip="true" layout="list" globalOnly="true"></ice:messages>
 
-				<ice:graphicImage value="/img/icons/login.png" style="margin-left: 20px"></ice:graphicImage>
+				<ice:graphicImage value="/img/icons/login128.png"
+					style="margin-left: 20px"></ice:graphicImage>
 				<ice:panelGrid columns="3" styleClass="verticalAlignTop"
 					rowClasses="textFieldNameRow, textFieldNameRow, textFieldCommentsRow">
 					<ice:outputLabel for="login" value="Login:" />
@@ -59,7 +74,8 @@
 						value="#{loginHandler.login.password}" partialSubmit="true"
 						redisplay="true" required="true" />
 					<ice:message for="password" />
-					<ice:commandButton value="Log in" action="#{loginHandler.loginUser}"></ice:commandButton>
+					<ice:commandButton value="Log in"
+						action="#{loginHandler.loginUser}"></ice:commandButton>
 				</ice:panelGrid>
 
 			</ice:panelGrid>

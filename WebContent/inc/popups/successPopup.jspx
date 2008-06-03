@@ -1,0 +1,25 @@
+<!-- Registration Successfull Popup -->
+<ice:form xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelPopup draggable="true" modal="true"
+		visible="#{register.regPvisible}" rendered="#{register.regPvisible}"
+		style="width: 600px; height: auto">
+		<f:facet name="header">
+			<ice:outputText value="#{register.messages['regPH']}"></ice:outputText>
+		</f:facet>
+
+		<f:facet name="body">
+			<ice:panelGrid border="0" columns="1">
+				<f:facet name="footer">
+					<ice:panelGroup>
+						<ice:commandButton value="#{register.messages['okB']}" action="ok"
+							immediate="true"></ice:commandButton>
+					</ice:panelGroup>
+				</f:facet>
+				<ice:outputText value="#{register.messages['regMessage']}"></ice:outputText>
+			</ice:panelGrid>
+
+		</f:facet>
+	</ice:panelPopup>
+</ice:form>

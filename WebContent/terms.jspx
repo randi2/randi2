@@ -10,12 +10,37 @@
   <html>
     <head>
      <title><ice:outputText value="ICEfaces, Ajax for Java EE" /></title>
-     <ice:outputStyle href="./xmlhttp/css/xp/xp.css" />
+     <ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
     </head>
     <body>
 
      <ice:outputText value="Thank you for using ICEfaces." />
-     <ice:form partialSubmit="true" >
+		
+		<ice:form partialSubmit="true" >
+		<ice:panelTabSet
+			style="font-size: 9;width: 128px; height: 68px;display: block;">
+			<ice:panelTab label="Tab1">
+				<ice:panelGrid>
+					<ice:outputText value=" Tab Container1"></ice:outputText>
+						<ice:panelCollapsible styleClass="icePnlClpsbl">
+							<f:facet name="header">
+								<ice:outputText value="collapsible panel header"></ice:outputText>
+							</f:facet>
+							<ice:outputText value="text in collapsible content panel"></ice:outputText>
+						</ice:panelCollapsible>
+					</ice:panelGrid>
+			</ice:panelTab>
+			<ice:panelTab label="Tab2">
+				<ice:panelGrid>
+					<ice:outputText value=" Tab Container2"></ice:outputText>
+				</ice:panelGrid>
+			</ice:panelTab>
+			<ice:panelTab label="Tab3">
+				<ice:panelGrid>
+					<ice:outputText value=" Tab Container3"></ice:outputText>
+				</ice:panelGrid>
+			</ice:panelTab>
+		</ice:panelTabSet>
                  <ice:messages />
 
      </ice:form>
