@@ -17,7 +17,6 @@ import de.randi2test.utility.DomainObjectFactory;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml"})
-@Transactional
 public class PersonDaoTest {
 
 	@Autowired private PersonDao dao;	
@@ -28,6 +27,7 @@ public class PersonDaoTest {
 		
 		
 		Person p = factory.getPerson();
+		p.setSurname("test");
 		
 		assertNotSaved(p);
 		dao.save(p);

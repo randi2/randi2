@@ -12,7 +12,9 @@ public class PersonRole extends AbstractDomainObject {
 
 	@ManyToOne
 	private Person person = null;
+	@ManyToOne
 	private Trial trial = null;
+	@ManyToOne
 	private Role role = null;
 	
 	public Person getPerson() {

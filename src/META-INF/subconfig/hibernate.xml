@@ -23,6 +23,7 @@
 				<value>de.randi2.model.Person</value>
 				<value>de.randi2.model.PersonRole</value>
 				<value>de.randi2.model.Login</value>
+				<value>de.randi2.model.Role</value>
 			</list>
 		</property>
 	</bean>

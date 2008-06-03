@@ -147,5 +147,10 @@ public class PersonTest extends AbstractDomainTest<Person>{
 		assertNotNull(p.getCenter());
 		assertEquals(center.getId(), p.getCenter().getId());
 	}
+	
+	@Test
+	public void testPersonRolle(){
+		//TODO
+	}
 
 }
