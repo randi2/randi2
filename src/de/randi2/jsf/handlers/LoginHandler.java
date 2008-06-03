@@ -1,6 +1,5 @@
 package de.randi2.jsf.handlers;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.hibernate.validator.InvalidStateException;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.randi2.dao.LoginDao;
 import de.randi2.dao.PersonDao;
+import de.randi2.jsf.Randi2;
 import de.randi2.jsf.pages.Register;
 import de.randi2.model.Center;
 import de.randi2.model.Login;
@@ -17,8 +17,11 @@ import de.randi2.model.Person;
 
 public class LoginHandler {
 	
+	//This Object ist representing the current User
 	private Login login;
 	
+	
+	// Objects for User-Creating Process
 	private Person person;
 	
 	private Person userAssistant;
@@ -29,7 +32,9 @@ public class LoginHandler {
 	private LoginDao loginDao;
 	@Autowired
 	private PersonDao personDao;
-
+	
+	public LoginHandler(){
+	}
 	
 	public PersonDao getPersonDao() {
 		return personDao;
@@ -39,9 +44,6 @@ public class LoginHandler {
 		this.personDao = personDao;
 	}
 
-	public LoginHandler(){
-	}
-	
 	public void setLogin(Login login) {
 		this.login = login;
 	}
@@ -69,62 +71,7 @@ public class LoginHandler {
 	public void setLoginDao(LoginDao loginDao) {
 		this.loginDao = loginDao;
 	}
-
-	public String saveUser(){
-		//Es fehlt noch ein DAO
-		return ApplicationHandler.SUCCESS;
-	}
 	
-	public String registerUser(){
-		System.out.println("registerUser");
-		try{
-			this.getLogin().setPerson(this.getPerson());
-			this.getLogin().setUsername(person.getEMail());
-			this.getLogin().setPassword("test");
-			loginDao.save(this.getLogin());
-
-			//TODO Test
-			((Register)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("register")).setRegPvisible(true);
-
-		}catch(InvalidStateException exp){
-			for(InvalidValue v:exp.getInvalidValues()){
-				showMessage(v.getPropertyName()+" : "+v.getMessage());
-			}
-			return ApplicationHandler.ERROR;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return ApplicationHandler.SUCCESS;
-	}
-	
-	public String logoutUser(){
-		System.out.println("LogoutUser wurde aufgerufen! (Bin drin!)");
-		return ApplicationHandler.SUCCESS;
-	}
-	
-	public String loginUser(){
-		String pass = login.getPassword();
-		try {
-			login = loginDao.get(login.getUsername());
-			if(login.getPassword().equals(pass))
-				return ApplicationHandler.SUCCESS;
-			else
-				throw new Exception("Wrong login/password!");
-		} catch (Exception e) {
-			showMessage(e);
-			return ApplicationHandler.ERROR;
-		}
-		
-	}
-	
-	private void showMessage(Exception e){
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(),e.toString()));
-	}
-	
-	private void showMessage(String message){
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,message,null));
-	}
-
 	public Person getUserAssistant() {
 		if(userAssistant==null)
 			userAssistant = new Person();
@@ -144,4 +91,60 @@ public class LoginHandler {
 	public void setUserCenter(Center userCenter) {
 		this.userCenter = userCenter;
 	}
+
+	public String saveUser(){
+		try{
+			this.loginDao.save(this.getLogin());
+			return Randi2.SUCCESS;
+		}catch(Exception exp){
+			Randi2.showMessage(exp);
+			return Randi2.ERROR;
+		}	
+	}
+	
+	public String registerUser(){
+		try{
+			this.getLogin().setPerson(this.getPerson());
+			this.getLogin().setUsername(person.getEMail());
+			loginDao.save(this.getLogin());
+
+			//Making the successPopup visible
+			((Register)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("register")).setRegPvisible(true);
+			return Randi2.SUCCESS;
+			
+			//TODO Genereting an Activation E-Mail
+		}catch(InvalidStateException exp){
+			for(InvalidValue v:exp.getInvalidValues()){
+				Randi2.showMessage(v.getPropertyName()+" : "+v.getMessage());
+			}
+			return Randi2.ERROR;
+		}catch(Exception e){
+			//TODO delete befor deployment - or log it properly
+			e.printStackTrace();
+			Randi2.showMessage(e);
+			return Randi2.ERROR;
+		}
+		
+	}
+	
+	public String logoutUser(){
+		this.login = new Login();
+		return Randi2.SUCCESS;
+	}
+	
+	public String loginUser(){
+		String pass = login.getPassword();
+		try {
+			login = loginDao.get(login.getUsername());
+			if(login.getPassword().equals(pass))
+				return Randi2.SUCCESS;
+			else
+				throw new Exception("Wrong login/password!");
+		} catch (Exception e) {
+			Randi2.showMessage(e);
+			return Randi2.ERROR;
+		}
+		
+	}
+
 }

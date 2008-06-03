@@ -51,9 +51,13 @@ public class Register {
 		messages.put("center", "Center");
 		messages.put("assistant", "Assistant");
 		messages.put("cPassword", "Center password");
+		
+		messages.put("username", "Username");
+		messages.put("password", "Password");
 
 		messages.put("personalH", "Personal Information");
 		messages.put("contactH", "Contact Information");
+		messages.put("accountH", "Account Information");
 		messages.put("institutionH", "Institution Information");
 		messages.put("confirmationH", "Confirmation");
 
