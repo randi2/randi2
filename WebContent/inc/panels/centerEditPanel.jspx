@@ -1,0 +1,18 @@
+<ice:form partialSubmit="true" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:messages />
+	<ice:panelTabSet
+		style="font-size: 9;width: 128px; height: 68px;display: block;">
+		<ice:panelTab label="Center details">
+			<ice:panelGrid>
+				<ice:outputText value="Center Information"></ice:outputText>
+			</ice:panelGrid>
+		</ice:panelTab>
+		<ice:panelTab label="Memberslist">
+			<ice:panelGrid>
+				<ice:outputText value="Center Information"></ice:outputText>
+			</ice:panelGrid>
+		</ice:panelTab>
+	</ice:panelTabSet>
+</ice:form>

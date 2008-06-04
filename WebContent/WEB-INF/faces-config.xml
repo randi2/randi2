@@ -59,18 +59,7 @@
 			<value>#{personDAO}</value>
 		</managed-property>
 	</managed-bean>
-
-	<managed-bean>
-		<description>
-			This bean has all needed attributes for the register page.
-		</description>
-		<managed-bean-name>register</managed-bean-name>
-		<managed-bean-class>
-			de.randi2.jsf.pages.Register
-		</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-
+	
 	<managed-bean>
 		<description>The glueBean for the Center bean.</description>
 		<managed-bean-name>centerHendler</managed-bean-name>
@@ -79,6 +68,41 @@
 		</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+
+	<managed-bean>
+		<description>
+			This bean has all needed attributes for the register page.
+		</description>
+		<managed-bean-name>registerPage</managed-bean-name>
+		<managed-bean-class>
+			de.randi2.jsf.pages.RegisterPage
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+	<managed-bean>
+		<description>
+			This bean has all needed attributes for the randi2 page.
+		</description>
+		<managed-bean-name>randi2Page</managed-bean-name>
+		<managed-bean-class>
+			de.randi2.jsf.pages.Randi2Page
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+	<managed-bean>
+		<description>
+			This bean has all important strings for the application.
+		</description>
+		<managed-bean-name>randi2</managed-bean-name>
+		<managed-bean-class>
+			de.randi2.jsf.Randi2
+		</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
+
+	
 
 	<navigation-rule>
 		<display-name>login</display-name>

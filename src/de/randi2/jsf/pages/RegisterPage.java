@@ -12,7 +12,7 @@ import javax.faces.model.SelectItem;
 
 import de.randi2.model.enumerations.Gender;
 
-public class Register {
+public class RegisterPage {
 
 	private HashMap<String, String> messages;
 
@@ -22,7 +22,7 @@ public class Register {
 	
 	private boolean regPvisible = false;
 
-	public Register() {
+	public RegisterPage() {
 		messages = new HashMap<String, String>();
 
 		messages.put("termsPH", "Terms of use");

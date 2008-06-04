@@ -1,0 +1,38 @@
+<ice:form partialSubmit="true" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:messages />
+	<ice:outputText value="Registered centers"></ice:outputText>
+	<ice:dataTable border="1" value="#{centerHendler.centers}" var="center">
+		<ice:column id="column1">
+			<ice:outputText value="#{center.name}"></ice:outputText>
+			<f:facet name="header">
+				<ice:outputText value="Name" id="nameH"></ice:outputText>
+			</f:facet>
+		</ice:column>
+		<ice:column id="column2">
+			<ice:outputText value="#{center.street}"></ice:outputText>
+			<f:facet name="header">
+				<ice:outputText value="Street" id="streetH"></ice:outputText>
+			</f:facet>
+		</ice:column>
+		<ice:column id="column3">
+			<ice:outputText value="#{center.city}"></ice:outputText>
+			<f:facet name="header">
+				<ice:outputText value="city" id="cityH"></ice:outputText>
+			</f:facet>
+		</ice:column>
+		<ice:column id="column4">
+			<ice:outputText value="#{center.postcode}"></ice:outputText>
+			<f:facet name="header">
+				<ice:outputText value="Postcode" id="postcodeH"></ice:outputText>
+			</f:facet>
+		</ice:column>
+		<ice:column id="column5">
+			<ice:commandButton value="Show"></ice:commandButton>
+			<f:facet name="header">
+				<ice:outputText value="1" id="showH"></ice:outputText>
+			</f:facet>
+		</ice:column>
+	</ice:dataTable>
+</ice:form>

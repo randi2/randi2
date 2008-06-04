@@ -15,7 +15,7 @@
 
 
 	<ice:panelBorder layout="hide east" border="0" cellpadding="1"
-		cellspacing="1">
+		cellspacing="1" width="900px">
 
 		<f:facet name="north">
 			<ice:panelGroup>
@@ -38,13 +38,33 @@
 
 		<f:facet name="center">
 			<ice:panelGroup>
-				<ice:outputText value="outputText"></ice:outputText>
-
 				<!--
                Main Component content;
                controls which template will be viewed
             -->
-				<!-- Hier kommt der PanelStack -->
+            <ice:panelStack
+                    id="templatePanelStack"
+                    styleClass="webmailContentPanelStack"
+                    selectedPanel="#{randi2Page.activePanel}">
+
+                <!--
+                  Content Panels for various content related to the webmail
+                  applications
+                -->
+                <ice:panelGroup id="centersViewPanel">
+                    <f:subview id="cvp">
+                        <jsp:directive.include
+                                file="./inc/panels/centersViewPanel.jspx"/>
+                    </f:subview>
+                </ice:panelGroup>
+                <ice:panelGroup id="centerEditPanel">
+                    <f:subview id="cep">
+                        <jsp:directive.include
+                                file="./inc/panels/centerEditPanel.jspx"/>
+                    </f:subview>
+                </ice:panelGroup>
+                
+            </ice:panelStack>
 			</ice:panelGroup>
 		</f:facet>
 
@@ -56,8 +76,8 @@
 				<ice:panelGroup>
 					<table width="100%" cellpadding="0" cellspacing="0">
 						<tr>
-							<td align="center">&#169; 2008 RANDI2 Development Team.
-							&#160; &#8226; &#160; randi2.hs-heilbronn.de</td>
+							<td align="center"><ice:outputText value="&#169; 2008 RANDI2 Development Team.
+							&#160; &#8226; &#160; randi2.hs-heilbronn.de"></ice:outputText></td>
 						</tr>
 					</table>
 				</ice:panelGroup>

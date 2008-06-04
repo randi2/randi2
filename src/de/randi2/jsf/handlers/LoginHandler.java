@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.randi2.dao.LoginDao;
 import de.randi2.dao.PersonDao;
 import de.randi2.jsf.Randi2;
-import de.randi2.jsf.pages.Register;
+import de.randi2.jsf.pages.RegisterPage;
 import de.randi2.model.Center;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
@@ -109,7 +109,7 @@ public class LoginHandler {
 			loginDao.save(this.getLogin());
 
 			//Making the successPopup visible
-			((Register)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("register")).setRegPvisible(true);
+			((RegisterPage)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("register")).setRegPvisible(true);
 			return Randi2.SUCCESS;
 			
 			//TODO Genereting an Activation E-Mail
