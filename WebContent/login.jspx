@@ -17,35 +17,8 @@
 		<body>
 
 		<!-- Login Form -->
-		<ice:form>
-			<ice:panelGrid border="0" columns="2" cellspacing="20">
-				<f:facet name="footer">
-					<ice:panelGrid columns="2" width="100%">
-
-						<!-- Links -->
-						<ice:panelGroup>
-							<table width="100%" cellpadding="0" cellspacing="0">
-								<tr>
-									<td align="center"><ice:panelGroup>
-										<ice:outputLink
-											value="#{facesContext.externalContext.requestContextPath}/terms.jspx">
-											<ice:outputText value="Terms of use"></ice:outputText>
-										</ice:outputLink>
-										<ice:outputLink
-											value="#{facesContext.externalContext.requestContextPath}/register.jspx">
-											<ice:outputText value="Register"></ice:outputText>
-										</ice:outputLink>
-									</ice:panelGroup></td>
-								</tr>
-							</table>
-						</ice:panelGroup>
-
-
-
-					</ice:panelGrid>
-
-
-				</f:facet>
+		<ice:form style="top: 10%; position: absolute; left: 30%">
+			<ice:panelGrid border="0" columns="2">
 				<ice:panelGroup>
 
 					<ice:graphicImage value="/img/randi2.png"
@@ -59,10 +32,8 @@
 
 				<ice:messages tooltip="true" layout="list" globalOnly="true"></ice:messages>
 
-				<ice:graphicImage value="/img/icons/login128.png"
-					style="margin-left: 20px"></ice:graphicImage>
-				<ice:panelGrid columns="3" styleClass="verticalAlignTop"
-					rowClasses="textFieldNameRow, textFieldNameRow, textFieldCommentsRow">
+				<ice:graphicImage value="/img/icons/login128.png"></ice:graphicImage>
+				<ice:panelGrid columns="3">
 					<ice:outputLabel for="login" value="Login:" />
 					<ice:inputText id="login" size="25" maxlength="25"
 						value="#{loginHandler.login.username}" partialSubmit="true"
@@ -79,14 +50,29 @@
 				</ice:panelGrid>
 
 			</ice:panelGrid>
+			<ice:panelGrid columns="2" style="margin-left:120px">
 
-			<ice:panelGroup>
+				<!-- Links -->
+				<ice:panelGroup>
+					<table width="100%" cellpadding="0" cellspacing="0">
+						<tr>
+							<td align="center"><ice:panelGroup>
+								<ice:outputLink
+									value="#{facesContext.externalContext.requestContextPath}/terms.jspx">
+									<ice:outputText value="Terms of use"></ice:outputText>
+								</ice:outputLink>
+								<ice:outputLink
+									value="#{facesContext.externalContext.requestContextPath}/register.jspx">
+									<ice:outputText value="Register"></ice:outputText>
+								</ice:outputLink>
+							</ice:panelGroup></td>
+						</tr>
+					</table>
+				</ice:panelGroup>
 
-			</ice:panelGroup>
-			<ice:panelGroup>
 
 
-			</ice:panelGroup>
+			</ice:panelGrid>
 		</ice:form>
 		</body>
 		</html>
