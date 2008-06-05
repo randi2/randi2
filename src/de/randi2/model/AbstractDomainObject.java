@@ -2,6 +2,8 @@ package de.randi2.model;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,8 +50,8 @@ public abstract class AbstractDomainObject implements Serializable{
 		this.version = _version;
 	}
 	
-	public void checkValue(String field, Object value){
-		ClassValidator val = new ClassValidator(this.getClass());
+	public void checkValue(String field, Object value, Locale locale){
+		ClassValidator val = new ClassValidator(this.getClass(), ResourceBundle.getBundle("messages", locale));
 		InvalidValue[] invalids = val.getPotentialInvalidValues(field, value);
 		
 		if(invalids.length > 0){
