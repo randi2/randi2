@@ -22,6 +22,10 @@ public class Center extends AbstractDomainObject{
 	private String city = "";
 	private String password = "";
 	
+	private Person contactPerson = null;
+	
+	private List<Person> members = null;
+	
 	//@Transient
 	//private List<Trial> trials = new ArrayList<Trial>();
 
@@ -81,6 +85,22 @@ public class Center extends AbstractDomainObject{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Person getContactPerson() {
+		return contactPerson;
+	}
+
+	public void setContactPerson(Person contactPerson) {
+		this.contactPerson = contactPerson;
+	}
+
+	public List<Person> getMembers() {
+		return members;
+	}
+
+	public void setMembers(List<Person> members) {
+		this.members = members;
 	}
 
 	
