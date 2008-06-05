@@ -115,15 +115,48 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertEquals("", validPerson.getFirstname());
 		assertInvalid(validPerson);
 	}
-
+	
 	@Test
-	public void testEMail() {
-		validPerson.setSurname(stringUtil
-				.getWithLength(AbstractDomainObject.MAX_VARCHAR_LENGTH));
-		validPerson.setEMail("abc@def.xy");
+	public void testTitle() {
+		validPerson.setTitle(stringUtil.getWithLength(1));
+		assertEquals(stringUtil.getLastString(), validPerson.getTitle());
 		assertValid(validPerson);
 
-		validPerson.setEMail(null);
+		validPerson.setTitle(stringUtil
+				.getWithLength(Person.MAX_TITLE_LENGTH));
+		assertEquals(stringUtil.getLastString(), validPerson.getTitle());
+		assertValid(validPerson);
+
+		validPerson.setTitle(stringUtil
+				.getWithLength(Person.MAX_TITLE_LENGTH + 1));
+		assertEquals(stringUtil.getLastString(), validPerson.getTitle());
+		assertInvalid(validPerson);
+
+		validPerson.setTitle("");
+		assertEquals("", validPerson.getTitle());
+		assertValid(validPerson);
+
+		validPerson.setTitle(null);
+		assertEquals("", validPerson.getTitle());
+		assertValid(validPerson);
+	}
+	
+	@Test
+	public void testPhone(){
+		validPerson.setPhone("01234/6789");
+		assertValid(validPerson);
+		
+		validPerson.setPhone("123345");
+		assertInvalid(validPerson);
+		
+		
+		validPerson.setPhone("012a/6789");
+		assertInvalid(validPerson);
+		
+		validPerson.setPhone("0123345");
+		assertInvalid(validPerson);
+		
+		validPerson.setPhone("");
 		try {
 			hibernateTemplate.saveOrUpdate(validPerson);
 			fail("should throw exception");
@@ -131,15 +164,27 @@ public class PersonTest extends AbstractDomainTest<Person> {
 			InvalidValue[] invalidValues = e.getInvalidValues();
 			assertEquals(2, invalidValues.length);
 		}
-
-		validPerson.setEMail("");
+		
+		validPerson.setPhone(null);
 		try {
 			hibernateTemplate.saveOrUpdate(validPerson);
 			fail("should throw exception");
 		} catch (InvalidStateException e) {
 			InvalidValue[] invalidValues = e.getInvalidValues();
-			assertEquals(1, invalidValues.length);
+			assertEquals(2, invalidValues.length);
 		}
+	}
+
+	@Test
+	public void testEMail() {
+		validPerson.setEMail("abc@def.de");
+		assertValid(validPerson);
+
+		validPerson.setEMail(null);
+		assertInvalid(validPerson);
+
+		validPerson.setEMail("");
+		assertInvalid(validPerson);
 
 		String[] invalidEmails = new String[] { "without at", "toomuch@@",
 				"without@domain" };
@@ -147,7 +192,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 			validPerson.setEMail(s);
 			try {
 				hibernateTemplate.saveOrUpdate(validPerson);
-				fail("should throw exception " + s );
+				fail("should throw exception! email = " + s );
 			} catch (InvalidStateException e) {
 				InvalidValue[] invalidValues = e.getInvalidValues();
 				assertEquals(1, invalidValues.length);

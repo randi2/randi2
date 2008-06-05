@@ -26,6 +26,7 @@ public class DomainObjectFactory {
 		p.setFirstname(testStringUtil.getWithLength(Person.MAX_NAME_LENGTH));
 		p.setEMail("abc@def.xy");
 		p.setGender(Gender.MALE);
+		p.setPhone("01234/6789");
 		p.setCenter(this.getCenter());
 		return p;
 	}

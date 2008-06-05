@@ -15,6 +15,7 @@ import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Pattern;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import de.randi2.model.enumerations.Gender;
@@ -25,6 +26,7 @@ public class Person extends AbstractDomainObject {
 
 	
 	public final static int MAX_NAME_LENGTH = 50;
+	public final static int MAX_TITLE_LENGTH = 20;
 	
 	// Persons Data
 	private String surname = "";
@@ -99,12 +101,14 @@ public class Person extends AbstractDomainObject {
 	 * @see de.randi2.model.PersonIF#setFirstname(java.lang.String)
 	 */
 	public void setFirstname(String firstname) {
+		if(firstname ==null) firstname ="";
 		this.firstname = firstname;
 	}
 
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getTitle()
 	 */
+	@Length(max=MAX_TITLE_LENGTH)
 	public String getTitle() {
 		return title;
 	}
@@ -113,6 +117,7 @@ public class Person extends AbstractDomainObject {
 	 * @see de.randi2.model.PersonIF#setTitle(java.lang.String)
 	 */
 	public void setTitle(String title) {
+		if(title==null) title ="";
 		this.title = title;
 	}
 
@@ -136,7 +141,6 @@ public class Person extends AbstractDomainObject {
 	 */
 	@Email
 	@NotEmpty
-	@NotNull
 	public String getEMail() {
 		return eMail;
 	}
@@ -151,6 +155,8 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getPhone()
 	 */
+	@NotEmpty
+	@Pattern(regex="0(\\d){2,10}/(\\d){3,15}")
 	public String getPhone() {
 		return phone;
 	}
@@ -159,12 +165,14 @@ public class Person extends AbstractDomainObject {
 	 * @see de.randi2.model.PersonIF#setPhone(java.lang.String)
 	 */
 	public void setPhone(String phone) {
+		if(phone==null) phone="";
 		this.phone = phone;
 	}
 
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getMobile()
 	 */
+	
 	public String getMobile() {
 		return mobile;
 	}
