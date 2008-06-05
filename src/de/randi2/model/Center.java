@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import org.hibernate.validator.Length;
@@ -22,8 +24,10 @@ public class Center extends AbstractDomainObject{
 	private String city = "";
 	private String password = "";
 	
+	@OneToOne
 	private Person contactPerson = null;
 	
+	@OneToMany(mappedBy="center")
 	private List<Person> members = null;
 	
 	//@Transient
