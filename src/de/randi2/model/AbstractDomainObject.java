@@ -50,8 +50,8 @@ public abstract class AbstractDomainObject implements Serializable{
 		this.version = _version;
 	}
 	
-	public void checkValue(String field, Object value, Locale locale){
-		ClassValidator val = new ClassValidator(this.getClass(), ResourceBundle.getBundle("messages", locale));
+	public void checkValue(String field, Object value){
+		ClassValidator val = new ClassValidator(this.getClass());
 		InvalidValue[] invalids = val.getPotentialInvalidValues(field, value);
 		
 		if(invalids.length > 0){

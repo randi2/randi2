@@ -29,7 +29,7 @@ public class RANDI2Validator implements Validator, Serializable{
 		
 		try{
 			System.out.println("Checking the value for: "+arg1.getId()+" Value: "+arg2.toString());
-			dObject.checkValue(arg1.getId(), arg2, FacesContext.getCurrentInstance().getExternalContext().getRequestLocale());
+			dObject.checkValue(arg1.getId(), arg2);
 		}catch(ValidationException exp){
 			System.out.println("Fehler gefunden!");
 			StringBuffer messages = new StringBuffer();
