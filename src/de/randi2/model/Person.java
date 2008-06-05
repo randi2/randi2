@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -21,10 +23,14 @@ import de.randi2.model.enumerations.Gender;
 @Configurable
 public class Person extends AbstractDomainObject {
 
+	
+	public final static int MAX_NAME_LENGTH = 50;
+	
 	// Persons Data
 	private String surname = "";
 	private String firstname = "";
 	private String title = "";
+	@Enumerated(value=EnumType.STRING)
 	private Gender gender = null;
 
 	// Contact Data
@@ -65,7 +71,7 @@ public class Person extends AbstractDomainObject {
 	 * @see de.randi2.model.PersonIF#getSurname()
 	 */
 	@NotEmpty
-	@Length(max=AbstractDomainObject.MAX_VARCHAR_LENGTH)
+	@Length(max=MAX_NAME_LENGTH)
 	public String getSurname() {
 		return surname;
 	}
@@ -83,6 +89,8 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getFirstname()
 	 */
+	@NotEmpty
+	@Length(max=MAX_NAME_LENGTH)
 	public String getFirstname() {
 		return firstname;
 	}
@@ -111,6 +119,7 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getGender()
 	 */
+	@NotNull
 	public Gender getGender() {
 		return gender;
 	}
