@@ -3,6 +3,7 @@ package de.randi2test.utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
+import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Center;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
@@ -20,6 +21,8 @@ public class DomainObjectFactory {
 	
 	public Person getPerson(){
 		Person p = new Person(); 
+		p.setSurname(testStringUtil.getWithLength(AbstractDomainObject.MAX_VARCHAR_LENGTH));
+		p.setEMail("abc@def.xy");
 		p.setCenter(this.getCenter());
 		return p;
 	}
