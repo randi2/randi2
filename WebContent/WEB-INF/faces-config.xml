@@ -77,7 +77,7 @@
 		<managed-bean-class>
 			de.randi2.jsf.pages.RegisterPage
 		</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	
 	<managed-bean>

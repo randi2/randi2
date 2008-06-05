@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.randi2.dao.LoginDao;
 import de.randi2.dao.PersonDao;
 import de.randi2.jsf.Randi2;
+import de.randi2.jsf.exceptions.LoginException;
 import de.randi2.jsf.pages.RegisterPage;
 import de.randi2.model.Center;
 import de.randi2.model.Login;
@@ -21,15 +22,15 @@ import de.randi2.model.enumerations.Gender;
 public class LoginHandler {
 	
 	//This Object ist representing the current User
-	private Login login;
+	private Login login = null;
 	
 	
 	// Objects for User-Creating Process
-	private Person person;
+	private Person person = null;
 	
-	private Person userAssistant;
+	private Person userAssistant = null;
 	
-	private Center userCenter;
+	private Center userCenter = null;
 	
 	@Autowired
 	private LoginDao loginDao;
@@ -112,19 +113,18 @@ public class LoginHandler {
 			loginDao.save(this.getLogin());
 
 			//Making the successPopup visible
-			((RegisterPage)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("registerPage")).setRegPvisible(true);
-			this.setLogin(new Login());
-			return Randi2.SUCCESS;
+			((RegisterPage)FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("registerPage")).setRegPvisible(true);
 			
+			//Reseting the objects
+			this.cleanUp();
 			//TODO Genereting an Activation E-Mail
+			return Randi2.SUCCESS;
 		}catch(InvalidStateException exp){
 			for(InvalidValue v:exp.getInvalidValues()){
 				Randi2.showMessage(v.getPropertyName()+" : "+v.getMessage());
 			}
 			return Randi2.ERROR;
 		}catch(Exception e){
-			//TODO delete befor deployment - or log it properly
-			e.printStackTrace();
 			Randi2.showMessage(e);
 			return Randi2.ERROR;
 		}
@@ -140,6 +140,8 @@ public class LoginHandler {
 		String pass = login.getPassword();
 		try {
 			login = loginDao.get(login.getUsername());
+			if(login==null)
+				throw new LoginException(LoginException.LOGIN_PASS_INCORRECT);
 			
 			//TODO Temporary solution
 			Center tCenter = new Center();
@@ -170,12 +172,19 @@ public class LoginHandler {
 			if(login.getPassword().equals(pass))
 				return Randi2.SUCCESS;
 			else
-				throw new Exception("Wrong login/password!");
+				throw new LoginException(LoginException.LOGIN_PASS_INCORRECT);
 		} catch (Exception e) {
 			Randi2.showMessage(e);
 			return Randi2.ERROR;
 		}
 		
+	}
+	
+	private void cleanUp(){
+		this.login = null;
+		this.person = null;
+		this.userAssistant = null;
+		this.userCenter = null;
 	}
 
 }
