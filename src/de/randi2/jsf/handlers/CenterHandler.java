@@ -1,6 +1,7 @@
 package de.randi2.jsf.handlers;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Vector;
 
 import javax.faces.model.SelectItem;
@@ -20,7 +21,7 @@ public class CenterHandler {
 			dummyCenters = new Vector<SelectItem>(3);
 			for(int i=0;i<2;i++){
 				Center temp =  new Center();
-				temp.setName(i+"Testcenter "+i+1);
+				temp.setName("Testcenter "+i+1);
 				temp.setCity("Heidelberg");
 				temp.setPostcode("69120");
 				temp.setStreet("Im Neuenheimer Feld 1");
@@ -44,10 +45,11 @@ public class CenterHandler {
 		if(centers == null){
 			//Temp. solution
 			centers = new Vector<Center>(25);
-			Center tCenter = new Center();
+			Center tCenter;
 			for(int i=0;i<20;i++){
+				tCenter = new Center();
 				tCenter.setCity("Heidelberg");
-				tCenter.setName("DKFZ Abt "+i+1);
+				tCenter.setName("DKFZ"+i);
 				tCenter.setPostcode("69120");
 				tCenter.setStreet("Im Neuenheimer Feld 11");
 				centers.add(tCenter);

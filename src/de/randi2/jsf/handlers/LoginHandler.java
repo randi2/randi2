@@ -1,5 +1,7 @@
 package de.randi2.jsf.handlers;
 
+import java.util.Vector;
+
 import javax.faces.context.FacesContext;
 
 import org.hibernate.validator.InvalidStateException;
@@ -13,6 +15,7 @@ import de.randi2.jsf.pages.RegisterPage;
 import de.randi2.model.Center;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
+import de.randi2.model.enumerations.Gender;
 
 
 public class LoginHandler {
@@ -110,6 +113,7 @@ public class LoginHandler {
 
 			//Making the successPopup visible
 			((RegisterPage)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("register")).setRegPvisible(true);
+			this.setLogin(new Login());
 			return Randi2.SUCCESS;
 			
 			//TODO Genereting an Activation E-Mail
@@ -136,6 +140,33 @@ public class LoginHandler {
 		String pass = login.getPassword();
 		try {
 			login = loginDao.get(login.getUsername());
+			
+			//TODO Temporary solution
+			Center tCenter = new Center();
+			tCenter.setCity("Heidelberg");
+			tCenter.setName("RANDI2 Development by DKFZ");
+			tCenter.setPostcode("69120");
+			tCenter.setStreet("Im Neuenheimer Feld 1");
+			tCenter.setPassword("password");
+			
+			Person tPerson = new Person();
+			tPerson.setCenter(tCenter);
+			tPerson.setEMail("randi@randi2.dev");
+			tPerson.setFax("001122");
+			tPerson.setFirstname("Lukasz");
+			tPerson.setSurname("Plotnicki");
+			tPerson.setGender(Gender.MALE);
+			tPerson.setMobile("017626157884");
+			tPerson.setPhone("0622139193");
+			tCenter.setContactPerson(tPerson);
+			
+			Vector<Person> members = new Vector<Person>();
+			members.add(login.getPerson());
+			tCenter.setMembers(members);
+			
+			this.getLogin().getPerson().setCenter(tCenter);
+			//END
+			
 			if(login.getPassword().equals(pass))
 				return Randi2.SUCCESS;
 			else

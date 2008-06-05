@@ -3,7 +3,38 @@
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:messages />
 	<ice:outputText value="Registered centers"></ice:outputText>
-	<ice:dataTable border="1" value="#{centerHendler.centers}" var="center">
+	<!-- Paginator with page controls -->
+	<ice:dataPaginator id="dataScroll" for="centersTable" paginator="true"
+		fastStep="3" paginatorMaxPages="4">
+		<f:facet name="first">
+			<ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-first.gif"
+				style="border:none;" title="First Page" />
+		</f:facet>
+		<f:facet name="last">
+			<ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-last.gif"
+				style="border:none;" title="Last Page" />
+		</f:facet>
+		<f:facet name="previous">
+			<ice:graphicImage
+				url="./xmlhttp/css/rime/css-images/arrow-previous.gif"
+				style="border:none;" title="Previous Page" />
+		</f:facet>
+		<f:facet name="next">
+			<ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-next.gif"
+				style="border:none;" title="Next Page" />
+		</f:facet>
+		<f:facet name="fastforward">
+			<ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-ff.gif"
+				style="border:none;" title="Fast Forward" />
+		</f:facet>
+		<f:facet name="fastrewind">
+			<ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-fr.gif"
+				style="border:none;" title="Fast Backwards" />
+		</f:facet>
+	</ice:dataPaginator>
+
+	<ice:dataTable id="centersTable" border="1"
+		value="#{centerHendler.centers}" var="center" rows="5">
 		<ice:column id="column1">
 			<ice:outputText value="#{center.name}"></ice:outputText>
 			<f:facet name="header">
@@ -31,8 +62,9 @@
 		<ice:column id="column5">
 			<ice:commandButton value="Show"></ice:commandButton>
 			<f:facet name="header">
-				<ice:outputText value="1" id="showH"></ice:outputText>
+				<ice:outputText value="" id="showH"></ice:outputText>
 			</f:facet>
 		</ice:column>
 	</ice:dataTable>
+
 </ice:form>

@@ -22,7 +22,7 @@
 
 	<!-- The Registration Form  -->
 
-	<ice:panelBorder renderEast="false" renderWest="false" style="top: 10%; position: relative; left: 20%">
+	<ice:panelBorder renderEast="false" renderWest="false" style="top: 10%; position: absolute; left: 20%">
 		<f:facet name="north">
 			<f:subview id="versionInclude">
 				<jsp:directive.include file="./inc/version.jspx" />

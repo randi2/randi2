@@ -51,6 +51,12 @@
                   Content Panels for various content related to the webmail
                   applications
                 -->
+                <ice:panelGroup id="welcomePanel">
+                    <f:subview id="wp">
+                        <jsp:directive.include
+                                file="./inc/panels/welcomePanel.jspx"/>
+                    </f:subview>
+                </ice:panelGroup>
                 <ice:panelGroup id="centersViewPanel">
                     <f:subview id="cvp">
                         <jsp:directive.include

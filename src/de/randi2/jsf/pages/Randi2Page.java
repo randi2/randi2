@@ -10,7 +10,7 @@ public class Randi2Page {
 //	private Randi2 currentRandi2 = ((Randi2) FacesContext.getCurrentInstance()
 //			.getExternalContext().getSessionMap().get("randi2"));
 	
-	private String activePanel = "";
+	private String activePanel = "welcomePanel";
 
 	public String getActivePanel() {
 		return activePanel;

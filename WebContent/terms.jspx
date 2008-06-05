@@ -9,38 +9,14 @@
   <ice:outputDeclaration doctypeRoot="HTML" doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN" doctypeSystem="http://www.w3.org/TR/html4/loose.dtd"/>
   <html>
     <head>
-     <title><ice:outputText value="ICEfaces, Ajax for Java EE" /></title>
+     <title><ice:outputText value="RANDI2 - Terms of Use" /></title>
      <ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
     </head>
     <body>
 
-     <ice:outputText value="Thank you for using ICEfaces." />
+     <ice:outputText value="... Terms of use ..." />
 		
 		<ice:form partialSubmit="true" >
-		<ice:panelTabSet
-			style="font-size: 9;width: 128px; height: 68px;display: block;">
-			<ice:panelTab label="Tab1">
-				<ice:panelGrid>
-					<ice:outputText value=" Tab Container1"></ice:outputText>
-						<ice:panelCollapsible styleClass="icePnlClpsbl">
-							<f:facet name="header">
-								<ice:outputText value="collapsible panel header"></ice:outputText>
-							</f:facet>
-							<ice:outputText value="text in collapsible content panel"></ice:outputText>
-						</ice:panelCollapsible>
-					</ice:panelGrid>
-			</ice:panelTab>
-			<ice:panelTab label="Tab2">
-				<ice:panelGrid>
-					<ice:outputText value=" Tab Container2"></ice:outputText>
-				</ice:panelGrid>
-			</ice:panelTab>
-			<ice:panelTab label="Tab3">
-				<ice:panelGrid>
-					<ice:outputText value=" Tab Container3"></ice:outputText>
-				</ice:panelGrid>
-			</ice:panelTab>
-		</ice:panelTabSet>
                  <ice:messages />
 
      </ice:form>
