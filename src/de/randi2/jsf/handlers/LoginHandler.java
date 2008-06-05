@@ -112,7 +112,7 @@ public class LoginHandler {
 			loginDao.save(this.getLogin());
 
 			//Making the successPopup visible
-			((RegisterPage)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("register")).setRegPvisible(true);
+			((RegisterPage)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("registerPage")).setRegPvisible(true);
 			this.setLogin(new Login());
 			return Randi2.SUCCESS;
 			
