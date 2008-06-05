@@ -10,6 +10,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
+import com.icesoft.faces.context.effects.Effect;
+import com.icesoft.faces.context.effects.Highlight;
+
+import de.randi2.jsf.handlers.LoginHandler;
 import de.randi2.model.enumerations.Gender;
 
 public class RegisterPage {
@@ -90,6 +94,20 @@ public class RegisterPage {
 	
 	public boolean getRegPvisible(){
 		return this.regPvisible;
+	}
+	
+	public void cancel(ActionEvent event) {
+		this.termsPvisible = true;
+		try {
+			((LoginHandler)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loginHandler")).cleanUp();
+			FacesContext.getCurrentInstance().getExternalContext().redirect(
+					FacesContext.getCurrentInstance().getExternalContext()
+							.getRequestContextPath()
+							+ "/login.jspx");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void acceptTerms(ActionEvent event) {

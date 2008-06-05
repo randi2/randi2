@@ -180,7 +180,7 @@ public class LoginHandler {
 		
 	}
 	
-	private void cleanUp(){
+	public void cleanUp(){
 		this.login = null;
 		this.person = null;
 		this.userAssistant = null;
