@@ -8,7 +8,8 @@
 	<html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
-	<title><ice:outputText value="#{registerPage.messages['titel']}" /></title>
+	<title><ice:outputText
+		value="#{registerPage.messages['titel']}" /></title>
 	<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
 	</head>
 	<body>
@@ -22,7 +23,8 @@
 
 	<!-- The Registration Form  -->
 
-	<ice:panelBorder renderEast="false" renderWest="false" style="top: 10%; position: absolute; left: 20%">
+	<ice:panelBorder renderEast="false" renderWest="false"
+		style="top: 10%; position: absolute; left: 20%">
 		<f:facet name="north">
 			<f:subview id="versionInclude">
 				<jsp:directive.include file="./inc/version.jspx" />
@@ -34,8 +36,6 @@
 		</f:facet>
 		<f:facet name="center">
 			<ice:form partialSubmit="true">
-				<ice:messages globalOnly="true" showDetail="true" showSummary="true"
-					tooltip="true" />
 				<ice:panelTabSet tabPlacement="top">
 					<ice:panelTab label="#{registerPage.messages['personalH']}">
 						<ice:panelGrid>
@@ -150,7 +150,8 @@
 										</ice:inputText>
 										<ice:message for="mobile"></ice:message>
 									</ice:panelGroup>
-									<ice:outputLabel for="fax" value="#{registerPage.messages['fax']}"></ice:outputLabel>
+									<ice:outputLabel for="fax"
+										value="#{registerPage.messages['fax']}"></ice:outputLabel>
 									<ice:panelGroup>
 										<ice:inputText id="fax" value="#{loginHandler.person.fax}">
 											<f:validator
@@ -186,7 +187,8 @@
 
 							<ice:panelGrid border="0" columns="2">
 								<f:facet name="header">
-									<ice:outputText value="#{registerPage.messages['confirmationH']}"></ice:outputText>
+									<ice:outputText
+										value="#{registerPage.messages['confirmationH']}"></ice:outputText>
 								</f:facet>
 								<ice:outputLabel for="cPassword"
 									value="#{registerPage.messages['cPassword']}"></ice:outputLabel>
@@ -199,13 +201,15 @@
 
 
 				</ice:panelTabSet>
-				<ice:panelGrid border="0" columns="2">
+				<ice:panelGrid border="0" columns="3">
 					<ice:commandButton type="submit"
 						value="#{registerPage.messages['registerB']}"
 						action="#{loginHandler.registerUser}"></ice:commandButton>
 					<ice:commandButton immediate="true"
 						value="#{registerPage.messages['cancelB']}"
 						actionListener="#{registerPage.declineTerms}"></ice:commandButton>
+					<ice:messages globalOnly="true" showDetail="true"
+						showSummary="true" tooltip="true" />
 				</ice:panelGrid>
 			</ice:form>
 		</f:facet>
