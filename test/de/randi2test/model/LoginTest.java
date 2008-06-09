@@ -2,6 +2,7 @@ package de.randi2test.model;
 
 import static org.junit.Assert.*;
 
+import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 import org.junit.Assert;
@@ -14,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.Login;
 import de.randi2.model.Person;
+import de.randi2.utility.validations.PasswordValidator;
 import de.randi2test.utility.AbstractDomainTest;
 
 
@@ -22,6 +24,7 @@ import de.randi2test.utility.AbstractDomainTest;
 public class LoginTest extends AbstractDomainTest<Login>{
 
 	Login validLogin;
+	private ClassValidator<Login> loginValidator;
 	
 	public LoginTest() {
 		super(Login.class);
@@ -95,14 +98,22 @@ public class LoginTest extends AbstractDomainTest<Login>{
 	
 	@Test
 	public void testPassword(){
-		fail("not yet implemented");
+		String[] validPasswords = {"secret0$secret","sad.al4h/ljhaslf",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+";2", stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-2)+",3", stringUtil.getWithLength(Login.HASH_PASSWORD_LENGTH)};
+		for (String s: validPasswords){
+			validLogin.setPassword(s);
+			assertValid(validLogin);
+		}
+		
+	String[] invalidPasswords = {"secret$secret",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH),stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-3)+";2", "0123456789", null, ""};
+		for (String s: invalidPasswords){
+			validLogin.setPassword(s);
+			assertInvalid(validLogin);
+		}
 	}
 	
 	@Test
 	public void testPerson(){
 		Person p = factory.getPerson();
-		p.setSurname(stringUtil.getWithLength(20));
-		validLogin.setUsername(stringUtil.getWithLength(Login.MIN_USERNAME_LENGTH));
 		validLogin.setPerson(p);
 		assertNotNull(validLogin.getPerson());
 		hibernateTemplate.saveOrUpdate(validLogin);

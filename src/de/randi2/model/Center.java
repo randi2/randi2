@@ -3,13 +3,20 @@ package de.randi2.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
+import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Valid;
+
+import de.randi2.utility.validations.Password;
 
 
 @Entity
@@ -24,14 +31,14 @@ public class Center extends AbstractDomainObject{
 	private String city = "";
 	private String password = "";
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private Person contactPerson = null;
 	
 	@OneToMany(mappedBy="center")
 	private List<Person> members = null;
 	
-	//@Transient
-	//private List<Trial> trials = new ArrayList<Trial>();
+	@ManyToMany(cascade=CascadeType.ALL)
+	private List<Trial> trials = new ArrayList<Trial>();
 
 	@NotEmpty
 	@Length(max=MAX_VARCHAR_LENGTH)
@@ -82,7 +89,7 @@ public class Center extends AbstractDomainObject{
 		this.city = city;
 	}
 
-	//TODO Please annotate this filed. (lplotni)
+	@Password
 	public String getPassword() {
 		return password;
 	}
@@ -91,6 +98,7 @@ public class Center extends AbstractDomainObject{
 		this.password = password;
 	}
 
+	@NotNull
 	public Person getContactPerson() {
 		return contactPerson;
 	}

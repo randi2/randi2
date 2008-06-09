@@ -12,11 +12,17 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
 
+import de.randi2.utility.validations.Password;
+
 @Entity
 public class Login extends AbstractDomainObject {
 
 	public final static int MAX_USERNAME_LENGTH = 40;
 	public final static int MIN_USERNAME_LENGTH = 5;
+	public final static int MAX_PASSWORD_LENGTH = 50;
+	public final static int MIN_PASSWORD_LENGTH = 8;
+	public final static int HASH_PASSWORD_LENGTH = 64;
+	
 	
 	
 	@OneToOne(cascade=CascadeType.ALL)
@@ -65,6 +71,7 @@ public class Login extends AbstractDomainObject {
 		this.active = active;
 	}
 
+	@NotNull
 	public Person getPerson() {
 		return person;
 	}
@@ -73,7 +80,8 @@ public class Login extends AbstractDomainObject {
 		this.person = person;
 	}
 
-	@NotEmpty
+
+	@Password(max=MAX_PASSWORD_LENGTH,min=MIN_PASSWORD_LENGTH,hash_length=HASH_PASSWORD_LENGTH)
 	public String getPassword() {
 		return password;
 	}

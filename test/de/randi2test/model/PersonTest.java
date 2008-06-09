@@ -275,8 +275,6 @@ public class PersonTest extends AbstractDomainTest<Person> {
 	@Test
 	public void testLogin() {
 		Login l = factory.getLogin();
-		validPerson.setSurname(stringUtil.getWithLength(20));
-		l.setUsername(stringUtil.getWithLength(Login.MIN_USERNAME_LENGTH));
 		validPerson.setLogin(l);
 		assertNotNull(validPerson.getLogin());
 		hibernateTemplate.saveOrUpdate(validPerson);
@@ -314,7 +312,8 @@ public class PersonTest extends AbstractDomainTest<Person> {
 	@Test
 	public void testCenter() {
 		Center center = factory.getCenter();
-		center.setName(stringUtil.getWithLength(20));
+		hibernateTemplate.saveOrUpdate(center);
+		
 		validPerson.setSurname(stringUtil.getWithLength(20));
 		validPerson.setCenter(center);
 		assertNotNull(validPerson.getCenter());

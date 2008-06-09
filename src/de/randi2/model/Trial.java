@@ -43,7 +43,7 @@ public class Trial extends AbstractDomainObject {
 
 	// private final CascadeType[] t =
 
-	@ManyToMany(targetEntity = Center.class, cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy="trials", cascade=CascadeType.ALL)
 	private List<Center> participatingCenters = new ArrayList<Center>();
 
 	@NotNull()

@@ -44,7 +44,7 @@ public class Person extends AbstractDomainObject {
 	// Institutional Data
 	@ManyToOne(cascade=CascadeType.ALL)
 	private Person assistant;
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	private Center center;
 
 	// Login data
@@ -57,7 +57,6 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getCenter()
 	 */
-	//@NotNull
 	public Center getCenter() {
 		return center;
 	}

@@ -11,6 +11,8 @@ import de.randi2.model.PersonRole;
 import de.randi2.model.Role;
 import de.randi2.model.Trial;
 import de.randi2.model.enumerations.Gender;
+import de.randi2.utility.validations.Password;
+import de.randi2.utility.validations.PasswordValidator;
 
 public class DomainObjectFactory {
 
@@ -27,14 +29,14 @@ public class DomainObjectFactory {
 		p.setEMail("abc@def.xy");
 		p.setGender(Gender.MALE);
 		p.setPhone("01234/6789");
-		p.setCenter(this.getCenter());
 		return p;
 	}
 	
 	public Center getCenter(){
 		Center c = new Center();
 		c.setName(testStringUtil.getWithLength(10));
-		
+		c.setPassword(testStringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+";2");
+		c.setContactPerson(this.getPerson());
 		return c;
 	}
 
@@ -47,7 +49,8 @@ public class DomainObjectFactory {
 	public Login getLogin(){
 		Login l = new Login();
 		l.setUsername(testStringUtil.getWithLength(Login.MAX_USERNAME_LENGTH));
-		l.setPassword(testStringUtil.getLastString());
+		l.setPassword(testStringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH)+".ada6");
+		l.setPerson(getPerson());
 		
 		return l;
 	}

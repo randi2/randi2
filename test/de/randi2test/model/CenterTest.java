@@ -25,8 +25,7 @@ public class CenterTest extends AbstractDomainTest<Center> {
 
 	@Before
 	public void setUp() {
-		validCenter = new Center();
-		validCenter.setName("University Hospital Heidelberg");
+		validCenter = factory.getCenter();
 	}
 
 	@Test
@@ -152,6 +151,11 @@ public class CenterTest extends AbstractDomainTest<Center> {
 		validCenter.setCity(iv);
 		assertEquals(iv, validCenter.getCity());
 		assertInvalid(validCenter);
+	}
+	
+	@Test
+	public void testPassword(){
+		fail("not yet implemented");
 	}
 
 }
