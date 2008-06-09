@@ -31,10 +31,15 @@ public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 	}
 
 	protected void assertValid(TC validDO) {
+		try{
 		hibernateTemplate.saveOrUpdate(validDO);
 		long id = validDO.getId();
 		assertTrue(id != Long.MIN_VALUE);
-		
+		}catch (InvalidStateException e) {
+			for(InvalidValue iv:e.getInvalidValues()){
+				System.out.println("Fehler: " + iv.getPropertyName() + " " + iv.getMessage());
+			}
+		}
 	}
 
 	protected void assertInvalid(TC invalidDO, String[] messages) {

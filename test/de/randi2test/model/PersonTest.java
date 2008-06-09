@@ -143,10 +143,14 @@ public class PersonTest extends AbstractDomainTest<Person> {
 	
 	@Test
 	public void testPhone(){
-		validPerson.setPhone("01234/6789");
+		String phonenumber = "01234/6789";
+		validPerson.setPhone(phonenumber);
+		assertEquals(phonenumber, validPerson.getPhone());
 		assertValid(validPerson);
 		
-		validPerson.setPhone("123345");
+		phonenumber = "123345";
+		validPerson.setPhone(phonenumber);
+		assertEquals(phonenumber, validPerson.getPhone());
 		assertInvalid(validPerson);
 		
 		
@@ -175,30 +179,82 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		}
 	}
 
+	
+	@Test
+	public void testMobile(){
+		String mobilenumber = "01234/6789";
+		validPerson.setMobile(mobilenumber);
+		assertEquals(mobilenumber, validPerson.getMobile());
+		assertValid(validPerson);
+		
+		validPerson.setMobile("123345");
+		assertInvalid(validPerson);
+		
+		
+		validPerson.setMobile("012a/6789");
+		assertInvalid(validPerson);
+		
+		validPerson.setMobile("0123345");
+		assertInvalid(validPerson);
+		
+		validPerson.setMobile("");
+		assertValid(validPerson);
+		
+		validPerson.setMobile(null);
+		assertValid(validPerson);
+		
+	}
+	
+	@Test
+	public void testFax(){
+		String faxnumber = "01234/6789";
+		validPerson.setFax(faxnumber);
+		assertEquals(faxnumber, validPerson.getFax());
+		assertValid(validPerson);
+		
+		validPerson.setFax("123345");
+		assertInvalid(validPerson);
+		
+		
+		validPerson.setFax("012a/6789");
+		assertInvalid(validPerson);
+		
+		validPerson.setFax("0123345");
+		assertInvalid(validPerson);
+		
+		validPerson.setFax("");
+		assertValid(validPerson);
+		
+		validPerson.setFax(null);
+		assertValid(validPerson);
+		
+	}
+	
 	@Test
 	public void testEMail() {
-		validPerson.setEMail("abc@def.de");
-		assertValid(validPerson);
+		String[] validEMails = {"abc@def.de", "h@alo.com", "info@2wikipedia.org", "mue5ller@gmx.net", "max-muster@raf.uk", "xyz@test.info"};
+		for (String s: validEMails){
+			validPerson.setEMail(s);
+			assertValid(validPerson);
+		}
 
 		validPerson.setEMail(null);
 		assertInvalid(validPerson);
 
 		validPerson.setEMail("");
-		assertInvalid(validPerson);
+		try {
+			hibernateTemplate.saveOrUpdate(validPerson);
+			fail("should throw exception");
+		} catch (InvalidStateException e) {
+			InvalidValue[] invalidValues = e.getInvalidValues();
+			assertEquals(2, invalidValues.length);
+		}
 
-		String[] invalidEmails = new String[] { "without at", "toomuch@@",
-				"without@domain" };
+		String[] invalidEmails = new String[] { "without at", "toomuch@@", "@test.org", "ab..c@de-dg.com",
+				"without@domain" , "abc@def.abcde"};
 		for (String s : invalidEmails) {
 			validPerson.setEMail(s);
-			try {
-				hibernateTemplate.saveOrUpdate(validPerson);
-				fail("should throw exception! email = " + s );
-			} catch (InvalidStateException e) {
-				InvalidValue[] invalidValues = e.getInvalidValues();
-				assertEquals(1, invalidValues.length);
-				assertEquals("not a well-formed email address",
-						invalidValues[0].getMessage());
-			}
+			assertInvalid(validPerson);
 		}
 	}
 
@@ -231,7 +287,6 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertEquals(validPerson.getSurname(), p.getSurname());
 		assertNotNull(p.getLogin());
 		assertEquals(validPerson.getLogin().getId(), p.getLogin().getId());
-		Person p1 = p.getLogin().getPerson();
 
 	}
 
@@ -279,7 +334,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 
 	@Test
 	public void testPersonRolle() {
-		// TODO
+		fail("not yet implemented");
 	}
 
 }

@@ -2,10 +2,13 @@ package de.randi2test.model;
 
 import static org.junit.Assert.*;
 
+import org.hibernate.validator.InvalidStateException;
+import org.hibernate.validator.InvalidValue;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -64,11 +67,35 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		
 		validLogin.setUsername("");
 		assertEquals("", validLogin.getUsername());
-		assertInvalid(validLogin);
+		try {
+			hibernateTemplate.saveOrUpdate(validLogin);
+			fail("should throw exception");
+		} catch (InvalidStateException e) {
+			InvalidValue[] invalidValues = e.getInvalidValues();
+			assertEquals(2, invalidValues.length);
+		}
+		
+		
+		validLogin.setUsername(stringUtil.getWithLength(Login.MAX_USERNAME_LENGTH));
+		Login l1 = factory.getLogin();
+		l1.setUsername(validLogin.getUsername());
+		assertEquals(validLogin.getUsername(), l1.getUsername());
+		assertValid(validLogin);
+		try {
+			hibernateTemplate.saveOrUpdate(l1);
+			fail("should throw exception");
+		} catch (DataIntegrityViolationException e) {}
+		
 		
 //		validLogin.setUsername(null);
 //		assertEquals("", validLogin.getUsername());
 //		assertInvalid(validLogin);
+	}
+	
+	
+	@Test
+	public void testPassword(){
+		fail("not yet implemented");
 	}
 	
 	@Test
@@ -86,6 +113,15 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		assertNotNull(l.getPerson());
 		assertEquals(validLogin.getPerson().getId(), l.getPerson().getId());
 	
+	}
+	
+	@Test
+	public void testAktive(){
+		validLogin.setActive(true);
+		assertTrue(validLogin.isActive());
+		
+		validLogin.setActive(false);
+		assertFalse(validLogin.isActive());
 	}
 
 }

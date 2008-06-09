@@ -6,8 +6,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.validator.Length;
+import org.hibernate.validator.NotEmpty;
+import org.hibernate.validator.NotNull;
 
 @Entity
 public class Login extends AbstractDomainObject {
@@ -29,6 +32,7 @@ public class Login extends AbstractDomainObject {
 	private boolean active = false;
 
 	@Length(min=MIN_USERNAME_LENGTH, max=MAX_USERNAME_LENGTH)
+	@NotEmpty
 	public String getUsername() {
 		return username;
 	}
@@ -69,12 +73,14 @@ public class Login extends AbstractDomainObject {
 		this.person = person;
 	}
 
+	@NotEmpty
 	public String getPassword() {
 		return password;
 	}
 
 	// Just a private setter for the persistence Provider //I've changed it only temporary to public ... (lpotni)
 	public void setPassword(String password) {
+		
 		this.password = password;
 	}
 	

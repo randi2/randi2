@@ -139,7 +139,7 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getEMail()
 	 */
-	@Email
+	@Pattern(regex="[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4}")
 	@NotEmpty
 	public String getEMail() {
 		return eMail;
@@ -172,7 +172,7 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getMobile()
 	 */
-	
+	@Pattern(regex="(0(\\d){2,10}/(\\d){3,15}){0,1}")
 	public String getMobile() {
 		return mobile;
 	}
@@ -187,6 +187,7 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getFax()
 	 */
+	@Pattern(regex="(0(\\d){2,10}/(\\d){3,15}){0,1}")
 	public String getFax() {
 		return fax;
 	}
