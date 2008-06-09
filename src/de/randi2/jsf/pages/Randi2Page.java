@@ -1,31 +1,53 @@
 package de.randi2.jsf.pages;
 
-//import javax.faces.context.FacesContext;
+import de.randi2.jsf.handlers.CenterHandler;
+import de.randi2.jsf.handlers.LoginHandler;
+import de.randi2.model.Login;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-
-//import de.randi2.jsf.Randi2;
 
 public class Randi2Page {
 
-//	private Randi2 currentRandi2 = ((Randi2) FacesContext.getCurrentInstance()
-//			.getExternalContext().getSessionMap().get("randi2"));
-	
-	private String activePanel = "welcomePanel";
+    private CenterHandler centerHandler;
+    
+    
+    /**
+     * The active content Panel.
+     */
+    private String activePanel = "welcomePanel";
+    
+    /**
+     * The current logged in user.
+     */
+    private Login currentUser = null;
 
-	public String getActivePanel() {
-		return activePanel;
-	}
+    public Randi2Page() {
+    	centerHandler = (CenterHandler)FacesContext.getCurrentInstance().getApplication().getVariableResolver().resolveVariable(FacesContext.getCurrentInstance(), "centerHandler");
+    	currentUser = ((LoginHandler) FacesContext.getCurrentInstance()
+				.getApplication().getVariableResolver().resolveVariable(
+						FacesContext.getCurrentInstance(), "loginHandler")).getLogin();
+    }
 
-	public void setActivePanel(String activePanel) {
-		this.activePanel = activePanel;
-	}
+    public String getActivePanel() {
+        return activePanel;
+    }
 
-	public void viewCenters(ActionEvent event) {
-		activePanel = "centersViewPanel";
-	}
-	
-	public void myCenter(ActionEvent event) {
-		activePanel = "centerEditPanel";
-	}
+    public void setActivePanel(String activePanel) {
+        this.activePanel = activePanel;
+    }
 
+    public void viewCenters(ActionEvent event) {
+        activePanel = "centersViewPanel";
+    }
+
+    public void myCenter(ActionEvent event) {
+        centerHandler.setShowedCenter(currentUser.getPerson().getCenter());
+        activePanel = "centerEditPanel";
+    }
+    
+    public void showCenter(ActionEvent event){
+        System.out.println(event.getComponent().getId());
+    }
+
+ 
 }

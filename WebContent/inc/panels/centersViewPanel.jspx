@@ -1,70 +1,70 @@
 <ice:form partialSubmit="true" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:messages />
-	<ice:outputText value="Registered centers"></ice:outputText>
-	<!-- Paginator with page controls -->
-	<ice:dataPaginator id="dataScroll" for="centersTable" paginator="true"
-		fastStep="3" paginatorMaxPages="4">
-		<f:facet name="first">
-			<ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-first.gif"
-				style="border:none;" title="First Page" />
-		</f:facet>
-		<f:facet name="last">
-			<ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-last.gif"
-				style="border:none;" title="Last Page" />
-		</f:facet>
-		<f:facet name="previous">
-			<ice:graphicImage
-				url="./xmlhttp/css/rime/css-images/arrow-previous.gif"
-				style="border:none;" title="Previous Page" />
-		</f:facet>
-		<f:facet name="next">
-			<ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-next.gif"
-				style="border:none;" title="Next Page" />
-		</f:facet>
-		<f:facet name="fastforward">
-			<ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-ff.gif"
-				style="border:none;" title="Fast Forward" />
-		</f:facet>
-		<f:facet name="fastrewind">
-			<ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-fr.gif"
-				style="border:none;" title="Fast Backwards" />
-		</f:facet>
-	</ice:dataPaginator>
-
-	<ice:dataTable id="centersTable" border="1"
-		value="#{centerHendler.centers}" var="center" rows="5">
-		<ice:column id="column1">
-			<ice:outputText value="#{center.name}"></ice:outputText>
-			<f:facet name="header">
-				<ice:outputText value="Name" id="nameH"></ice:outputText>
-			</f:facet>
-		</ice:column>
-		<ice:column id="column2">
-			<ice:outputText value="#{center.street}"></ice:outputText>
-			<f:facet name="header">
-				<ice:outputText value="Street" id="streetH"></ice:outputText>
-			</f:facet>
-		</ice:column>
-		<ice:column id="column3">
-			<ice:outputText value="#{center.city}"></ice:outputText>
-			<f:facet name="header">
-				<ice:outputText value="city" id="cityH"></ice:outputText>
-			</f:facet>
-		</ice:column>
-		<ice:column id="column4">
-			<ice:outputText value="#{center.postcode}"></ice:outputText>
-			<f:facet name="header">
-				<ice:outputText value="Postcode" id="postcodeH"></ice:outputText>
-			</f:facet>
-		</ice:column>
-		<ice:column id="column5">
-			<ice:commandButton value="Show"></ice:commandButton>
-			<f:facet name="header">
-				<ice:outputText value="" id="showH"></ice:outputText>
-			</f:facet>
-		</ice:column>
-	</ice:dataTable>
-
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ice="http://www.icesoft.com/icefaces/component">
+    <ice:messages />
+    <ice:outputText value="Registered centers"></ice:outputText>
+    <!-- Paginator with page controls -->
+    <ice:dataPaginator id="dataScroll" for="centersTable" paginator="true"
+                fastStep="3" paginatorMaxPages="4">
+        <f:facet name="first">
+            <ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-first.gif"
+         style="border:none;" title="First Page" />
+        </f:facet>
+        <f:facet name="last">
+            <ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-last.gif"
+         style="border:none;" title="Last Page" />
+        </f:facet>
+        <f:facet name="previous">
+            <ice:graphicImage
+                url="./xmlhttp/css/rime/css-images/arrow-previous.gif"
+                style="border:none;" title="Previous Page" />
+        </f:facet>
+        <f:facet name="next">
+            <ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-next.gif"
+         style="border:none;" title="Next Page" />
+        </f:facet>
+        <f:facet name="fastforward">
+            <ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-ff.gif"
+         style="border:none;" title="Fast Forward" />
+        </f:facet>
+        <f:facet name="fastrewind">
+            <ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-fr.gif"
+         style="border:none;" title="Fast Backwards" />
+        </f:facet>
+    </ice:dataPaginator>
+    
+    <ice:dataTable id="centersTable" border="1"
+            value="#{centerHandler.centers}" var="center" rows="5">
+        <ice:column id="column1">
+            <ice:outputText value="#{center.name}"></ice:outputText>
+            <f:facet name="header">
+                <ice:outputText value="Name" id="nameH"></ice:outputText>
+            </f:facet>
+        </ice:column>
+        <ice:column id="column2">
+            <ice:outputText value="#{center.street}"></ice:outputText>
+            <f:facet name="header">
+                <ice:outputText value="Street" id="streetH"></ice:outputText>
+            </f:facet>
+        </ice:column>
+        <ice:column id="column3">
+            <ice:outputText value="#{center.city}"></ice:outputText>
+            <f:facet name="header">
+                <ice:outputText value="city" id="cityH"></ice:outputText>
+            </f:facet>
+        </ice:column>
+        <ice:column id="column4">
+            <ice:outputText value="#{center.postcode}"></ice:outputText>
+            <f:facet name="header">
+                <ice:outputText value="Postcode" id="postcodeH"></ice:outputText>
+            </f:facet>
+        </ice:column>
+        <ice:column id="column5">
+            <ice:commandLink id="showId" value="Show" actionListener="#{randi2Page.showCenter}"></ice:commandLink>
+            <f:facet name="header">
+                <ice:outputText value="" id="showH"></ice:outputText>
+            </f:facet>
+        </ice:column>
+    </ice:dataTable>
+    
 </ice:form>

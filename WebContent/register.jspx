@@ -23,8 +23,7 @@
 
 	<!-- The Registration Form  -->
 
-	<ice:panelBorder renderEast="false" renderWest="false"
-		style="top: 10%; position: absolute; left: 20%">
+	<ice:panelBorder renderEast="false" renderWest="false">
 		<f:facet name="north">
 			<f:subview id="versionInclude">
 				<jsp:directive.include file="./inc/version.jspx" />
@@ -39,10 +38,9 @@
 				<ice:panelTabSet tabPlacement="top">
 					<ice:panelTab label="#{registerPage.messages['personalH']}">
 						<ice:panelGrid>
-							<ice:panelGrid border="0" columns="2" style="float:left">
+							<ice:panelGrid border="0" columns="3" style="float:left">
 								<ice:outputLabel for="title"
 									value="#{registerPage.messages['pTitel']}"></ice:outputLabel>
-								<ice:panelGroup>
 									<ice:inputText id="title" value="#{loginHandler.person.title}"
 										required="#{loginHandler.person.requiredFields['title']}"
 										partialSubmit="true">
@@ -50,11 +48,9 @@
 											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 										<f:attribute name="dObject" value="#{loginHandler.person}" />
 									</ice:inputText>
-									<ice:message for="title"></ice:message>
-								</ice:panelGroup>
+									<ice:message for="title" id="titelError"></ice:message>
 								<ice:outputLabel for="firstname"
 									value="#{registerPage.messages['firstname']}"></ice:outputLabel>
-								<ice:panelGroup>
 									<ice:inputText id="firstname"
 										value="#{loginHandler.person.firstname}"
 										required="#{loginHandler.person.requiredFields['firstname']}"
@@ -63,11 +59,9 @@
 											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 										<f:attribute name="dObject" value="#{loginHandler.person}" />
 									</ice:inputText>
-									<ice:message for="firstname"></ice:message>
-								</ice:panelGroup>
+									<ice:message for="firstname" id="firstnameError"></ice:message>
 								<ice:outputLabel for="surname"
 									value="#{registerPage.messages['surname']}"></ice:outputLabel>
-								<ice:panelGroup>
 									<ice:inputText id="surname"
 										value="#{loginHandler.person.surname}"
 										required="#{loginHandler.person.requiredFields['surname']}"
@@ -76,8 +70,7 @@
 											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 										<f:attribute name="dObject" value="#{loginHandler.person}" />
 									</ice:inputText>
-									<ice:message for="surname"></ice:message>
-								</ice:panelGroup>
+									<ice:message for="surname" id="surnameError"></ice:message>
 								<ice:outputLabel for="gender"
 									value="#{registerPage.messages['gender']}"></ice:outputLabel>
 								<ice:selectOneMenu id="gender"
@@ -108,7 +101,7 @@
 											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 										<f:attribute name="dObject" value="#{loginHandler.login}" />
 									</ice:inputSecret>
-									<ice:message for="password"></ice:message>
+									<ice:message for="password" id="passwordError"></ice:message>
 								</ice:panelGroup>
 
 							</ice:panelGrid>
@@ -117,10 +110,9 @@
 					<ice:panelTab label="#{registerPage.messages['contactH']}">
 						<ice:panelGrid>
 							<ice:panelGroup>
-								<ice:panelGrid border="0" columns="2">
+								<ice:panelGrid border="0" columns="3">
 									<ice:outputLabel for="eMail"
 										value="#{registerPage.messages['email']}"></ice:outputLabel>
-									<ice:panelGroup>
 										<ice:inputText id="eMail" value="#{loginHandler.person.EMail}"
 											required="#{loginHandler.person.requiredFields['eMail']}"
 											partialSubmit="true">
@@ -128,11 +120,9 @@
 												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 											<f:attribute name="dObject" value="#{loginHandler.person}" />
 										</ice:inputText>
-										<ice:message for="eMail"></ice:message>
-									</ice:panelGroup>
+										<ice:message for="eMail" id="eMailError"></ice:message>
 									<ice:outputLabel for="phone"
 										value="#{registerPage.messages['phone']}"></ice:outputLabel>
-									<ice:panelGroup>
 										<ice:inputText id="phone" value="#{loginHandler.person.phone}"
 											required="#{loginHandler.person.requiredFields['phone']}"
 											partialSubmit="true">
@@ -140,11 +130,9 @@
 												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 											<f:attribute name="dObject" value="#{loginHandler.person}" />
 										</ice:inputText>
-										<ice:message for="phone"></ice:message>
-									</ice:panelGroup>
+										<ice:message for="phone" id="phoneError"></ice:message>
 									<ice:outputLabel for="mobile"
 										value="#{registerPage.messages['mobile']}"></ice:outputLabel>
-									<ice:panelGroup>
 										<ice:inputText id="mobile"
 											value="#{loginHandler.person.mobile}"
 											required="#{loginHandler.person.requiredFields['mobile']}"
@@ -153,11 +141,9 @@
 												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 											<f:attribute name="dObject" value="#{loginHandler.person}" />
 										</ice:inputText>
-										<ice:message for="mobile"></ice:message>
-									</ice:panelGroup>
+										<ice:message for="mobile" id="mobileError"></ice:message>
 									<ice:outputLabel for="fax"
 										value="#{registerPage.messages['fax']}"></ice:outputLabel>
-									<ice:panelGroup>
 										<ice:inputText id="fax" value="#{loginHandler.person.fax}"
 											required="#{loginHandler.person.requiredFields['fax']}"
 											partialSubmit="true">
@@ -165,15 +151,14 @@
 												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 											<f:attribute name="dObject" value="#{loginHandler.person}" />
 										</ice:inputText>
-										<ice:message for="fax"></ice:message>
-									</ice:panelGroup>
+										<ice:message for="fax" id="faxError"></ice:message>
 								</ice:panelGrid>
 							</ice:panelGroup>
 						</ice:panelGrid>
 					</ice:panelTab>
 					<ice:panelTab label="#{registerPage.messages['institutionH']}">
 						<ice:panelGrid>
-							<ice:panelGrid border="0" columns="2">
+							<ice:panelGrid border="0" columns="3">
 								<ice:outputLabel for="center"
 									value="#{registerPage.messages['center']}"></ice:outputLabel>
 								<ice:selectInputText id="center"
@@ -181,8 +166,9 @@
 									value="#{loginHandler.userCenter.name}"
 									required="#{loginHandler.person.requiredFields['center']}"
 									partialSubmit="true">
-									<f:selectItems value="#{centerHendler.dummyCenters}" />
+									<f:selectItems value="#{centerHandler.dummyCenters}" />
 								</ice:selectInputText>
+								<ice:message for="center" id="centerError"></ice:message>
 								<ice:outputLabel for="assistant"
 									value="#{registerPage.messages['assistant']}"></ice:outputLabel>
 								<ice:selectInputText id="assistant"
@@ -190,11 +176,13 @@
 									value="#{loginHandler.userAssistant.surname}"
 									required="#{loginHandler.person.requiredFields['assistant']}"
 									partialSubmit="true">
-									<f:selectItems value="#{centerHendler.dummyMembers}" />
+									<f:selectItems value="#{centerHandler.dummyMembers}" />
 								</ice:selectInputText>
+								<ice:message for="assistant" id="assistantError"></ice:message>
+								
 							</ice:panelGrid>
 
-							<ice:panelGrid border="0" columns="2">
+							<ice:panelGrid border="0" columns="3">
 								<f:facet name="header">
 									<ice:outputText
 										value="#{registerPage.messages['confirmationH']}"></ice:outputText>
@@ -203,7 +191,7 @@
 									value="#{registerPage.messages['cPassword']}"></ice:outputLabel>
 								<ice:inputSecret id="cPassword"
 									value="#{loginHandler.userCenter.password}"></ice:inputSecret>
-
+								<ice:message for="cPassword" id="cPasswordError"></ice:message>
 							</ice:panelGrid>
 						</ice:panelGrid>
 					</ice:panelTab>

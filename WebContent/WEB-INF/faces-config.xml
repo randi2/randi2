@@ -62,7 +62,8 @@
 	
 	<managed-bean>
 		<description>The glueBean for the Center bean.</description>
-		<managed-bean-name>centerHendler</managed-bean-name>
+		<managed-bean-name>
+		centerHandler</managed-bean-name>
 		<managed-bean-class>
 			de.randi2.jsf.handlers.CenterHandler
 		</managed-bean-class>
@@ -133,6 +134,18 @@
 			<from-outcome>ok</from-outcome>
 			<to-view-id>/login.jspx</to-view-id>
 			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>
+		login</display-name>
+		<from-view-id>
+		/login.jspx</from-view-id>
+		<navigation-case>
+			<from-action>#{loginHandler.testLogin}</from-action>
+			<from-outcome>success</from-outcome>
+			<to-view-id>
+			/randi2.jspx</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

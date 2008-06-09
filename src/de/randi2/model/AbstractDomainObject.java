@@ -1,14 +1,10 @@
 package de.randi2.model;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -81,10 +77,6 @@ public abstract class AbstractDomainObject implements Serializable {
 					requiredFields.put(m.getName().substring(3, 4)
 							.toLowerCase()
 							+ m.getName().substring(4), this.isRequired(m));
-					System.out.println(m.getName().substring(3, 4)
-							.toLowerCase()
-							+ m.getName().substring(4) + " "
-							+ this.isRequired(m));
 				}
 			}
 		}

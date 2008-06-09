@@ -16,11 +16,5 @@ public class Randi2 {
 	public static void showMessage(String message){
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,message,null));
 	}
-	
-	public String CENTERS_VIEW = "centersViewPanel";
-
-	public String getCENTERS_VIEW() {
-		return CENTERS_VIEW;
-	}
 
 }

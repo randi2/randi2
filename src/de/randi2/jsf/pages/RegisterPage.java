@@ -10,9 +10,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
-import com.icesoft.faces.context.effects.Effect;
-import com.icesoft.faces.context.effects.Highlight;
-
 import de.randi2.jsf.handlers.LoginHandler;
 import de.randi2.model.enumerations.Gender;
 
@@ -23,7 +20,7 @@ public class RegisterPage {
 	private Vector<SelectItem> genderItems;
 
 	private boolean termsPvisible = true;
-	
+
 	private boolean regPvisible = false;
 
 	public RegisterPage() {
@@ -37,10 +34,12 @@ public class RegisterPage {
 
 		messages.put("acceptB", "Accept");
 		messages.put("declineB", "Decline");
-		
-		
+
 		messages.put("regPH", "Registration successfull");
-		messages.put("regMessage", "A new account was created! An email with a confirmation link will be send shortly.");
+		messages
+				.put(
+						"regMessage",
+						"A new account was created! An email with a confirmation link will be send shortly.");
 		messages.put("okB", "OK");
 
 		messages.put("titel", "RANDI2:Register");
@@ -55,7 +54,7 @@ public class RegisterPage {
 		messages.put("center", "Center");
 		messages.put("assistant", "Assistant");
 		messages.put("cPassword", "Center password");
-		
+
 		messages.put("username", "Username");
 		messages.put("password", "Password");
 
@@ -87,19 +86,22 @@ public class RegisterPage {
 	public boolean getTermsPvisible() {
 		return this.termsPvisible;
 	}
-	
-	public void setRegPvisible(boolean value){
+
+	public void setRegPvisible(boolean value) {
 		this.regPvisible = value;
 	}
-	
-	public boolean getRegPvisible(){
+
+	public boolean getRegPvisible() {
 		return this.regPvisible;
 	}
-	
+
 	public void cancel(ActionEvent event) {
 		this.termsPvisible = true;
 		try {
-			((LoginHandler)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loginHandler")).cleanUp();
+			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
+					.getVariableResolver().resolveVariable(
+							FacesContext.getCurrentInstance(), "loginHandler"))
+					.cleanUp();
 			FacesContext.getCurrentInstance().getExternalContext().redirect(
 					FacesContext.getCurrentInstance().getExternalContext()
 							.getRequestContextPath()
