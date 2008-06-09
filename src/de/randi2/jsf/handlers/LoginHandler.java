@@ -3,6 +3,7 @@ package de.randi2.jsf.handlers;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -144,6 +145,8 @@ public class LoginHandler {
 	}
 
 	public String logoutUser() {
+		//TODO Save the login object
+		//loginDao.save(this.login);
 		this.login = new Login();
 		return Randi2.SUCCESS;
 	}
@@ -159,9 +162,12 @@ public class LoginHandler {
 			fulfillLoginObject();
 			// END
 
-			if (login.getPassword().equals(pass))
+			if (login.getPassword().equals(pass)){
+				if(login.getFirstLoggedIn()==null)
+					login.setFirstLoggedIn(new GregorianCalendar());
+				login.setLastLoggedIn(new GregorianCalendar());
 				return Randi2.SUCCESS;
-			else
+			}else
 				throw new LoginException(LoginException.LOGIN_PASS_INCORRECT);
 		} catch (Exception e) {
 			Randi2.showMessage(e);
@@ -180,6 +186,9 @@ public class LoginHandler {
 		}
 		
 		login = loginDao.get(testProperties.getProperty("username"));
+		if(login.getFirstLoggedIn()==null)
+			login.setFirstLoggedIn(new GregorianCalendar());
+		login.setLastLoggedIn(new GregorianCalendar());
 		// TODO Temporary solution
 		fulfillLoginObject();
 		// END

@@ -53,6 +53,11 @@ public class Randi2Page {
         centerHandler.setShowedCenter(tCenter);
         activePanel = "centerEditPanel";
     }
+    
+    public void createCenter(ActionEvent event){
+    	centerHandler.setShowedCenter(null);
+    	activePanel = "centerEditPanel";
+    }
 
  
 }

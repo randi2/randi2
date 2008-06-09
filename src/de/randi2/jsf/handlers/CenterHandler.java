@@ -8,6 +8,8 @@ import javax.faces.model.SelectItem;
 import de.randi2.dao.CenterDao;
 import de.randi2.model.Center;
 import de.randi2.model.Login;
+import de.randi2.model.Person;
+
 import javax.faces.context.FacesContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class CenterHandler {
     private Vector<Center> centers = null;
     private Center showedCenter = null;
     private boolean editable = false;
+    private boolean creatingMode = false;
+    
+    
     private Vector<SelectItem> dummyCenters;
     private Vector<SelectItem> dummyMembers;
 
@@ -81,7 +86,14 @@ public class CenterHandler {
     }
 
     public void setShowedCenter(Center showedCenter) {
-        this.showedCenter = showedCenter;
+        if(showedCenter==null){
+        	creatingMode = true;
+        	this.showedCenter = new Center();
+        	this.showedCenter.setContactPerson(new Person());
+        }else{
+        	creatingMode = false;
+        	this.showedCenter = showedCenter;
+        }
     }
 
     public Login getCurrentUser() {
@@ -114,4 +126,12 @@ public class CenterHandler {
     public void saveCenter(){
     	centerDao.save(this.getShowedCenter());
     }
+
+	public boolean isCreatingMode() {
+		return creatingMode;
+	}
+
+	public void setCreatingMode(boolean creatingMode) {
+		this.creatingMode = creatingMode;
+	}
 }

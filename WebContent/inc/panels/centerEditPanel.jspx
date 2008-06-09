@@ -187,7 +187,7 @@
 				</ice:panelGroup>
 			</ice:panelGrid>
 		</ice:panelTab>
-		<ice:panelTab label="Memberslist">
+		<ice:panelTab label="Memberslist" rendered="#{!centerHandler.creatingMode}">
 		<ice:panelGrid></ice:panelGrid>
 			<!-- Paginator with page controls -->
 			<ice:dataPaginator id="dataScroll" for="membersTable"
@@ -262,8 +262,16 @@
 				</ice:column>
 			</ice:dataTable>
 		</ice:panelTab>
-		<ice:panelTab label="Trials">
+		<ice:panelTab label="Trials" rendered="#{!centerHandler.creatingMode}">
                     
 		</ice:panelTab>
 	</ice:panelTabSet>
+	<ice:panelGrid border="0" columns="3" rendered="#{centerHandler.editable}">
+		<ice:commandButton type="submit"
+			value="Save"
+			action="#{centerHandler.saveCenter}"></ice:commandButton>
+		<ice:messages globalOnly="true" showDetail="true"
+			showSummary="true" tooltip="true" />
+	</ice:panelGrid>
+	
 </ice:form>
