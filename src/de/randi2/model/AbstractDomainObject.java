@@ -82,5 +82,19 @@ public abstract class AbstractDomainObject implements Serializable {
 		}
 		return requiredFields;
 	}
+	
+	/**
+	 * This method checks if two object identical by matching their id's.
+	 */
+	@Override
+	public boolean equals(Object o){
+		if (o instanceof AbstractDomainObject) {
+			AbstractDomainObject randi2Object = (AbstractDomainObject) o;
+			if(randi2Object.id == this.id)
+				return true;
+			return false;
+		}else
+			return false;
+	}
 
 }

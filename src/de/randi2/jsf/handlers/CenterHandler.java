@@ -5,12 +5,18 @@ import java.util.Vector;
 
 import javax.faces.model.SelectItem;
 
+import de.randi2.dao.CenterDao;
 import de.randi2.model.Center;
 import de.randi2.model.Login;
 import javax.faces.context.FacesContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class CenterHandler {
 
+	@Autowired
+	private CenterDao centerDao;
+	
     /**
      * The current logged in user.
      */
@@ -93,7 +99,7 @@ public class CenterHandler {
         //TODO if the user has the right to edit the center properties this method should return true
         //Temporary I'll just look, if the current user is a member of this center - if it is so, then he can edit it
         //properties.
-        if (this.getShowedCenter().getId() == this.getCurrentUser().getPerson().getCenter().getId()) {
+        if (this.getShowedCenter().equals(this.getCurrentUser().getPerson().getCenter())) {
             editable = true;
         } else {
             editable = false;
@@ -103,5 +109,9 @@ public class CenterHandler {
 
     public void setEditable(boolean editable) {
         this.editable = editable;
+    }
+    
+    public void saveCenter(){
+    	centerDao.save(this.getShowedCenter());
     }
 }

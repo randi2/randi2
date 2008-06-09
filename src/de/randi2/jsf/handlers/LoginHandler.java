@@ -1,5 +1,9 @@
 package de.randi2.jsf.handlers;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.Vector;
 
 import javax.faces.context.FacesContext;
@@ -167,7 +171,15 @@ public class LoginHandler {
 	}
 	
 	public String testLogin(){
-		login = loginDao.get("lpilz@dkfz.de");
+		Properties testProperties = new Properties();
+		try {
+			testProperties.load(FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/test.properties"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		login = loginDao.get(testProperties.getProperty("username"));
 		// TODO Temporary solution
 		fulfillLoginObject();
 		// END

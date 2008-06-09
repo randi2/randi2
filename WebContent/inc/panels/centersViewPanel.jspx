@@ -60,7 +60,9 @@
             </f:facet>
         </ice:column>
         <ice:column id="column5">
-            <ice:commandLink id="showId" value="Show" actionListener="#{randi2Page.showCenter}"></ice:commandLink>
+            <ice:commandLink id="showId" value="Show" actionListener="#{randi2Page.showCenter}">
+            <ice:outputText value="#{center}" visible="false"></ice:outputText>
+            </ice:commandLink>
             <f:facet name="header">
                 <ice:outputText value="" id="showH"></ice:outputText>
             </f:facet>

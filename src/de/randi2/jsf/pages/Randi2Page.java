@@ -2,7 +2,10 @@ package de.randi2.jsf.pages;
 
 import de.randi2.jsf.handlers.CenterHandler;
 import de.randi2.jsf.handlers.LoginHandler;
+import de.randi2.model.Center;
 import de.randi2.model.Login;
+
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -46,7 +49,9 @@ public class Randi2Page {
     }
     
     public void showCenter(ActionEvent event){
-        System.out.println(event.getComponent().getId());
+        Center tCenter =  (Center) (((UIComponent)event.getComponent().getChildren().get(0)).getValueBinding("value").getValue(FacesContext.getCurrentInstance()));
+        centerHandler.setShowedCenter(tCenter);
+        activePanel = "centerEditPanel";
     }
 
  
