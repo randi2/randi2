@@ -5,16 +5,14 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
-import org.hibernate.validator.Valid;
 
 import de.randi2.utility.validations.Password;
 
@@ -37,7 +35,8 @@ public class Center extends AbstractDomainObject{
 	@OneToMany(mappedBy="center")
 	private List<Person> members = null;
 	
-	@ManyToMany(cascade=CascadeType.ALL)
+	//TODO find solution for FetchType.EAGER
+	@ManyToMany(mappedBy="participatingCenters",fetch=FetchType.EAGER)
 	private List<Trial> trials = new ArrayList<Trial>();
 
 	@NotEmpty
@@ -113,6 +112,14 @@ public class Center extends AbstractDomainObject{
 
 	public void setMembers(List<Person> members) {
 		this.members = members;
+	}
+
+	public List<Trial> getTrials() {
+		return trials;
+	}
+
+	public void setTrials(List<Trial> trials) {
+		this.trials = trials;
 	}
 
 	

@@ -8,15 +8,13 @@ import java.lang.annotation.Target;
 
 import org.hibernate.validator.ValidatorClass;
 
-
-@ValidatorClass(PasswordValidator.class)
-@Target({ElementType.METHOD, ElementType.FIELD})
+@ValidatorClass(DateDependenceValidation.class)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Password {
-	
-	int min() default  8;
-	int max() default 50;
-	int hash_length() default 64;
-	String message() default "wrong";
+public @interface DateDependence {
+		String firstDate();
+		String secondDate();
+
+		String message() default "first date after second";
 }

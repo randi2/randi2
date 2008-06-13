@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.hibernate.validator.ClassValidator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,6 +1,5 @@
 package de.randi2.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.randi2.model.Login;

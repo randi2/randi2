@@ -1,7 +1,5 @@
 package de.randi2.utility.validations;
 
-import org.hibernate.mapping.Property;
-import org.hibernate.validator.PropertyConstraint;
 import org.hibernate.validator.Validator;
 
 public class PasswordValidator implements Validator<Password>{

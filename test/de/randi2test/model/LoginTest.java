@@ -1,8 +1,11 @@
 package de.randi2test.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 import org.junit.Assert;
@@ -15,7 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.Login;
 import de.randi2.model.Person;
-import de.randi2.utility.validations.PasswordValidator;
 import de.randi2test.utility.AbstractDomainTest;
 
 
@@ -24,7 +26,7 @@ import de.randi2test.utility.AbstractDomainTest;
 public class LoginTest extends AbstractDomainTest<Login>{
 
 	Login validLogin;
-	private ClassValidator<Login> loginValidator;
+//	private ClassValidator<Login> loginValidator;
 	
 	public LoginTest() {
 		super(Login.class);

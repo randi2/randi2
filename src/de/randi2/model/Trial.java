@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -18,9 +20,11 @@ import org.hibernate.validator.NotNull;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import de.randi2.model.enumerations.TrialStatus;
+import de.randi2.utility.validations.DateDependence;
 
 @Entity
 @Configurable
+@DateDependence(firstDate="startDate", secondDate="endDate")
 public class Trial extends AbstractDomainObject {
 
 	public static final String DATES_WRONG_RANGE = "Die Datumswerte für das Start- und das Ende-Datum der Studie müssen in der richtigen zeitlichen Reihenfolge sein.";
@@ -39,11 +43,11 @@ public class Trial extends AbstractDomainObject {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Center leadingCenter = null;
 
+	@Enumerated(value=EnumType.STRING)
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
 
-	// private final CascadeType[] t =
 
-	@ManyToMany(mappedBy="trials", cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL)
 	private List<Center> participatingCenters = new ArrayList<Center>();
 
 	@NotNull()
@@ -131,4 +135,7 @@ public class Trial extends AbstractDomainObject {
 		return this.leadingCenter;
 	}
 
+	public void addParticipatingCenter(Center participatingCenter){
+		this.participatingCenters.add(participatingCenter);
+	}
 }

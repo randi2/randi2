@@ -1,14 +1,13 @@
 package de.randi2test.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import org.hibernate.StaleObjectStateException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateOptimisticLockingFailureException;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -29,7 +28,7 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 	
 	@Before
 	public void setUp(){
-		validObject = new Trial();
+		validObject = factory.getTrial();
 		validObject.setName("Aspirin vs. Placebo");
 	}
 	

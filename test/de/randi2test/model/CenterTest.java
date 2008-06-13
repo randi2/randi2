@@ -1,6 +1,11 @@
 package de.randi2test.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Center;
+import de.randi2.model.Trial;
 import de.randi2test.utility.AbstractDomainTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -151,6 +157,32 @@ public class CenterTest extends AbstractDomainTest<Center> {
 		validCenter.setCity(iv);
 		assertEquals(iv, validCenter.getCity());
 		assertInvalid(validCenter);
+	}
+	
+	@Test
+	public void testTrials(){
+		List<Trial> tl = new ArrayList<Trial>();
+		
+		tl.add(factory.getTrial());
+		tl.add(factory.getTrial());
+		tl.add(factory.getTrial());
+		
+
+		hibernateTemplate.saveOrUpdate(validCenter);
+		assertTrue(validCenter.getId()!= AbstractDomainObject.NOT_YET_SAVED_ID);
+		for(Trial trial: tl){
+			trial.addParticipatingCenter(validCenter);
+			assertEquals(1, trial.getParticipatingCenters().size());
+			assertEquals(validCenter.getId(), trial.getParticipatingCenters().get(0).getId());
+			hibernateTemplate.saveOrUpdate(trial);
+		}
+		Center center = (Center) hibernateTemplate.get(Center.class, validCenter.getId());
+		assertEquals(validCenter.getId(), center.getId());
+		
+		//TODO
+//		hibernateTemplate.refresh(validCenter);
+//		validCenter.getTrials();
+//		assertEquals(tl.size(), center.getTrials().size());
 	}
 	
 	@Test
