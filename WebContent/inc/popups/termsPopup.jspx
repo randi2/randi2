@@ -7,20 +7,20 @@
 		rendered="#{registerPage.termsPvisible}"
 		style="width: 600px; height: auto">
 		<f:facet name="header">
-			<ice:outputText value="#{registerPage.messages['termsPH']}"></ice:outputText>
+			<ice:outputText value="#{labels['registration.termsHeader']}"></ice:outputText>
 		</f:facet>
 
 		<f:facet name="body">
 			<ice:panelGrid border="0" columns="1">
 				<f:facet name="footer">
 					<ice:panelGroup>
-						<ice:commandButton value="#{registerPage.messages['acceptB']}"
+						<ice:commandButton value="#{labels['buttons.accept']}"
 							actionListener="#{registerPage.acceptTerms}"></ice:commandButton>
-						<ice:commandButton value="#{registerPage.messages['declineB']}"
+						<ice:commandButton value="#{labels['buttons.decline']}"
 							actionListener="#{registerPage.declineTerms}"></ice:commandButton>
 					</ice:panelGroup>
 				</f:facet>
-				<ice:outputText value="#{registerPage.messages['terms']}"></ice:outputText>
+				<ice:outputText value="#{labels['registration.terms']}"></ice:outputText>
 			</ice:panelGrid>
 
 		</f:facet>

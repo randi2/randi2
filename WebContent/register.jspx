@@ -1,7 +1,8 @@
 <f:view xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	xmlns:ice="http://www.icesoft.com/icefaces/component" locale="#{facesContext.externalContext.requestLocale}">
+	<f:loadBundle basename="labels" var="labels"/>
 	<ice:outputDeclaration doctypeRoot="HTML"
 		doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN"
 		doctypeSystem="http://www.w3.org/TR/html4/loose.dtd" />
@@ -9,7 +10,7 @@
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
 	<title><ice:outputText
-		value="#{registerPage.messages['titel']}" /></title>
+		value="#{labels['registration.title']}" /></title>
 	<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
 	</head>
 	<body>
@@ -36,11 +37,11 @@
 		<f:facet name="center">
 			<ice:form>
 				<ice:panelTabSet tabPlacement="top">
-					<ice:panelTab label="#{registerPage.messages['personalH']}">
+					<ice:panelTab label="#{labels['registration.personalHeader']}">
 						<ice:panelGrid>
 							<ice:panelGrid border="0" columns="3" style="float:left">
 								<ice:outputLabel for="title"
-									value="#{registerPage.messages['pTitel']}"></ice:outputLabel>
+									value="#{labels['person.title']}"></ice:outputLabel>
 									<ice:inputText id="title" value="#{loginHandler.person.title}"
 										required="#{loginHandler.person.requiredFields['title']}"
 										partialSubmit="true">
@@ -50,7 +51,7 @@
 									</ice:inputText>
 									<ice:message for="title" id="titelError"></ice:message>
 								<ice:outputLabel for="firstname"
-									value="#{registerPage.messages['firstname']}"></ice:outputLabel>
+									value="#{labels['person.firstname']}"></ice:outputLabel>
 									<ice:inputText id="firstname"
 										value="#{loginHandler.person.firstname}"
 										required="#{loginHandler.person.requiredFields['firstname']}"
@@ -61,7 +62,7 @@
 									</ice:inputText>
 									<ice:message for="firstname" id="firstnameError"></ice:message>
 								<ice:outputLabel for="surname"
-									value="#{registerPage.messages['surname']}"></ice:outputLabel>
+									value="#{labels['person.surname']}"></ice:outputLabel>
 									<ice:inputText id="surname"
 										value="#{loginHandler.person.surname}"
 										required="#{loginHandler.person.requiredFields['surname']}"
@@ -72,7 +73,7 @@
 									</ice:inputText>
 									<ice:message for="surname" id="surnameError"></ice:message>
 								<ice:outputLabel for="gender"
-									value="#{registerPage.messages['gender']}"></ice:outputLabel>
+									value="#{labels['person.gender']}"></ice:outputLabel>
 								<ice:selectOneMenu id="gender"
 									value="#{loginHandler.person.gender}">
 									<f:converter
@@ -83,15 +84,15 @@
 							</ice:panelGrid>
 							<ice:panelGrid columns="2">
 								<f:facet name="header">
-									<ice:outputText value="#{registerPage.messages['accountH']}"></ice:outputText>
+									<ice:outputText value="#{labels['registration.accountHeader']}"></ice:outputText>
 								</f:facet>
 								<ice:outputLabel for="username"
-									value="#{registerPage.messages['username']}"></ice:outputLabel>
+									value="#{labels['login.username']}"></ice:outputLabel>
 								<ice:inputText id="username" value="Will be your email"
 									readonly="true">
 								</ice:inputText>
 								<ice:outputLabel for="password"
-									value="#{registerPage.messages['password']}"></ice:outputLabel>
+									value="#{labels['login.password']}"></ice:outputLabel>
 								<ice:panelGroup>
 									<ice:inputSecret id="password"
 										value="#{loginHandler.login.password}"
@@ -107,12 +108,12 @@
 							</ice:panelGrid>
 						</ice:panelGrid>
 					</ice:panelTab>
-					<ice:panelTab label="#{registerPage.messages['contactH']}">
+					<ice:panelTab label="#{labels['registration.contactHeader']}">
 						<ice:panelGrid>
 							<ice:panelGroup>
 								<ice:panelGrid border="0" columns="3">
 									<ice:outputLabel for="eMail"
-										value="#{registerPage.messages['email']}"></ice:outputLabel>
+										value="#{labels['person.eMail']}"></ice:outputLabel>
 										<ice:inputText id="eMail" value="#{loginHandler.person.EMail}"
 											required="#{loginHandler.person.requiredFields['eMail']}"
 											partialSubmit="true">
@@ -122,7 +123,7 @@
 										</ice:inputText>
 										<ice:message for="eMail" id="eMailError"></ice:message>
 									<ice:outputLabel for="phone"
-										value="#{registerPage.messages['phone']}"></ice:outputLabel>
+										value="#{labels['person.phone']}"></ice:outputLabel>
 										<ice:inputText id="phone" value="#{loginHandler.person.phone}"
 											required="#{loginHandler.person.requiredFields['phone']}"
 											partialSubmit="true">
@@ -132,7 +133,7 @@
 										</ice:inputText>
 										<ice:message for="phone" id="phoneError"></ice:message>
 									<ice:outputLabel for="mobile"
-										value="#{registerPage.messages['mobile']}"></ice:outputLabel>
+										value="#{labels['person.mobile']}"></ice:outputLabel>
 										<ice:inputText id="mobile"
 											value="#{loginHandler.person.mobile}"
 											required="#{loginHandler.person.requiredFields['mobile']}"
@@ -143,7 +144,7 @@
 										</ice:inputText>
 										<ice:message for="mobile" id="mobileError"></ice:message>
 									<ice:outputLabel for="fax"
-										value="#{registerPage.messages['fax']}"></ice:outputLabel>
+										value="#{labels['person.fax']}"></ice:outputLabel>
 										<ice:inputText id="fax" value="#{loginHandler.person.fax}"
 											required="#{loginHandler.person.requiredFields['fax']}"
 											partialSubmit="true">
@@ -156,11 +157,11 @@
 							</ice:panelGroup>
 						</ice:panelGrid>
 					</ice:panelTab>
-					<ice:panelTab label="#{registerPage.messages['institutionH']}">
+					<ice:panelTab label="#{labels['registration.institutionHeader']}">
 						<ice:panelGrid>
 							<ice:panelGrid border="0" columns="3">
 								<ice:outputLabel for="center"
-									value="#{registerPage.messages['center']}"></ice:outputLabel>
+									value="#{labels['person.center']}"></ice:outputLabel>
 								<ice:selectInputText id="center"
 									style="height: 40px;display: block;"
 									value="#{loginHandler.userCenter.name}"
@@ -170,7 +171,7 @@
 								</ice:selectInputText>
 								<ice:message for="center" id="centerError"></ice:message>
 								<ice:outputLabel for="assistant"
-									value="#{registerPage.messages['assistant']}"></ice:outputLabel>
+									value="#{labels['person.assistant']}"></ice:outputLabel>
 								<ice:selectInputText id="assistant"
 									style="height: 40px;display: block;float:left;"
 									value="#{loginHandler.userAssistant.surname}"
@@ -185,10 +186,10 @@
 							<ice:panelGrid border="0" columns="3">
 								<f:facet name="header">
 									<ice:outputText
-										value="#{registerPage.messages['confirmationH']}"></ice:outputText>
+										value="#{labels['registration.confirmationHeader']}"></ice:outputText>
 								</f:facet>
 								<ice:outputLabel for="cPassword"
-									value="#{registerPage.messages['cPassword']}"></ice:outputLabel>
+									value="#{labels['registration.centerPassword']}"></ice:outputLabel>
 								<ice:inputSecret id="cPassword"
 									value="#{loginHandler.userCenter.password}"></ice:inputSecret>
 								<ice:message for="cPassword" id="cPasswordError"></ice:message>
@@ -200,10 +201,10 @@
 				</ice:panelTabSet>
 				<ice:panelGrid border="0" columns="3">
 					<ice:commandButton type="submit"
-						value="#{registerPage.messages['registerB']}"
+						value="#{labels['buttons.register']}"
 						action="#{loginHandler.registerUser}"></ice:commandButton>
 					<ice:commandButton immediate="true"
-						value="#{registerPage.messages['cancelB']}"
+						value="#{labels['buttons.cancel']}"
 						actionListener="#{registerPage.cancel}"></ice:commandButton>
 					<ice:messages globalOnly="true" showDetail="true"
 						showSummary="true" tooltip="true" />

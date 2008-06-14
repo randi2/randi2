@@ -6,18 +6,18 @@
 		visible="#{registerPage.regPvisible}" rendered="#{registerPage.regPvisible}"
 		style="width: 600px; height: auto">
 		<f:facet name="header">
-			<ice:outputText value="#{registerPage.messages['regPH']}"></ice:outputText>
+			<ice:outputText value="#{labels['registration.successHeader']}"></ice:outputText>
 		</f:facet>
 
 		<f:facet name="body">
 			<ice:panelGrid border="0" columns="1">
 				<f:facet name="footer">
 					<ice:panelGroup>
-						<ice:commandButton value="#{registerPage.messages['okB']}" action="ok"
+						<ice:commandButton value="#{labels['buttons.ok']}" action="ok"
 							immediate="true"></ice:commandButton>
 					</ice:panelGroup>
 				</f:facet>
-				<ice:outputText value="#{registerPage.messages['regMessage']}"></ice:outputText>
+				<ice:outputText value="#{labels['registration.successMessage']}"></ice:outputText>
 			</ice:panelGrid>
 
 		</f:facet>

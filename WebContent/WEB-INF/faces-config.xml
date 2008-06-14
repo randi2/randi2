@@ -8,9 +8,14 @@
 
 
 	<application>
+		<message-bundle>labels</message-bundle>
 		<variable-resolver>
 			org.springframework.web.jsf.DelegatingVariableResolver
 		</variable-resolver>
+		<locale-config>
+			<default-locale>en_US</default-locale>
+			<supported-locale>de_DE</supported-locale>
+		</locale-config>
 	</application>
 	<validator>
 		<validator-id>
@@ -59,11 +64,10 @@
 			<value>#{personDAO}</value>
 		</managed-property>
 	</managed-bean>
-	
+
 	<managed-bean>
 		<description>The glueBean for the Center bean.</description>
-		<managed-bean-name>
-		centerHandler</managed-bean-name>
+		<managed-bean-name>centerHandler</managed-bean-name>
 		<managed-bean-class>
 			de.randi2.jsf.handlers.CenterHandler
 		</managed-bean-class>
@@ -80,7 +84,7 @@
 		</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
-	
+
 	<managed-bean>
 		<description>
 			This bean has all needed attributes for the randi2 page.
@@ -91,19 +95,17 @@
 		</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
-	
+
 	<managed-bean>
 		<description>
 			This bean has all important strings for the application.
 		</description>
 		<managed-bean-name>randi2</managed-bean-name>
-		<managed-bean-class>
-			de.randi2.jsf.Randi2
-		</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.Randi2</managed-bean-class>
 		<managed-bean-scope>application</managed-bean-scope>
 	</managed-bean>
 
-	
+
 
 	<navigation-rule>
 		<display-name>login</display-name>
@@ -137,15 +139,12 @@
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
-		<display-name>
-		login</display-name>
-		<from-view-id>
-		/login.jspx</from-view-id>
+		<display-name>login</display-name>
+		<from-view-id>/login.jspx</from-view-id>
 		<navigation-case>
 			<from-action>#{loginHandler.testLogin}</from-action>
 			<from-outcome>success</from-outcome>
-			<to-view-id>
-			/randi2.jspx</to-view-id>
+			<to-view-id>/randi2.jspx</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
