@@ -216,12 +216,11 @@ public class LoginHandler {
 		Person tPerson = new Person();
 		tPerson.setCenter(tCenter);
 		tPerson.setEMail("randi@randi2.dev");
-		tPerson.setFax("001122");
 		tPerson.setFirstname("Lukasz");
 		tPerson.setSurname("Plotnicki");
 		tPerson.setGender(Gender.MALE);
-		tPerson.setMobile("017626157884");
-		tPerson.setPhone("0622139193");
+		tPerson.setMobile("0176/26157884");
+		tPerson.setPhone("06221/39193");
 		tCenter.setContactPerson(tPerson);
 
 		Vector<Person> members = new Vector<Person>();
