@@ -57,9 +57,11 @@ public class DateDependenceValidationTest {
 		
 		l.setFirstLoggedIn(null);
 		
+		assertEquals(0, loginValidator.getInvalidValues(l).length) ;
+		
+		l.setLastLoggedIn(new GregorianCalendar(2006,0,1));
+		
 		assertEquals(1, loginValidator.getInvalidValues(l).length) ;
-		
-		
 		
 	}
 }

@@ -26,7 +26,7 @@ public class DateDependenceValidation implements Validator<DateDependence>{
 			GregorianCalendar first = (GregorianCalendar) firstMethod.invoke(object, new Object[0]);
 			GregorianCalendar second = (GregorianCalendar) secondMethod.invoke(object, new Object[0]);
 			
-			if (first!=null && second ==null) return true;
+			if ((first==null && second==null) || (first!=null && second ==null)) return true;
 			else if(first.before(second)) return true;
 			
 		} catch (Exception e) {
