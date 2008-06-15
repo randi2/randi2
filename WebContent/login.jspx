@@ -5,13 +5,14 @@
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<jsp:directive.page contentType="text/html;charset=UTF-8"
 		pageEncoding="UTF-8" />
-	<f:view>
+	<f:view locale="#{loginHandler.chosenLocale}">
+	<f:loadBundle basename="labels" var="labels"/>
 		<ice:outputDeclaration doctypeRoot="HTML"
 			doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN"
 			doctypeSystem="http://www.w3.org/TR/html4/loose.dtd" />
 		<html>
 		<head>
-		<title><ice:outputText value="Welcome to RANDI2 System" /></title>
+		<title><ice:outputText value="#{labels['pages.login.titel']}" /></title>
 		<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
 		</head>
 		<body>
@@ -34,21 +35,23 @@
 
 				<ice:graphicImage value="/img/icons/login128.png"></ice:graphicImage>
 				<ice:panelGrid columns="3">
-					<ice:outputLabel for="login" value="Login:" />
+					<ice:outputLabel for="login" value="#{labels['login.username']}" />
 					<ice:inputText id="login" size="25" maxlength="25"
 						value="#{loginHandler.login.username}" partialSubmit="true"
 						required="false" />
 					<ice:message for="login" />
 
-					<ice:outputLabel for="password" value="Password:" />
+					<ice:outputLabel for="password" value="#{labels['login.password']}" />
 					<ice:inputSecret id="password" maxlength="10" size="25"
 						value="#{loginHandler.login.password}" partialSubmit="true"
 						redisplay="true" required="false" />
 					<ice:message for="password" />
-					<ice:commandButton value="Log in"
+					<ice:commandButton value="#{labels['buttons.login']}"
 						action="#{loginHandler.loginUser}"></ice:commandButton>
+					<!-- Only during development -->	
 					<ice:commandButton value="Log in (TEST)"
 						action="#{loginHandler.testLogin}"></ice:commandButton>
+						
 				</ice:panelGrid>
 
 			</ice:panelGrid>
@@ -61,11 +64,11 @@
 							<td align="center"><ice:panelGroup>
 								<ice:outputLink
 									value="#{facesContext.externalContext.requestContextPath}/terms.jspx">
-									<ice:outputText value="Terms of use"></ice:outputText>
+									<ice:outputText value="#{labels['pages.login.terms']}"></ice:outputText>
 								</ice:outputLink>
 								<ice:outputLink
 									value="#{facesContext.externalContext.requestContextPath}/register.jspx">
-									<ice:outputText value="Register"></ice:outputText>
+									<ice:outputText value="#{labels['pages.login.register']}"></ice:outputText>
 								</ice:outputLink>
 							</ice:panelGroup></td>
 						</tr>

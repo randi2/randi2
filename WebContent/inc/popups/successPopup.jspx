@@ -6,7 +6,7 @@
 		visible="#{registerPage.regPvisible}" rendered="#{registerPage.regPvisible}"
 		style="width: 600px; height: auto">
 		<f:facet name="header">
-			<ice:outputText value="#{labels['registration.successHeader']}"></ice:outputText>
+			<ice:outputText value="#{labels['pages.registration.successHeader']}"></ice:outputText>
 		</f:facet>
 
 		<f:facet name="body">
@@ -17,7 +17,7 @@
 							immediate="true"></ice:commandButton>
 					</ice:panelGroup>
 				</f:facet>
-				<ice:outputText value="#{labels['registration.successMessage']}"></ice:outputText>
+				<ice:outputText value="#{labels['pages.registration.successMessage']}"></ice:outputText>
 			</ice:panelGrid>
 
 		</f:facet>

@@ -1,7 +1,7 @@
 <f:view xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ice="http://www.icesoft.com/icefaces/component" locale="#{facesContext.externalContext.requestLocale}">
+	xmlns:ice="http://www.icesoft.com/icefaces/component" locale="#{loginHandler.chosenLocale}">
 	<f:loadBundle basename="labels" var="labels"/>
 	<ice:outputDeclaration doctypeRoot="HTML"
 		doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -10,7 +10,7 @@
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
 	<title><ice:outputText
-		value="#{labels['registration.title']}" /></title>
+		value="#{labels['pages.pages.registration.title']}" /></title>
 	<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
 	</head>
 	<body>
@@ -22,7 +22,7 @@
 	</f:subview>
 
 
-	<!-- The Registration Form  -->
+	<!-- The pages.registration Form  -->
 
 	<ice:panelBorder renderEast="false" renderWest="false">
 		<f:facet name="north">
@@ -37,7 +37,7 @@
 		<f:facet name="center">
 			<ice:form>
 				<ice:panelTabSet tabPlacement="top">
-					<ice:panelTab label="#{labels['registration.personalHeader']}">
+					<ice:panelTab label="#{labels['pages.registration.personalHeader']}">
 						<ice:panelGrid>
 							<ice:panelGrid border="0" columns="3" style="float:left">
 								<ice:outputLabel for="title"
@@ -84,7 +84,7 @@
 							</ice:panelGrid>
 							<ice:panelGrid columns="2">
 								<f:facet name="header">
-									<ice:outputText value="#{labels['registration.accountHeader']}"></ice:outputText>
+									<ice:outputText value="#{labels['pages.registration.accountHeader']}"></ice:outputText>
 								</f:facet>
 								<ice:outputLabel for="username"
 									value="#{labels['login.username']}"></ice:outputLabel>
@@ -108,7 +108,7 @@
 							</ice:panelGrid>
 						</ice:panelGrid>
 					</ice:panelTab>
-					<ice:panelTab label="#{labels['registration.contactHeader']}">
+					<ice:panelTab label="#{labels['pages.registration.contactHeader']}">
 						<ice:panelGrid>
 							<ice:panelGroup>
 								<ice:panelGrid border="0" columns="3">
@@ -157,7 +157,7 @@
 							</ice:panelGroup>
 						</ice:panelGrid>
 					</ice:panelTab>
-					<ice:panelTab label="#{labels['registration.institutionHeader']}">
+					<ice:panelTab label="#{labels['pages.registration.institutionHeader']}">
 						<ice:panelGrid>
 							<ice:panelGrid border="0" columns="3">
 								<ice:outputLabel for="center"
@@ -186,10 +186,10 @@
 							<ice:panelGrid border="0" columns="3">
 								<f:facet name="header">
 									<ice:outputText
-										value="#{labels['registration.confirmationHeader']}"></ice:outputText>
+										value="#{labels['pages.registration.confirmationHeader']}"></ice:outputText>
 								</f:facet>
 								<ice:outputLabel for="cPassword"
-									value="#{labels['registration.centerPassword']}"></ice:outputLabel>
+									value="#{labels['pages.registration.centerPassword']}"></ice:outputLabel>
 								<ice:inputSecret id="cPassword"
 									value="#{loginHandler.userCenter.password}"></ice:inputSecret>
 								<ice:message for="cPassword" id="cPasswordError"></ice:message>

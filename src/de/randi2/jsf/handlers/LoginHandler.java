@@ -1,9 +1,9 @@
 package de.randi2.jsf.handlers;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -24,7 +24,11 @@ import de.randi2.model.Person;
 import de.randi2.model.enumerations.Gender;
 
 /**
- * <p> This class cares about the login object, which represents the logged in user and contains all methodes needed for working wiht login and person objects.</p>
+ * <p>
+ * This class cares about the login object, which represents the logged in user
+ * and contains all methodes needed for working wiht login and person objects.
+ * </p>
+ * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  * 
  */
@@ -32,6 +36,9 @@ public class LoginHandler {
 
 	// This Object ist representing the current User
 	private Login login = null;
+
+	// The Locale chosen by the user.
+	private Locale chosenLocale = null;
 
 	// Objects for User-Creating Process
 	private Person person = null;
@@ -104,6 +111,10 @@ public class LoginHandler {
 		this.userCenter = userCenter;
 	}
 
+	/**
+	 * Method for saving the current user.
+	 * @return Randi2.SUCCESS normally. Randi2.ERROR in case of an error.
+	 */
 	public String saveUser() {
 		try {
 			this.loginDao.save(this.getLogin());
@@ -114,6 +125,10 @@ public class LoginHandler {
 		}
 	}
 
+	/**
+	 * This method is conducted for the users registration. It saves the entered values.
+	 * @return Randi2.SUCCESS normally. Randi2.ERROR in case of an error.
+	 */
 	public String registerUser() {
 		try {
 			this.getLogin().setPerson(this.getPerson());
@@ -144,13 +159,21 @@ public class LoginHandler {
 
 	}
 
+	/**
+	 * This method saves the current login-object and log it out.
+	 * @return Randi2.SUCCESS
+	 */
 	public String logoutUser() {
-		//TODO Save the login object
-		//loginDao.save(this.login);
-		this.login = new Login();
+		// TODO Save the login object
+		// loginDao.save(this.login);
+		this.cleanUp();
 		return Randi2.SUCCESS;
 	}
 
+	/**
+	 * Method to log in a user.
+	 * @return if the procces was successful then: randi2.SUCCESS. Otherwise: randi2.ERROR
+	 */
 	public String loginUser() {
 		String pass = login.getPassword();
 		try {
@@ -162,12 +185,12 @@ public class LoginHandler {
 			fulfillLoginObject();
 			// END
 
-			if (login.getPassword().equals(pass)){
-				if(login.getFirstLoggedIn()==null)
+			if (login.getPassword().equals(pass)) {
+				if (login.getFirstLoggedIn() == null)
 					login.setFirstLoggedIn(new GregorianCalendar());
 				login.setLastLoggedIn(new GregorianCalendar());
 				return Randi2.SUCCESS;
-			}else
+			} else
 				throw new LoginException(LoginException.LOGIN_PASS_INCORRECT);
 		} catch (Exception e) {
 			Randi2.showMessage(e);
@@ -175,18 +198,23 @@ public class LoginHandler {
 		}
 
 	}
-	
-	public String testLogin(){
+
+	/*
+	 * For development only!
+	 */
+	public String testLogin() {
 		Properties testProperties = new Properties();
 		try {
-			testProperties.load(FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/test.properties"));
+			testProperties.load(FacesContext.getCurrentInstance()
+					.getExternalContext().getResourceAsStream(
+							"/test.properties"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		login = loginDao.get(testProperties.getProperty("username"));
-		if(login.getFirstLoggedIn()==null)
+		if (login.getFirstLoggedIn() == null)
 			login.setFirstLoggedIn(new GregorianCalendar());
 		login.setLastLoggedIn(new GregorianCalendar());
 		// TODO Temporary solution
@@ -195,17 +223,20 @@ public class LoginHandler {
 		return Randi2.SUCCESS;
 	}
 
+	/**
+	 * This method clean all references within the LoginHandler-object.
+	 */
 	public void cleanUp() {
 		this.login = null;
 		this.person = null;
 		this.userAssistant = null;
 		this.userCenter = null;
 	}
-	
+
 	/*
-	* Temporary method for fulfilling the login object.
-	*/
-	private void fulfillLoginObject(){
+	 * Temporary method for fulfilling the login object.
+	 */
+	private void fulfillLoginObject() {
 		Center tCenter = new Center();
 		tCenter.setCity("Heidelberg");
 		tCenter.setName("RANDI2 Development by DKFZ");
@@ -228,5 +259,42 @@ public class LoginHandler {
 		tCenter.setMembers(members);
 
 		login.getPerson().setCenter(tCenter);
+	}
+
+	/**
+	 * This method provide the locale chosen by the logged user. If the user
+	 * didn't choose anyone, but his standard browser-locale is supported, then
+	 * it will be provided. Otherwise the applications default locale will be
+	 * used.
+	 * 
+	 * @return locale for the loged in user
+	 */
+	@SuppressWarnings("unchecked")
+	public Locale getChosenLocale() {
+		if (this.login != null) {
+			if (this.login.getPrefLocale() != null)
+				chosenLocale = this.login.getPrefLocale();
+		} else {
+			chosenLocale = FacesContext.getCurrentInstance()
+					.getExternalContext().getRequestLocale();
+			Iterator<Locale> supportedLocales = FacesContext
+					.getCurrentInstance().getApplication()
+					.getSupportedLocales();
+			while (supportedLocales.hasNext()) {
+				if (supportedLocales.next().equals(chosenLocale))
+					return chosenLocale;
+			}
+			chosenLocale = FacesContext.getCurrentInstance().getApplication()
+					.getDefaultLocale();
+		}
+		return chosenLocale;
+	}
+
+	/**
+	 * Simple set method for the users locale.
+	 * @param chosenLocale
+	 */
+	public void setChosenLocale(Locale chosenLocale) {
+		this.chosenLocale = chosenLocale;
 	}
 }

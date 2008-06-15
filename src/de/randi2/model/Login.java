@@ -1,6 +1,7 @@
 package de.randi2.model;
 
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -24,6 +25,7 @@ public class Login extends AbstractDomainObject {
 	public final static int MIN_PASSWORD_LENGTH = 8;
 	public final static int HASH_PASSWORD_LENGTH = 64;
 	
+	private Locale prefLocale = null;
 	
 	
 	@OneToOne(cascade=CascadeType.ALL)
@@ -95,6 +97,14 @@ public class Login extends AbstractDomainObject {
 	
 	public void setPasswordPlaintext(String plaintextPassword){
 		
+	}
+
+	public Locale getPrefLocale() {
+		return prefLocale;
+	}
+
+	public void setPrefLocale(Locale prefLocale) {
+		this.prefLocale = prefLocale;
 	}
 	
 	
