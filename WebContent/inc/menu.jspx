@@ -1,31 +1,44 @@
 <!-- 
-The RANDI2 Menu
+ RANDI2 Menu.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
 <ice:form partialSubmit="true" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:menuBar orientation="vertical">
-		<ice:menuItem value="User">
-			<ice:menuItem value="Personal details"/>
-			<ice:menuItem value="Logout" action="#{loginHandler.logoutUser}" />
+		<ice:menuItem value="#{labels['pages.menu.user']}">
+			<ice:menuItem value="#{labels['pages.menu.personalDetails']}"/>
+			<ice:menuItem value="#{labels['pages.menu.logout']}" action="#{loginHandler.logoutUser}" />
 			<ice:menuItemSeparator></ice:menuItemSeparator>
-			<ice:menuItem value="Create" />	
+			<ice:menuItem value="#{labels['pages.menu.create']}" />	
 		</ice:menuItem>
-		<ice:menuItem value="Trial">
-			<ice:menuItem value="Current trial" />
-			<ice:menuItem value="My trials" />
+		<ice:menuItem value="#{labels['pages.menu.trial']}">
+			<ice:menuItem value="#{labels['pages.menu.currentTrial']}" />
+			<ice:menuItem value="#{labels['pages.menu.myTrials']}" />
 			<ice:menuItemSeparator></ice:menuItemSeparator>
-			<ice:menuItem value="Create" />
+			<ice:menuItem value="#{labels['pages.menu.create']}" />
 		</ice:menuItem>
-		<ice:menuItem value="Center">
-			<ice:menuItem value="My center" actionListener="#{randi2Page.myCenter}"/>
-			<ice:menuItem value="All centers" actionListener="#{randi2Page.viewCenters}"/>
+		<ice:menuItem value="#{labels['pages.menu.center']}">
+			<ice:menuItem value="#{labels['pages.menu.myCenter']}" actionListener="#{randi2Page.myCenter}"/>
+			<ice:menuItem value="#{labels['pages.menu.allCenters']}" actionListener="#{randi2Page.viewCenters}"/>
 			<ice:menuItemSeparator></ice:menuItemSeparator>
-			<ice:menuItem value="Create" actionListener="#{randi2Page.createCenter}"/>
+			<ice:menuItem value="#{labels['pages.menu.create']}" actionListener="#{randi2Page.createCenter}"/>
 		</ice:menuItem>
 		<ice:menuItemSeparator></ice:menuItemSeparator>
-		<ice:menuItem value="Search" />
-		<ice:menuItem value="Help" />
-		<ice:menuItem value="About" />
+		<ice:menuItem value="#{labels['pages.menu.search']}" />
+		<ice:menuItem value="#{labels['pages.menu.help']}" />
+		<ice:menuItem value="#{labels['pages.menu.about']}" />
 	</ice:menuBar>
 </ice:form>

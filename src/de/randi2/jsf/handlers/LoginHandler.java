@@ -31,6 +31,19 @@ import de.randi2.model.enumerations.Gender;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  * 
+ * This file is part of RANDI2.
+ * 
+ * RANDI2 is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
 public class LoginHandler {
 
@@ -113,6 +126,7 @@ public class LoginHandler {
 
 	/**
 	 * Method for saving the current user.
+	 * 
 	 * @return Randi2.SUCCESS normally. Randi2.ERROR in case of an error.
 	 */
 	public String saveUser() {
@@ -126,7 +140,9 @@ public class LoginHandler {
 	}
 
 	/**
-	 * This method is conducted for the users registration. It saves the entered values.
+	 * This method is conducted for the users registration. It saves the entered
+	 * values.
+	 * 
 	 * @return Randi2.SUCCESS normally. Randi2.ERROR in case of an error.
 	 */
 	public String registerUser() {
@@ -146,6 +162,8 @@ public class LoginHandler {
 			// TODO Genereting an Activation E-Mail
 			return Randi2.SUCCESS;
 		} catch (InvalidStateException exp) {
+			//TODO for a stable release delete the following stacktrace
+			exp.printStackTrace();
 			for (InvalidValue v : exp.getInvalidValues()) {
 				Randi2
 						.showMessage(v.getPropertyName() + " : "
@@ -153,6 +171,8 @@ public class LoginHandler {
 			}
 			return Randi2.ERROR;
 		} catch (Exception e) {
+			//TODO for a stable release delete the following stacktrace
+			e.printStackTrace();
 			Randi2.showMessage(e);
 			return Randi2.ERROR;
 		}
@@ -161,6 +181,7 @@ public class LoginHandler {
 
 	/**
 	 * This method saves the current login-object and log it out.
+	 * 
 	 * @return Randi2.SUCCESS
 	 */
 	public String logoutUser() {
@@ -172,7 +193,9 @@ public class LoginHandler {
 
 	/**
 	 * Method to log in a user.
-	 * @return if the procces was successful then: randi2.SUCCESS. Otherwise: randi2.ERROR
+	 * 
+	 * @return if the procces was successful then: randi2.SUCCESS. Otherwise:
+	 *         randi2.ERROR
 	 */
 	public String loginUser() {
 		String pass = login.getPassword();
@@ -292,6 +315,7 @@ public class LoginHandler {
 
 	/**
 	 * Simple set method for the users locale.
+	 * 
 	 * @param chosenLocale
 	 */
 	public void setChosenLocale(Locale chosenLocale) {

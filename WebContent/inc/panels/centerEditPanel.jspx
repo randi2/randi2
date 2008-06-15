@@ -1,11 +1,28 @@
+<!-- 
+ This page/panel shows a detail-view of a center. It can also be used to edit or create a center.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
 <ice:form partialSubmit="true" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:messages globalOnly="true" />
 	<ice:panelTabSet style="font-size: 9;display: block;">
-		<ice:panelTab label="Institution">
+		<ice:panelTab
+			label="#{labels['pages.centerEditPanel.institutionTab']}">
 			<ice:panelGrid border="0" columns="2">
-				<ice:outputLabel for="name" value="Name"></ice:outputLabel>
+				<ice:outputLabel for="name" value="#{labels['center.name']}"></ice:outputLabel>
 				<ice:outputText id="nameO"
 					value="#{centerHandler.showedCenter.name}"
 					rendered="#{!centerHandler.editable}">
@@ -20,7 +37,7 @@
 					</ice:inputText>
 					<ice:message for="name" />
 				</ice:panelGroup>
-				<ice:outputLabel for="city" value="City"></ice:outputLabel>
+				<ice:outputLabel for="city" value="#{labels['center.city']}"></ice:outputLabel>
 				<ice:outputText id="cityO"
 					value="#{centerHandler.showedCenter.city}"
 					rendered="#{!centerHandler.editable}">
@@ -35,7 +52,7 @@
 					</ice:inputText>
 					<ice:message for="city" />
 				</ice:panelGroup>
-				<ice:outputLabel for="postcode" value="Postcode"></ice:outputLabel>
+				<ice:outputLabel for="postcode" value="#{labels['center.postcode']}"></ice:outputLabel>
 				<ice:outputText id="postcodeO"
 					value="#{centerHandler.showedCenter.postcode}"
 					rendered="#{!centerHandler.editable}">
@@ -51,7 +68,7 @@
 					</ice:inputText>
 					<ice:message for="postcode" />
 				</ice:panelGroup>
-				<ice:outputLabel for="street" value="Street"></ice:outputLabel>
+				<ice:outputLabel for="street" value="#{labels['center.street']}"></ice:outputLabel>
 				<ice:outputText id="streetO"
 					value="#{centerHandler.showedCenter.street}"
 					rendered="#{!centerHandler.editable}">
@@ -68,10 +85,11 @@
 				</ice:panelGroup>
 			</ice:panelGrid>
 		</ice:panelTab>
-		
-		<ice:panelTab label="Contact Person">
+
+		<ice:panelTab
+			label="#{labels['pages.centerEditPanel.contactPersonTab']}">
 			<ice:panelGrid border="0" columns="2" style="float:left">
-				<ice:outputLabel for="title" value="Title"></ice:outputLabel>
+				<ice:outputLabel for="title" value="#{labels['person.title']}"></ice:outputLabel>
 				<ice:outputText id="titleO"
 					value="#{centerHandler.showedCenter.contactPerson.title}"
 					rendered="#{!centerHandler.editable}">
@@ -87,7 +105,8 @@
 					</ice:inputText>
 					<ice:message for="title" />
 				</ice:panelGroup>
-				<ice:outputLabel for="firstname" value="Firstname"></ice:outputLabel>
+				<ice:outputLabel for="firstname"
+					value="#{labels['person.firstname']}"></ice:outputLabel>
 				<ice:outputText id="firstnameO"
 					value="#{centerHandler.showedCenter.contactPerson.firstname}"
 					rendered="#{!centerHandler.editable}">
@@ -104,7 +123,7 @@
 					</ice:inputText>
 					<ice:message for="fistname" />
 				</ice:panelGroup>
-				<ice:outputLabel for="surname" value="Surname"></ice:outputLabel>
+				<ice:outputLabel for="surname" value="#{labels['person.surname']}"></ice:outputLabel>
 				<ice:outputText id="surnameO"
 					value="#{centerHandler.showedCenter.contactPerson.surname}"
 					rendered="#{!centerHandler.editable}">
@@ -121,7 +140,7 @@
 					</ice:inputText>
 					<ice:message for="surname" />
 				</ice:panelGroup>
-				<ice:outputLabel for="eMail" value="Email"></ice:outputLabel>
+				<ice:outputLabel for="eMail" value="#{labels['person.eMail']}"></ice:outputLabel>
 				<ice:outputText id="eMailO"
 					value="#{centerHandler.showedCenter.contactPerson.EMail}"
 					rendered="#{!centerHandler.editable}">
@@ -137,7 +156,7 @@
 					</ice:inputText>
 					<ice:message for="eMail" />
 				</ice:panelGroup>
-				<ice:outputLabel for="phone" value="Phone"></ice:outputLabel>
+				<ice:outputLabel for="phone" value="#{labels['person.phone']}"></ice:outputLabel>
 				<ice:outputText id="phoneO"
 					value="#{centerHandler.showedCenter.contactPerson.phone}"
 					rendered="#{!centerHandler.editable}">
@@ -153,7 +172,7 @@
 					</ice:inputText>
 					<ice:message for="phone" />
 				</ice:panelGroup>
-				<ice:outputLabel for="mobile" value="Mobile"></ice:outputLabel>
+				<ice:outputLabel for="mobile" value="#{labels['person.mobile']}"></ice:outputLabel>
 				<ice:outputText id="mobileO"
 					value="#{centerHandler.showedCenter.contactPerson.mobile}"
 					rendered="#{!centerHandler.editable}">
@@ -169,7 +188,7 @@
 					</ice:inputText>
 					<ice:message for="mobile" />
 				</ice:panelGroup>
-				<ice:outputLabel for="fax" value="Fax"></ice:outputLabel>
+				<ice:outputLabel for="fax" value="#{labels['person.fax']}"></ice:outputLabel>
 				<ice:outputText id="faxO"
 					value="#{centerHandler.showedCenter.contactPerson.fax}"
 					rendered="#{!centerHandler.editable}">
@@ -187,45 +206,52 @@
 				</ice:panelGroup>
 			</ice:panelGrid>
 		</ice:panelTab>
-		<ice:panelTab label="Memberslist" rendered="#{!centerHandler.creatingMode}">
-		<ice:panelGrid></ice:panelGrid>
+		<ice:panelTab label="#{labels['pages.centerEditPanel.membersTab']}"
+			rendered="#{!centerHandler.creatingMode}">
+			<ice:panelGrid></ice:panelGrid>
 			<!-- Paginator with page controls -->
 			<ice:dataPaginator id="dataScroll" for="membersTable"
 				paginator="true" fastStep="3" paginatorMaxPages="4">
 				<f:facet name="first">
 					<ice:graphicImage
 						url="./xmlhttp/css/rime/css-images/arrow-first.gif"
-						style="border:none;" title="First Page" />
+						style="border:none;"
+						title="#{labels['pages.centersViewPanel.firstPage']}" />
 				</f:facet>
 				<f:facet name="last">
 					<ice:graphicImage
 						url="./xmlhttp/css/rime/css-images/arrow-last.gif"
-						style="border:none;" title="Last Page" />
+						style="border:none;"
+						title="#{labels['pages.centersViewPanel.lastPage']}" />
 				</f:facet>
 				<f:facet name="previous">
 					<ice:graphicImage
 						url="./xmlhttp/css/rime/css-images/arrow-previous.gif"
-						style="border:none;" title="Previous Page" />
+						style="border:none;"
+						title="#{labels['pages.centersViewPanel.previousPage']}" />
 				</f:facet>
 				<f:facet name="next">
 					<ice:graphicImage
 						url="./xmlhttp/css/rime/css-images/arrow-next.gif"
-						style="border:none;" title="Next Page" />
+						style="border:none;"
+						title="#{labels['pages.centersViewPanel.nextPage']}" />
 				</f:facet>
 				<f:facet name="fastforward">
 					<ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-ff.gif"
-						style="border:none;" title="Fast Forward" />
+						style="border:none;"
+						title="#{labels['pages.centersViewPanel.fastForward']}" />
 				</f:facet>
 				<f:facet name="fastrewind">
 					<ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-fr.gif"
-						style="border:none;" title="Fast Backwards" />
+						style="border:none;"
+						title="#{labels['pages.centersViewPanel.fastBackwards']}" />
 				</f:facet>
 			</ice:dataPaginator>
 
 			<ice:dataTable id="membersTable" border="1"
 				value="#{centerHandler.showedCenter.members}" var="member" rows="5">
 				<ice:column id="column1">
-					<ice:outputText value="#{member.firstname}"></ice:outputText>
+					<ice:outputText value="#{labels['person.firstname']}"></ice:outputText>
 					<f:facet name="header">
 						<ice:outputText value="Firstname" id="firstnameH"></ice:outputText>
 					</f:facet>
@@ -233,29 +259,29 @@
 				<ice:column id="column2">
 					<ice:outputText value="#{member.surname}"></ice:outputText>
 					<f:facet name="header">
-						<ice:outputText value="Surname" id="surnameH"></ice:outputText>
+						<ice:outputText value="#{labels['person.surname']}" id="surnameH"></ice:outputText>
 					</f:facet>
 				</ice:column>
 				<ice:column id="column3">
 					<ice:outputText value="#{member.EMail}"></ice:outputText>
 					<f:facet name="header">
-						<ice:outputText value="Email" id="emailH"></ice:outputText>
+						<ice:outputText value="#{labels['person.eMail']}" id="emailH"></ice:outputText>
 					</f:facet>
 				</ice:column>
 				<ice:column id="column4">
 					<ice:outputText value="#{member.phone}"></ice:outputText>
 					<f:facet name="header">
-						<ice:outputText value="Phone" id="phoneH"></ice:outputText>
+						<ice:outputText value="#{labels['person.phone']}" id="phoneH"></ice:outputText>
 					</f:facet>
 				</ice:column>
 				<ice:column id="column5">
 					<ice:outputText value="#{member.login.lastLoggedIn}"></ice:outputText>
 					<f:facet name="header">
-						<ice:outputText value="Last time logged in" id="lastloggedinH"></ice:outputText>
+						<ice:outputText value="#{labels['login.lastLoggedIn']}" id="lastloggedinH"></ice:outputText>
 					</f:facet>
 				</ice:column>
 				<ice:column id="column6">
-					<ice:commandLink value="Show"></ice:commandLink>
+					<ice:commandLink value="#{labels['buttons.show']}"></ice:commandLink>
 					<f:facet name="header">
 						<ice:outputText id="showH"></ice:outputText>
 					</f:facet>
@@ -263,15 +289,15 @@
 			</ice:dataTable>
 		</ice:panelTab>
 		<ice:panelTab label="Trials" rendered="#{!centerHandler.creatingMode}">
-                    
+
 		</ice:panelTab>
 	</ice:panelTabSet>
-	<ice:panelGrid border="0" columns="3" rendered="#{centerHandler.editable}">
-		<ice:commandButton type="submit"
-			value="Save"
+	<ice:panelGrid border="0" columns="3"
+		rendered="#{centerHandler.editable}">
+		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
 			action="#{centerHandler.saveCenter}"></ice:commandButton>
-		<ice:messages globalOnly="true" showDetail="true"
-			showSummary="true" tooltip="true" />
+		<ice:messages globalOnly="true" showDetail="true" showSummary="true"
+			tooltip="true" />
 	</ice:panelGrid>
-	
+
 </ice:form>

@@ -1,35 +1,51 @@
+<!-- 
+ This pages/panel shows all saved centers.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
 <ice:form partialSubmit="true" xmlns:h="http://java.sun.com/jsf/html"
           xmlns:f="http://java.sun.com/jsf/core"
           xmlns:ice="http://www.icesoft.com/icefaces/component">
     <ice:messages />
-    <ice:outputText value="Registered centers"></ice:outputText>
+    <ice:outputText value="#{labels['pages.centersViewPanel.headline']}"></ice:outputText>
     <!-- Paginator with page controls -->
     <ice:dataPaginator id="dataScroll" for="centersTable" paginator="true"
                 fastStep="3" paginatorMaxPages="4">
         <f:facet name="first">
             <ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-first.gif"
-         style="border:none;" title="First Page" />
+         style="border:none;" title="#{labels['pages.centersViewPanel.firstPage']}" />
         </f:facet>
         <f:facet name="last">
             <ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-last.gif"
-         style="border:none;" title="Last Page" />
+         style="border:none;" title="#{labels['pages.centersViewPanel.lastPage']}" />
         </f:facet>
         <f:facet name="previous">
             <ice:graphicImage
                 url="./xmlhttp/css/rime/css-images/arrow-previous.gif"
-                style="border:none;" title="Previous Page" />
+                style="border:none;" title="#{labels['pages.centersViewPanel.previousPage']}" />
         </f:facet>
         <f:facet name="next">
             <ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-next.gif"
-         style="border:none;" title="Next Page" />
+         style="border:none;" title="#{labels['pages.centersViewPanel.nextPage']}" />
         </f:facet>
         <f:facet name="fastforward">
             <ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-ff.gif"
-         style="border:none;" title="Fast Forward" />
+         style="border:none;" title="#{labels['pages.centersViewPanel.fastForward']}" />
         </f:facet>
         <f:facet name="fastrewind">
             <ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-fr.gif"
-         style="border:none;" title="Fast Backwards" />
+         style="border:none;" title="#{labels['pages.centersViewPanel.fastBackwards']}" />
         </f:facet>
     </ice:dataPaginator>
     
@@ -38,29 +54,29 @@
         <ice:column id="column1">
             <ice:outputText value="#{center.name}"></ice:outputText>
             <f:facet name="header">
-                <ice:outputText value="Name" id="nameH"></ice:outputText>
+                <ice:outputText value="#{labels['center.name']}" id="nameH"></ice:outputText>
             </f:facet>
         </ice:column>
         <ice:column id="column2">
             <ice:outputText value="#{center.street}"></ice:outputText>
             <f:facet name="header">
-                <ice:outputText value="Street" id="streetH"></ice:outputText>
+                <ice:outputText value="#{labels['center.street']}" id="streetH"></ice:outputText>
             </f:facet>
         </ice:column>
         <ice:column id="column3">
             <ice:outputText value="#{center.city}"></ice:outputText>
             <f:facet name="header">
-                <ice:outputText value="city" id="cityH"></ice:outputText>
+                <ice:outputText value="#{labels['center.city']}" id="cityH"></ice:outputText>
             </f:facet>
         </ice:column>
         <ice:column id="column4">
             <ice:outputText value="#{center.postcode}"></ice:outputText>
             <f:facet name="header">
-                <ice:outputText value="Postcode" id="postcodeH"></ice:outputText>
+                <ice:outputText value="#{labels['center.postcode']}" id="postcodeH"></ice:outputText>
             </f:facet>
         </ice:column>
         <ice:column id="column5">
-            <ice:commandLink id="showId" value="Show" actionListener="#{randi2Page.showCenter}">
+            <ice:commandLink id="showId" value="#{labels['buttons.show']}" actionListener="#{randi2Page.showCenter}">
             <ice:outputText value="#{center}" visible="false"></ice:outputText>
             </ice:commandLink>
             <f:facet name="header">
