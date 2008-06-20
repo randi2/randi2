@@ -27,6 +27,7 @@ public class Center extends AbstractDomainObject{
 	private String street = "";
 	private String postcode = "";
 	private String city = "";
+	private String country="";
 	private String password = "";
 	
 	@OneToOne(cascade=CascadeType.ALL)
@@ -120,6 +121,15 @@ public class Center extends AbstractDomainObject{
 
 	public void setTrials(List<Trial> trials) {
 		this.trials = trials;
+	}
+
+	@Length(max=MAX_VARCHAR_LENGTH)
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 	

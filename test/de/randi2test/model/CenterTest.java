@@ -179,10 +179,22 @@ public class CenterTest extends AbstractDomainTest<Center> {
 		Center center = (Center) hibernateTemplate.get(Center.class, validCenter.getId());
 		assertEquals(validCenter.getId(), center.getId());
 		
-//		TODO
 		hibernateTemplate.refresh(validCenter);
 		validCenter.getTrials();
 		assertEquals(tl.size(), center.getTrials().size());
+	}
+	
+	@Test
+	public void testCountry(){
+		validCenter.setCountry("UK");
+		assertEquals("UK", validCenter.getCountry());
+		hibernateTemplate.saveOrUpdate(validCenter);
+		assertTrue(validCenter.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
+		Center c = (Center) hibernateTemplate.get(Center.class, validCenter.getId());
+		
+		assertEquals(validCenter.getId(), c.getId());
+		assertEquals("UK", c.getCountry());
+		
 	}
 	
 	@Test
