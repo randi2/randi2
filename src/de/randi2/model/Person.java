@@ -24,6 +24,7 @@ import de.randi2.utility.validations.TelephonNumber;
 @Configurable
 public class Person extends AbstractDomainObject {
 
+	private static final long serialVersionUID = 5713870200930075449L;
 	
 	public final static int MAX_NAME_LENGTH = 50;
 	public final static int MAX_TITLE_LENGTH = 20;
@@ -238,6 +239,11 @@ public class Person extends AbstractDomainObject {
 	 */
 	public List<PersonRole> getRoles() {
 		return this.roles;
+	}
+	
+	@Override
+	public String toString(){
+		return this.surname+" "+this.firstname;
 	}
 
 }

@@ -11,12 +11,13 @@ import javax.faces.context.FacesContext;
 
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import de.randi2.dao.CenterDao;
 import de.randi2.dao.LoginDao;
 import de.randi2.dao.PersonDao;
 import de.randi2.jsf.Randi2;
 import de.randi2.jsf.exceptions.LoginException;
+import de.randi2.jsf.exceptions.RegistrationException;
 import de.randi2.jsf.pages.RegisterPage;
 import de.randi2.model.Center;
 import de.randi2.model.Login;
@@ -60,10 +61,12 @@ public class LoginHandler {
 
 	private Center userCenter = null;
 
-	@Autowired
+	
 	private LoginDao loginDao;
-	@Autowired
+	
 	private PersonDao personDao;
+	
+	private CenterDao centerDao;
 
 	public LoginHandler() {
 	}
@@ -178,6 +181,7 @@ public class LoginHandler {
 		}
 
 	}
+	
 
 	/**
 	 * This method saves the current login-object and log it out.
@@ -255,6 +259,21 @@ public class LoginHandler {
 		this.userAssistant = null;
 		this.userCenter = null;
 	}
+	
+	public String setUSEnglish(){
+		chosenLocale= new Locale("en","US");
+		login.setPrefLocale(chosenLocale);
+		System.out.println("US Locale");
+		return Randi2.SUCCESS;
+	}
+	
+	public String setDEGerman(){
+		chosenLocale= new Locale("de","DE");
+		login.setPrefLocale(chosenLocale);
+		System.out.println("DE Locale");
+		return Randi2.SUCCESS;
+	}
+	
 
 	/*
 	 * Temporary method for fulfilling the login object.
@@ -295,8 +314,11 @@ public class LoginHandler {
 	@SuppressWarnings("unchecked")
 	public Locale getChosenLocale() {
 		if (this.login != null) {
-			if (this.login.getPrefLocale() != null)
+			System.out.println("Login not null");
+			if (this.login.getPrefLocale() != null){
+				System.out.println("PrefLocale not null");
 				chosenLocale = this.login.getPrefLocale();
+			}
 		} else {
 			chosenLocale = FacesContext.getCurrentInstance()
 					.getExternalContext().getRequestLocale();
@@ -320,5 +342,21 @@ public class LoginHandler {
 	 */
 	public void setChosenLocale(Locale chosenLocale) {
 		this.chosenLocale = chosenLocale;
+	}
+	
+	public void updateUserCenter(String cName) throws RegistrationException{
+		System.out.println(cName);
+		this.userCenter = centerDao.get(cName);	
+		if(this.userCenter==null)
+			throw new RegistrationException(RegistrationException.CENTER_ERROR);
+		
+	}
+
+	public CenterDao getCenterDao() {
+		return centerDao;
+	}
+
+	public void setCenterDao(CenterDao centerDao) {
+		this.centerDao = centerDao;
 	}
 }

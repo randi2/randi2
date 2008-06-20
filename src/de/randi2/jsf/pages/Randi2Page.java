@@ -45,7 +45,7 @@ public class Randi2Page {
      */
     private Login currentUser = null;
 
-    public Randi2Page() {
+	public Randi2Page() {
     	centerHandler = (CenterHandler)FacesContext.getCurrentInstance().getApplication().getVariableResolver().resolveVariable(FacesContext.getCurrentInstance(), "centerHandler");
     	currentUser = ((LoginHandler) FacesContext.getCurrentInstance()
 				.getApplication().getVariableResolver().resolveVariable(

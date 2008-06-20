@@ -26,6 +26,8 @@ public class LoginException extends Exception{
 	
 	public static String LOGIN_PASS_INCORRECT = "Wrong Login/Password!";
 	
+	public static String CENTER_ERROR = "Wrong center selected!";
+	
 	public LoginException(String message){
 		super(message);
 	}

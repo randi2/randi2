@@ -17,8 +17,9 @@
 <f:view xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ice="http://www.icesoft.com/icefaces/component" locale="#{loginHandler.chosenLocale}">
-	<f:loadBundle basename="labels" var="labels"/>
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	locale="#{loginHandler.chosenLocale}">
+	<f:loadBundle basename="labels" var="labels" />
 	<ice:outputDeclaration doctypeRoot="HTML"
 		doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN"
 		doctypeSystem="http://www.w3.org/TR/html4/loose.dtd" />
@@ -53,43 +54,42 @@
 		<f:facet name="center">
 			<ice:form>
 				<ice:panelTabSet tabPlacement="top">
-					<ice:panelTab label="#{labels['pages.registration.personalHeader']}">
+					<ice:panelTab
+						label="#{labels['pages.registration.personalHeader']}">
 						<ice:panelGrid>
 							<ice:panelGrid border="0" columns="3" style="float:left">
-								<ice:outputLabel for="title"
-									value="#{labels['person.title']}"></ice:outputLabel>
-									<ice:inputText id="title" value="#{loginHandler.person.title}"
-										required="#{loginHandler.person.requiredFields['title']}"
-										partialSubmit="true">
-										<f:validator
-											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-										<f:attribute name="dObject" value="#{loginHandler.person}" />
-									</ice:inputText>
-									<ice:message for="title" id="titelError"></ice:message>
+								<ice:outputLabel for="title" value="#{labels['person.title']}"></ice:outputLabel>
+								<ice:inputText id="title" value="#{loginHandler.person.title}"
+									required="#{loginHandler.person.requiredFields['title']}"
+									partialSubmit="true">
+									<f:validator
+										validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+									<f:attribute name="dObject" value="#{loginHandler.person}" />
+								</ice:inputText>
+								<ice:message for="title" id="titelError"></ice:message>
 								<ice:outputLabel for="firstname"
 									value="#{labels['person.firstname']}"></ice:outputLabel>
-									<ice:inputText id="firstname"
-										value="#{loginHandler.person.firstname}"
-										required="#{loginHandler.person.requiredFields['firstname']}"
-										partialSubmit="true">
-										<f:validator
-											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-										<f:attribute name="dObject" value="#{loginHandler.person}" />
-									</ice:inputText>
-									<ice:message for="firstname" id="firstnameError"></ice:message>
+								<ice:inputText id="firstname"
+									value="#{loginHandler.person.firstname}"
+									required="#{loginHandler.person.requiredFields['firstname']}"
+									partialSubmit="true">
+									<f:validator
+										validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+									<f:attribute name="dObject" value="#{loginHandler.person}" />
+								</ice:inputText>
+								<ice:message for="firstname" id="firstnameError"></ice:message>
 								<ice:outputLabel for="surname"
 									value="#{labels['person.surname']}"></ice:outputLabel>
-									<ice:inputText id="surname"
-										value="#{loginHandler.person.surname}"
-										required="#{loginHandler.person.requiredFields['surname']}"
-										partialSubmit="true">
-										<f:validator
-											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-										<f:attribute name="dObject" value="#{loginHandler.person}" />
-									</ice:inputText>
-									<ice:message for="surname" id="surnameError"></ice:message>
-								<ice:outputLabel for="gender"
-									value="#{labels['person.gender']}"></ice:outputLabel>
+								<ice:inputText id="surname"
+									value="#{loginHandler.person.surname}"
+									required="#{loginHandler.person.requiredFields['surname']}"
+									partialSubmit="true">
+									<f:validator
+										validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+									<f:attribute name="dObject" value="#{loginHandler.person}" />
+								</ice:inputText>
+								<ice:message for="surname" id="surnameError"></ice:message>
+								<ice:outputLabel for="gender" value="#{labels['person.gender']}"></ice:outputLabel>
 								<ice:selectOneMenu id="gender"
 									value="#{loginHandler.person.gender}">
 									<f:converter
@@ -100,7 +100,8 @@
 							</ice:panelGrid>
 							<ice:panelGrid columns="2">
 								<f:facet name="header">
-									<ice:outputText value="#{labels['pages.registration.accountHeader']}"></ice:outputText>
+									<ice:outputText
+										value="#{labels['pages.registration.accountHeader']}"></ice:outputText>
 								</f:facet>
 								<ice:outputLabel for="username"
 									value="#{labels['login.username']}"></ice:outputLabel>
@@ -128,78 +129,76 @@
 						<ice:panelGrid>
 							<ice:panelGroup>
 								<ice:panelGrid border="0" columns="3">
-									<ice:outputLabel for="eMail"
-										value="#{labels['person.eMail']}"></ice:outputLabel>
-										<ice:inputText id="eMail" value="#{loginHandler.person.EMail}"
-											required="#{loginHandler.person.requiredFields['eMail']}"
-											partialSubmit="true">
-											<f:validator
-												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-											<f:attribute name="dObject" value="#{loginHandler.person}" />
-										</ice:inputText>
-										<ice:message for="eMail" id="eMailError"></ice:message>
-									<ice:outputLabel for="phone"
-										value="#{labels['person.phone']}"></ice:outputLabel>
-										<ice:inputText id="phone" value="#{loginHandler.person.phone}"
-											required="#{loginHandler.person.requiredFields['phone']}"
-											partialSubmit="true">
-											<f:validator
-												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-											<f:attribute name="dObject" value="#{loginHandler.person}" />
-										</ice:inputText>
-										<ice:message for="phone" id="phoneError"></ice:message>
+									<ice:outputLabel for="eMail" value="#{labels['person.eMail']}"></ice:outputLabel>
+									<ice:inputText id="eMail" value="#{loginHandler.person.EMail}"
+										required="#{loginHandler.person.requiredFields['eMail']}"
+										partialSubmit="true">
+										<f:validator
+											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+										<f:attribute name="dObject" value="#{loginHandler.person}" />
+									</ice:inputText>
+									<ice:message for="eMail" id="eMailError"></ice:message>
+									<ice:outputLabel for="phone" value="#{labels['person.phone']}"></ice:outputLabel>
+									<ice:inputText id="phone" value="#{loginHandler.person.phone}"
+										required="#{loginHandler.person.requiredFields['phone']}"
+										partialSubmit="true">
+										<f:validator
+											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+										<f:attribute name="dObject" value="#{loginHandler.person}" />
+									</ice:inputText>
+									<ice:message for="phone" id="phoneError"></ice:message>
 									<ice:outputLabel for="mobile"
 										value="#{labels['person.mobile']}"></ice:outputLabel>
-										<ice:inputText id="mobile"
-											value="#{loginHandler.person.mobile}"
-											required="#{loginHandler.person.requiredFields['mobile']}"
-											partialSubmit="true">
-											<f:validator
-												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-											<f:attribute name="dObject" value="#{loginHandler.person}" />
-										</ice:inputText>
-										<ice:message for="mobile" id="mobileError"></ice:message>
-									<ice:outputLabel for="fax"
-										value="#{labels['person.fax']}"></ice:outputLabel>
-										<ice:inputText id="fax" value="#{loginHandler.person.fax}"
-											required="#{loginHandler.person.requiredFields['fax']}"
-											partialSubmit="true">
-											<f:validator
-												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-											<f:attribute name="dObject" value="#{loginHandler.person}" />
-										</ice:inputText>
-										<ice:message for="fax" id="faxError"></ice:message>
+									<ice:inputText id="mobile"
+										value="#{loginHandler.person.mobile}"
+										required="#{loginHandler.person.requiredFields['mobile']}"
+										partialSubmit="true">
+										<f:validator
+											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+										<f:attribute name="dObject" value="#{loginHandler.person}" />
+									</ice:inputText>
+									<ice:message for="mobile" id="mobileError"></ice:message>
+									<ice:outputLabel for="fax" value="#{labels['person.fax']}"></ice:outputLabel>
+									<ice:inputText id="fax" value="#{loginHandler.person.fax}"
+										required="#{loginHandler.person.requiredFields['fax']}"
+										partialSubmit="true">
+										<f:validator
+											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+										<f:attribute name="dObject" value="#{loginHandler.person}" />
+									</ice:inputText>
+									<ice:message for="fax" id="faxError"></ice:message>
 								</ice:panelGrid>
 							</ice:panelGroup>
 						</ice:panelGrid>
 					</ice:panelTab>
-					<ice:panelTab label="#{labels['pages.registration.institutionHeader']}">
+					<ice:panelTab
+						label="#{labels['pages.registration.institutionHeader']}">
 						<ice:panelGrid>
 							<ice:panelGrid border="0" columns="3">
-								<ice:outputLabel for="center"
-									value="#{labels['person.center']}"></ice:outputLabel>
+								<ice:outputLabel for="center" value="#{labels['person.center']}"></ice:outputLabel>
 								<ice:selectInputText id="center"
-									style="height: 40px;display: block;"
-									value="#{loginHandler.userCenter.name}"
 									required="#{loginHandler.person.requiredFields['center']}"
-									partialSubmit="true">
-									<f:selectItems value="#{centerHandler.dummyCenters}" />
+									valueChangeListener="#{registerPage.centerChanged}" rows="5"
+									width="100">
+									<f:selectItems value="#{centerHandler.formattedCenters}" />
 								</ice:selectInputText>
 								<ice:message for="center" id="centerError"></ice:message>
 								<ice:outputLabel for="assistant"
-									value="#{labels['person.assistant']}"></ice:outputLabel>
+									value="#{labels['person.assistant']}"
+									rendered="#{registerPage.centerSelected}"></ice:outputLabel>
 								<ice:selectInputText id="assistant"
 									style="height: 40px;display: block;float:left;"
 									value="#{loginHandler.userAssistant.surname}"
 									required="#{loginHandler.person.requiredFields['assistant']}"
-									partialSubmit="true">
-									<f:selectItems value="#{centerHandler.dummyMembers}" />
+									partialSubmit="true" rendered="#{registerPage.centerSelected}">
+									<f:selectItems value="#{centerHandler.formattedMembers}" />
 								</ice:selectInputText>
-								<ice:message for="assistant" id="assistantError"></ice:message>
-								
+								<ice:message for="assistant" id="assistantError"
+									rendered="#{registerPage.centerSelected}"></ice:message>
 							</ice:panelGrid>
 
-							<ice:panelGrid border="0" columns="3">
+							<ice:panelGrid border="0" columns="3"
+								rendered="#{registerPage.centerSelected}">
 								<f:facet name="header">
 									<ice:outputText
 										value="#{labels['pages.registration.confirmationHeader']}"></ice:outputText>

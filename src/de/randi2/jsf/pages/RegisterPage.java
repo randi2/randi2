@@ -6,8 +6,10 @@ import java.util.Vector;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
+import de.randi2.jsf.exceptions.RegistrationException;
 import de.randi2.jsf.handlers.LoginHandler;
 import de.randi2.model.enumerations.Gender;
 
@@ -40,6 +42,12 @@ public class RegisterPage {
 	private boolean termsPvisible = true;
 
 	private boolean regPvisible = false;
+	
+	private boolean centerSelected = false;
+
+	public boolean isCenterSelected() {
+		return centerSelected;
+	}
 
 	public RegisterPage() {
 	}
@@ -98,6 +106,21 @@ public class RegisterPage {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void centerChanged(ValueChangeEvent event){
+		System.out.println("Event!");
+		try {
+			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
+					.getVariableResolver().resolveVariable(
+							FacesContext.getCurrentInstance(), "loginHandler"))
+					.updateUserCenter(event.getNewValue().toString());
+			this.centerSelected = true;
+		} catch (RegistrationException e) {
+			this.centerSelected = false;
+			// TODO: handle exception
+		}
+		
 	}
 
 }

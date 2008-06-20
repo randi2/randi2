@@ -14,6 +14,9 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
+<f:subview id="centerSavedPopup">
+	<jsp:directive.include file="./inc/popups/centerSavedPopup.jspx" />
+</f:subview>
 <ice:form partialSubmit="true" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
@@ -140,6 +143,17 @@
 					</ice:inputText>
 					<ice:message for="surname" />
 				</ice:panelGroup>
+				<ice:outputLabel for="gender" value="#{labels['person.gender']}"
+					rendered="#{centerHandler.editable}"></ice:outputLabel>
+				<ice:selectOneMenu id="gender"
+					value="#{centerHandler.showedCenter.contactPerson.gender}"
+					rendered="#{centerHandler.editable}">
+					<f:converter
+						converterId="de.randi2.jsf.converters.GENDER_CONVERTER" />
+					<f:attribute name="dObject"
+						value="#{centerHandler.showedCenter.contactPerson}" />
+					<f:selectItems value="#{registerPage.genderItems}" />
+				</ice:selectOneMenu>
 				<ice:outputLabel for="eMail" value="#{labels['person.eMail']}"></ice:outputLabel>
 				<ice:outputText id="eMailO"
 					value="#{centerHandler.showedCenter.contactPerson.EMail}"
@@ -277,7 +291,8 @@
 				<ice:column id="column5">
 					<ice:outputText value="#{member.login.lastLoggedIn}"></ice:outputText>
 					<f:facet name="header">
-						<ice:outputText value="#{labels['login.lastLoggedIn']}" id="lastloggedinH"></ice:outputText>
+						<ice:outputText value="#{labels['login.lastLoggedIn']}"
+							id="lastloggedinH"></ice:outputText>
 					</f:facet>
 				</ice:column>
 				<ice:column id="column6">
@@ -288,14 +303,36 @@
 				</ice:column>
 			</ice:dataTable>
 		</ice:panelTab>
-		<ice:panelTab label="Trials" rendered="#{!centerHandler.creatingMode}">
-
+		<ice:panelTab label="#{labels['pages.centerEditPanel.trialsTab']}"
+			rendered="#{!centerHandler.creatingMode}">
+		</ice:panelTab>
+		<ice:panelTab
+			label="#{labels['pages.centerEditPanel.authenticationTab']}"
+			rendered="#{centerHandler.creatingMode}">
+			<ice:panelGrid border="0" columns="2" style="float:left">
+				<ice:graphicImage value="/img/icons/security48.png"></ice:graphicImage>
+				<ice:outputText
+					value="#{labels['pages.centerEditPanel.passwordInfo']}"
+					escape="false" />
+				<ice:outputLabel for="passowrd" value="#{labels['center.password']}"></ice:outputLabel>
+				<ice:panelGroup>
+					<ice:inputText id="password" size="50"
+						value="#{centerHandler.showedCenter.password}"
+						required="#{centerHandler.showedCenter.requiredFields['password']}">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject" value="#{centerHandler.showedCenter}" />
+					</ice:inputText>
+					<ice:message for="password" />
+				</ice:panelGroup>
+			</ice:panelGrid>
 		</ice:panelTab>
 	</ice:panelTabSet>
 	<ice:panelGrid border="0" columns="3"
 		rendered="#{centerHandler.editable}">
 		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
 			action="#{centerHandler.saveCenter}"></ice:commandButton>
+		<ice:commandButton type="reset" value="#{labels['buttons.reset']}" />
 		<ice:messages globalOnly="true" showDetail="true" showSummary="true"
 			tooltip="true" />
 	</ice:panelGrid>

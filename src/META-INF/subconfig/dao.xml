@@ -2,15 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
-	<bean id="trialDAO" class="de.randi2.dao.TrialDaoHibernate"></bean>
-	
-	<bean id="personDAO" class="de.randi2.dao.PersonDaoHibernate"></bean>
-	
-	<bean id="loginDAO" class="de.randi2.dao.LoginDaoHibernate">
-	</bean>
 
-<bean id="centerDAO" class="de.randi2.dao.CenterDaoHibernate">
+	<bean id="trialDAO" class="de.randi2.dao.TrialDaoHibernate"></bean>
+
+	<bean id="personDAO" class="de.randi2.dao.PersonDaoHibernate"></bean>
+
+	<bean id="loginDAO" class="de.randi2.dao.LoginDaoHibernate"></bean>
+
+	<bean id="centerDAO" class="de.randi2.dao.CenterDaoHibernate">
 	</bean>
 
 

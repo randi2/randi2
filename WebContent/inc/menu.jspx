@@ -20,6 +20,13 @@
 	<ice:menuBar orientation="vertical">
 		<ice:menuItem value="#{labels['pages.menu.user']}">
 			<ice:menuItem value="#{labels['pages.menu.personalDetails']}"/>
+			<ice:menuItem value="#{labels['pages.menu.preferences']}">
+			<ice:menuItem value="#{labels['pages.menu.language']}">
+			<!-- The Locale-Selection section -->
+			<ice:menuItem icon="/img/icons/locale/us.png" value="#{labels['pages.menu.en_us']}" action="#{loginHandler.setUSEnglish}"/>
+			<ice:menuItem icon="/img/icons/locale/de.png" value="#{labels['pages.menu.de_de']}" action="#{loginHandler.setDEGerman}"/>
+			</ice:menuItem>
+			</ice:menuItem>
 			<ice:menuItem value="#{labels['pages.menu.logout']}" action="#{loginHandler.logoutUser}" />
 			<ice:menuItemSeparator></ice:menuItemSeparator>
 			<ice:menuItem value="#{labels['pages.menu.create']}" />	
@@ -40,5 +47,6 @@
 		<ice:menuItem value="#{labels['pages.menu.search']}" />
 		<ice:menuItem value="#{labels['pages.menu.help']}" />
 		<ice:menuItem value="#{labels['pages.menu.about']}" />
+		
 	</ice:menuBar>
 </ice:form>

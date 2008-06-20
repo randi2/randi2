@@ -21,7 +21,7 @@
 	<ice:panelPopup draggable="true" modal="true"
 		visible="#{registerPage.regPvisible}"
 		rendered="#{registerPage.regPvisible}"
-		style="width: 600px; height: auto">
+		style="width: 300px; height: auto">
 		<f:facet name="header">
 			<ice:outputText value="#{labels['pages.registration.successHeader']}"></ice:outputText>
 		</f:facet>
