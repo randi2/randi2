@@ -18,6 +18,7 @@ import org.hibernate.validator.Pattern;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import de.randi2.model.enumerations.Gender;
+import de.randi2.utility.validations.TelephonNumber;
 
 @Entity
 @Configurable
@@ -154,7 +155,7 @@ public class Person extends AbstractDomainObject {
 	 * @see de.randi2.model.PersonIF#getPhone()
 	 */
 	@NotEmpty
-	@Pattern(regex="0(\\d){2,10}/(\\d){3,15}")
+	@TelephonNumber
 	public String getPhone() {
 		return phone;
 	}
@@ -170,7 +171,7 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getMobile()
 	 */
-	@Pattern(regex="(0(\\d){2,10}/(\\d){3,15}){0,1}")
+	@TelephonNumber
 	public String getMobile() {
 		return mobile;
 	}
@@ -185,7 +186,7 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getFax()
 	 */
-	@Pattern(regex="(0(\\d){2,10}/(\\d){3,15}){0,1}")
+	@TelephonNumber
 	public String getFax() {
 		return fax;
 	}

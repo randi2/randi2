@@ -1,5 +1,7 @@
 package de.randi2.dao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.orm.hibernate3.HibernateTemplate;
@@ -27,5 +29,9 @@ public abstract class AbstractDaoHibernate<E extends Object> implements Abstract
 		if (((AbstractDomainObject)object).getId()==AbstractDomainObject.NOT_YET_SAVED_ID){
 			template.saveOrUpdate(object);
 		}else template.merge(object);
+	}
+	
+	public List<E> findByExample(E object){
+		return template.findByExample(object);
 	}
 }

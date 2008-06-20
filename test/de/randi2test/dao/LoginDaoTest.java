@@ -5,6 +5,8 @@ import static de.randi2test.utility.RANDI2Assert.assertSaved;
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.hibernate.validator.InvalidStateException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,9 +15,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.dao.LoginDao;
+import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
-import de.randi2.model.enumerations.Gender;
 import de.randi2test.utility.DomainObjectFactory;
 import de.randi2test.utility.TestStringUtil;
 
@@ -29,6 +31,7 @@ public class LoginDaoTest {
 	private DomainObjectFactory factory;
 	@Autowired
 	private TestStringUtil testStringUtil;
+
 
 	@Test
 	public void CreateAndSaveTest() {
@@ -57,23 +60,38 @@ public class LoginDaoTest {
 	@Test
 	public void testSaveWithPerson() {
 		Person validPerson = factory.getPerson();
-		validPerson.setSurname(testStringUtil.getWithLength(20));
-		validPerson.setFirstname(testStringUtil.getWithLength(20));
-		validPerson.setEMail("abc@def.xy");
-		validPerson.setGender(Gender.MALE);
-		validPerson.setMobile("123456");
-		validPerson.setPhone("123456");
-		validPerson.setFax("123456");
 
 		Login login = factory.getLogin();
 		
 		login.setPerson(validPerson);
+		login.setUsername("");
 		try {
 			loginDao.save(login);
 			fail("should throw exception");
 		} catch (InvalidStateException e) {}
 		 login.setUsername(testStringUtil.getWithLength(20));
 		 loginDao.save(login);
+		 assertFalse(login.getId()==AbstractDomainObject.NOT_YET_SAVED_ID);
+		 Login l = loginDao.get(login.getId());
+		 assertEquals(login.getId(), l.getId());
+	}
+	
+	@Test
+	public void testFindByExample(){
+		Login l = factory.getLogin();
+		loginDao.save(l);
+		assertTrue(l.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
+		
+		Login exampleLogin = new Login();
+		exampleLogin.setUsername(l.getUsername());
+		
+		List<Login> list = loginDao.findByExample(exampleLogin);
+		
+		assertTrue(list.size()==1);
+		
+		assertEquals(l.getId(), list.get(0).getId());
+		
+		
 	}
 
 }

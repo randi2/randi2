@@ -179,10 +179,10 @@ public class CenterTest extends AbstractDomainTest<Center> {
 		Center center = (Center) hibernateTemplate.get(Center.class, validCenter.getId());
 		assertEquals(validCenter.getId(), center.getId());
 		
-		//TODO
-//		hibernateTemplate.refresh(validCenter);
-//		validCenter.getTrials();
-//		assertEquals(tl.size(), center.getTrials().size());
+//		TODO
+		hibernateTemplate.refresh(validCenter);
+		validCenter.getTrials();
+		assertEquals(tl.size(), center.getTrials().size());
 	}
 	
 	@Test

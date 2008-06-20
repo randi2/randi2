@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Locale;
+
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 import org.junit.Assert;
@@ -16,6 +18,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2test.utility.AbstractDomainTest;
@@ -135,6 +138,18 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		
 		validLogin.setActive(false);
 		assertFalse(validLogin.isActive());
+	}
+	
+	@Test
+	public void testLocale(){
+		validLogin.setPrefLocale(Locale.GERMAN);
+		assertEquals(Locale.GERMAN, validLogin.getPrefLocale());
+		
+		hibernateTemplate.saveOrUpdate(validLogin);
+		assertTrue(validLogin.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
+		Login l = (Login) hibernateTemplate.get(Login.class, validLogin.getId());
+		assertEquals(validLogin.getId(), l.getId());
+		assertEquals(Locale.GERMAN, l.getPrefLocale());
 	}
 
 }
