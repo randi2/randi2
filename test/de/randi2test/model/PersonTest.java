@@ -149,14 +149,14 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		phonenumber = "123345";
 		validPerson.setPhone(phonenumber);
 		assertEquals(phonenumber, validPerson.getPhone());
-		assertInvalid(validPerson);
+		assertValid(validPerson);
 		
 		
 		validPerson.setPhone("012a/6789");
 		assertInvalid(validPerson);
 		
 		validPerson.setPhone("0123345");
-		assertInvalid(validPerson);
+		assertValid(validPerson);
 		
 		validPerson.setPhone("");
 		try {
@@ -164,7 +164,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 			fail("should throw exception");
 		} catch (InvalidStateException e) {
 			InvalidValue[] invalidValues = e.getInvalidValues();
-			assertEquals(2, invalidValues.length);
+			assertEquals(1, invalidValues.length);
 		}
 		
 		validPerson.setPhone(null);
@@ -173,7 +173,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 			fail("should throw exception");
 		} catch (InvalidStateException e) {
 			InvalidValue[] invalidValues = e.getInvalidValues();
-			assertEquals(2, invalidValues.length);
+			assertEquals(1, invalidValues.length);
 		}
 	}
 
@@ -186,14 +186,14 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertValid(validPerson);
 		
 		validPerson.setMobile("123345");
-		assertInvalid(validPerson);
+		assertValid(validPerson);
 		
 		
 		validPerson.setMobile("012a/6789");
 		assertInvalid(validPerson);
 		
 		validPerson.setMobile("0123345");
-		assertInvalid(validPerson);
+		assertValid(validPerson);
 		
 		validPerson.setMobile("");
 		assertValid(validPerson);
@@ -211,14 +211,14 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertValid(validPerson);
 		
 		validPerson.setFax("123345");
-		assertInvalid(validPerson);
+		assertValid(validPerson);
 		
 		
 		validPerson.setFax("012a/6789");
 		assertInvalid(validPerson);
 		
 		validPerson.setFax("0123345");
-		assertInvalid(validPerson);
+		assertValid(validPerson);
 		
 		validPerson.setFax("");
 		assertValid(validPerson);
