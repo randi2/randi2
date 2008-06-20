@@ -6,12 +6,12 @@
 		<conf name="test" description="Test Time dependencies"/>
 	</configurations>
 	<dependencies>
-		<dependency org="apache.org" name="commons-beanutils" rev="1.6" conf="runtime;compile"/>
+		<dependency org="apache.org" name="commons-beanutils" rev="1.7" conf="runtime;compile"/>
 		<dependency org="apache.org" name="commons-collections" rev="3.2" conf="runtime;compile"/>
 		<dependency org="apache.org" name="commons-digester" rev="1.8" conf="runtime;compile"/>
 		<dependency org="apache.org" name="commons-dbcp" rev="1.2.2" conf="runtime;compile"/>
 		<dependency org="apache.org" name="commons-email" rev="1.0" conf="runtime;compile"/>
-		<dependency org="apache.org" name="commons-fileupload" rev="1.1" conf="runtime;compile"/>
+		<dependency org="apache.org" name="commons-fileupload" rev="1.3" conf="runtime;compile"/>
 		<dependency org="apache.org" name="commons-io" rev="1.3.1" conf="runtime;compile"/>
 		<dependency org="apache.org" name="commons-lang" rev="2.3" conf="runtime;compile"/>	
 		<dependency org="apache.org" name="commons-logging" rev="1.1" conf="runtime;compile"/>
@@ -45,8 +45,8 @@
 		<dependency org="sourceforge.net" name="proxool" rev="0.9.0" conf="runtime;compile"/>
 		<dependency org="sourceforge.net" name="backport-util-concurrent" rev="2.2" conf="runtime;compile"/>
 		
-		<dependency org="icesoft.com" name="icefaces" rev="1.7.0_17" conf="runtime;compile"/>
-		<dependency org="icesoft.com" name="icefaces-comps" rev="1.7.0_17" conf="runtime;compile"/>
+		<dependency org="icesoft.com" name="icefaces" rev="1.7.1" conf="runtime;compile"/>
+		<dependency org="icesoft.com" name="icefaces-comps" rev="1.7.1" conf="runtime;compile"/>
 		
 		<dependency org="springframework.org" name="spring" rev="2.5.3" conf="runtime;compile"/>
 		<dependency org="springframework.org" name="spring-core" rev="2.5.3" conf="runtime;compile"/>
