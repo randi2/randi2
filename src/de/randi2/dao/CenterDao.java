@@ -8,5 +8,7 @@ public interface CenterDao extends AbstractDao<Center> {
 	
 
 	public List<Center> getAll();
+	
+	public Center get(String name);
 
 }

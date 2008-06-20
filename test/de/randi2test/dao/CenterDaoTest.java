@@ -1,6 +1,6 @@
 package de.randi2test.dao;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +9,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.dao.CenterDao;
+import de.randi2.model.AbstractDomainObject;
+import de.randi2.model.Center;
 import de.randi2test.utility.DomainObjectFactory;
 import de.randi2test.utility.TestStringUtil;
 
@@ -31,5 +33,16 @@ public class CenterDaoTest {
 			centerDao.save(factory.getCenter());
 		}
 		assertTrue(centerDao.getAll().size()>=100);
+	}
+	@Test
+	public void testGetName(){
+		Center c = factory.getCenter();
+		centerDao.save(c);
+		assertTrue(c.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
+		
+		Center c1 = centerDao.get(c.getName());
+		
+		assertEquals(c.getId(), c1.getId());
+		assertEquals(c.getName(), c1.getName());
 	}
 }
