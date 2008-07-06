@@ -15,5 +15,5 @@ import org.hibernate.validator.ValidatorClass;
 @Documented
 public @interface TelephonNumber {
 	
-	String message() default "wrong";
+	String message() default "{validator.telephoneNumber}";
 }

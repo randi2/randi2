@@ -16,5 +16,5 @@ public @interface DateDependence {
 		String firstDate();
 		String secondDate();
 
-		String message() default "first date after second";
+		String message() default "{validator.datedependence}";
 }

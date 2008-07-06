@@ -18,5 +18,5 @@ public @interface Password {
 	int min() default  8;
 	int max() default 50;
 	int hash_length() default 64;
-	String message() default "wrong";
+	String message() default "{validator.password}";
 }
