@@ -239,6 +239,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		//validTrial.setLeader(p);
 		
 		//p.getRollen().contains()
+		fail("Not yet implemented");
 	}
 	
 	@Test
@@ -252,7 +253,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		assertNotSame(AbstractDomainObject.NOT_YET_SAVED_ID, c.getId());
 		int version= c.getVersion();
 		
-		c.setName("RANDI2 TestCenter");
+		c.setName(stringUtil.getWithLength(20));
 		hibernateTemplate.saveOrUpdate(validTrial);
 		assertTrue(version < c.getVersion());
 		
@@ -291,7 +292,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		
 		assertEquals(2, validTrial.getParticipatingCenters().size());
 		
-		validTrial.getParticipatingCenters().get(0).setName("HB");
+		validTrial.getParticipatingCenters().get(0).setName(stringUtil.getWithLength(20));
 		int version = validTrial.getParticipatingCenters().get(0).getVersion();
 		
 		hibernateTemplate.saveOrUpdate(validTrial);
@@ -302,7 +303,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		assertTrue(version < validTrial.getParticipatingCenters().get(0).getVersion());
 	}
 	
-	// @Test
+	 @Test
 	// TODO Implementing Trial Protocol behavior
 	public void testProtocol() {
 		fail("Not yet implemented");

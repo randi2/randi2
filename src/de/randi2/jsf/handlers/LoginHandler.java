@@ -213,8 +213,8 @@ public class LoginHandler {
 			// END
 
 			if (login.getPassword().equals(pass)) {
-				if (login.getFirstLoggedIn() == null)
-					login.setFirstLoggedIn(new GregorianCalendar());
+				if (login.getRegistrationDate() == null)
+					login.setRegistrationDate(new GregorianCalendar());
 				login.setLastLoggedIn(new GregorianCalendar());
 				return Randi2.SUCCESS;
 			} else
@@ -241,8 +241,8 @@ public class LoginHandler {
 		}
 
 		login = loginDao.get(testProperties.getProperty("username"));
-		if (login.getFirstLoggedIn() == null)
-			login.setFirstLoggedIn(new GregorianCalendar());
+		if (login.getRegistrationDate() == null)
+			login.setRegistrationDate(new GregorianCalendar());
 		login.setLastLoggedIn(new GregorianCalendar());
 		// TODO Temporary solution
 		fulfillLoginObject();

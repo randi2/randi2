@@ -54,7 +54,7 @@ public class DomainObjectFactory {
 		l.setUsername(testStringUtil.getWithLength(Login.MAX_USERNAME_LENGTH));
 		l.setPassword(testStringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH)+".ada6");
 		l.setPerson(getPerson());
-		l.setFirstLoggedIn(new GregorianCalendar(2006,0,1));
+		l.setRegistrationDate(new GregorianCalendar(2006,0,1));
 		l.setLastLoggedIn(new GregorianCalendar());
 		
 		return l;

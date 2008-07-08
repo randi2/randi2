@@ -16,7 +16,7 @@ import de.randi2.utility.validations.DateDependence;
 import de.randi2.utility.validations.Password;
 
 @Entity
-@DateDependence(firstDate="firstLoggedIn",secondDate="lastLoggedIn")
+@DateDependence(firstDate="registrationDate",secondDate="lastLoggedIn")
 public class Login extends AbstractDomainObject {
 
 	public final static int MAX_USERNAME_LENGTH = 40;
@@ -36,7 +36,7 @@ public class Login extends AbstractDomainObject {
 	private String password = null;
 	
 	private GregorianCalendar lastLoggedIn = null;
-	private GregorianCalendar firstLoggedIn = null;
+	private GregorianCalendar registrationDate = null;
 	
 	private boolean active = false;
 
@@ -58,12 +58,14 @@ public class Login extends AbstractDomainObject {
 		this.lastLoggedIn = lastLoggedIn;
 	}
 
-	public GregorianCalendar getFirstLoggedIn() {
-		return firstLoggedIn;
+
+
+	public GregorianCalendar getRegistrationDate() {
+		return registrationDate;
 	}
 
-	public void setFirstLoggedIn(GregorianCalendar firstLoggedIn) {
-		this.firstLoggedIn = firstLoggedIn;
+	public void setRegistrationDate(GregorianCalendar registrationDate) {
+		this.registrationDate = registrationDate;
 	}
 
 	public boolean isActive() {

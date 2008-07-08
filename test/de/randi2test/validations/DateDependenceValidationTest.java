@@ -36,17 +36,17 @@ public class DateDependenceValidationTest {
 		
 		Login l = factory.getLogin();
 		
-		l.setFirstLoggedIn(new GregorianCalendar(2006,0,1));
+		l.setRegistrationDate(new GregorianCalendar(2006,0,1));
 		l.setLastLoggedIn(new GregorianCalendar());
 
 		assertEquals(0, loginValidator.getInvalidValues(l).length) ;
 		
-		l.setFirstLoggedIn(new GregorianCalendar());
+		l.setRegistrationDate(new GregorianCalendar());
 		l.setLastLoggedIn(new GregorianCalendar(2006,0,1));
 		
 		assertEquals(1, loginValidator.getInvalidValues(l).length) ;
 		
-		l.setFirstLoggedIn(new GregorianCalendar(2006,0,1));
+		l.setRegistrationDate(new GregorianCalendar(2006,0,1));
 		l.setLastLoggedIn(new GregorianCalendar(2006,0,1));
 		
 		assertEquals(1, loginValidator.getInvalidValues(l).length) ;
@@ -55,7 +55,7 @@ public class DateDependenceValidationTest {
 		
 		assertEquals(0, loginValidator.getInvalidValues(l).length) ;
 		
-		l.setFirstLoggedIn(null);
+		l.setRegistrationDate(null);
 		
 		assertEquals(0, loginValidator.getInvalidValues(l).length) ;
 		

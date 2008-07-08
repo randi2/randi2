@@ -29,7 +29,6 @@ import de.randi2test.utility.AbstractDomainTest;
 public class LoginTest extends AbstractDomainTest<Login>{
 
 	Login validLogin;
-//	private ClassValidator<Login> loginValidator;
 	
 	public LoginTest() {
 		super(Login.class);
@@ -47,7 +46,7 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		Assert.assertEquals("", l.getUsername());
 		Assert.assertNull(l.getPassword());
 		Assert.assertNull(l.getLastLoggedIn());
-		Assert.assertNull(l.getFirstLoggedIn());
+		Assert.assertNull(l.getRegistrationDate());
 		Assert.assertFalse(l.isActive());
 		
 		Assert.assertNull(l.getPerson());
@@ -121,6 +120,8 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		Person p = factory.getPerson();
 		validLogin.setPerson(p);
 		assertNotNull(validLogin.getPerson());
+		
+		
 		hibernateTemplate.saveOrUpdate(validLogin);
 		
 		Login l = (Login)hibernateTemplate.get(Login.class, validLogin.getId());
@@ -151,5 +152,7 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		assertEquals(validLogin.getId(), l.getId());
 		assertEquals(Locale.GERMAN, l.getPrefLocale());
 	}
+	
+	
 
 }

@@ -234,6 +234,12 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		for (String s: validEMails){
 			validPerson.setEMail(s);
 			assertValid(validPerson);
+			
+			try{
+			validPerson.checkValue("eMail", s);
+			}catch (ValidationException e) {
+				fail(e.getMessage());
+			}
 		}
 
 		validPerson.setEMail(null);
@@ -248,7 +254,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 			assertEquals(2, invalidValues.length);
 		}
 
-		String[] invalidEmails = new String[] { "without at", "toomuch@@", "@test.org", "ab..c@de-dg.com",
+		String[] invalidEmails = new String[] {  "without at","toomuch@@", "@test.org", "ab..c@de-dg.com",
 				"without@domain" , "abc@def.abcde"};
 		for (String s : invalidEmails) {
 			validPerson.setEMail(s);
@@ -256,6 +262,23 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		}
 	}
 
+	@Test
+	public void testCheckValue(){
+		try{
+		validPerson.checkValue("surname", "");
+		fail("< >: is not valid");
+		}catch (ValidationException e) {
+			// TODO: handle exception
+		}
+		
+		try{
+			validPerson.checkValue("surname", stringUtil.getWithLength(AbstractDomainObject.MAX_VARCHAR_LENGTH + 20));
+			fail("< >: is not valid");
+			}catch (ValidationException e) {
+				// TODO: handle exception
+			}
+	}
+	
 	@Test
 	public void testGender() {
 		validPerson.setGender(Gender.MALE);
@@ -328,6 +351,8 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertNotNull(p.getCenter());
 		assertEquals(center.getId(), p.getCenter().getId());
 	}
+	
+	
 
 	@Test
 	public void testPersonRolle() {

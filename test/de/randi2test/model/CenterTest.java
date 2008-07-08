@@ -15,6 +15,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Center;
+import de.randi2.model.Login;
+import de.randi2.model.Person;
 import de.randi2.model.Trial;
 import de.randi2test.utility.AbstractDomainTest;
 
@@ -198,8 +200,56 @@ public class CenterTest extends AbstractDomainTest<Center> {
 	}
 	
 	@Test
+	public void testContactPerson(){
+		Person p = factory.getPerson();
+		
+		validCenter.setContactPerson(p);
+		assertEquals(p.getSurname(), validCenter.getContactPerson().getSurname());
+		hibernateTemplate.saveOrUpdate(validCenter);
+		assertTrue(validCenter.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
+		assertTrue(p.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
+		
+		Center c = (Center) hibernateTemplate.get(Center.class, validCenter.getId());
+		assertEquals(p.getId(), c.getContactPerson().getId());
+	}
+	
+	@Test
+	public void testMembers(){
+		List<Person> members = new ArrayList<Person>();
+		System.out.println("MEMBER");
+		hibernateTemplate.saveOrUpdate(validCenter);
+		
+		for(int i=0;i<100;i++){
+			Person p = factory.getPerson();
+			p.setCenter(validCenter);
+			assertEquals(validCenter.getId(), p.getCenter().getId());
+			hibernateTemplate.saveOrUpdate(p);
+			members.add(p);
+		}
+		
+		//List<Person> persons = (List<Person>) hibernateTemplate.findByNamedQueryAndNamedParam("center.findAllMembers", "center", validCenter);
+		
+		Center c = (Center) hibernateTemplate.get(Center.class, validCenter.getId());
+			assertEquals(validCenter.getId(), c.getId());
+			c.getMembers().get(0);
+			assertEquals(members.size(), c.getMembers().size());
+	}
+	
+	
+	
+	@Test
 	public void testPassword(){
-		fail("not yet implemented");
+		String[] validPasswords = {"secret0$secret","sad.al4h/ljhaslf",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+";2", stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-2)+",3", stringUtil.getWithLength(Login.HASH_PASSWORD_LENGTH)};
+		for (String s: validPasswords){
+			validCenter.setPassword(s);
+			assertValid(validCenter);
+		}
+		
+	String[] invalidPasswords = {"secret$secret",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH),stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-3)+";2", "0123456789", null, ""};
+		for (String s: invalidPasswords){
+			validCenter.setPassword(s);
+			assertInvalid(validCenter);
+		}
 	}
 
 }
