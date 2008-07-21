@@ -133,6 +133,9 @@ public class Center extends AbstractDomainObject{
 	}
 
 	public void setCountry(String country) {
+		if (country == null){
+			country = "";
+		}
 		this.country = country;
 	}
 

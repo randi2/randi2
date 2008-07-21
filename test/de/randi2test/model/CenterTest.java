@@ -2,17 +2,20 @@ package de.randi2test.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Center;
 import de.randi2.model.Login;
@@ -26,7 +29,12 @@ import de.randi2test.utility.AbstractDomainTest;
 public class CenterTest extends AbstractDomainTest<Center> {
 
 	private Center validCenter;
+@Autowired private SessionFactory sessionFactory;
 
+private Session getCurrentSession(){
+	return sessionFactory.getCurrentSession();
+}
+	
 	public CenterTest() {
 		super(Center.class);
 	}
@@ -214,9 +222,13 @@ public class CenterTest extends AbstractDomainTest<Center> {
 	}
 	
 	@Test
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void testMembers(){
+	
 		List<Person> members = new ArrayList<Person>();
+		
 		System.out.println("MEMBER");
+		//hibernateTemplate.getSessionFactory().getCurrentSession().saveOrUpdate(validCenter);
 		hibernateTemplate.saveOrUpdate(validCenter);
 		
 		for(int i=0;i<100;i++){
@@ -224,14 +236,19 @@ public class CenterTest extends AbstractDomainTest<Center> {
 			p.setCenter(validCenter);
 			assertEquals(validCenter.getId(), p.getCenter().getId());
 			hibernateTemplate.saveOrUpdate(p);
+		//	hibernateTemplate.getSessionFactory().getCurrentSession().saveOrUpdate(p);
 			members.add(p);
 		}
-		
+		hibernateTemplate.flush();
+	//	hibernateTemplate.getSessionFactory().getCurrentSession().flush();
 		//List<Person> persons = (List<Person>) hibernateTemplate.findByNamedQueryAndNamedParam("center.findAllMembers", "center", validCenter);
 		
 		Center c = (Center) hibernateTemplate.get(Center.class, validCenter.getId());
-			assertEquals(validCenter.getId(), c.getId());
-			c.getMembers().get(0);
+//	Center c = (Center) hibernateTemplate.getSessionFactory().getCurrentSession().get(Center.class, validCenter.getId());		
+		assertEquals(validCenter.getId(), c.getId());
+			List<Person> mem = c.getMembers();
+			hibernateTemplate.refresh(c);
+//			hibernateTemplate.getSessionFactory().getCurrentSession().refresh(c);
 			assertEquals(members.size(), c.getMembers().size());
 	}
 	
