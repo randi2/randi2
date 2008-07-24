@@ -40,6 +40,21 @@
 					</ice:inputText>
 					<ice:message for="name" />
 				</ice:panelGroup>
+				<ice:outputLabel for="country" value="#{labels['center.country']}"></ice:outputLabel>
+				<ice:outputText id="countryO"
+					value="#{centerHandler.showedCenter.country}"
+					rendered="#{!centerHandler.editable}">
+				</ice:outputText>
+				<ice:panelGroup id="countryEdit" rendered="#{centerHandler.editable}">
+					<ice:inputText id="country" size="50"
+						value="#{centerHandler.showedCenter.country}"
+						required="#{centerHandler.showedCenter.requiredFields['country']}">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject" value="#{centerHandler.showedCenter}" />
+					</ice:inputText>
+					<ice:message for="country" />
+				</ice:panelGroup>
 				<ice:outputLabel for="city" value="#{labels['center.city']}"></ice:outputLabel>
 				<ice:outputText id="cityO"
 					value="#{centerHandler.showedCenter.city}"

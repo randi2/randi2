@@ -1,3 +1,17 @@
+/* This file is part of RANDI2.
+ * 
+ * RANDI2 is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * RANDI2. If not, see <http://www.gnu.org/licenses/>.
+ */
 package de.randi2.jsf.handlers;
 
 import java.io.IOException;
@@ -31,20 +45,6 @@ import de.randi2.model.enumerations.Gender;
  * </p>
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
- * 
- * This file is part of RANDI2.
- * 
- * RANDI2 is free software: you can redistribute it and/or modify it under the
- * terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- * 
- * RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License along with
- * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
 public class LoginHandler {
 
@@ -53,6 +53,8 @@ public class LoginHandler {
 
 	// The Locale chosen by the user.
 	private Locale chosenLocale = null;
+	
+	private Login showedLogin = null;
 
 	// Objects for User-Creating Process
 	private Person person = null;
@@ -62,12 +64,32 @@ public class LoginHandler {
 	private Center userCenter = null;
 	
 	private String cPassword = null;
+	// ---
 
+	// DB Access
 	private LoginDao loginDao;
 
 	private PersonDao personDao;
 
 	private CenterDao centerDao;
+	// ---
+	
+	private boolean editable = false;
+	
+	private boolean userSavedPVisible = false;
+
+	public boolean isUserSavedPVisible() {
+		return userSavedPVisible;
+	}
+
+	public void setUserSavedPVisible(boolean userSavedPVisible) {
+		this.userSavedPVisible = userSavedPVisible;
+	}
+
+	public String hideUserSavedPopup() {
+		this.userSavedPVisible = false;
+		return Randi2.SUCCESS;
+	}
 
 	public LoginHandler() {
 	}
@@ -144,9 +166,9 @@ public class LoginHandler {
 	 * 
 	 * @return Randi2.SUCCESS normally. Randi2.ERROR in case of an error.
 	 */
-	public String saveUser() {
+	public String saveLogin() {
 		try {
-			this.loginDao.save(this.getLogin());
+			this.loginDao.save(this.getShowedLogin());
 			return Randi2.SUCCESS;
 		} catch (Exception exp) {
 			Randi2.showMessage(exp);
@@ -382,5 +404,24 @@ public class LoginHandler {
 
 	public void setCPassword(String password) {
 		cPassword = password;
+	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
+	public Login getShowedLogin() {
+		return showedLogin;
+	}
+
+	public void setShowedLogin(Login showedLogin) {
+		//TODO Not ready!
+		if(showedLogin==null)
+			this.editable = true;
+		this.showedLogin = showedLogin;
 	}
 }

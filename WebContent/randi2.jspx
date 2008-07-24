@@ -74,6 +74,12 @@
                                 file="./inc/panels/welcomePanel.jspx"/>
                     </f:subview>
                 </ice:panelGroup>
+                <ice:panelGroup id="userEditPanel">
+                    <f:subview id="uep">
+                        <jsp:directive.include
+                                file="./inc/panels/userEditPanel.jspx"/>
+                    </f:subview>
+                </ice:panelGroup>
                 <ice:panelGroup id="centersViewPanel">
                     <f:subview id="cvp">
                         <jsp:directive.include

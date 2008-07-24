@@ -34,6 +34,8 @@ public class Randi2Page {
 
     private CenterHandler centerHandler;
     
+    private LoginHandler loginHandler;
+    
     /**
      * The active content Panel.
      */
@@ -45,10 +47,11 @@ public class Randi2Page {
     private Login currentUser = null;
 
 	public Randi2Page() {
-    	centerHandler = (CenterHandler)FacesContext.getCurrentInstance().getApplication().getVariableResolver().resolveVariable(FacesContext.getCurrentInstance(), "centerHandler");
-    	currentUser = ((LoginHandler) FacesContext.getCurrentInstance()
+		loginHandler = ((LoginHandler) FacesContext.getCurrentInstance()
 				.getApplication().getVariableResolver().resolveVariable(
-						FacesContext.getCurrentInstance(), "loginHandler")).getLogin();
+						FacesContext.getCurrentInstance(), "loginHandler"));
+    	centerHandler = (CenterHandler)FacesContext.getCurrentInstance().getApplication().getVariableResolver().resolveVariable(FacesContext.getCurrentInstance(), "centerHandler");
+    	currentUser = loginHandler.getLogin();
     }
 
     public String getActivePanel() {
@@ -69,6 +72,7 @@ public class Randi2Page {
     }
     
     public void showCenter(ActionEvent event){
+    	//TODO das lässt sich noch besser lösen!
         Center tCenter =  (Center) (((UIComponent)event.getComponent().getChildren().get(0)).getValueBinding("value").getValue(FacesContext.getCurrentInstance()));
         centerHandler.setShowedCenter(tCenter);
         activePanel = "centerEditPanel";
@@ -77,6 +81,17 @@ public class Randi2Page {
     public void createCenter(ActionEvent event){
     	centerHandler.setShowedCenter(null);
     	activePanel = "centerEditPanel";
+    }
+    
+    public void myLogin(ActionEvent event) {
+        loginHandler.setShowedLogin(currentUser);
+        activePanel = "userEditPanel";
+    }
+    
+    public void createLogin(ActionEvent event){
+    	//TODO Not ready!
+    	loginHandler.setShowedLogin(null);
+    	activePanel = "userEditPanel";
     }
 
  

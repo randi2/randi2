@@ -19,7 +19,7 @@
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:menuBar orientation="vertical">
 		<ice:menuItem value="#{labels['pages.menu.user']}">
-			<ice:menuItem value="#{labels['pages.menu.personalDetails']}"/>
+			<ice:menuItem value="#{labels['pages.menu.personalDetails']}" actionListener="#{randi2Page.myLogin}"/>
 			<ice:menuItem value="#{labels['pages.menu.preferences']}">
 			<ice:menuItem value="#{labels['pages.menu.language']}">
 			<!-- The Locale-Selection section -->
@@ -29,7 +29,7 @@
 			</ice:menuItem>
 			<ice:menuItem value="#{labels['pages.menu.logout']}" action="#{loginHandler.logoutUser}" />
 			<ice:menuItemSeparator></ice:menuItemSeparator>
-			<ice:menuItem value="#{labels['pages.menu.create']}" />	
+			<ice:menuItem value="#{labels['pages.menu.create']}" actionListener="#{randi2Page.createLogin}"/>	
 		</ice:menuItem>
 		<ice:menuItem value="#{labels['pages.menu.trial']}">
 			<ice:menuItem value="#{labels['pages.menu.currentTrial']}" />

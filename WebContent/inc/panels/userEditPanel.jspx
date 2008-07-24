@@ -1,0 +1,222 @@
+<!-- 
+ This page/panel shows a detail-view of a login. It can also be used to edit or create a login.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<f:subview id="userSavedPopup">
+	<jsp:directive.include file="./inc/popups/userSavedPopup.jspx" />
+</f:subview>
+<ice:form partialSubmit="true" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:messages globalOnly="true" />
+	<ice:panelTabSet style="font-size: 9;display: block;">
+		<ice:panelTab label="#{labels['pages.userEditPanel.dataTab']}">
+			<ice:panelGrid border="0" columns="2">
+				<f:facet name="header">
+					<ice:outputText
+						value="#{labels['pages.userEditPanel.accountHeader']}"></ice:outputText>
+				</f:facet>
+				<ice:outputLabel for="username" value="#{labels['login.username']}"></ice:outputLabel>
+				<ice:outputText id="username"
+					value="#{loginHandler.showedLogin.username}">
+				</ice:outputText>
+				<ice:outputLabel for="registrationDate"
+					value="#{labels['login.registrationDate']}"></ice:outputLabel>
+				<ice:outputText id="registrationDate"
+					value="#{loginHandler.showedLogin.registrationDate.time}">
+					<f:convertDateTime pattern="MM/dd/yyyy" />
+				</ice:outputText>
+				<ice:outputLabel for="lastLoggedIn"
+					value="#{labels['login.lastLoggedIn']}"></ice:outputLabel>
+				<ice:outputText id="lastLoggedIn"
+					value="#{loginHandler.showedLogin.lastLoggedIn.time}">
+					<f:convertDateTime pattern="MM/dd/yyyy" />
+				</ice:outputText>
+				<ice:outputLabel for="password" value="#{labels['login.password']}"></ice:outputLabel>
+				<ice:commandButton value="#{labels['buttons.changePassword']}"></ice:commandButton>
+			</ice:panelGrid>
+			<ice:panelGrid border="0" columns="2">
+				<f:facet name="header">
+					<ice:outputText
+						value="#{labels['pages.userEditPanel.personalHeader']}"></ice:outputText>
+				</f:facet>
+				<ice:outputLabel for="title" value="#{labels['person.title']}"></ice:outputLabel>
+				<ice:outputText id="titleO"
+					value="#{loginHandler.showedLogin.person.title}"
+					rendered="#{!loginHandler.editable}">
+				</ice:outputText>
+				<ice:panelGroup id="titleEdit" rendered="#{loginHandler.editable}">
+					<ice:inputText id="title" size="50"
+						value="#{loginHandler.showedLogin.person.title}"
+						required="#{loginHandler.showedLogin.person.requiredFields['title']}">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject" value="#{loginHandler.person}" />
+					</ice:inputText>
+					<ice:message for="title" />
+				</ice:panelGroup>
+				<ice:outputLabel for="firstname"
+					value="#{labels['person.firstname']}"></ice:outputLabel>
+				<ice:outputText id="firstnameO"
+					value="#{loginHandler.showedLogin.person.firstname}"
+					rendered="#{!loginHandler.editable}">
+				</ice:outputText>
+				<ice:panelGroup id="firstnameEdit"
+					rendered="#{loginHandler.editable}">
+					<ice:inputText id="firstname" size="50"
+						value="#{loginHandler.showedLogin.person.firstname}"
+						required="#{loginHandler.showedLogin.person.requiredFields['firstname']}">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject" value="#{loginHandler.person}" />
+					</ice:inputText>
+					<ice:message for="firstname" />
+				</ice:panelGroup>
+				<ice:outputLabel for="surname" value="#{labels['person.surname']}"></ice:outputLabel>
+				<ice:outputText id="surnameO"
+					value="#{loginHandler.showedLogin.person.surname}"
+					rendered="#{!loginHandler.editable}">
+				</ice:outputText>
+				<ice:panelGroup id="surnameEdit" rendered="#{loginHandler.editable}">
+					<ice:inputText id="surname" size="50"
+						value="#{loginHandler.showedLogin.person.surname}"
+						required="#{loginHandler.showedLogin.person.requiredFields['surname']}">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject" value="#{loginHandler.person}" />
+					</ice:inputText>
+					<ice:message for="surname" />
+				</ice:panelGroup>
+				<ice:outputLabel for="gender" value="#{labels['person.gender']}"></ice:outputLabel>
+				<ice:outputText id="genderO"
+					value="#{loginHandler.showedLogin.person.gender}"
+					rendered="#{!loginHandler.editable}">
+				</ice:outputText>
+				<ice:panelGroup id="genderEdit" rendered="#{loginHandler.editable}">
+					<ice:selectOneMenu id="gender"
+						value="#{loginHandler.showedLogin.person.gender}">
+						<f:converter
+							converterId="de.randi2.jsf.converters.GENDER_CONVERTER" />
+						<f:attribute name="dObject" value="#{loginHandler.person}" />
+						<f:selectItems value="#{registerPage.genderItems}" />
+					</ice:selectOneMenu>
+				</ice:panelGroup>
+			</ice:panelGrid>
+			<ice:panelGrid border="0" columns="2">
+				<f:facet name="header">
+					<ice:outputText
+						value="#{labels['pages.userEditPanel.contactHeader']}"></ice:outputText>
+				</f:facet>
+				<ice:outputLabel for="eMail" value="#{labels['person.eMail']}"></ice:outputLabel>
+				<ice:outputText id="eMailO"
+					value="#{loginHandler.showedLogin.person.EMail}">
+				</ice:outputText>
+				<ice:outputLabel for="phone" value="#{labels['person.phone']}"></ice:outputLabel>
+				<ice:outputText id="phoneO"
+					value="#{loginHandler.showedLogin.person.phone}"
+					rendered="#{!loginHandler.editable}">
+				</ice:outputText>
+				<ice:panelGroup id="phoneEdit" rendered="#{loginHandler.editable}">
+					<ice:inputText id="phone" size="50"
+						value="#{loginHandler.showedLogin.person.phone}"
+						required="#{loginHandler.showedLogin.person.requiredFields['phone']}">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject" value="#{loginHandler.person}" />
+					</ice:inputText>
+					<ice:message for="phone" />
+				</ice:panelGroup>
+				<ice:outputLabel for="mobile" value="#{labels['person.mobile']}"></ice:outputLabel>
+				<ice:outputText id="mobileO"
+					value="#{loginHandler.showedLogin.person.mobile}"
+					rendered="#{!loginHandler.editable}">
+				</ice:outputText>
+				<ice:panelGroup id="mobileEdit" rendered="#{loginHandler.editable}">
+					<ice:inputText id="mobile" size="50"
+						value="#{loginHandler.showedLogin.person.mobile}"
+						required="#{loginHandler.showedLogin.person.requiredFields['mobile']}">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject" value="#{loginHandler.person}" />
+					</ice:inputText>
+					<ice:message for="mobile" />
+				</ice:panelGroup>
+				<ice:outputLabel for="fax" value="#{labels['person.fax']}"></ice:outputLabel>
+				<ice:outputText id="faxO"
+					value="#{loginHandler.showedLogin.person.fax}"
+					rendered="#{!loginHandler.editable}">
+				</ice:outputText>
+				<ice:panelGroup id="faxEdit" rendered="#{loginHandler.editable}">
+					<ice:inputText id="fax" size="50"
+						value="#{loginHandler.showedLogin.person.fax}"
+						required="#{loginHandler.showedLogin.person.requiredFields['fax']}">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject" value="#{loginHandler.person}" />
+					</ice:inputText>
+					<ice:message for="fax" />
+				</ice:panelGroup>
+			</ice:panelGrid>
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.userEditPanel.centerTab']}">
+			<ice:panelGrid border="0" columns="2">
+				<ice:outputLabel for="name" value="#{labels['center.name']}"></ice:outputLabel>
+				<ice:panelGroup>
+				<ice:outputText id="name" value="#{loginHandler.showedLogin.person.center.name}">
+				</ice:outputText>
+				<ice:commandButton style="margin-left: 15px;" value="#{labels['buttons.changeCenter']}"></ice:commandButton>
+				</ice:panelGroup>
+				<ice:outputLabel for="country" value="#{labels['center.country']}"></ice:outputLabel>
+				<ice:outputText id="country"
+					value="#{loginHandler.showedLogin.person.center.country}">
+				</ice:outputText>
+				<ice:outputLabel for="city" value="#{labels['center.city']}"></ice:outputLabel>
+				<ice:outputText id="city" value="#{loginHandler.showedLogin.person.center.city}">
+				</ice:outputText>
+				<ice:outputLabel for="postcode" value="#{labels['center.postcode']}"></ice:outputLabel>
+				<ice:outputText id="postcode"
+					value="#{loginHandler.showedLogin.person.center.postcode}">
+				</ice:outputText>
+				<ice:outputLabel for="street" value="#{labels['center.street']}"></ice:outputLabel>
+				<ice:outputText id="street"
+					value="#{loginHandler.showedLogin.person.center.street}">
+				</ice:outputText>
+
+			</ice:panelGrid>
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.userEditPanel.rightsTab']}">
+		<ice:panelGrid border="0" columns="2">
+		<ice:outputLabel for="currentRole" value="Current Role"></ice:outputLabel>
+		<ice:outputText id="currentRole" value="NOT DEFINED"></ice:outputText>
+		</ice:panelGrid>
+		<ice:panelTabSet>
+		<ice:panelTab label="User Rights"></ice:panelTab>
+		<ice:panelTab label="Center Rights"></ice:panelTab>
+		<ice:panelTab label="Trial Rights"></ice:panelTab>
+		</ice:panelTabSet>
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.userEditPanel.actionsTab']}">
+		</ice:panelTab>
+	</ice:panelTabSet>
+	<ice:panelGrid border="0" columns="3"
+		rendered="#{loginHandler.editable}">
+		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
+			action="#{loginHandler.saveLogin}"></ice:commandButton>
+		<ice:commandButton type="reset" value="#{labels['buttons.reset']}" />
+		<ice:messages globalOnly="true" showDetail="true" showSummary="true"
+			tooltip="true" />
+	</ice:panelGrid>
+
+</ice:form>

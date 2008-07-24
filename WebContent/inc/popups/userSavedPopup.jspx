@@ -1,5 +1,5 @@
 <!-- 
-Center Saved Popup 
+ User Saved Popup 
 
  Made by lplotni@users.sourceforge.org  
 
@@ -19,24 +19,24 @@ Center Saved Popup
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelPopup draggable="true" modal="true"
-		visible="#{centerHandler.centerSavedPVisible}"
-		rendered="#{centerHandler.centerSavedPVisible}"
+		visible="#{loginHandler.userSavedPVisible}"
+		rendered="#{loginHandler.userSavedPVisible}"
 		style="width: 300px; height: auto">
 		<f:facet name="header">
-			<ice:outputText value="#{labels['pages.centerSavedPopup.header']}"></ice:outputText>
+			<ice:outputText value="#{labels['pages.userSavedPopup.header']}"></ice:outputText>
 		</f:facet>
 
 		<f:facet name="body">
 			<ice:panelGrid border="0" columns="2">
 				<f:facet name="footer">
 					<ice:panelGroup>
-						<ice:commandButton value="#{labels['buttons.ok']}" action="#{centerHandler.hideCenterSavedPopup}"
+						<ice:commandButton value="#{labels['buttons.ok']}" action="#{loginHandler.hideUserSavedPopup}"
 							immediate="true"></ice:commandButton>
 					</ice:panelGroup>
 				</f:facet>
 				<ice:graphicImage value="/img/icons/saved48.png"></ice:graphicImage>
 				<ice:outputText
-					value="#{labels['pages.centerSavedPopup.message']}" escape="false"></ice:outputText>
+					value="#{labels['pages.userSavedPopup.message']}" escape="false"></ice:outputText>
 			</ice:panelGrid>
 
 		</f:facet>
