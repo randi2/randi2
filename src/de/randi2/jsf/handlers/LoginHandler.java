@@ -61,11 +61,10 @@ public class LoginHandler {
 
 	private Center userCenter = null;
 
-	
 	private LoginDao loginDao;
-	
+
 	private PersonDao personDao;
-	
+
 	private CenterDao centerDao;
 
 	public LoginHandler() {
@@ -124,7 +123,18 @@ public class LoginHandler {
 	}
 
 	public void setUserCenter(Center userCenter) {
-		this.userCenter = userCenter;
+		if (userCenter != null) {
+			this.userCenter = userCenter;
+			((RegisterPage) FacesContext.getCurrentInstance().getApplication()
+					.getVariableResolver().resolveVariable(
+							FacesContext.getCurrentInstance(), "registerPage"))
+					.setCenterSelected(true);
+		} else {
+			((RegisterPage) FacesContext.getCurrentInstance().getApplication()
+					.getVariableResolver().resolveVariable(
+							FacesContext.getCurrentInstance(), "registerPage"))
+					.setCenterSelected(false);
+		}
 	}
 
 	/**
@@ -165,7 +175,7 @@ public class LoginHandler {
 			// TODO Genereting an Activation E-Mail
 			return Randi2.SUCCESS;
 		} catch (InvalidStateException exp) {
-			//TODO for a stable release delete the following stacktrace
+			// TODO for a stable release delete the following stacktrace
 			exp.printStackTrace();
 			for (InvalidValue v : exp.getInvalidValues()) {
 				Randi2
@@ -174,14 +184,13 @@ public class LoginHandler {
 			}
 			return Randi2.ERROR;
 		} catch (Exception e) {
-			//TODO for a stable release delete the following stacktrace
+			// TODO for a stable release delete the following stacktrace
 			e.printStackTrace();
 			Randi2.showMessage(e);
 			return Randi2.ERROR;
 		}
 
 	}
-	
 
 	/**
 	 * This method saves the current login-object and log it out.
@@ -259,21 +268,20 @@ public class LoginHandler {
 		this.userAssistant = null;
 		this.userCenter = null;
 	}
-	
-	public String setUSEnglish(){
-		chosenLocale= new Locale("en","US");
+
+	public String setUSEnglish() {
+		chosenLocale = new Locale("en", "US");
 		login.setPrefLocale(chosenLocale);
 		System.out.println("US Locale");
 		return Randi2.SUCCESS;
 	}
-	
-	public String setDEGerman(){
-		chosenLocale= new Locale("de","DE");
+
+	public String setDEGerman() {
+		chosenLocale = new Locale("de", "DE");
 		login.setPrefLocale(chosenLocale);
 		System.out.println("DE Locale");
 		return Randi2.SUCCESS;
 	}
-	
 
 	/*
 	 * Temporary method for fulfilling the login object.
@@ -315,7 +323,7 @@ public class LoginHandler {
 	public Locale getChosenLocale() {
 		if (this.login != null) {
 			System.out.println("Login not null");
-			if (this.login.getPrefLocale() != null){
+			if (this.login.getPrefLocale() != null) {
 				System.out.println("PrefLocale not null");
 				chosenLocale = this.login.getPrefLocale();
 			}
@@ -343,14 +351,13 @@ public class LoginHandler {
 	public void setChosenLocale(Locale chosenLocale) {
 		this.chosenLocale = chosenLocale;
 	}
-	
-	public void updateUserCenter(String cName) throws RegistrationException{
-		System.out.println(cName);
-		this.userCenter = centerDao.get(cName);	
-		if(this.userCenter==null)
-			throw new RegistrationException(RegistrationException.CENTER_ERROR);
-		
-	}
+
+	// public void updateUserCenter(String cName) throws RegistrationException{
+	// System.out.println(cName);
+	// this.userCenter = centerDao.get(cName);
+	// if(this.userCenter==null)
+	// throw new RegistrationException(RegistrationException.CENTER_ERROR);
+	// }
 
 	public CenterDao getCenterDao() {
 		return centerDao;

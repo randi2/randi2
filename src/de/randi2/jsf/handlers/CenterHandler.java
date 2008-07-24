@@ -1,25 +1,4 @@
-package de.randi2.jsf.handlers;
-
-import java.util.List;
-import java.util.Vector;
-
-import javax.faces.model.SelectItem;
-
-import de.randi2.dao.CenterDao;
-import de.randi2.jsf.Randi2;
-import de.randi2.model.Center;
-import de.randi2.model.Login;
-import de.randi2.model.Person;
-
-import javax.faces.context.FacesContext;
-/**
- * <p>
- * This class cares about the center object or objects.
- * </p>
- * 
- * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
- * 
- * This file is part of RANDI2.
+/* This file is part of RANDI2.
  * 
  * RANDI2 is free software: you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -33,160 +12,158 @@ import javax.faces.context.FacesContext;
  * You should have received a copy of the GNU General Public License along with
  * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
+package de.randi2.jsf.handlers;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Vector;
+
+import javax.faces.model.SelectItem;
+
+import de.randi2.dao.CenterDao;
+import de.randi2.jsf.Randi2;
+import de.randi2.jsf.exceptions.RegistrationException;
+import de.randi2.jsf.pages.RegisterPage;
+import de.randi2.model.Center;
+import de.randi2.model.Login;
+import de.randi2.model.Person;
+
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+
+import com.icesoft.faces.component.selectinputtext.SelectInputText;
+
+/**
+ * <p>
+ * This class cares about the center object or objects.
+ * </p>
+ * 
+ * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
+ */
 public class CenterHandler {
 
 	private CenterDao centerDao;
-	
+
 	private boolean centerSavedPVisible = false;
 
-    public boolean isCenterSavedPVisible() {
+	public boolean isCenterSavedPVisible() {
 		return centerSavedPVisible;
 	}
 
 	public void setCenterSavedPVisible(boolean centerSavedPVisible) {
 		this.centerSavedPVisible = centerSavedPVisible;
 	}
-	
-	public String hideCenterSavedPopup(){
+
+	public String hideCenterSavedPopup() {
 		this.centerSavedPVisible = false;
 		return Randi2.SUCCESS;
 	}
-	
-	
-    /**
-     * The current logged in user.
-     */
-    private Login currentUser = null;
-    
-    private List<Center> centers = null;
-    
-    private Center showedCenter = null;
-   
-    private boolean editable = false;
-    
-    private boolean creatingMode = false;
-    
-    
-    private List<SelectItem> formattedCenters;
-    private List<SelectItem> formattedMembers;
 
-    public List<SelectItem> getFormattedCenters() {
-        if (formattedCenters == null) {
-        	centers = centerDao.getAll();
-            formattedCenters = new Vector<SelectItem>(centers.size());
-            for (Center c : centers) {
-				formattedCenters.add(new SelectItem(c.getId(),c.getName()));
-			}
-//            for (int i = 0; i < 2; i++) {
-//                Center temp = new Center();
-//                temp.setName("Testcenter " + i + 1);
-//                temp.setCity("Heidelberg");
-//                temp.setPostcode("69120");
-//                temp.setStreet("Im Neuenheimer Feld 1");
-//                formattedCenters.add(new SelectItem(i, temp.getName()));
-//            }
-        }
-        return formattedCenters;
-    }
+	/**
+	 * The current logged in user.
+	 */
+	private Login currentUser = null;
 
-    public List<SelectItem> getFormattedMembers() {
-    	if (formattedMembers == null) {
-    		List<Person> currentMembers = showedCenter.getMembers();
-            formattedMembers = new Vector<SelectItem>(currentMembers.size());
-            for (Person person : currentMembers) {
-				formattedMembers.add(new SelectItem(person.getId(),person.toString()));
-			}
-//            for (int i = 0; i < 9; i++) {
-//                formattedMembers.add(new SelectItem(i, "Memeber_" + i));
-//            }
-        }
-        return formattedMembers;
-    }
+	/**
+	 * List with all centers as SelectItems
+	 */
+	private List<SelectItem> centerList = null;
 
-    public List<Center> getCenters() {
-        if (centers == null) {
-        	centers = centerDao.getAll();
-            //Temp. solution
-//            centers = new Vector<Center>(25);
-//            Center tCenter;
-//            for (int i = 0; i < 20; i++) {
-//                tCenter = new Center();
-//                tCenter.setCity("Heidelberg");
-//                tCenter.setName("DKFZ" + i);
-//                tCenter.setPostcode("69120");
-//                tCenter.setStreet("Im Neuenheimer Feld 11");
-//                centers.add(tCenter);
-//            }
-        }
-        return centers;
-    }
+	/**
+	 * List with the matched centers as SelectItems for autocomplete widget
+	 */
+	private List<SelectItem> matchesList = null;
 
-    public void setCenters(List<Center> centers) {
-        this.centers = centers;
-    }
+	private Center selectedCenter = null;
 
-    public Center getShowedCenter() {
-        if (showedCenter == null) {
-            showedCenter = this.getCurrentUser().getPerson().getCenter();
-        }
-        return showedCenter;
-    }
+	/**
+	 * List with all center's members as SelectItems
+	 */
+	private List<SelectItem> membersList = null;
 
-    public void setShowedCenter(Center showedCenter) {
-        if(showedCenter==null){
-        	creatingMode = true;
-        	this.showedCenter = new Center();
-        	this.showedCenter.setContactPerson(new Person());
-        }else{
-        	creatingMode = false;
-        	this.showedCenter = showedCenter;
-        }
-    }
+	/**
+	 * List with the matched center's members as SelectItems for autocomplete
+	 * widget
+	 */
+	private List<SelectItem> memMatchesList = null;
 
-    public Login getCurrentUser() {
-        if (currentUser == null) {
-            currentUser = ((LoginHandler) FacesContext.getCurrentInstance().getApplication().getVariableResolver().resolveVariable(FacesContext.getCurrentInstance(), "loginHandler")).getLogin();
-        }
-        return currentUser;
-    }
+	private Person selectedMember = null;
 
-    public void setCurrentUser(Login currentUser) {
-        this.currentUser = currentUser;
-    }
+	private Center showedCenter = null;
 
-    public boolean isEditable() {
-        //TODO if the user has the right to edit the center properties this method should return true
-        //Temporary I'll just look, if the current user is a member of this center - if it is so, then he can edit it
-        //properties.
-        if (this.getShowedCenter().equals(this.getCurrentUser().getPerson().getCenter())) {
-            editable = true;
-        } else {
-            editable = false;
-        }
-        return editable;
-    }
+	private boolean editable = false;
 
-    public void setEditable(boolean editable) {
-        this.editable = editable;
-    }
-    
-    public String saveCenter(){
-    	try {
-    		centerDao.save(this.showedCenter);
-    		
-    		// Making the centerSavedPopup visible
+	private boolean creatingMode = false;
+
+	public Center getShowedCenter() {
+		if (showedCenter == null) {
+			showedCenter = this.getCurrentUser().getPerson().getCenter();
+		}
+		return showedCenter;
+	}
+
+	public void setShowedCenter(Center showedCenter) {
+		if (showedCenter == null) {
+			creatingMode = true;
+			this.showedCenter = new Center();
+			this.showedCenter.setContactPerson(new Person());
+		} else {
+			creatingMode = false;
+			this.showedCenter = showedCenter;
+		}
+	}
+
+	public Login getCurrentUser() {
+		if (currentUser == null) {
+			currentUser = ((LoginHandler) FacesContext.getCurrentInstance()
+					.getApplication().getVariableResolver().resolveVariable(
+							FacesContext.getCurrentInstance(), "loginHandler"))
+					.getLogin();
+		}
+		return currentUser;
+	}
+
+	public void setCurrentUser(Login currentUser) {
+		this.currentUser = currentUser;
+	}
+
+	public boolean isEditable() {
+		// TODO if the user has the right to edit the center properties this
+		// method should return true
+		// Temporary I'll just look, if the current user is a member of this
+		// center - if it is so, then he can edit it
+		// properties.
+		if (this.getShowedCenter().equals(
+				this.getCurrentUser().getPerson().getCenter())) {
+			editable = true;
+		} else {
+			editable = false;
+		}
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
+	public String saveCenter() {
+		try {
+			centerDao.save(this.showedCenter);
+
+			// Making the centerSavedPopup visible
 			this.centerSavedPVisible = true;
-			
+
 			this.creatingMode = false;
-			
-    		return Randi2.SUCCESS;
+
+			return Randi2.SUCCESS;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			return Randi2.ERROR;
 		}
-    	
-    }
+
+	}
 
 	public boolean isCreatingMode() {
 		return creatingMode;
@@ -203,4 +180,202 @@ public class CenterHandler {
 	public void setCenterDao(CenterDao centerDao) {
 		this.centerDao = centerDao;
 	}
+
+	public List<SelectItem> getCenterList() {
+		if (matchesList == null) {
+			if (centerList == null) {
+				List<Center> centers = centerDao.getAll();
+				centerList = new Vector<SelectItem>(centers.size());
+				for (Center c : centers) {
+					centerList.add(new SelectItem(c, c.getName()));
+				}
+				Collections.sort(centerList,
+						CenterHandler.CENTERNAME_COMPERATOR);
+			}
+			return centerList;
+		}
+		return matchesList;
+	}
+
+	public void setCenterList(List<SelectItem> centerList) {
+		this.centerList = centerList;
+	}
+
+	// TEMPORARY SOLUTION - WILL BE DELETED WHEN AN APPROPRIATE DB-METHOD CAN BE
+	// USED
+	public static final Comparator<SelectItem> CENTERNAME_COMPERATOR = new Comparator<SelectItem>() {
+		public int compare(SelectItem s1, SelectItem s2) {
+			return s1.getLabel().compareToIgnoreCase(s2.getLabel());
+		}
+	};
+
+	// ----
+
+	/**
+	 * Eventlistener for center autocomplete widget.
+	 * 
+	 * @param event
+	 */
+	public void updateCenterList(ValueChangeEvent event) {
+		System.out.println("Event!");
+		SelectItem searchCenter = new SelectItem("", (String) event
+				.getNewValue());
+		int maxMatches = ((SelectInputText) event.getComponent()).getRows();
+		List<SelectItem> matchList = new Vector<SelectItem>(maxMatches);
+
+		// DB-Method!
+		if (centerList == null) {
+			List<Center> centers = centerDao.getAll();
+			centerList = new Vector<SelectItem>(centers.size());
+			for (Center c : centers) {
+				centerList.add(new SelectItem(c, c.getName()));
+			}
+			Collections.sort(centerList, CenterHandler.CENTERNAME_COMPERATOR);
+		}
+		int insert = Collections.binarySearch(centerList, searchCenter,
+				CenterHandler.CENTERNAME_COMPERATOR);
+		if (insert < 0) {
+			insert = Math.abs(insert) - 1;
+		}
+		for (int i = 0; i < maxMatches; i++) {
+			// quit the match list creation if the index is larger then
+			// max entries in the dictionary if we have added maxMatches.
+			if ((insert + i) >= centerList.size() || i >= maxMatches) {
+				break;
+			}
+			matchList.add(centerList.get(insert + i));
+		}
+		// assign new matchesList
+		if (this.matchesList != null) {
+			this.matchesList.clear();
+			this.matchesList = null;
+		}
+		this.matchesList = matchList;
+		//
+		// Get the auto complete component from the event and assing
+		if (event.getComponent() instanceof SelectInputText) {
+			SelectInputText autoComplete = (SelectInputText) event
+					.getComponent();
+			selectedCenter = null;
+			// if no selected item then return the previously selected item.
+			if (autoComplete.getSelectedItem() != null) {
+				selectedCenter = (Center) autoComplete.getSelectedItem()
+						.getValue();
+			}
+			// otherwise if there is a selected item get the value from the
+			// match list
+			else {
+				if (matchesList != null) {
+					for (SelectItem si : matchesList) {
+						if (si.getLabel().equals(
+								autoComplete.getValue().toString()))
+							selectedCenter = (Center) autoComplete
+									.getSelectedItem().getValue();
+					}
+				}
+			}
+			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
+					.getVariableResolver().resolveVariable(
+							FacesContext.getCurrentInstance(), "loginHandler"))
+					.setUserCenter(selectedCenter);
+		}
+	}
+
+	/**
+	 * Eventlistener for members autocomplete widget.
+	 * 
+	 * @param event
+	 */
+	public void updateMembersList(ValueChangeEvent event) {
+		if (selectedCenter != null) {
+			System.out.println("Event2!");
+			SelectItem searchMember = new SelectItem("", (String) event
+					.getNewValue());
+			int maxMatches = ((SelectInputText) event.getComponent()).getRows();
+			List<SelectItem> matchList = new Vector<SelectItem>(maxMatches);
+
+			// DB-Method!
+			if (membersList == null) {
+				List<Person> members = selectedCenter.getMembers();
+				membersList = new Vector<SelectItem>(members.size());
+				for (Person p : members) {
+					membersList.add(new SelectItem(p, p.getSurname() + ", "
+							+ p.getFirstname()));
+				}
+				Collections.sort(membersList,
+						CenterHandler.CENTERNAME_COMPERATOR);
+			}
+			int insert = Collections.binarySearch(membersList, searchMember,
+					CenterHandler.CENTERNAME_COMPERATOR);
+			if (insert < 0) {
+				insert = Math.abs(insert) - 1;
+			}
+			for (int i = 0; i < maxMatches; i++) {
+				// quit the match list creation if the index is larger then
+				// max entries in the dictionary if we have added maxMatches.
+				if ((insert + i) >= membersList.size() || i >= maxMatches) {
+					break;
+				}
+				matchList.add(membersList.get(insert + i));
+			}
+			// assign new matchesList
+			if (this.memMatchesList != null) {
+				this.memMatchesList.clear();
+				this.memMatchesList = null;
+			}
+			this.memMatchesList = matchList;
+			//
+			// Get the auto complete component from the event and assing
+			if (event.getComponent() instanceof SelectInputText) {
+				SelectInputText autoComplete = (SelectInputText) event
+						.getComponent();
+				selectedMember = null;
+				// if no selected item then return the previously selected item.
+				if (autoComplete.getSelectedItem() != null) {
+					selectedMember = (Person) autoComplete.getSelectedItem()
+							.getValue();
+				}
+				// otherwise if there is a selected item get the value from the
+				// match list
+				else {
+					if (matchesList != null) {
+						for (SelectItem si : matchesList) {
+							if (si.getLabel().equals(
+									autoComplete.getValue().toString()))
+								selectedMember = (Person) autoComplete
+										.getSelectedItem().getValue();
+						}
+					}
+				}
+				((LoginHandler) FacesContext.getCurrentInstance()
+						.getApplication().getVariableResolver()
+						.resolveVariable(FacesContext.getCurrentInstance(),
+								"loginHandler"))
+						.setUserAssistant(selectedMember);
+			}
+		}
+	}
+
+	public List<SelectItem> getMembersList() {
+		if (memMatchesList == null) {
+			if (membersList == null) {
+				List<Person> members = selectedCenter.getMembers();
+				;
+				membersList = new Vector<SelectItem>(members.size());
+				for (Person p : members) {
+					membersList.add(new SelectItem(p, p.getSurname() + ", "
+							+ p.getFirstname()));
+				}
+				Collections.sort(membersList,
+						CenterHandler.CENTERNAME_COMPERATOR);
+			}
+			return membersList;
+		}
+		return memMatchesList;
+	}
+
+	public void setMembersList(List<SelectItem> membersList) {
+		this.membersList = membersList;
+	}
+
 }

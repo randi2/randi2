@@ -178,20 +178,20 @@
 								<ice:outputLabel for="center" value="#{labels['person.center']}"></ice:outputLabel>
 								<ice:selectInputText id="center"
 									required="#{loginHandler.person.requiredFields['center']}"
-									valueChangeListener="#{registerPage.centerChanged}" rows="5"
-									width="100">
-									<f:selectItems value="#{centerHandler.formattedCenters}" />
+									valueChangeListener="#{centerHandler.updateCenterList}" rows="10"
+									width="200">
+									<f:selectItems value="#{centerHandler.centerList}" />
 								</ice:selectInputText>
 								<ice:message for="center" id="centerError"></ice:message>
 								<ice:outputLabel for="assistant"
 									value="#{labels['person.assistant']}"
 									rendered="#{registerPage.centerSelected}"></ice:outputLabel>
 								<ice:selectInputText id="assistant"
-									style="height: 40px;display: block;float:left;"
-									value="#{loginHandler.userAssistant.surname}"
+									width="200"
 									required="#{loginHandler.person.requiredFields['assistant']}"
-									partialSubmit="true" rendered="#{registerPage.centerSelected}">
-									<f:selectItems value="#{centerHandler.formattedMembers}" />
+									valueChangeListener="#{centerHandler.updateMembersList}"
+									rendered="#{registerPage.centerSelected}">
+									<f:selectItems value="#{centerHandler.membersList}" />
 								</ice:selectInputText>
 								<ice:message for="assistant" id="assistantError"
 									rendered="#{registerPage.centerSelected}"></ice:message>

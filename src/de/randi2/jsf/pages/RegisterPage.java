@@ -48,6 +48,10 @@ public class RegisterPage {
 	public boolean isCenterSelected() {
 		return centerSelected;
 	}
+	
+	public void setCenterSelected(boolean value){
+		this.centerSelected = value;
+	}
 
 	public RegisterPage() {
 	}
@@ -106,21 +110,6 @@ public class RegisterPage {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	public void centerChanged(ValueChangeEvent event){
-		System.out.println("Event!");
-		try {
-			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
-					.getVariableResolver().resolveVariable(
-							FacesContext.getCurrentInstance(), "loginHandler"))
-					.updateUserCenter(event.getNewValue().toString());
-			this.centerSelected = true;
-		} catch (RegistrationException e) {
-			this.centerSelected = false;
-			// TODO: handle exception
-		}
-		
 	}
 
 }
