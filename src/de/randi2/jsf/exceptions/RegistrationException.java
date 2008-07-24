@@ -26,6 +26,8 @@ public class RegistrationException extends Exception{
 	
 	public static String CENTER_ERROR = "Wrong center selected!";
 	
+	public static String PASSWORD_ERROR = "Wrong confirmation password!";
+	
 	public RegistrationException(String message){
 		super(message);
 	}

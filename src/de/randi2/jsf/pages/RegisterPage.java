@@ -9,7 +9,9 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
-import de.randi2.jsf.exceptions.RegistrationException;
+import com.icesoft.faces.context.effects.Effect;
+import com.icesoft.faces.context.effects.Highlight;
+
 import de.randi2.jsf.handlers.LoginHandler;
 import de.randi2.model.enumerations.Gender;
 
@@ -110,6 +112,16 @@ public class RegisterPage {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Highlight effect for the confirmation password
+	 * @return
+	 */
+	public Effect getEffect() {
+		Effect e = new Highlight();
+		e.setDuration(1000);
+		return new Highlight();
 	}
 
 }

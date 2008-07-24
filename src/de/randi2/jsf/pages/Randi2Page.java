@@ -34,7 +34,6 @@ public class Randi2Page {
 
     private CenterHandler centerHandler;
     
-    
     /**
      * The active content Panel.
      */

@@ -60,6 +60,8 @@ public class LoginHandler {
 	private Person userAssistant = null;
 
 	private Center userCenter = null;
+	
+	private String cPassword = null;
 
 	private LoginDao loginDao;
 
@@ -160,20 +162,27 @@ public class LoginHandler {
 	 */
 	public String registerUser() {
 		try {
-			this.getLogin().setPerson(this.getPerson());
-			this.getLogin().setUsername(person.getEMail());
-			loginDao.save(this.getLogin());
+			//TODO password !
+			if(userCenter.getPassword().equals(cPassword)){
+				this.getLogin().setPerson(this.getPerson());
+				this.getLogin().setUsername(person.getEMail());
+				this.getLogin().getPerson().setCenter(userCenter);
+				loginDao.save(this.getLogin());
 
-			// Making the successPopup visible
-			((RegisterPage) FacesContext.getCurrentInstance().getApplication()
-					.getVariableResolver().resolveVariable(
-							FacesContext.getCurrentInstance(), "registerPage"))
-					.setRegPvisible(true);
+				// Making the successPopup visible
+				((RegisterPage) FacesContext.getCurrentInstance().getApplication()
+						.getVariableResolver().resolveVariable(
+								FacesContext.getCurrentInstance(), "registerPage"))
+						.setRegPvisible(true);
 
-			// Reseting the objects
-			this.cleanUp();
-			// TODO Genereting an Activation E-Mail
-			return Randi2.SUCCESS;
+				// Reseting the objects
+				this.cleanUp();
+				// TODO Genereting an Activation E-Mail
+				return Randi2.SUCCESS;
+			}else{
+				throw new RegistrationException(RegistrationException.PASSWORD_ERROR);
+			}
+			
 		} catch (InvalidStateException exp) {
 			// TODO for a stable release delete the following stacktrace
 			exp.printStackTrace();
@@ -365,5 +374,13 @@ public class LoginHandler {
 
 	public void setCenterDao(CenterDao centerDao) {
 		this.centerDao = centerDao;
+	}
+
+	public String getCPassword() {
+		return cPassword;
+	}
+
+	public void setCPassword(String password) {
+		cPassword = password;
 	}
 }

@@ -19,20 +19,17 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
+
+import com.icesoft.faces.component.selectinputtext.SelectInputText;
 
 import de.randi2.dao.CenterDao;
 import de.randi2.jsf.Randi2;
-import de.randi2.jsf.exceptions.RegistrationException;
-import de.randi2.jsf.pages.RegisterPage;
 import de.randi2.model.Center;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
-
-import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
-
-import com.icesoft.faces.component.selectinputtext.SelectInputText;
 
 /**
  * <p>
@@ -181,6 +178,10 @@ public class CenterHandler {
 		this.centerDao = centerDao;
 	}
 
+	public List<Center> getCenters(){
+		return centerDao.getAll();
+	}
+	
 	public List<SelectItem> getCenterList() {
 		if (matchesList == null) {
 			if (centerList == null) {
@@ -287,7 +288,7 @@ public class CenterHandler {
 	 * @param event
 	 */
 	public void updateMembersList(ValueChangeEvent event) {
-		if (selectedCenter != null) {
+		if (selectedCenter != null && event.getNewValue()!=null && event.getNewValue().toString().trim().length()>0) {
 			System.out.println("Event2!");
 			SelectItem searchMember = new SelectItem("", (String) event
 					.getNewValue());

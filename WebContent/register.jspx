@@ -206,7 +206,7 @@
 								<ice:outputLabel for="cPassword"
 									value="#{labels['pages.registration.centerPassword']}"></ice:outputLabel>
 								<ice:inputSecret id="cPassword"
-									value="#{loginHandler.userCenter.password}"></ice:inputSecret>
+									value="#{loginHandler.CPassword}" effect="#{registerPage.effect}"></ice:inputSecret>
 								<ice:message for="cPassword" id="cPasswordError"></ice:message>
 							</ice:panelGrid>
 						</ice:panelGrid>

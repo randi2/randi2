@@ -21,19 +21,20 @@
 	<ice:panelPopup draggable="true" modal="true"
 		visible="#{registerPage.regPvisible}"
 		rendered="#{registerPage.regPvisible}"
-		style="width: 300px; height: auto">
+		style="width: 350px; height: auto">
 		<f:facet name="header">
 			<ice:outputText value="#{labels['pages.registration.successHeader']}"></ice:outputText>
 		</f:facet>
 
 		<f:facet name="body">
-			<ice:panelGrid border="0" columns="1">
+			<ice:panelGrid border="0" columns="2">
 				<f:facet name="footer">
 					<ice:panelGroup>
 						<ice:commandButton value="#{labels['buttons.ok']}" action="ok"
 							immediate="true"></ice:commandButton>
 					</ice:panelGroup>
 				</f:facet>
+				<ice:graphicImage value="/img/icons/saved48.png"></ice:graphicImage>
 				<ice:outputText
 					value="#{labels['pages.registration.successMessage']}"></ice:outputText>
 			</ice:panelGrid>
