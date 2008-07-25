@@ -25,6 +25,14 @@
 			de.randi2.jsf.validators.RANDI2Validator
 		</validator-class>
 	</validator>
+	<validator>
+		<validator-id>
+			de.randi2.jsf.validators.PASSWORD_CONFIRMATION
+		</validator-id>
+		<validator-class>
+			de.randi2.jsf.validators.PasswordConfirmation
+		</validator-class>
+	</validator>
 	<converter>
 		<converter-id>
 			de.randi2.jsf.converters.GENDER_CONVERTER

@@ -24,10 +24,11 @@
 	<ice:panelTabSet style="font-size: 9;display: block;">
 		<ice:panelTab label="#{labels['pages.userEditPanel.dataTab']}">
 			<ice:panelGrid border="0" columns="2">
-				<f:facet name="header">
-					<ice:outputText
-						value="#{labels['pages.userEditPanel.accountHeader']}"></ice:outputText>
-				</f:facet>
+				<ice:graphicImage value="/img/icons/user16.png"></ice:graphicImage>
+				<ice:outputLabel
+					value="#{labels['pages.userEditPanel.accountHeader']}"></ice:outputLabel>
+			</ice:panelGrid>
+			<ice:panelGrid border="0" columns="2">
 				<ice:outputLabel for="username" value="#{labels['login.username']}"></ice:outputLabel>
 				<ice:outputText id="username"
 					value="#{loginHandler.showedLogin.username}">
@@ -48,10 +49,11 @@
 				<ice:commandButton value="#{labels['buttons.changePassword']}"></ice:commandButton>
 			</ice:panelGrid>
 			<ice:panelGrid border="0" columns="2">
-				<f:facet name="header">
-					<ice:outputText
-						value="#{labels['pages.userEditPanel.personalHeader']}"></ice:outputText>
-				</f:facet>
+				<ice:graphicImage value="/img/icons/personal16.png"></ice:graphicImage>
+				<ice:outputLabel
+					value="#{labels['pages.userEditPanel.personalHeader']}"></ice:outputLabel>
+			</ice:panelGrid>
+			<ice:panelGrid border="0" columns="2">
 				<ice:outputLabel for="title" value="#{labels['person.title']}"></ice:outputLabel>
 				<ice:outputText id="titleO"
 					value="#{loginHandler.showedLogin.person.title}"
@@ -115,10 +117,11 @@
 				</ice:panelGroup>
 			</ice:panelGrid>
 			<ice:panelGrid border="0" columns="2">
-				<f:facet name="header">
-					<ice:outputText
-						value="#{labels['pages.userEditPanel.contactHeader']}"></ice:outputText>
-				</f:facet>
+				<ice:graphicImage value="/img/icons/contact16.png"></ice:graphicImage>
+				<ice:outputLabel
+					value="#{labels['pages.userEditPanel.contactHeader']}"></ice:outputLabel>
+			</ice:panelGrid>
+			<ice:panelGrid border="0" columns="2">
 				<ice:outputLabel for="eMail" value="#{labels['person.eMail']}"></ice:outputLabel>
 				<ice:outputText id="eMailO"
 					value="#{loginHandler.showedLogin.person.EMail}">
@@ -172,18 +175,26 @@
 		</ice:panelTab>
 		<ice:panelTab label="#{labels['pages.userEditPanel.centerTab']}">
 			<ice:panelGrid border="0" columns="2">
+				<ice:graphicImage value="/img/icons/center16.png"></ice:graphicImage>
+				<ice:outputLabel
+					value="#{labels['pages.userEditPanel.centerHeader']}"></ice:outputLabel>
+			</ice:panelGrid>
+			<ice:panelGrid border="0" columns="2">
 				<ice:outputLabel for="name" value="#{labels['center.name']}"></ice:outputLabel>
 				<ice:panelGroup>
-				<ice:outputText id="name" value="#{loginHandler.showedLogin.person.center.name}">
-				</ice:outputText>
-				<ice:commandButton style="margin-left: 15px;" value="#{labels['buttons.changeCenter']}"></ice:commandButton>
+					<ice:outputText id="name"
+						value="#{loginHandler.showedLogin.person.center.name}">
+					</ice:outputText>
+					<ice:commandButton style="margin-left: 15px;"
+						value="#{labels['buttons.changeCenter']}"></ice:commandButton>
 				</ice:panelGroup>
 				<ice:outputLabel for="country" value="#{labels['center.country']}"></ice:outputLabel>
 				<ice:outputText id="country"
 					value="#{loginHandler.showedLogin.person.center.country}">
 				</ice:outputText>
 				<ice:outputLabel for="city" value="#{labels['center.city']}"></ice:outputLabel>
-				<ice:outputText id="city" value="#{loginHandler.showedLogin.person.center.city}">
+				<ice:outputText id="city"
+					value="#{loginHandler.showedLogin.person.center.city}">
 				</ice:outputText>
 				<ice:outputLabel for="postcode" value="#{labels['center.postcode']}"></ice:outputLabel>
 				<ice:outputText id="postcode"
@@ -197,15 +208,20 @@
 			</ice:panelGrid>
 		</ice:panelTab>
 		<ice:panelTab label="#{labels['pages.userEditPanel.rightsTab']}">
-		<ice:panelGrid border="0" columns="2">
-		<ice:outputLabel for="currentRole" value="Current Role"></ice:outputLabel>
-		<ice:outputText id="currentRole" value="NOT DEFINED"></ice:outputText>
-		</ice:panelGrid>
-		<ice:panelTabSet>
-		<ice:panelTab label="User Rights"></ice:panelTab>
-		<ice:panelTab label="Center Rights"></ice:panelTab>
-		<ice:panelTab label="Trial Rights"></ice:panelTab>
-		</ice:panelTabSet>
+			<ice:panelGrid border="0" columns="2">
+				<ice:graphicImage value="/img/icons/rights16.png"></ice:graphicImage>
+				<ice:outputLabel
+					value="#{labels['pages.userEditPanel.rightsHeader']}"></ice:outputLabel>
+			</ice:panelGrid>
+			<ice:panelGrid border="0" columns="2">
+				<ice:outputLabel for="currentRole" value="Current Role"></ice:outputLabel>
+				<ice:outputText id="currentRole" value="NOT DEFINED"></ice:outputText>
+			</ice:panelGrid>
+			<ice:panelTabSet>
+				<ice:panelTab label="User Rights"></ice:panelTab>
+				<ice:panelTab label="Center Rights"></ice:panelTab>
+				<ice:panelTab label="Trial Rights"></ice:panelTab>
+			</ice:panelTabSet>
 		</ice:panelTab>
 		<ice:panelTab label="#{labels['pages.userEditPanel.actionsTab']}">
 		</ice:panelTab>

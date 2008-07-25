@@ -54,8 +54,12 @@
 		<f:facet name="center">
 			<ice:form>
 				<ice:panelTabSet tabPlacement="top">
-					<ice:panelTab
-						label="#{labels['pages.registration.personalHeader']}">
+					<ice:panelTab label="#{labels['pages.registration.tab1Header']}">
+						<ice:panelGrid border="0" columns="2">
+							<ice:graphicImage value="/img/icons/personal16.png"></ice:graphicImage>
+							<ice:outputLabel
+								value="#{labels['pages.registration.personalHeader']}"></ice:outputLabel>
+						</ice:panelGrid>
 						<ice:panelGrid>
 							<ice:panelGrid border="0" columns="3" style="float:left">
 								<ice:outputLabel for="title" value="#{labels['person.title']}"></ice:outputLabel>
@@ -98,11 +102,12 @@
 									<f:selectItems value="#{registerPage.genderItems}" />
 								</ice:selectOneMenu>
 							</ice:panelGrid>
+							<ice:panelGrid border="0" columns="2">
+								<ice:graphicImage value="/img/icons/user16.png"></ice:graphicImage>
+								<ice:outputLabel
+									value="#{labels['pages.registration.accountHeader']}"></ice:outputLabel>
+							</ice:panelGrid>
 							<ice:panelGrid columns="2">
-								<f:facet name="header">
-									<ice:outputText
-										value="#{labels['pages.registration.accountHeader']}"></ice:outputText>
-								</f:facet>
 								<ice:outputLabel for="username"
 									value="#{labels['login.username']}"></ice:outputLabel>
 								<ice:inputText id="username" value="Will be your email"
@@ -121,11 +126,27 @@
 									</ice:inputSecret>
 									<ice:message for="password" id="passwordError"></ice:message>
 								</ice:panelGroup>
-
+								<ice:outputLabel for="pConfirmation"
+									value="#{labels['pages.registration.passwordConfirmation']}"></ice:outputLabel>
+								<ice:panelGroup>
+									<ice:inputSecret id="pConfirmation"
+										required="#{loginHandler.login.requiredFields['password']}"
+										redisplay="true" partialSubmit="true">
+										<f:validator
+											validatorId="de.randi2.jsf.validators.PASSWORD_CONFIRMATION" />
+										<f:attribute name="login" value="#{loginHandler.login}" />
+									</ice:inputSecret>
+									<ice:message for="pConfirmation" id="confirmationError"></ice:message>
+								</ice:panelGroup>
 							</ice:panelGrid>
 						</ice:panelGrid>
 					</ice:panelTab>
-					<ice:panelTab label="#{labels['pages.registration.contactHeader']}">
+					<ice:panelTab label="#{labels['pages.registration.tab2Header']}">
+						<ice:panelGrid border="0" columns="2">
+							<ice:graphicImage value="/img/icons/contact16.png"></ice:graphicImage>
+							<ice:outputLabel
+								value="#{labels['pages.registration.contactHeader']}"></ice:outputLabel>
+						</ice:panelGrid>
 						<ice:panelGrid>
 							<ice:panelGroup>
 								<ice:panelGrid border="0" columns="3">
@@ -171,23 +192,26 @@
 							</ice:panelGroup>
 						</ice:panelGrid>
 					</ice:panelTab>
-					<ice:panelTab
-						label="#{labels['pages.registration.institutionHeader']}">
+					<ice:panelTab label="#{labels['pages.registration.tab3Header']}">
+						<ice:panelGrid border="0" columns="2">
+							<ice:graphicImage value="/img/icons/center16.png"></ice:graphicImage>
+							<ice:outputLabel
+								value="#{labels['pages.registration.institutionHeader']}"></ice:outputLabel>
+						</ice:panelGrid>
 						<ice:panelGrid>
 							<ice:panelGrid border="0" columns="3">
 								<ice:outputLabel for="center" value="#{labels['person.center']}"></ice:outputLabel>
 								<ice:selectInputText id="center"
 									required="#{loginHandler.person.requiredFields['center']}"
-									valueChangeListener="#{centerHandler.updateCenterList}" rows="10"
-									width="200">
+									valueChangeListener="#{centerHandler.updateCenterList}"
+									rows="10" width="200">
 									<f:selectItems value="#{centerHandler.centerList}" />
 								</ice:selectInputText>
 								<ice:message for="center" id="centerError"></ice:message>
 								<ice:outputLabel for="assistant"
 									value="#{labels['person.assistant']}"
 									rendered="#{registerPage.centerSelected}"></ice:outputLabel>
-								<ice:selectInputText id="assistant"
-									width="200"
+								<ice:selectInputText id="assistant" width="200"
 									required="#{loginHandler.person.requiredFields['assistant']}"
 									valueChangeListener="#{centerHandler.updateMembersList}"
 									rendered="#{registerPage.centerSelected}">
@@ -206,7 +230,8 @@
 								<ice:outputLabel for="cPassword"
 									value="#{labels['pages.registration.centerPassword']}"></ice:outputLabel>
 								<ice:inputSecret id="cPassword"
-									value="#{loginHandler.CPassword}" effect="#{registerPage.effect}"></ice:inputSecret>
+									value="#{loginHandler.CPassword}"
+									effect="#{registerPage.effect}"></ice:inputSecret>
 								<ice:message for="cPassword" id="cPasswordError"></ice:message>
 							</ice:panelGrid>
 						</ice:panelGrid>
