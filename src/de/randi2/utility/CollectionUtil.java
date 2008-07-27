@@ -38,10 +38,7 @@ public final class CollectionUtil {
 	 *         wurde.
 	 */
 	public static <T, U> T getKeyFromHashMap(HashMap<T, U> hashMap, U value) {
-		Set<T> keys = hashMap.keySet();
-		Iterator<T> it = keys.iterator();
-		while (it.hasNext()) {
-			T key = it.next();
+		for(T key: hashMap.keySet()){
 			if (hashMap.get(key).equals(value)) {
 				return key;
 			}

@@ -301,14 +301,14 @@ public class LoginHandler {
 	}
 
 	public String setUSEnglish() {
-		chosenLocale = new Locale("en", "US");
+		chosenLocale = Locale.US;
 		login.setPrefLocale(chosenLocale);
 		System.out.println("US Locale");
 		return Randi2.SUCCESS;
 	}
 
 	public String setDEGerman() {
-		chosenLocale = new Locale("de", "DE");
+		chosenLocale = Locale.GERMANY;
 		login.setPrefLocale(chosenLocale);
 		System.out.println("DE Locale");
 		return Randi2.SUCCESS;

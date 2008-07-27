@@ -2,6 +2,8 @@ package de.randi2.utility;
 
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 /**
  * Die Klasse LogGeanderteDaten kapselt die geanderten Daten eines
  * Datenbankobjekts und stelt get-Methoden zur Verfuegung.
