@@ -170,6 +170,7 @@ private Session getCurrentSession(){
 	}
 	
 	@Test
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public void testTrials(){
 		List<Trial> tl = new ArrayList<Trial>();
 		
@@ -179,12 +180,14 @@ private Session getCurrentSession(){
 		
 
 		hibernateTemplate.saveOrUpdate(validCenter);
+		hibernateTemplate.flush();
 		assertTrue(validCenter.getId()!= AbstractDomainObject.NOT_YET_SAVED_ID);
 		for(Trial trial: tl){
 			trial.addParticipatingCenter(validCenter);
 			assertEquals(1, trial.getParticipatingCenters().size());
 			assertEquals(validCenter.getId(), trial.getParticipatingCenters().get(0).getId());
 			hibernateTemplate.saveOrUpdate(trial);
+			hibernateTemplate.flush();
 		}
 		Center center = (Center) hibernateTemplate.get(Center.class, validCenter.getId());
 		assertEquals(validCenter.getId(), center.getId());

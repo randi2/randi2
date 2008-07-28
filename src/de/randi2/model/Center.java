@@ -40,8 +40,8 @@ public class Center extends AbstractDomainObject{
 	@OneToMany(mappedBy="center")
 	private List<Person> members = null;
 	
-	//TODO find solution for FetchType.EAGER
-	@ManyToMany(mappedBy="participatingCenters",fetch=FetchType.EAGER)
+	
+	@ManyToMany(mappedBy="participatingCenters")
 	private List<Trial> trials = new ArrayList<Trial>();
 
 	@NotEmpty
