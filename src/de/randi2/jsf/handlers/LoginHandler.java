@@ -33,6 +33,7 @@ import de.randi2.jsf.Randi2;
 import de.randi2.jsf.exceptions.LoginException;
 import de.randi2.jsf.exceptions.RegistrationException;
 import de.randi2.jsf.pages.RegisterPage;
+import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Center;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
@@ -53,7 +54,7 @@ public class LoginHandler {
 
 	// The Locale chosen by the user.
 	private Locale chosenLocale = null;
-	
+
 	private Login showedLogin = null;
 
 	// Objects for User-Creating Process
@@ -62,7 +63,7 @@ public class LoginHandler {
 	private Person userAssistant = null;
 
 	private Center userCenter = null;
-	
+
 	private String cPassword = null;
 	// ---
 
@@ -73,9 +74,11 @@ public class LoginHandler {
 
 	private CenterDao centerDao;
 	// ---
-	
+
+	private boolean creatingMode = false;
+
 	private boolean editable = false;
-	
+
 	private boolean userSavedPVisible = false;
 
 	public boolean isUserSavedPVisible() {
@@ -183,28 +186,38 @@ public class LoginHandler {
 	 * @return Randi2.SUCCESS normally. Randi2.ERROR in case of an error.
 	 */
 	public String registerUser() {
+		Login objectToRegister = null;
+		if (creatingMode) { // A new user was created by another logged
+			// in user
+			objectToRegister = showedLogin;
+			objectToRegister.setUsername(showedLogin.getPerson().getEMail());
+		} else { // Normal self-registration
+			objectToRegister = this.getLogin();
+			objectToRegister.setPerson(this.getPerson());
+			objectToRegister.setUsername(this.getPerson().getEMail());
+		}
+
 		try {
-			//TODO password !
-			if(userCenter.getPassword().equals(cPassword)){
-				this.getLogin().setPerson(this.getPerson());
-				this.getLogin().setUsername(person.getEMail());
-				this.getLogin().getPerson().setCenter(userCenter);
-				loginDao.save(this.getLogin());
+			// TODO password !
+			if (userCenter.getPassword().equals(cPassword)) {
+				objectToRegister.getPerson().setCenter(userCenter);
+				loginDao.save(objectToRegister);
 
 				// Making the successPopup visible
-				((RegisterPage) FacesContext.getCurrentInstance().getApplication()
-						.getVariableResolver().resolveVariable(
-								FacesContext.getCurrentInstance(), "registerPage"))
-						.setRegPvisible(true);
+				((RegisterPage) FacesContext.getCurrentInstance()
+						.getApplication().getVariableResolver()
+						.resolveVariable(FacesContext.getCurrentInstance(),
+								"registerPage")).setRegPvisible(true);
 
 				// Reseting the objects
 				this.cleanUp();
 				// TODO Genereting an Activation E-Mail
 				return Randi2.SUCCESS;
-			}else{
-				throw new RegistrationException(RegistrationException.PASSWORD_ERROR);
+			} else {
+				throw new RegistrationException(
+						RegistrationException.PASSWORD_ERROR);
 			}
-			
+
 		} catch (InvalidStateException exp) {
 			// TODO for a stable release delete the following stacktrace
 			exp.printStackTrace();
@@ -247,10 +260,6 @@ public class LoginHandler {
 			login = loginDao.get(login.getUsername());
 			if (login == null)
 				throw new LoginException(LoginException.LOGIN_PASS_INCORRECT);
-
-			// TODO Temporary solution
-			fulfillLoginObject();
-			// END
 
 			if (login.getPassword().equals(pass)) {
 				if (login.getRegistrationDate() == null)
@@ -414,14 +423,38 @@ public class LoginHandler {
 		this.editable = editable;
 	}
 
+	// TODO I don't know, if it's the best idea ... so probably only temp.
+	// solution
 	public Login getShowedLogin() {
-		return showedLogin;
+		if (this.showedLogin == null) {
+			this.showedLogin = new Login();
+			this.showedLogin.setPerson(new Person());
+		}
+		return this.showedLogin;
 	}
 
 	public void setShowedLogin(Login showedLogin) {
-		//TODO Not ready!
-		if(showedLogin==null)
+		// TODO At this point we must check the users rights!
+		if (showedLogin == null) {
 			this.editable = true;
-		this.showedLogin = showedLogin;
+			this.creatingMode = true;
+			if (this.showedLogin.getId() != AbstractDomainObject.NOT_YET_SAVED_ID) {
+				this.showedLogin = new Login();
+				this.showedLogin.setPerson(new Person());
+			}
+		} else {
+			this.editable = true; // For temporary testing!
+			this.creatingMode = false;
+			this.showedLogin = showedLogin;
+		}
+
+	}
+
+	public boolean isCreatingMode() {
+		return creatingMode;
+	}
+
+	public void setCreatingMode(boolean creatingMode) {
+		this.creatingMode = creatingMode;
 	}
 }

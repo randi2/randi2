@@ -22,9 +22,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
-import de.randi2.model.exceptions.ValidationException;
 
 /**
  * <p>
@@ -51,7 +49,6 @@ public class PasswordConfirmation implements Validator, Serializable {
 		// Locale locale = arg0.getViewRoot().getLocale();
 		//		
 		// ResourceBundle rb = ResourceBundle.getBundle(messageBundle, locale);
-
 		if (!login.getPassword().equals(arg2)) {
 			String message = "The second passwort doesn't match the first one.";
 			throw new ValidatorException(new FacesMessage(
