@@ -46,7 +46,7 @@ public abstract class AbstractDomainObject implements Serializable {
 	private GregorianCalendar createdAt = null;
 	private GregorianCalendar updatedAt = null;
 	
-
+	@Transient
 	private List<DateChange> changes = new ArrayList<DateChange>();
 
 	public long getId() {
@@ -109,7 +109,7 @@ public abstract class AbstractDomainObject implements Serializable {
 			return false;
 	}
 
-	@Transient
+	
 	public List<DateChange> getChanges() {
 		return this.changes;
 	}

@@ -1,5 +1,10 @@
 package de.randi2.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class DateChange extends AbstractDomainObject {
 	
 	
@@ -7,9 +12,12 @@ public class DateChange extends AbstractDomainObject {
 	private String field;
 	private Class fieldtype;
 	
+	@Lob
 	private Object beforeValue;
+	@Lob
 	private Object afterValue;
 	
+	@ManyToOne
 	private LogAction logAction;
 
 	protected DateChange(Class<? extends AbstractDomainObject> entity,

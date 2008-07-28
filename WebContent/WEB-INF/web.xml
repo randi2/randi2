@@ -7,8 +7,11 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:/META-INF/spring.xml
+			<!-- 	classpath:/META-INF/subconfig/security.xml -->
 		</param-value>
 	</context-param>
+
+
 
 	<context-param>
 		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
@@ -54,6 +57,31 @@
 		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
 		<param-value>.jspx</param-value>
 	</context-param>
+	<!--   <filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		</filter>
+		
+		<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+		</filter-mapping> -->
+
+	<filter>
+		<filter-name>sessionFilter</filter-name>
+		<filter-class>
+			org.springframework.orm.hibernate3.support.OpenSessionInViewFilter
+		</filter-class>
+		<init-param>
+			<param-name>sessionFactoryBeanName</param-name>
+			<param-value>sessionFactory</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>sessionFilter</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
 
 	<listener>
 		<listener-class>
@@ -125,4 +153,6 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
+
+
 </web-app>

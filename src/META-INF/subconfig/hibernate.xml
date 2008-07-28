@@ -7,7 +7,7 @@
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<!--		<property name="dataSource" ref="dataSource"></property>-->
+				<property name="dataSource" ref="dataSource"></property>
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">
@@ -26,6 +26,10 @@
 				<value>de.randi2.model.PersonRole</value>
 				<value>de.randi2.model.Login</value>
 				<value>de.randi2.model.Role</value>
+				<value>de.randi2.model.TrialArm</value>
+				<value>de.randi2.model.TrialSubject</value>
+				<value>de.randi2.model.LogAction</value>
+				<value>de.randi2.model.DateChange</value>
 			</list>
 		</property>
 		<property name="eventListeners">
@@ -45,12 +49,15 @@
 	<bean id="hibernateTemplate"
 		class="org.springframework.orm.hibernate3.HibernateTemplate">
 		<property name="entityInterceptor" ref="hibernateInterceptor"></property>
+		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<!-- <property name="sessionFactory" ref="sessionFactory"></property> -->
+		<property name="sessionFactory" ref="sessionFactory"></property> 
 	</bean>
 	<!--	<context:annotation-config></context:annotation-config>-->
+	
+	
 
 </beans>

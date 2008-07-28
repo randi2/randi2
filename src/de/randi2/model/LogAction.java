@@ -5,6 +5,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 @Entity
 public class LogAction extends AbstractDomainObject {
@@ -15,6 +16,7 @@ public class LogAction extends AbstractDomainObject {
 	private Person person;
 	private String message;
 	
+	@OneToMany(mappedBy="logAction")
 	private List<DateChange> changes;
 	
 	
