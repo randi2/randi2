@@ -17,6 +17,10 @@
 			<supported-locale>de_DE</supported-locale>
 		</locale-config>
 	</application>
+	<lifecycle>
+		<phase-listener>
+		de.randi2.jsf.listener.OpenSessionInViewPhaseListener</phase-listener>
+	</lifecycle>
 	<validator>
 		<validator-id>
 			de.randi2.jsf.validators.RANDI2_VALIDATOR

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:security="http://www.springframework.org/schema/security"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                         http://www.springframework.org/schema/security 
+                         http://www.springframework.org/schema/security/spring-security-2.0.1.xsd">
+ 
+     <security:http auto-config="true" access-denied-page="/accessDenied.iface">
+     
+         <security:intercept-url pattern="/login.jspx" filters="none" />
+         <security:intercept-url pattern="/accessDenied.jspx" filters="none" />
+         <security:intercept-url pattern="/error.jspx" filters="none" />
+         <security:intercept-url pattern="/register.jspx" filters="none"/> 
+         
+         
+         <security:intercept-url pattern="/block/**" filters="none" />
+         <security:intercept-url pattern="/xmlhttp/**" filters="none" />
+         
+         <security:intercept-url pattern="/js/**" filters="none" />
+         <security:intercept-url pattern="/images/**" filters="none" />
+ 
+         <security:intercept-url pattern="/internal/**" access="ROLE_USER, ROLE_ANONYMOUS, ROLE_INTERNAL" />
+         <security:intercept-url pattern="/external/**" access="ROLE_EXTERNAL" />
+ 
+         <security:intercept-url pattern="/**" access="ROLE_USER" />
+         
+         <security:concurrent-session-control max-sessions="1"/>
+         <security:form-login login-page="/login.jspx" authentication-failure-url="/login.jspx" default-target-url="/login.jspx" />
+         <security:logout logout-success-url="/login.jspx"/>
+ 
+         <security:anonymous granted-authority="ROLE_USER" />
+         
+     </security:http>
+  
+     <security:authentication-manager alias="authenticationManager"/>
+         
+    <!--  <security:authentication-provider user-service-ref="myUserDetailsService" />
+        
+     </security:authentication-provider> -->
+ 
+    <!-- Automatically receives AuthenticationEvent messages -->
+    <bean id="loggerListener" class="org.springframework.security.event.authentication.LoggerListener"/>
+ 
+    <bean id="userDetailsService" class="com.sample.MyUserDetailsService"/>
+     
+ </beans>

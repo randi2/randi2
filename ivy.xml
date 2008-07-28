@@ -54,6 +54,10 @@
 		<dependency org="springframework.org" name="spring-tx" rev="2.5.3" conf="runtime;compile"/>
 		<dependency org="springframework.org" name="spring-aspects" rev="2.5.3" conf="runtime;compile"/>
 		<dependency org="springframework.org" name="spring-aop" rev="2.5.3" conf="runtime;compile"/>
+		<dependency org="springframework.org" name="spring-security-core" rev="2.0.3" conf="runtime;compile"/>
+		<dependency org="springframework.org" name="spring-security-core-tiger" rev="2.0.3" conf="runtime;compile"/>
+		<dependency org="springframework.org" name="spring-security-acl" rev="2.0.3" conf="runtime;compile"/>
+		
 				
 		<dependency org="sun.com" name="activation" rev="1.1" conf="runtime;compile"/>
 		<dependency org="sun.com" name="jstl-api" rev="1.1.1" conf="runtime;compile"/>

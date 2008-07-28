@@ -29,6 +29,7 @@ public abstract class AbstractDaoHibernate<E extends Object> implements Abstract
 		if (((AbstractDomainObject)object).getId()==AbstractDomainObject.NOT_YET_SAVED_ID){
 			template.saveOrUpdate(object);
 		}else template.merge(object);
+		template.flush();
 	}
 	
 	public List<E> findByExample(E object){

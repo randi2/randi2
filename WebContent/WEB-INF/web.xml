@@ -67,21 +67,6 @@
 		<url-pattern>/*</url-pattern>
 		</filter-mapping> -->
 
-	<filter>
-		<filter-name>sessionFilter</filter-name>
-		<filter-class>
-			org.springframework.orm.hibernate3.support.OpenSessionInViewFilter
-		</filter-class>
-		<init-param>
-			<param-name>sessionFactoryBeanName</param-name>
-			<param-value>sessionFactory</param-value>
-		</init-param>
-	</filter>
-
-	<filter-mapping>
-		<filter-name>sessionFilter</filter-name>
-		<url-pattern>*</url-pattern>
-	</filter-mapping>
 
 	<listener>
 		<listener-class>
