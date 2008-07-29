@@ -23,6 +23,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
+import org.hibernate.validator.InvalidStateException;
+import org.hibernate.validator.InvalidValue;
+
 import com.icesoft.faces.component.selectinputtext.SelectInputText;
 
 import de.randi2.dao.CenterDao;
@@ -135,7 +138,7 @@ public class CenterHandler {
 				this.getCurrentUser().getPerson().getCenter())) {
 			editable = true;
 		} else {
-			editable = false;
+			editable = creatingMode;
 		}
 		return editable;
 	}
@@ -154,9 +157,19 @@ public class CenterHandler {
 			this.creatingMode = false;
 
 			return Randi2.SUCCESS;
+		} catch (InvalidStateException exp) {
+			// TODO for a stable release delete the following stacktrace
+			exp.printStackTrace();
+			for (InvalidValue v : exp.getInvalidValues()) {
+				Randi2
+						.showMessage(v.getPropertyName() + " : "
+								+ v.getMessage());
+			}
+			return Randi2.ERROR;
 		} catch (Exception e) {
-			// TODO: handle exception
+			// TODO for a stable release delete the following stacktrace
 			e.printStackTrace();
+			Randi2.showMessage(e);
 			return Randi2.ERROR;
 		}
 

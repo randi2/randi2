@@ -115,7 +115,7 @@
 								</ice:inputText>
 								<ice:outputLabel for="password"
 									value="#{labels['login.password']}"></ice:outputLabel>
-								<ice:panelGroup>
+								<ice:panelGroup id="passwordGroup">
 									<ice:inputSecret id="password"
 										value="#{loginHandler.login.password}"
 										required="#{loginHandler.login.requiredFields['password']}"
@@ -134,7 +134,6 @@
 										redisplay="true" partialSubmit="true">
 										<f:validator
 											validatorId="de.randi2.jsf.validators.PASSWORD_CONFIRMATION" />
-										<f:attribute name="login" value="#{loginHandler.login}" />
 									</ice:inputSecret>
 									<ice:message for="pConfirmation" id="confirmationError"></ice:message>
 								</ice:panelGroup>

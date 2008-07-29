@@ -24,7 +24,7 @@ public class RegistrationException extends Exception{
 	
 	private static final long serialVersionUID = -753491874667682122L;
 	
-	public static String CENTER_ERROR = "Wrong center selected!";
+	public static String CENTER_ERROR = "Wrong/None center selected!";
 	
 	public static String PASSWORD_ERROR = "Wrong confirmation password!";
 	

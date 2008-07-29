@@ -22,12 +22,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-import de.randi2.model.Login;
-
 /**
  * <p>
  * This class should be used for password confirmation - to check if the second
- * password is just like firstone.
+ * password is just like firstone. IMPORTANT: If you want to use this Validator
+ * please take care, that the orginal password will be typed within a
+ * <CODE>passwordGroup</CODE>
  * </p>
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
@@ -43,16 +43,20 @@ public class PasswordConfirmation implements Validator, Serializable {
 
 		// Application application = arg0.getApplication();
 
-		Login login = (Login) arg1.getAttributes().get("login");
+		UIComponent passwordInputSecret = arg1.getParent().getParent()
+				.findComponent("passwordGroup").findComponent("password");
 
 		// String messageBundle = application.getMessageBundle();
 		// Locale locale = arg0.getViewRoot().getLocale();
 		//		
 		// ResourceBundle rb = ResourceBundle.getBundle(messageBundle, locale);
-		if (!login.getPassword().equals(arg2)) {
-			String message = "The second passwort doesn't match the first one.";
-			throw new ValidatorException(new FacesMessage(
-					FacesMessage.SEVERITY_ERROR, message, null));
+		if (passwordInputSecret.getValueBinding("value").getValue(arg0) != null) {
+			if (!passwordInputSecret.getValueBinding("value").getValue(arg0)
+					.equals(arg2)) {
+				String message = "The second passwort doesn't match the first one.";
+				throw new ValidatorException(new FacesMessage(
+						FacesMessage.SEVERITY_ERROR, message, null));
+			}
 		}
 
 	}

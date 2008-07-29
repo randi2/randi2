@@ -17,7 +17,7 @@
 <f:subview id="centerSavedPopup">
 	<jsp:directive.include file="./inc/popups/centerSavedPopup.jspx" />
 </f:subview>
-<ice:form partialSubmit="true" xmlns:h="http://java.sun.com/jsf/html"
+<ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:messages globalOnly="true" />
@@ -33,7 +33,7 @@
 				<ice:panelGroup id="nameEdit" rendered="#{centerHandler.editable}">
 					<ice:inputText id="name" size="50"
 						value="#{centerHandler.showedCenter.name}"
-						required="#{centerHandler.showedCenter.requiredFields['name']}">
+						required="#{centerHandler.showedCenter.requiredFields['name']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject" value="#{centerHandler.showedCenter}" />
@@ -48,7 +48,7 @@
 				<ice:panelGroup id="countryEdit" rendered="#{centerHandler.editable}">
 					<ice:inputText id="country" size="50"
 						value="#{centerHandler.showedCenter.country}"
-						required="#{centerHandler.showedCenter.requiredFields['country']}">
+						required="#{centerHandler.showedCenter.requiredFields['country']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject" value="#{centerHandler.showedCenter}" />
@@ -63,7 +63,7 @@
 				<ice:panelGroup id="cityEdit" rendered="#{centerHandler.editable}">
 					<ice:inputText id="city" size="50"
 						value="#{centerHandler.showedCenter.city}"
-						required="#{centerHandler.showedCenter.requiredFields['city']}">
+						required="#{centerHandler.showedCenter.requiredFields['city']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject" value="#{centerHandler.showedCenter}" />
@@ -79,7 +79,7 @@
 					rendered="#{centerHandler.editable}">
 					<ice:inputText id="postcode" size="50"
 						value="#{centerHandler.showedCenter.postcode}"
-						required="#{centerHandler.showedCenter.requiredFields['postcode']}">
+						required="#{centerHandler.showedCenter.requiredFields['postcode']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject" value="#{centerHandler.showedCenter}" />
@@ -94,7 +94,7 @@
 				<ice:panelGroup id="streetEdit" rendered="#{centerHandler.editable}">
 					<ice:inputText id="street" size="50"
 						value="#{centerHandler.showedCenter.street}"
-						required="#{centerHandler.showedCenter.requiredFields['street']}">
+						required="#{centerHandler.showedCenter.requiredFields['street']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject" value="#{centerHandler.showedCenter}" />
@@ -115,7 +115,7 @@
 				<ice:panelGroup id="titleEdit" rendered="#{centerHandler.editable}">
 					<ice:inputText id="title" size="50"
 						value="#{centerHandler.showedCenter.contactPerson.title}"
-						required="#{centerHandler.showedCenter.contactPerson.requiredFields['title']}">
+						required="#{centerHandler.showedCenter.contactPerson.requiredFields['title']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject"
@@ -133,7 +133,7 @@
 					rendered="#{centerHandler.editable}">
 					<ice:inputText id="firstname" size="50"
 						value="#{centerHandler.showedCenter.contactPerson.firstname}"
-						required="#{centerHandler.showedCenter.contactPerson.requiredFields['firstname']}">
+						required="#{centerHandler.showedCenter.contactPerson.requiredFields['firstname']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject"
@@ -150,7 +150,7 @@
 					rendered="#{centerHandler.editable}">
 					<ice:inputText id="surname" size="50"
 						value="#{centerHandler.showedCenter.contactPerson.surname}"
-						required="#{centerHandler.showedCenter.contactPerson.requiredFields['surname']}">
+						required="#{centerHandler.showedCenter.contactPerson.requiredFields['surname']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject"
@@ -177,7 +177,7 @@
 				<ice:panelGroup id="eMailEdit" rendered="#{centerHandler.editable}">
 					<ice:inputText id="eMail" size="50"
 						value="#{centerHandler.showedCenter.contactPerson.EMail}"
-						required="#{centerHandler.showedCenter.contactPerson.requiredFields['eMail']}">
+						required="#{centerHandler.showedCenter.contactPerson.requiredFields['eMail']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject"
@@ -193,7 +193,7 @@
 				<ice:panelGroup id="phoneEdit" rendered="#{centerHandler.editable}">
 					<ice:inputText id="phone" size="50"
 						value="#{centerHandler.showedCenter.contactPerson.phone}"
-						required="#{centerHandler.showedCenter.contactPerson.requiredFields['phone']}">
+						required="#{centerHandler.showedCenter.contactPerson.requiredFields['phone']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject"
@@ -209,7 +209,7 @@
 				<ice:panelGroup id="mobileEdit" rendered="#{centerHandler.editable}">
 					<ice:inputText id="mobile" size="50"
 						value="#{centerHandler.showedCenter.contactPerson.mobile}"
-						required="#{centerHandler.showedCenter.contactPerson.requiredFields['mobile']}">
+						required="#{centerHandler.showedCenter.contactPerson.requiredFields['mobile']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject"
@@ -225,7 +225,7 @@
 				<ice:panelGroup id="faxEdit" rendered="#{centerHandler.editable}">
 					<ice:inputText id="fax" size="50"
 						value="#{centerHandler.showedCenter.contactPerson.fax}"
-						required="#{centerHandler.showedCenter.contactPerson.requiredFields['fax']}">
+						required="#{centerHandler.showedCenter.contactPerson.requiredFields['fax']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject"
@@ -280,9 +280,9 @@
 			<ice:dataTable id="membersTable" border="1"
 				value="#{centerHandler.showedCenter.members}" var="member" rows="5">
 				<ice:column id="column1">
-					<ice:outputText value="#{labels['person.firstname']}"></ice:outputText>
+					<ice:outputText value="#{member.firstname}"></ice:outputText>
 					<f:facet name="header">
-						<ice:outputText value="Firstname" id="firstnameH"></ice:outputText>
+						<ice:outputText value="#{labels['person.firstname']}" id="firstnameH"></ice:outputText>
 					</f:facet>
 				</ice:column>
 				<ice:column id="column2">
@@ -333,7 +333,7 @@
 				<ice:panelGroup>
 					<ice:inputText id="password" size="50"
 						value="#{centerHandler.showedCenter.password}"
-						required="#{centerHandler.showedCenter.requiredFields['password']}">
+						required="#{centerHandler.showedCenter.requiredFields['password']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject" value="#{centerHandler.showedCenter}" />

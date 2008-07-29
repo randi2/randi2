@@ -17,10 +17,9 @@
 <f:subview id="userSavedPopup">
 	<jsp:directive.include file="./inc/popups/userSavedPopup.jspx" />
 </f:subview>
-<ice:form partialSubmit="true" xmlns:h="http://java.sun.com/jsf/html"
+<ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:messages globalOnly="true" />
 	<ice:panelTabSet style="font-size: 9;display: block;">
 		<ice:panelTab label="#{labels['pages.userEditPanel.dataTab']}">
 			<ice:panelGrid border="0" columns="2">
@@ -35,7 +34,7 @@
 					rendered="#{!loginHandler.creatingMode}">
 				</ice:outputText>
 				<ice:inputText id="usernameC" value="Will be your email"
-					readonly="true" rendered="#{loginHandler.creatingMode}">
+					readonly="true" rendered="#{loginHandler.creatingMode}" partialSubmit="true">
 				</ice:inputText>
 				<ice:outputLabel for="registrationDate"
 					value="#{labels['login.registrationDate']}"
@@ -56,7 +55,7 @@
 				<ice:outputLabel for="password" value="#{labels['login.password']}"></ice:outputLabel>
 				<ice:commandButton value="#{labels['buttons.changePassword']}"
 					rendered="#{!loginHandler.creatingMode}"></ice:commandButton>
-				<ice:panelGroup rendered="#{loginHandler.creatingMode}">
+				<ice:panelGroup id="passwordGroup" rendered="#{loginHandler.creatingMode}">
 					<ice:inputSecret id="password"
 						value="#{loginHandler.showedLogin.password}"
 						required="#{loginHandler.showedLogin.requiredFields['password']}"
@@ -76,7 +75,6 @@
 						redisplay="true" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.PASSWORD_CONFIRMATION" />
-						<f:attribute name="login" value="#{loginHandler.showedLogin}" />
 					</ice:inputSecret>
 					<ice:message for="pConfirmation" id="confirmationError"></ice:message>
 				</ice:panelGroup>
@@ -95,7 +93,7 @@
 				<ice:panelGroup id="titleEdit" rendered="#{loginHandler.editable}">
 					<ice:inputText id="title" size="50"
 						value="#{loginHandler.showedLogin.person.title}"
-						required="#{loginHandler.showedLogin.person.requiredFields['title']}">
+						required="#{loginHandler.showedLogin.person.requiredFields['title']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject" value="#{loginHandler.person}" />
@@ -112,7 +110,7 @@
 					rendered="#{loginHandler.editable}">
 					<ice:inputText id="firstname" size="50"
 						value="#{loginHandler.showedLogin.person.firstname}"
-						required="#{loginHandler.showedLogin.person.requiredFields['firstname']}">
+						required="#{loginHandler.showedLogin.person.requiredFields['firstname']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject" value="#{loginHandler.person}" />
@@ -127,7 +125,7 @@
 				<ice:panelGroup id="surnameEdit" rendered="#{loginHandler.editable}">
 					<ice:inputText id="surname" size="50"
 						value="#{loginHandler.showedLogin.person.surname}"
-						required="#{loginHandler.showedLogin.person.requiredFields['surname']}">
+						required="#{loginHandler.showedLogin.person.requiredFields['surname']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject" value="#{loginHandler.person}" />
@@ -178,7 +176,7 @@
 				<ice:panelGroup id="phoneEdit" rendered="#{loginHandler.editable}">
 					<ice:inputText id="phone" size="50"
 						value="#{loginHandler.showedLogin.person.phone}"
-						required="#{loginHandler.showedLogin.person.requiredFields['phone']}">
+						required="#{loginHandler.showedLogin.person.requiredFields['phone']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject" value="#{loginHandler.person}" />
@@ -193,7 +191,7 @@
 				<ice:panelGroup id="mobileEdit" rendered="#{loginHandler.editable}">
 					<ice:inputText id="mobile" size="50"
 						value="#{loginHandler.showedLogin.person.mobile}"
-						required="#{loginHandler.showedLogin.person.requiredFields['mobile']}">
+						required="#{loginHandler.showedLogin.person.requiredFields['mobile']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject" value="#{loginHandler.person}" />
@@ -208,7 +206,7 @@
 				<ice:panelGroup id="faxEdit" rendered="#{loginHandler.editable}">
 					<ice:inputText id="fax" size="50"
 						value="#{loginHandler.showedLogin.person.fax}"
-						required="#{loginHandler.showedLogin.person.requiredFields['fax']}">
+						required="#{loginHandler.showedLogin.person.requiredFields['fax']}" partialSubmit="true">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject" value="#{loginHandler.person}" />
@@ -294,8 +292,6 @@
 			action="#{loginHandler.saveLogin}" rendered="#{!loginHandler.creatingMode}"></ice:commandButton>
 		<ice:commandButton type="submit" value="#{labels['buttons.create']}" action="#{loginHandler.registerUser}" rendered="#{loginHandler.creatingMode}"/>
 		<ice:commandButton type="reset" value="#{labels['buttons.reset']}" />
-		<ice:messages globalOnly="true" showDetail="true" showSummary="true"
-			tooltip="true" />
+		<ice:messages globalOnly="true"/>
 	</ice:panelGrid>
-
 </ice:form>

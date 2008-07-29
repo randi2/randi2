@@ -118,10 +118,6 @@
 
 	</ice:panelBorder>
 
-	<!-- PRELOAD IMAGES need for roleovers and layout in general -->
-	<div style="display: none"><img
-		src="./xmlhttp/css/rime/css-images/PnlHdr_down.gif" /></div>
-
 	</body>
 	</html>
 </f:view>

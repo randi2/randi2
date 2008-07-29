@@ -68,7 +68,7 @@ public abstract class AbstractDomainObject implements Serializable {
 	public Boolean isRequired(Method m) {
 
 		return m.isAnnotationPresent(org.hibernate.validator.NotEmpty.class)
-				|| m.isAnnotationPresent(org.hibernate.validator.NotNull.class);
+				|| m.isAnnotationPresent(org.hibernate.validator.NotNull.class) || m.isAnnotationPresent(de.randi2.utility.validations.Password.class);
 
 	}
 

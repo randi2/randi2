@@ -174,6 +174,9 @@ public class LoginHandler {
 	public String saveLogin() {
 		try {
 			this.loginDao.save(this.getShowedLogin());
+			// Making the centerSavedPopup visible
+			this.userSavedPVisible = true;
+
 			return Randi2.SUCCESS;
 		} catch (Exception exp) {
 			Randi2.showMessage(exp);
@@ -201,21 +204,30 @@ public class LoginHandler {
 
 		try {
 			// TODO password !
-			if (userCenter.getPassword().equals(cPassword)) {
+			if (creatingMode||userCenter.getPassword().equals(cPassword)) {
 				// Setting the user's center
+				if(userCenter==null||userCenter.getId()==AbstractDomainObject.NOT_YET_SAVED_ID){
+					throw new RegistrationException(RegistrationException.CENTER_ERROR);
+				}
 				objectToRegister.getPerson().setCenter(userCenter);
 				// Setting the registration date
 				objectToRegister.setRegistrationDate(new GregorianCalendar());
 				loginDao.save(objectToRegister);
 
-				// Making the successPopup visible
-				((RegisterPage) FacesContext.getCurrentInstance()
-						.getApplication().getVariableResolver()
-						.resolveVariable(FacesContext.getCurrentInstance(),
-								"registerPage")).setRegPvisible(true);
-
+				// Making the successPopup visible (NORMAL REGISTRATION)
+				if (!creatingMode) {
+					((RegisterPage) FacesContext.getCurrentInstance()
+							.getApplication().getVariableResolver()
+							.resolveVariable(FacesContext.getCurrentInstance(),
+									"registerPage")).setRegPvisible(true);
+				}
+				// Making the popup visible (CREATING AN USER BY ANOTHER USER)
+				if (creatingMode) {
+					this.userSavedPVisible = true;
+				}
 				// Reseting the objects used for the registration process
-				this.cleanUp();
+				if(!creatingMode)
+					this.cleanUp();
 				// TODO Genereting & sending an Activation E-Mail
 				return Randi2.SUCCESS;
 			} else {
@@ -257,7 +269,7 @@ public class LoginHandler {
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
 				.getExternalContext().getSession(false);
 		session.invalidate();
-		//TODO Closing the Hibernate Session
+		// TODO Closing the Hibernate Session
 		return Randi2.SUCCESS;
 	}
 
@@ -305,9 +317,6 @@ public class LoginHandler {
 		if (login.getRegistrationDate() == null)
 			login.setRegistrationDate(new GregorianCalendar());
 		login.setLastLoggedIn(new GregorianCalendar());
-		// TODO Temporary solution
-		fulfillLoginObject();
-		// END
 		return Randi2.SUCCESS;
 	}
 
@@ -334,6 +343,7 @@ public class LoginHandler {
 	/*
 	 * Temporary method for fulfilling the login object.
 	 */
+	@Deprecated
 	private void fulfillLoginObject() {
 		Center tCenter = new Center();
 		tCenter.setCity("Heidelberg");
@@ -419,6 +429,12 @@ public class LoginHandler {
 	}
 
 	public boolean isEditable() {
+		// TODO Simple rightsmanagement
+		if (showedLogin.equals(this.login)) {
+			editable = true;
+		} else {
+			editable = creatingMode;
+		}
 		return editable;
 	}
 
@@ -439,14 +455,12 @@ public class LoginHandler {
 	public void setShowedLogin(Login showedLogin) {
 		// TODO At this point we must check the users rights!
 		if (showedLogin == null) {
-			this.editable = true;
 			this.creatingMode = true;
 			if (this.showedLogin.getId() != AbstractDomainObject.NOT_YET_SAVED_ID) {
 				this.showedLogin = new Login();
 				this.showedLogin.setPerson(new Person());
 			}
 		} else {
-			this.editable = true; // For temporary testing!
 			this.creatingMode = false;
 			this.showedLogin = showedLogin;
 		}
