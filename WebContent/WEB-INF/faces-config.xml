@@ -146,28 +146,16 @@
 		<navigation-case>
 			<from-action>#{loginHandler.logoutUser}</from-action>
 			<from-outcome>success</from-outcome>
-			<to-view-id>/logout.jsp</to-view-id>
+			<to-view-id>/login.jspx</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
-		<display-name>EN_USLocale</display-name>
+		<display-name>refresh</display-name>
 		<from-view-id>/randi2.jspx</from-view-id>
 		<navigation-case>
-			<from-action>#{loginHandler.setUSEnglish}</from-action>
-			<from-outcome>success</from-outcome>
-			<to-view-id>/randi2.jspx</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-	
-	<navigation-rule>
-		<display-name>DE_DELocale</display-name>
-		<from-view-id>/randi2.jspx</from-view-id>
-		<navigation-case>
-			<from-action>#{loginHandler.setDEGerman}</from-action>
-			<from-outcome>success</from-outcome>
+			<from-outcome>refresh</from-outcome>
 			<to-view-id>/randi2.jspx</to-view-id>
 			<redirect />
 		</navigation-case>

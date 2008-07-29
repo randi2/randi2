@@ -22,6 +22,8 @@ import java.util.Properties;
 import java.util.Vector;
 
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
@@ -200,7 +202,10 @@ public class LoginHandler {
 		try {
 			// TODO password !
 			if (userCenter.getPassword().equals(cPassword)) {
+				// Setting the user's center
 				objectToRegister.getPerson().setCenter(userCenter);
+				// Setting the registration date
+				objectToRegister.setRegistrationDate(new GregorianCalendar());
 				loginDao.save(objectToRegister);
 
 				// Making the successPopup visible
@@ -209,9 +214,9 @@ public class LoginHandler {
 						.resolveVariable(FacesContext.getCurrentInstance(),
 								"registerPage")).setRegPvisible(true);
 
-				// Reseting the objects
+				// Reseting the objects used for the registration process
 				this.cleanUp();
-				// TODO Genereting an Activation E-Mail
+				// TODO Genereting & sending an Activation E-Mail
 				return Randi2.SUCCESS;
 			} else {
 				throw new RegistrationException(
@@ -242,9 +247,17 @@ public class LoginHandler {
 	 * @return Randi2.SUCCESS
 	 */
 	public String logoutUser() {
-		// TODO Save the login object
-		// loginDao.save(this.login);
+		// Setting the "Last Time Logged In" Date
+		this.login.setLastLoggedIn(new GregorianCalendar());
+		// Saving the current login object, befor log out
+		loginDao.save(this.login);
+		// Cleaning up
 		this.cleanUp();
+		// Invalidating the session
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+				.getExternalContext().getSession(false);
+		session.invalidate();
+		//TODO Closing the Hibernate Session
 		return Randi2.SUCCESS;
 	}
 
@@ -272,7 +285,6 @@ public class LoginHandler {
 			Randi2.showMessage(e);
 			return Randi2.ERROR;
 		}
-
 	}
 
 	/*
@@ -309,18 +321,14 @@ public class LoginHandler {
 		this.userCenter = null;
 	}
 
-	public String setUSEnglish() {
-		chosenLocale = Locale.US;
-		login.setPrefLocale(chosenLocale);
-		System.out.println("US Locale");
-		return Randi2.SUCCESS;
+	public void setUSEnglish(ActionEvent event) {
+		this.login.setPrefLocale(Locale.US);
+		this.setChosenLocale(Locale.US);
 	}
 
-	public String setDEGerman() {
-		chosenLocale = Locale.GERMANY;
-		login.setPrefLocale(chosenLocale);
-		System.out.println("DE Locale");
-		return Randi2.SUCCESS;
+	public void setDEGerman(ActionEvent event) {
+		this.login.setPrefLocale(Locale.GERMANY);
+		this.setChosenLocale(Locale.GERMANY);
 	}
 
 	/*
@@ -362,25 +370,27 @@ public class LoginHandler {
 	@SuppressWarnings("unchecked")
 	public Locale getChosenLocale() {
 		if (this.login != null) {
-			System.out.println("Login not null");
 			if (this.login.getPrefLocale() != null) {
-				System.out.println("PrefLocale not null");
-				chosenLocale = this.login.getPrefLocale();
+				this.chosenLocale = this.login.getPrefLocale();
 			}
 		} else {
-			chosenLocale = FacesContext.getCurrentInstance()
+			this.chosenLocale = FacesContext.getCurrentInstance()
 					.getExternalContext().getRequestLocale();
 			Iterator<Locale> supportedLocales = FacesContext
 					.getCurrentInstance().getApplication()
 					.getSupportedLocales();
 			while (supportedLocales.hasNext()) {
-				if (supportedLocales.next().equals(chosenLocale))
-					return chosenLocale;
+				if (supportedLocales.next().equals(this.chosenLocale))
+					// TODO Sysout
+					System.out.println(this.chosenLocale.toString());
+				return this.chosenLocale;
 			}
-			chosenLocale = FacesContext.getCurrentInstance().getApplication()
-					.getDefaultLocale();
+			this.chosenLocale = FacesContext.getCurrentInstance()
+					.getApplication().getDefaultLocale();
 		}
-		return chosenLocale;
+		// TODO Sysout
+		System.out.println(this.chosenLocale.toString());
+		return this.chosenLocale;
 	}
 
 	/**
@@ -391,13 +401,6 @@ public class LoginHandler {
 	public void setChosenLocale(Locale chosenLocale) {
 		this.chosenLocale = chosenLocale;
 	}
-
-	// public void updateUserCenter(String cName) throws RegistrationException{
-	// System.out.println(cName);
-	// this.userCenter = centerDao.get(cName);
-	// if(this.userCenter==null)
-	// throw new RegistrationException(RegistrationException.CENTER_ERROR);
-	// }
 
 	public CenterDao getCenterDao() {
 		return centerDao;
