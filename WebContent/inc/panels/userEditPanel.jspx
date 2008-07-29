@@ -17,6 +17,9 @@
 <f:subview id="userSavedPopup">
 	<jsp:directive.include file="./inc/popups/userSavedPopup.jspx" />
 </f:subview>
+<f:subview id="changePasswordPopup">
+	<jsp:directive.include file="./inc/popups/changePasswordPopup.jspx" />
+</f:subview>
 <ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
@@ -54,7 +57,7 @@
 				</ice:outputText>
 				<ice:outputLabel for="password" value="#{labels['login.password']}"></ice:outputLabel>
 				<ice:commandButton value="#{labels['buttons.changePassword']}"
-					rendered="#{!loginHandler.creatingMode}"></ice:commandButton>
+					action="#{loginHandler.showChangePasswordPopup}" rendered="#{!loginHandler.creatingMode}"></ice:commandButton>
 				<ice:panelGroup id="passwordGroup" rendered="#{loginHandler.creatingMode}">
 					<ice:inputSecret id="password"
 						value="#{loginHandler.showedLogin.password}"

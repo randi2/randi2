@@ -81,7 +81,18 @@ public class LoginHandler {
 
 	private boolean editable = false;
 
+	// Popup's flags
 	private boolean userSavedPVisible = false;
+	
+	private boolean changePasswordPVisible = false;
+
+	public boolean isChangePasswordPVisible() {
+		return changePasswordPVisible;
+	}
+
+	public void setChangePasswordPVisible(boolean changePasswordPVisible) {
+		this.changePasswordPVisible = changePasswordPVisible;
+	}
 
 	public boolean isUserSavedPVisible() {
 		return userSavedPVisible;
@@ -164,6 +175,24 @@ public class LoginHandler {
 							FacesContext.getCurrentInstance(), "registerPage"))
 					.setCenterSelected(false);
 		}
+	}
+	
+	public void showChangePasswordPopup(){
+		//Show the changePasswordPopup
+		this.changePasswordPVisible = true;
+	}
+	
+	public void hideChangePasswordPopup(){
+		//Hide the changePasswordPopup
+		this.changePasswordPVisible = false;
+	}
+	
+	public void changePassword(){
+		System.out.println("Change Password");
+		//Delete the old password
+		//this.showedLogin.setPassword("");
+		this.saveLogin();
+		this.hideChangePasswordPopup();
 	}
 
 	/**
