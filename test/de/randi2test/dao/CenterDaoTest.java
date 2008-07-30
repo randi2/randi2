@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.dao.CenterDao;
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.Center;
+import de.randi2.model.TrialSite;
 import de.randi2test.utility.DomainObjectFactory;
 import de.randi2test.utility.TestStringUtil;
 
@@ -36,11 +36,11 @@ public class CenterDaoTest {
 	}
 	@Test
 	public void testGetName(){
-		Center c = factory.getCenter();
+		TrialSite c = factory.getCenter();
 		centerDao.save(c);
 		assertTrue(c.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
 		
-		Center c1 = centerDao.get(c.getName());
+		TrialSite c1 = centerDao.get(c.getName());
 		
 		assertEquals(c.getId(), c1.getId());
 		assertEquals(c.getName(), c1.getName());

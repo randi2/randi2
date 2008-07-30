@@ -35,7 +35,7 @@ import de.randi2.jsf.exceptions.LoginException;
 import de.randi2.jsf.exceptions.RegistrationException;
 import de.randi2.jsf.pages.RegisterPage;
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.Center;
+import de.randi2.model.TrialSite;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 
@@ -62,7 +62,7 @@ public class LoginHandler {
 
 	private Person userAssistant = null;
 
-	private Center userCenter = null;
+	private TrialSite userCenter = null;
 
 	private String cPassword = null;
 	// ---
@@ -154,13 +154,13 @@ public class LoginHandler {
 		this.userAssistant = userAssistant;
 	}
 
-	public Center getUserCenter() {
+	public TrialSite getUserCenter() {
 		if (userCenter == null)
-			userCenter = new Center();
+			userCenter = new TrialSite();
 		return userCenter;
 	}
 
-	public void setUserCenter(Center userCenter) {
+	public void setUserCenter(TrialSite userCenter) {
 		if (userCenter != null) {
 			this.userCenter = userCenter;
 			((RegisterPage) FacesContext.getCurrentInstance().getApplication()

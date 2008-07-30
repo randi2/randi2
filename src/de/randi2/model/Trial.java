@@ -1,3 +1,4 @@
+
 package de.randi2.model;
 
 import java.io.File;
@@ -12,6 +13,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.validator.AssertTrue;
 import org.hibernate.validator.Length;
@@ -19,6 +21,7 @@ import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
 import org.springframework.beans.factory.annotation.Configurable;
 
+import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.utility.validations.DateDependence;
 
@@ -26,120 +29,118 @@ import de.randi2.utility.validations.DateDependence;
 @Configurable
 @DateDependence(firstDate = "startDate", secondDate = "endDate")
 public class Trial extends AbstractDomainObject {
-
-	public static final String DATES_WRONG_RANGE = "Die Datumswerte für das Start- und das Ende-Datum der Studie müssen in der richtigen zeitlichen Reihenfolge sein.";
-
+	
+	@NotNull()
+	@NotEmpty()
+	@Length(max = MAX_VARCHAR_LENGTH)
 	private String name = "";
-
+	
 	@Lob
 	private String description = "";
 	private GregorianCalendar startDate = null;
 	private GregorianCalendar endDate = null;
-
+	
 	private File protocol = null;
-
-	// private Person leader = null;
-
+	
+	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)
-	private Center leadingCenter = null;
-
+	private Person sponsorInvestigator = null;
+	
+	@NotEmpty
+	@ManyToOne(cascade = CascadeType.ALL)
+	private TrialSite leadingCenter = null;
+	
 	@Enumerated(value = EnumType.STRING)
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
-
+	
 	@ManyToMany(cascade = CascadeType.ALL)
-	private List<Center> participatingCenters = new ArrayList<Center>();
-
-	@NotNull()
-	@NotEmpty()
-	@Length(max = MAX_VARCHAR_LENGTH)
+	private List<TrialSite> participatingSites = new ArrayList<TrialSite>();
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<AbstractCriterion> inclusionCriteria;
+	
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setName(String _name) {
-
+		
 		if (name == null) {
 			name = "";
 		}
-
+		
 		this.name = _name;
 	}
-
+	
 	public String getDescription() {
 		return description;
 	}
-
+	
 	public void setDescription(String description) {
 		if (description == null){
 			description = "";
 		}
 		this.description = description;
 	}
-
+	
 	public GregorianCalendar getStartDate() {
 		return startDate;
 	}
-
+	
 	public void setStartDate(GregorianCalendar startDate) {
 		this.startDate = startDate;
 	}
-
+	
 	public GregorianCalendar getEndDate() {
 		return endDate;
 	}
-
+	
 	public void setEndDate(GregorianCalendar endDate) {
 		this.endDate = endDate;
 	}
-
+	
 	public TrialStatus getStatus() {
 		return status;
 	}
-
+	
 	public void setStatus(TrialStatus status) {
 		this.status = status;
 	}
-
+	
 	public File getProtocol() {
 		return protocol;
 	}
-
+	
 	public void setProtocol(File protocol) {
 		this.protocol = protocol;
 	}
-
-	@AssertTrue(message = DATES_WRONG_RANGE)
-	public boolean validateDateRange() {
-		if (this.startDate == null || this.endDate == null) {
-			return true;
-		}
-		long startTime = this.startDate.getTimeInMillis();
-		long endTime = this.endDate.getTimeInMillis();
-
-		if ((endTime - startTime) >= 1 * 24 * 60 * 60 * 1000) {
-			return true;
-		}
-		return false;
+	
+	public List<TrialSite> getParticipatingSites() {
+		return this.participatingSites;
 	}
-
-	public List<Center> getParticipatingCenters() {
-		return this.participatingCenters;
+	
+	public void setParticipatingSites(List<TrialSite> participatingCenters) {
+		this.participatingSites = participatingCenters;
 	}
-
-	public void setParticipatingCenters(List<Center> participatingCenters) {
-		this.participatingCenters = participatingCenters;
-	}
-
-	public void setLeadingCenter(Center center) {
+	
+	public void setLeadingSite(TrialSite center) {
 		this.leadingCenter = center;
-
+		
 	}
-
-	public Center getLeadingCenter() {
+	
+	public TrialSite getLeadingSite() {
 		return this.leadingCenter;
 	}
-
-	public void addParticipatingCenter(Center participatingCenter) {
-		this.participatingCenters.add(participatingCenter);
+	
+	public void addParticipatingSite(TrialSite participatingCenter) {
+		this.participatingSites.add(participatingCenter);
+	}
+	
+	public Person getSponsorInvestigator() {
+		return sponsorInvestigator;
+	}
+	
+	public void setSponsorInvestigator(Person sponsorInvestigator) {
+		this.sponsorInvestigator = sponsorInvestigator;
 	}
 }

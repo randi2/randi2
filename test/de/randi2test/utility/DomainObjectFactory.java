@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
-import de.randi2.model.Center;
+import de.randi2.model.TrialSite;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.PersonRole;
@@ -31,8 +31,8 @@ public class DomainObjectFactory {
 		return p;
 	}
 	
-	public Center getCenter(){
-		Center c = new Center();
+	public TrialSite getCenter(){
+		TrialSite c = new TrialSite();
 		c.setName(testStringUtil.getWithLength(10));
 		c.setPassword(testStringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+";2");
 		c.setContactPerson(this.getPerson());

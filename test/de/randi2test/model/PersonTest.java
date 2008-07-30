@@ -15,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.Center;
+import de.randi2.model.TrialSite;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.enumerations.Gender;
@@ -332,7 +332,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 
 	@Test
 	public void testCenter() {
-		Center center = factory.getCenter();
+		TrialSite center = factory.getCenter();
 		hibernateTemplate.saveOrUpdate(center);
 		
 		validPerson.setSurname(stringUtil.getWithLength(20));

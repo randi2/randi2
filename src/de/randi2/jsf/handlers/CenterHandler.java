@@ -30,7 +30,7 @@ import com.icesoft.faces.component.selectinputtext.SelectInputText;
 
 import de.randi2.dao.CenterDao;
 import de.randi2.jsf.Randi2;
-import de.randi2.model.Center;
+import de.randi2.model.TrialSite;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 
@@ -75,7 +75,7 @@ public class CenterHandler {
 	 */
 	private List<SelectItem> matchesList = null;
 
-	private Center selectedCenter = null;
+	private TrialSite selectedCenter = null;
 
 	/**
 	 * List with all center's members as SelectItems
@@ -90,23 +90,23 @@ public class CenterHandler {
 
 	private Person selectedMember = null;
 
-	private Center showedCenter = null;
+	private TrialSite showedCenter = null;
 
 	private boolean editable = false;
 
 	private boolean creatingMode = false;
 
-	public Center getShowedCenter() {
+	public TrialSite getShowedCenter() {
 		if (showedCenter == null) {
 			showedCenter = this.getCurrentUser().getPerson().getCenter();
 		}
 		return showedCenter;
 	}
 
-	public void setShowedCenter(Center showedCenter) {
+	public void setShowedCenter(TrialSite showedCenter) {
 		if (showedCenter == null) {
 			creatingMode = true;
-			this.showedCenter = new Center();
+			this.showedCenter = new TrialSite();
 			this.showedCenter.setContactPerson(new Person());
 		} else {
 			creatingMode = false;
@@ -191,16 +191,16 @@ public class CenterHandler {
 		this.centerDao = centerDao;
 	}
 
-	public List<Center> getCenters(){
+	public List<TrialSite> getCenters(){
 		return centerDao.getAll();
 	}
 	
 	public List<SelectItem> getCenterList() {
 		if (matchesList == null) {
 			if (centerList == null) {
-				List<Center> centers = centerDao.getAll();
+				List<TrialSite> centers = centerDao.getAll();
 				centerList = new Vector<SelectItem>(centers.size());
-				for (Center c : centers) {
+				for (TrialSite c : centers) {
 					centerList.add(new SelectItem(c, c.getName()));
 				}
 				Collections.sort(centerList,
@@ -239,9 +239,9 @@ public class CenterHandler {
 
 		// DB-Method!
 		if (centerList == null) {
-			List<Center> centers = centerDao.getAll();
+			List<TrialSite> centers = centerDao.getAll();
 			centerList = new Vector<SelectItem>(centers.size());
-			for (Center c : centers) {
+			for (TrialSite c : centers) {
 				centerList.add(new SelectItem(c, c.getName()));
 			}
 			Collections.sort(centerList, CenterHandler.CENTERNAME_COMPERATOR);
@@ -273,7 +273,7 @@ public class CenterHandler {
 			selectedCenter = null;
 			// if no selected item then return the previously selected item.
 			if (autoComplete.getSelectedItem() != null) {
-				selectedCenter = (Center) autoComplete.getSelectedItem()
+				selectedCenter = (TrialSite) autoComplete.getSelectedItem()
 						.getValue();
 			}
 			// otherwise if there is a selected item get the value from the
@@ -283,7 +283,7 @@ public class CenterHandler {
 					for (SelectItem si : matchesList) {
 						if (si.getLabel().equals(
 								autoComplete.getValue().toString()))
-							selectedCenter = (Center) autoComplete
+							selectedCenter = (TrialSite) autoComplete
 									.getSelectedItem().getValue();
 					}
 				}

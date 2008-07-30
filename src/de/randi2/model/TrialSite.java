@@ -20,7 +20,7 @@ import de.randi2.utility.validations.Password;
 
 @Entity
 @NamedQuery(name="center.findAllMembers", query="select p from Person p where p.center= :center ")
-public class Center extends AbstractDomainObject{
+public class TrialSite extends AbstractDomainObject{
 
 	public final static int MAX_LENGTH_POSTCODE = 10;
 	

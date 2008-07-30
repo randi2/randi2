@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.Center;
+import de.randi2.model.TrialSite;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Trial;
@@ -26,17 +26,17 @@ import de.randi2test.utility.AbstractDomainTest;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/META-INF/spring.xml",
 		"/META-INF/subconfig/test.xml" })
-public class CenterTest extends AbstractDomainTest<Center> {
+public class TrialSiteTest extends AbstractDomainTest<TrialSite> {
 
-	private Center validCenter;
+	private TrialSite validCenter;
 @Autowired private SessionFactory sessionFactory;
 
 private Session getCurrentSession(){
 	return sessionFactory.getCurrentSession();
 }
 	
-	public CenterTest() {
-		super(Center.class);
+	public TrialSiteTest() {
+		super(TrialSite.class);
 	}
 
 	@Before
@@ -46,7 +46,7 @@ private Session getCurrentSession(){
 
 	@Test
 	public void testConstuctor() {
-		Center c = new Center();
+		TrialSite c = new TrialSite();
 		assertEquals("", c.getName());
 		assertEquals("", c.getStreet());
 		assertEquals("", c.getPostcode());
@@ -129,12 +129,12 @@ private Session getCurrentSession(){
 		assertEquals("97321", validCenter.getPostcode());
 		assertValid(validCenter);
 
-		String ok = stringUtil.getWithLength(Center.MAX_LENGTH_POSTCODE);
+		String ok = stringUtil.getWithLength(TrialSite.MAX_LENGTH_POSTCODE);
 		validCenter.setPostcode(ok);
 		assertEquals(ok, validCenter.getPostcode());
 		assertValid(validCenter);
 
-		String iv = stringUtil.getWithLength(Center.MAX_LENGTH_POSTCODE + 1);
+		String iv = stringUtil.getWithLength(TrialSite.MAX_LENGTH_POSTCODE + 1);
 		validCenter.setPostcode(iv);
 		assertEquals(iv, validCenter.getPostcode());
 		assertInvalid(validCenter);
@@ -183,13 +183,13 @@ private Session getCurrentSession(){
 		hibernateTemplate.flush();
 		assertTrue(validCenter.getId()!= AbstractDomainObject.NOT_YET_SAVED_ID);
 		for(Trial trial: tl){
-			trial.addParticipatingCenter(validCenter);
-			assertEquals(1, trial.getParticipatingCenters().size());
-			assertEquals(validCenter.getId(), trial.getParticipatingCenters().get(0).getId());
+			trial.addParticipatingSite(validCenter);
+			assertEquals(1, trial.getParticipatingSites().size());
+			assertEquals(validCenter.getId(), trial.getParticipatingSites().get(0).getId());
 			hibernateTemplate.saveOrUpdate(trial);
 			hibernateTemplate.flush();
 		}
-		Center center = (Center) hibernateTemplate.get(Center.class, validCenter.getId());
+		TrialSite center = (TrialSite) hibernateTemplate.get(TrialSite.class, validCenter.getId());
 		assertEquals(validCenter.getId(), center.getId());
 		
 		hibernateTemplate.refresh(validCenter);
@@ -203,7 +203,7 @@ private Session getCurrentSession(){
 		assertEquals("UK", validCenter.getCountry());
 		hibernateTemplate.saveOrUpdate(validCenter);
 		assertTrue(validCenter.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
-		Center c = (Center) hibernateTemplate.get(Center.class, validCenter.getId());
+		TrialSite c = (TrialSite) hibernateTemplate.get(TrialSite.class, validCenter.getId());
 		
 		assertEquals(validCenter.getId(), c.getId());
 		assertEquals("UK", c.getCountry());
@@ -220,7 +220,7 @@ private Session getCurrentSession(){
 		assertTrue(validCenter.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
 		assertTrue(p.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
 		
-		Center c = (Center) hibernateTemplate.get(Center.class, validCenter.getId());
+		TrialSite c = (TrialSite) hibernateTemplate.get(TrialSite.class, validCenter.getId());
 		assertEquals(p.getId(), c.getContactPerson().getId());
 	}
 	
@@ -246,7 +246,7 @@ private Session getCurrentSession(){
 	//	hibernateTemplate.getSessionFactory().getCurrentSession().flush();
 		//List<Person> persons = (List<Person>) hibernateTemplate.findByNamedQueryAndNamedParam("center.findAllMembers", "center", validCenter);
 		
-		Center c = (Center) hibernateTemplate.get(Center.class, validCenter.getId());
+		TrialSite c = (TrialSite) hibernateTemplate.get(TrialSite.class, validCenter.getId());
 //	Center c = (Center) hibernateTemplate.getSessionFactory().getCurrentSession().get(Center.class, validCenter.getId());		
 		assertEquals(validCenter.getId(), c.getId());
 			List<Person> mem = c.getMembers();
