@@ -19,7 +19,6 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.Vector;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -39,7 +38,6 @@ import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Center;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
-import de.randi2.model.enumerations.Gender;
 
 /**
  * <p>
@@ -83,7 +81,7 @@ public class LoginHandler {
 
 	// Popup's flags
 	private boolean userSavedPVisible = false;
-	
+
 	private boolean changePasswordPVisible = false;
 
 	public boolean isChangePasswordPVisible() {
@@ -176,35 +174,50 @@ public class LoginHandler {
 					.setCenterSelected(false);
 		}
 	}
-	
-	public void showChangePasswordPopup(){
-		//Show the changePasswordPopup
+
+	public void showChangePasswordPopup() {
+		// Show the changePasswordPopup
 		this.changePasswordPVisible = true;
 	}
-	
-	public void hideChangePasswordPopup(){
-		//Hide the changePasswordPopup
+
+	public String hideChangePasswordPopup() {
+		// Hide the changePasswordPopup
 		this.changePasswordPVisible = false;
+		return Randi2.SUCCESS;
 	}
-	
-	public void changePassword(){
+
+	public void changePassword() {
 		System.out.println("Change Password");
-		//Delete the old password
-		//this.showedLogin.setPassword("");
+		// Delete the old password
+		// this.showedLogin.setPassword("");
 		this.saveLogin();
 		this.hideChangePasswordPopup();
 	}
 
 	/**
-	 * Method for saving the current user.
+	 * Method for saving the showed user.
 	 * 
 	 * @return Randi2.SUCCESS normally. Randi2.ERROR in case of an error.
 	 */
 	public String saveLogin() {
 		try {
-			this.loginDao.save(this.getShowedLogin());
+			// TODO Problem with the saved object!
+			// System.out.println("S_ID:"+this.showedLogin.getId());
+			// System.out.println("S_VER " + this.showedLogin.getVersion());
+			this.loginDao.save(this.showedLogin);
+			// System.out.println("S_ID:"+this.showedLogin.getId());
+			// System.out.println("S_VER " + this.showedLogin.getVersion());
+
+			// TODO Updating the Objetct ... TEMP SOLUTION
+			this.showedLogin = this.loginDao.get(this.showedLogin.getId());
+
 			// Making the centerSavedPopup visible
 			this.userSavedPVisible = true;
+
+			// If the current login user was saved with this method, the login
+			// object will be reload from the DB
+			if (this.showedLogin.equals(this.login))
+				this.login = this.loginDao.get(this.login.getId());
 
 			return Randi2.SUCCESS;
 		} catch (Exception exp) {
@@ -233,16 +246,21 @@ public class LoginHandler {
 
 		try {
 			// TODO password !
-			if (creatingMode||userCenter.getPassword().equals(cPassword)) {
+			if (creatingMode || userCenter.getPassword().equals(cPassword)) {
 				// Setting the user's center
-				if(userCenter==null||userCenter.getId()==AbstractDomainObject.NOT_YET_SAVED_ID){
-					throw new RegistrationException(RegistrationException.CENTER_ERROR);
+				if (userCenter == null
+						|| userCenter.getId() == AbstractDomainObject.NOT_YET_SAVED_ID) {
+					throw new RegistrationException(
+							RegistrationException.CENTER_ERROR);
 				}
 				objectToRegister.getPerson().setCenter(userCenter);
 				// Setting the registration date
 				objectToRegister.setRegistrationDate(new GregorianCalendar());
+				// System.out.println("S_ID:" + objectToRegister.getId());
+				// System.out.println("S_VER " + objectToRegister.getVersion());
 				loginDao.save(objectToRegister);
-
+				// System.out.println("S_ID:" + objectToRegister.getId());
+				// System.out.println("S_VER " + objectToRegister.getVersion());
 				// Making the successPopup visible (NORMAL REGISTRATION)
 				if (!creatingMode) {
 					((RegisterPage) FacesContext.getCurrentInstance()
@@ -255,7 +273,7 @@ public class LoginHandler {
 					this.userSavedPVisible = true;
 				}
 				// Reseting the objects used for the registration process
-				if(!creatingMode)
+				if (!creatingMode)
 					this.cleanUp();
 				// TODO Genereting & sending an Activation E-Mail
 				return Randi2.SUCCESS;
@@ -288,10 +306,10 @@ public class LoginHandler {
 	 * @return Randi2.SUCCESS
 	 */
 	public String logoutUser() {
-		// Setting the "Last Time Logged In" Date
-		this.login.setLastLoggedIn(new GregorianCalendar());
 		// Saving the current login object, befor log out
-		loginDao.save(this.login);
+		//TODO Problems trying to get the newst object
+		if(this.login.getVersion()>=this.loginDao.get(this.login.getId()).getVersion())
+			loginDao.save(this.login);
 		// Cleaning up
 		this.cleanUp();
 		// Invalidating the session
@@ -316,9 +334,8 @@ public class LoginHandler {
 				throw new LoginException(LoginException.LOGIN_PASS_INCORRECT);
 
 			if (login.getPassword().equals(pass)) {
-				if (login.getRegistrationDate() == null)
-					login.setRegistrationDate(new GregorianCalendar());
-				login.setLastLoggedIn(new GregorianCalendar());
+				// Setting the "Last Time Logged In" Date
+				this.login.setLastLoggedIn(new GregorianCalendar());
 				return Randi2.SUCCESS;
 			} else
 				throw new LoginException(LoginException.LOGIN_PASS_INCORRECT);
@@ -367,35 +384,6 @@ public class LoginHandler {
 	public void setDEGerman(ActionEvent event) {
 		this.login.setPrefLocale(Locale.GERMANY);
 		this.setChosenLocale(Locale.GERMANY);
-	}
-
-	/*
-	 * Temporary method for fulfilling the login object.
-	 */
-	@Deprecated
-	private void fulfillLoginObject() {
-		Center tCenter = new Center();
-		tCenter.setCity("Heidelberg");
-		tCenter.setName("RANDI2 Development by DKFZ");
-		tCenter.setPostcode("69120");
-		tCenter.setStreet("Im Neuenheimer Feld 1");
-		tCenter.setPassword("password");
-
-		Person tPerson = new Person();
-		tPerson.setCenter(tCenter);
-		tPerson.setEMail("randi@randi2.dev");
-		tPerson.setFirstname("Lukasz");
-		tPerson.setSurname("Plotnicki");
-		tPerson.setGender(Gender.MALE);
-		tPerson.setMobile("0176/26157884");
-		tPerson.setPhone("06221/39193");
-		tCenter.setContactPerson(tPerson);
-
-		Vector<Person> members = new Vector<Person>();
-		members.add(login.getPerson());
-		tCenter.setMembers(members);
-
-		login.getPerson().setCenter(tCenter);
 	}
 
 	/**

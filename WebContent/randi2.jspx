@@ -61,7 +61,6 @@
             -->
             <ice:panelStack
                     id="templatePanelStack"
-                    styleClass="webmailContentPanelStack"
                     selectedPanel="#{randi2Page.activePanel}">
 
                 <!--

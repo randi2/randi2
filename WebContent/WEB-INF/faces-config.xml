@@ -56,16 +56,6 @@
 		</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
-			<property-name>login</property-name>
-			<property-class>de.randi2.model.Login</property-class>
-			<null-value />
-		</managed-property>
-		<managed-property>
-			<property-name>person</property-name>
-			<property-class>de.randi2.model.Person</property-class>
-			<null-value />
-		</managed-property>
-		<managed-property>
 			<property-name>loginDao</property-name>
 			<property-class>de.randi2.dao.LoginDao</property-class>
 			<value>#{loginDAO}</value>
