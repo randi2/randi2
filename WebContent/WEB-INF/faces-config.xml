@@ -5,8 +5,6 @@
     "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
 
 <faces-config>
-
-
 	<application>
 		<message-bundle>labels</message-bundle>
 		<variable-resolver>
@@ -46,15 +44,6 @@
 			de.randi2.jsf.converters.GenderConverter
 		</converter-class>
 	</converter>
-
-	<managed-bean>
-		<description>Spring Security ...</description>
-		<managed-bean-name>loginPage</managed-bean-name>
-		<managed-bean-class>
-			de.randi2.jsf.pages.LoginPage
-		</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
 
 	<managed-bean>
 		<description>
@@ -127,26 +116,13 @@
 		<managed-bean-scope>application</managed-bean-scope>
 	</managed-bean>
 
-
-
-	<navigation-rule>
-		<display-name>login</display-name>
-		<from-view-id>/login.jspx</from-view-id>
-		<navigation-case>
-			<from-action>#{loginPage.loginAction}</from-action>
-			<from-outcome>success</from-outcome>
-			<to-view-id>/loginProxy.jsp</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-
 	<navigation-rule>
 		<display-name>randi2</display-name>
 		<from-view-id>/randi2.jspx</from-view-id>
 		<navigation-case>
 			<from-action>#{loginHandler.logoutUser}</from-action>
 			<from-outcome>success</from-outcome>
-			<to-view-id>/login.jspx</to-view-id>
+			<to-view-id>/loginSecure.jsp</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -166,18 +142,8 @@
 		<from-view-id>/register.jspx</from-view-id>
 		<navigation-case>
 			<from-outcome>ok</from-outcome>
-			<to-view-id>/login.jspx</to-view-id>
+			<to-view-id>/loginSecure.jsp</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
-	<navigation-rule>
-		<display-name>login</display-name>
-		<from-view-id>/login.jspx</from-view-id>
-		<navigation-case>
-			<from-action>#{loginHandler.testLogin}</from-action>
-			<from-outcome>success</from-outcome>
-			<to-view-id>/randi2.jspx</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-
 </faces-config>

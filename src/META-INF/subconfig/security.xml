@@ -62,7 +62,7 @@
 
 	<bean id="authenticationEntryPoint"
 		class="org.springframework.security.ui.webapp.AuthenticationProcessingFilterEntryPoint">
-		<property name="loginFormUrl" value="/login.jspx" />
+		<property name="loginFormUrl" value="/loginSecure.jsp" />
 	</bean> 
 
 
@@ -70,7 +70,7 @@
 		class="org.springframework.security.ui.webapp.AuthenticationProcessingFilter">
 		<property name="filterProcessesUrl"
 			value="/j_spring_security_check" />
-		<property name="authenticationFailureUrl" value="/register.jspx" />
+		<property name="authenticationFailureUrl" value="/loginSecure.jsp" />
 		<property name="defaultTargetUrl" value="/randi2.jspx" />
 		<property name="authenticationManager"
 			ref="authenticationManager">

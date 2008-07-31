@@ -123,13 +123,18 @@ public class LoginHandler {
 
 	public Login getLogin() {
 		if (login == null) {
-			if (!SecurityContextHolder.getContext().getAuthentication()
-					.isAuthenticated()) // Registration Process
+			try {
+				if (!SecurityContextHolder.getContext().getAuthentication()
+						.isAuthenticated()) // Registration Process
+					this.login = new Login();
+				else
+					// Normal Log in
+					this.login = (Login) SecurityContextHolder.getContext()
+							.getAuthentication().getPrincipal();
+			} catch (NullPointerException exp) {
+				// No Security Context - must be request for registration process
 				this.login = new Login();
-			else
-				// Normal Log in
-				this.login = (Login) SecurityContextHolder.getContext()
-						.getAuthentication().getPrincipal();
+			}
 		}
 		return this.login;
 	}
