@@ -29,7 +29,8 @@
 	<import resource="classpath:META-INF/subconfig/dao.xml" />
 <!-- 	<import resource="classpath:META-INF/subconfig/handlers.xml" /> -->
 	<import resource="classpath:META-INF/subconfig/aspects.xml" />
-
+	<import resource="classpath:META-INF/subconfig/security.xml" />
+	
 
 	<!-- Random Instance for NOT Randomization purposes. For Randomization
 		use a seperate Instance for each call (even if it is inefficient)! -->

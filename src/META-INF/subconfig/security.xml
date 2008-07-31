@@ -1,48 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
- <beans xmlns="http://www.springframework.org/schema/beans"
-     xmlns:security="http://www.springframework.org/schema/security"
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:schemaLocation="http://www.springframework.org/schema/beans 
-                         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                         http://www.springframework.org/schema/security 
-                         http://www.springframework.org/schema/security/spring-security-2.0.1.xsd">
- 
-     <security:http auto-config="true" access-denied-page="/accessDenied.iface">
-     
-         <security:intercept-url pattern="/login.jspx" filters="none" />
-         <security:intercept-url pattern="/accessDenied.jspx" filters="none" />
-         <security:intercept-url pattern="/error.jspx" filters="none" />
-         <security:intercept-url pattern="/register.jspx" filters="none"/> 
-         
-         
-         <security:intercept-url pattern="/block/**" filters="none" />
-         <security:intercept-url pattern="/xmlhttp/**" filters="none" />
-         
-         <security:intercept-url pattern="/js/**" filters="none" />
-         <security:intercept-url pattern="/images/**" filters="none" />
- 
-         <security:intercept-url pattern="/internal/**" access="ROLE_USER, ROLE_ANONYMOUS, ROLE_INTERNAL" />
-         <security:intercept-url pattern="/external/**" access="ROLE_EXTERNAL" />
- 
-         <security:intercept-url pattern="/**" access="ROLE_USER" />
-         
-         <security:concurrent-session-control max-sessions="1"/>
-         <security:form-login login-page="/login.jspx" authentication-failure-url="/login.jspx" default-target-url="/login.jspx" />
-         <security:logout logout-success-url="/login.jspx"/>
- 
-         <security:anonymous granted-authority="ROLE_USER" />
-         
-     </security:http>
-  
-     <security:authentication-manager alias="authenticationManager"/>
-         
-    <!--  <security:authentication-provider user-service-ref="myUserDetailsService" />
-        
-     </security:authentication-provider> -->
- 
-    <!-- Automatically receives AuthenticationEvent messages -->
-    <bean id="loggerListener" class="org.springframework.security.event.authentication.LoggerListener"/>
- 
-    <bean id="userDetailsService" class="com.sample.MyUserDetailsService"/>
-     
- </beans>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+
+
+
+	<bean id="authenticationManager"
+		class="org.springframework.security.providers.ProviderManager">
+		<property name="providers">
+			<list>
+				<ref bean="authenticationProvider" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="authenticationProvider"
+		class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="loginDAO"></property>
+<!-- 		<property name="passwordEncoder">
+			<bean
+				class="org.springframework.security.providers.encoding.Md5PasswordEncoder" />
+		</property>
+		
+		<property name="saltSource">
+			<bean
+				class="org.springframework.security.providers.dao.salt.SystemWideSaltSource">
+				<property name="systemWideSalt" value="DSJGEWI8SDG46" />
+			</bean>
+		</property> -->
+	</bean>
+
+	<bean id="accessDecisionManager"
+		class="org.springframework.security.vote.UnanimousBased">
+		<property name="decisionVoters">
+			<list>
+				<ref bean="roleVoter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="roleVoter"
+		class="org.springframework.security.vote.RoleVoter">
+	</bean>
+
+	<bean id="filterChainProxy"
+		class="org.springframework.security.util.FilterChainProxy">
+		<property name="filterInvocationDefinitionSource">
+			<value>
+				CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
+				PATTERN_TYPE_APACHE_ANT
+				/**=httpSessionIntegrationFilter,authenticationProcessingFilter,exceptionTranslationFilter,filterSecurityInterceptor
+			</value>
+		</property>
+	</bean>
+
+	<bean id="httpSessionIntegrationFilter"
+		class="org.springframework.security.context.HttpSessionContextIntegrationFilter">
+	</bean>
+
+	<bean id="authenticationEntryPoint"
+		class="org.springframework.security.ui.webapp.AuthenticationProcessingFilterEntryPoint">
+		<property name="loginFormUrl" value="/login.jspx" />
+	</bean> 
+
+
+	<bean id="authenticationProcessingFilter"
+		class="org.springframework.security.ui.webapp.AuthenticationProcessingFilter">
+		<property name="filterProcessesUrl"
+			value="/j_spring_security_check" />
+		<property name="authenticationFailureUrl" value="/register.jspx" />
+		<property name="defaultTargetUrl" value="/randi2.jspx" />
+		<property name="authenticationManager"
+			ref="authenticationManager">
+		</property>
+	</bean>
+
+	<bean id="exceptionTranslationFilter"
+		class="org.springframework.security.ui.ExceptionTranslationFilter">
+		<property name="authenticationEntryPoint"
+			ref="authenticationEntryPoint" />
+		<property name="accessDeniedHandler"
+			ref="accessDeniedHandler">
+		</property>
+	</bean>
+
+	<bean id="accessDeniedHandler"
+		class="org.springframework.security.ui.AccessDeniedHandlerImpl">
+		<property name="errorPage" value="/register.jspx"></property>
+	</bean>
+
+	<bean id="filterSecurityInterceptor"
+		class="org.springframework.security.intercept.web.FilterSecurityInterceptor">
+		<property name="authenticationManager"
+			ref="authenticationManager">
+		</property>
+		<property name="accessDecisionManager"
+			ref="accessDecisionManager">
+		</property>
+		<property name="objectDefinitionSource">
+			<value>
+				CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
+				PATTERN_TYPE_APACHE_ANT 
+				/randi2.jspx=ROLE_USER
+			</value>
+		</property>
+	</bean>
+
+	<!-- 	<bean id="autoProxyCreator" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="interceptorNames">
+		<list>
+		<value>securityInterceptor</value>
+		</list>
+		</property>
+		<property name="beanNames">
+		<list></list>
+		</property>
+		
+		</bean>
+	-->
+</beans>

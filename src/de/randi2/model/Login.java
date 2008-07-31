@@ -11,13 +11,16 @@ import javax.persistence.OneToOne;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.GrantedAuthorityImpl;
+import org.springframework.security.userdetails.UserDetails;
 
 import de.randi2.utility.validations.DateDependence;
 import de.randi2.utility.validations.Password;
 
 @Entity
 @DateDependence(firstDate="registrationDate",secondDate="lastLoggedIn")
-public class Login extends AbstractDomainObject {
+public class Login extends AbstractDomainObject implements UserDetails {
 
 	public final static int MAX_USERNAME_LENGTH = 40;
 	public final static int MIN_USERNAME_LENGTH = 5;
@@ -107,6 +110,37 @@ public class Login extends AbstractDomainObject {
 
 	public void setPrefLocale(Locale prefLocale) {
 		this.prefLocale = prefLocale;
+	}
+
+	@Override
+	public GrantedAuthority[] getAuthorities() {
+		System.out.println("getAuthorities");
+		GrantedAuthority ga = new GrantedAuthorityImpl("ROLE_USER");
+		return new GrantedAuthority[]{ga};
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	
