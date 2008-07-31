@@ -21,16 +21,17 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>de.randi2.model.Trial</value>
-				<value>de.randi2.model.Center</value>
+				<value>de.randi2.model.TrialSite</value>
 				<value>de.randi2.model.Person</value>
 				<value>de.randi2.model.PersonRole</value>
 				<value>de.randi2.model.Login</value>
 				<value>de.randi2.model.Role</value>
-				<value>de.randi2.model.TrialArm</value>
+				<value>de.randi2.model.TreatmentArm</value>
 				<value>de.randi2.model.TrialSubject</value>
 				<value>de.randi2.model.LogAction</value>
 				<value>de.randi2.model.DateChange</value>
-			</list>
+				<value>de.randi2.model.criteria.AbstractCriterion</value>
+				</list>
 		</property>
 		<property name="eventListeners">
 			<map>

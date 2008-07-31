@@ -40,7 +40,7 @@ public class TrialSite extends AbstractDomainObject{
 	private List<Person> members = null;
 	
 	
-	@ManyToMany(mappedBy="participatingCenters")
+	@ManyToMany(mappedBy="participatingSites")
 	private List<Trial> trials = new ArrayList<Trial>();
 
 	@NotEmpty
