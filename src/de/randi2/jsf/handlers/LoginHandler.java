@@ -48,7 +48,7 @@ import de.randi2.model.Person;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class LoginHandler {
-
+	
 	// This Object ist representing the current User
 	private Login login = null;
 

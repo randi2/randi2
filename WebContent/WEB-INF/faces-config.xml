@@ -19,7 +19,8 @@
 	</application>
 	<lifecycle>
 		<phase-listener>
-		de.randi2.jsf.listener.OpenSessionInViewPhaseListener</phase-listener>
+			de.randi2.jsf.listener.OpenSessionInViewPhaseListener
+		</phase-listener>
 	</lifecycle>
 	<validator>
 		<validator-id>
@@ -45,6 +46,15 @@
 			de.randi2.jsf.converters.GenderConverter
 		</converter-class>
 	</converter>
+
+	<managed-bean>
+		<description>Spring Security ...</description>
+		<managed-bean-name>loginPage</managed-bean-name>
+		<managed-bean-class>
+			de.randi2.jsf.pages.LoginPage
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
 
 	<managed-bean>
 		<description>
@@ -123,9 +133,9 @@
 		<display-name>login</display-name>
 		<from-view-id>/login.jspx</from-view-id>
 		<navigation-case>
-			<from-action>#{loginHandler.loginUser}</from-action>
+			<from-action>#{loginPage.loginAction}</from-action>
 			<from-outcome>success</from-outcome>
-			<to-view-id>/randi2.jspx</to-view-id>
+			<to-view-id>/loginProxy.jsp</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -140,7 +150,7 @@
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
-	
+
 	<navigation-rule>
 		<display-name>refresh</display-name>
 		<from-view-id>/randi2.jspx</from-view-id>

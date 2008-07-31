@@ -50,23 +50,14 @@
 				<ice:messages tooltip="true" layout="list" globalOnly="true"></ice:messages>
 
 				<ice:graphicImage value="/img/icons/login128.png"></ice:graphicImage>
-				<ice:panelGrid columns="3">
-					<ice:outputLabel for="login" value="#{labels['login.username']}" />
-					<ice:inputText id="login" size="25" maxlength="25"
-						value="#{loginHandler.login.username}" partialSubmit="true"
-						required="false" />
-					<ice:message for="login" />
+				<ice:panelGrid columns="2">
+					<ice:outputLabel for="j_username" value="#{labels['login.username']}" />
+					<h:inputText id="j_username"/>
 
-					<ice:outputLabel for="password" value="#{labels['login.password']}" />
-					<ice:inputSecret id="password" maxlength="10" size="25"
-						value="#{loginHandler.login.password}" partialSubmit="true"
-						redisplay="true" required="false" />
-					<ice:message for="password" />
+					<ice:outputLabel for="j_password" value="#{labels['login.password']}" />
+					<h:inputSecret id="j_password" redisplay="false"/>
 					<ice:commandButton value="#{labels['buttons.login']}"
-						action="#{loginHandler.loginUser}"></ice:commandButton>
-					<!-- Only during development -->
-					<ice:commandButton value="Log in (TEST)"
-						action="#{loginHandler.testLogin}"></ice:commandButton>
+						action="#{loginPage.loginAction}"></ice:commandButton>
 
 				</ice:panelGrid>
 
