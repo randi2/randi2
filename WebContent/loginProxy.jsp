@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='windows-1252'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 
@@ -16,7 +16,7 @@
 
 	<meta http-equiv="Content-Type"
 
-		content="text/html; charset=windows-1252" />
+		content="text/html;" />
 
 
 
@@ -28,9 +28,9 @@
 
 	<form method="post" action="j_spring_security_check">
 
-		<input type="hidden" name="j_username" value="#{loginPage.j_username}" /> 
+		<input type="hidden" name="j_username" value="${loginPage.j_username}" /> 
 
-		<input type="hidden" name="j_password" value="#{loginPage.j_password}" />
+		<input type="hidden" name="j_password" value="${loginPage.j_password}" />
 
 	</form>
 
