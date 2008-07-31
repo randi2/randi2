@@ -26,6 +26,7 @@ import javax.servlet.http.HttpSession;
 
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
+import org.springframework.security.context.SecurityContextHolder;
 
 import de.randi2.dao.CenterDao;
 import de.randi2.dao.LoginDao;
@@ -48,7 +49,7 @@ import de.randi2.model.Person;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class LoginHandler {
-	
+
 	// This Object ist representing the current User
 	private Login login = null;
 
@@ -121,8 +122,15 @@ public class LoginHandler {
 	}
 
 	public Login getLogin() {
-		if (login == null)
-			this.login = new Login();
+		if (login == null) {
+			if (!SecurityContextHolder.getContext().getAuthentication()
+					.isAuthenticated()) // Registration Process
+				this.login = new Login();
+			else
+				// Normal Log in
+				this.login = (Login) SecurityContextHolder.getContext()
+						.getAuthentication().getPrincipal();
+		}
 		return this.login;
 	}
 
@@ -307,8 +315,9 @@ public class LoginHandler {
 	 */
 	public String logoutUser() {
 		// Saving the current login object, befor log out
-		//TODO Problems trying to get the newst object
-		if(this.login.getVersion()>=this.loginDao.get(this.login.getId()).getVersion())
+		// TODO Problems trying to get the newst object
+		if (this.login.getVersion() >= this.loginDao.get(this.login.getId())
+				.getVersion())
 			loginDao.save(this.login);
 		// Cleaning up
 		this.cleanUp();
@@ -318,31 +327,6 @@ public class LoginHandler {
 		session.invalidate();
 		// TODO Closing the Hibernate Session
 		return Randi2.SUCCESS;
-	}
-
-	/**
-	 * Method to log in a user.
-	 * 
-	 * @return if the procces was successful then: randi2.SUCCESS. Otherwise:
-	 *         randi2.ERROR
-	 */
-	public String loginUser() {
-		String pass = login.getPassword();
-		try {
-			login = loginDao.get(login.getUsername());
-			if (login == null)
-				throw new LoginException(LoginException.LOGIN_PASS_INCORRECT);
-
-			if (login.getPassword().equals(pass)) {
-				// Setting the "Last Time Logged In" Date
-				this.login.setLastLoggedIn(new GregorianCalendar());
-				return Randi2.SUCCESS;
-			} else
-				throw new LoginException(LoginException.LOGIN_PASS_INCORRECT);
-		} catch (Exception e) {
-			Randi2.showMessage(e);
-			return Randi2.ERROR;
-		}
 	}
 
 	/*
