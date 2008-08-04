@@ -19,23 +19,27 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-import de.randi2.model.enumerations.Gender;
+import de.randi2.model.enumerations.TrialStatus;
 
 /**
  * <p>
- * A JSF converter for the gender-property of a person.
+ * A JSF converter for the trial's state.
  * </p>
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
-public class GenderConverter implements Converter {
+public class TrialStateConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
-		if (arg2.toString().equals("MALE"))
-			return Gender.MALE;
-		else
-			return Gender.FEMALE;
+		if (arg2.toString().equals("ACTIVE"))
+			return TrialStatus.ACTIVE;
+		else if(arg2.toString().equals("FINISHED"))
+			return TrialStatus.FINISHED;
+		else if(arg2.toString().equals("IN_PREPARATION"))
+			return TrialStatus.IN_PREPARATION;
+		else 
+			return TrialStatus.PAUSED;
 	}
 
 	@Override

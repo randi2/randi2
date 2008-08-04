@@ -32,18 +32,17 @@ import de.randi2.dao.CenterDao;
 import de.randi2.dao.LoginDao;
 import de.randi2.dao.PersonDao;
 import de.randi2.jsf.Randi2;
-import de.randi2.jsf.exceptions.LoginException;
 import de.randi2.jsf.exceptions.RegistrationException;
 import de.randi2.jsf.pages.RegisterPage;
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.TrialSite;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
+import de.randi2.model.TrialSite;
 
 /**
  * <p>
  * This class cares about the login object, which represents the logged in user
- * and contains all methodes needed for working wiht login and person objects.
+ * and contains all methods needed for working with login and person objects.
  * </p>
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
@@ -84,6 +83,16 @@ public class LoginHandler {
 	private boolean userSavedPVisible = false;
 
 	private boolean changePasswordPVisible = false;
+	
+	private boolean changeCenterPVisible = false;
+
+	public boolean isChangeCenterPVisible() {
+		return changeCenterPVisible;
+	}
+
+	public void setChangeCenterPVisible(boolean changeCenterPVisible) {
+		this.changeCenterPVisible = changeCenterPVisible;
+	}
 
 	public boolean isChangePasswordPVisible() {
 		return changePasswordPVisible;
@@ -132,7 +141,8 @@ public class LoginHandler {
 					this.login = (Login) SecurityContextHolder.getContext()
 							.getAuthentication().getPrincipal();
 			} catch (NullPointerException exp) {
-				// No Security Context - must be request for registration process
+				// No Security Context - must be request for registration
+				// process
 				this.login = new Login();
 			}
 		}
@@ -174,17 +184,12 @@ public class LoginHandler {
 	}
 
 	public void setUserCenter(TrialSite userCenter) {
-		if (userCenter != null) {
-			this.userCenter = userCenter;
+		this.userCenter = userCenter;
+		if (!creatingMode) {
 			((RegisterPage) FacesContext.getCurrentInstance().getApplication()
 					.getVariableResolver().resolveVariable(
 							FacesContext.getCurrentInstance(), "registerPage"))
-					.setCenterSelected(true);
-		} else {
-			((RegisterPage) FacesContext.getCurrentInstance().getApplication()
-					.getVariableResolver().resolveVariable(
-							FacesContext.getCurrentInstance(), "registerPage"))
-					.setCenterSelected(false);
+					.setCenterSelected(userCenter != null);
 		}
 	}
 
@@ -198,13 +203,26 @@ public class LoginHandler {
 		this.changePasswordPVisible = false;
 		return Randi2.SUCCESS;
 	}
+	
+	public void showChangeCenterPopup() {
+		// Show the changeCenterPopup
+		this.changeCenterPVisible = true;
+	}
+	
+	public String hideChangeCenterPopup() {
+		// Hide the changeCenterPopup
+		this.changeCenterPVisible = false;
+		return Randi2.SUCCESS;
+	}
 
 	public void changePassword() {
-		System.out.println("Change Password");
-		// Delete the old password
-		// this.showedLogin.setPassword("");
 		this.saveLogin();
 		this.hideChangePasswordPopup();
+		
+	}
+	public void changeCenter() {
+		this.saveLogin();
+		this.hideChangeCenterPopup();	
 	}
 
 	/**
@@ -217,6 +235,8 @@ public class LoginHandler {
 			// TODO Problem with the saved object!
 			// System.out.println("S_ID:"+this.showedLogin.getId());
 			// System.out.println("S_VER " + this.showedLogin.getVersion());
+			if(this.changeCenterPVisible && this.userCenter!=null)
+				this.showedLogin.getPerson().setCenter(this.userCenter);
 			this.loginDao.save(this.showedLogin);
 			// System.out.println("S_ID:"+this.showedLogin.getId());
 			// System.out.println("S_VER " + this.showedLogin.getVersion());

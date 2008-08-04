@@ -231,7 +231,6 @@ public class CenterHandler {
 	 * @param event
 	 */
 	public void updateCenterList(ValueChangeEvent event) {
-		System.out.println("Event!");
 		SelectItem searchCenter = new SelectItem("", (String) event
 				.getNewValue());
 		int maxMatches = ((SelectInputText) event.getComponent()).getRows();
@@ -265,7 +264,7 @@ public class CenterHandler {
 			this.matchesList = null;
 		}
 		this.matchesList = matchList;
-		//
+		
 		// Get the auto complete component from the event and assing
 		if (event.getComponent() instanceof SelectInputText) {
 			SelectInputText autoComplete = (SelectInputText) event
@@ -390,6 +389,14 @@ public class CenterHandler {
 
 	public void setMembersList(List<SelectItem> membersList) {
 		this.membersList = membersList;
+	}
+
+	public TrialSite getSelectedCenter() {
+		return selectedCenter;
+	}
+	
+	public int getCentersAmount(){
+		return this.getCenters().size();
 	}
 
 }

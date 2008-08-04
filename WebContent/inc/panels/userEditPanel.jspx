@@ -20,6 +20,9 @@
 <f:subview id="changePasswordPopup">
 	<jsp:directive.include file="./inc/popups/changePasswordPopup.jspx" />
 </f:subview>
+<f:subview id="changeCenterPopup">
+	<jsp:directive.include file="./inc/popups/changeCenterPopup.jspx" />
+</f:subview>
 <ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
@@ -231,7 +234,7 @@
 						value="#{loginHandler.showedLogin.person.center.name}">
 					</ice:outputText>
 					<ice:commandButton style="margin-left: 15px;"
-						value="#{labels['buttons.changeCenter']}"
+						value="#{labels['buttons.changeCenter']}" action="#{loginHandler.showChangeCenterPopup}"
 						rendered="#{loginHandler.editable}"></ice:commandButton>
 				</ice:panelGroup>
 				<ice:panelGroup rendered="#{loginHandler.creatingMode}">

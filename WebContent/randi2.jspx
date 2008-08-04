@@ -91,6 +91,12 @@
                                 file="./inc/panels/centerEditPanel.jspx"/>
                     </f:subview>
                 </ice:panelGroup>
+                <ice:panelGroup id="trialCreatePanel">
+                    <f:subview id="tcp">
+                        <jsp:directive.include
+                                file="./inc/panels/trialCreatePanel.jspx"/>
+                    </f:subview>
+                </ice:panelGroup>
                 
             </ice:panelStack>
 			</ice:panelGroup>

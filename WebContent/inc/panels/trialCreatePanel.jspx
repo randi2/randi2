@@ -1,0 +1,179 @@
+<!-- 
+ This page/panel should be used to create a new trial.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<ice:form xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelTabSet style="font-size: 9;display: block;">
+		<ice:panelTab label="Step 1">
+			<ice:panelGrid border="0" columns="2">
+				<ice:graphicImage value="/img/icons/trial48.png"></ice:graphicImage>
+				<ice:outputLabel
+					value="Please specify carefully the properties of the new trial..."></ice:outputLabel>
+			</ice:panelGrid>
+			<ice:panelGrid border="0" columns="2">
+				<ice:outputLabel for="name" value="Name"></ice:outputLabel>
+				<ice:panelGroup>
+					<ice:inputText id="name" size="50"
+						value="#{trialHandler.trial.name}"
+						required="#{trialHandler.trial.requiredFields['name']}"
+						partialSubmit="true">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject" value="#{trialHandler.trial}" />
+					</ice:inputText>
+					<ice:message for="name" />
+				</ice:panelGroup>
+				<ice:outputLabel for="description" value="Description"></ice:outputLabel>
+				<ice:panelGroup>
+					<ice:inputTextarea id="description" cols="20" rows="4"
+						value="#{trialHandler.trial.description}"
+						required="#{trialHandler.trial.requiredFields['description']}"
+						partialSubmit="true"
+						style="width:285px;height:80px;overflow: auto;">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject" value="#{trialHandler.trial}" />
+					</ice:inputTextarea>
+					<ice:message for="description" />
+				</ice:panelGroup>
+				<ice:outputLabel for="protocol" value="Protocol" />
+				<ice:panelGroup>
+					<ice:inputFile id="protocol" />
+					<ice:messages layout="table" for="protocol" showDetail="true"
+						showSummary="true" />
+				</ice:panelGroup>
+			</ice:panelGrid>
+			<ice:panelGrid border="0" columns="4">
+				<ice:outputLabel for="startDate" value="Start date" />
+				<ice:panelGroup>
+					<ice:selectInputDate id="startDate" value="#{trialHandler.TDate1}"
+						title="Pick up the trial's start date" renderAsPopup="true">
+						<f:convertDateTime locale="#{loginHandler.chosenLocale}"
+							dateStyle="medium" timeZone="#{trialHandler.zone}" />
+					</ice:selectInputDate>
+					<ice:message for="startDate" />
+				</ice:panelGroup>
+				<ice:outputLabel for="status" value="State"
+					style="padding-left:10px;"></ice:outputLabel>
+				<ice:selectOneMenu id="status" value="#{trialHandler.trial.status}">
+					<f:converter
+						converterId="de.randi2.jsf.converters.TRIALSTATE_CONVERTER" />
+					<f:selectItems value="#{trialHandler.stateItems}" />
+				</ice:selectOneMenu>
+				<ice:outputLabel for="endDate" value="End date" />
+				<ice:panelGroup>
+					<ice:selectInputDate id="endDate" value="#{trialHandler.TDate2}"
+						title="Pick up the trial's end date" renderAsPopup="true">
+						<f:convertDateTime locale="#{loginHandler.chosenLocale}"
+							dateStyle="medium" timeZone="#{trialHandler.zone}" />
+					</ice:selectInputDate>
+					<ice:message for="endDate" />
+				</ice:panelGroup>
+			</ice:panelGrid>
+			<ice:panelGrid border="0" columns="2">
+				<ice:outputLabel for="leadingCenter" value="Leading center"></ice:outputLabel>
+				<ice:selectInputText id="leadingCenter"
+					required="#{trialHandler.trial.requiredFields['leadingSite']}"
+					valueChangeListener="#{centerHandler.updateCenterList}" rows="10"
+					width="200">
+					<f:selectItems value="#{centerHandler.centerList}" />
+				</ice:selectInputText>
+				<ice:outputLabel for="sponsorInvestigator"
+					value="Principal investigator"></ice:outputLabel>
+				<ice:selectInputText id="sponsorInvestigator" width="200"
+					required="#{trialHandler.trial.requiredFields['sponsorInvestigator']}"
+					valueChangeListener="#{centerHandler.updateMembersList}">
+					<f:selectItems value="#{centerHandler.membersList}" />
+				</ice:selectInputText>
+			</ice:panelGrid>
+		</ice:panelTab>
+
+		<ice:panelTab label="Step 2">
+			<ice:panelGrid border="0" columns="2">
+				<ice:graphicImage value="/img/icons/center48.png"></ice:graphicImage>
+				<ice:outputLabel
+					value="Configure centers which will participate in your trial."></ice:outputLabel>
+			</ice:panelGrid>
+			<ice:panelGrid border="0" columns="3">
+				<ice:outputLabel for="center" value="Center"></ice:outputLabel>
+				<ice:selectInputText id="center"
+					required="#{trialHandler.trial.requiredFields['leadingSite']}"
+					valueChangeListener="#{centerHandler.updateCenterList}" rows="10"
+					width="200">
+					<f:selectItems value="#{centerHandler.centerList}" />
+				</ice:selectInputText>
+				<ice:commandButton value="Add"
+					actionListener="#{trialHandler.addCenter}" />
+			</ice:panelGrid>
+			<ice:dataTable id="centersTable" border="1"
+				value="#{trialHandler.trial.participatingSites}" var="center"
+				scrollable="true" scrollHeight="100px">
+				<ice:column id="column1">
+					<ice:outputText value="#{center.name}"></ice:outputText>
+					<f:facet name="header">
+						<ice:outputText value="#{labels['center.name']}" id="nameH"></ice:outputText>
+					</f:facet>
+				</ice:column>
+				<ice:column id="column2">
+					<ice:outputText value="#{center.country}"></ice:outputText>
+					<f:facet name="header">
+						<ice:outputText value="#{labels['center.country']}" id="countryH"></ice:outputText>
+					</f:facet>
+				</ice:column>
+				<ice:column id="column3">
+					<ice:outputText value="#{center.city}"></ice:outputText>
+					<f:facet name="header">
+						<ice:outputText value="#{labels['center.city']}" id="cityH"></ice:outputText>
+					</f:facet>
+				</ice:column>
+				<ice:column id="column4">
+					<ice:outputText value="Do we need this?"></ice:outputText>
+					<f:facet name="header">
+						<ice:outputText value="Members" id="membersH"></ice:outputText>
+					</f:facet>
+				</ice:column>
+				<ice:column id="column5">
+					<ice:commandLink id="removeId" value="Remove"
+						actionListener="#{trialHandler.removeCenter}">
+						<ice:outputText value="#{center}" visible="false"></ice:outputText>
+					</ice:commandLink>
+					<f:facet name="header">
+						<ice:outputText value="" id="removeH"></ice:outputText>
+					</f:facet>
+				</ice:column>
+			</ice:dataTable>
+		</ice:panelTab>
+
+		<ice:panelTab label="Step 3">
+		</ice:panelTab>
+
+		<ice:panelTab label="Step 4">
+		</ice:panelTab>
+
+		<ice:panelTab label="Step 5">
+		</ice:panelTab>
+
+	</ice:panelTabSet>
+	<ice:panelGrid border="0" columns="3">
+		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
+			action="#{centerHandler.saveCenter}"></ice:commandButton>
+		<ice:commandButton type="reset" value="#{labels['buttons.reset']}" />
+		<ice:messages globalOnly="true" showDetail="true" showSummary="true"
+			tooltip="true" />
+	</ice:panelGrid>
+
+</ice:form>

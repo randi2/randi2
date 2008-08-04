@@ -250,48 +250,9 @@
 		</ice:panelTab>
 		<ice:panelTab label="#{labels['pages.centerEditPanel.membersTab']}"
 			rendered="#{!centerHandler.creatingMode}">
-			<ice:panelGrid></ice:panelGrid>
-			<!-- Paginator with page controls -->
-			<ice:dataPaginator id="dataScroll" for="membersTable"
-				paginator="true" fastStep="3" paginatorMaxPages="4">
-				<f:facet name="first">
-					<ice:graphicImage
-						url="./xmlhttp/css/rime/css-images/arrow-first.gif"
-						style="border:none;"
-						title="#{labels['pages.centersViewPanel.firstPage']}" />
-				</f:facet>
-				<f:facet name="last">
-					<ice:graphicImage
-						url="./xmlhttp/css/rime/css-images/arrow-last.gif"
-						style="border:none;"
-						title="#{labels['pages.centersViewPanel.lastPage']}" />
-				</f:facet>
-				<f:facet name="previous">
-					<ice:graphicImage
-						url="./xmlhttp/css/rime/css-images/arrow-previous.gif"
-						style="border:none;"
-						title="#{labels['pages.centersViewPanel.previousPage']}" />
-				</f:facet>
-				<f:facet name="next">
-					<ice:graphicImage
-						url="./xmlhttp/css/rime/css-images/arrow-next.gif"
-						style="border:none;"
-						title="#{labels['pages.centersViewPanel.nextPage']}" />
-				</f:facet>
-				<f:facet name="fastforward">
-					<ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-ff.gif"
-						style="border:none;"
-						title="#{labels['pages.centersViewPanel.fastForward']}" />
-				</f:facet>
-				<f:facet name="fastrewind">
-					<ice:graphicImage url="./xmlhttp/css/rime/css-images/arrow-fr.gif"
-						style="border:none;"
-						title="#{labels['pages.centersViewPanel.fastBackwards']}" />
-				</f:facet>
-			</ice:dataPaginator>
-
 			<ice:dataTable id="membersTable" border="1"
-				value="#{centerHandler.showedCenter.members}" var="member" rows="5">
+				value="#{centerHandler.showedCenter.members}" var="member"
+				scrollable="true" scrollHeight="250px">
 				<ice:column id="column1">
 					<ice:outputText value="#{member.firstname}"></ice:outputText>
 					<f:facet name="header">
@@ -325,9 +286,12 @@
 					</f:facet>
 				</ice:column>
 				<ice:column id="column6">
-					<ice:commandLink value="#{labels['buttons.show']}"></ice:commandLink>
+					<ice:commandLink id="showId" value="#{labels['buttons.show']}"
+						actionListener="#{randi2Page.showUser}">
+						<ice:outputText value="#{member}" visible="false"></ice:outputText>
+					</ice:commandLink>
 					<f:facet name="header">
-						<ice:outputText id="showH"></ice:outputText>
+						<ice:outputText value="" id="showH"></ice:outputText>
 					</f:facet>
 				</ice:column>
 			</ice:dataTable>

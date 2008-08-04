@@ -1,0 +1,67 @@
+<!-- 
+ Change Center Popup
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+
+<ice:form xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelPopup draggable="true" modal="true"
+		visible="#{loginHandler.changeCenterPVisible}"
+		rendered="#{loginHandler.changeCenterPVisible}">
+		<f:facet name="header">
+			<ice:outputText value="#{labels['pages.changeCenterPopup.header']}"></ice:outputText>
+		</f:facet>
+		<f:facet name="body">
+			<ice:panelGrid border="0" columns="2" style="float:left">
+				<ice:graphicImage value="/img/icons/center48.png"></ice:graphicImage>
+				<ice:outputText value="#{labels['pages.changeCenterPopup.info']}"
+					escape="false" />
+				<ice:outputLabel for="name" value="#{labels['center.name']}"></ice:outputLabel>
+				<ice:selectInputText id="center"
+					required="#{loginHandler.person.requiredFields['center']}"
+					valueChangeListener="#{centerHandler.updateCenterList}" rows="10"
+					width="200">
+					<f:selectItems value="#{centerHandler.centerList}" />
+				</ice:selectInputText>
+				<ice:outputLabel for="country" value="#{labels['center.country']}"></ice:outputLabel>
+				<ice:outputText id="country"
+					value="#{loginHandler.userCenter.country}">
+				</ice:outputText>
+				<ice:outputLabel for="city" value="#{labels['center.city']}"></ice:outputLabel>
+				<ice:outputText id="city" value="#{loginHandler.userCenter.city}">
+				</ice:outputText>
+				<ice:outputLabel for="postcode" value="#{labels['center.postcode']}"></ice:outputLabel>
+				<ice:outputText id="postcode"
+					value="#{loginHandler.userCenter.postcode}">
+				</ice:outputText>
+				<ice:outputLabel for="street" value="#{labels['center.street']}"></ice:outputLabel>
+				<ice:outputText id="street"
+					value="#{loginHandler.userCenter.street}">
+				</ice:outputText>
+				<ice:messages globalOnly="true" />
+				<ice:panelGroup>
+					<ice:panelGrid columns="2">
+						<ice:commandButton value="#{labels['buttons.save']}"
+							action="#{loginHandler.changeCenter}" />
+						<ice:commandButton immediate="true"
+							value="#{labels['buttons.cancel']}"
+							action="#{loginHandler.hideChangeCenterPopup}"></ice:commandButton>
+					</ice:panelGrid>
+				</ice:panelGroup>
+			</ice:panelGrid>
+		</f:facet>
+	</ice:panelPopup>
+</ice:form>
