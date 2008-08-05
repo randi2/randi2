@@ -1,11 +1,13 @@
 package de.randi2.model;
 
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 
 import org.hibernate.validator.Length;
@@ -13,6 +15,7 @@ import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
+import org.springframework.security.acls.sid.Sid;
 import org.springframework.security.userdetails.UserDetails;
 
 import de.randi2.utility.validations.DateDependence;
@@ -20,7 +23,7 @@ import de.randi2.utility.validations.Password;
 
 @Entity
 @DateDependence(firstDate="registrationDate",secondDate="lastLoggedIn")
-public class Login extends AbstractDomainObject implements UserDetails {
+public class Login extends AbstractDomainObject implements UserDetails, Sid {
 
 	public final static int MAX_USERNAME_LENGTH = 40;
 	public final static int MIN_USERNAME_LENGTH = 5;
@@ -31,7 +34,7 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	private Locale prefLocale = null;
 	
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private Person person = null;
 	
 	@Column(unique = true)
@@ -122,21 +125,18 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	@Override
 	public boolean isAccountNonExpired() {
 		System.out.println("isAccountNonExpired");
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
 		System.out.println("isAccountNonLocked");
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
 		System.out.println("isCredentialsNonExpired");
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -146,6 +146,8 @@ public class Login extends AbstractDomainObject implements UserDetails {
 		// TODO Auto-generated method stub
 		return true;
 	}
+
+	
 	
 	
 	
