@@ -14,6 +14,7 @@
  */
 package de.randi2.jsf.handlers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -26,6 +27,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
 import de.randi2.dao.TrialDao;
+import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.enumerations.TrialStatus;
@@ -46,6 +48,7 @@ public class TrialHandler {
 	private Date tDate1;
 	private Date tDate2;
 	private TimeZone zone;
+	private ArrayList<TreatmentArm> arms = null;
 
 	// Trial Status as SelectItems
 	private List<SelectItem> stateItems = null;
@@ -97,6 +100,15 @@ public class TrialHandler {
 
 	}
 
+	public void addArm(ActionEvent event) {
+		TreatmentArm temp = new TreatmentArm();
+		this.getArms().add(temp);
+	}
+
+	public void removeArm(ActionEvent event) {
+		this.getArms().remove(this.getArms().size()-1);
+	}
+
 	// TEMP
 	public Date getTDate1() {
 		if (tDate1 == null)
@@ -127,6 +139,16 @@ public class TrialHandler {
 
 	public void setZone(TimeZone zone) {
 		this.zone = zone;
+	}
+
+	public ArrayList<TreatmentArm> getArms() {
+		if(arms == null)
+			arms = new ArrayList<TreatmentArm>();
+		return arms;
+	}
+
+	public void setArms(ArrayList<TreatmentArm> arms) {
+		this.arms = arms;
 	}
 
 }

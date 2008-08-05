@@ -20,7 +20,7 @@
 	<ice:panelTabSet style="font-size: 9;display: block;">
 		<ice:panelTab label="Step 1">
 			<ice:panelGrid border="0" columns="2">
-				<ice:graphicImage value="/img/icons/trial48.png"></ice:graphicImage>
+				<ice:graphicImage value="/img/icons/info48.png"></ice:graphicImage>
 				<ice:outputLabel
 					value="Please specify carefully the properties of the new trial..."></ice:outputLabel>
 			</ice:panelGrid>
@@ -159,6 +159,35 @@
 		</ice:panelTab>
 
 		<ice:panelTab label="Step 3">
+			<ice:panelGrid columns="2">
+				<ice:graphicImage value="/img/icons/arm48.png"></ice:graphicImage>
+				<ice:outputLabel value="Now please configure the trial's arms."></ice:outputLabel>
+			</ice:panelGrid>
+			<ice:panelGrid columns="3">
+				<ice:outputLabel value="Arm" />
+				<ice:commandButton actionListener="#{trialHandler.addArm}"
+					value="Add" style="margin-right:5px;" />
+				<ice:commandButton actionListener="#{trialHandler.removeArm}"
+					value="Remove" />
+			</ice:panelGrid>
+			<ice:panelGroup styleClass="clearer" />
+			<ice:panelSeries value="#{trialHandler.arms}" var="arm" style="padding:10px;">
+				<ice:panelGroup
+					style="padding:10px;border-width:1px;border-style:solid;border-color:blue;float:left; width:145px;margin: 10px;">
+					<ice:panelGrid columns="2">
+						<ice:graphicImage value="/img/icons/arm16.png" />
+						<ice:outputLabel value="Treatment Arm" />
+					</ice:panelGrid>
+					<ice:panelGrid>
+						<ice:outputLabel value="Name" />
+						<ice:inputText value="#{arm.name}" size="22"/>
+						<ice:outputLabel value="Description" />
+						<ice:inputTextarea value="#{arm.description}" style="width:135px;height:40px;overflow: auto;"/>
+						<ice:outputLabel value="Planned subjects" />
+						<ice:inputText value="#{arm.plannedSubjects}" size="22" />
+					</ice:panelGrid>
+				</ice:panelGroup>
+			</ice:panelSeries>
 		</ice:panelTab>
 
 		<ice:panelTab label="Step 4">
