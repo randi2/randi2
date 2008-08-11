@@ -23,29 +23,29 @@
 	</ice:panelGrid>
 	<ice:dataTable id="centersTable" border="1"
 		value="#{centerHandler.centers}" var="center" scrollable="true"
-		scrollHeight="250px">
+		scrollHeight="250px" columnWidths="150px,150px,100px,100px,35px" width="550px">
 		<ice:column id="column1">
 			<ice:outputText value="#{center.name}"></ice:outputText>
 			<f:facet name="header">
-				<ice:outputText value="#{labels['center.name']}" id="nameH"></ice:outputText>
+				<ice:outputText value="#{labels['center.name']}" id="nameH"  style="width:150px;"></ice:outputText>
 			</f:facet>
 		</ice:column>
 		<ice:column id="column2">
 			<ice:outputText value="#{center.street}"></ice:outputText>
 			<f:facet name="header">
-				<ice:outputText value="#{labels['center.street']}" id="streetH"></ice:outputText>
+				<ice:outputText value="#{labels['center.street']}" id="streetH" style="width:150px;"></ice:outputText>
 			</f:facet>
 		</ice:column>
 		<ice:column id="column3">
 			<ice:outputText value="#{center.city}"></ice:outputText>
 			<f:facet name="header">
-				<ice:outputText value="#{labels['center.city']}" id="cityH"></ice:outputText>
+				<ice:outputText value="#{labels['center.city']}" id="cityH" style="width:100px;"></ice:outputText>
 			</f:facet>
 		</ice:column>
 		<ice:column id="column4">
 			<ice:outputText value="#{center.postcode}"></ice:outputText>
 			<f:facet name="header">
-				<ice:outputText value="#{labels['center.postcode']}" id="postcodeH"></ice:outputText>
+				<ice:outputText value="#{labels['center.postcode']}" id="postcodeH" style="width:100px;"></ice:outputText>
 			</f:facet>
 		</ice:column>
 		<ice:column id="column5">
@@ -54,7 +54,7 @@
 				<ice:outputText value="#{center}" visible="false"></ice:outputText>
 			</ice:commandLink>
 			<f:facet name="header">
-				<ice:outputText value="" id="showH"></ice:outputText>
+				<ice:outputText value="" id="showH" style="width:50px;"></ice:outputText>
 			</f:facet>
 		</ice:column>
 	</ice:dataTable>

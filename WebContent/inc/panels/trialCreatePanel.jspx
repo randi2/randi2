@@ -50,9 +50,11 @@
 					</ice:inputTextarea>
 					<ice:message for="description" />
 				</ice:panelGroup>
-				<ice:outputLabel for="protocol" value="Protocol" />
+			</ice:panelGrid>
+			<ice:panelGrid border="0" columns="2">
+			<ice:outputLabel for="protocol" value="Protocol" />
 				<ice:panelGroup>
-					<ice:inputFile id="protocol" />
+					<ice:inputFile id="protocol" width="330" height="50"/>
 					<ice:messages layout="table" for="protocol" showDetail="true"
 						showSummary="true" />
 				</ice:panelGroup>
@@ -121,38 +123,32 @@
 			</ice:panelGrid>
 			<ice:dataTable id="centersTable" border="1"
 				value="#{trialHandler.trial.participatingSites}" var="center"
-				scrollable="true" scrollHeight="100px">
+				scrollable="true" scrollHeight="250px" columnWidths="150px,100px,100px, 55px" width="405px">
 				<ice:column id="column1">
 					<ice:outputText value="#{center.name}"></ice:outputText>
 					<f:facet name="header">
-						<ice:outputText value="#{labels['center.name']}" id="nameH"></ice:outputText>
+						<ice:outputText value="#{labels['center.name']}" id="nameH" style="width:150px;"></ice:outputText>
 					</f:facet>
 				</ice:column>
 				<ice:column id="column2">
 					<ice:outputText value="#{center.country}"></ice:outputText>
 					<f:facet name="header">
-						<ice:outputText value="#{labels['center.country']}" id="countryH"></ice:outputText>
+						<ice:outputText value="#{labels['center.country']}" id="countryH" style="width:100px;"></ice:outputText>
 					</f:facet>
 				</ice:column>
 				<ice:column id="column3">
 					<ice:outputText value="#{center.city}"></ice:outputText>
 					<f:facet name="header">
-						<ice:outputText value="#{labels['center.city']}" id="cityH"></ice:outputText>
+						<ice:outputText value="#{labels['center.city']}" id="cityH" style="width:100px;"></ice:outputText>
 					</f:facet>
 				</ice:column>
 				<ice:column id="column4">
-					<ice:outputText value="Do we need this?"></ice:outputText>
-					<f:facet name="header">
-						<ice:outputText value="Members" id="membersH"></ice:outputText>
-					</f:facet>
-				</ice:column>
-				<ice:column id="column5">
 					<ice:commandLink id="removeId" value="Remove"
 						actionListener="#{trialHandler.removeCenter}">
 						<ice:outputText value="#{center}" visible="false"></ice:outputText>
 					</ice:commandLink>
 					<f:facet name="header">
-						<ice:outputText value="" id="removeH"></ice:outputText>
+						<ice:outputText value="" id="removeH" style="width:55px;"></ice:outputText>
 					</f:facet>
 				</ice:column>
 			</ice:dataTable>
@@ -160,7 +156,7 @@
 
 		<ice:panelTab label="Step 3">
 			<ice:panelGrid columns="2">
-				<ice:graphicImage value="/img/icons/arm48.png"></ice:graphicImage>
+				<ice:graphicImage value="/img/icons/arms48.png"></ice:graphicImage>
 				<ice:outputLabel value="Now please configure the trial's arms."></ice:outputLabel>
 			</ice:panelGrid>
 			<ice:panelGrid columns="3">
@@ -191,6 +187,35 @@
 		</ice:panelTab>
 
 		<ice:panelTab label="Step 4">
+		<ice:panelGrid columns="2">
+				<ice:graphicImage value="/img/icons/properties48.png"></ice:graphicImage>
+				<ice:outputLabel value="Now please configure the subject's properties."></ice:outputLabel>
+			</ice:panelGrid>
+			<ice:panelGrid columns="3">
+				<ice:outputLabel value="Property" />
+				<ice:commandButton actionListener="#{trialHandler.addProperty}"
+					value="Add" style="margin-right:5px;" />
+				<ice:commandButton actionListener="#{trialHandler.removeProperty}"
+					value="Remove" />
+			</ice:panelGrid>
+			<ice:panelGroup styleClass="clearer" />
+			<ice:panelSeries value="#{trialHandler.properties}" var="property" style="padding:10px;">
+				<ice:panelGroup
+					style="padding:10px;border-width:1px;border-style:solid;border-color:blue;float:left; width:145px;margin: 10px;">
+					<ice:panelGrid columns="2">
+						<ice:graphicImage value="/img/icons/subjectProp16.png" />
+						<ice:outputLabel value="Property" />
+					</ice:panelGrid>
+					<ice:panelGrid>
+						<ice:outputLabel value="Name" />
+						<ice:inputText value="" size="22"/>
+						<ice:outputLabel value="Description" />
+						<ice:inputTextarea value="" style="width:135px;height:40px;overflow: auto;"/>
+						<ice:outputLabel value="Type" />
+						<ice:inputText value="" size="22" />
+					</ice:panelGrid>
+				</ice:panelGroup>
+			</ice:panelSeries>
 		</ice:panelTab>
 
 		<ice:panelTab label="Step 5">

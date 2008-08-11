@@ -31,6 +31,7 @@ import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.enumerations.TrialStatus;
+import de.randi2.model.subjectproperties.AbstractProperty;
 
 /**
  * <p>
@@ -49,6 +50,7 @@ public class TrialHandler {
 	private Date tDate2;
 	private TimeZone zone;
 	private ArrayList<TreatmentArm> arms = null;
+	private ArrayList<Object> properties = null;
 
 	// Trial Status as SelectItems
 	private List<SelectItem> stateItems = null;
@@ -109,6 +111,15 @@ public class TrialHandler {
 		this.getArms().remove(this.getArms().size()-1);
 	}
 
+	public void addProperty(ActionEvent event){
+		Object p = new Object();
+		this.getProperties().add(p);
+	}
+	
+	public void removeProperty(ActionEvent event) {
+		this.getArms().remove(this.getProperties().size()-1);
+	}
+	
 	// TEMP
 	public Date getTDate1() {
 		if (tDate1 == null)
@@ -149,6 +160,16 @@ public class TrialHandler {
 
 	public void setArms(ArrayList<TreatmentArm> arms) {
 		this.arms = arms;
+	}
+
+	public ArrayList<Object> getProperties() {
+		if(properties == null)
+			properties = new ArrayList<Object>();
+		return properties;
+	}
+
+	public void setProperties(ArrayList<Object> properties) {
+		this.properties = properties;
 	}
 
 }
