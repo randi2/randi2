@@ -68,6 +68,11 @@
 			<value>#{loginDAO}</value>
 		</managed-property>
 		<managed-property>
+			<property-name>mailSender</property-name>
+			<property-class>org.springframework.mail.MailSender</property-class>
+			<value>#{mailSender}</value>
+		</managed-property>
+		<managed-property>
 			<property-name>personDao</property-name>
 			<property-class>de.randi2.dao.PersonDao</property-class>
 			<value>#{personDAO}</value>
