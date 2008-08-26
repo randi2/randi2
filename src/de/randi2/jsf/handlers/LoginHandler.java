@@ -26,6 +26,9 @@ import javax.servlet.http.HttpSession;
 
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.context.SecurityContextHolder;
 
 import de.randi2.dao.CenterDao;
@@ -85,6 +88,17 @@ public class LoginHandler {
 	private boolean changePasswordPVisible = false;
 	
 	private boolean changeCenterPVisible = false;
+
+	// Mailsender
+    private MailSender mailSender;	
+	
+	public MailSender getMailSender() {
+		return mailSender;
+	}
+
+	public void setMailSender(MailSender mailSender) {
+		this.mailSender = mailSender;
+	}
 
 	public boolean isChangeCenterPVisible() {
 		return changeCenterPVisible;
@@ -289,6 +303,7 @@ public class LoginHandler {
 				objectToRegister.getPerson().setCenter(userCenter);
 				// Setting the registration date
 				objectToRegister.setRegistrationDate(new GregorianCalendar());
+				objectToRegister.setLastLoggedIn(null);
 				// System.out.println("S_ID:" + objectToRegister.getId());
 				// System.out.println("S_VER " + objectToRegister.getVersion());
 				loginDao.save(objectToRegister);
@@ -308,7 +323,22 @@ public class LoginHandler {
 				// Reseting the objects used for the registration process
 				if (!creatingMode)
 					this.cleanUp();
-				// TODO Genereting & sending an Activation E-Mail
+				// TODO Generating & sending an Activation E-Mail
+				
+				SimpleMailMessage msg = new SimpleMailMessage();
+		        msg.setTo(objectToRegister.getUsername());
+		        // TODO outsource the email sender adress and host
+		        msg.setFrom("randi2@randi2.de");
+		        msg.setText(
+		            "RANDI2 TEST");
+		        try{
+		            this.mailSender.send(msg);
+		        }
+		        catch(MailException ex) {
+		            // simply log it and go on...
+		            System.err.println(ex.getMessage());            
+		        }
+
 				return Randi2.SUCCESS;
 			} else {
 				throw new RegistrationException(
