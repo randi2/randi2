@@ -24,6 +24,7 @@
 		<dependency org="apache.org" name="poi-contrib" rev="3.0.2" conf="runtime;compile"/>	
 		<dependency org="apache.org" name="poi-scratchpad" rev="3.0.2" conf="runtime;compile"/>	
 		<dependency org="apache.org" name="servlet-api" rev="2.4" conf="runtime;compile"/>
+		<dependency org="apache.org" name="velocity" rev="1.5" conf="runtime;compile"/>
 
 		<dependency org="dom4j.org" name="dom4j" rev="1.6.1" conf="runtime;compile"/>		
 		<dependency org="hibernate.org" name="annotations" rev="3.3.1" conf="runtime;compile"/>	
