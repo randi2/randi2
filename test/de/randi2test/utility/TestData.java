@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.dao.HibernateAclService;
+import de.randi2.model.GrantedAuthorityEnum;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.TrialSite;
@@ -54,6 +55,7 @@ public class TestData {
 		adminL.setPerson(adminP);
 		adminL.setPrefLocale(Locale.GERMANY);
 		adminL.setUsername(adminP.getEMail());
+		adminL.addRole(GrantedAuthorityEnum.ROLE_ADMIN);
 		template.saveOrUpdate(adminL);
 		
 		TrialSite trialSite = new TrialSite();
@@ -86,6 +88,7 @@ public class TestData {
 		login.setPerson(person);
 		login.setPrefLocale(Locale.GERMANY);
 		login.setUsername(person.getEMail());
+		login.addRole(GrantedAuthorityEnum.ROLE_INVESTIGATOR);
 		template.saveOrUpdate(login);
 		
 		aclService.createAclwithPermissions(trialSite, login.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ});
