@@ -31,6 +31,11 @@
 				<value>de.randi2.model.LogAction</value>
 				<value>de.randi2.model.DateChange</value>
 				<value>de.randi2.model.criteria.AbstractCriterion</value>
+				<value>de.randi2.model.security.AclHibernate</value>
+				<value>de.randi2.model.security.AccessControlEntryHibernate</value>
+				<value>de.randi2.model.security.ObjectIdentityHibernate</value>
+				<value>de.randi2.model.security.PermissionHibernate</value>
+				<value>de.randi2.model.security.SidHibernate</value>
 				</list>
 		</property>
 		<property name="eventListeners">

@@ -11,4 +11,6 @@ public interface CenterDao extends AbstractDao<TrialSite> {
 	
 	public TrialSite get(String name);
 
+	@Override
+	public void save(TrialSite object);
 }

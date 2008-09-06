@@ -9,6 +9,7 @@ import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
 
+import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 
 public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements LoginDao, UserDetailsService{
@@ -40,9 +41,12 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements Lo
 		List<Login>  loginList =(List) template.find(query, username);
 		if (loginList.size() ==1){
 			loginList.get(0).setLastLoggedIn(new GregorianCalendar());
+			System.out.println("USER FOUND");
 			return loginList.get(0);
 		}
 		else throw new UsernameNotFoundException("");
 	}
+	
+	
 
 }

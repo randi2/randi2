@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.hibernate.validator.InvalidStateException;
@@ -15,12 +17,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.GrantedAuthorityImpl;
+import org.springframework.security.acls.Acl;
+import org.springframework.security.acls.domain.AclAuthorizationStrategyImpl;
+import org.springframework.security.acls.domain.AuditLogger;
+import org.springframework.security.acls.domain.ConsoleAuditLogger;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
+import de.randi2.model.security.AclHibernate;
 import de.randi2test.utility.AbstractDomainTest;
 
 
@@ -154,5 +163,4 @@ public class LoginTest extends AbstractDomainTest<Login>{
 	}
 	
 	
-
 }

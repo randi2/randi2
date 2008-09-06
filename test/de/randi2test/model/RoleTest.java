@@ -31,7 +31,7 @@ public class RoleTest extends AbstractDomainTest<Role>{
 		Role r = new Role();
 		
 		assertEquals(0, r.getRights().size());
-		assertEquals("", r.getName());
+	//	assertEquals("", r.getAuthority());
 		
 	}
 	

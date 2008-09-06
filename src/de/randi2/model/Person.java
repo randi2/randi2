@@ -53,8 +53,8 @@ public class Person extends AbstractDomainObject {
 	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private Login login;
 	
-	@OneToMany(mappedBy="person")
-	private List<PersonRole> roles = new ArrayList<PersonRole>();
+//	@OneToMany(mappedBy="person")
+//	private List<PersonRole> roles = new ArrayList<PersonRole>();
 	
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getCenter()
@@ -229,19 +229,14 @@ public class Person extends AbstractDomainObject {
 		this.login = login;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.randi2.model.PersonIF#setRoles(java.util.List)
-	 */
-	public void setRoles(List<PersonRole> _roles){
-		this.roles = _roles;
-	}
 	
-	/* (non-Javadoc)
-	 * @see de.randi2.model.PersonIF#getRoles()
-	 */
-	public List<PersonRole> getRoles() {
-		return this.roles;
-	}
+//	public void setRoles(List<PersonRole> _roles){
+//		this.roles = _roles;
+//	}
+//
+//	public List<PersonRole> getRoles() {
+//		return this.roles;
+//	}
 	
 	@Override
 	public String toString(){

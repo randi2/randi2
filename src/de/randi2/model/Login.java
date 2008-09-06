@@ -1,21 +1,27 @@
 package de.randi2.model;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
-import org.springframework.security.acls.sid.Sid;
 import org.springframework.security.userdetails.UserDetails;
 
 import de.randi2.utility.validations.DateDependence;
@@ -23,7 +29,7 @@ import de.randi2.utility.validations.Password;
 
 @Entity
 @DateDependence(firstDate="registrationDate",secondDate="lastLoggedIn")
-public class Login extends AbstractDomainObject implements UserDetails, Sid {
+public class Login extends AbstractDomainObject implements UserDetails {
 
 	public final static int MAX_USERNAME_LENGTH = 40;
 	public final static int MIN_USERNAME_LENGTH = 5;
@@ -46,6 +52,10 @@ public class Login extends AbstractDomainObject implements UserDetails, Sid {
 	
 	private boolean active = false;
 
+	@CollectionOfElements(fetch=FetchType.EAGER)
+	@Enumerated(value=EnumType.STRING) 
+	private Set<GrantedAuthorityEnum> rights = new HashSet<GrantedAuthorityEnum>();
+	
 	@Length(min=MIN_USERNAME_LENGTH, max=MAX_USERNAME_LENGTH)
 	@NotEmpty
 	public String getUsername() {
@@ -117,34 +127,44 @@ public class Login extends AbstractDomainObject implements UserDetails, Sid {
 
 	@Override
 	public GrantedAuthority[] getAuthorities() {
-		System.out.println("getAuthorities");
-		GrantedAuthority ga = new GrantedAuthorityImpl("ROLE_USER");
-		return new GrantedAuthority[]{ga};
+		rights.add(GrantedAuthorityEnum.ROLE_USER);
+		GrantedAuthority[] gaa = new GrantedAuthorityImpl[rights.size()];
+		Iterator<GrantedAuthorityEnum> it = rights.iterator();
+		int i = 0;
+		while (it.hasNext()) {
+			GrantedAuthorityImpl ga = new GrantedAuthorityImpl(it.next().toString());
+			gaa[i] = ga;
+			i++;
+		}
+		return gaa;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		System.out.println("isAccountNonExpired");
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		System.out.println("isAccountNonLocked");
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		System.out.println("isCredentialsNonExpired");
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		System.out.println("isEnabled");
-		// TODO Auto-generated method stub
 		return true;
+	}
+
+	public Set<GrantedAuthorityEnum> getRights() {
+		return rights;
+	}
+
+	public void setRights(Set<GrantedAuthorityEnum> rights) {
+		this.rights = rights;
 	}
 
 	

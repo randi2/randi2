@@ -1,5 +1,6 @@
 package de.randi2.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import javax.persistence.OneToOne;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
+import org.springframework.security.acls.objectidentity.ObjectIdentity;
 
 import de.randi2.utility.validations.Password;
 
@@ -138,7 +140,5 @@ public class TrialSite extends AbstractDomainObject{
 		this.country = country;
 	}
 
-	
-	
 	
 }
