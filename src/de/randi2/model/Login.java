@@ -54,7 +54,7 @@ public class Login extends AbstractDomainObject implements UserDetails {
 
 	@CollectionOfElements(fetch=FetchType.EAGER)
 	@Enumerated(value=EnumType.STRING) 
-	private Set<GrantedAuthorityEnum> rights = new HashSet<GrantedAuthorityEnum>();
+	private Set<GrantedAuthorityEnum> roles = new HashSet<GrantedAuthorityEnum>();
 	
 	@Length(min=MIN_USERNAME_LENGTH, max=MAX_USERNAME_LENGTH)
 	@NotEmpty
@@ -127,9 +127,9 @@ public class Login extends AbstractDomainObject implements UserDetails {
 
 	@Override
 	public GrantedAuthority[] getAuthorities() {
-		rights.add(GrantedAuthorityEnum.ROLE_USER);
-		GrantedAuthority[] gaa = new GrantedAuthorityImpl[rights.size()];
-		Iterator<GrantedAuthorityEnum> it = rights.iterator();
+		roles.add(GrantedAuthorityEnum.ROLE_USER);
+		GrantedAuthority[] gaa = new GrantedAuthorityImpl[roles.size()];
+		Iterator<GrantedAuthorityEnum> it = roles.iterator();
 		int i = 0;
 		while (it.hasNext()) {
 			GrantedAuthorityImpl ga = new GrantedAuthorityImpl(it.next().toString());
@@ -160,11 +160,11 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	}
 
 	public Set<GrantedAuthorityEnum> getRights() {
-		return rights;
+		return roles;
 	}
 
 	public void setRights(Set<GrantedAuthorityEnum> rights) {
-		this.rights = rights;
+		this.roles = rights;
 	}
 
 	
