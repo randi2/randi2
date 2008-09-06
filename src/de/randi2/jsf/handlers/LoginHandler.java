@@ -38,6 +38,7 @@ import de.randi2.jsf.Randi2;
 import de.randi2.jsf.exceptions.RegistrationException;
 import de.randi2.jsf.pages.RegisterPage;
 import de.randi2.model.AbstractDomainObject;
+import de.randi2.model.GrantedAuthorityEnum;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.TrialSite;
@@ -86,12 +87,12 @@ public class LoginHandler {
 	private boolean userSavedPVisible = false;
 
 	private boolean changePasswordPVisible = false;
-	
+
 	private boolean changeCenterPVisible = false;
 
 	// Mailsender
-    private MailSender mailSender;	
-	
+	private MailSender mailSender;
+
 	public MailSender getMailSender() {
 		return mailSender;
 	}
@@ -148,9 +149,10 @@ public class LoginHandler {
 		if (login == null) {
 			try {
 				if (!SecurityContextHolder.getContext().getAuthentication()
-						.isAuthenticated()) // Registration Process
+						.isAuthenticated()) { // Registration Process
 					this.login = new Login();
-				else
+					this.login.addRole(GrantedAuthorityEnum.ROLE_ANONYMOUS);
+				} else
 					// Normal Log in
 					this.login = (Login) SecurityContextHolder.getContext()
 							.getAuthentication().getPrincipal();
@@ -217,12 +219,12 @@ public class LoginHandler {
 		this.changePasswordPVisible = false;
 		return Randi2.SUCCESS;
 	}
-	
+
 	public void showChangeCenterPopup() {
 		// Show the changeCenterPopup
 		this.changeCenterPVisible = true;
 	}
-	
+
 	public String hideChangeCenterPopup() {
 		// Hide the changeCenterPopup
 		this.changeCenterPVisible = false;
@@ -232,11 +234,12 @@ public class LoginHandler {
 	public void changePassword() {
 		this.saveLogin();
 		this.hideChangePasswordPopup();
-		
+
 	}
+
 	public void changeCenter() {
 		this.saveLogin();
-		this.hideChangeCenterPopup();	
+		this.hideChangeCenterPopup();
 	}
 
 	/**
@@ -249,7 +252,7 @@ public class LoginHandler {
 			// TODO Problem with the saved object!
 			// System.out.println("S_ID:"+this.showedLogin.getId());
 			// System.out.println("S_VER " + this.showedLogin.getVersion());
-			if(this.changeCenterPVisible && this.userCenter!=null)
+			if (this.changeCenterPVisible && this.userCenter != null)
 				this.showedLogin.getPerson().setCenter(this.userCenter);
 			this.loginDao.save(this.showedLogin);
 			// System.out.println("S_ID:"+this.showedLogin.getId());
@@ -285,10 +288,15 @@ public class LoginHandler {
 			// in user
 			objectToRegister = showedLogin;
 			objectToRegister.setUsername(showedLogin.getPerson().getEMail());
+
+			// TODO An this point the user role must have been specified
+
 		} else { // Normal self-registration
 			objectToRegister = this.getLogin();
 			objectToRegister.setPerson(this.getPerson());
 			objectToRegister.setUsername(this.getPerson().getEMail());
+			// The self-registrated user is always an investigator
+			objectToRegister.addRole(GrantedAuthorityEnum.ROLE_INVESTIGATOR);
 		}
 
 		try {
@@ -324,20 +332,18 @@ public class LoginHandler {
 				if (!creatingMode)
 					this.cleanUp();
 				// TODO Generating & sending an Activation E-Mail
-				
+
 				SimpleMailMessage msg = new SimpleMailMessage();
-		        msg.setTo(objectToRegister.getUsername());
-		        // TODO outsource the email sender adress and host
-		        msg.setFrom("randi2@randi2.de");
-		        msg.setText(
-		            "RANDI2 TEST");
-		        try{
-		            this.mailSender.send(msg);
-		        }
-		        catch(MailException ex) {
-		            // simply log it and go on...
-		            System.err.println(ex.getMessage());            
-		        }
+				msg.setTo(objectToRegister.getUsername());
+				// TODO outsource the email sender adress and host
+				msg.setFrom("randi2@randi2.de");
+				msg.setText("RANDI2 TEST");
+				try {
+					this.mailSender.send(msg);
+				} catch (MailException ex) {
+					// simply log it and go on...
+					System.err.println(ex.getMessage());
+				}
 
 				return Randi2.SUCCESS;
 			} else {

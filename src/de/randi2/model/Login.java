@@ -28,7 +28,7 @@ import de.randi2.utility.validations.DateDependence;
 import de.randi2.utility.validations.Password;
 
 @Entity
-@DateDependence(firstDate="registrationDate",secondDate="lastLoggedIn")
+@DateDependence(firstDate = "registrationDate", secondDate = "lastLoggedIn")
 public class Login extends AbstractDomainObject implements UserDetails {
 
 	public final static int MAX_USERNAME_LENGTH = 40;
@@ -36,27 +36,26 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	public final static int MAX_PASSWORD_LENGTH = 50;
 	public final static int MIN_PASSWORD_LENGTH = 8;
 	public final static int HASH_PASSWORD_LENGTH = 64;
-	
+
 	private Locale prefLocale = null;
-	
-	
-	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Person person = null;
-	
+
 	@Column(unique = true)
 	private String username = "";
 	private String password = null;
-	
+
 	private GregorianCalendar lastLoggedIn = null;
 	private GregorianCalendar registrationDate = null;
-	
+
 	private boolean active = false;
 
-	@CollectionOfElements(fetch=FetchType.EAGER)
-	@Enumerated(value=EnumType.STRING) 
+	@CollectionOfElements(fetch = FetchType.EAGER)
+	@Enumerated(value = EnumType.STRING)
 	private Set<GrantedAuthorityEnum> roles = new HashSet<GrantedAuthorityEnum>();
-	
-	@Length(min=MIN_USERNAME_LENGTH, max=MAX_USERNAME_LENGTH)
+
+	@Length(min = MIN_USERNAME_LENGTH, max = MAX_USERNAME_LENGTH)
 	@NotEmpty
 	public String getUsername() {
 		return username;
@@ -73,8 +72,6 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	public void setLastLoggedIn(GregorianCalendar lastLoggedIn) {
 		this.lastLoggedIn = lastLoggedIn;
 	}
-
-
 
 	public GregorianCalendar getRegistrationDate() {
 		return registrationDate;
@@ -101,20 +98,20 @@ public class Login extends AbstractDomainObject implements UserDetails {
 		this.person = person;
 	}
 
-
-	@Password(max=MAX_PASSWORD_LENGTH,min=MIN_PASSWORD_LENGTH,hash_length=HASH_PASSWORD_LENGTH)
+	@Password(max = MAX_PASSWORD_LENGTH, min = MIN_PASSWORD_LENGTH, hash_length = HASH_PASSWORD_LENGTH)
 	public String getPassword() {
 		return password;
 	}
 
-	// Just a private setter for the persistence Provider //I've changed it only temporary to public ... (lpotni)
+	// Just a private setter for the persistence Provider //I've changed it only
+	// temporary to public ... (lpotni)
 	public void setPassword(String password) {
-		
+
 		this.password = password;
 	}
-	
-	public void setPasswordPlaintext(String plaintextPassword){
-		
+
+	public void setPasswordPlaintext(String plaintextPassword) {
+
 	}
 
 	public Locale getPrefLocale() {
@@ -127,12 +124,12 @@ public class Login extends AbstractDomainObject implements UserDetails {
 
 	@Override
 	public GrantedAuthority[] getAuthorities() {
-		roles.add(GrantedAuthorityEnum.ROLE_USER);
 		GrantedAuthority[] gaa = new GrantedAuthorityImpl[roles.size()];
 		Iterator<GrantedAuthorityEnum> it = roles.iterator();
 		int i = 0;
 		while (it.hasNext()) {
-			GrantedAuthorityImpl ga = new GrantedAuthorityImpl(it.next().toString());
+			GrantedAuthorityImpl ga = new GrantedAuthorityImpl(it.next()
+					.toString());
 			gaa[i] = ga;
 			i++;
 		}
@@ -159,16 +156,37 @@ public class Login extends AbstractDomainObject implements UserDetails {
 		return true;
 	}
 
-	public Set<GrantedAuthorityEnum> getRights() {
+	public Set<GrantedAuthorityEnum> getRoles() {
 		return roles;
 	}
 
-	public void setRights(Set<GrantedAuthorityEnum> rights) {
-		this.roles = rights;
+	public void setRoles(Set<GrantedAuthorityEnum> roles) {
+		this.roles = roles;
 	}
 
-	
-	
-	
-	
+	public void addRole(GrantedAuthorityEnum role) {
+		if (this.roles != null)
+			this.roles.add(role);
+		switch (role) {
+		case ROLE_INVESTIGATOR:
+			this.roles.add(GrantedAuthorityEnum.ROLE_USER);
+			break;
+		case ROLE_P_INVASTIGATOR:
+			this.roles.add(GrantedAuthorityEnum.ROLE_USER);
+			break;
+		case ROLE_MONITOR:
+			this.roles.add(GrantedAuthorityEnum.ROLE_USER);
+			break;
+		case ROLE_STATISTICIAN:
+			this.roles.add(GrantedAuthorityEnum.ROLE_USER);
+			break;
+		case ROLE_ADMIN:
+			this.roles.add(GrantedAuthorityEnum.ROLE_USER);
+			break;
+		case ROLE_SYSOP:
+			this.roles.add(GrantedAuthorityEnum.ROLE_USER);
+			break;
+		}
+	}
+
 }
