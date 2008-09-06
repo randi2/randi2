@@ -152,14 +152,10 @@ public class LoginHandler {
 			try {
 				if (!SecurityContextHolder.getContext().getAuthentication()
 						.isAuthenticated()) { // Registration Process
+					// TODO I really don't know if we need this part of code,
+					// because when registrating a new user, we always land in
+					// the catch block
 					this.login = new Login();
-					this.login.addRole(GrantedAuthorityEnum.ROLE_ANONYMOUS);
-					AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-							"anonymousUser", this.login, this.login
-									.getAuthorities());
-					// Perform authentication
-					SecurityContextHolder.getContext().setAuthentication(
-							authToken);
 				} else
 					// Normal Log in
 					this.login = (Login) SecurityContextHolder.getContext()
@@ -168,6 +164,14 @@ public class LoginHandler {
 				// No Security Context - must be request for registration
 				// process
 				this.login = new Login();
+				System.out.println("ANONYMOUS USER - STEP1");
+				this.login.addRole(GrantedAuthorityEnum.ROLE_ANONYMOUS);
+				AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
+						"anonymousUser", this.login, this.login
+								.getAuthorities());
+				// Perform authentication
+				SecurityContextHolder.getContext().setAuthentication(
+						authToken);
 			}
 		}
 		return this.login;
