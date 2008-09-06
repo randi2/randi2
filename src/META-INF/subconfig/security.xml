@@ -5,17 +5,20 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd">
 
-                     
-    	         
-                     
-   <sec:http access-decision-manager-ref="httpAccessDecisionManager">
-   	<sec:form-login login-page="/loginSecure.jsp" default-target-url="/randi2.jspx" authentication-failure-url="/register.jspx" login-processing-url="/j_spring_security_check"/>
-   	<sec:intercept-url pattern="/randi2.jspx" access="ROLE_USER" />
-   </sec:http>
-   
-   <bean id="authenticationProvider"
+
+
+
+	<sec:http access-decision-manager-ref="httpAccessDecisionManager">
+		<sec:form-login login-page="/loginSecure.jsp"
+			default-target-url="/randi2.jspx"
+			authentication-failure-url="/register.jspx"
+			login-processing-url="/j_spring_security_check" />
+		<sec:intercept-url pattern="/randi2.jspx" access="ROLE_USER" />
+	</sec:http>
+
+	<bean id="authenticationProvider"
 		class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
-		<sec:custom-authentication-provider/>
+		<sec:custom-authentication-provider />
 		<property name="userDetailsService" ref="loginDAO"></property>
 		<!-- 		<property name="passwordEncoder">
 			<bean
@@ -29,11 +32,11 @@
 			</bean>
 			</property> -->
 	</bean>
-	
 
-    <sec:global-method-security></sec:global-method-security>
-      
-      <!-- ============================== BEGIN ACL BASIC configuration ======================================================== -->
+
+	<sec:global-method-security></sec:global-method-security>
+
+	<!-- ============================== BEGIN ACL BASIC configuration ======================================================== -->
 
 
 
@@ -63,17 +66,17 @@
 			value="de.randi2.model.security.PermissionHibernate.DELETE" />
 	</bean>
 
-       <!-- ============================== END ACL BASIC configuration ======================================================== -->
+	<!-- ============================== END ACL BASIC configuration ======================================================== -->
 
-      
-      
-      <!-- ============================= BEGIN VOTER ============================================= -->
-      
-      
-      <bean id="roleVoter"
+
+
+	<!-- ============================= BEGIN VOTER ============================================= -->
+
+
+	<bean id="roleVoter"
 		class="org.springframework.security.vote.RoleVoter">
 	</bean>
-	
+
 	<bean id="aclTrialSiteReadVoter"
 		class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
@@ -89,15 +92,17 @@
 		<property name="processDomainObjectClass"
 			value="de.randi2.model.TrialSite" />
 	</bean>
-	
+
 	<bean id="aclTrialSiteWriteVoter"
 		class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIALSITE_WRITE" />
 		<constructor-arg>
 			<list>
-				<ref local="de.randi2.model.security.PermissionHibernate.WRITE" />
-				<ref local="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref
+					local="de.randi2.model.security.PermissionHibernate.WRITE" />
+				<ref
+					local="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
 		<property name="processDomainObjectClass"
@@ -133,15 +138,17 @@
 		<property name="processDomainObjectClass"
 			value="de.randi2.model.Trial" />
 	</bean>
-	
+
 	<bean id="aclTrialWriteVoter"
 		class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIAL_WRITE" />
 		<constructor-arg>
 			<list>
-				<ref local="de.randi2.model.security.PermissionHibernate.WRITE" />
-				<ref local="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref
+					local="de.randi2.model.security.PermissionHibernate.WRITE" />
+				<ref
+					local="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
 		<property name="processDomainObjectClass"
@@ -162,7 +169,7 @@
 			value="de.randi2.model.Trial" />
 	</bean>
 
-<bean id="aclPersonReadVoter"
+	<bean id="aclPersonReadVoter"
 		class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_PERSON_READ" />
@@ -177,15 +184,17 @@
 		<property name="processDomainObjectClass"
 			value="de.randi2.model.Person" />
 	</bean>
-	
+
 	<bean id="aclPersonWriteVoter"
 		class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_PERSONL_WRITE" />
 		<constructor-arg>
 			<list>
-				<ref local="de.randi2.model.security.PermissionHibernate.WRITE" />
-				<ref local="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref
+					local="de.randi2.model.security.PermissionHibernate.WRITE" />
+				<ref
+					local="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
 		<property name="processDomainObjectClass"
@@ -206,7 +215,7 @@
 			value="de.randi2.model.Person" />
 	</bean>
 
-<bean id="aclLoginReadVoter"
+	<bean id="aclLoginReadVoter"
 		class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_LOGIN_READ" />
@@ -221,15 +230,17 @@
 		<property name="processDomainObjectClass"
 			value="de.randi2.model.Login" />
 	</bean>
-	
+
 	<bean id="aclLoginWriteVoter"
 		class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_LOGIN_WRITE" />
 		<constructor-arg>
 			<list>
-				<ref local="de.randi2.model.security.PermissionHibernate.WRITE" />
-				<ref local="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref
+					local="de.randi2.model.security.PermissionHibernate.WRITE" />
+				<ref
+					local="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
 		<property name="processDomainObjectClass"
@@ -251,13 +262,13 @@
 	</bean>
 
 
-	
-      
-      <!-- ============================= END VOTER ============================================= -->
-      
-      <!-- =============================== BEGIN ACCESSDECISIONMANAGER ============================ -->
-      
-      <bean id="httpAccessDecisionManager"
+
+
+	<!-- ============================= END VOTER ============================================= -->
+
+	<!-- =============================== BEGIN ACCESSDECISIONMANAGER ============================ -->
+
+	<bean id="httpAccessDecisionManager"
 		class="org.springframework.security.vote.AffirmativeBased">
 		<property name="allowIfAllAbstainDecisions" value="false" />
 		<property name="decisionVoters">
@@ -265,9 +276,9 @@
 				<ref bean="roleVoter" />
 			</list>
 		</property>
-	</bean>        
-	
-	
+	</bean>
+
+
 	<bean id="trialSiteAccessDecisionManager"
 		class="org.springframework.security.vote.AffirmativeBased">
 		<property name="allowIfAllAbstainDecisions" value="false" />
@@ -280,7 +291,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="trialAccessDecisionManager"
 		class="org.springframework.security.vote.AffirmativeBased">
 		<property name="allowIfAllAbstainDecisions" value="false" />
@@ -293,21 +304,21 @@
 			</list>
 		</property>
 	</bean>
-	
-		<bean id="loginAccessDecisionManager"
+
+	<bean id="loginAccessDecisionManager"
 		class="org.springframework.security.vote.AffirmativeBased">
 		<property name="allowIfAllAbstainDecisions" value="false" />
 		<property name="decisionVoters">
 			<list>
 				<ref bean="roleVoter" />
-				<ref bean="aclLoginReadVoter" /> 	
+				<ref bean="aclLoginReadVoter" />
 				<ref bean="aclLoginAdminVoter" />
 				<ref bean="aclLoginWriteVoter" />
 			</list>
 		</property>
 	</bean>
-	
-		<bean id="personAccessDecisionManager"
+
+	<bean id="personAccessDecisionManager"
 		class="org.springframework.security.vote.AffirmativeBased">
 		<property name="allowIfAllAbstainDecisions" value="false" />
 		<property name="decisionVoters">
@@ -319,12 +330,12 @@
 			</list>
 		</property>
 	</bean>
-	
-	
-	    <!-- =============================== END ACCESSDECISIONMANAGER ============================ -->
-	    
-	    
-	    <!-- ============== "AFTER INTERCEPTION" AUTHORIZATION DEFINITIONS =========== -->
+
+
+	<!-- =============================== END ACCESSDECISIONMANAGER ============================ -->
+
+
+	<!-- ============== "AFTER INTERCEPTION" AUTHORIZATION DEFINITIONS =========== -->
 
 	<bean id="afterInvocationManager"
 		class="org.springframework.security.afterinvocation.AfterInvocationProviderManager">
@@ -363,7 +374,14 @@
 			</list>
 		</constructor-arg>
 	</bean>
+
+	<!-- ============== END "AFTER INTERCEPTION" AUTHORIZATION DEFINITIONS =========== -->
+
+	<!-- Mapping between the roles and rights  -->
+	<bean id="rolesAndRights"
+		class="de.randi2.utility.security.RolesAndRights">
+		<property name="template" ref="hibernateTemplate"></property>
+		<property name="aclService" ref="aclService"></property>
+	</bean>
 	
-   <!-- ============== END "AFTER INTERCEPTION" AUTHORIZATION DEFINITIONS =========== -->
-	    
- </beans>
+</beans>

@@ -1,10 +1,8 @@
 package de.randi2.model;
 
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -30,7 +28,7 @@ import de.randi2.utility.validations.Password;
 @Entity
 @DateDependence(firstDate = "registrationDate", secondDate = "lastLoggedIn")
 public class Login extends AbstractDomainObject implements UserDetails {
-
+	
 	public final static int MAX_USERNAME_LENGTH = 40;
 	public final static int MIN_USERNAME_LENGTH = 5;
 	public final static int MAX_PASSWORD_LENGTH = 50;
@@ -164,13 +162,18 @@ public class Login extends AbstractDomainObject implements UserDetails {
 		this.roles = roles;
 	}
 
+	/**
+	 * Adds a role to this login object
+	 * 
+	 * @param role
+	 */
 	public void addRole(GrantedAuthorityEnum role) {
 		if (this.roles != null)
 			this.roles.add(role);
 		switch (role) {
 		case ROLE_INVESTIGATOR:
 			this.roles.add(GrantedAuthorityEnum.ROLE_USER);
-			if(this.roles.contains(GrantedAuthorityEnum.ROLE_ANONYMOUS))
+			if (this.roles.contains(GrantedAuthorityEnum.ROLE_ANONYMOUS))
 				this.roles.remove(GrantedAuthorityEnum.ROLE_ANONYMOUS);
 			break;
 		case ROLE_P_INVASTIGATOR:
@@ -189,6 +192,16 @@ public class Login extends AbstractDomainObject implements UserDetails {
 			this.roles.add(GrantedAuthorityEnum.ROLE_USER);
 			break;
 		}
+	}
+
+	/**
+	 * This method checks, if the Login has the specified role
+	 * 
+	 * @param role
+	 * @return
+	 */
+	public boolean hasRole(GrantedAuthorityEnum role) {
+		return this.roles.contains(role);
 	}
 
 }

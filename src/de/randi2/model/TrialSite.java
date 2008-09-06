@@ -1,6 +1,5 @@
 package de.randi2.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,84 +10,82 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
-import org.springframework.security.acls.objectidentity.ObjectIdentity;
 
 import de.randi2.utility.validations.Password;
 
-
 @Entity
-@NamedQuery(name="center.findAllMembers", query="select p from Person p where p.center= :center ")
-public class TrialSite extends AbstractDomainObject{
+@NamedQuery(name = "center.findAllMembers", query = "select p from Person p where p.center= :center ")
+public class TrialSite extends AbstractDomainObject {
 
 	public final static int MAX_LENGTH_POSTCODE = 10;
-	
-	@Column(unique=true)
+
+	@Column(unique = true)
 	private String name = "";
-	
+
 	private String street = "";
 	private String postcode = "";
 	private String city = "";
-	private String country="";
+	private String country = "";
 	private String password = "";
-	
-	@OneToOne(cascade=CascadeType.ALL)
+
+	@OneToOne(cascade = CascadeType.ALL)
 	private Person contactPerson = null;
-	
-	@OneToMany(mappedBy="center")
+
+	@OneToMany(mappedBy = "center")
 	private List<Person> members = null;
-	
-	
-	@ManyToMany(mappedBy="participatingSites")
+
+	@ManyToMany(mappedBy = "participatingSites")
 	private List<Trial> trials = new ArrayList<Trial>();
 
 	@NotEmpty
-	@Length(max=MAX_VARCHAR_LENGTH)
+	@Length(max = MAX_VARCHAR_LENGTH)
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
-		if(name == null){
+		if (name == null) {
 			name = "";
 		}
 		this.name = name;
 	}
 
-	@Length(max=MAX_VARCHAR_LENGTH)
+	@Length(max = MAX_VARCHAR_LENGTH)
 	public String getStreet() {
 		return street;
 	}
 
 	public void setStreet(String street) {
-		if(street == null){
+		if (street == null) {
 			street = "";
 		}
 		this.street = street;
 	}
 
-	@Length(max=MAX_LENGTH_POSTCODE)
+	@Length(max = MAX_LENGTH_POSTCODE)
 	public String getPostcode() {
 		return postcode;
 	}
 
 	public void setPostcode(String postcode) {
-		if(postcode == null){
+		if (postcode == null) {
 			postcode = "";
 		}
 		this.postcode = postcode;
 	}
 
-	@Length(max=MAX_VARCHAR_LENGTH)
+	@Length(max = MAX_VARCHAR_LENGTH)
 	public String getCity() {
 		return city;
 	}
 
 	public void setCity(String city) {
-		if(city == null){
+		if (city == null) {
 			city = "";
 		}
 		this.city = city;
@@ -128,17 +125,32 @@ public class TrialSite extends AbstractDomainObject{
 		this.trials = trials;
 	}
 
-	@Length(max=MAX_VARCHAR_LENGTH)
+	@Length(max = MAX_VARCHAR_LENGTH)
 	public String getCountry() {
 		return country;
 	}
 
 	public void setCountry(String country) {
-		if (country == null){
+		if (country == null) {
 			country = "";
 		}
 		this.country = country;
 	}
 
-	
+	/**
+	 * This method returns the trial site members with specified role
+	 * 
+	 * @param role -
+	 *            role of the searched members
+	 * @return
+	 */
+	@Transient
+	public List<Login> getMembersWithSpecifiedRole(GrantedAuthorityEnum role) {
+		List<Login> searchedMembers = new ArrayList<Login>();
+		for (Person p : this.getMembers()) {
+			if (p.getLogin().hasRole(role))
+				searchedMembers.add(p.getLogin());
+		}
+		return searchedMembers;
+	}
 }
