@@ -170,6 +170,8 @@ public class Login extends AbstractDomainObject implements UserDetails {
 		switch (role) {
 		case ROLE_INVESTIGATOR:
 			this.roles.add(GrantedAuthorityEnum.ROLE_USER);
+			if(this.roles.contains(GrantedAuthorityEnum.ROLE_ANONYMOUS))
+				this.roles.remove(GrantedAuthorityEnum.ROLE_ANONYMOUS);
 			break;
 		case ROLE_P_INVASTIGATOR:
 			this.roles.add(GrantedAuthorityEnum.ROLE_USER);

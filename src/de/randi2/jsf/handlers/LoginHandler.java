@@ -30,6 +30,8 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
+import org.springframework.security.ui.AuthenticationDetails;
 
 import de.randi2.dao.CenterDao;
 import de.randi2.dao.LoginDao;
@@ -152,6 +154,12 @@ public class LoginHandler {
 						.isAuthenticated()) { // Registration Process
 					this.login = new Login();
 					this.login.addRole(GrantedAuthorityEnum.ROLE_ANONYMOUS);
+					AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
+							"anonymousUser", this.login, this.login
+									.getAuthorities());
+					// Perform authentication
+					SecurityContextHolder.getContext().setAuthentication(
+							authToken);
 				} else
 					// Normal Log in
 					this.login = (Login) SecurityContextHolder.getContext()
