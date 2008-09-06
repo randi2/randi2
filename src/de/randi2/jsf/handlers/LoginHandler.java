@@ -22,6 +22,7 @@ import java.util.Properties;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.validator.InvalidStateException;
@@ -29,9 +30,11 @@ import org.hibernate.validator.InvalidValue;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.context.HttpSessionContextIntegrationFilter;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 import org.springframework.security.ui.AuthenticationDetails;
+import org.springframework.security.ui.webapp.AuthenticationProcessingFilter;
 
 import de.randi2.dao.CenterDao;
 import de.randi2.dao.LoginDao;
@@ -170,8 +173,18 @@ public class LoginHandler {
 						"anonymousUser", this.login, this.login
 								.getAuthorities());
 				// Perform authentication
-				SecurityContextHolder.getContext().setAuthentication(
-						authToken);
+				SecurityContextHolder.getContext().setAuthentication(authToken);
+				SecurityContextHolder.getContext().getAuthentication()
+						.setAuthenticated(true);
+				
+				//Put the context in the session
+				((HttpServletRequest) FacesContext.getCurrentInstance()
+						.getExternalContext().getRequest())
+						.getSession()
+						.setAttribute(
+								HttpSessionContextIntegrationFilter.SPRING_SECURITY_CONTEXT_KEY,
+								SecurityContextHolder.getContext());
+
 			}
 		}
 		return this.login;

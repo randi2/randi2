@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.orm.hibernate3.SessionHolder;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
@@ -61,6 +62,7 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 			/* This code is here b/c MyFaces seems to call every phase handler method twice. */
 			if (td.beforeTimes==0) {
 				System.out.println("BEFOREPHASE");
+				System.out.println(SecurityContextHolder.getContext().getAuthentication());
 				setupSession(pe, td);
 			}
 		} /* HACK ALERT!
