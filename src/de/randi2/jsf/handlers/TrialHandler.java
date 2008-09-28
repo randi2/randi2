@@ -27,11 +27,11 @@ import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
 import de.randi2.dao.TrialDao;
+import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.enumerations.TrialStatus;
-import de.randi2.model.subjectproperties.AbstractProperty;
 
 /**
  * <p>

@@ -12,7 +12,6 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
 
-import de.randi2.model.subjectproperties.AbstractProperty;
 
 @Entity
 public class TrialSubject extends AbstractDomainObject{
@@ -22,7 +21,7 @@ public class TrialSubject extends AbstractDomainObject{
 	private TreatmentArm arm;
 	
 	@Transient
-	private List<AbstractProperty> properties;
+	private List<SubjectProperty> properties;
 
 	@NotNull
 	@NotEmpty
@@ -45,12 +44,12 @@ public class TrialSubject extends AbstractDomainObject{
 		this.arm = arm;
 	}
 
-	public List<AbstractProperty> getProperties() {
+	public List<SubjectProperty> getProperties() {
 		return properties;
 	}
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	public void setProperties(List<AbstractProperty> properties) {
+	public void setProperties(List<SubjectProperty> properties) {
 		this.properties = properties;
 	}
 	
