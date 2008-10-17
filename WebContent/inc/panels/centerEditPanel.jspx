@@ -24,304 +24,41 @@
 	<ice:panelTabSet style="font-size: 9;display: block;">
 		<ice:panelTab
 			label="#{labels['pages.centerEditPanel.institutionTab']}">
-			<ice:panelGrid border="0" columns="2">
-				<ice:outputLabel for="name" value="#{labels['center.name']}"></ice:outputLabel>
-				<ice:outputText id="nameO"
-					value="#{centerHandler.showedCenter.name}"
-					rendered="#{!centerHandler.editable}">
-				</ice:outputText>
-				<ice:panelGroup id="nameEdit" rendered="#{centerHandler.editable}">
-					<ice:inputText id="name" size="50"
-						value="#{centerHandler.showedCenter.name}"
-						required="#{centerHandler.showedCenter.requiredFields['name']}"
-						partialSubmit="true">
-						<f:validator
-							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-						<f:attribute name="dObject" value="#{centerHandler.showedCenter}" />
-					</ice:inputText>
-					<ice:message for="name" />
-				</ice:panelGroup>
-				<ice:outputLabel for="country" value="#{labels['center.country']}"></ice:outputLabel>
-				<ice:outputText id="countryO"
-					value="#{centerHandler.showedCenter.country}"
-					rendered="#{!centerHandler.editable}">
-				</ice:outputText>
-				<ice:panelGroup id="countryEdit"
-					rendered="#{centerHandler.editable}">
-					<ice:inputText id="country" size="50"
-						value="#{centerHandler.showedCenter.country}"
-						required="#{centerHandler.showedCenter.requiredFields['country']}"
-						partialSubmit="true">
-						<f:validator
-							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-						<f:attribute name="dObject" value="#{centerHandler.showedCenter}" />
-					</ice:inputText>
-					<ice:message for="country" />
-				</ice:panelGroup>
-				<ice:outputLabel for="city" value="#{labels['center.city']}"></ice:outputLabel>
-				<ice:outputText id="cityO"
-					value="#{centerHandler.showedCenter.city}"
-					rendered="#{!centerHandler.editable}">
-				</ice:outputText>
-				<ice:panelGroup id="cityEdit" rendered="#{centerHandler.editable}">
-					<ice:inputText id="city" size="50"
-						value="#{centerHandler.showedCenter.city}"
-						required="#{centerHandler.showedCenter.requiredFields['city']}"
-						partialSubmit="true">
-						<f:validator
-							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-						<f:attribute name="dObject" value="#{centerHandler.showedCenter}" />
-					</ice:inputText>
-					<ice:message for="city" />
-				</ice:panelGroup>
-				<ice:outputLabel for="postcode" value="#{labels['center.postcode']}"></ice:outputLabel>
-				<ice:outputText id="postcodeO"
-					value="#{centerHandler.showedCenter.postcode}"
-					rendered="#{!centerHandler.editable}">
-				</ice:outputText>
-				<ice:panelGroup id="postcodeEdit"
-					rendered="#{centerHandler.editable}">
-					<ice:inputText id="postcode" size="50"
-						value="#{centerHandler.showedCenter.postcode}"
-						required="#{centerHandler.showedCenter.requiredFields['postcode']}"
-						partialSubmit="true">
-						<f:validator
-							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-						<f:attribute name="dObject" value="#{centerHandler.showedCenter}" />
-					</ice:inputText>
-					<ice:message for="postcode" />
-				</ice:panelGroup>
-				<ice:outputLabel for="street" value="#{labels['center.street']}"></ice:outputLabel>
-				<ice:outputText id="streetO"
-					value="#{centerHandler.showedCenter.street}"
-					rendered="#{!centerHandler.editable}">
-				</ice:outputText>
-				<ice:panelGroup id="streetEdit" rendered="#{centerHandler.editable}">
-					<ice:inputText id="street" size="50"
-						value="#{centerHandler.showedCenter.street}"
-						required="#{centerHandler.showedCenter.requiredFields['street']}"
-						partialSubmit="true">
-						<f:validator
-							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-						<f:attribute name="dObject" value="#{centerHandler.showedCenter}" />
-					</ice:inputText>
-					<ice:message for="street" />
-				</ice:panelGroup>
-			</ice:panelGrid>
+			<f:subview id="instDataInclude">
+				<jsp:directive.include file="./inc/panels/center/institution.jspx" />
+			</f:subview>
 		</ice:panelTab>
 
 		<ice:panelTab
 			label="#{labels['pages.centerEditPanel.contactPersonTab']}">
-			<ice:panelGrid border="0" columns="2" style="float:left">
-				<ice:outputLabel for="title" value="#{labels['person.title']}"></ice:outputLabel>
-				<ice:outputText id="titleO"
-					value="#{centerHandler.showedCenter.contactPerson.title}"
-					rendered="#{!centerHandler.editable}">
-				</ice:outputText>
-				<ice:panelGroup id="titleEdit" rendered="#{centerHandler.editable}">
-					<ice:inputText id="title" size="50"
-						value="#{centerHandler.showedCenter.contactPerson.title}"
-						required="#{centerHandler.showedCenter.contactPerson.requiredFields['title']}"
-						partialSubmit="true">
-						<f:validator
-							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-						<f:attribute name="dObject"
-							value="#{centerHandler.showedCenter.contactPerson}" />
-					</ice:inputText>
-					<ice:message for="title" />
-				</ice:panelGroup>
-				<ice:outputLabel for="firstname"
-					value="#{labels['person.firstname']}"></ice:outputLabel>
-				<ice:outputText id="firstnameO"
-					value="#{centerHandler.showedCenter.contactPerson.firstname}"
-					rendered="#{!centerHandler.editable}">
-				</ice:outputText>
-				<ice:panelGroup id="firstnameEdit"
-					rendered="#{centerHandler.editable}">
-					<ice:inputText id="firstname" size="50"
-						value="#{centerHandler.showedCenter.contactPerson.firstname}"
-						required="#{centerHandler.showedCenter.contactPerson.requiredFields['firstname']}"
-						partialSubmit="true">
-						<f:validator
-							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-						<f:attribute name="dObject"
-							value="#{centerHandler.showedCenter.contactPerson}" />
-					</ice:inputText>
-					<ice:message for="fistname" />
-				</ice:panelGroup>
-				<ice:outputLabel for="surname" value="#{labels['person.surname']}"></ice:outputLabel>
-				<ice:outputText id="surnameO"
-					value="#{centerHandler.showedCenter.contactPerson.surname}"
-					rendered="#{!centerHandler.editable}">
-				</ice:outputText>
-				<ice:panelGroup id="surnameEdit"
-					rendered="#{centerHandler.editable}">
-					<ice:inputText id="surname" size="50"
-						value="#{centerHandler.showedCenter.contactPerson.surname}"
-						required="#{centerHandler.showedCenter.contactPerson.requiredFields['surname']}"
-						partialSubmit="true">
-						<f:validator
-							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-						<f:attribute name="dObject"
-							value="#{centerHandler.showedCenter.contactPerson}" />
-					</ice:inputText>
-					<ice:message for="surname" />
-				</ice:panelGroup>
-				<ice:outputLabel for="gender" value="#{labels['person.gender']}"
-					rendered="#{centerHandler.editable}"></ice:outputLabel>
-				<ice:selectOneMenu id="gender"
-					value="#{centerHandler.showedCenter.contactPerson.gender}"
-					rendered="#{centerHandler.editable}">
-					<f:converter
-						converterId="de.randi2.jsf.converters.GENDER_CONVERTER" />
-					<f:attribute name="dObject"
-						value="#{centerHandler.showedCenter.contactPerson}" />
-					<f:selectItems value="#{registerPage.genderItems}" />
-				</ice:selectOneMenu>
-				<ice:outputLabel for="eMail" value="#{labels['person.eMail']}"></ice:outputLabel>
-				<ice:outputText id="eMailO"
-					value="#{centerHandler.showedCenter.contactPerson.EMail}"
-					rendered="#{!centerHandler.editable}">
-				</ice:outputText>
-				<ice:panelGroup id="eMailEdit" rendered="#{centerHandler.editable}">
-					<ice:inputText id="eMail" size="50"
-						value="#{centerHandler.showedCenter.contactPerson.EMail}"
-						required="#{centerHandler.showedCenter.contactPerson.requiredFields['eMail']}"
-						partialSubmit="true">
-						<f:validator
-							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-						<f:attribute name="dObject"
-							value="#{centerHandler.showedCenter.contactPerson}" />
-					</ice:inputText>
-					<ice:message for="eMail" />
-				</ice:panelGroup>
-				<ice:outputLabel for="phone" value="#{labels['person.phone']}"></ice:outputLabel>
-				<ice:outputText id="phoneO"
-					value="#{centerHandler.showedCenter.contactPerson.phone}"
-					rendered="#{!centerHandler.editable}">
-				</ice:outputText>
-				<ice:panelGroup id="phoneEdit" rendered="#{centerHandler.editable}">
-					<ice:inputText id="phone" size="50"
-						value="#{centerHandler.showedCenter.contactPerson.phone}"
-						required="#{centerHandler.showedCenter.contactPerson.requiredFields['phone']}"
-						partialSubmit="true">
-						<f:validator
-							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-						<f:attribute name="dObject"
-							value="#{centerHandler.showedCenter.contactPerson}" />
-					</ice:inputText>
-					<ice:message for="phone" />
-				</ice:panelGroup>
-				<ice:outputLabel for="mobile" value="#{labels['person.mobile']}"></ice:outputLabel>
-				<ice:outputText id="mobileO"
-					value="#{centerHandler.showedCenter.contactPerson.mobile}"
-					rendered="#{!centerHandler.editable}">
-				</ice:outputText>
-				<ice:panelGroup id="mobileEdit" rendered="#{centerHandler.editable}">
-					<ice:inputText id="mobile" size="50"
-						value="#{centerHandler.showedCenter.contactPerson.mobile}"
-						required="#{centerHandler.showedCenter.contactPerson.requiredFields['mobile']}"
-						partialSubmit="true">
-						<f:validator
-							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-						<f:attribute name="dObject"
-							value="#{centerHandler.showedCenter.contactPerson}" />
-					</ice:inputText>
-					<ice:message for="mobile" />
-				</ice:panelGroup>
-				<ice:outputLabel for="fax" value="#{labels['person.fax']}"></ice:outputLabel>
-				<ice:outputText id="faxO"
-					value="#{centerHandler.showedCenter.contactPerson.fax}"
-					rendered="#{!centerHandler.editable}">
-				</ice:outputText>
-				<ice:panelGroup id="faxEdit" rendered="#{centerHandler.editable}">
-					<ice:inputText id="fax" size="50"
-						value="#{centerHandler.showedCenter.contactPerson.fax}"
-						required="#{centerHandler.showedCenter.contactPerson.requiredFields['fax']}"
-						partialSubmit="true">
-						<f:validator
-							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-						<f:attribute name="dObject"
-							value="#{centerHandler.showedCenter.contactPerson}" />
-					</ice:inputText>
-					<ice:message for="fax" />
-				</ice:panelGroup>
-			</ice:panelGrid>
+			<f:subview id="contactDataInclude">
+				<jsp:directive.include file="./inc/panels/center/contact.jspx" />
+			</f:subview>
 		</ice:panelTab>
+		
 		<ice:panelTab label="#{labels['pages.centerEditPanel.membersTab']}"
 			rendered="#{!centerHandler.creatingMode}">
-			<ice:dataTable id="membersTable" border="1"
-				value="#{centerHandler.showedCenter.members}" var="member"
-				scrollable="true" scrollHeight="250px" columnWidths="100px,100px,150px,100px,100px,50px" width="600px">
-				<ice:column id="column1">
-					<ice:outputText value="#{member.firstname}"></ice:outputText>
-					<f:facet name="header">
-						<ice:outputText value="#{labels['person.firstname']}"
-							id="firstnameH" style="width:100px;"></ice:outputText>
-					</f:facet>
-				</ice:column>
-				<ice:column id="column2">
-					<ice:outputText value="#{member.surname}"></ice:outputText>
-					<f:facet name="header">
-						<ice:outputText value="#{labels['person.surname']}" id="surnameH" style="width:100px;"></ice:outputText>
-					</f:facet>
-				</ice:column>
-				<ice:column id="column3">
-					<ice:outputText value="#{member.EMail}"></ice:outputText>
-					<f:facet name="header">
-						<ice:outputText value="#{labels['person.eMail']}" id="emailH" style="width:150px;"></ice:outputText>
-					</f:facet>
-				</ice:column>
-				<ice:column id="column4">
-					<ice:outputText value="#{member.phone}"></ice:outputText>
-					<f:facet name="header">
-						<ice:outputText value="#{labels['person.phone']}" id="phoneH" style="width:100px;"></ice:outputText>
-					</f:facet>
-				</ice:column>
-				<ice:column id="column5">
-					<ice:outputText value="#{member.login.lastLoggedIn}"></ice:outputText>
-					<f:facet name="header">
-						<ice:outputText value="#{labels['login.lastLoggedIn']}"
-							id="lastloggedinH" style="width:100px;"></ice:outputText>
-					</f:facet>
-				</ice:column>
-				<ice:column id="column6">
-					<ice:commandLink id="showId" value="#{labels['buttons.show']}"
-						actionListener="#{randi2Page.showUser}">
-						<ice:outputText value="#{member}" visible="false"></ice:outputText>
-					</ice:commandLink>
-					<f:facet name="header">
-						<ice:outputText value="" id="showH" style="width:50px;"></ice:outputText>
-					</f:facet>
-				</ice:column>
-			</ice:dataTable>
+			<f:subview id="membersListInclude">
+				<jsp:directive.include file="./inc/panels/center/members.jspx" />
+			</f:subview>
 		</ice:panelTab>
+		
 		<ice:panelTab label="#{labels['pages.centerEditPanel.trialsTab']}"
 			rendered="#{!centerHandler.creatingMode}">
+			<f:subview id="trialsListInclude">
+				<jsp:directive.include file="./inc/panels/center/trials.jspx" />
+			</f:subview>
 		</ice:panelTab>
+		
 		<ice:panelTab
 			label="#{labels['pages.centerEditPanel.authenticationTab']}"
 			rendered="#{centerHandler.creatingMode}">
-			<ice:panelGrid border="0" columns="2" style="float:left">
-				<ice:graphicImage value="/img/icons/security48.png"></ice:graphicImage>
-				<ice:outputText
-					value="#{labels['pages.centerEditPanel.passwordInfo']}"
-					escape="false" />
-				<ice:outputLabel for="passowrd" value="#{labels['center.password']}"></ice:outputLabel>
-				<ice:panelGroup>
-					<ice:inputText id="password" size="50"
-						value="#{centerHandler.showedCenter.password}"
-						required="#{centerHandler.showedCenter.requiredFields['password']}"
-						partialSubmit="true">
-						<f:validator
-							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-						<f:attribute name="dObject" value="#{centerHandler.showedCenter}" />
-					</ice:inputText>
-					<ice:message for="password" />
-				</ice:panelGroup>
-			</ice:panelGrid>
+			<f:subview id="passwordInclude">
+				<jsp:directive.include file="./inc/panels/center/password.jspx" />
+			</f:subview>
 		</ice:panelTab>
 	</ice:panelTabSet>
+	
 	<ice:panelGrid border="0" columns="3"
 		rendered="#{centerHandler.editable}">
 		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
@@ -330,5 +67,4 @@
 		<ice:messages globalOnly="true" showDetail="true" showSummary="true"
 			tooltip="true" />
 	</ice:panelGrid>
-
 </ice:form>

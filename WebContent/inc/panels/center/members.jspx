@@ -1,0 +1,65 @@
+<!-- 
+ This page/panel shows the members' list of a center.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<ice:dataTable id="membersTable" border="1"
+	value="#{centerHandler.showedCenter.members}" var="member"
+	scrollable="true" scrollHeight="250px"
+	columnWidths="100px,100px,150px,100px,100px,50px" width="600px">
+	<ice:column id="column1">
+		<ice:outputText value="#{member.firstname}"></ice:outputText>
+		<f:facet name="header">
+			<ice:outputText value="#{labels['person.firstname']}" id="firstnameH"
+				style="width:100px;"></ice:outputText>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column2">
+		<ice:outputText value="#{member.surname}"></ice:outputText>
+		<f:facet name="header">
+			<ice:outputText value="#{labels['person.surname']}" id="surnameH"
+				style="width:100px;"></ice:outputText>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column3">
+		<ice:outputText value="#{member.EMail}"></ice:outputText>
+		<f:facet name="header">
+			<ice:outputText value="#{labels['person.eMail']}" id="emailH"
+				style="width:150px;"></ice:outputText>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column4">
+		<ice:outputText value="#{member.phone}"></ice:outputText>
+		<f:facet name="header">
+			<ice:outputText value="#{labels['person.phone']}" id="phoneH"
+				style="width:100px;"></ice:outputText>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column5">
+		<ice:outputText value="#{member.login.lastLoggedIn}"></ice:outputText>
+		<f:facet name="header">
+			<ice:outputText value="#{labels['login.lastLoggedIn']}"
+				id="lastloggedinH" style="width:100px;"></ice:outputText>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column6">
+		<ice:commandLink id="showId" value="#{labels['buttons.show']}"
+			actionListener="#{randi2Page.showUser}">
+			<ice:outputText value="#{member}" visible="false"></ice:outputText>
+		</ice:commandLink>
+		<f:facet name="header">
+			<ice:outputText value="" id="showH" style="width:50px;"></ice:outputText>
+		</f:facet>
+	</ice:column>
+</ice:dataTable>

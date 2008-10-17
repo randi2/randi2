@@ -1,0 +1,140 @@
+<!-- 
+ This page/panel shows the contact person's data of a center.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<ice:panelGrid border="0" columns="2" style="float:left">
+	<ice:outputLabel for="title" value="#{labels['person.title']}"></ice:outputLabel>
+	<ice:outputText id="titleO"
+		value="#{centerHandler.showedCenter.contactPerson.title}"
+		rendered="#{!centerHandler.editable}">
+	</ice:outputText>
+	<ice:panelGroup id="titleEdit" rendered="#{centerHandler.editable}">
+		<ice:inputText id="title" size="50"
+			value="#{centerHandler.showedCenter.contactPerson.title}"
+			required="#{centerHandler.showedCenter.contactPerson.requiredFields['title']}"
+			partialSubmit="true">
+			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+			<f:attribute name="dObject"
+				value="#{centerHandler.showedCenter.contactPerson}" />
+		</ice:inputText>
+		<ice:message for="title" />
+	</ice:panelGroup>
+	<ice:outputLabel for="firstname" value="#{labels['person.firstname']}"></ice:outputLabel>
+	<ice:outputText id="firstnameO"
+		value="#{centerHandler.showedCenter.contactPerson.firstname}"
+		rendered="#{!centerHandler.editable}">
+	</ice:outputText>
+	<ice:panelGroup id="firstnameEdit" rendered="#{centerHandler.editable}">
+		<ice:inputText id="firstname" size="50"
+			value="#{centerHandler.showedCenter.contactPerson.firstname}"
+			required="#{centerHandler.showedCenter.contactPerson.requiredFields['firstname']}"
+			partialSubmit="true">
+			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+			<f:attribute name="dObject"
+				value="#{centerHandler.showedCenter.contactPerson}" />
+		</ice:inputText>
+		<ice:message for="fistname" />
+	</ice:panelGroup>
+	<ice:outputLabel for="surname" value="#{labels['person.surname']}"></ice:outputLabel>
+	<ice:outputText id="surnameO"
+		value="#{centerHandler.showedCenter.contactPerson.surname}"
+		rendered="#{!centerHandler.editable}">
+	</ice:outputText>
+	<ice:panelGroup id="surnameEdit" rendered="#{centerHandler.editable}">
+		<ice:inputText id="surname" size="50"
+			value="#{centerHandler.showedCenter.contactPerson.surname}"
+			required="#{centerHandler.showedCenter.contactPerson.requiredFields['surname']}"
+			partialSubmit="true">
+			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+			<f:attribute name="dObject"
+				value="#{centerHandler.showedCenter.contactPerson}" />
+		</ice:inputText>
+		<ice:message for="surname" />
+	</ice:panelGroup>
+	<ice:outputLabel for="gender" value="#{labels['person.gender']}"
+		rendered="#{centerHandler.editable}"></ice:outputLabel>
+	<ice:selectOneMenu id="gender"
+		value="#{centerHandler.showedCenter.contactPerson.gender}"
+		rendered="#{centerHandler.editable}">
+		<f:converter converterId="de.randi2.jsf.converters.GENDER_CONVERTER" />
+		<f:attribute name="dObject"
+			value="#{centerHandler.showedCenter.contactPerson}" />
+		<f:selectItems value="#{registerPage.genderItems}" />
+	</ice:selectOneMenu>
+	<ice:outputLabel for="eMail" value="#{labels['person.eMail']}"></ice:outputLabel>
+	<ice:outputText id="eMailO"
+		value="#{centerHandler.showedCenter.contactPerson.EMail}"
+		rendered="#{!centerHandler.editable}">
+	</ice:outputText>
+	<ice:panelGroup id="eMailEdit" rendered="#{centerHandler.editable}">
+		<ice:inputText id="eMail" size="50"
+			value="#{centerHandler.showedCenter.contactPerson.EMail}"
+			required="#{centerHandler.showedCenter.contactPerson.requiredFields['eMail']}"
+			partialSubmit="true">
+			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+			<f:attribute name="dObject"
+				value="#{centerHandler.showedCenter.contactPerson}" />
+		</ice:inputText>
+		<ice:message for="eMail" />
+	</ice:panelGroup>
+	<ice:outputLabel for="phone" value="#{labels['person.phone']}"></ice:outputLabel>
+	<ice:outputText id="phoneO"
+		value="#{centerHandler.showedCenter.contactPerson.phone}"
+		rendered="#{!centerHandler.editable}">
+	</ice:outputText>
+	<ice:panelGroup id="phoneEdit" rendered="#{centerHandler.editable}">
+		<ice:inputText id="phone" size="50"
+			value="#{centerHandler.showedCenter.contactPerson.phone}"
+			required="#{centerHandler.showedCenter.contactPerson.requiredFields['phone']}"
+			partialSubmit="true">
+			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+			<f:attribute name="dObject"
+				value="#{centerHandler.showedCenter.contactPerson}" />
+		</ice:inputText>
+		<ice:message for="phone" />
+	</ice:panelGroup>
+	<ice:outputLabel for="mobile" value="#{labels['person.mobile']}"></ice:outputLabel>
+	<ice:outputText id="mobileO"
+		value="#{centerHandler.showedCenter.contactPerson.mobile}"
+		rendered="#{!centerHandler.editable}">
+	</ice:outputText>
+	<ice:panelGroup id="mobileEdit" rendered="#{centerHandler.editable}">
+		<ice:inputText id="mobile" size="50"
+			value="#{centerHandler.showedCenter.contactPerson.mobile}"
+			required="#{centerHandler.showedCenter.contactPerson.requiredFields['mobile']}"
+			partialSubmit="true">
+			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+			<f:attribute name="dObject"
+				value="#{centerHandler.showedCenter.contactPerson}" />
+		</ice:inputText>
+		<ice:message for="mobile" />
+	</ice:panelGroup>
+	<ice:outputLabel for="fax" value="#{labels['person.fax']}"></ice:outputLabel>
+	<ice:outputText id="faxO"
+		value="#{centerHandler.showedCenter.contactPerson.fax}"
+		rendered="#{!centerHandler.editable}">
+	</ice:outputText>
+	<ice:panelGroup id="faxEdit" rendered="#{centerHandler.editable}">
+		<ice:inputText id="fax" size="50"
+			value="#{centerHandler.showedCenter.contactPerson.fax}"
+			required="#{centerHandler.showedCenter.contactPerson.requiredFields['fax']}"
+			partialSubmit="true">
+			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+			<f:attribute name="dObject"
+				value="#{centerHandler.showedCenter.contactPerson}" />
+		</ice:inputText>
+		<ice:message for="fax" />
+	</ice:panelGroup>
+</ice:panelGrid>

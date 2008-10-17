@@ -19,7 +19,7 @@
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelGrid border="0" columns="2">
 		<ice:graphicImage value="/img/icons/center48.png"></ice:graphicImage>
-		<ice:outputLabel value="#{labels['pages.centersViewPanel.headline']} (Total amount: #{centerHandler.centersAmount})"></ice:outputLabel>
+		<ice:outputLabel value="#{labels['pages.centersViewPanel.headline']} (#{labels['pages.centersViewPanel.headline2']} #{centerHandler.centersAmount})"></ice:outputLabel>
 	</ice:panelGrid>
 	<ice:dataTable id="centersTable" border="1"
 		value="#{centerHandler.centers}" var="center" scrollable="true"

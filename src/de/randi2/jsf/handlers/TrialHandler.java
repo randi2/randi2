@@ -27,6 +27,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
 import de.randi2.dao.TrialDao;
+import de.randi2.jsf.Randi2;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
@@ -100,6 +101,11 @@ public class TrialHandler {
 				.getValue(FacesContext.getCurrentInstance()));
 		trial.getParticipatingSites().remove(tCenter);
 
+	}
+	
+	public String createTrial(){
+		//TODO Need to be implemented!
+		return Randi2.SUCCESS;
 	}
 
 	public void addArm(ActionEvent event) {
