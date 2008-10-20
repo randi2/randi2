@@ -83,8 +83,8 @@ public class RegisterPage {
 		this.termsPvisible = true;
 		try {
 			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
-					.getVariableResolver().resolveVariable(
-							FacesContext.getCurrentInstance(), "loginHandler"))
+					.getELResolver().getValue(
+							FacesContext.getCurrentInstance().getELContext(), null, "loginHandler"))
 					.cleanUp();
 			FacesContext.getCurrentInstance().getExternalContext().redirect(
 					FacesContext.getCurrentInstance().getExternalContext()

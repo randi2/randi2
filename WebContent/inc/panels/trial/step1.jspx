@@ -21,79 +21,103 @@
 	<ice:graphicImage value="/img/icons/info48.png"></ice:graphicImage>
 	<ice:outputLabel value="#{labels['pages.trialEditPanel.step1message']}"></ice:outputLabel>
 </ice:panelGrid>
-<ice:panelGrid border="0" columns="2">
-	<ice:outputLabel for="name" value="#{labels['trial.name']}"></ice:outputLabel>
-	<ice:panelGroup>
-		<ice:inputText id="name" size="50" value="#{trialHandler.trial.name}"
+
+<ice:panelGroup style="width: 450px;">
+	<ice:panelCollapsible id="namePanel" expanded="true"
+		toggleOnClick="true">
+		<f:facet name="header">
+			<ice:outputLabel value="#{labels['trial.name']}"></ice:outputLabel>
+		</f:facet>
+		<ice:inputText id="name" size="55" value="#{trialHandler.trial.name}"
 			required="#{trialHandler.trial.requiredFields['name']}"
 			partialSubmit="true">
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject" value="#{trialHandler.trial}" />
 		</ice:inputText>
 		<ice:message for="name" />
-	</ice:panelGroup>
-	<ice:outputLabel for="description"
-		value="#{labels['trial.description']}"></ice:outputLabel>
-	<ice:panelGroup>
+	</ice:panelCollapsible>
+	<ice:panelCollapsible id="descriptionPanel" expanded="true"
+		toggleOnClick="true">
+		<f:facet name="header">
+			<ice:outputLabel value="#{labels['trial.description']}"></ice:outputLabel>
+		</f:facet>
 		<ice:inputTextarea id="description" cols="20" rows="4"
 			value="#{trialHandler.trial.description}"
 			required="#{trialHandler.trial.requiredFields['description']}"
-			partialSubmit="true" style="width:285px;height:80px;overflow: auto;">
+			partialSubmit="true" style="width:310px;height:85px;overflow: auto;">
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject" value="#{trialHandler.trial}" />
 		</ice:inputTextarea>
 		<ice:message for="description" />
-	</ice:panelGroup>
-</ice:panelGrid>
-<ice:panelGrid border="0" columns="2">
-	<ice:outputLabel for="protocol" value="#{labels['trial.protocol']}" />
-	<ice:panelGroup>
-		<ice:inputFile id="protocol" width="330" height="50" />
+	</ice:panelCollapsible>
+	<ice:panelCollapsible id="protocolPanel" expanded="true"
+		toggleOnClick="true">
+		<f:facet name="header">
+			<ice:outputLabel value="#{labels['trial.protocol']}" />
+		</f:facet>
+		<ice:inputFile id="protocol" />
 		<ice:messages layout="table" for="protocol" showDetail="true"
 			showSummary="true" />
-	</ice:panelGroup>
-</ice:panelGrid>
-<ice:panelGrid border="0" columns="4">
-	<ice:outputLabel for="startDate" value="#{labels['trial.startDate']}" />
-	<ice:panelGroup>
-		<ice:selectInputDate id="startDate" value="#{trialHandler.TDate1}"
-			title="Pick up the trial's start date" renderAsPopup="true">
-			<f:convertDateTime locale="#{loginHandler.chosenLocale}"
-				dateStyle="medium" timeZone="#{trialHandler.zone}" />
-		</ice:selectInputDate>
-		<ice:message for="startDate" />
-	</ice:panelGroup>
-	<ice:outputLabel for="status" value="#{labels['trial.status']}"
-		style="padding-left:10px;"></ice:outputLabel>
-	<ice:selectOneMenu id="status" value="#{trialHandler.trial.status}">
-		<f:converter
-			converterId="de.randi2.jsf.converters.TRIALSTATE_CONVERTER" />
-		<f:selectItems value="#{trialHandler.stateItems}" />
-	</ice:selectOneMenu>
-	<ice:outputLabel for="endDate" value="#{labels['trial.endDate']}" />
-	<ice:panelGroup>
-		<ice:selectInputDate id="endDate" value="#{trialHandler.TDate2}"
-			title="Pick up the trial's end date" renderAsPopup="true">
-			<f:convertDateTime locale="#{loginHandler.chosenLocale}"
-				dateStyle="medium" timeZone="#{trialHandler.zone}" />
-		</ice:selectInputDate>
-		<ice:message for="endDate" />
-	</ice:panelGroup>
-</ice:panelGrid>
-<ice:panelGrid border="0" columns="2">
-	<ice:outputLabel for="leadingCenter"
-		value="#{labels['trial.leadingCenter']}"></ice:outputLabel>
-	<ice:selectInputText id="leadingCenter"
-		required="#{trialHandler.trial.requiredFields['leadingSite']}"
-		valueChangeListener="#{centerHandler.updateCenterList}" rows="10"
-		width="200">
-		<f:selectItems value="#{centerHandler.centerList}" />
-	</ice:selectInputText>
-	<ice:outputLabel for="sponsorInvestigator"
-		value="#{labels['trial.sponsorInvestigator']}"></ice:outputLabel>
-	<ice:selectInputText id="sponsorInvestigator" width="200"
-		required="#{trialHandler.trial.requiredFields['sponsorInvestigator']}"
-		valueChangeListener="#{centerHandler.updateMembersList}">
-		<f:selectItems value="#{centerHandler.membersList}" />
-	</ice:selectInputText>
-</ice:panelGrid>
+	</ice:panelCollapsible>
+	<ice:panelCollapsible id="datesAndStatusPanel" expanded="true"
+		toggleOnClick="true">
+		<f:facet name="header">
+			<ice:outputLabel
+				value="#{labels['pages.trialEditPanel.dAndSHeader']}" />
+		</f:facet>
+		<ice:panelGrid border="0" columns="4">
+			<ice:outputLabel for="startDate" value="#{labels['trial.startDate']}" />
+			<ice:panelGroup>
+				<ice:selectInputDate id="startDate" value="#{trialHandler.TDate1}"
+					title="Pick up the trial's start date" renderAsPopup="true">
+					<f:convertDateTime locale="#{loginHandler.chosenLocale}"
+						dateStyle="medium" timeZone="#{trialHandler.zone}" />
+				</ice:selectInputDate>
+				<ice:message for="startDate" />
+			</ice:panelGroup>
+			<ice:outputLabel for="status" value="#{labels['trial.status']}"
+				style="padding-left:10px;"></ice:outputLabel>
+			<ice:selectOneMenu id="status" value="#{trialHandler.trial.status}">
+				<f:converter
+					converterId="de.randi2.jsf.converters.TRIALSTATE_CONVERTER" />
+				<f:selectItems value="#{trialHandler.stateItems}" />
+			</ice:selectOneMenu>
+			<ice:outputLabel for="endDate" value="#{labels['trial.endDate']}" />
+			<ice:panelGroup>
+				<ice:selectInputDate id="endDate" value="#{trialHandler.TDate2}"
+					title="Pick up the trial's end date" renderAsPopup="true">
+					<f:convertDateTime locale="#{loginHandler.chosenLocale}"
+						dateStyle="medium" timeZone="#{trialHandler.zone}" />
+				</ice:selectInputDate>
+				<ice:message for="endDate" />
+			</ice:panelGroup>
+		</ice:panelGrid>
+	</ice:panelCollapsible>
+	<ice:panelCollapsible id="managementPanel" expanded="true"
+		toggleOnClick="true">
+		<f:facet name="header">
+			<ice:outputLabel value="#{labels['pages.trialEditPanel.mHeader']}" />
+		</f:facet>
+		<ice:panelGrid border="0" columns="2">
+			<ice:outputLabel for="leadingCenter"
+				value="#{labels['trial.leadingCenter']}"></ice:outputLabel>
+			<ice:selectInputText id="leadingCenter"
+				required="#{trialHandler.trial.requiredFields['leadingSite']}"
+				valueChangeListener="#{centerHandler.updateCenterList}" rows="10"
+				width="200">
+				<f:selectItems value="#{centerHandler.centerList}" />
+			</ice:selectInputText>
+			<ice:outputLabel for="sponsorInvestigator"
+				value="#{labels['trial.sponsorInvestigator']}"></ice:outputLabel>
+			<ice:selectInputText id="sponsorInvestigator" width="200"
+				required="#{trialHandler.trial.requiredFields['sponsorInvestigator']}"
+				valueChangeListener="#{centerHandler.updateMembersList}"
+				disabled="#{!centerHandler.centerSelected}">
+				<f:selectItems value="#{centerHandler.membersList}" />
+			</ice:selectInputText>
+		</ice:panelGrid>
+	</ice:panelCollapsible>
+</ice:panelGroup>
+
+
+

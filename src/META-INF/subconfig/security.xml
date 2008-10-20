@@ -11,7 +11,7 @@
 	<sec:http access-decision-manager-ref="httpAccessDecisionManager">
 		<sec:form-login login-page="/loginSecure.jsp"
 			default-target-url="/randi2.jspx"
-			authentication-failure-url="/register.jspx"
+			authentication-failure-url="/loginSecure.jsp?login_error=1"
 			login-processing-url="/j_spring_security_check" />
 		<sec:intercept-url pattern="/randi2.jspx" access="ROLE_USER" />
 	</sec:http>

@@ -51,7 +51,7 @@ public class TrialHandler {
 	private Date tDate2;
 	private TimeZone zone;
 	private ArrayList<TreatmentArm> arms = null;
-	private ArrayList<Object> properties = null;
+	private ArrayList<SubjectProperty> properties = null;
 
 	// Trial Status as SelectItems
 	private List<SelectItem> stateItems = null;
@@ -89,22 +89,22 @@ public class TrialHandler {
 
 	public void addCenter(ActionEvent event) {
 		TrialSite tCenter = ((CenterHandler) FacesContext.getCurrentInstance()
-				.getApplication().getVariableResolver().resolveVariable(
-						FacesContext.getCurrentInstance(), "centerHandler"))
-				.getSelectedCenter();
+				.getApplication().getELResolver().getValue(
+						FacesContext.getCurrentInstance().getELContext(), null,
+						"centerHandler")).getSelectedCenter();
 		trial.getParticipatingSites().add(tCenter);
 	}
 
 	public void removeCenter(ActionEvent event) {
 		TrialSite tCenter = (TrialSite) (((UIComponent) event.getComponent()
-				.getChildren().get(0)).getValueBinding("value")
-				.getValue(FacesContext.getCurrentInstance()));
+				.getChildren().get(0)).getValueExpression("value")
+				.getValue(FacesContext.getCurrentInstance().getELContext()));
 		trial.getParticipatingSites().remove(tCenter);
 
 	}
-	
-	public String createTrial(){
-		//TODO Need to be implemented!
+
+	public String createTrial() {
+		// TODO Need to be implemented!
 		return Randi2.SUCCESS;
 	}
 
@@ -114,18 +114,18 @@ public class TrialHandler {
 	}
 
 	public void removeArm(ActionEvent event) {
-		this.getArms().remove(this.getArms().size()-1);
+		this.getArms().remove(this.getArms().size() - 1);
 	}
 
-	public void addProperty(ActionEvent event){
-		Object p = new Object();
+	public void addProperty(ActionEvent event) {
+		SubjectProperty p = new SubjectProperty();
 		this.getProperties().add(p);
 	}
-	
+
 	public void removeProperty(ActionEvent event) {
-		this.getArms().remove(this.getProperties().size()-1);
+		this.getProperties().remove(this.getProperties().size() - 1);
 	}
-	
+
 	// TEMP
 	public Date getTDate1() {
 		if (tDate1 == null)
@@ -159,7 +159,7 @@ public class TrialHandler {
 	}
 
 	public ArrayList<TreatmentArm> getArms() {
-		if(arms == null)
+		if (arms == null)
 			arms = new ArrayList<TreatmentArm>();
 		return arms;
 	}
@@ -168,14 +168,22 @@ public class TrialHandler {
 		this.arms = arms;
 	}
 
-	public ArrayList<Object> getProperties() {
-		if(properties == null)
-			properties = new ArrayList<Object>();
+	public ArrayList<SubjectProperty> getProperties() {
+		if (properties == null)
+			properties = new ArrayList<SubjectProperty>();
 		return properties;
 	}
 
-	public void setProperties(ArrayList<Object> properties) {
+	public void setProperties(ArrayList<SubjectProperty> properties) {
 		this.properties = properties;
+	}
+
+	public int getTreatmentArmsCount() {
+		return this.getArms().size();
+	}
+
+	public int getSubjectPropertiesCount() {
+		return this.getProperties().size();
 	}
 
 }

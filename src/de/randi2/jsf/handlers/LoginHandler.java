@@ -33,8 +33,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.context.HttpSessionContextIntegrationFilter;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
-import org.springframework.security.ui.AuthenticationDetails;
-import org.springframework.security.ui.webapp.AuthenticationProcessingFilter;
 
 import de.randi2.dao.CenterDao;
 import de.randi2.dao.LoginDao;
@@ -176,8 +174,8 @@ public class LoginHandler {
 				SecurityContextHolder.getContext().setAuthentication(authToken);
 				SecurityContextHolder.getContext().getAuthentication()
 						.setAuthenticated(true);
-				
-				//Put the context in the session
+
+				// Put the context in the session
 				((HttpServletRequest) FacesContext.getCurrentInstance()
 						.getExternalContext().getRequest())
 						.getSession()
@@ -228,15 +226,17 @@ public class LoginHandler {
 		this.userCenter = userCenter;
 		if (!creatingMode) {
 			((RegisterPage) FacesContext.getCurrentInstance().getApplication()
-					.getVariableResolver().resolveVariable(
-							FacesContext.getCurrentInstance(), "registerPage"))
+					.getELResolver().getValue(
+							FacesContext.getCurrentInstance().getELContext(),
+							null, "registerPage"))
 					.setCenterSelected(userCenter != null);
 		}
 	}
 
-	public void showChangePasswordPopup() {
+	public String showChangePasswordPopup() {
 		// Show the changePasswordPopup
 		this.changePasswordPVisible = true;
+		return Randi2.SUCCESS;
 	}
 
 	public String hideChangePasswordPopup() {
@@ -245,9 +245,10 @@ public class LoginHandler {
 		return Randi2.SUCCESS;
 	}
 
-	public void showChangeCenterPopup() {
+	public String showChangeCenterPopup() {
 		// Show the changeCenterPopup
 		this.changeCenterPVisible = true;
+		return Randi2.SUCCESS;
 	}
 
 	public String hideChangeCenterPopup() {
@@ -345,8 +346,9 @@ public class LoginHandler {
 				// Making the successPopup visible (NORMAL REGISTRATION)
 				if (!creatingMode) {
 					((RegisterPage) FacesContext.getCurrentInstance()
-							.getApplication().getVariableResolver()
-							.resolveVariable(FacesContext.getCurrentInstance(),
+							.getApplication().getELResolver().getValue(
+									FacesContext.getCurrentInstance()
+											.getELContext(), null,
 									"registerPage")).setRegPvisible(true);
 				}
 				// Making the popup visible (CREATING AN USER BY ANOTHER USER)
@@ -464,7 +466,6 @@ public class LoginHandler {
 	 * 
 	 * @return locale for the loged in user
 	 */
-	@SuppressWarnings("unchecked")
 	public Locale getChosenLocale() {
 		if (this.login != null) {
 			if (this.login.getPrefLocale() != null) {

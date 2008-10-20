@@ -50,8 +50,8 @@ public class PasswordConfirmation implements Validator, Serializable {
 		// Locale locale = arg0.getViewRoot().getLocale();
 		//		
 		// ResourceBundle rb = ResourceBundle.getBundle(messageBundle, locale);
-		if (passwordInputSecret.getValueBinding("value").getValue(arg0) != null) {
-			if (!passwordInputSecret.getValueBinding("value").getValue(arg0)
+		if (passwordInputSecret.getValueExpression("value").getValue(arg0.getELContext()) != null) {
+			if (!passwordInputSecret.getValueExpression("value").getValue(arg0.getELContext())
 					.equals(arg2)) {
 				String message = "The second passwort doesn't match the first one.";
 				throw new ValidatorException(new FacesMessage(

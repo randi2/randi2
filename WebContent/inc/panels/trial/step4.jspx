@@ -14,34 +14,24 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-<ice:panelGrid columns="2">
+<ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" columns="2">
 	<ice:graphicImage value="/img/icons/properties48.png"></ice:graphicImage>
-	<ice:outputLabel value="Now please configure the subject's properties."></ice:outputLabel>
+	<ice:outputLabel value="#{labels['pages.trialEditPanel.step4message'] }"></ice:outputLabel>
 </ice:panelGrid>
 <ice:panelGrid columns="3">
-	<ice:outputLabel value="Property" />
-	<ice:commandButton actionListener="#{trialHandler.addProperty}"
-		value="Add" style="margin-right:5px;" />
-	<ice:commandButton actionListener="#{trialHandler.removeProperty}"
-		value="Remove" />
+	<ice:outputLabel value="#{labels['pages.trialEditPanel.propLabel']}" />
+	<ice:commandButton image="/img/icons/add16.png" actionListener="#{trialHandler.addProperty}"
+		style="margin-right:5px;" />
+	<ice:commandButton image="/img/icons/remove16.png"
+		disabled="#{trialHandler.subjectPropertiesCount==0}"
+		actionListener="#{trialHandler.removeProperty}" />
 </ice:panelGrid>
 <ice:panelGroup styleClass="clearer" />
 <ice:panelSeries value="#{trialHandler.properties}" var="property"
 	style="padding:10px;">
-	<ice:panelGroup
-		style="padding:10px;border-width:1px;border-style:solid;border-color:blue;float:left; width:145px;margin: 10px;">
-		<ice:panelGrid columns="2">
-			<ice:graphicImage value="/img/icons/subjectProp16.png" />
-			<ice:outputLabel value="Property" />
-		</ice:panelGrid>
-		<ice:panelGrid>
-			<ice:outputLabel value="Name" />
-			<ice:inputText value="" size="22" />
-			<ice:outputLabel value="Description" />
-			<ice:inputTextarea value=""
-				style="width:135px;height:40px;overflow: auto;" />
-			<ice:outputLabel value="Type" />
-			<ice:inputText value="" size="22" />
-		</ice:panelGrid>
-	</ice:panelGroup>
+	<f:subview id="treatmentArmInclude">
+		<jsp:directive.include file="./inc/panels/trial/subjectProperty.jspx" />
+	</f:subview>
 </ice:panelSeries>

@@ -117,9 +117,9 @@ public class CenterHandler {
 	public Login getCurrentUser() {
 		if (currentUser == null) {
 			currentUser = ((LoginHandler) FacesContext.getCurrentInstance()
-					.getApplication().getVariableResolver().resolveVariable(
-							FacesContext.getCurrentInstance(), "loginHandler"))
-					.getLogin();
+					.getApplication().getELResolver().getValue(
+							FacesContext.getCurrentInstance().getELContext(),
+							null, "loginHandler")).getLogin();
 		}
 		return currentUser;
 	}
@@ -191,10 +191,10 @@ public class CenterHandler {
 		this.centerDao = centerDao;
 	}
 
-	public List<TrialSite> getCenters(){
+	public List<TrialSite> getCenters() {
 		return centerDao.getAll();
 	}
-	
+
 	public List<SelectItem> getCenterList() {
 		if (matchesList == null) {
 			if (centerList == null) {
@@ -264,7 +264,7 @@ public class CenterHandler {
 			this.matchesList = null;
 		}
 		this.matchesList = matchList;
-		
+
 		// Get the auto complete component from the event and assing
 		if (event.getComponent() instanceof SelectInputText) {
 			SelectInputText autoComplete = (SelectInputText) event
@@ -288,8 +288,9 @@ public class CenterHandler {
 				}
 			}
 			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
-					.getVariableResolver().resolveVariable(
-							FacesContext.getCurrentInstance(), "loginHandler"))
+					.getELResolver().getValue(
+							FacesContext.getCurrentInstance().getELContext(),
+							null, "loginHandler"))
 					.setUserCenter(selectedCenter);
 		}
 	}
@@ -300,7 +301,8 @@ public class CenterHandler {
 	 * @param event
 	 */
 	public void updateMembersList(ValueChangeEvent event) {
-		if (selectedCenter != null && event.getNewValue()!=null && event.getNewValue().toString().trim().length()>0) {
+		if (selectedCenter != null && event.getNewValue() != null
+				&& event.getNewValue().toString().trim().length() > 0) {
 			System.out.println("Event2!");
 			SelectItem searchMember = new SelectItem("", (String) event
 					.getNewValue());
@@ -361,9 +363,9 @@ public class CenterHandler {
 					}
 				}
 				((LoginHandler) FacesContext.getCurrentInstance()
-						.getApplication().getVariableResolver()
-						.resolveVariable(FacesContext.getCurrentInstance(),
-								"loginHandler"))
+						.getApplication().getELResolver().getValue(
+								FacesContext.getCurrentInstance()
+										.getELContext(), null, "loginHandler"))
 						.setUserAssistant(selectedMember);
 			}
 		}
@@ -395,7 +397,11 @@ public class CenterHandler {
 		return selectedCenter;
 	}
 	
-	public int getCentersAmount(){
+	public boolean isCenterSelected(){
+		return selectedCenter!=null;
+	}
+
+	public int getCentersAmount() {
 		return this.getCenters().size();
 	}
 

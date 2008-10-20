@@ -14,45 +14,56 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-<ice:panelGrid border="0" columns="2">
-	<ice:graphicImage value="/img/icons/center16.png"></ice:graphicImage>
-	<ice:outputLabel value="#{labels['pages.userEditPanel.centerHeader']}"></ice:outputLabel>
-</ice:panelGrid>
-<ice:panelGrid border="0" columns="2">
-	<ice:outputLabel for="name" value="#{labels['center.name']}"></ice:outputLabel>
-	<ice:panelGroup rendered="#{!loginHandler.creatingMode}">
-		<ice:outputText id="name"
-			value="#{loginHandler.showedLogin.person.center.name}">
-		</ice:outputText>
-		<ice:commandButton style="margin-left: 15px;"
-			value="#{labels['buttons.changeCenter']}"
-			action="#{loginHandler.showChangeCenterPopup}"
-			rendered="#{loginHandler.editable}"></ice:commandButton>
-	</ice:panelGroup>
-	<ice:panelGroup rendered="#{loginHandler.creatingMode}">
-		<ice:selectInputText id="center"
-			required="#{loginHandler.person.requiredFields['center']}"
-			valueChangeListener="#{centerHandler.updateCenterList}" rows="10"
-			width="200">
-			<f:selectItems value="#{centerHandler.centerList}" />
-		</ice:selectInputText>
-		<ice:message for="center" id="centerError"></ice:message>
-	</ice:panelGroup>
-	<ice:outputLabel for="country" value="#{labels['center.country']}"></ice:outputLabel>
-	<ice:outputText id="country"
-		value="#{loginHandler.showedLogin.person.center!=null ? loginHandler.showedLogin.person.center.country : loginHandler.userCenter.country}">
-	</ice:outputText>
-	<ice:outputLabel for="city" value="#{labels['center.city']}"></ice:outputLabel>
-	<ice:outputText id="city"
-		value="#{loginHandler.showedLogin.person.center!=null ? loginHandler.showedLogin.person.center.city : loginHandler.userCenter.city}">
-	</ice:outputText>
-	<ice:outputLabel for="postcode" value="#{labels['center.postcode']}"></ice:outputLabel>
-	<ice:outputText id="postcode"
-		value="#{loginHandler.showedLogin.person.center!=null ? loginHandler.showedLogin.person.center.postcode : loginHandler.userCenter.postcode}">
-	</ice:outputText>
-	<ice:outputLabel for="street" value="#{labels['center.street']}"></ice:outputLabel>
-	<ice:outputText id="street"
-		value="#{loginHandler.showedLogin.person.center!=null ? loginHandler.showedLogin.person.center.street : loginHandler.userCenter.street}">
-	</ice:outputText>
+<ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<!-- User center information -->
+	<ice:panelCollapsible expanded="true">
+		<f:facet name="header">
+			<ice:panelGrid border="0" columns="2">
+				<ice:graphicImage value="/img/icons/center16.png"></ice:graphicImage>
+				<ice:outputLabel
+					value="#{labels['pages.userEditPanel.centerHeader']}"></ice:outputLabel>
+			</ice:panelGrid>
+		</f:facet>
+		<ice:panelGrid border="0" columns="2">
+			<ice:outputLabel for="name" value="#{labels['center.name']}"></ice:outputLabel>
+			<ice:panelGroup rendered="#{!loginHandler.creatingMode}">
+				<ice:outputText id="name"
+					value="#{loginHandler.showedLogin.person.center.name}">
+				</ice:outputText>
+				<ice:commandButton style="margin-left: 15px;"
+					value="#{labels['buttons.changeCenter']}"
+					action="#{loginHandler.showChangeCenterPopup}"
+					rendered="#{loginHandler.editable}"></ice:commandButton>
+			</ice:panelGroup>
+			<ice:panelGroup rendered="#{loginHandler.creatingMode}">
+				<ice:selectInputText id="center"
+					required="#{loginHandler.person.requiredFields['center']}"
+					valueChangeListener="#{centerHandler.updateCenterList}" rows="10"
+					width="200">
+					<f:selectItems value="#{centerHandler.centerList}" />
+				</ice:selectInputText>
+				<ice:message for="center" id="centerError"></ice:message>
+			</ice:panelGroup>
+			<ice:outputLabel for="country" value="#{labels['center.country']}"></ice:outputLabel>
+			<ice:outputText id="country"
+				value="#{loginHandler.showedLogin.person.center!=null ? loginHandler.showedLogin.person.center.country : loginHandler.userCenter.country}">
+			</ice:outputText>
+			<ice:outputLabel for="city" value="#{labels['center.city']}"></ice:outputLabel>
+			<ice:outputText id="city"
+				value="#{loginHandler.showedLogin.person.center!=null ? loginHandler.showedLogin.person.center.city : loginHandler.userCenter.city}">
+			</ice:outputText>
+			<ice:outputLabel for="postcode" value="#{labels['center.postcode']}"></ice:outputLabel>
+			<ice:outputText id="postcode"
+				value="#{loginHandler.showedLogin.person.center!=null ? loginHandler.showedLogin.person.center.postcode : loginHandler.userCenter.postcode}">
+			</ice:outputText>
+			<ice:outputLabel for="street" value="#{labels['center.street']}"></ice:outputLabel>
+			<ice:outputText id="street"
+				value="#{loginHandler.showedLogin.person.center!=null ? loginHandler.showedLogin.person.center.street : loginHandler.userCenter.street}">
+			</ice:outputText>
+		</ice:panelGrid>
+	</ice:panelCollapsible>
+</ice:panelGroup>
 
-</ice:panelGrid>
+

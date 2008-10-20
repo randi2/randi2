@@ -14,22 +14,34 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-<ice:panelGrid border="0" columns="2">
-	<ice:graphicImage value="/img/icons/rights16.png"></ice:graphicImage>
-	<ice:outputLabel value="#{labels['pages.userEditPanel.rightsHeader']}"></ice:outputLabel>
-</ice:panelGrid>
-<ice:panelGrid border="0" columns="2">
-	<ice:outputLabel for="role" value="#{labels['login.role']}"></ice:outputLabel>
-	<ice:selectOneMenu id="role">
-		<f:selectItem itemValue="1" itemLabel="Administrator (temp)" />
-		<f:selectItem itemValue="2" itemLabel="Principal investigator (temp)" />
-		<f:selectItem itemValue="3" itemLabel="Investigator (temp)" />
-		<f:selectItem itemValue="4" itemLabel="Statistician (temp)" />
-		<f:selectItem itemValue="4" itemLabel="Self-defined (temp)" />
-	</ice:selectOneMenu>
-</ice:panelGrid>
-<ice:panelTabSet>
-	<ice:panelTab label="User Rights"></ice:panelTab>
-	<ice:panelTab label="Center Rights"></ice:panelTab>
-	<ice:panelTab label="Trial Rights"></ice:panelTab>
-</ice:panelTabSet>
+<ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<!-- User role -->
+	<ice:panelCollapsible expanded="true">
+		<f:facet name="header">
+			<ice:panelGrid border="0" columns="2">
+				<ice:graphicImage value="/img/icons/rights16.png"></ice:graphicImage>
+				<ice:outputLabel
+					value="#{labels['pages.userEditPanel.rightsHeader']}"></ice:outputLabel>
+			</ice:panelGrid>
+		</f:facet>
+		<ice:panelGrid border="0" columns="2">
+			<ice:outputLabel for="role" value="#{labels['login.role']}"></ice:outputLabel>
+			<ice:selectOneMenu id="role">
+				<f:selectItem itemValue="1" itemLabel="Administrator (temp)" />
+				<f:selectItem itemValue="2"
+					itemLabel="Principal investigator (temp)" />
+				<f:selectItem itemValue="3" itemLabel="Investigator (temp)" />
+				<f:selectItem itemValue="4" itemLabel="Statistician (temp)" />
+				<f:selectItem itemValue="4" itemLabel="Self-defined (temp)" />
+			</ice:selectOneMenu>
+		</ice:panelGrid>
+	</ice:panelCollapsible>
+	<!-- User rights -->
+	<ice:panelTabSet>
+		<ice:panelTab label="User Rights"></ice:panelTab>
+		<ice:panelTab label="Center Rights"></ice:panelTab>
+		<ice:panelTab label="Trial Rights"></ice:panelTab>
+	</ice:panelTabSet>
+</ice:panelGroup>

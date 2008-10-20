@@ -51,11 +51,13 @@ public class Randi2Page {
 
 	public Randi2Page() {
 		loginHandler = ((LoginHandler) FacesContext.getCurrentInstance()
-				.getApplication().getVariableResolver().resolveVariable(
-						FacesContext.getCurrentInstance(), "loginHandler"));
+				.getApplication().getELResolver().getValue(
+						FacesContext.getCurrentInstance().getELContext(), null,
+						"loginHandler"));
 		centerHandler = (CenterHandler) FacesContext.getCurrentInstance()
-				.getApplication().getVariableResolver().resolveVariable(
-						FacesContext.getCurrentInstance(), "centerHandler");
+				.getApplication().getELResolver().getValue(
+						FacesContext.getCurrentInstance().getELContext(), null,
+						"centerHandler");
 		currentUser = loginHandler.getLogin();
 	}
 
@@ -79,16 +81,16 @@ public class Randi2Page {
 	public void showCenter(ActionEvent event) {
 		// TODO das lässt sich noch besser lösen!
 		TrialSite tCenter = (TrialSite) (((UIComponent) event.getComponent()
-				.getChildren().get(0)).getValueBinding("value")
-				.getValue(FacesContext.getCurrentInstance()));
+				.getChildren().get(0)).getValueExpression("value")
+				.getValue(FacesContext.getCurrentInstance().getELContext()));
 		centerHandler.setShowedCenter(tCenter);
 		activePanel = "centerEditPanel";
 	}
 
 	public void showUser(ActionEvent event) {
 		Person tPerson = (Person) (((UIComponent) event.getComponent()
-				.getChildren().get(0)).getValueBinding("value")
-				.getValue(FacesContext.getCurrentInstance()));
+				.getChildren().get(0)).getValueExpression("value")
+				.getValue(FacesContext.getCurrentInstance().getELContext()));
 		loginHandler.setShowedLogin(tPerson.getLogin());
 		activePanel = "userEditPanel";
 	}

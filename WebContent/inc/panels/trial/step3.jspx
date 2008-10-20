@@ -14,34 +14,32 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-<ice:panelGrid columns="2">
+<ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" columns="2">
 	<ice:graphicImage value="/img/icons/arms48.png"></ice:graphicImage>
-	<ice:outputLabel value="Now please configure the trial's arms."></ice:outputLabel>
+	<ice:outputLabel value="#{labels['pages.trialEditPanel.step3message'] }"></ice:outputLabel>
 </ice:panelGrid>
+
+
 <ice:panelGrid columns="3">
-	<ice:outputLabel value="Arm" />
-	<ice:commandButton actionListener="#{trialHandler.addArm}" value="Add"
-		style="margin-right:5px;" />
-	<ice:commandButton actionListener="#{trialHandler.removeArm}"
-		value="Remove" />
+	<ice:outputLabel value="#{labels['pages.trialEditPanel.tArmLabel']}" />
+	<ice:commandButton image="/img/icons/add16.png"
+		actionListener="#{trialHandler.addArm}" style="margin-right:5px;" 
+		/>
+	<ice:commandButton image="/img/icons/remove16.png"
+		disabled="#{trialHandler.treatmentArmsCount==0}"
+		actionListener="#{trialHandler.removeArm}" />
 </ice:panelGrid>
 <ice:panelGroup styleClass="clearer" />
+
+
 <ice:panelSeries value="#{trialHandler.arms}" var="arm"
 	style="padding:10px;">
-	<ice:panelGroup
-		style="padding:10px;border-width:1px;border-style:solid;border-color:blue;float:left; width:145px;margin: 10px;">
-		<ice:panelGrid columns="2">
-			<ice:graphicImage value="/img/icons/arm16.png" />
-			<ice:outputLabel value="Treatment Arm" />
-		</ice:panelGrid>
-		<ice:panelGrid>
-			<ice:outputLabel value="Name" />
-			<ice:inputText value="#{arm.name}" size="22" />
-			<ice:outputLabel value="Description" />
-			<ice:inputTextarea value="#{arm.description}"
-				style="width:135px;height:40px;overflow: auto;" />
-			<ice:outputLabel value="Planned subjects" />
-			<ice:inputText value="#{arm.plannedSubjects}" size="22" />
-		</ice:panelGrid>
-	</ice:panelGroup>
+	<f:subview id="treatmentArmInclude">
+		<jsp:directive.include file="./inc/panels/trial/treatmentArm.jspx" />
+	</f:subview>
 </ice:panelSeries>
+
+
+
