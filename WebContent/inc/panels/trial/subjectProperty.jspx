@@ -19,16 +19,16 @@
 	xmlns:ice="http://www.icesoft.com/icefaces/component"
 	style="padding:10px;background-image: url('img/sPanelBackground.png');float:left; height:215px; margin: 10px;">
 	<ice:panelGrid columns="2">
-			<ice:graphicImage value="/img/icons/subjectProp16.png" />
-			<ice:outputLabel value="#{labels['pages.trialEditPanel.propLabel']}" />
-		</ice:panelGrid>
+		<ice:graphicImage value="/img/icons/subjectProp16.png" />
+		<ice:outputLabel value="#{labels['pages.trialEditPanel.propLabel']}" />
+	</ice:panelGrid>
 	<ice:panelGrid>
-			<ice:outputLabel value="!Name!" />
-			<ice:inputText value="" size="22" />
-			<ice:outputLabel value="!Type!" />
-			<ice:inputTextarea value=""
-				style="width:135px;height:40px;overflow: auto;" />
-			<ice:outputLabel value="!Description!" />
-			<ice:inputText value="" size="22" />
-		</ice:panelGrid>
+		<ice:outputLabel value="!Name!" />
+		<ice:inputText value="" size="22" />
+		<ice:outputLabel value="!Type!" />
+		<ice:inputTextarea value=""
+			style="width:135px;height:40px;overflow: auto;" />
+		<ice:outputLabel value="!Description!" />
+		<ice:inputText value="" size="22" />
+	</ice:panelGrid>
 </ice:panelGroup>

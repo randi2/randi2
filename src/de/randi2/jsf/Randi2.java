@@ -6,6 +6,9 @@ import java.util.Properties;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import com.icesoft.faces.context.effects.Effect;
+import com.icesoft.faces.context.effects.EffectBuilder;
+
 /**
  * <p>
  * This class supply other JSF_relevant classes with general methods and fields.
@@ -34,6 +37,10 @@ public class Randi2 {
 	public static String SUCCESS = "success";
 	
 	public static String ERROR = "error";
+	
+	public Effect getAppearEff(){
+		return EffectBuilder.build("appear");
+	}
 	
 	public static void showMessage(Exception e){
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(),e.toString()));

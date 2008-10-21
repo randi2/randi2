@@ -17,7 +17,9 @@
 <ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component"
-	style="padding:10px;background-image: url('img/sPanelBackground.png');float:left; height:215px; margin: 10px;">
+	style="padding:10px;background-image: url('img/sPanelBackground.png');float:left; height:215px; margin: 10px;" 
+	effect="#{randi2.appearEff}"
+	>
 	<ice:panelGrid columns="2">
 		<ice:graphicImage value="/img/icons/arm16.png" />
 		<ice:outputLabel value="#{labels['pages.trialEditPanel.tArmLabel']}" />

@@ -53,9 +53,13 @@
 				<f:convertDateTime pattern="MM/dd/yyyy" />
 			</ice:outputText>
 			<ice:outputLabel for="password" value="#{labels['login.password']}"></ice:outputLabel>
-			<ice:commandButton value="#{labels['buttons.changePassword']}"
-				action="#{loginHandler.showChangePasswordPopup}"
-				rendered="#{!loginHandler.creatingMode}"></ice:commandButton>
+			<ice:panelGroup id="passwordDummy"
+				rendered="#{!loginHandler.creatingMode}">
+				<ice:outputText value="***********"></ice:outputText>
+				<ice:commandButton value="#{labels['buttons.changePassword']}"
+					action="#{loginHandler.showChangePasswordPopup}"
+					image="/img/icons/change16.png" style="margin-left: 15px;"></ice:commandButton>
+			</ice:panelGroup>
 			<ice:panelGroup id="passwordGroup"
 				rendered="#{loginHandler.creatingMode}">
 				<ice:inputSecret id="password"
