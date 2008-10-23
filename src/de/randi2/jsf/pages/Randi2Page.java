@@ -14,6 +14,7 @@
  */
 package de.randi2.jsf.pages;
 
+import de.randi2.jsf.Randi2;
 import de.randi2.jsf.handlers.CenterHandler;
 import de.randi2.jsf.handlers.LoginHandler;
 import de.randi2.model.Person;
@@ -48,6 +49,10 @@ public class Randi2Page {
 	 * The current logged in user.
 	 */
 	private Login currentUser = null;
+	
+	private boolean aboutVisible = false;
+	
+	private boolean helpVisible = false;
 
 	public Randi2Page() {
 		loginHandler = ((LoginHandler) FacesContext.getCurrentInstance()
@@ -112,6 +117,34 @@ public class Randi2Page {
 
 	public void createTrial(ActionEvent event) {
 		activePanel = "trialCreatePanel";
+	}
+	
+	public String showAbout(){
+		this.aboutVisible = true;
+		return Randi2.SUCCESS;
+	}
+	
+	public String hideAbout(){
+		this.aboutVisible = false;
+		return Randi2.SUCCESS;
+	}
+	
+	public String showHelp(){
+		this.helpVisible = true;
+		return Randi2.SUCCESS;
+	}
+	
+	public String hideHelp(){
+		this.helpVisible = false;
+		return Randi2.SUCCESS;
+	}
+
+	public boolean isAboutVisible() {
+		return aboutVisible;
+	}
+
+	public boolean isHelpVisible() {
+		return helpVisible;
 	}
 
 }

@@ -45,8 +45,8 @@
 		</ice:menuItem>
 		<ice:menuItemSeparator></ice:menuItemSeparator>
 		<ice:menuItem value="#{labels['pages.menu.search']}" />
-		<ice:menuItem value="#{labels['pages.menu.help']}" />
-		<ice:menuItem value="#{labels['pages.menu.about']}" />
+		<ice:menuItem value="#{labels['pages.menu.help']}" action="#{randi2Page.showHelp}"/>
+		<ice:menuItem value="#{labels['pages.menu.about']}" action="#{randi2Page.showAbout}"/>
 		
 	</ice:menuBar>
 </ice:form>

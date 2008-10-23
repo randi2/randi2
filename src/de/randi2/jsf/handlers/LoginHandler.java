@@ -257,9 +257,10 @@ public class LoginHandler {
 		return Randi2.SUCCESS;
 	}
 
-	public void changePassword() {
+	public String changePassword() {
 		this.saveLogin();
 		this.hideChangePasswordPopup();
+		return Randi2.SUCCESS;
 
 	}
 

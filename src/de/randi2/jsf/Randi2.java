@@ -32,11 +32,41 @@ import com.icesoft.faces.context.effects.EffectBuilder;
  */
 public class Randi2 {
 	
-	public String version = null;
+	private String version = null;
 	
-	public static String SUCCESS = "success";
+	/**
+	 * Project official web site.
+	 */
+	private String website1 = null;
 	
-	public static String ERROR = "error";
+	/**
+	 * Web site of the main institution.
+	 */
+	private String website2 = null;
+	
+	/**
+	 * The logo of the main institution.
+	 */
+	private String logoPath = null;
+	
+	/**
+	 * The contact email of the sysop.
+	 */
+	private String sysopMail = null;
+	
+	private final Properties randi2prop = new Properties();
+	
+	public final static String SUCCESS = "success";
+	
+	public final static String ERROR = "error";
+	
+	public Randi2(){
+		try {
+			randi2prop.load(FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/RANDI2.properties"));
+		} catch (IOException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,e.getLocalizedMessage(),e.toString()));
+		}
+	}
 	
 	public Effect getAppearEff(){
 		return EffectBuilder.build("appear");
@@ -52,16 +82,44 @@ public class Randi2 {
 	
 	public String getVersion(){
 		if(version==null){
-			Properties randi2Prop = new Properties();
-			try {
-				randi2Prop.load(FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/RANDI2.properties"));
-				version = randi2Prop.getProperty("version");
-			} catch (IOException e) {
-				e.printStackTrace();
-				version="ERROR";
-			}
+//			Properties randi2Prop = new Properties();
+//			try {
+//				randi2Prop.load(FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/RANDI2.properties"));
+				version = randi2prop.getProperty("version");
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//				version="ERROR";
+//			}
 		}
 		return version;
+	}
+	
+	public String getWebsite1(){
+		if(website1==null){
+				website1 = randi2prop.getProperty("website1");
+		}
+		return website1;
+	}
+	
+	public String getWebsite2(){
+		if(website2==null){
+				website2 = randi2prop.getProperty("website2");
+		}
+		return website2;
+	}
+	
+	public String getLogoPath(){
+		if(logoPath == null){
+				logoPath = randi2prop.getProperty("logoPath");
+		}
+		return logoPath;
+	}
+	
+	public String getSysopMail(){
+		if(sysopMail==null){
+				sysopMail = randi2prop.getProperty("sysopMail");
+		}
+		return sysopMail;
 	}
 
 }

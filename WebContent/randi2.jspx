@@ -30,8 +30,13 @@
 	<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
 	</head>
 	<body>
-
-
+	<!-- Popups section -->
+	<f:subview id="aboutPopup">
+		<jsp:directive.include file="./inc/popups/aboutPopup.jspx" />
+	</f:subview>
+	<f:subview id="helpPopup">
+		<jsp:directive.include file="./inc/popups/helpPopup.jspx" />
+	</f:subview>
 	<ice:panelBorder layout="hide east" border="0" cellpadding="1"
 		cellspacing="1" width="900px">
 
