@@ -7,7 +7,9 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:/META-INF/spring.xml
-			<!-- 	classpath:/META-INF/subconfig/security.xml -->
+			<!--
+				classpath:/META-INF/subconfig/security.xml
+			-->
 		</param-value>
 	</context-param>
 
@@ -31,7 +33,8 @@
 		<description>
 			Turn on/off application-wide synchronous or asynchronous
 			updates. See Synchronous and Asynchronous Updates in Chapter
-			3. of Developer Guide.
+			3. of
+			Developer Guide.
 		</description>
 	</context-param>
 	<context-param>
@@ -40,7 +43,8 @@
 			ABQIAAAADlu0ZiSTam64EKaCQr9eTRTOTuQNzJNXRlYRLknj4cQ89tFfpxTEqxQnVWL4k55OPICgF5_SOZE06A
 		</param-value>
 		<description>
-			A Google Maps API key is required if gMap component is used.
+			A Google Maps API key is required if gMap component is
+			used.
 			Sign up for an API key from
 			http://code.google.com/apis/maps/signup.html.
 		</description>
@@ -87,7 +91,9 @@
 		</listener-class>
 	</listener>
 
-
+	<listener>
+		<listener-class>de.randi2.jsf.fileupload.InputFileSessionCleaner</listener-class>
+	</listener>
 	<listener>
 		<listener-class>
 			com.icesoft.faces.util.event.servlet.ContextEventRepeater

@@ -114,7 +114,8 @@
 
 	<managed-bean>
 		<description>
-			This bean has all needed attributes for the register page.
+			This bean has all needed attributes for the register
+			page.
 		</description>
 		<managed-bean-name>registerPage</managed-bean-name>
 		<managed-bean-class>
@@ -141,6 +142,15 @@
 		<managed-bean-name>randi2</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.Randi2</managed-bean-class>
 		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<description>
+			This bean controls the file upload. (Trial protocol uplaod)
+	</description>
+		<managed-bean-name>inputFileController</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.fileupload.InputFileController</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 
 	<navigation-rule>

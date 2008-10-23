@@ -34,6 +34,8 @@ public class Randi2 {
 	
 	private String version = null;
 	
+	private String year = null;
+	
 	/**
 	 * Project official web site.
 	 */
@@ -120,6 +122,13 @@ public class Randi2 {
 				sysopMail = randi2prop.getProperty("sysopMail");
 		}
 		return sysopMail;
+	}
+	
+	public String getYear(){
+		if(year==null){
+			year = randi2prop.getProperty("year");
+		}
+		return year;
 	}
 
 }
