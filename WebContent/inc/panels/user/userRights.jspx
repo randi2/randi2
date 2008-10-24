@@ -23,7 +23,7 @@
 			<ice:panelGrid border="0" columns="2">
 				<ice:graphicImage value="/img/icons/rights16.png"></ice:graphicImage>
 				<ice:outputLabel
-					value="#{labels['pages.userEditPanel.rightsHeader']}"></ice:outputLabel>
+					value="#{labels['pages.userEditPanel.rolesHeader']}"></ice:outputLabel>
 			</ice:panelGrid>
 		</f:facet>
 		<ice:panelGrid border="0" columns="2">
@@ -39,9 +39,243 @@
 		</ice:panelGrid>
 	</ice:panelCollapsible>
 	<!-- User rights -->
-	<ice:panelTabSet>
-		<ice:panelTab label="User Rights"></ice:panelTab>
-		<ice:panelTab label="Center Rights"></ice:panelTab>
-		<ice:panelTab label="Trial Rights"></ice:panelTab>
-	</ice:panelTabSet>
+	<ice:panelCollapsible expanded="true">
+		<f:facet name="header">
+			<ice:panelGrid border="0" columns="2">
+				<ice:graphicImage value="/img/icons/security16.png"></ice:graphicImage>
+				<ice:outputLabel
+					value="#{labels['pages.userEditPanel.rightsHeader']}"></ice:outputLabel>
+			</ice:panelGrid>
+		</f:facet>
+		<ice:panelTabSet>
+			<ice:panelTab label="!Rights for user objects!">
+				<ice:panelGrid columns="1">
+					<ice:selectBooleanCheckbox value="#{rightsPanel.createUser}"
+						partialSubmit="true">
+						<ice:outputLabel value="!Create new user!" />
+					</ice:selectBooleanCheckbox>
+					<ice:panelGrid columns="2" rendered="#{rightsPanel.createUser}"
+						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
+						<ice:outputLabel value="!Possible roles!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Admin!" />
+								<f:selectItem itemLabel="!Principal Investigator!" />
+								<f:selectItem itemLabel="!Investigator!" />
+								<f:selectItem itemLabel="!Monitor!" />
+								<f:selectItem itemLabel="!Custom role!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+						<ice:outputLabel value="!Possible centers!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Only own center!" />
+								<f:selectItem itemLabel="!All centers!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+					</ice:panelGrid>
+					<ice:selectBooleanCheckbox value="#{rightsPanel.changeUser}"
+						partialSubmit="true">
+						<ice:outputLabel value="!Change existing user!" />
+					</ice:selectBooleanCheckbox>
+					<ice:panelGrid columns="2" rendered="#{rightsPanel.changeUser}"
+						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
+						<ice:outputLabel value="!Possible roles!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Admin!" />
+								<f:selectItem itemLabel="!Principal Investigator!" />
+								<f:selectItem itemLabel="!Investigator!" />
+								<f:selectItem itemLabel="!Monitor!" />
+								<f:selectItem itemLabel="!Custom role!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+						<ice:outputLabel value="!Possible centers!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Only own center!" />
+								<f:selectItem itemLabel="!All centers!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+						<ice:outputLabel value="!Possible data!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Personal and Contact information!" />
+								<f:selectItem itemLabel="!User's center!" />
+								<f:selectItem itemLabel="!User's rights and role!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+					</ice:panelGrid>
+					<ice:selectBooleanCheckbox value="#{rightsPanel.viewUser}"
+						partialSubmit="true">
+						<ice:outputLabel value="!View existing users!" />
+					</ice:selectBooleanCheckbox>
+					<ice:panelGrid columns="2" rendered="#{rightsPanel.viewUser}"
+						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
+						<ice:outputLabel value="!Possible users!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Only users from own center!" />
+								<f:selectItem itemLabel="!All users!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+						<ice:outputLabel value="!Possible data!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Personal and Contact information!" />
+								<f:selectItem itemLabel="!User's center!" />
+								<f:selectItem itemLabel="!User's rights and role!" />
+								<f:selectItem itemLabel="!Actions!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+					</ice:panelGrid>
+				</ice:panelGrid>
+			</ice:panelTab>
+			<ice:panelTab label="!Rights for center objects">
+				<ice:panelGrid columns="1">
+					<ice:selectBooleanCheckbox value="#{rightsPanel.createCenter}"
+						partialSubmit="true">
+						<ice:outputLabel value="!Create new center!" />
+					</ice:selectBooleanCheckbox>
+					<ice:selectBooleanCheckbox value="#{rightsPanel.changeCenter}"
+						partialSubmit="true">
+						<ice:outputLabel value="!Change existing center!" />
+					</ice:selectBooleanCheckbox>
+					<ice:panelGrid columns="2" rendered="#{rightsPanel.changeCenter}"
+						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
+						<ice:outputLabel value="!Possible centers!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Only own center!" />
+								<f:selectItem itemLabel="!All centers!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+						<ice:outputLabel value="!Possible data!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Institution!" />
+								<f:selectItem itemLabel="!Contact Person!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+					</ice:panelGrid>
+					<ice:selectBooleanCheckbox value="#{rightsPanel.viewCenter}"
+						partialSubmit="true">
+						<ice:outputLabel value="!View existing centers!" />
+					</ice:selectBooleanCheckbox>
+					<ice:panelGrid columns="2" rendered="#{rightsPanel.viewCenter}"
+						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
+						<ice:outputLabel value="!Possible centers!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Only own center!" />
+								<f:selectItem itemLabel="!All centers!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+						<ice:outputLabel value="!Possible data!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Institution!" />
+								<f:selectItem itemLabel="!Contact Person!" />
+								<f:selectItem itemLabel="!Members!" />
+								<f:selectItem itemLabel="!Trials!" />
+								<f:selectItem itemLabel="!Actions!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+					</ice:panelGrid>
+				</ice:panelGrid>
+			</ice:panelTab>
+			<ice:panelTab label="!Rights for trial objects!">
+				<ice:panelGrid columns="1">
+					<ice:selectBooleanCheckbox value="#{rightsPanel.createTrial}"
+						partialSubmit="true">
+						<ice:outputLabel value="!Create new trial!" />
+					</ice:selectBooleanCheckbox>
+					<ice:panelGrid columns="2" rendered="#{rightsPanel.createTrial}"
+						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
+						<ice:outputLabel value="!Possible leading centers!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Only for own center!" />
+								<f:selectItem itemLabel="!All centers!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+						<ice:outputLabel
+							value="!Possible arm and properties configuration!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Only templetes!" />
+								<f:selectItem itemLabel="!Full configuration!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+						<ice:outputLabel value="!Possible algorithms!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Complete randomization!" />
+								<f:selectItem itemLabel="!Block randomization (without strata)!" />
+								<f:selectItem itemLabel="!Block randomization (with strata)!" />
+								<f:selectItem itemLabel="!Minimazation!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+						<ice:outputLabel value="!Create templates!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Subject properties templetes!" />
+								<f:selectItem itemLabel="!Algorithm templetes!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+					</ice:panelGrid>
+					<ice:selectBooleanCheckbox value="#{rightsPanel.changeTrial}"
+						partialSubmit="true">
+						<ice:outputLabel value="!Change existing trial!" />
+					</ice:selectBooleanCheckbox>
+					<ice:panelGrid columns="2" rendered="#{rightsPanel.changeTrial}"
+						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
+						<ice:outputLabel value="!Possible trials!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Only own trials!" />
+								<f:selectItem itemLabel="!All trials!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+						<ice:outputLabel value="!Possible data!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!General data!" />
+								<f:selectItem itemLabel="!Participating sites!" />
+								<f:selectItem itemLabel="!Treatment arms!" />
+								<f:selectItem itemLabel="!Subject properties!" />
+								<f:selectItem itemLabel="!Algorithm!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+					</ice:panelGrid>
+					<ice:selectBooleanCheckbox value="#{rightsPanel.viewTrial}"
+						partialSubmit="true">
+						<ice:outputLabel value="!View existing trials!" />
+					</ice:selectBooleanCheckbox>
+					<ice:panelGrid columns="2" rendered="#{rightsPanel.viewTrial}"
+						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
+						<ice:outputLabel value="!Possible trials!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!Only own trials!" />
+								<f:selectItem itemLabel="!All trials!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+						<ice:outputLabel value="!Possible data!" />
+						<ice:panelGrid>
+							<ice:selectManyCheckbox>
+								<f:selectItem itemLabel="!General data!" />
+								<f:selectItem itemLabel="!Participating sites!" />
+								<f:selectItem itemLabel="!Treatment arms!" />
+								<f:selectItem itemLabel="!Subject properties!" />
+								<f:selectItem itemLabel="!Algorithm!" />
+								<f:selectItem itemLabel="!Randomization results!" />
+								<f:selectItem itemLabel="!Actions!" />
+							</ice:selectManyCheckbox>
+						</ice:panelGrid>
+					</ice:panelGrid>
+				</ice:panelGrid>
+			</ice:panelTab>
+		</ice:panelTabSet>
+	</ice:panelCollapsible>
 </ice:panelGroup>

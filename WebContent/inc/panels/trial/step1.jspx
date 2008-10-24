@@ -117,7 +117,7 @@
 			<ice:outputLabel for="startDate" value="#{labels['trial.startDate']}" />
 			<ice:panelGroup>
 				<ice:selectInputDate id="startDate" value="#{trialHandler.TDate1}"
-					title="Pick up the trial's start date" renderAsPopup="true">
+					title="Pick up the trial's start date" renderAsPopup="true" >
 					<f:convertDateTime locale="#{loginHandler.chosenLocale}"
 						dateStyle="medium" timeZone="#{trialHandler.zone}" />
 				</ice:selectInputDate>

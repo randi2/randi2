@@ -146,7 +146,17 @@
 
 	<managed-bean>
 		<description>
-			This bean controls the file upload. (Trial protocol uplaod)
+			This bean contains the functionality for managing the user's rights.
+		</description>
+		<managed-bean-name>rightsPanel</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.pages.RightsPanel</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<description>
+			This bean controls the file upload. (Trial protocol
+			uplaod)
 	</description>
 		<managed-bean-name>inputFileController</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.fileupload.InputFileController</managed-bean-class>

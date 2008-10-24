@@ -56,41 +56,35 @@ import de.randi2.model.TrialSite;
  */
 public class LoginHandler {
 
-	// This Object ist representing the current User
+	// This Object is representing the current User
 	private Login login = null;
 
-	// The Locale chosen by the user.
+	// The locale chosen by the user.
 	private Locale chosenLocale = null;
 
+	//The currently presented login object
 	private Login showedLogin = null;
 
 	// Objects for User-Creating Process
 	private Person person = null;
-
 	private Person userAssistant = null;
-
 	private TrialSite userCenter = null;
-
 	private String cPassword = null;
 	// ---
 
 	// DB Access
 	private LoginDao loginDao;
-
 	private PersonDao personDao;
-
 	private CenterDao centerDao;
 	// ---
 
+	//Flags for the jsf pages
 	private boolean creatingMode = false;
-
 	private boolean editable = false;
 
 	// Popup's flags
 	private boolean userSavedPVisible = false;
-
 	private boolean changePasswordPVisible = false;
-
 	private boolean changeCenterPVisible = false;
 
 	// Mailsender
