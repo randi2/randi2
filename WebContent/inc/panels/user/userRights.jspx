@@ -48,15 +48,15 @@
 			</ice:panelGrid>
 		</f:facet>
 		<ice:panelTabSet>
-			<ice:panelTab label="!Rights for user objects!">
+			<ice:panelTab label="#{labels['pages.userEditPanel.rUserTab']}">
 				<ice:panelGrid columns="1">
 					<ice:selectBooleanCheckbox value="#{rightsPanel.createUser}"
 						partialSubmit="true">
-						<ice:outputLabel value="!Create new user!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rCreateUser']}" />
 					</ice:selectBooleanCheckbox>
 					<ice:panelGrid columns="2" rendered="#{rightsPanel.createUser}"
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
-						<ice:outputLabel value="!Possible roles!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rRoles']}" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
 								<f:selectItem itemLabel="!Admin!" />
@@ -66,21 +66,22 @@
 								<f:selectItem itemLabel="!Custom role!" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
-						<ice:outputLabel value="!Possible centers!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rCenters']}" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!Only own center!" />
-								<f:selectItem itemLabel="!All centers!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rOwnCenter']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllCenters']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenCenters']}" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
 					</ice:panelGrid>
 					<ice:selectBooleanCheckbox value="#{rightsPanel.changeUser}"
 						partialSubmit="true">
-						<ice:outputLabel value="!Change existing user!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rChangeUser']}" />
 					</ice:selectBooleanCheckbox>
 					<ice:panelGrid columns="2" rendered="#{rightsPanel.changeUser}"
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
-						<ice:outputLabel value="!Possible roles!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rRoles']}" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
 								<f:selectItem itemLabel="!Admin!" />
@@ -90,124 +91,129 @@
 								<f:selectItem itemLabel="!Custom role!" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
-						<ice:outputLabel value="!Possible centers!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rCenters']}" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!Only own center!" />
-								<f:selectItem itemLabel="!All centers!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rOwnCenter']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllCenters']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenCenters']}" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
-						<ice:outputLabel value="!Possible data!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!Personal and Contact information!" />
-								<f:selectItem itemLabel="!User's center!" />
-								<f:selectItem itemLabel="!User's rights and role!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rPersCont']} " />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rUsersCenter']} " />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rUsersR']} " />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
 					</ice:panelGrid>
 					<ice:selectBooleanCheckbox value="#{rightsPanel.viewUser}"
 						partialSubmit="true">
-						<ice:outputLabel value="!View existing users!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rViewUser']} " />
 					</ice:selectBooleanCheckbox>
 					<ice:panelGrid columns="2" rendered="#{rightsPanel.viewUser}"
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
-						<ice:outputLabel value="!Possible users!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rUsers']}" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!Only users from own center!" />
-								<f:selectItem itemLabel="!All users!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rSameCenterU']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllUsers']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenUsers']}" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
-						<ice:outputLabel value="!Possible data!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!Personal and Contact information!" />
-								<f:selectItem itemLabel="!User's center!" />
-								<f:selectItem itemLabel="!User's rights and role!" />
-								<f:selectItem itemLabel="!Actions!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rPersCont']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rUsersCenter']} " />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rUsersR']} " />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rActions']}" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
 					</ice:panelGrid>
 				</ice:panelGrid>
 			</ice:panelTab>
-			<ice:panelTab label="!Rights for center objects">
+			<ice:panelTab label="#{labels['pages.userEditPanel.rCenterTab']}">
 				<ice:panelGrid columns="1">
 					<ice:selectBooleanCheckbox value="#{rightsPanel.createCenter}"
 						partialSubmit="true">
-						<ice:outputLabel value="!Create new center!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rCreateCenter']}" />
 					</ice:selectBooleanCheckbox>
 					<ice:selectBooleanCheckbox value="#{rightsPanel.changeCenter}"
 						partialSubmit="true">
-						<ice:outputLabel value="!Change existing center!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rChangeCenter']}" />
 					</ice:selectBooleanCheckbox>
 					<ice:panelGrid columns="2" rendered="#{rightsPanel.changeCenter}"
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
-						<ice:outputLabel value="!Possible centers!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rCenters']}" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!Only own center!" />
-								<f:selectItem itemLabel="!All centers!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rOwnCenter']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllCenters']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenCenters']}" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
-						<ice:outputLabel value="!Possible data!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!Institution!" />
-								<f:selectItem itemLabel="!Contact Person!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rInst']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rContPer']}" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
 					</ice:panelGrid>
 					<ice:selectBooleanCheckbox value="#{rightsPanel.viewCenter}"
 						partialSubmit="true">
-						<ice:outputLabel value="!View existing centers!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rViewCenter']}" />
 					</ice:selectBooleanCheckbox>
 					<ice:panelGrid columns="2" rendered="#{rightsPanel.viewCenter}"
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
-						<ice:outputLabel value="!Possible centers!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rCenters']}" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!Only own center!" />
-								<f:selectItem itemLabel="!All centers!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rOwnCenter']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllCenters']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenCenters']}" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
-						<ice:outputLabel value="!Possible data!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!Institution!" />
-								<f:selectItem itemLabel="!Contact Person!" />
-								<f:selectItem itemLabel="!Members!" />
-								<f:selectItem itemLabel="!Trials!" />
-								<f:selectItem itemLabel="!Actions!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rInst']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rContPer']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rMembers']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rTrials']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rActions']}" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
 					</ice:panelGrid>
 				</ice:panelGrid>
 			</ice:panelTab>
-			<ice:panelTab label="!Rights for trial objects!">
+			<ice:panelTab label="#{labels['pages.userEditPanel.rTrialTab']}">
 				<ice:panelGrid columns="1">
 					<ice:selectBooleanCheckbox value="#{rightsPanel.createTrial}"
 						partialSubmit="true">
-						<ice:outputLabel value="!Create new trial!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rCreateTrial'] }" />
 					</ice:selectBooleanCheckbox>
 					<ice:panelGrid columns="2" rendered="#{rightsPanel.createTrial}"
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
-						<ice:outputLabel value="!Possible leading centers!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rLeadCenter']}" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!Only for own center!" />
-								<f:selectItem itemLabel="!All centers!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rOwnCenter']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllCenters']}" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenCenters']}" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
 						<ice:outputLabel
-							value="!Possible arm and properties configuration!" />
+							value="#{labels['pages.userEditPanel.rArmSubConf'] }" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!Only templetes!" />
-								<f:selectItem itemLabel="!Full configuration!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rOnlyTemp'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rFullConf'] }" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
-						<ice:outputLabel value="!Possible algorithms!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rAlgorithms'] }" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
 								<f:selectItem itemLabel="!Complete randomization!" />
@@ -216,61 +222,63 @@
 								<f:selectItem itemLabel="!Minimazation!" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
-						<ice:outputLabel value="!Create templates!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rCreateTemp'] }" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!Subject properties templetes!" />
-								<f:selectItem itemLabel="!Algorithm templetes!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rSubjPropT'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAlgorithmT'] }" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
 					</ice:panelGrid>
 					<ice:selectBooleanCheckbox value="#{rightsPanel.changeTrial}"
 						partialSubmit="true">
-						<ice:outputLabel value="!Change existing trial!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rChangeTrial'] }" />
 					</ice:selectBooleanCheckbox>
 					<ice:panelGrid columns="2" rendered="#{rightsPanel.changeTrial}"
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
-						<ice:outputLabel value="!Possible trials!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rPosTrials'] }" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!Only own trials!" />
-								<f:selectItem itemLabel="!All trials!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rOwnTrials'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllTrials'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenTrials'] }" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
-						<ice:outputLabel value="!Possible data!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rData'] }" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!General data!" />
-								<f:selectItem itemLabel="!Participating sites!" />
-								<f:selectItem itemLabel="!Treatment arms!" />
-								<f:selectItem itemLabel="!Subject properties!" />
-								<f:selectItem itemLabel="!Algorithm!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rGeneralD'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rSites'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rTreatmentA'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rSubjProp'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAlg'] }" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
 					</ice:panelGrid>
 					<ice:selectBooleanCheckbox value="#{rightsPanel.viewTrial}"
 						partialSubmit="true">
-						<ice:outputLabel value="!View existing trials!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rViewTrial'] }" />
 					</ice:selectBooleanCheckbox>
 					<ice:panelGrid columns="2" rendered="#{rightsPanel.viewTrial}"
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
-						<ice:outputLabel value="!Possible trials!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rPosTrials'] }" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!Only own trials!" />
-								<f:selectItem itemLabel="!All trials!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rOwnTrials'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllTrials'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenTrials'] }" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
-						<ice:outputLabel value="!Possible data!" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rData'] }" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem itemLabel="!General data!" />
-								<f:selectItem itemLabel="!Participating sites!" />
-								<f:selectItem itemLabel="!Treatment arms!" />
-								<f:selectItem itemLabel="!Subject properties!" />
-								<f:selectItem itemLabel="!Algorithm!" />
-								<f:selectItem itemLabel="!Randomization results!" />
-								<f:selectItem itemLabel="!Actions!" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rGeneralD'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rSites'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rTreatmentA'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rSubjProp'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAlg'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rRandResults'] }" />
+								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rActions'] }" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
 					</ice:panelGrid>
