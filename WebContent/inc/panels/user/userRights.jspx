@@ -68,11 +68,11 @@
 						</ice:panelGrid>
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rCenters']}" />
 						<ice:panelGrid>
-							<ice:selectManyCheckbox>
+							<ice:selectOneRadio>
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rOwnCenter']}" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllCenters']}" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenCenters']}" />
-							</ice:selectManyCheckbox>
+							</ice:selectOneRadio>
 						</ice:panelGrid>
 					</ice:panelGrid>
 					<ice:selectBooleanCheckbox value="#{rightsPanel.changeUser}"
@@ -93,11 +93,11 @@
 						</ice:panelGrid>
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rCenters']}" />
 						<ice:panelGrid>
-							<ice:selectManyCheckbox>
+							<ice:selectOneRadio>
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rOwnCenter']}" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllCenters']}" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenCenters']}" />
-							</ice:selectManyCheckbox>
+							</ice:selectOneRadio>
 						</ice:panelGrid>
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
 						<ice:panelGrid>
@@ -116,11 +116,11 @@
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rUsers']}" />
 						<ice:panelGrid>
-							<ice:selectManyCheckbox>
+							<ice:selectOneRadio>
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rSameCenterU']}" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllUsers']}" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenUsers']}" />
-							</ice:selectManyCheckbox>
+							</ice:selectOneRadio>
 						</ice:panelGrid>
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
 						<ice:panelGrid>
@@ -148,11 +148,11 @@
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rCenters']}" />
 						<ice:panelGrid>
-							<ice:selectManyCheckbox>
+							<ice:selectOneRadio>
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rOwnCenter']}" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllCenters']}" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenCenters']}" />
-							</ice:selectManyCheckbox>
+							</ice:selectOneRadio>
 						</ice:panelGrid>
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
 						<ice:panelGrid>
@@ -170,11 +170,11 @@
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rCenters']}" />
 						<ice:panelGrid>
-							<ice:selectManyCheckbox>
+							<ice:selectOneRadio>
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rOwnCenter']}" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllCenters']}" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenCenters']}" />
-							</ice:selectManyCheckbox>
+							</ice:selectOneRadio>
 						</ice:panelGrid>
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
 						<ice:panelGrid>
@@ -199,11 +199,11 @@
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rLeadCenter']}" />
 						<ice:panelGrid>
-							<ice:selectManyCheckbox>
+							<ice:selectOneRadio>
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rOwnCenter']}" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllCenters']}" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenCenters']}" />
-							</ice:selectManyCheckbox>
+							</ice:selectOneRadio>
 						</ice:panelGrid>
 						<ice:outputLabel
 							value="#{labels['pages.userEditPanel.rArmSubConf'] }" />
@@ -238,11 +238,11 @@
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rPosTrials'] }" />
 						<ice:panelGrid>
-							<ice:selectManyCheckbox>
+							<ice:selectOneRadio>
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rOwnTrials'] }" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllTrials'] }" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenTrials'] }" />
-							</ice:selectManyCheckbox>
+							</ice:selectOneRadio>
 						</ice:panelGrid>
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rData'] }" />
 						<ice:panelGrid>
@@ -263,11 +263,11 @@
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rPosTrials'] }" />
 						<ice:panelGrid>
-							<ice:selectManyCheckbox>
+							<ice:selectOneRadio>
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rOwnTrials'] }" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAllTrials'] }" />
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rChosenTrials'] }" />
-							</ice:selectManyCheckbox>
+							</ice:selectOneRadio>
 						</ice:panelGrid>
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rData'] }" />
 						<ice:panelGrid>
