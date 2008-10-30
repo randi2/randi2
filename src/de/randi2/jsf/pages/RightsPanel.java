@@ -14,6 +14,12 @@
  */
 package de.randi2.jsf.pages;
 
+import java.util.List;
+
+import de.randi2.model.Person;
+import de.randi2.model.Trial;
+import de.randi2.model.TrialSite;
+
 /**
  * <p>
  * This class contains the logic for the user rights selection.
@@ -24,6 +30,7 @@ package de.randi2.jsf.pages;
  */
 public class RightsPanel {
 
+	//Flags for the Right-Groups
 	private boolean createUser = false;
 	private boolean changeUser = false;
 	private boolean viewUser = false;
@@ -33,6 +40,26 @@ public class RightsPanel {
 	private boolean createTrial = false;
 	private boolean changeTrial = false;
 	private boolean viewTrial = false;
+	// ----
+	
+	// Chosen object, for which the user has some rights
+	private List<TrialSite> createUserCenters = null;
+	private List<TrialSite> viewUsers= null;
+
+	private List<TrialSite> viewCenters = null;
+	
+	private List<TrialSite> createTrialCenters = null;
+	private List<Trial> viewTrials = null;
+	// ----
+	
+	// Flags for "chose object" logic
+	private boolean createUserChosenObj = false;
+	private boolean viewUsersChosenObj = false;
+	private boolean viewCentersChosenObj = false;
+	private boolean createTrialChosenObj = false;
+	private boolean viewTrialsChosenObj = false;
+	// ----
+	
 	
 	public boolean isCreateUser() {
 		return createUser;
@@ -87,5 +114,65 @@ public class RightsPanel {
 	}
 	public void setViewTrial(boolean viewTrial) {
 		this.viewTrial = viewTrial;
+	}
+	public List<TrialSite> getCreateUserCenters() {
+		return createUserCenters;
+	}
+	public void setCreateUserCenters(List<TrialSite> createUserCenters) {
+		this.createUserCenters = createUserCenters;
+	}
+	public List<TrialSite> getViewUsers() {
+		return viewUsers;
+	}
+	public void setViewUsers(List<TrialSite> viewUsers) {
+		this.viewUsers = viewUsers;
+	}
+	public List<TrialSite> getViewCenters() {
+		return viewCenters;
+	}
+	public void setViewCenters(List<TrialSite> viewCenters) {
+		this.viewCenters = viewCenters;
+	}
+	public List<TrialSite> getCreateTrialCenters() {
+		return createTrialCenters;
+	}
+	public void setCreateTrialCenters(List<TrialSite> createTrialCenters) {
+		this.createTrialCenters = createTrialCenters;
+	}
+	public List<Trial> getViewTrials() {
+		return viewTrials;
+	}
+	public void setViewTrials(List<Trial> viewTrials) {
+		this.viewTrials = viewTrials;
+	}
+	public boolean isCreateUserChosenObj() {
+		return createUserChosenObj;
+	}
+	public void setCreateUserChosenObj(boolean createUserChosenObj) {
+		this.createUserChosenObj = createUserChosenObj;
+	}
+	public boolean isViewUsersChosenObj() {
+		return viewUsersChosenObj;
+	}
+	public void setViewUsersChosenObj(boolean viewUsersChosenObj) {
+		this.viewUsersChosenObj = viewUsersChosenObj;
+	}
+	public boolean isViewCentersChosenObj() {
+		return viewCentersChosenObj;
+	}
+	public void setViewCentersChosenObj(boolean viewCentersChosenObj) {
+		this.viewCentersChosenObj = viewCentersChosenObj;
+	}
+	public boolean isCreateTrialChosenObj() {
+		return createTrialChosenObj;
+	}
+	public void setCreateTrialChosenObj(boolean createTrialChosenObj) {
+		this.createTrialChosenObj = createTrialChosenObj;
+	}
+	public boolean isViewTrialsChosenObj() {
+		return viewTrialsChosenObj;
+	}
+	public void setViewTrialsChosenObj(boolean viewTrialsChosenObj) {
+		this.viewTrialsChosenObj = viewTrialsChosenObj;
 	}
 }
