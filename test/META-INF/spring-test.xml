@@ -1,10 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+	default-autowire="byName">
 
-
-	<import resource="classpath:META-INF/spring.xml" />
 	<import resource="classpath:META-INF/subconfig/test.xml" />
-	
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="classpath:META-INF/configuration.properties">
+		</property>
+		<property name="ignoreUnresolvablePlaceholders">
+			<value>true</value>
+		</property>
+
+	</bean>
+
+
+
+	<context:annotation-config />
+	<context:spring-configured></context:spring-configured>
+
+	<import resource="classpath:META-INF/subconfig/database-mysql5.xml" />
+	<import resource="classpath:META-INF/subconfig/hibernate.xml" />
+	<import resource="classpath:META-INF/subconfig/aspects.xml" />
+	<import resource="classpath:META-INF/subconfig/mail.xml" />
+	<!-- Random Instance for NOT Randomization purposes. For Randomization
+		use a seperate Instance for each call (even if it is inefficient)! -->
+	<bean id="random" class="java.util.Random"></bean>
+
+	<bean id="trialDAO" class="de.randi2.dao.TrialDaoHibernate"></bean>
+
+	<bean id="personDAO" class="de.randi2.dao.PersonDaoHibernate"></bean>
+
+	<bean id="loginDAO" class="de.randi2.dao.LoginDaoHibernate"></bean>
+
+	<bean id="centerDAO" class="de.randi2.dao.CenterDaoHibernate"></bean>
+
 </beans>

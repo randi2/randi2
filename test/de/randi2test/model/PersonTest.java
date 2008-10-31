@@ -22,9 +22,7 @@ import de.randi2.model.enumerations.Gender;
 import de.randi2.model.exceptions.ValidationException;
 import de.randi2test.utility.AbstractDomainTest;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/META-INF/spring.xml",
-		"/META-INF/subconfig/test.xml" })
+
 public class PersonTest extends AbstractDomainTest<Person> {
 
 	private Person validPerson;

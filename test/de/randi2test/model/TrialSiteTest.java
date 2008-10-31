@@ -23,9 +23,7 @@ import de.randi2.model.Person;
 import de.randi2.model.Trial;
 import de.randi2test.utility.AbstractDomainTest;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/META-INF/spring.xml",
-		"/META-INF/subconfig/test.xml" })
+
 public class TrialSiteTest extends AbstractDomainTest<TrialSite> {
 
 	private TrialSite validCenter;

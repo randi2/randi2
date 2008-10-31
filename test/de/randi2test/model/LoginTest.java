@@ -33,8 +33,6 @@ import de.randi2.model.security.AclHibernate;
 import de.randi2test.utility.AbstractDomainTest;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/META-INF/spring-test.xml"})
 public class LoginTest extends AbstractDomainTest<Login>{
 
 	Login validLogin;

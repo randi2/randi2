@@ -42,9 +42,10 @@ public class DomainObjectFactory {
 	public Trial getTrial() {
 		Trial t = new Trial();
 		t.setName(testStringUtil.getWithLength(10));
-		
+		t.setSponsorInvestigator(this.getPerson());
 		t.setStartDate(new GregorianCalendar(2006,0,1));
 		t.setEndDate(new GregorianCalendar());
+		t.setLeadingSite(this.getCenter());
 		
 		return t;
 	}

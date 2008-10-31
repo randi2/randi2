@@ -12,8 +12,7 @@ import de.randi2.model.PersonRole;
 import de.randi2.model.Right;
 import de.randi2test.utility.AbstractDomainTest;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/META-INF/spring.xml", "/META-INF/subconfig/test.xml"})
+
 public class PersonRoleTest extends AbstractDomainTest<PersonRole>{
 
 	public PersonRole validPersonRole;

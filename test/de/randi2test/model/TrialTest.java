@@ -23,10 +23,6 @@ import de.randi2.model.Trial;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2test.utility.AbstractDomainTest;
 
-
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/META-INF/spring.xml", "/META-INF/subconfig/test.xml"})
 public class TrialTest extends AbstractDomainTest<Trial>{
 
 	public TrialTest() {
