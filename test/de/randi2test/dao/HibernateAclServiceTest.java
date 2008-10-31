@@ -22,7 +22,7 @@ import de.randi2test.utility.DomainObjectFactory;
 import de.randi2test.utility.TestStringUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml" })
+@ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml", "classpath:/META-INF/spring.xml" })
 public class HibernateAclServiceTest {
 
 	@Autowired
