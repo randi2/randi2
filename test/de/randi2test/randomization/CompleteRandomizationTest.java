@@ -1,19 +1,21 @@
 package de.randi2test.randomization;
 
 
+import static de.randi2test.utility.RANDI2Assert.assertInList;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static de.randi2test.utility.RANDI2Assert.assertInList;
 
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.BaseRandomizationConfig;
 import de.randi2.randomization.CompleteRandomization;
-import de.randi2.randomization.RandomizationAlgorithm;
 
 public class CompleteRandomizationTest {
 
@@ -46,8 +48,6 @@ public class CompleteRandomizationTest {
 		trial.setRandomizationConfiguration(conf);
 		TreatmentArm ta1 = getTA(10);
 		TreatmentArm ta2 = getTA(10);
-		TreatmentArm ta3 = getTA(20);
-		TreatmentArm ta4 = getTA(15);
 		
 		trial.setTreatmentArms(Arrays.asList(new TreatmentArm[]{ta1, ta2}));
 		TrialSubject subject = new TrialSubject();
