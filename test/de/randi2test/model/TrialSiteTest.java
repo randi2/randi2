@@ -234,8 +234,8 @@ private Session getCurrentSession(){
 		
 		for(int i=0;i<100;i++){
 			Person p = factory.getPerson();
-			p.setCenter(validCenter);
-			assertEquals(validCenter.getId(), p.getCenter().getId());
+			p.setTrialSite(validCenter);
+			assertEquals(validCenter.getId(), p.getTrialSite().getId());
 			hibernateTemplate.saveOrUpdate(p);
 		//	hibernateTemplate.getSessionFactory().getCurrentSession().saveOrUpdate(p);
 			members.add(p);

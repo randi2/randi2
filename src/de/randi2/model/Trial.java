@@ -15,7 +15,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.hibernate.validator.AssertTrue;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
@@ -46,7 +45,7 @@ public class Trial extends AbstractDomainObject {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Person sponsorInvestigator = null;
 	
-	@NotEmpty
+	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)
 	private TrialSite leadingCenter = null;
 	
@@ -65,8 +64,8 @@ public class Trial extends AbstractDomainObject {
 	
 	public void setName(String _name) {
 		
-		if (name == null) {
-			name = "";
+		if (_name == null) {
+			_name = "";
 		}
 		
 		this.name = _name;
@@ -76,11 +75,11 @@ public class Trial extends AbstractDomainObject {
 		return description;
 	}
 	
-	public void setDescription(String description) {
-		if (description == null){
-			description = "";
+	public void setDescription(String _description) {
+		if (_description == null){
+			_description = "";
 		}
-		this.description = description;
+		this.description = _description;
 	}
 	
 	public GregorianCalendar getStartDate() {

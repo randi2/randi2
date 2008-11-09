@@ -89,7 +89,7 @@ public class RolesAndRights {
 				PermissionHibernate.READ, PermissionHibernate.WRITE });
 		
 		//
-		for (Trial t : user.getPerson().getCenter().getTrials()) {
+		for (Trial t : user.getPerson().getTrialSite().getTrials()) {
 			aclService.createAclwithPermissions(t, user
 					.getUsername(), new PermissionHibernate[] {
 					PermissionHibernate.READ});

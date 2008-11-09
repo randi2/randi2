@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.randi2.model.TrialSite;
 
-public interface CenterDao extends AbstractDao<TrialSite> {
+public interface TrialSiteDao extends AbstractDao<TrialSite> {
 	
 
 	public List<TrialSite> getAll();

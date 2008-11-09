@@ -47,7 +47,7 @@ public class Person extends AbstractDomainObject {
 	@ManyToOne(cascade=CascadeType.ALL)
 	private Person assistant;
 	@ManyToOne
-	private TrialSite center;
+	private TrialSite trialSite;
 
 	// Login data
 	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
@@ -59,15 +59,15 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getCenter()
 	 */
-	public TrialSite getCenter() {
-		return center;
+	public TrialSite getTrialSite() {
+		return trialSite;
 	}
 
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#setCenter(de.randi2.model.Center)
 	 */
-	public void setCenter(TrialSite center) {
-		this.center = center;
+	public void setTrialSite(TrialSite _trialSite) {
+		this.trialSite = _trialSite;
 	}
 
 	/* (non-Javadoc)

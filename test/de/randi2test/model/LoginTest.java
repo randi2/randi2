@@ -90,12 +90,12 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		}
 		
 		
-		validLogin.setUsername(stringUtil.getWithLength(Login.MAX_USERNAME_LENGTH));
+		validLogin = factory.getLogin();
 		Login l1 = factory.getLogin();
 		l1.setUsername(validLogin.getUsername());
 		assertEquals(validLogin.getUsername(), l1.getUsername());
-		assertValid(validLogin);
 		try {
+			hibernateTemplate.saveOrUpdate(validLogin);
 			hibernateTemplate.saveOrUpdate(l1);
 			fail("should throw exception");
 		} catch (DataIntegrityViolationException e) {}

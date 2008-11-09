@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import de.randi2.dao.CenterDao;
+import de.randi2.dao.TrialSiteDao;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.TrialSite;
 import de.randi2test.utility.DomainObjectFactory;
@@ -16,11 +16,11 @@ import de.randi2test.utility.TestStringUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml" })
-public class CenterDaoTest {
+public class TrialSiteDaoTest {
 
 
 	@Autowired
-	private CenterDao centerDao;
+	private TrialSiteDao centerDao;
 	@Autowired
 	private DomainObjectFactory factory;
 	@Autowired

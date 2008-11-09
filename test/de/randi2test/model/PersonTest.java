@@ -56,7 +56,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertEquals("", p.getFax());
 
 		assertNull(p.getAssistant());
-		assertNull(p.getCenter());
+		assertNull(p.getTrialSite());
 
 		assertNull(p.getLogin());
 	//	assertEquals(0, p.getRoles().size());
@@ -334,27 +334,19 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		hibernateTemplate.saveOrUpdate(center);
 		
 		validPerson.setSurname(stringUtil.getWithLength(20));
-		validPerson.setCenter(center);
-		assertNotNull(validPerson.getCenter());
+		validPerson.setTrialSite(center);
+		assertNotNull(validPerson.getTrialSite());
 
 		hibernateTemplate.saveOrUpdate(validPerson);
 
-		assertTrue(validPerson.getCenter().getId() != AbstractDomainObject.NOT_YET_SAVED_ID);
+		assertTrue(validPerson.getTrialSite().getId() != AbstractDomainObject.NOT_YET_SAVED_ID);
 
 		Person p = (Person) hibernateTemplate.get(Person.class, validPerson
 				.getId());
 
 		assertNotNull(p);
 		assertEquals(validPerson.getId(), p.getId());
-		assertNotNull(p.getCenter());
-		assertEquals(center.getId(), p.getCenter().getId());
+		assertNotNull(p.getTrialSite());
+		assertEquals(center.getId(), p.getTrialSite().getId());
 	}
-	
-	
-
-	@Test
-	public void testPersonRolle() {
-		fail("not yet implemented");
-	}
-
 }

@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 	default-autowire="byName">
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-				<property name="dataSource" ref="dataSource"></property>
+		<property name="dataSource" ref="dataSource"></property>
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">
 					org.hibernate.dialect.MySQL5Dialect
 				</prop>
-				<prop key="hibernate.show_sql">true</prop>
+<!--				<prop key="hibernate.show_sql">true</prop>-->
 				<prop key="hibernate.connection.autocommit">false</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
@@ -26,17 +25,25 @@
 				<value>de.randi2.model.PersonRole</value>
 				<value>de.randi2.model.Login</value>
 				<value>de.randi2.model.Role</value>
-				<value>de.randi2.model.TreatmentArm</value>
-				<value>de.randi2.model.TrialSubject</value>
+				<value>de.randi2.model.TreatmentArm
+				</value>
+				<value>de.randi2.model.TrialSubject
+				</value>
 				<value>de.randi2.model.LogAction</value>
 				<value>de.randi2.model.DateChange</value>
-				<value>de.randi2.model.criteria.AbstractCriterion</value>
-				<value>de.randi2.model.security.AclHibernate</value>
-				<value>de.randi2.model.security.AccessControlEntryHibernate</value>
-				<value>de.randi2.model.security.ObjectIdentityHibernate</value>
-				<value>de.randi2.model.security.PermissionHibernate</value>
-				<value>de.randi2.model.security.SidHibernate</value>
-				</list>
+				<value>de.randi2.model.criteria.AbstractCriterion
+				</value>
+				<value>de.randi2.model.security.AclHibernate
+				</value>
+				<value>de.randi2.model.security.AccessControlEntryHibernate
+				</value>
+				<value>de.randi2.model.security.ObjectIdentityHibernate
+				</value>
+				<value>de.randi2.model.security.PermissionHibernate
+				</value>
+				<value>de.randi2.model.security.SidHibernate
+				</value>
+			</list>
 		</property>
 		<property name="eventListeners">
 			<map>
@@ -48,22 +55,20 @@
 		</property>
 	</bean>
 
-	<bean id="hibernateInterceptor"
-		class="de.randi2.utility.CustomHibernateInterceptor">
+	<bean id="hibernateInterceptor" class="de.randi2.utility.CustomHibernateInterceptor">
 	</bean>
 
-	<bean id="hibernateTemplate"
-		class="org.springframework.orm.hibernate3.HibernateTemplate">
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
 		<property name="entityInterceptor" ref="hibernateInterceptor"></property>
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory"></property> 
+		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	<!--	<context:annotation-config></context:annotation-config>-->
-	
-	
+
+
 
 </beans>

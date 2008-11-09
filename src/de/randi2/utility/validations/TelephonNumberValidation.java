@@ -2,8 +2,6 @@ package de.randi2.utility.validations;
 
 import org.hibernate.validator.Validator;
 
-import sun.security.jca.GetInstance.Instance;
-
 public class TelephonNumberValidation implements Validator<TelephonNumber>{
 
 	@Override

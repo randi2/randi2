@@ -30,7 +30,6 @@ public abstract class AbstractDaoHibernate<E extends Object> implements Abstract
 			template.saveOrUpdate(object);
 		}else template.merge(object);
 		template.flush();
-		System.out.println("SAVE_METHOD: " + this.getClass());
 	}
 	
 	public List<E> findByExample(E object){

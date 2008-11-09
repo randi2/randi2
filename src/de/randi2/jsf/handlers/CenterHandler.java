@@ -28,7 +28,7 @@ import org.hibernate.validator.InvalidValue;
 
 import com.icesoft.faces.component.selectinputtext.SelectInputText;
 
-import de.randi2.dao.CenterDao;
+import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.Randi2;
 import de.randi2.model.TrialSite;
 import de.randi2.model.Login;
@@ -43,7 +43,7 @@ import de.randi2.model.Person;
  */
 public class CenterHandler {
 
-	private CenterDao centerDao;
+	private TrialSiteDao centerDao;
 
 	private boolean centerSavedPVisible = false;
 
@@ -98,7 +98,7 @@ public class CenterHandler {
 
 	public TrialSite getShowedCenter() {
 		if (showedCenter == null) {
-			showedCenter = this.getCurrentUser().getPerson().getCenter();
+			showedCenter = this.getCurrentUser().getPerson().getTrialSite();
 		}
 		return showedCenter;
 	}
@@ -135,7 +135,7 @@ public class CenterHandler {
 		// center - if it is so, then he can edit it
 		// properties.
 		if (this.getShowedCenter().equals(
-				this.getCurrentUser().getPerson().getCenter())) {
+				this.getCurrentUser().getPerson().getTrialSite())) {
 			editable = true;
 		} else {
 			editable = creatingMode;
@@ -183,11 +183,11 @@ public class CenterHandler {
 		this.creatingMode = creatingMode;
 	}
 
-	public CenterDao getCenterDao() {
+	public TrialSiteDao getCenterDao() {
 		return centerDao;
 	}
 
-	public void setCenterDao(CenterDao centerDao) {
+	public void setCenterDao(TrialSiteDao centerDao) {
 		this.centerDao = centerDao;
 	}
 

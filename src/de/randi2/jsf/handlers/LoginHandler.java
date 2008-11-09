@@ -34,7 +34,7 @@ import org.springframework.security.context.HttpSessionContextIntegrationFilter;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 
-import de.randi2.dao.CenterDao;
+import de.randi2.dao.TrialSiteDao;
 import de.randi2.dao.LoginDao;
 import de.randi2.dao.PersonDao;
 import de.randi2.jsf.Randi2;
@@ -75,7 +75,7 @@ public class LoginHandler {
 	// DB Access
 	private LoginDao loginDao;
 	private PersonDao personDao;
-	private CenterDao centerDao;
+	private TrialSiteDao centerDao;
 	// ---
 
 	//Flags for the jsf pages
@@ -274,7 +274,7 @@ public class LoginHandler {
 			// System.out.println("S_ID:"+this.showedLogin.getId());
 			// System.out.println("S_VER " + this.showedLogin.getVersion());
 			if (this.changeCenterPVisible && this.userCenter != null)
-				this.showedLogin.getPerson().setCenter(this.userCenter);
+				this.showedLogin.getPerson().setTrialSite(this.userCenter);
 			this.loginDao.save(this.showedLogin);
 			// System.out.println("S_ID:"+this.showedLogin.getId());
 			// System.out.println("S_VER " + this.showedLogin.getVersion());
@@ -329,7 +329,7 @@ public class LoginHandler {
 					throw new RegistrationException(
 							RegistrationException.CENTER_ERROR);
 				}
-				objectToRegister.getPerson().setCenter(userCenter);
+				objectToRegister.getPerson().setTrialSite(userCenter);
 				// Setting the registration date
 				objectToRegister.setRegistrationDate(new GregorianCalendar());
 				objectToRegister.setLastLoggedIn(null);
@@ -495,11 +495,11 @@ public class LoginHandler {
 		this.chosenLocale = chosenLocale;
 	}
 
-	public CenterDao getCenterDao() {
+	public TrialSiteDao getCenterDao() {
 		return centerDao;
 	}
 
-	public void setCenterDao(CenterDao centerDao) {
+	public void setCenterDao(TrialSiteDao centerDao) {
 		this.centerDao = centerDao;
 	}
 

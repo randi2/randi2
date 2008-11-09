@@ -61,13 +61,14 @@ public class PersonDaoTest {
 		validPerson.setFax("123456");
 		
 		Login login = factory.getLogin();
-		login.setUsername(stringUtil.getWithLength(20));
+		validPerson.setSurname(stringUtil.getWithLength(20));
+		dao.save(validPerson);
 		validPerson.setLogin(login);
+
+		login.setUsername(stringUtil.getWithLength(Login.MAX_USERNAME_LENGTH + 1));
 		try{
 			dao.save(validPerson);
 			fail("should throw exception");
 		}catch (InvalidStateException e) {}
-		validPerson.setSurname(stringUtil.getWithLength(20));
-		dao.save(validPerson);
 	}
 }

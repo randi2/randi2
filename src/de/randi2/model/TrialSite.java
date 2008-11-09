@@ -19,7 +19,7 @@ import org.hibernate.validator.NotNull;
 import de.randi2.utility.validations.Password;
 
 @Entity
-@NamedQuery(name = "center.findAllMembers", query = "select p from Person p where p.center= :center ")
+@NamedQuery(name = "trialSite.findAllMembers", query = "select p from Person p where p.trialSite = :trialSite ")
 public class TrialSite extends AbstractDomainObject {
 
 	public final static int MAX_LENGTH_POSTCODE = 10;
@@ -36,7 +36,7 @@ public class TrialSite extends AbstractDomainObject {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Person contactPerson = null;
 
-	@OneToMany(mappedBy = "center")
+	@OneToMany(mappedBy = "trialSite")
 	private List<Person> members = null;
 
 	@ManyToMany(mappedBy = "participatingSites")

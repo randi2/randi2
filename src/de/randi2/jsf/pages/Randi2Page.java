@@ -79,7 +79,7 @@ public class Randi2Page {
 	}
 
 	public void myCenter(ActionEvent event) {
-		centerHandler.setShowedCenter(currentUser.getPerson().getCenter());
+		centerHandler.setShowedCenter(currentUser.getPerson().getTrialSite());
 		activePanel = "centerEditPanel";
 	}
 

@@ -79,7 +79,7 @@
 		</managed-property>
 		<managed-property>
 			<property-name>centerDao</property-name>
-			<property-class>de.randi2.dao.CenterDao</property-class>
+			<property-class>de.randi2.dao.TrialSiteDao</property-class>
 			<value>#{centerDAO}</value>
 		</managed-property>
 	</managed-bean>
@@ -93,7 +93,7 @@
 		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
 			<property-name>centerDao</property-name>
-			<property-class>de.randi2.dao.CenterDao</property-class>
+			<property-class>de.randi2.dao.TrialSiteDao</property-class>
 			<value>#{centerDAO}</value>
 		</managed-property>
 	</managed-bean>

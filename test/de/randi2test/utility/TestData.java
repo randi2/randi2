@@ -26,8 +26,9 @@ import de.randi2.model.security.PermissionHibernate;
  * @author Daniel Schrimpf
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml" })
+// FIXME #2249688 Replace by bootstrap Mechanism
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = { "classpath:/META-INF/spring.xml", "classpath:/META-INF/spring-test.xml" })
 public class TestData {
 	
 	
@@ -36,11 +37,9 @@ public class TestData {
 	@Autowired
 	private DomainObjectFactory factory;
 	@Autowired
-	private TestStringUtil testStringUtil;
-	@Autowired
 	private HibernateTemplate template;
 	
-	@Test
+	//@Test
 	public void init(){
 		Person adminP = new Person();
 		adminP.setFirstname("Max");
@@ -67,7 +66,7 @@ public class TestData {
 		trialSite.setPassword("1$heidelberg");
 		trialSite.setContactPerson(adminP);
 		template.saveOrUpdate(trialSite);
-		adminP.setCenter(trialSite);
+		adminP.setTrialSite(trialSite);
 		template.saveOrUpdate(adminP);
 		
 		aclService.createAclwithPermissions(trialSite, adminL.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ,PermissionHibernate.WRITE});
@@ -80,7 +79,7 @@ public class TestData {
 		person.setEMail("user@test.de");
 		person.setPhone("1234567");
 		person.setGender(Gender.FEMALE);
-		person.setCenter(trialSite);
+		person.setTrialSite(trialSite);
 		
 		Login login = new Login();
 		login.setPassword("1$heidelberg");
