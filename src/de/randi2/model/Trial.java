@@ -14,6 +14,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
@@ -22,6 +23,9 @@ import org.springframework.beans.factory.annotation.Configurable;
 
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.enumerations.TrialStatus;
+import de.randi2.model.randomization.AbstractRandomizationConfiguration;
+import de.randi2.model.randomization.AbstractRandomizationTempData;
+import de.randi2.model.randomization.NullRandomizationConfiguration;
 import de.randi2.utility.validations.DateDependence;
 
 @Entity
@@ -56,7 +60,16 @@ public class Trial extends AbstractDomainObject {
 	private List<TrialSite> participatingSites = new ArrayList<TrialSite>();
 	
 	@OneToMany(cascade = CascadeType.ALL)
+	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();
+	
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<AbstractCriterion> inclusionCriteria;
+	
+	// FIXME: Nachziehen
+	@Transient
+	private AbstractRandomizationConfiguration randomizationConfiguration;
+	@Transient
+	private AbstractRandomizationTempData randomizationTempData;
 	
 	public String getName() {
 		return name;
@@ -141,5 +154,31 @@ public class Trial extends AbstractDomainObject {
 	
 	public void setSponsorInvestigator(Person sponsorInvestigator) {
 		this.sponsorInvestigator = sponsorInvestigator;
+	}
+
+	public AbstractRandomizationConfiguration getRandomizationConfiguration() {
+		return randomizationConfiguration;
+	}
+
+	public void setRandomizationConfiguration(
+			AbstractRandomizationConfiguration randomizationConfiguration) {
+		this.randomizationConfiguration = randomizationConfiguration;
+	}
+
+	public AbstractRandomizationTempData getRandomizationTempData() {
+		return randomizationTempData;
+	}
+
+	public void setRandomizationTempData(
+			AbstractRandomizationTempData randomizationTempData) {
+		this.randomizationTempData = randomizationTempData;
+	}
+
+	public void setTreatmentArms(List<TreatmentArm> treatmentArms) {
+		this.treatmentArms = treatmentArms;
+	}
+
+	public List<TreatmentArm> getTreatmentArms() {
+		return treatmentArms;
 	}
 }
