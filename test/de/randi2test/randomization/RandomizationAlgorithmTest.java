@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,8 +13,8 @@ import org.junit.Test;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
-import de.randi2.model.randomization.NullRandomizationConfiguration;
-import de.randi2.model.randomization.NullRandomizationTempData;
+import de.randi2.model.randomization.AbstractRandomizationTempData;
+import de.randi2.model.randomization.BaseRandomizationConfig;
 import de.randi2.randomization.RandomizationAlgorithm;
 
 public class RandomizationAlgorithmTest {
@@ -33,20 +34,22 @@ public class RandomizationAlgorithmTest {
 
 	private class DummyRandomizationAlgorithm
 			extends
-			RandomizationAlgorithm<NullRandomizationConfiguration, NullRandomizationTempData> {
+			RandomizationAlgorithm<BaseRandomizationConfig, AbstractRandomizationTempData> {
 
 		protected DummyRandomizationAlgorithm(Trial _trial) {
 			super(_trial);
 		}
 
-		@Override
-		public TreatmentArm randomize(TrialSubject subject) {
-			return null;
-		}
 
 		@Override
 		public List<TreatmentArm> getRawBlock() {
 			return super.getRawBlock();
+		}
+
+
+		@Override
+		protected TreatmentArm doRadomize(TrialSubject subject, List<TreatmentArm> rawBlock, Random random) {
+			return null;
 		}
 
 	}
@@ -54,8 +57,7 @@ public class RandomizationAlgorithmTest {
 	@Before
 	public void setUp() throws Exception {
 		trial = new Trial();
-		trial.setRandomizationConfiguration(new NullRandomizationConfiguration());
-		trial.setRandomizationTempData(new NullRandomizationTempData());
+		trial.setRandomizationConfiguration(new BaseRandomizationConfig());
 		algorithm = new DummyRandomizationAlgorithm(trial);
 	}
 

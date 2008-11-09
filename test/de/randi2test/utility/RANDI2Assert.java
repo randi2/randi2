@@ -2,6 +2,10 @@ package de.randi2test.utility;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotSame;
+import static junit.framework.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.List;
 
 import de.randi2.model.AbstractDomainObject;
 
@@ -17,6 +21,14 @@ public final class RANDI2Assert {
 	
 	public static void assertSaved(AbstractDomainObject o){
 		assertNotSame(AbstractDomainObject.NOT_YET_SAVED_ID, o.getId());
+	}
+	
+	public static void assertInList(Object o, List<Object> list){
+		assertTrue(o.toString() + " is not in " + list.toString(), list.contains(o));
+	}
+	
+	public static void assertInList(Object o, Object[] list){
+		assertInList(o, Arrays.asList(list));
 	}
 	
 }
