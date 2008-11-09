@@ -32,6 +32,7 @@ import de.randi2.utility.validations.DateDependence;
 @DateDependence(firstDate = "startDate", secondDate = "endDate")
 public class Trial extends AbstractDomainObject {
 
+	@Transient
 	private RandomizationAlgorithm<?, ?> algorithm;
 	
 	@NotNull()
