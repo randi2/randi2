@@ -1,0 +1,69 @@
+<!-- 
+ This page/panel shows user's trial site.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<!-- User trial site information -->
+	<ice:panelCollapsible expanded="true">
+		<f:facet name="header">
+			<ice:panelGrid border="0" columns="2">
+				<ice:graphicImage value="/img/icons/trialSite16.png"></ice:graphicImage>
+				<ice:outputLabel
+					value="#{labels['pages.userEditPanel.trialSiteHeader']}"></ice:outputLabel>
+			</ice:panelGrid>
+		</f:facet>
+		<ice:panelGrid border="0" columns="2">
+			<ice:outputLabel for="name" value="#{labels['trialSite.name']}"></ice:outputLabel>
+			<ice:panelGroup rendered="#{!loginHandler.creatingMode}">
+				<ice:outputText id="name"
+					value="#{loginHandler.showedLogin.person.trialSite.name}">
+				</ice:outputText>
+				<ice:commandButton style="margin-left: 15px;"
+					value="#{labels['buttons.changeTrialSite']}"
+					action="#{loginHandler.showChangeTrialSitePopup}"
+					rendered="#{loginHandler.editable}" image="/img/icons/change16.png"></ice:commandButton>
+			</ice:panelGroup>
+			<ice:panelGroup rendered="#{loginHandler.creatingMode}">
+				<ice:selectInputText id="trialSite"
+					required="#{loginHandler.person.requiredFields['trialSite']}"
+					valueChangeListener="#{trialSiteHandler.updateTrialSiteList}" rows="10"
+					width="200">
+					<f:selectItems value="#{trialSiteHandler.trialSiteList}" />
+				</ice:selectInputText>
+				<ice:message for="trialSite" id="trialSiteError"></ice:message>
+			</ice:panelGroup>
+			<ice:outputLabel for="country" value="#{labels['trialSite.country']}"></ice:outputLabel>
+			<ice:outputText id="country"
+				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.country : loginHandler.userTrialSite.country}">
+			</ice:outputText>
+			<ice:outputLabel for="city" value="#{labels['trialSite.city']}"></ice:outputLabel>
+			<ice:outputText id="city"
+				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.city : loginHandler.userTrialSite.city}">
+			</ice:outputText>
+			<ice:outputLabel for="postcode" value="#{labels['trialSite.postcode']}"></ice:outputLabel>
+			<ice:outputText id="postcode"
+				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.postcode : loginHandler.userTrialSite.postcode}">
+			</ice:outputText>
+			<ice:outputLabel for="street" value="#{labels['trialSite.street']}"></ice:outputLabel>
+			<ice:outputText id="street"
+				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.street : loginHandler.userTrialSite.street}">
+			</ice:outputText>
+		</ice:panelGrid>
+	</ice:panelCollapsible>
+</ice:panelGroup>
+
+

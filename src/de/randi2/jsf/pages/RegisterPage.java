@@ -44,14 +44,14 @@ public class RegisterPage {
 
 	private boolean regPvisible = false;
 	
-	private boolean centerSelected = false;
+	private boolean trailSiteSelected = false;
 
-	public boolean isCenterSelected() {
-		return centerSelected;
+	public boolean isTrialSiteSelected() {
+		return trailSiteSelected;
 	}
 	
-	public void setCenterSelected(boolean value){
-		this.centerSelected = value;
+	public void setTrialSiteSelected(boolean value){
+		this.trailSiteSelected = value;
 	}
 
 	public RegisterPage() {

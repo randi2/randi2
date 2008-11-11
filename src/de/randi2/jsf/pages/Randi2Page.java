@@ -15,7 +15,7 @@
 package de.randi2.jsf.pages;
 
 import de.randi2.jsf.Randi2;
-import de.randi2.jsf.handlers.CenterHandler;
+import de.randi2.jsf.handlers.TrialSiteHandler;
 import de.randi2.jsf.handlers.LoginHandler;
 import de.randi2.model.Person;
 import de.randi2.model.TrialSite;
@@ -36,7 +36,7 @@ import javax.faces.event.ActionEvent;
  */
 public class Randi2Page {
 
-	private CenterHandler centerHandler;
+	private TrialSiteHandler trialSiteHandler;
 
 	private LoginHandler loginHandler;
 
@@ -59,10 +59,10 @@ public class Randi2Page {
 				.getApplication().getELResolver().getValue(
 						FacesContext.getCurrentInstance().getELContext(), null,
 						"loginHandler"));
-		centerHandler = (CenterHandler) FacesContext.getCurrentInstance()
+		trialSiteHandler = (TrialSiteHandler) FacesContext.getCurrentInstance()
 				.getApplication().getELResolver().getValue(
 						FacesContext.getCurrentInstance().getELContext(), null,
-						"centerHandler");
+						"trialSiteHandler");
 		currentUser = loginHandler.getLogin();
 	}
 
@@ -74,22 +74,22 @@ public class Randi2Page {
 		this.activePanel = activePanel;
 	}
 
-	public void viewCenters(ActionEvent event) {
-		activePanel = "centersViewPanel";
+	public void viewTrialSites(ActionEvent event) {
+		activePanel = "trialSitesViewPanel";
 	}
 
-	public void myCenter(ActionEvent event) {
-		centerHandler.setShowedCenter(currentUser.getPerson().getTrialSite());
-		activePanel = "centerEditPanel";
+	public void myTrialSite(ActionEvent event) {
+		trialSiteHandler.setShowedTrialSite(currentUser.getPerson().getTrialSite());
+		activePanel = "trialSiteEditPanel";
 	}
 
-	public void showCenter(ActionEvent event) {
+	public void showTrialSite(ActionEvent event) {
 		// TODO das lässt sich noch besser lösen!
-		TrialSite tCenter = (TrialSite) (((UIComponent) event.getComponent()
+		TrialSite tTrialSite = (TrialSite) (((UIComponent) event.getComponent()
 				.getChildren().get(0)).getValueExpression("value")
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
-		centerHandler.setShowedCenter(tCenter);
-		activePanel = "centerEditPanel";
+		trialSiteHandler.setShowedTrialSite(tTrialSite);
+		activePanel = "trialSiteEditPanel";
 	}
 
 	public void showUser(ActionEvent event) {
@@ -100,9 +100,9 @@ public class Randi2Page {
 		activePanel = "userEditPanel";
 	}
 
-	public void createCenter(ActionEvent event) {
-		centerHandler.setShowedCenter(null);
-		activePanel = "centerEditPanel";
+	public void createTrialSite(ActionEvent event) {
+		trialSiteHandler.setShowedTrialSite(null);
+		activePanel = "trialSiteEditPanel";
 	}
 
 	public void myLogin(ActionEvent event) {

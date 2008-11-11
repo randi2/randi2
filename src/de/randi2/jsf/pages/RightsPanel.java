@@ -16,7 +16,6 @@ package de.randi2.jsf.pages;
 
 import java.util.List;
 
-import de.randi2.model.Person;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 
@@ -34,19 +33,19 @@ public class RightsPanel {
 	private boolean createUser = false;
 	private boolean changeUser = false;
 	private boolean viewUser = false;
-	private boolean createCenter = false;
-	private boolean changeCenter = false;
-	private boolean viewCenter = false;
+	private boolean createTrialSite = false;
+	private boolean changeTrialSite = false;
+	private boolean viewTrialSite = false;
 	private boolean createTrial = false;
 	private boolean changeTrial = false;
 	private boolean viewTrial = false;
 	// ----
 	
 	// Chosen object, for which the user has some rights
-	private List<TrialSite> createUserCenters = null;
+	private List<TrialSite> createUserTrialSites = null;
 	private List<TrialSite> viewUsers= null;
 
-	private List<TrialSite> viewCenters = null;
+	private List<TrialSite> viewTrialSites = null;
 	
 	private List<TrialSite> createTrialCenters = null;
 	private List<Trial> viewTrials = null;
@@ -55,12 +54,10 @@ public class RightsPanel {
 	// Flags for "chose object" logic
 	private boolean createUserChosenObj = false;
 	private boolean viewUsersChosenObj = false;
-	private boolean viewCentersChosenObj = false;
+	private boolean viewTrialSitesChosenObj = false;
 	private boolean createTrialChosenObj = false;
 	private boolean viewTrialsChosenObj = false;
 	// ----
-	
-	
 	public boolean isCreateUser() {
 		return createUser;
 	}
@@ -73,17 +70,29 @@ public class RightsPanel {
 	public void setChangeUser(boolean changeUser) {
 		this.changeUser = changeUser;
 	}
-	public boolean isCreateCenter() {
-		return createCenter;
+	public boolean isViewUser() {
+		return viewUser;
 	}
-	public void setCreateCenter(boolean createCenter) {
-		this.createCenter = createCenter;
+	public void setViewUser(boolean viewUser) {
+		this.viewUser = viewUser;
 	}
-	public boolean isChangeCenter() {
-		return changeCenter;
+	public boolean isCreateTrialSite() {
+		return createTrialSite;
 	}
-	public void setChangeCenter(boolean changeCenter) {
-		this.changeCenter = changeCenter;
+	public void setCreateTrialSite(boolean createTrialSite) {
+		this.createTrialSite = createTrialSite;
+	}
+	public boolean isChangeTrialSite() {
+		return changeTrialSite;
+	}
+	public void setChangeTrialSite(boolean changeTrialSite) {
+		this.changeTrialSite = changeTrialSite;
+	}
+	public boolean isViewTrialSite() {
+		return viewTrialSite;
+	}
+	public void setViewTrialSite(boolean viewTrialSite) {
+		this.viewTrialSite = viewTrialSite;
 	}
 	public boolean isCreateTrial() {
 		return createTrial;
@@ -97,29 +106,17 @@ public class RightsPanel {
 	public void setChangeTrial(boolean changeTrial) {
 		this.changeTrial = changeTrial;
 	}
-	public boolean isViewUser() {
-		return viewUser;
-	}
-	public void setViewUser(boolean viewUser) {
-		this.viewUser = viewUser;
-	}
-	public boolean isViewCenter() {
-		return viewCenter;
-	}
-	public void setViewCenter(boolean viewCenter) {
-		this.viewCenter = viewCenter;
-	}
 	public boolean isViewTrial() {
 		return viewTrial;
 	}
 	public void setViewTrial(boolean viewTrial) {
 		this.viewTrial = viewTrial;
 	}
-	public List<TrialSite> getCreateUserCenters() {
-		return createUserCenters;
+	public List<TrialSite> getCreateUserTrialSites() {
+		return createUserTrialSites;
 	}
-	public void setCreateUserCenters(List<TrialSite> createUserCenters) {
-		this.createUserCenters = createUserCenters;
+	public void setCreateUserTrialSites(List<TrialSite> createUserTrialSites) {
+		this.createUserTrialSites = createUserTrialSites;
 	}
 	public List<TrialSite> getViewUsers() {
 		return viewUsers;
@@ -127,11 +124,11 @@ public class RightsPanel {
 	public void setViewUsers(List<TrialSite> viewUsers) {
 		this.viewUsers = viewUsers;
 	}
-	public List<TrialSite> getViewCenters() {
-		return viewCenters;
+	public List<TrialSite> getViewTrialSites() {
+		return viewTrialSites;
 	}
-	public void setViewCenters(List<TrialSite> viewCenters) {
-		this.viewCenters = viewCenters;
+	public void setViewTrialSites(List<TrialSite> viewTrialSites) {
+		this.viewTrialSites = viewTrialSites;
 	}
 	public List<TrialSite> getCreateTrialCenters() {
 		return createTrialCenters;
@@ -157,11 +154,11 @@ public class RightsPanel {
 	public void setViewUsersChosenObj(boolean viewUsersChosenObj) {
 		this.viewUsersChosenObj = viewUsersChosenObj;
 	}
-	public boolean isViewCentersChosenObj() {
-		return viewCentersChosenObj;
+	public boolean isViewTrialSitesChosenObj() {
+		return viewTrialSitesChosenObj;
 	}
-	public void setViewCentersChosenObj(boolean viewCentersChosenObj) {
-		this.viewCentersChosenObj = viewCentersChosenObj;
+	public void setViewTrialSitesChosenObj(boolean viewTrialSitesChosenObj) {
+		this.viewTrialSitesChosenObj = viewTrialSitesChosenObj;
 	}
 	public boolean isCreateTrialChosenObj() {
 		return createTrialChosenObj;
@@ -175,4 +172,5 @@ public class RightsPanel {
 	public void setViewTrialsChosenObj(boolean viewTrialsChosenObj) {
 		this.viewTrialsChosenObj = viewTrialsChosenObj;
 	}
+	
 }

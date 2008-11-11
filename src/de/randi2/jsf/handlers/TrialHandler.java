@@ -87,19 +87,19 @@ public class TrialHandler {
 		return stateItems;
 	}
 
-	public void addCenter(ActionEvent event) {
-		TrialSite tCenter = ((CenterHandler) FacesContext.getCurrentInstance()
+	public void addTrialSite(ActionEvent event) {
+		TrialSite tTrialSite = ((TrialSiteHandler) FacesContext.getCurrentInstance()
 				.getApplication().getELResolver().getValue(
 						FacesContext.getCurrentInstance().getELContext(), null,
-						"centerHandler")).getSelectedCenter();
-		trial.getParticipatingSites().add(tCenter);
+						"trialSiteHandler")).getSelectedTrialSite();
+		trial.getParticipatingSites().add(tTrialSite);
 	}
 
-	public void removeCenter(ActionEvent event) {
-		TrialSite tCenter = (TrialSite) (((UIComponent) event.getComponent()
+	public void removeTrialSite(ActionEvent event) {
+		TrialSite tTrialSite = (TrialSite) (((UIComponent) event.getComponent()
 				.getChildren().get(0)).getValueExpression("value")
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
-		trial.getParticipatingSites().remove(tCenter);
+		trial.getParticipatingSites().remove(tTrialSite);
 
 	}
 

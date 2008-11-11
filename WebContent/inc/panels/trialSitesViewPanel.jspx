@@ -1,5 +1,5 @@
 <!-- 
- This pages/panel shows all saved centers.
+ This pages/panel shows all saved trial sites.
 
  Made by lplotni@users.sourceforge.org  
 
@@ -18,40 +18,40 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelGrid border="0" columns="2">
-		<ice:graphicImage value="/img/icons/center48.png"></ice:graphicImage>
-		<ice:outputLabel value="#{labels['pages.centersViewPanel.headline']} (#{labels['pages.centersViewPanel.headline2']} #{centerHandler.centersAmount})"></ice:outputLabel>
+		<ice:graphicImage value="/img/icons/trialSite48.png"></ice:graphicImage>
+		<ice:outputLabel value="#{labels['pages.trialSitesViewPanel.headline']} (#{labels['pages.trialSitesViewPanel.headline2']} #{trialSiteHandler.trialSitesAmount})"></ice:outputLabel>
 	</ice:panelGrid>
-	<ice:dataTable id="centersTable" border="1"
-		value="#{centerHandler.centers}" var="center" scrollable="true"
+	<ice:dataTable id="trialSitesTable" border="1"
+		value="#{trialSiteHandler.trialSites}" var="trialSite" scrollable="true"
 		scrollHeight="250px" columnWidths="150px,150px,100px,100px,35px" width="550px">
 		<ice:column id="column1">
-			<ice:outputText value="#{center.name}"></ice:outputText>
+			<ice:outputText value="#{trialSite.name}"></ice:outputText>
 			<f:facet name="header">
-				<ice:outputText value="#{labels['center.name']}" id="nameH"  style="width:150px;"></ice:outputText>
+				<ice:outputText value="#{labels['trialSite.name']}" id="nameH"  style="width:150px;"></ice:outputText>
 			</f:facet>
 		</ice:column>
 		<ice:column id="column2">
-			<ice:outputText value="#{center.street}"></ice:outputText>
+			<ice:outputText value="#{trialSite.street}"></ice:outputText>
 			<f:facet name="header">
-				<ice:outputText value="#{labels['center.street']}" id="streetH" style="width:150px;"></ice:outputText>
+				<ice:outputText value="#{labels['trialSite.street']}" id="streetH" style="width:150px;"></ice:outputText>
 			</f:facet>
 		</ice:column>
 		<ice:column id="column3">
-			<ice:outputText value="#{center.city}"></ice:outputText>
+			<ice:outputText value="#{trialSite.city}"></ice:outputText>
 			<f:facet name="header">
-				<ice:outputText value="#{labels['center.city']}" id="cityH" style="width:100px;"></ice:outputText>
+				<ice:outputText value="#{labels['trialSite.city']}" id="cityH" style="width:100px;"></ice:outputText>
 			</f:facet>
 		</ice:column>
 		<ice:column id="column4">
-			<ice:outputText value="#{center.postcode}"></ice:outputText>
+			<ice:outputText value="#{trialSite.postcode}"></ice:outputText>
 			<f:facet name="header">
-				<ice:outputText value="#{labels['center.postcode']}" id="postcodeH" style="width:100px;"></ice:outputText>
+				<ice:outputText value="#{labels['trialSite.postcode']}" id="postcodeH" style="width:100px;"></ice:outputText>
 			</f:facet>
 		</ice:column>
 		<ice:column id="column5">
 			<ice:commandLink id="showId" value="#{labels['buttons.show']}"
-				actionListener="#{randi2Page.showCenter}">
-				<ice:outputText value="#{center}" visible="false"></ice:outputText>
+				actionListener="#{randi2Page.showTrialSite}">
+				<ice:outputText value="#{trialSite}" visible="false"></ice:outputText>
 			</ice:commandLink>
 			<f:facet name="header">
 				<ice:outputText value="" id="showH" style="width:50px;"></ice:outputText>

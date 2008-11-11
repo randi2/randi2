@@ -36,27 +36,28 @@ import de.randi2.model.Person;
 
 /**
  * <p>
- * This class cares about the center object or objects.
+ * This class cares about the trial site object or objects.
  * </p>
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
-public class CenterHandler {
+public class TrialSiteHandler {
 
+	//FIXME centerDao in trialDao -> why through xml and not with @Autowired
 	private TrialSiteDao centerDao;
 
-	private boolean centerSavedPVisible = false;
+	private boolean trialSiteSavedPVisible = false;
 
-	public boolean isCenterSavedPVisible() {
-		return centerSavedPVisible;
+	public boolean isTrialSiteSavedPVisible() {
+		return trialSiteSavedPVisible;
 	}
 
-	public void setCenterSavedPVisible(boolean centerSavedPVisible) {
-		this.centerSavedPVisible = centerSavedPVisible;
+	public void setTrialSiteSavedPVisible(boolean trialSiteSavedPVisible) {
+		this.trialSiteSavedPVisible = trialSiteSavedPVisible;
 	}
 
-	public String hideCenterSavedPopup() {
-		this.centerSavedPVisible = false;
+	public String hideTrialSiteSavedPopup() {
+		this.trialSiteSavedPVisible = false;
 		return Randi2.SUCCESS;
 	}
 
@@ -66,51 +67,51 @@ public class CenterHandler {
 	private Login currentUser = null;
 
 	/**
-	 * List with all centers as SelectItems
+	 * List with all trial sites as SelectItems
 	 */
-	private List<SelectItem> centerList = null;
+	private List<SelectItem> trialSiteList = null;
 
 	/**
-	 * List with the matched centers as SelectItems for autocomplete widget
+	 * List with the matched trial sites as SelectItems for autocomplete widget
 	 */
 	private List<SelectItem> matchesList = null;
 
-	private TrialSite selectedCenter = null;
+	private TrialSite selectedTrialSite = null;
 
 	/**
-	 * List with all center's members as SelectItems
+	 * List with all trial site's members as SelectItems
 	 */
 	private List<SelectItem> membersList = null;
 
 	/**
-	 * List with the matched center's members as SelectItems for autocomplete
+	 * List with the matched trial site's members as SelectItems for autocomplete
 	 * widget
 	 */
 	private List<SelectItem> memMatchesList = null;
 
 	private Person selectedMember = null;
 
-	private TrialSite showedCenter = null;
+	private TrialSite showedTrialSite = null;
 
 	private boolean editable = false;
 
 	private boolean creatingMode = false;
 
-	public TrialSite getShowedCenter() {
-		if (showedCenter == null) {
-			showedCenter = this.getCurrentUser().getPerson().getTrialSite();
+	public TrialSite getShowedTrialSite() {
+		if (showedTrialSite == null) {
+			showedTrialSite = this.getCurrentUser().getPerson().getTrialSite();
 		}
-		return showedCenter;
+		return showedTrialSite;
 	}
 
-	public void setShowedCenter(TrialSite showedCenter) {
-		if (showedCenter == null) {
+	public void setShowedTrialSite(TrialSite showedTrialSite) {
+		if (showedTrialSite == null) {
 			creatingMode = true;
-			this.showedCenter = new TrialSite();
-			this.showedCenter.setContactPerson(new Person());
+			this.showedTrialSite = new TrialSite();
+			this.showedTrialSite.setContactPerson(new Person());
 		} else {
 			creatingMode = false;
-			this.showedCenter = showedCenter;
+			this.showedTrialSite = showedTrialSite;
 		}
 	}
 
@@ -134,7 +135,7 @@ public class CenterHandler {
 		// Temporary I'll just look, if the current user is a member of this
 		// center - if it is so, then he can edit it
 		// properties.
-		if (this.getShowedCenter().equals(
+		if (this.getShowedTrialSite().equals(
 				this.getCurrentUser().getPerson().getTrialSite())) {
 			editable = true;
 		} else {
@@ -147,12 +148,12 @@ public class CenterHandler {
 		this.editable = editable;
 	}
 
-	public String saveCenter() {
+	public String saveTrialSite() {
 		try {
-			centerDao.save(this.showedCenter);
+			centerDao.save(this.showedTrialSite);
 
 			// Making the centerSavedPopup visible
-			this.centerSavedPVisible = true;
+			this.trialSiteSavedPVisible = true;
 
 			this.creatingMode = false;
 
@@ -183,36 +184,38 @@ public class CenterHandler {
 		this.creatingMode = creatingMode;
 	}
 
+	//FIXME Rename the method
 	public TrialSiteDao getCenterDao() {
 		return centerDao;
 	}
 
+	//FIXME Rename the method
 	public void setCenterDao(TrialSiteDao centerDao) {
 		this.centerDao = centerDao;
 	}
 
-	public List<TrialSite> getCenters() {
+	public List<TrialSite> getTrialSites() {
 		return centerDao.getAll();
 	}
 
-	public List<SelectItem> getCenterList() {
+	public List<SelectItem> getTrialSiteList() {
 		if (matchesList == null) {
-			if (centerList == null) {
-				List<TrialSite> centers = centerDao.getAll();
-				centerList = new Vector<SelectItem>(centers.size());
-				for (TrialSite c : centers) {
-					centerList.add(new SelectItem(c, c.getName()));
+			if (trialSiteList == null) {
+				List<TrialSite> trialSites = centerDao.getAll();
+				trialSiteList = new Vector<SelectItem>(trialSites.size());
+				for (TrialSite t : trialSites) {
+					trialSiteList.add(new SelectItem(t, t.getName()));
 				}
-				Collections.sort(centerList,
-						CenterHandler.CENTERNAME_COMPERATOR);
+				Collections.sort(trialSiteList,
+						TrialSiteHandler.CENTERNAME_COMPERATOR);
 			}
-			return centerList;
+			return trialSiteList;
 		}
 		return matchesList;
 	}
 
-	public void setCenterList(List<SelectItem> centerList) {
-		this.centerList = centerList;
+	public void setTrialSiteList(List<SelectItem> centerList) {
+		this.trialSiteList = centerList;
 	}
 
 	// TEMPORARY SOLUTION - WILL BE DELETED WHEN AN APPROPRIATE DB-METHOD CAN BE
@@ -230,33 +233,33 @@ public class CenterHandler {
 	 * 
 	 * @param event
 	 */
-	public void updateCenterList(ValueChangeEvent event) {
-		SelectItem searchCenter = new SelectItem("", (String) event
+	public void updateTrialSiteList(ValueChangeEvent event) {
+		SelectItem searchTrialSite = new SelectItem("", (String) event
 				.getNewValue());
 		int maxMatches = ((SelectInputText) event.getComponent()).getRows();
 		List<SelectItem> matchList = new Vector<SelectItem>(maxMatches);
 
 		// DB-Method!
-		if (centerList == null) {
-			List<TrialSite> centers = centerDao.getAll();
-			centerList = new Vector<SelectItem>(centers.size());
-			for (TrialSite c : centers) {
-				centerList.add(new SelectItem(c, c.getName()));
+		if (trialSiteList == null) {
+			List<TrialSite> trialSites = centerDao.getAll();
+			trialSiteList = new Vector<SelectItem>(trialSites.size());
+			for (TrialSite c : trialSites) {
+				trialSiteList.add(new SelectItem(c, c.getName()));
 			}
-			Collections.sort(centerList, CenterHandler.CENTERNAME_COMPERATOR);
+			Collections.sort(trialSiteList, TrialSiteHandler.CENTERNAME_COMPERATOR);
 		}
-		int insert = Collections.binarySearch(centerList, searchCenter,
-				CenterHandler.CENTERNAME_COMPERATOR);
+		int insert = Collections.binarySearch(trialSiteList, searchTrialSite,
+				TrialSiteHandler.CENTERNAME_COMPERATOR);
 		if (insert < 0) {
 			insert = Math.abs(insert) - 1;
 		}
 		for (int i = 0; i < maxMatches; i++) {
 			// quit the match list creation if the index is larger then
 			// max entries in the dictionary if we have added maxMatches.
-			if ((insert + i) >= centerList.size() || i >= maxMatches) {
+			if ((insert + i) >= trialSiteList.size() || i >= maxMatches) {
 				break;
 			}
-			matchList.add(centerList.get(insert + i));
+			matchList.add(trialSiteList.get(insert + i));
 		}
 		// assign new matchesList
 		if (this.matchesList != null) {
@@ -269,10 +272,10 @@ public class CenterHandler {
 		if (event.getComponent() instanceof SelectInputText) {
 			SelectInputText autoComplete = (SelectInputText) event
 					.getComponent();
-			selectedCenter = null;
+			selectedTrialSite = null;
 			// if no selected item then return the previously selected item.
 			if (autoComplete.getSelectedItem() != null) {
-				selectedCenter = (TrialSite) autoComplete.getSelectedItem()
+				selectedTrialSite = (TrialSite) autoComplete.getSelectedItem()
 						.getValue();
 			}
 			// otherwise if there is a selected item get the value from the
@@ -282,7 +285,7 @@ public class CenterHandler {
 					for (SelectItem si : matchesList) {
 						if (si.getLabel().equals(
 								autoComplete.getValue().toString()))
-							selectedCenter = (TrialSite) autoComplete
+							selectedTrialSite = (TrialSite) autoComplete
 									.getSelectedItem().getValue();
 					}
 				}
@@ -291,7 +294,7 @@ public class CenterHandler {
 					.getELResolver().getValue(
 							FacesContext.getCurrentInstance().getELContext(),
 							null, "loginHandler"))
-					.setUserCenter(selectedCenter);
+					.setUserTrialSite(selectedTrialSite);
 		}
 	}
 
@@ -301,7 +304,7 @@ public class CenterHandler {
 	 * @param event
 	 */
 	public void updateMembersList(ValueChangeEvent event) {
-		if (selectedCenter != null && event.getNewValue() != null
+		if (selectedTrialSite != null && event.getNewValue() != null
 				&& event.getNewValue().toString().trim().length() > 0) {
 			System.out.println("Event2!");
 			SelectItem searchMember = new SelectItem("", (String) event
@@ -311,17 +314,17 @@ public class CenterHandler {
 
 			// DB-Method!
 			if (membersList == null) {
-				List<Person> members = selectedCenter.getMembers();
+				List<Person> members = selectedTrialSite.getMembers();
 				membersList = new Vector<SelectItem>(members.size());
 				for (Person p : members) {
 					membersList.add(new SelectItem(p, p.getSurname() + ", "
 							+ p.getFirstname()));
 				}
 				Collections.sort(membersList,
-						CenterHandler.CENTERNAME_COMPERATOR);
+						TrialSiteHandler.CENTERNAME_COMPERATOR);
 			}
 			int insert = Collections.binarySearch(membersList, searchMember,
-					CenterHandler.CENTERNAME_COMPERATOR);
+					TrialSiteHandler.CENTERNAME_COMPERATOR);
 			if (insert < 0) {
 				insert = Math.abs(insert) - 1;
 			}
@@ -374,7 +377,7 @@ public class CenterHandler {
 	public List<SelectItem> getMembersList() {
 		if (memMatchesList == null) {
 			if (membersList == null) {
-				List<Person> members = selectedCenter.getMembers();
+				List<Person> members = selectedTrialSite.getMembers();
 				;
 				membersList = new Vector<SelectItem>(members.size());
 				for (Person p : members) {
@@ -382,7 +385,7 @@ public class CenterHandler {
 							+ p.getFirstname()));
 				}
 				Collections.sort(membersList,
-						CenterHandler.CENTERNAME_COMPERATOR);
+						TrialSiteHandler.CENTERNAME_COMPERATOR);
 			}
 			return membersList;
 		}
@@ -393,16 +396,16 @@ public class CenterHandler {
 		this.membersList = membersList;
 	}
 
-	public TrialSite getSelectedCenter() {
-		return selectedCenter;
+	public TrialSite getSelectedTrialSite() {
+		return selectedTrialSite;
 	}
 	
-	public boolean isCenterSelected(){
-		return selectedCenter!=null;
+	public boolean isTrialSiteSelected(){
+		return selectedTrialSite!=null;
 	}
 
-	public int getCentersAmount() {
-		return this.getCenters().size();
+	public int getTrialSitesAmount() {
+		return this.getTrialSites().size();
 	}
 
 }

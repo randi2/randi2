@@ -68,13 +68,14 @@ public class LoginHandler {
 	// Objects for User-Creating Process
 	private Person person = null;
 	private Person userAssistant = null;
-	private TrialSite userCenter = null;
-	private String cPassword = null;
+	private TrialSite userTrialSite = null;
+	private String tsPassword = null;
 	// ---
 
 	// DB Access
 	private LoginDao loginDao;
 	private PersonDao personDao;
+	//FIXME Rename + Autowired ?
 	private TrialSiteDao centerDao;
 	// ---
 
@@ -85,7 +86,7 @@ public class LoginHandler {
 	// Popup's flags
 	private boolean userSavedPVisible = false;
 	private boolean changePasswordPVisible = false;
-	private boolean changeCenterPVisible = false;
+	private boolean changeTrialSitePVisible = false;
 
 	// Mailsender
 	private MailSender mailSender;
@@ -98,12 +99,12 @@ public class LoginHandler {
 		this.mailSender = mailSender;
 	}
 
-	public boolean isChangeCenterPVisible() {
-		return changeCenterPVisible;
+	public boolean isChangeTrialSitePVisible() {
+		return changeTrialSitePVisible;
 	}
 
-	public void setChangeCenterPVisible(boolean changeCenterPVisible) {
-		this.changeCenterPVisible = changeCenterPVisible;
+	public void setChangeTrialSitePVisible(boolean changeTrialSitePVisible) {
+		this.changeTrialSitePVisible = changeTrialSitePVisible;
 	}
 
 	public boolean isChangePasswordPVisible() {
@@ -210,20 +211,20 @@ public class LoginHandler {
 		this.userAssistant = userAssistant;
 	}
 
-	public TrialSite getUserCenter() {
-		if (userCenter == null)
-			userCenter = new TrialSite();
-		return userCenter;
+	public TrialSite getUserTrialSite() {
+		if (userTrialSite == null)
+			userTrialSite = new TrialSite();
+		return userTrialSite;
 	}
 
-	public void setUserCenter(TrialSite userCenter) {
-		this.userCenter = userCenter;
+	public void setUserTrialSite(TrialSite userTrialSite) {
+		this.userTrialSite = userTrialSite;
 		if (!creatingMode) {
 			((RegisterPage) FacesContext.getCurrentInstance().getApplication()
 					.getELResolver().getValue(
 							FacesContext.getCurrentInstance().getELContext(),
 							null, "registerPage"))
-					.setCenterSelected(userCenter != null);
+					.setTrialSiteSelected(userTrialSite != null);
 		}
 	}
 
@@ -239,15 +240,15 @@ public class LoginHandler {
 		return Randi2.SUCCESS;
 	}
 
-	public String showChangeCenterPopup() {
-		// Show the changeCenterPopup
-		this.changeCenterPVisible = true;
+	public String showChangeTrialSitePopup() {
+		// Show the changeTrialSitePopup
+		this.changeTrialSitePVisible = true;
 		return Randi2.SUCCESS;
 	}
 
-	public String hideChangeCenterPopup() {
-		// Hide the changeCenterPopup
-		this.changeCenterPVisible = false;
+	public String hideChangeTrialSitePopup() {
+		// Hide the changeTrialSitePopup
+		this.changeTrialSitePVisible = false;
 		return Randi2.SUCCESS;
 	}
 
@@ -258,9 +259,10 @@ public class LoginHandler {
 
 	}
 
-	public void changeCenter() {
+	public String changeTrialSite() {
 		this.saveLogin();
-		this.hideChangeCenterPopup();
+		this.hideChangeTrialSitePopup();
+		return Randi2.SUCCESS;
 	}
 
 	/**
@@ -273,8 +275,8 @@ public class LoginHandler {
 			// TODO Problem with the saved object!
 			// System.out.println("S_ID:"+this.showedLogin.getId());
 			// System.out.println("S_VER " + this.showedLogin.getVersion());
-			if (this.changeCenterPVisible && this.userCenter != null)
-				this.showedLogin.getPerson().setTrialSite(this.userCenter);
+			if (this.changeTrialSitePVisible && this.userTrialSite != null)
+				this.showedLogin.getPerson().setTrialSite(this.userTrialSite);
 			this.loginDao.save(this.showedLogin);
 			// System.out.println("S_ID:"+this.showedLogin.getId());
 			// System.out.println("S_VER " + this.showedLogin.getVersion());
@@ -322,22 +324,18 @@ public class LoginHandler {
 
 		try {
 			// TODO password !
-			if (creatingMode || userCenter.getPassword().equals(cPassword)) {
+			if (creatingMode || userTrialSite.getPassword().equals(tsPassword)) {
 				// Setting the user's center
-				if (userCenter == null
-						|| userCenter.getId() == AbstractDomainObject.NOT_YET_SAVED_ID) {
+				if (userTrialSite == null
+						|| userTrialSite.getId() == AbstractDomainObject.NOT_YET_SAVED_ID) {
 					throw new RegistrationException(
-							RegistrationException.CENTER_ERROR);
+							RegistrationException.TRIAL_SITE_ERROR);
 				}
-				objectToRegister.getPerson().setTrialSite(userCenter);
+				objectToRegister.getPerson().setTrialSite(userTrialSite);
 				// Setting the registration date
 				objectToRegister.setRegistrationDate(new GregorianCalendar());
 				objectToRegister.setLastLoggedIn(null);
-				// System.out.println("S_ID:" + objectToRegister.getId());
-				// System.out.println("S_VER " + objectToRegister.getVersion());
 				loginDao.save(objectToRegister);
-				// System.out.println("S_ID:" + objectToRegister.getId());
-				// System.out.println("S_VER " + objectToRegister.getVersion());
 				// Making the successPopup visible (NORMAL REGISTRATION)
 				if (!creatingMode) {
 					((RegisterPage) FacesContext.getCurrentInstance()
@@ -440,7 +438,7 @@ public class LoginHandler {
 		this.login = null;
 		this.person = null;
 		this.userAssistant = null;
-		this.userCenter = null;
+		this.userTrialSite = null;
 	}
 
 	public void setUSEnglish(ActionEvent event) {
@@ -504,11 +502,11 @@ public class LoginHandler {
 	}
 
 	public String getCPassword() {
-		return cPassword;
+		return tsPassword;
 	}
 
 	public void setCPassword(String password) {
-		cPassword = password;
+		tsPassword = password;
 	}
 
 	public boolean isEditable() {

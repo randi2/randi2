@@ -1,5 +1,5 @@
 <!-- 
-Center Saved Popup 
+ Trial site saved Popup 
 
  Made by lplotni@users.sourceforge.org  
 
@@ -14,31 +14,31 @@ Center Saved Popup
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-
 <ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelPopup draggable="true" modal="true"
-		visible="#{centerHandler.centerSavedPVisible}"
-		rendered="#{centerHandler.centerSavedPVisible}"
+		visible="#{trialSiteHandler.trialSiteSavedPVisible}"
+		rendered="#{trialSiteHandler.trialSiteSavedPVisible}"
 		style="width: 300px; height: auto">
 		<f:facet name="header">
-			<ice:outputText value="#{labels['pages.centerSavedPopup.header']}"></ice:outputText>
+			<ice:outputText value="#{labels['pages.trialSiteSavedPopup.header']}"></ice:outputText>
 		</f:facet>
 
 		<f:facet name="body">
 			<ice:panelGrid border="0" columns="2">
 				<f:facet name="footer">
 					<ice:panelGroup>
-						<ice:commandButton value="#{labels['buttons.ok']}" action="#{centerHandler.hideCenterSavedPopup}"
+						<ice:commandButton value="#{labels['buttons.ok']}"
+							action="#{trialSiteHandler.hideTrialSiteSavedPopup}"
 							immediate="true"></ice:commandButton>
 					</ice:panelGroup>
 				</f:facet>
 				<ice:graphicImage value="/img/icons/saved48.png"></ice:graphicImage>
 				<ice:outputText
-					value="#{labels['pages.centerSavedPopup.message']}" escape="false"></ice:outputText>
+					value="#{labels['pages.trialSiteSavedPopup.message']}"
+					escape="false"></ice:outputText>
 			</ice:panelGrid>
-
 		</f:facet>
 	</ice:panelPopup>
 </ice:form>

@@ -82,14 +82,14 @@
 							<jsp:directive.include file="./inc/panels/userEditPanel.jspx" />
 						</f:subview>
 					</ice:panelGroup>
-					<ice:panelGroup id="centersViewPanel">
+					<ice:panelGroup id="trialSitesViewPanel">
 						<f:subview id="cvp">
-							<jsp:directive.include file="./inc/panels/centersViewPanel.jspx" />
+							<jsp:directive.include file="./inc/panels/trialSitesViewPanel.jspx" />
 						</f:subview>
 					</ice:panelGroup>
-					<ice:panelGroup id="centerEditPanel">
+					<ice:panelGroup id="trialSiteEditPanel">
 						<f:subview id="cep">
-							<jsp:directive.include file="./inc/panels/centerEditPanel.jspx" />
+							<jsp:directive.include file="./inc/panels/trialSiteEditPanel.jspx" />
 						</f:subview>
 					</ice:panelGroup>
 					<ice:panelGroup id="trialCreatePanel">

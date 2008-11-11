@@ -37,11 +37,11 @@
 			<ice:menuItemSeparator></ice:menuItemSeparator>
 			<ice:menuItem value="#{labels['pages.menu.create']}" actionListener="#{randi2Page.createTrial}"/>
 		</ice:menuItem>
-		<ice:menuItem value="#{labels['pages.menu.center']}">
-			<ice:menuItem value="#{labels['pages.menu.myCenter']}" actionListener="#{randi2Page.myCenter}"/>
-			<ice:menuItem value="#{labels['pages.menu.allCenters']}" actionListener="#{randi2Page.viewCenters}"/>
+		<ice:menuItem value="#{labels['pages.menu.trialSite']}">
+			<ice:menuItem value="#{labels['pages.menu.myTrialSite']}" actionListener="#{randi2Page.myTrialSite}"/>
+			<ice:menuItem value="#{labels['pages.menu.allTrialSites']}" actionListener="#{randi2Page.viewTrialSites}"/>
 			<ice:menuItemSeparator></ice:menuItemSeparator>
-			<ice:menuItem value="#{labels['pages.menu.create']}" actionListener="#{randi2Page.createCenter}" renderOnUserRole="ROLE_ADMIN"/>
+			<ice:menuItem value="#{labels['pages.menu.create']}" actionListener="#{randi2Page.createTrialSite}" renderOnUserRole="ROLE_ADMIN"/>
 		</ice:menuItem>
 		<ice:menuItemSeparator></ice:menuItemSeparator>
 		<ice:menuItem value="#{labels['pages.menu.search']}" />

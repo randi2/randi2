@@ -1,5 +1,5 @@
 <!-- 
- This page/panel shows a detail-view of a center. It can also be used to edit or create a center.
+ This page/panel shows a detail-view of a trial site. It can also be used to edit or create a trial site.
 
  Made by lplotni@users.sourceforge.org  
 
@@ -14,8 +14,8 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-<f:subview id="centerSavedPopup">
-	<jsp:directive.include file="./inc/popups/centerSavedPopup.jspx" />
+<f:subview id="trialSiteSavedPopup">
+	<jsp:directive.include file="./inc/popups/trialSiteSavedPopup.jspx" />
 </f:subview>
 <ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -23,46 +23,46 @@
 	<ice:messages globalOnly="true" />
 	<ice:panelTabSet style="font-size: 9;display: block;">
 		<ice:panelTab
-			label="#{labels['pages.centerEditPanel.institutionTab']}">
+			label="#{labels['pages.trialSiteEditPanel.institutionTab']}">
 			<f:subview id="instDataInclude">
-				<jsp:directive.include file="./inc/panels/center/institution.jspx" />
+				<jsp:directive.include file="./inc/panels/trialSite/institution.jspx" />
 			</f:subview>
 		</ice:panelTab>
 
 		<ice:panelTab
-			label="#{labels['pages.centerEditPanel.contactPersonTab']}">
+			label="#{labels['pages.trialSiteEditPanel.contactPersonTab']}">
 			<f:subview id="contactDataInclude">
-				<jsp:directive.include file="./inc/panels/center/contact.jspx" />
+				<jsp:directive.include file="./inc/panels/trialSite/contact.jspx" />
 			</f:subview>
 		</ice:panelTab>
 		
-		<ice:panelTab label="#{labels['pages.centerEditPanel.membersTab']}"
-			rendered="#{!centerHandler.creatingMode}">
+		<ice:panelTab label="#{labels['pages.trialSiteEditPanel.membersTab']}"
+			rendered="#{!trialSiteHandler.creatingMode}">
 			<f:subview id="membersListInclude">
-				<jsp:directive.include file="./inc/panels/center/members.jspx" />
+				<jsp:directive.include file="./inc/panels/trialSite/members.jspx" />
 			</f:subview>
 		</ice:panelTab>
 		
-		<ice:panelTab label="#{labels['pages.centerEditPanel.trialsTab']}"
-			rendered="#{!centerHandler.creatingMode}">
+		<ice:panelTab label="#{labels['pages.trialSiteEditPanel.trialsTab']}"
+			rendered="#{!trialSiteHandler.creatingMode}">
 			<f:subview id="trialsListInclude">
-				<jsp:directive.include file="./inc/panels/center/trials.jspx" />
+				<jsp:directive.include file="./inc/panels/trialSite/trials.jspx" />
 			</f:subview>
 		</ice:panelTab>
 		
 		<ice:panelTab
-			label="#{labels['pages.centerEditPanel.authenticationTab']}"
-			rendered="#{centerHandler.creatingMode}">
+			label="#{labels['pages.trialSiteEditPanel.authenticationTab']}"
+			rendered="#{trialSiteHandler.creatingMode}">
 			<f:subview id="passwordInclude">
-				<jsp:directive.include file="./inc/panels/center/password.jspx" />
+				<jsp:directive.include file="./inc/panels/trialSite/password.jspx" />
 			</f:subview>
 		</ice:panelTab>
 	</ice:panelTabSet>
 	
 	<ice:panelGrid border="0" columns="3"
-		rendered="#{centerHandler.editable}">
+		rendered="#{trialSiteHandler.editable}">
 		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
-			action="#{centerHandler.saveCenter}"></ice:commandButton>
+			action="#{trialSiteHandler.saveTrialSite}"></ice:commandButton>
 		<ice:commandButton type="reset" value="#{labels['buttons.reset']}" />
 		<ice:messages globalOnly="true" showDetail="true" showSummary="true"
 			tooltip="true" />

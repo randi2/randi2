@@ -18,55 +18,55 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" border="0"
 	columns="2">
-	<ice:graphicImage value="/img/icons/center48.png"></ice:graphicImage>
+	<ice:graphicImage value="/img/icons/trialSite48.png"></ice:graphicImage>
 	<ice:outputLabel value="#{labels['pages.trialEditPanel.step2message']}"></ice:outputLabel>
 </ice:panelGrid>
 <ice:panelGroup>
 	<ice:panelCollapsible expanded="true">
 		<f:facet name="header">
-			<ice:outputLabel for="center"
+			<ice:outputLabel for="trialSite"
 				value="#{labels['trial.participatingSites']}"></ice:outputLabel>
 		</f:facet>
 		<ice:panelGrid border="0" columns="2">
-			<ice:selectInputText id="center"
+			<ice:selectInputText id="trialSite"
 				required="#{trialHandler.trial.requiredFields['leadingSite']}"
-				valueChangeListener="#{centerHandler.updateCenterList}" rows="10"
+				valueChangeListener="#{trialSiteHandler.updateTrialSiteList}" rows="10"
 				width="200">
-				<f:selectItems value="#{centerHandler.centerList}" />
+				<f:selectItems value="#{trialSiteHandler.trialSiteList}" />
 			</ice:selectInputText>
 			<ice:commandButton image="/img/icons/add16.png"
-				actionListener="#{trialHandler.addCenter}"
-				disabled="#{!centerHandler.centerSelected }" />
+				actionListener="#{trialHandler.addtrialSite}"
+				disabled="#{!trialSiteHandler.trialSiteSelected }" />
 		</ice:panelGrid>
-		<ice:dataTable id="centersTable" border="1"
-			value="#{trialHandler.trial.participatingSites}" var="center"
+		<ice:dataTable id="trialSitesTable" border="1"
+			value="#{trialHandler.trial.participatingSites}" var="trialSite"
 			scrollable="true" scrollHeight="250px"
 			columnWidths="150px,100px,100px, 55px" width="405px">
 			<ice:column id="column1">
-				<ice:outputText value="#{center.name}"></ice:outputText>
+				<ice:outputText value="#{trialSite.name}"></ice:outputText>
 				<f:facet name="header">
-					<ice:outputText value="#{labels['center.name']}" id="nameH"
+					<ice:outputText value="#{labels['trialSite.name']}" id="nameH"
 						style="width:150px;"></ice:outputText>
 				</f:facet>
 			</ice:column>
 			<ice:column id="column2">
-				<ice:outputText value="#{center.country}"></ice:outputText>
+				<ice:outputText value="#{trialSite.country}"></ice:outputText>
 				<f:facet name="header">
-					<ice:outputText value="#{labels['center.country']}" id="countryH"
+					<ice:outputText value="#{labels['trialSite.country']}" id="countryH"
 						style="width:100px;"></ice:outputText>
 				</f:facet>
 			</ice:column>
 			<ice:column id="column3">
-				<ice:outputText value="#{center.city}"></ice:outputText>
+				<ice:outputText value="#{trialSite.city}"></ice:outputText>
 				<f:facet name="header">
-					<ice:outputText value="#{labels['center.city']}" id="cityH"
+					<ice:outputText value="#{labels['trialSite.city']}" id="cityH"
 						style="width:100px;"></ice:outputText>
 				</f:facet>
 			</ice:column>
 			<ice:column id="column4">
 				<ice:commandLink id="removeId" value="Remove"
-					actionListener="#{trialHandler.removeCenter}">
-					<ice:outputText value="#{center}" visible="false"></ice:outputText>
+					actionListener="#{trialHandler.removeTrialSite}">
+					<ice:outputText value="#{trialSite}" visible="false"></ice:outputText>
 				</ice:commandLink>
 				<f:facet name="header">
 					<ice:outputText value="" id="removeH" style="width:55px;"></ice:outputText>

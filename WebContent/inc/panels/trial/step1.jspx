@@ -147,21 +147,21 @@
 			<ice:outputLabel value="#{labels['pages.trialEditPanel.mHeader']}" />
 		</f:facet>
 		<ice:panelGrid border="0" columns="2">
-			<ice:outputLabel for="leadingCenter"
-				value="#{labels['trial.leadingCenter']}"></ice:outputLabel>
-			<ice:selectInputText id="leadingCenter"
+			<ice:outputLabel for="leadingTrialSite"
+				value="#{labels['trial.leadingTrialSite']}"></ice:outputLabel>
+			<ice:selectInputText id="leadingTrialSite"
 				required="#{trialHandler.trial.requiredFields['leadingSite']}"
-				valueChangeListener="#{centerHandler.updateCenterList}" rows="10"
+				valueChangeListener="#{trialSiteHandler.updateTrialSiteList}" rows="10"
 				width="200">
-				<f:selectItems value="#{centerHandler.centerList}" />
+				<f:selectItems value="#{trialSiteHandler.trialSiteList}" />
 			</ice:selectInputText>
 			<ice:outputLabel for="sponsorInvestigator"
 				value="#{labels['trial.sponsorInvestigator']}"></ice:outputLabel>
 			<ice:selectInputText id="sponsorInvestigator" width="200"
 				required="#{trialHandler.trial.requiredFields['sponsorInvestigator']}"
-				valueChangeListener="#{centerHandler.updateMembersList}"
-				disabled="#{!centerHandler.centerSelected}">
-				<f:selectItems value="#{centerHandler.membersList}" />
+				valueChangeListener="#{trialSiteHandler.updateMembersList}"
+				disabled="#{!trialSiteHandler.trialSiteSelected}">
+				<f:selectItems value="#{trialSiteHandler.membersList}" />
 			</ice:selectInputText>
 		</ice:panelGrid>
 	</ice:panelCollapsible>

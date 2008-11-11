@@ -1,5 +1,5 @@
 <!-- 
- Change Center Popup
+ Change Trial Site Popup
 
  Made by lplotni@users.sourceforge.org  
 
@@ -19,46 +19,46 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelPopup draggable="true" modal="true"
-		visible="#{loginHandler.changeCenterPVisible}"
-		rendered="#{loginHandler.changeCenterPVisible}">
+		visible="#{loginHandler.changeTrialSitePVisible}"
+		rendered="#{loginHandler.changeTrialSitePVisible}">
 		<f:facet name="header">
-			<ice:outputText value="#{labels['pages.changeCenterPopup.header']}"></ice:outputText>
+			<ice:outputText value="#{labels['pages.changeTrialSitePopup.header']}"></ice:outputText>
 		</f:facet>
 		<f:facet name="body">
 			<ice:panelGrid border="0" columns="2" style="float:left">
-				<ice:graphicImage value="/img/icons/center48.png"></ice:graphicImage>
-				<ice:outputText value="#{labels['pages.changeCenterPopup.info']}"
+				<ice:graphicImage value="/img/icons/trialSite48.png"></ice:graphicImage>
+				<ice:outputText value="#{labels['pages.changeTrialSitePopup.info']}"
 					escape="false" />
-				<ice:outputLabel for="name" value="#{labels['center.name']}"></ice:outputLabel>
-				<ice:selectInputText id="center"
-					required="#{loginHandler.person.requiredFields['center']}"
-					valueChangeListener="#{centerHandler.updateCenterList}" rows="10"
+				<ice:outputLabel for="name" value="#{labels['trialSite.name']}"></ice:outputLabel>
+				<ice:selectInputText id="trialSite"
+					required="#{loginHandler.person.requiredFields['trialSite']}"
+					valueChangeListener="#{trialSiteHandler.updateTrialSiteList}" rows="10"
 					width="200">
-					<f:selectItems value="#{centerHandler.centerList}" />
+					<f:selectItems value="#{trialSiteHandler.trialSiteList}" />
 				</ice:selectInputText>
-				<ice:outputLabel for="country" value="#{labels['center.country']}"></ice:outputLabel>
+				<ice:outputLabel for="country" value="#{labels['trialSite.country']}"></ice:outputLabel>
 				<ice:outputText id="country"
-					value="#{loginHandler.userCenter.country}">
+					value="#{loginHandler.userTrialSite.country}">
 				</ice:outputText>
-				<ice:outputLabel for="city" value="#{labels['center.city']}"></ice:outputLabel>
-				<ice:outputText id="city" value="#{loginHandler.userCenter.city}">
+				<ice:outputLabel for="city" value="#{labels['trialSite.city']}"></ice:outputLabel>
+				<ice:outputText id="city" value="#{loginHandler.userTrialSite.city}">
 				</ice:outputText>
-				<ice:outputLabel for="postcode" value="#{labels['center.postcode']}"></ice:outputLabel>
+				<ice:outputLabel for="postcode" value="#{labels['trialSite.postcode']}"></ice:outputLabel>
 				<ice:outputText id="postcode"
-					value="#{loginHandler.userCenter.postcode}">
+					value="#{loginHandler.userTrialSite.postcode}">
 				</ice:outputText>
-				<ice:outputLabel for="street" value="#{labels['center.street']}"></ice:outputLabel>
+				<ice:outputLabel for="street" value="#{labels['trialSite.street']}"></ice:outputLabel>
 				<ice:outputText id="street"
-					value="#{loginHandler.userCenter.street}">
+					value="#{loginHandler.userTrialSite.street}">
 				</ice:outputText>
 				<ice:messages globalOnly="true" />
 				<ice:panelGroup>
 					<ice:panelGrid columns="2">
 						<ice:commandButton value="#{labels['buttons.save']}"
-							action="#{loginHandler.changeCenter}" />
+							action="#{loginHandler.changeTrialSite}" />
 						<ice:commandButton immediate="true"
 							value="#{labels['buttons.cancel']}"
-							action="#{loginHandler.hideChangeCenterPopup}"></ice:commandButton>
+							action="#{loginHandler.hideChangeTrialSitePopup}"></ice:commandButton>
 					</ice:panelGrid>
 				</ice:panelGroup>
 			</ice:panelGrid>

@@ -69,15 +69,15 @@
 								<f:selectItem itemLabel="!Custom role!" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
-						<ice:outputLabel value="#{labels['pages.userEditPanel.rCenters']}" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rTrialSites']}" />
 						<ice:panelGrid>
 							<ice:selectOneRadio>
 								<f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rOwnCenter']}" />
+									itemLabel="#{labels['pages.userEditPanel.rOwnTrialSite']}" />
 								<f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rAllCenters']}" />
+									itemLabel="#{labels['pages.userEditPanel.rAllTrialSites']}" />
 								<f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rChosenCenters']}" />
+									itemLabel="#{labels['pages.userEditPanel.rChosenTrialSites']}" />
 							</ice:selectOneRadio>
 						</ice:panelGrid>
 					</ice:panelGrid>
@@ -93,7 +93,7 @@
 						<ice:panelGrid>
 							<ice:selectOneRadio>
 								<f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rSameCenterU']}" />
+									itemLabel="#{labels['pages.userEditPanel.rSameTrialSiteU']}" />
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rAllUsers']}" />
 								<f:selectItem
@@ -106,7 +106,7 @@
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rPersCont']}" />
 								<f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rUsersCenter']} " />
+									itemLabel="#{labels['pages.userEditPanel.rUsersTrialSite']} " />
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rUsersR']} " />
 								<f:selectItem
@@ -138,7 +138,7 @@
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rPersCont']} " />
 								<f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rUsersCenter']} " />
+									itemLabel="#{labels['pages.userEditPanel.rUsersTrialSite']} " />
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rUsersR']} " />
 							</ice:selectManyCheckbox>
@@ -146,32 +146,32 @@
 					</ice:panelGrid>
 				</ice:panelGrid>
 			</ice:panelTab>
-			<!-- Rights for center objects -->
-			<ice:panelTab label="#{labels['pages.userEditPanel.rCenterTab']}">
+			<!-- Rights for trial site objects -->
+			<ice:panelTab label="#{labels['pages.userEditPanel.rTrialSiteTab']}">
 				<ice:panelGrid columns="1">
-					<!-- Create a new center -->
-					<ice:selectBooleanCheckbox value="#{rightsPanel.createCenter}"
+					<!-- Create a new trial site -->
+					<ice:selectBooleanCheckbox value="#{rightsPanel.createTrialSite}"
 						partialSubmit="true">
 						<ice:outputLabel
-							value="#{labels['pages.userEditPanel.rCreateCenter']}" />
+							value="#{labels['pages.userEditPanel.rCreateTrialSite']}" />
 					</ice:selectBooleanCheckbox>
-					<!-- View existing centers -->
-					<ice:selectBooleanCheckbox value="#{rightsPanel.viewCenter}"
+					<!-- View existing trial sites -->
+					<ice:selectBooleanCheckbox value="#{rightsPanel.viewTrialSite}"
 						partialSubmit="true">
 						<ice:outputLabel
-							value="#{labels['pages.userEditPanel.rViewCenter']}" />
+							value="#{labels['pages.userEditPanel.rViewTrialSite']}" />
 					</ice:selectBooleanCheckbox>
-					<ice:panelGrid columns="2" rendered="#{rightsPanel.viewCenter}"
+					<ice:panelGrid columns="2" rendered="#{rightsPanel.viewTrialSite}"
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
-						<ice:outputLabel value="#{labels['pages.userEditPanel.rCenters']}" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rTrialSites']}" />
 						<ice:panelGrid>
 							<ice:selectOneRadio>
 								<f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rOwnCenter']}" />
+									itemLabel="#{labels['pages.userEditPanel.rOwnTrialSite']}" />
 								<f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rAllCenters']}" />
+									itemLabel="#{labels['pages.userEditPanel.rAllTrialSites']}" />
 								<f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rChosenCenters']}" />
+									itemLabel="#{labels['pages.userEditPanel.rChosenTrialSites']}" />
 							</ice:selectOneRadio>
 						</ice:panelGrid>
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
@@ -189,13 +189,13 @@
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
 					</ice:panelGrid>
-					<!-- Change an existing center -->
-					<ice:selectBooleanCheckbox value="#{rightsPanel.changeCenter}"
+					<!-- Change an existing trial site -->
+					<ice:selectBooleanCheckbox value="#{rightsPanel.changeTrialSite}"
 						partialSubmit="true">
 						<ice:outputLabel
-							value="#{labels['pages.userEditPanel.rChangeCenter']}" />
+							value="#{labels['pages.userEditPanel.rChangeTrialSite']}" />
 					</ice:selectBooleanCheckbox>
-					<ice:panelGrid columns="2" rendered="#{rightsPanel.changeCenter}"
+					<ice:panelGrid columns="2" rendered="#{rightsPanel.changeTrialSite}"
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
 						<ice:panelGrid>
@@ -220,15 +220,15 @@
 					<ice:panelGrid columns="2" rendered="#{rightsPanel.createTrial}"
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
 						<ice:outputLabel
-							value="#{labels['pages.userEditPanel.rLeadCenter']}" />
+							value="#{labels['pages.userEditPanel.rLeadTrialSite']}" />
 						<ice:panelGrid>
 							<ice:selectOneRadio>
 								<f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rOwnCenter']}" />
+									itemLabel="#{labels['pages.userEditPanel.rOwnTrialSite']}" />
 								<f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rAllCenters']}" />
+									itemLabel="#{labels['pages.userEditPanel.rAllTrialSites']}" />
 								<f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rChosenCenters']}" />
+									itemLabel="#{labels['pages.userEditPanel.rChosenTrialSites']}" />
 							</ice:selectOneRadio>
 						</ice:panelGrid>
 						<ice:outputLabel

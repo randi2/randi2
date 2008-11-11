@@ -1,5 +1,5 @@
 <!-- 
- This page/panel shows the members' list of a center.
+ This page/panel shows the members' list of a trial site.
 
  Made by lplotni@users.sourceforge.org  
 
@@ -14,8 +14,10 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-<ice:dataTable id="membersTable" border="1"
-	value="#{centerHandler.showedCenter.members}" var="member"
+<ice:dataTable xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" id="membersTable" border="1"
+	value="#{trialSiteHandler.showedTrialSite.members}" var="member"
 	scrollable="true" scrollHeight="250px"
 	columnWidths="100px,100px,150px,100px,100px,50px" width="600px">
 	<ice:column id="column1">

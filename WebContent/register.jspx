@@ -192,41 +192,41 @@
 					</ice:panelTab>
 					<ice:panelTab label="#{labels['pages.registration.tab3Header']}">
 						<ice:panelGrid border="0" columns="2">
-							<ice:graphicImage value="/img/icons/center16.png"></ice:graphicImage>
+							<ice:graphicImage value="/img/icons/trialSite16.png"></ice:graphicImage>
 							<ice:outputLabel
 								value="#{labels['pages.registration.institutionHeader']}"></ice:outputLabel>
 						</ice:panelGrid>
 						<ice:panelGrid>
 							<ice:panelGrid border="0" columns="3">
-								<ice:outputLabel for="center" value="#{labels['person.center']}"></ice:outputLabel>
-								<ice:selectInputText id="center"
-									required="#{loginHandler.person.requiredFields['center']}"
-									valueChangeListener="#{centerHandler.updateCenterList}"
+								<ice:outputLabel for="trialSite" value="#{labels['person.trialSite']}"></ice:outputLabel>
+								<ice:selectInputText id="trialSite"
+									required="#{loginHandler.person.requiredFields['trialSite']}"
+									valueChangeListener="#{trialSiteHandler.updateTrialSiteList}"
 									rows="10" width="200">
-									<f:selectItems value="#{centerHandler.centerList}" />
+									<f:selectItems value="#{trialSiteHandler.trialSiteList}" />
 								</ice:selectInputText>
-								<ice:message for="center" id="centerError"></ice:message>
+								<ice:message for="trialSite" id="trialSiteError"></ice:message>
 								<ice:outputLabel for="assistant"
 									value="#{labels['person.assistant']}"
-									rendered="#{registerPage.centerSelected}"></ice:outputLabel>
+									rendered="#{registerPage.trialSiteSelected}"></ice:outputLabel>
 								<ice:selectInputText id="assistant" width="200"
 									required="#{loginHandler.person.requiredFields['assistant']}"
-									valueChangeListener="#{centerHandler.updateMembersList}"
-									rendered="#{registerPage.centerSelected}">
-									<f:selectItems value="#{centerHandler.membersList}" />
+									valueChangeListener="#{trialSiteHandler.updateMembersList}"
+									rendered="#{registerPage.trialSiteSelected}">
+									<f:selectItems value="#{trialSiteHandler.membersList}" />
 								</ice:selectInputText>
 								<ice:message for="assistant" id="assistantError"
-									rendered="#{registerPage.centerSelected}"></ice:message>
+									rendered="#{registerPage.trialSiteSelected}"></ice:message>
 							</ice:panelGrid>
 
 							<ice:panelGrid border="0" columns="3"
-								rendered="#{registerPage.centerSelected}">
+								rendered="#{registerPage.trialSiteSelected}">
 								<f:facet name="header">
 									<ice:outputText
 										value="#{labels['pages.registration.confirmationHeader']}"></ice:outputText>
 								</f:facet>
 								<ice:outputLabel for="cPassword"
-									value="#{labels['pages.registration.centerPassword']}"></ice:outputLabel>
+									value="#{labels['pages.registration.trialSitePassword']}"></ice:outputLabel>
 								<ice:inputSecret id="cPassword"
 									value="#{loginHandler.CPassword}"
 									effect="#{registerPage.effect}"></ice:inputSecret>

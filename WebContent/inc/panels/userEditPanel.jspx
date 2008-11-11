@@ -20,8 +20,8 @@
 <f:subview id="changePasswordPopup">
 	<jsp:directive.include file="./inc/popups/changePasswordPopup.jspx" />
 </f:subview>
-<f:subview id="changeCenterPopup">
-	<jsp:directive.include file="./inc/popups/changeCenterPopup.jspx" />
+<f:subview id="changeTrialSitePopup">
+	<jsp:directive.include file="./inc/popups/changeTrialSitePopup.jspx" />
 </f:subview>
 <ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -33,9 +33,9 @@
 			</f:subview>
 		</ice:panelTab>
 		
-		<ice:panelTab label="#{labels['pages.userEditPanel.centerTab']}">
-			<f:subview id="userCenterInclude">
-				<jsp:directive.include file="./inc/panels/user/userCenter.jspx" />
+		<ice:panelTab label="#{labels['pages.userEditPanel.trialSiteTab']}">
+			<f:subview id="userTrialSiteInclude">
+				<jsp:directive.include file="./inc/panels/user/userTrialSite.jspx" />
 			</f:subview>
 		</ice:panelTab>
 		
