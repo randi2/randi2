@@ -151,17 +151,17 @@
 				value="#{labels['trial.leadingTrialSite']}"></ice:outputLabel>
 			<ice:selectInputText id="leadingTrialSite"
 				required="#{trialHandler.trial.requiredFields['leadingSite']}"
-				valueChangeListener="#{trialSiteHandler.updateTrialSiteList}" rows="10"
+				valueChangeListener="#{trialHandler.trialSitesAC.updateObjectList}" rows="10"
 				width="200">
-				<f:selectItems value="#{trialSiteHandler.trialSiteList}" />
+				<f:selectItems value="#{trialHandler.trialSitesAC.objectList}" />
 			</ice:selectInputText>
 			<ice:outputLabel for="sponsorInvestigator"
 				value="#{labels['trial.sponsorInvestigator']}"></ice:outputLabel>
 			<ice:selectInputText id="sponsorInvestigator" width="200"
 				required="#{trialHandler.trial.requiredFields['sponsorInvestigator']}"
-				valueChangeListener="#{trialSiteHandler.updateMembersList}"
-				disabled="#{!trialSiteHandler.trialSiteSelected}">
-				<f:selectItems value="#{trialSiteHandler.membersList}" />
+				valueChangeListener="#{trialHandler.sponsorInvestigatorsAC.updateObjectList}"
+				disabled="#{!trialHandler.trialSitesAC.objectSelected}">
+				<f:selectItems value="#{trialHandler.sponsorInvestigatorsAC.objectList}" />
 			</ice:selectInputText>
 		</ice:panelGrid>
 	</ice:panelCollapsible>

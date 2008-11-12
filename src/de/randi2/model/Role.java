@@ -35,4 +35,9 @@ public class Role extends AbstractDomainObject{
 		return rights.contains(righ);
 	}
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "TO_STRING_NOT_IMPLEMENTED";
+	}
 }

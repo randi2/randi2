@@ -194,4 +194,10 @@ public class Trial extends AbstractDomainObject {
 			algorithm = randomizationConfiguration.getAlgorithm(this);
 		}
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "TO_STRING_NOT_IMPLEMENTED";
+	}
 }

@@ -153,4 +153,9 @@ public class TrialSite extends AbstractDomainObject {
 		}
 		return searchedMembers;
 	}
+
+	@Override
+	public String toString() {
+		return this.getName();
+	}
 }

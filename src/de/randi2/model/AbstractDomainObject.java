@@ -156,6 +156,8 @@ public abstract class AbstractDomainObject implements Serializable {
 		this.updatedAt = updatedAt;
 	}
 	
+	@Override
+	public abstract String toString();
 	
 
 }

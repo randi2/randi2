@@ -43,16 +43,6 @@ public class RegisterPage {
 	private boolean termsPvisible = true;
 
 	private boolean regPvisible = false;
-	
-	private boolean trailSiteSelected = false;
-
-	public boolean isTrialSiteSelected() {
-		return trailSiteSelected;
-	}
-	
-	public void setTrialSiteSelected(boolean value){
-		this.trailSiteSelected = value;
-	}
 
 	public RegisterPage() {
 	}

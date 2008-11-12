@@ -25,4 +25,9 @@ public class LogAction extends AbstractDomainObject {
 		this.time = new GregorianCalendar();
 	}
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "TO_STRING_NOT_IMPLEMENTED";
+	}
 }

@@ -63,7 +63,7 @@ public class Randi2Page {
 				.getApplication().getELResolver().getValue(
 						FacesContext.getCurrentInstance().getELContext(), null,
 						"trialSiteHandler");
-		currentUser = loginHandler.getLogin();
+		currentUser = loginHandler.getLoggedInUser();
 	}
 
 	public String getActivePanel() {

@@ -40,6 +40,7 @@ import de.randi2.dao.PersonDao;
 import de.randi2.jsf.Randi2;
 import de.randi2.jsf.exceptions.RegistrationException;
 import de.randi2.jsf.pages.RegisterPage;
+import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.GrantedAuthorityEnum;
 import de.randi2.model.Login;
@@ -48,8 +49,9 @@ import de.randi2.model.TrialSite;
 
 /**
  * <p>
- * This class cares about the login object, which represents the logged in user
- * and contains all methods needed for working with login and person objects.
+ * This class cares about the loggedInUser object, which represents the logged
+ * in user and contains all methods needed for working with loggedInUser and
+ * person objects.
  * </p>
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
@@ -57,29 +59,30 @@ import de.randi2.model.TrialSite;
 public class LoginHandler {
 
 	// This Object is representing the current User
-	private Login login = null;
+	private Login loggedInUser = null;
 
 	// The locale chosen by the user.
 	private Locale chosenLocale = null;
 
-	//The currently presented login object
+	// The currently presented loggedInUser object
 	private Login showedLogin = null;
 
+	private AutoCompleteObject<TrialSite> trialSitesAC = null;
+	private AutoCompleteObject<Person> tsMembersAC = null;
+
 	// Objects for User-Creating Process
-	private Person person = null;
-	private Person userAssistant = null;
-	private TrialSite userTrialSite = null;
+	private Login newUser = null;
 	private String tsPassword = null;
 	// ---
 
 	// DB Access
 	private LoginDao loginDao;
 	private PersonDao personDao;
-	//FIXME Rename + Autowired ?
+	// FIXME Rename + Autowired ?
 	private TrialSiteDao centerDao;
 	// ---
 
-	//Flags for the jsf pages
+	// Flags for the jsf pages
 	private boolean creatingMode = false;
 	private boolean editable = false;
 
@@ -99,6 +102,7 @@ public class LoginHandler {
 		this.mailSender = mailSender;
 	}
 
+	// POPUPS
 	public boolean isChangeTrialSitePVisible() {
 		return changeTrialSitePVisible;
 	}
@@ -128,106 +132,6 @@ public class LoginHandler {
 		return Randi2.SUCCESS;
 	}
 
-	public LoginHandler() {
-	}
-
-	public PersonDao getPersonDao() {
-		return personDao;
-	}
-
-	public void setPersonDao(PersonDao personDao) {
-		this.personDao = personDao;
-	}
-
-	public void setLogin(Login login) {
-		this.login = login;
-	}
-
-	public Login getLogin() {
-		if (login == null) {
-			try {
-				if (!SecurityContextHolder.getContext().getAuthentication()
-						.isAuthenticated()) { // Registration Process
-					// TODO I really don't know if we need this part of code,
-					// because when registrating a new user, we always land in
-					// the catch block
-					this.login = new Login();
-				} else
-					// Normal Log in
-					this.login = (Login) SecurityContextHolder.getContext()
-							.getAuthentication().getPrincipal();
-			} catch (NullPointerException exp) {
-				// No Security Context - must be request for registration
-				// process
-				this.login = new Login();
-				System.out.println("ANONYMOUS USER - STEP1");
-				this.login.addRole(GrantedAuthorityEnum.ROLE_ANONYMOUS);
-				AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-						"anonymousUser", this.login, this.login
-								.getAuthorities());
-				// Perform authentication
-				SecurityContextHolder.getContext().setAuthentication(authToken);
-				SecurityContextHolder.getContext().getAuthentication()
-						.setAuthenticated(true);
-
-				// Put the context in the session
-				((HttpServletRequest) FacesContext.getCurrentInstance()
-						.getExternalContext().getRequest())
-						.getSession()
-						.setAttribute(
-								HttpSessionContextIntegrationFilter.SPRING_SECURITY_CONTEXT_KEY,
-								SecurityContextHolder.getContext());
-
-			}
-		}
-		return this.login;
-	}
-
-	public Person getPerson() {
-		if (person == null)
-			this.person = new Person();
-		return this.person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
-
-	public LoginDao getLoginDao() {
-		return loginDao;
-	}
-
-	public void setLoginDao(LoginDao loginDao) {
-		this.loginDao = loginDao;
-	}
-
-	public Person getUserAssistant() {
-		if (userAssistant == null)
-			userAssistant = new Person();
-		return userAssistant;
-	}
-
-	public void setUserAssistant(Person userAssistant) {
-		this.userAssistant = userAssistant;
-	}
-
-	public TrialSite getUserTrialSite() {
-		if (userTrialSite == null)
-			userTrialSite = new TrialSite();
-		return userTrialSite;
-	}
-
-	public void setUserTrialSite(TrialSite userTrialSite) {
-		this.userTrialSite = userTrialSite;
-		if (!creatingMode) {
-			((RegisterPage) FacesContext.getCurrentInstance().getApplication()
-					.getELResolver().getValue(
-							FacesContext.getCurrentInstance().getELContext(),
-							null, "registerPage"))
-					.setTrialSiteSelected(userTrialSite != null);
-		}
-	}
-
 	public String showChangePasswordPopup() {
 		// Show the changePasswordPopup
 		this.changePasswordPVisible = true;
@@ -252,15 +156,20 @@ public class LoginHandler {
 		return Randi2.SUCCESS;
 	}
 
+	// ----
+
+	// Application logic
 	public String changePassword() {
-		this.saveLogin();
+		this.saveLogin(showedLogin);
 		this.hideChangePasswordPopup();
 		return Randi2.SUCCESS;
 
 	}
 
 	public String changeTrialSite() {
-		this.saveLogin();
+		assert (trialSitesAC.getSelectedObject() != null);
+		showedLogin.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
+		this.saveLogin(showedLogin);
 		this.hideChangeTrialSitePopup();
 		return Randi2.SUCCESS;
 	}
@@ -270,27 +179,23 @@ public class LoginHandler {
 	 * 
 	 * @return Randi2.SUCCESS normally. Randi2.ERROR in case of an error.
 	 */
-	public String saveLogin() {
+	public String saveLogin(Login loginToSave) {
 		try {
-			// TODO Problem with the saved object!
-			// System.out.println("S_ID:"+this.showedLogin.getId());
-			// System.out.println("S_VER " + this.showedLogin.getVersion());
-			if (this.changeTrialSitePVisible && this.userTrialSite != null)
-				this.showedLogin.getPerson().setTrialSite(this.userTrialSite);
-			this.loginDao.save(this.showedLogin);
-			// System.out.println("S_ID:"+this.showedLogin.getId());
-			// System.out.println("S_VER " + this.showedLogin.getVersion());
-
+			personDao.save(loginToSave.getPerson());
+			loginDao.save(loginToSave);
+			// FIXME
 			// TODO Updating the Objetct ... TEMP SOLUTION
-			this.showedLogin = this.loginDao.get(this.showedLogin.getId());
+			// this.showedLogin = this.loginDao.get(this.showedLogin.getId());
 
 			// Making the centerSavedPopup visible
 			this.userSavedPVisible = true;
 
-			// If the current login user was saved with this method, the login
+			// If the current loggedInUser user was saved with this method, the
+			// loggedInUser
 			// object will be reload from the DB
-			if (this.showedLogin.equals(this.login))
-				this.login = this.loginDao.get(this.login.getId());
+			// if (this.showedLogin.equals(this.loggedInUser))
+			// this.loggedInUser = this.loginDao
+			// .get(this.loggedInUser.getId());
 
 			return Randi2.SUCCESS;
 		} catch (Exception exp) {
@@ -306,70 +211,55 @@ public class LoginHandler {
 	 * @return Randi2.SUCCESS normally. Randi2.ERROR in case of an error.
 	 */
 	public String registerUser() {
-		Login objectToRegister = null;
-		if (creatingMode) { // A new user was created by another logged
-			// in user
-			objectToRegister = showedLogin;
-			objectToRegister.setUsername(showedLogin.getPerson().getEMail());
-
-			// TODO An this point the user role must have been specified
-
-		} else { // Normal self-registration
-			objectToRegister = this.getLogin();
-			objectToRegister.setPerson(this.getPerson());
-			objectToRegister.setUsername(this.getPerson().getEMail());
-			// The self-registrated user is always an investigator
-			objectToRegister.addRole(GrantedAuthorityEnum.ROLE_INVESTIGATOR);
-		}
-
 		try {
-			// TODO password !
-			if (creatingMode || userTrialSite.getPassword().equals(tsPassword)) {
-				// Setting the user's center
-				if (userTrialSite == null
-						|| userTrialSite.getId() == AbstractDomainObject.NOT_YET_SAVED_ID) {
+			if (creatingMode) {
+				// A new user was created by another logged in user
+				newUser = showedLogin;
+
+			} else {
+				// Normal self-registration
+				assert (newUser != null);
+				newUser.addRole(GrantedAuthorityEnum.ROLE_INVESTIGATOR);
+
+				try {
+					if (!tsPassword.equals(trialSitesAC.getSelectedObject()
+							.getPassword())) {
+						throw new RegistrationException(
+								RegistrationException.PASSWORD_ERROR);
+					}
+				} catch (NullPointerException exp1) {
+					// No trial site selected
 					throw new RegistrationException(
 							RegistrationException.TRIAL_SITE_ERROR);
 				}
-				objectToRegister.getPerson().setTrialSite(userTrialSite);
-				// Setting the registration date
-				objectToRegister.setRegistrationDate(new GregorianCalendar());
-				objectToRegister.setLastLoggedIn(null);
-				loginDao.save(objectToRegister);
-				// Making the successPopup visible (NORMAL REGISTRATION)
-				if (!creatingMode) {
-					((RegisterPage) FacesContext.getCurrentInstance()
-							.getApplication().getELResolver().getValue(
-									FacesContext.getCurrentInstance()
-											.getELContext(), null,
-									"registerPage")).setRegPvisible(true);
-				}
-				// Making the popup visible (CREATING AN USER BY ANOTHER USER)
-				if (creatingMode) {
-					this.userSavedPVisible = true;
-				}
-				// Reseting the objects used for the registration process
-				if (!creatingMode)
-					this.cleanUp();
-				// TODO Generating & sending an Activation E-Mail
 
-				SimpleMailMessage msg = new SimpleMailMessage();
-				msg.setTo(objectToRegister.getUsername());
-				// TODO outsource the email sender adress and host
-				msg.setFrom("randi2@randi2.de");
-				msg.setText("RANDI2 TEST");
-				try {
-					this.mailSender.send(msg);
-				} catch (MailException ex) {
-					// simply log it and go on...
-					System.err.println(ex.getMessage());
-				}
-
-				return Randi2.SUCCESS;
-			} else {
-				throw new RegistrationException(
-						RegistrationException.PASSWORD_ERROR);
 			}
+			newUser.setUsername(newUser.getPerson().getEMail());
+			newUser.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
+			if (tsMembersAC.getSelectedObject() != null)
+				newUser.getPerson().setAssistant(
+						tsMembersAC.getSelectedObject());
+			newUser.setCreatedAt(new GregorianCalendar());
+			personDao.save(newUser.getPerson());
+			loginDao.save(newUser);
+
+			// Making the successPopup visible (NORMAL REGISTRATION)
+			if (!creatingMode) {
+				((RegisterPage) FacesContext.getCurrentInstance()
+						.getApplication().getELResolver().getValue(
+								FacesContext.getCurrentInstance()
+										.getELContext(), null, "registerPage"))
+						.setRegPvisible(true);
+				// Reseting the objects used for the registration process
+				this.cleanUp();
+			}
+
+			// Making the popup visible (CREATING AN USER BY ANOTHER USER)
+			if (creatingMode) {
+				this.userSavedPVisible = true;
+			}
+			sendActivationEmail(newUser);
+			return Randi2.SUCCESS;
 
 		} catch (InvalidStateException exp) {
 			// TODO for a stable release delete the following stacktrace
@@ -389,17 +279,27 @@ public class LoginHandler {
 
 	}
 
+	public void sendActivationEmail(Login user) throws MailException {
+		// TODO Generating & sending an Activation E-Mail
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setTo(user.getUsername());
+		// TODO outsource the email sender adress and host
+		msg.setFrom("randi2@randi2.de");
+		msg.setText("RANDI2 TEST");
+		this.mailSender.send(msg);
+	}
+
 	/**
-	 * This method saves the current login-object and log it out.
+	 * This method saves the current loggedInUser-object and log it out.
 	 * 
 	 * @return Randi2.SUCCESS
 	 */
 	public String logoutUser() {
-		// Saving the current login object, befor log out
+		// Saving the current loggedInUser object, befor log out
 		// TODO Problems trying to get the newst object
-		if (this.login.getVersion() >= this.loginDao.get(this.login.getId())
-				.getVersion())
-			loginDao.save(this.login);
+		if (this.loggedInUser.getVersion() >= this.loginDao.get(
+				this.loggedInUser.getId()).getVersion())
+			loginDao.save(this.loggedInUser);
 		// Cleaning up
 		this.cleanUp();
 		// Invalidating the session
@@ -410,45 +310,57 @@ public class LoginHandler {
 		return Randi2.SUCCESS;
 	}
 
-	/*
-	 * For development only!
-	 */
-	public String testLogin() {
-		Properties testProperties = new Properties();
-		try {
-			testProperties.load(FacesContext.getCurrentInstance()
-					.getExternalContext().getResourceAsStream(
-							"/test.properties"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		login = loginDao.get(testProperties.getProperty("username"));
-		if (login.getRegistrationDate() == null)
-			login.setRegistrationDate(new GregorianCalendar());
-		login.setLastLoggedIn(new GregorianCalendar());
-		return Randi2.SUCCESS;
-	}
-
 	/**
 	 * This method clean all references within the LoginHandler-object.
 	 */
 	public void cleanUp() {
-		this.login = null;
-		this.person = null;
-		this.userAssistant = null;
-		this.userTrialSite = null;
+		tsPassword = null;
+		newUser = null;
+		trialSitesAC = null;
+		tsMembersAC = null;
 	}
 
 	public void setUSEnglish(ActionEvent event) {
-		this.login.setPrefLocale(Locale.US);
+		this.loggedInUser.setPrefLocale(Locale.US);
 		this.setChosenLocale(Locale.US);
 	}
 
 	public void setDEGerman(ActionEvent event) {
-		this.login.setPrefLocale(Locale.GERMANY);
+		this.loggedInUser.setPrefLocale(Locale.GERMANY);
 		this.setChosenLocale(Locale.GERMANY);
+	}
+
+	// GET & SET Methods
+	public PersonDao getPersonDao() {
+		return personDao;
+	}
+
+	public void setPersonDao(PersonDao personDao) {
+		this.personDao = personDao;
+	}
+
+	public void setLoggedInUser(Login user) {
+		this.loggedInUser = user;
+	}
+
+	public Login getLoggedInUser() {
+		if (loggedInUser == null) {
+			try {
+				this.loggedInUser = (Login) SecurityContextHolder.getContext()
+						.getAuthentication().getPrincipal();
+			} catch (NullPointerException exp) {
+				// FIXME What should we do at this point?
+			}
+		}
+		return this.loggedInUser;
+	}
+
+	public LoginDao getLoginDao() {
+		return loginDao;
+	}
+
+	public void setLoginDao(LoginDao loginDao) {
+		this.loginDao = loginDao;
 	}
 
 	/**
@@ -460,9 +372,9 @@ public class LoginHandler {
 	 * @return locale for the loged in user
 	 */
 	public Locale getChosenLocale() {
-		if (this.login != null) {
-			if (this.login.getPrefLocale() != null) {
-				this.chosenLocale = this.login.getPrefLocale();
+		if (this.loggedInUser != null) {
+			if (this.loggedInUser.getPrefLocale() != null) {
+				this.chosenLocale = this.loggedInUser.getPrefLocale();
 			}
 		} else {
 			this.chosenLocale = FacesContext.getCurrentInstance()
@@ -472,15 +384,11 @@ public class LoginHandler {
 					.getSupportedLocales();
 			while (supportedLocales.hasNext()) {
 				if (supportedLocales.next().equals(this.chosenLocale))
-					// TODO Sysout
-					System.out.println(this.chosenLocale.toString());
-				return this.chosenLocale;
+					return this.chosenLocale;
 			}
 			this.chosenLocale = FacesContext.getCurrentInstance()
 					.getApplication().getDefaultLocale();
 		}
-		// TODO Sysout
-		System.out.println(this.chosenLocale.toString());
 		return this.chosenLocale;
 	}
 
@@ -501,17 +409,17 @@ public class LoginHandler {
 		this.centerDao = centerDao;
 	}
 
-	public String getCPassword() {
+	public String getTsPassword() {
 		return tsPassword;
 	}
 
-	public void setCPassword(String password) {
+	public void setTsPassword(String password) {
 		tsPassword = password;
 	}
 
 	public boolean isEditable() {
-		// TODO Simple rightsmanagement
-		if (showedLogin.equals(this.login)) {
+		// FIXME Rightsmanagement
+		if (showedLogin.equals(this.loggedInUser)) {
 			editable = true;
 		} else {
 			editable = creatingMode;
@@ -526,24 +434,24 @@ public class LoginHandler {
 	// TODO I don't know, if it's the best idea ... so probably only temp.
 	// solution
 	public Login getShowedLogin() {
-		if (this.showedLogin == null) {
-			this.showedLogin = new Login();
-			this.showedLogin.setPerson(new Person());
+		if (showedLogin == null) {
+			showedLogin = new Login();
+			showedLogin.setPerson(new Person());
 		}
 		return this.showedLogin;
 	}
 
-	public void setShowedLogin(Login showedLogin) {
+	public void setShowedLogin(Login _showedLogin) {
 		// TODO At this point we must check the users rights!
-		if (showedLogin == null) {
-			this.creatingMode = true;
-			if (this.showedLogin.getId() != AbstractDomainObject.NOT_YET_SAVED_ID) {
-				this.showedLogin = new Login();
-				this.showedLogin.setPerson(new Person());
-			}
+		if (_showedLogin == null) {
+			//A new user is to be created.
+			creatingMode = true;
+			showedLogin = new Login();
+			showedLogin.setPerson(new Person());
 		} else {
-			this.creatingMode = false;
-			this.showedLogin = showedLogin;
+			//A chosen user will be shown
+			creatingMode = false;
+			showedLogin = _showedLogin;
 		}
 
 	}
@@ -555,4 +463,48 @@ public class LoginHandler {
 	public void setCreatingMode(boolean creatingMode) {
 		this.creatingMode = creatingMode;
 	}
+
+	/**
+	 * This method provides a Login object for the registration process.
+	 * 
+	 * @return A Login object, which represents the new user.
+	 */
+	public Login getNewUser() {
+		if (newUser == null) { // Starting the registration process
+			newUser = new Login();
+			newUser.setPerson(new Person());
+			newUser.addRole(GrantedAuthorityEnum.ROLE_ANONYMOUS);
+			AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
+					"anonymousUser", newUser, newUser.getAuthorities());
+			// Perform authentication
+			SecurityContextHolder.getContext().setAuthentication(authToken);
+			SecurityContextHolder.getContext().getAuthentication()
+					.setAuthenticated(true);
+
+			// Put the context in the session
+			((HttpServletRequest) FacesContext.getCurrentInstance()
+					.getExternalContext().getRequest())
+					.getSession()
+					.setAttribute(
+							HttpSessionContextIntegrationFilter.SPRING_SECURITY_CONTEXT_KEY,
+							SecurityContextHolder.getContext());
+		}
+		return newUser;
+	}
+
+	public AutoCompleteObject<TrialSite> getTrialSitesAC() {
+		if (trialSitesAC == null)
+			trialSitesAC = new AutoCompleteObject<TrialSite>(centerDao);
+		return trialSitesAC;
+	}
+
+	public AutoCompleteObject<Person> getTsMembersAC() {
+		if (tsMembersAC == null) {
+			assert (trialSitesAC != null);
+			tsMembersAC = new AutoCompleteObject<Person>(trialSitesAC
+					.getSelectedObject().getMembers());
+		}
+		return tsMembersAC;
+	}
+	// ---
 }

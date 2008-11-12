@@ -36,11 +36,11 @@
 				readonly="true" rendered="#{loginHandler.creatingMode}"
 				partialSubmit="true">
 			</ice:inputText>
-			<ice:outputLabel for="registrationDate"
-				value="#{labels['login.registrationDate']}"
+			<ice:outputLabel for="creationDate"
+				value="#{labels['login.creationDate']}"
 				rendered="#{!loginHandler.creatingMode}"></ice:outputLabel>
-			<ice:outputText id="registrationDate"
-				value="#{loginHandler.showedLogin.registrationDate.time}"
+			<ice:outputText id="creationDate"
+				value="#{loginHandler.showedLogin.createdAt.time}"
 				rendered="#{!loginHandler.creatingMode}">
 				<f:convertDateTime pattern="MM/dd/yyyy" />
 			</ice:outputText>
@@ -108,7 +108,7 @@
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-					<f:attribute name="dObject" value="#{loginHandler.person}" />
+					<f:attribute name="dObject" value="#{loginHandler.showedLogin.person}" />
 				</ice:inputText>
 				<ice:message for="title" />
 			</ice:panelGroup>
@@ -126,7 +126,7 @@
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-					<f:attribute name="dObject" value="#{loginHandler.person}" />
+					<f:attribute name="dObject" value="#{loginHandler.showedLogin.person}" />
 				</ice:inputText>
 				<ice:message for="firstname" />
 			</ice:panelGroup>
@@ -142,7 +142,7 @@
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-					<f:attribute name="dObject" value="#{loginHandler.person}" />
+					<f:attribute name="dObject" value="#{loginHandler.showedLogin.person}" />
 				</ice:inputText>
 				<ice:message for="surname" />
 			</ice:panelGroup>
@@ -156,7 +156,7 @@
 					value="#{loginHandler.showedLogin.person.gender}">
 					<f:converter
 						converterId="de.randi2.jsf.converters.GENDER_CONVERTER" />
-					<f:attribute name="dObject" value="#{loginHandler.person}" />
+					<f:attribute name="dObject" value="#{loginHandler.showedLogin.person}" />
 					<f:selectItems value="#{registerPage.genderItems}" />
 				</ice:selectOneMenu>
 			</ice:panelGroup>
@@ -201,7 +201,7 @@
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-					<f:attribute name="dObject" value="#{loginHandler.person}" />
+					<f:attribute name="dObject" value="#{loginHandler.showedLogin.person}" />
 				</ice:inputText>
 				<ice:message for="phone" />
 			</ice:panelGroup>
@@ -217,7 +217,7 @@
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-					<f:attribute name="dObject" value="#{loginHandler.person}" />
+					<f:attribute name="dObject" value="#{loginHandler.showedLogin.person}" />
 				</ice:inputText>
 				<ice:message for="mobile" />
 			</ice:panelGroup>
@@ -233,7 +233,7 @@
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-					<f:attribute name="dObject" value="#{loginHandler.person}" />
+					<f:attribute name="dObject" value="#{loginHandler.showedLogin.person}" />
 				</ice:inputText>
 				<ice:message for="fax" />
 			</ice:panelGroup>

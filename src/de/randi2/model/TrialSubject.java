@@ -52,6 +52,14 @@ public class TrialSubject extends AbstractDomainObject{
 	public void setProperties(List<SubjectProperty> properties) {
 		this.properties = properties;
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "TO_STRING_NOT_IMPLEMENTED";
+	}
+	
+	
 	
 	
 	

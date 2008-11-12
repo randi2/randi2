@@ -53,5 +53,10 @@ public class PersonRole extends AbstractDomainObject {
 		return trial != null && trial.equals(_trial) && role.hasRight(righ);
 	}
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "TO_STRING_NOT_IMPLEMENTED";
+	}
 	
 }

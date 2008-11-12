@@ -39,28 +39,28 @@
 			</ice:panelGroup>
 			<ice:panelGroup rendered="#{loginHandler.creatingMode}">
 				<ice:selectInputText id="trialSite"
-					required="#{loginHandler.person.requiredFields['trialSite']}"
-					valueChangeListener="#{trialSiteHandler.updateTrialSiteList}" rows="10"
+					required="#{loginHandler.showedLogin.person.requiredFields['trialSite']}"
+					valueChangeListener="#{loginHandler.trialSitesAC.updateObjectList}" rows="10"
 					width="200">
-					<f:selectItems value="#{trialSiteHandler.trialSiteList}" />
+					<f:selectItems value="#{loginHandler.trialSitesAC.objectList}" />
 				</ice:selectInputText>
 				<ice:message for="trialSite" id="trialSiteError"></ice:message>
 			</ice:panelGroup>
 			<ice:outputLabel for="country" value="#{labels['trialSite.country']}"></ice:outputLabel>
 			<ice:outputText id="country"
-				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.country : loginHandler.userTrialSite.country}">
+				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.country : loginHandler.trialSitesAC.selectedObject.country}">
 			</ice:outputText>
 			<ice:outputLabel for="city" value="#{labels['trialSite.city']}"></ice:outputLabel>
 			<ice:outputText id="city"
-				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.city : loginHandler.userTrialSite.city}">
+				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.city : loginHandler.trialSitesAC.selectedObject.city}">
 			</ice:outputText>
 			<ice:outputLabel for="postcode" value="#{labels['trialSite.postcode']}"></ice:outputLabel>
 			<ice:outputText id="postcode"
-				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.postcode : loginHandler.userTrialSite.postcode}">
+				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.postcode : loginHandler.trialSitesAC.selectedObject.postcode}">
 			</ice:outputText>
 			<ice:outputLabel for="street" value="#{labels['trialSite.street']}"></ice:outputLabel>
 			<ice:outputText id="street"
-				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.street : loginHandler.userTrialSite.street}">
+				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.street : loginHandler.trialSitesAC.selectedObject.street}">
 			</ice:outputText>
 		</ice:panelGrid>
 	</ice:panelCollapsible>

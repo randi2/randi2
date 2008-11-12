@@ -110,6 +110,11 @@
 			<property-class>de.randi2.dao.TrialDao</property-class>
 			<value>#{trialDAO}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>centerDao</property-name>
+			<property-class>de.randi2.dao.TrialSiteDao</property-class>
+			<value>#{centerDAO}</value>
+		</managed-property>
 	</managed-bean>
 
 	<managed-bean>
@@ -146,7 +151,8 @@
 
 	<managed-bean>
 		<description>
-			This bean contains the functionality for managing the user's rights.
+			This bean contains the functionality for managing the
+			user's rights.
 		</description>
 		<managed-bean-name>rightsPanel</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.pages.RightsPanel</managed-bean-class>

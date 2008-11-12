@@ -27,7 +27,11 @@ import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
 import de.randi2.dao.TrialDao;
+import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.Randi2;
+import de.randi2.jsf.utility.AutoCompleteObject;
+import de.randi2.model.GrantedAuthorityEnum;
+import de.randi2.model.Login;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
@@ -46,6 +50,10 @@ public class TrialHandler {
 
 	private Trial trial;
 
+	private AutoCompleteObject<TrialSite> trialSitesAC = null;
+	private AutoCompleteObject<Login> sponsorInvestigatorsAC = null;
+	private AutoCompleteObject<TrialSite> participatingSitesAC = null;
+
 	// TODO TEMP OBJECTS
 	private Date tDate1;
 	private Date tDate2;
@@ -58,6 +66,7 @@ public class TrialHandler {
 
 	// DB Access
 	private TrialDao trialDao;
+	private TrialSiteDao centerDao;
 
 	public TrialDao getTrialDao() {
 		return trialDao;
@@ -88,11 +97,9 @@ public class TrialHandler {
 	}
 
 	public void addTrialSite(ActionEvent event) {
-		TrialSite tTrialSite = ((TrialSiteHandler) FacesContext.getCurrentInstance()
-				.getApplication().getELResolver().getValue(
-						FacesContext.getCurrentInstance().getELContext(), null,
-						"trialSiteHandler")).getSelectedTrialSite();
-		trial.getParticipatingSites().add(tTrialSite);
+		assert (participatingSitesAC.getSelectedObject() != null);
+		trial.getParticipatingSites().add(
+				participatingSitesAC.getSelectedObject());
 	}
 
 	public void removeTrialSite(ActionEvent event) {
@@ -184,6 +191,34 @@ public class TrialHandler {
 
 	public int getSubjectPropertiesCount() {
 		return this.getProperties().size();
+	}
+
+	public AutoCompleteObject<TrialSite> getTrialSitesAC() {
+		if (trialSitesAC == null)
+			trialSitesAC = new AutoCompleteObject<TrialSite>(centerDao);
+		return trialSitesAC;
+	}
+
+	public AutoCompleteObject<Login> getSponsorInvestigatorsAC() {
+		if (sponsorInvestigatorsAC == null)
+			sponsorInvestigatorsAC = new AutoCompleteObject<Login>(trialSitesAC
+					.getSelectedObject().getMembersWithSpecifiedRole(
+							GrantedAuthorityEnum.ROLE_P_INVASTIGATOR));
+		return sponsorInvestigatorsAC;
+	}
+	
+	public AutoCompleteObject<TrialSite> getParticipatingSitesAC() {
+		if (participatingSitesAC == null)
+			participatingSitesAC = new AutoCompleteObject<TrialSite>(centerDao);
+		return participatingSitesAC;
+	}
+
+	public TrialSiteDao getCenterDao() {
+		return centerDao;
+	}
+
+	public void setCenterDao(TrialSiteDao centerDao) {
+		this.centerDao = centerDao;
 	}
 
 }

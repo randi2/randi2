@@ -30,13 +30,13 @@
 		<ice:panelGrid border="0" columns="2">
 			<ice:selectInputText id="trialSite"
 				required="#{trialHandler.trial.requiredFields['leadingSite']}"
-				valueChangeListener="#{trialSiteHandler.updateTrialSiteList}" rows="10"
+				valueChangeListener="#{trialHandler.participatingSitesAC.updateObjectList}" rows="10"
 				width="200">
-				<f:selectItems value="#{trialSiteHandler.trialSiteList}" />
+				<f:selectItems value="#{trialHandler.participatingSitesAC.objectList}" />
 			</ice:selectInputText>
 			<ice:commandButton image="/img/icons/add16.png"
-				actionListener="#{trialHandler.addtrialSite}"
-				disabled="#{!trialSiteHandler.trialSiteSelected }" />
+				actionListener="#{trialHandler.addTrialSite}"
+				disabled="#{!trialHandler.participatingSitesAC.objectSelected}" />
 		</ice:panelGrid>
 		<ice:dataTable id="trialSitesTable" border="1"
 			value="#{trialHandler.trial.participatingSites}" var="trialSite"

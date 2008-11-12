@@ -31,31 +31,31 @@
 					escape="false" />
 				<ice:outputLabel for="name" value="#{labels['trialSite.name']}"></ice:outputLabel>
 				<ice:selectInputText id="trialSite"
-					required="#{loginHandler.person.requiredFields['trialSite']}"
-					valueChangeListener="#{trialSiteHandler.updateTrialSiteList}" rows="10"
+					required="#{loginHandler.showedLogin.person.requiredFields['trialSite']}"
+					valueChangeListener="#{loginHandler.trialSitesAC.updateObjectList}" rows="10"
 					width="200">
-					<f:selectItems value="#{trialSiteHandler.trialSiteList}" />
+					<f:selectItems value="#{loginHandler.trialSitesAC.objectList}" />
 				</ice:selectInputText>
 				<ice:outputLabel for="country" value="#{labels['trialSite.country']}"></ice:outputLabel>
 				<ice:outputText id="country"
-					value="#{loginHandler.userTrialSite.country}">
+					value="#{loginHandler.trialSitesAC.selectedObject.country}">
 				</ice:outputText>
 				<ice:outputLabel for="city" value="#{labels['trialSite.city']}"></ice:outputLabel>
-				<ice:outputText id="city" value="#{loginHandler.userTrialSite.city}">
+				<ice:outputText id="city" value="#{loginHandler.trialSitesAC.selectedObject.city}">
 				</ice:outputText>
 				<ice:outputLabel for="postcode" value="#{labels['trialSite.postcode']}"></ice:outputLabel>
 				<ice:outputText id="postcode"
-					value="#{loginHandler.userTrialSite.postcode}">
+					value="#{loginHandler.trialSitesAC.selectedObject.postcode}">
 				</ice:outputText>
 				<ice:outputLabel for="street" value="#{labels['trialSite.street']}"></ice:outputLabel>
 				<ice:outputText id="street"
-					value="#{loginHandler.userTrialSite.street}">
+					value="#{loginHandler.trialSitesAC.selectedObject.street}">
 				</ice:outputText>
 				<ice:messages globalOnly="true" />
 				<ice:panelGroup>
 					<ice:panelGrid columns="2">
 						<ice:commandButton value="#{labels['buttons.save']}"
-							action="#{loginHandler.changeTrialSite}" />
+							action="#{loginHandler.changeTrialSite}" disabled="#{!loginHandler.trialSitesAC.objectSelected}"/>
 						<ice:commandButton immediate="true"
 							value="#{labels['buttons.cancel']}"
 							action="#{loginHandler.hideChangeTrialSitePopup}"></ice:commandButton>

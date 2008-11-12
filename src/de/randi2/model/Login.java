@@ -203,5 +203,10 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	public boolean hasRole(GrantedAuthorityEnum role) {
 		return this.roles.contains(role);
 	}
+	
+	@Override
+	public String toString() {
+		return this.getUsername()+" ("+this.getPerson().toString()+")";
+	}
 
 }

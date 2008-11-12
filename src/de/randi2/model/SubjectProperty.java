@@ -60,4 +60,10 @@ public final class SubjectProperty extends AbstractDomainObject{
 		this.criterion = criterion;
 		criterion.applyConstraints(this);
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "TO_STRING_NOT_IMPLEMENTED";
+	}
 }

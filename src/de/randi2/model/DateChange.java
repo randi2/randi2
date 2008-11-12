@@ -77,4 +77,10 @@ public class DateChange extends AbstractDomainObject {
 	public void setLogAction(LogAction logAction) {
 		this.logAction = logAction;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "TO_STRING_NOT_IMPLEMENTED";
+	}
 }

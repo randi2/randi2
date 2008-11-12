@@ -58,5 +58,11 @@ public class TreatmentArm extends AbstractDomainObject{
 	public void setTrial(Trial trial) {
 		this.trial = trial;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "TO_STRING_NOT_IMPLEMENTED";
+	}
 
 }
