@@ -35,4 +35,8 @@ public abstract class AbstractDaoHibernate<E extends Object> implements Abstract
 	public List<E> findByExample(E object){
 		return template.findByExample(object);
 	}
+	
+	public List<E> getAll(){
+		return template.loadAll(getModelClass());
+	}
 }

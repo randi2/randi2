@@ -9,4 +9,6 @@ public interface AbstractDao<E extends Object> {
 	public void save(E object);
 	
 	public List<E> findByExample(E object);
+	
+	public List<E> getAll();
 }

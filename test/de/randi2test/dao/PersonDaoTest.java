@@ -3,7 +3,9 @@ package de.randi2test.dao;
 import static de.randi2test.utility.RANDI2Assert.assertNotSaved;
 import static de.randi2test.utility.RANDI2Assert.assertSaved;
 import static junit.framework.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+
+import java.util.List;
 
 import org.hibernate.validator.InvalidStateException;
 import org.junit.Before;
@@ -70,5 +72,17 @@ public class PersonDaoTest {
 			dao.save(validPerson);
 			fail("should throw exception");
 		}catch (InvalidStateException e) {}
+	}
+	
+	
+	@Test
+	public void testGetAll(){
+		for (int i = 0; i<100;i++){
+			dao.save(factory.getPerson());
+		}
+		
+		List<Person> persons = dao.getAll();
+		System.out.println(persons.size());
+		assertTrue("getAll failed", dao.getAll().size() >100);
 	}
 }
