@@ -80,9 +80,6 @@ public class PersonDaoTest {
 		for (int i = 0; i<100;i++){
 			dao.save(factory.getPerson());
 		}
-		
-		List<Person> persons = dao.getAll();
-		System.out.println(persons.size());
 		assertTrue("getAll failed", dao.getAll().size() >100);
 	}
 }
