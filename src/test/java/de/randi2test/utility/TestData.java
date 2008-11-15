@@ -39,6 +39,11 @@ public class TestData {
 	@Autowired
 	private HibernateTemplate template;
 	
+	@Test
+	public void fakeTest(){
+		
+	}
+	
 	//@Test
 	public void init(){
 		Person adminP = new Person();
