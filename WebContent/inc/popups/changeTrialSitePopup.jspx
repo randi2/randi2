@@ -51,7 +51,6 @@
 				<ice:outputText id="street"
 					value="#{loginHandler.trialSitesAC.selectedObject.street}">
 				</ice:outputText>
-				<ice:messages globalOnly="true" />
 				<ice:panelGroup>
 					<ice:panelGrid columns="2">
 						<ice:commandButton value="#{labels['buttons.save']}"

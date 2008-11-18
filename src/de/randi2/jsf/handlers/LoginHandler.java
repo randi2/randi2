@@ -14,11 +14,9 @@
  */
 package de.randi2.jsf.handlers;
 
-import java.io.IOException;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.Properties;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -56,16 +54,17 @@ import de.randi2.model.TrialSite;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
-public class LoginHandler {
+public class LoginHandler extends AbstractHandler<Login>{
+
+	public LoginHandler() {
+		super(Login.class);
+	}
 
 	// This Object is representing the current User
 	private Login loggedInUser = null;
 
 	// The locale chosen by the user.
 	private Locale chosenLocale = null;
-
-	// The currently presented loggedInUser object
-	private Login showedLogin = null;
 
 	private AutoCompleteObject<TrialSite> trialSitesAC = null;
 	private AutoCompleteObject<Person> tsMembersAC = null;
@@ -81,10 +80,6 @@ public class LoginHandler {
 	// FIXME Rename + Autowired ?
 	private TrialSiteDao centerDao;
 	// ---
-
-	// Flags for the jsf pages
-	private boolean creatingMode = false;
-	private boolean editable = false;
 
 	// Popup's flags
 	private boolean userSavedPVisible = false;
@@ -160,7 +155,7 @@ public class LoginHandler {
 
 	// Application logic
 	public String changePassword() {
-		this.saveLogin(showedLogin);
+		this.saveLogin();
 		this.hideChangePasswordPopup();
 		return Randi2.SUCCESS;
 
@@ -168,8 +163,8 @@ public class LoginHandler {
 
 	public String changeTrialSite() {
 		assert (trialSitesAC.getSelectedObject() != null);
-		showedLogin.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
-		this.saveLogin(showedLogin);
+		showedObject.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
+		this.saveLogin();
 		this.hideChangeTrialSitePopup();
 		return Randi2.SUCCESS;
 	}
@@ -179,28 +174,26 @@ public class LoginHandler {
 	 * 
 	 * @return Randi2.SUCCESS normally. Randi2.ERROR in case of an error.
 	 */
-	public String saveLogin(Login loginToSave) {
+	public String saveLogin() {
+		assert (showedObject != null);
 		try {
-			personDao.save(loginToSave.getPerson());
-			loginDao.save(loginToSave);
-			// FIXME
-			// TODO Updating the Objetct ... TEMP SOLUTION
-			// this.showedLogin = this.loginDao.get(this.showedLogin.getId());
-
-			// Making the centerSavedPopup visible
-			this.userSavedPVisible = true;
-
-			// If the current loggedInUser user was saved with this method, the
-			// loggedInUser
-			// object will be reload from the DB
-			// if (this.showedLogin.equals(this.loggedInUser))
-			// this.loggedInUser = this.loginDao
-			// .get(this.loggedInUser.getId());
-
+			personDao.save(showedObject.getPerson());
+			loginDao.save(showedObject);
+			// Making the pop up visible
+			userSavedPVisible = true;
 			return Randi2.SUCCESS;
 		} catch (Exception exp) {
 			Randi2.showMessage(exp);
 			return Randi2.ERROR;
+		} finally {
+			// FIXME Refreshing objects
+			// Updating the Object ...
+			showedObject = loginDao.get(showedObject.getId());
+			// If the current loggedInUser user was saved with this method, the
+			// loggedInUser
+			// object will be reload from the DB
+			if (showedObject.equals(loggedInUser))
+				loggedInUser = showedObject;
 		}
 	}
 
@@ -214,7 +207,7 @@ public class LoginHandler {
 		try {
 			if (creatingMode) {
 				// A new user was created by another logged in user
-				newUser = showedLogin;
+				newUser = showedObject;
 
 			} else {
 				// Normal self-registration
@@ -319,6 +312,18 @@ public class LoginHandler {
 		trialSitesAC = null;
 		tsMembersAC = null;
 	}
+	
+	@Override
+	public String refreshShowedObject() {
+		if(showedObject.getId()==AbstractDomainObject.NOT_YET_SAVED_ID)
+			showedObject = null;
+		else
+			showedObject = loginDao.get(showedObject.getId());
+		trialSitesAC = null;
+		tsMembersAC = null;
+		refresh();
+		return Randi2.SUCCESS;
+	}
 
 	public void setUSEnglish(ActionEvent event) {
 		this.loggedInUser.setPrefLocale(Locale.US);
@@ -346,8 +351,9 @@ public class LoginHandler {
 	public Login getLoggedInUser() {
 		if (loggedInUser == null) {
 			try {
-				this.loggedInUser = (Login) SecurityContextHolder.getContext()
+				loggedInUser = (Login) SecurityContextHolder.getContext()
 						.getAuthentication().getPrincipal();
+				loggedInUser.setLastLoggedIn(new GregorianCalendar());
 			} catch (NullPointerException exp) {
 				// FIXME What should we do at this point?
 			}
@@ -419,7 +425,7 @@ public class LoginHandler {
 
 	public boolean isEditable() {
 		// FIXME Rightsmanagement
-		if (showedLogin.equals(this.loggedInUser)) {
+		if (showedObject.equals(this.loggedInUser)) {
 			editable = true;
 		} else {
 			editable = creatingMode;
@@ -429,39 +435,6 @@ public class LoginHandler {
 
 	public void setEditable(boolean editable) {
 		this.editable = editable;
-	}
-
-	// TODO I don't know, if it's the best idea ... so probably only temp.
-	// solution
-	public Login getShowedLogin() {
-		if (showedLogin == null) {
-			showedLogin = new Login();
-			showedLogin.setPerson(new Person());
-		}
-		return this.showedLogin;
-	}
-
-	public void setShowedLogin(Login _showedLogin) {
-		// TODO At this point we must check the users rights!
-		if (_showedLogin == null) {
-			//A new user is to be created.
-			creatingMode = true;
-			showedLogin = new Login();
-			showedLogin.setPerson(new Person());
-		} else {
-			//A chosen user will be shown
-			creatingMode = false;
-			showedLogin = _showedLogin;
-		}
-
-	}
-
-	public boolean isCreatingMode() {
-		return creatingMode;
-	}
-
-	public void setCreatingMode(boolean creatingMode) {
-		this.creatingMode = creatingMode;
 	}
 
 	/**
@@ -501,8 +474,12 @@ public class LoginHandler {
 	public AutoCompleteObject<Person> getTsMembersAC() {
 		if (tsMembersAC == null) {
 			assert (trialSitesAC != null);
-			tsMembersAC = new AutoCompleteObject<Person>(trialSitesAC
-					.getSelectedObject().getMembers());
+			if (trialSitesAC.getSelectedObject() != null)
+				tsMembersAC = new AutoCompleteObject<Person>(trialSitesAC
+						.getSelectedObject().getMembers());
+			else
+				tsMembersAC = new AutoCompleteObject<Person>(showedObject
+						.getPerson().getTrialSite().getMembers());
 		}
 		return tsMembersAC;
 	}

@@ -84,14 +84,7 @@ public class Randi2 {
 	
 	public String getVersion(){
 		if(version==null){
-//			Properties randi2Prop = new Properties();
-//			try {
-//				randi2Prop.load(FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/RANDI2.properties"));
 				version = randi2prop.getProperty("version");
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//				version="ERROR";
-//			}
 		}
 		return version;
 	}

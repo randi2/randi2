@@ -108,8 +108,6 @@ public class RegisterPage {
 	 * @return
 	 */
 	public Effect getEffect() {
-		Effect e = new Highlight();
-		e.setDuration(1000);
 		return new Highlight();
 	}
 

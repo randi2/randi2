@@ -79,39 +79,47 @@ public class Randi2Page {
 	}
 
 	public void myTrialSite(ActionEvent event) {
-		trialSiteHandler.setShowedTrialSite(currentUser.getPerson().getTrialSite());
+		trialSiteHandler.setShowedObject(currentUser.getPerson().getTrialSite());
 		activePanel = "trialSiteEditPanel";
 	}
 
+	/**
+	 * This method shows the trial site from the trial sites' table. 
+	 * @param event
+	 */
 	public void showTrialSite(ActionEvent event) {
-		// TODO das lässt sich noch besser lösen!
 		TrialSite tTrialSite = (TrialSite) (((UIComponent) event.getComponent()
 				.getChildren().get(0)).getValueExpression("value")
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
-		trialSiteHandler.setShowedTrialSite(tTrialSite);
+		trialSiteHandler.setShowedObject(tTrialSite);
 		activePanel = "trialSiteEditPanel";
 	}
 
+	/**
+	 * This method shows the user from the users' table.
+	 * @param event
+	 */
 	public void showUser(ActionEvent event) {
 		Person tPerson = (Person) (((UIComponent) event.getComponent()
 				.getChildren().get(0)).getValueExpression("value")
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
-		loginHandler.setShowedLogin(tPerson.getLogin());
+		assert(tPerson.getLogin()!=null);
+		loginHandler.setShowedObject(tPerson.getLogin());
 		activePanel = "userEditPanel";
 	}
 
 	public void createTrialSite(ActionEvent event) {
-		trialSiteHandler.setShowedTrialSite(null);
+		trialSiteHandler.setShowedObject(null);
 		activePanel = "trialSiteEditPanel";
 	}
 
 	public void myLogin(ActionEvent event) {
-		loginHandler.setShowedLogin(currentUser);
+		loginHandler.setShowedObject(currentUser);
 		activePanel = "userEditPanel";
 	}
 
 	public void createLogin(ActionEvent event) {
-		loginHandler.setShowedLogin(null);
+		loginHandler.setShowedObject(null);
 		activePanel = "userEditPanel";
 	}
 

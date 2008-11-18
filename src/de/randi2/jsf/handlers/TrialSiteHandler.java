@@ -21,8 +21,8 @@ import org.hibernate.validator.InvalidValue;
 
 import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.Randi2;
+import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
-import de.randi2.model.Person;
 import de.randi2.model.TrialSite;
 
 /**
@@ -32,9 +32,13 @@ import de.randi2.model.TrialSite;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
-public class TrialSiteHandler {
+public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 
-	//FIXME centerDao in trialDao -> why through xml and not with @Autowired
+	public TrialSiteHandler() {
+		super(TrialSite.class);
+	}
+
+	// FIXME centerDao in trialDao -> why through xml and not with @Autowired
 	private TrialSiteDao centerDao;
 
 	private boolean trialSiteSavedPVisible = false;
@@ -52,47 +56,11 @@ public class TrialSiteHandler {
 		return Randi2.SUCCESS;
 	}
 
-	/**
-	 * The current logged in user.
-	 */
-	private Login currentUser = null;
-
-	private TrialSite showedTrialSite = null;
-
-	private boolean editable = false;
-
-	private boolean creatingMode = false;
-
-	public TrialSite getShowedTrialSite() {
-		if (showedTrialSite == null) {
-			showedTrialSite = this.getCurrentUser().getPerson().getTrialSite();
-		}
-		return showedTrialSite;
-	}
-
-	public void setShowedTrialSite(TrialSite showedTrialSite) {
-		if (showedTrialSite == null) {
-			creatingMode = true;
-			this.showedTrialSite = new TrialSite();
-			this.showedTrialSite.setContactPerson(new Person());
-		} else {
-			creatingMode = false;
-			this.showedTrialSite = showedTrialSite;
-		}
-	}
-
 	public Login getCurrentUser() {
-		if (currentUser == null) {
-			currentUser = ((LoginHandler) FacesContext.getCurrentInstance()
-					.getApplication().getELResolver().getValue(
-							FacesContext.getCurrentInstance().getELContext(),
-							null, "loginHandler")).getLoggedInUser();
-		}
-		return currentUser;
-	}
-
-	public void setCurrentUser(Login currentUser) {
-		this.currentUser = currentUser;
+		return ((LoginHandler) FacesContext.getCurrentInstance()
+				.getApplication().getELResolver().getValue(
+						FacesContext.getCurrentInstance().getELContext(), null,
+						"loginHandler")).getLoggedInUser();
 	}
 
 	public boolean isEditable() {
@@ -101,8 +69,8 @@ public class TrialSiteHandler {
 		// Temporary I'll just look, if the current user is a member of this
 		// center - if it is so, then he can edit it
 		// properties.
-		if (this.getShowedTrialSite().equals(
-				this.getCurrentUser().getPerson().getTrialSite())) {
+		if (showedObject.equals(this.getCurrentUser().getPerson()
+				.getTrialSite())) {
 			editable = true;
 		} else {
 			editable = creatingMode;
@@ -110,13 +78,9 @@ public class TrialSiteHandler {
 		return editable;
 	}
 
-	public void setEditable(boolean editable) {
-		this.editable = editable;
-	}
-
 	public String saveTrialSite() {
 		try {
-			centerDao.save(this.showedTrialSite);
+			centerDao.save(showedObject);
 
 			// Making the centerSavedPopup visible
 			this.trialSiteSavedPVisible = true;
@@ -141,21 +105,23 @@ public class TrialSiteHandler {
 		}
 
 	}
-
-	public boolean isCreatingMode() {
-		return creatingMode;
+	
+	@Override
+	public String refreshShowedObject() {
+		if(showedObject.getId()==AbstractDomainObject.NOT_YET_SAVED_ID)
+			showedObject = null;
+		else
+			showedObject = centerDao.get(showedObject.getId());
+		refresh();
+		return Randi2.SUCCESS;
 	}
 
-	public void setCreatingMode(boolean creatingMode) {
-		this.creatingMode = creatingMode;
-	}
-
-	//FIXME Rename the method
+	// FIXME Rename the method
 	public TrialSiteDao getCenterDao() {
 		return centerDao;
 	}
 
-	//FIXME Rename the method
+	// FIXME Rename the method
 	public void setCenterDao(TrialSiteDao centerDao) {
 		this.centerDao = centerDao;
 	}

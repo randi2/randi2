@@ -30,6 +30,7 @@ import de.randi2.dao.TrialDao;
 import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
+import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.GrantedAuthorityEnum;
 import de.randi2.model.Login;
 import de.randi2.model.SubjectProperty;
@@ -46,7 +47,11 @@ import de.randi2.model.enumerations.TrialStatus;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
-public class TrialHandler {
+public class TrialHandler extends AbstractHandler<Trial>{
+
+	public TrialHandler() {
+		super(Trial.class);
+	}
 
 	private Trial trial;
 
@@ -221,4 +226,9 @@ public class TrialHandler {
 		this.centerDao = centerDao;
 	}
 
+	@Override
+	public String refreshShowedObject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

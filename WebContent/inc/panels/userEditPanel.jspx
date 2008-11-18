@@ -32,19 +32,19 @@
 				<jsp:directive.include file="./inc/panels/user/userData.jspx" />
 			</f:subview>
 		</ice:panelTab>
-		
+
 		<ice:panelTab label="#{labels['pages.userEditPanel.trialSiteTab']}">
 			<f:subview id="userTrialSiteInclude">
 				<jsp:directive.include file="./inc/panels/user/userTrialSite.jspx" />
 			</f:subview>
 		</ice:panelTab>
-		
+
 		<ice:panelTab label="#{labels['pages.userEditPanel.rightsTab']}">
 			<f:subview id="userRightsInclude">
 				<jsp:directive.include file="./inc/panels/user/userRights.jspx" />
 			</f:subview>
 		</ice:panelTab>
-		
+
 		<ice:panelTab label="#{labels['pages.userEditPanel.actionsTab']}"
 			rendered="#{!loginHandler.creatingMode}">
 			<f:subview id="userActionsInclude">
@@ -52,7 +52,7 @@
 			</f:subview>
 		</ice:panelTab>
 	</ice:panelTabSet>
-	
+
 	<ice:panelGrid border="0" columns="3"
 		rendered="#{loginHandler.editable}">
 		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
@@ -61,7 +61,9 @@
 		<ice:commandButton type="submit" value="#{labels['buttons.create']}"
 			action="#{loginHandler.registerUser}"
 			rendered="#{loginHandler.creatingMode}" />
-		<ice:commandButton type="reset" value="#{labels['buttons.reset']}" />
-		<ice:messages globalOnly="true" />
+		<ice:commandButton type="submit" immediate="true"
+			value="#{labels['buttons.reset']}"
+			action="#{loginHandler.refreshShowedObject}"/>
+		<ice:messages globalOnly="true" style="background: red;"></ice:messages>
 	</ice:panelGrid>
 </ice:form>

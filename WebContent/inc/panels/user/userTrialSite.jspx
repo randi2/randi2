@@ -30,7 +30,7 @@
 			<ice:outputLabel for="name" value="#{labels['trialSite.name']}"></ice:outputLabel>
 			<ice:panelGroup rendered="#{!loginHandler.creatingMode}">
 				<ice:outputText id="name"
-					value="#{loginHandler.showedLogin.person.trialSite.name}">
+					value="#{loginHandler.showedObject.person.trialSite.name}">
 				</ice:outputText>
 				<ice:commandButton style="margin-left: 15px;"
 					value="#{labels['buttons.changeTrialSite']}"
@@ -39,7 +39,7 @@
 			</ice:panelGroup>
 			<ice:panelGroup rendered="#{loginHandler.creatingMode}">
 				<ice:selectInputText id="trialSite"
-					required="#{loginHandler.showedLogin.person.requiredFields['trialSite']}"
+					required="#{loginHandler.showedObject.person.requiredFields['trialSite']}"
 					valueChangeListener="#{loginHandler.trialSitesAC.updateObjectList}" rows="10"
 					width="200">
 					<f:selectItems value="#{loginHandler.trialSitesAC.objectList}" />
@@ -48,19 +48,63 @@
 			</ice:panelGroup>
 			<ice:outputLabel for="country" value="#{labels['trialSite.country']}"></ice:outputLabel>
 			<ice:outputText id="country"
-				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.country : loginHandler.trialSitesAC.selectedObject.country}">
+				value="#{loginHandler.showedObject.person.trialSite!=null ? loginHandler.showedObject.person.trialSite.country : loginHandler.trialSitesAC.selectedObject.country}">
 			</ice:outputText>
 			<ice:outputLabel for="city" value="#{labels['trialSite.city']}"></ice:outputLabel>
 			<ice:outputText id="city"
-				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.city : loginHandler.trialSitesAC.selectedObject.city}">
+				value="#{loginHandler.showedObject.person.trialSite!=null ? loginHandler.showedObject.person.trialSite.city : loginHandler.trialSitesAC.selectedObject.city}">
 			</ice:outputText>
 			<ice:outputLabel for="postcode" value="#{labels['trialSite.postcode']}"></ice:outputLabel>
 			<ice:outputText id="postcode"
-				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.postcode : loginHandler.trialSitesAC.selectedObject.postcode}">
+				value="#{loginHandler.showedObject.person.trialSite!=null ? loginHandler.showedObject.person.trialSite.postcode : loginHandler.trialSitesAC.selectedObject.postcode}">
 			</ice:outputText>
 			<ice:outputLabel for="street" value="#{labels['trialSite.street']}"></ice:outputLabel>
 			<ice:outputText id="street"
-				value="#{loginHandler.showedLogin.person.trialSite!=null ? loginHandler.showedLogin.person.trialSite.street : loginHandler.trialSitesAC.selectedObject.street}">
+				value="#{loginHandler.showedObject.person.trialSite!=null ? loginHandler.showedObject.person.trialSite.street : loginHandler.trialSitesAC.selectedObject.street}">
+			</ice:outputText>
+		</ice:panelGrid>
+	</ice:panelCollapsible>
+	<!-- User assistant's information -->
+	<ice:panelCollapsible expanded="true" rendered="#{loginHandler.trialSitesAC.objectSelected || !loginHandler.creatingMode}">
+		<f:facet name="header">
+			<ice:panelGrid border="0" columns="2">
+				<ice:graphicImage value="/img/icons/assistant16.png"></ice:graphicImage>
+				<ice:outputLabel
+					value="#{labels['pages.userEditPanel.assistantHeader']}"></ice:outputLabel>
+			</ice:panelGrid>
+		</f:facet>
+		<ice:panelGrid border="0" columns="2">
+			<ice:outputLabel for="assistant" value="#{labels['person.assistant']}"></ice:outputLabel>
+			<!-- Showing the user's assistant -->
+			<ice:panelGroup rendered="#{!loginHandler.creatingMode}">
+				<ice:outputText id="assistant"
+					value="#{loginHandler.showedObject.person.assistant.firstname} #{loginHandler.showedObject.person.assistant.surname}">
+				</ice:outputText>
+				<ice:commandButton style="margin-left: 15px;"
+					action="#{loginHandler.showChangeTrialSitePopup}"
+					rendered="#{loginHandler.editable}" image="/img/icons/change16.png"></ice:commandButton>
+			</ice:panelGroup>
+			<!-- Editing the user's assistant -->
+			<ice:panelGroup rendered="#{loginHandler.creatingMode}">
+				<ice:selectInputText id="assistantInput"
+					required="#{loginHandler.showedObject.person.requiredFields['assistant']}"
+					valueChangeListener="#{loginHandler.tsMembersAC.updateObjectList}" rows="10"
+					width="200">
+					<f:selectItems value="#{loginHandler.tsMembersAC.objectList}" />
+				</ice:selectInputText>
+				<ice:message for="assistantInput" id="assistantError"></ice:message>
+			</ice:panelGroup>
+			<ice:outputLabel for="phoneAss" value="#{labels['person.phone']}"></ice:outputLabel>
+			<ice:outputText id="phoneAss"
+				value="#{loginHandler.showedObject.person.assistant !=null ? loginHandler.showedObject.person.assistant.phone : loginHandler.tsMembersAC.selectedObject.phone}">
+			</ice:outputText>
+			<ice:outputLabel for="mobileAss" value="#{labels['person.mobile']}"></ice:outputLabel>
+			<ice:outputText id="mobileAss"
+				value="#{loginHandler.showedObject.person.assistant !=null ? loginHandler.showedObject.person.assistant.mobile : loginHandler.tsMembersAC.selectedObject.mobile}">
+			</ice:outputText>
+			<ice:outputLabel for="postcodeAss" value="#{labels['person.eMail']}"></ice:outputLabel>
+			<ice:outputText id="postcodeAss"
+				value="#{loginHandler.showedObject.person.assistant !=null ? loginHandler.showedObject.person.assistant.EMail : loginHandler.tsMembersAC.selectedObject.EMail}">
 			</ice:outputText>
 		</ice:panelGrid>
 	</ice:panelCollapsible>

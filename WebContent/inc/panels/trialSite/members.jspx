@@ -17,7 +17,7 @@
 <ice:dataTable xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" id="membersTable" border="1"
-	value="#{trialSiteHandler.showedTrialSite.members}" var="member"
+	value="#{trialSiteHandler.showedObject.members}" var="member"
 	scrollable="true" scrollHeight="250px"
 	columnWidths="100px,100px,150px,100px,100px,50px" width="600px">
 	<ice:column id="column1">

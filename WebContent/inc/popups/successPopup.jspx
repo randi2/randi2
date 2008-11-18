@@ -25,7 +25,6 @@
 		<f:facet name="header">
 			<ice:outputText value="#{labels['pages.registration.successHeader']}"></ice:outputText>
 		</f:facet>
-
 		<f:facet name="body">
 			<ice:panelGrid border="0" columns="2">
 				<f:facet name="footer">
@@ -38,7 +37,6 @@
 				<ice:outputText
 					value="#{labels['pages.registration.successMessage']}"></ice:outputText>
 			</ice:panelGrid>
-
 		</f:facet>
 	</ice:panelPopup>
 </ice:form>
