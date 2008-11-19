@@ -52,7 +52,7 @@
 					<ice:panelGrid columns="2">
 						<ice:commandButton value="#{labels['buttons.save']}"
 							action="#{loginHandler.changeTrialSite}"
-							disabled="#{!loginHandler.trialSitesAC.objectSelected}" />
+							disabled="#{!loginHandler.tsMembersAC.objectSelected}" />
 						<ice:commandButton immediate="true"
 							value="#{labels['buttons.cancel']}"
 							action="#{loginHandler.hideChangeAssistantPopup}"></ice:commandButton>

@@ -14,10 +14,13 @@
  */
 package de.randi2.jsf.handlers;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Set;
 
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
@@ -68,6 +71,7 @@ public class LoginHandler extends AbstractHandler<Login>{
 
 	private AutoCompleteObject<TrialSite> trialSitesAC = null;
 	private AutoCompleteObject<Person> tsMembersAC = null;
+	private AutoCompleteObject<Role2> rolesAC = null;
 
 	// Objects for User-Creating Process
 	private Login newUser = null;
@@ -175,6 +179,19 @@ public class LoginHandler extends AbstractHandler<Login>{
 	// ----
 
 	// Application logic
+	
+	public void addRole(ActionEvent event) {
+		assert (rolesAC.getSelectedObject() != null);
+		showedObject.addRole(rolesAC.getSelectedObject());
+	}
+
+	public void removeRole(ActionEvent event) {
+		Role2 tRole = (Role2) (((UIComponent) event.getComponent()
+				.getChildren().get(0)).getValueExpression("value")
+				.getValue(FacesContext.getCurrentInstance().getELContext()));
+		showedObject.getRoles().remove(tRole);
+	}
+	
 	public String changePassword() {
 		this.saveObject();
 		this.hideChangePasswordPopup();
@@ -514,6 +531,20 @@ public class LoginHandler extends AbstractHandler<Login>{
 						.getPerson().getTrialSite().getMembers());
 		}
 		return tsMembersAC;
+	}
+	
+	public AutoCompleteObject<Role2> getRolesAC() {
+		//FIXME TEMP SOLUTION - switch to loginDAO.getPossibleRoles(true) when ready
+		ArrayList<Role2> roles = new ArrayList<Role2>();
+		roles.add(Role2.ROLE_INVESTIGATOR);
+		roles.add(Role2.ROLE_P_INVESTIGATOR);
+		roles.add(Role2.ROLE_STATISTICAN);
+		roles.add(Role2.ROLE_MONITOR);
+		roles.add(Role2.ROLE_ADMIN);
+		// ---
+		if (rolesAC == null)
+			rolesAC = new AutoCompleteObject<Role2>(roles);
+		return rolesAC;
 	}
 	// ---
 }

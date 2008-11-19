@@ -156,7 +156,6 @@
 					value="#{loginHandler.showedObject.person.gender}">
 					<f:converter
 						converterId="de.randi2.jsf.converters.GENDER_CONVERTER" />
-					<f:attribute name="dObject" value="#{loginHandler.showedObject.person}" />
 					<f:selectItems value="#{registerPage.genderItems}" />
 				</ice:selectOneMenu>
 			</ice:panelGroup>

@@ -32,7 +32,7 @@ public class GenderConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
-		if (arg2.toString().equals("MALE"))
+		if (arg2.equals("MALE"))
 			return Gender.MALE;
 		else
 			return Gender.FEMALE;
