@@ -231,4 +231,10 @@ public class TrialHandler extends AbstractHandler<Trial>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String saveObject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -85,6 +85,7 @@ public class LoginHandler extends AbstractHandler<Login>{
 	private boolean userSavedPVisible = false;
 	private boolean changePasswordPVisible = false;
 	private boolean changeTrialSitePVisible = false;
+	private boolean changeAssistantPVisible = false;
 
 	// Mailsender
 	private MailSender mailSender;
@@ -144,10 +145,30 @@ public class LoginHandler extends AbstractHandler<Login>{
 		this.changeTrialSitePVisible = true;
 		return Randi2.SUCCESS;
 	}
+	
+	public String showChangeAssistantPopup() {
+		// Show the changeTrialSitePopup
+		this.changeAssistantPVisible = true;
+		return Randi2.SUCCESS;
+	}
 
 	public String hideChangeTrialSitePopup() {
 		// Hide the changeTrialSitePopup
 		this.changeTrialSitePVisible = false;
+		return Randi2.SUCCESS;
+	}
+	
+	public boolean isChangeAssistantPVisible() {
+		return changeAssistantPVisible;
+	}
+
+	public void setChangeAssistantPVisible(boolean _changeAssistantPVisible) {
+		changeAssistantPVisible = _changeAssistantPVisible;
+	}
+	
+	public String hideChangeAssistantPopup() {
+		// Hide the changeAssistantPopup
+		this.changeAssistantPVisible = false;
 		return Randi2.SUCCESS;
 	}
 
@@ -155,7 +176,7 @@ public class LoginHandler extends AbstractHandler<Login>{
 
 	// Application logic
 	public String changePassword() {
-		this.saveLogin();
+		this.saveObject();
 		this.hideChangePasswordPopup();
 		return Randi2.SUCCESS;
 
@@ -164,17 +185,24 @@ public class LoginHandler extends AbstractHandler<Login>{
 	public String changeTrialSite() {
 		assert (trialSitesAC.getSelectedObject() != null);
 		showedObject.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
-		this.saveLogin();
+		this.saveObject();
 		this.hideChangeTrialSitePopup();
 		return Randi2.SUCCESS;
 	}
+	
+	public String changeAssistant() {
+		assert (tsMembersAC.getSelectedObject() != null);
+		showedObject.getPerson().setAssistant((tsMembersAC.getSelectedObject()));
+		this.saveObject();
+		this.hideChangeAssistantPopup();
+		return Randi2.SUCCESS;
+	}
 
-	/**
-	 * Method for saving the showed user.
-	 * 
-	 * @return Randi2.SUCCESS normally. Randi2.ERROR in case of an error.
+	/* (non-Javadoc)
+	 * @see de.randi2.jsf.handlers.AbstractHandler#saveObject()
 	 */
-	public String saveLogin() {
+	@Override
+	public String saveObject() {
 		assert (showedObject != null);
 		try {
 			personDao.save(showedObject.getPerson());
@@ -194,6 +222,7 @@ public class LoginHandler extends AbstractHandler<Login>{
 			// object will be reload from the DB
 			if (showedObject.equals(loggedInUser))
 				loggedInUser = showedObject;
+			refresh();
 		}
 	}
 
@@ -313,6 +342,9 @@ public class LoginHandler extends AbstractHandler<Login>{
 		tsMembersAC = null;
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.randi2.jsf.handlers.AbstractHandler#refreshShowedObject()
+	 */
 	@Override
 	public String refreshShowedObject() {
 		if(showedObject.getId()==AbstractDomainObject.NOT_YET_SAVED_ID)

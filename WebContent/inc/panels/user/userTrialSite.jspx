@@ -81,7 +81,7 @@
 					value="#{loginHandler.showedObject.person.assistant.firstname} #{loginHandler.showedObject.person.assistant.surname}">
 				</ice:outputText>
 				<ice:commandButton style="margin-left: 15px;"
-					action="#{loginHandler.showChangeTrialSitePopup}"
+					action="#{loginHandler.showChangeAssistantPopup}"
 					rendered="#{loginHandler.editable}" image="/img/icons/change16.png"></ice:commandButton>
 			</ice:panelGroup>
 			<!-- Editing the user's assistant -->

@@ -1,0 +1,64 @@
+<!-- 
+ Change Trial Site Popup
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+
+<ice:form xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelPopup draggable="true" modal="true"
+		visible="#{loginHandler.changeAssistantPVisible}"
+		rendered="#{loginHandler.changeAssistantPVisible}">
+		<f:facet name="header">
+			<ice:outputText
+				value="#{labels['pages.changeAssistantPopup.header']}"></ice:outputText>
+		</f:facet>
+		<f:facet name="body">
+			<ice:panelGrid border="0" columns="2" style="float:left">
+				<ice:graphicImage value="/img/icons/assistant48.png"></ice:graphicImage>
+				<ice:outputText value="#{labels['pages.changeAssistantPopup.info']}"
+					escape="false" />
+				<ice:outputLabel for="assistantInput" value="#{labels['person.assistant']}"></ice:outputLabel>
+				<ice:selectInputText id="assistantInput"
+					valueChangeListener="#{loginHandler.tsMembersAC.updateObjectList}"
+					rows="10" width="200">
+					<f:selectItems value="#{loginHandler.tsMembersAC.objectList}" />
+				</ice:selectInputText>
+				<ice:outputLabel for="phoneAss" value="#{labels['person.phone']}"></ice:outputLabel>
+				<ice:outputText id="phoneAss"
+					value="#{loginHandler.tsMembersAC.selectedObject.phone}">
+				</ice:outputText>
+				<ice:outputLabel for="mobileAss" value="#{labels['person.mobile']}"></ice:outputLabel>
+				<ice:outputText id="mobileAss"
+					value="#{loginHandler.tsMembersAC.selectedObject.mobile}">
+				</ice:outputText>
+				<ice:outputLabel for="postcodeAss" value="#{labels['person.eMail']}"></ice:outputLabel>
+				<ice:outputText id="postcodeAss"
+					value="#{loginHandler.tsMembersAC.selectedObject.EMail}">
+				</ice:outputText>
+				<ice:panelGroup>
+					<ice:panelGrid columns="2">
+						<ice:commandButton value="#{labels['buttons.save']}"
+							action="#{loginHandler.changeTrialSite}"
+							disabled="#{!loginHandler.trialSitesAC.objectSelected}" />
+						<ice:commandButton immediate="true"
+							value="#{labels['buttons.cancel']}"
+							action="#{loginHandler.hideChangeAssistantPopup}"></ice:commandButton>
+					</ice:panelGrid>
+				</ice:panelGroup>
+			</ice:panelGrid>
+		</f:facet>
+	</ice:panelPopup>
+</ice:form>

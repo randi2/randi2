@@ -63,7 +63,7 @@
 	<ice:panelGrid border="0" columns="3"
 		rendered="#{trialSiteHandler.editable}">
 		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
-			action="#{trialSiteHandler.saveTrialSite}"></ice:commandButton>
+			action="#{trialSiteHandler.saveObject}"></ice:commandButton>
 		<ice:commandButton type="submit" immediate="true" value="#{labels['buttons.reset']}"
 			action="#{trialSiteHandler.refreshShowedObject}" />
 		<ice:messages globalOnly="true" style="background: red;"></ice:messages>

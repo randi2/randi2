@@ -23,6 +23,9 @@
 <f:subview id="changeTrialSitePopup">
 	<jsp:directive.include file="./inc/popups/changeTrialSitePopup.jspx" />
 </f:subview>
+<f:subview id="changeAssistantPopup">
+	<jsp:directive.include file="./inc/popups/changeAssistantPopup.jspx" />
+</f:subview>
 <ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
@@ -56,7 +59,7 @@
 	<ice:panelGrid border="0" columns="3"
 		rendered="#{loginHandler.editable}">
 		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
-			action="#{loginHandler.saveLogin}"
+			action="#{loginHandler.saveObject}"
 			rendered="#{!loginHandler.creatingMode}"></ice:commandButton>
 		<ice:commandButton type="submit" value="#{labels['buttons.create']}"
 			action="#{loginHandler.registerUser}"

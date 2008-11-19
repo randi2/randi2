@@ -1,3 +1,17 @@
+/* This file is part of RANDI2.
+ * 
+ * RANDI2 is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * RANDI2. If not, see <http://www.gnu.org/licenses/>.
+ */
 package de.randi2.jsf.handlers;
 
 import javax.faces.application.Application;
@@ -10,11 +24,33 @@ import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.TrialSite;
 
+/**
+ * <p>
+ * This class cares about the generall logic for the handler classes.
+ * </p>
+ * 
+ * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
+ */
 public abstract class AbstractHandler<O extends AbstractDomainObject> {
 
+	/**
+	 * The class which is handled by the particular handler.
+	 */
 	private Class<O> object = null;
+
+	/**
+	 * The currently showed object.
+	 */
 	protected O showedObject = null;
+
+	/**
+	 * Is the user currently creating a new object, or not.
+	 */
 	protected boolean creatingMode = false;
+
+	/**
+	 * Defines if the showedObject should can be edited be the user or not.
+	 */
 	protected boolean editable = false;
 
 	public AbstractHandler(Class<O> _object) {
@@ -32,21 +68,27 @@ public abstract class AbstractHandler<O extends AbstractDomainObject> {
 			creatingMode = true;
 			showedObject = createPlainObject();
 			refresh();
-		}else{  // A selected object will be shown
+		} else { // A selected object will be shown
 			creatingMode = false;
 			showedObject = _showedObject;
 			refresh();
 		}
-		
+
 	}
 
+	/**
+	 * This methods creates plain objects, if the users choose to create them.
+	 * 
+	 * @return A new object with initialized depending objects.
+	 */
 	@SuppressWarnings("unchecked")
 	private O createPlainObject() {
 		if (object.getCanonicalName().equals(Login.class.getCanonicalName())) {
 			Login plainO = new Login();
 			plainO.setPerson(new Person());
 			return (O) plainO;
-		}else if(object.getCanonicalName().equals(Login.class.getCanonicalName())){
+		} else if (object.getCanonicalName().equals(
+				TrialSite.class.getCanonicalName())) {
 			TrialSite plainO = new TrialSite();
 			plainO.setContactPerson(new Person());
 			return (O) plainO;
@@ -54,10 +96,22 @@ public abstract class AbstractHandler<O extends AbstractDomainObject> {
 		return null;
 	}
 	
+	/**
+	 * This method saves the showedObject.
+	 * @return Randi2.SUCCESS or RANDI2.ERROR
+	 */
+	public abstract String saveObject();
+
+	/**
+	 * This methods should be used to update the view. (Cancel, Refresh, Reset
+	 * Buttons)
+	 * 
+	 * @return
+	 */
 	public abstract String refreshShowedObject();
 
 	/**
-	 * This method should be use to refresh the current view.
+	 * This method should be used to refresh the current view.
 	 */
 	protected void refresh() {
 		FacesContext context = FacesContext.getCurrentInstance();

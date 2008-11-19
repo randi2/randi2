@@ -69,7 +69,7 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 		// Temporary I'll just look, if the current user is a member of this
 		// center - if it is so, then he can edit it
 		// properties.
-		if (showedObject.equals(this.getCurrentUser().getPerson()
+		if (showedObject!=null && showedObject.equals(this.getCurrentUser().getPerson()
 				.getTrialSite())) {
 			editable = true;
 		} else {
@@ -78,7 +78,11 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 		return editable;
 	}
 
-	public String saveTrialSite() {
+	/* (non-Javadoc)
+	 * @see de.randi2.jsf.handlers.AbstractHandler#saveObject()
+	 */
+	@Override
+	public String saveObject() {
 		try {
 			centerDao.save(showedObject);
 
@@ -102,10 +106,15 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 			e.printStackTrace();
 			Randi2.showMessage(e);
 			return Randi2.ERROR;
+		} finally{
+			refreshShowedObject();
 		}
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.randi2.jsf.handlers.AbstractHandler#refreshShowedObject()
+	 */
 	@Override
 	public String refreshShowedObject() {
 		if(showedObject.getId()==AbstractDomainObject.NOT_YET_SAVED_ID)
