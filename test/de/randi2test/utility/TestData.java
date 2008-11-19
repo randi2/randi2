@@ -7,16 +7,20 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.dao.HibernateAclService;
-import de.randi2.model.GrantedAuthorityEnum;
+import de.randi2.dao.LoginDaoHibernate;
+import de.randi2.dao.TrialSiteDaoHibernate;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
+import de.randi2.model.Role2;
 import de.randi2.model.TrialSite;
 import de.randi2.model.enumerations.Gender;
-import de.randi2.model.security.PermissionHibernate;
+import de.randi2.utility.security.RolesAndRights;
 
 
 /**
@@ -32,14 +36,19 @@ import de.randi2.model.security.PermissionHibernate;
 public class TestData {
 	
 	
-	@Autowired
-	private HibernateAclService aclService;
-	@Autowired
-	private DomainObjectFactory factory;
+
 	@Autowired
 	private HibernateTemplate template;
+	@Autowired
+	private RolesAndRights rolesAndRights;
 	
-	//@Test
+	@Autowired
+	private LoginDaoHibernate loginDao;
+	
+	@Autowired
+	private TrialSiteDaoHibernate trialSiteDao;
+	
+//	@Test
 	public void init(){
 		Person adminP = new Person();
 		adminP.setFirstname("Max");
@@ -54,7 +63,7 @@ public class TestData {
 		adminL.setPerson(adminP);
 		adminL.setPrefLocale(Locale.GERMANY);
 		adminL.setUsername(adminP.getEMail());
-		adminL.addRole(GrantedAuthorityEnum.ROLE_ADMIN);
+		adminL.addRole(Role2.ROLE_ADMIN);
 		template.saveOrUpdate(adminL);
 		
 		TrialSite trialSite = new TrialSite();
@@ -65,43 +74,54 @@ public class TestData {
 		trialSite.setStreet("INF");
 		trialSite.setPassword("1$heidelberg");
 		trialSite.setContactPerson(adminP);
-		template.saveOrUpdate(trialSite);
+		
+		rolesAndRights.registerPerson(adminL);
+		rolesAndRights.grantRigths(adminL, trialSite);
+
+		template.save(trialSite);
 		adminP.setTrialSite(trialSite);
 		template.saveOrUpdate(adminP);
+		rolesAndRights.grantRigths(trialSite, trialSite);
 		
-		aclService.createAclwithPermissions(trialSite, adminL.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ,PermissionHibernate.WRITE});
-		aclService.createAclwithPermissions(adminL, adminL.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ,PermissionHibernate.WRITE});
-		aclService.createAclwithPermissions(adminP, adminL.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ,PermissionHibernate.WRITE});
+		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
+				"anonymousUser", adminL, adminL.getAuthorities());
+		// Perform authentication
+		SecurityContextHolder.getContext().setAuthentication(authToken);
+		SecurityContextHolder.getContext().getAuthentication()
+				.setAuthenticated(true);
 		
-		Person person = new Person();
-		person.setFirstname("Maxi");
-		person.setSurname("Musterfrau");
-		person.setEMail("user@test.de");
-		person.setPhone("1234567");
-		person.setGender(Gender.FEMALE);
-		person.setTrialSite(trialSite);
 		
-		Login login = new Login();
-		login.setPassword("1$heidelberg");
-		login.setRegistrationDate(new GregorianCalendar());
-		login.setPerson(person);
-		login.setPrefLocale(Locale.GERMANY);
-		login.setUsername(person.getEMail());
-		login.addRole(GrantedAuthorityEnum.ROLE_INVESTIGATOR);
-		template.saveOrUpdate(login);
+		Person userP = new Person();
+		userP.setFirstname("Maxi");
+		userP.setSurname("Musterfrau");
+		userP.setEMail("user@test.de");
+		userP.setPhone("1234567");
+		userP.setGender(Gender.FEMALE);
+		userP.setTrialSite(trialSite);
 		
-		aclService.createAclwithPermissions(trialSite, login.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ});
-		aclService.createAclwithPermissions(login, login.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ,PermissionHibernate.WRITE});
-		aclService.createAclwithPermissions(person, login.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ,PermissionHibernate.WRITE});
-		aclService.createAclwithPermissions(login, adminL.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ,PermissionHibernate.WRITE});
-		aclService.createAclwithPermissions(person, adminL.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ,PermissionHibernate.WRITE});
+		Login userL = new Login();
+		userL.setPassword("1$heidelberg");
+		userL.setRegistrationDate(new GregorianCalendar());
+		userL.setPerson(userP);
+		userL.setPrefLocale(Locale.GERMANY);
+		userL.setUsername(userP.getEMail());
+		userL.addRole(Role2.ROLE_INVESTIGATOR);
 		
-		for(int i =0; i <10; i++){
-			TrialSite center = factory.getCenter();
-			center.setContactPerson(adminP);
-			template.saveOrUpdate(center);
-			aclService.createAclwithPermissions(center, adminL.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ,PermissionHibernate.WRITE});
-		}
+		loginDao.save(userL);
+		
+		TrialSite trialSite1 = new TrialSite();
+		trialSite1.setCity("Heidelberg");
+		trialSite1.setCountry("Germany");
+		trialSite1.setName("NCT");
+		trialSite1.setPostcode("69120");
+		trialSite1.setStreet("INF");
+		trialSite1.setPassword("1$heidelberg");
+		trialSite1.setContactPerson(adminP);
+		
+		trialSiteDao.save(trialSite1);
+		
+		
+		
 	}
 
 }

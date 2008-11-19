@@ -227,8 +227,6 @@ private Session getCurrentSession(){
 	public void testMembers(){
 	
 		List<Person> members = new ArrayList<Person>();
-		
-		System.out.println("MEMBER");
 		//hibernateTemplate.getSessionFactory().getCurrentSession().saveOrUpdate(validCenter);
 		hibernateTemplate.saveOrUpdate(validCenter);
 		

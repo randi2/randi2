@@ -48,13 +48,14 @@ public class AclHibernate  implements Acl  {
 	
 	private boolean entriesInheriting = true;
 	
+	private String roleName;
+	
 	@Transient
 	 private Sid[] loadedSids = null;
 	
 	
 	@Override
 	public AccessControlEntry[] getEntries() {
-		System.out.println(this.getClass() + " ACES " + aces.size());
 		return aces.toArray(new AccessControlEntryHibernate[]{});
 	}
 
@@ -81,7 +82,6 @@ public class AclHibernate  implements Acl  {
 	@Override
 	public boolean isGranted(Permission[] permission, Sid[] sids, boolean administrativeMode)
 			throws NotFoundException, UnloadedSidException {
-		System.out.println("isGranted!!");
 		Assert.notEmpty(permission, "Permissions required");
         Assert.notEmpty(sids, "SIDs required");
 
@@ -96,7 +96,6 @@ public class AclHibernate  implements Acl  {
                 // Attempt to find exact match for this permission mask and SID
                 Iterator acesIterator = aces.iterator();
                 boolean scanNextSid = true;
-                System.out.println("Sids:" + sids[x].toString());
                 while (acesIterator.hasNext()) {
                     AccessControlEntry ace = (AccessControlEntry) acesIterator.next();
                     if ((ace.getPermission().getMask() == permission[i].getMask()) && ace.getSid().equals(sids[x])) {
@@ -217,5 +216,19 @@ public class AclHibernate  implements Acl  {
 		ace.setPermission(permission);
 		ace.setSid(owner);
 		aces.add(ace);
+	}
+
+	/**
+	 * @return the roleName
+	 */
+	public String getRoleName() {
+		return roleName;
+	}
+
+	/**
+	 * @param roleName the roleName to set
+	 */
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 }

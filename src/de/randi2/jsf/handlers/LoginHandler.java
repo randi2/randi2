@@ -32,17 +32,17 @@ import org.springframework.security.context.HttpSessionContextIntegrationFilter;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 
-import de.randi2.dao.TrialSiteDao;
 import de.randi2.dao.LoginDao;
 import de.randi2.dao.PersonDao;
+import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.Randi2;
 import de.randi2.jsf.exceptions.RegistrationException;
 import de.randi2.jsf.pages.RegisterPage;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.GrantedAuthorityEnum;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
+import de.randi2.model.Role2;
 import de.randi2.model.TrialSite;
 
 /**
@@ -241,7 +241,7 @@ public class LoginHandler extends AbstractHandler<Login>{
 			} else {
 				// Normal self-registration
 				assert (newUser != null);
-				newUser.addRole(GrantedAuthorityEnum.ROLE_INVESTIGATOR);
+				newUser.addRole(Role2.ROLE_INVESTIGATOR);
 
 				try {
 					if (!tsPassword.equals(trialSitesAC.getSelectedObject()
@@ -478,7 +478,7 @@ public class LoginHandler extends AbstractHandler<Login>{
 		if (newUser == null) { // Starting the registration process
 			newUser = new Login();
 			newUser.setPerson(new Person());
-			newUser.addRole(GrantedAuthorityEnum.ROLE_ANONYMOUS);
+			newUser.addRole(Role2.ROLE_ANONYMOUS);
 			AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
 					"anonymousUser", newUser, newUser.getAuthorities());
 			// Perform authentication

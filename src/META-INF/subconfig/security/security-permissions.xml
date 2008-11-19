@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd">
+
+
+
+
+	<!-- ============================== BEGIN ACL BASIC configuration ======================================================== -->
+
+
+	<bean
+		id="de.randi2.model.security.PermissionHibernate.ADMINISTRATION"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField"
+			value="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+	</bean>
+	<bean id="de.randi2.model.security.PermissionHibernate.READ"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField"
+			value="de.randi2.model.security.PermissionHibernate.READ" />
+	</bean>
+	<bean id="de.randi2.model.security.PermissionHibernate.WRITE"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField"
+			value="de.randi2.model.security.PermissionHibernate.WRITE" />
+	</bean>
+	<bean id="de.randi2.model.security.PermissionHibernate.DELETE"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField"
+			value="de.randi2.model.security.PermissionHibernate.DELETE" />
+	</bean>
+
+	<bean id="de.randi2.model.security.PermissionHibernate.CREATE"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField"
+			value="de.randi2.model.security.PermissionHibernate.CREATE" />
+	</bean>
+
+	<!-- ============================== END ACL BASIC configuration ======================================================== -->
+
+
+</beans>

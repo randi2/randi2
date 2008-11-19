@@ -14,12 +14,23 @@
  */
 package de.randi2.utility.security;
 
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Restrictions;
+
+import static org.hibernate.criterion.Restrictions.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import de.randi2.dao.HibernateAclService;
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.GrantedAuthorityEnum;
 import de.randi2.model.Login;
+import de.randi2.model.Person;
+import de.randi2.model.Role2;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
@@ -35,64 +46,203 @@ import de.randi2.model.security.PermissionHibernate;
  */
 public class RolesAndRights {
 
-	//TODO Do we really need this template object
-	private HibernateTemplate template;
-	private HibernateAclService aclService;
+	@Autowired private HibernateTemplate template;
+	@Autowired private HibernateAclService aclService;
 
 	public void initializeRoles() {
-		// TODO This Method should be called just after the system installation
-		// to create the general rights for RANDI2 roles
+//		if(template.findByExample(Role2.ROLE_ADMIN).isEmpty()) 	template.saveOrUpdate(Role2.ROLE_ADMIN);
+//		if(template.findByExample(Role2.ROLE_ANONYMOUS).isEmpty()) 	template.saveOrUpdate(Role2.ROLE_ANONYMOUS);
+//		if(template.findByExample(Role2.ROLE_INVESTIGATOR).isEmpty()) 	template.saveOrUpdate(Role2.ROLE_INVESTIGATOR);
+//		if(template.findByExample(Role2.ROLE_MONITOR).isEmpty()) 	template.saveOrUpdate(Role2.ROLE_MONITOR);
+//		if(template.findByExample(Role2.ROLE_P_INVESTIGATOR).isEmpty()) 	template.saveOrUpdate(Role2.ROLE_P_INVESTIGATOR);
+//		if(template.findByExample(Role2.ROLE_STATISTICAN).isEmpty()) 	template.saveOrUpdate(Role2.ROLE_STATISTICAN);
+//		if(template.findByExample(Role2.ROLE_USER).isEmpty()) 	template.saveOrUpdate(Role2.ROLE_USER);
 		
-		//TODO Example
-		// The investigator has the permission to create a Trial-Subject
-		aclService.createAclwithPermissions(new TrialSubject(),
-				GrantedAuthorityEnum.ROLE_INVESTIGATOR.toString(),
-				new PermissionHibernate[] { PermissionHibernate.CREATE });
+		template.saveOrUpdate(Role2.ROLE_ADMIN);
+		template.saveOrUpdate(Role2.ROLE_ANONYMOUS);
+		template.saveOrUpdate(Role2.ROLE_INVESTIGATOR);
+		template.saveOrUpdate(Role2.ROLE_MONITOR);
+		template.saveOrUpdate(Role2.ROLE_P_INVESTIGATOR);
+		template.saveOrUpdate(Role2.ROLE_STATISTICAN);
+		template.saveOrUpdate(Role2.ROLE_USER);
+		
+		
+		aclService.createAclwithPermissions(new Login(), Role2.ROLE_ANONYMOUS.getName(),new PermissionHibernate[]{PermissionHibernate.CREATE}, Role2.ROLE_ANONYMOUS.getName());
+		aclService.createAclwithPermissions(new Person(), Role2.ROLE_ANONYMOUS.getName(),new PermissionHibernate[]{PermissionHibernate.CREATE}, Role2.ROLE_ANONYMOUS.getName());
+
 	}
+
+
 	
-	public HibernateTemplate getTemplate() {
-		return template;
-	}
-
-	public void setTemplate(HibernateTemplate template) {
-		this.template = template;
-	}
-
-	public HibernateAclService getAclService() {
-		return aclService;
-	}
-
-	public void setAclService(HibernateAclService aclService) {
-		this.aclService = aclService;
-	}
-
-	public void grantInvestigatorRights(AbstractDomainObject object, TrialSite scope){
-		for(Login l : scope.getMembersWithSpecifiedRole(GrantedAuthorityEnum.ROLE_INVESTIGATOR)){
-			if (object instanceof Login) {
-				aclService.createAclwithPermissions(object, l.getUsername(),
-						new PermissionHibernate[] { PermissionHibernate.READ});
+	public void grantRigths(AbstractDomainObject object, TrialSite scope) {
+		// ROLES with TrialSiteScope
+		List<Login> logins = template.findByNamedQuery("login.AllLoginsWithRolesAndTrialSiteScope", scope.getId());
+		for(Login l: logins){
+			for (Role2 r : l.getRoles()) {
+				if (r.isScopeTrialSite()) {
+					if (object instanceof Login) {
+						aclService.createAclwithPermissions(object, l
+								.getUsername(), r.getOtherUserPersmissions()
+								.toArray(new PermissionHibernate[0]), r
+								.getName());
+						aclService.createAclwithPermissions(((Login) object)
+								.getPerson(), l.getUsername(), r
+								.getOtherUserPersmissions().toArray(
+										new PermissionHibernate[0]), r
+								.getName());
+					} else if (object instanceof TrialSubject) {
+						aclService.createAclwithPermissions(object, l
+								.getUsername(), r.getTrialSubjectPermissions()
+								.toArray(new PermissionHibernate[0]), r
+								.getName());
+					} else if (object instanceof Trial) {
+						// TODO Users from other TrialSites
+						aclService.createAclwithPermissions(object, l
+								.getUsername(), r.getTrialPermissions()
+								.toArray(new PermissionHibernate[0]), r
+								.getName());
+					}
+				}
 			}
-			//TODO here we must specify the rights for all other objects like TrialSite, Trial etc.
+		}
+		// ROLES with a other Scope
+		logins = template.findByNamedQuery("login.AllLoginsWithRolesAndNotTrialSiteScope");
+		for (Login l : logins) {
+			for (Role2 r : l.getRoles()) {
+				if (!r.equals(Role2.ROLE_USER) && !r.isScopeTrialSite()) {
+					if ((object instanceof Login)) {
+						aclService.createAclwithPermissions(object, l
+								.getUsername(), r.getOtherUserPersmissions()
+								.toArray(new PermissionHibernate[0]), r
+								.getName());
+						aclService.createAclwithPermissions(((Login) object)
+								.getPerson(), l.getUsername(), r
+								.getOtherUserPersmissions().toArray(
+										new PermissionHibernate[0]), r
+								.getName());
+					}else if (object instanceof TrialSite) {
+						aclService.createAclwithPermissions(object, l
+								.getUsername(), r.getTrialSitePermissions()
+								.toArray(new PermissionHibernate[0]), r
+								.getName());
+					} else if (object instanceof TrialSubject) {
+						aclService.createAclwithPermissions(object, l
+								.getUsername(), r.getTrialSubjectPermissions()
+								.toArray(new PermissionHibernate[0]), r
+								.getName());
+					} else if (object instanceof Trial) {
+						// TODO Users from other TrialSites
+						aclService.createAclwithPermissions(object, l
+								.getUsername(), r.getTrialPermissions()
+								.toArray(new PermissionHibernate[0]), r
+								.getName());
+					}
+				}
+			}
+		}
+		// Set Right for ROLE_ANONYMOUS
+		if (object instanceof TrialSite) {
+			aclService.createAclwithPermissions(object, Role2.ROLE_ANONYMOUS
+					.getName(), Role2.ROLE_ANONYMOUS.getTrialSitePermissions()
+					.toArray(new PermissionHibernate[0]), Role2.ROLE_ANONYMOUS.getName());
 		}
 	}
-	
-	//TODO the grantRights Methods must exist for every Role just like the registerRole Methods
 
-	public void registerInvestigator(Login user) {
-		// The investigator has the permission to change his own Login-Object
-		aclService.createAclwithPermissions(user, user.getUsername(),
-				new PermissionHibernate[] { PermissionHibernate.READ,
-						PermissionHibernate.WRITE });
-		// The investigator has the permission to change his own Person-Object
-		aclService.createAclwithPermissions(user.getPerson(), user
-				.getUsername(), new PermissionHibernate[] {
-				PermissionHibernate.READ, PermissionHibernate.WRITE });
-		
-		//
-		for (Trial t : user.getPerson().getTrialSite().getTrials()) {
-			aclService.createAclwithPermissions(t, user
-					.getUsername(), new PermissionHibernate[] {
-					PermissionHibernate.READ});
+	public void registerPersonRole(Login login, Role2 role) {
+
+	}
+
+	public void registerPerson(Login login) {
+		for (Role2 role : login.getRoles()) {
+			//Grant Create Rigths
+			if(role.isCreateUser()){
+				aclService.createAclwithPermissions(new Login(), login.getUsername(),
+						new PermissionHibernate[]{PermissionHibernate.CREATE}, role.getName());
+				aclService.createAclwithPermissions(new Person(), login.getUsername(),
+						new PermissionHibernate[]{PermissionHibernate.CREATE}, role.getName());
+			}
+			if(role.isCreateTrialSite()){
+				aclService.createAclwithPermissions(new TrialSite(), login.getUsername(),
+						new PermissionHibernate[]{PermissionHibernate.CREATE}, role.getName());
+			}
+			if(role.isCreateTrialSubject()){
+				aclService.createAclwithPermissions(new TrialSubject(), login.getUsername(),
+						new PermissionHibernate[]{PermissionHibernate.CREATE}, role.getName());
+			}
+			if(role.isCreateTrial()){
+				aclService.createAclwithPermissions(new Trial(), login.getUsername(),
+						new PermissionHibernate[]{PermissionHibernate.CREATE}, role.getName());
+			}
+			
+			if(role.equals(Role2.ROLE_USER)){
+				aclService.createAclwithPermissions(login, login.getUsername(),
+						role.getOwnUserPermissions().toArray(
+								new PermissionHibernate[0]), null);
+				aclService.createAclwithPermissions(login.getPerson(), login.getUsername(),
+						role.getOwnUserPermissions().toArray(
+								new PermissionHibernate[0]), null);
+		}else if (role.isScopeTrialSite()) {
+			
+				//TODO Other User permission
+				TrialSite trialSite = login.getPerson().getTrialSite();
+				aclService.createAclwithPermissions(trialSite, login
+						.getUsername(), role.getTrialSitePermissions().toArray(
+						new PermissionHibernate[0]), role.getName());
+				for (Trial trial : trialSite.getTrials()) {
+					aclService.createAclwithPermissions(trial, login
+							.getUsername(), role.getTrialSitePermissions()
+							.toArray(new PermissionHibernate[0]), role
+							.getName());
+					// TODO other TrialSite
+					
+					//TODO TrialSubjects
+				}
+
+			}else{
+				if(role.getOtherUserPersmissions().size()>0){
+					List<Login> logins = template.find("from Login");
+					for(Login o : logins){
+						if(!o.equals(login)){
+						aclService.createAclwithPermissions(o, login
+								.getUsername(), role.getOtherUserPersmissions()
+								.toArray(new PermissionHibernate[0]), role
+								.getName());
+						aclService.createAclwithPermissions(o.getPerson(), login
+								.getUsername(), role.getOtherUserPersmissions()
+								.toArray(new PermissionHibernate[0]), role
+								.getName());
+						}
+					}		
+				}
+				if(role.getTrialSitePermissions().size()>0){
+					List<TrialSite> trialSites = template.find("from TrialSite");
+					for(TrialSite o : trialSites){
+						aclService.createAclwithPermissions(o, login
+								.getUsername(), role.getTrialSitePermissions()
+								.toArray(new PermissionHibernate[0]), role
+								.getName());
+					}		
+				}
+				if(role.getTrialPermissions().size()>0){
+					List<Trial> trials = template.find("from Trial");
+					for(Trial o : trials){
+						aclService.createAclwithPermissions(o, login
+								.getUsername(), role.getTrialPermissions()
+								.toArray(new PermissionHibernate[0]), role
+								.getName());
+					}		
+				}
+				if(role.getTrialSubjectPermissions().size()>0){
+					List<TrialSubject> trialSubjects = template.find("from TrialSubject");
+					for(TrialSubject o : trialSubjects){
+						aclService.createAclwithPermissions(o, login
+								.getUsername(), role.getTrialSubjectPermissions()
+								.toArray(new PermissionHibernate[0]), role
+								.getName());
+					}		
+				}
+			}
+
 		}
 	}
 

@@ -5,21 +5,10 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd" >
 
+	
 	<bean id="trialDAO" class="de.randi2.dao.TrialDaoHibernate"></bean>
-
 	<bean id="personDAO" class="de.randi2.dao.PersonDaoHibernate"></bean>
-
-	<bean id="loginDAO" class="de.randi2.dao.LoginDaoHibernate">
-	 	<sec:intercept-methods access-decision-manager-ref="loginAccessDecisionManager">
-		<sec:protect access="ACL_LOGIN_WRITE" method="save"/>
-		</sec:intercept-methods>
-      </bean>
-
-	<bean id="centerDAO" class="de.randi2.dao.TrialSiteDaoHibernate">
-	   <sec:intercept-methods access-decision-manager-ref="trialSiteAccessDecisionManager">
-		<sec:protect access="ACL_TRIALSITE_WRITE" method="save"/>
-		<sec:protect access="ROLE_USER,ROLE_ANONYMOUS,AFTER_ACL_COLLECTION_READ" method="getAll"/>
-		</sec:intercept-methods>
-	</bean>
+	<bean id="loginDAO" class="de.randi2.dao.LoginDaoHibernate"></bean>
+	<bean id="centerDAO" class="de.randi2.dao.TrialSiteDaoHibernate"></bean>
 	
 </beans>

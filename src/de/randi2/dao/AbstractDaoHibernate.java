@@ -10,10 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.AbstractDomainObject;
 
-public abstract class AbstractDaoHibernate<E extends Object> implements AbstractDao<E>{
+public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> implements AbstractDao<E>{
 	@Autowired
 	protected HibernateTemplate template;
-
+	
 	public abstract Class<E> getModelClass();
 
 	public E get(long id){

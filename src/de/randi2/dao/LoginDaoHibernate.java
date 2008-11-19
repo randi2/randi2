@@ -33,15 +33,11 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements Lo
 	@SuppressWarnings("unchecked")
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
-
-		 System.out.println("Login user");
 		String query = "from de.randi2.model.Login login where "
 			+ "login.username =?";
-	 System.out.println("Login user Dao");
 		List<Login>  loginList =(List) template.find(query, username);
 		if (loginList.size() ==1){
 			loginList.get(0).setLastLoggedIn(new GregorianCalendar());
-			System.out.println("USER FOUND");
 			return loginList.get(0);
 		}
 		else throw new UsernameNotFoundException("");

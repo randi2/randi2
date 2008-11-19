@@ -30,9 +30,8 @@ import de.randi2.dao.TrialDao;
 import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
-import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.GrantedAuthorityEnum;
 import de.randi2.model.Login;
+import de.randi2.model.Role2;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
@@ -208,7 +207,7 @@ public class TrialHandler extends AbstractHandler<Trial>{
 		if (sponsorInvestigatorsAC == null)
 			sponsorInvestigatorsAC = new AutoCompleteObject<Login>(trialSitesAC
 					.getSelectedObject().getMembersWithSpecifiedRole(
-							GrantedAuthorityEnum.ROLE_P_INVASTIGATOR));
+							Role2.ROLE_P_INVESTIGATOR));
 		return sponsorInvestigatorsAC;
 	}
 	

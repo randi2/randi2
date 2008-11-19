@@ -28,7 +28,7 @@ public class AccessControlEntryHibernate implements AccessControlEntry {
 	
 	@Embedded
 	private PermissionHibernate permission;
-	 
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
@@ -82,6 +82,7 @@ public class AccessControlEntryHibernate implements AccessControlEntry {
 	public void setGranting(boolean granting) {
 		this.granting = granting;
 	}
+
 
 	
 }

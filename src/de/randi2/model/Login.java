@@ -9,12 +9,12 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
-import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
@@ -27,8 +27,13 @@ import de.randi2.utility.validations.Password;
 
 @Entity
 @DateDependence(firstDate = "registrationDate", secondDate = "lastLoggedIn")
+@NamedQueries({
+@NamedQuery(name="login.AllLoginsWithRolesAndTrialSiteScope" , query= "select login from Login as login join login.roles role join login.person.trialSite trialSite where role.scopeTrialSite = true AND trialSite.id = ? group by login"),
+@NamedQuery(name="login.AllLoginsWithRolesAndNotTrialSiteScope" , query= "select login from Login as login join login.roles role where role.scopeTrialSite = false AND not (role.name = 'ROLE_USER') group by login")
+})
 public class Login extends AbstractDomainObject implements UserDetails {
 	
+
 	public final static int MAX_USERNAME_LENGTH = 40;
 	public final static int MIN_USERNAME_LENGTH = 5;
 	public final static int MAX_PASSWORD_LENGTH = 50;
@@ -49,9 +54,13 @@ public class Login extends AbstractDomainObject implements UserDetails {
 
 	private boolean active = false;
 
-	@CollectionOfElements(fetch = FetchType.EAGER)
-	@Enumerated(value = EnumType.STRING)
-	private Set<GrantedAuthorityEnum> roles = new HashSet<GrantedAuthorityEnum>();
+	// @CollectionOfElements(fetch = FetchType.EAGER)
+	// @Enumerated(value = EnumType.STRING)
+	// private Set<GrantedAuthorityEnum> roles = new
+	// HashSet<GrantedAuthorityEnum>();
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Role2> roles = new HashSet<Role2>();
 
 	@Length(min = MIN_USERNAME_LENGTH, max = MAX_USERNAME_LENGTH)
 	@NotEmpty
@@ -123,12 +132,13 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	@Override
 	public GrantedAuthority[] getAuthorities() {
 		GrantedAuthority[] gaa = new GrantedAuthorityImpl[roles.size()];
-		Iterator<GrantedAuthorityEnum> it = roles.iterator();
+		Iterator<Role2> it = roles.iterator();
 		int i = 0;
 		while (it.hasNext()) {
 			GrantedAuthorityImpl ga = new GrantedAuthorityImpl(it.next()
-					.toString());
+					.getName());
 			gaa[i] = ga;
+
 			i++;
 		}
 		return gaa;
@@ -154,11 +164,18 @@ public class Login extends AbstractDomainObject implements UserDetails {
 		return true;
 	}
 
-	public Set<GrantedAuthorityEnum> getRoles() {
+	/**
+	 * @return the roles
+	 */
+	public Set<Role2> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<GrantedAuthorityEnum> roles) {
+	/**
+	 * @param roles
+	 *            the roles to set
+	 */
+	public void setRoles(Set<Role2> roles) {
 		this.roles = roles;
 	}
 
@@ -167,30 +184,45 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	 * 
 	 * @param role
 	 */
-	public void addRole(GrantedAuthorityEnum role) {
-		if (this.roles != null)
+	// public void addRole(GrantedAuthorityEnum role) {
+	// if (this.roles != null)
+	// this.roles.add(role);
+	// switch (role) {
+	// case ROLE_INVESTIGATOR:
+	// this.roles.add(GrantedAuthorityEnum.ROLE_USER);
+	// if (this.roles.contains(GrantedAuthorityEnum.ROLE_ANONYMOUS))
+	// this.roles.remove(GrantedAuthorityEnum.ROLE_ANONYMOUS);
+	// break;
+	// case ROLE_P_INVASTIGATOR:
+	// this.roles.add(GrantedAuthorityEnum.ROLE_USER);
+	// break;
+	// case ROLE_MONITOR:
+	// this.roles.add(GrantedAuthorityEnum.ROLE_USER);
+	// break;
+	// case ROLE_STATISTICIAN:
+	// this.roles.add(GrantedAuthorityEnum.ROLE_USER);
+	// break;
+	// case ROLE_ADMIN:
+	// this.roles.add(GrantedAuthorityEnum.ROLE_USER);
+	// break;
+	// case ROLE_SYSOP:
+	// this.roles.add(GrantedAuthorityEnum.ROLE_USER);
+	// break;
+	// }
+	// }
+	public void addRole(Role2 role) {
+		if (this.roles != null) {
 			this.roles.add(role);
-		switch (role) {
-		case ROLE_INVESTIGATOR:
-			this.roles.add(GrantedAuthorityEnum.ROLE_USER);
-			if (this.roles.contains(GrantedAuthorityEnum.ROLE_ANONYMOUS))
-				this.roles.remove(GrantedAuthorityEnum.ROLE_ANONYMOUS);
-			break;
-		case ROLE_P_INVASTIGATOR:
-			this.roles.add(GrantedAuthorityEnum.ROLE_USER);
-			break;
-		case ROLE_MONITOR:
-			this.roles.add(GrantedAuthorityEnum.ROLE_USER);
-			break;
-		case ROLE_STATISTICIAN:
-			this.roles.add(GrantedAuthorityEnum.ROLE_USER);
-			break;
-		case ROLE_ADMIN:
-			this.roles.add(GrantedAuthorityEnum.ROLE_USER);
-			break;
-		case ROLE_SYSOP:
-			this.roles.add(GrantedAuthorityEnum.ROLE_USER);
-			break;
+			if (!role.equals(Role2.ROLE_ANONYMOUS)) {
+				if (this.roles.contains(Role2.ROLE_ANONYMOUS)
+						&& this.roles.size() > 1) {
+					this.roles.remove(Role2.ROLE_ANONYMOUS);
+				}
+				if (!this.roles.contains(Role2.ROLE_USER)
+						&& !this.roles.contains(Role2.ROLE_ANONYMOUS)) {
+					this.roles.add(Role2.ROLE_USER);
+				}
+			}
 		}
 	}
 
@@ -200,13 +232,13 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	 * @param role
 	 * @return
 	 */
-	public boolean hasRole(GrantedAuthorityEnum role) {
-		return this.roles.contains(role);
+	public boolean hasRole(Role2 role) {
+		return this.roles.contains(role.toString());
 	}
-	
+
 	@Override
 	public String toString() {
-		return this.getUsername()+" ("+this.getPerson().toString()+")";
+		return this.getUsername() + " (" + this.getPerson().toString() + ")";
 	}
 
 }

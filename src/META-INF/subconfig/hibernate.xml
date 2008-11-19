@@ -12,7 +12,7 @@
 				<prop key="hibernate.dialect">
 					org.hibernate.dialect.MySQL5Dialect
 				</prop>
-<!--				<prop key="hibernate.show_sql">true</prop>-->
+				<prop key="hibernate.show_sql">false</prop>
 				<prop key="hibernate.connection.autocommit">false</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
@@ -22,9 +22,8 @@
 				<value>de.randi2.model.Trial</value>
 				<value>de.randi2.model.TrialSite</value>
 				<value>de.randi2.model.Person</value>
-				<value>de.randi2.model.PersonRole</value>
 				<value>de.randi2.model.Login</value>
-				<value>de.randi2.model.Role</value>
+				<value>de.randi2.model.Role2</value>
 				<value>de.randi2.model.TreatmentArm
 				</value>
 				<value>de.randi2.model.TrialSubject
@@ -56,7 +55,7 @@
 	</bean>
 
 	<bean id="hibernateInterceptor" class="de.randi2.utility.CustomHibernateInterceptor">
-	</bean>
+	</bean> 
 
 	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
 		<property name="entityInterceptor" ref="hibernateInterceptor"></property>

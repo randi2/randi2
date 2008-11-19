@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd">
+
+
+<!-- ################################# Config for the different access decision manager #########################  -->
+
+	<!-- =============================== BEGIN ACCESSDECISIONMANAGER ============================ -->
+
+	<bean id="httpAccessDecisionManager"
+		class="org.springframework.security.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="false" />
+		<property name="decisionVoters">
+			<list>
+				<ref bean="roleVoter" />
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="trialSiteAccessDecisionManager"
+		class="org.springframework.security.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="false" />
+		<property name="decisionVoters">
+			<list>
+				<ref bean="roleVoter" />
+				<ref bean="aclTrialSiteReadVoter" />
+				<ref bean="aclTrialSiteAdminVoter" />
+				<ref bean="aclTrialSiteWriteVoter" />
+				<ref bean="aclTrialSiteCreateVoter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="trialAccessDecisionManager"
+		class="org.springframework.security.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="false" />
+		<property name="decisionVoters">
+			<list>
+				<ref bean="roleVoter" />
+				<ref bean="aclTrialReadVoter" />
+				<ref bean="aclTrialAdminVoter" />
+				<ref bean="aclTrialWriteVoter" />
+				<ref bean="aclTrialCreateVoter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="loginAccessDecisionManager"
+		class="org.springframework.security.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="false" />
+		<property name="decisionVoters">
+			<list>
+				<ref bean="roleVoter" />
+				<ref bean="aclLoginReadVoter" />
+				<ref bean="aclLoginAdminVoter" />
+				<ref bean="aclLoginWriteVoter" />
+				<ref bean="aclLoginCreateVoter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="personAccessDecisionManager"
+		class="org.springframework.security.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="false" />
+		<property name="decisionVoters">
+			<list>
+				<ref bean="roleVoter" />
+				<ref bean="aclPersonReadVoter" />
+				<ref bean="aclPersonAdminVoter" />
+				<ref bean="aclPersonWriteVoter" />
+				<ref bean="aclPersonCreateVoter" />
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- =============================== END ACCESSDECISIONMANAGER ============================ -->
+
+
+
+
+</beans>

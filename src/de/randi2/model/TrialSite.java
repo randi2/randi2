@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -33,11 +34,11 @@ public class TrialSite extends AbstractDomainObject {
 	private String country = "";
 	private String password = "";
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL)
 	private Person contactPerson = null;
 
-	@OneToMany(mappedBy = "trialSite")
-	private List<Person> members = null;
+	@OneToMany(mappedBy = "trialSite", fetch=FetchType.EAGER)
+	private List<Person> members = new ArrayList<Person>();
 
 	@ManyToMany(mappedBy = "participatingSites")
 	private List<Trial> trials = new ArrayList<Trial>();
@@ -145,7 +146,7 @@ public class TrialSite extends AbstractDomainObject {
 	 * @return
 	 */
 	@Transient
-	public List<Login> getMembersWithSpecifiedRole(GrantedAuthorityEnum role) {
+	public List<Login> getMembersWithSpecifiedRole(Role2 role) {
 		List<Login> searchedMembers = new ArrayList<Login>();
 		for (Person p : this.getMembers()) {
 			if (p.getLogin().hasRole(role))

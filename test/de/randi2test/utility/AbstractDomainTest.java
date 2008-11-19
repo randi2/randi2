@@ -36,9 +36,7 @@ public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 		long id = validDO.getId();
 		assertTrue(id != Long.MIN_VALUE);
 		}catch (InvalidStateException e) {
-			for(InvalidValue iv:e.getInvalidValues()){
-				System.out.println("Fehler: " + iv.getPropertyName() + " " + iv.getMessage());
-			}
+		
 		}
 	}
 

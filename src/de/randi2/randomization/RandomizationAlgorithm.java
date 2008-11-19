@@ -34,7 +34,7 @@ public abstract class RandomizationAlgorithm<Conf extends BaseRandomizationConfi
 	}
 
 	/**
-	 * Randomizes a trial subject in to the treatment arms of the trial. If the
+	 * Randomizes a trial subject into the treatment arms of the trial. If the
 	 * algorithm is not seeded (that is to say, we are in real use and not in
 	 * test mode) the subject will be assigned to the treatment by the
 	 * randomization. If the algorithm has been seeded, the subjects treatment
