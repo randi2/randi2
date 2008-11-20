@@ -12,7 +12,7 @@ public final class SubjectProperty extends AbstractDomainObject{
 	private String value;
 	private AbstractCriterion criterion;
 	
-	private List<String> possibleValues = new ArrayList<String>();
+	private List<Object> possibleValues = new ArrayList<Object>();
 
 	private StratumProc stratumProc = StratumProc.noStratification(); 
 
@@ -20,8 +20,12 @@ public final class SubjectProperty extends AbstractDomainObject{
 		this.stratumProc = p;
 	}
 	
-	public void addPossibleValue(String s){
-		possibleValues.add(s);
+	public void addPossibleValue(Object o){
+		possibleValues.add(o);
+	}
+	
+	public List<Object> getPossibleValues(){
+		return possibleValues;
 	}
 	
 	public int getStratum(){
@@ -52,11 +56,11 @@ public final class SubjectProperty extends AbstractDomainObject{
 		}
 	}
 
-	private AbstractCriterion getCriterion() {
+	public AbstractCriterion getCriterion() {
 		return criterion;
 	}
 
-	private void setCriterion(AbstractCriterion criterion) {
+	public void setCriterion(AbstractCriterion criterion) {
 		this.criterion = criterion;
 		criterion.applyConstraints(this);
 	}

@@ -18,24 +18,23 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" columns="2">
 	<ice:graphicImage value="/img/icons/arms48.png"></ice:graphicImage>
-	<ice:outputLabel value="#{labels['pages.trialEditPanel.step3message'] }"></ice:outputLabel>
+	<ice:outputLabel
+		value="#{labels['pages.trialEditPanel.step3message'] }"></ice:outputLabel>
 </ice:panelGrid>
-
-
 <ice:panelGrid columns="3">
 	<ice:outputLabel value="#{labels['pages.trialEditPanel.tArmLabel']}" />
 	<ice:commandButton image="/img/icons/add16.png"
-		actionListener="#{trialHandler.addArm}" style="margin-right:5px;" 
-		/>
+		actionListener="#{trialHandler.addArm}" style="margin-right:5px;"
+		immediate="true" />
 	<ice:commandButton image="/img/icons/remove16.png"
 		disabled="#{trialHandler.treatmentArmsCount==0}"
-		actionListener="#{trialHandler.removeArm}" />
+		actionListener="#{trialHandler.removeArm}" immediate="true" />
 </ice:panelGrid>
-<ice:panelGroup styleClass="clearer" />
-
-
-<ice:panelSeries value="#{trialHandler.arms}" var="arm"
-	style="padding:10px;">
+<ice:panelGroup styleClass="clearer">
+	<ice:messages tooltip="true" showDetail="false" showSummary="true" />
+</ice:panelGroup>
+<ice:panelSeries value="#{trialHandler.newTrial.treatmentArms}"
+	var="arm" style="padding:10px;">
 	<f:subview id="treatmentArmInclude">
 		<jsp:directive.include file="./inc/panels/trial/treatmentArm.jspx" />
 	</f:subview>

@@ -23,9 +23,14 @@
 		<ice:outputLabel value="#{labels['pages.trialEditPanel.propLabel']}" />
 	</ice:panelGrid>
 	<ice:panelGrid>
+		<ice:selectInputText id="criterion"
+			valueChangeListener="#{trialHandler.criteriaAC.updateObjectList}"
+			rows="10" width="100">
+			<f:selectItems value="#{trialHandler.criteriaAC.objectList}" />
+		</ice:selectInputText>
 		<ice:outputLabel value="!Name!" />
 		<ice:inputText value="" size="22" />
-		<ice:outputLabel value="!Type!" />
+		<ice:outputLabel value="!Description!" />
 		<ice:inputTextarea value=""
 			style="width:135px;height:40px;overflow: auto;" />
 		<ice:outputLabel value="!Description!" />

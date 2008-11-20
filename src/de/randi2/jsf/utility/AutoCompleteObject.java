@@ -67,7 +67,7 @@ public class AutoCompleteObject<O extends AbstractDomainObject> {
 	// ----
 
 	/**
-	 * Eventlistener for center autocomplete widget.
+	 * Eventlistener for autocomplete widget.
 	 * 
 	 * @param event
 	 */

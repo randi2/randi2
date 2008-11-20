@@ -1,7 +1,6 @@
 package de.randi2.model.criteria;
 
 import javax.persistence.Entity;
-import java.util.List;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.SubjectProperty;
 
@@ -19,8 +18,11 @@ import de.randi2.model.SubjectProperty;
 public abstract class AbstractCriterion extends AbstractDomainObject {
 
 	// The name of the criterion i.e. birthday
-	private String name;
-	 
+	protected String name;
+	
+	protected String description;
+	
+	protected boolean isStratum = false;
 
 	public String getName() {
 		return name;
@@ -30,9 +32,25 @@ public abstract class AbstractCriterion extends AbstractDomainObject {
 		this.name = name;
 	}
 	
+	public void setStratum(boolean isStratum){
+		this.isStratum = isStratum;
+	}
+	
+	public boolean isStratum(){
+		return this.isStratum;
+	}
+	
 	public abstract SubjectProperty createPropertyPrototype();
 
 	public abstract void applyConstraints(SubjectProperty prop);
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	
 	
 	

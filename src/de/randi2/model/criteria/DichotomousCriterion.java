@@ -3,7 +3,7 @@ package de.randi2.model.criteria;
 import de.randi2.model.SubjectProperty;
 import de.randi2.utility.StratumProc;
 
-public class DichotomeCriterion extends AbstractCriterion{
+public class DichotomousCriterion extends AbstractCriterion{
 	
 	private static final String TRUE_STRING = "TRUE";
 	private static final String FALSE_STRING = "FALSE";
@@ -11,9 +11,6 @@ public class DichotomeCriterion extends AbstractCriterion{
 	private String options[] = new String[2];
 	private boolean isBinary = true; 
 	
-	private boolean isStratum = false;
-	
-
 	public void setBinary(){
 		this.isBinary = true;
 		this.options[0] = null;
@@ -26,9 +23,6 @@ public class DichotomeCriterion extends AbstractCriterion{
 		this.options[1] = option2;
 	}
 	
-	public void setStratum(boolean isStratum){
-		this.isStratum = isStratum;
-	}
 	
 	@Override
 	public SubjectProperty createPropertyPrototype(){
@@ -57,8 +51,7 @@ public class DichotomeCriterion extends AbstractCriterion{
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "TO_STRING_NOT_IMPLEMENTED";
+		return DichotomousCriterion.class.getName();
 	}
 
 }

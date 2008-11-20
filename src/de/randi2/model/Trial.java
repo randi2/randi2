@@ -3,7 +3,9 @@ package de.randi2.model;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -59,7 +61,7 @@ public class Trial extends AbstractDomainObject {
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	private List<TrialSite> participatingSites = new ArrayList<TrialSite>();
+	private Set<TrialSite> participatingSites = new HashSet<TrialSite>();
 
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();
@@ -129,11 +131,11 @@ public class Trial extends AbstractDomainObject {
 		this.protocol = protocol;
 	}
 
-	public List<TrialSite> getParticipatingSites() {
+	public Set<TrialSite> getParticipatingSites() {
 		return this.participatingSites;
 	}
 
-	public void setParticipatingSites(List<TrialSite> participatingCenters) {
+	public void setParticipatingSites(Set<TrialSite> participatingCenters) {
 		this.participatingSites = participatingCenters;
 	}
 

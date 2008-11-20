@@ -15,10 +15,14 @@
  */
 package de.randi2.jsf.converters;
 
+import java.util.Collections;
+import java.util.ResourceBundle;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
+import de.randi2.jsf.handlers.LoginHandler;
 import de.randi2.model.enumerations.TrialStatus;
 
 /**
@@ -32,19 +36,35 @@ public class TrialStateConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
-		if (arg2.toString().equals("ACTIVE"))
-			return TrialStatus.ACTIVE;
-		else if(arg2.toString().equals("FINISHED"))
-			return TrialStatus.FINISHED;
-		else if(arg2.toString().equals("IN_PREPARATION"))
-			return TrialStatus.IN_PREPARATION;
-		else 
-			return TrialStatus.PAUSED;
+		ResourceBundle tempRB = ResourceBundle.getBundle("de.randi2.jsf.i18n.trialState",
+				((LoginHandler) FacesContext.getCurrentInstance()
+						.getApplication().getELResolver().getValue(
+								FacesContext.getCurrentInstance()
+										.getELContext(), null, "loginHandler"))
+						.getChosenLocale());
+		for (String key : Collections.list(tempRB.getKeys())) {
+			if(arg2.equals(tempRB.getString(key)))
+				return getEnumElement(key);
+		}
+		return null;
 	}
 
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
-		return arg2.toString();
+		ResourceBundle tempRB = ResourceBundle.getBundle("de.randi2.jsf.i18n.trialState",
+				((LoginHandler) FacesContext.getCurrentInstance()
+						.getApplication().getELResolver().getValue(
+								FacesContext.getCurrentInstance()
+										.getELContext(), null, "loginHandler"))
+						.getChosenLocale());
+		return tempRB.getString(arg2.toString());
 	}
-
+	
+	private TrialStatus getEnumElement(String _elementName){
+		for(TrialStatus ts : TrialStatus.values()){
+			if(_elementName.equals(ts.toString()))
+				return ts;
+		}
+		return null;
+	}
 }

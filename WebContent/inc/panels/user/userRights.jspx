@@ -46,7 +46,7 @@
 					<ice:column id="column1">
 						<ice:outputText value="#{role.name}"></ice:outputText>
 						<f:facet name="header">
-							<ice:outputText value="!Roles name!" id="nameH"
+							<ice:outputText value="#{labels['buttons.remove']}" id="nameH"
 								style="width:150px;"></ice:outputText>
 						</f:facet>
 					</ice:column>

@@ -29,7 +29,6 @@
 		</f:facet>
 		<ice:panelGrid border="0" columns="2">
 			<ice:selectInputText id="trialSite"
-				required="#{trialHandler.trial.requiredFields['leadingSite']}"
 				valueChangeListener="#{trialHandler.participatingSitesAC.updateObjectList}" rows="10"
 				width="200">
 				<f:selectItems value="#{trialHandler.participatingSitesAC.objectList}" />
@@ -39,7 +38,7 @@
 				disabled="#{!trialHandler.participatingSitesAC.objectSelected}" />
 		</ice:panelGrid>
 		<ice:dataTable id="trialSitesTable" border="1"
-			value="#{trialHandler.trial.participatingSites}" var="trialSite"
+			value="#{trialHandler.newTrial.participatingSites}" var="trialSite"
 			scrollable="true" scrollHeight="250px"
 			columnWidths="150px,100px,100px, 55px" width="405px">
 			<ice:column id="column1">
@@ -64,7 +63,7 @@
 				</f:facet>
 			</ice:column>
 			<ice:column id="column4">
-				<ice:commandLink id="removeId" value="Remove"
+				<ice:commandLink id="removeId" value="#{labels['buttons.remove']}"
 					actionListener="#{trialHandler.removeTrialSite}">
 					<ice:outputText value="#{trialSite}" visible="false"></ice:outputText>
 				</ice:commandLink>
