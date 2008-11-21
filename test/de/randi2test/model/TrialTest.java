@@ -4,22 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.TrialSite;
 import de.randi2.model.Person;
 import de.randi2.model.Trial;
+import de.randi2.model.TrialSite;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2test.utility.AbstractDomainTest;
 
@@ -257,7 +253,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 	
 	@Test
 	public void testPartCenters(){
-		List<TrialSite> cl = validTrial.getParticipatingSites();
+		Set<TrialSite> cl = validTrial.getParticipatingSites();
 		
 		TrialSite c1 = factory.getCenter();
 		TrialSite c2 = factory.getCenter();
@@ -288,15 +284,16 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		
 		assertEquals(2, validTrial.getParticipatingSites().size());
 		
-		validTrial.getParticipatingSites().get(0).setName(stringUtil.getWithLength(20));
-		int version = validTrial.getParticipatingSites().get(0).getVersion();
+		((TrialSite) validTrial.getParticipatingSites().toArray()[0]).setName(stringUtil.getWithLength(20));
+		int version = ((AbstractDomainObject) validTrial.getParticipatingSites().toArray()[0]).getVersion();
 		
 		hibernateTemplate.saveOrUpdate(validTrial);
 		
 		hibernateTemplate.flush();
 		//hibernateTemplate.refresh(validTrial);
 		
-		assertTrue(version < validTrial.getParticipatingSites().get(0).getVersion());
+		assertTrue(version < ((AbstractDomainObject) validTrial.getParticipatingSites().toArray()
+				[0]).getVersion());
 	}
 	
 	 @Test

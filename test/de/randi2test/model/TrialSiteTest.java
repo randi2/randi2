@@ -10,17 +10,15 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.TrialSite;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Trial;
+import de.randi2.model.TrialSite;
 import de.randi2test.utility.AbstractDomainTest;
 
 
@@ -183,7 +181,7 @@ private Session getCurrentSession(){
 		for(Trial trial: tl){
 			trial.addParticipatingSite(validCenter);
 			assertEquals(1, trial.getParticipatingSites().size());
-			assertEquals(validCenter.getId(), trial.getParticipatingSites().get(0).getId());
+			assertEquals(validCenter.getId(), ((AbstractDomainObject) trial.getParticipatingSites().toArray()[0]).getId());
 			hibernateTemplate.saveOrUpdate(trial);
 			hibernateTemplate.flush();
 		}
