@@ -24,7 +24,7 @@ public class OrdinalCriterion extends AbstractCriterion {
 	/**
 	 * Set object storing the possible values.
 	 */
-	private Set<String> elements = new HashSet<String>();
+	public Set<String> elements = new HashSet<String>();
 
 	/* (non-Javadoc)
 	 * @see de.randi2.model.criteria.AbstractCriterion#applyConstraints(de.randi2.model.SubjectProperty)

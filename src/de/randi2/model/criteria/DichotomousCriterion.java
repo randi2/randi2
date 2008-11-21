@@ -8,7 +8,7 @@ public class DichotomousCriterion extends AbstractCriterion{
 	private static final String TRUE_STRING = "TRUE";
 	private static final String FALSE_STRING = "FALSE";
 
-	private String options[] = new String[2];
+	public String options[] = new String[2];
 	private boolean isBinary = true; 
 	
 	public void setBinary(){

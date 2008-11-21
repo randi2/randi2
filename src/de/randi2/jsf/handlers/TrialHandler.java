@@ -16,10 +16,9 @@ import de.randi2.dao.TrialDao;
 import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
-import de.randi2.model.AbstractDomainObject;
+import de.randi2.jsf.wrappers.SubjectPropertyWrapper;
 import de.randi2.model.Login;
 import de.randi2.model.Role2;
-import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
@@ -36,8 +35,34 @@ import de.randi2.model.enumerations.TrialStatus;
  */
 public class TrialHandler extends AbstractHandler<Trial> {
 
+	@SuppressWarnings("unchecked")
 	public TrialHandler() {
 		super(Trial.class);
+		tempList = new ArrayList<AbstractCriterion>();
+		try {
+			for (Class c : Randi2.getClasses("de.randi2.model.criteria")) {
+				try {
+					if (c.getGenericSuperclass()
+							.equals(AbstractCriterion.class))
+						tempList.add((AbstractCriterion) c.getConstructor()
+								.newInstance());
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					e.printStackTrace();
+				} catch (InstantiationException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -49,11 +74,11 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	private AutoCompleteObject<Login> sponsorInvestigatorsAC = null;
 	private AutoCompleteObject<TrialSite> participatingSitesAC = null;
 
-	private AutoCompleteObject<AbstractCriterion> criteriaAC = null;
+	private ArrayList<AbstractCriterion> tempList = null;
 
 	// TODO TEMP OBJECTS
 	private TimeZone zone;
-	private ArrayList<SubjectProperty> properties = null;
+	private ArrayList<SubjectPropertyWrapper> properties = null;
 
 	// DB Access
 	private TrialDao trialDao;
@@ -129,8 +154,8 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	public void addProperty(ActionEvent event) {
-		SubjectProperty p = new SubjectProperty();
-		this.getProperties().add(p);
+		SubjectPropertyWrapper pWrapper = new SubjectPropertyWrapper(tempList);
+		this.getProperties().add(pWrapper);
 	}
 
 	public void removeProperty(ActionEvent event) {
@@ -145,14 +170,10 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		return zone;
 	}
 
-	public ArrayList<SubjectProperty> getProperties() {
+	public ArrayList<SubjectPropertyWrapper> getProperties() {
 		if (properties == null)
-			properties = new ArrayList<SubjectProperty>();
+			properties = new ArrayList<SubjectPropertyWrapper>();
 		return properties;
-	}
-
-	public void setProperties(ArrayList<SubjectProperty> properties) {
-		this.properties = properties;
 	}
 
 	public int getTreatmentArmsCount() {
@@ -182,36 +203,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		if (participatingSitesAC == null)
 			participatingSitesAC = new AutoCompleteObject<TrialSite>(centerDao);
 		return participatingSitesAC;
-	}
-
-	public AutoCompleteObject<AbstractCriterion> getCriteriaAC() {
-		if (criteriaAC == null) {
-			ArrayList<AbstractCriterion> tempList = new ArrayList<AbstractCriterion>();
-			try {
-				for(Class c : Randi2.getClasses("de.randi2.model.criteria")){
-					try {
-						if(c.getGenericSuperclass().equals(AbstractCriterion.class))
-							tempList.add((AbstractCriterion) c.getConstructor(null).newInstance(null));
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (SecurityException e) {
-						e.printStackTrace();
-					} catch (InstantiationException e) {
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					} catch (NoSuchMethodException e) {
-						e.printStackTrace();
-					}
-				}
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-			criteriaAC = new AutoCompleteObject<AbstractCriterion>(tempList);
-		}
-		return criteriaAC;
 	}
 
 	public TrialSiteDao getCenterDao() {

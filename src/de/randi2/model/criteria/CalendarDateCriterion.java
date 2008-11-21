@@ -14,7 +14,7 @@ import de.randi2.model.SubjectProperty;
  */
 public class CalendarDateCriterion extends AbstractCriterion {
 	
-	private GregorianCalendar date = null;
+	public GregorianCalendar date = null;
 
 	@Override
 	public void applyConstraints(SubjectProperty prop) {

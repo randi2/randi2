@@ -17,7 +17,7 @@
 <ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component"
-	style="padding:10px;background-image: url('img/sPanelBackground.png');float:left; height:215px; margin: 10px;">
+	style="padding:10px;float:left; margin: 10px; border: gray; border-width: 1px;">
 	<ice:panelGrid columns="2">
 		<ice:graphicImage value="/img/icons/subjectProp16.png" />
 		<ice:outputLabel value="#{labels['pages.trialEditPanel.propLabel']}" />
@@ -25,11 +25,11 @@
 	<ice:panelGrid>
 		<ice:outputLabel value="!Type!" />
 		<ice:selectInputText id="criterion"
-			valueChangeListener="#{trialHandler.criteriaAC.updateObjectList}"
+			valueChangeListener="#{property.criterionChanged}"
 			rows="10" width="135">
-			<f:selectItems value="#{trialHandler.criteriaAC.objectList}" />
+			<f:selectItems value="#{property.criteriaAC.objectList}" />
 		</ice:selectInputText>
-		<ice:panelGrid rendered="#{trialHandler.criteriaAC.objectSelected}">
+		<ice:panelGrid rendered="#{property.criteriaAC.objectSelected}">
 			<ice:outputLabel value="!Name!" />
 			<ice:inputText value="" size="22" />
 			<ice:outputLabel value="!Description!" />
@@ -37,4 +37,5 @@
 				style="width:135px;height:40px;overflow: auto;" />
 		</ice:panelGrid>
 	</ice:panelGrid>
+
 </ice:panelGroup>
