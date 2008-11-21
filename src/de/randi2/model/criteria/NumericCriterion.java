@@ -23,10 +23,4 @@ public class NumericCriterion extends AbstractCriterion {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public String toString() {
-		return NumericCriterion.class.getName();
-	}
-
 }

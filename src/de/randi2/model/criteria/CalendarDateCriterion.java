@@ -28,9 +28,4 @@ public class CalendarDateCriterion extends AbstractCriterion {
 		return null;
 	}
 
-	@Override
-	public String toString() {
-		return CalendarDateCriterion.class.getName();
-	}
-
 }

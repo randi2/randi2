@@ -1,25 +1,11 @@
-/* This file is part of RANDI2.
- * 
- * RANDI2 is free software: you can redistribute it and/or modify it under the
- * terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- * 
- * RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License along with
- * RANDI2. If not, see <http://www.gnu.org/licenses/>.
- */
 package de.randi2.jsf.handlers;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.TimeZone;
-import java.util.Vector;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -30,43 +16,44 @@ import de.randi2.dao.TrialDao;
 import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
+import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Role2;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
+import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.enumerations.TrialStatus;
 
 /**
  * <p>
- * This class cares about the trial object and contains all the needed methods
- * to work with this object for the UI.
+ * This class cares about the newTrial object and contains all the needed
+ * methods to work with this object for the UI.
  * </p>
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
-public class TrialHandler extends AbstractHandler<Trial>{
+public class TrialHandler extends AbstractHandler<Trial> {
 
 	public TrialHandler() {
 		super(Trial.class);
 	}
 
-	private Trial trial;
+	/**
+	 * Object for the trial creation.
+	 */
+	private Trial newTrial;
 
 	private AutoCompleteObject<TrialSite> trialSitesAC = null;
 	private AutoCompleteObject<Login> sponsorInvestigatorsAC = null;
 	private AutoCompleteObject<TrialSite> participatingSitesAC = null;
 
-	// TODO TEMP OBJECTS
-	private Date tDate1;
-	private Date tDate2;
-	private TimeZone zone;
-	private ArrayList<TreatmentArm> arms = null;
-	private ArrayList<SubjectProperty> properties = null;
+	private AutoCompleteObject<AbstractCriterion> criteriaAC = null;
 
-	// Trial Status as SelectItems
-	private List<SelectItem> stateItems = null;
+	// TODO TEMP OBJECTS
+	private TimeZone zone;
+	private ArrayList<SubjectProperty> properties = null;
 
 	// DB Access
 	private TrialDao trialDao;
@@ -80,29 +67,38 @@ public class TrialHandler extends AbstractHandler<Trial>{
 		this.trialDao = trialDao;
 	}
 
-	public Trial getTrial() {
-		if (trial == null) // TODO
-			trial = new Trial();
-		return trial;
+	public Trial getNewTrial() {
+		if (newTrial == null) { // TODO
+			newTrial = new Trial();
+			newTrial.setStartDate(new GregorianCalendar());
+			newTrial.setEndDate(new GregorianCalendar());
+		}
+		return newTrial;
 	}
 
-	public void setTrial(Trial trial) {
-		this.trial = trial;
+	public void setNewTrial(Trial trial) {
+		this.newTrial = trial;
 	}
 
 	public List<SelectItem> getStateItems() {
-		if (stateItems == null) {
-			stateItems = new Vector<SelectItem>(TrialStatus.values().length);
-			for (TrialStatus s : TrialStatus.values()) {
-				stateItems.add(new SelectItem(s, s.toString()));
-			}
+		List<SelectItem> stateItems = new ArrayList<SelectItem>(TrialStatus
+				.values().length);
+		ResourceBundle tempRB = ResourceBundle.getBundle(
+				"de.randi2.jsf.i18n.trialState", ((LoginHandler) FacesContext
+						.getCurrentInstance().getApplication().getELResolver()
+						.getValue(
+								FacesContext.getCurrentInstance()
+										.getELContext(), null, "loginHandler"))
+						.getChosenLocale());
+		for (TrialStatus s : TrialStatus.values()) {
+			stateItems.add(new SelectItem(s, tempRB.getString(s.toString())));
 		}
 		return stateItems;
 	}
 
 	public void addTrialSite(ActionEvent event) {
 		assert (participatingSitesAC.getSelectedObject() != null);
-		trial.getParticipatingSites().add(
+		newTrial.getParticipatingSites().add(
 				participatingSitesAC.getSelectedObject());
 	}
 
@@ -110,7 +106,7 @@ public class TrialHandler extends AbstractHandler<Trial>{
 		TrialSite tTrialSite = (TrialSite) (((UIComponent) event.getComponent()
 				.getChildren().get(0)).getValueExpression("value")
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
-		trial.getParticipatingSites().remove(tTrialSite);
+		newTrial.getParticipatingSites().remove(tTrialSite);
 
 	}
 
@@ -120,12 +116,16 @@ public class TrialHandler extends AbstractHandler<Trial>{
 	}
 
 	public void addArm(ActionEvent event) {
+		assert (newTrial != null);
 		TreatmentArm temp = new TreatmentArm();
-		this.getArms().add(temp);
+		temp.setPlannedSubjects(0);
+		newTrial.getTreatmentArms().add(temp);
 	}
 
 	public void removeArm(ActionEvent event) {
-		this.getArms().remove(this.getArms().size() - 1);
+		assert (newTrial != null);
+		newTrial.getTreatmentArms().remove(
+				newTrial.getTreatmentArms().size() - 1);
 	}
 
 	public void addProperty(ActionEvent event) {
@@ -138,45 +138,11 @@ public class TrialHandler extends AbstractHandler<Trial>{
 	}
 
 	// TEMP
-	public Date getTDate1() {
-		if (tDate1 == null)
-			return (new GregorianCalendar()).getTime();
-		return tDate1;
-	}
-
-	public void setTDate1(Date date1) {
-		tDate1 = date1;
-	}
-
-	public Date getTDate2() {
-		if (tDate2 == null)
-			return (new GregorianCalendar()).getTime();
-		return tDate2;
-	}
-
-	public void setTDate2(Date date2) {
-		tDate2 = date2;
-	}
-
 	public TimeZone getZone() {
 		if (zone == null) {
 			zone = TimeZone.getDefault();
 		}
 		return zone;
-	}
-
-	public void setZone(TimeZone zone) {
-		this.zone = zone;
-	}
-
-	public ArrayList<TreatmentArm> getArms() {
-		if (arms == null)
-			arms = new ArrayList<TreatmentArm>();
-		return arms;
-	}
-
-	public void setArms(ArrayList<TreatmentArm> arms) {
-		this.arms = arms;
 	}
 
 	public ArrayList<SubjectProperty> getProperties() {
@@ -190,7 +156,8 @@ public class TrialHandler extends AbstractHandler<Trial>{
 	}
 
 	public int getTreatmentArmsCount() {
-		return this.getArms().size();
+		assert (newTrial != null);
+		return newTrial.getTreatmentArms().size();
 	}
 
 	public int getSubjectPropertiesCount() {
@@ -210,11 +177,41 @@ public class TrialHandler extends AbstractHandler<Trial>{
 							Role2.ROLE_P_INVESTIGATOR));
 		return sponsorInvestigatorsAC;
 	}
-	
+
 	public AutoCompleteObject<TrialSite> getParticipatingSitesAC() {
 		if (participatingSitesAC == null)
 			participatingSitesAC = new AutoCompleteObject<TrialSite>(centerDao);
 		return participatingSitesAC;
+	}
+
+	public AutoCompleteObject<AbstractCriterion> getCriteriaAC() {
+		if (criteriaAC == null) {
+			ArrayList<AbstractCriterion> tempList = new ArrayList<AbstractCriterion>();
+			try {
+				for(Class c : Randi2.getClasses("de.randi2.model.criteria")){
+					try {
+						if(c.getGenericSuperclass().equals(AbstractCriterion.class))
+							tempList.add((AbstractCriterion) c.getConstructor(null).newInstance(null));
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					} catch (SecurityException e) {
+						e.printStackTrace();
+					} catch (InstantiationException e) {
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						e.printStackTrace();
+					} catch (NoSuchMethodException e) {
+						e.printStackTrace();
+					}
+				}
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			criteriaAC = new AutoCompleteObject<AbstractCriterion>(tempList);
+		}
+		return criteriaAC;
 	}
 
 	public TrialSiteDao getCenterDao() {

@@ -48,10 +48,5 @@ public class DichotomousCriterion extends AbstractCriterion{
 			}
 		}
 	}
-	
-	@Override
-	public String toString() {
-		return DichotomousCriterion.class.getName();
-	}
 
 }

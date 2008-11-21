@@ -52,6 +52,16 @@ public abstract class AbstractCriterion extends AbstractDomainObject {
 		this.description = description;
 	}
 	
-	
+	/* (non-Javadoc)
+	 * @see de.randi2.model.AbstractDomainObject#toString()
+	 */
+	@Override
+	public String toString(){
+		StringBuffer sB = new StringBuffer(this.getClass().getSimpleName());
+		int index = sB.indexOf("Criterion");
+		if(index != -1)
+			sB.insert(index, " ");
+		return sB.toString();
+	}
 	
 }

@@ -53,12 +53,4 @@ public class OrdinalCriterion extends AbstractCriterion {
 		return prototype;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.randi2.model.AbstractDomainObject#toString()
-	 */
-	@Override
-	public String toString() {
-		return OrdinalCriterion.class.getName();
-	}
-
 }
