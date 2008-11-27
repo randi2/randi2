@@ -124,6 +124,7 @@ public class Bootstrap {
 		loginDao = (LoginDaoHibernate) ctx.getBean("loginDAO");
 		rolesAndRights = (RolesAndRights) ctx.getBean("rolesAndRights");
 		trialSiteDao = (TrialSiteDaoHibernate) ctx.getBean("centerDAO");
+		init();
 
 	}
 
