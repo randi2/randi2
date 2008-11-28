@@ -17,7 +17,6 @@ public abstract class RandomizationAlgorithm<Conf extends BaseRandomizationConfi
 
 	protected Temp tempData;
 
-
 	protected RandomizationAlgorithm(Trial _trial) {
 		super();
 		this.trial = _trial;
@@ -49,8 +48,7 @@ public abstract class RandomizationAlgorithm<Conf extends BaseRandomizationConfi
 		// Checks before
 
 		// Actual Randomization
-		TreatmentArm assignedArm = doRadomize(subject, getRawBlock(),
-				getRandom());
+		TreatmentArm assignedArm = doRadomize(subject, getRandom());
 
 		// Work after
 		if (!isSeeded()) {
@@ -62,7 +60,7 @@ public abstract class RandomizationAlgorithm<Conf extends BaseRandomizationConfi
 	}
 
 	protected abstract TreatmentArm doRadomize(TrialSubject subject,
-			List<TreatmentArm> rawBlock, Random random);
+			Random random);
 
 	public int ggt(int x, int y) {
 		while (x != y) {
@@ -75,7 +73,8 @@ public abstract class RandomizationAlgorithm<Conf extends BaseRandomizationConfi
 		return x;
 	}
 
-	public int ggt(List<TreatmentArm> arms) {
+	public int ggt() {
+		List<TreatmentArm> arms = trial.getTreatmentArms();
 		int[] sizes = new int[arms.size()];
 		int i = 0;
 		for (TreatmentArm arm : arms) {
@@ -91,10 +90,17 @@ public abstract class RandomizationAlgorithm<Conf extends BaseRandomizationConfi
 		return result;
 	}
 
-	protected List<TreatmentArm> getRawBlock() {
+	/**
+	 * Creates a raw block, i.e. a minimal block containing every treatment arm
+	 * once. Generates a new instance of an raw block each time, this method is
+	 * called.
+	 * 
+	 * @return A newly generated raw block.
+	 */
+	protected List<TreatmentArm> generateRawBlock() {
 		List<TreatmentArm> arms = trial.getTreatmentArms();
 		List<TreatmentArm> block = new ArrayList<TreatmentArm>();
-		int ggt = ggt(arms);
+		int ggt = ggt();
 		for (int i = 0; i < arms.size(); i++) {
 			for (int j = 0; j < (arms.get(i).getPlannedSubjects() / ggt); j++) {
 				block.add(arms.get(i));
@@ -102,6 +108,20 @@ public abstract class RandomizationAlgorithm<Conf extends BaseRandomizationConfi
 		}
 		return block;
 	}
+	
+	private int sampleIndex(List<? extends Object> urn, Random random){
+		return random.nextInt(urn.size());
+	}
+	
+	protected TreatmentArm sampleWithRemove(List<TreatmentArm> urn, Random random){
+		return urn.remove(sampleIndex(urn, random));
+	}
+	
+	protected TreatmentArm sampleWithoutRemove(List<TreatmentArm> urn, Random random){
+		return urn.get(sampleIndex(urn, random));
+	}
+	
+	
 
 	private boolean isSeeded() {
 		return seededRandom != null;

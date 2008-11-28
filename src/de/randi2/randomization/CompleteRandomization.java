@@ -20,8 +20,9 @@ public class CompleteRandomization extends RandomizationAlgorithm<BaseRandomizat
 	}
 
 	@Override
-	protected TreatmentArm doRadomize(TrialSubject subject, List<TreatmentArm> rawBlock, Random random) {
-		return rawBlock.get(random.nextInt(rawBlock.size()));
+	protected TreatmentArm doRadomize(TrialSubject subject, Random random) {
+		List<TreatmentArm> block = generateRawBlock();
+		return block.get(random.nextInt(block.size()));
 	}
 	
 
