@@ -85,12 +85,16 @@ public class HibernateAclService implements AclService {
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public AclHibernate createAclwithPermissions(AbstractDomainObject object,
 			String sidname, PermissionHibernate[] permissions, String roleName) {
-		AclHibernate acl = new AclHibernate();
-		acl.setRoleName(roleName);
+		AclHibernate acl= new AclHibernate();
 		acl.setObjectIdentity(createObjectIdentityIfNotSaved(object));
 		acl.setOwner(createSidIfNotSaved(sidname));
+		List<AclHibernate> list = template.find("from AclHibernate acl where acl.owner.id = ? and acl.objectIdentity.id = ?" ,new Object[]{acl.getOwner().getId(),acl.getObjectIdentity().getId()});
+		if(list.size() ==1){
+			acl = list.get(0);
+		}
+		
 		for (PermissionHibernate permission : permissions) {
-			acl.insertAce(permission);
+			acl.insertAce(permission, roleName);
 		}
 		template.saveOrUpdate(acl);
 		template.flush();

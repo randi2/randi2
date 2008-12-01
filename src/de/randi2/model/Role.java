@@ -1,132 +1,155 @@
 package de.randi2.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
-
 import de.randi2.model.security.PermissionHibernate;
 
 @Entity
-public class Role2 extends AbstractDomainObject {
+public class Role extends AbstractDomainObject {
 
-	public static final Role2 ROLE_INVESTIGATOR = new Role2(
-			GrantedAuthorityEnum.ROLE_INVESTIGATOR.toString(), true, false,
-			false, true, false, false, true, true, false, false, true, false,
-			false, false, true, false, true, false, false, true, false,
-			new ArrayList<Role2>());
-	public static final Role2 ROLE_P_INVESTIGATOR = new Role2(
-			GrantedAuthorityEnum.ROLE_P_INVASTIGATOR.toString(), true, true,
-			false, true, false, true, true, true, false, true, true, false,
-			true, true, true, false, false, false, true, false, false,
-			new ArrayList<Role2>());
-	public static final Role2 ROLE_STATISTICAN = new Role2(
-			GrantedAuthorityEnum.ROLE_STATISTICIAN.toString(), true, false,
-			false, true, true, true, true, true, false, false, true, false,
-			false, false, true, false, false, false, true, false, false,
-			new ArrayList<Role2>());
-	public static final Role2 ROLE_MONITOR = new Role2(
-			GrantedAuthorityEnum.ROLE_MONITOR.toString(), true, false, false,
-			true, true, true, true, true, false, false, true, false, false,
-			false, true, false, true, false, false, false, false,
-			new ArrayList<Role2>());
-	
-	public static final Role2 ROLE_ADMIN = new Role2(
-			GrantedAuthorityEnum.ROLE_ADMIN.toString(), false, true, false,
-			false, true, true, false, false, true, false, false, true, false,
-			false, true, false, false, false, false, false, true, null);
-	
-	public static final Role2 ROLE_ANONYMOUS = new Role2(
-			GrantedAuthorityEnum.ROLE_ANONYMOUS.toString(), false, false, false,
-			true, false, false, false, false, false, false, false, false, false,
-			false, false, false, false, false, false, false, false, null);
-	
-	public static final Role2 ROLE_USER = new Role2(
-			GrantedAuthorityEnum.ROLE_USER.toString(), false, false, false,
-			false, false, false, false, false, false, false, false, false, false,
-			false, false, false, false, false, false, false, false, null);
+	public static final Role ROLE_INVESTIGATOR = new Role(
+			"ROLE_INVESTIGATOR", false, true, true, true, false, false, true,
+			true, false, true, false, true, false, true, true, false, true,
+			false, true, false, true, true, false, true, false, false, false,
+			false, new ArrayList<Role>());
 
 	
+	public static final Role ROLE_STATISTICAN = new Role("ROLE_STATISTICAN",
+			false, true, true, true, false, false, true, true, true, true,
+			false, true, false, true, true, false, true, false, true, false,
+			true, true, false, false, false, true, false, false, null);
+
+	public static final Role ROLE_MONITOR = new Role("ROLE_MONITOR",
+			false, true, true, true, false, false, true, true, true, true,
+			false, true, false, true, true, false, true, false, true, false,
+			true, true, false, false, false, true, false, false, null);
+
+	public static final Role ROLE_ADMIN = new Role("ROLE_ADMIN", true, false,
+			true, false, true, true, true, true, false, false, true, false,
+			true, false, true, true, false, false, false, false, false, true,
+			false, false, false, false, false, true, null);
+
+	public static final Role ROLE_ANONYMOUS = new Role("ROLE_ANONYMOUS",
+			false, false, true, false, false, false, false, false, false,
+			false, true, false, false, false, true, false, false, false, false,
+			false, false, false, false, false, false, false, false, false, null);
+
+	public static final Role ROLE_USER = new Role("ROLE_USER", false, true,
+			false, true, false, false, true, true, false, true, false, true,
+			false, true, false, false, true, false, true, false, true, false,
+			false, false, false, false, false, false, null);
 	
-//	@Column(unique=true)
+	public static final Role ROLE_P_INVESTIGATOR = new Role("ROLE_P_INVESTIGATOR", false, true, true, true, false, false, true,
+			true, false, true, true, true, true, true, true, false, true,
+			true, true, true, true, true, false, false, false, true, false,
+			false, new ArrayList<Role>(Arrays.asList(new Role[]{Role.ROLE_INVESTIGATOR,Role.ROLE_STATISTICAN,Role.ROLE_MONITOR})));
+
+
+	// @Column(unique=true)
 	private String name;
 
-	private boolean scopeTrialSite = true;
-
+	// to create trial site is no scope necessary
 	private boolean createTrialSite = false;
-	private boolean writeTrialSite = false;
+
+	// scope for read trial site objects
+	private boolean scopeTrialSiteView = true;
 	private boolean readTrialSite = true;
+
+	// scope for write trial site objects
+	private boolean scopeTrialSiteWrite = false;
+	private boolean writeTrialSite = false;
+
 	private boolean adminTrialSite = false;
 
 	@Transient
 	private Set<PermissionHibernate> trialSitePermissions = null;
 
-	private boolean createUser = false;
-
 	private boolean writeOwnUser = true;
 	private boolean readOwnUser = true;
 	private boolean adminOwnUser = false;
+
 	@Transient
 	private Set<PermissionHibernate> ownUserPermissions = null;
 
+	// Scope for create user objects
+	private boolean scopeUserCreate = true;
+	private boolean createUser = false;
+
+	// scope for write user objects
+	private boolean scopeUserWrite = false;
 	private boolean writeOtherUser = false;
+
+	// scope for read user objects
+	private boolean scopeUserRead = true;
 	private boolean readOtherUser = true;
 	private boolean adminOtherUser = false;
-	@Transient
-	private Set<PermissionHibernate> otherUserPersmissions = null;
 
+	// scope for trial objects
+	private boolean scopeTrialCreat = true;
 	private boolean createTrial = false;
+
+	private boolean scopeTrialWrite = true;
 	private boolean writeTrial = false;
+
+	private boolean scopeTrialRead = true;
 	private boolean readTrial = false;
 	private boolean adminTrial = false;
-	@Transient
-	private Set<PermissionHibernate> trialPermissions = null;
 
 	private boolean createTrialSubject = false;
 	private boolean writeTrialSubject = false;
 	private boolean readTrialSubject = false;
 	private boolean adminTrialSubject = false;
 
-	@Transient
-	private Set<PermissionHibernate> trialSubjectPermissions = null;
-
 	private boolean createRole = false;
-	@ManyToMany(cascade=CascadeType.ALL)
-	private List<Role2> rolesToAssign = new ArrayList<Role2>();
+	@ManyToMany(cascade = CascadeType.ALL)
+	private List<Role> rolesToAssign = new ArrayList<Role>();
 
-	public Role2(String name, boolean scopeTrialSite, boolean createTrialSite,
-			boolean writeTrialSite, boolean readTrialSite,
-			boolean adminTrialSite, boolean createUser, boolean writeOwnUser,
-			boolean readOwnUser, boolean adminOwnUser, boolean writeOtherUser,
-			boolean readOtherUser, boolean adminOtherUser, boolean createTrial,
-			boolean writeTrial, boolean readTrial, boolean adminTrial,
+
+	public Role(String name, boolean createTrialSite,
+			boolean scopeTrialSiteView, boolean readTrialSite,
+			boolean scopeTrialSiteWrite, boolean writeTrialSite,
+			boolean adminTrialSite, boolean writeOwnUser, boolean readOwnUser,
+			boolean adminOwnUser, boolean scopeUserCreate, boolean createUser,
+			boolean scopeUserWrite, boolean writeOtherUser,
+			boolean scopeUserRead, boolean readOtherUser,
+			boolean adminOtherUser, boolean scopeTrialCreat,
+			boolean createTrial, boolean scopeTrialWrite, boolean writeTrial,
+			boolean scopeTrialRead, boolean readTrial, boolean adminTrial,
 			boolean createTrialSubject, boolean writeTrialSubject,
 			boolean readTrialSubject, boolean adminTrialSubject,
-			boolean createRole, List<Role2> rolesToAssign) {
+			boolean createRole, List<Role> rolesToAssign) {
 		super();
 		this.name = name;
-		this.scopeTrialSite = scopeTrialSite;
 		this.createTrialSite = createTrialSite;
-		this.writeTrialSite = writeTrialSite;
+		this.scopeTrialSiteView = scopeTrialSiteView;
 		this.readTrialSite = readTrialSite;
+		this.scopeTrialSiteWrite = scopeTrialSiteWrite;
+		this.writeTrialSite = writeTrialSite;
 		this.adminTrialSite = adminTrialSite;
-		this.createUser = createUser;
 		this.writeOwnUser = writeOwnUser;
 		this.readOwnUser = readOwnUser;
 		this.adminOwnUser = adminOwnUser;
+		this.scopeUserCreate = scopeUserCreate;
+		this.createUser = createUser;
+		this.scopeUserWrite = scopeUserWrite;
 		this.writeOtherUser = writeOtherUser;
+		this.scopeUserRead = scopeUserRead;
 		this.readOtherUser = readOtherUser;
 		this.adminOtherUser = adminOtherUser;
+		this.scopeTrialCreat = scopeTrialCreat;
 		this.createTrial = createTrial;
+		this.scopeTrialWrite = scopeTrialWrite;
 		this.writeTrial = writeTrial;
+		this.scopeTrialRead = scopeTrialRead;
 		this.readTrial = readTrial;
 		this.adminTrial = adminTrial;
 		this.createTrialSubject = createTrialSubject;
@@ -137,9 +160,9 @@ public class Role2 extends AbstractDomainObject {
 		this.rolesToAssign = rolesToAssign;
 	}
 
-	
-	public Role2(){}
-	
+	public Role() {
+	}
+
 	/**
 	 * @return the name
 	 */
@@ -159,7 +182,7 @@ public class Role2 extends AbstractDomainObject {
 	 * @return the scopeTrialSite
 	 */
 	public boolean isScopeTrialSite() {
-		return scopeTrialSite;
+		return scopeTrialSiteView;
 	}
 
 	/**
@@ -167,7 +190,7 @@ public class Role2 extends AbstractDomainObject {
 	 *            the scopeTrialSite to set
 	 */
 	public void setScopeTrialSite(boolean scopeTrialSite) {
-		this.scopeTrialSite = scopeTrialSite;
+		this.scopeTrialSiteView = scopeTrialSite;
 	}
 
 	/**
@@ -396,26 +419,6 @@ public class Role2 extends AbstractDomainObject {
 	}
 
 	/**
-	 * @return the trialPermissions
-	 */
-	public Set<PermissionHibernate> getTrialPermissions() {
-		if (trialPermissions == null) {
-			trialPermissions = new HashSet<PermissionHibernate>();
-			if (writeTrial) {
-				trialPermissions.add(PermissionHibernate.WRITE);
-			}
-			if (readTrial) {
-				trialPermissions.add(PermissionHibernate.READ);
-			}
-			if (adminTrial) {
-				trialPermissions.add(PermissionHibernate.ADMINISTRATION);
-			}
-		}
-
-		return trialPermissions;
-	}
-
-	/**
 	 * @return the createTrialSubject
 	 */
 	public boolean isCreateTrialSubject() {
@@ -493,7 +496,7 @@ public class Role2 extends AbstractDomainObject {
 	/**
 	 * @return the rolesToAssign
 	 */
-	public List<Role2> getRolesToAssign() {
+	public List<Role> getRolesToAssign() {
 		return rolesToAssign;
 	}
 
@@ -501,7 +504,7 @@ public class Role2 extends AbstractDomainObject {
 	 * @param rolesToAssign
 	 *            the rolesToAssign to set
 	 */
-	public void setRolesToAssign(List<Role2> rolesToAssign) {
+	public void setRolesToAssign(List<Role> rolesToAssign) {
 		this.rolesToAssign = rolesToAssign;
 	}
 
@@ -540,62 +543,146 @@ public class Role2 extends AbstractDomainObject {
 				ownUserPermissions.add(PermissionHibernate.ADMINISTRATION);
 			}
 		}
-		
+
 		return ownUserPermissions;
 	}
 
-	/**
-	 * @return the trialSubjectPermissions
-	 */
-	public Set<PermissionHibernate> getTrialSubjectPermissions() {
-		if (trialSubjectPermissions == null) {
-			trialSubjectPermissions = new HashSet<PermissionHibernate>();
-			if (writeTrialSubject) {
-				trialSubjectPermissions.add(PermissionHibernate.WRITE);
-			}
-			if (readTrialSubject) {
-				trialSubjectPermissions.add(PermissionHibernate.READ);
-			}
-			if (adminTrialSubject) {
-				trialSubjectPermissions.add(PermissionHibernate.ADMINISTRATION);
-			}
-		}
-		
-		return trialSubjectPermissions;
-	}
-
-	/**
-	 * @return the otherUserPersmissions
-	 */
-	public Set<PermissionHibernate> getOtherUserPersmissions() {
-		if (otherUserPersmissions == null) {
-			otherUserPersmissions = new HashSet<PermissionHibernate>();
-			if (writeOtherUser) {
-				otherUserPersmissions.add(PermissionHibernate.WRITE);
-			}
-			if (readOtherUser) {
-				otherUserPersmissions.add(PermissionHibernate.READ);
-			}
-			if (adminOtherUser) {
-				otherUserPersmissions.add(PermissionHibernate.ADMINISTRATION);
-			}
-		}
-		
-		return otherUserPersmissions;
-	}
-	
 	@Override
 	public boolean equals(Object o) {
-		if(o instanceof Role2){
-			return (((Role2) o).getName().equals(this.name));
+		if (o instanceof Role) {
+			return (((Role) o).getName().equals(this.name));
 		}
 		return false;
 	}
 
+	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
 
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	/**
+	 * @return the scopeTrialSiteView
+	 */
+	public boolean isScopeTrialSiteView() {
+		return scopeTrialSiteView;
+	}
+
+	/**
+	 * @param scopeTrialSiteView
+	 *            the scopeTrialSiteView to set
+	 */
+	public void setScopeTrialSiteView(boolean scopeTrialSiteView) {
+		this.scopeTrialSiteView = scopeTrialSiteView;
+	}
+
+	/**
+	 * @return the scopeTrialSiteWrite
+	 */
+	public boolean isScopeTrialSiteWrite() {
+		return scopeTrialSiteWrite;
+	}
+
+	/**
+	 * @param scopeTrialSiteWrite
+	 *            the scopeTrialSiteWrite to set
+	 */
+	public void setScopeTrialSiteWrite(boolean scopeTrialSiteWrite) {
+		this.scopeTrialSiteWrite = scopeTrialSiteWrite;
+	}
+
+	/**
+	 * @return the scopeUserCreate
+	 */
+	public boolean isScopeUserCreate() {
+		return scopeUserCreate;
+	}
+
+	/**
+	 * @param scopeUserCreate
+	 *            the scopeUserCreate to set
+	 */
+	public void setScopeUserCreate(boolean scopeUserCreate) {
+		this.scopeUserCreate = scopeUserCreate;
+	}
+
+	/**
+	 * @return the scopeUserWrite
+	 */
+	public boolean isScopeUserWrite() {
+		return scopeUserWrite;
+	}
+
+	/**
+	 * @param scopeUserWrite
+	 *            the scopeUserWrite to set
+	 */
+	public void setScopeUserWrite(boolean scopeUserWrite) {
+		this.scopeUserWrite = scopeUserWrite;
+	}
+
+	/**
+	 * @return the scopeUserRead
+	 */
+	public boolean isScopeUserRead() {
+		return scopeUserRead;
+	}
+
+	/**
+	 * @param scopeUserRead
+	 *            the scopeUserRead to set
+	 */
+	public void setScopeUserRead(boolean scopeUserRead) {
+		this.scopeUserRead = scopeUserRead;
+	}
+
+	/**
+	 * @return the scopeTrialCreat
+	 */
+	public boolean isScopeTrialCreat() {
+		return scopeTrialCreat;
+	}
+
+	/**
+	 * @param scopeTrialCreat
+	 *            the scopeTrialCreat to set
+	 */
+	public void setScopeTrialCreat(boolean scopeTrialCreat) {
+		this.scopeTrialCreat = scopeTrialCreat;
+	}
+
+	/**
+	 * @return the scopeTrialWrite
+	 */
+	public boolean isScopeTrialWrite() {
+		return scopeTrialWrite;
+	}
+
+	/**
+	 * @param scopeTrialWrite
+	 *            the scopeTrialWrite to set
+	 */
+	public void setScopeTrialWrite(boolean scopeTrialWrite) {
+		this.scopeTrialWrite = scopeTrialWrite;
+	}
+
+	/**
+	 * @return the scopeTrialRead
+	 */
+	public boolean isScopeTrialRead() {
+		return scopeTrialRead;
+	}
+
+	/**
+	 * @param scopeTrialRead
+	 *            the scopeTrialRead to set
+	 */
+	public void setScopeTrialRead(boolean scopeTrialRead) {
+		this.scopeTrialRead = scopeTrialRead;
 	}
 
 }

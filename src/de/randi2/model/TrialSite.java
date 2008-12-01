@@ -146,7 +146,7 @@ public class TrialSite extends AbstractDomainObject {
 	 * @return
 	 */
 	@Transient
-	public List<Login> getMembersWithSpecifiedRole(Role2 role) {
+	public List<Login> getMembersWithSpecifiedRole(Role role) {
 		List<Login> searchedMembers = new ArrayList<Login>();
 		for (Person p : this.getMembers()) {
 			if (p.getLogin().hasRole(role))

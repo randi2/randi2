@@ -18,7 +18,7 @@ import de.randi2.jsf.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.jsf.wrappers.SubjectPropertyWrapper;
 import de.randi2.model.Login;
-import de.randi2.model.Role2;
+import de.randi2.model.Role;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
@@ -195,7 +195,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		if (sponsorInvestigatorsAC == null)
 			sponsorInvestigatorsAC = new AutoCompleteObject<Login>(trialSitesAC
 					.getSelectedObject().getMembersWithSpecifiedRole(
-							Role2.ROLE_P_INVESTIGATOR));
+							Role.ROLE_P_INVESTIGATOR));
 		return sponsorInvestigatorsAC;
 	}
 

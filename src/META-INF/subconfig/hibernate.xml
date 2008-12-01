@@ -23,7 +23,7 @@
 				<value>de.randi2.model.TrialSite</value>
 				<value>de.randi2.model.Person</value>
 				<value>de.randi2.model.Login</value>
-				<value>de.randi2.model.Role2</value>
+				<value>de.randi2.model.Role</value>
 				<value>de.randi2.model.TreatmentArm
 				</value>
 				<value>de.randi2.model.TrialSubject

@@ -48,7 +48,7 @@ public class AclHibernate  implements Acl  {
 	
 	private boolean entriesInheriting = true;
 	
-	private String roleName;
+	//private String roleName;
 	
 	@Transient
 	 private Sid[] loadedSids = null;
@@ -65,7 +65,7 @@ public class AclHibernate  implements Acl  {
 	}
 
 	@Override
-	public Sid getOwner() {
+	public SidHibernate getOwner() {
 		return owner;
 	}
 
@@ -210,25 +210,14 @@ public class AclHibernate  implements Acl  {
 		this.entriesInheriting = entriesInheriting;
 	}
 
-	public void insertAce(PermissionHibernate permission){
+	public void insertAce(PermissionHibernate permission, String roleName){
 		AccessControlEntryHibernate ace = new AccessControlEntryHibernate();
 		ace.setAcl(this);
 		ace.setPermission(permission);
 		ace.setSid(owner);
+		ace.setRoleName(roleName);
 		aces.add(ace);
 	}
 
-	/**
-	 * @return the roleName
-	 */
-	public String getRoleName() {
-		return roleName;
-	}
-
-	/**
-	 * @param roleName the roleName to set
-	 */
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
+	
 }

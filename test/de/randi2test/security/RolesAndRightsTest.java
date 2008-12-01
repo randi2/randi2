@@ -22,7 +22,7 @@ import de.randi2.dao.HibernateAclService;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
-import de.randi2.model.Role2;
+import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
 import de.randi2.model.enumerations.Gender;
 import de.randi2.model.security.AclHibernate;
@@ -55,16 +55,16 @@ public class RolesAndRightsTest {
 	public void init(){
 		clearAclTables();
 		rolesAndRights.initializeRoles();
-		List<Role2> roles = template.find("from Role2");
-		assertTrue(roles.contains(Role2.ROLE_ADMIN));
-		assertTrue(roles.contains(Role2.ROLE_ANONYMOUS));
-		assertTrue(roles.contains(Role2.ROLE_INVESTIGATOR));
-		assertTrue(roles.contains(Role2.ROLE_MONITOR));
-		assertTrue(roles.contains(Role2.ROLE_P_INVESTIGATOR));
-		assertTrue(roles.contains(Role2.ROLE_STATISTICAN));
-		assertTrue(roles.contains(Role2.ROLE_USER));	
+		List<Role> roles = template.find("from Role2");
+		assertTrue(roles.contains(Role.ROLE_ADMIN));
+		assertTrue(roles.contains(Role.ROLE_ANONYMOUS));
+		assertTrue(roles.contains(Role.ROLE_INVESTIGATOR));
+		assertTrue(roles.contains(Role.ROLE_MONITOR));
+		assertTrue(roles.contains(Role.ROLE_P_INVESTIGATOR));
+		assertTrue(roles.contains(Role.ROLE_STATISTICAN));
+		assertTrue(roles.contains(Role.ROLE_USER));	
 		
-		List<AclHibernate> acls = template.find("select acl from AclHibernate acl, SidHibernate sid where (acl.owner.sidname = ?)", Role2.ROLE_ANONYMOUS.getName());
+		List<AclHibernate> acls = template.find("select acl from AclHibernate acl, SidHibernate sid where (acl.owner.sidname = ?)", Role.ROLE_ANONYMOUS.getName());
 		assertEquals(2, acls.size());
 		boolean hasRightLogin = false;
 		boolean hasRightPerson = false;
@@ -84,7 +84,7 @@ public class RolesAndRightsTest {
 	public void test(){
 		rolesAndRights.initializeRoles();
 		Login adminL = factory.getLogin();
-		adminL.addRole(Role2.ROLE_ADMIN);
+		adminL.addRole(Role.ROLE_ADMIN);
 		
 		template.saveOrUpdate(adminL);
 		

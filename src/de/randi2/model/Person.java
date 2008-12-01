@@ -50,7 +50,7 @@ public class Person extends AbstractDomainObject {
 	private TrialSite trialSite;
 
 	// Login data
-	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="person")
 	private Login login;
 	
 	

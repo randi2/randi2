@@ -10,7 +10,7 @@ import org.springframework.security.context.SecurityContextHolder;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
-import de.randi2.model.Role2;
+import de.randi2.model.Role;
 import de.randi2.utility.security.RolesAndRights;
 
 /**
@@ -47,8 +47,8 @@ public class RigthAndRolesAspects {
 				Login login = (Login) SecurityContextHolder.getContext()
 						.getAuthentication().getPrincipal();
 				if (o instanceof Login) {
-					for (Role2 r : ((Login) pjp.getArgs()[0]).getRoles()) {
-						r = (Role2) template.findByExample(r).get(0);
+					for (Role r : ((Login) pjp.getArgs()[0]).getRoles()) {
+						r = (Role) template.findByExample(r).get(0);
 					}
 					roleAndRigths.registerPerson(((Login) o));
 				}

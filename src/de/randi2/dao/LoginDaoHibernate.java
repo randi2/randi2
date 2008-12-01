@@ -12,7 +12,7 @@ import org.springframework.security.userdetails.UsernameNotFoundException;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 
-public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements LoginDao, UserDetailsService{
+public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements LoginDao{
 
 	@SuppressWarnings("unchecked")
 	public Login get(String username) {
@@ -27,20 +27,6 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements Lo
 	@Override
 	public Class<Login> getModelClass() {
 		return Login.class;
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public UserDetails loadUserByUsername(String username)
-			throws UsernameNotFoundException, DataAccessException {
-		String query = "from de.randi2.model.Login login where "
-			+ "login.username =?";
-		List<Login>  loginList =(List) template.find(query, username);
-		if (loginList.size() ==1){
-			loginList.get(0).setLastLoggedIn(new GregorianCalendar());
-			return loginList.get(0);
-		}
-		else throw new UsernameNotFoundException("");
 	}
 	
 	

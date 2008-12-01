@@ -12,7 +12,7 @@ import de.randi2.dao.LoginDaoHibernate;
 import de.randi2.dao.TrialSiteDaoHibernate;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
-import de.randi2.model.Role2;
+import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
 import de.randi2.model.enumerations.Gender;
 import de.randi2.utility.security.RolesAndRights;
@@ -60,7 +60,7 @@ public class Bootstrap {
 		adminL.setPerson(adminP);
 		adminL.setPrefLocale(Locale.GERMANY);
 		adminL.setUsername(adminP.getEMail());
-		adminL.addRole(Role2.ROLE_ADMIN);
+		adminL.addRole(Role.ROLE_ADMIN);
 		template.saveOrUpdate(adminL);
 
 		TrialSite trialSite = new TrialSite();
@@ -101,7 +101,7 @@ public class Bootstrap {
 		userL.setPerson(userP);
 		userL.setPrefLocale(Locale.GERMANY);
 		userL.setUsername(userP.getEMail());
-		userL.addRole(Role2.ROLE_INVESTIGATOR);
+		userL.addRole(Role.ROLE_INVESTIGATOR);
 
 		loginDao.save(userL);
 

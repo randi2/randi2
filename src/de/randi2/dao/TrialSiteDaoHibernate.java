@@ -25,5 +25,6 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 		if (list.size() ==1)	return list.get(0);
 		else return null;
 	}
+	
 
 }

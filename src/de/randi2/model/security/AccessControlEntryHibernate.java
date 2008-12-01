@@ -29,6 +29,7 @@ public class AccessControlEntryHibernate implements AccessControlEntry {
 	@Embedded
 	private PermissionHibernate permission;
 	
+	private String roleName;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
@@ -81,6 +82,20 @@ public class AccessControlEntryHibernate implements AccessControlEntry {
 
 	public void setGranting(boolean granting) {
 		this.granting = granting;
+	}
+
+	/**
+	 * @return the roleName
+	 */
+	public String getRoleName() {
+		return roleName;
+	}
+
+	/**
+	 * @param roleName the roleName to set
+	 */
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 

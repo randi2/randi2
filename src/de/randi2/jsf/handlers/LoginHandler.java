@@ -44,7 +44,7 @@ import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
-import de.randi2.model.Role2;
+import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
 
 /**
@@ -70,7 +70,7 @@ public class LoginHandler extends AbstractHandler<Login>{
 
 	private AutoCompleteObject<TrialSite> trialSitesAC = null;
 	private AutoCompleteObject<Person> tsMembersAC = null;
-	private AutoCompleteObject<Role2> rolesAC = null;
+	private AutoCompleteObject<Role> rolesAC = null;
 
 	// Objects for User-Creating Process
 	private Login newUser = null;
@@ -185,7 +185,7 @@ public class LoginHandler extends AbstractHandler<Login>{
 	}
 
 	public void removeRole(ActionEvent event) {
-		Role2 tRole = (Role2) (((UIComponent) event.getComponent()
+		Role tRole = (Role) (((UIComponent) event.getComponent()
 				.getChildren().get(0)).getValueExpression("value")
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
 		showedObject.getRoles().remove(tRole);
@@ -257,7 +257,7 @@ public class LoginHandler extends AbstractHandler<Login>{
 			} else {
 				// Normal self-registration
 				assert (newUser != null);
-				newUser.addRole(Role2.ROLE_INVESTIGATOR);
+				newUser.addRole(Role.ROLE_INVESTIGATOR);
 
 				try {
 					if (!tsPassword.equals(trialSitesAC.getSelectedObject()
@@ -494,7 +494,7 @@ public class LoginHandler extends AbstractHandler<Login>{
 		if (newUser == null) { // Starting the registration process
 			newUser = new Login();
 			newUser.setPerson(new Person());
-			newUser.addRole(Role2.ROLE_ANONYMOUS);
+			newUser.addRole(Role.ROLE_ANONYMOUS);
 			AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
 					"anonymousUser", newUser, newUser.getAuthorities());
 			// Perform authentication
@@ -532,17 +532,17 @@ public class LoginHandler extends AbstractHandler<Login>{
 		return tsMembersAC;
 	}
 	
-	public AutoCompleteObject<Role2> getRolesAC() {
+	public AutoCompleteObject<Role> getRolesAC() {
 		//FIXME TEMP SOLUTION - switch to loginDAO.getPossibleRoles(true) when ready
-		ArrayList<Role2> roles = new ArrayList<Role2>();
-		roles.add(Role2.ROLE_INVESTIGATOR);
-		roles.add(Role2.ROLE_P_INVESTIGATOR);
-		roles.add(Role2.ROLE_STATISTICAN);
-		roles.add(Role2.ROLE_MONITOR);
-		roles.add(Role2.ROLE_ADMIN);
+		ArrayList<Role> roles = new ArrayList<Role>();
+		roles.add(Role.ROLE_INVESTIGATOR);
+		roles.add(Role.ROLE_P_INVESTIGATOR);
+		roles.add(Role.ROLE_STATISTICAN);
+		roles.add(Role.ROLE_MONITOR);
+		roles.add(Role.ROLE_ADMIN);
 		// ---
 		if (rolesAC == null)
-			rolesAC = new AutoCompleteObject<Role2>(roles);
+			rolesAC = new AutoCompleteObject<Role>(roles);
 		return rolesAC;
 	}
 	// ---
