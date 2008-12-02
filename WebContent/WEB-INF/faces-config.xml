@@ -70,9 +70,9 @@
 			<value>#{loginDAO}</value>
 		</managed-property>
 		<managed-property>
-			<property-name>mailSender</property-name>
-			<property-class>org.springframework.mail.MailSender</property-class>
-			<value>#{mailSender}</value>
+			<property-name>newUserMailService</property-name>
+			<property-class>de.randi2.utility.mail.MailService</property-class>
+			<value>#{newUserMailService}</value>
 		</managed-property>
 		<managed-property>
 			<property-name>personDao</property-name>

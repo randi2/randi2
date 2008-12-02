@@ -5,9 +5,21 @@
 
 	
 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-  <property name="host" value="smtp.stud.hs-heilbronn.de"/>
-
+  <property name="host" value="${mail.host}"/>
+  <property name="username" value="${mail.username}" />
+  <property name="password" value="${mail.password}" />
 </bean>
+
+   <bean id="newUserMailService" class="de.randi2.utility.mail.NewUserMailService" />
+   
+   <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+      <property name="velocityProperties">
+         <value>
+            resource.loader=class
+            class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+         </value>
+      </property>
+	</bean>
 
 
 </beans>

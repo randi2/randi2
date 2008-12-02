@@ -27,9 +27,6 @@ import javax.servlet.http.HttpSession;
 
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
-import org.springframework.mail.MailException;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.context.HttpSessionContextIntegrationFilter;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
@@ -46,6 +43,9 @@ import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
+import de.randi2.utility.mail.MailService;
+import de.randi2.utility.mail.NewUserMailService;
+import de.randi2.utility.mail.exceptions.MailErrorException;
 
 /**
  * <p>
@@ -56,7 +56,7 @@ import de.randi2.model.TrialSite;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
-public class LoginHandler extends AbstractHandler<Login>{
+public class LoginHandler extends AbstractHandler<Login> {
 
 	public LoginHandler() {
 		super(Login.class);
@@ -90,16 +90,8 @@ public class LoginHandler extends AbstractHandler<Login>{
 	private boolean changeTrialSitePVisible = false;
 	private boolean changeAssistantPVisible = false;
 
-	// Mailsender
-	private MailSender mailSender;
-
-	public MailSender getMailSender() {
-		return mailSender;
-	}
-
-	public void setMailSender(MailSender mailSender) {
-		this.mailSender = mailSender;
-	}
+	// NewUserMailService
+	private MailService newUserMailService;
 
 	// POPUPS
 	public boolean isChangeTrialSitePVisible() {
@@ -148,7 +140,7 @@ public class LoginHandler extends AbstractHandler<Login>{
 		this.changeTrialSitePVisible = true;
 		return Randi2.SUCCESS;
 	}
-	
+
 	public String showChangeAssistantPopup() {
 		// Show the changeTrialSitePopup
 		this.changeAssistantPVisible = true;
@@ -160,7 +152,7 @@ public class LoginHandler extends AbstractHandler<Login>{
 		this.changeTrialSitePVisible = false;
 		return Randi2.SUCCESS;
 	}
-	
+
 	public boolean isChangeAssistantPVisible() {
 		return changeAssistantPVisible;
 	}
@@ -168,7 +160,7 @@ public class LoginHandler extends AbstractHandler<Login>{
 	public void setChangeAssistantPVisible(boolean _changeAssistantPVisible) {
 		changeAssistantPVisible = _changeAssistantPVisible;
 	}
-	
+
 	public String hideChangeAssistantPopup() {
 		// Hide the changeAssistantPopup
 		this.changeAssistantPVisible = false;
@@ -178,19 +170,19 @@ public class LoginHandler extends AbstractHandler<Login>{
 	// ----
 
 	// Application logic
-	
+
 	public void addRole(ActionEvent event) {
 		assert (rolesAC.getSelectedObject() != null);
 		showedObject.addRole(rolesAC.getSelectedObject());
 	}
 
 	public void removeRole(ActionEvent event) {
-		Role tRole = (Role) (((UIComponent) event.getComponent()
-				.getChildren().get(0)).getValueExpression("value")
-				.getValue(FacesContext.getCurrentInstance().getELContext()));
+		Role tRole = (Role) (((UIComponent) event.getComponent().getChildren()
+				.get(0)).getValueExpression("value").getValue(FacesContext
+				.getCurrentInstance().getELContext()));
 		showedObject.getRoles().remove(tRole);
 	}
-	
+
 	public String changePassword() {
 		this.saveObject();
 		this.hideChangePasswordPopup();
@@ -205,16 +197,19 @@ public class LoginHandler extends AbstractHandler<Login>{
 		this.hideChangeTrialSitePopup();
 		return Randi2.SUCCESS;
 	}
-	
+
 	public String changeAssistant() {
 		assert (tsMembersAC.getSelectedObject() != null);
-		showedObject.getPerson().setAssistant((tsMembersAC.getSelectedObject()));
+		showedObject.getPerson()
+				.setAssistant((tsMembersAC.getSelectedObject()));
 		this.saveObject();
 		this.hideChangeAssistantPopup();
 		return Randi2.SUCCESS;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.randi2.jsf.handlers.AbstractHandler#saveObject()
 	 */
 	@Override
@@ -296,7 +291,17 @@ public class LoginHandler extends AbstractHandler<Login>{
 			if (creatingMode) {
 				this.userSavedPVisible = true;
 			}
-			sendActivationEmail(newUser);
+			try {
+
+				// sending the registration mail via newUserMailService
+				newUserMailService.sendMail(newUser);
+
+			} catch (MailErrorException exp) {
+
+				// TODO error message
+				exp.printStackTrace();
+				
+			}
 			return Randi2.SUCCESS;
 
 		} catch (InvalidStateException exp) {
@@ -315,16 +320,6 @@ public class LoginHandler extends AbstractHandler<Login>{
 			return Randi2.ERROR;
 		}
 
-	}
-
-	public void sendActivationEmail(Login user) throws MailException {
-		// TODO Generating & sending an Activation E-Mail
-		SimpleMailMessage msg = new SimpleMailMessage();
-		msg.setTo(user.getUsername());
-		// TODO outsource the email sender adress and host
-		msg.setFrom("randi2@randi2.de");
-		msg.setText("RANDI2 TEST");
-		this.mailSender.send(msg);
 	}
 
 	/**
@@ -357,13 +352,15 @@ public class LoginHandler extends AbstractHandler<Login>{
 		trialSitesAC = null;
 		tsMembersAC = null;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.randi2.jsf.handlers.AbstractHandler#refreshShowedObject()
 	 */
 	@Override
 	public String refreshShowedObject() {
-		if(showedObject.getId()==AbstractDomainObject.NOT_YET_SAVED_ID)
+		if (showedObject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID)
 			showedObject = null;
 		else
 			showedObject = loginDao.get(showedObject.getId());
@@ -531,9 +528,10 @@ public class LoginHandler extends AbstractHandler<Login>{
 		}
 		return tsMembersAC;
 	}
-	
+
 	public AutoCompleteObject<Role> getRolesAC() {
-		//FIXME TEMP SOLUTION - switch to loginDAO.getPossibleRoles(true) when ready
+		// FIXME TEMP SOLUTION - switch to loginDAO.getPossibleRoles(true) when
+		// ready
 		ArrayList<Role> roles = new ArrayList<Role>();
 		roles.add(Role.ROLE_INVESTIGATOR);
 		roles.add(Role.ROLE_P_INVESTIGATOR);
@@ -545,5 +543,14 @@ public class LoginHandler extends AbstractHandler<Login>{
 			rolesAC = new AutoCompleteObject<Role>(roles);
 		return rolesAC;
 	}
+
+	public MailService getNewUserMailService() {
+		return newUserMailService;
+	}
+
+	public void setNewUserMailService(MailService newUserMailService) {
+		this.newUserMailService = newUserMailService;
+	}
+
 	// ---
 }
