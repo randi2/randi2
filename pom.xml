@@ -7,6 +7,8 @@
 	<version>0.4-SNAPSHOT</version>
 	<name>RANDI2 -- Online Randomization for Clinical Trials</name>
 	<url>http://randi2.hs-heilbronn.de</url>
+	<profiles>
+	</profiles>
 	<repositories>
 		<repository>
 			<id>ibiblio</id>
@@ -301,9 +303,13 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+	<issueManagement>
+		<system>Sourceforge Bugs</system>
+		<url>https://sourceforge.net/tracker2/?group_id=217595&amp;atid=1040694</url>
+	</issueManagement>
 	<developers>
 		<developer>
-			<id>jt</id>
+			<id>jthoenes</id>
 			<name>Johannes Thönes</name>
 			<email>johannes.thoenes@googlemail.com</email>
 			<url>http://jthoenes.bergischweb.de</url>
@@ -314,9 +320,54 @@
 			<timezone>GMT+1</timezone>
 			<roles>
 				<role>Build Management</role>
+				<role>Backend Development</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>lplotni</id>
+			<name>Lukasz Plotnicki</name>
+			<email>lp@randi2.de</email>
+			<organization>Deutsches Krebsforschungszentrum</organization>
+			<organizationUrl>http://www.dkfz.de</organizationUrl>
+			<timezone>GMT+0</timezone>
+			<roles>
+				<role>UI Development</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>dhaehn</id>
+			<name>Daniel Hähn</name>
+			<email>dh@randi2.de</email>
+			<roles>
+				<role>Server Administration</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>dschrimpf</id>
+			<name>Daniel Schrimpf</name>
+			<email>ds@randi2.de</email>
+			<organization>Deutsches Krebsforschungzentrum</organization>
+			<organizationUrl>http://www.dkfz.de</organizationUrl>
+			<roles>
+				<role>Gray Emininence</role>
+				<role>Security Development</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>btheel</id>
+			<name>Benjamin Theel</name>
+			<email>benjamin.theel@gmx.de</email>
+			<organization>CSC Germany</organization>
+			<organizationUrl>http://www.csc.com/de</organizationUrl>
+			<roles>
+				<role>Gray Eminence</role>
 			</roles>
 		</developer>
 	</developers>
+	<organization>
+		<name>RANDI2 Core Development Team</name>
+		<url>http://randi2.de</url>
+	</organization>
 	<build>
 		<finalName>RANDI2</finalName>
 		<resources></resources>
