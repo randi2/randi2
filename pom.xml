@@ -7,6 +7,11 @@
 	<version>0.4-SNAPSHOT</version>
 	<name>RANDI2 -- Online Randomization for Clinical Trials</name>
 	<url>http://randi2.hs-heilbronn.de</url>
+	<scm>
+		<connection>scm:svn:https://randi2.svn.sourceforge.net/svnroot/randi2</connection>
+		<developerConnection>scm:svn:https://randi2.svn.sourceforge.net/svnroot/randi2</developerConnection>
+		<url>http://randi2.svn.sourceforge.net/viewvc/randi2/</url>
+	</scm>
 	<profiles>
 	</profiles>
 	<repositories>
