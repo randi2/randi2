@@ -157,7 +157,7 @@
 			<artifactId>icefaces-comps</artifactId>
 			<version>1.7.2</version>
 		</dependency>
-<!--		<dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.1</version>
@@ -168,7 +168,7 @@
 			<artifactId>jstl-api</artifactId>
 			<version>1.1.1</version>
 			<scope>provided</scope>
-		</dependency>-->
+		</dependency>
 		<dependency>
 			<groupId>javax.resource</groupId>
 			<artifactId>connector-api</artifactId>
@@ -200,36 +200,11 @@
 			<artifactId>commons-logging-api</artifactId>
 			<version>1.1</version>
 		</dependency>
-<!--		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging-adapters</artifactId>
-			<version>1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>1.5.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.5.5</version>
-		</dependency>-->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.6</version>
 		</dependency>
-<!--		<dependency>
-			<groupId>com.sun.el</groupId>
-			<artifactId>el-ri</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.facelets</groupId>
-			<artifactId>jsf-facelets</artifactId>
-			<version>1.1.11</version>
-		</dependency>-->
 		<dependency>
 			<groupId>javax.faces</groupId>
 			<artifactId>jsf-api</artifactId>
