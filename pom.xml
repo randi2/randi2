@@ -7,7 +7,7 @@
 	<packaging>war</packaging>
 	<version>0.4-SNAPSHOT</version>
 	<name>RANDI2 -- Online Randomization for Clinical Trials</name>
-	<url>http://randi2.hs-heilbrinn.de</url>
+	<url>http://randi2.hs-heilbronn.de</url>
 	<repositories>
 		<repository>
 			<id>ibiblio</id>
