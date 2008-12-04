@@ -2,6 +2,7 @@ package de.randi2test.utility;
 
 import java.util.Random;
 
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class TestStringUtil {
@@ -32,6 +33,11 @@ public class TestStringUtil {
 
 	private char getLetter(){ 
 		return LETTERS[random.nextInt(LETTERS.length)];
+	}
+	
+	@Test
+	public void fakeTest(){
+		
 	}
 	
 }

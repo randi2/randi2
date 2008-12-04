@@ -47,7 +47,12 @@ public class TestData {
 	@Autowired
 	private TrialSiteDao trialSiteDao;
 	
-//	@Test
+	@Test
+	public void fakeTest(){
+		
+	}
+	
+	//@Test
 	public void init(){
 		rolesAndRights.initializeRoles();
 		Person adminP = new Person();

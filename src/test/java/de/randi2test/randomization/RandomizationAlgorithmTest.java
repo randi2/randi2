@@ -42,14 +42,17 @@ public class RandomizationAlgorithmTest {
 
 
 		@Override
-		public List<TreatmentArm> getRawBlock() {
-			return super.getRawBlock();
-		}
-
-
-		@Override
-		protected TreatmentArm doRadomize(TrialSubject subject, List<TreatmentArm> rawBlock, Random random) {
+		protected TreatmentArm doRadomize(TrialSubject subject, Random random) {
+			// TODO Auto-generated method stub
 			return null;
+		}
+		
+		/*
+		 * Breaking security for testing purpose
+		 */
+		@Override
+		public List<TreatmentArm> generateRawBlock(){
+			return super.generateRawBlock();
 		}
 
 	}
@@ -67,14 +70,14 @@ public class RandomizationAlgorithmTest {
 		TreatmentArm ta2 = getTA(1000);
 		trial.setTreatmentArms(list(new TreatmentArm[]{ta1,ta2}));
 		
-		assertEquals(list(new TreatmentArm[]{ta1, ta2}), algorithm.getRawBlock());
+		assertEquals(list(new TreatmentArm[]{ta1, ta2}), algorithm.generateRawBlock());
 		
 		ta1 = getTA(100);
 		ta2 = getTA(100);
 		TreatmentArm ta3 = getTA(100);
 		trial.setTreatmentArms(list(new TreatmentArm[]{ta1,ta2,ta3}));
 		
-		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta3}), algorithm.getRawBlock());
+		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta3}), algorithm.generateRawBlock());
 		
 		ta1 = getTA(200);
 		ta2 = getTA(200);
@@ -82,7 +85,7 @@ public class RandomizationAlgorithmTest {
 		TreatmentArm ta4 = getTA(200);
 		trial.setTreatmentArms(list(new TreatmentArm[]{ta1,ta2, ta3, ta4}));
 		
-		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta3, ta4}), algorithm.getRawBlock());
+		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta3, ta4}), algorithm.generateRawBlock());
 		
 		ta1 = getTA(600);
 		ta2 = getTA(600);
@@ -91,7 +94,7 @@ public class RandomizationAlgorithmTest {
 		TreatmentArm ta5 = getTA(600);
 		trial.setTreatmentArms(list(new TreatmentArm[]{ta1,ta2,ta3,ta4,ta5}));
 		
-		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta3,ta4,ta5}), algorithm.getRawBlock());
+		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta3,ta4,ta5}), algorithm.generateRawBlock());
 	}
 	
 	@Test 
@@ -100,14 +103,14 @@ public class RandomizationAlgorithmTest {
 		TreatmentArm ta2 = getTA(66);
 		trial.setTreatmentArms(list(new TreatmentArm[]{ta1,ta2}));
 		
-		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta2}), algorithm.getRawBlock());
+		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta2}), algorithm.generateRawBlock());
 		
 		ta1 = getTA(33);
 		ta2 = getTA(66);
 		TreatmentArm ta3 = getTA(33);
 		trial.setTreatmentArms(list(new TreatmentArm[]{ta1,ta2,ta3}));
 		
-		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta2, ta3}), algorithm.getRawBlock());
+		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta2, ta3}), algorithm.generateRawBlock());
 	}
 	
 	@Test
@@ -120,7 +123,7 @@ public class RandomizationAlgorithmTest {
 		for(int i = 0; i < 43; i++){arms.add(ta1);};
 		for(int i = 0; i < 197; i++){arms.add(ta2);};
 		
-		assertEquals(arms, algorithm.getRawBlock());
+		assertEquals(arms, algorithm.generateRawBlock());
 		
 		ta1 = getTA(311);
 		ta2 = getTA(1223);
@@ -132,7 +135,7 @@ public class RandomizationAlgorithmTest {
 		for(int i = 0; i < 1223; i++){arms.add(ta2);};
 		for(int i = 0; i < 149; i++){arms.add(ta3);};
 		
-		assertEquals(arms, algorithm.getRawBlock());
+		assertEquals(arms, algorithm.generateRawBlock());
 		
 	}
 }
