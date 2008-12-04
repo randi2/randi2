@@ -7,13 +7,104 @@
 	<version>0.4-SNAPSHOT</version>
 	<name>RANDI2 -- Online Randomization for Clinical Trials</name>
 	<url>http://randi2.hs-heilbronn.de</url>
+	<licenses>
+		<license>
+			<name>GNU GENERAL PUBLIC LICENSE Version 3</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+		</license>
+	</licenses>
 	<scm>
 		<connection>scm:svn:https://randi2.svn.sourceforge.net/svnroot/randi2</connection>
 		<developerConnection>scm:svn:https://randi2.svn.sourceforge.net/svnroot/randi2</developerConnection>
 		<url>http://randi2.svn.sourceforge.net/viewvc/randi2/</url>
 	</scm>
-	<profiles>
-	</profiles>
+	<mailingLists>
+		<mailingList>
+			<name>Announcements</name>
+			<subscribe>https://lists.sourceforge.net/lists/listinfo/randi2-announcements</subscribe>
+			<unsubscribe>https://lists.sourceforge.net/lists/listinfo/randi2-announcements</unsubscribe>
+			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=randi2-announcements</archive>
+		</mailingList>
+		<mailingList>
+			<name>Development Discussion</name>
+			<subscribe>https://lists.sourceforge.net/lists/listinfo/randi2-development</subscribe>
+			<unsubscribe>https://lists.sourceforge.net/lists/listinfo/randi2-development</unsubscribe>
+			<post>randi2-development@lists.sourceforge.net</post>
+			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=randi2-development</archive>
+		</mailingList>
+		<mailingList>
+			<name>Commit Messages</name>
+			<subscribe>https://lists.sourceforge.net/lists/listinfo/randi2-commits</subscribe>
+			<unsubscribe>https://lists.sourceforge.net/lists/listinfo/randi2-commits</unsubscribe>
+			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=randi2-commits</archive>
+		</mailingList>
+	</mailingLists>
+	<issueManagement>
+		<system>sourceforge</system>
+		<url>https://sourceforge.net/tracker2/?group_id=217595&amp;atid=1040694</url>
+	</issueManagement>
+	<organization>
+		<name>RANDI2 Core Development Team</name>
+		<url>http://randi2.de</url>
+	</organization>
+	<developers>
+		<developer>
+			<id>jthoenes</id>
+			<name>Johannes Thönes</name>
+			<email>johannes.thoenes@googlemail.com</email>
+			<url>http://jthoenes.bergischweb.de</url>
+			<organization>Universitätsklinikum Heidelberg</organization>
+			<organizationUrl>http://www.klinikum.uni-heidelberg.de</organizationUrl>
+			<timezone>+1</timezone>
+			<roles>
+				<role>Build Management</role>
+				<role>Backend Development</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>lplotni</id>
+			<name>Lukasz Plotnicki</name>
+			<email>lp@randi2.de</email>
+			<organization>Deutsches Krebsforschungszentrum</organization>
+			<organizationUrl>http://www.dkfz.de</organizationUrl>
+			<timezone>0</timezone>
+			<roles>
+				<role>UI Development</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>dhaehn</id>
+			<name>Daniel Hähn</name>
+			<email>dh@randi2.de</email>
+			<timezone>-6</timezone>
+			<roles>
+				<role>Server Administration</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>dschrimpf</id>
+			<name>Daniel Schrimpf</name>
+			<email>ds@randi2.de</email>
+			<organization>Deutsches Krebsforschungzentrum</organization>
+			<organizationUrl>http://www.dkfz.de</organizationUrl>
+			<timezone>+1</timezone>
+			<roles>
+				<role>Backend Development</role>
+				<role>Security Development</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>btheel</id>
+			<name>Benjamin Theel</name>
+			<email>benjamin.theel@gmx.de</email>
+			<organization>CSC Germany</organization>
+			<organizationUrl>http://www.csc.com/de</organizationUrl>
+			<timezone>+1</timezone>
+			<roles>
+				<role>Gray Eminence</role>
+			</roles>
+		</developer>
+	</developers>
 	<repositories>
 		<repository>
 			<id>ibiblio</id>
@@ -308,71 +399,6 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-	<issueManagement>
-		<system>Sourceforge Bugs</system>
-		<url>https://sourceforge.net/tracker2/?group_id=217595&amp;atid=1040694</url>
-	</issueManagement>
-	<developers>
-		<developer>
-			<id>jthoenes</id>
-			<name>Johannes Thönes</name>
-			<email>johannes.thoenes@googlemail.com</email>
-			<url>http://jthoenes.bergischweb.de</url>
-			<organization>Universitätsklinikum Heidelberg</organization>
-			<organizationUrl>
-				http://klinikum.uni-heidelberg.de
-			</organizationUrl>
-			<timezone>GMT+1</timezone>
-			<roles>
-				<role>Build Management</role>
-				<role>Backend Development</role>
-			</roles>
-		</developer>
-		<developer>
-			<id>lplotni</id>
-			<name>Lukasz Plotnicki</name>
-			<email>lp@randi2.de</email>
-			<organization>Deutsches Krebsforschungszentrum</organization>
-			<organizationUrl>http://www.dkfz.de</organizationUrl>
-			<timezone>GMT+0</timezone>
-			<roles>
-				<role>UI Development</role>
-			</roles>
-		</developer>
-		<developer>
-			<id>dhaehn</id>
-			<name>Daniel Hähn</name>
-			<email>dh@randi2.de</email>
-			<roles>
-				<role>Server Administration</role>
-			</roles>
-		</developer>
-		<developer>
-			<id>dschrimpf</id>
-			<name>Daniel Schrimpf</name>
-			<email>ds@randi2.de</email>
-			<organization>Deutsches Krebsforschungzentrum</organization>
-			<organizationUrl>http://www.dkfz.de</organizationUrl>
-			<roles>
-				<role>Gray Emininence</role>
-				<role>Security Development</role>
-			</roles>
-		</developer>
-		<developer>
-			<id>btheel</id>
-			<name>Benjamin Theel</name>
-			<email>benjamin.theel@gmx.de</email>
-			<organization>CSC Germany</organization>
-			<organizationUrl>http://www.csc.com/de</organizationUrl>
-			<roles>
-				<role>Gray Eminence</role>
-			</roles>
-		</developer>
-	</developers>
-	<organization>
-		<name>RANDI2 Core Development Team</name>
-		<url>http://randi2.de</url>
-	</organization>
 	<build>
 		<finalName>RANDI2</finalName>
 		<resources></resources>
