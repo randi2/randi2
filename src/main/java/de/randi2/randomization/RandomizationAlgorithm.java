@@ -63,6 +63,8 @@ public abstract class RandomizationAlgorithm<Conf extends BaseRandomizationConfi
 			Random random);
 
 	public int ggt(int x, int y) {
+		assert(x > 0);
+		assert(y > 0);		
 		while (x != y) {
 			if (x > y) {
 				x = x - y;
