@@ -3,77 +3,104 @@ package de.randi2.jsf.wrappers;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.List;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.el.ValueExpression;
 import javax.faces.application.Application;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.event.ValueChangeListener;
 
 import org.apache.jasper.tagplugins.jstl.core.Set;
 
 import com.icesoft.faces.component.ext.HtmlInputText;
 import com.icesoft.faces.component.ext.HtmlOutputLabel;
 import com.icesoft.faces.component.ext.HtmlPanelGrid;
+import com.icesoft.faces.component.selectinputtext.SelectInputText;
 
+import de.randi2.jsf.handlers.LoginHandler;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.criteria.AbstractCriterion;
 
 public class SubjectPropertyWrapper {
-	private SubjectProperty property = null;
-	private AutoCompleteObject<AbstractCriterion> criteriaAC = null;
-	private final List<AbstractCriterion> possibleCriteria;
-	private final String id;
 
-	public SubjectPropertyWrapper(List<AbstractCriterion> _possibleCriteria) {
-		possibleCriteria = _possibleCriteria;
-		id = Integer.toString(new Random().nextInt());
+	private final Application app = FacesContext.getCurrentInstance()
+			.getApplication();
+	private final ELContext elContext = FacesContext.getCurrentInstance()
+			.getELContext();
+	private final ExpressionFactory expressionFactory = app
+			.getExpressionFactory();
+	private ResourceBundle labels = null;
+
+	private SubjectProperty property = null;
+	private final AutoCompleteObject<AbstractCriterion> criteriaAC;
+	private final HtmlPanelGrid panelGrid;
+
+	@SuppressWarnings("unchecked")
+	public SubjectPropertyWrapper() {
+		criteriaAC = new AutoCompleteObject<AbstractCriterion>(
+				(ArrayList<AbstractCriterion>) expressionFactory
+						.createValueExpression(
+								FacesContext.getCurrentInstance()
+										.getELContext(),
+								"#{trialHandler.criteriaList}", ArrayList.class)
+						.getValue(elContext));
+		panelGrid = (HtmlPanelGrid) app
+				.createComponent(HtmlPanelGrid.COMPONENT_TYPE);
+		SelectInputText criteriaInputText = (SelectInputText) app
+				.createComponent(SelectInputText.COMPONENT_TYPE);
+		criteriaInputText.setImmediate(true);
+		criteriaInputText.setListValue(criteriaAC.getObjectList());
+		criteriaInputText.addValueChangeListener(new ValueChangeListener() {
+
+			@Override
+			public void processValueChange(ValueChangeEvent arg0)
+					throws AbortProcessingException {
+				criteriaAC.updateObjectList(arg0);
+				System.out.println("kdsajdlsajalkjdlka");
+				if (criteriaAC.isObjectSelected())
+					try {
+						createCriterionPanel();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}
+		});
+		HtmlOutputLabel crieteriaLabel = (HtmlOutputLabel) app
+				.createComponent(HtmlOutputLabel.COMPONENT_TYPE);
+		ValueExpression ve = expressionFactory.createValueExpression(
+				elContext, "#{loginHandler}", LoginHandler.class);
+		LoginHandler currentLoginHandler = (LoginHandler) ve
+				.getValue(elContext);
+		labels = ResourceBundle.getBundle("de.randi2.jsf.i18n.labels",
+				currentLoginHandler.getChosenLocale());
+		crieteriaLabel.setValue("!TYPE!");
+
+		panelGrid.setColumns(2);
+		panelGrid.setBorder(1);
+		panelGrid.getChildren().add(crieteriaLabel);
+		panelGrid.getChildren().add(criteriaInputText);
+
 	}
 
 	public SubjectProperty getProperty() {
 		return property;
 	}
 
-	public AutoCompleteObject<AbstractCriterion> getCriteriaAC() {
-		if (criteriaAC == null) {
-			criteriaAC = new AutoCompleteObject<AbstractCriterion>(
-					possibleCriteria);
-		}
-		return criteriaAC;
-	}
+	public void createCriterionPanel() throws IllegalArgumentException,
+			IllegalAccessException {
 
-	public void createCriterionPanel(UIComponent component)
-			throws IllegalArgumentException, IllegalAccessException {
-		// create sample components
-		// HtmlSelectOneListbox listbox = new HtmlSelectOneListbox();
-		// HtmlInputText text1 = new HtmlInputText();
-		// text1.setValue("TEST");
-		// List valueList = new ArrayList();
-		// SelectItem selectItem = new SelectItem("TEST1", "TEST1");
-		// valueList.add(selectItem);
-		// selectItem = new SelectItem("TEST2", "TEST2");
-		// valueList.add(selectItem);
-		// UISelectItems items = new UISelectItems();
-		// items.setValue(valueList);
-		// listbox.getChildren().add(items);
-		// grid1 = getGrid1();
-		// UIComponent testGrid =
-		// FacesContext.getCurrentInstance().getViewRoot().findComponent(this.getId());
-		// Add components
-		// testGrid.getChildren().add(text1);
-
-		Application application = FacesContext.getCurrentInstance()
-				.getApplication();
-		HtmlPanelGrid panel = null;
-		for(UIComponent comp : component.getParent()
-				.getChildren()){
-			if(comp instanceof HtmlPanelGrid)
-				panel = (HtmlPanelGrid)comp;
-		}
-		System.out.println(panel.getId());
-		panel.getChildren().clear();
+		HtmlPanelGrid panel = (HtmlPanelGrid) app
+				.createComponent(HtmlPanelGrid.COMPONENT_TYPE);
 		int componentNr = 0;
 		for (Field f : criteriaAC.getSelectedObject().getClass()
 				.getDeclaredFields()) {
@@ -81,13 +108,13 @@ public class SubjectPropertyWrapper {
 			if (!Modifier.isStatic(f.getModifiers())) // We're only interested
 				// in not-static fields
 				if (f.getType().equals(String.class)) {
-					HtmlOutputLabel label = (HtmlOutputLabel) application
+					HtmlOutputLabel label = (HtmlOutputLabel) app
 							.createComponent(HtmlOutputLabel.COMPONENT_TYPE);
 					label.setValue(f.getName());
 					label.setId("label" + componentNr);
 					panel.getChildren().add(label);
 					componentNr++;
-					HtmlInputText inputText = (HtmlInputText) application
+					HtmlInputText inputText = (HtmlInputText) app
 							.createComponent(HtmlInputText.COMPONENT_TYPE);
 					inputText.setValue(f.get(criteriaAC.getSelectedObject()));
 					inputText.setLabel("inputText" + componentNr);
@@ -100,13 +127,13 @@ public class SubjectPropertyWrapper {
 							.getSelectedObject())));
 					for (int j = 0; j < Array.getLength(f.get(criteriaAC
 							.getSelectedObject())); j++) {
-						HtmlOutputLabel label = (HtmlOutputLabel) application
+						HtmlOutputLabel label = (HtmlOutputLabel) app
 								.createComponent(HtmlOutputLabel.COMPONENT_TYPE);
 						label.setValue(j);
 						label.setId("label" + componentNr);
 						panel.getChildren().add(label);
 						componentNr++;
-						HtmlInputText inputText = (HtmlInputText) application
+						HtmlInputText inputText = (HtmlInputText) app
 								.createComponent(HtmlInputText.COMPONENT_TYPE);
 						inputText.setValue(Array.get(f.get(criteriaAC
 								.getSelectedObject()), j));
@@ -118,32 +145,10 @@ public class SubjectPropertyWrapper {
 
 		}
 
-		// HtmlOutputText newOutputText = (HtmlOutputText) application
-		// .createComponent(HtmlOutputText.COMPONENT_TYPE);
-		// newOutputText.setValue("Hello");
-		// newOutputText.setId("Label2");
-		// panel.getChildren().add(newOutputText);
-
 	}
 
-	public void criterionChanged(ValueChangeEvent event) {
-		System.out.println(event.getComponent().getId());
-		criteriaAC.updateObjectList(event);
-		if (criteriaAC.isObjectSelected()) {
-			try {
-				createCriterionPanel(event.getComponent());
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public String getId() {
-		return id;
+	public HtmlPanelGrid getPanelGrid() {
+		return panelGrid;
 	}
 
 }

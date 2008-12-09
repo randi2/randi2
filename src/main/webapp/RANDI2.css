@@ -1,0 +1,75 @@
+/* RANDI2 Style */
+.b1,.b2,.b3,.b4 {
+	font-size: 1px;
+	overflow: hidden;
+	display: block;
+}
+
+.b1 {
+	height: 1px;
+	background: #888;
+	margin: 0 5px;
+}
+
+.b2 {
+	height: 1px;
+	background: #ddd;
+	border-right: 2px solid #888;
+	border-left: 2px solid #888;
+	margin: 0 3px;
+}
+
+.b3 {
+	height: 1px;
+	background: #ddd;
+	border-right: 1px solid #888;
+	border-left: 1px solid #888;
+	margin: 0 2px;
+}
+
+.b4 {
+	height: 2px;
+	background: #ddd;
+	border-right: 1px solid #888;
+	border-left: 1px solid #888;
+	margin: 0 1px;
+}
+
+.contentb {
+	background: #ddd;
+	border-right: 1px solid #888;
+	border-left: 1px solid #888;
+}
+
+.contentb div {
+	margin-left: 5px;
+}
+
+.body {
+	margin: 0px 0px;
+	padding: 0px;
+	/* Need to set body margin and padding to get consistency between browsers. */
+	text-align: center; /* Hack for IE5/Win */
+}
+
+.contentRANDI2 {
+	width: 700px;
+	margin: 0px auto; /* Right and left margin widths set to "auto" */
+	text-align: left; /* Counteract to IE5/Win Hack */
+	padding: 0px;
+	/*
+	border: 1px dashed #333;
+	background-color: #eee;
+	*/
+}
+
+.contentREGISTER {
+	width: 450px;
+	margin: 0px auto; /* Right and left margin widths set to "auto" */
+	text-align: left; /* Counteract to IE5/Win Hack */
+	padding: 0px;
+	/*
+	border: 1px dashed #333;
+	background-color: #eee;
+	*/
+}

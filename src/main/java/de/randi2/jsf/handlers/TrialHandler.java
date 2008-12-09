@@ -1,3 +1,17 @@
+/* This file is part of RANDI2.
+ * 
+ * RANDI2 is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * RANDI2. If not, see <http://www.gnu.org/licenses/>.
+ */
 package de.randi2.jsf.handlers;
 
 import java.lang.reflect.InvocationTargetException;
@@ -16,7 +30,6 @@ import de.randi2.dao.TrialDao;
 import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
-import de.randi2.jsf.wrappers.SubjectPropertyWrapper;
 import de.randi2.model.Login;
 import de.randi2.model.Role;
 import de.randi2.model.TreatmentArm;
@@ -38,13 +51,13 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	@SuppressWarnings("unchecked")
 	public TrialHandler() {
 		super(Trial.class);
-		tempList = new ArrayList<AbstractCriterion>();
+		criteriaList = new ArrayList<AbstractCriterion>();
 		try {
 			for (Class c : Randi2.getClasses("de.randi2.model.criteria")) {
 				try {
 					if (c.getGenericSuperclass()
 							.equals(AbstractCriterion.class))
-						tempList.add((AbstractCriterion) c.getConstructor()
+						criteriaList.add((AbstractCriterion) c.getConstructor()
 								.newInstance());
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
@@ -74,11 +87,10 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	private AutoCompleteObject<Login> sponsorInvestigatorsAC = null;
 	private AutoCompleteObject<TrialSite> participatingSitesAC = null;
 
-	private ArrayList<AbstractCriterion> tempList = null;
+	private ArrayList<AbstractCriterion> criteriaList = null;
 
 	// TODO TEMP OBJECTS
 	private TimeZone zone;
-	private ArrayList<SubjectPropertyWrapper> properties = null;
 
 	// DB Access
 	private TrialDao trialDao;
@@ -153,15 +165,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 				newTrial.getTreatmentArms().size() - 1);
 	}
 
-	public void addProperty(ActionEvent event) {
-		SubjectPropertyWrapper pWrapper = new SubjectPropertyWrapper(tempList);
-		this.getProperties().add(pWrapper);
-	}
-
-	public void removeProperty(ActionEvent event) {
-		this.getProperties().remove(this.getProperties().size() - 1);
-	}
-
 	// TEMP
 	public TimeZone getZone() {
 		if (zone == null) {
@@ -170,19 +173,9 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		return zone;
 	}
 
-	public ArrayList<SubjectPropertyWrapper> getProperties() {
-		if (properties == null)
-			properties = new ArrayList<SubjectPropertyWrapper>();
-		return properties;
-	}
-
 	public int getTreatmentArmsCount() {
 		assert (newTrial != null);
 		return newTrial.getTreatmentArms().size();
-	}
-
-	public int getSubjectPropertiesCount() {
-		return this.getProperties().size();
 	}
 
 	public AutoCompleteObject<TrialSite> getTrialSitesAC() {
@@ -223,5 +216,9 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	public String saveObject() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public ArrayList<AbstractCriterion> getCriteriaList() {
+		return criteriaList;
 	}
 }

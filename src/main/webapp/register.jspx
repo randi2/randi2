@@ -29,19 +29,16 @@
 	<title><ice:outputText
 		value="#{labels['pages.registration.title']}" /></title>
 	<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
+	<ice:outputStyle href="RANDI2.css" />
 	</head>
 	<body>
-	<f:subview id="termsPopup">
+	<div class="body">
+	<div class="contentREGISTER"><f:subview id="termsPopup">
 		<jsp:directive.include file="./inc/popups/termsPopup.jspx" />
-	</f:subview>
-	<f:subview id="successPopup">
+	</f:subview> <f:subview id="successPopup">
 		<jsp:directive.include file="./inc/popups/successPopup.jspx" />
-	</f:subview>
-
-
-	<!-- The pages.registration Form  -->
-
-	<ice:panelBorder renderEast="false" renderWest="false">
+	</f:subview> <!-- The pages.registration Form  --> <ice:panelBorder
+		renderEast="false" renderWest="false">
 		<f:facet name="north">
 			<f:subview id="versionInclude">
 				<jsp:directive.include file="./inc/version.jspx" />
@@ -263,19 +260,24 @@
 		</f:facet>
 		<f:facet name="south">
 			<ice:panelGrid columns="2" width="100%">
+
 				<!-- copyright and company stuff -->
 				<ice:panelGroup>
 					<table width="100%" cellpadding="0" cellspacing="0">
 						<tr>
 							<td align="center"><ice:outputText
-								value="&#169; 2008 RANDI2 Development Team.
-							&#160; &#8226; &#160; randi2.hs-heilbronn.de"></ice:outputText></td>
+								value="&#169; #{randi2.year} RANDI2 Development Team.
+							&#160; &#8226; &#160;"></ice:outputText><ice:outputLink
+								value="#{randi2.website1}" target="_blank">
+								<ice:outputText value="#{randi2.website1}" />
+							</ice:outputLink></td>
 						</tr>
 					</table>
 				</ice:panelGroup>
 			</ice:panelGrid>
 		</f:facet>
-	</ice:panelBorder>
+	</ice:panelBorder></div>
+	</div>
 	</body>
 	</html>
 </f:view>

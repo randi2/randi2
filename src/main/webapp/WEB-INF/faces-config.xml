@@ -162,6 +162,14 @@
 	</managed-bean>
 
 	<managed-bean>
+		<description>Backing bean for the trial configuration process -
+			subject properties configuration</description>
+		<managed-bean-name>step4</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.pages.Step4</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
 		<description>
 			This bean controls the file upload. (Trial protocol
 			uplaod)

@@ -28,6 +28,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
 	<title><ice:outputText value="RANDI2" /></title>
 	<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
+	<ice:outputStyle href="RANDI2.css" />
 	</head>
 	<body>
 	<!-- Popups section -->
@@ -37,8 +38,9 @@
 	<f:subview id="helpPopup">
 		<jsp:directive.include file="./inc/popups/helpPopup.jspx" />
 	</f:subview>
-	<ice:panelBorder layout="hide east" border="0" cellpadding="1"
-		cellspacing="1" width="900px">
+	<div class="body">
+	<div class="contentRANDI2"><ice:panelBorder layout="hide east"
+		border="0" cellpadding="1" cellspacing="1" width="900px">
 
 		<f:facet name="north">
 			<ice:panelGroup>
@@ -84,12 +86,14 @@
 					</ice:panelGroup>
 					<ice:panelGroup id="trialSitesViewPanel">
 						<f:subview id="cvp">
-							<jsp:directive.include file="./inc/panels/trialSitesViewPanel.jspx" />
+							<jsp:directive.include
+								file="./inc/panels/trialSitesViewPanel.jspx" />
 						</f:subview>
 					</ice:panelGroup>
 					<ice:panelGroup id="trialSiteEditPanel">
 						<f:subview id="cep">
-							<jsp:directive.include file="./inc/panels/trialSiteEditPanel.jspx" />
+							<jsp:directive.include
+								file="./inc/panels/trialSiteEditPanel.jspx" />
 						</f:subview>
 					</ice:panelGroup>
 					<ice:panelGroup id="trialCreatePanel">
@@ -121,7 +125,8 @@
 				</ice:panelGroup>
 			</ice:panelGrid>
 		</f:facet>
-	</ice:panelBorder>
+	</ice:panelBorder></div>
+	</div>
 	</body>
 	</html>
 </f:view>
