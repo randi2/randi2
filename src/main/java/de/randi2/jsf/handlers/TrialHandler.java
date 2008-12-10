@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
+import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -29,7 +30,9 @@ import javax.faces.model.SelectItem;
 import de.randi2.dao.TrialDao;
 import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.Randi2;
+import de.randi2.jsf.pages.Step4;
 import de.randi2.jsf.utility.AutoCompleteObject;
+import de.randi2.jsf.wrappers.SubjectPropertyWrapper;
 import de.randi2.model.Login;
 import de.randi2.model.Role;
 import de.randi2.model.TreatmentArm;
@@ -148,7 +151,13 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	public String createTrial() {
-		// TODO Need to be implemented!
+		ValueExpression ve = FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(),
+				"#{step4}", Step4.class);
+		Step4 temp = (Step4) ve
+				.getValue(FacesContext.getCurrentInstance().getELContext());
+		for(SubjectPropertyWrapper wr : temp.getProperties()){
+			System.out.println(wr.getSelectedCriterion().getName());
+		}
 		return Randi2.SUCCESS;
 	}
 

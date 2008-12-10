@@ -11,6 +11,8 @@ import de.randi2.model.SubjectProperty;
  * 
  */
 public class NumericCriterion extends AbstractCriterion {
+	
+	
 
 	@Override
 	public void applyConstraints(SubjectProperty prop) {

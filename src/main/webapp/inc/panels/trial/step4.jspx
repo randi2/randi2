@@ -21,5 +21,13 @@
 	<ice:outputLabel
 		value="#{labels['pages.trialEditPanel.step4message'] }"></ice:outputLabel>
 </ice:panelGrid>
+<ice:panelGrid columns="3">
+	<ice:outputLabel value="#{labels['pages.trialEditPanel.propLabel']}" />
+	<ice:commandButton image="/img/icons/add16.png"
+		actionListener="#{step4.addProperty}" style="margin-right:5px;" />
+	<ice:commandButton image="/img/icons/remove16.png"
+		disabled="#{step4.propertiesEmpty}"
+		actionListener="#{step4.removeProperty}" />
+</ice:panelGrid>
 <ice:panelGroup styleClass="clearer" />
-<ice:panelGrid binding="#{step4.propertiesPanel}" />
+<ice:panelGrid binding="#{step4.propertiesPanel}"/>

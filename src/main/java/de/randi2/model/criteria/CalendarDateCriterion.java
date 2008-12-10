@@ -13,6 +13,8 @@ import de.randi2.model.SubjectProperty;
  * 
  */
 public class CalendarDateCriterion extends AbstractCriterion {
+
+	private static final long serialVersionUID = 6916473157612145090L;
 	
 	public GregorianCalendar date = null;
 

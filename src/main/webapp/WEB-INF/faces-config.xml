@@ -8,6 +8,7 @@
 	<application>
 		<message-bundle>de.randi2.jsf.i18n.labels</message-bundle>
 		<message-bundle>de.randi2.jsf.i18n.trialState</message-bundle>
+		<message-bundle>de.randi2.jsf.i18n.criteria</message-bundle>
 		<variable-resolver>
 			org.springframework.web.jsf.DelegatingVariableResolver
 		</variable-resolver>

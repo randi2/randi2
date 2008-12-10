@@ -57,11 +57,7 @@ public abstract class AbstractCriterion extends AbstractDomainObject {
 	 */
 	@Override
 	public String toString(){
-		StringBuffer sB = new StringBuffer(this.getClass().getSimpleName());
-		int index = sB.indexOf("Criterion");
-		if(index != -1)
-			sB.insert(index, " ");
-		return sB.toString();
+		return this.getClass().getCanonicalName();
 	}
 	
 }
