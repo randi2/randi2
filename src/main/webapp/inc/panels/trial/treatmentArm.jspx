@@ -14,45 +14,61 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
+
 <ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component"
-	style="padding:10px;background-image: url('img/sPanelBackground.png');float:left; height:215px; margin: 10px;">
-	<ice:panelGrid columns="2">
-		<ice:graphicImage value="/img/icons/arm16.png" />
-		<ice:outputLabel value="#{labels['pages.trialEditPanel.tArmLabel']}" />
-	</ice:panelGrid>
-	<ice:panelGrid>
-		<ice:outputLabel for="armName" value="#{labels['treatmentArm.name']}" />
-		<ice:panelGroup>
-			<ice:inputText id="armName" value="#{arm.name}" size="22"
-				required="#{arm.requiredFields['name']}" partialSubmit="true">
-				<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-				<f:attribute name="dObject" value="#{arm}" />
-			</ice:inputText>
-			<!--  <ice:message for="armName" tooltip="true" showDetail="false" showSummary="true"/>  -->
-		</ice:panelGroup>
-		<ice:outputLabel for="armDescription"
-			value="#{labels['treatmentArm.description']}" />
-		<ice:panelGroup>
-			<ice:inputTextarea id="armDescription" value="#{arm.description}"
-				style="width:135px;height:40px;overflow: auto;"
-				required="#{arm.requiredFields['description']}" partialSubmit="true">
-				<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-				<f:attribute name="dObject" value="#{arm}" />
-			</ice:inputTextarea>
-			<!-- <ice:message for="armDescription" tooltip="true" showDetail="false" showSummary="true"/> -->
-		</ice:panelGroup>
-		<ice:outputLabel for="armPlannedSubjects"
-			value="#{labels['treatmentArm.plannedSubjects']}" />
-		<ice:panelGroup>
-			<ice:inputText id="armPlannedSubjects" value="#{arm.plannedSubjects}"
-				size="22" required="#{arm.requiredFields['plannedSubjects']}"
-				partialSubmit="true">
-				<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-				<f:attribute name="dObject" value="#{arm}" />
-			</ice:inputText>
-			<!-- <ice:message for="armPlannedSubjects" tooltip="true" showDetail="false" showSummary="true"/> -->
-		</ice:panelGroup>
-	</ice:panelGrid>
+	style="padding:10px;float:left; height:215px; margin: 10px;">
+	<b class="b1"></b>
+	<b class="b2"></b>
+	<b class="b3"></b>
+	<b class="b4"></b>
+	<ice:panelGroup styleClass="contentb">
+		<ice:panelGrid columns="2">
+			<ice:graphicImage value="/img/icons/arm16.png" />
+			<ice:outputLabel value="#{labels['pages.trialEditPanel.tArmLabel']}" />
+		</ice:panelGrid>
+		<ice:panelGrid>
+			<ice:outputLabel for="armName" value="#{labels['treatmentArm.name']}" />
+			<ice:panelGroup>
+				<ice:inputText id="armName" value="#{arm.name}" size="22"
+					required="#{arm.requiredFields['name']}" partialSubmit="true">
+					<f:validator
+						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+					<f:attribute name="dObject" value="#{arm}" />
+				</ice:inputText>
+				<!--  <ice:message for="armName" tooltip="true" showDetail="false" showSummary="true"/>  -->
+			</ice:panelGroup>
+			<ice:outputLabel for="armDescription"
+				value="#{labels['treatmentArm.description']}" />
+			<ice:panelGroup>
+				<ice:inputTextarea id="armDescription" value="#{arm.description}"
+					style="width:135px;height:40px;overflow: auto;"
+					required="#{arm.requiredFields['description']}"
+					partialSubmit="true">
+					<f:validator
+						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+					<f:attribute name="dObject" value="#{arm}" />
+				</ice:inputTextarea>
+				<!-- <ice:message for="armDescription" tooltip="true" showDetail="false" showSummary="true"/> -->
+			</ice:panelGroup>
+			<ice:outputLabel for="armPlannedSubjects"
+				value="#{labels['treatmentArm.plannedSubjects']}" />
+			<ice:panelGroup>
+				<ice:inputText id="armPlannedSubjects"
+					value="#{arm.plannedSubjects}" size="22"
+					required="#{arm.requiredFields['plannedSubjects']}"
+					partialSubmit="true">
+					<f:validator
+						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+					<f:attribute name="dObject" value="#{arm}" />
+				</ice:inputText>
+				<!-- <ice:message for="armPlannedSubjects" tooltip="true" showDetail="false" showSummary="true"/> -->
+			</ice:panelGroup>
+		</ice:panelGrid>
+	</ice:panelGroup>
+	<b class="b4"></b>
+	<b class="b3"></b>
+	<b class="b2"></b>
+	<b class="b1"></b>
 </ice:panelGroup>

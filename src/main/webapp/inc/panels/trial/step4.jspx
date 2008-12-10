@@ -18,20 +18,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" columns="2">
 	<ice:graphicImage value="/img/icons/properties48.png"></ice:graphicImage>
-	<ice:outputLabel value="#{labels['pages.trialEditPanel.step4message'] }"></ice:outputLabel>
-</ice:panelGrid>
-<ice:panelGrid columns="3">
-	<ice:outputLabel value="#{labels['pages.trialEditPanel.propLabel']}" />
-	<ice:commandButton image="/img/icons/add16.png" actionListener="#{trialHandler.addProperty}"
-		style="margin-right:5px;" />
-	<ice:commandButton image="/img/icons/remove16.png"
-		disabled="#{trialHandler.subjectPropertiesCount==0}"
-		actionListener="#{trialHandler.removeProperty}" />
+	<ice:outputLabel
+		value="#{labels['pages.trialEditPanel.step4message'] }"></ice:outputLabel>
 </ice:panelGrid>
 <ice:panelGroup styleClass="clearer" />
-<ice:panelSeries value="#{trialHandler.properties}" var="property"
-	style="padding:10px;">
-	<f:subview id="treatmentArmInclude">
-		<jsp:directive.include file="./inc/panels/trial/subjectProperty.jspx" />
-	</f:subview>
-</ice:panelSeries>
+<ice:panelGrid binding="#{step4.propertiesPanel}" />
