@@ -32,7 +32,7 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 	}
 	
 	// TODO Some hibernate problem, should be fixed
-	//@Test
+	@Test
 	public void testVersion(){
 		hibernateTemplate.save(validObject);
 		int version = validObject.getVersion();
@@ -42,7 +42,6 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 		v1.setPassword("Aenderung$1");
 		hibernateTemplate.saveOrUpdate(v1);
 		assertTrue(version < v1.getId());	
-		
 		v2.setPassword("Aenderung$2");
 		
 		try{
@@ -50,22 +49,18 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 			fail("Should fail because of Version Conflicts");
 		}
 		catch(HibernateOptimisticLockingFailureException e){
-			
+			hibernateTemplate.evict(v2);
 		}
 		
 		Login v3 = (Login) hibernateTemplate.get(Login.class, validObject.getId());
 		assertEquals(v1.getPassword(), v3.getPassword());
-		
-		hibernateTemplate.refresh(v2);
+		v2 = (Login) hibernateTemplate.get(Login.class, validObject.getId());
+//		hibernateTemplate.refresh(v2);
 		v2.setPassword("Aenderung$2");
 		hibernateTemplate.saveOrUpdate(v2);
 		Login v4 = (Login) hibernateTemplate.get(Login.class, validObject.getId());
 		assertEquals(v2.getPassword(), v4.getPassword());
 	}
 	
-	@Test
-	public void fakeTest(){
-		assertTrue(true);
-	}
 
 }
