@@ -11,8 +11,8 @@ import de.randi2.model.SubjectProperty;
  * 
  */
 public class NumericCriterion extends AbstractCriterion {
-	
-	
+
+	private static final long serialVersionUID = -7119779388124571391L;
 
 	@Override
 	public void applyConstraints(SubjectProperty prop) {

@@ -17,10 +17,12 @@ import de.randi2.model.SubjectProperty;
  */
 public abstract class AbstractCriterion extends AbstractDomainObject {
 
+	private static final long serialVersionUID = 6845807707883121147L;
+
 	// The name of the criterion i.e. birthday
-	protected String name;
+	public String name;
 	
-	protected String description;
+	public String description;
 	
 	protected boolean isStratum = false;
 

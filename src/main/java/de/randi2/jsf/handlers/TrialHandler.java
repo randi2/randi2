@@ -39,6 +39,7 @@ import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.criteria.AbstractCriterion;
+import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.enumerations.TrialStatus;
 
 /**
@@ -157,6 +158,10 @@ public class TrialHandler extends AbstractHandler<Trial> {
 				.getValue(FacesContext.getCurrentInstance().getELContext());
 		for(SubjectPropertyWrapper wr : temp.getProperties()){
 			System.out.println(wr.getSelectedCriterion().getName());
+			System.out.println(wr.getSelectedCriterion().getDescription());
+			if(wr.getSelectedCriterion() instanceof DichotomousCriterion){
+				System.out.println(((DichotomousCriterion)wr.getSelectedCriterion()).options[0]);
+			}
 		}
 		return Randi2.SUCCESS;
 	}

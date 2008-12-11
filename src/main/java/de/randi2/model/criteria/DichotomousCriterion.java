@@ -4,6 +4,8 @@ import de.randi2.model.SubjectProperty;
 import de.randi2.utility.StratumProc;
 
 public class DichotomousCriterion extends AbstractCriterion{
+
+	private static final long serialVersionUID = -2153872079417596823L;
 	
 	private static final String TRUE_STRING = "TRUE";
 	private static final String FALSE_STRING = "FALSE";
@@ -47,6 +49,14 @@ public class DichotomousCriterion extends AbstractCriterion{
 				prop.setStratumComputation(StratumProc.binaryStratification(options[0], options[1]));
 			}
 		}
+	}
+
+	public String[] getOptions() {
+		return options;
+	}
+
+	public void setOptions(String[] options) {
+		this.options = options;
 	}
 
 }

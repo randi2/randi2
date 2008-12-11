@@ -36,7 +36,7 @@ public class Step4 {
 
 	public void addProperty(ActionEvent event) {
 		assert (propertiesPanel != null);
-		SubjectPropertyWrapper pWrapper = new SubjectPropertyWrapper();
+		SubjectPropertyWrapper pWrapper = new SubjectPropertyWrapper(getProperties().size());
 		getProperties().add(pWrapper);
 		propertiesPanel.getChildren().add((UIComponent) pWrapper.getPropertyPanel());
 	}

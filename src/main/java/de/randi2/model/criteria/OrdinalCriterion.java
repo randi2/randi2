@@ -1,7 +1,7 @@
 package de.randi2.model.criteria;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.randi2.model.SubjectProperty;
 
@@ -17,6 +17,8 @@ import de.randi2.model.SubjectProperty;
  */
 public class OrdinalCriterion extends AbstractCriterion {
 
+	private static final long serialVersionUID = -1596645059608735663L;
+
 	private enum PrototypeElements {
 		red, green, black, white
 	};
@@ -24,7 +26,7 @@ public class OrdinalCriterion extends AbstractCriterion {
 	/**
 	 * Set object storing the possible values.
 	 */
-	public Set<String> elements = new HashSet<String>();
+	public List<String> elements = new ArrayList<String>();
 	
 	/* (non-Javadoc)
 	 * @see de.randi2.model.criteria.AbstractCriterion#applyConstraints(de.randi2.model.SubjectProperty)
@@ -51,6 +53,14 @@ public class OrdinalCriterion extends AbstractCriterion {
 		applyConstraints(prototype);
 		prototype.setCriterion(this);
 		return prototype;
+	}
+
+	public List<String> getElements() {
+		return elements;
+	}
+
+	public void setElements(List<String> elements) {
+		this.elements = elements;
 	}
 
 }
