@@ -1,5 +1,7 @@
 package de.randi2.model.criteria;
 
+import javax.persistence.Entity;
+
 import de.randi2.model.SubjectProperty;
 
 /**
@@ -10,6 +12,7 @@ import de.randi2.model.SubjectProperty;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  * 
  */
+@Entity
 public class NumericCriterion extends AbstractCriterion {
 
 	private static final long serialVersionUID = -7119779388124571391L;

@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.exceptions.ValidationException;
 
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @MappedSuperclass
 public abstract class AbstractDomainObject implements Serializable {
 

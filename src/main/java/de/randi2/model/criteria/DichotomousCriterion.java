@@ -1,8 +1,16 @@
 package de.randi2.model.criteria;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+
+import org.hibernate.annotations.CollectionOfElements;
+import org.hibernate.annotations.IndexColumn;
+
 import de.randi2.model.SubjectProperty;
 import de.randi2.utility.StratumProc;
 
+@Entity
 public class DichotomousCriterion extends AbstractCriterion{
 
 	private static final long serialVersionUID = -2153872079417596823L;
@@ -10,6 +18,8 @@ public class DichotomousCriterion extends AbstractCriterion{
 	private static final String TRUE_STRING = "TRUE";
 	private static final String FALSE_STRING = "FALSE";
 
+	@CollectionOfElements
+	@IndexColumn(name="options")
 	public String options[] = new String[2];
 	private boolean isBinary = true; 
 	

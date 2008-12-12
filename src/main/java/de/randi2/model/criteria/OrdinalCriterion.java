@@ -3,6 +3,10 @@ package de.randi2.model.criteria;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+
+import org.hibernate.annotations.CollectionOfElements;
+
 import de.randi2.model.SubjectProperty;
 
 /**
@@ -15,6 +19,7 @@ import de.randi2.model.SubjectProperty;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  * 
  */
+@Entity
 public class OrdinalCriterion extends AbstractCriterion {
 
 	private static final long serialVersionUID = -1596645059608735663L;
@@ -26,6 +31,7 @@ public class OrdinalCriterion extends AbstractCriterion {
 	/**
 	 * Set object storing the possible values.
 	 */
+	@CollectionOfElements
 	public List<String> elements = new ArrayList<String>();
 	
 	/* (non-Javadoc)

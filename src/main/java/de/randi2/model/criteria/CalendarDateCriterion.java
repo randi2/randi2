@@ -2,6 +2,11 @@ package de.randi2.model.criteria;
 
 import java.util.GregorianCalendar;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
 import de.randi2.model.SubjectProperty;
 
 /**
@@ -12,6 +17,7 @@ import de.randi2.model.SubjectProperty;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  * 
  */
+@Entity
 public class CalendarDateCriterion extends AbstractCriterion {
 
 	private static final long serialVersionUID = 6916473157612145090L;

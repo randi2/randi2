@@ -10,7 +10,7 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">
-					org.hibernate.dialect.MySQL5Dialect
+					org.hibernate.dialect.MySQL5InnoDBDialect
 				</prop>
 				<prop key="hibernate.show_sql">false</prop>
 				<prop key="hibernate.connection.autocommit">false</prop>
@@ -32,7 +32,15 @@
 				<value>de.randi2.model.DateChange</value>
 				<value>de.randi2.model.criteria.AbstractCriterion
 				</value>
-				<value>de.randi2.model.security.AclHibernate
+				<value>de.randi2.model.criteria.CalendarDateCriterion
+				</value>
+				<value>de.randi2.model.criteria.DichotomousCriterion
+				</value>
+					<value>de.randi2.model.criteria.NumericCriterion
+				</value>
+					<value>de.randi2.model.criteria.OrdinalCriterion
+				</value>
+					<value>de.randi2.model.security.AclHibernate
 				</value>
 				<value>de.randi2.model.security.AccessControlEntryHibernate
 				</value>

@@ -63,7 +63,7 @@ public class Trial extends AbstractDomainObject {
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<TrialSite> participatingSites = new HashSet<TrialSite>();
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="trial")
 	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();
 
 	@OneToMany(cascade = CascadeType.ALL)
