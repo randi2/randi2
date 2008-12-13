@@ -1,17 +1,12 @@
 package de.randi2.model.criteria;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
+import java.util.List;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.ForceDiscriminator;
+import javax.persistence.Transient;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.SubjectProperty;
@@ -32,7 +27,7 @@ import de.randi2.model.SubjectProperty;
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @Table(name="Criterion")
-public abstract class AbstractCriterion extends AbstractDomainObject {
+public abstract class AbstractCriterion<V> extends AbstractDomainObject {
 
 	private static final long serialVersionUID = 6845807707883121147L;
 
@@ -42,7 +37,15 @@ public abstract class AbstractCriterion extends AbstractDomainObject {
 	
 	public String description;
 	
+	@Transient
+	protected List<V> configuredValues;
+	
+	@Transient
+	public abstract List<V> getConfiguredValues();
+	
 	protected boolean isStratum = false;
+	
+	protected boolean isInclusionCriterion = false;
 
 	public String getName() {
 		return name;
@@ -60,9 +63,13 @@ public abstract class AbstractCriterion extends AbstractDomainObject {
 		return this.isStratum;
 	}
 	
-	public abstract SubjectProperty createPropertyPrototype();
+	public abstract AbstractConstraints<?> getConstraints();
+	
+	public abstract void setConstraints(AbstractConstraints<?> _constraints);
+	
+	public abstract SubjectProperty<V> createPropertyPrototype();
 
-	public abstract void applyConstraints(SubjectProperty prop);
+	public abstract void applyConstraints(SubjectProperty<V> prop);
 
 	public String getDescription() {
 		return description;
@@ -72,6 +79,15 @@ public abstract class AbstractCriterion extends AbstractDomainObject {
 		this.description = description;
 	}
 	
+	public boolean isInclusionCriterion() {
+		return isInclusionCriterion;
+	}
+
+	public void setInclusionCriterion(boolean isInclusionCriterion) {
+		this.isInclusionCriterion = isInclusionCriterion;
+	}
+	
+	
 	/* (non-Javadoc)
 	 * @see de.randi2.model.AbstractDomainObject#toString()
 	 */
@@ -79,5 +95,5 @@ public abstract class AbstractCriterion extends AbstractDomainObject {
 	public String toString(){
 		return this.getClass().getCanonicalName();
 	}
-	
+
 }

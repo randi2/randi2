@@ -6,7 +6,7 @@ public abstract class StratumProc {
 		return new StratumProc(){
 
 			@Override
-			public int stratify(String value) {
+			public <String> int stratify(String value) {
 				return 0;
 			}
 			
@@ -19,7 +19,7 @@ public abstract class StratumProc {
 		return new StratumProc(){
 
 			@Override
-			public int stratify(String value) {
+			public <String> int stratify(String value) {
 				if(value.equals(opt1)){
 					return 0;
 				}
@@ -32,6 +32,6 @@ public abstract class StratumProc {
 		};
 	}
 	
-	public abstract int stratify(String value);
+	public abstract <V> int stratify(V value);
 	
 }

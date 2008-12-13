@@ -7,10 +7,12 @@ import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.StratumProc;
 
-public final class SubjectProperty extends AbstractDomainObject{
+public final class SubjectProperty<V> extends AbstractDomainObject{
 	
-	private String value;
-	private AbstractCriterion criterion;
+	private static final long serialVersionUID = 6795792982229806832L;
+	
+	private V value;
+	private AbstractCriterion<V> criterion;
 	
 	private List<Object> possibleValues = new ArrayList<Object>();
 
@@ -34,21 +36,21 @@ public final class SubjectProperty extends AbstractDomainObject{
 	
 	
 	// Get- and Set Methods
-	public String getValue() {
+	public V getValue() {
 		return value;
 	}
 
-	public void setValue(String value) throws ContraintViolatedException {
+	public void setValue(V value) throws ContraintViolatedException {
 		this.checkConstraints(value);
 		this.value = value;
 	}
 	
 	// Check-Methoden
-	private void checkConstraints(String value) throws ContraintViolatedException{
+	private void checkConstraints(V value) throws ContraintViolatedException{
 		this.checkPossibleValues(value);
 	}
 	
-	private void checkPossibleValues(String value) throws ContraintViolatedException{
+	private void checkPossibleValues(V value) throws ContraintViolatedException{
 		if(!possibleValues.isEmpty()){
 			if(!possibleValues.contains(value)){
 				throw new ContraintViolatedException(); // TODO nice constraint violation message 

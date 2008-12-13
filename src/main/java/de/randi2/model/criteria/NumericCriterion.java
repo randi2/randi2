@@ -1,5 +1,7 @@
 package de.randi2.model.criteria;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 
 import de.randi2.model.SubjectProperty;
@@ -13,18 +15,37 @@ import de.randi2.model.SubjectProperty;
  * 
  */
 @Entity
-public class NumericCriterion extends AbstractCriterion {
+public class NumericCriterion extends AbstractCriterion<Float> {
 
 	private static final long serialVersionUID = -7119779388124571391L;
 
-	@Override
-	public void applyConstraints(SubjectProperty prop) {
-		// TODO Auto-generated method stub
 
+	@Override
+	public AbstractConstraints<?> getConstraints() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public SubjectProperty createPropertyPrototype() {
+	public void setConstraints(AbstractConstraints<?> _constraints) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void applyConstraints(SubjectProperty<Float> prop) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public SubjectProperty<Float> createPropertyPrototype() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Float> getConfiguredValues() {
 		// TODO Auto-generated method stub
 		return null;
 	}

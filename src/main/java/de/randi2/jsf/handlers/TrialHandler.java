@@ -52,17 +52,15 @@ import de.randi2.model.enumerations.TrialStatus;
  */
 public class TrialHandler extends AbstractHandler<Trial> {
 
-	@SuppressWarnings("unchecked")
 	public TrialHandler() {
 		super(Trial.class);
-		criteriaList = new ArrayList<AbstractCriterion>();
+		criteriaList = new ArrayList<AbstractCriterion<?>>();
 		try {
-			for (Class c : Randi2.getClasses("de.randi2.model.criteria")) {
+			for (Class<?> c : Randi2.getClasses("de.randi2.model.criteria")) {
 				try {
-					if (c.getGenericSuperclass()
+					if (c.getSuperclass()
 							.equals(AbstractCriterion.class))
-						criteriaList.add((AbstractCriterion) c.getConstructor()
-								.newInstance());
+						criteriaList.add((AbstractCriterion<?>) c.getConstructor().newInstance());
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
 				} catch (SecurityException e) {
@@ -91,7 +89,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	private AutoCompleteObject<Login> sponsorInvestigatorsAC = null;
 	private AutoCompleteObject<TrialSite> participatingSitesAC = null;
 
-	private ArrayList<AbstractCriterion> criteriaList = null;
+	private ArrayList<AbstractCriterion<?>> criteriaList = null;
 
 	// TODO TEMP OBJECTS
 	private TimeZone zone;
@@ -161,6 +159,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 			System.out.println(wr.getSelectedCriterion().getDescription());
 			if(wr.getSelectedCriterion() instanceof DichotomousCriterion){
 				System.out.println(((DichotomousCriterion)wr.getSelectedCriterion()).options[0]);
+				System.out.println(((DichotomousCriterion)wr.getSelectedCriterion()).options[1]);
 			}
 		}
 		return Randi2.SUCCESS;
@@ -232,7 +231,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		return null;
 	}
 
-	public ArrayList<AbstractCriterion> getCriteriaList() {
+	public ArrayList<AbstractCriterion<?>> getCriteriaList() {
 		return criteriaList;
 	}
 }
