@@ -41,16 +41,14 @@
 				rendered="#{!loginHandler.creatingMode}"></ice:outputLabel>
 			<ice:outputText id="creationDate"
 				value="#{loginHandler.showedObject.createdAt.time}"
-				rendered="#{!loginHandler.creatingMode}">
-				<f:convertDateTime pattern="MM/dd/yyyy" />
+				rendered="#{!loginHandler.creatingMode}" converter="javax.faces.DateTime">
 			</ice:outputText>
 			<ice:outputLabel for="lastLoggedIn"
 				value="#{labels['login.lastLoggedIn']}"
 				rendered="#{!loginHandler.creatingMode}"></ice:outputLabel>
 			<ice:outputText id="lastLoggedIn"
 				value="#{loginHandler.showedObject.lastLoggedIn.time}"
-				rendered="#{!loginHandler.creatingMode}">
-				<f:convertDateTime pattern="MM/dd/yyyy" />
+				rendered="#{!loginHandler.creatingMode}" converter="javax.faces.DateTime">
 			</ice:outputText>
 			<ice:outputLabel for="password" value="#{labels['login.password']}"></ice:outputLabel>
 			<ice:panelGroup id="passwordDummy"

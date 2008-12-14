@@ -49,7 +49,7 @@
 		</f:facet>
 	</ice:column>
 	<ice:column id="column5">
-		<ice:outputText value="#{member.login.lastLoggedIn}"></ice:outputText>
+		<ice:outputText value="#{member.login.lastLoggedIn.time}" converter="javax.faces.DateTime"></ice:outputText>
 		<f:facet name="header">
 			<ice:outputText value="#{labels['login.lastLoggedIn']}"
 				id="lastloggedinH" style="width:100px;"></ice:outputText>
