@@ -36,10 +36,14 @@
 				</value>
 				<value>de.randi2.model.criteria.DichotomousCriterion
 				</value>
-					<value>de.randi2.model.criteria.NumericCriterion
+				<value>de.randi2.model.criteria.NumericCriterion
 				</value>
 					<value>de.randi2.model.criteria.OrdinalCriterion
 				</value>
+				<value>de.randi2.model.randomization.BlockRandomizationTempData</value>
+				<value>de.randi2.model.randomization.AbstractRandomizationTempData</value>
+				<value>de.randi2.model.randomization.BaseRandomizationConfig</value>
+				<value>de.randi2.model.randomization.BlockRandomizationConfig</value>
 					<value>de.randi2.model.security.AclHibernate
 				</value>
 				<value>de.randi2.model.security.AccessControlEntryHibernate

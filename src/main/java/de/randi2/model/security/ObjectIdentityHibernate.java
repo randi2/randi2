@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import org.hibernate.annotations.Type;
 import org.springframework.security.acls.objectidentity.ObjectIdentity;
 
+import de.randi2.model.AbstractDomainObject;
+
 @Entity
 public class ObjectIdentityHibernate implements ObjectIdentity {
 
@@ -18,7 +20,7 @@ public class ObjectIdentityHibernate implements ObjectIdentity {
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private long id;
 	
-	private Class javaType;
+	private Class<? extends AbstractDomainObject> javaType;
 	private long identifier;
 	
 	public ObjectIdentityHibernate() {

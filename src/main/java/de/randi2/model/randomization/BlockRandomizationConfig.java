@@ -1,6 +1,14 @@
 package de.randi2.model.randomization;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
+@Entity
 public class BlockRandomizationConfig extends BaseRandomizationConfig {
+	
 	
 	public enum TYPE {
 		MULTIPLY, ABSOLUTE;
@@ -8,6 +16,8 @@ public class BlockRandomizationConfig extends BaseRandomizationConfig {
 	
 	private int minimum;
 	private int maximum;
+	
+	@Enumerated(EnumType.STRING)
 	private TYPE type;
 	
 	public int getMinimum() {

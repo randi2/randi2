@@ -15,6 +15,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import org.hibernate.validator.Length;
@@ -69,10 +70,9 @@ public class Trial extends AbstractDomainObject {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<AbstractCriterion> inclusionCriteria;
 
-	// FIXME: Nachziehen
-	@Transient
+	@OneToOne
 	private BaseRandomizationConfig randomizationConfiguration;
-	@Transient
+	@OneToOne
 	private AbstractRandomizationTempData randomizationTempData;
 
 	public String getName() {
