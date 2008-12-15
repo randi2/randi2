@@ -58,13 +58,13 @@ public final class SubjectProperty<V> extends AbstractDomainObject{
 		}
 	}
 
-	public AbstractCriterion getCriterion() {
+	public AbstractCriterion<V> getCriterion() {
 		return criterion;
 	}
 
-	public void setCriterion(AbstractCriterion criterion) {
-		this.criterion = criterion;
-		criterion.applyConstraints(this);
+	public void setCriterion(AbstractCriterion<V> criterion) {
+		this.criterion = (AbstractCriterion<V>) criterion;
+		criterion.applyConstraints((SubjectProperty<V>) this);
 	}
 	
 	@Override
