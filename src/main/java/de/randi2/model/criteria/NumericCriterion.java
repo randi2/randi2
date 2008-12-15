@@ -21,13 +21,13 @@ public class NumericCriterion extends AbstractCriterion<Float> {
 
 
 	@Override
-	public AbstractConstraints<?> getConstraints() {
+	public AbstractConstraints<Float> getConstraints() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setConstraints(AbstractConstraints<?> _constraints) {
+	public void setConstraints(AbstractConstraints<Float> _constraints) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -83,8 +83,8 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 	@Embeddable
 	public class DichotomousConstraints extends AbstractConstraints<String> {
 
-		public String expectedValue = FALSE_STRING;
-		
+		public String expectedValue;
+
 		@Override
 		public boolean checkValue(String _value) {
 			return expectedValue.equals(_value);
@@ -97,29 +97,32 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 		public void setExpectedValue(String expectedValue) {
 			this.expectedValue = expectedValue;
 		}
-		
 
 	}
 
 	@Override
 	public DichotomousConstraints getConstraints() {
-		if (isInclusionCriterion){
-			if(constraints==null)
-				constraints = new DichotomousConstraints();
-			return constraints;
-		}
-		return null; // TODO We could use a proper exception
+		if (constraints == null)
+			constraints = new DichotomousConstraints();
+		return constraints;
 	}
 
 	@Override
-	public void setConstraints(AbstractConstraints<?> _constraints) {
+	public void setConstraints(AbstractConstraints<String> _constraints) {
 		constraints = (DichotomousConstraints) _constraints;
 	}
 
 	@Override
 	public List<String> getConfiguredValues() {
-		if(configuredValues==null){
+		if ((options[0] == null && options[1] == null)
+				|| (options[0].isEmpty() && options[1].isEmpty()))
+			return null; // The Values are not configured.
+		else if (configuredValues == null) {
 			configuredValues = new ArrayList<String>();
+			configuredValues.add(options[0]);
+			configuredValues.add(options[1]);
+		} else {
+			configuredValues.clear();
 			configuredValues.add(options[0]);
 			configuredValues.add(options[1]);
 		}

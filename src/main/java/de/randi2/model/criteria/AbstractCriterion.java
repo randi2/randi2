@@ -11,8 +11,6 @@ import javax.persistence.Transient;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.SubjectProperty;
 
-
-
 /**
  * This class maps the needed behaviour of a Trial subject. With the Classes
  * inherited from this class you can define anything you need, referring to the
@@ -63,9 +61,10 @@ public abstract class AbstractCriterion<V> extends AbstractDomainObject {
 		return this.isStratum;
 	}
 	
-	public abstract AbstractConstraints<?> getConstraints();
+	@Transient
+	public abstract AbstractConstraints<V> getConstraints();
 	
-	public abstract void setConstraints(AbstractConstraints<?> _constraints);
+	public abstract void setConstraints(AbstractConstraints<V> _constraints);
 	
 	public abstract SubjectProperty<V> createPropertyPrototype();
 

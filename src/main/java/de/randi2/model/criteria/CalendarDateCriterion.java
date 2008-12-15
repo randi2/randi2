@@ -22,13 +22,13 @@ public class CalendarDateCriterion extends AbstractCriterion<GregorianCalendar> 
 	public GregorianCalendar date = null;
 
 	@Override
-	public AbstractConstraints<?> getConstraints() {
+	public AbstractConstraints<GregorianCalendar> getConstraints() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setConstraints(AbstractConstraints<?> _constraints) {
+	public void setConstraints(AbstractConstraints<GregorianCalendar> _constraints) {
 		// TODO Auto-generated method stub
 		
 	}
