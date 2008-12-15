@@ -13,6 +13,7 @@ import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.component.UIPanel;
 import javax.faces.component.UISelectItems;
 import javax.faces.context.FacesContext;
@@ -27,6 +28,7 @@ import com.icesoft.faces.component.ext.HtmlOutputLabel;
 import com.icesoft.faces.component.ext.HtmlPanelGrid;
 import com.icesoft.faces.component.ext.HtmlPanelGroup;
 import com.icesoft.faces.component.ext.HtmlSelectBooleanCheckbox;
+import com.icesoft.faces.component.ext.HtmlSelectManyMenu;
 import com.icesoft.faces.component.ext.HtmlSelectOneMenu;
 import com.icesoft.faces.component.panelcollapsible.PanelCollapsible;
 import com.icesoft.faces.component.selectinputtext.SelectInputText;
@@ -69,10 +71,21 @@ public class SubjectPropertyWrapper {
 	private HtmlPanelGrid firstPanel;
 	private HtmlPanelGrid secondPanel;
 
+	private Listener listener;
+
+	private SelectInputText criteriaInputText;
+
+	private List<SelectItem> valuesToShow;
+
+	private HtmlSelectBooleanCheckbox isInclCritCheckbox;
+
+	private HtmlPanelGrid constraintsPanel;
+
 	@SuppressWarnings("unchecked")
 	public SubjectPropertyWrapper(int _propertyNr) {
 
 		propertyNr = _propertyNr;
+		listener = new Listener();
 
 		ValueExpression ve = expressionFactory.createValueExpression(elContext,
 				"#{loginHandler}", LoginHandler.class);
@@ -111,7 +124,7 @@ public class SubjectPropertyWrapper {
 				.createComponent(HtmlOutputLabel.COMPONENT_TYPE);
 		crieteriaLabel.setValue(criteria.getString("criteriaType"));
 
-		SelectInputText criteriaInputText = (SelectInputText) app
+		criteriaInputText = (SelectInputText) app
 				.createComponent(SelectInputText.COMPONENT_TYPE);
 		SelectInputTextTag sitTag = new SelectInputTextTag();
 		criteriaInputText.setRendererType(sitTag.getRendererType());
@@ -125,41 +138,7 @@ public class SubjectPropertyWrapper {
 		}
 		selectItems.setValue(criteriaAC.getObjectList());
 		criteriaInputText.getChildren().add(selectItems);
-		criteriaInputText.addValueChangeListener(new ValueChangeListener() {
-
-			@Override
-			public void processValueChange(ValueChangeEvent arg0)
-					throws AbortProcessingException {
-				criteriaAC.updateObjectList(arg0);
-				if (criteriaAC.isObjectSelected())
-					try {
-						selectedCriterion = criteriaAC.getSelectedObject()
-								.getClass().getConstructor().newInstance();
-						createCriterionPanel();
-					} catch (IllegalArgumentException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (SecurityException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (NoSuchFieldException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InstantiationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (NoSuchMethodException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			}
-		});
+		criteriaInputText.addValueChangeListener(listener);
 
 		criteriaChoicePanel.getChildren().add(crieteriaLabel);
 		criteriaChoicePanel.getChildren().add(criteriaInputText);
@@ -167,7 +146,7 @@ public class SubjectPropertyWrapper {
 
 	}
 
-	public SubjectProperty getProperty() {
+	public SubjectProperty<?> getProperty() {
 		return property;
 	}
 
@@ -233,59 +212,30 @@ public class SubjectPropertyWrapper {
 				}
 				// List<String>
 				else if (f.get(selectedCriterion) instanceof List) {
-					if (!((List<String>) f.get(selectedCriterion)).isEmpty()) {
-						for (int nr = 0; nr < ((List<String>) f
-								.get(selectedCriterion)).size(); nr++) {
-							firstPanel
-									.getChildren()
-									.addAll(
-											creatComponentsForField(
-													f,
-													expressionFactory
-															.createValueExpression(
-																	elContext,
-																	"#{step4.properties["
-																			+ propertyNr
-																			+ "].selectedCriterion."
-																			+ f
-																					.getName()
-																			+ "["
-																			+ nr
-																			+ "]}",
-																	String.class),
-													HtmlInputText.class));
-						}
-					} else {
-						// FIXME TEMP
-						for (int i = 0; i < 4; i++) {
-							((List<String>) f.get(selectedCriterion))
-									.add(new String("test" + i));
-						}
-						for (int nr = 0; nr < ((List<String>) f
-								.get(selectedCriterion)).size(); nr++) {
-							firstPanel
-									.getChildren()
-									.addAll(
-											creatComponentsForField(
-													f,
-													expressionFactory
-															.createValueExpression(
-																	elContext,
-																	"#{step4.properties["
-																			+ propertyNr
-																			+ "].selectedCriterion."
-																			+ f
-																					.getName()
-																			+ "["
-																			+ nr
-																			+ "]}",
-																	String.class),
-													HtmlInputText.class));
-						}
+					for (int nr = 0; nr < ((List<String>) f
+							.get(selectedCriterion)).size(); nr++) {
+						firstPanel
+								.getChildren()
+								.addAll(
+										creatComponentsForField(
+												f,
+												expressionFactory
+														.createValueExpression(
+																elContext,
+																"#{step4.properties["
+																		+ propertyNr
+																		+ "].selectedCriterion."
+																		+ f
+																				.getName()
+																		+ "["
+																		+ nr
+																		+ "]}",
+																String.class),
+												HtmlInputText.class));
 					}
 
-				} else if (f.get(selectedCriterion) instanceof String[]) { // String
-					// Arrays
+				} else if (f.get(selectedCriterion) instanceof String[]) {
+					// String Arrays
 					for (int j = 0; j < Array.getLength(f.get(criteriaAC
 							.getSelectedObject())); j++) {
 						firstPanel
@@ -313,33 +263,23 @@ public class SubjectPropertyWrapper {
 
 		HtmlOutputLabel isInclCritLabel = (HtmlOutputLabel) app
 				.createComponent(HtmlOutputLabel.COMPONENT_TYPE);
-		isInclCritLabel.setValue("!Is Inclusion Criterion? !");
-		HtmlSelectBooleanCheckbox isInclCritCheckbox = (HtmlSelectBooleanCheckbox) app
+		isInclCritLabel
+				.setValue(criteria
+						.getString("de.randi2.model.criteria.AbstractCriterion.isInclusionCriterion"));
+		isInclCritCheckbox = (HtmlSelectBooleanCheckbox) app
 				.createComponent(HtmlSelectBooleanCheckbox.COMPONENT_TYPE);
 		isInclCritCheckbox.setPartialSubmit(true);
-		isInclCritCheckbox.addValueChangeListener(new ValueChangeListener() {
-
-			@Override
-			public void processValueChange(ValueChangeEvent arg0)
-					throws AbortProcessingException {
-				try {
-					System.out.println(arg0.getNewValue().toString());
-					System.out.println(arg0.getNewValue().getClass()
-							.getCanonicalName());
-					if (arg0.getNewValue().toString().equals("true")) {
-						selectedCriterion.setInclusionCriterion(true);
-						createConstraintsPanel(secondPanel);
-					}
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-		});
+		isInclCritCheckbox.setValueExpression("disabled", expressionFactory
+				.createValueExpression(elContext, "#{step4.properties["
+						+ propertyNr
+						+ "].selectedCriterion.configuredValues==null}",
+						Boolean.class));
+		isInclCritCheckbox.addValueChangeListener(listener);
+		isInclCritCheckbox.setValueExpression("value", expressionFactory
+				.createValueExpression(elContext, "#{step4.properties["
+						+ propertyNr
+						+ "].selectedCriterion.inclusionCriterion}",
+						Boolean.class));
 
 		secondPanel.getChildren().add(isInclCritLabel);
 		secondPanel.getChildren().add(isInclCritCheckbox);
@@ -350,21 +290,37 @@ public class SubjectPropertyWrapper {
 
 	}
 
+	/**
+	 * This method created the panel for the Inclusion Constraints definition
+	 * 
+	 * @param parentPanel
+	 *            - the UIPanel in which the new objects should be placed.
+	 * @throws IllegalArgumentException
+	 *             - may be thrown if the examination of the field goes wrong
+	 * @throws IllegalAccessException
+	 *             - may be thrown if the examination of the field goes wrong
+	 */
 	@SuppressWarnings("unchecked")
 	private void createConstraintsPanel(UIPanel parentPanel)
 			throws IllegalArgumentException, IllegalAccessException {
+		assert (selectedCriterion != null);
+		if (constraintsPanel == null) {
+			constraintsPanel = (HtmlPanelGrid) app
+					.createComponent(HtmlPanelGrid.COMPONENT_TYPE);
+			constraintsPanel.setColumns(2);
+		} else
+			constraintsPanel.getChildren().clear();
+		
 		for (Field f : selectedCriterion.getConstraints().getClass()
 				.getDeclaredFields()) {
+			System.out.println(f.getName());
 			// We're only interested in non-static, public fields
 			if (!Modifier.isStatic(f.getModifiers())
 					&& Modifier.isPublic(f.getModifiers()))
 				// String
 				if (f.get(selectedCriterion.getConstraints()) instanceof String) {
-					List<SelectItem> itemsToShow = new ArrayList<SelectItem>();
-					for(Object value : selectedCriterion.getConfiguredValues()){
-						itemsToShow.add(new SelectItem(value,value.toString()));
-					}
-					parentPanel
+					updateConstraintValues();
+					constraintsPanel
 							.getChildren()
 							.addAll(
 									creatComponentsForField(
@@ -379,77 +335,52 @@ public class SubjectPropertyWrapper {
 																			.getName()
 																	+ "}",
 															String.class),
-											HtmlSelectOneMenu.class,itemsToShow));
+											HtmlSelectOneMenu.class,
+											valuesToShow));
 				}
 				// List<String>
 				else if (f.get(selectedCriterion.getConstraints()) instanceof List) {
-					if (!((List<String>) f.get(selectedCriterion
-							.getConstraints())).isEmpty()) {
-						for (int nr = 0; nr < ((List<String>) f
-								.get(selectedCriterion.getConstraints()))
-								.size(); nr++) {
-							parentPanel
-									.getChildren()
-									.addAll(
-											creatComponentsForField(
-													f,
-													expressionFactory
-															.createValueExpression(
-																	elContext,
-																	"#{step4.properties["
-																			+ propertyNr
-																			+ "].selectedCriterion.constraints."
-																			+ f
-																					.getName()
-																			+ "["
-																			+ nr
-																			+ "]}",
-																	String.class),
-													HtmlInputText.class));
-						}
-					} else {
-						// FIXME TEMP
-						for (int i = 0; i < 4; i++) {
-							((List<String>) f.get(selectedCriterion
-									.getConstraints())).add(new String("test"
-									+ i));
-						}
-						for (int nr = 0; nr < ((List<String>) f
-								.get(selectedCriterion.getConstraints()))
-								.size(); nr++) {
-							parentPanel
-									.getChildren()
-									.addAll(
-											creatComponentsForField(
-													f,
-													expressionFactory
-															.createValueExpression(
-																	elContext,
-																	"#{step4.properties["
-																			+ propertyNr
-																			+ "].selectedCriterion.constraints."
-																			+ f
-																					.getName()
-																			+ "["
-																			+ nr
-																			+ "]}",
-																	String.class),
-													HtmlInputText.class));
-						}
+					updateConstraintValues();
+					for (int nr = 0; nr < ((List<String>) f
+							.get(selectedCriterion.getConstraints())).size(); nr++) {
+						constraintsPanel
+								.getChildren()
+								.addAll(
+										creatComponentsForField(
+												f,
+												expressionFactory
+														.createValueExpression(
+																elContext,
+																"#{step4.properties["
+																		+ propertyNr
+																		+ "].selectedCriterion.constraints."
+																		+ f
+																				.getName()
+																		+ "["
+																		+ nr
+																		+ "]}",
+																String.class),
+												HtmlSelectManyMenu.class, valuesToShow));
 					}
 
 				}
 		}
+
+		constraintsPanel.setValueExpression("visible", expressionFactory
+				.createValueExpression(elContext, "#{step4.properties["
+						+ propertyNr
+						+ "].selectedCriterion.inclusionCriterion}",
+						Boolean.class));
+		parentPanel.getChildren().add(constraintsPanel);
 	}
 
 	private List<UIComponent> creatComponentsForField(Field field,
 			ValueExpression ve, Class<? extends UIComponent> c) {
-		//TEMP
-		System.out.println(field.getDeclaringClass()
-				.getCanonicalName()
-				+ "." + field.getName());
+		// TEMP
+		System.out.println(field.getDeclaringClass().getCanonicalName() + "."
+				+ field.getName());
 		//
-		
+
 		List<UIComponent> components = new ArrayList<UIComponent>();
 
 		HtmlOutputLabel label = (HtmlOutputLabel) app
@@ -474,18 +405,20 @@ public class SubjectPropertyWrapper {
 		}
 
 		input.setValueExpression("value", ve);
+		((UIInput)input).addValueChangeListener(listener);
 		components.add(input);
 
 		return components;
 	}
-	
-	private List<UIComponent> creatComponentsForField(Field field, ValueExpression ve, Class<? extends UIComponent> c,List<SelectItem> itemsToShow){
-		//TEMP
-		System.out.println(field.getDeclaringClass()
-				.getCanonicalName()
-				+ "." + field.getName());
+
+	private List<UIComponent> creatComponentsForField(Field field,
+			ValueExpression ve, Class<? extends UIComponent> c,
+			List<SelectItem> itemsToShow) {
+		// TEMP
+		System.out.println(field.getDeclaringClass().getCanonicalName() + "."
+				+ field.getName());
 		//
-		
+
 		List<UIComponent> components = new ArrayList<UIComponent>();
 
 		HtmlOutputLabel label = (HtmlOutputLabel) app
@@ -494,18 +427,33 @@ public class SubjectPropertyWrapper {
 				.getCanonicalName()
 				+ "." + field.getName()));
 		components.add(label);
-		UIComponent input = null;
+		UIInput input = null;
 
 		if (c.equals(HtmlSelectOneMenu.class)) {
 			input = (HtmlSelectOneMenu) app
 					.createComponent(HtmlSelectOneMenu.COMPONENT_TYPE);
 			((HtmlSelectOneMenu) input).setPartialSubmit(true);
-			UISelectItems itemsComponent = (UISelectItems) app.createComponent(UISelectItems.COMPONENT_TYPE);
-			itemsComponent.setValue(itemsToShow);
+			UISelectItems itemsComponent = (UISelectItems) app
+					.createComponent(UISelectItems.COMPONENT_TYPE);
+			// itemsComponent.setValue(itemsToShow);
+			itemsComponent.setValueExpression("value", expressionFactory
+					.createValueExpression(elContext, "#{step4.properties["
+							+ propertyNr + "].valuesToShow}", List.class));
+			input.getChildren().add(itemsComponent);
+		} else if (c.equals(HtmlSelectManyMenu.class)){
+			input = (HtmlSelectManyMenu) app.createComponent(HtmlSelectManyMenu.COMPONENT_TYPE);
+			((HtmlSelectManyMenu) input).setPartialSubmit(true);
+			UISelectItems itemsComponent = (UISelectItems) app
+					.createComponent(UISelectItems.COMPONENT_TYPE);
+			// itemsComponent.setValue(itemsToShow);
+			itemsComponent.setValueExpression("value", expressionFactory
+					.createValueExpression(elContext, "#{step4.properties["
+							+ propertyNr + "].valuesToShow}", List.class));
 			input.getChildren().add(itemsComponent);
 		}
 
 		input.setValueExpression("value", ve);
+		input.addValueChangeListener(listener);
 		components.add(input);
 
 		return components;
@@ -515,8 +463,93 @@ public class SubjectPropertyWrapper {
 		return propertyPanel;
 	}
 
-	public AbstractCriterion getSelectedCriterion() {
+	public AbstractCriterion<?> getSelectedCriterion() {
 		return selectedCriterion;
+	}
+
+	private void updateConstraintValues() {
+		if (selectedCriterion.getConfiguredValues() != null) {
+			if (valuesToShow == null)
+				valuesToShow = new ArrayList<SelectItem>();
+			else
+				valuesToShow.clear();
+			for (Object value : selectedCriterion.getConfiguredValues()) {
+				valuesToShow.add(new SelectItem(value, value.toString()));
+			}
+		}
+	}
+
+	class Listener implements ValueChangeListener {
+
+		@Override
+		public void processValueChange(ValueChangeEvent arg0)
+				throws AbortProcessingException {
+			if (arg0.getComponent().equals(criteriaInputText)) {
+				criteriaInputValueChange(arg0);
+
+			} else if (arg0.getComponent().equals(isInclCritCheckbox)) {
+				inculsionCriteriaCheckboxValueChanged(arg0);
+			} else {
+				if (!arg0.getOldValue().equals(arg0.getNewValue()))
+					updateConstraintValues();
+			}
+
+		}
+
+		private void inculsionCriteriaCheckboxValueChanged(ValueChangeEvent arg0) {
+			try {
+				if (arg0.getNewValue().toString().equals("true")) {
+					selectedCriterion.setInclusionCriterion(true);
+					createConstraintsPanel(secondPanel);
+				}
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		private void criteriaInputValueChange(ValueChangeEvent arg0) {
+			criteriaAC.updateObjectList(arg0);
+			if (criteriaAC.isObjectSelected())
+				try {
+					selectedCriterion = criteriaAC.getSelectedObject()
+							.getClass().getConstructor().newInstance();
+					createCriterionPanel();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchFieldException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+
+	}
+
+	public List<SelectItem> getValuesToShow() {
+		return valuesToShow;
+	}
+
+	public void setValuesToShow(List<SelectItem> valuesToShow) {
+		this.valuesToShow = valuesToShow;
 	}
 
 }
