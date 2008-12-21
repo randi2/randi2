@@ -31,7 +31,7 @@ import de.randi2test.utility.DomainObjectFactory;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/META-INF/spring.xml", "/META-INF/subconfig/test.xml"})
+@ContextConfiguration(locations = {"/META-INF/spring-test.xml", "/META-INF/subconfig/security.xml"})
 public class RolesAndRightsTest {
 
 	

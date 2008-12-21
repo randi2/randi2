@@ -12,8 +12,7 @@ import de.randi2.model.Login;
 import de.randi2.model.Person;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/META-INF/spring.xml",
-		"/META-INF/subconfig/test.xml" })
+@ContextConfiguration(locations = { "/META-INF/spring-test.xml" })
 public class TelephoneNumberValidationTest {
 
 	private ClassValidator<Person> personValidator;

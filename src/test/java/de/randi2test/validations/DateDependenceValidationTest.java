@@ -17,7 +17,7 @@ import de.randi2test.utility.DomainObjectFactory;
 import de.randi2test.utility.TestStringUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/META-INF/spring.xml", "/META-INF/subconfig/test.xml"})
+@ContextConfiguration(locations = {"/META-INF/spring-test.xml"})
 public class DateDependenceValidationTest {
 
 

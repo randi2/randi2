@@ -26,5 +26,4 @@
 			<value>hibernate.dialect=org.hibernate.dialect.MySQL5Dialect</value>
 		</property>
 	</bean>
-
 </beans>

@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import de.randi2.model.AbstractDomainObject;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/META-INF/spring.xml", "/META-INF/subconfig/test.xml"})
+@ContextConfiguration(locations = {"/META-INF/spring-test.xml"})
 public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 
 	@Autowired protected HibernateTemplate hibernateTemplate;
