@@ -5,7 +5,8 @@
 	<artifactId>RANDI2</artifactId>
 	<packaging>war</packaging>
 	<version>0.4-SNAPSHOT</version>
-	<name>RANDI2 -- Online Randomization for Clinical Trials</name>
+	<name>RANDI2</name>
+	<description>Online Randomization for Clinical Trials</description>
 	<url>http://randi2.hs-heilbronn.de</url>
 	<licenses>
 		<license>
