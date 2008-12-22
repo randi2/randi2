@@ -194,17 +194,17 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.15</version>
-			 <exclusions>
-			 	<exclusion>
+			<exclusions>
+				<exclusion>
 					<groupId>javax.jms</groupId>
-					 <artifactId>jms</artifactId>
+					<artifactId>jms</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>com.sun.jmx</groupId>
 					<artifactId>jmx</artifactId>
-				 </exclusion>
-				 <exclusion>
-				 	<groupId>com.sun.jdmk</groupId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
 					<artifactId>jmxtools</artifactId>
 				</exclusion>
 				<exclusion>
@@ -283,7 +283,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl-api</artifactId>
 			<version>1.2</version>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>javax.resource</groupId>
 			<artifactId>connector-api</artifactId>
@@ -423,8 +423,7 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
-					<showDeprecation>true</showDeprecation>
-					<showWarnings>true</showWarnings>
+					<compilerArgument>-Xlint</compilerArgument>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -451,8 +450,8 @@
 				<version>2.0</version>
 			</plugin>
 			<plugin>
-			    <groupId>org.mortbay.jetty</groupId>
-			    <artifactId>maven-jetty-plugin</artifactId>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
@@ -463,9 +462,9 @@
 				<artifactId>maven-changelog-plugin</artifactId>
 			</plugin>
 			<plugin>
-			        <groupId>org.apache.maven.plugins</groupId>
-		        	<artifactId>maven-javadoc-plugin</artifactId>
-	      		</plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
@@ -480,7 +479,7 @@
 				<artifactId>findbugs-maven-plugin</artifactId>
 				<version>1.2</version>
 				<configuration>
-			    		<threshold>High</threshold>
+					<threshold>High</threshold>
 					<effort>Default</effort>
 					<findbugsXmlOutput>true</findbugsXmlOutput>
 					<findbugsXmlWithMessages>true</findbugsXmlWithMessages>

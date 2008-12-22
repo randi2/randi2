@@ -49,7 +49,7 @@ public class LoginTest extends AbstractDomainTest<Login>{
 	}
 	
 	@Ignore
-	// The test generates an exception
+	// FIXME: The test generates an exception
 	public void testUsername(){
 		validLogin.setUsername(stringUtil.getWithLength(Login.MIN_USERNAME_LENGTH));
 		assertEquals(stringUtil.getLastString(), validLogin.getUsername());
