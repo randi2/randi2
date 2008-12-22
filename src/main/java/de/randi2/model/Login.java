@@ -209,7 +209,7 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	 * @return
 	 */
 	public boolean hasRole(Role role) {
-		return this.roles.contains(role.toString());
+		return this.roles.contains(role);
 	}
 
 	@Override

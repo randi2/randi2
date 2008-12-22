@@ -24,9 +24,9 @@ public class RegistrationException extends Exception{
 	
 	private static final long serialVersionUID = -753491874667682122L;
 	
-	public static String TRIAL_SITE_ERROR = "Wrong/None trial site selected!";
+	public static final String TRIAL_SITE_ERROR = "Wrong/None trial site selected!";
 	
-	public static String PASSWORD_ERROR = "Wrong confirmation password!";
+	public static final String PASSWORD_ERROR = "Wrong confirmation password!";
 	
 	public RegistrationException(String message){
 		super(message);
