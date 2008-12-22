@@ -423,6 +423,8 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+					<showDeprecation>true</showDeprecation>
+					<showWarnings>true</showWarnings>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -456,6 +458,10 @@
 	</build>
 	<reporting>
 		<plugins>
+		<plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-javadoc-plugin</artifactId>
+	      </plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
@@ -463,6 +469,9 @@
 				<configuration>
 			    		<threshold>High</threshold>
 					<effort>Default</effort>
+					<findbugsXmlOutput>true</findbugsXmlOutput>
+					<findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+					<xmlOutput>true</xmlOutput>
 				</configuration>
 			</plugin>
 		</plugins>
