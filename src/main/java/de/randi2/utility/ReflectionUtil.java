@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,9 +17,18 @@ import java.util.ArrayList;
  */
 public final class ReflectionUtil {
 
-	public static Class[] getClasses(String pckgname)
+	/**
+	 * This method returns all found classes in a specified package by going
+	 * through the package directory.
+	 *
+	 * @param pckgname
+	 *            the name of the package (e.g. de.randi2.model.criteria)
+	 * @return all found classes
+	 * @throws ClassNotFoundException
+	 */
+	public static List<Class<?>> getClasses(final String pckgname)
 			throws ClassNotFoundException {
-		ArrayList<Class> classes = new ArrayList<Class>();
+		ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
 		// Get a File object for the package
 		File directory = null;
 		try {
@@ -50,8 +60,6 @@ public final class ReflectionUtil {
 		} else {
 			throw new ClassNotFoundException(pckgname + " does not appear to be a valid package");
 		}
-		Class[] classesA = new Class[classes.size()];
-		classes.toArray(classesA);
-		return classesA;
+		return classes;
 	}
 }
