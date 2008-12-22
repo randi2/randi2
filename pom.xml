@@ -454,4 +454,17 @@
 			</plugin>
 		</plugins>
 	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>1.2</version>
+				<configuration>
+			    		<threshold>High</threshold>
+					<effort>Default</effort>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
