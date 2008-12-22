@@ -41,6 +41,7 @@ import de.randi2.model.TrialSite;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.enumerations.TrialStatus;
+import de.randi2.utility.ReflectionUtil;
 
 /**
  * <p>
@@ -56,7 +57,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		super(Trial.class);
 		criteriaList = new ArrayList<AbstractCriterion<?>>();
 		try {
-			for (Class<?> c : Randi2.getClasses("de.randi2.model.criteria")) {
+			for (Class<?> c : ReflectionUtil.getClasses("de.randi2.model.criteria")) {
 				try {
 					if (c.getSuperclass()
 							.equals(AbstractCriterion.class))
