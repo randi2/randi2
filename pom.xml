@@ -11,7 +11,7 @@
 	<licenses>
 		<license>
 			<name>GNU GENERAL PUBLIC LICENSE Version 3</name>
-			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+			<url>http://www.gnu.org/licenses/gpl-3.0-standalone.html</url>
 		</license>
 	</licenses>
 	<scm>
@@ -44,6 +44,10 @@
 		<system>sourceforge</system>
 		<url>https://sourceforge.net/tracker2/?group_id=217595&amp;atid=1040694</url>
 	</issueManagement>
+	 <ciManagement>
+		 <system>hudson</system>
+		 <url>http://randi2.org:8080/hudson/</url>
+	</ciManagement>
 	<organization>
 		<name>RANDI2 Core Development Team</name>
 		<url>http://randi2.de</url>
@@ -51,10 +55,10 @@
 	<developers>
 		<developer>
 			<id>jthoenes</id>
-			<name>Johannes Thönes</name>
+			<name>Johannes Th&ouml;nes</name>
 			<email>johannes.thoenes@googlemail.com</email>
 			<url>http://jthoenes.bergischweb.de</url>
-			<organization>Universitätsklinikum Heidelberg</organization>
+			<organization>Universit&auml;tsklinikum Heidelberg</organization>
 			<organizationUrl>http://www.klinikum.uni-heidelberg.de</organizationUrl>
 			<timezone>+1</timezone>
 			<roles>
@@ -75,7 +79,7 @@
 		</developer>
 		<developer>
 			<id>dhaehn</id>
-			<name>Daniel Hähn</name>
+			<name>Daniel Hi&auml;hn</name>
 			<email>dh@randi2.de</email>
 			<timezone>-6</timezone>
 			<roles>
