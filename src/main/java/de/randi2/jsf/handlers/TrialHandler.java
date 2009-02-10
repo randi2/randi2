@@ -159,8 +159,8 @@ public class TrialHandler extends AbstractHandler<Trial> {
 			System.out.println(wr.getSelectedCriterion().getName());
 			System.out.println(wr.getSelectedCriterion().getDescription());
 			if(wr.getSelectedCriterion() instanceof DichotomousCriterion){
-				System.out.println(((DichotomousCriterion)wr.getSelectedCriterion()).options[0]);
-				System.out.println(((DichotomousCriterion)wr.getSelectedCriterion()).options[1]);
+				System.out.println(((DichotomousCriterion)wr.getSelectedCriterion()).getOptions()[0]);
+				System.out.println(((DichotomousCriterion)wr.getSelectedCriterion()).getOptions()[1]);
 			}
 		}
 		return Randi2.SUCCESS;
