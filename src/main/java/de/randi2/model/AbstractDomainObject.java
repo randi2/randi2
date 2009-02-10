@@ -29,22 +29,16 @@ import de.randi2.model.exceptions.ValidationException;
 public abstract class AbstractDomainObject implements Serializable {
 
 	public final static int NOT_YET_SAVED_ID = Integer.MIN_VALUE;
-
 	public final static int MAX_VARCHAR_LENGTH = 255;
-
 	@Transient
 	private Map<String, Boolean> requiredFields = null;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private long id = NOT_YET_SAVED_ID;
-
 	@Version
 	private int version = Integer.MIN_VALUE;
-	
 	private GregorianCalendar createdAt = null;
 	private GregorianCalendar updatedAt = null;
-	
 	@Transient
 	private List<DateChange> changes = new ArrayList<DateChange>();
 
@@ -66,8 +60,7 @@ public abstract class AbstractDomainObject implements Serializable {
 
 	public Boolean isRequired(Method m) {
 
-		return m.isAnnotationPresent(org.hibernate.validator.NotEmpty.class)
-				|| m.isAnnotationPresent(org.hibernate.validator.NotNull.class) || m.isAnnotationPresent(de.randi2.utility.validations.Password.class);
+		return m.isAnnotationPresent(org.hibernate.validator.NotEmpty.class) || m.isAnnotationPresent(org.hibernate.validator.NotNull.class) || m.isAnnotationPresent(de.randi2.utility.validations.Password.class);
 
 	}
 
@@ -85,9 +78,7 @@ public abstract class AbstractDomainObject implements Serializable {
 			requiredFields = new HashMap<String, Boolean>();
 			for (Method m : this.getClass().getMethods()) {
 				if (m.getName().substring(0, 3).equals("get")) {
-					requiredFields.put(m.getName().substring(3, 4)
-							.toLowerCase()
-							+ m.getName().substring(4), this.isRequired(m));
+					requiredFields.put(m.getName().substring(3, 4).toLowerCase() + m.getName().substring(4), this.isRequired(m));
 				}
 			}
 		}
@@ -99,43 +90,57 @@ public abstract class AbstractDomainObject implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object o) {
+		if (o == this)
+			return true;
 		if (o instanceof AbstractDomainObject) {
 			AbstractDomainObject randi2Object = (AbstractDomainObject) o;
-			if (randi2Object.id == this.id)
+			if (randi2Object.id == NOT_YET_SAVED_ID )
+				return false;
+			if (randi2Object.id == this.id )
 				return true;
 			return false;
 		} else
 			return false;
 	}
 
-	
+	/*@Override
+	public int hashCode() {
+		if (this.id != NOT_YET_SAVED_ID) {
+			int hash = 7;
+			hash = 53 * hash + (int) (this.id ^ (this.id >>> 32));
+			return hash;
+		} else {
+			return super.hashCode();
+		}
+	}*/
+
 	public List<DateChange> getChanges() {
 		return this.changes;
 	}
-	
-	public void clearChanges(){
+
+	public void clearChanges() {
 		this.changes.clear();
 	}
 
 	protected void addChange(String field, Object currentO, Object newO) {
 		if (newO != null && !newO.equals(currentO)) {
-			for(DateChange dc : this.changes){
-				if(dc.getField().equals(field)){
+			for (DateChange dc : this.changes) {
+				if (dc.getField().equals(field)) {
 					dc.setAfterValue(newO);
 					return;
 				}
-			}		
+			}
 			this.changes.add(new DateChange(this.getClass(), field, currentO.getClass(), currentO, newO));
 		}
 	}
-	
+
 	@PreUpdate
-	public void beforeUpdate(){
+	public void beforeUpdate() {
 		this.updatedAt = new GregorianCalendar();
 	}
-	
+
 	@PrePersist
-	public void beforeCreate(){
+	public void beforeCreate() {
 		this.createdAt = new GregorianCalendar();
 	}
 
@@ -154,9 +159,7 @@ public abstract class AbstractDomainObject implements Serializable {
 	public void setUpdatedAt(GregorianCalendar updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
+
 	@Override
 	public abstract String toString();
-	
-
 }

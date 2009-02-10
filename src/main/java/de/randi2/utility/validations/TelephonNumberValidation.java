@@ -20,11 +20,12 @@ public class TelephonNumberValidation implements Validator<TelephonNumber>{
 		number = number.trim();
 
 		String[] digits = number.split("[-/() \t.]");
-		number = "";
-		
+		StringBuffer buf = new StringBuffer();
+
 		for (int i = 0; i < digits.length; i++) {
-			number += digits[i].trim();
+			buf.append(digits[i].trim());
 		}
+		number = buf.toString();
 		if (number.charAt(0) == '+') {
 			number = number.substring(1, number.length());
 		}	

@@ -3,7 +3,7 @@ package de.randi2.model.criteria;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Embeddable;
+
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
@@ -23,7 +23,7 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 
 	@CollectionOfElements
 	@IndexColumn(name = "options")
-	public String options[] = new String[2];
+	private String options[] = new String[2];
 
 	private boolean isBinary = true;
 
@@ -32,7 +32,7 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 	 * constraints.
 	 */
 	@Embedded
-	private DichotomousConstraints constraints = null;
+	private DichotomousConstraints criterionConstraints = null;
 
 	public void setBinary() {
 		this.isBinary = true;
@@ -73,43 +73,23 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 	}
 
 	public String[] getOptions() {
-		return options;
+		return options.clone();
 	}
 
 	public void setOptions(String[] options) {
-		this.options = options;
-	}
-
-	@Embeddable
-	public class DichotomousConstraints extends AbstractConstraints<String> {
-
-		public String expectedValue;
-
-		@Override
-		public boolean checkValue(String _value) {
-			return expectedValue.equals(_value);
-		}
-
-		public String getExpectedValue() {
-			return expectedValue;
-		}
-
-		public void setExpectedValue(String expectedValue) {
-			this.expectedValue = expectedValue;
-		}
-
+		this.options = options.clone();
 	}
 
 	@Override
 	public DichotomousConstraints getConstraints() {
-		if (constraints == null)
-			constraints = new DichotomousConstraints();
-		return constraints;
+		if (criterionConstraints == null)
+			criterionConstraints = new DichotomousConstraints();
+		return criterionConstraints;
 	}
 
 	@Override
 	public void setConstraints(AbstractConstraints<String> _constraints) {
-		constraints = (DichotomousConstraints) _constraints;
+		criterionConstraints = (DichotomousConstraints) _constraints;
 	}
 
 	@Override

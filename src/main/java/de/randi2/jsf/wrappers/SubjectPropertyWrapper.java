@@ -102,11 +102,11 @@ public class SubjectPropertyWrapper {
 						.getValue(elContext));
 		propertyPanel = app.createComponent(PanelCollapsible.COMPONENET_TYPE);
 		propertyPanel.setValueExpression("expanded", expressionFactory
-				.createValueExpression(new Boolean(true), Boolean.class));
+				.createValueExpression(Boolean.TRUE, Boolean.class));
 		propertyPanel.setValueExpression("toggleOnClick", expressionFactory
-				.createValueExpression(new Boolean(false), Boolean.class));
+				.createValueExpression(Boolean.FALSE, Boolean.class));
 		propertyPanel.setValueExpression("toggleOnClick", expressionFactory
-				.createValueExpression(new Boolean(false), Boolean.class));
+				.createValueExpression(Boolean.FALSE, Boolean.class));
 		HtmlPanelGroup headerPanel = (HtmlPanelGroup) app
 				.createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 		headerPanel.setStyle("padding-left: 25px;");

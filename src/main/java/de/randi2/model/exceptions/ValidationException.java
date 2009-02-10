@@ -8,7 +8,7 @@ public class ValidationException extends RuntimeException {
 	private String[] messages;
 
 	public ValidationException(InvalidValue[] _invalids) {
-		this.invalids = _invalids;
+		this.invalids = _invalids.clone();
 	}
 	
 	public String[] getMessages(){
@@ -18,11 +18,11 @@ public class ValidationException extends RuntimeException {
 				messages[i] = invalids[i].getMessage();
 			}
 		}
-		return messages;
+		return messages.clone();
 	}
 	
 	public InvalidValue[] getInvalids(){
-		return this.invalids;
+		return this.invalids.clone();
 	}
 
 }

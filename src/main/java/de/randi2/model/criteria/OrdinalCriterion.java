@@ -44,7 +44,7 @@ public class OrdinalCriterion extends AbstractCriterion<String> {
 		if(elements==null){
 			elements = new ArrayList<String>();
 			for(int i=0;i<3;i++){
-				elements.add(new String());
+				elements.add("");
 			}
 		}
 	}

@@ -35,7 +35,12 @@ public class SidHibernate implements Sid{
 
 	@Override
 	public boolean equals(Object obj) {
-		return (this.sidname.hashCode() == obj.hashCode());
+		if(this == obj)
+			return true;
+		else if (obj instanceof SidHibernate)
+			return (this.sidname.equals(((SidHibernate)obj).sidname));
+		else
+			return false;
 	}
 	
 	@Override
