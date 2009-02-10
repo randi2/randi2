@@ -32,7 +32,7 @@ public class ExtendedPermissionImplTest {
 	public void testMask(){
 		AclHibernate acl = new AclHibernate();
 		AccessControlEntryHibernate ace = new AccessControlEntryHibernate();
-		TrialSite center = factory.getCenter();
+		TrialSite center = factory.getTrialSite();
 		hibernateTemplate.save(center);
 		Login login = factory.getLogin();
 		hibernateTemplate.save(login);

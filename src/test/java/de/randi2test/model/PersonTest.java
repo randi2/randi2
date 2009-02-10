@@ -333,7 +333,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 
 	@Test
 	public void testCenter() {
-		TrialSite center = factory.getCenter();
+		TrialSite center = factory.getTrialSite();
 		hibernateTemplate.saveOrUpdate(center);
 		
 		validPerson.setSurname(stringUtil.getWithLength(20));

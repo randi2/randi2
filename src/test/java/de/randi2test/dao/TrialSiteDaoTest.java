@@ -30,13 +30,13 @@ public class TrialSiteDaoTest {
 	@Test
 	public void testGetAll(){
 		for (int i=0;i<100;i++){
-			centerDao.save(factory.getCenter());
+			centerDao.save(factory.getTrialSite());
 		}
 		assertTrue(centerDao.getAll().size()>=100);
 	}
 	@Test
 	public void testGetName(){
-		TrialSite c = factory.getCenter();
+		TrialSite c = factory.getTrialSite();
 		centerDao.save(c);
 		assertTrue(c.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
 		

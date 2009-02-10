@@ -12,11 +12,11 @@ import de.randi2.model.randomization.BlockRandomizationTempData;
 
 public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizationConfig, BlockRandomizationTempData> {
 
-	protected BlockRandomization(Trial _trial){
+	public BlockRandomization(Trial _trial){
 		super(_trial);
 	}
 	
-	protected BlockRandomization(Trial _trial, long seed) {
+	public BlockRandomization(Trial _trial, long seed) {
 		super(_trial, seed);
 	}
 

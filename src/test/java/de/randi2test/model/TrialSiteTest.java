@@ -37,7 +37,7 @@ private Session getCurrentSession(){
 
 	@Before
 	public void setUp() {
-		validCenter = factory.getCenter();
+		validCenter = factory.getTrialSite();
 	}
 
 	@Test

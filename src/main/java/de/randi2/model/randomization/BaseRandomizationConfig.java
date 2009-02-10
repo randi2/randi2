@@ -1,13 +1,11 @@
 package de.randi2.model.randomization;
 
-import java.lang.reflect.Constructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Type;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Trial;

@@ -36,7 +36,7 @@ public class HibernateAclServiceTest {
 	
 	@Test
 	public void testCreateAcl(){
-		TrialSite trialsite = factory.getCenter();
+		TrialSite trialsite = factory.getTrialSite();
 		template.saveOrUpdate(trialsite);
 		Login login = factory.getLogin();
 		template.saveOrUpdate(login);
@@ -49,7 +49,7 @@ public class HibernateAclServiceTest {
 	
 	@Test
 	public void testCreateAclWithPermission(){
-		TrialSite trialsite = factory.getCenter();
+		TrialSite trialsite = factory.getTrialSite();
 		template.saveOrUpdate(trialsite);
 		Login login = factory.getLogin();
 		template.saveOrUpdate(login);
@@ -61,7 +61,7 @@ public class HibernateAclServiceTest {
 	
 	@Test
 	public void testFindAclByObjectIdentityAndSid(){
-		TrialSite trialsite = factory.getCenter();
+		TrialSite trialsite = factory.getTrialSite();
 		template.saveOrUpdate(trialsite);
 		Login login = factory.getLogin();
 		template.saveOrUpdate(login);

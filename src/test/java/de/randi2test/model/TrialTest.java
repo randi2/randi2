@@ -236,7 +236,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 	
 	@Test
 	public void testLeadingCenter(){
-		final TrialSite c = factory.getCenter();
+		final TrialSite c = factory.getTrialSite();
 		
 		validTrial.setLeadingSite(c);
 		assertEquals(c, validTrial.getLeadingSite());
@@ -255,9 +255,9 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 	public void testPartCenters(){
 		Set<TrialSite> cl = validTrial.getParticipatingSites();
 		
-		TrialSite c1 = factory.getCenter();
-		TrialSite c2 = factory.getCenter();
-		TrialSite c3 = factory.getCenter();
+		TrialSite c1 = factory.getTrialSite();
+		TrialSite c2 = factory.getTrialSite();
+		TrialSite c3 = factory.getTrialSite();
 		
 		
 		cl.add(c1);

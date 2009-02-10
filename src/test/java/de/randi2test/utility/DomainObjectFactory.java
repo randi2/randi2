@@ -29,7 +29,7 @@ public class DomainObjectFactory {
 		return p;
 	}
 	
-	public TrialSite getCenter(){
+	public TrialSite getTrialSite(){
 		TrialSite c = new TrialSite();
 		c.setName(testStringUtil.getWithLength(10));
 		c.setPassword(testStringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+";2");
@@ -43,7 +43,7 @@ public class DomainObjectFactory {
 		t.setSponsorInvestigator(this.getPerson());
 		t.setStartDate(new GregorianCalendar(2006,0,1));
 		t.setEndDate(new GregorianCalendar());
-		t.setLeadingSite(this.getCenter());
+		t.setLeadingSite(this.getTrialSite());
 		
 		return t;
 	}

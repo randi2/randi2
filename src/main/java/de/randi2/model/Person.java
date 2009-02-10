@@ -148,8 +148,8 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#setEMail(java.lang.String)
 	 */
-	public void setEMail(String email) {
-		this.eMail = email;
+	public void setEMail(String eMail) {
+		this.eMail = eMail;
 	}
 
 	/* (non-Javadoc)
