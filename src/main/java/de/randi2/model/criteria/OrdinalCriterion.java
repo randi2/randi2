@@ -41,11 +41,9 @@ public class OrdinalCriterion extends AbstractCriterion<String> {
 	private OrdinalConstraints constraints = null;
 	
 	public OrdinalCriterion(){
-		if(elements==null){
-			elements = new ArrayList<String>();
-			for(int i=0;i<3;i++){
-				elements.add("");
-			}
+		elements = new ArrayList<String>();
+		for(int i=0;i<3;i++){
+			elements.add("");
 		}
 	}
 	
