@@ -13,7 +13,6 @@ import org.junit.Test;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
-import de.randi2.model.randomization.AbstractRandomizationTempData;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.randomization.RandomizationAlgorithm;
@@ -22,7 +21,7 @@ public class RandomizationAlgorithmTest {
 
 	private Trial trial;
 	private DummyRandomizationAlgorithm algorithm;
-	
+
 	private TreatmentArm getTA(int size) {
 		TreatmentArm ta = new TreatmentArm();
 		ta.setPlannedSubjects(size);
@@ -34,28 +33,25 @@ public class RandomizationAlgorithmTest {
 	}
 
 	private class DummyRandomizationAlgorithm
-			extends
-			RandomizationAlgorithm<AbstractRandomizationConfig, AbstractRandomizationTempData> {
+			extends RandomizationAlgorithm<AbstractRandomizationConfig> {
 
 		protected DummyRandomizationAlgorithm(Trial _trial) {
 			super(_trial);
 		}
-
 
 		@Override
 		protected TreatmentArm doRadomize(TrialSubject subject, Random random) {
 			// TODO Auto-generated method stub
 			return null;
 		}
-		
+
 		/*
 		 * Breaking security for testing purpose
 		 */
 		@Override
-		public List<TreatmentArm> generateRawBlock(){
+		public List<TreatmentArm> generateRawBlock() {
 			return super.generateRawBlock();
 		}
-
 	}
 
 	@Before
@@ -66,77 +62,92 @@ public class RandomizationAlgorithmTest {
 	}
 
 	@Test
-	public void testEqualArms(){
+	public void testEqualArms() {
 		TreatmentArm ta1 = getTA(1000);
 		TreatmentArm ta2 = getTA(1000);
-		trial.setTreatmentArms(list(new TreatmentArm[]{ta1,ta2}));
-		
+		trial.setTreatmentArms(list(new TreatmentArm[]{ta1, ta2}));
+
 		assertEquals(list(new TreatmentArm[]{ta1, ta2}), algorithm.generateRawBlock());
-		
+
 		ta1 = getTA(100);
 		ta2 = getTA(100);
 		TreatmentArm ta3 = getTA(100);
-		trial.setTreatmentArms(list(new TreatmentArm[]{ta1,ta2,ta3}));
-		
+		trial.setTreatmentArms(list(new TreatmentArm[]{ta1, ta2, ta3}));
+
 		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta3}), algorithm.generateRawBlock());
-		
+
 		ta1 = getTA(200);
 		ta2 = getTA(200);
 		ta3 = getTA(200);
 		TreatmentArm ta4 = getTA(200);
-		trial.setTreatmentArms(list(new TreatmentArm[]{ta1,ta2, ta3, ta4}));
-		
+		trial.setTreatmentArms(list(new TreatmentArm[]{ta1, ta2, ta3, ta4}));
+
 		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta3, ta4}), algorithm.generateRawBlock());
-		
+
 		ta1 = getTA(600);
 		ta2 = getTA(600);
 		ta3 = getTA(600);
 		ta4 = getTA(600);
 		TreatmentArm ta5 = getTA(600);
-		trial.setTreatmentArms(list(new TreatmentArm[]{ta1,ta2,ta3,ta4,ta5}));
-		
-		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta3,ta4,ta5}), algorithm.generateRawBlock());
+		trial.setTreatmentArms(list(new TreatmentArm[]{ta1, ta2, ta3, ta4, ta5}));
+
+		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta3, ta4, ta5}), algorithm.generateRawBlock());
 	}
-	
-	@Test 
-	public void testDoubleArmSizes(){
+
+	@Test
+	public void testDoubleArmSizes() {
 		TreatmentArm ta1 = getTA(33);
 		TreatmentArm ta2 = getTA(66);
-		trial.setTreatmentArms(list(new TreatmentArm[]{ta1,ta2}));
-		
+		trial.setTreatmentArms(list(new TreatmentArm[]{ta1, ta2}));
+
 		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta2}), algorithm.generateRawBlock());
-		
+
 		ta1 = getTA(33);
 		ta2 = getTA(66);
 		TreatmentArm ta3 = getTA(33);
-		trial.setTreatmentArms(list(new TreatmentArm[]{ta1,ta2,ta3}));
-		
+		trial.setTreatmentArms(list(new TreatmentArm[]{ta1, ta2, ta3}));
+
 		assertEquals(list(new TreatmentArm[]{ta1, ta2, ta2, ta3}), algorithm.generateRawBlock());
 	}
-	
+
 	@Test
-	public void testTotallyUnequal(){
+	public void testTotallyUnequal() {
 		TreatmentArm ta1 = getTA(43);
 		TreatmentArm ta2 = getTA(197);
-		trial.setTreatmentArms(list(new TreatmentArm[]{ta1,ta2}));
-		
+		trial.setTreatmentArms(list(new TreatmentArm[]{ta1, ta2}));
+
 		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
-		for(int i = 0; i < 43; i++){arms.add(ta1);};
-		for(int i = 0; i < 197; i++){arms.add(ta2);};
-		
+		for (int i = 0; i < 43; i++) {
+			arms.add(ta1);
+		}
+		;
+		for (int i = 0; i < 197; i++) {
+			arms.add(ta2);
+		}
+		;
+
 		assertEquals(arms, algorithm.generateRawBlock());
-		
+
 		ta1 = getTA(311);
 		ta2 = getTA(1223);
 		TreatmentArm ta3 = getTA(149);
-		trial.setTreatmentArms(list(new TreatmentArm[]{ta1,ta2,ta3}));
-		
+		trial.setTreatmentArms(list(new TreatmentArm[]{ta1, ta2, ta3}));
+
 		arms = new ArrayList<TreatmentArm>();
-		for(int i = 0; i < 311; i++){arms.add(ta1);};
-		for(int i = 0; i < 1223; i++){arms.add(ta2);};
-		for(int i = 0; i < 149; i++){arms.add(ta3);};
-		
+		for (int i = 0; i < 311; i++) {
+			arms.add(ta1);
+		}
+		;
+		for (int i = 0; i < 1223; i++) {
+			arms.add(ta2);
+		}
+		;
+		for (int i = 0; i < 149; i++) {
+			arms.add(ta3);
+		}
+		;
+
 		assertEquals(arms, algorithm.generateRawBlock());
-		
+
 	}
 }

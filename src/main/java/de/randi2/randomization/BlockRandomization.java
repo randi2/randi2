@@ -10,7 +10,7 @@ import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationTempData;
 
-public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizationConfig, BlockRandomizationTempData> {
+public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizationConfig> {
 
 	public BlockRandomization(Trial _trial){
 		super(_trial);
@@ -22,7 +22,8 @@ public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizatio
 
 	@Override
 	protected TreatmentArm doRadomize(TrialSubject subject, Random random) {
-		
+
+		BlockRandomizationTempData tempData = super.configuration.getTempData();
 		List<TreatmentArm> block = tempData.getCurrentBlock();
 		if(block == null || block.size() == 0){
 			block = generateBlock(random);

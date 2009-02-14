@@ -7,28 +7,23 @@ import java.util.Random;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
-import de.randi2.model.randomization.AbstractRandomizationTempData;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 
-public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationConfig, Temp extends AbstractRandomizationTempData> {
+public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationConfig> {
 	protected Trial trial;
 	protected Conf configuration;
 	private Random seededRandom;
-
-	protected Temp tempData;
 
 	protected RandomizationAlgorithm(Trial _trial) {
 		super();
 		this.trial = _trial;
 		this.configuration = (Conf) trial.getRandomizationConfiguration();
-		this.tempData = (Temp) trial.getRandomizationTempData();
 	}
 
 	protected RandomizationAlgorithm(Trial _trial, long seed) {
 		super();
 		this.trial = _trial;
 		this.configuration = (Conf) trial.getRandomizationConfiguration();
-		this.tempData = (Temp) trial.getRandomizationTempData();
 		this.seededRandom = new Random(seed);
 	}
 
@@ -45,8 +40,6 @@ public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationC
 	 * @return The randomized treatment arm.
 	 */
 	public TreatmentArm randomize(TrialSubject subject) {
-		// Checks before
-
 		// Actual Randomization
 		TreatmentArm assignedArm = doRadomize(subject, getRandom());
 

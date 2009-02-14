@@ -16,7 +16,7 @@ import de.randi2.randomization.RandomizationAlgorithm;
 @Table(name="RandomizationConfig")
 public abstract class AbstractRandomizationConfig extends AbstractDomainObject{
 	
-	public abstract RandomizationAlgorithm<?, ?> getAlgorithm(Trial trial);
+	public abstract RandomizationAlgorithm<? extends AbstractRandomizationConfig> getAlgorithm(Trial trial);
 
 	@Override
 	public String toString() {

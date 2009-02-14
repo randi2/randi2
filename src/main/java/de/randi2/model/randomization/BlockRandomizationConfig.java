@@ -10,9 +10,20 @@ import javax.persistence.Enumerated;
 @Entity
 public class BlockRandomizationConfig extends AbstractRandomizationConfig {
 
+
+	private BlockRandomizationTempData tempData = null;
+
 	@Override
-	public RandomizationAlgorithm<?, ?> getAlgorithm(Trial trial) {
+	public RandomizationAlgorithm<BlockRandomizationConfig> getAlgorithm(Trial trial) {
 		return new BlockRandomization(trial);
+	}
+
+	public BlockRandomizationTempData getTempData(){
+		return tempData != null ? tempData : new BlockRandomizationTempData();
+	}
+
+	public void setTempData(BlockRandomizationTempData _tempData){
+		this.tempData = _tempData;
 	}
 
 	public enum TYPE {

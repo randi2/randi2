@@ -36,7 +36,7 @@ import de.randi2.utility.validations.DateDependence;
 public class Trial extends AbstractDomainObject {
 
 	@Transient
-	private RandomizationAlgorithm<?, ?> algorithm;
+	private RandomizationAlgorithm<? extends AbstractRandomizationConfig> algorithm;
 	@NotNull()
 	@NotEmpty()
 	@Length(max = MAX_VARCHAR_LENGTH)
