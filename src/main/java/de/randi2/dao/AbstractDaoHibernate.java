@@ -16,6 +16,7 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	
 	public abstract Class<E> getModelClass();
 
+	@Override
 	public E get(long id){
 		E element = (E) template.get(getModelClass(), id);
 		if(element == null){
@@ -24,6 +25,7 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 		return element;
 	}
 	
+	@Override
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor=RuntimeException.class)
 	public void save(E object){
 		if (((AbstractDomainObject)object).getId()==AbstractDomainObject.NOT_YET_SAVED_ID){
@@ -32,10 +34,12 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 		template.flush();
 	}
 	
+	@Override
 	public List<E> findByExample(E object){
 		return template.findByExample(object);
 	}
-	
+
+	@Override
 	public List<E> getAll(){
 		return template.loadAll(getModelClass());
 	}
