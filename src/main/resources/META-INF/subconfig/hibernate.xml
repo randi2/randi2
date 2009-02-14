@@ -22,36 +22,22 @@
                 <value>de.randi2.model.Person</value>
                 <value>de.randi2.model.Login</value>
                 <value>de.randi2.model.Role</value>
-                <value>de.randi2.model.TreatmentArm
-                </value>
-                <value>de.randi2.model.TrialSubject
-                </value>
-                <value>de.randi2.model.LogAction</value>
-                <value>de.randi2.model.DateChange</value>
-                <value>de.randi2.model.criteria.AbstractCriterion
-                </value>
-                <value>de.randi2.model.criteria.CalendarDateCriterion
-                </value>
-                <value>de.randi2.model.criteria.DichotomousCriterion
-                </value>
-                <value>de.randi2.model.criteria.NumericCriterion
-                </value>
-                <value>de.randi2.model.criteria.OrdinalCriterion
-                </value>
+                <value>de.randi2.model.TreatmentArm</value>
+                <value>de.randi2.model.TrialSubject</value>
+                <value>de.randi2.model.criteria.AbstractCriterion</value>
+                <value>de.randi2.model.criteria.CalendarDateCriterion</value>
+                <value>de.randi2.model.criteria.DichotomousCriterion</value>
+                <value>de.randi2.model.criteria.NumericCriterion</value>
+                <value>de.randi2.model.criteria.OrdinalCriterion</value>
                 <value>de.randi2.model.randomization.BlockRandomizationTempData</value>
                 <value>de.randi2.model.randomization.AbstractRandomizationTempData</value>
                 <value>de.randi2.model.randomization.CompleteRandomizationConfig</value>
                 <value>de.randi2.model.randomization.BlockRandomizationConfig</value>
-                <value>de.randi2.model.security.AclHibernate
-                </value>
-                <value>de.randi2.model.security.AccessControlEntryHibernate
-                </value>
-                <value>de.randi2.model.security.ObjectIdentityHibernate
-                </value>
-                <value>de.randi2.model.security.PermissionHibernate
-                </value>
-                <value>de.randi2.model.security.SidHibernate
-                </value>
+                <value>de.randi2.model.security.AclHibernate</value>
+                <value>de.randi2.model.security.AccessControlEntryHibernate</value>
+                <value>de.randi2.model.security.ObjectIdentityHibernate</value>
+                <value>de.randi2.model.security.PermissionHibernate</value>
+                <value>de.randi2.model.security.SidHibernate</value>
             </list>
         </property>
         <property name="eventListeners">
