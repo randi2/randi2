@@ -35,13 +35,6 @@ public class CompleteRandomizationTest {
 	
 	
 	@Test
-	public void testInitialization(){
-		AbstractRandomizationConfig conf = new CompleteRandomizationConfig();
-		Object algorithm = conf.getAlgorithm(trial);
-		assertTrue(algorithm instanceof CompleteRandomization);
-	}
-	
-	@Test
 	public void testRandomization(){
 		AbstractRandomizationConfig conf = new CompleteRandomizationConfig();
 		trial.setRandomizationConfiguration(conf);
