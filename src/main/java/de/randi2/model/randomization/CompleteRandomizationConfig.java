@@ -16,8 +16,8 @@ import de.randi2.randomization.RandomizationAlgorithm;
 public class CompleteRandomizationConfig extends AbstractRandomizationConfig {
 
 	@Override
-	public RandomizationAlgorithm<CompleteRandomizationConfig> getAlgorithm(Trial trial) {
-		return new CompleteRandomization(trial);
+	public RandomizationAlgorithm<CompleteRandomizationConfig> createAlgorithm() {
+		return new CompleteRandomization(super.getTrial());
 	}
 
 }

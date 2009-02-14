@@ -1,6 +1,5 @@
 package de.randi2.model.randomization;
 
-import de.randi2.model.Trial;
 import de.randi2.randomization.BlockRandomization;
 import de.randi2.randomization.RandomizationAlgorithm;
 import javax.persistence.Entity;
@@ -14,8 +13,8 @@ public class BlockRandomizationConfig extends AbstractRandomizationConfig {
 	private BlockRandomizationTempData tempData = null;
 
 	@Override
-	public RandomizationAlgorithm<BlockRandomizationConfig> getAlgorithm(Trial trial) {
-		return new BlockRandomization(trial);
+	public RandomizationAlgorithm<BlockRandomizationConfig> createAlgorithm() {
+		return new BlockRandomization(super.getTrial());
 	}
 
 	public BlockRandomizationTempData getTempData(){

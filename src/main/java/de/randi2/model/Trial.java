@@ -62,9 +62,7 @@ public class Trial extends AbstractDomainObject {
 	private List<AbstractCriterion> inclusionCriteria;
 	@OneToOne
 	private AbstractRandomizationConfig randomizationConfiguration;
-	@OneToOne
-	private AbstractRandomizationTempData randomizationTempData;
-
+	
 	public String getName() {
 		return name;
 	}
@@ -155,8 +153,11 @@ public class Trial extends AbstractDomainObject {
 	}
 
 	public void setRandomizationConfiguration(
-			AbstractRandomizationConfig randomizationConfiguration) {
-		this.randomizationConfiguration = randomizationConfiguration;
+			AbstractRandomizationConfig _randomizationConfiguration) {
+		randomizationConfiguration = _randomizationConfiguration;
+		if(randomizationConfiguration.getTrial() == null){
+			randomizationConfiguration.setTrial(this);
+		}
 	}
 
 	public void setTreatmentArms(List<TreatmentArm> treatmentArms) {
@@ -187,7 +188,7 @@ public class Trial extends AbstractDomainObject {
 
 	private void initAlgorithm() {
 		if (algorithm == null) {
-			algorithm = randomizationConfiguration.getAlgorithm(this);
+			algorithm = randomizationConfiguration.getAlgorithm();
 		}
 	}
 

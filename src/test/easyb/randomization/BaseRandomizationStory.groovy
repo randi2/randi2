@@ -16,7 +16,7 @@ scenario "complete randomization initialization", {
         trial.randomizationConfiguration = conf
     }
     then "the trials random algorithm should be a complete rand.", {
-        conf.getAlgorithm(trial).shouldBeA CompleteRandomization
+        conf.algorithm.shouldBeA CompleteRandomization
     }
 }
 
@@ -30,10 +30,9 @@ scenario "block randomization initialization", {
     }
     when "the conf is set to the trial", {
         trial.randomizationConfiguration = conf
-        trial.randomizationTempData = tempData
     }
     then "the trials random algorithm should be a complete rand.", {
-        conf.getAlgorithm(trial).shouldBeA BlockRandomization
+        conf.algorithm.shouldBeA BlockRandomization
     }
 }
 

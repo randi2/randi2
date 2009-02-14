@@ -47,7 +47,7 @@ public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizatio
 			}
 			block.add(rawBlock.remove(random.nextInt(rawBlock.size())));
 			i++;
-		};
+		}
 		return block;
 	}
 	
