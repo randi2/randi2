@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
@@ -17,7 +16,8 @@ import org.hibernate.validator.NotNull;
 public class TrialSubject extends AbstractDomainObject{
 
 	private String identification;
-	
+
+	@ManyToOne
 	private TreatmentArm arm;
 	
 	@Transient

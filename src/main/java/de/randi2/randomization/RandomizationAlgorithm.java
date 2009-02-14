@@ -51,12 +51,7 @@ public abstract class RandomizationAlgorithm<Conf extends BaseRandomizationConfi
 		TreatmentArm assignedArm = doRadomize(subject, getRandom());
 
 		// Work after
-		if (!isSeeded()) {
-			subject.setArm(assignedArm);
-			return subject.getArm();
-		} else {
-			return assignedArm;
-		}
+		return assignedArm;
 	}
 
 	protected abstract TreatmentArm doRadomize(TrialSubject subject,

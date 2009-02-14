@@ -1,56 +1,51 @@
 import de.randi2.model.*
 import de.randi2.model.randomization.*
 import de.randi2.randomization.*
-import de.randi2.utility.*
+
+import de.randi2test.helper.RandomizationHelper
+import de.randi2test.helpers.InitializationHelper as init
 
 class Helper {
-    static create_trial_with_arms(arm_sizes) {
-        def trial = new Trial()
+    static createTrialWithArms(armSizes) {
         def conf = new BaseRandomizationConfig()
         conf.algorithmClass = CompleteRandomization
-        trial.randomizationConfiguration = conf
-        def treatmentArms = []
-        arm_sizes.each { size ->
-            def arm = new TreatmentArm()
-            arm.setPlannedSubjects size
-            treatmentArms << arm
-        }
-        trial.treatmentArms = treatmentArms
-        return new Pair(trial, treatmentArms)
+        return RandomizationHelper.createTrialWithArms(conf, armSizes)
     }
 }
-
-
-scenario "complete randomization initialization", {
-    given "a trial", {
-        trial = new Trial()
-    }
-    and "a base randomization configuration for complete rand.", {
-        conf = new BaseRandomizationConfig()
-        conf.algorithmClass = CompleteRandomization
-    }
-    when "the conf is set to the trial", {
-        trial.randomizationConfiguration = conf
-    }
-    then "the trials random algorithm should be a complete rand.", {
-        conf.getAlgorithm(trial).shouldBeA CompleteRandomization
-    }
-}
-
-
-
 
 scenario "one subject allocation", {
     given "a trial with two equally sized trial arms", {
-        res = Helper.create_trial_with_arms([10,10])
+        res = Helper.createTrialWithArms([10,10])
         trial = res.first
         arms = res.last
     }
     when "a subject is randomized", {
-        subject = new TrialSubject()
+        subject = init.createTrialSubject()
         trial.randomize subject
     }
-    then "the subjects arm should be one of the arms of the trials", {
+    then "the subjects arm should not be null", {
+        subject.arm.shouldNotBe null
+    }
+    and "the subjects arm should be one of the arms of the trials", {
         ensure(arms) { contains(subject.arm)}
+    }
+}
+
+scenario "one subject allocation", {
+    given "a trial with two equally sized trial arms", {
+        res = Helper.createTrialWithArms([20,20])
+        trial = res.first
+        arms = res.last
+    }
+    when "40 subjects are randomized", {
+        40.times {
+            trial.randomize init.createTrialSubject()
+        }
+    }
+    then "the treatment arms should have 40 subjects", {
+        arms*.subjects*.size().sum().shouldBe 40
+    }
+    and "the trial should have 40 subjects", {
+        trial.subjects.size().shouldBe 40
     }
 }

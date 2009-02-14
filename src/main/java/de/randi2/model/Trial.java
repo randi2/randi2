@@ -37,39 +37,29 @@ public class Trial extends AbstractDomainObject {
 
 	@Transient
 	private RandomizationAlgorithm<?, ?> algorithm;
-	
 	@NotNull()
 	@NotEmpty()
 	@Length(max = MAX_VARCHAR_LENGTH)
 	private String name = "";
-
 	@Lob
 	private String description = "";
 	private GregorianCalendar startDate = null;
 	private GregorianCalendar endDate = null;
-
 	private File protocol = null;
-
 	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Person sponsorInvestigator = null;
-
 	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)
 	private TrialSite leadingCenter = null;
-
 	@Enumerated(value = EnumType.STRING)
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
-
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<TrialSite> participatingSites = new HashSet<TrialSite>();
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="trial")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trial")
 	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();
-
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<AbstractCriterion> inclusionCriteria;
-
 	@OneToOne
 	private BaseRandomizationConfig randomizationConfiguration;
 	@OneToOne
@@ -186,9 +176,22 @@ public class Trial extends AbstractDomainObject {
 		return treatmentArms;
 	}
 
+	@Transient
+	public List<TrialSubject> getSubjects(){
+		List<TrialSubject> subjects = new ArrayList<TrialSubject>();
+		for(TreatmentArm arm : treatmentArms){
+			for(TrialSubject subject : arm.getSubjects()){
+				subjects.add(subject);
+			}
+		}
+		return subjects;
+	}
+
 	public void randomize(TrialSubject subject) {
 		initAlgorithm();
-		algorithm.randomize(subject);
+		TreatmentArm assignedArm = algorithm.randomize(subject);
+		subject.setArm(assignedArm);
+		assignedArm.addSubject(subject);
 	}
 
 	private void initAlgorithm() {
@@ -199,7 +202,6 @@ public class Trial extends AbstractDomainObject {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "TO_STRING_NOT_IMPLEMENTED";
+		return "Trial: " + getName();
 	}
 }

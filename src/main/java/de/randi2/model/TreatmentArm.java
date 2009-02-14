@@ -1,10 +1,13 @@
 package de.randi2.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
+import javax.persistence.OneToMany;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
@@ -23,6 +26,9 @@ public class TreatmentArm extends AbstractDomainObject{
 	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Trial trial = null;
+
+	@OneToMany(mappedBy="arm")
+	private List<TrialSubject> subjects = new ArrayList<TrialSubject>();
 
 	@NotNull()
 	@NotEmpty()
@@ -58,11 +64,18 @@ public class TreatmentArm extends AbstractDomainObject{
 	public void setTrial(Trial trial) {
 		this.trial = trial;
 	}
+
+	public List<TrialSubject> getSubjects(){
+		return this.subjects;
+	}
+
+	void addSubject(TrialSubject subject){
+		this.subjects.add(subject);
+	}
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "TO_STRING_NOT_IMPLEMENTED";
+		return "TreatmentArm: " + this.getName();
 	}
 
 }
