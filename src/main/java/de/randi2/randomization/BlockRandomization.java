@@ -29,10 +29,7 @@ public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizatio
 			block = generateBlock(random);
 			tempData.setCurrentBlock(block);
 		}
-		// TODO This is problematic, because someone knowing the DB
-		// could see, which arm will be assigned the next time, 
-		// BUT if we do not take it deterministic here, the predictability
-		// will be difficult. Any ideas how to solve this?
+
 		return block.remove(random.nextInt(block.size()));
 	}
 
@@ -55,7 +52,7 @@ public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizatio
 		int range = super.configuration.getMaximum() - super.configuration.getMinimum() + 1;
 		int size = random.nextInt(range) + super.configuration.getMinimum();
 		if(super.configuration.getType() == BlockRandomizationConfig.TYPE.MULTIPLY){
-			size *= ggt();
+			size *= generateRawBlock().size();
 		}
 		return size;
 	}

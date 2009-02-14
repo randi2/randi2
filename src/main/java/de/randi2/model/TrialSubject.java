@@ -55,8 +55,7 @@ public class TrialSubject extends AbstractDomainObject{
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "TO_STRING_NOT_IMPLEMENTED";
+		return identification;
 	}
 	
 	

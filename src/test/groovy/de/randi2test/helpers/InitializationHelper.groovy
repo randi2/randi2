@@ -83,7 +83,7 @@ class InitializationHelper {
 
     static createTrialSubject(map = [:]){
         def ts = new TrialSubject()
-
+        ts.identification = notNull(map['identification'], "ID${next()}")
         ts
     }
 

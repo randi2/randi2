@@ -18,7 +18,10 @@ public class BlockRandomizationConfig extends AbstractRandomizationConfig {
 	}
 
 	public BlockRandomizationTempData getTempData(){
-		return tempData != null ? tempData : new BlockRandomizationTempData();
+		if (tempData == null) {
+			tempData = new BlockRandomizationTempData();
+		}
+		return tempData;
 	}
 
 	public void setTempData(BlockRandomizationTempData _tempData){
