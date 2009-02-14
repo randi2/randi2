@@ -24,7 +24,7 @@ class RandomizationHelper {
         def trial = createTrial(conf)
         def treatmentArms = []
         armSizes.each { size ->
-            def arm = createTreatmentArm(plannedSubjects : size)
+            def arm = InitializationHelper.createTreatmentArm(plannedSubjects : size)
             treatmentArms << arm
         }
         trial.treatmentArms = treatmentArms

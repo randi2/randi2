@@ -2,7 +2,7 @@ import de.randi2.model.*
 import de.randi2.model.randomization.*
 import de.randi2.randomization.*
 
-import de.randi2test.helper.RandomizationHelper
+import de.randi2test.helpers.RandomizationHelper
 import de.randi2test.helpers.InitializationHelper as init
 
 class Helper {

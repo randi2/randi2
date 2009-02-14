@@ -75,7 +75,7 @@ class InitializationHelper {
         ts
     }
 
-    static createTreatementArm(map = [:]){
+    static createTreatmentArm(map = [:]){
         def ta = new TreatmentArm()
         ta.name = notNull(map['name'], "MyTrialArm${next()}")
         ta.plannedSubjects = notNull(map['plannedSubjects'], 20)
