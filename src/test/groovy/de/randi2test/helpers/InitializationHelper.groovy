@@ -63,10 +63,22 @@ class InitializationHelper {
         l
     }
 
-    static createBaseRandomConf(map = [:]){
-        def c = new BaseRandomizationConfig()
-        c.algorithmClass = notNull(map['algorithmClass'], de.randi2.randomization.CompleteRandomization)
+    static createCompleteRandomConf(map = [:]){
+        def c = new CompleteRandomizationConfig()
+
         c
+    }
+
+    static createBlockRandomConf(map = [:]){
+        def c = new BlockRandomizationConfig()
+        c.type = notNull(map['type'], BlockRandomizationConfig.TYPE.MULTIPLY)
+        c.minimum = notNull(map['minimum'], 2)
+        c.maximum = notNull(map['maximum'], 2)
+        c
+    }
+
+    static createBlockRandomTD(map = [:]){
+        new BlockRandomizationTempData()
     }
 
     static createTrialSubject(map = [:]){

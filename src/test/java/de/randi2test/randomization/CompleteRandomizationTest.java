@@ -14,7 +14,8 @@ import org.junit.Test;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
-import de.randi2.model.randomization.BaseRandomizationConfig;
+import de.randi2.model.randomization.AbstractRandomizationConfig;
+import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.randomization.CompleteRandomization;
 
 public class CompleteRandomizationTest {
@@ -35,16 +36,14 @@ public class CompleteRandomizationTest {
 	
 	@Test
 	public void testInitialization(){
-		BaseRandomizationConfig conf = new BaseRandomizationConfig();
-		conf.setAlgorithmClass(CompleteRandomization.class);
+		AbstractRandomizationConfig conf = new CompleteRandomizationConfig();
 		Object algorithm = conf.getAlgorithm(trial);
 		assertTrue(algorithm instanceof CompleteRandomization);
 	}
 	
 	@Test
 	public void testRandomization(){
-		BaseRandomizationConfig conf = new BaseRandomizationConfig();
-		conf.setAlgorithmClass(CompleteRandomization.class);
+		AbstractRandomizationConfig conf = new CompleteRandomizationConfig();
 		trial.setRandomizationConfiguration(conf);
 		TreatmentArm ta1 = getTA(10);
 		TreatmentArm ta2 = getTA(10);

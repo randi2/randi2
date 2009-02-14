@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.AbstractRandomizationTempData;
-import de.randi2.model.randomization.BaseRandomizationConfig;
+import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.randomization.RandomizationAlgorithm;
 import de.randi2.utility.validations.DateDependence;
 
@@ -61,7 +61,7 @@ public class Trial extends AbstractDomainObject {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<AbstractCriterion> inclusionCriteria;
 	@OneToOne
-	private BaseRandomizationConfig randomizationConfiguration;
+	private AbstractRandomizationConfig randomizationConfiguration;
 	@OneToOne
 	private AbstractRandomizationTempData randomizationTempData;
 
@@ -150,22 +150,13 @@ public class Trial extends AbstractDomainObject {
 		this.sponsorInvestigator = sponsorInvestigator;
 	}
 
-	public BaseRandomizationConfig getRandomizationConfiguration() {
+	public AbstractRandomizationConfig getRandomizationConfiguration() {
 		return randomizationConfiguration;
 	}
 
 	public void setRandomizationConfiguration(
-			BaseRandomizationConfig randomizationConfiguration) {
+			AbstractRandomizationConfig randomizationConfiguration) {
 		this.randomizationConfiguration = randomizationConfiguration;
-	}
-
-	public AbstractRandomizationTempData getRandomizationTempData() {
-		return randomizationTempData;
-	}
-
-	public void setRandomizationTempData(
-			AbstractRandomizationTempData randomizationTempData) {
-		this.randomizationTempData = randomizationTempData;
 	}
 
 	public void setTreatmentArms(List<TreatmentArm> treatmentArms) {

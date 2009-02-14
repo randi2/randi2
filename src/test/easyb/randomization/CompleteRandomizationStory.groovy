@@ -7,8 +7,7 @@ import de.randi2test.helpers.InitializationHelper as init
 
 class Helper {
     static createTrialWithArms(armSizes) {
-        def conf = new BaseRandomizationConfig()
-        conf.algorithmClass = CompleteRandomization
+        def conf = init.createCompleteRandomConf()
         return RandomizationHelper.createTrialWithArms(conf, armSizes)
     }
 }

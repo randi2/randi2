@@ -10,13 +10,30 @@ scenario "complete randomization initialization", {
         trial = init.createTrial()
     }
     and "a base randomization configuration for complete rand.", {
-        conf = init.createBaseRandomConf(algorithmClass: CompleteRandomization)
+        conf = init.createCompleteRandomConf()
     }
     when "the conf is set to the trial", {
         trial.randomizationConfiguration = conf
     }
     then "the trials random algorithm should be a complete rand.", {
         conf.getAlgorithm(trial).shouldBeA CompleteRandomization
+    }
+}
+
+scenario "block randomization initialization", {
+    given "a trial", {
+        trial = init.createTrial()
+    }
+    and "a base randomization configuration for complete rand.", {
+        conf = init.createBlockRandomConf()
+        tempData = init.createBlockRandomTD()
+    }
+    when "the conf is set to the trial", {
+        trial.randomizationConfiguration = conf
+        trial.randomizationTempData = tempData
+    }
+    then "the trials random algorithm should be a complete rand.", {
+        conf.getAlgorithm(trial).shouldBeA BlockRandomization
     }
 }
 

@@ -2,9 +2,7 @@ package de.randi2test.helpers
 
 import de.randi2.model.Trial as T
 import de.randi2.model.TreatmentArm as TA
-import de.randi2.model.randomization.BaseRandomizationConfig as BRConfig
-
-import de.randi2.randomization.CompleteRandomization as CRand
+import de.randi2.model.randomization.*
 
 import de.randi2.utility.Pair
 

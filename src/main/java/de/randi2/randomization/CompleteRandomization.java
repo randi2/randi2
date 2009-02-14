@@ -7,9 +7,9 @@ import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.AbstractRandomizationTempData;
-import de.randi2.model.randomization.BaseRandomizationConfig;
+import de.randi2.model.randomization.CompleteRandomizationConfig;
 
-public class CompleteRandomization extends RandomizationAlgorithm<BaseRandomizationConfig, AbstractRandomizationTempData> {
+public class CompleteRandomization extends RandomizationAlgorithm<CompleteRandomizationConfig, AbstractRandomizationTempData> {
 
 	public CompleteRandomization(Trial _trial) {
 		super(_trial);

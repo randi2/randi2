@@ -8,9 +8,9 @@ import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.AbstractRandomizationTempData;
-import de.randi2.model.randomization.BaseRandomizationConfig;
+import de.randi2.model.randomization.AbstractRandomizationConfig;
 
-public abstract class RandomizationAlgorithm<Conf extends BaseRandomizationConfig, Temp extends AbstractRandomizationTempData> {
+public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationConfig, Temp extends AbstractRandomizationTempData> {
 	protected Trial trial;
 	protected Conf configuration;
 	private Random seededRandom;

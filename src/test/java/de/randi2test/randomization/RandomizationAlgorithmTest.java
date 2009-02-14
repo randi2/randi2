@@ -14,7 +14,8 @@ import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.AbstractRandomizationTempData;
-import de.randi2.model.randomization.BaseRandomizationConfig;
+import de.randi2.model.randomization.AbstractRandomizationConfig;
+import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.randomization.RandomizationAlgorithm;
 
 public class RandomizationAlgorithmTest {
@@ -34,7 +35,7 @@ public class RandomizationAlgorithmTest {
 
 	private class DummyRandomizationAlgorithm
 			extends
-			RandomizationAlgorithm<BaseRandomizationConfig, AbstractRandomizationTempData> {
+			RandomizationAlgorithm<AbstractRandomizationConfig, AbstractRandomizationTempData> {
 
 		protected DummyRandomizationAlgorithm(Trial _trial) {
 			super(_trial);
@@ -60,7 +61,7 @@ public class RandomizationAlgorithmTest {
 	@Before
 	public void setUp() throws Exception {
 		trial = new Trial();
-		trial.setRandomizationConfiguration(new BaseRandomizationConfig());
+		trial.setRandomizationConfiguration(new CompleteRandomizationConfig());
 		algorithm = new DummyRandomizationAlgorithm(trial);
 	}
 

@@ -1,15 +1,20 @@
 package de.randi2.model.randomization;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
+import de.randi2.model.Trial;
+import de.randi2.randomization.BlockRandomization;
+import de.randi2.randomization.RandomizationAlgorithm;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Entity
-public class BlockRandomizationConfig extends BaseRandomizationConfig {
-	
-	
+public class BlockRandomizationConfig extends AbstractRandomizationConfig {
+
+	@Override
+	public RandomizationAlgorithm<?, ?> getAlgorithm(Trial trial) {
+		return new BlockRandomization(trial);
+	}
+
 	public enum TYPE {
 		MULTIPLY, ABSOLUTE;
 	}
