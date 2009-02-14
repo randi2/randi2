@@ -7,34 +7,30 @@ import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.StratumProc;
 
-public final class SubjectProperty<V> extends AbstractDomainObject{
-	
+public final class SubjectProperty<V> extends AbstractDomainObject {
+
 	private static final long serialVersionUID = 6795792982229806832L;
-	
 	private V value;
 	private AbstractCriterion<V> criterion;
-	
 	private List<Object> possibleValues = new ArrayList<Object>();
+	private StratumProc stratumProc = StratumProc.noStratification();
 
-	private StratumProc stratumProc = StratumProc.noStratification(); 
-
-	public void setStratumComputation(StratumProc p){
+	public void setStratumComputation(StratumProc p) {
 		this.stratumProc = p;
 	}
-	
-	public void addPossibleValue(Object o){
+
+	public void addPossibleValue(Object o) {
 		possibleValues.add(o);
 	}
-	
-	public List<Object> getPossibleValues(){
+
+	public List<Object> getPossibleValues() {
 		return possibleValues;
 	}
-	
-	public int getStratum(){
+
+	public int getStratum() {
 		return stratumProc.stratify(this.value);
 	}
-	
-	
+
 	// Get- and Set Methods
 	public V getValue() {
 		return value;
@@ -44,17 +40,15 @@ public final class SubjectProperty<V> extends AbstractDomainObject{
 		this.checkConstraints(value);
 		this.value = value;
 	}
-	
+
 	// Check-Methoden
-	private void checkConstraints(V value) throws ContraintViolatedException{
+	private void checkConstraints(V value) throws ContraintViolatedException {
 		this.checkPossibleValues(value);
 	}
-	
-	private void checkPossibleValues(V value) throws ContraintViolatedException{
-		if(!possibleValues.isEmpty()){
-			if(!possibleValues.contains(value)){
-				throw new ContraintViolatedException(); // TODO nice constraint violation message 
-			}
+
+	private void checkPossibleValues(V value) throws ContraintViolatedException {
+		if (!possibleValues.isEmpty() && !possibleValues.contains(value)) {
+			throw new ContraintViolatedException(); // TODO nice constraint violation message
 		}
 	}
 
@@ -66,7 +60,7 @@ public final class SubjectProperty<V> extends AbstractDomainObject{
 		this.criterion = (AbstractCriterion<V>) criterion;
 		criterion.applyConstraints((SubjectProperty<V>) this);
 	}
-	
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

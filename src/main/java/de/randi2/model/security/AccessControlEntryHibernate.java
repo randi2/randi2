@@ -1,7 +1,7 @@
 package de.randi2.model.security;
 
-import java.io.Serializable;
 
+import java.io.Serializable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,18 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.Type;
 import org.springframework.security.acls.AccessControlEntry;
 import org.springframework.security.acls.Acl;
-import org.springframework.security.acls.AuditableAccessControlEntry;
 import org.springframework.security.acls.Permission;
-import org.springframework.security.acls.domain.AccessControlEntryImpl;
 import org.springframework.security.acls.sid.Sid;
 
-import de.randi2.model.Login;
 
 @Entity
-public class AccessControlEntryHibernate implements AccessControlEntry {
+public class AccessControlEntryHibernate implements AccessControlEntry, Serializable {
 
 	
 	@ManyToOne(targetEntity=AclHibernate.class)

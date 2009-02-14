@@ -1,7 +1,5 @@
 package de.randi2.dao;
 
-import org.springframework.core.annotation.Order;
-import org.springframework.security.annotation.Secured;
 
 import de.randi2.model.Login;
 

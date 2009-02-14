@@ -25,9 +25,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.enumerations.TrialStatus;
-import de.randi2.model.randomization.AbstractRandomizationTempData;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
-import de.randi2.randomization.RandomizationAlgorithm;
 import de.randi2.utility.validations.DateDependence;
 
 @Entity
@@ -35,8 +33,6 @@ import de.randi2.utility.validations.DateDependence;
 @DateDependence(firstDate = "startDate", secondDate = "endDate")
 public class Trial extends AbstractDomainObject {
 
-	@Transient
-	private RandomizationAlgorithm<? extends AbstractRandomizationConfig> algorithm;
 	@NotNull()
 	@NotEmpty()
 	@Length(max = MAX_VARCHAR_LENGTH)
@@ -61,8 +57,24 @@ public class Trial extends AbstractDomainObject {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<AbstractCriterion> inclusionCriteria;
 	@OneToOne
-	private AbstractRandomizationConfig randomizationConfiguration;
-	
+	private AbstractRandomizationConfig randomConf;
+
+	public List<AbstractCriterion> getInclusionCriteria() {
+		return inclusionCriteria;
+	}
+
+	public TrialSite getLeadingCenter() {
+		return leadingCenter;
+	}
+
+	public void setInclusionCriteria(List<AbstractCriterion> inclusionCriteria) {
+		this.inclusionCriteria = inclusionCriteria;
+	}
+
+	public void setLeadingCenter(TrialSite leadingCenter) {
+		this.leadingCenter = leadingCenter;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -149,14 +161,14 @@ public class Trial extends AbstractDomainObject {
 	}
 
 	public AbstractRandomizationConfig getRandomizationConfiguration() {
-		return randomizationConfiguration;
+		return randomConf;
 	}
 
 	public void setRandomizationConfiguration(
 			AbstractRandomizationConfig _randomizationConfiguration) {
-		randomizationConfiguration = _randomizationConfiguration;
-		if(randomizationConfiguration.getTrial() == null){
-			randomizationConfiguration.setTrial(this);
+		randomConf = _randomizationConfiguration;
+		if (randomConf.getTrial() == null) {
+			randomConf.setTrial(this);
 		}
 	}
 
@@ -169,10 +181,10 @@ public class Trial extends AbstractDomainObject {
 	}
 
 	@Transient
-	public List<TrialSubject> getSubjects(){
+	public List<TrialSubject> getSubjects() {
 		List<TrialSubject> subjects = new ArrayList<TrialSubject>();
-		for(TreatmentArm arm : treatmentArms){
-			for(TrialSubject subject : arm.getSubjects()){
+		for (TreatmentArm arm : treatmentArms) {
+			for (TrialSubject subject : arm.getSubjects()) {
 				subjects.add(subject);
 			}
 		}
@@ -180,16 +192,9 @@ public class Trial extends AbstractDomainObject {
 	}
 
 	public void randomize(TrialSubject subject) {
-		initAlgorithm();
-		TreatmentArm assignedArm = algorithm.randomize(subject);
+		TreatmentArm assignedArm = randomConf.getAlgorithm().randomize(subject);
 		subject.setArm(assignedArm);
 		assignedArm.addSubject(subject);
-	}
-
-	private void initAlgorithm() {
-		if (algorithm == null) {
-			algorithm = randomizationConfiguration.getAlgorithm();
-		}
 	}
 
 	@Override

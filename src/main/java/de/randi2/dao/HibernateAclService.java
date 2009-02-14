@@ -16,8 +16,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.Login;
-import de.randi2.model.security.AccessControlEntryHibernate;
 import de.randi2.model.security.AclHibernate;
 import de.randi2.model.security.PermissionHibernate;
 import de.randi2.model.security.ObjectIdentityHibernate;

@@ -2,17 +2,13 @@ package de.randi2.model;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -21,7 +17,6 @@ import javax.persistence.Version;
 
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.exceptions.ValidationException;
 
@@ -39,8 +34,6 @@ public abstract class AbstractDomainObject implements Serializable {
 	private int version = Integer.MIN_VALUE;
 	private GregorianCalendar createdAt = null;
 	private GregorianCalendar updatedAt = null;
-	@Transient
-	private List<DateChange> changes = new ArrayList<DateChange>();
 
 	public long getId() {
 		return id;
@@ -50,11 +43,11 @@ public abstract class AbstractDomainObject implements Serializable {
 		return version;
 	}
 
-	private void setId(long _id) {
+	public void setId(long _id) {
 		this.id = _id;
 	}
 
-	private void setVersion(int _version) {
+	public void setVersion(int _version) {
 		this.version = _version;
 	}
 
@@ -113,26 +106,6 @@ public abstract class AbstractDomainObject implements Serializable {
 			return super.hashCode();
 		}
 	}*/
-
-	public List<DateChange> getChanges() {
-		return this.changes;
-	}
-
-	public void clearChanges() {
-		this.changes.clear();
-	}
-
-	protected void addChange(String field, Object currentO, Object newO) {
-		if (newO != null && !newO.equals(currentO)) {
-			for (DateChange dc : this.changes) {
-				if (dc.getField().equals(field)) {
-					dc.setAfterValue(newO);
-					return;
-				}
-			}
-			this.changes.add(new DateChange(this.getClass(), field, currentO.getClass(), currentO, newO));
-		}
-	}
 
 	@PreUpdate
 	public void beforeUpdate() {

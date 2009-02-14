@@ -1,7 +1,5 @@
 package de.randi2.model;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -9,7 +7,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.validator.Length;
@@ -84,7 +81,6 @@ public class Person extends AbstractDomainObject {
 		if(surname == null){
 			surname = "";
 		}
-		super.addChange("surname", this.surname, surname);
 		this.surname = surname;
 	}
 

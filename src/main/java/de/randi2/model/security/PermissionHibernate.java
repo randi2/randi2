@@ -1,13 +1,14 @@
 package de.randi2.model.security;
 
 
+import java.io.Serializable;
 import javax.persistence.Embeddable;
 
 import org.springframework.security.acls.AclFormattingUtils;
 import org.springframework.security.acls.Permission;
 
 @Embeddable
-public class PermissionHibernate implements Permission {
+public class PermissionHibernate implements Permission, Serializable {
 	
 	private char code;
 	private int mask;

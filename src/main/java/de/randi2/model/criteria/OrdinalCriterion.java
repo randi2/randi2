@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.CollectionOfElements;
-	
+
 import de.randi2.model.SubjectProperty;
 
 /**
@@ -26,27 +26,25 @@ import de.randi2.model.SubjectProperty;
 public class OrdinalCriterion extends AbstractCriterion<String> {
 
 	private static final long serialVersionUID = -1596645059608735663L;
-
 	/**
 	 * List object storing the possible values.
 	 */
 	@CollectionOfElements
 	public List<String> elements;
-	
 	/**
 	 * If the object represents an inclusion criteria, this field has the
 	 * constraints.
 	 */
 	@Embedded
 	private OrdinalConstraints constraints = null;
-	
-	public OrdinalCriterion(){
+
+	public OrdinalCriterion() {
 		elements = new ArrayList<String>();
-		for(int i=0;i<3;i++){
+		for (int i = 0; i < 3; i++) {
 			elements.add("");
 		}
 	}
-	
+
 	@Embeddable
 	public class OrdinalConstraints extends AbstractConstraints<String> {
 
@@ -65,20 +63,19 @@ public class OrdinalCriterion extends AbstractCriterion<String> {
 		public void setExpectedValues(List<String> expectedValues) {
 			this.expectedValues = expectedValues;
 		}
-
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see de.randi2.model.criteria.AbstractCriterion#applyConstraints(de.randi2.model.SubjectProperty)
 	 */
 	@Override
 	public void applyConstraints(SubjectProperty<String> prop) {
-		for(Object possibleValue : prop.getPossibleValues()){
+		for (Object possibleValue : prop.getPossibleValues()) {
 			elements.add(possibleValue.toString());
 		}
-		if (isStratum) {
-			// TODO What should we do here?
-		}
+	// TODO What should we do here?
+		/*if (isStratum) {
+	}*/
 	}
 
 	/* (non-Javadoc)
@@ -99,26 +96,27 @@ public class OrdinalCriterion extends AbstractCriterion<String> {
 
 	@Override
 	public AbstractConstraints<String> getConstraints() {
-		if(constraints==null)
-			constraints = new  OrdinalConstraints();
+		if (constraints == null) {
+			constraints = new OrdinalConstraints();
+		}
 		return constraints;
 	}
 
 	@Override
 	public void setConstraints(AbstractConstraints<String> _constraints) {
 		constraints = (OrdinalConstraints) _constraints;
-		
+
 	}
 
 	@Override
 	public List<String> getConfiguredValues() {
 		boolean configured = true;
-		for(String s : elements){
+		for (String s : elements) {
 			configured = !(s.isEmpty() || s.equals(""));
 		}
-		if(configured)
+		if (configured) {
 			return elements;
+		}
 		return null;
 	}
-
 }

@@ -5,7 +5,6 @@
 
 package de.randi2.model.randomization;
 
-import de.randi2.model.Trial;
 import de.randi2.randomization.CompleteRandomization;
 import de.randi2.randomization.RandomizationAlgorithm;
 
