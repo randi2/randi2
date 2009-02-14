@@ -474,6 +474,18 @@
                     <server>tomcat_local</server>
                 </configuration>
             </plugin>
+	    <plugin>
+	    	<groupId>org.codehaus.groovy.maven</groupId>
+		<artifactId>gmaven-plugin</artifactId>
+		<version>1.0-rc-4</version>
+		<executions>
+			<execution>
+				<goals>
+					<goal>testCompile</goal>
+				</goals>
+			</execution>
+		</executions>
+	    </plugin>
             <plugin>
                 <groupId>org.easyb</groupId>
                 <artifactId>maven-easyb-plugin</artifactId>
