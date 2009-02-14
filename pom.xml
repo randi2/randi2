@@ -383,11 +383,6 @@
             <version>1.0-beta4</version>
         </dependency>
         <dependency>
-            <groupId>net.sf.jcharts</groupId>
-            <artifactId>krysalis-jCharts</artifactId>
-            <version>1.0.0-alpha-1</version>
-        </dependency>
-        <dependency>
             <groupId>org.jdom</groupId>
             <artifactId>jdom</artifactId>
             <version>1.1</version>
@@ -422,7 +417,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.0.2</version>
                 <configuration>
                     <source>${project.build.java.version}</source>
                     <target>${project.build.java.version}</target>
@@ -442,7 +436,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-eclipse-plugin</artifactId>
-                <version>2.5</version>
                 <configuration>
                     <downloadSource>false</downloadSource>
                     <wtpversion>1.5</wtpversion>
@@ -450,7 +443,6 @@
             </plugin>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.0</version>
             </plugin>
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
@@ -467,7 +459,6 @@
 	    <plugin>
 	    	<groupId>org.codehaus.groovy.maven</groupId>
 		<artifactId>gmaven-plugin</artifactId>
-		<version>1.0-rc-4</version>
 		<executions>
 			<execution>
 				<goals>
@@ -479,7 +470,7 @@
             <plugin>
                 <groupId>org.easyb</groupId>
                 <artifactId>maven-easyb-plugin</artifactId>
-                <version>0.9</version>
+		<version>0.9</version>
                 <executions>
                     <execution>
                         <goals>
@@ -503,7 +494,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.4.2</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -515,7 +505,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
-                <version>1.2</version>
                 <configuration>
                     <threshold>Low</threshold>
                     <effort>Default</effort>
@@ -527,7 +516,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.2</version>
                 <configuration>
                     <formats>
                         <format>html</format>
@@ -541,7 +529,6 @@
 		</plugin>
             <plugin>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>2.3</version>
                 <configuration>
                     <targetJdk>${project.build.java.version}</targetJdk>
                 </configuration>
