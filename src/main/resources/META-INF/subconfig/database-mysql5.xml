@@ -23,7 +23,7 @@
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="properties">
-			<value>hibernate.dialect=org.hibernate.dialect.MySQL5Dialect</value>
+			<value>hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect</value>
 		</property>
 	</bean>
 </beans>

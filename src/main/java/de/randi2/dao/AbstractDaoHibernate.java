@@ -26,12 +26,11 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	}
 	
 	@Override
-	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor=RuntimeException.class)
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=RuntimeException.class)
 	public void save(E object){
 		if (((AbstractDomainObject)object).getId()==AbstractDomainObject.NOT_YET_SAVED_ID){
 			template.saveOrUpdate(object);
 		}else template.merge(object);
-		template.flush();
 	}
 	
 	@Override

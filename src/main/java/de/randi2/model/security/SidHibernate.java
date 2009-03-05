@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.security.acls.sid.PrincipalSid;
 import org.springframework.security.acls.sid.Sid;
 
 @Entity
@@ -39,6 +40,9 @@ public class SidHibernate implements Sid{
 			return true;
 		else if (obj instanceof SidHibernate)
 			return (this.sidname.equals(((SidHibernate)obj).sidname));
+		//this is necessary to compare a SidHibernate with a PrincipalSid (Security framework)    
+		else if (obj instanceof PrincipalSid)
+			return (this.sidname.equals(((PrincipalSid)obj).getPrincipal()));
 		else
 			return false;
 	}

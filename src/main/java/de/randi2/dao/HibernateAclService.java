@@ -17,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.security.AclHibernate;
-import de.randi2.model.security.PermissionHibernate;
 import de.randi2.model.security.ObjectIdentityHibernate;
+import de.randi2.model.security.PermissionHibernate;
 import de.randi2.model.security.SidHibernate;
 
 public class HibernateAclService implements AclService {
@@ -80,7 +80,7 @@ public class HibernateAclService implements AclService {
 		return acl;
 	}
 
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	@Transactional(propagation=Propagation.REQUIRED)
 	public AclHibernate createAclwithPermissions(AbstractDomainObject object,
 			String sidname, PermissionHibernate[] permissions, String roleName) {
 		AclHibernate acl= new AclHibernate();
@@ -105,6 +105,7 @@ public class HibernateAclService implements AclService {
 		return createAclwithPermissions(object, sidname, permissions, null);
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
 	private SidHibernate createSidIfNotSaved(String sidname) {
 		List<SidHibernate> list = template.findByExample(new SidHibernate(
 				sidname));
@@ -117,6 +118,7 @@ public class HibernateAclService implements AclService {
 		}
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
 	private ObjectIdentityHibernate createObjectIdentityIfNotSaved(
 			AbstractDomainObject object) {
 		List<ObjectIdentityHibernate> list = template

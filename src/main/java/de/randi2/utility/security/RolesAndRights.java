@@ -370,6 +370,10 @@ public class RolesAndRights {
 					} else {
 						List<Person> list = template.find("from Person");
 						for (Person p : list) {
+							if(p.getLogin() == null){
+								List<Login> logins =template.find("from Login login where login.person.id = ?", p.getId());
+								p.setLogin(logins.get(0));
+							}
 							aclService
 									.createAclwithPermissions(
 											p.getLogin(),
@@ -407,6 +411,10 @@ public class RolesAndRights {
 					} else {
 						List<Person> list = template.find("from Person");
 						for (Person p : list) {
+							if(p.getLogin() == null){
+								List<Login> logins =template.find("from Login login where login.person.id = ?", p.getId());
+								p.setLogin(logins.get(0));
+							}
 							aclService
 									.createAclwithPermissions(
 											p.getLogin(),

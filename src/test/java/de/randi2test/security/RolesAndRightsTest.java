@@ -52,37 +52,38 @@ public class RolesAndRightsTest {
 	}
 	
 	// TODO This test are not running. Has the db-layout changed?
-//	@Before
-//	public void init(){
-//		clearAclTables();
-//		rolesAndRights.initializeRoles();
-//		List<Role> roles = template.find("from Role2");
-//		assertTrue(roles.contains(Role.ROLE_ADMIN));
-//		assertTrue(roles.contains(Role.ROLE_ANONYMOUS));
-//		assertTrue(roles.contains(Role.ROLE_INVESTIGATOR));
-//		assertTrue(roles.contains(Role.ROLE_MONITOR));
-//		assertTrue(roles.contains(Role.ROLE_P_INVESTIGATOR));
-//		assertTrue(roles.contains(Role.ROLE_STATISTICAN));
-//		assertTrue(roles.contains(Role.ROLE_USER));	
-//		
-//		List<AclHibernate> acls = template.find("select acl from AclHibernate acl, SidHibernate sid where (acl.owner.sidname = ?)", Role.ROLE_ANONYMOUS.getName());
-//		assertEquals(2, acls.size());
-//		boolean hasRightLogin = false;
-//		boolean hasRightPerson = false;
-//		for(AclHibernate acl: acls){
-//			if (acl.getObjectIdentity().getIdentifier()==AbstractDomainObject.NOT_YET_SAVED_ID){
-//				if(acl.getObjectIdentity().getJavaType().equals(Login.class)){
-//					hasRightLogin = true;
-//				}else if(acl.getObjectIdentity().getJavaType().equals(Person.class)){
-//					hasRightPerson = true;
-//				}
-//			}
-//		}
-//		assertTrue(hasRightLogin && hasRightPerson);
-//	}
-//	
-//	@Test
-//	public void test(){
+	@Before
+	public void init(){
+		clearAclTables();
+		rolesAndRights.initializeRoles();
+		List<Role> roles = template.find("from Role");
+		assertTrue(roles.contains(Role.ROLE_ADMIN));
+		assertTrue(roles.contains(Role.ROLE_ANONYMOUS));
+		assertTrue(roles.contains(Role.ROLE_INVESTIGATOR));
+		assertTrue(roles.contains(Role.ROLE_MONITOR));
+		assertTrue(roles.contains(Role.ROLE_P_INVESTIGATOR));
+		assertTrue(roles.contains(Role.ROLE_STATISTICAN));
+		assertTrue(roles.contains(Role.ROLE_USER));	
+		
+		List<AclHibernate> acls = template.find("select acl from AclHibernate acl, SidHibernate sid where (acl.owner.sidname = ?)", Role.ROLE_ANONYMOUS.getName());
+		assertEquals(2, acls.size());
+		boolean hasRightLogin = false;
+		boolean hasRightPerson = false;
+		for(AclHibernate acl: acls){
+			if (acl.getObjectIdentity().getIdentifier()==AbstractDomainObject.NOT_YET_SAVED_ID){
+				if(acl.getObjectIdentity().getJavaType().equals(Login.class)){
+					hasRightLogin = true;
+				}else if(acl.getObjectIdentity().getJavaType().equals(Person.class)){
+					hasRightPerson = true;
+				}
+			}
+		}
+		assertTrue(hasRightLogin && hasRightPerson);
+	}
+	
+	@Test
+	public void test(){
+		assertTrue(true);
 //		rolesAndRights.initializeRoles();
 //		Login adminL = factory.getLogin();
 //		adminL.addRole(Role.ROLE_ADMIN);
@@ -151,13 +152,9 @@ public class RolesAndRightsTest {
 //		if(!(rightAdminTrialSite || rightAnonymous)){
 //			fail("grant rights for new trialSite object failed");
 //		}
-//		
-//	}
-	
-	@Test
-	public void fakeTest(){
-		assertTrue(true);
+		
 	}
+	
 	
 	
 	

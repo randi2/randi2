@@ -2,8 +2,10 @@ package de.randi2.dao;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Login;
+
 
 public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements LoginDao{
 
