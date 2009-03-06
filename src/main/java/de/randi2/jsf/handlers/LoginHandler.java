@@ -215,7 +215,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public String saveObject() {
 		assert (showedObject != null);
 		try {
-			personDao.save(showedObject.getPerson());
+			//personDao.save(showedObject.getPerson());
 			loginDao.save(showedObject);
 			// Making the pop up visible
 			userSavedPVisible = true;
