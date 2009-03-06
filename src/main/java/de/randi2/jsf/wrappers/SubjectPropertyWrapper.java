@@ -3,9 +3,11 @@ package de.randi2.jsf.wrappers;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.el.ELContext;
@@ -38,6 +40,7 @@ import de.randi2.jsf.handlers.LoginHandler;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.criteria.AbstractCriterion;
+import de.randi2.utility.ReflectionUtil;
 
 public class SubjectPropertyWrapper {
 
@@ -105,8 +108,8 @@ public class SubjectPropertyWrapper {
 				.createValueExpression(Boolean.TRUE, Boolean.class));
 		propertyPanel.setValueExpression("toggleOnClick", expressionFactory
 				.createValueExpression(Boolean.FALSE, Boolean.class));
-		propertyPanel.setValueExpression("toggleOnClick", expressionFactory
-				.createValueExpression(Boolean.FALSE, Boolean.class));
+		// propertyPanel.setValueExpression("toggleOnClick", expressionFactory
+		// .createValueExpression(Boolean.FALSE, Boolean.class));
 		HtmlPanelGroup headerPanel = (HtmlPanelGroup) app
 				.createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 		headerPanel.setStyle("padding-left: 25px;");
@@ -171,7 +174,7 @@ public class SubjectPropertyWrapper {
 
 		// Create name fields
 		firstPanel.getChildren().addAll(
-				creatComponentsForField(selectedCriterion.getClass().getField(
+				creatComponentsForProperty(selectedCriterion.getClass().getField(
 						"name"), expressionFactory.createValueExpression(
 						elContext, "#{step4.properties[" + propertyNr
 								+ "].selectedCriterion.name}", String.class),
@@ -179,7 +182,7 @@ public class SubjectPropertyWrapper {
 
 		// Create description fields
 		firstPanel.getChildren().addAll(
-				creatComponentsForField(selectedCriterion.getClass().getField(
+				creatComponentsForProperty(selectedCriterion.getClass().getField(
 						"description"), expressionFactory
 						.createValueExpression(elContext, "#{step4.properties["
 								+ propertyNr
@@ -187,78 +190,48 @@ public class SubjectPropertyWrapper {
 								String.class), HtmlInputTextarea.class));
 
 		// Examine the object
-		for (Field f : selectedCriterion.getClass().getDeclaredFields()) {
-			// We're only interested in non-static, public fields
-			if (!Modifier.isStatic(f.getModifiers())
-					&& Modifier.isPublic(f.getModifiers()))
-				// String
-				if (f.get(selectedCriterion) instanceof String) {
-					firstPanel
-							.getChildren()
-							.addAll(
-									creatComponentsForField(
-											f,
-											expressionFactory
-													.createValueExpression(
-															elContext,
-															"#{step4.properties["
-																	+ propertyNr
-																	+ "].selectedCriterion."
-																	+ f
-																			.getName()
-																	+ "}",
-															String.class),
-											HtmlInputText.class));
-				}
-				// List<String>
-				else if (f.get(selectedCriterion) instanceof List) {
-					for (int nr = 0; nr < ((List<String>) f
-							.get(selectedCriterion)).size(); nr++) {
-						firstPanel
-								.getChildren()
-								.addAll(
-										creatComponentsForField(
-												f,
-												expressionFactory
-														.createValueExpression(
-																elContext,
-																"#{step4.properties["
-																		+ propertyNr
-																		+ "].selectedCriterion."
-																		+ f
-																				.getName()
-																		+ "["
-																		+ nr
-																		+ "]}",
-																String.class),
-												HtmlInputText.class));
-					}
-
-				} else if (f.get(selectedCriterion) instanceof String[]) {
-					// String Arrays
-					for (int j = 0; j < Array.getLength(f.get(criteriaAC
-							.getSelectedObject())); j++) {
-						firstPanel
-								.getChildren()
-								.addAll(
-										creatComponentsForField(
-												f,
-												expressionFactory
-														.createValueExpression(
-																elContext,
-																"#{step4.properties["
-																		+ propertyNr
-																		+ "].selectedCriterion."
-																		+ f
-																				.getName()
-																		+ "["
-																		+ j
-																		+ "]}",
-																String.class),
-												HtmlInputText.class));
-					}
+		Map<Field,Method> properties = ReflectionUtil.getPropertyWithGetter(selectedCriterion);
+		Method m = null;
+		for (Field f : properties.keySet()) {
+			m = properties.get(f);
+			// String
+			if (m.getReturnType().equals(String.class)) {
+				firstPanel.getChildren().addAll(
+						creatComponentsForProperty(f, expressionFactory
+								.createValueExpression(elContext,
+										"#{step4.properties[" + propertyNr
+												+ "].selectedCriterion."
+												+ f.getName() + "}",
+										String.class), HtmlInputText.class));
+			}
+			// List<String>
+			else if (m.getReturnType().equals(List.class)) {
+				for (int nr = 0; nr < ((List<String>) f.get(selectedCriterion))
+						.size(); nr++) {
+					firstPanel.getChildren().addAll(
+							creatComponentsForProperty(f, expressionFactory
+									.createValueExpression(elContext,
+											"#{step4.properties[" + propertyNr
+													+ "].selectedCriterion."
+													+ f.getName() + "[" + nr
+													+ "]}", String.class),
+									HtmlInputText.class));
 				}
 
+			} else if (m.getReturnType().equals(Array.class)) {
+				// String Arrays
+				for (int j = 0; j < Array.getLength(f.get(criteriaAC
+						.getSelectedObject())); j++) {
+					firstPanel.getChildren().addAll(
+							creatComponentsForProperty(f, expressionFactory
+									.createValueExpression(elContext,
+											"#{step4.properties[" + propertyNr
+													+ "].selectedCriterion."
+													+ f.getName() + "[" + j
+													+ "]}", String.class),
+									HtmlInputText.class));
+				}
+			}
 		}
 
 		HtmlOutputLabel isInclCritLabel = (HtmlOutputLabel) app
@@ -321,24 +294,16 @@ public class SubjectPropertyWrapper {
 						+ f.getType());
 				if (f.getType().equals(String.class)) {
 					updateConstraintValues();
-					constraintsPanel
-							.getChildren()
-							.addAll(
-									creatComponentsForField(
-											f,
-											HtmlSelectOneMenu.class,
-											valuesToShow));
+					constraintsPanel.getChildren().addAll(
+							creatComponentsForField(f, HtmlSelectOneMenu.class,
+									valuesToShow));
 				}
 				// List<String>
 				else if (f.getType().equals(List.class)) {
 					updateConstraintValues();
-					constraintsPanel
-							.getChildren()
-							.addAll(
-									creatComponentsForField(
-											f,
-											HtmlSelectManyMenu.class,
-											valuesToShow));
+					constraintsPanel.getChildren().addAll(
+							creatComponentsForField(f,
+									HtmlSelectManyMenu.class, valuesToShow));
 
 				}
 			}
@@ -352,7 +317,7 @@ public class SubjectPropertyWrapper {
 		parentPanel.getChildren().add(constraintsPanel);
 	}
 
-	private List<UIComponent> creatComponentsForField(Field field,
+	private List<UIComponent> creatComponentsForProperty(Field field,
 			ValueExpression ve, Class<? extends UIComponent> c) {
 		// TEMP
 		System.out.println("creatComponentsForField Method(1) "
@@ -431,7 +396,8 @@ public class SubjectPropertyWrapper {
 					.createValueExpression(elContext, "#{step4.properties["
 							+ propertyNr + "].valuesToShow}", List.class));
 			input.getChildren().add(itemsComponent);
-			((HtmlSelectManyMenu) input).setStyle("height: 75px; widht: 100px;");
+			((HtmlSelectManyMenu) input)
+					.setStyle("height: 75px; widht: 100px;");
 		}
 
 		// input.setValueExpression("value", ve);
@@ -472,8 +438,8 @@ public class SubjectPropertyWrapper {
 			} else if (arg0.getComponent().equals(isInclCritCheckbox)) {
 				inculsionCriteriaCheckboxValueChanged(arg0);
 			} else {
-				//if (!arg0.getOldValue().equals(arg0.getNewValue()))
-					updateConstraintValues();
+				// if (!arg0.getOldValue().equals(arg0.getNewValue()))
+				updateConstraintValues();
 			}
 
 		}

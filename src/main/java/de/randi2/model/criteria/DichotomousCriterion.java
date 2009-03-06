@@ -3,12 +3,8 @@ package de.randi2.model.criteria;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-
-import org.hibernate.annotations.CollectionOfElements;
-import org.hibernate.annotations.IndexColumn;
 
 import de.randi2.model.SubjectProperty;
 import de.randi2.utility.StratumProc;
@@ -21,9 +17,25 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 	private static final String TRUE_STRING = "TRUE";
 	private static final String FALSE_STRING = "FALSE";
 
-	@CollectionOfElements
-	@IndexColumn(name = "options")
-	private String options[] = new String[2];
+	private String option1 = null;
+	public String getOption1() {
+		return option1;
+	}
+
+	public void setOption1(String option1) {
+		this.option1 = option1;
+	}
+
+	public String getOption2() {
+		return option2;
+	}
+
+	public void setOption2(String option2) {
+		this.option2 = option2;
+	}
+
+	private String option2 = null;
+	
 
 	private boolean isBinary = true;
 
@@ -36,14 +48,14 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 
 	public void setBinary() {
 		this.isBinary = true;
-		this.options[0] = null;
-		this.options[1] = null;
+		this.option1 = null;
+		this.option2 = null;
 	}
 
 	public void setStringOptions(String option1, String option2) {
 		this.isBinary = false;
-		this.options[0] = option1;
-		this.options[1] = option2;
+		this.option1 = option1;
+		this.option2 = option2;
 	}
 
 	@Override
@@ -63,21 +75,13 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 						TRUE_STRING, FALSE_STRING));
 			}
 		} else {
-			prop.addPossibleValue(options[0]);
-			prop.addPossibleValue(options[1]);
+			prop.addPossibleValue(option1);
+			prop.addPossibleValue(option2);
 			if (isStratum) {
 				prop.setStratumComputation(StratumProc.binaryStratification(
-						options[0], options[1]));
+						option1, option2));
 			}
 		}
-	}
-
-	public String[] getOptions() {
-		return options;//.clone();
-	}
-
-	public void setOptions(String[] options) {
-		this.options = options;//.clone();
 	}
 
 	@Override
@@ -94,17 +98,17 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 
 	@Override
 	public List<String> getConfiguredValues() {
-		if ((options[0] == null && options[1] == null)
-				|| (options[0].isEmpty() && options[1].isEmpty()))
+		if ((option1 == null && option2 == null)
+				|| (option1.isEmpty() && option2.isEmpty()))
 			return null; // The Values are not configured.
 		else if (configuredValues == null) {
 			configuredValues = new ArrayList<String>();
-			configuredValues.add(options[0]);
-			configuredValues.add(options[1]);
+			configuredValues.add(option1);
+			configuredValues.add(option2);
 		} else {
 			configuredValues.clear();
-			configuredValues.add(options[0]);
-			configuredValues.add(options[1]);
+			configuredValues.add(option1);
+			configuredValues.add(option2);
 		}
 		return configuredValues;
 	}
