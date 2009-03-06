@@ -27,6 +27,7 @@ import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.utility.validations.DateDependence;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 @Entity
 @Configurable
@@ -59,7 +60,7 @@ public class Trial extends AbstractDomainObject {
 	@OneToOne
 	private AbstractRandomizationConfig randomConf;
 
-	public List<AbstractCriterion> getInclusionCriteria() {
+	public List<AbstractCriterion> getCriteria() {
 		return inclusionCriteria;
 	}
 
@@ -67,7 +68,7 @@ public class Trial extends AbstractDomainObject {
 		return leadingCenter;
 	}
 
-	public void setInclusionCriteria(List<AbstractCriterion> inclusionCriteria) {
+	public void setCriteria(List<AbstractCriterion> inclusionCriteria) {
 		this.inclusionCriteria = inclusionCriteria;
 	}
 
@@ -199,6 +200,7 @@ public class Trial extends AbstractDomainObject {
 
 	@Override
 	public String toString() {
-		return "Trial: " + getName();
+		return new ToStringBuilder(this).
+				append(getId()).append(name).append(treatmentArms).toString();
 	}
 }
