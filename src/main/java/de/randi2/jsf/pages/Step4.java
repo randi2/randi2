@@ -11,6 +11,11 @@ import com.icesoft.faces.component.ext.HtmlPanelGrid;
 
 import de.randi2.jsf.wrappers.SubjectPropertyWrapper;
 
+/**
+ * <p>This class wrapped the subject property configuration's functionality.</p>
+ * @author luki
+ *
+ */
 public class Step4 {
 
 	private final Application app = FacesContext.getCurrentInstance()

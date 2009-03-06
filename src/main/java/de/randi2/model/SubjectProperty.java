@@ -1,5 +1,6 @@
 package de.randi2.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.StratumProc;
 
-public final class SubjectProperty<V> extends AbstractDomainObject {
+public final class SubjectProperty<V extends Serializable> extends AbstractDomainObject {
 
 	private static final long serialVersionUID = 6795792982229806832L;
 	private V value;

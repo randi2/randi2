@@ -1,5 +1,6 @@
 package de.randi2.jsf.fileupload;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EventObject;
@@ -16,8 +17,12 @@ import com.icesoft.faces.component.inputfile.InputFile;
  * logic as well as the file deletion object.  A users file uploads are only
  * visible to them and are deleted when the session is destroyed.</p>
  */
-public class InputFileController {
+public class InputFileController implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 245115352557158378L;
 	// File sizes used to generate formatted label
     public static final long MEGABYTE_LENGTH_BYTES = 1048000l;
     public static final long KILOBYTE_LENGTH_BYTES = 1024l;
@@ -26,8 +31,8 @@ public class InputFileController {
     private boolean fileOnServer = false;
 
     // files associated with the current user
-    private final List fileList =
-            Collections.synchronizedList(new ArrayList());
+    private final List<InputFileData> fileList =
+            Collections.synchronizedList(new ArrayList<InputFileData>());
     // latest file uploaded by client
     private InputFileData currentFile;
     // file upload completed percent (Progress)
@@ -83,7 +88,7 @@ public class InputFileController {
     public void removeUploadedFile(ActionEvent event) {
         // Get the inventory item ID from the context.
         FacesContext context = FacesContext.getCurrentInstance();
-        Map map = context.getExternalContext().getRequestParameterMap();
+        Map<String,String> map = context.getExternalContext().getRequestParameterMap();
         String fileName = (String) map.get("fileName");
 
         synchronized (fileList) {
@@ -108,7 +113,7 @@ public class InputFileController {
         return fileProgress;
     }
 
-    public List getFileList() {
+    public List<InputFileData> getFileList() {
         return fileList;
     }
     

@@ -73,11 +73,11 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 	}
 
 	public String[] getOptions() {
-		return options.clone();
+		return options;//.clone();
 	}
 
 	public void setOptions(String[] options) {
-		this.options = options.clone();
+		this.options = options;//.clone();
 	}
 
 	@Override

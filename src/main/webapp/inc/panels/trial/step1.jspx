@@ -59,7 +59,7 @@
 		<ice:panelGroup style="padding: 5px;" rendered="#{!inputFileController.fileOnServer}">
 
 			<!-- file upload usage with progress callback. -->
-			<ice:inputFile id="inputFileName" progressRender="true"
+			<ice:inputFile id="inputFileName" progressRender="true" 
 				progressListener="#{inputFileController.fileUploadProgress}"
 				actionListener="#{inputFileController.uploadFile}" />
 			<!-- progress bar, percent value is upated via progressListener-->
