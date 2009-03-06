@@ -13,8 +13,10 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
 
@@ -74,12 +76,12 @@ public final class ReflectionUtil {
 		return classes;
 	}
 
-	public static Set<Field> getPropertyFields(Object o){
-		return getPropertyFields(o.getClass());
+	public static Map<Field, Method> getPropertyWithGetter(Object o){
+		return getPropertyWithGetter(o.getClass());
 	}
 	
-	public static Set<Field> getPropertyFields(Class<?> klass) {
-		Set<Field> properties = new HashSet<Field>();
+	public static Map<Field, Method> getPropertyWithGetter(Class<?> klass) {
+		Map<Field, Method> properties = new HashMap<Field, Method>();
 		for (Method getter : getGetters(klass)) {
 			for (Method setter : getSetters(klass)) {
 				if (!Modifier.isStatic(getter.getModifiers()) &&
@@ -91,7 +93,7 @@ public final class ReflectionUtil {
 					for (Field field : klass.getDeclaredFields()) {
 						if (field.getName().equals(
 								getPropertyName(getter))) {
-							properties.add(field);
+							properties.put(field, getter);
 						}
 					}
 				}

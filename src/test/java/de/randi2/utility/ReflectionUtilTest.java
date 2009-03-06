@@ -2,29 +2,32 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package de.randi2.utility;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+
 /**
  *
  * @author jthoenes
  */
 public class ReflectionUtilTest {
 
-    public ReflectionUtilTest() {
-    }
+	public ReflectionUtilTest() {
+	}
 
-	public class TestClass1{
+	public class TestClass1 {
+
 		private int field1;
 		private String field2;
 
@@ -43,25 +46,26 @@ public class ReflectionUtilTest {
 		public void setField2(String field2) {
 			this.field2 = field2;
 		}
-
 	}
 
 	/**
 	 * Test of getPropertyFields method, of class ReflectionUtil.
 	 */
 	@Test
-	public void testGetPropertyFields() throws NoSuchFieldException {
-		Set<Field> reference = new HashSet<Field>();
-		reference.add(TestClass1.class.getDeclaredField("field1"));
-		reference.add(TestClass1.class.getDeclaredField("field2"));
-		
-		Set<Field> fields = ReflectionUtil.getPropertyFields(new TestClass1());
+	public void testGetPropertyFields() throws NoSuchFieldException, NoSuchMethodException {
+		Map<Field, Method> reference = new HashMap<Field, Method>();
+		reference.put(TestClass1.class.getDeclaredField("field1"),
+				TestClass1.class.getMethod("getField1"));
+		reference.put(TestClass1.class.getDeclaredField("field2"),
+				TestClass1.class.getMethod("getField2"));
+
+		Map<Field, Method> fields = ReflectionUtil.getPropertyWithGetter(TestClass1.class);
 
 		assertEquals(reference, fields);
 	}
 
 	@Test
-	public void testGetGetters() throws NoSuchMethodException{
+	public void testGetGetters() throws NoSuchMethodException {
 		Set<Method> reference = new HashSet<Method>();
 		reference.add(TestClass1.class.getMethod("getField1"));
 		reference.add(TestClass1.class.getMethod("getField2"));
@@ -72,7 +76,7 @@ public class ReflectionUtilTest {
 	}
 
 	@Test
-	public void testGetSetters() throws NoSuchMethodException{
+	public void testGetSetters() throws NoSuchMethodException {
 		Set<Method> reference = new HashSet<Method>();
 		reference.add(TestClass1.class.getMethod("setField1", int.class));
 		reference.add(TestClass1.class.getMethod("setField2", String.class));
@@ -83,7 +87,7 @@ public class ReflectionUtilTest {
 	}
 
 	@Test
-	public void TestGetPropertyName() throws NoSuchMethodException{
+	public void TestGetPropertyName() throws NoSuchMethodException {
 		assertEquals("field1",
 				ReflectionUtil.getPropertyName(TestClass1.class.getMethod("getField1")));
 		assertEquals("field2",
@@ -93,5 +97,4 @@ public class ReflectionUtilTest {
 		assertEquals("field2",
 				ReflectionUtil.getPropertyName(TestClass1.class.getMethod("setField2", String.class)));
 	}
-
 }
