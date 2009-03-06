@@ -18,6 +18,7 @@ import org.springframework.security.acls.sid.Sid;
 @Entity
 public class AccessControlEntryHibernate implements AccessControlEntry, Serializable {
 
+	private static final long serialVersionUID = 6843101926609540483L;
 	
 	@ManyToOne(targetEntity=AclHibernate.class)
 	private Acl acl;

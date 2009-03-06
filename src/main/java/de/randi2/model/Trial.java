@@ -34,6 +34,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @DateDependence(firstDate = "startDate", secondDate = "endDate")
 public class Trial extends AbstractDomainObject {
 
+	private static final long serialVersionUID = -2424750074810584832L;
+
 	@NotNull()
 	@NotEmpty()
 	@Length(max = MAX_VARCHAR_LENGTH)

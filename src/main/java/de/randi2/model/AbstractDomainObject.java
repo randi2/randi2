@@ -19,7 +19,8 @@ import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 
 import de.randi2.model.exceptions.ValidationException;
-import org.apache.commons.lang.builder.EqualsBuilder;
+import static de.randi2.utility.ReflectionUtil.getGetters;
+import static de.randi2.utility.ReflectionUtil.getPropertyName;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 @MappedSuperclass
@@ -53,10 +54,9 @@ public abstract class AbstractDomainObject implements Serializable {
 		this.version = _version;
 	}
 
-	public Boolean isRequired(Method m) {
-
-		return m.isAnnotationPresent(org.hibernate.validator.NotEmpty.class) || m.isAnnotationPresent(org.hibernate.validator.NotNull.class) || m.isAnnotationPresent(de.randi2.utility.validations.Password.class);
-
+	private boolean isRequired(Method m) {
+		return m.isAnnotationPresent(org.hibernate.validator.NotEmpty.class)
+				|| m.isAnnotationPresent(org.hibernate.validator.NotNull.class) || m.isAnnotationPresent(de.randi2.utility.validations.Password.class);
 	}
 
 	public void checkValue(String field, Object value) {
@@ -71,10 +71,8 @@ public abstract class AbstractDomainObject implements Serializable {
 	public Map<String, Boolean> getRequiredFields() {
 		if (requiredFields == null) {
 			requiredFields = new HashMap<String, Boolean>();
-			for (Method m : this.getClass().getMethods()) {
-				if (m.getName().substring(0, 3).equals("get")) {
-					requiredFields.put(m.getName().substring(3, 4).toLowerCase() + m.getName().substring(4), this.isRequired(m));
-				}
+			for (Method method : getGetters(this)) {
+				requiredFields.put(getPropertyName(method), this.isRequired(method));
 			}
 		}
 		return requiredFields;
@@ -88,18 +86,22 @@ public abstract class AbstractDomainObject implements Serializable {
 		if (o == this) {
 			return true;
 		}
+
 		if (o instanceof AbstractDomainObject) {
 			AbstractDomainObject randi2Object = (AbstractDomainObject) o;
 			if (randi2Object.id == NOT_YET_SAVED_ID) {
 				return false;
 			}
+
 			if (randi2Object.id == this.id) {
 				return true;
 			}
+
 			return false;
 		} else {
 			return false;
 		}
+
 	}
 
 	@Override

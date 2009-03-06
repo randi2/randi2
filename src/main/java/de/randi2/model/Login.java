@@ -35,6 +35,7 @@ import de.randi2.utility.validations.Password;
 
 public class Login extends AbstractDomainObject implements UserDetails {
 	
+	private final static long serialVersionUID = -6809229052570773439L;
 
 	public final static int MAX_USERNAME_LENGTH = 40;
 	public final static int MIN_USERNAME_LENGTH = 5;

@@ -16,6 +16,8 @@ import org.hibernate.validator.Range;
 @Entity
 public class TreatmentArm extends AbstractDomainObject{
 
+	private static final long serialVersionUID = -1745930698279268352L;
+
 	private String name = null;
 
 	@Lob

@@ -16,6 +16,8 @@ import de.randi2.model.security.PermissionHibernate;
 @Entity
 public class Role extends AbstractDomainObject {
 
+	private static final long serialVersionUID = 7986310852028135642L;
+
 	public static final Role ROLE_INVESTIGATOR = new Role(
 			"ROLE_INVESTIGATOR", false, true, true, true, false, false, true,
 			true, false, true, false, true, false, true, true, false, true,

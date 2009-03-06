@@ -11,10 +11,11 @@ import de.randi2.utility.StratumProc;
 public final class SubjectProperty<V extends Serializable> extends AbstractDomainObject {
 
 	private static final long serialVersionUID = 6795792982229806832L;
+	
 	private V value;
 	private AbstractCriterion<V> criterion;
 	private List<Object> possibleValues = new ArrayList<Object>();
-	private StratumProc stratumProc = StratumProc.noStratification();
+	private transient StratumProc stratumProc = StratumProc.noStratification();
 
 	public void setStratumComputation(StratumProc p) {
 		this.stratumProc = p;

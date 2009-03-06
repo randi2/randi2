@@ -15,6 +15,8 @@ import org.hibernate.validator.NotNull;
 @Entity
 public class TrialSubject extends AbstractDomainObject{
 
+	private static final long serialVersionUID = 4469807155833123516L;
+	
 	private String identification;
 
 	@ManyToOne

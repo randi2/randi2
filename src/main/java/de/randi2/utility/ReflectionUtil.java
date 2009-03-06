@@ -121,6 +121,9 @@ public final class ReflectionUtil {
 		return getSetters(o.getClass());
 	}
 	static Set<Method> getSetters(Class<?> klass) {
+
+
+
 		Set<Method> getters = new HashSet<Method>();
 		for (Method m : Arrays.asList(klass.getDeclaredMethods())) {
 			if (m.getName().startsWith("set") &&

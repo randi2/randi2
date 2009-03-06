@@ -12,6 +12,7 @@ import org.springframework.security.acls.sid.Sid;
 @Entity
 public class SidHibernate implements Sid{
 
+	private static final long serialVersionUID = -3238954373971096868L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)

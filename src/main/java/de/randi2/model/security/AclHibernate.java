@@ -28,6 +28,8 @@ import org.springframework.util.Assert;
 @NamedQuery(name = "acl.findAclByObjectIdentityAndSid", query = "select acl from AclHibernate acl where acl.owner.sidname = ? and acl.objectIdentity.identifier = ? and acl.objectIdentity.javaType = ?")
 public class AclHibernate implements Acl, Serializable {
 
+	private static final long serialVersionUID = 253176536526673664L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private long id;

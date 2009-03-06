@@ -15,6 +15,8 @@ import de.randi2.model.AbstractDomainObject;
 public class ObjectIdentityHibernate implements ObjectIdentity, Serializable {
 
 
+	private static final long serialVersionUID = -5277986931816599596L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private long id;

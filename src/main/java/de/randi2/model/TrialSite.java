@@ -23,6 +23,8 @@ import de.randi2.utility.validations.Password;
 @NamedQuery(name = "trialSite.findAllMembers", query = "select p from Person p where p.trialSite = :trialSite ")
 public class TrialSite extends AbstractDomainObject {
 
+	private static final long serialVersionUID = -5501470090122500715L;
+
 	public final static int MAX_LENGTH_POSTCODE = 10;
 
 	@Column(unique = true)

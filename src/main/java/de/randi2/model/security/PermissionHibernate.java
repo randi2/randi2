@@ -9,7 +9,9 @@ import org.springframework.security.acls.Permission;
 
 @Embeddable
 public class PermissionHibernate implements Permission, Serializable {
-	
+
+	private static final long serialVersionUID = -2551309525159046911L;
+
 	private char code;
 	private int mask;
 
