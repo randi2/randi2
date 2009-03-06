@@ -19,6 +19,8 @@ import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 
 import de.randi2.model.exceptions.ValidationException;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 @MappedSuperclass
 public abstract class AbstractDomainObject implements Serializable {
@@ -83,29 +85,27 @@ public abstract class AbstractDomainObject implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object o) {
-		if (o == this)
+		if (o == this) {
 			return true;
+		}
 		if (o instanceof AbstractDomainObject) {
 			AbstractDomainObject randi2Object = (AbstractDomainObject) o;
-			if (randi2Object.id == NOT_YET_SAVED_ID )
+			if (randi2Object.id == NOT_YET_SAVED_ID) {
 				return false;
-			if (randi2Object.id == this.id )
+			}
+			if (randi2Object.id == this.id) {
 				return true;
+			}
 			return false;
-		} else
+		} else {
 			return false;
+		}
 	}
 
-	/*@Override
+	@Override
 	public int hashCode() {
-		if (this.id != NOT_YET_SAVED_ID) {
-			int hash = 7;
-			hash = 53 * hash + (int) (this.id ^ (this.id >>> 32));
-			return hash;
-		} else {
-			return super.hashCode();
-		}
-	}*/
+		return new HashCodeBuilder().append(id).toHashCode();
+	}
 
 	@PreUpdate
 	public void beforeUpdate() {
