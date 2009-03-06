@@ -10,7 +10,7 @@
   <property name="password" value="${mail.password}" />
 </bean>
 
-   <bean id="newUserMailService" class="de.randi2.utility.mail.NewUserMailService" />
+   <bean id="MailService" class="de.randi2.utility.mail.MailService" />
    
    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
       <property name="velocityProperties">
