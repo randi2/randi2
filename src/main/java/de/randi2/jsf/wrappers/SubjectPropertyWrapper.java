@@ -1,6 +1,5 @@
 package de.randi2.jsf.wrappers;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -219,19 +218,6 @@ public class SubjectPropertyWrapper {
 									HtmlInputText.class));
 				}
 
-			} else if (m.getReturnType().equals(Array.class)) {
-				// String Arrays
-				for (int j = 0; j < Array.getLength(f.get(criteriaAC
-						.getSelectedObject())); j++) {
-					firstPanel.getChildren().addAll(
-							creatComponentsForProperty(f, expressionFactory
-									.createValueExpression(elContext,
-											"#{step4.properties[" + propertyNr
-													+ "].selectedCriterion."
-													+ f.getName() + "[" + j
-													+ "]}", String.class),
-									HtmlInputText.class));
-				}
 			}
 		}
 

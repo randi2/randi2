@@ -156,11 +156,15 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		Step4 temp = (Step4) ve
 				.getValue(FacesContext.getCurrentInstance().getELContext());
 		for(SubjectPropertyWrapper wr : temp.getProperties()){
-			System.out.println(wr.getSelectedCriterion().getName());
-			System.out.println(wr.getSelectedCriterion().getDescription());
+			System.out.println("NAME "+wr.getSelectedCriterion().getName());
+			System.out.println("DESC. "+wr.getSelectedCriterion().getDescription());
 			if(wr.getSelectedCriterion() instanceof DichotomousCriterion){
-				System.out.println(((DichotomousCriterion)wr.getSelectedCriterion()).getOption1());
-				System.out.println(((DichotomousCriterion)wr.getSelectedCriterion()).getOption2());
+				System.out.println("OPTION1 "+((DichotomousCriterion)wr.getSelectedCriterion()).getOption1());
+				System.out.println("OPTION2 "+((DichotomousCriterion)wr.getSelectedCriterion()).getOption2());
+			}
+			System.out.println("INCLUSION? "+wr.getSelectedCriterion().isInclusionCriterion());
+			if(wr.getSelectedCriterion().isInclusionCriterion()){
+				//System.out.println(wr.getSelectedCriterion().getConstraints().);
 			}
 		}
 		return Randi2.SUCCESS;

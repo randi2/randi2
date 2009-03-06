@@ -1,6 +1,5 @@
 package de.randi2.jsf.fileupload;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EventObject;
@@ -17,7 +16,7 @@ import com.icesoft.faces.component.inputfile.InputFile;
  * logic as well as the file deletion object.  A users file uploads are only
  * visible to them and are deleted when the session is destroyed.</p>
  */
-public class InputFileController implements Serializable {
+public class InputFileController{
 
 	/**
 	 * 

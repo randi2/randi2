@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
+import org.hibernate.validator.NotEmpty;
+
 import de.randi2.model.SubjectProperty;
 import de.randi2.utility.StratumProc;
 
@@ -14,10 +16,9 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 
 	private static final long serialVersionUID = -2153872079417596823L;
 
-	private static final String TRUE_STRING = "TRUE";
-	private static final String FALSE_STRING = "FALSE";
-
 	private String option1 = null;
+
+	@NotEmpty
 	public String getOption1() {
 		return option1;
 	}
@@ -25,7 +26,8 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 	public void setOption1(String option1) {
 		this.option1 = option1;
 	}
-
+	
+	@NotEmpty
 	public String getOption2() {
 		return option2;
 	}
@@ -35,9 +37,6 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 	}
 
 	private String option2 = null;
-	
-
-	private boolean isBinary = true;
 
 	/**
 	 * If the object represents an inclusion criteria, this field has the
@@ -45,18 +44,6 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 	 */
 	@Embedded
 	private DichotomousConstraints criterionConstraints = null;
-
-	public void setBinary() {
-		this.isBinary = true;
-		this.option1 = null;
-		this.option2 = null;
-	}
-
-	public void setStringOptions(String option1, String option2) {
-		this.isBinary = false;
-		this.option1 = option1;
-		this.option2 = option2;
-	}
 
 	@Override
 	public SubjectProperty<String> createPropertyPrototype() {
@@ -67,20 +54,11 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 
 	@Override
 	public void applyConstraints(SubjectProperty<String> prop) {
-		if (this.isBinary) {
-			prop.addPossibleValue(TRUE_STRING);
-			prop.addPossibleValue(FALSE_STRING);
-			if (isStratum) {
-				prop.setStratumComputation(StratumProc.binaryStratification(
-						TRUE_STRING, FALSE_STRING));
-			}
-		} else {
-			prop.addPossibleValue(option1);
-			prop.addPossibleValue(option2);
-			if (isStratum) {
-				prop.setStratumComputation(StratumProc.binaryStratification(
-						option1, option2));
-			}
+		prop.addPossibleValue(option1);
+		prop.addPossibleValue(option2);
+		if (isStratum) {
+			prop.setStratumComputation(StratumProc.binaryStratification(
+					option1, option2));
 		}
 	}
 
@@ -91,11 +69,17 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 		return criterionConstraints;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.randi2.model.criteria.AbstractCriterion#setConstraints(de.randi2.model.criteria.AbstractConstraints)
+	 */
 	@Override
 	public void setConstraints(AbstractConstraints<String> _constraints) {
 		criterionConstraints = (DichotomousConstraints) _constraints;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.randi2.model.criteria.AbstractCriterion#getConfiguredValues()
+	 */
 	@Override
 	public List<String> getConfiguredValues() {
 		if ((option1 == null && option2 == null)
