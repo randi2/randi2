@@ -10,6 +10,7 @@ import javax.persistence.Transient;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.SubjectProperty;
+import java.io.Serializable;
 
 /**
  * This class maps the needed behaviour of a Trial subject. With the Classes
@@ -25,7 +26,7 @@ import de.randi2.model.SubjectProperty;
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @Table(name="Criterion")
-public abstract class AbstractCriterion<V> extends AbstractDomainObject {
+public abstract class AbstractCriterion<V extends Serializable> extends AbstractDomainObject {
 
 	private static final long serialVersionUID = 6845807707883121147L;
 
