@@ -16,8 +16,10 @@ package de.randi2.jsf.handlers;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -292,8 +294,13 @@ public class LoginHandler extends AbstractHandler<Login> {
 			}
 			try {
 
-				// sending the registration mail via newUserMailService
-				newUserMailService.sendMail(newUser);
+				// sending the registration mail via MailService
+				
+				// Map of variables
+				Map<String,Object> templateFields = new HashMap<String,Object>();
+				templateFields.put("user", newUser);
+				
+				newUserMailService.sendMail(newUser.getUsername(), "Welcome to RANDI2!","NewUserMail.vm",templateFields);
 
 			} catch (MailErrorException exp) {
 
