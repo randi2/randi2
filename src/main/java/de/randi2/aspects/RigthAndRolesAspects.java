@@ -6,6 +6,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
@@ -37,6 +39,7 @@ public class RigthAndRolesAspects {
 	 * @throws Throwable
 	 */
 	@Around("execution(public void de.randi2.dao.*.save*(de.randi2.model.AbstractDomainObject))")
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void afterSaveNewDomainObject(ProceedingJoinPoint pjp)
 			throws Throwable {
 		long objectId = ((AbstractDomainObject) pjp.getArgs()[0]).getId();

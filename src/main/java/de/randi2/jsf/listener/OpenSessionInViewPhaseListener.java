@@ -5,13 +5,11 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 
-//import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.orm.hibernate3.SessionHolder;
-import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
@@ -68,9 +66,6 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 			 * method twice.
 			 */
 			if (td.beforeTimes == 0) {
-				System.out.println("BEFOREPHASE");
-				System.out.println(SecurityContextHolder.getContext()
-						.getAuthentication());
 				setupSession(pe, td);
 			}
 		} /*
@@ -148,16 +143,15 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 	 */
 	public void afterPhase(PhaseEvent pe) {
 
-		//		
-		// if (pe.getPhaseId() == PhaseId.RENDER_RESPONSE) {
-		// System.out.println("AfterPHASE");
-		// ThreadData td = getThreadDataNoCreate();
-		// if (td==null) return;
-		// td.afterTimes++;
-		// cleanupSession(td);
-		//			
-		// ts.set(null);
-		// }
+				
+		 if (pe.getPhaseId() == PhaseId.RENDER_RESPONSE) {
+		 ThreadData td = getThreadDataNoCreate();
+		 if (td==null) return;
+		 td.afterTimes++;
+		 cleanupSession(td);
+					
+		 ts.set(null);
+		 }
 	}
 
 	/*
