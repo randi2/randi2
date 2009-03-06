@@ -3,7 +3,6 @@ package de.randi2.jsf.wrappers;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -270,31 +269,55 @@ public class SubjectPropertyWrapper {
 		} else
 			constraintsPanel.getChildren().clear();
 
-		for (Field f : selectedCriterion.getConstraints().getClass()
-				.getDeclaredFields()) {
-			System.out.println("creatConstraintsPanel Method " + f.getName());
-			// We're only interested in non-static, public fields
-			if (!Modifier.isStatic(f.getModifiers())
-					&& Modifier.isPublic(f.getModifiers())) {
-				// String
-				System.out.println("creatConstraintsPanel Method "
-						+ f.getType());
-				if (f.getType().equals(String.class)) {
-					updateConstraintValues();
-					constraintsPanel.getChildren().addAll(
-							creatComponentsForField(f, HtmlSelectOneMenu.class,
-									valuesToShow));
-				}
-				// List<String>
-				else if (f.getType().equals(List.class)) {
-					updateConstraintValues();
-					constraintsPanel.getChildren().addAll(
-							creatComponentsForField(f,
-									HtmlSelectManyMenu.class, valuesToShow));
-
-				}
+//		for (Field f : selectedCriterion.getConstraints().getClass()
+//				.getDeclaredFields()) {
+//			System.out.println("creatConstraintsPanel Method " + f.getName());
+//			// We're only interested in non-static, public fields
+//			if (!Modifier.isStatic(f.getModifiers())
+//					&& Modifier.isPublic(f.getModifiers())) {
+//				// String
+//				System.out.println("creatConstraintsPanel Method "
+//						+ f.getType());
+//				if (f.getType().equals(String.class)) {
+//					updateConstraintValues();
+//					constraintsPanel.getChildren().addAll(
+//							creatComponentsForField(f, HtmlSelectOneMenu.class,
+//									valuesToShow));
+//				}
+//				// List<String>
+//				else if (f.getType().equals(List.class)) {
+//					updateConstraintValues();
+//					constraintsPanel.getChildren().addAll(
+//							creatComponentsForField(f,
+//									HtmlSelectManyMenu.class, valuesToShow));
+//
+//				}
+//			}
+//		}
+		
+		// Examine the object
+		Map<Field, Method> properties = ReflectionUtil
+				.getPropertyWithGetter(selectedCriterion.getConstraints());
+		Method m = null;
+		for (Field f : properties.keySet()) {
+			m = properties.get(f);
+			// String
+			if (m.getReturnType().equals(String.class)) {
+				updateConstraintValues();
+				constraintsPanel.getChildren().addAll(
+						creatComponentsForField(f, HtmlSelectOneMenu.class,
+								valuesToShow));
 			}
-		}
+			// List<String>
+			else if (m.getReturnType().equals(List.class)) {
+				updateConstraintValues();
+				constraintsPanel.getChildren().addAll(
+						creatComponentsForField(f,
+								HtmlSelectManyMenu.class, valuesToShow));
+				}
+
+			}
+		
 
 		constraintsPanel.setValueExpression("visible", expressionFactory
 				.createValueExpression(elContext, "#{step4.properties["

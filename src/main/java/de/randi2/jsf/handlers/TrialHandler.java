@@ -59,9 +59,9 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		try {
 			for (Class<?> c : getClasses("de.randi2.model.criteria")) {
 				try {
-					if (c.getSuperclass()
-							.equals(AbstractCriterion.class))
-						criteriaList.add((AbstractCriterion<?>) c.getConstructor().newInstance());
+					if (c.getSuperclass().equals(AbstractCriterion.class))
+						criteriaList.add((AbstractCriterion<?>) c
+								.getConstructor().newInstance());
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
 				} catch (SecurityException e) {
@@ -151,21 +151,29 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	public String createTrial() {
-		ValueExpression ve = FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(),
-				"#{step4}", Step4.class);
-		Step4 temp = (Step4) ve
-				.getValue(FacesContext.getCurrentInstance().getELContext());
-		for(SubjectPropertyWrapper wr : temp.getProperties()){
-			System.out.println("NAME "+wr.getSelectedCriterion().getName());
-			System.out.println("DESC. "+wr.getSelectedCriterion().getDescription());
-			if(wr.getSelectedCriterion() instanceof DichotomousCriterion){
-				System.out.println("OPTION1 "+((DichotomousCriterion)wr.getSelectedCriterion()).getOption1());
-				System.out.println("OPTION2 "+((DichotomousCriterion)wr.getSelectedCriterion()).getOption2());
+		ValueExpression ve = FacesContext.getCurrentInstance().getApplication()
+				.getExpressionFactory().createValueExpression(
+						FacesContext.getCurrentInstance().getELContext(),
+						"#{step4}", Step4.class);
+		Step4 temp = (Step4) ve.getValue(FacesContext.getCurrentInstance()
+				.getELContext());
+		for (SubjectPropertyWrapper wr : temp.getProperties()) {
+			System.out.println("NAME " + wr.getSelectedCriterion().getName());
+			System.out.println("DESC. "
+					+ wr.getSelectedCriterion().getDescription());
+			if (wr.getSelectedCriterion() instanceof DichotomousCriterion) {
+				System.out.println("OPTION1 "
+						+ ((DichotomousCriterion) wr.getSelectedCriterion())
+								.getOption1());
+				System.out.println("OPTION2 "
+						+ ((DichotomousCriterion) wr.getSelectedCriterion())
+								.getOption2());
 			}
-			System.out.println("INCLUSION? "+wr.getSelectedCriterion().isInclusionCriterion());
-			if(wr.getSelectedCriterion().isInclusionCriterion()){
-				//System.out.println(wr.getSelectedCriterion().getConstraints().);
-			}
+			System.out.println("INCLUSION? "
+					+ wr.getSelectedCriterion().isInclusionCriterion());
+			// if(wr.getSelectedCriterion().isInclusionCriterion()){
+			// System.out.println(wr.getSelectedCriterion().getConstraints().);
+			// }
 		}
 		return Randi2.SUCCESS;
 	}
@@ -239,7 +247,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	public ArrayList<AbstractCriterion<?>> getCriteriaList() {
 		return criteriaList;
 	}
-	
+
 	public int getTrialsAmount() {
 		return trialDao.getAll().size();
 	}
