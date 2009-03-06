@@ -74,8 +74,11 @@ public final class ReflectionUtil {
 		return classes;
 	}
 
-	public static Set<Field> getPropertyFields(Object o) {
-		Class<?> klass = o.getClass();
+	public static Set<Field> getPropertyFields(Object o){
+		return getPropertyFields(o.getClass());
+	}
+	
+	public static Set<Field> getPropertyFields(Class<?> klass) {
 		Set<Field> properties = new HashSet<Field>();
 		for (Method getter : getGetters(klass)) {
 			for (Method setter : getSetters(klass)) {
@@ -98,6 +101,9 @@ public final class ReflectionUtil {
 		return properties;
 	}
 
+	public static Set<Method> getGetters(Object o) {
+		return getGetters(o.getClass());
+	}
 	public static Set<Method> getGetters(Class<? extends Object> klass) {
 		Set<Method> getters = new HashSet<Method>();
 		for (Method m : Arrays.asList(klass.getDeclaredMethods())) {
@@ -110,6 +116,9 @@ public final class ReflectionUtil {
 		return getters;
 	}
 
+	public static Set<Method> getSetters(Object o) {
+		return getSetters(o.getClass());
+	}
 	static Set<Method> getSetters(Class<?> klass) {
 		Set<Method> getters = new HashSet<Method>();
 		for (Method m : Arrays.asList(klass.getDeclaredMethods())) {
