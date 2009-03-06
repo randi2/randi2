@@ -174,23 +174,24 @@ public class SubjectPropertyWrapper {
 
 		// Create name fields
 		firstPanel.getChildren().addAll(
-				creatComponentsForProperty(selectedCriterion.getClass().getField(
-						"name"), expressionFactory.createValueExpression(
-						elContext, "#{step4.properties[" + propertyNr
-								+ "].selectedCriterion.name}", String.class),
-						HtmlInputText.class));
+				creatComponentsForProperty(selectedCriterion.getClass()
+						.getField("name"), expressionFactory
+						.createValueExpression(elContext, "#{step4.properties["
+								+ propertyNr + "].selectedCriterion.name}",
+								String.class), HtmlInputText.class));
 
 		// Create description fields
 		firstPanel.getChildren().addAll(
-				creatComponentsForProperty(selectedCriterion.getClass().getField(
-						"description"), expressionFactory
+				creatComponentsForProperty(selectedCriterion.getClass()
+						.getField("description"), expressionFactory
 						.createValueExpression(elContext, "#{step4.properties["
 								+ propertyNr
 								+ "].selectedCriterion.description}",
 								String.class), HtmlInputTextarea.class));
 
 		// Examine the object
-		Map<Field,Method> properties = ReflectionUtil.getPropertyWithGetter(selectedCriterion);
+		Map<Field, Method> properties = ReflectionUtil
+				.getPropertyWithGetter(selectedCriterion);
 		Method m = null;
 		for (Field f : properties.keySet()) {
 			m = properties.get(f);
@@ -401,8 +402,10 @@ public class SubjectPropertyWrapper {
 		}
 
 		// input.setValueExpression("value", ve);
-		input.addValueChangeListener(listener);
-		components.add(input);
+		if (input != null) {
+			input.addValueChangeListener(listener);
+			components.add(input);
+		}
 
 		return components;
 	}
@@ -432,9 +435,10 @@ public class SubjectPropertyWrapper {
 		@Override
 		public void processValueChange(ValueChangeEvent arg0)
 				throws AbortProcessingException {
+			if (arg0 == null || arg0.getComponent() == null)
+				return;
 			if (arg0.getComponent().equals(criteriaInputText)) {
 				criteriaInputValueChange(arg0);
-
 			} else if (arg0.getComponent().equals(isInclCritCheckbox)) {
 				inculsionCriteriaCheckboxValueChanged(arg0);
 			} else {
