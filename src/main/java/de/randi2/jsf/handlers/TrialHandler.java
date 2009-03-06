@@ -235,4 +235,8 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	public ArrayList<AbstractCriterion<?>> getCriteriaList() {
 		return criteriaList;
 	}
+	
+	public int getTrialsAmount() {
+		return trialDao.getAll().size();
+	}
 }

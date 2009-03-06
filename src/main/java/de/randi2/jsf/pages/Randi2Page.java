@@ -74,6 +74,10 @@ public class Randi2Page {
 		this.activePanel = activePanel;
 	}
 
+	public void viewTrials(ActionEvent event) {
+		activePanel = "trialsViewPanel";
+	}
+	
 	public void viewTrialSites(ActionEvent event) {
 		activePanel = "trialSitesViewPanel";
 	}

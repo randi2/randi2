@@ -33,7 +33,7 @@
 		</ice:menuItem>
 		<ice:menuItem value="#{labels['pages.menu.trial']}">
 			<ice:menuItem value="#{labels['pages.menu.currentTrial']}" />
-			<ice:menuItem value="#{labels['pages.menu.myTrials']}" />
+			<ice:menuItem value="#{labels['pages.menu.myTrials']}" actionListener="#{randi2Page.viewTrials}"/>
 			<ice:menuItemSeparator></ice:menuItemSeparator>
 			<ice:menuItem value="#{labels['pages.menu.create']}" actionListener="#{randi2Page.createTrial}"/>
 		</ice:menuItem>
