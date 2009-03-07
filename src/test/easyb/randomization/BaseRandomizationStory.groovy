@@ -20,6 +20,21 @@ scenario "complete randomization initialization", {
     }
 }
 
+scenario "biased coin randomization initialization", {
+    given "a trial", {
+        trial = init.createTrial()
+    }
+    and "a base randomization configuration for complete rand.", {
+        conf = init.createBiasedCoinRandomConf()
+    }
+    when "the conf is set to the trial", {
+        trial.randomizationConfiguration = conf
+    }
+    then "the trials random algorithm should be a complete rand.", {
+        conf.algorithm.shouldBeA BiasedCoinRandomization
+    }
+}
+
 scenario "block randomization initialization", {
     given "a trial", {
         trial = init.createTrial()

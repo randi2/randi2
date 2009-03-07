@@ -12,12 +12,10 @@ import de.randi2.randomization.RandomizationAlgorithm;
  *
  * @author jthoenes
  */
-public class CompleteRandomizationConfig extends AbstractRandomizationConfig {
-
-	private static final long serialVersionUID = -5150967612749185875L;
+public class CompleteRandomizationConfig extends AbstractRandomizationConfig{
 
 	@Override
-	public RandomizationAlgorithm<CompleteRandomizationConfig> createAlgorithm() {
+	public RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm() {
 		return new CompleteRandomization(super.getTrial());
 	}
 

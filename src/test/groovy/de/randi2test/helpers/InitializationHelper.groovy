@@ -69,6 +69,12 @@ class InitializationHelper {
         c
     }
 
+    static createBiasedCoinRandomConf(map = [:]){
+        def c = new BiasedCoinRandomizationConfig()
+
+        c
+    }
+
     static createBlockRandomConf(map = [:]){
         def c = new BlockRandomizationConfig()
         c.type = notNull(map['type'], BlockRandomizationConfig.TYPE.MULTIPLY)
