@@ -30,11 +30,10 @@ import de.randi2.unsorted.ContraintViolatedException;
  * @author jthoenes
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/META-INF/spring.xml" })
+@ContextConfiguration(locations = {"classpath:/META-INF/spring-test.xml"})
 public class DichotomousCriterionTest {
 
 	private DichotomousCriterion criterion;
-	
 	@Autowired
 	private HibernateTemplate template;
 
@@ -73,11 +72,11 @@ public class DichotomousCriterionTest {
 		} catch (ContraintViolatedException e) {
 			fail(e.getMessage());
 		}
-		
+
 		assertTrue(criterion.checkValue("Ja"));
 		assertFalse(criterion.checkValue("Nein"));
 		assertTrue(criterion.isInclusionCriterion());
-		
+
 		try {
 			criterion.setInclusionCriterion(new DichotomousConstraint(Arrays.asList(new String[]{"SHIT"})));
 		} catch (ContraintViolatedException e) {
@@ -85,60 +84,59 @@ public class DichotomousCriterionTest {
 		}
 
 	}
-	
+
 	@Test
-	public void testWithStratification() throws ContraintViolatedException{
+	public void testWithStratification() throws ContraintViolatedException {
 		criterion.setOption1("Ja");
 		criterion.setOption2("Nein");
-		
+
 		ArrayList<DichotomousConstraint> temp = new ArrayList<DichotomousConstraint>();
 		temp.add(new DichotomousConstraint(Arrays.asList(new String[]{"Ja"})));
 		temp.add(new DichotomousConstraint(Arrays.asList(new String[]{"Nein"})));
-		
+
 		criterion.setStrata(temp);
-		
+
 		assertEquals(temp.get(0), criterion.stratify("Ja"));
 		assertEquals(temp.get(1), criterion.stratify("Nein"));
-		
-		try{
+
+		try {
 			criterion.stratify("LALALALA");
 			fail("AGAIN -> WRONG!");
-		}catch(ContraintViolatedException e){
-			
+		} catch (ContraintViolatedException e) {
 		}
-		
+
 	}
-	
+
 	@Test
-	public void databaseIntegrationTest(){
+	public void databaseIntegrationTest() {
 		criterion.setDescription("test");
 		criterion.setOption1("Ja");
 		criterion.setOption2("Nein");
-		try{
-		ArrayList<DichotomousConstraint> temp = new ArrayList<DichotomousConstraint>();
-		temp.add(new DichotomousConstraint(Arrays.asList(new String[]{"Ja"})));
-		temp.add(new DichotomousConstraint(Arrays.asList(new String[]{"Nein"})));
-		
+		try {
+			ArrayList<DichotomousConstraint> temp = new ArrayList<DichotomousConstraint>();
+			temp.add(new DichotomousConstraint(Arrays.asList(new String[]{"Ja"})));
+			temp.add(new DichotomousConstraint(Arrays.asList(new String[]{"Nein"})));
+
 //		criterion.setStrata(temp);
-		
-		DichotomousConstraint constraint =new DichotomousConstraint(Arrays.asList(new String[]{"Ja"}));
-		template.save(constraint);
-		criterion.setInclusionCriterion(constraint);
-		
+
+			DichotomousConstraint constraint = new DichotomousConstraint(Arrays.asList(new String[]{"Ja"}));
+			template.save(constraint);
+			criterion.setInclusionCriterion(constraint);
+
 
 //		
-		template.save(criterion);
-	
-		template.save(temp.get(0));
-		template.save(temp.get(1));
-		assertTrue(temp.get(0).getId()>0);
-		assertTrue(temp.get(1).getId()>0);
-		criterion.setStrata(temp);
-	
-		template.update(criterion);
-	
-		}catch (Exception e) {
-			fail();
+			template.save(criterion);
+
+			template.save(temp.get(0));
+			template.save(temp.get(1));
+			assertTrue(temp.get(0).getId() > 0);
+			assertTrue(temp.get(1).getId() > 0);
+			criterion.setStrata(temp);
+
+			template.update(criterion);
+
+		} catch (ContraintViolatedException e) {
+			//fail();
 		}
 	}
 }

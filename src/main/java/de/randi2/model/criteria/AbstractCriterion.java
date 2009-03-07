@@ -104,7 +104,8 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
+	@Transient
 	public  boolean isInclusionCriterion(){
 		return inclusionCriterion!=null;
 	}
