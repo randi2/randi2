@@ -5,6 +5,10 @@
 package de.randi2test.model.criteria;
 
 import de.randi2.model.criteria.*;
+import de.randi2.model.criteria.constraints.DichotomousConstraint;
+import de.randi2.unsorted.ContraintViolatedException;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,12 +52,44 @@ public class DichotomousCriterionTest {
 		criterion.setOption1("Ja");
 		criterion.setOption2("Nein");
 
-		criterion.defineConstraints(Arrays.asList(new String[]{"Ja"}));
-
+		try {
+			criterion.setInclusionCriterion(new DichotomousConstraint(Arrays.asList(new String[]{"Ja"})));
+		} catch (ContraintViolatedException e) {
+			fail(e.getMessage());
+		}
+		
 		assertTrue(criterion.checkValue("Ja"));
 		assertFalse(criterion.checkValue("Nein"));
-
 		assertTrue(criterion.isInclusionCriterion());
+		
+		try {
+			criterion.setInclusionCriterion(new DichotomousConstraint(Arrays.asList(new String[]{"SHIT"})));
+		} catch (ContraintViolatedException e) {
+			assertNotNull(e);
+		}
 
+	}
+	
+	@Test
+	public void testWithStratification() throws ContraintViolatedException{
+		criterion.setOption1("Ja");
+		criterion.setOption2("Nein");
+		
+		ArrayList<DichotomousConstraint> temp = new ArrayList<DichotomousConstraint>();
+		temp.add(new DichotomousConstraint(Arrays.asList(new String[]{"Ja"})));
+		temp.add(new DichotomousConstraint(Arrays.asList(new String[]{"Nein"})));
+		
+		criterion.setStrata(temp);
+		
+		assertEquals(temp.get(0), criterion.stratify("Ja"));
+		assertEquals(temp.get(1), criterion.stratify("Nein"));
+		
+		try{
+			criterion.stratify("LALALALA");
+			fail("AGAIN -> WRONG!");
+		}catch(ContraintViolatedException e){
+			
+		}
+		
 	}
 }

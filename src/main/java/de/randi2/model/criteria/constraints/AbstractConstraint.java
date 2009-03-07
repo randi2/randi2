@@ -1,15 +1,15 @@
-package de.randi2.model.criteria;
+package de.randi2.model.criteria.constraints;
 
 import java.io.Serializable;
 import java.util.List;
 
 import de.randi2.unsorted.ContraintViolatedException;
 
-public abstract class AbstractConstraints<V extends Object> implements Serializable {
+public abstract class AbstractConstraint<V extends Object> implements Serializable {
 
 	private static final long serialVersionUID = -5608235144658474459L;
 	
-	public AbstractConstraints(List<V> args) throws ContraintViolatedException{
+	public AbstractConstraint(List<V> args) throws ContraintViolatedException{
 		configure(args);
 	}
 	

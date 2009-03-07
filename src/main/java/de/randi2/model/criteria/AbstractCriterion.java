@@ -2,6 +2,7 @@ package de.randi2.model.criteria;
 
 import java.util.List;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -9,8 +10,11 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import de.randi2.model.AbstractDomainObject;
+import de.randi2.model.criteria.constraints.AbstractConstraint;
+
 import java.io.Serializable;
 import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.utility.Randi2Error;
 
 /**
  * This class maps the needed behaviour of a Trial subject. With the Classes
@@ -26,13 +30,21 @@ import de.randi2.unsorted.ContraintViolatedException;
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @Table(name="Criterion")
-public abstract class AbstractCriterion<V extends Serializable> extends AbstractDomainObject {
+public abstract class AbstractCriterion<V extends Serializable, C extends AbstractConstraint<V>> extends AbstractDomainObject {
 
 	private static final long serialVersionUID = 6845807707883121147L;
 
 
 	// The name of the criterion i.e. birthday
 	public String name;
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	public String description;
 	
@@ -42,31 +54,42 @@ public abstract class AbstractCriterion<V extends Serializable> extends Abstract
 	@Transient
 	public abstract List<V> getConfiguredValues();
 	
-	protected boolean isStratum = false;
+	/**
+	 * If the object represents an inclusion criteria, this field has the
+	 * constraints.
+	 */
+	@Embedded
+	protected C inclusionCriterion;
 	
-	protected boolean isInclusionCriterion = false;
+	protected List<C> strata;
 
-	public String getName() {
-		return name;
+	public C getInclusionCriterion() {
+		return inclusionCriterion;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setInclusionCriterion(C inclusionCriterion) {
+		this.inclusionCriterion = inclusionCriterion;
+	}
+
+	public List<C> getStrata() {
+		return strata;
+	}
+
+	public void setStrata(List<C> strata) {
+		this.strata = strata;
 	}
 	
-	public void setStratum(boolean isStratum){
-		this.isStratum = isStratum;
+	public C stratify(V value) throws ContraintViolatedException{
+		this.isValueCorrect(value);
+		if(strata==null)
+			return null;
+		for(C stratum : strata){
+			if(stratum.checkValue(value))
+				return stratum;
+		}
+		throw new Randi2Error("Valid value could not be assigned to any stratum.");
 	}
-	
-	public boolean isStratum(){
-		return this.isStratum;
-	}
-	
-	@Transient
-	public abstract AbstractConstraints<V> getConstraints();
-	
-	public abstract void defineConstraints(List<V> constraintValues);
-	
+
 	public String getDescription() {
 		return description;
 	}
@@ -75,7 +98,9 @@ public abstract class AbstractCriterion<V extends Serializable> extends Abstract
 		this.description = description;
 	}
 	
-	public abstract boolean isInclusionCriterion();
+	public  boolean isInclusionCriterion(){
+		return inclusionCriterion!=null;
+	}
 
 	public abstract void isValueCorrect(V value) throws ContraintViolatedException;
 

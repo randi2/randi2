@@ -1,15 +1,14 @@
 package de.randi2.model.criteria;
 
-import de.randi2.unsorted.ContraintViolatedException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.CollectionOfElements;
+
+import de.randi2.model.criteria.constraints.OrdinalConstraint;
+import de.randi2.unsorted.ContraintViolatedException;
 
 /**
  * <p>
@@ -22,7 +21,8 @@ import org.hibernate.annotations.CollectionOfElements;
  * 
  */
 @Entity
-public class OrdinalCriterion extends AbstractCriterion<String> {
+public class OrdinalCriterion extends
+		AbstractCriterion<String, OrdinalConstraint> {
 
 	private static final long serialVersionUID = -1596645059608735663L;
 	/**
@@ -30,12 +30,6 @@ public class OrdinalCriterion extends AbstractCriterion<String> {
 	 */
 	@CollectionOfElements
 	private List<String> elements;
-	/**
-	 * If the object represents an inclusion criteria, this field has the
-	 * constraints.
-	 */
-	@Embedded
-	private OrdinalConstraints constraints = null;
 
 	public OrdinalCriterion() {
 		elements = new ArrayList<String>();
@@ -44,70 +38,12 @@ public class OrdinalCriterion extends AbstractCriterion<String> {
 		}
 	}
 
-	@Override
-	public boolean isInclusionCriterion() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	@Override
-	public void isValueCorrect(String value) throws ContraintViolatedException {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	@Embeddable
-	private class OrdinalConstraints extends AbstractConstraints<String> {
-
-		private static final long serialVersionUID = 3642808577019112783L;
-
-		public OrdinalConstraints(List<String> args)
-				throws ContraintViolatedException {
-			super(args);
-			// TODO Auto-generated constructor stub
-		}
-
-		@Transient
-		public List<String> expectedValues;
-
-		public List<String> getExpectedValues() {
-			return expectedValues;
-		}
-
-		public void setExpectedValues(List<String> expectedValues) {
-			this.expectedValues = expectedValues;
-		}
-
-		@Override
-		public void isValueCorrect(String _value) throws ContraintViolatedException {
-			throw new UnsupportedOperationException("Not supported yet.");
-		}
-
-		@Override
-		protected void configure(List<String> args)
-				throws ContraintViolatedException {
-			// TODO Auto-generated method stub
-			
-		}
-	}
-
-
-
 	public List<String> getElements() {
 		return elements;
 	}
 
 	public void setElements(List<String> elements) {
 		this.elements = elements;
-	}
-
-	@Override
-	public AbstractConstraints<String> getConstraints() {
-		return constraints;
-	}
-
-	@Override
-	public void defineConstraints(List<String> _constraints) {
-		//constraints = (OrdinalConstraints) _constraints;
-
 	}
 
 	@Override
@@ -120,5 +56,11 @@ public class OrdinalCriterion extends AbstractCriterion<String> {
 			return elements;
 		}
 		return null;
+	}
+
+	@Override
+	public void isValueCorrect(String value) throws ContraintViolatedException {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
-import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -31,16 +30,14 @@ import javax.faces.model.SelectItem;
 import de.randi2.dao.TrialDao;
 import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.Randi2;
-import de.randi2.jsf.pages.Step4;
 import de.randi2.jsf.utility.AutoCompleteObject;
-import de.randi2.jsf.wrappers.SubjectPropertyWrapper;
 import de.randi2.model.Login;
 import de.randi2.model.Role;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.criteria.AbstractCriterion;
-import de.randi2.model.criteria.DichotomousCriterion;
+import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.utility.ReflectionUtil;
 
@@ -54,15 +51,18 @@ import de.randi2.utility.ReflectionUtil;
  */
 public class TrialHandler extends AbstractHandler<Trial> {
 
+	@SuppressWarnings("unchecked")
 	public TrialHandler() {
 		super(Trial.class);
-		criteriaList = new ArrayList<AbstractCriterion<?>>();
+		criteriaList = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
 		try {
-			for (Class<?> c : ReflectionUtil.getClasses("de.randi2.model.criteria")) {
+			for (Class<?> c : ReflectionUtil
+					.getClasses("de.randi2.model.criteria")) {
 				try {
 					if (c.getSuperclass().equals(AbstractCriterion.class))
-						criteriaList.add((AbstractCriterion<?>) c
-								.getConstructor().newInstance());
+						criteriaList
+								.add((AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>) c
+										.getConstructor().newInstance());
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
 				} catch (SecurityException e) {
@@ -91,7 +91,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	private AutoCompleteObject<Login> sponsorInvestigatorsAC = null;
 	private AutoCompleteObject<TrialSite> participatingSitesAC = null;
 
-	private ArrayList<AbstractCriterion<?>> criteriaList = null;
+	private ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> criteriaList = null;
 
 	// TODO TEMP OBJECTS
 	private TimeZone zone;
@@ -152,38 +152,41 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	public String createTrial() {
-		
-		ValueExpression ve = FacesContext.getCurrentInstance().getApplication()
-				.getExpressionFactory().createValueExpression(
-						FacesContext.getCurrentInstance().getELContext(),
-						"#{step4}", Step4.class);
-		Step4 temp = (Step4) ve.getValue(FacesContext.getCurrentInstance()
-				.getELContext());
-		ArrayList<AbstractCriterion<? extends Serializable>> configuredCriteria = new ArrayList<AbstractCriterion<? extends Serializable>>();
-		for (SubjectPropertyWrapper wr : temp.getProperties()) {
-			System.out.println("NAME " + wr.getSelectedCriterion().getName());
-			System.out.println("DESC. "
-					+ wr.getSelectedCriterion().getDescription());
-			if (wr.getSelectedCriterion() instanceof DichotomousCriterion) {
-				System.out.println("OPTION1 "
-						+ ((DichotomousCriterion) wr.getSelectedCriterion())
-								.getOption1());
-				System.out.println("OPTION2 "
-						+ ((DichotomousCriterion) wr.getSelectedCriterion())
-								.getOption2());
-			}
-			System.out.println("INCLUSION? "
-					+ wr.getSelectedCriterion().isInclusionCriterion());
-			// if(wr.getSelectedCriterion().isInclusionCriterion()){
-			// System.out.println(wr.getSelectedCriterion().getConstraints().);
-			// }
-			
-			//TODO Inclusion Geschichte!
-			configuredCriteria.add(wr.getSelectedCriterion());
-			
-		}
-		newTrial.setCriteria(configuredCriteria);
-		
+
+		// ValueExpression ve =
+		// FacesContext.getCurrentInstance().getApplication()
+		// .getExpressionFactory().createValueExpression(
+		// FacesContext.getCurrentInstance().getELContext(),
+		// "#{step4}", Step4.class);
+//		Step4 temp = (Step4) ve.getValue(FacesContext.getCurrentInstance()
+//				.getELContext());
+		// ArrayList<AbstractCriterion<? extends Serializable>>
+		// configuredCriteria = new ArrayList<AbstractCriterion<? extends
+		// Serializable>>();
+		// for (SubjectPropertyWrapper wr : temp.getProperties()) {
+		// System.out.println("NAME " + wr.getSelectedCriterion().getName());
+		// System.out.println("DESC. "
+		// + wr.getSelectedCriterion().getDescription());
+		// if (wr.getSelectedCriterion() instanceof DichotomousCriterion) {
+		// System.out.println("OPTION1 "
+		// + ((DichotomousCriterion) wr.getSelectedCriterion())
+		// .getOption1());
+		// System.out.println("OPTION2 "
+		// + ((DichotomousCriterion) wr.getSelectedCriterion())
+		// .getOption2());
+		// }
+		// System.out.println("INCLUSION? "
+		// + wr.getSelectedCriterion().isInclusionCriterion());
+		// // if(wr.getSelectedCriterion().isInclusionCriterion()){
+		// // System.out.println(wr.getSelectedCriterion().getConstraints().);
+		// // }
+		//			
+		// //TODO Inclusion Geschichte!
+		// //configuredCriteria.add(wr.getSelectedCriterion());
+		//			
+		// }
+		// newTrial.setCriteria(configuredCriteria);
+
 		trialDao.save(newTrial);
 		return Randi2.SUCCESS;
 	}
@@ -254,7 +257,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		return null;
 	}
 
-	public ArrayList<AbstractCriterion<?>> getCriteriaList() {
+	public ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteriaList() {
 		return criteriaList;
 	}
 

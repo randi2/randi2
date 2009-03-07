@@ -25,6 +25,7 @@ import org.hibernate.validator.NotNull;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import de.randi2.model.criteria.AbstractCriterion;
+import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.utility.validations.DateDependence;
@@ -59,11 +60,11 @@ public class Trial extends AbstractDomainObject {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trial")
 	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<AbstractCriterion<? extends Serializable>> inclusionCriteria;
+	private List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> inclusionCriteria;
 	@OneToOne
 	private AbstractRandomizationConfig randomConf;
 
-	public List<AbstractCriterion<? extends Serializable>> getCriteria() {
+	public List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteria() {
 		return inclusionCriteria;
 	}
 
@@ -71,7 +72,7 @@ public class Trial extends AbstractDomainObject {
 		return leadingCenter;
 	}
 
-	public void setCriteria(List<AbstractCriterion<? extends Serializable>> inclusionCriteria) {
+	public void setCriteria(List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> inclusionCriteria) {
 		this.inclusionCriteria = inclusionCriteria;
 	}
 

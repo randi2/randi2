@@ -232,11 +232,11 @@ public class SubjectPropertyWrapper {
 						+ "].selectedCriterion.configuredValues==null}",
 						Boolean.class));
 		isInclCritCheckbox.addValueChangeListener(listener);
-		isInclCritCheckbox.setValueExpression("value", expressionFactory
-				.createValueExpression(elContext, "#{step4.properties["
-						+ propertyNr
-						+ "].selectedCriterion.inclusionCriterion}",
-						Boolean.class));
+//		isInclCritCheckbox.setValueExpression("value", expressionFactory
+//				.createValueExpression(elContext, "#{step4.properties["
+//						+ propertyNr
+//						+ "].selectedCriterion.inclusionCriterion}",
+//						Boolean.class));
 
 		secondPanel.getChildren().add(isInclCritLabel);
 		secondPanel.getChildren().add(isInclCritCheckbox);
