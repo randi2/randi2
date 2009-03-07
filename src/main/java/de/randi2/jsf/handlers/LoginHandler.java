@@ -56,7 +56,7 @@ import de.randi2.utility.mail.exceptions.MailErrorException;
  * person objects.
  * </p>
  * 
- * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
+ * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class LoginHandler extends AbstractHandler<Login> {
 
@@ -293,33 +293,8 @@ public class LoginHandler extends AbstractHandler<Login> {
 			if (creatingMode) {
 				this.userSavedPVisible = true;
 			}
-			try {
-
-				// sending the registration mail via MailService
-
-				// Map of variables for the message
-				Map<String, Object> messageFields = new HashMap<String, Object>();
-				messageFields.put("user", newUser);
-				messageFields.put("url", "http://randi2.com/CHANGEME");
-				// Map of variables for the subject
-				Map<String, Object> subjectFields = new HashMap<String, Object>();
-				subjectFields.put("firstname", newUser.getPerson()
-						.getFirstname());
-
-				Locale language = chosenLocale;
-
-				mailService.sendMail(newUser.getUsername(), "NewUserMail",
-						language, messageFields, subjectFields);
-
-			} catch (MailErrorException exp) {
-
-				// TODO remove stack trace
-				exp.printStackTrace();
-				Randi2.showMessage(exp);
-				return Randi2.ERROR;
-
-			}
-			return Randi2.SUCCESS;
+			
+			return sendRegistrationMails(newUser, chosenLocale, mailService);
 
 		} catch (InvalidStateException exp) {
 			// TODO for a stable release delete the following stacktrace
@@ -337,6 +312,77 @@ public class LoginHandler extends AbstractHandler<Login> {
 			return Randi2.ERROR;
 		}
 
+	}
+
+	/**
+	 * Sends the registration mails to the new user and the contact person of
+	 * the current trial site.
+	 * 
+	 * @param newUser The new user.
+	 * @param chosenLocale The chosen Locale of the new user.
+	 * @param mailService
+	 * @return
+	 */
+	public String sendRegistrationMails(Login newUser, Locale chosenLocale,MailServiceInterface mailService) {
+		
+		try {
+
+			// sending the registration mail via MailService
+
+			// Map of variables for the message
+			Map<String, Object> newUserMessageFields = new HashMap<String, Object>();
+			newUserMessageFields.put("user", newUser);
+			newUserMessageFields.put("url", "http://randi2.com/CHANGEME");
+			// Map of variables for the subject
+			Map<String, Object> newUserSubjectFields = new HashMap<String, Object>();
+			newUserSubjectFields.put("firstname", newUser.getPerson()
+					.getFirstname());
+
+			Locale language = chosenLocale;
+
+			mailService.sendMail(newUser.getUsername(), "NewUserMail",
+					language, newUserMessageFields, newUserSubjectFields);
+
+			
+			if (newUser.getPerson().getTrialSite().getContactPerson() != null) {
+				
+				// send e-mail to contact person of current trial-site
+				
+				Person contactPerson = newUser.getPerson().getTrialSite().getContactPerson();
+				language = contactPerson.getLogin().getPrefLocale();
+				
+				
+				// Map of variables for the message
+				Map<String, Object> contactPersonMessageFields = new HashMap<String, Object>();
+				contactPersonMessageFields.put("newUser", newUser);
+				contactPersonMessageFields.put("contactPerson", contactPerson);
+				
+				// Map of variables for the subject
+				Map<String, Object> contactPersonSubjectFields = new HashMap<String, Object>();
+				contactPersonSubjectFields.put("newUserFirstname", newUser.getPerson()
+						.getFirstname());
+				contactPersonSubjectFields.put("newUserLastname", newUser.getPerson()
+						.getSurname());
+				
+				
+				mailService.sendMail(contactPerson.getEMail(), "NewUserNotifyContactPersonMail", language, contactPersonMessageFields, contactPersonSubjectFields);
+				
+			}
+			
+			return Randi2.SUCCESS;
+			
+			
+		} catch (MailErrorException exp) {
+
+			// TODO remove stack trace
+			exp.printStackTrace();
+			Randi2.showMessage(exp);
+			return Randi2.ERROR;
+
+		}
+		
+		
+		
 	}
 
 	/**

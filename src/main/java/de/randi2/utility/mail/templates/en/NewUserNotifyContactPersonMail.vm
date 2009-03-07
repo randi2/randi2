@@ -1,0 +1,14 @@
+<html>
+<body>
+<h3>Hello ${contactPerson.getFirstname()} ${contactPerson.getSurname()}!</h3>
+
+<div>
+The following user has registered for your trial site:<br>
+${newUser.getPerson().getFirstname()}<br>
+${newUser.getPerson().getLastname()}<br>
+<br>
+Better double check!
+</div>
+</body>
+
+</html>
