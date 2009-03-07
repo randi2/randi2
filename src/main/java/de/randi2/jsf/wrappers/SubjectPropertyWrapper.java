@@ -1,5 +1,6 @@
 package de.randi2.jsf.wrappers;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -38,6 +39,7 @@ import de.randi2.jsf.handlers.LoginHandler;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.criteria.AbstractCriterion;
+import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.utility.ReflectionUtil;
 
 public class SubjectPropertyWrapper {
@@ -63,10 +65,10 @@ public class SubjectPropertyWrapper {
 	/**
 	 * The selected criterion.
 	 */
-	private AbstractCriterion<?> selectedCriterion = null;
+	private AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<?>> selectedCriterion = null;
 	private SubjectProperty<?> property = null;
 
-	private AutoCompleteObject<AbstractCriterion<?>> criteriaAC;
+	private AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<?>>> criteriaAC;
 	private UIComponent propertyPanel;
 	private HtmlPanelGrid criteriaPanel;
 	private HtmlPanelGrid firstPanel;
@@ -94,8 +96,8 @@ public class SubjectPropertyWrapper {
 				.getValue(elContext);
 		criteria = ResourceBundle.getBundle("de.randi2.jsf.i18n.criteria",
 				currentLoginHandler.getChosenLocale());
-		criteriaAC = new AutoCompleteObject<AbstractCriterion<?>>(
-				(ArrayList<AbstractCriterion<?>>) expressionFactory
+		criteriaAC = new AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<?>>>(
+				(ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<?>>>) expressionFactory
 						.createValueExpression(
 								FacesContext.getCurrentInstance()
 										.getELContext(),
@@ -269,7 +271,7 @@ public class SubjectPropertyWrapper {
 		
 		// Examine the object
 		Map<Field, Method> properties = ReflectionUtil
-				.getPropertyWithGetter(selectedCriterion.getConstraints());
+				.getPropertyWithGetter(selectedCriterion.getInclusionCriterion());
 		Method m = null;
 		for (Field f : properties.keySet()) {
 			m = properties.get(f);
@@ -385,7 +387,7 @@ public class SubjectPropertyWrapper {
 		return propertyPanel;
 	}
 
-	public AbstractCriterion<?> getSelectedCriterion() {
+	public AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<?>> getSelectedCriterion() {
 		return selectedCriterion;
 	}
 

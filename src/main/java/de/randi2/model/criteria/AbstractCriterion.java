@@ -47,7 +47,7 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 	}
 	
 	public String description;
-	
+
 	@Transient
 	protected List<V> configuredValues;
 	
@@ -58,11 +58,13 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 	 * If the object represents an inclusion criteria, this field has the
 	 * constraints.
 	 */
-	@Embedded
+	@Transient
 	protected C inclusionCriterion;
-	
+
+	@Transient
 	protected List<C> strata;
 
+	@Transient
 	public C getInclusionCriterion() {
 		return inclusionCriterion;
 	}
@@ -71,6 +73,7 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 		this.inclusionCriterion = inclusionCriterion;
 	}
 
+	@Transient
 	public List<C> getStrata() {
 		return strata;
 	}
