@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import org.hibernate.annotations.CollectionOfElements;
 
 import de.randi2.unsorted.ContraintViolatedException;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 @Entity
 public class OrdinalConstraint extends AbstractConstraint<String> {
@@ -44,7 +45,6 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ToStringBuilder(this).append(expectedValues);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Entity;
 
 import de.randi2.unsorted.ContraintViolatedException;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 @Entity
 public class DichotomousConstraint extends AbstractConstraint<String> {
@@ -43,7 +44,7 @@ public class DichotomousConstraint extends AbstractConstraint<String> {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return new  ToStringBuilder(this)
+				.append(expectedValue).toString();
 	}
 }
