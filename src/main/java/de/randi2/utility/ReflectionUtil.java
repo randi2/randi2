@@ -120,10 +120,8 @@ public final class ReflectionUtil {
 	public static Set<Method> getSetters(Object o) {
 		return getSetters(o.getClass());
 	}
-	static Set<Method> getSetters(Class<?> klass) {
-
-
-
+	
+	public static Set<Method> getSetters(Class<? extends Object> klass) {
 		Set<Method> getters = new HashSet<Method>();
 		for (Method m : Arrays.asList(klass.getDeclaredMethods())) {
 			if (m.getName().startsWith("set") &&

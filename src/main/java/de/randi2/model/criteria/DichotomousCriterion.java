@@ -43,8 +43,8 @@ public class DichotomousCriterion extends AbstractCriterion<String, DichotomousC
 	 */
 	@Override
 	public List<String> getConfiguredValues() {
-		if ((option1 == null && option2 == null)
-				|| (option1.isEmpty() && option2.isEmpty())) {
+		if (option1 == null || option2 == null
+				|| option1.isEmpty() || option2.isEmpty()) {
 			return null; // The Values are not configured.
 		} else if (configuredValues == null) {
 			configuredValues = new ArrayList<String>();
