@@ -17,7 +17,14 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 
 	@Embeddable
 	private class DichotomousConstraints extends AbstractConstraints<String> {
+		
+		public DichotomousConstraints(List<String> args)
+				throws ContraintViolatedException {
+			super(args);
+		}
 
+		private static final long serialVersionUID = -1224367469711016048L;
+		
 		public String expectedValue;
 
 		public String getExpectedValue() {
@@ -33,6 +40,13 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 			if(!expectedValue.equals(_value)){
 				throw new ContraintViolatedException();
 			}
+		}
+
+		@Override
+		protected void configure(List<String> args)
+				throws ContraintViolatedException {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 

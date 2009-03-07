@@ -37,6 +37,7 @@ public final class SubjectProperty<V extends Serializable> extends AbstractDomai
 		return criterion;
 	}
 
+	@SuppressWarnings("unused") //Hibernate only
 	private void setCriterion(AbstractCriterion<V> criterion) {
 		this.criterion = (AbstractCriterion<V>) criterion;
 	}

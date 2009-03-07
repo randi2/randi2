@@ -14,6 +14,7 @@
  */
 package de.randi2.jsf.handlers;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -41,7 +42,7 @@ import de.randi2.model.TrialSite;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.enumerations.TrialStatus;
-import static de.randi2.utility.ReflectionUtil.getClasses;
+import de.randi2.utility.ReflectionUtil;
 
 /**
  * <p>
@@ -57,7 +58,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		super(Trial.class);
 		criteriaList = new ArrayList<AbstractCriterion<?>>();
 		try {
-			for (Class<?> c : getClasses("de.randi2.model.criteria")) {
+			for (Class<?> c : ReflectionUtil.getClasses("de.randi2.model.criteria")) {
 				try {
 					if (c.getSuperclass().equals(AbstractCriterion.class))
 						criteriaList.add((AbstractCriterion<?>) c
@@ -151,12 +152,14 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	public String createTrial() {
+		
 		ValueExpression ve = FacesContext.getCurrentInstance().getApplication()
 				.getExpressionFactory().createValueExpression(
 						FacesContext.getCurrentInstance().getELContext(),
 						"#{step4}", Step4.class);
 		Step4 temp = (Step4) ve.getValue(FacesContext.getCurrentInstance()
 				.getELContext());
+		ArrayList<AbstractCriterion<? extends Serializable>> configuredCriteria = new ArrayList<AbstractCriterion<? extends Serializable>>();
 		for (SubjectPropertyWrapper wr : temp.getProperties()) {
 			System.out.println("NAME " + wr.getSelectedCriterion().getName());
 			System.out.println("DESC. "
@@ -174,7 +177,14 @@ public class TrialHandler extends AbstractHandler<Trial> {
 			// if(wr.getSelectedCriterion().isInclusionCriterion()){
 			// System.out.println(wr.getSelectedCriterion().getConstraints().);
 			// }
+			
+			//TODO Inclusion Geschichte!
+			configuredCriteria.add(wr.getSelectedCriterion());
+			
 		}
+		newTrial.setCriteria(configuredCriteria);
+		
+		trialDao.save(newTrial);
 		return Randi2.SUCCESS;
 	}
 

@@ -1,6 +1,7 @@
 package de.randi2.model;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -58,11 +59,11 @@ public class Trial extends AbstractDomainObject {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trial")
 	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<AbstractCriterion> inclusionCriteria;
+	private List<AbstractCriterion<? extends Serializable>> inclusionCriteria;
 	@OneToOne
 	private AbstractRandomizationConfig randomConf;
 
-	public List<AbstractCriterion> getCriteria() {
+	public List<AbstractCriterion<? extends Serializable>> getCriteria() {
 		return inclusionCriteria;
 	}
 
@@ -70,7 +71,7 @@ public class Trial extends AbstractDomainObject {
 		return leadingCenter;
 	}
 
-	public void setCriteria(List<AbstractCriterion> inclusionCriteria) {
+	public void setCriteria(List<AbstractCriterion<? extends Serializable>> inclusionCriteria) {
 		this.inclusionCriteria = inclusionCriteria;
 	}
 

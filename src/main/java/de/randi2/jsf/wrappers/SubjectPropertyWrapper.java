@@ -106,8 +106,6 @@ public class SubjectPropertyWrapper {
 				.createValueExpression(Boolean.TRUE, Boolean.class));
 		propertyPanel.setValueExpression("toggleOnClick", expressionFactory
 				.createValueExpression(Boolean.FALSE, Boolean.class));
-		// propertyPanel.setValueExpression("toggleOnClick", expressionFactory
-		// .createValueExpression(Boolean.FALSE, Boolean.class));
 		HtmlPanelGroup headerPanel = (HtmlPanelGroup) app
 				.createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 		headerPanel.setStyle("padding-left: 25px;");
@@ -268,32 +266,6 @@ public class SubjectPropertyWrapper {
 			constraintsPanel.setColumns(2);
 		} else
 			constraintsPanel.getChildren().clear();
-
-//		for (Field f : selectedCriterion.getConstraints().getClass()
-//				.getDeclaredFields()) {
-//			System.out.println("creatConstraintsPanel Method " + f.getName());
-//			// We're only interested in non-static, public fields
-//			if (!Modifier.isStatic(f.getModifiers())
-//					&& Modifier.isPublic(f.getModifiers())) {
-//				// String
-//				System.out.println("creatConstraintsPanel Method "
-//						+ f.getType());
-//				if (f.getType().equals(String.class)) {
-//					updateConstraintValues();
-//					constraintsPanel.getChildren().addAll(
-//							creatComponentsForField(f, HtmlSelectOneMenu.class,
-//									valuesToShow));
-//				}
-//				// List<String>
-//				else if (f.getType().equals(List.class)) {
-//					updateConstraintValues();
-//					constraintsPanel.getChildren().addAll(
-//							creatComponentsForField(f,
-//									HtmlSelectManyMenu.class, valuesToShow));
-//
-//				}
-//			}
-//		}
 		
 		// Examine the object
 		Map<Field, Method> properties = ReflectionUtil
@@ -305,35 +277,30 @@ public class SubjectPropertyWrapper {
 			if (m.getReturnType().equals(String.class)) {
 				updateConstraintValues();
 				constraintsPanel.getChildren().addAll(
-						creatComponentsForField(f, HtmlSelectOneMenu.class,
+						creatComponentsForProperty(f, HtmlSelectOneMenu.class,
 								valuesToShow));
 			}
 			// List<String>
 			else if (m.getReturnType().equals(List.class)) {
 				updateConstraintValues();
 				constraintsPanel.getChildren().addAll(
-						creatComponentsForField(f,
+						creatComponentsForProperty(f,
 								HtmlSelectManyMenu.class, valuesToShow));
 				}
 
 			}
 		
 
-		constraintsPanel.setValueExpression("visible", expressionFactory
-				.createValueExpression(elContext, "#{step4.properties["
-						+ propertyNr
-						+ "].selectedCriterion.inclusionCriterion}",
-						Boolean.class));
+//		constraintsPanel.setValueExpression("visible", expressionFactory
+//				.createValueExpression(elContext, "#{step4.properties["
+//						+ propertyNr
+//						+ "].selectedCriterion.inclusionCriterion}",
+//						Boolean.class));
 		parentPanel.getChildren().add(constraintsPanel);
 	}
 
 	private List<UIComponent> creatComponentsForProperty(Field field,
 			ValueExpression ve, Class<? extends UIComponent> c) {
-		// TEMP
-		System.out.println("creatComponentsForField Method(1) "
-				+ field.getDeclaringClass().getCanonicalName() + "."
-				+ field.getName());
-		//
 
 		List<UIComponent> components = new ArrayList<UIComponent>();
 
@@ -365,14 +332,9 @@ public class SubjectPropertyWrapper {
 		return components;
 	}
 
-	private List<UIComponent> creatComponentsForField(Field field,
+	private List<UIComponent> creatComponentsForProperty(Field field,
 	/* ValueExpression ve, */Class<? extends UIComponent> c,
 			List<SelectItem> itemsToShow) {
-		// TEMP
-		System.out.println("creatComponentsForField Method(2) "
-				+ field.getDeclaringClass().getCanonicalName() + "."
-				+ field.getName());
-		//
 
 		List<UIComponent> components = new ArrayList<UIComponent>();
 

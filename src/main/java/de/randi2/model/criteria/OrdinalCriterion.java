@@ -57,6 +57,14 @@ public class OrdinalCriterion extends AbstractCriterion<String> {
 	@Embeddable
 	private class OrdinalConstraints extends AbstractConstraints<String> {
 
+		private static final long serialVersionUID = 3642808577019112783L;
+
+		public OrdinalConstraints(List<String> args)
+				throws ContraintViolatedException {
+			super(args);
+			// TODO Auto-generated constructor stub
+		}
+
 		@Transient
 		public List<String> expectedValues;
 
@@ -72,6 +80,13 @@ public class OrdinalCriterion extends AbstractCriterion<String> {
 		public void isValueCorrect(String _value) throws ContraintViolatedException {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
+
+		@Override
+		protected void configure(List<String> args)
+				throws ContraintViolatedException {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
 
@@ -86,9 +101,6 @@ public class OrdinalCriterion extends AbstractCriterion<String> {
 
 	@Override
 	public AbstractConstraints<String> getConstraints() {
-		if (constraints == null) {
-			constraints = new OrdinalConstraints();
-		}
 		return constraints;
 	}
 
