@@ -67,4 +67,33 @@ public class DichotomousCriterion extends AbstractCriterion<String, DichotomousC
 			inclusionCriterion.isValueCorrect(value);
 		}
 	}
+
+	@Override
+	public Class<DichotomousConstraint> getContstraintType() {
+		return DichotomousConstraint.class;
+	}
+
+	@Override
+	public DichotomousConstraint getInclusionCriterion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<DichotomousConstraint> getStrata() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setInclusionCriterion(DichotomousConstraint inclusionCriterion) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setStrata(List<DichotomousConstraint> strata) {
+		// TODO Auto-generated method stub
+		
+	}
 }

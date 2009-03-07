@@ -63,4 +63,33 @@ public class OrdinalCriterion extends
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public Class<OrdinalConstraint> getContstraintType() {
+		return OrdinalConstraint.class;
+	}
+
+	@Override
+	public OrdinalConstraint getInclusionCriterion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<OrdinalConstraint> getStrata() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setInclusionCriterion(OrdinalConstraint inclusionCriterion) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setStrata(List<OrdinalConstraint> strata) {
+		// TODO Auto-generated method stub
+		
+	}
 }

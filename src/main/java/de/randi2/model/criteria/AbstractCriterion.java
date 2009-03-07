@@ -1,8 +1,8 @@
 package de.randi2.model.criteria;
 
+import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -11,8 +11,6 @@ import javax.persistence.Transient;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
-
-import java.io.Serializable;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.Randi2Error;
 
@@ -65,22 +63,17 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 	protected List<C> strata;
 
 	@Transient
-	public C getInclusionCriterion() {
-		return inclusionCriterion;
-	}
+	public abstract C getInclusionCriterion();
 
-	public void setInclusionCriterion(C inclusionCriterion) {
-		this.inclusionCriterion = inclusionCriterion;
-	}
+	public abstract void setInclusionCriterion(C inclusionCriterion);
+	
+	@Transient
+	public abstract Class<C> getContstraintType();
 
 	@Transient
-	public List<C> getStrata() {
-		return strata;
-	}
+	public abstract List<C> getStrata();
 
-	public void setStrata(List<C> strata) {
-		this.strata = strata;
-	}
+	public abstract void setStrata(List<C> strata);
 	
 	public C stratify(V value) throws ContraintViolatedException{
 		this.isValueCorrect(value);

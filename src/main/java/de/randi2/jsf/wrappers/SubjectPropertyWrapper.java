@@ -42,6 +42,11 @@ import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.utility.ReflectionUtil;
 
+/**
+ * Wrapper for the SubjectProperty/Criterion
+ * @author Lukasz Plotnicki
+ *
+ */
 public class SubjectPropertyWrapper {
 
 	/**
@@ -60,7 +65,7 @@ public class SubjectPropertyWrapper {
 	/**
 	 * ResourceBundle for l16n.
 	 */
-	private ResourceBundle criteria = null;
+	private ResourceBundle criteriaNames = null;
 
 	/**
 	 * The selected criterion.
@@ -79,10 +84,29 @@ public class SubjectPropertyWrapper {
 	private SelectInputText criteriaInputText;
 
 	private List<SelectItem> valuesToShow;
+	
+	public List<? extends Serializable> getSelectedValues(){
+		ArrayList<Serializable> list = new ArrayList<Serializable>();
+		for(UIInput s : selectionComponents){
+//			System.out.println(s.getSubmittedValue());
+			if(s instanceof HtmlSelectOneMenu){
+				System.out.println(((HtmlSelectOneMenu)s).getLocalValue());
+				list.add((Serializable) ((HtmlSelectOneMenu)s).getLocalValue());
+			} else if(s instanceof HtmlSelectManyMenu){
+				for(Object o : ((HtmlSelectManyMenu)s).getSelectedValues()){
+					System.out.println(o);
+					list.add((Serializable)o);
+				}
+			}
+		}
+		return list;
+	}
 
 	private HtmlSelectBooleanCheckbox isInclCritCheckbox;
 
 	private HtmlPanelGrid constraintsPanel;
+
+	private List<UIInput> selectionComponents;
 
 	@SuppressWarnings("unchecked")
 	public SubjectPropertyWrapper(int _propertyNr) {
@@ -94,7 +118,7 @@ public class SubjectPropertyWrapper {
 				"#{loginHandler}", LoginHandler.class);
 		LoginHandler currentLoginHandler = (LoginHandler) ve
 				.getValue(elContext);
-		criteria = ResourceBundle.getBundle("de.randi2.jsf.i18n.criteria",
+		criteriaNames = ResourceBundle.getBundle("de.randi2.jsf.i18n.criteria",
 				currentLoginHandler.getChosenLocale());
 		criteriaAC = new AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<?>>>(
 				(ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<?>>>) expressionFactory
@@ -123,7 +147,7 @@ public class SubjectPropertyWrapper {
 
 		HtmlOutputLabel crieteriaLabel = (HtmlOutputLabel) app
 				.createComponent(HtmlOutputLabel.COMPONENT_TYPE);
-		crieteriaLabel.setValue(criteria.getString("criteriaType"));
+		crieteriaLabel.setValue(criteriaNames.getString("criteriaType"));
 
 		criteriaInputText = (SelectInputText) app
 				.createComponent(SelectInputText.COMPONENT_TYPE);
@@ -135,7 +159,7 @@ public class SubjectPropertyWrapper {
 		UISelectItems selectItems = (UISelectItems) app
 				.createComponent(UISelectItems.COMPONENT_TYPE);
 		for (SelectItem si : criteriaAC.getObjectList()) {
-			si.setLabel(criteria.getString(si.getLabel()));
+			si.setLabel(criteriaNames.getString(si.getLabel()));
 		}
 		selectItems.setValue(criteriaAC.getObjectList());
 		criteriaInputText.getChildren().add(selectItems);
@@ -205,16 +229,21 @@ public class SubjectPropertyWrapper {
 			}
 			// List<String>
 			else if (m.getReturnType().equals(List.class)) {
-				for (int nr = 0; nr < ((List<String>) f.get(selectedCriterion))
-						.size(); nr++) {
-					firstPanel.getChildren().addAll(
-							creatComponentsForProperty(f, expressionFactory
-									.createValueExpression(elContext,
-											"#{step4.properties[" + propertyNr
-													+ "].selectedCriterion."
-													+ f.getName() + "[" + nr
-													+ "]}", String.class),
-									HtmlInputText.class));
+				try {
+					for (int nr = 0; nr < ((List<String>) m.invoke(selectedCriterion, new Object[]{}))
+							.size(); nr++) {
+						firstPanel.getChildren().addAll(
+								creatComponentsForProperty(f, expressionFactory
+										.createValueExpression(elContext,
+												"#{step4.properties[" + propertyNr
+														+ "].selectedCriterion."
+														+ f.getName() + "[" + nr
+														+ "]}", String.class),
+										HtmlInputText.class));
+					}
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 
 			}
@@ -223,7 +252,7 @@ public class SubjectPropertyWrapper {
 		HtmlOutputLabel isInclCritLabel = (HtmlOutputLabel) app
 				.createComponent(HtmlOutputLabel.COMPONENT_TYPE);
 		isInclCritLabel
-				.setValue(criteria
+				.setValue(criteriaNames
 						.getString("de.randi2.model.criteria.AbstractCriterion.isInclusionCriterion"));
 		isInclCritCheckbox = (HtmlSelectBooleanCheckbox) app
 				.createComponent(HtmlSelectBooleanCheckbox.COMPONENT_TYPE);
@@ -234,11 +263,11 @@ public class SubjectPropertyWrapper {
 						+ "].selectedCriterion.configuredValues==null}",
 						Boolean.class));
 		isInclCritCheckbox.addValueChangeListener(listener);
-//		isInclCritCheckbox.setValueExpression("value", expressionFactory
-//				.createValueExpression(elContext, "#{step4.properties["
-//						+ propertyNr
-//						+ "].selectedCriterion.inclusionCriterion}",
-//						Boolean.class));
+		// isInclCritCheckbox.setValueExpression("value", expressionFactory
+		// .createValueExpression(elContext, "#{step4.properties["
+		// + propertyNr
+		// + "].selectedCriterion.inclusionCriterion}",
+		// Boolean.class));
 
 		secondPanel.getChildren().add(isInclCritLabel);
 		secondPanel.getChildren().add(isInclCritCheckbox);
@@ -268,37 +297,45 @@ public class SubjectPropertyWrapper {
 			constraintsPanel.setColumns(2);
 		} else
 			constraintsPanel.getChildren().clear();
-		
+
 		// Examine the object
-		Map<Field, Method> properties = ReflectionUtil
-				.getPropertyWithGetter(selectedCriterion.getInclusionCriterion());
+		Map<Field, Method> properties;
+		properties = ReflectionUtil.getPropertyWithGetter(selectedCriterion
+				.getContstraintType());
 		Method m = null;
+		List<UIComponent> components;
+		selectionComponents = new ArrayList<UIInput>();
 		for (Field f : properties.keySet()) {
+			System.out.println(f.getName());
 			m = properties.get(f);
 			// String
 			if (m.getReturnType().equals(String.class)) {
 				updateConstraintValues();
-				constraintsPanel.getChildren().addAll(
-						creatComponentsForProperty(f, HtmlSelectOneMenu.class,
-								valuesToShow));
+				components = creatComponentsForProperty(f, HtmlSelectOneMenu.class,
+						valuesToShow);
+				selectionComponents.add((UIInput) components.get(1));
+				constraintsPanel.getChildren().addAll(components
+						);
 			}
 			// List<String>
 			else if (m.getReturnType().equals(List.class)) {
 				updateConstraintValues();
-				constraintsPanel.getChildren().addAll(
-						creatComponentsForProperty(f,
-								HtmlSelectManyMenu.class, valuesToShow));
-				}
-
+				components = creatComponentsForProperty(f, HtmlSelectManyMenu.class,
+						valuesToShow);
+				selectionComponents.add((UIInput) components.get(1));
+				constraintsPanel.getChildren().addAll(components
+						);
 			}
-		
+			components = null;
 
-//		constraintsPanel.setValueExpression("visible", expressionFactory
-//				.createValueExpression(elContext, "#{step4.properties["
-//						+ propertyNr
-//						+ "].selectedCriterion.inclusionCriterion}",
-//						Boolean.class));
+		}
+		// constraintsPanel.setValueExpression("visible", expressionFactory
+		// .createValueExpression(elContext, "#{step4.properties["
+		// + propertyNr
+		// + "].selectedCriterion.inclusionCriterion}",
+		// Boolean.class));
 		parentPanel.getChildren().add(constraintsPanel);
+
 	}
 
 	private List<UIComponent> creatComponentsForProperty(Field field,
@@ -308,7 +345,7 @@ public class SubjectPropertyWrapper {
 
 		HtmlOutputLabel label = (HtmlOutputLabel) app
 				.createComponent(HtmlOutputLabel.COMPONENT_TYPE);
-		label.setValue(criteria.getString(field.getDeclaringClass()
+		label.setValue(criteriaNames.getString(field.getDeclaringClass()
 				.getCanonicalName()
 				+ "." + field.getName()));
 		components.add(label);
@@ -342,7 +379,7 @@ public class SubjectPropertyWrapper {
 
 		HtmlOutputLabel label = (HtmlOutputLabel) app
 				.createComponent(HtmlOutputLabel.COMPONENT_TYPE);
-		label.setValue(criteria.getString(field.getDeclaringClass()
+		label.setValue(criteriaNames.getString(field.getDeclaringClass()
 				.getCanonicalName()
 				+ "." + field.getName()));
 		components.add(label);
@@ -425,7 +462,7 @@ public class SubjectPropertyWrapper {
 			try {
 				if (arg0.getNewValue().toString().equals("true")) {
 					// FIXME
-					//selectedCriterion.setInclusionCriterion(true);
+					// selectedCriterion.setInclusionCriterion(true);
 					createConstraintsPanel(secondPanel);
 				}
 			} catch (IllegalArgumentException e) {
@@ -437,6 +474,7 @@ public class SubjectPropertyWrapper {
 			}
 		}
 
+		@SuppressWarnings("unchecked")
 		private void criteriaInputValueChange(ValueChangeEvent arg0) {
 			criteriaAC.updateObjectList(arg0);
 			if (criteriaAC.isObjectSelected())

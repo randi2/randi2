@@ -21,6 +21,10 @@ public class DichotomousConstraint extends AbstractConstraint<String> {
 	public String getExpectedValue() {
 		return expectedValue;
 	}
+	
+	public void setExpectedValue(String _expectedValue){
+		this.expectedValue = _expectedValue;
+	}
 
 	@Override
 	public void isValueCorrect(String _value) throws ContraintViolatedException {
