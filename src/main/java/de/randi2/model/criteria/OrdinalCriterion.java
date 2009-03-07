@@ -105,8 +105,8 @@ public class OrdinalCriterion extends AbstractCriterion<String> {
 	}
 
 	@Override
-	public void setConstraints(AbstractConstraints<String> _constraints) {
-		constraints = (OrdinalConstraints) _constraints;
+	public void defineConstraints(List<String> _constraints) {
+		//constraints = (OrdinalConstraints) _constraints;
 
 	}
 

@@ -16,7 +16,7 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 	private static final long serialVersionUID = -2153872079417596823L;
 
 	@Embeddable
-	private class DichotomousConstraints extends AbstractConstraints<String> {
+	public class DichotomousConstraints extends AbstractConstraints<String> {
 		
 		public DichotomousConstraints(List<String> args)
 				throws ContraintViolatedException {
@@ -103,7 +103,7 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 	}
 
 	@Override
-	public void setConstraints(AbstractConstraints<String> _constraints) {
+	public void defineConstraints(List<String> constraintValues) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 

@@ -65,7 +65,7 @@ public abstract class AbstractCriterion<V extends Serializable> extends Abstract
 	@Transient
 	public abstract AbstractConstraints<V> getConstraints();
 	
-	public abstract void setConstraints(AbstractConstraints<V> _constraints);
+	public abstract void defineConstraints(List<V> constraintValues);
 	
 	public String getDescription() {
 		return description;
