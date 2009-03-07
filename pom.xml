@@ -148,7 +148,7 @@
         <pluginRepository>
             <id>MOJO</id>
             <url>http://repository.codehaus.org</url>
-        </pluginRepository>
+        </pluginRepository> 
 <!--        <pluginRepository>
             <id>MOJO SNAPSHOTS</id>
             <url>http://snapshots.repository.codehaus.org</url>
@@ -484,18 +484,18 @@
 			</execution>
 		</executions>
 	    </plugin>
-            <plugin>
+<!--            <plugin>
                 <groupId>org.easyb</groupId>
                 <artifactId>maven-easyb-plugin</artifactId>
 		<version>0.9</version>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>test</goal>
+                            <goal>testing</goal>
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
         </plugins>
     </build>
     <reporting>
