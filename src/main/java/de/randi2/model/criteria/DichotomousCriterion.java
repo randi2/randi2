@@ -17,14 +17,12 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 
 	@Embeddable
 	public class DichotomousConstraints extends AbstractConstraints<String> {
-		
+
 		public DichotomousConstraints(List<String> args)
 				throws ContraintViolatedException {
 			super(args);
 		}
-
 		private static final long serialVersionUID = -1224367469711016048L;
-		
 		public String expectedValue;
 
 		public String getExpectedValue() {
@@ -37,7 +35,7 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 
 		@Override
 		public void isValueCorrect(String _value) throws ContraintViolatedException {
-			if(!expectedValue.equals(_value)){
+			if (!expectedValue.equals(_value)) {
 				throw new ContraintViolatedException();
 			}
 		}
@@ -46,10 +44,8 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 		protected void configure(List<String> args)
 				throws ContraintViolatedException {
 			// TODO Auto-generated method stub
-			
 		}
 	}
-
 	private String option2 = null;
 	private String option1 = null;
 
@@ -104,16 +100,25 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 
 	@Override
 	public void defineConstraints(List<String> constraintValues) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		try {
+			criterionConstraints = new DichotomousConstraints(constraintValues);
+		} catch (ContraintViolatedException ex) {
+			criterionConstraints = null;
+		}
 	}
 
 	@Override
 	public boolean isInclusionCriterion() {
-		throw new UnsupportedOperationException("Not supported yet.");
+		return criterionConstraints != null;
 	}
 
 	@Override
 	public void isValueCorrect(String value) throws ContraintViolatedException {
-		throw new UnsupportedOperationException("Not supported yet.");
+		if(!(option1.equals(value) || option2.equals(name))){
+			throw new ContraintViolatedException();
+		}
+		if (criterionConstraints != null){
+			criterionConstraints.isValueCorrect(value);
+		}
 	}
 }

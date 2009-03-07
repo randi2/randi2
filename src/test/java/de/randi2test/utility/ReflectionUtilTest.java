@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.randi2.utility;
+package de.randi2test.utility;
 
+import de.randi2.utility.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
