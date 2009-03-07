@@ -92,6 +92,7 @@ public class RolesAndRights {
 		}
 	}
 
+	
 	private void grantRightsUserObject(AbstractDomainObject object,
 			TrialSite scope) {
 		if (object instanceof Login) {

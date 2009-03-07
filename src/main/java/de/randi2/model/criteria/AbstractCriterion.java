@@ -3,9 +3,12 @@ package de.randi2.model.criteria;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -56,24 +59,32 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 	 * If the object represents an inclusion criteria, this field has the
 	 * constraints.
 	 */
-	@Transient
+	@OneToOne(targetEntity=AbstractConstraint.class, cascade=CascadeType.ALL)
 	protected C inclusionCriterion;
 
-	@Transient
+	@OneToMany(targetEntity=AbstractConstraint.class, cascade=CascadeType.ALL)
 	protected List<C> strata;
 
 	@Transient
-	public abstract C getInclusionCriterion();
+	public C getInclusionCriterion(){
+		return inclusionCriterion;
+	}
 
-	public abstract void setInclusionCriterion(C inclusionCriterion);
+	public void setInclusionCriterion(C inclusionCriterion){
+		this.inclusionCriterion = inclusionCriterion;
+	}
 	
 	@Transient
 	public abstract Class<C> getContstraintType();
 
 	@Transient
-	public abstract List<C> getStrata();
+	public List<C> getStrata(){
+		return strata;
+	}
 
-	public abstract void setStrata(List<C> strata);
+	public void setStrata(List<C> strata){
+		this.strata = strata;
+	}
 	
 	public C stratify(V value) throws ContraintViolatedException{
 		this.isValueCorrect(value);

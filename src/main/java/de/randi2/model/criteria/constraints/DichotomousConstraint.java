@@ -2,11 +2,11 @@ package de.randi2.model.criteria.constraints;
 
 import java.util.List;
 
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 
 import de.randi2.unsorted.ContraintViolatedException;
 
-@Embeddable
+@Entity
 public class DichotomousConstraint extends AbstractConstraint<String> {
 
 	public DichotomousConstraint(List<String> args)
@@ -39,5 +39,11 @@ public class DichotomousConstraint extends AbstractConstraint<String> {
 		if (args == null || args.size() != 1)
 			throw new ContraintViolatedException();
 		this.expectedValue = args.get(0);
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

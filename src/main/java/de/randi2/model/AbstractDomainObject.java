@@ -1,5 +1,8 @@
 package de.randi2.model;
 
+import static de.randi2.utility.ReflectionUtil.getGetters;
+import static de.randi2.utility.ReflectionUtil.getPropertyName;
+
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.GregorianCalendar;
@@ -15,13 +18,11 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 
 import de.randi2.model.exceptions.ValidationException;
-import static de.randi2.utility.ReflectionUtil.getGetters;
-import static de.randi2.utility.ReflectionUtil.getPropertyName;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 
 @MappedSuperclass
 public abstract class AbstractDomainObject implements Serializable {

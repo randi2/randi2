@@ -2,12 +2,13 @@ package de.randi2.model.criteria.constraints;
 
 import java.util.List;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Transient;
+import javax.persistence.Entity;
+
+import org.hibernate.annotations.CollectionOfElements;
 
 import de.randi2.unsorted.ContraintViolatedException;
 
-@Embeddable 
+@Entity
 public class OrdinalConstraint extends AbstractConstraint<String> {
 
 	private static final long serialVersionUID = 3642808577019112783L;
@@ -18,7 +19,7 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Transient
+	@CollectionOfElements
 	public List<String> expectedValues;
 
 	public List<String> getExpectedValues() {
@@ -39,5 +40,11 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 			throws ContraintViolatedException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

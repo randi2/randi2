@@ -18,6 +18,9 @@ public class DichotomousCriterion extends AbstractCriterion<String, DichotomousC
 	private String option2 = null;
 	private String option1 = null;
 
+//	@OneToOne
+//	private DichotomousConstraint inclusionCriterion;
+	
 	@NotEmpty
 	public String getOption1() {
 		return option1;
@@ -73,27 +76,6 @@ public class DichotomousCriterion extends AbstractCriterion<String, DichotomousC
 		return DichotomousConstraint.class;
 	}
 
-	@Override
-	public DichotomousConstraint getInclusionCriterion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public List<DichotomousConstraint> getStrata() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public void setInclusionCriterion(DichotomousConstraint inclusionCriterion) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setStrata(List<DichotomousConstraint> strata) {
-		// TODO Auto-generated method stub
-		
-	}
 }

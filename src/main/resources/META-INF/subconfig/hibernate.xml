@@ -30,6 +30,7 @@
                 <value>de.randi2.model.criteria.AbstractCriterion</value>
                 <value>de.randi2.model.criteria.DichotomousCriterion</value>
                 <value>de.randi2.model.criteria.OrdinalCriterion</value>
+                <value>de.randi2.model.criteria.constraints.AbstractConstraint</value>
                 <value>de.randi2.model.criteria.constraints.OrdinalConstraint</value>
                 <value>de.randi2.model.criteria.constraints.DichotomousConstraint</value>
                 <value>de.randi2.model.randomization.BlockRandomizationTempData</value>
