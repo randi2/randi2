@@ -460,7 +460,8 @@ public class SubjectPropertyWrapper {
 		private void inculsionCriteriaCheckboxValueChanged(ValueChangeEvent arg0) {
 			try {
 				if (arg0.getNewValue().toString().equals("true")) {
-					selectedCriterion.setInclusionCriterion(true);
+					// FIXME
+					//selectedCriterion.setInclusionCriterion(true);
 					createConstraintsPanel(secondPanel);
 				}
 			} catch (IllegalArgumentException e) {

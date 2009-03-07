@@ -4,7 +4,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.Entity;
-import de.randi2.model.SubjectProperty;
+import org.hibernate.exception.ConstraintViolationException;
 
 /**
  * <p>
@@ -19,7 +19,7 @@ public class CalendarDateCriterion extends AbstractCriterion<GregorianCalendar> 
 
 	private static final long serialVersionUID = 6916473157612145090L;
 	
-	public GregorianCalendar date = null;
+	private GregorianCalendar date = null;
 
 	@Override
 	public AbstractConstraints<GregorianCalendar> getConstraints() {
@@ -34,21 +34,19 @@ public class CalendarDateCriterion extends AbstractCriterion<GregorianCalendar> 
 	}
 
 	@Override
-	public void applyConstraints(SubjectProperty<GregorianCalendar> prop) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public List<GregorianCalendar> getConfiguredValues() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public SubjectProperty<GregorianCalendar> createPropertyPrototype() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean isInclusionCriterion() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public void isValueCorrect(GregorianCalendar value) throws ConstraintViolationException {
+		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
 }

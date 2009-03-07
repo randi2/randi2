@@ -1,5 +1,6 @@
 package de.randi2.model.criteria;
 
+import de.randi2.unsorted.ContraintViolatedException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.CollectionOfElements;
-
-import de.randi2.model.SubjectProperty;
 
 /**
  * <p>
@@ -30,7 +29,7 @@ public class OrdinalCriterion extends AbstractCriterion<String> {
 	 * List object storing the possible values.
 	 */
 	@CollectionOfElements
-	public List<String> elements;
+	private List<String> elements;
 	/**
 	 * If the object represents an inclusion criteria, this field has the
 	 * constraints.
@@ -45,16 +44,21 @@ public class OrdinalCriterion extends AbstractCriterion<String> {
 		}
 	}
 
+	@Override
+	public boolean isInclusionCriterion() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public void isValueCorrect(String value) throws ContraintViolatedException {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
 	@Embeddable
-	public class OrdinalConstraints extends AbstractConstraints<String> {
+	private class OrdinalConstraints extends AbstractConstraints<String> {
 
 		@Transient
 		public List<String> expectedValues;
-
-		@Override
-		public boolean checkValue(String _value) {
-			return expectedValues.contains(_value);
-		}
 
 		public List<String> getExpectedValues() {
 			return expectedValues;
@@ -63,28 +67,14 @@ public class OrdinalCriterion extends AbstractCriterion<String> {
 		public void setExpectedValues(List<String> expectedValues) {
 			this.expectedValues = expectedValues;
 		}
-	}
 
-	/* (non-Javadoc)
-	 * @see de.randi2.model.criteria.AbstractCriterion#applyConstraints(de.randi2.model.SubjectProperty)
-	 */
-	@Override
-	public void applyConstraints(SubjectProperty<String> prop) {
-		for (Object possibleValue : prop.getPossibleValues()) {
-			elements.add(possibleValue.toString());
+		@Override
+		public void isValueCorrect(String _value) throws ContraintViolatedException {
+			throw new UnsupportedOperationException("Not supported yet.");
 		}
-	// TODO What should we do here?
-		/*if (isStratum) {
-	}*/
 	}
 
-	/* (non-Javadoc)
-	 * @see de.randi2.model.criteria.AbstractCriterion#createPropertyPrototype()
-	 */
-	@Override
-	public SubjectProperty<String> createPropertyPrototype() {
-		return null;
-	}
+
 
 	public List<String> getElements() {
 		return elements;

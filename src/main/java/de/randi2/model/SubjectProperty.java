@@ -1,12 +1,10 @@
 package de.randi2.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.unsorted.ContraintViolatedException;
-import de.randi2.utility.StratumProc;
+import javax.persistence.Transient;
 
 public final class SubjectProperty<V extends Serializable> extends AbstractDomainObject {
 
@@ -14,23 +12,15 @@ public final class SubjectProperty<V extends Serializable> extends AbstractDomai
 	
 	private V value;
 	private AbstractCriterion<V> criterion;
-	private List<Object> possibleValues = new ArrayList<Object>();
-	private transient StratumProc stratumProc = StratumProc.noStratification();
 
-	public void setStratumComputation(StratumProc p) {
-		this.stratumProc = p;
+	public SubjectProperty(AbstractCriterion<V> _criterion){
+		this.criterion = _criterion;
 	}
 
-	public void addPossibleValue(Object o) {
-		possibleValues.add(o);
-	}
-
-	public List<Object> getPossibleValues() {
-		return possibleValues;
-	}
-
+	@Transient
 	public int getStratum() {
-		return stratumProc.stratify(this.value);
+		//return criterion.stratify(this.value);
+		return 0;
 	}
 
 	// Get- and Set Methods
@@ -39,28 +29,16 @@ public final class SubjectProperty<V extends Serializable> extends AbstractDomai
 	}
 
 	public void setValue(V value) throws ContraintViolatedException {
-		this.checkConstraints(value);
+		criterion.isValueCorrect(value);
 		this.value = value;
-	}
-
-	// Check-Methoden
-	private void checkConstraints(V value) throws ContraintViolatedException {
-		this.checkPossibleValues(value);
-	}
-
-	private void checkPossibleValues(V value) throws ContraintViolatedException {
-		if (!possibleValues.isEmpty() && !possibleValues.contains(value)) {
-			throw new ContraintViolatedException(); // TODO nice constraint violation message
-		}
 	}
 
 	public AbstractCriterion<V> getCriterion() {
 		return criterion;
 	}
 
-	public void setCriterion(AbstractCriterion<V> criterion) {
+	private void setCriterion(AbstractCriterion<V> criterion) {
 		this.criterion = (AbstractCriterion<V>) criterion;
-		criterion.applyConstraints((SubjectProperty<V>) this);
 	}
 
 	@Override

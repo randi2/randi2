@@ -1,5 +1,6 @@
 package de.randi2.model.criteria;
 
+import de.randi2.unsorted.ContraintViolatedException;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -33,20 +34,18 @@ public class NumericCriterion extends AbstractCriterion<Float> {
 	}
 
 	@Override
-	public void applyConstraints(SubjectProperty<Float> prop) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public SubjectProperty<Float> createPropertyPrototype() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Float> getConfiguredValues() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean isInclusionCriterion() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public void isValueCorrect(Float value) throws ContraintViolatedException {
+		throw new UnsupportedOperationException("Not supported yet.");
 	}
 }

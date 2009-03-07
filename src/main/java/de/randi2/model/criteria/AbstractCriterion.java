@@ -9,8 +9,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.SubjectProperty;
 import java.io.Serializable;
+import de.randi2.unsorted.ContraintViolatedException;
 
 /**
  * This class maps the needed behaviour of a Trial subject. With the Classes
@@ -67,10 +67,6 @@ public abstract class AbstractCriterion<V extends Serializable> extends Abstract
 	
 	public abstract void setConstraints(AbstractConstraints<V> _constraints);
 	
-	public abstract SubjectProperty<V> createPropertyPrototype();
-
-	public abstract void applyConstraints(SubjectProperty<V> prop);
-
 	public String getDescription() {
 		return description;
 	}
@@ -79,12 +75,18 @@ public abstract class AbstractCriterion<V extends Serializable> extends Abstract
 		this.description = description;
 	}
 	
-	public boolean isInclusionCriterion() {
-		return isInclusionCriterion;
-	}
+	public abstract boolean isInclusionCriterion();
 
-	public void setInclusionCriterion(boolean isInclusionCriterion) {
-		this.isInclusionCriterion = isInclusionCriterion;
+	public abstract void isValueCorrect(V value) throws ContraintViolatedException;
+
+	public boolean checkValue(V value){
+		try{
+			isValueCorrect(value);
+			return true;
+		}
+		catch(ContraintViolatedException e){
+			return false;
+		}
 	}
 	
 	

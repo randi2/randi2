@@ -1,21 +1,42 @@
 package de.randi2.model.criteria;
 
+import de.randi2.unsorted.ContraintViolatedException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
 import org.hibernate.validator.NotEmpty;
-
-import de.randi2.model.SubjectProperty;
-import de.randi2.utility.StratumProc;
 
 @Entity
 public class DichotomousCriterion extends AbstractCriterion<String> {
 
 	private static final long serialVersionUID = -2153872079417596823L;
 
+	@Embeddable
+	private class DichotomousConstraints extends AbstractConstraints<String> {
+
+		public String expectedValue;
+
+		public String getExpectedValue() {
+			return expectedValue;
+		}
+
+		public void setExpectedValue(String expectedValue) {
+			this.expectedValue = expectedValue;
+		}
+
+		@Override
+		public void isValueCorrect(String _value) throws ContraintViolatedException {
+			if(!expectedValue.equals(_value)){
+				throw new ContraintViolatedException();
+			}
+		}
+	}
+
+	private String option2 = null;
 	private String option1 = null;
 
 	@NotEmpty
@@ -26,7 +47,7 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 	public void setOption1(String option1) {
 		this.option1 = option1;
 	}
-	
+
 	@NotEmpty
 	public String getOption2() {
 		return option2;
@@ -35,9 +56,6 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 	public void setOption2(String option2) {
 		this.option2 = option2;
 	}
-
-	private String option2 = null;
-
 	/**
 	 * If the object represents an inclusion criteria, this field has the
 	 * constraints.
@@ -46,46 +64,19 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 	private DichotomousConstraints criterionConstraints = null;
 
 	@Override
-	public SubjectProperty<String> createPropertyPrototype() {
-		SubjectProperty<String> prop = new SubjectProperty<String>();
-		applyConstraints(prop);
-		return prop;
-	}
-
-	@Override
-	public void applyConstraints(SubjectProperty<String> prop) {
-		prop.addPossibleValue(option1);
-		prop.addPossibleValue(option2);
-		if (isStratum) {
-			prop.setStratumComputation(StratumProc.binaryStratification(
-					option1, option2));
-		}
-	}
-
-	@Override
-	public DichotomousConstraints getConstraints() {
-		if (criterionConstraints == null)
-			criterionConstraints = new DichotomousConstraints();
+	public AbstractConstraints<String> getConstraints() {
 		return criterionConstraints;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.randi2.model.criteria.AbstractCriterion#setConstraints(de.randi2.model.criteria.AbstractConstraints)
-	 */
-	@Override
-	public void setConstraints(AbstractConstraints<String> _constraints) {
-		criterionConstraints = (DichotomousConstraints) _constraints;
-	}
 
 	/* (non-Javadoc)
 	 * @see de.randi2.model.criteria.AbstractCriterion#getConfiguredValues()
 	 */
 	@Override
 	public List<String> getConfiguredValues() {
-		if ((option1 == null && option2 == null)
-				|| (option1.isEmpty() && option2.isEmpty()))
+		if ((option1 == null && option2 == null) || (option1.isEmpty() && option2.isEmpty())) {
 			return null; // The Values are not configured.
-		else if (configuredValues == null) {
+		} else if (configuredValues == null) {
 			configuredValues = new ArrayList<String>();
 			configuredValues.add(option1);
 			configuredValues.add(option2);
@@ -97,4 +88,18 @@ public class DichotomousCriterion extends AbstractCriterion<String> {
 		return configuredValues;
 	}
 
+	@Override
+	public void setConstraints(AbstractConstraints<String> _constraints) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public boolean isInclusionCriterion() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public void isValueCorrect(String value) throws ContraintViolatedException {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 }
