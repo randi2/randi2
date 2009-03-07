@@ -45,6 +45,6 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(expectedValues);
+		return new ToStringBuilder(this).append(expectedValues).toString();
 	}
 }
