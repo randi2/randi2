@@ -218,7 +218,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public String saveObject() {
 		assert (showedObject != null);
 		try {
-			//personDao.save(showedObject.getPerson());
+			// personDao.save(showedObject.getPerson());
 			loginDao.save(showedObject);
 			// Making the pop up visible
 			userSavedPVisible = true;
@@ -296,20 +296,28 @@ public class LoginHandler extends AbstractHandler<Login> {
 			try {
 
 				// sending the registration mail via MailService
-				
-				// Map of variables
-				Map<String,Object> templateFields = new HashMap<String,Object>();
-				templateFields.put("user", newUser);
-				templateFields.put("url", "http://randi2.com/CHANGEME");
-				Locale language = Locale.GERMANY;
-				
-				mailService.sendMail(newUser.getUsername(), "Welcome to RANDI2!","NewUserMail.vm",language,templateFields);
+
+				// Map of variables for the message
+				Map<String, Object> messageFields = new HashMap<String, Object>();
+				messageFields.put("user", newUser);
+				messageFields.put("url", "http://randi2.com/CHANGEME");
+				// Map of variables for the subject
+				Map<String, Object> subjectFields = new HashMap<String, Object>();
+				subjectFields.put("firstname", newUser.getPerson()
+						.getFirstname());
+
+				Locale language = chosenLocale;
+
+				mailService.sendMail(newUser.getUsername(), "NewUserMail",
+						language, messageFields, subjectFields);
 
 			} catch (MailErrorException exp) {
 
-				// TODO error message
+				// TODO remove stack trace
 				exp.printStackTrace();
-				
+				Randi2.showMessage(exp);
+				return Randi2.ERROR;
+
 			}
 			return Randi2.SUCCESS;
 
