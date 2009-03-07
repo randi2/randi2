@@ -38,18 +38,21 @@ public class MailTest {
 		
 		
 		String recipient = "dh@randi2.de";
-		String subject = "RANDI2 Testbetreff";
-		String messageTemplate = "NewUserMail.vm";
+		
+		String messageTemplate = "NewUserMail";
 		Locale language = Locale.GERMANY;
 		
 		// Map of variables
-		Map<String,Object> templateFields = new HashMap<String,Object>();
-		templateFields.put("user", factory.getLogin());
-		templateFields.put("url", "http://randi2.com");
-		 
+		Map<String,Object> messageFields = new HashMap<String,Object>();
+		messageFields.put("user", factory.getLogin());
+		messageFields.put("url", "http://randi2.com");
+		// Map of variables
+		Map<String,Object> subjectFields = new HashMap<String,Object>();
+		subjectFields.put("firstname", factory.getLogin().getPerson().getFirstname());
+		 		 
 		
 		try {
-			mailService.sendMail(recipient, subject, messageTemplate, language, templateFields);
+			mailService.sendMail(recipient, messageTemplate, language, messageFields, subjectFields);
 		} catch (MailErrorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -67,18 +70,21 @@ public class MailTest {
 		
 		
 		String recipient = "dh@randi2.de";
-		String subject = "RANDI2 Testsubject";
-		String messageTemplate = "NewUserMail.vm";
+		
+		String messageTemplate = "NewUserMail";
 		Locale language = Locale.UK;
 		
 		// Map of variables
-		Map<String,Object> templateFields = new HashMap<String,Object>();
-		templateFields.put("user", factory.getLogin());
-		templateFields.put("url", "http://randi2.com");
-		 
+		Map<String,Object> messageFields = new HashMap<String,Object>();
+		messageFields.put("user", factory.getLogin());
+		messageFields.put("url", "http://randi2.com");
+		// Map of variables
+		Map<String,Object> subjectFields = new HashMap<String,Object>();
+		subjectFields.put("firstname", factory.getLogin().getPerson().getFirstname());
+		 		 
 		
 		try {
-			mailService.sendMail(recipient, subject, messageTemplate, language, templateFields);
+			mailService.sendMail(recipient, messageTemplate, language, messageFields, subjectFields);
 		} catch (MailErrorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
