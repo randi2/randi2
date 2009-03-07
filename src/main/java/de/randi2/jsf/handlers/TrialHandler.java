@@ -180,18 +180,18 @@ public class TrialHandler extends AbstractHandler<Trial> {
 				List<? extends Serializable> configuredConstraints = wr
 						.getSelectedValues();
 				if (configuredConstraints!=null && !configuredConstraints.isEmpty()) {
-					if (wr.getSelectedCriterion() instanceof DichotomousCriterion) {
+					if (DichotomousCriterion.class.isInstance(wr.getSelectedCriterion())) {
 						DichotomousConstraint t;
 						try {
 							t = new DichotomousConstraint(
 									(List<String>) configuredConstraints);
-							((DichotomousCriterion) wr.getSelectedCriterion())
+							DichotomousCriterion.class.cast(wr.getSelectedCriterion())
 									.setInclusionCriterion(t);
 						} catch (ContraintViolatedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-					} else if (wr.getSelectedCriterion() instanceof OrdinalCriterion) {
+					} else if (OrdinalCriterion.class.isInstance(wr.getSelectedCriterion())) {
 					}
 				}
 				configuredCriteria
