@@ -56,10 +56,10 @@
     <developers>
         <developer>
             <id>jthoenes</id>
-            <name>Johannes Th&ouml;nes</name>
+            <name>Johannes Th&#246;nes</name>
             <email>johannes.thoenes@googlemail.com</email>
             <url>http://jthoenes.bergischweb.de</url>
-            <organization>Universit&auml;tsklinikum Heidelberg</organization>
+            <organization>Universit&#228;tsklinikum Heidelberg</organization>
             <organizationUrl>http://www.klinikum.uni-heidelberg.de</organizationUrl>
             <timezone>+1</timezone>
             <roles>
@@ -80,11 +80,12 @@
         </developer>
         <developer>
             <id>dhaehn</id>
-            <name>Daniel Hi&auml;hn</name>
+            <name>Daniel H&#228;hn</name>
             <email>dh@randi2.de</email>
             <timezone>-6</timezone>
             <roles>
                 <role>Server Administration</role>
+                <role>Core Developer</role>
             </roles>
         </developer>
         <developer>
