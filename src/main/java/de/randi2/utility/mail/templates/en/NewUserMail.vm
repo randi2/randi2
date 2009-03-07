@@ -1,0 +1,13 @@
+<html>
+<body>
+<h3>Hello ${user.getPerson().getFirstname()} ${user.getPerson().getSurname()}, welcome to RANDI2!</h3>
+
+<div>
+Use the following login information to login at ${url}:<br>
+u: ${user.getUsername()} // pw: chosen password <br>
+<br>
+HAVE PHUN!
+</div>
+</body>
+
+</html>

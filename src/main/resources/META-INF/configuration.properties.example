@@ -6,4 +6,4 @@ db.password=randi2
 mail.host=localhost
 mail.username=randi2
 mail.password=randi2
-mail.sender=randi2@randi2.de
+mail.from=randi2@randi2.de

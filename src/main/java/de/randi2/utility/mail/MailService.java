@@ -1,6 +1,6 @@
 package de.randi2.utility.mail;
 
-import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
@@ -12,7 +12,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
-import de.randi2.model.Login;
 import de.randi2.utility.mail.exceptions.MailErrorException;
 
 /**
@@ -26,18 +25,17 @@ public class MailService implements MailServiceInterface {
 
 	@Autowired
 	private JavaMailSender mailSender;
+	@Autowired
 	private VelocityEngine velocityEngine;
 
+	private String from;
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see de.randi2.utility.mail.MailService#sendMail(de.randi2.model.Login)
 	 */
-	public boolean sendMail(final String recipient, final String subject, final String messageTemplate, final Map<String,Object> templateFields) throws MailErrorException {
+	public boolean sendMail(final String recipient, final String subject, final String messageTemplate, final Locale templateLanguage, final Map<String,Object> templateFields) throws MailErrorException {
 
-		
-		final String sender = "randi2@randi2.de"; // TODO outsource - if
-													// possible?
 		
 		try {
 
@@ -46,13 +44,13 @@ public class MailService implements MailServiceInterface {
 					MimeMessageHelper message = new MimeMessageHelper(
 							mimeMessage);
 					message.setTo(recipient);
-					message.setFrom(sender);
+					message.setFrom(from);
 					message.setSubject(subject);
 
 
 					String text = VelocityEngineUtils.mergeTemplateIntoString(
 							velocityEngine,
-							"de/randi2/utility/mail/templates/"+messageTemplate,
+							"de/randi2/utility/mail/templates/"+templateLanguage.getLanguage().toLowerCase()+"/"+messageTemplate,
 							templateFields);
 					message.setText(text, true);
 				}
@@ -62,12 +60,19 @@ public class MailService implements MailServiceInterface {
 
 		} catch (Exception e) {
 
+			e.printStackTrace();
 			throw new MailErrorException("Error while sending email..");
 
 		}
 
 		return true;
 
+	}
+	public String getFrom() {
+		return from;
+	}
+	public void setFrom(String from) {
+		this.from = from;
 	}
 
 }

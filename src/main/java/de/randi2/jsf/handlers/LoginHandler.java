@@ -46,6 +46,7 @@ import de.randi2.model.Person;
 import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
 import de.randi2.utility.mail.MailService;
+import de.randi2.utility.mail.MailServiceInterface;
 import de.randi2.utility.mail.exceptions.MailErrorException;
 
 /**
@@ -92,7 +93,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	private boolean changeAssistantPVisible = false;
 
 	// NewUserMailService
-	private MailService newUserMailService;
+	private MailServiceInterface mailService;
 
 	// POPUPS
 	public boolean isChangeTrialSitePVisible() {
@@ -299,8 +300,10 @@ public class LoginHandler extends AbstractHandler<Login> {
 				// Map of variables
 				Map<String,Object> templateFields = new HashMap<String,Object>();
 				templateFields.put("user", newUser);
+				templateFields.put("url", "http://randi2.com/CHANGEME");
+				Locale language = Locale.GERMANY;
 				
-				newUserMailService.sendMail(newUser.getUsername(), "Welcome to RANDI2!","NewUserMail.vm",templateFields);
+				mailService.sendMail(newUser.getUsername(), "Welcome to RANDI2!","NewUserMail.vm",language,templateFields);
 
 			} catch (MailErrorException exp) {
 
@@ -550,12 +553,12 @@ public class LoginHandler extends AbstractHandler<Login> {
 		return rolesAC;
 	}
 
-	public MailService getNewUserMailService() {
-		return newUserMailService;
+	public MailServiceInterface getNewUserMailService() {
+		return mailService;
 	}
 
-	public void setNewUserMailService(MailService newUserMailService) {
-		this.newUserMailService = newUserMailService;
+	public void setNewUserMailService(MailServiceInterface newUserMailService) {
+		this.mailService = newUserMailService;
 	}
 
 	// ---

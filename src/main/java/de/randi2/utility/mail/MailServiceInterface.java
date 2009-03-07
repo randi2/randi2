@@ -1,5 +1,6 @@
 package de.randi2.utility.mail;
 
+import java.util.Locale;
 import java.util.Map;
 
 import de.randi2.utility.mail.exceptions.MailErrorException;
@@ -23,6 +24,6 @@ public interface MailServiceInterface {
 	 * @throws MailErrorException
 	 *             In case of any error.
 	 */
-	public boolean sendMail(final String recipient, final String subject, final String messageTemplate, final Map<String,Object> templateFields) throws MailErrorException;
+	public boolean sendMail(final String recipient, final String subject, final String messageTemplate, final Locale templateLanguage, final Map<String,Object> templateFields) throws MailErrorException;
 
 }
