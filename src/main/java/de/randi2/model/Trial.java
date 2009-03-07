@@ -68,16 +68,8 @@ public class Trial extends AbstractDomainObject {
 		return inclusionCriteria;
 	}
 
-	public TrialSite getLeadingCenter() {
-		return leadingCenter;
-	}
-
 	public void setCriteria(List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> inclusionCriteria) {
 		this.inclusionCriteria = inclusionCriteria;
-	}
-
-	public void setLeadingCenter(TrialSite leadingCenter) {
-		this.leadingCenter = leadingCenter;
 	}
 
 	public String getName() {

@@ -45,7 +45,6 @@ import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
-import de.randi2.utility.mail.MailService;
 import de.randi2.utility.mail.MailServiceInterface;
 import de.randi2.utility.mail.exceptions.MailErrorException;
 
@@ -275,7 +274,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 				newUser.getPerson().setAssistant(
 						tsMembersAC.getSelectedObject());
 			newUser.setCreatedAt(new GregorianCalendar());
-			personDao.save(newUser.getPerson());
+//			personDao.save(newUser.getPerson());
 			loginDao.save(newUser);
 
 			// Making the successPopup visible (NORMAL REGISTRATION)

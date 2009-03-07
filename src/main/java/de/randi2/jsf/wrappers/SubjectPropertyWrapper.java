@@ -86,7 +86,9 @@ public class SubjectPropertyWrapper {
 	private List<SelectItem> valuesToShow;
 	
 	public List<? extends Serializable> getSelectedValues(){
-		ArrayList<Serializable> list = new ArrayList<Serializable>();
+		if(selectionComponents==null)
+			return null;
+		ArrayList<Serializable> list = new ArrayList<Serializable>();		
 		for(UIInput s : selectionComponents){
 //			System.out.println(s.getSubmittedValue());
 			if(s instanceof HtmlSelectOneMenu){
