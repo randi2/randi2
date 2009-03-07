@@ -156,7 +156,7 @@
     </pluginRepositories>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.java.version>1.6</project.build.java.version>
+        <project.build.java.version>1.5</project.build.java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -299,11 +299,11 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl-api</artifactId>
             <version>1.2</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>javax.resource</groupId>
             <artifactId>connector-api</artifactId>
@@ -349,13 +349,13 @@
         <dependency>
             <groupId>javax.faces</groupId>
             <artifactId>jsf-api</artifactId>
-            <version>1.2_10</version>
+            <version>1.2_12</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>javax.faces</groupId>
             <artifactId>jsf-impl</artifactId>
-            <version>1.2_10</version>
+            <version>1.2_12</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -437,7 +437,7 @@
                 <configuration>
                     <source>${project.build.java.version}</source>
                     <target>${project.build.java.version}</target>
-                    <compilerArgument>-Xlint</compilerArgument>
+<!--                    <compilerArgument>-Xlint</compilerArgument> -->
                 </configuration>
             </plugin>
             <plugin>
