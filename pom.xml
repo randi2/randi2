@@ -145,10 +145,10 @@
         </repository>
     </repositories>
     <pluginRepositories>
-        <pluginRepository>
+<!--        <pluginRepository>
             <id>MOJO</id>
             <url>http://repository.codehaus.org</url>
-        </pluginRepository> 
+        </pluginRepository> -->
 <!--        <pluginRepository>
             <id>MOJO SNAPSHOTS</id>
             <url>http://snapshots.repository.codehaus.org</url>
@@ -156,7 +156,7 @@
     </pluginRepositories>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.java.version>1.5</project.build.java.version>
+        <project.build.java.version>1.6</project.build.java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -437,7 +437,7 @@
                 <configuration>
                     <source>${project.build.java.version}</source>
                     <target>${project.build.java.version}</target>
-<!--                    <compilerArgument>-Xlint</compilerArgument> -->
+                    <compilerArgument>-Xlint</compilerArgument>
                 </configuration>
             </plugin>
             <plugin>
