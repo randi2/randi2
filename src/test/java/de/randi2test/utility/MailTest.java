@@ -28,7 +28,9 @@ import static junit.framework.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml",
-		"classpath:/META-INF/subconfig/mail.xml" })
+// MOCK!!!!
+		"classpath:/META-INF/subconfig/mail-test.xml" })
+//		"classpath:/META-INF/subconfig/mail.xml" })
 public class MailTest {
 
 	@Autowired
@@ -40,7 +42,7 @@ public class MailTest {
 	/**
 	 * Recipient for all test e-mails
 	 */
-	private static String mailAddressForTesting = "trash@randi2.de";
+	private static String mailAddressForTesting = "dh@randi2.de";
 
 	@Test
 	public void sendRegistrationMailGerman() {
@@ -78,5 +80,7 @@ public class MailTest {
 
 		assertEquals(lh.sendRegistrationMails(newUser, chosenLocale, mailService),Randi2.SUCCESS);
 
+		
+		
 	}
 }

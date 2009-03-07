@@ -29,7 +29,6 @@
 	<import resource="classpath:META-INF/subconfig/database-hsqldb.xml" />
 	<import resource="classpath:META-INF/subconfig/hibernate.xml" />
 	<!-- <import resource="classpath:META-INF/subconfig/aspects.xml" /> -->
-	<!-- <import resource="classpath:META-INF/subconfig/mail.xml" /> -->
 	<!-- Random Instance for NOT Randomization purposes. For Randomization
 		use a seperate Instance for each call (even if it is inefficient)! -->
 	<bean id="random" class="java.util.Random"></bean>

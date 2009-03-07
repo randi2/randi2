@@ -5,7 +5,7 @@
 <div>
 Der folgende Benutzer hat sich f&uuml;r dein Zentrum angemeldet:<br>
 ${newUser.getPerson().getFirstname()}<br>
-${newUser.getPerson().getLastname()}<br>
+${newUser.getPerson().getSurname()}<br>
 <br>
 Besser doppelt &uuml;berpr&uuml;fen!
 </div>

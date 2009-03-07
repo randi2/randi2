@@ -15,7 +15,7 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
 import de.randi2.utility.mail.exceptions.MailErrorException;
 
 /**
- * Service to send emails. The message to send is generated using a template.
+ * Service to send e-mails. The message to send is generated using a template.
  * 
  * @author Daniel Haehn <dh@randi2.de>
  * 
