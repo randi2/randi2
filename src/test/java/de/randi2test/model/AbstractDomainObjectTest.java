@@ -49,9 +49,6 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 	@Ignore("Please make this run at some point later")
 	// FIXME Update and Refresh
 	public void testTimestamps() {
-		final GregorianCalendar referenceDate1 = new GregorianCalendar(2000, 0, 1);
-		final GregorianCalendar referenceDate2 = new GregorianCalendar(2001, 0, 1);
-		
 		domainObject = factory.getLogin();
 		hibernateTemplate.persist(domainObject);
 
@@ -77,7 +74,7 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 
 	// TODO Some hibernate problem, should be fixed
 	@Ignore
-	public void testVersion() {
+	public void testOptimisticLocking() {
 		hibernateTemplate.save(domainObject);
 		int version = domainObject.getVersion();
 		Login v1 = (Login) hibernateTemplate.get(Login.class, domainObject.getId());
