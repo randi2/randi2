@@ -44,8 +44,11 @@ public abstract class AbstractDomainObject implements Serializable {
 	private GregorianCalendar createdAt = null;
 	private GregorianCalendar updatedAt = null;
 
+	private static final Random random = new Random();
+
 	public AbstractDomainObject(){
-		this.version = - Math.abs((new Random()).nextInt());
+		int v = random.nextInt();
+		this.version = (v < 0) ? v : -v;
 	}
 
 	public long getId() {
