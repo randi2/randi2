@@ -1,7 +1,5 @@
 package de.randi2.randomization;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import de.randi2.model.TreatmentArm;

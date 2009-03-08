@@ -41,7 +41,7 @@ class InitializationHelper {
         c
     }
 
-    static createTrial(map = [:]) {
+    static Trial createTrial(map = [:]) {
         def t = new Trial()
         t.name = notNull(map['name'], "MyTrial${next()}")
         t.sponsorInvestigator = notNull(map['sponsorInvestigator'], createPerson())
@@ -63,19 +63,19 @@ class InitializationHelper {
         l
     }
 
-    static createCompleteRandomConf(map = [:]){
+    static CompleteRandomizationConfig createCompleteRandomConf(map = [:]){
         def c = new CompleteRandomizationConfig()
 
         c
     }
 
-    static createBiasedCoinRandomConf(map = [:]){
+    static BiasedCoinRandomizationConfig createBiasedCoinRandomConf(map = [:]){
         def c = new BiasedCoinRandomizationConfig()
 
         c
     }
 
-    static createBlockRandomConf(map = [:]){
+    static BlockRandomizationConfig createBlockRandomConf(map = [:]){
         def c = new BlockRandomizationConfig()
         c.type = notNull(map['type'], BlockRandomizationConfig.TYPE.MULTIPLY)
         c.minimum = notNull(map['minimum'], 2)

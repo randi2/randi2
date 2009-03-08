@@ -181,9 +181,7 @@ public class Trial extends AbstractDomainObject {
 	public List<TrialSubject> getSubjects() {
 		List<TrialSubject> subjects = new ArrayList<TrialSubject>();
 		for (TreatmentArm arm : treatmentArms) {
-			for (TrialSubject subject : arm.getSubjects()) {
-				subjects.add(subject);
-			}
+			subjects.addAll(arm.getSubjects());
 		}
 		return subjects;
 	}
