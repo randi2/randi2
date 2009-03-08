@@ -73,23 +73,26 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 	}
 
 	// TODO Some hibernate problem, should be fixed
-	@Ignore
+	@Test
 	public void testOptimisticLocking() {
-		hibernateTemplate.save(domainObject);
+		hibernateTemplate.persist(domainObject);
 		int version = domainObject.getVersion();
 		Login v1 = (Login) hibernateTemplate.get(Login.class, domainObject.getId());
 		Login v2 = (Login) hibernateTemplate.get(Login.class, domainObject.getId());
 
 		v1.setPassword("Aenderung$1");
-		hibernateTemplate.saveOrUpdate(v1);
+		hibernateTemplate.update(v1);
 		assertTrue(version < v1.getId());
-		v2.setPassword("Aenderung$2");
+		//v2.setPassword("Aenderung$2");
 
 		try {
-			hibernateTemplate.saveOrUpdate(v2);
+			hibernateTemplate.update(v2);
 			fail("Should fail because of Version Conflicts");
 		} catch (HibernateOptimisticLockingFailureException e) {
 			hibernateTemplate.evict(v2);
+		} catch (org.hibernate.StaleObjectStateException e){
+			hibernateTemplate.evict(v2);
+
 		}
 
 		Login v3 = (Login) hibernateTemplate.get(Login.class, domainObject.getId());
