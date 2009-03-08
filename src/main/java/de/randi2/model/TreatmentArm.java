@@ -2,12 +2,12 @@ package de.randi2.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
+
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-
 import javax.persistence.OneToMany;
+
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
@@ -23,7 +23,7 @@ public class TreatmentArm extends AbstractDomainObject{
 	@Lob
 	private String description = null;
 	@Range(min = 1, max = Integer.MAX_VALUE)
-	private int plannedSubjects = Integer.MIN_VALUE;
+	private int plannedSubjects = 0;
 
 	@NotNull
 	@ManyToOne

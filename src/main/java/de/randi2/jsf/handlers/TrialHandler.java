@@ -123,6 +123,10 @@ public class TrialHandler extends AbstractHandler<Trial> {
 			newTrial = new Trial();
 			newTrial.setStartDate(new GregorianCalendar());
 			newTrial.setEndDate(new GregorianCalendar());
+			//Each new Trial has automatic 2 Treatment Arms
+			newTrial.getTreatmentArms().add(new TreatmentArm());
+			newTrial.getTreatmentArms().add(new TreatmentArm());
+			
 		}
 		return newTrial;
 	}
@@ -243,7 +247,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	public void addArm(ActionEvent event) {
 		assert (newTrial != null);
 		TreatmentArm temp = new TreatmentArm();
-		temp.setPlannedSubjects(0);
 		newTrial.getTreatmentArms().add(temp);
 	}
 
