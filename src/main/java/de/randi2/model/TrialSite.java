@@ -161,4 +161,9 @@ public class TrialSite extends AbstractDomainObject {
 	public String toString() {
 		return this.getName();
 	}
+	
+	@Override
+	public String getUIName() {
+		return this.getName();
+	}
 }

@@ -48,20 +48,20 @@ public class Trial extends AbstractDomainObject {
 	private GregorianCalendar endDate = null;
 	private File protocol = null;
 	@NotNull
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private Person sponsorInvestigator = null;
 	@NotNull
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private TrialSite leadingCenter = null;
 	@Enumerated(value = EnumType.STRING)
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private Set<TrialSite> participatingSites = new HashSet<TrialSite>();
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trial")
 	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> inclusionCriteria;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private AbstractRandomizationConfig randomConf;
 
 	public List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteria() {

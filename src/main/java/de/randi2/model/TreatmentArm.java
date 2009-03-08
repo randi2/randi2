@@ -26,7 +26,7 @@ public class TreatmentArm extends AbstractDomainObject{
 	private int plannedSubjects = Integer.MIN_VALUE;
 
 	@NotNull
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private Trial trial = null;
 
 	@OneToMany(mappedBy="arm")

@@ -115,6 +115,11 @@ public class Bootstrap {
 		trialSite1.setContactPerson(adminP);
 
 		trialSiteDao.save(trialSite1);
+		
+		/*P_Investigator role*/
+		adminL.addRole(Role.ROLE_P_INVESTIGATOR);
+		template.saveOrUpdate(adminL);
+		rolesAndRights.grantRigths(adminL, trialSite);
 	}
 
 	public Bootstrap() {

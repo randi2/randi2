@@ -171,6 +171,12 @@ public class TrialHandler extends AbstractHandler<Trial> {
 						.getSelectedObject().getPerson());
 			// TODO Protokoll
 
+			/*Creating the relationship between Trial and TreatmentArm*/
+			//FIXME Maybe it should be made automatic by DAO object
+			for(TreatmentArm tA : newTrial.getTreatmentArms()){
+				tA.setTrial(newTrial);
+			}
+			
 			/* SubjectProperties Configuration */
 			ValueExpression ve1 = FacesContext.getCurrentInstance()
 					.getApplication().getExpressionFactory()

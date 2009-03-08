@@ -43,6 +43,9 @@
                 <value>de.randi2.model.security.ObjectIdentityHibernate</value>
                 <value>de.randi2.model.security.PermissionHibernate</value>
                 <value>de.randi2.model.security.SidHibernate</value>
+                <value>de.randi2.model.randomization.AbstractRandomizationConfig</value>
+                <value>de.randi2.model.randomization.CompleteRandomizationConfig</value>
+                <value>de.randi2.model.randomization.BiasedCoinRandomizationConfig</value>
             </list>
         </property>
         <property name="eventListeners">

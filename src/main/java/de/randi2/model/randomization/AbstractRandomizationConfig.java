@@ -17,6 +17,7 @@ import javax.persistence.Transient;
 @Table(name = "RandomizationConfig")
 public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 
+	private static final long serialVersionUID = -942332706403245140L;
 	@OneToOne
 	private Trial trial;
 	@Transient
