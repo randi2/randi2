@@ -85,7 +85,7 @@ public class ReflectionUtilTest {
 	}
 
 	@Test
-	public void TestGetPropertyName() throws NoSuchMethodException {
+	public void testGetPropertyName() throws NoSuchMethodException {
 		assertEquals("field1",
 				ReflectionUtil.getPropertyName(TestClass1.class.getMethod("getField1")));
 		assertEquals("field2",

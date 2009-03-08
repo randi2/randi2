@@ -10,14 +10,11 @@ import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.TrialSite;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
+import de.randi2.model.TrialSite;
 import de.randi2.model.enumerations.Gender;
 import de.randi2.model.exceptions.ValidationException;
 import de.randi2test.utility.AbstractDomainTest;
@@ -351,5 +348,13 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertEquals(validPerson.getId(), p.getId());
 		assertNotNull(p.getTrialSite());
 		assertEquals(center.getId(), p.getTrialSite().getId());
+	}
+	
+	@Test
+	public void databaseIntegrationTest() {
+		hibernateTemplate.save(validPerson);
+		assertTrue(validPerson.getId()>0);
+		Person person = (Person)hibernateTemplate.get(Person.class, validPerson.getId());
+		assertEquals(validPerson, person);
 	}
 }

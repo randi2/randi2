@@ -34,7 +34,7 @@ public class DomainObjectFactory {
 		TrialSite c = new TrialSite();
 		c.setName(testStringUtil.getWithLength(10));
 		c.setPassword(testStringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+";2");
-		c.setContactPerson(this.getPerson());
+		c.setContactPerson(this.getLogin().getPerson());
 		return c;
 	}
 
@@ -54,6 +54,7 @@ public class DomainObjectFactory {
 		l.setUsername(testStringUtil.getWithLength(Login.MAX_USERNAME_LENGTH));
 		l.setPassword(testStringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH)+".ada6");
 		l.setPerson(getPerson());
+		l.getPerson().setLogin(l);
 		l.setRegistrationDate(new GregorianCalendar(2006,0,1));
 		l.setLastLoggedIn(new GregorianCalendar());
 		

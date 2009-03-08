@@ -26,7 +26,8 @@
 	
 	 <aop:aspectj-autoproxy proxy-target-class="true" /> 
 
-	<import resource="classpath:META-INF/subconfig/database-hsqldb.xml" />
+	<import resource="classpath:META-INF/subconfig/database-mysql5.xml" />
+	<!-- <import resource="classpath:META-INF/subconfig/database-hsqldb.xml" />-->
 	<import resource="classpath:META-INF/subconfig/hibernate.xml" />
 	<!-- <import resource="classpath:META-INF/subconfig/aspects.xml" /> -->
 	<!-- Random Instance for NOT Randomization purposes. For Randomization

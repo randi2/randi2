@@ -97,7 +97,6 @@ public class HibernateAclService implements AclService {
 			acl.insertAce(permission, roleName);
 		}
 		template.saveOrUpdate(acl);
-		template.flush();
 		return acl;
 	}
 	

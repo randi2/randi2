@@ -1,12 +1,13 @@
 package de.randi2.model;
 
+import java.util.Set;
+
 import java.util.HashSet;
 
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
+import javax.persistence.OneToMany;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
@@ -23,8 +24,8 @@ public class TrialSubject extends AbstractDomainObject{
 	@ManyToOne
 	private TreatmentArm arm;
 	
-	@Transient
-	private Set<SubjectProperty> properties = new HashSet<SubjectProperty>();
+	@OneToMany
+	private Set<SubjectProperty> properties =  new HashSet<SubjectProperty>();
 
 	@NotNull
 	@NotEmpty

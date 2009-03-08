@@ -55,7 +55,7 @@ public class Trial extends AbstractDomainObject {
 	private TrialSite leadingCenter = null;
 	@Enumerated(value = EnumType.STRING)
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
 	private Set<TrialSite> participatingSites = new HashSet<TrialSite>();
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trial")
 	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();

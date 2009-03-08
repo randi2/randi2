@@ -34,7 +34,7 @@ public class LoginDaoTest {
 
 
 	@Test
-	public void CreateAndSaveTest() {
+	public void createAndSaveTest() {
 
 		Login l = factory.getLogin();
 		l.setUsername(testStringUtil.getWithLength(Login.MAX_USERNAME_LENGTH));
@@ -48,7 +48,7 @@ public class LoginDaoTest {
 	}
 
 	@Test
-	public void GetUsernameTest() {
+	public void getUsernameTest() {
 		Login l = factory.getLogin();
 		l.setUsername(testStringUtil.getWithLength(10));
 		loginDao.save(l);

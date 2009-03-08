@@ -24,18 +24,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2test.utility.AbstractDomainTest;
 
 /**
  *
  * @author jthoenes
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/META-INF/spring-test.xml"})
-public class DichotomousCriterionTest {
+
+public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCriterion>{
+
+	public DichotomousCriterionTest() {
+		super(DichotomousCriterion.class);
+	}
 
 	private DichotomousCriterion criterion;
-	@Autowired
-	private HibernateTemplate template;
+	
 
 	@Before
 	public void setUp() throws Exception {
@@ -116,24 +119,22 @@ public class DichotomousCriterionTest {
 			ArrayList<DichotomousConstraint> temp = new ArrayList<DichotomousConstraint>();
 			temp.add(new DichotomousConstraint(Arrays.asList(new String[]{"Ja"})));
 			temp.add(new DichotomousConstraint(Arrays.asList(new String[]{"Nein"})));
-
-//		criterion.setStrata(temp);
-
+		
 			DichotomousConstraint constraint = new DichotomousConstraint(Arrays.asList(new String[]{"Ja"}));
-			template.save(constraint);
+			hibernateTemplate.save(constraint);
+			assertTrue(constraint.getId()>0);
 			criterion.setInclusionCriterion(constraint);
 
 
-//		
-			template.save(criterion);
-
-			template.save(temp.get(0));
-			template.save(temp.get(1));
+			hibernateTemplate.save(criterion);
+			assertTrue(criterion.getId()>0);
+			assertEquals(criterion.getInclusionCriterion().getId(), constraint.getId());
+			hibernateTemplate.save(temp.get(0));
+			hibernateTemplate.save(temp.get(1));
 			assertTrue(temp.get(0).getId() > 0);
 			assertTrue(temp.get(1).getId() > 0);
 			criterion.setStrata(temp);
-
-			template.update(criterion);
+			hibernateTemplate.update(criterion);
 
 		} catch (ContraintViolatedException e) {
 			//fail();

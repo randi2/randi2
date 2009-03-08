@@ -1,26 +1,28 @@
 package de.randi2test.model;
 
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
-import org.hibernate.event.def.AbstractFlushingEventListener;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.GrantedAuthority;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
+import de.randi2.model.Role;
 import de.randi2test.utility.AbstractDomainTest;
-import org.junit.Ignore;
 
 
 public class LoginTest extends AbstractDomainTest<Login>{
@@ -147,5 +149,55 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		assertEquals(Locale.GERMAN, l.getPrefLocale());
 	}
 	
+	@Test
+	public void testRoleAndGrantedAuthority(){
+		assertEquals(0, validLogin.getRoles().size());
+		
+		validLogin.addRole(Role.ROLE_ANONYMOUS);
+		assertEquals(1, validLogin.getRoles().size());
+		assertTrue(validLogin.getRoles().contains(Role.ROLE_ANONYMOUS));
+		
+		validLogin.addRole(Role.ROLE_USER);
+		assertEquals(1, validLogin.getRoles().size());
+		assertTrue(validLogin.getRoles().contains(Role.ROLE_USER));
+		
+		validLogin = factory.getLogin();
+		validLogin.addRole(Role.ROLE_ADMIN);
+		assertEquals(2, validLogin.getRoles().size());
+		assertTrue(validLogin.getRoles().containsAll(asList(Role.ROLE_ADMIN,Role.ROLE_USER)));
+		
+		assertEquals(validLogin.getRoles().contains(Role.ROLE_ADMIN), validLogin.hasRole(Role.ROLE_ADMIN));
+		assertEquals(validLogin.getRoles().contains(Role.ROLE_INVESTIGATOR), validLogin.hasRole(Role.ROLE_INVESTIGATOR));
+		
+		Set<Role> roles = new HashSet<Role>();
+		roles.add(Role.ROLE_MONITOR);
+		roles.add(Role.ROLE_P_INVESTIGATOR);
+		
+		validLogin.setRoles(roles);
+		assertEquals(validLogin.getRoles(), roles);
+		GrantedAuthority[] authorities = validLogin.getAuthorities();
+		for (Role r: validLogin.getRoles()){
+			boolean match = false;
+			int i=0;
+			while(!match && i < authorities.length){
+				if(authorities[i].toString().equals(Role.ROLE_MONITOR.getName()) || authorities[i].toString().equals(Role.ROLE_P_INVESTIGATOR.getName()) ){
+					match = true;
+				}
+				i++;
+			}
+			if(!match){
+				fail("granted authorities names should be equals role names");
+			}
+		}
+	}
+	
+	
+	@Test
+	public void databaseIntegrationTest() {
+		hibernateTemplate.save(validLogin);
+		assertTrue(validLogin.getId()>0);
+		Login login = (Login)hibernateTemplate.get(Login.class, validLogin.getId());
+		assertEquals(validLogin, login);
+	}
 	
 }

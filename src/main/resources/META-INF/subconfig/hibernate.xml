@@ -27,6 +27,7 @@
                 <value>de.randi2.model.Role</value>
                 <value>de.randi2.model.TreatmentArm</value>
                 <value>de.randi2.model.TrialSubject</value>
+                <value>de.randi2.model.SubjectProperty</value>
                 <value>de.randi2.model.criteria.AbstractCriterion</value>
                 <value>de.randi2.model.criteria.DichotomousCriterion</value>
                 <value>de.randi2.model.criteria.OrdinalCriterion</value>
@@ -50,16 +51,18 @@
         </property>
         <property name="eventListeners">
             <map>
-                <entry key="merge">
-                    <bean
-						class="org.springframework.orm.hibernate3.support.IdTransferringMergeEventListener" />
+                <entry key="merge" >
+                	<bean class="org.springframework.orm.hibernate3.support.IdTransferringMergeEventListener"/>
                 </entry>
+                <!--  <entry key="save-update" value-ref="listener"/>-->
             </map>
         </property>
     </bean>
+    
+    <bean id="listener" class="de.randi2.utility.listener.SaveUpdateListener" />
 
-    <bean id="hibernateInterceptor" class="de.randi2.utility.CustomHibernateInterceptor">
-    </bean>
+    <bean id="hibernateInterceptor" class="de.randi2.utility.CustomHibernateInterceptor" />
+    
 
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
         <property name="entityInterceptor" ref="hibernateInterceptor"></property>

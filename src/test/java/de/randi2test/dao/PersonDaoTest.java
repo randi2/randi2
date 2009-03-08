@@ -38,7 +38,7 @@ public class PersonDaoTest {
 	}
 	
 	@Test
-	public void CreateAndSaveTest(){
+	public void createAndSaveTest(){
 		
 		
 		Person p = factory.getPerson();

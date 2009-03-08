@@ -14,9 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Template;
+
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
+import de.randi2.model.Role;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2test.utility.AbstractDomainTest;
@@ -180,9 +183,13 @@ private Session getCurrentSession(){
 		assertTrue(validCenter.getId()!= AbstractDomainObject.NOT_YET_SAVED_ID);
 		for(Trial trial: tl){
 			trial.addParticipatingSite(validCenter);
+			trial.setLeadingSite(validCenter);
+			Login login = factory.getLogin();
+			hibernateTemplate.persist(login);
+			trial.setSponsorInvestigator(login.getPerson());
 			assertEquals(1, trial.getParticipatingSites().size());
 			assertEquals(validCenter.getId(), ((AbstractDomainObject) trial.getParticipatingSites().toArray()[0]).getId());
-			hibernateTemplate.saveOrUpdate(trial);
+			hibernateTemplate.persist(trial);
 			hibernateTemplate.flush();
 		}
 		TrialSite center = (TrialSite) hibernateTemplate.get(TrialSite.class, validCenter.getId());
@@ -203,6 +210,8 @@ private Session getCurrentSession(){
 		
 		assertEquals(validCenter.getId(), c.getId());
 		assertEquals("UK", c.getCountry());
+		validCenter.setCountry(null);
+		assertEquals("", validCenter.getCountry());
 		
 	}
 	
@@ -264,6 +273,48 @@ private Session getCurrentSession(){
 			validCenter.setPassword(s);
 			assertInvalid(validCenter);
 		}
+	}
+	
+	@Test
+	public void testGetMembersWithSpecifiedRole(){
+		List<Person> members = new ArrayList<Person>();
+		Login l = factory.getLogin();
+		l.addRole(Role.ROLE_ADMIN);
+		members.add(l.getPerson());
+		l = factory.getLogin();
+		l.addRole(Role.ROLE_ADMIN);
+		members.add(l.getPerson());
+		l = factory.getLogin();
+		l.addRole(Role.ROLE_ADMIN);
+		members.add(l.getPerson());
+		l = factory.getLogin();
+		l.addRole(Role.ROLE_ADMIN);
+		members.add(l.getPerson());
+		
+		
+		l = factory.getLogin();
+		l.addRole(Role.ROLE_USER);
+		members.add(l.getPerson());
+		l = factory.getLogin();
+		l.addRole(Role.ROLE_USER);
+		members.add(l.getPerson());
+		l = factory.getLogin();
+		l.addRole(Role.ROLE_P_INVESTIGATOR);
+		members.add(l.getPerson());
+		
+		validCenter.setMembers(members);
+		
+		List<Login> logins = validCenter.getMembersWithSpecifiedRole(Role.ROLE_USER);
+		assertEquals(members.size(), logins.size());
+		
+		logins = validCenter.getMembersWithSpecifiedRole(Role.ROLE_ADMIN);
+		assertEquals(4, logins.size());
+		for(Person p: members.subList(0, 3)){
+			assertTrue(logins.contains(p.getLogin()));
+		}
+		logins = validCenter.getMembersWithSpecifiedRole(Role.ROLE_P_INVESTIGATOR);
+		assertEquals(1, logins.size());
+		assertTrue(logins.contains(members.get(6).getLogin()));
 	}
 
 }
