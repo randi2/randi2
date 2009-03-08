@@ -36,7 +36,7 @@ public abstract class AbstractHandler<O extends AbstractDomainObject> {
 	/**
 	 * The class which is handled by the particular handler.
 	 */
-	private Class<O> object = null;
+	private Class<O> type = null;
 
 	/**
 	 * The currently showed object.
@@ -49,14 +49,14 @@ public abstract class AbstractHandler<O extends AbstractDomainObject> {
 	protected boolean creatingMode = false;
 
 	/**
-	 * Defines if the showedObject should can be edited be the user or not.
+	 * Defines if the showedObject should can be edited by the user or not.
 	 */
 	protected boolean editable = false;
 
-	public AbstractHandler(Class<O> _object) {
-		object = _object;
+	public AbstractHandler(Class<O> _type) {
+		type = _type;
 	}
-
+	
 	public O getShowedObject() {
 		if (showedObject == null)
 			showedObject = createPlainObject();
@@ -82,12 +82,13 @@ public abstract class AbstractHandler<O extends AbstractDomainObject> {
 	 * @return A new object with initialized depending objects.
 	 */
 	@SuppressWarnings("unchecked")
+	// FIXME Make abstract
 	private O createPlainObject() {
-		if (object.getCanonicalName().equals(Login.class.getCanonicalName())) {
+		if (type.getCanonicalName().equals(Login.class.getCanonicalName())) {
 			Login plainO = new Login();
 			plainO.setPerson(new Person());
 			return (O) plainO;
-		} else if (object.getCanonicalName().equals(
+		} else if (type.getCanonicalName().equals(
 				TrialSite.class.getCanonicalName())) {
 			TrialSite plainO = new TrialSite();
 			plainO.setContactPerson(new Person());
@@ -100,6 +101,7 @@ public abstract class AbstractHandler<O extends AbstractDomainObject> {
 	 * This method saves the showedObject.
 	 * @return Randi2.SUCCESS or RANDI2.ERROR
 	 */
+	// FIXME Please implement this using the DAO methods
 	public abstract String saveObject();
 
 	/**

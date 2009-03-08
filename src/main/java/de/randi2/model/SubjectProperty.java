@@ -42,10 +42,4 @@ public final class SubjectProperty<V extends Serializable> extends AbstractDomai
 	private void setCriterion(AbstractCriterion<V,? extends AbstractConstraint<V>> criterion) {
 		this.criterion = criterion;
 	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return "TO_STRING_NOT_IMPLEMENTED";
-	}
 }

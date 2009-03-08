@@ -31,11 +31,7 @@ public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 
 	public abstract RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm();
 
-	@Override
-	public String toString() {
-		return this.getClass().toString();
-	}
-
+	
 	public Trial getTrial() {
 		return trial;
 	}

@@ -121,14 +121,4 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 			return false;
 		}
 	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.randi2.model.AbstractDomainObject#toString()
-	 */
-	@Override
-	public String toString(){
-		return this.getClass().getCanonicalName();
-	}
-
 }

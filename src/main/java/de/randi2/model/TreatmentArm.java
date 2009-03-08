@@ -74,10 +74,5 @@ public class TreatmentArm extends AbstractDomainObject{
 	void addSubject(TrialSubject subject){
 		this.subjects.add(subject);
 	}
-	
-	@Override
-	public String toString() {
-		return "TreatmentArm: " + this.getName();
-	}
 
 }

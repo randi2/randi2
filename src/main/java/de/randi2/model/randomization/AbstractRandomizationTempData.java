@@ -11,10 +11,4 @@ import de.randi2.model.AbstractDomainObject;
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @Table(name="RandomisationTempData")
 public abstract class AbstractRandomizationTempData extends AbstractDomainObject{
-
-	
-	@Override
-	public String toString() {
-		return this.getClass().toString();
-	}
 }

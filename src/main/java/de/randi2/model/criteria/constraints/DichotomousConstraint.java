@@ -41,10 +41,4 @@ public class DichotomousConstraint extends AbstractConstraint<String> {
 			throw new ContraintViolatedException();
 		this.expectedValue = args.get(0);
 	}
-
-	@Override
-	public String toString() {
-		return new  ToStringBuilder(this)
-				.append(expectedValue).toString();
-	}
 }

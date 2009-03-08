@@ -1,5 +1,6 @@
 package de.randi2test.utility;
 
+import de.randi2.model.AbstractDomainObject;
 import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class DomainObjectFactory {
 	
 	@Autowired
 	private ApplicationContext context;
-	
+
 	public Person getPerson(){
 		Person p = new Person(); 
 		p.setSurname(testStringUtil.getWithLength(Person.MAX_NAME_LENGTH));

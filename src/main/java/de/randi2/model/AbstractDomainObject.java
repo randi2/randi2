@@ -23,6 +23,9 @@ import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 
 import de.randi2.model.exceptions.ValidationException;
+import java.util.Random;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 @MappedSuperclass
 public abstract class AbstractDomainObject implements Serializable {
@@ -38,6 +41,10 @@ public abstract class AbstractDomainObject implements Serializable {
 	private int version = Integer.MIN_VALUE;
 	private GregorianCalendar createdAt = null;
 	private GregorianCalendar updatedAt = null;
+
+	public AbstractDomainObject(){
+		this.version = - Math.abs((new Random()).nextInt());
+	}
 
 	public long getId() {
 		return id;
@@ -56,8 +63,7 @@ public abstract class AbstractDomainObject implements Serializable {
 	}
 
 	private boolean isRequired(Method m) {
-		return m.isAnnotationPresent(org.hibernate.validator.NotEmpty.class)
-				|| m.isAnnotationPresent(org.hibernate.validator.NotNull.class) || m.isAnnotationPresent(de.randi2.utility.validations.Password.class);
+		return m.isAnnotationPresent(org.hibernate.validator.NotEmpty.class) || m.isAnnotationPresent(org.hibernate.validator.NotNull.class) || m.isAnnotationPresent(de.randi2.utility.validations.Password.class);
 	}
 
 	public void checkValue(String field, Object value) {
@@ -82,32 +88,28 @@ public abstract class AbstractDomainObject implements Serializable {
 	/**
 	 * This method checks if two object identical by matching their id's.
 	 */
+	// FIXME This method only checks for the version and does not check,
+	// if other values are the same. This ones have to be implemented
+	// in some other way.
 	@Override
-	public boolean equals(Object o) {
-		if (o == this) {
+	public boolean equals(Object other) {
+		if (other == this) {
 			return true;
 		}
 
-		if (o instanceof AbstractDomainObject) {
-			AbstractDomainObject randi2Object = (AbstractDomainObject) o;
-			if (randi2Object.id == NOT_YET_SAVED_ID) {
-				return false;
-			}
-
-			if (randi2Object.id == this.id) {
-				return true;
-			}
-
-			return false;
-		} else {
-			return false;
+		if (other instanceof AbstractDomainObject) {
+			AbstractDomainObject dO = (AbstractDomainObject) other;
+			return new EqualsBuilder().append(id, dO.id).
+					append(version, dO.version).
+					append(version, dO.version).
+					isEquals();
 		}
-
+		return false;
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(id).toHashCode();
+		return new HashCodeBuilder().append(id).append(version).toHashCode();
 	}
 
 	@PreUpdate
@@ -137,5 +139,7 @@ public abstract class AbstractDomainObject implements Serializable {
 	}
 
 	@Override
-	public abstract String toString();
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
 }

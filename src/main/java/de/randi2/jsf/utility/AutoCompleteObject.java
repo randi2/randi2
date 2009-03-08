@@ -15,6 +15,7 @@ import de.randi2.model.AbstractDomainObject;
 public class AutoCompleteObject<O extends AbstractDomainObject> {
 
 	public static final Comparator<SelectItem> LABEL_COMPERATOR = new Comparator<SelectItem>() {
+		@Override
 		public int compare(SelectItem s1, SelectItem s2) {
 			return s1.getLabel().compareToIgnoreCase(s2.getLabel());
 		}

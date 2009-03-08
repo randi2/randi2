@@ -42,9 +42,4 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this).append(expectedValues).toString();
-	}
 }

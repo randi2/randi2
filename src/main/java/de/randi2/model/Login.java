@@ -213,9 +213,9 @@ public class Login extends AbstractDomainObject implements UserDetails {
 		return this.roles.contains(role);
 	}
 
-	@Override
+	/*@Override
 	public String toString() {
 		return this.getUsername() + " (" + this.getPerson().toString() + ")";
-	}
+	}*/
 
 }
