@@ -229,6 +229,11 @@ public class Person extends AbstractDomainObject {
 	public String toString(){
 		return this.surname+" "+this.firstname;
 	}
+	
+	@Override
+	public String getUIName() {
+		return this.getSurname()+", "+this.getFirstname();
+	}
 
 
 }

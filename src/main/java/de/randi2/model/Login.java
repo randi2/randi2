@@ -220,6 +220,6 @@ public class Login extends AbstractDomainObject implements UserDetails {
 
 	@Override
 	public String getUIName() {
-		return this.getPerson().getSurname()+","+this.getPerson().getFirstname();
+		return this.getPerson().getSurname()+", "+this.getPerson().getFirstname();
 	}
 }
