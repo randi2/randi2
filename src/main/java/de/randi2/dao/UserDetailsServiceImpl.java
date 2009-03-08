@@ -18,6 +18,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private HibernateTemplate template;
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
 		String query = "from de.randi2.model.Login login where "

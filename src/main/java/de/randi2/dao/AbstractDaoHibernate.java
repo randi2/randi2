@@ -17,6 +17,7 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	public abstract Class<E> getModelClass();
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public E get(long id){
 		E element = (E) template.get(getModelClass(), id);
 		if(element == null){
@@ -35,11 +36,13 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	}
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<E> findByExample(E object){
 		return template.findByExample(object);
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<E> getAll(){
 		return template.loadAll(getModelClass());
 	}

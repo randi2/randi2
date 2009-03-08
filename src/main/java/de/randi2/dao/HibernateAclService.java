@@ -38,6 +38,7 @@ public class HibernateAclService implements AclService {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Acl readAclById(ObjectIdentity object, Sid[] sids)
 			throws NotFoundException {
 		String sidname = null;
@@ -81,6 +82,7 @@ public class HibernateAclService implements AclService {
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
+	@SuppressWarnings("unchecked")
 	public AclHibernate createAclwithPermissions(AbstractDomainObject object,
 			String sidname, PermissionHibernate[] permissions, String roleName) {
 		AclHibernate acl= new AclHibernate();
@@ -106,6 +108,7 @@ public class HibernateAclService implements AclService {
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
+	@SuppressWarnings("unchecked")
 	private SidHibernate createSidIfNotSaved(String sidname) {
 		List<SidHibernate> list = template.findByExample(new SidHibernate(
 				sidname));
@@ -119,6 +122,7 @@ public class HibernateAclService implements AclService {
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
+	@SuppressWarnings("unchecked")
 	private ObjectIdentityHibernate createObjectIdentityIfNotSaved(
 			AbstractDomainObject object) {
 		List<ObjectIdentityHibernate> list = template

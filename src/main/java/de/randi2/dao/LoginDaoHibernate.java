@@ -2,14 +2,13 @@ package de.randi2.dao;
 
 import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import de.randi2.model.Login;
 
 
 public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements LoginDao{
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Login get(String username) {
 		String query = "from de.randi2.model.Login login where "
 			+ "login.username =?";

@@ -12,11 +12,13 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 	}
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<TrialSite> getAll(){
 		return template.loadAll(TrialSite.class);
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public TrialSite get(String name) {
 		String query = "from de.randi2.model.TrialSite trialSite where "
 			+ "trialSite.name =?";
