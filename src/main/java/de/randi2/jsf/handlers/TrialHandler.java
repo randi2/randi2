@@ -32,6 +32,7 @@ import de.randi2.dao.TrialDao;
 import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.Randi2;
 import de.randi2.jsf.pages.Step4;
+import de.randi2.jsf.pages.Step5;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.jsf.wrappers.SubjectPropertyWrapper;
 import de.randi2.model.Login;
@@ -45,6 +46,8 @@ import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.enumerations.TrialStatus;
+import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
+import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.ReflectionUtil;
 
@@ -161,37 +164,42 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	@SuppressWarnings("unchecked")
 	public String createTrial() {
 		try {
+			/* Leading Trial Site & Sponsor Investigator */
 			newTrial.setLeadingSite(trialSitesAC.getSelectedObject());
 			if (sponsorInvestigatorsAC.getSelectedObject() != null)
 				newTrial.setSponsorInvestigator(sponsorInvestigatorsAC
 						.getSelectedObject().getPerson());
 			// TODO Protokoll
 
-			// SubjectProperties
-			ValueExpression ve = FacesContext.getCurrentInstance()
+			/* SubjectProperties Configuration */
+			ValueExpression ve1 = FacesContext.getCurrentInstance()
 					.getApplication().getExpressionFactory()
 					.createValueExpression(
 							FacesContext.getCurrentInstance().getELContext(),
 							"#{step4}", Step4.class);
-			Step4 temp = (Step4) ve.getValue(FacesContext.getCurrentInstance()
+			Step4 temp1 = (Step4) ve1.getValue(FacesContext.getCurrentInstance()
 					.getELContext());
 			ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> configuredCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
-			for (SubjectPropertyWrapper wr : temp.getProperties()) {
+			for (SubjectPropertyWrapper wr : temp1.getProperties()) {
 				List<? extends Serializable> configuredConstraints = wr
 						.getSelectedValues();
-				if (configuredConstraints!=null && !configuredConstraints.isEmpty()) {
-					if (DichotomousCriterion.class.isInstance(wr.getSelectedCriterion())) {
+				if (configuredConstraints != null
+						&& !configuredConstraints.isEmpty()) {
+					if (DichotomousCriterion.class.isInstance(wr
+							.getSelectedCriterion())) {
 						DichotomousConstraint t;
 						try {
 							t = new DichotomousConstraint(
 									(List<String>) configuredConstraints);
-							DichotomousCriterion.class.cast(wr.getSelectedCriterion())
+							DichotomousCriterion.class.cast(
+									wr.getSelectedCriterion())
 									.setInclusionCriterion(t);
 						} catch (ContraintViolatedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-					} else if (OrdinalCriterion.class.isInstance(wr.getSelectedCriterion())) {
+					} else if (OrdinalCriterion.class.isInstance(wr
+							.getSelectedCriterion())) {
 					}
 				}
 				configuredCriteria
@@ -199,7 +207,22 @@ public class TrialHandler extends AbstractHandler<Trial> {
 								.getSelectedCriterion());
 			}
 			newTrial.setCriteria(configuredCriteria);
-			// End of SubjectProperites
+			/* End of SubjectProperites Configuration */
+
+			/* Algorithm Configuration */
+			ValueExpression ve2 = FacesContext.getCurrentInstance()
+					.getApplication().getExpressionFactory()
+					.createValueExpression(
+							FacesContext.getCurrentInstance().getELContext(),
+							"#{step5}", Step5.class);
+			Step5 temp2 = (Step5) ve2.getValue(FacesContext.getCurrentInstance()
+					.getELContext());
+			if(temp2.getSelectedAlgorithmPanelId().equals(Step5.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())){
+				newTrial.setRandomizationConfiguration(new CompleteRandomizationConfig());
+			}else if(temp2.getSelectedAlgorithmPanelId().equals(Step5.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())){
+				newTrial.setRandomizationConfiguration(new BiasedCoinRandomizationConfig());
+			}
+			/* End of the Algorithm Configuration */
 
 			trialDao.save(newTrial);
 			return Randi2.SUCCESS;

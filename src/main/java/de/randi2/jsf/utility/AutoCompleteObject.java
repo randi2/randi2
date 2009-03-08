@@ -56,7 +56,7 @@ public class AutoCompleteObject<O extends AbstractDomainObject> {
 			if (objectList == null) {
 				objectList = new ArrayList<SelectItem>(getObjects().size());
 				for (O el : getObjects()) {
-					objectList.add(new SelectItem(el, el.toString()));
+					objectList.add(new SelectItem(el, el.getUIName()));
 				}
 				Collections.sort(objectList, LABEL_COMPERATOR);
 			}

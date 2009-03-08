@@ -30,6 +30,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @MappedSuperclass
 public abstract class AbstractDomainObject implements Serializable {
 
+	private static final long serialVersionUID = -1394903092160914604L;
+
 	public final static int NOT_YET_SAVED_ID = Integer.MIN_VALUE;
 	public final static int MAX_VARCHAR_LENGTH = 255;
 	@Transient
@@ -141,5 +143,15 @@ public abstract class AbstractDomainObject implements Serializable {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+	
+	/**
+	 * This method provides a string object for the UI.
+	 * @return
+	 */
+	@Transient
+	public String getUIName(){
+		//FIXME It would be better to have this method one level deeper 
+		return this.getClass().getCanonicalName();
 	}
 }

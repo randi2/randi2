@@ -14,6 +14,7 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
+<f:loadBundle basename="de.randi2.jsf.i18n.algorithms" var="algorithms" />
 <ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" border="0"
@@ -21,19 +22,34 @@
 	<ice:graphicImage value="/img/icons/randConfig48.png"></ice:graphicImage>
 	<ice:outputLabel value="#{labels['pages.trialEditPanel.step5message']}"></ice:outputLabel>
 </ice:panelGrid>
-
 <ice:panelGroup style="width: 450px;">
-<ice:panelCollapsible id="algoPanel" expanded="true"
+	<ice:panelCollapsible id="algoPanel" expanded="true"
 		toggleOnClick="true">
 		<f:facet name="header">
-			<ice:outputLabel value="!Algorithm!"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['trial.randomConf']}"></ice:outputLabel>
 		</f:facet>
-		<ice:selectOneMenu id="algType">
-				<f:selectItem itemValue="1" itemLabel="!Complete randomization!" />
-				<f:selectItem itemValue="2"
-					itemLabel="!Block randomization (non-stratified)!" />
-				<f:selectItem itemValue="3" itemLabel="!Block randomization (stratified)!" />
-				<f:selectItem itemValue="4" itemLabel="!Minimization!" />
-			</ice:selectOneMenu>
+		<ice:selectOneMenu id="algorithmType" partialSubmit="true" value="#{step5.selectedAlgorithmPanelId}">
+			<f:selectItems value="#{step5.algorithms}" />
+		</ice:selectOneMenu>
+		<ice:message for="algorithmType"></ice:message>
 	</ice:panelCollapsible>
+</ice:panelGroup>
+<ice:panelGroup>
+	<ice:panelStack id="algorithmsPanelStack"
+		selectedPanel="#{step5.selectedAlgorithmPanelId}">
+		<ice:panelGroup id="none">
+		</ice:panelGroup>
+		<ice:panelGroup id="completeRandomization">
+			<f:subview id="cR">
+				<jsp:directive.include
+					file="./inc/panels/randomization/completeR.jspx" />
+			</f:subview>
+		</ice:panelGroup>
+		<ice:panelGroup id="biasedCoinRandomization">
+			<f:subview id="bR">
+				<jsp:directive.include
+					file="./inc/panels/randomization/biasedCoinR.jspx" />
+			</f:subview>
+		</ice:panelGroup>
+	</ice:panelStack>
 </ice:panelGroup>
