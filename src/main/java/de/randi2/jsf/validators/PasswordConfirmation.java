@@ -43,22 +43,17 @@ public class PasswordConfirmation implements Validator, Serializable {
 
 		// Application application = arg0.getApplication();
 
-		UIComponent passwordInputSecret = arg1.getParent().getParent()
-				.findComponent("passwordGroup").findComponent("password");
+		UIComponent passwordInputSecret = arg1.getParent().getParent().findComponent("passwordGroup").findComponent("password");
 
 		// String messageBundle = application.getMessageBundle();
 		// Locale locale = arg0.getViewRoot().getLocale();
 		//		
 		// ResourceBundle rb = ResourceBundle.getBundle(messageBundle, locale);
-		if (passwordInputSecret.getValueExpression("value").getValue(arg0.getELContext()) != null) {
-			if (!passwordInputSecret.getValueExpression("value").getValue(arg0.getELContext())
-					.equals(arg2)) {
-				String message = "The second passwort doesn't match the first one.";
-				throw new ValidatorException(new FacesMessage(
-						FacesMessage.SEVERITY_ERROR, message, null));
-			}
+		if (passwordInputSecret.getValueExpression("value").getValue(arg0.getELContext()) != null &&
+				!passwordInputSecret.getValueExpression("value").getValue(arg0.getELContext()).equals(arg2)) {
+			String message = "The second passwort doesn't match the first one.";
+			throw new ValidatorException(new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, message, null));
 		}
-
 	}
-
 }

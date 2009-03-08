@@ -47,6 +47,7 @@ import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
 import de.randi2.utility.mail.MailServiceInterface;
 import de.randi2.utility.mail.exceptions.MailErrorException;
+import org.apache.log4j.Logger;
 
 /**
  * <p>
@@ -463,6 +464,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 				loggedInUser.setLastLoggedIn(new GregorianCalendar());
 			} catch (NullPointerException exp) {
 				// FIXME What should we do at this point?
+				Logger.getLogger(this.getClass()).debug("NPE", exp);
 			}
 		}
 		return this.loggedInUser;
