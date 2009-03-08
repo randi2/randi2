@@ -66,6 +66,7 @@ public class Block extends AbstractDomainObject {
 	}
 
 	public TreatmentArm pullFromBlock(Random rand){
+		assert(!isEmpty());
 		return block.remove(rand.nextInt(block.size()));
 	}
 	

@@ -1,5 +1,6 @@
 package de.randi2.model;
 
+import java.util.HashSet;
 import java.util.List;
 
 import java.util.Set;
@@ -24,7 +25,7 @@ public class TrialSubject extends AbstractDomainObject{
 	private TreatmentArm arm;
 	
 	@Transient
-	private Set<SubjectProperty> properties;
+	private Set<SubjectProperty> properties = new HashSet<SubjectProperty>();
 
 	@NotNull
 	@NotEmpty

@@ -5,11 +5,13 @@ import de.randi2.randomization.RandomizationAlgorithm;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
 
 @Entity
 public class BlockRandomizationConfig extends AbstractRandomizationConfig {
 
 	private static final long serialVersionUID = -7933864896327057988L;
+	@OneToOne
 	private BlockRandomizationTempData tempData = null;
 
 	@Override
