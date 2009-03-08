@@ -49,55 +49,6 @@ public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationC
 
 	protected abstract TreatmentArm doRadomize(TrialSubject subject,
 			Random random);
-
-	public int ggt(int x, int y) {
-		assert(x > 0);
-		assert(y > 0);		
-		while (x != y) {
-			if (x > y) {
-				x = x - y;
-			} else {
-				y = y - x;
-			}
-		}
-		return x;
-	}
-
-	public int ggt() {
-		List<TreatmentArm> arms = trial.getTreatmentArms();
-		int[] sizes = new int[arms.size()];
-		int i = 0;
-		for (TreatmentArm arm : arms) {
-			sizes[i] = arm.getPlannedSubjects();
-			i++;
-		}
-
-		int result;
-		result = sizes[0];
-		for (i = 1; i < sizes.length; i++) {
-			result = ggt(result, sizes[i]);
-		}
-		return result;
-	}
-
-	/**
-	 * Creates a raw block, i.e. a minimal block containing every treatment arm
-	 * once. Generates a new instance of an raw block each time, this method is
-	 * called.
-	 * 
-	 * @return A newly generated raw block.
-	 */
-	protected List<TreatmentArm> generateRawBlock() {
-		List<TreatmentArm> arms = trial.getTreatmentArms();
-		List<TreatmentArm> block = new ArrayList<TreatmentArm>();
-		int ggt = ggt();
-		for (int i = 0; i < arms.size(); i++) {
-			for (int j = 0; j < (arms.get(i).getPlannedSubjects() / ggt); j++) {
-				block.add(arms.get(i));
-			}
-		}
-		return block;
-	}
 	
 	private int sampleIndex(List<? extends Object> urn, Random random){
 		return random.nextInt(urn.size());
@@ -123,6 +74,36 @@ public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationC
 		} else {
 			return new Random();
 		}
+	}
+
+	private static int ggt(int x, int y) {
+		assert(x > 0);
+		assert(y > 0);
+		while (x != y) {
+			if (x > y) {
+				x = x - y;
+			} else {
+				y = y - x;
+			}
+		}
+		return x;
+	}
+
+	public static int minimumBlockSize(Trial trial) {
+		List<TreatmentArm> arms = trial.getTreatmentArms();
+		int[] sizes = new int[arms.size()];
+		int i = 0;
+		for (TreatmentArm arm : arms) {
+			sizes[i] = arm.getPlannedSubjects();
+			i++;
+		}
+
+		int result;
+		result = sizes[0];
+		for (i = 1; i < sizes.length; i++) {
+			result = ggt(result, sizes[i]);
+		}
+		return result;
 	}
 
 }

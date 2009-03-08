@@ -7,6 +7,7 @@ import java.util.Random;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
+import de.randi2.model.randomization.Block;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationTempData;
 
@@ -22,27 +23,26 @@ public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizatio
 
 	@Override
 	protected TreatmentArm doRadomize(TrialSubject subject, Random random) {
-
 		BlockRandomizationTempData tempData = super.configuration.getTempData();
-		List<TreatmentArm> block = tempData.getCurrentBlock();
-		if(block == null || block.size() == 0){
+		Block block = tempData.getBlock(subject.getProperties().hashCode());
+		if(block == null || block.isEmpty()){
 			block = generateBlock(random);
-			tempData.setCurrentBlock(block);
+			tempData.setBlock(subject.getProperties().hashCode(), block);
 		}
 
-		return block.remove(random.nextInt(block.size()));
+		return block.pullFromBlock(random);
 	}
 
-	private List<TreatmentArm> generateBlock(Random random) {
+	private Block generateBlock(Random random) {
 		int blockSize = generateBlockSize(random);
-		List<TreatmentArm> block = new ArrayList<TreatmentArm>();
-		List<TreatmentArm> rawBlock = new ArrayList<TreatmentArm>();
+		Block block = new Block();
+		Block rawBlock = Block.generate(trial);
 		int i = 0;
 		while(i < blockSize){
-			if(rawBlock.size() == 0){
-				rawBlock = generateRawBlock();
+			if(rawBlock.isEmpty()){
+				rawBlock = Block.generate(trial);
 			}
-			block.add(rawBlock.remove(random.nextInt(rawBlock.size())));
+			block.add(rawBlock.pullFromBlock(random));
 			i++;
 		}
 		return block;
@@ -52,7 +52,7 @@ public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizatio
 		int range = super.configuration.getMaximum() - super.configuration.getMinimum() + 1;
 		int size = random.nextInt(range) + super.configuration.getMinimum();
 		if(super.configuration.getType() == BlockRandomizationConfig.TYPE.MULTIPLY){
-			size *= generateRawBlock().size();
+			size *= RandomizationAlgorithm.minimumBlockSize(trial);
 		}
 		return size;
 	}

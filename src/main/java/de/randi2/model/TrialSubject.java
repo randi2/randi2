@@ -2,6 +2,7 @@ package de.randi2.model;
 
 import java.util.List;
 
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -23,7 +24,7 @@ public class TrialSubject extends AbstractDomainObject{
 	private TreatmentArm arm;
 	
 	@Transient
-	private List<SubjectProperty> properties;
+	private Set<SubjectProperty> properties;
 
 	@NotNull
 	@NotEmpty
@@ -46,12 +47,12 @@ public class TrialSubject extends AbstractDomainObject{
 		this.arm = arm;
 	}
 
-	public List<SubjectProperty> getProperties() {
+	public Set<SubjectProperty> getProperties() {
 		return properties;
 	}
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	public void setProperties(List<SubjectProperty> properties) {
+	public void setProperties(Set<SubjectProperty> properties) {
 		this.properties = properties;
 	}
 
