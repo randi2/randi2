@@ -36,16 +36,15 @@
 				<ice:outputText value="#{labels['trial.status']}" id="statusH"  style="width:150px;"></ice:outputText>
 			</f:facet>
 		</ice:column>
-<!--	<ice:column id="column3">
+		<ice:column id="column3">
 			<ice:commandLink id="showId" value="#{labels['buttons.show']}"
-				  actionListener="#{randi2Page.showTrials}">
+				  actionListener="#{randi2Page.showTrial}">
 				<ice:outputText value="#{trial}" visible="false"></ice:outputText>
 			</ice:commandLink>
 			<f:facet name="header">
 				<ice:outputText value="" id="showH" style="width:50px;"></ice:outputText>
 			</f:facet>
 		</ice:column>		
--->
 	</ice:dataTable>
 
 </ice:form>

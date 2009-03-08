@@ -1,0 +1,34 @@
+<!-- 
+ This pages/panel represents the view for general information of a trial view.
+
+ Made by bkurz@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+
+<ice:panelGroup style="width: 550px;">
+	<!-- <ice:panelCollapsible id="namePanel" expanded="true"
+		toggleOnClick="true">
+		<f:facet name="header">
+			<ice:outputLabel value="#{labels['trial.name']}"></ice:outputLabel>
+		</f:facet>
+		<ice:inputText id="name" size="55" value="#{trialHandler.showedObject.name}"
+			required="#{trialHandler.showedObject.requiredFields['name']}"
+			partialSubmit="true">
+			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+			<f:attribute name="dObject" value="#{trialHandler.showedObject}" />
+		</ice:inputText>
+		<ice:message for="name" />
+	</ice:panelCollapsible>  -->
+	</ice:panelGroup>
+
+

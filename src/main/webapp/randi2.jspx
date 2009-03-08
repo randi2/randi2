@@ -107,7 +107,11 @@
 							<jsp:directive.include file="./inc/panels/trialCreatePanel.jspx" />
 						</f:subview>
 					</ice:panelGroup>
-
+					<ice:panelGroup id="trialShowPanel">
+						<f:subview id="tsp">
+							<jsp:directive.include file="./inc/panels/trialShowPanel.jspx" />
+						</f:subview>
+					</ice:panelGroup>
 				</ice:panelStack>
 			</ice:panelGroup>
 		</f:facet>

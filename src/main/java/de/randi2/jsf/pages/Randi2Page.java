@@ -14,16 +14,18 @@
  */
 package de.randi2.jsf.pages;
 
-import de.randi2.jsf.Randi2;
-import de.randi2.jsf.handlers.TrialSiteHandler;
-import de.randi2.jsf.handlers.LoginHandler;
-import de.randi2.model.Person;
-import de.randi2.model.TrialSite;
-import de.randi2.model.Login;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+
+import de.randi2.jsf.Randi2;
+import de.randi2.jsf.handlers.LoginHandler;
+import de.randi2.jsf.handlers.TrialHandler;
+import de.randi2.jsf.handlers.TrialSiteHandler;
+import de.randi2.model.Login;
+import de.randi2.model.Person;
+import de.randi2.model.Trial;
+import de.randi2.model.TrialSite;
 
 /**
  * <p>
@@ -38,6 +40,8 @@ public class Randi2Page {
 
 	private TrialSiteHandler trialSiteHandler;
 
+	private TrialHandler trialHandler;
+
 	private LoginHandler loginHandler;
 
 	/**
@@ -49,9 +53,9 @@ public class Randi2Page {
 	 * The current logged in user.
 	 */
 	private Login currentUser = null;
-	
+
 	private boolean aboutVisible = false;
-	
+
 	private boolean helpVisible = false;
 
 	public Randi2Page() {
@@ -63,6 +67,12 @@ public class Randi2Page {
 				.getApplication().getELResolver().getValue(
 						FacesContext.getCurrentInstance().getELContext(), null,
 						"trialSiteHandler");
+
+		trialHandler = (TrialHandler) FacesContext.getCurrentInstance()
+				.getApplication().getELResolver().getValue(
+						FacesContext.getCurrentInstance().getELContext(), null,
+						"trialHandler");
+
 		currentUser = loginHandler.getLoggedInUser();
 	}
 
@@ -77,18 +87,20 @@ public class Randi2Page {
 	public void viewTrials(ActionEvent event) {
 		activePanel = "trialsViewPanel";
 	}
-	
+
 	public void viewTrialSites(ActionEvent event) {
 		activePanel = "trialSitesViewPanel";
 	}
 
 	public void myTrialSite(ActionEvent event) {
-		trialSiteHandler.setShowedObject(currentUser.getPerson().getTrialSite());
+		trialSiteHandler
+				.setShowedObject(currentUser.getPerson().getTrialSite());
 		activePanel = "trialSiteEditPanel";
 	}
 
 	/**
-	 * This method shows the trial site from the trial sites' table. 
+	 * This method shows the trial site from the trial sites' table.
+	 * 
 	 * @param event
 	 */
 	public void showTrialSite(ActionEvent event) {
@@ -100,14 +112,29 @@ public class Randi2Page {
 	}
 
 	/**
+	 * This method shows the trial site from the trial sites' table.
+	 * 
+	 * @param event
+	 */
+	public void showTrial(ActionEvent event) {
+		Trial tTrial = (Trial) (((UIComponent) event.getComponent()
+				.getChildren().get(0)).getValueExpression("value")
+				.getValue(FacesContext.getCurrentInstance().getELContext()));
+		trialHandler.setShowedObject(tTrial);
+		activePanel = "trialShowPanel";
+		
+	}
+
+	/**
 	 * This method shows the user from the users' table.
+	 * 
 	 * @param event
 	 */
 	public void showUser(ActionEvent event) {
 		Person tPerson = (Person) (((UIComponent) event.getComponent()
 				.getChildren().get(0)).getValueExpression("value")
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
-		assert(tPerson.getLogin()!=null);
+		assert (tPerson.getLogin() != null);
 		loginHandler.setShowedObject(tPerson.getLogin());
 		activePanel = "userEditPanel";
 	}
@@ -130,23 +157,23 @@ public class Randi2Page {
 	public void createTrial(ActionEvent event) {
 		activePanel = "trialCreatePanel";
 	}
-	
-	public String showAbout(){
+
+	public String showAbout() {
 		this.aboutVisible = true;
 		return Randi2.SUCCESS;
 	}
-	
-	public String hideAbout(){
+
+	public String hideAbout() {
 		this.aboutVisible = false;
 		return Randi2.SUCCESS;
 	}
-	
-	public String showHelp(){
+
+	public String showHelp() {
 		this.helpVisible = true;
 		return Randi2.SUCCESS;
 	}
-	
-	public String hideHelp(){
+
+	public String hideHelp() {
 		this.helpVisible = false;
 		return Randi2.SUCCESS;
 	}
