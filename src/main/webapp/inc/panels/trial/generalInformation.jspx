@@ -16,7 +16,7 @@
  -->
 
 <ice:panelGroup style="width: 550px;">
-	<!-- <ice:panelCollapsible id="namePanel" expanded="true"
+	<ice:panelCollapsible expanded="true"
 		toggleOnClick="true">
 		<f:facet name="header">
 			<ice:outputLabel value="#{labels['trial.name']}"></ice:outputLabel>
@@ -28,7 +28,7 @@
 			<f:attribute name="dObject" value="#{trialHandler.showedObject}" />
 		</ice:inputText>
 		<ice:message for="name" />
-	</ice:panelCollapsible>  -->
+	</ice:panelCollapsible>
 	</ice:panelGroup>
 
 
