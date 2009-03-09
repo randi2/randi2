@@ -45,6 +45,7 @@ import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
+import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
@@ -118,7 +119,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	public Trial getNewTrial() {
-		//FIXME - the UI should only correspond with the showedObject
+		// FIXME - the UI should only correspond with the showedObject
 		if (newTrial == null) { // TODO
 			newTrial = new Trial();
 			newTrial.setStartDate(new GregorianCalendar());
@@ -167,84 +168,92 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	@SuppressWarnings("unchecked")
 	public String createTrial() {
-		try {
-			/* Leading Trial Site & Sponsor Investigator */
-			newTrial.setLeadingSite(trialSitesAC.getSelectedObject());
-			if (sponsorInvestigatorsAC.getSelectedObject() != null)
-				newTrial.setSponsorInvestigator(sponsorInvestigatorsAC
-						.getSelectedObject().getPerson());
-			// TODO Protokoll
+		// try {
+		/* Leading Trial Site & Sponsor Investigator */
+		newTrial.setLeadingSite(trialSitesAC.getSelectedObject());
+		if (sponsorInvestigatorsAC.getSelectedObject() != null)
+			newTrial.setSponsorInvestigator(sponsorInvestigatorsAC
+					.getSelectedObject().getPerson());
+		// TODO Protokoll
 
-			/* Creating the relationship between Trial and TreatmentArm */
-			// FIXME Maybe it should be made automatic by DAO object
-			for (TreatmentArm tA : newTrial.getTreatmentArms()) {
-				tA.setTrial(newTrial);
-			}
+		/* Creating the relationship between Trial and TreatmentArm */
+		// FIXME Maybe it should be made automatic by DAO object
+		for (TreatmentArm tA : newTrial.getTreatmentArms()) {
+			tA.setTrial(newTrial);
+		}
 
-			/* SubjectProperties Configuration */
-			ValueExpression ve1 = FacesContext.getCurrentInstance()
-					.getApplication().getExpressionFactory()
-					.createValueExpression(
-							FacesContext.getCurrentInstance().getELContext(),
-							"#{step4}", Step4.class);
-			Step4 temp1 = (Step4) ve1.getValue(FacesContext
-					.getCurrentInstance().getELContext());
-			ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> configuredCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
-			for (SubjectPropertyWrapper wr : temp1.getProperties()) {
-				List<? extends Serializable> configuredConstraints = wr
-						.getSelectedValues();
-				if (configuredConstraints != null
-						&& !configuredConstraints.isEmpty()) {
-					if (DichotomousCriterion.class.isInstance(wr
-							.getSelectedCriterion())) {
-						DichotomousConstraint t;
-						try {
-							t = new DichotomousConstraint(
-									(List<String>) configuredConstraints);
-							DichotomousCriterion.class.cast(
-									wr.getSelectedCriterion())
-									.setInclusionCriterion(t);
-						} catch (ContraintViolatedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					} else if (OrdinalCriterion.class.isInstance(wr
-							.getSelectedCriterion())) {
+		/* SubjectProperties Configuration */
+		ValueExpression ve1 = FacesContext.getCurrentInstance()
+				.getApplication().getExpressionFactory().createValueExpression(
+						FacesContext.getCurrentInstance().getELContext(),
+						"#{step4}", Step4.class);
+		Step4 temp1 = (Step4) ve1.getValue(FacesContext.getCurrentInstance()
+				.getELContext());
+		ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> configuredCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
+		for (SubjectPropertyWrapper wr : temp1.getProperties()) {
+			List<? extends Serializable> configuredConstraints = wr
+					.getSelectedValues();
+			if (configuredConstraints != null
+					&& !configuredConstraints.isEmpty()) {
+				if (DichotomousCriterion.class.isInstance(wr
+						.getSelectedCriterion())) {
+					DichotomousConstraint t;
+					try {
+						t = new DichotomousConstraint(
+								(List<String>) configuredConstraints);
+						DichotomousCriterion.class.cast(
+								wr.getSelectedCriterion())
+								.setInclusionCriterion(t);
+					} catch (ContraintViolatedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else if (OrdinalCriterion.class.isInstance(wr
+						.getSelectedCriterion())) {
+					OrdinalConstraint o;
+					try {
+						o = new OrdinalConstraint(
+								(List<String>) configuredConstraints);
+						OrdinalCriterion.class.cast(wr.getSelectedCriterion())
+								.setInclusionCriterion(o);
+					} catch (ContraintViolatedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
-				configuredCriteria
-						.add((AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>) wr
-								.getSelectedCriterion());
 			}
-			newTrial.setCriteria(configuredCriteria);
-			/* End of SubjectProperites Configuration */
-
-			/* Algorithm Configuration */
-			ValueExpression ve2 = FacesContext.getCurrentInstance()
-					.getApplication().getExpressionFactory()
-					.createValueExpression(
-							FacesContext.getCurrentInstance().getELContext(),
-							"#{step5}", Step5.class);
-			Step5 temp2 = (Step5) ve2.getValue(FacesContext
-					.getCurrentInstance().getELContext());
-			if (temp2.getSelectedAlgorithmPanelId().equals(
-					Step5.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())) {
-				newTrial
-						.setRandomizationConfiguration(new CompleteRandomizationConfig());
-			} else if (temp2.getSelectedAlgorithmPanelId().equals(
-					Step5.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
-				newTrial
-						.setRandomizationConfiguration(new BiasedCoinRandomizationConfig());
-			}
-			/* End of the Algorithm Configuration */
-
-			trialDao.save(newTrial);
-			return Randi2.SUCCESS;
-		} catch (Exception e) {
-			e.printStackTrace();
-			Randi2.showMessage(e);
-			return Randi2.ERROR;
+			configuredCriteria
+					.add((AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>) wr
+							.getSelectedCriterion());
 		}
+		newTrial.setCriteria(configuredCriteria);
+		/* End of SubjectProperites Configuration */
+
+		/* Algorithm Configuration */
+		ValueExpression ve2 = FacesContext.getCurrentInstance()
+				.getApplication().getExpressionFactory().createValueExpression(
+						FacesContext.getCurrentInstance().getELContext(),
+						"#{step5}", Step5.class);
+		Step5 temp2 = (Step5) ve2.getValue(FacesContext.getCurrentInstance()
+				.getELContext());
+		if (temp2.getSelectedAlgorithmPanelId().equals(
+				Step5.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())) {
+			newTrial
+					.setRandomizationConfiguration(new CompleteRandomizationConfig());
+		} else if (temp2.getSelectedAlgorithmPanelId().equals(
+				Step5.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
+			newTrial
+					.setRandomizationConfiguration(new BiasedCoinRandomizationConfig());
+		}
+		/* End of the Algorithm Configuration */
+
+		trialDao.save(newTrial);
+		return Randi2.SUCCESS;
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// Randi2.showMessage(e);
+		// return Randi2.ERROR;
+		// }
 
 	}
 
@@ -324,7 +333,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	@Override
 	protected Trial createPlainObject() {
 		Trial t = new Trial();
-		//Start & End Date will be initalised with the today's date
+		// Start & End Date will be initalised with the today's date
 		t.setStartDate(new GregorianCalendar());
 		t.setEndDate(new GregorianCalendar());
 		// Each new Trial has automatic 2 Treatment Arms

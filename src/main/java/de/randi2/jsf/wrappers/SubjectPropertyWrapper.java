@@ -313,8 +313,7 @@ public class SubjectPropertyWrapper {
 			// String
 			if (m.getReturnType().equals(String.class)) {
 				updateConstraintValues();
-				components = creatComponentsForProperty(f, HtmlSelectOneMenu.class,
-						valuesToShow);
+				components = creatComponentsForProperty(f, HtmlSelectOneMenu.class);
 				selectionComponents.add((UIInput) components.get(1));
 				constraintsPanel.getChildren().addAll(components
 						);
@@ -322,8 +321,7 @@ public class SubjectPropertyWrapper {
 			// List<String>
 			else if (m.getReturnType().equals(List.class)) {
 				updateConstraintValues();
-				components = creatComponentsForProperty(f, HtmlSelectManyMenu.class,
-						valuesToShow);
+				components = creatComponentsForProperty(f, HtmlSelectManyMenu.class);
 				selectionComponents.add((UIInput) components.get(1));
 				constraintsPanel.getChildren().addAll(components
 						);
@@ -365,17 +363,16 @@ public class SubjectPropertyWrapper {
 			((HtmlInputTextarea) input)
 					.setStyle("width:175px;height:50px;overflow: auto;");
 		}
-
-		input.setValueExpression("value", ve);
-		((UIInput) input).addValueChangeListener(listener);
-		components.add(input);
-
+		if(input!=null){
+			input.setValueExpression("value", ve);
+			((UIInput) input).addValueChangeListener(listener);
+			components.add(input);
+		}
 		return components;
 	}
 
 	private List<UIComponent> creatComponentsForProperty(Field field,
-	/* ValueExpression ve, */Class<? extends UIComponent> c,
-			List<SelectItem> itemsToShow) {
+	/* ValueExpression ve, */Class<? extends UIComponent> c) {
 
 		List<UIComponent> components = new ArrayList<UIComponent>();
 

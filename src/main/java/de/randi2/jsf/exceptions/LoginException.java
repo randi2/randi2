@@ -24,9 +24,9 @@ public class LoginException extends Exception{
 	
 	private static final long serialVersionUID = 6485662397573250500L;
 	
-	public static String LOGIN_PASS_INCORRECT = "Wrong Login/Password!";
+	public static final String LOGIN_PASS_INCORRECT = "Wrong Login/Password!";
 	
-	public static String TRIAL_SITE_ERROR = "Wrong trial site selected!";
+	public static final String TRIAL_SITE_ERROR = "Wrong trial site selected!";
 	
 	public LoginException(String message){
 		super(message);
