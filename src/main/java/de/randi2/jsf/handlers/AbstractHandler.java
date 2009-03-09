@@ -20,9 +20,6 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.Login;
-import de.randi2.model.Person;
-import de.randi2.model.TrialSite;
 
 /**
  * <p>
@@ -32,11 +29,6 @@ import de.randi2.model.TrialSite;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public abstract class AbstractHandler<O extends AbstractDomainObject> {
-
-	/**
-	 * The class which is handled by the particular handler.
-	 */
-	private Class<O> type = null;
 
 	/**
 	 * The currently showed object.
@@ -52,10 +44,6 @@ public abstract class AbstractHandler<O extends AbstractDomainObject> {
 	 * Defines if the showedObject should can be edited by the user or not.
 	 */
 	protected boolean editable = false;
-
-	public AbstractHandler(Class<O> _type) {
-		type = _type;
-	}
 	
 	public O getShowedObject() {
 		if (showedObject == null)
@@ -81,21 +69,7 @@ public abstract class AbstractHandler<O extends AbstractDomainObject> {
 	 * 
 	 * @return A new object with initialized depending objects.
 	 */
-	@SuppressWarnings("unchecked")
-	// FIXME Make abstract
-	private O createPlainObject() {
-		if (type.getCanonicalName().equals(Login.class.getCanonicalName())) {
-			Login plainO = new Login();
-			plainO.setPerson(new Person());
-			return (O) plainO;
-		} else if (type.getCanonicalName().equals(
-				TrialSite.class.getCanonicalName())) {
-			TrialSite plainO = new TrialSite();
-			plainO.setContactPerson(new Person());
-			return (O) plainO;
-		}
-		return null;
-	}
+	protected abstract O createPlainObject();
 	
 	/**
 	 * This method saves the showedObject.

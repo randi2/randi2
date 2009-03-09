@@ -63,7 +63,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	@SuppressWarnings("unchecked")
 	public TrialHandler() {
-		super(Trial.class);
 		criteriaList = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
 		try {
 			for (Class<?> c : ReflectionUtil
@@ -119,14 +118,15 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	public Trial getNewTrial() {
+		//FIXME - the UI should only correspond with the showedObject
 		if (newTrial == null) { // TODO
 			newTrial = new Trial();
 			newTrial.setStartDate(new GregorianCalendar());
 			newTrial.setEndDate(new GregorianCalendar());
-			//Each new Trial has automatic 2 Treatment Arms
+			// Each new Trial has automatic 2 Treatment Arms
 			newTrial.getTreatmentArms().add(new TreatmentArm());
 			newTrial.getTreatmentArms().add(new TreatmentArm());
-			
+
 		}
 		return newTrial;
 	}
@@ -175,20 +175,20 @@ public class TrialHandler extends AbstractHandler<Trial> {
 						.getSelectedObject().getPerson());
 			// TODO Protokoll
 
-			/*Creating the relationship between Trial and TreatmentArm*/
-			//FIXME Maybe it should be made automatic by DAO object
-			for(TreatmentArm tA : newTrial.getTreatmentArms()){
+			/* Creating the relationship between Trial and TreatmentArm */
+			// FIXME Maybe it should be made automatic by DAO object
+			for (TreatmentArm tA : newTrial.getTreatmentArms()) {
 				tA.setTrial(newTrial);
 			}
-			
+
 			/* SubjectProperties Configuration */
 			ValueExpression ve1 = FacesContext.getCurrentInstance()
 					.getApplication().getExpressionFactory()
 					.createValueExpression(
 							FacesContext.getCurrentInstance().getELContext(),
 							"#{step4}", Step4.class);
-			Step4 temp1 = (Step4) ve1.getValue(FacesContext.getCurrentInstance()
-					.getELContext());
+			Step4 temp1 = (Step4) ve1.getValue(FacesContext
+					.getCurrentInstance().getELContext());
 			ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> configuredCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
 			for (SubjectPropertyWrapper wr : temp1.getProperties()) {
 				List<? extends Serializable> configuredConstraints = wr
@@ -225,12 +225,16 @@ public class TrialHandler extends AbstractHandler<Trial> {
 					.createValueExpression(
 							FacesContext.getCurrentInstance().getELContext(),
 							"#{step5}", Step5.class);
-			Step5 temp2 = (Step5) ve2.getValue(FacesContext.getCurrentInstance()
-					.getELContext());
-			if(temp2.getSelectedAlgorithmPanelId().equals(Step5.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())){
-				newTrial.setRandomizationConfiguration(new CompleteRandomizationConfig());
-			}else if(temp2.getSelectedAlgorithmPanelId().equals(Step5.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())){
-				newTrial.setRandomizationConfiguration(new BiasedCoinRandomizationConfig());
+			Step5 temp2 = (Step5) ve2.getValue(FacesContext
+					.getCurrentInstance().getELContext());
+			if (temp2.getSelectedAlgorithmPanelId().equals(
+					Step5.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())) {
+				newTrial
+						.setRandomizationConfiguration(new CompleteRandomizationConfig());
+			} else if (temp2.getSelectedAlgorithmPanelId().equals(
+					Step5.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
+				newTrial
+						.setRandomizationConfiguration(new BiasedCoinRandomizationConfig());
 			}
 			/* End of the Algorithm Configuration */
 
@@ -315,5 +319,17 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	public int getTrialsAmount() {
 		return trialDao.getAll().size();
+	}
+
+	@Override
+	protected Trial createPlainObject() {
+		Trial t = new Trial();
+		//Start & End Date will be initalised with the today's date
+		t.setStartDate(new GregorianCalendar());
+		t.setEndDate(new GregorianCalendar());
+		// Each new Trial has automatic 2 Treatment Arms
+		t.getTreatmentArms().add(new TreatmentArm());
+		t.getTreatmentArms().add(new TreatmentArm());
+		return t;
 	}
 }

@@ -155,6 +155,7 @@ public class Randi2Page {
 	}
 
 	public void createTrial(ActionEvent event) {
+		trialHandler.setShowedObject(null);
 		activePanel = "trialCreatePanel";
 	}
 

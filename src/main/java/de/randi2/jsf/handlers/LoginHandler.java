@@ -61,7 +61,6 @@ import org.apache.log4j.Logger;
 public class LoginHandler extends AbstractHandler<Login> {
 
 	public LoginHandler() {
-		super(Login.class);
 	}
 
 	// This Object is representing the current User
@@ -275,7 +274,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 				newUser.getPerson().setAssistant(
 						tsMembersAC.getSelectedObject());
 			newUser.setCreatedAt(new GregorianCalendar());
-//			personDao.save(newUser.getPerson());
+			// personDao.save(newUser.getPerson());
 			loginDao.save(newUser);
 
 			// Making the successPopup visible (NORMAL REGISTRATION)
@@ -293,7 +292,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 			if (creatingMode) {
 				this.userSavedPVisible = true;
 			}
-			
+
 			return sendRegistrationMails(newUser, chosenLocale, mailService);
 
 		} catch (InvalidStateException exp) {
@@ -318,13 +317,16 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 * Sends the registration mails to the new user and the contact person of
 	 * the current trial site.
 	 * 
-	 * @param newUser The new user.
-	 * @param chosenLocale The chosen Locale of the new user.
+	 * @param newUser
+	 *            The new user.
+	 * @param chosenLocale
+	 *            The chosen Locale of the new user.
 	 * @param mailService
 	 * @return
 	 */
-	public String sendRegistrationMails(Login newUser, Locale chosenLocale,MailServiceInterface mailService) {
-		
+	public String sendRegistrationMails(Login newUser, Locale chosenLocale,
+			MailServiceInterface mailService) {
+
 		try {
 
 			// sending the registration mail via MailService
@@ -343,35 +345,34 @@ public class LoginHandler extends AbstractHandler<Login> {
 			mailService.sendMail(newUser.getUsername(), "NewUserMail",
 					language, newUserMessageFields, newUserSubjectFields);
 
-			
 			if (newUser.getPerson().getTrialSite().getContactPerson() != null) {
-				
+
 				// send e-mail to contact person of current trial-site
-				
-				Person contactPerson = newUser.getPerson().getTrialSite().getContactPerson();
+
+				Person contactPerson = newUser.getPerson().getTrialSite()
+						.getContactPerson();
 				language = contactPerson.getLogin().getPrefLocale();
-				
-				
+
 				// Map of variables for the message
 				Map<String, Object> contactPersonMessageFields = new HashMap<String, Object>();
 				contactPersonMessageFields.put("newUser", newUser);
 				contactPersonMessageFields.put("contactPerson", contactPerson);
-				
+
 				// Map of variables for the subject
 				Map<String, Object> contactPersonSubjectFields = new HashMap<String, Object>();
-				contactPersonSubjectFields.put("newUserFirstname", newUser.getPerson()
-						.getFirstname());
-				contactPersonSubjectFields.put("newUserLastname", newUser.getPerson()
-						.getSurname());
-				
-				
-				mailService.sendMail(contactPerson.getEMail(), "NewUserNotifyContactPersonMail", language, contactPersonMessageFields, contactPersonSubjectFields);
-				
+				contactPersonSubjectFields.put("newUserFirstname", newUser
+						.getPerson().getFirstname());
+				contactPersonSubjectFields.put("newUserLastname", newUser
+						.getPerson().getSurname());
+
+				mailService.sendMail(contactPerson.getEMail(),
+						"NewUserNotifyContactPersonMail", language,
+						contactPersonMessageFields, contactPersonSubjectFields);
+
 			}
-			
+
 			return Randi2.SUCCESS;
-			
-			
+
 		} catch (MailErrorException exp) {
 
 			// TODO remove stack trace
@@ -380,9 +381,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 			return Randi2.ERROR;
 
 		}
-		
-		
-		
+
 	}
 
 	/**
@@ -586,7 +585,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 			if (trialSitesAC.getSelectedObject() != null)
 				tsMembersAC = new AutoCompleteObject<Person>(trialSitesAC
 						.getSelectedObject().getMembers());
-			else
+			else //FIXME - from time to time we've got a strange behavioure here ...
 				tsMembersAC = new AutoCompleteObject<Person>(showedObject
 						.getPerson().getTrialSite().getMembers());
 		}
@@ -617,4 +616,11 @@ public class LoginHandler extends AbstractHandler<Login> {
 	}
 
 	// ---
+
+	@Override
+	protected Login createPlainObject() {
+		Login l = new Login();
+		l.setPerson(new Person());
+		return l;
+	}
 }

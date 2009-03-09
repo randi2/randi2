@@ -23,6 +23,7 @@ import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.Randi2;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
+import de.randi2.model.Person;
 import de.randi2.model.TrialSite;
 
 /**
@@ -35,7 +36,6 @@ import de.randi2.model.TrialSite;
 public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 
 	public TrialSiteHandler() {
-		super(TrialSite.class);
 	}
 
 	// FIXME centerDao in trialDao -> why through xml and not with @Autowired
@@ -69,8 +69,9 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 		// Temporary I'll just look, if the current user is a member of this
 		// center - if it is so, then he can edit it
 		// properties.
-		if (showedObject!=null && showedObject.equals(this.getCurrentUser().getPerson()
-				.getTrialSite())) {
+		if (showedObject != null
+				&& showedObject.equals(this.getCurrentUser().getPerson()
+						.getTrialSite())) {
 			editable = true;
 		} else {
 			editable = creatingMode;
@@ -78,7 +79,9 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 		return editable;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.randi2.jsf.handlers.AbstractHandler#saveObject()
 	 */
 	@Override
@@ -106,18 +109,20 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 			e.printStackTrace();
 			Randi2.showMessage(e);
 			return Randi2.ERROR;
-		} finally{
+		} finally {
 			refreshShowedObject();
 		}
 
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.randi2.jsf.handlers.AbstractHandler#refreshShowedObject()
 	 */
 	@Override
 	public String refreshShowedObject() {
-		if(showedObject.getId()==AbstractDomainObject.NOT_YET_SAVED_ID)
+		if (showedObject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID)
 			showedObject = null;
 		else
 			showedObject = centerDao.get(showedObject.getId());
@@ -137,6 +142,13 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 
 	public int getTrialSitesAmount() {
 		return centerDao.getAll().size();
+	}
+
+	@Override
+	protected TrialSite createPlainObject() {
+		TrialSite ts = new TrialSite();
+		ts.setContactPerson(new Person());
+		return ts;
 	}
 
 }
