@@ -25,8 +25,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			+ "login.username =?";
 		List<Login>  loginList =(List) template.find(query, username);
 		if (loginList.size() ==1){
-			loginList.get(0).setLastLoggedIn(new GregorianCalendar());
-			return loginList.get(0);
+			Login user = loginList.get(0);
+			user.setLastLoggedIn(new GregorianCalendar());
+			if(user.getNumberWrongLogins()==Login.MAX_WRONG_LOGINS && ((user.getLockTime().getTimeInMillis()+Login.MILIS_TO_LOCK_USER)< System.currentTimeMillis())){
+				byte number = 0;
+				user.setNumberWrongLogins(number);
+				user.setLockTime(null);
+				template.update(user);
+			}
+			return user;
 		}
 		else throw new UsernameNotFoundException("");
 	}

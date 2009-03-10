@@ -37,6 +37,10 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	
 	private final static long serialVersionUID = -6809229052570773439L;
 
+	public final static short MAX_WRONG_LOGINS=3;
+	//15min
+	public final static int MILIS_TO_LOCK_USER = 900000;
+	
 	public final static int MAX_USERNAME_LENGTH = 40;
 	public final static int MIN_USERNAME_LENGTH = 5;
 	public final static int MAX_PASSWORD_LENGTH = 50;
@@ -56,6 +60,10 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	private GregorianCalendar registrationDate = null;
 
 	private boolean active = false;
+	
+	
+	private byte numberWrongLogins = 0;
+	private GregorianCalendar lockTime;
 
 	// @CollectionOfElements(fetch = FetchType.EAGER)
 	// @Enumerated(value = EnumType.STRING)
@@ -154,7 +162,9 @@ public class Login extends AbstractDomainObject implements UserDetails {
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		if(numberWrongLogins >=MAX_WRONG_LOGINS){
+			return false;
+		}else return true;
 	}
 
 	@Override
@@ -221,5 +231,21 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	@Override
 	public String getUIName() {
 		return this.getPerson().getSurname()+", "+this.getPerson().getFirstname();
+	}
+
+	public byte getNumberWrongLogins() {
+		return numberWrongLogins;
+	}
+
+	public void setNumberWrongLogins(byte numberWrongLogins) {
+		this.numberWrongLogins = numberWrongLogins;
+	}
+
+	public GregorianCalendar getLockTime() {
+		return lockTime;
+	}
+
+	public void setLockTime(GregorianCalendar lockTime) {
+		this.lockTime = lockTime;
 	}
 }

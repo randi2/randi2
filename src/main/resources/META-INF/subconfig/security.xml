@@ -19,7 +19,7 @@
 	</sec:http>
 
 	<bean id="authenticationProvider"
-		class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+		class="de.randi2.utility.security.DaoAuthenticationProviderWithLock">
 		<sec:custom-authentication-provider />
 		<property name="userDetailsService"> <bean class="de.randi2.dao.UserDetailsServiceImpl"></bean></property>
 		<!-- 		<property name="passwordEncoder">
