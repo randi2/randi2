@@ -40,8 +40,8 @@ public class SaveUpdateListener implements SaveOrUpdateEventListener, MergeEvent
 	}
 
 	public void onMerge(MergeEvent event) throws HibernateException {
-		if(event.getEntity() instanceof AbstractDomainObject){
-			AbstractDomainObject object = (AbstractDomainObject) event.getEntity();
+		if(event.getOriginal() instanceof AbstractDomainObject){
+			AbstractDomainObject object = (AbstractDomainObject) event.getOriginal();
 			if(object.getId()==AbstractDomainObject.NOT_YET_SAVED_ID){
 				object.beforeCreate();
 				object.beforeUpdate();
@@ -56,8 +56,8 @@ public class SaveUpdateListener implements SaveOrUpdateEventListener, MergeEvent
 	@SuppressWarnings("unchecked")
 	public void onMerge(MergeEvent event, Map copiedAlready)
 			throws HibernateException {
-		if(event.getEntity() instanceof AbstractDomainObject){
-			AbstractDomainObject object = (AbstractDomainObject) event.getEntity();
+		if(event.getOriginal() instanceof AbstractDomainObject){
+			AbstractDomainObject object = (AbstractDomainObject) event.getOriginal();
 			if(object.getId()==AbstractDomainObject.NOT_YET_SAVED_ID){
 				object.beforeCreate();
 				object.beforeUpdate();
