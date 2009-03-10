@@ -77,8 +77,8 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 	public void testOptimisticLocking() {
 		hibernateTemplate.save(domainObject);
 		int version = domainObject.getVersion();
-		Login v1 = (Login) hibernateTemplate.get(Login.class, domainObject.getId());
 		Login v2 = (Login) hibernateTemplate.get(Login.class, domainObject.getId());
+		Login v1 = (Login) hibernateTemplate.get(Login.class, domainObject.getId());
 		
 		v1.setPassword("Aenderung$1");
 		hibernateTemplate.update(v1);
