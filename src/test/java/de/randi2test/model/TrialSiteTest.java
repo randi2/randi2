@@ -27,7 +27,7 @@ import de.randi2test.utility.AbstractDomainTest;
 
 public class TrialSiteTest extends AbstractDomainTest<TrialSite> {
 
-	private TrialSite validCenter;
+	private TrialSite validTrialSite;
 @Autowired private SessionFactory sessionFactory;
 
 private Session getCurrentSession(){
@@ -40,8 +40,8 @@ private Session getCurrentSession(){
 
 	@Before
 	public void setUp() {
-		validCenter = factory.getTrialSite();
-		hibernateTemplate.save(validCenter.getContactPerson());
+		validTrialSite = factory.getTrialSite();
+		hibernateTemplate.save(validTrialSite.getContactPerson());
 	}
 
 	@Test
@@ -64,109 +64,109 @@ private Session getCurrentSession(){
 		final String nameEmpty = "";
 		final String nameNull = null;
 
-		validCenter.setName(nameOK1);
-		assertEquals(nameOK1, validCenter.getName());
-		assertValid(validCenter);
+		validTrialSite.setName(nameOK1);
+		assertEquals(nameOK1, validTrialSite.getName());
+		assertValid(validTrialSite);
 
-		validCenter.setName(nameOK2);
-		assertEquals(nameOK2, validCenter.getName());
-		assertValid(validCenter);
+		validTrialSite.setName(nameOK2);
+		assertEquals(nameOK2, validTrialSite.getName());
+		assertValid(validTrialSite);
 
-		validCenter.setName(nameToLong);
-		assertEquals(nameToLong, validCenter.getName());
-		assertInvalid(validCenter, new String[] { "" });
+		validTrialSite.setName(nameToLong);
+		assertEquals(nameToLong, validTrialSite.getName());
+		assertInvalid(validTrialSite, new String[] { "" });
 
-		validCenter.setName(nameEmpty);
-		assertEquals(nameEmpty, validCenter.getName());
-		assertInvalid(validCenter, new String[] { "" });
+		validTrialSite.setName(nameEmpty);
+		assertEquals(nameEmpty, validTrialSite.getName());
+		assertInvalid(validTrialSite, new String[] { "" });
 
-		validCenter.setName(nameNull);
-		assertEquals("", validCenter.getName());
-		assertInvalid(validCenter, new String[] { "" });
+		validTrialSite.setName(nameNull);
+		assertEquals("", validTrialSite.getName());
+		assertInvalid(validTrialSite, new String[] { "" });
 	}
 
 	@Test
 	public void testStreet() {
 		// Street
-		validCenter.setStreet(null);
-		assertEquals("", validCenter.getStreet());
-		assertValid(validCenter);
+		validTrialSite.setStreet(null);
+		assertEquals("", validTrialSite.getStreet());
+		assertValid(validTrialSite);
 
-		validCenter.setStreet("");
-		assertEquals("", validCenter.getStreet());
-		assertValid(validCenter);
+		validTrialSite.setStreet("");
+		assertEquals("", validTrialSite.getStreet());
+		assertValid(validTrialSite);
 
-		validCenter.setStreet("Oxford-Street 212");
-		assertEquals("Oxford-Street 212", validCenter.getStreet());
-		assertValid(validCenter);
+		validTrialSite.setStreet("Oxford-Street 212");
+		assertEquals("Oxford-Street 212", validTrialSite.getStreet());
+		assertValid(validTrialSite);
 
 		String ok = stringUtil
 				.getWithLength(AbstractDomainObject.MAX_VARCHAR_LENGTH);
-		validCenter.setStreet(ok);
-		assertEquals(ok, validCenter.getStreet());
-		assertValid(validCenter);
+		validTrialSite.setStreet(ok);
+		assertEquals(ok, validTrialSite.getStreet());
+		assertValid(validTrialSite);
 
 		String iv = stringUtil
 				.getWithLength(AbstractDomainObject.MAX_VARCHAR_LENGTH + 1);
-		validCenter.setStreet(iv);
-		assertEquals(iv, validCenter.getStreet());
-		assertInvalid(validCenter);
+		validTrialSite.setStreet(iv);
+		assertEquals(iv, validTrialSite.getStreet());
+		assertInvalid(validTrialSite);
 
 	}
 
 	@Test
 	public void testPostcode() {
 		// Postcode
-		validCenter.setPostcode(null);
-		assertEquals("", validCenter.getPostcode());
-		assertValid(validCenter);
+		validTrialSite.setPostcode(null);
+		assertEquals("", validTrialSite.getPostcode());
+		assertValid(validTrialSite);
 
-		validCenter.setPostcode("");
-		assertEquals("", validCenter.getPostcode());
-		assertValid(validCenter);
+		validTrialSite.setPostcode("");
+		assertEquals("", validTrialSite.getPostcode());
+		assertValid(validTrialSite);
 
-		validCenter.setPostcode("97321");
-		assertEquals("97321", validCenter.getPostcode());
-		assertValid(validCenter);
+		validTrialSite.setPostcode("97321");
+		assertEquals("97321", validTrialSite.getPostcode());
+		assertValid(validTrialSite);
 
 		String ok = stringUtil.getWithLength(TrialSite.MAX_LENGTH_POSTCODE);
-		validCenter.setPostcode(ok);
-		assertEquals(ok, validCenter.getPostcode());
-		assertValid(validCenter);
+		validTrialSite.setPostcode(ok);
+		assertEquals(ok, validTrialSite.getPostcode());
+		assertValid(validTrialSite);
 
 		String iv = stringUtil.getWithLength(TrialSite.MAX_LENGTH_POSTCODE + 1);
-		validCenter.setPostcode(iv);
-		assertEquals(iv, validCenter.getPostcode());
-		assertInvalid(validCenter);
+		validTrialSite.setPostcode(iv);
+		assertEquals(iv, validTrialSite.getPostcode());
+		assertInvalid(validTrialSite);
 
 	}
 
 	@Test
 	public void testCity() {
 		// City
-		validCenter.setCity(null);
-		assertEquals("", validCenter.getCity());
-		assertValid(validCenter);
+		validTrialSite.setCity(null);
+		assertEquals("", validTrialSite.getCity());
+		assertValid(validTrialSite);
 
-		validCenter.setCity("");
-		assertEquals("", validCenter.getCity());
-		assertValid(validCenter);
+		validTrialSite.setCity("");
+		assertEquals("", validTrialSite.getCity());
+		assertValid(validTrialSite);
 
-		validCenter.setCity("New Hamburger");
-		assertEquals("New Hamburger", validCenter.getCity());
-		assertValid(validCenter);
+		validTrialSite.setCity("New Hamburger");
+		assertEquals("New Hamburger", validTrialSite.getCity());
+		assertValid(validTrialSite);
 
 		String ok = stringUtil
 				.getWithLength(AbstractDomainObject.MAX_VARCHAR_LENGTH);
-		validCenter.setCity(ok);
-		assertEquals(ok, validCenter.getCity());
-		assertValid(validCenter);
+		validTrialSite.setCity(ok);
+		assertEquals(ok, validTrialSite.getCity());
+		assertValid(validTrialSite);
 
 		String iv = stringUtil
 				.getWithLength(AbstractDomainObject.MAX_VARCHAR_LENGTH + 1);
-		validCenter.setCity(iv);
-		assertEquals(iv, validCenter.getCity());
-		assertInvalid(validCenter);
+		validTrialSite.setCity(iv);
+		assertEquals(iv, validTrialSite.getCity());
+		assertInvalid(validTrialSite);
 	}
 	
 	@Test
@@ -179,40 +179,40 @@ private Session getCurrentSession(){
 		tl.add(factory.getTrial());
 		
 
-		hibernateTemplate.saveOrUpdate(validCenter);
+		hibernateTemplate.saveOrUpdate(validTrialSite);
 		hibernateTemplate.flush();
-		assertTrue(validCenter.getId()!= AbstractDomainObject.NOT_YET_SAVED_ID);
+		assertTrue(validTrialSite.getId()!= AbstractDomainObject.NOT_YET_SAVED_ID);
 		for(Trial trial: tl){
-			trial.addParticipatingSite(validCenter);
-			trial.setLeadingSite(validCenter);
+			trial.addParticipatingSite(validTrialSite);
+			trial.setLeadingSite(validTrialSite);
 			Login login = factory.getLogin();
 			hibernateTemplate.persist(login);
 			trial.setSponsorInvestigator(login.getPerson());
 			assertEquals(1, trial.getParticipatingSites().size());
-			assertEquals(validCenter.getId(), ((AbstractDomainObject) trial.getParticipatingSites().toArray()[0]).getId());
+			assertEquals(validTrialSite.getId(), ((AbstractDomainObject) trial.getParticipatingSites().toArray()[0]).getId());
 			hibernateTemplate.persist(trial);
 			hibernateTemplate.flush();
 		}
-		TrialSite center = (TrialSite) hibernateTemplate.get(TrialSite.class, validCenter.getId());
-		assertEquals(validCenter.getId(), center.getId());
+		TrialSite trialSite = (TrialSite) hibernateTemplate.get(TrialSite.class, validTrialSite.getId());
+		assertEquals(validTrialSite.getId(), trialSite.getId());
 		
-		hibernateTemplate.refresh(validCenter);
-		validCenter.getTrials();
-		assertEquals(tl.size(), center.getTrials().size());
+		hibernateTemplate.refresh(validTrialSite);
+		validTrialSite.getTrials();
+		assertEquals(tl.size(), trialSite.getTrials().size());
 	}
 	
 	@Test
 	public void testCountry(){
-		validCenter.setCountry("UK");
-		assertEquals("UK", validCenter.getCountry());
-		hibernateTemplate.saveOrUpdate(validCenter);
-		assertTrue(validCenter.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
-		TrialSite c = (TrialSite) hibernateTemplate.get(TrialSite.class, validCenter.getId());
+		validTrialSite.setCountry("UK");
+		assertEquals("UK", validTrialSite.getCountry());
+		hibernateTemplate.saveOrUpdate(validTrialSite);
+		assertTrue(validTrialSite.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
+		TrialSite c = (TrialSite) hibernateTemplate.get(TrialSite.class, validTrialSite.getId());
 		
-		assertEquals(validCenter.getId(), c.getId());
+		assertEquals(validTrialSite.getId(), c.getId());
 		assertEquals("UK", c.getCountry());
-		validCenter.setCountry(null);
-		assertEquals("", validCenter.getCountry());
+		validTrialSite.setCountry(null);
+		assertEquals("", validTrialSite.getCountry());
 		
 	}
 	
@@ -220,13 +220,13 @@ private Session getCurrentSession(){
 	public void testContactPerson(){
 		Person p = factory.getPerson();
 		hibernateTemplate.save(p);
-		validCenter.setContactPerson(p);
-		assertEquals(p.getSurname(), validCenter.getContactPerson().getSurname());
-		hibernateTemplate.saveOrUpdate(validCenter);
-		assertTrue(validCenter.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
+		validTrialSite.setContactPerson(p);
+		assertEquals(p.getSurname(), validTrialSite.getContactPerson().getSurname());
+		hibernateTemplate.saveOrUpdate(validTrialSite);
+		assertTrue(validTrialSite.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
 		assertTrue(p.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
 		
-		TrialSite c = (TrialSite) hibernateTemplate.get(TrialSite.class, validCenter.getId());
+		TrialSite c = (TrialSite) hibernateTemplate.get(TrialSite.class, validTrialSite.getId());
 		assertEquals(p.getId(), c.getContactPerson().getId());
 	}
 	
@@ -235,24 +235,21 @@ private Session getCurrentSession(){
 	public void testMembers(){
 	
 		List<Person> members = new ArrayList<Person>();
-		//hibernateTemplate.getSessionFactory().getCurrentSession().saveOrUpdate(validCenter);
-		hibernateTemplate.saveOrUpdate(validCenter);
+	
+		hibernateTemplate.saveOrUpdate(validTrialSite);
 		
 		for(int i=0;i<100;i++){
 			Person p = factory.getPerson();
-			p.setTrialSite(validCenter);
-			assertEquals(validCenter.getId(), p.getTrialSite().getId());
+			p.setTrialSite(validTrialSite);
+			assertEquals(validTrialSite.getId(), p.getTrialSite().getId());
 			hibernateTemplate.saveOrUpdate(p);
 		//	hibernateTemplate.getSessionFactory().getCurrentSession().saveOrUpdate(p);
 			members.add(p);
 		}
 		hibernateTemplate.flush();
-	//	hibernateTemplate.getSessionFactory().getCurrentSession().flush();
-		//List<Person> persons = (List<Person>) hibernateTemplate.findByNamedQueryAndNamedParam("center.findAllMembers", "center", validCenter);
 		
-		TrialSite c = (TrialSite) hibernateTemplate.get(TrialSite.class, validCenter.getId());
-//	Center c = (Center) hibernateTemplate.getSessionFactory().getCurrentSession().get(Center.class, validCenter.getId());		
-		assertEquals(validCenter.getId(), c.getId());
+		TrialSite c = (TrialSite) hibernateTemplate.get(TrialSite.class, validTrialSite.getId());
+		assertEquals(validTrialSite.getId(), c.getId());
 			List<Person> mem = c.getMembers();
 			hibernateTemplate.refresh(c);
 //			hibernateTemplate.getSessionFactory().getCurrentSession().refresh(c);
@@ -265,14 +262,14 @@ private Session getCurrentSession(){
 	public void testPassword(){
 		String[] validPasswords = {"secret0$secret","sad.al4h/ljhaslf",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+";2", stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-2)+",3", stringUtil.getWithLength(Login.HASH_PASSWORD_LENGTH)};
 		for (String s: validPasswords){
-			validCenter.setPassword(s);
-			assertValid(validCenter);
+			validTrialSite.setPassword(s);
+			assertValid(validTrialSite);
 		}
 		
 	String[] invalidPasswords = {"secret$secret",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH),stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-3)+";2", "0123456789", null, ""};
 		for (String s: invalidPasswords){
-			validCenter.setPassword(s);
-			assertInvalid(validCenter);
+			validTrialSite.setPassword(s);
+			assertInvalid(validTrialSite);
 		}
 	}
 	
@@ -303,17 +300,17 @@ private Session getCurrentSession(){
 		l.addRole(Role.ROLE_P_INVESTIGATOR);
 		members.add(l.getPerson());
 		
-		validCenter.setMembers(members);
+		validTrialSite.setMembers(members);
 		
-		List<Login> logins = validCenter.getMembersWithSpecifiedRole(Role.ROLE_USER);
+		List<Login> logins = validTrialSite.getMembersWithSpecifiedRole(Role.ROLE_USER);
 		assertEquals(members.size(), logins.size());
 		
-		logins = validCenter.getMembersWithSpecifiedRole(Role.ROLE_ADMIN);
+		logins = validTrialSite.getMembersWithSpecifiedRole(Role.ROLE_ADMIN);
 		assertEquals(4, logins.size());
 		for(Person p: members.subList(0, 3)){
 			assertTrue(logins.contains(p.getLogin()));
 		}
-		logins = validCenter.getMembersWithSpecifiedRole(Role.ROLE_P_INVESTIGATOR);
+		logins = validTrialSite.getMembersWithSpecifiedRole(Role.ROLE_P_INVESTIGATOR);
 		assertEquals(1, logins.size());
 		assertTrue(logins.contains(members.get(6).getLogin()));
 	}

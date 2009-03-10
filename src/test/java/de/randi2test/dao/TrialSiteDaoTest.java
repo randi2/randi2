@@ -21,7 +21,7 @@ public class TrialSiteDaoTest {
 
 
 	@Autowired
-	private TrialSiteDao centerDao;
+	private TrialSiteDao trialSiteDao;
 	@Autowired
 	private DomainObjectFactory factory;
 @Autowired
@@ -32,18 +32,18 @@ private HibernateTemplate hibernateTemplate;
 		for (int i=0;i<100;i++){
 			TrialSite c = factory.getTrialSite();
 			hibernateTemplate.save(c.getContactPerson());
-			centerDao.save(c);
+			trialSiteDao.save(c);
 		}
-		assertTrue(centerDao.getAll().size()>=100);
+		assertTrue(trialSiteDao.getAll().size()>=100);
 	}
 	@Test
 	public void testGetName(){
 		TrialSite c = factory.getTrialSite();
 		hibernateTemplate.save(c.getContactPerson());
-		centerDao.save(c);
+		trialSiteDao.save(c);
 		assertTrue(c.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
 		
-		TrialSite c1 = centerDao.get(c.getName());
+		TrialSite c1 = trialSiteDao.get(c.getName());
 		
 		assertEquals(c.getId(), c1.getId());
 		assertEquals(c.getName(), c1.getName());

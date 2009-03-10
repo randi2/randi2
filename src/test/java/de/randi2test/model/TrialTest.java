@@ -246,7 +246,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 	}
 	
 	@Test
-	public void testLeadingCenter(){
+	public void testLeadingSite(){
 		final TrialSite c = factory.getTrialSite();
 		hibernateTemplate.save(c.getContactPerson());
 		hibernateTemplate.save(c);
@@ -265,7 +265,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 	}
 	
 	@Test
-	public void testPartCenters(){
+	public void testPartSits(){
 		Set<TrialSite> cl = validTrial.getParticipatingSites();
 		
 		TrialSite c1 = factory.getTrialSite();

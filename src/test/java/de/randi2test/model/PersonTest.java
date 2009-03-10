@@ -329,13 +329,13 @@ public class PersonTest extends AbstractDomainTest<Person> {
 	}
 
 	@Test
-	public void testCenter() {
-		TrialSite center = factory.getTrialSite();
-		hibernateTemplate.save(center.getContactPerson());
-		hibernateTemplate.saveOrUpdate(center);
+	public void testTrialSite() {
+		TrialSite trialSite = factory.getTrialSite();
+		hibernateTemplate.save(trialSite.getContactPerson());
+		hibernateTemplate.saveOrUpdate(trialSite);
 		
 		validPerson.setSurname(stringUtil.getWithLength(20));
-		validPerson.setTrialSite(center);
+		validPerson.setTrialSite(trialSite);
 		assertNotNull(validPerson.getTrialSite());
 
 		hibernateTemplate.saveOrUpdate(validPerson);
@@ -348,7 +348,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertNotNull(p);
 		assertEquals(validPerson.getId(), p.getId());
 		assertNotNull(p.getTrialSite());
-		assertEquals(center.getId(), p.getTrialSite().getId());
+		assertEquals(trialSite.getId(), p.getTrialSite().getId());
 	}
 	
 	@Test

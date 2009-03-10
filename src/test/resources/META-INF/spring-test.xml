@@ -40,6 +40,6 @@
 
 	<bean id="loginDAO" class="de.randi2.dao.LoginDaoHibernate"></bean>
 
-	<bean id="centerDAO" class="de.randi2.dao.TrialSiteDaoHibernate"></bean>
+	<bean id="trialSiteDAO" class="de.randi2.dao.TrialSiteDaoHibernate"></bean>
 
 </beans>

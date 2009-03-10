@@ -32,15 +32,15 @@ public class ExtendedPermissionImplTest {
 	public void testMask(){
 		AclHibernate acl = new AclHibernate();
 		AccessControlEntryHibernate ace = new AccessControlEntryHibernate();
-		TrialSite center = factory.getTrialSite();
-		hibernateTemplate.save(center.getContactPerson());
-		hibernateTemplate.save(center);
+		TrialSite trialSite = factory.getTrialSite();
+		hibernateTemplate.save(trialSite.getContactPerson());
+		hibernateTemplate.save(trialSite);
 		Login login = factory.getLogin();
 		hibernateTemplate.save(login);
 		SidHibernate sid = new SidHibernate(login.getUsername());
 		hibernateTemplate.save(sid);
 		acl.setOwner(sid);
-		acl.setObjectIdentity(new ObjectIdentityHibernate(TrialSite.class,center.getId()));
+		acl.setObjectIdentity(new ObjectIdentityHibernate(TrialSite.class,trialSite.getId()));
 		ace.setAcl(acl);
 		ace.setSid(sid);
 		ace.setPermission(PermissionHibernate.ADMINISTRATION);
