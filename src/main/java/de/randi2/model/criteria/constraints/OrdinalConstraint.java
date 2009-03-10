@@ -13,6 +13,9 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 
 	private static final long serialVersionUID = 3642808577019112783L;
 
+	
+	protected OrdinalConstraint(){}
+	
 	public OrdinalConstraint(List<String> args)
 			throws ContraintViolatedException {
 		super(args);

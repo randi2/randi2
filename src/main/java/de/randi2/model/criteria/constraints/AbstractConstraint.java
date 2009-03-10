@@ -17,6 +17,8 @@ public abstract class AbstractConstraint<V extends Object> extends AbstractDomai
 		configure(args);
 	}
 	
+	protected AbstractConstraint(){}
+	
 	protected abstract void configure(List<V> args) throws ContraintViolatedException;
 
 	public abstract void isValueCorrect(V _value) throws ContraintViolatedException;

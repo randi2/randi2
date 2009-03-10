@@ -9,6 +9,8 @@ import de.randi2.unsorted.ContraintViolatedException;
 @Entity
 public class DichotomousConstraint extends AbstractConstraint<String> {
 
+	protected DichotomousConstraint(){}
+	
 	public DichotomousConstraint(List<String> args)
 			throws ContraintViolatedException {
 		super(args);
