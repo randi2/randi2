@@ -16,7 +16,7 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:https://randi2.svn.sourceforge.net/svnroot/randi2</connection>
+        <connection>scm:svn:file:///var/opt/repository/trunk</connection>
         <developerConnection>scm:svn:https://randi2.svn.sourceforge.net/svnroot/randi2</developerConnection>
         <url>http://randi2.svn.sourceforge.net/viewvc/randi2/</url>
     </scm>
@@ -57,7 +57,7 @@
         <developer>
             <id>jthoenes</id>
             <name>Johannes Th&#246;nes</name>
-            <email>johannes.thoenes@googlemail.com</email>
+            <email>jt@randi2.de</email>
             <url>http://jthoenes.bergischweb.de</url>
             <organization>Universit&#228;tsklinikum Heidelberg</organization>
             <organizationUrl>http://www.klinikum.uni-heidelberg.de</organizationUrl>
@@ -101,8 +101,8 @@
             </roles>
         </developer>
         <developer>
-          <id>bkurtz</id>
-          <name>Benjamin Kurtz</name>
+          <id>bkurz</id>
+          <name>Benjamin Kurz</name>
           <email>bk@randi2.de</email>
           <timezone>+1</timezone>
           <roles>
