@@ -2,7 +2,14 @@ package de.randi2.dao;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sun.mail.handlers.text_html;
+
+import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
+import de.randi2.model.Role;
 
 
 public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements LoginDao{
@@ -24,5 +31,15 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements Lo
 	}
 	
 	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public void save(Login object) {
+		for(Role r: object.getRoles()){
+			if(r.getId()== AbstractDomainObject.NOT_YET_SAVED_ID){
+				template.merge(r);
+			}
+		}
+		template.merge(object);
+	}
 
 }

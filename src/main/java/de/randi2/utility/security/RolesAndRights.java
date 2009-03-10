@@ -18,6 +18,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.HibernateAclService;
 import de.randi2.model.AbstractDomainObject;
@@ -45,6 +47,7 @@ public class RolesAndRights {
 	@Autowired
 	private HibernateAclService aclService;
 
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void initializeRoles() {
 		// if(template.findByExample(Role2.ROLE_ADMIN).isEmpty())
 		// template.saveOrUpdate(Role2.ROLE_ADMIN);
@@ -80,6 +83,7 @@ public class RolesAndRights {
 
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void grantRigths(AbstractDomainObject object, TrialSite scope) {
 		if (object instanceof Login) {
 			grantRightsUserObject(object, scope);
@@ -92,7 +96,7 @@ public class RolesAndRights {
 		}
 	}
 
-	
+	@Transactional(propagation=Propagation.REQUIRED)
 	private void grantRightsUserObject(AbstractDomainObject object,
 			TrialSite scope) {
 		if (object instanceof Login) {
@@ -198,6 +202,7 @@ public class RolesAndRights {
 		}
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
 	private void grantRightsTrialSiteObject(TrialSite trialSite, TrialSite scope) {
 		// Set Right for ROLE_ANONYMOUS
 		aclService.createAclwithPermissions(trialSite, Role.ROLE_ANONYMOUS
@@ -264,7 +269,8 @@ public class RolesAndRights {
 		}
 
 	}
-
+	
+	@Transactional(propagation=Propagation.REQUIRED)
 	private void grantRightsTrialObject(Trial trial, TrialSite scope) {
 		List<Login> logins = template.find("from Login");
 		for (Login l : logins) {
@@ -324,15 +330,18 @@ public class RolesAndRights {
 		}
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
 	private void grantRightsTrialSubject(TrialSubject trialSubject,
 			TrialSite scope) {
 		// TODO
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void registerPersonRole(Login login, Role role) {
 
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void registerPerson(Login login) {
 		for (Role role : login.getRoles()) {
 			if (role.equals(Role.ROLE_USER)) {

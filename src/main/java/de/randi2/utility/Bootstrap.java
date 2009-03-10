@@ -61,7 +61,7 @@ public class Bootstrap {
 		adminL.setPrefLocale(Locale.GERMANY);
 		adminL.setUsername(adminP.getEMail());
 		adminL.addRole(Role.ROLE_ADMIN);
-		template.saveOrUpdate(adminL);
+		template.persist(adminL);
 
 		TrialSite trialSite = new TrialSite();
 		trialSite.setCity("Heidelberg");
@@ -71,13 +71,14 @@ public class Bootstrap {
 		trialSite.setStreet("INF");
 		trialSite.setPassword("1$heidelberg");
 		trialSite.setContactPerson(adminP);
-
 		rolesAndRights.registerPerson(adminL);
 		rolesAndRights.grantRigths(adminL, trialSite);
 
-		template.save(trialSite);
+		template.persist(trialSite);
+
+		template.refresh(adminP);
 		adminP.setTrialSite(trialSite);
-		template.saveOrUpdate(adminP);
+		template.update(adminP);
 		rolesAndRights.grantRigths(trialSite, trialSite);
 
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
@@ -102,7 +103,7 @@ public class Bootstrap {
 		userL.setPrefLocale(Locale.GERMANY);
 		userL.setUsername(userP.getEMail());
 		userL.addRole(Role.ROLE_INVESTIGATOR);
-
+		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
 		loginDao.save(userL);
 
 		TrialSite trialSite1 = new TrialSite();
@@ -117,8 +118,9 @@ public class Bootstrap {
 		trialSiteDao.save(trialSite1);
 		
 		/*P_Investigator role*/
+		adminL = (Login) template.get(Login.class, adminL.getId());
 		adminL.addRole(Role.ROLE_P_INVESTIGATOR);
-		template.saveOrUpdate(adminL);
+		loginDao.save(adminL);
 		rolesAndRights.grantRigths(adminL, trialSite);
 	}
 

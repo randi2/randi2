@@ -2,6 +2,7 @@ package de.randi2.dao;
 
 import java.util.List;
 
+import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.TrialSite;
 
 public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> implements TrialSiteDao {
@@ -27,5 +28,12 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 		else return null;
 	}
 	
+	@Override
+	public void save(TrialSite object) {
+		if(object.getContactPerson() != null && object.getContactPerson().getId() == AbstractDomainObject.NOT_YET_SAVED_ID){
+			template.save(object.getContactPerson());
+		}
+		super.save(object);
+	}
 
 }

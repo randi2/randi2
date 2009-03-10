@@ -50,6 +50,7 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 		private SessionFactory sessionFactory;
 		private int beforeTimes;
 		private int afterTimes;
+		private String soucePath;
 	}
 
 	/**
@@ -60,7 +61,8 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 
 		/* Setup the Hiberante Spring in the current thread using Spring API */
 		if (pe.getPhaseId() == PhaseId.RESTORE_VIEW) {
-			ThreadData td = getThreadData();
+			ThreadData td = getThreadData(pe.getFacesContext()
+					.getExternalContext().getRequestServletPath());
 			/*
 			 * This code is here b/c MyFaces seems to call every phase handler
 			 * method twice.
@@ -77,18 +79,24 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 
 			ThreadData td = getThreadDataNoCreate();
 			if (td == null) {
-				td = getThreadData();
+				td = getThreadData(pe.getFacesContext().getExternalContext()
+						.getRequestServletPath());
 				setupSession(pe, td);
 			}
 
 		}
 	}
 
-	/** Get the current thread data */
-	private ThreadData getThreadData() {
+	/**
+	 * Get the current thread data
+	 * 
+	 * @param sourcePath
+	 */
+	private ThreadData getThreadData(String sourcePath) {
 		ThreadData td = (ThreadData) ts.get();
 		if (td == null) {
 			td = new ThreadData();
+			td.soucePath = sourcePath;
 			ts.set(td);
 		} else {
 			td.beforeTimes++;
@@ -143,15 +151,18 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 	 */
 	public void afterPhase(PhaseEvent pe) {
 
-				
-		 if (pe.getPhaseId() == PhaseId.RENDER_RESPONSE) {
-		 ThreadData td = getThreadDataNoCreate();
-		 if (td==null) return;
-		 td.afterTimes++;
-		 cleanupSession(td);
-					
-		 ts.set(null);
-		 }
+		if (pe.getPhaseId() == PhaseId.RENDER_RESPONSE) {
+			ThreadData td = getThreadDataNoCreate();
+			if (td == null) {
+				return;
+			} else if (!td.soucePath.equals(pe.getFacesContext()
+					.getExternalContext().getRequestServletPath())) {
+				td.afterTimes++;
+				cleanupSession(td);
+
+				ts.set(null);
+			}
+		}
 	}
 
 	/*

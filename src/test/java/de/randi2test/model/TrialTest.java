@@ -31,7 +31,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 	public void setUp() throws Exception {
 		// Valides Trial
 		validTrial = factory.getTrial();
-
+		hibernateTemplate.save(validTrial.getLeadingSite().getContactPerson());
 	}
 
 	@Test
@@ -248,6 +248,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 	@Test
 	public void testLeadingCenter(){
 		final TrialSite c = factory.getTrialSite();
+		hibernateTemplate.save(c.getContactPerson());
 		hibernateTemplate.save(c);
 		hibernateTemplate.save(validTrial.getSponsorInvestigator());
 		validTrial.setLeadingSite(c);
@@ -302,16 +303,12 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		
 		//assertEquals(2, validTrial.getParticipatingSites().size());
 		
-		((TrialSite) validTrial.getParticipatingSites().toArray()[0]).setName(stringUtil.getWithLength(20));
+		//((TrialSite) validTrial.getParticipatingSites().toArray()[0]).setName(stringUtil.getWithLength(20));
 		int version = ((AbstractDomainObject) validTrial.getParticipatingSites().toArray()[0]).getVersion();
 		
-		hibernateTemplate.saveOrUpdate(validTrial);
-		
-		hibernateTemplate.flush();
-		//hibernateTemplate.refresh(validTrial);
-		
-		assertTrue(version < ((AbstractDomainObject) validTrial.getParticipatingSites().toArray()
-				[0]).getVersion());
+		hibernateTemplate.update(validTrial);
+		Set<TrialSite> trialSites = validTrial.getParticipatingSites();
+		assertTrue(version < ((AbstractDomainObject) trialSites.toArray()[0]).getId());
 	}
 	
 	 @Test

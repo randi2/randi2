@@ -36,7 +36,7 @@ public class TrialSite extends AbstractDomainObject {
 	private String country = "";
 	private String password = "";
 
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
 	private Person contactPerson = null;
 
 	@OneToMany(mappedBy = "trialSite", fetch=FetchType.EAGER)

@@ -331,6 +331,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 	@Test
 	public void testCenter() {
 		TrialSite center = factory.getTrialSite();
+		hibernateTemplate.save(center.getContactPerson());
 		hibernateTemplate.saveOrUpdate(center);
 		
 		validPerson.setSurname(stringUtil.getWithLength(20));

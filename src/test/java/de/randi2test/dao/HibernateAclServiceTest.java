@@ -3,7 +3,7 @@ package de.randi2test.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,8 @@ import de.randi2.dao.HibernateAclService;
 import de.randi2.model.Login;
 import de.randi2.model.TrialSite;
 import de.randi2.model.security.AclHibernate;
-import de.randi2.model.security.PermissionHibernate;
 import de.randi2.model.security.ObjectIdentityHibernate;
+import de.randi2.model.security.PermissionHibernate;
 import de.randi2test.utility.DomainObjectFactory;
 import de.randi2test.utility.TestStringUtil;
 
@@ -31,13 +31,17 @@ public class HibernateAclServiceTest {
 	@Autowired
 	private DomainObjectFactory factory;
 	@Autowired
-	private TestStringUtil testStringUtil;
-	@Autowired
 	private HibernateTemplate template;
+	private TrialSite trialsite;
+	
+	@Before
+	public void setUp(){
+		trialsite = factory.getTrialSite();
+		template.save(trialsite.getContactPerson());
+	}
 	
 	@Test
 	public void testCreateAcl(){
-		TrialSite trialsite = factory.getTrialSite();
 		template.saveOrUpdate(trialsite);
 		Login login = factory.getLogin();
 		template.saveOrUpdate(login);
@@ -50,7 +54,6 @@ public class HibernateAclServiceTest {
 	
 	@Test
 	public void testCreateAclWithPermission(){
-		TrialSite trialsite = factory.getTrialSite();
 		template.saveOrUpdate(trialsite);
 		Login login = factory.getLogin();
 		template.saveOrUpdate(login);
@@ -62,7 +65,6 @@ public class HibernateAclServiceTest {
 	
 	@Test
 	public void testFindAclByObjectIdentityAndSid(){
-		TrialSite trialsite = factory.getTrialSite();
 		template.saveOrUpdate(trialsite);
 		Login login = factory.getLogin();
 		template.saveOrUpdate(login);

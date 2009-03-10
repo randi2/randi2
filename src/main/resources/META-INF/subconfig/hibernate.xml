@@ -51,10 +51,10 @@
         </property>
         <property name="eventListeners">
             <map>
-                <entry key="merge" >
-                	<bean class="org.springframework.orm.hibernate3.support.IdTransferringMergeEventListener"/>
-                </entry>
-                <!--  <entry key="save-update" value-ref="listener"/>-->
+                <entry key="merge" value-ref="listener"/>
+                <entry key="save-update" value-ref="listener"/>
+                <entry key="create" value-ref="listener"/>
+                <entry key="save" value-ref="listener"/>
             </map>
         </property>
     </bean>

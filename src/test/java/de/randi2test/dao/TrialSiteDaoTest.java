@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,20 +24,22 @@ public class TrialSiteDaoTest {
 	private TrialSiteDao centerDao;
 	@Autowired
 	private DomainObjectFactory factory;
-	@Autowired
-	private TestStringUtil testStringUtil;
-
+@Autowired
+private HibernateTemplate hibernateTemplate;
 	
 	@Test
 	public void testGetAll(){
 		for (int i=0;i<100;i++){
-			centerDao.save(factory.getTrialSite());
+			TrialSite c = factory.getTrialSite();
+			hibernateTemplate.save(c.getContactPerson());
+			centerDao.save(c);
 		}
 		assertTrue(centerDao.getAll().size()>=100);
 	}
 	@Test
 	public void testGetName(){
 		TrialSite c = factory.getTrialSite();
+		hibernateTemplate.save(c.getContactPerson());
 		centerDao.save(c);
 		assertTrue(c.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
 		

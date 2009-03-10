@@ -41,6 +41,7 @@ private Session getCurrentSession(){
 	@Before
 	public void setUp() {
 		validCenter = factory.getTrialSite();
+		hibernateTemplate.save(validCenter.getContactPerson());
 	}
 
 	@Test
@@ -218,7 +219,7 @@ private Session getCurrentSession(){
 	@Test
 	public void testContactPerson(){
 		Person p = factory.getPerson();
-		
+		hibernateTemplate.save(p);
 		validCenter.setContactPerson(p);
 		assertEquals(p.getSurname(), validCenter.getContactPerson().getSurname());
 		hibernateTemplate.saveOrUpdate(validCenter);

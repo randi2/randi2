@@ -197,7 +197,7 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		hibernateTemplate.save(validLogin);
 		assertTrue(validLogin.getId()>0);
 		Login login = (Login)hibernateTemplate.get(Login.class, validLogin.getId());
-		assertEquals(validLogin, login);
+		assertEquals(validLogin.getId(), login.getId());
 	}
 	
 }

@@ -30,6 +30,7 @@ public class TrialDaoTest {
 	@Test
 	public void testCreateAndSave() {
 		Trial t1 = factory.getTrial();
+		template.save(t1.getLeadingSite().getContactPerson());
 		template.save(t1.getLeadingSite());
 		template.save(t1.getSponsorInvestigator());
 		assertNotSaved(t1);

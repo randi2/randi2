@@ -62,7 +62,7 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	// private Set<GrantedAuthorityEnum> roles = new
 	// HashSet<GrantedAuthorityEnum>();
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private Set<Role> roles = new HashSet<Role>();
 
 	@Length(min = MIN_USERNAME_LENGTH, max = MAX_USERNAME_LENGTH)

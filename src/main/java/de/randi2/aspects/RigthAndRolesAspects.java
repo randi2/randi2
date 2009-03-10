@@ -39,7 +39,7 @@ public class RigthAndRolesAspects {
 	 * @throws Throwable
 	 */
 	@Around("execution(public void de.randi2.dao.*.save*(de.randi2.model.AbstractDomainObject))")
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void afterSaveNewDomainObject(ProceedingJoinPoint pjp)
 			throws Throwable {
 		long objectId = ((AbstractDomainObject) pjp.getArgs()[0]).getId();

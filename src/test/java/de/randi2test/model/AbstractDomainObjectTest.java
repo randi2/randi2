@@ -75,11 +75,11 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 	// TODO Some hibernate problem, should be fixed
 	@Test
 	public void testOptimisticLocking() {
-		hibernateTemplate.persist(domainObject);
+		hibernateTemplate.save(domainObject);
 		int version = domainObject.getVersion();
 		Login v1 = (Login) hibernateTemplate.get(Login.class, domainObject.getId());
 		Login v2 = (Login) hibernateTemplate.get(Login.class, domainObject.getId());
-
+		
 		v1.setPassword("Aenderung$1");
 		hibernateTemplate.update(v1);
 		assertTrue(version < v1.getId());
