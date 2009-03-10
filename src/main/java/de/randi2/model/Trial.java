@@ -52,7 +52,7 @@ public class Trial extends AbstractDomainObject {
 	private Person sponsorInvestigator = null;
 	@NotNull
 	@ManyToOne
-	private TrialSite leadingCenter = null;
+	private TrialSite leadingSite = null;
 	@Enumerated(value = EnumType.STRING)
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
 	@ManyToMany
@@ -132,21 +132,21 @@ public class Trial extends AbstractDomainObject {
 		return this.participatingSites;
 	}
 
-	public void setParticipatingSites(Set<TrialSite> participatingCenters) {
-		this.participatingSites = participatingCenters;
+	public void setParticipatingSites(Set<TrialSite> participatingSites) {
+		this.participatingSites = participatingSites;
 	}
 
-	public void setLeadingSite(TrialSite center) {
-		this.leadingCenter = center;
+	public void setLeadingSite(TrialSite leadingSite) {
+		this.leadingSite = leadingSite;
 
 	}
 
 	public TrialSite getLeadingSite() {
-		return this.leadingCenter;
+		return this.leadingSite;
 	}
 
-	public void addParticipatingSite(TrialSite participatingCenter) {
-		this.participatingSites.add(participatingCenter);
+	public void addParticipatingSite(TrialSite participatingSite) {
+		this.participatingSites.add(participatingSite);
 	}
 
 	public Person getSponsorInvestigator() {

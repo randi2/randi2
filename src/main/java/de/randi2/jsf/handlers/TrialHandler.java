@@ -108,7 +108,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	// DB Access
 	private TrialDao trialDao;
-	private TrialSiteDao centerDao;
+	private TrialSiteDao trialSiteDao;
 
 	public TrialDao getTrialDao() {
 		return trialDao;
@@ -284,7 +284,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	public AutoCompleteObject<TrialSite> getTrialSitesAC() {
 		if (trialSitesAC == null)
-			trialSitesAC = new AutoCompleteObject<TrialSite>(centerDao);
+			trialSitesAC = new AutoCompleteObject<TrialSite>(trialSiteDao);
 		return trialSitesAC;
 	}
 
@@ -298,16 +298,16 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	public AutoCompleteObject<TrialSite> getParticipatingSitesAC() {
 		if (participatingSitesAC == null)
-			participatingSitesAC = new AutoCompleteObject<TrialSite>(centerDao);
+			participatingSitesAC = new AutoCompleteObject<TrialSite>(trialSiteDao);
 		return participatingSitesAC;
 	}
 
-	public TrialSiteDao getCenterDao() {
-		return centerDao;
+	public TrialSiteDao getTrialSiteDao() {
+		return trialSiteDao;
 	}
 
-	public void setCenterDao(TrialSiteDao centerDao) {
-		this.centerDao = centerDao;
+	public void setTrialSiteDao(TrialSiteDao trialSiteDao) {
+		this.trialSiteDao = trialSiteDao;
 	}
 
 	@Override

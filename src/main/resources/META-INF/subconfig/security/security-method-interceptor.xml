@@ -22,7 +22,7 @@
 		</property>
 		<property name="beanNames">
 			<list>
-				<value>centerDAO</value>
+				<value>trialSiteDAO</value>
 				<value>personDAO</value>
 			</list>
 		</property>

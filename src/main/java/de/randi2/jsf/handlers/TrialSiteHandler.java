@@ -38,8 +38,7 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	public TrialSiteHandler() {
 	}
 
-	// FIXME centerDao in trialDao -> why through xml and not with @Autowired
-	private TrialSiteDao centerDao;
+	private TrialSiteDao trialSiteDao;
 
 	private boolean trialSiteSavedPVisible = false;
 
@@ -87,7 +86,7 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	@Override
 	public String saveObject() {
 		try {
-			centerDao.save(showedObject);
+			trialSiteDao.save(showedObject);
 
 			// Making the centerSavedPopup visible
 			this.trialSiteSavedPVisible = true;
@@ -125,23 +124,23 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 		if (showedObject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID)
 			showedObject = null;
 		else
-			showedObject = centerDao.get(showedObject.getId());
+			showedObject = trialSiteDao.get(showedObject.getId());
 		refresh();
 		return Randi2.SUCCESS;
 	}
 
-	// FIXME Rename the method
-	public TrialSiteDao getCenterDao() {
-		return centerDao;
+	
+	public TrialSiteDao getTrialSiteDao() {
+		return trialSiteDao;
 	}
 
-	// FIXME Rename the method
-	public void setCenterDao(TrialSiteDao centerDao) {
-		this.centerDao = centerDao;
+	
+	public void setTrialSiteDao(TrialSiteDao trialSiteDao) {
+		this.trialSiteDao = trialSiteDao;
 	}
 
 	public int getTrialSitesAmount() {
-		return centerDao.getAll().size();
+		return trialSiteDao.getAll().size();
 	}
 
 	@Override

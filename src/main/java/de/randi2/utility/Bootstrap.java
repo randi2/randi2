@@ -130,7 +130,7 @@ public class Bootstrap {
 		template = (HibernateTemplate) ctx.getBean("hibernateTemplate");
 		loginDao = (LoginDaoHibernate) ctx.getBean("loginDAO");
 		rolesAndRights = (RolesAndRights) ctx.getBean("rolesAndRights");
-		trialSiteDao = (TrialSiteDaoHibernate) ctx.getBean("centerDAO");
+		trialSiteDao = (TrialSiteDaoHibernate) ctx.getBean("trialSiteDAO");
 		init();
 
 	}

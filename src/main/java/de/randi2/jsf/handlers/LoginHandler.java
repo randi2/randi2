@@ -82,7 +82,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	private LoginDao loginDao;
 	private PersonDao personDao;
 	// FIXME Rename + Autowired ?
-	private TrialSiteDao centerDao;
+	private TrialSiteDao trialSiteDao;
 	// ---
 
 	// Popup's flags
@@ -515,12 +515,12 @@ public class LoginHandler extends AbstractHandler<Login> {
 		this.chosenLocale = chosenLocale;
 	}
 
-	public TrialSiteDao getCenterDao() {
-		return centerDao;
+	public TrialSiteDao getTrialSiteDao() {
+		return trialSiteDao;
 	}
 
-	public void setCenterDao(TrialSiteDao centerDao) {
-		this.centerDao = centerDao;
+	public void setTrialSiteDao(TrialSiteDao trialSiteDao) {
+		this.trialSiteDao = trialSiteDao;
 	}
 
 	public String getTsPassword() {
@@ -575,7 +575,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 
 	public AutoCompleteObject<TrialSite> getTrialSitesAC() {
 		if (trialSitesAC == null)
-			trialSitesAC = new AutoCompleteObject<TrialSite>(centerDao);
+			trialSitesAC = new AutoCompleteObject<TrialSite>(trialSiteDao);
 		return trialSitesAC;
 	}
 

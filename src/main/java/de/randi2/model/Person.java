@@ -52,14 +52,14 @@ public class Person extends AbstractDomainObject {
 	
 	
 	/* (non-Javadoc)
-	 * @see de.randi2.model.PersonIF#getCenter()
+	 * @see de.randi2.model.PersonIF#getTrialSite()
 	 */
 	public TrialSite getTrialSite() {
 		return trialSite;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.randi2.model.PersonIF#setCenter(de.randi2.model.Center)
+	 * @see de.randi2.model.PersonIF#setTrialSite(de.randi2.model.TrialSite)
 	 */
 	public void setTrialSite(TrialSite _trialSite) {
 		this.trialSite = _trialSite;
