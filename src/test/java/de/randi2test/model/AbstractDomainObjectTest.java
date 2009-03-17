@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2test.utility.AbstractDomainTest;
-import java.util.GregorianCalendar;
 import org.junit.Ignore;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -65,6 +64,7 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 	public void testSave(){
 		domainObject = factory.getLogin();
 		hibernateTemplate.persist(domainObject);
+		hibernateTemplate.flush();
 
 		assertNotSame(AbstractDomainObject.NOT_YET_SAVED_ID, domainObject.getId());
 		assertTrue(domainObject.getId() > 0);
@@ -82,7 +82,8 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 		
 		v1.setPassword("Aenderung$1");
 		hibernateTemplate.update(v1);
-		assertTrue(version < v1.getId());
+		assertTrue(version < v1.getVersion());
+		hibernateTemplate.flush();
 		//v2.setPassword("Aenderung$2");
 
 		try {
@@ -90,9 +91,6 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 			fail("Should fail because of Version Conflicts");
 		} catch (HibernateOptimisticLockingFailureException e) {
 			hibernateTemplate.evict(v2);
-		} catch (org.hibernate.StaleObjectStateException e){
-			hibernateTemplate.evict(v2);
-
 		}
 
 		Login v3 = (Login) hibernateTemplate.get(Login.class, domainObject.getId());
