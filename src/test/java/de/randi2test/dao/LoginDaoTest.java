@@ -11,6 +11,7 @@ import org.hibernate.validator.InvalidStateException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -28,10 +29,11 @@ public class LoginDaoTest {
 	@Autowired
 	private LoginDao loginDao;
 	@Autowired
+	private HibernateTemplate template;
+	@Autowired
 	private DomainObjectFactory factory;
 	@Autowired
 	private TestStringUtil testStringUtil;
-
 
 	@Test
 	public void createAndSaveTest() {
@@ -62,36 +64,38 @@ public class LoginDaoTest {
 		Person validPerson = factory.getPerson();
 
 		Login login = factory.getLogin();
-		
+
 		login.setPerson(validPerson);
 		login.setUsername("");
 		try {
 			loginDao.save(login);
 			fail("should throw exception");
-		} catch (InvalidStateException e) {}
-		 login.setUsername(testStringUtil.getWithLength(20));
-		 loginDao.save(login);
-		 assertFalse(login.getId()==AbstractDomainObject.NOT_YET_SAVED_ID);
-		 Login l = loginDao.get(login.getId());
-		 assertEquals(login.getId(), l.getId());
+		} catch (InvalidStateException e) {
+		}
+
+		login = factory.getLogin();
+		login.setUsername(testStringUtil.getWithLength(20));
+		loginDao.save(login);
+		assertFalse(login.getId() == AbstractDomainObject.NOT_YET_SAVED_ID);
+		Login l = loginDao.get(login.getId());
+		assertEquals(login.getId(), l.getId());
 	}
-	
+
 	@Test
-	public void testFindByExample(){
+	public void testFindByExample() {
 		Login l = factory.getLogin();
 		loginDao.save(l);
-		assertTrue(l.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
-		
+		assertTrue(l.getId() != AbstractDomainObject.NOT_YET_SAVED_ID);
+
 		Login exampleLogin = new Login();
 		exampleLogin.setUsername(l.getUsername());
-		
+
 		List<Login> list = loginDao.findByExample(exampleLogin);
-		
-		assertTrue(list.size()==1);
-		
+
+		assertTrue(list.size() == 1);
+
 		assertEquals(l.getId(), list.get(0).getId());
-		
-		
+
 	}
 
 }
