@@ -460,8 +460,9 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>tomcat-maven-plugin</artifactId>
                 <configuration>
+		    <url>http://www.randi2.org:8081/manager</url>
                     <path>/RANDI2_SNAPSHOT</path>
-                    <server>tomcat_local</server>
+                    <server>tomcat_randi2</server>
                 </configuration>
             </plugin>
 	    <plugin>
