@@ -86,10 +86,10 @@ public class AclHibernate implements Acl, Serializable {
 		for (int i = 0; i < permission.length; i++) {
 			for (int x = 0; x < sids.length; x++) {
 				// Attempt to find exact match for this permission mask and SID
-				Iterator acesIterator = aces.iterator();
+				Iterator<AccessControlEntryHibernate> acesIterator = aces.iterator();
 				boolean scanNextSid = true;
 				while (acesIterator.hasNext()) {
-					AccessControlEntry ace = (AccessControlEntry) acesIterator.next();
+					AccessControlEntry ace =  acesIterator.next();
 					if ((ace.getPermission().getMask() == permission[i].getMask()) && ace.getSid().equals(sids[x])) {
 						// Found a matching ACE, so its authorization decision will prevail
 						if (ace.isGranting()) {

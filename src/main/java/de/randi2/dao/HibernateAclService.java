@@ -62,12 +62,12 @@ public class HibernateAclService implements AclService {
 	}
 
 	@Override
-	public Map readAclsById(ObjectIdentity[] arg0) throws NotFoundException {
+	public Map<?,?> readAclsById(ObjectIdentity[] arg0) throws NotFoundException {
 		return null;
 	}
 
 	@Override
-	public Map readAclsById(ObjectIdentity[] arg0, Sid[] arg1)
+	public Map<?,?> readAclsById(ObjectIdentity[] arg0, Sid[] arg1)
 			throws NotFoundException {
 		return null;
 	}
