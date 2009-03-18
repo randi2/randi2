@@ -29,15 +29,15 @@ public class ObjectIdentityHibernate implements ObjectIdentity, Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ObjectIdentityHibernate(Class javaType, long identifier) {
+	public ObjectIdentityHibernate(Class<? extends AbstractDomainObject> javaType, long identifier) {
 		super();
 		this.javaType = javaType;
 		this.identifier = identifier;
 	}
 
-	@SuppressWarnings("unchecked")
+
 	@Override
-	public Class getJavaType() {
+	public Class<? extends AbstractDomainObject> getJavaType() {
 		
 		return javaType;
 	}
@@ -50,7 +50,7 @@ public class ObjectIdentityHibernate implements ObjectIdentity, Serializable {
 		this.id = id;
 	}
 
-	public void setJavaType(Class javaType) {
+	public void setJavaType(Class<? extends AbstractDomainObject> javaType) {
 		this.javaType = javaType;
 	}
 

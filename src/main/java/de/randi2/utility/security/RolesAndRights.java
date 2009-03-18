@@ -88,7 +88,7 @@ public class RolesAndRights {
 		if (object instanceof Login) {
 			grantRightsUserObject(object, scope);
 		} else if (object instanceof TrialSite) {
-			grantRightsTrialSiteObject((TrialSite) object, scope);
+			grantRightsTrialSiteObject((TrialSite) object);
 		} else if (object instanceof Trial) {
 			grantRightsTrialObject((Trial) object, scope);
 		} else if (object instanceof TrialSubject) {
@@ -96,6 +96,7 @@ public class RolesAndRights {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional(propagation=Propagation.REQUIRED)
 	private void grantRightsUserObject(AbstractDomainObject object,
 			TrialSite scope) {
@@ -202,8 +203,9 @@ public class RolesAndRights {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional(propagation=Propagation.REQUIRED)
-	private void grantRightsTrialSiteObject(TrialSite trialSite, TrialSite scope) {
+	private void grantRightsTrialSiteObject(TrialSite trialSite) {
 		// Set Right for ROLE_ANONYMOUS
 		aclService.createAclwithPermissions(trialSite, Role.ROLE_ANONYMOUS
 				.getName(), Role.ROLE_ANONYMOUS.getTrialSitePermissions()
@@ -270,6 +272,7 @@ public class RolesAndRights {
 
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Transactional(propagation=Propagation.REQUIRED)
 	private void grantRightsTrialObject(Trial trial, TrialSite scope) {
 		List<Login> logins = template.find("from Login");
@@ -341,6 +344,7 @@ public class RolesAndRights {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void registerPerson(Login login) {
 		for (Role role : login.getRoles()) {

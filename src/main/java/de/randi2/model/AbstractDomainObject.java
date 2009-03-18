@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,14 +19,13 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 
 import de.randi2.model.exceptions.ValidationException;
-import java.util.Random;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 @MappedSuperclass
 public abstract class AbstractDomainObject implements Serializable {

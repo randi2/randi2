@@ -3,8 +3,6 @@ package de.randi2.utility.listener;
 import java.util.Map;
 
 import org.hibernate.HibernateException;
-import org.hibernate.ejb.event.EJB3PersistEventListener;
-import org.hibernate.ejb.event.EJB3SaveOrUpdateEventListener;
 import org.hibernate.event.MergeEvent;
 import org.hibernate.event.MergeEventListener;
 import org.hibernate.event.PersistEvent;
@@ -17,9 +15,11 @@ import org.springframework.orm.hibernate3.support.IdTransferringMergeEventListen
 
 import de.randi2.model.AbstractDomainObject;
 
-@SuppressWarnings("serial")
+
 public class SaveUpdateListener implements SaveOrUpdateEventListener, MergeEventListener, PersistEventListener{
 
+	private static final long serialVersionUID = -8131583568540670427L;
+	
 	private static SaveOrUpdateEventListener saveUpdate = new DefaultSaveOrUpdateEventListener();
 	private static MergeEventListener merge = new IdTransferringMergeEventListener();
 	private static PersistEventListener persist = new DefaultPersistEventListener();
@@ -85,6 +85,7 @@ public class SaveUpdateListener implements SaveOrUpdateEventListener, MergeEvent
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onPersist(PersistEvent event, Map createdAlready)
 			throws HibernateException {
