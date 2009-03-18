@@ -47,6 +47,10 @@ public class Bootstrap {
 	private TrialSiteDaoHibernate trialSiteDao;
 
 	public void init() {
+		template.saveOrUpdate(Role.ROLE_ADMIN);
+		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
+		template.saveOrUpdate(Role.ROLE_USER);
+		template.saveOrUpdate(Role.ROLE_P_INVESTIGATOR);
 		Person adminP = new Person();
 		adminP.setFirstname("Max");
 		adminP.setSurname("Mustermann");
@@ -60,6 +64,7 @@ public class Bootstrap {
 		adminL.setPerson(adminP);
 		adminL.setPrefLocale(Locale.GERMANY);
 		adminL.setUsername(adminP.getEMail());
+		
 		adminL.addRole(Role.ROLE_ADMIN);
 		template.persist(adminL);
 
@@ -103,7 +108,7 @@ public class Bootstrap {
 		userL.setPrefLocale(Locale.GERMANY);
 		userL.setUsername(userP.getEMail());
 		userL.addRole(Role.ROLE_INVESTIGATOR);
-		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
+//		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
 		loginDao.save(userL);
 
 		TrialSite trialSite1 = new TrialSite();
@@ -120,6 +125,7 @@ public class Bootstrap {
 		/*P_Investigator role*/
 		adminL = (Login) template.get(Login.class, adminL.getId());
 		adminL.addRole(Role.ROLE_P_INVESTIGATOR);
+//		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
 		loginDao.save(adminL);
 		rolesAndRights.grantRigths(adminL, trialSite);
 	}
