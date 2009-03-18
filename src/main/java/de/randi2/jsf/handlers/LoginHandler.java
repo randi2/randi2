@@ -232,7 +232,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 			// If the current loggedInUser user was saved with this method, the
 			// loggedInUser
 			// object will be reload from the DB
-			if (showedObject.equals(loggedInUser))
+			if (showedObject.getId() == loggedInUser.getId())
 				loggedInUser = showedObject;
 			refresh();
 		}

@@ -37,7 +37,9 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements Lo
 				template.persist(r);
 			}
 		}
-		template.saveOrUpdate(object);
+		if(object.getId() == AbstractDomainObject.NOT_YET_SAVED_ID){
+			template.persist(object);
+		}else template.merge(object);
 	}
 
 }
