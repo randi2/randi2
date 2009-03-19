@@ -1,0 +1,2 @@
+= RANDI2
+RANDI2 is an open source application for online randomization of clinical trials. It has been originally developed at University of Heidelberg (Germany) and Heilbronn University (Germany). See http://randi2.org for more details.
