@@ -30,5 +30,13 @@ public final class RANDI2Assert {
 	public static void assertInList(Object o, Object[] list){
 		assertInList(o, Arrays.asList(list));
 	}
+
+	public static void assertAtLeast(int i, int j){
+		assertTrue("Should be at least <"+i+"> but was <"+j+">",j >= i);
+	}
+
+	public static void assertAtMost(int i, int j){
+		assertTrue("Should be at most <"+i+"> but was <"+j+">", j <= i);
+	}
 	
 }
