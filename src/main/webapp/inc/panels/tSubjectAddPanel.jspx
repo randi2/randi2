@@ -1,0 +1,50 @@
+<!-- 
+ This page/panel should be used to add a trial subject to a trial.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<ice:form xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelTabSet style="font-size: 9;display: block;">
+		<ice:panelTab label="Add a new subject to the trial">
+			<ice:panelCollapsible expanded="true">
+				<f:facet name="header">
+					<ice:outputLabel value="Trial"></ice:outputLabel>
+				</f:facet>
+				<ice:panelGrid columns="2">
+				<ice:outputLabel value="Trial name"></ice:outputLabel>
+				<ice:outputText
+					value="#{trialHandler.showedObject.name}" />
+				<ice:outputLabel value="Trial description"></ice:outputLabel>
+				<ice:outputText
+					value="#{trialHandler.showedObject.description}" />
+				</ice:panelGrid>
+			</ice:panelCollapsible>
+			<ice:panelCollapsible expanded="true">
+				<f:facet name="header">
+					<ice:outputLabel value="Trial Subject"></ice:outputLabel>
+				</f:facet>
+				<ice:outputLabel value="Here the user should type the trial subject's properties."/>
+			</ice:panelCollapsible>
+		</ice:panelTab>
+
+	</ice:panelTabSet>
+	<ice:panelGrid border="0" columns="3">
+		<ice:commandButton type="submit" value="#{labels['buttons.add']}"/>
+		<ice:commandButton type="reset" value="#{labels['buttons.reset']}" />
+		<ice:messages globalOnly="true" showDetail="true" showSummary="true"
+			tooltip="true" />
+	</ice:panelGrid>
+</ice:form>

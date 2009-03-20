@@ -52,7 +52,7 @@ import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.ReflectionUtil;
 
-/**
+/*
  * <p>
  * This class cares about the newTrial object and contains all the needed
  * methods to work with this object for the UI.
