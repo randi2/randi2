@@ -9,7 +9,6 @@ import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static de.randi2.utility.IntegerIterator.upto;
