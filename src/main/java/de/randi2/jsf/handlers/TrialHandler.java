@@ -92,16 +92,42 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		}
 	}
 
-	/**
-	 * Object for the trial creation.
-	 */
-	private Trial newTrial;
-
 	private AutoCompleteObject<TrialSite> trialSitesAC = null;
 	private AutoCompleteObject<Login> sponsorInvestigatorsAC = null;
 	private AutoCompleteObject<TrialSite> participatingSitesAC = null;
+	
+	public AutoCompleteObject<TrialSite> getTrialSitesAC() {
+		if (trialSitesAC == null)
+			trialSitesAC = new AutoCompleteObject<TrialSite>(trialSiteDao);
+		return trialSitesAC;
+	}
+
+	public AutoCompleteObject<Login> getSponsorInvestigatorsAC() {
+		if (sponsorInvestigatorsAC == null)
+			sponsorInvestigatorsAC = new AutoCompleteObject<Login>(trialSitesAC
+					.getSelectedObject().getMembersWithSpecifiedRole(
+							Role.ROLE_P_INVESTIGATOR));
+		return sponsorInvestigatorsAC;
+	}
+
+	public AutoCompleteObject<TrialSite> getParticipatingSitesAC() {
+		if (participatingSitesAC == null)
+			participatingSitesAC = new AutoCompleteObject<TrialSite>(trialSiteDao);
+		return participatingSitesAC;
+	}
 
 	private ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> criteriaList = null;
+	
+	public ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteriaList() {
+		return criteriaList;
+	}
+	
+	private boolean addingSubjectsEnabled = false;
+	
+	public boolean isAddingSubjectsEnabled() {
+		addingSubjectsEnabled = !creatingMode && showedObject!=null;
+		return addingSubjectsEnabled;
+	}
 
 	// TODO TEMP OBJECTS
 	private TimeZone zone;
@@ -116,24 +142,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	public void setTrialDao(TrialDao trialDao) {
 		this.trialDao = trialDao;
-	}
-
-	public Trial getNewTrial() {
-		// FIXME - the UI should only correspond with the showedObject
-		if (newTrial == null) { // TODO
-			newTrial = new Trial();
-			newTrial.setStartDate(new GregorianCalendar());
-			newTrial.setEndDate(new GregorianCalendar());
-			// Each new Trial has automatic 2 Treatment Arms
-			newTrial.getTreatmentArms().add(new TreatmentArm());
-			newTrial.getTreatmentArms().add(new TreatmentArm());
-
-		}
-		return newTrial;
-	}
-
-	public void setNewTrial(Trial trial) {
-		this.newTrial = trial;
 	}
 
 	public List<SelectItem> getStateItems() {
@@ -154,7 +162,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	public void addTrialSite(ActionEvent event) {
 		assert (participatingSitesAC.getSelectedObject() != null);
-		newTrial.getParticipatingSites().add(
+		showedObject.getParticipatingSites().add(
 				participatingSitesAC.getSelectedObject());
 	}
 
@@ -162,7 +170,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		TrialSite tTrialSite = (TrialSite) (((UIComponent) event.getComponent()
 				.getChildren().get(0)).getValueExpression("value")
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
-		newTrial.getParticipatingSites().remove(tTrialSite);
+		showedObject.getParticipatingSites().remove(tTrialSite);
 
 	}
 
@@ -170,16 +178,16 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	public String createTrial() {
 		// try {
 		/* Leading Trial Site & Sponsor Investigator */
-		newTrial.setLeadingSite(trialSitesAC.getSelectedObject());
+		showedObject.setLeadingSite(trialSitesAC.getSelectedObject());
 		if (sponsorInvestigatorsAC.getSelectedObject() != null)
-			newTrial.setSponsorInvestigator(sponsorInvestigatorsAC
+			showedObject.setSponsorInvestigator(sponsorInvestigatorsAC
 					.getSelectedObject().getPerson());
 		// TODO Protokoll
 
 		/* Creating the relationship between Trial and TreatmentArm */
 		// FIXME Maybe it should be made automatic by DAO object
-		for (TreatmentArm tA : newTrial.getTreatmentArms()) {
-			tA.setTrial(newTrial);
+		for (TreatmentArm tA : showedObject.getTreatmentArms()) {
+			tA.setTrial(showedObject);
 		}
 
 		/* SubjectProperties Configuration */
@@ -226,7 +234,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 					.add((AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>) wr
 							.getSelectedCriterion());
 		}
-		newTrial.setCriteria(configuredCriteria);
+		showedObject.setCriteria(configuredCriteria);
 		/* End of SubjectProperites Configuration */
 
 		/* Algorithm Configuration */
@@ -238,16 +246,16 @@ public class TrialHandler extends AbstractHandler<Trial> {
 				.getELContext());
 		if (temp2.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())) {
-			newTrial
+			showedObject
 					.setRandomizationConfiguration(new CompleteRandomizationConfig());
 		} else if (temp2.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
-			newTrial
+			showedObject
 					.setRandomizationConfiguration(new BiasedCoinRandomizationConfig());
 		}
 		/* End of the Algorithm Configuration */
 
-		trialDao.save(newTrial);
+		trialDao.save(showedObject);
 		return Randi2.SUCCESS;
 		// } catch (Exception e) {
 		// e.printStackTrace();
@@ -258,15 +266,15 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	public void addArm(ActionEvent event) {
-		assert (newTrial != null);
+		assert (showedObject != null);
 		TreatmentArm temp = new TreatmentArm();
-		newTrial.getTreatmentArms().add(temp);
+		showedObject.getTreatmentArms().add(temp);
 	}
 
 	public void removeArm(ActionEvent event) {
-		assert (newTrial != null);
-		newTrial.getTreatmentArms().remove(
-				newTrial.getTreatmentArms().size() - 1);
+		assert (showedObject != null);
+		showedObject.getTreatmentArms().remove(
+				showedObject.getTreatmentArms().size() - 1);
 	}
 
 	// TEMP
@@ -278,29 +286,11 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	public int getTreatmentArmsCount() {
-		assert (newTrial != null);
-		return newTrial.getTreatmentArms().size();
+		assert (showedObject != null);
+		return showedObject.getTreatmentArms().size();
 	}
 
-	public AutoCompleteObject<TrialSite> getTrialSitesAC() {
-		if (trialSitesAC == null)
-			trialSitesAC = new AutoCompleteObject<TrialSite>(trialSiteDao);
-		return trialSitesAC;
-	}
 
-	public AutoCompleteObject<Login> getSponsorInvestigatorsAC() {
-		if (sponsorInvestigatorsAC == null)
-			sponsorInvestigatorsAC = new AutoCompleteObject<Login>(trialSitesAC
-					.getSelectedObject().getMembersWithSpecifiedRole(
-							Role.ROLE_P_INVESTIGATOR));
-		return sponsorInvestigatorsAC;
-	}
-
-	public AutoCompleteObject<TrialSite> getParticipatingSitesAC() {
-		if (participatingSitesAC == null)
-			participatingSitesAC = new AutoCompleteObject<TrialSite>(trialSiteDao);
-		return participatingSitesAC;
-	}
 
 	public TrialSiteDao getTrialSiteDao() {
 		return trialSiteDao;
@@ -320,10 +310,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	public String saveObject() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteriaList() {
-		return criteriaList;
 	}
 
 	public int getTrialsAmount() {

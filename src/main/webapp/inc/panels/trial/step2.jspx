@@ -38,7 +38,7 @@
 				disabled="#{!trialHandler.participatingSitesAC.objectSelected}" />
 		</ice:panelGrid>
 		<ice:dataTable id="trialSitesTable" border="1"
-			value="#{trialHandler.newTrial.participatingSites}" var="trialSite"
+			value="#{trialHandler.showedObject.participatingSites}" var="trialSite"
 			scrollable="true" scrollHeight="250px"
 			columnWidths="150px,100px,100px, 55px" width="405px">
 			<ice:column id="column1">

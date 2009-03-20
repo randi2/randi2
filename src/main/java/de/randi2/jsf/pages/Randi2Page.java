@@ -158,6 +158,10 @@ public class Randi2Page {
 		trialHandler.setShowedObject(null);
 		activePanel = "trialCreatePanel";
 	}
+	
+	public void addTrialSubject(ActionEvent event){
+		activePanel = "tSubjectAddPanel";
+	}
 
 	public String showAbout() {
 		this.aboutVisible = true;
