@@ -23,7 +23,7 @@
 	</ice:panelGrid>
 	<ice:dataTable id="trialsTable" border="1"
 		value="#{trialHandler.trialDao.all}" var="trial" scrollable="true"
-		scrollHeight="250px" columnWidths="150px,150px,100px,100px,35px" width="550px">
+		scrollHeight="250px">
 		<ice:column id="column1">
 			<ice:outputText value="#{trial.name}"></ice:outputText>
 			<f:facet name="header">
@@ -46,5 +46,4 @@
 			</f:facet>
 		</ice:column>		
 	</ice:dataTable>
-
 </ice:form>
