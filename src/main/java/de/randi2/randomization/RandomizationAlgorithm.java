@@ -13,12 +13,14 @@ public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationC
 	protected Conf configuration;
 	private Random seededRandom;
 
+	@SuppressWarnings("unchecked")
 	protected RandomizationAlgorithm(Trial _trial) {
 		super();
 		this.trial = _trial;
 		this.configuration = (Conf) trial.getRandomizationConfiguration();
 	}
 
+	@SuppressWarnings("unchecked")
 	protected RandomizationAlgorithm(Trial _trial, long seed) {
 		super();
 		this.trial = _trial;
