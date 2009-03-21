@@ -36,6 +36,7 @@ public class BlockRandomizationTest {
 		RandomizationHelper.addArms(trial, 10, 10);
 		conf.setMinimum(2);
 		conf.setMaximum(2);
+		conf.setType(BlockRandomizationConfig.TYPE.MULTIPLY);
 		s = new TrialSubject();
 		trial.randomize(s);
 		assertNotNull(s.getArm());
@@ -47,6 +48,7 @@ public class BlockRandomizationTest {
 		RandomizationHelper.addArms(trial, 40, 40);
 		conf.setMinimum(2);
 		conf.setMaximum(2);
+		conf.setType(BlockRandomizationConfig.TYPE.MULTIPLY);
 		for (int i : upto(4)) {
 			s = new TrialSubject();
 			trial.randomize(s);
@@ -61,6 +63,7 @@ public class BlockRandomizationTest {
 		RandomizationHelper.addArms(trial, 400, 400);
 		conf.setMinimum(2);
 		conf.setMaximum(2);
+		conf.setType(BlockRandomizationConfig.TYPE.MULTIPLY);
 		for (int i : upto(400)) {
 			s = new TrialSubject();
 			trial.randomize(s);
@@ -81,7 +84,7 @@ public class BlockRandomizationTest {
 			trial.randomize(s);
 		}
 		for(TreatmentArm arm : trial.getTreatmentArms()){
-			assertAtLeast(198, arm.getSubjects().size());
+			assertAtLeast(199, arm.getSubjects().size());
 			assertAtMost(201, arm.getSubjects().size());
 		}
 	}

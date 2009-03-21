@@ -99,12 +99,17 @@ public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationC
 			i++;
 		}
 
-		int result;
-		result = sizes[0];
+		int divide = sizes[0];
 		for (i = 1; i < sizes.length; i++) {
-			result = ggt(result, sizes[i]);
+			divide = ggt(divide, sizes[i]);
 		}
-		return result;
+
+		int size = 0;
+		for (TreatmentArm arm : arms) {
+			size += arm.getPlannedSubjects() / divide;
+		}
+
+		return size;
 	}
 
 }
