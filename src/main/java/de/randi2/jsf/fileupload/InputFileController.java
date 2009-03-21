@@ -17,10 +17,6 @@ import com.icesoft.faces.component.inputfile.InputFile;
  * visible to them and are deleted when the session is destroyed.</p>
  */
 public class InputFileController{
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 245115352557158378L;
 	// File sizes used to generate formatted label
     public static final long MEGABYTE_LENGTH_BYTES = 1048000l;

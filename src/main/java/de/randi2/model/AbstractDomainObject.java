@@ -71,6 +71,7 @@ public abstract class AbstractDomainObject implements Serializable {
 		return m.isAnnotationPresent(org.hibernate.validator.NotEmpty.class) || m.isAnnotationPresent(org.hibernate.validator.NotNull.class) || m.isAnnotationPresent(de.randi2.utility.validations.Password.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void checkValue(String field, Object value) {
 		ClassValidator val = new ClassValidator(this.getClass());
 		InvalidValue[] invalids = val.getPotentialInvalidValues(field, value);

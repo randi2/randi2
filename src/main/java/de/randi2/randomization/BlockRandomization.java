@@ -46,7 +46,7 @@ public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizatio
 		return block;
 	}
 	
-	private int generateBlockSize(Random random){
+	protected int generateBlockSize(Random random){
 		int range = super.configuration.getMaximum() - super.configuration.getMinimum() + 1;
 		int size = random.nextInt(range) + super.configuration.getMinimum();
 		if(super.configuration.getType() == BlockRandomizationConfig.TYPE.MULTIPLY){

@@ -13,7 +13,7 @@ import java.util.Iterator;
  */
 public class IntegerIterator implements Iterator<Integer>, Iterable<Integer>{
 
-	private int current = -1;
+	private int current = 0;
 	private int upto;
 
 	public IntegerIterator(int _upto){
@@ -38,6 +38,10 @@ public class IntegerIterator implements Iterator<Integer>, Iterable<Integer>{
 	@Override
 	public Iterator<Integer> iterator() {
 		return this;
+	}
+
+	public static IntegerIterator upto(int n){
+		return new IntegerIterator(n);
 	}
 
 }
