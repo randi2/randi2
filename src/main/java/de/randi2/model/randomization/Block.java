@@ -8,14 +8,14 @@ package de.randi2.model.randomization;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
-import de.randi2.randomization.RandomizationAlgorithm;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
-
+import static de.randi2.utility.IntegerIterator.upto;
+import static de.randi2.utility.ArithmeticUtil.ggt;
 /**
  *
  * @author jthoenes
@@ -33,15 +33,29 @@ public class Block extends AbstractDomainObject {
 	 * @return A newly generated raw block.
 	 */
 	public static Block generate(Trial trial) {
-
-		List<TreatmentArm> arms = trial.getTreatmentArms();
 		Block block = new Block();
-		int blockSize = RandomizationAlgorithm.minimumBlockSize(trial);
-		for (int i = 0; i < arms.size(); i++) {
-			for (int j = 0; j < (arms.get(i).getPlannedSubjects() / blockSize); j++) {
-				block.add(arms.get(i));
+		List<TreatmentArm> arms = trial.getTreatmentArms();
+
+		int[] sizes = new int[arms.size()];
+		int i = 0;
+		for (TreatmentArm arm : arms) {
+			sizes[i] = arm.getPlannedSubjects();
+			i++;
+		}
+
+		int divide = sizes[0];
+		for (i = 1; i < sizes.length; i++) {
+			divide = ggt(divide, sizes[i]);
+		}
+
+
+		for (TreatmentArm arm : arms) {
+			int size = arm.getPlannedSubjects() / divide;
+			for(int j : upto(size)){
+				block.add(arm);
 			}
 		}
+
 		return block;
 	}
 
@@ -68,6 +82,11 @@ public class Block extends AbstractDomainObject {
 	public TreatmentArm pullFromBlock(Random rand){
 		assert(!isEmpty());
 		return block.remove(rand.nextInt(block.size()));
+	}
+
+	@Override
+	public String toString(){
+		return new StringBuilder().append(block).toString();
 	}
 	
 }

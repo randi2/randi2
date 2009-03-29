@@ -6,6 +6,7 @@
 package de.randi2test.randomization;
 
 import de.randi2.model.Trial;
+import de.randi2.model.randomization.Block;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.randomization.BlockRandomization;
 import java.util.Random;
@@ -36,6 +37,11 @@ public class BlockRandomizationInternalTest {
 		@Override
 		public int generateBlockSize(Random random){
 			return super.generateBlockSize(random);
+		}
+
+		@Override
+		public Block generateBlock(Random random) {
+			return super.generateBlock(random);
 		}
 	}
 
