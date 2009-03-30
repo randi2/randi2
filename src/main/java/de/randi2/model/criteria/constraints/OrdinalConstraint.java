@@ -35,13 +35,16 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 
 	@Override
 	public void isValueCorrect(String _value) throws ContraintViolatedException {
-		throw new UnsupportedOperationException("Not supported yet.");
+		if(!expectedValues.contains(_value)){
+			throw new ContraintViolatedException();
+		}
+		
 	}
 
 	@Override
 	protected void configure(List<String> args)
 			throws ContraintViolatedException {
-		// TODO Auto-generated method stub
+		this.expectedValues =args;
 		
 	}
 }

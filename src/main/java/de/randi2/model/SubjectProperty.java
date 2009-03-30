@@ -3,7 +3,7 @@ package de.randi2.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -23,13 +23,20 @@ public final class SubjectProperty<V extends Serializable> extends AbstractDomai
 	@Target(value=Serializable.class)
 	private V value;
 	
-	@OneToOne(targetEntity=AbstractCriterion.class)
+	
+	@ManyToOne(targetEntity=AbstractCriterion.class)
 	private AbstractCriterion<V,? extends AbstractConstraint<V>> criterion;
 
 	public SubjectProperty(AbstractCriterion<V, ? extends AbstractConstraint<V>> _criterion) {
 		this.criterion = _criterion;
 	}
-
+	
+	@SuppressWarnings("unused")
+	//only for or-mapping
+	private SubjectProperty(){
+		
+	}
+	
 	@Transient
 	public int getStratum() {
 		//return criterion.stratify(this.value);
@@ -63,7 +70,7 @@ public final class SubjectProperty<V extends Serializable> extends AbstractDomai
 			return true;
 		}
 		if (other instanceof SubjectProperty) {
-			SubjectProperty oProp = (SubjectProperty) other;
+			SubjectProperty<?> oProp = (SubjectProperty<?>) other;
 			return new EqualsBuilder().appendSuper(true).
 					append(value, oProp.value).
 					append(criterion, oProp.criterion).isEquals();

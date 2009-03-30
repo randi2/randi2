@@ -559,11 +559,7 @@ public class Role extends AbstractDomainObject {
 
 	@Override
 	public int hashCode() {
-		try{
 		return name.hashCode();
-		}catch(Exception e){
-				return 123;
-		}
 	}
 
 	@Override
