@@ -57,7 +57,7 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 		domainObject.setUsername("hello@world.com");
 		hibernateTemplate.update(domainObject);
 
-		assertTrue(domainObject.getCreatedAt().before(domainObject.getUpdatedAt()));
+		assertTrue(domainObject.getCreatedAt().before(domainObject.getUpdatedAt()) || domainObject.getCreatedAt().equals(domainObject.getUpdatedAt()));
 	}
 
 	@Test
