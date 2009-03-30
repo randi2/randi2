@@ -11,10 +11,10 @@ import de.randi2.model.randomization.BlockRandomizationTempData;
 
 public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizationConfig> {
 
-	public BlockRandomization(Trial _trial){
+	public BlockRandomization(Trial _trial) {
 		super(_trial);
 	}
-	
+
 	public BlockRandomization(Trial _trial, long seed) {
 		super(_trial, seed);
 	}
@@ -23,7 +23,7 @@ public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizatio
 	protected TreatmentArm doRadomize(TrialSubject subject, Random random) {
 		BlockRandomizationTempData tempData = super.configuration.getTempData();
 		Block block = tempData.getBlock(subject.getProperties().hashCode());
-		if(block == null || block.isEmpty()){
+		if (block == null || block.isEmpty()) {
 			block = generateBlock(random);
 			tempData.setBlock(subject.getProperties().hashCode(), block);
 		}
@@ -31,13 +31,13 @@ public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizatio
 		return block.pullFromBlock(random);
 	}
 
-	private Block generateBlock(Random random) {
+	protected Block generateBlock(Random random) {
 		int blockSize = generateBlockSize(random);
 		Block block = new Block();
 		Block rawBlock = Block.generate(trial);
 		int i = 0;
-		while(i < blockSize){
-			if(rawBlock.isEmpty()){
+		while (i < blockSize) {
+			if (rawBlock.isEmpty()) {
 				rawBlock = Block.generate(trial);
 			}
 			block.add(rawBlock.pullFromBlock(random));
@@ -45,14 +45,17 @@ public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizatio
 		}
 		return block;
 	}
-	
-	protected int generateBlockSize(Random random){
+
+	protected int generateBlockSize(Random random) {
 		int range = super.configuration.getMaximum() - super.configuration.getMinimum() + 1;
 		int size = random.nextInt(range) + super.configuration.getMinimum();
-		if(super.configuration.getType() == BlockRandomizationConfig.TYPE.MULTIPLY){
-			size *= RandomizationAlgorithm.minimumBlockSize(trial);
+		if (super.configuration.getType() == BlockRandomizationConfig.TYPE.MULTIPLY) {
+			size *= minimumBlockSize(trial);
 		}
 		return size;
 	}
 
+	private int minimumBlockSize(Trial trial){
+		return Block.generate(trial).getBlock().size();
+	}
 }

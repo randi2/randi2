@@ -76,40 +76,4 @@ public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationC
 			return new Random();
 		}
 	}
-
-	private static int ggt(int x, int y) {
-		assert(x > 0);
-		assert(y > 0);
-		while (x != y) {
-			if (x > y) {
-				x = x - y;
-			} else {
-				y = y - x;
-			}
-		}
-		return x;
-	}
-
-	public static int minimumBlockSize(Trial trial) {
-		List<TreatmentArm> arms = trial.getTreatmentArms();
-		int[] sizes = new int[arms.size()];
-		int i = 0;
-		for (TreatmentArm arm : arms) {
-			sizes[i] = arm.getPlannedSubjects();
-			i++;
-		}
-
-		int divide = sizes[0];
-		for (i = 1; i < sizes.length; i++) {
-			divide = ggt(divide, sizes[i]);
-		}
-
-		int size = 0;
-		for (TreatmentArm arm : arms) {
-			size += arm.getPlannedSubjects() / divide;
-		}
-
-		return size;
-	}
-
 }

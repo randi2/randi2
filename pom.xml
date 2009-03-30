@@ -16,9 +16,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:file:///var/opt/repository/trunk</connection>
-        <developerConnection>scm:svn:https://randi2.svn.sourceforge.net/svnroot/randi2</developerConnection>
-        <url>http://randi2.svn.sourceforge.net/viewvc/randi2/</url>
+        <connection>scm:git:git://github.com/jthoenes/randi2.git</connection>
+        <developerConnection>scm:git:git@github.com:jthoenes/randi2.git</developerConnection>
+        <url>http://github.com/jthoenes/randi2/tree/master</url>
     </scm>
     <mailingLists>
         <mailingList>
