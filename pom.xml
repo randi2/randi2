@@ -465,7 +465,7 @@
                     <server>tomcat_randi2</server>
                 </configuration>
             </plugin>
-	    <plugin>
+<!--	    <plugin>
 	    	<groupId>org.codehaus.groovy.maven</groupId>
 		<artifactId>gmaven-plugin</artifactId>
 		<executions>
@@ -475,7 +475,7 @@
 				</goals>
 			</execution>
 		</executions>
-	    </plugin>
+	    </plugin> -->
 <!--            <plugin>
                 <groupId>org.easyb</groupId>
                 <artifactId>maven-easyb-plugin</artifactId>

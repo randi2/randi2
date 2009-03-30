@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -22,7 +23,9 @@ import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
+import de.randi2.model.exceptions.ValidationException;
 import de.randi2test.utility.AbstractDomainTest;
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 
 public class LoginTest extends AbstractDomainTest<Login>{
@@ -50,6 +53,7 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		
 		Assert.assertNull(l.getPerson());
 	}
+	
 	
 //	@Ignore
 	@Test
@@ -97,7 +101,7 @@ public class LoginTest extends AbstractDomainTest<Login>{
 	
 	
 	@Test
-	public void testPassword(){
+	public void testCheckValuePassword(){
 		String[] validPasswords = {"secret0$secret","sad.al4h/ljhaslf",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+";2", stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-2)+",3", stringUtil.getWithLength(Login.HASH_PASSWORD_LENGTH)};
 		for (String s: validPasswords){
 			validLogin.setPassword(s);
@@ -129,6 +133,53 @@ public class LoginTest extends AbstractDomainTest<Login>{
 	}
 	
 	@Test
+	public void testCheckValueUsername(){
+		validLogin.setUsername("");
+		try{
+			validLogin.checkValue("username", validLogin.getUsername());
+			fail("Username is empty");
+		}catch (ValidationException e) {}
+		validLogin.setUsername(stringUtil.getWithLength(Login.MIN_USERNAME_LENGTH-1));
+		try{
+			validLogin.checkValue("username", validLogin.getUsername());
+			fail("Username is too short");
+		}catch (ValidationException e) {
+			
+		}
+		validLogin.setUsername(stringUtil.getWithLength(Login.MAX_USERNAME_LENGTH+1));
+		try{
+			validLogin.checkValue("username", validLogin.getUsername());
+			fail("Username is too long");
+		}catch (ValidationException e) {
+		}
+		validLogin = factory.getLogin();
+		try{
+			validLogin.checkValue("username", validLogin.getUsername());
+		}catch (ValidationException e) {
+			fail("Username is ok");
+		}
+		
+	}
+	
+	@Test
+	public void testCheckValuePerson(){
+		validLogin.setPerson(null);
+		try{
+			validLogin.checkValue("person", validLogin.getPerson());
+			fail("Person is null");
+		}catch (ValidationException e) {
+			
+		}
+		validLogin = factory.getLogin();
+		try{
+			validLogin.checkValue("person", validLogin.getPerson());
+		}catch (ValidationException e) {
+			fail("Person is ok");
+		}
+		
+	}
+	
+	@Test
 	public void testAktive(){
 		validLogin.setActive(true);
 		assertTrue(validLogin.isActive());
@@ -148,6 +199,30 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		assertEquals(validLogin.getId(), l.getId());
 		assertEquals(Locale.GERMAN, l.getPrefLocale());
 	}
+	
+	@Test
+	public void testAccountNonExpired(){
+		assertTrue(validLogin.isAccountNonExpired());
+	}
+	
+	@Test
+	public void testCredentialsNonExpired(){
+		assertTrue(validLogin.isCredentialsNonExpired());
+	}
+	
+	@Test
+	public void testEnabled(){
+		assertTrue(validLogin.isEnabled());
+	}
+	
+	
+	@Test
+	public void testAccountNonLocked(){
+		assertTrue(validLogin.isAccountNonLocked());
+		validLogin.setNumberWrongLogins(Login.MAX_WRONG_LOGINS);
+		assertFalse(validLogin.isAccountNonLocked());
+	}
+	
 	
 	@Test
 	public void testRoleAndGrantedAuthority(){
@@ -194,10 +269,29 @@ public class LoginTest extends AbstractDomainTest<Login>{
 	
 	@Test
 	public void databaseIntegrationTest() {
+		
+		validLogin.setLockTime(new GregorianCalendar());
+		validLogin.setNumberWrongLogins(Login.MAX_WRONG_LOGINS);
+		validLogin.setPrefLocale(Locale.ENGLISH);
+		GregorianCalendar dateR = new GregorianCalendar(2000,2,1);
+		GregorianCalendar dateL = new GregorianCalendar(2008,2,1);
+		validLogin.setRegistrationDate(dateR);
+		validLogin.setLastLoggedIn(dateL);
 		hibernateTemplate.save(validLogin);
 		assertTrue(validLogin.getId()>0);
 		Login login = (Login)hibernateTemplate.get(Login.class, validLogin.getId());
 		assertEquals(validLogin.getId(), login.getId());
+		assertEquals(Arrays.asList(validLogin.getAuthorities()), Arrays.asList(login.getAuthorities()));
+		assertNotNull(login.getCreatedAt());
+		assertNotNull(login.getUpdatedAt());
+		assertEquals(validLogin.getUsername(), login.getUsername());
+		assertEquals(validLogin.getPrefLocale(), login.getPrefLocale());
+		assertEquals(validLogin.getUIName(), login.getUIName());
+		assertEquals(validLogin.getRoles(), login.getRoles());
+		assertEquals(validLogin.getNumberWrongLogins(), login.getNumberWrongLogins());
+		assertEquals(validLogin.getLockTime(), login.getLockTime());
+		
+		assertEquals(validLogin.getPerson().getId(), login.getPerson().getId());
 	}
 	
 }

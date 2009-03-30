@@ -37,7 +37,7 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	
 	private final static long serialVersionUID = -6809229052570773439L;
 
-	public final static short MAX_WRONG_LOGINS=3;
+	public final static byte MAX_WRONG_LOGINS=3;
 	//15min
 	public final static int MILIS_TO_LOCK_USER = 900000;
 	
