@@ -45,8 +45,8 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 	}
 
 
-	@Ignore("Please make this run at some point later")
-	// FIXME Update and Refresh
+
+	@Test
 	public void testTimestamps() {
 		domainObject = factory.getLogin();
 		hibernateTemplate.persist(domainObject);
@@ -55,7 +55,7 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 		assertNotNull(domainObject.getUpdatedAt());
 
 		domainObject.setUsername("hello@world.com");
-		hibernateTemplate.persist(domainObject);
+		hibernateTemplate.update(domainObject);
 
 		assertTrue(domainObject.getCreatedAt().before(domainObject.getUpdatedAt()));
 	}
