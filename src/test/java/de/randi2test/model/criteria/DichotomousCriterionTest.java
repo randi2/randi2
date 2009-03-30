@@ -7,19 +7,16 @@ package de.randi2test.model.criteria;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
@@ -111,6 +108,18 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 	}
 
 	@Test
+	public void testConfiguredValues(){
+		assertNull(criterion.getConfiguredValues());
+		criterion.setOption1("Ja");
+		criterion.setOption2("Nein");
+		assertNotNull(criterion.getConfiguredValues());
+		List<String> confValues = criterion.getConfiguredValues();
+		confValues.contains("Ja");
+		confValues.contains("Nein");
+		
+	}
+	
+	@Test
 	public void databaseIntegrationTest() {
 		criterion.setDescription("test");
 		criterion.setOption1("Ja");
@@ -135,9 +144,13 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 			assertTrue(temp.get(1).getId() > 0);
 			criterion.setStrata(temp);
 			hibernateTemplate.update(criterion);
+			DichotomousCriterion dbCriterion = (DichotomousCriterion) hibernateTemplate.get(DichotomousCriterion.class,criterion.getId());
+			assertEquals(criterion, dbCriterion);
+			assertEquals(constraint.getId(), dbCriterion.getInclusionCriterion().getId());
+			assertEquals(DichotomousConstraint.class, dbCriterion.getContstraintType());
 
 		} catch (ContraintViolatedException e) {
-			//fail();
+			fail();
 		}
 	}
 }

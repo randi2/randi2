@@ -410,7 +410,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertTrue(validPerson.getId()>0);
 		assertTrue(validPerson.getLogin().getId()>0);
 		Person person = (Person)hibernateTemplate.get(Person.class, validPerson.getId());
-		assertEquals(validPerson, person);
+		assertEquals(validPerson.getId(), person.getId());
 		assertEquals(validPerson.getLogin(), person.getLogin());
 	}
 }
