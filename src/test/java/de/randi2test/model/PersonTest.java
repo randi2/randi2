@@ -31,6 +31,8 @@ public class PersonTest extends AbstractDomainTest<Person> {
 	@Before
 	public void setUp() {
 		validPerson = super.factory.getPerson();
+		validPerson.setLogin(factory.getLogin());
+		validPerson.getLogin().setPerson(validPerson);
 	}
 
 	@Test(expected = ValidationException.class)
@@ -258,7 +260,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 	}
 
 	@Test
-	public void testCheckValue(){
+	public void testCheckValueSurname(){
 		try{
 		validPerson.checkValue("surname", "");
 		fail("< >: is not valid");
@@ -267,7 +269,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		}
 		
 		try{
-			validPerson.checkValue("surname", stringUtil.getWithLength(AbstractDomainObject.MAX_VARCHAR_LENGTH + 20));
+			validPerson.checkValue("surname", stringUtil.getWithLength(Person.MAX_NAME_LENGTH + 20));
 			fail("< >: is not valid");
 			}catch (ValidationException e) {
 				// TODO: handle exception
@@ -275,7 +277,32 @@ public class PersonTest extends AbstractDomainTest<Person> {
 	}
 	
 	@Test
-	public void testGender() {
+	public void testCheckValueFirstname(){
+		try{
+		validPerson.checkValue("firstname", "");
+		fail("< >: is not valid");
+		}catch (ValidationException e) {
+		}
+		
+		try{
+			validPerson.checkValue("firstname", stringUtil.getWithLength(Person.MAX_NAME_LENGTH + 20));
+			fail("< >: is not valid");
+			}catch (ValidationException e) {
+			}
+	}
+	
+	@Test
+	public void testCheckValueTitle(){
+		
+		try{
+			validPerson.checkValue("title", stringUtil.getWithLength(Person.MAX_TITLE_LENGTH + 20));
+			fail("< >: is not valid");
+			}catch (ValidationException e) {
+			}
+	}
+	
+	@Test
+	public void testCheckValueGender() {
 		validPerson.setGender(Gender.MALE);
 		assertEquals(Gender.MALE, validPerson.getGender());
 		assertValid(validPerson);
@@ -285,6 +312,32 @@ public class PersonTest extends AbstractDomainTest<Person> {
 			validPerson.checkValue("gender", validPerson.getGender());
 			fail("should throw exception");
 		} catch (ValidationException e) {
+		}
+	}
+	
+	@Test
+	public void testCheckValueTelephone() {
+		String[] validNumbers = { "01234/45678", "+49 123456 789123",
+			"(123456)67890", "123456789"};
+		
+		for(String s: validNumbers){
+			validPerson.setPhone(s);
+			try{
+				validPerson.checkValue("phone", validPerson.getPhone());
+			}catch (ValidationException e) {
+				fail("Telephonenumber schould be ok");
+			}
+		}
+		
+		String[] invalidNumbers ={ "abc1234/09707", "12345d56789", "", null };
+		for(String s: invalidNumbers){
+			validPerson.setPhone(s);
+			try{
+				validPerson.checkValue("phone", validPerson.getPhone());
+				fail("Telephonenumber " +s+" schould be wrong");
+			}catch (ValidationException e) {
+				
+			}
 		}
 	}
 
@@ -355,7 +408,9 @@ public class PersonTest extends AbstractDomainTest<Person> {
 	public void databaseIntegrationTest() {
 		hibernateTemplate.save(validPerson);
 		assertTrue(validPerson.getId()>0);
+		assertTrue(validPerson.getLogin().getId()>0);
 		Person person = (Person)hibernateTemplate.get(Person.class, validPerson.getId());
 		assertEquals(validPerson, person);
+		assertEquals(validPerson.getLogin(), person.getLogin());
 	}
 }
