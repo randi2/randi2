@@ -49,6 +49,9 @@ public class OrdinalCriterion extends
 
 	@Override
 	public List<String> getConfiguredValues() {
+		if(elements == null || elements.size() == 0){
+			return null;
+		}
 		boolean configured = true;
 		for (String s : elements) {
 			configured = !(s.isEmpty() || s.equals(""));
@@ -61,8 +64,9 @@ public class OrdinalCriterion extends
 
 	@Override
 	public void isValueCorrect(String value) throws ContraintViolatedException {
-		// TODO Auto-generated method stub
-		
+		if(!elements.contains(value)){
+			throw new ContraintViolatedException();
+		}		
 	}
 	
 	@Override
