@@ -465,7 +465,7 @@
                     <server>tomcat_randi2</server>
                 </configuration>
             </plugin>
-	    <plugin>
+<!--	    <plugin>
 	    	<groupId>org.codehaus.groovy.maven</groupId>
 		<artifactId>gmaven-plugin</artifactId>
 		<executions>
@@ -475,7 +475,7 @@
 				</goals>
 			</execution>
 		</executions>
-	    </plugin>
+	    </plugin> -->
 <!--            <plugin>
                 <groupId>org.easyb</groupId>
                 <artifactId>maven-easyb-plugin</artifactId>
@@ -522,7 +522,7 @@
                     <xmlOutput>true</xmlOutput>
                 </configuration>
             </plugin>
-            <plugin>
+<!--            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <configuration>
@@ -531,7 +531,11 @@
                         <format>xml</format>
                     </formats>
                 </configuration>
-            </plugin>
+            </plugin>-->
+	    <plugin>
+	      <groupId>emma</groupId>
+	      <artifactId>maven-emma-plugin</artifactId>
+	    </plugin>
 	    <plugin>
 	            <groupId>org.apache.maven.plugins</groupId>
 		            <artifactId>maven-jxr-plugin</artifactId>
