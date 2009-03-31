@@ -216,6 +216,10 @@ public class AclHibernateTest {
 		
 		assertEquals(acl.getAces().size(), dbAcl.getAces().size());
 		
+		for(AccessControlEntryHibernate ace: dbAcl.getAces()){
+			assertEquals(PermissionHibernate.READ.getMask(), ace.getPermission().getMask());
+			assertEquals(acl.getOwner().getSidname(),((SidHibernate)ace.getSid()).getSidname());
+		}
 		
 	}
 }
