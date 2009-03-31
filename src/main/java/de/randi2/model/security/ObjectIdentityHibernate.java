@@ -22,7 +22,7 @@ public class ObjectIdentityHibernate implements ObjectIdentity, Serializable {
 	private long id;
 	
 	private Class<? extends AbstractDomainObject> javaType;
-	private long identifier;
+	private Long identifier;
 	
 	public ObjectIdentityHibernate() {
 		super();
@@ -54,7 +54,7 @@ public class ObjectIdentityHibernate implements ObjectIdentity, Serializable {
 		this.javaType = javaType;
 	}
 
-	public void setIdentifier(long identifier) {
+	public void setIdentifier(Long identifier) {
 		this.identifier = identifier;
 	}
 
