@@ -1,8 +1,11 @@
 package de.randi2.model.criteria.constraints;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 
 import org.hibernate.annotations.CollectionOfElements;
 
@@ -22,14 +25,14 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 		// TODO Auto-generated constructor stub
 	}
 
-	@CollectionOfElements
-	public List<String> expectedValues;
+	@CollectionOfElements(fetch=FetchType.EAGER)
+	public Set<String> expectedValues;
 
-	public List<String> getExpectedValues() {
+	public Set<String> getExpectedValues() {
 		return expectedValues;
 	}
 
-	public void setExpectedValues(List<String> expectedValues) {
+	public void setExpectedValues(Set<String> expectedValues) {
 		this.expectedValues = expectedValues;
 	}
 
@@ -44,7 +47,10 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 	@Override
 	protected void configure(List<String> args)
 			throws ContraintViolatedException {
-		this.expectedValues =args;
+		if(args == null || args.size() <1){
+			throw new ContraintViolatedException();
+		}
+		this.expectedValues = new HashSet<String>(args);
 		
 	}
 }

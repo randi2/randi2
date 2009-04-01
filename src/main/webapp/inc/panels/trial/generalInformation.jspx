@@ -16,8 +16,7 @@
  -->
 
 <ice:panelGroup style="width: 550px;">
-	<ice:panelCollapsible expanded="true"
-		toggleOnClick="true">
+	<ice:panelCollapsible expanded="true" toggleOnClick="true">
 		<f:facet name="header">
 			<ice:outputLabel value="#{labels['trial.name']}"></ice:outputLabel>
 		</f:facet>
@@ -28,6 +27,19 @@
 			<f:attribute name="dObject" value="#{trialHandler.showedObject}" />
 		</ice:inputText>
 		<ice:message for="name" />
+	</ice:panelCollapsible>
+	<ice:panelCollapsible expanded="true" toggleOnClick="true">
+		<f:facet name="header">
+			<ice:outputLabel value="#{labels['trial.description']}"></ice:outputLabel>
+		</f:facet>
+		<ice:inputTextarea id="description" cols="20" rows="4"
+			value="#{trialHandler.showedObject.description}"
+			required="#{trialHandler.showedObject.requiredFields['description']}"
+			partialSubmit="true" style="width:310px;height:85px;overflow: auto;">
+			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+			<f:attribute name="dObject" value="#{trialHandler.showedObject}" />
+		</ice:inputTextarea>
+		<ice:message for="description" />
 	</ice:panelCollapsible>
 	</ice:panelGroup>
 
