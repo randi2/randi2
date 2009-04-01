@@ -5,9 +5,9 @@
 
 	<!-- Test-Tooling -->
 	<bean id="testStringUtil"
-		class="de.randi2test.utility.TestStringUtil">
+		class="de.randi2.test.utility.TestStringUtil">
 	</bean>
 	
-	<bean id="domainObjectFactory" class="de.randi2test.utility.DomainObjectFactory"></bean>
+	<bean id="domainObjectFactory" class="de.randi2.test.utility.DomainObjectFactory"></bean>
 
 </beans>
