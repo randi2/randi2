@@ -1,4 +1,6 @@
 target/
 .settings/
 nb-configuration.xml
+.classpath
+.project
 src/main/resources/META-INF/configuration.properties
