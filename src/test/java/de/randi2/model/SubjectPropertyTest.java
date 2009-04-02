@@ -34,6 +34,7 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 		SubjectProperty<String> subjectString = new SubjectProperty<String>(criterion);
 		try {
 			subjectString.setValue(criterion.getOption1());
+			assertEquals(criterion.getOption1(),subjectString.getValue());
 		} catch (ContraintViolatedException e) {
 			fail("Constraint violated: " + e.getMessage());
 		}
@@ -59,6 +60,7 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 		SubjectProperty<String> subjectString = new SubjectProperty<String>(criterion);
 		try {
 			subjectString.setValue(criterion.getElements().get(0));
+			assertEquals(criterion.getElements().get(0),subjectString.getValue());
 		} catch (ContraintViolatedException e) {
 			fail("Constraint violated: " + e.getMessage());
 		}
