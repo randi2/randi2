@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	
-<bean id="mailSender" class="de.randi2test.utility.mock.DummyMailSender"/>
+<bean id="mailSender" class="de.randi2.test.mock.DummyMailSender"/>
 
    <bean id="mailService" class="de.randi2.utility.mail.MailService">
    	<property name="from" value="${mail.from}" />
