@@ -159,7 +159,11 @@ public class Role extends AbstractDomainObject {
 		this.readTrialSubject = readTrialSubject;
 		this.adminTrialSubject = adminTrialSubject;
 		this.createRole = createRole;
-		this.rolesToAssign = rolesToAssign;
+		if(rolesToAssign == null){
+			this.rolesToAssign = new ArrayList<Role>();
+		}else{
+			this.rolesToAssign = rolesToAssign;
+		}
 	}
 
 	public Role() {
@@ -180,12 +184,6 @@ public class Role extends AbstractDomainObject {
 		this.name = name;
 	}
 
-	/**
-	 * @return the scopeTrialSite
-	 */
-	public boolean isScopeTrialSite() {
-		return scopeTrialSiteView;
-	}
 
 	/**
 	 * @param scopeTrialSite
