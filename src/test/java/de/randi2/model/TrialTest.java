@@ -352,9 +352,9 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		 validTrial.addCriterion(criterion2);
 		 
 		 assertEquals(2, validTrial.getCriteria().size());
-		 assertTrue(validTrial.getCriteria().get(0) instanceof DichotomousCriterion);
+		 assertTrue(DichotomousCriterion.class.isInstance(validTrial.getCriteria().get(0)));
 		 assertEquals("criterion1", validTrial.getCriteria().get(0).getName());
-		 assertTrue(validTrial.getCriteria().get(1) instanceof DichotomousCriterion);
+		 assertTrue(DichotomousCriterion.class.isInstance(validTrial.getCriteria().get(1)));
 		 assertEquals("criterion2", validTrial.getCriteria().get(1).getName());
 		 
 	 }
