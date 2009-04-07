@@ -344,10 +344,12 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		 criterion1.setName("criterion1");
 		 DichotomousCriterion criterion2 = new DichotomousCriterion();
 		 criterion2.setName("criterion2");
-		 List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> criterions = new ArrayList<AbstractCriterion<? extends Serializable,? extends AbstractConstraint<? extends Serializable>>>();
-		 criterions.add(criterion1);
-		 criterions.add(criterion2);
-		 validTrial.setCriteria(criterions);
+		// List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> criterions = new ArrayList<AbstractCriterion<? extends Serializable,? extends AbstractConstraint<? extends Serializable>>>();
+		 //criterions.add(criterion1);
+		 //criterions.add(criterion2);
+		 //validTrial.setCriteria(criterions);
+		 validTrial.addCriterion(criterion1);
+		 validTrial.addCriterion(criterion2);
 		 
 		 assertEquals(2, validTrial.getCriteria().size());
 		 assertTrue(validTrial.getCriteria().get(0) instanceof DichotomousCriterion);
