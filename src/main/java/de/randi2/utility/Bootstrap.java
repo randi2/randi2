@@ -20,7 +20,7 @@ import de.randi2.utility.security.RolesAndRights;
 /**
  * This class insert two user and two trial sites (name: DKFZ and NCT). 
  * 
- * Thirst user:
+ * First user:
  * <ul>
  * 	<li>role: Administrator</li>
  * 	<li>login: admin@test.de</li>
