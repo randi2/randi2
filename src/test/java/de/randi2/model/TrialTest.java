@@ -271,7 +271,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 	
 	@Test
 	public void testPartSits(){
-		List<TrialSite> cl = validTrial.getParticipatingSites();
+		Set<TrialSite> cl = validTrial.getParticipatingSites();
 		
 		TrialSite c1 = factory.getTrialSite();
 		TrialSite c2 = factory.getTrialSite();
@@ -312,7 +312,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		int version = ((AbstractDomainObject) validTrial.getParticipatingSites().toArray()[0]).getVersion();
 		
 		hibernateTemplate.update(validTrial);
-		List<TrialSite> trialSites = validTrial.getParticipatingSites();
+		Set<TrialSite> trialSites = validTrial.getParticipatingSites();
 		assertTrue(version < ((AbstractDomainObject) trialSites.toArray()[0]).getId());
 	}
 	
