@@ -158,10 +158,6 @@
             <url>http://snapshots.repository.codehaus.org</url>
         </pluginRepository> -->
     </pluginRepositories>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.java.version>1.6</project.build.java.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -430,8 +426,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>${project.build.java.version}</source>
-                    <target>${project.build.java.version}</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                     <compilerArgument>-Xlint</compilerArgument>
                 </configuration>
             </plugin>
@@ -471,7 +467,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-eclipse-plugin</artifactId>
                 <configuration>
-                    <downloadSource>false</downloadSource>
+                    <downloadSource>true</downloadSource>
+                    <downloadJavadocs>true</downloadJavadocs>
+		    <additionalProjectFacets>
+			    <jst.jsf>1.1<jst.jsf/>
+		    </additionalProjectFacets>
                     <wtpversion>1.5</wtpversion>
                 </configuration>
             </plugin>
@@ -565,7 +565,7 @@
             <plugin>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <configuration>
-                    <targetJdk>${project.build.java.version}</targetJdk>
+                    <targetJdk>1.6</targetJdk>
                 </configuration>
             </plugin>
         </plugins>
