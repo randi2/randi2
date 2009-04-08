@@ -12,5 +12,7 @@
 		<constructor-arg ref="mailService"/>
 	</bean>
 	
+	<bean id="trialSiteService" class="de.randi2.services.TrialSiteServiceImpl"></bean>
+	
 	
 </beans>

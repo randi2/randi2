@@ -9,6 +9,6 @@ public interface TrialSiteService extends AbstractService<TrialSite>{
 	 * @param site
 	 * @param password
 	 */
-	public void authorize(TrialSite site, String password);
+	public boolean authorize(TrialSite site, String password);
 
 }
