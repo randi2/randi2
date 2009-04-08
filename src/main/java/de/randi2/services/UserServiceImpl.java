@@ -15,21 +15,21 @@ import de.randi2.utility.mail.MailServiceInterface;
 /**
  * 
  * @author dschrimpf
- *
+ * 
  */
 public class UserServiceImpl implements UserService {
 
 	private LoginDao loginDao;
 	private PersonDao personDao;
 	private MailServiceInterface mailService;
-	
-	
-	public UserServiceImpl(LoginDao loginDao, PersonDao personDao, MailServiceInterface mailService){
+
+	public UserServiceImpl(LoginDao loginDao, PersonDao personDao,
+			MailServiceInterface mailService) {
 		this.loginDao = loginDao;
 		this.personDao = personDao;
 		this.mailService = mailService;
 	}
-	
+
 	@Override
 	public void addRole(Login login, Role role) {
 		// TODO Auto-generated method stub
@@ -65,7 +65,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void register(Login newObject) {
 		loginDao.save(newObject);
-		//TODO MailSend
+		// TODO MailSend
+		// TODO If the newObject has the Anonymous Role replece it with the
+		// Investigator Role (self-registration process)
 
 	}
 
@@ -78,12 +80,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateRole(Role changedRole) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public List<Login> getAll() {
 		return loginDao.getAll();
+	}
+
+	@Override
+	public void removeRole(Login login, Role role) {
+		// TODO Auto-generated method stub
 	}
 
 }
