@@ -29,6 +29,7 @@
 <!-- 	<import resource="classpath:META-INF/subconfig/handlers.xml" /> -->
  	<import resource="classpath:META-INF/subconfig/aspects.xml" />
 	<import resource="classpath:META-INF/subconfig/security.xml" />
+	<import resource="classpath:META-INF/subconfig/services.xml"/>
 	
 	<import resource="classpath:META-INF/subconfig/mail.xml" />
 	<!-- Random Instance for NOT Randomization purposes. For Randomization

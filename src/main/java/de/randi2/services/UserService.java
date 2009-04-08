@@ -10,7 +10,7 @@ import de.randi2.model.Role;
  * @author Lukasz Plotnicki & Daniel Schrimpf
  * 
  */
-public interface UserService {
+public interface UserService extends AbstractService<Login> {
 
 	/**
 	 * Use this method if you want to update an existing object and make the
