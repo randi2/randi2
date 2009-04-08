@@ -28,7 +28,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.context.HttpSessionContextIntegrationFilter;
 import org.springframework.security.context.SecurityContextHolder;
 
@@ -54,14 +53,12 @@ import de.randi2.services.UserService;
  */
 public class LoginHandler extends AbstractHandler<Login> {
 
-	@Autowired
 	private UserService userService;
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
 	
-	@Autowired
 	private TrialSiteService siteService;
 	
 	public void setSiteService(TrialSiteService siteService) {

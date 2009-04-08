@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:sec="http://www.springframework.org/schema/security"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd" >
+	xmlns:sec="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd">
 
-	
+
 	<bean id="userService" class="de.randi2.services.UserServiceImpl">
-		<constructor-arg ref="loginDAO"/>
-		<constructor-arg ref="personDAO"/>
-		<constructor-arg ref="mailService"/>
+		<constructor-arg ref="loginDAO" />
+		<constructor-arg ref="personDAO" />
+		<constructor-arg ref="mailService" />
 	</bean>
-	
-	<bean id="trialSiteService" class="de.randi2.services.TrialSiteServiceImpl"></bean>
-	
-	
+
+	<bean id="trialSiteService" class="de.randi2.services.TrialSiteServiceImpl">
+		<constructor-arg ref="trialSiteDAO" />
+	</bean>
+
+
 </beans>
