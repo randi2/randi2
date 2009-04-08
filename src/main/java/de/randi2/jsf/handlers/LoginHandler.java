@@ -16,10 +16,8 @@ package de.randi2.jsf.handlers;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -27,15 +25,12 @@ import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 import org.springframework.security.context.HttpSessionContextIntegrationFilter;
 import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 
-import de.randi2.dao.LoginDao;
-import de.randi2.dao.PersonDao;
-import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.Randi2;
 import de.randi2.jsf.exceptions.RegistrationException;
 import de.randi2.jsf.pages.RegisterPage;
@@ -45,20 +40,30 @@ import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
-import de.randi2.utility.mail.MailServiceInterface;
-import de.randi2.utility.mail.exceptions.MailErrorException;
-import org.apache.log4j.Logger;
+import de.randi2.services.TrialSiteService;
+import de.randi2.services.UserService;
 
 /**
  * <p>
- * This class cares about the loggedInUser object, which represents the logged
- * in user and contains all methods needed for working with loggedInUser and
- * person objects.
+ * This class takes care of login objects and contains all UI-specific methods
+ * needed for working with login and person objects.
  * </p>
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class LoginHandler extends AbstractHandler<Login> {
+
+	private UserService userService;
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+	
+	private TrialSiteService siteService;
+	
+	public void setSiteService(TrialSiteService siteService) {
+		this.siteService = siteService;
+	}
 
 	public LoginHandler() {
 	}
@@ -78,21 +83,11 @@ public class LoginHandler extends AbstractHandler<Login> {
 	private String tsPassword = null;
 	// ---
 
-	// DB Access
-	private LoginDao loginDao;
-	private PersonDao personDao;
-	// FIXME Rename + Autowired ?
-	private TrialSiteDao trialSiteDao;
-	// ---
-
 	// Popup's flags
 	private boolean userSavedPVisible = false;
 	private boolean changePasswordPVisible = false;
 	private boolean changeTrialSitePVisible = false;
 	private boolean changeAssistantPVisible = false;
-
-	// NewUserMailService
-	private MailServiceInterface mailService;
 
 	// POPUPS
 	public boolean isChangeTrialSitePVisible() {
@@ -170,18 +165,19 @@ public class LoginHandler extends AbstractHandler<Login> {
 
 	// ----
 
-	// Application logic
-
+	// UI logic
 	public void addRole(ActionEvent event) {
 		assert (rolesAC.getSelectedObject() != null);
-		showedObject.addRole(rolesAC.getSelectedObject());
+		assert (userService != null);
+		userService.addRole(showedObject, rolesAC.getSelectedObject());
 	}
 
 	public void removeRole(ActionEvent event) {
+		assert (userService != null);
 		Role tRole = (Role) (((UIComponent) event.getComponent().getChildren()
 				.get(0)).getValueExpression("value").getValue(FacesContext
 				.getCurrentInstance().getELContext()));
-		showedObject.getRoles().remove(tRole);
+		userService.removeRole(showedObject, tRole);
 	}
 
 	public String changePassword() {
@@ -194,8 +190,8 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public String changeTrialSite() {
 		assert (trialSitesAC.getSelectedObject() != null);
 		showedObject.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
-		this.saveObject();
 		this.hideChangeTrialSitePopup();
+		this.saveObject();
 		return Randi2.SUCCESS;
 	}
 
@@ -203,8 +199,8 @@ public class LoginHandler extends AbstractHandler<Login> {
 		assert (tsMembersAC.getSelectedObject() != null);
 		showedObject.getPerson()
 				.setAssistant((tsMembersAC.getSelectedObject()));
-		this.saveObject();
 		this.hideChangeAssistantPopup();
+		this.saveObject();
 		return Randi2.SUCCESS;
 	}
 
@@ -217,8 +213,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public String saveObject() {
 		assert (showedObject != null);
 		try {
-			// personDao.save(showedObject.getPerson());
-			loginDao.save(showedObject);
+			userService.update(showedObject);
 			// Making the pop up visible
 			userSavedPVisible = true;
 			return Randi2.SUCCESS;
@@ -226,9 +221,8 @@ public class LoginHandler extends AbstractHandler<Login> {
 			Randi2.showMessage(exp);
 			return Randi2.ERROR;
 		} finally {
-			// FIXME Refreshing objects
 			// Updating the Object ...
-			showedObject = loginDao.get(showedObject.getId());
+			// showedObject = loginDao.get(showedObject.getId());
 			// If the current loggedInUser user was saved with this method, the
 			// loggedInUser
 			// object will be reload from the DB
@@ -239,8 +233,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	}
 
 	/**
-	 * This method is conducted for the users registration. It saves the entered
-	 * values.
+	 * This method is responsible for the users registration.
 	 * 
 	 * @return Randi2.SUCCESS normally. Randi2.ERROR in case of an error.
 	 */
@@ -249,12 +242,9 @@ public class LoginHandler extends AbstractHandler<Login> {
 			if (creatingMode) {
 				// A new user was created by another logged in user
 				newUser = showedObject;
-
 			} else {
 				// Normal self-registration
 				assert (newUser != null);
-				newUser.addRole(Role.ROLE_INVESTIGATOR);
-
 				try {
 					if (!tsPassword.equals(trialSitesAC.getSelectedObject()
 							.getPassword())) {
@@ -266,17 +256,14 @@ public class LoginHandler extends AbstractHandler<Login> {
 					throw new RegistrationException(
 							RegistrationException.TRIAL_SITE_ERROR);
 				}
-
 			}
+			newUser.setPrefLocale(getChosenLocale());
 			newUser.setUsername(newUser.getPerson().getEMail());
 			newUser.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
 			if (tsMembersAC.getSelectedObject() != null)
 				newUser.getPerson().setAssistant(
 						tsMembersAC.getSelectedObject());
-			newUser.setCreatedAt(new GregorianCalendar());
-			// personDao.save(newUser.getPerson());
-			loginDao.save(newUser);
-
+			userService.register(newUser);
 			// Making the successPopup visible (NORMAL REGISTRATION)
 			if (!creatingMode) {
 				((RegisterPage) FacesContext.getCurrentInstance()
@@ -287,14 +274,11 @@ public class LoginHandler extends AbstractHandler<Login> {
 				// Reseting the objects used for the registration process
 				this.cleanUp();
 			}
-
 			// Making the popup visible (CREATING AN USER BY ANOTHER USER)
 			if (creatingMode) {
 				this.userSavedPVisible = true;
 			}
-
-			return sendRegistrationMails(newUser, chosenLocale, mailService);
-
+			return Randi2.SUCCESS;
 		} catch (InvalidStateException exp) {
 			// TODO for a stable release delete the following stacktrace
 			exp.printStackTrace();
@@ -314,77 +298,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 	}
 
 	/**
-	 * Sends the registration mails to the new user and the contact person of
-	 * the current trial site.
-	 * 
-	 * @param newUser
-	 *            The new user.
-	 * @param chosenLocale
-	 *            The chosen Locale of the new user.
-	 * @param mailService
-	 * @return
-	 */
-	public String sendRegistrationMails(Login newUser, Locale chosenLocale,
-			MailServiceInterface mailService) {
-
-		try {
-
-			// sending the registration mail via MailService
-
-			// Map of variables for the message
-			Map<String, Object> newUserMessageFields = new HashMap<String, Object>();
-			newUserMessageFields.put("user", newUser);
-			newUserMessageFields.put("url", "http://randi2.com/CHANGEME");
-			// Map of variables for the subject
-			Map<String, Object> newUserSubjectFields = new HashMap<String, Object>();
-			newUserSubjectFields.put("firstname", newUser.getPerson()
-					.getFirstname());
-
-			Locale language = chosenLocale;
-
-			mailService.sendMail(newUser.getUsername(), "NewUserMail",
-					language, newUserMessageFields, newUserSubjectFields);
-
-			if (newUser.getPerson().getTrialSite().getContactPerson() != null) {
-
-				// send e-mail to contact person of current trial-site
-
-				Person contactPerson = newUser.getPerson().getTrialSite()
-						.getContactPerson();
-				language = contactPerson.getLogin().getPrefLocale();
-
-				// Map of variables for the message
-				Map<String, Object> contactPersonMessageFields = new HashMap<String, Object>();
-				contactPersonMessageFields.put("newUser", newUser);
-				contactPersonMessageFields.put("contactPerson", contactPerson);
-
-				// Map of variables for the subject
-				Map<String, Object> contactPersonSubjectFields = new HashMap<String, Object>();
-				contactPersonSubjectFields.put("newUserFirstname", newUser
-						.getPerson().getFirstname());
-				contactPersonSubjectFields.put("newUserLastname", newUser
-						.getPerson().getSurname());
-
-				mailService.sendMail(contactPerson.getEMail(),
-						"NewUserNotifyContactPersonMail", language,
-						contactPersonMessageFields, contactPersonSubjectFields);
-
-			}
-
-			return Randi2.SUCCESS;
-
-		} catch (MailErrorException exp) {
-
-			// TODO remove stack trace
-			exp.printStackTrace();
-			Randi2.showMessage(exp);
-			return Randi2.ERROR;
-
-		}
-
-	}
-
-	/**
 	 * This method saves the current loggedInUser-object and log it out.
 	 * 
 	 * @return Randi2.SUCCESS
@@ -392,9 +305,9 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public String logoutUser() {
 		// Saving the current loggedInUser object, befor log out
 		// TODO Problems trying to get the newst object
-		if (this.loggedInUser.getVersion() >= this.loginDao.get(
-				this.loggedInUser.getId()).getVersion())
-			loginDao.save(this.loggedInUser);
+//		if (this.loggedInUser.getVersion() >= this.loginDao.get(
+//				this.loggedInUser.getId()).getVersion())
+			userService.update(this.loggedInUser);
 		// Cleaning up
 		this.cleanUp();
 		// Invalidating the session
@@ -425,7 +338,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 		if (showedObject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID)
 			showedObject = null;
 		else
-			showedObject = loginDao.get(showedObject.getId());
+			showedObject = userService.getObject(showedObject.getId());
 		trialSitesAC = null;
 		tsMembersAC = null;
 		refresh();
@@ -443,14 +356,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 	}
 
 	// GET & SET Methods
-	public PersonDao getPersonDao() {
-		return personDao;
-	}
-
-	public void setPersonDao(PersonDao personDao) {
-		this.personDao = personDao;
-	}
-
 	public void setLoggedInUser(Login user) {
 		this.loggedInUser = user;
 	}
@@ -469,24 +374,16 @@ public class LoginHandler extends AbstractHandler<Login> {
 		return this.loggedInUser;
 	}
 
-	public LoginDao getLoginDao() {
-		return loginDao;
-	}
-
-	public void setLoginDao(LoginDao loginDao) {
-		this.loginDao = loginDao;
-	}
-
 	/**
 	 * This method provide the locale chosen by the logged user. If the user
 	 * didn't choose anyone, but his standard browser-locale is supported, then
 	 * it will be provided. Otherwise the applications default locale will be
 	 * used.
-	 * 
+	 * setTri
 	 * @return locale for the loged in user
 	 */
 	public Locale getChosenLocale() {
-		//TODO Temporary sysout
+		// TODO Temporary sysout
 		System.out.println(chosenLocale);
 		if (this.loggedInUser != null) {
 			if (this.loggedInUser.getPrefLocale() != null) {
@@ -515,14 +412,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 */
 	public void setChosenLocale(Locale chosenLocale) {
 		this.chosenLocale = chosenLocale;
-	}
-
-	public TrialSiteDao getTrialSiteDao() {
-		return trialSiteDao;
-	}
-
-	public void setTrialSiteDao(TrialSiteDao trialSiteDao) {
-		this.trialSiteDao = trialSiteDao;
 	}
 
 	public String getTsPassword() {
@@ -554,16 +443,8 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 */
 	public Login getNewUser() {
 		if (newUser == null) { // Starting the registration process
-			newUser = new Login();
-			newUser.setPerson(new Person());
-			newUser.addRole(Role.ROLE_ANONYMOUS);
-			AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-					"anonymousUser", newUser, newUser.getAuthorities());
-			// Perform authentication
-			SecurityContextHolder.getContext().setAuthentication(authToken);
-			SecurityContextHolder.getContext().getAuthentication()
-					.setAuthenticated(true);
-
+			assert (userService != null);
+			newUser = userService.prepareInvestigator();
 			// Put the context in the session
 			((HttpServletRequest) FacesContext.getCurrentInstance()
 					.getExternalContext().getRequest())
@@ -577,7 +458,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 
 	public AutoCompleteObject<TrialSite> getTrialSitesAC() {
 		if (trialSitesAC == null)
-			trialSitesAC = new AutoCompleteObject<TrialSite>(trialSiteDao);
+			trialSitesAC = new AutoCompleteObject<TrialSite>(siteService);
 		return trialSitesAC;
 	}
 
@@ -587,7 +468,9 @@ public class LoginHandler extends AbstractHandler<Login> {
 			if (trialSitesAC.getSelectedObject() != null)
 				tsMembersAC = new AutoCompleteObject<Person>(trialSitesAC
 						.getSelectedObject().getMembers());
-			else //FIXME - from time to time we've got a strange behavioure here ...
+			else
+				// FIXME - from time to time we've got a strange behavioure here
+				// ...
 				tsMembersAC = new AutoCompleteObject<Person>(showedObject
 						.getPerson().getTrialSite().getMembers());
 		}
@@ -608,21 +491,12 @@ public class LoginHandler extends AbstractHandler<Login> {
 			rolesAC = new AutoCompleteObject<Role>(roles);
 		return rolesAC;
 	}
-
-	public MailServiceInterface getNewUserMailService() {
-		return mailService;
-	}
-
-	public void setNewUserMailService(MailServiceInterface newUserMailService) {
-		this.mailService = newUserMailService;
-	}
-
-	// ---
-
+	
 	@Override
 	protected Login createPlainObject() {
 		Login l = new Login();
 		l.setPerson(new Person());
 		return l;
 	}
+	// ---
 }

@@ -60,7 +60,6 @@ public class Bootstrap {
 
 		Login adminL = new Login();
 		adminL.setPassword("1$heidelberg");
-		adminL.setRegistrationDate(new GregorianCalendar());
 		adminL.setPerson(adminP);
 		adminL.setPrefLocale(Locale.GERMANY);
 		adminL.setUsername(adminP.getEMail());
@@ -103,7 +102,6 @@ public class Bootstrap {
 
 		Login userL = new Login();
 		userL.setPassword("1$heidelberg");
-		userL.setRegistrationDate(new GregorianCalendar());
 		userL.setPerson(userP);
 		userL.setPrefLocale(Locale.GERMANY);
 		userL.setUsername(userP.getEMail());

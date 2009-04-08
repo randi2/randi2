@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import com.icesoft.faces.component.selectinputtext.SelectInputText;
 
-import de.randi2.dao.AbstractDao;
 import de.randi2.model.AbstractDomainObject;
+import de.randi2.services.AbstractService;
 
 public class AutoCompleteObject<O extends AbstractDomainObject> {
 
@@ -21,7 +22,7 @@ public class AutoCompleteObject<O extends AbstractDomainObject> {
 		}
 	};
 
-	private AbstractDao<O> dao = null;
+	private AbstractService<O> service = null;
 	
 	private List<O> objects = null;
 
@@ -37,8 +38,8 @@ public class AutoCompleteObject<O extends AbstractDomainObject> {
 
 	private O selectedObject = null;
 
-	public AutoCompleteObject(AbstractDao<O> _dao) {
-		dao = _dao;
+	public AutoCompleteObject(AbstractService<O> _service) {
+		service = _service;
 	}
 	
 	public AutoCompleteObject(List<O> _objects){
@@ -48,7 +49,7 @@ public class AutoCompleteObject<O extends AbstractDomainObject> {
 	public List<O> getObjects() {
 		if(objects!=null)
 			return objects;
-		return dao.getAll();
+		return service.getAll();
 	}
 
 	public List<SelectItem> getObjectList() {

@@ -28,6 +28,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import de.randi2.dao.TrialDao;
 import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.Randi2;
@@ -49,18 +51,26 @@ import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
+import de.randi2.services.TrialSiteService;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.ReflectionUtil;
 
-/*
+/**
  * <p>
  * This class cares about the newTrial object and contains all the needed
  * methods to work with this object for the UI.
  * </p>
  * 
- * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
+ * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class TrialHandler extends AbstractHandler<Trial> {
+	
+	@Autowired
+	private TrialSiteService siteService;
+	
+	public void setSiteService(TrialSiteService siteService) {
+		this.siteService = siteService;
+	}
 
 	@SuppressWarnings("unchecked")
 	public TrialHandler() {
@@ -98,7 +108,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	
 	public AutoCompleteObject<TrialSite> getTrialSitesAC() {
 		if (trialSitesAC == null)
-			trialSitesAC = new AutoCompleteObject<TrialSite>(trialSiteDao);
+			trialSitesAC = new AutoCompleteObject<TrialSite>(siteService);
 		return trialSitesAC;
 	}
 
@@ -112,7 +122,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	public AutoCompleteObject<TrialSite> getParticipatingSitesAC() {
 		if (participatingSitesAC == null)
-			participatingSitesAC = new AutoCompleteObject<TrialSite>(trialSiteDao);
+			participatingSitesAC = new AutoCompleteObject<TrialSite>(siteService);
 		return participatingSitesAC;
 	}
 

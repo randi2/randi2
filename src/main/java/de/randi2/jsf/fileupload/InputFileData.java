@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class InputFileData {
 
-    // file info attributes
+	// file info attributes
     private FileInfo fileInfo;
     // file that was uplaoded
     private File file;
@@ -23,12 +23,10 @@ public class InputFileData {
      *
      * @param fileInfo fileInfo object created by the inputFile component for
      *                 a given File object.
-     * @param file     corresponding File object which as properties described
-     *                 by the fileInfo object.
      */
-    public InputFileData(FileInfo fileInfo, File file) {
+    public InputFileData(FileInfo fileInfo) {
         this.fileInfo = fileInfo;
-        this.file = file;
+        this.file = fileInfo.getFile();
     }
 
     public FileInfo getFileInfo() {
