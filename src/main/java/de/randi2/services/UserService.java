@@ -37,10 +37,10 @@ public interface UserService extends AbstractService<Login> {
 	 * Add a specific role to an object. The given role has to be already in the
 	 * system.
 	 * 
-	 * @param loginID
+	 * @param Login
 	 * @param role
 	 */
-	public void addRole(long loginID, Role role);
+	public void addRole(Login login, Role role);
 
 	/**
 	 * Creates a new RANDI2 role.
