@@ -2,10 +2,6 @@ package de.randi2.services;
 
 import java.util.List;
 
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.security.context.HttpSessionContextIntegrationFilter;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 
@@ -35,7 +31,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void addRole(long loginID, Role role) {
+	public void addRole(Login login, Role role) {
 		// TODO Auto-generated method stub
 
 	}
