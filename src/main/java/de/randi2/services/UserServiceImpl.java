@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.hibernate.validator.InvalidStateException;
+import org.hibernate.validator.InvalidValue;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 
@@ -81,7 +83,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void update(Login changedObject) {
-		loginDao.save(changedObject);
+		try {
+			loginDao.save(changedObject);
+		} catch (InvalidStateException e) {
+			for(InvalidValue v : e.getInvalidValues()){
+				System.out.println(v.getMessage());
+			}
+		}
+		
 
 	}
 

@@ -263,7 +263,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 			if (tsMembersAC.getSelectedObject() != null)
 				newUser.getPerson().setAssistant(
 						tsMembersAC.getSelectedObject());
-			newUser.setCreatedAt(new GregorianCalendar());
 			userService.register(newUser);
 			// Making the successPopup visible (NORMAL REGISTRATION)
 			if (!creatingMode) {
