@@ -92,4 +92,10 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
+	public Login getObject(long objectID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

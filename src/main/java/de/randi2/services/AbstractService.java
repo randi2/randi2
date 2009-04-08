@@ -14,4 +14,6 @@ public interface AbstractService<V extends AbstractDomainObject> {
 
 	
 	public List<V> getAll();
+	
+	public V getObject(long objectID);
 }
