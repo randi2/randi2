@@ -1,6 +1,9 @@
 package de.randi2.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
@@ -11,6 +14,7 @@ import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
 import de.randi2.utility.mail.MailServiceInterface;
+import de.randi2.utility.mail.exceptions.MailErrorException;
 
 /**
  * 
@@ -33,7 +37,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void addRole(Login login, Role role) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -64,10 +67,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void register(Login newObject) {
-		loginDao.save(newObject);
-		// TODO MailSend
-		// TODO If the newObject has the Anonymous Role replece it with the
 		// Investigator Role (self-registration process)
+		if (newObject.getRoles().size() == 1
+				&& newObject.getRoles().iterator().next().equals(
+						Role.ROLE_ANONYMOUS)) {
+			newObject.addRole(Role.ROLE_INVESTIGATOR);
+		}
+		loginDao.save(newObject);
+		// send registration Mail
+		sendRegistrationMail(newObject);
 
 	}
 
@@ -98,4 +106,54 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
+	private void sendRegistrationMail(Login newUser) {
+		// Map of variables for the message
+		Map<String, Object> newUserMessageFields = new HashMap<String, Object>();
+		newUserMessageFields.put("user", newUser);
+		newUserMessageFields.put("url", "http://randi2.com/CHANGEME");
+		// Map of variables for the subject
+		Map<String, Object> newUserSubjectFields = new HashMap<String, Object>();
+		newUserSubjectFields.put("firstname", newUser.getPerson()
+				.getFirstname());
+
+		Locale language = newUser.getPrefLocale();
+
+		try {
+			mailService.sendMail(newUser.getUsername(), "NewUserMail", language,
+					newUserMessageFields, newUserSubjectFields);
+		} catch (MailErrorException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		if (newUser.getPerson().getTrialSite().getContactPerson() != null) {
+
+			// send e-mail to contact person of current trial-site
+
+			Person contactPerson = newUser.getPerson().getTrialSite()
+					.getContactPerson();
+			language = contactPerson.getLogin().getPrefLocale();
+
+			// Map of variables for the message
+			Map<String, Object> contactPersonMessageFields = new HashMap<String, Object>();
+			contactPersonMessageFields.put("newUser", newUser);
+			contactPersonMessageFields.put("contactPerson", contactPerson);
+
+			// Map of variables for the subject
+			Map<String, Object> contactPersonSubjectFields = new HashMap<String, Object>();
+			contactPersonSubjectFields.put("newUserFirstname", newUser
+					.getPerson().getFirstname());
+			contactPersonSubjectFields.put("newUserLastname", newUser
+					.getPerson().getSurname());
+
+			try {
+				mailService.sendMail(contactPerson.getEMail(),
+						"NewUserNotifyContactPersonMail", language,
+						contactPersonMessageFields, contactPersonSubjectFields);
+			} catch (MailErrorException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }

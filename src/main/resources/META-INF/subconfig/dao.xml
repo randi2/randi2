@@ -10,5 +10,6 @@
 	<bean id="personDAO" class="de.randi2.dao.PersonDaoHibernate"></bean>
 	<bean id="loginDAO" class="de.randi2.dao.LoginDaoHibernate"></bean>
 	<bean id="trialSiteDAO" class="de.randi2.dao.TrialSiteDaoHibernate"></bean>
+	<bean id="roleDAO" class="de.randi2.dao.RoleDaoHibernate"></bean>
 	
 </beans>
