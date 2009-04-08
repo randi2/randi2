@@ -470,7 +470,7 @@
                     <downloadSource>true</downloadSource>
                     <downloadJavadocs>true</downloadJavadocs>
 		    <additionalProjectFacets>
-			    <jst.jsf>1.1<jst.jsf/>
+			    <jst.jsf>1.1</jst.jsf>
 		    </additionalProjectFacets>
                     <wtpversion>1.5</wtpversion>
                 </configuration>
