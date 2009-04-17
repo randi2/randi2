@@ -2,6 +2,9 @@ package de.randi2.dao;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.TrialSite;
 
@@ -20,6 +23,7 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 
 	@Override
 	@SuppressWarnings("unchecked")
+	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public TrialSite get(String name) {
 		String query = "from de.randi2.model.TrialSite trialSite where "
 			+ "trialSite.name =?";
@@ -29,6 +33,7 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 	}
 	
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void save(TrialSite object) {
 		if(object.getContactPerson() != null && object.getContactPerson().getId() == AbstractDomainObject.NOT_YET_SAVED_ID){
 			template.save(object.getContactPerson());

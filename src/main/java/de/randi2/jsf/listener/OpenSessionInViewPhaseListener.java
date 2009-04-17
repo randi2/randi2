@@ -4,12 +4,14 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.orm.hibernate3.SessionHolder;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
@@ -50,9 +52,9 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 		private SessionFactory sessionFactory;
 		private int beforeTimes;
 		private int afterTimes;
-		private String soucePath;
 	}
 
+	
 	/**
 	 * @see javax.faces.event.PhaseListener(javax.faces.event.PhaseEvent pe)
 	 * 
@@ -61,8 +63,7 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 
 		/* Setup the Hiberante Spring in the current thread using Spring API */
 		if (pe.getPhaseId() == PhaseId.RESTORE_VIEW) {
-			ThreadData td = getThreadData(pe.getFacesContext()
-					.getExternalContext().getRequestServletPath());
+			ThreadData td = getThreadData();
 			/*
 			 * This code is here b/c MyFaces seems to call every phase handler
 			 * method twice.
@@ -76,14 +77,12 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 		 * do this just before the render_response phase.
 		 */
 		else if (pe.getPhaseId() == PhaseId.RENDER_RESPONSE) {
-
+		
 			ThreadData td = getThreadDataNoCreate();
 			if (td == null) {
-				td = getThreadData(pe.getFacesContext().getExternalContext()
-						.getRequestServletPath());
+				td = getThreadData();
 				setupSession(pe, td);
 			}
-
 		}
 	}
 
@@ -92,11 +91,10 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 	 * 
 	 * @param sourcePath
 	 */
-	private ThreadData getThreadData(String sourcePath) {
+	private ThreadData getThreadData() {
 		ThreadData td = (ThreadData) ts.get();
 		if (td == null) {
 			td = new ThreadData();
-			td.soucePath = sourcePath;
 			ts.set(td);
 		} else {
 			td.beforeTimes++;
@@ -112,6 +110,7 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 
 	}
 
+	
 	/*
 	 * Setup the Hiberante session. This was taken from the first half of the
 	 * doFilter method.
@@ -150,16 +149,14 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 	 * 
 	 */
 	public void afterPhase(PhaseEvent pe) {
-
-		if (pe.getPhaseId() == PhaseId.RENDER_RESPONSE) {
+		if (pe == null || pe.getPhaseId() == PhaseId.RENDER_RESPONSE) {
 			ThreadData td = getThreadDataNoCreate();
 			if (td == null) {
 				return;
-			} else if (!td.soucePath.equals(pe.getFacesContext()
-					.getExternalContext().getRequestServletPath())) {
+			} else if (SecurityContextHolder.getContext().getAuthentication() == null) {
 				td.afterTimes++;
 				cleanupSession(td);
-
+				System.out.println("close session");
 				ts.set(null);
 			}
 		}
@@ -281,6 +278,7 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 	 *            the SessionFactory that this filter uses
 	 */
 	protected void closeSession(Session session, SessionFactory sessionFactory) {
+		session.flush();
 		SessionFactoryUtils.releaseSession(session, sessionFactory);
 	}
 }

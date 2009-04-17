@@ -18,6 +18,7 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 
 	@Override
 	@SuppressWarnings("unchecked")
+	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public E get(long id){
 		E element = (E) template.get(getModelClass(), id);
 		if(element == null){
@@ -31,17 +32,19 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	public void save(E object){
 		if (((AbstractDomainObject)object).getId()==AbstractDomainObject.NOT_YET_SAVED_ID){
 			template.persist(object);
-		}else template.merge(object);
+		}else template.update(object);
 	}
 	
 	@Override
 	@SuppressWarnings("unchecked")
+	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public List<E> findByExample(E object){
 		return template.findByExample(object);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
+	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public List<E> getAll(){
 		return template.loadAll(getModelClass());
 	}

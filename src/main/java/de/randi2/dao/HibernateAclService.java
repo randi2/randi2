@@ -39,6 +39,7 @@ public class HibernateAclService implements AclService {
 
 	@Override
 	@SuppressWarnings("unchecked")
+	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public Acl readAclById(ObjectIdentity object, Sid[] sids)
 			throws NotFoundException {
 		String sidname = null;
@@ -137,6 +138,7 @@ public class HibernateAclService implements AclService {
 		}
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void update(AclHibernate acl) {
 		template.update(acl);
 	}

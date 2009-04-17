@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
 		}
 		loginDao.save(newObject);
 		// send registration Mail
-		sendRegistrationMail(newObject);
+//		sendRegistrationMail(newObject);
 
 	}
 
