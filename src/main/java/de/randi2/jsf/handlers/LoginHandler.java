@@ -278,6 +278,8 @@ public class LoginHandler extends AbstractHandler<Login> {
 			if (creatingMode) {
 				this.userSavedPVisible = true;
 			}
+			//Invalidate Reg-Session
+			invalidateSession();
 			return Randi2.SUCCESS;
 		} catch (InvalidStateException exp) {
 			// TODO for a stable release delete the following stacktrace
@@ -310,11 +312,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 			userService.update(this.loggedInUser);
 		// Cleaning up
 		this.cleanUp();
-		// Invalidating the session
-		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-				.getExternalContext().getSession(false);
-		session.invalidate();
-		// TODO Closing the Hibernate Session
+		invalidateSession();
 		return Randi2.SUCCESS;
 	}
 
@@ -490,6 +488,12 @@ public class LoginHandler extends AbstractHandler<Login> {
 		if (rolesAC == null)
 			rolesAC = new AutoCompleteObject<Role>(roles);
 		return rolesAC;
+	}
+	
+	public void invalidateSession(){
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+		.getExternalContext().getSession(false);
+		session.invalidate();
 	}
 	
 	@Override

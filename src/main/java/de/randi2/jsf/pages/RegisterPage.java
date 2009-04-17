@@ -34,7 +34,7 @@ import de.randi2.model.enumerations.Gender;
  * registration process.
  * </p>
  * 
- * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
+ * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class RegisterPage {
 
@@ -76,6 +76,10 @@ public class RegisterPage {
 					.getELResolver().getValue(
 							FacesContext.getCurrentInstance().getELContext(), null, "loginHandler"))
 					.cleanUp();
+			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
+					.getELResolver().getValue(
+							FacesContext.getCurrentInstance().getELContext(), null, "loginHandler"))
+					.invalidateSession();
 			FacesContext.getCurrentInstance().getExternalContext().redirect(
 					FacesContext.getCurrentInstance().getExternalContext()
 							.getRequestContextPath()
@@ -93,6 +97,10 @@ public class RegisterPage {
 	public void declineTerms(ActionEvent event) {
 		this.termsPvisible = true;
 		try {
+			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
+					.getELResolver().getValue(
+							FacesContext.getCurrentInstance().getELContext(), null, "loginHandler"))
+					.invalidateSession();
 			FacesContext.getCurrentInstance().getExternalContext().redirect(
 					FacesContext.getCurrentInstance().getExternalContext()
 							.getRequestContextPath()
