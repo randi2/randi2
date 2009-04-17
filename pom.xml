@@ -1,4 +1,3 @@
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -8,7 +7,7 @@
     <version>0.4-SNAPSHOT</version>
     <name>RANDI2</name>
     <description>Online Randomization for Clinical Trials</description>
-    <url>http://randi2.hs-heilbronn.de</url>
+    <url>http://randi2.org</url>
     <licenses>
         <license>
             <name>GNU GENERAL PUBLIC LICENSE Version 3</name>
@@ -73,7 +72,7 @@
             <email>lp@randi2.de</email>
             <organization>Deutsches Krebsforschungszentrum</organization>
             <organizationUrl>http://www.dkfz.de</organizationUrl>
-            <timezone>0</timezone>
+            <timezone>+1</timezone>
             <roles>
                 <role>UI Development</role>
             </roles>
@@ -93,7 +92,7 @@
             <name>Daniel Schrimpf</name>
             <email>ds@randi2.de</email>
             <organization>Deutsches Krebsforschungzentrum</organization>
-            <organizationUrl>http://www.dkfz.de</organizationUrl>
+            <organizationUrl>http://www.dkfz.de</organizationUrl>0
             <timezone>+1</timezone>
             <roles>
                 <role>Backend Development</role>
@@ -470,7 +469,7 @@
                     <downloadSource>true</downloadSource>
                     <downloadJavadocs>true</downloadJavadocs>
 		    <additionalProjectFacets>
-			    <jst.jsf>1.1</jst.jsf>
+			    <jst.jsf>1.2</jst.jsf>
 		    </additionalProjectFacets>
                     <wtpversion>1.5</wtpversion>
                 </configuration>
