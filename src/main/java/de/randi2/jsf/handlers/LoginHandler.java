@@ -14,6 +14,7 @@
  */
 package de.randi2.jsf.handlers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -297,6 +298,37 @@ public class LoginHandler extends AbstractHandler<Login> {
 			return Randi2.ERROR;
 		}
 
+	}
+	
+	private String userId;
+	
+	public String getUserId() {
+		return userId;
+	}
+	
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
+	private String password;
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public String login(){
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/RANDI2/j_spring_security_check?j_username=" + userId + "&j_password=" + password);
+		} catch (IOException e) {
+			e.printStackTrace();
+			Randi2.showMessage(e);
+			return Randi2.ERROR;
+		}
+		return Randi2.SUCCESS;
 	}
 
 	/**

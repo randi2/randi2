@@ -83,7 +83,7 @@ public class RegisterPage {
 			FacesContext.getCurrentInstance().getExternalContext().redirect(
 					FacesContext.getCurrentInstance().getExternalContext()
 							.getRequestContextPath()
-							+ "/loginSecure.jsp");
+							+ "/login.jspx");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,7 +104,7 @@ public class RegisterPage {
 			FacesContext.getCurrentInstance().getExternalContext().redirect(
 					FacesContext.getCurrentInstance().getExternalContext()
 							.getRequestContextPath()
-							+ "/loginSecure.jsp");
+							+ "/login.jspx");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

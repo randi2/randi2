@@ -168,7 +168,7 @@
 		<from-view-id>/register.jspx</from-view-id>
 		<navigation-case>
 			<from-outcome>ok</from-outcome>
-			<to-view-id>/loginSecure.jsp</to-view-id>
+			<to-view-id>/login.jspx</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>

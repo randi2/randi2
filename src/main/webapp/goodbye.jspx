@@ -36,7 +36,7 @@
 			<ice:messages />
 		</ice:form>
 		<ice:outputLink
-			value="#{facesContext.externalContext.requestContextPath}/loginSecure.jsp">
+			value="#{facesContext.externalContext.requestContextPath}/login.jspx">
 			<ice:outputText value="!Login again?!"></ice:outputText>
 		</ice:outputLink>
 		</body>
