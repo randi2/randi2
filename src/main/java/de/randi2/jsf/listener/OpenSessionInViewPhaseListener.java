@@ -279,6 +279,7 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 	 */
 	protected void closeSession(Session session, SessionFactory sessionFactory) {
 		session.flush();
+		session.clear();
 		SessionFactoryUtils.releaseSession(session, sessionFactory);
 	}
 }
