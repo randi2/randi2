@@ -148,7 +148,7 @@
 		<navigation-case>
 			<from-action>#{loginHandler.logoutUser}</from-action>
 			<from-outcome>success</from-outcome>
-			<to-view-id>/loginSecure.jsp</to-view-id>
+			<to-view-id>/goodbye.jspx</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
