@@ -38,7 +38,7 @@ public class TrialSite extends AbstractDomainObject {
 	@OneToOne
 	private Person contactPerson = null;
 
-	@OneToMany(mappedBy = "trialSite", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "trialSite")
 	private List<Person> members = new ArrayList<Person>();
 
 	@ManyToMany(mappedBy = "participatingSites")

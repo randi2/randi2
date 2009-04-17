@@ -41,7 +41,7 @@ public class Person extends AbstractDomainObject {
 	private String fax = "";
 	
 	// Institutional Data
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	private Person assistant;
 	@ManyToOne
 	private TrialSite trialSite;

@@ -4,7 +4,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -60,7 +59,6 @@ public class OpenSessionInViewPhaseListener implements PhaseListener {
 	 * 
 	 */
 	public void beforePhase(PhaseEvent pe) {
-
 		/* Setup the Hiberante Spring in the current thread using Spring API */
 		if (pe.getPhaseId() == PhaseId.RESTORE_VIEW) {
 			ThreadData td = getThreadData();

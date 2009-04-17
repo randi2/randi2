@@ -112,7 +112,7 @@ public class Role extends AbstractDomainObject {
 	private boolean adminTrialSubject = false;
 
 	private boolean createRole = false;
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private List<Role> rolesToAssign = new ArrayList<Role>();
 
 

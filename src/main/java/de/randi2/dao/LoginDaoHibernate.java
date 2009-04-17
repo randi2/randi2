@@ -14,6 +14,7 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements Lo
 
 	@Override
 	@SuppressWarnings("unchecked")
+	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public Login get(String username) {
 		String query = "from de.randi2.model.Login login where "
 			+ "login.username =?";
@@ -30,7 +31,7 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements Lo
 	
 	
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=RuntimeException.class)
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void save(Login object) {
 		for(Role r: object.getRoles()){
 			if(r.getId()== AbstractDomainObject.NOT_YET_SAVED_ID){
