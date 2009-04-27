@@ -9,7 +9,6 @@ public class RoleDaoHibernate extends AbstractDaoHibernate<Role> implements
 
 	@Override
 	public Class<Role> getModelClass() {
-		// TODO Auto-generated method stub
 		return Role.class;
 	}
 

@@ -2,6 +2,7 @@ package de.randi2.dao;
 
 import java.util.List;
 
+import org.hibernate.criterion.Criterion;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,7 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements Lo
 		String query = "from de.randi2.model.Login login where "
 			+ "login.username =?";
 	 
-		List<Login>  loginList = (List) template.find(query, username);
+		List<Login>  loginList = (List) sessionFactory.getCurrentSession().createQuery(query).setParameter(0, username).list();
 		if (loginList.size() ==1)	return loginList.get(0);
 		else return null;
 	}
@@ -35,12 +36,12 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements Lo
 	public void save(Login object) {
 		for(Role r: object.getRoles()){
 			if(r.getId()== AbstractDomainObject.NOT_YET_SAVED_ID){
-				template.persist(r);
+				sessionFactory.getCurrentSession().persist(r);
 			}
 		}
 		if(object.getId() == AbstractDomainObject.NOT_YET_SAVED_ID){
-			template.persist(object);
-		}else template.update(object);
+			sessionFactory.getCurrentSession().persist(object);
+		}else sessionFactory.getCurrentSession().update(object);
 	}
 
 }

@@ -3,6 +3,9 @@ package de.randi2.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.security.acls.Acl;
@@ -23,9 +26,8 @@ import de.randi2.model.security.SidHibernate;
 
 public class HibernateAclService implements AclService {
 
-	@Autowired
-	private HibernateTemplate template;
-
+	
+	@Autowired private SessionFactory sessionFactory;
 
 	@Override
 	public ObjectIdentity[] findChildren(ObjectIdentity arg0) {
@@ -50,10 +52,9 @@ public class HibernateAclService implements AclService {
 				sidname = ((GrantedAuthoritySid) sid).getGrantedAuthority();
 			}
 			if (sidname != null) {
-				List<Acl> list = template.findByNamedQuery(
-						"acl.findAclByObjectIdentityAndSid", new Object[] {
-								sidname, object.getIdentifier(),
-								object.getJavaType() });
+				List<Acl> list = sessionFactory.getCurrentSession()
+				.getNamedQuery("acl.findAclByObjectIdentityAndSid").setParameter(0, sidname)
+				.setParameter(1, object.getIdentifier()).setParameter(2, object.getJavaType()).list();
 				if (list.size() == 1) {
 					return list.get(0);
 				}
@@ -78,7 +79,7 @@ public class HibernateAclService implements AclService {
 		AclHibernate acl = new AclHibernate();
 		acl.setObjectIdentity(createObjectIdentityIfNotSaved(object));
 		acl.setOwner(createSidIfNotSaved(sidname));
-		template.save(acl);
+		sessionFactory.getCurrentSession().save(acl);
 		return acl;
 	}
 
@@ -89,7 +90,8 @@ public class HibernateAclService implements AclService {
 		AclHibernate acl= new AclHibernate();
 		acl.setObjectIdentity(createObjectIdentityIfNotSaved(object));
 		acl.setOwner(createSidIfNotSaved(sidname));
-		List<AclHibernate> list = template.find("from AclHibernate acl where acl.owner.id = ? and acl.objectIdentity.id = ?" ,new Object[]{acl.getOwner().getId(),acl.getObjectIdentity().getId()});
+		List<AclHibernate> list = sessionFactory.getCurrentSession().createQuery("from AclHibernate acl where acl.owner.id = ? and acl.objectIdentity.id = ?").setParameter(0, acl.getOwner().getId())
+		.setParameter(1, acl.getObjectIdentity().getId()).list();
 		if(list.size() ==1){
 			acl = list.get(0);
 		}
@@ -97,11 +99,11 @@ public class HibernateAclService implements AclService {
 		for (PermissionHibernate permission : permissions) {
 			acl.insertAce(permission, roleName);
 		}
-		template.saveOrUpdate(acl);
+		sessionFactory.getCurrentSession().saveOrUpdate(acl);
 		return acl;
 	}
 	
-	
+	@Transactional(propagation=Propagation.REQUIRED)
 	public AclHibernate createAclwithPermissions(AbstractDomainObject object,
 			String sidname, PermissionHibernate[] permissions) {
 		return createAclwithPermissions(object, sidname, permissions, null);
@@ -110,13 +112,12 @@ public class HibernateAclService implements AclService {
 	@Transactional(propagation=Propagation.REQUIRED)
 	@SuppressWarnings("unchecked")
 	private SidHibernate createSidIfNotSaved(String sidname) {
-		List<SidHibernate> list = template.findByExample(new SidHibernate(
-				sidname));
+		List<SidHibernate> list = sessionFactory.getCurrentSession().createCriteria(SidHibernate.class).add(Restrictions.eq("sidname", sidname)).list();
 		if (list.size() == 1) {
 			return list.get(0);
 		} else {
 			SidHibernate sid = new SidHibernate(sidname);
-			template.save(sid);
+			sessionFactory.getCurrentSession().save(sid);
 			return sid;
 		}
 	}
@@ -125,21 +126,20 @@ public class HibernateAclService implements AclService {
 	@SuppressWarnings("unchecked")
 	private ObjectIdentityHibernate createObjectIdentityIfNotSaved(
 			AbstractDomainObject object) {
-		List<ObjectIdentityHibernate> list = template
-				.findByExample(new ObjectIdentityHibernate(object.getClass(),
-						object.getId()));
+		List<ObjectIdentityHibernate> list = sessionFactory.getCurrentSession().createQuery("from ObjectIdentityHibernate where identifier = :identifier and javaType = :javaType")
+		.setParameter("identifier", object.getId()).setParameter("javaType", object.getClass()).list();
 		if (list.size() == 1) {
 			return list.get(0);
 		} else {
 			ObjectIdentityHibernate oi = new ObjectIdentityHibernate(object
 					.getClass(), object.getId());
-			template.save(oi);
+			sessionFactory.getCurrentSession().save(oi);
 			return oi;
 		}
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void update(AclHibernate acl) {
-		template.update(acl);
+		sessionFactory.getCurrentSession().update(acl);
 	}
 }

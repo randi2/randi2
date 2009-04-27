@@ -3,6 +3,7 @@ package de.randi2.aspects;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.security.context.SecurityContextHolder;
@@ -25,8 +26,7 @@ public class RigthAndRolesAspects {
 
 	@Autowired
 	private RolesAndRights roleAndRigths;
-	@Autowired
-	private HibernateTemplate template;
+	@Autowired private SessionFactory sessionFactory;
 
 
 	/**
@@ -42,6 +42,7 @@ public class RigthAndRolesAspects {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void afterSaveNewDomainObject(ProceedingJoinPoint pjp)
 			throws Throwable {
+		System.out.println("Aspect");
 		long objectId = ((AbstractDomainObject) pjp.getArgs()[0]).getId();
 		pjp.proceed();
 		for (Object o : pjp.getArgs()) {
@@ -50,7 +51,7 @@ public class RigthAndRolesAspects {
 						.getAuthentication().getPrincipal();
 				if (o instanceof Login) {
 					for (Role r : ((Login) pjp.getArgs()[0]).getRoles()) {
-						r = (Role) template.findByExample(r).get(0);
+						r = (Role) sessionFactory.getCurrentSession().createQuery("from Role where name = ?").setParameter(0, r.getName()).uniqueResult();
 					}
 					roleAndRigths.registerPerson(((Login) o));
 				}

@@ -3,9 +3,19 @@ package de.randi2.dao;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.hibernate.FlushMode;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.context.ManagedSessionContext;
+import org.hibernate.impl.SessionImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
@@ -13,20 +23,29 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Login;
+import de.randi2.utility.webfilter.HibernateWebFilter;
 
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	@Autowired
-	private HibernateTemplate template;
+
+	@Autowired private SessionFactory sessionFactory;
 	
 	@Override
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
-		String query = "from de.randi2.model.Login login where "
+		String queryS = "from de.randi2.model.Login login where "
 			+ "login.username =?";
-		List<Login>  loginList =(List) template.find(query, username);
+		
+		//open and bind a new HibernateSession
+		 Session session = sessionFactory.openSession();
+		 session.setFlushMode(FlushMode.MANUAL);
+		ManagedSessionContext.bind((org.hibernate.classic.Session)session);
+		 
+		Query query = sessionFactory.getCurrentSession().createQuery(queryS);
+		query.setParameter(0, username);
+		List<Login>  loginList =(List) query.list();
 		if (loginList.size() ==1){
 			Login user = loginList.get(0);
 			user.setLastLoggedIn(new GregorianCalendar());
@@ -34,11 +53,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				byte number = 0;
 				user.setNumberWrongLogins(number);
 				user.setLockTime(null);
-				template.update(user);
+				sessionFactory.getCurrentSession().update(user);
 			}
+			unbindAndStoreSession(session);
 			return user;
+		}else{
+			unbindAndStoreSession(session);
+			throw new UsernameNotFoundException("");
 		}
-		else throw new UsernameNotFoundException("");
+		
 	}
-
+	
+	private void unbindAndStoreSession(Session session){
+		session.flush();
+		ManagedSessionContext.unbind(sessionFactory).close();
+	}
 }

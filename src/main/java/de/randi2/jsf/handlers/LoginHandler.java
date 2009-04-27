@@ -414,7 +414,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 */
 	public Locale getChosenLocale() {
 		// TODO Temporary sysout
-		System.out.println(chosenLocale);
+//		System.out.println(chosenLocale);
 		if (this.loggedInUser != null) {
 			if (this.loggedInUser.getPrefLocale() != null) {
 				this.chosenLocale = this.loggedInUser.getPrefLocale();

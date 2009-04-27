@@ -26,7 +26,6 @@ public class ObjectIdentityHibernate implements ObjectIdentity, Serializable {
 	
 	public ObjectIdentityHibernate() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public ObjectIdentityHibernate(Class<? extends AbstractDomainObject> javaType, long identifier) {

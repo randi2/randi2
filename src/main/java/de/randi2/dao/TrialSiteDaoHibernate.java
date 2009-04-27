@@ -15,11 +15,6 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 		return TrialSite.class;
 	}
 	
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<TrialSite> getAll(){
-		return template.loadAll(TrialSite.class);
-	}
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -27,7 +22,7 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 	public TrialSite get(String name) {
 		String query = "from de.randi2.model.TrialSite trialSite where "
 			+ "trialSite.name =?";
-		List<TrialSite>  list =(List) template.find(query, name);
+		List<TrialSite>  list =(List) sessionFactory.getCurrentSession().createQuery(query).setParameter(0, name).list();
 		if (list.size() ==1)	return list.get(0);
 		else return null;
 	}
@@ -36,7 +31,7 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void save(TrialSite object) {
 		if(object.getContactPerson() != null && object.getContactPerson().getId() == AbstractDomainObject.NOT_YET_SAVED_ID){
-			template.save(object.getContactPerson());
+			sessionFactory.getCurrentSession().save(object.getContactPerson());
 		}
 		super.save(object);
 	}

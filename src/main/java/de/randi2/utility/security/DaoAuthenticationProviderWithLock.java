@@ -2,6 +2,7 @@ package de.randi2.utility.security;
 
 import java.util.GregorianCalendar;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.security.AuthenticationException;
@@ -16,7 +17,7 @@ public class DaoAuthenticationProviderWithLock extends
 		DaoAuthenticationProvider {
 	
 	
-	@Autowired private HibernateTemplate hibernateTemplate;
+	@Autowired private SessionFactory sessionFactory;
 	
 	
 	@Override
@@ -32,7 +33,7 @@ public class DaoAuthenticationProviderWithLock extends
 				number++;
 				user.setNumberWrongLogins(number);
 				if(number==Login.MAX_WRONG_LOGINS) user.setLockTime(new GregorianCalendar()); 
-				hibernateTemplate.save(user);
+				sessionFactory.getCurrentSession().save(user);
 			}
 			throw e;
 		}
