@@ -41,7 +41,6 @@ public class RigthAndRolesAspects {
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void afterSaveNewDomainObject(ProceedingJoinPoint pjp)
 			throws Throwable {
-		System.out.println("Aspect");
 		long objectId = ((AbstractDomainObject) pjp.getArgs()[0]).getId();
 		pjp.proceed();
 		for (Object o : pjp.getArgs()) {

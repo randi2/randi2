@@ -11,6 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,6 +22,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public class HibernateWebFilter implements Filter {
 
+	private Logger logger = Logger.getLogger(HibernateWebFilter.class);
 	private SessionFactory sf;
 
     public static final String HIBERNATE_SESSION_KEY    = "hibernateSession";
@@ -31,14 +33,13 @@ public class HibernateWebFilter implements Filter {
                          FilterChain chain)
             throws IOException, ServletException {
 
-
+    	
         // Try to get a Hibernate Session from the HttpSession
         HttpSession httpSession =
                 ((HttpServletRequest) request).getSession();
         Session hibernateSession =
                 (Session) httpSession.getAttribute(HIBERNATE_SESSION_KEY);
-        System.out.println(httpSession.getId());
-
+        logger.trace(httpSession.getId());
         try {
 
             if (hibernateSession != null) {
@@ -46,16 +47,16 @@ public class HibernateWebFilter implements Filter {
                if(!hibernateSession.isOpen()){
             	   hibernateSession = sf.openSession();
             	   hibernateSession.setFlushMode(FlushMode.MANUAL);
-            	   //System.out.println(httpSession.getId() + " >>> New conversation " + hibernateSession.toString());
-               }//else{
-//            	   //System.out.println(httpSession.getId() + " < Continuing conversation ");
-//               }
+            	  logger.trace(httpSession.getId() + " >>> New conversation ");
+               }else{
+            	   logger.trace(httpSession.getId() + " < Continuing conversation ");
+               }
                hibernateSession.setFlushMode(FlushMode.MANUAL);
                ManagedSessionContext.bind((org.hibernate.classic.Session)hibernateSession);
             } else {
             	 
                hibernateSession = sf.openSession();
-               //System.out.println(httpSession.getId() + " >>> New conversation "+ hibernateSession.toString());
+               logger.trace(httpSession.getId() + " >>> New conversation");
                hibernateSession.setFlushMode(FlushMode.MANUAL);
                ManagedSessionContext.bind((org.hibernate.classic.Session) hibernateSession);
             }
@@ -69,33 +70,33 @@ public class HibernateWebFilter implements Filter {
 
                 sf.getCurrentSession().flush();
                 sf.getCurrentSession().close(); // Unbind is automatic here
-               //System.out.println("Removing Session from HttpSession");
+                logger.trace("Removing Session from HttpSession");
                 httpSession.setAttribute(HIBERNATE_SESSION_KEY, null);
-               //System.out.println(httpSession.getId() + " <<< End of conversation");
+               logger.trace(httpSession.getId() + " <<< End of conversation");
 
             } else {
 
             	try{
                 httpSession.setAttribute(HIBERNATE_SESSION_KEY, hibernateSession);
                 hibernateSession = ManagedSessionContext.unbind(sf);
-                //System.out.println(httpSession.getId() + " > Returning to user in conversation");
+                logger.trace(httpSession.getId() + " > Returning to user in conversation");
               }catch (IllegalStateException e) {
                    sf.getCurrentSession().flush();
                    sf.getCurrentSession().close(); // Unbind is automatic here
-                   //System.out.println("<<< End of conversation " + httpSession.getId());
+                   logger.trace("<<< End of conversation " + httpSession.getId());
               }
             }
 
         } catch (StaleObjectStateException staleEx) {
-            //System.out.println("This interceptor does not implement optimistic concurrency control!");
-            //System.out.println("Your application will not work until you add compensation actions!");
+        	 logger.trace("This interceptor does not implement optimistic concurrency control!");
+        	 logger.trace("Your application will not work until you add compensation actions!");
             // Rollback, close everything, possibly compensate for any permanent changes
             // during the conversation, and finally restart business conversation. Maybe
             // give the user of the application a chance to merge some of his work with
             // fresh data... what you do here depends on your applications design.
             throw staleEx;
         } catch (Throwable ex) {
-        	ex.printStackTrace();
+        	 logger.trace("", ex);
             // Rollback only
             try {
                 if (sf.getCurrentSession().getTransaction().isActive()) {
@@ -103,16 +104,16 @@ public class HibernateWebFilter implements Filter {
                     sf.getCurrentSession().getTransaction().rollback();
                 }
             } catch (Throwable rbEx) {
-            	rbEx.printStackTrace();
+            	 logger.trace("", rbEx);
                 //System.out.println("Could not rollback transaction after exception!");//), rbEx);
             } finally {
-                ////System.out.println("Cleanup after exception!");
+            	 logger.trace("Cleanup after exception!");
 
                 // Cleanup
-               //System.out.println("Closing and unbinding Session from thread");
+            	 logger.trace("Closing and unbinding Session from thread");
                 sf.getCurrentSession().close(); // Unbind is automatic here
 
-               //System.out.println("Removing Session from HttpSession");
+                logger.trace("Removing Session from HttpSession");
                 httpSession.setAttribute(HIBERNATE_SESSION_KEY, null);
 
             }

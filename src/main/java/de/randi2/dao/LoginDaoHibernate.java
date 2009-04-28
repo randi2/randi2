@@ -39,8 +39,12 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements Lo
 			}
 		}
 		if(object.getId() == AbstractDomainObject.NOT_YET_SAVED_ID){
+			logger.debug("Save new " +getModelClass().getSimpleName()+ " object");
 			sessionFactory.getCurrentSession().persist(object);
-		}else sessionFactory.getCurrentSession().update(object);
+		}else{
+			logger.debug("Update " +getModelClass().getSimpleName()+ " object (id= "+object.getId()+")");
+			sessionFactory.getCurrentSession().update(object);
+		}
 	}
 
 }

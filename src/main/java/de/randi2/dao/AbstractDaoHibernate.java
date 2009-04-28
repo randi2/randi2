@@ -2,6 +2,7 @@ package de.randi2.dao;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import de.randi2.model.AbstractDomainObject;
 
 public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> implements AbstractDao<E>{
+	
+	protected Logger logger = Logger.getLogger(getClass());
 	
 	@Autowired protected SessionFactory sessionFactory;
 	
@@ -32,8 +35,12 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void save(E object){
 		if (((AbstractDomainObject)object).getId()==AbstractDomainObject.NOT_YET_SAVED_ID){
+			logger.debug("Save new " +getModelClass().getSimpleName()+ " object");
 			sessionFactory.getCurrentSession().persist(object);
-		}else sessionFactory.getCurrentSession().update(object);
+		}else{
+			logger.debug("Update " +getModelClass().getSimpleName()+ " object (id= "+object.getId()+")");
+			sessionFactory.getCurrentSession().update(object);
+		}
 	}
 	
 	@Override

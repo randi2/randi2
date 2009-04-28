@@ -4,6 +4,15 @@
 	<display-name>RANDI2</display-name>
 
 	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:log4j.xml</param-value>
+	</context-param>
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>randi2.root</param-value>
+	</context-param>
+	
+	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:/META-INF/spring.xml
@@ -34,6 +43,7 @@
 			Developer Guide.
 		</description>
 	</context-param>
+	petclinic
 	<context-param>
 		<param-name>com.icesoft.faces.gmapKey</param-name>
 		<param-value>
@@ -104,6 +114,9 @@
 		<listener-class>
 			com.icesoft.faces.util.event.servlet.ContextEventRepeater
 		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
