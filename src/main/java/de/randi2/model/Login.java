@@ -22,7 +22,6 @@ import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UserDetails;
 
-import de.randi2.utility.validations.DateDependence;
 import de.randi2.utility.validations.Password;
 
 @Entity

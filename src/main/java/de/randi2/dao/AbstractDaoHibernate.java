@@ -6,7 +6,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ObjectRetrievalFailureException;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +29,7 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	}
 	
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=RuntimeException.class)
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void save(E object){
 		if (((AbstractDomainObject)object).getId()==AbstractDomainObject.NOT_YET_SAVED_ID){
 			sessionFactory.getCurrentSession().persist(object);

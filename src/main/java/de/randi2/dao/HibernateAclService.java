@@ -3,11 +3,9 @@ package de.randi2.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.security.acls.Acl;
 import org.springframework.security.acls.AclService;
 import org.springframework.security.acls.NotFoundException;

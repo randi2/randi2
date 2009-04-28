@@ -2,7 +2,6 @@ package de.randi2.dao;
 
 import java.util.List;
 
-import org.hibernate.criterion.Criterion;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 

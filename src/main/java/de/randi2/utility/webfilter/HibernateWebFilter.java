@@ -37,6 +37,7 @@ public class HibernateWebFilter implements Filter {
                 ((HttpServletRequest) request).getSession();
         Session hibernateSession =
                 (Session) httpSession.getAttribute(HIBERNATE_SESSION_KEY);
+        System.out.println(httpSession.getId());
 
         try {
 
@@ -46,9 +47,9 @@ public class HibernateWebFilter implements Filter {
             	   hibernateSession = sf.openSession();
             	   hibernateSession.setFlushMode(FlushMode.MANUAL);
             	   //System.out.println(httpSession.getId() + " >>> New conversation " + hibernateSession.toString());
-               }else{
-            	   //System.out.println(httpSession.getId() + " < Continuing conversation ");
-               }
+               }//else{
+//            	   //System.out.println(httpSession.getId() + " < Continuing conversation ");
+//               }
                hibernateSession.setFlushMode(FlushMode.MANUAL);
                ManagedSessionContext.bind((org.hibernate.classic.Session)hibernateSession);
             } else {

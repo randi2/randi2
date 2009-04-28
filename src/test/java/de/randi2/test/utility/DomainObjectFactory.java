@@ -60,7 +60,6 @@ public class DomainObjectFactory {
 		
 		return l;
 	}
-
 	
 	
 }
