@@ -14,7 +14,6 @@
  */
 package de.randi2.jsf.controllerBeans;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -59,9 +58,9 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	
+
 	private TrialSiteService siteService;
-	
+
 	public void setSiteService(TrialSiteService siteService) {
 		this.siteService = siteService;
 	}
@@ -214,7 +213,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public String saveObject() {
 		assert (showedObject != null);
 		try {
-			userService.update(showedObject);
+			showedObject = userService.update(showedObject);
 			// Making the pop up visible
 			userSavedPVisible = true;
 			return Randi2.SUCCESS;
@@ -222,11 +221,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 			Randi2.showMessage(exp);
 			return Randi2.ERROR;
 		} finally {
-			// Updating the Object ...
-			// showedObject = loginDao.get(showedObject.getId());
-			// If the current loggedInUser user was saved with this method, the
-			// loggedInUser
-			// object will be reload from the DB
 			if (showedObject.getId() == loggedInUser.getId())
 				loggedInUser = showedObject;
 			refresh();
@@ -279,7 +273,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 			if (creatingMode) {
 				this.userSavedPVisible = true;
 			}
-			//Invalidate Reg-Session
+			// Invalidate Reg-Session
 			invalidateSession();
 			return Randi2.SUCCESS;
 		} catch (InvalidStateException exp) {
@@ -299,37 +293,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 		}
 
 	}
-	
-	private String userId;
-	
-	public String getUserId() {
-		return userId;
-	}
-	
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	
-	private String password;
-	
-	public String getPassword() {
-		return password;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	public String login(){
-		try {
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/RANDI2/j_spring_security_check?j_username=" + userId + "&j_password=" + password);
-		} catch (IOException e) {
-			e.printStackTrace();
-			Randi2.showMessage(e);
-			return Randi2.ERROR;
-		}
-		return Randi2.SUCCESS;
-	}
 
 	/**
 	 * This method saves the current loggedInUser-object and log it out.
@@ -337,11 +300,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 * @return Randi2.SUCCESS
 	 */
 	public String logoutUser() {
-		// Saving the current loggedInUser object, befor log out
-		// TODO Problems trying to get the newst object
-//		if (this.loggedInUser.getVersion() >= this.loginDao.get(
-//				this.loggedInUser.getId()).getVersion())
-			userService.update(this.loggedInUser);
+		loggedInUser = userService.update(loggedInUser);
 		// Cleaning up
 		this.cleanUp();
 		invalidateSession();
@@ -408,13 +367,13 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 * This method provide the locale chosen by the logged user. If the user
 	 * didn't choose anyone, but his standard browser-locale is supported, then
 	 * it will be provided. Otherwise the applications default locale will be
-	 * used.
-	 * setTri
+	 * used. setTri
+	 * 
 	 * @return locale for the loged in user
 	 */
 	public Locale getChosenLocale() {
 		// TODO Temporary sysout
-//		System.out.println(chosenLocale);
+		// System.out.println(chosenLocale);
 		if (this.loggedInUser != null) {
 			if (this.loggedInUser.getPrefLocale() != null) {
 				this.chosenLocale = this.loggedInUser.getPrefLocale();
@@ -521,18 +480,17 @@ public class LoginHandler extends AbstractHandler<Login> {
 			rolesAC = new AutoCompleteObject<Role>(roles);
 		return rolesAC;
 	}
-	
-	public void invalidateSession(){
+
+	public void invalidateSession() {
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-		.getExternalContext().getSession(false);
+				.getExternalContext().getSession(false);
 		session.invalidate();
 	}
-	
+
 	@Override
 	protected Login createPlainObject() {
 		Login l = new Login();
 		l.setPerson(new Person());
 		return l;
 	}
-	// ---
 }

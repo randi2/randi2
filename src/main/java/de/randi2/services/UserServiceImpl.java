@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void update(Login changedObject) {
+	public Login update(Login changedObject) {
 		try {
 			loginDao.update(changedObject);
 		} catch (InvalidStateException e) {
@@ -99,7 +99,8 @@ public class UserServiceImpl implements UserService {
 				System.out.println(v.getMessage());
 			}
 		}
-		
+		//FIXME
+		return changedObject;
 
 	}
 

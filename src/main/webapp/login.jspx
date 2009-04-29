@@ -46,12 +46,12 @@
 				<ice:graphicImage value="/img/icons/login128.png"></ice:graphicImage>
 				<ice:panelGrid columns="2">
 					<ice:outputLabel for="username" value="#{labels['login.username']}" />
-					<h:inputText id="username" value="#{loginHandler.userId}" />
+					<h:inputText id="username" value="#{secureLogin.userId}" />
 					<ice:outputLabel for="password" value="#{labels['login.password']}" />
 					<h:inputSecret id="password" redisplay="false"
-						value="#{loginHandler.password}" />
+						value="#{secureLogin.password}" />
 					<ice:commandButton value="#{labels['buttons.login']}"
-						action="#{loginHandler.login}" type="submit"></ice:commandButton>
+						action="#{secureLogin.login}" type="submit"></ice:commandButton>
 				</ice:panelGrid>
 			</ice:panelGrid>
 			<ice:panelGrid columns="2" style="margin-left:120px">

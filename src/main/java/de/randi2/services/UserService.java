@@ -17,8 +17,9 @@ public interface UserService extends AbstractService<Login> {
 	 * object's changes persistent.
 	 * 
 	 * @param loginToSave
+	 * @return the newest version of the saved object
 	 */
-	public void update(Login changedObject);
+	public Login update(Login changedObject);
 
 	/**
 	 * Use this method to create new RANDI2 user.
