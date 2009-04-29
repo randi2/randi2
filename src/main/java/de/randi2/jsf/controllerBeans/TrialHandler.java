@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License along with
  * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.randi2.jsf.handlers;
+package de.randi2.jsf.controllerBeans;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -32,9 +32,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.randi2.dao.TrialDao;
 import de.randi2.dao.TrialSiteDao;
-import de.randi2.jsf.Randi2;
-import de.randi2.jsf.pages.Step4;
-import de.randi2.jsf.pages.Step5;
+import de.randi2.jsf.backingBeans.Step4;
+import de.randi2.jsf.backingBeans.Step5;
+import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.jsf.wrappers.SubjectPropertyWrapper;
 import de.randi2.model.Login;

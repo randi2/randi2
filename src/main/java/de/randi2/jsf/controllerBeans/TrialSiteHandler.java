@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License along with
  * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.randi2.jsf.handlers;
+package de.randi2.jsf.controllerBeans;
 
 import javax.faces.context.FacesContext;
 
@@ -20,7 +20,7 @@ import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 
 import de.randi2.dao.TrialSiteDao;
-import de.randi2.jsf.Randi2;
+import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;

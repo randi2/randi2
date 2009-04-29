@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License along with
  * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.randi2.jsf.handlers;
+package de.randi2.jsf.controllerBeans;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,9 +32,9 @@ import org.hibernate.validator.InvalidValue;
 import org.springframework.security.context.HttpSessionContextIntegrationFilter;
 import org.springframework.security.context.SecurityContextHolder;
 
-import de.randi2.jsf.Randi2;
+import de.randi2.jsf.backingBeans.RegisterPage;
 import de.randi2.jsf.exceptions.RegistrationException;
-import de.randi2.jsf.pages.RegisterPage;
+import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;

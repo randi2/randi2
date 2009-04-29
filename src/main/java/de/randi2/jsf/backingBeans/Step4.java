@@ -1,4 +1,4 @@
-package de.randi2.jsf.pages;
+package de.randi2.jsf.backingBeans;
 
 import java.util.ArrayList;
 

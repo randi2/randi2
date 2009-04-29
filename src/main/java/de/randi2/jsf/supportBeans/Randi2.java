@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License along with
  * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.randi2.jsf;
+package de.randi2.jsf.supportBeans;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -28,7 +28,7 @@ import com.icesoft.faces.context.effects.EffectBuilder;
  * This class supply other JSF_relevant classes with general methods and fields.
  * </p>
  * 
- * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
+ * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class Randi2 {
 

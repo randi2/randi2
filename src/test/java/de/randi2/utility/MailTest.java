@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import de.randi2.jsf.Randi2;
-import de.randi2.jsf.handlers.LoginHandler;
+import de.randi2.jsf.controllerBeans.LoginHandler;
+import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.TrialSite;

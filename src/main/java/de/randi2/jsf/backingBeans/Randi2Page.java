@@ -12,16 +12,16 @@
  * You should have received a copy of the GNU General Public License along with
  * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.randi2.jsf.pages;
+package de.randi2.jsf.backingBeans;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
-import de.randi2.jsf.Randi2;
-import de.randi2.jsf.handlers.LoginHandler;
-import de.randi2.jsf.handlers.TrialHandler;
-import de.randi2.jsf.handlers.TrialSiteHandler;
+import de.randi2.jsf.controllerBeans.LoginHandler;
+import de.randi2.jsf.controllerBeans.TrialHandler;
+import de.randi2.jsf.controllerBeans.TrialSiteHandler;
+import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Trial;

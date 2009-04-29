@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License along with
  * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.randi2.jsf.pages;
+package de.randi2.jsf.backingBeans;
 
 import java.util.List;
 import de.randi2.model.Trial;

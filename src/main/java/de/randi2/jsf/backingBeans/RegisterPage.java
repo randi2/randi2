@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License along with
  * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.randi2.jsf.pages;
+package de.randi2.jsf.backingBeans;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +25,7 @@ import javax.faces.model.SelectItem;
 import com.icesoft.faces.context.effects.Effect;
 import com.icesoft.faces.context.effects.Highlight;
 
-import de.randi2.jsf.handlers.LoginHandler;
+import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.model.enumerations.Gender;
 
 /**
