@@ -39,14 +39,13 @@ public class HibernateWebFilter implements Filter {
                 ((HttpServletRequest) request).getSession();
         Session hibernateSession =
                 (Session) httpSession.getAttribute(HIBERNATE_SESSION_KEY);
-        logger.trace(httpSession.getId());
+        logger.debug(httpSession.getId());
         try {
-
+        	 hibernateSession.setFlushMode(FlushMode.MANUAL);
             if (hibernateSession != null) {
               
                if(!hibernateSession.isOpen()){
             	   hibernateSession = sf.openSession();
-            	   hibernateSession.setFlushMode(FlushMode.MANUAL);
             	  logger.trace(httpSession.getId() + " >>> New conversation ");
                }else{
             	   logger.trace(httpSession.getId() + " < Continuing conversation ");
@@ -54,7 +53,6 @@ public class HibernateWebFilter implements Filter {
                hibernateSession.setFlushMode(FlushMode.MANUAL);
                ManagedSessionContext.bind((org.hibernate.classic.Session)hibernateSession);
             } else {
-            	 
                hibernateSession = sf.openSession();
                logger.trace(httpSession.getId() + " >>> New conversation");
                hibernateSession.setFlushMode(FlushMode.MANUAL);
