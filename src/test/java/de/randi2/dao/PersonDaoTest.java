@@ -45,7 +45,7 @@ public class PersonDaoTest {
 		p.setSurname("test");
 		
 		assertNotSaved(p);
-		dao.save(p);
+		dao.create(p);
 		assertSaved(p);
 		
 		assertNotNull(dao.get(p.getId()));
@@ -64,12 +64,12 @@ public class PersonDaoTest {
 		
 		Login login = factory.getLogin();
 		validPerson.setSurname(stringUtil.getWithLength(20));
-		dao.save(validPerson);
+		dao.create(validPerson);
 		validPerson.setLogin(login);
 
 		login.setUsername(stringUtil.getWithLength(Login.MAX_USERNAME_LENGTH + 1));
 		try{
-			dao.save(validPerson);
+			dao.create(validPerson);
 			fail("should throw exception");
 		}catch (InvalidStateException e) {}
 	}
@@ -78,7 +78,7 @@ public class PersonDaoTest {
 	@Test
 	public void testGetAll(){
 		for (int i = 0; i<100;i++){
-			dao.save(factory.getPerson());
+			dao.create(factory.getPerson());
 		}
 		assertTrue("getAll failed", dao.getAll().size() >100);
 	}

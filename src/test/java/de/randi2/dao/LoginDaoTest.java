@@ -44,7 +44,7 @@ public class LoginDaoTest{
 		l.setUsername(testStringUtil.getWithLength(Login.MAX_USERNAME_LENGTH));
 
 		assertNotSaved(l);
-		loginDao.save(l);
+		loginDao.create(l);
 		assertSaved(l);
 
 		assertNotNull(loginDao.get(l.getId()));
@@ -55,7 +55,7 @@ public class LoginDaoTest{
 	public void getUsernameTest() {
 		Login l = factory.getLogin();
 		l.setUsername(testStringUtil.getWithLength(10));
-		loginDao.save(l);
+		loginDao.create(l);
 		Login l2 = loginDao.get(l.getUsername());
 		assertEquals(l.getId(), l2.getId());
 		assertEquals(l.getUsername(), l2.getUsername());
@@ -70,14 +70,14 @@ public class LoginDaoTest{
 		login.setPerson(validPerson);
 		login.setUsername("");
 		try {
-			loginDao.save(login);
+			loginDao.create(login);
 			fail("should throw exception");
 		} catch (InvalidStateException e) {
 		}
 
 		login = factory.getLogin();
 		login.setUsername(testStringUtil.getWithLength(20));
-		loginDao.save(login);
+		loginDao.create(login);
 		assertFalse(login.getId() == AbstractDomainObject.NOT_YET_SAVED_ID);
 		Login l = loginDao.get(login.getId());
 		assertEquals(login.getId(), l.getId());
@@ -87,7 +87,7 @@ public class LoginDaoTest{
 	@Ignore
 	public void testFindByExample() {
 		Login l = factory.getLogin();
-		loginDao.save(l);
+		loginDao.create(l);
 		assertTrue(l.getId() != AbstractDomainObject.NOT_YET_SAVED_ID);
 
 		Login exampleLogin = new Login();

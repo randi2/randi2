@@ -33,14 +33,9 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public void save(E object){
-		if (((AbstractDomainObject)object).getId()==AbstractDomainObject.NOT_YET_SAVED_ID){
-			logger.debug("Save new " +getModelClass().getSimpleName()+ " object");
-			sessionFactory.getCurrentSession().persist(object);
-		}else{
-			logger.debug("Update " +getModelClass().getSimpleName()+ " object (id= "+object.getId()+")");
-			sessionFactory.getCurrentSession().update(object);
-		}
+	public void create(E object){
+		logger.debug("Save new " +getModelClass().getSimpleName()+ " object");
+		sessionFactory.getCurrentSession().persist(object);
 	}
 	
 	@Override
@@ -55,5 +50,12 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public List<E> getAll(){
 		return sessionFactory.getCurrentSession().createCriteria(getModelClass()).list();
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public E update(E object){
+		logger.debug("Update " +getModelClass().getSimpleName()+ " object (id= "+object.getId()+")");
+		return (E) sessionFactory.getCurrentSession().merge(object);
 	}
 }

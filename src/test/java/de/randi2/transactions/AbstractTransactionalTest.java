@@ -86,14 +86,14 @@ public abstract class AbstractTransactionalTest<E extends AbstractDao<F>, F exte
     @Rollback(false)
     public void testTransaction(){
     	withRollback =false;
-    	dao.save(object);
+    	dao.create(object);
     }
     
     @Test
     @Rollback(true)
     public void testTransactionRollback(){
     	withRollback = true;
-    	dao.save(object);
+    	dao.create(object);
     }
 
 	

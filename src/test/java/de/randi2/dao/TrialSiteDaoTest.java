@@ -32,7 +32,7 @@ private HibernateTemplate hibernateTemplate;
 		for (int i=0;i<100;i++){
 			TrialSite c = factory.getTrialSite();
 			hibernateTemplate.save(c.getContactPerson());
-			trialSiteDao.save(c);
+			trialSiteDao.create(c);
 		}
 		assertTrue(trialSiteDao.getAll().size()>=100);
 	}
@@ -40,7 +40,7 @@ private HibernateTemplate hibernateTemplate;
 	public void testGetName(){
 		TrialSite c = factory.getTrialSite();
 		hibernateTemplate.save(c.getContactPerson());
-		trialSiteDao.save(c);
+		trialSiteDao.create(c);
 		assertTrue(c.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
 		
 		TrialSite c1 = trialSiteDao.get(c.getName());

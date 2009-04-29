@@ -29,11 +29,20 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public void save(TrialSite object) {
+	public void create(TrialSite object) {
+		saveNewContactPerson(object);
+		super.create(object);
+	}
+	
+	@Override
+	public TrialSite update(TrialSite object) {
+		saveNewContactPerson(object);
+		return super.update(object);
+	}
+
+	private void saveNewContactPerson(TrialSite object){
 		if(object.getContactPerson() != null && object.getContactPerson().getId() == AbstractDomainObject.NOT_YET_SAVED_ID){
 			sessionFactory.getCurrentSession().save(object.getContactPerson());
 		}
-		super.save(object);
 	}
-
 }

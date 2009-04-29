@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
 						Role.ROLE_ANONYMOUS)) {
 			newObject.addRole(Role.ROLE_INVESTIGATOR);
 		}
-		loginDao.save(newObject);
+		loginDao.create(newObject);
 		// send registration Mail
 		sendRegistrationMail(newObject);
 
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void update(Login changedObject) {
 		try {
-			loginDao.save(changedObject);
+			loginDao.create(changedObject);
 		} catch (InvalidStateException e) {
 			for(InvalidValue v : e.getInvalidValues()){
 				System.out.println(v.getMessage());

@@ -13,5 +13,5 @@ public interface TrialSiteDao extends AbstractDao<TrialSite> {
 	public TrialSite get(String name);
 
 	@Override
-	public void save(TrialSite object);
+	public void create(TrialSite object);
 }

@@ -32,18 +32,24 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements Lo
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public void save(Login object) {
+	public void create(Login object) {
+		persistNewRoles(object);
+		super.create(object);
+			
+			
+	}
+	
+	@Override
+	public Login update(Login object) {
+		persistNewRoles(object);
+		return super.update(object);
+	}
+	
+	private void persistNewRoles(Login object){
 		for(Role r: object.getRoles()){
 			if(r.getId()== AbstractDomainObject.NOT_YET_SAVED_ID){
 				sessionFactory.getCurrentSession().persist(r);
 			}
-		}
-		if(object.getId() == AbstractDomainObject.NOT_YET_SAVED_ID){
-			logger.debug("Save new " +getModelClass().getSimpleName()+ " object");
-			sessionFactory.getCurrentSession().persist(object);
-		}else{
-			logger.debug("Update " +getModelClass().getSimpleName()+ " object (id= "+object.getId()+")");
-			sessionFactory.getCurrentSession().update(object);
 		}
 	}
 
