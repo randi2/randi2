@@ -30,8 +30,6 @@ public class InputFileController{
 	    private InputFileData currentFile;
 	    // file upload completed percent (Progress)
 	    private int fileProgress;
-	    
-	    private boolean fileOnServer = false;
 
 	    /**
 	     * <p>Action event method which is triggered when a user clicks on the

@@ -14,9 +14,6 @@
 			<supported-locale>de_DE</supported-locale>
 		</locale-config>
 	</application>
-<!-- 	<lifecycle>
-		<phase-listener>de.randi2.jsf.listener.OpenSessionInViewPhaseListener</phase-listener>
-	</lifecycle> -->
 	<validator>
 		<validator-id>de.randi2.jsf.validators.RANDI2_VALIDATOR</validator-id>
 		<validator-class>de.randi2.jsf.validators.RANDI2Validator</validator-class>
@@ -40,7 +37,7 @@
 			This glueBean takes care of the Login and Person Beans.
 		</description>
 		<managed-bean-name>loginHandler</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.handlers.LoginHandler</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.controllerBeans.LoginHandler</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
 			<property-name>userService</property-name>
@@ -57,7 +54,7 @@
 	<managed-bean>
 		<description>The glueBean for the TrialSite bean.</description>
 		<managed-bean-name>trialSiteHandler</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.handlers.TrialSiteHandler</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.controllerBeans.TrialSiteHandler</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
 			<property-name>trialSiteDao</property-name>
@@ -69,7 +66,7 @@
 	<managed-bean>
 		<description>The glueBean for the trial bean.</description>
 		<managed-bean-name>trialHandler</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.handlers.TrialHandler</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.controllerBeans.TrialHandler</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
 			<property-name>siteService</property-name>
@@ -84,7 +81,7 @@
 			page.
 		</description>
 		<managed-bean-name>registerPage</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.pages.RegisterPage</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.backingBeans.RegisterPage</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 
@@ -93,7 +90,7 @@
 			This bean has all needed attributes for the randi2 page.
 		</description>
 		<managed-bean-name>randi2Page</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.pages.Randi2Page</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.backingBeans.Randi2Page</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 
@@ -102,7 +99,7 @@
 			This bean has all important strings for the application.
 		</description>
 		<managed-bean-name>randi2</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.Randi2</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.supportBeans.Randi2</managed-bean-class>
 		<managed-bean-scope>application</managed-bean-scope>
 	</managed-bean>
 
@@ -112,7 +109,7 @@
 			user's rights.
 		</description>
 		<managed-bean-name>rightsPanel</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.pages.RightsPanel</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.backingBeans.RightsPanel</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 
@@ -120,7 +117,7 @@
 		<description>Backing bean for the trial configuration process -
 			subject properties configuration</description>
 		<managed-bean-name>step4</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.pages.Step4</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.backingBeans.Step4</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 
@@ -128,7 +125,7 @@
 		<description>Backing bean for the trial configuration process -
 			randomization algorithm configuration</description>
 		<managed-bean-name>step5</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.pages.Step5</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.backingBeans.Step5</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 

@@ -35,7 +35,7 @@ import com.icesoft.faces.component.panelcollapsible.PanelCollapsible;
 import com.icesoft.faces.component.selectinputtext.SelectInputText;
 import com.icesoft.faces.component.selectinputtext.SelectInputTextTag;
 
-import de.randi2.jsf.handlers.LoginHandler;
+import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.criteria.AbstractCriterion;
