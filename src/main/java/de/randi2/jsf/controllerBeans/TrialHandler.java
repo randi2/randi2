@@ -28,10 +28,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import de.randi2.dao.TrialDao;
-import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.backingBeans.Step4;
 import de.randi2.jsf.backingBeans.Step5;
 import de.randi2.jsf.supportBeans.Randi2;
@@ -77,6 +73,8 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	public void setTrialService(TrialService trialService) {
 		this.trialService = trialService;
 	}
+	
+	private TimeZone zone;
 
 	@SuppressWarnings("unchecked")
 	public TrialHandler() {
@@ -116,6 +114,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		if (trialSitesAC == null)
 			trialSitesAC = new AutoCompleteObject<TrialSite>(siteService);
 		return trialSitesAC;
+
 	}
 
 	public AutoCompleteObject<Login> getSponsorInvestigatorsAC() {
@@ -144,9 +143,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		addingSubjectsEnabled = !creatingMode && showedObject!=null;
 		return addingSubjectsEnabled;
 	}
-
-	// TODO TEMP OBJECTS
-	private TimeZone zone;
 
 	public List<SelectItem> getStateItems() {
 		List<SelectItem> stateItems = new ArrayList<SelectItem>(TrialStatus
@@ -308,6 +304,10 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	public int getTrialsAmount() {
 		return trialService.getAll().size();
+	}
+	
+	public List<Trial> getAllTrials(){
+		return trialService.getAll();
 	}
 
 	@Override

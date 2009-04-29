@@ -14,6 +14,8 @@
  */
 package de.randi2.jsf.controllerBeans;
 
+import java.util.List;
+
 import javax.faces.context.FacesContext;
 
 import org.hibernate.validator.InvalidStateException;
@@ -35,13 +37,13 @@ import de.randi2.services.TrialSiteService;
  */
 public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 
-	public TrialSiteHandler() {
-	}
-
 	private TrialSiteService siteService;
-	
+
 	public void setSiteService(TrialSiteService siteService) {
 		this.siteService = siteService;
+	}
+	
+	public TrialSiteHandler() {
 	}
 
 	private boolean trialSiteSavedPVisible = false;
@@ -133,9 +135,16 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 		return Randi2.SUCCESS;
 	}
 
-	
 	public int getTrialSitesAmount() {
 		return siteService.getAll().size();
+	}
+	
+	/**
+	 * Returns all defined trial sites.
+	 * @return
+	 */
+	public List<TrialSite> getAllTrialSites(){
+		return siteService.getAll();
 	}
 
 	@Override
