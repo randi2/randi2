@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void update(Login changedObject) {
 		try {
-			loginDao.create(changedObject);
+			loginDao.update(changedObject);
 		} catch (InvalidStateException e) {
 			for(InvalidValue v : e.getInvalidValues()){
 				System.out.println(v.getMessage());
