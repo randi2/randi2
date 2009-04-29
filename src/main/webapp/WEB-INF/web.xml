@@ -114,6 +114,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
+
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 	<servlet>
 		<servlet-name>Persistent Faces Servlet</servlet-name>
 		<servlet-class>
