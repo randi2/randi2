@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ObjectRetrievalFailureException;
+import org.springframework.security.annotation.Secured;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	@Override
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Secured({"AFTER_ACL_READ"})
 	public E get(long id){
 		E element = (E) sessionFactory.getCurrentSession().get(getModelClass(), id);
 		if(element == null){
@@ -41,6 +43,7 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	@Override
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Secured({"ROLE_USER","AFTER_ACL_COLLECTION_READ"})
 	public List<E> findByExample(E object){
 		return sessionFactory.getCurrentSession().createCriteria(getClass()).add(Example.create(object).ignoreCase()).list();
 	}
@@ -48,6 +51,7 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	@Override
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Secured({"ROLE_USER","ROLE_ANONYMOUS","AFTER_ACL_COLLECTION_READ"})
 	public List<E> getAll(){
 		return sessionFactory.getCurrentSession().createCriteria(getModelClass()).list();
 	}

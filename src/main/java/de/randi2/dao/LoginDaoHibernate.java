@@ -2,6 +2,7 @@ package de.randi2.dao;
 
 import java.util.List;
 
+import org.springframework.security.annotation.Secured;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +15,7 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements Lo
 
 	@Override
 	@SuppressWarnings("unchecked")
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Secured({"AFTER_ACL_READ"})
 	public Login get(String username) {
 		String query = "from de.randi2.model.Login login where "
 			+ "login.username =?";
@@ -40,6 +41,7 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements Lo
 	}
 	
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public Login update(Login object) {
 		persistNewRoles(object);
 		return super.update(object);

@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 import org.springframework.aop.ThrowsAdvice;
+import org.springframework.security.annotation.Secured;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 
@@ -33,6 +34,11 @@ public class UserServiceImpl implements UserService {
 	
 	private LoginDao loginDao;
 	private PersonDao personDao;
+	
+	public UserServiceImpl() {
+		super();
+	}
+
 	private RoleDao roleDao;
 	private MailServiceInterface mailService;
 
@@ -54,7 +60,9 @@ public class UserServiceImpl implements UserService {
 	public void createRole(Role newRole) {
 		roleDao.create(newRole);
 
-	}
+	}	
+	
+
 
 	@Override
 	public void deleteRole(Role oldRole) {
@@ -77,6 +85,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Secured({"ROLE_USER","ROLE_ANONYMOUS","ACL_LOGIN_CREATE"})
 	public void register(Login newObject) {
 		// Investigator Role (self-registration process)
 		if (newObject.getRoles().size() == 1
@@ -91,17 +100,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Secured({"ROLE_USER","ACL_LOGIN_WRITE"})
 	public Login update(Login changedObject) {
-		try {
-			loginDao.update(changedObject);
-		} catch (InvalidStateException e) {
-			for(InvalidValue v : e.getInvalidValues()){
-				System.out.println(v.getMessage());
-			}
-		}
-		//FIXME
-		return changedObject;
-
+		return loginDao.update(changedObject);
 	}
 
 	@Override

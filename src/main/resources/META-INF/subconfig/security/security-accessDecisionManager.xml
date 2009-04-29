@@ -3,7 +3,7 @@
 	xmlns:sec="http://www.springframework.org/schema/security"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd">
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.5.xsd">
 
 
 <!-- ################################# Config for the different access decision manager #########################  -->
@@ -76,6 +76,35 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="methodAccessDecisionManager"
+		class="org.springframework.security.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="false" />
+		<property name="decisionVoters">
+			<list>
+				<ref bean="roleVoter" />
+				<ref bean="aclPersonReadVoter" />
+				<ref bean="aclPersonAdminVoter" />
+				<ref bean="aclPersonWriteVoter" />
+				<ref bean="aclPersonCreateVoter" />
+				<ref bean="aclLoginReadVoter" />
+				<ref bean="aclLoginAdminVoter" />
+				<ref bean="aclLoginWriteVoter" />
+				<ref bean="aclLoginCreateVoter" />
+				<ref bean="aclTrialReadVoter" />
+				<ref bean="aclTrialAdminVoter" />
+				<ref bean="aclTrialWriteVoter" />
+				<ref bean="aclTrialCreateVoter" />
+				<ref bean="aclTrialSiteReadVoter" />
+				<ref bean="aclTrialSiteAdminVoter" />
+				<ref bean="aclTrialSiteWriteVoter" />
+				<ref bean="aclTrialSiteCreateVoter" />
+			</list>
+		</property>
+	</bean>
+	
+
+
 
 
 	<!-- =============================== END ACCESSDECISIONMANAGER ============================ -->
