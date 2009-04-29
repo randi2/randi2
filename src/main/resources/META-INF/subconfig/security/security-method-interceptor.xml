@@ -49,7 +49,8 @@
 		<property name="objectDefinitionSource">
 			<value>
 				de.randi2.dao.TrialSiteDaoHibernate.getAll*=ROLE_USER,ROLE_ANONYMOUS,AFTER_ACL_COLLECTION_READ
-				de.randi2.dao.TrialSiteDaoHibernate.save*=ACL_TRIALSITE_WRITE,ACL_TRIALSITE_CREATE
+				de.randi2.dao.TrialSiteDaoHibernate.creat*=ACL_TRIALSITE_WRITE,ACL_TRIALSITE_CREATE
+				de.randi2.dao.TrialSiteDaoHibernate.update*=ACL_TRIALSITE_WRITE,ACL_TRIALSITE_CREATE
 			</value>
 		</property>
 	</bean>
@@ -71,7 +72,8 @@
 		<property name="objectDefinitionSource">
 			<value>
 				de.randi2.dao.PersonDaoHibernate.getAll*=ROLE_USER,ROLE_ANONYMOUS,AFTER_ACL_COLLECTION_READ
-				de.randi2.dao.PersonDaoHibernate.save*=ACL_PERSON_WRITE,ACL_PERSON_CREATE
+				de.randi2.dao.PersonDaoHibernate.create*=ACL_PERSON_WRITE,ACL_PERSON_CREATE
+				de.randi2.dao.PersonDaoHibernate.update*=ACL_PERSON_WRITE,ACL_PERSON_CREATE
 			</value>
 		</property>
 	</bean>
@@ -93,7 +95,8 @@
 		<property name="objectDefinitionSource">
 			<value>
 				de.randi2.dao.PersonDaoHibernate.getAll*=ROLE_USER,ROLE_ANONYMOUS,AFTER_ACL_COLLECTION_READ
-				de.randi2.dao.PersonDaoHibernate.save*=ACL_TRIAL_WRITE,ACL_TRIAL_CREATE
+				de.randi2.dao.PersonDaoHibernate.create*=ACL_TRIAL_WRITE,ACL_TRIAL_CREATE
+				de.randi2.dao.PersonDaoHibernate.update*=ACL_TRIAL_WRITE,ACL_TRIAL_CREATE				
 			</value>
 		</property>
 	</bean>
