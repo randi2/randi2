@@ -2,6 +2,7 @@ package de.randi2.utility.security;
 
 import java.util.GregorianCalendar;
 
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.AuthenticationException;
@@ -15,7 +16,7 @@ import de.randi2.model.Login;
 public class DaoAuthenticationProviderWithLock extends
 		DaoAuthenticationProvider {
 	
-	
+	private Logger logger = Logger.getLogger(DaoAuthenticationProviderWithLock.class);
 	@Autowired private SessionFactory sessionFactory;
 	
 	
@@ -33,6 +34,9 @@ public class DaoAuthenticationProviderWithLock extends
 				user.setNumberWrongLogins(number);
 				if(number==Login.MAX_WRONG_LOGINS) user.setLockTime(new GregorianCalendar()); 
 				sessionFactory.getCurrentSession().save(user);
+				sessionFactory.getCurrentSession().flush();
+				sessionFactory.getCurrentSession().close();
+				logger.warn("Wrong password: user=" + user.getUsername() + " count=" + number);
 			}
 			throw e;
 		}

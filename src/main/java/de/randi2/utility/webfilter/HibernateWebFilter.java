@@ -92,7 +92,7 @@ public class HibernateWebFilter implements Filter {
             // fresh data... what you do here depends on your applications design.
             throw staleEx;
         } catch (Throwable ex) {
-        	 logger.error("", ex);
+        	 logger.warn("", ex);
             // Rollback only
             try {
                 if (sf.getCurrentSession().getTransaction().isActive()) {

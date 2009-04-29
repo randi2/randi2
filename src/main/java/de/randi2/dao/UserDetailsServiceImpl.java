@@ -3,6 +3,9 @@ package de.randi2.dao;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.persistence.UniqueConstraint;
+
+import org.apache.log4j.Logger;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -21,6 +24,8 @@ import de.randi2.model.Login;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 
+	private Logger logger = Logger.getLogger(UserDetailsService.class);
+	
 	@Autowired private SessionFactory sessionFactory;
 	
 	@Override
@@ -28,6 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
+		logger.info("User " + username + " try to login.");
 		String queryS = "from de.randi2.model.Login login where "
 			+ "login.username =?";
 		
@@ -48,17 +54,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				user.setLockTime(null);
 				sessionFactory.getCurrentSession().update(user);
 			}
-			unbindAndStoreSession(session);
 			return user;
 		}else{
-			unbindAndStoreSession(session);
 			throw new UsernameNotFoundException("");
 		}
 		
 	}
 	
-	private void unbindAndStoreSession(Session session){
-		session.flush();
-		ManagedSessionContext.unbind(sessionFactory).close();
-	}
+		
 }
