@@ -1,6 +1,9 @@
 package de.randi2.jsf.supportBeans;
 
+import java.io.IOException;
+
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.springframework.security.ui.AbstractProcessingFilter;
 
@@ -45,17 +48,10 @@ public class SecureLogin {
 
 	}
 
-	public String login() {
-		try {
+	public void login(ActionEvent evt) throws IOException {
 			FacesContext.getCurrentInstance().getExternalContext().redirect(
 					"/RANDI2/j_spring_security_check?j_username=" + userId
 							+ "&j_password=" + password);
-		} catch (Exception e) {
-			e.printStackTrace();
-			Randi2.showMessage(e);
-			return Randi2.ERROR;
-		}
-		return Randi2.SUCCESS;
 	}
 
 }

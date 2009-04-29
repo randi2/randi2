@@ -15,7 +15,6 @@
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
 <ice:form xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ice="http://www.icesoft.com/icefaces/component">
-
 		<ice:panelGrid columns="4">
 			<ice:graphicImage value="/img/icons/user32.png"></ice:graphicImage>
 			<ice:outputLabel value="#{loginHandler.loggedInUser.person.firstname} #{loginHandler.loggedInUser.person.surname}"></ice:outputLabel>
