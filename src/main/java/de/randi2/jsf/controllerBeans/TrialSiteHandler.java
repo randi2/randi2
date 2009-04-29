@@ -31,7 +31,7 @@ import de.randi2.model.TrialSite;
  * This class cares about the trial site object or objects.
  * </p>
  * 
- * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
+ * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 
@@ -86,7 +86,7 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	@Override
 	public String saveObject() {
 		try {
-			trialSiteDao.save(showedObject);
+			showedObject = trialSiteDao.update(showedObject);
 
 			// Making the centerSavedPopup visible
 			this.trialSiteSavedPVisible = true;

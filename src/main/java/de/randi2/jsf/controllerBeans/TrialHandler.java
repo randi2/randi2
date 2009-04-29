@@ -265,7 +265,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		}
 		/* End of the Algorithm Configuration */
 
-		trialDao.save(showedObject);
+		trialDao.create(showedObject);
 		return Randi2.SUCCESS;
 		// } catch (Exception e) {
 		// e.printStackTrace();
