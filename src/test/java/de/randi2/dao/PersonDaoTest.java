@@ -69,7 +69,7 @@ public class PersonDaoTest {
 
 		login.setUsername(stringUtil.getWithLength(Login.MAX_USERNAME_LENGTH + 1));
 		try{
-			dao.create(validPerson);
+			dao.update(validPerson);
 			fail("should throw exception");
 		}catch (InvalidStateException e) {}
 	}

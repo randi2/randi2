@@ -54,6 +54,7 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	
 	@Override
 	@SuppressWarnings("unchecked")
+	@Transactional(propagation=Propagation.REQUIRED)
 	public E update(E object){
 		logger.debug("Update " +getModelClass().getSimpleName()+ " object (id= "+object.getId()+")");
 		return (E) sessionFactory.getCurrentSession().merge(object);

@@ -59,7 +59,7 @@ public interface UserService extends AbstractService<Login> {
 	 * Saves role's changes.
 	 * @param changedRole
 	 */
-	public void updateRole(Role changedRole);
+	public Role updateRole(Role changedRole);
 
 	/**
 	 * Deletes the given role from the RANDI2 system.

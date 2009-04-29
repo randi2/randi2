@@ -8,6 +8,7 @@
 	<bean id="userService" class="de.randi2.services.UserServiceImpl">
 		<constructor-arg ref="loginDAO" />
 		<constructor-arg ref="personDAO" />
+		<constructor-arg ref="roleDAO" />
 		<constructor-arg ref="mailService" />
 	</bean>
 
@@ -16,6 +17,7 @@
 	</bean>
 	
 	<bean id="trialService" class="de.randi2.services.TrialServiceImpl">
+		<constructor-arg ref="trialDAO" />
 	</bean>
 
 

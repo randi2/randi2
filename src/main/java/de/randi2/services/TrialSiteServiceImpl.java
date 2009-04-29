@@ -2,11 +2,14 @@ package de.randi2.services;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import de.randi2.dao.TrialSiteDao;
 import de.randi2.model.TrialSite;
 
 public class TrialSiteServiceImpl implements TrialSiteService{
 
+	private Logger logger = Logger.getLogger(TrialServiceImpl.class);
 	private TrialSiteDao siteDAO;
 	
 	public TrialSiteServiceImpl(TrialSiteDao _siteDAO){
@@ -15,7 +18,7 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 	
 	@Override
 	public boolean authorize(TrialSite site, String password) {
-		return false;
+		return site.getPassword().equals(password);
 		
 	}
 
@@ -27,19 +30,18 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 	@Override
 	public TrialSite getObject(long objectID) {
 		// TODO Auto-generated method stub
-		return null;
+		return siteDAO.get(objectID);
 	}
 
 	@Override
 	public void create(TrialSite newSite) {
-		// TODO Auto-generated method stub
+		siteDAO.create(newSite);
 		
 	}
 
 	@Override
 	public TrialSite update(TrialSite site) {
-		// TODO Auto-generated method stub
-		return null;
+		return siteDAO.update(site);
 	}
 
 }

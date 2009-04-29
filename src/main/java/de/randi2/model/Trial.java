@@ -190,6 +190,7 @@ public class Trial extends AbstractDomainObject {
 		return subjects;
 	}
 
+	@Deprecated
 	public void randomize(TrialSubject subject) {
 		TreatmentArm assignedArm = randomConf.getAlgorithm().randomize(subject);
 		subject.setArm(assignedArm);

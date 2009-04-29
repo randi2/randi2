@@ -5,13 +5,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
+import org.springframework.aop.ThrowsAdvice;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 
 import de.randi2.dao.LoginDao;
 import de.randi2.dao.PersonDao;
+import de.randi2.dao.RoleDao;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
@@ -25,32 +28,38 @@ import de.randi2.utility.mail.exceptions.MailErrorException;
  */
 public class UserServiceImpl implements UserService {
 
+	
+	private Logger logger = Logger.getLogger(UserServiceImpl.class);
+	
 	private LoginDao loginDao;
 	private PersonDao personDao;
+	private RoleDao roleDao;
 	private MailServiceInterface mailService;
 
-	public UserServiceImpl(LoginDao loginDao, PersonDao personDao,
+	public UserServiceImpl(LoginDao loginDao, PersonDao personDao,RoleDao roleDao,
 			MailServiceInterface mailService) {
 		this.loginDao = loginDao;
 		this.personDao = personDao;
+		this.roleDao = roleDao;
 		this.mailService = mailService;
 	}
 
 	@Override
 	public void addRole(Login login, Role role) {
 		// TODO Auto-generated method stub
+		throw new RuntimeException("not yet implemented");
 	}
 
 	@Override
 	public void createRole(Role newRole) {
-		// TODO Auto-generated method stub
+		roleDao.create(newRole);
 
 	}
 
 	@Override
 	public void deleteRole(Role oldRole) {
 		// TODO Auto-generated method stub
-
+		throw new RuntimeException("not yet implemented");
 	}
 
 	@Override
@@ -95,8 +104,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateRole(Role changedRole) {
-		// TODO Auto-generated method stub
+	public Role updateRole(Role changedRole) {
+		return roleDao.update(changedRole);
 	}
 
 	@Override
@@ -111,8 +120,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Login getObject(long objectID) {
-		// TODO Auto-generated method stub
-		return null;
+		return loginDao.get(objectID);
 	}
 
 	private void sendRegistrationMail(Login newUser) {
