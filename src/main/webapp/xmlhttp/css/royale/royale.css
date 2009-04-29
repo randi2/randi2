@@ -90,6 +90,10 @@ input {
     padding: 2px;
 }
 
+.iceSelOneRb table tr td {
+    padding: 1px;
+}
+
 .iceInpTxt, .iceInpSecrt {
     font-family: Arial, Helvetica, sans-serif;
     color: #000000;
@@ -101,6 +105,7 @@ input {
     font-family: Arial, Helvetica, sans-serif;
     color: #000000;
     padding: 2px;
+    margin: 2px;
 }
 
 .iceInpTxtArea {
@@ -155,9 +160,10 @@ input {
 
 .iceSelInpDateInput {
     width: 150px;
+    margin: 2px;
 }
 
-.iceSelInpDateMonthYear {
+.iceSelInpDateMonthYear, .iceSelInpDateTime{
     background-color: #026AFF;
     background-image: url( "./css-images/table_col_header.gif" );
     background-position: top;
@@ -169,6 +175,18 @@ input {
     padding-right: 1px;
     padding-top: 4px;
     padding-bottom: 4px; /*border-right:1px solid #CCCCCC;*/
+}
+
+.iceSelInpDateTime{
+    border-left: 1px solid #2A6CC2;
+    border-bottom: 1px solid #2A6CC2;
+    border-right: 1px solid #2A6CC2;       
+}
+
+.iceSelInpDateMoYrDropdown, .iceSelInpDateTimeDropDown {
+    background-color: #026AFF;
+    font-weight: bold;
+    color: #FFFFFF;
 }
 
 .iceSelInpDateWeek {
@@ -290,7 +308,7 @@ input {
 	border-collapse:collapse;
 }
 
-.iceDatTblColHdr, .iceDatTblColHdr1, .iceDatTblColHdr2, .iceDatTblColGrpHdrCol { /* was iceTblHeader */
+.iceDatTblColHdr, .iceDatTblColHdr1, .iceDatTblColHdr2, .iceDatTblColGrpHdrCol, .iceDatTblFtr { /* was iceTblHeader */
 /*the header of a data tables */
     background-color: #026AFF;
     background-image: url( "./css-images/table_col_header.gif" );
@@ -337,7 +355,10 @@ input {
 }
 
 .iceDatTblHdr{} /*was iceTblHeader */
-.iceDatTblFtr{} /*was iceTblFooter */
+.iceDatTblFtr {
+    background: none;
+    border-top: 1px solid #026AFF;  
+}
 
 .iceDatTblScrlSpr{ 
     background: url( './css-images/table_col_header.gif' ) repeat-x top left; 
@@ -345,6 +366,17 @@ input {
     border-top: 1px solid #026AFF;
     border-right: 1px solid #026AFF;
 }
+
+.iceDatTblScrlSprFtr{ 
+    border-bottom: 1px solid #026AFF;
+    border-right: 1px solid #026AFF;        
+}
+
+.iceDatTblScrlSprFtr .iceDatTblFtr{ 
+    border-bottom: none;     
+}
+
+
 .iceDatTblScrlSpr .iceDatTblColHdr1, .iceDatTblScrlSpr .iceDatTblColHdr2 {
     border-left-style: none;
     border-top-style: none;
@@ -372,6 +404,8 @@ input {
    border-bottom: 1px solid #0056EA; 
    background-color: #026AFF;   
 }
+
+.iceDatTblActvSrtHdr{}
 /*
 ----- for datatable when cell content length exceeds-----
 */
@@ -395,6 +429,10 @@ input {
 /* the cells behind the scroll buttons */
     background-color: #FFFFFF;
     padding: 2px;
+}
+
+.iceDatPgrScrBtn .iceCmdLnk-dis {
+       border-bottom:none;
 }
 
 .iceDatPgrTbl {
@@ -1276,7 +1314,7 @@ input {
 */
 .iceSelInpTxtTxt {
     border: 1px solid #0056EA;
-    margin: 0px;
+    margin: 2px;
     padding: 2px;
     background-color: #FFFFFF;
 }
@@ -1484,6 +1522,7 @@ input {
     padding: 1px;
     height: auto;
     display: block;
+    z-index: 1000;
 }
 
 .iceMnuItm { /* was iceSubMenuRow*/
@@ -1506,7 +1545,7 @@ input {
     background-color: #2A6CC2;
 }
 
-.iceMnuItm a:hover .iceOutTxt{ 
+.iceMnuItm a:hover .iceOutTxt, .iceMnuItm a:hover .iceMnuItmLabel{ 
     color: #FFFFFF;
 }
 
@@ -1529,6 +1568,11 @@ input {
     font-size: 1.0em;
     display: inline;
     vertical-align: middle;
+}
+
+.iceDatTbl td span.iceMnuItmLabel {
+    display: inline;
+    padding: 4px 0 0 0;
 }
 
 .iceMnuBarSubMenuInd, .iceMnuBarVrtSubMenuInd { 
@@ -1587,6 +1631,7 @@ input {
     position: absolute;
     height: auto;
     display: block;
+    z-index: 1000;
 }
 
 .iceMnuItmVrt a { /* was iceMenu_vertical_subItem */
@@ -1826,7 +1871,6 @@ input {
 
 .iceInpTxt-dis, .iceInpSecrt-dis {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: .95em;
     color: #D0D4EE;
     border: 1px dotted #D0D4EE;
     cursor: default;
@@ -1867,7 +1911,7 @@ input {
     padding: 2px;
     margin: 2px;
     cursor: default;
-    color: #D0D4EE;
+    color: #444444;
     border: none;
 }
 
@@ -2021,6 +2065,183 @@ input {
     border: none;
 }
 
+/* disabled bottom tab off */
+.icePnlTbOffBtm .LftBtm-dis {
+    background-color: transparent;
+    background-image: url( "./css-images/off-left-top-dis.gif" );
+    background-repeat: no-repeat;
+    background-position: bottom;
+    text-align: center;
+    padding-top: 1px;
+    border: none;
+    height: 4px;
+}
+
+.icePnlTbOffBtm .MidBtm-dis {
+    background-color: #D0D4EE;
+    background-image: url( './css-images/off-mid-top-dis.gif' );
+    background-repeat: repeat-x;
+    text-align: center;
+    padding-top: 1px;
+    border: none;
+}
+
+.icePnlTbOffBtm .RtBtm-dis {
+    background-color: transparent;
+    background-image: url( "./css-images/off-right-top-dis.gif" );
+    background-repeat: no-repeat;
+    background-position: bottom;
+    text-align: center;
+    padding-top: 1px;
+    border: none;
+}
+
+.icePnlTbOffBtm .LftMid-dis {
+    background-color: #D0D4EE;
+    /*    background-image: url("./css-images/off-left-mid.gif");
+    background-repeat:no-repeat;*/
+    text-align: center;
+    padding-top: 15px;
+    border: none;
+}
+
+.icePnlTbOffBtm .MidMid-dis {
+    background-color: #D0D4EE;
+    /*    background-image: url("./css-images/off-mid-mid.gif");
+    background-repeat:repeat-x;*/
+    text-align: center;
+    padding-top: 5px;
+    padding-right: 15px;
+    padding-left: 15px;
+    border: none;
+    white-space: nowrap;
+    color: #ABABAB;
+}
+
+.icePnlTbOffBtm .MidMid-dis a {
+    text-decoration: none;
+    color: #FFFFFF;
+    cursor: default;
+}
+
+.icePnlTbOffBtm .RtMid-dis {
+    background-color: #D0D4EE;
+    /*    background-image: url("./css-images/off-right-mid.gif");
+    background-repeat:no-repeat;*/
+    text-align: center;
+    padding-top: 15px;
+    border: none;
+}
+
+.icePnlTbOffBtm .LftTop-dis {
+    background-color: #D0D4EE;
+    background-image: url( "./css-images/off-left-bot.gif" );
+    background-repeat: no-repeat;
+    border: none;
+}
+
+.icePnlTbOffBtm .MidTop-dis {
+    background-color: #D0D4EE;
+    background-image: url( "./css-images/off-mid-bot.gif" );
+    background-repeat: repeat-x;
+    border: none;
+}
+
+.icePnlTbOffBtm .RtTop-dis {
+    background-color: #D0D4EE;
+    background-image: url( "./css-images/off-right-bot.gif" );
+    background-repeat: no-repeat;
+    border: none;
+}
+
+/* disabled bottom tab on */
+.icePnlTbOnBtm .LftBtm-dis {
+    background-color: transparent;
+    background-image: url( "./css-images/off-left-top-dis.gif" );
+    background-repeat: no-repeat;
+    background-position: bottom;
+    text-align: center;
+    padding-top: 1px;
+    border: none;
+    height: 4px;
+}
+
+.icePnlTbOnBtm .MidBtm-dis {
+    background-color: #D0D4EE;
+    background-image: url( './css-images/off-mid-top-dis.gif' );
+    background-repeat: repeat-x;
+    text-align: center;
+    padding-top: 1px;
+    border: none;
+}
+
+.icePnlTbOnBtm .RtBtm-dis {
+    background-color: transparent;
+    background-image: url( "./css-images/off-right-top-dis.gif" );
+    background-repeat: no-repeat;
+    background-position: bottom;
+    text-align: center;
+    padding-top: 1px;
+    border: none;
+}
+
+.icePnlTbOnBtm .LftMid-dis {
+    background-color: #D0D4EE;
+    /*    background-image: url("./css-images/off-left-mid.gif");
+    background-repeat:no-repeat;*/
+    text-align: center;
+    padding-top: 15px;
+    border: none;
+}
+
+.icePnlTbOnBtm .MidMid-dis {
+    background-color: #D0D4EE;
+    /*    background-image: url("./css-images/off-mid-mid.gif");
+    background-repeat:repeat-x;*/
+    text-align: center;
+    padding-top: 5px;
+    padding-right: 15px;
+    padding-left: 15px;
+    border: none;
+    white-space: nowrap;
+    color: #ABABAB;
+}
+
+.icePnlTbOnBtm .MidMid-dis a {
+    text-decoration: none;
+    color: #FFFFFF;
+    cursor: default;
+}
+
+.icePnlTbOnBtm .RtMid-dis {
+    background-color: #D0D4EE;
+    /*    background-image: url("./css-images/off-right-mid.gif");
+    background-repeat:no-repeat;*/
+    text-align: center;
+    padding-top: 15px;
+    border: none;
+}
+
+.icePnlTbOnBtm .LftTop-dis {
+    background-color: #D0D4EE;
+    background-image: url( "./css-images/off-left-bot.gif" );
+    background-repeat: no-repeat;
+    border: none;
+}
+
+.icePnlTbOnBtm .MidTop-dis {
+    background-color: #D0D4EE;
+    background-image: url( "./css-images/off-mid-bot.gif" );
+    background-repeat: repeat-x;
+    border: none;
+}
+
+.icePnlTbOnBtm .RtTop-dis {
+    background-color: #D0D4EE;
+    background-image: url( "./css-images/off-right-bot.gif" );
+    background-repeat: no-repeat;
+    border: none;
+}
 
 /** Disabled style for active tabs */
 .icePnlTbOn .LftTop-dis {
@@ -2180,6 +2401,11 @@ Disabeld classes for the calendar controls
     padding-right: 1px;
     padding-top: 4px;
     padding-bottom: 4px; /*border-right:1px solid #CCCCCC;*/
+}
+
+.iceSelInpDateMoYrDropdown-dis {
+    background-color: #D0D4EE;
+    color: #999999;
 }
 
 .iceSelInpDateMonthYear-dis img {
@@ -2400,6 +2626,10 @@ Disabeld classes for the calendar controls
 
 }
 
+.icePnlPos-dis {
+
+}
+
 /*
 ----------- positionedPanel ----------
 */
@@ -2484,39 +2714,66 @@ Disabeld classes for the calendar controls
 }
 
 /* common accordion headers */
-.icePnlClpsblHdr, .icePnlClpsblHdr-dis, .icePnlClpsblColpsdHdr,
-    .icePnlClpsblColpsdHdr-dis {
+.icePnlClpsblHdr, .icePnlClpsblColpsdHdr {
     background-color: #EFEFEF;
     background-image: url( "./css-images/table_col_header.gif" );
     background-position: bottom;
     background-repeat: repeat-x;
     font-weight: bold;
     text-align: left;
-    color: #FFFFFF;
+    color: #FFF;
     border: 1px solid #CCCCCC;
     border-bottom: none;
     padding-left: 2px;
     padding-right: 5px;
     padding-top: 4px;
     padding-bottom: 4px;
+    cursor: pointer;
 }
+
 .icePnlClpsblHdr .iceOutTxt, .icePnlClpsblColpsdHdr .iceOutTxt {
-	color:#FFFFFF;
-}
-.icePnlClpsblHdr-dis, .icePnlClpsblColpsdHdr-dis{
-    color: #999999;
+	color:#FFF;
 }
 
 .icePnlClpsblCnt, .icePnlClpsblColpsdCnt,
-    .icePnlClpsblColpsdCnt-dis, .icePnlClpsblCnt-dis {
+.icePnlClpsblColpsdCnt-dis, .icePnlClpsblCnt-dis {
     background-color: #EFEFEF;
     border: 1px solid #CCCCCC;
     border-top: none;
     padding-left: 5px;
     padding-right: 5px;
+    color: #000;
 }
 
-.iceGmp{}
+.icePnlClpsblHdr-dis, .icePnlClpsblColpsdHdr-dis {
+    background: #EFEFEF url( './css-images/table_col_header_dis.gif' ) repeat-x bottom;
+    font-weight: bold;
+    text-align: left;
+    color: #CCC;
+    border: 1px solid #CCCCCC;
+    border-bottom: none;
+    padding-left: 2px;
+    padding-right: 5px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    cursor: default;
+}
+
+.icePnlClpsblHdr-dis .iceOutTxt, .icePnlClpsblColpsdHdr-dis .iceOutTxt {
+    color: #CCC;
+}
+
+.icePnlClpsblColpsdCnt-dis, .icePnlClpsblCnt-dis,
+.icePnlClpsblColpsdCnt-dis .iceOutTxt, .icePnlClpsblCnt-dis .iceOutTxt {
+    color: #999;
+}
+
+.iceGmp{
+    border-collapse:collapse;
+    border-spacing:0px;
+    padding:0px;
+}
+
 .iceGmpMapTd {
     vertical-align: top;
 }
@@ -2538,7 +2795,7 @@ Disabeld classes for the calendar controls
 
 .icePnlDvrCnt, .icePnlDvrHorCnt {
     border: 1px solid #ABABAB;
-    width:100%; 
+    /*width:100%; */
     height:100%;
 }
 
@@ -2574,4 +2831,58 @@ Disabeld classes for the calendar controls
     border-top: 1px solid #ABABAB;
     border-bottom: 1px solid #ABABAB;
     cursor: n-resize;
+}
+
+/*
+----------- PanelConfirmation ----------
+*/
+
+.icePnlCnf {
+    border-top: 0px solid #0056EA;
+    border-right: 2px solid #0056EA;
+    border-left: 2px solid #0056EA;
+    border-bottom: 2px solid #0056EA;
+    background-color: #D0D4EE;
+    padding: 0;
+    width: 300px;
+    z-index: 1000;
+    color: #666666;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.icePnlCnfHdr {
+    background-color: #026AFF;
+    background-image: url( "./css-images/window_top.gif" );
+    background-position: top;
+    background-repeat: repeat-x;
+    height: auto;
+    color: #FFFFFF;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 4px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.icePnlCnfBody {
+    padding: 10px 10px 5px 10px;
+    background-color: #D0D4EE;
+    font-size: 1em;
+    font-weight: normal;
+}
+
+.icePnlCnfBtns {
+    padding: 5px 10px 10px 10px;
+    background-color: #D0D4EE;
+    text-align: center;
+    font-size: 1em;
+    font-weight: normal;
+}
+
+.icePnlCnfBtns input {
+    background-color: #DEDEDE;
+    border: 1px solid #0056EA;
+    margin: 0 20px 0 20px;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
 }
