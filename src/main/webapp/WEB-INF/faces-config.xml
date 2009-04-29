@@ -57,9 +57,9 @@
 		<managed-bean-class>de.randi2.jsf.controllerBeans.TrialSiteHandler</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
-			<property-name>trialSiteDao</property-name>
-			<property-class>de.randi2.dao.TrialSiteDao</property-class>
-			<value>#{trialSiteDAO}</value>
+			<property-name>siteService</property-name>
+			<property-class>de.randi2.services.TrialSiteService</property-class>
+			<value>#{trialSiteService}</value>
 		</managed-property>
 	</managed-bean>
 
@@ -72,6 +72,11 @@
 			<property-name>siteService</property-name>
 			<property-class>de.randi2.services.TrialSiteService</property-class>
 			<value>#{trialSiteService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>trialService</property-name>
+			<property-class>de.randi2.services.TrialService</property-class>
+			<value>#{trialService}</value>
 		</managed-property>
 	</managed-bean>
 

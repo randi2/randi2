@@ -19,12 +19,12 @@ import javax.faces.context.FacesContext;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 
-import de.randi2.dao.TrialSiteDao;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.TrialSite;
+import de.randi2.services.TrialSiteService;
 
 /**
  * <p>
@@ -38,7 +38,11 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	public TrialSiteHandler() {
 	}
 
-	private TrialSiteDao trialSiteDao;
+	private TrialSiteService siteService;
+	
+	public void setSiteService(TrialSiteService siteService) {
+		this.siteService = siteService;
+	}
 
 	private boolean trialSiteSavedPVisible = false;
 
@@ -86,7 +90,7 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	@Override
 	public String saveObject() {
 		try {
-			showedObject = trialSiteDao.update(showedObject);
+			showedObject = siteService.update(showedObject);
 
 			// Making the centerSavedPopup visible
 			this.trialSiteSavedPVisible = true;
@@ -124,23 +128,14 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 		if (showedObject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID)
 			showedObject = null;
 		else
-			showedObject = trialSiteDao.get(showedObject.getId());
+			showedObject = siteService.getObject(showedObject.getId());
 		refresh();
 		return Randi2.SUCCESS;
 	}
 
 	
-	public TrialSiteDao getTrialSiteDao() {
-		return trialSiteDao;
-	}
-
-	
-	public void setTrialSiteDao(TrialSiteDao trialSiteDao) {
-		this.trialSiteDao = trialSiteDao;
-	}
-
 	public int getTrialSitesAmount() {
-		return trialSiteDao.getAll().size();
+		return siteService.getAll().size();
 	}
 
 	@Override

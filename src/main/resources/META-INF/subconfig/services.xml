@@ -14,6 +14,9 @@
 	<bean id="trialSiteService" class="de.randi2.services.TrialSiteServiceImpl">
 		<constructor-arg ref="trialSiteDAO" />
 	</bean>
+	
+	<bean id="trialService" class="de.randi2.services.TrialServiceImpl">
+	</bean>
 
 
 </beans>

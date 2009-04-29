@@ -30,4 +30,16 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 		return null;
 	}
 
+	@Override
+	public void create(TrialSite newSite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public TrialSite update(TrialSite site) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

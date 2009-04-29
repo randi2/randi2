@@ -51,6 +51,7 @@ import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
+import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.ReflectionUtil;
@@ -65,11 +66,16 @@ import de.randi2.utility.ReflectionUtil;
  */
 public class TrialHandler extends AbstractHandler<Trial> {
 	
-	@Autowired
 	private TrialSiteService siteService;
 	
 	public void setSiteService(TrialSiteService siteService) {
 		this.siteService = siteService;
+	}
+	
+	private TrialService trialService;
+	
+	public void setTrialService(TrialService trialService) {
+		this.trialService = trialService;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -141,18 +147,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	// TODO TEMP OBJECTS
 	private TimeZone zone;
-
-	// DB Access
-	private TrialDao trialDao;
-	private TrialSiteDao trialSiteDao;
-
-	public TrialDao getTrialDao() {
-		return trialDao;
-	}
-
-	public void setTrialDao(TrialDao trialDao) {
-		this.trialDao = trialDao;
-	}
 
 	public List<SelectItem> getStateItems() {
 		List<SelectItem> stateItems = new ArrayList<SelectItem>(TrialStatus
@@ -265,7 +259,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		}
 		/* End of the Algorithm Configuration */
 
-		trialDao.create(showedObject);
+		trialService.create(showedObject);
 		return Randi2.SUCCESS;
 		// } catch (Exception e) {
 		// e.printStackTrace();
@@ -300,16 +294,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		return showedObject.getTreatmentArms().size();
 	}
 
-
-
-	public TrialSiteDao getTrialSiteDao() {
-		return trialSiteDao;
-	}
-
-	public void setTrialSiteDao(TrialSiteDao trialSiteDao) {
-		this.trialSiteDao = trialSiteDao;
-	}
-
 	@Override
 	public String refreshShowedObject() {
 		// TODO Auto-generated method stub
@@ -323,7 +307,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	public int getTrialsAmount() {
-		return trialDao.getAll().size();
+		return trialService.getAll().size();
 	}
 
 	@Override
