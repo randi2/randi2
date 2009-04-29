@@ -39,11 +39,9 @@ public class HibernateWebFilter implements Filter {
                 ((HttpServletRequest) request).getSession();
         Session hibernateSession =
                 (Session) httpSession.getAttribute(HIBERNATE_SESSION_KEY);
-        logger.debug(httpSession.getId());
+        logger.trace(httpSession.getId());
         try {
-        	 hibernateSession.setFlushMode(FlushMode.MANUAL);
-            if (hibernateSession != null) {
-              
+            if (hibernateSession != null) { 
                if(!hibernateSession.isOpen()){
             	   hibernateSession = sf.openSession();
             	  logger.trace(httpSession.getId() + " >>> New conversation ");
@@ -103,7 +101,7 @@ public class HibernateWebFilter implements Filter {
                 }
             } catch (Throwable rbEx) {
             	 logger.trace("", rbEx);
-                //System.out.println("Could not rollback transaction after exception!");//), rbEx);
+                logger.error("Could not rollback transaction after exception!");//), rbEx);
             } finally {
             	 logger.trace("Cleanup after exception!");
 

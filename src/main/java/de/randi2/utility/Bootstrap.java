@@ -9,6 +9,7 @@ import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 
 import de.randi2.dao.LoginDaoHibernate;
+import de.randi2.dao.TrialSiteDaoHibernate;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
@@ -42,7 +43,7 @@ public class Bootstrap {
 
 	private RolesAndRights rolesAndRights;
 	private LoginDaoHibernate loginDao;
-//	private TrialSiteDaoHibernate trialSiteDao;
+	private TrialSiteDaoHibernate trialSiteDao;
 	private SessionFactory sessionFactory;
 
 	public void init() {
@@ -111,7 +112,7 @@ public class Bootstrap {
 		userL.addRole(Role.ROLE_INVESTIGATOR);
 //		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
 		
-		loginDao.save(userL);
+		loginDao.create(userL);
 
 		TrialSite trialSite1 = new TrialSite();
 		trialSite1.setCity("Heidelberg");
@@ -122,13 +123,13 @@ public class Bootstrap {
 		trialSite1.setPassword("1$heidelberg");
 		trialSite1.setContactPerson(adminP);
 
-//		trialSiteDao.save(trialSite1);
+		trialSiteDao.create(trialSite1);
 		
 		/*P_Investigator role*/
 		adminL = (Login) sessionFactory.getCurrentSession().get(Login.class, adminL.getId());
 		adminL.addRole(Role.ROLE_P_INVESTIGATOR);
 //		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
-		loginDao.save(adminL);
+		loginDao.create(adminL);
 		rolesAndRights.grantRigths(adminL, trialSite);
 	}
 
@@ -137,7 +138,7 @@ public class Bootstrap {
 				"classpath:/META-INF/spring.xml");
 		loginDao = (LoginDaoHibernate) ctx.getBean("loginDAO");
 		rolesAndRights = (RolesAndRights) ctx.getBean("rolesAndRights");
-//		trialSiteDao = (TrialSiteDaoHibernate) ctx.getBean("trialSiteDAO");
+		trialSiteDao = (TrialSiteDaoHibernate) ctx.getBean("trialSiteDAO");
 		sessionFactory = (SessionFactory) ctx.getBean("sessionFactory");
 		init();
 

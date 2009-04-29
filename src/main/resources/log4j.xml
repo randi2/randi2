@@ -14,8 +14,7 @@
 			<param name="ConversionPattern" value="%-4r [%t] (%F:%L) %-5p %c %x - %m%n" />
 		</layout>
 	</appender>
-
-
+	
 	<logger name="de.randi2">
 		<level value="DEBUG" />
 	</logger>
@@ -31,7 +30,11 @@
 	<logger name="org.springframework">
 		<level value="WARN" />
 	</logger>
-
+	
+	<!-- <logger name="org.springframework.security">
+		<level value="DEBUG" />
+	</logger>
+ -->
 	<root>
 		<level value="ERROR" />
 		<appender-ref ref="CONSOLE" /> 
