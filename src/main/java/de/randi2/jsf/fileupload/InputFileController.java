@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import com.icesoft.faces.component.inputfile.FileInfo;
 import com.icesoft.faces.component.inputfile.InputFile;
 
 /**
@@ -17,103 +18,98 @@ import com.icesoft.faces.component.inputfile.InputFile;
  * visible to them and are deleted when the session is destroyed.</p>
  */
 public class InputFileController{
-	private static final long serialVersionUID = 245115352557158378L;
-	// File sizes used to generate formatted label
-    public static final long MEGABYTE_LENGTH_BYTES = 1048000l;
-    public static final long KILOBYTE_LENGTH_BYTES = 1024l;
-    
-    //Property which says if there are any files on the server
-    private boolean fileOnServer = false;
 
-    // files associated with the current user
-    private final List<InputFileData> fileList =
-            Collections.synchronizedList(new ArrayList<InputFileData>());
-    // latest file uploaded by client
-    private InputFileData currentFile;
-    // file upload completed percent (Progress)
-    private int fileProgress;
+	    // File sizes used to generate formatted label
+	    public static final long MEGABYTE_LENGTH_BYTES = 1048000l;
+	    public static final long KILOBYTE_LENGTH_BYTES = 1024l;
 
-    /**
-     * <p>Action event method which is triggered when a user clicks on the
-     * upload file button.  Uploaded files are added to a list so that user have
-     * the option to delete them programatically.  Any errors that occurs
-     * during the file uploaded are added the messages output.</p>
-     *
-     * @param event jsf action event.
-     */
-    public void uploadFile(ActionEvent event) {
-        InputFile inputFile = (InputFile) event.getSource();
-        if (inputFile.getStatus() == InputFile.SAVED) {
-            // reference our newly updated file for display purposes and
-            // added it to our history file list.
-            currentFile = new InputFileData(inputFile.getFileInfo(),
-                    inputFile.getFile());
+	    // files associated with the current user
+	    private final List<InputFileData> fileList =
+	            Collections.synchronizedList(new ArrayList<InputFileData>());
+	    // latest file uploaded by client
+	    private InputFileData currentFile;
+	    // file upload completed percent (Progress)
+	    private int fileProgress;
 
-            synchronized (fileList) {
-                fileList.add(currentFile);
-                fileOnServer = true;
-            }
+	    /**
+	     * <p>Action event method which is triggered when a user clicks on the
+	     * upload file button.  Uploaded files are added to a list so that user have
+	     * the option to delete them programatically.  Any errors that occurs
+	     * during the file uploaded are added the messages output.</p>
+	     *
+	     * @param event jsf action event.
+	     */
+	    public void uploadFile(ActionEvent event) {
+	        InputFile inputFile = (InputFile) event.getSource();
+	        FileInfo fileInfo = inputFile.getFileInfo();
+	        if (fileInfo.getStatus() == FileInfo.SAVED) {
+	            // reference our newly updated file for display purposes and
+	            // added it to our history file list.
+	            currentFile = new InputFileData(fileInfo);
 
-        }
+	            synchronized (fileList) {
+	                fileList.add(currentFile);
+	            }
 
-    }
+	        }
 
-    /**
-     * <p>This method is bound to the inputFile component and is executed
-     * multiple times during the file upload process.  Every call allows
-     * the user to finds out what percentage of the file has been uploaded.
-     * This progress information can then be used with a progressBar component
-     * for user feedback on the file upload progress. </p>
-     *
-     * @param event holds a InputFile object in its source which can be probed
-     *              for the file upload percentage complete.
-     */
-    public void fileUploadProgress(EventObject event) {
-        InputFile ifile = (InputFile) event.getSource();
-        fileProgress = ifile.getFileInfo().getPercent();
-    }
+	    }
 
-    /**
-     * <p>Allows a user to remove a file from a list of uploaded files.  This
-     * methods assumes that a request param "fileName" has been set to a valid
-     * file name that the user wishes to remove or delete</p>
-     *
-     * @param event jsf action event
-     */
-    public void removeUploadedFile(ActionEvent event) {
-        // Get the inventory item ID from the context.
-        FacesContext context = FacesContext.getCurrentInstance();
-        Map<String,String> map = context.getExternalContext().getRequestParameterMap();
-        String fileName = (String) map.get("fileName");
+	    /**
+	     * <p>This method is bound to the inputFile component and is executed
+	     * multiple times during the file upload process.  Every call allows
+	     * the user to finds out what percentage of the file has been uploaded.
+	     * This progress information can then be used with a progressBar component
+	     * for user feedback on the file upload progress. </p>
+	     *
+	     * @param event holds a InputFile object in its source which can be probed
+	     *              for the file upload percentage complete.
+	     */
+	    public void fileUploadProgress(EventObject event) {
+	        InputFile ifile = (InputFile) event.getSource();
+	        fileProgress = ifile.getFileInfo().getPercent();
+	    }
 
-        synchronized (fileList) {
-            InputFileData inputFileData;
-            for (int i = 0; i < fileList.size(); i++) {
-                inputFileData = (InputFileData)fileList.get(i);
-                // remove our file
-                if (inputFileData.getFileInfo().getFileName().equals(fileName)) {
-                    fileList.remove(i);
-                    break;
-                }
-            }
-            fileOnServer = !fileList.isEmpty();
-        }
-    }
+	    /**
+	     * <p>Allows a user to remove a file from a list of uploaded files.  This
+	     * methods assumes that a request param "fileName" has been set to a valid
+	     * file name that the user wishes to remove or delete</p>
+	     *
+	     * @param event jsf action event
+	     */
+	    public void removeUploadedFile(ActionEvent event) {
+	        // Get the inventory item ID from the context.
+	        FacesContext context = FacesContext.getCurrentInstance();
+	        Map<String,String> map = context.getExternalContext().getRequestParameterMap();
+	        String fileName = (String) map.get("fileName");
 
-    public InputFileData getCurrentFile() {
-        return currentFile;
-    }
+	        synchronized (fileList) {
+	            InputFileData inputFileData;
+	            for (int i = 0; i < fileList.size(); i++) {
+	                inputFileData = (InputFileData)fileList.get(i);
+	                // remove our file
+	                if (inputFileData.getFileInfo().getFileName().equals(fileName)) {
+	                    fileList.remove(i);
+	                    break;
+	                }
+	            }
+	        }
+	    }
 
-    public int getFileProgress() {
-        return fileProgress;
-    }
+	    public InputFileData getCurrentFile() {
+	        return currentFile;
+	    }
 
-    public List<InputFileData> getFileList() {
-        return fileList;
-    }
-    
-    public boolean isFileOnServer(){
-    	return fileOnServer;
-    }
+	    public int getFileProgress() {
+	        return fileProgress;
+	    }
+
+	    public List<InputFileData> getFileList() {
+	        return fileList;
+	    }
+	    
+	    public boolean isFileOnServer() {
+			return !fileList.isEmpty();
+		}
 }
 

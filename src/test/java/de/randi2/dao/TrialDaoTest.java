@@ -34,7 +34,7 @@ public class TrialDaoTest {
 		template.save(t1.getLeadingSite());
 		template.save(t1.getSponsorInvestigator());
 		assertNotSaved(t1);
-		dao.save(t1);
+		dao.create(t1);
 		assertSaved(t1);
 
 		assertNotNull(dao.get(t1.getId()));		

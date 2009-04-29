@@ -60,7 +60,7 @@ public class Trial extends AbstractDomainObject {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trial")
 	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> inclusionCriteria;
+	private List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> inclusionCriteria = new ArrayList<AbstractCriterion<? extends Serializable,? extends AbstractConstraint<? extends Serializable>>>();
 	@OneToOne(cascade = CascadeType.ALL)
 	private AbstractRandomizationConfig randomConf;
 
@@ -72,6 +72,10 @@ public class Trial extends AbstractDomainObject {
 		this.inclusionCriteria = inclusionCriteria;
 	}
 
+	public void addCriterion(AbstractCriterion<? extends Serializable,? extends AbstractConstraint<? extends Serializable>> criterion){
+		this.inclusionCriteria.add(criterion);
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -186,6 +190,7 @@ public class Trial extends AbstractDomainObject {
 		return subjects;
 	}
 
+	@Deprecated
 	public void randomize(TrialSubject subject) {
 		TreatmentArm assignedArm = randomConf.getAlgorithm().randomize(subject);
 		subject.setArm(assignedArm);

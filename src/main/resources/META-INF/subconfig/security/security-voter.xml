@@ -1,296 +1,232 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:sec="http://www.springframework.org/schema/security"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:sec="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd">
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.5.xsd">
 
 
 
-	<!-- ============================= BEGIN VOTER ============================================= -->
+	<!--
+		============================= BEGIN VOTER
+		=============================================
+	-->
 
 
-	<bean id="roleVoter"
-		class="org.springframework.security.vote.RoleVoter">
+	<bean id="roleVoter" class="org.springframework.security.vote.RoleVoter">
 	</bean>
 
-	<bean id="aclTrialSiteReadVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialSiteReadVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIALSITE_READ" />
 		<constructor-arg>
 			<list>
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.READ" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.READ" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.TrialSite" />
+		<property name="processDomainObjectClass" value="de.randi2.model.TrialSite" />
 	</bean>
 
-	<bean id="aclTrialSiteWriteVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialSiteWriteVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIALSITE_WRITE" />
 		<constructor-arg>
 			<list>
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.WRITE" />
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.WRITE" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.TrialSite" />
+		<property name="processDomainObjectClass" value="de.randi2.model.TrialSite" />
 	</bean>
 
-	<bean id="aclTrialSiteCreateVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialSiteCreateVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIALSITE_CREATE" />
 		<constructor-arg>
 			<list>
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.CREATE" />
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.CREATE" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.TrialSite" />
+		<property name="processDomainObjectClass" value="de.randi2.model.TrialSite" />
 	</bean>
 
-	<bean id="aclTrialSiteAdminVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialSiteAdminVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIALSITE_ADMIN" />
 		<constructor-arg>
 			<list>
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.TrialSite" />
+		<property name="processDomainObjectClass" value="de.randi2.model.TrialSite" />
 	</bean>
 
-	<bean id="aclTrialReadVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialReadVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIAL_READ" />
 		<constructor-arg>
 			<list>
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.READ" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.READ" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.Trial" />
+		<property name="processDomainObjectClass" value="de.randi2.model.Trial" />
 	</bean>
 
-	<bean id="aclTrialWriteVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialWriteVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIAL_WRITE" />
 		<constructor-arg>
 			<list>
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.WRITE" />
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.WRITE" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.Trial" />
+		<property name="processDomainObjectClass" value="de.randi2.model.Trial" />
 	</bean>
 
-	<bean id="aclTrialAdminVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialAdminVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIAL_ADMIN" />
 		<constructor-arg>
 			<list>
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.Trial" />
+		<property name="processDomainObjectClass" value="de.randi2.model.Trial" />
 	</bean>
-	
-	<bean id="aclTrialCreateVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+
+	<bean id="aclTrialCreateVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIAL_CREATE" />
 		<constructor-arg>
 			<list>
-			<ref
-					bean="de.randi2.model.security.PermissionHibernate.CREATE" />
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.CREATE" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.Trial" />
+		<property name="processDomainObjectClass" value="de.randi2.model.Trial" />
 	</bean>
 
-	<bean id="aclPersonReadVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclPersonReadVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_PERSON_READ" />
 		<constructor-arg>
 			<list>
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.READ" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.READ" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.Person" />
+		<property name="processDomainObjectClass" value="de.randi2.model.Person" />
 	</bean>
 
-	<bean id="aclPersonWriteVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclPersonWriteVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_PERSON_WRITE" />
 		<constructor-arg>
 			<list>
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.WRITE" />
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.WRITE" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.Person" />
+		<property name="processDomainObjectClass" value="de.randi2.model.Person" />
 	</bean>
 
-	<bean id="aclPersonAdminVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclPersonAdminVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_PERSON_ADMIN" />
 		<constructor-arg>
 			<list>
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.Person" />
+		<property name="processDomainObjectClass" value="de.randi2.model.Person" />
 	</bean>
-	
-	<bean id="aclPersonCreateVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+
+	<bean id="aclPersonCreateVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_PERSON_CREATE" />
 		<constructor-arg>
 			<list>
-			<ref
-					bean="de.randi2.model.security.PermissionHibernate.CREATE" />
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.CREATE" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.Person" />
+		<property name="processDomainObjectClass" value="de.randi2.model.Person" />
 	</bean>
 
-	<bean id="aclLoginReadVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclLoginReadVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_LOGIN_READ" />
 		<constructor-arg>
 			<list>
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.READ" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.READ" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.Login" />
+		<property name="processDomainObjectClass" value="de.randi2.model.Login" />
 	</bean>
 
-	<bean id="aclLoginWriteVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclLoginWriteVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_LOGIN_WRITE" />
 		<constructor-arg>
 			<list>
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.WRITE" />
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.WRITE" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.Login" />
+		<property name="processDomainObjectClass" value="de.randi2.model.Login" />
 	</bean>
 
-	<bean id="aclLoginAdminVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclLoginAdminVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_LOGIN_ADMIN" />
 		<constructor-arg>
 			<list>
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.Login" />
+		<property name="processDomainObjectClass" value="de.randi2.model.Login" />
 	</bean>
-	
-	
-	<bean id="aclLoginCreateVoter"
-		class="org.springframework.security.vote.AclEntryVoter">
+
+
+	<bean id="aclLoginCreateVoter" class="org.springframework.security.vote.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_LOGIN_CREATE" />
 		<constructor-arg>
 			<list>
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.CREATE" />
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.CREATE" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
 			</list>
 		</constructor-arg>
-		<property name="processDomainObjectClass"
-			value="de.randi2.model.Login" />
+		<property name="processDomainObjectClass" value="de.randi2.model.Login" />
 	</bean>
 
 
 
 
-	<!-- ============================= END VOTER ============================================= -->
+	<!--
+		============================= END VOTER
+		=============================================
+	-->
 
 
-<!-- ============== "AFTER INTERCEPTION" AUTHORIZATION DEFINITIONS =========== -->
-
-	<bean id="afterInvocationManager"
-		class="org.springframework.security.afterinvocation.AfterInvocationProviderManager">
-		<property name="providers">
-			<list>
-				<ref bean="afterAclRead" />
-				<ref bean="afterAclCollectionRead" />
-			</list>
-		</property>
-	</bean>
+	<!--
+		============== "AFTER INTERCEPTION" AUTHORIZATION DEFINITIONS
+		===========
+	-->
 
 	<!-- Processes AFTER_ACL_COLLECTION_READ configuration settings -->
 	<bean id="afterAclCollectionRead"
 		class="org.springframework.security.afterinvocation.AclEntryAfterInvocationCollectionFilteringProvider">
+		<sec:custom-after-invocation-provider />
 		<constructor-arg ref="aclService" />
 		<constructor-arg>
 			<list>
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.READ" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.READ" />
 			</list>
 		</constructor-arg>
 	</bean>
@@ -298,17 +234,19 @@
 	<!-- Processes AFTER_ACL_READ configuration settings -->
 	<bean id="afterAclRead"
 		class="org.springframework.security.afterinvocation.AclEntryAfterInvocationProvider">
+		<sec:custom-after-invocation-provider />
 		<constructor-arg ref="aclService" />
 		<constructor-arg>
 			<list>
-				<ref 
-					bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
-				<ref
-					bean="de.randi2.model.security.PermissionHibernate.READ" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.ADMINISTRATION" />
+				<ref bean="de.randi2.model.security.PermissionHibernate.READ" />
 			</list>
 		</constructor-arg>
 	</bean>
 
-	<!-- ============== END "AFTER INTERCEPTION" AUTHORIZATION DEFINITIONS =========== -->
+	<!--
+		============== END "AFTER INTERCEPTION" AUTHORIZATION DEFINITIONS
+		===========
+	-->
 
 </beans>

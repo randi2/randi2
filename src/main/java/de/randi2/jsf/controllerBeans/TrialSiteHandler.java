@@ -12,33 +12,39 @@
  * You should have received a copy of the GNU General Public License along with
  * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.randi2.jsf.handlers;
+package de.randi2.jsf.controllerBeans;
+
+import java.util.List;
 
 import javax.faces.context.FacesContext;
 
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 
-import de.randi2.dao.TrialSiteDao;
-import de.randi2.jsf.Randi2;
+import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.TrialSite;
+import de.randi2.services.TrialSiteService;
 
 /**
  * <p>
  * This class cares about the trial site object or objects.
  * </p>
  * 
- * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
+ * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 
+	private TrialSiteService siteService;
+
+	public void setSiteService(TrialSiteService siteService) {
+		this.siteService = siteService;
+	}
+	
 	public TrialSiteHandler() {
 	}
-
-	private TrialSiteDao trialSiteDao;
 
 	private boolean trialSiteSavedPVisible = false;
 
@@ -86,7 +92,7 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	@Override
 	public String saveObject() {
 		try {
-			trialSiteDao.save(showedObject);
+			showedObject = siteService.update(showedObject);
 
 			// Making the centerSavedPopup visible
 			this.trialSiteSavedPVisible = true;
@@ -124,23 +130,21 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 		if (showedObject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID)
 			showedObject = null;
 		else
-			showedObject = trialSiteDao.get(showedObject.getId());
+			showedObject = siteService.getObject(showedObject.getId());
 		refresh();
 		return Randi2.SUCCESS;
 	}
 
-	
-	public TrialSiteDao getTrialSiteDao() {
-		return trialSiteDao;
-	}
-
-	
-	public void setTrialSiteDao(TrialSiteDao trialSiteDao) {
-		this.trialSiteDao = trialSiteDao;
-	}
-
 	public int getTrialSitesAmount() {
-		return trialSiteDao.getAll().size();
+		return siteService.getAll().size();
+	}
+	
+	/**
+	 * Returns all defined trial sites.
+	 * @return
+	 */
+	public List<TrialSite> getAllTrialSites(){
+		return siteService.getAll();
 	}
 
 	@Override

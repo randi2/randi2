@@ -1,4 +1,4 @@
-package de.randi2.jsf.pages;
+package de.randi2.jsf.backingBeans;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
-import de.randi2.jsf.handlers.LoginHandler;
+import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
 

@@ -71,7 +71,7 @@ public class TreatmentArm extends AbstractDomainObject{
 		return this.subjects;
 	}
 
-	void addSubject(TrialSubject subject){
+	public void addSubject(TrialSubject subject){
 		this.subjects.add(subject);
 	}
 

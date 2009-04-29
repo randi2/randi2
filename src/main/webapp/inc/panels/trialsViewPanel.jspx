@@ -22,7 +22,7 @@
 		<ice:outputLabel value="#{labels['pages.trialsViewPanel.headline']} (#{labels['pages.trialsViewPanel.headline2']} #{trialHandler.trialsAmount})"></ice:outputLabel>
 	</ice:panelGrid>
 	<ice:dataTable id="trialsTable" border="1"
-		value="#{trialHandler.trialDao.all}" var="trial" scrollable="true"
+		value="#{trialHandler.allTrials}" var="trial" scrollable="true"
 		scrollHeight="250px">
 		<ice:column id="column1">
 			<ice:outputText value="#{trial.name}"></ice:outputText>

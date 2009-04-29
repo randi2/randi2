@@ -52,7 +52,7 @@ public class MailService implements MailServiceInterface {
 							.mergeTemplateIntoString(velocityEngine,
 									"de/randi2/utility/mail/templates/"
 											+ templateLanguage.getLanguage()
-													.toLowerCase() + "/"
+													.toLowerCase(Locale.getDefault()) + "/"
 											+ messageTemplate + "_subject.vm",
 									subjectFields);
 					message.setSubject(subject);
@@ -60,7 +60,7 @@ public class MailService implements MailServiceInterface {
 					String text = VelocityEngineUtils.mergeTemplateIntoString(
 							velocityEngine, "de/randi2/utility/mail/templates/"
 									+ templateLanguage.getLanguage()
-											.toLowerCase() + "/"
+											.toLowerCase(Locale.getDefault()) + "/"
 									+ messageTemplate + ".vm", messageFields);
 					message.setText(text, true);
 				}

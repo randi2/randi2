@@ -17,6 +17,6 @@ public interface LoginDao extends AbstractDao<Login> {
 	public Login get(String username);
 	
 	@Override
-	public void save(Login object);
+	public void create(Login object);
 
 }

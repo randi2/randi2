@@ -22,11 +22,10 @@ import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UserDetails;
 
-import de.randi2.utility.validations.DateDependence;
 import de.randi2.utility.validations.Password;
 
 @Entity
-@DateDependence(firstDate = "registrationDate", secondDate = "lastLoggedIn")
+//@DateDependence(firstDate = "createdAt", secondDate = "lastLoggedIn")
 @NamedQueries({
 @NamedQuery(name="login.AllLoginsWithRolesAndTrialSiteScope" , query= "select login from Login as login join login.roles role join login.person.trialSite trialSite where role.scopeTrialSiteView = true AND trialSite.id = ? group by login"),
 @NamedQuery(name="login.AllLoginsWithRolesAndNotTrialSiteScope" , query= "select login from Login as login join login.roles role where role.scopeTrialSiteView = false AND not (role.name = 'ROLE_USER') group by login"),
@@ -57,7 +56,7 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	private String password = null;
 
 	private GregorianCalendar lastLoggedIn = null;
-	private GregorianCalendar registrationDate = null;
+
 
 	private boolean active = false;
 	
@@ -89,14 +88,6 @@ public class Login extends AbstractDomainObject implements UserDetails {
 
 	public void setLastLoggedIn(GregorianCalendar lastLoggedIn) {
 		this.lastLoggedIn = lastLoggedIn;
-	}
-
-	public GregorianCalendar getRegistrationDate() {
-		return registrationDate;
-	}
-
-	public void setRegistrationDate(GregorianCalendar registrationDate) {
-		this.registrationDate = registrationDate;
 	}
 
 	public boolean isActive() {

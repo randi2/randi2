@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License along with
  * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.randi2.jsf.pages;
+package de.randi2.jsf.backingBeans;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +25,7 @@ import javax.faces.model.SelectItem;
 import com.icesoft.faces.context.effects.Effect;
 import com.icesoft.faces.context.effects.Highlight;
 
-import de.randi2.jsf.handlers.LoginHandler;
+import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.model.enumerations.Gender;
 
 /**
@@ -34,7 +34,7 @@ import de.randi2.model.enumerations.Gender;
  * registration process.
  * </p>
  * 
- * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
+ * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class RegisterPage {
 
@@ -76,10 +76,14 @@ public class RegisterPage {
 					.getELResolver().getValue(
 							FacesContext.getCurrentInstance().getELContext(), null, "loginHandler"))
 					.cleanUp();
+			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
+					.getELResolver().getValue(
+							FacesContext.getCurrentInstance().getELContext(), null, "loginHandler"))
+					.invalidateSession();
 			FacesContext.getCurrentInstance().getExternalContext().redirect(
 					FacesContext.getCurrentInstance().getExternalContext()
 							.getRequestContextPath()
-							+ "/loginSecure.jsp");
+							+ "/login.jspx");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,10 +97,14 @@ public class RegisterPage {
 	public void declineTerms(ActionEvent event) {
 		this.termsPvisible = true;
 		try {
+			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
+					.getELResolver().getValue(
+							FacesContext.getCurrentInstance().getELContext(), null, "loginHandler"))
+					.invalidateSession();
 			FacesContext.getCurrentInstance().getExternalContext().redirect(
 					FacesContext.getCurrentInstance().getExternalContext()
 							.getRequestContextPath()
-							+ "/loginSecure.jsp");
+							+ "/login.jspx");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -11,9 +11,9 @@
 <!-- ======================= BEGINN Security for WEB ========================= -->
 
  <sec:http access-decision-manager-ref="httpAccessDecisionManager">
-		<sec:form-login login-page="/loginSecure.jsp"
+		<sec:form-login login-page="/login.jspx"
 			default-target-url="/randi2.jspx"
-			authentication-failure-url="/loginSecure.jsp?login_error=1"
+			authentication-failure-url="/login.jspx"
 			login-processing-url="/j_spring_security_check" />
 		<sec:intercept-url pattern="/randi2.jspx" access="ROLE_USER" />
 	</sec:http>

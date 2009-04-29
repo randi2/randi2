@@ -1,123 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!DOCTYPE faces-config PUBLIC
-    "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
-    "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
-
-<faces-config>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+	version="1.2">
 	<application>
 		<message-bundle>de.randi2.jsf.i18n.labels</message-bundle>
 		<message-bundle>de.randi2.jsf.i18n.trialState</message-bundle>
 		<message-bundle>de.randi2.jsf.i18n.criteria</message-bundle>
 		<message-bundle>de.randi2.jsf.i18n.algorithms</message-bundle>
-		<variable-resolver>
-			org.springframework.web.jsf.DelegatingVariableResolver
-		</variable-resolver>
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 		<locale-config>
 			<default-locale>en_US</default-locale>
 			<supported-locale>de_DE</supported-locale>
 		</locale-config>
 	</application>
-	<lifecycle>
-		<phase-listener>
-			de.randi2.jsf.listener.OpenSessionInViewPhaseListener
-		</phase-listener>
-	</lifecycle>
 	<validator>
-		<validator-id>
-			de.randi2.jsf.validators.RANDI2_VALIDATOR
-		</validator-id>
-		<validator-class>
-			de.randi2.jsf.validators.RANDI2Validator
-		</validator-class>
+		<validator-id>de.randi2.jsf.validators.RANDI2_VALIDATOR</validator-id>
+		<validator-class>de.randi2.jsf.validators.RANDI2Validator</validator-class>
 	</validator>
 	<validator>
-		<validator-id>
-			de.randi2.jsf.validators.PASSWORD_CONFIRMATION
-		</validator-id>
-		<validator-class>
-			de.randi2.jsf.validators.PasswordConfirmation
-		</validator-class>
+		<validator-id>de.randi2.jsf.validators.PASSWORD_CONFIRMATION</validator-id>
+		<validator-class>de.randi2.jsf.validators.PasswordConfirmation</validator-class>
 	</validator>
 
 	<converter>
-		<converter-id>
-			de.randi2.jsf.converters.GENDER_CONVERTER
-		</converter-id>
-		<converter-class>
-			de.randi2.jsf.converters.GenderConverter
-		</converter-class>
+		<converter-id>de.randi2.jsf.converters.GENDER_CONVERTER</converter-id>
+		<converter-class>de.randi2.jsf.converters.GenderConverter</converter-class>
 	</converter>
 	<converter>
-		<converter-id>
-			de.randi2.jsf.converters.TRIALSTATE_CONVERTER
-		</converter-id>
-		<converter-class>
-			de.randi2.jsf.converters.TrialStateConverter
-		</converter-class>
+		<converter-id>de.randi2.jsf.converters.TRIALSTATE_CONVERTER</converter-id>
+		<converter-class>de.randi2.jsf.converters.TrialStateConverter</converter-class>
 	</converter>
+
+	<managed-bean>
+		<description>JSF 2 SpringSecurity Bridge</description>
+		<managed-bean-name>secureLogin</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.supportBeans.SecureLogin</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 
 	<managed-bean>
 		<description>
 			This glueBean takes care of the Login and Person Beans.
 		</description>
 		<managed-bean-name>loginHandler</managed-bean-name>
-		<managed-bean-class>
-			de.randi2.jsf.handlers.LoginHandler
-		</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.controllerBeans.LoginHandler</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
-			<property-name>loginDao</property-name>
-			<property-class>de.randi2.dao.LoginDao</property-class>
-			<value>#{loginDAO}</value>
+			<property-name>userService</property-name>
+			<property-class>de.randi2.services.UserService</property-class>
+			<value>#{userService}</value>
 		</managed-property>
 		<managed-property>
-			<property-name>newUserMailService</property-name>
-			<property-class>de.randi2.utility.mail.MailService</property-class>
-			<value>#{newUserMailService}</value>
-		</managed-property>
-		<managed-property>
-			<property-name>personDao</property-name>
-			<property-class>de.randi2.dao.PersonDao</property-class>
-			<value>#{personDAO}</value>
-		</managed-property>
-		<managed-property>
-			<property-name>trialSiteDao</property-name>
-			<property-class>de.randi2.dao.TrialSiteDao</property-class>
-			<value>#{trialSiteDAO}</value>
+			<property-name>siteService</property-name>
+			<property-class>de.randi2.services.TrialSiteService</property-class>
+			<value>#{trialSiteService}</value>
 		</managed-property>
 	</managed-bean>
 
 	<managed-bean>
 		<description>The glueBean for the TrialSite bean.</description>
 		<managed-bean-name>trialSiteHandler</managed-bean-name>
-		<managed-bean-class>
-			de.randi2.jsf.handlers.TrialSiteHandler
-		</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.controllerBeans.TrialSiteHandler</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
-			<property-name>trialSiteDao</property-name>
-			<property-class>de.randi2.dao.TrialSiteDao</property-class>
-			<value>#{trialSiteDAO}</value>
+			<property-name>siteService</property-name>
+			<property-class>de.randi2.services.TrialSiteService</property-class>
+			<value>#{trialSiteService}</value>
 		</managed-property>
 	</managed-bean>
 
 	<managed-bean>
 		<description>The glueBean for the trial bean.</description>
 		<managed-bean-name>trialHandler</managed-bean-name>
-		<managed-bean-class>
-			de.randi2.jsf.handlers.TrialHandler
-		</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.controllerBeans.TrialHandler</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 		<managed-property>
-			<property-name>trialDao</property-name>
-			<property-class>de.randi2.dao.TrialDao</property-class>
-			<value>#{trialDAO}</value>
+			<property-name>siteService</property-name>
+			<property-class>de.randi2.services.TrialSiteService</property-class>
+			<value>#{trialSiteService}</value>
 		</managed-property>
 		<managed-property>
-			<property-name>trialSiteDao</property-name>
-			<property-class>de.randi2.dao.TrialSiteDao</property-class>
-			<value>#{trialSiteDAO}</value>
+			<property-name>trialService</property-name>
+			<property-class>de.randi2.services.TrialService</property-class>
+			<value>#{trialService}</value>
 		</managed-property>
 	</managed-bean>
 
@@ -127,9 +93,7 @@
 			page.
 		</description>
 		<managed-bean-name>registerPage</managed-bean-name>
-		<managed-bean-class>
-			de.randi2.jsf.pages.RegisterPage
-		</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.backingBeans.RegisterPage</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 
@@ -138,9 +102,7 @@
 			This bean has all needed attributes for the randi2 page.
 		</description>
 		<managed-bean-name>randi2Page</managed-bean-name>
-		<managed-bean-class>
-			de.randi2.jsf.pages.Randi2Page
-		</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.backingBeans.Randi2Page</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 
@@ -149,7 +111,7 @@
 			This bean has all important strings for the application.
 		</description>
 		<managed-bean-name>randi2</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.Randi2</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.supportBeans.Randi2</managed-bean-class>
 		<managed-bean-scope>application</managed-bean-scope>
 	</managed-bean>
 
@@ -159,7 +121,7 @@
 			user's rights.
 		</description>
 		<managed-bean-name>rightsPanel</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.pages.RightsPanel</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.backingBeans.RightsPanel</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 
@@ -167,15 +129,15 @@
 		<description>Backing bean for the trial configuration process -
 			subject properties configuration</description>
 		<managed-bean-name>step4</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.pages.Step4</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.backingBeans.Step4</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
-	
+
 	<managed-bean>
 		<description>Backing bean for the trial configuration process -
 			randomization algorithm configuration</description>
 		<managed-bean-name>step5</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.pages.Step5</managed-bean-class>
+		<managed-bean-class>de.randi2.jsf.backingBeans.Step5</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 
@@ -195,7 +157,7 @@
 		<navigation-case>
 			<from-action>#{loginHandler.logoutUser}</from-action>
 			<from-outcome>success</from-outcome>
-			<to-view-id>/loginSecure.jsp</to-view-id>
+			<to-view-id>/goodbye.jspx</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -215,7 +177,7 @@
 		<from-view-id>/register.jspx</from-view-id>
 		<navigation-case>
 			<from-outcome>ok</from-outcome>
-			<to-view-id>/loginSecure.jsp</to-view-id>
+			<to-view-id>/login.jspx</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>

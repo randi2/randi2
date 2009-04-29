@@ -48,7 +48,6 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		Assert.assertEquals("", l.getUsername());
 		Assert.assertNull(l.getPassword());
 		Assert.assertNull(l.getLastLoggedIn());
-		Assert.assertNull(l.getRegistrationDate());
 		Assert.assertFalse(l.isActive());
 		
 		Assert.assertNull(l.getPerson());
@@ -273,9 +272,7 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		validLogin.setLockTime(new GregorianCalendar());
 		validLogin.setNumberWrongLogins(Login.MAX_WRONG_LOGINS);
 		validLogin.setPrefLocale(Locale.ENGLISH);
-		GregorianCalendar dateR = new GregorianCalendar(2000,2,1);
 		GregorianCalendar dateL = new GregorianCalendar(2008,2,1);
-		validLogin.setRegistrationDate(dateR);
 		validLogin.setLastLoggedIn(dateL);
 		hibernateTemplate.save(validLogin);
 		assertTrue(validLogin.getId()>0);

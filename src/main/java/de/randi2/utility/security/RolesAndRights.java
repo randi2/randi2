@@ -16,8 +16,8 @@ package de.randi2.utility.security;
 
 import java.util.List;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,35 +42,20 @@ import de.randi2.model.security.PermissionHibernate;
  */
 public class RolesAndRights {
 
-	@Autowired
-	private HibernateTemplate template;
+
 	@Autowired
 	private HibernateAclService aclService;
+	@Autowired private SessionFactory sessionFactory;
 
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void initializeRoles() {
-		// if(template.findByExample(Role2.ROLE_ADMIN).isEmpty())
-		// template.saveOrUpdate(Role2.ROLE_ADMIN);
-		// if(template.findByExample(Role2.ROLE_ANONYMOUS).isEmpty())
-		// template.saveOrUpdate(Role2.ROLE_ANONYMOUS);
-		// if(template.findByExample(Role2.ROLE_INVESTIGATOR).isEmpty())
-		// template.saveOrUpdate(Role2.ROLE_INVESTIGATOR);
-		// if(template.findByExample(Role2.ROLE_MONITOR).isEmpty())
-		// template.saveOrUpdate(Role2.ROLE_MONITOR);
-		// if(template.findByExample(Role2.ROLE_P_INVESTIGATOR).isEmpty())
-		// template.saveOrUpdate(Role2.ROLE_P_INVESTIGATOR);
-		// if(template.findByExample(Role2.ROLE_STATISTICAN).isEmpty())
-		// template.saveOrUpdate(Role2.ROLE_STATISTICAN);
-		// if(template.findByExample(Role2.ROLE_USER).isEmpty())
-		// template.saveOrUpdate(Role2.ROLE_USER);
-
-		template.saveOrUpdate(Role.ROLE_ADMIN);
-		template.saveOrUpdate(Role.ROLE_ANONYMOUS);
-		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
-		template.saveOrUpdate(Role.ROLE_MONITOR);
-		template.saveOrUpdate(Role.ROLE_P_INVESTIGATOR);
-		template.saveOrUpdate(Role.ROLE_STATISTICAN);
-		template.saveOrUpdate(Role.ROLE_USER);
+		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_ADMIN);
+		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_ANONYMOUS);
+		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_INVESTIGATOR);
+		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_MONITOR);
+		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_P_INVESTIGATOR);
+		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_STATISTICAN);
+		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_USER);
 
 		aclService.createAclwithPermissions(new Login(), Role.ROLE_ANONYMOUS
 				.getName(),
@@ -111,7 +96,7 @@ public class RolesAndRights {
 					new PermissionHibernate[] { PermissionHibernate.READ },
 					Role.ROLE_ANONYMOUS.getName());
 			// grant rights for other user
-			List<Login> logins = template.find("from Login");
+			List<Login> logins = sessionFactory.getCurrentSession().createQuery("from Login").list();
 			for (Login l : logins) {
 				for (Role r : l.getRoles()) {
 					if (!r.equals(Role.ROLE_USER)) {
@@ -213,7 +198,7 @@ public class RolesAndRights {
 				.getName());
 
 		// Set Rights for other User
-		List<Login> logins = template.find("from Login");
+		List<Login> logins = sessionFactory.getCurrentSession().createQuery("from Login").list();
 		for (Login l : logins) {
 			for (Role r : l.getRoles()) {
 				if (!r.equals(Role.ROLE_USER)) {
@@ -275,7 +260,7 @@ public class RolesAndRights {
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation=Propagation.REQUIRED)
 	private void grantRightsTrialObject(Trial trial, TrialSite scope) {
-		List<Login> logins = template.find("from Login");
+		List<Login> logins = sessionFactory.getCurrentSession().createQuery("from Login").list();
 		for (Login l : logins) {
 			for (Role r : l.getRoles()) {
 				if (!r.equals(Role.ROLE_USER)) {
@@ -359,9 +344,9 @@ public class RolesAndRights {
 				// User rights
 				if (role.isReadOtherUser()) {
 					if (role.isScopeUserRead()) {
-						List<Person> list = template.find(
-								"from Person p where p.trialSite.id = ?", login
-										.getPerson().getTrialSite().getId());
+						List<Person> list = sessionFactory.getCurrentSession().createQuery(
+								"from Person p where p.trialSite.id = ?").setParameter(0,login
+										.getPerson().getTrialSite().getId()).list();
 						for (Person p : list) {
 							aclService
 							.createAclwithPermissions(
@@ -370,7 +355,7 @@ public class RolesAndRights {
 									new PermissionHibernate[] { PermissionHibernate.READ },
 									role.getName());
 							if(p.getLogin() == null){
-								List<Login> logins =template.find("from Login login where login.person.id = ?", p.getId());
+								List<Login> logins =sessionFactory.getCurrentSession().createQuery("from Login login where login.person.id = ?").setParameter(0,p.getId()).list();
 								p.setLogin(logins.get(0));
 							}
 							aclService
@@ -382,10 +367,10 @@ public class RolesAndRights {
 							
 						}
 					} else {
-						List<Person> list = template.find("from Person");
+						List<Person> list = sessionFactory.getCurrentSession().createQuery("from Person").list();
 						for (Person p : list) {
 							if(p.getLogin() == null){
-								List<Login> logins =template.find("from Login login where login.person.id = ?", p.getId());
+								List<Login> logins =sessionFactory.getCurrentSession().createQuery("from Login login where login.person.id = ?").setParameter(0,p.getId()).list();
 								p.setLogin(logins.get(0));
 							}
 							aclService
@@ -405,9 +390,9 @@ public class RolesAndRights {
 				}
 				if (role.isWriteOtherUser()) {
 					if (role.isScopeUserWrite()) {
-						List<Person> list = template.find(
-								"from Person p where p.trialSite.id = ?", login
-										.getPerson().getTrialSite().getId());
+						List<Person> list = sessionFactory.getCurrentSession().createQuery(
+								"from Person p where p.trialSite.id = ?").setParameter(0, login
+										.getPerson().getTrialSite().getId()).list();
 						for (Person p : list) {
 							aclService
 									.createAclwithPermissions(
@@ -423,10 +408,10 @@ public class RolesAndRights {
 											role.getName());
 						}
 					} else {
-						List<Person> list = template.find("from Person");
+						List<Person> list = sessionFactory.getCurrentSession().createQuery("from Person").list();
 						for (Person p : list) {
 							if(p.getLogin() == null){
-								List<Login> logins =template.find("from Login login where login.person.id = ?", p.getId());
+								List<Login> logins =sessionFactory.getCurrentSession().createQuery("from Login login where login.person.id = ?").setParameter(0, p.getId()).list();
 								p.setLogin(logins.get(0));
 							}
 							aclService
@@ -445,7 +430,7 @@ public class RolesAndRights {
 					}
 				}
 				if (role.isAdminOtherUser()) {
-					List<Person> list = template.find("from Person");
+					List<Person> list = sessionFactory.getCurrentSession().createQuery("from Person").list();
 					for (Person p : list) {
 						aclService
 								.createAclwithPermissions(
@@ -471,7 +456,7 @@ public class RolesAndRights {
 										new PermissionHibernate[] { PermissionHibernate.READ },
 										role.getName());
 					} else {
-						List<TrialSite> list = template.find("from TrialSite");
+						List<TrialSite> list = sessionFactory.getCurrentSession().createQuery("from TrialSite").list();
 						for (TrialSite t : list) {
 							aclService
 									.createAclwithPermissions(
@@ -484,14 +469,16 @@ public class RolesAndRights {
 				}
 				if (role.isWriteTrialSite()) {
 					if (role.isScopeTrialSiteWrite()) {
+						if(login.getPerson().getTrialSite() != null){
 						aclService
 								.createAclwithPermissions(
 										login.getPerson().getTrialSite(),
 										login.getUsername(),
 										new PermissionHibernate[] { PermissionHibernate.WRITE },
 										role.getName());
+						}
 					} else {
-						List<TrialSite> list = template.find("from TrialSite");
+						List<TrialSite> list = sessionFactory.getCurrentSession().createQuery("from TrialSite").list();
 						for (TrialSite t : list) {
 							aclService
 									.createAclwithPermissions(
@@ -503,7 +490,7 @@ public class RolesAndRights {
 					}
 				}
 				if (role.isAdminTrialSite()) {
-					List<TrialSite> list = template.find("from TrialSite");
+					List<TrialSite> list = sessionFactory.getCurrentSession().createQuery("from TrialSite").list();
 					for (TrialSite t : list) {
 						aclService
 								.createAclwithPermissions(
@@ -526,7 +513,7 @@ public class RolesAndRights {
 											role.getName());
 						}
 					} else {
-						List<Trial> list = template.find("from Trial");
+						List<Trial> list = sessionFactory.getCurrentSession().createQuery("from Trial").list();
 						for (Trial t : list) {
 							aclService
 									.createAclwithPermissions(
@@ -549,7 +536,7 @@ public class RolesAndRights {
 											role.getName());
 						}
 					} else {
-						List<Trial> list = template.find("from Trial");
+						List<Trial> list = sessionFactory.getCurrentSession().createQuery("from Trial").list();
 						for (Trial t : list) {
 							aclService
 									.createAclwithPermissions(
@@ -561,7 +548,7 @@ public class RolesAndRights {
 					}
 				}
 				if (role.isAdminTrial()) {
-					List<Trial> list = template.find("from Trial");
+					List<Trial> list = sessionFactory.getCurrentSession().createQuery("from Trial").list();
 					for (Trial t : list) {
 						aclService
 								.createAclwithPermissions(

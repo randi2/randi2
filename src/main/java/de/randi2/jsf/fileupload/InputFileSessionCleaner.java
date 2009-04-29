@@ -21,43 +21,42 @@ import java.io.File;
 public class InputFileSessionCleaner implements HttpSessionListener {
 
 
-    public static final String FILE_UPLOAD_DIRECTORY = "upload";
+	 public static final String FILE_UPLOAD_DIRECTORY = "upload";
 
-    /**
-     * This method is called by the servlet container when the session
-     * is about to expire. This method will attempt to delete all files that
-     * where uploaded into the folder which has the same name as the session
-     * id.
-     *
-     * @param event JSF session event.
-     */
-    public void sessionDestroyed(HttpSessionEvent event) {
-        // get the session id, so we know which folder to remove
-        String sessionId = event.getSession().getId();
+	    /**
+	     * This method is called by the servlet container when the session
+	     * is about to expire. This method will attempt to delete all files that
+	     * where uploaded into the folder which has the same name as the session
+	     * id.
+	     *
+	     * @param event JSF session event.
+	     */
+	    public void sessionDestroyed(HttpSessionEvent event) {
+	        // get the session id, so we know which folder to remove
+	        String sessionId = event.getSession().getId();
 
-        String applicationPath = event.getSession().getServletContext().getRealPath(
-                event.getSession().getServletContext().getServletContextName());
+	        String applicationPath = event.getSession().getServletContext().getRealPath(
+	                event.getSession().getServletContext().getServletContextName());
 
-        String sessionFileUploadPath =
-                applicationPath + FILE_UPLOAD_DIRECTORY + sessionId;
+	        String sessionFileUploadPath =
+	                applicationPath + FILE_UPLOAD_DIRECTORY + sessionId;
 
-        File sessionfileUploadDirectory = new File(sessionFileUploadPath);
+	        File sessionfileUploadDirectory = new File(sessionFileUploadPath);
 
-        if (sessionfileUploadDirectory.isDirectory()) {
-            try {
-                sessionfileUploadDirectory.delete();
-            }
-            catch (SecurityException e) {
-            	//TODO 
-                System.out.println(e.getLocalizedMessage());
-            }
-        }
+	        if (sessionfileUploadDirectory.isDirectory()) {
+	            try {
+	                sessionfileUploadDirectory.delete();
+	            }
+	            catch (SecurityException e) {
+	               e.printStackTrace();
+	            }
+	        }
 
-    }
+	    }
 
-    public void sessionCreated(HttpSessionEvent event) {
+	    public void sessionCreated(HttpSessionEvent event) {
 
-    }
+	    }
 
 }
 

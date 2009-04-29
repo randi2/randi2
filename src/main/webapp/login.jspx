@@ -28,42 +28,30 @@
 			doctypeSystem="http://www.w3.org/TR/html4/loose.dtd" />
 		<html>
 		<head>
-		<title><ice:outputText value="#{labels['pages.login.titel']}" /></title>
+		<title><ice:outputText nospan="true" value="#{labels['pages.login.titel']}" /></title>
 		<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
 		</head>
 		<body>
-
 		<!-- Login Form -->
-		<ice:form style="top: 10%; position: absolute; left: 30%">
-			<ice:panelGrid border="0" columns="2">
-				<ice:panelGroup>
-
-					<ice:graphicImage value="/img/randi2.png"
-						style="width: 141px; height: 47px"></ice:graphicImage>
-					<br />
-					<ice:outputText value="#{randi2.version}"
-						style="font-family: Verdana, Arial, Sans-Serif; color: #3F70A3; margin-top: 6px; margin-bottom: 6px; margin-right: 6px; margin-left: 6px; padding-bottom: 6px; padding-top: 6px; padding-left: 6px; padding-right: 6px"></ice:outputText>
-
-
-				</ice:panelGroup>
-
-				<ice:messages tooltip="true" layout="list" globalOnly="true"></ice:messages>
-
-				<ice:graphicImage value="/img/icons/login128.png"></ice:graphicImage>
+		<ice:form style="top: 10%; position: absolute; left: 30%"
+			partialSubmit="false">
+			<ice:panelCollapsible expanded="true" toggleOnClick="false">
+				<f:facet name="header">
+					<ice:graphicImage value="/img/randi2_small.png"></ice:graphicImage>
+				</f:facet>
 				<ice:panelGrid columns="2">
-					<ice:outputLabel for="j_username" value="#{labels['login.username']}" />
-					<h:inputText id="j_username"/>
-
-					<ice:outputLabel for="j_password" value="#{labels['login.password']}" />
-					<h:inputSecret id="j_password" redisplay="false"/>
+					<!-- ice:graphicImage value="/img/icons/login128.png"></ice:graphicImage -->
+					<ice:outputLabel for="username" value="#{labels['login.username']}" />
+					<h:inputText id="username" value="#{secureLogin.userId}" maxlength="60"/>
+					<ice:outputLabel for="password" value="#{labels['login.password']}" />
+					<h:inputSecret id="password" redisplay="false"
+						value="#{secureLogin.password}" maxlength="60"/>
 					<ice:commandButton value="#{labels['buttons.login']}"
-						action="#{loginPage.loginAction}"></ice:commandButton>
-
+						actionListener="#{secureLogin.login}"></ice:commandButton>
+					<ice:messages style="color: red;" layout="table" />
 				</ice:panelGrid>
-
-			</ice:panelGrid>
-			<ice:panelGrid columns="2" style="margin-left:120px">
-
+			</ice:panelCollapsible>
+			<ice:panelGrid columns="2" style="margin-left:20px">
 				<!-- Links -->
 				<ice:panelGroup>
 					<table width="100%" cellpadding="0" cellspacing="0">
@@ -71,19 +59,16 @@
 							<td align="center"><ice:panelGroup>
 								<ice:outputLink
 									value="#{facesContext.externalContext.requestContextPath}/terms.jspx">
-									<ice:outputText value="#{labels['pages.login.terms']}"></ice:outputText>
+									<ice:outputLabel value="#{labels['pages.login.terms']}"></ice:outputLabel>
 								</ice:outputLink>
 								<ice:outputLink
 									value="#{facesContext.externalContext.requestContextPath}/register.jspx">
-									<ice:outputText value="#{labels['pages.login.register']}"></ice:outputText>
+									<ice:outputLabel value="#{labels['pages.login.register']}"></ice:outputLabel>
 								</ice:outputLink>
 							</ice:panelGroup></td>
 						</tr>
 					</table>
 				</ice:panelGroup>
-
-
-
 			</ice:panelGrid>
 		</ice:form>
 		</body>

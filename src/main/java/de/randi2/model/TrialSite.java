@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -38,7 +37,7 @@ public class TrialSite extends AbstractDomainObject {
 	@OneToOne
 	private Person contactPerson = null;
 
-	@OneToMany(mappedBy = "trialSite", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "trialSite")
 	private List<Person> members = new ArrayList<Person>();
 
 	@ManyToMany(mappedBy = "participatingSites")

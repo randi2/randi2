@@ -67,12 +67,8 @@ fieldset {
     padding: 2px;
 }
 
-.iceInpTxt, .iceInpSecrt {
-    margin: 2px;
-    padding: 3px;
-    font: 11px tahoma;
-    background: #FFF;
-    border: 1px solid #d9d9d9;
+.iceSelOneRb table tr td {
+    padding: 1px;
 }
 
 .iceSelOneMnu, .iceSelMnyLb, .iceSelMnyMnu, .iceSelOneLb {
@@ -126,7 +122,7 @@ fieldset {
     border-bottom: none;
     border-top: 1px solid #d9d9d9;
     border-left: 1px solid #d9d9d9;
-    margin-top: 10px;
+    /*margin-top: 10px;*/
 }
 
 .iceSelInpDateIFrameFix, .iceIEIFrameFix {
@@ -142,6 +138,7 @@ fieldset {
 
 .iceSelInpDateInput {
     width: 150px;
+    margin: 2px;
 }
 
 input.iceSelInpDateOpenPopup {
@@ -172,7 +169,7 @@ input.iceSelInpDateClosePopup {
     vertical-align: middle;
 }
 
-.iceSelInpDateMonthYear {
+.iceSelInpDateMonthYear, .iceSelInpDateTime{
     background: #F5F5F5;
     font-weight: bold;
     text-align: center;
@@ -182,6 +179,18 @@ input.iceSelInpDateClosePopup {
     padding-top: 4px;
     padding-bottom: 4px;
 
+}
+
+.iceSelInpDateTime{
+    border-left: 1px solid #2A6CC2;
+    border-bottom: 1px solid #2A6CC2;
+    border-right: 1px solid #2A6CC2;       
+}
+
+.iceSelInpDateMoYrDropdown, .iceSelInpDateTimeDropDown {
+    background: #F5F5F5;
+    font-weight: bold;
+    color: #666;
 }
 
 .iceSelInpDateMonthYear img {
@@ -353,7 +362,7 @@ input.iceSelInpDateClosePopup {
     border-collapse: collapse;
 }
 
-.iceDatTblColHdr, .iceDatTblColHdr1, .iceDatTblColHdr2, .iceDatTblColGrpHdrCol {
+.iceDatTblColHdr, .iceDatTblColHdr1, .iceDatTblColHdr2, .iceDatTblColGrpHdrCol, .iceDatTblFtr {
 /* was iceTblHeader */
     text-align: center;
     font: 11px tahoma;
@@ -388,6 +397,8 @@ input.iceSelInpDateClosePopup {
 
 /*was iceTblHeader */
 .iceDatTblFtr {
+    background: none;
+    border-top: 1px solid #d9d9d9;  
 }
 
 .iceDatTblScrlSpr{ 
@@ -395,6 +406,16 @@ input.iceSelInpDateClosePopup {
     border-top: 1px solid #d9d9d9; 
     border-right: 1px solid #d9d9d9;
 }
+
+.iceDatTblScrlSprFtr{ 
+    border-bottom: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;        
+}
+
+.iceDatTblScrlSprFtr .iceDatTblFtr{ 
+    border-bottom: none;     
+}
+
 .iceDatTblScrlSpr .iceDatTblColHdr1, .iceDatTblScrlSpr .iceDatTblColHdr2 {
     border-left-style: none;
     border-top-style: none;
@@ -424,6 +445,7 @@ input.iceSelInpDateClosePopup {
     background-color: #d9d9d9;   
 }
 
+.iceDatTblActvSrtHdr{}
 
 .portlet-section-header .iceDatTblResBor {
    padding:0px;
@@ -439,6 +461,9 @@ input.iceSelInpDateClosePopup {
 */
 
 .iceDatTbl td span.iceOutTxt {
+    overflow: hidden;
+    display: block;
+    padding: 2px 0px;
 }
 
 /* etc */
@@ -450,6 +475,10 @@ input.iceSelInpDateClosePopup {
 /* the class for the outside table */
     background-color: transparent;
     margin: 10px;
+}
+
+.iceDatPgrScrBtn .iceCmdLnk-dis {
+       border-bottom:none;
 }
 
 .iceDatPgrTbl {
@@ -476,6 +505,7 @@ input.iceSelInpDateClosePopup {
 .iceDatPgrScrCol a {
     color: #FFFFFF;
     border: 1px solid #DBDBDB;
+    background-color: #FFA600;
 }
 
 /** html .iceDatPgrScrCol a {*/
@@ -528,7 +558,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOn .LftTop {
-    background: url(css-images/Tab_LftTop.gif) no-repeat top left;
+    background: url( './css-images/Tab_LftTop.gif' ) no-repeat top left;
     border: none;
     padding: 0;
     text-align: center;
@@ -537,7 +567,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOn .MidTop {
-    background: url(css-images/Tab_MidTop.gif) repeat-x top left;
+    background: url( './css-images/Tab_MidTop.gif' ) repeat-x top left;
     border: none;
     padding: 0;
     text-align: center;
@@ -545,7 +575,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOn .RtTop {
-    background: url(css-images/Tab_RtTop.gif) no-repeat top left;
+    background: url( './css-images/Tab_RtTop.gif' ) no-repeat top left;
     border: none;
     padding: 0;
     text-align: center;
@@ -554,7 +584,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOn .LftMid {
-    background: url(css-images/Tab_LftMid.gif) no-repeat top left;
+    background: url( './css-images/Tab_LftMid.gif' ) repeat top left;
     border: none;
     padding: 0;
     text-align: center;
@@ -562,14 +592,14 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOn .MidMid {
-    background: url(css-images/Tab_MidMid.gif) repeat-x top left;
+    background: url( './css-images/Tab_MidMid.gif' ) repeat top left;
     border: none;
     padding: 0;
     text-align: center;
 }
 
 .icePnlTbOn .MidMid a {
-    background: url(css-images/Tab_MidMid_bullet.gif) no-repeat top left;
+    background: url( './css-images/Tab_MidMid_bullet.gif' ) no-repeat top left;
     border: none;
     padding: 4px 8px 5px 28px;
     margin: 3px;
@@ -581,7 +611,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOn .RtMid {
-    background: url(css-images/Tab_RtMid.gif) no-repeat top left;
+    background: url( './css-images/Tab_RtMid.gif' ) repeat top left;
     border: none;
     padding: 0;
     text-align: center;
@@ -629,7 +659,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOff .LftTop {
-    background: url(css-images/Tab_LftTop_off.gif) no-repeat top left;
+    background: url( './css-images/Tab_LftTop_off.gif' ) no-repeat top left;
     border: none;
     padding: 0;
     text-align: center;
@@ -638,7 +668,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOff .MidTop {
-    background: url(css-images/Tab_MidTop_off.gif) repeat-x top left;
+    background: url( './css-images/Tab_MidTop_off.gif' ) repeat-x top left;
     border: none;
     padding: 0;
     text-align: center;
@@ -646,7 +676,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOff .RtTop {
-    background: url(css-images/Tab_RtTop_off.gif) no-repeat top left;
+    background: url( './css-images/Tab_RtTop_off.gif' ) no-repeat top left;
     border: none;
     padding: 0;
     text-align: center;
@@ -655,7 +685,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOff .LftMid {
-    background: url(css-images/Tab_LftMid_off.gif) no-repeat top left;
+    background: url( './css-images/Tab_LftMid_off.gif' ) repeat top left;
     border: none;
     padding: 0;
     text-align: center;
@@ -663,14 +693,14 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOff .MidMid {
-    background: url(css-images/Tab_MidMid_off.gif) repeat-x top left;
+    background: url( './css-images/Tab_MidMid_off.gif' ) repeat top left;
     border: none;
     padding: 0;
     text-align: center;
 }
 
 .icePnlTbOff .MidMid a {
-    background: url(css-images/Tab_MidMid_bullet_off.gif) no-repeat top left;
+    background: url( './css-images/Tab_MidMid_bullet_off.gif' ) no-repeat top left;
     border: none;
     padding: 4px 8px 5px 28px;
     margin: 3px;
@@ -689,7 +719,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOff .RtMid {
-    background: url(css-images/Tab_RtMid_off.gif) no-repeat top left;
+    background: url( './css-images/Tab_RtMid_off.gif' ) repeat top left;
     border: none;
     padding: 0;
     text-align: center;
@@ -740,7 +770,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOver .LftTop {
-    background: url(css-images/Tab_LftTop_off.gif) no-repeat top left;
+    background: url( './css-images/Tab_LftTop_off.gif' ) no-repeat top left;
     border: none;
     padding: 0;
     text-align: center;
@@ -749,7 +779,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOver .MidTop {
-    background: url(css-images/Tab_MidTop_off.gif) repeat-x top left;
+    background: url( './css-images/Tab_MidTop_off.gif' ) repeat-x top left;
     border: none;
     padding: 0;
     text-align: center;
@@ -757,7 +787,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOver .RtTop {
-    background: url(css-images/Tab_RtTop_off.gif) no-repeat top left;
+    background: url( './css-images/Tab_RtTop_off.gif' ) no-repeat top left;
     border: none;
     padding: 0;
     text-align: center;
@@ -766,7 +796,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOver .LftMid {
-    background: url(css-images/Tab_LftMid_off.gif) no-repeat top left;
+    background: url( './css-images/Tab_LftMid_off.gif' ) repeat top left;
     border: none;
     padding: 0;
     text-align: center;
@@ -774,14 +804,14 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOver .MidMid {
-    background: url(css-images/Tab_MidMid_off.gif) repeat-x top left;
+    background: url( './css-images/Tab_MidMid_off.gif' ) repeat top left;
     border: none;
     padding: 0;
     text-align: center;
 }
 
 .icePnlTbOver .MidMid a {
-    background: url(css-images/Tab_MidMid_bullet_over.gif) no-repeat top left;
+    background: url( './css-images/Tab_MidMid_bullet_over.gif' ) no-repeat top left;
     border: none;
     padding: 4px 8px 5px 28px;
     margin: 3px;
@@ -798,7 +828,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOver .RtMid {
-    background: url(css-images/Tab_RtMid_off.gif) no-repeat top left;
+    background: url( './css-images/Tab_RtMid_off.gif' ) repeat top left;
     border: none;
     padding: 0;
     text-align: center;
@@ -852,7 +882,7 @@ input.iceSelInpDateClosePopup {
 
 .icePnlTbSetCnt {
 /*newly added class*/
-    background: url(css-images/contentContainer_bg.gif) repeat-x top left;
+    background: url( './css-images/contentContainer_bg.gif' ) repeat-x top left;
     border-bottom: 1px solid #d9d9d9;
     border-left: 1px solid #d9d9d9;
     border-right: 1px solid #d9d9d9;
@@ -861,7 +891,7 @@ input.iceSelInpDateClosePopup {
 
 .icePnlTbSetCntBtm {
 /*was iceTabSetBottom*/
-    background: url(css-images/contentContainer_bg_up.gif) repeat-x top left;
+    background: url( './css-images/contentContainer_bg_up.gif' ) repeat-x top left;
     border-top: 1px solid #d9d9d9;
     border-left: 1px solid #d9d9d9;
     border-right: 1px solid #d9d9d9;
@@ -905,7 +935,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOnBtm .LftMid {
-    background: url(css-images/Tab_Btm_LftMid.gif) no-repeat bottom left;
+    background: url( './css-images/Tab_Btm_LftMid.gif' ) repeat bottom left;
     border: none;
     padding: 0;
     text-align: center;
@@ -913,14 +943,14 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOnBtm .MidMid {
-    background: url(css-images/Tab_Btm_MidMid.gif) repeat-x bottom left;
+    background: url( './css-images/Tab_Btm_MidMid.gif' ) repeat bottom left;
     border: none;
     padding: 0;
     text-align: center;
 }
 
 .icePnlTbOnBtm .MidMid a {
-    background: url(css-images/Tab_MidMid_bullet.gif) no-repeat top left;
+    background: url( './css-images/Tab_MidMid_bullet.gif' ) no-repeat top left;
     border: none;
     padding: 3px 8px 2px 28px;
     margin: 3px;
@@ -932,7 +962,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOnBtm .RtMid {
-    background: url(css-images/Tab_Btm_RtMid.gif) no-repeat bottom left;
+    background: url( './css-images/Tab_Btm_RtMid.gif' ) repeat bottom left;
     border: none;
     padding: 0;
     text-align: center;
@@ -940,7 +970,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOnBtm .LftBtm {
-    background: url(css-images/Tab_Btm_LftBtm.gif) no-repeat bottom left;
+    background: url( './css-images/Tab_Btm_LftBtm.gif' ) no-repeat bottom left;
     border: none;
     padding: 0;
     text-align: center;
@@ -949,7 +979,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOnBtm .MidBtm {
-    background: url(css-images/Tab_Btm_MidBtm.gif) repeat-x bottom left;
+    background: url( './css-images/Tab_Btm_MidBtm.gif' ) repeat-x bottom left;
     border: none;
     padding: 0;
     text-align: center;
@@ -957,7 +987,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOnBtm .RtBtm {
-    background: url(css-images/Tab_Btm_RtBtm.gif) no-repeat bottom left;
+    background: url( './css-images/Tab_Btm_RtBtm.gif' ) no-repeat bottom left;
     border: none;
     padding: 0;
     text-align: center;
@@ -1008,7 +1038,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOffBtm .LftMid {
-    background: url(css-images/Tab_Btm_LftMid_off.gif) no-repeat bottom left;
+    background: url( './css-images/Tab_Btm_LftMid_off.gif' ) repeat bottom left;
     border: none;
     padding: 0;
     text-align: center;
@@ -1016,14 +1046,14 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOffBtm .MidMid {
-    background: url(css-images/Tab_Btm_MidMid_off.gif) repeat-x bottom left;
+    background: url( './css-images/Tab_Btm_MidMid_off.gif' ) repeat bottom left;
     border: none;
     padding: 0;
     text-align: center;
 }
 
 .icePnlTbOffBtm .MidMid a {
-    background: url(css-images/Tab_MidMid_bullet_off.gif) no-repeat top left;
+    background: url( './css-images/Tab_MidMid_bullet_off.gif' ) no-repeat top left;
     border: none;
     padding: 3px 8px 2px 28px;
     margin: 3px;
@@ -1039,7 +1069,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOffBtm .RtMid {
-    background: url(css-images/Tab_Btm_RtMid_off.gif) no-repeat bottom left;
+    background: url( './css-images/Tab_Btm_RtMid_off.gif' ) repeat bottom left;
     border: none;
     padding: 0;
     text-align: center;
@@ -1047,7 +1077,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOffBtm .LftBtm {
-    background: url(css-images/Tab_Btm_LftBtm_off.gif) no-repeat bottom left;
+    background: url( './css-images/Tab_Btm_LftBtm_off.gif' ) no-repeat bottom left;
     border: none;
     padding: 0;
     text-align: center;
@@ -1056,7 +1086,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOffBtm .MidBtm {
-    background: url(css-images/Tab_Btm_MidBtm_off.gif) repeat-x bottom left;
+    background: url( './css-images/Tab_Btm_MidBtm_off.gif' ) repeat-x bottom left;
     border: none;
     padding: 0;
     text-align: center;
@@ -1064,7 +1094,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOffBtm .RtBtm {
-    background: url(css-images/Tab_Btm_RtBtm_off.gif) no-repeat bottom left;
+    background: url( './css-images/Tab_Btm_RtBtm_off.gif' ) no-repeat bottom left;
     border: none;
     padding: 0;
     text-align: center;
@@ -1116,7 +1146,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOverBtm .LftMid {
-    background: url(css-images/Tab_Btm_LftMid_off.gif) no-repeat bottom left;
+    background: url( './css-images/Tab_Btm_LftMid_off.gif' ) no-repeat bottom left;
     border: none;
     padding: 0;
     text-align: center;
@@ -1124,14 +1154,14 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOverBtm .MidMid {
-    background: url(css-images/Tab_Btm_MidMid_off.gif) repeat-x bottom left;
+    background: url( './css-images/Tab_Btm_MidMid_off.gif' ) repeat-x bottom left;
     border: none;
     padding: 0;
     text-align: center;
 }
 
 .icePnlTbOverBtm .MidMid a {
-    background: url(css-images/Tab_MidMid_bullet_over.gif) no-repeat top left;
+    background: url( './css-images/Tab_MidMid_bullet_over.gif' ) no-repeat top left;
     border: none;
     padding: 3px 8px 2px 28px;
     margin: 3px;
@@ -1147,7 +1177,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOverBtm .RtMid {
-    background: url(css-images/Tab_Btm_RtMid_off.gif) no-repeat bottom left;
+    background: url( './css-images/Tab_Btm_RtMid_off.gif' ) no-repeat bottom left;
     border: none;
     padding: 0;
     text-align: center;
@@ -1155,7 +1185,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOverBtm .LftBtm {
-    background: url(css-images/Tab_Btm_LftBtm_off.gif) no-repeat bottom left;
+    background: url( './css-images/Tab_Btm_LftBtm_off.gif' ) no-repeat bottom left;
     border: none;
     padding: 0;
     text-align: center;
@@ -1164,7 +1194,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOverBtm .MidBtm {
-    background: url(css-images/Tab_Btm_MidBtm_off.gif) repeat-x bottom left;
+    background: url( './css-images/Tab_Btm_MidBtm_off.gif' ) repeat-x bottom left;
     border: none;
     padding: 0;
     text-align: center;
@@ -1172,7 +1202,7 @@ input.iceSelInpDateClosePopup {
 }
 
 .icePnlTbOverBtm .RtBtm {
-    background: url(css-images/Tab_Btm_RtBtm_off.gif) no-repeat bottom left;
+    background: url( './css-images/Tab_Btm_RtBtm_off.gif' ) no-repeat bottom left;
     border: none;
     padding: 0;
     text-align: center;
@@ -1367,7 +1397,7 @@ input.iceSelInpDateClosePopup {
 .iceSelInpTxtTxt {
     border: 1px solid #ABABAB;
     background-color: #FFFFFF;
-    margin: 10px 0 0 0;
+    margin: 10px 0 0 2px;
     padding: 2px;
 }
 
@@ -1378,6 +1408,7 @@ input.iceSelInpDateClosePopup {
     border-right: 1px solid #666666;
     border-left: 1px solid #ABABAB;
     border-bottom: 1px solid #333333;
+    z-index: 1000;
 }
 
 .iceSelInpTxtRow {
@@ -1591,6 +1622,7 @@ input.iceSelInpDateClosePopup {
     border-right: 1px solid #DBDBDB;
     border-left: 1px solid #DBDBDB;
     border-top: 1px solid #DBDBDB;
+    z-index: 1000;
 }
 
 .iceMnuItm {
@@ -1623,7 +1655,13 @@ input.iceSelInpDateClosePopup {
     color: #FFFFFF;
 }
 
+.iceMnuItm a:hover .iceMnuItmLabel {
+    color: #FFFFFF;
+}
+
 .iceMnuItmLabel {
+    padding-top: 0;
+    padding-bottom: 0;
     padding-left: 7px;
     font-weight: normal;
 }
@@ -1635,7 +1673,11 @@ input.iceSelInpDateClosePopup {
 }
 
 .iceMnuItmImage, .iceMnuBarItemImage, .iceMnuBarVrtItemImage {
-    display: none;
+    display: inline;
+}
+
+.iceMnuItmImage, .iceMnuItmLabel {
+    vertical-align: middle;
 }
 
 .iceMnuBarSubMenuInd {
@@ -1748,11 +1790,8 @@ input.iceSelInpDateClosePopup {
 */
 
 .icePnlPop, .icePnlTlTip {
-    width: auto;
     padding: 0px;
     z-index: 1000;
-    width: 300px;
-    height: 150px;
     background: #F5F5F5;
     border: 1px solid #d9d9d9;
     color: #666666;
@@ -1872,13 +1911,12 @@ input.iceSelInpDateClosePopup {
 }
 
 .iceInpTxt-dis, .iceInpSecrt-dis {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: .95em;
     color: #ABABAB;
-    border: 1px dotted #CCCCCC;
     cursor: default;
     margin: 2px;
-    padding: 2px;
+    padding: 3px;
+    font: 11px tahoma;
+    border: 1px dotted #CCCCCC;
 }
 
 .iceInpTxtArea-dis {
@@ -1914,7 +1952,7 @@ input.iceSelInpDateClosePopup {
     padding: 2px;
     margin: 2px;
     cursor: default;
-    color: #CCCCCC;
+    color: #444444;
     border: none;
 }
 
@@ -2065,6 +2103,186 @@ input.iceSelInpDateClosePopup {
 .icePnlTbOff .RtBtm-dis {
     background-color: transparent;
     background-image: url(css-images/off-right-bot.gif);
+    background-repeat: no-repeat;
+    border: none;
+}
+
+/* disabled bottom tab off */
+.icePnlTbOffBtm .LftBtm-dis {
+    background-color: transparent;
+    background-image: url( "./css-images/off-left-top-dis.gif" );
+    background-repeat: no-repeat;
+    background-position: bottom;
+    text-align: center;
+    padding-top: 1px;
+    border: none;
+    height: 4px;
+}
+
+.icePnlTbOffBtm .MidBtm-dis {
+    background-color: #DEDEDE;
+    background-image: url( './css-images/off-mid-top-dis.gif' );
+    background-repeat: repeat-x;
+    text-align: center;
+    padding-top: 1px;
+    border: none;
+}
+
+.icePnlTbOffBtm .RtBtm-dis {
+    background-color: transparent;
+    background-image: url( "./css-images/off-right-top-dis.gif" );
+    background-repeat: no-repeat;
+    background-position: bottom;
+    text-align: center;
+    padding-top: 1px;
+    border: none;
+}
+
+.icePnlTbOffBtm .LftMid-dis {
+    background-color: #DEDEDE;
+    /*    background-image: url("./css-images/off-left-mid.gif");
+    background-repeat:no-repeat;*/
+    text-align: center;
+    padding-top: 15px;
+    border: none;
+}
+
+.icePnlTbOffBtm .MidMid-dis {
+    background-color: #DEDEDE;
+    /*    background-image: url("./css-images/off-mid-mid.gif");
+    background-repeat:repeat-x;*/
+    text-align: center;
+    padding-top: 5px;
+    padding-right: 15px;
+    padding-left: 15px;
+    border: none;
+    white-space: nowrap;
+    color: #ABABAB;
+}
+
+.icePnlTbOffBtm .MidMid-dis a {
+    text-decoration: none;
+    color: #ABABAB;
+    cursor: default;
+
+}
+
+.icePnlTbOffBtm .RtMid-dis {
+    background-color: #DEDEDE;
+    /*    background-image: url("./css-images/off-right-mid.gif");
+    background-repeat:no-repeat;*/
+    text-align: center;
+    padding-top: 15px;
+    border: none;
+}
+
+.icePnlTbOffBtm .LftTop-dis {
+    background-color: transparent;
+    background-image: url( "./css-images/off-left-bot.gif" );
+    background-repeat: no-repeat;
+    border: none;
+}
+
+.icePnlTbOffBtm .MidTop-dis {
+    background-color: transparent;
+    background-image: url( "./css-images/off-mid-bot.gif" );
+    background-repeat: repeat-x;
+    border: none;
+}
+
+.icePnlTbOffBtm .RtTop-dis {
+    background-color: transparent;
+    background-image: url( "./css-images/off-right-bot.gif" );
+    background-repeat: no-repeat;
+    border: none;
+}
+
+/* disabled bottom tab on */
+
+.icePnlTbOnBtm .LftBtm-dis {
+    background-color: transparent;
+    background-image: url( "./css-images/off-left-top-dis.gif" );
+    background-repeat: no-repeat;
+    background-position: bottom;
+    text-align: center;
+    padding-top: 1px;
+    border: none;
+    height: 4px;
+}
+
+.icePnlTbOnBtm .MidBtm-dis {
+    background-color: #DEDEDE;
+    background-image: url( './css-images/off-mid-top-dis.gif' );
+    background-repeat: repeat-x;
+    text-align: center;
+    padding-top: 1px;
+    border: none;
+}
+
+.icePnlTbOnBtm .RtBtm-dis {
+    background-color: transparent;
+    background-image: url( "./css-images/off-right-top-dis.gif" );
+    background-repeat: no-repeat;
+    background-position: bottom;
+    text-align: center;
+    padding-top: 1px;
+    border: none;
+}
+
+.icePnlTbOnBtm .LftMid-dis {
+    background-color: #DEDEDE;
+    /*    background-image: url("./css-images/off-left-mid.gif");
+    background-repeat:no-repeat;*/
+    text-align: center;
+    padding-top: 15px;
+    border: none;
+}
+
+.icePnlTbOnBtm .MidMid-dis {
+    background-color: #DEDEDE;
+    /*    background-image: url("./css-images/off-mid-mid.gif");
+    background-repeat:repeat-x;*/
+    text-align: center;
+    padding-top: 5px;
+    padding-right: 15px;
+    padding-left: 15px;
+    border: none;
+    white-space: nowrap;
+    color: #ABABAB;
+}
+
+.icePnlTbOnBtm .MidMid-dis a {
+    text-decoration: none;
+    color: #ABABAB;
+    cursor: default;
+}
+
+.icePnlTbOnBtm .RtMid-dis {
+    background-color: #DEDEDE;
+    /*    background-image: url("./css-images/off-right-mid.gif");
+    background-repeat:no-repeat;*/
+    text-align: center;
+    padding-top: 15px;
+    border: none;
+}
+
+.icePnlTbOnBtm .LftTop-dis {
+    background-color: transparent;
+    background-image: url( "./css-images/off-left-bot.gif" );
+    background-repeat: no-repeat;
+    border: none;
+}
+
+.icePnlTbOnBtm .MidTop-dis {
+    background-color: transparent;
+    background-image: url( "./css-images/off-mid-bot.gif" );
+    background-repeat: repeat-x;
+    border: none;
+}
+
+.icePnlTbOnBtm .RtTop-dis {
+    background-color: transparent;
+    background-image: url( "./css-images/off-right-bot.gif" );
     background-repeat: no-repeat;
     border: none;
 }
@@ -2231,6 +2449,11 @@ Disabled classes for the calendar controls
     padding-right: 1px;
     padding-top: 4px;
     padding-bottom: 4px; /*border-right:1px solid #CCCCCC;*/
+}
+
+.iceSelInpDateMoYrDropdown-dis {
+    background-color: #EFEFEF;
+    color: #999999;
 }
 
 .iceSelInpDateMonthYear-dis img {
@@ -2438,6 +2661,10 @@ Disabled classes for the calendar controls
 
 }
 
+.icePnlPos-dis {
+
+}
+
 /*
 ----------- positionedPanel ----------
 */
@@ -2517,7 +2744,7 @@ Disabled classes for the calendar controls
 ----------- Panel Collapsible --------
 */
 
-.icePnlClpsbl {
+.icePnlClpsbl, .icePnlClpsbl-dis {
     border: 1px solid #d9d9d9;
 }
 
@@ -2525,30 +2752,38 @@ Disabled classes for the calendar controls
     border: none;
 }
 
-.icePnlClpsblHdr {
+.icePnlClpsblHdr, .icePnlClpsblHdr-dis {
     font: 11px tahoma;
     color: #484848;
     padding: 6px 0 0 8px;
     font-weight: bold;
     height: 20px;
-    background: #FFF url(css-images/PnlHdr_bgslice.gif) repeat-x top left;
+    background: #FFF url( './css-images/table_col_header.gif' ) repeat-x top left;
     border-bottom: 1px solid #d9d9d9;
+}
+
+.icePnlClpsblHdr-dis {
+    background: #FFF url( './css-images/table_col_header_dis.gif' ) repeat-x top left;
 }
 
 .icePnlClpsblHdr .iceCmdLnk, .icePnlClpsblColpsdHdr .iceCmdLnk {
     padding-left: 22px;
 }
 
-.icePnlClpsblHdr .icePnlGrp a {
+.icePnlClpsblHdr .icePnlGrp a, .icePnlClpsblHdr-dis .icePnlGrp a {
 	font-weight: bold;
 }
 
-.icePnlClpsblCnt {
+.icePnlClpsblCnt, .icePnlClpsblCnt-dis {
     font: 11px / 17px tahoma;
     color: #494949;
     background: #f5f5f5;
     padding: 4px 4px 4px 9px;
     border-bottom: none;
+}
+
+.icePnlClpsblCnt-dis {
+    background-color: #e5e5e5;
 }
 
 .icePnlClpsblCnt .icePnlClpsblHdr {
@@ -2585,8 +2820,7 @@ Disabled classes for the calendar controls
     padding: 0 0 0 10px;
 }
 
-
-.icePnlClpsblColpsd {
+.icePnlClpsblColpsd, .icePnlClpsblColpsd-dis {
     border: 1px solid #d9d9d9;
 }
 
@@ -2594,27 +2828,35 @@ Disabled classes for the calendar controls
     border: none;
 }
 
-.icePnlClpsblColpsdHdr {
+.icePnlClpsblColpsdHdr, .icePnlClpsblColpsdHdr-dis {
     font: 11px tahoma;
     color: #484848;
     padding: 6px 0 0 8px;
     font-weight: bold;
     height: 20px;
-    background: #FFF url(css-images/PnlHdr_bgslice.gif) repeat-x top left;
+    background: #FFF url( './css-images/table_col_header.gif' ) repeat-x top left;
     border-bottom: none;
 }
 
-.icePnlClpsblColpsdHdr .iceOutTxt,
-    .icePnlClpsblHdr .iceOutTxt {
+.icePnlClpsblColpsdHdr-dis {
+    background: #FFF url( './css-images/table_col_header_dis.gif' ) repeat-x top left;
+}
+
+.icePnlClpsblColpsdHdr .iceOutTxt, .icePnlClpsblHdr .iceOutTxt, 
+.icePnlClpsblColpsdHdr-dis .iceOutTxt, .icePnlClpsblHdr-dis .iceOutTxt {
     padding-left: 22px;
 }
 
-.icePnlClpsblColpsdCnt {
+.icePnlClpsblColpsdCnt, .icePnlClpsblColpsdCnt-dis {
     border: none;
 }
 
-.icePnlClpsblHdr, .icePnlClpsblHdr-dis, .icePnlClpsblColpsdHdr, .icePnlClpsblColpsdHdr-dis {
+.icePnlClpsblHdr, .icePnlClpsblColpsdHdr {
     cursor: pointer;
+}
+
+.icePnlClpsblHdr-dis, .icePnlClpsblColpsdHdr-dis {
+    cursor: default;
 }
 
 .icePnlClpsblHdr div, .icePnlClpsblHdr-dis div, .icePnlClpsblColpsdHdr div, .icePnlClpsblColpsdHdr-dis div {
@@ -2623,23 +2865,48 @@ Disabled classes for the calendar controls
     height: 18px;
 }
 
-.icePnlClpsblHdr div, .icePnlClpsblHdr-dis div {
-    background: url(css-images/PnlHdr_down.gif) no-repeat top left;
+.icePnlClpsblHdr div {
+    background: url( './css-images/PnlHdr_down.gif' ) no-repeat top left;
     padding: 2px 0 0 5px;
     margin: -2px 0 0 -3px;
 }
 
-.icePnlClpsblColpsdHdr div, .icePnlClpsblColpsdHdr-dis div {
-    background: url(css-images/PnlHdr_collapsed.gif) no-repeat top left;
+.icePnlClpsblHdr-dis div {
+    background: url( './css-images/PnlHdr_down_dis.gif' ) no-repeat top left;
     padding: 2px 0 0 5px;
     margin: -2px 0 0 -3px;
+}
+
+.icePnlClpsblColpsdHdr div {
+    background: url( './css-images/PnlHdr_collapsed.gif' ) no-repeat top left;
+    padding: 2px 0 0 5px;
+    margin: -2px 0 0 -3px;
+}
+
+.icePnlClpsblColpsdHdr-dis div {
+    background: url( './css-images/PnlHdr_collapsed_dis.gif' ) no-repeat top left;
+    padding: 2px 0 0 5px;
+    margin: -2px 0 0 -3px;
+}
+
+.icePnlClpsbl-dis, .icePnlClpsblHdr-dis, .icePnlClpsblCnt-dis,
+.icePnlClpsblColpsd-dis, .icePnlClpsblColpsdHdr-dis, .icePnlClpsblColpsdCnt-dis{
+    color: #999;
+}
+
+.icePnlClpsblHdr-dis .iceOutTxt, .icePnlClpsblCnt-dis .iceOutTxt,
+.icePnlClpsblColpsdHdr-dis .iceOutTxt, .icePnlClpsblColpsdCnt-dis .iceOutTxt {
+    color: #999;
 }
 
 /*
 ----------- Google Maps --------
 */
 
-.iceGmp {
+.iceGmp{
+    border-collapse:collapse;
+    border-spacing:0px;
+    padding:0px;
 }
 
 .iceGmpMapTd {
@@ -2663,7 +2930,7 @@ Disabled classes for the calendar controls
 
 .icePnlDvrCnt, .icePnlDvrHorCnt {
     border: 1px solid #ABABAB;
-    width: 100%;
+    /*width: 100%;*/
     height: 100%;
 }
 
@@ -2705,4 +2972,47 @@ Disabled classes for the calendar controls
     margin: 0 5px 2px 2px;
     padding: 2px;
     vertical-align: middle;
+}
+
+/*
+----------- PanelConfirmation ----------
+*/
+
+.icePnlCnf {
+    background-color: #F5F5F5;
+    border: 1px solid #d9d9d9;
+    width: 300px;
+    padding: 0;
+    z-index: 1000;
+    color: #666666;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.icePnlCnfHdr {
+    background: #FFF url( './css-images/PnlHdr_bgslice.gif' ) repeat-x top left;
+    border-bottom: 1px solid #d9d9d9;
+    height: 2.0em;
+    padding: 4px;
+    text-align: left;
+    vertical-align: middle;
+    font: 11px tahoma;
+    color: #484848;
+    font-weight: bold;
+}
+
+.icePnlCnfBody {
+    padding: 10px 10px 5px 10px;
+    font-size: 1em;
+    font-weight: normal;
+}
+
+.icePnlCnfBtns {
+    padding: 5px 10px 10px 10px;
+    text-align: center;
+    font-size: 1em;
+    font-weight: normal;
+}
+
+.icePnlCnfBtns input {
+    margin: 0 20px 0 20px;
 }

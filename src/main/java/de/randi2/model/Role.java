@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
@@ -36,7 +35,7 @@ public class Role extends AbstractDomainObject {
 			true, true, false, false, false, true, false, false, null);
 
 	public static final Role ROLE_ADMIN = new Role("ROLE_ADMIN", true, false,
-			true, false, true, true, true, true, false, false, true, false,
+			true, true, true, true, true, true, false, false, true, false,
 			true, false, true, true, false, false, false, false, false, true,
 			false, false, false, false, false, true, null);
 
@@ -112,7 +111,7 @@ public class Role extends AbstractDomainObject {
 	private boolean adminTrialSubject = false;
 
 	private boolean createRole = false;
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private List<Role> rolesToAssign = new ArrayList<Role>();
 
 

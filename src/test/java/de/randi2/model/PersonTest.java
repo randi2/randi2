@@ -367,7 +367,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		validPerson.setAssistant(assistant);
 		validPerson.setSurname(stringUtil.getWithLength(20));
 		assertNotNull(validPerson.getAssistant());
-
+		hibernateTemplate.saveOrUpdate(validPerson.getAssistant());
 		hibernateTemplate.saveOrUpdate(validPerson);
 
 		assertTrue(validPerson.getAssistant().getId() != AbstractDomainObject.NOT_YET_SAVED_ID);

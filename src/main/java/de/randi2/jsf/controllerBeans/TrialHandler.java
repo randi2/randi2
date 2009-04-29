@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License along with
  * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.randi2.jsf.handlers;
+package de.randi2.jsf.controllerBeans;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -28,11 +28,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
-import de.randi2.dao.TrialDao;
-import de.randi2.dao.TrialSiteDao;
-import de.randi2.jsf.Randi2;
-import de.randi2.jsf.pages.Step4;
-import de.randi2.jsf.pages.Step5;
+import de.randi2.jsf.backingBeans.Step4;
+import de.randi2.jsf.backingBeans.Step5;
+import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.jsf.wrappers.SubjectPropertyWrapper;
 import de.randi2.model.Login;
@@ -49,18 +47,34 @@ import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
+import de.randi2.services.TrialService;
+import de.randi2.services.TrialSiteService;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.ReflectionUtil;
 
-/*
+/**
  * <p>
  * This class cares about the newTrial object and contains all the needed
  * methods to work with this object for the UI.
  * </p>
  * 
- * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
+ * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class TrialHandler extends AbstractHandler<Trial> {
+	
+	private TrialSiteService siteService;
+	
+	public void setSiteService(TrialSiteService siteService) {
+		this.siteService = siteService;
+	}
+	
+	private TrialService trialService;
+	
+	public void setTrialService(TrialService trialService) {
+		this.trialService = trialService;
+	}
+	
+	private TimeZone zone;
 
 	@SuppressWarnings("unchecked")
 	public TrialHandler() {
@@ -98,8 +112,9 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	
 	public AutoCompleteObject<TrialSite> getTrialSitesAC() {
 		if (trialSitesAC == null)
-			trialSitesAC = new AutoCompleteObject<TrialSite>(trialSiteDao);
+			trialSitesAC = new AutoCompleteObject<TrialSite>(siteService);
 		return trialSitesAC;
+
 	}
 
 	public AutoCompleteObject<Login> getSponsorInvestigatorsAC() {
@@ -112,7 +127,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	public AutoCompleteObject<TrialSite> getParticipatingSitesAC() {
 		if (participatingSitesAC == null)
-			participatingSitesAC = new AutoCompleteObject<TrialSite>(trialSiteDao);
+			participatingSitesAC = new AutoCompleteObject<TrialSite>(siteService);
 		return participatingSitesAC;
 	}
 
@@ -127,21 +142,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	public boolean isAddingSubjectsEnabled() {
 		addingSubjectsEnabled = !creatingMode && showedObject!=null;
 		return addingSubjectsEnabled;
-	}
-
-	// TODO TEMP OBJECTS
-	private TimeZone zone;
-
-	// DB Access
-	private TrialDao trialDao;
-	private TrialSiteDao trialSiteDao;
-
-	public TrialDao getTrialDao() {
-		return trialDao;
-	}
-
-	public void setTrialDao(TrialDao trialDao) {
-		this.trialDao = trialDao;
 	}
 
 	public List<SelectItem> getStateItems() {
@@ -255,7 +255,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		}
 		/* End of the Algorithm Configuration */
 
-		trialDao.save(showedObject);
+		trialService.create(showedObject);
 		return Randi2.SUCCESS;
 		// } catch (Exception e) {
 		// e.printStackTrace();
@@ -290,16 +290,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		return showedObject.getTreatmentArms().size();
 	}
 
-
-
-	public TrialSiteDao getTrialSiteDao() {
-		return trialSiteDao;
-	}
-
-	public void setTrialSiteDao(TrialSiteDao trialSiteDao) {
-		this.trialSiteDao = trialSiteDao;
-	}
-
 	@Override
 	public String refreshShowedObject() {
 		// TODO Auto-generated method stub
@@ -313,7 +303,11 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	public int getTrialsAmount() {
-		return trialDao.getAll().size();
+		return trialService.getAll().size();
+	}
+	
+	public List<Trial> getAllTrials(){
+		return trialService.getAll();
 	}
 
 	@Override

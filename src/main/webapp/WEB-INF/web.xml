@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
-<web-app id="WebApp_ID">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="RANDI2" version="2.5">
+
 	<display-name>RANDI2</display-name>
+
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:log4j.xml</param-value>
+	</context-param>
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>randi2.root</param-value>
+	</context-param>
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -12,42 +25,40 @@
 			-->
 		</param-value>
 	</context-param>
-
-
-
 	<context-param>
 		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
 		<param-value>server</param-value>
 	</context-param>
 	<context-param>
-		<param-name>com.icesoft.faces.concurrentDOMViews</param-name>
-		<param-value>false</param-value>
 		<description>
 			To allow multiple windows for a single application. See
 			Concurrent DOM Views in Chapter 3. of Developer Guide.
 		</description>
+		<param-name>com.icesoft.faces.concurrentDOMViews</param-name>
+		<param-value>false</param-value>
 	</context-param>
 	<context-param>
-		<param-name>com.icesoft.faces.synchronousUpdate</param-name>
-		<param-value>false</param-value>
 		<description>
 			Turn on/off application-wide synchronous or asynchronous
 			updates. See Synchronous and Asynchronous Updates in Chapter
 			3. of
 			Developer Guide.
 		</description>
+		<param-name>com.icesoft.faces.synchronousUpdate</param-name>
+		<param-value>false</param-value>
 	</context-param>
 	<context-param>
-		<param-name>com.icesoft.faces.gmapKey</param-name>
-		<param-value>
-			ABQIAAAADlu0ZiSTam64EKaCQr9eTRTOTuQNzJNXRlYRLknj4cQ89tFfpxTEqxQnVWL4k55OPICgF5_SOZE06A
-		</param-value>
 		<description>
 			A Google Maps API key is required if gMap component is
 			used.
 			Sign up for an API key from
 			http://code.google.com/apis/maps/signup.html.
 		</description>
+		<param-name>com.icesoft.faces.gmapKey</param-name>
+		<param-value>
+			ABQIAAAADlu0ZiSTam64EKaCQr9eTRTOTuQNzJNXRlYRLknj4cQ89tFfpxTEqxQnVWL4k55OPICgF5_SOZE06A
+		</param-value>
+
 	</context-param>
 	<context-param>
 		<param-name>com.icesoft.faces.uploadDirectory</param-name>
@@ -55,7 +66,7 @@
 	</context-param>
 	<context-param>
 		<param-name>com.icesoft.faces.uploadMaxFileSize</param-name>
-		<param-value>4048576</param-value>
+		<param-value>10000000000000</param-value>
 	</context-param>
 	<context-param>
 		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
@@ -63,9 +74,7 @@
 	</context-param>
 	<filter>
 		<filter-name>springSecurityFilterChainProxy</filter-name>
-		<filter-class>
-			org.springframework.security.util.FilterToBeanProxy
-		</filter-class>
+		<filter-class>org.springframework.security.util.FilterToBeanProxy</filter-class>
 		<init-param>
 			<param-name>targetClass</param-name>
 			<param-value>
@@ -78,17 +87,21 @@
 		<filter-name>springSecurityFilterChainProxy</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+	<filter>
+		<filter-name>hibernateFilter</filter-name>
+		<filter-class>de.randi2.utility.webfilter.HibernateWebFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>hibernateFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<listener>
-		<listener-class>
-			org.springframework.web.context.ContextLoaderListener
-		</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	<listener>
 		<listener-class>
-			org.springframework.web.context.request.RequestContextListener
-		</listener-class>
+			org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 
 	<listener>
@@ -96,8 +109,10 @@
 	</listener>
 	<listener>
 		<listener-class>
-			com.icesoft.faces.util.event.servlet.ContextEventRepeater
-		</listener-class>
+			com.icesoft.faces.util.event.servlet.ContextEventRepeater</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
@@ -107,22 +122,18 @@
 	<servlet>
 		<servlet-name>Persistent Faces Servlet</servlet-name>
 		<servlet-class>
-			com.icesoft.faces.webapp.xmlhttp.PersistentFacesServlet
-		</servlet-class>
+			com.icesoft.faces.webapp.xmlhttp.PersistentFacesServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
 		<servlet-name>Blocking Servlet</servlet-name>
-		<servlet-class>
-			com.icesoft.faces.webapp.xmlhttp.BlockingServlet
-		</servlet-class>
+		<servlet-class>com.icesoft.faces.webapp.xmlhttp.BlockingServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
 		<servlet-name>uploadServlet</servlet-name>
 		<servlet-class>
-			com.icesoft.faces.component.inputfile.FileUploadServlet
-		</servlet-class>
+			com.icesoft.faces.component.inputfile.FileUploadServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
@@ -152,6 +163,10 @@
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>/faces/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Persistent Faces Servlet</servlet-name>
+		<url-pattern>/xmlhttp/* </url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

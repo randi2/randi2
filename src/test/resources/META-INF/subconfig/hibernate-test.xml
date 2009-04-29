@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	"
+	default-autowire="byName">
+
+    <bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.connection.autocommit">false</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+        <property name="annotatedClasses">
+            <list>
+                <value>de.randi2.model.Trial</value>
+                <value>de.randi2.model.TrialSite</value>
+                <value>de.randi2.model.Person</value>
+                <value>de.randi2.model.Login</value>
+                <value>de.randi2.model.Role</value>
+                <value>de.randi2.model.TreatmentArm</value>
+                <value>de.randi2.model.TrialSubject</value>
+                <value>de.randi2.model.SubjectProperty</value>
+                <value>de.randi2.model.criteria.AbstractCriterion</value>
+                <value>de.randi2.model.criteria.DichotomousCriterion</value>
+                <value>de.randi2.model.criteria.OrdinalCriterion</value>
+                <value>de.randi2.model.criteria.constraints.AbstractConstraint</value>
+                <value>de.randi2.model.criteria.constraints.OrdinalConstraint</value>
+                <value>de.randi2.model.criteria.constraints.DichotomousConstraint</value>
+                <value>de.randi2.model.randomization.BlockRandomizationTempData</value>
+                <value>de.randi2.model.randomization.Block</value>
+                <value>de.randi2.model.randomization.AbstractRandomizationTempData</value>
+                <value>de.randi2.model.randomization.CompleteRandomizationConfig</value>
+                <value>de.randi2.model.randomization.BlockRandomizationConfig</value>
+                <value>de.randi2.model.security.AclHibernate</value>
+                <value>de.randi2.model.security.AccessControlEntryHibernate</value>
+                <value>de.randi2.model.security.ObjectIdentityHibernate</value>
+                <value>de.randi2.model.security.PermissionHibernate</value>
+                <value>de.randi2.model.security.SidHibernate</value>
+                <value>de.randi2.model.randomization.AbstractRandomizationConfig</value>
+                <value>de.randi2.model.randomization.CompleteRandomizationConfig</value>
+                <value>de.randi2.model.randomization.BiasedCoinRandomizationConfig</value>
+            </list>
+        </property>
+        <property name="eventListeners">
+            <map>
+                <entry key="merge" value-ref="listener"/>
+                <entry key="save-update" value-ref="listener"/>
+                <entry key="create" value-ref="listener"/>
+                <entry key="save" value-ref="listener"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="listener" class="de.randi2.utility.listener.SaveUpdateListener" />
+
+    <bean id="hibernateInterceptor" class="de.randi2.utility.CustomHibernateInterceptor" />
+    
+
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="entityInterceptor" ref="hibernateInterceptor"></property>
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+    <bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+	<!--	<context:annotation-config></context:annotation-config>-->
+
+
+
+</beans>

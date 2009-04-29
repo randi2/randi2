@@ -5,18 +5,23 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Set;
 
+import org.hibernate.LazyInitializationException;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
-import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.Person;
-import de.randi2.model.Trial;
-import de.randi2.model.TrialSite;
+import de.randi2.model.criteria.AbstractCriterion;
+import de.randi2.model.criteria.DichotomousCriterion;
+import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.enumerations.TrialStatus;
+import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.test.utility.AbstractDomainTest;
 
 public class TrialTest extends AbstractDomainTest<Trial>{
@@ -316,5 +321,123 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 	public void testProtocol() {
 		//fail("Not yet implemented");
 	}
+	 
+	 
+	 @Test
+	 public void testTreatmentArms(){
+		 TreatmentArm arm1 = new TreatmentArm();
+		 arm1.setName("arm1");
+		 TreatmentArm arm2 = new TreatmentArm();
+		 arm2.setName("arm2");
+		 List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		 arms.add(arm1);
+		 arms.add(arm2);
+		 validTrial.setTreatmentArms(arms);
+		 
+		 assertEquals(2, validTrial.getTreatmentArms().size());
+		 assertTrue(validTrial.getTreatmentArms().containsAll(arms));
+	 }
+	 
+	 @Test
+	 public void testCriteria(){
+		 DichotomousCriterion criterion1 = new DichotomousCriterion();
+		 criterion1.setName("criterion1");
+		 DichotomousCriterion criterion2 = new DichotomousCriterion();
+		 criterion2.setName("criterion2");
+		// List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> criterions = new ArrayList<AbstractCriterion<? extends Serializable,? extends AbstractConstraint<? extends Serializable>>>();
+		 //criterions.add(criterion1);
+		 //criterions.add(criterion2);
+		 //validTrial.setCriteria(criterions);
+		 validTrial.addCriterion(criterion1);
+		 validTrial.addCriterion(criterion2);
+		 
+		 assertEquals(2, validTrial.getCriteria().size());
+		 assertTrue(DichotomousCriterion.class.isInstance(validTrial.getCriteria().get(0)));
+		 assertEquals("criterion1", validTrial.getCriteria().get(0).getName());
+		 assertTrue(DichotomousCriterion.class.isInstance(validTrial.getCriteria().get(1)));
+		 assertEquals("criterion2", validTrial.getCriteria().get(1).getName());
+		 
+	 }
 
+	 @Test
+	 public void testRandomizationConfigurationAndRandomize(){
+		 CompleteRandomizationConfig conf = new CompleteRandomizationConfig();
+		 validTrial.setRandomizationConfiguration(conf);
+		 TreatmentArm arm1 = new TreatmentArm();
+		 arm1.setName("arm1");
+		 TreatmentArm arm2 = new TreatmentArm();
+		 arm2.setName("arm2");
+		 List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		 arms.add(arm1);
+		 arms.add(arm2);
+		 validTrial.setTreatmentArms(arms);
+		 assertEquals(conf, validTrial.getRandomizationConfiguration());
+		 
+		 List<TrialSubject> subjects = new ArrayList<TrialSubject>();
+		 for(int i = 0;i<100;i++){
+			 TrialSubject subject = new TrialSubject();
+			 subject.setIdentification("identification" + i);
+			 subjects.add(subject);
+			 validTrial.randomize(subject);
+		 }
+		 assertEquals(subjects.size(), validTrial.getSubjects().size());
+		 assertEquals(subjects.size(), arm1.getSubjects().size()+arm2.getSubjects().size());
+		 
+	 }
+	 
+	 @Ignore
+	 public void databaseIntegrationTest(){
+		 TrialSite leadingSite = factory.getTrialSite();
+		 leadingSite.setContactPerson(factory.getPerson());
+		 hibernateTemplate.persist(leadingSite.getContactPerson());
+		 hibernateTemplate.persist(leadingSite);
+		 validTrial.setSponsorInvestigator(leadingSite.getContactPerson());
+		 validTrial.setLeadingSite(leadingSite);
+	
+		 TrialSite pTrialSite = factory.getTrialSite();
+		 pTrialSite.setContactPerson(factory.getPerson());
+		 hibernateTemplate.persist(pTrialSite.getContactPerson());
+		 hibernateTemplate.persist(pTrialSite);
+		 validTrial.addParticipatingSite(pTrialSite);
+		 CompleteRandomizationConfig conf = new CompleteRandomizationConfig();
+		 validTrial.setRandomizationConfiguration(conf);
+		 TreatmentArm arm1 = new TreatmentArm();
+		 arm1.setName("arm1");
+//		 arm1.setTrial(validTrial);
+		 arm1.setPlannedSubjects(100);
+		 TreatmentArm arm2 = new TreatmentArm();
+		 arm2.setName("arm2");
+//		 arm2.setTrial(validTrial);
+		 arm2.setPlannedSubjects(100);
+		 List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		 arms.add(arm1);
+		 arms.add(arm2);
+		 validTrial.setTreatmentArms(arms);
+		 
+		 hibernateTemplate.persist(validTrial);
+		 assertTrue(validTrial.getId()>0);
+		 
+		 List<TrialSubject> subjects = new ArrayList<TrialSubject>();
+		 for(int i = 0;i<100;i++){
+			 TrialSubject subject = new TrialSubject();
+			 subject.setIdentification("identification" + i);
+			 subjects.add(subject);
+			 validTrial.randomize(subject);
+		 }
+		 hibernateTemplate.update(validTrial);
+		 Trial dbTrial = (Trial) hibernateTemplate.get(Trial.class, validTrial.getId());
+		 
+		 assertEquals(validTrial.getId(), dbTrial.getId());
+		 assertEquals(validTrial.getName(), dbTrial.getName());
+		 assertEquals(validTrial.getDescription(), dbTrial.getDescription());
+		 assertEquals(validTrial.getLeadingSite().getName(), dbTrial.getLeadingSite().getName());
+		 assertEquals(validTrial.getRandomizationConfiguration().getId(), dbTrial.getRandomizationConfiguration().getId());
+		 assertEquals(validTrial.getRandomizationConfiguration().getAlgorithm().getClass(), dbTrial.getRandomizationConfiguration().getAlgorithm().getClass());
+//		 TrialSite dbTrialSite = (TrialSite)hibernateTemplate.get(TrialSite.class, pTrialSite.getId());
+//		 assertEquals(1, dbTrialSite.getTrials());
+//		 assertEquals(validTrial.getParticipatingSites().size(), dbTrial.getParticipatingSites().size());
+		 assertEquals(validTrial.getTreatmentArms().get(0).getSubjects().size(), dbTrial.getTreatmentArms().get(0).getSubjects().size());
+		 assertEquals(validTrial.getTreatmentArms().get(1).getSubjects().size(), dbTrial.getTreatmentArms().get(1).getSubjects().size());
+		 
+	 }
 }

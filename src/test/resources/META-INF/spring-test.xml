@@ -28,7 +28,7 @@
 
 	<!--<import resource="classpath:META-INF/subconfig/database-mysql5.xml" />-->
 	 <import resource="classpath:META-INF/subconfig/database-hsqldb.xml" />
-	<import resource="classpath:META-INF/subconfig/hibernate.xml" />
+	<import resource="classpath:META-INF/subconfig/hibernate-test.xml" />
 	<!-- <import resource="classpath:META-INF/subconfig/aspects.xml" /> -->
 	<!-- Random Instance for NOT Randomization purposes. For Randomization
 		use a seperate Instance for each call (even if it is inefficient)! -->
@@ -41,5 +41,7 @@
 	<bean id="loginDAO" class="de.randi2.dao.LoginDaoHibernate"></bean>
 
 	<bean id="trialSiteDAO" class="de.randi2.dao.TrialSiteDaoHibernate"></bean>
+	
+	<bean id="roleDAO" class="de.randi2.dao.RoleDaoHibernate"></bean>
 
 </beans>
