@@ -54,6 +54,7 @@ public class Bootstrap {
 		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_STATISTICAN);
 		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_MONITOR);
 		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_P_INVESTIGATOR);
+		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_ANONYMOUS);
 		
 		Person adminP = new Person();
 		adminP.setFirstname("Max");

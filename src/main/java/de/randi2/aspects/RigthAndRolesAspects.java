@@ -50,11 +50,6 @@ public class RigthAndRolesAspects {
 			Login login = (Login) SecurityContextHolder.getContext()
 					.getAuthentication().getPrincipal();
 			if (o instanceof Login) {
-				for (Role r : ((Login) pjp.getArgs()[0]).getRoles()) {
-					r = (Role) sessionFactory.getCurrentSession().createQuery(
-							"from Role where name = ?").setParameter(0,
-							r.getName()).uniqueResult();
-				}
 				roleAndRigths.registerPerson(((Login) o));
 			}
 			logger.debug("Register Object ("+o.getClass().getSimpleName()+" id="+((AbstractDomainObject)o).getId()+")" );

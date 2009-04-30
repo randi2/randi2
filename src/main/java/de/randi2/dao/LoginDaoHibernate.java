@@ -1,6 +1,8 @@
 package de.randi2.dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.annotation.Secured;
 import org.springframework.transaction.annotation.Propagation;
@@ -34,7 +36,7 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements Lo
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void create(Login object) {
-		persistNewRoles(object);
+		loadRoles(object);
 		super.create(object);
 			
 			
@@ -43,15 +45,16 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements Lo
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Login update(Login object) {
-		persistNewRoles(object);
+		loadRoles(object);
 		return super.update(object);
 	}
 	
-	private void persistNewRoles(Login object){
+	@Transactional(propagation=Propagation.SUPPORTS)
+	private void loadRoles(Login object){
 		for(Role r: object.getRoles()){
-			if(r.getId()== AbstractDomainObject.NOT_YET_SAVED_ID){
-				sessionFactory.getCurrentSession().persist(r);
-			}
+				Set<Role> roles = new HashSet<Role>();
+				roles.add((Role)sessionFactory.getCurrentSession().createQuery("from Role where name = ?").setParameter(0, r.getName()).uniqueResult());
+				object.setRoles(roles);
 		}
 	}
 

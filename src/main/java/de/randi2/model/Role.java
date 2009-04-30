@@ -6,9 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
+
+import org.hibernate.validator.NotEmpty;
 
 import de.randi2.model.security.PermissionHibernate;
 
@@ -55,7 +58,8 @@ public class Role extends AbstractDomainObject {
 			false, new ArrayList<Role>(Arrays.asList(new Role[]{Role.ROLE_INVESTIGATOR,Role.ROLE_STATISTICAN,Role.ROLE_MONITOR})));
 
 
-	// @Column(unique=true)
+	@Column(unique=true)
+	@NotEmpty
 	private String name;
 
 	// to create trial site is no scope necessary
