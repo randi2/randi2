@@ -71,15 +71,10 @@ public class SaveUpdateListener implements SaveOrUpdateEventListener, MergeEvent
 
 	@Override
 	public void onPersist(PersistEvent event) throws HibernateException {
-		
 		if(event.getObject() instanceof AbstractDomainObject){
 			AbstractDomainObject object = (AbstractDomainObject) event.getObject();
-			if(object.getId()==AbstractDomainObject.NOT_YET_SAVED_ID){
 				object.beforeCreate();
 				object.beforeUpdate();
-			}else{
-				object.beforeUpdate();
-			}
 		}
 		persist.onPersist(event);
 		
@@ -91,12 +86,8 @@ public class SaveUpdateListener implements SaveOrUpdateEventListener, MergeEvent
 			throws HibernateException {
 		if(event.getObject() instanceof AbstractDomainObject){
 			AbstractDomainObject object = (AbstractDomainObject) event.getObject();
-			if(object.getId()==AbstractDomainObject.NOT_YET_SAVED_ID){
 				object.beforeCreate();
 				object.beforeUpdate();
-			}else{
-				object.beforeUpdate();
-			}
 		}
 		persist.onPersist(event, createdAlready);
 	}
