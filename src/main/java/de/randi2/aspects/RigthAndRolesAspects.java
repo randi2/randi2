@@ -28,8 +28,6 @@ public class RigthAndRolesAspects {
 	private Logger logger = Logger.getLogger(RigthAndRolesAspects.class);
 	@Autowired
 	private RolesAndRights roleAndRigths;
-	@Autowired
-	private SessionFactory sessionFactory;
 
 	/**
 	 * This around advice grant the rights for an new domain object and register
