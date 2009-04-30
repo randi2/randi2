@@ -3,8 +3,6 @@ package de.randi2.dao;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.persistence.UniqueConstraint;
-
 import org.apache.log4j.Logger;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
