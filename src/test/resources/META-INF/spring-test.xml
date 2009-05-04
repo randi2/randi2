@@ -46,4 +46,11 @@
 	
 	<bean id="roleDAO" class="de.randi2.dao.RoleDaoHibernate"></bean>
 
+	<bean id="passwordEncoder"
+			class="org.springframework.security.providers.encoding.Md5PasswordEncoder" />
+			
+	<bean id="saltSource"
+			class="org.springframework.security.providers.dao.salt.SystemWideSaltSource">
+			<property name="systemWideSalt" value="DSJGEWI8SDG46ASGJAER436234ERDFZHS9346" />
+	</bean>
 </beans>

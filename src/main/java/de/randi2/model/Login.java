@@ -43,9 +43,9 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	
 	public final static int MAX_USERNAME_LENGTH = 40;
 	public final static int MIN_USERNAME_LENGTH = 5;
-	public final static int MAX_PASSWORD_LENGTH = 50;
+	public final static int MAX_PASSWORD_LENGTH = 30;
 	public final static int MIN_PASSWORD_LENGTH = 8;
-	public final static int HASH_PASSWORD_LENGTH = 64;
+	public final static int HASH_PASSWORD_LENGTH = 32;
 
 	private Locale prefLocale = null;
 

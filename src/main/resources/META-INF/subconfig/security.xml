@@ -22,20 +22,18 @@
 		class="de.randi2.utility.security.DaoAuthenticationProviderWithLock">
 		<sec:custom-authentication-provider />
 		<property name="userDetailsService"> <bean class="de.randi2.dao.UserDetailsServiceImpl"></bean></property>
-		<!-- 		<property name="passwordEncoder">
-			<bean
+				<property name="passwordEncoder" ref="passwordEncoder" />
+				<property name="saltSource" ref="saltSource" />
+	</bean>
+	
+	<bean id="passwordEncoder"
 			class="org.springframework.security.providers.encoding.Md5PasswordEncoder" />
-			</property>
 			
-			<property name="saltSource">
-			<bean
+	<bean id="saltSource"
 			class="org.springframework.security.providers.dao.salt.SystemWideSaltSource">
-			<property name="systemWideSalt" value="DSJGEWI8SDG46" />
-			</bean>
-			</property> -->
+			<property name="systemWideSalt" value="DSJGEWI8SDG46ASGJAER436234ERDFZHS9346" />
 	</bean>
 
-	
 <!-- ======================= END Security for WEB ========================= -->
 	
 
