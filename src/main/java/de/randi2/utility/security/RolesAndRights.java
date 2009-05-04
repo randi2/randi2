@@ -38,7 +38,7 @@ import de.randi2.model.security.PermissionHibernate;
  * system.
  * </p>
  * 
- * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
+ * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  * @author Daniel Schrimpf <dschrimpf@users.sourceforge.net>
  */
 public class RolesAndRights {
@@ -323,10 +323,24 @@ public class RolesAndRights {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED)
 	private void grantRightsTrialSubject(TrialSubject trialSubject,
 			TrialSite scope) {
-		// TODO
+		List<Login> logins = sessionFactory.getCurrentSession().getNamedQuery("login.LoginsWithPermission").setParameter(0, Trial.class).setParameter(1, trialSubject.getArm().getTrial().getId()).setParameter(2, PermissionHibernate.READ).list();
+		for(Login l : logins){
+			for(Role r : l.getRoles()){
+				if(r.isReadTrialSubject()){
+					aclService.createAclwithPermissions(trialSubject, l.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ}, r.getName());
+				}
+				if(r.isWriteTrialSubject()){
+					aclService.createAclwithPermissions(trialSubject, l.getUsername(), new PermissionHibernate[]{PermissionHibernate.WRITE}, r.getName());
+				}
+				if(r.isAdminTrialSubject()){
+					aclService.createAclwithPermissions(trialSubject, l.getUsername(), new PermissionHibernate[]{PermissionHibernate.ADMINISTRATION}, r.getName());
+				}
+			}
+		}
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)

@@ -29,7 +29,8 @@ import de.randi2.utility.validations.Password;
 @NamedQueries({
 @NamedQuery(name="login.AllLoginsWithRolesAndTrialSiteScope" , query= "select login from Login as login join login.roles role join login.person.trialSite trialSite where role.scopeTrialSiteView = true AND trialSite.id = ? group by login"),
 @NamedQuery(name="login.AllLoginsWithRolesAndNotTrialSiteScope" , query= "select login from Login as login join login.roles role where role.scopeTrialSiteView = false AND not (role.name = 'ROLE_USER') group by login"),
-@NamedQuery(name="login.LoginsWriteOtherUser", query="select login from Login as login join login.roles role where role.writeOtherUser = true group by login")
+@NamedQuery(name="login.LoginsWriteOtherUser", query="select login from Login as login join login.roles role where role.writeOtherUser = true group by login"),
+@NamedQuery(name="login.LoginsWithPermission", query="from Login as login where login.username in (select ace.sid.sidname from AccessControlEntryHibernate as ace where ace.acl.objectIdentity.javaType = ? and ace.acl.objectIdentity.identifier = ? and ace.permission = ?)")
 })
 
 public class Login extends AbstractDomainObject implements UserDetails {
