@@ -25,7 +25,7 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 	}
 
 	@Override
-	@Secured({"ROLE_USER", "AFTER_ACL_COLLECTION_READ"})
+	@Secured({"ROLE_USER","ROLE_ANONYMOUS", "AFTER_ACL_COLLECTION_READ"})
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public List<TrialSite> getAll() {
 		return siteDAO.getAll();
