@@ -19,6 +19,6 @@
 			<ice:graphicImage value="/img/icons/user32.png"></ice:graphicImage>
 			<ice:outputLabel value="#{loginHandler.loggedInUser.person.firstname} #{loginHandler.loggedInUser.person.surname}"></ice:outputLabel>
 			<ice:graphicImage value="/img/separetor.png"></ice:graphicImage>
-			<ice:outputConnectionStatus showPopupOnDisconnect="true"></ice:outputConnectionStatus>
+			<ice:outputConnectionStatus />
 		</ice:panelGrid>
 </ice:form>

@@ -103,100 +103,101 @@
 								</ice:selectOneMenu>
 							</ice:panelGrid>
 							<ice:panelGrid border="0" columns="2">
-								<ice:graphicImage value="/img/icons/user16.png"></ice:graphicImage>
+								<ice:graphicImage value="/img/icons/contact16.png"></ice:graphicImage>
 								<ice:outputLabel
-									value="#{labels['pages.registration.accountHeader']}"></ice:outputLabel>
+									value="#{labels['pages.registration.contactHeader']}"></ice:outputLabel>
 							</ice:panelGrid>
-							<ice:panelGrid columns="2">
-								<ice:outputLabel for="username"
-									value="#{labels['login.username']}"></ice:outputLabel>
-								<ice:inputText id="username" value="Will be your email"
-									readonly="true">
-								</ice:inputText>
-								<ice:outputLabel for="password"
-									value="#{labels['login.password']}"></ice:outputLabel>
-								<ice:panelGroup id="passwordGroup">
-									<ice:inputSecret id="password"
-										value="#{loginHandler.newUser.password}"
-										required="#{loginHandler.newUser.requiredFields['password']}"
-										redisplay="true" partialSubmit="true">
-										<f:validator
-											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-										<f:attribute name="dObject" value="#{loginHandler.newUser}" />
-									</ice:inputSecret>
-									<ice:message for="password" id="passwordError"></ice:message>
-								</ice:panelGroup>
-								<ice:outputLabel for="pConfirmation"
-									value="#{labels['pages.registration.passwordConfirmation']}"></ice:outputLabel>
+							<ice:panelGrid>
 								<ice:panelGroup>
-									<ice:inputSecret id="pConfirmation"
-										required="#{loginHandler.newUser.requiredFields['password']}"
-										redisplay="true" partialSubmit="true">
-										<f:validator
-											validatorId="de.randi2.jsf.validators.PASSWORD_CONFIRMATION" />
-									</ice:inputSecret>
-									<ice:message for="pConfirmation" id="confirmationError"></ice:message>
+									<ice:panelGrid border="0" columns="3">
+										<ice:outputLabel for="eMail" value="#{labels['person.eMail']}"></ice:outputLabel>
+										<ice:inputText id="eMail"
+											value="#{loginHandler.newUser.person.EMail}"
+											required="#{loginHandler.newUser.person.requiredFields['eMail']}"
+											partialSubmit="true">
+											<f:validator
+												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+											<f:attribute name="dObject"
+												value="#{loginHandler.newUser.person}" />
+										</ice:inputText>
+										<ice:message for="eMail" id="eMailError"></ice:message>
+										<ice:outputLabel for="phone" value="#{labels['person.phone']}"></ice:outputLabel>
+										<ice:inputText id="phone"
+											value="#{loginHandler.newUser.person.phone}"
+											required="#{loginHandler.newUser.person.requiredFields['phone']}"
+											partialSubmit="true">
+											<f:validator
+												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+											<f:attribute name="dObject"
+												value="#{loginHandler.newUser.person}" />
+										</ice:inputText>
+										<ice:message for="phone" id="phoneError"></ice:message>
+										<ice:outputLabel for="mobile"
+											value="#{labels['person.mobile']}"></ice:outputLabel>
+										<ice:inputText id="mobile"
+											value="#{loginHandler.newUser.person.mobile}"
+											required="#{loginHandler.newUser.person.requiredFields['mobile']}"
+											partialSubmit="true">
+											<f:validator
+												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+											<f:attribute name="dObject"
+												value="#{loginHandler.newUser.person}" />
+										</ice:inputText>
+										<ice:message for="mobile" id="mobileError"></ice:message>
+										<ice:outputLabel for="fax" value="#{labels['person.fax']}"></ice:outputLabel>
+										<ice:inputText id="fax"
+											value="#{loginHandler.newUser.person.fax}"
+											required="#{loginHandler.newUser.person.requiredFields['fax']}"
+											partialSubmit="true">
+											<f:validator
+												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+											<f:attribute name="dObject"
+												value="#{loginHandler.newUser.person}" />
+										</ice:inputText>
+										<ice:message for="fax" id="faxError"></ice:message>
+									</ice:panelGrid>
 								</ice:panelGroup>
 							</ice:panelGrid>
 						</ice:panelGrid>
 					</ice:panelTab>
 					<ice:panelTab label="#{labels['pages.registration.tab2Header']}">
 						<ice:panelGrid border="0" columns="2">
-							<ice:graphicImage value="/img/icons/contact16.png"></ice:graphicImage>
+							<ice:graphicImage value="/img/icons/user16.png"></ice:graphicImage>
 							<ice:outputLabel
-								value="#{labels['pages.registration.contactHeader']}"></ice:outputLabel>
+								value="#{labels['pages.registration.accountHeader']}"></ice:outputLabel>
 						</ice:panelGrid>
-						<ice:panelGrid>
+						<ice:panelGrid columns="2">
+							<ice:outputLabel for="username"
+								value="#{labels['login.username']}"></ice:outputLabel>
+							<ice:outputText id="username" value="#{loginHandler.newUser.person.EMail}" />
+							<ice:outputLabel for="password"
+								value="#{labels['login.password']}"></ice:outputLabel>
+							<ice:panelGroup id="passwordGroup">
+								<ice:inputSecret id="password"
+									value="#{loginHandler.newUser.password}"
+									required="#{loginHandler.newUser.requiredFields['password']}"
+									redisplay="true" partialSubmit="true">
+									<f:validator
+										validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+									<f:attribute name="dObject" value="#{loginHandler.newUser}" />
+								</ice:inputSecret>
+								<ice:message for="password" id="passwordError"></ice:message>
+							</ice:panelGroup>
+							<ice:outputLabel for="pConfirmation"
+								value="#{labels['pages.registration.passwordConfirmation']}"></ice:outputLabel>
 							<ice:panelGroup>
-								<ice:panelGrid border="0" columns="3">
-									<ice:outputLabel for="eMail" value="#{labels['person.eMail']}"></ice:outputLabel>
-									<ice:inputText id="eMail"
-										value="#{loginHandler.newUser.person.EMail}"
-										required="#{loginHandler.newUser.person.requiredFields['eMail']}"
-										partialSubmit="true">
-										<f:validator
-											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-										<f:attribute name="dObject"
-											value="#{loginHandler.newUser.person}" />
-									</ice:inputText>
-									<ice:message for="eMail" id="eMailError"></ice:message>
-									<ice:outputLabel for="phone" value="#{labels['person.phone']}"></ice:outputLabel>
-									<ice:inputText id="phone"
-										value="#{loginHandler.newUser.person.phone}"
-										required="#{loginHandler.newUser.person.requiredFields['phone']}"
-										partialSubmit="true">
-										<f:validator
-											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-										<f:attribute name="dObject"
-											value="#{loginHandler.newUser.person}" />
-									</ice:inputText>
-									<ice:message for="phone" id="phoneError"></ice:message>
-									<ice:outputLabel for="mobile"
-										value="#{labels['person.mobile']}"></ice:outputLabel>
-									<ice:inputText id="mobile"
-										value="#{loginHandler.newUser.person.mobile}"
-										required="#{loginHandler.newUser.person.requiredFields['mobile']}"
-										partialSubmit="true">
-										<f:validator
-											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-										<f:attribute name="dObject"
-											value="#{loginHandler.newUser.person}" />
-									</ice:inputText>
-									<ice:message for="mobile" id="mobileError"></ice:message>
-									<ice:outputLabel for="fax" value="#{labels['person.fax']}"></ice:outputLabel>
-									<ice:inputText id="fax"
-										value="#{loginHandler.newUser.person.fax}"
-										required="#{loginHandler.newUser.person.requiredFields['fax']}"
-										partialSubmit="true">
-										<f:validator
-											validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-										<f:attribute name="dObject"
-											value="#{loginHandler.newUser.person}" />
-									</ice:inputText>
-									<ice:message for="fax" id="faxError"></ice:message>
-								</ice:panelGrid>
+								<ice:inputSecret id="pConfirmation"
+									required="#{loginHandler.newUser.requiredFields['password']}"
+									redisplay="true" partialSubmit="true">
+									<f:validator
+										validatorId="de.randi2.jsf.validators.PASSWORD_CONFIRMATION" />
+								</ice:inputSecret>
+								<ice:message for="pConfirmation" id="confirmationError"></ice:message>
 							</ice:panelGroup>
 						</ice:panelGrid>
+
+
+
 					</ice:panelTab>
 					<ice:panelTab label="#{labels['pages.registration.tab3Header']}">
 						<ice:panelGrid border="0" columns="2">
@@ -243,18 +244,19 @@
 							</ice:panelGrid>
 						</ice:panelGrid>
 					</ice:panelTab>
-
-
 				</ice:panelTabSet>
-				<ice:panelGrid border="0" columns="3">
+				<ice:panelGrid border="0" columns="4">
 					<ice:commandButton type="submit"
 						value="#{labels['buttons.register']}"
 						action="#{loginHandler.registerUser}"></ice:commandButton>
 					<ice:commandButton immediate="true"
 						value="#{labels['buttons.cancel']}"
 						actionListener="#{registerPage.cancel}"></ice:commandButton>
-					<ice:messages globalOnly="true" showDetail="true"
-						showSummary="true" tooltip="true" />
+					<ice:panelGroup style="margin-left:250px;">
+						<ice:messages globalOnly="true" showDetail="true"
+							showSummary="true" tooltip="true" />
+						<ice:outputConnectionStatus />
+					</ice:panelGroup>
 				</ice:panelGrid>
 			</ice:form>
 		</f:facet>
