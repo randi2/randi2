@@ -591,7 +591,7 @@ public class RolesAndRights {
 								new TrialSite(),
 								login.getUsername(),
 								new PermissionHibernate[] { PermissionHibernate.CREATE },
-								role.getName());
+								role.getName());								
 			}
 			if (role.isCreateTrial()) {
 				aclService

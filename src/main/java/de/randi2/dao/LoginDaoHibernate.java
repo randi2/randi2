@@ -52,13 +52,13 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements
 
 	@Transactional(propagation = Propagation.SUPPORTS)
 	private void loadRoles(Login object) {
+		Set<Role> roles = new HashSet<Role>();
 		for (Role r : object.getRoles()) {
-			Set<Role> roles = new HashSet<Role>();
 			roles.add((Role) sessionFactory.getCurrentSession().createQuery(
 					"from Role where name = ?").setParameter(0, r.getName())
 					.uniqueResult());
-			object.setRoles(roles);
 		}
+		object.setRoles(roles);
 	}
 
 }
