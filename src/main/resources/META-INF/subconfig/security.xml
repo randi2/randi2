@@ -10,7 +10,7 @@
 
 <!-- ======================= BEGINN Security for WEB ========================= -->
 
- <sec:http access-decision-manager-ref="httpAccessDecisionManager">
+ <sec:http access-decision-manager-ref="httpAccessDecisionManager" session-fixation-protection="none">
 		<sec:form-login login-page="/login.jspx"
 			default-target-url="/randi2.jspx"
 			authentication-failure-url="/login.jspx"

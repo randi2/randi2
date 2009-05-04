@@ -23,6 +23,8 @@ import javax.faces.context.FacesContext;
 import com.icesoft.faces.context.effects.Effect;
 import com.icesoft.faces.context.effects.EffectBuilder;
 
+import de.randi2.utility.webfilter.HibernateWebFilter;
+
 /**
  * <p>
  * This class supply other JSF_relevant classes with general methods and fields.
@@ -32,6 +34,8 @@ import com.icesoft.faces.context.effects.EffectBuilder;
  */
 public class Randi2 {
 
+	public static String RANDI2_END = HibernateWebFilter.END_OF_CONVERSATION_FLAG;
+	
 	private String version = null;
 
 	private String year = null;

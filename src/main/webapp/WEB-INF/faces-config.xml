@@ -163,7 +163,7 @@
 		<navigation-case>
 			<from-action>#{loginHandler.logoutUser}</from-action>
 			<from-outcome>success</from-outcome>
-			<to-view-id>/login.jspx</to-view-id>
+			<to-view-id>/bye.jsp</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>

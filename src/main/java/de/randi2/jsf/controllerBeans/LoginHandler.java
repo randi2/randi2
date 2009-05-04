@@ -14,7 +14,6 @@
  */
 package de.randi2.jsf.controllerBeans;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -419,7 +418,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public void invalidateSession() {
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
 				.getExternalContext().getSession(false);
-		session.invalidate();
+		session.setAttribute(Randi2.RANDI2_END, "The end");
 	}
 
 	@Override
