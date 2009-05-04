@@ -4,9 +4,12 @@ import java.util.Locale;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
+import org.springframework.security.providers.dao.salt.SystemWideSaltSource;
+import org.springframework.security.providers.encoding.PasswordEncoder;
 
 import de.randi2.dao.LoginDaoHibernate;
 import de.randi2.dao.TrialSiteDaoHibernate;
@@ -45,7 +48,10 @@ public class Bootstrap {
 	private LoginDaoHibernate loginDao;
 	private TrialSiteDaoHibernate trialSiteDao;
 	private SessionFactory sessionFactory;
-
+	private PasswordEncoder passwordEncoder;
+	private SystemWideSaltSource saltSource;
+	
+	
 	public void init() {
 		ManagedSessionContext.bind(sessionFactory.openSession());
 		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_ADMIN);
@@ -64,7 +70,7 @@ public class Bootstrap {
 		adminP.setGender(Gender.MALE);
 
 		Login adminL = new Login();
-		adminL.setPassword("1$heidelberg");
+		adminL.setPassword(passwordEncoder.encodePassword("1$heidelberg",saltSource.getSystemWideSalt()));
 		adminL.setPerson(adminP);
 		adminL.setPrefLocale(Locale.GERMANY);
 		adminL.setUsername(adminP.getEMail());
@@ -78,7 +84,7 @@ public class Bootstrap {
 		trialSite.setName("DKFZ");
 		trialSite.setPostcode("69120");
 		trialSite.setStreet("INF");
-		trialSite.setPassword("1$heidelberg");
+		trialSite.setPassword(passwordEncoder.encodePassword("1$heidelberg",saltSource.getSystemWideSalt()));
 		trialSite.setContactPerson(adminP);
 		rolesAndRights.registerPerson(adminL);
 		rolesAndRights.grantRigths(adminL, trialSite);
@@ -106,7 +112,7 @@ public class Bootstrap {
 		userP.setTrialSite(trialSite);
 
 		Login userL = new Login();
-		userL.setPassword("1$heidelberg");
+		userL.setPassword(passwordEncoder.encodePassword("1$heidelberg",saltSource.getSystemWideSalt()));
 		userL.setPerson(userP);
 		userL.setPrefLocale(Locale.GERMANY);
 		userL.setUsername(userP.getEMail());
@@ -121,7 +127,7 @@ public class Bootstrap {
 		trialSite1.setName("NCT");
 		trialSite1.setPostcode("69120");
 		trialSite1.setStreet("INF");
-		trialSite1.setPassword("1$heidelberg");
+		trialSite1.setPassword(passwordEncoder.encodePassword("1$heidelberg",saltSource.getSystemWideSalt()));
 		trialSite1.setContactPerson(adminP);
 
 		trialSiteDao.create(trialSite1);
@@ -141,6 +147,8 @@ public class Bootstrap {
 		rolesAndRights = (RolesAndRights) ctx.getBean("rolesAndRights");
 		trialSiteDao = (TrialSiteDaoHibernate) ctx.getBean("trialSiteDAO");
 		sessionFactory = (SessionFactory) ctx.getBean("sessionFactory");
+		passwordEncoder = (PasswordEncoder) ctx.getBean("passwordEncoder");
+		saltSource = (SystemWideSaltSource) ctx.getBean("saltSource");
 		init();
 
 	}

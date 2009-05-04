@@ -32,37 +32,36 @@
 				<ice:selectInputText id="role"
 					valueChangeListener="#{loginHandler.rolesAC.updateObjectList}"
 					rows="10" width="150">
-					<f:selectItems
-						value="#{loginHandler.rolesAC.objectList}" />
+					<f:selectItems value="#{loginHandler.rolesAC.objectList}" />
 				</ice:selectInputText>
 				<ice:commandButton image="/img/icons/add16.png"
 					actionListener="#{loginHandler.addRole}"
 					disabled="#{!loginHandler.rolesAC.objectSelected}" />
 			</ice:panelGrid>
-				<ice:dataTable id="rolesTable" border="2"
-					value="#{loginHandler.showedObject.roles}" var="role"
-					scrollable="true" scrollHeight="80px" columnWidths="150px,55px"
-					width="205px">
-					<ice:column id="column1">
-						<ice:outputText value="#{role.name}"></ice:outputText>
-						<f:facet name="header">
-							<ice:outputText value="#{labels['buttons.remove']}" id="nameH"
-								style="width:150px;"></ice:outputText>
-						</f:facet>
-					</ice:column>
-					<ice:column id="column4">
-						<ice:commandLink id="removeId" value="!Remove!"
-							actionListener="#{loginHandler.removeRole}">
-							<ice:outputText value="#{role}" visible="false"></ice:outputText>
-						</ice:commandLink>
-						<f:facet name="header">
-							<ice:outputText value="" id="removeH" style="width:55px;"></ice:outputText>
-						</f:facet>
-					</ice:column>
-				</ice:dataTable>
+			<ice:dataTable id="rolesTable" border="2"
+				value="#{loginHandler.showedObject.roles}" var="role"
+				scrollable="true" scrollHeight="80px" columnWidths="150px,55px"
+				width="205px">
+				<ice:column id="column1">
+					<ice:outputText value="#{role.name}"></ice:outputText>
+					<f:facet name="header">
+						<ice:outputText value="#{labels['buttons.remove']}" id="nameH"
+							style="width:150px;"></ice:outputText>
+					</f:facet>
+				</ice:column>
+				<ice:column id="column4">
+					<ice:commandLink id="removeId" value="!Remove!"
+						actionListener="#{loginHandler.removeRole}">
+						<ice:outputText value="#{role}" visible="false"></ice:outputText>
+					</ice:commandLink>
+					<f:facet name="header">
+						<ice:outputText value="" id="removeH" style="width:55px;"></ice:outputText>
+					</f:facet>
+				</ice:column>
+			</ice:dataTable>
 		</ice:panelGroup>
 	</ice:panelCollapsible>
-	<!-- User rights -->
+	<!--  
 	<ice:panelCollapsible expanded="true">
 		<f:facet name="header">
 			<ice:panelGrid border="0" columns="2">
@@ -72,10 +71,8 @@
 			</ice:panelGrid>
 		</f:facet>
 		<ice:panelTabSet>
-			<!-- Rights for user objects -->
 			<ice:panelTab label="#{labels['pages.userEditPanel.rUserTab']}">
 				<ice:panelGrid columns="1">
-					<!-- Create a new user -->
 					<ice:selectBooleanCheckbox value="#{rightsPanel.createUser}"
 						partialSubmit="true">
 						<ice:outputLabel
@@ -101,12 +98,9 @@
 									itemLabel="#{labels['pages.userEditPanel.rOwnTrialSite']}" />
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rAllTrialSites']}" />
-								<!-- <f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rChosenTrialSites']}" /> -->
 							</ice:selectOneRadio>
 						</ice:panelGrid>
 					</ice:panelGrid>
-					<!-- View existing users -->
 					<ice:selectBooleanCheckbox value="#{rightsPanel.viewUser}"
 						partialSubmit="true">
 						<ice:outputLabel
@@ -121,11 +115,8 @@
 									itemLabel="#{labels['pages.userEditPanel.rSameTrialSiteU']}" />
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rAllUsers']}" />
-								<!-- <f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rChosenUsers']}" />  -->
 							</ice:selectOneRadio>
 						</ice:panelGrid>
-						<!-- <ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
 								<f:selectItem
@@ -137,9 +128,8 @@
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rActions']}" />
 							</ice:selectManyCheckbox>
-						</ice:panelGrid> -->
+						</ice:panelGrid>
 					</ice:panelGrid>
-					<!-- Change an existing user -->
 					<ice:selectBooleanCheckbox value="#{rightsPanel.changeUser}"
 						partialSubmit="true">
 						<ice:outputLabel
@@ -157,7 +147,7 @@
 								<f:selectItem itemLabel="!Custom role!" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
-						<!-- <ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
 								<f:selectItem
@@ -167,20 +157,17 @@
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rUsersR']} " />
 							</ice:selectManyCheckbox>
-						</ice:panelGrid> -->
+						</ice:panelGrid>>
 					</ice:panelGrid>
 				</ice:panelGrid>
 			</ice:panelTab>
-			<!-- Rights for trial site objects -->
 			<ice:panelTab label="#{labels['pages.userEditPanel.rTrialSiteTab']}">
 				<ice:panelGrid columns="1">
-					<!-- Create a new trial site -->
 					<ice:selectBooleanCheckbox value="#{rightsPanel.createTrialSite}"
 						partialSubmit="true">
 						<ice:outputLabel
 							value="#{labels['pages.userEditPanel.rCreateTrialSite']}" />
 					</ice:selectBooleanCheckbox>
-					<!-- View existing trial sites -->
 					<ice:selectBooleanCheckbox value="#{rightsPanel.viewTrialSite}"
 						partialSubmit="true">
 						<ice:outputLabel
@@ -196,11 +183,9 @@
 									itemLabel="#{labels['pages.userEditPanel.rOwnTrialSite']}" />
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rAllTrialSites']}" />
-								<!-- <f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rChosenTrialSites']}" /> -->
 							</ice:selectOneRadio>
 						</ice:panelGrid>
-						<!-- <ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rInst']}" />
@@ -213,15 +198,14 @@
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rActions']}" />
 							</ice:selectManyCheckbox>
-						</ice:panelGrid> -->
+						</ice:panelGrid>
 					</ice:panelGrid>
-					<!-- Change an existing trial site -->
 					<ice:selectBooleanCheckbox value="#{rightsPanel.changeTrialSite}"
 						partialSubmit="true">
 						<ice:outputLabel
 							value="#{labels['pages.userEditPanel.rChangeTrialSite']}" />
 					</ice:selectBooleanCheckbox>
-					<!--  <ice:panelGrid columns="2"
+					<ice:panelGrid columns="2"
 						rendered="#{rightsPanel.changeTrialSite}"
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rData']}" />
@@ -232,13 +216,11 @@
 									itemLabel="#{labels['pages.userEditPanel.rContPer']}" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid> 
-					</ice:panelGrid> -->
+					</ice:panelGrid>
 				</ice:panelGrid>
 			</ice:panelTab>
-			<!-- Rights for trial objects -->
 			<ice:panelTab label="#{labels['pages.userEditPanel.rTrialTab']}">
 				<ice:panelGrid columns="1">
-					<!-- Create a new trial -->
 					<ice:selectBooleanCheckbox value="#{rightsPanel.createTrial}"
 						partialSubmit="true">
 						<ice:outputLabel
@@ -254,11 +236,9 @@
 									itemLabel="#{labels['pages.userEditPanel.rOwnTrialSite']}" />
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rAllTrialSites']}" />
-								<!-- <f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rChosenTrialSites']}" />  -->
 							</ice:selectOneRadio>
 						</ice:panelGrid>
-						<!-- <ice:outputLabel
+						<ice:outputLabel
 							value="#{labels['pages.userEditPanel.rArmSubConf'] }" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
@@ -267,8 +247,8 @@
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rFullConf'] }" />
 							</ice:selectManyCheckbox>
-						</ice:panelGrid> -->
-						<!-- <ice:outputLabel
+						</ice:panelGrid>
+						<ice:outputLabel
 							value="#{labels['pages.userEditPanel.rAlgorithms'] }" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
@@ -277,8 +257,8 @@
 								<f:selectItem itemLabel="!Block randomization (with strata)!" />
 								<f:selectItem itemLabel="!Minimazation!" />
 							</ice:selectManyCheckbox>
-						</ice:panelGrid> -->
-						<!-- <ice:outputLabel
+						</ice:panelGrid>
+						<ice:outputLabel
 							value="#{labels['pages.userEditPanel.rCreateTemp'] }" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
@@ -287,9 +267,8 @@
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rAlgorithmT'] }" />
 							</ice:selectManyCheckbox>
-						</ice:panelGrid> -->
+						</ice:panelGrid>
 					</ice:panelGrid>
-					<!-- View existing trials -->
 					<ice:selectBooleanCheckbox value="#{rightsPanel.viewTrial}"
 						partialSubmit="true">
 						<ice:outputLabel
@@ -305,14 +284,14 @@
 									itemLabel="#{labels['pages.userEditPanel.rOwnTrials'] }" />
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rAllTrials'] }" />
-								<!-- <f:selectItem
-									itemLabel="#{labels['pages.userEditPanel.rChosenTrials'] }" /> -->
+								<f:selectItem
+									itemLabel="#{labels['pages.userEditPanel.rChosenTrials'] }" />
 							</ice:selectOneRadio>
 						</ice:panelGrid>
-						<!-- <ice:outputLabel value="#{labels['pages.userEditPanel.rData'] }" />
+						<ice:outputLabel value="#{labels['pages.userEditPanel.rData'] }" />
 						<ice:panelGrid>
 							<ice:selectManyCheckbox>
-								<f:selectItem
+								<f:selectItem>
 									itemLabel="#{labels['pages.userEditPanel.rGeneralD'] }" />
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rSites'] }" />
@@ -326,15 +305,14 @@
 								<f:selectItem
 									itemLabel="#{labels['pages.userEditPanel.rActions'] }" />
 							</ice:selectManyCheckbox>
-						</ice:panelGrid> -->
+						</ice:panelGrid>
 					</ice:panelGrid>
-					<!-- Change an existing trial -->
 					<ice:selectBooleanCheckbox value="#{rightsPanel.changeTrial}"
 						partialSubmit="true">
 						<ice:outputLabel
 							value="#{labels['pages.userEditPanel.rChangeTrial'] }" />
 					</ice:selectBooleanCheckbox>
-					<!-- <ice:panelGrid columns="2" rendered="#{rightsPanel.changeTrial}"
+			<ice:panelGrid columns="2" rendered="#{rightsPanel.changeTrial}"
 						style="padding: 10px; border: 1px; border-style: solid; border-color: gray;">
 						<ice:outputLabel value="#{labels['pages.userEditPanel.rData'] }" />
 						<ice:panelGrid>
@@ -350,9 +328,9 @@
 								<f:selectItem itemLabel="#{labels['pages.userEditPanel.rAlg'] }" />
 							</ice:selectManyCheckbox>
 						</ice:panelGrid>
-					</ice:panelGrid> -->
+					</ice:panelGrid>
 				</ice:panelGrid>
 			</ice:panelTab>
 		</ice:panelTabSet>
-	</ice:panelCollapsible>
+	</ice:panelCollapsible> -->
 </ice:panelGroup>

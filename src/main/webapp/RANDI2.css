@@ -52,6 +52,27 @@
 	text-align: center; /* Hack for IE5/Win */
 }
 
+.login {
+	width: 600px;
+	height: 200px;
+	margin: 0px auto; /* Right and left margin widths set to "auto" */
+	margin-top: 150px; text-align : left; /* Counteract to IE5/Win Hack */
+	padding: 0px;
+	text-align: left;
+}
+
+.loginInfo {
+	padding: 10px;
+}
+
+.terms{
+	width: 800px;
+	margin: 0px auto; /* Right and left margin widths set to "auto" */
+	margin-top: 10px; text-align : left; /* Counteract to IE5/Win Hack */
+	padding: 0px;
+	text-align: left;
+}
+
 .contentRANDI2 {
 	width: 700px;
 	margin: 0px auto; /* Right and left margin widths set to "auto" */

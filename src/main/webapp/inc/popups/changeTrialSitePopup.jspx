@@ -19,8 +19,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelPopup draggable="true" modal="true"
-		visible="#{loginHandler.changeTrialSitePVisible}"
-		rendered="#{loginHandler.changeTrialSitePVisible}">
+		visible="#{popups.changeTrialSitePVisible}"
+		rendered="#{popups.changeTrialSitePVisible}">
 		<f:facet name="header">
 			<ice:outputText value="#{labels['pages.changeTrialSitePopup.header']}"></ice:outputText>
 		</f:facet>
@@ -57,7 +57,7 @@
 							action="#{loginHandler.changeTrialSite}" disabled="#{!loginHandler.trialSitesAC.objectSelected}"/>
 						<ice:commandButton immediate="true"
 							value="#{labels['buttons.cancel']}"
-							action="#{loginHandler.hideChangeTrialSitePopup}"></ice:commandButton>
+							action="#{popups.hideChangeTrialSitePopup}"></ice:commandButton>
 					</ice:panelGrid>
 				</ice:panelGroup>
 			</ice:panelGrid>

@@ -19,8 +19,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelPopup draggable="true" modal="true"
-		visible="#{loginHandler.changeAssistantPVisible}"
-		rendered="#{loginHandler.changeAssistantPVisible}">
+		visible="#{popups.changeAssistantPVisible}"
+		rendered="#{popups.changeAssistantPVisible}">
 		<f:facet name="header">
 			<ice:outputText
 				value="#{labels['pages.changeAssistantPopup.header']}"></ice:outputText>
@@ -55,7 +55,7 @@
 							disabled="#{!loginHandler.tsMembersAC.objectSelected}" />
 						<ice:commandButton immediate="true"
 							value="#{labels['buttons.cancel']}"
-							action="#{loginHandler.hideChangeAssistantPopup}"></ice:commandButton>
+							action="#{popups.hideChangeAssistantPopup}"></ice:commandButton>
 					</ice:panelGrid>
 				</ice:panelGroup>
 			</ice:panelGrid>
