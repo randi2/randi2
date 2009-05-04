@@ -89,6 +89,18 @@ public class RegisterPage {
 			e.printStackTrace();
 		}
 	}
+	
+	public void go2Login(ActionEvent event){
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect(
+					FacesContext.getCurrentInstance().getExternalContext()
+							.getRequestContextPath()
+							+ "/login.jspx");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public void acceptTerms(ActionEvent event) {
 		this.termsPvisible = false;
