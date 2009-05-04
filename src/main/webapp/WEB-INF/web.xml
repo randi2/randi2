@@ -103,7 +103,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<listener-class>
 			org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
-
+	<listener>
+	  <listener-class>org.springframework.security.ui.session.HttpSessionEventPublisher</listener-class>
+	</listener>
 	<listener>
 		<listener-class>de.randi2.jsf.fileupload.InputFileSessionCleaner</listener-class>
 	</listener>

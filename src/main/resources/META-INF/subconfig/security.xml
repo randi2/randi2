@@ -16,6 +16,7 @@
 			authentication-failure-url="/login.jspx"
 			login-processing-url="/j_spring_security_check" />
 		<sec:intercept-url pattern="/randi2.jspx" access="ROLE_USER" />
+		<sec:concurrent-session-control max-sessions="1"/>
 	</sec:http>
 
 	<bean id="authenticationProvider"
