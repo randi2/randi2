@@ -6,12 +6,13 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.hibernate.validator.InvalidStateException;
-import org.hibernate.validator.InvalidValue;
-import org.springframework.aop.ThrowsAdvice;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.annotation.Secured;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
+import org.springframework.security.providers.dao.SaltSource;
+import org.springframework.security.providers.dao.salt.SystemWideSaltSource;
+import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,9 @@ public class UserServiceImpl implements UserService {
 
 	
 	private Logger logger = Logger.getLogger(UserServiceImpl.class);
+	
+	@Autowired private PasswordEncoder passwordEncoder;
+	@Autowired private SystemWideSaltSource saltSource;
 	
 	private LoginDao loginDao;
 	private PersonDao personDao;
@@ -87,7 +91,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Secured({"ROLE_USER","ROLE_ANONYMOUS","ACL_LOGIN_CREATE"})
+	@Secured({"ROLE_ANONYMOUS","ACL_LOGIN_CREATE"})
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void register(Login newObject) {
 		// Investigator Role (self-registration process)
@@ -96,10 +100,21 @@ public class UserServiceImpl implements UserService {
 						Role.ROLE_ANONYMOUS)) {
 			newObject.addRole(Role.ROLE_INVESTIGATOR);
 		}
+		newObject.setPassword(passwordEncoder.encodePassword(newObject.getPassword(), saltSource.getSystemWideSalt()));
 		loginDao.create(newObject);
 		// send registration Mail
 		sendRegistrationMail(newObject);
 
+	}
+	
+	@Override
+	@Secured({"ROLE_USER","ACL_LOGIN_CREATE"})
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	public void create(Login newObject){
+		newObject.setPassword(passwordEncoder.encodePassword(newObject.getPassword(), saltSource.getSystemWideSalt()));
+		loginDao.create(newObject);
+		// send registration Mail
+		sendRegistrationMail(newObject);
 	}
 
 	@Override

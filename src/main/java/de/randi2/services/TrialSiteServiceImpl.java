@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.annotation.Secured;
+import org.springframework.security.providers.dao.salt.SystemWideSaltSource;
+import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,11 +18,13 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 	private Logger logger = Logger.getLogger(TrialServiceImpl.class);
 	
 	@Autowired private TrialSiteDao siteDAO;
+	@Autowired private PasswordEncoder passwordEncoder;
+	@Autowired private SystemWideSaltSource saltSource;
 	
 	@Override
 	@Secured({"ROLE_ANONYMOUS"})
 	public boolean authorize(TrialSite site, String password) {
-		return site.getPassword().equals(password);
+		return site.getPassword().equals(passwordEncoder.encodePassword(password,saltSource.getSystemWideSalt()));
 		
 	}
 
@@ -42,6 +46,7 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 	@Secured({"ROLE_USER", "ACL_TRIALSITE_CREATE"})
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void create(TrialSite newSite) {
+		newSite.setPassword(passwordEncoder.encodePassword(newSite.getPassword(), saltSource.getSystemWideSalt()));
 		siteDAO.create(newSite);
 		
 	}

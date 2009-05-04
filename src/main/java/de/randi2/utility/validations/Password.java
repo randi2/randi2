@@ -16,7 +16,7 @@ import org.hibernate.validator.ValidatorClass;
 public @interface Password {
 	
 	int min() default  8;
-	int max() default 50;
-	int hash_length() default 64;
+	int max() default 30;
+	int hash_length() default 32;
 	String message() default "{validator.password}";
 }
