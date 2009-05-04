@@ -14,6 +14,7 @@
  */
 package de.randi2.jsf.controllerBeans;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -33,6 +34,7 @@ import org.springframework.security.context.SecurityContextHolder;
 
 import de.randi2.jsf.backingBeans.RegisterPage;
 import de.randi2.jsf.exceptions.RegistrationException;
+import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.model.AbstractDomainObject;
@@ -51,6 +53,10 @@ import de.randi2.services.UserService;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
+/**
+ * @author lplotni
+ * 
+ */
 public class LoginHandler extends AbstractHandler<Login> {
 
 	private UserService userService;
@@ -65,7 +71,13 @@ public class LoginHandler extends AbstractHandler<Login> {
 		this.siteService = siteService;
 	}
 
+	private Popups popups;
+
 	public LoginHandler() {
+		popups = ((Popups) FacesContext.getCurrentInstance().getApplication()
+				.getELResolver().getValue(
+						FacesContext.getCurrentInstance().getELContext(), null,
+						"popups"));
 	}
 
 	// This Object is representing the current User
@@ -81,89 +93,8 @@ public class LoginHandler extends AbstractHandler<Login> {
 	// Objects for User-Creating Process
 	private Login newUser = null;
 	private String tsPassword = null;
+
 	// ---
-
-	// Popup's flags
-	private boolean userSavedPVisible = false;
-	private boolean changePasswordPVisible = false;
-	private boolean changeTrialSitePVisible = false;
-	private boolean changeAssistantPVisible = false;
-
-	// POPUPS
-	public boolean isChangeTrialSitePVisible() {
-		return changeTrialSitePVisible;
-	}
-
-	public void setChangeTrialSitePVisible(boolean changeTrialSitePVisible) {
-		this.changeTrialSitePVisible = changeTrialSitePVisible;
-	}
-
-	public boolean isChangePasswordPVisible() {
-		return changePasswordPVisible;
-	}
-
-	public void setChangePasswordPVisible(boolean changePasswordPVisible) {
-		this.changePasswordPVisible = changePasswordPVisible;
-	}
-
-	public boolean isUserSavedPVisible() {
-		return userSavedPVisible;
-	}
-
-	public void setUserSavedPVisible(boolean userSavedPVisible) {
-		this.userSavedPVisible = userSavedPVisible;
-	}
-
-	public String hideUserSavedPopup() {
-		this.userSavedPVisible = false;
-		return Randi2.SUCCESS;
-	}
-
-	public String showChangePasswordPopup() {
-		// Show the changePasswordPopup
-		this.changePasswordPVisible = true;
-		return Randi2.SUCCESS;
-	}
-
-	public String hideChangePasswordPopup() {
-		// Hide the changePasswordPopup
-		this.changePasswordPVisible = false;
-		return Randi2.SUCCESS;
-	}
-
-	public String showChangeTrialSitePopup() {
-		// Show the changeTrialSitePopup
-		this.changeTrialSitePVisible = true;
-		return Randi2.SUCCESS;
-	}
-
-	public String showChangeAssistantPopup() {
-		// Show the changeTrialSitePopup
-		this.changeAssistantPVisible = true;
-		return Randi2.SUCCESS;
-	}
-
-	public String hideChangeTrialSitePopup() {
-		// Hide the changeTrialSitePopup
-		this.changeTrialSitePVisible = false;
-		return Randi2.SUCCESS;
-	}
-
-	public boolean isChangeAssistantPVisible() {
-		return changeAssistantPVisible;
-	}
-
-	public void setChangeAssistantPVisible(boolean _changeAssistantPVisible) {
-		changeAssistantPVisible = _changeAssistantPVisible;
-	}
-
-	public String hideChangeAssistantPopup() {
-		// Hide the changeAssistantPopup
-		this.changeAssistantPVisible = false;
-		return Randi2.SUCCESS;
-	}
-
-	// ----
 
 	// UI logic
 	public void addRole(ActionEvent event) {
@@ -182,7 +113,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 
 	public String changePassword() {
 		this.saveObject();
-		this.hideChangePasswordPopup();
+		popups.hideChangePasswordPopup();
 		return Randi2.SUCCESS;
 
 	}
@@ -190,7 +121,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public String changeTrialSite() {
 		assert (trialSitesAC.getSelectedObject() != null);
 		showedObject.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
-		this.hideChangeTrialSitePopup();
+		popups.hideChangeTrialSitePopup();
 		this.saveObject();
 		return Randi2.SUCCESS;
 	}
@@ -199,7 +130,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 		assert (tsMembersAC.getSelectedObject() != null);
 		showedObject.getPerson()
 				.setAssistant((tsMembersAC.getSelectedObject()));
-		this.hideChangeAssistantPopup();
+		popups.hideChangeAssistantPopup();
 		this.saveObject();
 		return Randi2.SUCCESS;
 	}
@@ -215,7 +146,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 		try {
 			showedObject = userService.update(showedObject);
 			// Making the pop up visible
-			userSavedPVisible = true;
+			popups.setUserSavedPVisible(true);
 			return Randi2.SUCCESS;
 		} catch (Exception exp) {
 			Randi2.showMessage(exp);
@@ -238,11 +169,11 @@ public class LoginHandler extends AbstractHandler<Login> {
 				// A new user was created by another logged in user
 				newUser = showedObject;
 			} else {
-				// Normal self-registration
+				// Normal self-registration - trial site password check!
 				assert (newUser != null);
 				try {
-					if (!tsPassword.equals(trialSitesAC.getSelectedObject()
-							.getPassword())) {
+					if (!siteService.authorize(
+							trialSitesAC.getSelectedObject(), tsPassword)) {
 						throw new RegistrationException(
 								RegistrationException.PASSWORD_ERROR);
 					}
@@ -252,12 +183,14 @@ public class LoginHandler extends AbstractHandler<Login> {
 							RegistrationException.TRIAL_SITE_ERROR);
 				}
 			}
+			/* Setting the data in the new object */
 			newUser.setPrefLocale(getChosenLocale());
 			newUser.setUsername(newUser.getPerson().getEMail());
 			newUser.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
-			if (tsMembersAC.getSelectedObject() != null)
+			if (tsMembersAC.getSelectedObject() != null) // Assistant
 				newUser.getPerson().setAssistant(
 						tsMembersAC.getSelectedObject());
+			/* The new object will be saved */
 			userService.register(newUser);
 			// Making the successPopup visible (NORMAL REGISTRATION)
 			if (!creatingMode) {
@@ -268,13 +201,13 @@ public class LoginHandler extends AbstractHandler<Login> {
 						.setRegPvisible(true);
 				// Reseting the objects used for the registration process
 				this.cleanUp();
+				// Invalidate Reg-Session
+				invalidateSession();
 			}
 			// Making the popup visible (CREATING AN USER BY ANOTHER USER)
 			if (creatingMode) {
-				this.userSavedPVisible = true;
+				popups.setUserSavedPVisible(true);
 			}
-			// Invalidate Reg-Session
-			invalidateSession();
 			return Randi2.SUCCESS;
 		} catch (InvalidStateException exp) {
 			// TODO for a stable release delete the following stacktrace
@@ -301,8 +234,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 */
 	public String logoutUser() {
 		loggedInUser = userService.update(loggedInUser);
-		// Cleaning up
-		this.cleanUp();
 		invalidateSession();
 		return Randi2.SUCCESS;
 	}
@@ -481,6 +412,10 @@ public class LoginHandler extends AbstractHandler<Login> {
 		return rolesAC;
 	}
 
+	/**
+	 * Use this method to invalidate the current HTTPSession and show the
+	 * loginPage
+	 */
 	public void invalidateSession() {
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
 				.getExternalContext().getSession(false);

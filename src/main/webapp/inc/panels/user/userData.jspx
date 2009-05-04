@@ -55,7 +55,7 @@
 				rendered="#{!loginHandler.creatingMode}">
 				<ice:outputText value="***********"></ice:outputText>
 				<ice:commandButton value="#{labels['buttons.changePassword']}"
-					action="#{loginHandler.showChangePasswordPopup}"
+					action="#{popups.showChangePasswordPopup}"
 					image="/img/icons/change16.png" style="margin-left: 15px;"></ice:commandButton>
 			</ice:panelGroup>
 			<ice:panelGroup id="passwordGroup"

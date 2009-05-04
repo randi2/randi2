@@ -169,7 +169,8 @@
 						<ice:panelGrid columns="2">
 							<ice:outputLabel for="username"
 								value="#{labels['login.username']}"></ice:outputLabel>
-							<ice:outputText id="username" value="#{loginHandler.newUser.person.EMail}" />
+							<ice:outputText id="username"
+								value="#{loginHandler.newUser.person.EMail}" />
 							<ice:outputLabel for="password"
 								value="#{labels['login.password']}"></ice:outputLabel>
 							<ice:panelGroup id="passwordGroup">

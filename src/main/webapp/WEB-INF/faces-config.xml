@@ -38,6 +38,12 @@
 		<managed-bean-class>de.randi2.jsf.supportBeans.SecureLogin</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<description>Bean for various RANDI2 popups</description>
+		<managed-bean-name>popups</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.supportBeans.Popups</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
 
 	<managed-bean>
 		<description>
@@ -157,7 +163,7 @@
 		<navigation-case>
 			<from-action>#{loginHandler.logoutUser}</from-action>
 			<from-outcome>success</from-outcome>
-			<to-view-id>/goodbye.jspx</to-view-id>
+			<to-view-id>/login.jspx</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
