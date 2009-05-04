@@ -22,11 +22,18 @@ public interface UserService extends AbstractService<Login> {
 	public Login update(Login changedObject);
 
 	/**
-	 * Use this method to create new RANDI2 user.
+	 * Use this method to create new RANDI2 Investigator user (self-registration process).
 	 * 
 	 * @param newObject
 	 */
 	public void register(Login newObject);
+	
+	/**
+	 * Use this method to create new RANDI2 user.
+	 * 
+	 * @param newObject
+	 */
+	public void create(Login newObject);
 	
 	/**
 	 * This method creates a brand new user with the investigator role for the self-registration process.
