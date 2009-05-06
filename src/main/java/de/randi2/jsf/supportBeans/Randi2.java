@@ -34,7 +34,7 @@ import de.randi2.utility.webfilter.HibernateWebFilter;
  */
 public class Randi2 {
 
-	public static String RANDI2_END = HibernateWebFilter.END_OF_CONVERSATION_FLAG;
+	public static final String RANDI2_END = HibernateWebFilter.END_OF_CONVERSATION_FLAG;
 	
 	private String version = null;
 

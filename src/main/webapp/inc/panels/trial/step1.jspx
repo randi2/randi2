@@ -54,14 +54,14 @@
 		<f:facet name="header">
 			<ice:outputLabel value="#{labels['trial.protocol']}" />
 		</f:facet>
-		<!-- file upload -->
-		<ice:panelGroup style="padding: 5px;" rendered="#{!inputFileController.fileOnServer}">
+		<!-- file upload style="padding: 5px;" style="position: relative; left: 10%;" -->
+		<ice:panelGroup rendered="#{!inputFileController.fileOnServer}">
 			<!-- file upload usage with progress callback. -->
 			<ice:inputFile id="inputFileName" progressRender="true" 
 				progressListener="#{inputFileController.fileUploadProgress}"
 				actionListener="#{inputFileController.uploadFile}" />
 			<!-- progress bar, percent value is upated via progressListener-->
-			<ice:outputProgress value="#{inputFileController.fileProgress}" style="position: relative; left: 10%;"/>
+			<ice:outputProgress value="#{inputFileController.fileProgress}"/>
 			<!-- Dipslay File Upload messages -->
 			<ice:panelGroup>
 				<ice:message for="inputFileName" />
@@ -146,15 +146,15 @@
 			<ice:selectInputText id="leadingTrialSite"
 				required="#{trialHandler.showedObject.requiredFields['leadingSite']}"
 				valueChangeListener="#{trialHandler.trialSitesAC.updateObjectList}" rows="10"
-				width="200">
+				width="200" value="#{trialHandler.trialSitesAC.objectRepresentation}">
 				<f:selectItems value="#{trialHandler.trialSitesAC.objectList}" />
 			</ice:selectInputText>
 			<ice:outputLabel for="sponsorInvestigator"
-				value="#{labels['trial.sponsorInvestigator']}"></ice:outputLabel>
+				value="#{labels['trial.sponsorInvestigator']}" rendered="#{trialHandler.trialSitesAC.objectSelected}"></ice:outputLabel>
 			<ice:selectInputText id="sponsorInvestigator" width="200"
 				required="#{trialHandler.showedObject.requiredFields['sponsorInvestigator']}"
 				valueChangeListener="#{trialHandler.sponsorInvestigatorsAC.updateObjectList}"
-				disabled="#{!trialHandler.trialSitesAC.objectSelected}">
+				rendered="#{trialHandler.trialSitesAC.objectSelected}">
 				<f:selectItems value="#{trialHandler.sponsorInvestigatorsAC.objectList}" />
 			</ice:selectInputText>
 		</ice:panelGrid>

@@ -15,18 +15,14 @@
 package de.randi2.jsf.backingBeans;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Vector;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.faces.model.SelectItem;
 
 import com.icesoft.faces.context.effects.Effect;
 import com.icesoft.faces.context.effects.Highlight;
 
 import de.randi2.jsf.controllerBeans.LoginHandler;
-import de.randi2.model.enumerations.Gender;
 
 /**
  * <p>
@@ -38,25 +34,13 @@ import de.randi2.model.enumerations.Gender;
  */
 public class RegisterPage {
 
-	private Vector<SelectItem> genderItems;
-
 	private boolean termsPvisible = true;
 
 	private boolean regPvisible = false;
 
 	public RegisterPage() {
 	}
-
-	public List<SelectItem> getGenderItems() {
-		if (genderItems == null) {
-			genderItems = new Vector<SelectItem>(Gender.values().length);
-			for (Gender g : Gender.values()) {
-				genderItems.add(new SelectItem(g, g.toString()));
-			}
-		}
-		return genderItems;
-	}
-
+	
 	public boolean getTermsPvisible() {
 		return this.termsPvisible;
 	}

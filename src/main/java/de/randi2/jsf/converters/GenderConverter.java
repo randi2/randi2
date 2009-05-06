@@ -46,11 +46,10 @@ public class GenderConverter implements Converter {
 
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
-		String out = ResourceBundle.getBundle( "de.randi2.jsf.i18n.gender",((LoginHandler) FacesContext.getCurrentInstance()
+		return ResourceBundle.getBundle( "de.randi2.jsf.i18n.gender",((LoginHandler) FacesContext.getCurrentInstance()
 			    .getApplication().getELResolver().getValue(
 			    	      FacesContext.getCurrentInstance().getELContext(), null,
 			    	      "loginHandler")).getChosenLocale()).getString(arg2.toString());
-			return out;
 	}
 
 }
