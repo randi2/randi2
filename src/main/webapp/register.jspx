@@ -59,6 +59,13 @@
 						</ice:panelGrid>
 						<ice:panelGrid>
 							<ice:panelGrid border="0" columns="3" style="float:left">
+								<ice:outputLabel for="gender" value="#{labels['person.gender']}"></ice:outputLabel>
+								<ice:selectOneMenu id="gender"
+									value="#{loginHandler.newUser.person.gender}">
+									<f:converter
+										converterId="de.randi2.jsf.converters.GENDER_CONVERTER" />
+									<f:selectItems value="#{registerPage.genderItems}" />
+								</ice:selectOneMenu>
 								<ice:outputLabel for="title" value="#{labels['person.title']}"></ice:outputLabel>
 								<ice:inputText id="title"
 									value="#{loginHandler.newUser.person.title}"
@@ -94,13 +101,6 @@
 										value="#{loginHandler.newUser.person}" />
 								</ice:inputText>
 								<ice:message for="surname" id="surnameError"></ice:message>
-								<ice:outputLabel for="gender" value="#{labels['person.gender']}"></ice:outputLabel>
-								<ice:selectOneMenu id="gender"
-									value="#{loginHandler.newUser.person.gender}">
-									<f:converter
-										converterId="de.randi2.jsf.converters.GENDER_CONVERTER" />
-									<f:selectItems value="#{registerPage.genderItems}" />
-								</ice:selectOneMenu>
 							</ice:panelGrid>
 							<ice:panelGrid border="0" columns="2">
 								<ice:graphicImage value="/img/icons/contact16.png"></ice:graphicImage>

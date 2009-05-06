@@ -8,6 +8,7 @@
 		<message-bundle>de.randi2.jsf.i18n.trialState</message-bundle>
 		<message-bundle>de.randi2.jsf.i18n.criteria</message-bundle>
 		<message-bundle>de.randi2.jsf.i18n.algorithms</message-bundle>
+		<message-bundle>de.randi2.jsf.i18n.gender</message-bundle>
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 		<locale-config>
 			<default-locale>en_US</default-locale>
