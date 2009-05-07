@@ -41,8 +41,8 @@
         </mailingList>
     </mailingLists>
     <issueManagement>
-        <system>sourceforge</system>
-        <url>https://sourceforge.net/tracker2/?group_id=217595&amp;atid=1040694</url>
+        <system>github</system>
+        <url>http://github.com/jthoenes/randi2/issues</url>
     </issueManagement>
     <ciManagement>
         <system>hudson</system>
