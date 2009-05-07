@@ -26,7 +26,7 @@
 					value="#{labels['pages.userEditPanel.rolesHeader']}"></ice:outputLabel>
 			</ice:panelGrid>
 		</f:facet>
-		<ice:panelGroup style="padding-left:  90px; padding-bottom: 5px;">
+		<ice:panelGroup>
 			<ice:panelGrid border="0" columns="3">
 				<ice:outputLabel for="role" value="#{labels['login.role']}"></ice:outputLabel>
 				<ice:selectInputText id="role"

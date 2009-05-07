@@ -37,6 +37,8 @@ public class AutoCompleteObject<O extends AbstractDomainObject> {
 	private List<SelectItem> matchesList = null;
 
 	private O selectedObject = null;
+	
+	private String objectRepresentation;
 
 	public AutoCompleteObject(AbstractService<O> _service) {
 		service = _service;
@@ -65,8 +67,6 @@ public class AutoCompleteObject<O extends AbstractDomainObject> {
 		}
 		return matchesList;
 	}
-
-	// ----
 
 	/**
 	 * Eventlistener for autocomplete widget.
@@ -126,6 +126,14 @@ public class AutoCompleteObject<O extends AbstractDomainObject> {
 
 	public O getSelectedObject() {
 		return selectedObject;
+	}
+	
+	public String getObjectRepresentation() {
+		return objectRepresentation;
+	}
+	
+	public void setObjectRepresentation(String objectRepresentation) {
+		this.objectRepresentation = objectRepresentation;
 	}
 	
 	public boolean isObjectSelected(){

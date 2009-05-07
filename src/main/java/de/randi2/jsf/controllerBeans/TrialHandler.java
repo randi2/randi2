@@ -118,10 +118,12 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	public AutoCompleteObject<Login> getSponsorInvestigatorsAC() {
-		if (sponsorInvestigatorsAC == null)
-			sponsorInvestigatorsAC = new AutoCompleteObject<Login>(trialSitesAC
+			if(trialSitesAC.isObjectSelected())
+				sponsorInvestigatorsAC = new AutoCompleteObject<Login>(trialSitesAC
 					.getSelectedObject().getMembersWithSpecifiedRole(
 							Role.ROLE_P_INVESTIGATOR));
+			else
+				sponsorInvestigatorsAC = new AutoCompleteObject<Login>(new ArrayList<Login>());
 		return sponsorInvestigatorsAC;
 	}
 

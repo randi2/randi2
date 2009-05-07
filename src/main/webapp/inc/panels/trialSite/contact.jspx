@@ -17,6 +17,16 @@
 <ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" border="0" columns="2" style="float:left">
+	<ice:outputLabel for="gender" value="#{labels['person.gender']}"
+		rendered="#{trialSiteHandler.editable}"></ice:outputLabel>
+	<ice:selectOneMenu id="gender"
+		value="#{trialSiteHandler.showedObject.contactPerson.gender}"
+		rendered="#{trialSiteHandler.editable}">
+		<f:converter converterId="de.randi2.jsf.converters.GENDER_CONVERTER" />
+		<f:attribute name="dObject"
+			value="#{trialSiteHandler.showedObject.contactPerson}" />
+		<f:selectItems value="#{enums.genderItems}" />
+	</ice:selectOneMenu>
 	<ice:outputLabel for="title" value="#{labels['person.title']}"></ice:outputLabel>
 	<ice:outputText id="titleO"
 		value="#{trialSiteHandler.showedObject.contactPerson.title}"
@@ -65,16 +75,6 @@
 		</ice:inputText>
 		<ice:message for="surname" />
 	</ice:panelGroup>
-	<ice:outputLabel for="gender" value="#{labels['person.gender']}"
-		rendered="#{trialSiteHandler.editable}"></ice:outputLabel>
-	<ice:selectOneMenu id="gender"
-		value="#{trialSiteHandler.showedObject.contactPerson.gender}"
-		rendered="#{trialSiteHandler.editable}">
-		<f:converter converterId="de.randi2.jsf.converters.GENDER_CONVERTER" />
-		<f:attribute name="dObject"
-			value="#{trialSiteHandler.showedObject.contactPerson}" />
-		<f:selectItems value="#{registerPage.genderItems}" />
-	</ice:selectOneMenu>
 	<ice:outputLabel for="eMail" value="#{labels['person.eMail']}"></ice:outputLabel>
 	<ice:outputText id="eMailO"
 		value="#{trialSiteHandler.showedObject.contactPerson.EMail}"

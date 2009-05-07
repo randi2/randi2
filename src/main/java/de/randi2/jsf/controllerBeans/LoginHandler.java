@@ -52,10 +52,6 @@ import de.randi2.services.UserService;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
-/**
- * @author lplotni
- * 
- */
 public class LoginHandler extends AbstractHandler<Login> {
 
 	private UserService userService;
@@ -382,17 +378,15 @@ public class LoginHandler extends AbstractHandler<Login> {
 	}
 
 	public AutoCompleteObject<Person> getTsMembersAC() {
-		if (tsMembersAC == null) {
-			assert (trialSitesAC != null);
-			if (trialSitesAC.getSelectedObject() != null)
-				tsMembersAC = new AutoCompleteObject<Person>(trialSitesAC
-						.getSelectedObject().getMembers());
-			else
-				// FIXME - from time to time we've got a strange behavioure here
-				// ...
-				tsMembersAC = new AutoCompleteObject<Person>(showedObject
-						.getPerson().getTrialSite().getMembers());
-		}
+		if (trialSitesAC!=null && trialSitesAC.getSelectedObject() != null)
+			tsMembersAC = new AutoCompleteObject<Person>(trialSitesAC
+					.getSelectedObject().getMembers());
+		else if (showedObject != null)
+			tsMembersAC = new AutoCompleteObject<Person>(showedObject
+					.getPerson().getTrialSite().getMembers());
+//		else
+//			tsMembersAC = new AutoCompleteObject<Person>(
+//					new ArrayList<Person>());
 		return tsMembersAC;
 	}
 
