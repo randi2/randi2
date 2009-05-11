@@ -59,5 +59,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 	}
 	
-		
+		public void setSessionFactory(SessionFactory sessionFactory) {
+			this.sessionFactory = sessionFactory;
+		}
 }
