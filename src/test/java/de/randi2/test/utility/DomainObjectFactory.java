@@ -1,7 +1,5 @@
 package de.randi2.test.utility;
 
-import de.randi2.test.utility.TestStringUtil;
-import de.randi2.model.AbstractDomainObject;
 import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 
 import de.randi2.model.Login;
 import de.randi2.model.Person;
+import de.randi2.model.Role;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.enumerations.Gender;
@@ -29,6 +28,14 @@ public class DomainObjectFactory {
 		p.setGender(Gender.MALE);
 		p.setPhone("01234/6789");
 		return p;
+	}
+	
+	public Role getRole(){
+		Role r = new Role(testStringUtil.getWithLength(20),
+				false, true, true, true, false, false, true, true, true, true,
+				false, true, false, true, true, false, true, false, true, false,
+				true, true, false, false, false, true, false, false, null);
+		return r;
 	}
 	
 	public TrialSite getTrialSite(){

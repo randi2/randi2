@@ -205,6 +205,9 @@ public class Login extends AbstractDomainObject implements UserDetails {
 		}
 	}
 
+	public void removeRole(Role role){
+		this.roles.remove(role);
+	}
 	/**
 	 * This method checks, if the Login has the specified role
 	 * 

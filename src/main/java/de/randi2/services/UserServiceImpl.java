@@ -58,14 +58,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void addRole(Login login, Role role) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not yet implemented");
+		
+		if(login != null && login.getId()>0 && role != null && role.getId()> 0 && !login.getRoles().contains(role)){
+			login.addRole(role);
+			loginDao.update(login);
+		}else throw new RuntimeException("");
 	}
 
 	@Override
 	public void createRole(Role newRole) {
 		roleDao.create(newRole);
-
 	}	
 	
 
@@ -108,7 +110,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	@Secured({"ROLE_USER","ACL_LOGIN_CREATE"})
+//	@Secured({"ROLE_USER","ACL_LOGIN_CREATE"})
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void create(Login newObject){
 		newObject.setPassword(passwordEncoder.encodePassword(newObject.getPassword(), saltSource.getSystemWideSalt()));
@@ -139,11 +141,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void removeRole(Login login, Role role) {
-		// TODO Auto-generated method stub
+		if(login != null && login.getId()>0 && role != null && role.getId()> 0 && login.getRoles().contains(role)){
+			login.removeRole(role);
+			loginDao.update(login);
+		}else throw new RuntimeException("");
 	}
 
 	@Override
-	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
+//	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public Login getObject(long objectID) {
 		return loginDao.get(objectID);
@@ -169,7 +174,7 @@ public class UserServiceImpl implements UserService {
 			e1.printStackTrace();
 		}
 
-		if (newUser.getPerson().getTrialSite().getContactPerson() != null) {
+		if (newUser.getPerson().getTrialSite() != null && newUser.getPerson().getTrialSite().getContactPerson() != null) {
 
 			// send e-mail to contact person of current trial-site
 

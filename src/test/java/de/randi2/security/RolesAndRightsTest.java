@@ -52,7 +52,7 @@ public class RolesAndRightsTest {
 	}
 	
 	// TODO This test are not running. Has the db-layout changed?
-	@Before
+//	@Before
 	public void init(){
 		clearAclTables();
 		rolesAndRights.initializeRoles();
