@@ -19,7 +19,6 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component"
 	locale="#{loginHandler.chosenLocale}">
-	<f:loadBundle basename="de.randi2.jsf.i18n.labels" var="labels" />
 	<ice:outputDeclaration doctypeRoot="HTML"
 		doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN"
 		doctypeSystem="http://www.w3.org/TR/html4/loose.dtd" />

@@ -18,16 +18,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:/META-INF/spring.xml
-			<!--
-				classpath:/META-INF/subconfig/security.xml
-			-->
 		</param-value>
 	</context-param>
-	<!--  <context-param>
+	<context-param>
 		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
 		<param-value>server</param-value>
 	</context-param>
-	 -->
 	<context-param>
 		<description>
 			To allow multiple windows for a single application. See
@@ -45,6 +41,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		</description>
 		<param-name>com.icesoft.faces.synchronousUpdate</param-name>
 		<param-value>false</param-value>
+	</context-param>
+	<context-param>
+		<param-name>com.icesoft.faces.heartbeatInterval</param-name>
+		<param-value>50000</param-value>
+	</context-param>
+	<context-param>
+		<param-name>com.icesoft.faces.heartbeatRetries</param-name>
+		<param-value>3</param-value>
 	</context-param>
 	<context-param>
 		<description>
@@ -103,7 +107,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 			org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 	<listener>
-	  <listener-class>org.springframework.security.ui.session.HttpSessionEventPublisher</listener-class>
+		<listener-class>
+			org.springframework.security.ui.session.HttpSessionEventPublisher</listener-class>
 	</listener>
 	<listener>
 		<listener-class>de.randi2.jsf.fileupload.InputFileSessionCleaner</listener-class>
@@ -172,6 +177,4 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
-
-
 </web-app>

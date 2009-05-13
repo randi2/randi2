@@ -14,6 +14,7 @@
  */
 package de.randi2.jsf.controllerBeans;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -227,7 +228,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 * 
 	 * @return Randi2.SUCCESS
 	 */
-	public String logoutUser() {
+	public String logoutUser(){
 		loggedInUser = userService.update(loggedInUser);
 		invalidateSession();
 		return Randi2.SUCCESS;
@@ -410,9 +411,21 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 * loginPage
 	 */
 	public void invalidateSession() {
-		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+		final HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
 				.getExternalContext().getSession(false);
 		session.setAttribute(Randi2.RANDI2_END, "The end");
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/RANDI2/j_spring_security_logout");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		new Thread() {
+// 			public void run() {
+// 				session.invalidate();
+// 			}
+// 		}.start();
+
 	}
 
 	@Override

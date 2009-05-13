@@ -66,6 +66,6 @@
 			action="#{trialSiteHandler.saveObject}"></ice:commandButton>
 		<ice:commandButton type="submit" immediate="true" value="#{labels['buttons.reset']}"
 			action="#{trialSiteHandler.refreshShowedObject}" />
-		<ice:messages globalOnly="true" style="background: red;"></ice:messages>
+		<ice:messages style="background: red;" />
 	</ice:panelGrid>
 </ice:form>

@@ -93,16 +93,11 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	public String saveObject() {
 		try {
 			showedObject = siteService.update(showedObject);
-
 			// Making the centerSavedPopup visible
 			this.trialSiteSavedPVisible = true;
-
 			this.creatingMode = false;
-
 			return Randi2.SUCCESS;
 		} catch (InvalidStateException exp) {
-			// TODO for a stable release delete the following stacktrace
-			exp.printStackTrace();
 			for (InvalidValue v : exp.getInvalidValues()) {
 				Randi2
 						.showMessage(v.getPropertyName() + " : "
@@ -110,11 +105,10 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 			}
 			return Randi2.ERROR;
 		} catch (Exception e) {
-			// TODO for a stable release delete the following stacktrace
-			e.printStackTrace();
 			Randi2.showMessage(e);
 			return Randi2.ERROR;
-		} finally {
+		} 
+		finally {
 			refreshShowedObject();
 		}
 
