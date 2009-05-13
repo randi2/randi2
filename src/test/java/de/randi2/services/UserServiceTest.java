@@ -1,5 +1,12 @@
 package de.randi2.services;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,24 +20,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
+import org.springframework.security.providers.dao.salt.SystemWideSaltSource;
+import org.springframework.security.providers.encoding.PasswordEncoder;
+import org.springframework.security.vote.AffirmativeBased;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import de.randi2.dao.LoginDao;
 import de.randi2.dao.UserDetailsServiceImpl;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
+import de.randi2.model.TrialSite;
 import de.randi2.model.enumerations.Gender;
 import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.test.utility.TestStringUtil;
 import de.randi2.utility.security.RolesAndRights;
 
-import static junit.framework.Assert.*;
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/META-INF/spring-test.xml","/META-INF/subconfig/security.xml" })
-@Transactional
+@ContextConfiguration(locations = {"/META-INF/subconfig/service-test.xml","/META-INF/subconfig/test.xml" })
+@Transactional(propagation=Propagation.REQUIRED)
 //import static junit.framework.Assert.*;
 public class UserServiceTest {
 
@@ -40,14 +51,15 @@ public class UserServiceTest {
 	@Autowired private DomainObjectFactory factory;
 	@Autowired private TestStringUtil stringUtil;
 	@Autowired private RolesAndRights rolesAndRights;
+	@Autowired private PasswordEncoder passwordEncoder;
+	@Autowired private SystemWideSaltSource saltSource;
 	@Autowired private ApplicationContext context;
-	private UserDetailsServiceImpl detailsServiceImpl;
-	
+	@Autowired private LoginDao loginDao;
+		
 	@Before
 	public void setUp(){
-//		new Bootstrap(context);
-		detailsServiceImpl = new UserDetailsServiceImpl();
-		detailsServiceImpl.setSessionFactory(sessionFactory);
+		ManagedSessionContext.bind(sessionFactory.openSession());
+		if(sessionFactory.getCurrentSession().createCriteria(Role.class).list().size()<7){
 		sessionFactory.getCurrentSession().merge(Role.ROLE_ADMIN);
 		sessionFactory.getCurrentSession().merge(Role.ROLE_INVESTIGATOR);
 		sessionFactory.getCurrentSession().merge(Role.ROLE_USER);
@@ -55,11 +67,49 @@ public class UserServiceTest {
 		sessionFactory.getCurrentSession().merge(Role.ROLE_MONITOR);
 		sessionFactory.getCurrentSession().merge(Role.ROLE_P_INVESTIGATOR);
 		sessionFactory.getCurrentSession().merge(Role.ROLE_ANONYMOUS);
+		
+		Person adminP = new Person();
+		adminP.setFirstname("Max");
+		adminP.setSurname("Mustermann");
+		adminP.setEMail("admin@test.de");
+		adminP.setPhone("1234567");
+		adminP.setGender(Gender.MALE);
+
+		Login adminL = new Login();
+		adminL.setPassword("1§heidelberg");
+		adminL.setPerson(adminP);
+		adminL.setPrefLocale(Locale.GERMANY);
+		adminL.setUsername(adminP.getEMail());
+		
+		adminL.addRole(Role.ROLE_ADMIN);
+		sessionFactory.getCurrentSession().persist(adminL);
+		
+		TrialSite trialSite = new TrialSite();
+		trialSite.setCity("Heidelberg");
+		trialSite.setCountry("Germany");
+		trialSite.setName("DKFZ");
+		trialSite.setPostcode("69120");
+		trialSite.setStreet("INF");
+		trialSite.setPassword(passwordEncoder.encodePassword("1$heidelberg",saltSource.getSystemWideSalt()));
+		trialSite.setContactPerson(adminP);
+		rolesAndRights.registerPerson(adminL);
+		rolesAndRights.grantRigths(adminL, trialSite);
+
+		sessionFactory.getCurrentSession().persist(trialSite);
+
+		sessionFactory.getCurrentSession().refresh(adminP);
+		adminP.setTrialSite(trialSite);
+		sessionFactory.getCurrentSession().update(adminP);
+		rolesAndRights.grantRigths(trialSite, trialSite);
+		
+		}
+		authenticatAsAdmin();
 	}
 	
 	@After
 	public void afer(){
 		SecurityContextHolder.getContext().setAuthentication(null);
+		sessionFactory.getCurrentSession().close();
 	}
 	
 	@Test
@@ -107,7 +157,7 @@ public class UserServiceTest {
 		assertTrue(login.getId()>0);
 		Role role = factory.getRole();
 		sessionFactory.getCurrentSession().persist(role);
-		sessionFactory.getCurrentSession().flush();
+//		sessionFactory.getCurrentSession().flush();
 		assertTrue(role.getId()>0);
 		userService.addRole(login, role);
 		assertTrue(login.getRoles().contains(role));
@@ -159,20 +209,20 @@ public class UserServiceTest {
 	@Test
 	public void testRegister(){
 		SecurityContextHolder.getContext().setAuthentication(null);
-		userService.prepareInvestigator();
-		Login login =factory.getLogin();
-		login.getPerson().setTrialSite(factory.getTrialSite());
-		sessionFactory.getCurrentSession().persist(login.getPerson().getTrialSite().getContactPerson());
-		sessionFactory.getCurrentSession().persist(login.getPerson().getTrialSite());
-		sessionFactory.getCurrentSession().flush();
-		userService.register(login);
-		assertTrue(login.getId()>0);
+		Login l = userService.prepareInvestigator();
+		l.setUsername(stringUtil.getWithLength(Login.MAX_USERNAME_LENGTH));
+		l.setPassword(stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH)+".ada6");
+		l.setPerson(factory.getPerson());
+		l.getPerson().setLogin(l);
+		l.setLastLoggedIn(new GregorianCalendar());
+		l.getPerson().setTrialSite(findLogin("admin@test.de").getPerson().getTrialSite());
+		userService.register(l);
+		assertTrue(l.getId()>0);
 	}
 	
 	
 	@Test
 	public void testCreate(){
-		authenticatAsAdmin();
 		Login login = factory.getLogin();
 		login.getPerson().setTrialSite(factory.getTrialSite());
 		sessionFactory.getCurrentSession().persist(login.getPerson().getTrialSite().getContactPerson());
@@ -185,7 +235,6 @@ public class UserServiceTest {
 	
 	@Test
 	public void testUpdate(){
-		authenticatAsAdmin();
 		Login login = factory.getLogin();
 		login.getPerson().setTrialSite(factory.getTrialSite());
 		sessionFactory.getCurrentSession().persist(login.getPerson().getTrialSite().getContactPerson());
@@ -219,51 +268,32 @@ public class UserServiceTest {
 	
 	@Test
 	public void testGetAll(){
-		assertTrue(true);
-//		authenticatAsAdmin();
-//		for(int i =0; i<10; i++){
-//			Login login = factory.getLogin();
-//			login.getPerson().setTrialSite(null);
-//			userService.create(login);
-//			sessionFactory.getCurrentSession().flush();
-//		}
-//		List<Login> list = userService.getAll();
-//		assertEquals(10,userService.getAll().size());
+		for(int i =0; i<10; i++){
+			Login login = factory.getLogin();
+			login.getPerson().setTrialSite(null);
+			loginDao.create(login);
+		}
+		List<Login> list = userService.getAll();
+		assertTrue(userService.getAll().size()>=10);
 	}
 	
 	
 	@Test
 	public void testGetObject(){
-		assertTrue(true);
-//		authenticatAsAdmin();
-//		Login login = factory.getLogin();
-//		login.getPerson().setTrialSite(null);
-//		userService.create(login);
-//		Login login2 = (Login)detailsServiceImpl.loadUserByUsername("admin@test.de");
-//		rolesAndRights.grantRigths(login, login2.getPerson().getTrialSite());
-//		Login login3 = userService.getObject(login.getId());
-//		assertTrue(login3 != null);
+		((AffirmativeBased)context.getBean("methodAccessDecisionManager")).setAllowIfAllAbstainDecisions(true);
+		Login login = factory.getLogin();
+		login.getPerson().setTrialSite(null);
+		userService.create(login);
+		Login login2 = findLogin("admin@test.de");
+		rolesAndRights.grantRigths(login, login2.getPerson().getTrialSite());
+		Login login3 = userService.getObject(login.getId());
+		assertTrue(login3 != null);
 	}
 	
 	private void authenticatAsAdmin(){
-		Person adminP = new Person();
-		adminP.setFirstname("Max");
-		adminP.setSurname("Mustermann");
-		adminP.setEMail("admin@test.de");
-		adminP.setPhone("1234567");
-		adminP.setGender(Gender.MALE);
-
-		Login adminL = new Login();
-		adminL.setPassword("1§heidelberg");
-		adminL.setPerson(adminP);
-		adminL.setPrefLocale(Locale.GERMANY);
-		adminL.setUsername(adminP.getEMail());
-		
-		adminL.addRole(Role.ROLE_ADMIN);
-		sessionFactory.getCurrentSession().persist(adminL);
 		
 	
-		Login login = (Login)detailsServiceImpl.loadUserByUsername("admin@test.de");
+		Login login = findLogin("admin@test.de");
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
 				"admin", login, login.getAuthorities());
 		// Perform authentication
@@ -295,6 +325,18 @@ public class UserServiceTest {
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()
 				.setAuthenticated(true);
+	}
+	
+	private Login findLogin(String username){
+		String query = "from de.randi2.model.Login login where "
+			+ "login.username =?";
+
+	List<Login> loginList = (List) sessionFactory.getCurrentSession()
+			.createQuery(query).setParameter(0, username).list();
+	if (loginList.size() == 1)
+		return loginList.get(0);
+	else
+		return null;
 	}
 	
 }

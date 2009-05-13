@@ -136,7 +136,7 @@ public class Bootstrap {
 		adminL = (Login) sessionFactory.getCurrentSession().get(Login.class, adminL.getId());
 		adminL.addRole(Role.ROLE_P_INVESTIGATOR);
 //		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
-		loginDao.create(adminL);
+		loginDao.update(adminL);
 		rolesAndRights.grantRigths(adminL, trialSite);
 	}
 

@@ -72,7 +72,10 @@ public class RolesAndRights {
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void grantRigths(AbstractDomainObject object, TrialSite scope) {
-		if (object instanceof Login) {
+//		if(scope== null  || object == null){
+//			throw new RuntimeException();
+//		}else	
+			if (object instanceof Login) {
 			grantRightsUserObject(object, scope);
 		} else if (object instanceof TrialSite) {
 			grantRightsTrialSiteObject((TrialSite) object);
@@ -105,7 +108,7 @@ public class RolesAndRights {
 					if (!r.equals(Role.ROLE_USER)) {
 						if (r.isWriteOtherUser()) {
 							if (r.isScopeUserWrite()) {
-								if (l.getPerson().getTrialSite().getId() == scope
+								if (l.getPerson().getTrialSite()!=null && l.getPerson().getTrialSite().getId() == scope
 										.getId()) {
 									aclService
 											.createAclwithPermissions(
@@ -139,7 +142,7 @@ public class RolesAndRights {
 						}
 						if (r.isReadOtherUser()) {
 							if (r.isScopeUserRead()) {
-								if (l.getPerson().getTrialSite().getId() == scope
+								if (l.getPerson().getTrialSite()!=null &&  l.getPerson().getTrialSite().getId() == scope
 										.getId()) {
 									aclService
 											.createAclwithPermissions(
@@ -208,7 +211,7 @@ public class RolesAndRights {
 				if (!r.equals(Role.ROLE_USER)) {
 					if (r.isReadTrialSite()) {
 						if (r.isScopeTrialSiteView()) {
-							if (l.getPerson().getTrialSite().getId() == trialSite
+							if (l.getPerson().getTrialSite() != null &&  l.getPerson().getTrialSite().getId() == trialSite
 									.getId()) {
 								aclService
 										.createAclwithPermissions(
@@ -228,7 +231,7 @@ public class RolesAndRights {
 					}
 					if (r.isWriteTrialSite()) {
 						if (r.isScopeTrialSiteWrite()) {
-							if (l.getPerson().getTrialSite().getId() == trialSite
+							if (l.getPerson().getTrialSite() != null && l.getPerson().getTrialSite().getId() == trialSite
 									.getId()) {
 								aclService
 										.createAclwithPermissions(
@@ -358,26 +361,20 @@ public class RolesAndRights {
 			if (role.isReadOtherUser()) {
 				List<Person> list = new ArrayList<Person>();
 				if (role.isScopeUserRead()) {
+					if(login.getPerson().getTrialSite()!=null){
 					list = sessionFactory.getCurrentSession().createQuery(
 							"from Person p where p.trialSite.id = ?")
 							.setParameter(
 									0,
 									login.getPerson().getTrialSite()
 											.getId()).list();
+					}
 				} else {
 					list = sessionFactory.getCurrentSession().createQuery(
 							"from Person").list();
 				}
 				for (Person p : list) {
-					if (p.getLogin() == null) {
-						p
-								.setLogin((Login) sessionFactory
-										.getCurrentSession()
-										.createQuery(
-												"from Login login where login.person.id = ?")
-										.setParameter(0, p.getId())
-										.uniqueResult());
-					}
+					if(p.getLogin() != null){
 					aclService
 							.createAclwithPermissions(
 									p.getLogin(),
@@ -390,6 +387,7 @@ public class RolesAndRights {
 									login.getUsername(),
 									new PermissionHibernate[] { PermissionHibernate.READ },
 									role.getName());
+					}
 				}
 			}
 			if (role.isWriteOtherUser()) {
@@ -406,15 +404,15 @@ public class RolesAndRights {
 							"from Person").list();
 				}
 				for (Person p : list) {
-					if (p.getLogin() == null) {
-						p
-								.setLogin((Login) sessionFactory
-										.getCurrentSession()
-										.createQuery(
-												"from Login login where login.person.id = ?")
-										.setParameter(0, p.getId())
-										.uniqueResult());
-					}
+					if (p.getLogin() != null) {
+//						p
+//								.setLogin((Login) sessionFactory
+//										.getCurrentSession()
+//										.createQuery(
+//												"from Login login where login.person.id = ?")
+//										.setParameter(0, p.getId())
+//										.uniqueResult());
+//					}
 					aclService
 							.createAclwithPermissions(
 									p.getLogin(),
@@ -427,12 +425,13 @@ public class RolesAndRights {
 									login.getUsername(),
 									new PermissionHibernate[] { PermissionHibernate.WRITE },
 									role.getName());
-				}
+				}}
 			}
 			if (role.isAdminOtherUser()) {
 				List<Person> list = sessionFactory.getCurrentSession()
 						.createQuery("from Person").list();
 				for (Person p : list) {
+					if(p.getLogin()!=null){
 					aclService
 							.createAclwithPermissions(
 									p.getLogin(),
@@ -445,7 +444,7 @@ public class RolesAndRights {
 									login.getUsername(),
 									new PermissionHibernate[] { PermissionHibernate.ADMINISTRATION },
 									role.getName());
-				}
+				}}
 			}
 			// TrialSite rights
 			if (role.isReadTrialSite()) {
