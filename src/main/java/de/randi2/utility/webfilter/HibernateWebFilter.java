@@ -34,7 +34,7 @@ public class HibernateWebFilter implements Filter {
 		Session hibernateSession = (Session) httpSession
 				.getAttribute(HIBERNATE_SESSION_KEY);
 		logger.trace(httpSession.getId());
-//		try {
+		try {
 			if (hibernateSession != null) {
 				if (!hibernateSession.isOpen()) {
 					hibernateSession = sf.openSession();
@@ -45,16 +45,14 @@ public class HibernateWebFilter implements Filter {
 					logger.trace(httpSession.getId()
 							+ " < Continuing conversation ");
 				}
-				hibernateSession.setFlushMode(FlushMode.MANUAL);
-				ManagedSessionContext
-						.bind((org.hibernate.classic.Session) hibernateSession);
 			} else {
 				hibernateSession = sf.openSession();
 				logger.trace(httpSession.getId() + " >>> New conversation");
-				hibernateSession.setFlushMode(FlushMode.MANUAL);
-				ManagedSessionContext
-						.bind((org.hibernate.classic.Session) hibernateSession);
+				
 			}
+			hibernateSession.setFlushMode(FlushMode.MANUAL);
+			ManagedSessionContext
+					.bind((org.hibernate.classic.Session) hibernateSession);
 			// Do the work...
 			chain.doFilter(request, response);
 			// End or continue the long-running conversation?
@@ -74,6 +72,10 @@ public class HibernateWebFilter implements Filter {
 				logger.trace("<<< End of conversation " + httpSession.getId());
 			}
 
+		}catch (RuntimeException e) {
+			logger.debug(e);
+			throw e;
+		}
 //		}
 //		catch (StaleObjectStateException staleEx) {
 //			staleEx.printStackTrace();

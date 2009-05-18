@@ -30,20 +30,20 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 
 	@Override
 	@Secured({"ROLE_USER","ROLE_ANONYMOUS", "AFTER_ACL_COLLECTION_READ"})
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<TrialSite> getAll() {
 		return siteDAO.getAll();
 	}
 
 	@Override
 	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public TrialSite getObject(long objectID) {
 		return siteDAO.get(objectID);
 	}
 
 	@Override
-	@Secured({"ROLE_USER", "ACL_TRIALSITE_CREATE"})
+	@Secured({"ACL_TRIALSITE_CREATE"})
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void create(TrialSite newSite) {
 		newSite.setPassword(passwordEncoder.encodePassword(newSite.getPassword(), saltSource.getSystemWideSalt()));
@@ -52,7 +52,7 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 	}
 
 	@Override
-	@Secured({"ROLE_USER", "ACL_TRIALSITE_WRITE"})
+	@Secured({"ACL_TRIALSITE_WRITE"})
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public TrialSite update(TrialSite site) {
 		return siteDAO.update(site);

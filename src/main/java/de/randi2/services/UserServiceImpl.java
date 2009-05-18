@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Secured({"ROLE_ANONYMOUS","ACL_LOGIN_CREATE"})
+	@Secured({"ACL_LOGIN_CREATE"})
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void register(Login newObject) {
 		// Investigator Role (self-registration process)
@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-//	@Secured({"ROLE_USER","ACL_LOGIN_CREATE"})
+	@Secured({"ACL_LOGIN_CREATE"})
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void create(Login newObject){
 		newObject.setPassword(passwordEncoder.encodePassword(newObject.getPassword(), saltSource.getSystemWideSalt()));
@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Secured({"ROLE_USER","ACL_LOGIN_WRITE"})
+	@Secured({"ACL_LOGIN_WRITE"})
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public Login update(Login changedObject) {
 		return loginDao.update(changedObject);
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Secured({"ROLE_USER", "AFTER_ACL_COLLECTION_READ"})
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<Login> getAll() {
 		return loginDao.getAll();
 	}
@@ -148,8 +148,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-//	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public Login getObject(long objectID) {
 		return loginDao.get(objectID);
 	}

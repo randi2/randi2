@@ -19,7 +19,7 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 
 	@Override
 	@SuppressWarnings("unchecked")
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public TrialSite get(String name) {
 		String query = "from de.randi2.model.TrialSite trialSite where "
 			+ "trialSite.name =?";
@@ -32,18 +32,20 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void create(TrialSite object) {
 		saveNewContactPerson(object);
-		super.create(object);
+		sessionFactory.getCurrentSession().persist(object);
 	}
 	
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public TrialSite update(TrialSite object) {
 		saveNewContactPerson(object);
-		return super.update(object);
+		return (TrialSite) sessionFactory.getCurrentSession().merge(object);
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
 	private void saveNewContactPerson(TrialSite object){
 		if(object.getContactPerson() != null && object.getContactPerson().getId() == AbstractDomainObject.NOT_YET_SAVED_ID){
-			sessionFactory.getCurrentSession().save(object.getContactPerson());
+			sessionFactory.getCurrentSession().persist(object.getContactPerson());
 		}
 	}
 }

@@ -17,7 +17,7 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements
 	@Override
 	@SuppressWarnings("unchecked")
 	@Secured( { "AFTER_ACL_READ" })
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	@Transactional(propagation = Propagation.SUPPORTS)
 	public Login get(String username) {
 		String query = "from de.randi2.model.Login login where "
 				+ "login.username =?";

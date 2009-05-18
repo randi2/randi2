@@ -20,14 +20,14 @@ public class TrialServiceImpl implements TrialService {
 	
 		
 	@Override
-	@Secured({"ROLE_USER", "ACL_TRIAL_CREATE"})
+	@Secured({"ACL_TRIAL_CREATE"})
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void create(Trial newTrial) {
 		trialDao.create(newTrial);
 	}
 
 	@Override
-	@Secured({"ROLE_USER", "ACL_TRIALSUBJECT_CREATE"})
+	@Secured({"ACL_TRIALSUBJECT_CREATE"})
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public Trial randomize(Trial trial, TrialSubject subject) {
 		TreatmentArm assignedArm = trial.getRandomizationConfiguration().getAlgorithm().randomize(subject);
@@ -39,22 +39,22 @@ public class TrialServiceImpl implements TrialService {
 
 
 	@Override
-	@Secured({"ROLE_USER", "ACL_TRIAL_WRITE"})
+	@Secured({"ACL_TRIAL_WRITE"})
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public Trial update(Trial trial) {
 		return trialDao.update(trial);
 	}
 
 	@Override
-	@Secured({"ROLE_USER", "AFTER_ACL_COLLECTION_READ"})
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Secured({"AFTER_ACL_COLLECTION_READ"})
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<Trial> getAll() {
 		return trialDao.getAll();
 	}
 
 	@Override
 	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public Trial getObject(long objectID) {
 		return trialDao.get(objectID);
 	}
