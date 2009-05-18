@@ -120,6 +120,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
+	<listener>
+		<listener-class>de.randi2.utility.listener.SessionListener</listener-class>
+	</listener>
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
