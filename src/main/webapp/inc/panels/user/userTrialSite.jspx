@@ -104,7 +104,7 @@
 			</ice:outputText>
 			<ice:outputLabel for="postcodeAss" value="#{labels['person.eMail']}"></ice:outputLabel>
 			<ice:outputText id="postcodeAss"
-				value="#{loginHandler.showedObject.person.assistant !=null ? loginHandler.showedObject.person.assistant.EMail : loginHandler.tsMembersAC.selectedObject.EMail}">
+				value="#{loginHandler.showedObject.person.assistant !=null ? loginHandler.showedObject.person.assistant.email : loginHandler.tsMembersAC.selectedObject.email}">
 			</ice:outputText>
 		</ice:panelGrid>
 	</ice:panelCollapsible>

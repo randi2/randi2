@@ -46,7 +46,7 @@
 				</ice:outputText>
 				<ice:outputLabel for="postcodeAss" value="#{labels['person.eMail']}"></ice:outputLabel>
 				<ice:outputText id="postcodeAss"
-					value="#{loginHandler.tsMembersAC.selectedObject.EMail}">
+					value="#{loginHandler.tsMembersAC.selectedObject.email}">
 				</ice:outputText>
 				<ice:panelGroup>
 					<ice:panelGrid columns="2">

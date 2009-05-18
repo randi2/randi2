@@ -65,7 +65,7 @@ public class Bootstrap {
 		Person adminP = new Person();
 		adminP.setFirstname("Max");
 		adminP.setSurname("Mustermann");
-		adminP.setEMail("admin@test.de");
+		adminP.setEmail("admin@test.de");
 		adminP.setPhone("1234567");
 		adminP.setGender(Gender.MALE);
 
@@ -73,7 +73,7 @@ public class Bootstrap {
 		adminL.setPassword(passwordEncoder.encodePassword("1$heidelberg",saltSource.getSystemWideSalt()));
 		adminL.setPerson(adminP);
 		adminL.setPrefLocale(Locale.GERMANY);
-		adminL.setUsername(adminP.getEMail());
+		adminL.setUsername(adminP.getEmail());
 		
 		adminL.addRole(Role.ROLE_ADMIN);
 		sessionFactory.getCurrentSession().persist(adminL);
@@ -106,7 +106,7 @@ public class Bootstrap {
 		Person userP = new Person();
 		userP.setFirstname("Maxi");
 		userP.setSurname("Musterfrau");
-		userP.setEMail("user@test.de");
+		userP.setEmail("user@test.de");
 		userP.setPhone("1234567");
 		userP.setGender(Gender.FEMALE);
 		userP.setTrialSite(trialSite);
@@ -115,7 +115,7 @@ public class Bootstrap {
 		userL.setPassword(passwordEncoder.encodePassword("1$heidelberg",saltSource.getSystemWideSalt()));
 		userL.setPerson(userP);
 		userL.setPrefLocale(Locale.GERMANY);
-		userL.setUsername(userP.getEMail());
+		userL.setUsername(userP.getEmail());
 		userL.addRole(Role.ROLE_INVESTIGATOR);
 //		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
 		

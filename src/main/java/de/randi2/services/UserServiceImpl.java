@@ -195,7 +195,7 @@ public class UserServiceImpl implements UserService {
 					.getPerson().getSurname());
 
 			try {
-				mailService.sendMail(contactPerson.getEMail(),
+				mailService.sendMail(contactPerson.getEmail(),
 						"NewUserNotifyContactPersonMail", language,
 						contactPersonMessageFields, contactPersonSubjectFields);
 			} catch (MailErrorException e) {

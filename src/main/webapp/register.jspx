@@ -111,17 +111,17 @@
 							<ice:panelGrid>
 								<ice:panelGroup>
 									<ice:panelGrid border="0" columns="3">
-										<ice:outputLabel for="eMail" value="#{labels['person.eMail']}"></ice:outputLabel>
-										<ice:inputText id="eMail"
-											value="#{loginHandler.newUser.person.EMail}"
-											required="#{loginHandler.newUser.person.requiredFields['eMail']}"
+										<ice:outputLabel for="email" value="#{labels['person.eMail']}"></ice:outputLabel>
+										<ice:inputText id="email"
+											value="#{loginHandler.newUser.person.email}"
+											required="#{loginHandler.newUser.person.requiredFields['email']}"
 											partialSubmit="true">
 											<f:validator
 												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 											<f:attribute name="dObject"
 												value="#{loginHandler.newUser.person}" />
 										</ice:inputText>
-										<ice:message for="eMail" id="eMailError"></ice:message>
+										<ice:message for="email" id="eMailError"></ice:message>
 										<ice:outputLabel for="phone" value="#{labels['person.phone']}"></ice:outputLabel>
 										<ice:inputText id="phone"
 											value="#{loginHandler.newUser.person.phone}"
@@ -171,7 +171,7 @@
 							<ice:outputLabel for="username"
 								value="#{labels['login.username']}"></ice:outputLabel>
 							<ice:outputText id="username"
-								value="#{loginHandler.newUser.person.EMail}" />
+								value="#{loginHandler.newUser.person.email}" />
 							<ice:outputLabel for="password"
 								value="#{labels['login.password']}"></ice:outputLabel>
 							<ice:panelGroup id="passwordGroup">

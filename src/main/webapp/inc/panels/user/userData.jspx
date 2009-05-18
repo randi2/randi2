@@ -105,22 +105,22 @@
 			</ice:panelGrid>
 		</f:facet>
 		<ice:panelGrid border="0" columns="2">
-			<ice:outputLabel for="eMail" value="#{labels['person.eMail']}"></ice:outputLabel>
-			<ice:outputText id="eMailO"
-				value="#{loginHandler.showedObject.person.EMail}"
+			<ice:outputLabel for="email" value="#{labels['person.eMail']}"></ice:outputLabel>
+			<ice:outputText id="emailO"
+				value="#{loginHandler.showedObject.person.email}"
 				rendered="#{!loginHandler.creatingMode}">
 			</ice:outputText>
 			<ice:panelGroup rendered="#{loginHandler.creatingMode}">
-				<ice:inputText id="eMail"
-					value="#{loginHandler.showedObject.person.EMail}"
-					required="#{loginHandler.showedObject.person.requiredFields['eMail']}"
+				<ice:inputText id="email"
+					value="#{loginHandler.showedObject.person.email}"
+					required="#{loginHandler.showedObject.person.requiredFields['email']}"
 					partialSubmit="true" size="50">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 					<f:attribute name="dObject"
 						value="#{loginHandler.showedObject.person}" />
 				</ice:inputText>
-				<ice:message for="eMail" id="eMailError"></ice:message>
+				<ice:message for="email" id="eMailError"></ice:message>
 			</ice:panelGroup>
 			<ice:outputLabel for="phone" value="#{labels['person.phone']}"></ice:outputLabel>
 			<ice:outputText id="phoneO"
@@ -187,7 +187,7 @@
 		<ice:panelGrid border="0" columns="2">
 			<ice:outputLabel for="username" value="#{labels['login.username']}"></ice:outputLabel>
 			<ice:outputText id="username"
-				value="#{loginHandler.creatingMode ? loginHandler.showedObject.person.EMail : loginHandler.showedObject.username}">
+				value="#{loginHandler.creatingMode ? loginHandler.showedObject.person.email : loginHandler.showedObject.username}">
 			</ice:outputText>
 			<ice:outputLabel for="creationDate"
 				value="#{labels['login.creationDate']}"

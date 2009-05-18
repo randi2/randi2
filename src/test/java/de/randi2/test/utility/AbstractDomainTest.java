@@ -11,6 +11,7 @@ import org.hibernate.validator.InvalidValue;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -56,7 +57,7 @@ public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 //				// TODO Typ und Feld der Fehlermeldung Test 
 //				//assertEquals(messages[i], invalids[i].getMessage());
 //			}
-		}
+		}catch (DataIntegrityViolationException e){	}
 	}
 	
 	protected void assertInvalid(TC invalidDO){

@@ -56,7 +56,7 @@ public class PersonDaoTest {
 	@Test
 	public void testSaveWithLogin(){
 		validPerson.setFirstname(stringUtil.getWithLength(20));
-		validPerson.setEMail("abc@def.xy");
+		validPerson.setEmail("abc@def.xy");
 		validPerson.setGender(Gender.MALE);
 		validPerson.setMobile("123456");
 		validPerson.setPhone("123456");

@@ -181,7 +181,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 			}
 			/* Setting the data in the new object */
 			newUser.setPrefLocale(getChosenLocale());
-			newUser.setUsername(newUser.getPerson().getEMail());
+			newUser.setUsername(newUser.getPerson().getEmail());
 			newUser.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
 			if (tsMembersAC.getSelectedObject() != null) // Assistant
 				newUser.getPerson().setAssistant(

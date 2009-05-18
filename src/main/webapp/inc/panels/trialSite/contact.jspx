@@ -75,21 +75,21 @@
 		</ice:inputText>
 		<ice:message for="surname" />
 	</ice:panelGroup>
-	<ice:outputLabel for="eMail" value="#{labels['person.eMail']}"></ice:outputLabel>
+	<ice:outputLabel for="email" value="#{labels['person.eMail']}"></ice:outputLabel>
 	<ice:outputText id="eMailO"
-		value="#{trialSiteHandler.showedObject.contactPerson.EMail}"
+		value="#{trialSiteHandler.showedObject.contactPerson.email}"
 		rendered="#{!trialSiteHandler.editable}">
 	</ice:outputText>
 	<ice:panelGroup id="eMailEdit" rendered="#{trialSiteHandler.editable}">
-		<ice:inputText id="eMail" size="50"
-			value="#{trialSiteHandler.showedObject.contactPerson.EMail}"
-			required="#{trialSiteHandler.showedObject.contactPerson.requiredFields['eMail']}"
+		<ice:inputText id="email" size="50"
+			value="#{trialSiteHandler.showedObject.contactPerson.email}"
+			required="#{trialSiteHandler.showedObject.contactPerson.requiredFields['email']}"
 			partialSubmit="true">
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject"
 				value="#{trialSiteHandler.showedObject.contactPerson}" />
 		</ice:inputText>
-		<ice:message for="eMail" />
+		<ice:message for="email" />
 	</ice:panelGroup>
 	<ice:outputLabel for="phone" value="#{labels['person.phone']}"></ice:outputLabel>
 	<ice:outputText id="phoneO"

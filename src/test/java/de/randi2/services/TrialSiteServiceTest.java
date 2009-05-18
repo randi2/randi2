@@ -67,7 +67,7 @@ public class TrialSiteServiceTest {
 		Person adminP = new Person();
 		adminP.setFirstname("Max");
 		adminP.setSurname("Mustermann");
-		adminP.setEMail("admin@test.de");
+		adminP.setEmail("admin@test.de");
 		adminP.setPhone("1234567");
 		adminP.setGender(Gender.MALE);
 
@@ -75,7 +75,7 @@ public class TrialSiteServiceTest {
 		adminL.setPassword("1§heidelberg");
 		adminL.setPerson(adminP);
 		adminL.setPrefLocale(Locale.GERMANY);
-		adminL.setUsername(adminP.getEMail());
+		adminL.setUsername(adminP.getEmail());
 		
 		adminL.addRole(Role.ROLE_ADMIN);
 		sessionFactory.getCurrentSession().persist(adminL);

@@ -20,7 +20,6 @@ import de.randi2.utility.validations.EMailRANDI2;
 import de.randi2.utility.validations.TelephonNumber;
 
 @Entity
-@Configurable
 public class Person extends AbstractDomainObject {
 
 	private static final long serialVersionUID = 5713870200930075449L;
@@ -36,7 +35,7 @@ public class Person extends AbstractDomainObject {
 	private Gender gender = null;
 
 	// Contact Data
-	private String eMail = "";
+	private String email = "";
 	private String phone = "";
 	private String mobile = "";
 	private String fax = "";
@@ -134,20 +133,20 @@ public class Person extends AbstractDomainObject {
 	}
 
 	/* (non-Javadoc)
-	 * @see de.randi2.model.PersonIF#getEMail()
+	 * @see de.randi2.model.PersonIF#getEmail()
 	 */
 //	@Pattern(regex="[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4}")
 	@EMailRANDI2
 	@NotEmpty
-	public String getEMail() {
-		return eMail;
+	public String getEmail() {
+		return email;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.randi2.model.PersonIF#setEMail(java.lang.String)
+	 * @see de.randi2.model.PersonIF#setEmail(java.lang.String)
 	 */
-	public void setEMail(String eMail) {
-		this.eMail = eMail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/* (non-Javadoc)

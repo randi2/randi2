@@ -49,7 +49,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertEquals("", p.getTitle());
 		assertNull(p.getGender());
 
-		assertEquals("", p.getEMail());
+		assertEquals("", p.getEmail());
 		assertEquals("", p.getPhone());
 		assertEquals("", p.getMobile());
 		assertEquals("", p.getFax());
@@ -229,7 +229,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 	public void testEMail() {
 		String[] validEMails = {"abc@def.de", "h@alo.com", "info@2wikipedia.org", "mue5ller@gmx.net", "max-muster@raf.uk", "xyz@test.info"};
 		for (String s: validEMails){
-			validPerson.setEMail(s);
+			validPerson.setEmail(s);
 			assertValid(validPerson);
 			
 			try{
@@ -239,10 +239,10 @@ public class PersonTest extends AbstractDomainTest<Person> {
 			}
 		}
 
-		validPerson.setEMail(null);
+		validPerson.setEmail(null);
 		assertInvalid(validPerson);
 
-		validPerson.setEMail("");
+		validPerson.setEmail("");
 		try {
 			hibernateTemplate.saveOrUpdate(validPerson);
 			fail("should throw exception");
@@ -254,7 +254,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		String[] invalidEmails = new String[] {  "without at","toomuch@@", "@test.org", "ab..c@de-dg.com",
 				"without@domain" , "abc@def.abcde"};
 		for (String s : invalidEmails) {
-			validPerson.setEMail(s);
+			validPerson.setEmail(s);
 			assertInvalid(validPerson);
 		}
 	}
