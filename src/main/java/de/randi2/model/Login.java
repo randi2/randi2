@@ -18,10 +18,12 @@ import javax.persistence.OneToOne;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Pattern;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UserDetails;
 
+import de.randi2.utility.validations.EMailRANDI2;
 import de.randi2.utility.validations.Password;
 
 @Entity
@@ -74,6 +76,8 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	private Set<Role> roles = new HashSet<Role>();
 
 	@Length(min = MIN_USERNAME_LENGTH, max = MAX_USERNAME_LENGTH)
+//	@Pattern(regex="[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4}")
+	@EMailRANDI2
 	@NotEmpty
 	public String getUsername() {
 		return username;

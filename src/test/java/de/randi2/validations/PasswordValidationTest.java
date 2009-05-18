@@ -31,7 +31,15 @@ public class PasswordValidationTest {
 		for (String s: validPasswords){
 			assertEquals( "Wrong password", 0, loginValidator.getPotentialInvalidValues( "password", s ).length );
 		}
+
 		
+		
+	}
+	
+	@Test
+	public void testPasswordIsInvalid(){
+		loginValidator = new ClassValidator<Login>( Login.class );
+
 	String[] invalidPasswords = {"secret$secret",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH),stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-3)+";2", "0123456789"};
 		for (String s: invalidPasswords){
 			assertEquals( "Right password", 1, loginValidator.getPotentialInvalidValues( "password", s ).length );

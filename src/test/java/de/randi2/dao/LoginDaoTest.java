@@ -41,7 +41,7 @@ public class LoginDaoTest{
 	public void createAndSaveTest() {
 
 		Login l = factory.getLogin();
-		l.setUsername(testStringUtil.getWithLength(Login.MAX_USERNAME_LENGTH));
+		l.setUsername(testStringUtil.getWithLength(Login.MIN_USERNAME_LENGTH) + "@xyz.com");
 
 		assertNotSaved(l);
 		loginDao.create(l);
@@ -54,7 +54,7 @@ public class LoginDaoTest{
 	@Test
 	public void getUsernameTest() {
 		Login l = factory.getLogin();
-		l.setUsername(testStringUtil.getWithLength(10));
+		l.setUsername(testStringUtil.getWithLength(10) + "@xyz.com");
 		loginDao.create(l);
 		Login l2 = loginDao.get(l.getUsername());
 		assertEquals(l.getId(), l2.getId());
@@ -76,7 +76,7 @@ public class LoginDaoTest{
 		}
 
 		login = factory.getLogin();
-		login.setUsername(testStringUtil.getWithLength(20));
+		login.setUsername(testStringUtil.getWithLength(20)+ "@xyz.com");
 		loginDao.create(login);
 		assertFalse(login.getId() == AbstractDomainObject.NOT_YET_SAVED_ID);
 		Login l = loginDao.get(login.getId());

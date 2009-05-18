@@ -11,6 +11,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.acls.sid.PrincipalSid;
+import org.springframework.security.acls.sid.Sid;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 import org.springframework.security.providers.dao.salt.SystemWideSaltSource;
@@ -21,18 +23,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import de.randi2.dao.HibernateAclService;
 import de.randi2.dao.UserDetailsServiceImpl;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
 import de.randi2.model.enumerations.Gender;
+import de.randi2.model.security.ObjectIdentityHibernate;
+import de.randi2.model.security.PermissionHibernate;
 import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.utility.security.RolesAndRights;
 
 import static junit.framework.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/META-INF/spring-test.xml", "/META-INF/subconfig/security.xml"})
+@ContextConfiguration(locations = {"/META-INF/subconfig/service-test.xml","/META-INF/subconfig/test.xml" })
 @Transactional(propagation=Propagation.REQUIRES_NEW)
 //import static junit.framework.Assert.*;
 public class TrialSiteServiceTest {
@@ -129,7 +134,8 @@ public class TrialSiteServiceTest {
 		TrialSite site = factory.getTrialSite();
 		service.create(site);
 		assertTrue(site.getId()>0);
-		
+//		aclService.createAclwithPermissions(site, "admin@test.de",new PermissionHibernate[]{PermissionHibernate.ADMINISTRATION},null);
+//		aclService.readAclById(new ObjectIdentityHibernate(TrialSite.class,site.getId()), new Sid[]{new PrincipalSid("admin@test.de")});
 		site.setName("Name23");
 		service.update(site);
 		TrialSite site2 = (TrialSite) sessionFactory.getCurrentSession().get(TrialSite.class, site.getId());
@@ -139,7 +145,6 @@ public class TrialSiteServiceTest {
 	@Test
 	public void testgetAll(){
 		authenticatAsAdmin();
-		((AffirmativeBased)context.getBean("methodAccessDecisionManager")).setAllowIfAllAbstainDecisions(true);
 		Login login = findLogin("admin@test.de");
 		for(int i=0;i<10;i++){
 			TrialSite site = factory.getTrialSite();
@@ -172,10 +177,9 @@ public class TrialSiteServiceTest {
 	}
 	
 	private void authenticatAsAdmin(){
-		findLogin("admin@test.de");
 		Login login = findLogin("admin@test.de");
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"admin", login, login.getAuthorities());
+				"admin@test.de", login, login.getAuthorities());
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()

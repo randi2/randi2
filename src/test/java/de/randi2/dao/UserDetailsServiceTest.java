@@ -49,7 +49,7 @@ public class UserDetailsServiceTest {
 	public void getUsernameTest() {
 		
 		Login l = factory.getLogin();
-		l.setUsername(testStringUtil.getWithLength(10));
+		l.setUsername(testStringUtil.getWithLength(10)+"@xyt.com");
 		loginDao.create(l);
 
 		Login l2 = (Login) userDetailsServiceImpl.loadUserByUsername(l.getUsername());

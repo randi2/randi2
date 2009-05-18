@@ -210,7 +210,7 @@ public class UserServiceTest {
 	public void testRegister(){
 		SecurityContextHolder.getContext().setAuthentication(null);
 		Login l = userService.prepareInvestigator();
-		l.setUsername(stringUtil.getWithLength(Login.MAX_USERNAME_LENGTH));
+		l.setUsername(stringUtil.getWithLength(Login.MIN_USERNAME_LENGTH)+"@xyz.com");
 		l.setPassword(stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH)+".ada6");
 		l.setPerson(factory.getPerson());
 		l.getPerson().setLogin(l);

@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Secured({"ACL_LOGIN_CREATE"})
+	@Secured({"ROLE_ANONYMOUS","ACL_LOGIN_CREATE"})
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void register(Login newObject) {
 		// Investigator Role (self-registration process)

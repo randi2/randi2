@@ -59,7 +59,7 @@ public class DomainObjectFactory {
 	
 	public Login getLogin(){
 		Login l = new Login();
-		l.setUsername(testStringUtil.getWithLength(Login.MAX_USERNAME_LENGTH));
+		l.setUsername(testStringUtil.getWithLength(Login.MIN_USERNAME_LENGTH)+ "@xyz.com");
 		l.setPassword(testStringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH)+".ada6");
 		l.setPerson(getPerson());
 		l.getPerson().setLogin(l);

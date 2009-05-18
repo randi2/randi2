@@ -83,7 +83,7 @@ public class LoginTest extends AbstractDomainTest<Login>{
 			fail("should throw exception");
 		} catch (InvalidStateException e) {
 			InvalidValue[] invalidValues = e.getInvalidValues();
-			assertEquals(2, invalidValues.length);
+			assertEquals(3, invalidValues.length);
 		}
 		
 //		validLogin = factory.getLogin();

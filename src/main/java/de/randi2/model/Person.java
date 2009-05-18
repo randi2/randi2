@@ -16,6 +16,7 @@ import org.hibernate.validator.Pattern;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import de.randi2.model.enumerations.Gender;
+import de.randi2.utility.validations.EMailRANDI2;
 import de.randi2.utility.validations.TelephonNumber;
 
 @Entity
@@ -135,7 +136,8 @@ public class Person extends AbstractDomainObject {
 	/* (non-Javadoc)
 	 * @see de.randi2.model.PersonIF#getEMail()
 	 */
-	@Pattern(regex="[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4}")
+//	@Pattern(regex="[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4}")
+	@EMailRANDI2
 	@NotEmpty
 	public String getEMail() {
 		return eMail;
