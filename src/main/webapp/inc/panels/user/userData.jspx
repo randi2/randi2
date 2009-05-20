@@ -30,13 +30,10 @@
 			<ice:outputLabel for="gender" value="#{labels['person.gender']}"></ice:outputLabel>
 			<ice:outputText id="genderO"
 				value="#{loginHandler.showedObject.person.gender}"
-				rendered="#{!loginHandler.editable}">
-			</ice:outputText>
+				rendered="#{!loginHandler.editable}" converter="de.randi2.jsf.converters.GENDER_CONVERTER" />
 			<ice:panelGroup id="genderEdit" rendered="#{loginHandler.editable}">
 				<ice:selectOneMenu id="gender"
-					value="#{loginHandler.showedObject.person.gender}">
-					<f:converter
-						converterId="de.randi2.jsf.converters.GENDER_CONVERTER" />
+					value="#{loginHandler.showedObject.person.gender}" converter="de.randi2.jsf.converters.GENDER_CONVERTER">
 					<f:selectItems value="#{enums.genderItems}" />
 				</ice:selectOneMenu>
 			</ice:panelGroup>

@@ -77,7 +77,7 @@
 									<f:attribute name="dObject"
 										value="#{loginHandler.newUser.person}" />
 								</ice:inputText>
-								<ice:message for="title" id="titelError"></ice:message>
+								<ice:message for="title" id="titelError" />
 								<ice:outputLabel for="firstname"
 									value="#{labels['person.firstname']}"></ice:outputLabel>
 								<ice:inputText id="firstname"
@@ -89,7 +89,7 @@
 									<f:attribute name="dObject"
 										value="#{loginHandler.newUser.person}" />
 								</ice:inputText>
-								<ice:message for="firstname" id="firstnameError"></ice:message>
+								<ice:message for="firstname" id="firstnameError" />
 								<ice:outputLabel for="surname"
 									value="#{labels['person.surname']}"></ice:outputLabel>
 								<ice:inputText id="surname"
@@ -101,7 +101,7 @@
 									<f:attribute name="dObject"
 										value="#{loginHandler.newUser.person}" />
 								</ice:inputText>
-								<ice:message for="surname" id="surnameError"></ice:message>
+								<ice:message for="surname" id="surnameError" />
 							</ice:panelGrid>
 							<ice:panelGrid border="0" columns="2">
 								<ice:graphicImage value="/img/icons/contact16.png"></ice:graphicImage>
