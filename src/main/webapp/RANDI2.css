@@ -61,6 +61,15 @@
 	text-align: left;
 }
 
+.goodbye {
+	width: 300px;
+	height: 200px;
+	margin: 0px auto; /* Right and left margin widths set to "auto" */
+	margin-top: 150px; text-align : justify; /* Counteract to IE5/Win Hack */
+	padding: 0px;
+	text-align: justify;
+}
+
 .loginInfo {
 	padding: 10px;
 }

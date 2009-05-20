@@ -1,12 +1,7 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<jsp:directive.page contentType="text/html;charset=utf-8" />
-	<!-- 
- After logout Page.
-
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--  
+ Login-Page of the RANDI2 application.
+ 
  Made by lplotni@users.sourceforge.org  
 
  This file is part of RANDI2.
@@ -19,26 +14,43 @@
  A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
- -->
-<f:view>
+-->
+<jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"
+		pageEncoding="UTF-8" />
+	<f:view locale="#{loginHandler.chosenLocale}">
 		<ice:outputDeclaration doctypeRoot="HTML"
 			doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN"
 			doctypeSystem="http://www.w3.org/TR/html4/loose.dtd" />
 		<html>
 		<head>
-		<title>Goodbye</title>
+		<title><ice:outputText nospan="true"
+			value="#{labels['pages.goodbye.titel']}" /></title>
 		<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
+		<ice:outputStyle href="RANDI2.css" />
 		</head>
 		<body>
-		<ice:outputText value="!Thank you for using RANDI2.!" />
-		<ice:outputText value="!Have a nice day!!" />
-		<ice:form>
-			<ice:messages />
-		</ice:form>
-		<ice:outputLink
-			value="#{facesContext.externalContext.requestContextPath}/login.jspx">
-			<ice:outputText value="!Login again?!"></ice:outputText>
-		</ice:outputLink>
+		<!-- Login Form -->
+		<div class="body">
+		<div class="goodbye"><ice:form partialSubmit="false">
+			<ice:panelCollapsible expanded="true" toggleOnClick="false"
+				style="width=100px;">
+				<f:facet name="header">
+					<ice:graphicImage value="/img/randi2_small.png"></ice:graphicImage>
+				</f:facet>
+				<ice:panelGroup>
+					<ice:outputLabel style="color:#778899;"
+						value="#{labels['pages.goodbye.message']}" />
+				</ice:panelGroup>
+			</ice:panelCollapsible>
+			<ice:commandButton immediate="true"
+						value="#{labels['buttons.login']}"
+						actionListener="#{registerPage.go2Login}" style="margin-left: 100px;"/>
+		</ice:form></div>
+		</div>
 		</body>
 		</html>
 	</f:view>
