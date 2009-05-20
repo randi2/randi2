@@ -415,7 +415,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 				.getExternalContext().getSession(false);
 		session.setAttribute(Randi2.RANDI2_END, "The end");
 		try {
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/RANDI2/j_spring_security_logout");
+			FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()+"/j_spring_security_logout");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
