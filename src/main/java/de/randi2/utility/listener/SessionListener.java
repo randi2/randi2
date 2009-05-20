@@ -16,9 +16,7 @@ public class SessionListener implements HttpSessionListener {
 	private Logger logger = Logger.getLogger(SessionListener.class);
 
 	@Override
-	public void sessionCreated(HttpSessionEvent se) {
-		System.out.println("create");
-	}
+	public void sessionCreated(HttpSessionEvent se) {}
 
 	@Override
 	public void sessionDestroyed(HttpSessionEvent se) {

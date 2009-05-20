@@ -32,7 +32,7 @@ public class Person extends AbstractDomainObject {
 	private String firstname = "";
 	private String title = "";
 	@Enumerated(value=EnumType.STRING)
-	private Gender gender = null;
+	private Gender gender = Gender.MALE;
 
 	// Contact Data
 	private String email = "";

@@ -77,12 +77,12 @@ public class HibernateAclService implements AclService {
 		AclHibernate acl = new AclHibernate();
 		acl.setObjectIdentity(createObjectIdentityIfNotSaved(object));
 		acl.setOwner(createSidIfNotSaved(sidname));
-		sessionFactory.getCurrentSession().save(acl);
+		sessionFactory.getCurrentSession().persist(acl);
 		return acl;
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
 	@SuppressWarnings("unchecked")
+	@Transactional(propagation=Propagation.REQUIRED)
 	public AclHibernate createAclwithPermissions(AbstractDomainObject object,
 			String sidname, PermissionHibernate[] permissions, String roleName) {
 		AclHibernate acl= new AclHibernate();
@@ -97,7 +97,7 @@ public class HibernateAclService implements AclService {
 		for (PermissionHibernate permission : permissions) {
 			acl.insertAce(permission, roleName);
 		}
-		sessionFactory.getCurrentSession().saveOrUpdate(acl);
+		sessionFactory.getCurrentSession().merge(acl);
 		return acl;
 	}
 	
@@ -115,7 +115,7 @@ public class HibernateAclService implements AclService {
 			return list.get(0);
 		} else {
 			SidHibernate sid = new SidHibernate(sidname);
-			sessionFactory.getCurrentSession().save(sid);
+			sessionFactory.getCurrentSession().persist(sid);
 			return sid;
 		}
 	}
@@ -131,13 +131,13 @@ public class HibernateAclService implements AclService {
 		} else {
 			ObjectIdentityHibernate oi = new ObjectIdentityHibernate(object
 					.getClass(), object.getId());
-			sessionFactory.getCurrentSession().save(oi);
+			sessionFactory.getCurrentSession().persist(oi);
 			return oi;
 		}
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void update(AclHibernate acl) {
-		sessionFactory.getCurrentSession().update(acl);
+		sessionFactory.getCurrentSession().merge(acl);
 	}
 }
