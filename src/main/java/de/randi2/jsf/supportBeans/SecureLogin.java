@@ -49,9 +49,12 @@ public class SecureLogin {
 	}
 
 	public void login(ActionEvent evt) throws IOException {
-			FacesContext.getCurrentInstance().getExternalContext().redirect(
-					"/RANDI2/j_spring_security_check?j_username=" + userId
-							+ "&j_password=" + password);
+		FacesContext.getCurrentInstance().getExternalContext().redirect(
+				FacesContext.getCurrentInstance().getExternalContext()
+						.getRequestContextPath()
+						+ "/j_spring_security_check?j_username="
+						+ userId
+						+ "&j_password=" + password);
 	}
 
 }
