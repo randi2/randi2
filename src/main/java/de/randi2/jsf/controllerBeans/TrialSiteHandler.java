@@ -92,7 +92,11 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	@Override
 	public String saveObject() {
 		try {
-			showedObject = siteService.update(showedObject);
+			if(creatingMode){
+				siteService.create(showedObject);
+			}else{
+				showedObject = siteService.update(showedObject);
+			}
 			// Making the centerSavedPopup visible
 			this.trialSiteSavedPVisible = true;
 			this.creatingMode = false;

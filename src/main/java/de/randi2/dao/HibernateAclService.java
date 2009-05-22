@@ -98,6 +98,7 @@ public class HibernateAclService implements AclService {
 			acl.insertAce(permission, roleName);
 		}
 		sessionFactory.getCurrentSession().merge(acl);
+		sessionFactory.getCurrentSession().flush();
 		return acl;
 	}
 	
