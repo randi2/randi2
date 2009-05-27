@@ -9,7 +9,7 @@
         </layout>
     </appender>
     
-   <logger name="de.randi2">
+   <!--<logger name="de.randi2">
         <level value="DEBUG"/>
     </logger>
 
@@ -23,8 +23,7 @@
 
     <logger name="org.springframework">
         <level value="WARN"/>
-    </logger>
-    
+    </logger>-->
     <root>
         <level value="ERROR"/>
         <appender-ref ref="CONSOLE"/>
