@@ -274,7 +274,7 @@ public class RolesAndRights {
 				if (!r.equals(Role.ROLE_USER)) {
 					if (r.isReadTrial()) {
 						if (r.isScopeTrialRead()) {
-							if (l.getPerson().getTrialSite().getId() == scope
+							if (l.getPerson().getTrialSite() !=null && l.getPerson().getTrialSite().getId() == scope
 									.getId()) {
 								aclService
 										.createAclwithPermissions(
@@ -294,7 +294,7 @@ public class RolesAndRights {
 					}
 					if (r.isWriteTrial()) {
 						if (r.isScopeTrialWrite()) {
-							if (l.getPerson().getTrialSite().getId() == scope
+							if (l.getPerson().getTrialSite() !=null && l.getPerson().getTrialSite().getId() == scope
 									.getId()) {
 								aclService
 										.createAclwithPermissions(
@@ -393,26 +393,20 @@ public class RolesAndRights {
 			if (role.isWriteOtherUser()) {
 				List<Person> list = new ArrayList<Person>();
 				if (role.isScopeUserWrite()) {
+					if(login.getPerson().getTrialSite() != null){
 					list = sessionFactory.getCurrentSession().createQuery(
 							"from Person p where p.trialSite.id = ?")
 							.setParameter(
 									0,
 									login.getPerson().getTrialSite()
 											.getId()).list();
+					}
 				} else {
 					list = sessionFactory.getCurrentSession().createQuery(
 							"from Person").list();
 				}
 				for (Person p : list) {
 					if (p.getLogin() != null) {
-//						p
-//								.setLogin((Login) sessionFactory
-//										.getCurrentSession()
-//										.createQuery(
-//												"from Login login where login.person.id = ?")
-//										.setParameter(0, p.getId())
-//										.uniqueResult());
-//					}
 					aclService
 							.createAclwithPermissions(
 									p.getLogin(),
@@ -449,12 +443,14 @@ public class RolesAndRights {
 			// TrialSite rights
 			if (role.isReadTrialSite()) {
 				if (role.isScopeTrialSiteView()) {
+					if(login.getPerson().getTrialSite()!=null){
 					aclService
 							.createAclwithPermissions(
 									login.getPerson().getTrialSite(),
 									login.getUsername(),
 									new PermissionHibernate[] { PermissionHibernate.READ },
 									role.getName());
+					}
 				} else {
 					List<TrialSite> list = sessionFactory
 							.getCurrentSession().createQuery(
@@ -508,6 +504,7 @@ public class RolesAndRights {
 			// Trial rights
 			if (role.isReadTrial()) {
 				if (role.isScopeTrialRead()) {
+					if(login.getPerson().getTrialSite()!=null){
 					for (Trial t : login.getPerson().getTrialSite()
 							.getTrials()) {
 						aclService
@@ -517,6 +514,7 @@ public class RolesAndRights {
 										new PermissionHibernate[] { PermissionHibernate.READ },
 										role.getName());
 					}
+				}
 				} else {
 					List<Trial> list = sessionFactory.getCurrentSession()
 							.createQuery("from Trial").list();
@@ -532,6 +530,7 @@ public class RolesAndRights {
 			}
 			if (role.isWriteTrial()) {
 				if (role.isScopeTrialWrite()) {
+					if(login.getPerson().getTrialSite()!=null){
 					for (Trial t : login.getPerson().getTrialSite()
 							.getTrials()) {
 						aclService
@@ -540,6 +539,7 @@ public class RolesAndRights {
 										login.getUsername(),
 										new PermissionHibernate[] { PermissionHibernate.WRITE },
 										role.getName());
+					}
 					}
 				} else {
 					List<Trial> list = sessionFactory.getCurrentSession()

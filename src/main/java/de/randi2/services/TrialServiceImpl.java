@@ -3,6 +3,7 @@ package de.randi2.services;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.annotation.Secured;
 import org.springframework.transaction.annotation.Propagation;
@@ -17,7 +18,7 @@ public class TrialServiceImpl implements TrialService {
 
 	private Logger logger =  Logger.getLogger(TrialServiceImpl.class);
 	@Autowired private TrialDao trialDao;
-	
+	@Autowired private SessionFactory sessionFactory;
 		
 	@Override
 	@Secured({"ACL_TRIAL_CREATE"})
@@ -32,6 +33,7 @@ public class TrialServiceImpl implements TrialService {
 	public Trial randomize(Trial trial, TrialSubject subject) {
 		TreatmentArm assignedArm = trial.getRandomizationConfiguration().getAlgorithm().randomize(subject);
 		subject.setArm(assignedArm);
+		sessionFactory.getCurrentSession().persist(subject);
 		assignedArm.addSubject(subject);
 		return trialDao.update(trial);
 	}
