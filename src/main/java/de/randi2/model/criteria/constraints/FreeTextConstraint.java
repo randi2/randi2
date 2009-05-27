@@ -9,10 +9,19 @@ import javax.persistence.Entity;
 public class FreeTextConstraint extends AbstractConstraint<String>{
 
 
-	private static final long serialVersionUID = 1L;
-
+	
 	private String expectedValue;
 	
+
+	public FreeTextConstraint(){
+		
+	}
+	
+	public FreeTextConstraint(List<String> args)
+			throws ContraintViolatedException {
+		super(args);
+	}
+
 	public String getExpectedValue() {
 		return expectedValue;
 	}

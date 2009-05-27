@@ -17,12 +17,7 @@ import de.randi2.unsorted.ContraintViolatedException;
 public class FreeTextCriterion extends AbstractCriterion<String, FreeTextConstraint>{
 
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	
+
 	@Override
 	public void isValueCorrect(String value) throws ContraintViolatedException {
 		if(value == null || value.length()==0){
@@ -41,7 +36,6 @@ public class FreeTextCriterion extends AbstractCriterion<String, FreeTextConstra
 	
 	@Override
 	public Class<FreeTextConstraint> getContstraintType() {
-		// TODO Auto-generated method stub
 		return FreeTextConstraint.class;
 	}
 	
