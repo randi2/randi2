@@ -10,7 +10,7 @@ import de.randi2.unsorted.ContraintViolatedException;
 @Entity
 public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 
-	private GregorianCalendar exaptedValue;
+	private GregorianCalendar expectedValue;
 
 	public DateConstraint() {
 
@@ -21,21 +21,29 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 		// TODO Auto-generated constructor stub
 	}
 
-	public GregorianCalendar getExaptedValue() {
-		return exaptedValue;
+	
+
+	public GregorianCalendar getExpectedValue() {
+		return expectedValue;
 	}
 
-	public void setExaptedValue(GregorianCalendar exaptedValue) {
-		this.exaptedValue = exaptedValue;
+	public void setExpectedValue(GregorianCalendar expectedValue) {
+		this.expectedValue = expectedValue;
 	}
 
 	@Override
-	protected void configure(List<GregorianCalendar> args)
+	protected void configure(List<GregorianCalendar> list)
 			throws ContraintViolatedException {
+		if(list==null || list.size() !=1){
+			throw new ContraintViolatedException();
+		}else{
+			expectedValue = list.get(0);
+		}
 	}
 
 	@Override
 	public void isValueCorrect(GregorianCalendar _value)
 			throws ContraintViolatedException {
+		if(!expectedValue.equals(_value)) throw new ContraintViolatedException();
 	}
 }
