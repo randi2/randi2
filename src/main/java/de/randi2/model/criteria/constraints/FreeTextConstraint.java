@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 public class FreeTextConstraint extends AbstractConstraint<String>{
 
 
-	
 	private String expectedValue;
 	
 

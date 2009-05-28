@@ -39,7 +39,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired private SystemWideSaltSource saltSource;
 	
 	private LoginDao loginDao;
-	private PersonDao personDao;
 	
 	public UserServiceImpl() {
 		super();
@@ -48,10 +47,9 @@ public class UserServiceImpl implements UserService {
 	private RoleDao roleDao;
 	private MailServiceInterface mailService;
 
-	public UserServiceImpl(LoginDao loginDao, PersonDao personDao,RoleDao roleDao,
+	public UserServiceImpl(LoginDao loginDao,RoleDao roleDao,
 			MailServiceInterface mailService) {
 		this.loginDao = loginDao;
-		this.personDao = personDao;
 		this.roleDao = roleDao;
 		this.mailService = mailService;
 	}
