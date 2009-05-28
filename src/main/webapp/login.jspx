@@ -33,17 +33,19 @@
 		<ice:outputStyle href="RANDI2.css" />
 		</head>
 		<body>
+		
 		<!-- Login Form -->
 		<div class="body">
-		<div class="login"><ice:form partialSubmit="false">
-			<ice:panelCollapsible expanded="true" toggleOnClick="false"
-				style="width=500px;">
-				<f:facet name="header">
-					<ice:graphicImage value="/img/randi2_small.png"></ice:graphicImage>
-				</f:facet>
-				<ice:panelGroup>
+		<div class="login">
+	
+		<ice:panelGroup style="width=500px;  " >
+			<ice:panelGroup styleClass="icePnlClpsbl">
+				<ice:panelGroup styleClass="icePnlClpsblHdr">
+				<ice:graphicImage value="/img/randi2_small.png"></ice:graphicImage>
+				</ice:panelGroup>
+				<ice:panelGroup style="padding:2px;background-color:#F5F5F5">
 					<ice:panelDivider dividerPosition="40" orientation="vertical"
-						style="width: 100%; height: 200px;">
+						style="width: 100%; height: 200px; font-size:0.75em; " >
 						<f:facet name="first">
 							<ice:panelGroup styleClass="loginInfo">
 								<ice:panelGroup>
@@ -59,23 +61,18 @@
 							</ice:panelGroup>
 						</f:facet>
 						<f:facet name="second">
-							<ice:panelGrid columns="2" style="padding:5px;">
-								<ice:outputLabel for="username"
-									value="#{labels['login.username']}" />
-								<h:inputText id="username" value="#{secureLogin.userId}"
-									maxlength="60" />
-								<ice:outputLabel for="password"
-									value="#{labels['login.password']}" />
-								<h:inputSecret id="password" redisplay="false"
-									value="#{secureLogin.password}" maxlength="60" />
-								<ice:commandButton value="#{labels['buttons.login']}"
-									actionListener="#{secureLogin.login}"></ice:commandButton>
-								<ice:messages style="color: red;" layout="table" />
-							</ice:panelGrid>
+									<form name="testtest" id="testtest"  action="#{facesContext.externalContext.requestContextPath}/j_spring_security_check" method="post">
+								<table>
+								<tr><td><h:outputText value="#{labels['login.username']}"/></td> <td><input type="text" name="j_username"/></td></tr>
+								<tr><td><h:outputText value="#{labels['login.password']}"/></td> <td><input type="password" name="j_password"/></td></tr>
+								</table>
+							
+								<button type="submit" ><h:outputText value="#{labels['buttons.login']}"/></button>
+								</form>
 						</f:facet>
 					</ice:panelDivider>
 				</ice:panelGroup>
-			</ice:panelCollapsible>
+		</ice:panelGroup>
 			<ice:panelGrid columns="2" style="margin-left:175px">
 				<!-- Links -->
 				<ice:panelGroup>
@@ -95,7 +92,8 @@
 					</table>
 				</ice:panelGroup>
 			</ice:panelGrid>
-		</ice:form></div>
+			</ice:panelGroup>
+		</div>
 		</div>
 		</body>
 		</html>
