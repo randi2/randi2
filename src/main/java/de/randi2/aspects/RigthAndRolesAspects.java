@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Propagation;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
-import de.randi2.model.Role;
 import de.randi2.utility.security.RolesAndRights;
 
 /**

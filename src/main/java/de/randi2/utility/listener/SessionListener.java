@@ -5,9 +5,7 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import org.apache.log4j.Logger;
-import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
-import org.hibernate.impl.SessionImpl;
 
 import static de.randi2.utility.webfilter.HibernateWebFilter.*;
 
