@@ -23,24 +23,24 @@ public class SessionListener implements HttpSessionListener {
 		HttpSession httpSession = se.getSession();
 		Session hibernateSession = (Session) se.getSession().getAttribute(
 				HIBERNATE_SESSION_KEY);
-		if (hibernateSession != null) {
+		if (hibernateSession != null && hibernateSession.isOpen()) {
 			SessionFactory sf = ((SessionImpl) hibernateSession)
 					.getSessionFactory();
 			try {
 
-				sf.getCurrentSession().flush();
-				sf.getCurrentSession().close(); // Unbind is automatic here
+				hibernateSession.flush();
+				hibernateSession.close(); // Unbind is automatic here
 				httpSession.setAttribute(HIBERNATE_SESSION_KEY, null);
 				// SecurityContextHolder.getContext().setAuthentication(null);
 				if (httpSession.getAttribute(END_OF_CONVERSATION_FLAG) != null) {
 					httpSession.removeAttribute(END_OF_CONVERSATION_FLAG);
 				}
-				logger.debug("Hibernate session closed");
+				logger.debug("Hibernate session closed (http session: " +httpSession.getId() + ")");
 			} catch (IllegalStateException e) {
-				sf.getCurrentSession().flush();
-				sf.getCurrentSession().close(); // Unbind is automatic here
+				hibernateSession.flush();
+				hibernateSession.close(); // Unbind is automatic here
 				// SecurityContextHolder.getContext().setAuthentication(null);
-				logger.trace("<<< End of conversation " + httpSession.getId());
+				logger.debug("Hibernate session closed (http session: " +httpSession.getId() + ")");
 			}
 
 		}

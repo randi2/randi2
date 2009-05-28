@@ -38,6 +38,7 @@ public class HibernateWebFilter implements Filter {
 			if (hibernateSession != null) {
 				if (!hibernateSession.isOpen()) {
 					hibernateSession = sf.openSession();
+					logger.debug("open Hibernate session (http session: " +httpSession.getId() + ")");
 					logger
 							.trace(httpSession.getId()
 									+ " >>> New conversation ");
@@ -48,6 +49,7 @@ public class HibernateWebFilter implements Filter {
 			} else {
 				hibernateSession = sf.openSession();
 				logger.trace(httpSession.getId() + " >>> New conversation");
+				logger.debug("open Hibernate session (http session: " +httpSession.getId() + ")");
 				
 			}
 			hibernateSession.setFlushMode(FlushMode.COMMIT);
@@ -63,13 +65,15 @@ public class HibernateWebFilter implements Filter {
 					httpSession.setAttribute(HIBERNATE_SESSION_KEY, null);
 					//SecurityContextHolder.getContext().setAuthentication(null);
 					httpSession.removeAttribute(END_OF_CONVERSATION_FLAG);
-					logger.debug("Hibernate session closed");
+					logger.debug("Hibernate session closed (http session: " +httpSession.getId() + ")");
+				}else{
+					httpSession.setAttribute(HIBERNATE_SESSION_KEY, sf.getCurrentSession());
 				}
 			} catch (IllegalStateException e) {
 				sf.getCurrentSession().flush();
 				sf.getCurrentSession().close(); // Unbind is automatic here
 				//SecurityContextHolder.getContext().setAuthentication(null);
-				logger.trace("<<< End of conversation " + httpSession.getId());
+				logger.debug("Hibernate session closed (http session: " +httpSession.getId() + ")");
 			}
 
 //		}catch (RuntimeException e) {

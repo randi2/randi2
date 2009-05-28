@@ -34,8 +34,6 @@ public class DaoAuthenticationProviderWithLock extends
 				user.setNumberWrongLogins(number);
 				if(number==Login.MAX_WRONG_LOGINS) user.setLockTime(new GregorianCalendar()); 
 				sessionFactory.getCurrentSession().save(user);
-				sessionFactory.getCurrentSession().flush();
-				sessionFactory.getCurrentSession().close();
 				logger.warn("Wrong password: user=" + user.getUsername() + " count=" + number);
 			}
 			throw e;

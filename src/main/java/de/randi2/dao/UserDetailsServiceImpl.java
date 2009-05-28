@@ -35,11 +35,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		String queryS = "from de.randi2.model.Login login where "
 			+ "login.username =?";
 		
-		//open and bind a new HibernateSession
-		 Session session = sessionFactory.openSession();
-		 session.setFlushMode(FlushMode.MANUAL);
-		ManagedSessionContext.bind((org.hibernate.classic.Session)session);
-		 
 		Query query = sessionFactory.getCurrentSession().createQuery(queryS);
 		query.setParameter(0, username);
 		List<Login>  loginList =(List) query.list();
