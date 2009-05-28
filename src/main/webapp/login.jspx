@@ -61,7 +61,7 @@
 							</ice:panelGroup>
 						</f:facet>
 						<f:facet name="second">
-									<form name="testtest" id="testtest"  action="#{facesContext.externalContext.requestContextPath}/j_spring_security_check" method="post">
+									<form action="#{facesContext.externalContext.requestContextPath}/j_spring_security_check" method="post">
 								<table>
 								<tr><td><h:outputText value="#{labels['login.username']}"/></td> <td><input type="text" name="j_username"/></td></tr>
 								<tr><td><h:outputText value="#{labels['login.password']}"/></td> <td><input type="password" name="j_password"/></td></tr>
