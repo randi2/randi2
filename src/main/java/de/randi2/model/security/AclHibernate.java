@@ -48,7 +48,7 @@ public class AclHibernate implements Acl, Serializable {
 
 	@Override
 	public AccessControlEntry[] getEntries() {
-		return aces.toArray(new AccessControlEntryHibernate[]{});
+		return aces.toArray(new AccessControlEntryHibernate[aces.size()]);
 	}
 
 	@Override
