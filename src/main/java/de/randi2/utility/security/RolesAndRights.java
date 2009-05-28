@@ -200,7 +200,7 @@ public class RolesAndRights {
 		// Set Right for ROLE_ANONYMOUS
 		aclService.createAclwithPermissions(trialSite, Role.ROLE_ANONYMOUS
 				.getName(), Role.ROLE_ANONYMOUS.getTrialSitePermissions()
-				.toArray(new PermissionHibernate[0]), Role.ROLE_ANONYMOUS
+				.toArray(new PermissionHibernate[Role.ROLE_ANONYMOUS.getTrialSitePermissions().size()]), Role.ROLE_ANONYMOUS
 				.getName());
 
 		// Set Rights for other User
@@ -352,10 +352,10 @@ public class RolesAndRights {
 		if (role.equals(Role.ROLE_USER)) {
 			aclService.createAclwithPermissions(login, login.getUsername(),
 					role.getOwnUserPermissions().toArray(
-							new PermissionHibernate[0]), role.getName());
+							new PermissionHibernate[role.getOwnUserPermissions().size()]), role.getName());
 			aclService.createAclwithPermissions(login.getPerson(), login
 					.getUsername(), role.getOwnUserPermissions().toArray(
-					new PermissionHibernate[0]), role.getName());
+					new PermissionHibernate[role.getOwnUserPermissions().size()]), role.getName());
 		} else {
 			// User rights
 			if (role.isReadOtherUser()) {
