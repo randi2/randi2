@@ -10,12 +10,12 @@
 
 <!-- ======================= BEGINN Security for WEB ========================= -->
 
- <sec:http access-decision-manager-ref="httpAccessDecisionManager" session-fixation-protection="none">
+ <sec:http access-decision-manager-ref="httpAccessDecisionManager" session-fixation-protection="none" >
 		<sec:form-login login-page="/login.jspx"
 			default-target-url="/randi2.jspx"
 			authentication-failure-url="/login.jspx"
 			login-processing-url="/j_spring_security_check" />
-		<sec:intercept-url pattern="/randi2.jspx" access="ROLE_USER" />
+		<sec:intercept-url pattern="/randi2.jspx" access="ROLE_USER" requires-channel="any"/>
 		<sec:concurrent-session-control max-sessions="1"/>
 		<sec:logout logout-success-url="/goodbye.jspx"/>
 	</sec:http>
