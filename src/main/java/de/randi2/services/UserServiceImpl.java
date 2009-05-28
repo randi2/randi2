@@ -10,14 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.annotation.Secured;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
-import org.springframework.security.providers.dao.SaltSource;
 import org.springframework.security.providers.dao.salt.SystemWideSaltSource;
 import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.LoginDao;
-import de.randi2.dao.PersonDao;
 import de.randi2.dao.RoleDao;
 import de.randi2.model.Login;
 import de.randi2.model.Person;

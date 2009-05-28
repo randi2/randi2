@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;

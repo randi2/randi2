@@ -12,8 +12,6 @@ import javax.persistence.OneToOne;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
-import org.hibernate.validator.Pattern;
-import org.springframework.beans.factory.annotation.Configurable;
 
 import de.randi2.model.enumerations.Gender;
 import de.randi2.utility.validations.EMailRANDI2;
