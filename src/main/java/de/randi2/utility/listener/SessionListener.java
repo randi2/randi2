@@ -24,8 +24,6 @@ public class SessionListener implements HttpSessionListener {
 		Session hibernateSession = (Session) se.getSession().getAttribute(
 				HIBERNATE_SESSION_KEY);
 		if (hibernateSession != null && hibernateSession.isOpen()) {
-			SessionFactory sf = ((SessionImpl) hibernateSession)
-					.getSessionFactory();
 			try {
 
 				hibernateSession.flush();
