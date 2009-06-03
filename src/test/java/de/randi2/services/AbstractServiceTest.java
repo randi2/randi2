@@ -50,6 +50,13 @@ public abstract class AbstractServiceTest {
 		sessionFactory.getCurrentSession().merge(Role.ROLE_P_INVESTIGATOR);
 		sessionFactory.getCurrentSession().merge(Role.ROLE_ANONYMOUS);
 		
+		Person cp1 = new Person();
+		cp1.setFirstname("Contact");
+		cp1.setSurname("Person");
+		cp1.setEmail("cp1@test.de");
+		cp1.setPhone("1234567");
+		cp1.setGender(Gender.MALE);
+		
 		Person adminP = new Person();
 		adminP.setFirstname("Max");
 		adminP.setSurname("Mustermann");
@@ -74,7 +81,7 @@ public abstract class AbstractServiceTest {
 		trialSite.setPostcode("69120");
 		trialSite.setStreet("INF");
 		trialSite.setPassword(passwordEncoder.encodePassword("1$heidelberg",saltSource.getSystemWideSalt()));
-		trialSite.setContactPerson(adminP);
+		trialSite.setContactPerson(cp1);
 		rolesAndRights.registerPerson(adminL);
 		rolesAndRights.grantRigths(adminL, trialSite);
 

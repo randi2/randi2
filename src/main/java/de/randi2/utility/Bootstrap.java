@@ -60,6 +60,21 @@ public class Bootstrap {
 		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_MONITOR);
 		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_P_INVESTIGATOR);
 		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_ANONYMOUS);
+		Person cp1 = new Person();
+		cp1.setFirstname("Contact");
+		cp1.setSurname("Person");
+		cp1.setEmail("cp1@test.de");
+		cp1.setPhone("1234567");
+		cp1.setGender(Gender.MALE);
+		
+		Person cp2 = new Person();
+		cp2.setFirstname("Contact");
+		cp2.setSurname("Person");
+		cp2.setEmail("cp2@test.de");
+		cp2.setPhone("1234567");
+		cp2.setGender(Gender.MALE);
+		
+		
 		
 		Person adminP = new Person();
 		adminP.setFirstname("Max");
@@ -84,7 +99,7 @@ public class Bootstrap {
 		trialSite.setPostcode("69120");
 		trialSite.setStreet("INF");
 		trialSite.setPassword(passwordEncoder.encodePassword("1$heidelberg",saltSource.getSystemWideSalt()));
-		trialSite.setContactPerson(adminP);
+		trialSite.setContactPerson(cp1);
 		rolesAndRights.registerPerson(adminL);
 		rolesAndRights.grantRigths(adminL, trialSite);
 
@@ -127,7 +142,7 @@ public class Bootstrap {
 		trialSite1.setPostcode("69120");
 		trialSite1.setStreet("INF");
 		trialSite1.setPassword(passwordEncoder.encodePassword("1$heidelberg",saltSource.getSystemWideSalt()));
-		trialSite1.setContactPerson(adminP);
+		trialSite1.setContactPerson(cp2);
 
 		trialSiteDao.create(trialSite1);
 		

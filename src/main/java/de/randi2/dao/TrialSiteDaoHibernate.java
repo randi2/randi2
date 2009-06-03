@@ -31,21 +31,14 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void create(TrialSite object) {
-		saveNewContactPerson(object);
 		sessionFactory.getCurrentSession().persist(object);
 	}
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public TrialSite update(TrialSite object) {
-		saveNewContactPerson(object);
 		return (TrialSite) sessionFactory.getCurrentSession().merge(object);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
-	private void saveNewContactPerson(TrialSite object){
-		if(object.getContactPerson() != null && object.getContactPerson().getId() == AbstractDomainObject.NOT_YET_SAVED_ID){
-			sessionFactory.getCurrentSession().persist(object.getContactPerson());
-		}
-	}
+	
 }

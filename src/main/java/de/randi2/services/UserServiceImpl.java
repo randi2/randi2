@@ -176,7 +176,7 @@ public class UserServiceImpl implements UserService {
 
 			Person contactPerson = newUser.getPerson().getTrialSite()
 					.getContactPerson();
-			language = contactPerson.getLogin().getPrefLocale();
+			language = Locale.getDefault();
 
 			// Map of variables for the message
 			Map<String, Object> contactPersonMessageFields = new HashMap<String, Object>();
