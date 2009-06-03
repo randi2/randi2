@@ -69,7 +69,7 @@ public class TrialSiteServiceTest {
 		adminP.setSurname("Mustermann");
 		adminP.setEmail("admin@test.de");
 		adminP.setPhone("1234567");
-		adminP.setGender(Gender.MALE);
+		adminP.setSex(Gender.MALE);
 
 		Login adminL = new Login();
 		adminL.setPassword("1§heidelberg");

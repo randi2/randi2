@@ -29,12 +29,12 @@
 		<ice:panelGrid border="0" columns="2">
 			<ice:outputLabel for="gender" value="#{labels['person.gender']}"></ice:outputLabel>
 			<ice:outputText id="genderO"
-				value="#{loginHandler.showedObject.person.gender}"
+				value="#{loginHandler.showedObject.person.sex}"
 				rendered="#{!loginHandler.editable}" converter="de.randi2.jsf.converters.GENDER_CONVERTER" />
 			<ice:panelGroup id="genderEdit" rendered="#{loginHandler.editable}">
 				<ice:selectOneMenu id="gender"
-					value="#{loginHandler.showedObject.person.gender}" converter="de.randi2.jsf.converters.GENDER_CONVERTER">
-					<f:selectItems value="#{enums.genderItems}" />
+					value="#{loginHandler.showedObject.person.sex}" converter="de.randi2.jsf.converters.GENDER_CONVERTER">
+					<f:selectItems value="#{enums.genderItems}"/>
 				</ice:selectOneMenu>
 			</ice:panelGroup>
 			<ice:outputLabel for="title" value="#{labels['person.title']}"></ice:outputLabel>

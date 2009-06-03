@@ -65,14 +65,14 @@ public class Bootstrap {
 		cp1.setSurname("Person");
 		cp1.setEmail("cp1@test.de");
 		cp1.setPhone("1234567");
-		cp1.setGender(Gender.MALE);
+		cp1.setSex(Gender.MALE);
 		
 		Person cp2 = new Person();
 		cp2.setFirstname("Contact");
 		cp2.setSurname("Person");
 		cp2.setEmail("cp2@test.de");
 		cp2.setPhone("1234567");
-		cp2.setGender(Gender.MALE);
+		cp2.setSex(Gender.MALE);
 		
 		
 		
@@ -81,7 +81,7 @@ public class Bootstrap {
 		adminP.setSurname("Mustermann");
 		adminP.setEmail("admin@test.de");
 		adminP.setPhone("1234567");
-		adminP.setGender(Gender.MALE);
+		adminP.setSex(Gender.MALE);
 
 		Login adminL = new Login();
 		adminL.setPassword(passwordEncoder.encodePassword("1$heidelberg",saltSource.getSystemWideSalt()));
@@ -122,7 +122,7 @@ public class Bootstrap {
 		userP.setSurname("Musterfrau");
 		userP.setEmail("user@test.de");
 		userP.setPhone("1234567");
-		userP.setGender(Gender.FEMALE);
+		userP.setSex(Gender.FEMALE);
 		userP.setTrialSite(trialSite);
 
 		Login userL = new Login();

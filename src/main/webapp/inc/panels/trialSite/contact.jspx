@@ -20,11 +20,8 @@
 	<ice:outputLabel for="gender" value="#{labels['person.gender']}"
 		rendered="#{trialSiteHandler.editable}"></ice:outputLabel>
 	<ice:selectOneMenu id="gender"
-		value="#{trialSiteHandler.showedObject.contactPerson.gender}"
-		rendered="#{trialSiteHandler.editable}">
-		<f:converter converterId="de.randi2.jsf.converters.GENDER_CONVERTER" />
-		<f:attribute name="dObject"
-			value="#{trialSiteHandler.showedObject.contactPerson}" />
+		value="#{trialSiteHandler.showedObject.contactPerson.sex}"
+		rendered="#{trialSiteHandler.editable}" converter="de.randi2.jsf.converters.GENDER_CONVERTER">
 		<f:selectItems value="#{enums.genderItems}" />
 	</ice:selectOneMenu>
 	<ice:outputLabel for="title" value="#{labels['person.title']}"></ice:outputLabel>

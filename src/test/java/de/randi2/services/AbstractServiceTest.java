@@ -55,14 +55,14 @@ public abstract class AbstractServiceTest {
 		cp1.setSurname("Person");
 		cp1.setEmail("cp1@test.de");
 		cp1.setPhone("1234567");
-		cp1.setGender(Gender.MALE);
+		cp1.setSex(Gender.MALE);
 		
 		Person adminP = new Person();
 		adminP.setFirstname("Max");
 		adminP.setSurname("Mustermann");
 		adminP.setEmail("admin@test.de");
 		adminP.setPhone("1234567");
-		adminP.setGender(Gender.MALE);
+		adminP.setSex(Gender.MALE);
 
 		Login adminL = new Login();
 		adminL.setPassword("1§heidelberg");

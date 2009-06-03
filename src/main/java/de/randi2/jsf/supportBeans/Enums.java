@@ -11,16 +11,17 @@ import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.model.enumerations.Gender;
 
 public class Enums {
-
+	
 	private List<SelectItem> genderItems;
 	
-	public List<SelectItem> getGenderItems() {
-		if (genderItems == null) {
-			genderItems = new ArrayList<SelectItem>(Gender.values().length);
-			for (Gender g : Gender.values()) {
-				genderItems.add(new SelectItem(g, localizeGenderEntry(g)));
-			}
+	public Enums(){
+		genderItems = new ArrayList<SelectItem>(Gender.values().length);
+		for (Gender g : Gender.values()) {
+			genderItems.add(new SelectItem(g, localizeGenderEntry(g)));
 		}
+	}
+
+	public List<SelectItem> getGenderItems() {
 		return genderItems;
 	}
 	
@@ -30,5 +31,5 @@ public class Enums {
 			    	      FacesContext.getCurrentInstance().getELContext(), null,
 			    	      "loginHandler")).getChosenLocale()).getString(g.toString());
 	}
-
+	
 }

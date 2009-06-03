@@ -26,22 +26,20 @@ import de.randi2.utility.validations.EMailRANDI2;
 import de.randi2.utility.validations.Password;
 
 @Entity
-//@DateDependence(firstDate = "createdAt", secondDate = "lastLoggedIn")
-@NamedQueries({
-@NamedQuery(name="login.AllLoginsWithRolesAndTrialSiteScope" , query= "select login from Login as login join login.roles role join login.person.trialSite trialSite where role.scopeTrialSiteView = true AND trialSite.id = ? group by login"),
-@NamedQuery(name="login.AllLoginsWithRolesAndNotTrialSiteScope" , query= "select login from Login as login join login.roles role where role.scopeTrialSiteView = false AND not (role.name = 'ROLE_USER') group by login"),
-@NamedQuery(name="login.LoginsWriteOtherUser", query="select login from Login as login join login.roles role where role.writeOtherUser = true group by login"),
-@NamedQuery(name="login.LoginsWithPermission", query="from Login as login where login.username in (select ace.sid.sidname from AccessControlEntryHibernate as ace where ace.acl.objectIdentity.javaType = ? and ace.acl.objectIdentity.identifier = ? and ace.permission = ?)")
-})
-
+// @DateDependence(firstDate = "createdAt", secondDate = "lastLoggedIn")
+@NamedQueries( {
+		@NamedQuery(name = "login.AllLoginsWithRolesAndTrialSiteScope", query = "select login from Login as login join login.roles role join login.person.trialSite trialSite where role.scopeTrialSiteView = true AND trialSite.id = ? group by login"),
+		@NamedQuery(name = "login.AllLoginsWithRolesAndNotTrialSiteScope", query = "select login from Login as login join login.roles role where role.scopeTrialSiteView = false AND not (role.name = 'ROLE_USER') group by login"),
+		@NamedQuery(name = "login.LoginsWriteOtherUser", query = "select login from Login as login join login.roles role where role.writeOtherUser = true group by login"),
+		@NamedQuery(name = "login.LoginsWithPermission", query = "from Login as login where login.username in (select ace.sid.sidname from AccessControlEntryHibernate as ace where ace.acl.objectIdentity.javaType = ? and ace.acl.objectIdentity.identifier = ? and ace.permission = ?)") })
 public class Login extends AbstractDomainObject implements UserDetails {
-	
+
 	private final static long serialVersionUID = -6809229052570773439L;
 
-	public final static byte MAX_WRONG_LOGINS=3;
-	//15min
+	public final static byte MAX_WRONG_LOGINS = 3;
+	// 15min
 	public final static int MILIS_TO_LOCK_USER = 900000;
-	
+
 	public final static int MAX_USERNAME_LENGTH = 40;
 	public final static int MIN_USERNAME_LENGTH = 5;
 	public final static int MAX_PASSWORD_LENGTH = 30;
@@ -59,10 +57,8 @@ public class Login extends AbstractDomainObject implements UserDetails {
 
 	private GregorianCalendar lastLoggedIn = null;
 
-
 	private boolean active = false;
-	
-	
+
 	private byte numberWrongLogins = 0;
 	private GregorianCalendar lockTime;
 
@@ -75,7 +71,7 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	private Set<Role> roles = new HashSet<Role>();
 
 	@Length(min = MIN_USERNAME_LENGTH, max = MAX_USERNAME_LENGTH)
-//	@Pattern(regex="[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4}")
+	// @Pattern(regex="[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4}")
 	@EMailRANDI2
 	@NotEmpty
 	public String getUsername() {
@@ -157,9 +153,10 @@ public class Login extends AbstractDomainObject implements UserDetails {
 
 	@Override
 	public boolean isAccountNonLocked() {
-		if(numberWrongLogins >=MAX_WRONG_LOGINS){
+		if (numberWrongLogins >= MAX_WRONG_LOGINS) {
 			return false;
-		}else return true;
+		} else
+			return true;
 	}
 
 	@Override
@@ -208,9 +205,10 @@ public class Login extends AbstractDomainObject implements UserDetails {
 		}
 	}
 
-	public void removeRole(Role role){
+	public void removeRole(Role role) {
 		this.roles.remove(role);
 	}
+
 	/**
 	 * This method checks, if the Login has the specified role
 	 * 
@@ -221,14 +219,15 @@ public class Login extends AbstractDomainObject implements UserDetails {
 		return this.roles.contains(role);
 	}
 
-	/*@Override
-	public String toString() {
-		return this.getUsername() + " (" + this.getPerson().toString() + ")";
-	}*/
+	/*
+	 * @Override public String toString() { return this.getUsername() + " (" +
+	 * this.getPerson().toString() + ")"; }
+	 */
 
 	@Override
 	public String getUIName() {
-		return this.getPerson().getSurname()+", "+this.getPerson().getFirstname();
+		return this.getPerson().getSurname() + ", "
+				+ this.getPerson().getFirstname();
 	}
 
 	public byte getNumberWrongLogins() {

@@ -54,7 +54,7 @@ import de.randi2.services.UserService;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class LoginHandler extends AbstractHandler<Login> {
-
+		
 	private UserService userService;
 
 	public void setUserService(UserService userService) {
@@ -229,7 +229,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 * @return Randi2.SUCCESS
 	 */
 	public String logoutUser() {
-		loggedInUser.getPerson().getTrialSite().setName("test");
 		loggedInUser = userService.update(loggedInUser);
 		invalidateSession();
 		return Randi2.SUCCESS;

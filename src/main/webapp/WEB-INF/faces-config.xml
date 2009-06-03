@@ -61,7 +61,7 @@
 		<description>Bean which converts the RANDI2 enums into Lists with SelectItems</description>
 		<managed-bean-name>enums</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.supportBeans.Enums</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>application</managed-bean-scope>
 	</managed-bean>
 
 	<managed-bean>

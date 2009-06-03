@@ -34,22 +34,37 @@ import de.randi2.model.enumerations.Gender;
 public class GenderConverter implements Converter {
 
 	@Override
-	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
-		if (arg2.equals(ResourceBundle.getBundle( "de.randi2.jsf.i18n.gender",((LoginHandler) FacesContext.getCurrentInstance()
-			    .getApplication().getELResolver().getValue(
-			    	      FacesContext.getCurrentInstance().getELContext(), null,
-			    	      "loginHandler")).getChosenLocale()).getString(Gender.MALE.toString())))
-			return Gender.MALE;
-		else
-			return Gender.FEMALE;
+	public Object getAsObject(FacesContext arg0, UIComponent arg1, String value) {
+		Gender result = null;
+ 		if( value == null || value.length() < 1 ){ 
+ 			result =  null;
+ 		}
+ 		result = findGenderForl16edValue(value);
+ 		return result;
 	}
 
 	@Override
-	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
-		return ResourceBundle.getBundle( "de.randi2.jsf.i18n.gender",((LoginHandler) FacesContext.getCurrentInstance()
+	public String getAsString(FacesContext arg0, UIComponent arg1, Object value) {
+		String result = null;
+ 		if( value != null && value instanceof Gender ){
+ 			result = ResourceBundle.getBundle( "de.randi2.jsf.i18n.gender",((LoginHandler) FacesContext.getCurrentInstance()
+ 				    .getApplication().getELResolver().getValue(
+ 				    	      FacesContext.getCurrentInstance().getELContext(), null,
+ 				    	      "loginHandler")).getChosenLocale()).getString(((Gender)value).toString());
+ 		}
+ 		return result;
+	}
+	
+	private Gender findGenderForl16edValue(String l16edValue){
+		ResourceBundle rb = ResourceBundle.getBundle( "de.randi2.jsf.i18n.gender",((LoginHandler) FacesContext.getCurrentInstance()
 			    .getApplication().getELResolver().getValue(
 			    	      FacesContext.getCurrentInstance().getELContext(), null,
-			    	      "loginHandler")).getChosenLocale()).getString(arg2.toString());
+			    	      "loginHandler")).getChosenLocale());
+		for(String key : rb.keySet()){
+			if(rb.getString(key).equals(l16edValue))
+				return Gender.valueOf(key);
+		}
+		return Gender.MALE;
 	}
 
 }

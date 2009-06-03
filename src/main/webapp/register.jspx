@@ -60,9 +60,7 @@
 							<ice:panelGrid columns="2">
 								<ice:outputLabel for="gender" value="#{labels['person.gender']}"></ice:outputLabel>
 								<ice:selectOneMenu id="gender"
-									value="#{loginHandler.newUser.person.gender}">
-									<f:converter
-										converterId="de.randi2.jsf.converters.GENDER_CONVERTER" />
+									value="#{loginHandler.newUser.person.sex}" converter="de.randi2.jsf.converters.GENDER_CONVERTER">
 									<f:selectItems value="#{enums.genderItems}" />
 								</ice:selectOneMenu>
 							</ice:panelGrid>

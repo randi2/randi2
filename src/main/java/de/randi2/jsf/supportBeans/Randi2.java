@@ -35,6 +35,13 @@ import de.randi2.utility.webfilter.HibernateWebFilter;
 public class Randi2 {
 
 	public static final String RANDI2_END = HibernateWebFilter.END_OF_CONVERSATION_FLAG;
+	public static final String SECURE_LOGIN_PATH =  "/j_spring_security_check";
+	
+	public String getSecureLoginPath() {
+		return Randi2.SECURE_LOGIN_PATH;
+	}
+	
+	public static final String SECURE_LOGOUT_PATH =  "/j_spring_security_logout";
 	
 	private String version = null;
 
