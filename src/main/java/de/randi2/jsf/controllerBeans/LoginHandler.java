@@ -228,7 +228,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 * 
 	 * @return Randi2.SUCCESS
 	 */
-	public String logoutUser(){
+	public String logoutUser() {
 		loggedInUser.getPerson().getTrialSite().setName("test");
 		loggedInUser = userService.update(loggedInUser);
 		invalidateSession();
@@ -380,15 +380,15 @@ public class LoginHandler extends AbstractHandler<Login> {
 	}
 
 	public AutoCompleteObject<Person> getTsMembersAC() {
-		if (trialSitesAC!=null && trialSitesAC.getSelectedObject() != null)
+		if (trialSitesAC != null && trialSitesAC.getSelectedObject() != null)
 			tsMembersAC = new AutoCompleteObject<Person>(trialSitesAC
 					.getSelectedObject().getMembers());
 		else if (showedObject != null)
 			tsMembersAC = new AutoCompleteObject<Person>(showedObject
 					.getPerson().getTrialSite().getMembers());
-//		else
-//			tsMembersAC = new AutoCompleteObject<Person>(
-//					new ArrayList<Person>());
+		// else
+		// tsMembersAC = new AutoCompleteObject<Person>(
+		// new ArrayList<Person>());
 		return tsMembersAC;
 	}
 
@@ -412,21 +412,18 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 * loginPage
 	 */
 	public void invalidateSession() {
-		final HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-				.getExternalContext().getSession(false);
+		final HttpSession session = (HttpSession) FacesContext
+				.getCurrentInstance().getExternalContext().getSession(false);
 		session.setAttribute(Randi2.RANDI2_END, "The end");
 		try {
-			FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()+"/j_spring_security_logout");
+			FacesContext.getCurrentInstance().getExternalContext().redirect(
+					FacesContext.getCurrentInstance().getExternalContext()
+							.getRequestContextPath()
+							+ Randi2.SECURE_LOGOUT_PATH);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		new Thread() {
-// 			public void run() {
-// 				session.invalidate();
-// 			}
-// 		}.start();
-
 	}
 
 	@Override

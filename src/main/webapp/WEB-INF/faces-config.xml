@@ -52,12 +52,6 @@
 	</converter>
 
 	<managed-bean>
-		<description>JSF 2 SpringSecurity Bridge</description>
-		<managed-bean-name>secureLogin</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.supportBeans.SecureLogin</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
 		<description>Bean for various RANDI2 popups</description>
 		<managed-bean-name>popups</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.supportBeans.Popups</managed-bean-class>

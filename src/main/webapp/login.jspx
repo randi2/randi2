@@ -60,7 +60,7 @@
 						</f:facet>
 						<f:facet name="second">
 							<form
-								action="#{facesContext.externalContext.requestContextPath}/j_spring_security_check"
+								action="#{facesContext.externalContext.requestContextPath}#{randi2.secureLoginPath}"
 								method="post">
 							<table>
 								<tr>
