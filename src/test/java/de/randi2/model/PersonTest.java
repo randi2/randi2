@@ -310,7 +310,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 
 		validPerson.setSex(null);
 		try {
-			validPerson.checkValue("gender", validPerson.getSex());
+			validPerson.checkValue("sex", validPerson.getSex());
 			fail("should throw exception");
 		} catch (ValidationException e) {
 		}
