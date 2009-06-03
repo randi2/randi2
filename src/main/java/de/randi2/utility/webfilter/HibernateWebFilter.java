@@ -70,10 +70,13 @@ public class HibernateWebFilter implements Filter {
 					httpSession.setAttribute(HIBERNATE_SESSION_KEY, sf.getCurrentSession());
 				}
 			} catch (IllegalStateException e) {
+				logger.trace("Trace Exception", e);
+				if(sf.getCurrentSession().isOpen()){
 				sf.getCurrentSession().flush();
 				sf.getCurrentSession().close(); // Unbind is automatic here
-				//SecurityContextHolder.getContext().setAuthentication(null);
 				logger.debug("Hibernate session closed (http session: " +httpSession.getId() + ")");
+				}
+				//SecurityContextHolder.getContext().setAuthentication(null);
 			}
 
 //		}catch (RuntimeException e) {

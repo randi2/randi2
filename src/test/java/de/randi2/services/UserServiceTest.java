@@ -146,7 +146,7 @@ public class UserServiceTest extends AbstractServiceTest{
 	public void testCreate(){
 		Login login = factory.getLogin();
 		login.getPerson().setTrialSite(factory.getTrialSite());
-		sessionFactory.getCurrentSession().persist(login.getPerson().getTrialSite().getContactPerson());
+		//sessionFactory.getCurrentSession().persist(login.getPerson().getTrialSite().getContactPerson());
 		sessionFactory.getCurrentSession().persist(login.getPerson().getTrialSite());
 		sessionFactory.getCurrentSession().flush();
 		userService.create(login);

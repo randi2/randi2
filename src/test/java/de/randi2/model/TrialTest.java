@@ -279,13 +279,10 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		
 		
 		cl.add(c1);
-		hibernateTemplate.save(c1.getContactPerson().getLogin());
 		hibernateTemplate.save(c1);
 		cl.add(c2);
-		hibernateTemplate.save(c2.getContactPerson().getLogin());
 		hibernateTemplate.save(c2);
 		cl.add(c3);
-		hibernateTemplate.save(c3.getContactPerson().getLogin());
 		hibernateTemplate.save(c3);
 		hibernateTemplate.save(validTrial.getLeadingSite());
 		hibernateTemplate.save(validTrial.getSponsorInvestigator());

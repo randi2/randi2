@@ -148,7 +148,6 @@ public class TrialSiteServiceTest {
 		Login login = findLogin("admin@test.de");
 		for(int i=0;i<10;i++){
 			TrialSite site = factory.getTrialSite();
-			site.setContactPerson(login.getPerson());
 			service.create(site);
 			rolesAndRights.grantRigths(site,site);
 			assertTrue(site.getId()>0);
@@ -165,8 +164,7 @@ public class TrialSiteServiceTest {
 		((AffirmativeBased)context.getBean("methodAccessDecisionManager")).setAllowIfAllAbstainDecisions(true);
 		TrialSite site = factory.getTrialSite();
 		
-		Login login = findLogin("admin@test.de");
-		site.setContactPerson(login.getPerson());
+		
 		service.create(site);
 		assertTrue(site.getId()>0);
 		rolesAndRights.grantRigths(site,site);

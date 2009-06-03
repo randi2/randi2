@@ -95,7 +95,6 @@ public class TreatmentArmTest extends AbstractDomainTest<TreatmentArm> {
 	
 	@Test
 	public void databaseIntegrationTest(){
-		hibernateTemplate.persist(validTreatmentArm.getTrial().getLeadingSite().getContactPerson());
 		hibernateTemplate.persist(validTreatmentArm.getTrial().getLeadingSite());
 		hibernateTemplate.persist(validTreatmentArm.getTrial().getSponsorInvestigator());
 		hibernateTemplate.persist(validTreatmentArm.getTrial());

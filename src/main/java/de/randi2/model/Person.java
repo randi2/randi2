@@ -14,6 +14,7 @@ import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
 
 import de.randi2.model.enumerations.Gender;
+import de.randi2.utility.validations.ContactPerson;
 import de.randi2.utility.validations.EMailRANDI2;
 import de.randi2.utility.validations.TelephonNumber;
 
@@ -40,6 +41,7 @@ public class Person extends AbstractDomainObject {
 	
 	// Institutional Data
 	@ManyToOne
+	@ContactPerson
 	private Person assistant;
 	@ManyToOne
 	private TrialSite trialSite;

@@ -42,7 +42,7 @@ public class DomainObjectFactory {
 		TrialSite c = new TrialSite();
 		c.setName(testStringUtil.getWithLength(10));
 		c.setPassword(testStringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+";2");
-		c.setContactPerson(this.getLogin().getPerson());
+		c.setContactPerson(this.getPerson());
 		return c;
 	}
 

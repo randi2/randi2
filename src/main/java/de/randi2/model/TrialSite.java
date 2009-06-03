@@ -3,6 +3,7 @@ package de.randi2.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -15,6 +16,7 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
 
+import de.randi2.utility.validations.ContactPerson;
 import de.randi2.utility.validations.Password;
 
 @Entity
@@ -34,7 +36,8 @@ public class TrialSite extends AbstractDomainObject {
 	private String country = "";
 	private String password = "";
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
+	@ContactPerson
 	private Person contactPerson = null;
 
 	@OneToMany(mappedBy = "trialSite")
