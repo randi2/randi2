@@ -33,19 +33,17 @@
 		<ice:outputStyle href="RANDI2.css" />
 		</head>
 		<body>
-		
+
 		<!-- Login Form -->
 		<div class="body">
-		<div class="login">
-	
-		<ice:panelGroup style="width=500px;  " >
+		<div class="login"><ice:panelGroup style="width=500px;  ">
 			<ice:panelGroup styleClass="icePnlClpsbl">
 				<ice:panelGroup styleClass="icePnlClpsblHdr">
-				<ice:graphicImage value="/img/randi2_small.png"></ice:graphicImage>
+					<ice:graphicImage value="/img/randi2_small.png"></ice:graphicImage>
 				</ice:panelGroup>
 				<ice:panelGroup style="padding:2px;background-color:#F5F5F5">
 					<ice:panelDivider dividerPosition="40" orientation="vertical"
-						style="width: 100%; height: 200px; font-size:0.75em; " >
+						style="width: 100%; height: 200px; font-size:0.75em; ">
 						<f:facet name="first">
 							<ice:panelGroup styleClass="loginInfo">
 								<ice:panelGroup>
@@ -61,18 +59,33 @@
 							</ice:panelGroup>
 						</f:facet>
 						<f:facet name="second">
-									<form action="#{facesContext.externalContext.requestContextPath}/j_spring_security_check" method="post">
-								<table>
-								<tr><td><h:outputText value="#{labels['login.username']}"/></td> <td><input type="text" name="j_username"/></td></tr>
-								<tr><td><h:outputText value="#{labels['login.password']}"/></td> <td><input type="password" name="j_password"/></td></tr>
-								</table>
-							
-								<button type="submit" ><h:outputText value="#{labels['buttons.login']}"/></button>
-								</form>
+							<form
+								action="#{facesContext.externalContext.requestContextPath}/j_spring_security_check"
+								method="post">
+							<table>
+								<tr>
+									<td><ice:outputLabel value="#{labels['login.username']}" /></td>
+									<td><input type="text" name="j_username" /></td>
+								</tr>
+								<tr>
+									<td><ice:outputLabel value="#{labels['login.password']}" /></td>
+									<td><input type="password" name="j_password" /></td>
+								</tr>
+							</table>
+							<table>
+								<tr>
+									<td>
+									<button type="submit"><ice:outputLabel
+										value="#{labels['buttons.login']}" /></button>
+									</td>
+									<td><ice:messages layout="table" errorClass="loginError" /></td>
+								</tr>
+							</table>
+							</form>
 						</f:facet>
 					</ice:panelDivider>
 				</ice:panelGroup>
-		</ice:panelGroup>
+			</ice:panelGroup>
 			<ice:panelGrid columns="2" style="margin-left:175px">
 				<!-- Links -->
 				<ice:panelGroup>
@@ -92,8 +105,7 @@
 					</table>
 				</ice:panelGroup>
 			</ice:panelGrid>
-			</ice:panelGroup>
-		</div>
+		</ice:panelGroup></div>
 		</div>
 		</body>
 		</html>

@@ -30,7 +30,10 @@
 			<supported-locale>de_DE</supported-locale>
 		</locale-config>
 	</application>
-	<validator>
+	<lifecycle>
+		<phase-listener>de.randi2.utility.listener.LoginErrorPhaseListener</phase-listener>
+	</lifecycle>
+		<validator>
 		<validator-id>de.randi2.jsf.validators.RANDI2_VALIDATOR</validator-id>
 		<validator-class>de.randi2.jsf.validators.RANDI2Validator</validator-class>
 	</validator>
@@ -61,7 +64,7 @@
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
-		<description>Bean which converst the RANDI2 enums into Lists with SelectItems</description>
+		<description>Bean which converts the RANDI2 enums into Lists with SelectItems</description>
 		<managed-bean-name>enums</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.supportBeans.Enums</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
