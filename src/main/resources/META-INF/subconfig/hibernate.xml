@@ -79,6 +79,7 @@
 				</value>
 				<value>de.randi2.model.randomization.BiasedCoinRandomizationConfig
 				</value>
+				<value>de.randi2.utility.logging.LogEntry</value>
 			</list>
 		</property>
 		<property name="eventListeners">

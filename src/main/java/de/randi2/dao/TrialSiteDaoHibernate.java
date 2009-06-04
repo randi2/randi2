@@ -28,17 +28,7 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 		else return null;
 	}
 	
-	@Override
-	@Transactional(propagation=Propagation.REQUIRED)
-	public void create(TrialSite object) {
-		sessionFactory.getCurrentSession().persist(object);
-	}
 	
-	@Override
-	@Transactional(propagation=Propagation.REQUIRED)
-	public TrialSite update(TrialSite object) {
-		return (TrialSite) sessionFactory.getCurrentSession().merge(object);
-	}
 
 	
 }
