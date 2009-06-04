@@ -28,6 +28,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
+import com.icesoft.faces.context.Resource;
+
 import de.randi2.jsf.backingBeans.Step4;
 import de.randi2.jsf.backingBeans.Step5;
 import de.randi2.jsf.supportBeans.Popups;
@@ -62,6 +64,12 @@ import de.randi2.utility.ReflectionUtil;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class TrialHandler extends AbstractHandler<Trial> {
+	
+	private Resource tempProtocol;
+	
+	public Resource getTempProtocol(){
+		return tempProtocol;
+	}
 
 	private TrialSiteService siteService;
 
