@@ -17,32 +17,35 @@
 <ice:form partialSubmit="true" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:panelGrid border="0" columns="2">
-		<ice:graphicImage value="/img/icons/trialSite48.png"></ice:graphicImage>
-		<ice:outputLabel value="#{labels['pages.trialsViewPanel.headline']} (#{labels['pages.trialsViewPanel.headline2']} #{trialHandler.trialsAmount})"></ice:outputLabel>
-	</ice:panelGrid>
-	<ice:dataTable id="trialsTable" border="1"
-		value="#{trialHandler.allTrials}" var="trial" resizable="true" style="width: 500px;">
-		<ice:column id="column1">
-			<f:facet name="header">
-				<ice:outputText value="#{labels['trial.name']}" id="nameH"  ></ice:outputText>
-			</f:facet>
-			<ice:outputText value="#{trial.name}"></ice:outputText>
-		</ice:column>
-		<ice:column id="column2">
-			<f:facet name="header">
-				<ice:outputText value="#{labels['trial.status']}" id="statusH" ></ice:outputText>
-			</f:facet>
-			<ice:outputText value="#{trial.status}"></ice:outputText>
-		</ice:column>
-		<ice:column id="column3">
-			<f:facet name="header">
-				<ice:outputText value="" id="showH"></ice:outputText>
-			</f:facet>
-			<ice:commandLink id="showId" value="#{labels['buttons.show']}"
-				  actionListener="#{randi2Page.showTrial}">
-				<ice:outputText value="#{trial}" visible="false"></ice:outputText>
-			</ice:commandLink>
-		</ice:column>		
-	</ice:dataTable>
+	<ice:panelTabSet style="font-size: 9;display: block;">
+		<ice:panelTab label="#{labels['pages.trialsViewPanel.headline']}">
+			<ice:outputLabel
+				value="#{labels['pages.trialsViewPanel.headline2']} #{trialHandler.trialsAmount}"></ice:outputLabel>
+			<ice:dataTable id="trialsTable" border="1"
+				value="#{trialHandler.allTrials}" var="trial" resizable="true"
+				style="width: 500px;">
+				<ice:column id="column1">
+					<f:facet name="header">
+						<ice:outputText value="#{labels['trial.name']}" id="nameH"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{trial.name}"></ice:outputText>
+				</ice:column>
+				<ice:column id="column2">
+					<f:facet name="header">
+						<ice:outputText value="#{labels['trial.status']}" id="statusH"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{trial.status}"></ice:outputText>
+				</ice:column>
+				<ice:column id="column3">
+					<f:facet name="header">
+						<ice:outputText value="" id="showH"></ice:outputText>
+					</f:facet>
+					<ice:commandLink id="showId" value="#{labels['buttons.show']}"
+						actionListener="#{randi2Page.showTrial}">
+						<ice:outputText value="#{trial}" visible="false"></ice:outputText>
+					</ice:commandLink>
+				</ice:column>
+			</ice:dataTable>
+		</ice:panelTab>
+	</ice:panelTabSet>
 </ice:form>
