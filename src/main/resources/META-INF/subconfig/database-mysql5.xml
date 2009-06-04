@@ -6,19 +6,21 @@
 
 
 	<bean id="dataSource"
-		class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName">
-			<value>com.mysql.jdbc.Driver</value>
-		</property>
-		<property name="url">
+		class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+		<property name="jdbcUrl">
 			<value>jdbc:mysql://${db.host}/${db.database}</value>
 		</property>
-		<property name="username">
+		<property name="user">
 			<value>${db.username}</value>
 		</property>
 		<property name="password">
 			<value>${db.password}</value>
 		</property>
+		<property name="minPoolSize" value="5"></property>
+		<property name="maxPoolSize" value="100" />
+		<property name="initialPoolSize" value="5"></property>
+		<property name="maxStatements" value="50"></property>
 	</bean>
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

@@ -151,6 +151,7 @@ public class Bootstrap {
 		adminL.addRole(Role.ROLE_P_INVESTIGATOR);
 //		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
 		loginDao.update(adminL);
+		rolesAndRights.registerPersonRole(adminL, Role.ROLE_P_INVESTIGATOR);
 		rolesAndRights.grantRigths(adminL, trialSite);
 	}
 
