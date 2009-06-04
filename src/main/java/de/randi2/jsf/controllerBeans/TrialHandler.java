@@ -61,19 +61,19 @@ import de.randi2.utility.ReflectionUtil;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class TrialHandler extends AbstractHandler<Trial> {
-	
+
 	private TrialSiteService siteService;
-	
+
 	public void setSiteService(TrialSiteService siteService) {
 		this.siteService = siteService;
 	}
-	
+
 	private TrialService trialService;
-	
+
 	public void setTrialService(TrialService trialService) {
 		this.trialService = trialService;
 	}
-	
+
 	private TimeZone zone;
 
 	@SuppressWarnings("unchecked")
@@ -109,7 +109,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	private AutoCompleteObject<TrialSite> trialSitesAC = null;
 	private AutoCompleteObject<Login> sponsorInvestigatorsAC = null;
 	private AutoCompleteObject<TrialSite> participatingSitesAC = null;
-	
+
 	public AutoCompleteObject<TrialSite> getTrialSitesAC() {
 		if (trialSitesAC == null)
 			trialSitesAC = new AutoCompleteObject<TrialSite>(siteService);
@@ -118,31 +118,35 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	public AutoCompleteObject<Login> getSponsorInvestigatorsAC() {
-			if(trialSitesAC.isObjectSelected())
-				sponsorInvestigatorsAC = new AutoCompleteObject<Login>(trialSitesAC
+		if (sponsorInvestigatorsAC != null && trialSitesAC.isObjectSelected())
+			return sponsorInvestigatorsAC;
+		if (trialSitesAC.isObjectSelected())
+			sponsorInvestigatorsAC = new AutoCompleteObject<Login>(trialSitesAC
 					.getSelectedObject().getMembersWithSpecifiedRole(
 							Role.ROLE_P_INVESTIGATOR));
-			else
-				sponsorInvestigatorsAC = new AutoCompleteObject<Login>(new ArrayList<Login>());
+		else
+			sponsorInvestigatorsAC = new AutoCompleteObject<Login>(
+					new ArrayList<Login>());
 		return sponsorInvestigatorsAC;
 	}
 
 	public AutoCompleteObject<TrialSite> getParticipatingSitesAC() {
 		if (participatingSitesAC == null)
-			participatingSitesAC = new AutoCompleteObject<TrialSite>(siteService);
+			participatingSitesAC = new AutoCompleteObject<TrialSite>(
+					siteService);
 		return participatingSitesAC;
 	}
 
 	private ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> criteriaList = null;
-	
+
 	public ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteriaList() {
 		return criteriaList;
 	}
-	
+
 	private boolean addingSubjectsEnabled = false;
-	
+
 	public boolean isAddingSubjectsEnabled() {
-		addingSubjectsEnabled = !creatingMode && showedObject!=null;
+		addingSubjectsEnabled = !creatingMode && showedObject != null;
 		return addingSubjectsEnabled;
 	}
 
@@ -307,8 +311,8 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	public int getTrialsAmount() {
 		return trialService.getAll().size();
 	}
-	
-	public List<Trial> getAllTrials(){
+
+	public List<Trial> getAllTrials() {
 		return trialService.getAll();
 	}
 
