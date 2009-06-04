@@ -23,8 +23,7 @@
 </ice:panelGrid>
 <ice:panelGroup style="width: 550px;">
 	<ice:panelGrid columns="2">
-		<ice:panelCollapsible id="namePanel" expanded="true"
-			toggleOnClick="true">
+		<ice:panelCollapsible id="namePanel" expanded="true" toggleOnClick="false">
 			<f:facet name="header">
 				<ice:outputLabel value="#{labels['trial.name']}"></ice:outputLabel>
 			</f:facet>
@@ -37,8 +36,7 @@
 			</ice:inputText>
 			<ice:message for="name" />
 		</ice:panelCollapsible>
-		<ice:panelCollapsible id="abbreviationPanel" expanded="true"
-			toggleOnClick="true">
+		<ice:panelCollapsible id="abbreviationPanel" expanded="true" toggleOnClick="false">
 			<f:facet name="header">
 				<ice:outputLabel value="#{labels['trial.abbreviation']}"></ice:outputLabel>
 			</f:facet>
@@ -53,7 +51,7 @@
 		</ice:panelCollapsible>
 	</ice:panelGrid>
 	<ice:panelCollapsible id="descriptionPanel" expanded="true"
-		toggleOnClick="true" style="margin-left: 3px;">
+		style="margin-left: 3px;" toggleOnClick="false">
 		<f:facet name="header">
 			<ice:outputLabel value="#{labels['trial.description']}"></ice:outputLabel>
 		</f:facet>
@@ -67,7 +65,7 @@
 		<ice:message for="description" />
 	</ice:panelCollapsible>
 	<ice:panelCollapsible id="protocolPanel" expanded="true"
-		toggleOnClick="true" style="margin-left: 3px; margin-top: 3px;">
+		style="margin-left: 3px; margin-top: 3px;" toggleOnClick="false">
 		<f:facet name="header">
 			<ice:outputLabel value="#{labels['trial.protocol']}" />
 		</f:facet>
@@ -125,7 +123,7 @@
 		</ice:panelGroup>
 	</ice:panelCollapsible>
 	<ice:panelCollapsible id="datesAndStatusPanel" expanded="true"
-		toggleOnClick="true" style="margin-left: 3px; margin-top: 3px;">
+		style="margin-left: 3px; margin-top: 3px;" toggleOnClick="false">
 		<f:facet name="header">
 			<ice:outputLabel
 				value="#{labels['pages.trialEditPanel.dAndSHeader']}" />
@@ -162,7 +160,7 @@
 		</ice:panelGrid>
 	</ice:panelCollapsible>
 	<ice:panelCollapsible id="managementPanel" expanded="true"
-		toggleOnClick="true" style="margin-left: 3px; margin-top: 3px;">
+		style="margin-left: 3px; margin-top: 3px;" toggleOnClick="false">
 		<f:facet name="header">
 			<ice:outputLabel value="#{labels['pages.trialEditPanel.mHeader']}" />
 		</f:facet>
@@ -182,7 +180,8 @@
 			<ice:selectInputText id="sponsorInvestigator" width="200"
 				required="#{trialHandler.showedObject.requiredFields['sponsorInvestigator']}"
 				valueChangeListener="#{trialHandler.sponsorInvestigatorsAC.updateObjectList}"
-				rendered="#{trialHandler.trialSitesAC.objectSelected}" value="#{trialHandler.sponsorInvestigatorsAC.objectRepresentation}">
+				rendered="#{trialHandler.trialSitesAC.objectSelected}"
+				value="#{trialHandler.sponsorInvestigatorsAC.objectRepresentation}">
 				<f:selectItems
 					value="#{trialHandler.sponsorInvestigatorsAC.objectList}" />
 			</ice:selectInputText>
