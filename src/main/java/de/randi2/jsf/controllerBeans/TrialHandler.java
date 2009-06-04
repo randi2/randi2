@@ -14,8 +14,15 @@
  */
 package de.randi2.jsf.controllerBeans;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -27,6 +34,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
+
+import com.icesoft.faces.context.ByteArrayResource;
+import com.icesoft.faces.context.FileResource;
+import com.icesoft.faces.context.Resource;
 
 import de.randi2.jsf.backingBeans.Step4;
 import de.randi2.jsf.backingBeans.Step5;
@@ -63,6 +74,37 @@ import de.randi2.utility.ReflectionUtil;
  */
 public class TrialHandler extends AbstractHandler<Trial> {
 
+	private Resource tempProtocol;
+
+	public Resource getTempProtocol() {
+		if (showedObject != null && showedObject.getProtocol() != null)
+			return new FileResource(showedObject.getProtocol());
+		else
+			try {
+				return new ByteArrayResource(toByteArray(FacesContext
+						.getCurrentInstance().getExternalContext()
+						.getResourceAsStream("/protocol.pdf")));
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		return null;
+	}
+
+	// TODO Probably not the best place for this method ... after the decision
+	// about the protocol files has been made, rethink this solution
+	public static byte[] toByteArray(InputStream input) throws IOException {
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		byte[] buf = new byte[4096];
+		int len = 0;
+		while ((len = input.read(buf)) > -1)
+			output.write(buf, 0, len);
+		return output.toByteArray();
+	}
+
 	private TrialSiteService siteService;
 
 	public void setSiteService(TrialSiteService siteService) {
@@ -76,7 +118,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	private TimeZone zone;
-	
+
 	private Popups popups;
 
 	@SuppressWarnings("unchecked")
@@ -107,7 +149,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		popups = ((Popups) FacesContext.getCurrentInstance().getApplication()
 				.getELResolver().getValue(
 						FacesContext.getCurrentInstance().getELContext(), null,
