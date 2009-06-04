@@ -23,6 +23,7 @@ public class LogServiceImpl implements LogService {
 		entry.setAction(action);
 		entry.setUsername(username);
 		entry.setClazz(value.getClass());
+		entry.setIdentifier(value.getId());
 		entry.setValue(value.toString());
 		sessionFactory.getCurrentSession().persist(entry);
 	}

@@ -36,8 +36,10 @@ public class LogAspects {
 	@Around("execution(public * de.randi2.services.*.get*(..))")
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Object  logGet(ProceedingJoinPoint pjp) throws Throwable{
-		Object o = pjp.proceed();		
-		logService.logGet(pjp.getSignature().getName(), SecurityContextHolder.getContext().getAuthentication().getName());
+		Object o = pjp.proceed();	
+		if(o instanceof AbstractDomainObject){
+			logService.logChange(pjp.getSignature().getName(),  SecurityContextHolder.getContext().getAuthentication().getName(), ((AbstractDomainObject)o));
+		}else logService.logGet(pjp.getSignature().getName(), SecurityContextHolder.getContext().getAuthentication().getName());
 		return o;
 	}
 	

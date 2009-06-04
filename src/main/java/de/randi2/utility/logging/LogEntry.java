@@ -28,7 +28,7 @@ public class LogEntry {
 	
 	private Class<? extends AbstractDomainObject> clazz;
 	
-	private int identifier;
+	private long identifier;
 	
 	@Lob
 	private String value;
@@ -82,11 +82,11 @@ public class LogEntry {
 	}
 	
 	
-	public int getIdentifier() {
+	public long getIdentifier() {
 		return identifier;
 	}
 	
-	public void setIdentifier(int identifier) {
+	public void setIdentifier(long identifier) {
 		this.identifier = identifier;
 	}
 
