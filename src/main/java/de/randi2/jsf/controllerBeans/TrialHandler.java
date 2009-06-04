@@ -30,6 +30,7 @@ import javax.faces.model.SelectItem;
 
 import de.randi2.jsf.backingBeans.Step4;
 import de.randi2.jsf.backingBeans.Step5;
+import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.jsf.wrappers.SubjectPropertyWrapper;
@@ -75,6 +76,8 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	private TimeZone zone;
+	
+	private Popups popups;
 
 	@SuppressWarnings("unchecked")
 	public TrialHandler() {
@@ -104,6 +107,11 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		
+		popups = ((Popups) FacesContext.getCurrentInstance().getApplication()
+				.getELResolver().getValue(
+						FacesContext.getCurrentInstance().getELContext(), null,
+						"popups"));
 	}
 
 	private AutoCompleteObject<TrialSite> trialSitesAC = null;
@@ -262,6 +270,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		/* End of the Algorithm Configuration */
 
 		trialService.create(showedObject);
+		popups.showTrialCreatedPopup();
 		return Randi2.SUCCESS;
 		// } catch (Exception e) {
 		// e.printStackTrace();

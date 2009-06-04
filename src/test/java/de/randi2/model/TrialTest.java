@@ -5,21 +5,17 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.LazyInitializationException;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
-import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.test.utility.AbstractDomainTest;
@@ -44,6 +40,7 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		final Trial t = new Trial();
 		assertEquals("", t.getName());
 		assertEquals("", t.getDescription());
+		assertEquals("", t.getAbbreviation());
 		assertNull(t.getStartDate());
 		assertNull(t.getEndDate());
 		assertEquals(TrialStatus.IN_PREPARATION, t.getStatus());
@@ -87,6 +84,45 @@ public class TrialTest extends AbstractDomainTest<Trial>{
 		validTrial.setName(nameEmpty);
 		assertEquals(nameEmpty, validTrial.getName());
 		assertInvalid(validTrial, new String[]{""/* validator.notEmpty */});
+		
+	}
+	
+	@Test
+	public void testAbbreviation() {
+		final String abbOK1 = "C";
+		final String abbOK2 = stringUtil.getWithLength(100);
+		final String abbJustOK = stringUtil.getWithLength(255);
+		
+		final String abbToLong = stringUtil.getWithLength(256);
+		final String abbEmpty = "";
+		final String abbNull = null;
+		
+		validTrial.setAbbreviation(abbOK1);
+		assertEquals(abbOK1, validTrial.getAbbreviation());
+		hibernateTemplate.save(validTrial.getLeadingSite());
+		hibernateTemplate.save(validTrial.getSponsorInvestigator());
+		assertValid(validTrial);
+		
+		// Richtiger Name
+		validTrial.setAbbreviation(abbOK2);
+		assertEquals(abbOK2, validTrial.getAbbreviation());
+		assertValid(validTrial);
+
+		validTrial.setAbbreviation(abbNull);
+		assertEquals("", validTrial.getAbbreviation());
+		assertValid(validTrial);
+
+		validTrial.setAbbreviation(abbToLong);
+		assertEquals(abbToLong, validTrial.getAbbreviation());
+		assertValid(validTrial);
+		
+		validTrial.setAbbreviation(abbJustOK);
+		assertEquals(abbJustOK, validTrial.getAbbreviation());
+		assertValid(validTrial);
+		
+		validTrial.setAbbreviation(abbEmpty);
+		assertEquals(abbEmpty, validTrial.getAbbreviation());
+		assertValid(validTrial);
 		
 	}
 	
