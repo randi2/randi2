@@ -7,8 +7,27 @@ public class Popups {
 	private boolean changePasswordPVisible = false;
 	private boolean changeTrialSitePVisible = false;
 	private boolean changeAssistantPVisible = false;
-
+	private boolean trialCreatedPVisible = false;
+	
 	// POPUPS
+	public boolean isTrialCreatedPVisible() {
+		return trialCreatedPVisible;
+	}
+	
+	public void setTrialCreatedPVisible(boolean trialCreatedPVisible) {
+		this.trialCreatedPVisible = trialCreatedPVisible;
+	}
+	
+	public String hideTrialCreatedPopup() {
+		this.trialCreatedPVisible = false;
+		return Randi2.SUCCESS;
+	}
+
+	public String showTrialCreatedPopup() {
+		this.trialCreatedPVisible= true;
+		return Randi2.SUCCESS;
+	}
+	
 	public boolean isChangeTrialSitePVisible() {
 		return changeTrialSitePVisible;
 	}

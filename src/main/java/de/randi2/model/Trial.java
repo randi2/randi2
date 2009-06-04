@@ -42,6 +42,9 @@ public class Trial extends AbstractDomainObject {
 	@NotEmpty()
 	@Length(max = MAX_VARCHAR_LENGTH)
 	private String name = "";
+	@Length(max = MAX_VARCHAR_LENGTH)
+	private String abbreviation = "";
+	
 	@Lob
 	private String description = "";
 	private GregorianCalendar startDate = null;
@@ -87,6 +90,16 @@ public class Trial extends AbstractDomainObject {
 		}
 
 		this.name = _name;
+	}
+	
+	public String getAbbreviation() {
+		return abbreviation;
+	}
+	
+	public void setAbbreviation(String abbreviation) {
+		if(abbreviation == null)
+			abbreviation = "";
+		this.abbreviation = abbreviation;
 	}
 
 	public String getDescription() {

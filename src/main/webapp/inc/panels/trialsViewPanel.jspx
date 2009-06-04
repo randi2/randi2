@@ -22,28 +22,27 @@
 		<ice:outputLabel value="#{labels['pages.trialsViewPanel.headline']} (#{labels['pages.trialsViewPanel.headline2']} #{trialHandler.trialsAmount})"></ice:outputLabel>
 	</ice:panelGrid>
 	<ice:dataTable id="trialsTable" border="1"
-		value="#{trialHandler.allTrials}" var="trial" scrollable="true"
-		scrollHeight="250px">
+		value="#{trialHandler.allTrials}" var="trial" resizable="true" style="width: 500px;">
 		<ice:column id="column1">
-			<ice:outputText value="#{trial.name}"></ice:outputText>
 			<f:facet name="header">
-				<ice:outputText value="#{labels['trial.name']}" id="nameH"  style="width:150px;"></ice:outputText>
+				<ice:outputText value="#{labels['trial.name']}" id="nameH"  ></ice:outputText>
 			</f:facet>
+			<ice:outputText value="#{trial.name}"></ice:outputText>
 		</ice:column>
 		<ice:column id="column2">
-			<ice:outputText value="#{trial.status}"></ice:outputText>
 			<f:facet name="header">
-				<ice:outputText value="#{labels['trial.status']}" id="statusH"  style="width:150px;"></ice:outputText>
+				<ice:outputText value="#{labels['trial.status']}" id="statusH" ></ice:outputText>
 			</f:facet>
+			<ice:outputText value="#{trial.status}"></ice:outputText>
 		</ice:column>
 		<ice:column id="column3">
+			<f:facet name="header">
+				<ice:outputText value="" id="showH"></ice:outputText>
+			</f:facet>
 			<ice:commandLink id="showId" value="#{labels['buttons.show']}"
 				  actionListener="#{randi2Page.showTrial}">
 				<ice:outputText value="#{trial}" visible="false"></ice:outputText>
 			</ice:commandLink>
-			<f:facet name="header">
-				<ice:outputText value="" id="showH" style="width:50px;"></ice:outputText>
-			</f:facet>
 		</ice:column>		
 	</ice:dataTable>
 </ice:form>

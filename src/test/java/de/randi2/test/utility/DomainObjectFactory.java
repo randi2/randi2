@@ -3,7 +3,6 @@ package de.randi2.test.utility;
 import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 
 import de.randi2.model.Login;
 import de.randi2.model.Person;
@@ -17,9 +16,6 @@ public class DomainObjectFactory {
 	@Autowired
 	private TestStringUtil testStringUtil;
 	
-	@Autowired
-	private ApplicationContext context;
-
 	public Person getPerson(){
 		Person p = new Person(); 
 		p.setSurname(testStringUtil.getWithLength(Person.MAX_NAME_LENGTH));
@@ -49,6 +45,7 @@ public class DomainObjectFactory {
 	public Trial getTrial() {
 		Trial t = new Trial();
 		t.setName(testStringUtil.getWithLength(10));
+		t.setAbbreviation(testStringUtil.getWithLength(5));
 		t.setSponsorInvestigator(this.getPerson());
 		t.setStartDate(new GregorianCalendar(2006,0,1));
 		t.setEndDate(new GregorianCalendar());
