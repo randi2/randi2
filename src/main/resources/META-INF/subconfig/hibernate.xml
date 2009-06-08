@@ -18,6 +18,8 @@
 				<prop key="hibernate.connection.autocommit">false</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.current_session_context_class">managed</prop>
+				<prop key="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider </prop>
+				<prop key="hibernate.connection.autoReconnect">true</prop>
 			</props>
 		</property>
 		<property name="annotatedClasses">

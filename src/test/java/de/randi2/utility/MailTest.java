@@ -1,7 +1,8 @@
 package de.randi2.utility;
 
-import de.randi2.test.utility.DomainObjectFactory;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,13 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import de.randi2.jsf.controllerBeans.LoginHandler;
-import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.model.Login;
-import de.randi2.model.Person;
-import de.randi2.model.TrialSite;
+import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.utility.mail.MailServiceInterface;
-
+import de.randi2.utility.mail.exceptions.MailErrorException;
 
 import static junit.framework.Assert.*;
 
@@ -59,9 +57,28 @@ public class MailTest {
 
 	}
 
+
 	private void sendRegistrationMail(Locale testLocale) {
-		//TODO This test should use the service object.
-//
+		Login newUser = factory.getLogin();
+		Map<String, Object> newUserMessageFields = new HashMap<String, Object>();
+		newUserMessageFields.put("user", newUser);
+		newUserMessageFields.put("url", "http://randi2.com/CHANGEME");
+		// Map of variables for the subject
+		Map<String, Object> newUserSubjectFields = new HashMap<String, Object>();
+		newUserSubjectFields.put("firstname", newUser.getPerson()
+				.getFirstname());
+
+		Locale language = newUser.getPrefLocale();
+
+		try {
+			mailService.sendMail(newUser.getUsername(), "NewUserMail", language,
+					newUserMessageFields, newUserSubjectFields);
+		} catch (MailErrorException e1) {
+			fail(e1.getMessage());
+		}
+		
+		
+		
 //		LoginHandler lh = new LoginHandler();
 //
 //		TrialSite ts = factory.getTrialSite();
