@@ -16,7 +16,8 @@ import static junit.framework.Assert.*;
 public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 
 		private DateConstraint constraint;
-		private GregorianCalendar element;
+		private GregorianCalendar firstDate;
+		private GregorianCalendar secondDate;
 		
 		public DateConstraintTest(){
 			super(DateConstraint.class);
@@ -24,8 +25,9 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 		
 		@Before
 		public void setUp() throws Exception {
-			element= new GregorianCalendar();
-			constraint = new DateConstraint(Arrays.asList(new GregorianCalendar[]{element}));
+			firstDate = new GregorianCalendar(2001,10,10);
+			secondDate =new GregorianCalendar(2002,10,22);
+			constraint = new DateConstraint(Arrays.asList(new GregorianCalendar[]{firstDate,secondDate}));
 		}
 		
 		@Test
@@ -39,14 +41,21 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			elements.add(new GregorianCalendar(2000,10,10));
 			try {
 				constraint = new DateConstraint(elements);
-				assertTrue(constraint.getExpectedValue().equals(new GregorianCalendar(2000,10,10)));
+				assertTrue(constraint.getFirstDate().equals(new GregorianCalendar(2000,10,10)));
 			} catch (ContraintViolatedException e) {
 				fail("the list of constraints is ok");
 			}
 			elements.add(new GregorianCalendar(2003,14,12));
 			try {
 				constraint = new DateConstraint(elements);
-				fail("the list of constraints has more than two objects");
+				assertTrue(constraint.getSecondDate().equals(new GregorianCalendar(2003,14,12)));
+			} catch (ContraintViolatedException e) {
+				fail("the list of constraints is ok");
+			}
+			elements.add(new GregorianCalendar(2005,14,12));
+			try {
+				constraint = new DateConstraint(elements);
+				fail("the list of constraints has more than three objects");
 			} catch (ContraintViolatedException e) {
 			}
 			try {
@@ -62,7 +71,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 		@Test
 		public void testIsValueCorrect(){
 			try {
-				constraint.isValueCorrect(element);
+				constraint.isValueCorrect(firstDate);
 			} catch (ContraintViolatedException e) {
 				fail("Value is correct");
 			}
@@ -74,16 +83,16 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 		
 		@Test
 		public void testExpectedValues(){
-			assertTrue(constraint.getExpectedValue().equals(element));
+			assertTrue(constraint.getFirstDate().equals(firstDate));
 			GregorianCalendar test = new GregorianCalendar(2003,14,12);
-			constraint.setExpectedValue(test);
-			assertTrue(constraint.getExpectedValue().equals(test));
+			constraint.setFirstDate(test);
+			assertTrue(constraint.getFirstDate().equals(test));
 		}
 		
 		
 		@Test
 		public void testCheckValue(){
-			assertTrue(constraint.checkValue(element));
+			assertTrue(constraint.checkValue(firstDate));
 			assertFalse(constraint.checkValue(new GregorianCalendar(2003,14,12)));
 			
 		}
@@ -95,7 +104,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			
 			DateConstraint dbConstraint = (DateConstraint) hibernateTemplate.get(DateConstraint.class, constraint.getId());
 			assertEquals(constraint.getId(), dbConstraint.getId());
-			assertEquals(constraint.getExpectedValue(), dbConstraint.getExpectedValue());
+			assertEquals(constraint.getFirstDate(), dbConstraint.getFirstDate());
 		}
 
 }
