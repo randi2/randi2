@@ -149,6 +149,13 @@
 		<managed-bean-class>de.randi2.jsf.backingBeans.RightsPanel</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	
+	<managed-bean>
+		<description>Backing bean for the trial subject submission process</description>
+		<managed-bean-name>tSubjectAdd</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.backingBeans.TSubjectAdd</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 
 	<managed-bean>
 		<description>Backing bean for the trial configuration process -

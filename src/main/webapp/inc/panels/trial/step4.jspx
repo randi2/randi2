@@ -21,13 +21,23 @@
 	<ice:outputLabel
 		value="#{labels['pages.trialEditPanel.step4message'] }"></ice:outputLabel>
 </ice:panelGrid>
-<ice:panelGrid columns="3">
+<ice:panelGrid columns="4">
 	<ice:outputLabel value="#{labels['pages.trialEditPanel.propLabel']}" />
+	<ice:selectInputText id="trialSite"
+				valueChangeListener="#{step4.criteriaAC.updateObjectList}" rows="10"
+				width="200">
+				<f:selectItems value="#{step4.criteriaAC.objectList}" />
+			</ice:selectInputText>
 	<ice:commandButton image="/img/icons/add16.png"
-		actionListener="#{step4.addProperty}" style="margin-right:5px;" />
+		actionListener="#{step4.addCriterion}" style="margin-right:5px;" />
 	<ice:commandButton image="/img/icons/remove16.png"
-		disabled="#{step4.propertiesEmpty}"
-		actionListener="#{step4.removeProperty}" />
+		disabled="#{step4.criteriaEmpty}"
+		actionListener="#{step4.removeCriterion}" />
 </ice:panelGrid>
 <ice:panelGroup styleClass="clearer" />
-<ice:panelGrid binding="#{step4.propertiesPanel}"/>
+<ice:panelSeries value="#{step4.criteria}"
+	var="criterion" style="padding:10px;">
+	<f:subview id="criteriaInclude">
+		<jsp:directive.include file="./inc/panels/trial/criterionPanel.jspx" />
+	</f:subview>
+</ice:panelSeries>

@@ -41,6 +41,10 @@
 	border-left: 1px solid #d9d9d9;
 }
 
+.contentb2 {
+	border: 1px solid #d9d9d9;
+}
+
 .contentb div {
 	margin-left: 5px;
 }

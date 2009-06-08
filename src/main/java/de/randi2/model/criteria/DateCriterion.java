@@ -12,8 +12,8 @@ import de.randi2.unsorted.ContraintViolatedException;
 @Entity
 public class DateCriterion extends AbstractCriterion<GregorianCalendar, DateConstraint>{
 
+	private static final long serialVersionUID = -2091043770001920047L;
 
-	
 	@Override
 	public void isValueCorrect(GregorianCalendar value) throws ContraintViolatedException {
 		if(value == null){

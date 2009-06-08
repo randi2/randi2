@@ -41,24 +41,19 @@ import de.randi2.jsf.backingBeans.Step5;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
-import de.randi2.jsf.wrappers.SubjectPropertyWrapper;
+import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.model.Login;
 import de.randi2.model.Role;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.criteria.AbstractCriterion;
-import de.randi2.model.criteria.DichotomousCriterion;
-import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
-import de.randi2.model.criteria.constraints.DichotomousConstraint;
-import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
-import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.ReflectionUtil;
 
 /**
@@ -160,7 +155,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	private boolean addingSubjectsEnabled = false;
-	
+
 	public Resource getTempProtocol() {
 		if (showedObject != null && showedObject.getProtocol() != null)
 			return new FileResource(showedObject.getProtocol());
@@ -178,7 +173,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 			}
 		return null;
 	}
-	
+
 	// TODO Probably not the best place for this method ... after the decision
 	// about the protocol files has been made, rethink this solution
 	public static byte[] toByteArray(InputStream input) throws IOException {
@@ -189,7 +184,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 			output.write(buf, 0, len);
 		return output.toByteArray();
 	}
-
 
 	public boolean isAddingSubjectsEnabled() {
 		addingSubjectsEnabled = !creatingMode && showedObject != null;
@@ -226,7 +220,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	public String createTrial() {
 		// try {
 		/* Leading Trial Site & Sponsor Investigator */
@@ -250,41 +243,41 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		Step4 temp1 = (Step4) ve1.getValue(FacesContext.getCurrentInstance()
 				.getELContext());
 		ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> configuredCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
-		for (SubjectPropertyWrapper wr : temp1.getProperties()) {
-			List<? extends Serializable> configuredConstraints = wr
-					.getSelectedValues();
-			if (configuredConstraints != null
-					&& !configuredConstraints.isEmpty()) {
-				if (DichotomousCriterion.class.isInstance(wr
-						.getSelectedCriterion())) {
-					DichotomousConstraint t;
-					try {
-						t = new DichotomousConstraint(
-								(List<String>) configuredConstraints);
-						DichotomousCriterion.class.cast(
-								wr.getSelectedCriterion())
-								.setInclusionCriterion(t);
-					} catch (ContraintViolatedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				} else if (OrdinalCriterion.class.isInstance(wr
-						.getSelectedCriterion())) {
-					OrdinalConstraint o;
-					try {
-						o = new OrdinalConstraint(
-								(List<String>) configuredConstraints);
-						OrdinalCriterion.class.cast(wr.getSelectedCriterion())
-								.setInclusionCriterion(o);
-					} catch (ContraintViolatedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
+		for (CriterionWrapper cr : temp1.getCriteria()) {
+			// List<? extends Serializable> configuredConstraints = wr
+			// .getSelectedValues();
+			// if (configuredConstraints != null
+			// && !configuredConstraints.isEmpty()) {
+			// if (DichotomousCriterion.class.isInstance(wr
+			// .getSelectedCriterion())) {
+			// DichotomousConstraint t;
+			// try {
+			// t = new DichotomousConstraint(
+			// (List<String>) configuredConstraints);
+			// DichotomousCriterion.class.cast(
+			// wr.getSelectedCriterion())
+			// .setInclusionCriterion(t);
+			// } catch (ContraintViolatedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// } else if (OrdinalCriterion.class.isInstance(wr
+			// .getSelectedCriterion())) {
+			// OrdinalConstraint o;
+			// try {
+			// o = new OrdinalConstraint(
+			// (List<String>) configuredConstraints);
+			// OrdinalCriterion.class.cast(wr.getSelectedCriterion())
+			// .setInclusionCriterion(o);
+			// } catch (ContraintViolatedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// }
+			// }
 			configuredCriteria
-					.add((AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>) wr
-							.getSelectedCriterion());
+					.add((AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>) cr
+							.getWrappedCriterion());
 		}
 		showedObject.setCriteria(configuredCriteria);
 		/* End of SubjectProperites Configuration */

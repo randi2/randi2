@@ -160,7 +160,13 @@ public class Randi2Page {
 	}
 	
 	public void addTrialSubject(ActionEvent event){
-		activePanel = "tSubjectAddPanel";
+		if(trialHandler.getShowedObject()!=null){
+			((TSubjectAdd) FacesContext.getCurrentInstance()
+			.getApplication().getELResolver().getValue(
+					FacesContext.getCurrentInstance().getELContext(), null,
+					"tSubjectAdd")).setCurrentTrial(trialHandler.getShowedObject());
+			activePanel = "tSubjectAddPanel";
+		}
 	}
 
 	public String showAbout() {

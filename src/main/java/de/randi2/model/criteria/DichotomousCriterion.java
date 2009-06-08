@@ -15,8 +15,8 @@ public class DichotomousCriterion extends AbstractCriterion<String, DichotomousC
 
 	private static final long serialVersionUID = -2153872079417596823L;
 
-	private String option2 = null;
 	private String option1 = null;
+	private String option2 = null;
 
 //	@OneToOne
 //	private DichotomousConstraint inclusionCriterion;
