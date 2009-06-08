@@ -84,7 +84,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 		try {
 			criterion.stratify("LALALALA");
 			fail("AGAIN -> WRONG!");
-		} catch (Randi2Error e) {
+		} catch (ContraintViolatedException e) {
 		}
 
 	}

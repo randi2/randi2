@@ -9,33 +9,29 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.randi2.model.criteria.constraints.DateConstraint;
-import de.randi2.model.criteria.constraints.FreeTextConstraint;
 import de.randi2.test.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
-import de.randi2.utility.Randi2Error;
 
 import static junit.framework.Assert.*;
 
-public class DateCriterionTest extends AbstractDomainTest<DateRangeCriterion>{
+public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 
 	
 	
 
 	
 	public DateCriterionTest(){
-		super(DateRangeCriterion.class);
+		super(DateCriterion.class);
 	}
-	private DateRangeCriterion criterion;
+	private DateCriterion criterion;
 	private GregorianCalendar firstDate;
 	private GregorianCalendar secondDate;
 	
 	@Before
 	public void setUp() throws Exception {
-		criterion = new DateRangeCriterion();
-		firstDate= new GregorianCalendar(2000,10,10);
-		criterion.setFirstDate(firstDate);
-		secondDate =new GregorianCalendar(2003,10,10);
-		criterion.setSecondDate(secondDate);
+		criterion = new DateCriterion();
+		firstDate = new GregorianCalendar(1998,7,1);
+		secondDate = new GregorianCalendar(2000,7,1);
 	}
 	
 	@Test
@@ -45,9 +41,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateRangeCriterion>{
 		assertTrue(criterion.checkValue(new GregorianCalendar(2000,10,22)));
 		assertTrue(criterion.checkValue(new GregorianCalendar(2000,12,10)));
 		assertTrue(criterion.checkValue(new GregorianCalendar(2003,9,10)));
-		assertFalse(criterion.checkValue(new GregorianCalendar(2000,9,10)));
-		assertFalse(criterion.checkValue(new GregorianCalendar(2004,9,10)));
-		assertFalse(criterion.checkValue(new GregorianCalendar(2003,11,10)));
+		assertFalse(criterion.checkValue(null));
 		
 		assertFalse(criterion.isInclusionCriterion());
 	}
@@ -61,34 +55,17 @@ public class DateCriterionTest extends AbstractDomainTest<DateRangeCriterion>{
 		} catch (ContraintViolatedException e) {
 			fail(e.getMessage());
 		}
-
-		assertTrue(criterion.checkValue(date));
+		GregorianCalendar date1 =new GregorianCalendar(2001,12,10) ;
+		assertTrue(criterion.checkValue(date1));
 		
 		assertTrue(criterion.isInclusionCriterion());
-
-		try {
-			criterion.setInclusionCriterion(new DateConstraint(Arrays.asList(new GregorianCalendar[]{new GregorianCalendar(), new GregorianCalendar()})));
-		} catch (ContraintViolatedException e) {
-			assertNotNull(e);
-		}
 
 	}
 	
 	@Test
 	public void testConfiguredValue(){
 		assertNotNull(criterion.getConfiguredValues());
-		assertEquals(2,criterion.getConfiguredValues().size());
-		assertTrue(criterion.getConfiguredValues().contains(firstDate));
-		assertTrue(criterion.getConfiguredValues().contains(secondDate));
-		assertEquals(firstDate, criterion.getFirstDate());
-		assertEquals(secondDate, criterion.getSecondDate());
-		
-		criterion.setFirstDate(null);
-		assertNull(criterion.getFirstDate());
-		criterion.setSecondDate(null);
-		assertNull(criterion.getSecondDate());
-		
-		assertNull(criterion.getConfiguredValues());
+		assertTrue(criterion.getConfiguredValues().isEmpty());
 	}
 	
 	@Test
@@ -98,7 +75,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateRangeCriterion>{
 		assertNull(criterion.stratify(secondDate));
 		List<DateConstraint> temp = new ArrayList<DateConstraint>();
 		temp.add(new DateConstraint(Arrays.asList(new GregorianCalendar[]{firstDate})));
-		temp.add(new DateConstraint(Arrays.asList(new GregorianCalendar[]{secondDate})));
+	
 
 		criterion.setStrata(temp);
 		
@@ -106,10 +83,9 @@ public class DateCriterionTest extends AbstractDomainTest<DateRangeCriterion>{
 		assertTrue(temp.containsAll(criterion.getStrata()));
 
 		assertEquals(temp.get(0), criterion.stratify(firstDate));
-		assertEquals(temp.get(1), criterion.stratify(secondDate));
 
 		try {
-			criterion.stratify(new GregorianCalendar());
+			criterion.stratify(new GregorianCalendar(1993,7,1));
 			fail("AGAIN -> WRONG!");
 		} catch (ContraintViolatedException e) {
 		}
@@ -143,7 +119,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateRangeCriterion>{
 			assertTrue(temp.get(1).getId() > 0);
 			criterion.setStrata(temp);
 			hibernateTemplate.update(criterion);
-			DateRangeCriterion dbCriterion = (DateRangeCriterion) hibernateTemplate.get(DateRangeCriterion.class,criterion.getId());
+			DateCriterion dbCriterion = (DateCriterion) hibernateTemplate.get(DateCriterion.class,criterion.getId());
 			assertEquals(criterion, dbCriterion);
 			assertEquals(criterion.getName(), dbCriterion.getName());
 			assertEquals(criterion.getDescription(), dbCriterion.getDescription());

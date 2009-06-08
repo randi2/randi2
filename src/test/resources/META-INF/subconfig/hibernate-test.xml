@@ -31,7 +31,7 @@
                 <value>de.randi2.model.criteria.AbstractCriterion</value>
                 <value>de.randi2.model.criteria.DichotomousCriterion</value>
                 <value>de.randi2.model.criteria.OrdinalCriterion</value>
-                <value>de.randi2.model.criteria.DateRangeCriterion</value>
+                <value>de.randi2.model.criteria.DateCriterion</value>
                 <value>de.randi2.model.criteria.FreeTextCriterion</value>
                 <value>de.randi2.model.criteria.constraints.AbstractConstraint</value>
                 <value>de.randi2.model.criteria.constraints.OrdinalConstraint</value>

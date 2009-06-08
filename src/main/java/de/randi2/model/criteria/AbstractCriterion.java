@@ -94,7 +94,8 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 			if(stratum.checkValue(value))
 				return stratum;
 		}
-		throw new Randi2Error("Valid value could not be assigned to any stratum.");
+		throw new ContraintViolatedException();
+//		throw new Randi2Error("Valid value could not be assigned to any stratum.");
 	}
 
 	public String getDescription() {

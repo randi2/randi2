@@ -10,7 +10,8 @@ import de.randi2.unsorted.ContraintViolatedException;
 @Entity
 public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 
-	private GregorianCalendar expectedValue;
+	private GregorianCalendar firstDate;
+	private GregorianCalendar secondDate;
 
 	public DateConstraint() {
 
@@ -18,32 +19,52 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 
 	public DateConstraint(List<GregorianCalendar> args) throws ContraintViolatedException {
 		super(args);
-		// TODO Auto-generated constructor stub
 	}
 
 	
 
-	public GregorianCalendar getExpectedValue() {
-		return expectedValue;
+
+	public GregorianCalendar getFirstDate() {
+		return firstDate;
 	}
 
-	public void setExpectedValue(GregorianCalendar expectedValue) {
-		this.expectedValue = expectedValue;
+	public void setFirstDate(GregorianCalendar firstDate) {
+		this.firstDate = firstDate;
 	}
 
+	public GregorianCalendar getSecondDate() {
+		return secondDate;
+	}
+
+	public void setSecondDate(GregorianCalendar secondDate) {
+		this.secondDate = secondDate;
+	}
+
+	
 	@Override
 	protected void configure(List<GregorianCalendar> list)
 			throws ContraintViolatedException {
-		if(list==null || list.size() !=1){
+		if(list==null || list.size() ==0 || list.size()>2){
 			throw new ContraintViolatedException();
+		}else if (list.size()==1) {
+			firstDate = list.get(0);
 		}else{
-			expectedValue = list.get(0);
+			firstDate = list.get(0);
+			secondDate = list.get(1);
 		}
 	}
 
 	@Override
-	public void isValueCorrect(GregorianCalendar _value)
+	public void isValueCorrect(GregorianCalendar value)
 			throws ContraintViolatedException {
-		if(!expectedValue.equals(_value)) throw new ContraintViolatedException();
+		if(value ==null){
+			throw new ContraintViolatedException();
+		}else if(value != null && firstDate!=null && secondDate!=null && (value.before(firstDate) || value.after(secondDate))){
+			throw new ContraintViolatedException();
+		}else if(firstDate!=null && secondDate==null && value.before(firstDate) ){
+			throw new ContraintViolatedException();
+		}else if( firstDate==null && secondDate!=null && value.after(secondDate) ){
+			throw new ContraintViolatedException();
+		}
 	}
 }

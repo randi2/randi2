@@ -39,13 +39,7 @@
 				</value>
 				<value>de.randi2.model.criteria.OrdinalCriterion
 				</value>
-				<value>de.randi2.model.criteria.DateRangeCriterion
-				</value>
-				<value>de.randi2.model.criteria.FreeTextCriterion
-				</value>
-				<value>de.randi2.model.criteria.constraints.AbstractConstraint
-				</value>
-				<value>de.randi2.model.criteria.constraints.OrdinalConstraint
+				<value>de.randi2.model.criteria.DateCriterion
 				</value>
 				<value>de.randi2.model.criteria.constraints.DichotomousConstraint
 				</value>
