@@ -90,5 +90,11 @@ public class LogEntryTest {
 		validEntry.setIdentifier(1000);
 		assertNotNull(validEntry.toString());
 		assertTrue(validEntry.toString().length()>0);
+		
+		validEntry = new LogEntry();
+		validEntry.setUsername("username");
+		validEntry.setAction("action");
+		assertNotNull(validEntry.toString());
+		assertTrue(validEntry.toString().length()>0);
 	}
 }

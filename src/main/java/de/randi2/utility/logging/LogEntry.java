@@ -23,16 +23,16 @@ public class LogEntry {
 	private GregorianCalendar time = new GregorianCalendar();
 
 	private String username;
-	
+
 	private String action;
-	
+
 	private Class<? extends AbstractDomainObject> clazz;
-	
+
 	private long identifier;
-	
+
 	@Lob
 	private String value;
-	
+
 	public GregorianCalendar getTime() {
 		return time;
 	}
@@ -80,19 +80,21 @@ public class LogEntry {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
-	
+
 	public long getIdentifier() {
 		return identifier;
 	}
-	
+
 	public void setIdentifier(long identifier) {
 		this.identifier = identifier;
 	}
 
 	@Override
 	public String toString() {
-		return time.toString() + " "+ username+ ": " + action + " object type: " + clazz.getSimpleName() +" " + value;
+		if (clazz != null)
+			return time.toString() + " " + username + ": " + action
+					+ " object type: " + clazz.getSimpleName() + "(id= "+ identifier+") " + value;
+		else
+			return time.toString() + " " + username + ": " + action;
 	}
-	
 }

@@ -42,14 +42,14 @@ public class LogServiceImpl implements LogService {
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public List<String> getLogEntries() {
 		return convert(sessionFactory.getCurrentSession().createQuery(
-				"form LogEntry").list());
+				"from LogEntry").list());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public List<String> getLogEntries(
-			Class<? extends AbstractDomainObject> clazz, int id) {
+			Class<? extends AbstractDomainObject> clazz, long id) {
 		List<LogEntry> entries = sessionFactory
 				.getCurrentSession()
 				.createQuery(
