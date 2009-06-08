@@ -37,7 +37,7 @@ import de.randi2.services.TrialSiteService;
  */
 public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 
-	private TrialSiteService siteService;
+	private TrialSiteService siteService = null;
 
 	public void setSiteService(TrialSiteService siteService) {
 		this.siteService = siteService;
