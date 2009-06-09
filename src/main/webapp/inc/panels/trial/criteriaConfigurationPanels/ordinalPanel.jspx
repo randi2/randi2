@@ -27,13 +27,14 @@
 				disabled="#{criterion.elementsEmpty}"
 				actionListener="#{criterion.removeElement}" />
 		</ice:panelGroup>
-		<ice:panelSeries
-			value="#{criterion.wrappedCriterion.elements}"
-			var="element" style="padding:1px;">
-			<ice:panelGrid columns="2">
-				<ice:outputLabel value="Element*:" />
-				<ice:inputText value="#{element}" />
-			</ice:panelGrid>
-		</ice:panelSeries>
+		<ice:dataTable border="1"
+				value="#{criterion.elements}" var="element">
+				<ice:column id="column1">
+					<ice:outputLabel value="#{element.position}" />
+				</ice:column>
+				<ice:column id="column2">
+					<ice:inputText value="#{criterion.wrappedCriterion.elements[element.position]}" partialSubmit="true"/>
+				</ice:column>
+			</ice:dataTable>
 	</ice:panelGrid>
 </ice:panelGroup>

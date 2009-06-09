@@ -148,7 +148,7 @@ public class CriterionWrapper<V extends Serializable> {
 	 */
 	public void addElement(ActionEvent event) {
 		if (OrdinalCriterion.class.isInstance(wrappedCriterion))
-			OrdinalCriterion.class.cast(wrappedCriterion).getElements().add("");
+			OrdinalCriterion.class.cast(wrappedCriterion).getElements().add("test");
 	}
 
 	/**
@@ -174,5 +174,49 @@ public class CriterionWrapper<V extends Serializable> {
 			return OrdinalCriterion.class.cast(wrappedCriterion).getElements()
 					.isEmpty();
 		return true;
+	}
+	
+	private List<StringWrapper> elements;
+	
+	public List<StringWrapper> getElements() {
+		if(elements==null){
+			int i = 0;
+			elements = new ArrayList<StringWrapper>();
+			for(String s : OrdinalCriterion.class.cast(wrappedCriterion).getElements()){
+				elements.add(new StringWrapper(i, s));
+				i++;
+			}
+		}
+		return elements;
+	}
+	
+	public void setElements(List<StringWrapper> elements) {
+		this.elements = elements;
+	}
+	
+	public class StringWrapper{
+		public int position = 0;
+		public String value = null;
+		
+		public StringWrapper(int p, String v) {
+			position = p;
+			value = v;
+		}
+		
+		public int getPosition() {
+			return position;
+		}
+		
+		public void setPosition(int position) {
+			this.position = position;
+		}
+		
+		public String getValue() {
+			return value;
+		}
+		
+		public void setValue(String value) {
+			this.value = value;
+		}
 	}
 }

@@ -155,6 +155,11 @@
 		<managed-bean-name>tSubjectAdd</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.backingBeans.TSubjectAdd</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>trialService</property-name>
+			<property-class>de.randi2.services.TrialService</property-class>
+			<value>#{trialService}</value>
+		</managed-property>
 	</managed-bean>
 
 	<managed-bean>

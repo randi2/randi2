@@ -37,12 +37,21 @@ public class Step4 {
 		return criteriaAC;
 	}
 
-	private ArrayList<CriterionWrapper> criteria = null;
+	private ArrayList<CriterionWrapper<? extends Serializable>> criteria = null;
 
+	@SuppressWarnings("unchecked")
 	public void addCriterion(ActionEvent event) {
 		if (criteriaAC.isObjectSelected())
-			getCriteria().add(
-					new CriterionWrapper(criteriaAC.getSelectedObject()));
+			try {
+				getCriteria().add(
+						new CriterionWrapper<Serializable>(
+								(AbstractCriterion<Serializable, ?>) criteriaAC
+										.getSelectedObject().getClass().newInstance()));
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
 	}
 
 	public void removeCriterion(ActionEvent event) {
@@ -53,9 +62,9 @@ public class Step4 {
 		return criteria == null || criteria.isEmpty();
 	}
 
-	public ArrayList<CriterionWrapper> getCriteria() {
+	public ArrayList<CriterionWrapper<? extends Serializable>> getCriteria() {
 		if (criteria == null)
-			criteria = new ArrayList<CriterionWrapper>();
+			criteria = new ArrayList<CriterionWrapper<? extends Serializable>>();
 		return criteria;
 	}
 

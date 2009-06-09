@@ -25,19 +25,14 @@
 	<b class="b4"></b>
 	<ice:panelGroup styleClass="contentb">
 		<ice:panelGrid columns="2">
-			<ice:outputLabel value="#{criterion.l16edName}" />
+			<ice:outputLabel value="#{criterion.wrappedCriterion.name}" />
 			<!-- ice:panelGroup style="margin-left: 30px;">
 				<ice:outputText value="Constraint?*:" />
 				<ice:selectBooleanCheckbox value="#{criterion.constraint}" partialSubmit="true"/>
 			</ice:panelGroup -->
 		</ice:panelGrid>
-		<ice:panelGrid columns="2">
-			<ice:panelGrid columns="1">
-				<ice:outputLabel value="Name*" />
-				<ice:inputText value="#{criterion.wrappedCriterion.name}" />
-				<ice:outputLabel value="Description*" />
-				<ice:inputTextarea value="#{criterion.wrappedCriterion.description}" />
-			</ice:panelGrid>
+		<ice:panelGrid columns="1">
+			<ice:outputText value="#{criterion.wrappedCriterion.description}" />
 			<ice:panelGroup>
 				<ice:panelStack id="submissionPanelStack"
 					selectedPanel="#{criterion.panelType }">
