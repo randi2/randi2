@@ -16,7 +16,7 @@ import de.randi2.unsorted.ContraintViolatedException;
 @Entity
 public class FreeTextCriterion extends AbstractCriterion<String, FreeTextConstraint>{
 
-	
+	private static final long serialVersionUID = 7359750785478879268L;
 
 	@Override
 	public void isValueCorrect(String value) throws ContraintViolatedException {
