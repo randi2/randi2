@@ -18,7 +18,6 @@
 				<prop key="hibernate.connection.autocommit">false</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.current_session_context_class">managed</prop>
-				<prop key="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider </prop>
 				<prop key="hibernate.connection.autoReconnect">true</prop>
 			</props>
 		</property>
@@ -42,6 +41,8 @@
 				<value>de.randi2.model.criteria.OrdinalCriterion
 				</value>
 				<value>de.randi2.model.criteria.DateCriterion
+				</value>
+				<value>de.randi2.model.criteria.FreeTextCriterion
 				</value>
 				<value>de.randi2.model.criteria.constraints.DichotomousConstraint
 				</value>
