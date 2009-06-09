@@ -1,6 +1,9 @@
 package de.randi2.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
@@ -11,15 +14,19 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.TrialDao;
+import de.randi2.model.Login;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
+import de.randi2.utility.mail.MailService;
+import de.randi2.utility.mail.exceptions.MailErrorException;
 
 public class TrialServiceImpl implements TrialService {
 
 	private Logger logger =  Logger.getLogger(TrialServiceImpl.class);
 	@Autowired private TrialDao trialDao;
 	@Autowired private SessionFactory sessionFactory;
+	@Autowired private MailService mailService;
 		
 	@Override
 	@Secured({"ACL_TRIAL_CREATE"})
@@ -38,7 +45,7 @@ public class TrialServiceImpl implements TrialService {
 		subject.setArm(assignedArm);
 		sessionFactory.getCurrentSession().persist(subject);
 		assignedArm.addSubject(subject);
-		//TODO send mail
+		sendRandomisationMail(trial, ((Login)SecurityContextHolder.getContext().getAuthentication().getPrincipal()), subject);
 		return trialDao.update(trial);
 	}
 
@@ -57,7 +64,7 @@ public class TrialServiceImpl implements TrialService {
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<Trial> getAll() {
 		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " get all trial sites");
-		return trialDao.getAll();
+		return trialDao.getAll();//TODO send mail
 	}
 
 	@Override
@@ -66,6 +73,27 @@ public class TrialServiceImpl implements TrialService {
 	public Trial getObject(long objectID) {
 		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " get trial site with id=" + objectID);
 		return trialDao.get(objectID);
+	}
+	
+	private void sendRandomisationMail(Trial trial, Login user, TrialSubject subject){
+		
+		Map<String, Object> newUserMessageFields = new HashMap<String, Object>();
+		newUserMessageFields.put("user", user);
+		newUserMessageFields.put("trial", trial);
+		newUserMessageFields.put("trialSubject", subject);
+		newUserMessageFields.put("url", "http://randi2.com/CHANGEME");
+		// Map of variables for the subject
+		Map<String, Object> newUserSubjectFields = new HashMap<String, Object>();
+		newUserSubjectFields.put("trialName", trial.getName());
+
+		Locale language = user.getPrefLocale();
+
+		try {
+			mailService.sendMail(user.getUsername(), "Randomize", language,
+					newUserMessageFields, newUserSubjectFields);
+		} catch (MailErrorException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 }

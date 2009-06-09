@@ -69,8 +69,6 @@ public class MailService implements MailServiceInterface {
 			this.mailSender.send(preparator);
 
 		} catch (Exception e) {
-
-			e.printStackTrace();
 			throw new MailErrorException("Error while sending email..");
 
 		}

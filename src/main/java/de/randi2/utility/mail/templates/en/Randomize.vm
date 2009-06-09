@@ -1,0 +1,10 @@
+<html>
+<body>
+<h3>Hello ${user.getPerson().getFirstname()} ${user.getPerson().getSurname()},</h3>
+
+<div>
+Ein Patient wurde der Studie ${trial.getName()} in den Behandlungsarm ${trialSubject.getArm().getName()} hinzugef&uuml;gt.
+</div>
+</body>
+
+</html>
