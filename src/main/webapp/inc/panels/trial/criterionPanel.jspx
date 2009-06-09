@@ -26,10 +26,10 @@
 	<ice:panelGroup styleClass="contentb">
 		<ice:panelGrid columns="2">
 			<ice:outputLabel value="#{criterion.l16edName}" />
-			<ice:panelGroup style="margin-left: 30px;">
+			<!-- ice:panelGroup style="margin-left: 30px;">
 				<ice:outputText value="Constraint?*:" />
 				<ice:selectBooleanCheckbox value="#{criterion.constraint}" partialSubmit="true"/>
-			</ice:panelGroup>
+			</ice:panelGroup -->
 		</ice:panelGrid>
 		<ice:panelGrid columns="2">
 			<ice:panelGrid columns="1">
