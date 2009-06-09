@@ -167,6 +167,9 @@ private OrdinalCriterion criterion;
 			assertEquals(criterion.getDescription(), dbCriterion.getDescription());
 			assertEquals(constraint.getId(), dbCriterion.getInclusionCriterion().getId());
 			assertEquals(OrdinalConstraint.class, dbCriterion.getContstraintType());
+			assertEquals(4, dbCriterion.getElements().size());
+			assertTrue(dbCriterion.getElements().containsAll(elements));
+			assertTrue(elements.containsAll(dbCriterion.getElements()));
 
 		} catch (ContraintViolatedException e) {
 			//fail();
