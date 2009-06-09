@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void addRole(Login login, Role role) {
-		
+		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " add role " + role.getName() + "to user " + login.getUsername());
 		if(login != null && login.getId()>0 && role != null && role.getId()> 0 && !login.getRoles().contains(role)){
 			login.addRole(role);
 			loginDao.update(login);
@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void createRole(Role newRole) {
+		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " create new role " + newRole.getName());
 		roleDao.create(newRole);
 	}	
 	
@@ -92,6 +93,7 @@ public class UserServiceImpl implements UserService {
 	@Secured({"ROLE_ANONYMOUS","ACL_LOGIN_CREATE"})
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void register(Login newObject) {
+		logger.info("register new user with username/eMail " + newObject.getUsername());
 		// Investigator Role (self-registration process)
 		if (newObject.getRoles().size() == 1
 				&& newObject.getRoles().iterator().next().equals(
@@ -109,6 +111,7 @@ public class UserServiceImpl implements UserService {
 	@Secured({"ACL_LOGIN_CREATE"})
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void create(Login newObject){
+		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " create new user " + newObject.getUsername());
 		newObject.setPassword(passwordEncoder.encodePassword(newObject.getPassword(), saltSource.getSystemWideSalt()));
 		loginDao.create(newObject);
 		// send registration Mail
@@ -119,12 +122,14 @@ public class UserServiceImpl implements UserService {
 	@Secured({"ACL_LOGIN_WRITE"})
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public Login update(Login changedObject) {
+		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " update user " + changedObject.getUsername());
 		return loginDao.update(changedObject);
 	}
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public Role updateRole(Role changedRole) {
+		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " update role " +changedRole.getName() + " (id="+ changedRole.getId()+")");
 		return roleDao.update(changedRole);
 	}
 
@@ -132,21 +137,24 @@ public class UserServiceImpl implements UserService {
 	@Secured({"ROLE_USER", "AFTER_ACL_COLLECTION_READ"})
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<Login> getAll() {
+		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " get all users");
 		return loginDao.getAll();
 	}
 
 	@Override
 	public void removeRole(Login login, Role role) {
 		if(login != null && login.getId()>0 && role != null && role.getId()> 0 && login.getRoles().contains(role)){
+			logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " removes role " + role.getName()+ " from user " + login.getUsername());
 			login.removeRole(role);
 			loginDao.update(login);
-		}else throw new RuntimeException("");
+		}
 	}
 
 	@Override
 	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public Login getObject(long objectID) {
+		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " get login with id=" + objectID);
 		return loginDao.get(objectID);
 	}
 
