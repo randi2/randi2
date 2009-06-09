@@ -135,7 +135,7 @@
 					value="#{trialHandler.showedObject.startDate.time}"
 					renderAsPopup="true">
 					<f:convertDateTime locale="#{loginHandler.chosenLocale}"
-						dateStyle="medium" timeZone="#{trialHandler.zone}" />
+						dateStyle="medium" timeZone="#{randi2Page.zone}" />
 				</ice:selectInputDate>
 				<ice:message for="startDate" />
 			</ice:panelGroup>
@@ -153,7 +153,7 @@
 					value="#{trialHandler.showedObject.endDate.time}"
 					renderAsPopup="true">
 					<f:convertDateTime locale="#{loginHandler.chosenLocale}"
-						dateStyle="medium" timeZone="#{trialHandler.zone}" />
+						dateStyle="medium" timeZone="#{randi2Page.zone}" />
 				</ice:selectInputDate>
 				<ice:message for="endDate" />
 			</ice:panelGroup>

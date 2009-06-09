@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
 
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
@@ -78,7 +77,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		this.trialService = trialService;
 	}
 
-	private TimeZone zone;
+	
 
 	private Popups popups;
 
@@ -321,14 +320,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		assert (showedObject != null);
 		showedObject.getTreatmentArms().remove(
 				showedObject.getTreatmentArms().size() - 1);
-	}
-
-	// TEMP
-	public TimeZone getZone() {
-		if (zone == null) {
-			zone = TimeZone.getDefault();
-		}
-		return zone;
 	}
 
 	public int getTreatmentArmsCount() {

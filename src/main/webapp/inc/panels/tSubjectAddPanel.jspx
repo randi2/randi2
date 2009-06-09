@@ -53,20 +53,21 @@
 						fileName="protocol.pdf" label="Download the protocol"
 						type="button" shared="false" />
 				</ice:panelCollapsible>
-				<ice:panelCollapsible expanded="true" toggleOnClick="false"
-					style="margin-left: 3px; margin-top: 3px;">
-					<f:facet name="header">
-						<ice:outputLabel value="Trial Subject"></ice:outputLabel>
-					</f:facet>
+				<ice:panelGroup styleClass="icePnlClpsbl" style="margin-left: 3px; margin-top: 3px;">
+					<ice:panelGroup styleClass="icePnlClpsblHdr" style="margin-left: 3px; margin-top: 3px;">
+						<ice:outputLabel value="Trial Subject's Properties*"></ice:outputLabel>
+					</ice:panelGroup>
+					</ice:panelGroup>
 					<ice:panelSeries value="#{tSubjectAdd.properties}" var="criterion"
 						style="padding:10px;">
 						<f:subview id="popertiesInclude">
 							<jsp:directive.include
-								file="./inc/panels/trial/criterionPanel.jspx" />
+								file="./inc/panels/trial/propertyPanel.jspx" />
 						</f:subview>
 					</ice:panelSeries>
-				</ice:panelCollapsible>
-			</ice:panelGroup>
+				</ice:panelGroup>
+
+			
 		</ice:panelTab>
 	</ice:panelTabSet>
 	<ice:panelGrid border="0" columns="3">

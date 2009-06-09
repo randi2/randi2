@@ -14,6 +14,9 @@
  */
 package de.randi2.jsf.backingBeans;
 
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -53,6 +56,19 @@ public class Randi2Page {
 	 * The current logged in user.
 	 */
 	private Login currentUser = null;
+
+	/**
+	 * Time Zone for all calendar widgets.
+	 */
+	private TimeZone zone;
+
+	public TimeZone getZone() {
+		if (zone == null) {
+			zone = GregorianCalendar
+					.getInstance(loginHandler.getChosenLocale()).getTimeZone();
+		}
+		return zone;
+	}
 
 	private boolean aboutVisible = false;
 
@@ -122,7 +138,7 @@ public class Randi2Page {
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
 		trialHandler.setShowedObject(tTrial);
 		activePanel = "trialShowPanel";
-		
+
 	}
 
 	/**
@@ -158,13 +174,14 @@ public class Randi2Page {
 		trialHandler.setShowedObject(null);
 		activePanel = "trialCreatePanel";
 	}
-	
-	public void addTrialSubject(ActionEvent event){
-		if(trialHandler.getShowedObject()!=null){
-			((TSubjectAdd) FacesContext.getCurrentInstance()
-			.getApplication().getELResolver().getValue(
-					FacesContext.getCurrentInstance().getELContext(), null,
-					"tSubjectAdd")).setCurrentTrial(trialHandler.getShowedObject());
+
+	public void addTrialSubject(ActionEvent event) {
+		if (trialHandler.getShowedObject() != null) {
+			((TSubjectAdd) FacesContext.getCurrentInstance().getApplication()
+					.getELResolver().getValue(
+							FacesContext.getCurrentInstance().getELContext(),
+							null, "tSubjectAdd")).setCurrentTrial(trialHandler
+					.getShowedObject());
 			activePanel = "tSubjectAddPanel";
 		}
 	}

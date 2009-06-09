@@ -5,11 +5,8 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
-import javax.faces.application.Application;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
-import com.icesoft.faces.component.ext.HtmlPanelGrid;
 import com.icesoft.faces.context.ByteArrayResource;
 import com.icesoft.faces.context.FileResource;
 import com.icesoft.faces.context.Resource;
@@ -28,20 +25,22 @@ public class TSubjectAdd {
 		return currentTrial;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void setCurrentTrial(Trial currentTrial) {
 		this.currentTrial = currentTrial;
-		properties = new ArrayList<CriterionWrapper>();
-		CriterionWrapper cWrapper = null;
+		properties = new ArrayList<CriterionWrapper<? extends Serializable>>();
+		CriterionWrapper<? extends Serializable> cWrapper = null;
 		for (AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : currentTrial
 				.getCriteria()) {
-			cWrapper = new CriterionWrapper(c);
+			cWrapper = new CriterionWrapper<Serializable>(
+					(AbstractCriterion<Serializable, ?>) c);
 			properties.add(cWrapper);
 		}
 	}
 
-	private ArrayList<CriterionWrapper> properties = null;
+	private ArrayList<CriterionWrapper<? extends Serializable>> properties = null;
 	
-	public ArrayList<CriterionWrapper> getProperties() {
+	public ArrayList<CriterionWrapper<? extends Serializable>> getProperties() {
 		return properties;
 	}
 

@@ -39,42 +39,61 @@
 				<ice:inputTextarea value="#{criterion.wrappedCriterion.description}" />
 			</ice:panelGrid>
 			<ice:panelGroup>
-				<ice:panelStack id="configurationPanelStack"
-					selectedPanel="#{criterion.panelType}">
-					<ice:panelGroup id="criterionErrorPanel">
+				<ice:panelStack id="submissionPanelStack"
+					selectedPanel="#{criterion.panelType }">
+					<ice:panelGroup id="submissionErrorPanel">
 						<f:subview id="error">
 							<jsp:directive.include
 								file="./inc/panels/trial/criteriaConfigurationPanels/cErrorPanel.jspx" />
 						</f:subview>
 					</ice:panelGroup>
 					<ice:panelGroup id="datePanel">
-						<f:subview id="date">
-							<jsp:directive.include
-								file="./inc/panels/trial/criteriaConfigurationPanels/datePanel.jspx" />
-						</f:subview>
+						<ice:panelGrid columns="1">
+							<ice:outputLabel value="Subject's value*:" />
+							<ice:panelGrid columns="2">
+								<ice:selectInputDate id="date"
+									value="#{criterion.subjectProperty.value.time}"
+									renderAsPopup="true">
+									<f:convertDateTime locale="#{loginHandler.chosenLocale}"
+										dateStyle="medium" timeZone="#{randi2Page.zone}" />
+								</ice:selectInputDate>
+								<ice:message for="date" />
+							</ice:panelGrid>
+						</ice:panelGrid>
 					</ice:panelGroup>
 					<ice:panelGroup id="dichotomousPanel">
-						<f:subview id="dichotomous">
-							<jsp:directive.include
-								file="./inc/panels/trial/criteriaConfigurationPanels/dichotomousPanel.jspx" />
-						</f:subview>
+						<ice:panelGrid columns="1">
+							<ice:outputLabel value="Subject's value*:" />
+							<ice:panelGroup>
+								<ice:selectOneRadio value="#{criterion.subjectProperty.value}"
+									partialSubmit="true">
+									<f:selectItems value="#{criterion.selectItems}" />
+								</ice:selectOneRadio>
+							</ice:panelGroup>
+						</ice:panelGrid>
 					</ice:panelGroup>
 					<ice:panelGroup id="freeTextPanel">
-						<f:subview id="freeText">
-							<jsp:directive.include
-								file="./inc/panels/trial/criteriaConfigurationPanels/freeTextPanel.jspx" />
-						</f:subview>
+						<ice:panelGrid columns="1">
+							<ice:outputLabel value="Subject's value*:" />
+							<ice:panelGroup>
+								<ice:inputText id="text"
+									value="#{criterion.subjectProperty.value}" />
+								<ice:message for="text" />
+							</ice:panelGroup>
+						</ice:panelGrid>
 					</ice:panelGroup>
 					<ice:panelGroup id="ordinalPanel">
-						<f:subview id="ordinal">
-							<jsp:directive.include
-								file="./inc/panels/trial/criteriaConfigurationPanels/ordinalPanel.jspx" />
-						</f:subview>
+						<ice:panelGrid columns="1">
+							<ice:outputLabel value="Subject's value*:" />
+							<ice:panelGroup>
+								<ice:selectOneRadio value="#{criterion.subjectProperty.value}"
+									partialSubmit="true">
+									<f:selectItems value="#{criterion.selectItems}" />
+								</ice:selectOneRadio>
+							</ice:panelGroup>
+						</ice:panelGrid>
 					</ice:panelGroup>
 				</ice:panelStack>
-			</ice:panelGroup>
-			<ice:panelGroup rendered="#{criterion.constraint}">
-				<ice:outputLabel value="Expected*:" />
 			</ice:panelGroup>
 		</ice:panelGrid>
 	</ice:panelGroup>
