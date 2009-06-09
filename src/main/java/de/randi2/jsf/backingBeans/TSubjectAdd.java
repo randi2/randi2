@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.faces.context.FacesContext;
 
@@ -12,12 +13,26 @@ import com.icesoft.faces.context.FileResource;
 import com.icesoft.faces.context.Resource;
 
 import de.randi2.jsf.controllerBeans.TrialHandler;
+import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.wrappers.CriterionWrapper;
+import de.randi2.model.SubjectProperty;
 import de.randi2.model.Trial;
+import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
+import de.randi2.services.TrialService;
 
 public class TSubjectAdd {
+	
+	private TrialService trialService;
+	
+	public TrialService getTrialService() {
+		return trialService;
+	}
+	
+	public void setTrialService(TrialService trialService) {
+		this.trialService = trialService;
+	}
 
 	private Trial currentTrial = null;
 
@@ -61,5 +76,24 @@ public class TSubjectAdd {
 				e.printStackTrace();
 			}
 		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public String addSubject() {
+		TrialSubject newSubject = new TrialSubject();
+		HashSet<SubjectProperty> tempSet = new HashSet<SubjectProperty>();
+		for(CriterionWrapper<? extends Serializable> cw : properties){
+			tempSet.add((SubjectProperty) cw.getSubjectProperty());
+		}
+		newSubject.setProperties(tempSet);
+		trialService.randomize(currentTrial, newSubject);
+//		popups.showTrialCreatedPopup();
+		return Randi2.SUCCESS;
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// Randi2.showMessage(e);
+		// return Randi2.ERROR;
+		// }
+
 	}
 }

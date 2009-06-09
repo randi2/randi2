@@ -242,38 +242,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		Step4 temp1 = (Step4) ve1.getValue(FacesContext.getCurrentInstance()
 				.getELContext());
 		ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> configuredCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
-		for (CriterionWrapper cr : temp1.getCriteria()) {
-			// List<? extends Serializable> configuredConstraints = wr
-			// .getSelectedValues();
-			// if (configuredConstraints != null
-			// && !configuredConstraints.isEmpty()) {
-			// if (DichotomousCriterion.class.isInstance(wr
-			// .getSelectedCriterion())) {
-			// DichotomousConstraint t;
-			// try {
-			// t = new DichotomousConstraint(
-			// (List<String>) configuredConstraints);
-			// DichotomousCriterion.class.cast(
-			// wr.getSelectedCriterion())
-			// .setInclusionCriterion(t);
-			// } catch (ContraintViolatedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// } else if (OrdinalCriterion.class.isInstance(wr
-			// .getSelectedCriterion())) {
-			// OrdinalConstraint o;
-			// try {
-			// o = new OrdinalConstraint(
-			// (List<String>) configuredConstraints);
-			// OrdinalCriterion.class.cast(wr.getSelectedCriterion())
-			// .setInclusionCriterion(o);
-			// } catch (ContraintViolatedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// }
-			// }
+		for (CriterionWrapper<? extends Serializable> cr : temp1.getCriteria()) {
 			configuredCriteria
 					.add((AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>) cr
 							.getWrappedCriterion());

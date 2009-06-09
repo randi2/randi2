@@ -23,7 +23,7 @@ public class TrialSubject extends AbstractDomainObject{
 	@ManyToOne
 	private TreatmentArm arm;
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.PERSIST)
 	private Set<SubjectProperty> properties =  new HashSet<SubjectProperty>();
 
 	@NotNull
