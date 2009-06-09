@@ -3,7 +3,7 @@
 <h3>Hello ${user.getPerson().getFirstname()} ${user.getPerson().getSurname()},</h3>
 
 <div>
-Ein Patient wurde der Studie ${trial.getName()} in den Behandlungsarm ${trialSubject.getArm().getName()} hinzugef&uuml;gt.
+A patient is randomized to trial ${trial.getName()} in treatment arm ${trialSubject.getArm().getName()}.
 </div>
 </body>
 
