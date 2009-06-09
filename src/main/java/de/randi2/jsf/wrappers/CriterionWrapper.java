@@ -22,10 +22,19 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
  */
 public class CriterionWrapper {
 
-	private AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> wrappedCriterion = null;
-
+	/**
+	 * The criterion object which is wrapped by this instance.
+	 */
+	private AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> wrappedCriterion = null; 
+	
+	/**
+	 * Flag indicating if the wrapped criterion is also an inclusion constraint or not.
+	 */
 	private boolean isConstraint = false;
 
+	/**
+	 * String ID defining the showed criterion panel.
+	 */
 	private String panelType = "criterionErrorPanel";
 
 	public CriterionWrapper(AbstractCriterion<?, ?> _criterion) {
@@ -48,6 +57,10 @@ public class CriterionWrapper {
 		this.isConstraint = isConstraint;
 	}
 
+	/**
+	 * Retrurn the l16ed name of an criterion.
+	 * @return l16ed string representation of an criterion
+	 */
 	public String getL16edName() {
 		return ResourceBundle.getBundle(
 				"de.randi2.jsf.i18n.criteria",
@@ -59,6 +72,10 @@ public class CriterionWrapper {
 				wrappedCriterion.getUIName());
 	}
 
+	/**
+	 * Returns the String ID of an panel whicz need
+	 * @return
+	 */
 	public String getPanelType() {
 		if (DateCriterion.class.isInstance(wrappedCriterion))
 			panelType = "datePanel";
@@ -73,20 +90,20 @@ public class CriterionWrapper {
 
 	public void addElement(ActionEvent event) {
 		if (OrdinalCriterion.class.isInstance(wrappedCriterion))
-			((OrdinalCriterion) wrappedCriterion).getElements().add("");
+			OrdinalCriterion.class.cast(wrappedCriterion).getElements().add("");
 	}
 
 	public void removeElement(ActionEvent event) {
 		if (OrdinalCriterion.class.isInstance(wrappedCriterion))
-			((OrdinalCriterion) wrappedCriterion).getElements()
+			OrdinalCriterion.class.cast(wrappedCriterion).getElements()
 					.remove(
-							((OrdinalCriterion) wrappedCriterion).getElements()
+							OrdinalCriterion.class.cast(wrappedCriterion).getElements()
 									.size() - 1);
 	}
 
 	public boolean isElementsEmpty() {
 		if (OrdinalCriterion.class.isInstance(wrappedCriterion))
-			return ((OrdinalCriterion) wrappedCriterion).getElements()
+			return OrdinalCriterion.class.cast(wrappedCriterion).getElements()
 					.isEmpty();
 		return true;
 	}
