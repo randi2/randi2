@@ -3,6 +3,7 @@ package de.randi2.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
@@ -21,6 +22,7 @@ public final class SubjectProperty<V extends Serializable> extends AbstractDomai
 	private static final long serialVersionUID = 6795792982229806832L;
 	
 	@Target(value=Serializable.class)
+	@Lob
 	private V value;
 	
 	
