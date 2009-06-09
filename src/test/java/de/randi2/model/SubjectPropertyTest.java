@@ -5,12 +5,15 @@ import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Test;
 
 import de.randi2.model.SubjectProperty;
+import de.randi2.model.criteria.DateCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
+import de.randi2.model.criteria.FreeTextCriterion;
 import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.test.utility.AbstractDomainTest;
@@ -69,6 +72,49 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>)hibernateTemplate.get(SubjectProperty.class, subjectString.getId());
 		assertEquals(subjectString, dbSubjectProperty);
 		assertEquals(subjectString.getCriterion(), dbSubjectProperty.getCriterion());
+	}
+	
+	
+	@Test
+	public void testDatabaseIntegrationSubjectDateCriterion(){
+		DateCriterion criterion = new DateCriterion();
+		criterion.setName("dsagdsagsd");
+		hibernateTemplate.persist(criterion);
+		assertTrue(criterion.getId()>0);
+		criterion = (DateCriterion)hibernateTemplate.get(DateCriterion.class, criterion.getId());
+		SubjectProperty<GregorianCalendar> subject = new SubjectProperty<GregorianCalendar>(criterion);
+		try {
+			subject.setValue(new GregorianCalendar());
+		} catch (ContraintViolatedException e) {
+			fail("Constraint violated: " + e.getMessage());
+		}
+		hibernateTemplate.persist(subject);
+		assertTrue(subject.getId()>0);
+		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>)hibernateTemplate.get(SubjectProperty.class, subject.getId());
+		assertEquals(subject, dbSubjectProperty);
+		assertEquals(subject.getCriterion(), dbSubjectProperty.getCriterion());
+	}
+
+	
+	@Test
+	public void testDatabaseIntegrationSubjectFreeTextCriterion(){
+		FreeTextCriterion criterion = new FreeTextCriterion();
+		criterion.setName("dsagdsagsd");
+		hibernateTemplate.persist(criterion);
+		assertTrue(criterion.getId()>0);
+		criterion = (FreeTextCriterion)hibernateTemplate.get(FreeTextCriterion.class, criterion.getId());
+		SubjectProperty<String> subject = new SubjectProperty<String>(criterion);
+		try {
+			subject.setValue("test");
+		} catch (ContraintViolatedException e) {
+			fail("Constraint violated: " + e.getMessage());
+		}
+		hibernateTemplate.persist(subject);
+		assertTrue(subject.getId()>0);
+		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>)hibernateTemplate.get(SubjectProperty.class, subject.getId());
+		assertEquals(subject, dbSubjectProperty);
+		assertEquals("test",dbSubjectProperty.getValue());
+		assertEquals(subject.getCriterion(), dbSubjectProperty.getCriterion());
 	}
 
 }
