@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService {
 			logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " removes role " + role.getName()+ " from user " + login.getUsername());
 			login.removeRole(role);
 			loginDao.update(login);
-		}
+		}else throw new RuntimeException("can't remove role from user");
 	}
 
 	@Override
