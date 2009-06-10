@@ -18,27 +18,31 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelPopup draggable="true" modal="true"
-		visible="#{popups.trialSiteSavedPVisible}"
-		rendered="#{popups.trialSiteSavedPVisible}"
+		visible="#{popups.subjectAddedPVisible}"
+		rendered="#{popups.subjectAddedPVisible}"
 		style="width: 300px; height: auto">
 		<f:facet name="header">
-			<ice:outputText value="#{labels['pages.trialSiteSavedPopup.header']}"></ice:outputText>
+			<ice:outputText value="The subject has been added to the trial*"></ice:outputText>
 		</f:facet>
-
 		<f:facet name="body">
-			<ice:panelGrid border="0" columns="2">
-				<f:facet name="footer">
-					<ice:panelGroup>
-						<ice:commandButton value="#{labels['buttons.ok']}"
-							action="#{popups.hideTrialSiteSavedPopup}"
-							immediate="true"></ice:commandButton>
-					</ice:panelGroup>
-				</f:facet>
-				<ice:graphicImage value="/img/icons/saved48.png"></ice:graphicImage>
-				<ice:outputText
-					value="#{labels['pages.trialSiteSavedPopup.message']}"
-					escape="false"></ice:outputText>
-			</ice:panelGrid>
+			<ice:panelGroup>
+				<ice:panelGrid columns="2">
+					<ice:graphicImage value="/img/icons/saved48.png"></ice:graphicImage>
+					<ice:outputText
+						value="The subject has been successfuly added to the chosen trial. Further information below.*"
+						escape="false"></ice:outputText>
+				</ice:panelGrid>
+				<ice:panelGrid columns="2">
+					<ice:outputLabel value="Subject ID*" />
+					<ice:outputText value="#{tSubjectAdd.subjectID }" />
+					<ice:outputLabel value="Trial arm*" />
+					<ice:outputText value="#{tSubjectAdd.subjectArm}" />
+				</ice:panelGrid>
+				<ice:panelGroup>
+					<ice:commandButton value="#{labels['buttons.ok']}"
+						action="#{popups.hideSubjectAddedPopup}" immediate="true"></ice:commandButton>
+				</ice:panelGroup>
+			</ice:panelGroup>
 		</f:facet>
 	</ice:panelPopup>
 </ice:form>

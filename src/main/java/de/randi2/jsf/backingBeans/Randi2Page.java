@@ -128,7 +128,7 @@ public class Randi2Page {
 	}
 
 	/**
-	 * This method shows the trial site from the trial sites' table.
+	 * This method shows the trial from the trials' table.
 	 * 
 	 * @param event
 	 */
@@ -138,7 +138,16 @@ public class Randi2Page {
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
 		trialHandler.setShowedObject(tTrial);
 		activePanel = "trialShowPanel";
-
+	}
+	
+	/**
+	 * This method shows the given trial.
+	 *
+	 * @param _trial
+	 */
+	public void showTrial(Trial _trial){
+		trialHandler.setShowedObject(_trial);
+		activePanel = "trialShowPanel";
 	}
 
 	/**

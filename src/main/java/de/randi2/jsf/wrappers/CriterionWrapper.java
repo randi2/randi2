@@ -147,8 +147,7 @@ public class CriterionWrapper<V extends Serializable> {
 	 * @param event
 	 */
 	public void addElement(ActionEvent event) {
-		if (OrdinalCriterion.class.isInstance(wrappedCriterion))
-			OrdinalCriterion.class.cast(wrappedCriterion).getElements().add("test");
+		getElements().add(new StringWrapper(getElements().size(), ""));
 	}
 
 	/**
@@ -157,10 +156,7 @@ public class CriterionWrapper<V extends Serializable> {
 	 * @param event
 	 */
 	public void removeElement(ActionEvent event) {
-		if (OrdinalCriterion.class.isInstance(wrappedCriterion))
-			OrdinalCriterion.class.cast(wrappedCriterion).getElements().remove(
-					OrdinalCriterion.class.cast(wrappedCriterion).getElements()
-							.size() - 1);
+		getElements().remove(getElements().size()-1);
 	}
 
 	/**

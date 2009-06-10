@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
@@ -73,6 +74,21 @@ public class TreatmentArm extends AbstractDomainObject{
 
 	public void addSubject(TrialSubject subject){
 		this.subjects.add(subject);
+	}
+	
+	@Transient
+	public int getCurrentSubjectsAmount(){
+		return getSubjects().size();
+	}
+	
+	@Transient
+	public float getFillLevel(){
+		return ((float)getCurrentSubjectsAmount() / getPlannedSubjects()) * 100;
+	}
+	
+	@Override
+	public String getUIName() {
+		return getName();
 	}
 
 }

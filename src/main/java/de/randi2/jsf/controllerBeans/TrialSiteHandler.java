@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 
+import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
@@ -42,23 +43,14 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	public void setSiteService(TrialSiteService siteService) {
 		this.siteService = siteService;
 	}
-	
+
+	private Popups popups;
+
 	public TrialSiteHandler() {
-	}
-
-	private boolean trialSiteSavedPVisible = false;
-
-	public boolean isTrialSiteSavedPVisible() {
-		return trialSiteSavedPVisible;
-	}
-
-	public void setTrialSiteSavedPVisible(boolean trialSiteSavedPVisible) {
-		this.trialSiteSavedPVisible = trialSiteSavedPVisible;
-	}
-
-	public String hideTrialSiteSavedPopup() {
-		this.trialSiteSavedPVisible = false;
-		return Randi2.SUCCESS;
+		popups = ((Popups) FacesContext.getCurrentInstance().getApplication()
+				.getELResolver().getValue(
+						FacesContext.getCurrentInstance().getELContext(), null,
+						"popups"));
 	}
 
 	public Login getCurrentUser() {
@@ -92,13 +84,13 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	@Override
 	public String saveObject() {
 		try {
-			if(creatingMode){
+			if (creatingMode) {
 				siteService.create(showedObject);
-			}else{
+			} else {
 				showedObject = siteService.update(showedObject);
 			}
 			// Making the centerSavedPopup visible
-			this.trialSiteSavedPVisible = true;
+			popups.showTrialSiteSavedPopup();
 			this.creatingMode = false;
 			return Randi2.SUCCESS;
 		} catch (InvalidStateException exp) {
@@ -111,8 +103,7 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 		} catch (Exception e) {
 			Randi2.showMessage(e);
 			return Randi2.ERROR;
-		} 
-		finally {
+		} finally {
 			refreshShowedObject();
 		}
 
@@ -136,12 +127,13 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	public int getTrialSitesAmount() {
 		return siteService.getAll().size();
 	}
-	
+
 	/**
 	 * Returns all defined trial sites.
+	 * 
 	 * @return
 	 */
-	public List<TrialSite> getAllTrialSites(){
+	public List<TrialSite> getAllTrialSites() {
 		return siteService.getAll();
 	}
 
