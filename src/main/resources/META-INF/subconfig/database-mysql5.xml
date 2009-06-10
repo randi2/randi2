@@ -17,10 +17,10 @@
 		<property name="password">
 			<value>${db.password}</value>
 		</property>
-		<property name="minPoolSize" value="5"></property>
-		<property name="maxPoolSize" value="100" />
-		<property name="initialPoolSize" value="5"></property>
-		<property name="maxStatements" value="50"></property>
+		<property name="initialPoolSize" value="3"></property>
+		<property name="maxConnectionAge" value="28000"></property>
+		<property name="maxPoolSize" value="100"></property>
+		<property name="minPoolSize" value="3"></property>
 	</bean>
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
