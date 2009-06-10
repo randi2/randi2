@@ -13,6 +13,7 @@ import com.icesoft.faces.context.FileResource;
 import com.icesoft.faces.context.Resource;
 
 import de.randi2.jsf.controllerBeans.TrialHandler;
+import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.model.SubjectProperty;
@@ -23,6 +24,8 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.services.TrialService;
 
 public class TSubjectAdd {
+	
+	private Popups popups;
 	
 	private TrialService trialService;
 	
@@ -58,6 +61,13 @@ public class TSubjectAdd {
 	public ArrayList<CriterionWrapper<? extends Serializable>> getProperties() {
 		return properties;
 	}
+	
+	public TSubjectAdd() {
+		popups = ((Popups) FacesContext.getCurrentInstance().getApplication()
+				.getELResolver().getValue(
+						FacesContext.getCurrentInstance().getELContext(), null,
+						"popups"));
+	}
 
 	public Resource getTempProtocol() {
 		if (currentTrial != null && currentTrial.getProtocol() != null)
@@ -86,14 +96,22 @@ public class TSubjectAdd {
 			tempSet.add((SubjectProperty) cw.getSubjectProperty());
 		}
 		newSubject.setProperties(tempSet);
-		trialService.randomize(currentTrial, newSubject);
-//		popups.showTrialCreatedPopup();
+		currentTrial = trialService.randomize(currentTrial, newSubject);
+		subjectID = newSubject.getIdentification();
+		subjectArm = newSubject.getArm().getUIName();
+		popups.showSubjectAddedPopup();
 		return Randi2.SUCCESS;
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// Randi2.showMessage(e);
-		// return Randi2.ERROR;
-		// }
-
+	}
+	
+	private String subjectArm;
+	
+	public String getSubjectArm() {
+		return subjectArm;
+	}
+	
+	private String subjectID;
+	
+	public String getSubjectID() {
+		return subjectID;
 	}
 }

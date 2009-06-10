@@ -1,5 +1,11 @@
 package de.randi2.jsf.supportBeans;
 
+import javax.faces.context.FacesContext;
+
+import de.randi2.jsf.backingBeans.Randi2Page;
+import de.randi2.jsf.backingBeans.TSubjectAdd;
+import de.randi2.model.Trial;
+
 public class Popups {
 	
 	// Popup's flags
@@ -8,6 +14,8 @@ public class Popups {
 	private boolean changeTrialSitePVisible = false;
 	private boolean changeAssistantPVisible = false;
 	private boolean trialCreatedPVisible = false;
+	private boolean trialSiteSavedPVisible = false;
+	private boolean subjectAddedPVisible = false;
 	
 	// POPUPS
 	public boolean isTrialCreatedPVisible() {
@@ -100,6 +108,51 @@ public class Popups {
 		this.changeAssistantPVisible = false;
 		return Randi2.SUCCESS;
 	}
+	
+	public boolean isTrialSiteSavedPVisible() {
+		return trialSiteSavedPVisible;
+	}
+
+	public void setTrialSiteSavedPVisible(boolean trialSiteSavedPVisible) {
+		this.trialSiteSavedPVisible = trialSiteSavedPVisible;
+	}
+
+	public String hideTrialSiteSavedPopup() {
+		this.trialSiteSavedPVisible = false;
+		return Randi2.SUCCESS;
+	}
+	
+	public String showTrialSiteSavedPopup(){
+		this.trialSiteSavedPVisible = true;
+		return Randi2.SUCCESS;
+	}
+	
+	public boolean isSubjectAddedPVisible() {
+		return subjectAddedPVisible;
+	}
+	
+	public void setSubjectAddedPVisible(boolean subjectAddedPVisible) {
+		this.subjectAddedPVisible = subjectAddedPVisible;
+	}
+	
+	public String hideSubjectAddedPopup() {
+		this.subjectAddedPVisible = false;
+		Trial trial = ((TSubjectAdd) FacesContext.getCurrentInstance().getApplication()
+				.getELResolver().getValue(
+						FacesContext.getCurrentInstance().getELContext(), null,
+						"tSubjectAdd")).getCurrentTrial();
+		((Randi2Page) FacesContext.getCurrentInstance().getApplication()
+				.getELResolver().getValue(
+						FacesContext.getCurrentInstance().getELContext(), null,
+						"randi2Page")).showTrial(trial);
+		return Randi2.SUCCESS;
+	}
+	
+	public String showSubjectAddedPopup(){
+		this.subjectAddedPVisible = true;
+		return Randi2.SUCCESS;
+	}
+	
 
 	// ----
 }

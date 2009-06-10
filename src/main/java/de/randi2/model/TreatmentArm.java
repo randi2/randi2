@@ -85,5 +85,10 @@ public class TreatmentArm extends AbstractDomainObject{
 	public float getFillLevel(){
 		return ((float)getCurrentSubjectsAmount() / getPlannedSubjects()) * 100;
 	}
+	
+	@Override
+	public String getUIName() {
+		return getName();
+	}
 
 }

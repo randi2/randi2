@@ -14,6 +14,9 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
+<f:subview id="subjectAddedPopup">
+	<jsp:directive.include file="./inc/popups/subjectAddedPopup.jspx" />
+</f:subview>
 <ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
@@ -53,25 +56,28 @@
 						fileName="protocol.pdf" label="Download the protocol"
 						type="button" shared="false" />
 				</ice:panelCollapsible>
-				<ice:panelGroup styleClass="icePnlClpsbl" style="margin-left: 3px; margin-top: 3px;">
-					<ice:panelGroup styleClass="icePnlClpsblHdr" style="margin-left: 3px; margin-top: 3px;">
+				<ice:panelGroup styleClass="icePnlClpsbl"
+					style="margin-left: 3px; margin-top: 3px;">
+					<ice:panelGroup styleClass="icePnlClpsblHdr"
+						style="margin-left: 3px; margin-top: 3px;">
 						<ice:outputLabel value="Trial Subject's Properties*"></ice:outputLabel>
 					</ice:panelGroup>
-					</ice:panelGroup>
-					<ice:panelSeries value="#{tSubjectAdd.properties}" var="criterion"
-						style="padding:10px;">
-						<f:subview id="popertiesInclude">
-							<jsp:directive.include
-								file="./inc/panels/trial/propertyPanel.jspx" />
-						</f:subview>
-					</ice:panelSeries>
 				</ice:panelGroup>
+				<ice:panelSeries value="#{tSubjectAdd.properties}" var="criterion"
+					style="padding:10px;">
+					<f:subview id="popertiesInclude">
+						<jsp:directive.include
+							file="./inc/panels/trial/propertyPanel.jspx" />
+					</f:subview>
+				</ice:panelSeries>
+			</ice:panelGroup>
 
-			
+
 		</ice:panelTab>
 	</ice:panelTabSet>
 	<ice:panelGrid border="0" columns="3">
-		<ice:commandButton type="submit" value="#{labels['buttons.add']}" action="#{tSubjectAdd.addSubject}" />
+		<ice:commandButton type="submit" value="#{labels['buttons.add']}"
+			action="#{tSubjectAdd.addSubject}" />
 		<ice:commandButton type="reset" value="#{labels['buttons.reset']}" />
 		<ice:messages globalOnly="true" showDetail="true" showSummary="true"
 			tooltip="true" />
