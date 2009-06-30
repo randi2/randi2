@@ -20,6 +20,9 @@ public class TrialSubject extends AbstractDomainObject{
 	
 	private String identification;
 
+	private String randNumber;
+	
+	
 	@ManyToOne
 	private TreatmentArm arm;
 	
@@ -54,6 +57,16 @@ public class TrialSubject extends AbstractDomainObject{
 	@ManyToOne(cascade = CascadeType.ALL)
 	public void setProperties(Set<SubjectProperty> properties) {
 		this.properties = properties;
+	}
+	
+	
+
+	public String getRandNumber() {
+		return randNumber;
+	}
+
+	public void setRandNumber(String randNumber) {
+		this.randNumber = randNumber;
 	}
 
 	@Override
