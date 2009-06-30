@@ -241,6 +241,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public String logoutUser() {
 		loggedInUser = userService.update(loggedInUser);
 		invalidateSession();
+		logService.logChange("logout", loggedInUser.getUsername(), loggedInUser);
 		return Randi2.SUCCESS;
 	}
 

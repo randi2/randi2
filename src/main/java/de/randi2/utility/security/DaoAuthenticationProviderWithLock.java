@@ -12,13 +12,15 @@ import org.springframework.security.providers.dao.DaoAuthenticationProvider;
 import org.springframework.security.userdetails.UserDetails;
 
 import de.randi2.model.Login;
+import de.randi2.utility.logging.LogService;
 
 public class DaoAuthenticationProviderWithLock extends
 		DaoAuthenticationProvider {
 	
+	
 	private Logger logger = Logger.getLogger(DaoAuthenticationProviderWithLock.class);
 	@Autowired private SessionFactory sessionFactory;
-	
+	@Autowired private LogService logService;
 	
 	@Override
 	protected void additionalAuthenticationChecks(UserDetails userDetails,
@@ -26,15 +28,18 @@ public class DaoAuthenticationProviderWithLock extends
 			throws AuthenticationException {
 		try{
 		super.additionalAuthenticationChecks(userDetails, authentication);
+		logger.info("user " + userDetails.getUsername() + "loged in");
+		logService.logChange("login", userDetails.getUsername(), ((Login)userDetails));
 		}catch (BadCredentialsException e) {
 			Login user = (Login) userDetails;
+			logger.warn("Wrong password: user=" + user.getUsername());
 			if(user.getNumberWrongLogins() <Login.MAX_WRONG_LOGINS){
 				byte number =user.getNumberWrongLogins();
 				number++;
 				user.setNumberWrongLogins(number);
 				if(number==Login.MAX_WRONG_LOGINS) user.setLockTime(new GregorianCalendar()); 
 				sessionFactory.getCurrentSession().save(user);
-				logger.warn("Wrong password: user=" + user.getUsername() + " count=" + number);
+				
 			}
 			throw e;
 		}

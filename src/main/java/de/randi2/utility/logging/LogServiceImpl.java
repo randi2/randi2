@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.AbstractDomainObject;
+import de.randi2.model.Trial;
+import de.randi2.model.TrialSubject;
 
 public class LogServiceImpl implements LogService {
 
@@ -27,6 +29,21 @@ public class LogServiceImpl implements LogService {
 		entry.setValue(value.toString());
 		entry.setUiName(value.getUIName());
 		sessionFactory.getCurrentSession().persist(entry);
+	}
+	
+	
+	@Override
+	public void logRandomize(String action, String username, Trial trial,
+			TrialSubject trialSubject) {
+		LogEntry entry = new LogEntry();
+		entry.setAction(action);
+		entry.setUsername(username);
+		entry.setClazz(trial.getClass());
+		entry.setIdentifier(trial.getId());
+		entry.setValue(trialSubject.toString());
+		entry.setUiName(trialSubject.getUIName());
+		sessionFactory.getCurrentSession().persist(entry);
+		
 	}
 
 
@@ -78,4 +95,9 @@ public class LogServiceImpl implements LogService {
 		}
 		return strings;
 	}
+
+
+
+
+	
 }

@@ -8,4 +8,6 @@
 	
 	<bean class="de.randi2.aspects.LogAspects"></bean>
 	<bean id="logService" class="de.randi2.utility.logging.LogServiceImpl"/>
+	
+	
 </beans>

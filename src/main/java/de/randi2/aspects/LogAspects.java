@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.AbstractDomainObject;
+import de.randi2.model.Trial;
+import de.randi2.model.TrialSubject;
 import de.randi2.utility.logging.LogService;
 
 @Aspect
@@ -33,15 +35,30 @@ public class LogAspects {
 		return o;
 	}
 	
-	@Around("execution(public * de.randi2.services.*.get*(..))")
+//	@Around("execution(public * de.randi2.services.*.get*(..))")
+//	@Transactional(propagation = Propagation.REQUIRED)
+//	public Object  logGet(ProceedingJoinPoint pjp) throws Throwable{
+//		Object o = pjp.proceed();	
+//		if(o instanceof AbstractDomainObject){
+//			logService.logChange(pjp.getSignature().getName(),  SecurityContextHolder.getContext().getAuthentication().getName(), ((AbstractDomainObject)o));
+//		}else logService.logGet(pjp.getSignature().getName(), SecurityContextHolder.getContext().getAuthentication().getName());
+//		return o;
+//	}
+	
+	@Around("execution(public * de.randi2.services.*.randomize*(..))")
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Object  logGet(ProceedingJoinPoint pjp) throws Throwable{
-		Object o = pjp.proceed();	
-		if(o instanceof AbstractDomainObject){
-			logService.logChange(pjp.getSignature().getName(),  SecurityContextHolder.getContext().getAuthentication().getName(), ((AbstractDomainObject)o));
-		}else logService.logGet(pjp.getSignature().getName(), SecurityContextHolder.getContext().getAuthentication().getName());
-		return o;
+	public void  logRandomize(ProceedingJoinPoint pjp) throws Throwable{
+		pjp.proceed();	
+		logService.logRandomize(pjp.getSignature().getName(),  SecurityContextHolder.getContext().getAuthentication().getName(), ((Trial)pjp.getArgs()[0]), ((TrialSubject)pjp.getArgs()[1]));
 	}
 	
+	
+	@Around("execution(public * de.randi2.utility.security.DaoAuthenticationProviderWithLock.additionalAuthenticationChecks*(..))")
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void logLogin(ProceedingJoinPoint pjp) throws Throwable{
+		pjp.proceed();
+		logService.logGet("login", SecurityContextHolder.getContext().getAuthentication().getName());
+		System.out.println("login");
+	}
 
 }

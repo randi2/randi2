@@ -53,4 +53,7 @@
 			class="org.springframework.security.providers.dao.salt.SystemWideSaltSource">
 			<property name="systemWideSalt" value="DSJGEWI8SDG46ASGJAER436234ERDFZHS9346" />
 	</bean>
+	
+	
+	<import resource="classpath:META-INF/subconfig/logging.xml"/>
 </beans>

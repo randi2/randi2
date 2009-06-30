@@ -54,6 +54,8 @@ import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
 import de.randi2.utility.ReflectionUtil;
+import de.randi2.utility.logging.LogEntry;
+import de.randi2.utility.logging.LogService;
 
 /**
  * <p>
@@ -78,6 +80,11 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	
+	private LogService logService;
+	
+	public void setLogService(LogService logService) {
+		this.logService = logService;
+	}
 
 	private Popups popups;
 
@@ -316,6 +323,10 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		return trialService.getAll();
 	}
 
+	public List<LogEntry> getLogEntries(){
+		return logService.getLogEntries(showedObject.getClass(),showedObject.getId());
+	}
+	
 	@Override
 	protected Trial createPlainObject() {
 		Trial t = new Trial();

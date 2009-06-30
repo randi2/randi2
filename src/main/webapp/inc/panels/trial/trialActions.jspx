@@ -1,0 +1,57 @@
+<!-- 
+ This page/panel shows user's logged actions.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+ 
+ <ice:dataTable id="logTable" border="1"
+				value="#{trialHandler.logEntries}" var="entry" resizable="true"
+				style="width: 500px;">
+				<ice:column id="column1">
+					<f:facet name="header">
+						<ice:outputText value="$time$" id="timeH"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{entry.timeAsString}"></ice:outputText>
+				</ice:column>
+				<ice:column id="column2">
+				<f:facet name="header">
+						<ice:outputText value="$user$" id="userH"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{entry.username}"></ice:outputText>
+				</ice:column>
+				<ice:column id="column3">
+					<f:facet name="header">
+						<ice:outputText value="$action$" id="actionH"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{entry.action}"></ice:outputText>
+				</ice:column>
+				<ice:column id="column4">
+					<f:facet name="header">
+						<ice:outputText value="$class$" id="classH"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{entry.clazz.simpleName}"></ice:outputText>
+				</ice:column>
+				<ice:column id="column5">
+					<f:facet name="header">
+						<ice:outputText value="identifier" id="identifierH"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{entry.identifier}"></ice:outputText>
+				</ice:column>
+				<ice:column id="column6">
+					<f:facet name="header">
+						<ice:outputText value="value" id="valueH"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{entry.uiName}"></ice:outputText>
+				</ice:column>
+			</ice:dataTable>
