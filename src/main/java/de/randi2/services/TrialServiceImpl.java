@@ -98,6 +98,25 @@ public class TrialServiceImpl implements TrialService {
 		} catch (MailErrorException e1) {
 			e1.printStackTrace();
 		}
+		
+	
+		
+		 newUserMessageFields = new HashMap<String, Object>();
+		newUserMessageFields.put("user", 	trial.getSponsorInvestigator().getLogin());
+		newUserMessageFields.put("trial", trial);
+		newUserMessageFields.put("trialSubject", subject);
+		newUserMessageFields.put("url", "http://randi2.com/CHANGEME");
+		// Map of variables for the subject
+	
+
+		language = trial.getSponsorInvestigator().getLogin().getPrefLocale();
+
+		try {
+			mailService.sendMail(trial.getSponsorInvestigator().getEmail(), "Randomize", language,
+					newUserMessageFields, newUserSubjectFields);
+		} catch (MailErrorException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 }

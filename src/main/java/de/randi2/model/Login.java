@@ -20,8 +20,10 @@ import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
+import org.springframework.security.acls.Permission;
 import org.springframework.security.userdetails.UserDetails;
 
+import de.randi2.model.security.PermissionHibernate;
 import de.randi2.utility.validations.EMailRANDI2;
 import de.randi2.utility.validations.Password;
 
@@ -219,6 +221,78 @@ public class Login extends AbstractDomainObject implements UserDetails {
 		return this.roles.contains(role);
 	}
 
+	
+	/**
+	 * This method checks, if the Login has the specified permission 
+	 * 
+	 * @param role
+	 * @return
+	 */
+	public boolean hasPermission(Class<? extends AbstractDomainObject> clazz, Permission permission) {
+		//TODO Check permission delete
+		boolean hasPermission = false;
+		
+		if(clazz.equals(Login.class) || clazz.equals(Person.class)){
+			
+			for(Role r: roles){
+				if(permission.getMask() == PermissionHibernate.CREATE.getMask()){
+					hasPermission = hasPermission || r.isCreateUser();
+				}else if(permission.getMask() == PermissionHibernate.WRITE.getMask()){
+					hasPermission = hasPermission || r.isWriteOtherUser();
+				}else if(permission.getMask() == PermissionHibernate.READ.getMask()){
+					hasPermission = hasPermission || r.isReadOtherUser();
+				}else if(permission.getMask() == PermissionHibernate.ADMINISTRATION.getMask()){
+					hasPermission = hasPermission || r.isAdminOtherUser();
+				}
+					
+			}
+		}else if(clazz.equals(TrialSite.class)){
+			
+			for(Role r: roles){
+				if(permission.getMask() == PermissionHibernate.CREATE.getMask()){
+					hasPermission = hasPermission || r.isCreateTrialSite();
+				}else if(permission.getMask() == PermissionHibernate.WRITE.getMask()){
+					hasPermission = hasPermission || r.isWriteTrialSite();
+				}else if(permission.getMask() == PermissionHibernate.READ.getMask()){
+					hasPermission = hasPermission || r.isReadTrialSite();
+				}else if(permission.getMask() == PermissionHibernate.ADMINISTRATION.getMask()){
+					hasPermission = hasPermission || r.isAdminTrialSite();
+				}
+					
+			}
+		}else if(clazz.equals(Trial.class)){
+			
+			for(Role r: roles){
+				if(permission.getMask() == PermissionHibernate.CREATE.getMask()){
+					hasPermission = hasPermission || r.isCreateTrial();
+				}else if(permission.getMask() == PermissionHibernate.WRITE.getMask()){
+					hasPermission = hasPermission || r.isWriteTrial();
+				}else if(permission.getMask() == PermissionHibernate.READ.getMask()){
+					hasPermission = hasPermission || r.isReadTrial();
+				}else if(permission.getMask() == PermissionHibernate.ADMINISTRATION.getMask()){
+					hasPermission = hasPermission || r.isAdminTrial();
+				}
+					
+			}
+		}else  if(clazz.equals(TrialSubject.class)){
+			
+			for(Role r: roles){
+				if(permission.getMask() == PermissionHibernate.CREATE.getMask()){
+					hasPermission = hasPermission || r.isCreateTrialSubject();
+				}else if(permission.getMask() == PermissionHibernate.WRITE.getMask()){
+					hasPermission = hasPermission || r.isWriteTrialSubject();
+				}else if(permission.getMask() == PermissionHibernate.READ.getMask()){
+					hasPermission = hasPermission || r.isReadTrialSubject();
+				}else if(permission.getMask() == PermissionHibernate.ADMINISTRATION.getMask()){
+					hasPermission = hasPermission || r.isAdminTrialSubject();
+				}	
+			}
+		}
+		
+		
+		return hasPermission;
+	}
+	
 	/*
 	 * @Override public String toString() { return this.getUsername() + " (" +
 	 * this.getPerson().toString() + ")"; }
