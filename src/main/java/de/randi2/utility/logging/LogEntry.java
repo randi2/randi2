@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.Length;
@@ -36,6 +37,9 @@ public class LogEntry {
 	
 	@Lob
 	private String uiName;
+	
+	@Transient
+	private SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
 
 	public GregorianCalendar getTime() {
 		return time;
@@ -102,7 +106,7 @@ public class LogEntry {
 	}
 
 	public String getTimeAsString(){
-		return (new SimpleDateFormat()).format(time.getTime());
+		return formater.format(time.getTime());
 	}
 	
 	
@@ -110,9 +114,9 @@ public class LogEntry {
 	@Override
 	public String toString() {
 		if (clazz != null)
-			return (new SimpleDateFormat()).format(time.getTime()) + " " + username + ": " + action
+			return formater.format(time.getTime()) + " " + username + ": " + action
 					+ " object type: " + clazz.getSimpleName() + "(id= "+ identifier+") " + value;
 		else
-			return (new SimpleDateFormat()).format(time.getTime()) + " " + username + ": " + action;
+			return formater.format(time.getTime()) + " " + username + ": " + action;
 	}
 }
