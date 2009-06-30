@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.TrialSite;
 
 public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> implements TrialSiteDao {

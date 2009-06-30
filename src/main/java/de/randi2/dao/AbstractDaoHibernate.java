@@ -53,7 +53,7 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	@Secured({"ROLE_USER","ROLE_ANONYMOUS","AFTER_ACL_COLLECTION_READ"})
 	public List<E> getAll(){
-		return sessionFactory.getCurrentSession().createCriteria(getModelClass()).list();
+		return sessionFactory.getCurrentSession().createQuery("from " + getModelClass().getSimpleName()).list();
 	}
 	
 	@Override

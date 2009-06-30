@@ -1,5 +1,11 @@
 package de.randi2.services;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -16,9 +22,7 @@ import de.randi2.model.Person;
 import de.randi2.model.Role;
 import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.test.utility.TestStringUtil;
-
-import static junit.framework.Assert.*;
-//@Transactional(propagation=Propagation.REQUIRED)
+//@Transactional
 //import static junit.framework.Assert.*;
 public class UserServiceTest extends AbstractServiceTest{
 
@@ -171,7 +175,7 @@ public class UserServiceTest extends AbstractServiceTest{
 		assertEquals(login.getUsername(), login2.getUsername());
 		assertFalse(login2.getUsername().equals(oldName));
 	}
-	
+
 	
 	@Test
 	public void testUpdateRole(){
@@ -195,7 +199,7 @@ public class UserServiceTest extends AbstractServiceTest{
 			loginDao.create(login);
 		}
 		List<Login> list = userService.getAll();
-		assertTrue(userService.getAll().size()>=10);
+		assertTrue(list.size()>=10);
 	}
 	
 	
@@ -211,32 +215,6 @@ public class UserServiceTest extends AbstractServiceTest{
 		assertTrue(login3 != null);
 	}
 	
-	
-	
-	private void authenticatAsInvestigator(){
-		Login newUser = new Login();
-		newUser.setPerson(new Person());
-		newUser.addRole(Role.ROLE_INVESTIGATOR);
-		userService.create(newUser);
-		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"investigatorUser", newUser, newUser.getAuthorities());
-		// Perform authentication
-		SecurityContextHolder.getContext().setAuthentication(authToken);
-		SecurityContextHolder.getContext().getAuthentication()
-				.setAuthenticated(true);
-	}
-	
-	private void authenticatAsAnonymous(){
-		Login newUser = new Login();
-		newUser.setPerson(new Person());
-		newUser.addRole(Role.ROLE_ANONYMOUS);
-		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"anonymousUser", newUser, newUser.getAuthorities());
-		// Perform authentication
-		SecurityContextHolder.getContext().setAuthentication(authToken);
-		SecurityContextHolder.getContext().getAuthentication()
-				.setAuthenticated(true);
-	}
 	
 	
 	
