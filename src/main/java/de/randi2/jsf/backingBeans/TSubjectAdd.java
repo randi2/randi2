@@ -29,6 +29,7 @@ public class TSubjectAdd {
 	
 	private TrialService trialService;
 	
+	
 	public TrialService getTrialService() {
 		return trialService;
 	}
@@ -42,7 +43,7 @@ public class TSubjectAdd {
 	public Trial getCurrentTrial() {
 		return currentTrial;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public void setCurrentTrial(Trial currentTrial) {
 		this.currentTrial = currentTrial;
@@ -55,6 +56,15 @@ public class TSubjectAdd {
 			properties.add(cWrapper);
 		}
 	}
+	
+	private TrialSubject trialSubject;
+	
+	public TrialSubject getTrialSubject(){
+		if(trialSubject==null)
+			trialSubject= new TrialSubject();
+		return trialSubject;
+	}
+	
 
 	private ArrayList<CriterionWrapper<? extends Serializable>> properties = null;
 	
@@ -90,15 +100,14 @@ public class TSubjectAdd {
 	
 	@SuppressWarnings("unchecked")
 	public String addSubject() {
-		TrialSubject newSubject = new TrialSubject();
 		HashSet<SubjectProperty> tempSet = new HashSet<SubjectProperty>();
 		for(CriterionWrapper<? extends Serializable> cw : properties){
 			tempSet.add((SubjectProperty) cw.getSubjectProperty());
 		}
-		newSubject.setProperties(tempSet);
-		currentTrial = trialService.randomize(currentTrial, newSubject);
-		subjectID = newSubject.getIdentification();
-		subjectArm = newSubject.getArm().getUIName();
+		getTrialSubject().setProperties(tempSet);
+		currentTrial = trialService.randomize(currentTrial, getTrialSubject());
+		subjectID = getTrialSubject().getIdentification();
+		subjectArm = getTrialSubject().getArm().getUIName();
 		popups.showSubjectAddedPopup();
 		return Randi2.SUCCESS;
 	}

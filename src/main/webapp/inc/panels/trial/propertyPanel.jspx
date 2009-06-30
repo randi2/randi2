@@ -19,11 +19,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component"
 	style="float:left; padding-left: 2px; padding-top: 5px;">
-	<b class="b1"></b>
-	<b class="b2"></b>
-	<b class="b3"></b>
-	<b class="b4"></b>
-	<ice:panelGroup styleClass="contentb">
+	<ice:panelGroup styleClass="icePnlClpsbl">
 		<ice:panelGrid columns="2">
 			<ice:outputLabel value="#{criterion.wrappedCriterion.name}" />
 			<!-- ice:panelGroup style="margin-left: 30px;">
@@ -92,8 +88,4 @@
 			</ice:panelGroup>
 		</ice:panelGrid>
 	</ice:panelGroup>
-	<b class="b4"></b>
-	<b class="b3"></b>
-	<b class="b2"></b>
-	<b class="b1"></b>
 </ice:panelGroup>
