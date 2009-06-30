@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 import javax.faces.component.UIComponent;
@@ -44,6 +45,8 @@ import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
 import de.randi2.services.TrialSiteService;
 import de.randi2.services.UserService;
+import de.randi2.utility.logging.LogEntry;
+import de.randi2.utility.logging.LogService;
 
 /**
  * <p>
@@ -56,9 +59,16 @@ import de.randi2.services.UserService;
 public class LoginHandler extends AbstractHandler<Login> {
 		
 	private UserService userService;
+	
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
+	}
+	
+	private LogService logService;
+	
+	public void setLogService(LogService logService) {
+		this.logService = logService;
 	}
 
 	private TrialSiteService siteService;
@@ -423,6 +433,10 @@ public class LoginHandler extends AbstractHandler<Login> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public List<LogEntry> getLogEntries(){
+		return logService.getLogEntries(showedObject.getUsername());
 	}
 
 	@Override

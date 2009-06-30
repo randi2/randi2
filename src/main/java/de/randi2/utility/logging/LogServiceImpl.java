@@ -25,6 +25,7 @@ public class LogServiceImpl implements LogService {
 		entry.setClazz(value.getClass());
 		entry.setIdentifier(value.getId());
 		entry.setValue(value.toString());
+		entry.setUiName(value.getUIName());
 		sessionFactory.getCurrentSession().persist(entry);
 	}
 
@@ -40,37 +41,37 @@ public class LogServiceImpl implements LogService {
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
-	public List<String> getLogEntries() {
-		return convert(sessionFactory.getCurrentSession().createQuery(
-				"from LogEntry").list());
+	public List<LogEntry> getLogEntries() {
+		return sessionFactory.getCurrentSession().createQuery(
+				"from LogEntry").list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
-	public List<String> getLogEntries(
+	public List<LogEntry> getLogEntries(
 			Class<? extends AbstractDomainObject> clazz, long id) {
 		List<LogEntry> entries = sessionFactory
 				.getCurrentSession()
 				.createQuery(
 						"from LogEntry as entry where entry.clazz = ? and entry.identifier = ?")
 				.setParameter(0, clazz).setParameter(1, id).list();
-		return convert(entries);
+		return entries;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
-	public List<String> getLogEntries(String username) {
+	public List<LogEntry> getLogEntries(String username) {
 		List<LogEntry> entries = sessionFactory
 		.getCurrentSession()
 		.createQuery(
 				"from LogEntry as entry where entry.username = ?")
 		.setParameter(0, username).list();
-		return convert(entries);
+		return entries;
 	}
 
-	private List<String> convert(List<LogEntry> entries) {
+	public static List<String> convert(List<LogEntry> entries) {
 		List<String> strings = new ArrayList<String>();
 		for (LogEntry entry : entries) {
 			strings.add(entry.toString());

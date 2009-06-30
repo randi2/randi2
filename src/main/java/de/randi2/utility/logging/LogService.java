@@ -11,9 +11,9 @@ public interface LogService {
 	
 	public void logGet(String action, String username);
 	
-	public List<String> getLogEntries();
+	public List<LogEntry> getLogEntries();
 	
-	public List<String> getLogEntries(String username);
+	public List<LogEntry> getLogEntries(String username);
 	
-	public List<String> getLogEntries(Class<? extends AbstractDomainObject> clazz, long id);
+	public List<LogEntry> getLogEntries(Class<? extends AbstractDomainObject> clazz, long id);
 }

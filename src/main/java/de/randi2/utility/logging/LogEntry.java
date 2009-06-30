@@ -1,5 +1,6 @@
 package de.randi2.utility.logging;
 
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 import javax.persistence.Entity;
@@ -32,6 +33,9 @@ public class LogEntry {
 
 	@Lob
 	private String value;
+	
+	@Lob
+	private String uiName;
 
 	public GregorianCalendar getTime() {
 		return time;
@@ -88,13 +92,27 @@ public class LogEntry {
 	public void setIdentifier(long identifier) {
 		this.identifier = identifier;
 	}
+	
+	public String getUiName() {
+		return uiName;
+	}
 
+	public void setUiName(String uiName) {
+		this.uiName = uiName;
+	}
+
+	public String getTimeAsString(){
+		return (new SimpleDateFormat()).format(time.getTime());
+	}
+	
+	
+	
 	@Override
 	public String toString() {
 		if (clazz != null)
-			return time.toString() + " " + username + ": " + action
+			return (new SimpleDateFormat()).format(time.getTime()) + " " + username + ": " + action
 					+ " object type: " + clazz.getSimpleName() + "(id= "+ identifier+") " + value;
 		else
-			return time.toString() + " " + username + ": " + action;
+			return (new SimpleDateFormat()).format(time.getTime()) + " " + username + ": " + action;
 	}
 }
