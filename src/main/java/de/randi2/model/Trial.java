@@ -215,4 +215,9 @@ public class Trial extends AbstractDomainObject {
 		return new ToStringBuilder(this).
 				append(getId()).append(name).append(treatmentArms).toString();
 	}
+	
+	@Override
+	public String getUIName() {
+		return this.getAbbreviation();
+	}
 }

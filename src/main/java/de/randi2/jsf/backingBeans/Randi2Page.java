@@ -36,7 +36,7 @@ import de.randi2.model.TrialSite;
  * application.
  * </p>
  * 
- * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
+ * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  * 
  */
 public class Randi2Page {
@@ -56,6 +56,19 @@ public class Randi2Page {
 	 * The current logged in user.
 	 */
 	private Login currentUser = null;
+	
+	/**
+	 * The current selected trial.
+	 */
+	private Trial currentTrial = null;
+	
+	public Trial getCurrentTrial() {
+		return currentTrial;
+	}
+	
+	public void setCurrentTrial(Trial currentTrial) {
+		this.currentTrial = currentTrial;
+	}
 
 	/**
 	 * Time Zone for all calendar widgets.
@@ -136,6 +149,7 @@ public class Randi2Page {
 		Trial tTrial = (Trial) (((UIComponent) event.getComponent()
 				.getChildren().get(0)).getValueExpression("value")
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
+		setCurrentTrial(tTrial);
 		trialHandler.setShowedObject(tTrial);
 		activePanel = "trialShowPanel";
 	}
@@ -146,6 +160,7 @@ public class Randi2Page {
 	 * @param _trial
 	 */
 	public void showTrial(Trial _trial){
+		setCurrentTrial(_trial);
 		trialHandler.setShowedObject(_trial);
 		activePanel = "trialShowPanel";
 	}
@@ -182,6 +197,13 @@ public class Randi2Page {
 	public void createTrial(ActionEvent event) {
 		trialHandler.setShowedObject(null);
 		activePanel = "trialCreatePanel";
+	}
+	
+	public void showCurrentTrial(ActionEvent event){
+		if(currentTrial!=null){
+			trialHandler.setShowedObject(currentTrial);
+			activePanel = "trialShowPanel";
+		}
 	}
 
 	public void addTrialSubject(ActionEvent event) {

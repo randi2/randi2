@@ -14,11 +14,23 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-<ice:form xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ice="http://www.icesoft.com/icefaces/component">
+<ice:form xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelGrid columns="2">
+		<ice:panelGroup styleClass="icePnlClpsbl" style="margin-right: 75px;">
+			<ice:panelGroup style="width: 200px; padding: 5px;" styleClass="icePnlClpsblCnt">
+				<ice:outputLabel value="#{labels['pages.header.sTrial']}" rendered="#{randi2Page.currentTrial!=null}"/>
+				<ice:outputLabel value="#{labels['pages.header.noTrial']}" rendered="#{randi2Page.currentTrial==null}" style="color: #FF4500"/>
+				<ice:outputText value="#{randi2Page.currentTrial.UIName}" />
+			</ice:panelGroup>
+		</ice:panelGroup>
 		<ice:panelGrid columns="4">
 			<ice:graphicImage value="/img/icons/user32.png"></ice:graphicImage>
-			<ice:outputLabel value="#{loginHandler.loggedInUser.person.firstname} #{loginHandler.loggedInUser.person.surname}"></ice:outputLabel>
+			<ice:outputLabel
+				value="#{loginHandler.loggedInUser.person.firstname} #{loginHandler.loggedInUser.person.surname}"></ice:outputLabel>
 			<ice:graphicImage value="/img/separetor.png"></ice:graphicImage>
 			<ice:outputConnectionStatus />
 		</ice:panelGrid>
+	</ice:panelGrid>
 </ice:form>
