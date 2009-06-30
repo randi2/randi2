@@ -49,7 +49,9 @@ import de.randi2.model.TrialSite;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.enumerations.TrialStatus;
+import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
+import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
@@ -87,6 +89,17 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	private Popups popups;
+	
+	private AbstractRandomizationConfig randomizationConfig;
+	
+	public AbstractRandomizationConfig getRandomizationConfig() {
+		return randomizationConfig;
+	}
+	
+	public void setRandomizationConfig(
+			AbstractRandomizationConfig randomizationConfig) {
+		this.randomizationConfig = randomizationConfig;
+	}
 
 	@SuppressWarnings("unchecked")
 	public TrialHandler() {
@@ -272,6 +285,8 @@ public class TrialHandler extends AbstractHandler<Trial> {
 				Step5.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
 			showedObject
 					.setRandomizationConfiguration(new BiasedCoinRandomizationConfig());
+		} else if (temp2.getSelectedAlgorithmPanelId().equals(Step5.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())){
+			showedObject.setRandomizationConfiguration(randomizationConfig);
 		}
 		/* End of the Algorithm Configuration */
 

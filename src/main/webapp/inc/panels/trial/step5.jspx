@@ -50,5 +50,11 @@
 					file="./inc/panels/randomization/biasedCoinR.jspx" />
 			</f:subview>
 		</ice:panelGroup>
+		<ice:panelGroup id="blockRandomization">
+			<f:subview id="blR">
+				<jsp:directive.include
+					file="./inc/panels/randomization/blockR.jspx" />
+			</f:subview>
+		</ice:panelGroup>
 	</ice:panelStack>
 </ice:panelGroup>
