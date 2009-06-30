@@ -61,6 +61,9 @@ public class TrialSubject extends AbstractDomainObject{
 	
 	
 
+	@NotNull
+	@NotEmpty
+	@Length(max=MAX_VARCHAR_LENGTH)
 	public String getRandNumber() {
 		return randNumber;
 	}

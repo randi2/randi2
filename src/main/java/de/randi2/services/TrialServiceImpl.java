@@ -45,6 +45,7 @@ public class TrialServiceImpl implements TrialService {
 		subject.setArm(assignedArm);
 		//TODO Internal Subject's Identification
 		subject.setRandNumber(assignedArm.getName()+"_"+assignedArm.getSubjects().size());
+		if(subject.getIdentification() == null) subject.setIdentification(subject.getRandNumber());
 		sessionFactory.getCurrentSession().persist(subject);
 		assignedArm.addSubject(subject);
 		sendRandomisationMail(trial, ((Login)SecurityContextHolder.getContext().getAuthentication().getPrincipal()), subject);
