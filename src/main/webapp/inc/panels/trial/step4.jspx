@@ -16,18 +16,26 @@
  -->
 <ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ice="http://www.icesoft.com/icefaces/component" columns="2">
+	xmlns:ice="http://www.icesoft.com/icefaces/component" columns="3">
 	<ice:graphicImage value="/img/icons/properties48.png"></ice:graphicImage>
 	<ice:outputLabel
 		value="#{labels['pages.trialEditPanel.step4message'] }"></ice:outputLabel>
+	<ice:panelGroup style="margin-left: 40px;" styleClass="icePnlClpsbl">
+		<ice:panelGroup style="margin-left: 10px;">
+			<ice:outputText escape="false"
+				value="#{labels['pages.trialEditPanel.step4.idsQuestion'] }" />
+			<ice:selectBooleanCheckbox
+				value="#{trialHandler.showedObject.generateIds}" style="margin-left: 10px;"/>
+		</ice:panelGroup>
+	</ice:panelGroup>
 </ice:panelGrid>
 <ice:panelGrid columns="4">
 	<ice:outputLabel value="#{labels['pages.trialEditPanel.propLabel']}" />
 	<ice:selectInputText id="trialSite"
-				valueChangeListener="#{step4.criteriaAC.updateObjectList}" rows="10"
-				width="200">
-				<f:selectItems value="#{step4.criteriaAC.objectList}" />
-			</ice:selectInputText>
+		valueChangeListener="#{step4.criteriaAC.updateObjectList}" rows="10"
+		width="200">
+		<f:selectItems value="#{step4.criteriaAC.objectList}" />
+	</ice:selectInputText>
 	<ice:commandButton image="/img/icons/add16.png"
 		actionListener="#{step4.addCriterion}" style="margin-right:5px;" />
 	<ice:commandButton image="/img/icons/remove16.png"
@@ -35,8 +43,8 @@
 		actionListener="#{step4.removeCriterion}" />
 </ice:panelGrid>
 <ice:panelGroup styleClass="clearer" />
-<ice:panelSeries value="#{step4.criteria}"
-	var="criterion" style="padding:10px;">
+<ice:panelSeries value="#{step4.criteria}" var="criterion"
+	style="padding:10px;">
 	<f:subview id="criteriaInclude">
 		<jsp:directive.include file="./inc/panels/trial/criterionPanel.jspx" />
 	</f:subview>

@@ -44,7 +44,7 @@ public class Trial extends AbstractDomainObject {
 	private String name = "";
 	@Length(max = MAX_VARCHAR_LENGTH)
 	private String abbreviation = "";
-	
+
 	@Lob
 	private String description = "";
 	private GregorianCalendar startDate = null;
@@ -63,22 +63,38 @@ public class Trial extends AbstractDomainObject {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trial")
 	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> inclusionCriteria = new ArrayList<AbstractCriterion<? extends Serializable,? extends AbstractConstraint<? extends Serializable>>>();
+	private List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> inclusionCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
 	@OneToOne(cascade = CascadeType.ALL)
 	private AbstractRandomizationConfig randomConf;
+
+	/**
+	 * If true then the trial subject ids will be generated automatically by the
+	 * system.
+	 */
+	private boolean generateIds = true;
+
+	public boolean isGenerateIds() {
+		return generateIds;
+	}
+
+	public void setGenerateIds(boolean generateIds) {
+		this.generateIds = generateIds;
+	}
 
 	public List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteria() {
 		return inclusionCriteria;
 	}
 
-	public void setCriteria(List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> inclusionCriteria) {
+	public void setCriteria(
+			List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> inclusionCriteria) {
 		this.inclusionCriteria = inclusionCriteria;
 	}
 
-	public void addCriterion(AbstractCriterion<? extends Serializable,? extends AbstractConstraint<? extends Serializable>> criterion){
+	public void addCriterion(
+			AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> criterion) {
 		this.inclusionCriteria.add(criterion);
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -91,13 +107,13 @@ public class Trial extends AbstractDomainObject {
 
 		this.name = _name;
 	}
-	
+
 	public String getAbbreviation() {
 		return abbreviation;
 	}
-	
+
 	public void setAbbreviation(String abbreviation) {
-		if(abbreviation == null)
+		if (abbreviation == null)
 			abbreviation = "";
 		this.abbreviation = abbreviation;
 	}
@@ -212,10 +228,10 @@ public class Trial extends AbstractDomainObject {
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).
-				append(getId()).append(name).append(treatmentArms).toString();
+		return new ToStringBuilder(this).append(getId()).append(name).append(
+				treatmentArms).toString();
 	}
-	
+
 	@Override
 	public String getUIName() {
 		return this.getAbbreviation();
