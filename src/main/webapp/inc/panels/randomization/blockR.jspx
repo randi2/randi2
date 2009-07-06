@@ -20,16 +20,47 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<f:facet name="header">
-		<ice:outputLabel value="#{algorithms['de.randi2.model.randomization.BlockRandomizationConfig.name']}" />
+		<ice:outputLabel
+			value="#{algorithms['de.randi2.model.randomization.BlockRandomizationConfig.name']}" />
 	</f:facet>
-	<ice:outputLabel value="#{algorithms['de.randi2.model.randomization.BlockRandomizationConfig.info']}"></ice:outputLabel>
-	
-		<ice:outputLabel value="$Block size$"></ice:outputLabel>
-		<ice:inputText id="blocksize" size="31"
+	<ice:outputLabel
+		value="#{algorithms['de.randi2.model.randomization.BlockRandomizationConfig.info']}"></ice:outputLabel>
+
+	<ice:panelCollapsible id="configPanel" expanded="true"
+		toggleOnClick="false">
+		<f:facet name="header">
+			<ice:outputLabel value="$Configuration$"></ice:outputLabel>
+		</f:facet>
+		<ice:panelGrid columns="2" styleClass="verticalAlignTop">
+			<ice:outputLabel value="$Block randomization type$"></ice:outputLabel>
+			<ice:selectOneMenu id="blockSizeType"
+				value="#{step5.selectedBlockRandTypes}" partialSubmit="true">
+				<f:selectItems value="#{step5.blockRandTypes}" />
+			</ice:selectOneMenu>
+
+	<ice:outputLabel  rendered="#{step5.renderVariable}" value="$Multiple/Absolute type$"></ice:outputLabel>
+			<ice:selectOneMenu  rendered="#{step5.renderVariable}" id="variableBlockType"
+				value="#{trialHandler.randomizationConfig.type}" partialSubmit="true"
+				converter="de.randi2.jsf.converters.BLOCKRANDOMIZATION_TYPE_CONVERTER">
+				<f:selectItems value="#{enums.blockSizeTypeItems}" />
+			</ice:selectOneMenu>
+
+			<ice:outputLabel value="$Block size$"></ice:outputLabel>
+			<ice:inputText id="blocksize" size="31"
 				value="#{trialHandler.randomizationConfig.minimum}"
 				partialSubmit="true">
 			</ice:inputText>
+
 			
-			
+				<ice:outputLabel  rendered="#{step5.renderVariable}" value="$max Block size$"></ice:outputLabel>
+				<ice:inputText  rendered="#{step5.renderVariable}" id="maxBlocksize" size="31"
+					value="#{trialHandler.randomizationConfig.maximum}"
+					partialSubmit="true">
+				</ice:inputText>
+		
+
+		</ice:panelGrid>
+
+	</ice:panelCollapsible>
 
 </ice:panelCollapsible>

@@ -50,6 +50,10 @@
 		<converter-id>de.randi2.jsf.converters.TRIALSTATE_CONVERTER</converter-id>
 		<converter-class>de.randi2.jsf.converters.TrialStateConverter</converter-class>
 	</converter>
+	<converter>
+		<converter-id>de.randi2.jsf.converters.BLOCKRANDOMIZATION_TYPE_CONVERTER</converter-id>
+		<converter-class>de.randi2.jsf.converters.BlockRandomizationTypeConverter</converter-class>
+	</converter>
 
 	<managed-bean>
 		<description>Bean for various RANDI2 popups</description>
