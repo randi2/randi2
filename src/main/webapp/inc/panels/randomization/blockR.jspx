@@ -48,7 +48,7 @@
 			<ice:outputLabel value="$Block size$"></ice:outputLabel>
 			<ice:inputText id="blocksize" size="31"
 				value="#{trialHandler.randomizationConfig.minimum}"
-				partialSubmit="true">
+				partialSubmit="true" onchange="#{step5.constantBlockSizeAction}">
 			</ice:inputText>
 
 			
