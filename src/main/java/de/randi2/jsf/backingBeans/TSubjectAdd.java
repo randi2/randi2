@@ -100,7 +100,7 @@ public class TSubjectAdd {
 	
 	@SuppressWarnings("unchecked")
 	public String addSubject() {
-		HashSet<SubjectProperty> tempSet = new HashSet<SubjectProperty>();
+		HashSet<SubjectProperty<?>> tempSet = new HashSet<SubjectProperty<?>>();
 		for(CriterionWrapper<? extends Serializable> cw : properties){
 			tempSet.add((SubjectProperty) cw.getSubjectProperty());
 		}

@@ -48,9 +48,10 @@ public class LogAspects {
 	
 	@Around("execution(public * de.randi2.services.*.randomize*(..))")
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void  logRandomize(ProceedingJoinPoint pjp) throws Throwable{
-		pjp.proceed();	
-		logService.logRandomize(ActionType.RANDOMIZE,  SecurityContextHolder.getContext().getAuthentication().getName(), ((Trial)pjp.getArgs()[0]), ((TrialSubject)pjp.getArgs()[1]));
+	public Object  logRandomize(ProceedingJoinPoint pjp) throws Throwable{
+		Object o = pjp.proceed();	
+		logService.logRandomize(ActionType.RANDOMIZE,  SecurityContextHolder.getContext().getAuthentication().getName(), Trial.class.cast(o), ((TrialSubject)pjp.getArgs()[1]));
+		return o;
 	}
 	
 	

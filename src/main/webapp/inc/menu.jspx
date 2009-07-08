@@ -32,22 +32,22 @@
 						actionListener="#{loginHandler.setDEGerman}" immediate="true" />
 				</ice:menuItem>
 			</ice:menuItem>
-			<ice:menuItem value="#{labels['pages.menu.logout']}"
+			<ice:menuItem id="logout" value="#{labels['pages.menu.logout']}"
 				action="#{loginHandler.logoutUser}" />
 			<ice:menuItemSeparator/>
 			<ice:menuItem value="#{labels['pages.menu.create']}"
 				actionListener="#{randi2Page.createLogin}" />
 		</ice:menuItem>
-		<ice:menuItem value="#{labels['pages.menu.trial']}">
-			<ice:menuItem value="#{labels['pages.menu.currentTrial']}" rendered="#{randi2Page.currentTrial!=null}" actionListener="#{randi2Page.showCurrentTrial}"/>
-			<ice:menuItem value="#{labels['pages.menu.myTrials']}"
+		<ice:menuItem id="trialMenu" value="#{labels['pages.menu.trial']}">
+			<ice:menuItem id="currentTrial" value="#{labels['pages.menu.currentTrial']}" rendered="#{randi2Page.currentTrial!=null}" actionListener="#{randi2Page.showCurrentTrial}"/>
+			<ice:menuItem id="myTrials" value="#{labels['pages.menu.myTrials']}"
 				actionListener="#{randi2Page.viewTrials}" />
 			<ice:menuItemSeparator/>
-			<ice:menuItem value="#{labels['pages.menu.create']}"
+			<ice:menuItem id="create" value="#{labels['pages.menu.create']}"
 				actionListener="#{randi2Page.createTrial}" />
 		</ice:menuItem>
-		<ice:menuItem value="#{labels['pages.menu.trialSubject']}" rendered="#{trialHandler.addingSubjectsEnabled}">
-			<ice:menuItem value="#{labels['pages.menu.add']}" actionListener="#{randi2Page.addTrialSubject}"/>
+		<ice:menuItem id="tSubjectMenu" value="#{labels['pages.menu.trialSubject']}" rendered="#{trialHandler.addingSubjectsEnabled}">
+			<ice:menuItem id="add" value="#{labels['pages.menu.add']}" actionListener="#{randi2Page.addTrialSubject}"/>
 		</ice:menuItem>
 		<ice:menuItem value="#{labels['pages.menu.trialSite']}">
 			<ice:menuItem value="#{labels['pages.menu.myTrialSite']}"

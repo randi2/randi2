@@ -59,7 +59,7 @@
 							</ice:panelGroup>
 						</f:facet>
 						<f:facet name="second">
-							<form
+							<form name="loginForm"
 								action="#{facesContext.externalContext.requestContextPath}#{randi2.secureLoginPath}"
 								method="post">
 							<table>
@@ -75,7 +75,7 @@
 							<table>
 								<tr>
 									<td>
-									<button type="submit"><ice:outputLabel
+									<button name="submitButton" type="submit"><ice:outputLabel
 										value="#{labels['buttons.login']}" /></button>
 									</td>
 									<td><ice:messages layout="table" errorClass="loginError" /></td>
