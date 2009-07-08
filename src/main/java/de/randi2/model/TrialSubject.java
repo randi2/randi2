@@ -58,8 +58,6 @@ public class TrialSubject extends AbstractDomainObject{
 	public void setProperties(Set<SubjectProperty> properties) {
 		this.properties = properties;
 	}
-	
-	
 
 	@NotNull
 	@NotEmpty
