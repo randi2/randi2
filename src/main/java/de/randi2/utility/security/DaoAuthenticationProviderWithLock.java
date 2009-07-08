@@ -13,6 +13,7 @@ import org.springframework.security.userdetails.UserDetails;
 
 import de.randi2.model.Login;
 import de.randi2.utility.logging.LogService;
+import de.randi2.utility.logging.LogEntry.ActionType;
 
 public class DaoAuthenticationProviderWithLock extends
 		DaoAuthenticationProvider {
@@ -29,7 +30,7 @@ public class DaoAuthenticationProviderWithLock extends
 		try{
 		super.additionalAuthenticationChecks(userDetails, authentication);
 		logger.info("user " + userDetails.getUsername() + "loged in");
-		logService.logChange("login", userDetails.getUsername(), ((Login)userDetails));
+		logService.logChange(ActionType.LOGIN, userDetails.getUsername(), ((Login)userDetails));
 		}catch (BadCredentialsException e) {
 			Login user = (Login) userDetails;
 			logger.warn("Wrong password: user=" + user.getUsername());

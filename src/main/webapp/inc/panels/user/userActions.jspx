@@ -14,44 +14,47 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
- 
- <ice:dataTable id="logTable" border="1"
-				value="#{loginHandler.logEntries}" var="entry" resizable="true"
-				style="width: 500px;">
-				<ice:column id="column1">
-					<f:facet name="header">
-						<ice:outputText value="$time$" id="timeH"></ice:outputText>
-					</f:facet>
-					<ice:outputText value="#{entry.timeAsString}"></ice:outputText>
-				</ice:column>
-				<ice:column id="column2">
-				<f:facet name="header">
-						<ice:outputText value="$user$" id="userH"></ice:outputText>
-					</f:facet>
-					<ice:outputText value="#{entry.username}"></ice:outputText>
-				</ice:column>
-				<ice:column id="column3">
-					<f:facet name="header">
-						<ice:outputText value="$action$" id="actionH"></ice:outputText>
-					</f:facet>
-					<ice:outputText value="#{entry.action}"></ice:outputText>
-				</ice:column>
-				<ice:column id="column4">
-					<f:facet name="header">
-						<ice:outputText value="$class$" id="classH"></ice:outputText>
-					</f:facet>
-					<ice:outputText value="#{entry.clazz.simpleName}"></ice:outputText>
-				</ice:column>
-				<ice:column id="column5">
-					<f:facet name="header">
-						<ice:outputText value="identifier" id="identifierH"></ice:outputText>
-					</f:facet>
-					<ice:outputText value="#{entry.identifier}"></ice:outputText>
-				</ice:column>
-				<ice:column id="column6">
-					<f:facet name="header">
-						<ice:outputText value="value" id="valueH"></ice:outputText>
-					</f:facet>
-					<ice:outputText value="#{entry.uiName}"></ice:outputText>
-				</ice:column>
-			</ice:dataTable>
+<ice:dataTable xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" id="logTable" border="1"
+	value="#{loginHandler.logEntries}" var="entry" resizable="true"
+	style="width: 500px;">
+	<ice:column id="column1">
+		<f:facet name="header">
+			<ice:outputText
+				value="#{labels['pages.userEditPanel.actionsTab.time']}" id="timeH" />
+		</f:facet>
+		<ice:outputText value="#{entry.timeAsString}" />
+	</ice:column>
+	<ice:column id="column2">
+		<f:facet name="header">
+			<ice:outputText
+				value="#{labels['pages.userEditPanel.actionsTab.user']}" id="userH" />
+		</f:facet>
+		<ice:outputText value="#{entry.username}" />
+	</ice:column>
+	<ice:column id="column3">
+		<f:facet name="header">
+			<ice:outputText
+				value="#{labels['pages.userEditPanel.actionsTab.action']}"
+				id="actionH" />
+		</f:facet>
+		<ice:outputText escape="false" value="#{entry.uiAction}" />
+	</ice:column>
+	<ice:column id="column4">
+		<f:facet name="header">
+			<ice:outputText
+				value="#{labels['pages.userEditPanel.actionsTab.class']}"
+				id="classH" />
+		</f:facet>
+		<ice:outputText value="#{entry.clazz.simpleName}" />
+	</ice:column>
+	<ice:column id="column5">
+		<f:facet name="header">
+			<ice:outputText
+				value="#{labels['pages.userEditPanel.actionsTab.value']}"
+				id="valueH" />
+		</f:facet>
+		<ice:outputText value="#{entry.uiName}" />
+	</ice:column>
+</ice:dataTable>

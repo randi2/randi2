@@ -76,11 +76,9 @@ public class TrialSubject extends AbstractDomainObject{
 	public String toString() {
 		return identification;
 	}
-	
-	
-	
-	
-	
-	
-	
+
+	@Override
+	public String getUIName() {
+		return identification;
+	}
 }

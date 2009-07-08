@@ -47,6 +47,7 @@ import de.randi2.services.TrialSiteService;
 import de.randi2.services.UserService;
 import de.randi2.utility.logging.LogEntry;
 import de.randi2.utility.logging.LogService;
+import de.randi2.utility.logging.LogEntry.ActionType;
 
 /**
  * <p>
@@ -241,7 +242,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public String logoutUser() {
 		loggedInUser = userService.update(loggedInUser);
 		invalidateSession();
-		logService.logChange("logout", loggedInUser.getUsername(), loggedInUser);
+		logService.logChange(ActionType.LOGOUT, loggedInUser.getUsername(), loggedInUser);
 		return Randi2.SUCCESS;
 	}
 

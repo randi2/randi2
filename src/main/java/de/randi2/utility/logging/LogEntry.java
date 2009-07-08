@@ -4,19 +4,23 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.Length;
 
 import de.randi2.model.AbstractDomainObject;
 
 @Entity
 public class LogEntry {
+
+	public enum ActionType {
+		LOGIN, LOGOUT, CREATE, UPDATE, DELETE, RANDOMIZE;
+	};
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
@@ -26,7 +30,8 @@ public class LogEntry {
 
 	private String username;
 
-	private String action;
+	@Enumerated(EnumType.STRING)
+	private ActionType action;
 
 	private Class<? extends AbstractDomainObject> clazz;
 
@@ -34,12 +39,13 @@ public class LogEntry {
 
 	@Lob
 	private String value;
-	
+
 	@Lob
 	private String uiName;
-	
+
 	@Transient
-	private SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
+	private SimpleDateFormat formater = new SimpleDateFormat(
+			"yyyy-MM-dd' 'HH:mm:ss");
 
 	public GregorianCalendar getTime() {
 		return time;
@@ -57,11 +63,39 @@ public class LogEntry {
 		this.username = username;
 	}
 
-	public String getAction() {
+	public ActionType getAction() {
 		return action;
 	}
 
-	public void setAction(String action) {
+	/**
+	 * @return
+	 */
+	public String getUiAction(){
+		StringBuffer htmlString = new StringBuffer("<p style=\"font-weight: bold; color:");
+		switch(action){
+		case LOGIN:
+			htmlString.append("#66CC00");
+			break;
+		case LOGOUT:
+			htmlString.append("#666600");
+			break;
+		case CREATE:
+			htmlString.append("#993366");
+			break;
+		case DELETE:
+			htmlString.append("#990000");
+			break;
+		case UPDATE:
+			htmlString.append("#CC3333");
+			break;
+		case RANDOMIZE:
+			htmlString.append("#339999");
+			break;
+		}
+		return htmlString.append("\">").append(action.toString()).append("</p>").toString();
+	}
+
+	public void setAction(ActionType action) {
 		this.action = action;
 	}
 
@@ -96,7 +130,7 @@ public class LogEntry {
 	public void setIdentifier(long identifier) {
 		this.identifier = identifier;
 	}
-	
+
 	public String getUiName() {
 		return uiName;
 	}
@@ -105,18 +139,18 @@ public class LogEntry {
 		this.uiName = uiName;
 	}
 
-	public String getTimeAsString(){
+	public String getTimeAsString() {
 		return formater.format(time.getTime());
 	}
-	
-	
-	
+
 	@Override
 	public String toString() {
 		if (clazz != null)
-			return formater.format(time.getTime()) + " " + username + ": " + action
-					+ " object type: " + clazz.getSimpleName() + "(id= "+ identifier+") " + value;
+			return formater.format(time.getTime()) + " " + username + ": "
+					+ action + " object type: " + clazz.getSimpleName()
+					+ "(id= " + identifier + ") " + value;
 		else
-			return formater.format(time.getTime()) + " " + username + ": " + action;
+			return formater.format(time.getTime()) + " " + username + ": "
+					+ action;
 	}
 }
