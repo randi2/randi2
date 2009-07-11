@@ -11,7 +11,6 @@ import de.randi2.model.randomization.BlockRandomizationTempData;
 
 public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizationConfig> {
 
-	private static final long serialVersionUID = -2383009681973035057L;
 
 	public BlockRandomization(Trial _trial) {
 		super(_trial);
