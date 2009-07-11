@@ -1,6 +1,5 @@
 package de.randi2.randomization;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
@@ -9,7 +8,7 @@ import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 
-public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationConfig> implements Serializable{
+public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationConfig> {
 	protected Trial trial;
 	protected Conf configuration;
 	private Random seededRandom;
