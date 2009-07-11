@@ -1,16 +1,22 @@
 package de.randi2.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
+
+import de.randi2.unsorted.ContraintViolatedException;
 
 
 @Entity
@@ -77,8 +83,24 @@ public class TrialSubject extends AbstractDomainObject{
 		return identification;
 	}
 	
-	
-	
+	@SuppressWarnings("unchecked")
+	@Transient
+	public String getStratum(){
+		List<Long> stratum = new ArrayList<Long>();
+		for(SubjectProperty p:properties){
+			try {
+				stratum.add(p.getStratum());
+			} catch (ContraintViolatedException e) {
+				e.printStackTrace();
+			}
+		}
+		Collections.sort(stratum);
+		String result = "";
+		for(long l : stratum){
+			result += "_" +l;
+		}
+		return result;
+	}
 	
 	
 	
