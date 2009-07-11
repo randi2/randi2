@@ -51,7 +51,7 @@
 			rendered="#{step5.renderVariable}" />
 		<ice:inputText id="blocksize" size="31"
 			value="#{trialHandler.randomizationConfig.minimum}"
-			partialSubmit="true" onchange="#{step5.constantBlockSizeAction}">
+			partialSubmit="true" valueChangeListener="#{step5.minValueChanged}">
 		</ice:inputText>
 		<ice:outputLabel rendered="#{step5.renderVariable}"
 			value="#{labels['pages.blockR.maxBlockSize']}" />
@@ -61,3 +61,7 @@
 		</ice:inputText>
 	</ice:panelGrid>
 </ice:panelCollapsible>
+<f:subview id="strata">
+	<jsp:directive.include
+		file="./inc/panels/randomization/strata.jspx" />
+</f:subview>

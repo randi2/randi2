@@ -6,11 +6,11 @@ import java.util.ResourceBundle;
 
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
-import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
@@ -88,11 +88,13 @@ public class Step5 {
 
 	public void setSelectedAlgorithmPanelId(String selectedAlgorithmPanelId) {
 		this.selectedAlgorithmPanelId = selectedAlgorithmPanelId;
-		TrialHandler currentTrialHandler = getCurrentTrialHandler();
 		if (selectedAlgorithmPanelId
 				.equals(AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
-			currentTrialHandler
-					.setRandomizationConfig(new BlockRandomizationConfig());
+			if (!BlockRandomizationConfig.class
+					.isInstance(getCurrentTrialHandler()
+							.getRandomizationConfig()))
+				getCurrentTrialHandler().setRandomizationConfig(
+						new BlockRandomizationConfig());
 		}
 	}
 
@@ -139,11 +141,6 @@ public class Step5 {
 
 	public void setSelectedBlockRandTypes(String selectedBlockRandTypes) {
 		this.selectedBlockRandTypes = selectedBlockRandTypes;
-		TrialHandler currentTrialHandler = getCurrentTrialHandler();
-		((BlockRandomizationConfig) currentTrialHandler
-				.getRandomizationConfig()).setMaximum(0);
-		((BlockRandomizationConfig) currentTrialHandler
-				.getRandomizationConfig()).setMinimum(0);
 		if (selectedBlockRandTypes.equals(BlockDesignTypeId.VARIABLE_BLOCK
 				.toString())) {
 			renderVariable = true;
@@ -155,14 +152,16 @@ public class Step5 {
 	public boolean isRenderVariable() {
 		return renderVariable;
 	}
-	
-	public String getConstantBlockSizeAction(){
-		TrialHandler currentTrialHandler = getCurrentTrialHandler();
-		//set maximum block size to minimum block size, in case of constant block design
-		if(!renderVariable){
-			((BlockRandomizationConfig)currentTrialHandler.getRandomizationConfig()).setMaximum(((BlockRandomizationConfig)currentTrialHandler.getRandomizationConfig()).getMinimum());
+
+	public void minValueChanged(ValueChangeEvent event) {
+		System.out.println(event.getNewValue());
+		// set maximum block size to minimum block size, in case of constant
+		// block design
+		if (!renderVariable) {
+			((BlockRandomizationConfig) getCurrentTrialHandler()
+					.getRandomizationConfig()).setMaximum((Integer) event
+					.getNewValue());
 		}
-		return Randi2.SUCCESS;
 	}
 
 	private TrialHandler getCurrentTrialHandler() {

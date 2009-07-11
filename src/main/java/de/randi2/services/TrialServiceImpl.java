@@ -34,6 +34,7 @@ public class TrialServiceImpl implements TrialService {
 	public void create(Trial newTrial) {
 		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " create a new trial site with name " +newTrial.getName());
 		trialDao.create(newTrial);
+		sessionFactory.getCurrentSession().flush();
 	}
 
 	@Override
