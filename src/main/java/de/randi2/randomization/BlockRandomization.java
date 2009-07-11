@@ -26,16 +26,19 @@ public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizatio
 		//TODO !!!
 		Block block = tempData.getBlock(subject.getStratum());
 		if (block == null || block.isEmpty()) {
-			block = generateBlock(random);
+			block = generateBlock(random, block);
 			tempData.setBlock(subject.getStratum(), block);
 		}
 
 		return block.pullFromBlock(random);
 	}
 
-	protected Block generateBlock(Random random) {
+	protected Block generateBlock(Random random, Block emptyBlock) {
 		int blockSize = generateBlockSize(random);
-		Block block = new Block();
+		Block block = null;
+		if(emptyBlock == null || !emptyBlock.isEmpty()){
+			block = new Block();
+		}else block = emptyBlock;
 		Block rawBlock = Block.generate(trial);
 		int i = 0;
 		while (i < blockSize) {
@@ -50,6 +53,7 @@ public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizatio
 
 	protected int generateBlockSize(Random random) {
 		int range = super.configuration.getMaximum() - super.configuration.getMinimum() + 1;
+		if(configuration.getMaximum() <= 0) range = 0; 
 		int size = random.nextInt(range) + super.configuration.getMinimum();
 		if (super.configuration.getType() == BlockRandomizationConfig.TYPE.MULTIPLY) {
 			int minBlockSize = minimumBlockSize(trial);

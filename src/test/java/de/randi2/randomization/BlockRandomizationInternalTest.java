@@ -41,8 +41,8 @@ public class BlockRandomizationInternalTest {
 		}
 
 		@Override
-		public Block generateBlock(Random random) {
-			return super.generateBlock(random);
+		public Block generateBlock(Random random, Block block) {
+			return super.generateBlock(random, block);
 		}
 	}
 
