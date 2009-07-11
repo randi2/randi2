@@ -11,6 +11,8 @@ import de.randi2.model.randomization.BlockRandomizationTempData;
 
 public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizationConfig> {
 
+	private static final long serialVersionUID = -2383009681973035057L;
+
 	public BlockRandomization(Trial _trial) {
 		super(_trial);
 	}
@@ -22,10 +24,11 @@ public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizatio
 	@Override
 	protected TreatmentArm doRadomize(TrialSubject subject, Random random) {
 		BlockRandomizationTempData tempData = super.configuration.getTempData();
-		Block block = tempData.getBlock(subject.getProperties().hashCode());
+		//TODO !!!
+		Block block = tempData.getBlock(subject.getStratum());
 		if (block == null || block.isEmpty()) {
 			block = generateBlock(random);
-			tempData.setBlock(subject.getProperties().hashCode(), block);
+			tempData.setBlock(subject.getStratum(), block);
 		}
 
 		return block.pullFromBlock(random);
@@ -50,7 +53,10 @@ public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizatio
 		int range = super.configuration.getMaximum() - super.configuration.getMinimum() + 1;
 		int size = random.nextInt(range) + super.configuration.getMinimum();
 		if (super.configuration.getType() == BlockRandomizationConfig.TYPE.MULTIPLY) {
-			size *= minimumBlockSize(trial);
+			int minBlockSize = minimumBlockSize(trial);
+			while(size % minBlockSize != 0){
+				size =  random.nextInt(range) + super.configuration.getMinimum();
+			}
 		}
 		return size;
 	}

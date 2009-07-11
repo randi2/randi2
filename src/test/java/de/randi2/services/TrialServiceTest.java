@@ -1,5 +1,9 @@
 package de.randi2.services;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
+import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
-import static junit.framework.Assert.*;
 
 public class TrialServiceTest extends AbstractServiceTest{
 
@@ -76,7 +80,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 	}
 	
 	@Test
-	public void testRandomize(){
+	public void testRandomizeComplete(){
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setPlannedSubjects(50);
 		arm1.setName("arm1");
@@ -106,5 +110,51 @@ public class TrialServiceTest extends AbstractServiceTest{
 		assertEquals(validTrial.getName(), dbTrial.getName());
 		assertEquals(2, dbTrial.getTreatmentArms().size());
 		assertEquals(100, dbTrial.getTreatmentArms().get(0).getSubjects().size() + dbTrial.getTreatmentArms().get(1).getSubjects().size());
+	}
+	
+	@Test
+	public void testRandomizeBlock(){
+		int blocksize = 4;
+		int randomizations = 100;
+		TreatmentArm arm1 = new TreatmentArm();
+		arm1.setPlannedSubjects(randomizations/2);
+		arm1.setName("arm1");
+		arm1.setTrial(validTrial);
+		TreatmentArm arm2 = new TreatmentArm();
+		arm2.setPlannedSubjects(randomizations/2);
+		arm2.setName("arm2");
+		arm2.setTrial(validTrial);
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		arms.add(arm1);
+		arms.add(arm2);
+	
+		service.create(validTrial);
+		validTrial.setTreatmentArms(arms);
+		BlockRandomizationConfig config =  new BlockRandomizationConfig();
+		config.setMaximum(blocksize);
+		config.setMinimum(blocksize);
+		validTrial.setRandomizationConfiguration(config);
+		service.update(validTrial);
+		assertTrue(validTrial.getId()>0);
+		assertEquals(2,validTrial.getTreatmentArms().size());
+		for(int i=0;i<randomizations;i++){
+			TrialSubject subject = new TrialSubject();
+			 subject.setIdentification("identification" + i);
+			service.randomize(validTrial,subject );
+			if((i%blocksize)==(blocksize-1)){
+			assertEquals(validTrial.getTreatmentArms().get(0).getSubjects().size() ,validTrial.getTreatmentArms().get(1).getSubjects().size());
+			}
+			
+			int diff=validTrial.getTreatmentArms().get(0).getSubjects().size() -validTrial.getTreatmentArms().get(1).getSubjects().size();
+			assertTrue((blocksize/2)>=diff && (-1)*(blocksize/2)<=diff);
+		}
+		
+		Trial dbTrial = service.getObject(validTrial.getId());
+		assertNotNull(dbTrial);
+		assertEquals(validTrial.getName(), dbTrial.getName());
+		assertEquals(2, dbTrial.getTreatmentArms().size());
+		assertEquals(randomizations, dbTrial.getTreatmentArms().get(0).getSubjects().size() + dbTrial.getTreatmentArms().get(1).getSubjects().size());
+		assertEquals(randomizations/2, dbTrial.getTreatmentArms().get(0).getSubjects().size());
+		assertEquals(randomizations/2, dbTrial.getTreatmentArms().get(1).getSubjects().size());
 	}
 }

@@ -45,6 +45,15 @@ public final class RANDI2Assert {
 		}
 		fail(i + " not in list.");
 	}
+	
+	public static void assertNoOneOf(int list[], int i){
+		for(int j: upto(list.length)){
+			if(list[j]==i){
+				fail(i + " in list.");
+			}
+		}
+		
+	}
 
 	public static void assertOneOf(List<Object> list, Object o){
 		assertTrue(list.contains(o));

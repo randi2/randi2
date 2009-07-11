@@ -40,9 +40,9 @@ public final class SubjectProperty<V extends Serializable> extends AbstractDomai
 	}
 	
 	@Transient
-	public int getStratum() {
+	public long getStratum() throws ContraintViolatedException {
 		//return criterion.stratify(this.value);
-		return 0;
+		return criterion.stratify(this.value).getId();
 	}
 
 	// Get- and Set Methods
