@@ -17,8 +17,8 @@
 <ice:dataTable xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" id="logTable" border="1"
-	value="#{loginHandler.logEntries}" var="entry" resizable="true"
-	style="width: 500px;">
+	value="#{loginHandler.logEntries}" var="entry"
+	style="float:left;" columnWidths="150px,150px,75px,75px,350px" cellpadding="0" scrollable="true" scrollHeight="400px">
 	<ice:column id="column1">
 		<f:facet name="header">
 			<ice:outputText

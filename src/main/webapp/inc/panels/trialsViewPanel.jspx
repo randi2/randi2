@@ -22,7 +22,7 @@
 			<ice:outputLabel
 				value="#{labels['pages.trialsViewPanel.headline2']} #{trialHandler.trialsAmount}"></ice:outputLabel>
 			<ice:dataTable id="trialsTable" border="1"
-				value="#{trialHandler.allTrials}" var="trial" resizable="true"
+				value="#{trialHandler.allTrials}" var="trial"
 				style="width: 500px;">
 				<ice:column id="column1">
 					<f:facet name="header">
