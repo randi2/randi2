@@ -50,8 +50,7 @@
 			shared="false" />
 	</ice:panelCollapsible>
 	<ice:panelGrid columns="2" style="width: 550px;">
-		<ice:panelCollapsible expanded="true" toggleOnClick="false"
-			style="margin-left: 3px;">
+		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
 				<ice:outputLabel value="#{labels['trial.leadingTrialSite']}"></ice:outputLabel>
 			</f:facet>

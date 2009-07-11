@@ -1,7 +1,7 @@
 <!-- 
- UI Page for the Biased Coin Randomization algorithm's configuration.
+ UI Page for the Block Randomization algorithm's configuration.
 
- Made by lplotni@users.sourceforge.org  
+ Made by lplotni@users.sourceforge.org  & ds@randi2.de
 
  This file is part of RANDI2.
  RANDI2 is free software: you can redistribute it and or modify it under the
@@ -25,42 +25,39 @@
 	</f:facet>
 	<ice:outputLabel
 		value="#{algorithms['de.randi2.model.randomization.BlockRandomizationConfig.info']}"></ice:outputLabel>
-
-	<ice:panelCollapsible id="configPanel" expanded="true"
-		toggleOnClick="false">
-		<f:facet name="header">
-			<ice:outputLabel value="$Configuration$"></ice:outputLabel>
-		</f:facet>
-		<ice:panelGrid columns="2" styleClass="verticalAlignTop">
-			<ice:outputLabel value="$Block randomization type$"></ice:outputLabel>
-			<ice:selectOneMenu id="blockSizeType"
-				value="#{step5.selectedBlockRandTypes}" partialSubmit="true">
-				<f:selectItems value="#{step5.blockRandTypes}" />
-			</ice:selectOneMenu>
-
-	<ice:outputLabel  rendered="#{step5.renderVariable}" value="$Multiple/Absolute type$"></ice:outputLabel>
-			<ice:selectOneMenu  rendered="#{step5.renderVariable}" id="variableBlockType"
-				value="#{trialHandler.randomizationConfig.type}" partialSubmit="true"
-				converter="de.randi2.jsf.converters.BLOCKRANDOMIZATION_TYPE_CONVERTER">
-				<f:selectItems value="#{enums.blockSizeTypeItems}" />
-			</ice:selectOneMenu>
-
-			<ice:outputLabel value="$Block size$"></ice:outputLabel>
-			<ice:inputText id="blocksize" size="31"
-				value="#{trialHandler.randomizationConfig.minimum}"
-				partialSubmit="true" onchange="#{step5.constantBlockSizeAction}">
-			</ice:inputText>
-
-			
-				<ice:outputLabel  rendered="#{step5.renderVariable}" value="$max Block size$"></ice:outputLabel>
-				<ice:inputText  rendered="#{step5.renderVariable}" id="maxBlocksize" size="31"
-					value="#{trialHandler.randomizationConfig.maximum}"
-					partialSubmit="true">
-				</ice:inputText>
-		
-
-		</ice:panelGrid>
-
-	</ice:panelCollapsible>
-
+</ice:panelCollapsible>
+<ice:panelCollapsible id="configPanel" expanded="true"
+	toggleOnClick="false">
+	<f:facet name="header">
+		<ice:outputLabel value="#{labels['pages.blockR.configuration']}"></ice:outputLabel>
+	</f:facet>
+	<ice:panelGrid columns="2" styleClass="verticalAlignTop">
+		<ice:outputLabel value="#{labels['pages.blockR.type']}" />
+		<ice:selectOneMenu id="blockSizeType"
+			value="#{step5.selectedBlockRandTypes}" partialSubmit="true">
+			<f:selectItems value="#{step5.blockRandTypes}" />
+		</ice:selectOneMenu>
+		<ice:outputLabel rendered="#{step5.renderVariable}"
+			value="#{labels['pages.blockR.constraint']}" />
+		<ice:selectOneMenu rendered="#{step5.renderVariable}"
+			id="variableBlockType"
+			value="#{trialHandler.randomizationConfig.type}" partialSubmit="true"
+			converter="de.randi2.jsf.converters.BLOCKRANDOMIZATION_TYPE_CONVERTER">
+			<f:selectItems value="#{enums.blockSizeTypeItems}" />
+		</ice:selectOneMenu>
+		<ice:outputLabel value="#{labels['pages.blockR.blockSize']}"
+			rendered="#{!step5.renderVariable}" />
+		<ice:outputLabel value="#{labels['pages.blockR.minBlockSize']}"
+			rendered="#{step5.renderVariable}" />
+		<ice:inputText id="blocksize" size="31"
+			value="#{trialHandler.randomizationConfig.minimum}"
+			partialSubmit="true" onchange="#{step5.constantBlockSizeAction}">
+		</ice:inputText>
+		<ice:outputLabel rendered="#{step5.renderVariable}"
+			value="#{labels['pages.blockR.maxBlockSize']}" />
+		<ice:inputText rendered="#{step5.renderVariable}" id="maxBlocksize"
+			size="31" value="#{trialHandler.randomizationConfig.maximum}"
+			partialSubmit="true">
+		</ice:inputText>
+	</ice:panelGrid>
 </ice:panelCollapsible>

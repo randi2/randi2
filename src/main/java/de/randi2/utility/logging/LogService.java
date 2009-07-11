@@ -8,11 +8,11 @@ import de.randi2.model.TrialSubject;
 
 public interface LogService {
 
-	public void logRandomize(String action, String username, Trial trial, TrialSubject trialSubject);
+	public void logRandomize(LogEntry.ActionType action, String username, Trial trial, TrialSubject trialSubject);
 	
-	public void logChange(String action, String username, AbstractDomainObject value);
+	public void logChange(LogEntry.ActionType action, String username, AbstractDomainObject value);
 	
-	public void logGet(String action, String username);
+	public void logGet(LogEntry.ActionType action, String username);
 	
 	public List<LogEntry> getLogEntries();
 	

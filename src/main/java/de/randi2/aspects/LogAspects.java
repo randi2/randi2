@@ -12,6 +12,7 @@ import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.utility.logging.LogService;
+import de.randi2.utility.logging.LogEntry.ActionType;
 
 @Aspect
 public class LogAspects {
@@ -23,7 +24,7 @@ public class LogAspects {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void logCreateNewObject(ProceedingJoinPoint pjp) throws Throwable{
 		pjp.proceed();		
-		logService.logChange(pjp.getSignature().toShortString(), SecurityContextHolder.getContext().getAuthentication().getName(), ((AbstractDomainObject)pjp.getArgs()[0]));
+		logService.logChange(ActionType.CREATE, SecurityContextHolder.getContext().getAuthentication().getName(), ((AbstractDomainObject)pjp.getArgs()[0]));
 	}
 	
 	
@@ -31,7 +32,7 @@ public class LogAspects {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Object logUpdateObject(ProceedingJoinPoint pjp) throws Throwable{
 		Object o = pjp.proceed();		
-		logService.logChange(pjp.getSignature().toShortString(), SecurityContextHolder.getContext().getAuthentication().getName(), ((AbstractDomainObject)pjp.getArgs()[0]));
+		logService.logChange(ActionType.UPDATE, SecurityContextHolder.getContext().getAuthentication().getName(), ((AbstractDomainObject)pjp.getArgs()[0]));
 		return o;
 	}
 	
@@ -47,9 +48,10 @@ public class LogAspects {
 	
 	@Around("execution(public * de.randi2.services.*.randomize*(..))")
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void  logRandomize(ProceedingJoinPoint pjp) throws Throwable{
-		pjp.proceed();	
-		logService.logRandomize(pjp.getSignature().getName(),  SecurityContextHolder.getContext().getAuthentication().getName(), ((Trial)pjp.getArgs()[0]), ((TrialSubject)pjp.getArgs()[1]));
+	public Object  logRandomize(ProceedingJoinPoint pjp) throws Throwable{
+		Object o = pjp.proceed();	
+		logService.logRandomize(ActionType.RANDOMIZE,  SecurityContextHolder.getContext().getAuthentication().getName(), Trial.class.cast(o), ((TrialSubject)pjp.getArgs()[1]));
+		return o;
 	}
 	
 	
@@ -57,7 +59,7 @@ public class LogAspects {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void logLogin(ProceedingJoinPoint pjp) throws Throwable{
 		pjp.proceed();
-		logService.logGet("login", SecurityContextHolder.getContext().getAuthentication().getName());
+		logService.logGet(ActionType.LOGIN, SecurityContextHolder.getContext().getAuthentication().getName());
 		System.out.println("login");
 	}
 

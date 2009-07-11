@@ -33,7 +33,7 @@ public class TrialSubject extends AbstractDomainObject{
 	private TreatmentArm arm;
 	
 	@OneToMany(cascade=CascadeType.PERSIST)
-	private Set<SubjectProperty> properties =  new HashSet<SubjectProperty>();
+	private Set<SubjectProperty<?>> properties =  new HashSet<SubjectProperty<?>>();
 
 	@NotNull
 	@NotEmpty
@@ -56,14 +56,15 @@ public class TrialSubject extends AbstractDomainObject{
 		this.arm = arm;
 	}
 
-	public Set<SubjectProperty> getProperties() {
+	public Set<SubjectProperty<?>> getProperties() {
 		return properties;
 	}
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	public void setProperties(Set<SubjectProperty> properties) {
+	public void setProperties(Set<SubjectProperty<?>> properties) {
 		this.properties = properties;
 	}
+
 	
 	
 
@@ -82,7 +83,7 @@ public class TrialSubject extends AbstractDomainObject{
 	public String toString() {
 		return identification;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Transient
 	public String getStratum(){
@@ -103,6 +104,10 @@ public class TrialSubject extends AbstractDomainObject{
 	}
 	
 	
+@Override
+	public String getUIName() {
+		return identification;
+	}
 	
 	
 }

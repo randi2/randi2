@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.TrialSite;
+import de.randi2.utility.logging.LogEntry.ActionType;
 
 import static junit.framework.Assert.*;
 //import static junit.framework.Assert.*;
@@ -43,8 +44,8 @@ public class LogEntryTest {
 	@Test
 	public void testAction(){
 		assertTrue(validEntry.getAction()==null);
-		validEntry.setAction("action");
-		assertEquals("action", validEntry.getAction());
+		validEntry.setAction(ActionType.LOGIN);
+		assertEquals(ActionType.LOGIN, validEntry.getAction());
 	}
 	
 	
@@ -86,14 +87,14 @@ public class LogEntryTest {
 		validEntry.setValue("Value");
 		validEntry.setUsername("username");
 		validEntry.setClazz(TrialSite.class);
-		validEntry.setAction("action");
+		validEntry.setAction(ActionType.LOGIN);
 		validEntry.setIdentifier(1000);
 		assertNotNull(validEntry.toString());
 		assertTrue(validEntry.toString().length()>0);
 		
 		validEntry = new LogEntry();
 		validEntry.setUsername("username");
-		validEntry.setAction("action");
+		validEntry.setAction(ActionType.LOGIN);
 		assertNotNull(validEntry.toString());
 		assertTrue(validEntry.toString().length()>0);
 	}

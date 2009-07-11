@@ -15,6 +15,7 @@ import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Person;
 import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.test.utility.TestStringUtil;
+import de.randi2.utility.logging.LogEntry.ActionType;
 import static junit.framework.Assert.*;
 
 //import static junit.framework.Assert.*;
@@ -36,7 +37,7 @@ public class LogServiceTest {
 	@Test
 	public void testLogChange(){
 		String username = stringUtil.getWithLength(20);
-		String action = stringUtil.getWithLength(30);
+		ActionType action = ActionType.UPDATE;
 		AbstractDomainObject object = factory.getPerson();
 		
 		int sizeBefore = sessionFactory.getCurrentSession().createQuery("from LogEntry").list().size();
@@ -47,25 +48,15 @@ public class LogServiceTest {
 		
 	}
 	
-	@Test
-	public void testLogGet(){
-		String username = stringUtil.getWithLength(20);
-		String action = stringUtil.getWithLength(30);
 		
-		int sizeBefore = sessionFactory.getCurrentSession().createQuery("from LogEntry").list().size();
-		
-		logService.logGet(action, username);
-		sessionFactory.getCurrentSession().flush();
-		assertTrue(sessionFactory.getCurrentSession().createQuery("from LogEntry").list().size()>sizeBefore);
-	}
 	
-	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetLogEntriesAll(){
 		int sizeBefore = sessionFactory.getCurrentSession().createQuery("from LogEntry").list().size();
 		for(int i=0;i<10;i++){
 			String username = stringUtil.getWithLength(20);
-			String action = stringUtil.getWithLength(30);
+			ActionType action = ActionType.UPDATE;
 			logService.logGet(action, username);
 		}
 		
@@ -82,7 +73,7 @@ public class LogServiceTest {
 		String username = stringUtil.getWithLength(20);
 		
 		for(int i=0;i<10;i++){	
-			String action = stringUtil.getWithLength(30);
+			ActionType action = ActionType.UPDATE;
 			logService.logGet(action, username);
 		}
 		
@@ -99,7 +90,7 @@ public class LogServiceTest {
 		object.setId(id);
 		for(int i=0;i<10;i++){	
 			String username = stringUtil.getWithLength(20);
-			String action = stringUtil.getWithLength(30);
+			ActionType action = ActionType.UPDATE;
 			logService.logChange(action, username, object);
 		}
 		

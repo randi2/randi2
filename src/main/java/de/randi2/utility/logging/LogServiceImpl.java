@@ -19,7 +19,7 @@ public class LogServiceImpl implements LogService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void logChange(String action, String username,
+	public void logChange(LogEntry.ActionType action, String username,
 			AbstractDomainObject value) {
 		LogEntry entry = new LogEntry();
 		entry.setAction(action);
@@ -33,7 +33,7 @@ public class LogServiceImpl implements LogService {
 	
 	
 	@Override
-	public void logRandomize(String action, String username, Trial trial,
+	public void logRandomize(LogEntry.ActionType action, String username, Trial trial,
 			TrialSubject trialSubject) {
 		LogEntry entry = new LogEntry();
 		entry.setAction(action);
@@ -48,7 +48,7 @@ public class LogServiceImpl implements LogService {
 
 
 	@Override
-	public void logGet(String action, String username) {
+	public void logGet(LogEntry.ActionType action, String username) {
 		LogEntry entry = new LogEntry();
 		entry.setAction(action);
 		entry.setUsername(username);
