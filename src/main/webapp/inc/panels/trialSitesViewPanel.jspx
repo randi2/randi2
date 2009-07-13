@@ -23,7 +23,7 @@
 				value="#{labels['pages.trialSitesViewPanel.headline2']} #{trialSiteHandler.trialSitesAmount}"></ice:outputLabel>
 			<ice:dataTable id="trialSitesTable" border="1"
 				value="#{trialSiteHandler.allTrialSites}" var="trialSite"
-				width="550px" resizable="true">
+				width="550px">
 				<ice:column id="column1">
 					<ice:outputText value="#{trialSite.name}"></ice:outputText>
 					<f:facet name="header">

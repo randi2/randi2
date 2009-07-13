@@ -18,14 +18,13 @@
 <ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:panelGrid columns="1">
-		<ice:outputLabel value="Value 1*" />
-		<ice:inputText value="#{criterion.wrappedCriterion.option1}" />
-		<ice:outputLabel value="Value 2*" />
-		<ice:inputText value="#{criterion.wrappedCriterion.option2}" />
+	<ice:panelGrid columns="2" border="1">
+		<ice:outputLabel value="Expected value*" />
+		<ice:panelGroup>
+			<ice:selectOneRadio value="#{criterion.subjectProperty.value}"
+				partialSubmit="true">
+				<f:selectItems value="#{criterion.selectItems}" />
+			</ice:selectOneRadio>
+		</ice:panelGroup>
 	</ice:panelGrid>
 </ice:panelGroup>
-<f:subview id="dConstraint" rendered="#{criterion.constraint}">
-	<jsp:directive.include
-		file="./inc/panels/trial/constraintsConfigurationPanels/dichotomousConstraint.jspx" />
-</f:subview>

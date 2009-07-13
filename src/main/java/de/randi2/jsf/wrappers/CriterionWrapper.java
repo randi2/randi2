@@ -37,6 +37,7 @@ public class CriterionWrapper<V extends Serializable> {
 	 * The criterion object which is wrapped by this instance.
 	 */
 	private AbstractCriterion<V, ? extends AbstractConstraint<V>> wrappedCriterion = null;
+	
 
 	/**
 	 * If the wrapper is used during the subject's submission process - this

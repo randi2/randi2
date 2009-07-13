@@ -54,9 +54,9 @@
 	</ice:panelTabSet>
 	<ice:panelGrid border="0" columns="3">
 		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
-			action="#{trialHandler.createTrial}"></ice:commandButton>
-		<ice:commandButton type="reset" value="#{labels['buttons.reset']}" />
-		<ice:messages globalOnly="true" showDetail="true" showSummary="true"
+			action="#{trialHandler.createTrial}"  rendered="false"/>
+		<!-- ice:commandButton type="reset" value="#{labels['buttons.reset']}" / -->
+		<ice:messages showDetail="true" showSummary="true"
 			tooltip="true" />
 	</ice:panelGrid>
 </ice:form>

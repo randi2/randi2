@@ -191,6 +191,20 @@
 		<managed-bean-class>de.randi2.jsf.backingBeans.Step5</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	
+	<managed-bean>
+	<description>Backing bean for the block randomization algorithm configuration</description>
+	<managed-bean-name>blockR</managed-bean-name>
+	<managed-bean-class>de.randi2.jsf.backingBeans.BlockR</managed-bean-class>
+	<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+	<managed-bean>
+	<description>Backing bean for the stratification's configuration</description>
+	<managed-bean-name>strata</managed-bean-name>
+	<managed-bean-class>de.randi2.jsf.backingBeans.Strata</managed-bean-class>
+	<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
 
 	<managed-bean>
 		<description>

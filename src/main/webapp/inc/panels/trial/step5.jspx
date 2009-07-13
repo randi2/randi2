@@ -58,3 +58,5 @@
 		</ice:panelGroup>
 	</ice:panelStack>
 </ice:panelGroup>
+<ice:commandButton type="submit" value="#{labels['buttons.save']}"
+			action="#{trialHandler.createTrial}"/>

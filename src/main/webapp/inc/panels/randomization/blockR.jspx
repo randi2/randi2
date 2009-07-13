@@ -34,30 +34,34 @@
 	<ice:panelGrid columns="2" styleClass="verticalAlignTop">
 		<ice:outputLabel value="#{labels['pages.blockR.type']}" />
 		<ice:selectOneMenu id="blockSizeType"
-			value="#{step5.selectedBlockRandTypes}" partialSubmit="true">
-			<f:selectItems value="#{step5.blockRandTypes}" />
+			value="#{blockR.selectedBlockRandTypes}" partialSubmit="true">
+			<f:selectItems value="#{blockR.blockRandTypes}" />
 		</ice:selectOneMenu>
-		<ice:outputLabel rendered="#{step5.renderVariable}"
+		<ice:outputLabel rendered="#{blockR.renderVariable}"
 			value="#{labels['pages.blockR.constraint']}" />
-		<ice:selectOneMenu rendered="#{step5.renderVariable}"
+		<ice:selectOneMenu rendered="#{blockR.renderVariable}"
 			id="variableBlockType"
 			value="#{trialHandler.randomizationConfig.type}" partialSubmit="true"
 			converter="de.randi2.jsf.converters.BLOCKRANDOMIZATION_TYPE_CONVERTER">
 			<f:selectItems value="#{enums.blockSizeTypeItems}" />
 		</ice:selectOneMenu>
 		<ice:outputLabel value="#{labels['pages.blockR.blockSize']}"
-			rendered="#{!step5.renderVariable}" />
+			rendered="#{!blockR.renderVariable}" />
 		<ice:outputLabel value="#{labels['pages.blockR.minBlockSize']}"
-			rendered="#{step5.renderVariable}" />
+			rendered="#{blockR.renderVariable}" />
 		<ice:inputText id="blocksize" size="31"
 			value="#{trialHandler.randomizationConfig.minimum}"
-			partialSubmit="true" onchange="#{step5.constantBlockSizeAction}">
+			partialSubmit="true" valueChangeListener="#{blockR.minValueChanged}">
 		</ice:inputText>
-		<ice:outputLabel rendered="#{step5.renderVariable}"
+		<ice:outputLabel rendered="#{blockR.renderVariable}"
 			value="#{labels['pages.blockR.maxBlockSize']}" />
-		<ice:inputText rendered="#{step5.renderVariable}" id="maxBlocksize"
+		<ice:inputText rendered="#{blockR.renderVariable}" id="maxBlocksize"
 			size="31" value="#{trialHandler.randomizationConfig.maximum}"
 			partialSubmit="true">
 		</ice:inputText>
 	</ice:panelGrid>
 </ice:panelCollapsible>
+<f:subview id="strata">
+	<jsp:directive.include
+		file="./inc/panels/randomization/strata.jspx" />
+</f:subview>
