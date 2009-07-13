@@ -140,10 +140,10 @@
             <id>JBoss</id>
             <url>http://repository.jboss.com/maven2</url>
         </repository>
-        <repository>
+     <!--    <repository>
             <id>HTMLUnit Repo</id>
             <url>sftp://web.sourceforge.net/home/groups/h/ht/htmlunit/htdocs/m2-repo</url>
-        </repository>
+        </repository> -->
         <repository>
             <id>maven-repository.dev.java.net</id>
             <name>Java Dev Net Repository</name>
