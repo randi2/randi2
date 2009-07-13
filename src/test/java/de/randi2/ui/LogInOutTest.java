@@ -3,6 +3,7 @@ package de.randi2.ui;
 import static org.junit.Assert.assertEquals;
 
 import org.apache.velocity.anakia.NodeList;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
@@ -26,6 +27,7 @@ public class LogInOutTest {
 	private final static String goodbyeURL = "http://localhost:8080/RANDI2/goodbye.jspx";
 
 	@Test
+	@Ignore
 	public void loginAndlogoutTest() throws Exception {
 		WebClient webClient = new WebClient();
 		webClient.setAjaxController(new NicelyResynchronizingAjaxController());
