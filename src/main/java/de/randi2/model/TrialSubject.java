@@ -87,18 +87,18 @@ public class TrialSubject extends AbstractDomainObject{
 	@SuppressWarnings("unchecked")
 	@Transient
 	public String getStratum(){
-		List<Long> stratum = new ArrayList<Long>();
+		List<String> stratum = new ArrayList<String>();
 		for(SubjectProperty p:properties){
 			try {
-				stratum.add(p.getStratum());
+				stratum.add(p.getCriterion().getId() + "_" + p.getStratum());
 			} catch (ContraintViolatedException e) {
 				e.printStackTrace();
 			}
 		}
 		Collections.sort(stratum);
 		String result = "";
-		for(long l : stratum){
-			result += "_" +l;
+		for(String l : stratum){
+			result += l + ";";
 		}
 		return result;
 	}

@@ -29,7 +29,8 @@ public final class SubjectProperty<V extends Serializable> extends AbstractDomai
 	@ManyToOne(targetEntity=AbstractCriterion.class)
 	private AbstractCriterion<V,? extends AbstractConstraint<V>> criterion;
 
-	public SubjectProperty(AbstractCriterion<V, ? extends AbstractConstraint<V>> _criterion) {
+	@SuppressWarnings("unchecked")
+	public SubjectProperty(AbstractCriterion _criterion) {
 		this.criterion = _criterion;
 	}
 	
@@ -41,8 +42,9 @@ public final class SubjectProperty<V extends Serializable> extends AbstractDomai
 	
 	@Transient
 	public long getStratum() throws ContraintViolatedException {
-		//return criterion.stratify(this.value);
-		return criterion.stratify(this.value).getId();
+		AbstractConstraint<?> constraint = criterion.stratify(value);
+		if(constraint == null) return -1;
+		else return constraint.getId();
 	}
 
 	// Get- and Set Methods

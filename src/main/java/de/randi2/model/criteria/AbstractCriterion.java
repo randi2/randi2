@@ -1,6 +1,7 @@
 package de.randi2.model.criteria;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,7 +16,6 @@ import javax.persistence.Transient;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.unsorted.ContraintViolatedException;
-import de.randi2.utility.Randi2Error;
 
 /**
  * This class maps the needed behaviour of a Trial subject. With the Classes
@@ -86,9 +86,16 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 		this.strata = strata;
 	}
 	
+	public void addStrata(C stratum){
+		if(this.strata == null){
+			this.strata = new ArrayList<C>();
+		}
+		this.strata.add(stratum);
+	}
+	
 	public C stratify(V value) throws ContraintViolatedException{
 		this.isValueCorrect(value);
-		if(strata==null)
+		if(strata==null || strata.isEmpty())
 			return null;
 		for(C stratum : strata){
 			if(stratum.checkValue(value))
