@@ -23,9 +23,6 @@
 <f:subview id="changeTrialSitePopup">
 	<jsp:directive.include file="./inc/popups/changeTrialSitePopup.jspx" />
 </f:subview>
-<f:subview id="changeAssistantPopup">
-	<jsp:directive.include file="./inc/popups/changeAssistantPopup.jspx" />
-</f:subview>
 <ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">

@@ -12,7 +12,6 @@ public class Popups {
 	private boolean userSavedPVisible = false;
 	private boolean changePasswordPVisible = false;
 	private boolean changeTrialSitePVisible = false;
-	private boolean changeAssistantPVisible = false;
 	private boolean trialCreatedPVisible = false;
 	private boolean trialSiteSavedPVisible = false;
 	private boolean subjectAddedPVisible = false;
@@ -83,11 +82,6 @@ public class Popups {
 		return Randi2.SUCCESS;
 	}
 
-	public String showChangeAssistantPopup() {
-		// Show the changeTrialSitePopup
-		this.changeAssistantPVisible = true;
-		return Randi2.SUCCESS;
-	}
 
 	public String hideChangeTrialSitePopup() {
 		// Hide the changeTrialSitePopup
@@ -95,20 +89,6 @@ public class Popups {
 		return Randi2.SUCCESS;
 	}
 
-	public boolean isChangeAssistantPVisible() {
-		return changeAssistantPVisible;
-	}
-
-	public void setChangeAssistantPVisible(boolean _changeAssistantPVisible) {
-		changeAssistantPVisible = _changeAssistantPVisible;
-	}
-
-	public String hideChangeAssistantPopup() {
-		// Hide the changeAssistantPopup
-		this.changeAssistantPVisible = false;
-		return Randi2.SUCCESS;
-	}
-	
 	public boolean isTrialSiteSavedPVisible() {
 		return trialSiteSavedPVisible;
 	}

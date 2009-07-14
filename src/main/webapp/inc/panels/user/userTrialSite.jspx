@@ -35,13 +35,15 @@
 				<ice:commandButton style="margin-left: 15px;"
 					value="#{labels['buttons.changeTrialSite']}"
 					action="#{popups.showChangeTrialSitePopup}"
-					rendered="#{permissionVerifier.allowedChangeUserTrialSite}" image="/img/icons/change16.png"></ice:commandButton>
+					rendered="#{permissionVerifier.allowedChangeUserTrialSite}"
+					image="/img/icons/change16.png"></ice:commandButton>
 			</ice:panelGroup>
 			<ice:panelGroup rendered="#{loginHandler.creatingMode}">
 				<ice:selectInputText id="trialSite"
 					required="#{loginHandler.showedObject.person.requiredFields['trialSite']}"
-					valueChangeListener="#{loginHandler.trialSitesAC.updateObjectList}" rows="10"
-					width="200" value="#{loginHandler.trialSitesAC.objectRepresentation}">
+					valueChangeListener="#{loginHandler.trialSitesAC.updateObjectList}"
+					rows="10" width="200"
+					value="#{loginHandler.trialSitesAC.objectRepresentation}">
 					<f:selectItems value="#{loginHandler.trialSitesAC.objectList}" />
 				</ice:selectInputText>
 				<ice:message for="trialSite" id="trialSiteError"></ice:message>
@@ -54,7 +56,8 @@
 			<ice:outputText id="city"
 				value="#{loginHandler.showedObject.person.trialSite!=null ? loginHandler.showedObject.person.trialSite.city : loginHandler.trialSitesAC.selectedObject.city}">
 			</ice:outputText>
-			<ice:outputLabel for="postcode" value="#{labels['trialSite.postcode']}"></ice:outputLabel>
+			<ice:outputLabel for="postcode"
+				value="#{labels['trialSite.postcode']}"></ice:outputLabel>
 			<ice:outputText id="postcode"
 				value="#{loginHandler.showedObject.person.trialSite!=null ? loginHandler.showedObject.person.trialSite.postcode : loginHandler.trialSitesAC.selectedObject.postcode}">
 			</ice:outputText>
@@ -65,7 +68,8 @@
 		</ice:panelGrid>
 	</ice:panelCollapsible>
 	<!-- User assistant's information -->
-	<ice:panelCollapsible expanded="true" rendered="#{loginHandler.trialSitesAC.objectSelected || !loginHandler.creatingMode}">
+	<ice:panelCollapsible expanded="true"
+		rendered="#{loginHandler.trialSitesAC.objectSelected || !loginHandler.creatingMode}">
 		<f:facet name="header">
 			<ice:panelGrid border="0" columns="2">
 				<ice:graphicImage value="/img/icons/assistant16.png"></ice:graphicImage>
@@ -73,39 +77,172 @@
 					value="#{labels['pages.userEditPanel.assistantHeader']}"></ice:outputLabel>
 			</ice:panelGrid>
 		</f:facet>
-		<ice:panelGrid border="0" columns="2">
-			<ice:outputLabel for="assistant" value="#{labels['person.assistant']}"></ice:outputLabel>
-			<!-- Showing the user's assistant -->
-			<ice:panelGroup rendered="#{!loginHandler.creatingMode}">
-				<ice:outputText id="assistant"
-					value="#{loginHandler.showedObject.person.assistant.firstname} #{loginHandler.showedObject.person.assistant.surname}">
+		<ice:commandButton value="#{labels['buttons.createAssistant']}"
+			rendered="#{loginHandler.showedObject.person.assistant==null}"
+			disabled="#{!loginHandler.editable}"
+			actionListener="#{loginHandler.createAssistant}" />
+		<ice:panelGrid columns="1"
+			rendered="#{loginHandler.showedObject.person.assistant!=null}">
+			<ice:panelGrid border="0" columns="2">
+				<ice:graphicImage value="/img/icons/personal16.png" />
+				<ice:outputLabel
+					value="#{labels['pages.registration.personalHeader']}" />
+			</ice:panelGrid>
+			<ice:panelGrid columns="2">
+				<ice:outputLabel for="assistant_gender"
+					value="#{labels['person.gender']}" />
+				<ice:outputText id="assistant_genderO"
+					value="#{loginHandler.showedObject.person.assistant.sex}"
+					rendered="#{!loginHandler.editable}">
 				</ice:outputText>
-				<ice:commandButton style="margin-left: 15px;"
-					action="#{popups.showChangeAssistantPopup}"
-					rendered="#{loginHandler.editable}" image="/img/icons/change16.png"></ice:commandButton>
-			</ice:panelGroup>
-			<!-- Editing the user's assistant -->
-			<ice:panelGroup rendered="#{loginHandler.creatingMode}">
-				<ice:selectInputText id="assistantInput"
-					required="#{loginHandler.showedObject.person.requiredFields['assistant']}"
-					valueChangeListener="#{loginHandler.tsMembersAC.updateObjectList}" rows="10"
-					width="200">
-					<f:selectItems value="#{loginHandler.tsMembersAC.objectList}" />
-				</ice:selectInputText>
-				<ice:message for="assistantInput" id="assistantError"></ice:message>
-			</ice:panelGroup>
-			<ice:outputLabel for="phoneAss" value="#{labels['person.phone']}"></ice:outputLabel>
-			<ice:outputText id="phoneAss"
-				value="#{loginHandler.showedObject.person.assistant !=null ? loginHandler.showedObject.person.assistant.phone : loginHandler.tsMembersAC.selectedObject.phone}">
-			</ice:outputText>
-			<ice:outputLabel for="mobileAss" value="#{labels['person.mobile']}"></ice:outputLabel>
-			<ice:outputText id="mobileAss"
-				value="#{loginHandler.showedObject.person.assistant !=null ? loginHandler.showedObject.person.assistant.mobile : loginHandler.tsMembersAC.selectedObject.mobile}">
-			</ice:outputText>
-			<ice:outputLabel for="postcodeAss" value="#{labels['person.eMail']}"></ice:outputLabel>
-			<ice:outputText id="postcodeAss"
-				value="#{loginHandler.showedObject.person.assistant !=null ? loginHandler.showedObject.person.assistant.email : loginHandler.tsMembersAC.selectedObject.email}">
-			</ice:outputText>
+				<ice:selectOneMenu id="assistant_gender"
+					value="#{loginHandler.showedObject.person.assistant.sex}"
+					converter="de.randi2.jsf.converters.GENDER_CONVERTER"
+					rendered="#{loginHandler.editable}">
+					<f:selectItems value="#{enums.genderItems}" />
+				</ice:selectOneMenu>
+			</ice:panelGrid>
+			<ice:panelGrid border="0" columns="2" style="float:left">
+				<ice:outputLabel for="assistant_title"
+					value="#{labels['person.title']}" />
+				<ice:outputText id="assistant_titleO"
+					value="#{loginHandler.showedObject.person.assistant.title}"
+					rendered="#{!loginHandler.editable}">
+				</ice:outputText>
+				<ice:panelGroup rendered="#{loginHandler.editable}">
+					<ice:inputText id="assistant_title"
+						value="#{loginHandler.showedObject.person.assistant.title}"
+						required="#{loginHandler.showedObject.person.requiredFields['title']}"
+						partialSubmit="true" rendered="#{loginHandler.editable}">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject"
+							value="#{loginHandler.showedObject.person.assistant}" />
+					</ice:inputText>
+					<ice:message for="assistant_title" id="assistant_titelError"
+						rendered="#{loginHandler.editable}" />
+				</ice:panelGroup>
+				<ice:outputLabel for="assistant_firstname"
+					value="#{labels['person.firstname']}" />
+				<ice:outputText id="assistant_firstnameO"
+					value="#{loginHandler.showedObject.person.assistant.firstname}"
+					rendered="#{!loginHandler.editable}">
+				</ice:outputText>
+				<ice:panelGroup rendered="#{loginHandler.editable}">
+					<ice:inputText id="assistant_firstname"
+						value="#{loginHandler.showedObject.person.assistant.firstname}"
+						required="#{loginHandler.showedObject.person.requiredFields['firstname']}"
+						partialSubmit="true" rendered="#{loginHandler.editable}">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject"
+							value="#{loginHandler.showedObject.person.assistant}" />
+					</ice:inputText>
+					<ice:message for="assistant_firstname"
+						id="assistant_firstnameError" rendered="#{loginHandler.editable}" />
+				</ice:panelGroup>
+				<ice:outputLabel for="assistant_surname"
+					value="#{labels['person.surname']}" />
+				<ice:outputText id="assistant_surnameO"
+					value="#{loginHandler.showedObject.person.assistant.surname}"
+					rendered="#{!loginHandler.editable}">
+				</ice:outputText>
+				<ice:panelGroup rendered="#{loginHandler.editable}">
+					<ice:inputText id="assistant_surname"
+						value="#{loginHandler.showedObject.person.assistant.surname}"
+						required="#{loginHandler.showedObject.person.requiredFields['surname']}"
+						partialSubmit="true" rendered="#{loginHandler.editable}">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject"
+							value="#{loginHandler.showedObject.person.assistant}" />
+					</ice:inputText>
+					<ice:message for="assistant_surname" id="assistant_surnameError"
+						rendered="#{loginHandler.editable}" />
+				</ice:panelGroup>
+			</ice:panelGrid>
+			<ice:panelGrid border="0" columns="2">
+				<ice:graphicImage value="/img/icons/contact16.png" />
+				<ice:outputLabel
+					value="#{labels['pages.registration.contactHeader']}" />
+			</ice:panelGrid>
+			<ice:panelGrid border="0" columns="2">
+				<ice:outputLabel for="assistant_email"
+					value="#{labels['person.eMail']}" />
+				<ice:outputText id="assistant_emailO"
+					value="#{loginHandler.showedObject.person.assistant.email}"
+					rendered="#{!loginHandler.editable}">
+				</ice:outputText>
+				<ice:panelGroup rendered="#{loginHandler.editable}">
+					<ice:inputText id="assistant_email"
+						value="#{loginHandler.showedObject.person.assistant.email}"
+						required="#{loginHandler.showedObject.person.requiredFields['email']}"
+						partialSubmit="true" rendered="#{loginHandler.editable}">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject"
+							value="#{loginHandler.showedObject.person.assistant}" />
+					</ice:inputText>
+					<ice:message for="assistant_email" id="assistant_eMailError"
+						rendered="#{loginHandler.editable}" />
+				</ice:panelGroup>
+				<ice:outputLabel for="assistant_phone"
+					value="#{labels['person.phone']}" />
+				<ice:outputText id="assistant_phoneO"
+					value="#{loginHandler.showedObject.person.assistant.phone}"
+					rendered="#{!loginHandler.editable}">
+				</ice:outputText>
+				<ice:panelGroup rendered="#{loginHandler.editable}">
+					<ice:inputText id="assistant_phone"
+						value="#{loginHandler.showedObject.person.assistant.phone}"
+						required="#{loginHandler.showedObject.person.requiredFields['phone']}"
+						partialSubmit="true" rendered="#{loginHandler.editable}">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject"
+							value="#{loginHandler.showedObject.person.assistant}" />
+					</ice:inputText>
+					<ice:message for="assistant_phone" id="assistant_phoneError"
+						rendered="#{loginHandler.editable}" />
+				</ice:panelGroup>
+				<ice:outputLabel for="assistant_mobile"
+					value="#{labels['person.mobile']}" />
+				<ice:outputText id="assistant_mobileO"
+					value="#{loginHandler.showedObject.person.assistant.mobile}"
+					rendered="#{!loginHandler.editable}">
+				</ice:outputText>
+				<ice:panelGroup rendered="#{loginHandler.editable}">
+					<ice:inputText id="assistant_mobile"
+						value="#{loginHandler.showedObject.person.assistant.mobile}"
+						required="#{loginHandler.showedObject.person.requiredFields['mobile']}"
+						partialSubmit="true" rendered="#{loginHandler.editable}">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject"
+							value="#{loginHandler.showedObject.person.assistant}" />
+					</ice:inputText>
+					<ice:message for="assistant_mobile" id="assistant_mobileError"
+						rendered="#{loginHandler.editable}" />
+				</ice:panelGroup>
+				<ice:outputLabel for="assistant_fax" value="#{labels['person.fax']}" />
+				<ice:outputText id="assistant_faxO"
+					value="#{loginHandler.showedObject.person.assistant.fax}"
+					rendered="#{!loginHandler.editable}">
+				</ice:outputText>
+				<ice:panelGroup rendered="#{loginHandler.editable}">
+					<ice:inputText id="assistant_fax"
+						value="#{loginHandler.showedObject.person.assistant.fax}"
+						required="#{loginHandler.showedObject.person.requiredFields['fax']}"
+						partialSubmit="true" rendered="#{loginHandler.editable}">
+						<f:validator
+							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+						<f:attribute name="dObject"
+							value="#{loginHandler.showedObject.person.assistant}" />
+					</ice:inputText>
+					<ice:message for="assistant_fax" id="assistant_faxError"
+						rendered="#{loginHandler.editable}" />
+				</ice:panelGroup>
+			</ice:panelGrid>
 		</ice:panelGrid>
 	</ice:panelCollapsible>
 </ice:panelGroup>

@@ -60,15 +60,15 @@ import de.randi2.utility.logging.LogEntry.ActionType;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class LoginHandler extends AbstractHandler<Login> {
-	
+
 	private UserService userService;
-	
+
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	
+
 	private LogService logService;
-	
+
 	public void setLogService(LogService logService) {
 		this.logService = logService;
 	}
@@ -95,7 +95,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 	private Locale chosenLocale = null;
 
 	private AutoCompleteObject<TrialSite> trialSitesAC = null;
-	private AutoCompleteObject<Person> tsMembersAC = null;
 	private AutoCompleteObject<Role> rolesAC = null;
 
 	// Objects for User-Creating Process
@@ -130,15 +129,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 		assert (trialSitesAC.getSelectedObject() != null);
 		showedObject.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
 		popups.hideChangeTrialSitePopup();
-		this.saveObject();
-		return Randi2.SUCCESS;
-	}
-
-	public String changeAssistant() {
-		assert (tsMembersAC.getSelectedObject() != null);
-		showedObject.getPerson()
-				.setAssistant((tsMembersAC.getSelectedObject()));
-		popups.hideChangeAssistantPopup();
 		this.saveObject();
 		return Randi2.SUCCESS;
 	}
@@ -240,7 +230,8 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public String logoutUser() {
 		loggedInUser = userService.update(loggedInUser);
 		invalidateSession();
-		logService.logChange(ActionType.LOGOUT, loggedInUser.getUsername(), loggedInUser);
+		logService.logChange(ActionType.LOGOUT, loggedInUser.getUsername(),
+				loggedInUser);
 		return Randi2.SUCCESS;
 	}
 
@@ -251,7 +242,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 		tsPassword = null;
 		newUser = null;
 		trialSitesAC = null;
-		tsMembersAC = null;
 	}
 
 	/*
@@ -266,7 +256,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 		else
 			showedObject = userService.getObject(showedObject.getId());
 		trialSitesAC = null;
-		tsMembersAC = null;
 		refresh();
 		return Randi2.SUCCESS;
 	}
@@ -349,11 +338,12 @@ public class LoginHandler extends AbstractHandler<Login> {
 	}
 
 	public boolean isEditable() {
-		PermissionVerifier permissionVerifier = ((PermissionVerifier) FacesContext.getCurrentInstance().getApplication()
-				.getELResolver().getValue(
-						FacesContext.getCurrentInstance().getELContext(), null,
-						"permissionVerifier"));
-		if (showedObject.equals(this.loggedInUser) || permissionVerifier.isAllowedEditUser(showedObject) ) {
+		PermissionVerifier permissionVerifier = ((PermissionVerifier) FacesContext
+				.getCurrentInstance().getApplication().getELResolver()
+				.getValue(FacesContext.getCurrentInstance().getELContext(),
+						null, "permissionVerifier"));
+		if (showedObject.equals(this.loggedInUser)
+				|| permissionVerifier.isAllowedEditUser(showedObject)) {
 			editable = true;
 		} else {
 			editable = creatingMode;
@@ -391,21 +381,12 @@ public class LoginHandler extends AbstractHandler<Login> {
 		return trialSitesAC;
 	}
 
-	public AutoCompleteObject<Person> getTsMembersAC() {
-		if (trialSitesAC != null && trialSitesAC.getSelectedObject() != null)
-			tsMembersAC = new AutoCompleteObject<Person>(trialSitesAC
-					.getSelectedObject().getMembers());
-		else if (showedObject != null)
-			tsMembersAC = new AutoCompleteObject<Person>(showedObject
-					.getPerson().getTrialSite().getMembers());
-		return tsMembersAC;
-	}
-
 	public AutoCompleteObject<Role> getRolesAC() {
-		if (rolesAC == null){
+		if (rolesAC == null) {
 			rolesAC = new AutoCompleteObject<Role>(userService.getAllRoles());
-			ResourceBundle rb = ResourceBundle.getBundle( "de.randi2.jsf.i18n.roles", this.getChosenLocale());
-			for(SelectItem si : rolesAC.getObjectList()){
+			ResourceBundle rb = ResourceBundle.getBundle(
+					"de.randi2.jsf.i18n.roles", this.getChosenLocale());
+			for (SelectItem si : rolesAC.getObjectList()) {
 				si.setLabel(rb.getString(si.getLabel()));
 			}
 		}
@@ -430,8 +411,18 @@ public class LoginHandler extends AbstractHandler<Login> {
 			e.printStackTrace();
 		}
 	}
-	
-	public List<LogEntry> getLogEntries(){
+
+	/**
+	 * Method for initial assistant creation
+	 * 
+	 * @param event
+	 */
+	public void createAssistant(ActionEvent event) {
+		if (showedObject != null)
+			showedObject.getPerson().setAssistant(new Person());
+	}
+
+	public List<LogEntry> getLogEntries() {
 		return logService.getLogEntries(showedObject.getUsername());
 	}
 
