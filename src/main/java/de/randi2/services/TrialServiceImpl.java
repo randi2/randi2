@@ -35,9 +35,10 @@ public class TrialServiceImpl implements TrialService {
 		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " create a new trial site with name " +newTrial.getName());
 		trialDao.create(newTrial);
 	}
-
+	
+	
 	@Override
-	@Secured({"ACL_TRIALSUBJECT_CREATE"})
+//	secured with own SecurityAspect
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public Trial randomize(Trial trial, TrialSubject subject) {
 		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " randomized in trial " +trial.getName());
@@ -69,7 +70,7 @@ public class TrialServiceImpl implements TrialService {
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<Trial> getAll() {
 		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " get all trial sites");
-		return trialDao.getAll();//TODO send mail
+		return trialDao.getAll();
 	}
 
 	@Override

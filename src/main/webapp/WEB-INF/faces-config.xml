@@ -234,6 +234,11 @@
 			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
 			<value>#{loginHandler}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>trialHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.TrialHandler</property-class>
+			<value>#{trialHandler}</value>
+		</managed-property>
 			<managed-property>
 			<property-name>aclService</property-name>
 			<property-class>de.randi2.dao.HibernateAclService</property-class>

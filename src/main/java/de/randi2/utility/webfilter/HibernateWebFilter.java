@@ -78,44 +78,6 @@ public class HibernateWebFilter implements Filter {
 				}
 				//SecurityContextHolder.getContext().setAuthentication(null);
 			}
-
-//		}catch (RuntimeException e) {
-//			logger.debug(e);
-//			throw e;
-//		}
-//		}
-//		catch (StaleObjectStateException staleEx) {
-//			staleEx.printStackTrace();
-//			
-//			logger
-//					.trace("This interceptor does not implement optimistic concurrency control!");
-//			logger
-//					.trace("Your application will not work until you add compensation actions!");
-//			// Rollback, close everything, possibly compensate for any permanent
-//			// changes
-//			// during the conversation, and finally restart business
-//			// conversation. Maybe
-//			// give the user of the application a chance to merge some of his
-//			// work with
-//			// fresh data... what you do here depends on your applications
-//			// design.
-//			throw staleEx;throw new ServletException(ex1);
-//		} catch (AccessDeniedException ex1){
-//			ex1.printStackTrace();
-//			throw new ServletException(ex1);
-//		}catch (Throwable ex) {
-//			ex.printStackTrace();
-//			logger.warn("", ex);
-//			logger.trace("Cleanup after exception!");
-//			// Cleanup
-//			logger.trace("Closing and unbinding Session from thread");
-//			sf.getCurrentSession().close(); // Unbind is automatic here
-//			logger.trace("Removing Session from HttpSession");
-//			httpSession.setAttribute(HIBERNATE_SESSION_KEY, null);
-//			// Let others handle it... maybe another interceptor for exceptions?
-//			throw new ServletException(ex);
-//		}
-
 	}
 
 	public void init(FilterConfig filterConfig) throws ServletException {

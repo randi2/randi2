@@ -47,7 +47,7 @@
 		class="de.randi2.utility.security.RolesAndRights">
 	</bean>
 
-
+ <bean id="securityAspects" class="de.randi2.aspects.SecurityAspects" ></bean> 
 <!-- import the other configurations -->
 <import resource="classpath:META-INF/subconfig/security/security-permissions.xml" />
 <import resource="classpath:META-INF/subconfig/security/security-voter.xml" />

@@ -7,9 +7,11 @@ import org.springframework.security.acls.sid.PrincipalSid;
 import org.springframework.security.acls.sid.Sid;
 
 import de.randi2.jsf.controllerBeans.LoginHandler;
+import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.model.Login;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
+import de.randi2.model.TrialSubject;
 import de.randi2.model.security.ObjectIdentityHibernate;
 import de.randi2.model.security.PermissionHibernate;
 
@@ -29,6 +31,18 @@ public class PermissionVerifier {
 
 	public void setLoginHandler(LoginHandler loginHandler) {
 		this.loginHandler = loginHandler;
+	}
+	
+	private TrialHandler trialHandler;
+	
+	
+
+	public TrialHandler getTrialHandler() {
+		return trialHandler;
+	}
+
+	public void setTrialHandler(TrialHandler trialHandler) {
+		this.trialHandler = trialHandler;
 	}
 
 	public boolean isAllowedCreateUser() {
@@ -95,6 +109,12 @@ public class PermissionVerifier {
 		} catch (NotFoundException e) {
 			return false;
 		}
+	}
+	
+	public boolean isAllowedRandomize() {
+		return trialHandler.isAddingSubjectsEnabled() && (loginHandler.getLoggedInUser().hasPermission(TrialSubject.class,
+				PermissionHibernate.CREATE) || loginHandler.getLoggedInUser().hasPermission(TrialSubject.class,
+						PermissionHibernate.ADMINISTRATION));
 	}
 	
 	public boolean isAllowedChangeUserTrialSite(){
