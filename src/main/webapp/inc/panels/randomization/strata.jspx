@@ -28,7 +28,7 @@
 			value="Do you want to stratify your randomization process?*" />
 		<ice:selectBooleanCheckbox value="#{strata.stratified}" partialSubmit="true"/>
 		<ice:outputText rendered="#{strata.stratified}" value="Do you want to declare the trial sites as a stratification factor?*"/>
-		<ice:selectBooleanCheckbox rendered="#{strata.stratified}" value="false"/>
+		<ice:selectBooleanCheckbox rendered="#{strata.stratified}" value="#{trialHandler.showedObject.stratifyTrialSite}"/>
 	</ice:panelGrid>
 </ice:panelCollapsible>
 <ice:panelCollapsible rendered="false"> <!--#{strata.stratified} -->

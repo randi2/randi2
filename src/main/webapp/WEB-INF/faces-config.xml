@@ -24,6 +24,10 @@
 			<base-name>de.randi2.jsf.i18n.gender</base-name>
 			<var>gender</var>
 		</resource-bundle>
+		<resource-bundle>
+			<base-name>de.randi2.jsf.i18n.roles</base-name>
+			<var>roles</var>
+		</resource-bundle>
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 		<locale-config>
 			<default-locale>en_US</default-locale>

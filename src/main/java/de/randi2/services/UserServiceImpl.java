@@ -208,4 +208,11 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 	}
+	
+	@Override
+	@Secured({"ROLE_USER"})
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public List<Role> getAllRoles() {
+		return roleDao.getAll();
+	}
 }

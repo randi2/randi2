@@ -1,5 +1,7 @@
 package de.randi2.services;
 
+import java.util.List;
+
 import de.randi2.model.Login;
 import de.randi2.model.Role;
 
@@ -75,6 +77,11 @@ public interface UserService extends AbstractService<Login> {
 	 */
 	public void deleteRole(Role oldRole);
 	
+	/**
+	 * Returns the list of all defined roles which a user can have.
+	 * @return defined RANDI2 roles
+	 */
+	public List<Role> getAllRoles(); 
 	
 	/* Methods for the future:
 	 * addRight(long userID, ?)

@@ -687,5 +687,10 @@ public class Role extends AbstractDomainObject {
 	public void setScopeTrialRead(boolean scopeTrialRead) {
 		this.scopeTrialRead = scopeTrialRead;
 	}
+	
+	@Override
+	public String getUIName() {
+		return name;
+	}
 
 }

@@ -13,12 +13,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 import org.springframework.security.vote.AffirmativeBased;
 
 import de.randi2.dao.LoginDao;
 import de.randi2.model.Login;
-import de.randi2.model.Person;
 import de.randi2.model.Role;
 import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.test.utility.TestStringUtil;
@@ -41,7 +39,7 @@ public class UserServiceTest extends AbstractServiceTest{
 	}
 	
 
-	
+	//FIXME Create a test for the getAllRoles 
 	
 	@Test
 	public void testAddRole(){

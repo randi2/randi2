@@ -27,7 +27,7 @@
 			</ice:panelGrid>
 		</f:facet>
 		<ice:panelGroup>
-			<ice:panelGrid border="0" columns="3" rendered="#{permissionVerifier.allowedWriteUser}">
+			<ice:panelGrid border="0" columns="3">
 				<ice:outputLabel for="role" value="#{labels['login.role']}"></ice:outputLabel>
 				<ice:selectInputText id="role"
 					valueChangeListener="#{loginHandler.rolesAC.updateObjectList}"
@@ -39,24 +39,18 @@
 					disabled="#{!loginHandler.rolesAC.objectSelected}" />
 			</ice:panelGrid>
 			<ice:dataTable id="rolesTable" border="2"
-				value="#{loginHandler.showedObject.roles}" var="role"
-				scrollable="true" scrollHeight="80px" columnWidths="150px,55px"
-				width="205px">
+				value="#{loginHandler.showedObject.roles}" var="role">
 				<ice:column id="column1">
-					<ice:outputText value="#{role.name}"></ice:outputText>
+					<ice:outputText value="#{roles[role.name]}" />
 					<f:facet name="header">
-						<ice:outputText value="#{labels['buttons.remove']}" id="nameH"
-							style="width:150px;"></ice:outputText>
+						<ice:outputText value="#{labels['role.name']}" id="nameH"></ice:outputText>
 					</f:facet>
 				</ice:column>
 				<ice:column id="column4">
-					<ice:commandLink id="removeId" value="!Remove!"
-						actionListener="#{loginHandler.removeRole}" disabled="#{!permissionVerifier.allowedWriteUser}">
+					<ice:commandLink id="removeId" value="#{labels['buttons.remove']}"
+						actionListener="#{loginHandler.removeRole}">
 						<ice:outputText value="#{role}" visible="false"></ice:outputText>
 					</ice:commandLink>
-					<f:facet name="header">
-						<ice:outputText value="" id="removeH" style="width:55px;"></ice:outputText>
-					</f:facet>
 				</ice:column>
 			</ice:dataTable>
 		</ice:panelGroup>

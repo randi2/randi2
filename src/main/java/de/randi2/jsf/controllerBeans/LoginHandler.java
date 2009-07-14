@@ -15,15 +15,16 @@
 package de.randi2.jsf.controllerBeans;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -59,12 +60,9 @@ import de.randi2.utility.logging.LogEntry.ActionType;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class LoginHandler extends AbstractHandler<Login> {
-		
-	
 	
 	private UserService userService;
 	
-
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
@@ -403,24 +401,17 @@ public class LoginHandler extends AbstractHandler<Login> {
 		else if (showedObject != null)
 			tsMembersAC = new AutoCompleteObject<Person>(showedObject
 					.getPerson().getTrialSite().getMembers());
-		// else
-		// tsMembersAC = new AutoCompleteObject<Person>(
-		// new ArrayList<Person>());
 		return tsMembersAC;
 	}
 
 	public AutoCompleteObject<Role> getRolesAC() {
-		// FIXME TEMP SOLUTION - switch to loginDAO.getPossibleRoles(true) when
-		// ready
-		ArrayList<Role> roles = new ArrayList<Role>();
-		roles.add(Role.ROLE_INVESTIGATOR);
-		roles.add(Role.ROLE_P_INVESTIGATOR);
-		roles.add(Role.ROLE_STATISTICAN);
-		roles.add(Role.ROLE_MONITOR);
-		roles.add(Role.ROLE_ADMIN);
-		// ---
-		if (rolesAC == null)
-			rolesAC = new AutoCompleteObject<Role>(roles);
+		if (rolesAC == null){
+			rolesAC = new AutoCompleteObject<Role>(userService.getAllRoles());
+			ResourceBundle rb = ResourceBundle.getBundle( "de.randi2.jsf.i18n.roles", this.getChosenLocale());
+			for(SelectItem si : rolesAC.getObjectList()){
+				si.setLabel(rb.getString(si.getLabel()));
+			}
+		}
 		return rolesAC;
 	}
 
