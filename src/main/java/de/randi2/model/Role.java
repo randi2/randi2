@@ -21,19 +21,19 @@ public class Role extends AbstractDomainObject {
 	private static final long serialVersionUID = 7986310852028135642L;
 
 	public static final Role ROLE_INVESTIGATOR = new Role(
-			"ROLE_INVESTIGATOR", false, true, true, true, false, false, true,
+			"ROLE_INVESTIGATOR", false, false, true, true, false, false, true,
 			true, false, true, false, true, false, true, true, false, true,
 			false, true, false, true, true, false, true, false, false, false,
 			false, new ArrayList<Role>());
 
 	
 	public static final Role ROLE_STATISTICAN = new Role("ROLE_STATISTICAN",
-			false, true, true, true, false, false, true, true, true, true,
+			false, false, true, true, false, false, true, true, true, true,
 			false, true, false, true, true, false, true, false, true, false,
 			true, true, false, false, false, true, false, false, null);
 
 	public static final Role ROLE_MONITOR = new Role("ROLE_MONITOR",
-			false, true, true, true, false, false, true, true, true, true,
+			false, false, true, true, false, false, true, true, true, true,
 			false, true, false, true, true, false, true, false, true, false,
 			true, true, false, false, false, true, false, false, null);
 
@@ -52,7 +52,7 @@ public class Role extends AbstractDomainObject {
 			false, true, false, false, true, false, true, false, true, false,
 			false, false, false, false, false, false, null);
 	
-	public static final Role ROLE_P_INVESTIGATOR = new Role("ROLE_P_INVESTIGATOR", false, true, true, true, false, false, true,
+	public static final Role ROLE_P_INVESTIGATOR = new Role("ROLE_P_INVESTIGATOR", false, false, true, true, false, false, true,
 			true, false, true, true, true, true, true, true, false, true,
 			true, true, true, true, true, false, false, false, true, false,
 			false, new ArrayList<Role>(Arrays.asList(new Role[]{Role.ROLE_INVESTIGATOR,Role.ROLE_STATISTICAN,Role.ROLE_MONITOR})));

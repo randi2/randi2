@@ -33,32 +33,38 @@ public class PermissionVerifier {
 
 	public boolean isAllowedCreateUser() {
 		return loginHandler.getLoggedInUser().hasPermission(Login.class,
-				PermissionHibernate.CREATE);
+				PermissionHibernate.CREATE)  || loginHandler.getLoggedInUser().hasPermission(Login.class,
+						PermissionHibernate.ADMINISTRATION);
 	}
 
 	public boolean isAllowedWriteUser() {
 		return loginHandler.getLoggedInUser().hasPermission(Login.class,
-				PermissionHibernate.WRITE);
+				PermissionHibernate.WRITE)  || loginHandler.getLoggedInUser().hasPermission(Login.class,
+						PermissionHibernate.ADMINISTRATION);
 	}
 	
 	public boolean isAllowedCreateTrial() {
 		return loginHandler.getLoggedInUser().hasPermission(Trial.class,
-				PermissionHibernate.CREATE);
+				PermissionHibernate.CREATE) || loginHandler.getLoggedInUser().hasPermission(Trial.class,
+						PermissionHibernate.ADMINISTRATION);
 	}
 
 	public boolean isAllowedReadTrial() {
 		return loginHandler.getLoggedInUser().hasPermission(Trial.class,
-				PermissionHibernate.READ);
+				PermissionHibernate.READ)|| loginHandler.getLoggedInUser().hasPermission(Trial.class,
+						PermissionHibernate.ADMINISTRATION);
 	}
 
 	public boolean isAllowedCreateTrialSite() {
 		return loginHandler.getLoggedInUser().hasPermission(TrialSite.class,
-				PermissionHibernate.CREATE);
+				PermissionHibernate.CREATE) || loginHandler.getLoggedInUser().hasPermission(TrialSite.class,
+						PermissionHibernate.ADMINISTRATION);
 	}
 
 	public boolean isAllowedReadTrialSite() {
 		return loginHandler.getLoggedInUser().hasPermission(TrialSite.class,
-				PermissionHibernate.READ);
+				PermissionHibernate.READ)|| loginHandler.getLoggedInUser().hasPermission(TrialSite.class,
+						PermissionHibernate.ADMINISTRATION);
 	}
 
 	public boolean isAllowedEditTrialSite(TrialSite trialSite) {
@@ -67,13 +73,11 @@ public class PermissionVerifier {
 					TrialSite.class, trialSite.getId()),
 					new Sid[] { new PrincipalSid(loginHandler.getLoggedInUser()
 							.getUsername()) });
-			System.out.println(acl);
 			return acl.isGranted(
-					new PermissionHibernate[] { PermissionHibernate.WRITE },
+					new PermissionHibernate[] { PermissionHibernate.WRITE, PermissionHibernate.ADMINISTRATION },
 					new Sid[] { new PrincipalSid(loginHandler.getLoggedInUser()
 							.getUsername()) }, false);
 		} catch (NotFoundException e) {
-			System.out.println(e);
 			return false;
 		}
 	}
@@ -85,7 +89,7 @@ public class PermissionVerifier {
 					new Sid[] { new PrincipalSid(loginHandler.getLoggedInUser()
 							.getUsername()) });
 			return acl.isGranted(
-					new PermissionHibernate[] { PermissionHibernate.WRITE },
+					new PermissionHibernate[] { PermissionHibernate.WRITE, PermissionHibernate.ADMINISTRATION },
 					new Sid[] { new PrincipalSid(loginHandler.getLoggedInUser()
 							.getUsername()) }, false);
 		} catch (NotFoundException e) {
