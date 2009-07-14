@@ -12,6 +12,7 @@ import com.icesoft.faces.context.ByteArrayResource;
 import com.icesoft.faces.context.FileResource;
 import com.icesoft.faces.context.Resource;
 
+import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
@@ -105,6 +106,10 @@ public class TSubjectAdd {
 			tempSet.add((SubjectProperty) cw.getSubjectProperty());
 		}
 		getTrialSubject().setProperties(tempSet);
+		getTrialSubject().setTrialSite((((LoginHandler) FacesContext.getCurrentInstance().getApplication()
+				.getELResolver().getValue(
+						FacesContext.getCurrentInstance().getELContext(), null,
+						"loginHandler"))).getLoggedInUser().getPerson().getTrialSite())
 		currentTrial = trialService.randomize(currentTrial, getTrialSubject());
 		subjectID = getTrialSubject().getIdentification();
 		subjectArm = getTrialSubject().getArm().getUIName();

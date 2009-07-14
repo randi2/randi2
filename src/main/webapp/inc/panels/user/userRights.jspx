@@ -27,7 +27,7 @@
 			</ice:panelGrid>
 		</f:facet>
 		<ice:panelGroup>
-			<ice:panelGrid border="0" columns="3">
+			<ice:panelGrid border="0" columns="3" style="margin-left: 50px;">
 				<ice:outputLabel for="role" value="#{labels['login.role']}"></ice:outputLabel>
 				<ice:selectInputText id="role"
 					valueChangeListener="#{loginHandler.rolesAC.updateObjectList}"
@@ -39,9 +39,9 @@
 					disabled="#{!loginHandler.rolesAC.objectSelected}" />
 			</ice:panelGrid>
 			<ice:dataTable id="rolesTable" border="2"
-				value="#{loginHandler.showedObject.roles}" var="role">
+				value="#{loginHandler.showedObject.roles}" var="role" style="margin-left: 50px; width: 300px;">
 				<ice:column id="column1">
-					<ice:outputText value="#{roles[role.name]}" />
+					<ice:outputText value="#{roles[role.UIName]}" />
 					<f:facet name="header">
 						<ice:outputText value="#{labels['role.name']}" id="nameH"></ice:outputText>
 					</f:facet>
