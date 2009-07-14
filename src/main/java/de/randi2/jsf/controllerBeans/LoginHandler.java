@@ -195,9 +195,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 			newUser.setPrefLocale(getChosenLocale());
 			newUser.setUsername(newUser.getPerson().getEmail());
 			newUser.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
-			if (tsMembersAC.getSelectedObject() != null) // Assistant
-				newUser.getPerson().setAssistant(
-						tsMembersAC.getSelectedObject());
 			/* The new object will be saved */
 			userService.register(newUser);
 			// Making the successPopup visible (NORMAL REGISTRATION)

@@ -109,7 +109,7 @@ public class TSubjectAdd {
 		getTrialSubject().setTrialSite((((LoginHandler) FacesContext.getCurrentInstance().getApplication()
 				.getELResolver().getValue(
 						FacesContext.getCurrentInstance().getELContext(), null,
-						"loginHandler"))).getLoggedInUser().getPerson().getTrialSite())
+						"loginHandler"))).getLoggedInUser().getPerson().getTrialSite());
 		currentTrial = trialService.randomize(currentTrial, getTrialSubject());
 		subjectID = getTrialSubject().getIdentification();
 		subjectArm = getTrialSubject().getArm().getUIName();

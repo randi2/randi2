@@ -23,6 +23,7 @@ import com.icesoft.faces.context.effects.Effect;
 import com.icesoft.faces.context.effects.Highlight;
 
 import de.randi2.jsf.controllerBeans.LoginHandler;
+import de.randi2.model.Person;
 
 /**
  * <p>
@@ -105,6 +106,24 @@ public class RegisterPage {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private boolean createAssistant = false;
+	
+	public boolean isCreateAssistant() {
+		return createAssistant;
+	}
+	
+	public void setCreateAssistant(boolean createAssistant) {
+		if(createAssistant)
+			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
+					.getELResolver().getValue(
+							FacesContext.getCurrentInstance().getELContext(), null, "loginHandler")).getNewUser().getPerson().setAssistant(new Person());
+		else
+			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
+					.getELResolver().getValue(
+							FacesContext.getCurrentInstance().getELContext(), null, "loginHandler")).getNewUser().getPerson().setAssistant(null);
+		this.createAssistant = createAssistant;
 	}
 
 	/**
