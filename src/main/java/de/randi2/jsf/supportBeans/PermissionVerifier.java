@@ -75,6 +75,22 @@ public class PermissionVerifier {
 			return false;
 		}
 	}
+	
+	public boolean isAllowedEditUser(Login user) {
+		try {
+			Acl acl = aclService.readAclById(new ObjectIdentityHibernate(
+					Login.class, user.getId()),
+					new Sid[] { new PrincipalSid(loginHandler.getLoggedInUser()
+							.getUsername()) });
+			return acl.isGranted(
+					new PermissionHibernate[] { PermissionHibernate.WRITE },
+					new Sid[] { new PrincipalSid(loginHandler.getLoggedInUser()
+							.getUsername()) }, false);
+		} catch (NotFoundException e) {
+			return false;
+		}
+	}
+	
 	public boolean isAllowedChangeUserTrialSite(){
 		return loginHandler.isEditable() && isAllowedWriteUser();
 	}
