@@ -19,7 +19,7 @@
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelGrid columns="1" rendered="#{!criterion.elementsEmpty}">
 		<ice:panelGroup>
-			<ice:outputLabel value="Elements*: " />
+			<ice:outputLabel value="#{criteria['de.randi2.model.criteria.OrdinalCriterion.elements']}" />
 			<ice:commandButton image="/img/icons/add16.png"
 				actionListener="#{criterion.addElement}" style="margin-right:5px;" />
 			<ice:commandButton image="/img/icons/remove16.png"

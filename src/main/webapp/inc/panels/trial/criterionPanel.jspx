@@ -29,9 +29,9 @@
 		</ice:panelGrid>
 		<ice:panelGrid columns="2">
 			<ice:panelGrid columns="1">
-				<ice:outputLabel value="Name*" />
+				<ice:outputLabel value="#{criteria['de.randi2.model.criteria.AbstractCriterion.name']}" />
 				<ice:inputText value="#{criterion.wrappedCriterion.name}" />
-				<ice:outputLabel value="Description*" />
+				<ice:outputLabel value="#{criteria['de.randi2.model.criteria.AbstractCriterion.description']}" />
 				<ice:inputTextarea value="#{criterion.wrappedCriterion.description}" />
 			</ice:panelGrid>
 			<ice:panelGroup>

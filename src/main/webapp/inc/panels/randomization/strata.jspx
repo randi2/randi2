@@ -20,14 +20,14 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<f:facet name="header">
-		<ice:outputLabel value="Stratification*" />
+		<ice:outputLabel value="#{labels['pages.strata.titel']}" />
 	</f:facet>
-	<ice:outputLabel value="Info about stratification*"></ice:outputLabel>
+	<ice:outputLabel value="#{labels['pages.strata.info']}"></ice:outputLabel>
 	<ice:panelGrid columns="2">
 		<ice:outputText
-			value="Do you want to stratify your randomization process?*" />
+			value="#{labels['pages.strata.question1']}" />
 		<ice:selectBooleanCheckbox value="#{strata.stratified}" partialSubmit="true"/>
-		<ice:outputText rendered="#{strata.stratified}" value="Do you want to declare the trial sites as a stratification factor?*"/>
+		<ice:outputText rendered="#{strata.stratified}" value="#{labels['pages.strata.question2']}"/>
 		<ice:selectBooleanCheckbox rendered="#{strata.stratified}" value="#{trialHandler.showedObject.stratifyTrialSite}"/>
 	</ice:panelGrid>
 </ice:panelCollapsible>

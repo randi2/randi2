@@ -27,6 +27,10 @@ public class Popups {
 	
 	public String hideTrialCreatedPopup() {
 		this.trialCreatedPVisible = false;
+		((Randi2Page) FacesContext.getCurrentInstance().getApplication()
+				.getELResolver().getValue(
+						FacesContext.getCurrentInstance().getELContext(), null,
+						"randi2Page")).viewTrials(null);
 		return Randi2.SUCCESS;
 	}
 

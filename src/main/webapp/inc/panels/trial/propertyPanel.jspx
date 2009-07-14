@@ -36,7 +36,8 @@
 					</ice:panelGroup>
 					<ice:panelGroup id="datePanel">
 						<ice:panelGrid columns="1">
-							<ice:outputLabel value="Subject's value*:" />
+							<ice:outputLabel
+								value="#{labels['pages.propertyPanel.subjectsValue']}" />
 							<ice:panelGrid columns="2">
 								<ice:selectInputDate id="date"
 									value="#{criterion.subjectProperty.value.time}"
@@ -50,7 +51,8 @@
 					</ice:panelGroup>
 					<ice:panelGroup id="dichotomousPanel">
 						<ice:panelGrid columns="1">
-							<ice:outputLabel value="Subject's value*:" />
+							<ice:outputLabel
+								value="#{labels['pages.propertyPanel.subjectsValue']}" />
 							<ice:panelGroup>
 								<ice:selectOneRadio value="#{criterion.subjectProperty.value}"
 									partialSubmit="true">
@@ -61,7 +63,8 @@
 					</ice:panelGroup>
 					<ice:panelGroup id="freeTextPanel">
 						<ice:panelGrid columns="1">
-							<ice:outputLabel value="Subject's value*:" />
+							<ice:outputLabel
+								value="#{labels['pages.propertyPanel.subjectsValue']}" />
 							<ice:panelGroup>
 								<ice:inputText id="text"
 									value="#{criterion.subjectProperty.value}" />
@@ -71,7 +74,8 @@
 					</ice:panelGroup>
 					<ice:panelGroup id="ordinalPanel">
 						<ice:panelGrid columns="1">
-							<ice:outputLabel value="Subject's value*:" />
+							<ice:outputLabel
+								value="#{labels['pages.propertyPanel.subjectsValue']}" />
 							<ice:panelGroup>
 								<ice:selectOneRadio value="#{criterion.subjectProperty.value}"
 									partialSubmit="true">

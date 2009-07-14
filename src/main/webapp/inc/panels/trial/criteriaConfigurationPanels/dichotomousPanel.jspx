@@ -19,9 +19,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelGrid columns="1">
-		<ice:outputLabel value="Value 1*" />
+		<ice:outputLabel value="#{criteria['de.randi2.model.criteria.DichotomousCriterion.option1']}" />
 		<ice:inputText value="#{criterion.wrappedCriterion.option1}" />
-		<ice:outputLabel value="Value 2*" />
+		<ice:outputLabel value="#{criteria['de.randi2.model.criteria.DichotomousCriterion.option2']}" />
 		<ice:inputText value="#{criterion.wrappedCriterion.option2}" />
 	</ice:panelGrid>
 </ice:panelGroup>
