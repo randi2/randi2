@@ -78,7 +78,7 @@ public class Bootstrap {
 		
 		Person adminP = new Person();
 		adminP.setFirstname("Max");
-		adminP.setSurname("Mustermann");
+		adminP.setSurname("Administrator");
 		adminP.setEmail("admin@test.de");
 		adminP.setPhone("1234567");
 		adminP.setSex(Gender.MALE);
@@ -119,8 +119,8 @@ public class Bootstrap {
 
 		Person userP = new Person();
 		userP.setFirstname("Maxi");
-		userP.setSurname("Musterfrau");
-		userP.setEmail("user@test.de");
+		userP.setSurname("Investigator");
+		userP.setEmail("investigator@test.de");
 		userP.setPhone("1234567");
 		userP.setSex(Gender.FEMALE);
 		userP.setTrialSite(trialSite);
@@ -134,6 +134,62 @@ public class Bootstrap {
 //		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
 		
 		loginDao.create(userL);
+		
+		
+		 userP = new Person();
+		userP.setFirstname("Max");
+		userP.setSurname("PInvestigator");
+		userP.setEmail("p_investigator@test.de");
+		userP.setPhone("1234567");
+		userP.setSex(Gender.MALE);
+		userP.setTrialSite(trialSite);
+
+		 userL = new Login();
+		userL.setPassword(passwordEncoder.encodePassword("1$heidelberg",saltSource.getSystemWideSalt()));
+		userL.setPerson(userP);
+		userL.setPrefLocale(Locale.GERMANY);
+		userL.setUsername(userP.getEmail());
+		userL.addRole(Role.ROLE_P_INVESTIGATOR);
+//		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
+		
+		loginDao.create(userL);
+		
+
+		 userP = new Person();
+		userP.setFirstname("Maxi");
+		userP.setSurname("Monitor");
+		userP.setEmail("monitor@test.de");
+		userP.setPhone("1234567");
+		userP.setSex(Gender.FEMALE);
+		userP.setTrialSite(trialSite);
+
+		 userL = new Login();
+		userL.setPassword(passwordEncoder.encodePassword("1$heidelberg",saltSource.getSystemWideSalt()));
+		userL.setPerson(userP);
+		userL.setPrefLocale(Locale.GERMANY);
+		userL.setUsername(userP.getEmail());
+		userL.addRole(Role.ROLE_MONITOR);
+//		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
+		
+		loginDao.create(userL);
+		
+		 userP = new Person();
+			userP.setFirstname("Max");
+			userP.setSurname("Statistican");
+			userP.setEmail("statistican@test.de");
+			userP.setPhone("1234567");
+			userP.setSex(Gender.MALE);
+			userP.setTrialSite(trialSite);
+
+			 userL = new Login();
+			userL.setPassword(passwordEncoder.encodePassword("1$heidelberg",saltSource.getSystemWideSalt()));
+			userL.setPerson(userP);
+			userL.setPrefLocale(Locale.GERMANY);
+			userL.setUsername(userP.getEmail());
+			userL.addRole(Role.ROLE_STATISTICAN);
+//			template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
+			
+			loginDao.create(userL);
 
 		TrialSite trialSite1 = new TrialSite();
 		trialSite1.setCity("Heidelberg");
@@ -146,13 +202,15 @@ public class Bootstrap {
 
 		trialSiteDao.create(trialSite1);
 		
-		/*P_Investigator role*/
-		adminL = (Login) sessionFactory.getCurrentSession().get(Login.class, adminL.getId());
-		adminL.addRole(Role.ROLE_P_INVESTIGATOR);
-//		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
-		loginDao.update(adminL);
-		rolesAndRights.registerPersonRole(adminL, Role.ROLE_P_INVESTIGATOR);
-		rolesAndRights.grantRigths(adminL, trialSite);
+		
+		
+//		/*P_Investigator role*/
+//		adminL = (Login) sessionFactory.getCurrentSession().get(Login.class, adminL.getId());
+//		adminL.addRole(Role.ROLE_P_INVESTIGATOR);
+////		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
+//		loginDao.update(adminL);
+//		rolesAndRights.registerPersonRole(adminL, Role.ROLE_P_INVESTIGATOR);
+//		rolesAndRights.grantRigths(adminL, trialSite);
 	}
 
 	public Bootstrap() {
