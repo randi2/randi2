@@ -36,6 +36,11 @@ public class PermissionVerifier {
 				PermissionHibernate.CREATE);
 	}
 
+	public boolean isAllowedWriteUser() {
+		return loginHandler.getLoggedInUser().hasPermission(Login.class,
+				PermissionHibernate.WRITE);
+	}
+	
 	public boolean isAllowedCreateTrial() {
 		return loginHandler.getLoggedInUser().hasPermission(Trial.class,
 				PermissionHibernate.CREATE);
@@ -70,5 +75,7 @@ public class PermissionVerifier {
 			return false;
 		}
 	}
-
+	public boolean isAllowedChangeUserTrialSite(){
+		return loginHandler.isEditable() && isAllowedWriteUser();
+	}
 }
