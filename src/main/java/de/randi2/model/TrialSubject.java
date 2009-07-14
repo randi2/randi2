@@ -28,6 +28,7 @@ public class TrialSubject extends AbstractDomainObject{
 
 	private String randNumber;
 	
+	private TrialSite trialSite;
 	
 	@ManyToOne
 	private TreatmentArm arm;
@@ -54,6 +55,15 @@ public class TrialSubject extends AbstractDomainObject{
 
 	public void setArm(TreatmentArm arm) {
 		this.arm = arm;
+	}
+
+
+	public TrialSite getTrialSite() {
+		return trialSite;
+	}
+
+	public void setTrialSite(TrialSite trialSite) {
+		this.trialSite = trialSite;
 	}
 
 	public Set<SubjectProperty<?>> getProperties() {

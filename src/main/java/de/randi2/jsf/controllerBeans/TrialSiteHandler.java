@@ -74,9 +74,8 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 		// center - if it is so, then he can edit it
 		// properties.
 		if (showedObject != null
-				&& showedObject.equals(this.getCurrentUser().getPerson()
-						.getTrialSite())) {
-						editable = permissionVerifier.isAllowedEditTrialSite(showedObject);
+				&& permissionVerifier.isAllowedEditTrialSite(showedObject)) {
+						editable = true;
 		} else {
 			editable = creatingMode;
 		}

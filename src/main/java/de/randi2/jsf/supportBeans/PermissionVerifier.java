@@ -67,11 +67,13 @@ public class PermissionVerifier {
 					TrialSite.class, trialSite.getId()),
 					new Sid[] { new PrincipalSid(loginHandler.getLoggedInUser()
 							.getUsername()) });
+			System.out.println(acl);
 			return acl.isGranted(
 					new PermissionHibernate[] { PermissionHibernate.WRITE },
 					new Sid[] { new PrincipalSid(loginHandler.getLoggedInUser()
 							.getUsername()) }, false);
 		} catch (NotFoundException e) {
+			System.out.println(e);
 			return false;
 		}
 	}
