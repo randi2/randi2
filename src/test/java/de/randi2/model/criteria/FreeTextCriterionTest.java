@@ -1,5 +1,11 @@
 package de.randi2.model.criteria;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,12 +14,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.randi2.model.criteria.constraints.FreeTextConstraint;
-import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.test.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
-import de.randi2.utility.Randi2Error;
-
-import static junit.framework.Assert.*;
 
 public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>{
 
@@ -43,7 +45,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 		criterion.setDescription("test");
 	
 		try {
-			criterion.setInclusionCriterion(new FreeTextConstraint(Arrays.asList(new String[]{"Value1"})));
+			criterion.setInclusionConstraint(new FreeTextConstraint(Arrays.asList(new String[]{"Value1"})));
 		} catch (ContraintViolatedException e) {
 			fail(e.getMessage());
 		}
@@ -54,7 +56,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 		assertTrue(criterion.isInclusionCriterion());
 
 		try {
-			criterion.setInclusionCriterion(new FreeTextConstraint(Arrays.asList(new String[]{"Test1", "Test2"})));
+			criterion.setInclusionConstraint(new FreeTextConstraint(Arrays.asList(new String[]{"Test1", "Test2"})));
 		} catch (ContraintViolatedException e) {
 			assertNotNull(e);
 		}
@@ -104,12 +106,12 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 			FreeTextConstraint constraint = new FreeTextConstraint(Arrays.asList(elements.get(0)));
 			hibernateTemplate.save(constraint);
 			assertTrue(constraint.getId()>0);
-			criterion.setInclusionCriterion(constraint);
+			criterion.setInclusionConstraint(constraint);
 
 
 			hibernateTemplate.save(criterion);
 			assertTrue(criterion.getId()>0);
-			assertEquals(criterion.getInclusionCriterion().getId(), constraint.getId());
+			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
 			hibernateTemplate.save(temp.get(0));
 			hibernateTemplate.save(temp.get(1));
 			assertTrue(temp.get(0).getId() > 0);
@@ -120,7 +122,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 			assertEquals(criterion, dbCriterion);
 			assertEquals(criterion.getName(), dbCriterion.getName());
 			assertEquals(criterion.getDescription(), dbCriterion.getDescription());
-			assertEquals(constraint.getId(), dbCriterion.getInclusionCriterion().getId());
+			assertEquals(constraint.getId(), dbCriterion.getInclusionConstraint().getId());
 			assertEquals(FreeTextConstraint.class, dbCriterion.getContstraintType());
 
 		} catch (ContraintViolatedException e) {

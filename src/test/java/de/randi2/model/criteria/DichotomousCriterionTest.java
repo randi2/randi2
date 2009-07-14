@@ -68,7 +68,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 		criterion.setOption2("Nein");
 
 		try {
-			criterion.setInclusionCriterion(new DichotomousConstraint(Arrays.asList(new String[]{"Ja"})));
+			criterion.setInclusionConstraint(new DichotomousConstraint(Arrays.asList(new String[]{"Ja"})));
 		} catch (ContraintViolatedException e) {
 			fail(e.getMessage());
 		}
@@ -78,7 +78,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 		assertTrue(criterion.isInclusionCriterion());
 
 		try {
-			criterion.setInclusionCriterion(new DichotomousConstraint(Arrays.asList(new String[]{"SHIT"})));
+			criterion.setInclusionConstraint(new DichotomousConstraint(Arrays.asList(new String[]{"SHIT"})));
 		} catch (ContraintViolatedException e) {
 			assertNotNull(e);
 		}
@@ -132,12 +132,12 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 			DichotomousConstraint constraint = new DichotomousConstraint(Arrays.asList(new String[]{"Ja"}));
 			hibernateTemplate.save(constraint);
 			assertTrue(constraint.getId()>0);
-			criterion.setInclusionCriterion(constraint);
+			criterion.setInclusionConstraint(constraint);
 
 
 			hibernateTemplate.save(criterion);
 			assertTrue(criterion.getId()>0);
-			assertEquals(criterion.getInclusionCriterion().getId(), constraint.getId());
+			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
 			hibernateTemplate.save(temp.get(0));
 			hibernateTemplate.save(temp.get(1));
 			assertTrue(temp.get(0).getId() > 0);
@@ -146,7 +146,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 			hibernateTemplate.update(criterion);
 			DichotomousCriterion dbCriterion = (DichotomousCriterion) hibernateTemplate.get(DichotomousCriterion.class,criterion.getId());
 			assertEquals(criterion, dbCriterion);
-			assertEquals(constraint.getId(), dbCriterion.getInclusionCriterion().getId());
+			assertEquals(constraint.getId(), dbCriterion.getInclusionConstraint().getId());
 			assertEquals(DichotomousConstraint.class, dbCriterion.getContstraintType());
 
 		} catch (ContraintViolatedException e) {

@@ -51,7 +51,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 		criterion.setDescription("test");
 		GregorianCalendar date =new GregorianCalendar(2000,12,10) ;
 		try {
-			criterion.setInclusionCriterion(new DateConstraint(Arrays.asList(new GregorianCalendar[]{date})));
+			criterion.setInclusionConstraint(new DateConstraint(Arrays.asList(new GregorianCalendar[]{date})));
 		} catch (ContraintViolatedException e) {
 			fail(e.getMessage());
 		}
@@ -107,12 +107,12 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 			DateConstraint constraint = new DateConstraint(Arrays.asList(elements.get(0)));
 			hibernateTemplate.save(constraint);
 			assertTrue(constraint.getId()>0);
-			criterion.setInclusionCriterion(constraint);
+			criterion.setInclusionConstraint(constraint);
 
 
 			hibernateTemplate.save(criterion);
 			assertTrue(criterion.getId()>0);
-			assertEquals(criterion.getInclusionCriterion().getId(), constraint.getId());
+			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
 			hibernateTemplate.save(temp.get(0));
 			hibernateTemplate.save(temp.get(1));
 			assertTrue(temp.get(0).getId() > 0);
@@ -123,7 +123,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 			assertEquals(criterion, dbCriterion);
 			assertEquals(criterion.getName(), dbCriterion.getName());
 			assertEquals(criterion.getDescription(), dbCriterion.getDescription());
-			assertEquals(constraint.getId(), dbCriterion.getInclusionCriterion().getId());
+			assertEquals(constraint.getId(), dbCriterion.getInclusionConstraint().getId());
 			assertEquals(DateConstraint.class, dbCriterion.getContstraintType());
 
 		} catch (ContraintViolatedException e) {

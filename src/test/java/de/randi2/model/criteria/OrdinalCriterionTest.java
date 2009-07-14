@@ -66,7 +66,7 @@ private OrdinalCriterion criterion;
 		criterion.setElements(elements);
 
 		try {
-			criterion.setInclusionCriterion(new OrdinalConstraint(Arrays.asList(new String[]{"Value1"})));
+			criterion.setInclusionConstraint(new OrdinalConstraint(Arrays.asList(new String[]{"Value1"})));
 		} catch (ContraintViolatedException e) {
 			fail(e.getMessage());
 		}
@@ -78,7 +78,7 @@ private OrdinalCriterion criterion;
 		assertTrue(criterion.isInclusionCriterion());
 
 		try {
-			criterion.setInclusionCriterion(new OrdinalConstraint(Arrays.asList(new String[]{"SHIT"})));
+			criterion.setInclusionConstraint(new OrdinalConstraint(Arrays.asList(new String[]{"SHIT"})));
 		} catch (ContraintViolatedException e) {
 			e.printStackTrace();
 			assertNotNull(e);
@@ -149,12 +149,12 @@ private OrdinalCriterion criterion;
 			OrdinalConstraint constraint = new OrdinalConstraint(Arrays.asList(elements.get(0)));
 			hibernateTemplate.save(constraint);
 			assertTrue(constraint.getId()>0);
-			criterion.setInclusionCriterion(constraint);
+			criterion.setInclusionConstraint(constraint);
 
 
 			hibernateTemplate.save(criterion);
 			assertTrue(criterion.getId()>0);
-			assertEquals(criterion.getInclusionCriterion().getId(), constraint.getId());
+			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
 			hibernateTemplate.save(temp.get(0));
 			hibernateTemplate.save(temp.get(1));
 			assertTrue(temp.get(0).getId() > 0);
@@ -165,7 +165,7 @@ private OrdinalCriterion criterion;
 			assertEquals(criterion, dbCriterion);
 			assertEquals(criterion.getName(), dbCriterion.getName());
 			assertEquals(criterion.getDescription(), dbCriterion.getDescription());
-			assertEquals(constraint.getId(), dbCriterion.getInclusionCriterion().getId());
+			assertEquals(constraint.getId(), dbCriterion.getInclusionConstraint().getId());
 			assertEquals(OrdinalConstraint.class, dbCriterion.getContstraintType());
 			assertEquals(4, dbCriterion.getElements().size());
 			assertTrue(dbCriterion.getElements().containsAll(elements));
