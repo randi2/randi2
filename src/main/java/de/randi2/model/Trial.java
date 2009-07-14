@@ -45,6 +45,9 @@ public class Trial extends AbstractDomainObject {
 	@Length(max = MAX_VARCHAR_LENGTH)
 	private String abbreviation = "";
 
+	
+	private boolean stratifyTrialSite;
+	
 	@Lob
 	private String description = "";
 	private GregorianCalendar startDate = null;
@@ -79,6 +82,14 @@ public class Trial extends AbstractDomainObject {
 
 	public void setGenerateIds(boolean generateIds) {
 		this.generateIds = generateIds;
+	}
+
+	public boolean isStratifyTrialSite() {
+		return stratifyTrialSite;
+	}
+
+	public void setStratifyTrialSite(boolean stratifyTrialSite) {
+		this.stratifyTrialSite = stratifyTrialSite;
 	}
 
 	public List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteria() {

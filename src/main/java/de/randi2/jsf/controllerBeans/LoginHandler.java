@@ -35,6 +35,7 @@ import org.springframework.security.context.SecurityContextHolder;
 
 import de.randi2.jsf.backingBeans.RegisterPage;
 import de.randi2.jsf.exceptions.RegistrationException;
+import de.randi2.jsf.supportBeans.PermissionVerifier;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
@@ -59,6 +60,8 @@ import de.randi2.utility.logging.LogEntry.ActionType;
  */
 public class LoginHandler extends AbstractHandler<Login> {
 		
+	
+	
 	private UserService userService;
 	
 
@@ -351,8 +354,11 @@ public class LoginHandler extends AbstractHandler<Login> {
 	}
 
 	public boolean isEditable() {
-		// FIXME Rightsmanagement
-		if (showedObject.equals(this.loggedInUser)) {
+		PermissionVerifier permissionVerifier = ((PermissionVerifier) FacesContext.getCurrentInstance().getApplication()
+				.getELResolver().getValue(
+						FacesContext.getCurrentInstance().getELContext(), null,
+						"permissionVerifier"));
+		if (showedObject.equals(this.loggedInUser) || permissionVerifier.isAllowedEditUser(showedObject) ) {
 			editable = true;
 		} else {
 			editable = creatingMode;

@@ -34,29 +34,29 @@
 			</ice:menuItem>
 			<ice:menuItem id="logout" value="#{labels['pages.menu.logout']}"
 				action="#{loginHandler.logoutUser}" />
-			<ice:menuItemSeparator/>
+			<ice:menuItemSeparator rendered="#{permissionVerifier.allowedCreateUser}"/>
 			<ice:menuItem value="#{labels['pages.menu.create']}"
-				actionListener="#{randi2Page.createLogin}" />
+				actionListener="#{randi2Page.createLogin}" rendered="#{permissionVerifier.allowedCreateUser}"/>
 		</ice:menuItem>
-		<ice:menuItem id="trialMenu" value="#{labels['pages.menu.trial']}">
+		<ice:menuItem id="trialMenu" value="#{labels['pages.menu.trial']}" rendered="#{permissionVerifier.allowedReadTrial}">
 			<ice:menuItem id="currentTrial" value="#{labels['pages.menu.currentTrial']}" rendered="#{randi2Page.currentTrial!=null}" actionListener="#{randi2Page.showCurrentTrial}"/>
 			<ice:menuItem id="myTrials" value="#{labels['pages.menu.myTrials']}"
 				actionListener="#{randi2Page.viewTrials}" />
-			<ice:menuItemSeparator/>
+			<ice:menuItemSeparator rendered="#{permissionVerifier.allowedCreateTrial}"/>
 			<ice:menuItem id="create" value="#{labels['pages.menu.create']}"
-				actionListener="#{randi2Page.createTrial}" />
+				actionListener="#{randi2Page.createTrial}" rendered="#{permissionVerifier.allowedCreateTrial}" />
 		</ice:menuItem>
 		<ice:menuItem id="tSubjectMenu" value="#{labels['pages.menu.trialSubject']}" rendered="#{trialHandler.addingSubjectsEnabled}">
 			<ice:menuItem id="add" value="#{labels['pages.menu.add']}" actionListener="#{randi2Page.addTrialSubject}"/>
 		</ice:menuItem>
-		<ice:menuItem value="#{labels['pages.menu.trialSite']}">
+		<ice:menuItem value="#{labels['pages.menu.trialSite']}" rendered="#{permissionVerifier.allowedReadTrialSite}">
 			<ice:menuItem value="#{labels['pages.menu.myTrialSite']}"
 				actionListener="#{randi2Page.myTrialSite}" />
 			<ice:menuItem value="#{labels['pages.menu.allTrialSites']}"
 				actionListener="#{randi2Page.viewTrialSites}" />
-			<ice:menuItemSeparator/>
+			<ice:menuItemSeparator  rendered="#{permissionVerifier.allowedCreateTrialSite }"/>
 			<ice:menuItem value="#{labels['pages.menu.create']}"
-				actionListener="#{randi2Page.createTrialSite}" />
+				actionListener="#{randi2Page.createTrialSite}"  rendered="#{permissionVerifier.allowedCreateTrialSite}"/>
 		</ice:menuItem>
 		<ice:menuItemSeparator/>
 		<ice:menuItem value="#{labels['pages.menu.search']}" />
