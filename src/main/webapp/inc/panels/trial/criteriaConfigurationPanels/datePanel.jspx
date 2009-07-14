@@ -19,3 +19,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 </ice:panelGroup>
+<ice:panelGroup>
+	<ice:outputLabel value="Constraint?*:" />
+	<ice:selectBooleanCheckbox value="#{criterion.constraint}"
+		partialSubmit="true" />
+</ice:panelGroup>
+<!-- Include the constraint sub-view -->

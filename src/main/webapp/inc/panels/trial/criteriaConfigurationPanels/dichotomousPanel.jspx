@@ -25,6 +25,11 @@
 		<ice:inputText value="#{criterion.wrappedCriterion.option2}" />
 	</ice:panelGrid>
 </ice:panelGroup>
+<ice:panelGroup>
+	<ice:outputLabel value="Constraint?*:" />
+	<ice:selectBooleanCheckbox value="#{criterion.constraint}"
+		partialSubmit="true" />
+</ice:panelGroup>
 <f:subview id="dConstraint" rendered="#{criterion.constraint}">
 	<jsp:directive.include
 		file="./inc/panels/trial/constraintsConfigurationPanels/dichotomousConstraint.jspx" />

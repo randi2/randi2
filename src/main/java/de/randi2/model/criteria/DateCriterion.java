@@ -18,8 +18,8 @@ public class DateCriterion extends AbstractCriterion<GregorianCalendar, DateCons
 	public void isValueCorrect(GregorianCalendar value) throws ContraintViolatedException {
 		if(value == null){
 			throw new ContraintViolatedException();
-		}else	if(inclusionCriterion!=null){
-			inclusionCriterion.isValueCorrect(value);
+		}else	if(inclusionConstraint!=null){
+			inclusionConstraint.isValueCorrect(value);
 		}
 	}
 	

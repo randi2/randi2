@@ -23,8 +23,8 @@ public class FreeTextCriterion extends AbstractCriterion<String, FreeTextConstra
 		if(value == null || value.length()==0){
 			throw new ContraintViolatedException();
 		}
-		if(inclusionCriterion!=null){
-			inclusionCriterion.isValueCorrect(value);
+		if(inclusionConstraint!=null){
+			inclusionConstraint.isValueCorrect(value);
 		}
 		
 	}

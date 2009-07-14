@@ -37,7 +37,6 @@ public class CriterionWrapper<V extends Serializable> {
 	 * The criterion object which is wrapped by this instance.
 	 */
 	private AbstractCriterion<V, ? extends AbstractConstraint<V>> wrappedCriterion = null;
-	
 
 	/**
 	 * If the wrapper is used during the subject's submission process - this
@@ -65,13 +64,13 @@ public class CriterionWrapper<V extends Serializable> {
 		}
 		return subjectProperty;
 	}
-	
+
 	private List<SelectItem> selectItems = null;
-	
+
 	public List<SelectItem> getSelectItems() {
-		if(selectItems==null){
+		if (selectItems == null) {
 			selectItems = new ArrayList<SelectItem>();
-			for(V value : wrappedCriterion.getConfiguredValues()){
+			for (V value : wrappedCriterion.getConfiguredValues()) {
 				selectItems.add(new SelectItem(value, value.toString()));
 			}
 		}
@@ -148,7 +147,9 @@ public class CriterionWrapper<V extends Serializable> {
 	 * @param event
 	 */
 	public void addElement(ActionEvent event) {
-		getElements().add(new StringWrapper(getElements().size(), ""));
+		OrdinalCriterion.class.cast(wrappedCriterion).getElements().add(
+				new String());
+		getElements().add(OrdinalCriterion.class.cast(wrappedCriterion).getElements().size()-1);
 	}
 
 	/**
@@ -157,7 +158,12 @@ public class CriterionWrapper<V extends Serializable> {
 	 * @param event
 	 */
 	public void removeElement(ActionEvent event) {
-		getElements().remove(getElements().size()-1);
+		if(getElements().size()>3){
+			getElements().remove(getElements().size() - 1);
+			OrdinalCriterion.class.cast(wrappedCriterion).getElements().remove(
+					OrdinalCriterion.class.cast(wrappedCriterion).getElements()
+							.size() - 1);
+		}
 	}
 
 	/**
@@ -172,48 +178,22 @@ public class CriterionWrapper<V extends Serializable> {
 					.isEmpty();
 		return true;
 	}
-	
-	private List<StringWrapper> elements;
-	
-	public List<StringWrapper> getElements() {
-		if(elements==null){
-			int i = 0;
-			elements = new ArrayList<StringWrapper>();
-			for(String s : OrdinalCriterion.class.cast(wrappedCriterion).getElements()){
-				elements.add(new StringWrapper(i, s));
-				i++;
+
+	private List<Integer> elements;
+
+	public List<Integer> getElements() {
+		if (elements == null) {
+			elements = new ArrayList<Integer>();
+			for (int i = 0;i<OrdinalCriterion.class.cast(wrappedCriterion)
+					.getElements().size();i++) {
+				elements.add(i);
 			}
 		}
 		return elements;
 	}
-	
-	public void setElements(List<StringWrapper> elements) {
+
+	public void setElements(List<Integer> elements) {
 		this.elements = elements;
 	}
-	
-	public class StringWrapper{
-		public int position = 0;
-		public String value = null;
-		
-		public StringWrapper(int p, String v) {
-			position = p;
-			value = v;
-		}
-		
-		public int getPosition() {
-			return position;
-		}
-		
-		public void setPosition(int position) {
-			this.position = position;
-		}
-		
-		public String getValue() {
-			return value;
-		}
-		
-		public void setValue(String value) {
-			this.value = value;
-		}
-	}
+
 }

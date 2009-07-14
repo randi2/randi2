@@ -21,7 +21,7 @@
 	<ice:panelGrid columns="2" border="1">
 		<ice:outputLabel value="Expected value*" />
 		<ice:panelGroup>
-			<ice:selectOneRadio value="#{criterion.subjectProperty.value}"
+			<ice:selectOneRadio valueChangeListener="#{strata.configurationChanged}"
 				partialSubmit="true">
 				<f:selectItems value="#{criterion.selectItems}" />
 			</ice:selectOneRadio>

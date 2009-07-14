@@ -66,8 +66,8 @@ public class DichotomousCriterion extends AbstractCriterion<String, DichotomousC
 		if (!(option1.equals(value) || option2.equals(value))) {
 			throw new ContraintViolatedException();
 		}
-		if (inclusionCriterion != null) {
-			inclusionCriterion.isValueCorrect(value);
+		if (inclusionConstraint != null) {
+			inclusionConstraint.isValueCorrect(value);
 		}
 	}
 

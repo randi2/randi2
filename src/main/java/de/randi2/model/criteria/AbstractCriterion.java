@@ -60,18 +60,18 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 	 * constraints.
 	 */
 	@OneToOne(targetEntity=AbstractConstraint.class, cascade=CascadeType.ALL)
-	protected C inclusionCriterion;
+	protected C inclusionConstraint;
 
 	@OneToMany(targetEntity=AbstractConstraint.class, cascade=CascadeType.ALL)
 	protected List<C> strata;
 
 	@Transient
-	public C getInclusionCriterion(){
-		return inclusionCriterion;
+	public C getInclusionConstraint(){
+		return inclusionConstraint;
 	}
 
-	public void setInclusionCriterion(C inclusionCriterion){
-		this.inclusionCriterion = inclusionCriterion;
+	public void setInclusionConstraint(C inclusionConstraint){
+		this.inclusionConstraint = inclusionConstraint;
 	}
 	
 	@Transient
@@ -115,7 +115,7 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 
 	@Transient
 	public  boolean isInclusionCriterion(){
-		return inclusionCriterion!=null;
+		return inclusionConstraint!=null;
 	}
 
 	public abstract void isValueCorrect(V value) throws ContraintViolatedException;

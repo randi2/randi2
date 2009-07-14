@@ -20,21 +20,27 @@
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelGrid columns="1" rendered="#{!criterion.elementsEmpty}">
 		<ice:panelGroup>
-		<ice:outputLabel value="Elements*: "/>
+			<ice:outputLabel value="Elements*: " />
 			<ice:commandButton image="/img/icons/add16.png"
-				actionListener="#{criterion.addElement}" style="margin-right:5px;" />
+				actionListener="#{criterion.addElement}" style="margin-right:5px;"
+				partialSubmit="true" />
 			<ice:commandButton image="/img/icons/remove16.png"
 				disabled="#{criterion.elementsEmpty}"
-				actionListener="#{criterion.removeElement}" />
+				actionListener="#{criterion.removeElement}" partialSubmit="true" />
 		</ice:panelGroup>
-		<ice:dataTable border="1"
-				value="#{criterion.elements}" var="element">
-				<ice:column id="column1">
-					<ice:outputLabel value="#{element.position}" />
-				</ice:column>
-				<ice:column id="column2">
-					<ice:inputText value="#{criterion.wrappedCriterion.elements[element.position]}" partialSubmit="true"/>
-				</ice:column>
-			</ice:dataTable>
+		<ice:panelSeries value="#{criterion.elements}" var="element"
+			style="padding:10px;">
+			<ice:panelGrid columns="2">
+				<ice:outputLabel value="#{element}" />
+				<ice:inputText
+					value="#{criterion.wrappedCriterion.elements[element]}"></ice:inputText>
+			</ice:panelGrid>
+		</ice:panelSeries>
 	</ice:panelGrid>
 </ice:panelGroup>
+<ice:panelGroup style="margin-left: 30px;">
+	<ice:outputText value="Constraint?*:" />
+	<ice:selectBooleanCheckbox value="#{criterion.constraint}"
+		partialSubmit="true" />
+</ice:panelGroup>
+<!-- Include the constraint sub-view -->
