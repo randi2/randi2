@@ -36,9 +36,12 @@
 		</ice:panelSeries>
 	</ice:panelGrid>
 </ice:panelGroup>
-<ice:panelGroup>
+<!--  ice:panelGroup>
 	<ice:outputLabel value="Constraint?*:" />
 	<ice:selectBooleanCheckbox value="#{criterion.constraint}"
 		partialSubmit="true" />
-</ice:panelGroup>
-<!-- Include the constraint sub-view -->
+</ice:panelGroup -->
+<f:subview id="oConstraint" rendered="#{criterion.constraint}">
+	<jsp:directive.include
+		file="./inc/panels/trial/constraintsConfigurationPanels/ordinalConstraint.jspx" />
+</f:subview>

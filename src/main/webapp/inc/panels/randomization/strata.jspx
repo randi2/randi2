@@ -26,11 +26,43 @@
 	<ice:panelGrid columns="2">
 		<ice:outputText
 			value="Do you want to stratify your randomization process?*" />
-		<ice:selectBooleanCheckbox value="true" />
+		<ice:selectBooleanCheckbox value="#{strata.stratified}" partialSubmit="true"/>
+		<ice:outputText rendered="#{strata.stratified}" value="Do you want to declare the trial sites as a stratification factor?*"/>
+		<ice:selectBooleanCheckbox rendered="#{strata.stratified}" value="false"/>
 	</ice:panelGrid>
 </ice:panelCollapsible>
-<ice:panelCollapsible>
+<ice:panelCollapsible rendered="false"> <!--#{strata.stratified} -->
 	<f:facet name="header">
 		<ice:outputLabel value="Subject Properties*" />
 	</f:facet>
+	<ice:dataTable value="#{step4.criteria}" var="cWrapper">
+		<ice:column id="column1">
+			<f:facet name="header">
+				<ice:outputText value="Name*" id="timeH" />
+			</f:facet>
+			<ice:outputText value="#{cWrapper.wrappedCriterion.name}" />
+		</ice:column>
+	</ice:dataTable>
+	<ice:panelSeries value="#{step4.criteria}" var="cWrapper"
+		style="padding:10px;">
+		<ice:panelGroup>
+			<ice:outputLabel value="#{cWrapper.wrappedCriterion.name}" />
+			<ice:panelGrid columns="3">
+				<ice:outputLabel value="Add strata*" />
+				<ice:commandButton image="/img/icons/add16.png"
+					actionListener="#{step4.addCriterion}" style="margin-right:5px;" />
+				<ice:commandButton image="/img/icons/remove16.png"
+					disabled="#{step4.criteriaEmpty}"
+					actionListener="#{step4.removeCriterion}" />
+			</ice:panelGrid>
+			<ice:panelGroup styleClass="clearer" />
+			<ice:panelSeries value="#{step4.criteria}" var="criterion"
+				style="padding:10px;">
+				<f:subview id="criteriaInclude">
+					<jsp:directive.include
+						file="./inc/panels/trial/criterionPanel.jspx" />
+				</f:subview>
+			</ice:panelSeries>
+		</ice:panelGroup>
+	</ice:panelSeries>
 </ice:panelCollapsible>

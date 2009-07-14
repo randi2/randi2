@@ -1,9 +1,15 @@
 package de.randi2.jsf.backingBeans;
 
-import javax.faces.event.ValueChangeEvent;
-
 public class Strata {
 	
+	private boolean stratified = false;
 	
+	public boolean isStratified() {
+		return stratified;
+	}
+	
+	public void setStratified(boolean stratified) {
+		this.stratified = stratified;
+	}
 
 }

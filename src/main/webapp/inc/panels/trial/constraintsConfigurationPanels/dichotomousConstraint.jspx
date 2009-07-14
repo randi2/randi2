@@ -18,7 +18,7 @@
 <ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:panelGrid columns="2" border="1">
+	<ice:panelGrid columns="2">
 		<ice:outputLabel value="Expected value*" />
 		<ice:panelGroup>
 			<ice:selectOneRadio valueChangeListener="#{criterion.inclusionConstraintChanged}"
