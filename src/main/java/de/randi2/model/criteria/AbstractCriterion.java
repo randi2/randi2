@@ -70,8 +70,9 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 		return inclusionConstraint;
 	}
 
-	public void setInclusionConstraint(C inclusionConstraint){
-		this.inclusionConstraint = inclusionConstraint;
+	@SuppressWarnings("unchecked")
+	public void setInclusionConstraint(AbstractConstraint<?> abstractConstraint){
+		this.inclusionConstraint = (C) abstractConstraint;
 	}
 	
 	@Transient

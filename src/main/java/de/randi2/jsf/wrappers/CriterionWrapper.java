@@ -1,6 +1,7 @@
 package de.randi2.jsf.wrappers;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.ResourceBundle;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import de.randi2.jsf.controllerBeans.LoginHandler;
@@ -194,6 +196,28 @@ public class CriterionWrapper<V extends Serializable> {
 
 	public void setElements(List<Integer> elements) {
 		this.elements = elements;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void inclusionConstraintChanged(ValueChangeEvent event){
+		System.out.println(event.getNewValue());
+			try {
+				List<V> l = new ArrayList<V>();
+				l.add((V) event.getNewValue());
+				wrappedCriterion.setInclusionConstraint(wrappedCriterion.getContstraintType().getConstructor(List.class).newInstance(l));
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			}
 	}
 
 }

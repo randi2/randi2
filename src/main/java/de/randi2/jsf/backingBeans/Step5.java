@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import de.randi2.jsf.controllerBeans.LoginHandler;

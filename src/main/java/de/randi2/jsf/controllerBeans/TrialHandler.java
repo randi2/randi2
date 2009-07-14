@@ -51,7 +51,6 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
-import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;

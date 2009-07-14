@@ -76,6 +76,4 @@ public class DichotomousCriterion extends AbstractCriterion<String, DichotomousC
 		return DichotomousConstraint.class;
 	}
 
-
-
 }

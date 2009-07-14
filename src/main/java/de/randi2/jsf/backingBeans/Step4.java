@@ -3,10 +3,13 @@ package de.randi2.jsf.backingBeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 
+import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.jsf.wrappers.CriterionWrapper;
@@ -33,6 +36,13 @@ public class Step4 {
 							null, "trialHandler")).getCriteriaList();
 			criteriaAC = new AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>(
 					cList);
+			ResourceBundle rb = ResourceBundle.getBundle( "de.randi2.jsf.i18n.criteria",((LoginHandler) FacesContext.getCurrentInstance()
+				    .getApplication().getELResolver().getValue(
+				    	      FacesContext.getCurrentInstance().getELContext(), null,
+				    	      "loginHandler")).getChosenLocale());
+			for(SelectItem si : criteriaAC.getObjectList()){
+				si.setLabel(rb.getString(si.getLabel()));
+			}
 		}
 		return criteriaAC;
 	}
