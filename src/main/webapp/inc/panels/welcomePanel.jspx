@@ -17,14 +17,23 @@
 <ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:panelCollapsible expanded="true" toggleOnClick="false" style="width: 400px;">
+	<ice:panelCollapsible expanded="true" toggleOnClick="false"
+		style="width: 400px;">
 		<f:facet name="header">
 			<ice:outputLabel value="Welcome to RANDI2 System!" />
 		</f:facet>
-		<ice:panelGrid id="tempOnlyDuringDevelopment" columns="1"
-			style="padding: 5px;">
-			<ice:outputText value="Greetings from Notting Hill" />
-			<ice:graphicImage value="/img/london_TEMP.JPG"></ice:graphicImage>
+		<ice:panelGrid border="0" columns="1">
+			<ice:panelGrid border="0" columns="3">
+				<ice:graphicImage value="/img/icons/hostInst16.png"></ice:graphicImage>
+				<ice:outputLabel value="RANDI2: #{randi2.version}"/>
+			</ice:panelGrid>
+			<ice:panelGrid columns="1">
+				<ice:outputText value="#{labels['pages.aboutPopup.hostingInst']}"
+					escape="false" />
+				<ice:outputLink value="#{randi2.website2}" target="_blank">
+					<ice:outputLabel value="#{randi2.website2}" />
+				</ice:outputLink>
+			</ice:panelGrid>
 		</ice:panelGrid>
 	</ice:panelCollapsible>
 </ice:form>
