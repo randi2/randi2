@@ -86,6 +86,10 @@ public class TrialSubject extends AbstractDomainObject{
 
 	@SuppressWarnings("unchecked")
 	@Transient
+	/**
+	 * Generate the stratum identification string for the actual trial subject.
+	 * [criterion_id]_[constraint_id];[criterion_id]_[constraint_id];...
+	 */
 	public String getStratum(){
 		List<String> stratum = new ArrayList<String>();
 		for(SubjectProperty p:properties){

@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 
+import de.randi2.jsf.supportBeans.PermissionVerifier;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.model.AbstractDomainObject;
@@ -42,6 +43,12 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 
 	public void setSiteService(TrialSiteService siteService) {
 		this.siteService = siteService;
+	}
+
+	private PermissionVerifier permissionVerifier;
+
+	public void setPermissionVerifier(PermissionVerifier permissionVerifier) {
+		this.permissionVerifier = permissionVerifier;
 	}
 
 	private Popups popups;
@@ -69,7 +76,7 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 		if (showedObject != null
 				&& showedObject.equals(this.getCurrentUser().getPerson()
 						.getTrialSite())) {
-			editable = true;
+						editable = permissionVerifier.isAllowedEditTrialSite(showedObject);
 		} else {
 			editable = creatingMode;
 		}

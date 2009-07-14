@@ -351,7 +351,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 	}
 
 	public boolean isEditable() {
-		// FIXME Rightsmanagement
 		if (showedObject.equals(this.loggedInUser)) {
 			editable = true;
 		} else {
