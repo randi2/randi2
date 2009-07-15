@@ -101,18 +101,19 @@ public class TSubjectAdd {
 	
 	@SuppressWarnings("unchecked")
 	public String addSubject() {
+		trialSubject = new TrialSubject();
 		HashSet<SubjectProperty<?>> tempSet = new HashSet<SubjectProperty<?>>();
 		for(CriterionWrapper<? extends Serializable> cw : properties){
 			tempSet.add((SubjectProperty) cw.getSubjectProperty());
 		}
-		getTrialSubject().setProperties(tempSet);
-		getTrialSubject().setTrialSite((((LoginHandler) FacesContext.getCurrentInstance().getApplication()
+		trialSubject.setProperties(tempSet);
+		trialSubject.setTrialSite((((LoginHandler) FacesContext.getCurrentInstance().getApplication()
 				.getELResolver().getValue(
 						FacesContext.getCurrentInstance().getELContext(), null,
 						"loginHandler"))).getLoggedInUser().getPerson().getTrialSite());
-		currentTrial = trialService.randomize(currentTrial, getTrialSubject());
-		subjectID = getTrialSubject().getIdentification();
-		subjectArm = getTrialSubject().getArm().getUIName();
+		currentTrial = trialService.randomize(currentTrial,trialSubject);
+		subjectID = trialSubject.getIdentification();
+		subjectArm = trialSubject.getArm().getUIName();
 		popups.showSubjectAddedPopup();
 		return Randi2.SUCCESS;
 	}
