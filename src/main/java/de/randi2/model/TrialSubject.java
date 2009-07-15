@@ -28,6 +28,7 @@ public class TrialSubject extends AbstractDomainObject{
 
 	private String randNumber;
 	
+	@ManyToOne
 	private TrialSite trialSite;
 	
 	@ManyToOne
