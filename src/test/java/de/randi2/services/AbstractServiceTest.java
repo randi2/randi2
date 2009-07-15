@@ -73,6 +73,7 @@ public abstract class AbstractServiceTest {
 		
 		adminL.addRole(Role.ROLE_ADMIN);
 		adminL.addRole(Role.ROLE_P_INVESTIGATOR);
+		adminL.addRole(Role.ROLE_INVESTIGATOR);
 		sessionFactory.getCurrentSession().persist(adminL);
 		
 		TrialSite trialSite = new TrialSite();
