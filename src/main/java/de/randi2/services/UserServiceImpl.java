@@ -162,7 +162,6 @@ public class UserServiceImpl implements UserService {
 		// Map of variables for the message
 		Map<String, Object> newUserMessageFields = new HashMap<String, Object>();
 		newUserMessageFields.put("user", newUser);
-		newUserMessageFields.put("url", "http://randi2.com/CHANGEME");
 		// Map of variables for the subject
 		Map<String, Object> newUserSubjectFields = new HashMap<String, Object>();
 		newUserSubjectFields.put("firstname", newUser.getPerson()
@@ -171,7 +170,7 @@ public class UserServiceImpl implements UserService {
 		Locale language = newUser.getPrefLocale();
 
 		try {
-			mailService.sendMail(newUser.getUsername(), "NewUserMail", language,
+			mailService.sendMail(newUser.getPerson().getEmail(), "NewUserMail", language,
 					newUserMessageFields, newUserSubjectFields);
 		} catch (MailErrorException e1) {
 			// TODO Auto-generated catch block

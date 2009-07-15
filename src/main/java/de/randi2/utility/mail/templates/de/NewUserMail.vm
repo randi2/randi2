@@ -1,13 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <body>
-<h3>Hallo ${user.getPerson().getFirstname()} ${user.getPerson().getSurname()}, willkommen zu RANDI2!</h3>
-
-<div>
-Benutze die folgenden Informationen um Dich unter ${url} einzuloggen:<br>
-u: ${user.getUsername()} // p: gew&auml;hltes Passwort<br>
+<div style="width: 800px;">
+<h4>Hallo ${user.getPerson().getFirstname()}
+${user.getPerson().getSurname()} und herzlich Wilkommen zu RANDI2!</h4>
+Diese installation wird von ${hoster} betrieben.<br>
+Sie können sich unter <a href="${url}">${url}</a> anmelden.
 <br>
-HABE SPASS!
+Bitte verwenden Sie dazu Ihren Benutzernamen: (${user.getUsername()}) and Ihr gew&auml;hltes Passwort.<br>
+<br>
+Bitte kontrollieren Sie Ihre pers&ouml;nlichen Angaben:<br>
+<br>
+<table style="text-align: left;" cellpadding="2" cellspacing="2">
+<tbody>
+<tr>
+<td>Vorname:</td>
+<td>${user.getPerson().getFirstname()}</td>
+</tr>
+<tr>
+<td>Nachname:</td>
+<td>${user.getPerson().getSurname()}</td>
+</tr>
+<tr>
+<td>Telefon:</td>
+<td>${user.getPerson().getPhone()}</td>
+</tr>
+<tr>
+<td>Handy:</td>
+<td>${user.getPerson().getMobile()}</td>
+</tr>
+<tr>
+<td>Fax:</td>
+<td>${user.getPerson().getFax()}</td>
+</tr>
+</tbody>
+</table>
+<br>
+Sie können falsche Angaben jederzeit unter <a href="${url}">${url}</a> ändern.<br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<div style="text-align: center;">--- Das ist eine RANDI2 System-Mail ---<br>
+<img style="width: 166px; height: 47px;" alt="" src="../../../../../../../webapp/img/randi2.png"><br>
+RANDI2 is a web-based
+software for randomizing subjects for clinical trials.<br>
+The RANDI2 project has been released under GNU GPL v. 3.0. <br>
+For more informations about the project you can visit <a href="http://randi2.org">http://randi2.org</a>.
 </div>
-</body>
-
-</html>
+</div>
+</body></html>

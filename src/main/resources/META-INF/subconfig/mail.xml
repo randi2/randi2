@@ -12,6 +12,8 @@
 
    <bean id="mailService" class="de.randi2.utility.mail.MailService">
    	<property name="from" value="${mail.from}" />
+   	<property name="hoster" value="${info.hoster}"/>
+   	<property name="url" value="${info.server}"></property>
    </bean>
    
    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
