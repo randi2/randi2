@@ -63,14 +63,14 @@ public class Bootstrap {
 		Person cp1 = new Person();
 		cp1.setFirstname("Contact");
 		cp1.setSurname("Person");
-		cp1.setEmail("cp1@test.de");
+		cp1.setEmail("randi2@action.ms");
 		cp1.setPhone("1234567");
 		cp1.setSex(Gender.MALE);
 		
 		Person cp2 = new Person();
 		cp2.setFirstname("Contact");
 		cp2.setSurname("Person");
-		cp2.setEmail("cp2@test.de");
+		cp2.setEmail("randi2@action.ms");
 		cp2.setPhone("1234567");
 		cp2.setSex(Gender.MALE);
 		
@@ -88,7 +88,7 @@ public class Bootstrap {
 		adminL.setPerson(adminP);
 		adminL.setPrefLocale(Locale.GERMANY);
 		adminL.setUsername(adminP.getEmail());
-		
+		adminP.setEmail("randi2@action.ms");
 		adminL.addRole(Role.ROLE_ADMIN);
 		sessionFactory.getCurrentSession().persist(adminL);
 
@@ -132,7 +132,7 @@ public class Bootstrap {
 		userL.setUsername(userP.getEmail());
 		userL.addRole(Role.ROLE_INVESTIGATOR);
 //		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
-		
+		userP.setEmail("randi2@action.ms");
 		loginDao.create(userL);
 		
 		
@@ -151,7 +151,7 @@ public class Bootstrap {
 		userL.setUsername(userP.getEmail());
 		userL.addRole(Role.ROLE_P_INVESTIGATOR);
 //		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
-		
+		userP.setEmail("randi2@action.ms");
 		loginDao.create(userL);
 		
 
@@ -170,7 +170,7 @@ public class Bootstrap {
 		userL.setUsername(userP.getEmail());
 		userL.addRole(Role.ROLE_MONITOR);
 //		template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
-		
+		userP.setEmail("randi2@action.ms");
 		loginDao.create(userL);
 		
 		 userP = new Person();
@@ -188,7 +188,7 @@ public class Bootstrap {
 			userL.setUsername(userP.getEmail());
 			userL.addRole(Role.ROLE_STATISTICAN);
 //			template.saveOrUpdate(Role.ROLE_INVESTIGATOR);
-			
+			userP.setEmail("randi2@action.ms");
 			loginDao.create(userL);
 
 		TrialSite trialSite1 = new TrialSite();
