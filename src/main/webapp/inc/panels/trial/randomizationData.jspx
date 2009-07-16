@@ -1,7 +1,7 @@
 <!-- 
- This pages/panel represents the view for general information of a trial view.
+ This pages/panel represents the view for randomization results.
 
- Made by bkurz@users.sourceforge.org  
+ Made by l.plotnicki@dkfz.de
 
  This file is part of RANDI2.
  RANDI2 is free software: you can redistribute it and or modify it under the
@@ -15,7 +15,10 @@
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
 
-<ice:panelGroup style="width: 550px;">
+<ice:panelGroup style="width: 550px;"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:dataTable id="trialSitesTable" border="1"
 		value="#{trialHandler.showedObject.treatmentArms}" var="arm"
 		width="550px">
@@ -28,22 +31,62 @@
 		<ice:column id="column2">
 			<ice:outputText value="#{arm.currentSubjectsAmount}" />
 			<f:facet name="header">
-				<ice:outputText value="Amount*" />
+				<ice:outputText
+					value="#{lables['pages.trialShowPanel.randomizationData.amount']}" />
 			</f:facet>
 		</ice:column>
 		<ice:column id="column3">
 			<ice:outputText value="#{arm.plannedSubjects}" />
 			<f:facet name="header">
-				<ice:outputText value="Planned Amount*" />
+				<ice:outputText
+					value="#{labels['pages.trialShowPanel.randomizationData.pAmount']}" />
 			</f:facet>
 		</ice:column>
 		<ice:column id="column4">
 			<ice:outputText value="#{arm.fillLevel} %" />
 			<f:facet name="header">
-				<ice:outputText value="Fill level*" />
+				<ice:outputText
+					value="#{labels['pages.trialShowPanel.randomizationData.fLevel']}" />
 			</f:facet>
 		</ice:column>
 	</ice:dataTable>
+
+	<ice:dataTable id="trialSubjectsTable"
+		value="#{trialHandler.showedObject.subjects}" var="tSubject"
+		columnWidths="20px,200px,150px,350px" cellpadding="0"
+		scrollable="true" scrollHeight="400px">
+		<ice:column>
+			<ice:outputText value="#{tSubject.nr}" />
+			<f:facet name="header">
+				<ice:outputText
+					value="#{labels['pages.trialShowPanel.randomizationData.nr']}"></ice:outputText>
+			</f:facet>
+		</ice:column>
+		<ice:column>
+			<ice:outputText value="#{tSubject.createdAt.time}">
+				<f:convertDateTime type="both" dateStyle="short" />
+			</ice:outputText>
+			<f:facet name="header">
+				<ice:outputText
+					value="#{labels['pages.trialShowPanel.randomizationData.eventTime']}"></ice:outputText>
+			</f:facet>
+		</ice:column>
+		<ice:column>
+			<ice:outputText value="#{tSubject.identification}" />
+			<f:facet name="header">
+				<ice:outputText
+					value="#{labels['pages.trialShowPanel.randomizationData.id']}" />
+			</f:facet>
+		</ice:column>
+		<ice:column>
+			<ice:outputText value="#{tSubject.propertiesUIString}" />
+			<f:facet name="header">
+				<ice:outputText
+					value="#{labels['pages.trialShowPanel.randomizationData.properties']}" />
+			</f:facet>
+		</ice:column>
+	</ice:dataTable>
+
 </ice:panelGroup>
 
 
