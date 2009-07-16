@@ -28,6 +28,27 @@ public class MailService implements MailServiceInterface {
 	private VelocityEngine velocityEngine;
 
 	private String from;
+	
+	private String hoster;
+	private String url;
+
+
+
+	public String getHoster() {
+		return hoster;
+	}
+
+	public void setHoster(String hoster) {
+		this.hoster = hoster;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -40,7 +61,8 @@ public class MailService implements MailServiceInterface {
 			final Map<String, Object> subjectFields) throws MailErrorException {
 
 		try {
-
+			messageFields.put("hoster", hoster);
+			messageFields.put("url", url);
 			MimeMessagePreparator preparator = new MimeMessagePreparator() {
 				public void prepare(MimeMessage mimeMessage) throws Exception {
 					MimeMessageHelper message = new MimeMessageHelper(
@@ -69,6 +91,7 @@ public class MailService implements MailServiceInterface {
 			this.mailSender.send(preparator);
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new MailErrorException("Error while sending email..");
 
 		}
