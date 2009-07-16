@@ -56,7 +56,7 @@
 		columnWidths="20px,200px,150px,350px" cellpadding="0"
 		scrollable="true" scrollHeight="400px">
 		<ice:column>
-			<ice:outputText value="#{tSubject.nr}" />
+			<ice:outputText value="#{tSubject.counter}" />
 			<f:facet name="header">
 				<ice:outputText
 					value="#{labels['pages.trialShowPanel.randomizationData.nr']}"></ice:outputText>

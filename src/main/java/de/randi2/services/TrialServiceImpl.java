@@ -46,6 +46,7 @@ public class TrialServiceImpl implements TrialService {
 		subject.setArm(assignedArm);
 		//TODO Internal Subject's Identification
 		subject.setRandNumber(assignedArm.getName()+"_"+assignedArm.getSubjects().size());
+		subject.setCounter(trial.getSubjects().size());
 		if(subject.getIdentification() == null) subject.setIdentification(subject.getRandNumber());
 		sessionFactory.getCurrentSession().persist(subject);
 		assignedArm.addSubject(subject);

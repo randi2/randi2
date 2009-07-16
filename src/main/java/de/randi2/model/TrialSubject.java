@@ -28,6 +28,16 @@ public class TrialSubject extends AbstractDomainObject {
 	private String identification;
 
 	private String randNumber;
+	
+	private int counter;
+	
+	public int getCounter() {
+		return counter;
+	}
+	
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
 
 	@ManyToOne
 	private TrialSite trialSite;
@@ -134,9 +144,4 @@ public class TrialSubject extends AbstractDomainObject {
 		}
 		return stringB.toString();
 	}
-	
-	public int getNr(){
-		return 1;
-	}
-
 }
