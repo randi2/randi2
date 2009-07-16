@@ -42,7 +42,7 @@ You can change wrong entries if you log in under the address: <a href="${url}">$
 <hr style="width: 100%; height: 2px;">
 <div style="text-align: center;">--- This is a RANDI2
 System Mail ---<br>
-<img style="width: 166px; height: 47px;" alt="" src="../../../../../../../webapp/img/randi2.png"><br>
+<br>
 RANDI2 is a web-based
 software for randomizing subjects for clinical trials.<br>
 The RANDI2 project has been released under GNU GPL v. 3.0. <br>
