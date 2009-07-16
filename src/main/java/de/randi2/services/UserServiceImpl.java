@@ -55,9 +55,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void addRole(Login login, Role role) {
 		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " add role " + role.getName() + "to user " + login.getUsername());
-		if(login != null && login.getId()>0 && role != null && role.getId()> 0 && !login.getRoles().contains(role)){
+		if(login != null && role != null && role.getId()> 0 && !login.getRoles().contains(role)){
 			login.addRole(role);
-			loginDao.update(login);
+			if(login.getId()>1)
+				loginDao.update(login);
 		}else throw new RuntimeException("");
 	}
 
