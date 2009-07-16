@@ -45,7 +45,6 @@
 									<f:convertDateTime locale="#{loginHandler.chosenLocale}"
 										dateStyle="medium" timeZone="#{randi2Page.zone}" />
 								</ice:selectInputDate>
-								<ice:message for="date" />
 							</ice:panelGrid>
 						</ice:panelGrid>
 					</ice:panelGroup>
@@ -54,8 +53,7 @@
 							<ice:outputLabel
 								value="#{labels['pages.propertyPanel.subjectsValue']}" />
 							<ice:panelGroup>
-								<ice:selectOneRadio value="#{criterion.subjectProperty.value}"
-									partialSubmit="true">
+								<ice:selectOneRadio value="#{criterion.subjectProperty.value}">
 									<f:selectItems value="#{criterion.selectItems}" />
 								</ice:selectOneRadio>
 							</ice:panelGroup>
@@ -68,7 +66,6 @@
 							<ice:panelGroup>
 								<ice:inputText id="text"
 									value="#{criterion.subjectProperty.value}" />
-								<ice:message for="text" />
 							</ice:panelGroup>
 						</ice:panelGrid>
 					</ice:panelGroup>
@@ -77,8 +74,7 @@
 							<ice:outputLabel
 								value="#{labels['pages.propertyPanel.subjectsValue']}" />
 							<ice:panelGroup>
-								<ice:selectOneRadio value="#{criterion.subjectProperty.value}"
-									partialSubmit="true">
+								<ice:selectOneRadio value="#{criterion.subjectProperty.value}">
 									<f:selectItems value="#{criterion.selectItems}" />
 								</ice:selectOneRadio>
 							</ice:panelGroup>
