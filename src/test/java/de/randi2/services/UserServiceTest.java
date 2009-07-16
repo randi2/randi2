@@ -64,10 +64,6 @@ public class UserServiceTest extends AbstractServiceTest{
 			fail("should throw exception (role = null)");
 		}catch(Exception e){}
 		try{
-			userService.addRole(factory.getLogin(), role);
-			fail("should throw exception (login not saved)");
-		}catch(Exception e){}
-		try{
 			userService.addRole(login, factory.getRole());
 			fail("should throw exception (role not saved)");
 		}catch(Exception e){}
