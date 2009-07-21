@@ -23,21 +23,21 @@
 		style="width: 600px; height: auto">
 		<f:facet name="header">
 		<ice:panelGrid border="0" columns="2">
-				<ice:graphicImage value="/img/icons/terms16.png"></ice:graphicImage>
-				<ice:outputLabel value="#{labels['pages.registration.termsHeader']}"></ice:outputLabel>
+				<ice:graphicImage value="/img/icons/terms16.png"/>
+				<ice:outputLabel value="#{labels['pages.registration.termsHeader']}"/>
 			</ice:panelGrid>
 		</f:facet>
 		<f:facet name="body">
 			<ice:panelGrid border="0" columns="1">
 				<f:facet name="footer">
 					<ice:panelGroup>
-						<ice:commandButton value="#{labels['buttons.accept']}"
-							actionListener="#{registerPage.acceptTerms}"></ice:commandButton>
-						<ice:commandButton value="#{labels['buttons.decline']}"
-							actionListener="#{registerPage.declineTerms}"></ice:commandButton>
+						<ice:commandButton id="termsAccept" value="#{labels['buttons.accept']}"
+							actionListener="#{registerPage.acceptTerms}"/>
+						<ice:commandButton id="termsDecline" value="#{labels['buttons.decline']}"
+							actionListener="#{registerPage.declineTerms}"/>
 					</ice:panelGroup>
 				</f:facet>
-				<ice:outputText value="#{labels['pages.registration.terms']}" escape="false"></ice:outputText>
+				<ice:outputText value="#{labels['pages.registration.terms']}" escape="false"/>
 			</ice:panelGrid>
 		</f:facet>
 	</ice:panelPopup>

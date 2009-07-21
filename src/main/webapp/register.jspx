@@ -24,7 +24,7 @@
 		doctypeSystem="http://www.w3.org/TR/html4/loose.dtd" />
 	<html>
 	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><ice:outputText nospan="true"
 		value="#{labels['pages.registration.title']}" /></title>
 	<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
@@ -34,9 +34,9 @@
 	<div class="body">
 	<div class="contentREGISTER"><f:subview id="termsPopup">
 		<jsp:directive.include file="./inc/popups/termsPopup.jspx" />
-	</f:subview> <f:subview id="successPopup">
-		<jsp:directive.include file="./inc/popups/successPopup.jspx" />
-	</f:subview> <!-- The pages.registration Form  --> <ice:panelBorder
+	</f:subview>
+    <!-- The pages.registration Form  -->
+    <ice:panelBorder
 		renderEast="false" renderWest="false">
 		<f:facet name="north">
 			<f:subview id="versionInclude">
@@ -48,9 +48,9 @@
 		<f:facet name="east">
 		</f:facet>
 		<f:facet name="center">
-			<ice:form>
+			<ice:form id="registrationForm">
 				<ice:panelTabSet tabPlacement="top">
-					<ice:panelTab label="#{labels['pages.registration.tab1Header']}">
+					<ice:panelTab id="personalDetails" label="#{labels['pages.registration.tab1Header']}">
 						<ice:panelGrid border="0" columns="2">
 							<ice:graphicImage value="/img/icons/personal16.png" />
 							<ice:outputLabel
@@ -66,8 +66,8 @@
 								</ice:selectOneMenu>
 							</ice:panelGrid>
 							<ice:panelGrid border="0" columns="3" style="float:left">
-								<ice:outputLabel for="title" value="#{labels['person.title']}" />
-								<ice:inputText id="title"
+								<ice:outputLabel for="userTitle" value="#{labels['person.title']}" />
+								<ice:inputText id="userTitle"
 									value="#{loginHandler.newUser.person.title}"
 									required="#{loginHandler.newUser.person.requiredFields['title']}"
 									partialSubmit="true">
@@ -76,7 +76,7 @@
 									<f:attribute name="dObject"
 										value="#{loginHandler.newUser.person}" />
 								</ice:inputText>
-								<ice:message for="title" id="titelError" />
+								<ice:message for="userTitle" id="userTitleError" />
 								<ice:outputLabel for="firstname"
 									value="#{labels['person.firstname']}" />
 								<ice:inputText id="firstname"
@@ -160,7 +160,7 @@
 							</ice:panelGrid>
 						</ice:panelGrid>
 					</ice:panelTab>
-					<ice:panelTab label="#{labels['pages.registration.tab2Header']}">
+					<ice:panelTab title="accountDetails" id="accountDetails" label="#{labels['pages.registration.tab2Header']}">
 						<ice:panelGrid border="0" columns="2">
 							<ice:graphicImage value="/img/icons/user16.png" />
 							<ice:outputLabel
@@ -197,7 +197,7 @@
 							</ice:panelGroup>
 						</ice:panelGrid>
 					</ice:panelTab>
-					<ice:panelTab label="#{labels['pages.registration.tab3Header']}">
+					<ice:panelTab id="siteDetails" label="#{labels['pages.registration.tab3Header']}">
 						<ice:panelGrid border="0" columns="2">
 							<ice:graphicImage value="/img/icons/trialSite16.png" />
 							<ice:outputLabel
@@ -344,7 +344,7 @@
 					</ice:panelTab>
 				</ice:panelTabSet>
 				<ice:panelGrid border="0" columns="4">
-					<ice:commandButton type="submit"
+					<ice:commandButton id="submitButton" type="submit"
 						value="#{labels['buttons.register']}"
 						action="#{loginHandler.registerUser}" />
 					<ice:commandButton immediate="true"
