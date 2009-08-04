@@ -150,7 +150,7 @@ public class CriterionWrapper<V extends Serializable> {
 	 */
 	public void addElement(ActionEvent event) {
 		OrdinalCriterion.class.cast(wrappedCriterion).getElements().add(
-				new String());
+				"");
 		getElements().add(OrdinalCriterion.class.cast(wrappedCriterion).getElements().size()-1);
 	}
 
