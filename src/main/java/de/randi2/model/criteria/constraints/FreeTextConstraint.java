@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 public class FreeTextConstraint extends AbstractConstraint<String>{
 
 
+	private static final long serialVersionUID = 992550887900777486L;
+	
 	private String expectedValue;
 	
 
