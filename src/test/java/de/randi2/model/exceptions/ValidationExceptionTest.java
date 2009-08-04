@@ -1,5 +1,8 @@
 package de.randi2.model.exceptions;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
-
-import static junit.framework.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/META-INF/spring-test.xml"})
@@ -30,6 +31,7 @@ public class ValidationExceptionTest {
 		e = new ValidationException(invalidValues.toArray(new InvalidValue[0]));
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetInvalids(){
 		assertEquals(10,e.getInvalids().length);
@@ -37,6 +39,7 @@ public class ValidationExceptionTest {
 		assertTrue(invalidValues.containsAll(Arrays.asList(e.getInvalids())));
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetMessages(){
 		assertEquals(10,e.getMessages().length);
