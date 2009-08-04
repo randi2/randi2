@@ -1,6 +1,5 @@
 package de.randi2.model.criteria.constraints;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -9,7 +8,7 @@ import de.randi2.model.AbstractDomainObject;
 import de.randi2.unsorted.ContraintViolatedException;
 
 @Entity(name="constraints")
-public abstract class AbstractConstraint<V extends Object> extends AbstractDomainObject implements Serializable {
+public abstract class AbstractConstraint<V extends Object> extends AbstractDomainObject{
 
 	private static final long serialVersionUID = -5608235144658474459L;
 	
