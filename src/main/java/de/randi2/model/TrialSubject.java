@@ -118,11 +118,11 @@ public class TrialSubject extends AbstractDomainObject {
 			}
 		}
 		Collections.sort(stratum);
-		String result = "";
+		StringBuffer result = new StringBuffer();
 		for (String l : stratum) {
-			result += l + ";";
+			result.append(l + ";");
 		}
-		return result;
+		return result.toString();
 	}
 
 	@Override
