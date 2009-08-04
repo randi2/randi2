@@ -1,5 +1,6 @@
 package de.randi2.aspects;
 
+import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,6 +25,7 @@ public class SecurityAspects {
 
 	@Autowired
 	private AclService aclService;
+	private Logger logger =  Logger.getLogger(SecurityAspects.class);
 
 	@Around("execution(public * de.randi2.services.*.randomize*(..))")
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -57,6 +59,7 @@ public class SecurityAspects {
 				
 			}
 		} catch (NotFoundException e) {
+			logger.info("The user ("+ SecurityContextHolder.getContext().getAuthentication().getName()  +")have no permission to randomize in this trial!");
 		}
 		throw new AccessDeniedException("You have not the permission to randomize in this trial!");
 	}
