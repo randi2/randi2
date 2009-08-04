@@ -30,14 +30,15 @@ import de.randi2.utility.mail.exceptions.MailErrorException;
  */
 public class UserServiceImpl implements UserService {
 
-	
 	private Logger logger = Logger.getLogger(UserServiceImpl.class);
-	
-	@Autowired private PasswordEncoder passwordEncoder;
-	@Autowired private SystemWideSaltSource saltSource;
-	
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private SystemWideSaltSource saltSource;
+
 	private LoginDao loginDao;
-	
+
 	public UserServiceImpl() {
 		super();
 	}
@@ -45,7 +46,7 @@ public class UserServiceImpl implements UserService {
 	private RoleDao roleDao;
 	private MailServiceInterface mailService;
 
-	public UserServiceImpl(LoginDao loginDao,RoleDao roleDao,
+	public UserServiceImpl(LoginDao loginDao, RoleDao roleDao,
 			MailServiceInterface mailService) {
 		this.loginDao = loginDao;
 		this.roleDao = roleDao;
@@ -54,21 +55,27 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void addRole(Login login, Role role) {
-		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " add role " + role.getName() + "to user " + login.getUsername());
-		if(login != null && role != null && role.getId()> 0 && !login.getRoles().contains(role)){
+
+		if (login != null && role != null && role.getId() > 0
+				&& !login.getRoles().contains(role)) {
+			logger.info("user: "
+					+ SecurityContextHolder.getContext().getAuthentication()
+							.getName() + " add role " + role.getName()
+					+ "to user " + login.getUsername());
 			login.addRole(role);
-			if(login.getId()>1)
+			if (login.getId() > 1)
 				loginDao.update(login);
-		}else throw new RuntimeException("");
+		} else
+			throw new RuntimeException("");
 	}
 
 	@Override
 	public void createRole(Role newRole) {
-		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " create new role " + newRole.getName());
+		logger.info("user: "
+				+ SecurityContextHolder.getContext().getAuthentication()
+						.getName() + " create new role " + newRole.getName());
 		roleDao.create(newRole);
-	}	
-	
-
+	}
 
 	@Override
 	public void deleteRole(Role oldRole) {
@@ -91,71 +98,92 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Secured({"ROLE_ANONYMOUS","ACL_LOGIN_CREATE"})
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	@Secured( { "ROLE_ANONYMOUS", "ACL_LOGIN_CREATE" })
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void register(Login newObject) {
-		logger.info("register new user with username/eMail " + newObject.getUsername());
+		logger.info("register new user with username/eMail "
+				+ newObject.getUsername());
 		// Investigator Role (self-registration process)
 		if (newObject.getRoles().size() == 1
 				&& newObject.getRoles().iterator().next().equals(
 						Role.ROLE_ANONYMOUS)) {
 			newObject.addRole(Role.ROLE_INVESTIGATOR);
 		}
-		newObject.setPassword(passwordEncoder.encodePassword(newObject.getPassword(), saltSource.getSystemWideSalt()));
+		newObject.setPassword(passwordEncoder.encodePassword(newObject
+				.getPassword(), saltSource.getSystemWideSalt()));
 		loginDao.create(newObject);
 		// send registration Mail
 		sendRegistrationMail(newObject);
 
 	}
-	
+
 	@Override
-	@Secured({"ACL_LOGIN_CREATE"})
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
-	public void create(Login newObject){
-		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " create new user " + newObject.getUsername());
-		newObject.setPassword(passwordEncoder.encodePassword(newObject.getPassword(), saltSource.getSystemWideSalt()));
+	@Secured( { "ACL_LOGIN_CREATE" })
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void create(Login newObject) {
+		logger.info("user: "
+				+ SecurityContextHolder.getContext().getAuthentication()
+						.getName() + " create new user "
+				+ newObject.getUsername());
+		newObject.setPassword(passwordEncoder.encodePassword(newObject
+				.getPassword(), saltSource.getSystemWideSalt()));
 		loginDao.create(newObject);
 		// send registration Mail
 		sendRegistrationMail(newObject);
 	}
 
 	@Override
-	@Secured({"ACL_LOGIN_WRITE"})
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	@Secured( { "ACL_LOGIN_WRITE" })
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public Login update(Login changedObject) {
-		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " update user " + changedObject.getUsername());
+		logger.info("user: "
+				+ SecurityContextHolder.getContext().getAuthentication()
+						.getName() + " update user "
+				+ changedObject.getUsername());
 		return loginDao.update(changedObject);
 	}
 
 	@Override
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public Role updateRole(Role changedRole) {
-		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " update role " +changedRole.getName() + " (id="+ changedRole.getId()+")");
+		logger.info("user: "
+				+ SecurityContextHolder.getContext().getAuthentication()
+						.getName() + " update role " + changedRole.getName()
+				+ " (id=" + changedRole.getId() + ")");
 		return roleDao.update(changedRole);
 	}
 
 	@Override
-	@Secured({"ROLE_USER", "AFTER_ACL_COLLECTION_READ"})
-	@Transactional(propagation=Propagation.SUPPORTS)
+	@Secured( { "ROLE_USER", "AFTER_ACL_COLLECTION_READ" })
+	@Transactional(propagation = Propagation.SUPPORTS)
 	public List<Login> getAll() {
-		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " get all users");
+		logger.info("user: "
+				+ SecurityContextHolder.getContext().getAuthentication()
+						.getName() + " get all users");
 		return loginDao.getAll();
 	}
 
 	@Override
 	public void removeRole(Login login, Role role) {
-		if(login != null && login.getId()>0 && role != null && role.getId()> 0 && login.getRoles().contains(role)){
-			logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " removes role " + role.getName()+ " from user " + login.getUsername());
+		if (login != null && login.getId() > 0 && role != null
+				&& role.getId() > 0 && login.getRoles().contains(role)) {
+			logger.info("user: "
+					+ SecurityContextHolder.getContext().getAuthentication()
+							.getName() + " removes role " + role.getName()
+					+ " from user " + login.getUsername());
 			login.removeRole(role);
 			loginDao.update(login);
-		}else throw new RuntimeException("can't remove role from user");
+		} else
+			throw new RuntimeException("can't remove role from user");
 	}
 
 	@Override
-	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
-	@Transactional(propagation=Propagation.SUPPORTS)
+	@Secured( { "ROLE_USER", "AFTER_ACL_READ" })
+	@Transactional(propagation = Propagation.SUPPORTS)
 	public Login getObject(long objectID) {
-		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " get login with id=" + objectID);
+		logger.info("user: "
+				+ SecurityContextHolder.getContext().getAuthentication()
+						.getName() + " get login with id=" + objectID);
 		return loginDao.get(objectID);
 	}
 
@@ -171,14 +199,15 @@ public class UserServiceImpl implements UserService {
 		Locale language = newUser.getPrefLocale();
 
 		try {
-			mailService.sendMail(newUser.getPerson().getEmail(), "NewUserMail", language,
-					newUserMessageFields, newUserSubjectFields);
+			mailService.sendMail(newUser.getPerson().getEmail(), "NewUserMail",
+					language, newUserMessageFields, newUserSubjectFields);
 		} catch (MailErrorException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
-		if (newUser.getPerson().getTrialSite() != null && newUser.getPerson().getTrialSite().getContactPerson() != null) {
+		if (newUser.getPerson().getTrialSite() != null
+				&& newUser.getPerson().getTrialSite().getContactPerson() != null) {
 
 			// send e-mail to contact person of current trial-site
 
@@ -208,10 +237,10 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 	}
-	
+
 	@Override
-	@Secured({"ROLE_USER"})
-	@Transactional(propagation=Propagation.SUPPORTS)
+	@Secured( { "ROLE_USER" })
+	@Transactional(propagation = Propagation.SUPPORTS)
 	public List<Role> getAllRoles() {
 		return roleDao.getAll();
 	}
