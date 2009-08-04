@@ -29,7 +29,7 @@ public class HibernateAclService implements AclService {
 
 	@Override
 	public ObjectIdentity[] findChildren(ObjectIdentity arg0) {
-		return null;
+		return new ObjectIdentityHibernate[0];
 	}
 
 	@Override
