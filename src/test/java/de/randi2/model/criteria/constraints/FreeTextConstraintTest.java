@@ -1,7 +1,11 @@
 package de.randi2.model.criteria.constraints;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.junit.Before;
@@ -10,7 +14,6 @@ import org.junit.Test;
 import de.randi2.test.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
 import edu.emory.mathcs.backport.java.util.Arrays;
-import static junit.framework.Assert.*;
 
 
 public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstraint> {
@@ -22,6 +25,7 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 		super(FreeTextConstraint.class);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {
 		element="value";
