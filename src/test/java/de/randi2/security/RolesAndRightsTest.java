@@ -3,31 +3,21 @@ package de.randi2.security;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.junit.Assert.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import de.randi2.dao.HibernateAclService;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
-import de.randi2.model.TrialSite;
-import de.randi2.model.enumerations.Gender;
 import de.randi2.model.security.AclHibernate;
 import de.randi2.utility.security.RolesAndRights;
-import de.randi2.test.utility.DomainObjectFactory;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,10 +25,6 @@ import de.randi2.test.utility.DomainObjectFactory;
 public class RolesAndRightsTest {
 
 	
-	@Autowired
-	private HibernateAclService aclService;
-	@Autowired
-	private DomainObjectFactory factory;
 	@Autowired
 	private HibernateTemplate template;
 	@Autowired
@@ -53,6 +39,7 @@ public class RolesAndRightsTest {
 	
 	// TODO This test are not running. Has the db-layout changed?
 //	@Before
+	@SuppressWarnings("unchecked")
 	public void init(){
 		clearAclTables();
 		rolesAndRights.initializeRoles();
