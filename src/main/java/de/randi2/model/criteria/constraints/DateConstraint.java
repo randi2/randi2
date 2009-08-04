@@ -10,6 +10,9 @@ import de.randi2.unsorted.ContraintViolatedException;
 @Entity
 public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 
+
+	private static final long serialVersionUID = -9068633271254996713L;
+	
 	private GregorianCalendar firstDate;
 	private GregorianCalendar secondDate;
 
@@ -59,7 +62,7 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 			throws ContraintViolatedException {
 		if(value ==null){
 			throw new ContraintViolatedException();
-		}else if(value != null && firstDate!=null && secondDate!=null && (value.before(firstDate) || value.after(secondDate))){
+		}else if( firstDate!=null && secondDate!=null && (value.before(firstDate) || value.after(secondDate))){
 			throw new ContraintViolatedException();
 		}else if(firstDate!=null && secondDate==null && value.before(firstDate) ){
 			throw new ContraintViolatedException();
