@@ -82,7 +82,7 @@ public class RolesAndRights {
 		} else if (object instanceof Trial) {
 			grantRightsTrialObject((Trial) object, scope);
 		} else if (object instanceof TrialSubject) {
-			grantRightsTrialSubject((TrialSubject) object, scope);
+			grantRightsTrialSubject((TrialSubject) object);
 		}
 	}
 
@@ -328,8 +328,7 @@ public class RolesAndRights {
 
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED)
-	private void grantRightsTrialSubject(TrialSubject trialSubject,
-			TrialSite scope) {
+	private void grantRightsTrialSubject(TrialSubject trialSubject) {
 		List<Login> logins = sessionFactory.getCurrentSession().getNamedQuery("login.LoginsWithPermission").setParameter(0, Trial.class).setParameter(1, trialSubject.getArm().getTrial().getId()).setParameter(2, PermissionHibernate.READ).list();
 		for(Login l : logins){
 			for(Role r : l.getRoles()){
