@@ -7,16 +7,13 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 
 import de.randi2.dao.LoginDao;
 import de.randi2.model.Login;
-import de.randi2.model.Person;
 import de.randi2.model.Role;
 import de.randi2.test.utility.DomainObjectFactory;
-import de.randi2.test.utility.TestStringUtil;
 
 public class UserServiceTestRoles extends AbstractServiceTest {
 
@@ -24,10 +21,6 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	private UserService userService;
 	@Autowired
 	private DomainObjectFactory factory;
-	@Autowired
-	private TestStringUtil stringUtil;
-	@Autowired
-	private ApplicationContext context;
 	@Autowired
 	private LoginDao loginDao;
 
@@ -41,6 +34,7 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetAllAdmin() {
 
@@ -53,6 +47,7 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetAllInvestigator() {
 		List<Login> loginsTemp = sessionFactory.getCurrentSession()
@@ -98,15 +93,15 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 				.setAuthenticated(true);
 	}
 
-	private void authenticatAsAnonymous() {
-		Login newUser = new Login();
-		newUser.setPerson(new Person());
-		newUser.addRole(Role.ROLE_ANONYMOUS);
-		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"anonymousUser", newUser, newUser.getAuthorities());
-		// Perform authentication
-		SecurityContextHolder.getContext().setAuthentication(authToken);
-		SecurityContextHolder.getContext().getAuthentication()
-				.setAuthenticated(true);
-	}
+//	private void authenticatAsAnonymous() {
+//		Login newUser = new Login();
+//		newUser.setPerson(new Person());
+//		newUser.addRole(Role.ROLE_ANONYMOUS);
+//		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
+//				"anonymousUser", newUser, newUser.getAuthorities());
+//		// Perform authentication
+//		SecurityContextHolder.getContext().setAuthentication(authToken);
+//		SecurityContextHolder.getContext().getAuthentication()
+//				.setAuthenticated(true);
+//	}
 }
