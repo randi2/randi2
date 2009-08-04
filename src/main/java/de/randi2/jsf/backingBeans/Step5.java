@@ -73,10 +73,9 @@ public class Step5 {
 	public void setSelectedAlgorithmPanelId(String selectedAlgorithmPanelId) {
 		this.selectedAlgorithmPanelId = selectedAlgorithmPanelId;
 		if (selectedAlgorithmPanelId
-				.equals(AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
-			if (!BlockRandomizationConfig.class
+				.equals(AlgorithmPanelId.BLOCK_RANDOMIZATION.toString()) && !BlockRandomizationConfig.class
 					.isInstance(getCurrentTrialHandler()
-							.getRandomizationConfig()))
+							.getRandomizationConfig()) ){
 				getCurrentTrialHandler().setRandomizationConfig(
 						new BlockRandomizationConfig());
 		}
