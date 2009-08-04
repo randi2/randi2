@@ -4,12 +4,16 @@
  */
 package de.randi2.randomization;
 
+import static de.randi2.randomization.RandomizationHelper.randomize;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.utility.IntegerIterator;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -30,7 +34,7 @@ public class BiasedCoinRandomizationTest {
 	public void testOneSubjectAllocation() {
 		RandomizationHelper.addArms(trial, 20, 20);
 		s = new TrialSubject();
-		trial.randomize(s);
+		randomize(trial,s);
 		assertNotNull(s.getArm());
 		assertTrue(trial.getSubjects().contains(s));
 	}
@@ -40,7 +44,7 @@ public class BiasedCoinRandomizationTest {
 		RandomizationHelper.addArms(trial, 20, 20);
 		for (Integer i : (new IntegerIterator(40))) {
 			s = new TrialSubject();
-			trial.randomize(s);
+			randomize(trial,s);
 		}
 		assertNotNull(s.getArm());
 		assertTrue(trial.getSubjects().contains(s));

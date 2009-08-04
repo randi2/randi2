@@ -14,6 +14,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import static de.randi2.utility.IntegerIterator.upto;
 import static de.randi2.test.utility.RANDI2Assert.*;
+import static de.randi2.randomization.RandomizationHelper.randomize;
 
 /**
  *
@@ -39,7 +40,7 @@ public class BlockRandomizationTest {
 		conf.setMaximum(2);
 		conf.setType(BlockRandomizationConfig.TYPE.MULTIPLY);
 		s = new TrialSubject();
-		trial.randomize(s);
+		randomize(trial, s);
 		assertNotNull(s.getArm());
 		assertTrue(trial.getSubjects().contains(s));
 	}
@@ -52,7 +53,7 @@ public class BlockRandomizationTest {
 		conf.setType(BlockRandomizationConfig.TYPE.MULTIPLY);
 		for (int i : upto(4)) {
 			s = new TrialSubject();
-			trial.randomize(s);
+			randomize(trial,s);
 		}
 		for(TreatmentArm arm : trial.getTreatmentArms()){
 			assertEquals(2, arm.getSubjects().size());
@@ -67,7 +68,7 @@ public class BlockRandomizationTest {
 		conf.setType(BlockRandomizationConfig.TYPE.MULTIPLY);
 		for (int i : upto(400)) {
 			s = new TrialSubject();
-			trial.randomize(s);
+			randomize(trial, s);
 		}
 		for(TreatmentArm arm : trial.getTreatmentArms()){
 			assertEquals(200, arm.getSubjects().size());
@@ -82,7 +83,7 @@ public class BlockRandomizationTest {
 		conf.setType(BlockRandomizationConfig.TYPE.MULTIPLY);
 		for (int i : upto(400)) {
 			s = new TrialSubject();
-			trial.randomize(s);
+			randomize(trial, s);
 		}
 		for(TreatmentArm arm : trial.getTreatmentArms()){
 			assertAtLeast(199, arm.getSubjects().size());
@@ -98,7 +99,7 @@ public class BlockRandomizationTest {
 		conf.setType(BlockRandomizationConfig.TYPE.ABSOLUTE);
 		for (int i : upto(20)) {
 			s = new TrialSubject();
-			trial.randomize(s);
+			randomize(trial, s);
 		}
 		for(TreatmentArm arm : trial.getTreatmentArms()){
 			assertAtLeast(7, arm.getSubjects().size());

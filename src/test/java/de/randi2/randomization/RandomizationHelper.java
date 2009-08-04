@@ -6,6 +6,8 @@ package de.randi2.randomization;
 
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
+import de.randi2.model.TrialSubject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,5 +26,11 @@ public class RandomizationHelper {
 			arms.add(arm);
 		}
 		t.setTreatmentArms(arms);
+	}
+	
+	public static void randomize(Trial t, TrialSubject s){
+		TreatmentArm assignedArm = t.getRandomizationConfiguration().getAlgorithm().randomize(s);
+		s.setArm(assignedArm);
+		assignedArm.addSubject(s);
 	}
 }

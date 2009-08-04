@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static de.randi2.utility.IntegerIterator.*;
+import static de.randi2.randomization.RandomizationHelper.randomize;
 
 /**
  *
@@ -33,7 +34,7 @@ public class CompleteRandomizationTest {
 	public void testOneSubjectAllocation() {
 		RandomizationHelper.addArms(trial, 10, 10);
 		s = new TrialSubject();
-		trial.randomize(s);
+		randomize(trial,s);
 		assertNotNull(s.getArm());
 		assertTrue(trial.getSubjects().contains(s));
 	}
@@ -43,7 +44,7 @@ public class CompleteRandomizationTest {
 		RandomizationHelper.addArms(trial, 20, 20);
 		s = new TrialSubject();
 		for (int i : upto(40)) {
-			trial.randomize(s);
+			randomize(trial,s);
 		}
 		assertEquals(40, trial.getSubjects().size());
 	}
