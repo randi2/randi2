@@ -133,6 +133,11 @@
 			<property-class>de.randi2.utility.logging.LogService</property-class>
 			<value>#{logService}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>chartService</property-name>
+			<property-class>de.randi2.services.ChartService</property-class>
+			<value>#{chartService}</value>
+		</managed-property>
 	</managed-bean>
 
 	<managed-bean>

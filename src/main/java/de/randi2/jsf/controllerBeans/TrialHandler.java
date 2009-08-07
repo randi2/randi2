@@ -37,6 +37,7 @@ import com.icesoft.faces.context.Resource;
 
 import de.randi2.jsf.backingBeans.Step4;
 import de.randi2.jsf.backingBeans.Step5;
+import de.randi2.jsf.supportBeans.ChartData;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
@@ -52,6 +53,7 @@ import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
+import de.randi2.services.ChartsService;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
 import de.randi2.utility.ReflectionUtil;
@@ -80,21 +82,26 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		this.trialService = trialService;
 	}
 
-	
 	private LogService logService;
-	
+
 	public void setLogService(LogService logService) {
 		this.logService = logService;
 	}
 
+	private ChartsService chartService;
+
+	public void setChartService(ChartsService chartService) {
+		this.chartService = chartService;
+	}
+
 	private Popups popups;
-	
+
 	private AbstractRandomizationConfig randomizationConfig;
-	
+
 	public AbstractRandomizationConfig getRandomizationConfig() {
 		return randomizationConfig;
 	}
-	
+
 	public void setRandomizationConfig(
 			AbstractRandomizationConfig randomizationConfig) {
 		this.randomizationConfig = randomizationConfig;
@@ -284,7 +291,8 @@ public class TrialHandler extends AbstractHandler<Trial> {
 				Step5.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
 			showedObject
 					.setRandomizationConfiguration(new BiasedCoinRandomizationConfig());
-		} else if (temp2.getSelectedAlgorithmPanelId().equals(Step5.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())){
+		} else if (temp2.getSelectedAlgorithmPanelId().equals(
+				Step5.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
 			showedObject.setRandomizationConfiguration(randomizationConfig);
 		}
 		/* End of the Algorithm Configuration */
@@ -337,10 +345,11 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		return trialService.getAll();
 	}
 
-	public List<LogEntry> getLogEntries(){
-		return logService.getLogEntries(showedObject.getClass(),showedObject.getId());
+	public List<LogEntry> getLogEntries() {
+		return logService.getLogEntries(showedObject.getClass(), showedObject
+				.getId());
 	}
-	
+
 	@Override
 	protected Trial createPlainObject() {
 		Trial t = new Trial();
@@ -352,4 +361,11 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		t.getTreatmentArms().add(new TreatmentArm());
 		return t;
 	}
+
+	public ChartData getRecruitmentChartData() {
+		if (chartService != null && showedObject != null)
+			return chartService.generateRecruitmentChart(showedObject);
+		return null;
+	}
+
 }
