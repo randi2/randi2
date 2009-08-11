@@ -134,9 +134,9 @@
 			<value>#{logService}</value>
 		</managed-property>
 		<managed-property>
-			<property-name>chartService</property-name>
-			<property-class>de.randi2.services.ChartService</property-class>
-			<value>#{chartService}</value>
+			<property-name>chartsService</property-name>
+			<property-class>de.randi2.services.ChartsService</property-class>
+			<value>#{chartsService}</value>
 		</managed-property>
 	</managed-bean>
 

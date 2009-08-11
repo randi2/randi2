@@ -88,10 +88,10 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		this.logService = logService;
 	}
 
-	private ChartsService chartService;
+	private ChartsService chartsService;
 
-	public void setChartService(ChartsService chartService) {
-		this.chartService = chartService;
+	public void setChartService(ChartsService chartsService) {
+		this.chartsService = chartsService;
 	}
 
 	private Popups popups;
@@ -363,8 +363,8 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	public ChartData getRecruitmentChartData() {
-		if (chartService != null && showedObject != null)
-			return chartService.generateRecruitmentChart(showedObject);
+		if (chartsService != null && showedObject != null)
+			return chartsService.generateRecruitmentChart(showedObject);
 		return null;
 	}
 

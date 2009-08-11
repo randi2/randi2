@@ -15,5 +15,6 @@
 	
 	<bean id="trialService" class="de.randi2.services.TrialServiceImpl"/>
 
+	<bean id="chartsService" class="de.randi2.services.ChartsServiceImpl" />
 
 </beans>
