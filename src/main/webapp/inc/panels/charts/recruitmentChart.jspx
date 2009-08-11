@@ -14,14 +14,11 @@ Trial's Recruitment Chart.
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-<ice:outputChart xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:h="http://java.sun.com/jsf/html"
+<ice:outputChart xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ice="http://www.icesoft.com/icefaces/component"id="axisOutputChart" type="#{axisChartBean.type}"
-	chartTitle="Recruitment*"
-	yaxisTitle="Patients' count*"
-	xaxisTitle="Month*"
-	xaxisLabels="#{trialHandler.recruitmentChartData.xLabels}"
-	labels="#{trialHandler.recruitmentChartData.yLabels}"
-	data="#{trialHandler.recruitmentChartData.data}"
-	horizontal="true" />
+	xmlns:ice="http://www.icesoft.com/icefaces/component" type="barclustered"
+	chartTitle="Recruitment Chart*" xaxisTitle="Time*" yaxisTitle="Patients' amount*"
+	legendPlacement="bottom"
+	xaxisLabels="#{trialHandler.recruitmentChartData.xLabels }"
+	labels="#{trialHandler.recruitmentChartData.functionNames}"
+	data="#{trialHandler.recruitmentChartData.data}" />

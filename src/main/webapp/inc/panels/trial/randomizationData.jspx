@@ -19,74 +19,84 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:dataTable id="trialSitesTable" border="1"
-		value="#{trialHandler.showedObject.treatmentArms}" var="arm"
-		width="550px">
-		<ice:column id="column1">
-			<ice:outputText value="#{arm.name}" />
-			<f:facet name="header">
-				<ice:outputText value="#{labels['treatmentArm.name']}"></ice:outputText>
-			</f:facet>
-		</ice:column>
-		<ice:column id="column2">
-			<ice:outputText value="#{arm.currentSubjectsAmount}" />
-			<f:facet name="header">
-				<ice:outputText
-					value="#{lables['pages.trialShowPanel.randomizationData.amount']}" />
-			</f:facet>
-		</ice:column>
-		<ice:column id="column3">
-			<ice:outputText value="#{arm.plannedSubjects}" />
-			<f:facet name="header">
-				<ice:outputText
-					value="#{labels['pages.trialShowPanel.randomizationData.pAmount']}" />
-			</f:facet>
-		</ice:column>
-		<ice:column id="column4">
-			<ice:outputText value="#{arm.fillLevel} %" />
-			<f:facet name="header">
-				<ice:outputText
-					value="#{labels['pages.trialShowPanel.randomizationData.fLevel']}" />
-			</f:facet>
-		</ice:column>
-	</ice:dataTable>
-
-	<ice:dataTable id="trialSubjectsTable"
-		value="#{trialHandler.showedObject.subjects}" var="tSubject"
-		columnWidths="20px,200px,150px,350px" cellpadding="0"
-		scrollable="true" scrollHeight="400px">
-		<ice:column>
-			<ice:outputText value="#{tSubject.counter}" />
-			<f:facet name="header">
-				<ice:outputText
-					value="#{labels['pages.trialShowPanel.randomizationData.nr']}"></ice:outputText>
-			</f:facet>
-		</ice:column>
-		<ice:column>
-			<ice:outputText value="#{tSubject.createdAt.time}">
-				<f:convertDateTime type="both" dateStyle="short" />
-			</ice:outputText>
-			<f:facet name="header">
-				<ice:outputText
-					value="#{labels['pages.trialShowPanel.randomizationData.eventTime']}"></ice:outputText>
-			</f:facet>
-		</ice:column>
-		<ice:column>
-			<ice:outputText value="#{tSubject.identification}" />
-			<f:facet name="header">
-				<ice:outputText
-					value="#{labels['pages.trialShowPanel.randomizationData.id']}" />
-			</f:facet>
-		</ice:column>
-		<ice:column>
-			<ice:outputText value="#{tSubject.propertiesUIString}" />
-			<f:facet name="header">
-				<ice:outputText
-					value="#{labels['pages.trialShowPanel.randomizationData.properties']}" />
-			</f:facet>
-		</ice:column>
-	</ice:dataTable>
-
+	<ice:panelGroup>
+		<ice:outputLabel value="Arms' status*" />
+		<ice:dataTable id="trialSitesTable" border="1"
+			value="#{trialHandler.showedObject.treatmentArms}" var="arm"
+			width="550px">
+			<ice:column id="column1">
+				<ice:outputText value="#{arm.name}" />
+				<f:facet name="header">
+					<ice:outputText value="#{labels['treatmentArm.name']}"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column id="column2">
+				<ice:outputText value="#{arm.currentSubjectsAmount}" />
+				<f:facet name="header">
+					<ice:outputText
+						value="#{lables['pages.trialShowPanel.randomizationData.amount']}" />
+				</f:facet>
+			</ice:column>
+			<ice:column id="column3">
+				<ice:outputText value="#{arm.plannedSubjects}" />
+				<f:facet name="header">
+					<ice:outputText
+						value="#{labels['pages.trialShowPanel.randomizationData.pAmount']}" />
+				</f:facet>
+			</ice:column>
+			<ice:column id="column4">
+				<ice:outputText value="#{arm.fillLevel} %" />
+				<f:facet name="header">
+					<ice:outputText
+						value="#{labels['pages.trialShowPanel.randomizationData.fLevel']}" />
+				</f:facet>
+			</ice:column>
+		</ice:dataTable>
+	</ice:panelGroup>
+	<ice:panelGroup style="margin-top: 10px;">
+		<ice:outputLabel value="Randomization's list*" />
+		<ice:dataTable id="trialSubjectsTable"
+			value="#{trialHandler.showedObject.subjects}" var="tSubject"
+			columnWidths="20px,200px,150px,350px" cellpadding="0"
+			scrollable="true" scrollHeight="200px">
+			<ice:column>
+				<ice:outputText value="#{tSubject.counter}" />
+				<f:facet name="header">
+					<ice:outputText
+						value="#{labels['pages.trialShowPanel.randomizationData.nr']}"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column>
+				<ice:outputText value="#{tSubject.createdAt.time}">
+					<f:convertDateTime type="both" dateStyle="short" />
+				</ice:outputText>
+				<f:facet name="header">
+					<ice:outputText
+						value="#{labels['pages.trialShowPanel.randomizationData.eventTime']}"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column>
+				<ice:outputText value="#{tSubject.identification}" />
+				<f:facet name="header">
+					<ice:outputText
+						value="#{labels['pages.trialShowPanel.randomizationData.id']}" />
+				</f:facet>
+			</ice:column>
+			<ice:column>
+				<ice:outputText value="#{tSubject.propertiesUIString}" />
+				<f:facet name="header">
+					<ice:outputText
+						value="#{labels['pages.trialShowPanel.randomizationData.properties']}" />
+				</f:facet>
+			</ice:column>
+		</ice:dataTable>
+	</ice:panelGroup>
+	<ice:panelGroup style="margin-top: 10px;">
+		<ice:outputLabel value="Recruitment*" />
+		<f:subview id="recruitmentChart">
+			<jsp:directive.include file="./inc/panels/charts/recruitmentChart.jspx" />
+		</f:subview>
+	</ice:panelGroup>
 </ice:panelGroup>
 
 
