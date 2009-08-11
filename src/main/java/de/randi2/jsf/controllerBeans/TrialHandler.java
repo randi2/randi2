@@ -90,7 +90,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	private ChartsService chartsService;
 
-	public void setChartService(ChartsService chartsService) {
+	public void setChartsService(ChartsService chartsService) {
 		this.chartsService = chartsService;
 	}
 
