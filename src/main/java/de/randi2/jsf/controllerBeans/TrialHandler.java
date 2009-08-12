@@ -21,7 +21,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -364,31 +363,9 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	public ChartData getRecruitmentChartData() {
-		// TODO - Proof of Concept solution
-		ChartData tempD = new ChartData();
-		// X-Points Description
-		ArrayList<String> xL = new ArrayList<String>();
-		xL.add("Month 1");
-		xL.add("Month 2");
-		xL.add("Month 3");
-		xL.add("Month 4");
-		xL.add("Month 5");
-		xL.add("Month 6");
-		tempD.setxLabels(xL);
-		// Functions Description / Legend
-		ArrayList<String> yL = new ArrayList<String>();
-		yL.add("Recruited patients");
-		yL.add("Assumed patients' amount");
-		tempD.setFunctionNames(yL);
-		// Points
-		tempD.setData(Arrays.asList(new double[][] { new double[] { 10, 50 },
-				new double[] { 11, 100 }, new double[] { 45, 150 },
-				new double[] { 90, 200 }, new double[] { 125, 250 },
-				new double[] { 203, 300 } }));
-		return tempD;
-		// if (chartsService != null && showedObject != null)
-		// return chartsService.generateRecruitmentChart(showedObject);
-		// return null;
+		 if (chartsService != null && showedObject != null)
+		 return chartsService.generateRecruitmentChart(showedObject);
+		 return null;
 	}
 
 }
