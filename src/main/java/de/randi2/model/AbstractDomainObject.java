@@ -1,10 +1,7 @@
 package de.randi2.model;
 
-import static de.randi2.utility.ReflectionUtil.getGetters;
-import static de.randi2.utility.ReflectionUtil.getPropertyName;
-
 import java.io.Serializable;
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,8 +48,8 @@ public abstract @Data class AbstractDomainObject implements Serializable {
 	}
 
 
-	private boolean isRequired(Method m) {
-		return m.isAnnotationPresent(org.hibernate.validator.NotEmpty.class) || m.isAnnotationPresent(org.hibernate.validator.NotNull.class) || m.isAnnotationPresent(de.randi2.utility.validations.Password.class);
+	private boolean isRequired(Field f) {
+		return f.isAnnotationPresent(org.hibernate.validator.NotEmpty.class) || f.isAnnotationPresent(org.hibernate.validator.NotNull.class) || f.isAnnotationPresent(de.randi2.utility.validations.Password.class);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -68,8 +65,8 @@ public abstract @Data class AbstractDomainObject implements Serializable {
 	public Map<String, Boolean> getRequiredFields() {
 		if (requiredFields == null) {
 			requiredFields = new HashMap<String, Boolean>();
-			for (Method method : getGetters(this)) {
-				requiredFields.put(getPropertyName(method), this.isRequired(method));
+			for(Field field : this.getClass().getDeclaredFields()){
+				requiredFields.put(field.getName(), this.isRequired(field));
 			}
 		}
 		return requiredFields;
