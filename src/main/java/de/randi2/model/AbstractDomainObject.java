@@ -19,16 +19,15 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
+import lombok.Data;
+
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 
 import de.randi2.model.exceptions.ValidationException;
 
 @MappedSuperclass
-public abstract class AbstractDomainObject implements Serializable {
+public abstract @Data class AbstractDomainObject implements Serializable {
 
 	private static final long serialVersionUID = -1394903092160914604L;
 
@@ -51,21 +50,6 @@ public abstract class AbstractDomainObject implements Serializable {
 		this.version = (v < 0) ? v : -v;
 	}
 
-	public long getId() {
-		return id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public void setId(long _id) {
-		this.id = _id;
-	}
-
-	public void setVersion(int _version) {
-		this.version = _version;
-	}
 
 	private boolean isRequired(Method m) {
 		return m.isAnnotationPresent(org.hibernate.validator.NotEmpty.class) || m.isAnnotationPresent(org.hibernate.validator.NotNull.class) || m.isAnnotationPresent(de.randi2.utility.validations.Password.class);
@@ -91,32 +75,7 @@ public abstract class AbstractDomainObject implements Serializable {
 		return requiredFields;
 	}
 
-	/**
-	 * This method checks if two object identical by matching their id's.
-	 */
-	// FIXME This method only checks for the version and does not check,
-	// if other values are the same. This ones have to be implemented
-	// in some other way.
-	@Override
-	public boolean equals(Object other) {
-		if (other == this) {
-			return true;
-		}
 
-		if (other instanceof AbstractDomainObject) {
-			AbstractDomainObject dO = (AbstractDomainObject) other;
-			return new EqualsBuilder().append(id, dO.id).
-					append(version, dO.version).
-					append(version, dO.version).
-					isEquals();
-		}
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder().append(id).append(version).toHashCode();
-	}
 
 	@PreUpdate
 	public void beforeUpdate() {
@@ -128,27 +87,6 @@ public abstract class AbstractDomainObject implements Serializable {
 		this.createdAt = new GregorianCalendar();
 	}
 
-	public GregorianCalendar getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(GregorianCalendar createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public GregorianCalendar getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(GregorianCalendar updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
-	
 	/**
 	 * This method provides a string object for the UI.
 	 * @return
