@@ -25,7 +25,6 @@ import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.controllerBeans.TrialSiteHandler;
 import de.randi2.jsf.supportBeans.Randi2;
-import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
@@ -42,21 +41,29 @@ import de.randi2.model.TrialSite;
 public class Randi2Page {
 
 	private TrialSiteHandler trialSiteHandler;
+	
+	public void setTrialSiteHandler(TrialSiteHandler trialSiteHandler) {
+		this.trialSiteHandler = trialSiteHandler;
+	}
 
 	private TrialHandler trialHandler;
+	
+	public void setTrialHandler(TrialHandler trialHandler) {
+		this.trialHandler = trialHandler;
+	}
 
 	private LoginHandler loginHandler;
+	
+	public void setLoginHandler(LoginHandler loginHandler) {
+		this.loginHandler = loginHandler;
+	}
 
 	/**
 	 * The active content Panel.
 	 */
 	private String activePanel = "welcomePanel";
 
-	/**
-	 * The current logged in user.
-	 */
-	private Login currentUser = null;
-	
+
 	/**
 	 * The current selected trial.
 	 */
@@ -87,24 +94,6 @@ public class Randi2Page {
 
 	private boolean helpVisible = false;
 
-	public Randi2Page() {
-		loginHandler = ((LoginHandler) FacesContext.getCurrentInstance()
-				.getApplication().getELResolver().getValue(
-						FacesContext.getCurrentInstance().getELContext(), null,
-						"loginHandler"));
-		trialSiteHandler = (TrialSiteHandler) FacesContext.getCurrentInstance()
-				.getApplication().getELResolver().getValue(
-						FacesContext.getCurrentInstance().getELContext(), null,
-						"trialSiteHandler");
-
-		trialHandler = (TrialHandler) FacesContext.getCurrentInstance()
-				.getApplication().getELResolver().getValue(
-						FacesContext.getCurrentInstance().getELContext(), null,
-						"trialHandler");
-
-		currentUser = loginHandler.getLoggedInUser();
-	}
-
 	public String getActivePanel() {
 		return activePanel;
 	}
@@ -123,7 +112,7 @@ public class Randi2Page {
 
 	public void myTrialSite(ActionEvent event) {
 		trialSiteHandler
-				.setShowedObject(currentUser.getPerson().getTrialSite());
+				.setShowedObject(loginHandler.getLoggedInUser().getPerson().getTrialSite());
 		activePanel = "trialSiteEditPanel";
 	}
 
@@ -185,7 +174,7 @@ public class Randi2Page {
 	}
 
 	public void myLogin(ActionEvent event) {
-		loginHandler.setShowedObject(currentUser);
+		loginHandler.setShowedObject(loginHandler.getLoggedInUser());
 		activePanel = "userEditPanel";
 	}
 

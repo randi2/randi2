@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.el.ValueExpression;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import de.randi2.jsf.controllerBeans.LoginHandler;
@@ -33,19 +31,24 @@ public class Step5 {
 
 	}
 
+	private LoginHandler loginHandler;
+
+	public void setLoginHandler(LoginHandler loginHandler) {
+		this.loginHandler = loginHandler;
+	}
+
+	private TrialHandler trialHandler;
+
+	public void setTrialHandler(TrialHandler trialHandler) {
+		this.trialHandler = trialHandler;
+	}
+
 	private List<SelectItem> algorithms;
 
 	public List<SelectItem> getAlgorithms() {
 		if (algorithms == null) {
-			ValueExpression ve = FacesContext.getCurrentInstance()
-					.getApplication().getExpressionFactory()
-					.createValueExpression(
-							FacesContext.getCurrentInstance().getELContext(),
-							"#{loginHandler}", LoginHandler.class);
-			LoginHandler currentLoginHandler = (LoginHandler) ve
-					.getValue(FacesContext.getCurrentInstance().getELContext());
 			ResourceBundle bundle = ResourceBundle.getBundle(
-					"de.randi2.jsf.i18n.algorithms", currentLoginHandler
+					"de.randi2.jsf.i18n.algorithms", loginHandler
 							.getChosenLocale());
 			algorithms = new ArrayList<SelectItem>();
 			algorithms.add(new SelectItem(
@@ -73,27 +76,14 @@ public class Step5 {
 	public void setSelectedAlgorithmPanelId(String selectedAlgorithmPanelId) {
 		this.selectedAlgorithmPanelId = selectedAlgorithmPanelId;
 		if (selectedAlgorithmPanelId
-				.equals(AlgorithmPanelId.BLOCK_RANDOMIZATION.toString()) && !BlockRandomizationConfig.class
-					.isInstance(getCurrentTrialHandler()
-							.getRandomizationConfig()) ){
-				getCurrentTrialHandler().setRandomizationConfig(
-						new BlockRandomizationConfig());
+				.equals(AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())
+				&& !BlockRandomizationConfig.class.isInstance(trialHandler
+						.getRandomizationConfig())) {
+			trialHandler.setRandomizationConfig(new BlockRandomizationConfig());
 		}
 	}
 
 	public String getSelectedAlgorithmPanelId() {
 		return selectedAlgorithmPanelId;
 	}
-	
-	private TrialHandler getCurrentTrialHandler() {
-		ValueExpression ve = FacesContext.getCurrentInstance().getApplication()
-				.getExpressionFactory().createValueExpression(
-						FacesContext.getCurrentInstance().getELContext(),
-						"#{trialHandler}", TrialHandler.class);
-		return (TrialHandler) ve.getValue(FacesContext.getCurrentInstance()
-				.getELContext());
-	}
-	
-
-	
 }

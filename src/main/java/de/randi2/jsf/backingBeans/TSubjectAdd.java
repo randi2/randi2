@@ -28,6 +28,16 @@ public class TSubjectAdd {
 	
 	private Popups popups;
 	
+	public void setPopups(Popups popups) {
+		this.popups = popups;
+	}
+	
+	private LoginHandler loginHandler;
+	
+	public void setLoginHandler(LoginHandler loginHandler) {
+		this.loginHandler = loginHandler;
+	}
+	
 	private TrialService trialService;
 	
 	
@@ -72,13 +82,6 @@ public class TSubjectAdd {
 	public ArrayList<CriterionWrapper<? extends Serializable>> getProperties() {
 		return properties;
 	}
-	
-	public TSubjectAdd() {
-		popups = ((Popups) FacesContext.getCurrentInstance().getApplication()
-				.getELResolver().getValue(
-						FacesContext.getCurrentInstance().getELContext(), null,
-						"popups"));
-	}
 
 	public Resource getTempProtocol() {
 		if (currentTrial != null && currentTrial.getProtocol() != null)
@@ -107,10 +110,7 @@ public class TSubjectAdd {
 			tempSet.add((SubjectProperty) cw.getSubjectProperty());
 		}
 		trialSubject.setProperties(tempSet);
-		trialSubject.setTrialSite((((LoginHandler) FacesContext.getCurrentInstance().getApplication()
-				.getELResolver().getValue(
-						FacesContext.getCurrentInstance().getELContext(), null,
-						"loginHandler"))).getLoggedInUser().getPerson().getTrialSite());
+		trialSubject.setTrialSite(loginHandler.getLoggedInUser().getPerson().getTrialSite());
 		currentTrial = trialService.randomize(currentTrial,trialSubject);
 		subjectID = trialSubject.getIdentification();
 		subjectArm = trialSubject.getArm().getUIName();

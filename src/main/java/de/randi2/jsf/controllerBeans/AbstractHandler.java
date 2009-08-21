@@ -26,7 +26,7 @@ import de.randi2.model.AbstractDomainObject;
  * This class cares about the generall logic for the handler classes.
  * </p>
  * 
- * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
+ * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public abstract class AbstractHandler<O extends AbstractDomainObject> {
 

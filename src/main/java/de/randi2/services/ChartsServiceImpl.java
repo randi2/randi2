@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import de.randi2.jsf.supportBeans.ChartData;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
+import de.randi2.model.randomization.ChartData;
 
 public class ChartsServiceImpl implements ChartsService {
 

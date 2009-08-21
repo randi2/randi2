@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
@@ -26,21 +25,30 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
  */
 public class Step4 {
 
+	private TrialHandler trialHandler;
+
+	public void setTrialHandler(TrialHandler trialHandler) {
+		this.trialHandler = trialHandler;
+	}
+
+	private LoginHandler loginHandler;
+
+	public void setLoginHandler(LoginHandler loginHandler) {
+		this.loginHandler = loginHandler;
+	}
+
 	private AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> criteriaAC = null;
 
 	public AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteriaAC() {
 		if (criteriaAC == null) {
-			List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> cList = ((TrialHandler) FacesContext
-					.getCurrentInstance().getApplication().getELResolver()
-					.getValue(FacesContext.getCurrentInstance().getELContext(),
-							null, "trialHandler")).getCriteriaList();
+			List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> cList = trialHandler
+					.getCriteriaList();
 			criteriaAC = new AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>(
 					cList);
-			ResourceBundle rb = ResourceBundle.getBundle( "de.randi2.jsf.i18n.criteria",((LoginHandler) FacesContext.getCurrentInstance()
-				    .getApplication().getELResolver().getValue(
-				    	      FacesContext.getCurrentInstance().getELContext(), null,
-				    	      "loginHandler")).getChosenLocale());
-			for(SelectItem si : criteriaAC.getObjectList()){
+			ResourceBundle rb = ResourceBundle.getBundle(
+					"de.randi2.jsf.i18n.criteria", loginHandler
+							.getChosenLocale());
+			for (SelectItem si : criteriaAC.getObjectList()) {
 				si.setLabel(rb.getString(si.getLabel()));
 			}
 		}
@@ -56,7 +64,8 @@ public class Step4 {
 				getCriteria().add(
 						new CriterionWrapper<Serializable>(
 								(AbstractCriterion<Serializable, ?>) criteriaAC
-										.getSelectedObject().getClass().newInstance()));
+										.getSelectedObject().getClass()
+										.newInstance()));
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {

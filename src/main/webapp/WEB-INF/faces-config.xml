@@ -65,12 +65,6 @@
 		<managed-bean-class>de.randi2.jsf.supportBeans.Popups</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
-	<managed-bean>
-		<description>Bean which converts the RANDI2 enums into Lists with SelectItems</description>
-		<managed-bean-name>enums</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.supportBeans.Enums</managed-bean-class>
-		<managed-bean-scope>application</managed-bean-scope>
-	</managed-bean>
 
 	<managed-bean>
 		<description>
@@ -94,6 +88,18 @@
 			<property-class>de.randi2.utility.logging.LogService</property-class>
 			<value>#{logService}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>popups</property-name>
+			<property-class>de.randi2.jsf.supportBeans.Popups</property-class>
+			<value>#{popups}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<description>Bean which converts the RANDI2 enums into Lists with SelectItems</description>
+		<managed-bean-name>enums</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.supportBeans.Enums</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
 	</managed-bean>
 
 	<managed-bean>
@@ -110,6 +116,16 @@
 			<property-name>permissionVerifier</property-name>
 			<property-class>de.randi2.jsf.supportBeans.PermissionVerifier</property-class>
 			<value>#{permissionVerifier}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>popups</property-name>
+			<property-class>de.randi2.jsf.supportBeans.Popups</property-class>
+			<value>#{popups}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>loginHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
+			<value>#{loginHandler}</value>
 		</managed-property>
 	</managed-bean>
 
@@ -134,9 +150,9 @@
 			<value>#{logService}</value>
 		</managed-property>
 		<managed-property>
-			<property-name>chartsService</property-name>
-			<property-class>de.randi2.services.ChartsService</property-class>
-			<value>#{chartsService}</value>
+			<property-name>popups</property-name>
+			<property-class>de.randi2.jsf.supportBeans.Popups</property-class>
+			<value>#{popups}</value>
 		</managed-property>
 	</managed-bean>
 
@@ -148,6 +164,11 @@
 		<managed-bean-name>registerPage</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.backingBeans.RegisterPage</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>loginHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
+			<value>#{loginHandler}</value>
+		</managed-property>
 	</managed-bean>
 
 	<managed-bean>
@@ -157,6 +178,21 @@
 		<managed-bean-name>randi2Page</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.backingBeans.Randi2Page</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>trialSiteHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.TrialSiteHandler</property-class>
+			<value>#{trialSiteHandler}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>loginHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
+			<value>#{loginHandler}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>trialHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.TrialHandler</property-class>
+			<value>#{trialHandler}</value>
+		</managed-property>
 	</managed-bean>
 
 	<managed-bean>
@@ -188,6 +224,16 @@
 			<property-class>de.randi2.services.TrialService</property-class>
 			<value>#{trialService}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>popups</property-name>
+			<property-class>de.randi2.jsf.supportBeans.Popups</property-class>
+			<value>#{popups}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>loginHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
+			<value>#{loginHandler}</value>
+		</managed-property>
 	</managed-bean>
 
 	<managed-bean>
@@ -196,6 +242,16 @@
 		<managed-bean-name>step4</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.backingBeans.Step4</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>loginHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
+			<value>#{loginHandler}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>trialHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.TrialHandler</property-class>
+			<value>#{trialHandler}</value>
+		</managed-property>
 	</managed-bean>
 
 	<managed-bean>
@@ -204,6 +260,16 @@
 		<managed-bean-name>step5</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.backingBeans.Step5</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>loginHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
+			<value>#{loginHandler}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>trialHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.TrialHandler</property-class>
+			<value>#{trialHandler}</value>
+		</managed-property>
 	</managed-bean>
 
 	<managed-bean>
@@ -211,6 +277,16 @@
 		<managed-bean-name>blockR</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.backingBeans.BlockR</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>loginHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
+			<value>#{loginHandler}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>trialHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.TrialHandler</property-class>
+			<value>#{trialHandler}</value>
+		</managed-property>
 	</managed-bean>
 
 	<managed-bean>
@@ -244,21 +320,28 @@
 			<property-class>de.randi2.jsf.controllerBeans.TrialHandler</property-class>
 			<value>#{trialHandler}</value>
 		</managed-property>
-			<managed-property>
+		<managed-property>
 			<property-name>aclService</property-name>
 			<property-class>de.randi2.dao.HibernateAclService</property-class>
 			<value>#{aclService}</value>
 		</managed-property>
 	</managed-bean>
 
-	<!--
-		navigation-rule> <display-name>randi2</display-name>
-		<from-view-id>/randi2.jspx</from-view-id> <navigation-case>
-		<from-action>#{loginHandler.logoutUser}</from-action>
-		<from-outcome>success</from-outcome>
-		<to-view-id>/login.jspx</to-view-id> <redirect /> </navigation-case>
-		</navigation-rule
-	-->
+	<managed-bean>
+		<managed-bean-name>charts</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.supportBeans.Charts</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>trialHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.TrialHandler</property-class>
+			<value>#{trialHandler}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>service</property-name>
+			<property-class>de.randi2.services.ChartsService</property-class>
+			<value>#{chartsService}</value>
+		</managed-property>
+	</managed-bean>
 
 	<navigation-rule>
 		<display-name>refresh</display-name>

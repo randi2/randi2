@@ -37,7 +37,6 @@ import com.icesoft.faces.context.Resource;
 
 import de.randi2.jsf.backingBeans.Step4;
 import de.randi2.jsf.backingBeans.Step5;
-import de.randi2.jsf.supportBeans.ChartData;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
@@ -53,7 +52,6 @@ import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
-import de.randi2.services.ChartsService;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
 import de.randi2.utility.ReflectionUtil;
@@ -88,13 +86,11 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		this.logService = logService;
 	}
 
-	private ChartsService chartsService;
-
-	public void setChartsService(ChartsService chartsService) {
-		this.chartsService = chartsService;
-	}
-
 	private Popups popups;
+	
+	public void setPopups(Popups popups) {
+		this.popups = popups;
+	}
 
 	private AbstractRandomizationConfig randomizationConfig;
 
@@ -135,11 +131,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
-		popups = ((Popups) FacesContext.getCurrentInstance().getApplication()
-				.getELResolver().getValue(
-						FacesContext.getCurrentInstance().getELContext(), null,
-						"popups"));
 	}
 
 	private AutoCompleteObject<TrialSite> trialSitesAC = null;
@@ -362,10 +353,5 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		return t;
 	}
 
-	public ChartData getRecruitmentChartData() {
-		 if (chartsService != null && showedObject != null)
-		 return chartsService.generateRecruitmentChart(showedObject);
-		 return null;
-	}
 
 }
