@@ -5,9 +5,14 @@ import java.util.Map;
 
 import javax.persistence.Entity;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import org.hibernate.annotations.CollectionOfElements;
 
 @Entity
+@Data
+@EqualsAndHashCode(callSuper=true)
 public class BlockRandomizationTempData extends AbstractRandomizationTempData {
 
 	private static final long serialVersionUID = -5150967612749185875L;
@@ -17,13 +22,7 @@ public class BlockRandomizationTempData extends AbstractRandomizationTempData {
 	 @org.hibernate.annotations.MapKey(targetElement = String.class)
 	 private Map<String, Block> blocks = new HashMap<String, Block>();
 	 
-	public Map<String, Block> getBlocks() {
-		return blocks;
-	}
-
-	public void setBlocks(Map<String, Block> blocks) {
-		this.blocks = blocks;
-	}
+	
 
 	public Block getBlock(String stratum) {
 		return blocks.get(stratum);
@@ -31,7 +30,6 @@ public class BlockRandomizationTempData extends AbstractRandomizationTempData {
 
 	public void setBlock(String stratum, Block currentBlock) {
 		blocks.put(stratum, currentBlock);
-		
 	}
 
 }
