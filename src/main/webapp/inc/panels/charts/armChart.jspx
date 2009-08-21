@@ -1,5 +1,5 @@
 <!-- 
-Trial's Recruitment Chart.
+Trial's Arm Chart.
 
  Made by lplotni@users.sourceforge.org
 
@@ -18,17 +18,17 @@ Trial's Recruitment Chart.
 	<ice:outputChart xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core"
 		xmlns:ice="http://www.icesoft.com/icefaces/component"
-		type="#{charts.RChartType}"
-		chartTitle="#{labels['chart.recruitment.title']}"
-		xaxisTitle="#{labels['chart.recruitment.xLabel']}"
-		yaxisTitle="#{labels['chart.recruitment.yLabel']}" width="750"
+		type="#{charts.AChartType}"
+		chartTitle="#{labels['chart.arm.title']}"
+		xaxisTitle="#{labels['chart.arm.xLabel']}"
+		yaxisTitle="#{labels['chart.arm.yLabel']}" width="750"
 		height="400" legendPlacement="bottom"
-		xaxisLabels="#{charts.RChartData.XLabels}"
-		labels="#{labels['chart.recruitment.1']},#{labels['chart.recruitment.2']}"
-		data="#{charts.RChartData.data}" actionListener="#{charts.action}" renderOnSubmit="true"/>
+		xaxisLabels="#{charts.AChartData.XLabels}"
+		labels="#{labels['chart.arm.1']}"
+		data="#{charts.AChartData.data}" actionListener="#{charts.action}" renderOnSubmit="true"/>
 	<ice:panelGrid columns="1">
 		<ice:outputLabel value="#{labels['chart.type']}" />
-		<ice:selectOneMenu value="#{charts.RChartType}" partialSubmit="true">
+		<ice:selectOneMenu value="#{charts.AChartType}" partialSubmit="true">
 			<f:selectItems value="#{charts.chartTypes}" />
 		</ice:selectOneMenu>
 		<ice:outputLabel value="#{labels['chart.clickedValue']}" />

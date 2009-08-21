@@ -60,5 +60,21 @@ public class ChartsServiceImpl implements ChartsService {
 		tempD.setData(data);
 		return tempD;
 	}
+	
+	@Override
+	public ChartData generateArmChart(Trial trial) {
+		ChartData chData = new ChartData();
+		int i = 1;
+		ArrayList<String> xL = new ArrayList<String>();
+		ArrayList<double[]> data = new ArrayList<double[]>();
+		for(TreatmentArm t : trial.getTreatmentArms()){
+			data.add(new double[]{t.getSubjects().size()});
+			xL.add(Integer.toString(i));
+			i++;
+		}
+		chData.setData(data);
+		chData.setXLabels(xL);
+		return chData;
+	}
 
 }

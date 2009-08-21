@@ -32,7 +32,10 @@ public class Charts {
 	private ChartsService service;
 	
 	@Getter @Setter
-	private String chartType = "barclustered";
+	private String rChartType = "barclustered";
+	
+	@Getter @Setter
+	private String aChartType = "barclustered";
 
 	/**
 	 * Represents the value of the chart element which has been clicked by the
@@ -68,6 +71,12 @@ public class Charts {
 	public ChartData getRChartData() {
 		if (trialHandler.getShowedObject() != null)
 			return service.generateRecruitmentChart(trialHandler.getShowedObject());
+		return null;
+	}
+	
+	public ChartData getAChartData(){
+		if (trialHandler.getShowedObject() != null)
+			return service.generateArmChart(trialHandler.getShowedObject());
 		return null;
 	}
 
