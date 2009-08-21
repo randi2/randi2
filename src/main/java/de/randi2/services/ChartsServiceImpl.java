@@ -56,7 +56,7 @@ public class ChartsServiceImpl implements ChartsService {
 			data.get(i-1)[0] = i*(plannedSubjects/data.size());
 		}
 
-		tempD.setxLabels(xL);
+		tempD.setXLabels(xL);
 		tempD.setData(data);
 		
 		ArrayList<String> yL = new ArrayList<String>();
