@@ -22,6 +22,6 @@ Trial's Recruitment Chart.
 	renderOnSubmit="true"
 	type="barclustered" chartTitle="Recruitment Chart*" xaxisTitle="Time*"
 	yaxisTitle="Patients' amount*" legendPlacement="bottom"
-	xaxisLabels="#{charts.RChartData.xLabels }"
+	xaxisLabels="#{charts.RChartData.XLabels }"
 	labels="#{charts.RChartData.functionNames}"
 	data="#{charts.RChartData.data}" actionListener="#{charts.action}"/>

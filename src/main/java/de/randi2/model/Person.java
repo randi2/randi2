@@ -25,7 +25,7 @@ import de.randi2.utility.validations.TelephonNumber;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper=true, exclude={"login"})
-@ToString(exclude={"login"})
+@ToString(exclude={"login","trialSite"})
 public class Person extends AbstractDomainObject {
 
 	private static final long serialVersionUID = 5713870200930075449L;
