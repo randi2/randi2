@@ -13,6 +13,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.unsorted.ContraintViolatedException;
@@ -37,16 +42,10 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 
 
 	// The name of the criterion i.e. birthday
+	@Getter @Setter
 	public String name;
 	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
+	@Getter @Setter
 	public String description;
 
 	@Transient
@@ -106,13 +105,6 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 //		throw new Randi2Error("Valid value could not be assigned to any stratum.");
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
 
 	@Transient
 	public  boolean isInclusionCriterion(){
