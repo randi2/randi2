@@ -11,4 +11,6 @@ import de.randi2.model.AbstractDomainObject;
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @Table(name="RandomisationTempData")
 public abstract class AbstractRandomizationTempData extends AbstractDomainObject{
+
+	private static final long serialVersionUID = 3024182278665962313L;
 }
