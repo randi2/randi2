@@ -145,7 +145,7 @@ public class ChartsServiceTest extends AbstractServiceTest{
 	public void testGenerateRecruitmentChart1(){
 		randomizeInValidTrialOneYear();
 		ChartData chartData = chartsService.generateRecruitmentChart(validTrial);
-		assertEquals(12, chartData.getxLabels().size());
+		assertEquals(12, chartData.getXLabels().size());
 		assertEquals(12, chartData.getData().size());
 		assertEquals(2, chartData.getFunctionNames().size());
 		for(int i = 0;i< chartData.getData().size();i++){
@@ -159,7 +159,7 @@ public class ChartsServiceTest extends AbstractServiceTest{
 	public void testGenerateRecruitmentChart2(){
 		randomizeInValidTrialTwoYears();
 		ChartData chartData = chartsService.generateRecruitmentChart(validTrial);
-		assertEquals(24, chartData.getxLabels().size());
+		assertEquals(24, chartData.getXLabels().size());
 		assertEquals(24, chartData.getData().size());
 		assertEquals(2, chartData.getFunctionNames().size());
 		for(int i = 0;i< chartData.getData().size();i++){
