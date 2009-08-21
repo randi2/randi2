@@ -16,6 +16,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import lombok.Data;
+
 import org.springframework.security.acls.AccessControlEntry;
 import org.springframework.security.acls.Acl;
 import org.springframework.security.acls.NotFoundException;
@@ -26,6 +28,7 @@ import org.springframework.util.Assert;
 
 @Entity
 @NamedQuery(name = "acl.findAclByObjectIdentityAndSid", query = "select acl from AclHibernate acl where acl.owner.sidname = ? and acl.objectIdentity.identifier = ? and acl.objectIdentity.javaType = ?")
+@Data
 public class AclHibernate implements Acl, Serializable {
 
 	private static final long serialVersionUID = 253176536526673664L;
@@ -51,25 +54,6 @@ public class AclHibernate implements Acl, Serializable {
 		return aces.toArray(new AccessControlEntryHibernate[aces.size()]);
 	}
 
-	@Override
-	public ObjectIdentityHibernate getObjectIdentity() {
-		return objectIdentity;
-	}
-
-	@Override
-	public SidHibernate getOwner() {
-		return owner;
-	}
-
-	@Override
-	public Acl getParentAcl() {
-		return parentAcl;
-	}
-
-	@Override
-	public boolean isEntriesInheriting() {
-		return entriesInheriting;
-	}
 
 	@Override
 	public boolean isGranted(Permission[] permission, Sid[] sids, boolean administrativeMode)
@@ -168,38 +152,6 @@ public class AclHibernate implements Acl, Serializable {
 		}
 
 		return true;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public List<AccessControlEntryHibernate> getAces() {
-		return aces;
-	}
-
-	public void setAces(List<AccessControlEntryHibernate> aces) {
-		this.aces = aces;
-	}
-
-	public void setParentAcl(Acl parentAcl) {
-		this.parentAcl = parentAcl;
-	}
-
-	public void setObjectIdentity(ObjectIdentityHibernate objectIdentity) {
-		this.objectIdentity = objectIdentity;
-	}
-
-	public void setOwner(SidHibernate owner) {
-		this.owner = owner;
-	}
-
-	public void setEntriesInheriting(boolean entriesInheriting) {
-		this.entriesInheriting = entriesInheriting;
 	}
 
 	public void insertAce(PermissionHibernate permission, String roleName) {
