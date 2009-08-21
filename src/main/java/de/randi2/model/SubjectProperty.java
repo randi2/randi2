@@ -7,8 +7,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import lombok.EqualsAndHashCode;
+
 import org.hibernate.annotations.Target;
 
 import de.randi2.model.criteria.AbstractCriterion;
@@ -17,6 +17,7 @@ import de.randi2.unsorted.ContraintViolatedException;
 
 
 @Entity
+@EqualsAndHashCode(callSuper=true)
 public final class SubjectProperty<V extends Serializable> extends AbstractDomainObject {
 
 	private static final long serialVersionUID = 6795792982229806832L;
@@ -68,23 +69,4 @@ public final class SubjectProperty<V extends Serializable> extends AbstractDomai
 		this.criterion = criterion;
 	}
 
-	@Override
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (other instanceof SubjectProperty) {
-			SubjectProperty<?> oProp = (SubjectProperty<?>) other;
-			return new EqualsBuilder().appendSuper(true).
-					append(value, oProp.value).
-					append(criterion, oProp.criterion).isEquals();
-		}
-		return false;
-	}
-
-	@Override
-	public int hashCode(){
-		return new HashCodeBuilder().appendSuper(super.hashCode()).
-				append(value).append(criterion).toHashCode();
-	}
 }
