@@ -7,6 +7,9 @@ import java.util.ResourceBundle;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.model.enumerations.Gender;
 import de.randi2.model.randomization.BlockRandomizationConfig;
@@ -15,6 +18,7 @@ public class Enums {
 
 	private LoginHandler loginHandler;
 	
+	@Setter @Getter
 	private List<SelectItem> genderItems;
 
 	public Enums() {
@@ -38,20 +42,13 @@ public class Enums {
 		}
 	}
 
-	public List<SelectItem> getGenderItems() {
-		return genderItems;
-	}
-
 	private String localizeGenderEntry(Gender g) {
 		return ResourceBundle.getBundle("de.randi2.jsf.i18n.gender",
 				loginHandler.getChosenLocale()).getString(g.toString());
 	}
 
+	@Getter
 	private List<SelectItem> blockSizeTypeItems;
-
-	public List<SelectItem> getBlockSizeTypeItems() {
-		return blockSizeTypeItems;
-	}
 
 	private String localizeBlockSizeTypeItemsEntry(
 			BlockRandomizationConfig.TYPE t) {

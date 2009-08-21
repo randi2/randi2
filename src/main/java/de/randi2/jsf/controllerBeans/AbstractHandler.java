@@ -19,6 +19,9 @@ import javax.faces.application.ViewHandler;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import de.randi2.model.AbstractDomainObject;
 
 /**
@@ -38,11 +41,13 @@ public abstract class AbstractHandler<O extends AbstractDomainObject> {
 	/**
 	 * Is the user currently creating a new object, or not.
 	 */
+	@Setter @Getter
 	protected boolean creatingMode = false;
 
 	/**
 	 * Defines if the showedObject should can be edited by the user or not.
 	 */
+	@Setter
 	protected boolean editable = false;
 	
 	public O getShowedObject() {
@@ -98,9 +103,4 @@ public abstract class AbstractHandler<O extends AbstractDomainObject> {
 		context.setViewRoot(viewRoot);
 		context.renderResponse(); // Optional
 	}
-
-	public boolean isCreatingMode() {
-		return creatingMode;
-	}
-
 }

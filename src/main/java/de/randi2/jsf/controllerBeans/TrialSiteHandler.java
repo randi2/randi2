@@ -16,6 +16,8 @@ package de.randi2.jsf.controllerBeans;
 
 import java.util.List;
 
+import lombok.Setter;
+
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 
@@ -37,30 +39,17 @@ import de.randi2.services.TrialSiteService;
  */
 public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 
+	@Setter
 	private TrialSiteService siteService = null;
 
-	public void setSiteService(TrialSiteService siteService) {
-		this.siteService = siteService;
-	}
-
+	@Setter
 	private PermissionVerifier permissionVerifier;
-
-	public void setPermissionVerifier(PermissionVerifier permissionVerifier) {
-		this.permissionVerifier = permissionVerifier;
-	}
-
+	
+	@Setter
 	private Popups popups;
 	
-	public void setPopups(Popups popups) {
-		this.popups = popups;
-	}
-	
+	@Setter
 	private LoginHandler loginHandler;
-	
-	public void setLoginHandler(LoginHandler loginHandler) {
-		this.loginHandler = loginHandler;
-	}
-
 
 	public Login getCurrentUser() {
 		return loginHandler.getLoggedInUser();

@@ -21,6 +21,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.controllerBeans.TrialSiteHandler;
@@ -40,43 +43,27 @@ import de.randi2.model.TrialSite;
  */
 public class Randi2Page {
 
+	@Setter
 	private TrialSiteHandler trialSiteHandler;
-	
-	public void setTrialSiteHandler(TrialSiteHandler trialSiteHandler) {
-		this.trialSiteHandler = trialSiteHandler;
-	}
 
+	@Setter
 	private TrialHandler trialHandler;
 	
-	public void setTrialHandler(TrialHandler trialHandler) {
-		this.trialHandler = trialHandler;
-	}
-
+	@Setter
 	private LoginHandler loginHandler;
-	
-	public void setLoginHandler(LoginHandler loginHandler) {
-		this.loginHandler = loginHandler;
-	}
 
 	/**
 	 * The active content Panel.
 	 */
+	@Getter @Setter
 	private String activePanel = "welcomePanel";
-
 
 	/**
 	 * The current selected trial.
 	 */
+	@Getter @Setter
 	private Trial currentTrial = null;
 	
-	public Trial getCurrentTrial() {
-		return currentTrial;
-	}
-	
-	public void setCurrentTrial(Trial currentTrial) {
-		this.currentTrial = currentTrial;
-	}
-
 	/**
 	 * Time Zone for all calendar widgets.
 	 */
@@ -90,17 +77,11 @@ public class Randi2Page {
 		return zone;
 	}
 
+	@Getter
 	private boolean aboutVisible = false;
 
+	@Getter
 	private boolean helpVisible = false;
-
-	public String getActivePanel() {
-		return activePanel;
-	}
-
-	public void setActivePanel(String activePanel) {
-		this.activePanel = activePanel;
-	}
 
 	public void viewTrials(ActionEvent event) {
 		activePanel = "trialsViewPanel";
@@ -226,13 +207,4 @@ public class Randi2Page {
 		this.helpVisible = false;
 		return Randi2.SUCCESS;
 	}
-
-	public boolean isAboutVisible() {
-		return aboutVisible;
-	}
-
-	public boolean isHelpVisible() {
-		return helpVisible;
-	}
-
 }

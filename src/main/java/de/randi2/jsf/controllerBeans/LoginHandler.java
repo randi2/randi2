@@ -28,6 +28,9 @@ import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.apache.log4j.Logger;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
@@ -61,34 +64,24 @@ import de.randi2.utility.logging.LogEntry.ActionType;
  */
 public class LoginHandler extends AbstractHandler<Login> {
 
+	@Setter
 	private UserService userService;
 
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
-
+	@Setter
 	private LogService logService;
-
-	public void setLogService(LogService logService) {
-		this.logService = logService;
-	}
-
+	
+	@Setter
 	private TrialSiteService siteService;
 
-	public void setSiteService(TrialSiteService siteService) {
-		this.siteService = siteService;
-	}
-
+	@Setter
 	private Popups popups;
-	
-	public void setPopups(Popups popups) {
-		this.popups = popups;
-	}
 
 	// This Object is representing the current User
+	@Setter
 	private Login loggedInUser = null;
 
 	// The locale chosen by the user.
+	@Setter
 	private Locale chosenLocale = null;
 
 	private AutoCompleteObject<TrialSite> trialSitesAC = null;
@@ -96,6 +89,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 
 	// Objects for User-Creating Process
 	private Login newUser = null;
+	@Getter @Setter
 	private String tsPassword = null;
 
 	// ---
@@ -268,10 +262,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 	}
 
 	// GET & SET Methods
-	public void setLoggedInUser(Login user) {
-		this.loggedInUser = user;
-	}
-
 	public Login getLoggedInUser() {
 		if (loggedInUser == null) {
 			try {
@@ -317,22 +307,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 		return this.chosenLocale;
 	}
 
-	/**
-	 * Simple set method for the users locale.
-	 * 
-	 * @param chosenLocale
-	 */
-	public void setChosenLocale(Locale chosenLocale) {
-		this.chosenLocale = chosenLocale;
-	}
-
-	public String getTsPassword() {
-		return tsPassword;
-	}
-
-	public void setTsPassword(String password) {
-		tsPassword = password;
-	}
 
 	public boolean isEditable() {
 		PermissionVerifier permissionVerifier = ((PermissionVerifier) FacesContext
@@ -346,10 +320,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 			editable = creatingMode;
 		}
 		return editable;
-	}
-
-	public void setEditable(boolean editable) {
-		this.editable = editable;
 	}
 
 	/**

@@ -31,6 +31,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import com.icesoft.faces.context.ByteArrayResource;
 import com.icesoft.faces.context.FileResource;
 import com.icesoft.faces.context.Resource;
@@ -68,40 +71,21 @@ import de.randi2.utility.logging.LogService;
  */
 public class TrialHandler extends AbstractHandler<Trial> {
 
+	@Setter
 	private TrialSiteService siteService = null;
 
-	public void setSiteService(TrialSiteService siteService) {
-		this.siteService = siteService;
-	}
-
+	@Setter
 	private TrialService trialService = null;
 
-	public void setTrialService(TrialService trialService) {
-		this.trialService = trialService;
-	}
-
+	@Setter
 	private LogService logService;
-
-	public void setLogService(LogService logService) {
-		this.logService = logService;
-	}
-
-	private Popups popups;
 	
-	public void setPopups(Popups popups) {
-		this.popups = popups;
-	}
+	@Setter
+	private Popups popups;
 
+	@Setter  @Getter
 	private AbstractRandomizationConfig randomizationConfig;
 
-	public AbstractRandomizationConfig getRandomizationConfig() {
-		return randomizationConfig;
-	}
-
-	public void setRandomizationConfig(
-			AbstractRandomizationConfig randomizationConfig) {
-		this.randomizationConfig = randomizationConfig;
-	}
 
 	@SuppressWarnings("unchecked")
 	public TrialHandler() {

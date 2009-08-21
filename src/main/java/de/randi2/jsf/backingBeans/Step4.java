@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
+import lombok.Setter;
+
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.utility.AutoCompleteObject;
@@ -25,17 +27,11 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
  */
 public class Step4 {
 
+	@Setter
 	private TrialHandler trialHandler;
 
-	public void setTrialHandler(TrialHandler trialHandler) {
-		this.trialHandler = trialHandler;
-	}
-
+	@Setter
 	private LoginHandler loginHandler;
-
-	public void setLoginHandler(LoginHandler loginHandler) {
-		this.loginHandler = loginHandler;
-	}
 
 	private AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> criteriaAC = null;
 

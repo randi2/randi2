@@ -2,6 +2,9 @@ package de.randi2.jsf.supportBeans;
 
 import javax.faces.context.FacesContext;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import de.randi2.jsf.backingBeans.Randi2Page;
 import de.randi2.jsf.backingBeans.TSubjectAdd;
 import de.randi2.model.Trial;
@@ -9,22 +12,20 @@ import de.randi2.model.Trial;
 public class Popups {
 	
 	// Popup's flags
+	@Setter @Getter
 	private boolean userSavedPVisible = false;
+	@Setter @Getter
 	private boolean changePasswordPVisible = false;
+	@Setter @Getter
 	private boolean changeTrialSitePVisible = false;
+	@Setter @Getter
 	private boolean trialCreatedPVisible = false;
+	@Setter @Getter
 	private boolean trialSiteSavedPVisible = false;
+	@Setter @Getter
 	private boolean subjectAddedPVisible = false;
 	
 	// POPUPS
-	public boolean isTrialCreatedPVisible() {
-		return trialCreatedPVisible;
-	}
-	
-	public void setTrialCreatedPVisible(boolean trialCreatedPVisible) {
-		this.trialCreatedPVisible = trialCreatedPVisible;
-	}
-	
 	public String hideTrialCreatedPopup() {
 		this.trialCreatedPVisible = false;
 		Randi2Page rPage = ((Randi2Page) FacesContext.getCurrentInstance()
@@ -38,30 +39,6 @@ public class Popups {
 	public String showTrialCreatedPopup() {
 		this.trialCreatedPVisible= true;
 		return Randi2.SUCCESS;
-	}
-	
-	public boolean isChangeTrialSitePVisible() {
-		return changeTrialSitePVisible;
-	}
-
-	public void setChangeTrialSitePVisible(boolean changeTrialSitePVisible) {
-		this.changeTrialSitePVisible = changeTrialSitePVisible;
-	}
-
-	public boolean isChangePasswordPVisible() {
-		return changePasswordPVisible;
-	}
-
-	public void setChangePasswordPVisible(boolean changePasswordPVisible) {
-		this.changePasswordPVisible = changePasswordPVisible;
-	}
-
-	public boolean isUserSavedPVisible() {
-		return userSavedPVisible;
-	}
-
-	public void setUserSavedPVisible(boolean userSavedPVisible) {
-		this.userSavedPVisible = userSavedPVisible;
 	}
 
 	public String hideUserSavedPopup() {
@@ -94,14 +71,6 @@ public class Popups {
 		return Randi2.SUCCESS;
 	}
 
-	public boolean isTrialSiteSavedPVisible() {
-		return trialSiteSavedPVisible;
-	}
-
-	public void setTrialSiteSavedPVisible(boolean trialSiteSavedPVisible) {
-		this.trialSiteSavedPVisible = trialSiteSavedPVisible;
-	}
-
 	public String hideTrialSiteSavedPopup() {
 		this.trialSiteSavedPVisible = false;
 		return Randi2.SUCCESS;
@@ -110,14 +79,6 @@ public class Popups {
 	public String showTrialSiteSavedPopup(){
 		this.trialSiteSavedPVisible = true;
 		return Randi2.SUCCESS;
-	}
-	
-	public boolean isSubjectAddedPVisible() {
-		return subjectAddedPVisible;
-	}
-	
-	public void setSubjectAddedPVisible(boolean subjectAddedPVisible) {
-		this.subjectAddedPVisible = subjectAddedPVisible;
 	}
 	
 	public String hideSubjectAddedPopup() {
@@ -139,7 +100,5 @@ public class Popups {
 		this.subjectAddedPVisible = true;
 		return Randi2.SUCCESS;
 	}
-	
-
 	// ----
 }

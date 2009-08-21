@@ -6,9 +6,11 @@ import java.util.ResourceBundle;
 
 import javax.faces.model.SelectItem;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
-import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
 
@@ -30,18 +32,12 @@ public class Step5 {
 		}
 
 	}
-
+	
+	@Setter
 	private LoginHandler loginHandler;
 
-	public void setLoginHandler(LoginHandler loginHandler) {
-		this.loginHandler = loginHandler;
-	}
-
+	@Setter
 	private TrialHandler trialHandler;
-
-	public void setTrialHandler(TrialHandler trialHandler) {
-		this.trialHandler = trialHandler;
-	}
 
 	private List<SelectItem> algorithms;
 
@@ -71,6 +67,7 @@ public class Step5 {
 		return algorithms;
 	}
 
+	@Getter
 	private String selectedAlgorithmPanelId = "none";
 
 	public void setSelectedAlgorithmPanelId(String selectedAlgorithmPanelId) {
@@ -81,9 +78,5 @@ public class Step5 {
 						.getRandomizationConfig())) {
 			trialHandler.setRandomizationConfig(new BlockRandomizationConfig());
 		}
-	}
-
-	public String getSelectedAlgorithmPanelId() {
-		return selectedAlgorithmPanelId;
 	}
 }

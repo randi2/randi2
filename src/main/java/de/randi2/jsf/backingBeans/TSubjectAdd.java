@@ -8,6 +8,9 @@ import java.util.HashSet;
 
 import javax.faces.context.FacesContext;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import com.icesoft.faces.context.ByteArrayResource;
 import com.icesoft.faces.context.FileResource;
 import com.icesoft.faces.context.Resource;
@@ -26,29 +29,15 @@ import de.randi2.services.TrialService;
 
 public class TSubjectAdd {
 	
+	@Setter
 	private Popups popups;
 	
-	public void setPopups(Popups popups) {
-		this.popups = popups;
-	}
-	
+	@Setter
 	private LoginHandler loginHandler;
-	
-	public void setLoginHandler(LoginHandler loginHandler) {
-		this.loginHandler = loginHandler;
-	}
-	
+
+	@Setter
 	private TrialService trialService;
 	
-	
-	public TrialService getTrialService() {
-		return trialService;
-	}
-	
-	public void setTrialService(TrialService trialService) {
-		this.trialService = trialService;
-	}
-
 	private Trial currentTrial = null;
 
 	public Trial getCurrentTrial() {
@@ -118,15 +107,9 @@ public class TSubjectAdd {
 		return Randi2.SUCCESS;
 	}
 	
+	@Getter
 	private String subjectArm;
-	
-	public String getSubjectArm() {
-		return subjectArm;
-	}
-	
+
+	@Getter
 	private String subjectID;
-	
-	public String getSubjectID() {
-		return subjectID;
-	}
 }

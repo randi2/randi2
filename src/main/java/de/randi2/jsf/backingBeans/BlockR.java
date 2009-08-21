@@ -7,6 +7,9 @@ import java.util.ResourceBundle;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.model.randomization.BlockRandomizationConfig;
@@ -28,17 +31,11 @@ public class BlockR {
 		}
 	}
 
+	@Setter
 	private LoginHandler loginHandler;
 
-	public void setLoginHandler(LoginHandler loginHandler) {
-		this.loginHandler = loginHandler;
-	}
-
+	@Setter
 	private TrialHandler trialHandler;
-
-	public void setTrialHandler(TrialHandler trialHandler) {
-		this.trialHandler = trialHandler;
-	}
 
 	private List<SelectItem> blockRandTypes;
 
@@ -63,12 +60,11 @@ public class BlockR {
 		return blockRandTypes;
 	}
 
+	@Getter
 	private String selectedBlockRandTypes;
-	private boolean renderVariable = false;
 
-	public String getSelectedBlockRandTypes() {
-		return selectedBlockRandTypes;
-	}
+	@Getter
+	private boolean renderVariable = false;
 
 	public void setSelectedBlockRandTypes(String selectedBlockRandTypes) {
 		this.selectedBlockRandTypes = selectedBlockRandTypes;
@@ -80,9 +76,6 @@ public class BlockR {
 			renderVariable = false;
 	}
 
-	public boolean isRenderVariable() {
-		return renderVariable;
-	}
 
 	public void minValueChanged(ValueChangeEvent event) {
 		// set maximum block size to minimum block size, in case of constant

@@ -1,5 +1,7 @@
 package de.randi2.jsf.supportBeans;
 
+import lombok.Setter;
+
 import org.springframework.security.acls.Acl;
 import org.springframework.security.acls.AclService;
 import org.springframework.security.acls.NotFoundException;
@@ -17,33 +19,14 @@ import de.randi2.model.security.PermissionHibernate;
 
 public class PermissionVerifier {
 
+	@Setter
 	private AclService aclService;
 
-	public void setAclService(AclService aclService) {
-		this.aclService = aclService;
-	}
-
+	@Setter
 	private LoginHandler loginHandler;
-
-	public LoginHandler getLoginHandler() {
-		return loginHandler;
-	}
-
-	public void setLoginHandler(LoginHandler loginHandler) {
-		this.loginHandler = loginHandler;
-	}
 	
+	@Setter
 	private TrialHandler trialHandler;
-	
-	
-
-	public TrialHandler getTrialHandler() {
-		return trialHandler;
-	}
-
-	public void setTrialHandler(TrialHandler trialHandler) {
-		this.trialHandler = trialHandler;
-	}
 
 	public boolean isAllowedCreateUser() {
 		return loginHandler.getLoggedInUser().hasPermission(Login.class,

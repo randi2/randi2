@@ -19,6 +19,9 @@ import java.io.IOException;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import com.icesoft.faces.context.effects.Effect;
 import com.icesoft.faces.context.effects.Highlight;
 
@@ -35,30 +38,14 @@ import de.randi2.model.Person;
  */
 public class RegisterPage {
 
+	@Setter
 	private LoginHandler loginHandler;
 
-	public void setLoginHandler(LoginHandler loginHandler) {
-		this.loginHandler = loginHandler;
-	}
-
+	@Getter
 	private boolean termsPvisible = true;
 
+	@Getter @Setter
 	private boolean regPvisible = false;
-
-	public RegisterPage() {
-	}
-
-	public boolean getTermsPvisible() {
-		return this.termsPvisible;
-	}
-
-	public void setRegPvisible(boolean value) {
-		this.regPvisible = value;
-	}
-
-	public boolean getRegPvisible() {
-		return this.regPvisible;
-	}
 
 	public void cancel(ActionEvent event) {
 		this.termsPvisible = true;
@@ -105,11 +92,8 @@ public class RegisterPage {
 		}
 	}
 
+	@Getter
 	private boolean createAssistant = false;
-
-	public boolean isCreateAssistant() {
-		return createAssistant;
-	}
 
 	public void setCreateAssistant(boolean createAssistant) {
 		if (createAssistant)
