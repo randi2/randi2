@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.springframework.security.acls.sid.GrantedAuthoritySid;
 import org.springframework.security.acls.sid.PrincipalSid;
 import org.springframework.security.acls.sid.Sid;
@@ -16,25 +19,20 @@ public class SidHibernate implements Sid{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
+	@Getter @Setter
 	private long id;
+	
+	@Getter @Setter
+	private String sidname;
 	
 	public SidHibernate() {
 	}
 
-	private String sidname;
-	
 	
 	public SidHibernate(String sidname) {
 		this.sidname=sidname;
 	}
 
-	public String getSidname() {
-		return sidname;
-	}
-
-	public void setSidname(String sidname) {
-		this.sidname = sidname;
-	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -56,19 +54,10 @@ public class SidHibernate implements Sid{
 	public int hashCode() {
 		return this.sidname.hashCode();
 	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 	
 	@Override
 	public String toString() {
 		return sidname;
 	}
-
 
 }

@@ -7,11 +7,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Data;
+
 import org.springframework.security.acls.objectidentity.ObjectIdentity;
 
 import de.randi2.model.AbstractDomainObject;
 
 @Entity
+@Data
 public class ObjectIdentityHibernate implements ObjectIdentity, Serializable {
 
 
@@ -35,31 +38,14 @@ public class ObjectIdentityHibernate implements ObjectIdentity, Serializable {
 	}
 
 
-	@Override
 	public Class<? extends AbstractDomainObject> getJavaType() {
 		
 		return javaType;
 	}
 	
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	public void setJavaType(Class<? extends AbstractDomainObject> javaType) {
 		this.javaType = javaType;
 	}
 
-	public void setIdentifier(Long identifier) {
-		this.identifier = identifier;
-	}
-
-	@Override
-	public Long getIdentifier() {
-		return identifier;
-	}
 
 }
