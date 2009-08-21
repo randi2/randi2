@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.persistence.Entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.validator.NotEmpty;
 
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
@@ -15,29 +18,13 @@ public class DichotomousCriterion extends AbstractCriterion<String, DichotomousC
 
 	private static final long serialVersionUID = -2153872079417596823L;
 
+	@NotEmpty
+	@Getter @Setter
 	private String option1 = null;
+	@NotEmpty
+	@Getter @Setter
 	private String option2 = null;
 
-//	@OneToOne
-//	private DichotomousConstraint inclusionCriterion;
-	
-	@NotEmpty
-	public String getOption1() {
-		return option1;
-	}
-
-	public void setOption1(String option1) {
-		this.option1 = option1;
-	}
-
-	@NotEmpty
-	public String getOption2() {
-		return option2;
-	}
-
-	public void setOption2(String option2) {
-		this.option2 = option2;
-	}
 
 	/*
 	 * (non-Javadoc)
