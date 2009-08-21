@@ -10,13 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import lombok.Data;
+
 import org.springframework.security.acls.AccessControlEntry;
 import org.springframework.security.acls.Acl;
-import org.springframework.security.acls.Permission;
-import org.springframework.security.acls.sid.Sid;
 
 
 @Entity
+@Data
 public class AccessControlEntryHibernate implements AccessControlEntry, Serializable {
 
 	private static final long serialVersionUID = 6843101926609540483L;
@@ -37,65 +38,5 @@ public class AccessControlEntryHibernate implements AccessControlEntry, Serializ
 	private SidHibernate sid;
 	private boolean granting = true;
 	
-	@Override
-	public Acl getAcl() {
-		return this.acl;
-	}
-
-	@Override
-	public Long getId() {
-		// TODO Auto-generated method stub
-		return this.id;
-	}
-
-	@Override
-	public Permission getPermission() {
-		// TODO Auto-generated method stub
-		return this.permission;
-	}
-
-	@Override
-	public Sid getSid() {
-		// TODO Auto-generated method stub
-		return this.sid;
-	}
-
-	@Override
-	public boolean isGranting() {
-		// TODO Auto-generated method stub
-		return this.granting;
-	}
-
-	public void setAcl(Acl acl) {
-		this.acl = acl;
-	}
-
-	public void setPermission(PermissionHibernate permission) {
-		this.permission = permission;
-	}
-
-	public void setSid(SidHibernate sid) {
-		this.sid = sid;
-	}
-
-	public void setGranting(boolean granting) {
-		this.granting = granting;
-	}
-
-	/**
-	 * @return the roleName
-	 */
-	public String getRoleName() {
-		return roleName;
-	}
-
-	/**
-	 * @param roleName the roleName to set
-	 */
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
-
-
 	
 }
