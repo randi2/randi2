@@ -10,6 +10,7 @@ import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
@@ -81,10 +82,6 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		validPerson.setSurname("");
 		assertEquals("", validPerson.getSurname());
 		assertInvalid(validPerson);
-
-		validPerson.setSurname(null);
-		assertEquals("", validPerson.getSurname());
-		assertInvalid(validPerson);
 	}
 	
 	@Test
@@ -107,9 +104,6 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertEquals("", validPerson.getFirstname());
 		assertInvalid(validPerson);
 
-		validPerson.setFirstname(null);
-		assertEquals("", validPerson.getFirstname());
-		assertInvalid(validPerson);
 	}
 	
 	@Test
@@ -132,9 +126,6 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertEquals("", validPerson.getTitle());
 		assertValid(validPerson);
 
-		validPerson.setTitle(null);
-		assertEquals("", validPerson.getTitle());
-		assertValid(validPerson);
 	}
 	
 	@Test
@@ -163,6 +154,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		} catch (InvalidStateException e) {
 			InvalidValue[] invalidValues = e.getInvalidValues();
 			assertEquals(1, invalidValues.length);
+		}catch (DataIntegrityViolationException e){
 		}
 		
 		validPerson.setPhone(null);
@@ -172,6 +164,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		} catch (InvalidStateException e) {
 			InvalidValue[] invalidValues = e.getInvalidValues();
 			assertEquals(1, invalidValues.length);
+		}catch (DataIntegrityViolationException e){
 		}
 	}
 
