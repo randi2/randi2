@@ -18,6 +18,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
@@ -27,6 +30,8 @@ import de.randi2.model.Trial;
  * @author jthoenes
  */
 @Entity
+@Data
+@EqualsAndHashCode(callSuper=true)
 public class Block extends AbstractDomainObject {
 	private final static long serialVersionUID = 4951058614189569984L;
 
@@ -69,13 +74,7 @@ public class Block extends AbstractDomainObject {
 			inverseJoinColumns = { @JoinColumn(name = "Treatmentarm_id") })
 	private List<TreatmentArm> block = new ArrayList<TreatmentArm>();
 
-	public List<TreatmentArm> getBlock() {
-		return block;
-	}
-
-	public void setBlock(List<TreatmentArm> block) {
-		this.block = block;
-	}
+	
 
 	@Transient
 	public boolean isEmpty() {
@@ -91,9 +90,5 @@ public class Block extends AbstractDomainObject {
 		return block.remove(rand.nextInt(block.size()));
 	}
 
-	@Override
-	public String toString() {
-		return new StringBuilder().append(block).toString();
-	}
 
 }
