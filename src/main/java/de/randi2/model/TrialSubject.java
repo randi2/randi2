@@ -14,6 +14,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
@@ -21,12 +25,21 @@ import org.hibernate.validator.NotNull;
 import de.randi2.unsorted.ContraintViolatedException;
 
 @Entity
+@Data
+@EqualsAndHashCode(callSuper=true)
+@ToString(exclude={"arm"})
 public class TrialSubject extends AbstractDomainObject {
 
 	private static final long serialVersionUID = 4469807155833123516L;
 
+	@NotNull
+	@NotEmpty
+	@Length(max = MAX_VARCHAR_LENGTH)
 	private String identification;
 
+	@NotNull
+	@NotEmpty
+	@Length(max = MAX_VARCHAR_LENGTH)
 	private String randNumber;
 	
 	private int counter;
@@ -42,65 +55,14 @@ public class TrialSubject extends AbstractDomainObject {
 	@ManyToOne
 	private TrialSite trialSite;
 
-	@ManyToOne
+	@NotNull
+	@ManyToOne(cascade = CascadeType.ALL)
 	private TreatmentArm arm;
 
 	@OneToMany(cascade = CascadeType.PERSIST)
+//	@ManyToOne(cascade = CascadeType.ALL)
 	private Set<SubjectProperty<?>> properties = new HashSet<SubjectProperty<?>>();
 
-	@NotNull
-	@NotEmpty
-	@Length(max = MAX_VARCHAR_LENGTH)
-	public String getIdentification() {
-		return identification;
-	}
-
-	public void setIdentification(String identification) {
-		this.identification = identification;
-	}
-
-	@NotNull
-	@ManyToOne(cascade = CascadeType.ALL)
-	public TreatmentArm getArm() {
-		return arm;
-	}
-
-	public void setArm(TreatmentArm arm) {
-		this.arm = arm;
-	}
-
-	public TrialSite getTrialSite() {
-		return trialSite;
-	}
-
-	public void setTrialSite(TrialSite trialSite) {
-		this.trialSite = trialSite;
-	}
-
-	public Set<SubjectProperty<?>> getProperties() {
-		return properties;
-	}
-
-	@ManyToOne(cascade = CascadeType.ALL)
-	public void setProperties(Set<SubjectProperty<?>> properties) {
-		this.properties = properties;
-	}
-
-	@NotNull
-	@NotEmpty
-	@Length(max = MAX_VARCHAR_LENGTH)
-	public String getRandNumber() {
-		return randNumber;
-	}
-
-	public void setRandNumber(String randNumber) {
-		this.randNumber = randNumber;
-	}
-
-	@Override
-	public String toString() {
-		return identification;
-	}
 
 	@SuppressWarnings("unchecked")
 	@Transient
