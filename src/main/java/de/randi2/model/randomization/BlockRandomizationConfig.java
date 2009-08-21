@@ -11,8 +11,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @BlockRandomizationConfigA
+@Data
+@EqualsAndHashCode(callSuper=true)
 public class BlockRandomizationConfig extends AbstractRandomizationConfig {
 
 	private static final long serialVersionUID = -7933864896327057988L;
@@ -32,9 +37,6 @@ public class BlockRandomizationConfig extends AbstractRandomizationConfig {
 		return tempData;
 	}
 
-	public void setTempData(BlockRandomizationTempData _tempData) {
-		this.tempData = _tempData;
-	}
 
 	public enum TYPE {
 
@@ -45,30 +47,6 @@ public class BlockRandomizationConfig extends AbstractRandomizationConfig {
 	@Enumerated(EnumType.STRING)
 	private TYPE type;
 
-	public int getMinimum() {
-		return minimum;
-	}
-
-	public void setMinimum(int minimum) {
-		this.minimum = minimum;
-	}
-
-	public int getMaximum() {
-		return maximum;
-	}
-
-	public void setMaximum(int maximum) {
-		this.maximum = maximum;
-	}
-
-	public TYPE getType() {
-		return type;
-	}
-
-	public void setType(TYPE type) {
-		this.type = type;
-	}
-	
 	@Transient
 	public boolean isVariableBlockSize(){
 		return maximum == minimum;
