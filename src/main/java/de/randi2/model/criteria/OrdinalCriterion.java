@@ -6,6 +6,9 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.annotations.CollectionOfElements;
 
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
@@ -30,6 +33,7 @@ public class OrdinalCriterion extends
 	 * List object storing the possible values.
 	 */
 	@CollectionOfElements(fetch=FetchType.EAGER)
+	@Getter @Setter
 	private List<String> elements;
 
 	public OrdinalCriterion() {
@@ -37,14 +41,6 @@ public class OrdinalCriterion extends
 		for (int i = 0; i < 3; i++) {
 			elements.add("");
 		}
-	}
-
-	public List<String> getElements() {
-		return elements;
-	}
-
-	public void setElements(List<String> elements) {
-		this.elements = elements;
 	}
 
 	@Override
