@@ -13,11 +13,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.unsorted.ContraintViolatedException;

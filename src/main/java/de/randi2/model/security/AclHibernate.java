@@ -26,9 +26,12 @@ import org.springframework.security.acls.UnloadedSidException;
 import org.springframework.security.acls.sid.Sid;
 import org.springframework.util.Assert;
 
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+
 @Entity
 @NamedQuery(name = "acl.findAclByObjectIdentityAndSid", query = "select acl from AclHibernate acl where acl.owner.sidname = ? and acl.objectIdentity.identifier = ? and acl.objectIdentity.javaType = ?")
 @Data
+@SuppressWarnings
 public class AclHibernate implements Acl, Serializable {
 
 	private static final long serialVersionUID = 253176536526673664L;
