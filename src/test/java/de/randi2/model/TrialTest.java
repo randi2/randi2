@@ -55,7 +55,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 
 		final String nameToLong = stringUtil.getWithLength(256);
 		final String nameEmpty = "";
-		final String nameNull = null;
+//		final String nameNull = null;
 
 		validTrial.setName(nameOK1);
 		assertEquals(nameOK1, validTrial.getName());
@@ -68,9 +68,9 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		assertEquals(nameOK2, validTrial.getName());
 		assertValid(validTrial);
 
-		validTrial.setName(nameNull);
-		assertEquals("", validTrial.getName());
-		assertInvalid(validTrial, new String[] { ""/* validator.notEmpty */});
+//		validTrial.setName(nameNull);
+//		assertEquals("", validTrial.getName());
+//		assertInvalid(validTrial, new String[] { ""/* validator.notEmpty */});
 
 		validTrial.setName(nameToLong);
 		assertEquals(nameToLong, validTrial.getName());
@@ -94,7 +94,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 
 		final String abbToLong = stringUtil.getWithLength(256);
 		final String abbEmpty = "";
-		final String abbNull = null;
+//		final String abbNull = null;
 
 		validTrial.setAbbreviation(abbOK1);
 		assertEquals(abbOK1, validTrial.getAbbreviation());
@@ -107,9 +107,9 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		assertEquals(abbOK2, validTrial.getAbbreviation());
 		assertValid(validTrial);
 
-		validTrial.setAbbreviation(abbNull);
-		assertEquals("", validTrial.getAbbreviation());
-		assertValid(validTrial);
+//		validTrial.setAbbreviation(abbNull);
+//		assertEquals("", validTrial.getAbbreviation());
+//		assertValid(validTrial);
 
 		validTrial.setAbbreviation(abbToLong);
 		assertEquals(abbToLong, validTrial.getAbbreviation());
@@ -128,7 +128,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 	@Test
 	public void testDescription() {
 		final String emptyDescribtion = "";
-		final String nullDescribtion = null;
+//		final String nullDescribtion = null;
 		final String longDescribtion = stringUtil.getWithLength(4000);
 		validTrial.setDescription(emptyDescribtion);
 		assertEquals(emptyDescribtion, validTrial.getDescription());
@@ -136,9 +136,9 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		hibernateTemplate.save(validTrial.getSponsorInvestigator());
 		assertValid(validTrial);
 
-		validTrial.setDescription(nullDescribtion);
-		assertEquals("", validTrial.getDescription());
-		assertValid(validTrial);
+//		validTrial.setDescription(nullDescribtion);
+//		assertEquals("", validTrial.getDescription());
+//		assertValid(validTrial);
 
 		validTrial.setDescription(longDescribtion);
 		assertEquals(longDescribtion, validTrial.getDescription());

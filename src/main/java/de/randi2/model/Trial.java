@@ -19,6 +19,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
@@ -29,11 +33,11 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.utility.validations.DateDependence;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 @Entity
 @Configurable
 @DateDependence(firstDate = "startDate", secondDate = "endDate")
+@EqualsAndHashCode(callSuper=true)
 public class Trial extends AbstractDomainObject {
 
 	private static final long serialVersionUID = -2424750074810584832L;
@@ -41,32 +45,54 @@ public class Trial extends AbstractDomainObject {
 	@NotNull()
 	@NotEmpty()
 	@Length(max = MAX_VARCHAR_LENGTH)
+	@Getter @Setter 
 	private String name = "";
-	@Length(max = MAX_VARCHAR_LENGTH)
-	private String abbreviation = "";
-
 	
+	@Length(max = MAX_VARCHAR_LENGTH)
+	@Getter @Setter 
+	private String abbreviation = "";
+	
+	@Getter @Setter 
 	private boolean stratifyTrialSite;
 	
 	@Lob
+	@Getter @Setter 
 	private String description = "";
+	
+	@Getter @Setter 
 	private GregorianCalendar startDate = null;
+	
+	@Getter @Setter 
 	private GregorianCalendar endDate = null;
+	
+	@Getter @Setter 
 	private File protocol = null;
+	
 	@NotNull
 	@ManyToOne
+	@Getter @Setter 
 	private Person sponsorInvestigator = null;
+	
 	@NotNull
 	@ManyToOne
+	@Getter @Setter 
 	private TrialSite leadingSite = null;
+	
 	@Enumerated(value = EnumType.STRING)
+	@Getter @Setter 
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
+	
 	@ManyToMany
+	@Getter @Setter 
 	private Set<TrialSite> participatingSites = new HashSet<TrialSite>();
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trial")
+	@Getter @Setter 
 	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();
+	
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> subjectCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	private AbstractRandomizationConfig randomConf;
 
@@ -74,23 +100,9 @@ public class Trial extends AbstractDomainObject {
 	 * If true then the trial subject ids will be generated automatically by the
 	 * system.
 	 */
+	@Getter @Setter 
 	private boolean generateIds = true;
 
-	public boolean isGenerateIds() {
-		return generateIds;
-	}
-
-	public void setGenerateIds(boolean generateIds) {
-		this.generateIds = generateIds;
-	}
-
-	public boolean isStratifyTrialSite() {
-		return stratifyTrialSite;
-	}
-
-	public void setStratifyTrialSite(boolean stratifyTrialSite) {
-		this.stratifyTrialSite = stratifyTrialSite;
-	}
 
 	public List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteria() {
 		return subjectCriteria;
@@ -106,119 +118,21 @@ public class Trial extends AbstractDomainObject {
 		this.subjectCriteria.add(criterion);
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String _name) {
-
-		if (_name == null) {
-			_name = "";
-		}
-
-		this.name = _name;
-	}
-
-	public String getAbbreviation() {
-		return abbreviation;
-	}
-
-	public void setAbbreviation(String abbreviation) {
-		if (abbreviation == null)
-			abbreviation = "";
-		this.abbreviation = abbreviation;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String _description) {
-		if (_description == null) {
-			_description = "";
-		}
-		this.description = _description;
-	}
-
-	public GregorianCalendar getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(GregorianCalendar startDate) {
-		this.startDate = startDate;
-	}
-
-	public GregorianCalendar getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(GregorianCalendar endDate) {
-		this.endDate = endDate;
-	}
-
-	public TrialStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(TrialStatus status) {
-		this.status = status;
-	}
-
-	public File getProtocol() {
-		return protocol;
-	}
-
-	public void setProtocol(File protocol) {
-		this.protocol = protocol;
-	}
-
-	public Set<TrialSite> getParticipatingSites() {
-		return this.participatingSites;
-	}
-
-	public void setParticipatingSites(Set<TrialSite> participatingSites) {
-		this.participatingSites = participatingSites;
-	}
-
-	public void setLeadingSite(TrialSite leadingSite) {
-		this.leadingSite = leadingSite;
-
-	}
-
-	public TrialSite getLeadingSite() {
-		return this.leadingSite;
-	}
-
 	public void addParticipatingSite(TrialSite participatingSite) {
 		this.participatingSites.add(participatingSite);
 	}
 
-	public Person getSponsorInvestigator() {
-		return sponsorInvestigator;
-	}
-
-	public void setSponsorInvestigator(Person sponsorInvestigator) {
-		this.sponsorInvestigator = sponsorInvestigator;
-	}
 
 	public AbstractRandomizationConfig getRandomizationConfiguration() {
 		return randomConf;
 	}
-
+	
 	public void setRandomizationConfiguration(
 			AbstractRandomizationConfig _randomizationConfiguration) {
 		randomConf = _randomizationConfiguration;
 		if (randomConf.getTrial() == null) {
 			randomConf.setTrial(this);
 		}
-	}
-
-	public void setTreatmentArms(List<TreatmentArm> treatmentArms) {
-		this.treatmentArms = treatmentArms;
-	}
-
-	public List<TreatmentArm> getTreatmentArms() {
-		return treatmentArms;
 	}
 
 	@Transient
@@ -228,13 +142,6 @@ public class Trial extends AbstractDomainObject {
 			subjects.addAll(arm.getSubjects());
 		}
 		return subjects;
-	}
-
-
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this).append(getId()).append(name).append(
-				treatmentArms).toString();
 	}
 
 	@Override
