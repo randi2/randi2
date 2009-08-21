@@ -9,16 +9,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Range;
 
 @Entity
+@Data
+@EqualsAndHashCode(callSuper=true)
 public class TreatmentArm extends AbstractDomainObject{
 
 	private static final long serialVersionUID = -1745930698279268352L;
 
+	@NotNull()
+	@NotEmpty()
+	@Length(max = MAX_VARCHAR_LENGTH)
 	private String name = null;
 
 	@Lob
@@ -32,45 +40,6 @@ public class TreatmentArm extends AbstractDomainObject{
 
 	@OneToMany(mappedBy="arm")
 	private List<TrialSubject> subjects = new ArrayList<TrialSubject>();
-
-	@NotNull()
-	@NotEmpty()
-	@Length(max = MAX_VARCHAR_LENGTH)
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public int getPlannedSubjects() {
-		return plannedSubjects;
-	}
-
-	public void setPlannedSubjects(int plannedSubjects) {
-		this.plannedSubjects = plannedSubjects;
-	}
-	
-	public Trial getTrial() {
-		return trial;
-	}
-
-	public void setTrial(Trial trial) {
-		this.trial = trial;
-	}
-
-	public List<TrialSubject> getSubjects(){
-		return this.subjects;
-	}
 
 	public void addSubject(TrialSubject subject){
 		this.subjects.add(subject);
