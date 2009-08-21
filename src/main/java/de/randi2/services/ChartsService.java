@@ -1,7 +1,7 @@
 package de.randi2.services;
 
-import de.randi2.jsf.supportBeans.ChartData;
 import de.randi2.model.Trial;
+import de.randi2.model.randomization.ChartData;
 
 public interface ChartsService {
 	

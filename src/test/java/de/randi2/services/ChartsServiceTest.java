@@ -11,11 +11,11 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.randi2.jsf.supportBeans.ChartData;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.BlockRandomizationConfig;
+import de.randi2.model.randomization.ChartData;
 
 public class ChartsServiceTest extends AbstractServiceTest{
 
