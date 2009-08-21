@@ -58,11 +58,6 @@ public class ChartsServiceImpl implements ChartsService {
 
 		tempD.setXLabels(xL);
 		tempD.setData(data);
-		
-		ArrayList<String> yL = new ArrayList<String>();
-		yL.add("Recruited patients");
-		yL.add("Assumed patients' amount");
-		tempD.setFunctionNames(yL);
 		return tempD;
 	}
 

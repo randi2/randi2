@@ -23,11 +23,6 @@ public class ChartData {
 	private List<String> xLabels;
 
 	/**
-	 * The names of the functions.
-	 */
-	private List<String> functionNames;
-
-	/**
 	 * The data-set for the chart. Each array defines the data-set for one
 	 * "x label" (e.g. 10d,20d,30d -> represent for "month 1" - x label - the
 	 * values of the 3 functions at this point of time)
