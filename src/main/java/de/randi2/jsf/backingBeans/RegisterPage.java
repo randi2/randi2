@@ -1,4 +1,4 @@
- /* This file is part of RANDI2.
+/* This file is part of RANDI2.
  * 
  * RANDI2 is free software: you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -35,13 +35,19 @@ import de.randi2.model.Person;
  */
 public class RegisterPage {
 
+	private LoginHandler loginHandler;
+
+	public void setLoginHandler(LoginHandler loginHandler) {
+		this.loginHandler = loginHandler;
+	}
+
 	private boolean termsPvisible = true;
 
 	private boolean regPvisible = false;
 
 	public RegisterPage() {
 	}
-	
+
 	public boolean getTermsPvisible() {
 		return this.termsPvisible;
 	}
@@ -57,14 +63,8 @@ public class RegisterPage {
 	public void cancel(ActionEvent event) {
 		this.termsPvisible = true;
 		try {
-			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
-					.getELResolver().getValue(
-							FacesContext.getCurrentInstance().getELContext(), null, "loginHandler"))
-					.cleanUp();
-			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
-					.getELResolver().getValue(
-							FacesContext.getCurrentInstance().getELContext(), null, "loginHandler"))
-					.invalidateSession();
+			loginHandler.cleanUp();
+			loginHandler.invalidateSession();
 			FacesContext.getCurrentInstance().getExternalContext().redirect(
 					FacesContext.getCurrentInstance().getExternalContext()
 							.getRequestContextPath()
@@ -74,8 +74,8 @@ public class RegisterPage {
 			e.printStackTrace();
 		}
 	}
-	
-	public void go2Login(ActionEvent event){
+
+	public void go2Login(ActionEvent event) {
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect(
 					FacesContext.getCurrentInstance().getExternalContext()
@@ -94,10 +94,7 @@ public class RegisterPage {
 	public void declineTerms(ActionEvent event) {
 		this.termsPvisible = true;
 		try {
-			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
-					.getELResolver().getValue(
-							FacesContext.getCurrentInstance().getELContext(), null, "loginHandler"))
-					.invalidateSession();
+			loginHandler.invalidateSession();
 			FacesContext.getCurrentInstance().getExternalContext().redirect(
 					FacesContext.getCurrentInstance().getExternalContext()
 							.getRequestContextPath()
@@ -107,27 +104,24 @@ public class RegisterPage {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private boolean createAssistant = false;
-	
+
 	public boolean isCreateAssistant() {
 		return createAssistant;
 	}
-	
+
 	public void setCreateAssistant(boolean createAssistant) {
-		if(createAssistant)
-			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
-					.getELResolver().getValue(
-							FacesContext.getCurrentInstance().getELContext(), null, "loginHandler")).getNewUser().getPerson().setAssistant(new Person());
+		if (createAssistant)
+			loginHandler.getNewUser().getPerson().setAssistant(new Person());
 		else
-			((LoginHandler) FacesContext.getCurrentInstance().getApplication()
-					.getELResolver().getValue(
-							FacesContext.getCurrentInstance().getELContext(), null, "loginHandler")).getNewUser().getPerson().setAssistant(null);
+			loginHandler.getNewUser().getPerson().setAssistant(null);
 		this.createAssistant = createAssistant;
 	}
 
 	/**
 	 * Highlight effect for the confirmation password
+	 * 
 	 * @return
 	 */
 	public Effect getEffect() {

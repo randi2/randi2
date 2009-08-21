@@ -80,12 +80,9 @@ public class LoginHandler extends AbstractHandler<Login> {
 	}
 
 	private Popups popups;
-
-	public LoginHandler() {
-		popups = ((Popups) FacesContext.getCurrentInstance().getApplication()
-				.getELResolver().getValue(
-						FacesContext.getCurrentInstance().getELContext(), null,
-						"popups"));
+	
+	public void setPopups(Popups popups) {
+		this.popups = popups;
 	}
 
 	// This Object is representing the current User

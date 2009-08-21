@@ -16,8 +16,6 @@ package de.randi2.jsf.controllerBeans;
 
 import java.util.List;
 
-import javax.faces.context.FacesContext;
-
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 
@@ -52,19 +50,20 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	}
 
 	private Popups popups;
-
-	public TrialSiteHandler() {
-		popups = ((Popups) FacesContext.getCurrentInstance().getApplication()
-				.getELResolver().getValue(
-						FacesContext.getCurrentInstance().getELContext(), null,
-						"popups"));
+	
+	public void setPopups(Popups popups) {
+		this.popups = popups;
+	}
+	
+	private LoginHandler loginHandler;
+	
+	public void setLoginHandler(LoginHandler loginHandler) {
+		this.loginHandler = loginHandler;
 	}
 
+
 	public Login getCurrentUser() {
-		return ((LoginHandler) FacesContext.getCurrentInstance()
-				.getApplication().getELResolver().getValue(
-						FacesContext.getCurrentInstance().getELContext(), null,
-						"loginHandler")).getLoggedInUser();
+		return loginHandler.getLoggedInUser();
 	}
 
 	public boolean isEditable() {

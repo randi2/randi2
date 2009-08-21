@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.el.ValueExpression;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
@@ -14,7 +12,7 @@ import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 
 public class BlockR {
-	
+
 	public static enum BlockDesignTypeId {
 		VARIABLE_BLOCK("variableBlockSize"), CONSTANT_BOLCK("constantBlockSize");
 
@@ -30,19 +28,24 @@ public class BlockR {
 		}
 	}
 
+	private LoginHandler loginHandler;
+
+	public void setLoginHandler(LoginHandler loginHandler) {
+		this.loginHandler = loginHandler;
+	}
+
+	private TrialHandler trialHandler;
+
+	public void setTrialHandler(TrialHandler trialHandler) {
+		this.trialHandler = trialHandler;
+	}
+
 	private List<SelectItem> blockRandTypes;
 
 	public List<SelectItem> getBlockRandTypes() {
 		if (blockRandTypes == null) {
-			ValueExpression ve = FacesContext.getCurrentInstance()
-					.getApplication().getExpressionFactory()
-					.createValueExpression(
-							FacesContext.getCurrentInstance().getELContext(),
-							"#{loginHandler}", LoginHandler.class);
-			LoginHandler currentLoginHandler = (LoginHandler) ve
-					.getValue(FacesContext.getCurrentInstance().getELContext());
 			ResourceBundle bundle = ResourceBundle.getBundle(
-					"de.randi2.jsf.i18n.algorithms", currentLoginHandler
+					"de.randi2.jsf.i18n.algorithms", loginHandler
 							.getChosenLocale());
 			blockRandTypes = new ArrayList<SelectItem>();
 			blockRandTypes.add(new SelectItem(BlockDesignTypeId.CONSTANT_BOLCK
@@ -85,19 +88,9 @@ public class BlockR {
 		// set maximum block size to minimum block size, in case of constant
 		// block design
 		if (!renderVariable) {
-			((BlockRandomizationConfig) getCurrentTrialHandler()
-					.getRandomizationConfig()).setMaximum((Integer) event
-					.getNewValue());
+			((BlockRandomizationConfig) trialHandler.getRandomizationConfig())
+					.setMaximum((Integer) event.getNewValue());
 		}
-	}
-
-	private TrialHandler getCurrentTrialHandler() {
-		ValueExpression ve = FacesContext.getCurrentInstance().getApplication()
-				.getExpressionFactory().createValueExpression(
-						FacesContext.getCurrentInstance().getELContext(),
-						"#{trialHandler}", TrialHandler.class);
-		return (TrialHandler) ve.getValue(FacesContext.getCurrentInstance()
-				.getELContext());
 	}
 
 }

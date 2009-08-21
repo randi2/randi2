@@ -87,6 +87,10 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	}
 
 	private Popups popups;
+	
+	public void setPopups(Popups popups) {
+		this.popups = popups;
+	}
 
 	private AbstractRandomizationConfig randomizationConfig;
 
@@ -127,11 +131,6 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
-		popups = ((Popups) FacesContext.getCurrentInstance().getApplication()
-				.getELResolver().getValue(
-						FacesContext.getCurrentInstance().getELContext(), null,
-						"popups"));
 	}
 
 	private AutoCompleteObject<TrialSite> trialSitesAC = null;

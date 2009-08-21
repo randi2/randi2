@@ -27,10 +27,11 @@ public class Popups {
 	
 	public String hideTrialCreatedPopup() {
 		this.trialCreatedPVisible = false;
-		((Randi2Page) FacesContext.getCurrentInstance().getApplication()
-				.getELResolver().getValue(
-						FacesContext.getCurrentInstance().getELContext(), null,
-						"randi2Page")).viewTrials(null);
+		Randi2Page rPage = ((Randi2Page) FacesContext.getCurrentInstance()
+				.getApplication().getELResolver().getValue(
+						FacesContext.getCurrentInstance()
+								.getELContext(), null, "randi2Page"));
+		rPage.viewTrials(null);
 		return Randi2.SUCCESS;
 	}
 
@@ -121,14 +122,16 @@ public class Popups {
 	
 	public String hideSubjectAddedPopup() {
 		this.subjectAddedPVisible = false;
-		Trial trial = ((TSubjectAdd) FacesContext.getCurrentInstance().getApplication()
-				.getELResolver().getValue(
-						FacesContext.getCurrentInstance().getELContext(), null,
-						"tSubjectAdd")).getCurrentTrial();
-		((Randi2Page) FacesContext.getCurrentInstance().getApplication()
-				.getELResolver().getValue(
-						FacesContext.getCurrentInstance().getELContext(), null,
-						"randi2Page")).showTrial(trial);
+		TSubjectAdd tsa = ((TSubjectAdd) FacesContext.getCurrentInstance()
+				.getApplication().getELResolver().getValue(
+						FacesContext.getCurrentInstance()
+								.getELContext(), null, "tSubjectAdd"));
+		Trial trial = tsa.getCurrentTrial();
+		Randi2Page rPage = ((Randi2Page) FacesContext.getCurrentInstance()
+				.getApplication().getELResolver().getValue(
+						FacesContext.getCurrentInstance()
+								.getELContext(), null, "randi2Page"));
+		rPage.showTrial(trial);
 		return Randi2.SUCCESS;
 	}
 	
