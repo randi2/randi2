@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.Entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import de.randi2.unsorted.ContraintViolatedException;
 
 @Entity
@@ -18,15 +21,9 @@ public class DichotomousConstraint extends AbstractConstraint<String> {
 
 	private static final long serialVersionUID = -1224367469711016048L;
 
+	@Getter @Setter
 	private String expectedValue;
 
-	public String getExpectedValue() {
-		return expectedValue;
-	}
-	
-	public void setExpectedValue(String _expectedValue){
-		this.expectedValue = _expectedValue;
-	}
 
 	@Override
 	public void isValueCorrect(String _value) throws ContraintViolatedException {

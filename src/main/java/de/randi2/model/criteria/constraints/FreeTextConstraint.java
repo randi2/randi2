@@ -5,12 +5,16 @@ import java.util.List;
 import de.randi2.unsorted.ContraintViolatedException;
 import javax.persistence.Entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 public class FreeTextConstraint extends AbstractConstraint<String>{
 
 
 	private static final long serialVersionUID = 992550887900777486L;
 	
+	@Getter @Setter
 	private String expectedValue;
 	
 
@@ -23,13 +27,6 @@ public class FreeTextConstraint extends AbstractConstraint<String>{
 		super(args);
 	}
 
-	public String getExpectedValue() {
-		return expectedValue;
-	}
-	
-	public void setExpectedValue(String expectedValue) {
-		this.expectedValue = expectedValue;
-	}
 	
 	@Override
 	protected void configure(List<String> args)

@@ -7,6 +7,9 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.annotations.CollectionOfElements;
 
 import de.randi2.unsorted.ContraintViolatedException;
@@ -26,15 +29,9 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 	}
 
 	@CollectionOfElements(fetch=FetchType.EAGER)
+	@Getter @Setter
 	public Set<String> expectedValues;
 
-	public Set<String> getExpectedValues() {
-		return expectedValues;
-	}
-
-	public void setExpectedValues(Set<String> expectedValues) {
-		this.expectedValues = expectedValues;
-	}
 
 	@Override
 	public void isValueCorrect(String _value) throws ContraintViolatedException {

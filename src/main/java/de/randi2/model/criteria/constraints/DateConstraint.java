@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.persistence.Entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import de.randi2.unsorted.ContraintViolatedException;
 
 @Entity
@@ -13,7 +16,9 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 
 	private static final long serialVersionUID = -9068633271254996713L;
 	
+	@Getter @Setter
 	private GregorianCalendar firstDate;
+	@Getter @Setter
 	private GregorianCalendar secondDate;
 
 	public DateConstraint() {
@@ -25,23 +30,6 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 	}
 
 	
-
-
-	public GregorianCalendar getFirstDate() {
-		return firstDate;
-	}
-
-	public void setFirstDate(GregorianCalendar firstDate) {
-		this.firstDate = firstDate;
-	}
-
-	public GregorianCalendar getSecondDate() {
-		return secondDate;
-	}
-
-	public void setSecondDate(GregorianCalendar secondDate) {
-		this.secondDate = secondDate;
-	}
 
 	
 	@Override
