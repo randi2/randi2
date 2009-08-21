@@ -15,6 +15,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
@@ -34,7 +37,8 @@ import de.randi2.utility.validations.Password;
 		@NamedQuery(name = "login.AllLoginsWithRolesAndNotTrialSiteScope", query = "select login from Login as login join login.roles role where role.scopeTrialSiteView = false AND not (role.name = 'ROLE_USER') group by login"),
 		@NamedQuery(name = "login.LoginsWriteOtherUser", query = "select login from Login as login join login.roles role where role.writeOtherUser = true group by login"),
 		@NamedQuery(name = "login.LoginsWithPermission", query = "from Login as login where login.username in (select ace.sid.sidname from AccessControlEntryHibernate as ace where ace.acl.objectIdentity.javaType = ? and ace.acl.objectIdentity.identifier = ? and ace.permission = ?)") })
-public class Login extends AbstractDomainObject implements UserDetails {
+@EqualsAndHashCode(callSuper=true)
+public @Data class  Login extends AbstractDomainObject implements UserDetails {
 
 	private final static long serialVersionUID = -6809229052570773439L;
 
@@ -51,10 +55,17 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	private Locale prefLocale = null;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@NotNull
 	private Person person = null;
 
 	@Column(unique = true)
+	@Length(min = MIN_USERNAME_LENGTH, max = MAX_USERNAME_LENGTH)
+	// @Pattern(regex="[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4}")
+	@EMailRANDI2
+	@NotEmpty
 	private String username = "";
+
+	@Password(max = MAX_PASSWORD_LENGTH, min = MIN_PASSWORD_LENGTH, hash_length = HASH_PASSWORD_LENGTH)
 	private String password = null;
 
 	private GregorianCalendar lastLoggedIn = null;
@@ -71,67 +82,6 @@ public class Login extends AbstractDomainObject implements UserDetails {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Role> roles = new HashSet<Role>();
-
-	@Length(min = MIN_USERNAME_LENGTH, max = MAX_USERNAME_LENGTH)
-	// @Pattern(regex="[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+(\\.)?)+\\.([a-zA-Z]){2,4}")
-	@EMailRANDI2
-	@NotEmpty
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public GregorianCalendar getLastLoggedIn() {
-		return lastLoggedIn;
-	}
-
-	public void setLastLoggedIn(GregorianCalendar lastLoggedIn) {
-		this.lastLoggedIn = lastLoggedIn;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
-	@NotNull
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
-
-	@Password(max = MAX_PASSWORD_LENGTH, min = MIN_PASSWORD_LENGTH, hash_length = HASH_PASSWORD_LENGTH)
-	public String getPassword() {
-		return password;
-	}
-
-	// Just a private setter for the persistence Provider //I've changed it only
-	// temporary to public ... (lpotni)
-	public void setPassword(String password) {
-
-		this.password = password;
-	}
-
-	public void setPasswordPlaintext(String plaintextPassword) {
-
-	}
-
-	public Locale getPrefLocale() {
-		return prefLocale;
-	}
-
-	public void setPrefLocale(Locale prefLocale) {
-		this.prefLocale = prefLocale;
-	}
 
 	@Override
 	public GrantedAuthority[] getAuthorities() {
@@ -172,21 +122,6 @@ public class Login extends AbstractDomainObject implements UserDetails {
 	}
 
 	/**
-	 * @return the roles
-	 */
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	/**
-	 * @param roles
-	 *            the roles to set
-	 */
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-
-	/**
 	 * Adds a role to this login object
 	 * 
 	 * @param role
@@ -221,78 +156,93 @@ public class Login extends AbstractDomainObject implements UserDetails {
 		return this.roles.contains(role);
 	}
 
-	
 	/**
-	 * This method checks, if the Login has the specified permission 
+	 * This method checks, if the Login has the specified permission
 	 * 
 	 * @param role
 	 * @return
 	 */
-	public boolean hasPermission(Class<? extends AbstractDomainObject> clazz, Permission permission) {
-		//TODO Check permission delete
+	public boolean hasPermission(Class<? extends AbstractDomainObject> clazz,
+			Permission permission) {
+		// TODO Check permission delete
 		boolean hasPermission = false;
-		
-		if(clazz.equals(Login.class) || clazz.equals(Person.class)){
-			
-			for(Role r: roles){
-				if(permission.getMask() == PermissionHibernate.CREATE.getMask()){
+
+		if (clazz.equals(Login.class) || clazz.equals(Person.class)) {
+
+			for (Role r : roles) {
+				if (permission.getMask() == PermissionHibernate.CREATE
+						.getMask()) {
 					hasPermission = hasPermission || r.isCreateUser();
-				}else if(permission.getMask() == PermissionHibernate.WRITE.getMask()){
+				} else if (permission.getMask() == PermissionHibernate.WRITE
+						.getMask()) {
 					hasPermission = hasPermission || r.isWriteOtherUser();
-				}else if(permission.getMask() == PermissionHibernate.READ.getMask()){
+				} else if (permission.getMask() == PermissionHibernate.READ
+						.getMask()) {
 					hasPermission = hasPermission || r.isReadOtherUser();
-				}else if(permission.getMask() == PermissionHibernate.ADMINISTRATION.getMask()){
+				} else if (permission.getMask() == PermissionHibernate.ADMINISTRATION
+						.getMask()) {
 					hasPermission = hasPermission || r.isAdminOtherUser();
 				}
-					
+
 			}
-		}else if(clazz.equals(TrialSite.class)){
-			
-			for(Role r: roles){
-				if(permission.getMask() == PermissionHibernate.CREATE.getMask()){
+		} else if (clazz.equals(TrialSite.class)) {
+
+			for (Role r : roles) {
+				if (permission.getMask() == PermissionHibernate.CREATE
+						.getMask()) {
 					hasPermission = hasPermission || r.isCreateTrialSite();
-				}else if(permission.getMask() == PermissionHibernate.WRITE.getMask()){
+				} else if (permission.getMask() == PermissionHibernate.WRITE
+						.getMask()) {
 					hasPermission = hasPermission || r.isWriteTrialSite();
-				}else if(permission.getMask() == PermissionHibernate.READ.getMask()){
+				} else if (permission.getMask() == PermissionHibernate.READ
+						.getMask()) {
 					hasPermission = hasPermission || r.isReadTrialSite();
-				}else if(permission.getMask() == PermissionHibernate.ADMINISTRATION.getMask()){
+				} else if (permission.getMask() == PermissionHibernate.ADMINISTRATION
+						.getMask()) {
 					hasPermission = hasPermission || r.isAdminTrialSite();
 				}
-					
+
 			}
-		}else if(clazz.equals(Trial.class)){
-			
-			for(Role r: roles){
-				if(permission.getMask() == PermissionHibernate.CREATE.getMask()){
+		} else if (clazz.equals(Trial.class)) {
+
+			for (Role r : roles) {
+				if (permission.getMask() == PermissionHibernate.CREATE
+						.getMask()) {
 					hasPermission = hasPermission || r.isCreateTrial();
-				}else if(permission.getMask() == PermissionHibernate.WRITE.getMask()){
+				} else if (permission.getMask() == PermissionHibernate.WRITE
+						.getMask()) {
 					hasPermission = hasPermission || r.isWriteTrial();
-				}else if(permission.getMask() == PermissionHibernate.READ.getMask()){
+				} else if (permission.getMask() == PermissionHibernate.READ
+						.getMask()) {
 					hasPermission = hasPermission || r.isReadTrial();
-				}else if(permission.getMask() == PermissionHibernate.ADMINISTRATION.getMask()){
+				} else if (permission.getMask() == PermissionHibernate.ADMINISTRATION
+						.getMask()) {
 					hasPermission = hasPermission || r.isAdminTrial();
 				}
-					
+
 			}
-		}else  if(clazz.equals(TrialSubject.class)){
-			
-			for(Role r: roles){
-				if(permission.getMask() == PermissionHibernate.CREATE.getMask()){
+		} else if (clazz.equals(TrialSubject.class)) {
+
+			for (Role r : roles) {
+				if (permission.getMask() == PermissionHibernate.CREATE
+						.getMask()) {
 					hasPermission = hasPermission || r.isCreateTrialSubject();
-				}else if(permission.getMask() == PermissionHibernate.WRITE.getMask()){
+				} else if (permission.getMask() == PermissionHibernate.WRITE
+						.getMask()) {
 					hasPermission = hasPermission || r.isWriteTrialSubject();
-				}else if(permission.getMask() == PermissionHibernate.READ.getMask()){
+				} else if (permission.getMask() == PermissionHibernate.READ
+						.getMask()) {
 					hasPermission = hasPermission || r.isReadTrialSubject();
-				}else if(permission.getMask() == PermissionHibernate.ADMINISTRATION.getMask()){
+				} else if (permission.getMask() == PermissionHibernate.ADMINISTRATION
+						.getMask()) {
 					hasPermission = hasPermission || r.isAdminTrialSubject();
-				}	
+				}
 			}
 		}
-		
-		
+
 		return hasPermission;
 	}
-	
+
 	/*
 	 * @Override public String toString() { return this.getUsername() + " (" +
 	 * this.getPerson().toString() + ")"; }
@@ -303,20 +253,5 @@ public class Login extends AbstractDomainObject implements UserDetails {
 		return this.getPerson().getSurname() + ", "
 				+ this.getPerson().getFirstname();
 	}
-
-	public byte getNumberWrongLogins() {
-		return numberWrongLogins;
-	}
-
-	public void setNumberWrongLogins(byte numberWrongLogins) {
-		this.numberWrongLogins = numberWrongLogins;
-	}
-
-	public GregorianCalendar getLockTime() {
-		return lockTime;
-	}
-
-	public void setLockTime(GregorianCalendar lockTime) {
-		this.lockTime = lockTime;
-	}
+	
 }
