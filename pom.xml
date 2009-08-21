@@ -140,6 +140,10 @@
             <id>JBoss</id>
             <url>http://repository.jboss.com/maven2</url>
         </repository>
+        <repository>  
+        	<id>projectlombok.org</id>  
+        	<url>http://projectlombok.org/mavenrepo</url>
+        </repository> 
      <!--    <repository>
             <id>HTMLUnit Repo</id>
             <url>sftp://web.sourceforge.net/home/groups/h/ht/htmlunit/htdocs/m2-repo</url>
@@ -441,6 +445,11 @@
     <groupId>net.sourceforge.htmlunit</groupId>
     <artifactId>htmlunit</artifactId>
     <version>2.5</version>
+	</dependency> 
+	<dependency>  
+	<groupId>org.projectlombok</groupId>  
+	<artifactId>lombok</artifactId>  
+	<version>0.8.2</version>  
 	</dependency> 
    </dependencies>
     <build>
