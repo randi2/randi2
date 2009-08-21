@@ -143,6 +143,11 @@ public class Trial extends AbstractDomainObject {
 		}
 		return subjects;
 	}
+	
+	@Transient
+	public int getTotalSubjectAmount(){
+		return getSubjects().size();
+	}
 
 	@Override
 	public String getUIName() {

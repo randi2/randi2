@@ -19,7 +19,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:panelGroup>
+	<ice:outputLabel value="#{labels['pages.randomizationData.tAmount'] } #{trialHandler.showedObject.totalSubjectAmount }"/>
+	<ice:panelGroup style="margin-top: 10px;">
 		<ice:outputLabel value="#{labels['pages.randomizationData.armsOverview']}" />
 		<ice:dataTable id="trialSitesTable" border="1"
 			value="#{trialHandler.showedObject.treatmentArms}" var="arm"
