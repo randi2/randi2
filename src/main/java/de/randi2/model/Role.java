@@ -11,14 +11,15 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import org.hibernate.validator.NotEmpty;
 
 import de.randi2.model.security.PermissionHibernate;
 
 @Entity
-public @Data class Role extends AbstractDomainObject {
+public class Role extends AbstractDomainObject {
 
 	private static final long serialVersionUID = 7986310852028135642L;
 
@@ -64,66 +65,95 @@ public @Data class Role extends AbstractDomainObject {
 	
 	@Column(unique=true)
 	@NotEmpty
+	@Getter @Setter
 	private String name;
 
 	// to create trial site is no scope necessary
+	@Getter @Setter
 	private boolean createTrialSite = false;
 
 	// scope for read trial site objects
+	@Getter @Setter
 	private boolean scopeTrialSiteView = true;
+	@Getter @Setter
 	private boolean readTrialSite = true;
 
 	// scope for write trial site objects
+	@Getter @Setter
 	private boolean scopeTrialSiteWrite = false;
+	@Getter @Setter
 	private boolean writeTrialSite = false;
 
+	@Getter @Setter
 	private boolean adminTrialSite = false;
 
 	@Transient
 	private Set<PermissionHibernate> trialSitePermissions = null;
 
+	@Getter @Setter
 	private boolean writeOwnUser = true;
+	@Getter @Setter
 	private boolean readOwnUser = true;
+	@Getter @Setter
 	private boolean adminOwnUser = false;
 
 	@Transient
 	private Set<PermissionHibernate> ownUserPermissions = null;
 
 	// Scope for create user objects
+	@Getter @Setter
 	private boolean scopeUserCreate = true;
+	@Getter @Setter
 	private boolean createUser = false;
 
 	// scope for write user objects
+	@Getter @Setter
 	private boolean scopeUserWrite = false;
+	@Getter @Setter
 	private boolean writeOtherUser = false;
 
 	// scope for read user objects
+	@Getter @Setter
 	private boolean scopeUserRead = true;
+	@Getter @Setter
 	private boolean readOtherUser = true;
+	@Getter @Setter
 	private boolean adminOtherUser = false;
 
 	// scope for trial objects
+	@Getter @Setter
 	private boolean scopeTrialCreat = true;
+	@Getter @Setter
 	private boolean createTrial = false;
 
+	@Getter @Setter
 	private boolean scopeTrialWrite = true;
+	@Getter @Setter
 	private boolean writeTrial = false;
 
+	@Getter @Setter
 	private boolean scopeTrialRead = true;
+	@Getter @Setter
 	private boolean readTrial = false;
+	@Getter @Setter
 	private boolean adminTrial = false;
 
+	@Getter @Setter
 	private boolean createTrialSubject = false;
+	@Getter @Setter
 	private boolean writeTrialSubject = false;
+	@Getter @Setter
 	private boolean readTrialSubject = false;
+	@Getter @Setter
 	private boolean adminTrialSubject = false;
 
+	@Getter @Setter
 	private boolean createRole = false;
 	@ManyToMany
+	@Getter @Setter
 	private List<Role> rolesToAssign = new ArrayList<Role>();
 
 	public Role(){
-		
 	}
 
 	public Role(String name, boolean createTrialSite,
@@ -215,6 +245,19 @@ public @Data class Role extends AbstractDomainObject {
 		}
 
 		return ownUserPermissions;
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o.getClass().isInstance(this)){
+			return ((Role)o).getName().equals(this.getName());
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return name.hashCode();
 	}
 
 	
