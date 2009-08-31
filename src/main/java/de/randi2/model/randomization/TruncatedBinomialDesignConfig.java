@@ -1,6 +1,7 @@
 package de.randi2.model.randomization;
 
 import de.randi2.randomization.RandomizationAlgorithm;
+import de.randi2.randomization.TruncatedBinomialDesign;
 
 public class TruncatedBinomialDesignConfig extends AbstractRandomizationConfig {
 
@@ -8,8 +9,7 @@ public class TruncatedBinomialDesignConfig extends AbstractRandomizationConfig {
 
 	@Override
 	public RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm() {
-		// TODO Auto-generated method stub
-		return null;
+		return new TruncatedBinomialDesign(super.getTrial());
 	}
 
 }

@@ -60,6 +60,8 @@
 				</value>
 				<value>de.randi2.model.randomization.BlockRandomizationConfig
 				</value>
+				<value>de.randi2.model.randomization.TruncatedBinomialDesignConfig
+				</value>
 				<value>de.randi2.model.security.AclHibernate
 				</value>
 				<value>de.randi2.model.security.AccessControlEntryHibernate
