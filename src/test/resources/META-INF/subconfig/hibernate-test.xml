@@ -43,6 +43,7 @@
                 <value>de.randi2.model.randomization.AbstractRandomizationTempData</value>
                 <value>de.randi2.model.randomization.CompleteRandomizationConfig</value>
                 <value>de.randi2.model.randomization.BlockRandomizationConfig</value>
+                <value>de.randi2.model.randomization.TruncatedBinomialDesignConfig</value>
                 <value>de.randi2.model.security.AclHibernate</value>
                 <value>de.randi2.model.security.AccessControlEntryHibernate</value>
                 <value>de.randi2.model.security.ObjectIdentityHibernate</value>
