@@ -62,6 +62,12 @@
 				</value>
 				<value>de.randi2.model.randomization.TruncatedBinomialDesignConfig
 				</value>
+				<value>de.randi2.model.randomization.Urn
+				</value>
+				<value>de.randi2.model.randomization.UrnDesignConfig
+				</value>
+				<value>de.randi2.model.randomization.UrnDesignTempData
+				</value>
 				<value>de.randi2.model.security.AclHibernate
 				</value>
 				<value>de.randi2.model.security.AccessControlEntryHibernate

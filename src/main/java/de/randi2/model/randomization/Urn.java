@@ -1,0 +1,49 @@
+package de.randi2.model.randomization;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import de.randi2.model.AbstractDomainObject;
+import de.randi2.model.TreatmentArm;
+import de.randi2.model.Trial;
+import static de.randi2.utility.IntegerIterator.upto;
+
+@Entity
+@Data
+@EqualsAndHashCode(callSuper=true)
+public class Urn  extends AbstractDomainObject{
+	private static final long serialVersionUID = -7375855875576682823L;
+	
+	public static Urn generate(UrnDesignConfig config){
+		Urn urn = new Urn();
+		List<TreatmentArm> arms = config.getTrial().getTreatmentArms();
+		for(int i : upto(config.getInitializeCountBalls())){
+			for (TreatmentArm arm : arms){
+				urn.add(arm);
+			}
+		}
+		return urn;
+	}
+	
+	@ManyToMany
+	@JoinTable(name = "Urn_Treatmentarm", 
+			joinColumns = {	@JoinColumn(name = "Urn_id") }, 
+			inverseJoinColumns = { @JoinColumn(name = "Treatmentarm_id") })
+	private List<TreatmentArm> urn = new ArrayList<TreatmentArm>();
+	
+	public void add(TreatmentArm arm){
+		urn.add(arm);
+	}
+	
+	public TreatmentArm drawFromUrn(Random rand) {
+		return urn.remove(rand.nextInt(urn.size()));
+	}
+}

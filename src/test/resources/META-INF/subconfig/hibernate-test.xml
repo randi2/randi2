@@ -52,6 +52,9 @@
                 <value>de.randi2.model.randomization.AbstractRandomizationConfig</value>
                 <value>de.randi2.model.randomization.CompleteRandomizationConfig</value>
                 <value>de.randi2.model.randomization.BiasedCoinRandomizationConfig</value>
+                <value>de.randi2.model.randomization.Urn</value>
+				<value>de.randi2.model.randomization.UrnDesignConfig</value>
+				<value>de.randi2.model.randomization.UrnDesignTempData</value>
             </list>
         </property>
         <property name="eventListeners">
