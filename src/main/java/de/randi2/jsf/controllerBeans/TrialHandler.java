@@ -55,6 +55,7 @@ import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
+import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
 import de.randi2.utility.ReflectionUtil;
@@ -269,6 +270,10 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		} else if (temp2.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
 			showedObject.setRandomizationConfiguration(randomizationConfig);
+		}
+		else if (temp2.getSelectedAlgorithmPanelId().equals(
+				Step5.AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString())) {
+			showedObject.setRandomizationConfiguration(new TruncatedBinomialDesignConfig());
 		}
 		/* End of the Algorithm Configuration */
 

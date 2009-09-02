@@ -56,6 +56,12 @@
 					file="./inc/panels/randomization/blockR.jspx" />
 			</f:subview>
 		</ice:panelGroup>
+		<ice:panelGroup id="truncatedRandomization">
+			<f:subview id="trR">
+				<jsp:directive.include
+					file="./inc/panels/randomization/truncatedR.jspx" />
+			</f:subview>
+		</ice:panelGroup>
 	</ice:panelStack>
 </ice:panelGroup>
 <ice:commandButton type="submit" value="#{labels['buttons.save']}"

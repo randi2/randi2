@@ -14,13 +14,14 @@ import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
+import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 
 public class Step5 {
 
 	public static enum AlgorithmPanelId {
 		COMPLETE_RANDOMIZATION("completeRandomization"), BIASEDCOIN_RANDOMIZATION(
 				"biasedCoinRandomization"), BLOCK_RANDOMIZATION(
-				"blockRandomization");
+				"blockRandomization"), TRUNCATED_RANDOMIZATION("truncatedRandomization");
 		private String id = null;
 
 		private AlgorithmPanelId(String id) {
@@ -56,6 +57,11 @@ public class Step5 {
 			algorithms.add(new SelectItem(
 					AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString(),
 					bundle.getString(BiasedCoinRandomizationConfig.class
+							.getCanonicalName()
+							+ ".short")));
+			algorithms.add(new SelectItem(AlgorithmPanelId.TRUNCATED_RANDOMIZATION
+					.toString(), bundle
+					.getString(TruncatedBinomialDesignConfig.class
 							.getCanonicalName()
 							+ ".short")));
 			algorithms.add(new SelectItem(AlgorithmPanelId.BLOCK_RANDOMIZATION
