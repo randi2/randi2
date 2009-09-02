@@ -39,7 +39,7 @@ public class UrnDesign extends RandomizationAlgorithm<UrnDesignConfig> {
 		}
 		TreatmentArm drawnArm = urn.drawFromUrn(random);
 		//TODO now only for two arms
-		if(drawnArm.getId() == trial.getTreatmentArms().get(0).getId()){
+		if(drawnArm.getName().equals(trial.getTreatmentArms().get(0).getName())){
 			for(int i : upto(configuration.getCountReplacedBalls())){
 				urn.add(trial.getTreatmentArms().get(1));
 			}
