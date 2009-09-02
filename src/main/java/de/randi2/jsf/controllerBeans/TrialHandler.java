@@ -275,6 +275,10 @@ public class TrialHandler extends AbstractHandler<Trial> {
 				Step5.AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString())) {
 			showedObject.setRandomizationConfiguration(new TruncatedBinomialDesignConfig());
 		}
+		else if (temp2.getSelectedAlgorithmPanelId().equals(
+				Step5.AlgorithmPanelId.URN_MODEL.toString())) {
+			showedObject.setRandomizationConfiguration(randomizationConfig);
+		}
 		/* End of the Algorithm Configuration */
 
 		trialService.create(showedObject);

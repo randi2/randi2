@@ -8,20 +8,21 @@ import javax.faces.model.SelectItem;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
+import de.randi2.model.randomization.UrnDesignConfig;
 
 public class Step5 {
 
 	public static enum AlgorithmPanelId {
 		COMPLETE_RANDOMIZATION("completeRandomization"), BIASEDCOIN_RANDOMIZATION(
 				"biasedCoinRandomization"), BLOCK_RANDOMIZATION(
-				"blockRandomization"), TRUNCATED_RANDOMIZATION("truncatedRandomization");
+				"blockRandomization"), TRUNCATED_RANDOMIZATION("truncatedRandomization"), 
+				URN_MODEL("urnModel");
 		private String id = null;
 
 		private AlgorithmPanelId(String id) {
@@ -69,6 +70,11 @@ public class Step5 {
 					.getString(BlockRandomizationConfig.class
 							.getCanonicalName()
 							+ ".short")));
+			algorithms.add(new SelectItem(AlgorithmPanelId.URN_MODEL
+					.toString(), bundle
+					.getString(UrnDesignConfig.class
+							.getCanonicalName()
+							+ ".short")));
 
 		}
 		return algorithms;
@@ -84,6 +90,12 @@ public class Step5 {
 				&& !BlockRandomizationConfig.class.isInstance(trialHandler
 						.getRandomizationConfig())) {
 			trialHandler.setRandomizationConfig(new BlockRandomizationConfig());
+		}else if(selectedAlgorithmPanelId
+				.equals(AlgorithmPanelId.URN_MODEL.toString())
+				&& !UrnDesignConfig.class.isInstance(trialHandler
+						.getRandomizationConfig())) {
+			trialHandler.setRandomizationConfig(new UrnDesignConfig());
 		}
+				
 	}
 }
