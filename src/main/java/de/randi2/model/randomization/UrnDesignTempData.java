@@ -15,8 +15,8 @@ import org.hibernate.annotations.CollectionOfElements;
 @EqualsAndHashCode(callSuper=true)
 public class UrnDesignTempData extends AbstractRandomizationTempData {
 
+	private static final long serialVersionUID = -2572300725790883698L;
 
-	private static final long serialVersionUID = -5312007218478944310L;
 
 	
 	 @CollectionOfElements(targetElement = Urn.class)
