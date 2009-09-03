@@ -28,7 +28,7 @@ public class UrnDesign extends RandomizationAlgorithm<UrnDesignConfig> {
 
 	@Override
 	protected TreatmentArm doRadomize(TrialSubject subject, Random random) {
-		UrnDesignTempData tempData = super.configuration.getTempData();
+		UrnDesignTempData tempData = (UrnDesignTempData) super.configuration.getTempData();
 		String stratum = "";
 		if(trial.isStratifyTrialSite()) stratum = subject.getTrialSite().getId() + "";
 		stratum += subject.getStratum();

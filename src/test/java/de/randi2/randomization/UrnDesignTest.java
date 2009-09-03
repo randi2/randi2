@@ -16,6 +16,7 @@ import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.Urn;
 import de.randi2.model.randomization.UrnDesignConfig;
+import de.randi2.model.randomization.UrnDesignTempData;
 
 public class UrnDesignTest {
 
@@ -86,7 +87,7 @@ public class UrnDesignTest {
 		String stratum = "";
 		if(trial.isStratifyTrialSite()) stratum = s.getTrialSite().getId() + "";
 		stratum += s.getStratum();
-		Urn urn = conf.getTempData().getUrn(stratum);
+		Urn urn = ((UrnDesignTempData)conf.getTempData()).getUrn(stratum);
 		int[] count = new int[2];
 		count[0] = 0;
 		count[1] = 0;

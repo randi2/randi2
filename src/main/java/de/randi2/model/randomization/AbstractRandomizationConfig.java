@@ -1,5 +1,6 @@
 package de.randi2.model.randomization;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -9,6 +10,7 @@ import javax.persistence.Transient;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Trial;
@@ -27,7 +29,12 @@ public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 	private Trial trial;
 	@Transient
 	private RandomizationAlgorithm<? extends AbstractRandomizationConfig> algorithm;
-
+	
+	@Getter @Setter
+	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
+	protected AbstractRandomizationTempData tempData;
+	
+	
 	public final RandomizationAlgorithm<? extends AbstractRandomizationConfig> getAlgorithm() {
 		if (algorithm == null) {
 			algorithm = createAlgorithm();
