@@ -235,4 +235,43 @@ public class TrialServiceTest extends AbstractServiceTest{
 		assertTrue(dbTrial.getRandomizationConfiguration() instanceof UrnDesignConfig);
 		assertTrue(((UrnDesignConfig)dbTrial.getRandomizationConfiguration()).getTempData() != null);
 	}
+	
+	@Test
+	public void testCreateAndRandomUrnDesign(){
+		TreatmentArm arm1 = new TreatmentArm();
+		arm1.setPlannedSubjects(50);
+		arm1.setName("arm1");
+		arm1.setTrial(validTrial);
+		TreatmentArm arm2 = new TreatmentArm();
+		arm2.setPlannedSubjects(50);
+		arm2.setName("arm2");
+		arm2.setTrial(validTrial);
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		arms.add(arm1);
+		arms.add(arm2);
+	
+		service.create(validTrial);
+		validTrial.setTreatmentArms(arms);
+		UrnDesignConfig conf = new UrnDesignConfig();
+		conf.setInitializeCountBalls(4);
+		conf.setCountReplacedBalls(2);
+		validTrial.setRandomizationConfiguration(conf);
+		
+		service.update(validTrial);
+		assertTrue(validTrial.getId()>0);
+		assertEquals(2,validTrial.getTreatmentArms().size());
+		for(int i=0;i<100;i++){
+			TrialSubject subject = new TrialSubject();
+			 subject.setIdentification("identification" + i);
+			service.randomize(validTrial,subject );
+		}
+		sessionFactory.getCurrentSession().clear();
+		Trial dbTrial = service.getObject(validTrial.getId());
+		assertNotNull(dbTrial);
+		assertEquals(validTrial.getName(), dbTrial.getName());
+		assertEquals(2, dbTrial.getTreatmentArms().size());
+		assertEquals(100, dbTrial.getTreatmentArms().get(0).getSubjects().size() + dbTrial.getTreatmentArms().get(1).getSubjects().size());
+		assertTrue(dbTrial.getRandomizationConfiguration() instanceof UrnDesignConfig);
+		assertTrue(((UrnDesignConfig)dbTrial.getRandomizationConfiguration()).getTempData() != null);
+	}
 }
