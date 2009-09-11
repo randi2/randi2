@@ -65,6 +65,12 @@
 		<managed-bean-class>de.randi2.jsf.supportBeans.Popups</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+<managed-bean>
+		<description>Bean for various RANDI2 popups</description>
+		<managed-bean-name>dataExporter</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.supportBeans.DataExporter</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
 
 	<managed-bean>
 		<description>

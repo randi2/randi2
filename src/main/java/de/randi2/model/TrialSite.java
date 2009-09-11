@@ -24,7 +24,7 @@ import de.randi2.utility.validations.Password;
 
 @Entity
 @NamedQuery(name = "trialSite.findAllMembers", query = "select p from Person p where p.trialSite = :trialSite ")
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper=true, exclude={"trials", "members", "contactPerson"})
 @Data
 public class TrialSite extends AbstractDomainObject {
 

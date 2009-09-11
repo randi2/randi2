@@ -24,7 +24,7 @@ import de.randi2.utility.validations.TelephonNumber;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper=true, exclude={"login"})
+@EqualsAndHashCode(callSuper=true, exclude={"login","trialSite", "assistant"})
 @ToString(exclude={"login","trialSite"})
 public class Person extends AbstractDomainObject {
 

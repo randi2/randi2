@@ -37,7 +37,7 @@ import de.randi2.utility.validations.DateDependence;
 @Entity
 @Configurable
 @DateDependence(firstDate = "startDate", secondDate = "endDate")
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper=true, exclude={"randomConf", "participatingSites", "sponsorInvestigator", "subjectCriteria"})
 public class Trial extends AbstractDomainObject {
 
 	private static final long serialVersionUID = -2424750074810584832L;
