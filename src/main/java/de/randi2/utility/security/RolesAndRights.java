@@ -275,7 +275,7 @@ public class RolesAndRights {
 					if (r.isReadTrial()) {
 						if (r.isScopeTrialRead()) {
 							if (l.getPerson().getTrialSite() !=null && (l.getPerson().getTrialSite().getId() == scope
-									.getId() || trial.getParticipatingSites().contains(trial)) ) {
+									.getId() || trial.getParticipatingSites().contains(l.getPerson().getTrialSite())) ) {
 								aclService
 										.createAclwithPermissions(
 												trial,
@@ -295,7 +295,7 @@ public class RolesAndRights {
 					if (r.isWriteTrial()) {
 						if (r.isScopeTrialWrite()) {
 							if (l.getPerson().getTrialSite() !=null && (l.getPerson().getTrialSite().getId() == scope
-									.getId() || trial.getParticipatingSites().contains(trial))) {
+									.getId() || trial.getParticipatingSites().contains(l.getPerson().getTrialSite()))) {
 								aclService
 										.createAclwithPermissions(
 												trial,
