@@ -26,8 +26,8 @@
 </ice:panelCollapsible>
 <ice:panelCollapsible id="configPanelUrn" expanded="true"
 	toggleOnClick="false">
-	<f:facet name="headerUrn">
-		<ice:outputLabel value="#{labels['pages.urnR.configuration']}"></ice:outputLabel>
+	<f:facet name="header">
+		<ice:outputLabel value="#{labels['pages.urnR.configuration']}" />
 	</f:facet>
 	<ice:panelGrid columns="2" styleClass="verticalAlignTop">
 		<ice:outputLabel value="#{labels['pages.urnR.initialCount']}" />

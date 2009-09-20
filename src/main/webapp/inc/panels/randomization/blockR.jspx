@@ -29,7 +29,7 @@
 <ice:panelCollapsible id="configPanel" expanded="true"
 	toggleOnClick="false">
 	<f:facet name="header">
-		<ice:outputLabel value="#{labels['pages.blockR.configuration']}"></ice:outputLabel>
+		<ice:outputLabel value="#{labels['pages.blockR.configuration']}" />
 	</f:facet>
 	<ice:panelGrid columns="2" styleClass="verticalAlignTop">
 		<ice:outputLabel value="#{labels['pages.blockR.type']}" />
