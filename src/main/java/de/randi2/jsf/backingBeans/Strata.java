@@ -7,5 +7,6 @@ public class Strata {
 	
 	@Getter @Setter
 	private boolean stratified = false;
+    
 	
 }

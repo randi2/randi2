@@ -85,6 +85,11 @@ public class CriterionWrapper<V extends Serializable> {
 	 */
 	private boolean isConstraint = false;
 
+    /**
+     * Flag indicating if the wrapped criterion is also an stratification factor.
+     */
+    private boolean isStrataFactor = false;
+
 	/**
 	 * String ID defining the showed criterion panel.
 	 */
@@ -220,4 +225,11 @@ public class CriterionWrapper<V extends Serializable> {
 			}
 	}
 
+    public boolean isStrataFactor(){
+        return isStrataFactor;
+    }
+
+    public void setStrataFactor(boolean newValue){
+        isStrataFactor=newValue;
+    }
 }
