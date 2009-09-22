@@ -1,5 +1,5 @@
 <!-- 
- This pages/panel is used for the dichotomous criterion configuration.
+ This pages/panel is used for the dichotomous strata factor configuration.
 
  Made by lplotni@users.sourceforge.org  
 
@@ -14,23 +14,13 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-
 <ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:panelGrid columns="1">
-		<ice:outputLabel value="#{criteria['de.randi2.model.criteria.DichotomousCriterion.option1']}" />
-		<ice:inputText value="#{criterion.wrappedCriterion.option1}" />
-		<ice:outputLabel value="#{criteria['de.randi2.model.criteria.DichotomousCriterion.option2']}" />
-		<ice:inputText value="#{criterion.wrappedCriterion.option2}" />
+	<ice:panelGrid columns="2">
+	<ice:outputLabel value="Factor 1*:" />
+	<ice:outputText value="#{criterion.wrappedCriterion.option1}" />
+	<ice:outputLabel value="Factor 2*:"/>
+	<ice:outputText value="#{criterion.wrappedCriterion.option2}" />
 	</ice:panelGrid>
 </ice:panelGroup>
-<!--  ice:panelGroup>
-	<ice:outputLabel value="Constraint?*:" />
-	<ice:selectBooleanCheckbox value="#{criterion.constraint}"
-		partialSubmit="true" />
-</ice:panelGroup -->
-<f:subview id="dConstraint" rendered="#{criterion.constraint}">
-	<jsp:directive.include
-		file="./inc/panels/trial/constraintsConfigurationPanels/dichotomousConstraint.jspx" />
-</f:subview>

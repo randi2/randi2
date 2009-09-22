@@ -19,7 +19,7 @@
 	xmlns:ice="http://www.icesoft.com/icefaces/component" columns="3">
 	<ice:graphicImage value="/img/icons/properties48.png"></ice:graphicImage>
 	<ice:outputLabel
-		value="#{labels['pages.trialEditPanel.step4message'] }"></ice:outputLabel>
+		value="#{labels['pages.trialEditPanel.step4message'] }"/>
 	<ice:panelGroup style="margin-left: 40px;" styleClass="icePnlClpsbl">
 		<ice:panelGroup style="margin-left: 10px;">
 			<ice:outputText escape="false"

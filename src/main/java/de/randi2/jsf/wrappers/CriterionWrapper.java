@@ -3,6 +3,7 @@ package de.randi2.jsf.wrappers;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -20,6 +21,7 @@ import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.FreeTextCriterion;
 import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
+import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.unsorted.ContraintViolatedException;
 
 /**
@@ -231,5 +233,23 @@ public class CriterionWrapper<V extends Serializable> {
 
     public void setStrataFactor(boolean newValue){
         isStrataFactor=newValue;
+        try {
+			preconfigureStrata(newValue);
+		} catch (ContraintViolatedException e) {
+			// TODO Show a new message
+			e.printStackTrace();
+		}
+    }
+    
+    private void preconfigureStrata(boolean onOff) throws ContraintViolatedException{
+    	if(!onOff){
+    		wrappedCriterion.setStrata(null);
+    		return;
+    	}
+    	if(DichotomousCriterion.class.isInstance(wrappedCriterion)){
+    		DichotomousCriterion temp = DichotomousCriterion.class.cast(wrappedCriterion);
+    		temp.addStrata(new DichotomousConstraint(Arrays.asList(new String[]{temp.getConfiguredValues().get(0)})));
+    		temp.addStrata(new DichotomousConstraint(Arrays.asList(new String[]{temp.getConfiguredValues().get(1)})));
+    	}
     }
 }

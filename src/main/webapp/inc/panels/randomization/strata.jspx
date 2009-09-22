@@ -31,7 +31,11 @@
 		<ice:selectBooleanCheckbox rendered="#{strata.stratified}" value="#{trialHandler.showedObject.stratifyTrialSite}"/>
 	</ice:panelGrid>
 </ice:panelCollapsible>
-<ice:outputLabel rendered="#{strata.stratified}" value="Possible strata*:"/>
+<ice:panelGrid rendered="#{strata.stratified}" border="0"
+	columns="2">
+	<ice:graphicImage value="/img/icons/properties48.png"/>
+	<ice:outputLabel value="Info for the stratification factor's configuration"/>
+</ice:panelGrid>
 <ice:panelSeries  rendered="#{strata.stratified}" value="#{step4.criteria}" var="criterion"
 	style="padding:10px;">
 	 <ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
@@ -58,7 +62,7 @@
 			    <ice:outputLabel value="#{criterion.l16edName}" />
             </ice:panelGroup>   
 		</ice:panelGrid>
-		<ice:panelGrid columns="2">
+		<ice:panelGrid columns="2" rendered="#{criterion.strataFactor}">
 			<ice:panelGroup>
 				<ice:panelStack id="configurationPanelStack"
 					selectedPanel="#{criterion.panelType}">

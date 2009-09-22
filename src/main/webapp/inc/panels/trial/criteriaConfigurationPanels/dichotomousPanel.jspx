@@ -20,9 +20,9 @@
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelGrid columns="1">
 		<ice:outputLabel value="#{criteria['de.randi2.model.criteria.DichotomousCriterion.option1']}" />
-		<ice:inputText value="#{criterion.wrappedCriterion.option1}" />
+		<ice:inputText value="#{criterion.wrappedCriterion.option1}" partialSubmit="true"/>
 		<ice:outputLabel value="#{criteria['de.randi2.model.criteria.DichotomousCriterion.option2']}" />
-		<ice:inputText value="#{criterion.wrappedCriterion.option2}" />
+		<ice:inputText value="#{criterion.wrappedCriterion.option2}" partialSubmit="true" />
 	</ice:panelGrid>
 </ice:panelGroup>
 <!--  ice:panelGroup>
