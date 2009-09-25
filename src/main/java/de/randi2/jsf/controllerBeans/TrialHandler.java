@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -50,7 +51,11 @@ import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.criteria.AbstractCriterion;
+import de.randi2.model.criteria.DateCriterion;
+import de.randi2.model.criteria.DichotomousCriterion;
+import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
+import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
@@ -58,6 +63,7 @@ import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
+import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.ReflectionUtil;
 import de.randi2.utility.logging.LogEntry;
 import de.randi2.utility.logging.LogService;
@@ -245,6 +251,24 @@ public class TrialHandler extends AbstractHandler<Trial> {
 				.getELContext());
 		ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> configuredCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
 		for (CriterionWrapper<? extends Serializable> cr : temp1.getCriteria()) {
+			/* Strata configuration */
+			if(cr.isStrataFactor()){
+				if(DichotomousConstraint.class.isInstance(cr.getWrappedCriterion())){
+					DichotomousCriterion temp = DichotomousCriterion.class.cast(cr.getWrappedCriterion());
+		    		try {
+						temp.addStrata(new DichotomousConstraint(Arrays.asList(new String[]{temp.getConfiguredValues().get(0)})));
+						temp.addStrata(new DichotomousConstraint(Arrays.asList(new String[]{temp.getConfiguredValues().get(1)})));
+					} catch (ContraintViolatedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else if(OrdinalCriterion.class.isInstance(cr.getWrappedCriterion())){
+					//TODO
+				}else if(DateCriterion.class.isInstance(cr.getWrappedCriterion())){
+					//TODO
+				}
+			}
+			/* End of strata configuration */
 			configuredCriteria
 					.add((AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>) cr
 							.getWrappedCriterion());
