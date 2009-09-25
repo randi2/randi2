@@ -13,6 +13,9 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.criteria.AbstractCriterion;
@@ -240,6 +243,42 @@ public class CriterionWrapper<V extends Serializable> {
 			e.printStackTrace();
 		}
     }
+    
+    
+    private boolean possibleStrata = true;
+    
+    public boolean isPossibleStrata() {
+		possibleStrata = !FreeTextCriterion.class.isInstance(wrappedCriterion);
+    	return possibleStrata;
+	}
+    
+    @Getter @Setter
+    private int strataGroupID;
+    
+    private List<SelectItem> strataGroupIDs = null;
+    
+    public List<SelectItem> getStrataGroupIDs() {
+		if(strataGroupIDs==null){
+			strataGroupIDs = new ArrayList<SelectItem>();
+			for(int i=1; i<=OrdinalCriterion.class.cast(wrappedCriterion).getConfiguredValues().size();i++ ){
+				strataGroupIDs.add(new SelectItem(i, "Group Nr "+i));
+			}
+		}
+    	return strataGroupIDs;
+	}
+    
+    private List<GregorianCalendar> dates = null;
+    
+    public List<GregorianCalendar> getDates() {
+		if(dates == null){
+			dates = new ArrayList<GregorianCalendar>();
+			dates.add(new GregorianCalendar());
+			dates.add(new GregorianCalendar());
+			dates.add(new GregorianCalendar());
+			dates.add(new GregorianCalendar());
+		}
+    	return dates;
+	}
     
     private void preconfigureStrata(boolean onOff) throws ContraintViolatedException{
     	if(!onOff){

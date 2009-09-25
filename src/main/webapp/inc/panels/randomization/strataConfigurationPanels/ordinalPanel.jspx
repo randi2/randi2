@@ -17,5 +17,14 @@
 <ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	
+	<ice:panelSeries value="#{criterion.elements}" var="element">
+		<ice:panelGrid columns="2">
+			<ice:outputLabel
+				value="#{criterion.wrappedCriterion.elements[element]}" />
+			<ice:selectOneMenu id="strataGroup"
+				value="#{criterion.strataGroupID}">
+				<f:selectItems value="#{criterion.strataGroupIDs}" />
+			</ice:selectOneMenu>
+		</ice:panelGrid>
+	</ice:panelSeries>
 </ice:panelGroup>

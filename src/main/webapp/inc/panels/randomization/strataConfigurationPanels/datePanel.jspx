@@ -18,9 +18,34 @@
 <ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:outputLabel value="Group 1"/>
+	<ice:panelGrid columns="4">
+		<ice:outputLabel value="From*:" />
+		<ice:selectInputDate id="date1" value="#{criterion.dates[0].time}"
+			renderAsPopup="true">
+			<f:convertDateTime locale="#{loginHandler.chosenLocale}"
+				dateStyle="medium" timeZone="#{randi2Page.zone}" />
+		</ice:selectInputDate>
+		<ice:outputLabel value="Till*:" />
+		<ice:selectInputDate id="date2" value="#{criterion.dates[1].time}"
+			renderAsPopup="true">
+			<f:convertDateTime locale="#{loginHandler.chosenLocale}"
+				dateStyle="medium" timeZone="#{randi2Page.zone}" />
+		</ice:selectInputDate>
+	</ice:panelGrid>
+	<ice:outputLabel value="Group 2"/>
+	<ice:panelGrid columns="4">
+		<ice:outputLabel value="From*:" />
+		<ice:selectInputDate id="date3" value="#{criterion.dates[2].time}"
+			renderAsPopup="true">
+			<f:convertDateTime locale="#{loginHandler.chosenLocale}"
+				dateStyle="medium" timeZone="#{randi2Page.zone}" />
+		</ice:selectInputDate>
+		<ice:outputLabel value="Till*:" />
+		<ice:selectInputDate id="date4" value="#{criterion.dates[3].time}"
+			renderAsPopup="true">
+			<f:convertDateTime locale="#{loginHandler.chosenLocale}"
+				dateStyle="medium" timeZone="#{randi2Page.zone}" />
+		</ice:selectInputDate>
+	</ice:panelGrid>
 </ice:panelGroup>
-<!--  ice:panelGroup>
-	<ice:outputLabel value="Constraint?*:" />
-	<ice:selectBooleanCheckbox value="#{criterion.constraint}"
-		partialSubmit="true" />
-</ice:panelGroup -->

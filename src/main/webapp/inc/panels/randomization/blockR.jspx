@@ -27,7 +27,7 @@
 		value="#{algorithms['de.randi2.model.randomization.BlockRandomizationConfig.info']}"></ice:outputLabel>
 </ice:panelCollapsible>
 <ice:panelCollapsible id="configPanel" expanded="true"
-	toggleOnClick="false">
+	toggleOnClick="false" style="width: 450px;">
 	<f:facet name="header">
 		<ice:outputLabel value="#{labels['pages.blockR.configuration']}" />
 	</f:facet>
