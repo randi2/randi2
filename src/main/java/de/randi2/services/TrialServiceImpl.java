@@ -46,7 +46,7 @@ public class TrialServiceImpl implements TrialService {
 		TreatmentArm assignedArm = trial.getRandomizationConfiguration().getAlgorithm().randomize(subject);
 		subject.setArm(assignedArm);
 		//TODO Internal Subject's Identification
-		subject.setRandNumber(((Login)SecurityContextHolder.getContext().getAuthentication()).getPerson().getTrialSite().getName()+"_"+trial.getAbbreviation()+"_"+assignedArm.getName()+"_"+(assignedArm.getSubjects().size()+1));
+		subject.setRandNumber(subject.getTrialSite().getName()+"_"+trial.getAbbreviation()+"_"+assignedArm.getName()+"_"+(assignedArm.getSubjects().size()+1));
 		subject.setCounter((trial.getSubjects().size()+1));
 		if(subject.getIdentification() == null) subject.setIdentification(subject.getRandNumber());
 		sessionFactory.getCurrentSession().persist(subject);
