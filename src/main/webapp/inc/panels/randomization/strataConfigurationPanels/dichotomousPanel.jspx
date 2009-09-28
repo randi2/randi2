@@ -18,9 +18,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelGrid columns="2">
-	<ice:outputLabel value="Factor 1*:" />
+	<ice:outputLabel value="#{labels['pages.strata.group']} 1:" />
 	<ice:outputText value="#{criterion.wrappedCriterion.option1}" />
-	<ice:outputLabel value="Factor 2*:"/>
+	<ice:outputLabel value="#{labels['pages.strata.group']}  2:"/>
 	<ice:outputText value="#{criterion.wrappedCriterion.option2}" />
 	</ice:panelGrid>
 </ice:panelGroup>

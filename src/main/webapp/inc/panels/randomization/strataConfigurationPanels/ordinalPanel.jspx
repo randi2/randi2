@@ -17,14 +17,15 @@
 <ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:panelSeries value="#{criterion.elements}" var="element">
-		<ice:panelGrid columns="2">
+	<ice:panelSeries value="#{criterion.strata}" var="stratum">
+		<ice:panelGrid columns="1">
 			<ice:outputLabel
-				value="#{criterion.wrappedCriterion.elements[element]}" />
-			<ice:selectOneMenu id="strataGroup"
-				value="#{criterion.strataGroupID}">
-				<f:selectItems value="#{criterion.strataGroupIDs}" />
-			</ice:selectOneMenu>
+				value="#{labels['pages.strata.group']} #{stratum.groupNr}" />
+			<ice:selectManyCheckbox valueChangeListener="#{stratum.update}">
+				<f:selectItems value="#{criterion.possibleValues}" />
+			</ice:selectManyCheckbox>
 		</ice:panelGrid>
 	</ice:panelSeries>
+	<ice:commandButton image="/img/icons/add16.png"
+		actionListener="#{criterion.addStrata}" immediate="true" />
 </ice:panelGroup>

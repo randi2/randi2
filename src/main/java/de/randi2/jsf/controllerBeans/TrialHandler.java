@@ -44,6 +44,7 @@ import de.randi2.jsf.backingBeans.Step5;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
+import de.randi2.jsf.wrappers.ConstraintWrapper;
 import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.model.Login;
 import de.randi2.model.Role;
@@ -51,9 +52,7 @@ import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.criteria.AbstractCriterion;
-import de.randi2.model.criteria.DateCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
-import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.enumerations.TrialStatus;
@@ -262,10 +261,14 @@ public class TrialHandler extends AbstractHandler<Trial> {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}else if(OrdinalCriterion.class.isInstance(cr.getWrappedCriterion())){
-					//TODO
-				}else if(DateCriterion.class.isInstance(cr.getWrappedCriterion())){
-					//TODO
+				}else{
+					for(ConstraintWrapper<?> cw : cr.getStrata()){
+						cr.getWrappedCriterion().addStrata(cw.configure());
+					}
+					//TODO sysout
+					for(Object c : cr.getWrappedCriterion().getStrata()){
+						System.out.println(c);
+					}
 				}
 			}
 			/* End of strata configuration */

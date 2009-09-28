@@ -12,8 +12,6 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
-import lombok.Getter;
-import lombok.Setter;
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.criteria.AbstractCriterion;
@@ -86,11 +84,27 @@ public class CriterionWrapper<V extends Serializable> {
 	 * or not.
 	 */
 	private boolean isConstraint = false;
+	
+	public boolean isConstraint() {
+		return isConstraint;
+	}
+	
+	public void setConstraint(boolean isConstraint) {
+		this.isConstraint = isConstraint;
+	}
 
     /**
      * Flag indicating if the wrapped criterion is also an stratification factor.
      */
-    private boolean isStrataFactor = false;
+    private boolean strataFactor = false;
+    
+    public boolean isStrataFactor() {
+		return strataFactor;
+	}
+    
+    public void setStrataFactor(boolean strataFactor) {
+		this.strataFactor = strataFactor;
+	}
 
 	/**
 	 * String ID defining the showed criterion panel.
@@ -109,14 +123,6 @@ public class CriterionWrapper<V extends Serializable> {
 		this.wrappedCriterion = wrappedCriterion;
 	}
 
-	public boolean isConstraint() {
-		return isConstraint;
-	}
-
-	public void setConstraint(boolean isConstraint) {
-		this.isConstraint = isConstraint;
-	}
-
 	/**
 	 * Retrurn the l16ed name of an criterion.
 	 * 
@@ -126,6 +132,7 @@ public class CriterionWrapper<V extends Serializable> {
 		return ResourceBundle.getBundle(
 				"de.randi2.jsf.i18n.criteria",
 				((LoginHandler) FacesContext.getCurrentInstance()
+						
 						.getApplication().getELResolver().getValue(
 								FacesContext.getCurrentInstance()
 										.getELContext(), null, "loginHandler"))
@@ -179,7 +186,8 @@ public class CriterionWrapper<V extends Serializable> {
 	 * Check's if we're wrapping an ordinal criterion and if so, if there're any
 	 * elements defined.
 	 * 
-	 * @return true - if an OrdinalCriterion with defined Elements, false if not
+	 * @return true - if an
+	 *  OrdinalCriterion with defined Elements, false if not
 	 */
 	public boolean isElementsEmpty() {
 		if (OrdinalCriterion.class.isInstance(wrappedCriterion))
@@ -188,6 +196,9 @@ public class CriterionWrapper<V extends Serializable> {
 		return true;
 	}
 
+	/**
+	 * Ordinal criterion possible values/elements.
+	 */
 	private List<Integer> elements;
 
 	public List<Integer> getElements() {
@@ -207,7 +218,6 @@ public class CriterionWrapper<V extends Serializable> {
 	
 	@SuppressWarnings("unchecked")
 	public void inclusionConstraintChanged(ValueChangeEvent event){
-		System.out.println(event.getNewValue());
 			try {
 				List<V> l = new ArrayList<V>();
 				l.add((V) event.getNewValue());
@@ -227,47 +237,37 @@ public class CriterionWrapper<V extends Serializable> {
 			}
 	}
 
-    public boolean isStrataFactor(){
-        return isStrataFactor;
-    }
-
-    public void setStrataFactor(boolean newValue){
-        isStrataFactor=newValue;
-    }
-    
-    
     private boolean possibleStrata = true;
     
     public boolean isPossibleStrata() {
 		possibleStrata = !FreeTextCriterion.class.isInstance(wrappedCriterion);
     	return possibleStrata;
 	}
+        
+    private List<ConstraintWrapper<V>> strata = new ArrayList<ConstraintWrapper<V>>();
     
-    @Getter @Setter
-    private int strataGroupID;
-    
-    private List<SelectItem> strataGroupIDs = null;
-    
-    public List<SelectItem> getStrataGroupIDs() {
-		if(strataGroupIDs==null){
-			strataGroupIDs = new ArrayList<SelectItem>();
-			for(int i=1; i<=OrdinalCriterion.class.cast(wrappedCriterion).getConfiguredValues().size();i++ ){
-				strataGroupIDs.add(new SelectItem(i, "Group Nr "+i));
-			}
-		}
-    	return strataGroupIDs;
+    public List<ConstraintWrapper<V>> getStrata() {
+    	if(strata.size()==0){
+    		strata.add(new ConstraintWrapper<V>(1));
+    		strata.add(new ConstraintWrapper<V>(2));
+    	}
+		return strata;
 	}
     
-    private List<GregorianCalendar> dates = null;
+    public void addStrata(ActionEvent event){
+    	strata.add(new ConstraintWrapper<V>(strata.size()+1));
+    }
     
-    public List<GregorianCalendar> getDates() {
-		if(dates == null){
-			dates = new ArrayList<GregorianCalendar>();
-			dates.add(new GregorianCalendar());
-			dates.add(new GregorianCalendar());
-			dates.add(new GregorianCalendar());
-			dates.add(new GregorianCalendar());
-		}
-    	return dates;
-	}
+    private List<SelectItem> possibleValues = null;
+    
+    public List<SelectItem> getPossibleValues(){
+    	if(possibleValues == null){
+    		possibleValues = new ArrayList<SelectItem>();
+    		for(V value : wrappedCriterion.getConfiguredValues()){
+    			possibleValues.add(new SelectItem(value, value.toString()));
+    		}
+    	}
+    	return possibleValues;
+    }
+    
 }

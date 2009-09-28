@@ -36,14 +36,11 @@
 <ice:panelGroup styleClass="exampleBox" rendered="#{strata.stratified}">
 	<ice:panelGrid border="0" columns="2">
 		<ice:graphicImage value="/img/icons/properties48.png" />
-		<ice:outputLabel
-			value="Info for the stratification factor's configuration" />
+		<ice:outputLabel value="#{labels['pages.strata.factorsInfo']}" />
 	</ice:panelGrid>
 	<ice:panelSeries value="#{step4.criteria}" var="criterion"
 		style="padding:10px;float: left;">
-		<ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
-			xmlns:f="http://java.sun.com/jsf/core"
-			xmlns:ice="http://www.icesoft.com/icefaces/component"
+		<ice:panelGroup
 			style="float:left; padding-left: 2px; padding-top: 5px;"
 			rendered="#{criterion.possibleStrata}">
 			<b class="b1"></b>
@@ -53,16 +50,16 @@
 			<ice:panelGroup styleClass="contentb">
 				<ice:panelGrid columns="2">
 					<ice:panelGroup>
-						<ice:outputLabel value="Name*" />
+						<ice:outputLabel value="#{labels['pages.strata.name']}" />
 						<ice:outputLabel value="#{criterion.wrappedCriterion.name}" />
 					</ice:panelGroup>
 					<ice:panelGroup>
-						<ice:outputText value="Stratification factor?*" />
+						<ice:outputText value="#{labels['pages.strata.question']}" />
 						<ice:selectBooleanCheckbox value="#{criterion.strataFactor}"
 							partialSubmit="true" />
 					</ice:panelGroup>
 					<ice:panelGroup>
-						<ice:outputLabel value="Type*" />
+						<ice:outputLabel value="#{labels['pages.strata.type']}" />
 						<ice:outputLabel value="#{criterion.l16edName}" />
 					</ice:panelGroup>
 				</ice:panelGrid>

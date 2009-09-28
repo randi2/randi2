@@ -83,11 +83,11 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 		this.strata = strata;
 	}
 	
-	public void addStrata(C stratum){
+	public void addStrata(AbstractConstraint<?> abstractConstraint){
 		if(this.strata == null){
 			this.strata = new ArrayList<C>();
 		}
-		this.strata.add(stratum);
+		this.strata.add((C) abstractConstraint);
 	}
 	
 	public C stratify(V value) throws ContraintViolatedException{
