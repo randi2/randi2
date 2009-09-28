@@ -8,5 +8,7 @@ public interface ChartsService {
 	public ChartData generateRecruitmentChart(Trial trial);
 	
 	public ChartData generateArmChart(Trial trial);
+	
+	public ChartData generateRecruitmentChartTrialSite(Trial trial);
 
 }

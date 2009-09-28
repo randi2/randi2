@@ -104,6 +104,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		for(int i=0;i<100;i++){
 			TrialSubject subject = new TrialSubject();
 			 subject.setIdentification("identification" + i);
+			 subject.setTrialSite(validTrial.getLeadingSite());
 			service.randomize(validTrial,subject );
 		}
 		
@@ -142,6 +143,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		for(int i=0;i<randomizations;i++){
 			TrialSubject subject = new TrialSubject();
 			 subject.setIdentification("identification" + i);
+			 subject.setTrialSite(validTrial.getLeadingSite());
 			service.randomize(validTrial,subject );
 			if((i%blocksize)==(blocksize-1)){
 			assertEquals(validTrial.getTreatmentArms().get(0).getSubjects().size() ,validTrial.getTreatmentArms().get(1).getSubjects().size());
@@ -184,6 +186,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		for(int i=0;i<100;i++){
 			TrialSubject subject = new TrialSubject();
 			 subject.setIdentification("identification" + i);
+			 subject.setTrialSite(validTrial.getLeadingSite());
 			service.randomize(validTrial,subject );
 		}
 		
@@ -224,6 +227,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		for(int i=0;i<100;i++){
 			TrialSubject subject = new TrialSubject();
 			 subject.setIdentification("identification" + i);
+			 subject.setTrialSite(validTrial.getLeadingSite());
 			service.randomize(validTrial,subject );
 		}
 		
@@ -263,6 +267,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		for(int i=0;i<100;i++){
 			TrialSubject subject = new TrialSubject();
 			 subject.setIdentification("identification" + i);
+			 subject.setTrialSite(validTrial.getLeadingSite());
 			service.randomize(validTrial,subject );
 		}
 		sessionFactory.getCurrentSession().clear();
