@@ -12,9 +12,11 @@ import org.hibernate.annotations.Where;
 
 import de.randi2.randomization.RandomizationAlgorithm;
 import de.randi2.randomization.UrnDesign;
+import de.randi2.utility.validations.randomizationConfiguration.UrnRandomizationConfigA;
 
 @Entity
 @Data
+@UrnRandomizationConfigA
 @EqualsAndHashCode(callSuper=true)
 public class UrnDesignConfig extends AbstractRandomizationConfig {
 
