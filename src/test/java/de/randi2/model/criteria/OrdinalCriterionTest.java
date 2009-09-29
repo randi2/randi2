@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -132,7 +133,8 @@ private OrdinalCriterion criterion;
 	}
 	
 	@Test
-	public void databaseIntegrationTest() {
+	public void databaseIntegrationTestPlainOrdinal() {
+		Session session = sessionFactory.openSession();
 		criterion.setName("name");
 		criterion.setDescription("test");
 		List<String> elements = new ArrayList<String>();
@@ -147,21 +149,24 @@ private OrdinalCriterion criterion;
 			temp.add(new OrdinalConstraint(Arrays.asList(new String[]{elements.get(1)})));
 		
 			OrdinalConstraint constraint = new OrdinalConstraint(Arrays.asList(elements.get(0)));
-			hibernateTemplate.save(constraint);
+			session.save(constraint);
 			assertTrue(constraint.getId()>0);
 			criterion.setInclusionConstraint(constraint);
 
 
-			hibernateTemplate.save(criterion);
+			session.save(criterion);
 			assertTrue(criterion.getId()>0);
 			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
-			hibernateTemplate.save(temp.get(0));
-			hibernateTemplate.save(temp.get(1));
+			session.save(temp.get(0));
+			session.save(temp.get(1));
 			assertTrue(temp.get(0).getId() > 0);
 			assertTrue(temp.get(1).getId() > 0);
 			criterion.setStrata(temp);
-			hibernateTemplate.update(criterion);
-			OrdinalCriterion dbCriterion = (OrdinalCriterion) hibernateTemplate.get(OrdinalCriterion.class,criterion.getId());
+			session.update(criterion);
+			session.flush();
+			session.close();
+			session = sessionFactory.openSession();
+			OrdinalCriterion dbCriterion = (OrdinalCriterion) session.get(OrdinalCriterion.class,criterion.getId());
 			assertEquals(criterion, dbCriterion);
 			assertEquals(criterion.getName(), dbCriterion.getName());
 			assertEquals(criterion.getDescription(), dbCriterion.getDescription());
@@ -171,6 +176,64 @@ private OrdinalCriterion criterion;
 			assertTrue(dbCriterion.getElements().containsAll(elements));
 			assertTrue(elements.containsAll(dbCriterion.getElements()));
 
+		} catch (ContraintViolatedException e) {
+			//fail();
+		}
+	}
+	
+	@Test
+	public void databaseIntegrationTestWithConstraintsAndStrata() {
+		Session session = sessionFactory.openSession();
+		criterion.setName("name");
+		criterion.setDescription("test");
+		List<String> elements = new ArrayList<String>();
+		elements.add("Value1");
+		elements.add("Value2");
+		elements.add("Value3");
+		elements.add("Value4");
+		criterion.setElements(elements);
+		try {
+			ArrayList<OrdinalConstraint> temp = new ArrayList<OrdinalConstraint>();
+			temp.add(new OrdinalConstraint(Arrays.asList(new String[]{elements.get(0)})));
+			temp.add(new OrdinalConstraint(Arrays.asList(new String[]{elements.get(1)})));
+		
+			OrdinalConstraint constraint = new OrdinalConstraint(Arrays.asList(elements.get(0)));
+			session.save(constraint);
+			assertTrue(constraint.getId()>0);
+			criterion.setInclusionConstraint(constraint);
+
+			
+			ArrayList<OrdinalConstraint> tempS = new ArrayList<OrdinalConstraint>();
+			tempS.add(new OrdinalConstraint(Arrays.asList(new String[]{elements.get(0), elements.get(1)})));
+			tempS.add(new OrdinalConstraint(Arrays.asList(new String[]{elements.get(2),elements.get(3)})));
+			session.save(tempS.get(0));
+			session.save(tempS.get(1));
+			
+			criterion.setStrata(tempS);
+			
+			session.save(criterion);
+			assertTrue(criterion.getId()>0);
+			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
+			assertEquals(2, criterion.getStrata().size());
+			session.save(temp.get(0));
+			session.save(temp.get(1));
+			assertTrue(temp.get(0).getId() > 0);
+			assertTrue(temp.get(1).getId() > 0);
+			criterion.setStrata(temp);
+			session.update(criterion);
+			session.flush();
+			session.close();
+			session = sessionFactory.openSession();
+			OrdinalCriterion dbCriterion = (OrdinalCriterion) session.get(OrdinalCriterion.class,criterion.getId());
+			assertEquals(criterion, dbCriterion);
+			assertEquals(criterion.getName(), dbCriterion.getName());
+			assertEquals(criterion.getDescription(), dbCriterion.getDescription());
+			assertEquals(constraint.getId(), dbCriterion.getInclusionConstraint().getId());
+			assertEquals(OrdinalConstraint.class, dbCriterion.getContstraintType());
+			assertEquals(4, dbCriterion.getElements().size());
+			assertTrue(dbCriterion.getElements().containsAll(elements));
+			assertTrue(elements.containsAll(dbCriterion.getElements()));
+			assertEquals(2, dbCriterion.getStrata().size());
 		} catch (ContraintViolatedException e) {
 			//fail();
 		}

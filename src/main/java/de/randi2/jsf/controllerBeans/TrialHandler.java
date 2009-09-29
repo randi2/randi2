@@ -53,8 +53,10 @@ import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
+import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
+import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
@@ -252,7 +254,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		for (CriterionWrapper<? extends Serializable> cr : temp1.getCriteria()) {
 			/* Strata configuration */
 			if(cr.isStrataFactor()){
-				if(DichotomousConstraint.class.isInstance(cr.getWrappedCriterion())){
+				if(DichotomousCriterion.class.isInstance(cr.getWrappedCriterion())){
 					DichotomousCriterion temp = DichotomousCriterion.class.cast(cr.getWrappedCriterion());
 		    		try {
 						temp.addStrata(new DichotomousConstraint(Arrays.asList(new String[]{temp.getConfiguredValues().get(0)})));
@@ -261,7 +263,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}else{
+				}	else{
 					for(ConstraintWrapper<?> cw : cr.getStrata()){
 						cr.getWrappedCriterion().addStrata(cw.configure());
 					}

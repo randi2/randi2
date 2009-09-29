@@ -50,6 +50,8 @@
 				</value>
 				<value>de.randi2.model.criteria.constraints.FreeTextConstraint
 				</value>
+				<value>de.randi2.model.criteria.constraints.OrdinalConstraint
+				</value>
 				<value>de.randi2.model.randomization.BlockRandomizationTempData
 				</value>
 				<value>de.randi2.model.randomization.Block

@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.context.ManagedSessionContext;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -121,6 +123,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 	
 	@Test
 	public void databaseIntegrationTest() {
+		Session session = sessionFactory.openSession();
 		criterion.setDescription("test");
 		criterion.setOption1("Ja");
 		criterion.setOption2("Nein");
@@ -130,24 +133,66 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 			temp.add(new DichotomousConstraint(Arrays.asList(new String[]{"Nein"})));
 		
 			DichotomousConstraint constraint = new DichotomousConstraint(Arrays.asList(new String[]{"Ja"}));
-			hibernateTemplate.save(constraint);
-			assertTrue(constraint.getId()>0);
+//			session.save(constraint)
+//			assertTrue(constraint.getId()>0);
 			criterion.setInclusionConstraint(constraint);
 
 
-			hibernateTemplate.save(criterion);
+			session.save(criterion);
 			assertTrue(criterion.getId()>0);
 			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
-			hibernateTemplate.save(temp.get(0));
-			hibernateTemplate.save(temp.get(1));
-			assertTrue(temp.get(0).getId() > 0);
-			assertTrue(temp.get(1).getId() > 0);
+//			session.save(temp.get(0));
+//			session.save(temp.get(1));
+//			assertTrue(temp.get(0).getId() > 0);
+//			assertTrue(temp.get(1).getId() > 0);
 			criterion.setStrata(temp);
-			hibernateTemplate.update(criterion);
-			DichotomousCriterion dbCriterion = (DichotomousCriterion) hibernateTemplate.get(DichotomousCriterion.class,criterion.getId());
+			session.update(criterion);
+			session.flush();
+			session.close();
+			session = sessionFactory.openSession();
+			DichotomousCriterion dbCriterion = (DichotomousCriterion) session.get(DichotomousCriterion.class,criterion.getId());
 			assertEquals(criterion, dbCriterion);
 			assertEquals(constraint.getId(), dbCriterion.getInclusionConstraint().getId());
 			assertEquals(DichotomousConstraint.class, dbCriterion.getContstraintType());
+
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void databaseIntegrationTestWithStata() {
+		Session session = sessionFactory.openSession();
+		criterion.setDescription("test");
+		criterion.setOption1("Ja");
+		criterion.setOption2("Nein");
+		try {
+			ArrayList<DichotomousConstraint> temp = new ArrayList<DichotomousConstraint>();
+			temp.add(new DichotomousConstraint(Arrays.asList(new String[]{"Ja"})));
+			temp.add(new DichotomousConstraint(Arrays.asList(new String[]{"Nein"})));
+		
+			DichotomousConstraint constraint = new DichotomousConstraint(Arrays.asList(new String[]{"Ja"}));
+			session.save(constraint);
+			assertTrue(constraint.getId()>0);
+			criterion.setInclusionConstraint(constraint);
+
+			session.save(criterion);
+			assertTrue(criterion.getId()>0);
+			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
+			session.save(temp.get(0));
+			session.save(temp.get(1));
+			assertTrue(temp.get(0).getId() > 0);
+			assertTrue(temp.get(1).getId() > 0);
+			criterion.setStrata(temp);
+			session.update(criterion);
+			session.flush();
+			session.close();
+			session = sessionFactory.openSession();
+			DichotomousCriterion dbCriterion = (DichotomousCriterion)session.get(DichotomousCriterion.class,criterion.getId());
+			assertEquals(criterion, dbCriterion);
+			assertEquals(constraint.getId(), dbCriterion.getInclusionConstraint().getId());
+			assertEquals(DichotomousConstraint.class, dbCriterion.getContstraintType());
+			assertEquals(2,dbCriterion.getStrata().size());
 
 		} catch (ContraintViolatedException e) {
 			fail();

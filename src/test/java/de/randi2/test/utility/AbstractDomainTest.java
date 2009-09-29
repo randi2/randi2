@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.hibernate.SessionFactory;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 import org.junit.runner.RunWith;
@@ -26,6 +27,7 @@ public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 	@Autowired protected TestStringUtil stringUtil;
 	@Autowired protected DomainObjectFactory factory;
 	@Autowired protected ApplicationContext context; 
+	@Autowired protected SessionFactory sessionFactory;
 	
 	protected Class<TC> testClass;
 
