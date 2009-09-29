@@ -1,4 +1,4 @@
-package de.randi2.utility.validations;
+package de.randi2.utility.validations.randomizationConfiguration;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -14,5 +14,5 @@ import org.hibernate.validator.ValidatorClass;
 @Documented
 public @interface BlockRandomizationConfigA {
 
-	String message() default "{validator.contactPerson}"; 
+	String message() default "{validator.blockRandomization}"; 
 }

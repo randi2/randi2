@@ -9,10 +9,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import de.randi2.randomization.BlockRandomization;
 import de.randi2.randomization.RandomizationAlgorithm;
-import de.randi2.utility.validations.BlockRandomizationConfigA;
 
 @Entity
-@BlockRandomizationConfigA
+//@BlockRandomizationConfigA
 @Data
 @EqualsAndHashCode(callSuper=true)
 public class BlockRandomizationConfig extends AbstractRandomizationConfig {

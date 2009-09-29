@@ -1,4 +1,4 @@
-package de.randi2.utility.validations;
+package de.randi2.utility.validations.randomizationConfiguration;
 
 import org.hibernate.validator.Validator;
 
