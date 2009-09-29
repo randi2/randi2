@@ -104,8 +104,10 @@ public class ChartsServiceImpl implements ChartsService {
 					subjects1.remove(subject);
 				}
 			}
-			data.add(count);
 			i++;
+		}
+		for(double j : count){
+			data.add(new double[]{j});
 		}
 		chData.setData(data);
 		chData.setXLabels(xL);

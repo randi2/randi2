@@ -99,8 +99,6 @@
 				</f:facet>
 			</ice:column>
 		</ice:dataTable>
-	
-			 <ice:panelGroup styleClass="exampleBox dataScrollingContainer">
 			 	<ice:outputLabel value="Please, select a file type for download: " />
         <ice:selectOneMenu id="type" value="#{dataExporter.type}" partialSubmit="true"
             valueChangeListener="#{dataExporter.typeChangeListener}" >
@@ -109,17 +107,23 @@
             <f:selectItem itemLabel="CSV (comma separated values)" itemValue="csv"/>
         </ice:selectOneMenu>
         
-       <ice:panelGroup effect="#{dataExporter.changeEffect}" style="width:180px;" rendered="#{dataExporter.showDownload}">
+     <ice:panelGroup effect="#{dataExporter.changeEffect}" style="width:180px;" rendered="#{dataExporter.showDownload}">
             <ice:dataExporter for="trialSubjectsTable"
                 label="Click to download #{dataExporter.type} file"
                 type="#{dataExporter.type}"
                 clickToCreateFileText="Click to create #{dataExporter.type} file "/>
        </ice:panelGroup>
-       </ice:panelGroup>
+
+	
 	</ice:panelGroup>
 	<ice:panelGroup style="margin-top: 10px;">
 		<f:subview id="recruitmentChart">
 			<jsp:directive.include file="./inc/panels/charts/recruitmentChart.jspx" />
+		</f:subview>
+	</ice:panelGroup>
+	<ice:panelGroup style="margin-top: 10px;">
+		<f:subview id="recruitmentTrialSiteChart">
+			<jsp:directive.include file="./inc/panels/charts/recruitmentTrialSiteChart.jspx" />
 		</f:subview>
 	</ice:panelGroup>
 </ice:panelGroup>

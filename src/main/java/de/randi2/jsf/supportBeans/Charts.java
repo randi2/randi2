@@ -35,6 +35,9 @@ public class Charts {
 	private String rChartType = "barclustered";
 	
 	@Getter @Setter
+	private String rTrialSiteChartType = "barclustered";
+	
+	@Getter @Setter
 	private String aChartType = "barclustered";
 
 	/**
@@ -77,6 +80,12 @@ public class Charts {
 	public ChartData getAChartData(){
 		if (trialHandler.getShowedObject() != null)
 			return service.generateArmChart(trialHandler.getShowedObject());
+		return null;
+	}
+	
+	public ChartData getRTrialSiteChartData(){
+		if (trialHandler.getShowedObject() != null)
+			return service.generateRecruitmentChartTrialSite(trialHandler.getShowedObject());
 		return null;
 	}
 
