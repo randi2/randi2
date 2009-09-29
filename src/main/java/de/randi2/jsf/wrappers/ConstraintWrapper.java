@@ -3,6 +3,7 @@ package de.randi2.jsf.wrappers;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.faces.event.ValueChangeEvent;
 
@@ -28,8 +29,11 @@ public class ConstraintWrapper<V extends Serializable> {
 	
 	@SuppressWarnings("unchecked")
 	public void update(ValueChangeEvent event){
-		try{
-			wrappedConstraint = (AbstractConstraint<V>) new OrdinalConstraint(Arrays.asList((String[]) event.getNewValue()));
+		List<V> tValues;
+        try{
+			tValues = Arrays.asList((V[]) event.getNewValue());
+            if(!tValues.isEmpty())
+                wrappedConstraint = (AbstractConstraint<V>) new OrdinalConstraint((List<String>)tValues);
 		}catch(ClassCastException ex1){
 			//TODO ?
 			ex1.printStackTrace();
