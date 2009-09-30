@@ -5,7 +5,6 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Random;
 
-import org.apache.derby.tools.sysinfo;
 import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
