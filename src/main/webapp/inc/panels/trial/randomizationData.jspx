@@ -60,10 +60,7 @@
 	</ice:panelGroup>
 	</ice:panelGroup>
 	<ice:panelGroup style="margin-top: 10px;">
-	
-
-	
-		<ice:outputLabel value="#{labels['pages.randomizationData.randomizationOverview']}" />
+        <ice:outputLabel value="#{labels['pages.randomizationData.randomizationOverview']}"/>
 		<ice:dataTable id="trialSubjectsTable"
 			value="#{trialHandler.showedObject.subjects}" var="tSubject"
 			columnWidths="20px,150px,150px,100px,350px" cellpadding="0"
@@ -113,15 +110,12 @@
             <f:selectItem itemLabel="MS Excel" itemValue="excel"/>
             <f:selectItem itemLabel="CSV (comma separated values)" itemValue="csv"/>
         </ice:selectOneMenu>
-        
-     <ice:panelGroup effect="#{dataExporter.changeEffect}" style="width:180px;" rendered="#{dataExporter.showDownload}">
+        <ice:panelGroup effect="#{dataExporter.changeEffect}" style="width:180px;" rendered="#{dataExporter.showDownload}">
             <ice:dataExporter for="trialSubjectsTable"
                 label="Click to download #{dataExporter.type} file"
                 type="#{dataExporter.type}"
                 clickToCreateFileText="Click to create #{dataExporter.type} file "/>
        </ice:panelGroup>
-
-	
 	</ice:panelGroup>
 	<ice:panelGroup style="margin-top: 10px;">
 		<f:subview id="recruitmentChart">
@@ -134,8 +128,3 @@
 		</f:subview>
 	</ice:panelGroup>
 </ice:panelGroup>
-
-
-
-
-

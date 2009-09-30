@@ -17,20 +17,18 @@
 <ice:form id="header" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:panelGrid columns="2">
-		<ice:panelGroup styleClass="icePnlClpsbl" style="margin-right: 75px;">
-			<ice:panelGroup style="width: 200px; padding: 5px;" styleClass="icePnlClpsblCnt">
-				<ice:outputLabel value="#{labels['pages.header.sTrial']}" rendered="#{randi2Page.currentTrial!=null}"/>
-				<ice:outputLabel value="#{labels['pages.header.noTrial']}" rendered="#{randi2Page.currentTrial==null}" style="color: #FF4500"/>
-				<ice:outputText value="#{randi2Page.currentTrial.UIName}" />
-			</ice:panelGroup>
-		</ice:panelGroup>
-		<ice:panelGrid columns="4">
+		<ice:panelGrid columns="4" style="position:absolute;right:0;top:0;">
 			<ice:graphicImage value="/img/icons/user32.png" />
 			<ice:outputLabel id="userHeader"
 				value="#{loginHandler.loggedInUser.person.firstname} #{loginHandler.loggedInUser.person.surname}" />
 			<ice:graphicImage value="/img/separetor.png" />
 			<ice:outputConnectionStatus />
 		</ice:panelGrid>
-	</ice:panelGrid>
+        <ice:panelGroup styleClass="icePnlClpsbl" style="margin-right: 75px;position:absolute;right:0;top:1;">
+			<ice:panelGroup style="width: 200px; padding: 5px;" styleClass="icePnlClpsblCnt">
+				<ice:outputLabel value="#{labels['pages.header.sTrial']}" rendered="#{randi2Page.currentTrial!=null}"/>
+				<ice:outputLabel value="#{labels['pages.header.noTrial']}" rendered="#{randi2Page.currentTrial==null}" style="color: #FF4500"/>
+				<ice:outputText value="#{randi2Page.currentTrial.UIName}" />
+			</ice:panelGroup>
+		</ice:panelGroup>
 </ice:form>

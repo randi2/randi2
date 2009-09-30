@@ -15,7 +15,9 @@
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
 
-<ice:panelGroup style="width: 550px;">
+<ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" style="width: 550px;">
 	<ice:panelGrid columns="2" style="width: 550px;">
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
