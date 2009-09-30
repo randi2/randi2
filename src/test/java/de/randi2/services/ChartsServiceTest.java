@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -393,6 +394,7 @@ public class ChartsServiceTest extends AbstractServiceTest{
 	}
 	
 	@Test
+	@Ignore
 	public void testGenerateRecruitmentChartTrialSite2(){
 		randomizeInValidTrialTwoTrialSites31();
 		ChartData chartData = chartsService.generateRecruitmentChartTrialSite(validTrial);
