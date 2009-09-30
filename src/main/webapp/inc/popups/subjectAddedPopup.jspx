@@ -22,25 +22,25 @@
 		rendered="#{popups.subjectAddedPVisible}"
 		style="width: 300px; height: auto">
 		<f:facet name="header">
-			<ice:outputText value="The subject has been added to the trial*"></ice:outputText>
+			<ice:outputText value="#{labels['pages.subjectAddedPopup.header']}"/>
 		</f:facet>
 		<f:facet name="body">
 			<ice:panelGroup>
 				<ice:panelGrid columns="2">
-					<ice:graphicImage value="/img/icons/saved48.png"></ice:graphicImage>
+					<ice:graphicImage value="/img/icons/saved48.png"/>
 					<ice:outputText
-						value="The subject has been successfuly added to the chosen trial. Further information below.*"
-						escape="false"></ice:outputText>
+						value="#{labels['pages.subjectAddedPopup.message']}"
+						escape="false"/>
 				</ice:panelGrid>
 				<ice:panelGrid columns="2">
-					<ice:outputLabel value="Subject ID*" />
+					<ice:outputLabel value="#{labels['pages.subjectAddedPopup.info1']}" />
 					<ice:outputText value="#{tSubjectAdd.subjectID }" />
-					<ice:outputLabel value="Trial arm*" />
+					<ice:outputLabel value="#{labels['pages.subjectAddedPopup.info2']}" />
 					<ice:outputText value="#{tSubjectAdd.subjectArm}" />
 				</ice:panelGrid>
 				<ice:panelGroup>
 					<ice:commandButton value="#{labels['buttons.ok']}"
-						action="#{popups.hideSubjectAddedPopup}" immediate="true"></ice:commandButton>
+						action="#{popups.hideSubjectAddedPopup}" immediate="true"/>
 				</ice:panelGroup>
 			</ice:panelGroup>
 		</f:facet>
