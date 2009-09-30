@@ -33,6 +33,10 @@ public class TrialServiceImpl implements TrialService {
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void create(Trial newTrial) {
 		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " create a new trial site with name " +newTrial.getName());
+		//added relationship between trial and treatment arm
+		for (TreatmentArm tA : newTrial.getTreatmentArms()) {
+			tA.setTrial(newTrial);
+		}
 		trialDao.create(newTrial);
 		sessionFactory.getCurrentSession().flush();
 	}
@@ -112,7 +116,11 @@ public class TrialServiceImpl implements TrialService {
 		// Map of variables for the subject
 	
 
+		try{
 		language = trial.getSponsorInvestigator().getLogin().getPrefLocale();
+		}catch (Exception e) {
+			language = Locale.getDefault();
+		}
 
 		try {
 			mailService.sendMail(trial.getSponsorInvestigator().getEmail(), "Randomize", language,
