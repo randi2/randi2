@@ -66,7 +66,7 @@
 		<ice:outputLabel value="#{labels['pages.randomizationData.randomizationOverview']}" />
 		<ice:dataTable id="trialSubjectsTable"
 			value="#{trialHandler.showedObject.subjects}" var="tSubject"
-			columnWidths="20px,200px,150px,350px" cellpadding="0"
+			columnWidths="20px,150px,150px,100px,350px" cellpadding="0"
 			scrollable="true" scrollHeight="200px">
 			<ice:column>
 				<ice:outputText value="#{tSubject.counter}" />
@@ -89,6 +89,13 @@
 				<f:facet name="header">
 					<ice:outputText
 						value="#{labels['pages.trialShowPanel.randomizationData.id']}" />
+				</f:facet>
+			</ice:column>
+				<ice:column>
+				<ice:outputText value="#{tSubject.arm.name}" />
+				<f:facet name="header">
+					<ice:outputText
+						value="#{labels['pages.trialShowPanel.randomizationData.treatmentArm']}" />
 				</f:facet>
 			</ice:column>
 			<ice:column>
