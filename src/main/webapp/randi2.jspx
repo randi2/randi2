@@ -37,13 +37,12 @@
 	<f:subview id="helpPopup">
 		<jsp:directive.include file="./inc/popups/helpPopup.jspx" />
 	</f:subview>
-	<div class="body">
-	<div class="contentRANDI2"><ice:panelBorder layout="hide east"
-		border="0" cellpadding="1" cellspacing="1" width="900px">
+    <ice:panelBorder layout="hide east"
+		border="0" cellpadding="1" cellspacing="1" width="100%" height="100%">
 
 		<f:facet name="north">
 			<ice:panelGroup id="northPanel">
-				<ice:panelGrid columns="2" width="100%">
+				<ice:panelGrid columns="2">
 					<f:subview id="versionInclude">
 						<jsp:directive.include file="./inc/version.jspx" />
 					</f:subview>
@@ -130,7 +129,7 @@
 						<tr>
 							<td align="center"><ice:outputText
 								value="&#169; #{randi2.year} RANDI2 Development Team.
-							&#160; &#8226; &#160;"></ice:outputText><ice:outputLink
+							&#160; &#8226; &#160;"/><ice:outputLink
 								value="#{randi2.website1}" target="_blank">
 								<ice:outputText value="#{randi2.website1}" />
 							</ice:outputLink></td>
@@ -139,8 +138,7 @@
 				</ice:panelGroup>
 			</ice:panelGrid>
 		</f:facet>
-	</ice:panelBorder></div>
-	</div>
+	</ice:panelBorder>
 	</body>
 	</html>
 </f:view>

@@ -15,7 +15,9 @@
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
 
-<ice:panelGroup style="width: 550px;">
+<ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" style="width: 550px;">
 	<ice:dataTable id="trialSitesTable" border="1"
 		value="#{trialHandler.showedObject.participatingSites}" var="trialSite"
 		width="550px">
