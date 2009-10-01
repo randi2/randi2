@@ -25,12 +25,12 @@
 	<ice:panelCollapsible id="algoPanel" expanded="true"
 		toggleOnClick="true">
 		<f:facet name="header">
-			<ice:outputLabel value="#{labels['trial.randomConf']}"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['trial.randomConf']}"/>
 		</f:facet>
 		<ice:selectOneMenu id="algorithmType" partialSubmit="true" value="#{step5.selectedAlgorithmPanelId}">
 			<f:selectItems value="#{step5.algorithms}" />
 		</ice:selectOneMenu>
-		<ice:message for="algorithmType"></ice:message>
+		<ice:message for="algorithmType"/>
 	</ice:panelCollapsible>
 </ice:panelGroup>
 <ice:panelGroup>
