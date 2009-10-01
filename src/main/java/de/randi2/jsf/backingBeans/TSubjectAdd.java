@@ -99,7 +99,6 @@ public class TSubjectAdd {
 			tempSet.add((SubjectProperty) cw.getSubjectProperty());
 		}
 		trialSubject.setProperties(tempSet);
-		trialSubject.setTrialSite(loginHandler.getLoggedInUser().getPerson().getTrialSite());
 		currentTrial = trialService.randomize(currentTrial,trialSubject);
 		subjectID = trialSubject.getIdentification();
 		subjectArm = trialSubject.getArm().getUIName();
