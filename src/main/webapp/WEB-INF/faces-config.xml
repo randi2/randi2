@@ -349,6 +349,18 @@
 		</managed-property>
 	</managed-bean>
 
+    <managed-bean>
+        <managed-bean-name>algorithmInfo</managed-bean-name>
+        <managed-bean-class>de.randi2.jsf.backingBeans.AlgorithmInfo</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>randi2Page</property-name>
+            <property-class>de.randi2.jsf.backingBeans.Randi2Page</property-class>
+            <value>#{randi2Page}</value>
+        </managed-property>
+
+    </managed-bean>
+
 	<navigation-rule>
 		<display-name>refresh</display-name>
 		<from-view-id>/randi2.jspx</from-view-id>
