@@ -27,7 +27,13 @@
 			<f:facet name="header">
 				<ice:outputLabel value="Algorithm*"/>
 			</f:facet>
-			<ice:outputText value="#{algorithmInfo.algName}" />
+            <ice:panelGrid columns="2">
+                <ice:outputLabel value="Type*:"/>
+                <ice:outputText value="#{algorithmInfo.algName}" />
+                <ice:outputLabel value="Further details:*"/>
+                <ice:outputText value="#{algorithmInfo.furtherDetails}"/>
+            </ice:panelGrid>
+
 	</ice:panelCollapsible>
     <ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
@@ -35,8 +41,12 @@
 			</f:facet>
             <ice:outputText value="#{algorithmInfo.stratified}"/>
 	</ice:panelCollapsible>
-    <ice:outputLabel rendered="#{algorithmInfo.stratified}" value="Definded strata*:"/>
-    <ice:panelSeries rendered="#{algorithmInfo.stratified}" value="#{algorithmInfo.strata}" var="criterion"
+    <ice:panelGroup styleClass="exampleBox" rendered="#{algorithmInfo.stratified}">
+    <ice:panelGrid border="0" columns="2">
+		<ice:graphicImage value="/img/icons/properties48.png" />
+		<ice:outputLabel value="Defined strata:*" />
+	</ice:panelGrid>
+    <ice:panelSeries value="#{algorithmInfo.strata}" var="criterion"
 		style="padding:10px;float: left;">
 		<ice:panelGroup
 			style="float:left; padding-left: 2px; padding-top: 5px;"
@@ -94,4 +104,5 @@
 			<b class="b1"></b>
 		</ice:panelGroup>
 	</ice:panelSeries>
+    </ice:panelGroup>
 </ice:panelGroup>

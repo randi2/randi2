@@ -24,9 +24,9 @@
 				value="#{labels['pages.strata.group']} #{stratum.groupNr}" />
 			<ice:panelGrid columns="4">
 				<ice:outputLabel value="#{labels['pages.strata.date.from']}" />
-				<ice:outputText value="#{stratum.date1.time}"/>
+				<ice:outputText value="#{stratum.formatedDate1}"/>
 				<ice:outputLabel value="#{labels['pages.strata.date.till']}" />
-				<ice:outputText value="#{stratum.date2.time}"/>
+				<ice:outputText value="#{stratum.formatedDate2}"/>
 			</ice:panelGrid>
 		</ice:panelGrid>
 	</ice:panelSeries>

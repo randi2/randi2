@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.text.SimpleDateFormat;
 
 import javax.faces.event.ValueChangeEvent;
 
@@ -72,4 +73,14 @@ public class ConstraintWrapper<V extends Serializable> {
 		}
 		return wrappedConstraint;
 	}
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
+    public String getFormatedDate1(){
+        return sdf.format(date1.getTime());
+    }
+
+    public String getFormatedDate2(){
+        return sdf.format(date2.getTime());
+    }
 }
