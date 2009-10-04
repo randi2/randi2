@@ -361,7 +361,6 @@ public class Bootstrap {
 		trial = trialService.getObject(trial.getId());
 		
 		TrialSubject subject = new TrialSubject();
-		subject.setTrialSite(login.getPerson().getTrialSite());
 		
 		trialService.randomize(trial, subject);
 		subject.setCreatedAt(date);

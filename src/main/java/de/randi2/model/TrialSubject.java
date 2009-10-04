@@ -54,6 +54,9 @@ public class TrialSubject extends AbstractDomainObject {
 
 	@ManyToOne
 	private TrialSite trialSite;
+	
+	@ManyToOne
+	private Person investigator;
 
 	@NotNull
 	@ManyToOne(cascade = CascadeType.ALL)

@@ -47,6 +47,8 @@ public class TrialServiceImpl implements TrialService {
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public Trial randomize(Trial trial, TrialSubject subject) {
 		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " randomized in trial " +trial.getName());
+		subject.setTrialSite(((Login)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson().getTrialSite());
+		subject.setInvestigator(((Login)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson());
 		TreatmentArm assignedArm = trial.getRandomizationConfiguration().getAlgorithm().randomize(subject);
 		subject.setArm(assignedArm);
 		//TODO Internal Subject's Identification
