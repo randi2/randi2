@@ -113,6 +113,13 @@ public class CriterionWrapper<V extends Serializable> {
 
 	public CriterionWrapper(AbstractCriterion<V, ?> _criterion) {
 		wrappedCriterion = _criterion;
+        if(wrappedCriterion.getStrata()!=null){
+            int stratumNr = 1;
+            for(AbstractConstraint<V> c : wrappedCriterion.getStrata()){
+                strata.add(new ConstraintWrapper(stratumNr, c));
+                stratumNr++;
+            }
+        }
 	}
 
 	public AbstractCriterion<?, ?> getWrappedCriterion() {

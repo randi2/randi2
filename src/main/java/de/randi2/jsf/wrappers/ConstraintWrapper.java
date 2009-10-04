@@ -26,6 +26,15 @@ public class ConstraintWrapper<V extends Serializable> {
 	public ConstraintWrapper(int nr){
 		groupNr = nr;
 	}
+
+    public ConstraintWrapper(int nr, AbstractConstraint<V> _constraint){
+        groupNr = nr;
+        wrappedConstraint = _constraint;
+        if(DateConstraint.class.isInstance(_constraint)){
+           date1 = DateConstraint.class.cast(wrappedConstraint).getFirstDate();
+           date2 = DateConstraint.class.cast(wrappedConstraint).getSecondDate();
+        }
+    }
 	
 	@SuppressWarnings("unchecked")
 	public void update(ValueChangeEvent event){

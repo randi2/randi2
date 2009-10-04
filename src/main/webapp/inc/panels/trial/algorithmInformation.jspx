@@ -23,21 +23,20 @@
 <ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" style="width: 550px;">
-    <ice:panelGrid columns="2">
-       <ice:panelCollapsible expanded="true" toggleOnClick="false">
+    <ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
 				<ice:outputLabel value="Algorithm*"/>
 			</f:facet>
 			<ice:outputText value="#{algorithmInfo.algName}" />
 	</ice:panelCollapsible>
-        <ice:panelCollapsible expanded="true" toggleOnClick="false">
+    <ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
 				<ice:outputLabel value="Stratified*"/>
 			</f:facet>
             <ice:outputText value="#{algorithmInfo.stratified}"/>
 	</ice:panelCollapsible>
-    </ice:panelGrid>
-<ice:panelSeries rendered="#{algorithmInfo.stratified}" value="#{algorithmInfo.strata}" var="criterion"
+    <ice:outputLabel rendered="#{algorithmInfo.stratified}" value="Definded strata*:"/>
+    <ice:panelSeries rendered="#{algorithmInfo.stratified}" value="#{algorithmInfo.strata}" var="criterion"
 		style="padding:10px;float: left;">
 		<ice:panelGroup
 			style="float:left; padding-left: 2px; padding-top: 5px;"
@@ -53,41 +52,36 @@
 						<ice:outputLabel value="#{criterion.wrappedCriterion.name}" />
 					</ice:panelGroup>
 					<ice:panelGroup>
-						<ice:outputText value="#{labels['pages.strata.question']}" />
-						<ice:selectBooleanCheckbox value="#{criterion.strataFactor}"
-							partialSubmit="true" />
-					</ice:panelGroup>
-					<ice:panelGroup>
 						<ice:outputLabel value="#{labels['pages.strata.type']}" />
 						<ice:outputLabel value="#{criterion.l16edName}" />
 					</ice:panelGroup>
 				</ice:panelGrid>
 				<ice:panelGrid columns="2">
 					<ice:panelGroup>
-						<ice:panelStack id="configurationPanelStack"
+						<ice:panelStack id="strataGroupsStack"
 							selectedPanel="#{criterion.panelType}">
 							<ice:panelGroup id="criterionErrorPanel">
 								<f:subview id="error">
 									<jsp:directive.include
-										file="./inc/panels/randomization/strataConfigurationPanels/sErrorPanel.jspx" />
+										file="./inc/panels/randomization/strataPresentationPanels/sErrorPanel.jspx" />
 								</f:subview>
 							</ice:panelGroup>
 							<ice:panelGroup id="datePanel">
 								<f:subview id="date">
 									<jsp:directive.include
-										file="./inc/panels/randomization/strataConfigurationPanels/datePanel.jspx" />
+										file="./inc/panels/randomization/strataPresentationPanels/datePanel.jspx" />
 								</f:subview>
 							</ice:panelGroup>
 							<ice:panelGroup id="dichotomousPanel">
 								<f:subview id="dichotomous">
 									<jsp:directive.include
-										file="./inc/panels/randomization/strataConfigurationPanels/dichotomousPanel.jspx" />
+										file="./inc/panels/randomization/strataPresentationPanels/dichotomousPanel.jspx" />
 								</f:subview>
 							</ice:panelGroup>
 							<ice:panelGroup id="ordinalPanel">
 								<f:subview id="ordinal">
 									<jsp:directive.include
-										file="./inc/panels/randomization/strataConfigurationPanels/ordinalPanel.jspx" />
+										file="./inc/panels/randomization/strataPresentationPanels/ordinalPanel.jspx" />
 								</f:subview>
 							</ice:panelGroup>
 						</ice:panelStack>
