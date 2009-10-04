@@ -46,7 +46,7 @@
 	</issueManagement>
 	<ciManagement>
 		<system>hudson</system>
-		<url>http://randi2.org:8080/hudson/</url>
+		<url>http://randi2.org/hudson/</url>
 	</ciManagement>
 	<organization>
 		<name>RANDI2 Core Development Team</name>
@@ -287,12 +287,12 @@
         <dependency>
             <groupId>org.icefaces</groupId>
             <artifactId>icefaces</artifactId>
-            <version>1.8.1</version>
+            <version>1.8.2</version>
         </dependency>
         <dependency>
             <groupId>org.icefaces</groupId>
             <artifactId>icefaces-comps</artifactId>
-            <version>1.8.1</version>
+            <version>1.8.2</version>
         </dependency>
         <dependency>
   	<groupId>net.sf.jcharts</groupId>
@@ -360,13 +360,13 @@
         <dependency>
             <groupId>javax.faces</groupId>
             <artifactId>jsf-api</artifactId>
-            <version>1.2_12</version>
+            <version>1.2_13</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>javax.faces</groupId>
             <artifactId>jsf-impl</artifactId>
-            <version>1.2_12</version>
+            <version>1.2_13</version>
             <type>jar</type>
         </dependency>
         <dependency>
