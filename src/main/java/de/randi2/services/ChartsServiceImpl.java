@@ -1,6 +1,9 @@
 package de.randi2.services;
 
+import static de.randi2.utility.ArithmeticUtil.cartesianProduct;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -124,7 +127,7 @@ public class ChartsServiceImpl implements ChartsService {
 		ArrayList<String> xL = new ArrayList<String>();
 		ArrayList<double[]> data = new ArrayList<double[]>();
 		HashMap<String, Double> strataCountMap = new HashMap<String, Double>();
-		HashMap<String, String> strataNameMap = new HashMap<String, String>();
+//		HashMap<String, String> strataNameMap = new HashMap<String, String>();
 	
 
 		HashMap<AbstractCriterion<?,?>, List<Long>> temp= new HashMap<AbstractCriterion<?,?>, List<Long>>();
@@ -136,26 +139,33 @@ public class ChartsServiceImpl implements ChartsService {
 			temp.put(cr, list);
 		}
 		
-		Set<Set<Object>> strataIds = new HashSet<Set<Object>>();
+		Set<Set<String>> strataIds = new HashSet<Set<String>>();
 		
 		for(AbstractCriterion<?,?> cr : temp.keySet()){
-			Set<Object> strataLevel = new HashSet<Object>();
+			Set<String> strataLevel = new HashSet<String>();
 			for(Long id : temp.get(cr)){
 				strataLevel.add(cr.getId()+"_"+id);
 			}
 			strataIds.add(strataLevel);
 		}
-		strataIds = cartesianProduct(strataIds);
 		
-		
-		
+		strataIds = cartesianProduct(strataIds.toArray(new HashSet[0]));
+//		List<String> allSubGroups = new ArrayList<String>();
+		for(Set<String> set : strataIds){
+			List<String> stringStrat = new ArrayList<String>();
+			for(String string : set){
+				stringStrat.add(string);
+			}
+			Collections.sort(stringStrat);
+			String strat = "";
+			for(String s : stringStrat){
+				strat+=s+";";
+			}
+			strataCountMap.put(strat, new Double(0));
+		}
 		for (TrialSubject subject : trial.getSubjects()) {
 				Double count = strataCountMap.get(subject.getStratum());
-				if(count==null){
-					count = 0.0;
-				}else{
-					count++;
-				}
+				count++;
 				strataCountMap.put(subject.getStratum(), count);
 			}
 	
@@ -168,34 +178,6 @@ public class ChartsServiceImpl implements ChartsService {
 		return chData;
 	}
 	
-	/**
-	 * from http://stackoverflow.com/questions/714108/cartesian-product-of-arbitrary-sets-in-java
-	 * @param sets
-	 * @return
-	 */
-	public static Set<Set<Object>> cartesianProduct(Set<?>... sets) {
-	    if (sets.length < 2)
-	        throw new IllegalArgumentException(
-	                "Can't have a product of fewer than two sets (got " +
-	                sets.length + ")");
-
-	    return _cartesianProduct(0, sets);
-	}
-
-	private static Set<Set<Object>> _cartesianProduct(int index, Set<?>... sets) {
-	    Set<Set<Object>> ret = new HashSet<Set<Object>>();
-	    if (index == sets.length) {
-	        ret.add(new HashSet<Object>());
-	    } else {
-	        for (Object obj : sets[index]) {
-	            for (Set<Object> set : _cartesianProduct(index+1, sets)) {
-	                set.add(obj);
-	                ret.add(set);
-	            }
-	        }
-	    }
-	    return ret;
-	}
-
+	
 	
 }
