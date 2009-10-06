@@ -8,5 +8,7 @@ public class Strata {
 	@Getter @Setter
 	private boolean stratified = false;
     
-	
+	public void clean(){
+		stratified = false;
+	}
 }

@@ -240,10 +240,10 @@ public class TrialHandler extends AbstractHandler<Trial> {
 				.getApplication().getExpressionFactory().createValueExpression(
 						FacesContext.getCurrentInstance().getELContext(),
 						"#{step4}", Step4.class);
-		Step4 temp1 = (Step4) ve1.getValue(FacesContext.getCurrentInstance()
+		Step4 currentStep4 = (Step4) ve1.getValue(FacesContext.getCurrentInstance()
 				.getELContext());
 		ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> configuredCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
-		for (CriterionWrapper<? extends Serializable> cr : temp1.getCriteria()) {
+		for (CriterionWrapper<? extends Serializable> cr : currentStep4.getCriteria()) {
 			/* Strata configuration */
 			if(cr.isStrataFactor()){
 				if(DichotomousCriterion.class.isInstance(cr.getWrappedCriterion())){
@@ -278,25 +278,25 @@ public class TrialHandler extends AbstractHandler<Trial> {
 				.getApplication().getExpressionFactory().createValueExpression(
 						FacesContext.getCurrentInstance().getELContext(),
 						"#{step5}", Step5.class);
-		Step5 temp2 = (Step5) ve2.getValue(FacesContext.getCurrentInstance()
+		Step5 currentStep5 = (Step5) ve2.getValue(FacesContext.getCurrentInstance()
 				.getELContext());
-		if (temp2.getSelectedAlgorithmPanelId().equals(
+		if (currentStep5.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())) {
 			showedObject
 					.setRandomizationConfiguration(new CompleteRandomizationConfig());
-		} else if (temp2.getSelectedAlgorithmPanelId().equals(
+		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
 			showedObject
 					.setRandomizationConfiguration(new BiasedCoinRandomizationConfig());
-		} else if (temp2.getSelectedAlgorithmPanelId().equals(
+		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
 			showedObject.setRandomizationConfiguration(randomizationConfig);
 		}
-		else if (temp2.getSelectedAlgorithmPanelId().equals(
+		else if (currentStep5.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString())) {
 			showedObject.setRandomizationConfiguration(new TruncatedBinomialDesignConfig());
 		}
-		else if (temp2.getSelectedAlgorithmPanelId().equals(
+		else if (currentStep5.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.URN_MODEL.toString())) {
 			showedObject.setRandomizationConfiguration(randomizationConfig);
 		}
@@ -304,6 +304,11 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 		trialService.create(showedObject);
 		popups.showTrialCreatedPopup();
+		currentStep4.clean();
+		currentStep5.clean();
+		randomizationConfig = null;
+		trialSitesAC = null;
+		sponsorInvestigatorsAC = null;
 		return Randi2.SUCCESS;
 		// } catch (Exception e) {
 		// e.printStackTrace();

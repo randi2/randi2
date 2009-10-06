@@ -247,7 +247,7 @@
 			subject properties configuration</description>
 		<managed-bean-name>step4</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.backingBeans.Step4</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
 			<property-name>loginHandler</property-name>
 			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
@@ -265,7 +265,7 @@
 			randomization algorithm configuration</description>
 		<managed-bean-name>step5</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.backingBeans.Step5</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
 			<property-name>loginHandler</property-name>
 			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
@@ -282,7 +282,7 @@
 		<description>Backing bean for the block randomization algorithm configuration</description>
 		<managed-bean-name>blockR</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.backingBeans.BlockR</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
 			<property-name>loginHandler</property-name>
 			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
@@ -299,7 +299,7 @@
 		<description>Backing bean for the stratification's configuration</description>
 		<managed-bean-name>strata</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.backingBeans.Strata</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 
 	<managed-bean>

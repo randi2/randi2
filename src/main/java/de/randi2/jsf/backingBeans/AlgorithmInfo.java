@@ -1,14 +1,13 @@
 package de.randi2.jsf.backingBeans;
 
-import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.wrappers.CriterionWrapper;
-import de.randi2.model.Trial;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.criteria.AbstractCriterion;
-import lombok.Getter;
+import de.randi2.model.criteria.constraints.AbstractConstraint;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -43,19 +42,21 @@ public class AlgorithmInfo {
     }
 
     public boolean isStratified(){
-        for(AbstractCriterion c : randi2Page.getCurrentTrial().getCriteria()){
+        for(AbstractCriterion<?,?> c : randi2Page.getCurrentTrial().getCriteria()){
             if(c.getStrata().size()>0)
                 return true;
         }
+//        randi2Page.getCurrentTrial().isStratifyTrialSite()
         return false;
     }
 
-    private List<CriterionWrapper> strata;
+    private List<CriterionWrapper<Serializable>> strata;
 
-    public List<CriterionWrapper> getStrata(){
-        strata  = new ArrayList<CriterionWrapper>();
-        for(AbstractCriterion c : randi2Page.getCurrentTrial().getCriteria()){
-            strata.add(new CriterionWrapper(c));
+    @SuppressWarnings("unchecked")
+	public List<CriterionWrapper<Serializable>> getStrata(){
+        strata  = new ArrayList<CriterionWrapper<Serializable>>();
+        for(AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : randi2Page.getCurrentTrial().getCriteria()){
+            strata.add(new CriterionWrapper<Serializable>((AbstractCriterion<Serializable, ?>) c));
         }
         return strata;
     }

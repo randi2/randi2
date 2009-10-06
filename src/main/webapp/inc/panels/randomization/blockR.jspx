@@ -33,6 +33,7 @@
 	</f:facet>
 	<ice:panelGrid columns="2" styleClass="verticalAlignTop">
 		<ice:outputLabel value="#{labels['pages.blockR.type']}" />
+		<!-- The following property is a virtual property used only for the UI. It don't need to be pushed to the config object -->
 		<ice:selectOneMenu id="blockSizeType"
 			value="#{blockR.selectedBlockRandTypes}" partialSubmit="true">
 			<f:selectItems value="#{blockR.blockRandTypes}" />
@@ -62,6 +63,5 @@
 	</ice:panelGrid>
 </ice:panelCollapsible>
 <f:subview id="strata">
-	<jsp:directive.include
-		file="./inc/panels/randomization/strata.jspx" />
+	<jsp:directive.include file="./inc/panels/randomization/strata.jspx" />
 </f:subview>

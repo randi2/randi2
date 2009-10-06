@@ -82,5 +82,9 @@ public class Step4 {
 			criteria = new ArrayList<CriterionWrapper<? extends Serializable>>();
 		return criteria;
 	}
+	
+	public void clean(){
+		criteria=null;
+	}
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import lombok.Getter;
@@ -97,5 +98,19 @@ public class Step5 {
 			trialHandler.setRandomizationConfig(new UrnDesignConfig());
 		}
 				
+	}
+	
+	public void clean(){
+		selectedAlgorithmPanelId = "none";
+		((BlockR)FacesContext.getCurrentInstance()
+				.getApplication().getExpressionFactory().createValueExpression(
+						FacesContext.getCurrentInstance().getELContext(),
+						"#{blockR}", BlockR.class).getValue(FacesContext.getCurrentInstance()
+								.getELContext())).clean();
+		((Strata)FacesContext.getCurrentInstance()
+		.getApplication().getExpressionFactory().createValueExpression(
+				FacesContext.getCurrentInstance().getELContext(),
+				"#{strata}", Strata.class).getValue(FacesContext.getCurrentInstance()
+						.getELContext())).clean();
 	}
 }

@@ -60,6 +60,9 @@ public class BlockR {
 		return blockRandTypes;
 	}
 
+	/**
+	 * The following property is a virtual property used only for the UI. It don't need to be pushed to the config object
+	 */
 	@Getter
 	private String selectedBlockRandTypes;
 
@@ -84,6 +87,11 @@ public class BlockR {
 			((BlockRandomizationConfig) trialHandler.getRandomizationConfig())
 					.setMaximum((Integer) event.getNewValue());
 		}
+	}
+	
+	public void clean(){
+		renderVariable = false;
+		selectedBlockRandTypes = null;
 	}
 
 }
