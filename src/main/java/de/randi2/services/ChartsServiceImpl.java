@@ -1,14 +1,18 @@
 package de.randi2.services;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
+import de.randi2.model.criteria.AbstractCriterion;
+import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.randomization.ChartData;
 
 public class ChartsServiceImpl implements ChartsService {
@@ -114,4 +118,84 @@ public class ChartsServiceImpl implements ChartsService {
 		return chData;
 	}
 
+	@Override
+	public ChartData generateRecruitmentChartFactors(Trial trial) {
+		ChartData chData = new ChartData();
+		ArrayList<String> xL = new ArrayList<String>();
+		ArrayList<double[]> data = new ArrayList<double[]>();
+		HashMap<String, Double> strataCountMap = new HashMap<String, Double>();
+		HashMap<String, String> strataNameMap = new HashMap<String, String>();
+	
+
+		HashMap<AbstractCriterion<?,?>, List<Long>> temp= new HashMap<AbstractCriterion<?,?>, List<Long>>();
+		for (AbstractCriterion<?,?> cr : trial.getCriteria()) {
+			List<Long> list = new ArrayList<Long>();
+				for(AbstractConstraint<?> co : cr.getStrata()){
+					list.add(co.getId());
+				}
+			temp.put(cr, list);
+		}
+		
+		Set<Set<Object>> strataIds = new HashSet<Set<Object>>();
+		
+		for(AbstractCriterion<?,?> cr : temp.keySet()){
+			Set<Object> strataLevel = new HashSet<Object>();
+			for(Long id : temp.get(cr)){
+				strataLevel.add(cr.getId()+"_"+id);
+			}
+			strataIds.add(strataLevel);
+		}
+		strataIds = cartesianProduct(strataIds);
+		
+		
+		
+		for (TrialSubject subject : trial.getSubjects()) {
+				Double count = strataCountMap.get(subject.getStratum());
+				if(count==null){
+					count = 0.0;
+				}else{
+					count++;
+				}
+				strataCountMap.put(subject.getStratum(), count);
+			}
+	
+		for(String s :strataCountMap.keySet()){
+			xL.add(s);
+			data.add(new double[]{strataCountMap.get(s)});
+		}
+		chData.setData(data);
+		chData.setXLabels(xL);
+		return chData;
+	}
+	
+	/**
+	 * from http://stackoverflow.com/questions/714108/cartesian-product-of-arbitrary-sets-in-java
+	 * @param sets
+	 * @return
+	 */
+	public static Set<Set<Object>> cartesianProduct(Set<?>... sets) {
+	    if (sets.length < 2)
+	        throw new IllegalArgumentException(
+	                "Can't have a product of fewer than two sets (got " +
+	                sets.length + ")");
+
+	    return _cartesianProduct(0, sets);
+	}
+
+	private static Set<Set<Object>> _cartesianProduct(int index, Set<?>... sets) {
+	    Set<Set<Object>> ret = new HashSet<Set<Object>>();
+	    if (index == sets.length) {
+	        ret.add(new HashSet<Object>());
+	    } else {
+	        for (Object obj : sets[index]) {
+	            for (Set<Object> set : _cartesianProduct(index+1, sets)) {
+	                set.add(obj);
+	                ret.add(set);
+	            }
+	        }
+	    }
+	    return ret;
+	}
+
+	
 }
