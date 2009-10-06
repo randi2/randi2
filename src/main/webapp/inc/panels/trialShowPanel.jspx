@@ -28,12 +28,12 @@
 				<jsp:directive.include file="./inc/panels/trial/sitesInformation.jspx" />
 			</f:subview>
 		</ice:panelTab>
-        <ice:panelTab label="Algorithm information*">
+        <ice:panelTab label="#{labels['pages.algorithmInfo']}" rendered="#{permissionVerifier.allowedSeeRandomizationDetails}">
              <f:subview id="algorithmInfo">
                  <jsp:directive.include file="./inc/panels/trial/algorithmInformation.jspx"/>
              </f:subview>
         </ice:panelTab>
-		<ice:panelTab label="#{labels['pages.trialShowPanel.randomizationData']}">
+		<ice:panelTab label="#{labels['pages.trialShowPanel.randomizationData']}" rendered="#{permissionVerifier.allowedSeeRandomizationDetails}">
 			<f:subview id="ranDatInclude">
 				<jsp:directive.include file="./inc/panels/trial/randomizationData.jspx" />
 			</f:subview>

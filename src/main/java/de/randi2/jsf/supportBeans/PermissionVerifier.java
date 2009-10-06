@@ -11,6 +11,7 @@ import org.springframework.security.acls.sid.Sid;
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.model.Login;
+import de.randi2.model.Role;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
@@ -102,5 +103,9 @@ public class PermissionVerifier {
 	
 	public boolean isAllowedChangeUserTrialSite(){
 		return loginHandler.isEditable() && isAllowedWriteUser();
+	}
+	
+	public boolean isAllowedSeeRandomizationDetails(){
+		return loginHandler.getLoggedInUser().hasRole(Role.ROLE_STATISTICAN)||loginHandler.getLoggedInUser().hasRole(Role.ROLE_P_INVESTIGATOR);
 	}
 }

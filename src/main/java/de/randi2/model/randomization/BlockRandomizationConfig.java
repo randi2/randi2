@@ -44,7 +44,7 @@ public class BlockRandomizationConfig extends AbstractRandomizationConfig {
 
 	@Transient
 	public boolean isVariableBlockSize(){
-		return maximum == minimum;
+		return maximum != minimum;
 	}
 	
 }
