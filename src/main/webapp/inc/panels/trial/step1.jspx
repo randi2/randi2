@@ -64,20 +64,17 @@
 		</ice:inputTextarea>
 		<ice:message for="description" />
 	</ice:panelCollapsible>
+	<!--
 	<ice:panelCollapsible id="protocolPanel" expanded="true"
 		style="margin-left: 3px; margin-top: 3px;" toggleOnClick="false">
 		<f:facet name="header">
 			<ice:outputLabel value="#{labels['trial.protocol']}" />
 		</f:facet>
-		<!-- file upload style="padding: 5px;" style="position: relative; left: 10%;" -->
 		<ice:panelGroup rendered="#{!inputFileController.fileOnServer}">
-			<!-- file upload usage with progress callback. -->
 			<ice:inputFile id="inputFileName" progressRender="true"
 				progressListener="#{inputFileController.fileUploadProgress}"
 				actionListener="#{inputFileController.uploadFile}" />
-			<!-- progress bar, percent value is upated via progressListener-->
 			<ice:outputProgress value="#{inputFileController.fileProgress}" />
-			<!-- Dipslay File Upload messages -->
 			<ice:panelGroup>
 				<ice:message for="inputFileName" />
 			</ice:panelGroup>
@@ -122,6 +119,7 @@
 			</ice:dataTable>
 		</ice:panelGroup>
 	</ice:panelCollapsible>
+  -->
 	<ice:panelCollapsible id="datesAndStatusPanel" expanded="true"
 		style="margin-left: 3px; margin-top: 3px;" toggleOnClick="false">
 		<f:facet name="header">
@@ -139,6 +137,7 @@
 				</ice:selectInputDate>
 				<ice:message for="startDate" />
 			</ice:panelGroup>
+			<!--
 			<ice:outputLabel for="status" value="#{labels['trial.status']}"
 				style="padding-left:10px;"></ice:outputLabel>
 			<ice:selectOneMenu id="status"
@@ -147,6 +146,7 @@
 					converterId="de.randi2.jsf.converters.TRIALSTATE_CONVERTER" />
 				<f:selectItems value="#{trialHandler.stateItems}" />
 			</ice:selectOneMenu>
+			 -->
 			<ice:outputLabel for="endDate" value="#{labels['trial.endDate']}" />
 			<ice:panelGroup>
 				<ice:selectInputDate id="endDate"
