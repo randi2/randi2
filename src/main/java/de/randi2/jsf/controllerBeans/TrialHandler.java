@@ -234,6 +234,8 @@ public class TrialHandler extends AbstractHandler<Trial> {
 			showedObject.setSponsorInvestigator(sponsorInvestigatorsAC
 					.getSelectedObject().getPerson());
 		// TODO Protokoll
+		// TODO Status
+		showedObject.setStatus(TrialStatus.ACTIVE);
 
 		/* SubjectProperties Configuration */
 		ValueExpression ve1 = FacesContext.getCurrentInstance()
