@@ -14,7 +14,7 @@ Trial's Recruitment Chart.
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-<ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
+ <ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core"
 		xmlns:ice="http://www.icesoft.com/icefaces/component" columns="2">
 	<ice:outputChart
@@ -23,8 +23,11 @@ Trial's Recruitment Chart.
 		xaxisTitle="#{labels['chart.rFactor.xLabel']}"
 		yaxisTitle="#{labels['chart.rFactor.yLabel']}"
 		 width="650"
-		height="300" legendPlacement="bottom"
-		xaxisLabels="#{charts.RFactorsChartData.XLabels}"
+		height="300" 
+		legendPlacement="bottom"
+		legendColumns="5"
+		xaxisLabels="-"
+		labels="#{charts.RFactorsChartData.XLabels}"
 		data="#{charts.RFactorsChartData.data}" actionListener="#{charts.action}" renderOnSubmit="true"/>
 	<ice:panelGrid columns="1">
 		<ice:outputLabel value="#{labels['chart.type']}" />
@@ -35,3 +38,19 @@ Trial's Recruitment Chart.
 		<ice:outputText value="#{charts.clickedValue}" />
 	</ice:panelGrid>
 </ice:panelGrid>
+<ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ice="http://www.icesoft.com/icefaces/component" columns="1">
+	<ice:outputChart
+		type="pie3D"
+		chartTitle="#{labels['chart.rFactor.title']}"
+		legendPlacement="bottom"
+		legendColumns="5"
+		 width="800"
+		 height="500"
+		xaxisTitle="#{labels['chart.rFactor.xLabel']}"
+		yaxisTitle="#{labels['chart.rFactor.yLabel']}"
+		labels="#{charts.RFactorsChartData.XLabels}"
+		data="#{charts.RFactorsChartData.dataPieChart}" actionListener="#{charts.action}" renderOnSubmit="true"/>
+</ice:panelGrid>
+

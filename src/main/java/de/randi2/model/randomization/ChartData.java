@@ -28,4 +28,6 @@ public class ChartData {
 	 * values of the 3 functions at this point of time)
 	 */
 	private List<double[]> data;
+	
+	private double[] dataPieChart;
 }

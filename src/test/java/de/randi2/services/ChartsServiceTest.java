@@ -17,6 +17,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.icesoft.faces.component.outputchart.OutputChart;
+
 import de.randi2.model.Person;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
@@ -454,6 +456,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 
 	@Test
 	public void testChartSubGroups() {
+		System.out.println(OutputChart.PIE3D_CHART_TYPE);
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
 		validTrial.setEndDate(new GregorianCalendar(2010, 11, 1));
 		int blocksize = 4;
@@ -559,7 +562,8 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		
 		}
 	  ChartData data = chartsService.generateRecruitmentChartFactors(validTrial);
-	  assertEquals(8, data.getData().size());
+	  assertEquals(1, data.getData().size());
+	  assertEquals(8, data.getData().get(0).length);
 	  assertEquals(8, data.getXLabels().size());
 	}
 

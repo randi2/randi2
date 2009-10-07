@@ -69,6 +69,8 @@ public class Charts {
 			if (chart.getClickedImageMapArea().getXAxisLabel() != null) {
 				clickedValue = chart.getClickedImageMapArea().getXAxisLabel()
 						+ "  :  " + chart.getClickedImageMapArea().getValue();
+			}else{
+				 chart.getClickedImageMapArea().getValue();
 			}
 		}
 

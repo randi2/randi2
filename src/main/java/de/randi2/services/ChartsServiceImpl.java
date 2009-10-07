@@ -190,11 +190,18 @@ public class ChartsServiceImpl implements ChartsService {
 				strataCountMap.put(stratum, count);
 			}
 	
+		
+	
+		double[] dataTable = new double[strataCountMap.size()];
+		int i =0;
 		for(String s :strataCountMap.keySet()){
 			xL.add(strataNameMap.get(s));
-			data.add(new double[]{strataCountMap.get(s)});
+			dataTable[i] = strataCountMap.get(s);
+			i++;			
 		}
+		data.add(dataTable);
 		chData.setData(data);
+		chData.setDataPieChart(dataTable);
 		chData.setXLabels(xL);
 		return chData;
 	}
