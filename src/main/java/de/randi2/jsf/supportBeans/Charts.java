@@ -39,6 +39,9 @@ public class Charts {
 	
 	@Getter @Setter
 	private String aChartType = "barclustered";
+	
+	@Getter @Setter
+	private String rFactorsChartType = "barclustered";
 
 	/**
 	 * Represents the value of the chart element which has been clicked by the
@@ -86,6 +89,12 @@ public class Charts {
 	public ChartData getRTrialSiteChartData(){
 		if (trialHandler.getShowedObject() != null)
 			return service.generateRecruitmentChartTrialSite(trialHandler.getShowedObject());
+		return null;
+	}
+	
+	public ChartData getRFactorsChartData() {
+		if (trialHandler.getShowedObject() != null)
+			return service.generateRecruitmentChartFactors(trialHandler.getShowedObject());
 		return null;
 	}
 

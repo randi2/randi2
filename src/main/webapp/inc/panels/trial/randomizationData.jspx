@@ -132,5 +132,10 @@
 			<jsp:directive.include file="./inc/panels/charts/recruitmentChart.jspx" />
 		</f:subview>
 	</ice:panelGroup>
+	 <ice:panelGroup style="margin-top: 10px;">
+		<f:subview id="recruitmentFactorsChart">
+			<jsp:directive.include file="./inc/panels/charts/recruitmentFactorsChart.jspx" />
+		</f:subview>
+	</ice:panelGroup>
 
 </ice:panelGroup>

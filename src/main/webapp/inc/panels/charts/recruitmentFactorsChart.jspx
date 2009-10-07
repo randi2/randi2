@@ -1,0 +1,37 @@
+<!-- 
+Trial's Recruitment Chart.
+
+ Made by ds@randi2.de
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ice="http://www.icesoft.com/icefaces/component" columns="2">
+	<ice:outputChart
+		type="#{charts.RFactorsChartType}"
+		chartTitle="#{labels['chart.recruitment.title']}"
+		xaxisTitle="#{labels['chart.recruitment.xLabel']}"
+		yaxisTitle="#{labels['chart.recruitment.yLabel']}"
+		 width="650"
+		height="300" legendPlacement="bottom"
+		xaxisLabels="#{charts.RFactorsChartData.XLabels}"
+		data="#{charts.RFactorsChartData.data}" actionListener="#{charts.action}" renderOnSubmit="true"/>
+	<ice:panelGrid columns="1">
+		<ice:outputLabel value="#{labels['chart.type']}" />
+		<ice:selectOneMenu value="#{charts.RFactorsChartType}" partialSubmit="true">
+			<f:selectItems value="#{charts.chartTypes}" />
+		</ice:selectOneMenu>
+		<ice:outputLabel value="#{labels['chart.clickedValue']}" />
+		<ice:outputText value="#{charts.clickedValue}" />
+	</ice:panelGrid>
+</ice:panelGrid>
