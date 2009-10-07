@@ -19,9 +19,9 @@ Trial's Recruitment Chart.
 		xmlns:ice="http://www.icesoft.com/icefaces/component" columns="2">
 	<ice:outputChart
 		type="#{charts.RFactorsChartType}"
-		chartTitle="#{labels['chart.recruitment.title']}"
-		xaxisTitle="#{labels['chart.recruitment.xLabel']}"
-		yaxisTitle="#{labels['chart.recruitment.yLabel']}"
+		chartTitle="#{labels['chart.rFactor.title']}"
+		xaxisTitle="#{labels['chart.rFactor.xLabel']}"
+		yaxisTitle="#{labels['chart.rFactor.yLabel']}"
 		 width="650"
 		height="300" legendPlacement="bottom"
 		xaxisLabels="#{charts.RFactorsChartData.XLabels}"
