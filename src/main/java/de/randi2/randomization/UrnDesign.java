@@ -30,7 +30,7 @@ public class UrnDesign extends RandomizationAlgorithm<UrnDesignConfig> {
 	protected TreatmentArm doRadomize(TrialSubject subject, Random random) {
 		UrnDesignTempData tempData = (UrnDesignTempData) super.configuration.getTempData();
 		String stratum = "";
-		if(trial.isStratifyTrialSite()) stratum = subject.getTrialSite().getId() + "";
+		if(trial.isStratifyTrialSite()) stratum = subject.getTrialSite().getId() + "__";
 		stratum += subject.getStratum();
 		Urn urn = tempData.getUrn(stratum);
 		if (urn == null) {

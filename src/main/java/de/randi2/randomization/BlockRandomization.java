@@ -24,7 +24,7 @@ public class BlockRandomization extends RandomizationAlgorithm<BlockRandomizatio
 	protected TreatmentArm doRadomize(TrialSubject subject, Random random) {
 		BlockRandomizationTempData tempData = (BlockRandomizationTempData) super.configuration.getTempData();
 		String stratum = "";
-		if(trial.isStratifyTrialSite()) stratum = subject.getTrialSite().getId() + "";
+		if(trial.isStratifyTrialSite()) stratum = subject.getTrialSite().getId() + "__";
 		stratum += subject.getStratum();
 		Block block = tempData.getBlock(stratum);
 		if (block == null || block.isEmpty()) {
