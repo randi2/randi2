@@ -46,6 +46,10 @@ public class FreeTextConstraint extends AbstractConstraint<String>{
 		
 	}
 	
+	@Override
+	public String getUIName() {
+		return expectedValue;
+	}
 	
 
 }

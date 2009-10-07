@@ -1,5 +1,6 @@
 package de.randi2.model.criteria.constraints;
 
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -56,6 +57,19 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 			throw new ContraintViolatedException();
 		}else if( firstDate==null && secondDate!=null && value.after(secondDate) ){
 			throw new ContraintViolatedException();
+		}
+	}
+	
+	@Override
+	public String getUIName() {
+		// TODO Auto-generated method stub
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		if(firstDate!=null && secondDate!=null){
+			return (format.format(firstDate) + "|" + format.format(secondDate));
+		}else if(firstDate!=null){
+			return ">" + format.format(firstDate);
+		}else {
+			return "<" + format.format(secondDate);
 		}
 	}
 }

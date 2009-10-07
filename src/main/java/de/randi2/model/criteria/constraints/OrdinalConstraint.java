@@ -50,4 +50,13 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 		this.expectedValues = new HashSet<String>(args);
 		
 	}
+	
+	@Override
+	public String getUIName() {
+		StringBuffer result = new StringBuffer();
+		for(String s: expectedValues){
+			result.append(s + "|");
+		}
+		return result.toString();
+	}
 }
