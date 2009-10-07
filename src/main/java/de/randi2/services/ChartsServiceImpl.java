@@ -59,7 +59,7 @@ public class ChartsServiceImpl implements ChartsService {
 						values[1] = values[1] + 1.0;
 					}
 				}
-				xL.add(month + "." + year);
+				xL.add((month+1) + "." + year);
 				data.add(values);
 			}
 			monthStart = startDate.getMinimum(GregorianCalendar.MONTH);
@@ -129,7 +129,6 @@ public class ChartsServiceImpl implements ChartsService {
 		HashMap<String, Double> strataCountMap = new HashMap<String, Double>();
 //		HashMap<String, String> strataNameMap = new HashMap<String, String>();
 	
-
 		HashMap<AbstractCriterion<?,?>, List<Long>> temp= new HashMap<AbstractCriterion<?,?>, List<Long>>();
 		for (AbstractCriterion<?,?> cr : trial.getCriteria()) {
 			List<Long> list = new ArrayList<Long>();
