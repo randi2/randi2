@@ -427,6 +427,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 	}
 
 	@Test
+	@Ignore
 	public void testGenerateRecruitmentChartTrialSite1() {
 		randomizeInValidTrialTwoTrialSites();
 		ChartData chartData = chartsService
