@@ -1,9 +1,12 @@
 package de.randi2.utility;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Set;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
@@ -18,15 +21,19 @@ import de.randi2.dao.TrialSiteDaoHibernate;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
+import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
+import de.randi2.model.criteria.DichotomousCriterion;
+import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.enumerations.Gender;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig.TYPE;
 import de.randi2.services.TrialService;
 import de.randi2.services.UserService;
+import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.security.RolesAndRights;
 
 /**
@@ -306,6 +313,41 @@ public class Bootstrap {
 		
 		trial.setTreatmentArms(Arrays.asList(arm1,arm2));
 		
+		DichotomousCriterion cr = new DichotomousCriterion();
+		cr.setOption1("1");
+		cr.setOption2("2");
+		DichotomousCriterion cr1 = new DichotomousCriterion();
+		cr1.setOption1("1");
+		cr1.setOption2("2");
+		DichotomousCriterion cr2 = new DichotomousCriterion();
+		cr2.setOption1("1");
+		cr2.setOption2("2");
+		try {
+			
+			cr.addStrata(new DichotomousConstraint(Arrays
+					.asList(new String[] { "1" })));
+
+			cr.addStrata(new DichotomousConstraint(Arrays
+					.asList(new String[] { "2" })));
+		
+			cr1.addStrata(new DichotomousConstraint(Arrays
+					.asList(new String[] { "1" })));
+			cr1.addStrata(new DichotomousConstraint(Arrays
+					.asList(new String[] { "2" })));
+			cr2.addStrata(new DichotomousConstraint(Arrays
+					.asList(new String[] { "1" })));
+			cr2.addStrata(new DichotomousConstraint(Arrays
+					.asList(new String[] { "2" })));
+
+			trial.addCriterion(cr);
+			trial.addCriterion(cr1);
+			trial.addCriterion(cr2);
+
+
+		} catch (ContraintViolatedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		trialService.create(trial);
 
@@ -361,6 +403,37 @@ public class Bootstrap {
 		trial = trialService.getObject(trial.getId());
 		
 		TrialSubject subject = new TrialSubject();
+		SubjectProperty<Serializable> subprob = new SubjectProperty<Serializable>(trial.getCriteria().get(0));
+		SubjectProperty<Serializable> subprob1 = new SubjectProperty<Serializable>(trial.getCriteria().get(1));
+		SubjectProperty<Serializable> subprob2 = new SubjectProperty<Serializable>(trial.getCriteria().get(2));
+		try {
+			if((new Random()).nextInt(2)==0){
+				subprob.setValue(((DichotomousCriterion)trial.getCriteria().get(0)).getOption1());
+			}else{
+				subprob.setValue(((DichotomousCriterion)trial.getCriteria().get(0)).getOption2());
+			}
+			
+			if((new Random()).nextInt(2)==0){
+				subprob1.setValue(((DichotomousCriterion)trial.getCriteria().get(1)).getOption1());
+			}else{
+				subprob1.setValue(((DichotomousCriterion)trial.getCriteria().get(1)).getOption2());
+			}
+			if((new Random()).nextInt(2)==0){
+				subprob2.setValue(((DichotomousCriterion)trial.getCriteria().get(2)).getOption1());
+			}else{
+				subprob2.setValue(((DichotomousCriterion)trial.getCriteria().get(2)).getOption2());
+			}
+		
+		} catch (ContraintViolatedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Set<SubjectProperty<?>> proberties = new HashSet<SubjectProperty<?>>();
+		proberties.add(subprob);
+		proberties.add(subprob1);
+		proberties.add(subprob2);
+		subject.setProperties(proberties);
 		
 		trialService.randomize(trial, subject);
 		subject.setCreatedAt(date);
