@@ -314,21 +314,24 @@ public class Bootstrap {
 		trial.setTreatmentArms(Arrays.asList(arm1,arm2));
 		
 		DichotomousCriterion cr = new DichotomousCriterion();
-		cr.setOption1("1");
-		cr.setOption2("2");
+		cr.setName("SEX");
+		cr.setOption1("M");
+		cr.setOption2("F");
 		DichotomousCriterion cr1 = new DichotomousCriterion();
 		cr1.setOption1("1");
 		cr1.setOption2("2");
+		cr1.setName("Tum.Status");
 		DichotomousCriterion cr2 = new DichotomousCriterion();
 		cr2.setOption1("1");
 		cr2.setOption2("2");
+		cr2.setName("Fit.Level");
 		try {
 			
 			cr.addStrata(new DichotomousConstraint(Arrays
-					.asList(new String[] { "1" })));
+					.asList(new String[] { "M" })));
 
 			cr.addStrata(new DichotomousConstraint(Arrays
-					.asList(new String[] { "2" })));
+					.asList(new String[] { "F" })));
 		
 			cr1.addStrata(new DichotomousConstraint(Arrays
 					.asList(new String[] { "1" })));
@@ -362,8 +365,8 @@ public class Bootstrap {
 		int countTS2 = 60;
 		int countMo=(new GregorianCalendar()).get(GregorianCalendar.MONTH);
 		int countAll =0;
+		Random rand = new Random();
 		while(countTS1 != 0 || countTS2 !=0){
-			Random rand = new Random();
 			countAll++;
 			GregorianCalendar date = new GregorianCalendar(2009, countAll%countMo, 1);
 			int runs = 0;
@@ -375,14 +378,14 @@ public class Bootstrap {
 			}else if(countTS2!=0){
 				count=countTS2;
 			}
-			if(count >=10){	runs = (new Random()).nextInt(10)+1;
-			}else if (count!=0){runs = (new Random()).nextInt(count)+1;}
+			if(count >=10){	runs = rand.nextInt(10)+1;
+			}else if (count!=0){runs = rand.nextInt(count)+1;}
 			for(int i =0; i <runs;i++){
 				if(tr1){
-					initRandBS(userLInv, trial, date);
+					initRandBS(userLInv, trial, date,rand);
 					countTS1--;
 				}else{
-					initRandBS(userLInv2, trial, date);
+					initRandBS(userLInv2, trial, date,rand);
 					countTS2--;
 				}
 			}
@@ -391,7 +394,7 @@ public class Bootstrap {
 			
 	}
 	
-	private void initRandBS(Login login, Trial trial, GregorianCalendar date){
+	private void initRandBS(Login login, Trial trial, GregorianCalendar date, Random rand){
 		//create test trial subjects	
 //		login = userService.getObject(login.getId());
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
@@ -407,25 +410,24 @@ public class Bootstrap {
 		SubjectProperty<Serializable> subprob1 = new SubjectProperty<Serializable>(trial.getCriteria().get(1));
 		SubjectProperty<Serializable> subprob2 = new SubjectProperty<Serializable>(trial.getCriteria().get(2));
 		try {
-			if((new Random()).nextInt(2)==0){
+			if(rand.nextInt(2)==0){
 				subprob.setValue(((DichotomousCriterion)trial.getCriteria().get(0)).getOption1());
 			}else{
 				subprob.setValue(((DichotomousCriterion)trial.getCriteria().get(0)).getOption2());
 			}
 			
-			if((new Random()).nextInt(2)==0){
+			if(rand.nextInt(2)==0){
 				subprob1.setValue(((DichotomousCriterion)trial.getCriteria().get(1)).getOption1());
 			}else{
 				subprob1.setValue(((DichotomousCriterion)trial.getCriteria().get(1)).getOption2());
 			}
-			if((new Random()).nextInt(2)==0){
+			if(rand.nextInt(2)==0){
 				subprob2.setValue(((DichotomousCriterion)trial.getCriteria().get(2)).getOption1());
 			}else{
 				subprob2.setValue(((DichotomousCriterion)trial.getCriteria().get(2)).getOption2());
 			}
 		
 		} catch (ContraintViolatedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
