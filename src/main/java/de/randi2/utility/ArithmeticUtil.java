@@ -31,7 +31,7 @@ public final class ArithmeticUtil {
 	 * @param sets
 	 * @return
 	 */
-	public static Set<Set<String>> cartesianProduct(Set<String>... sets) {
+	public static <E> Set<Set<E>> cartesianProduct(Set<E>... sets) {
 	    if (sets.length < 2)
 	        throw new IllegalArgumentException(
 	                "Can't have a product of fewer than two sets (got " +
@@ -40,13 +40,13 @@ public final class ArithmeticUtil {
 	    return _cartesianProduct(0, sets);
 	}
 
-	private static Set<Set<String>> _cartesianProduct(int index, Set<String>... sets) {
-	    Set<Set<String>> ret = new HashSet<Set<String>>();
+	private static <E> Set<Set<E>> _cartesianProduct(int index, Set<E>... sets) {
+	    Set<Set<E>> ret = new HashSet<Set<E>>();
 	    if (index == sets.length) {
-	        ret.add(new HashSet<String>());
+	        ret.add(new HashSet<E>());
 	    } else {
-	        for (String obj : sets[index]) {
-	            for (Set<String> set : _cartesianProduct(index+1, sets)) {
+	        for (E obj : sets[index]) {
+	            for (Set<E> set : _cartesianProduct(index+1, sets)) {
 	                set.add(obj);
 	                ret.add(set);
 	            }
