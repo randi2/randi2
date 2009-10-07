@@ -456,7 +456,6 @@ public class ChartsServiceTest extends AbstractServiceTest {
 
 	@Test
 	public void testChartSubGroups() {
-		System.out.println(OutputChart.PIE3D_CHART_TYPE);
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
 		validTrial.setEndDate(new GregorianCalendar(2010, 11, 1));
 		int blocksize = 4;
