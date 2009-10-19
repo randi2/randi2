@@ -9,6 +9,7 @@ public class MinimizationConfig extends AbstractRandomizationConfig {
 
 	
 	private double p;
+	private boolean withRandomizedSubjects = false;
 	
 	@Override
 	public RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm() {
