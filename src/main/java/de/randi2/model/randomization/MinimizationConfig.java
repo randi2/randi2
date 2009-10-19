@@ -8,7 +8,7 @@ import de.randi2.randomization.RandomizationAlgorithm;
 public class MinimizationConfig extends AbstractRandomizationConfig {
 
 	
-	private int p;
+	private double p;
 	
 	@Override
 	public RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm() {
