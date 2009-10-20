@@ -148,6 +148,15 @@ public class Trial extends AbstractDomainObject {
 	public int getTotalSubjectAmount(){
 		return getSubjects().size();
 	}
+	
+	@Transient
+	public int getPlannedSubjectAmount(){
+		int amount = 0;
+		for(TreatmentArm arm : treatmentArms){
+			amount += arm.getPlannedSubjects();
+		}
+		return amount;
+	}
 
 	@Override
 	public String getUIName() {
