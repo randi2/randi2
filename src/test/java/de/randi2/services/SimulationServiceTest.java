@@ -16,6 +16,8 @@ import de.randi2.model.Trial;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.randomization.BlockRandomizationConfig;
+import de.randi2.simulation.service.SimulationService;
+import de.randi2.simulation.service.SimulationServiceImpl;
 import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.unsorted.ContraintViolatedException;
 

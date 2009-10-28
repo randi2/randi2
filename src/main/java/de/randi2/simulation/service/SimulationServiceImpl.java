@@ -1,4 +1,4 @@
-package de.randi2.services;
+package de.randi2.simulation.service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
