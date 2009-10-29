@@ -192,16 +192,21 @@ public class ChartsServiceImpl implements ChartsService {
 	
 		
 	
-		double[] dataTable = new double[strataCountMap.size()];
+		double[] dataTable;
 		int i =0;
 		for(String s :strataCountMap.keySet()){
-			xL.add(strataNameMap.get(s));
+			dataTable = new double[strataCountMap.size()];
+			for(int j = 0 ; j<dataTable.length;j++){
+				if(j!=i){
+					dataTable[j] = 0;
+				}
+			}
 			dataTable[i] = strataCountMap.get(s);
-			i++;			
+			xL.add(strataNameMap.get(s));
+			i++;
+			data.add(dataTable);
 		}
-		data.add(dataTable);
 		chData.setData(data);
-		chData.setDataPieChart(dataTable);
 		chData.setXLabels(xL);
 		return chData;
 	}
