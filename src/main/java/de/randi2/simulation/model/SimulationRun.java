@@ -5,12 +5,16 @@ import lombok.Data;
 @Data
 public class SimulationRun {
 
-	double marginalBalance;
+	private double marginalBalance;
 	
+	private double debit;
 	
-	double debit;
+	private int[] subjectsPerArms;
 	
-	int[] subjeArms;
+	private Long time;
 	
+	public SimulationRun(int armAmount){
+		subjectsPerArms= new int[armAmount];
+	}
 	
 }

@@ -2,17 +2,9 @@ package de.randi2.simulation.service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 
-import jxl.DateCell;
-
-import org.springframework.security.context.SecurityContextHolder;
-
-import de.randi2.jsf.wrappers.CriterionWrapper;
-import de.randi2.model.Login;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
@@ -25,20 +17,23 @@ import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DateConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
+import de.randi2.simulation.model.SimulationResult;
+import de.randi2.simulation.model.SimulationRun;
 import de.randi2.unsorted.ContraintViolatedException;
 
 
 public class SimulationServiceImpl implements SimulationService {
 
 	@Override
-	public void simulateTrial(Trial trial, int runs) {
+	public SimulationResult simulateTrial(Trial trial, int runs) {
+		SimulationResult simResult = new SimulationResult();
 		Random random = new Random();
 		Trial copyTrial = copyTrial(trial);
 		long startTime;
-		ArrayList<Long> timeRuns = new ArrayList<Long>();
 		for (int run = 0; run < runs; run++) {
 			startTime = System.nanoTime();
 			Trial simTrial = resetTrial(copyTrial);
+			SimulationRun simRun = new SimulationRun(simTrial.getTreatmentArms().size());
 			ArrayList<TrialSite> pSites = new ArrayList<TrialSite>(simTrial
 					.getParticipatingSites());
 			for (int i = 0; i < simTrial.getPlannedSubjectAmount(); i++) {
@@ -53,11 +48,13 @@ public class SimulationServiceImpl implements SimulationService {
 				subject.setIdentification(subject.getRandNumber());
 				assignedArm.addSubject(subject);
 			}
-			timeRuns.add(System.nanoTime()-startTime);
+			for(int i = 0; i<simTrial.getTreatmentArms().size();i++){
+				simRun.getSubjectsPerArms()[i] = simTrial.getTreatmentArms().get(i).getCurrentSubjectsAmount();
+			}
+			simRun.setTime((System.nanoTime()-startTime)/1000000);
+			simResult.addSimulationRun(simRun);
 		}
-		for(Long time : timeRuns){
-			System.out.println((time/1000000));
-		}
+		return simResult;
 	}
 
 	private static Trial copyTrial(Trial trial) {

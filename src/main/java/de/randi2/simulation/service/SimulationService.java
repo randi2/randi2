@@ -1,8 +1,9 @@
 package de.randi2.simulation.service;
 
 import de.randi2.model.Trial;
+import de.randi2.simulation.model.SimulationResult;
 
 public interface SimulationService {
 
-	public void simulateTrial(Trial trial, int runs);
+	public SimulationResult simulateTrial(Trial trial, int runs);
 }
