@@ -347,12 +347,6 @@
             <version>5.1.6</version>
         </dependency>
         <dependency>
-            <groupId>hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>1.8.0.7</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
             <version>10.4.2.0</version>
@@ -461,8 +455,19 @@
     </dependencies>
     <build>
         <finalName>RANDI2</finalName>
-        <resources></resources>
-        <testResources></testResources>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -471,6 +476,13 @@
                     <source>1.6</source>
                     <target>1.6</target>
                     <compilerArgument>-Xlint</compilerArgument>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <plugin>
@@ -633,4 +645,26 @@
             </plugin>
         </plugins>
     </reporting>
+
+    <profiles>
+
+        <profile>
+            <id>hsqldb-test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <randi2.simple-jndi.root>src/test/resources/jndi</randi2.simple-jndi.root>
+                <test.hibernate.sqldialect>de.randi2.utility.CustomHSQLDialect</test.hibernate.sqldialect>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>hsqldb</groupId>
+                    <artifactId>hsqldb</artifactId>
+                    <version>1.8.0.7</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>

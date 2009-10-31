@@ -9,7 +9,7 @@
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="properties">
-			<value>hibernate.dialect= de.randi2.utility.CustomHSQLDialect</value>
+			<value>hibernate.dialect=${test.hibernate.sqldialect}</value>
 		</property>
 	</bean>
 
