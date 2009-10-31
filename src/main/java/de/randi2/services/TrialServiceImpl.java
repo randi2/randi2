@@ -105,7 +105,7 @@ public class TrialServiceImpl implements TrialService {
 			mailService.sendMail(user.getPerson().getEmail(), "Randomize", language,
 					newUserMessageFields, newUserSubjectFields);
 		} catch (MailErrorException e1) {
-			e1.printStackTrace();
+			logger.error(e1);
 		}
 		
 	
@@ -128,7 +128,7 @@ public class TrialServiceImpl implements TrialService {
 			mailService.sendMail(trial.getSponsorInvestigator().getEmail(), "Randomize", language,
 					newUserMessageFields, newUserSubjectFields);
 		} catch (MailErrorException e1) {
-			e1.printStackTrace();
+			logger.error(e1);
 		}
 	}
 
