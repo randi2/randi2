@@ -37,7 +37,7 @@ public interface AbstractDao<E extends AbstractDomainObject> {
 	public E get(long id);
 	
 	/**
-	 * Creates the.
+	 * Creates the domain object.
 	 * 
 	 * @param object
 	 *            the object
@@ -62,7 +62,7 @@ public interface AbstractDao<E extends AbstractDomainObject> {
 	public List<E> getAll();
 	
 	/**
-	 * Update.
+	 * Update the domain object.
 	 * 
 	 * @param object
 	 *            the object

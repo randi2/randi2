@@ -1,3 +1,20 @@
+/* 
+ * (c) 2008-2009 RANDI2 Core Development Team
+ * 
+ * This file is part of RANDI2.
+ * 
+ * RANDI2 is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * RANDI2. If not, see <http://www.gnu.org/licenses/>.
+ */
 package de.randi2.dao;
 
 import java.util.List;
@@ -22,21 +39,34 @@ import de.randi2.model.security.ObjectIdentityHibernate;
 import de.randi2.model.security.PermissionHibernate;
 import de.randi2.model.security.SidHibernate;
 
+/**
+ * The Class HibernateAclService.
+ */
 public class HibernateAclService implements AclService {
 
 	
+	/** The session factory. */
 	@Autowired private SessionFactory sessionFactory;
 
+	/* (non-Javadoc)
+	 * @see org.springframework.security.acls.AclService#findChildren(org.springframework.security.acls.objectidentity.ObjectIdentity)
+	 */
 	@Override
 	public ObjectIdentity[] findChildren(ObjectIdentity arg0) {
 		return new ObjectIdentityHibernate[0];
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.security.acls.AclService#readAclById(org.springframework.security.acls.objectidentity.ObjectIdentity)
+	 */
 	@Override
 	public Acl readAclById(ObjectIdentity arg0) throws NotFoundException {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.security.acls.AclService#readAclById(org.springframework.security.acls.objectidentity.ObjectIdentity, org.springframework.security.acls.sid.Sid[])
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
@@ -61,17 +91,33 @@ public class HibernateAclService implements AclService {
 		throw new NotFoundException("No Acl found");
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.security.acls.AclService#readAclsById(org.springframework.security.acls.objectidentity.ObjectIdentity[])
+	 */
 	@Override
 	public Map<?,?> readAclsById(ObjectIdentity[] arg0) throws NotFoundException {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.security.acls.AclService#readAclsById(org.springframework.security.acls.objectidentity.ObjectIdentity[], org.springframework.security.acls.sid.Sid[])
+	 */
 	@Override
 	public Map<?,?> readAclsById(ObjectIdentity[] arg0, Sid[] arg1)
 			throws NotFoundException {
 		return null;
 	}
 
+	/**
+	 * Creates the acl.
+	 * 
+	 * @param object
+	 *            the object
+	 * @param sidname
+	 *            the sidname
+	 * 
+	 * @return the acl hibernate
+	 */
 	@Transactional(propagation=Propagation.REQUIRED)
 	public AclHibernate createAcl(AbstractDomainObject object, String sidname) {
 		AclHibernate acl = new AclHibernate();
@@ -81,6 +127,20 @@ public class HibernateAclService implements AclService {
 		return acl;
 	}
 
+	/**
+	 * Creates the acl with specific permissions.
+	 * 
+	 * @param object
+	 *            the object
+	 * @param sidname
+	 *            the sidname
+	 * @param permissions
+	 *            the permissions
+	 * @param roleName
+	 *            the role name
+	 * 
+	 * @return the acl hibernate
+	 */
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation=Propagation.REQUIRED)
 	public AclHibernate createAclwithPermissions(AbstractDomainObject object,
@@ -102,12 +162,32 @@ public class HibernateAclService implements AclService {
 		return acl;
 	}
 	
+	/**
+	 * Creates the aclwith permissions.
+	 * 
+	 * @param object
+	 *            the object
+	 * @param sidname
+	 *            the sidname
+	 * @param permissions
+	 *            the permissions
+	 * 
+	 * @return the acl hibernate
+	 */
 	@Transactional(propagation=Propagation.REQUIRED)
 	public AclHibernate createAclwithPermissions(AbstractDomainObject object,
 			String sidname, PermissionHibernate[] permissions) {
 		return createAclwithPermissions(object, sidname, permissions, null);
 	}
 
+	/**
+	 * Creates the sid if not saved.
+	 * 
+	 * @param sidname
+	 *            the sidname
+	 * 
+	 * @return the sid hibernate
+	 */
 	@Transactional(propagation=Propagation.REQUIRED)
 	@SuppressWarnings("unchecked")
 	private SidHibernate createSidIfNotSaved(String sidname) {
@@ -121,6 +201,14 @@ public class HibernateAclService implements AclService {
 		}
 	}
 
+	/**
+	 * Creates the object identity if not saved.
+	 * 
+	 * @param object
+	 *            the object
+	 * 
+	 * @return the object identity hibernate
+	 */
 	@Transactional(propagation=Propagation.REQUIRED)
 	@SuppressWarnings("unchecked")
 	private ObjectIdentityHibernate createObjectIdentityIfNotSaved(
@@ -137,6 +225,12 @@ public class HibernateAclService implements AclService {
 		}
 	}
 
+	/**
+	 * Update the acl.
+	 * 
+	 * @param acl
+	 *            the acl
+	 */
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void update(AclHibernate acl) {
 		sessionFactory.getCurrentSession().merge(acl);
