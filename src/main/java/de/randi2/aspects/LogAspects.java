@@ -1,3 +1,20 @@
+/* 
+ * (c) 2008-2009 RANDI2 Core Development Team
+ * 
+ * This file is part of RANDI2.
+ * 
+ * RANDI2 is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * RANDI2. If not, see <http://www.gnu.org/licenses/>.
+ */
 package de.randi2.aspects;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -14,12 +31,25 @@ import de.randi2.model.TrialSubject;
 import de.randi2.utility.logging.LogService;
 import de.randi2.utility.logging.LogEntry.ActionType;
 
+/**
+ * The Class LogAspects.
+ */
 @Aspect
 public class LogAspects {
 
+	/** The log service. */
 	@Autowired private LogService logService;
 	
 	
+	/**
+	 * Log create new object.
+	 * 
+	 * @param pjp
+	 *            the pjp
+	 * 
+	 * @throws Throwable
+	 *             the throwable
+	 */
 	@Around("execution(public void de.randi2.services.*.create*(..))")
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void logCreateNewObject(ProceedingJoinPoint pjp) throws Throwable{
@@ -28,6 +58,17 @@ public class LogAspects {
 	}
 	
 	
+	/**
+	 * Log update object.
+	 * 
+	 * @param pjp
+	 *            the pjp
+	 * 
+	 * @return the object
+	 * 
+	 * @throws Throwable
+	 *             the throwable
+	 */
 	@Around("execution(public * de.randi2.services.*.update*(..))")
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Object logUpdateObject(ProceedingJoinPoint pjp) throws Throwable{
@@ -36,16 +77,18 @@ public class LogAspects {
 		return o;
 	}
 	
-//	@Around("execution(public * de.randi2.services.*.get*(..))")
-//	@Transactional(propagation = Propagation.REQUIRED)
-//	public Object  logGet(ProceedingJoinPoint pjp) throws Throwable{
-//		Object o = pjp.proceed();	
-//		if(o instanceof AbstractDomainObject){
-//			logService.logChange(pjp.getSignature().getName(),  SecurityContextHolder.getContext().getAuthentication().getName(), ((AbstractDomainObject)o));
-//		}else logService.logGet(pjp.getSignature().getName(), SecurityContextHolder.getContext().getAuthentication().getName());
-//		return o;
-//	}
 	
+	/**
+	 * Log randomize.
+	 * 
+	 * @param pjp
+	 *            the pjp
+	 * 
+	 * @return the object
+	 * 
+	 * @throws Throwable
+	 *             the throwable
+	 */
 	@Around("execution(public * de.randi2.services.*.randomize*(..))")
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Object  logRandomize(ProceedingJoinPoint pjp) throws Throwable{
@@ -55,6 +98,15 @@ public class LogAspects {
 	}
 	
 	
+	/**
+	 * Log login.
+	 * 
+	 * @param pjp
+	 *            the pjp
+	 * 
+	 * @throws Throwable
+	 *             the throwable
+	 */
 	@Around("execution(public * de.randi2.utility.security.DaoAuthenticationProviderWithLock.additionalAuthenticationChecks*(..))")
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void logLogin(ProceedingJoinPoint pjp) throws Throwable{
