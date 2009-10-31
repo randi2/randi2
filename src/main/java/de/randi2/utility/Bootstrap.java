@@ -411,20 +411,20 @@ public class Bootstrap {
 		SubjectProperty<Serializable> subprob2 = new SubjectProperty<Serializable>(trial.getCriteria().get(2));
 		try {
 			if(rand.nextInt(2)==0){
-				subprob.setValue(((DichotomousCriterion)trial.getCriteria().get(0)).getOption1());
+				subprob.setValue(DichotomousCriterion.class.cast(trial.getCriteria().get(0)).getOption1());
 			}else{
-				subprob.setValue(((DichotomousCriterion)trial.getCriteria().get(0)).getOption2());
+				subprob.setValue(DichotomousCriterion.class.cast(trial.getCriteria().get(0)).getOption2());
 			}
 			
 			if(rand.nextInt(2)==0){
-				subprob1.setValue(((DichotomousCriterion)trial.getCriteria().get(1)).getOption1());
+				subprob1.setValue(DichotomousCriterion.class.cast(trial.getCriteria().get(1)).getOption1());
 			}else{
-				subprob1.setValue(((DichotomousCriterion)trial.getCriteria().get(1)).getOption2());
+				subprob1.setValue(DichotomousCriterion.class.cast(trial.getCriteria().get(1)).getOption1());
 			}
 			if(rand.nextInt(2)==0){
-				subprob2.setValue(((DichotomousCriterion)trial.getCriteria().get(2)).getOption1());
+				subprob2.setValue(DichotomousCriterion.class.cast(trial.getCriteria().get(2)).getOption1());
 			}else{
-				subprob2.setValue(((DichotomousCriterion)trial.getCriteria().get(2)).getOption2());
+				subprob2.setValue(DichotomousCriterion.class.cast(trial.getCriteria().get(2)).getOption1());
 			}
 		
 		} catch (ContraintViolatedException e) {
