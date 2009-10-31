@@ -561,7 +561,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		
 		}
 	  ChartData data = chartsService.generateRecruitmentChartFactors(validTrial);
-	  assertEquals(1, data.getData().size());
+	  assertEquals(8, data.getData().size());
 	  assertEquals(8, data.getData().get(0).length);
 	  assertEquals(8, data.getXLabels().size());
 	}
