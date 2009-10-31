@@ -1,61 +1,62 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.randi2</groupId>
-	<artifactId>RANDI2</artifactId>
-	<packaging>war</packaging>
-	<version>0.6-SNAPSHOT</version>
-	<name>RANDI2</name>
-	<description>Online Randomization for Clinical Trials</description>
-	<url>http://randi2.org</url>
-	<licenses>
-		<license>
-			<name>GNU GENERAL PUBLIC LICENSE Version 3</name>
-			<url>http://www.gnu.org/licenses/gpl-3.0-standalone.html</url>
-		</license>
-	</licenses>
-	<scm>
-		<connection>scm:git:git://github.com/jthoenes/randi2.git</connection>
-		<developerConnection>scm:git:ssh://github.com:jthoenes/randi2.git</developerConnection>
-		<url>http://github.com/jthoenes/randi2/tree/master</url>
-	</scm>
-	<mailingLists>
-		<mailingList>
-			<name>Announcements</name>
-			<subscribe>https://lists.sourceforge.net/lists/listinfo/randi2-announcements</subscribe>
-			<unsubscribe>https://lists.sourceforge.net/lists/listinfo/randi2-announcements</unsubscribe>
-			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=randi2-announcements</archive>
-		</mailingList>
-		<mailingList>
-			<name>Development Discussion</name>
-			<subscribe>https://lists.sourceforge.net/lists/listinfo/randi2-development</subscribe>
-			<unsubscribe>https://lists.sourceforge.net/lists/listinfo/randi2-development</unsubscribe>
-			<post>randi2-development@lists.sourceforge.net</post>
-			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=randi2-development</archive>
-		</mailingList>
-		<mailingList>
-			<name>Commit Messages</name>
-			<subscribe>https://lists.sourceforge.net/lists/listinfo/randi2-commits</subscribe>
-			<unsubscribe>https://lists.sourceforge.net/lists/listinfo/randi2-commits</unsubscribe>
-			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=randi2-commits</archive>
-		</mailingList>
-	</mailingLists>
-	<issueManagement>
-		<system>github</system>
-		<url>http://github.com/jthoenes/randi2/issues</url>
-	</issueManagement>
-	<ciManagement>
-		<system>hudson</system>
-		<url>http://randi2.org/hudson/</url>
-	</ciManagement>
-	<organization>
-		<name>RANDI2 Core Development Team</name>
-		<url>http://randi2.de</url>
-	</organization>
-	<developers>
-		<developer>
-			<id>jthoenes</id>
-			<name>Johannes Th&#246;nes</name>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.randi2</groupId>
+    <artifactId>RANDI2</artifactId>
+    <packaging>war</packaging>
+    <version>0.6-SNAPSHOT</version>
+    <name>RANDI2</name>
+    <description>Online Randomization for Clinical Trials</description>
+    <url>http://randi2.org</url>
+    <licenses>
+        <license>
+            <name>GNU GENERAL PUBLIC LICENSE Version 3</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0-standalone.html</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:git://github.com/jthoenes/randi2.git</connection>
+        <developerConnection>scm:git:ssh://github.com:jthoenes/randi2.git</developerConnection>
+        <url>http://github.com/jthoenes/randi2/tree/master</url>
+    </scm>
+    <mailingLists>
+        <mailingList>
+            <name>Announcements</name>
+            <subscribe>https://lists.sourceforge.net/lists/listinfo/randi2-announcements</subscribe>
+            <unsubscribe>https://lists.sourceforge.net/lists/listinfo/randi2-announcements</unsubscribe>
+            <archive>https://sourceforge.net/mailarchive/forum.php?forum_name=randi2-announcements</archive>
+        </mailingList>
+        <mailingList>
+            <name>Development Discussion</name>
+            <subscribe>https://lists.sourceforge.net/lists/listinfo/randi2-development</subscribe>
+            <unsubscribe>https://lists.sourceforge.net/lists/listinfo/randi2-development</unsubscribe>
+            <post>randi2-development@lists.sourceforge.net</post>
+            <archive>https://sourceforge.net/mailarchive/forum.php?forum_name=randi2-development</archive>
+        </mailingList>
+        <mailingList>
+            <name>Commit Messages</name>
+            <subscribe>https://lists.sourceforge.net/lists/listinfo/randi2-commits</subscribe>
+            <unsubscribe>https://lists.sourceforge.net/lists/listinfo/randi2-commits</unsubscribe>
+            <archive>https://sourceforge.net/mailarchive/forum.php?forum_name=randi2-commits</archive>
+        </mailingList>
+    </mailingLists>
+    <issueManagement>
+        <system>github</system>
+        <url>http://github.com/jthoenes/randi2/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <system>hudson</system>
+        <url>http://randi2.org/hudson/</url>
+    </ciManagement>
+    <organization>
+        <name>RANDI2 Core Development Team</name>
+        <url>http://randi2.de</url>
+    </organization>
+    <developers>
+        <developer>
+            <id>jthoenes</id>
+            <name>Johannes Th&#246;nes</name>
             <email>jt@randi2.de</email>
             <url>http://jthoenes.bergischweb.de</url>
             <organization>Universit&#228;tsklinikum Heidelberg</organization>
@@ -100,13 +101,13 @@
             </roles>
         </developer>
         <developer>
-          <id>bkurz</id>
-          <name>Benjamin Kurz</name>
-          <email>bk@randi2.de</email>
-          <timezone>+1</timezone>
-          <roles>
-            <role>Newcommer</role>
-          </roles>
+            <id>bkurz</id>
+            <name>Benjamin Kurz</name>
+            <email>bk@randi2.de</email>
+            <timezone>+1</timezone>
+            <roles>
+                <role>Newcommer</role>
+            </roles>
         </developer>
         <developer>
             <id>btheel</id>
@@ -121,7 +122,7 @@
         </developer>
     </developers>
     <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <repositories>
         <repository>
@@ -140,10 +141,10 @@
             <id>JBoss</id>
             <url>http://repository.jboss.com/maven2</url>
         </repository>
-        <repository>  
-        	<id>projectlombok.org</id>  
-        	<url>http://projectlombok.org/mavenrepo</url>
-        </repository> 
+        <repository>
+            <id>projectlombok.org</id>
+            <url>http://projectlombok.org/mavenrepo</url>
+        </repository>
      <!--    <repository>
             <id>HTMLUnit Repo</id>
             <url>sftp://web.sourceforge.net/home/groups/h/ht/htmlunit/htdocs/m2-repo</url>
@@ -224,11 +225,11 @@
             <artifactId>spring-aspects</artifactId>
             <version>2.5.6</version>
         </dependency>
-	<dependency>
-		<groupId>cglib</groupId>
-		<artifactId>cglib-nodep</artifactId>
-		<version>2.2</version>
-	</dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>2.2</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
@@ -261,13 +262,13 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.4</version>
-	    <scope>test</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>2.5.6</version>
-	    <scope>test</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -280,10 +281,10 @@
             <version>3.4.0.GA</version>
         </dependency>
         <dependency>
-      		<groupId>c3p0</groupId>
-     		 <artifactId>c3p0</artifactId>
-    		  <version>0.9.1.2</version>
-		</dependency> 
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.2</version>
+        </dependency>
         <dependency>
             <groupId>org.icefaces</groupId>
             <artifactId>icefaces</artifactId>
@@ -295,10 +296,10 @@
             <version>1.8.2</version>
         </dependency>
         <dependency>
-  	<groupId>net.sf.jcharts</groupId>
-  		<artifactId>krysalis-jCharts</artifactId>
-  		<version>1.0.0-alpha-1</version>
-	</dependency>
+            <groupId>net.sf.jcharts</groupId>
+            <artifactId>krysalis-jCharts</artifactId>
+            <version>1.0.0-alpha-1</version>
+        </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
@@ -351,12 +352,12 @@
             <version>1.8.0.7</version>
             <scope>test</scope>
         </dependency>
-	<dependency>
-		<groupId>org.apache.derby</groupId>
-		<artifactId>derby</artifactId>
-		<version>10.4.2.0</version>
-		<scope>test</scope>
-	</dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.4.2.0</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>javax.faces</groupId>
             <artifactId>jsf-api</artifactId>
@@ -436,28 +437,28 @@
             <version>6.0.18</version>
             <scope>provided</scope>
         </dependency>
-	<dependency>
-	    <groupId>net.sourceforge.findbugs</groupId>
-	    <artifactId>annotations</artifactId>
-	    <version>1.3.2</version>
-	</dependency>
-	<dependency>
-    <groupId>net.sourceforge.htmlunit</groupId>
-    <artifactId>htmlunit</artifactId>
-    <version>2.5</version>
-	</dependency> 
-	<dependency>  
-	<groupId>org.projectlombok</groupId>  
-	<artifactId>lombok</artifactId>  
-	<version>0.8.3</version>  
-	</dependency> 
+        <dependency>
+            <groupId>net.sourceforge.findbugs</groupId>
+            <artifactId>annotations</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>0.8.3</version>
+        </dependency>
 
-	<dependency>
-		<groupId>simple-jndi</groupId>
-		<artifactId>simple-jndi</artifactId>
-		<version>0.11.4.1</version>
-	</dependency>
-   </dependencies>
+        <dependency>
+            <groupId>simple-jndi</groupId>
+            <artifactId>simple-jndi</artifactId>
+            <version>0.11.4.1</version>
+        </dependency>
+    </dependencies>
     <build>
         <finalName>RANDI2</finalName>
         <resources></resources>
@@ -482,36 +483,36 @@
                     </descriptorRefs>
                 </configuration>
             </plugin>
-	          <plugin>
-		          <groupId>org.apache.maven.plugins</groupId>
-		          <artifactId>maven-changelog-plugin</artifactId>
-			  <dependencies>
-			  	<dependency>
-					<groupId>org.apache.maven.scm</groupId>
-					<artifactId>maven-scm-provider-gitexe</artifactId>
-					<version>1.3-SNAPSHOT</version>
-				</dependency>
-				 <dependency>
-				 	<groupId>org.codehaus.plexus</groupId>
-				 	<artifactId>plexus-utils</artifactId>
-				 	<version>1.5.6</version>
-				 </dependency>
-			  </dependencies>
-		</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changelog-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.scm</groupId>
+                        <artifactId>maven-scm-provider-gitexe</artifactId>
+                        <version>1.3-SNAPSHOT</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.codehaus.plexus</groupId>
+                        <artifactId>plexus-utils</artifactId>
+                        <version>1.5.6</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-eclipse-plugin</artifactId>
                 <configuration>
                     <downloadSources>true</downloadSources>
                     <downloadJavadocs>true</downloadJavadocs>
-		    <additionalProjectFacets>
-			    <jst.jsf>1.2</jst.jsf>
-		    </additionalProjectFacets>
+                    <additionalProjectFacets>
+                        <jst.jsf>1.2</jst.jsf>
+                    </additionalProjectFacets>
                     <wtpversion>2.0</wtpversion>
-		    <wtpapplicationxml>true</wtpapplicationxml>
-		    <downloadSources>true</downloadSources>
-		    <downloadJavadocs>true</downloadJavadocs>
-		    <projectNameTemplate>[artifactId]-[version]</projectNameTemplate>
+                    <wtpapplicationxml>true</wtpapplicationxml>
+                    <downloadSources>true</downloadSources>
+                    <downloadJavadocs>true</downloadJavadocs>
+                    <projectNameTemplate>[artifactId]-[version]</projectNameTemplate>
                 </configuration>
             </plugin>
             <plugin>
@@ -525,7 +526,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>tomcat-maven-plugin</artifactId>
                 <configuration>
-		    <url>http://www.randi2.org:8081/manager</url>
+                    <url>http://www.randi2.org:8081/manager</url>
                     <path>/RANDI2_SNAPSHOT</path>
                     <server>tomcat_randi2</server>
                 </configuration>
@@ -615,20 +616,20 @@
                     </formats>
                 </configuration>
             </plugin>
-	    <plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-		            <artifactId>maven-jxr-plugin</artifactId>
-		</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+            </plugin>
             <plugin>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <configuration>
                     <targetJdk>1.6</targetJdk>
                 </configuration>
             </plugin>
-	    <plugin>
-			<groupId>org.codehaus.mojo</groupId>
-			<artifactId>taglist-maven-plugin</artifactId>
-			<version>2.3</version>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <version>2.3</version>
             </plugin>
         </plugins>
     </reporting>
