@@ -451,7 +451,7 @@
         </dependency>
         <dependency>
             <groupId>javax.mail</groupId>
-            <artifactId>mailapi</artifactId>
+            <artifactId>mail</artifactId>
             <version>1.4.2</version>
             <scope>test</scope>
         </dependency>
