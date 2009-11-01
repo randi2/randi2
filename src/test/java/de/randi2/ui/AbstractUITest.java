@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.junit.BeforeClass;
+import org.springframework.core.io.ClassPathResource;
 import org.junit.Ignore;
 
 @Ignore
@@ -33,11 +34,11 @@ public class AbstractUITest {
 	@BeforeClass
 	public static void loadTestProperties(){
 		try {
-			testData.load(new FileInputStream("./src/test/java/de/randi2/ui/testData.properties"));
+			testData.load((new ClassPathResource("testData.properties").getInputStream()));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

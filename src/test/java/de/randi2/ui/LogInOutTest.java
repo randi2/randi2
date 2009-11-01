@@ -45,7 +45,6 @@ public class LogInOutTest extends AbstractUITest{
 	
 	
     @Test
-    @Ignore
     //TODO We still need to configure the automatic test execution
     public void loginAndlogoutTest() throws Exception {
         WebClient webClient = new WebClient(BrowserVersion.FIREFOX_3);
