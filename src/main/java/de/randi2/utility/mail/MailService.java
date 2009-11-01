@@ -22,6 +22,8 @@ import de.randi2.utility.mail.exceptions.MailErrorException;
  */
 public class MailService implements MailServiceInterface {
 
+	private static final String PATH_MAIL_TEMPLATES = "mail/templates";
+	
 	@Autowired
 	private JavaMailSender mailSender;
 	@Autowired
@@ -72,7 +74,7 @@ public class MailService implements MailServiceInterface {
 
 					String subject = VelocityEngineUtils
 							.mergeTemplateIntoString(velocityEngine,
-									"de/randi2/utility/mail/templates/"
+									PATH_MAIL_TEMPLATES
 											+ templateLanguage.getLanguage()
 													.toLowerCase(Locale.getDefault()) + "/"
 											+ messageTemplate + "_subject.vm",
@@ -80,7 +82,7 @@ public class MailService implements MailServiceInterface {
 					message.setSubject(subject);
 
 					String text = VelocityEngineUtils.mergeTemplateIntoString(
-							velocityEngine, "de/randi2/utility/mail/templates/"
+							velocityEngine, PATH_MAIL_TEMPLATES
 									+ templateLanguage.getLanguage()
 											.toLowerCase(Locale.getDefault()) + "/"
 									+ messageTemplate + ".vm", messageFields);
