@@ -50,6 +50,9 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 	
 
 	
+	/* (non-Javadoc)
+	 * @see de.randi2.model.criteria.constraints.AbstractConstraint#configure(java.util.List)
+	 */
 	@Override
 	protected void configure(List<GregorianCalendar> list)
 			throws ContraintViolatedException {
@@ -63,6 +66,9 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see de.randi2.model.criteria.constraints.AbstractConstraint#isValueCorrect(java.lang.Object)
+	 */
 	@Override
 	public void isValueCorrect(GregorianCalendar value)
 			throws ContraintViolatedException {
@@ -77,16 +83,19 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.randi2.model.AbstractDomainObject#getUIName()
+	 */
 	@Override
 	public String getUIName() {
-		// TODO Auto-generated method stub
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		if(firstDate!=null && secondDate!=null){
-			return (format.format(firstDate) + "|" + format.format(secondDate));
-		}else if(firstDate!=null){
-			return ">" + format.format(firstDate);
-		}else {
-			return "<" + format.format(secondDate);
-		}
+			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+			if(firstDate!=null && secondDate!=null){
+				return (sdf.format(firstDate.getTime()) + "|" + sdf.format(secondDate.getTime()));
+			}else if(firstDate!=null){
+				return ">" + sdf.format(firstDate.getTime());
+			}else if(secondDate!=null){
+				return "<" + sdf.format(secondDate.getTime());
+			}
+			return "ERROR";
 	}
 }

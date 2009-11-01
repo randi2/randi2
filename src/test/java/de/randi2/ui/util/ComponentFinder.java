@@ -1,4 +1,4 @@
-package de.randi2.ui;
+package de.randi2.ui.util;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;

@@ -32,10 +32,8 @@ public abstract class AbstractUITest {
 		try {
 			testData.load((new ClassPathResource("testData.properties").getInputStream()));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

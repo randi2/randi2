@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
+ * JSF backing bean which provieds some information about current trials randomization algorithm.
  * Created by IntelliJ IDEA.
  * User: Lukasz Plotnicki <l.plotnicki@dkfz.de>
  * Date: 02.10.2009
@@ -99,6 +100,10 @@ public class AlgorithmInfo {
         return furtherDetails.toString();
     }
 
+    /**
+     * Specifies if the algorithm is stratified or not.
+     * @return
+     */
     public boolean isStratified(){
     	boolean t = isStrataFactorsDefined();
         if(t)
@@ -107,10 +112,17 @@ public class AlgorithmInfo {
         	return randi2Page.getCurrentTrial().isStratifyTrialSite();
     }
     
+    /**
+     * Checks if any strata factors are defined.
+     * @return
+     */
     public boolean isStrataFactorsDefined(){
-    	 for(AbstractCriterion<?,?> c : randi2Page.getCurrentTrial().getCriteria()){
-             if(c.getStrata().size()>0)
-                 return true;
+    	 
+    	for(AbstractCriterion<?,?> c : randi2Page.getCurrentTrial().getCriteria()){
+    		if(c.getStrata()!=null){
+    			if(c.getStrata().size()>0)
+                    return true;
+    		}
          }
     	 return false;
     }

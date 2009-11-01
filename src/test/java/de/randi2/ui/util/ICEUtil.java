@@ -1,8 +1,9 @@
-package de.randi2.ui;
+package de.randi2.ui.util;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import static de.randi2.ui.ComponentFinder.findElementById;
+
+import static de.randi2.ui.util.ComponentFinder.findElementById;
 
 import java.io.IOException;
 

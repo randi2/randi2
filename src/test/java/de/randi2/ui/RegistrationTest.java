@@ -17,17 +17,16 @@
  */
 package de.randi2.ui;
 
-import static de.randi2.ui.ComponentFinder.findElementById;
-import static de.randi2.ui.ICEUtil.activateTab;
-import static de.randi2.ui.ICEUtil.clickSpecificButton;
-import static de.randi2.ui.ICEUtil.useAutoCompleteInput;
+import static de.randi2.ui.util.ComponentFinder.findElementById;
+import static de.randi2.ui.util.ICEUtil.activateTab;
+import static de.randi2.ui.util.ICEUtil.clickSpecificButton;
+import static de.randi2.ui.util.ICEUtil.useAutoCompleteInput;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.Random;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
@@ -38,6 +37,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 
 import de.randi2.model.Person;
 import de.randi2.model.enumerations.Gender;
+import de.randi2.ui.util.Pages;
 
 /**
  * User's self registration function test.

@@ -67,6 +67,10 @@ import de.randi2.utility.logging.LogEntry.ActionType;
  */
 public class LoginHandler extends AbstractHandler<Login> {
 
+	/*
+	 * Services classes to work with - provided via JSF/Spring brige.
+	 */
+	
 	@Setter
 	private UserService userService;
 
@@ -76,34 +80,61 @@ public class LoginHandler extends AbstractHandler<Login> {
 	@Setter
 	private TrialSiteService siteService;
 
+	
+	/*
+	 * Reference to the application popup logic.
+	 */
+	
 	@Setter
 	private Popups popups;
 
-	// This Object is representing the current User
+	/*
+	 * Current signed in user. 
+	 */
+	
 	@Setter
 	private Login loggedInUser = null;
 
-	// The locale chosen by the user.
+	/*
+	 * Current (chosen) locale of the UI. 
+	 */
+	
 	@Setter
 	private Locale chosenLocale = null;
 
-	private AutoCompleteObject<TrialSite> trialSitesAC = null;
-	private AutoCompleteObject<Role> rolesAC = null;
-
-	// Objects for User-Creating Process
+	/*
+	 * newUser - object for the self registration process
+	 * tsPasswort - trail site password for the self registration process
+	 */
 	private Login newUser = null;
 	@Getter @Setter
 	private String tsPassword = null;
 
-	// ---
-
-	// UI logic
+	/*
+	 * The autocomplete objects used during the registrations process (trialSitesAC - with all stored trial sites) and rolesAC for the user creation and editing process with all defined roles. 
+	 */
+	
+	private AutoCompleteObject<TrialSite> trialSitesAC = null;
+	private AutoCompleteObject<Role> rolesAC = null;
+	
+	/*
+	 *  UI logic
+	 */
+	
+	/**
+	 * ActionListener for the "add role" event.
+	 * @param event
+	 */
 	public void addRole(ActionEvent event) {
 		assert (rolesAC.getSelectedObject() != null);
 		assert (userService != null);
 		userService.addRole(showedObject, rolesAC.getSelectedObject());
 	}
 
+	/**
+	 * ActionListener for the "remove role" event.
+	 * @param event
+	 */
 	public void removeRole(ActionEvent event) {
 		assert (userService != null);
 		Role tRole = (Role) (((UIComponent) event.getComponent().getChildren()
@@ -112,19 +143,28 @@ public class LoginHandler extends AbstractHandler<Login> {
 		userService.removeRole(showedObject, tRole);
 	}
 
-	public String changePassword() {
+	/**
+	 * Action Method for the "change password" action.
+	 * @return
+	 */
+	public String changePassword() { 
 		this.saveObject();
 		popups.hideChangePasswordPopup();
 		return Randi2.SUCCESS;
-
 	}
 
+	/**
+	 * Action Method for the "change trial site" action.
+	 * @return
+	 */
 	public String changeTrialSite() {
-		assert (trialSitesAC.getSelectedObject() != null);
-		showedObject.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
-		popups.hideChangeTrialSitePopup();
-		this.saveObject();
-		return Randi2.SUCCESS;
+		if(trialSitesAC.getSelectedObject() != null){
+			showedObject.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
+			popups.hideChangeTrialSitePopup();
+			this.saveObject();
+			return Randi2.SUCCESS;
+		}
+		return Randi2.ERROR;
 	}
 
 	/*
@@ -156,6 +196,11 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 * @return Randi2.SUCCESS normally. Randi2.ERROR in case of an error.
 	 */
 	public String registerUser() {
+		
+		/*
+		 * TODO We could try to move the newUser and tsPassword object as well as a part of this functionality into the RegisterPage bean.
+		 */
+		
 		try {
 			if (creatingMode) {
 				// A new user was created by another logged in user
@@ -199,8 +244,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 			}
 			return Randi2.SUCCESS;
 		} catch (InvalidStateException exp) {
-			// TODO for a stable release delete the following stacktrace
-			exp.printStackTrace();
 			for (InvalidValue v : exp.getInvalidValues()) {
 				Randi2
 						.showMessage(v.getPropertyName() + " : "
@@ -208,8 +251,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 			}
 			return Randi2.ERROR;
 		} catch (Exception e) {
-			// TODO for a stable release delete the following stacktrace
-			e.printStackTrace();
 			Randi2.showMessage(e);
 			return Randi2.ERROR;
 		}
@@ -264,7 +305,14 @@ public class LoginHandler extends AbstractHandler<Login> {
 		this.setChosenLocale(Locale.GERMANY);
 	}
 
-	// GET & SET Methods
+	/*
+	 *  GET & SET Methods
+	 */
+	
+	/**
+	 * Provides the current logged in user.
+	 * @return
+	 */
 	public Login getLoggedInUser() {
 		if (loggedInUser == null) {
 			try {
@@ -272,7 +320,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 						.getAuthentication().getPrincipal();
 				loggedInUser.setLastLoggedIn(new GregorianCalendar());
 			} catch (NullPointerException exp) {
-				// FIXME What should we do at this point?
 				Logger.getLogger(this.getClass()).debug("NPE", exp);
 			}
 		}
@@ -288,8 +335,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 * @return locale for the loged in user
 	 */
 	public Locale getChosenLocale() {
-		// TODO Temporary sysout
-		// System.out.println(chosenLocale);
 		if (this.loggedInUser != null) {
 			if (this.loggedInUser.getPrefLocale() != null) {
 				this.chosenLocale = this.loggedInUser.getPrefLocale();
@@ -311,6 +356,10 @@ public class LoginHandler extends AbstractHandler<Login> {
 	}
 
 
+	/**
+	 * This method specifies if the object that is currently showed in the UI, is editable or not.
+	 * @return
+	 */
 	public boolean isEditable() {
 		PermissionVerifier permissionVerifier = ((PermissionVerifier) FacesContext
 				.getCurrentInstance().getApplication().getELResolver()
@@ -345,12 +394,20 @@ public class LoginHandler extends AbstractHandler<Login> {
 		return newUser;
 	}
 
+	/**
+	 * Returns the trial sites auto complete object (object is a singleton).
+	 * @return
+	 */
 	public AutoCompleteObject<TrialSite> getTrialSitesAC() {
 		if (trialSitesAC == null)
 			trialSitesAC = new AutoCompleteObject<TrialSite>(siteService);
 		return trialSitesAC;
 	}
 
+	/**
+	 * Returns the user roles auto complete object (object is a singleton).
+	 * @return
+	 */
 	public AutoCompleteObject<Role> getRolesAC() {
 		if (rolesAC == null) {
 			rolesAC = new AutoCompleteObject<Role>(userService.getAllRoles());
@@ -377,7 +434,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 							.getRequestContextPath()
 							+ Randi2.SECURE_LOGOUT_PATH);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -392,10 +448,17 @@ public class LoginHandler extends AbstractHandler<Login> {
 			showedObject.getPerson().setAssistant(new Person());
 	}
 
+	/**
+	 * Provides the audit log entries for the showed object.
+	 * @return
+	 */
 	public List<LogEntry> getLogEntries() {
 		return logService.getLogEntries(showedObject.getUsername());
 	}
 
+	/* (non-Javadoc)
+	 * @see de.randi2.jsf.controllerBeans.AbstractHandler#createPlainObject()
+	 */
 	@Override
 	protected Login createPlainObject() {
 		Login l = new Login();

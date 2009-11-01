@@ -1,4 +1,4 @@
-package de.randi2.ui;
+package de.randi2.ui.util;
 
 /**
  * Contains the names of the RANDI2 jsf pages for the test purpose.
