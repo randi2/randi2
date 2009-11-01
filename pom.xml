@@ -449,6 +449,12 @@
             <version>0.11.4.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mailapi</artifactId>
+            <version>1.4.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <finalName>RANDI2</finalName>
