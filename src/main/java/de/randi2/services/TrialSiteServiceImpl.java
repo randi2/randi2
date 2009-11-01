@@ -17,6 +17,7 @@
  */
 package de.randi2.services;
 
+
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -25,12 +26,14 @@ import org.springframework.security.annotation.Secured;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.dao.salt.SystemWideSaltSource;
 import org.springframework.security.providers.encoding.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.TrialSiteDao;
 import de.randi2.model.TrialSite;
 
+@Service("trialSiteService")
 public class TrialSiteServiceImpl implements TrialSiteService{
 
 	private Logger logger = Logger.getLogger(TrialServiceImpl.class);

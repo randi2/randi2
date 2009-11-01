@@ -20,6 +20,7 @@ package de.randi2.dao;
 import java.util.List;
 
 import org.springframework.security.annotation.Secured;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ import de.randi2.model.Role;
 /**
  * The Class RoleDaoHibernate.
  */
+@Service("roleDao")
 public class RoleDaoHibernate extends AbstractDaoHibernate<Role> implements
 		RoleDao {
 

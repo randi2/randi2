@@ -17,11 +17,14 @@
  */
 package de.randi2.dao;
 
+import org.springframework.stereotype.Service;
+
 import de.randi2.model.Person;
 
 /**
  * The Class PersonDaoHibernate.
  */
+@Service("personDao")
 public class PersonDaoHibernate extends AbstractDaoHibernate<Person> implements
 		PersonDao {
 

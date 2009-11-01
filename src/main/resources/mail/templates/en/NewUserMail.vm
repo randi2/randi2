@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<body>
+<div style="width: 800px;">
+<h4>Hello ${user.getPerson().getFirstname()}
+${user.getPerson().getSurname()} and welcome to RANDI2!</h4>
+This installation ist hosted by ${hoster}<br>
+You can log in under the adress: <a href="${url}">${url}</a>.
+<br>
+Please use therefor your username (${user.getUsername()}) and the
+chosen password.<br>
+<br>
+Please control your personal informations:&nbsp;<br>
+<br>
+<table style="text-align: left;" cellpadding="2" cellspacing="2">
+<tbody>
+<tr>
+<td>Firstname:</td>
+<td>${user.getPerson().getFirstname()}</td>
+</tr>
+<tr>
+<td>Surname:</td>
+<td>${user.getPerson().getSurname()}</td>
+</tr>
+<tr>
+<td>Phone:</td>
+<td>${user.getPerson().getPhone()}</td>
+</tr>
+<tr>
+<td>Mobile Phone:</td>
+<td>${user.getPerson().getMobile()}</td>
+</tr>
+<tr>
+<td>Fax:</td>
+<td>${user.getPerson().getFax()}</td>
+</tr>
+</tbody>
+</table>
+<br>
+You can change wrong entries if you log in under the address: <a href="${url}">${url}</a>.<br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<div style="text-align: center;">--- This is a RANDI2
+System Mail ---<br>
+<br>
+RANDI2 is a web-based
+software for randomizing subjects for clinical trials.<br>
+The RANDI2 project has been released under GNU GPL v. 3.0. <br>
+For more informations about the project you can visit <a href="http://randi2.org">http://randi2.org</a>.
+</div>
+</div>
+</body></html>

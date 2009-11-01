@@ -10,7 +10,7 @@ public class TransactionalLoginDaoTest extends
 
 	@Override
 	protected void init() {
-		dao = (LoginDao) applicationContext.getBean("loginDAO");
+		dao = (LoginDao) applicationContext.getBean("loginDao");
 		object = factory.getLogin();
 	}
 	

@@ -14,7 +14,7 @@ public class TransactionalRoleTest extends
 	@Autowired SessionFactory sessionFactory;
 	@Override
 	protected void init() {
-		dao = (RoleDao)applicationContext.getBean("roleDAO");
+		dao = (RoleDao)applicationContext.getBean("roleDao");
 		object = new Role(stringUtil.getWithLength(10), false, true,
 				false, true, false, false, true, true, false, true, false, true,
 				false, true, false, false, true, false, true, false, true, false,
