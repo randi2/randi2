@@ -132,7 +132,7 @@
 			<jsp:directive.include file="./inc/panels/charts/recruitmentChart.jspx" />
 		</f:subview>
 	</ice:panelGroup>
-	 <ice:panelGroup style="margin-top: 10px;">
+	 <ice:panelGroup style="margin-top: 10px;" rendered="#{algorithmInfo.stratified}">
 		<f:subview id="recruitmentFactorsChart">
 			<jsp:directive.include file="./inc/panels/charts/recruitmentFactorsChart.jspx" />
 		</f:subview>
