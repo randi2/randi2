@@ -43,7 +43,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 public class LogInOutTest extends AbstractUITest{
 	
 	
-	
+	@Ignore
     @Test
     //TODO We still need to configure the automatic test execution
     public void loginAndlogoutTest() throws Exception {
