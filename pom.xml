@@ -269,7 +269,12 @@
             <version>1.2_13</version>
         </dependency>
 
-        
+        <!-- Standart Taglibs -->
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+        </dependency>
 
         <!-- IceFaces -->
         <dependency>
@@ -390,14 +395,6 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Standart Taglibs -->
-        <dependency>
-            <groupId>taglibs</groupId>
-            <artifactId>standard</artifactId>
-            <version>1.1.2</version>
             <scope>provided</scope>
         </dependency>
 
