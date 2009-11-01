@@ -114,6 +114,23 @@ public class Bootstrap {
 	private TrialService trialService;
 	private UserService userService;
 
+	public Bootstrap() {
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
+				"classpath:/META-INF/spring.xml");
+		loginDao = (LoginDaoHibernate) ctx.getBean("loginDao");
+		rolesAndRights = (RolesAndRights) ctx.getBean("rolesAndRights");
+		trialSiteDao = (TrialSiteDaoHibernate) ctx.getBean("trialSiteDao");
+		sessionFactory = (SessionFactory) ctx.getBean("sessionFactory");
+		passwordEncoder = (PasswordEncoder) ctx.getBean("passwordEncoder");
+		saltSourceUser = (ReflectionSaltSource) ctx.getBean("saltSourceUser");
+		saltSourceTrialSite = (SystemWideSaltSource) ctx
+				.getBean("saltSourceTrialSite");
+		trialService = (TrialService) ctx.getBean("trialService");
+		userService = (UserService) ctx.getBean("userService");
+		init();
+
+	}
+	
 	public void init() {
 		ManagedSessionContext.bind(sessionFactory.openSession());
 		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_ADMIN);
@@ -476,23 +493,6 @@ public class Bootstrap {
 		subject.setCreatedAt(date);
 		sessionFactory.getCurrentSession().update(subject);
 		sessionFactory.getCurrentSession().flush();
-	}
-
-	public Bootstrap() {
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-				"classpath:/META-INF/spring.xml");
-		loginDao = (LoginDaoHibernate) ctx.getBean("loginDAO");
-		rolesAndRights = (RolesAndRights) ctx.getBean("rolesAndRights");
-		trialSiteDao = (TrialSiteDaoHibernate) ctx.getBean("trialSiteDAO");
-		sessionFactory = (SessionFactory) ctx.getBean("sessionFactory");
-		passwordEncoder = (PasswordEncoder) ctx.getBean("passwordEncoder");
-		saltSourceUser = (ReflectionSaltSource) ctx.getBean("saltSourceUser");
-		saltSourceTrialSite = (SystemWideSaltSource) ctx
-				.getBean("saltSourceTrialSite");
-		trialService = (TrialService) ctx.getBean("trialService");
-		userService = (UserService) ctx.getBean("userService");
-		init();
-
 	}
 
 	/**
