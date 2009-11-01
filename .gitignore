@@ -1,6 +1,10 @@
 target/
+bin/
+doc/
 .settings/
+.metadata/
 nb-configuration.xml
 .classpath
 .project
+.springBeans
 src/main/resources/META-INF/configuration.properties
