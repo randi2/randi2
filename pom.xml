@@ -259,12 +259,8 @@
             <version>1.2_13</version>
             <type>jar</type>
         </dependency>
-        <dependency>
-            <groupId>javax.faces</groupId>
-            <artifactId>jsf-impl</artifactId>
-            <version>1.2_13</version>
-            <type>jar</type>
-        </dependency>
+
+        
 
         <!-- IceFaces -->
         <dependency>
@@ -322,21 +318,6 @@
             <version>2.2</version>
         </dependency>
 
-        <!-- Servlet API -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Standart Taglibs -->
-        <dependency>
-            <groupId>taglibs</groupId>
-            <artifactId>standard</artifactId>
-            <version>1.1.2</version>
-        </dependency>
-
         <!-- Velocity Template Engine -->
         <dependency>
             <groupId>org.apache.velocity</groupId>
@@ -381,6 +362,41 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.6</version>
+        </dependency>
+
+        <!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** *****  -->
+        <!-- Runtime Dependencies provided by containers                  -->
+        <!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** *****  -->
+
+        <dependency>
+            <groupId>javax.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <version>1.2_13</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Expression Language Support (for JSF) -->
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>el-api</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Servlet API -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Standart Taglibs -->
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+            <scope>provided</scope>
         </dependency>
 
 
