@@ -83,7 +83,6 @@ public abstract class AbstractHandler<O extends AbstractDomainObject> {
 	 * This method saves the showedObject.
 	 * @return Randi2.SUCCESS or RANDI2.ERROR
 	 */
-	// FIXME Please implement this using the DAO methods
 	public abstract String saveObject();
 
 	/**
