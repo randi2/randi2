@@ -165,8 +165,6 @@
         <!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** *****  -->
 
         <!-- Spring dependencies -->
-        <dependency>
-            <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>${org.springframework.version}</version>
         </dependency>
@@ -192,7 +190,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
+            <artifactId>spring-web</artifactId>
             <version>${org.springframework.version}</version>
         </dependency>
         <dependency>
@@ -202,6 +200,9 @@
         </dependency>
 
         <!-- Spring Security -->
+            <artifactId>spring-orm</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
