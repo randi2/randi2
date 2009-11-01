@@ -27,6 +27,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.stereotype.Service;
+
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
@@ -36,6 +38,7 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.randomization.ChartData;
 import de.randi2.utility.StrataNameIDWrapper;
 
+@Service("chartsService")
 public class ChartsServiceImpl implements ChartsService {
 
 	@Override

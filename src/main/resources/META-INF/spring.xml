@@ -15,7 +15,6 @@
 		<property name="ignoreUnresolvablePlaceholders">
 			<value>true</value>
 		</property>
-
 	</bean>
 	
 
@@ -25,16 +24,10 @@
 
 	<import resource="classpath:META-INF/subconfig/database-mysql5.xml" />
 	<import resource="classpath:META-INF/subconfig/hibernate.xml" />
-	<import resource="classpath:META-INF/subconfig/dao.xml" />
-<!-- 	<import resource="classpath:META-INF/subconfig/handlers.xml" /> -->
  	<import resource="classpath:META-INF/subconfig/aspects.xml" />
 	<import resource="classpath:META-INF/subconfig/security.xml" />
 	<import resource="classpath:META-INF/subconfig/services.xml"/>
 	<import resource="classpath:META-INF/subconfig/logging.xml"/>
-	
 	<import resource="classpath:META-INF/subconfig/mail.xml" />
-	<!-- Random Instance for NOT Randomization purposes. For Randomization
-		use a seperate Instance for each call (even if it is inefficient)! -->
-	<bean id="random" class="java.util.Random"></bean>
 
 </beans>

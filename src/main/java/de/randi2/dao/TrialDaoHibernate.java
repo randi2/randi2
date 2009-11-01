@@ -17,6 +17,9 @@
  */
 package de.randi2.dao;
 
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.stereotype.Service;
+
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Trial;
 import de.randi2.model.randomization.Block;
@@ -29,6 +32,7 @@ import de.randi2.model.randomization.UrnDesignTempData;
 /**
  * The Class TrialDaoHibernate.
  */
+@Service("trialDao")
 public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements TrialDao {
 
 	/* (non-Javadoc)

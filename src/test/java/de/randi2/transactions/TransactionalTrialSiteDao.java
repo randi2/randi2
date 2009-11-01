@@ -8,7 +8,7 @@ public class TransactionalTrialSiteDao extends
 
 	@Override
 	protected void init() {
-		dao = (TrialSiteDao)applicationContext.getBean("trialSiteDAO");
+		dao = (TrialSiteDao)applicationContext.getBean("trialSiteDao");
 		object = factory.getTrialSite();
 	}
 

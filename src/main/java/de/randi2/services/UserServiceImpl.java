@@ -27,9 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.annotation.Secured;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
-import org.springframework.security.providers.dao.SaltSource;
 import org.springframework.security.providers.dao.salt.ReflectionSaltSource;
 import org.springframework.security.providers.encoding.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +46,7 @@ import de.randi2.utility.mail.exceptions.MailErrorException;
  * @author dschrimpf
  * 
  */
+@Service("userService")
 public class UserServiceImpl implements UserService {
 
 	private Logger logger = Logger.getLogger(UserServiceImpl.class);
@@ -55,21 +56,14 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private ReflectionSaltSource saltSourceUser;
 
+	@Autowired
 	private LoginDao loginDao;
 
-	public UserServiceImpl() {
-		super();
-	}
-
+	@Autowired
 	private RoleDao roleDao;
+	@Autowired
 	private MailServiceInterface mailService;
 
-	public UserServiceImpl(LoginDao loginDao, RoleDao roleDao,
-			MailServiceInterface mailService) {
-		this.loginDao = loginDao;
-		this.roleDao = roleDao;
-		this.mailService = mailService;
-	}
 
 	@Override
 	public void addRole(Login login, Role role) {

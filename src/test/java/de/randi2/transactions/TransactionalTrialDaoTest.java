@@ -12,7 +12,7 @@ public class TransactionalTrialDaoTest extends
 	@Autowired private HibernateTemplate template;
 	@Override
 	protected void init() {
-		dao = (TrialDao)applicationContext.getBean("trialDAO");
+		dao = (TrialDao)applicationContext.getBean("trialDao");
 		object = factory.getTrial();
 		template.save(object.getLeadingSite().getContactPerson());
 		template.save(object.getLeadingSite());

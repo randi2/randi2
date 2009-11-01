@@ -27,6 +27,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.annotation.Secured;
 import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +39,7 @@ import de.randi2.model.TrialSubject;
 import de.randi2.utility.mail.MailService;
 import de.randi2.utility.mail.exceptions.MailErrorException;
 
+@Service("trialService")
 public class TrialServiceImpl implements TrialService {
 
 	private Logger logger =  Logger.getLogger(TrialServiceImpl.class);

@@ -24,12 +24,13 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
+
+
+import de.randi2.utility.mail.exceptions.MailErrorException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.ui.velocity.VelocityEngineUtils;
-
-import de.randi2.utility.mail.exceptions.MailErrorException;
 
 /**
  * Service to send e-mails. The message to send is generated using a template.
@@ -39,7 +40,7 @@ import de.randi2.utility.mail.exceptions.MailErrorException;
  */
 public class MailService implements MailServiceInterface {
 
-	private static final String PATH_MAIL_TEMPLATES = "mail/templates";
+	private static final String PATH_MAIL_TEMPLATES = "mail/templates/";
 	
 	@Autowired
 	private JavaMailSender mailSender;
