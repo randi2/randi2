@@ -1,3 +1,20 @@
+/* 
+ * (c) 2008-2009 RANDI2 Core Development Team
+ * 
+ * This file is part of RANDI2.
+ * 
+ * RANDI2 is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * RANDI2. If not, see <http://www.gnu.org/licenses/>.
+ */
 package de.randi2.services;
 
 import java.util.HashMap;
@@ -10,7 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.annotation.Secured;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
-import org.springframework.security.providers.dao.salt.SystemWideSaltSource;
+import org.springframework.security.providers.dao.SaltSource;
+import org.springframework.security.providers.dao.salt.ReflectionSaltSource;
 import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +53,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
-	private SystemWideSaltSource saltSource;
+	private ReflectionSaltSource saltSourceUser;
 
 	private LoginDao loginDao;
 
@@ -110,13 +128,16 @@ public class UserServiceImpl implements UserService {
 			newObject.addRole(Role.ROLE_INVESTIGATOR);
 		}
 		newObject.setPassword(passwordEncoder.encodePassword(newObject
-				.getPassword(), saltSource.getSystemWideSalt()));
+				.getPassword(), saltSourceUser.getSalt(newObject)));
 		loginDao.create(newObject);
 		// send registration Mail
 		sendRegistrationMail(newObject);
 
 	}
 
+	/* (non-Javadoc)
+	 * @see de.randi2.services.UserService#create(de.randi2.model.Login)
+	 */
 	@Override
 	@Secured( { "ACL_LOGIN_CREATE" })
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -126,7 +147,7 @@ public class UserServiceImpl implements UserService {
 						.getName() + " create new user "
 				+ newObject.getUsername());
 		newObject.setPassword(passwordEncoder.encodePassword(newObject
-				.getPassword(), saltSource.getSystemWideSalt()));
+				.getPassword(), saltSourceUser.getSalt(newObject)));
 		loginDao.create(newObject);
 		// send registration Mail
 		sendRegistrationMail(newObject);
@@ -140,6 +161,13 @@ public class UserServiceImpl implements UserService {
 				+ SecurityContextHolder.getContext().getAuthentication()
 						.getName() + " update user "
 				+ changedObject.getUsername());
+		if (changedObject.getPassword().length() != 64){
+			System.out.println("Password: "+changedObject.getPassword());
+			changedObject.setPassword(passwordEncoder.encodePassword(
+					changedObject.getPassword(), saltSourceUser
+							.getSalt(changedObject)));
+			System.out.println("Password: "+changedObject.getPassword());
+		}
 		return loginDao.update(changedObject);
 	}
 
