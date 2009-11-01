@@ -41,6 +41,10 @@ import de.randi2.services.TrialSiteService;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
 public class TrialSiteHandler extends AbstractHandler<TrialSite> {
+	
+	/*
+	 * Services which are provided by spring and this class works with.
+	 */
 
 	@Setter
 	private TrialSiteService siteService = null;
@@ -48,22 +52,33 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	@Setter
 	private PermissionVerifier permissionVerifier;
 	
+	/*
+	 * Reference to the popups bean for the popups functionality. 
+	 */
+	
 	@Setter
 	private Popups popups;
+	
+	/*
+	 * Reference to the LoginHandler 
+	 */
 	
 	@Setter
 	private LoginHandler loginHandler;
 
+	/**
+	 * Returns the currently signed in user.
+	 * @return
+	 */
 	public Login getCurrentUser() {
 		return loginHandler.getLoggedInUser();
 	}
 
+	/**
+	 * Checks if the current user can edit the currently shown center.
+	 * @return
+	 */
 	public boolean isEditable() {
-		// TODO if the user has the right to edit the center properties this
-		// method should return true
-		// Temporary I'll just look, if the current user is a member of this
-		// center - if it is so, then he can edit it
-		// properties.
 		if (showedObject != null
 				&& permissionVerifier.isAllowedEditTrialSite(showedObject)) {
 						editable = true;
@@ -134,6 +149,9 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 		return siteService.getAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.randi2.jsf.controllerBeans.AbstractHandler#createPlainObject()
+	 */
 	@Override
 	protected TrialSite createPlainObject() {
 		TrialSite ts = new TrialSite();
