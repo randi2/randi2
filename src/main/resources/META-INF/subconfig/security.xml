@@ -1,58 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:sec="http://www.springframework.org/schema/security"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:sec="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
 
 
 
-<!-- ======================= BEGINN Security for WEB ========================= -->
+	<!--
+		======================= BEGINN Security for WEB
+		=========================
+	-->
 
- <sec:http access-decision-manager-ref="httpAccessDecisionManager" session-fixation-protection="none" >
+	<sec:http access-decision-manager-ref="httpAccessDecisionManager"
+		session-fixation-protection="none">
 		<sec:form-login login-page="/login.jspx"
-			default-target-url="/randi2.jspx"
-			authentication-failure-url="/login.jspx"
+			default-target-url="/randi2.jspx" authentication-failure-url="/login.jspx"
 			login-processing-url="/j_spring_security_check" />
-		<sec:intercept-url pattern="/randi2.jspx" access="ROLE_USER" requires-channel="any"/>
-		<sec:concurrent-session-control max-sessions="1"/>
-		<sec:logout logout-success-url="/goodbye.jspx"/>
+		<sec:intercept-url pattern="/randi2.jspx" access="ROLE_USER"
+			requires-channel="any" />
+		<sec:concurrent-session-control
+			max-sessions="1" />
+		<sec:logout logout-success-url="/goodbye.jspx" />
 	</sec:http>
 
 	<bean id="authenticationProvider"
 		class="de.randi2.utility.security.DaoAuthenticationProviderWithLock">
 		<sec:custom-authentication-provider />
-		<property name="userDetailsService"> <bean class="de.randi2.dao.UserDetailsServiceImpl"></bean></property>
-				<property name="passwordEncoder" ref="passwordEncoder" />
-				<property name="saltSource" ref="saltSource" />
+		<property name="userDetailsService">
+			<bean class="de.randi2.dao.UserDetailsServiceImpl"></bean>
+		</property>
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="saltSource" ref="saltSourceUser" />
 	</bean>
-	
+
+	<!-- The passwords will be hashed with the SHA-256 algorithm -->
 	<bean id="passwordEncoder"
-			class="org.springframework.security.providers.encoding.Md5PasswordEncoder" />
-			
-	<bean id="saltSource"
-			class="org.springframework.security.providers.dao.salt.SystemWideSaltSource">
-			<property name="systemWideSalt" value="DSJGEWI8SDG46ASGJAER436234ERDFZHS9346" />
+		class="org.springframework.security.providers.encoding.ShaPasswordEncoder">
+		<constructor-arg value="256" />
 	</bean>
 
-<!-- ======================= END Security for WEB ========================= -->
-	
+	<!--
+		Before hashing the user password will be salted with an
+		object-dependent "salt"
+	-->
+	<bean id="saltSourceUser"
+		class="org.springframework.security.providers.dao.salt.ReflectionSaltSource">
+		<property name="userPropertyToUse" value="username"></property>
+	</bean>
 
-	<!-- ======================= Definition ACL Service ======================= -->
+	<!--
+		Before hashing the trial site password will be salted with an
+		object-dependent "salt"
+	-->
+	<bean id="saltSourceTrialSite"
+		class="org.springframework.security.providers.dao.salt.SystemWideSaltSource">
+		<property name="systemWideSalt" value="DSJGEWI8SDG46ASGJAER436234ERDFZHS9346" />
+	</bean>
+
+	<!--
+		======================= END Security for WEB =========================
+	-->
+
+
+	<!--
+		======================= Definition ACL Service =======================
+	-->
 	<bean id="aclService" class="de.randi2.dao.HibernateAclService"></bean>
 
-	<!-- ======================= Mapping between the roles and rights ======================= -->
-	<bean id="rolesAndRights"
-		class="de.randi2.utility.security.RolesAndRights">
+	<!--
+		======================= Mapping between the roles and rights
+		=======================
+	-->
+	<bean id="rolesAndRights" class="de.randi2.utility.security.RolesAndRights">
 	</bean>
 
- <bean id="securityAspects" class="de.randi2.aspects.SecurityAspects" ></bean> 
-<!-- import the other configurations -->
-<import resource="classpath:META-INF/subconfig/security/security-permissions.xml" />
-<import resource="classpath:META-INF/subconfig/security/security-voter.xml" />
-<import resource="classpath:META-INF/subconfig/security/security-accessDecisionManager.xml" />
-<import resource="classpath:META-INF/subconfig/security/security-method-interceptor.xml" />
+	<bean id="securityAspects" class="de.randi2.aspects.SecurityAspects"></bean>
+	<!-- import the other configurations -->
+	<import
+		resource="classpath:META-INF/subconfig/security/security-permissions.xml" />
+	<import resource="classpath:META-INF/subconfig/security/security-voter.xml" />
+	<import
+		resource="classpath:META-INF/subconfig/security/security-accessDecisionManager.xml" />
+	<import
+		resource="classpath:META-INF/subconfig/security/security-method-interceptor.xml" />
 
 
 </beans>

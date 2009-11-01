@@ -20,12 +20,12 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 	
 	@Autowired private TrialSiteDao siteDAO;
 	@Autowired private PasswordEncoder passwordEncoder;
-	@Autowired private SystemWideSaltSource saltSource;
+	@Autowired private SystemWideSaltSource saltSourceTrialSite;
 	
 	@Override
 	@Secured({"ROLE_ANONYMOUS"})
 	public boolean authorize(TrialSite site, String password) {
-		return site.getPassword().equals(passwordEncoder.encodePassword(password,saltSource.getSystemWideSalt()));
+		return site.getPassword().equals(passwordEncoder.encodePassword(password,saltSourceTrialSite.getSystemWideSalt()));
 		
 	}
 
@@ -50,7 +50,7 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void create(TrialSite newSite) {
 		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " create trial site with name " + newSite.getName());
-		newSite.setPassword(passwordEncoder.encodePassword(newSite.getPassword(), saltSource.getSystemWideSalt()));
+		newSite.setPassword(passwordEncoder.encodePassword(newSite.getPassword(), saltSourceTrialSite.getSystemWideSalt()));
 		siteDAO.create(newSite);
 		
 	}

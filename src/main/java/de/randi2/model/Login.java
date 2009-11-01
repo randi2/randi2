@@ -82,7 +82,7 @@ public  @Data class  Login extends AbstractDomainObject implements UserDetails {
 	public final static int MIN_PASSWORD_LENGTH = 8;
 	
 	/** The Constant HASH_PASSWORD_LENGTH. */
-	public final static int HASH_PASSWORD_LENGTH = 32;
+	public final static int HASH_PASSWORD_LENGTH = 64;
 
 	/** The pref locale. */
 	private Locale prefLocale = null;
