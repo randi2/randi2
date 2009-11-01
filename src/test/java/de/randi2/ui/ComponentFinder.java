@@ -51,8 +51,6 @@ public abstract class ComponentFinder {
     public static HtmlAnchor findAnchorById(HtmlPage page, String id) {
         for (HtmlAnchor anchor : page.getAnchors()) {
             String currentId = anchor.getId();
-            System.out.println(anchor.getTitleAttribute());
-            System.out.println(currentId);
             if (currentId.contains(id)) {
                 return anchor;
             }
