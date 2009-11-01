@@ -5,12 +5,7 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.5.xsd">
 
 
-	<bean id="userService" class="de.randi2.services.UserServiceImpl">
-		<constructor-arg ref="loginDAO" />
-		<constructor-arg ref="roleDAO" />
-		<constructor-arg ref="mailService" />
-	</bean>
-
+	<bean id="userService" class="de.randi2.services.UserServiceImpl"/>
 	<bean id="trialSiteService" class="de.randi2.services.TrialSiteServiceImpl"/>
 	
 	<bean id="trialService" class="de.randi2.services.TrialServiceImpl"/>

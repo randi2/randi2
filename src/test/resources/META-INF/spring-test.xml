@@ -32,15 +32,7 @@
 	 <import resource="classpath:META-INF/subconfig/services.xml" />
 	 <import resource="classpath:META-INF/subconfig/mail-test.xml" />
 	<import resource="classpath:META-INF/subconfig/hibernate-test.xml" />
-	<!-- <import resource="classpath:META-INF/subconfig/aspects.xml" /> -->
-	<!-- Random Instance for NOT Randomization purposes. For Randomization
-		use a seperate Instance for each call (even if it is inefficient)! -->
-	<bean id="random" class="java.util.Random"></bean>
-	<bean id="trialDAO" class="de.randi2.dao.TrialDaoHibernate"></bean>
-	<bean id="personDAO" class="de.randi2.dao.PersonDaoHibernate"></bean>
-	<bean id="loginDAO" class="de.randi2.dao.LoginDaoHibernate"></bean>
-	<bean id="trialSiteDAO" class="de.randi2.dao.TrialSiteDaoHibernate"></bean>
-	<bean id="roleDAO" class="de.randi2.dao.RoleDaoHibernate"></bean>
+	<import resource="classpath:META-INF/subconfig/dao.xml"/>
 	<bean id="passwordEncoder"
 		class="org.springframework.security.providers.encoding.ShaPasswordEncoder">
 		<constructor-arg value="256" />

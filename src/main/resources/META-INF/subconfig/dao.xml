@@ -6,10 +6,10 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.5.xsd" >
 
 	
-	<bean id="trialDAO" class="de.randi2.dao.TrialDaoHibernate"></bean>
-	<bean id="personDAO" class="de.randi2.dao.PersonDaoHibernate"></bean>
-	<bean id="loginDAO" class="de.randi2.dao.LoginDaoHibernate"></bean>
-	<bean id="trialSiteDAO" class="de.randi2.dao.TrialSiteDaoHibernate"></bean>
-	<bean id="roleDAO" class="de.randi2.dao.RoleDaoHibernate"></bean>
+	<bean id="trialDao" class="de.randi2.dao.TrialDaoHibernate"></bean>
+	<bean id="personDao" class="de.randi2.dao.PersonDaoHibernate"></bean>
+	<bean id="loginDao" class="de.randi2.dao.LoginDaoHibernate"></bean>
+	<bean id="trialSiteDao" class="de.randi2.dao.TrialSiteDaoHibernate"></bean>
+	<bean id="roleDao" class="de.randi2.dao.RoleDaoHibernate"></bean>
 	
 </beans>
