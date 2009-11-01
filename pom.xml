@@ -133,8 +133,12 @@
         </contributor>
     </contributors>
     <properties>
+        <!-- Compiler Settings -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Version Shortcuts -->
         <org.springframework.version>2.5.6.SEC01</org.springframework.version>
+        <mysql.version>5.1.9</mysql.version>
+        <hsqldb.version>1.8.0.7</hsqldb.version>
     </properties>
     <repositories>
         <repository>
@@ -259,7 +263,7 @@
             <version>1.2_13</version>
             <type>jar</type>
         </dependency>
-          <dependency>
+        <dependency>
             <groupId>javax.faces</groupId>
             <artifactId>jsf-impl</artifactId>
             <version>1.2_13</version>
@@ -366,7 +370,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.6</version>
+            <version>${mysql.version}</version>
         </dependency>
 
         <!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** *****  -->
@@ -601,18 +605,43 @@
         <profile>
             <id>hsqldb-test</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>!test.dbms</name>
+                </property>
             </activation>
             <properties>
-                <randi2.simple-jndi.root>src/test/resources/jndi</randi2.simple-jndi.root>
+                <randi2.simple.jndi.root>src/test/resources/jndi</randi2.simple.jndi.root>
+                <test.database.name>randi2/jdbc/hsqldb</test.database.name>
                 <test.hibernate.sqldialect>de.randi2.utility.CustomHSQLDialect</test.hibernate.sqldialect>
             </properties>
             <dependencies>
                 <dependency>
                     <groupId>hsqldb</groupId>
                     <artifactId>hsqldb</artifactId>
-                    <version>1.8.0.7</version>
+                    <version>${hsqldb.version}</version>
                     <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>mysql5-test</id>
+            <activation>
+                <property>
+                    <name>test.dbms</name>
+                    <value>mysql5</value>
+                </property>
+            </activation>
+            <properties>
+                <randi2.simple.jndi.root>${simple.jndi.root}</randi2.simple.jndi.root>
+                <test.database.name>randi2/jdbc/mysql5-test</test.database.name>
+                <test.hibernate.sqldialect>org.hibernate.dialect.MySQL5InnoDBDialect</test.hibernate.sqldialect>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>${mysql.version}</version>
                 </dependency>
             </dependencies>
         </profile>
