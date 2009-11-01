@@ -384,6 +384,15 @@ public class Trial extends AbstractDomainObject {
 	public int getTotalSubjectAmount(){
 		return getSubjects().size();
 	}
+	
+	/**
+	 * Specifies if the trial is a fresh trial (without any subjects)
+	 * @return
+	 */
+	@Transient 
+	public boolean isFresh(){
+		return !(getTotalSubjectAmount()>0);
+	}
 
 	/* (non-Javadoc)
 	 * @see de.randi2.model.AbstractDomainObject#getUIName()
