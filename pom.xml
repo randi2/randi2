@@ -511,10 +511,10 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
+                <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>**/ui/*.java</exclude>
+                        <exclude>**/ui/*Test.java</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -527,7 +527,7 @@
                                 <exclude>none</exclude>
                             </excludes>
                             <includes>
-                                <include>**/ui/*.java</include>
+                                <include>**/ui/*Test.java</include>
                             </includes>
                         </configuration>
                     </execution>
@@ -546,7 +546,7 @@
                         <id>start-jetty</id>
                         <phase>pre-integration-test</phase>
                         <goals>
-                            <goal>run-exploded</goal>
+                            <goal>run</goal>
                         </goals>
                         <configuration>
                             <port>8888</port>
@@ -594,6 +594,10 @@
     </build>
     <reporting>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-changelog-plugin</artifactId>

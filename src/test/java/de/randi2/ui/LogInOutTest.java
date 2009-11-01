@@ -43,8 +43,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 public class LogInOutTest extends AbstractUITest{
 	
 	
-	@Ignore
-    @Test
+	@Test
     //TODO We still need to configure the automatic test execution
     public void loginAndlogoutTest() throws Exception {
         WebClient webClient = new WebClient(BrowserVersion.FIREFOX_3);

@@ -67,7 +67,6 @@ public class RegistrationTest extends AbstractUITest{
      * 
      * @throws IOException Signals that an I/O exception has occurred.
      */
-    @Ignore
     @Test
     //TODO We still need to configure the automatic test execution
     public void registrationTest() throws IOException {
