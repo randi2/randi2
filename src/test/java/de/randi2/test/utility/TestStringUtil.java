@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class TestStringUtil {
 
-	@Autowired
-	private Random random;
+	
+	private Random random = new Random();
 	
 	private String lastString = null;
 	

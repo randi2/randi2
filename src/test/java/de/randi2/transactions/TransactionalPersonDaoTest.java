@@ -8,7 +8,7 @@ public class TransactionalPersonDaoTest extends AbstractTransactionalTest<Person
 
 	@Override
 	protected void init() {
-		dao = (PersonDao) applicationContext.getBean("personDAO");
+		dao = (PersonDao) applicationContext.getBean("personDao");
 		object = factory.getPerson();
 	}
 

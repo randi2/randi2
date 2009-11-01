@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.security.annotation.Secured;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ import de.randi2.model.Role;
 /**
  * The Class LoginDaoHibernate.
  */
+@Service("loginDao")
 public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements
 		LoginDao {
 

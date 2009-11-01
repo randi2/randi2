@@ -19,6 +19,7 @@ package de.randi2.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ import de.randi2.model.TrialSite;
 /**
  * The Class TrialSiteDaoHibernate.
  */
+@Service("trialSiteDao")
 public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> implements TrialSiteDao {
 
 	/* (non-Javadoc)
