@@ -1,5 +1,5 @@
 /* 
- * (c) 2008-2009 RANDI2 Core Development Team
+ * (c) 2008- RANDI2 Core Development Team
  * 
  * This file is part of RANDI2.
  * 
