@@ -259,6 +259,11 @@
             <version>1.2_13</version>
             <type>jar</type>
         </dependency>
+          <dependency>
+            <groupId>javax.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <version>1.2_13</version>
+        </dependency>
 
         
 
@@ -367,13 +372,6 @@
         <!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** *****  -->
         <!-- Runtime Dependencies provided by containers                  -->
         <!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** *****  -->
-
-        <dependency>
-            <groupId>javax.faces</groupId>
-            <artifactId>jsf-impl</artifactId>
-            <version>1.2_13</version>
-            <scope>provided</scope>
-        </dependency>
 
         <!-- Expression Language Support (for JSF) -->
         <dependency>
