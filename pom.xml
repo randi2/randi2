@@ -165,15 +165,15 @@
         </repository>
         <repository>
             <id>SpringSource Releases</id>
-            <url>http://maven.springsource.com/release</url>
+            <url>http://repository.springsource.com/maven/bundles/release</url>
         </repository>
         <repository>
             <id>SpringSource Milestones</id>
-            <url>http://maven.springsource.com/milestone</url>
+            <url>http://repository.springsource.com/maven/bundles/milestone</url>
         </repository>
         <repository>
             <id>SpringSource External</id>
-            <url>http://maven.springsource.com/external</url>
+            <url>http://repository.springsource.com/maven/bundles/external</url>
         </repository>
     </repositories>
     <dependencies>
