@@ -22,7 +22,7 @@ import de.randi2.utility.mail.exceptions.MailErrorException;
  */
 public class MailService implements MailServiceInterface {
 
-	private static final String PATH_MAIL_TEMPLATES = "mail/templates";
+	private static final String PATH_MAIL_TEMPLATES = "mail/templates/";
 	
 	@Autowired
 	private JavaMailSender mailSender;
