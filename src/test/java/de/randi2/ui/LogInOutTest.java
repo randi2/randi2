@@ -17,11 +17,10 @@
  */
 package de.randi2.ui;
 
-import static de.randi2.ui.ComponentFinder.findAnchorById;
-import static de.randi2.ui.ComponentFinder.findElementById;
+import static de.randi2.ui.util.ComponentFinder.findAnchorById;
+import static de.randi2.ui.util.ComponentFinder.findElementById;
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
@@ -32,6 +31,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlPasswordInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
+
+import de.randi2.ui.util.Pages;
 
 /**
  * Log IN / Log OUT function test.
