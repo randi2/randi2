@@ -27,7 +27,7 @@ public class ApplicationContextTest {
    @Test
    public void testTrialServiceWiring() {
       
-      Map<String, Object> beans = context.getBeansOfType(TrialService.class);
+      Map<String, TrialService> beans = context.getBeansOfType(TrialService.class);
 
       assertNotNull(beans.get("trialService"));
       assertEquals(1, beans.size());
@@ -36,7 +36,7 @@ public class ApplicationContextTest {
    @Test
    public void testTrialSiteServiceWiring() {
       
-      Map<String, Object> beans = context.getBeansOfType(TrialSiteService.class);
+      Map<String, TrialSiteService> beans = context.getBeansOfType(TrialSiteService.class);
 
       assertNotNull(beans.get("trialSiteService"));
       assertEquals(1, beans.size());
@@ -45,7 +45,7 @@ public class ApplicationContextTest {
    @Test
    public void testUserServiceWiring() {
       
-      Map<String, Object> beans = context.getBeansOfType(UserService.class);
+      Map<String, UserService> beans = context.getBeansOfType(UserService.class);
 
       assertNotNull(beans.get("userService"));
       assertEquals(1, beans.size());
@@ -54,7 +54,7 @@ public class ApplicationContextTest {
    @Test
    public void testChartServiceWiring() {
       
-      Map<String, Object> beans = context.getBeansOfType(ChartsService.class);
+      Map<String, ChartsService> beans = context.getBeansOfType(ChartsService.class);
 
       assertNotNull(beans.get("chartsService"));
       assertEquals(1, beans.size());
