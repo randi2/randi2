@@ -23,7 +23,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 
+@Ignore
 public class AbstractUITest {
 	
 	public static final Properties testData = new Properties();
