@@ -17,17 +17,13 @@
  */
 package de.randi2.ui;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Properties;
 
 import org.junit.BeforeClass;
 import org.springframework.core.io.ClassPathResource;
-import org.junit.Ignore;
 
-@Ignore
-public class AbstractUITest {
+public abstract class AbstractUITest {
 	
 	public static final Properties testData = new Properties();
 	
