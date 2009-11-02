@@ -109,14 +109,15 @@ public class Bootstrap {
 	private TrialSiteDaoHibernate trialSiteDao;
 	private SessionFactory sessionFactory;
 	private PasswordEncoder passwordEncoder;
-	private ReflectionSaltSource saltSourceUser;
+	private ReflectionSaltSource saltSourceUser;long time1 = System.nanoTime();
 	private SystemWideSaltSource saltSourceTrialSite;
 	private TrialService trialService;
 	private UserService userService;
 
 	public Bootstrap() {
+		long time1 = System.nanoTime();
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-				"classpath:/META-INF/spring.xml");
+				"classpath:/META-INF/spring-bootstrap.xml");
 		loginDao = (LoginDaoHibernate) ctx.getBean("loginDao");
 		rolesAndRights = (RolesAndRights) ctx.getBean("rolesAndRights");
 		trialSiteDao = (TrialSiteDaoHibernate) ctx.getBean("trialSiteDao");
@@ -127,6 +128,7 @@ public class Bootstrap {
 				.getBean("saltSourceTrialSite");
 		trialService = (TrialService) ctx.getBean("trialService");
 		userService = (UserService) ctx.getBean("userService");
+		System.out.println("init spring context: " + (System.nanoTime()-time1)/1000000000);
 		init();
 
 	}
@@ -436,7 +438,7 @@ public class Bootstrap {
 			}
 			
 		}
-
+	
 	}
 
 	private void initRandBS(Login login, Trial trial, GregorianCalendar date,
@@ -493,12 +495,10 @@ public class Bootstrap {
 		proberties.add(subprob1);
 		proberties.add(subprob2);
 		subject.setProperties(proberties);
-
+		sessionFactory.getCurrentSession().beginTransaction();
 		trialService.randomize(trial, subject);
-		subject.setCreatedAt(date);
-		sessionFactory.getCurrentSession().update(subject);
-		sessionFactory.getCurrentSession().flush();
-		System.out.println("time random: " + (System.nanoTime()-time1)/1000000000);
+		sessionFactory.getCurrentSession().getTransaction().commit();
+		System.out.println("time random before: " + (System.nanoTime()-time1)/1000000000);
 	}
 
 	/**
