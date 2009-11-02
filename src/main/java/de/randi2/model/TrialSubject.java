@@ -27,6 +27,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -108,7 +109,7 @@ public class TrialSubject extends AbstractDomainObject {
 	private TreatmentArm arm;
 
 	/** The properties. */
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany(cascade = CascadeType.PERSIST, fetch=FetchType.EAGER)
 	private Set<SubjectProperty<?>> properties = new HashSet<SubjectProperty<?>>();
 
 

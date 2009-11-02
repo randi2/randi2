@@ -499,9 +499,7 @@ private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {
 		proberties.add(subprob1);
 		proberties.add(subprob2);
 		subject.setProperties(proberties);
-		sessionFactory.getCurrentSession().beginTransaction();
 		trialService.randomize(trial, subject);
-		sessionFactory.getCurrentSession().getTransaction().commit();
 		System.out.println("time random before: " + (System.nanoTime()-time1)/1000000000);
 	}
 

@@ -112,7 +112,6 @@ public class LogAspects {
 	public void logLogin(ProceedingJoinPoint pjp) throws Throwable{
 		pjp.proceed();
 		logService.logGet(ActionType.LOGIN, SecurityContextHolder.getContext().getAuthentication().getName());
-		System.out.println("login");
 	}
 
 }
