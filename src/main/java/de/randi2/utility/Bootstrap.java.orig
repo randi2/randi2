@@ -453,8 +453,22 @@ public class Bootstrap {
 
 	}
 
-private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {
+<<<<<<< HEAD:src/main/java/de/randi2/utility/Bootstrap.java
+	private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {
+=======
+	private void initRandBS(Login login, Trial trial, GregorianCalendar date,
+			Random rand) {
 		long time1 = System.nanoTime();
+		
+		// create test trial subjects
+		// login = userService.getObject(login.getId());
+		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
+				"anonymousUser", login, login.getAuthorities());
+		// Perform authentication
+		SecurityContextHolder.getContext().setAuthentication(authToken);
+		SecurityContextHolder.getContext().getAuthentication()
+				.setAuthenticated(true);
+>>>>>>> 57e335184c6eb1add61081fe1c4a2bb9c0004545:src/main/java/de/randi2/utility/Bootstrap.java
 		trial = trialService.getObject(trial.getId());
 
 		TrialSubject subject = new TrialSubject();
