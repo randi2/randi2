@@ -130,7 +130,7 @@ public class Bootstrap {
 		init();
 
 	}
-	
+
 	public void init() {
 		ManagedSessionContext.bind(sessionFactory.openSession());
 		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_ADMIN);
@@ -403,14 +403,20 @@ public class Bootstrap {
 		int countTS2 = 60;
 		int countMo = (new GregorianCalendar()).get(GregorianCalendar.MONTH);
 		int countAll = 0;
+		//Objects for the while-loop
 		Random rand = new Random();
+		GregorianCalendar date;
+		int runs;
+		boolean tr1;
+		int count;
+		//---
 		while (countTS1 != 0 || countTS2 != 0) {
 			countAll++;
-			GregorianCalendar date = new GregorianCalendar(2009, countAll
+			date = new GregorianCalendar(2009, countAll
 					% countMo, 1);
-			int runs = 0;
-			boolean tr1 = false;
-			int count = 0;
+			runs = 0;
+			tr1 = false;
+			count = 0;
 			if (rand.nextInt(2) == 0 && countTS1 != 0) {
 				count = countTS1;
 				tr1 = true;
@@ -422,12 +428,20 @@ public class Bootstrap {
 			} else if (count != 0) {
 				runs = rand.nextInt(count) + 1;
 			}
+			// Authorizing the investigator for upcoming randomization
+			AnonymousAuthenticationToken at = tr1 ? new AnonymousAuthenticationToken(
+					"anonymousUser", userLInv, userLInv.getAuthorities())
+					: new AnonymousAuthenticationToken("anonymousUser",
+							userLInv2, userLInv2.getAuthorities());
+			SecurityContextHolder.getContext().setAuthentication(at);
+			SecurityContextHolder.getContext().getAuthentication()
+					.setAuthenticated(true);
+			//---
 			for (int i = 0; i < runs; i++) {
+				initRandBS(trial, date, rand);
 				if (tr1) {
-					initRandBS(userLInv, trial, date, rand);
 					countTS1--;
 				} else {
-					initRandBS(userLInv2, trial, date, rand);
 					countTS2--;
 				}
 			}
@@ -436,16 +450,7 @@ public class Bootstrap {
 
 	}
 
-	private void initRandBS(Login login, Trial trial, GregorianCalendar date,
-			Random rand) {
-		// create test trial subjects
-		// login = userService.getObject(login.getId());
-		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"anonymousUser", login, login.getAuthorities());
-		// Perform authentication
-		SecurityContextHolder.getContext().setAuthentication(authToken);
-		SecurityContextHolder.getContext().getAuthentication()
-				.setAuthenticated(true);
+	private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {
 		trial = trialService.getObject(trial.getId());
 
 		TrialSubject subject = new TrialSubject();
