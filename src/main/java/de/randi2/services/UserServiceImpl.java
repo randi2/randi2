@@ -224,8 +224,7 @@ public class UserServiceImpl implements UserService {
 			mailService.sendMail(newUser.getPerson().getEmail(), "NewUserMail",
 					language, newUserMessageFields, newUserSubjectFields);
 		} catch (MailErrorException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			logger.error(e1.getMessage());
 		}
 
 		if (newUser.getPerson().getTrialSite() != null
@@ -254,8 +253,7 @@ public class UserServiceImpl implements UserService {
 						"NewUserNotifyContactPersonMail", language,
 						contactPersonMessageFields, contactPersonSubjectFields);
 			} catch (MailErrorException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error(e.getMessage());
 			}
 		}
 	}
