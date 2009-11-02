@@ -73,7 +73,6 @@ public class TrialServiceImpl implements TrialService {
 		//TODO Internal Subject's Identification
 		subject.setRandNumber(subject.getTrialSite().getName()+"_"+trial.getAbbreviation()+"_"+assignedArm.getName()+"_"+(assignedArm.getSubjects().size()+1));
 		subject.setCounter((trial.getSubjects().size()+1));
-		System.out.println(subject.getIdentification()); //FIXME We need to identify why the subject.getIdentification is always null
 		if(subject.getIdentification() == null) subject.setIdentification(subject.getRandNumber());
 		sessionFactory.getCurrentSession().persist(subject);
 		assignedArm.addSubject(subject);
