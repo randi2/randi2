@@ -132,6 +132,7 @@ public class Bootstrap {
 	}
 	
 	public void init() {
+		long time1 = System.nanoTime();
 		ManagedSessionContext.bind(sessionFactory.openSession());
 		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_ADMIN);
 		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_INVESTIGATOR);
@@ -222,7 +223,6 @@ public class Bootstrap {
 		userPPInv.setPhone("1234567");
 		userPPInv.setSex(Gender.MALE);
 		userPPInv.setTrialSite(trialSite);
-
 		Login userLPInv = new Login();
 		userLPInv.setUsername("p_investigator@trialsite1.de");
 		userLPInv.setPassword(passwordEncoder.encodePassword("1$heidelberg",
@@ -309,6 +309,8 @@ public class Bootstrap {
 		// create test trial
 		sessionFactory.getCurrentSession().flush();
 
+		System.out.println((System.nanoTime()-time1)/1000000000);
+		time1 = System.nanoTime();
 		// create test trial
 		ManagedSessionContext.unbind(sessionFactory);
 		ManagedSessionContext.bind(sessionFactory.openSession());
@@ -395,7 +397,8 @@ public class Bootstrap {
 		trialService.create(trial);
 
 		sessionFactory.getCurrentSession().flush();
-
+		System.out.println("Studie Anlegen:" + (System.nanoTime()-time1)/1000000000);
+		time1 = System.nanoTime();
 		ManagedSessionContext.unbind(sessionFactory);
 		ManagedSessionContext.bind(sessionFactory.openSession());
 
@@ -431,13 +434,15 @@ public class Bootstrap {
 					countTS2--;
 				}
 			}
-
+			
 		}
 
 	}
 
 	private void initRandBS(Login login, Trial trial, GregorianCalendar date,
 			Random rand) {
+		long time1 = System.nanoTime();
+		
 		// create test trial subjects
 		// login = userService.getObject(login.getId());
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
@@ -493,6 +498,7 @@ public class Bootstrap {
 		subject.setCreatedAt(date);
 		sessionFactory.getCurrentSession().update(subject);
 		sessionFactory.getCurrentSession().flush();
+		System.out.println("time random: " + (System.nanoTime()-time1)/1000000000);
 	}
 
 	/**
