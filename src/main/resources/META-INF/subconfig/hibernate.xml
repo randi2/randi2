@@ -17,8 +17,8 @@
 				<prop key="hibernate.show_sql">false</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.current_session_context_class">managed</prop>
-				<!--<prop key="hibernate.connection.autoReconnect">true</prop>
-			--></props>
+				<prop key="hibernate.connection.autoReconnect">true</prop>
+			</props>
 		</property>
 		<property name="packagesToScan" value="de.randi2.model"></property>
 			<property name="annotatedClasses">
