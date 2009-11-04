@@ -67,51 +67,186 @@ public class Trial extends AbstractDomainObject {
 	@NotNull()
 	@NotEmpty()
 	@Length(max = MAX_VARCHAR_LENGTH)
-	@Getter @Setter 
+	
+	/**
+	 * Gets the name.
+	 * 
+	 * @return the name
+	 */
+	@Getter 
+ /**
+	 * Sets the name.
+	 * 
+	 * @param name
+	 *            the new name
+	 */
+ @Setter 
 	private String name = "";
 	
 	/** The abbreviation. */
 	@Length(max = MAX_VARCHAR_LENGTH)
-	@Getter @Setter 
+	
+	/**
+	 * Gets the abbreviation.
+	 * 
+	 * @return the abbreviation
+	 */
+	@Getter 
+ /**
+	 * Sets the abbreviation.
+	 * 
+	 * @param abbreviation
+	 *            the new abbreviation
+	 */
+ @Setter 
 	private String abbreviation = "";
 	
-	@Getter @Setter 
+	/**
+	 * Checks if is stratify trial site.
+	 * 
+	 * @return true, if is stratify trial site
+	 */
+	@Getter /**
+	 * Sets the stratify trial site.
+	 * 
+	 * @param stratifyTrialSite
+	 *            the new stratify trial site
+	 */
+ @Setter 
 	private boolean stratifyTrialSite;
 	
 	/** The description. */
 	@Lob
-	@Getter @Setter 
+	
+	/**
+	 * Gets the description.
+	 * 
+	 * @return the description
+	 */
+	@Getter 
+ /**
+	 * Sets the description.
+	 * 
+	 * @param description
+	 *            the new description
+	 */
+ @Setter 
 	private String description = "";
 	
-	@Getter @Setter 
+	/**
+	 * Gets the start date.
+	 * 
+	 * @return the start date
+	 */
+	@Getter /**
+	 * Sets the start date.
+	 * 
+	 * @param startDate
+	 *            the new start date
+	 */
+ @Setter 
 	private GregorianCalendar startDate = null;
 	
-	@Getter @Setter 
+	/**
+	 * Gets the end date.
+	 * 
+	 * @return the end date
+	 */
+	@Getter /**
+	 * Sets the end date.
+	 * 
+	 * @param endDate
+	 *            the new end date
+	 */
+ @Setter 
 	private GregorianCalendar endDate = null;
 	
-	@Getter @Setter 
+	/**
+	 * Gets the protocol.
+	 * 
+	 * @return the protocol
+	 */
+	@Getter /**
+	 * Sets the protocol.
+	 * 
+	 * @param protocol
+	 *            the new protocol
+	 */
+ @Setter 
 	private File protocol = null;
 	
 	/** The sponsor investigator. */
 	@NotNull
 	@ManyToOne
-	@Getter @Setter 
+	
+	/**
+	 * Gets the sponsor investigator.
+	 * 
+	 * @return the sponsor investigator
+	 */
+	@Getter 
+ /**
+	 * Sets the sponsor investigator.
+	 * 
+	 * @param sponsorInvestigator
+	 *            the new sponsor investigator
+	 */
+ @Setter 
 	private Person sponsorInvestigator = null;
 	
 	/** The leading site. */
 	@NotNull
 	@ManyToOne
-	@Getter @Setter 
+	
+	/**
+	 * Gets the leading site.
+	 * 
+	 * @return the leading site
+	 */
+	@Getter 
+ /**
+	 * Sets the leading site.
+	 * 
+	 * @param leadingSite
+	 *            the new leading site
+	 */
+ @Setter 
 	private TrialSite leadingSite = null;
 	
 	/** The status. */
 	@Enumerated(value = EnumType.STRING)
-	@Getter @Setter 
+	
+	/**
+	 * Gets the status.
+	 * 
+	 * @return the status
+	 */
+	@Getter 
+ /**
+	 * Sets the status.
+	 * 
+	 * @param status
+	 *            the new status
+	 */
+ @Setter 
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
 	
 	/** The participating sites. */
 	@ManyToMany
-	@Getter @Setter 
+	
+	/**
+	 * Gets the participating sites.
+	 * 
+	 * @return the participating sites
+	 */
+	@Getter 
+ /**
+	 * Sets the participating sites.
+	 * 
+	 * @param participatingSites
+	 *            the new participating sites
+	 */
+ @Setter 
 	private Set<TrialSite> participatingSites = new HashSet<TrialSite>();
 	
 	/** The treatment arms. */
@@ -131,7 +266,20 @@ public class Trial extends AbstractDomainObject {
 	 * If true then the trial subject ids will be generated automatically by the
 	 * system.
 	 */
-	@Getter @Setter 
+	
+	/**
+	 * Checks if is generate ids.
+	 * 
+	 * @return true, if is generate ids
+	 */
+	@Getter 
+ /**
+	 * Sets the generate ids.
+	 * 
+	 * @param generateIds
+	 *            the new generate ids
+	 */
+ @Setter 
 	private boolean generateIds = true;
 
 
@@ -224,24 +372,24 @@ public class Trial extends AbstractDomainObject {
 		return getSubjects().size();
 	}
 	
-@Transient
-	public int getPlannedSubjectAmount(){
-		int amount = 0;
-		for(TreatmentArm arm : treatmentArms){
-			amount += arm.getPlannedSubjects();
-		}
-		return amount;
-	}
-
-/**
+<<<<<<< HEAD:src/main/java/de/randi2/model/Trial.java
+	/**
 	 * Specifies if the trial is a fresh trial (without any subjects)
 	 * @return
 	 */
 	@Transient 
 	public boolean isFresh(){
 		return !(getTotalSubjectAmount()>0);
+=======
+	@Transient
+	public int getPlannedSubjectAmount(){
+		int amount = 0;
+		for(TreatmentArm arm : treatmentArms){
+			amount += arm.getPlannedSubjects();
+		}
+		return amount;
+>>>>>>> 8ccb851c57f395f0714815516f7eca376364119a:src/main/java/de/randi2/model/Trial.java
 	}
-
 
 	/* (non-Javadoc)
 	 * @see de.randi2.model.AbstractDomainObject#getUIName()
