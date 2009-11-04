@@ -18,6 +18,7 @@
 package de.randi2.utility.webfilter;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.hibernate.FlushMode;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
@@ -69,7 +71,7 @@ public class HibernateWebFilter implements Filter {
 				logger.debug("open Hibernate session (http session: " +httpSession.getId() + ")");
 				
 			}
-			hibernateSession.setFlushMode(FlushMode.COMMIT);
+			hibernateSession.setFlushMode(FlushMode.MANUAL);
 			ManagedSessionContext
 					.bind((org.hibernate.classic.Session) hibernateSession);
 			// Do the work...
