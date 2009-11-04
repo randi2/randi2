@@ -251,20 +251,7 @@ public class Trial extends AbstractDomainObject {
 	
 	/** The treatment arms. */
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trial")
-	
-	/**
-	 * Gets the treatment arms.
-	 * 
-	 * @return the treatment arms
-	 */
-	@Getter 
- /**
-	 * Sets the treatment arms.
-	 * 
-	 * @param treatmentArms
-	 *            the new treatment arms
-	 */
- @Setter 
+	@Getter @Setter 
 	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();
 	
 	/** The subject criteria. */
