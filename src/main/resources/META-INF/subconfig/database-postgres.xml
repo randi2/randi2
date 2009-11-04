@@ -6,19 +6,19 @@
 
 
 	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName">
-			<value>org.postgresql.jdbc4.Jdbc4Connection</value>
-		</property>
-		<property name="url">
-			<value>jdbc:postgresql://${db.host}/${db.database}</value>
-		</property>
-		<property name="username">
-			<value>${db.username}</value>
-		</property>
-		<property name="password">
-			<value>${db.password}</value>
-		</property>
+		class="org.apache.commons.dbcp.datasources.SharedPoolDataSource">
+		<property name="connectionPoolDataSource" ref="connectionPoolDataSource"/>
+		<property name="defaultAutoCommit" value="false" />
+		<property name="maxActive" value="100" />
+	</bean>
+	
+	
+	<bean id="connectionPoolDataSource" class="org.apache.commons.dbcp.cpdsadapter.DriverAdapterCPDS">
+		<property name="driver" value="org.postgresql.jdbc4.Jdbc4Connection" />
+		<property name="url" value="jdbc:postgresql://${db.host}/${db.database}"/>
+		<property name="user" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
+		<property name="maxIdle" value="28000"/>
 	</bean>
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

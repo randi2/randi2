@@ -5,22 +5,20 @@
 	default-autowire="byName">
 
 
-	<bean id="dataSource"
-		class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
-		<property name="jdbcUrl">
-			<value>jdbc:mysql://${db.host}/${db.database}</value>
-		</property>
-		<property name="user">
-			<value>${db.username}</value>
-		</property>
-		<property name="password">
-			<value>${db.password}</value>
-		</property>
-		<property name="initialPoolSize" value="3"></property>
-		<property name="maxConnectionAge" value="28000"></property>
-		<property name="maxPoolSize" value="100"></property>
-		<property name="minPoolSize" value="3"></property>
+<bean id="dataSource"
+		class="org.apache.commons.dbcp.datasources.SharedPoolDataSource">
+		<property name="connectionPoolDataSource" ref="connectionPoolDataSource"/>
+		<property name="defaultAutoCommit" value="true" />
+		<property name="maxActive" value="100" />
+	</bean>
+	
+	
+	<bean id="connectionPoolDataSource" class="org.apache.commons.dbcp.cpdsadapter.DriverAdapterCPDS">
+		<property name="driver" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://${db.host}/${db.database}"/>
+		<property name="user" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
+		<property name="maxIdle" value="28"/>
 	</bean>
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
