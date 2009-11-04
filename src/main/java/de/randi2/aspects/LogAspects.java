@@ -51,7 +51,7 @@ public class LogAspects {
 	 *             the throwable
 	 */
 	@Around("execution(public void de.randi2.services.*.create*(..))")
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public void logCreateNewObject(ProceedingJoinPoint pjp) throws Throwable{
 		pjp.proceed();		
 		logService.logChange(ActionType.CREATE, SecurityContextHolder.getContext().getAuthentication().getName(), ((AbstractDomainObject)pjp.getArgs()[0]));
@@ -70,7 +70,7 @@ public class LogAspects {
 	 *             the throwable
 	 */
 	@Around("execution(public * de.randi2.services.*.update*(..))")
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public Object logUpdateObject(ProceedingJoinPoint pjp) throws Throwable{
 		Object o = pjp.proceed();		
 		logService.logChange(ActionType.UPDATE, SecurityContextHolder.getContext().getAuthentication().getName(), ((AbstractDomainObject)pjp.getArgs()[0]));
@@ -90,7 +90,7 @@ public class LogAspects {
 	 *             the throwable
 	 */
 	@Around("execution(public * de.randi2.services.*.randomize*(..))")
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public Object  logRandomize(ProceedingJoinPoint pjp) throws Throwable{
 		Object o = pjp.proceed();	
 		logService.logRandomize(ActionType.RANDOMIZE,  SecurityContextHolder.getContext().getAuthentication().getName(), Trial.class.cast(o), ((TrialSubject)pjp.getArgs()[1]));
@@ -108,7 +108,7 @@ public class LogAspects {
 	 *             the throwable
 	 */
 	@Around("execution(public * de.randi2.utility.security.DaoAuthenticationProviderWithLock.additionalAuthenticationChecks*(..))")
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public void logLogin(ProceedingJoinPoint pjp) throws Throwable{
 		pjp.proceed();
 		logService.logGet(ActionType.LOGIN, SecurityContextHolder.getContext().getAuthentication().getName());
