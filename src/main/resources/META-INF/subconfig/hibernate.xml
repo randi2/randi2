@@ -15,82 +15,18 @@
 			<props>
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
 				<prop key="hibernate.show_sql">false</prop>
-				<prop key="hibernate.connection.autocommit">false</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.current_session_context_class">managed</prop>
-				<prop key="hibernate.connection.autoReconnect">true</prop>
-                                <prop key="log4j.logger.org.hibernate">debug</prop>
-			</props>
+				<!--<prop key="hibernate.connection.autoReconnect">true</prop>
+			--></props>
 		</property>
-		<property name="annotatedClasses">
-			<list>
-				<value>de.randi2.model.Trial</value>
-				<value>de.randi2.model.TrialSite</value>
-				<value>de.randi2.model.Person</value>
-				<value>de.randi2.model.Login</value>
-				<value>de.randi2.model.Role</value>
-				<value>de.randi2.model.TreatmentArm
-				</value>
-				<value>de.randi2.model.TrialSubject
-				</value>
-				<value>de.randi2.model.SubjectProperty
-				</value>
-				<value>de.randi2.model.criteria.AbstractCriterion
-				</value>
-				<value>de.randi2.model.criteria.DichotomousCriterion
-				</value>
-				<value>de.randi2.model.criteria.OrdinalCriterion
-				</value>
-				<value>de.randi2.model.criteria.DateCriterion
-				</value>
-				<value>de.randi2.model.criteria.FreeTextCriterion
-				</value>
-				<value>de.randi2.model.criteria.constraints.DichotomousConstraint
-				</value>
-				<value>de.randi2.model.criteria.constraints.DateConstraint
-				</value>
-				<value>de.randi2.model.criteria.constraints.FreeTextConstraint
-				</value>
-				<value>de.randi2.model.criteria.constraints.OrdinalConstraint
-				</value>
-				<value>de.randi2.model.randomization.BlockRandomizationTempData
-				</value>
-				<value>de.randi2.model.randomization.Block
-				</value>
-				<value>de.randi2.model.randomization.AbstractRandomizationTempData
-				</value>
-				<value>de.randi2.model.randomization.CompleteRandomizationConfig
-				</value>
-				<value>de.randi2.model.randomization.BlockRandomizationConfig
-				</value>
-				<value>de.randi2.model.randomization.TruncatedBinomialDesignConfig
-				</value>
-				<value>de.randi2.model.randomization.Urn
-				</value>
-				<value>de.randi2.model.randomization.UrnDesignConfig
-				</value>
-				<value>de.randi2.model.randomization.UrnDesignTempData
-				</value>
-				<value>de.randi2.model.security.AclHibernate
-				</value>
-				<value>de.randi2.model.security.AccessControlEntryHibernate
-				</value>
-				<value>de.randi2.model.security.ObjectIdentityHibernate
-				</value>
-				<value>de.randi2.model.security.PermissionHibernate
-				</value>
-				<value>de.randi2.model.security.SidHibernate
-				</value>
-				<value>de.randi2.model.randomization.AbstractRandomizationConfig
-				</value>
-				<value>de.randi2.model.randomization.CompleteRandomizationConfig
-				</value>
-				<value>de.randi2.model.randomization.BiasedCoinRandomizationConfig
-				</value>
-				<value>de.randi2.utility.logging.LogEntry</value>
-			</list>
-		</property>
-		<property name="eventListeners">
+		<property name="packagesToScan" value="de.randi2.model"></property>
+			<property name="annotatedClasses">
+				<list>
+					<value>de.randi2.utility.logging.LogEntry</value>
+				</list>
+			</property>
+			<property name="eventListeners">
 			<map>
 				<entry key="merge" value-ref="listener" />
 				<entry key="save-update" value-ref="listener" />
@@ -117,9 +53,8 @@
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>
-		<!--<property name="hibernateManagedSession" value="true"/>-->
+		<property name="hibernateManagedSession" value="true"/>
 	</bean>
-	<!--	<context:annotation-config></context:annotation-config>-->
 
 
 
