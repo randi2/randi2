@@ -31,14 +31,15 @@ public class SimulationServiceImpl implements SimulationService {
 		SimulationResult simResult = new SimulationResult(trial.getTreatmentArms());
 		long startTime;
 		TreatmentArm assignedArm;
+		TrialSubject subject = new TrialSubject();
+		ArrayList<TrialSite> pSites = new ArrayList<TrialSite>(copyTrial
+				.getParticipatingSites());
 		for (int run = 0; run < runs; run++) {
 			startTime = System.nanoTime();
 			Trial simTrial = resetTrial(copyTrial);
 			SimulationRun simRun = simResult.getEmptyRun();
-			ArrayList<TrialSite> pSites = new ArrayList<TrialSite>(simTrial
-					.getParticipatingSites());
 			for (int i = 0; i < simTrial.getPlannedSubjectAmount(); i++) {
-				TrialSubject subject = generateTrialSubject(simTrial, random);
+				 subject = generateTrialSubject(simTrial, random, subject);
 				subject.setTrialSite(pSites.get(random.nextInt(pSites.size())));
 				assignedArm = simTrial
 						.getRandomizationConfiguration().getAlgorithm()
@@ -57,7 +58,7 @@ public class SimulationServiceImpl implements SimulationService {
 			for(int i = 0; i<simTrial.getTreatmentArms().size();i++){
 				simRun.getSubjectsPerArms()[i] = simTrial.getTreatmentArms().get(i).getCurrentSubjectsAmount();
 			}
-			simRun.setTime((System.nanoTime()-startTime)/1000000);
+			simRun.setTime((System.nanoTime()-startTime));
 			simResult.addSimulationRun(simRun);
 		}
 		return simResult;
@@ -154,8 +155,8 @@ public class SimulationServiceImpl implements SimulationService {
 		return trial;
 	}
 
-	private static TrialSubject generateTrialSubject(Trial trial, Random random) {
-		TrialSubject subject = new TrialSubject();
+	private static TrialSubject generateTrialSubject(Trial trial, Random random, TrialSubject oldSubject) {
+		oldSubject.setProperties(null);
 		HashSet<SubjectProperty<?>> tempSet = new HashSet<SubjectProperty<?>>();
 		for (AbstractCriterion<?, ?> cr : trial.getCriteria()) {
 			SubjectProperty<Serializable> pr = new SubjectProperty<Serializable>(
@@ -166,7 +167,7 @@ public class SimulationServiceImpl implements SimulationService {
 			}
 			tempSet.add(pr);
 		}
-		subject.setProperties(tempSet);
-		return subject;
+		oldSubject.setProperties(tempSet);
+		return oldSubject;
 	}
 }

@@ -45,7 +45,7 @@ public class SimulationServiceTest {
 		validTrial.addParticipatingSite(factory.getTrialSite());
 		validTrial.addParticipatingSite(factory.getTrialSite());
 		int blocksize = 4;
-		int randomizations = 100;
+		int randomizations = 1000;
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setPlannedSubjects(randomizations/2);
 		arm1.setName("arm1");
@@ -109,6 +109,7 @@ public class SimulationServiceTest {
 		SimulationResult result = service.simulateTrial(validTrial, 1000);
 		
 		System.out.println("Runs: " + result.getAmountRuns());
+		System.out.println("Time: " + result.getDuration() + "ms");
 		System.out.println("Max marginal balance: " + result.getMarginalBalanceMax());
 		System.out.println("Min marginal balance: " + result.getMarginalBalanceMin());
 		System.out.println("Mean marginal balance: " + result.getMarginalBalanceMean());

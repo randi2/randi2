@@ -27,6 +27,8 @@ public class SimulationResult {
 	
 	private int[] medians;
 	
+	private long duration = Long.MIN_VALUE;
+	
 	@Getter
 	private List<SimulationRun> runs = new ArrayList<SimulationRun>();
 
@@ -97,7 +99,16 @@ public class SimulationResult {
 		return marginalBalanceMean;
 	}
 	
+	public long getDuration(){
+		if(duration == Long.MIN_VALUE){
+			analyze();
+			duration = duration / 1000000;
+		}
+		return duration;
+	}
+	
 	private void analyze(){
+		duration=0;
 		mins = new int[arms.size()];
 		for(int i = 0 ;i<mins.length;i++){
 			mins[i] = Integer.MAX_VALUE;
@@ -119,6 +130,7 @@ public class SimulationResult {
 			if(runs.get(i).getMarginalBalace()<marginalBalanceMin) marginalBalanceMin = runs.get(i).getMarginalBalace();
 			if(runs.get(i).getMarginalBalace()>marginalBalanceMax) marginalBalanceMax = runs.get(i).getMarginalBalace();
 			marginalBalanceMean+=runs.get(i).getMarginalBalace();
+			duration += runs.get(i).getTime();
 		}
 		for(int i = 0 ;i<means.length;i++){
 			means[i] = means[i] / amountRuns;
