@@ -1,9 +1,13 @@
 package de.randi2.simulation.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 import de.randi2.model.TreatmentArm;
+import edu.emory.mathcs.backport.java.util.Collections;
 
 import lombok.Data;
 import lombok.Getter;
@@ -25,7 +29,7 @@ public class SimulationResult {
 	
 	private double[] means;
 	
-	private int[] medians;
+	private double[] medians;
 	
 	private long duration = Long.MIN_VALUE;
 	
@@ -70,7 +74,7 @@ public class SimulationResult {
 		return maxs;
 	}
 	
-	public int[] getMedians(){
+	public double[] getMedians(){
 		if(medians == null){
 			analyze();
 		}
@@ -115,15 +119,20 @@ public class SimulationResult {
 		}
 		maxs = new int[arms.size()];
 		means = new double[arms.size()];
-		medians = new int[arms.size()];
+		medians = new double[arms.size()];
 		marginalBalanceMax =Double.MIN_VALUE;
 		marginalBalanceMin = Double.MAX_VALUE;
 		marginalBalanceMean = 0.0;
+		HashMap<Integer, ArrayList<Integer>> tempMedian = new HashMap<Integer, ArrayList<Integer>>();
+		for(int i =0; i< arms.size();i++){
+			tempMedian.put(i, new ArrayList<Integer>());
+		}
+		
 		for(int i = 0 ; i < runs.size();i++){
 			for(int j = 0; j<arms.size();j++){
 				if(runs.get(i).getSubjectsPerArms()[j]<mins[j]) mins[j] = runs.get(i).getSubjectsPerArms()[j];
 				if(runs.get(i).getSubjectsPerArms()[j]>maxs[j]) maxs[j] = runs.get(i).getSubjectsPerArms()[j];
-				
+				tempMedian.get(j).add(runs.get(i).getSubjectsPerArms()[j]);
 				means[j] += runs.get(i).getSubjectsPerArms()[j];
 			}
 
@@ -132,8 +141,15 @@ public class SimulationResult {
 			marginalBalanceMean+=runs.get(i).getMarginalBalace();
 			duration += runs.get(i).getTime();
 		}
-		for(int i = 0 ;i<means.length;i++){
+		for(int i = 0 ;i<arms.size();i++){
 			means[i] = means[i] / amountRuns;
+			ArrayList<Integer> listMedian = tempMedian.get(i);
+			Collections.sort(listMedian);
+			if(listMedian.size()%2==0){
+				medians[i] = (listMedian.get((listMedian.size()/2)) + listMedian.get((listMedian.size()/2)+1))/2; 
+			}else{
+				medians[i] = listMedian.get((listMedian.size()/2)+1);
+			}
 		}
 		marginalBalanceMean = marginalBalanceMean / amountRuns;
 	}
