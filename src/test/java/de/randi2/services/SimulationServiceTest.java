@@ -14,11 +14,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.criteria.DichotomousCriterion;
+import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
-import de.randi2.model.randomization.BlockRandomizationConfig;
+import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
+import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationResult;
-import de.randi2.simulation.model.SimulationRun;
+import de.randi2.simulation.model.distribution.UniformDistribution;
 import de.randi2.simulation.service.SimulationService;
 import de.randi2.simulation.service.SimulationServiceImpl;
 import de.randi2.test.utility.DomainObjectFactory;
@@ -44,7 +46,7 @@ public class SimulationServiceTest {
 		System.out.println("init");
 		validTrial.addParticipatingSite(factory.getTrialSite());
 		validTrial.addParticipatingSite(factory.getTrialSite());
-		int blocksize = 4;
+		int blocksize = 6;
 		int randomizations = 1000;
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setPlannedSubjects(randomizations/2);
@@ -65,7 +67,7 @@ public class SimulationServiceTest {
 		CompleteRandomizationConfig config = new CompleteRandomizationConfig();
 		
 		validTrial.setRandomizationConfiguration(config);
-		
+		ArrayList<DistributionSubjectProperty> dProperties = new ArrayList<DistributionSubjectProperty>();
 		DichotomousCriterion cr = new DichotomousCriterion();
 		cr.setName("SEX");
 		cr.setOption1("M");
@@ -78,6 +80,14 @@ public class SimulationServiceTest {
 		cr2.setOption1("1");
 		cr2.setOption2("2");
 		cr2.setName("Fit.Level");
+		OrdinalCriterion cr3 = new OrdinalCriterion();
+		List<String> elements = new ArrayList<String>();
+		elements.add("1");
+		elements.add("2");
+		elements.add("3");
+		elements.add("4");
+		cr3.setElements(elements);
+		cr3.setName("Tumor Level");
 		try {
 			
 			cr.addStrata(new DichotomousConstraint(Arrays
@@ -94,11 +104,20 @@ public class SimulationServiceTest {
 					.asList(new String[] { "1" })));
 			cr2.addStrata(new DichotomousConstraint(Arrays
 					.asList(new String[] { "2" })));
+			
+			cr3.addStrata(new OrdinalConstraint(Arrays
+					.asList(new String[] { "1" })));
+			cr3.addStrata(new OrdinalConstraint(Arrays
+					.asList(new String[] { "2" })));
+			cr3.addStrata(new OrdinalConstraint(Arrays
+					.asList(new String[] { "3" })));
+			cr3.addStrata(new OrdinalConstraint(Arrays
+					.asList(new String[] { "4" })));
 
-			validTrial.addCriterion(cr);
-			validTrial.addCriterion(cr1);
-			validTrial.addCriterion(cr2);
-
+			dProperties.add(new DistributionSubjectProperty(cr, new UniformDistribution()));
+			dProperties.add(new DistributionSubjectProperty(cr1, new UniformDistribution()));
+			dProperties.add(new DistributionSubjectProperty(cr2, new UniformDistribution()));
+			dProperties.add(new DistributionSubjectProperty(cr3, new UniformDistribution()));
 
 		} catch (ContraintViolatedException e) {
 			// TODO Auto-generated catch block
@@ -106,7 +125,7 @@ public class SimulationServiceTest {
 		}
 		
 		
-		SimulationResult result = service.simulateTrial(validTrial, 1000);
+		SimulationResult result = service.simulateTrial(validTrial,dProperties,new UniformDistribution(), 1000);
 		
 		System.out.println("Runs: " + result.getAmountRuns());
 		System.out.println("Time: " + result.getDuration() + "ms");

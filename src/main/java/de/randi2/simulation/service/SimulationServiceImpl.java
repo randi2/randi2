@@ -3,6 +3,7 @@ package de.randi2.simulation.service;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 import de.randi2.model.SubjectProperty;
@@ -17,17 +18,19 @@ import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DateConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
+import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationResult;
 import de.randi2.simulation.model.SimulationRun;
+import de.randi2.simulation.model.distribution.AbstractDistribution;
 import de.randi2.unsorted.ContraintViolatedException;
 
 
 public class SimulationServiceImpl implements SimulationService {
 
 	@Override
-	public SimulationResult simulateTrial(Trial trial, int runs) {
+	public SimulationResult simulateTrial(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution distributionTrialSites, int runs) {
 		Random random = new Random();
-		Trial copyTrial = copyTrial(trial);
+		Trial copyTrial = copyAndPrepareTrial(trial, properties);
 		SimulationResult simResult = new SimulationResult(trial.getTreatmentArms());
 		long startTime;
 		TreatmentArm assignedArm;
@@ -39,8 +42,8 @@ public class SimulationServiceImpl implements SimulationService {
 			Trial simTrial = resetTrial(copyTrial);
 			SimulationRun simRun = simResult.getEmptyRun();
 			for (int i = 0; i < simTrial.getPlannedSubjectAmount(); i++) {
-				 subject = generateTrialSubject(simTrial, random, subject);
-				subject.setTrialSite(pSites.get(random.nextInt(pSites.size())));
+				 subject = generateTrialSubject(properties, subject);
+				subject.setTrialSite(pSites.get(distributionTrialSites.getNextInt(pSites.size())));
 				assignedArm = simTrial
 						.getRandomizationConfiguration().getAlgorithm()
 						.randomize(subject);
@@ -64,7 +67,7 @@ public class SimulationServiceImpl implements SimulationService {
 		return simResult;
 	}
 
-	private static Trial copyTrial(Trial trial) {
+	private static Trial copyAndPrepareTrial(Trial trial,  List<DistributionSubjectProperty> properties) {
 		int id = 0;
 		Trial cTrial = new Trial();
 		cTrial.setId(id++);
@@ -84,7 +87,8 @@ public class SimulationServiceImpl implements SimulationService {
 			arms.add(cArm);
 		}
 		cTrial.setTreatmentArms(arms);
-		for (AbstractCriterion<?, ?> cr : trial.getCriteria()) {
+		for (DistributionSubjectProperty dsp: properties) {
+			AbstractCriterion<?, ?> cr = dsp.getCriterion();
 			if (cr instanceof DateCriterion) {
 				DateCriterion ccr = new DateCriterion();
 				ccr.setId(id++);
@@ -155,14 +159,14 @@ public class SimulationServiceImpl implements SimulationService {
 		return trial;
 	}
 
-	private static TrialSubject generateTrialSubject(Trial trial, Random random, TrialSubject oldSubject) {
+	private static TrialSubject generateTrialSubject(List<DistributionSubjectProperty> properties, TrialSubject oldSubject) {
 		oldSubject.setProperties(null);
 		HashSet<SubjectProperty<?>> tempSet = new HashSet<SubjectProperty<?>>();
-		for (AbstractCriterion<?, ?> cr : trial.getCriteria()) {
+		for (DistributionSubjectProperty dsp :properties) {
 			SubjectProperty<Serializable> pr = new SubjectProperty<Serializable>(
-					cr);
+					dsp.getCriterion());
 			try {
-				pr.setValue(cr.getConfiguredValues().get(random.nextInt(cr.getConfiguredValues().size())));
+				pr.setValue(dsp.getNextSubjectValue());
 			} catch (ContraintViolatedException e) {
 			}
 			tempSet.add(pr);
