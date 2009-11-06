@@ -1,18 +1,9 @@
 package de.randi2.randomization;
 
 import static de.randi2.randomization.RandomizationHelper.randomize;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.*;
-import static de.randi2.utility.IntegerIterator.*;
-import static de.randi2.randomization.RandomizationHelper.randomize;
+import static de.randi2.utility.IntegerIterator.upto;
+import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Random;
-
-import org.apache.derby.tools.sysinfo;
 import org.junit.Before;
 import org.junit.Test;
 
