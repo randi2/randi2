@@ -18,6 +18,7 @@ import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.simulation.model.SimulationResult;
+import de.randi2.simulation.model.SimulationRun;
 import de.randi2.simulation.service.SimulationService;
 import de.randi2.simulation.service.SimulationServiceImpl;
 import de.randi2.test.utility.DomainObjectFactory;
@@ -107,7 +108,10 @@ public class SimulationServiceTest {
 		
 		SimulationResult result = service.simulateTrial(validTrial, 1000);
 		
-		System.out.println(result.getAmountRuns());
+		System.out.println("Runs: " + result.getAmountRuns());
+		System.out.println("Max marginal balance: " + result.getMarginalBalanceMax());
+		System.out.println("Min marginal balance: " + result.getMarginalBalanceMin());
+		System.out.println("Mean marginal balance: " + result.getMarginalBalanceMean());
 		for(int i = 0;i<arms.size();i++){
 			System.out.println("---------arm " + arms.get(i).getName() + "---------------------------");
 			System.out.println("Median " + result.getMedians()[i]);
@@ -115,6 +119,8 @@ public class SimulationServiceTest {
 			System.out.println("min " + result.getMins()[i]);
 			System.out.println("max " +result.getMaxs()[i]);
 		}
+		
+		System.out.println();
 		
 		System.out.println("exit");
 	}
