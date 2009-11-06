@@ -28,7 +28,7 @@ import de.randi2.unsorted.ContraintViolatedException;
 public class SimulationServiceImpl implements SimulationService {
 
 	@Override
-	public SimulationResult simulateTrial(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution distributionTrialSites, int runs) {
+	public SimulationResult simulateTrial(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution distributionTrialSites, int runs, long maxTime) {
 		Random random = new Random();
 		Trial copyTrial = copyAndPrepareTrial(trial, properties);
 		SimulationResult simResult = new SimulationResult(trial.getTreatmentArms());

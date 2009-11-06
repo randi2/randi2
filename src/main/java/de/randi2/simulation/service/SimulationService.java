@@ -9,5 +9,5 @@ import de.randi2.simulation.model.distribution.AbstractDistribution;
 
 public interface SimulationService {
 
-	public SimulationResult simulateTrial(Trial trial,List<DistributionSubjectProperty> properties,AbstractDistribution distributionTrialSites, int runs);
+	public SimulationResult simulateTrial(Trial trial,List<DistributionSubjectProperty> properties,AbstractDistribution distributionTrialSites, int runs, long maxTime);
 }
