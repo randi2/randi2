@@ -26,20 +26,21 @@ public class SimulationServiceImpl implements SimulationService {
 
 	@Override
 	public SimulationResult simulateTrial(Trial trial, int runs) {
-		SimulationResult simResult = new SimulationResult();
 		Random random = new Random();
 		Trial copyTrial = copyTrial(trial);
+		SimulationResult simResult = new SimulationResult(trial.getTreatmentArms());
 		long startTime;
+		TreatmentArm assignedArm;
 		for (int run = 0; run < runs; run++) {
 			startTime = System.nanoTime();
 			Trial simTrial = resetTrial(copyTrial);
-			SimulationRun simRun = new SimulationRun(simTrial.getTreatmentArms().size());
+			SimulationRun simRun = simResult.getEmptyRun();
 			ArrayList<TrialSite> pSites = new ArrayList<TrialSite>(simTrial
 					.getParticipatingSites());
 			for (int i = 0; i < simTrial.getPlannedSubjectAmount(); i++) {
 				TrialSubject subject = generateTrialSubject(simTrial, random);
 				subject.setTrialSite(pSites.get(random.nextInt(pSites.size())));
-				TreatmentArm assignedArm = simTrial
+				assignedArm = simTrial
 						.getRandomizationConfiguration().getAlgorithm()
 						.randomize(subject);
 				subject.setArm(assignedArm);
@@ -47,6 +48,11 @@ public class SimulationServiceImpl implements SimulationService {
 				subject.setCounter(i);
 				subject.setIdentification(subject.getRandNumber());
 				assignedArm.addSubject(subject);
+				for(TreatmentArm arm :simTrial.getTreatmentArms()){
+					if(arm.getName().equals(assignedArm.getName())){
+						arm.addSubject(subject);
+					}
+				}
 			}
 			for(int i = 0; i<simTrial.getTreatmentArms().size();i++){
 				simRun.getSubjectsPerArms()[i] = simTrial.getTreatmentArms().get(i).getCurrentSubjectsAmount();

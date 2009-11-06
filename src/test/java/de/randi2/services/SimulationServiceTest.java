@@ -16,14 +16,15 @@ import de.randi2.model.Trial;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.randomization.BlockRandomizationConfig;
+import de.randi2.model.randomization.CompleteRandomizationConfig;
+import de.randi2.simulation.model.SimulationResult;
 import de.randi2.simulation.service.SimulationService;
 import de.randi2.simulation.service.SimulationServiceImpl;
 import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.unsorted.ContraintViolatedException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/META-INF/subconfig/service-test.xml",
-		"/META-INF/subconfig/test.xml" })
+@ContextConfiguration(locations = {"/META-INF/spring.xml", "/META-INF/subconfig/test.xml"})
 public class SimulationServiceTest {
 
 	private SimulationService service = new SimulationServiceImpl();
@@ -39,10 +40,11 @@ public class SimulationServiceTest {
 	
 	@Test
 	public void test(){
+		System.out.println("init");
 		validTrial.addParticipatingSite(factory.getTrialSite());
 		validTrial.addParticipatingSite(factory.getTrialSite());
 		int blocksize = 4;
-		int randomizations = 1000;
+		int randomizations = 100;
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setPlannedSubjects(randomizations/2);
 		arm1.setName("arm1");
@@ -55,9 +57,12 @@ public class SimulationServiceTest {
 		arms.add(arm1);
 		arms.add(arm2);
 		validTrial.setTreatmentArms(arms);
-		BlockRandomizationConfig config =  new BlockRandomizationConfig();
-		config.setMaximum(blocksize);
-		config.setMinimum(blocksize);
+	
+//		BlockRandomizationConfig config =  new BlockRandomizationConfig();
+//		config.setMaximum(blocksize);
+//		config.setMinimum(blocksize);
+		CompleteRandomizationConfig config = new CompleteRandomizationConfig();
+		
 		validTrial.setRandomizationConfiguration(config);
 		
 		DichotomousCriterion cr = new DichotomousCriterion();
@@ -100,6 +105,17 @@ public class SimulationServiceTest {
 		}
 		
 		
-		service.simulateTrial(validTrial, 1000);
+		SimulationResult result = service.simulateTrial(validTrial, 1000);
+		
+		System.out.println(result.getAmountRuns());
+		for(int i = 0;i<arms.size();i++){
+			System.out.println("---------arm " + arms.get(i).getName() + "---------------------------");
+			System.out.println("Median " + result.getMedians()[i]);
+			System.out.println("mean " +result.getMeans()[i]);
+			System.out.println("min " + result.getMins()[i]);
+			System.out.println("max " +result.getMaxs()[i]);
+		}
+		
+		System.out.println("exit");
 	}
 }
