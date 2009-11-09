@@ -28,22 +28,19 @@ import de.randi2.unsorted.ContraintViolatedException;
 public class SimulationServiceImpl implements SimulationService {
 
 	@Override
-	public SimulationResult simulateTrial(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution distributionTrialSites, int runs, long maxTime) {
-		Random random = new Random();
+	public SimulationResult simulateTrial(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime) {
 		Trial copyTrial = copyAndPrepareTrial(trial, properties);
 		SimulationResult simResult = new SimulationResult(trial.getTreatmentArms());
 		long startTime;
 		TreatmentArm assignedArm;
 		TrialSubject subject = new TrialSubject();
-		ArrayList<TrialSite> pSites = new ArrayList<TrialSite>(copyTrial
-				.getParticipatingSites());
 		for (int run = 0; run < runs; run++) {
 			startTime = System.nanoTime();
 			Trial simTrial = resetTrial(copyTrial);
 			SimulationRun simRun = simResult.getEmptyRun();
 			for (int i = 0; i < simTrial.getPlannedSubjectAmount(); i++) {
 				 subject = generateTrialSubject(properties, subject);
-				subject.setTrialSite(pSites.get(distributionTrialSites.getNextInt(pSites.size())));
+				subject.setTrialSite(distributionTrialSites.getNextValue());
 				assignedArm = simTrial
 						.getRandomizationConfiguration().getAlgorithm()
 						.randomize(subject);

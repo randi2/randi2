@@ -2,6 +2,7 @@ package de.randi2.services;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.Before;
@@ -13,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
+import de.randi2.model.TrialSite;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
@@ -20,6 +22,7 @@ import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationResult;
+import de.randi2.simulation.model.distribution.ConcreteDistribution;
 import de.randi2.simulation.model.distribution.UniformDistribution;
 import de.randi2.simulation.service.SimulationService;
 import de.randi2.simulation.service.SimulationServiceImpl;
@@ -113,11 +116,11 @@ public class SimulationServiceTest {
 					.asList(new String[] { "3" })));
 			cr3.addStrata(new OrdinalConstraint(Arrays
 					.asList(new String[] { "4" })));
-
-			dProperties.add(new DistributionSubjectProperty(cr, new UniformDistribution()));
-			dProperties.add(new DistributionSubjectProperty(cr1, new UniformDistribution()));
-			dProperties.add(new DistributionSubjectProperty(cr2, new UniformDistribution()));
-			dProperties.add(new DistributionSubjectProperty(cr3, new UniformDistribution()));
+			
+			dProperties.add(new DistributionSubjectProperty(cr,  new UniformDistribution<String>(cr.getConfiguredValues())));
+			dProperties.add(new DistributionSubjectProperty(cr1,  new UniformDistribution<String>(cr1.getConfiguredValues())));
+			dProperties.add(new DistributionSubjectProperty(cr2,  new UniformDistribution<String>(cr2.getConfiguredValues())));
+			dProperties.add(new DistributionSubjectProperty(cr3,  new ConcreteDistribution<String>(cr3.getConfiguredValues(),2,4,2,1)));
 
 		} catch (ContraintViolatedException e) {
 			// TODO Auto-generated catch block
@@ -125,7 +128,7 @@ public class SimulationServiceTest {
 		}
 		
 		
-		SimulationResult result = service.simulateTrial(validTrial,dProperties,new UniformDistribution(), 1000, 10000);
+		SimulationResult result = service.simulateTrial(validTrial,dProperties,new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 1000, 10000);
 		
 		System.out.println("Runs: " + result.getAmountRuns());
 		System.out.println("Time: " + result.getDuration() + "ms");

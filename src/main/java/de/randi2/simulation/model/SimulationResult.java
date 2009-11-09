@@ -4,13 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
+import lombok.Getter;
 import de.randi2.model.TreatmentArm;
 import edu.emory.mathcs.backport.java.util.Collections;
-
-import lombok.Data;
-import lombok.Getter;
 
 public class SimulationResult {
 

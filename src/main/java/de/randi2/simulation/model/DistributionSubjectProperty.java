@@ -16,25 +16,23 @@ public class DistributionSubjectProperty {
 	
 
 
-	private AbstractDistribution distribution;
+	private AbstractDistribution<?> distribution;
 	
-	public DistributionSubjectProperty(
-			AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> criterion,
-			AbstractDistribution distribution) {
+	public <E extends Serializable> DistributionSubjectProperty(
+			AbstractCriterion<E, ? extends AbstractConstraint<E>> criterion,
+			AbstractDistribution<E > distribution) {
 		super();
 		this.criterion = criterion;
 		this.distribution = distribution;
 	}
 
 	public Serializable getNextSubjectValue(){
-		return criterion.getConfiguredValues().get(distribution.getNextInt(criterion.getConfiguredValues().size()));
+		return  distribution.getNextValue();
 	}
 
 	public AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> getCriterion() {
 		return criterion;
 	}
 	
-	public Class<? extends AbstractDistribution> getDistributionType(){
-		return distribution.getClass();
-	}
+
 }
