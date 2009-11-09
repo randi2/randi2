@@ -125,7 +125,7 @@ public class SimulationServiceTest {
 		}
 		
 		
-		SimulationResult result = service.simulateTrial(validTrial,dProperties,new UniformDistribution(), 1000);
+		SimulationResult result = service.simulateTrial(validTrial,dProperties,new UniformDistribution(), 1000, 10000);
 		
 		System.out.println("Runs: " + result.getAmountRuns());
 		System.out.println("Time: " + result.getDuration() + "ms");
