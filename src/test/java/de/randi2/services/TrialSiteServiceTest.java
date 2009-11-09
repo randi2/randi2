@@ -1,6 +1,9 @@
 package de.randi2.services;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.context.ManagedSessionContext;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -21,8 +24,6 @@ import de.randi2.utility.security.RolesAndRights;
 
 import static junit.framework.Assert.*;
 
-@Transactional(propagation=Propagation.REQUIRES_NEW)
-//import static junit.framework.Assert.*;
 public class TrialSiteServiceTest extends AbstractServiceTest {
 
 	
@@ -34,9 +35,7 @@ public class TrialSiteServiceTest extends AbstractServiceTest {
 	@Autowired private RolesAndRights rolesAndRights;
 	@Autowired private ApplicationContext context;
 	
-	
 
-	
 	
 	@Test
 	public void testInit(){

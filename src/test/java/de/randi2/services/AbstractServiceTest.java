@@ -25,7 +25,7 @@ import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.utility.security.RolesAndRights;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/META-INF/subconfig/service-test.xml","/META-INF/subconfig/test.xml" })
+@ContextConfiguration(locations = {"/META-INF/service-test.xml","/META-INF/subconfig/test.xml" })
 public abstract class AbstractServiceTest {
 
 
@@ -104,8 +104,7 @@ public abstract class AbstractServiceTest {
 	@After
 	public void afterTest(){
 		SecurityContextHolder.getContext().setAuthentication(null);
-//		ManagedSessionContext.unbind(sessionFactory);
-		sessionFactory.getCurrentSession().close();
+		ManagedSessionContext.unbind(sessionFactory);
 	}
 	
 	protected void authenticatAsAdmin(){

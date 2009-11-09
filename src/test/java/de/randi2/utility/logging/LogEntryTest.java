@@ -15,7 +15,7 @@ import static junit.framework.Assert.*;
 //import static junit.framework.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/META-INF/subconfig/service-test.xml","/META-INF/subconfig/aspects.xml","/META-INF/subconfig/logging.xml" })
+@ContextConfiguration(locations = {"/META-INF/service-test.xml" })
 public class LogEntryTest {
 
 	

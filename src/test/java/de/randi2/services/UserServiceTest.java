@@ -9,6 +9,8 @@ import static junit.framework.Assert.fail;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.hibernate.validator.InvalidStateException;
+import org.hibernate.validator.InvalidValue;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -163,8 +165,7 @@ public class UserServiceTest extends AbstractServiceTest{
 		sessionFactory.getCurrentSession().flush();
 		assertTrue(login.getId()>0);
 		String oldName = login.getUsername();
-		login.setUsername(stringUtil.getWithLength(30));
-		userService.update(login);
+		login.setUsername(factory.getPerson().getEmail());
 		Login login2 = (Login) sessionFactory.getCurrentSession().get(Login.class, login.getId());
 		assertEquals(login.getUsername(), login2.getUsername());
 		assertFalse(login2.getUsername().equals(oldName));
