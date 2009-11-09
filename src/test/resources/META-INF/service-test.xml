@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+	default-autowire="byName">
 
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="classpath:META-INF/configuration.properties">
+		</property>
+		<property name="ignoreUnresolvablePlaceholders">
+			<value>true</value>
+		</property>
+
+	</bean>
+	
+
+
+	<context:annotation-config />
+	<context:spring-configured></context:spring-configured>
+
+	<import resource="classpath:META-INF/subconfig/database-hsqldb.xml" />
+	<import resource="classpath:META-INF/subconfig/hibernate.xml" />
+ 	<import resource="classpath:META-INF/subconfig/aspects.xml" />
+	<import resource="classpath:META-INF/subconfig/security.xml" />
+	<import resource="classpath:META-INF/subconfig/mail.xml" />
+	<import resource="classpath:META-INF/subconfig/services.xml"/>
+
+	 <bean id="mailSender" class="de.randi2.test.mock.DummyMailSender"></bean>
+	
+	<import resource="classpath:META-INF/subconfig/logging.xml"/>
 
 </beans>

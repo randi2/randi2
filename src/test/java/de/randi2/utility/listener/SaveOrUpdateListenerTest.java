@@ -20,7 +20,7 @@ import static junit.framework.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"classpath:/META-INF/subconfig/service-test.xml",
+		"classpath:/META-INF/service-test.xml",
 		"classpath:/META-INF/subconfig/test.xml" })
 public class SaveOrUpdateListenerTest {
 
