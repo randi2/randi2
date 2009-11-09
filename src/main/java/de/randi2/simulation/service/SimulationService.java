@@ -4,9 +4,9 @@ import java.util.List;
 
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
+import de.randi2.simulation.distribution.AbstractDistribution;
 import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationResult;
-import de.randi2.simulation.model.distribution.AbstractDistribution;
 
 public interface SimulationService {
 

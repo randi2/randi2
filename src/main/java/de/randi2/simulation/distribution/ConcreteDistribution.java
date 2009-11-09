@@ -1,4 +1,4 @@
-package de.randi2.simulation.model.distribution;
+package de.randi2.simulation.distribution;
 
 import java.io.Serializable;
 import java.util.List;

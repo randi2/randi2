@@ -1,4 +1,4 @@
-package de.randi2.services;
+package de.randi2.simulation.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,10 +20,10 @@ import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
+import de.randi2.simulation.distribution.ConcreteDistribution;
+import de.randi2.simulation.distribution.UniformDistribution;
 import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationResult;
-import de.randi2.simulation.model.distribution.ConcreteDistribution;
-import de.randi2.simulation.model.distribution.UniformDistribution;
 import de.randi2.simulation.service.SimulationService;
 import de.randi2.simulation.service.SimulationServiceImpl;
 import de.randi2.test.utility.DomainObjectFactory;

@@ -18,10 +18,10 @@ import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DateConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
+import de.randi2.simulation.distribution.AbstractDistribution;
 import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationResult;
 import de.randi2.simulation.model.SimulationRun;
-import de.randi2.simulation.model.distribution.AbstractDistribution;
 import de.randi2.unsorted.ContraintViolatedException;
 
 

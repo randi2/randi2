@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
-import de.randi2.simulation.model.distribution.AbstractDistribution;
+import de.randi2.simulation.distribution.AbstractDistribution;
 
 
 
