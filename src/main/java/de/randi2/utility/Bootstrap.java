@@ -128,7 +128,7 @@ public class Bootstrap {
 				.getBean("saltSourceTrialSite");
 		trialService = (TrialService) ctx.getBean("trialService");
 		userService = (UserService) ctx.getBean("userService");
-		System.out.println("init spring context: " + (System.nanoTime()-time1)/1000000000);
+		System.out.println("init spring context: " + (System.nanoTime()-time1)/1000000 + " ms");
 		init();
 
 	}
@@ -311,7 +311,7 @@ public class Bootstrap {
 		// create test trial
 		sessionFactory.getCurrentSession().flush();
 
-		System.out.println((System.nanoTime()-time1)/1000000000);
+		System.out.println("create user: " + (System.nanoTime()-time1)/1000000 + " ms");
 		time1 = System.nanoTime();
 		// create test trial
 		ManagedSessionContext.unbind(sessionFactory);
@@ -399,7 +399,7 @@ public class Bootstrap {
 		trialService.create(trial);
 
 		sessionFactory.getCurrentSession().flush();
-		System.out.println("Studie Anlegen:" + (System.nanoTime()-time1)/1000000000);
+		System.out.println("create trial: " + (System.nanoTime()-time1)/1000000 + " ms");
 		time1 = System.nanoTime();
 		ManagedSessionContext.unbind(sessionFactory);
 		ManagedSessionContext.bind(sessionFactory.openSession());
@@ -452,11 +452,11 @@ public class Bootstrap {
 			}
 			
 		}
-	
+		System.out.println("added trial subjects: " + (System.nanoTime()-time1)/1000000 + " ms");
 	}
 
 private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {
-		long time1 = System.nanoTime();
+//		long time1 = System.nanoTime();
 		trial = trialService.getObject(trial.getId());
 
 		TrialSubject subject = new TrialSubject();
@@ -480,14 +480,14 @@ private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {
 						trial.getCriteria().get(1)).getOption1());
 			} else {
 				subprob1.setValue(DichotomousCriterion.class.cast(
-						trial.getCriteria().get(1)).getOption1());
+						trial.getCriteria().get(1)).getOption2());
 			}
 			if (rand.nextInt(2) == 0) {
 				subprob2.setValue(DichotomousCriterion.class.cast(
 						trial.getCriteria().get(2)).getOption1());
 			} else {
 				subprob2.setValue(DichotomousCriterion.class.cast(
-						trial.getCriteria().get(2)).getOption1());
+						trial.getCriteria().get(2)).getOption2());
 			}
 
 		} catch (ContraintViolatedException e) {
@@ -500,7 +500,9 @@ private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {
 		proberties.add(subprob2);
 		subject.setProperties(proberties);
 		trialService.randomize(trial, subject);
-		System.out.println("time random before: " + (System.nanoTime()-time1)/1000000000);
+		subject.setCreatedAt(date);
+		sessionFactory.getCurrentSession().update(subject);
+//		System.out.println("time random before: " + (System.nanoTime()-time1)/1000000 + " ms");
 	}
 
 	/**
