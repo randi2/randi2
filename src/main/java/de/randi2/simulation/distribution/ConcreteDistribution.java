@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
+import lombok.Getter;
+
 public class ConcreteDistribution<E extends Serializable> extends AbstractDistribution<E> {
 
+	@Getter
 	private int[] ratio;
 	private Random rand = new Random();
-	private int all = 1;
+	private int all = 0;
 	
 	public ConcreteDistribution(List<E> elements, int... ratio){
 		super(elements);
@@ -20,13 +23,13 @@ public class ConcreteDistribution<E extends Serializable> extends AbstractDistri
 	
 	@Override
 	public E getNextValue() {
-		int  number = rand.nextInt(all);
+		double  number = rand.nextDouble();
 		boolean found = false;
 		int i =0;
-		int sum =0;
+		double sum =0.0;
 		while (!found && i<ratio.length){
 			sum +=ratio[i];
-			if(sum>=number){
+			if((sum/all)>=number){
 				found = true;	
 			}else{
 				i++;
