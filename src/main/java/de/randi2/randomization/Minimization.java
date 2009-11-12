@@ -23,18 +23,18 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 	
 	public Minimization(Trial _trial) {
 		super(_trial);
-		initProbabilitiesPerPreferredTreatment();
+		
 	}
 
 	public Minimization(Trial _trial, long seed) {
 		super(_trial, seed);
-		initProbabilitiesPerPreferredTreatment();
 	}
 	
 	
 	@Override
 	protected TreatmentArm doRadomize(TrialSubject subject, Random random) {
 		if (configuration.isBiasedCoinMinimization()){
+			if(probabilitiesPerPreferredTreatment == null) initProbabilitiesPerPreferredTreatment();
 			return doRandomizeBiasedCoinMinimization(subject, random);
 		}else{
 			return doRandomizeNaiveMinimization(subject, random);
