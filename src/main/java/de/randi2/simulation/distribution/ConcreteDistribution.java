@@ -10,8 +10,15 @@ public class ConcreteDistribution<E extends Serializable> extends AbstractDistri
 
 	@Getter
 	private int[] ratio;
-	private Random rand = new Random();
 	private int all = 0;
+	
+	public ConcreteDistribution(long seed, List<E> elements, int... ratio){
+		super(elements, seed);
+		this.ratio = ratio;
+		for(int i : ratio){
+			all +=i;
+		}
+	}
 	
 	public ConcreteDistribution(List<E> elements, int... ratio){
 		super(elements);
@@ -23,7 +30,7 @@ public class ConcreteDistribution<E extends Serializable> extends AbstractDistri
 	
 	@Override
 	public E getNextValue() {
-		double  number = rand.nextDouble();
+		double  number = random.nextDouble();
 		boolean found = false;
 		int i =0;
 		double sum =0.0;

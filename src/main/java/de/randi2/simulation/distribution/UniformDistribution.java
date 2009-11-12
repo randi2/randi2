@@ -7,11 +7,16 @@ import java.util.Random;
 
 public  class  UniformDistribution<E extends Serializable> extends AbstractDistribution<E> {
 
+	
+
 	public UniformDistribution(List<E> elements) {
 		super(elements);
 	}
+	
+	public UniformDistribution(List<E> elements, long seed) {
+		super(elements, seed);
+	}
 
-	Random random = new Random();
 
 	@Override
 	public E getNextValue() {
