@@ -156,7 +156,7 @@ public class SimulationServiceImpl implements SimulationService {
 		return trial;
 	}
 
-	private static TrialSubject generateTrialSubject(List<DistributionSubjectProperty> properties, TrialSubject oldSubject) {
+	public static TrialSubject generateTrialSubject(List<DistributionSubjectProperty> properties, TrialSubject oldSubject) {
 		oldSubject.setProperties(null);
 		HashSet<SubjectProperty<?>> tempSet = new HashSet<SubjectProperty<?>>();
 		for (DistributionSubjectProperty dsp :properties) {

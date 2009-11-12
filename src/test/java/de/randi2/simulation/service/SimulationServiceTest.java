@@ -20,6 +20,8 @@ import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
+import de.randi2.model.randomization.MinimizationConfig;
+import de.randi2.randomization.Minimization;
 import de.randi2.simulation.distribution.ConcreteDistribution;
 import de.randi2.simulation.distribution.UniformDistribution;
 import de.randi2.simulation.model.DistributionSubjectProperty;
@@ -50,7 +52,7 @@ public class SimulationServiceTest {
 		validTrial.addParticipatingSite(factory.getTrialSite());
 		validTrial.addParticipatingSite(factory.getTrialSite());
 		int blocksize = 6;
-		int randomizations = 1000;
+		int randomizations = 60;
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setPlannedSubjects(randomizations/2);
 		arm1.setName("arm1");
@@ -68,6 +70,10 @@ public class SimulationServiceTest {
 //		config.setMaximum(blocksize);
 //		config.setMinimum(blocksize);
 		CompleteRandomizationConfig config = new CompleteRandomizationConfig();
+//		MinimizationConfig config = new MinimizationConfig();
+//		config.setWithRandomizedSubjects(false);
+//		config.setBiasedCoinMinimization(true);
+//		config.setP(0.70);
 		
 		validTrial.setRandomizationConfiguration(config);
 		ArrayList<DistributionSubjectProperty> dProperties = new ArrayList<DistributionSubjectProperty>();
@@ -128,7 +134,7 @@ public class SimulationServiceTest {
 		}
 		
 		
-		SimulationResult result = service.simulateTrial(validTrial,dProperties,new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 1000, 10000);
+		SimulationResult result = service.simulateTrial(validTrial,dProperties,new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 10, 10000);
 		
 		System.out.println("Runs: " + result.getAmountRuns());
 		System.out.println("Time: " + result.getDuration() + "ms");

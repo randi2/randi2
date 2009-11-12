@@ -18,7 +18,8 @@ import de.randi2.unsorted.ContraintViolatedException;
 public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 
 
-	@Getter
+
+
 	private Map<TreatmentArm, Map<TreatmentArm, Double>> probabilitiesPerPreferredTreatment;
 	
 	public Minimization(Trial _trial) {
@@ -220,4 +221,9 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 		}
 	}
 
+
+	public Map<TreatmentArm, Map<TreatmentArm, Double>> getProbabilitiesPerPreferredTreatment() {
+		if(probabilitiesPerPreferredTreatment==null) initProbabilitiesPerPreferredTreatment();
+		return probabilitiesPerPreferredTreatment;
+	}
 }
