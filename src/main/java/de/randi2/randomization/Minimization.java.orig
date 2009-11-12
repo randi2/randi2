@@ -1,16 +1,28 @@
 package de.randi2.randomization;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+<<<<<<< HEAD:src/main/java/de/randi2/randomization/Minimization.java
+import java.util.Iterator;
+=======
+>>>>>>> a09a2679571321cdc99422e0417f71836f2ba5ff:src/main/java/de/randi2/randomization/Minimization.java
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+<<<<<<< HEAD:src/main/java/de/randi2/randomization/Minimization.java
+=======
 import lombok.Getter;
+>>>>>>> a09a2679571321cdc99422e0417f71836f2ba5ff:src/main/java/de/randi2/randomization/Minimization.java
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
+<<<<<<< HEAD:src/main/java/de/randi2/randomization/Minimization.java
+import de.randi2.model.criteria.AbstractCriterion;
+=======
+>>>>>>> a09a2679571321cdc99422e0417f71836f2ba5ff:src/main/java/de/randi2/randomization/Minimization.java
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.unsorted.ContraintViolatedException;
@@ -18,7 +30,10 @@ import de.randi2.unsorted.ContraintViolatedException;
 public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 
 
+<<<<<<< HEAD:src/main/java/de/randi2/randomization/Minimization.java
+=======
 	@Getter
+>>>>>>> a09a2679571321cdc99422e0417f71836f2ba5ff:src/main/java/de/randi2/randomization/Minimization.java
 	private Map<TreatmentArm, Map<TreatmentArm, Double>> probabilitiesPerPreferredTreatment;
 	
 	public Minimization(Trial _trial) {
@@ -81,6 +96,10 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 	@SuppressWarnings("unchecked")
 	private TreatmentArm doRandomizeBiasedCoinMinimization(TrialSubject subject, Random random){
 		List<TreatmentArm> arms = trial.getTreatmentArms();
+<<<<<<< HEAD:src/main/java/de/randi2/randomization/Minimization.java
+		ArrayList<Double> a = new ArrayList<Double>();
+=======
+>>>>>>> a09a2679571321cdc99422e0417f71836f2ba5ff:src/main/java/de/randi2/randomization/Minimization.java
 		
 		HashMap<AbstractConstraint<?>,HashMap<TreatmentArm, Double>> relevantConstraints = new HashMap<AbstractConstraint<?>, HashMap<TreatmentArm, Double>>();
 		//Get relevant constraints
@@ -152,6 +171,23 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 				preferredArm = arm;
 			}
 		}
+<<<<<<< HEAD:src/main/java/de/randi2/randomization/Minimization.java
+	
+		
+		//calculate p^H_pref
+		double p_pref = 0.0;
+		
+		for(TreatmentArm arm1 :arms){
+			if(!arm.equals(arm1)){
+				sum+=configuration.isWithRandomizedSubjects() ? (arm1.getPlannedSubjects()-arm1.getCurrentSubjectsAmount()) :arm1.getPlannedSubjects();
+			}
+			totalPlannedSubjects +=arm1.getPlannedSubjects();
+		}
+					
+		
+		
+		
+=======
 		
 		ArrayList<Double> a = new ArrayList<Double>();
 		
@@ -159,6 +195,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 			a.add(probabilitiesPerPreferredTreatment.get(preferredArm).get(arm));
 		}
 				
+>>>>>>> a09a2679571321cdc99422e0417f71836f2ba5ff:src/main/java/de/randi2/randomization/Minimization.java
 		//get Treatment arm with calculated p-values
 		double randomNumber = random.nextDouble();
 		double sum = 0;
@@ -176,6 +213,8 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 	
 	private void initProbabilitiesPerPreferredTreatment(){
 		probabilitiesPerPreferredTreatment = new HashMap<TreatmentArm, Map<TreatmentArm,Double>>();
+<<<<<<< HEAD:src/main/java/de/randi2/randomization/Minimization.java
+=======
 		TreatmentArm minArm = trial.getTreatmentArms().get(0);
 		for(TreatmentArm arm : trial.getTreatmentArms()){
 			if(arm.getPlannedSubjects()< minArm.getPlannedSubjects()){
@@ -183,6 +222,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 			}
 		}
 	
+>>>>>>> a09a2679571321cdc99422e0417f71836f2ba5ff:src/main/java/de/randi2/randomization/Minimization.java
 		for(TreatmentArm prefArm : trial.getTreatmentArms()){
 			HashMap<TreatmentArm,Double> probabilities = new HashMap<TreatmentArm, Double>();
 			double pH_pref = 0.0;
@@ -196,6 +236,8 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 					numinator+=arm.getPlannedSubjects();
 				}
 			}
+<<<<<<< HEAD:src/main/java/de/randi2/randomization/Minimization.java
+=======
 			if(prefArm.equals(minArm)){
 				pH_pref = configuration.getP();
 			}else{
@@ -217,6 +259,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 				}
 			}
 			probabilitiesPerPreferredTreatment.put(prefArm, probabilities);
+>>>>>>> a09a2679571321cdc99422e0417f71836f2ba5ff:src/main/java/de/randi2/randomization/Minimization.java
 		}
 	}
 

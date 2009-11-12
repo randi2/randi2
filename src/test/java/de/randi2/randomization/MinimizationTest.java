@@ -37,7 +37,7 @@ public class MinimizationTest {
 			randomize(trial, new TrialSubject());
 		}
 		assertEquals(150, trial.getSubjects().size());
-		test();
+		
 	}
 	
 	@Test
@@ -45,7 +45,7 @@ public class MinimizationTest {
 		RandomizationHelper.addArms(trial, 70,50,30);
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(true);
-		conf.setP(0.95);
+		conf.setP(0.9);
 		trial.setRandomizationConfiguration(conf);
 		for (int i : upto(150)){
 			randomize(trial, new TrialSubject());
@@ -70,12 +70,15 @@ public class MinimizationTest {
 	
 	@Test
 	public void testBiasedCoinMinimization(){
-		RandomizationHelper.addArms(trial, 70,50,30);
+		RandomizationHelper.addArms(trial, 10,20,30);
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(false);
 		conf.setBiasedCoinMinimization(true);
-		conf.setP(0.90);
+		conf.setP(0.70);
 		trial.setRandomizationConfiguration(conf);
+		
+		Minimization alg = (Minimization)conf.getAlgorithm();
+		alg.getProbabilitiesPerPreferredTreatment();
 		for (int i : upto(150)){
 			System.out.println(i);
 			randomize(trial, new TrialSubject());
