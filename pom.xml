@@ -350,7 +350,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>0.8.5</version>
+            <version>0.9.1</version>
         </dependency>
 
         <!-- Findbugs Annotations to enhance code quality -->
