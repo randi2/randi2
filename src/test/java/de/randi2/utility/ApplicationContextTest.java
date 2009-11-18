@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Map;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -26,10 +26,10 @@ import de.randi2.services.UserService;
  */
 public class ApplicationContextTest {
 
-   private ApplicationContext context;
+   private static ApplicationContext context;
 
-   @Before
-   public void loadApplicationContext() {
+   @BeforeClass
+   public static void loadApplicationContext() {
       context = new ClassPathXmlApplicationContext("META-INF/spring-test.xml");
    }
 
