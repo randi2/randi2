@@ -17,11 +17,14 @@
  */
 package de.randi2.dao;
 
-import org.springframework.beans.factory.annotation.Configurable;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import de.randi2.model.AbstractDomainObject;
+import de.randi2.model.Login;
 import de.randi2.model.Trial;
+import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.Block;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationTempData;
@@ -67,6 +70,12 @@ public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements Tr
 		}
 		
 		return super.update(object);
+	}
+
+	@Override
+	public List<TrialSubject> getSubjects(Login investigator) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
