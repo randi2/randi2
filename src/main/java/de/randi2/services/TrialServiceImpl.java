@@ -151,4 +151,11 @@ public class TrialServiceImpl implements TrialService {
 		}
 	}
 
+
+	@Override
+	public List<TrialSubject> getSubjects(Login investiagtor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
