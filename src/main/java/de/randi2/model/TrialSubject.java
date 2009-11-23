@@ -29,6 +29,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -56,6 +57,7 @@ import de.randi2.unsorted.ContraintViolatedException;
 @Data
 @EqualsAndHashCode(callSuper=true)
 @ToString(exclude={"arm"})
+@NamedQuery(name = "trialSubject.specificInvestigator", query = "select ts from TrialSubject as ts where ts.investigator = ? group by ts.arm")
 public class TrialSubject extends AbstractDomainObject {
 
 	/** The Constant serialVersionUID. */

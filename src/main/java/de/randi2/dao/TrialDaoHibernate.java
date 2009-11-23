@@ -72,10 +72,13 @@ public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements Tr
 		return super.update(object);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.randi2.dao.TrialDao#getSubjects(de.randi2.model.Login)
+	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<TrialSubject> getSubjects(Login investigator) {
-		// TODO Auto-generated method stub
-		return null;
+		return sessionFactory.getCurrentSession().getNamedQuery("trialSubject.specificInvestigator").list();
 	}
 
 }
