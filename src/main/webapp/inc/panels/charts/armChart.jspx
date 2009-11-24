@@ -20,7 +20,7 @@ Trial's Arm Chart.
 		xmlns:ice="http://www.icesoft.com/icefaces/component" columns="1">
 		<ice:panelGrid columns="2">
 			<ice:outputLabel value="#{labels['chart.clickedValue']}" />
-			<ice:outputText value="#{charts.clickedValues['armChart']}" />
+			<ice:outputText value="#{charts.clickedValues['armChart']}" effect="#{charts.effects['armChart']}"/>
 		</ice:panelGrid>
 		<ice:outputChart id="armChart" type="barclustered"
 			chartTitle="#{labels['chart.arm.title']}"

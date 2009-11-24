@@ -20,7 +20,7 @@ Trial's Recruitment Chart.
 		xmlns:ice="http://www.icesoft.com/icefaces/component" columns="1">
 		<ice:panelGrid columns="2">
 			<ice:outputLabel value="#{labels['chart.clickedValue']}" />
-			<ice:outputText value="#{charts.clickedValues['trialSiteChart']}" />
+			<ice:outputText value="#{charts.clickedValues['trialSiteChart']}" effect="#{charts.effects['trialSiteChart']}"/>
 		</ice:panelGrid>
 		<ice:outputChart id="trialSiteChart" type="barclustered"
 			chartTitle="#{labels['chart.rTrialSite.title']}"

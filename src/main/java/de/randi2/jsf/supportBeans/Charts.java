@@ -29,6 +29,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import com.icesoft.faces.component.outputchart.OutputChart;
+import com.icesoft.faces.context.effects.Effect;
+import com.icesoft.faces.context.effects.Highlight;
 
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.model.randomization.ChartData;
@@ -55,6 +57,8 @@ public class Charts {
 
 	@Getter @Setter
 	private Map<String, String> clickedValues;
+	@Getter @Setter
+	private Map<String, Effect> effects;
 
 	public Charts(){
 		chartTypes = new ArrayList<SelectItem>();
@@ -62,10 +66,23 @@ public class Charts {
 		chartTypes.add(new SelectItem("line", "Lines"));
 		chartTypes.add(new SelectItem("area", "Area"));
 		clickedValues = new HashMap<String, String>();
+		effects = new HashMap<String, Effect>();
 		clickedValues.put("armChart", "not selected");
+		Effect e1 = new Highlight("#fda505");
+	    e1.setFired(true);
+	    effects.put("armChart", e1);
 		clickedValues.put("recruitmentChart", "not selected");
+		Effect e2 = new Highlight("#fda505");
+	    e2.setFired(true);
+	    effects.put("recruitmentChart", e2);
 		clickedValues.put("strataChart", "not selected");
+		Effect e3 = new Highlight("#fda505");
+	    e3.setFired(true);
+	    effects.put("strataChart", e3);
 		clickedValues.put("trialSiteChart", "not selected");
+		Effect e4 = new Highlight("#fda505");
+	    e4.setFired(true);
+	    effects.put("trialSiteChart", e4);
 	}
 	
 	/**
@@ -79,8 +96,9 @@ public class Charts {
 			OutputChart chart = (OutputChart) event.getSource();
 			clickedValues.put(chart.getId(), "not selected");
 			if (chart.getClickedImageMapArea().getXAxisLabel() != null) {
-				clickedValues.put(event.getComponent().getId(), "("+chart.getClickedImageMapArea().getXAxisLabel()
+				clickedValues.put(chart.getId(), "("+chart.getClickedImageMapArea().getXAxisLabel()
 						+ "  |  " + chart.getClickedImageMapArea().getValue()+")");
+				effects.get(chart.getId()).setFired(false);
 			}else{
 				 chart.getClickedImageMapArea().getValue();
 			}

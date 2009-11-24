@@ -24,7 +24,7 @@ Trial's Recruitment Chart.
 				<f:selectItems value="#{charts.chartTypes}" />
 			</ice:selectOneMenu>
 			<ice:outputLabel value="#{labels['chart.clickedValue']}" />
-			<ice:outputText value="#{charts.clickedValues['recruitmentChart']}" />
+			<ice:outputText value="#{charts.clickedValues['recruitmentChart']}" effect="#{charts.effects['recruitmentChart']}"/>
 		</ice:panelGrid>
 		<ice:outputChart id="recruitmentChart" type="#{charts.RChartType}"
 			chartTitle="#{labels['chart.recruitment.title']}"
