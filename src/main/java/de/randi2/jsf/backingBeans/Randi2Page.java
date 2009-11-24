@@ -24,6 +24,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import com.icesoft.faces.context.effects.Effect;
+import com.icesoft.faces.context.effects.Highlight;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -64,8 +67,24 @@ public class Randi2Page {
 	/**
 	 * The current selected trial.
 	 */
-	@Getter @Setter
+	@Getter
 	private Trial currentTrial = null;
+	
+	public void setCurrentTrial(Trial currentTrial) {
+		this.currentTrial = currentTrial;
+		trialChangeEffect.setFired(false);
+	}
+	
+	@Setter
+	private Effect trialChangeEffect;
+	
+	public Effect getTrialChangeEffect() {
+		if(trialChangeEffect==null){
+			trialChangeEffect = new Highlight("#fda505");
+			trialChangeEffect.setFired(true);
+		}
+		return trialChangeEffect;
+	}
 	
 	/**
 	 * Time Zone for all calendar widgets.
