@@ -107,7 +107,7 @@
 				partialSubmit="true"
 				valueChangeListener="#{dataExporter.typeChangeListener}">
 				<f:selectItem itemLabel="Select a type" itemValue="" />
-				<f:selectItem itemLabel="MS Excel" itemValue="excel" />
+				<!-- f:selectItem itemLabel="MS Excel" itemValue="excel" / -->
 				<f:selectItem itemLabel="CSV (comma separated values)"
 					itemValue="csv" />
 			</ice:selectOneMenu>
