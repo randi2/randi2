@@ -290,6 +290,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		/*
 		 * Now creating another investigator
 		 */
+		//Login #1
 		Login l = factory.getLogin();
 		String e = "i@getsubjectstest.com";
 		l.setUsername(e);
@@ -297,6 +298,14 @@ public class TrialServiceTest extends AbstractServiceTest{
 		l.addRole(Role.ROLE_INVESTIGATOR);
 		l.getPerson().setTrialSite(admin.getPerson().getTrialSite());
 		userService.create(l);
+		//Login #2
+		Login l2 = factory.getLogin();
+		String e2 = "i2@getsubjectstest.com";
+		l2.setUsername(e2);
+		l2.getPerson().setEmail(e2);
+		l2.addRole(Role.ROLE_INVESTIGATOR);
+		l2.getPerson().setTrialSite(admin.getPerson().getTrialSite());
+		userService.create(l2);
 		/*
 		 * First I need to create the trial and randomize some subjects.
 		 */
@@ -316,6 +325,11 @@ public class TrialServiceTest extends AbstractServiceTest{
 		arms.add(arm2);
 		service.create(t);
 		t.setTreatmentArms(arms);
+		l.setUsername(e);
+		l.getPerson().setEmail(e);
+		l.addRole(Role.ROLE_INVESTIGATOR);
+		l.getPerson().setTrialSite(admin.getPerson().getTrialSite());
+		userService.create(l);
 		t.setRandomizationConfiguration(new CompleteRandomizationConfig());
 		service.update(t);
 		/*
@@ -340,6 +354,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		List<TrialSubject> s = service.getSubjects(t,admin);
 		assertNotNull(s);
 		assertEquals(expectedAmount, s.size());
+		//TODO The user creation should be done here! (lplotni)
 		/*
 		 * Signing in the newly created user.
 		 */
@@ -366,5 +381,11 @@ public class TrialServiceTest extends AbstractServiceTest{
 		List<TrialSubject> s2 = service.getSubjects(t,l);
 		assertNotNull(s2);
 		assertEquals(nextSet, s2.size());
+		/*
+		 * Now testing some other scenarios. 
+		 */
+		List<TrialSubject> s3 = service.getSubjects(t, l2);
+		assertNotNull(s3);
+		assertEquals(0,s3.size());
 	}
 }
