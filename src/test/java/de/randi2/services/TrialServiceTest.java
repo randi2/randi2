@@ -9,7 +9,11 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 
+import de.randi2.model.Login;
+import de.randi2.model.Role;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
@@ -21,6 +25,7 @@ import de.randi2.model.randomization.UrnDesignConfig;
 public class TrialServiceTest extends AbstractServiceTest{
 
 	@Autowired private TrialService service;
+	@Autowired private UserService userService;
 
 	private Trial validTrial;
 	
@@ -278,5 +283,109 @@ public class TrialServiceTest extends AbstractServiceTest{
 		assertEquals(100, dbTrial.getTreatmentArms().get(0).getSubjects().size() + dbTrial.getTreatmentArms().get(1).getSubjects().size());
 		assertTrue(dbTrial.getRandomizationConfiguration() instanceof UrnDesignConfig);
 		assertTrue(((UrnDesignConfig)dbTrial.getRandomizationConfiguration()).getTempData() != null);
+	}
+	
+	@Test
+	public void testGetSubjects(){
+		/*
+		 * Now creating another investigator
+		 */
+		//Login #1
+		Login l = factory.getLogin();
+		String e = "i@getsubjectstest.com";
+		l.setUsername(e);
+		l.getPerson().setEmail(e);
+		l.addRole(Role.ROLE_INVESTIGATOR);
+		l.getPerson().setTrialSite(admin.getPerson().getTrialSite());
+		userService.create(l);
+		//Login #2
+		Login l2 = factory.getLogin();
+		String e2 = "i2@getsubjectstest.com";
+		l2.setUsername(e2);
+		l2.getPerson().setEmail(e2);
+		l2.addRole(Role.ROLE_INVESTIGATOR);
+		l2.getPerson().setTrialSite(admin.getPerson().getTrialSite());
+		userService.create(l2);
+		/*
+		 * First I need to create the trial and randomize some subjects.
+		 */
+		Trial t = factory.getTrial();
+		t.setLeadingSite(admin.getPerson().getTrialSite());
+		t.setSponsorInvestigator(admin.getPerson());
+		TreatmentArm arm1 = new TreatmentArm();
+		arm1.setPlannedSubjects(25);
+		arm1.setName("arm1");
+		arm1.setTrial(t);
+		TreatmentArm arm2 = new TreatmentArm();
+		arm2.setPlannedSubjects(25);
+		arm2.setName("arm2");
+		arm2.setTrial(t);
+		ArrayList<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		arms.add(arm1);
+		arms.add(arm2);
+		service.create(t);
+		t.setTreatmentArms(arms);
+		l.setUsername(e);
+		l.getPerson().setEmail(e);
+		l.addRole(Role.ROLE_INVESTIGATOR);
+		l.getPerson().setTrialSite(admin.getPerson().getTrialSite());
+		userService.create(l);
+		t.setRandomizationConfiguration(new CompleteRandomizationConfig());
+		service.update(t);
+		/*
+		 * Checking if the trial saving and stuff went well. 
+		 */
+		assertTrue(t.getId()>0);
+		assertEquals(2,t.getTreatmentArms().size());
+		/*
+		 * Randomizing the subjects using the service method.
+		 */
+		int expectedAmount = 50;
+		System.out.println("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " randomized in trial " +t.getName());
+		for(int i=0;i<expectedAmount;i++){
+			TrialSubject subject = new TrialSubject();
+			subject.setIdentification("identification" + i);
+			subject.setTrialSite(t.getLeadingSite());
+			service.randomize(t,subject);
+		}
+		/*
+		 * Trying to get the subjects for the admin user.
+		 */
+		List<TrialSubject> s = service.getSubjects(t,admin);
+		assertNotNull(s);
+		assertEquals(expectedAmount, s.size());
+		//TODO The user creation should be done here! (lplotni)
+		/*
+		 * Signing in the newly created user.
+		 */
+		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
+				e, l, l.getAuthorities());
+		// Perform authentication
+		SecurityContextHolder.getContext().setAuthentication(authToken);
+		SecurityContextHolder.getContext().getAuthentication()
+				.setAuthenticated(true);
+		/*
+		 * Randomizing another set of subjects
+		 */
+		int nextSet = 40;
+		System.out.println("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " randomized in trial " +t.getName());
+		for(int i=0;i<nextSet;i++){
+			TrialSubject subject = new TrialSubject();
+			subject.setIdentification("anotherId" + i);
+			subject.setTrialSite(t.getLeadingSite());
+			service.randomize(t,subject);
+		}
+		/*
+		 * Trying to get the second charge of the subjects.
+		 */
+		List<TrialSubject> s2 = service.getSubjects(t,l);
+		assertNotNull(s2);
+		assertEquals(nextSet, s2.size());
+		/*
+		 * Now testing some other scenarios. 
+		 */
+		List<TrialSubject> s3 = service.getSubjects(t, l2);
+		assertNotNull(s3);
+		assertEquals(0,s3.size());
 	}
 }

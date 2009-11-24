@@ -17,6 +17,9 @@
  */
 package de.randi2.services;
 
+import java.util.List;
+
+import de.randi2.model.Login;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 
@@ -50,5 +53,17 @@ public interface TrialService extends AbstractService<Trial> {
 	 * @return
 	 */
 	public Trial randomize(Trial trial, TrialSubject subject);
+
+	/**
+	 * Method for the retrieval of all subjects randomized by a specific
+	 * investigator within a specific trial.
+	 * 
+	 * @param trial
+	 *            specific trial
+	 * @param investigator
+	 *            Investigator which subjects should be returned.
+	 * @return A list of all found subjects
+	 */
+	public List<TrialSubject> getSubjects(Trial trial, Login investigator);
 
 }

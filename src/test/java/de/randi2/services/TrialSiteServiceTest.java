@@ -1,9 +1,11 @@
 package de.randi2.services;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+
 import org.hibernate.SessionFactory;
-import org.hibernate.context.ManagedSessionContext;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -12,8 +14,6 @@ import org.springframework.security.providers.anonymous.AnonymousAuthenticationT
 import org.springframework.security.providers.dao.salt.SystemWideSaltSource;
 import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.security.vote.AffirmativeBased;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Login;
 import de.randi2.model.Person;
@@ -21,8 +21,6 @@ import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
 import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.utility.security.RolesAndRights;
-
-import static junit.framework.Assert.*;
 
 public class TrialSiteServiceTest extends AbstractServiceTest {
 
@@ -79,7 +77,7 @@ public class TrialSiteServiceTest extends AbstractServiceTest {
 	@Test
 	public void testgetAll(){
 		authenticatAsAdmin();
-		Login login = findLogin("admin@test.de");
+		Login login = findLogin("admin@test.de"); //@Daniel - why do we need this line //TODO
 		for(int i=0;i<10;i++){
 			TrialSite site = factory.getTrialSite();
 			service.create(site);

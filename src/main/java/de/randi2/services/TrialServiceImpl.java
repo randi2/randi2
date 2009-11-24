@@ -65,9 +65,9 @@ public class TrialServiceImpl implements TrialService {
 //	secured with own SecurityAspect
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public Trial randomize(Trial trial, TrialSubject subject) {
-		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " randomized in trial " +trial.getName());
+		logger.debug("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " randomized in trial " +trial.getName());
 		subject.setTrialSite(((Login)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson().getTrialSite());
-		subject.setInvestigator(((Login)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson());
+		subject.setInvestigator(((Login)SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
 		TreatmentArm assignedArm = trial.getRandomizationConfiguration().getAlgorithm().randomize(subject);
 		subject.setArm(assignedArm);
 		//TODO Internal Subject's Identification
@@ -149,6 +149,12 @@ public class TrialServiceImpl implements TrialService {
 		} catch (MailErrorException e1) {
 			logger.error(e1);
 		}
+	}
+
+
+	@Override
+	public List<TrialSubject> getSubjects(Trial trial,Login investigator) {
+		return trialDao.getSubjects(trial,investigator);
 	}
 
 }

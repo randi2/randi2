@@ -67,38 +67,14 @@ public class Trial extends AbstractDomainObject {
 	@NotNull()
 	@NotEmpty()
 	@Length(max = MAX_VARCHAR_LENGTH)
-	
-	/**
-	 * Gets the name.
-	 * 
-	 * @return the name
-	 */
 	@Getter 
- /**
-	 * Sets the name.
-	 * 
-	 * @param name
-	 *            the new name
-	 */
- @Setter 
+    @Setter 
 	private String name = "";
 	
 	/** The abbreviation. */
 	@Length(max = MAX_VARCHAR_LENGTH)
-	
-	/**
-	 * Gets the abbreviation.
-	 * 
-	 * @return the abbreviation
-	 */
 	@Getter 
- /**
-	 * Sets the abbreviation.
-	 * 
-	 * @param abbreviation
-	 *            the new abbreviation
-	 */
- @Setter 
+    @Setter 
 	private String abbreviation = "";
 	
 	/**
@@ -106,147 +82,53 @@ public class Trial extends AbstractDomainObject {
 	 * 
 	 * @return true, if is stratify trial site
 	 */
-	@Getter /**
-	 * Sets the stratify trial site.
-	 * 
-	 * @param stratifyTrialSite
-	 *            the new stratify trial site
-	 */
- @Setter 
+	@Getter 
+	@Setter 
 	private boolean stratifyTrialSite;
 	
 	/** The description. */
 	@Lob
-	
-	/**
-	 * Gets the description.
-	 * 
-	 * @return the description
-	 */
 	@Getter 
- /**
-	 * Sets the description.
-	 * 
-	 * @param description
-	 *            the new description
-	 */
- @Setter 
+	@Setter 
 	private String description = "";
 	
-	/**
-	 * Gets the start date.
-	 * 
-	 * @return the start date
-	 */
-	@Getter /**
-	 * Sets the start date.
-	 * 
-	 * @param startDate
-	 *            the new start date
-	 */
- @Setter 
+	@Getter 
+	@Setter 
 	private GregorianCalendar startDate = null;
 	
-	/**
-	 * Gets the end date.
-	 * 
-	 * @return the end date
-	 */
-	@Getter /**
-	 * Sets the end date.
-	 * 
-	 * @param endDate
-	 *            the new end date
-	 */
- @Setter 
+	@Getter
+	@Setter 
 	private GregorianCalendar endDate = null;
 	
-	/**
-	 * Gets the protocol.
-	 * 
-	 * @return the protocol
-	 */
-	@Getter /**
-	 * Sets the protocol.
-	 * 
-	 * @param protocol
-	 *            the new protocol
-	 */
- @Setter 
+	@Getter 
+	@Setter 
 	private File protocol = null;
 	
 	/** The sponsor investigator. */
 	@NotNull
 	@ManyToOne
 	
-	/**
-	 * Gets the sponsor investigator.
-	 * 
-	 * @return the sponsor investigator
-	 */
 	@Getter 
- /**
-	 * Sets the sponsor investigator.
-	 * 
-	 * @param sponsorInvestigator
-	 *            the new sponsor investigator
-	 */
- @Setter 
+	@Setter 
 	private Person sponsorInvestigator = null;
 	
 	/** The leading site. */
 	@NotNull
 	@ManyToOne
-	
-	/**
-	 * Gets the leading site.
-	 * 
-	 * @return the leading site
-	 */
 	@Getter 
- /**
-	 * Sets the leading site.
-	 * 
-	 * @param leadingSite
-	 *            the new leading site
-	 */
- @Setter 
+	@Setter 
 	private TrialSite leadingSite = null;
 	
 	/** The status. */
 	@Enumerated(value = EnumType.STRING)
-	
-	/**
-	 * Gets the status.
-	 * 
-	 * @return the status
-	 */
 	@Getter 
- /**
-	 * Sets the status.
-	 * 
-	 * @param status
-	 *            the new status
-	 */
- @Setter 
+	@Setter 
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
 	
 	/** The participating sites. */
 	@ManyToMany
-	
-	/**
-	 * Gets the participating sites.
-	 * 
-	 * @return the participating sites
-	 */
 	@Getter 
- /**
-	 * Sets the participating sites.
-	 * 
-	 * @param participatingSites
-	 *            the new participating sites
-	 */
- @Setter 
+	@Setter 
 	private Set<TrialSite> participatingSites = new HashSet<TrialSite>();
 	
 	/** The treatment arms. */
@@ -273,13 +155,7 @@ public class Trial extends AbstractDomainObject {
 	 * @return true, if is generate ids
 	 */
 	@Getter 
- /**
-	 * Sets the generate ids.
-	 * 
-	 * @param generateIds
-	 *            the new generate ids
-	 */
- @Setter 
+	@Setter 
 	private boolean generateIds = true;
 
 

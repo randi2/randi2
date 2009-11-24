@@ -17,11 +17,14 @@
  */
 package de.randi2.dao;
 
-import org.springframework.beans.factory.annotation.Configurable;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import de.randi2.model.AbstractDomainObject;
+import de.randi2.model.Login;
 import de.randi2.model.Trial;
+import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.Block;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationTempData;
@@ -33,9 +36,12 @@ import de.randi2.model.randomization.UrnDesignTempData;
  * The Class TrialDaoHibernate.
  */
 @Service("trialDao")
-public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements TrialDao {
+public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements
+		TrialDao {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.randi2.dao.AbstractDaoHibernate#getModelClass()
 	 */
 	@Override
@@ -43,30 +49,56 @@ public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements Tr
 		return Trial.class;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.randi2.dao.AbstractDaoHibernate#update(de.randi2.model.AbstractDomainObject)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seede.randi2.dao.AbstractDaoHibernate#update(de.randi2.model.
+	 * AbstractDomainObject)
 	 */
 	@Override
 	public Trial update(Trial object) {
-		if(object.getRandomizationConfiguration() instanceof BlockRandomizationConfig){
-			for(String s : ((BlockRandomizationTempData)((BlockRandomizationConfig)object.getRandomizationConfiguration()).getTempData()).getBlocks().keySet()){
-				Block b =  ((BlockRandomizationTempData)((BlockRandomizationConfig)object.getRandomizationConfiguration()).getTempData()).getBlocks().get(s);
-				if(b != null && b.getId() == AbstractDomainObject.NOT_YET_SAVED_ID){
+		if (object.getRandomizationConfiguration() instanceof BlockRandomizationConfig) {
+			for (String s : ((BlockRandomizationTempData) ((BlockRandomizationConfig) object
+					.getRandomizationConfiguration()).getTempData())
+					.getBlocks().keySet()) {
+				Block b = ((BlockRandomizationTempData) ((BlockRandomizationConfig) object
+						.getRandomizationConfiguration()).getTempData())
+						.getBlocks().get(s);
+				if (b != null
+						&& b.getId() == AbstractDomainObject.NOT_YET_SAVED_ID) {
 					sessionFactory.getCurrentSession().persist(b);
 				}
-				
+
 			}
-		}else if(object.getRandomizationConfiguration() instanceof UrnDesignConfig){
-			for(String s :  ((UrnDesignTempData)((UrnDesignConfig)object.getRandomizationConfiguration()).getTempData()).getUrns().keySet()){
-				Urn u = ((UrnDesignTempData)((UrnDesignConfig)object.getRandomizationConfiguration()).getTempData()).getUrns().get(s);
-				if(u != null && u.getId() == AbstractDomainObject.NOT_YET_SAVED_ID){
+		} else if (object.getRandomizationConfiguration() instanceof UrnDesignConfig) {
+			for (String s : ((UrnDesignTempData) ((UrnDesignConfig) object
+					.getRandomizationConfiguration()).getTempData()).getUrns()
+					.keySet()) {
+				Urn u = ((UrnDesignTempData) ((UrnDesignConfig) object
+						.getRandomizationConfiguration()).getTempData())
+						.getUrns().get(s);
+				if (u != null
+						&& u.getId() == AbstractDomainObject.NOT_YET_SAVED_ID) {
 					sessionFactory.getCurrentSession().persist(u);
 				}
-				
+
 			}
 		}
-		
+
 		return super.update(object);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.randi2.dao.TrialDao#getSubjects(de.randi2.model.Login)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TrialSubject> getSubjects(Trial trial, Login investigator) {
+		return sessionFactory.getCurrentSession().getNamedQuery(
+				"trialSubject.specificInvestigator").setParameter(0, trial)
+				.setParameter(1, investigator).list();
 	}
 
 }

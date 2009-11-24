@@ -24,6 +24,7 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
 import lombok.Data;
@@ -66,6 +67,7 @@ public class TreatmentArm extends AbstractDomainObject{
 
 	/** The subjects. */
 	@OneToMany(mappedBy="arm")
+	@OrderBy("createdAt ASC")
 	private List<TrialSubject> subjects = new ArrayList<TrialSubject>();
 
 	/**
