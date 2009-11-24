@@ -54,6 +54,7 @@ import de.randi2.model.Role;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
+import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
@@ -83,7 +84,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	/*
 	 * Services which this class needs to work with. (provided via spring)
 	 */
-	
+
 	@Setter
 	private TrialSiteService siteService = null;
 
@@ -92,22 +93,26 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	@Setter
 	private LogService logService;
-	
+
+	@Setter
+	private LoginHandler loginHandler;
+
 	/*
 	 * Access to the application popups.
 	 */
-	
+
 	@Setter
 	private Popups popups;
 
 	/*
 	 * Object needed for the randomization configuration process.
 	 */
-	@Setter  @Getter
+	@Setter
+	@Getter
 	private AbstractRandomizationConfig randomizationConfig;
 
 	private ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> criteriaList = null;
-	
+
 	private boolean addingSubjectsEnabled = false;
 
 	@SuppressWarnings("unchecked")
@@ -150,14 +155,13 @@ public class TrialHandler extends AbstractHandler<Trial> {
 	private AutoCompleteObject<Login> sponsorInvestigatorsAC = null;
 	private AutoCompleteObject<TrialSite> participatingSitesAC = null;
 
-	
 	/*
 	 * GET & SET methods
 	 */
-	
-	
+
 	/**
 	 * Returns an autocomplete object with all stored trial sites (singleton)
+	 * 
 	 * @return
 	 */
 	public AutoCompleteObject<TrialSite> getTrialSitesAC() {
@@ -169,6 +173,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	/**
 	 * Returns the principal investigators of the selected leading trial site.
+	 * 
 	 * @return
 	 */
 	public AutoCompleteObject<Login> getSponsorInvestigatorsAC() {
@@ -184,9 +189,9 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		return sponsorInvestigatorsAC;
 	}
 
-	
 	/**
 	 * Return the autocomplete object with possible participating sites.
+	 * 
 	 * @return
 	 */
 	public AutoCompleteObject<TrialSite> getParticipatingSitesAC() {
@@ -200,7 +205,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		return criteriaList;
 	}
 
-	//FIXME dummy method for the protocol download
+	// FIXME dummy method for the protocol download
 	public Resource getTempProtocol() {
 		if (showedObject != null && showedObject.getProtocol() != null)
 			return new FileResource(showedObject.getProtocol());
@@ -232,6 +237,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	/**
 	 * Specifies if the user can add subject to the current study.
+	 * 
 	 * @return
 	 */
 	public boolean isAddingSubjectsEnabled() {
@@ -241,6 +247,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	/**
 	 * Provides the l16ed "tial state" select items.
+	 * 
 	 * @return
 	 */
 	public List<SelectItem> getStateItems() {
@@ -261,22 +268,25 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	/**
 	 * Action method for adding a participating study.
+	 * 
 	 * @param event
 	 */
 	public void addTrialSite(ActionEvent event) {
-		if(participatingSitesAC.getSelectedObject() != null){
-		showedObject.getParticipatingSites().add(
-				participatingSitesAC.getSelectedObject());
+		if (participatingSitesAC.getSelectedObject() != null) {
+			showedObject.getParticipatingSites().add(
+					participatingSitesAC.getSelectedObject());
 		}
 	}
 
 	/**
 	 * Action method for removing a participating study.
+	 * 
 	 * @param event
 	 */
 	public void removeTrialSite(ActionEvent event) {
 		/*
-		 * The trial site object is determined by retrieving the selected row from the participating sites' table. 
+		 * The trial site object is determined by retrieving the selected row
+		 * from the participating sites' table.
 		 */
 		TrialSite tTrialSite = (TrialSite) (((UIComponent) event.getComponent()
 				.getChildren().get(0)).getValueExpression("value")
@@ -287,90 +297,99 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	/**
 	 * Action method for the trial creation.
+	 * 
 	 * @return
 	 */
 	public String createTrial() {
-		try{
-		/* Leading Trial Site & Sponsor Investigator */
-		showedObject.setLeadingSite(trialSitesAC.getSelectedObject());
-		if (sponsorInvestigatorsAC.getSelectedObject() != null)
-			showedObject.setSponsorInvestigator(sponsorInvestigatorsAC
-					.getSelectedObject().getPerson());
-		
-		// TODO Protokoll
-		// TODO Status
-		showedObject.setStatus(TrialStatus.ACTIVE);
+		try {
+			/* Leading Trial Site & Sponsor Investigator */
+			showedObject.setLeadingSite(trialSitesAC.getSelectedObject());
+			if (sponsorInvestigatorsAC.getSelectedObject() != null)
+				showedObject.setSponsorInvestigator(sponsorInvestigatorsAC
+						.getSelectedObject().getPerson());
 
-		/* SubjectProperties Configuration - done in Step4 */
-		ValueExpression ve1 = FacesContext.getCurrentInstance()
-				.getApplication().getExpressionFactory().createValueExpression(
-						FacesContext.getCurrentInstance().getELContext(),
-						"#{step4}", Step4.class);
-		Step4 currentStep4 = (Step4) ve1.getValue(FacesContext.getCurrentInstance()
-				.getELContext());
-		ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> configuredCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
-		for (CriterionWrapper<? extends Serializable> cr : currentStep4.getCriteria()) {
-			/* Strata configuration  - done in Step5 */
-			if(cr.isStrataFactor()){
-				if(DichotomousCriterion.class.isInstance(cr.getWrappedCriterion())){
-					DichotomousCriterion temp = DichotomousCriterion.class.cast(cr.getWrappedCriterion());
-		    		try {
-						temp.addStrata(new DichotomousConstraint(Arrays.asList(new String[]{temp.getConfiguredValues().get(0)})));
-						temp.addStrata(new DichotomousConstraint(Arrays.asList(new String[]{temp.getConfiguredValues().get(1)})));
-					} catch (ContraintViolatedException e) {
-						e.printStackTrace();
-					}
-				}	else{
-					for(ConstraintWrapper<?> cw : cr.getStrata()){
-						cr.getWrappedCriterion().addStrata(cw.configure());
+			// TODO Protokoll
+			// TODO Status
+			showedObject.setStatus(TrialStatus.ACTIVE);
+
+			/* SubjectProperties Configuration - done in Step4 */
+			ValueExpression ve1 = FacesContext.getCurrentInstance()
+					.getApplication().getExpressionFactory()
+					.createValueExpression(
+							FacesContext.getCurrentInstance().getELContext(),
+							"#{step4}", Step4.class);
+			Step4 currentStep4 = (Step4) ve1.getValue(FacesContext
+					.getCurrentInstance().getELContext());
+			ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> configuredCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
+			for (CriterionWrapper<? extends Serializable> cr : currentStep4
+					.getCriteria()) {
+				/* Strata configuration - done in Step5 */
+				if (cr.isStrataFactor()) {
+					if (DichotomousCriterion.class.isInstance(cr
+							.getWrappedCriterion())) {
+						DichotomousCriterion temp = DichotomousCriterion.class
+								.cast(cr.getWrappedCriterion());
+						try {
+							temp.addStrata(new DichotomousConstraint(Arrays
+									.asList(new String[] { temp
+											.getConfiguredValues().get(0) })));
+							temp.addStrata(new DichotomousConstraint(Arrays
+									.asList(new String[] { temp
+											.getConfiguredValues().get(1) })));
+						} catch (ContraintViolatedException e) {
+							e.printStackTrace();
+						}
+					} else {
+						for (ConstraintWrapper<?> cw : cr.getStrata()) {
+							cr.getWrappedCriterion().addStrata(cw.configure());
+						}
 					}
 				}
+				/* End of strata configuration */
+				configuredCriteria
+						.add((AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>) cr
+								.getWrappedCriterion());
 			}
-			/* End of strata configuration */
-			configuredCriteria
-					.add((AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>) cr
-							.getWrappedCriterion());
-		}
-		showedObject.setCriteria(configuredCriteria);
-		/* End of SubjectProperites Configuration */
+			showedObject.setCriteria(configuredCriteria);
+			/* End of SubjectProperites Configuration */
 
-		/* Algorithm Configuration */
-		ValueExpression ve2 = FacesContext.getCurrentInstance()
-				.getApplication().getExpressionFactory().createValueExpression(
-						FacesContext.getCurrentInstance().getELContext(),
-						"#{step5}", Step5.class);
-		Step5 currentStep5 = (Step5) ve2.getValue(FacesContext.getCurrentInstance()
-				.getELContext());
-		if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())) {
-			showedObject
-					.setRandomizationConfiguration(new CompleteRandomizationConfig());
-		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
-			showedObject
-					.setRandomizationConfiguration(new BiasedCoinRandomizationConfig());
-		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
-			showedObject.setRandomizationConfiguration(randomizationConfig);
-		}
-		else if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString())) {
-			showedObject.setRandomizationConfiguration(new TruncatedBinomialDesignConfig());
-		}
-		else if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.URN_MODEL.toString())) {
-			showedObject.setRandomizationConfiguration(randomizationConfig);
-		}
-		/* End of the Algorithm Configuration */
+			/* Algorithm Configuration */
+			ValueExpression ve2 = FacesContext.getCurrentInstance()
+					.getApplication().getExpressionFactory()
+					.createValueExpression(
+							FacesContext.getCurrentInstance().getELContext(),
+							"#{step5}", Step5.class);
+			Step5 currentStep5 = (Step5) ve2.getValue(FacesContext
+					.getCurrentInstance().getELContext());
+			if (currentStep5.getSelectedAlgorithmPanelId().equals(
+					Step5.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())) {
+				showedObject
+						.setRandomizationConfiguration(new CompleteRandomizationConfig());
+			} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
+					Step5.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
+				showedObject
+						.setRandomizationConfiguration(new BiasedCoinRandomizationConfig());
+			} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
+					Step5.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
+				showedObject.setRandomizationConfiguration(randomizationConfig);
+			} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
+					Step5.AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString())) {
+				showedObject
+						.setRandomizationConfiguration(new TruncatedBinomialDesignConfig());
+			} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
+					Step5.AlgorithmPanelId.URN_MODEL.toString())) {
+				showedObject.setRandomizationConfiguration(randomizationConfig);
+			}
+			/* End of the Algorithm Configuration */
 
-		trialService.create(showedObject);
-		popups.showTrialCreatedPopup();
-		currentStep4.clean();
-		currentStep5.clean();
-		randomizationConfig = null;
-		trialSitesAC = null;
-		sponsorInvestigatorsAC = null;
-		return Randi2.SUCCESS;
+			trialService.create(showedObject);
+			popups.showTrialCreatedPopup();
+			currentStep4.clean();
+			currentStep5.clean();
+			randomizationConfig = null;
+			trialSitesAC = null;
+			sponsorInvestigatorsAC = null;
+			return Randi2.SUCCESS;
 		} catch (Exception e) {
 			Randi2.showMessage(e);
 			return Randi2.ERROR;
@@ -379,6 +398,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	/**
 	 * Action listener for adding a new treatment arm.
+	 * 
 	 * @param event
 	 */
 	public void addArm(ActionEvent event) {
@@ -389,6 +409,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	/**
 	 * Action listener for removing an existing treatment arm.
+	 * 
 	 * @param event
 	 */
 	public void removeArm(ActionEvent event) {
@@ -399,6 +420,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	/**
 	 * Provieds the current amount of defined treatment arms.
+	 * 
 	 * @return
 	 */
 	public int getTreatmentArmsCount() {
@@ -406,24 +428,31 @@ public class TrialHandler extends AbstractHandler<Trial> {
 		return showedObject.getTreatmentArms().size();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.randi2.jsf.controllerBeans.AbstractHandler#refreshShowedObject()
 	 */
 	@Override
 	public String refreshShowedObject() {
-		return null; //TODO What should we do at this point?
+		return null; // TODO What should we do at this point?
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.randi2.jsf.controllerBeans.AbstractHandler#saveObject()
 	 */
 	@Override
 	public String saveObject() {
-		return null; //Currently there is no posibility to edit the trial object - therefore no implementation of this method
+		return null; // Currently there is no posibility to edit the trial
+						// object - therefore no implementation of this method
 	}
 
 	/**
-	 * Returns the amount of stored trials which can be accessed by the current user.
+	 * Returns the amount of stored trials which can be accessed by the current
+	 * user.
+	 * 
 	 * @return
 	 */
 	public int getTrialsAmount() {
@@ -432,6 +461,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	/**
 	 * Returns all trials which can be accessed by the current user.
+	 * 
 	 * @return
 	 */
 	public List<Trial> getAllTrials() {
@@ -440,6 +470,7 @@ public class TrialHandler extends AbstractHandler<Trial> {
 
 	/**
 	 * Provieds the audit log entries for the current trial object.
+	 * 
 	 * @return
 	 */
 	public List<LogEntry> getLogEntries() {
@@ -447,7 +478,17 @@ public class TrialHandler extends AbstractHandler<Trial> {
 				.getId());
 	}
 
-	/* (non-Javadoc)
+	public List<TrialSubject> getSubjectsList() {
+		if (showedObject != null) {
+			return trialService.getSubjects(showedObject, loginHandler
+					.getLoggedInUser());
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.randi2.jsf.controllerBeans.AbstractHandler#createPlainObject()
 	 */
 	@Override
