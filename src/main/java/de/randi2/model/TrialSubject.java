@@ -57,7 +57,7 @@ import de.randi2.unsorted.ContraintViolatedException;
 @Data
 @EqualsAndHashCode(callSuper=true)
 @ToString(exclude={"arm"})
-@NamedQuery(name = "trialSubject.specificInvestigator", query = "select ts from TrialSubject as ts where ts.investigator = ? group by ts.arm")
+@NamedQuery(name = "trialSubject.specificInvestigator", query = "select ts from TrialSubject as ts join ts.arm arm where arm.trial = ? and ts.investigator = ? order by ts.arm")
 public class TrialSubject extends AbstractDomainObject {
 
 	/** The Constant serialVersionUID. */
@@ -103,7 +103,7 @@ public class TrialSubject extends AbstractDomainObject {
 	
 	/** The investigator. */
 	@ManyToOne
-	private Person investigator;
+	private Login investigator;
 
 	/** The arm. */
 	@NotNull
