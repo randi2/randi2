@@ -18,7 +18,9 @@
 package de.randi2.jsf.supportBeans;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
@@ -50,27 +52,20 @@ public class Charts {
 	
 	@Getter @Setter
 	private String rChartType = "barclustered";
-	
-	@Getter @Setter
-	private String rTrialSiteChartType = "barclustered";
-	
-	@Getter @Setter
-	private String aChartType = "barclustered";
-	
-	@Getter @Setter
-	private String rFactorsChartType = "barclustered";
 
-	/**
-	 * Represents the value of the chart element which has been clicked by the
-	 * user.
-	 */
 	@Getter @Setter
-	private String clickedValue;
+	private Map<String, String> clickedValues;
 
 	public Charts(){
 		chartTypes = new ArrayList<SelectItem>();
 		chartTypes.add(new SelectItem("barclustered", "Bars (clustered)"));
 		chartTypes.add(new SelectItem("line", "Lines"));
+		chartTypes.add(new SelectItem("area", "Area"));
+		clickedValues = new HashMap<String, String>();
+		clickedValues.put("armChart", "not selected");
+		clickedValues.put("recruitmentChart", "not selected");
+		clickedValues.put("strataChart", "not selected");
+		clickedValues.put("trialSiteChart", "not selected");
 	}
 	
 	/**
@@ -82,10 +77,10 @@ public class Charts {
 	public void action(ActionEvent event) {
 		if (event.getSource() instanceof OutputChart) {
 			OutputChart chart = (OutputChart) event.getSource();
-			clickedValue = "";
+			clickedValues.put(chart.getId(), "not selected");
 			if (chart.getClickedImageMapArea().getXAxisLabel() != null) {
-				clickedValue = chart.getClickedImageMapArea().getXAxisLabel()
-						+ "  :  " + chart.getClickedImageMapArea().getValue();
+				clickedValues.put(event.getComponent().getId(), "("+chart.getClickedImageMapArea().getXAxisLabel()
+						+ "  |  " + chart.getClickedImageMapArea().getValue()+")");
 			}else{
 				 chart.getClickedImageMapArea().getValue();
 			}

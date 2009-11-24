@@ -14,26 +14,25 @@ Trial's Recruitment Chart.
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
- <!-- 	labels="#{charts.RFactorsChartData.XLabels}" 
+<!-- 	labels="#{charts.RFactorsChartData.XLabels}" 
 -->
- <ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
+<ice:panelGroup styleClass="icePnlClpsbl">
+	<ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core"
-		xmlns:ice="http://www.icesoft.com/icefaces/component" columns="2">
-	<ice:outputChart
-		type="barstacked"
-		chartTitle="#{labels['chart.rFactor.title']}"
-		yaxisTitle="#{labels['chart.rFactor.xLabel']}"
-		 xaxisTitle="#{labels['chart.rFactor.yLabel']}"
-		 width="650"
-		height="700" 
-		horizontal="true"
-		legendPlacement="none"
-		xaxisLabels="#{charts.RFactorsChartData.XLabels}"
-		labels="#{charts.RFactorsChartData.XLabels}" 
-		data="#{charts.RFactorsChartData.data}" actionListener="#{charts.action}" renderOnSubmit="true"/>
-	<ice:panelGrid columns="1">
-		<ice:outputLabel value="#{labels['chart.clickedValue']}" />
-		<ice:outputText value="#{charts.clickedValue}" />
+		xmlns:ice="http://www.icesoft.com/icefaces/component" columns="1">
+		<ice:panelGrid columns="2">
+			<ice:outputLabel value="#{labels['chart.clickedValue']}" />
+			<ice:outputText value="#{charts.clickedValues['strataChart']}" />
+		</ice:panelGrid>
+		<ice:outputChart id="strataChart" type="barstacked"
+			chartTitle="#{labels['chart.rFactor.title']}"
+			yaxisTitle="#{labels['chart.rFactor.xLabel']}"
+			xaxisTitle="#{labels['chart.rFactor.yLabel']}" width="650"
+			height="700" horizontal="true" legendPlacement="none"
+			xaxisLabels="#{charts.RFactorsChartData.XLabels}"
+			labels="#{charts.RFactorsChartData.XLabels}"
+			data="#{charts.RFactorsChartData.data}"
+			actionListener="#{charts.action}" renderOnSubmit="true" />
 	</ice:panelGrid>
-</ice:panelGrid>
+</ice:panelGroup>
 
