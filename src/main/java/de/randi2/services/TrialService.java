@@ -53,13 +53,17 @@ public interface TrialService extends AbstractService<Trial> {
 	 * @return
 	 */
 	public Trial randomize(Trial trial, TrialSubject subject);
-	
+
 	/**
-	 * Method for the retrieval of all subjects randomized by a specific investigator.
+	 * Method for the retrieval of all subjects randomized by a specific
+	 * investigator within a specific trial.
 	 * 
-	 * @param investiagtor Investigator which subjects should be returned.
+	 * @param trial
+	 *            specific trial
+	 * @param investigator
+	 *            Investigator which subjects should be returned.
 	 * @return A list of all found subjects
 	 */
-	public List<TrialSubject> getSubjects(Login investiagtor);
+	public List<TrialSubject> getSubjects(Trial trial, Login investigator);
 
 }

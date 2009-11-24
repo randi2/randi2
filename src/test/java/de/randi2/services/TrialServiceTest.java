@@ -288,9 +288,21 @@ public class TrialServiceTest extends AbstractServiceTest{
 	@Test
 	public void testGetSubjects(){
 		/*
+		 * Now creating another investigator
+		 */
+		Login l = factory.getLogin();
+		String e = "i@getsubjectstest.com";
+		l.setUsername(e);
+		l.getPerson().setEmail(e);
+		l.addRole(Role.ROLE_INVESTIGATOR);
+		l.getPerson().setTrialSite(admin.getPerson().getTrialSite());
+		userService.create(l);
+		/*
 		 * First I need to create the trial and randomize some subjects.
 		 */
 		Trial t = factory.getTrial();
+		t.setLeadingSite(admin.getPerson().getTrialSite());
+		t.setSponsorInvestigator(admin.getPerson());
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setPlannedSubjects(25);
 		arm1.setName("arm1");
@@ -315,6 +327,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		 * Randomizing the subjects using the service method.
 		 */
 		int expectedAmount = 50;
+		System.out.println("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " randomized in trial " +t.getName());
 		for(int i=0;i<expectedAmount;i++){
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
@@ -324,18 +337,9 @@ public class TrialServiceTest extends AbstractServiceTest{
 		/*
 		 * Trying to get the subjects for the admin user.
 		 */
-		List<TrialSubject> s = service.getSubjects(admin);
+		List<TrialSubject> s = service.getSubjects(t,admin);
 		assertNotNull(s);
 		assertEquals(expectedAmount, s.size());
-		/*
-		 * Now creating another investigator
-		 */
-		Login l = factory.getLogin();
-		String e = "i@getsubjectstest.com";
-		l.setUsername(e);
-		l.getPerson().setEmail(e);
-		l.addRole(Role.ROLE_INVESTIGATOR);
-		userService.create(l);
 		/*
 		 * Signing in the newly created user.
 		 */
@@ -349,17 +353,17 @@ public class TrialServiceTest extends AbstractServiceTest{
 		 * Randomizing another set of subjects
 		 */
 		int nextSet = 40;
+		System.out.println("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " randomized in trial " +t.getName());
 		for(int i=0;i<nextSet;i++){
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("anotherId" + i);
 			subject.setTrialSite(t.getLeadingSite());
 			service.randomize(t,subject);
 		}
-
 		/*
 		 * Trying to get the second charge of the subjects.
 		 */
-		List<TrialSubject> s2 = service.getSubjects(admin);
+		List<TrialSubject> s2 = service.getSubjects(t,l);
 		assertNotNull(s2);
 		assertEquals(nextSet, s2.size());
 	}

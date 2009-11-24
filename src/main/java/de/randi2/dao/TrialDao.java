@@ -30,9 +30,10 @@ public interface TrialDao extends AbstractDao<Trial>{
 	
 	/**
 	 * @see TrialService
+	 * @param trial
 	 * @param investigator
 	 * @return
 	 */
-	public List<TrialSubject> getSubjects(Login investigator);
+	public List<TrialSubject> getSubjects(Trial trial, Login investigator);
 	
 }
