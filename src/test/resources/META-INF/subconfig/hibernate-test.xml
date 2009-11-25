@@ -15,7 +15,7 @@ Hibernate config for tests, without managed sessions
         <property name="dataSource" ref="dataSource"></property>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.dialect">${test.hibernate.sqldialect}</prop>
                 <prop key="hibernate.show_sql">false</prop>
                 <prop key="hibernate.connection.autocommit">false</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
