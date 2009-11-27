@@ -1,10 +1,14 @@
 package de.randi2.randomization;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import javax.swing.text.NumberFormatter;
 
 import lombok.Getter;
 import de.randi2.model.SubjectProperty;
@@ -21,6 +25,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 
 
 	private Map<TreatmentArm, Map<TreatmentArm, Double>> probabilitiesPerPreferredTreatment;
+	private Random randomEqualScore = new Random();
 	
 	public Minimization(Trial _trial) {
 		super(_trial);
@@ -29,6 +34,11 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 
 	public Minimization(Trial _trial, long seed) {
 		super(_trial, seed);
+	}
+	
+	public Minimization(Trial _trial, long seed, long seedEqualScore){
+		super(_trial, seed);
+		randomEqualScore = new Random(seedEqualScore);
 	}
 	
 	
@@ -81,8 +91,8 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 	
 	@SuppressWarnings("unchecked")
 	private TreatmentArm doRandomizeBiasedCoinMinimization(TrialSubject subject, Random random){
-		List<TreatmentArm> arms = trial.getTreatmentArms();
-		
+		List<TreatmentArm> arms = Collections.unmodifiableList(trial.getTreatmentArms());
+		List<TrialSubject> subjects = trial.getSubjects();
 		HashMap<AbstractConstraint<?>,HashMap<TreatmentArm, Double>> relevantConstraints = new HashMap<AbstractConstraint<?>, HashMap<TreatmentArm, Double>>();
 		//Get relevant constraints
 		for(SubjectProperty prop : subject.getProperties()){
@@ -96,7 +106,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 		}
 		
 		//counting subjects with relevant constraints
-		for(TrialSubject sub : trial.getSubjects()){
+		for(TrialSubject sub : subjects){
 			for(AbstractConstraint constraint : relevantConstraints.keySet()){
 				for(SubjectProperty prop : sub.getProperties()){
 					if(constraint.checkValue(prop.getValue())){
@@ -108,7 +118,8 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 		
 		//calculate imbalance scores
 		HashMap<TreatmentArm, Double> imbalacedScores = new HashMap<TreatmentArm, Double>();
-		//init scores
+		//init scores		
+		
 		for(TreatmentArm arm :arms){
 			double imbalacedScore = 0.0;
 			for(HashMap<TreatmentArm, Double> map : relevantConstraints.values()){
@@ -143,22 +154,54 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 			}
 			imbalacedScores.put(arm, imbalacedScore);
 		}
-	
+		
+//		StringBuffer stB = new StringBuffer();
+//		DecimalFormat df = new DecimalFormat("#0.000");
+//		for(TreatmentArm arm : imbalacedScores.keySet()){
+//			stB.append(df.format(imbalacedScores.get(arm))+ "__");
+//		}
+//		stB.append("\n\n\n");
+//		System.out.println(stB);
+		
 		//find preferred treatment
 		double tmpMinValue = Double.MAX_VALUE;
-		TreatmentArm preferredArm = null;
+		ArrayList<TreatmentArm> armsWithSameScore = new ArrayList<TreatmentArm>();
+		
 		for(TreatmentArm arm : imbalacedScores.keySet()){
 			if(imbalacedScores.get(arm)<tmpMinValue){
+				armsWithSameScore.clear();
 				tmpMinValue = imbalacedScores.get(arm);
-				preferredArm = arm;
+				armsWithSameScore.add(arm);
+			}else if (imbalacedScores.get(arm)==tmpMinValue){
+				armsWithSameScore.add(arm);
 			}
 		}
+		//get all with min value
 		
 		ArrayList<Double> a = new ArrayList<Double>();
 		
-		for(TreatmentArm arm : trial.getTreatmentArms()){
-			a.add(probabilitiesPerPreferredTreatment.get(preferredArm).get(arm));
+		//==1 Default case one treatment arm with smallest imbalance score
+		//all treatment with same score, calculate probability with ratio
+		//other cases take randomly one treatment	
+		if(armsWithSameScore.size()==1){
+			for(TreatmentArm arm : trial.getTreatmentArms()){
+				a.add(probabilitiesPerPreferredTreatment.get(armsWithSameScore.get(0)).get(arm));
+			}
+		}else if(armsWithSameScore.size()==arms.size()){
+			for(TreatmentArm arm : arms){
+				a.add(((arm.getPlannedSubjects()*1.0)/(trial.getPlannedSubjectAmount()*1.0)));
+			}
+		}else{
+			TreatmentArm preferredArm = arms.get(randomEqualScore.nextInt(arms.size()));
+			for(TreatmentArm arm : arms){
+				a.add(probabilitiesPerPreferredTreatment.get(preferredArm).get(arm));
+			}
 		}
+			
+			
+		
+		
+	
 				
 		//get Treatment arm with calculated p-values
 		double randomNumber = random.nextDouble();

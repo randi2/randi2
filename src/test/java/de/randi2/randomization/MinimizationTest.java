@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +35,12 @@ public class MinimizationTest {
 	private Trial trial;
 	private TrialSubject s;
 	private MinimizationConfig conf;
+	private int id = 0;
 
+	
+	private int nextId(){
+		return id++;
+	}
 	
 	@Before
 	public void setUp() {
@@ -87,12 +93,16 @@ public class MinimizationTest {
 	@Test
 	public void testBiasedCoinMinimization(){
 		RandomizationHelper.addArms(trial, 10,20,30);
+		trial.setId(nextId());
+		
+		for(TreatmentArm arm :trial.getTreatmentArms())	arm.setId(nextId());
 		
 		ArrayList<DistributionSubjectProperty> dProperties = new ArrayList<DistributionSubjectProperty>();
 		DichotomousCriterion cr1 = new DichotomousCriterion();
 		cr1.setName("SEX");
 		cr1.setOption1("M");
 		cr1.setOption2("F");
+		cr1.setId(nextId());
 		OrdinalCriterion cr2 = new OrdinalCriterion();
 		List<String> elements = new ArrayList<String>();
 		elements.add("1");
@@ -100,9 +110,9 @@ public class MinimizationTest {
 		elements.add("3");
 		elements.add("4");
 		elements.add("5");
-		elements.add("6");
 		cr2.setElements(elements);
 		cr2.setName("TrialSite");
+		cr2.setId(nextId());
 		try {
 			
 			cr1.addStrata(new DichotomousConstraint(Arrays
@@ -110,7 +120,8 @@ public class MinimizationTest {
 
 			cr1.addStrata(new DichotomousConstraint(Arrays
 					.asList(new String[] { "F" })));
-		
+			
+		 
 			
 			cr2.addStrata(new OrdinalConstraint(Arrays
 					.asList(new String[] { "1" })));
@@ -122,9 +133,11 @@ public class MinimizationTest {
 					.asList(new String[] { "4" })));
 			cr2.addStrata(new OrdinalConstraint(Arrays
 					.asList(new String[] { "5" })));
-			cr2.addStrata(new OrdinalConstraint(Arrays
-					.asList(new String[] { "6" })));
+			
 
+			for(DichotomousConstraint cc : cr1.getStrata())	cc.setId(nextId());
+			for(OrdinalConstraint cc : cr2.getStrata()) cc.setId(nextId());
+			
 			dProperties.add(new DistributionSubjectProperty(cr1,  new UniformDistribution<String>(cr1.getConfiguredValues(),1)));
 			dProperties.add(new DistributionSubjectProperty(cr2,  new UniformDistribution<String>(cr2.getConfiguredValues(),1)));
 
@@ -136,22 +149,26 @@ public class MinimizationTest {
 		
 		trial.addCriterion(cr1);
 		trial.addCriterion(cr2);
-		
-		Minimization algorithm = new Minimization(trial, 1);
+		Minimization algorithm = new Minimization(trial, 1, 1);
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(false);
 		conf.setBiasedCoinMinimization(true);
 		conf.setP(0.70);
 		algorithm.configuration = conf;
 		trial.setRandomizationConfiguration(conf);
-		Minimization alg = (Minimization)conf.getAlgorithm();
-		alg.getProbabilitiesPerPreferredTreatment();
-		TrialSubject subject = new TrialSubject();
-		for (int i : upto(1000)){
-			randomize(trial, generateTrialSubject(dProperties, subject));
+		for (int i : upto(60)){
+			TrialSubject subject = new TrialSubject();
+			TreatmentArm assignedArm = algorithm.randomize(generateTrialSubject(dProperties, subject));
+			subject.setArm(assignedArm);
+			assignedArm.addSubject(subject);
+			System.out.println(assignedArm.getName());
 			System.out.println("--");
 		}
-		assertEquals(1000, trial.getSubjects().size());
+//		for(TreatmentArm arm : trial.getTreatmentArms()){
+//			System.out.println(arm.getName() + " size: " + arm.getSubjects().size());	
+//		}
+		
+		assertEquals(60, trial.getSubjects().size());
 	}
 	
 	
