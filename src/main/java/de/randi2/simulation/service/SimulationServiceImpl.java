@@ -146,6 +146,17 @@ public class SimulationServiceImpl implements SimulationService {
 		cTrial.getRandomizationConfiguration().setTrial(cTrial);
 		return cTrial;
 	}
+	
+	
+	public long estimateSimulationDuration(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime){
+		SimulationResult result = simulateTrial(trial, properties, distributionTrialSites, 30, maxTime);
+		long time = 0;
+		for(int i =10 ; i<30;i++){
+			time+= result.getRuns().get(i).getTime();
+		}
+		time = ((time /20)*runs) / 1000000;
+        return time;
+	 }
 
 	private static Trial resetTrial(Trial trial) {
 		for (TreatmentArm arm : trial.getTreatmentArms()) {

@@ -48,7 +48,7 @@ public class SimulationServiceTest {
 		validTrial.addParticipatingSite(factory.getTrialSite());
 		validTrial.addParticipatingSite(factory.getTrialSite());
 		int blocksize = 6;
-		int randomizations = 60;
+		int randomizations = 100;
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setPlannedSubjects(randomizations/2);
 		arm1.setName("arm1");
@@ -126,8 +126,11 @@ public class SimulationServiceTest {
 
 		} catch (ContraintViolatedException e) {}
 		
-		
-		SimulationResult result = service.simulateTrial(validTrial,dProperties,new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 1000, 10000);
+		long test = System.nanoTime();
+		long time  = service.estimateSimulationDuration(validTrial,dProperties,new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 100, 10000);
+		System.out.println("run calculation : " +((System.nanoTime()-test)/ 1000000) + "ms" );
+		System.out.println("estimateSimulationDuration: " + time + "ms");
+		SimulationResult result = service.simulateTrial(validTrial,dProperties,new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 100, 10000);
 		
 		System.out.println("Runs: " + result.getAmountRuns());
 		System.out.println("Time: " + result.getDuration() + "ms");
