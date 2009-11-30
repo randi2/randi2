@@ -35,11 +35,20 @@ public class MinimizationTest {
 	private Trial trial;
 	private MinimizationConfig conf;
 	private int id = 0;
+<<<<<<< HEAD:src/test/java/de/randi2/randomization/MinimizationTest.java
+
+	
+	private int nextId(){
+		return id++;
+	}
+	
+=======
 
 	private int nextId() {
 		return id++;
 	}
 
+>>>>>>> 547ed3cb992d400f6673d902cc457da8c50403db:src/test/java/de/randi2/randomization/MinimizationTest.java
 	@Before
 	public void setUp() {
 		trial = new Trial();
@@ -87,6 +96,13 @@ public class MinimizationTest {
 	}
 
 	@Test
+<<<<<<< HEAD:src/test/java/de/randi2/randomization/MinimizationTest.java
+	public void testBiasedCoinMinimization(){
+		RandomizationHelper.addArms(trial, 10,20,30);
+		trial.setId(nextId());
+		
+		for(TreatmentArm arm :trial.getTreatmentArms())	arm.setId(nextId());
+=======
 	public void testBiasedCoinMinimization() {
 		 ArrayList<String> allocationSequence = new ArrayList<String>(Arrays
 					.asList("dummy:3", "dummy:2", "dummy:3", "dummy:1", "dummy:3",
@@ -101,6 +117,7 @@ public class MinimizationTest {
 							"dummy:3", "dummy:2", "dummy:3", "dummy:3", "dummy:3",
 							"dummy:2", "dummy:3", "dummy:3", "dummy:3", "dummy:3",
 							"dummy:3", "dummy:2", "dummy:3", "dummy:3", "dummy:3"));
+>>>>>>> 547ed3cb992d400f6673d902cc457da8c50403db:src/test/java/de/randi2/randomization/MinimizationTest.java
 		
 		RandomizationHelper.addArms(trial, 10, 20, 30);
 		trial.setId(nextId());
@@ -131,7 +148,13 @@ public class MinimizationTest {
 
 			cr1.addStrata(new DichotomousConstraint(Arrays
 					.asList(new String[] { "F" })));
+<<<<<<< HEAD:src/test/java/de/randi2/randomization/MinimizationTest.java
+			
+		 
+			
+=======
 
+>>>>>>> 547ed3cb992d400f6673d902cc457da8c50403db:src/test/java/de/randi2/randomization/MinimizationTest.java
 			cr2.addStrata(new OrdinalConstraint(Arrays
 					.asList(new String[] { "1" })));
 			cr2.addStrata(new OrdinalConstraint(Arrays
@@ -142,6 +165,15 @@ public class MinimizationTest {
 					.asList(new String[] { "4" })));
 			cr2.addStrata(new OrdinalConstraint(Arrays
 					.asList(new String[] { "5" })));
+<<<<<<< HEAD:src/test/java/de/randi2/randomization/MinimizationTest.java
+			
+
+			for(DichotomousConstraint cc : cr1.getStrata())	cc.setId(nextId());
+			for(OrdinalConstraint cc : cr2.getStrata()) cc.setId(nextId());
+			
+			dProperties.add(new DistributionSubjectProperty(cr1,  new UniformDistribution<String>(cr1.getConfiguredValues(),1)));
+			dProperties.add(new DistributionSubjectProperty(cr2,  new UniformDistribution<String>(cr2.getConfiguredValues(),1)));
+=======
 
 			for (DichotomousConstraint cc : cr1.getStrata())
 				cc.setId(nextId());
@@ -154,6 +186,7 @@ public class MinimizationTest {
 			dProperties.add(new DistributionSubjectProperty(cr2,
 					new UniformDistribution<String>(cr2.getConfiguredValues(),
 							1)));
+>>>>>>> 547ed3cb992d400f6673d902cc457da8c50403db:src/test/java/de/randi2/randomization/MinimizationTest.java
 
 		} catch (ContraintViolatedException e) {
 			e.printStackTrace();
@@ -168,6 +201,20 @@ public class MinimizationTest {
 		conf.setP(0.70);
 		algorithm.configuration = conf;
 		trial.setRandomizationConfiguration(conf);
+<<<<<<< HEAD:src/test/java/de/randi2/randomization/MinimizationTest.java
+		for (int i : upto(60)){
+			TrialSubject subject = new TrialSubject();
+			TreatmentArm assignedArm = algorithm.randomize(generateTrialSubject(dProperties, subject));
+			subject.setArm(assignedArm);
+			assignedArm.addSubject(subject);
+			System.out.println(assignedArm.getName());
+			System.out.println("--");
+		}
+//		for(TreatmentArm arm : trial.getTreatmentArms()){
+//			System.out.println(arm.getName() + " size: " + arm.getSubjects().size());	
+//		}
+		
+=======
 		
 		//Test calculated probabilities
 		Map<TreatmentArm, Map<TreatmentArm, Double>>  internalCalculatedProbabilities = algorithm.getProbabilitiesPerPreferredTreatment();
@@ -204,6 +251,7 @@ public class MinimizationTest {
 			assertEquals(allocationSequence.get(i), assignedArm.getName());
 		}
 
+>>>>>>> 547ed3cb992d400f6673d902cc457da8c50403db:src/test/java/de/randi2/randomization/MinimizationTest.java
 		assertEquals(60, trial.getSubjects().size());
 	}
 

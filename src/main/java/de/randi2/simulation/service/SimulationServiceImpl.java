@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
@@ -18,6 +17,7 @@ import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DateConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
+import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.simulation.distribution.AbstractDistribution;
 import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationResult;
@@ -39,11 +39,16 @@ public class SimulationServiceImpl implements SimulationService {
 			Trial simTrial = resetTrial(copyTrial);
 			SimulationRun simRun = simResult.getEmptyRun();
 			for (int i = 0; i < simTrial.getPlannedSubjectAmount(); i++) {
+				if(MinimizationConfig.class.isInstance(trial.getRandomizationConfiguration())){subject = new TrialSubject();}
 				 subject = generateTrialSubject(properties, subject);
 				subject.setTrialSite(distributionTrialSites.getNextValue());
+			
 				assignedArm = simTrial
 						.getRandomizationConfiguration().getAlgorithm()
 						.randomize(subject);
+			
+				
+		
 				subject.setArm(assignedArm);
 				subject.setRandNumber(i + "_" + assignedArm.getName());
 				subject.setCounter(i);
@@ -138,21 +143,26 @@ public class SimulationServiceImpl implements SimulationService {
 
 		}
 		cTrial.setRandomizationConfiguration(trial.getRandomizationConfiguration());
+		cTrial.getRandomizationConfiguration().setTrial(cTrial);
 		return cTrial;
 	}
+	
+	
+	public long estimateSimulationDuration(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime){
+		SimulationResult result = simulateTrial(trial, properties, distributionTrialSites, 30, maxTime);
+		long time = 0;
+		for(int i =10 ; i<30;i++){
+			time+= result.getRuns().get(i).getTime();
+		}
+		time = ((time /20)*runs) / 1000000;
+        return time;
+	 }
 
 	private static Trial resetTrial(Trial trial) {
-		int id = 0;
-		ArrayList<TreatmentArm> arms = new ArrayList<TreatmentArm>();
 		for (TreatmentArm arm : trial.getTreatmentArms()) {
-			TreatmentArm cArm = new TreatmentArm();
-			cArm.setName(arm.getName());
-			cArm.setPlannedSubjects(arm.getPlannedSubjects());
-			cArm.setId(id++);
-			cArm.setTrial(trial);
-			arms.add(cArm);
+			arm.getSubjects().clear();
 		}
-		trial.setTreatmentArms(arms);
+		trial.getRandomizationConfiguration().setTrial(trial);
 		return trial;
 	}
 

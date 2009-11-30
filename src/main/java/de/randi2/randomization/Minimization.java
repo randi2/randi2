@@ -154,15 +154,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 			}
 			imbalacedScores.put(arm, imbalacedScore);
 		}
-		
-//		StringBuffer stB = new StringBuffer();
-//		DecimalFormat df = new DecimalFormat("#0.000");
-//		for(TreatmentArm arm : imbalacedScores.keySet()){
-//			stB.append(df.format(imbalacedScores.get(arm))+ "__");
-//		}
-//		stB.append("\n\n\n");
-//		System.out.println(stB);
-		
+
 		//find preferred treatment
 		double tmpMinValue = Double.MAX_VALUE;
 		ArrayList<TreatmentArm> armsWithSameScore = new ArrayList<TreatmentArm>();
