@@ -18,6 +18,7 @@ import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DateConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
+import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.simulation.distribution.AbstractDistribution;
 import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationResult;
@@ -39,6 +40,8 @@ public class SimulationServiceImpl implements SimulationService {
 			Trial simTrial = resetTrial(copyTrial);
 			SimulationRun simRun = simResult.getEmptyRun();
 			for (int i = 0; i < simTrial.getPlannedSubjectAmount(); i++) {
+				
+				if(MinimizationConfig.class.isInstance(trial.getRandomizationConfiguration())){subject = new TrialSubject();}
 				 subject = generateTrialSubject(properties, subject);
 				subject.setTrialSite(distributionTrialSites.getNextValue());
 				assignedArm = simTrial

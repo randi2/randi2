@@ -69,11 +69,11 @@ public class SimulationServiceTest {
 //		BlockRandomizationConfig config =  new BlockRandomizationConfig();
 //		config.setMaximum(blocksize);
 //		config.setMinimum(blocksize);
-		CompleteRandomizationConfig config = new CompleteRandomizationConfig();
-//		MinimizationConfig config = new MinimizationConfig();
-//		config.setWithRandomizedSubjects(false);
-//		config.setBiasedCoinMinimization(true);
-//		config.setP(0.70);
+//		CompleteRandomizationConfig config = new CompleteRandomizationConfig();
+		MinimizationConfig config = new MinimizationConfig();
+		config.setWithRandomizedSubjects(false);
+		config.setBiasedCoinMinimization(true);
+		config.setP(0.70);
 		
 		validTrial.setRandomizationConfiguration(config);
 		ArrayList<DistributionSubjectProperty> dProperties = new ArrayList<DistributionSubjectProperty>();
@@ -128,13 +128,10 @@ public class SimulationServiceTest {
 			dProperties.add(new DistributionSubjectProperty(cr2,  new UniformDistribution<String>(cr2.getConfiguredValues())));
 			dProperties.add(new DistributionSubjectProperty(cr3,  new ConcreteDistribution<String>(cr3.getConfiguredValues(),2,4,2,1)));
 
-		} catch (ContraintViolatedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (ContraintViolatedException e) {}
 		
 		
-		SimulationResult result = service.simulateTrial(validTrial,dProperties,new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 10, 10000);
+		SimulationResult result = service.simulateTrial(validTrial,dProperties,new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 100, 10000);
 		
 		System.out.println("Runs: " + result.getAmountRuns());
 		System.out.println("Time: " + result.getDuration() + "ms");
