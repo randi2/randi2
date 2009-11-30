@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
@@ -40,13 +39,16 @@ public class SimulationServiceImpl implements SimulationService {
 			Trial simTrial = resetTrial(copyTrial);
 			SimulationRun simRun = simResult.getEmptyRun();
 			for (int i = 0; i < simTrial.getPlannedSubjectAmount(); i++) {
-				
 				if(MinimizationConfig.class.isInstance(trial.getRandomizationConfiguration())){subject = new TrialSubject();}
 				 subject = generateTrialSubject(properties, subject);
 				subject.setTrialSite(distributionTrialSites.getNextValue());
+			
 				assignedArm = simTrial
 						.getRandomizationConfiguration().getAlgorithm()
 						.randomize(subject);
+			
+				
+		
 				subject.setArm(assignedArm);
 				subject.setRandNumber(i + "_" + assignedArm.getName());
 				subject.setCounter(i);
@@ -141,21 +143,15 @@ public class SimulationServiceImpl implements SimulationService {
 
 		}
 		cTrial.setRandomizationConfiguration(trial.getRandomizationConfiguration());
+		cTrial.getRandomizationConfiguration().setTrial(cTrial);
 		return cTrial;
 	}
 
 	private static Trial resetTrial(Trial trial) {
-		int id = 0;
-		ArrayList<TreatmentArm> arms = new ArrayList<TreatmentArm>();
 		for (TreatmentArm arm : trial.getTreatmentArms()) {
-			TreatmentArm cArm = new TreatmentArm();
-			cArm.setName(arm.getName());
-			cArm.setPlannedSubjects(arm.getPlannedSubjects());
-			cArm.setId(id++);
-			cArm.setTrial(trial);
-			arms.add(cArm);
+			arm.getSubjects().clear();
 		}
-		trial.setTreatmentArms(arms);
+		trial.getRandomizationConfiguration().setTrial(trial);
 		return trial;
 	}
 

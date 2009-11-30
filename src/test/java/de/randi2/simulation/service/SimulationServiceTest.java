@@ -2,7 +2,6 @@ package de.randi2.simulation.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 import org.junit.Before;
@@ -19,15 +18,12 @@ import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
-import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.model.randomization.MinimizationConfig;
-import de.randi2.randomization.Minimization;
 import de.randi2.simulation.distribution.ConcreteDistribution;
 import de.randi2.simulation.distribution.UniformDistribution;
 import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationResult;
-import de.randi2.simulation.service.SimulationService;
-import de.randi2.simulation.service.SimulationServiceImpl;
+import de.randi2.simulation.model.SimulationRun;
 import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.unsorted.ContraintViolatedException;
 
@@ -131,7 +127,7 @@ public class SimulationServiceTest {
 		} catch (ContraintViolatedException e) {}
 		
 		
-		SimulationResult result = service.simulateTrial(validTrial,dProperties,new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 100, 10000);
+		SimulationResult result = service.simulateTrial(validTrial,dProperties,new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 1000, 10000);
 		
 		System.out.println("Runs: " + result.getAmountRuns());
 		System.out.println("Time: " + result.getDuration() + "ms");
@@ -145,9 +141,5 @@ public class SimulationServiceTest {
 			System.out.println("min " + result.getMins()[i]);
 			System.out.println("max " +result.getMaxs()[i]);
 		}
-		
-		System.out.println();
-		
-		System.out.println("exit");
 	}
 }
