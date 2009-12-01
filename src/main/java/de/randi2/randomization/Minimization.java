@@ -1,6 +1,5 @@
 package de.randi2.randomization;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,9 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import javax.swing.text.NumberFormatter;
-
-import lombok.Getter;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
@@ -26,6 +22,8 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 
 	private Map<TreatmentArm, Map<TreatmentArm, Double>> probabilitiesPerPreferredTreatment;
 	private Random randomEqualScore = new Random();
+	
+	private HashMap<AbstractConstraint<?>,HashMap<TreatmentArm, Double>> countConstraints;
 	
 	public Minimization(Trial _trial) {
 		super(_trial);
@@ -91,34 +89,31 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 	
 	@SuppressWarnings("unchecked")
 	private TreatmentArm doRandomizeBiasedCoinMinimization(TrialSubject subject, Random random){
+		
 		List<TreatmentArm> arms = Collections.unmodifiableList(trial.getTreatmentArms());
-		List<TrialSubject> subjects = trial.getSubjects();
+		
+		if(probabilitiesPerPreferredTreatment == null) initProbabilitiesPerPreferredTreatment();
+		if(countConstraints == null) countConstraints = new HashMap<AbstractConstraint<?>, HashMap<TreatmentArm,Double>>();
+		
 		HashMap<AbstractConstraint<?>,HashMap<TreatmentArm, Double>> relevantConstraints = new HashMap<AbstractConstraint<?>, HashMap<TreatmentArm, Double>>();
-		//Get relevant constraints
+	
+		//Get relevant constraints and if necessary create a new counter 
 		for(SubjectProperty prop : subject.getProperties()){
 				try {
-					HashMap<TreatmentArm, Double> countTreatment = new HashMap<TreatmentArm, Double>();
-					for(TreatmentArm arm : arms){
-						countTreatment.put(arm, 0.0);
+					HashMap<TreatmentArm, Double> actMap = countConstraints.get(prop.getCriterion().stratify(prop.getValue()));
+					if(actMap == null){
+						actMap = new HashMap<TreatmentArm, Double>();
+						for(TreatmentArm arm : arms){
+							actMap.put(arm, 0.0);							
+						}
+						countConstraints.put(prop.getCriterion().stratify(prop.getValue()), actMap);
 					}
-					relevantConstraints.put(prop.getCriterion().stratify(prop.getValue()), countTreatment);
+					relevantConstraints.put(prop.getCriterion().stratify(prop.getValue()), actMap);
 				} catch (ContraintViolatedException e) {	}
 		}
 		
-		//counting subjects with relevant constraints
-		for(TrialSubject sub : subjects){
-			for(AbstractConstraint constraint : relevantConstraints.keySet()){
-				for(SubjectProperty prop : sub.getProperties()){
-					if(constraint.checkValue(prop.getValue())){
-						relevantConstraints.get(constraint).put(sub.getArm(),(relevantConstraints.get(constraint).get(sub.getArm()) +1));
-					}
-				}
-			}
-		}
-		
 		//calculate imbalance scores
-		HashMap<TreatmentArm, Double> imbalacedScores = new HashMap<TreatmentArm, Double>();
-		//init scores		
+		HashMap<TreatmentArm, Double> imbalacedScores = new HashMap<TreatmentArm, Double>();		
 		
 		for(TreatmentArm arm :arms){
 			double imbalacedScore = 0.0;
@@ -169,7 +164,6 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 			}
 		}
 		//get all with min value
-		
 		ArrayList<Double> a = new ArrayList<Double>();
 		
 		//==1 Default case one treatment arm with smallest imbalance score
@@ -190,11 +184,6 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 			}
 		}
 			
-			
-		
-		
-	
-				
 		//get Treatment arm with calculated p-values
 		double randomNumber = random.nextDouble();
 		double sum = 0;
@@ -207,9 +196,17 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 			}
 			i++;
 		}
+		//increase the count for the relevant constraints
+		for(AbstractConstraint<?> constraint : relevantConstraints.keySet()){
+			countConstraints.get(constraint).put(arm, (countConstraints.get(constraint).get(arm) +1.0));
+		}
 		return arm;
 	}
 	
+
+	/**
+	 * Calculate the probabilities per preferred treatment arm (Biased Coin Minimization) 
+	 */
 	private void initProbabilitiesPerPreferredTreatment(){
 		probabilitiesPerPreferredTreatment = new HashMap<TreatmentArm, Map<TreatmentArm,Double>>();
 		TreatmentArm minArm = trial.getTreatmentArms().get(0);
@@ -257,8 +254,20 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 	}
 
 
+	/**
+	 * Necessary to test the algorithm.
+	 * @return the probabilities per preferred treatment arm
+	 */
 	public Map<TreatmentArm, Map<TreatmentArm, Double>> getProbabilitiesPerPreferredTreatment() {
 		if(probabilitiesPerPreferredTreatment==null) initProbabilitiesPerPreferredTreatment();
 		return probabilitiesPerPreferredTreatment;
+	}
+	
+	/**
+	 * Necessary to reset the algorithm for simulation.
+	 */
+	public void clear(){
+		probabilitiesPerPreferredTreatment = null;
+		countConstraints = new HashMap<AbstractConstraint<?>, HashMap<TreatmentArm,Double>>();
 	}
 }
