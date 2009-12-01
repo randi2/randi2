@@ -18,12 +18,12 @@ import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
+import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.simulation.distribution.ConcreteDistribution;
 import de.randi2.simulation.distribution.UniformDistribution;
 import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationResult;
-import de.randi2.simulation.model.SimulationRun;
 import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.unsorted.ContraintViolatedException;
 
@@ -62,16 +62,9 @@ public class SimulationServiceTest {
 		arms.add(arm2);
 		validTrial.setTreatmentArms(arms);
 	
-//		BlockRandomizationConfig config =  new BlockRandomizationConfig();
-//		config.setMaximum(blocksize);
-//		config.setMinimum(blocksize);
+
 //		CompleteRandomizationConfig config = new CompleteRandomizationConfig();
-		MinimizationConfig config = new MinimizationConfig();
-		config.setWithRandomizedSubjects(false);
-		config.setBiasedCoinMinimization(true);
-		config.setP(0.70);
 		
-		validTrial.setRandomizationConfiguration(config);
 		ArrayList<DistributionSubjectProperty> dProperties = new ArrayList<DistributionSubjectProperty>();
 		DichotomousCriterion cr = new DichotomousCriterion();
 		cr.setName("SEX");
@@ -126,11 +119,17 @@ public class SimulationServiceTest {
 
 		} catch (ContraintViolatedException e) {}
 		
-		long test = System.nanoTime();
-		long time  = service.estimateSimulationDuration(validTrial,dProperties,new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 100, 10000);
-		System.out.println("run calculation : " +((System.nanoTime()-test)/ 1000000) + "ms" );
-		System.out.println("estimateSimulationDuration: " + time + "ms");
-		SimulationResult result = service.simulateTrial(validTrial,dProperties,new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 100, 10000);
+//		long test = System.nanoTime();
+//		long time  = service.estimateSimulationDuration(validTrial,dProperties,new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 100, 10000);
+//		System.out.println("run calculation : " +((System.nanoTime()-test)/ 1000000) + "ms" );
+//		System.out.println("estimateSimulationDuration: " + time + "ms");
+//		System.out.println("\n\n\n\nBlock");
+		System.out.println(validTrial.getPlannedSubjectAmount());
+		BlockRandomizationConfig configb =  new BlockRandomizationConfig();
+		configb.setMaximum(blocksize);
+		configb.setMinimum(blocksize);
+		validTrial.setRandomizationConfiguration(configb);
+		SimulationResult result = service.simulateTrial(validTrial,dProperties,new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 1000, 10000);
 		
 		System.out.println("Runs: " + result.getAmountRuns());
 		System.out.println("Time: " + result.getDuration() + "ms");
@@ -144,5 +143,27 @@ public class SimulationServiceTest {
 			System.out.println("min " + result.getMins()[i]);
 			System.out.println("max " +result.getMaxs()[i]);
 		}
+		
+		System.out.println("\n\n\n\nMinimization");
+		MinimizationConfig configM = new MinimizationConfig();
+		configM.setWithRandomizedSubjects(false);
+		configM.setBiasedCoinMinimization(true);
+		configM.setP(0.70);
+		validTrial.setRandomizationConfiguration(configM);
+		result = service.simulateTrial(validTrial,dProperties,new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 10, 10000);
+		System.out.println("Runs: " + result.getAmountRuns());
+		System.out.println("Time: " + result.getDuration() + "ms");
+		System.out.println("Max marginal balance: " + result.getMarginalBalanceMax());
+		System.out.println("Min marginal balance: " + result.getMarginalBalanceMin());
+		System.out.println("Mean marginal balance: " + result.getMarginalBalanceMean());
+		for(int i = 0;i<arms.size();i++){
+			System.out.println("---------arm " + arms.get(i).getName() + "---------------------------");
+			System.out.println("Median " + result.getMedians()[i]);
+			System.out.println("mean " +result.getMeans()[i]);
+			System.out.println("min " + result.getMins()[i]);
+			System.out.println("max " +result.getMaxs()[i]);
+		}
+		
+		
 	}
 }
