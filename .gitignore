@@ -1,6 +1,7 @@
 target/
 bin/
 doc/
+logs/
 .settings/
 .metadata/
 nb-configuration.xml
