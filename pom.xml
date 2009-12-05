@@ -136,7 +136,7 @@
         <!-- Compiler Settings -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Version Shortcuts -->
-        <org.springframework.version>3.0.0.RC2</org.springframework.version>
+        <org.springframework.version>3.0.0.RC3</org.springframework.version>
         <org.springframework.security.version>2.0.5.RELEASE</org.springframework.security.version>
         <mysql.version>5.1.9</mysql.version>
         <hsqldb.version>1.8.0.7</hsqldb.version>
