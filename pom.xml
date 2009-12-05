@@ -138,7 +138,8 @@
         <!-- Version Shortcuts -->
         <org.springframework.version>3.0.0.RC3</org.springframework.version>
         <org.springframework.security.version>2.0.5.RELEASE</org.springframework.security.version>
-        <mysql.version>5.1.9</mysql.version>
+        <mysql5.version>5.1.9</mysql5.version>
+        <postgresql84>8.4-701.jdbc4</postgresql84>
         <hsqldb.version>1.8.0.7</hsqldb.version>
     </properties>
     <repositories>
@@ -410,7 +411,7 @@
         <dependency>
             <groupId>postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>8.4-701.jdbc4</version>
+            <version>${postgresql84.version}</version>
         </dependency>
 
         <!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** *****  -->
@@ -730,7 +731,30 @@
                 <dependency>
                     <groupId>mysql</groupId>
                     <artifactId>mysql-connector-java</artifactId>
-                    <version>${mysql.version}</version>
+                    <version>${mysql5.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+
+        <profile>
+            <id>postgres84-test</id>
+            <activation>
+                <property>
+                    <name>test.dbms</name>
+                    <value>postgresql84</value>
+                </property>
+            </activation>
+            <properties>
+                <randi2.simple.jndi.root>${simple.jndi.root}</randi2.simple.jndi.root>
+                <test.database.name>randi2/jdbc/postgresql84-test</test.database.name>
+                <test.hibernate.sqldialect>org.hibernate.dialect.PostgreSQLDialect</test.hibernate.sqldialect>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>{postgresql84.version}</version>
                 </dependency>
             </dependencies>
         </profile>
