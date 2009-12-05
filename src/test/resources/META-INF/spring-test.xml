@@ -8,40 +8,39 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
 	default-autowire="byName">
 
-	<import resource="classpath:META-INF/subconfig/test.xml" />
-	<import resource="classpath:META-INF/subconfig/logging.xml"/>
+    <import resource="classpath:META-INF/subconfig/test.xml" />
+    <import resource="classpath:META-INF/subconfig/logging.xml"/>
 	
-	<bean
+    <bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location"
+        <property name="location"
 			value="classpath:META-INF/configuration.properties">
-		</property>
-		<property name="ignoreUnresolvablePlaceholders">
-			<value>true</value>
-		</property>
+        </property>
+        <property name="ignoreUnresolvablePlaceholders">
+            <value>true</value>
+        </property>
 
-	</bean>	
+    </bean>
 	
-	<context:annotation-config />
-	<context:spring-configured></context:spring-configured>
+    <context:annotation-config />
+    <context:spring-configured></context:spring-configured>
 	
-	 <aop:aspectj-autoproxy proxy-target-class="true" /> 
+    <aop:aspectj-autoproxy proxy-target-class="true" />
 
-	<!--<import resource="classpath:META-INF/subconfig/database-mysql5.xml" />-->
-	 <import resource="classpath:META-INF/subconfig/database-hsqldb.xml" />
-	 <import resource="classpath:META-INF/subconfig/services.xml" />
-	 <import resource="classpath:META-INF/subconfig/mail-test.xml" />
-	<import resource="classpath:META-INF/subconfig/hibernate-test.xml" />
-	<bean id="passwordEncoder"
+    <import resource="classpath:META-INF/subconfig/database-test.xml" />
+    <import resource="classpath:META-INF/subconfig/services.xml" />
+    <import resource="classpath:META-INF/subconfig/mail-test.xml" />
+    <import resource="classpath:META-INF/subconfig/hibernate-test.xml" />
+    <bean id="passwordEncoder"
 		class="org.springframework.security.providers.encoding.ShaPasswordEncoder">
-		<constructor-arg value="256" />
-	</bean>
-	<bean id="saltSourceUser"
+        <constructor-arg value="256" />
+    </bean>
+    <bean id="saltSourceUser"
 		class="org.springframework.security.providers.dao.salt.ReflectionSaltSource">
-		<property name="userPropertyToUse" value="username"></property>
-	</bean>
-	<bean id="saltSourceTrialSite"
+        <property name="userPropertyToUse" value="username"></property>
+    </bean>
+    <bean id="saltSourceTrialSite"
 		class="org.springframework.security.providers.dao.salt.SystemWideSaltSource">
-		<property name="systemWideSalt" value="DSJGEWI8SDG46ASGJAER436234ERDFZHS9346" />
-	</bean>
+        <property name="systemWideSalt" value="DSJGEWI8SDG46ASGJAER436234ERDFZHS9346" />
+    </bean>
 </beans>
