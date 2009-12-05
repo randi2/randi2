@@ -400,20 +400,6 @@
         </dependency>
 
 
-        <!-- Database Dependency (FIXME) -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql5.version}</version>
-        </dependency>
-        
-
-        <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql84.version}</version>
-        </dependency>
-
         <!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** *****  -->
         <!-- Runtime Dependencies provided by containers                  -->
         <!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** *****  -->
@@ -691,6 +677,70 @@
     </reporting>
 
     <profiles>
+
+        <profile>
+            <id>mysql5-production</id>
+            <activation>
+                <property>
+                    <name>!production.dbms</name>
+                </property>
+            </activation>
+            
+            <properties>
+                <test.hibernate.sqldialect>org.hibernate.dialect.MySQL5InnoDBDialect</test.hibernate.sqldialect>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <warName>${artifactId}-mysql5-v${version}</warName>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+
+            <dependencies>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>${mysql5.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>postgresql84-production</id>
+            <activation>
+                <property>
+                    <name>production.dbms</name>
+                    <value>postgresql84</value>
+                </property>
+            </activation>
+
+            <properties>
+                <test.hibernate.sqldialect>org.hibernate.dialect.PostgreSQLDialect</test.hibernate.sqldialect>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <warName>${artifactId}-postgresql84-v${version}</warName>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <dependencies>
+                <dependency>
+                    <groupId>postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>${postgresql84.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
 
         <profile>
             <id>hsqldb-test</id>
