@@ -47,7 +47,6 @@ import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.enumerations.Gender;
-import de.randi2.model.exceptions.BoxedException;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig.TYPE;
 import de.randi2.services.TrialService;

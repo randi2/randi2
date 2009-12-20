@@ -30,7 +30,7 @@ import com.icesoft.faces.context.effects.Highlight;
 
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.model.Person;
-import de.randi2.model.exceptions.BoxedException;
+import de.randi2.utility.BoxedException;
 
 /**
  * <p>

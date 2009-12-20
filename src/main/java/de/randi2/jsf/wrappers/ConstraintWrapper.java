@@ -31,7 +31,7 @@ import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DateConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
-import de.randi2.model.exceptions.BoxedException;
+import de.randi2.utility.BoxedException;
 import de.randi2.unsorted.ContraintViolatedException;
 
 public class ConstraintWrapper<V extends Serializable> {
