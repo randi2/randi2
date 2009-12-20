@@ -26,10 +26,15 @@ public class Pair<E extends Object, F extends Object> {
 	private E first;
 	private F last;
 
-	public Pair(E _first, F _last){
+	private Pair(E _first, F _last){
 		first = _first;
 		last = _last;
 	}
+
+        public static <E, F> Pair<E, F> of(E first, F last) {
+            return new Pair<E, F>(first, last);
+        }
+
 
 	public E getFirst(){
 		return this.first;
