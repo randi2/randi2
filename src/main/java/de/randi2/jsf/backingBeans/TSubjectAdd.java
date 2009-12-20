@@ -42,6 +42,7 @@ import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
+import de.randi2.model.exceptions.BoxedException;
 import de.randi2.services.TrialService;
 
 public class TSubjectAdd {
@@ -99,11 +100,9 @@ public class TSubjectAdd {
 								.getExternalContext().getResourceAsStream(
 										"/protocol.pdf")));
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				BoxedException.throwBoxed(e);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				BoxedException.throwBoxed(e);
 			}
 		return null;
 	}

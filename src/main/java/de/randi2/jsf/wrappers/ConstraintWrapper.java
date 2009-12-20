@@ -31,6 +31,7 @@ import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DateConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
+import de.randi2.model.exceptions.BoxedException;
 import de.randi2.unsorted.ContraintViolatedException;
 
 public class ConstraintWrapper<V extends Serializable> {
@@ -62,11 +63,9 @@ public class ConstraintWrapper<V extends Serializable> {
             if(!tValues.isEmpty())
                 wrappedConstraint = (AbstractConstraint<V>) new OrdinalConstraint((List<String>)tValues);
 		}catch(ClassCastException ex1){
-			//TODO ?
-			ex1.printStackTrace();
+			BoxedException.throwBoxed(ex1);
 		} catch (ContraintViolatedException ex2) {
-			// TODO Auto-generated catch block
-			ex2.printStackTrace();
+			BoxedException.throwBoxed(ex2);
 		}
 	}
 

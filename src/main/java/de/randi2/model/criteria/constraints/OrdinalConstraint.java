@@ -42,7 +42,6 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 	public OrdinalConstraint(List<String> args)
 			throws ContraintViolatedException {
 		super(args);
-		// TODO Auto-generated constructor stub
 	}
 
 	@CollectionOfElements(fetch=FetchType.EAGER)

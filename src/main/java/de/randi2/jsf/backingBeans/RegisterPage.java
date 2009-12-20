@@ -30,6 +30,7 @@ import com.icesoft.faces.context.effects.Highlight;
 
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.model.Person;
+import de.randi2.model.exceptions.BoxedException;
 
 /**
  * <p>
@@ -60,8 +61,7 @@ public class RegisterPage {
 							.getRequestContextPath()
 							+ "/login.jspx");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			BoxedException.throwBoxed(e);
 		}
 	}
 
@@ -72,8 +72,7 @@ public class RegisterPage {
 							.getRequestContextPath()
 							+ "/login.jspx");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			BoxedException.throwBoxed(e);
 		}
 	}
 
@@ -90,8 +89,7 @@ public class RegisterPage {
 							.getRequestContextPath()
 							+ "/login.jspx");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			BoxedException.throwBoxed(e);
 		}
 	}
 

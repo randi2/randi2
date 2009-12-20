@@ -30,6 +30,7 @@ import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.enumerations.Gender;
+import de.randi2.model.exceptions.BoxedException;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.ChartData;
 import de.randi2.unsorted.ContraintViolatedException;
@@ -506,8 +507,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 
 
 		} catch (ContraintViolatedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			BoxedException.throwBoxed(e);
 		}
 
 		BlockRandomizationConfig config = new BlockRandomizationConfig();
@@ -544,8 +544,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 				}
 			
 			} catch (ContraintViolatedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				BoxedException.throwBoxed(e);
 			}
 			
 			Set<SubjectProperty<?>> proberties = new HashSet<SubjectProperty<?>>();
