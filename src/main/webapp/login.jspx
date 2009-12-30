@@ -86,24 +86,20 @@
 					</ice:panelDivider>
 				</ice:panelGroup>
 			</ice:panelGroup>
-			<ice:panelGrid columns="2" style="margin-left:175px">
+			<ice:panelGrid columns="2" style="margin-left:170px;">
 				<!-- Links -->
-				<ice:panelGroup>
-					<table width="100%" cellpadding="0" cellspacing="0">
-						<tr>
-							<td align="center"><ice:panelGroup>
-								<ice:outputLink
-									value="#{facesContext.externalContext.requestContextPath}/terms.jspx">
-									<ice:outputLabel value="#{labels['pages.login.terms']}"></ice:outputLabel>
-								</ice:outputLink>
-								<ice:outputLink
-									value="#{facesContext.externalContext.requestContextPath}/register.jspx">
-									<ice:outputLabel value="#{labels['pages.login.register']}"></ice:outputLabel>
-								</ice:outputLink>
-							</ice:panelGroup></td>
-						</tr>
-					</table>
-				</ice:panelGroup>
+					<ice:panelGroup>
+						<ice:outputLink
+							value="#{facesContext.externalContext.requestContextPath}/terms.jspx">
+							<ice:outputLabel value="#{labels['pages.login.terms']}"
+								style="text-decoration:underline" />
+						</ice:outputLink>
+						<ice:outputLink
+							value="#{facesContext.externalContext.requestContextPath}/register.jspx"
+							rendered="#{randi2.selfRegistrationSupported}">
+							<ice:outputLabel value="#{labels['pages.login.register']}" style="text-decoration:underline"/>
+						</ice:outputLink>
+					</ice:panelGroup>
 			</ice:panelGrid>
 		</ice:panelGroup></div>
 		</div>

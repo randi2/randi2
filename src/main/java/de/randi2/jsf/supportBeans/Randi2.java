@@ -147,5 +147,9 @@ public class Randi2 {
 		}
 		return year;
 	}
+	
+	public boolean isSelfRegistrationSupported(){
+		return randi2prop.getProperty("selfRegistration").equalsIgnoreCase("true");
+	}
 
 }

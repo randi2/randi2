@@ -32,12 +32,12 @@
 	</head>
 	<body>
 	<div class="body">
-	<div class="contentREGISTER"><f:subview id="termsPopup">
+	<div class="contentREGISTER"><f:subview id="termsPopup"
+		rendered="#{randi2.selfRegistrationSupported}">
 		<jsp:directive.include file="./inc/popups/termsPopup.jspx" />
-	</f:subview>
-    <!-- The pages.registration Form  -->
-    <ice:panelBorder
-		renderEast="false" renderWest="false">
+	</f:subview> <!-- The pages.registration Form  --> <ice:panelBorder
+		renderEast="false" renderWest="false"
+		rendered="#{randi2.selfRegistrationSupported}">
 		<f:facet name="north">
 			<f:subview id="versionInclude">
 				<jsp:directive.include file="./inc/version.jspx" />
@@ -50,7 +50,8 @@
 		<f:facet name="center">
 			<ice:form id="registrationForm">
 				<ice:panelTabSet tabPlacement="top">
-					<ice:panelTab id="personalDetails" label="#{labels['pages.registration.tab1Header']}">
+					<ice:panelTab id="personalDetails"
+						label="#{labels['pages.registration.tab1Header']}">
 						<ice:panelGrid border="0" columns="2">
 							<ice:graphicImage value="/img/icons/personal16.png" />
 							<ice:outputLabel
@@ -66,7 +67,8 @@
 								</ice:selectOneMenu>
 							</ice:panelGrid>
 							<ice:panelGrid border="0" columns="3" style="float:left">
-								<ice:outputLabel for="userTitle" value="#{labels['person.title']}" />
+								<ice:outputLabel for="userTitle"
+									value="#{labels['person.title']}" />
 								<ice:inputText id="userTitle"
 									value="#{loginHandler.newUser.person.title}"
 									required="#{loginHandler.newUser.person.requiredFields['title']}"
@@ -160,7 +162,8 @@
 							</ice:panelGrid>
 						</ice:panelGrid>
 					</ice:panelTab>
-					<ice:panelTab title="accountDetails" id="accountDetails" label="#{labels['pages.registration.tab2Header']}">
+					<ice:panelTab title="accountDetails" id="accountDetails"
+						label="#{labels['pages.registration.tab2Header']}">
 						<ice:panelGrid border="0" columns="2">
 							<ice:graphicImage value="/img/icons/user16.png" />
 							<ice:outputLabel
@@ -197,7 +200,8 @@
 							</ice:panelGroup>
 						</ice:panelGrid>
 					</ice:panelTab>
-					<ice:panelTab id="siteDetails" label="#{labels['pages.registration.tab3Header']}">
+					<ice:panelTab id="siteDetails"
+						label="#{labels['pages.registration.tab3Header']}">
 						<ice:panelGrid border="0" columns="2">
 							<ice:graphicImage value="/img/icons/trialSite16.png" />
 							<ice:outputLabel
@@ -215,9 +219,13 @@
 							<ice:message for="trialSite" id="trialSiteError" />
 							<ice:outputLabel value="#{labels['person.assistant']}"
 								rendered="#{loginHandler.trialSitesAC.objectSelected}" />
-							<ice:selectBooleanCheckbox rendered="#{loginHandler.trialSitesAC.objectSelected}" value="#{registerPage.createAssistant}" partialSubmit="true"/>
+							<ice:selectBooleanCheckbox
+								rendered="#{loginHandler.trialSitesAC.objectSelected}"
+								value="#{registerPage.createAssistant}" partialSubmit="true" />
 						</ice:panelGrid>
-						<ice:panelGroup id="assistant" rendered="#{registerPage.createAssistant}" styleClass="icePnlClpsbl">
+						<ice:panelGroup id="assistant"
+							rendered="#{registerPage.createAssistant}"
+							styleClass="icePnlClpsbl">
 							<ice:panelGrid border="0" columns="2">
 								<ice:graphicImage value="/img/icons/personal16.png" />
 								<ice:outputLabel
@@ -234,7 +242,8 @@
 									</ice:selectOneMenu>
 								</ice:panelGrid>
 								<ice:panelGrid border="0" columns="3" style="float:left">
-									<ice:outputLabel for="assistant_title" value="#{labels['person.title']}" />
+									<ice:outputLabel for="assistant_title"
+										value="#{labels['person.title']}" />
 									<ice:inputText id="assistant_title"
 										value="#{loginHandler.newUser.person.assistant.title}"
 										required="#{loginHandler.newUser.person.requiredFields['title']}"
@@ -256,7 +265,8 @@
 										<f:attribute name="dObject"
 											value="#{loginHandler.newUser.person.assistant}" />
 									</ice:inputText>
-									<ice:message for="assistant_firstname" id="assistant_firstnameError" />
+									<ice:message for="assistant_firstname"
+										id="assistant_firstnameError" />
 									<ice:outputLabel for="assistant_surname"
 										value="#{labels['person.surname']}" />
 									<ice:inputText id="assistant_surname"
@@ -268,7 +278,8 @@
 										<f:attribute name="dObject"
 											value="#{loginHandler.newUser.person.assistant}" />
 									</ice:inputText>
-									<ice:message for="assistant_surname" id="assistant_surnameError" />
+									<ice:message for="assistant_surname"
+										id="assistant_surnameError" />
 								</ice:panelGrid>
 								<ice:panelGrid border="0" columns="2">
 									<ice:graphicImage value="/img/icons/contact16.png" />
@@ -276,56 +287,60 @@
 										value="#{labels['pages.registration.contactHeader']}" />
 								</ice:panelGrid>
 								<ice:panelGrid>
-								<ice:panelGroup>
-									<ice:panelGrid border="0" columns="3">
-										<ice:outputLabel for="assistant_email" value="#{labels['person.eMail']}" />
-										<ice:inputText id="assistant_email"
-											value="#{loginHandler.newUser.person.assistant.email}"
-											required="#{loginHandler.newUser.person.requiredFields['email']}"
-											partialSubmit="true">
-											<f:validator
-												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-											<f:attribute name="dObject"
-												value="#{loginHandler.newUser.person.assistant}" />
-										</ice:inputText>
-										<ice:message for="assistant_email" id="assistant_eMailError" />
-										<ice:outputLabel for="assistant_phone" value="#{labels['person.phone']}" />
-										<ice:inputText id="assistant_phone"
-											value="#{loginHandler.newUser.person.assistant.phone}"
-											required="#{loginHandler.newUser.person.requiredFields['phone']}"
-											partialSubmit="true">
-											<f:validator
-												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-											<f:attribute name="dObject"
-												value="#{loginHandler.newUser.person.assistant}" />
-										</ice:inputText>
-										<ice:message for="assistant_phone" id="assistant_phoneError" />
-										<ice:outputLabel for="assistant_mobile"
-											value="#{labels['person.mobile']}" />
-										<ice:inputText id="assistant_mobile"
-											value="#{loginHandler.newUser.person.assistant.mobile}"
-											required="#{loginHandler.newUser.person.requiredFields['mobile']}"
-											partialSubmit="true">
-											<f:validator
-												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-											<f:attribute name="dObject"
-												value="#{loginHandler.newUser.person.assistant}" />
-										</ice:inputText>
-										<ice:message for="assistant_mobile" id="assistant_mobileError" />
-										<ice:outputLabel for="assistant_fax" value="#{labels['person.fax']}" />
-										<ice:inputText id="assistant_fax"
-											value="#{loginHandler.newUser.person.assistant.fax}"
-											required="#{loginHandler.newUser.person.requiredFields['fax']}"
-											partialSubmit="true">
-											<f:validator
-												validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-											<f:attribute name="dObject"
-												value="#{loginHandler.newUser.person.assistant}" />
-										</ice:inputText>
-										<ice:message for="assistant_fax" id="assistant_faxError" />
-									</ice:panelGrid>
-								</ice:panelGroup>
-							</ice:panelGrid>
+									<ice:panelGroup>
+										<ice:panelGrid border="0" columns="3">
+											<ice:outputLabel for="assistant_email"
+												value="#{labels['person.eMail']}" />
+											<ice:inputText id="assistant_email"
+												value="#{loginHandler.newUser.person.assistant.email}"
+												required="#{loginHandler.newUser.person.requiredFields['email']}"
+												partialSubmit="true">
+												<f:validator
+													validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+												<f:attribute name="dObject"
+													value="#{loginHandler.newUser.person.assistant}" />
+											</ice:inputText>
+											<ice:message for="assistant_email" id="assistant_eMailError" />
+											<ice:outputLabel for="assistant_phone"
+												value="#{labels['person.phone']}" />
+											<ice:inputText id="assistant_phone"
+												value="#{loginHandler.newUser.person.assistant.phone}"
+												required="#{loginHandler.newUser.person.requiredFields['phone']}"
+												partialSubmit="true">
+												<f:validator
+													validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+												<f:attribute name="dObject"
+													value="#{loginHandler.newUser.person.assistant}" />
+											</ice:inputText>
+											<ice:message for="assistant_phone" id="assistant_phoneError" />
+											<ice:outputLabel for="assistant_mobile"
+												value="#{labels['person.mobile']}" />
+											<ice:inputText id="assistant_mobile"
+												value="#{loginHandler.newUser.person.assistant.mobile}"
+												required="#{loginHandler.newUser.person.requiredFields['mobile']}"
+												partialSubmit="true">
+												<f:validator
+													validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+												<f:attribute name="dObject"
+													value="#{loginHandler.newUser.person.assistant}" />
+											</ice:inputText>
+											<ice:message for="assistant_mobile"
+												id="assistant_mobileError" />
+											<ice:outputLabel for="assistant_fax"
+												value="#{labels['person.fax']}" />
+											<ice:inputText id="assistant_fax"
+												value="#{loginHandler.newUser.person.assistant.fax}"
+												required="#{loginHandler.newUser.person.requiredFields['fax']}"
+												partialSubmit="true">
+												<f:validator
+													validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+												<f:attribute name="dObject"
+													value="#{loginHandler.newUser.person.assistant}" />
+											</ice:inputText>
+											<ice:message for="assistant_fax" id="assistant_faxError" />
+										</ice:panelGrid>
+									</ice:panelGroup>
+								</ice:panelGrid>
 							</ice:panelGrid>
 						</ice:panelGroup>
 						<ice:panelGrid border="0" columns="3"

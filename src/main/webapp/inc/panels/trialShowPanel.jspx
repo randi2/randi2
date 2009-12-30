@@ -43,7 +43,7 @@
 				<jsp:directive.include file="./inc/panels/trial/subjects.jspx" />
 			</f:subview>
 		</ice:panelTab>
-		<ice:panelTab label="#{labels['pages.trialShowPanel.actions']}">
+		<ice:panelTab label="#{labels['pages.trialShowPanel.actions']}" rendered="#{permissionVerifier.allowedSeeRandomizationDetails}">
 			<f:subview id="actionsInclude">
 				<jsp:directive.include file="./inc/panels/trial/trialActions.jspx" />
 			</f:subview>
