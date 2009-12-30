@@ -42,26 +42,35 @@ import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
-import de.randi2.utility.BoxedException;
 import de.randi2.services.TrialService;
+import de.randi2.utility.BoxedException;
 
 public class TSubjectAdd {
-	
 	@Setter
 	private Popups popups;
-	
+
 	@Setter
 	private LoginHandler loginHandler;
 
 	@Setter
 	private TrialService trialService;
+
+	@Getter
+	private String addedSubjectArm;
 	
+	@Getter
+	private String addedSubjectID;
+
+	@Getter
+	@Setter
+	private String subjectID;
+
 	private Trial currentTrial = null;
 
 	public Trial getCurrentTrial() {
 		return currentTrial;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void setCurrentTrial(Trial currentTrial) {
 		this.currentTrial = currentTrial;
@@ -74,18 +83,17 @@ public class TSubjectAdd {
 			properties.add(cWrapper);
 		}
 	}
-	
+
 	private TrialSubject trialSubject;
-	
-	public TrialSubject getTrialSubject(){
-		if(trialSubject==null)
-			trialSubject= new TrialSubject();
+
+	public TrialSubject getTrialSubject() {
+		if (trialSubject == null)
+			trialSubject = new TrialSubject();
 		return trialSubject;
 	}
-	
 
 	private ArrayList<CriterionWrapper<? extends Serializable>> properties = null;
-	
+
 	public ArrayList<CriterionWrapper<? extends Serializable>> getProperties() {
 		return properties;
 	}
@@ -106,25 +114,27 @@ public class TSubjectAdd {
 			}
 		return null;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public String addSubject() {
-		trialSubject = new TrialSubject();
+		if (!currentTrial.isGenerateIds())
+			trialSubject.setIdentification(subjectID);
 		HashSet<SubjectProperty<?>> tempSet = new HashSet<SubjectProperty<?>>();
-		for(CriterionWrapper<? extends Serializable> cw : properties){
+		for (CriterionWrapper<? extends Serializable> cw : properties) {
 			tempSet.add((SubjectProperty) cw.getSubjectProperty());
 		}
 		trialSubject.setProperties(tempSet);
-		currentTrial = trialService.randomize(currentTrial,trialSubject);
-		subjectID = trialSubject.getIdentification();
-		subjectArm = trialSubject.getArm().getUIName();
+		currentTrial = trialService.randomize(currentTrial, trialSubject);
+		addedSubjectID = trialSubject.getIdentification();
+		addedSubjectArm = trialSubject.getArm().getUIName();
 		popups.showSubjectAddedPopup();
+		resetSubject();
 		return Randi2.SUCCESS;
 	}
-	
-	@Getter
-	private String subjectArm;
 
-	@Getter
-	private String subjectID;
+	private void resetSubject() {
+		trialSubject = new TrialSubject();
+		subjectID = null;
+	}
+
 }

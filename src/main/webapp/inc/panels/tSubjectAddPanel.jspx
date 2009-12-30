@@ -31,7 +31,7 @@
 						</f:facet>
 						<ice:panelGroup rendered="#{!tSubjectAdd.currentTrial.generateIds}">
 							<ice:inputText id="id"
-								value="#{tSubjectAdd.trialSubject.identification}"
+								value="#{tSubjectAdd.subjectID}"
 								required="#{tSubjectAdd.trialSubject.requiredFields['identification']}"
 								partialSubmit="true" size="25">
 								<f:validator
