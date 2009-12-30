@@ -47,4 +47,11 @@ public class ChartData {
 	private List<double[]> data;
 	
 	private double[] dataPieChart;
+	
+	/**
+	 * The height of the chart as String.
+	 */
+	public String getHieghtChart(){
+		return "" + (xLabels.size()*25);
+	}
 }
