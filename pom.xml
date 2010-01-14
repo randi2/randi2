@@ -696,14 +696,6 @@
                     </plugin>
                 </plugins>
             </build>
-
-            <dependencies>
-                <dependency>
-                    <groupId>mysql</groupId>
-                    <artifactId>mysql-connector-java</artifactId>
-                    <version>${mysql5.version}</version>
-                </dependency>
-            </dependencies>
         </profile>
 
         <profile>
@@ -729,13 +721,6 @@
                     </plugin>
                 </plugins>
             </build>
-            <dependencies>
-                <dependency>
-                    <groupId>postgresql</groupId>
-                    <artifactId>postgresql</artifactId>
-                    <version>${postgresql84.version}</version>
-                </dependency>
-            </dependencies>
         </profile>
 
         <profile>
