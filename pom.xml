@@ -683,7 +683,7 @@
             </activation>
             
             <properties>
-                <test.hibernate.sqldialect>org.hibernate.dialect.MySQL5InnoDBDialect</test.hibernate.sqldialect>
+                <production.hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</production.hibernate.dialect>
             </properties>
 
             <build>
@@ -716,7 +716,7 @@
             </activation>
 
             <properties>
-                <test.hibernate.sqldialect>org.hibernate.dialect.PostgreSQLDialect</test.hibernate.sqldialect>
+                <production.hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</production.hibernate.dialect>
             </properties>
 
             <build>
@@ -746,9 +746,8 @@
                 </property>
             </activation>
             <properties>
-                <randi2.simple.jndi.root>src/test/resources/jndi</randi2.simple.jndi.root>
                 <test.database.name>randi2/jdbc/hsqldb-test</test.database.name>
-                <test.hibernate.sqldialect>de.randi2.utility.CustomHSQLDialect</test.hibernate.sqldialect>
+                <test.hibernate.dialect>de.randi2.utility.CustomHSQLDialect</test.hibernate.dialect>
             </properties>
             <dependencies>
                 <dependency>
@@ -769,9 +768,8 @@
                 </property>
             </activation>
             <properties>
-                <randi2.simple.jndi.root>${simple.jndi.root}</randi2.simple.jndi.root>
                 <test.database.name>randi2/jdbc/mysql5-test</test.database.name>
-                <test.hibernate.sqldialect>org.hibernate.dialect.MySQL5InnoDBDialect</test.hibernate.sqldialect>
+                <test.hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</test.hibernate.dialect>
             </properties>
             <dependencies>
                 <dependency>
@@ -792,9 +790,8 @@
                 </property>
             </activation>
             <properties>
-                <randi2.simple.jndi.root>${simple.jndi.root}</randi2.simple.jndi.root>
                 <test.database.name>randi2/jdbc/postgresql84-test</test.database.name>
-                <test.hibernate.sqldialect>org.hibernate.dialect.PostgreSQLDialect</test.hibernate.sqldialect>
+                <test.hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</test.hibernate.dialect>
             </properties>
             <dependencies>
                 <dependency>
