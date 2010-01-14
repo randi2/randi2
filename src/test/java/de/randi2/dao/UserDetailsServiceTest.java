@@ -1,19 +1,14 @@
 package de.randi2.dao;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
 import org.hibernate.SessionFactory;
-import org.hibernate.classic.Session;
-import org.hibernate.context.ManagedSessionContext;
-import org.hibernate.impl.SessionFactoryImpl;
-import org.hibernate.impl.SessionImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.security.userdetails.UsernameNotFoundException;
-import org.springframework.security.util.SessionUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
