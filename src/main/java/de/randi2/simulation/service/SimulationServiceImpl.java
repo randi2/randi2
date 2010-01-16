@@ -88,10 +88,10 @@ public class SimulationServiceImpl implements SimulationService {
 		cTrial.setTreatmentArms(arms);
 		for (DistributionSubjectProperty dsp: properties) {
 			AbstractCriterion<?, ?> cr = dsp.getCriterion();
-			if (cr instanceof DateCriterion) {
+			if (DateCriterion.class.isInstance(cr)) {
 				DateCriterion ccr = new DateCriterion();
 				ccr.setInclusionConstraint(cr.getInclusionConstraint());
-				for (DateConstraint co : ((DateCriterion) cr).getStrata()) {
+				for (DateConstraint co : DateCriterion.class.cast(cr).getStrata()) {
 					DateConstraint cco = new DateConstraint();
 					cco.setFirstDate(co.getFirstDate());
 					cco.setSecondDate(co.getSecondDate());
@@ -99,12 +99,12 @@ public class SimulationServiceImpl implements SimulationService {
 					ccr.addStrata(cco);
 				}
 				cTrial.addCriterion(ccr);
-			} else if (cr instanceof DichotomousCriterion) {
+			} else if (DichotomousCriterion.class.isInstance(cr)) {
 				DichotomousCriterion ccr = new DichotomousCriterion();
 				ccr.setInclusionConstraint(cr.getInclusionConstraint());
-				ccr.setOption1(((DichotomousCriterion) cr).getOption1());
-				ccr.setOption2(((DichotomousCriterion) cr).getOption2());
-				for (DichotomousConstraint co : ((DichotomousCriterion) cr)
+				ccr.setOption1(DichotomousCriterion.class.cast(cr).getOption1());
+				ccr.setOption2(DichotomousCriterion.class.cast(cr).getOption2());
+				for (DichotomousConstraint co : DichotomousCriterion.class.cast(cr)
 						.getStrata()) {
 					ArrayList<String> values = new ArrayList<String>();
 					values.add(co.getExpectedValue());
@@ -117,11 +117,11 @@ public class SimulationServiceImpl implements SimulationService {
 					}
 				}
 				cTrial.addCriterion(ccr);
-			} else if (cr instanceof OrdinalCriterion) {
+			} else if (OrdinalCriterion.class.isInstance(cr)) {
 				OrdinalCriterion ccr = new OrdinalCriterion();
 				ccr.setInclusionConstraint(cr.getInclusionConstraint());
-				ccr.setElements(((OrdinalCriterion)cr).getElements());
-				for (OrdinalConstraint co : ((OrdinalCriterion) cr).getStrata()) {
+				ccr.setElements(OrdinalCriterion.class.cast(cr).getElements());
+				for (OrdinalConstraint co : OrdinalCriterion.class.cast(cr).getStrata()) {
 					ArrayList<String> values = new ArrayList<String>(co
 							.getExpectedValues());
 					OrdinalConstraint cco;
