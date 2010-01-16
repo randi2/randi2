@@ -40,7 +40,7 @@ import org.hibernate.validator.Range;
  */
 @Entity
 @Data
-@EqualsAndHashCode(callSuper=true, exclude={"subjects", "trial", })
+@EqualsAndHashCode(callSuper=true, exclude={"subjects", "trial"})
 public class TreatmentArm extends AbstractDomainObject{
 
 	/** The Constant serialVersionUID. */
