@@ -10,6 +10,7 @@ import java.util.Random;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
+import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.randomization.MinimizationConfig;
@@ -24,6 +25,8 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 	private Random randomEqualScore = new Random();
 	
 	private HashMap<AbstractConstraint<?>,HashMap<TreatmentArm, Double>> countConstraints;
+	private HashMap<TrialSite,HashMap<TreatmentArm, Double>> countTrialSites;
+	
 	
 	public Minimization(Trial _trial) {
 		super(_trial);
@@ -92,11 +95,25 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 		
 		List<TreatmentArm> arms = Collections.unmodifiableList(trial.getTreatmentArms());
 		
-		if(probabilitiesPerPreferredTreatment == null) initProbabilitiesPerPreferredTreatment();
-		if(countConstraints == null) countConstraints = new HashMap<AbstractConstraint<?>, HashMap<TreatmentArm,Double>>();
-		
 		HashMap<AbstractConstraint<?>,HashMap<TreatmentArm, Double>> relevantConstraints = new HashMap<AbstractConstraint<?>, HashMap<TreatmentArm, Double>>();
-	
+		HashMap<TreatmentArm, Double> relevantTrialSite = null;
+		
+		if(probabilitiesPerPreferredTreatment == null) initProbabilitiesPerPreferredTreatment();
+		//Counter for trial sites
+		if(trial.isStratifyTrialSite()){
+			if(countTrialSites == null) countTrialSites = new HashMap<TrialSite, HashMap<TreatmentArm,Double>>();
+			HashMap<TreatmentArm, Double> actMap = countTrialSites.get(subject.getTrialSite());
+			if(actMap == null){
+				actMap = new HashMap<TreatmentArm, Double>();
+				for(TreatmentArm arm : arms){
+					actMap.put(arm, 0.0);							
+				}
+				countTrialSites.put(subject.getTrialSite(), actMap);
+			}
+			relevantTrialSite = actMap;
+		}else  if(countConstraints == null) countConstraints = new HashMap<AbstractConstraint<?>, HashMap<TreatmentArm,Double>>();
+		
+		
 		//Get relevant constraints and if necessary create a new counter 
 		for(SubjectProperty prop : subject.getProperties()){
 				try {
@@ -117,7 +134,12 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 		
 		for(TreatmentArm arm :arms){
 			double imbalacedScore = 0.0;
-			for(HashMap<TreatmentArm, Double> map : relevantConstraints.values()){
+			List<HashMap<TreatmentArm, Double>> listAllRelevantValues = new ArrayList<HashMap<TreatmentArm,Double>>();
+			if(trial.isStratifyTrialSite()){
+				listAllRelevantValues.add(relevantTrialSite);
+			}
+			listAllRelevantValues.addAll(relevantConstraints.values());
+			for(HashMap<TreatmentArm, Double> map : listAllRelevantValues){
 				double[] adjustetCountsPerArm = new double[arms.size()];
 				int i = 0;
 				for(TreatmentArm actArm : map.keySet()){
@@ -200,6 +222,9 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 		for(AbstractConstraint<?> constraint : relevantConstraints.keySet()){
 			countConstraints.get(constraint).put(arm, (countConstraints.get(constraint).get(arm) +1.0));
 		}
+		if(trial.isStratifyTrialSite()){
+			countTrialSites.get(subject.getTrialSite()).put(arm, (countTrialSites.get(subject.getTrialSite()).get(arm)+1.0));
+		}
 		return arm;
 	}
 	
@@ -269,5 +294,6 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 	public void clear(){
 		probabilitiesPerPreferredTreatment = null;
 		countConstraints = new HashMap<AbstractConstraint<?>, HashMap<TreatmentArm,Double>>();
+		countTrialSites = new HashMap<TrialSite, HashMap<TreatmentArm,Double>>();
 	}
 }

@@ -51,6 +51,7 @@ public class MinimizationTest {
 		RandomizationHelper.addArms(trial, 70, 50, 30);
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(false);
+		conf.setBiasedCoinMinimization(false);
 		conf.setP(0.95);
 		trial.setRandomizationConfiguration(conf);
 		for (int i : upto(150)) {
@@ -65,6 +66,7 @@ public class MinimizationTest {
 		RandomizationHelper.addArms(trial, 70, 50, 30);
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(true);
+		conf.setBiasedCoinMinimization(false);
 		conf.setP(0.9);
 		trial.setRandomizationConfiguration(conf);
 		for (int i : upto(150)) {
@@ -78,6 +80,7 @@ public class MinimizationTest {
 		RandomizationHelper.addArms(trial, 56, 23, 78, 47, 29);
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(true);
+		conf.setBiasedCoinMinimization(false);
 		conf.setP(0.95);
 		trial.setRandomizationConfiguration(conf);
 		for (int i : upto(233)) {
