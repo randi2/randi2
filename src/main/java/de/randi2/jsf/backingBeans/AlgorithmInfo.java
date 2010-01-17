@@ -20,6 +20,7 @@ package de.randi2.jsf.backingBeans;
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.model.randomization.BlockRandomizationConfig;
+import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
@@ -93,6 +94,13 @@ public class AlgorithmInfo {
         	furtherDetails.append(bundle.getString("pages.urnR.replacedBalls"));
         	furtherDetails.append("</b> ");
         	furtherDetails.append(conf.getCountReplacedBalls());
+        	furtherDetails.append("<br//>");
+    	}else if(MinimizationConfig.class.isInstance(randi2Page.getCurrentTrial().getRandomizationConfiguration())){
+    		MinimizationConfig conf = MinimizationConfig.class.cast(randi2Page.getCurrentTrial().getRandomizationConfiguration());
+        	furtherDetails.append("<b>");
+        	furtherDetails.append(bundle.getString("pages.minimization.pvalue"));
+        	furtherDetails.append("</b> ");
+        	furtherDetails.append(conf.getP());
         	furtherDetails.append("<br//>");
     	}else{
         	furtherDetails.append("--");

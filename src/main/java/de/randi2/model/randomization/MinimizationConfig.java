@@ -10,7 +10,7 @@ public class MinimizationConfig extends AbstractRandomizationConfig {
 	
 	private double p;
 	private boolean withRandomizedSubjects = false;
-	private boolean biasedCoinMinimization = false;
+	private boolean biasedCoinMinimization = true;
 	
 	@Override
 	public RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm() {

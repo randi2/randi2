@@ -68,6 +68,12 @@
 					file="./inc/panels/randomization/urnR.jspx" />
 			</f:subview>
 		</ice:panelGroup>
+		<ice:panelGroup id="minimization">
+			<f:subview id="mini">
+				<jsp:directive.include
+					file="./inc/panels/randomization/minimizationR.jspx" />
+			</f:subview>
+		</ice:panelGroup>
 	</ice:panelStack>
 </ice:panelGroup>
 <ice:commandButton type="submit" value="#{labels['buttons.save']}"
