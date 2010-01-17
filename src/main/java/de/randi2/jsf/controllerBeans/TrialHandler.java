@@ -378,6 +378,9 @@ public class TrialHandler extends AbstractHandler<Trial> {
 			} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
 					Step5.AlgorithmPanelId.URN_MODEL.toString())) {
 				showedObject.setRandomizationConfiguration(randomizationConfig);
+			}else if (currentStep5.getSelectedAlgorithmPanelId().equals(
+					Step5.AlgorithmPanelId.MINIMIZATION.toString())) {
+				showedObject.setRandomizationConfiguration(randomizationConfig);
 			}
 			/* End of the Algorithm Configuration */
 
