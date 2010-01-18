@@ -84,11 +84,9 @@ public class TSubjectAdd {
 		}
 	}
 
-	private TrialSubject trialSubject;
+	private TrialSubject trialSubject = new TrialSubject();
 
 	public TrialSubject getTrialSubject() {
-		if (trialSubject == null)
-			trialSubject = new TrialSubject();
 		return trialSubject;
 	}
 
