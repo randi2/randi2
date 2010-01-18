@@ -26,6 +26,7 @@ import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.randomization.MinimizationConfig;
+import de.randi2.model.randomization.MinimizationMapElementWrapper;
 import de.randi2.simulation.distribution.UniformDistribution;
 import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.unsorted.ContraintViolatedException;
@@ -173,26 +174,26 @@ public class MinimizationTest {
 		trial.setRandomizationConfiguration(conf);
 		
 		//Test calculated probabilities
-		Map<TreatmentArm, Map<TreatmentArm, Double>>  internalCalculatedProbabilities = algorithm.getProbabilitiesPerPreferredTreatment();
-		Map<TreatmentArm, Map<TreatmentArm, Double>> externelCalculatedProbabilies = new HashMap<TreatmentArm, Map<TreatmentArm, Double>>();
+		Map<TreatmentArm, MinimizationMapElementWrapper>  internalCalculatedProbabilities = algorithm.getProbabilitiesPerPreferredTreatment();
+		Map<TreatmentArm, MinimizationMapElementWrapper> externelCalculatedProbabilies = new HashMap<TreatmentArm, MinimizationMapElementWrapper>();
 
 		Map<TreatmentArm, Double> calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.7);
 		calculatedProbabilies.put(arms.get(1), 0.12);
 		calculatedProbabilies.put(arms.get(2), 0.18);
-		externelCalculatedProbabilies.put(arms.get(0), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(0), new MinimizationMapElementWrapper(calculatedProbabilies));
 
 		calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.06);
 		calculatedProbabilies.put(arms.get(1), 0.76);
 		calculatedProbabilies.put(arms.get(2), 0.18);
-		externelCalculatedProbabilies.put(arms.get(1), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(1), new MinimizationMapElementWrapper(calculatedProbabilies));
 
 		calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.06);
 		calculatedProbabilies.put(arms.get(1), 0.12);
 		calculatedProbabilies.put(arms.get(2), 0.82);
-		externelCalculatedProbabilies.put(arms.get(2), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(2), new MinimizationMapElementWrapper(calculatedProbabilies));
 		testProbabilityMaps(externelCalculatedProbabilies,
 				internalCalculatedProbabilities);
 		
@@ -241,28 +242,28 @@ public class MinimizationTest {
 		algorithm.configuration = conf;
 		trial.setRandomizationConfiguration(conf);
 		Minimization alg = (Minimization) conf.getAlgorithm();
-		Map<TreatmentArm, Map<TreatmentArm, Double>> internalCalculatedProbabilities = alg
+		Map<TreatmentArm, MinimizationMapElementWrapper> internalCalculatedProbabilities = alg
 				.getProbabilitiesPerPreferredTreatment();
 
-		Map<TreatmentArm, Map<TreatmentArm, Double>> externelCalculatedProbabilies = new HashMap<TreatmentArm, Map<TreatmentArm, Double>>();
+		Map<TreatmentArm, MinimizationMapElementWrapper> externelCalculatedProbabilies = new HashMap<TreatmentArm, MinimizationMapElementWrapper>();
 
 		Map<TreatmentArm, Double> calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.7);
 		calculatedProbabilies.put(arms.get(1), 0.12);
 		calculatedProbabilies.put(arms.get(2), 0.18);
-		externelCalculatedProbabilies.put(arms.get(0), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(0), new MinimizationMapElementWrapper(calculatedProbabilies));
 
 		calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.06);
 		calculatedProbabilies.put(arms.get(1), 0.76);
 		calculatedProbabilies.put(arms.get(2), 0.18);
-		externelCalculatedProbabilies.put(arms.get(1), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(1), new MinimizationMapElementWrapper(calculatedProbabilies));
 
 		calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.06);
 		calculatedProbabilies.put(arms.get(1), 0.12);
 		calculatedProbabilies.put(arms.get(2), 0.82);
-		externelCalculatedProbabilies.put(arms.get(2), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(2), new MinimizationMapElementWrapper(calculatedProbabilies));
 		testProbabilityMaps(externelCalculatedProbabilies,
 				internalCalculatedProbabilities);
 
@@ -281,28 +282,28 @@ public class MinimizationTest {
 		algorithm.configuration = conf;
 		trial.setRandomizationConfiguration(conf);
 		Minimization alg = (Minimization) conf.getAlgorithm();
-		Map<TreatmentArm, Map<TreatmentArm, Double>> internalCalculatedProbabilities = alg
+		Map<TreatmentArm, MinimizationMapElementWrapper> internalCalculatedProbabilities = alg
 				.getProbabilitiesPerPreferredTreatment();
 
-		Map<TreatmentArm, Map<TreatmentArm, Double>> externelCalculatedProbabilies = new HashMap<TreatmentArm, Map<TreatmentArm, Double>>();
+		Map<TreatmentArm, MinimizationMapElementWrapper> externelCalculatedProbabilies = new HashMap<TreatmentArm, MinimizationMapElementWrapper>();
 
 		Map<TreatmentArm, Double> calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.8);
 		calculatedProbabilies.put(arms.get(1), 0.08);
 		calculatedProbabilies.put(arms.get(2), 0.12);
-		externelCalculatedProbabilies.put(arms.get(0), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(0), new MinimizationMapElementWrapper(calculatedProbabilies));
 
 		calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.04);
 		calculatedProbabilies.put(arms.get(1), 0.84);
 		calculatedProbabilies.put(arms.get(2), 0.12);
-		externelCalculatedProbabilies.put(arms.get(1), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(1), new MinimizationMapElementWrapper(calculatedProbabilies));
 
 		calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.04);
 		calculatedProbabilies.put(arms.get(1), 0.08);
 		calculatedProbabilies.put(arms.get(2), 0.88);
-		externelCalculatedProbabilies.put(arms.get(2), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(2), new MinimizationMapElementWrapper(calculatedProbabilies));
 		testProbabilityMaps(externelCalculatedProbabilies,
 				internalCalculatedProbabilities);
 
@@ -321,28 +322,28 @@ public class MinimizationTest {
 		algorithm.configuration = conf;
 		trial.setRandomizationConfiguration(conf);
 		Minimization alg = (Minimization) conf.getAlgorithm();
-		Map<TreatmentArm, Map<TreatmentArm, Double>> internalCalculatedProbabilities = alg
+		Map<TreatmentArm, MinimizationMapElementWrapper> internalCalculatedProbabilities = alg
 				.getProbabilitiesPerPreferredTreatment();
 
-		Map<TreatmentArm, Map<TreatmentArm, Double>> externelCalculatedProbabilies = new HashMap<TreatmentArm, Map<TreatmentArm, Double>>();
+		Map<TreatmentArm, MinimizationMapElementWrapper> externelCalculatedProbabilies = new HashMap<TreatmentArm, MinimizationMapElementWrapper>();
 
 		Map<TreatmentArm, Double> calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.6);
 		calculatedProbabilies.put(arms.get(1), 0.16);
 		calculatedProbabilies.put(arms.get(2), 0.24);
-		externelCalculatedProbabilies.put(arms.get(0), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(0), new MinimizationMapElementWrapper(calculatedProbabilies));
 
 		calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.08);
 		calculatedProbabilies.put(arms.get(1), 0.68);
 		calculatedProbabilies.put(arms.get(2), 0.24);
-		externelCalculatedProbabilies.put(arms.get(1), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(1), new MinimizationMapElementWrapper(calculatedProbabilies));
 
 		calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.08);
 		calculatedProbabilies.put(arms.get(1), 0.16);
 		calculatedProbabilies.put(arms.get(2), 0.76);
-		externelCalculatedProbabilies.put(arms.get(2), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(2), new MinimizationMapElementWrapper(calculatedProbabilies));
 		testProbabilityMaps(externelCalculatedProbabilies,
 				internalCalculatedProbabilities);
 	}
@@ -360,28 +361,28 @@ public class MinimizationTest {
 		algorithm.configuration = conf;
 		trial.setRandomizationConfiguration(conf);
 		Minimization alg = (Minimization) conf.getAlgorithm();
-		Map<TreatmentArm, Map<TreatmentArm, Double>> internalCalculatedProbabilities = alg
+		Map<TreatmentArm, MinimizationMapElementWrapper> internalCalculatedProbabilities = alg
 				.getProbabilitiesPerPreferredTreatment();
 
-		Map<TreatmentArm, Map<TreatmentArm, Double>> externelCalculatedProbabilies = new HashMap<TreatmentArm, Map<TreatmentArm, Double>>();
+		Map<TreatmentArm, MinimizationMapElementWrapper> externelCalculatedProbabilies = new HashMap<TreatmentArm,MinimizationMapElementWrapper>();
 
 		Map<TreatmentArm, Double> calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.6);
 		calculatedProbabilies.put(arms.get(1), 0.2);
 		calculatedProbabilies.put(arms.get(2), 0.2);
-		externelCalculatedProbabilies.put(arms.get(0), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(0), new MinimizationMapElementWrapper(calculatedProbabilies));
 
 		calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.2);
 		calculatedProbabilies.put(arms.get(1), 0.6);
 		calculatedProbabilies.put(arms.get(2), 0.2);
-		externelCalculatedProbabilies.put(arms.get(1), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(1), new MinimizationMapElementWrapper(calculatedProbabilies));
 
 		calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.2);
 		calculatedProbabilies.put(arms.get(1), 0.2);
 		calculatedProbabilies.put(arms.get(2), 0.6);
-		externelCalculatedProbabilies.put(arms.get(2), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(2), new MinimizationMapElementWrapper(calculatedProbabilies));
 		testProbabilityMaps(externelCalculatedProbabilies,
 				internalCalculatedProbabilities);
 	}
@@ -399,31 +400,31 @@ public class MinimizationTest {
 		algorithm.configuration = conf;
 		trial.setRandomizationConfiguration(conf);
 		Minimization alg = (Minimization) conf.getAlgorithm();
-		Map<TreatmentArm, Map<TreatmentArm, Double>> internalCalculatedProbabilities = alg
+		Map<TreatmentArm, MinimizationMapElementWrapper> internalCalculatedProbabilities = alg
 				.getProbabilitiesPerPreferredTreatment();
 
-		Map<TreatmentArm, Map<TreatmentArm, Double>> externelCalculatedProbabilies = new HashMap<TreatmentArm, Map<TreatmentArm, Double>>();
+		Map<TreatmentArm,MinimizationMapElementWrapper> externelCalculatedProbabilies = new HashMap<TreatmentArm,MinimizationMapElementWrapper>();
 
 		Map<TreatmentArm, Double> calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.8);
 		calculatedProbabilies.put(arms.get(1), 0.05);
 		calculatedProbabilies.put(arms.get(2), 0.05);
 		calculatedProbabilies.put(arms.get(3), 0.1);
-		externelCalculatedProbabilies.put(arms.get(0), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(0), new MinimizationMapElementWrapper(calculatedProbabilies));
 
 		calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.025);
 		calculatedProbabilies.put(arms.get(1), 0.825);
 		calculatedProbabilies.put(arms.get(2), 0.05);
 		calculatedProbabilies.put(arms.get(3), 0.1);
-		externelCalculatedProbabilies.put(arms.get(1), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(1), new MinimizationMapElementWrapper(calculatedProbabilies));
 
 		calculatedProbabilies = new HashMap<TreatmentArm, Double>();
 		calculatedProbabilies.put(arms.get(0), 0.025);
 		calculatedProbabilies.put(arms.get(1), 0.05);
 		calculatedProbabilies.put(arms.get(2), 0.825);
 		calculatedProbabilies.put(arms.get(3), 0.1);
-		externelCalculatedProbabilies.put(arms.get(2), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(2), new MinimizationMapElementWrapper(calculatedProbabilies));
 		testProbabilityMaps(externelCalculatedProbabilies,
 				internalCalculatedProbabilities);
 
@@ -432,7 +433,7 @@ public class MinimizationTest {
 		calculatedProbabilies.put(arms.get(1), 0.05);
 		calculatedProbabilies.put(arms.get(2), 0.05);
 		calculatedProbabilies.put(arms.get(3), 0.875);
-		externelCalculatedProbabilies.put(arms.get(3), calculatedProbabilies);
+		externelCalculatedProbabilies.put(arms.get(3), new MinimizationMapElementWrapper(calculatedProbabilies));
 		testProbabilityMaps(externelCalculatedProbabilies,
 				internalCalculatedProbabilities);
 	}
@@ -449,20 +450,20 @@ public class MinimizationTest {
 		algorithm.configuration = conf;
 		trial.setRandomizationConfiguration(conf);
 		Minimization alg = (Minimization) conf.getAlgorithm();
-		Map<TreatmentArm, Map<TreatmentArm, Double>> internalCalculatedProbabilities = alg
+		Map<TreatmentArm, MinimizationMapElementWrapper> internalCalculatedProbabilities = alg
 				.getProbabilitiesPerPreferredTreatment();
 		testSumEquals1(internalCalculatedProbabilities);
 	}
 
 	private void testSumEquals1(
-			Map<TreatmentArm, Map<TreatmentArm, Double>> internalCalculatedProbabilities) {
+			Map<TreatmentArm, MinimizationMapElementWrapper> internalCalculatedProbabilities) {
 		DecimalFormat df = new DecimalFormat("#0.0000000000");
 		for (TreatmentArm arm_pref : internalCalculatedProbabilities.keySet()) {
 			Map<TreatmentArm, Double> prob_calc = internalCalculatedProbabilities
-					.get(arm_pref);
+					.get(arm_pref).getMap();
 			double sum = 0.0;
 			for (TreatmentArm arm_act : prob_calc.keySet()) {
-				sum += internalCalculatedProbabilities.get(arm_pref).get(
+				sum += internalCalculatedProbabilities.get(arm_pref).getMap().get(
 						arm_act);
 			}
 			assertEquals(df.format(1.0), df.format(sum));
@@ -470,17 +471,17 @@ public class MinimizationTest {
 	}
 
 	private void testProbabilityMaps(
-			Map<TreatmentArm, Map<TreatmentArm, Double>> externelCalculatedProbabilies,
-			Map<TreatmentArm, Map<TreatmentArm, Double>> internalCalculatedProbabilities) {
+			Map<TreatmentArm, MinimizationMapElementWrapper> externelCalculatedProbabilies,
+			Map<TreatmentArm,MinimizationMapElementWrapper> internalCalculatedProbabilities) {
 		DecimalFormat df = new DecimalFormat("#0.0000000000");
 		testSumEquals1(internalCalculatedProbabilities);
 		for (TreatmentArm arm_pref : externelCalculatedProbabilies.keySet()) {
 			Map<TreatmentArm, Double> prob_calc = externelCalculatedProbabilies
-					.get(arm_pref);
+					.get(arm_pref).getMap();
 			for (TreatmentArm arm_act : prob_calc.keySet()) {
 				assertEquals(df.format(externelCalculatedProbabilies.get(
-						arm_pref).get(arm_act)), df
-						.format(internalCalculatedProbabilities.get(arm_pref)
+						arm_pref).getMap().get(arm_act)), df
+						.format(internalCalculatedProbabilities.get(arm_pref).getMap()
 								.get(arm_act)));
 			}
 		}

@@ -16,6 +16,7 @@ import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.randomization.MinimizationConfig;
+import de.randi2.model.randomization.MinimizationMapElementWrapper;
 import de.randi2.model.randomization.MinimizationTempData;
 import de.randi2.unsorted.ContraintViolatedException;
 
@@ -94,62 +95,62 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 	
 	@SuppressWarnings("unchecked")
 	private TreatmentArm doRandomizeBiasedCoinMinimization(TrialSubject subject, Random random){
-		
+		MinimizationTempData tempData = (MinimizationTempData) configuration.getTempData();
 		List<TreatmentArm> arms = Collections.unmodifiableList(trial.getTreatmentArms());
 		
-		HashMap<AbstractConstraint<?>,HashMap<TreatmentArm, Double>> relevantConstraints = new HashMap<AbstractConstraint<?>, HashMap<TreatmentArm, Double>>();
-		HashMap<TreatmentArm, Double> relevantTrialSite = null;
+		HashMap<AbstractConstraint<?>, MinimizationMapElementWrapper> relevantConstraints =new HashMap<AbstractConstraint<?>, MinimizationMapElementWrapper>();;
+		MinimizationMapElementWrapper relevantTrialSite = null;
 		
-		if(((MinimizationTempData) configuration.getTempData()).getProbabilitiesPerPreferredTreatment()== null) initProbabilitiesPerPreferredTreatment();
+		if(tempData.getProbabilitiesPerPreferredTreatment()== null) initProbabilitiesPerPreferredTreatment();
 		//Counter for trial sites
 		if(trial.isStratifyTrialSite()){
-			if(((MinimizationTempData) configuration.getTempData()).getCountTrialSites()== null) ((MinimizationTempData) configuration.getTempData()).setCountTrialSites(new HashMap<TrialSite, HashMap<TreatmentArm,Double>>());
-			HashMap<TreatmentArm, Double> actMap = ((MinimizationTempData) configuration.getTempData()).getCountTrialSites().get(subject.getTrialSite());
+			if(tempData.getCountTrialSites()== null) tempData.setCountTrialSites(new HashMap<TrialSite, MinimizationMapElementWrapper>());
+			MinimizationMapElementWrapper actMap = tempData.getCountTrialSites().get(subject.getTrialSite());
 			if(actMap == null){
-				actMap = new HashMap<TreatmentArm, Double>();
+				actMap = new MinimizationMapElementWrapper(new HashMap<TreatmentArm, Double>());
 				for(TreatmentArm arm : arms){
-					actMap.put(arm, 0.0);							
+					actMap.getMap().put(arm, 0.0);							
 				}
-				((MinimizationTempData) configuration.getTempData()).getCountTrialSites().put(subject.getTrialSite(), actMap);
+				tempData.getCountTrialSites().put(subject.getTrialSite(), actMap);
 			}
 			relevantTrialSite = actMap;
-		}else  if(((MinimizationTempData) configuration.getTempData()).getCountConstraints() == null) ((MinimizationTempData) configuration.getTempData()).setCountConstraints(new HashMap<AbstractConstraint<?>, HashMap<TreatmentArm,Double>>());
+		}else  if(tempData.getCountConstraints() == null) tempData.setCountConstraints(new HashMap<AbstractConstraint<?>, MinimizationMapElementWrapper>());
 		
 		
 		//Get relevant constraints and if necessary create a new counter 
 		for(SubjectProperty prop : subject.getProperties()){
 				try {
-					HashMap<TreatmentArm, Double> actMap = ((MinimizationTempData) configuration.getTempData()).getCountConstraints().get(prop.getCriterion().stratify(prop.getValue()));
+					MinimizationMapElementWrapper actMap = tempData.getCountConstraints().get(prop.getCriterion().stratify(prop.getValue()));
 					if(actMap == null){
-						actMap = new HashMap<TreatmentArm, Double>();
+						actMap = new MinimizationMapElementWrapper(new HashMap<TreatmentArm, Double>());
 						for(TreatmentArm arm : arms){
-							actMap.put(arm, 0.0);							
+							actMap.getMap().put(arm, 0.0);							
 						}
-						((MinimizationTempData) configuration.getTempData()).getCountConstraints().put(prop.getCriterion().stratify(prop.getValue()), actMap);
+						tempData.getCountConstraints().put(prop.getCriterion().stratify(prop.getValue()), actMap);
 					}
 					relevantConstraints.put(prop.getCriterion().stratify(prop.getValue()), actMap);
 				} catch (ContraintViolatedException e) {	}
 		}
 		
 		//calculate imbalance scores
-		HashMap<TreatmentArm, Double> imbalacedScores = new HashMap<TreatmentArm, Double>();		
+		MinimizationMapElementWrapper imbalacedScores = new MinimizationMapElementWrapper(new HashMap<TreatmentArm, Double>());		
 		
 		for(TreatmentArm arm :arms){
 			double imbalacedScore = 0.0;
-			List<HashMap<TreatmentArm, Double>> listAllRelevantValues = new ArrayList<HashMap<TreatmentArm,Double>>();
+			ArrayList<MinimizationMapElementWrapper> listAllRelevantValues = new ArrayList<MinimizationMapElementWrapper>();
 			if(trial.isStratifyTrialSite()){
 				listAllRelevantValues.add(relevantTrialSite);
 			}
 			listAllRelevantValues.addAll(relevantConstraints.values());
-			for(HashMap<TreatmentArm, Double> map : listAllRelevantValues){
+			for(MinimizationMapElementWrapper mapW : listAllRelevantValues){
 				double[] adjustetCountsPerArm = new double[arms.size()];
 				int i = 0;
-				for(TreatmentArm actArm : map.keySet()){
+				for(TreatmentArm actArm : mapW.getMap().keySet()){
 					double adjustetCount = 0.0;
 					if(actArm.getId() == arm.getId()){
-						adjustetCount  =map.get(actArm)+1;
+						adjustetCount  =mapW.getMap().get(actArm)+1;
 					}else{
-						adjustetCount  =map.get(actArm);
+						adjustetCount  =mapW.getMap().get(actArm);
 					}
 					//calculate adjusted counts
 					adjustetCount = adjustetCount / actArm.getPlannedSubjects();
@@ -171,19 +172,19 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 				
 				imbalacedScore+= marginalBalance;
 			}
-			imbalacedScores.put(arm, imbalacedScore);
+			imbalacedScores.getMap().put(arm, imbalacedScore);
 		}
 
 		//find preferred treatment
 		double tmpMinValue = Double.MAX_VALUE;
 		ArrayList<TreatmentArm> armsWithSameScore = new ArrayList<TreatmentArm>();
 		
-		for(TreatmentArm arm : imbalacedScores.keySet()){
-			if(imbalacedScores.get(arm)<tmpMinValue){
+		for(TreatmentArm arm : imbalacedScores.getMap().keySet()){
+			if(imbalacedScores.getMap().get(arm)<tmpMinValue){
 				armsWithSameScore.clear();
-				tmpMinValue = imbalacedScores.get(arm);
+				tmpMinValue = imbalacedScores.getMap().get(arm);
 				armsWithSameScore.add(arm);
-			}else if (imbalacedScores.get(arm)==tmpMinValue){
+			}else if (imbalacedScores.getMap().get(arm)==tmpMinValue){
 				armsWithSameScore.add(arm);
 			}
 		}
@@ -195,7 +196,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 		//other cases take randomly one treatment	
 		if(armsWithSameScore.size()==1){
 			for(TreatmentArm arm : trial.getTreatmentArms()){
-				a.add(((MinimizationTempData) configuration.getTempData()).getProbabilitiesPerPreferredTreatment().get(armsWithSameScore.get(0)).get(arm));
+				a.add(tempData.getProbabilitiesPerPreferredTreatment().get(armsWithSameScore.get(0)).getMap().get(arm));
 			}
 		}else if(armsWithSameScore.size()==arms.size()){
 			for(TreatmentArm arm : arms){
@@ -204,7 +205,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 		}else{
 			TreatmentArm preferredArm = arms.get(randomEqualScore.nextInt(arms.size()));
 			for(TreatmentArm arm : arms){
-				a.add(((MinimizationTempData) configuration.getTempData()).getProbabilitiesPerPreferredTreatment().get(preferredArm).get(arm));
+				a.add(tempData.getProbabilitiesPerPreferredTreatment().get(preferredArm).getMap().get(arm));
 			}
 		}
 			
@@ -222,10 +223,10 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 		}
 		//increase the count for the relevant constraints
 		for(AbstractConstraint<?> constraint : relevantConstraints.keySet()){
-			((MinimizationTempData) configuration.getTempData()).getCountConstraints().get(constraint).put(arm, (((MinimizationTempData) configuration.getTempData()).getCountConstraints().get(constraint).get(arm) +1.0));
+			tempData.getCountConstraints().get(constraint).getMap().put(arm, (tempData.getCountConstraints().get(constraint).getMap().get(arm) +1.0));
 		}
 		if(trial.isStratifyTrialSite()){
-			((MinimizationTempData) configuration.getTempData()).getCountTrialSites().get(subject.getTrialSite()).put(arm, (((MinimizationTempData) configuration.getTempData()).getCountTrialSites().get(subject.getTrialSite()).get(arm)+1.0));
+			tempData.getCountTrialSites().get(subject.getTrialSite()).getMap().put(arm, tempData.getCountTrialSites().get(subject.getTrialSite()).getMap().get(arm)+1.0);
 		}
 		return arm;
 	}
@@ -235,7 +236,8 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 	 * Calculate the probabilities per preferred treatment arm (Biased Coin Minimization) 
 	 */
 	private void initProbabilitiesPerPreferredTreatment(){
-		((MinimizationTempData) configuration.getTempData()).setProbabilitiesPerPreferredTreatment(new HashMap<TreatmentArm, Map<TreatmentArm,Double>>());
+		MinimizationTempData tempData = (MinimizationTempData) configuration.getTempData(); 
+		tempData.setProbabilitiesPerPreferredTreatment(new HashMap<TreatmentArm, MinimizationMapElementWrapper>());
 		TreatmentArm minArm = trial.getTreatmentArms().get(0);
 		for(TreatmentArm arm : trial.getTreatmentArms()){
 			if(arm.getPlannedSubjects()< minArm.getPlannedSubjects()){
@@ -276,7 +278,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 					probabilities.put(arm, (pL_without_ri*arm.getPlannedSubjects()));
 				}
 			}
-			((MinimizationTempData) configuration.getTempData()).getProbabilitiesPerPreferredTreatment().put(prefArm, probabilities);
+			tempData.getProbabilitiesPerPreferredTreatment().put(prefArm, new MinimizationMapElementWrapper(probabilities));
 		}
 	}
 
@@ -285,7 +287,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 	 * Necessary to test the algorithm.
 	 * @return the probabilities per preferred treatment arm
 	 */
-	public Map<TreatmentArm, Map<TreatmentArm, Double>> getProbabilitiesPerPreferredTreatment() {
+	public Map<TreatmentArm, MinimizationMapElementWrapper> getProbabilitiesPerPreferredTreatment() {
 		if(((MinimizationTempData) configuration.getTempData()).getProbabilitiesPerPreferredTreatment()==null) initProbabilitiesPerPreferredTreatment();
 		return ((MinimizationTempData) configuration.getTempData()).getProbabilitiesPerPreferredTreatment();
 	}
@@ -294,8 +296,8 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 	 * Necessary to reset the algorithm for simulation.
 	 */
 	public void clear(){
-		((MinimizationTempData) configuration.getTempData()).setCountConstraints(null);
-		((MinimizationTempData) configuration.getTempData()).setCountConstraints(new HashMap<AbstractConstraint<?>, HashMap<TreatmentArm,Double>>());
-		((MinimizationTempData) configuration.getTempData()).setCountTrialSites( new HashMap<TrialSite, HashMap<TreatmentArm,Double>>());
+		MinimizationTempData tempData = (MinimizationTempData) configuration.getTempData(); 
+		tempData.setCountConstraints(null);
+		tempData.setCountTrialSites( null);
 	}
 }
