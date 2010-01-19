@@ -4,7 +4,9 @@ import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.MapKey;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 
 import lombok.Data;
@@ -21,15 +23,27 @@ public class MinimizationTempData extends AbstractRandomizationTempData {
 
 	private static final long serialVersionUID = -69397485726955392L;
 
-	@OneToMany(targetEntity=MinimizationMapElementWrapper.class, cascade=CascadeType.ALL)
-	@MapKey
+	 @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	    @JoinTable(
+	            name="MinimizationTempData_Probabilities",
+	            joinColumns = @JoinColumn( name="treatmentArm_id"),
+	            inverseJoinColumns = @JoinColumn( name="minimizationMapElementWrapper_id")
+	    )
 	private Map<TreatmentArm, MinimizationMapElementWrapper> probabilitiesPerPreferredTreatment;
-	
-	@OneToMany(targetEntity=MinimizationMapElementWrapper.class, cascade=CascadeType.ALL)
-	@MapKey
+
+	 @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	    @JoinTable(
+	            name="MinimizationTempData_CountConstraints",
+	            joinColumns = @JoinColumn( name="constraints_id"),
+	            inverseJoinColumns = @JoinColumn( name="minimizationMapElementWrapper_id")
+	    )
 	private Map<AbstractConstraint<?>,MinimizationMapElementWrapper> countConstraints;
-	
-	@OneToMany(targetEntity=MinimizationMapElementWrapper.class, cascade=CascadeType.ALL)
-	@MapKey
+	 
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	    @JoinTable(
+	            name="MinimizationTempData_countTrialSites",
+	            joinColumns = @JoinColumn( name="trialSite_id"),
+	            inverseJoinColumns = @JoinColumn( name="minimizationMapElementWrapper_id")
+	    )
 	private Map<TrialSite,MinimizationMapElementWrapper> countTrialSites;
 }

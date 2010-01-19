@@ -23,6 +23,7 @@ public class MinimizationMapElementWrapper extends AbstractDomainObject {
 
 	private static final long serialVersionUID = -2604596009904498229L;
 	
+	
 	@CollectionOfElements(targetElement=Double.class, fetch=FetchType.EAGER)
 	private Map<TreatmentArm, Double> map;
 
