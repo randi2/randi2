@@ -24,7 +24,7 @@ public class MinimizationTempDataTest extends AbstractDomainTest<MinimizationTem
 	}
 
 	@Test
-	public void persistProbabilitiesPerPreferredTreatment(){
+	public void persistAndUpdateProbabilitiesPerPreferredTreatment(){
 		Trial trial = factory.getTrial();
 		TreatmentArm treatmentArm1 = new TreatmentArm();
 		treatmentArm1.setDescription("description");
@@ -96,6 +96,32 @@ public class MinimizationTempDataTest extends AbstractDomainTest<MinimizationTem
 		assertEquals(7.0,mtemp1DB.getProbabilitiesPerPreferredTreatment().get(treatmentArm3).getMap().get(treatmentArm1));
 		assertEquals(8.0,mtemp1DB.getProbabilitiesPerPreferredTreatment().get(treatmentArm3).getMap().get(treatmentArm2));
 		assertEquals(9.0,mtemp1DB.getProbabilitiesPerPreferredTreatment().get(treatmentArm3).getMap().get(treatmentArm3));
+		
+		
+		Map<TreatmentArm, MinimizationMapElementWrapper> probabilitiesPerPreferredTreatmentDB = mtemp1DB.getProbabilitiesPerPreferredTreatment();
+		probabilitiesPerPreferredTreatmentDB.get(treatmentArm1).getMap().put(treatmentArm1, 10.0);
+		probabilitiesPerPreferredTreatmentDB.get(treatmentArm1).getMap().put(treatmentArm2, 20.0);
+		probabilitiesPerPreferredTreatmentDB.get(treatmentArm1).getMap().put(treatmentArm3, 30.0);
+		
+		hibernateTemplate.update(mtemp1DB);
+		
+		hibernateTemplate.clear();
+		
+		MinimizationTempData mtempDB1 = hibernateTemplate.get(MinimizationTempData.class, mtemp1.getId());
+		assertEquals(mtempDB1.getId(), mtemp1DB.getId());
+		assertEquals(3,mtempDB1.getProbabilitiesPerPreferredTreatment().keySet().size());
+	
+		
+
+		TreatmentArm treatmentArmDB1 = hibernateTemplate.get(TreatmentArm.class, treatmentArm1.getId());
+		TreatmentArm treatmentArmDB2 = hibernateTemplate.get(TreatmentArm.class, treatmentArm2.getId());
+		TreatmentArm treatmentArmDB3 = hibernateTemplate.get(TreatmentArm.class, treatmentArm3.getId());
+		
+		assertEquals(10.0,mtempDB1.getProbabilitiesPerPreferredTreatment().get(treatmentArmDB1).getMap().get(treatmentArmDB1));
+		assertEquals(20.0,mtempDB1.getProbabilitiesPerPreferredTreatment().get(treatmentArmDB1).getMap().get(treatmentArmDB2));
+		assertEquals(30.0,mtempDB1.getProbabilitiesPerPreferredTreatment().get(treatmentArmDB1).getMap().get(treatmentArmDB3));
+		
+		
 	}
 	
 	@Test
