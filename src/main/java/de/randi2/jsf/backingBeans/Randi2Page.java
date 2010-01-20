@@ -196,6 +196,10 @@ public class Randi2Page {
 		activePanel = "simulationTrialPanel";
 	}
 	
+	public void simulateTrialBack(ActionEvent event) {
+		activePanel = "trialCreatePanel";
+	}
+	
 	public void showCurrentTrial(ActionEvent event){
 		if(currentTrial!=null){
 			trialHandler.setShowedObject(currentTrial);

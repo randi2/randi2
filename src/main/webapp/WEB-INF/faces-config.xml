@@ -374,6 +374,11 @@
     	<managed-bean-name>simulationHandler</managed-bean-name>
     	<managed-bean-class>de.randi2.jsf.controllerBeans.SimulationHandler</managed-bean-class>
     	<managed-bean-scope>session</managed-bean-scope>
+    	  <managed-property>
+			<property-name>trialHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.TrialHandler</property-class>
+			<value>#{trialHandler}</value>
+		</managed-property>
     </managed-bean>
 
 	<navigation-rule>
