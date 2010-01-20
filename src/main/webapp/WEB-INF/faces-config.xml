@@ -369,6 +369,12 @@
 			<value>#{loginHandler}</value>
 		</managed-property>
     </managed-bean>
+    <managed-bean>
+    	<description>JSF Handler for simulation process</description>
+    	<managed-bean-name>simulationHandler</managed-bean-name>
+    	<managed-bean-class>de.randi2.jsf.controllerBeans.SimulationHandler</managed-bean-class>
+    	<managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 
 	<navigation-rule>
 		<display-name>refresh</display-name>

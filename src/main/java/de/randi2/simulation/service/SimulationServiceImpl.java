@@ -47,8 +47,6 @@ public class SimulationServiceImpl implements SimulationService {
 				assignedArm = simTrial
 						.getRandomizationConfiguration().getAlgorithm()
 						.randomize(subject);
-			
-				
 		
 				subject.setArm(assignedArm);
 				subject.setRandNumber(i + "_" + assignedArm.getName());

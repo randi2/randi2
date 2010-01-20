@@ -115,6 +115,11 @@
 							<jsp:directive.include file="./inc/panels/tSubjectAddPanel.jspx" />
 						</f:subview>
 					</ice:panelGroup>
+					<ice:panelGroup id="simulationTrialPanel">
+						<f:subview id="stp">
+							<jsp:directive.include file="./inc/panels/simulation/simulationConfiguration.jspx" />
+						</f:subview>
+					</ice:panelGroup>
 				</ice:panelStack>
 			</ice:panelGroup>
 		</f:facet>

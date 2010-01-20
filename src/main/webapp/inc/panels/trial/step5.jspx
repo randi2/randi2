@@ -78,3 +78,4 @@
 </ice:panelGroup>
 <ice:commandButton type="submit" value="#{labels['buttons.save']}"
 			action="#{trialHandler.createTrial}"/>
+<ice:commandButton value="simulate" actionListener="#{randi2Page.simulateTrial}"/>
