@@ -26,6 +26,7 @@ import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationResult;
 import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.utility.Pair;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/META-INF/spring.xml", "/META-INF/subconfig/test.xml"})
@@ -116,7 +117,6 @@ public class SimulationServiceTest {
 			dProperties.add(new DistributionSubjectProperty(cr1,  new UniformDistribution<String>(cr1.getConfiguredValues())));
 			dProperties.add(new DistributionSubjectProperty(cr2,  new UniformDistribution<String>(cr2.getConfiguredValues())));
 			dProperties.add(new DistributionSubjectProperty(cr3,  new ConcreteDistribution<String>(cr3.getConfiguredValues(),2,4,2,1)));
-
 		} catch (ContraintViolatedException e) {}
 		
 //		long test = System.nanoTime();

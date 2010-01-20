@@ -20,6 +20,14 @@ public abstract class AbstractDistribution<E extends Serializable> {
 			random = new Random();
 	}
 	
+	public AbstractDistribution(){
+		random = new Random();
+	}
+	
+	public AbstractDistribution(long seed){
+		random = new Random(seed);
+	}
+	
 	
 	public List<E> getElements(){
 		return elements;

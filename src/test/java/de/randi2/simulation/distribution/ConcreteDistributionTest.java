@@ -5,6 +5,8 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import de.randi2.utility.Pair;
+
 
 public class ConcreteDistributionTest {
 
@@ -32,6 +34,7 @@ public class ConcreteDistributionTest {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void test1000Times(){
 		for(int i=0; i<1000;i++){
@@ -40,6 +43,8 @@ public class ConcreteDistributionTest {
 			testConcreteDistribution(new ConcreteDistribution<Integer>(Arrays.asList(0,1),1,2));
 			testConcreteDistribution(new ConcreteDistribution<Integer>(Arrays.asList(0,1),1,3));
 			testConcreteDistribution(new ConcreteDistribution<Integer>(Arrays.asList(0,1,2,3), 5,5,2,1));
+			testConcreteDistribution(new ConcreteDistribution<Integer>(Pair.of(0, 5),Pair.of(1, 5),Pair.of(2, 2),Pair.of(3, 1)));
 		}
 	}
+	
 }
