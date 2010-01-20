@@ -22,14 +22,8 @@ import de.randi2.unsorted.ContraintViolatedException;
 
 public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 
-
-
-
-
 	private Random randomEqualScore = new Random();
-	
-	
-	
+
 	
 	public Minimization(Trial _trial) {
 		super(_trial);
@@ -148,7 +142,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 				for(TreatmentArm actArm : mapW.getMap().keySet()){
 					double adjustetCount = 0.0;
 					if(actArm.getId() == arm.getId()){
-						adjustetCount  =mapW.getMap().get(actArm)+1;
+						adjustetCount  = mapW.getMap().get(actArm) + 1.0;
 					}else{
 						adjustetCount  =mapW.getMap().get(actArm);
 					}
