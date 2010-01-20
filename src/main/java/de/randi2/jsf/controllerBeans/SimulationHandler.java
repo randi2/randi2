@@ -44,6 +44,14 @@ public class SimulationHandler {
 	
 	private AbstractRandomizationConfig randomizationConfig;
 	
+	@Getter
+	@Setter
+	private int runs;
+	
+	@Getter
+	@Setter
+	private long maxTime;
+	
 	@Setter
 	private Trial simTrial;
 

@@ -1,0 +1,59 @@
+<!-- 
+ Welcome Page, which will be shown to user just after he successfully logged in.
+
+ Made by ds@randi2.de
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" border="0"
+	columns="2">
+	<ice:graphicImage value="/img/icons/info48.png"></ice:graphicImage>
+	<ice:outputLabel value="Configuration"></ice:outputLabel>
+</ice:panelGrid>
+<ice:panelGroup>
+	<ice:panelGrid columns="2">
+		<ice:panelCollapsible id="runPanel" expanded="true"
+			toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="count Runs"></ice:outputLabel>
+			</f:facet>
+			<ice:inputText id="runs" size="35" value="#{simulationHandler.runs}"
+				partialSubmit="true">
+			</ice:inputText>
+		</ice:panelCollapsible>
+		<ice:panelCollapsible id="maxTimePanel" expanded="true"
+			toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="max time"></ice:outputLabel>
+			</f:facet>
+			<ice:inputText id="maxTime" size="35"
+				value="#{simulationHandler.maxTime}" partialSubmit="true">
+			</ice:inputText>
+		</ice:panelCollapsible>
+	</ice:panelGrid>
+	<ice:panelCollapsible  expanded="true" toggleOnClick="false"  style="margin-left: 3px;">
+		<f:facet name="header">
+				<ice:outputLabel value="Strata distribution"></ice:outputLabel>
+			</f:facet>
+			<ice:outputLabel value="max time"></ice:outputLabel>
+	</ice:panelCollapsible>
+		<ice:panelCollapsible  expanded="true" toggleOnClick="false" style="margin-left: 3px;">
+		<f:facet name="header">
+				<ice:outputLabel value="Trial site distribution"></ice:outputLabel>
+			</f:facet>
+			<ice:outputLabel value="max time"></ice:outputLabel>
+	</ice:panelCollapsible>
+</ice:panelGroup>
+<ice:commandButton value="back"
+	actionListener="#{randi2Page.simulateTrialBack}" />
