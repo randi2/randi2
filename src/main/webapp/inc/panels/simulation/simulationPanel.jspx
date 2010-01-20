@@ -21,9 +21,15 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelTabSet style="font-size: 9;display: block;">
-		<ice:panelTab label="simulated trial">
+		<ice:panelTab label="simulation trial">
 			<f:subview id="simTrialInfo">
 				<jsp:directive.include file="./inc/panels/simulation/simulationTrialInformation.jspx" />
+			</f:subview>
+		</ice:panelTab>
+		
+		<ice:panelTab label="simulation algorithm">
+			<f:subview id="simAlgorithm">
+				<jsp:directive.include file="./inc/panels/simulation/simulationConfiguration.jspx" />
 			</f:subview>
 		</ice:panelTab>
 

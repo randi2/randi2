@@ -122,12 +122,31 @@
 		</ice:column>
 	</ice:dataTable>
 	</ice:panelCollapsible>
-	<ice:panelCollapsible  expanded="true" toggleOnClick="false" rendered="#{simulationHandler.strataFactorsDefined}" style="margin-left: 3px;">
+	<ice:panelCollapsible expanded="true" toggleOnClick="false" style="margin-left: 3px;">
+		<f:facet name="header">
+			<ice:outputLabel value="#{labels['trial.randomConf']}" />
+		</f:facet>
+		<ice:panelGrid columns="1">
+			<ice:outputLabel value="#{labels['pages.algorithmInfo.type']}" />
+			<ice:outputText value="#{simulationHandler.algName}" />
+			<ice:outputLabel value="#{labels['pages.algorithmInfo.details']}" />
+			<ice:outputText value="#{simulationHandler.furtherDetails}"
+				escape="false" />
+			<ice:outputLabel value="#{labels['pages.algorithmInfo.stratified']}" />
+			<ice:panelGroup>
+				<ice:outputText value="#{simulationHandler.stratified}" />
+				
+			</ice:panelGroup>
+		</ice:panelGrid>
+	</ice:panelCollapsible>
+	<ice:panelCollapsible  expanded="true" toggleOnClick="false" rendered="#{simulationHandler.stratified}" style="margin-left: 3px;">
 		<f:facet name="header">
 				<ice:outputLabel value="#{labels['pages.algorithmInfo.defStrata']}"></ice:outputLabel>
 			</f:facet>
-		<ice:panelSeries value="#{simulationHandler.strata}" var="criterion"
-			style="padding:10px;float: left;">
+			<ice:outputText
+					rendered="#{simulationHandler.simTrial.stratifyTrialSite}"
+					value="(#{labels['pages.algorithmInfo.siteStrata']})" />
+		<ice:panelSeries value="#{simulationHandler.strata}" rendered="#{simulationHandler.strataFactorsDefined}" var="criterion">
 			<ice:panelGroup
 				style="float:left; padding-left: 2px; padding-top: 5px;"
 				rendered="#{criterion.possibleStrata}">
@@ -187,4 +206,3 @@
 		
 	</ice:panelCollapsible>
 	</ice:panelGroup>	
-<ice:commandButton value="back" actionListener="#{randi2Page.simulateTrialBack}"/>

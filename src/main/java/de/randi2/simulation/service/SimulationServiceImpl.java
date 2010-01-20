@@ -155,6 +155,7 @@ public class SimulationServiceImpl implements SimulationService {
 			arm.getSubjects().clear();
 		}
 		trial.getRandomizationConfiguration().setTrial(trial);
+		trial.getRandomizationConfiguration().setTempData(null);
 		if(MinimizationConfig.class.isInstance(trial.getRandomizationConfiguration())){
 			((Minimization) trial.getRandomizationConfiguration().getAlgorithm()).clear();
 		}
