@@ -108,7 +108,9 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 				tempData.getCountTrialSites().put(subject.getTrialSite(), actMap);
 			}
 			relevantTrialSite = actMap;
-		}else  if(tempData.getCountConstraints() == null) tempData.setCountConstraints(new HashMap<AbstractConstraint<?>, MinimizationMapElementWrapper>());
+		}
+		
+		if(tempData.getCountConstraints() == null) tempData.setCountConstraints(new HashMap<AbstractConstraint<?>, MinimizationMapElementWrapper>());
 		
 		
 		//Get relevant constraints and if necessary create a new counter 
