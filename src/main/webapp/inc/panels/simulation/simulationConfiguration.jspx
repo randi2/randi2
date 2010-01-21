@@ -87,3 +87,5 @@
 	</ice:panelCollapsible>
 		
 </ice:panelGroup>
+<ice:commandButton type="submit" value="simulate"
+			action="#{simulationHandler.simTrial}"/>

@@ -139,7 +139,7 @@ public class CriterionWrapper<V extends Serializable> {
         }
 	}
 
-	public AbstractCriterion<?, ?> getWrappedCriterion() {
+	public AbstractCriterion<?, ? extends Serializable> getWrappedCriterion() {
 		return wrappedCriterion;
 	}
 

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
@@ -25,7 +27,7 @@ import de.randi2.simulation.model.SimulationResult;
 import de.randi2.simulation.model.SimulationRun;
 import de.randi2.unsorted.ContraintViolatedException;
 
-
+@Service("simulationService")
 public class SimulationServiceImpl implements SimulationService {
 
 	@Override

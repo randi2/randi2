@@ -16,6 +16,9 @@ public class SimulationResult {
 	@Getter
 	private List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
 	
+	@Getter
+	private List<SimualtionResultArm> simResultArms = new ArrayList<SimualtionResultArm>();
+	
 	private int[] mins;
 	private int[] maxs;
 	
@@ -109,6 +112,7 @@ public class SimulationResult {
 	
 	private void analyze(){
 		duration=0;
+		simResultArms = new ArrayList<SimualtionResultArm>();
 		mins = new int[arms.size()];
 		for(int i = 0 ;i<mins.length;i++){
 			mins[i] = Integer.MAX_VALUE;
@@ -116,6 +120,7 @@ public class SimulationResult {
 		maxs = new int[arms.size()];
 		means = new double[arms.size()];
 		medians = new double[arms.size()];
+		
 		marginalBalanceMax =Double.MIN_VALUE;
 		marginalBalanceMin = Double.MAX_VALUE;
 		marginalBalanceMean = 0.0;
@@ -146,6 +151,13 @@ public class SimulationResult {
 			}else{
 				medians[i] = listMedian.get((listMedian.size()/2)+1);
 			}
+			SimualtionResultArm rArm= new SimualtionResultArm();
+			rArm.setArm(arms.get(i));
+			rArm.setMean(means[i]);
+			rArm.setMedian(medians[i]);
+			rArm.setMin(mins[i]);
+			rArm.setMax(maxs[i]);
+			simResultArms.add(rArm);
 		}
 		marginalBalanceMean = marginalBalanceMean / amountRuns;
 	}

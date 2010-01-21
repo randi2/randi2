@@ -19,11 +19,11 @@ import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.jsf.wrappers.DistributedConstraintWrapper;
 import de.randi2.jsf.wrappers.DistributedCriterionWrapper;
 import de.randi2.model.Trial;
+import de.randi2.model.TrialSite;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
-import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig;
@@ -31,6 +31,10 @@ import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
+import de.randi2.simulation.distribution.UniformDistribution;
+import de.randi2.simulation.model.DistributionSubjectProperty;
+import de.randi2.simulation.model.SimulationResult;
+import de.randi2.simulation.service.SimulationService;
 import de.randi2.unsorted.ContraintViolatedException;
 
 public class SimulationHandler {
@@ -42,13 +46,17 @@ public class SimulationHandler {
 	@Getter
 	@Setter
 	private LoginHandler loginHandler;
+	
+	@Getter
+	@Setter
+	private SimulationService simulationService;
 
 	
 	private AbstractRandomizationConfig randomizationConfig;
 	
 	@Getter
 	@Setter
-	private int runs;
+	private int runs = 1000;
 	
 	@Getter
 	@Setter
@@ -57,20 +65,25 @@ public class SimulationHandler {
 	@Setter
 	private Trial simTrial;
 	
+	@Getter
+	private SimulationResult simResult;
+	
+	
 	 private List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> distributedCriterions;
+
+	 public void setDistributedCriterions(List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> distributedCriterions){
+		 this.distributedCriterions = distributedCriterions;
+	 }
 
 	 
 	 public List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> getDistributedCriterions() {
 		if(distributedCriterions == null){
 			distributedCriterions  = new ArrayList<DistributedCriterionWrapper<Serializable,AbstractConstraint<Serializable>>>();
-			System.out.println("criterions: "+simTrial.getCriteria().size()+ "--------------------------------------------");
 			  for(AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : simTrial.getCriteria()){
-				  System.out.println("criterionsStrata: "+c.getStrata().size()+ "--------------------------------------------");
 				 List<DistributedConstraintWrapper> strataDistributions = new ArrayList<DistributedConstraintWrapper>();
 				 for(AbstractConstraint<? extends Serializable> con : c.getStrata()){
 					 strataDistributions.add(new DistributedConstraintWrapper(con));
 				 }
-				 System.out.println("StrataD: "+strataDistributions.size()+ "--------------------------------------------");
 				  distributedCriterions.add(new DistributedCriterionWrapper(strataDistributions, new CriterionWrapper<Serializable>((AbstractCriterion<Serializable, ?>) c)));
 		        }
 		}
@@ -78,7 +91,7 @@ public class SimulationHandler {
 	}
 
 	public Trial getSimTrial() {
-		if (simTrial == null)
+		if (simTrial == null){
 			simTrial = trialHandler.getShowedObject();
 		randomizationConfig = trialHandler.getRandomizationConfig();
 		try {
@@ -161,12 +174,11 @@ public class SimulationHandler {
 					Step5.AlgorithmPanelId.MINIMIZATION.toString())) {
 				simTrial.setRandomizationConfiguration(randomizationConfig);
 			}
-			
-			
 			return simTrial;
 		} catch (Exception e) {
 			return null;
 		}
+		}else return simTrial;
 
 	}
 
@@ -273,6 +285,21 @@ public class SimulationHandler {
 	    }
 
 		public String simTrial() {
+			List<DistributionSubjectProperty> properties = new ArrayList<DistributionSubjectProperty>();
+			if(distributedCriterions != null){
+			for(DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>> dcw: distributedCriterions){
+				properties.add(dcw.getDistributionSubjectProperty());
+			}
+			}	
+			List<TrialSite> sites = new ArrayList<TrialSite>(simTrial.getParticipatingSites());
+			UniformDistribution<TrialSite> trialSiteDistribution = new UniformDistribution<TrialSite>(sites);
+			SimulationResult result = simulationService.simulateTrial(simTrial, properties, trialSiteDistribution, runs, maxTime);
+			simResult = result;
+			
 			return Randi2.SUCCESS;
+		}
+		
+		public boolean isResultComplete(){
+			return simResult !=null;
 		}
 }

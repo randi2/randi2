@@ -1,0 +1,63 @@
+<ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" border="0"
+	columns="2">
+	<ice:graphicImage value="/img/icons/info48.png"></ice:graphicImage>
+	<ice:outputLabel value="Result"></ice:outputLabel>
+</ice:panelGrid>
+<ice:panelGroup>
+	<ice:panelGrid columns="2" style="width: 550px;">
+		<ice:panelCollapsible expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="runs"></ice:outputLabel>
+			</f:facet>
+			<ice:outputLabel value="#{simulationHandler.simResult.amountRuns}" />
+		</ice:panelCollapsible>
+		<ice:panelCollapsible expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="time in ms"></ice:outputLabel>
+			</f:facet>
+			<ice:outputLabel value="#{simulationHandler.simResult.duration}" />
+		</ice:panelCollapsible>
+	</ice:panelGrid>
+	<ice:panelGrid columns="3" style="width: 550px;">
+		<ice:panelCollapsible expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="min marginal Balance"></ice:outputLabel>
+			</f:facet>
+			<ice:outputLabel
+				value="#{simulationHandler.simResult.marginalBalanceMin}" />
+		</ice:panelCollapsible>
+		<ice:panelCollapsible expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="mean marginal balance"></ice:outputLabel>
+			</f:facet>
+			<ice:outputLabel
+				value="#{simulationHandler.simResult.marginalBalanceMean}" />
+		</ice:panelCollapsible>
+		<ice:panelCollapsible expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="max marginal Balance"></ice:outputLabel>
+			</f:facet>
+			<ice:outputLabel
+				value="#{simulationHandler.simResult.marginalBalanceMax}" />
+		</ice:panelCollapsible>
+	</ice:panelGrid>
+	<ice:panelCollapsible expanded="true" toggleOnClick="false" style="margin-left: 3px;">
+	<f:facet name="header">
+				<ice:outputLabel value="Result Arms:"></ice:outputLabel>
+			</f:facet>
+	<ice:panelSeries value="#{simulationHandler.simResult.simResultArms}"
+		var="simArm" >
+		
+			<ice:panelGrid columns="1">
+				<ice:outputLabel value="Arm:  #{simArm.arm.name}" style="color: red;"/>
+				<ice:outputText value="Min = #{simArm.min}" />
+				<ice:outputText value="Max = #{simArm.max}" />
+				<ice:outputText value="Mean = #{simArm.mean}" />
+				<ice:outputText value="Median = #{simArm.median}" />
+			</ice:panelGrid>
+	
+	</ice:panelSeries>
+	</ice:panelCollapsible>
+</ice:panelGroup>

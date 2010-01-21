@@ -20,6 +20,7 @@ import de.randi2.model.randomization.UrnDesignConfig;
 import de.randi2.simulation.distribution.AbstractDistribution;
 import de.randi2.simulation.distribution.ConcreteDistribution;
 import de.randi2.simulation.distribution.UniformDistribution;
+import de.randi2.simulation.model.DistributionSubjectProperty;
 
 public class DistributedCriterionWrapper<V extends Serializable, C extends AbstractConstraint<V>> {
 
@@ -105,5 +106,22 @@ public class DistributedCriterionWrapper<V extends Serializable, C extends Abstr
 
 	public boolean isConcreteDistribution(){
 		return (distributionClass == ConcreteDistribution.class);
+	}
+	
+	public DistributionSubjectProperty getDistributionSubjectProperty(){
+		DistributionSubjectProperty property = null;
+		if(distributionClass == UniformDistribution.class){
+			UniformDistribution<Serializable> distri = new UniformDistribution<Serializable>((List<Serializable>) criterion.getWrappedCriterion().getConfiguredValues()); 
+			property = new DistributionSubjectProperty(criterion.getWrappedCriterion(), distri);
+		}else if(distributionClass == ConcreteDistribution.class){
+			int[] ints = new int[strataDistributions.size()];
+			for(int i =0; i< strataDistributions.size();i++){
+				ints[i] = strataDistributions.get(i).getRatio();
+			}
+			ConcreteDistribution<Serializable> distri = new ConcreteDistribution<Serializable>((List<Serializable>) criterion.getWrappedCriterion().getConfiguredValues(), ints);
+			property = new DistributionSubjectProperty(criterion.getWrappedCriterion(), distri);
+		}
+		 
+		return property;
 	}
 }

@@ -31,6 +31,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import de.randi2.jsf.controllerBeans.LoginHandler;
+import de.randi2.jsf.controllerBeans.SimulationHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.controllerBeans.TrialSiteHandler;
 import de.randi2.jsf.supportBeans.Randi2;
@@ -57,7 +58,10 @@ public class Randi2Page {
 	
 	@Setter
 	private LoginHandler loginHandler;
-
+	
+	@Setter
+	private SimulationHandler simulationHandler;
+	
 	/**
 	 * The active content Panel.
 	 */
@@ -193,6 +197,8 @@ public class Randi2Page {
 	}
 	
 	public void simulateTrial(ActionEvent event) {
+		simulationHandler.setSimTrial(null);
+		simulationHandler.setDistributedCriterions(null);
 		activePanel = "simulationTrialPanel";
 	}
 	
