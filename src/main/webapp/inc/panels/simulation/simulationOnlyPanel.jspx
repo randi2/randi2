@@ -1,5 +1,5 @@
 <!-- 
- This page/panel should be used to create a new trial.
+ Welcome Page, which will be shown to user just after he successfully logged in.
 
  Made by ds@randi2.de
 
@@ -14,30 +14,15 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
- <f:subview id="trialCreatedPopup">
-	<jsp:directive.include file="./inc/popups/trialCreatedPopup.jspx" />
-</f:subview>
 <ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelTabSet style="font-size: 9;display: block;">
 		<ice:panelTab label="simulation trial">
-			<f:subview id="simTrialInfo">
-				<jsp:directive.include file="./inc/panels/simulation/simulationTrialInformation.jspx" />
+			<f:subview id="simOnlyTrialConfig">
+				<jsp:directive.include file="./inc/panels/simulation/simulationTrialConfiguration.jspx" />
 			</f:subview>
 		</ice:panelTab>
 		
-		<ice:panelTab label="simulation configuration">
-			<f:subview id="simConfig">
-				<jsp:directive.include file="./inc/panels/simulation/simulationConfiguration.jspx" />
-			</f:subview>
-		</ice:panelTab>
-		
-		<ice:panelTab label="simulation result" rendered="#{simulationHandler.resultComplete}">
-			<f:subview id="simResult">
-				<jsp:directive.include file="./inc/panels/simulation/simulationResult.jspx" />
-			</f:subview>
-		</ice:panelTab>
-
 	</ice:panelTabSet>
 </ice:form>

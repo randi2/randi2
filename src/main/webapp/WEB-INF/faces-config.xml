@@ -395,6 +395,21 @@
 			<value>#{simulationService}</value>
 		</managed-property>
     </managed-bean>
+    <managed-bean>
+    	<managed-bean-name>simulationSubjectProperty</managed-bean-name>
+    	<managed-bean-class>de.randi2.jsf.backingBeans.SimulationSubjectProperty</managed-bean-class>
+    	<managed-bean-scope>request</managed-bean-scope>
+    	<managed-property>
+    		<property-name>simulationHandler</property-name>
+    		<property-class>de.randi2.jsf.controllerBeans.SimulationHandler</property-class>
+    		<value>#{simulationHandler}</value>
+    	</managed-property>
+    	<managed-property>
+    		<property-name>loginHandler</property-name>
+    		<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
+    		<value>#{loginHandler}</value>
+    	</managed-property>
+    </managed-bean>
 
 	<navigation-rule>
 		<display-name>refresh</display-name>

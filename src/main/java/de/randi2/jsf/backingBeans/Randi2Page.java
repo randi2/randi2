@@ -199,7 +199,16 @@ public class Randi2Page {
 	public void simulateTrial(ActionEvent event) {
 		simulationHandler.setSimTrial(null);
 		simulationHandler.setDistributedCriterions(null);
+		simulationHandler.setSimOnly(false);
 		activePanel = "simulationTrialPanel";
+	}
+	
+	public void simulateTrialOnly(ActionEvent event) {
+		simulationHandler.setSimTrial(null);
+		simulationHandler.setDistributedCriterions(null);
+		simulationHandler.setSimOnly(true);
+		simulationHandler.getSimTrial();
+		activePanel = "simulationOnlyPanel";
 	}
 	
 	public void simulateTrialBack(ActionEvent event) {
