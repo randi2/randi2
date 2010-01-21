@@ -42,18 +42,48 @@
 			</ice:inputText>
 		</ice:panelCollapsible>
 	</ice:panelGrid>
-	<ice:panelCollapsible  expanded="true" toggleOnClick="false"  style="margin-left: 3px;">
-		<f:facet name="header">
-				<ice:outputLabel value="Strata distribution"></ice:outputLabel>
-			</f:facet>
-			<ice:outputLabel value="max time"></ice:outputLabel>
-	</ice:panelCollapsible>
-		<ice:panelCollapsible  expanded="true" toggleOnClick="false" style="margin-left: 3px;">
+	<ice:panelCollapsible  expanded="true" toggleOnClick="false" style="margin-left: 3px;">
 		<f:facet name="header">
 				<ice:outputLabel value="Trial site distribution"></ice:outputLabel>
 			</f:facet>
 			<ice:outputLabel value="max time"></ice:outputLabel>
 	</ice:panelCollapsible>
+	<ice:panelCollapsible  expanded="true" toggleOnClick="false"  style="margin-left: 3px;">
+		<f:facet name="header">
+				<ice:outputLabel value="Strata distribution"></ice:outputLabel>
+			</f:facet>
+		<ice:panelSeries value="#{simulationHandler.distributedCriterions}" rendered="#{simulationHandler.strataFactorsDefined}" var="dCriterion">
+			<ice:panelGroup
+				style="float:left; padding-left: 2px; padding-top: 5px;"
+				rendered="#{criterion.possibleStrata}">
+				<b class="b1"></b>
+				<b class="b2"></b>
+				<b class="b3"></b>
+				<b class="b4"></b>
+				<ice:panelGroup styleClass="contentb">
+					<ice:panelGrid columns="2">
+						<ice:panelGroup>
+							<ice:outputLabel value="#{labels['pages.strata.name']}" />
+							<ice:outputLabel value="#{dCriterion.criterion.wrappedCriterion.name}" />
+						</ice:panelGroup>
+						<ice:panelGroup>
+							<ice:outputLabel value="#{labels['pages.strata.type']}" />
+							<ice:outputLabel value="#{dCriterion.criterion.l16edName}" />
+						</ice:panelGroup>
+					</ice:panelGrid>
+					<ice:panelGrid columns="2">
+					<ice:panelGroup id="distriputionStrataPanel">
+										<jsp:directive.include
+											file="./inc/panels/simulation/distributionStrataPanel.jspx" />
+								</ice:panelGroup>
+					</ice:panelGrid>
+				</ice:panelGroup>
+				<b class="b4"></b>
+				<b class="b3"></b>
+				<b class="b2"></b>
+				<b class="b1"></b>
+			</ice:panelGroup>
+		</ice:panelSeries>
+	</ice:panelCollapsible>
+		
 </ice:panelGroup>
-<ice:commandButton value="back"
-	actionListener="#{randi2Page.simulateTrialBack}" />

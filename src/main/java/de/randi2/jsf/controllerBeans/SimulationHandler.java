@@ -16,6 +16,8 @@ import de.randi2.jsf.backingBeans.Step5;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.wrappers.ConstraintWrapper;
 import de.randi2.jsf.wrappers.CriterionWrapper;
+import de.randi2.jsf.wrappers.DistributedConstraintWrapper;
+import de.randi2.jsf.wrappers.DistributedCriterionWrapper;
 import de.randi2.model.Trial;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
@@ -54,6 +56,26 @@ public class SimulationHandler {
 	
 	@Setter
 	private Trial simTrial;
+	
+	 private List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> distributedCriterions;
+
+	 
+	 public List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> getDistributedCriterions() {
+		if(distributedCriterions == null){
+			distributedCriterions  = new ArrayList<DistributedCriterionWrapper<Serializable,AbstractConstraint<Serializable>>>();
+			System.out.println("criterions: "+simTrial.getCriteria().size()+ "--------------------------------------------");
+			  for(AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : simTrial.getCriteria()){
+				  System.out.println("criterionsStrata: "+c.getStrata().size()+ "--------------------------------------------");
+				 List<DistributedConstraintWrapper> strataDistributions = new ArrayList<DistributedConstraintWrapper>();
+				 for(AbstractConstraint<? extends Serializable> con : c.getStrata()){
+					 strataDistributions.add(new DistributedConstraintWrapper(con));
+				 }
+				 System.out.println("StrataD: "+strataDistributions.size()+ "--------------------------------------------");
+				  distributedCriterions.add(new DistributedCriterionWrapper(strataDistributions, new CriterionWrapper<Serializable>((AbstractCriterion<Serializable, ?>) c)));
+		        }
+		}
+		 return distributedCriterions;
+	}
 
 	public Trial getSimTrial() {
 		if (simTrial == null)
