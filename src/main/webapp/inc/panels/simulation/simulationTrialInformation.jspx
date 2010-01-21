@@ -22,7 +22,7 @@
 	<ice:outputLabel value="#{labels['pages.trialEditPanel.step1message']}"></ice:outputLabel>
 </ice:panelGrid>
 <ice:panelGroup>
-	<ice:panelGrid columns="2" style="width: 550px;">
+	<ice:panelGrid columns="2" style="width: 600px;">
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
 				<ice:outputLabel value="#{labels['trial.name']}"></ice:outputLabel>
@@ -45,7 +45,7 @@
 		<ice:outputText id="description"
 			value="#{simulationHandler.simTrial.description}" />
 	</ice:panelCollapsible>
-	<ice:panelGrid columns="2" style="width: 550px;">
+	<ice:panelGrid columns="2" style="width: 600px;">
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
 				<ice:outputLabel value="#{labels['trial.leadingTrialSite']}"></ice:outputLabel>

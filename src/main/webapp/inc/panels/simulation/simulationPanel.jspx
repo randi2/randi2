@@ -27,13 +27,13 @@
 			</f:subview>
 		</ice:panelTab>
 		
-		<ice:panelTab label="simulation algorithm">
-			<f:subview id="simAlgorithm">
+		<ice:panelTab label="simulation configuration">
+			<f:subview id="simConfig">
 				<jsp:directive.include file="./inc/panels/simulation/simulationConfiguration.jspx" />
 			</f:subview>
 		</ice:panelTab>
 		
-		<ice:panelTab label="simulation algorithm" rendered="#{simulationHandler.resultComplete}">
+		<ice:panelTab label="simulation result" rendered="#{simulationHandler.resultComplete}">
 			<f:subview id="simResult">
 				<jsp:directive.include file="./inc/panels/simulation/simulationResult.jspx" />
 			</f:subview>

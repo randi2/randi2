@@ -47,16 +47,16 @@
 	<f:facet name="header">
 				<ice:outputLabel value="Result Arms:"></ice:outputLabel>
 			</f:facet>
+			
 	<ice:panelSeries value="#{simulationHandler.simResult.simResultArms}"
 		var="simArm" >
-		
-			<ice:panelGrid columns="1">
-				<ice:outputLabel value="Arm:  #{simArm.arm.name}" style="color: red;"/>
+		<ice:panelGrid columns="2" width="150px">
+				<ice:outputLabel value="Arm:  #{simArm.arm.name}" style="color: red;"/><br />
 				<ice:outputText value="Min = #{simArm.min}" />
 				<ice:outputText value="Max = #{simArm.max}" />
 				<ice:outputText value="Mean = #{simArm.mean}" />
 				<ice:outputText value="Median = #{simArm.median}" />
-			</ice:panelGrid>
+		</ice:panelGrid>
 	
 	</ice:panelSeries>
 	</ice:panelCollapsible>
