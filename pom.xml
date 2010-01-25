@@ -522,7 +522,7 @@
 		    <ajdtVersion>none</ajdtVersion>
                     <downloadSources>true</downloadSources>
                     <downloadJavadocs>true</downloadJavadocs>
-                    <projectNameTemplate>[artifactId]-[version]</projectNameTemplate>
+                    <projectNameTemplate>[artifactId]</projectNameTemplate>
                 </configuration>
             </plugin>
             <plugin>
