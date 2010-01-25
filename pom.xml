@@ -519,6 +519,7 @@
                     </additionalProjectFacets>
                     <wtpversion>2.0</wtpversion>
                     <wtpapplicationxml>true</wtpapplicationxml>
+		    <ajdtVersion>none</ajdtVersion>
                     <downloadSources>true</downloadSources>
                     <downloadJavadocs>true</downloadJavadocs>
                     <projectNameTemplate>[artifactId]-[version]</projectNameTemplate>
