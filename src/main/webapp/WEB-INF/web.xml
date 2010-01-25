@@ -4,7 +4,12 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="RANDI2" version="2.5">
+
 	<display-name>RANDI2</display-name>
+	<description>RANDI2 - Open Source Randomization Solution</description>
+	
+	
+
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
 		<param-value>classpath:log4j.xml</param-value>
