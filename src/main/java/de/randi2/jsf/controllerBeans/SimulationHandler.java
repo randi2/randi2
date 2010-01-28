@@ -1,6 +1,7 @@
 package de.randi2.jsf.controllerBeans;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,9 +13,12 @@ import javax.faces.event.ActionEvent;
 
 import lombok.Getter;
 import lombok.Setter;
+import de.randi2.jsf.backingBeans.SimulationAlgorithm;
+import de.randi2.jsf.backingBeans.SimulationSubjectProperty;
 import de.randi2.jsf.backingBeans.Step4;
 import de.randi2.jsf.backingBeans.Step5;
 import de.randi2.jsf.supportBeans.Randi2;
+import de.randi2.jsf.wrappers.AlgorithmWrapper;
 import de.randi2.jsf.wrappers.ConstraintWrapper;
 import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.jsf.wrappers.DistributedConstraintWrapper;
@@ -24,6 +28,7 @@ import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
+import de.randi2.model.criteria.FreeTextCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
@@ -38,6 +43,7 @@ import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationResult;
 import de.randi2.simulation.service.SimulationService;
 import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.utility.ReflectionUtil;
 
 public class SimulationHandler {
 
@@ -69,12 +75,42 @@ public class SimulationHandler {
 	@Getter
 	private SimulationResult simResult;
 
-	@Getter @Setter
+	@Getter 
+	@Setter
+	private int countTrialSites;
+
+	@Getter
+	private List<AlgorithmWrapper> randomisationConfigs = new ArrayList<AlgorithmWrapper>();
+
+	@Getter
+	@Setter
 	private boolean simOnly;
-	
+
 	private ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> criteriaList = null;
 
 	private List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> distributedCriterions;
+
+	public SimulationHandler() {
+		criteriaList = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
+		try {
+			/*
+			 * Checking which subject properites are supported.
+			 */
+			for (Class<?> c : ReflectionUtil
+					.getClasses("de.randi2.model.criteria")) {
+				try {
+					if (c.getSuperclass().equals(AbstractCriterion.class))
+						criteriaList
+								.add((AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>) c
+										.getConstructor().newInstance());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void setDistributedCriterions(
 			List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> distributedCriterions) {
@@ -205,6 +241,48 @@ public class SimulationHandler {
 			arms.add(new TreatmentArm());
 			arms.add(new TreatmentArm());
 			simTrial.setTreatmentArms(arms);
+			/* SubjectProperties Configuration - done in Step4 */
+			ValueExpression ve1 = FacesContext.getCurrentInstance()
+					.getApplication().getExpressionFactory()
+					.createValueExpression(
+							FacesContext.getCurrentInstance().getELContext(),
+							"#{simulationSubjectProperty}",
+							SimulationSubjectProperty.class);
+			SimulationSubjectProperty currentSimulationSubjectProperty = (SimulationSubjectProperty) ve1
+					.getValue(FacesContext.getCurrentInstance().getELContext());
+			ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> configuredCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
+			for (CriterionWrapper<? extends Serializable> cr : currentSimulationSubjectProperty
+					.getCriteria()) {
+				/* Strata configuration - done in Step5 */
+				if (cr.isStrataFactor()) {
+					if (DichotomousCriterion.class.isInstance(cr
+							.getWrappedCriterion())) {
+						DichotomousCriterion temp = DichotomousCriterion.class
+								.cast(cr.getWrappedCriterion());
+						try {
+							temp.addStrata(new DichotomousConstraint(Arrays
+									.asList(new String[] { temp
+											.getConfiguredValues().get(0) })));
+							temp.addStrata(new DichotomousConstraint(Arrays
+									.asList(new String[] { temp
+											.getConfiguredValues().get(1) })));
+						} catch (ContraintViolatedException e) {
+							e.printStackTrace();
+						}
+					} else {
+						for (ConstraintWrapper<?> cw : cr.getStrata()) {
+							cr.getWrappedCriterion().addStrata(cw.configure());
+						}
+					}
+				}
+				/* End of strata configuration */
+				configuredCriteria
+						.add((AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>) cr
+								.getWrappedCriterion());
+			}
+			simTrial.setCriteria(configuredCriteria);
+			/* End of SubjectProperites Configuration */
+
 		}
 
 		return simTrial;
@@ -328,6 +406,14 @@ public class SimulationHandler {
 	}
 
 	public String simTrial() {
+		if(simOnly){
+			simTrial.setRandomizationConfiguration(randomisationConfigs.get(0).getConf());
+			for(int i=0; i<countTrialSites;i++){
+				TrialSite site = new TrialSite();
+				site.setName("Trial Site " + (i+1));
+				simTrial.addParticipatingSite(site);
+			}
+		}
 		List<DistributionSubjectProperty> properties = new ArrayList<DistributionSubjectProperty>();
 		if (distributedCriterions != null) {
 			for (DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>> dcw : distributedCriterions) {
@@ -345,11 +431,10 @@ public class SimulationHandler {
 		return Randi2.SUCCESS;
 	}
 
-	
 	public boolean isResultComplete() {
 		return simResult != null;
 	}
-	
+
 	/**
 	 * Action listener for adding a new treatment arm.
 	 * 
@@ -360,7 +445,7 @@ public class SimulationHandler {
 		TreatmentArm temp = new TreatmentArm();
 		simTrial.getTreatmentArms().add(temp);
 	}
-	
+
 	/**
 	 * Action listener for removing an existing treatment arm.
 	 * 
@@ -371,7 +456,7 @@ public class SimulationHandler {
 		simTrial.getTreatmentArms().remove(
 				simTrial.getTreatmentArms().size() - 1);
 	}
-	
+
 	/**
 	 * Provieds the current amount of defined treatment arms.
 	 * 
@@ -381,8 +466,51 @@ public class SimulationHandler {
 		assert (simTrial != null);
 		return simTrial.getTreatmentArms().size();
 	}
-	
+
 	public ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteriaList() {
 		return criteriaList;
+	}
+
+	public void addAlgorithm(ActionEvent event) {
+		ValueExpression ve2 = FacesContext.getCurrentInstance()
+				.getApplication().getExpressionFactory().createValueExpression(
+						FacesContext.getCurrentInstance().getELContext(),
+						"#{simulationAlgorithm}", SimulationAlgorithm.class);
+		SimulationAlgorithm currentAlg = (SimulationAlgorithm) ve2.getValue(FacesContext
+				.getCurrentInstance().getELContext());
+		if (currentAlg.getSelectedAlgorithmPanelId().equals(
+				Step5.AlgorithmPanelId.COMPLETE_RANDOMIZATION
+						.toString())) {
+			randomisationConfigs.add(new AlgorithmWrapper(new CompleteRandomizationConfig()));
+		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
+				Step5.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION
+						.toString())) {
+			randomisationConfigs.add(new AlgorithmWrapper(new BiasedCoinRandomizationConfig()));
+		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
+				Step5.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
+			randomisationConfigs.add(new AlgorithmWrapper(new BlockRandomizationConfig()));
+		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
+				Step5.AlgorithmPanelId.TRUNCATED_RANDOMIZATION
+						.toString())) {
+			randomisationConfigs.add(new AlgorithmWrapper(new TruncatedBinomialDesignConfig()));
+		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
+				Step5.AlgorithmPanelId.URN_MODEL.toString())) {
+			randomisationConfigs.add(new AlgorithmWrapper(new UrnDesignConfig()));
+		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
+				Step5.AlgorithmPanelId.MINIMIZATION.toString())) {
+			randomisationConfigs.add(new AlgorithmWrapper(new MinimizationConfig()));
+		}
+		System.out.println(randomisationConfigs.size());
+	}
+	
+	/**
+	 * Action listener for removing an existing treatment arm.
+	 * 
+	 * @param event
+	 */
+	public void removeAlgorithm(ActionEvent event) {
+		assert (simTrial != null);
+		randomisationConfigs.remove(
+				randomisationConfigs.size() - 1);
 	}
 }

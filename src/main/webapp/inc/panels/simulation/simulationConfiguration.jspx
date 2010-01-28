@@ -23,21 +23,21 @@
 </ice:panelGrid>
 <ice:panelGroup>
 	<ice:panelGrid columns="2">
-		<ice:panelCollapsible id="runPanel" expanded="true"
+		<ice:panelCollapsible expanded="true"
 			toggleOnClick="false">
 			<f:facet name="header">
 				<ice:outputLabel value="count Runs"></ice:outputLabel>
 			</f:facet>
-			<ice:inputText id="runs" size="35" value="#{simulationHandler.runs}"
+			<ice:inputText size="35" value="#{simulationHandler.runs}"
 				partialSubmit="true">
 			</ice:inputText>
 		</ice:panelCollapsible>
-		<ice:panelCollapsible id="maxTimePanel" expanded="true"
+		<ice:panelCollapsible expanded="true"
 			toggleOnClick="false">
 			<f:facet name="header">
 				<ice:outputLabel value="max time"></ice:outputLabel>
 			</f:facet>
-			<ice:inputText id="maxTime" size="35"
+			<ice:inputText  size="35"
 				value="#{simulationHandler.maxTime}" partialSubmit="true">
 			</ice:inputText>
 		</ice:panelCollapsible>
@@ -72,7 +72,7 @@
 						</ice:panelGroup>
 					</ice:panelGrid>
 					<ice:panelGrid columns="2">
-					<ice:panelGroup id="distriputionStrataPanel">
+					<ice:panelGroup>
 										<jsp:directive.include
 											file="./inc/panels/simulation/distributionStrataPanel.jspx" />
 								</ice:panelGroup>
@@ -87,6 +87,6 @@
 	</ice:panelCollapsible>
 		
 </ice:panelGroup>
-<ice:commandButton value="back" actionListener="#{randi2Page.simulateTrialBack}"/>
+<ice:commandButton value="back" actionListener="#{randi2Page.simulateTrialBack}" rendered="#{not simulationHandler.simOnly}" />
 <ice:commandButton type="submit" value="simulate"
 			action="#{simulationHandler.simTrial}"/>

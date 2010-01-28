@@ -19,15 +19,13 @@
 			<f:facet name="header">
 				<ice:outputLabel value="#{labels['trial.name']}"></ice:outputLabel>
 			</f:facet>
-			<ice:inputText id="name" size="35"  partialSubmit="true">
-			</ice:inputText>
+			<ice:inputText size="35"  partialSubmit="true" value="#{simulationHandler.simTrial.name}"/>
 </ice:panelCollapsible>
 <ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
 				<ice:outputLabel value="count trial sites"></ice:outputLabel>
 			</f:facet>
-			<ice:inputText id="trialSiteCount" size="35"  partialSubmit="true">
-			</ice:inputText>
+			<ice:inputText size="35"  partialSubmit="true" value="#{simulationHandler.countTrialSites}" />
 </ice:panelCollapsible>
 </ice:panelGrid>
 <!-- Configuration for treatment arms -->

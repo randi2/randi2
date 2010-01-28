@@ -20,9 +20,31 @@
 	<ice:panelTabSet style="font-size: 9;display: block;">
 		<ice:panelTab label="simulation trial">
 			<f:subview id="simOnlyTrialConfig">
-				<jsp:directive.include file="./inc/panels/simulation/simulationTrialConfiguration.jspx" />
+				<jsp:directive.include
+					file="./inc/panels/simulation/simulationTrialConfiguration.jspx" />
+			</f:subview>
+		</ice:panelTab>
+		
+		<ice:panelTab label="simulation trial Algorithm">
+			<f:subview id="simOnlyAlgorithmConfig">
+				<jsp:directive.include
+					file="./inc/panels/simulation/simulationAlgorithmConfiguration.jspx" />
+			</f:subview>
+		</ice:panelTab>
+		<ice:panelTab label="simulation Conf">
+			<f:subview id="simOnlyConfig">
+				<jsp:directive.include
+					file="./inc/panels/simulation/simulationConfiguration.jspx" />
+			</f:subview>
+		</ice:panelTab>
+		
+		<ice:panelTab label="simulation result" rendered="#{simulationHandler.resultComplete}">
+			<f:subview id="simResult">
+				<jsp:directive.include file="./inc/panels/simulation/simulationResult.jspx" />
 			</f:subview>
 		</ice:panelTab>
 		
 	</ice:panelTabSet>
 </ice:form>
+
+
