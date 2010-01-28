@@ -48,11 +48,11 @@
 			</f:facet>
 			<ice:outputLabel value="max time"></ice:outputLabel>
 	</ice:panelCollapsible>
-	<ice:panelCollapsible  expanded="true" toggleOnClick="false"  style="margin-left: 3px;">
+	<ice:panelCollapsible  expanded="true" toggleOnClick="false"  style="margin-left: 3px;" rendered="#{simulationHandler.strataFactorsDefined}">
 		<f:facet name="header">
 				<ice:outputLabel value="Strata distribution"></ice:outputLabel>
 			</f:facet>
-		<ice:panelSeries value="#{simulationHandler.distributedCriterions}" rendered="#{simulationHandler.strataFactorsDefined}" var="dCriterion">
+		<ice:panelSeries value="#{simulationHandler.distributedCriterions}"  var="dCriterion">
 			<ice:panelGroup
 				style="float:left; padding-left: 2px; padding-top: 5px;"
 				rendered="#{criterion.possibleStrata}">

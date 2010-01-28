@@ -208,6 +208,7 @@ public class Randi2Page {
 		simulationHandler.setDistributedCriterions(null);
 		simulationHandler.setSimOnly(true);
 		simulationHandler.getSimTrial();
+		simulationHandler.setSimulationResults(null);
 		activePanel = "simulationOnlyPanel";
 	}
 	

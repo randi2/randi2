@@ -37,7 +37,3 @@
 		</ice:inputText>
 	</ice:panelGrid>
 </ice:panelCollapsible>
-<f:subview id="strata">
-	<jsp:directive.include
-		file="./inc/panels/randomization/strata.jspx" />
-</f:subview>

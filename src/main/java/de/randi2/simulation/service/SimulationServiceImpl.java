@@ -33,7 +33,7 @@ public class SimulationServiceImpl implements SimulationService {
 	@Override
 	public SimulationResult simulateTrial(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime) {
 		Trial copyTrial = copyAndPrepareTrial(trial, properties);
-		SimulationResult simResult = new SimulationResult(trial.getTreatmentArms());
+		SimulationResult simResult = new SimulationResult(trial.getTreatmentArms(), trial.getRandomizationConfiguration());
 		long startTime;
 		TreatmentArm assignedArm;
 		TrialSubject subject = new TrialSubject();

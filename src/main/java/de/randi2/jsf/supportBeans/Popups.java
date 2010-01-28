@@ -41,6 +41,9 @@ public class Popups {
 	private boolean trialSiteSavedPVisible = false;
 	@Setter @Getter
 	private boolean subjectAddedPVisible = false;
+	@Setter @Getter
+	private boolean simulationCompletePVisible = false;
+	
 	
 	// POPUPS
 	public String hideTrialCreatedPopup() {
@@ -110,6 +113,24 @@ public class Popups {
 						FacesContext.getCurrentInstance()
 								.getELContext(), null, "randi2Page"));
 		rPage.showTrial(trial);
+		return Randi2.SUCCESS;
+	}
+	
+	public String showSimulationCompletePopup(){
+		this.simulationCompletePVisible = true;
+		Randi2Page rPage = ((Randi2Page) FacesContext.getCurrentInstance()
+				.getApplication().getELResolver().getValue(
+						FacesContext.getCurrentInstance()
+								.getELContext(), null, "randi2Page"));
+		return Randi2.SUCCESS;
+	}
+	
+	public String hideSimulationCompletePopup(){
+		this.simulationCompletePVisible = false;
+		Randi2Page rPage = ((Randi2Page) FacesContext.getCurrentInstance()
+				.getApplication().getELResolver().getValue(
+						FacesContext.getCurrentInstance()
+								.getELContext(), null, "randi2Page"));
 		return Randi2.SUCCESS;
 	}
 	

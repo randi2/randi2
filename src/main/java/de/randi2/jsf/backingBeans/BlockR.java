@@ -100,10 +100,10 @@ public class BlockR {
 	public void minValueChanged(ValueChangeEvent event) {
 		// set maximum block size to minimum block size, in case of constant
 		// block design
-		if (!renderVariable) {
-			((BlockRandomizationConfig) trialHandler.getRandomizationConfig())
-					.setMaximum((Integer) event.getNewValue());
-		}
+//		if (!renderVariable) {
+//			((BlockRandomizationConfig) trialHandler.getRandomizationConfig())
+//					.setMaximum((Integer) event.getNewValue());
+//		}
 	}
 	
 	public void clean(){

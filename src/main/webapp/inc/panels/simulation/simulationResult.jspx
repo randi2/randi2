@@ -5,59 +5,67 @@
 	<ice:graphicImage value="/img/icons/info48.png"></ice:graphicImage>
 	<ice:outputLabel value="Result"></ice:outputLabel>
 </ice:panelGrid>
-<ice:panelGroup>
-	<ice:panelGrid columns="2" style="width: 550px;">
-		<ice:panelCollapsible expanded="true" toggleOnClick="false">
-			<f:facet name="header">
-				<ice:outputLabel value="runs"></ice:outputLabel>
-			</f:facet>
-			<ice:outputLabel value="#{simulationHandler.simResult.amountRuns}" />
-		</ice:panelCollapsible>
-		<ice:panelCollapsible expanded="true" toggleOnClick="false">
-			<f:facet name="header">
-				<ice:outputLabel value="time in ms"></ice:outputLabel>
-			</f:facet>
-			<ice:outputLabel value="#{simulationHandler.simResult.duration}" />
-		</ice:panelCollapsible>
-	</ice:panelGrid>
-	<ice:panelGrid columns="3" style="width: 550px;">
-		<ice:panelCollapsible expanded="true" toggleOnClick="false">
-			<f:facet name="header">
-				<ice:outputLabel value="min marginal Balance"></ice:outputLabel>
-			</f:facet>
-			<ice:outputLabel
-				value="#{simulationHandler.simResult.marginalBalanceMin}" />
-		</ice:panelCollapsible>
-		<ice:panelCollapsible expanded="true" toggleOnClick="false">
-			<f:facet name="header">
-				<ice:outputLabel value="mean marginal balance"></ice:outputLabel>
-			</f:facet>
-			<ice:outputLabel
-				value="#{simulationHandler.simResult.marginalBalanceMean}" />
-		</ice:panelCollapsible>
-		<ice:panelCollapsible expanded="true" toggleOnClick="false">
-			<f:facet name="header">
-				<ice:outputLabel value="max marginal Balance"></ice:outputLabel>
-			</f:facet>
-			<ice:outputLabel
-				value="#{simulationHandler.simResult.marginalBalanceMax}" />
-		</ice:panelCollapsible>
-	</ice:panelGrid>
-	<ice:panelCollapsible expanded="true" toggleOnClick="false" style="margin-left: 3px;">
+<ice:panelCollapsible expanded="true" toggleOnClick="false">
 	<f:facet name="header">
-				<ice:outputLabel value="Result Arms:"></ice:outputLabel>
+		<ice:outputLabel value="#{labels['trial.name']}"></ice:outputLabel>
+	</f:facet>
+	<ice:outputText id="name" value="#{simulationHandler.simTrial.name}" />
+</ice:panelCollapsible>
+<ice:panelCollapsible expanded="true" toggleOnClick="false"
+	style="margin-left: 3px;">
+	<f:facet name="header">
+		<ice:outputLabel
+			value="#{labels['pages.trialShowPanel.sitesInformation']}"></ice:outputLabel>
+	</f:facet>
+	<ice:dataTable id="trialSitesTable" border="1"
+		value="#{simulationHandler.simTrial.participatingSites}"
+		var="trialSite" width="550px">
+		<ice:column id="column1">
+			<ice:outputText value="#{trialSite.name}"></ice:outputText>
+			<f:facet name="header">
+				<ice:outputText value="#{labels['trialSite.name']}" id="nameH"></ice:outputText>
 			</f:facet>
-			
-	<ice:panelSeries value="#{simulationHandler.simResult.simResultArms}"
-		var="simArm" >
-		<ice:panelGrid columns="2" width="150px">
-				<ice:outputLabel value="Arm:  #{simArm.arm.name}" style="color: red;"/><br />
-				<ice:outputText value="Min = #{simArm.min}" />
-				<ice:outputText value="Max = #{simArm.max}" />
-				<ice:outputText value="Mean = #{simArm.mean}" />
-				<ice:outputText value="Median = #{simArm.median}" />
-		</ice:panelGrid>
-	
-	</ice:panelSeries>
+		</ice:column>
+		<ice:column id="column2">
+			<ice:outputText value="1"></ice:outputText>
+			<f:facet name="header">
+				<ice:outputText value="ratio" id="ratioTS"></ice:outputText>
+			</f:facet>
+		</ice:column>
+	</ice:dataTable>
+</ice:panelCollapsible>
+<ice:panelCollapsible  expanded="true" toggleOnClick="false" style="margin-left: 3px;">
+		<f:facet name="header">
+				<ice:outputLabel value="treatment arms"></ice:outputLabel>
+			</f:facet>
+			<ice:dataTable id="treatmmentArmTable" border="1"
+		value="#{simulationHandler.simTrial.treatmentArms}" var="arm"
+		width="550px">
+		<ice:column id="column1">
+			<ice:outputText value="#{arm.name}"></ice:outputText>
+			<f:facet name="header">
+				<ice:outputText value="#{labels['trialSite.name']}" id="nameH"></ice:outputText>
+			</f:facet>
+		</ice:column>
+		<ice:column id="column2">
+			<ice:outputText value="#{arm.description}"></ice:outputText>
+			<f:facet name="header">
+				<ice:outputText value="description" id="descriptionH"></ice:outputText>
+			</f:facet>
+		</ice:column>
+		<ice:column id="column3">
+			<ice:outputText value="#{arm.plannedSubjects}"></ice:outputText>
+			<f:facet name="header">
+				<ice:outputText value="planned subjects" id="plannedSubjectsH"></ice:outputText>
+			</f:facet>
+		</ice:column>
+	</ice:dataTable>
 	</ice:panelCollapsible>
+<ice:panelGroup rendered="#{not simulationHandler.simOnly}">
+	<jsp:directive.include
+		file="./inc/panels/simulation/simulationResultOne.jspx" />
+</ice:panelGroup>
+<ice:panelGroup rendered="#{simulationHandler.simOnly}">
+	<jsp:directive.include
+		file="./inc/panels/simulation/simulationResultMore.jspx" />
 </ice:panelGroup>

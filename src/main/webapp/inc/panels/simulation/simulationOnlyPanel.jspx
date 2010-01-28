@@ -14,18 +14,27 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
+  <f:subview id="simulationCompletePopup">
+	<jsp:directive.include file="./inc/popups/simulationCompletePopup.jspx" />
+</f:subview>
 <ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:panelTabSet style="font-size: 9;display: block;">
-		<ice:panelTab label="simulation trial">
+	<ice:panelTabSet style="font-size: 9;display: block;" >
+		<ice:panelTab label="simulation trial" >
 			<f:subview id="simOnlyTrialConfig">
 				<jsp:directive.include
 					file="./inc/panels/simulation/simulationTrialConfiguration.jspx" />
 			</f:subview>
 		</ice:panelTab>
 		
-		<ice:panelTab label="simulation trial Algorithm">
+		<ice:panelTab label="simulation strata" >
+			<f:subview id="simOnlyStrataConfig" >
+				<jsp:directive.include
+					file="./inc/panels/simulation/strataS.jspx" />
+			</f:subview>
+		</ice:panelTab>
+		<ice:panelTab label="simulation trial Algorithm" >
 			<f:subview id="simOnlyAlgorithmConfig">
 				<jsp:directive.include
 					file="./inc/panels/simulation/simulationAlgorithmConfiguration.jspx" />
@@ -38,7 +47,7 @@
 			</f:subview>
 		</ice:panelTab>
 		
-		<ice:panelTab label="simulation result" rendered="#{simulationHandler.resultComplete}">
+		<ice:panelTab label="simulation result" rendered="#{simulationHandler.resultsComplete}">
 			<f:subview id="simResult">
 				<jsp:directive.include file="./inc/panels/simulation/simulationResult.jspx" />
 			</f:subview>

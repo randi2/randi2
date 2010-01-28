@@ -6,6 +6,7 @@ import java.util.List;
 
 import lombok.Getter;
 import de.randi2.model.TreatmentArm;
+import de.randi2.model.randomization.AbstractRandomizationConfig;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 public class SimulationResult {
@@ -35,9 +36,12 @@ public class SimulationResult {
 	@Getter
 	private List<SimulationRun> runs = new ArrayList<SimulationRun>();
 
+	@Getter
+	AbstractRandomizationConfig algConf;
 	
-	public SimulationResult(List<TreatmentArm> arms){
+	public SimulationResult(List<TreatmentArm> arms, AbstractRandomizationConfig algConf){
 		this.arms = arms;
+		this.algConf = algConf;
 	}
 	
 	
@@ -160,5 +164,10 @@ public class SimulationResult {
 			simResultArms.add(rArm);
 		}
 		marginalBalanceMean = marginalBalanceMean / amountRuns;
+	}
+	
+	@Override
+	public String toString() {
+		return getAmountRuns() + " " + getMarginalBalanceMax();
 	}
 }

@@ -18,7 +18,7 @@
 	style="width: 450px;" xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	xmlns:ice="http://www.icesoft.com/icefaces/component" actionListener="#{simulationHandler.criterionChanged}">
 	<f:facet name="header">
 		<ice:outputLabel value="#{labels['pages.strata.titel']}" />
 	</f:facet>
@@ -30,7 +30,7 @@
 		<ice:outputText rendered="#{strata.stratified}"
 			value="#{labels['pages.strata.question2']}" />
 		<ice:selectBooleanCheckbox rendered="#{strata.stratified}"
-			value="#{trialHandler.showedObject.stratifyTrialSite}" />
+			value="#{simulationHandler.simTrial.stratifyTrialSite}" />
 	</ice:panelGrid>
 </ice:panelCollapsible>
 <ice:panelGroup styleClass="exampleBox" rendered="#{strata.stratified}">
@@ -38,7 +38,7 @@
 		<ice:graphicImage value="/img/icons/properties48.png" />
 		<ice:outputLabel value="#{labels['pages.strata.factorsInfo']}" />
 	</ice:panelGrid>
-	<ice:panelSeries value="#{step4.criteria}" var="criterion"
+	<ice:panelSeries value="#{simulationSubjectProperty.criteria}" var="criterion"
 		style="padding:10px;float: left;">
 		<ice:panelGroup
 			style="float:left; padding-left: 2px; padding-top: 5px;"
