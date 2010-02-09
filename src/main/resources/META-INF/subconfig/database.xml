@@ -8,18 +8,6 @@
     http://www.springframework.org/schema/jee
     http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
     
-    <!-- DB specific properties IF AND ONLY IF the tests are executed outside of maven. -->
-    <!-- Otherwise this properties will be ignored, as placeholder will be replaced at  -->
-    <!-- compile time by maven.                                                         -->
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="properties">
-            <value>
-            <![CDATA[[
-            	production.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
-            ]]></value>
-        </property>
-    </bean>
-    
     <jee:jndi-lookup id="dataSource" jndi-name="randi2/jdbc/datasource" />
 
 </beans>
