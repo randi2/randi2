@@ -20,7 +20,9 @@ package de.randi2.model.randomization;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Column;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,6 +30,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CollectionOfElements;
 
 @Entity
+@DiscriminatorValue("BLOCK")
 @Data
 @EqualsAndHashCode(callSuper=true)
 public class BlockRandomizationTempData extends AbstractRandomizationTempData {
@@ -36,7 +39,7 @@ public class BlockRandomizationTempData extends AbstractRandomizationTempData {
 
 	
 	 @CollectionOfElements(targetElement = Block.class)
-	 @org.hibernate.annotations.MapKey(targetElement = String.class)
+	 @org.hibernate.annotations.MapKey(targetElement = String.class, columns = {@Column(name="mapkey",nullable=false)})
 	 private Map<String, Block> blocks = new HashMap<String, Block>();
 	 
 	

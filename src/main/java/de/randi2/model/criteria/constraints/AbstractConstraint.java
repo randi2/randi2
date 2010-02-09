@@ -24,7 +24,7 @@ import javax.persistence.Entity;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.unsorted.ContraintViolatedException;
 
-@Entity(name="constraints")
+@Entity
 public abstract class AbstractConstraint<V extends Object> extends AbstractDomainObject{
 
 	private static final long serialVersionUID = -5608235144658474459L;

@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+Spring XML-config file for normal context
+ -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd"
 	default-autowire="byName">
-
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -16,18 +23,18 @@
 			<value>true</value>
 		</property>
 	</bean>
-	
 
-
-	<context:annotation-config />
-	<context:spring-configured></context:spring-configured>
-
-	<import resource="classpath:META-INF/subconfig/database-mysql5.xml" />
+	<import resource="classpath:META-INF/subconfig/database.xml" />
 	<import resource="classpath:META-INF/subconfig/hibernate.xml" />
  	<import resource="classpath:META-INF/subconfig/aspects.xml" />
 	<import resource="classpath:META-INF/subconfig/security.xml" />
 	<import resource="classpath:META-INF/subconfig/services.xml"/>
 	<import resource="classpath:META-INF/subconfig/logging.xml"/>
 	<import resource="classpath:META-INF/subconfig/mail.xml" />
+
+    <context:annotation-config />
+    <context:spring-configured></context:spring-configured>
+
+    <aop:aspectj-autoproxy proxy-target-class="true" />
 
 </beans>

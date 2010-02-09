@@ -1,0 +1,3 @@
+CREATE USER 'randi2'@'%' IDENTIFIED BY 'randi2';
+CREATE DATABASE randi2;
+GRANT ALL PRIVILEGES ON randi2.* TO 'randi2'@'%';

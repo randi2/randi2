@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-	"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
 	default-autowire="byName">
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"></property>
-		<property name="exposeTransactionAwareSessionFactory" value="false" />
+		<property name="dataSource" ref="dataSource_${pooledDataSource.dataSourceType}"></property>
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.dialect">${${db.type}.dialect}</prop>
 				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.current_session_context_class">managed</prop>
 				<prop key="hibernate.connection.autoReconnect">true</prop>
@@ -40,22 +42,17 @@
 
 	<bean id="hibernateInterceptor" class="de.randi2.utility.CustomHibernateInterceptor" />
 
-
 	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
 		<property name="entityInterceptor" ref="hibernateInterceptor"></property>
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
-
 	<tx:annotation-driven transaction-manager="transactionManager" />
-
 
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>
-		<property name="hibernateManagedSession" value="true"/>
+		<property name="hibernateManagedSession" value="true"></property>
 	</bean>
-
-
 
 </beans>

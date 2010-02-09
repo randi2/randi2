@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+
+	<!-- Configure the org.apache.commons.dbcp.BasicDataSource -->
+	<bean id="dataSource_dbcp" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${${db.type}.driverClass}"/>
+		<property name="url" value="${${db.type}.jdbcUrl}"/>
+		<property name="username" value="${db.username}"/>
+		<property name="password" value="${db.password}" />
+		<property name="initialSize" value="${pooledDataSource.initialPoolSize}"/>
+		<property name="minIdle" value="${pooledDataSource.minPoolSize}"/>
+		<property name="maxActive" value="${pooledDataSource.maxPoolSize}"/>
+	</bean>
+
+	<!-- Configure the com.mchange.v2.c3p0.ComboPooledDataSource -->
+	<bean id="dataSource_c3p0" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${${db.type}.driverClass}"/>
+		<property name="jdbcUrl" value="${${db.type}.jdbcUrl}"/>
+		<property name="user" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
+		<property name="initialPoolSize" value="${pooledDataSource.initialPoolSize}"/>
+		<property name="maxConnectionAge" value="${pooledDataSource.maxConnectionAge}"/>
+		<property name="minPoolSize" value="${pooledDataSource.minPoolSize}"/>
+		<property name="maxPoolSize" value="${pooledDataSource.maxPoolSize}"/>
+	</bean>
+
+</beans>
