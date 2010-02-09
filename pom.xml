@@ -674,6 +674,19 @@
     </reporting>
 
     <profiles>
+
+        <profile>
+            <id>default-production-datasource-jndi-name</id>
+            <activation>
+                <property>
+                    <name>!datasource.jndi-name</name>
+                </property>
+            </activation>
+            <properties>
+                <datasource.jndi-name>randi2/jdbc/datasource</datasource.jndi-name>
+            </properties>
+        </profile>
+
         <profile>
             <id>hsqldb-test</id>
             <activation>
