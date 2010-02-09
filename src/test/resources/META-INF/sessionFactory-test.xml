@@ -4,6 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
     <import resource="classpath:META-INF/subconfig/database-test.xml" />
-    <import resource="classpath:META-INF/subconfig/hibernate-test.xml" />
+    <import resource="classpath:META-INF/subconfig/hibernate-managed-config.xml" />
+    <import resource="classpath:META-INF/subconfig/hibernate.xml" />
 
 </beans>
