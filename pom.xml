@@ -674,56 +674,6 @@
     </reporting>
 
     <profiles>
-
-        <profile>
-            <id>mysql5-production</id>
-            <activation>
-                <property>
-                    <name>!production.dbms</name>
-                </property>
-            </activation>
-            
-            <properties>
-                <production.hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</production.hibernate.dialect>
-            </properties>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <warName>${artifactId}-mysql5-v${version}</warName>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>postgresql84-production</id>
-            <activation>
-                <property>
-                    <name>production.dbms</name>
-                    <value>postgresql84</value>
-                </property>
-            </activation>
-
-            <properties>
-                <production.hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</production.hibernate.dialect>
-            </properties>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <warName>${artifactId}-postgresql84-v${version}</warName>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
         <profile>
             <id>hsqldb-test</id>
             <activation>
