@@ -17,65 +17,26 @@ import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 
-public class SimulationSubjectProperty {
+/**
+ * <p>
+ * This class wrapped the subject property configuration's functionality for the simulation process.
+ * </p>
+ * 
+ * @author Daniel Schrimpf <ds@randi2.de>
+ * 
+ */
+public class SimulationSubjectProperty extends AbstractSubjectPropertyBackingB{
 
 	@Setter
 	private SimulationHandler simulationHandler;
 
-	@Setter
-	private LoginHandler loginHandler;
-
-	private AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> criteriaAC = null;
 
 	public AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteriaAC() {
 		if (criteriaAC == null) {
-			List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> cList = simulationHandler
-					.getCriteriaList();
-			criteriaAC = new AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>(
-					cList);
-			ResourceBundle rb = ResourceBundle.getBundle(
-					"de.randi2.jsf.i18n.criteria", loginHandler
-							.getChosenLocale());
-			for (SelectItem si : criteriaAC.getObjectList()) {
-				si.setLabel(rb.getString(si.getLabel()));
-			}
+			initCriteriaAC(simulationHandler.getCriteriaList());
 		}
 		return criteriaAC;
 	}
 
-	private ArrayList<CriterionWrapper<? extends Serializable>> criteria = null;
-
-	@SuppressWarnings("unchecked")
-	public void addCriterion(ActionEvent event) {
-		if (criteriaAC.isObjectSelected())
-			try {
-				getCriteria().add(
-						new CriterionWrapper<Serializable>(
-								(AbstractCriterion<Serializable, ?>) criteriaAC
-										.getSelectedObject().getClass()
-										.newInstance()));
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-	}
-
-	public void removeCriterion(ActionEvent event) {
-		getCriteria().remove(this.getCriteria().size() - 1);
-	}
-
-	public boolean isCriteriaEmpty() {
-		return criteria == null || criteria.isEmpty();
-	}
-
-	public ArrayList<CriterionWrapper<? extends Serializable>> getCriteria() {
-		if (criteria == null)
-			criteria = new ArrayList<CriterionWrapper<? extends Serializable>>();
-		return criteria;
-	}
 	
-	public void clean(){
-		criteria=null;
-	}
 }
