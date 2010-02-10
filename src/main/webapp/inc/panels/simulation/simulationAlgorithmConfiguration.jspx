@@ -72,19 +72,19 @@
 								<ice:panelGroup id="compPanel">
 									<f:subview id="cS">
 										<jsp:directive.include
-											file="./inc/panels/simulation/completeS.jspx" />
+											file="./inc/panels/randomization/completeR.jspx" />
 									</f:subview>
 								</ice:panelGroup>
 								<ice:panelGroup id="biasPanel">
 									<f:subview id="bS">
 										<jsp:directive.include
-											file="./inc/panels/simulation/biasedCoinS.jspx" />
+											file="./inc/panels/randomization/biasedCoinR.jspx" />
 									</f:subview>
 								</ice:panelGroup>
 								<ice:panelGroup id="truncPanel">
 									<f:subview id="trS">
 										<jsp:directive.include
-											file="./inc/panels/simulation/truncatedS.jspx" />
+											file="./inc/panels/randomization/truncatedR.jspx" />
 									</f:subview>
 								</ice:panelGroup>
 									<ice:panelGroup id="blockPanel">
