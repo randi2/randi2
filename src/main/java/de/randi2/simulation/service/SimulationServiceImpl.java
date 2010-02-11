@@ -62,6 +62,7 @@ public class SimulationServiceImpl implements SimulationService {
 			simRun.setTime((System.nanoTime()-startTime));
 			simResult.addSimulationRun(simRun);
 		}
+		simResult.analyze();
 		return simResult;
 	}
 
@@ -138,6 +139,7 @@ public class SimulationServiceImpl implements SimulationService {
 		}
 		cTrial.setRandomizationConfiguration(trial.getRandomizationConfiguration());
 		cTrial.getRandomizationConfiguration().setTrial(cTrial);
+		cTrial.getRandomizationConfiguration().resetAlgorithm();
 		return cTrial;
 	}
 	
@@ -158,6 +160,7 @@ public class SimulationServiceImpl implements SimulationService {
 		}
 		trial.getRandomizationConfiguration().setTrial(trial);
 		trial.getRandomizationConfiguration().setTempData(null);
+		trial.getRandomizationConfiguration().resetAlgorithm();
 		if(MinimizationConfig.class.isInstance(trial.getRandomizationConfiguration())){
 			((Minimization) trial.getRandomizationConfiguration().getAlgorithm()).clear();
 		}

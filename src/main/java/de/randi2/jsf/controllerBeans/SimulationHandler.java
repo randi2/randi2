@@ -10,12 +10,14 @@ import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import com.icesoft.faces.webapp.xmlhttp.PersistentFacesState;
+
 import lombok.Getter;
 import lombok.Setter;
+import de.randi2.jsf.backingBeans.Randi2Page;
 import de.randi2.jsf.backingBeans.SimulationAlgorithm;
 import de.randi2.jsf.backingBeans.SimulationSubjectProperty;
 import de.randi2.jsf.backingBeans.Step5;
-import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.wrappers.AlgorithmWrapper;
 import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.jsf.wrappers.DistributedConstraintWrapper;
@@ -33,6 +35,7 @@ import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 import de.randi2.simulation.distribution.UniformDistribution;
 import de.randi2.simulation.model.DistributionSubjectProperty;
+import de.randi2.simulation.model.SimualtionResultArm;
 import de.randi2.simulation.model.SimulationResult;
 import de.randi2.simulation.service.SimulationService;
 
@@ -74,6 +77,7 @@ public class SimulationHandler extends AbstractTrialHandler{
 
 	@Setter
 	private boolean changedCriterion;
+	
 	
 	public void criterionChanged() {
 		System.out.println("asdgs");
@@ -286,7 +290,14 @@ public class SimulationHandler extends AbstractTrialHandler{
 			return showedObject.isStratifyTrialSite();
 	}
 
-	public String simTrial() {
+	public void simTrial() {
+		Randi2Page rPage = ((Randi2Page) FacesContext.getCurrentInstance()
+				.getApplication().getELResolver().getValue(
+						FacesContext.getCurrentInstance()
+								.getELContext(), null, "randi2Page"));
+		simulationResults = null;
+		
+		simResult =null;
 		List<DistributionSubjectProperty> properties = new ArrayList<DistributionSubjectProperty>();
 		if (distributedCriterions != null) {
 			for (DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>> dcw : distributedCriterions) {
@@ -301,6 +312,7 @@ public class SimulationHandler extends AbstractTrialHandler{
 		if (simOnly) {
 			simulationResults = new ArrayList<SimulationResult>();
 			for(AlgorithmWrapper alg : randomisationConfigs){
+				alg.getConf().setTempData(null);
 			showedObject.setRandomizationConfiguration(alg.getConf());
 			SimulationResult result = simulationService.simulateTrial(showedObject,
 					properties, trialSiteDistribution, runs, maxTime);
@@ -313,8 +325,8 @@ public class SimulationHandler extends AbstractTrialHandler{
 					properties, trialSiteDistribution, runs, maxTime);
 			simResult = result;
 		}
-		getPopups().showSimulationCompletePopup();
-		return Randi2.SUCCESS;
+		
+		rPage.simulationResult(null);
 	}
 
 	public boolean isResultComplete() {

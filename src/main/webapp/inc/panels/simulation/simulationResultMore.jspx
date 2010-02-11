@@ -40,7 +40,7 @@
 </ice:dataTable>
 <ice:dataTable id="simResultDetailsTable" border="1"
 	value="#{simulationHandler.simulationResults}" var="result"
-	width="550px">
+	width="550px" >
 	<ice:column id="column0">
 	<f:facet name="header">
 			<ice:outputLabel value="Details"></ice:outputLabel>
@@ -84,3 +84,5 @@
 	</ice:dataTable>
 	</ice:column>
 </ice:dataTable>
+<ice:commandButton value="repeat this run"  action="#{simulationHandler.simTrial}" />
+<ice:commandButton  value="change simulation configuration"/>

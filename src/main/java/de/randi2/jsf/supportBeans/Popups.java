@@ -116,21 +116,14 @@ public class Popups {
 		return Randi2.SUCCESS;
 	}
 	
-	public String showSimulationCompletePopup(){
+	public String showSimulationRunPopup(){
 		this.simulationCompletePVisible = true;
-		Randi2Page rPage = ((Randi2Page) FacesContext.getCurrentInstance()
-				.getApplication().getELResolver().getValue(
-						FacesContext.getCurrentInstance()
-								.getELContext(), null, "randi2Page"));
 		return Randi2.SUCCESS;
 	}
 	
-	public String hideSimulationCompletePopup(){
+	
+	public String hideSimulationRunPopup(){
 		this.simulationCompletePVisible = false;
-		Randi2Page rPage = ((Randi2Page) FacesContext.getCurrentInstance()
-				.getApplication().getELResolver().getValue(
-						FacesContext.getCurrentInstance()
-								.getELContext(), null, "randi2Page"));
 		return Randi2.SUCCESS;
 	}
 	

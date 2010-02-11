@@ -203,6 +203,10 @@ public class Randi2Page {
 		activePanel = "simulationTrialPanel";
 	}
 	
+	public void simulationResult(ActionEvent event){
+		activePanel = "simulationResultPanel";
+	}
+	
 	public void simulateTrialOnly(ActionEvent event) {
 		simulationHandler.setShowedObject(null);
 		simulationHandler.setDistributedCriterions(null);
@@ -211,6 +215,8 @@ public class Randi2Page {
 		simulationHandler.setSimulationResults(null);
 		activePanel = "simulationOnlyPanel";
 	}
+	
+
 	
 	public void simulateTrialBack(ActionEvent event) {
 		activePanel = "trialCreatePanel";
@@ -253,4 +259,6 @@ public class Randi2Page {
 		this.helpVisible = false;
 		return Randi2.SUCCESS;
 	}
+	
+	
 }

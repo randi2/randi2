@@ -1,3 +1,9 @@
+<ice:form xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+<ice:panelTabSet style="font-size: 9;display: block;">
+		<ice:panelTab label="simulation trial">
+			<f:subview id="simResult">
 <ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" border="0"
@@ -69,3 +75,7 @@
 	<jsp:directive.include
 		file="./inc/panels/simulation/simulationResultMore.jspx" />
 </ice:panelGroup>
+</f:subview>
+</ice:panelTab>
+</ice:panelTabSet>
+</ice:form>

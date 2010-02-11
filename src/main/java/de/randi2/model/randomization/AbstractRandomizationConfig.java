@@ -68,4 +68,8 @@ public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 			trial.setRandomizationConfiguration(this);
 		}
 	}
+	
+	public void resetAlgorithm(){
+		algorithm = createAlgorithm();
+	}
 }

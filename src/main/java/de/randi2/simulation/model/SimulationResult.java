@@ -114,7 +114,7 @@ public class SimulationResult {
 		return duration;
 	}
 	
-	private void analyze(){
+	public void analyze(){
 		duration=0;
 		simResultArms = new ArrayList<SimualtionResultArm>();
 		mins = new int[arms.size()];

@@ -29,7 +29,7 @@
 			<ice:panelGrid border="0" columns="2">
 				<f:facet name="footer">
 					<ice:panelGroup>
-						<ice:commandButton value="#{labels['buttons.ok']}" action="#{popups.hideSimulationCompletePopup}"
+						<ice:commandButton value="#{labels['buttons.ok']}" action="#{popups.hideSimulationResultPopup}"
 							immediate="true"></ice:commandButton>
 					</ice:panelGroup>
 				</f:facet>

@@ -30,11 +30,5 @@
 			</f:subview>
 		</ice:panelTab>
 		
-		<ice:panelTab label="simulation result" rendered="#{simulationHandler.resultComplete}">
-			<f:subview id="simResult">
-				<jsp:directive.include file="./inc/panels/simulation/simulationResult.jspx" />
-			</f:subview>
-		</ice:panelTab>
-
 	</ice:panelTabSet>
 </ice:form>
