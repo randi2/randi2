@@ -209,6 +209,11 @@
 			<property-class>de.randi2.jsf.controllerBeans.SimulationHandler</property-class>
 			<value>#{simulationHandler}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>popups</property-name>
+			<property-class>de.randi2.jsf.supportBeans.Popups</property-class>
+			<value>#{popups}</value>
+		</managed-property>
 	</managed-bean>
 
 	<managed-bean>

@@ -63,10 +63,22 @@
 			<ice:outputLabel value="min"></ice:outputLabel>
 		</f:facet>
 	</ice:column>
+	<ice:column id="column11">
+		<ice:outputText value="#{simArm.minPercentString }"></ice:outputText>
+		<f:facet name="header">
+			<ice:outputLabel value="minPercent"></ice:outputLabel>
+		</f:facet>
+	</ice:column>
 	<ice:column id="column2">
 		<ice:outputText value="#{simArm.max }"></ice:outputText>
 		<f:facet name="header">
 			<ice:outputLabel value="max"></ice:outputLabel>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column22">
+		<ice:outputText value="#{simArm.maxPercentString}"></ice:outputText>
+		<f:facet name="header">
+			<ice:outputLabel value="maxPercent"></ice:outputLabel>
 		</f:facet>
 	</ice:column>
 	<ice:column id="column3">

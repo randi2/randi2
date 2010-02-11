@@ -88,5 +88,5 @@
 		
 </ice:panelGroup>
 <ice:commandButton value="back" actionListener="#{randi2Page.simulateTrialBack}" rendered="#{not simulationHandler.simOnly}" />
-<ice:commandButton type="submit" value="simulate"
-			action="#{simulationHandler.simTrial}"/>
+<ice:commandButton value="simulate"
+			action="#{popups.showSimulationCompletePopup}"/>

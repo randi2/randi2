@@ -297,12 +297,7 @@ public class SimulationHandler extends AbstractTrialHandler{
 	}
 
 	public void simTrial() {
-		Randi2Page rPage = ((Randi2Page) FacesContext.getCurrentInstance()
-				.getApplication().getELResolver().getValue(
-						FacesContext.getCurrentInstance()
-								.getELContext(), null, "randi2Page"));
 		simulationResults = null;
-		
 		simResult =null;
 		List<DistributionSubjectProperty> properties = new ArrayList<DistributionSubjectProperty>();
 		if (distributedCriterions != null) {
@@ -331,8 +326,6 @@ public class SimulationHandler extends AbstractTrialHandler{
 					properties, trialSiteDistribution, runs, maxTime);
 			simResult = result;
 		}
-		
-		rPage.simulationResult(null);
 	}
 
 	public boolean isResultComplete() {
@@ -343,6 +336,9 @@ public class SimulationHandler extends AbstractTrialHandler{
 		return (simulationResults != null && !simulationResults.isEmpty());
 	}
 
+	public boolean isSimulationComplete(){
+		return isResultComplete() || isResultsComplete();
+	}
 
 	public void addAlgorithm(ActionEvent event) {
 		ValueExpression ve2 = FacesContext.getCurrentInstance()
