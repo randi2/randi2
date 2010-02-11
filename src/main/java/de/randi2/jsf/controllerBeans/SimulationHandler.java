@@ -361,8 +361,10 @@ public class SimulationHandler extends AbstractTrialHandler{
 					new BiasedCoinRandomizationConfig()));
 		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
-			randomisationConfigs.add(new AlgorithmWrapper(
-					new BlockRandomizationConfig()));
+			AlgorithmWrapper algWrapper = new AlgorithmWrapper(
+					new BlockRandomizationConfig());
+			algWrapper.getBlockR().setLoginHandler(getLoginHandler());
+			randomisationConfigs.add(algWrapper);
 		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
@@ -376,6 +378,8 @@ public class SimulationHandler extends AbstractTrialHandler{
 			randomisationConfigs.add(new AlgorithmWrapper(
 					new MinimizationConfig()));
 		}
+		randomisationConfigs.get(randomisationConfigs.size()-1).setPossition(randomisationConfigs.size()-1);
+		randomisationConfigs.get(randomisationConfigs.size()-1).getBlockR().setPossitionForSimulation(randomisationConfigs.size()-1);
 	}
 
 	/**

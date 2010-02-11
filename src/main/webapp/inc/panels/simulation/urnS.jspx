@@ -24,19 +24,19 @@
 	</f:facet>
 	<ice:outputLabel value="#{algorithms['de.randi2.model.randomization.UrnDesignConfig.info']}"></ice:outputLabel>
 </ice:panelCollapsible>
-<ice:panelCollapsible id="configPanelUrn" expanded="true"
+<ice:panelCollapsible expanded="true"
 	toggleOnClick="false">
 	<f:facet name="header">
 		<ice:outputLabel value="#{labels['pages.urnR.configuration']}" />
 	</f:facet>
 	<ice:panelGrid columns="2" styleClass="verticalAlignTop">
 		<ice:outputLabel value="#{labels['pages.urnR.initialCount']}" />
-		<ice:inputText id="initialCountSim" size="31"
+		<ice:inputText size="31"
 			value="#{alg.conf.initializeCountBalls}"
 			partialSubmit="true">
 		</ice:inputText>
 		<ice:outputLabel value="#{labels['pages.urnR.replacedBalls']}" />
-		<ice:inputText  id="replacedBallsSim"
+		<ice:inputText
 			size="31" value="#{alg.conf.countReplacedBalls}"
 			partialSubmit="true">
 		</ice:inputText>

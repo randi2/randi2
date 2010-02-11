@@ -21,13 +21,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
+
+import com.icesoft.faces.component.ext.HtmlInputText;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import de.randi2.jsf.controllerBeans.LoginHandler;
+import de.randi2.jsf.controllerBeans.SimulationHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 
@@ -96,14 +100,25 @@ public class BlockR {
 			renderVariable = false;
 	}
 
+	@Setter
+	private int possitionForSimulation;
 
 	public void minValueChanged(ValueChangeEvent event) {
 		// set maximum block size to minimum block size, in case of constant
 		// block design
-//		if (!renderVariable) {
-//			((BlockRandomizationConfig) trialHandler.getRandomizationConfig())
-//					.setMaximum((Integer) event.getNewValue());
-//		}
+		if (!renderVariable) {
+			if(HtmlInputText.class.cast(event.getSource()).getId().equals("blocksize")){
+			((BlockRandomizationConfig) trialHandler.getRandomizationConfig())
+					.setMaximum((Integer) event.getNewValue());
+			}else{
+				
+				SimulationHandler simulationHandler = ((SimulationHandler) FacesContext.getCurrentInstance()
+						.getApplication().getELResolver().getValue(
+								FacesContext.getCurrentInstance()
+										.getELContext(), null, "simulationHandler"));
+			((BlockRandomizationConfig) simulationHandler.getRandomisationConfigs().get(possitionForSimulation).getConf()).setMaximum((Integer) event.getNewValue());
+			}
+		}
 	}
 	
 	public void clean(){

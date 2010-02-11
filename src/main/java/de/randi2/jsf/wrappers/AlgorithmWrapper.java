@@ -2,6 +2,7 @@ package de.randi2.jsf.wrappers;
 
 import lombok.Getter;
 import lombok.Setter;
+import de.randi2.jsf.backingBeans.BlockR;
 import de.randi2.model.criteria.DateCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.FreeTextCriterion;
@@ -23,6 +24,13 @@ public class AlgorithmWrapper {
 	private final static String TRUNCPANEL = "truncPanel";
 	private final static String MINIPANEL = "miniPanel";
 	
+	
+	@Getter @Setter
+	private int possition;
+	
+	@Getter @Setter
+	private BlockR blockR = new BlockR();
+	
 	@Getter @Setter
 	private AbstractRandomizationConfig conf;
 
@@ -32,6 +40,8 @@ public class AlgorithmWrapper {
 	public AlgorithmWrapper(AbstractRandomizationConfig config) {
 		this.conf = config;
 	}
+	
+	
 
 	
 	/**
@@ -59,6 +69,10 @@ public class AlgorithmWrapper {
 		else if (MinimizationConfig.class.isInstance(conf))
 			panelType = MINIPANEL;
 		return panelType;
+	}
+	
+	public String getPossitionString(){
+		return Integer.toString(possition);
 	}
 	
 }

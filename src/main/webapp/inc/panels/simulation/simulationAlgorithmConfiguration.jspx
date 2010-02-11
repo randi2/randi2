@@ -61,7 +61,7 @@
 				<b class="b4"></b>
 				<ice:panelGroup styleClass="contentb">
 					<ice:panelGrid columns="2">
-						<ice:outputLabel value="#{alg.conf.UIName}" />
+						<ice:outputLabel value="#{alg.conf.UIName} (#{alg.possition})" />
 					</ice:panelGrid>
 					<ice:panelGrid columns="1">
 						<ice:panelGroup>
@@ -91,6 +91,12 @@
 									<f:subview id="blS">
 										<jsp:directive.include
 											file="./inc/panels/simulation/blockS.jspx" />
+									</f:subview>
+								</ice:panelGroup>
+				<ice:panelGroup id="urnPanel">
+									<f:subview id="urnS">
+										<jsp:directive.include
+											file="./inc/panels/simulation/urnS.jspx" />
 									</f:subview>
 								</ice:panelGroup>
 								<ice:panelGroup id="miniPanel">

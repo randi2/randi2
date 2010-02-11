@@ -35,28 +35,28 @@
 		<ice:outputLabel value="#{labels['pages.blockR.type']}" />
 		<!-- The following property is a virtual property used only for the UI. It don't need to be pushed to the config object -->
 		<ice:selectOneMenu id="blockSizeTypeSim"
-			value="#{blockR.selectedBlockRandTypes}" partialSubmit="true">
-			<f:selectItems value="#{blockR.blockRandTypes}" />
+			value="#{alg.blockR.selectedBlockRandTypes}" partialSubmit="true">
+			<f:selectItems value="#{alg.blockR.blockRandTypes}" />
 		</ice:selectOneMenu>
-		<ice:outputLabel rendered="#{blockR.renderVariable}"
+		<ice:outputLabel rendered="#{alg.blockR.renderVariable}"
 			value="#{labels['pages.blockR.constraint']}" />
-		<ice:selectOneMenu rendered="#{blockR.renderVariable}"
+		<ice:selectOneMenu rendered="#{alg.blockR.renderVariable}"
 			id="variableBlockType"
-			value="#{trialHandler.randomizationConfig.type}" partialSubmit="true"
+			value="#{alg.conf.type}" partialSubmit="true"
 			converter="de.randi2.jsf.converters.BLOCKRANDOMIZATION_TYPE_CONVERTER">
 			<f:selectItems value="#{enums.blockSizeTypeItems}" />
 		</ice:selectOneMenu>
 		<ice:outputLabel value="#{labels['pages.blockR.blockSize']}"
-			rendered="#{!blockR.renderVariable}" />
+			rendered="#{!alg.blockR.renderVariable}" />
 		<ice:outputLabel value="#{labels['pages.blockR.minBlockSize']}"
-			rendered="#{blockR.renderVariable}" />
-		<ice:inputText id="blocksize" size="31"
-			value="#{alg.conf.minimum}"
-			partialSubmit="true" valueChangeListener="#{blockR.minValueChanged}">
+			rendered="#{alg.blockR.renderVariable}" />
+		<ice:inputText id="blocksizeSimulation" size="31"
+			value="#{alg.conf.minimum}" alt="#{alg.possitionString}"
+			partialSubmit="true" valueChangeListener="#{alg.blockR.minValueChanged}">
 		</ice:inputText>
-		<ice:outputLabel rendered="#{blockR.renderVariable}"
+		<ice:outputLabel rendered="#{alg.blockR.renderVariable}"
 			value="#{labels['pages.blockR.maxBlockSize']}" />
-		<ice:inputText rendered="#{blockR.renderVariable}" id="maxBlocksizeSim"
+		<ice:inputText rendered="#{alg.blockR.renderVariable}" id="maxBlocksizeSim"
 			size="31" value="#{alg.conf.maximum}"
 			partialSubmit="true">
 		</ice:inputText>
