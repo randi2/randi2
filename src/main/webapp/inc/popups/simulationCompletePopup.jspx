@@ -22,7 +22,7 @@
 		rendered="#{popups.simulationCompletePVisible}"
 		style="width: 300px; height: auto" >
 		<f:facet name="header">
-			<ice:outputText value="#{labels['pages.trialCreatedPopup.header']}"></ice:outputText>
+			<ice:outputText value="simulate trial"></ice:outputText>
 		</f:facet>
 
 		<f:facet name="body">
