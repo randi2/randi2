@@ -127,7 +127,7 @@
 			<ice:outputLabel value="#{labels['trial.randomConf']}" />
 		</f:facet>
 		<ice:panelGrid columns="1">
-			<ice:outputLabel value="#{labels['pages.algorithmInfo.type']}" />
+		 	<ice:outputLabel value="#{labels['pages.algorithmInfo.type']}" />
 			<ice:outputText value="#{simulationHandler.algName}" />
 			<ice:outputLabel value="#{labels['pages.algorithmInfo.details']}" />
 			<ice:outputText value="#{simulationHandler.furtherDetails}"

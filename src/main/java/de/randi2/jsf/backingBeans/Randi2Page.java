@@ -197,7 +197,7 @@ public class Randi2Page {
 	}
 	
 	public void simulateTrial(ActionEvent event) {
-		simulationHandler.setShowedObject(null);
+		simulationHandler.setSimFromTrialCreationFirst(true);
 		simulationHandler.setDistributedCriterions(null);
 		simulationHandler.setSimOnly(false);
 		activePanel = "simulationTrialPanel";
@@ -216,7 +216,9 @@ public class Randi2Page {
 		activePanel = "simulationOnlyPanel";
 	}
 	
-
+	public void simulateTrialOnlyChange(ActionEvent event) {
+		activePanel = "simulationOnlyPanel";
+	}
 	
 	public void simulateTrialBack(ActionEvent event) {
 		activePanel = "trialCreatePanel";

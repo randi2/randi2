@@ -99,6 +99,10 @@ public class SimulationHandler extends AbstractTrialHandler{
 	@Getter
 	@Setter
 	private boolean simOnly;
+	
+	@Getter
+	@Setter
+	private boolean simFromTrialCreationFirst = true;
 
 	
 	private List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> distributedCriterions;
@@ -131,7 +135,7 @@ public class SimulationHandler extends AbstractTrialHandler{
 	}
 
 	public Trial getSimTrial() {
-		if (showedObject == null && !simOnly) {
+		if (simFromTrialCreationFirst  && !simOnly) {
 			showedObject = trialHandler.getShowedObject();
 			setRandomizationConfig(trialHandler.getRandomizationConfig());
 			try {
@@ -147,9 +151,11 @@ public class SimulationHandler extends AbstractTrialHandler{
 				showedObject.setCriteria(configureCriteriaStep4());
 				/* Algorithm Configuration */
 				configureAlgorithmWithStep5();
+				simFromTrialCreationFirst = false;
 			} catch (Exception e) {
 				return null;
 			}
+			
 		} else if (showedObject == null && simOnly) {
 			showedObject = new Trial();
 			List<TreatmentArm> arms = new ArrayList<TreatmentArm>();

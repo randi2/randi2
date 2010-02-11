@@ -54,3 +54,4 @@
 	</ice:panelSeries>
 	</ice:panelCollapsible>
 </ice:panelGroup>
+<ice:commandButton  value="return to trial creation" actionListener="#{randi2Page.simulateTrialBack}" />
