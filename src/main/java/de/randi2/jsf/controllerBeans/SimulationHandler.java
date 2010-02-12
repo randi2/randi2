@@ -19,6 +19,8 @@ import de.randi2.jsf.wrappers.AlgorithmWrapper;
 import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.jsf.wrappers.DistributedConstraintWrapper;
 import de.randi2.jsf.wrappers.DistributedCriterionWrapper;
+import de.randi2.jsf.wrappers.DistributionTrialSiteWrapper;
+import de.randi2.jsf.wrappers.TrialSiteRatioWrapper;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
@@ -100,10 +102,23 @@ public class SimulationHandler extends AbstractTrialHandler{
 	@Getter
 	@Setter
 	private boolean simFromTrialCreationFirst = true;
+	
+	private DistributionTrialSiteWrapper distributedTrialSites;
 
 	
 	private List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> distributedCriterions;
 
+	
+	public DistributionTrialSiteWrapper getDistributionTrialSiteWrapper(){
+		if( distributedTrialSites== null ||distributedTrialSites.getTrialSitesRatioWrappers().size() != countTrialSites){
+			List<TrialSiteRatioWrapper> tRatioWrapper = new ArrayList<TrialSiteRatioWrapper>();
+			for(TrialSite site : showedObject.getParticipatingSites()){
+				tRatioWrapper.add(new TrialSiteRatioWrapper(site));
+			}
+			distributedTrialSites = new DistributionTrialSiteWrapper(tRatioWrapper);
+		}
+		return distributedTrialSites;
+	}
 
 	public void setDistributedCriterions(
 			List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> distributedCriterions) {
@@ -302,10 +317,6 @@ public class SimulationHandler extends AbstractTrialHandler{
 				properties.add(dcw.getDistributionSubjectProperty());
 			}
 		}
-		List<TrialSite> sites = new ArrayList<TrialSite>(showedObject
-				.getParticipatingSites());
-		UniformDistribution<TrialSite> trialSiteDistribution = new UniformDistribution<TrialSite>(
-				sites);
 
 		if (simOnly) {
 			simulationResults = new ArrayList<SimulationResult>();
@@ -313,14 +324,14 @@ public class SimulationHandler extends AbstractTrialHandler{
 				alg.getConf().setTempData(null);
 			showedObject.setRandomizationConfiguration(alg.getConf());
 			SimulationResult result = simulationService.simulateTrial(showedObject,
-					properties, trialSiteDistribution, runs, maxTime);
+					properties, distributedTrialSites.getDistributionTrialSites(), runs, maxTime);
 			result.getMarginalBalanceMax();
 				simulationResults.add(result);
 			}
 			
 		} else {
 			SimulationResult result = simulationService.simulateTrial(showedObject,
-					properties, trialSiteDistribution, runs, maxTime);
+					properties, distributedTrialSites.getDistributionTrialSites(), runs, maxTime);
 			simResult = result;
 		}
 	}
