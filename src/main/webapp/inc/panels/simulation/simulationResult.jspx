@@ -1,3 +1,6 @@
+<f:subview id="SimulationExportPopup">
+	<jsp:directive.include file="./inc/popups/simulationResultExportPopup.jspx" />
+</f:subview>
 <ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">

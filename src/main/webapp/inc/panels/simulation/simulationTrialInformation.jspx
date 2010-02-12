@@ -60,74 +60,78 @@
 			<ice:outputText id="sInvestigator"
 				value="#{simulationHandler.simTrial.sponsorInvestigator.UIName}" />
 		</ice:panelCollapsible>
-		</ice:panelGrid>
-		<ice:panelCollapsible expanded="true" toggleOnClick="false" style="margin-left: 3px;">
+	</ice:panelGrid>
+	<ice:panelCollapsible expanded="true" toggleOnClick="false"
+		style="margin-left: 3px;">
 		<f:facet name="header">
-				<ice:outputLabel value="#{labels['pages.trialShowPanel.sitesInformation']}"></ice:outputLabel>
-			</f:facet>
+			<ice:outputLabel
+				value="#{labels['pages.trialShowPanel.sitesInformation']}"></ice:outputLabel>
+		</f:facet>
 		<ice:dataTable id="trialSitesTable" border="1"
-		value="#{simulationHandler.simTrial.participatingSites}" var="trialSite"
-		width="550px">
-		<ice:column id="column1">
-			<ice:outputText value="#{trialSite.name}"></ice:outputText>
-			<f:facet name="header">
-				<ice:outputText value="#{labels['trialSite.name']}" id="nameH"></ice:outputText>
-			</f:facet>
-		</ice:column>
-		<ice:column id="column2">
-			<ice:outputText value="#{trialSite.street}"></ice:outputText>
-			<f:facet name="header">
-				<ice:outputText value="#{labels['trialSite.street']}" id="streetH"></ice:outputText>
-			</f:facet>
-		</ice:column>
-		<ice:column id="column3">
-			<ice:outputText value="#{trialSite.city}"></ice:outputText>
-			<f:facet name="header">
-				<ice:outputText value="#{labels['trialSite.city']}" id="cityH"></ice:outputText>
-			</f:facet>
-		</ice:column>
-		<ice:column id="column4">
-			<ice:outputText value="#{trialSite.postcode}"></ice:outputText>
-			<f:facet name="header">
-				<ice:outputText value="#{labels['trialSite.postcode']}"
-					id="postcodeH"></ice:outputText>
-			</f:facet>
-		</ice:column>
-	</ice:dataTable>
+			value="#{simulationHandler.simTrial.participatingSites}"
+			var="trialSite" width="550px">
+			<ice:column id="column1">
+				<ice:outputText value="#{trialSite.name}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="#{labels['trialSite.name']}" id="nameH"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column id="column2">
+				<ice:outputText value="#{trialSite.street}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="#{labels['trialSite.street']}" id="streetH"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column id="column3">
+				<ice:outputText value="#{trialSite.city}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="#{labels['trialSite.city']}" id="cityH"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column id="column4">
+				<ice:outputText value="#{trialSite.postcode}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="#{labels['trialSite.postcode']}"
+						id="postcodeH"></ice:outputText>
+				</f:facet>
+			</ice:column>
+		</ice:dataTable>
 	</ice:panelCollapsible>
-	<ice:panelCollapsible  expanded="true" toggleOnClick="false" style="margin-left: 3px;">
+	<ice:panelCollapsible expanded="true" toggleOnClick="false"
+		style="margin-left: 3px;">
 		<f:facet name="header">
-				<ice:outputLabel value="treatment arms"></ice:outputLabel>
-			</f:facet>
-			<ice:dataTable id="treatmmentArmTable" border="1"
-		value="#{simulationHandler.simTrial.treatmentArms}" var="arm"
-		width="550px">
-		<ice:column id="column1">
-			<ice:outputText value="#{arm.name}"></ice:outputText>
-			<f:facet name="header">
-				<ice:outputText value="#{labels['trialSite.name']}" id="nameH"></ice:outputText>
-			</f:facet>
-		</ice:column>
-		<ice:column id="column2">
-			<ice:outputText value="#{arm.description}"></ice:outputText>
-			<f:facet name="header">
-				<ice:outputText value="description" id="descriptionH"></ice:outputText>
-			</f:facet>
-		</ice:column>
-		<ice:column id="column3">
-			<ice:outputText value="#{arm.plannedSubjects}"></ice:outputText>
-			<f:facet name="header">
-				<ice:outputText value="planned subjects" id="plannedSubjectsH"></ice:outputText>
-			</f:facet>
-		</ice:column>
-	</ice:dataTable>
+			<ice:outputLabel value="treatment arms"></ice:outputLabel>
+		</f:facet>
+		<ice:dataTable id="treatmmentArmTable" border="1"
+			value="#{simulationHandler.simTrial.treatmentArms}" var="arm"
+			width="550px">
+			<ice:column id="column1">
+				<ice:outputText value="#{arm.name}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="#{labels['trialSite.name']}" id="nameH"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column id="column2">
+				<ice:outputText value="#{arm.description}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="description" id="descriptionH"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column id="column3">
+				<ice:outputText value="#{arm.plannedSubjects}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="planned subjects" id="plannedSubjectsH"></ice:outputText>
+				</f:facet>
+			</ice:column>
+		</ice:dataTable>
 	</ice:panelCollapsible>
-	<ice:panelCollapsible expanded="true" toggleOnClick="false" style="margin-left: 3px;">
+	<ice:panelCollapsible expanded="true" toggleOnClick="false"
+		style="margin-left: 3px;">
 		<f:facet name="header">
 			<ice:outputLabel value="#{labels['trial.randomConf']}" />
 		</f:facet>
 		<ice:panelGrid columns="1">
-		 	<ice:outputLabel value="#{labels['pages.algorithmInfo.type']}" />
+			<ice:outputLabel value="#{labels['pages.algorithmInfo.type']}" />
 			<ice:outputText value="#{simulationHandler.algName}" />
 			<ice:outputLabel value="#{labels['pages.algorithmInfo.details']}" />
 			<ice:outputText value="#{simulationHandler.furtherDetails}"
@@ -135,18 +139,20 @@
 			<ice:outputLabel value="#{labels['pages.algorithmInfo.stratified']}" />
 			<ice:panelGroup>
 				<ice:outputText value="#{simulationHandler.stratified}" />
-				
+
 			</ice:panelGroup>
 		</ice:panelGrid>
 	</ice:panelCollapsible>
-	<ice:panelCollapsible  expanded="true" toggleOnClick="false" rendered="#{simulationHandler.stratified}" style="margin-left: 3px;">
+	<ice:panelCollapsible expanded="true" toggleOnClick="false"
+		rendered="#{simulationHandler.stratified}" style="margin-left: 3px;">
 		<f:facet name="header">
-				<ice:outputLabel value="#{labels['pages.algorithmInfo.defStrata']}"></ice:outputLabel>
-			</f:facet>
-			<ice:outputText
-					rendered="#{simulationHandler.simTrial.stratifyTrialSite}"
-					value="(#{labels['pages.algorithmInfo.siteStrata']})" />
-		<ice:panelSeries value="#{simulationHandler.strata}" rendered="#{simulationHandler.strataFactorsDefined}" var="criterion">
+			<ice:outputLabel value="#{labels['pages.algorithmInfo.defStrata']}"></ice:outputLabel>
+		</f:facet>
+		<ice:outputText
+			rendered="#{simulationHandler.simTrial.stratifyTrialSite}"
+			value="(#{labels['pages.algorithmInfo.siteStrata']})" />
+		<ice:panelSeries value="#{simulationHandler.strata}"
+			rendered="#{simulationHandler.strataFactorsDefined}" var="criterion">
 			<ice:panelGroup
 				style="float:left; padding-left: 2px; padding-top: 5px;"
 				rendered="#{criterion.possibleStrata}">
@@ -203,6 +209,6 @@
 				<b class="b1"></b>
 			</ice:panelGroup>
 		</ice:panelSeries>
-		
+
 	</ice:panelCollapsible>
-	</ice:panelGroup>	
+</ice:panelGroup>

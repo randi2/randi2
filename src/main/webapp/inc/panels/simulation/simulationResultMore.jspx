@@ -96,5 +96,6 @@
 	</ice:dataTable>
 	</ice:column>
 </ice:dataTable>
+<ice:commandButton value="export the results"  action="#{popups.showSimulationExportPopup}" />
 <ice:commandButton value="repeat this run"  action="#{simulationHandler.simTrial}" />
 <ice:commandButton  value="change simulation configuration" actionListener="#{randi2Page.simulateTrialOnlyChange}" />

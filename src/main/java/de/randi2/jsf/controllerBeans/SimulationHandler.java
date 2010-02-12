@@ -10,11 +10,8 @@ import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
-import com.icesoft.faces.webapp.xmlhttp.PersistentFacesState;
-
 import lombok.Getter;
 import lombok.Setter;
-import de.randi2.jsf.backingBeans.Randi2Page;
 import de.randi2.jsf.backingBeans.SimulationAlgorithm;
 import de.randi2.jsf.backingBeans.SimulationSubjectProperty;
 import de.randi2.jsf.backingBeans.Step5;
@@ -396,5 +393,43 @@ public class SimulationHandler extends AbstractTrialHandler{
 			site.setName("Trial Site " + (i + 1));
 			showedObject.addParticipatingSite(site);
 		}
+	}
+	
+	public String getExportSimulationResults(){
+		StringBuffer sb = new StringBuffer();
+		sb.append("Trial name:" + showedObject.getName() +"\n");
+		sb.append("Sites: \n");
+		for(TrialSite site: showedObject.getParticipatingSites()){
+			sb.append("     Name: " + site.getName() + "Ratio: 1 \n" );
+		}
+		sb.append("TreatmentArms: \n");
+		for(TreatmentArm arm: showedObject.getTreatmentArms()){
+			sb.append("     Name: " + arm.getName());
+			sb.append("     description: " + arm.getDescription());
+			sb.append("     planned subjects: " +arm.getPlannedSubjects() +"\n");
+		}
+		sb.append("Simulation Runs: "+runs+"\n");
+		sb.append("Algorithms: \n");
+		for(SimulationResult res : simulationResults){
+			sb.append("     Type: " + res.getAlgConf().getClass().getSimpleName());
+			sb.append("     time: " + res.getDuration() +"ms");
+			sb.append("     min Marginal Balance: " +res.getMarginalBalanceMin());
+			sb.append("     mean Marginal Balance: " +res.getMarginalBalanceMean());
+			sb.append("     max Marginal Balance: " +res.getMarginalBalanceMax() +"\n");
+		}
+		sb.append("Details: \n");
+		for(SimulationResult res : simulationResults){
+			sb.append("     Type: " + res.getAlgConf().getClass().getSimpleName());
+			for(SimualtionResultArm simArm : res.getSimResultArms()){
+				sb.append("     arm: " + simArm.getArm().getName());
+				sb.append("     min: " + simArm.getMin());
+				sb.append("     min percent: " +simArm.getMinPercentString());
+				sb.append("     max: " +simArm.getMax());
+				sb.append("     max percent: " +simArm.getMaxPercentString());
+				sb.append("     mean: " +simArm.getMean());
+				sb.append("     median: " +simArm.getMedian()+"\n");
+			}
+		}
+		return sb.toString();
 	}
 }

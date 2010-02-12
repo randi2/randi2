@@ -1,5 +1,5 @@
 <!-- 
- Simulation Run and Complete Popup 
+ Simulation Export Popup 
 
  Made by ds@randi2.de 
 
@@ -18,29 +18,25 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelPopup draggable="false" modal="true"
-		visible="#{popups.simulationCompletePVisible}"
-		rendered="#{popups.simulationCompletePVisible}"
-		style="width: 300px; height: auto" >
+		visible="#{popups.simulationExportPVisible}"
+		rendered="#{popups.simulationExportPVisible}"
+		style="width: 500px; height: auto" >
 		<f:facet name="header">
-			<ice:outputText value="simulate trial"></ice:outputText>
+			<ice:outputText value="simulation result export"></ice:outputText>
 		</f:facet>
 
 		<f:facet name="body">
 			<ice:panelGrid border="0" columns="2">
 				<f:facet name="footer">
 					<ice:panelGroup>
-						<ice:commandButton value="start Simulation" actionListener="#{randi2Page.simulate}" rendered="#{not simulationHandler.simulationComplete}"
-							immediate="true"></ice:commandButton>
-						<ice:commandButton value="show result" actionListener="#{randi2Page.simulationResult}" disabled="#{not simulationHandler.simulationComplete}"
+						<ice:commandButton value="ok" action="#{popups.hideSimulationExportPopup}"
 							immediate="true"></ice:commandButton>
 					</ice:panelGroup>
 				</f:facet>
 				<ice:graphicImage value="/img/icons/saved48.png"></ice:graphicImage>
-				<ice:outputText
-					value="simulation complete" escape="false" rendered="#{simulationHandler.simulationComplete}"></ice:outputText>
-					<ice:outputText
-					value="simulation run, it may take a few minutes" escape="false" rendered="#{not simulationHandler.simulationComplete}"></ice:outputText>
-					
+				<ice:inputTextarea
+					value="#{simulationHandler.exportSimulationResults}" style="width: 400px; height: 500px"></ice:inputTextarea>
+				
 			</ice:panelGrid>
 
 		</f:facet>
