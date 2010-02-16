@@ -11,6 +11,5 @@ import de.randi2.simulation.model.SimulationResult;
 public interface SimulationService {
 
 	public SimulationResult simulateTrial(Trial trial,List<DistributionSubjectProperty> properties,AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime);
-	
-//	public long estimateSimulationDuration(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime);
+	public long estimateSimulationDuration(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime);
 }

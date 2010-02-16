@@ -42,7 +42,6 @@ public class SimulationServiceImpl implements SimulationService {
 			Trial simTrial = resetTrial(copyTrial);
 			SimulationRun simRun = simResult.getEmptyRun();
 			for (int i = 0; i < simTrial.getPlannedSubjectAmount(); i++) {
-				if(MinimizationConfig.class.isInstance(trial.getRandomizationConfiguration())){subject = new TrialSubject();}
 				 subject = generateTrialSubject(properties, subject);
 				subject.setTrialSite(distributionTrialSites.getNextValue());
 			
@@ -51,9 +50,6 @@ public class SimulationServiceImpl implements SimulationService {
 						.randomize(subject);
 		
 				subject.setArm(assignedArm);
-				subject.setRandNumber(i + "_" + assignedArm.getName());
-				subject.setCounter(i);
-				subject.setIdentification(subject.getRandNumber());
 				assignedArm.addSubject(subject);
 			}
 			for(int i = 0; i<simTrial.getTreatmentArms().size();i++){
@@ -67,7 +63,7 @@ public class SimulationServiceImpl implements SimulationService {
 	}
 
 	
-	private static Trial copyAndPrepareTrial(Trial trial,  List<DistributionSubjectProperty> properties) {
+	public static Trial copyAndPrepareTrial(Trial trial,  List<DistributionSubjectProperty> properties) {
 		int id = 0;
 		Trial cTrial = new Trial();
 		cTrial.setId(id++);
