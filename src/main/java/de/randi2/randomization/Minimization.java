@@ -32,6 +32,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 
 	public Minimization(Trial _trial, long seed) {
 		super(_trial, seed);
+		randomEqualScore = new Random(seed);
 	}
 	
 	public Minimization(Trial _trial, long seed, long seedEqualScore){

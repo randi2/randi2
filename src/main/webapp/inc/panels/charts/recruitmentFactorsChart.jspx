@@ -28,7 +28,7 @@ Trial's Recruitment Chart.
 			chartTitle="#{labels['chart.rFactor.title']}"
 			yaxisTitle="#{labels['chart.rFactor.xLabel']}"
 			xaxisTitle="#{labels['chart.rFactor.yLabel']}" width="650"
-			height="#{charts.RFactorsChartData.hieghtChart}" horizontal="true" legendPlacement="none"
+			height="#{charts.RFactorsChartData.heightChart}" horizontal="true" legendPlacement="none"
 			xaxisLabels="#{charts.RFactorsChartData.XLabels}"
 			labels="#{charts.RFactorsChartData.XLabels}"
 			data="#{charts.RFactorsChartData.data}"

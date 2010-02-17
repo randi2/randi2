@@ -60,6 +60,8 @@ public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 	}
 
 	public abstract RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm();
+	
+	public abstract RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm(long seed);
 
 
 	public void setTrial(Trial _trial) {
@@ -69,7 +71,32 @@ public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 		}
 	}
 	
+	/**
+	 * This method resets the algorithm
+	 * @param seed
+	 */
 	public void resetAlgorithm(){
-		algorithm = createAlgorithm();
+		if(algorithm!=null && algorithm.isSeeded()){
+			algorithm = createAlgorithm(algorithm.getSeed());
+		}else{
+			algorithm = createAlgorithm();
+		}
+		
+	}
+	
+	public void resetAlgorithmWithNext(){
+		if(algorithm!=null && algorithm.isSeeded()){
+			algorithm = createAlgorithm(algorithm.getSeed()+10000);
+		}else{
+			algorithm = createAlgorithm();
+		}
+	}
+	
+	/**
+	 * This method resets the algorithm with a new seed value
+	 * @param seed
+	 */
+	public void resetAlgorithm(long seed){
+		algorithm = createAlgorithm(seed);
 	}
 }

@@ -29,12 +29,14 @@ public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationC
 	protected Trial trial;
 	protected Conf configuration;
 	private Random seededRandom;
-
+	private long seed;
+	
 	@SuppressWarnings("unchecked")
 	protected RandomizationAlgorithm(Trial _trial) {
 		super();
 		this.trial = _trial;
 		this.configuration = (Conf) trial.getRandomizationConfiguration();
+		System.out.println("#####################################################################################");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -42,7 +44,9 @@ public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationC
 		super();
 		this.trial = _trial;
 		this.configuration = (Conf) trial.getRandomizationConfiguration();
+		this.seed = seed;
 		this.seededRandom = new Random(seed);
+		System.out.println("#####################################################################################");
 	}
 
 	/**
@@ -81,8 +85,11 @@ public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationC
 	}
 	
 	
+	public long getSeed(){
+		return seed;
+	}
 
-	private boolean isSeeded() {
+	public boolean isSeeded() {
 		return seededRandom != null;
 	}
 

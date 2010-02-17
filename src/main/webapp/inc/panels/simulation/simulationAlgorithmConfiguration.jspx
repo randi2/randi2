@@ -27,6 +27,13 @@
 		<f:facet name="header">
 			<ice:outputLabel value="#{labels['trial.randomConf']}" />
 		</f:facet>
+		<ice:panelGrid columns="1">
+		<ice:panelGroup>
+		<ice:outputLabel value="seed:" />
+		<ice:selectBooleanCheckbox value="#{simulationHandler.seedRandomisationAlgorithmB}"  partialSubmit="true"/>
+		<ice:inputText rendered="#{simulationHandler.seedRandomisationAlgorithmB}" value="#{simulationHandler.seedRandomisationAlgorithm}"  partialSubmit="true"/>
+		</ice:panelGroup>
+		<ice:panelGroup>
 		<ice:selectOneMenu id="algorithmTypeSim" partialSubmit="true"
 			value="#{simulationAlgorithm.selectedAlgorithmPanelId}">
 			<f:selectItems value="#{simulationAlgorithm.algorithms}" />
@@ -38,10 +45,12 @@
 			disabled="#{simulationHandler.treatmentArmsCount==0}"
 			actionListener="#{simulationHandler.removeAlgorithm}"
 			immediate="true" />
+			</ice:panelGroup>
+			</ice:panelGrid>
 	</ice:panelCollapsible>
 </ice:panelGroup>
 <ice:panelGrid columns="3">
-	<ice:outputLabel value="#{labels['pages.trialEditPanel.tArmLabel']}" />
+	<ice:outputLabel value="Algorithm" />
 
 </ice:panelGrid>
 <ice:panelGroup styleClass="clearer">

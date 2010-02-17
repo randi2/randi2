@@ -37,7 +37,7 @@ public class SimulationResult {
 	private List<SimulationRun> runs = new ArrayList<SimulationRun>();
 
 	@Getter
-	private AbstractRandomizationConfig algConf;
+	AbstractRandomizationConfig algConf;
 	
 	public SimulationResult(List<TreatmentArm> arms, AbstractRandomizationConfig algConf){
 		this.arms = arms;
@@ -141,9 +141,9 @@ public class SimulationResult {
 				means[j] += runs.get(i).getSubjectsPerArms()[j];
 			}
 
-			if(runs.get(i).getMarginalBalance()<marginalBalanceMin) marginalBalanceMin = runs.get(i).getMarginalBalance();
-			if(runs.get(i).getMarginalBalance()>marginalBalanceMax) marginalBalanceMax = runs.get(i).getMarginalBalance();
-			marginalBalanceMean+=runs.get(i).getMarginalBalance();
+			if(runs.get(i).getMarginalBalace()<marginalBalanceMin) marginalBalanceMin = runs.get(i).getMarginalBalace();
+			if(runs.get(i).getMarginalBalace()>marginalBalanceMax) marginalBalanceMax = runs.get(i).getMarginalBalace();
+			marginalBalanceMean+=runs.get(i).getMarginalBalace();
 			duration += runs.get(i).getTime();
 		}
 		for(int i = 0 ;i<arms.size();i++){

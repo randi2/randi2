@@ -7,6 +7,7 @@ import java.util.List;
 import javax.faces.model.SelectItem;
 
 import lombok.Getter;
+import lombok.Setter;
 import de.randi2.model.TrialSite;
 import de.randi2.simulation.distribution.AbstractDistribution;
 import de.randi2.simulation.distribution.ConcreteDistribution;
@@ -31,6 +32,14 @@ public class DistributionTrialSiteWrapper {
 		}
 
 	}	
+	
+	@Getter
+	@Setter
+	private boolean seedTrialsite = false;
+	
+	@Getter
+	@Setter
+	private long seed;
 	
 	private Class<?> distributionClass = UniformDistribution.class;
 	
@@ -86,14 +95,24 @@ public class DistributionTrialSiteWrapper {
 			for(TrialSiteRatioWrapper wrapper: trialSitesRatioWrappers){
 				trialSites.add(wrapper.getSite());
 			}
-			return  new UniformDistribution<TrialSite>(trialSites);
+			if(seedTrialsite){
+				return  new UniformDistribution<TrialSite>(trialSites,seed);
+			}else{
+				return  new UniformDistribution<TrialSite>(trialSites);
+			}
+			
 			
 		}else{
 			List<Pair<TrialSite, Integer>> trialSitesRatio = new ArrayList<Pair<TrialSite, Integer>>();
 			for(TrialSiteRatioWrapper wrapper: trialSitesRatioWrappers){
 				trialSitesRatio.add(Pair.of(wrapper.getSite(), wrapper.getRatio()));
 			}
-			return new ConcreteDistribution<TrialSite>(trialSitesRatio.toArray(new Pair[0]));
+			if(seedTrialsite){
+				return new ConcreteDistribution<TrialSite>(seed, trialSitesRatio.toArray(new Pair[0]));
+			}else{
+				return new ConcreteDistribution<TrialSite>(trialSitesRatio.toArray(new Pair[0]));
+			}
+			
 		}
 		
 	}

@@ -32,7 +32,6 @@ import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
-import de.randi2.simulation.distribution.UniformDistribution;
 import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimualtionResultArm;
 import de.randi2.simulation.model.SimulationResult;
@@ -98,6 +97,14 @@ public class SimulationHandler extends AbstractTrialHandler{
 	@Getter
 	@Setter
 	private boolean simOnly;
+	
+	@Getter
+	@Setter
+	private boolean seedRandomisationAlgorithmB;
+	
+	@Getter
+	@Setter
+	private long seedRandomisationAlgorithm;
 	
 	@Getter
 	@Setter
@@ -321,8 +328,14 @@ public class SimulationHandler extends AbstractTrialHandler{
 		if (simOnly) {
 			simulationResults = new ArrayList<SimulationResult>();
 			for(AlgorithmWrapper alg : randomisationConfigs){
+				showedObject.setRandomizationConfiguration(alg.getConf());
 				alg.getConf().setTempData(null);
-			showedObject.setRandomizationConfiguration(alg.getConf());
+				alg.getConf().setTrial(showedObject);
+				if(seedRandomisationAlgorithmB){
+					alg.getConf().resetAlgorithm(seedRandomisationAlgorithm);
+				}else{
+					alg.getConf().resetAlgorithm();
+				}
 			SimulationResult result = simulationService.simulateTrial(showedObject,
 					properties, distributedTrialSites.getDistributionTrialSites(), runs, maxTime);
 			result.getMarginalBalanceMax();

@@ -40,6 +40,12 @@ public class BlockRandomizationConfig extends AbstractRandomizationConfig {
 	public RandomizationAlgorithm<BlockRandomizationConfig> createAlgorithm() {
 		return new BlockRandomization(super.getTrial());
 	}
+	
+	@Override
+	public RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm(
+				long seed) {
+			return new BlockRandomization(super.getTrial(), seed);
+	}
 
 	@Override
 	public AbstractRandomizationTempData getTempData() {

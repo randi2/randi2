@@ -37,7 +37,7 @@ public class TruncatedBinomialDesign extends
 		super(trial);
 	}
 
-	protected TruncatedBinomialDesign(Trial trial, long seed) {
+	public TruncatedBinomialDesign(Trial trial, long seed) {
 		super(trial, seed);
 	}
 

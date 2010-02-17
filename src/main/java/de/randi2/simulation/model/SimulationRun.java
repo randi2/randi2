@@ -7,6 +7,7 @@ public class SimulationRun {
 
 	private double marginalBalance = Double.NaN;
 	
+	private double debit = Double.NaN;
 	
 	@Getter @Setter
 	private int[] subjectsPerArms;
@@ -19,7 +20,7 @@ public class SimulationRun {
 	}
 	
 	
-	public double getMarginalBalance(){
+	public double getMarginalBalace(){
 		if(Double.isNaN(marginalBalance)){
 			marginalBalance = 0.0;
 			double numerator = 0.0;

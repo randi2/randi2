@@ -42,14 +42,18 @@ public class SimulationServiceImpl implements SimulationService {
 			Trial simTrial = resetTrial(copyTrial);
 			SimulationRun simRun = simResult.getEmptyRun();
 			for (int i = 0; i < simTrial.getPlannedSubjectAmount(); i++) {
+				if(MinimizationConfig.class.isInstance(trial.getRandomizationConfiguration())){subject = new TrialSubject();}
 				 subject = generateTrialSubject(properties, subject);
 				subject.setTrialSite(distributionTrialSites.getNextValue());
 			
 				assignedArm = simTrial
 						.getRandomizationConfiguration().getAlgorithm()
 						.randomize(subject);
-		
+				System.out.println(i + " " + assignedArm.getName());
 				subject.setArm(assignedArm);
+				subject.setRandNumber(i + "_" + assignedArm.getName());
+				subject.setCounter(i);
+				subject.setIdentification(subject.getRandNumber());
 				assignedArm.addSubject(subject);
 			}
 			for(int i = 0; i<simTrial.getTreatmentArms().size();i++){
@@ -63,8 +67,8 @@ public class SimulationServiceImpl implements SimulationService {
 	}
 
 	
-	public static Trial copyAndPrepareTrial(Trial trial,  List<DistributionSubjectProperty> properties) {
-		int id = 0;
+	private static Trial copyAndPrepareTrial(Trial trial,  List<DistributionSubjectProperty> properties) {
+		long id = 0;
 		Trial cTrial = new Trial();
 		cTrial.setId(id++);
 		cTrial.setParticipatingSites(new HashSet<TrialSite>(trial
@@ -87,6 +91,7 @@ public class SimulationServiceImpl implements SimulationService {
 			AbstractCriterion<?, ?> cr = dsp.getCriterion();
 			if (DateCriterion.class.isInstance(cr)) {
 				DateCriterion ccr = new DateCriterion();
+				ccr.setId(id++);
 				ccr.setInclusionConstraint(cr.getInclusionConstraint());
 				for (DateConstraint co : DateCriterion.class.cast(cr).getStrata()) {
 					DateConstraint cco = new DateConstraint();
@@ -98,6 +103,7 @@ public class SimulationServiceImpl implements SimulationService {
 				cTrial.addCriterion(ccr);
 			} else if (DichotomousCriterion.class.isInstance(cr)) {
 				DichotomousCriterion ccr = new DichotomousCriterion();
+				ccr.setId(id++);
 				ccr.setInclusionConstraint(cr.getInclusionConstraint());
 				ccr.setOption1(DichotomousCriterion.class.cast(cr).getOption1());
 				ccr.setOption2(DichotomousCriterion.class.cast(cr).getOption2());
@@ -116,6 +122,7 @@ public class SimulationServiceImpl implements SimulationService {
 				cTrial.addCriterion(ccr);
 			} else if (OrdinalCriterion.class.isInstance(cr)) {
 				OrdinalCriterion ccr = new OrdinalCriterion();
+				ccr.setId(id++);
 				ccr.setInclusionConstraint(cr.getInclusionConstraint());
 				ccr.setElements(OrdinalCriterion.class.cast(cr).getElements());
 				for (OrdinalConstraint co : OrdinalCriterion.class.cast(cr).getStrata()) {
@@ -156,7 +163,7 @@ public class SimulationServiceImpl implements SimulationService {
 		}
 		trial.getRandomizationConfiguration().setTrial(trial);
 		trial.getRandomizationConfiguration().setTempData(null);
-		trial.getRandomizationConfiguration().resetAlgorithm();
+		trial.getRandomizationConfiguration().resetAlgorithmWithNext();
 		if(MinimizationConfig.class.isInstance(trial.getRandomizationConfiguration())){
 			((Minimization) trial.getRandomizationConfiguration().getAlgorithm()).clear();
 		}

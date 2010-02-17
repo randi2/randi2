@@ -21,6 +21,12 @@ public class MinimizationConfig extends AbstractRandomizationConfig {
 	}
 
 	@Override
+		public RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm(
+				long seed) {
+		return new Minimization(super.getTrial(), seed);
+		}
+	
+	@Override
 		public AbstractRandomizationTempData getTempData() {
 			if (tempData == null) {
 				tempData = new MinimizationTempData();
