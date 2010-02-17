@@ -43,6 +43,12 @@ public class DistributedCriterionWrapper<V extends Serializable, C extends Abstr
 	
 	
 	@Getter @Setter
+	private boolean seedB = false;
+	
+	@Getter @Setter
+	private long seed;
+	
+	@Getter @Setter
 	private List<DistributedConstraintWrapper> strataDistributions;
 	
 	private CriterionWrapper<V> criterion;
@@ -111,14 +117,25 @@ public class DistributedCriterionWrapper<V extends Serializable, C extends Abstr
 	public DistributionSubjectProperty getDistributionSubjectProperty(){
 		DistributionSubjectProperty property = null;
 		if(distributionClass == UniformDistribution.class){
-			UniformDistribution<Serializable> distri = new UniformDistribution<Serializable>((List<Serializable>) criterion.getWrappedCriterion().getConfiguredValues()); 
+			
+			UniformDistribution<Serializable> distri; 
+			if(seedB){
+				distri = new UniformDistribution<Serializable>((List<Serializable>) criterion.getWrappedCriterion().getConfiguredValues(),seed);
+			}else{
+				distri = new UniformDistribution<Serializable>((List<Serializable>) criterion.getWrappedCriterion().getConfiguredValues());
+			}
 			property = new DistributionSubjectProperty(criterion.getWrappedCriterion(), distri);
 		}else if(distributionClass == ConcreteDistribution.class){
 			int[] ints = new int[strataDistributions.size()];
 			for(int i =0; i< strataDistributions.size();i++){
 				ints[i] = strataDistributions.get(i).getRatio();
 			}
-			ConcreteDistribution<Serializable> distri = new ConcreteDistribution<Serializable>((List<Serializable>) criterion.getWrappedCriterion().getConfiguredValues(), ints);
+			ConcreteDistribution<Serializable> distri;
+			if(seedB){
+				distri = new ConcreteDistribution<Serializable>(seed,(List<Serializable>) criterion.getWrappedCriterion().getConfiguredValues(), ints);
+			}else{
+				distri = new ConcreteDistribution<Serializable>((List<Serializable>) criterion.getWrappedCriterion().getConfiguredValues(), ints);
+			}
 			property = new DistributionSubjectProperty(criterion.getWrappedCriterion(), distri);
 		}
 		 
