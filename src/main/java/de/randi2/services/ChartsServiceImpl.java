@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
+import com.sun.jndi.url.corbaname.corbanameURLContextFactory;
 
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
@@ -170,10 +171,18 @@ public class ChartsServiceImpl implements ChartsService {
 					wrapper.setStrataName(cr.getName() + "_" + co.getUIName());
 					strataLevel.add(wrapper);
 				}
-				strataIds.add(strataLevel);
+				if(temp.get(cr).isEmpty()){
+					StrataNameIDWrapper wrapper = new StrataNameIDWrapper();
+					wrapper.setStrataId(cr.getId() + "_" + -1);
+					wrapper.setStrataName("");
+					strataLevel.add(wrapper);
+				}
+				if(!strataLevel.isEmpty()){
+					strataIds.add(strataLevel);
+				}
 			}
 			//cartesianProduct only necessary for more then one criterions
-			if(temp.size()>=2){
+			if(strataIds.size()>=2){
 				strataIds = cartesianProduct(strataIds.toArray(new HashSet[0]));
 			}else{
 				Set<StrataNameIDWrapper> tempStrataIds =strataIds.iterator().next();
@@ -196,6 +205,7 @@ public class ChartsServiceImpl implements ChartsService {
 				String stratName = "";
 				for (StrataNameIDWrapper s : stringStrat) {
 					stratId += s.getStrataId() + ";";
+					if(!s.getStrataName().isEmpty())
 					stratName += s.getStrataName() + ";";
 				}
 				if (trial.isStratifyTrialSite()) {
