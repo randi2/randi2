@@ -42,5 +42,9 @@ public class DistributionSubjectProperty {
 		return criterion;
 	}
 	
+	public void setCriterion(
+			AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> criterion) {
+		this.criterion = criterion;
+	}
 
 }

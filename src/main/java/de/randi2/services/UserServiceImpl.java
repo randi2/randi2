@@ -156,11 +156,9 @@ public class UserServiceImpl implements UserService {
 						.getName() + " update user "
 				+ changedObject.getUsername());
 		if (changedObject.getPassword().length() != 64){
-			System.out.println("Password: "+changedObject.getPassword());
 			changedObject.setPassword(passwordEncoder.encodePassword(
 					changedObject.getPassword(), saltSourceUser
 							.getSalt(changedObject)));
-			System.out.println("Password: "+changedObject.getPassword());
 		}
 		return loginDao.update(changedObject);
 	}

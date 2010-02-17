@@ -78,7 +78,6 @@ public class SimulationHandler extends AbstractTrialHandler{
 	
 	
 	public void criterionChanged() {
-		System.out.println("asdgs");
 		changedCriterion = true;
 	}
 	

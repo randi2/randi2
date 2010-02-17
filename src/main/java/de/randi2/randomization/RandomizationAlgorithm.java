@@ -36,7 +36,6 @@ public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationC
 		super();
 		this.trial = _trial;
 		this.configuration = (Conf) trial.getRandomizationConfiguration();
-		System.out.println("#####################################################################################");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -46,7 +45,6 @@ public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationC
 		this.configuration = (Conf) trial.getRandomizationConfiguration();
 		this.seed = seed;
 		this.seededRandom = new Random(seed);
-		System.out.println("#####################################################################################");
 	}
 
 	/**

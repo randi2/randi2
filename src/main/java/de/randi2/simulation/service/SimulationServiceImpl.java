@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ public class SimulationServiceImpl implements SimulationService {
 
 	@Override
 	public SimulationResult simulateTrial(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime) {
-		Trial copyTrial = copyAndPrepareTrial(trial, properties);
+		Trial copyTrial = copyAndPrepareTrial(trial, properties, distributionTrialSites);
 		SimulationResult simResult = new SimulationResult(trial.getTreatmentArms(), trial.getRandomizationConfiguration());
 		long startTime;
 		TreatmentArm assignedArm;
@@ -49,7 +50,6 @@ public class SimulationServiceImpl implements SimulationService {
 				assignedArm = simTrial
 						.getRandomizationConfiguration().getAlgorithm()
 						.randomize(subject);
-				System.out.println(i + " " + assignedArm.getName());
 				subject.setArm(assignedArm);
 				subject.setRandNumber(i + "_" + assignedArm.getName());
 				subject.setCounter(i);
@@ -67,7 +67,7 @@ public class SimulationServiceImpl implements SimulationService {
 	}
 
 	
-	private static Trial copyAndPrepareTrial(Trial trial,  List<DistributionSubjectProperty> properties) {
+	private static Trial copyAndPrepareTrial(Trial trial,  List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites) {
 		long id = 0;
 		Trial cTrial = new Trial();
 		cTrial.setId(id++);
@@ -76,7 +76,14 @@ public class SimulationServiceImpl implements SimulationService {
 		cTrial.setStratifyTrialSite(trial.isStratifyTrialSite());
 		cTrial.setStartDate(trial.getStartDate());
 		cTrial.setEndDate(trial.getEndDate());
-
+		
+		for(int i=0;i<distributionTrialSites.getElements().size();i++){
+			TrialSite site = distributionTrialSites.getElements().get(i);
+			TrialSite cSite = new TrialSite();
+			cSite.setName(site.getName());
+			cSite.setId(id++);
+			distributionTrialSites.getElements().set(i, cSite);
+		}
 		ArrayList<TreatmentArm> arms = new ArrayList<TreatmentArm>();
 		for (TreatmentArm arm : trial.getTreatmentArms()) {
 			TreatmentArm cArm = new TreatmentArm();
@@ -100,6 +107,7 @@ public class SimulationServiceImpl implements SimulationService {
 					cco.setId(id++);
 					ccr.addStrata(cco);
 				}
+				dsp.setCriterion(ccr);
 				cTrial.addCriterion(ccr);
 			} else if (DichotomousCriterion.class.isInstance(cr)) {
 				DichotomousCriterion ccr = new DichotomousCriterion();
@@ -119,6 +127,7 @@ public class SimulationServiceImpl implements SimulationService {
 					} catch (ContraintViolatedException e) {
 					}
 				}
+				dsp.setCriterion(ccr);
 				cTrial.addCriterion(ccr);
 			} else if (OrdinalCriterion.class.isInstance(cr)) {
 				OrdinalCriterion ccr = new OrdinalCriterion();
@@ -136,6 +145,7 @@ public class SimulationServiceImpl implements SimulationService {
 					} catch (ContraintViolatedException e) {
 					}
 				}
+				dsp.setCriterion(ccr);
 				cTrial.addCriterion(ccr);
 			}
 
