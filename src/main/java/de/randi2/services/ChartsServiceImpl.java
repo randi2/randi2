@@ -212,6 +212,13 @@ public class ChartsServiceImpl implements ChartsService {
 				}
 
 			}
+		}else if (trial.isStratifyTrialSite()) {
+			for (TrialSite site : trial.getParticipatingSites()) {
+				String strataId = site.getId() + "__";
+				strataCountMap.put(strataId, new Double(0));
+				strataNameMap.put(strataId, site.getName());
+			}
+
 		}
 		for (TrialSubject subject : trial.getSubjects()) {
 			String stratum = "";
