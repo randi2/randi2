@@ -50,6 +50,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<param-name>com.icesoft.faces.heartbeatRetries</param-name>
 		<param-value>3</param-value>
 	</context-param>
+	
+	<!-- Currently not used /gMaps 
 	<context-param>
 		<description>
 			A Google Maps API key is required if gMap component is
@@ -63,6 +65,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		</param-value>
 
 	</context-param>
+	-->
+	
 	<context-param>
 		<param-name>com.icesoft.faces.uploadDirectory</param-name>
 		<param-value>upload</param-value>
@@ -113,10 +117,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<listener>
 		<listener-class>de.randi2.jsf.fileupload.InputFileSessionCleaner</listener-class>
 	</listener>
+	<!-- 
 	<listener>
 		<listener-class>
 			com.icesoft.faces.util.event.servlet.ContextEventRepeater</listener-class>
 	</listener>
+	 -->
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
@@ -169,10 +175,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>uploadServlet</servlet-name>
 		<url-pattern>/uploadHtml</url-pattern>
 	</servlet-mapping>
+	<!-- 
+	
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>/faces/*</url-pattern>
 	</servlet-mapping>
+	
+	 -->
+	
 	<servlet-mapping>
 		<servlet-name>Persistent Faces Servlet</servlet-name>
 		<url-pattern>/xmlhttp/* </url-pattern>
