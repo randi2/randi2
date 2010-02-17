@@ -51,7 +51,11 @@ public class ChartData {
 	/**
 	 * The height of the chart as String.
 	 */
-	public String getHieghtChart(){
-		return "" + (xLabels.size()*25);
+	public String getHeightChart(){
+		if(xLabels.size()>4){
+			return "" + (xLabels.size()*25);
+		}else{
+			return "200";
+		}
 	}
 }

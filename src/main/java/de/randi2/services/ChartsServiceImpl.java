@@ -80,7 +80,7 @@ public class ChartsServiceImpl implements ChartsService {
 						values[1] = values[1] + 1.0;
 					}
 				}
-				xL.add((month+1) + "." + year);
+				xL.add((month + 1) + "." + year);
 				data.add(values);
 			}
 			monthStart = startDate.getMinimum(GregorianCalendar.MONTH);
@@ -116,15 +116,16 @@ public class ChartsServiceImpl implements ChartsService {
 		ChartData chData = new ChartData();
 		ArrayList<String> xL = new ArrayList<String>();
 		ArrayList<double[]> data = new ArrayList<double[]>();
-		
+
 		ArrayList<TrialSubject> subjects1 = new ArrayList<TrialSubject>(trial
 				.getSubjects());
 		double[] count = new double[trial.getParticipatingSites().size()];
 		int i = 0;
 		for (TrialSite site : trial.getParticipatingSites()) {
-			ArrayList<TrialSubject> subjects = new ArrayList<TrialSubject>(subjects1);
+			ArrayList<TrialSubject> subjects = new ArrayList<TrialSubject>(
+					subjects1);
 			xL.add(site.getName());
-			
+
 			count[i] = 0;
 			for (TrialSubject subject : subjects) {
 				if (subject.getTrialSite().getName().equals(site.getName())) {
@@ -134,8 +135,8 @@ public class ChartsServiceImpl implements ChartsService {
 			}
 			i++;
 		}
-		for(double j : count){
-			data.add(new double[]{j});
+		for (double j : count) {
+			data.add(new double[] { j });
 		}
 		chData.setData(data);
 		chData.setXLabels(xL);
@@ -149,75 +150,86 @@ public class ChartsServiceImpl implements ChartsService {
 		ArrayList<double[]> data = new ArrayList<double[]>();
 		HashMap<String, Double> strataCountMap = new HashMap<String, Double>();
 		HashMap<String, String> strataNameMap = new HashMap<String, String>();
-	
-		HashMap<AbstractCriterion<?,?>, List<AbstractConstraint<?>>> temp= new HashMap<AbstractCriterion<?,?>, List<AbstractConstraint<?>>>();
-		for (AbstractCriterion<?,?> cr : trial.getCriteria()) {
+
+		HashMap<AbstractCriterion<?, ?>, List<AbstractConstraint<?>>> temp = new HashMap<AbstractCriterion<?, ?>, List<AbstractConstraint<?>>>();
+		for (AbstractCriterion<?, ?> cr : trial.getCriteria()) {
 			List<AbstractConstraint<?>> list = new ArrayList<AbstractConstraint<?>>();
-				for(AbstractConstraint<?> co : cr.getStrata()){
-					list.add(co);
-				}
+			for (AbstractConstraint<?> co : cr.getStrata()) {
+				list.add(co);
+			}
 			temp.put(cr, list);
 		}
-		
 		Set<Set<StrataNameIDWrapper>> strataIds = new HashSet<Set<StrataNameIDWrapper>>();
-		
-		for(AbstractCriterion<?,?> cr : temp.keySet()){
-			Set<StrataNameIDWrapper> strataLevel = new HashSet<StrataNameIDWrapper>();
-			for(AbstractConstraint<?> co : temp.get(cr)){
-				StrataNameIDWrapper wrapper = new StrataNameIDWrapper();
-				wrapper.setStrataId(cr.getId()+"_"+co.getId());
-				wrapper.setStrataName(cr.getName()+"_"+co.getUIName());
-				strataLevel.add(wrapper);
-			}
-			strataIds.add(strataLevel);
-		}
-		
-		strataIds = cartesianProduct(strataIds.toArray(new HashSet[0]));
-		for(Set<StrataNameIDWrapper> set : strataIds){
-			List<StrataNameIDWrapper> stringStrat = new ArrayList<StrataNameIDWrapper>();
-			for(StrataNameIDWrapper string : set){
-				stringStrat.add(string);
-			}
-			Collections.sort(stringStrat);
-			
-			String stratId = "";
-			String stratName = "";
-			for(StrataNameIDWrapper s : stringStrat){
-				stratId+=s.getStrataId()+";";
-				stratName+=s.getStrataName()+";";
-			}
-			if(trial.isStratifyTrialSite()){
-				for(TrialSite site: trial.getParticipatingSites()){
-					String strataId=site.getId()+"__" + stratId;
-					strataCountMap.put(strataId, new Double(0));
-					strataNameMap.put(strataId, site.getName()+" | "+stratName);
+		// minimum one constraint
+		if (temp.size() >= 1) {
+			for (AbstractCriterion<?, ?> cr : temp.keySet()) {
+				Set<StrataNameIDWrapper> strataLevel = new HashSet<StrataNameIDWrapper>();
+				for (AbstractConstraint<?> co : temp.get(cr)) {
+					StrataNameIDWrapper wrapper = new StrataNameIDWrapper();
+					wrapper.setStrataId(cr.getId() + "_" + co.getId());
+					wrapper.setStrataName(cr.getName() + "_" + co.getUIName());
+					strataLevel.add(wrapper);
 				}
-			
-			}else{
-				strataCountMap.put(stratId, new Double(0));
-				strataNameMap.put(stratId, stratName);
+				strataIds.add(strataLevel);
 			}
-			
+			//cartesianProduct only necessary for more then one criterions
+			if(temp.size()>=2){
+				strataIds = cartesianProduct(strataIds.toArray(new HashSet[0]));
+			}else{
+				Set<StrataNameIDWrapper> tempStrataIds =strataIds.iterator().next();
+				Set<Set<StrataNameIDWrapper>> tempStrataIdsSet = new HashSet<Set<StrataNameIDWrapper>>();
+				for(StrataNameIDWrapper wrapper : tempStrataIds){
+					Set<StrataNameIDWrapper> next = new HashSet<StrataNameIDWrapper>();
+					next.add(wrapper);
+					tempStrataIdsSet.add(next);
+				}
+				strataIds = tempStrataIdsSet;
+			}
+			for (Set<StrataNameIDWrapper> set : strataIds) {
+				List<StrataNameIDWrapper> stringStrat = new ArrayList<StrataNameIDWrapper>();
+				for (StrataNameIDWrapper string : set) {
+					stringStrat.add(string);
+				}
+				Collections.sort(stringStrat);
+
+				String stratId = "";
+				String stratName = "";
+				for (StrataNameIDWrapper s : stringStrat) {
+					stratId += s.getStrataId() + ";";
+					stratName += s.getStrataName() + ";";
+				}
+				if (trial.isStratifyTrialSite()) {
+					for (TrialSite site : trial.getParticipatingSites()) {
+						String strataId = site.getId() + "__" + stratId;
+						strataCountMap.put(strataId, new Double(0));
+						strataNameMap.put(strataId, site.getName() + " | "
+								+ stratName);
+					}
+
+				} else {
+					strataCountMap.put(stratId, new Double(0));
+					strataNameMap.put(stratId, stratName);
+				}
+
+			}
 		}
 		for (TrialSubject subject : trial.getSubjects()) {
-				String stratum = "";
-				if(trial.isStratifyTrialSite()){
-					stratum = subject.getTrialSite().getId()+"__";
-				}
-				stratum+=subject.getStratum();
-				Double count = strataCountMap.get(stratum);
-				count++;
-				strataCountMap.put(stratum, count);
+			String stratum = "";
+			if (trial.isStratifyTrialSite()) {
+				stratum = subject.getTrialSite().getId() + "__";
 			}
-	
-		
-	
+			stratum += subject.getStratum();
+			Double count = strataCountMap.get(stratum);
+			count++;
+			strataCountMap.put(stratum, count);
+		}
+
 		double[] dataTable;
-		int i =0;
-		for(String s :strataCountMap.keySet()){
+		int i = 0;
+		for (String s : strataCountMap.keySet()) {
 			dataTable = new double[strataCountMap.size()];
-			for(int j = 0 ; j<dataTable.length;j++){
-				if(j!=i){
+			for (int j = 0; j < dataTable.length; j++) {
+				if (j != i) {
 					dataTable[j] = 0;
 				}
 			}
@@ -230,7 +242,5 @@ public class ChartsServiceImpl implements ChartsService {
 		chData.setXLabels(xL);
 		return chData;
 	}
-	
-	
-	
+
 }
