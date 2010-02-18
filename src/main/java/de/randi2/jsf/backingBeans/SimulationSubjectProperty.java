@@ -37,6 +37,12 @@ public class SimulationSubjectProperty extends AbstractSubjectPropertyBackingB{
 		}
 		return criteriaAC;
 	}
+	
+	@Override
+	public ArrayList<CriterionWrapper<? extends Serializable>> getCriteria() {
+		simulationHandler.criterionChanged();
+		return super.getCriteria();
+	}
 
 	
 }

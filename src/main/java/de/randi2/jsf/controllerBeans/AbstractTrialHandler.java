@@ -146,6 +146,7 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 						.getWrappedCriterion())) {
 					DichotomousCriterion temp = DichotomousCriterion.class
 							.cast(cr.getWrappedCriterion());
+					temp.setStrata(new ArrayList<DichotomousConstraint>());
 					try {
 						temp.addStrata(new DichotomousConstraint(Arrays
 								.asList(new String[] { temp
@@ -157,6 +158,7 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 						e.printStackTrace();
 					}
 				} else {
+					cr.getWrappedCriterion().setStrata(new ArrayList());
 					for (ConstraintWrapper<?> cw : cr.getStrata()) {
 						cr.getWrappedCriterion().addStrata(cw.configure());
 					}

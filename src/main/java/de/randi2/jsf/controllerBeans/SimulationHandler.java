@@ -45,17 +45,15 @@ import de.randi2.simulation.service.SimulationService;
  * 
  * @author ds@randi2.de
  */
-public class SimulationHandler extends AbstractTrialHandler{
+public class SimulationHandler extends AbstractTrialHandler {
 
 	@Getter
 	@Setter
 	private TrialHandler trialHandler;
 
-
 	@Getter
 	@Setter
 	private SimulationService simulationService;
-
 
 	@Getter
 	@Setter
@@ -65,63 +63,61 @@ public class SimulationHandler extends AbstractTrialHandler{
 	@Setter
 	private long maxTime;
 
-
 	@Getter
 	private SimulationResult simResult;
 
 	@Getter
 	private int countTrialSites;
-	
 
 	@Setter
-	private boolean changedCriterion;
-	
-	
+	private boolean criterionChanged = true;
+
 	public void criterionChanged() {
-		changedCriterion = true;
+		criterionChanged = true;
 	}
-	
-	public boolean isChangedCriterion() {
-		changedCriterion = true;
-		return changedCriterion;
+
+	public boolean isCriterionChanged() {
+		System.out.println("criterion changed");
+		criterionChanged = true;
+		return criterionChanged;
 	}
 
 	@Getter
 	private List<AlgorithmWrapper> randomisationConfigs = new ArrayList<AlgorithmWrapper>();
 
-	@Getter 
+	@Getter
 	@Setter
 	private List<SimulationResult> simulationResults = new ArrayList<SimulationResult>();
 
 	@Getter
 	@Setter
 	private boolean simOnly;
-	
+
 	@Getter
 	@Setter
 	private boolean seedRandomisationAlgorithmB;
-	
+
 	@Getter
 	@Setter
 	private long seedRandomisationAlgorithm;
-	
+
 	@Getter
 	@Setter
 	private boolean simFromTrialCreationFirst = true;
-	
+
 	private DistributionTrialSiteWrapper distributedTrialSites;
 
-	
 	private List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> distributedCriterions;
 
-	
-	public DistributionTrialSiteWrapper getDistributionTrialSiteWrapper(){
-		if( distributedTrialSites== null ||distributedTrialSites.getTrialSitesRatioWrappers().size() != countTrialSites){
+	public DistributionTrialSiteWrapper getDistributionTrialSiteWrapper() {
+		if (distributedTrialSites == null
+				|| distributedTrialSites.getTrialSitesRatioWrappers().size() != countTrialSites) {
 			List<TrialSiteRatioWrapper> tRatioWrapper = new ArrayList<TrialSiteRatioWrapper>();
-			for(TrialSite site : showedObject.getParticipatingSites()){
+			for (TrialSite site : showedObject.getParticipatingSites()) {
 				tRatioWrapper.add(new TrialSiteRatioWrapper(site));
 			}
-			distributedTrialSites = new DistributionTrialSiteWrapper(tRatioWrapper);
+			distributedTrialSites = new DistributionTrialSiteWrapper(
+					tRatioWrapper);
 		}
 		return distributedTrialSites;
 	}
@@ -133,27 +129,32 @@ public class SimulationHandler extends AbstractTrialHandler{
 
 	@SuppressWarnings("unchecked")
 	public List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> getDistributedCriterions() {
-		//if (distributedCriterions == null && distributedCriterions.size()!= criteriaList.size()) {
+		if (distributedCriterions == null
+				|| distributedCriterions.size() != showedObject.getCriteria()
+						.size()) {
 			distributedCriterions = new ArrayList<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>>();
 			for (AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : showedObject
 					.getCriteria()) {
-				List<DistributedConstraintWrapper> strataDistributions = new ArrayList<DistributedConstraintWrapper>();
-				for (AbstractConstraint<? extends Serializable> con : c
-						.getStrata()) {
-					strataDistributions.add(new DistributedConstraintWrapper(
-							con));
+				if (c.getStrata() != null) {
+					List<DistributedConstraintWrapper> strataDistributions = new ArrayList<DistributedConstraintWrapper>();
+
+					for (AbstractConstraint<? extends Serializable> con : c
+							.getStrata()) {
+						strataDistributions
+								.add(new DistributedConstraintWrapper(con));
+					}
+					distributedCriterions.add(new DistributedCriterionWrapper(
+							strataDistributions,
+							new CriterionWrapper<Serializable>(
+									(AbstractCriterion<Serializable, ?>) c)));
 				}
-				distributedCriterions.add(new DistributedCriterionWrapper(
-						strataDistributions,
-						new CriterionWrapper<Serializable>(
-								(AbstractCriterion<Serializable, ?>) c)));
 			}
-//		}
+		}
 		return distributedCriterions;
 	}
 
 	public Trial getSimTrial() {
-		if (simFromTrialCreationFirst  && !simOnly) {
+		if (simFromTrialCreationFirst && !simOnly) {
 			showedObject = trialHandler.getShowedObject();
 			setRandomizationConfig(trialHandler.getRandomizationConfig());
 			try {
@@ -173,7 +174,7 @@ public class SimulationHandler extends AbstractTrialHandler{
 			} catch (Exception e) {
 				return null;
 			}
-			
+
 		} else if (showedObject == null && simOnly) {
 			showedObject = new Trial();
 			List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
@@ -181,7 +182,7 @@ public class SimulationHandler extends AbstractTrialHandler{
 			arms.add(new TreatmentArm());
 			showedObject.setTreatmentArms(arms);
 		}
-		if(simOnly){
+		if (simOnly && criterionChanged) {
 			/* SubjectProperties Configuration - done in Step4 */
 			ValueExpression ve1 = FacesContext.getCurrentInstance()
 					.getApplication().getExpressionFactory()
@@ -191,7 +192,10 @@ public class SimulationHandler extends AbstractTrialHandler{
 							SimulationSubjectProperty.class);
 			SimulationSubjectProperty currentSimulationSubjectProperty = (SimulationSubjectProperty) ve1
 					.getValue(FacesContext.getCurrentInstance().getELContext());
-			showedObject.setCriteria(addAllConfiguredCriteria(currentSimulationSubjectProperty.getCriteria()));
+			showedObject
+					.setCriteria(addAllConfiguredCriteria(currentSimulationSubjectProperty
+							.getCriteria()));
+			criterionChanged = false;
 		}
 
 		return showedObject;
@@ -228,8 +232,8 @@ public class SimulationHandler extends AbstractTrialHandler{
 	}
 
 	public String getAlgName() {
-		ResourceBundle bundle = ResourceBundle
-				.getBundle("de.randi2.jsf.i18n.algorithms", getLoginHandler()
+		ResourceBundle bundle = ResourceBundle.getBundle(
+				"de.randi2.jsf.i18n.algorithms", getLoginHandler()
 						.getChosenLocale());
 		return bundle.getString(showedObject.getRandomizationConfiguration()
 				.getClass().getCanonicalName()
@@ -239,7 +243,8 @@ public class SimulationHandler extends AbstractTrialHandler{
 	public String getFurtherDetails() {
 		StringBuffer furtherDetails = new StringBuffer();
 		ResourceBundle bundle = ResourceBundle.getBundle(
-				"de.randi2.jsf.i18n.labels", getLoginHandler().getChosenLocale());
+				"de.randi2.jsf.i18n.labels", getLoginHandler()
+						.getChosenLocale());
 		if (BlockRandomizationConfig.class.isInstance(showedObject
 				.getRandomizationConfiguration())) {
 			BlockRandomizationConfig conf = BlockRandomizationConfig.class
@@ -287,8 +292,8 @@ public class SimulationHandler extends AbstractTrialHandler{
 			furtherDetails.append("<br//>");
 		} else if (MinimizationConfig.class.isInstance(showedObject
 				.getRandomizationConfiguration())) {
-			MinimizationConfig conf = MinimizationConfig.class.cast(showedObject
-					.getRandomizationConfiguration());
+			MinimizationConfig conf = MinimizationConfig.class
+					.cast(showedObject.getRandomizationConfiguration());
 			furtherDetails.append("<b>");
 			furtherDetails
 					.append(bundle.getString("pages.minimization.pvalue"));
@@ -316,7 +321,7 @@ public class SimulationHandler extends AbstractTrialHandler{
 
 	public void simTrial() {
 		simulationResults = null;
-		simResult =null;
+		simResult = null;
 		List<DistributionSubjectProperty> properties = new ArrayList<DistributionSubjectProperty>();
 		if (distributedCriterions != null) {
 			for (DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>> dcw : distributedCriterions) {
@@ -326,24 +331,26 @@ public class SimulationHandler extends AbstractTrialHandler{
 
 		if (simOnly) {
 			simulationResults = new ArrayList<SimulationResult>();
-			for(AlgorithmWrapper alg : randomisationConfigs){
+			for (AlgorithmWrapper alg : randomisationConfigs) {
 				showedObject.setRandomizationConfiguration(alg.getConf());
 				alg.getConf().setTempData(null);
 				alg.getConf().setTrial(showedObject);
-				if(seedRandomisationAlgorithmB){
+				if (seedRandomisationAlgorithmB) {
 					alg.getConf().resetAlgorithm(seedRandomisationAlgorithm);
-				}else{
+				} else {
 					alg.getConf().resetAlgorithm();
 				}
-			SimulationResult result = simulationService.simulateTrial(showedObject,
-					properties, distributedTrialSites.getDistributionTrialSites(), runs, maxTime);
-			result.getMarginalBalanceMax();
+				SimulationResult result = simulationService.simulateTrial(
+						showedObject, properties, distributedTrialSites
+								.getDistributionTrialSites(), runs, maxTime);
+				result.getMarginalBalanceMax();
 				simulationResults.add(result);
 			}
-			
+
 		} else {
-			SimulationResult result = simulationService.simulateTrial(showedObject,
-					properties, distributedTrialSites.getDistributionTrialSites(), runs, maxTime);
+			SimulationResult result = simulationService.simulateTrial(
+					showedObject, properties, distributedTrialSites
+							.getDistributionTrialSites(), runs, maxTime);
 			simResult = result;
 		}
 	}
@@ -356,7 +363,7 @@ public class SimulationHandler extends AbstractTrialHandler{
 		return (simulationResults != null && !simulationResults.isEmpty());
 	}
 
-	public boolean isSimulationComplete(){
+	public boolean isSimulationComplete() {
 		return isResultComplete() || isResultsComplete();
 	}
 
@@ -394,8 +401,10 @@ public class SimulationHandler extends AbstractTrialHandler{
 			randomisationConfigs.add(new AlgorithmWrapper(
 					new MinimizationConfig()));
 		}
-		randomisationConfigs.get(randomisationConfigs.size()-1).setPossition(randomisationConfigs.size()-1);
-		randomisationConfigs.get(randomisationConfigs.size()-1).getBlockR().setPossitionForSimulation(randomisationConfigs.size()-1);
+		randomisationConfigs.get(randomisationConfigs.size() - 1).setPossition(
+				randomisationConfigs.size() - 1);
+		randomisationConfigs.get(randomisationConfigs.size() - 1).getBlockR()
+				.setPossitionForSimulation(randomisationConfigs.size() - 1);
 	}
 
 	/**
@@ -407,7 +416,7 @@ public class SimulationHandler extends AbstractTrialHandler{
 		assert (showedObject != null);
 		randomisationConfigs.remove(randomisationConfigs.size() - 1);
 	}
-	
+
 	public void setCountTrialSites(int countTrialSites) {
 		this.countTrialSites = countTrialSites;
 		showedObject.setParticipatingSites(new HashSet<TrialSite>());
@@ -417,40 +426,46 @@ public class SimulationHandler extends AbstractTrialHandler{
 			showedObject.addParticipatingSite(site);
 		}
 	}
-	
-	public String getExportSimulationResults(){
+
+	public String getExportSimulationResults() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("Trial name:" + showedObject.getName() +"\n");
+		sb.append("Trial name:" + showedObject.getName() + "\n");
 		sb.append("Sites: \n");
-		for(TrialSite site: showedObject.getParticipatingSites()){
-			sb.append("     Name: " + site.getName() + "Ratio: 1 \n" );
+		for (TrialSite site : showedObject.getParticipatingSites()) {
+			sb.append("     Name: " + site.getName() + "Ratio: 1 \n");
 		}
 		sb.append("TreatmentArms: \n");
-		for(TreatmentArm arm: showedObject.getTreatmentArms()){
+		for (TreatmentArm arm : showedObject.getTreatmentArms()) {
 			sb.append("     Name: " + arm.getName());
 			sb.append("     description: " + arm.getDescription());
-			sb.append("     planned subjects: " +arm.getPlannedSubjects() +"\n");
+			sb.append("     planned subjects: " + arm.getPlannedSubjects()
+					+ "\n");
 		}
-		sb.append("Simulation Runs: "+runs+"\n");
+		sb.append("Simulation Runs: " + runs + "\n");
 		sb.append("Algorithms: \n");
-		for(SimulationResult res : simulationResults){
-			sb.append("     Type: " + res.getAlgConf().getClass().getSimpleName());
-			sb.append("     time: " + res.getDuration() +"ms");
-			sb.append("     min Marginal Balance: " +res.getMarginalBalanceMin());
-			sb.append("     mean Marginal Balance: " +res.getMarginalBalanceMean());
-			sb.append("     max Marginal Balance: " +res.getMarginalBalanceMax() +"\n");
+		for (SimulationResult res : simulationResults) {
+			sb.append("     Type: "
+					+ res.getAlgConf().getClass().getSimpleName());
+			sb.append("     time: " + res.getDuration() + "ms");
+			sb.append("     min Marginal Balance: "
+					+ res.getMarginalBalanceMin());
+			sb.append("     mean Marginal Balance: "
+					+ res.getMarginalBalanceMean());
+			sb.append("     max Marginal Balance: "
+					+ res.getMarginalBalanceMax() + "\n");
 		}
 		sb.append("Details: \n");
-		for(SimulationResult res : simulationResults){
-			sb.append("     Type: " + res.getAlgConf().getClass().getSimpleName());
-			for(SimualtionResultArm simArm : res.getSimResultArms()){
+		for (SimulationResult res : simulationResults) {
+			sb.append("     Type: "
+					+ res.getAlgConf().getClass().getSimpleName());
+			for (SimualtionResultArm simArm : res.getSimResultArms()) {
 				sb.append("     arm: " + simArm.getArm().getName());
 				sb.append("     min: " + simArm.getMin());
-				sb.append("     min percent: " +simArm.getMinPercentString());
-				sb.append("     max: " +simArm.getMax());
-				sb.append("     max percent: " +simArm.getMaxPercentString());
-				sb.append("     mean: " +simArm.getMean());
-				sb.append("     median: " +simArm.getMedian()+"\n");
+				sb.append("     min percent: " + simArm.getMinPercentString());
+				sb.append("     max: " + simArm.getMax());
+				sb.append("     max percent: " + simArm.getMaxPercentString());
+				sb.append("     mean: " + simArm.getMean());
+				sb.append("     median: " + simArm.getMedian() + "\n");
 			}
 		}
 		return sb.toString();
