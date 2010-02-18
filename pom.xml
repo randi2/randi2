@@ -5,7 +5,7 @@
     <groupId>de.randi2</groupId>
     <artifactId>RANDI2</artifactId>
     <packaging>war</packaging>
-    <version>0.7-SNAPSHOT</version>
+    <version>0.6.1</version>
     <name>RANDI2</name>
     <description>Online Randomization for Clinical Trials</description>
     <url>http://randi2.org</url>
