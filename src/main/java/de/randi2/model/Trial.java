@@ -67,14 +67,12 @@ public class Trial extends AbstractDomainObject {
 	@NotNull()
 	@NotEmpty()
 	@Length(max = MAX_VARCHAR_LENGTH)
-	@Getter 
-    @Setter 
+	@Getter @Setter 
 	private String name = "";
 	
 	/** The abbreviation. */
 	@Length(max = MAX_VARCHAR_LENGTH)
-	@Getter 
-    @Setter 
+	@Getter @Setter 
 	private String abbreviation = "";
 	
 	/**
@@ -88,8 +86,7 @@ public class Trial extends AbstractDomainObject {
 	
 	/** The description. */
 	@Lob
-	@Getter 
-	@Setter 
+	@Getter @Setter 
 	private String description = "";
 	
 	@Getter 
@@ -107,7 +104,6 @@ public class Trial extends AbstractDomainObject {
 	/** The sponsor investigator. */
 	@NotNull
 	@ManyToOne
-	
 	@Getter 
 	@Setter 
 	private Person sponsorInvestigator = null;
@@ -121,8 +117,7 @@ public class Trial extends AbstractDomainObject {
 	
 	/** The status. */
 	@Enumerated(value = EnumType.STRING)
-	@Getter 
-	@Setter 
+	@Getter @Setter 
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
 	
 	/** The participating sites. */
@@ -148,14 +143,7 @@ public class Trial extends AbstractDomainObject {
 	 * If true then the trial subject ids will be generated automatically by the
 	 * system.
 	 */
-	
-	/**
-	 * Checks if is generate ids.
-	 * 
-	 * @return true, if is generate ids
-	 */
-	@Getter 
-	@Setter 
+	@Getter @Setter 
 	private boolean generateIds = true;
 
 
@@ -248,7 +236,16 @@ public class Trial extends AbstractDomainObject {
 		return getSubjects().size();
 	}
 	
-	/**
+@Transient
+	public int getPlannedSubjectAmount(){
+		int amount = 0;
+		for(TreatmentArm arm : treatmentArms){
+			amount += arm.getPlannedSubjects();
+		}
+		return amount;
+	}
+
+/**
 	 * Specifies if the trial is a fresh trial (without any subjects)
 	 * @return
 	 */
@@ -256,6 +253,7 @@ public class Trial extends AbstractDomainObject {
 	public boolean isFresh(){
 		return !(getTotalSubjectAmount()>0);
 	}
+
 
 	/* (non-Javadoc)
 	 * @see de.randi2.model.AbstractDomainObject#getUIName()

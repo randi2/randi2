@@ -1,0 +1,75 @@
+<!-- 
+ Welcome Page, which will be shown to user just after he successfully logged in.
+
+ Made by ds@randi2.de 
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+ <ice:panelGrid columns="2">
+<ice:panelCollapsible expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="#{labels['trial.name']}"></ice:outputLabel>
+			</f:facet>
+			<ice:inputText size="35"  partialSubmit="true" value="#{simulationHandler.simTrial.name}"/>
+</ice:panelCollapsible>
+<ice:panelCollapsible expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="count trial sites"></ice:outputLabel>
+			</f:facet>
+			<ice:inputText size="35"  partialSubmit="true" value="#{simulationHandler.countTrialSites}" />
+</ice:panelCollapsible>
+</ice:panelGrid>
+<!-- Configuration for treatment arms -->
+<ice:panelGrid columns="3">
+	<ice:outputLabel value="#{labels['pages.trialEditPanel.tArmLabel']}" />
+	<ice:commandButton image="/img/icons/add16.png"
+		actionListener="#{simulationHandler.addArm}" style="margin-right:5px;"
+		immediate="true" />
+	<ice:commandButton image="/img/icons/remove16.png"
+		disabled="#{simulationHandler.treatmentArmsCount==0}"
+		actionListener="#{simulationHandler.removeArm}" immediate="true" />
+</ice:panelGrid>
+<ice:panelGroup styleClass="clearer">
+	<ice:messages tooltip="true" showDetail="false" showSummary="true" />
+</ice:panelGroup>
+<ice:panelGroup styleClass="exampleBox">
+	<ice:panelSeries value="#{simulationHandler.simTrial.treatmentArms}"
+		var="arm" style="padding:10px;">
+		<f:subview id="treatmentArmInclude">
+			<jsp:directive.include file="./inc/panels/trial/treatmentArm.jspx" />
+		</f:subview>
+	</ice:panelSeries>
+</ice:panelGroup>
+<!-- Configuration for subject properties -->
+<ice:panelGrid columns="4">
+	<ice:outputLabel value="#{labels['pages.trialEditPanel.propLabel']}" />
+	<ice:selectInputText id="critera"
+		valueChangeListener="#{simulationSubjectProperty.criteriaAC.updateObjectList}" rows="10"
+		width="200">
+		<f:selectItems value="#{simulationSubjectProperty.criteriaAC.objectList}" />
+	</ice:selectInputText>
+	<ice:commandButton image="/img/icons/add16.png"
+		actionListener="#{simulationSubjectProperty.addCriterion}" style="margin-right:5px;" />
+	<ice:commandButton image="/img/icons/remove16.png"
+		disabled="#{simulationSubjectProperty.criteriaEmpty}"
+		actionListener="#{simulationSubjectProperty.removeCriterion}" />
+</ice:panelGrid>
+<ice:panelGroup styleClass="clearer" />
+<ice:panelGroup styleClass="exampleBox" visible="#{!simulationSubjectProperty.criteriaEmpty}">
+	<ice:panelSeries value="#{simulationSubjectProperty.criteria}" var="criterion"
+		style="padding:10px;">
+		<f:subview id="criteriaInclude">
+			<jsp:directive.include file="./inc/panels/trial/criterionPanel.jspx" />
+		</f:subview>
+	</ice:panelSeries>
+</ice:panelGroup>
+

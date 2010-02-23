@@ -23,7 +23,6 @@ import javax.persistence.Entity;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import de.randi2.unsorted.ContraintViolatedException;
 
 @Entity
@@ -60,5 +59,31 @@ public class DichotomousConstraint extends AbstractConstraint<String> {
 	@Override
 	public String getUIName() {
 		return expectedValue;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((expectedValue == null) ? 0 : expectedValue.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DichotomousConstraint other = (DichotomousConstraint) obj;
+		if (expectedValue == null) {
+			if (other.expectedValue != null)
+				return false;
+		} else if (!expectedValue.equals(other.expectedValue))
+			return false;
+		return true;
 	}
 }

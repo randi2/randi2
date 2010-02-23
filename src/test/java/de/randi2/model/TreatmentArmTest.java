@@ -107,4 +107,63 @@ public class TreatmentArmTest extends AbstractDomainTest<TreatmentArm> {
 		assertEquals(validTreatmentArm.getTrial().getId(), dbArm.getTrial().getId());
 		assertEquals(validTreatmentArm.getTrial().getName(), dbArm.getTrial().getName());
 	}
+	
+	@Test
+	public void testEqualsHashCode(){
+		TreatmentArm arm1 = new TreatmentArm();
+		TreatmentArm arm2 = new TreatmentArm();
+		assertTrue(arm1.equals(arm2));
+		assertEquals(arm1.hashCode(), arm2.hashCode());
+		
+		arm1.setId(12);
+		arm2.setId(12);
+		assertTrue(arm1.equals(arm2));
+		assertEquals(arm1.hashCode(), arm2.hashCode());
+		
+		arm1.setName("name");
+		arm2.setName("name");
+		assertTrue(arm1.equals(arm2));
+		assertEquals(arm1.hashCode(), arm2.hashCode());
+		
+		arm1.setDescription("name");
+		arm2.setDescription("name");
+		assertTrue(arm1.equals(arm2));
+		assertEquals(arm1.hashCode(), arm2.hashCode());
+		
+		arm1.setPlannedSubjects(10);
+		arm2.setPlannedSubjects(10);
+		assertTrue(arm1.equals(arm2));
+		assertEquals(arm1.hashCode(), arm2.hashCode());
+		
+		arm1.setId(12);
+		arm2.setId(13);
+		assertFalse(arm1.equals(arm2));
+		arm2.setId(12);
+		assertTrue(arm1.equals(arm2));
+		
+		arm1.setName("name");
+		arm2.setName("name1");
+		assertFalse(arm1.equals(arm2));
+		arm2.setName("name");
+		assertTrue(arm1.equals(arm2));
+		assertEquals(arm1.hashCode(), arm2.hashCode());
+		
+		arm1.setDescription("name");
+		arm2.setDescription("name1");
+		assertFalse(arm1.equals(arm2));
+		arm2.setDescription("name");
+		assertTrue(arm1.equals(arm2));
+		assertEquals(arm1.hashCode(), arm2.hashCode());
+		
+		arm1.setPlannedSubjects(10);
+		arm2.setPlannedSubjects(11);
+		assertFalse(arm1.equals(arm2));
+		arm2.setPlannedSubjects(10);
+		assertTrue(arm1.equals(arm2));
+		assertEquals(arm1.hashCode(), arm2.hashCode());
+		
+		arm1.setVersion(256);
+		assertTrue(arm1.equals(arm2));
+		assertEquals(arm1.hashCode(), arm2.hashCode());
+	}
 }

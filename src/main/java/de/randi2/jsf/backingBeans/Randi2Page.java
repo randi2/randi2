@@ -31,8 +31,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import de.randi2.jsf.controllerBeans.LoginHandler;
+import de.randi2.jsf.controllerBeans.SimulationHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.controllerBeans.TrialSiteHandler;
+import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.model.Person;
 import de.randi2.model.Trial;
@@ -57,13 +59,19 @@ public class Randi2Page {
 	
 	@Setter
 	private LoginHandler loginHandler;
-
+	
+	@Setter
+	private SimulationHandler simulationHandler;
+	
 	/**
 	 * The active content Panel.
 	 */
 	@Getter @Setter
 	private String activePanel = "welcomePanel";
 
+	
+	@Getter @Setter
+	private Popups popups;
 	/**
 	 * The current selected trial.
 	 */
@@ -192,6 +200,45 @@ public class Randi2Page {
 		activePanel = "trialCreatePanel";
 	}
 	
+	public void simulateTrial(ActionEvent event) {
+		simulationHandler.setSimFromTrialCreationFirst(true);
+		simulationHandler.setDistributedCriterions(null);
+		simulationHandler.setSimOnly(false);
+		popups.hideSimulationCompletePopup();
+		activePanel = "simulationTrialPanel";
+	}
+	
+	public void simulationResult(ActionEvent event){
+		activePanel = "simulationResultPanel";
+	}
+	
+	public void simulateTrialOnly(ActionEvent event) {
+		simulationHandler.setShowedObject(null);
+		simulationHandler.setDistributedCriterions(null);
+		simulationHandler.setSimOnly(true);
+		simulationHandler.getSimTrial();
+		simulationHandler.setSimulationResults(null);
+		popups.hideSimulationCompletePopup();
+		activePanel = "simulationOnlyPanel";
+	}
+	
+	public void simulateTrialOnlyChange(ActionEvent event) {
+		popups.hideSimulationCompletePopup();
+		activePanel = "simulationOnlyPanel";
+	}
+	
+	public void simulateTrialBack(ActionEvent event) {
+		activePanel = "trialCreatePanel";
+	}
+	
+	public void simulate(ActionEvent event){
+		SimulationHandler simulationHandler = ((SimulationHandler) FacesContext.getCurrentInstance()
+				.getApplication().getELResolver().getValue(
+						FacesContext.getCurrentInstance()
+								.getELContext(), null, "simulationHandler"));
+		simulationHandler.simTrial();
+	}
+	
 	public void showCurrentTrial(ActionEvent event){
 		if(currentTrial!=null){
 			trialHandler.setShowedObject(currentTrial);
@@ -229,4 +276,6 @@ public class Randi2Page {
 		this.helpVisible = false;
 		return Randi2.SUCCESS;
 	}
+	
+
 }

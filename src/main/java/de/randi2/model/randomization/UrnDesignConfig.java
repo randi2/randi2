@@ -46,6 +46,12 @@ public class UrnDesignConfig extends AbstractRandomizationConfig {
 	public RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm() {
 		return new UrnDesign(super.getTrial());
 	}
+	
+	@Override
+		public RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm(
+				long seed) {
+			return new UrnDesign(super.getTrial(), seed);
+		}
 
 	@Override
 	public AbstractRandomizationTempData getTempData(){

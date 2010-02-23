@@ -65,7 +65,7 @@
 		<managed-bean-class>de.randi2.jsf.supportBeans.Popups</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
-<managed-bean>
+	<managed-bean>
 		<description>Bean for various RANDI2 popups</description>
 		<managed-bean-name>dataExporter</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.supportBeans.DataExporter</managed-bean-class>
@@ -204,6 +204,16 @@
 			<property-class>de.randi2.jsf.controllerBeans.TrialHandler</property-class>
 			<value>#{trialHandler}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>simulationHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.SimulationHandler</property-class>
+			<value>#{simulationHandler}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>popups</property-name>
+			<property-class>de.randi2.jsf.supportBeans.Popups</property-class>
+			<value>#{popups}</value>
+		</managed-property>
 	</managed-bean>
 
 	<managed-bean>
@@ -284,6 +294,42 @@
 	</managed-bean>
 
 	<managed-bean>
+		<description>Backing bean for the trial configuration process -
+			subject properties configuration</description>
+		<managed-bean-name>simulationSubjectProperty</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.backingBeans.SimulationSubjectProperty</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>loginHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
+			<value>#{loginHandler}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>simulationHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.SimulationHandler</property-class>
+			<value>#{simulationHandler}</value>
+		</managed-property>
+	</managed-bean>
+	
+	<managed-bean>
+		<description>Backing bean for the trial configuration process -
+			randomization algorithm configuration</description>
+		<managed-bean-name>simulationAlgorithm</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.backingBeans.SimulationAlgorithm</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>loginHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
+			<value>#{loginHandler}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>simulationHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.SimulationHandler</property-class>
+			<value>#{simulationHandler}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
 		<description>Backing bean for the block randomization algorithm configuration</description>
 		<managed-bean-name>blockR</managed-bean-name>
 		<managed-bean-class>de.randi2.jsf.backingBeans.BlockR</managed-bean-class>
@@ -354,21 +400,62 @@
 		</managed-property>
 	</managed-bean>
 
-    <managed-bean>
-        <managed-bean-name>algorithmInfo</managed-bean-name>
-        <managed-bean-class>de.randi2.jsf.backingBeans.AlgorithmInfo</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
-        <managed-property>
-            <property-name>randi2Page</property-name>
-            <property-class>de.randi2.jsf.backingBeans.Randi2Page</property-class>
-            <value>#{randi2Page}</value>
-        </managed-property>
-        <managed-property>
+	<managed-bean>
+		<managed-bean-name>algorithmInfo</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.backingBeans.AlgorithmInfo</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>randi2Page</property-name>
+			<property-class>de.randi2.jsf.backingBeans.Randi2Page</property-class>
+			<value>#{randi2Page}</value>
+		</managed-property>
+		<managed-property>
 			<property-name>loginHandler</property-name>
 			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
 			<value>#{loginHandler}</value>
 		</managed-property>
-    </managed-bean>
+	</managed-bean>
+	<managed-bean>
+		<description>JSF Handler for simulation process</description>
+		<managed-bean-name>simulationHandler</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.controllerBeans.SimulationHandler</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>trialHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.TrialHandler</property-class>
+			<value>#{trialHandler}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>loginHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
+			<value>#{loginHandler}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>simulationService</property-name>
+			<property-class>de.randi2.simulation.service.SimulationServiceImpl</property-class>
+			<value>#{simulationService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>popups</property-name>
+			<property-class>de.randi2.jsf.supportBeans.Popups</property-class>
+			<value>#{popups}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>simulationSubjectProperty</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.backingBeans.SimulationSubjectProperty</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>simulationHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.SimulationHandler</property-class>
+			<value>#{simulationHandler}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>loginHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.LoginHandler</property-class>
+			<value>#{loginHandler}</value>
+		</managed-property>
+	</managed-bean>
 
 	<navigation-rule>
 		<display-name>refresh</display-name>

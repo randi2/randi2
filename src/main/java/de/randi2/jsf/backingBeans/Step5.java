@@ -31,6 +31,7 @@ import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
+import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 
@@ -40,7 +41,7 @@ public class Step5 {
 		COMPLETE_RANDOMIZATION("completeRandomization"), BIASEDCOIN_RANDOMIZATION(
 				"biasedCoinRandomization"), BLOCK_RANDOMIZATION(
 				"blockRandomization"), TRUNCATED_RANDOMIZATION("truncatedRandomization"), 
-				URN_MODEL("urnModel");
+				URN_MODEL("urnModel"), MINIMIZATION("minimization");
 		private String id = null;
 
 		private AlgorithmPanelId(String id) {
@@ -93,6 +94,11 @@ public class Step5 {
 					.getString(UrnDesignConfig.class
 							.getCanonicalName()
 							+ ".short")));
+			algorithms.add(new SelectItem(AlgorithmPanelId.MINIMIZATION
+					.toString(), bundle
+					.getString(MinimizationConfig.class
+							.getCanonicalName()
+							+ ".short")));
 
 		}
 		return algorithms;
@@ -113,6 +119,11 @@ public class Step5 {
 				&& !UrnDesignConfig.class.isInstance(trialHandler
 						.getRandomizationConfig())) {
 			trialHandler.setRandomizationConfig(new UrnDesignConfig());
+		}else if(selectedAlgorithmPanelId
+				.equals(AlgorithmPanelId.MINIMIZATION.toString())
+				&& !MinimizationConfig.class.isInstance(trialHandler
+						.getRandomizationConfig())) {
+			trialHandler.setRandomizationConfig(new MinimizationConfig());
 		}
 				
 	}

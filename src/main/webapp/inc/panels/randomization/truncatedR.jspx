@@ -14,13 +14,22 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-<ice:panelCollapsible expanded="true" toggleOnClick="false"
-	style="width: 450px;" xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:h="http://java.sun.com/jsf/html"
+<ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<f:facet name="header">
-		<ice:outputLabel value="#{algorithms['de.randi2.model.randomization.TruncatedBinomialDesignConfig.name']}" />
-	</f:facet>
-	<ice:outputLabel value="#{algorithms['de.randi2.model.randomization.TruncatedBinomialDesignConfig.info']}"></ice:outputLabel>
-</ice:panelCollapsible>
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	style="float:left; padding-left: 2px; padding-top: 5px; width: 450px;">
+	<b class="b1"></b>
+	<b class="b2"></b>
+	<b class="b3"></b>
+	<b class="b4"></b>
+	<ice:panelGroup styleClass="contentb">
+		<ice:panelGrid columns="1">
+			<ice:outputLabel  value="#{algorithms['de.randi2.model.randomization.TruncatedBinomialDesignConfig.name']}"  />
+			<ice:outputText  value="#{algorithms['de.randi2.model.randomization.TruncatedBinomialDesignConfig.info']}" />
+		</ice:panelGrid>
+	</ice:panelGroup>
+	<b class="b4"></b>
+	<b class="b3"></b>
+	<b class="b2"></b>
+	<b class="b1"></b>
+</ice:panelGroup>

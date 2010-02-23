@@ -1,0 +1,101 @@
+<ice:dataTable id="simResultTable" border="1"
+	value="#{simulationHandler.simulationResults}" var="result"
+	width="550px">
+	<ice:column id="column0">
+		<ice:outputText value="#{result.algConf.class.simpleName}"></ice:outputText>
+		<f:facet name="header">
+			<ice:outputLabel value="algorithm"></ice:outputLabel>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column1">
+		<ice:outputText value="#{result.amountRuns}"></ice:outputText>
+		<f:facet name="header">
+			<ice:outputLabel value="runs"></ice:outputLabel>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column2">
+		<ice:outputText value="#{result.duration}"></ice:outputText>
+		<f:facet name="header">
+			<ice:outputLabel value="time in ms"></ice:outputLabel>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column3">
+		<ice:outputLabel value="#{result.marginalBalanceMin}" />
+		<f:facet name="header">
+			<ice:outputLabel value="min marginal Balance"></ice:outputLabel>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column4">
+		<ice:outputLabel value="#{result.marginalBalanceMean}" />
+		<f:facet name="header">
+			<ice:outputLabel value="mean marginal balance"></ice:outputLabel>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column5">
+		<ice:outputLabel value="#{result.marginalBalanceMax}" />
+		<f:facet name="header">
+			<ice:outputLabel value="max marginal balance"></ice:outputLabel>
+		</f:facet>
+	</ice:column>
+</ice:dataTable>
+<ice:dataTable id="simResultDetailsTable" border="1"
+	value="#{simulationHandler.simulationResults}" var="result"
+	width="550px" >
+	<ice:column id="column0">
+	<f:facet name="header">
+			<ice:outputLabel value="Details"></ice:outputLabel>
+		</f:facet>
+		<ice:outputText value="#{result.algConf.class.simpleName}"></ice:outputText>
+
+		<ice:dataTable id="simResultDetailsArmTable" border="1"
+		value="#{result.simResultArms}" var="simArm"
+		width="550px">
+		
+		<ice:column id="column0">
+		<ice:outputText value="#{simArm.arm.name }"></ice:outputText>
+		<f:facet name="header">
+			<ice:outputLabel value="arm"></ice:outputLabel>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column1">
+		<ice:outputText value="#{simArm.min }"></ice:outputText>
+		<f:facet name="header">
+			<ice:outputLabel value="min"></ice:outputLabel>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column11">
+		<ice:outputText value="#{simArm.minPercentString }"></ice:outputText>
+		<f:facet name="header">
+			<ice:outputLabel value="minPercent"></ice:outputLabel>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column2">
+		<ice:outputText value="#{simArm.max }"></ice:outputText>
+		<f:facet name="header">
+			<ice:outputLabel value="max"></ice:outputLabel>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column22">
+		<ice:outputText value="#{simArm.maxPercentString}"></ice:outputText>
+		<f:facet name="header">
+			<ice:outputLabel value="maxPercent"></ice:outputLabel>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column3">
+		<ice:outputLabel value="#{simArm.mean }" />
+		<f:facet name="header">
+			<ice:outputLabel value="mean"></ice:outputLabel>
+		</f:facet>
+	</ice:column>
+	<ice:column id="column4">
+		<ice:outputLabel value="#{simArm.median }" />
+		<f:facet name="header">
+			<ice:outputLabel value="median"></ice:outputLabel>
+		</f:facet>
+	</ice:column>
+	</ice:dataTable>
+	</ice:column>
+</ice:dataTable>
+<ice:commandButton value="export the results"  action="#{popups.showSimulationExportPopup}" />
+<ice:commandButton value="repeat this run"  action="#{simulationHandler.simTrial}" />
+<ice:commandButton  value="change simulation configuration" actionListener="#{randi2Page.simulateTrialOnlyChange}" />
