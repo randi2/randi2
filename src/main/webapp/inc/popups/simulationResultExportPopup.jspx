@@ -34,8 +34,8 @@
 					</ice:panelGroup>
 				</f:facet>
 				<ice:graphicImage value="/img/icons/saved48.png"></ice:graphicImage>
-				<ice:inputTextarea
-					value="#{simulationHandler.exportSimulationResults}" style="width: 400px; height: 500px"></ice:inputTextarea>
+				<ice:inputText
+					value="#{simulationHandler.exportSimulationResults}"/>
 				
 			</ice:panelGrid>
 

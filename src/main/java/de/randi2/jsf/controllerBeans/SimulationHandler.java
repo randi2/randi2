@@ -429,45 +429,65 @@ public class SimulationHandler extends AbstractTrialHandler {
 
 	public String getExportSimulationResults() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("Trial name:" + showedObject.getName() + "\n");
-		sb.append("Sites: \n");
+		sb.append("<h2>Studie: "+ showedObject.getName() + "</h2> \n");
+		
+		sb.append("<h3>Sites:</h3>\n");
+		sb.append("<table border=1 width=200px><tr><th>Name</th><th>Ratio</th></tr>");
 		for (TrialSite site : showedObject.getParticipatingSites()) {
-			sb.append("     Name: " + site.getName() + "Ratio: 1 \n");
+			sb.append("<tr><td>" + site.getName() + "</td><td>"+ 1 +"</td></tr> \n");
 		}
-		sb.append("TreatmentArms: \n");
+		sb.append("</table>");
+		
+		sb.append("<h3>Treatment Arms:</h3>\n");
+		sb.append("<table border=1 width=400px><tr><th>Name</th><th>Description</th><th>Ration</th></tr>\n");
 		for (TreatmentArm arm : showedObject.getTreatmentArms()) {
-			sb.append("     Name: " + arm.getName());
-			sb.append("     description: " + arm.getDescription());
-			sb.append("     planned subjects: " + arm.getPlannedSubjects()
-					+ "\n");
+			sb.append(" <tr><td> " + arm.getName() + "</td>");
+			sb.append(" <td> "+ arm.getDescription() +"</td>");
+			sb.append(" <td> " + arm.getPlannedSubjects() +"</td>"
+					+ "</tr>\n");
 		}
-		sb.append("Simulation Runs: " + runs + "\n");
-		sb.append("Algorithms: \n");
+		sb.append("</table");
+		
+		sb.append("<h3>Simulation runs: </h3>" + runs + " \n");
+		sb.append("<h3>Algorithms:</h3>\n");
+		sb.append("<table border=1 width=800px>" +
+				"<tr>" +
+				"<th>Type</th><th>Time</th><th>min Marginal Balance</th> <th>mean Marginal Balance</th> <th>max Marginal Balance</th>" +
+				"</tr>");
 		for (SimulationResult res : simulationResults) {
-			sb.append("     Type: "
-					+ res.getAlgConf().getClass().getSimpleName());
-			sb.append("     time: " + res.getDuration() + "ms");
-			sb.append("     min Marginal Balance: "
-					+ res.getMarginalBalanceMin());
-			sb.append("     mean Marginal Balance: "
-					+ res.getMarginalBalanceMean());
-			sb.append("     max Marginal Balance: "
-					+ res.getMarginalBalanceMax() + "\n");
+			sb.append(" <tr><td> "
+					+ res.getAlgConf().getClass().getSimpleName() + "</td>");
+			sb.append("<td> " + res.getDuration() + "ms </td>");
+			sb.append("<td>"
+					+ res.getMarginalBalanceMin() + "</td>");
+			sb.append("<td>"
+					+ res.getMarginalBalanceMean() + "</td>");
+			sb.append("<td>"
+					+ res.getMarginalBalanceMax() + "</td></tr>\n");
 		}
-		sb.append("Details: \n");
+		
+		sb.append("</table>");
+		sb.append("<table>");
+		sb.append("<table border=0><tr><th><h3>Details</h3></th></tr>\n");
 		for (SimulationResult res : simulationResults) {
-			sb.append("     Type: "
-					+ res.getAlgConf().getClass().getSimpleName());
+			sb.append("<tr><th>"+res.getAlgConf().getClass().getSimpleName()+"</th></tr>");
+			sb.append("<tr><td>");
+			sb.append("<table border=1 width=800px><tr><th>Arm name</th><th>min</th>" +
+					"<th>min per cent</th><th>max</th><th>max per cent</th><th>mean</th>" +
+					"<th>median</th></tr>");
 			for (SimualtionResultArm simArm : res.getSimResultArms()) {
-				sb.append("     arm: " + simArm.getArm().getName());
-				sb.append("     min: " + simArm.getMin());
-				sb.append("     min percent: " + simArm.getMinPercentString());
-				sb.append("     max: " + simArm.getMax());
-				sb.append("     max percent: " + simArm.getMaxPercentString());
-				sb.append("     mean: " + simArm.getMean());
-				sb.append("     median: " + simArm.getMedian() + "\n");
+				sb.append("<tr><td>" + simArm.getArm().getName() + "</td>");
+				sb.append("<td>" + simArm.getMin() + "</td>");
+				sb.append("<td>" + simArm.getMinPercentString() + "</td>");
+				sb.append("<td>" + simArm.getMax() + "</td>");
+				sb.append("<td>" + simArm.getMaxPercentString() + "</td>");
+				sb.append("<td>" + simArm.getMean() + "</td>");
+				sb.append("<td>" + simArm.getMedian() + "</td></tr>\n");
 			}
+			sb.append("</table>");
+			sb.append("</td></tr>");
 		}
+		sb.append("</table>");
 		return sb.toString();
 	}
 }
