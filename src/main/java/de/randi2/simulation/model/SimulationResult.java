@@ -51,7 +51,7 @@ public class SimulationResult {
 	}
 	
 	
-	public SimulationRun getEmptyRun(){
+	public synchronized SimulationRun getEmptyRun(){
 		return new SimulationRun(arms.size());
 	}
 	
@@ -109,7 +109,7 @@ public class SimulationResult {
 	public long getDuration(){
 		if(duration == Long.MIN_VALUE){
 			analyze();
-			duration = duration / 1000000;
+			duration = duration / 1000;
 		}
 		return duration;
 	}

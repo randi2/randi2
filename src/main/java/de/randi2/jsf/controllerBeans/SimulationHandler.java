@@ -452,12 +452,12 @@ public class SimulationHandler extends AbstractTrialHandler {
 		sb.append("<h3>Algorithms:</h3>\n");
 		sb.append("<table border=1 width=800px>" +
 				"<tr>" +
-				"<th>Type</th><th>Time</th><th>min Marginal Balance</th> <th>mean Marginal Balance</th> <th>max Marginal Balance</th>" +
+				"<th>Type</th><th>Time in ms</th><th>min Marginal Balance</th> <th>mean Marginal Balance</th> <th>max Marginal Balance</th>" +
 				"</tr>");
 		for (SimulationResult res : simulationResults) {
 			sb.append(" <tr><td> "
 					+ res.getAlgConf().getClass().getSimpleName() + "</td>");
-			sb.append("<td> " + res.getDuration() + "ms </td>");
+			sb.append("<td> " + res.getDuration() + "</td>");
 			sb.append("<td>"
 					+ res.getMarginalBalanceMin() + "</td>");
 			sb.append("<td>"

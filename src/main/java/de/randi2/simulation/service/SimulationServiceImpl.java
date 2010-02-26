@@ -39,7 +39,7 @@ public class SimulationServiceImpl implements SimulationService {
 		TreatmentArm assignedArm;
 		TrialSubject subject = new TrialSubject();
 		for (int run = 0; run < runs; run++) {
-			startTime = System.nanoTime();
+			startTime = System.currentTimeMillis();
 			Trial simTrial = resetTrial(copyTrial);
 			SimulationRun simRun = simResult.getEmptyRun();
 			for (int i = 0; i < simTrial.getPlannedSubjectAmount(); i++) {
@@ -59,7 +59,7 @@ public class SimulationServiceImpl implements SimulationService {
 			for(int i = 0; i<simTrial.getTreatmentArms().size();i++){
 				simRun.getSubjectsPerArms()[i] = simTrial.getTreatmentArms().get(i).getCurrentSubjectsAmount();
 			}
-			simRun.setTime((System.nanoTime()-startTime));
+			simRun.setTime((System.currentTimeMillis()-startTime));
 			simResult.addSimulationRun(simRun);
 		}
 		simResult.analyze();
