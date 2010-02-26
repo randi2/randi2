@@ -12,11 +12,14 @@ public class SimulationRun {
 	@Getter @Setter
 	private int[] subjectsPerArms;
 	
+	private int[] plannedSubjectsPerArm;
+	
 	@Getter @Setter
 	private Long time;
 	
-	public SimulationRun(int armAmount){
-		subjectsPerArms= new int[armAmount];
+	public SimulationRun(int[] plannedSubjectsPerArm){
+		subjectsPerArms= new int[plannedSubjectsPerArm.length];
+		this.plannedSubjectsPerArm = plannedSubjectsPerArm;
 	}
 	
 	
@@ -26,13 +29,14 @@ public class SimulationRun {
 			double numerator = 0.0;
 			for(int i=0;i<subjectsPerArms.length-1;i++){
 				for(int j = i+1;j<subjectsPerArms.length;j++){
-					marginalBalance += Math.abs(subjectsPerArms[i]-subjectsPerArms[j]);
+					marginalBalance += Math.abs(((subjectsPerArms[i]*1.0) / (plannedSubjectsPerArm[i]*1.0))- ((subjectsPerArms[j]*1.0)/  (plannedSubjectsPerArm[j]*1.0)));
 				}
-				numerator += subjectsPerArms[i];
+				numerator += ((subjectsPerArms[i]*1.0) / (plannedSubjectsPerArm[i]*1.0));
 			}
 			numerator+=subjectsPerArms[subjectsPerArms.length-1];
 			numerator =(subjectsPerArms.length-1.0) * numerator;
 			marginalBalance = marginalBalance/numerator;
+			marginalBalance = marginalBalance*1000;
 		}
 		return marginalBalance;
 	}

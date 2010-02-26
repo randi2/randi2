@@ -37,7 +37,9 @@ public class SimulationResult {
 	private List<SimulationRun> runs = new ArrayList<SimulationRun>();
 
 	@Getter
-	AbstractRandomizationConfig algConf;
+	private AbstractRandomizationConfig algConf;
+	
+	private int[] plannedSubjectsPerArm;
 	
 	public SimulationResult(List<TreatmentArm> arms, AbstractRandomizationConfig algConf){
 		this.arms = arms;
@@ -52,7 +54,13 @@ public class SimulationResult {
 	
 	
 	public synchronized SimulationRun getEmptyRun(){
-		return new SimulationRun(arms.size());
+		if(plannedSubjectsPerArm == null){
+			plannedSubjectsPerArm = new int[arms.size()];
+			for(int i=0; i<arms.size();i++){
+				plannedSubjectsPerArm[i] = arms.get(i).getPlannedSubjects();
+			}
+		}
+		return new SimulationRun(plannedSubjectsPerArm);
 	}
 	
 	
