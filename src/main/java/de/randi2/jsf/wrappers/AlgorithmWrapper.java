@@ -33,6 +33,9 @@ public class AlgorithmWrapper {
 	
 	@Getter @Setter
 	private AbstractRandomizationConfig conf;
+	
+	@Getter @Setter
+	private String description;
 
 	public AlgorithmWrapper() {
 	}

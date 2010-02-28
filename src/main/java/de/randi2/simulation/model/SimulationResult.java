@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.Setter;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -40,6 +41,9 @@ public class SimulationResult {
 	private AbstractRandomizationConfig algConf;
 	
 	private int[] plannedSubjectsPerArm;
+	
+	@Getter @Setter
+	private String algorithmDescription;
 	
 	public SimulationResult(List<TreatmentArm> arms, AbstractRandomizationConfig algConf){
 		this.arms = arms;

@@ -18,12 +18,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelGrid columns="3">
-	<ice:outputLabel value="seed:" />
+	<ice:outputLabel value="#{labels['pages.simulation.seed']}" />
 	<ice:selectBooleanCheckbox value="#{dCriterion.seedB}" partialSubmit="true"/>
 	<ice:inputText rendered="#{dCriterion.seedB}" value="#{dCriterion.seed}"  partialSubmit="true"/>
 	</ice:panelGrid>
 	<ice:panelGrid columns="2">
-		<ice:outputLabel value="distribution:"/>
+		<ice:outputLabel value="#{labels['pages.simulation.distribution']}:"/>
 		<ice:selectOneMenu id="distributionType" partialSubmit="true" value="#{dCriterion.selectedDistributionId}">
 			<f:selectItems value="#{dCriterion.distributions}" />
 		</ice:selectOneMenu>

@@ -19,13 +19,13 @@
 	xmlns:ice="http://www.icesoft.com/icefaces/component" border="0"
 	columns="2">
 	<ice:graphicImage value="/img/icons/info48.png"></ice:graphicImage>
-	<ice:outputLabel value="Configuration"></ice:outputLabel>
+	<ice:outputLabel value="#{labels['pages.simulation.configurationDesc']}"></ice:outputLabel>
 </ice:panelGrid>
 <ice:panelGroup>
 	<ice:panelGrid columns="2">
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="count Runs"></ice:outputLabel>
+				<ice:outputLabel value="#{labels['pages.simulation.countRuns']}"></ice:outputLabel>
 			</f:facet>
 			<ice:inputText size="35" value="#{simulationHandler.runs}"
 				partialSubmit="true">
@@ -33,7 +33,7 @@
 		</ice:panelCollapsible>
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="max time"></ice:outputLabel>
+				<ice:outputLabel value="#{labels['pages.simulation.maxTime']}"></ice:outputLabel>
 			</f:facet>
 			<ice:inputText size="35" value="#{simulationHandler.maxTime}"
 				partialSubmit="true">
@@ -43,16 +43,16 @@
 	<ice:panelCollapsible expanded="true" toggleOnClick="false"
 		style="margin-left: 3px; width: 500px">
 		<f:facet name="header">
-			<ice:outputLabel value="Trial site distribution"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.trialSiteDistribution']}"></ice:outputLabel>
 		</f:facet>
 		<ice:panelGrid columns="5">
-			<ice:outputLabel value="distribution:" />
+			<ice:outputLabel value="#{labels['pages.simulation.distribution']}:" />
 			<ice:selectOneMenu id="distributionType" partialSubmit="true"
 				value="#{simulationHandler.distributionTrialSiteWrapper.selectedDistributionId}">
 				<f:selectItems
 					value="#{simulationHandler.distributionTrialSiteWrapper.distributions}" />
 			</ice:selectOneMenu>
-			<ice:outputLabel value="seed:" />
+			<ice:outputLabel value="#{labels['pages.simulation.seed']}" />
 			<ice:selectBooleanCheckbox value="#{simulationHandler.distributionTrialSiteWrapper.seedTrialsite}" partialSubmit="true"/>
 			<ice:inputText rendered="#{simulationHandler.distributionTrialSiteWrapper.seedTrialsite}" value="#{simulationHandler.distributionTrialSiteWrapper.seed}"  partialSubmit="true"/>
 		</ice:panelGrid>
@@ -87,7 +87,7 @@
 		style="margin-left: 3px;"
 		rendered="#{simulationHandler.strataFactorsDefined}">
 		<f:facet name="header">
-			<ice:outputLabel value="Strata distribution"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.strataDistribution']}"></ice:outputLabel>
 		</f:facet>
 		<ice:panelSeries value="#{simulationHandler.distributedCriterions}"
 			var="dCriterion">
@@ -126,8 +126,10 @@
 	</ice:panelCollapsible>
 
 </ice:panelGroup>
-<ice:commandButton value="back"
+<ice:commandButton value="#{labels['buttons.back']}"
 	actionListener="#{randi2Page.simulateTrialBack}"
 	rendered="#{not simulationHandler.simOnly}" />
-<ice:commandButton value="simulate"
+<ice:commandButton value="#{labels['buttons.simulate']}" rendered="#{not simulationHandler.simOnly}"
+	action="#{simulationHandler.simTrial}" />
+<ice:commandButton value="#{labels['buttons.simulate']}"
 	action="#{popups.showSimulationCompletePopup}" />

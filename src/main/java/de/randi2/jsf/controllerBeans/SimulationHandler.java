@@ -12,6 +12,7 @@ import javax.faces.event.ActionEvent;
 
 import lombok.Getter;
 import lombok.Setter;
+import de.randi2.jsf.backingBeans.Randi2Page;
 import de.randi2.jsf.backingBeans.SimulationAlgorithm;
 import de.randi2.jsf.backingBeans.SimulationSubjectProperty;
 import de.randi2.jsf.backingBeans.Step5;
@@ -343,7 +344,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 				SimulationResult result = simulationService.simulateTrial(
 						showedObject, properties, distributedTrialSites
 								.getDistributionTrialSites(), runs, maxTime);
-				result.getMarginalBalanceMax();
+				result.setAlgorithmDescription(alg.getDescription());
 				simulationResults.add(result);
 			}
 
@@ -352,6 +353,11 @@ public class SimulationHandler extends AbstractTrialHandler {
 					showedObject, properties, distributedTrialSites
 							.getDistributionTrialSites(), runs, maxTime);
 			simResult = result;
+			Randi2Page rPage = ((Randi2Page) FacesContext.getCurrentInstance()
+					.getApplication().getELResolver().getValue(
+							FacesContext.getCurrentInstance()
+									.getELContext(), null, "randi2Page"));
+			rPage.simulationResult(null);
 		}
 	}
 

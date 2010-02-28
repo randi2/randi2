@@ -2,13 +2,13 @@
 	<ice:panelGrid columns="2" style="width: 550px;">
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="runs"></ice:outputLabel>
+				<ice:outputLabel value="#{labels['pages.simulation.runs']}"></ice:outputLabel>
 			</f:facet>
 			<ice:outputLabel value="#{simulationHandler.simResult.amountRuns}" />
 		</ice:panelCollapsible>
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="time in ms"></ice:outputLabel>
+				<ice:outputLabel value="#{labels['pages.simulation.time']}"></ice:outputLabel>
 			</f:facet>
 			<ice:outputLabel value="#{simulationHandler.simResult.duration}" />
 		</ice:panelCollapsible>
@@ -16,21 +16,21 @@
 	<ice:panelGrid columns="3" style="width: 550px;">
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="min marginal Balance"></ice:outputLabel>
+				<ice:outputLabel value="#{labels['pages.simulation.minMarginalBal']}"></ice:outputLabel>
 			</f:facet>
 			<ice:outputLabel
 				value="#{simulationHandler.simResult.marginalBalanceMin}" />
 		</ice:panelCollapsible>
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="mean marginal balance"></ice:outputLabel>
+				<ice:outputLabel value="#{labels['pages.simulation.meanMarginalBal']}"></ice:outputLabel>
 			</f:facet>
 			<ice:outputLabel
 				value="#{simulationHandler.simResult.marginalBalanceMean}" />
 		</ice:panelCollapsible>
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="max marginal Balance"></ice:outputLabel>
+				<ice:outputLabel value="#{labels['pages.simulation.maxMarginalBal']}"></ice:outputLabel>
 			</f:facet>
 			<ice:outputLabel
 				value="#{simulationHandler.simResult.marginalBalanceMax}" />
@@ -38,20 +38,20 @@
 	</ice:panelGrid>
 	<ice:panelCollapsible expanded="true" toggleOnClick="false" style="margin-left: 3px;">
 	<f:facet name="header">
-				<ice:outputLabel value="Result Arms:"></ice:outputLabel>
+				<ice:outputLabel value="#{labels['pages.simulation.resultArms']}"></ice:outputLabel>
 			</f:facet>
 			
 	<ice:panelSeries value="#{simulationHandler.simResult.simResultArms}"
 		var="simArm" >
-		<ice:panelGrid columns="2" width="150px">
-				<ice:outputLabel value="Arm:  #{simArm.arm.name}" style="color: red;"/><br />
-				<ice:outputText value="Min = #{simArm.min}" />
-				<ice:outputText value="Max = #{simArm.max}" />
-				<ice:outputText value="Mean = #{simArm.mean}" />
-				<ice:outputText value="Median = #{simArm.median}" />
+		<ice:panelGrid columns="2" width="200px">
+				<ice:outputLabel value="#{labels['treatmentArm.name']}:  #{simArm.arm.name}" style="color: red;"/><br />
+				<ice:outputText value="#{labels['pages.simulation.min']} = #{simArm.min}" />
+				<ice:outputText value="#{labels['pages.simulation.max']} = #{simArm.max}" />
+				<ice:outputText value="#{labels['pages.simulation.mean']} = #{simArm.mean}" />
+				<ice:outputText value="#{labels['pages.simulation.median']} = #{simArm.median}" />
 		</ice:panelGrid>
 	
 	</ice:panelSeries>
 	</ice:panelCollapsible>
 </ice:panelGroup>
-<ice:commandButton  value="return to trial creation" actionListener="#{randi2Page.simulateTrialBack}" />
+<ice:commandButton  value="#{labels['pages.simulation.backTrialCreation']}" actionListener="#{randi2Page.simulateTrialBack}" />

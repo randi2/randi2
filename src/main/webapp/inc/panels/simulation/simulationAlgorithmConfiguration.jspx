@@ -29,7 +29,7 @@
 		</f:facet>
 		<ice:panelGrid columns="1">
 		<ice:panelGroup>
-		<ice:outputLabel value="seed:" />
+		<ice:outputLabel value="#{labels['pages.simulation.seed']}:" />
 		<ice:selectBooleanCheckbox value="#{simulationHandler.seedRandomisationAlgorithmB}"  partialSubmit="true"/>
 		<ice:inputText rendered="#{simulationHandler.seedRandomisationAlgorithmB}" value="#{simulationHandler.seedRandomisationAlgorithm}"  partialSubmit="true"/>
 		</ice:panelGroup>
@@ -50,7 +50,7 @@
 	</ice:panelCollapsible>
 </ice:panelGroup>
 <ice:panelGrid columns="3">
-	<ice:outputLabel value="Algorithm" />
+	<ice:outputLabel value="#{labels['pages.simulation.algo']}" />
 
 </ice:panelGrid>
 <ice:panelGroup styleClass="clearer">
@@ -69,8 +69,10 @@
 				<b class="b3"></b>
 				<b class="b4"></b>
 				<ice:panelGroup styleClass="contentb">
-					<ice:panelGrid columns="2">
-						<ice:outputLabel value="#{alg.conf.UIName} (#{alg.possition})" />
+					<ice:panelGrid columns="3">
+						<ice:outputLabel value="#{alg.possition}:" />
+						<ice:inputText size="35"  partialSubmit="true" value="#{alg.description}"/>
+						<ice:outputLabel value="(#{labels['pages.simulation.description']})" />
 					</ice:panelGrid>
 					<ice:panelGrid columns="1">
 						<ice:panelGroup>

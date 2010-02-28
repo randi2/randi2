@@ -21,26 +21,26 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelTabSet style="font-size: 9;display: block;" >
-		<ice:panelTab label="simulation trial" >
+		<ice:panelTab label="#{labels['pages.simulation.trialConfig']}" >
 			<f:subview id="simOnlyTrialConfig">
 				<jsp:directive.include
 					file="./inc/panels/simulation/simulationTrialConfiguration.jspx" />
 			</f:subview>
 		</ice:panelTab>
 		
-		<ice:panelTab label="simulation strata" >
+		<ice:panelTab label="#{labels['pages.simulation.strataConfig']}" >
 			<f:subview id="simOnlyStrataConfig" >
 				<jsp:directive.include
 					file="./inc/panels/simulation/strataS.jspx" />
 			</f:subview>
 		</ice:panelTab>
-		<ice:panelTab label="simulation trial Algorithm" >
+		<ice:panelTab label="#{labels['pages.simulation.algConfig']}" >
 			<f:subview id="simOnlyAlgorithmConfig">
 				<jsp:directive.include
 					file="./inc/panels/simulation/simulationAlgorithmConfiguration.jspx" />
 			</f:subview>
 		</ice:panelTab>
-		<ice:panelTab label="simulation Conf">
+		<ice:panelTab label="#{labels['pages.simulation.configuration']}">
 			<f:subview id="simOnlyConfig">
 				<jsp:directive.include
 					file="./inc/panels/simulation/simulationConfiguration.jspx" />

@@ -23,7 +23,7 @@
 </ice:panelCollapsible>
 <ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="count trial sites"></ice:outputLabel>
+				<ice:outputLabel value="#{labels['pages.simulation.countTrialSite']}"></ice:outputLabel>
 			</f:facet>
 			<ice:inputText size="35"  partialSubmit="true" value="#{simulationHandler.countTrialSites}" />
 </ice:panelCollapsible>
