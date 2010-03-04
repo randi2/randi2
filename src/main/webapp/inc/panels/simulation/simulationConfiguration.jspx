@@ -132,4 +132,4 @@
 <ice:commandButton value="#{labels['buttons.simulate']}" rendered="#{not simulationHandler.simOnly}"
 	action="#{simulationHandler.simTrial}" />
 <ice:commandButton value="#{labels['buttons.simulate']}"
-	action="#{popups.showSimulationCompletePopup}" />
+	action="#{popups.showSimulationCompletePopup}" rendered="#{simulationHandler.simOnly}"/>

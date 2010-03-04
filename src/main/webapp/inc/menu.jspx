@@ -46,7 +46,7 @@
 			<ice:menuItem id="create" value="#{labels['pages.menu.create']}"
 				actionListener="#{randi2Page.createTrial}" rendered="#{permissionVerifier.allowedCreateTrial}" />
 			<ice:menuItemSeparator/>
-			<ice:menuItem id="simulationItem" value="simulation"
+			<ice:menuItem id="simulationItem" value="#{labels['pages.menu.simulation']}"
 				actionListener="#{randi2Page.simulateTrialOnly}" />
 		</ice:menuItem>
 		<ice:menuItem id="tSubjectMenu" value="#{labels['pages.menu.trialSubject']}" rendered="#{permissionVerifier.allowedRandomize}">

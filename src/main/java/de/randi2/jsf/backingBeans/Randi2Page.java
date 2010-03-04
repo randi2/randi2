@@ -224,6 +224,7 @@ public class Randi2Page {
 	
 	public void simulateTrialOnlyChange(ActionEvent event) {
 		popups.hideSimulationCompletePopup();
+		simulationHandler.setSimulationResults(null);
 		activePanel = "simulationOnlyPanel";
 	}
 	
