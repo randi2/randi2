@@ -23,9 +23,9 @@ import java.util.List;
 /**
  * Represented the uniform distribution. The elements you get with the getNextValue() method are uniform distributed.
  * 
- * @author dschrimpf <ds@randi2.de>
+ * @author Daniel Schrimpf <ds@randi2.de>
  *
- * @param <E>
+ * @param <E> The type of the elements.
  */
 public  class  UniformDistribution<E extends Serializable> extends AbstractDistribution<E> {
 

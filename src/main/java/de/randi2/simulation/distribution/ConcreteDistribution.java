@@ -28,9 +28,9 @@ import de.randi2.utility.Pair;
  * Represented the concrete distribution. The elements you get with the
  * getNextValue() method are concrete distributed.
  * 
- * @author dschrimpf <ds@randi2.de>
+ * @author Daniel Schrimpf <ds@randi2.de>
  * 
- * @param <E>
+ * @param <E> The type of the elements.
  */
 public class ConcreteDistribution<E extends Serializable> extends
 		AbstractDistribution<E> {
@@ -39,6 +39,11 @@ public class ConcreteDistribution<E extends Serializable> extends
 	private int[] ratio;
 	private int all = 0;
 
+	/**
+	 * This constructor takes an array of Element-Ratio pairs and a seed value.
+	 * @param seed The seed value.
+	 * @param elementRatioPairs A list of pairs with a ration and an element.
+	 */
 	public ConcreteDistribution(long seed,
 			Pair<E, Integer>... elementRatioPairs) {
 		super(seed);
@@ -54,7 +59,7 @@ public class ConcreteDistribution<E extends Serializable> extends
 	}
 
 	/**
-	 * 
+	 * This constructor takes an array of Element-Ratio pairs.
 	 * @param elementRatioPairs
 	 *            A list of pairs with a ration and an element.
 	 */
@@ -70,6 +75,14 @@ public class ConcreteDistribution<E extends Serializable> extends
 		}
 	}
 
+	/**
+	 * The mapping between the list of elements and the array of ratios is
+	 * sequential (thirst element of the list <-> thirst element of the array)
+	 *  
+	 * @param seed The seed value.
+	 * @param elements A list of all elements.
+	 * @param ratio A list of the ratios
+	 */
 	public ConcreteDistribution(long seed, List<E> elements, int... ratio) {
 		super(elements, seed);
 		this.ratio = ratio;
@@ -83,9 +96,9 @@ public class ConcreteDistribution<E extends Serializable> extends
 	 * sequential (thirst element of the list <-> thirst element of the array)
 	 * 
 	 * @param elements
-	 *            List of element
+	 *           A list of all elements.
 	 * @param ratio
-	 *            List of ratios
+	 *           A list of the ratios.
 	 */
 	public ConcreteDistribution(List<E> elements, int... ratio) {
 		super(elements);

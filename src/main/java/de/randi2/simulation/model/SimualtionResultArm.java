@@ -26,7 +26,7 @@ import de.randi2.model.TreatmentArm;
  * Represented a result of a simulation in one treatment arm. This class
  * contains different measures like, minimum, maximum, mean and median.
  * 
- * @author dschrimpf <ds@randi2.de>
+ * @author Daniel Schrimpf <ds@randi2.de>
  * 
  */
 @Data

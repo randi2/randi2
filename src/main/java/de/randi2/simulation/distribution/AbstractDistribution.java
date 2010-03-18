@@ -22,12 +22,12 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * This abstract class for an distribution provides methods to get elements in a
- * special distribution.
+ * This is an abstract class for a distribution and provides methods to get elements in a
+ * specified distribution.
  * 
- * @author dschrimpf <ds@randi2.de>
+ * @author Daniel Schrimpf <ds@randi2.de>
  * 
- * @param <E>
+ * @param <E> the type of the elements
  */
 public abstract class AbstractDistribution<E extends Serializable> {
 
@@ -53,13 +53,17 @@ public abstract class AbstractDistribution<E extends Serializable> {
 		random = new Random(seed);
 	}
 
+	/**
+	 * Returns all possible elements.
+	 * @return All possible elements.
+	 */
 	public List<E> getElements() {
 		return elements;
 	}
 
 	/**
-	 * Returns a element, if you call this method several times you get the
-	 * elements in a special distribution.
+	 * Returns an element, if you call this method several times you get the
+	 * elements in the specified distribution.
 	 * 
 	 * @return a element in a special distribution
 	 */

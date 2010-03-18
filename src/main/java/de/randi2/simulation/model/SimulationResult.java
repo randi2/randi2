@@ -32,7 +32,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
  * simulation runs, different measures and the functionality to analyze the
  * simulation.
  * 
- * @author dschrimpf <ds@randi2.de>
+ * @author Daniel Schrimpf <ds@randi2.de>
  * 
  */
 public class SimulationResult {
@@ -71,18 +71,36 @@ public class SimulationResult {
 	@Setter
 	private String algorithmDescription;
 
+	/**
+	 * 
+	 * @param arms
+	 *            A list of the treatment arms.
+	 * @param algConf
+	 *            The algorithm of the simulation.
+	 */
 	public SimulationResult(List<TreatmentArm> arms,
 			AbstractRandomizationConfig algConf) {
 		this.arms = arms;
 		this.algConf = algConf;
 	}
 
+	/**
+	 * Add one Simulation run to the list of the simulation runs.
+	 * 
+	 * @param run
+	 *            The simulation run.
+	 */
 	public void addSimulationRun(SimulationRun run) {
 		amountRuns++;
 		runs.add(run);
 	}
 
-	public synchronized SimulationRun getEmptyRun() {
+	/**
+	 * This method create and initialize a simulation run.
+	 * 
+	 * @return The initialized simulation run.
+	 */
+	public SimulationRun getEmptyRun() {
 		if (plannedSubjectsPerArm == null) {
 			plannedSubjectsPerArm = new int[arms.size()];
 			for (int i = 0; i < arms.size(); i++) {
@@ -92,6 +110,12 @@ public class SimulationResult {
 		return new SimulationRun(plannedSubjectsPerArm);
 	}
 
+	/**
+	 * This method returns the mean of the patient amount over all simulation
+	 * runs per arm.
+	 * 
+	 * @return The array with the results per arm.
+	 */
 	public double[] getMeans() {
 		if (means == null) {
 			analyze();
@@ -99,6 +123,12 @@ public class SimulationResult {
 		return means;
 	}
 
+	/**
+	 * This method returns the minimum of the patient amount over all simulation
+	 * runs per arm.
+	 * 
+	 * @return The array with the results per arm.
+	 */
 	public int[] getMins() {
 		if (mins == null) {
 			analyze();
@@ -106,6 +136,12 @@ public class SimulationResult {
 		return mins;
 	}
 
+	/**
+	 * This method returns the maximum of the patient amount over all simulation
+	 * runs per arm.
+	 * 
+	 * @return The array with the results per arm.
+	 */
 	public int[] getMaxs() {
 		if (maxs == null) {
 			analyze();
@@ -113,6 +149,12 @@ public class SimulationResult {
 		return maxs;
 	}
 
+	/**
+	 * This method returns the medians of the patient amount over all simulation
+	 * runs per arm.
+	 * 
+	 * @return The array with the results per arm.
+	 */
 	public double[] getMedians() {
 		if (medians == null) {
 			analyze();
@@ -120,6 +162,12 @@ public class SimulationResult {
 		return medians;
 	}
 
+	/**
+	 * This method returns the minimum marginal balance over all simulation
+	 * runs.
+	 * 
+	 * @return The minimum marginal balance.
+	 */
 	public double getMarginalBalanceMin() {
 		if (Double.isNaN(marginalBalanceMin)) {
 			analyze();
@@ -127,6 +175,12 @@ public class SimulationResult {
 		return marginalBalanceMin;
 	}
 
+	/**
+	 * This method returns the maximal marginal balance over all simulation
+	 * runs.
+	 * 
+	 * @return The maximal marginal balance.
+	 */
 	public double getMarginalBalanceMax() {
 		if (Double.isNaN(marginalBalanceMax)) {
 			analyze();
@@ -134,6 +188,12 @@ public class SimulationResult {
 		return marginalBalanceMax;
 	}
 
+	/**
+	 * This method returns the mean of the marginal balances over all simulation
+	 * runs.
+	 * 
+	 * @return The mean of the marginal balances.
+	 */
 	public double getMarginalBalanceMean() {
 		if (Double.isNaN(marginalBalanceMean)) {
 			analyze();
@@ -141,6 +201,11 @@ public class SimulationResult {
 		return marginalBalanceMean;
 	}
 
+	/**
+	 * Calculate and return the duration of all simulation runs.
+	 * 
+	 * @return the
+	 */
 	public long getDuration() {
 		if (duration == Long.MIN_VALUE) {
 			analyze();
@@ -154,6 +219,7 @@ public class SimulationResult {
 	 * called automatic if the measures are not initialized.
 	 */
 	public void analyze() {
+		// initialize the variables
 		duration = 0;
 		simResultArms = new ArrayList<SimualtionResultArm>();
 		mins = new int[arms.size()];
@@ -167,11 +233,14 @@ public class SimulationResult {
 		marginalBalanceMax = Double.MIN_VALUE;
 		marginalBalanceMin = Double.MAX_VALUE;
 		marginalBalanceMean = 0.0;
+		// HashMap to calculate the median per arm.
 		HashMap<Integer, ArrayList<Integer>> tempMedian = new HashMap<Integer, ArrayList<Integer>>();
 		for (int i = 0; i < arms.size(); i++) {
 			tempMedian.put(i, new ArrayList<Integer>());
 		}
 
+		// first loop over all simulation runs to calculate the minimal/maximal
+		// values, duration and marginal balances
 		for (int i = 0; i < runs.size(); i++) {
 			for (int j = 0; j < arms.size(); j++) {
 				if (runs.get(i).getSubjectsPerArms()[j] < mins[j])
@@ -189,6 +258,9 @@ public class SimulationResult {
 			marginalBalanceMean += runs.get(i).getMarginalBalace();
 			duration += runs.get(i).getTime();
 		}
+
+		// second loop over all treatment arms to calculate the mean and the
+		// median and create the reslut per arm
 		for (int i = 0; i < arms.size(); i++) {
 			means[i] = means[i] / amountRuns;
 			ArrayList<Integer> listMedian = tempMedian.get(i);

@@ -27,7 +27,7 @@ import de.randi2.simulation.distribution.AbstractDistribution;
  * Wrapper class between distribution with subject constraint and the criterion
  * with the constraints.
  * 
- * @author dschrimpf <ds@randi2.de>
+ * @author Daniel Schrimpf <ds@randi2.de>
  * 
  */
 public class DistributionSubjectProperty {
@@ -45,7 +45,7 @@ public class DistributionSubjectProperty {
 	private AbstractDistribution<?> distribution;
 
 	/**
-	 * Return one element if the method is called several times the elements are
+	 * Return one element, if the method is called several times the elements are
 	 * special distributed (the distribution of the distribution class).
 	 * 
 	 * @return The next element

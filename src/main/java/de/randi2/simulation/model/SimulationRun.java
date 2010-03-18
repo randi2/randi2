@@ -21,15 +21,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
+ * This class represented the values of one simulation run.
  * 
- * @author dschrimpf <ds@randi2.de>
+ * @author Daniel Schrimpf <ds@randi2.de>
  *
  */
 public class SimulationRun {
 
 	private double marginalBalance = Double.NaN;
-	
-	private double debit = Double.NaN;
 	
 	@Getter @Setter
 	private int[] subjectsPerArms;
@@ -39,12 +38,20 @@ public class SimulationRun {
 	@Getter @Setter
 	private Long time;
 	
+	/**
+	 * The constructor takes an array which contains the planned subjects per arm.
+	 * @param plannedSubjectsPerArm An array which contains the planned subjects per arm.
+	 */
 	public SimulationRun(int[] plannedSubjectsPerArm){
 		subjectsPerArms= new int[plannedSubjectsPerArm.length];
 		this.plannedSubjectsPerArm = plannedSubjectsPerArm;
 	}
 	
 	
+	/**
+	 * Calculated the marginal Balance and return the result.
+	 * @return The marginal Balance.
+	 */
 	public double getMarginalBalace(){
 		if(Double.isNaN(marginalBalance)){
 			marginalBalance = 0.0;

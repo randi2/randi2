@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -33,20 +32,25 @@ public class SimulationServiceImpl implements SimulationService {
 
 	@Override
 	public SimulationResult simulateTrial(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime) {
+		//copy the trial to avoid side effects
 		Trial copyTrial = copyAndPrepareTrial(trial, properties, distributionTrialSites);
+		//initialize the simulation result
 		SimulationResult simResult = new SimulationResult(trial.getTreatmentArms(), trial.getRandomizationConfiguration());
 		long startTime;
 		TreatmentArm assignedArm;
 		TrialSubject subject = new TrialSubject();
+		//loop over all simulation runs
 		for (int run = 0; run < runs; run++) {
 			startTime = System.currentTimeMillis();
 			Trial simTrial = resetTrial(copyTrial);
 			SimulationRun simRun = simResult.getEmptyRun();
+			//loop over all trial subjects to randomize
 			for (int i = 0; i < simTrial.getPlannedSubjectAmount(); i++) {
-				if(MinimizationConfig.class.isInstance(trial.getRandomizationConfiguration())){subject = new TrialSubject();}
-				 subject = generateTrialSubject(properties, subject);
+				//generate the subject properties
+				subject = generateTrialSubject(properties, subject);
 				subject.setTrialSite(distributionTrialSites.getNextValue());
 			
+				//randomize the subject an add it to the treatment arm 
 				assignedArm = simTrial
 						.getRandomizationConfiguration().getAlgorithm()
 						.randomize(subject);
@@ -56,19 +60,28 @@ public class SimulationServiceImpl implements SimulationService {
 				subject.setIdentification(subject.getRandNumber());
 				assignedArm.addSubject(subject);
 			}
+			//set data for this simulation run and add it to the simulation result
 			for(int i = 0; i<simTrial.getTreatmentArms().size();i++){
 				simRun.getSubjectsPerArms()[i] = simTrial.getTreatmentArms().get(i).getCurrentSubjectsAmount();
 			}
 			simRun.setTime((System.currentTimeMillis()-startTime));
 			simResult.addSimulationRun(simRun);
 		}
+		//Analyze the simulation result
 		simResult.analyze();
 		return simResult;
 	}
 
-	
+	/**
+	 * TThis method clones the objects and initializes them (id, ...).
+	 * @param trial
+	 * @param properties
+	 * @param distributionTrialSites
+	 * @return
+	 */
 	private static Trial copyAndPrepareTrial(Trial trial,  List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites) {
 		long id = 0;
+		//copy plain trail data
 		Trial cTrial = new Trial();
 		cTrial.setId(id++);
 		cTrial.setParticipatingSites(new HashSet<TrialSite>(trial
@@ -77,6 +90,7 @@ public class SimulationServiceImpl implements SimulationService {
 		cTrial.setStartDate(trial.getStartDate());
 		cTrial.setEndDate(trial.getEndDate());
 		
+		//clone and copy the patient properties
 		for(int i=0;i<distributionTrialSites.getElements().size();i++){
 			TrialSite site = distributionTrialSites.getElements().get(i);
 			TrialSite cSite = new TrialSite();
@@ -150,23 +164,30 @@ public class SimulationServiceImpl implements SimulationService {
 			}
 
 		}
+		//reset the randomization configuration 
 		cTrial.setRandomizationConfiguration(trial.getRandomizationConfiguration());
 		cTrial.getRandomizationConfiguration().setTrial(cTrial);
 		cTrial.getRandomizationConfiguration().resetAlgorithm();
 		return cTrial;
 	}
 	
-	
-	public long estimateSimulationDuration(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime){
-		SimulationResult result = simulateTrial(trial, properties, distributionTrialSites, 30, maxTime);
-		long time = 0;
-		for(int i =10 ; i<30;i++){
-			time+= result.getRuns().get(i).getTime();
-		}
-		time = ((time /20)*runs) / 1000000;
-        return time;
-	 }
+//	
+//	public long estimateSimulationDuration(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime){
+//		SimulationResult result = simulateTrial(trial, properties, distributionTrialSites, 30, maxTime);
+//		long time = 0;
+//		for(int i =10 ; i<30;i++){
+//			time+= result.getRuns().get(i).getTime();
+//		}
+//		time = ((time /20)*runs) / 1000000;
+//        return time;
+//	 }
 
+	
+	
+
+	/**
+	 * Reset the passed trial.
+	 */
 	private static Trial resetTrial(Trial trial) {
 		for (TreatmentArm arm : trial.getTreatmentArms()) {
 			arm.getSubjects().clear();
@@ -180,6 +201,12 @@ public class SimulationServiceImpl implements SimulationService {
 		return trial;
 	}
 
+	/**
+	 * Generate a trial subject with the distribution of the subject properties.
+	 * @param properties The subject properties with the distribution.
+	 * @param oldSubject The old trialSubject object.
+	 * @return The reseted and changed trial subject object.
+	 */
 	public static TrialSubject generateTrialSubject(List<DistributionSubjectProperty> properties, TrialSubject oldSubject) {
 		oldSubject.setProperties(null);
 		HashSet<SubjectProperty<?>> tempSet = new HashSet<SubjectProperty<?>>();
