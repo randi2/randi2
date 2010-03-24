@@ -62,10 +62,10 @@ public class SimulationRun {
 				}
 				numerator += ((subjectsPerArms[i]*1.0) / (plannedSubjectsPerArm[i]*1.0));
 			}
-			numerator+=subjectsPerArms[subjectsPerArms.length-1];
+			numerator+=subjectsPerArms[subjectsPerArms.length-1]  / (plannedSubjectsPerArm[subjectsPerArms.length-1]*1.0);
 			numerator =(subjectsPerArms.length-1.0) * numerator;
 			marginalBalance = marginalBalance/numerator;
-			marginalBalance = marginalBalance*1000;
+			//marginalBalance = marginalBalance;
 		}
 		return marginalBalance;
 	}
