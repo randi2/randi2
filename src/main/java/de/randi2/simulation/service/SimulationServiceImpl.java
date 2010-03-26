@@ -39,8 +39,8 @@ public class SimulationServiceImpl implements SimulationService {
 		Trial copyTrial = copyAndPrepareTrial(trial, properties,
 				distributionTrialSites);
 		// initialize the simulation result
-		SimulationResult simResult = new SimulationResult(trial
-				.getTreatmentArms(), trial.getRandomizationConfiguration());
+		SimulationResult simResult = new SimulationResult(copyTrial
+				.getTreatmentArms(), copyTrial.getRandomizationConfiguration(), copyTrial.getAllStrataIdsAndNames().first());
 		long startTime;
 		TreatmentArm assignedArm;
 		TrialSubject subject = new TrialSubject();
@@ -64,6 +64,16 @@ public class SimulationServiceImpl implements SimulationService {
 					subject.setRandNumber(i + "_" + assignedArm.getName());
 					subject.setCounter(i);
 					subject.setIdentification(subject.getRandNumber());
+
+					String stratum = "";
+					if (trial.isStratifyTrialSite()) {
+						stratum = subject.getTrialSite().getId() + "__";
+					}
+					stratum += subject.getStratum();
+					Integer count = simRun.getStrataCountsPerArm().get(assignedArm).get(stratum);
+					count++;
+					simRun.getStrataCountsPerArm().get(assignedArm).put(stratum, count);
+					
 					assignedArm.addSubject(subject);
 				}
 				// set data for this simulation run and add it to the simulation
@@ -99,8 +109,8 @@ public class SimulationServiceImpl implements SimulationService {
 		// copy plain trail data
 		Trial cTrial = new Trial();
 		cTrial.setId(id++);
-		cTrial.setParticipatingSites(new HashSet<TrialSite>(trial
-				.getParticipatingSites()));
+//		cTrial.setParticipatingSites(new HashSet<TrialSite>(trial
+//				.getParticipatingSites()));
 		cTrial.setStratifyTrialSite(trial.isStratifyTrialSite());
 		cTrial.setStartDate(trial.getStartDate());
 		cTrial.setEndDate(trial.getEndDate());
@@ -112,6 +122,7 @@ public class SimulationServiceImpl implements SimulationService {
 			cSite.setName(site.getName());
 			cSite.setId(id++);
 			distributionTrialSites.getElements().set(i, cSite);
+			cTrial.addParticipatingSite(cSite);
 		}
 		ArrayList<TreatmentArm> arms = new ArrayList<TreatmentArm>();
 		for (TreatmentArm arm : trial.getTreatmentArms()) {

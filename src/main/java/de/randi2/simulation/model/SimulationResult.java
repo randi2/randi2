@@ -71,6 +71,8 @@ public class SimulationResult {
 	@Setter
 	private String algorithmDescription;
 
+	
+	private List<String> strataIds;
 	/**
 	 * 
 	 * @param arms
@@ -79,9 +81,10 @@ public class SimulationResult {
 	 *            The algorithm of the simulation.
 	 */
 	public SimulationResult(List<TreatmentArm> arms,
-			AbstractRandomizationConfig algConf) {
+			AbstractRandomizationConfig algConf, List<String> strataIds) {
 		this.arms = arms;
 		this.algConf = algConf;
+		this.strataIds = strataIds;
 	}
 
 	/**
@@ -107,7 +110,7 @@ public class SimulationResult {
 				plannedSubjectsPerArm[i] = arms.get(i).getPlannedSubjects();
 			}
 		}
-		return new SimulationRun(plannedSubjectsPerArm);
+		return new SimulationRun(plannedSubjectsPerArm, arms, strataIds);
 	}
 
 	/**
