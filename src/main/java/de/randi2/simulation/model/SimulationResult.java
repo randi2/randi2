@@ -219,67 +219,70 @@ public class SimulationResult {
 	 * called automatic if the measures are not initialized.
 	 */
 	public void analyze() {
-		// initialize the variables
-		duration = 0;
-		simResultArms = new ArrayList<SimualtionResultArm>();
-		mins = new int[arms.size()];
-		for (int i = 0; i < mins.length; i++) {
-			mins[i] = Integer.MAX_VALUE;
-		}
-		maxs = new int[arms.size()];
-		means = new double[arms.size()];
-		medians = new double[arms.size()];
+		if (runs.size() >= 2) {
+			// initialize the variables
+			duration = 0;
+			simResultArms = new ArrayList<SimualtionResultArm>();
+			mins = new int[arms.size()];
+			for (int i = 0; i < mins.length; i++) {
+				mins[i] = Integer.MAX_VALUE;
+			}
+			maxs = new int[arms.size()];
+			means = new double[arms.size()];
+			medians = new double[arms.size()];
 
-		marginalBalanceMax = Double.MIN_VALUE;
-		marginalBalanceMin = Double.MAX_VALUE;
-		marginalBalanceMean = 0.0;
-		// HashMap to calculate the median per arm.
-		HashMap<Integer, ArrayList<Integer>> tempMedian = new HashMap<Integer, ArrayList<Integer>>();
-		for (int i = 0; i < arms.size(); i++) {
-			tempMedian.put(i, new ArrayList<Integer>());
-		}
-
-		// first loop over all simulation runs to calculate the minimal/maximal
-		// values, duration and marginal balances
-		for (int i = 0; i < runs.size(); i++) {
-			for (int j = 0; j < arms.size(); j++) {
-				if (runs.get(i).getSubjectsPerArms()[j] < mins[j])
-					mins[j] = runs.get(i).getSubjectsPerArms()[j];
-				if (runs.get(i).getSubjectsPerArms()[j] > maxs[j])
-					maxs[j] = runs.get(i).getSubjectsPerArms()[j];
-				tempMedian.get(j).add(runs.get(i).getSubjectsPerArms()[j]);
-				means[j] += runs.get(i).getSubjectsPerArms()[j];
+			marginalBalanceMax = Double.MIN_VALUE;
+			marginalBalanceMin = Double.MAX_VALUE;
+			marginalBalanceMean = 0.0;
+			// HashMap to calculate the median per arm.
+			HashMap<Integer, ArrayList<Integer>> tempMedian = new HashMap<Integer, ArrayList<Integer>>();
+			for (int i = 0; i < arms.size(); i++) {
+				tempMedian.put(i, new ArrayList<Integer>());
 			}
 
-			if (runs.get(i).getMarginalBalace() < marginalBalanceMin)
-				marginalBalanceMin = runs.get(i).getMarginalBalace();
-			if (runs.get(i).getMarginalBalace() > marginalBalanceMax)
-				marginalBalanceMax = runs.get(i).getMarginalBalace();
-			marginalBalanceMean += runs.get(i).getMarginalBalace();
-			duration += runs.get(i).getTime();
-		}
+			// first loop over all simulation runs to calculate the
+			// minimal/maximal
+			// values, duration and marginal balances
+			for (int i = 0; i < runs.size(); i++) {
+				for (int j = 0; j < arms.size(); j++) {
+					if (runs.get(i).getSubjectsPerArms()[j] < mins[j])
+						mins[j] = runs.get(i).getSubjectsPerArms()[j];
+					if (runs.get(i).getSubjectsPerArms()[j] > maxs[j])
+						maxs[j] = runs.get(i).getSubjectsPerArms()[j];
+					tempMedian.get(j).add(runs.get(i).getSubjectsPerArms()[j]);
+					means[j] += runs.get(i).getSubjectsPerArms()[j];
+				}
 
-		// second loop over all treatment arms to calculate the mean and the
-		// median and create the reslut per arm
-		for (int i = 0; i < arms.size(); i++) {
-			means[i] = means[i] / amountRuns;
-			ArrayList<Integer> listMedian = tempMedian.get(i);
-			Collections.sort(listMedian);
-			if (listMedian.size() % 2 == 0) {
-				medians[i] = (listMedian.get((listMedian.size() / 2)) + listMedian
-						.get((listMedian.size() / 2) + 1)) / 2;
-			} else {
-				medians[i] = listMedian.get((listMedian.size() / 2) + 1);
+				if (runs.get(i).getMarginalBalace() < marginalBalanceMin)
+					marginalBalanceMin = runs.get(i).getMarginalBalace();
+				if (runs.get(i).getMarginalBalace() > marginalBalanceMax)
+					marginalBalanceMax = runs.get(i).getMarginalBalace();
+				marginalBalanceMean += runs.get(i).getMarginalBalace();
+				duration += runs.get(i).getTime();
 			}
-			SimualtionResultArm rArm = new SimualtionResultArm();
-			rArm.setArm(arms.get(i));
-			rArm.setMean(means[i]);
-			rArm.setMedian(medians[i]);
-			rArm.setMin(mins[i]);
-			rArm.setMax(maxs[i]);
-			simResultArms.add(rArm);
+
+			// second loop over all treatment arms to calculate the mean and the
+			// median and create the reslut per arm
+			for (int i = 0; i < arms.size(); i++) {
+				means[i] = means[i] / amountRuns;
+				ArrayList<Integer> listMedian = tempMedian.get(i);
+				Collections.sort(listMedian);
+				if (listMedian.size() % 2 == 0) {
+					medians[i] = (listMedian.get((listMedian.size() / 2)) + listMedian
+							.get((listMedian.size() / 2) + 1)) / 2;
+				} else {
+					medians[i] = listMedian.get((listMedian.size() / 2) + 1);
+				}
+				SimualtionResultArm rArm = new SimualtionResultArm();
+				rArm.setArm(arms.get(i));
+				rArm.setMean(means[i]);
+				rArm.setMedian(medians[i]);
+				rArm.setMin(mins[i]);
+				rArm.setMax(maxs[i]);
+				simResultArms.add(rArm);
+			}
+			marginalBalanceMean = marginalBalanceMean / amountRuns;
 		}
-		marginalBalanceMean = marginalBalanceMean / amountRuns;
 	}
 
 	@Override

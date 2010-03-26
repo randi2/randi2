@@ -1,9 +1,8 @@
 package de.randi2.simulation.service;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -16,18 +15,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
-import de.randi2.model.criteria.DichotomousCriterion;
-import de.randi2.model.criteria.OrdinalCriterion;
-import de.randi2.model.criteria.constraints.DichotomousConstraint;
-import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.randomization.BlockRandomizationConfig;
-import de.randi2.model.randomization.MinimizationConfig;
-import de.randi2.simulation.distribution.ConcreteDistribution;
 import de.randi2.simulation.distribution.UniformDistribution;
 import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationResult;
 import de.randi2.test.utility.DomainObjectFactory;
-import de.randi2.unsorted.ContraintViolatedException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/META-INF/spring.xml", "/META-INF/subconfig/test.xml"})
@@ -68,7 +60,7 @@ public class SimulationServiceTest {
 		configb.setMaximum(blocksize);
 		configb.setMinimum(blocksize);
 		validTrial.setRandomizationConfiguration(configb);
-		SimulationResult result = service.simulateTrial(validTrial,new ArrayList<DistributionSubjectProperty>(),new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 1000, 10000);
+		SimulationResult result = service.simulateTrial(validTrial,new ArrayList<DistributionSubjectProperty>(),new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 1000, 10000000);
 		assertEquals(1000, result.getAmountRuns());
 		double roundedResult = Math
 		.round(( result.getMarginalBalanceMax() * 100000.0)) / 100000.0;;

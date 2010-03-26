@@ -31,57 +31,72 @@ import de.randi2.unsorted.ContraintViolatedException;
 public class SimulationServiceImpl implements SimulationService {
 
 	@Override
-	public SimulationResult simulateTrial(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime) {
-		//copy the trial to avoid side effects
-		Trial copyTrial = copyAndPrepareTrial(trial, properties, distributionTrialSites);
-		//initialize the simulation result
-		SimulationResult simResult = new SimulationResult(trial.getTreatmentArms(), trial.getRandomizationConfiguration());
+	public SimulationResult simulateTrial(Trial trial,
+			List<DistributionSubjectProperty> properties,
+			AbstractDistribution<TrialSite> distributionTrialSites, int runs,
+			long maxTime) {
+		// copy the trial to avoid side effects
+		Trial copyTrial = copyAndPrepareTrial(trial, properties,
+				distributionTrialSites);
+		// initialize the simulation result
+		SimulationResult simResult = new SimulationResult(trial
+				.getTreatmentArms(), trial.getRandomizationConfiguration());
 		long startTime;
 		TreatmentArm assignedArm;
 		TrialSubject subject = new TrialSubject();
-		//loop over all simulation runs
+		long endTime = System.currentTimeMillis() + maxTime;
+		// loop over all simulation runs
 		for (int run = 0; run < runs; run++) {
-			startTime = System.currentTimeMillis();
-			Trial simTrial = resetTrial(copyTrial);
-			SimulationRun simRun = simResult.getEmptyRun();
-			//loop over all trial subjects to randomize
-			for (int i = 0; i < simTrial.getPlannedSubjectAmount(); i++) {
-				//generate the subject properties
-				subject = generateTrialSubject(properties, subject);
-				subject.setTrialSite(distributionTrialSites.getNextValue());
-			
-				//randomize the subject an add it to the treatment arm 
-				assignedArm = simTrial
-						.getRandomizationConfiguration().getAlgorithm()
-						.randomize(subject);
-				subject.setArm(assignedArm);
-				subject.setRandNumber(i + "_" + assignedArm.getName());
-				subject.setCounter(i);
-				subject.setIdentification(subject.getRandNumber());
-				assignedArm.addSubject(subject);
+			if (System.currentTimeMillis() < endTime) {
+				startTime = System.currentTimeMillis();
+				Trial simTrial = resetTrial(copyTrial);
+				SimulationRun simRun = simResult.getEmptyRun();
+				// loop over all trial subjects to randomize
+				for (int i = 0; i < simTrial.getPlannedSubjectAmount(); i++) {
+					// generate the subject properties
+					subject = generateTrialSubject(properties, subject);
+					subject.setTrialSite(distributionTrialSites.getNextValue());
+
+					// randomize the subject an add it to the treatment arm
+					assignedArm = simTrial.getRandomizationConfiguration()
+							.getAlgorithm().randomize(subject);
+					subject.setArm(assignedArm);
+					subject.setRandNumber(i + "_" + assignedArm.getName());
+					subject.setCounter(i);
+					subject.setIdentification(subject.getRandNumber());
+					assignedArm.addSubject(subject);
+				}
+				// set data for this simulation run and add it to the simulation
+				// result
+				for (int i = 0; i < simTrial.getTreatmentArms().size(); i++) {
+					simRun.getSubjectsPerArms()[i] = simTrial
+							.getTreatmentArms().get(i)
+							.getCurrentSubjectsAmount();
+				}
+				simRun.setTime((System.currentTimeMillis() - startTime));
+				simResult.addSimulationRun(simRun);
+			} else {
+				break;
 			}
-			//set data for this simulation run and add it to the simulation result
-			for(int i = 0; i<simTrial.getTreatmentArms().size();i++){
-				simRun.getSubjectsPerArms()[i] = simTrial.getTreatmentArms().get(i).getCurrentSubjectsAmount();
-			}
-			simRun.setTime((System.currentTimeMillis()-startTime));
-			simResult.addSimulationRun(simRun);
 		}
-		//Analyze the simulation result
-		simResult.analyze();
-		return simResult;
+			// Analyze the simulation result
+			simResult.analyze();
+			return simResult;
 	}
 
 	/**
 	 * TThis method clones the objects and initializes them (id, ...).
+	 * 
 	 * @param trial
 	 * @param properties
 	 * @param distributionTrialSites
 	 * @return
 	 */
-	private static Trial copyAndPrepareTrial(Trial trial,  List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites) {
+	private static Trial copyAndPrepareTrial(Trial trial,
+			List<DistributionSubjectProperty> properties,
+			AbstractDistribution<TrialSite> distributionTrialSites) {
 		long id = 0;
-		//copy plain trail data
+		// copy plain trail data
 		Trial cTrial = new Trial();
 		cTrial.setId(id++);
 		cTrial.setParticipatingSites(new HashSet<TrialSite>(trial
@@ -89,9 +104,9 @@ public class SimulationServiceImpl implements SimulationService {
 		cTrial.setStratifyTrialSite(trial.isStratifyTrialSite());
 		cTrial.setStartDate(trial.getStartDate());
 		cTrial.setEndDate(trial.getEndDate());
-		
-		//clone and copy the patient properties
-		for(int i=0;i<distributionTrialSites.getElements().size();i++){
+
+		// clone and copy the patient properties
+		for (int i = 0; i < distributionTrialSites.getElements().size(); i++) {
 			TrialSite site = distributionTrialSites.getElements().get(i);
 			TrialSite cSite = new TrialSite();
 			cSite.setName(site.getName());
@@ -108,13 +123,14 @@ public class SimulationServiceImpl implements SimulationService {
 			arms.add(cArm);
 		}
 		cTrial.setTreatmentArms(arms);
-		for (DistributionSubjectProperty dsp: properties) {
+		for (DistributionSubjectProperty dsp : properties) {
 			AbstractCriterion<?, ?> cr = dsp.getCriterion();
 			if (DateCriterion.class.isInstance(cr)) {
 				DateCriterion ccr = new DateCriterion();
 				ccr.setId(id++);
 				ccr.setInclusionConstraint(cr.getInclusionConstraint());
-				for (DateConstraint co : DateCriterion.class.cast(cr).getStrata()) {
+				for (DateConstraint co : DateCriterion.class.cast(cr)
+						.getStrata()) {
 					DateConstraint cco = new DateConstraint();
 					cco.setFirstDate(co.getFirstDate());
 					cco.setSecondDate(co.getSecondDate());
@@ -127,10 +143,14 @@ public class SimulationServiceImpl implements SimulationService {
 				DichotomousCriterion ccr = new DichotomousCriterion();
 				ccr.setId(id++);
 				ccr.setInclusionConstraint(cr.getInclusionConstraint());
-				ccr.setOption1(DichotomousCriterion.class.cast(cr).getOption1());
-				ccr.setOption2(DichotomousCriterion.class.cast(cr).getOption2());
-				for (DichotomousConstraint co : DichotomousCriterion.class.cast(cr)
-						.getStrata()) {
+				ccr
+						.setOption1(DichotomousCriterion.class.cast(cr)
+								.getOption1());
+				ccr
+						.setOption2(DichotomousCriterion.class.cast(cr)
+								.getOption2());
+				for (DichotomousConstraint co : DichotomousCriterion.class
+						.cast(cr).getStrata()) {
 					ArrayList<String> values = new ArrayList<String>();
 					values.add(co.getExpectedValue());
 					DichotomousConstraint cco;
@@ -148,7 +168,8 @@ public class SimulationServiceImpl implements SimulationService {
 				ccr.setId(id++);
 				ccr.setInclusionConstraint(cr.getInclusionConstraint());
 				ccr.setElements(OrdinalCriterion.class.cast(cr).getElements());
-				for (OrdinalConstraint co : OrdinalCriterion.class.cast(cr).getStrata()) {
+				for (OrdinalConstraint co : OrdinalCriterion.class.cast(cr)
+						.getStrata()) {
 					ArrayList<String> values = new ArrayList<String>(co
 							.getExpectedValues());
 					OrdinalConstraint cco;
@@ -164,26 +185,28 @@ public class SimulationServiceImpl implements SimulationService {
 			}
 
 		}
-		//reset the randomization configuration 
-		cTrial.setRandomizationConfiguration(trial.getRandomizationConfiguration());
+		// reset the randomization configuration
+		cTrial.setRandomizationConfiguration(trial
+				.getRandomizationConfiguration());
 		cTrial.getRandomizationConfiguration().setTrial(cTrial);
 		cTrial.getRandomizationConfiguration().resetAlgorithm();
 		return cTrial;
 	}
-	
-//	
-//	public long estimateSimulationDuration(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime){
-//		SimulationResult result = simulateTrial(trial, properties, distributionTrialSites, 30, maxTime);
-//		long time = 0;
-//		for(int i =10 ; i<30;i++){
-//			time+= result.getRuns().get(i).getTime();
-//		}
-//		time = ((time /20)*runs) / 1000000;
-//        return time;
-//	 }
 
-	
-	
+	//	
+	// public long estimateSimulationDuration(Trial trial,
+	// List<DistributionSubjectProperty> properties,
+	// AbstractDistribution<TrialSite> distributionTrialSites, int runs, long
+	// maxTime){
+	// SimulationResult result = simulateTrial(trial, properties,
+	// distributionTrialSites, 30, maxTime);
+	// long time = 0;
+	// for(int i =10 ; i<30;i++){
+	// time+= result.getRuns().get(i).getTime();
+	// }
+	// time = ((time /20)*runs) / 1000000;
+	// return time;
+	// }
 
 	/**
 	 * Reset the passed trial.
@@ -195,22 +218,29 @@ public class SimulationServiceImpl implements SimulationService {
 		trial.getRandomizationConfiguration().setTrial(trial);
 		trial.getRandomizationConfiguration().setTempData(null);
 		trial.getRandomizationConfiguration().resetAlgorithmWithNext();
-		if(MinimizationConfig.class.isInstance(trial.getRandomizationConfiguration())){
-			((Minimization) trial.getRandomizationConfiguration().getAlgorithm()).clear();
+		if (MinimizationConfig.class.isInstance(trial
+				.getRandomizationConfiguration())) {
+			((Minimization) trial.getRandomizationConfiguration()
+					.getAlgorithm()).clear();
 		}
 		return trial;
 	}
 
 	/**
 	 * Generate a trial subject with the distribution of the subject properties.
-	 * @param properties The subject properties with the distribution.
-	 * @param oldSubject The old trialSubject object.
+	 * 
+	 * @param properties
+	 *            The subject properties with the distribution.
+	 * @param oldSubject
+	 *            The old trialSubject object.
 	 * @return The reseted and changed trial subject object.
 	 */
-	public static TrialSubject generateTrialSubject(List<DistributionSubjectProperty> properties, TrialSubject oldSubject) {
+	public static TrialSubject generateTrialSubject(
+			List<DistributionSubjectProperty> properties,
+			TrialSubject oldSubject) {
 		oldSubject.setProperties(null);
 		HashSet<SubjectProperty<?>> tempSet = new HashSet<SubjectProperty<?>>();
-		for (DistributionSubjectProperty dsp :properties) {
+		for (DistributionSubjectProperty dsp : properties) {
 			SubjectProperty<Serializable> pr = new SubjectProperty<Serializable>(
 					dsp.getCriterion());
 			try {
