@@ -20,6 +20,7 @@ package de.randi2.simulation.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -237,10 +238,22 @@ public class SimulationResult {
 			marginalBalanceMax = Double.MIN_VALUE;
 			marginalBalanceMin = Double.MAX_VALUE;
 			marginalBalanceMean = 0.0;
+			Map<TreatmentArm, Map<String, Integer>> strataCountsPerArmMin = new HashMap<TreatmentArm, Map<String,Integer>>();
+			Map<TreatmentArm, Map<String, Integer>> strataCountsPerArmMax = new HashMap<TreatmentArm, Map<String,Integer>>();
+			Map<TreatmentArm, Map<String, Double>> strataCountsPerArmMean = new HashMap<TreatmentArm, Map<String,Double>>();
+			
 			// HashMap to calculate the median per arm.
 			HashMap<Integer, ArrayList<Integer>> tempMedian = new HashMap<Integer, ArrayList<Integer>>();
 			for (int i = 0; i < arms.size(); i++) {
 				tempMedian.put(i, new ArrayList<Integer>());
+				strataCountsPerArmMin.put(arms.get(i), new HashMap<String, Integer>());
+				strataCountsPerArmMax.put(arms.get(i), new HashMap<String, Integer>());
+				strataCountsPerArmMean.put(arms.get(i), new HashMap<String, Double>());
+				for(String strataId : strataIds){
+					strataCountsPerArmMax.get(arms.get(i)).put(strataId, 0);
+					strataCountsPerArmMin.get(arms.get(i)).put(strataId, Integer.MAX_VALUE);
+					strataCountsPerArmMean.get(arms.get(i)).put(strataId, 0.0);
+				}
 			}
 
 			// first loop over all simulation runs to calculate the
@@ -254,6 +267,7 @@ public class SimulationResult {
 						maxs[j] = runs.get(i).getSubjectsPerArms()[j];
 					tempMedian.get(j).add(runs.get(i).getSubjectsPerArms()[j]);
 					means[j] += runs.get(i).getSubjectsPerArms()[j];
+					
 				}
 
 				if (runs.get(i).getMarginalBalace() < marginalBalanceMin)

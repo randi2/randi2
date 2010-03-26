@@ -109,8 +109,6 @@ public class SimulationServiceImpl implements SimulationService {
 		// copy plain trail data
 		Trial cTrial = new Trial();
 		cTrial.setId(id++);
-//		cTrial.setParticipatingSites(new HashSet<TrialSite>(trial
-//				.getParticipatingSites()));
 		cTrial.setStratifyTrialSite(trial.isStratifyTrialSite());
 		cTrial.setStartDate(trial.getStartDate());
 		cTrial.setEndDate(trial.getEndDate());
