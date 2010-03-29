@@ -267,7 +267,15 @@ public class SimulationResult {
 						maxs[j] = runs.get(i).getSubjectsPerArms()[j];
 					tempMedian.get(j).add(runs.get(i).getSubjectsPerArms()[j]);
 					means[j] += runs.get(i).getSubjectsPerArms()[j];
-					
+					for(String strataId : runs.get(i).getStrataCountsPerArm().get(arms.get(j)).keySet()){
+						if(strataCountsPerArmMax.get(arms.get(j)).get(strataId) < runs.get(i).getStrataCountsPerArm().get(arms.get(j)).get(strataId)){
+							strataCountsPerArmMax.get(arms.get(j)).put(strataId, runs.get(i).getStrataCountsPerArm().get(arms.get(j)).get(strataId));
+						}
+						if(strataCountsPerArmMin.get(arms.get(j)).get(strataId) > runs.get(i).getStrataCountsPerArm().get(arms.get(j)).get(strataId)){
+							strataCountsPerArmMin.get(arms.get(j)).put(strataId, runs.get(i).getStrataCountsPerArm().get(arms.get(j)).get(strataId));
+						}
+						strataCountsPerArmMean.get(arms.get(j)).put(strataId, strataCountsPerArmMean.get(arms.get(j)).get(strataId) + runs.get(i).getStrataCountsPerArm().get(arms.get(j)).get(strataId));
+					}
 				}
 
 				if (runs.get(i).getMarginalBalace() < marginalBalanceMin)
@@ -290,12 +298,20 @@ public class SimulationResult {
 				} else {
 					medians[i] = listMedian.get((listMedian.size() / 2) + 1);
 				}
+				double armsCount = arms.size();
+				for(String strataId : strataCountsPerArmMean.get(arms.get(i)).keySet()){
+					strataCountsPerArmMean.get(arms.get(i)).put(strataId,  strataCountsPerArmMean.get(arms.get(i)).get(strataId) / armsCount);
+				}
+				
 				SimualtionResultArm rArm = new SimualtionResultArm();
 				rArm.setArm(arms.get(i));
 				rArm.setMean(means[i]);
 				rArm.setMedian(medians[i]);
 				rArm.setMin(mins[i]);
 				rArm.setMax(maxs[i]);
+				rArm.setStrataCountsPerArmMin(strataCountsPerArmMin.get(arms.get(i)));
+				rArm.setStrataCountsPerArmMax(strataCountsPerArmMax.get(arms.get(i)));
+				rArm.setStrataCountsPerArmMean(strataCountsPerArmMean.get(arms.get(i)));
 				simResultArms.add(rArm);
 			}
 			marginalBalanceMean = marginalBalanceMean / amountRuns;

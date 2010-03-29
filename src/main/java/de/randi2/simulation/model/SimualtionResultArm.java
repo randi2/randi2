@@ -18,6 +18,7 @@
 package de.randi2.simulation.model;
 
 import java.text.DecimalFormat;
+import java.util.Map;
 
 import lombok.Data;
 import de.randi2.model.TreatmentArm;
@@ -38,6 +39,9 @@ public class SimualtionResultArm {
 	private int max;
 	private double mean;
 	private double median;
+	private Map<String, Integer> strataCountsPerArmMin;
+	private Map<String, Integer> strataCountsPerArmMax;
+	private Map<String, Double> strataCountsPerArmMean;
 
 	private DecimalFormat f = new DecimalFormat("#0.00");
 
