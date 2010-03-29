@@ -40,7 +40,7 @@ public class SimulationServiceImpl implements SimulationService {
 				distributionTrialSites);
 		// initialize the simulation result
 		SimulationResult simResult = new SimulationResult(copyTrial
-				.getTreatmentArms(), copyTrial.getRandomizationConfiguration(), copyTrial.getAllStrataIdsAndNames().first());
+				.getTreatmentArms(), copyTrial.getRandomizationConfiguration(), copyTrial.getAllStrataIdsAndNames().first(), copyTrial.getAllStrataIdsAndNames().last());
 		long startTime;
 		TreatmentArm assignedArm;
 		TrialSubject subject = new TrialSubject();

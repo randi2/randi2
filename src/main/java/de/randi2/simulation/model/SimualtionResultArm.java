@@ -18,6 +18,8 @@
 package de.randi2.simulation.model;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import lombok.Data;
@@ -39,9 +41,11 @@ public class SimualtionResultArm {
 	private int max;
 	private double mean;
 	private double median;
+	private List<String> strataNames;
 	private Map<String, Integer> strataCountsPerArmMin;
 	private Map<String, Integer> strataCountsPerArmMax;
 	private Map<String, Double> strataCountsPerArmMean;
+	private List<StrataResultWrapper> strataResults;
 
 	private DecimalFormat f = new DecimalFormat("#0.00");
 
@@ -79,4 +83,28 @@ public class SimualtionResultArm {
 		return f.format(getMaxPercent()) + "%";
 	}
 
+	public List<StrataResultWrapper> getStrataResults(){
+		if(strataResults == null || strataCountsPerArmMax.keySet().size() != strataResults.size()){
+			strataResults = new ArrayList<StrataResultWrapper>();
+			for(String strataId : strataCountsPerArmMax.keySet()){
+				StrataResultWrapper strataResult = new StrataResultWrapper();
+				strataResult.setStrataId(strataId);
+				//TODO name
+				strataResult.setMaxCount(strataCountsPerArmMax.get(strataId));
+				strataResult.setMinCount(strataCountsPerArmMin.get(strataId));
+				strataResult.setMean(strataCountsPerArmMean.get(strataId));
+			}
+				
+		}
+		return strataResults;
+	}
+	
+	@Data
+	public class StrataResultWrapper{
+		private String strataId;
+		private String strataName;
+		private int minCount;
+		private int maxCount;
+		private double mean;
+	}
 }
