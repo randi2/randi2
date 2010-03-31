@@ -24,6 +24,7 @@ import java.util.Map;
 
 import lombok.Data;
 import de.randi2.model.TreatmentArm;
+import de.randi2.simulation.model.helper.StrataResultWrapper;
 
 /**
  * Represented a result of a simulation in one treatment arm. This class
@@ -46,9 +47,14 @@ public class SimualtionResultArm {
 	private Map<String, Integer> strataCountsPerArmMax;
 	private Map<String, Double> strataCountsPerArmMean;
 	private List<StrataResultWrapper> strataResults;
+	private String algorithmName;
 
 	private DecimalFormat f = new DecimalFormat("#0.00");
 
+	public SimualtionResultArm(String algorithmName){
+		this.algorithmName = algorithmName;
+	}
+	
 	/**
 	 * Returns the difference from planned subjects to minimum subjects in percent.
 	 * @return the percent of the difference
@@ -84,7 +90,7 @@ public class SimualtionResultArm {
 	}
 
 	public List<StrataResultWrapper> getStrataResults(){
-		if(strataResults == null || strataCountsPerArmMax.keySet().size() != strataResults.size()){
+//		if(strataResults == null || strataCountsPerArmMax.keySet().size() != strataResults.size()){
 			strataResults = new ArrayList<StrataResultWrapper>();
 			for(String strataId : strataCountsPerArmMax.keySet()){
 				StrataResultWrapper strataResult = new StrataResultWrapper();
@@ -93,18 +99,14 @@ public class SimualtionResultArm {
 				strataResult.setMaxCount(strataCountsPerArmMax.get(strataId));
 				strataResult.setMinCount(strataCountsPerArmMin.get(strataId));
 				strataResult.setMean(strataCountsPerArmMean.get(strataId));
+				strataResult.setAlgorithmName(algorithmName);
+				strataResult.setTreatmentName(arm.getName());
+				strataResults.add(strataResult);
 			}
 				
-		}
+//		}
 		return strataResults;
 	}
 	
-	@Data
-	public class StrataResultWrapper{
-		private String strataId;
-		private String strataName;
-		private int minCount;
-		private int maxCount;
-		private double mean;
-	}
+	
 }

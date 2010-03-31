@@ -2,6 +2,7 @@ package de.randi2.jsf.controllerBeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -9,6 +10,7 @@ import java.util.ResourceBundle;
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +38,11 @@ import de.randi2.model.randomization.UrnDesignConfig;
 import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimualtionResultArm;
 import de.randi2.simulation.model.SimulationResult;
+import de.randi2.simulation.model.helper.StrataResultComperatorAST;
+import de.randi2.simulation.model.helper.StrataResultComperatorATS;
+import de.randi2.simulation.model.helper.StrataResultComperatorSAT;
+import de.randi2.simulation.model.helper.StrataResultComperatorSTA;
+import de.randi2.simulation.model.helper.StrataResultWrapper;
 import de.randi2.simulation.service.SimulationService;
 
 /**
@@ -78,7 +85,6 @@ public class SimulationHandler extends AbstractTrialHandler {
 	}
 
 	public boolean isCriterionChanged() {
-		System.out.println("criterion changed");
 		criterionChanged = true;
 		return criterionChanged;
 	}
@@ -105,6 +111,25 @@ public class SimulationHandler extends AbstractTrialHandler {
 	@Getter
 	@Setter
 	private boolean simFromTrialCreationFirst = true;
+	
+	@Getter
+	@Setter
+	private SimulationResultFactorsOrderEnum selectedOrder= SimulationResultFactorsOrderEnum.SAT;
+	
+	public static enum SimulationResultFactorsOrderEnum{
+		SAT("SAT"),STA("STA"),ATS("ATS"),AST("AST");
+		
+		private String id = null;
+
+		private SimulationResultFactorsOrderEnum(String id) {
+			this.id = id;
+		}
+
+		@Override
+		public String toString() {
+			return this.id;
+		}
+	}
 
 	private DistributionTrialSiteWrapper distributedTrialSites;
 
@@ -496,4 +521,49 @@ public class SimulationHandler extends AbstractTrialHandler {
 		sb.append("</table>");
 		return sb.toString();
 	}
+
+	public List<StrataResultWrapper> getAllStrataResults(){
+		List<StrataResultWrapper> wrapper = new ArrayList<StrataResultWrapper>();
+		for(SimulationResult simRes : simulationResults){
+			for(SimualtionResultArm simArm : simRes.getSimResultArms()){
+				wrapper.addAll(simArm.getStrataResults());
+			}
+		}
+		if(selectedOrder == SimulationResultFactorsOrderEnum.SAT){
+			Collections.sort(wrapper, new StrataResultComperatorSAT());
+		}else if(selectedOrder == SimulationResultFactorsOrderEnum.STA){
+			Collections.sort(wrapper, new StrataResultComperatorSTA());
+		}else if(selectedOrder == SimulationResultFactorsOrderEnum.ATS){
+			Collections.sort(wrapper, new StrataResultComperatorATS());
+		}if(selectedOrder == SimulationResultFactorsOrderEnum.AST){
+			Collections.sort(wrapper, new StrataResultComperatorAST());
+		}
+		
+		return wrapper;
+	}
+	
+	public boolean isSta(){
+		return selectedOrder==SimulationResultFactorsOrderEnum.STA;
+	}
+	
+	public boolean isSat(){
+		return selectedOrder==SimulationResultFactorsOrderEnum.SAT;
+	}
+	
+	public boolean isAts(){
+		return selectedOrder==SimulationResultFactorsOrderEnum.ATS;
+	}
+	
+	public boolean isAst(){
+		return selectedOrder==SimulationResultFactorsOrderEnum.AST;
+	}
+	
+	public SelectItem[] getOrderItems(){
+		SelectItem[] items = new SelectItem[SimulationResultFactorsOrderEnum.values().length];
+		for(int i= 0; i< SimulationResultFactorsOrderEnum.values().length;i++ ){
+			items[i] = new SelectItem(SimulationResultFactorsOrderEnum.values()[i]);
+		}
+		return items;
+	}
+	
 }

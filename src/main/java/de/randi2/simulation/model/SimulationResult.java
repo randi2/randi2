@@ -302,12 +302,11 @@ public class SimulationResult {
 				} else {
 					medians[i] = listMedian.get((listMedian.size() / 2) + 1);
 				}
-				double armsCount = arms.size();
 				for(String strataId : strataCountsPerArmMean.get(arms.get(i)).keySet()){
-					strataCountsPerArmMean.get(arms.get(i)).put(strataId,  strataCountsPerArmMean.get(arms.get(i)).get(strataId) / armsCount);
+					strataCountsPerArmMean.get(arms.get(i)).put(strataId, ( strataCountsPerArmMean.get(arms.get(i)).get(strataId) / amountRuns));
 				}
 				
-				SimualtionResultArm rArm = new SimualtionResultArm();
+				SimualtionResultArm rArm = new SimualtionResultArm(algorithmDescription);
 				rArm.setArm(arms.get(i));
 				rArm.setMean(means[i]);
 				rArm.setMedian(medians[i]);

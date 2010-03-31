@@ -96,6 +96,181 @@
 	</ice:dataTable>
 	</ice:column>
 </ice:dataTable>
+<br />
+	<ice:panelGrid columns="2">
+ <ice:outputLabel value="Order: " />
+<ice:selectOneRadio id="SlctCompTyp"
+						value="#{simulationHandler.selectedOrder}"
+                        partialSubmit="true">
+                    <f:selectItems id="SlctcompTypeItms"
+                                   value="#{simulationHandler.orderItems}"/>
+                </ice:selectOneRadio>
+	</ice:panelGrid>
+	<ice:outputText value="A - Algorithm, S - subgroup, T - Treatment Arm " />
+<ice:dataTable id="simResultStrataDetailsTableSAT" border="1"
+	value="#{simulationHandler.allStrataResults}" var="strataResult"
+	width="550px" rendered="#{simulationHandler.sat}">
+	<ice:column id="column0" groupOn="#{strataResult.strataId}">
+		<f:facet name="header">
+			<ice:outputLabel value="Subgroup"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.strataId}" />
+	</ice:column>
+	<ice:column id="column1" groupOn="#{strataResult.algorithmName}"> 
+		<f:facet name="header">
+			<ice:outputLabel value="Algorithm"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.algorithmName}" />
+	</ice:column>
+	<ice:column id="column2" groupOn="#{strataResult.treatmentName}">
+		<f:facet name="header">
+			<ice:outputLabel value="Treatment arm"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.treatmentName}" />
+	</ice:column>
+	<ice:column id="column3">
+		<f:facet name="header">
+			<ice:outputLabel value="min"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.minCount}" />
+	</ice:column>
+	<ice:column id="column4">
+		<f:facet name="header">
+			<ice:outputLabel value="mean"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.mean}" />
+	</ice:column>
+	<ice:column id="column5">
+		<f:facet name="header">
+			<ice:outputLabel value="max"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.maxCount}" />
+	</ice:column>
+</ice:dataTable>
+
+<ice:dataTable id="simResultStrataDetailsTableSTA" border="1"
+	value="#{simulationHandler.allStrataResults}" var="strataResult"
+	width="550px" rendered="#{simulationHandler.sta}">
+	<ice:column id="column0" groupOn="#{strataResult.strataId}">
+		<f:facet name="header">
+			<ice:outputLabel value="Subgroup"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.strataId}" />
+	</ice:column>
+	<ice:column id="column2" groupOn="#{strataResult.treatmentName}">
+		<f:facet name="header">
+			<ice:outputLabel value="Treatment arm"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.treatmentName}" />
+	</ice:column>
+	<ice:column id="column1" groupOn="#{strataResult.algorithmName}"> 
+		<f:facet name="header">
+			<ice:outputLabel value="Algorithm"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.algorithmName}" />
+	</ice:column>
+	<ice:column id="column3">
+		<f:facet name="header">
+			<ice:outputLabel value="min"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.minCount}" />
+	</ice:column>
+	<ice:column id="column4">
+		<f:facet name="header">
+			<ice:outputLabel value="mean"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.mean}" />
+	</ice:column>
+	<ice:column id="column5">
+		<f:facet name="header">
+			<ice:outputLabel value="max"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.maxCount}" />
+	</ice:column>
+</ice:dataTable>
+
+<ice:dataTable id="simResultStrataDetailsTableATS" border="1"
+	value="#{simulationHandler.allStrataResults}" var="strataResult"
+	width="550px" rendered="#{simulationHandler.ats}">
+	<ice:column id="column1" groupOn="#{strataResult.algorithmName}"> 
+		<f:facet name="header">
+			<ice:outputLabel value="Algorithm"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.algorithmName}" />
+	</ice:column>
+	<ice:column id="column2" groupOn="#{strataResult.treatmentName}">
+		<f:facet name="header">
+			<ice:outputLabel value="Treatment arm"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.treatmentName}" />
+	</ice:column>
+	<ice:column id="column0" groupOn="#{strataResult.strataId}">
+		<f:facet name="header">
+			<ice:outputLabel value="Subgroup"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.strataId}" />
+	</ice:column>
+	<ice:column id="column3">
+		<f:facet name="header">
+			<ice:outputLabel value="min"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.minCount}" />
+	</ice:column>
+	<ice:column id="column4">
+		<f:facet name="header">
+			<ice:outputLabel value="mean"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.mean}" />
+	</ice:column>
+	<ice:column id="column5">
+		<f:facet name="header">
+			<ice:outputLabel value="max"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.maxCount}" />
+	</ice:column>
+</ice:dataTable>
+
+<ice:dataTable id="simResultStrataDetailsTableAST" border="1"
+	value="#{simulationHandler.allStrataResults}" var="strataResult"
+	width="550px" rendered="#{simulationHandler.ast}">
+	<ice:column id="column1" groupOn="#{strataResult.algorithmName}"> 
+		<f:facet name="header">
+			<ice:outputLabel value="Algorithm"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.algorithmName}" />
+	</ice:column>
+	<ice:column id="column0" groupOn="#{strataResult.strataId}">
+		<f:facet name="header">
+			<ice:outputLabel value="Subgroup"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.strataId}" />
+	</ice:column>
+	<ice:column id="column2" groupOn="#{strataResult.treatmentName}">
+		<f:facet name="header">
+			<ice:outputLabel value="Treatment arm"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.treatmentName}" />
+	</ice:column>
+	<ice:column id="column3">
+		<f:facet name="header">
+			<ice:outputLabel value="min"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.minCount}" />
+	</ice:column>
+	<ice:column id="column4">
+		<f:facet name="header">
+			<ice:outputLabel value="mean"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.mean}" />
+	</ice:column>
+	<ice:column id="column5">
+		<f:facet name="header">
+			<ice:outputLabel value="max"></ice:outputLabel>
+		</f:facet>
+		<ice:outputLabel value="#{strataResult.maxCount}" />
+	</ice:column>
+</ice:dataTable>
+
 <ice:commandButton value="#{labels['pages.simulation.exportResults']}"  action="#{popups.showSimulationExportPopup}" />
 <ice:commandButton value="#{labels['pages.simulation.repeat']}"  action="#{simulationHandler.simTrial}" />
 <ice:commandButton  value="#{labels['pages.simulation.changeConf']}" actionListener="#{randi2Page.simulateTrialOnlyChange}" />

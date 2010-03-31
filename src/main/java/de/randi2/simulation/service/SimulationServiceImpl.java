@@ -90,7 +90,7 @@ public class SimulationServiceImpl implements SimulationService {
 			}
 		}
 			// Analyze the simulation result
-			simResult.analyze();
+//			simResult.analyze();
 			return simResult;
 	}
 
