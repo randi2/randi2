@@ -37,6 +37,7 @@ import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimualtionResultArm;
+import de.randi2.simulation.model.SimulationRawDataEntry;
 import de.randi2.simulation.model.SimulationResult;
 import de.randi2.simulation.model.helper.StrataResultComperatorAST;
 import de.randi2.simulation.model.helper.StrataResultComperatorATS;
@@ -374,7 +375,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 				}
 				SimulationResult result = simulationService.simulateTrial(
 						showedObject, properties, distributedTrialSites
-								.getDistributionTrialSites(), runs, maxTime);
+								.getDistributionTrialSites(), runs, maxTime, collectRawData);
 				result.setAlgorithmDescription(alg.getDescription());
 				simulationResults.add(result);
 			}
@@ -382,7 +383,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 		} else {
 			SimulationResult result = simulationService.simulateTrial(
 					showedObject, properties, distributedTrialSites
-							.getDistributionTrialSites(), runs, maxTime);
+							.getDistributionTrialSites(), runs, maxTime, collectRawData);
 			simResult = result;
 			Randi2Page rPage = ((Randi2Page) FacesContext.getCurrentInstance()
 					.getApplication().getELResolver().getValue(
@@ -550,6 +551,25 @@ public class SimulationHandler extends AbstractTrialHandler {
 		selectedOrder = temp;
 		sb.append("</table>");
 	
+		
+		return sb.toString();
+	}
+	
+	public String getExportSimulationRawData(){
+		StringBuffer sb = new StringBuffer();
+		for(SimulationResult simRes : simulationResults){
+			sb.append(simRes.getAlgorithmDescription() + ":\n");
+			for(SimulationRawDataEntry entry : simRes.getRawData()){
+				sb.append(entry.getRun() +";");
+				sb.append(entry.getCount() +";");
+				sb.append(entry.getTreatmentArm() +";");
+				sb.append(entry.getTrialSite() +";");
+				String stratumNameComp =simRes.getStrataIdNames().get(entry.getStratum());
+				String stratumName = stratumNameComp.substring((stratumNameComp.lastIndexOf("|")+1));
+				sb.append(stratumName + "\n");
+			}
+			sb.append("-------------------------------------------\n");
+		}
 		
 		return sb.toString();
 	}

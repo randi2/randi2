@@ -48,6 +48,11 @@ public class Popups {
 	@Setter @Getter
 	private boolean simulationExportPVisible = false;
 	
+	@Setter @Getter
+	private boolean simulationRawDataExportPVisible = false;
+	
+	
+	
 	// POPUPS
 	public String hideTrialCreatedPopup() {
 		this.trialCreatedPVisible = false;
@@ -142,6 +147,16 @@ public class Popups {
 	
 	public String showSimulationExportPopup(){
 		this.simulationExportPVisible = true;
+		return Randi2.SUCCESS;
+	}
+	
+	public String hideSimulationRawDataExportPopup() {
+		this.simulationRawDataExportPVisible = false;
+		return Randi2.SUCCESS;
+	}
+	
+	public String showSimulationRawDataExportPopup(){
+		this.simulationRawDataExportPVisible = true;
 		return Randi2.SUCCESS;
 	}
 	// ----

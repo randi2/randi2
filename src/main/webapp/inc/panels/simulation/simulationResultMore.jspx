@@ -271,6 +271,7 @@
 	</ice:column>
 </ice:dataTable>
 
+<ice:commandButton value="export raw data" rendered="#{simulationHandler.collectRawData}" action="#{popups.showSimulationRawDataExportPopup}" />
 <ice:commandButton value="#{labels['pages.simulation.exportResults']}"  action="#{popups.showSimulationExportPopup}" />
 <ice:commandButton value="#{labels['pages.simulation.repeat']}"  action="#{simulationHandler.simTrial}" />
 <ice:commandButton  value="#{labels['pages.simulation.changeConf']}" actionListener="#{randi2Page.simulateTrialOnlyChange}" />

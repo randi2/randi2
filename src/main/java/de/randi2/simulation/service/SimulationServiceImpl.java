@@ -25,6 +25,7 @@ import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.randomization.Minimization;
 import de.randi2.simulation.distribution.AbstractDistribution;
 import de.randi2.simulation.model.DistributionSubjectProperty;
+import de.randi2.simulation.model.SimulationRawDataEntry;
 import de.randi2.simulation.model.SimulationResult;
 import de.randi2.simulation.model.SimulationRun;
 import de.randi2.unsorted.ContraintViolatedException;
@@ -37,7 +38,7 @@ public class SimulationServiceImpl implements SimulationService {
 	public SimulationResult simulateTrial(Trial trial,
 			List<DistributionSubjectProperty> properties,
 			AbstractDistribution<TrialSite> distributionTrialSites, int runs,
-			long maxTime) {
+			long maxTime, boolean collectRawData) {
 		// copy the trial to avoid side effects
 		Trial copyTrial = copyAndPrepareTrial(trial, properties,
 				distributionTrialSites);
@@ -73,6 +74,20 @@ public class SimulationServiceImpl implements SimulationService {
 					subject.setCounter(i);
 					subject.setIdentification(subject.getRandNumber());
 
+					if(collectRawData){
+						SimulationRawDataEntry entry = new SimulationRawDataEntry();
+						entry.setRun(run);
+						entry.setCount(i);
+						entry.setTreatmentArm(assignedArm.getName());
+						entry.setTrialSite(subject.getTrialSite().getName());
+						String stratum = "";
+						if (trial.isStratifyTrialSite()) {
+							stratum = subject.getTrialSite().getId() + "__";
+						}
+						stratum += subject.getStratum();
+						entry.setStratum(stratum);
+						simResult.getRawData().add(entry);
+					}
 					String stratum = "";
 					if (trial.isStratifyTrialSite()) {
 						stratum = subject.getTrialSite().getId() + "__";

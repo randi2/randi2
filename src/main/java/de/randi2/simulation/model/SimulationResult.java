@@ -76,6 +76,8 @@ public class SimulationResult {
 	@Getter @Setter
 	private Map<String,String> strataIdNames;
 	
+	@Getter @Setter
+	private List<SimulationRawDataEntry> rawData = new ArrayList<SimulationRawDataEntry>();
 	
 	/**
 	 * 

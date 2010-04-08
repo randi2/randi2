@@ -19,7 +19,7 @@ public interface SimulationService {
 	 * @param maxTime The maximal time for the simulation.
 	 * @return The simulation result.
 	 */
-	public SimulationResult simulateTrial(Trial trial,List<DistributionSubjectProperty> properties,AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime);
+	public SimulationResult simulateTrial(Trial trial,List<DistributionSubjectProperty> properties,AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime, boolean collectRawData);
 	
 //	public long estimateSimulationDuration(Trial trial, List<DistributionSubjectProperty> properties, AbstractDistribution<TrialSite> distributionTrialSites, int runs, long maxTime);
 }
