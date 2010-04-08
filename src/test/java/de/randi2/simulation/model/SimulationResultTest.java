@@ -21,7 +21,7 @@ public class SimulationResultTest {
 		arm2.setPlannedSubjects(100);
 		arms.add(arm1);
 		arms.add(arm2);
-		SimulationResult simResult = new SimulationResult(arms, null, null, null);
+		SimulationResult simResult = new SimulationResult(arms, null,  null);
 		for(int i = 0; i<1000;i++){
 			SimulationRun run = new SimulationRun(new int[]{100,100}, arms, null);
 			run.setTime(10L);
@@ -30,7 +30,7 @@ public class SimulationResultTest {
 		assertEquals(10, simResult.getDuration());
 		
 		
-		simResult = new SimulationResult(arms, null, null, null);
+		simResult = new SimulationResult(arms, null, null);
 		for(long i = 1; i<1001;i++){
 			SimulationRun run = new SimulationRun(new int[]{100,100},  arms, null);
 			run.setTime(i);
@@ -50,7 +50,7 @@ public class SimulationResultTest {
 		arms.add(arm1);
 		arms.add(arm2);
 		
-		SimulationResult simResult = new SimulationResult(arms, null, null, null);
+		SimulationResult simResult = new SimulationResult(arms, null,  null);
 		SimulationRun simRun = new SimulationRun(new int[] { 20, 20 }, arms, null);
 		simRun.setSubjectsPerArms(new int[] { 8, 22 });
 		double roundedResult = Math
@@ -117,7 +117,7 @@ public class SimulationResultTest {
 		arms.add(arm1);
 		arms.add(arm2);
 		
-		SimulationResult simResult = new SimulationResult(arms, null,  null, null);
+		SimulationResult simResult = new SimulationResult(arms, null,  null);
 		SimulationRun simRun = new SimulationRun(new int[] { 20, 20 },  arms, null);
 		simRun.setSubjectsPerArms(new int[] { 8, 22 });
 		double roundedResult = Math

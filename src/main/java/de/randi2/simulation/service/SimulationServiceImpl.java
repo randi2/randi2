@@ -2,8 +2,10 @@ package de.randi2.simulation.service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,7 @@ import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationResult;
 import de.randi2.simulation.model.SimulationRun;
 import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.utility.Pair;
 
 @Service("simulationService")
 public class SimulationServiceImpl implements SimulationService {
@@ -38,9 +41,14 @@ public class SimulationServiceImpl implements SimulationService {
 		// copy the trial to avoid side effects
 		Trial copyTrial = copyAndPrepareTrial(trial, properties,
 				distributionTrialSites);
+		Map<String, String> strataIdsNames = new HashMap<String, String>();
+		Pair<List<String>, List<String>> pair = copyTrial.getAllStrataIdsAndNames();
+		for(int i =0;i< pair.first().size();i++){
+			strataIdsNames.put(pair.first().get(i), pair.last().get(i));
+		}
 		// initialize the simulation result
 		SimulationResult simResult = new SimulationResult(copyTrial
-				.getTreatmentArms(), copyTrial.getRandomizationConfiguration(), copyTrial.getAllStrataIdsAndNames().first(), copyTrial.getAllStrataIdsAndNames().last());
+				.getTreatmentArms(), copyTrial.getRandomizationConfiguration(), strataIdsNames);
 		long startTime;
 		TreatmentArm assignedArm;
 		TrialSubject subject = new TrialSubject();
@@ -136,6 +144,7 @@ public class SimulationServiceImpl implements SimulationService {
 			AbstractCriterion<?, ?> cr = dsp.getCriterion();
 			if (DateCriterion.class.isInstance(cr)) {
 				DateCriterion ccr = new DateCriterion();
+				ccr.setName(cr.getName());
 				ccr.setId(id++);
 				ccr.setInclusionConstraint(cr.getInclusionConstraint());
 				for (DateConstraint co : DateCriterion.class.cast(cr)
@@ -150,6 +159,7 @@ public class SimulationServiceImpl implements SimulationService {
 				cTrial.addCriterion(ccr);
 			} else if (DichotomousCriterion.class.isInstance(cr)) {
 				DichotomousCriterion ccr = new DichotomousCriterion();
+				ccr.setName(cr.getName());
 				ccr.setId(id++);
 				ccr.setInclusionConstraint(cr.getInclusionConstraint());
 				ccr
@@ -174,6 +184,7 @@ public class SimulationServiceImpl implements SimulationService {
 				cTrial.addCriterion(ccr);
 			} else if (OrdinalCriterion.class.isInstance(cr)) {
 				OrdinalCriterion ccr = new OrdinalCriterion();
+				ccr.setName(cr.getName());
 				ccr.setId(id++);
 				ccr.setInclusionConstraint(cr.getInclusionConstraint());
 				ccr.setElements(OrdinalCriterion.class.cast(cr).getElements());

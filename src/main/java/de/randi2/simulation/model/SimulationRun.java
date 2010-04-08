@@ -56,14 +56,14 @@ public class SimulationRun {
 	 *            An array which contains the planned subjects per arm.
 	 */
 	public SimulationRun(int[] plannedSubjectsPerArm, List<TreatmentArm> arms,
-			List<String> strataIds) {
+			Map<String, String> strataIdNames) {
 		subjectsPerArms = new int[plannedSubjectsPerArm.length];
 		this.plannedSubjectsPerArm = plannedSubjectsPerArm;
 		strataCountsPerArm = new HashMap<TreatmentArm, Map<String, Integer>>();
 		for (TreatmentArm arm : arms) {
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
 			strataCountsPerArm.put(arm, map);
-			for (String id : strataIds) {
+			for (String id : strataIdNames.keySet()) {
 				map.put(id, 0);
 			}
 		}

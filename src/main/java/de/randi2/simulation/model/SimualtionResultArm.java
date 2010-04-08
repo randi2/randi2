@@ -42,7 +42,7 @@ public class SimualtionResultArm {
 	private int max;
 	private double mean;
 	private double median;
-	private List<String> strataNames;
+	private Map<String,String> strataIdsNames;
 	private Map<String, Integer> strataCountsPerArmMin;
 	private Map<String, Integer> strataCountsPerArmMax;
 	private Map<String, Double> strataCountsPerArmMean;
@@ -51,8 +51,9 @@ public class SimualtionResultArm {
 
 	private DecimalFormat f = new DecimalFormat("#0.00");
 
-	public SimualtionResultArm(String algorithmName){
+	public SimualtionResultArm(String algorithmName, Map<String,String> strataIdsNames){
 		this.algorithmName = algorithmName;
+		this.strataIdsNames = strataIdsNames;
 	}
 	
 	/**
@@ -95,7 +96,7 @@ public class SimualtionResultArm {
 			for(String strataId : strataCountsPerArmMax.keySet()){
 				StrataResultWrapper strataResult = new StrataResultWrapper();
 				strataResult.setStrataId(strataId);
-				//TODO name
+				strataResult.setStrataName(strataIdsNames.get(strataId));
 				strataResult.setMaxCount(strataCountsPerArmMax.get(strataId));
 				strataResult.setMinCount(strataCountsPerArmMin.get(strataId));
 				strataResult.setMean(strataCountsPerArmMean.get(strataId));

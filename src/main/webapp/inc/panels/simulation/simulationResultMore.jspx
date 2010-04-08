@@ -114,7 +114,7 @@
 		<f:facet name="header">
 			<ice:outputLabel value="Subgroup"></ice:outputLabel>
 		</f:facet>
-		<ice:outputLabel value="#{strataResult.strataId}" />
+		<ice:outputLabel value="#{strataResult.strataName}" />
 	</ice:column>
 	<ice:column id="column1" groupOn="#{strataResult.algorithmName}"> 
 		<f:facet name="header">
@@ -155,7 +155,7 @@
 		<f:facet name="header">
 			<ice:outputLabel value="Subgroup"></ice:outputLabel>
 		</f:facet>
-		<ice:outputLabel value="#{strataResult.strataId}" />
+		<ice:outputLabel value="#{strataResult.strataName}" />
 	</ice:column>
 	<ice:column id="column2" groupOn="#{strataResult.treatmentName}">
 		<f:facet name="header">
@@ -208,7 +208,7 @@
 		<f:facet name="header">
 			<ice:outputLabel value="Subgroup"></ice:outputLabel>
 		</f:facet>
-		<ice:outputLabel value="#{strataResult.strataId}" />
+		<ice:outputLabel value="#{strataResult.strataName}" />
 	</ice:column>
 	<ice:column id="column3">
 		<f:facet name="header">
@@ -243,7 +243,7 @@
 		<f:facet name="header">
 			<ice:outputLabel value="Subgroup"></ice:outputLabel>
 		</f:facet>
-		<ice:outputLabel value="#{strataResult.strataId}" />
+		<ice:outputLabel value="#{strataResult.strataName}" />
 	</ice:column>
 	<ice:column id="column2" groupOn="#{strataResult.treatmentName}">
 		<f:facet name="header">

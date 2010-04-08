@@ -73,10 +73,13 @@ public class SimulationResult {
 	private String algorithmDescription;
 
 	
+//	@Getter @Setter
+//	private List<String> strataIds;
+//	@Getter @Setter
+//	private List<String> strataNames;
 	@Getter @Setter
-	private List<String> strataIds;
-	@Getter @Setter
-	private List<String> strataNames;
+	private Map<String,String> strataIdNames;
+	
 	/**
 	 * 
 	 * @param arms
@@ -85,11 +88,10 @@ public class SimulationResult {
 	 *            The algorithm of the simulation.
 	 */
 	public SimulationResult(List<TreatmentArm> arms,
-			AbstractRandomizationConfig algConf, List<String> strataIds, List<String> strataNames) {
+			AbstractRandomizationConfig algConf, Map<String,String> strataIdNames) {
 		this.arms = arms;
 		this.algConf = algConf;
-		this.strataIds = strataIds;
-		this.strataNames = strataNames;
+		this.strataIdNames  = strataIdNames;
 	}
 
 	/**
@@ -115,7 +117,7 @@ public class SimulationResult {
 				plannedSubjectsPerArm[i] = arms.get(i).getPlannedSubjects();
 			}
 		}
-		return new SimulationRun(plannedSubjectsPerArm, arms, strataIds);
+		return new SimulationRun(plannedSubjectsPerArm, arms, strataIdNames);
 	}
 
 	/**
@@ -253,7 +255,7 @@ public class SimulationResult {
 				strataCountsPerArmMin.put(arms.get(i), new HashMap<String, Integer>());
 				strataCountsPerArmMax.put(arms.get(i), new HashMap<String, Integer>());
 				strataCountsPerArmMean.put(arms.get(i), new HashMap<String, Double>());
-				for(String strataId : strataIds){
+				for(String strataId : strataIdNames.keySet()){
 					strataCountsPerArmMax.get(arms.get(i)).put(strataId, 0);
 					strataCountsPerArmMin.get(arms.get(i)).put(strataId, Integer.MAX_VALUE);
 					strataCountsPerArmMean.get(arms.get(i)).put(strataId, 0.0);
@@ -306,7 +308,7 @@ public class SimulationResult {
 					strataCountsPerArmMean.get(arms.get(i)).put(strataId, ( strataCountsPerArmMean.get(arms.get(i)).get(strataId) / amountRuns));
 				}
 				
-				SimualtionResultArm rArm = new SimualtionResultArm(algorithmDescription);
+				SimualtionResultArm rArm = new SimualtionResultArm(algorithmDescription, strataIdNames);
 				rArm.setArm(arms.get(i));
 				rArm.setMean(means[i]);
 				rArm.setMedian(medians[i]);
