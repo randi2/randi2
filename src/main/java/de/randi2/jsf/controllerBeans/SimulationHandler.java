@@ -131,10 +131,16 @@ public class SimulationHandler extends AbstractTrialHandler {
 		}
 	}
 
+
+	@Getter
+	@Setter
+	private boolean collectRawData = false;
+	
 	private DistributionTrialSiteWrapper distributedTrialSites;
 
 	private List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> distributedCriterions;
-
+	
+	
 	public DistributionTrialSiteWrapper getDistributionTrialSiteWrapper() {
 		if (distributedTrialSites == null
 				|| distributedTrialSites.getTrialSitesRatioWrappers().size() != countTrialSites) {
@@ -499,7 +505,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 		
 		sb.append("</table>");
 		sb.append("<table>");
-		sb.append("<table border=0><tr><th><h3>Details</h3></th></tr>\n");
+		sb.append("<table border=0><tr><th><h3>Details Arms</h3></th></tr>\n");
 		for (SimulationResult res : simulationResults) {
 			sb.append("<tr><th>"+res.getAlgConf().getClass().getSimpleName()+"</th></tr>");
 			sb.append("<tr><td>");
@@ -519,6 +525,32 @@ public class SimulationHandler extends AbstractTrialHandler {
 			sb.append("</td></tr>");
 		}
 		sb.append("</table>");
+		
+		sb.append("<h3>Details Subgroups:</h3>");
+		sb.append("<table border=1 width=800px><tr><th>Algorithm</th><th>Treatment arm</th><th>Subgroup</th><th>min</th><th>mean</th><th>max</th></tr>\n");
+		SimulationResultFactorsOrderEnum temp = selectedOrder;
+		selectedOrder = SimulationResultFactorsOrderEnum.ATS;
+		List<StrataResultWrapper> listWrapper = getAllStrataResults();
+		for(int i =0; i<listWrapper.size();i++ ){
+			sb.append("<tr>");
+			//new Algorithm
+			if(i % (listWrapper.size()/simulationResults.size()) == 0){
+				sb.append("<td rowspan=\" "+ (listWrapper.size()/simulationResults.size()) +"\">"+ listWrapper.get(i).getAlgorithmName()+"</td>");
+			}
+			if(i % ((listWrapper.size()/simulationResults.size())/showedObject.getTreatmentArms().size()) == 0){
+				sb.append("<td rowspan=\" "+ ((listWrapper.size()/simulationResults.size())/showedObject.getTreatmentArms().size()) +"\">"+ listWrapper.get(i).getTreatmentName()+"</td>");
+			}
+			sb.append("<td>"+ listWrapper.get(i).getStrataName()+"</td>");
+			sb.append("<td>"+ listWrapper.get(i).getMinCount()+"</td>");
+			sb.append("<td>"+ listWrapper.get(i).getMean()+"</td>");
+			sb.append("<td>"+ listWrapper.get(i).getMaxCount()+"</td>");
+			sb.append("</tr>");
+		}
+		
+		selectedOrder = temp;
+		sb.append("</table>");
+	
+		
 		return sb.toString();
 	}
 

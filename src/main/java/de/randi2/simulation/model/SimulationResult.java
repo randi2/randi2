@@ -73,12 +73,9 @@ public class SimulationResult {
 	private String algorithmDescription;
 
 	
-//	@Getter @Setter
-//	private List<String> strataIds;
-//	@Getter @Setter
-//	private List<String> strataNames;
 	@Getter @Setter
 	private Map<String,String> strataIdNames;
+	
 	
 	/**
 	 * 
