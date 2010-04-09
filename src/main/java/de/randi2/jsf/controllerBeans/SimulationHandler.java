@@ -1,8 +1,12 @@
 package de.randi2.jsf.controllerBeans;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -14,6 +18,9 @@ import javax.faces.model.SelectItem;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import com.icesoft.faces.context.Resource;
+
 import de.randi2.jsf.backingBeans.Randi2Page;
 import de.randi2.jsf.backingBeans.SimulationAlgorithm;
 import de.randi2.jsf.backingBeans.SimulationSubjectProperty;
@@ -465,7 +472,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 		}
 	}
 
-	public String getExportSimulationResults() {
+	public Resource getExportSimulationResults() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("<h2>Studie: "+ showedObject.getName() + "</h2> \n");
 		
@@ -552,10 +559,10 @@ public class SimulationHandler extends AbstractTrialHandler {
 		sb.append("</table>");
 	
 		
-		return sb.toString();
+		return new MyStringResource("simulationResult.html", sb.toString());
 	}
 	
-	public String getExportSimulationRawData(){
+	public Resource getExportSimulationRawData(){
 		StringBuffer sb = new StringBuffer();
 		for(SimulationResult simRes : simulationResults){
 			sb.append(simRes.getAlgorithmDescription() + ":\n");
@@ -570,8 +577,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 			}
 			sb.append("-------------------------------------------\n");
 		}
-		
-		return sb.toString();
+		return new MyStringResource("rawData.csv", sb.toString());
 	}
 
 	public List<StrataResultWrapper> getAllStrataResults(){
@@ -618,4 +624,36 @@ public class SimulationHandler extends AbstractTrialHandler {
 		return items;
 	}
 	
+	private class MyStringResource implements Resource, Serializable{
+
+		private String resourceName;
+		private String content;
+		private final Date lastModified;
+		
+		@Override
+		public String calculateDigest() {
+			return resourceName;
+		}
+
+		@Override
+		public Date lastModified() {
+			return lastModified;
+		}
+
+		@Override
+		public InputStream open() throws IOException {
+			return  new ByteArrayInputStream(content.getBytes());
+		}
+
+		@Override
+		public void withOptions(Options arg0) throws IOException {
+		}
+		
+		public MyStringResource(String resourceName, String content) {
+			this.resourceName = resourceName;
+			this.content = content;
+			this.lastModified = new Date();
+		}
+		
+	}
 }
