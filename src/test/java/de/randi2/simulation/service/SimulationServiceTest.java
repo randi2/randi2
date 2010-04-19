@@ -60,7 +60,7 @@ public class SimulationServiceTest {
 		configb.setMaximum(blocksize);
 		configb.setMinimum(blocksize);
 		validTrial.setRandomizationConfiguration(configb);
-		SimulationResult result = service.simulateTrial(validTrial,new ArrayList<DistributionSubjectProperty>(),new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 1000, 10000000);
+		SimulationResult result = service.simulateTrial(validTrial,new ArrayList<DistributionSubjectProperty>(),new UniformDistribution<TrialSite>(new ArrayList<TrialSite>(validTrial.getParticipatingSites())), 1000, 10000000, false);
 		assertEquals(1000, result.getAmountRuns());
 		double roundedResult = Math
 		.round(( result.getMarginalBalanceMax() * 100000.0)) / 100000.0;;

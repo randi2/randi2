@@ -1,6 +1,7 @@
 package de.randi2.simulation.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Test;
@@ -21,18 +22,18 @@ public class SimulationResultTest {
 		arm2.setPlannedSubjects(100);
 		arms.add(arm1);
 		arms.add(arm2);
-		SimulationResult simResult = new SimulationResult(arms, null,  null);
+		SimulationResult simResult = new SimulationResult(arms, null,  new HashMap<String, String>());
 		for(int i = 0; i<1000;i++){
-			SimulationRun run = new SimulationRun(new int[]{100,100}, arms, null);
+			SimulationRun run = new SimulationRun(new int[]{100,100}, arms, new HashMap<String, String>());
 			run.setTime(10L);
 			simResult.addSimulationRun(run);
 		}
 		assertEquals(10, simResult.getDuration());
 		
 		
-		simResult = new SimulationResult(arms, null, null);
+		simResult = new SimulationResult(arms, null, new HashMap<String, String>());
 		for(long i = 1; i<1001;i++){
-			SimulationRun run = new SimulationRun(new int[]{100,100},  arms, null);
+			SimulationRun run = new SimulationRun(new int[]{100,100},  arms, new HashMap<String, String>());
 			run.setTime(i);
 			simResult.addSimulationRun(run);
 		}
@@ -49,44 +50,44 @@ public class SimulationResultTest {
 		arm2.setPlannedSubjects(100);
 		arms.add(arm1);
 		arms.add(arm2);
-		
-		SimulationResult simResult = new SimulationResult(arms, null,  null);
-		SimulationRun simRun = new SimulationRun(new int[] { 20, 20 }, arms, null);
+		HashMap<String, String> map = new HashMap<String, String>();
+		SimulationResult simResult = new SimulationResult(arms, null,  map);
+		SimulationRun simRun = new SimulationRun(new int[] { 20, 20 }, arms, map);
 		simRun.setSubjectsPerArms(new int[] { 8, 22 });
 		double roundedResult = Math
 				.round((simRun.getMarginalBalace() * 100000.0)) / 100000.0;
 		assertEquals(roundedResult, 0.46667);
 		simRun.setTime(10l);
 		simResult.addSimulationRun(simRun);
-		simRun = new SimulationRun(new int[] { 20, 20 }, arms, null);
+		simRun = new SimulationRun(new int[] { 20, 20 }, arms, map);
 		simRun.setSubjectsPerArms(new int[] { 11, 29 });
 		roundedResult = Math
 				.round((simRun.getMarginalBalace() * 100000.0)) / 100000.0;
 		assertEquals(roundedResult, 0.45);
 		simRun.setTime(10l);
 		simResult.addSimulationRun(simRun);
-		simRun = new SimulationRun(new int[] { 20, 20 },  arms, null);
+		simRun = new SimulationRun(new int[] { 20, 20 },  arms, map);
 		simRun.setSubjectsPerArms(new int[] { 20, 20 });
 		roundedResult = Math
 				.round((simRun.getMarginalBalace() * 100000.0)) / 100000.0;
 		assertEquals(roundedResult, 0.0);
 		simRun.setTime(10l);
 		simResult.addSimulationRun(simRun);
-		simRun = new SimulationRun(new int[] { 20, 20 },  arms, null);
+		simRun = new SimulationRun(new int[] { 20, 20 },  arms, map);
 		simRun.setSubjectsPerArms(new int[] { 21, 19 });
 		roundedResult = Math
 				.round((simRun.getMarginalBalace() * 100000.0)) / 100000.0;
 		assertEquals(roundedResult, 0.05);
 		simRun.setTime(10l);
 		simResult.addSimulationRun(simRun);
-		simRun = new SimulationRun(new int[] { 20, 20 },  arms, null);
+		simRun = new SimulationRun(new int[] { 20, 20 },  arms, map);
 		simRun.setSubjectsPerArms(new int[] { 15, 25 });
 		roundedResult = Math
 				.round((simRun.getMarginalBalace() * 100000.0)) / 100000.0;
 		assertEquals(roundedResult, 0.25);
 		simRun.setTime(10l);
 		simResult.addSimulationRun(simRun);
-		simRun = new SimulationRun(new int[] { 20, 20 },  arms, null);
+		simRun = new SimulationRun(new int[] { 20, 20 },  arms, map);
 		simRun.setSubjectsPerArms(new int[] { 23, 17 });
 		roundedResult = Math
 				.round((simRun.getMarginalBalace() * 100000.0)) / 100000.0;
@@ -116,44 +117,44 @@ public class SimulationResultTest {
 		arm2.setPlannedSubjects(100);
 		arms.add(arm1);
 		arms.add(arm2);
-		
-		SimulationResult simResult = new SimulationResult(arms, null,  null);
-		SimulationRun simRun = new SimulationRun(new int[] { 20, 20 },  arms, null);
+		HashMap<String, String> map = new HashMap<String, String>();
+		SimulationResult simResult = new SimulationResult(arms, null,  map);
+		SimulationRun simRun = new SimulationRun(new int[] { 20, 20 },  arms, map);
 		simRun.setSubjectsPerArms(new int[] { 8, 22 });
 		double roundedResult = Math
 				.round((simRun.getMarginalBalace() * 100000.0)) / 100000.0;
 		assertEquals(roundedResult, 0.46667);
 		simRun.setTime(10l);
 		simResult.addSimulationRun(simRun);
-		simRun = new SimulationRun(new int[] { 20, 20 },  arms, null);
+		simRun = new SimulationRun(new int[] { 20, 20 },  arms, map);
 		simRun.setSubjectsPerArms(new int[] { 11, 29 });
 		roundedResult = Math
 				.round((simRun.getMarginalBalace() * 100000.0)) / 100000.0;
 		assertEquals(roundedResult, 0.45);
 		simRun.setTime(10l);
 		simResult.addSimulationRun(simRun);
-		simRun = new SimulationRun(new int[] { 20, 20 },  arms, null);
+		simRun = new SimulationRun(new int[] { 20, 20 },  arms, map);
 		simRun.setSubjectsPerArms(new int[] { 20, 20 });
 		roundedResult = Math
 				.round((simRun.getMarginalBalace() * 100000.0)) / 100000.0;
 		assertEquals(roundedResult, 0.0);
 		simRun.setTime(10l);
 		simResult.addSimulationRun(simRun);
-		simRun = new SimulationRun(new int[] { 20, 20 },  arms, null);
+		simRun = new SimulationRun(new int[] { 20, 20 },  arms, map);
 		simRun.setSubjectsPerArms(new int[] { 21, 19 });
 		roundedResult = Math
 				.round((simRun.getMarginalBalace() * 100000.0)) / 100000.0;
 		assertEquals(roundedResult, 0.05);
 		simRun.setTime(10l);
 		simResult.addSimulationRun(simRun);
-		simRun = new SimulationRun(new int[] { 20, 20 },  arms, null);
+		simRun = new SimulationRun(new int[] { 20, 20 },  arms, map);
 		simRun.setSubjectsPerArms(new int[] { 15, 25 });
 		roundedResult = Math
 				.round((simRun.getMarginalBalace() * 100000.0)) / 100000.0;
 		assertEquals(roundedResult, 0.25);
 		simRun.setTime(10l);
 		simResult.addSimulationRun(simRun);
-		simRun = new SimulationRun(new int[] { 20, 20 },  arms, null);
+		simRun = new SimulationRun(new int[] { 20, 20 },  arms, map);
 		simRun.setSubjectsPerArms(new int[] { 23, 17 });
 		roundedResult = Math
 				.round((simRun.getMarginalBalace() * 100000.0)) / 100000.0;

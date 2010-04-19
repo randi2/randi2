@@ -93,9 +93,12 @@ public class SimulationServiceImpl implements SimulationService {
 						stratum = subject.getTrialSite().getId() + "__";
 					}
 					stratum += subject.getStratum();
-					Integer count = simRun.getStrataCountsPerArm().get(assignedArm).get(stratum);
-					count++;
-					simRun.getStrataCountsPerArm().get(assignedArm).put(stratum, count);
+					if(!stratum.equals("")){
+						Integer count = simRun.getStrataCountsPerArm().get(assignedArm).get(stratum);
+						count++;
+						simRun.getStrataCountsPerArm().get(assignedArm).put(stratum, count);
+					}
+					
 					
 					assignedArm.addSubject(subject);
 				}
