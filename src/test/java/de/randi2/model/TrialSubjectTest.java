@@ -1,12 +1,12 @@
 package de.randi2.model;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.fail;
+import static junit.framework.Assert.*;
+import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
@@ -257,6 +257,23 @@ public class TrialSubjectTest extends AbstractDomainObject {
 						subjects.get(j).get(0).getStratum()));
 			}
 			
+		}
+	}
+	
+	@Test
+	public void testGetRequieredFields(){
+		Map<String, Boolean> map = (new TrialSubject()).getRequiredFields();
+		for(String key : map.keySet()){
+			if(key.equals("identification")) {assertTrue(map.get(key));} 
+			else if(key.equals("randNumber")) {assertTrue(map.get(key));} 
+			else if(key.equals("counter")) {assertFalse(map.get(key));}  
+			else if(key.equals("trialSite")) {assertFalse(map.get(key));} 
+			else if(key.equals("arm")) {assertTrue(map.get(key));} 
+			else if(key.equals("properties")) {assertFalse(map.get(key)); }
+			else if(key.equals("investigator")) {assertFalse(map.get(key));} 
+			else if(key.equals("serialVersionUID")) {assertFalse(map.get(key));}
+			else if(key.equals("$VRc")) {assertFalse(map.get(key));}
+			else fail(key + " not checked");
 		}
 	}
 }

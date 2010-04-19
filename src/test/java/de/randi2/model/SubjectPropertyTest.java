@@ -1,12 +1,11 @@
 package de.randi2.model;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
+import static junit.framework.Assert.*;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -115,6 +114,24 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 		assertEquals(subject, dbSubjectProperty);
 		assertEquals("test",dbSubjectProperty.getValue());
 		assertEquals(subject.getCriterion(), dbSubjectProperty.getCriterion());
+	}
+	
+	@Test
+	public void testGetRequieredFields(){
+		OrdinalCriterion criterion = new OrdinalCriterion();
+		List<String> elements = new ArrayList<String>();
+		elements.add("Value1");
+		elements.add("Value2");
+		elements.add("Value3");
+		
+		criterion.setElements(elements);
+		hibernateTemplate.persist(criterion);
+		criterion = (OrdinalCriterion)hibernateTemplate.get(OrdinalCriterion.class, criterion.getId());
+		SubjectProperty<String> subjectString = new SubjectProperty<String>(criterion);
+		Map<String, Boolean> map = subjectString.getRequiredFields();
+		for(String key : map.keySet()){
+			assertFalse(map.get(key));
+		}
 	}
 
 }

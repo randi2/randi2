@@ -1,10 +1,13 @@
 package de.randi2.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -307,4 +310,23 @@ private Session getCurrentSession(){
 		assertTrue(logins.contains(members.get(6).getLogin()));
 	}
 
+	@Test
+	public void testGetRequieredFields(){
+		Map<String, Boolean> map = validTrialSite.getRequiredFields();
+		for(String key : map.keySet()){
+			if(key.equals("name")) {assertTrue(map.get(key));} 
+			else if(key.equals("street")) {assertTrue(map.get(key));} 
+			else if(key.equals("postcode")) {assertTrue(map.get(key));}  
+			else if(key.equals("city")) {assertTrue(map.get(key));} 
+			else if(key.equals("country")) {assertFalse(map.get(key));} 
+			else if(key.equals("password")) {assertTrue(map.get(key)); }
+			else if(key.equals("contactPerson")) {assertTrue(map.get(key));} 
+			else if(key.equals("members")) {assertFalse(map.get(key));} 
+			else if(key.equals("trials")) {assertFalse(map.get(key)); }
+			else if(key.equals("MAX_LENGTH_POSTCODE")) {assertFalse(map.get(key));} 
+			else if(key.equals("serialVersionUID")) {assertFalse(map.get(key));}
+			else if(key.equals("$VRc")) {assertFalse(map.get(key));}
+			else fail(key + " not checked");
+		}
+	}
 }

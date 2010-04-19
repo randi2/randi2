@@ -2,6 +2,11 @@ package de.randi2.model;
 
 
 import static junit.framework.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -165,5 +170,21 @@ public class TreatmentArmTest extends AbstractDomainTest<TreatmentArm> {
 		arm1.setVersion(256);
 		assertTrue(arm1.equals(arm2));
 		assertEquals(arm1.hashCode(), arm2.hashCode());
+	}
+	
+	
+	@Test
+	public void testGetRequieredFields(){
+		Map<String, Boolean> map = (new TreatmentArm()).getRequiredFields();
+		for(String key : map.keySet()){
+			if(key.equals("name")) {assertTrue(map.get(key));} 
+			else if(key.equals("description")) {assertFalse(map.get(key));} 
+			else if(key.equals("plannedSubjects")) {assertFalse(map.get(key));}  
+			else if(key.equals("trial")) {assertTrue(map.get(key));} 
+			else if(key.equals("subjects")) {assertFalse(map.get(key));} 
+			else if(key.equals("serialVersionUID")) {assertFalse(map.get(key));}
+			else if(key.equals("$VRc")) {assertFalse(map.get(key));}
+			else fail(key + " not checked");
+		}
 	}
 }

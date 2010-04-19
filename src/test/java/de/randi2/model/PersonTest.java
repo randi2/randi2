@@ -1,10 +1,13 @@
 package de.randi2.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.Map;
 
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
@@ -406,5 +409,28 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		Person person = (Person)hibernateTemplate.get(Person.class, validPerson.getId());
 		assertEquals(validPerson.getId(), person.getId());
 		assertEquals(validPerson.getLogin().getId(), person.getLogin().getId());
+	}
+	
+	@Test
+	public void testGetRequieredFields(){
+		Map<String, Boolean> map = validPerson.getRequiredFields();
+		for(String key : map.keySet()){
+			if(key.equals("surname")) {assertTrue(map.get(key));} 
+			else if(key.equals("firstname")) {assertTrue(map.get(key));} 
+			else if(key.equals("title")) {assertFalse(map.get(key));}  
+			else if(key.equals("sex")) {assertTrue(map.get(key));} 
+			else if(key.equals("email")) {assertTrue(map.get(key));} 
+			else if(key.equals("phone")) {assertTrue(map.get(key)); }
+			else if(key.equals("mobile")) {assertFalse(map.get(key));} 
+			else if(key.equals("fax")) {assertFalse(map.get(key));} 
+			else if(key.equals("assistant")) {assertFalse(map.get(key)); }
+			else if(key.equals("trialSite")) {assertFalse(map.get(key)); }
+			else if(key.equals("login")) {assertFalse(map.get(key)); }
+			else if(key.equals("MAX_TITLE_LENGTH")) {assertFalse(map.get(key));} 
+			else if(key.equals("MAX_NAME_LENGTH")) {assertFalse(map.get(key));} 
+			else if(key.equals("serialVersionUID")) {assertFalse(map.get(key));}
+			else if(key.equals("$VRc")) {assertFalse(map.get(key));}
+			else fail(key + " not checked");
+		}
 	}
 }

@@ -1,14 +1,17 @@
 package de.randi2.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -513,5 +516,31 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 //		assertEquals(validTrial.getTreatmentArms().get(1).getSubjects().size(),
 //				dbTrial.getTreatmentArms().get(1).getSubjects().size());
 
+	}
+	
+	
+	@Test
+	public void testGetRequieredFields(){
+		Map<String, Boolean> map = validTrial.getRequiredFields();
+		for(String key : map.keySet()){
+			if(key.equals("name")) {assertTrue(map.get(key));} 
+			else if(key.equals("abbreviation")) {assertFalse(map.get(key));} 
+			else if(key.equals("stratifyTrialSite")) {assertFalse(map.get(key));}  
+			else if(key.equals("description")) {assertFalse(map.get(key));} 
+			else if(key.equals("startDate")) {assertFalse(map.get(key));} 
+			else if(key.equals("endDate")) {assertFalse(map.get(key)); }
+			else if(key.equals("protocol")) {assertFalse(map.get(key));} 
+			else if(key.equals("sponsorInvestigator")) {assertTrue(map.get(key));} 
+			else if(key.equals("leadingSite")) {assertTrue(map.get(key)); }
+			else if(key.equals("status")) {assertFalse(map.get(key));}  
+			else if(key.equals("participatingSites")) {assertFalse(map.get(key));} 
+			else if(key.equals("treatmentArms")) {assertFalse(map.get(key));} 
+			else if(key.equals("subjectCriteria")) {assertFalse(map.get(key));}
+			else if(key.equals("randomConf")) {assertFalse(map.get(key));} 
+			else if(key.equals("generateIds")) {assertFalse(map.get(key));} 
+			else if(key.equals("serialVersionUID")) {assertFalse(map.get(key));}
+			else if(key.equals("$VRc")) {assertFalse(map.get(key));}
+			else fail(key + " not checked");
+		}
 	}
 }

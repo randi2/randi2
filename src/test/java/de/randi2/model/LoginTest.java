@@ -10,6 +10,7 @@ import static org.junit.Assert.fail;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.validator.InvalidStateException;
@@ -289,6 +290,32 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		assertEquals(validLogin.getLockTime(), login.getLockTime());
 		
 		assertEquals(validLogin.getPerson().getId(), login.getPerson().getId());
+	}
+	
+	@Test
+	public void testGetRequieredFields(){
+		Map<String, Boolean> map = validLogin.getRequiredFields();
+		for(String key : map.keySet()){
+			if(key.equals("active")) {assertFalse(map.get(key));} 
+			else if(key.equals("numberWrongLogins")) {assertFalse(map.get(key));} 
+			else if(key.equals("prefLocale")) {assertFalse(map.get(key));}  
+			else if(key.equals("person")) {assertTrue(map.get(key));} 
+			else if(key.equals("username")) {assertTrue(map.get(key));} 
+			else if(key.equals("password")) {assertTrue(map.get(key)); }
+			else if(key.equals("lastLoggedIn")) {assertFalse(map.get(key));} 
+			else if(key.equals("lockTime")) {assertFalse(map.get(key));} 
+			else if(key.equals("roles")) {assertFalse(map.get(key)); }
+			else if(key.equals("MAX_WRONG_LOGINS")) {assertFalse(map.get(key));}  
+			else if(key.equals("MILIS_TO_LOCK_USER")) {assertFalse(map.get(key));} 
+			else if(key.equals("MAX_USERNAME_LENGTH")) {assertFalse(map.get(key));} 
+			else if(key.equals("MIN_USERNAME_LENGTH")) {assertFalse(map.get(key));}
+			else if(key.equals("MAX_PASSWORD_LENGTH")) {assertFalse(map.get(key));} 
+			else if(key.equals("MIN_PASSWORD_LENGTH")) {assertFalse(map.get(key));} 
+			else if(key.equals("HASH_PASSWORD_LENGTH")) {assertFalse(map.get(key));} 
+			else if(key.equals("serialVersionUID")) {assertFalse(map.get(key));}
+			else if(key.equals("$VRc")) {assertFalse(map.get(key));}
+			else fail(key + " not checked");
+		}
 	}
 	
 }

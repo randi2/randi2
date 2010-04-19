@@ -1,11 +1,8 @@
 package de.randi2.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -98,5 +95,32 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 		hibernateTemplate.saveOrUpdate(v2);
 		Login v4 = (Login) hibernateTemplate.get(Login.class, domainObject.getId());
 		assertEquals(v2.getPassword(), v4.getPassword());
+	}
+	
+	
+	@Test
+	public void testGetRequieredFields(){
+		Map<String, Boolean> map = domainObject.getRequiredFields();
+		for(String key : map.keySet()){
+			if(key.equals("active")) {assertFalse(map.get(key));} 
+			else if(key.equals("numberWrongLogins")) {assertFalse(map.get(key));} 
+			else if(key.equals("prefLocale")) {assertFalse(map.get(key));}  
+			else if(key.equals("person")) {assertTrue(map.get(key));} 
+			else if(key.equals("username")) {assertTrue(map.get(key));} 
+			else if(key.equals("password")) {assertTrue(map.get(key)); }
+			else if(key.equals("lastLoggedIn")) {assertFalse(map.get(key));} 
+			else if(key.equals("lockTime")) {assertFalse(map.get(key));} 
+			else if(key.equals("roles")) {assertFalse(map.get(key)); }
+			else if(key.equals("MAX_WRONG_LOGINS")) {assertFalse(map.get(key));}  
+			else if(key.equals("MILIS_TO_LOCK_USER")) {assertFalse(map.get(key));} 
+			else if(key.equals("MAX_USERNAME_LENGTH")) {assertFalse(map.get(key));} 
+			else if(key.equals("MIN_USERNAME_LENGTH")) {assertFalse(map.get(key));}
+			else if(key.equals("MAX_PASSWORD_LENGTH")) {assertFalse(map.get(key));} 
+			else if(key.equals("MIN_PASSWORD_LENGTH")) {assertFalse(map.get(key));} 
+			else if(key.equals("HASH_PASSWORD_LENGTH")) {assertFalse(map.get(key));} 
+			else if(key.equals("serialVersionUID")) {assertFalse(map.get(key));}
+			else if(key.equals("$VRc")) {assertFalse(map.get(key));}
+			else fail(key + " not checked");
+		}
 	}
 }

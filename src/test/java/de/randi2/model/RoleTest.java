@@ -2,9 +2,12 @@ package de.randi2.model;
 
 import static junit.framework.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -247,6 +250,20 @@ public class RoleTest extends AbstractDomainTest<Role> {
 		assertEquals( false, dbRole.isCreateRole() );
 		assertEquals( true, dbRole.isScopeTrialSiteView() );
 		
+	}
+	
+	@Test
+	public void testGetRequieredFields(){
+		Role role = new Role(
+				"ROLE_XYZ", false, true, true, true, false, false, true,
+				true, false, true, false, true, false, true, true, false, true,
+				false, true, false, true, true, false, true, false, false, false,
+				false, new ArrayList<Role>());
+		Map<String, Boolean> map = role.getRequiredFields();
+		for(String key : map.keySet()){
+			if(key.equals("name")) assertTrue(key,map.get(key)); else
+			assertFalse(key,map.get(key));
+		}
 	}
 }
 		
