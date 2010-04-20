@@ -433,4 +433,62 @@ public class PersonTest extends AbstractDomainTest<Person> {
 			else fail(key + " not checked");
 		}
 	}
+	
+	@Test
+	public void testUiName(){
+		validPerson.setSurname("surname");
+		validPerson.setFirstname("firstname");
+		assertEquals("surname, firstname", validPerson.getUIName());
+	}
+	
+	@Test
+	public void testToString(){
+		assertNotNull(validPerson.toString());
+	}
+	
+	@Test
+	public void testEqualsHashCode(){
+		Person person1 = new Person();
+		Person person2 = new Person();
+		person1.setId(0);
+		person2.setId(0);
+		person1.setVersion(0);
+		person2.setVersion(0);
+		assertEquals(person1, person2);
+		assertEquals(person1.hashCode(), person2.hashCode());
+		person1.setId(1);
+		
+		assertFalse(person1.equals(person2));
+		person1.setId(0);
+		assertEquals(person1, person2);
+		assertEquals(person1.hashCode(), person2.hashCode());
+		
+		person1.setVersion(1);
+		assertFalse(person1.equals(person2));
+		person1.setVersion(0);
+		assertEquals(person1, person2);
+		assertEquals(person1.hashCode(), person2.hashCode());
+		
+		person1.setSurname("test");
+		assertFalse(person1.equals(person2));
+		person2.setSurname("test");
+		assertEquals(person1, person2);
+		assertEquals(person1.hashCode(), person2.hashCode());
+		
+		person1.setFirstname("test");
+		assertFalse(person1.equals(person2));
+		person2.setFirstname("test");
+		assertEquals(person1, person2);
+		assertEquals(person1.hashCode(), person2.hashCode());
+		
+		person1.setSex(Gender.FEMALE);
+		person2.setSex(Gender.MALE);
+		assertFalse(person1.equals(person2));
+		person2.setSex(Gender.FEMALE);
+		assertEquals(person1, person2);
+		assertEquals(person1.hashCode(), person2.hashCode());
+		
+		assertFalse(person1.equals(null));
+		assertFalse(person1.equals(new TreatmentArm()));
+	}
 }
