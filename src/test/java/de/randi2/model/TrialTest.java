@@ -7,8 +7,10 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +19,19 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.mchange.util.AssertException;
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
+
+import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
+import de.randi2.model.criteria.constraints.AbstractConstraint;
+import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.test.utility.AbstractDomainTest;
+import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.utility.Pair;
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class TrialTest extends AbstractDomainTest<Trial> {
 
@@ -407,7 +418,12 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		assertTrue(DichotomousCriterion.class.isInstance(validTrial
 				.getCriteria().get(1)));
 		assertEquals("criterion2", validTrial.getCriteria().get(1).getName());
-
+		
+		
+		
+		List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> list = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
+		validTrial.setCriteria(list);
+		assertEquals(list, validTrial.getCriteria());
 	}
 
 	@Test
@@ -543,4 +559,298 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 			else fail(key + " not checked");
 		}
 	}
+	
+	@Test
+	public void testEqualsHashCode(){
+		Trial trial1 = new Trial();
+		Trial trial2 = new Trial();
+		trial1.setId(0);
+		trial2.setId(0);
+		trial1.setVersion(0);
+		trial2.setVersion(0);
+		assertEquals(trial1, trial2);
+		assertEquals(trial1.hashCode(), trial2.hashCode());
+		trial1.setId(1);
+		
+		assertFalse(trial1.equals(trial2));
+		trial1.setId(0);
+		assertEquals(trial1, trial2);
+		assertEquals(trial1.hashCode(), trial2.hashCode());
+		
+		trial1.setVersion(1);
+		assertFalse(trial1.equals(trial2));
+		trial1.setVersion(0);
+		assertEquals(trial1, trial2);
+		assertEquals(trial1.hashCode(), trial2.hashCode());
+		
+		trial1.setName("test");
+		assertFalse(trial1.equals(trial2));
+		trial2.setName("test");
+		assertEquals(trial1, trial2);
+		assertEquals(trial1.hashCode(), trial2.hashCode());
+		
+		assertFalse(trial1.equals(null));
+		assertFalse(trial1.equals(new TreatmentArm()));
+	}
+	
+	
+	@Test
+	public void testTotalSubjectAmount(){
+		TreatmentArm arm1 = new TreatmentArm();
+		arm1.setName("arm1");
+		arm1.setTrial(validTrial);
+		arm1.setPlannedSubjects(100);
+		TreatmentArm arm2 = new TreatmentArm();
+		arm2.setName("arm2");
+		arm2.setTrial(validTrial);
+		arm2.setPlannedSubjects(100);
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		arms.add(arm1);
+		arms.add(arm2);
+		validTrial.setTreatmentArms(arms);
+		for(int i=1;i<=100;i++){
+			if(i%2==0){
+				arm1.addSubject(new TrialSubject());
+			}else{
+				arm2.addSubject(new TrialSubject());
+			}
+			assertEquals(i, validTrial.getTotalSubjectAmount());
+		}
+	}
+	
+	@Test
+	public void testPlannedSubjectAmount(){
+		TreatmentArm arm1 = new TreatmentArm();
+		arm1.setName("arm1");
+		arm1.setTrial(validTrial);
+		arm1.setPlannedSubjects(100);
+		TreatmentArm arm2 = new TreatmentArm();
+		arm2.setName("arm2");
+		arm2.setTrial(validTrial);
+		arm2.setPlannedSubjects(100);
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		arms.add(arm1);
+		arms.add(arm2);
+		validTrial.setTreatmentArms(arms);
+		assertEquals(200, validTrial.getPlannedSubjectAmount());
+	}
+	
+	@Test
+	public void testUiName(){
+		validTrial.setAbbreviation("abbreviation");
+		assertEquals("abbreviation", validTrial.getUIName());
+	}
+	
+	@Test
+	public void testIsFresh(){
+		TreatmentArm arm1 = new TreatmentArm();
+		arm1.setName("arm1");
+		arm1.setTrial(validTrial);
+		arm1.setPlannedSubjects(100);
+		TreatmentArm arm2 = new TreatmentArm();
+		arm2.setName("arm2");
+		arm2.setTrial(validTrial);
+		arm2.setPlannedSubjects(100);
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		arms.add(arm1);
+		arms.add(arm2);
+		validTrial.setTreatmentArms(arms);
+		assertTrue(validTrial.isFresh());
+		arm1.addSubject(new TrialSubject());
+		assertFalse(validTrial.isFresh());
+	}
+	
+	@Test
+	public void testGenerateIds(){
+		validTrial.setGenerateIds(true);
+		assertTrue(validTrial.isGenerateIds());
+		validTrial.setGenerateIds(false);
+		assertFalse(validTrial.isGenerateIds());
+	}
+	
+	@Test
+	public void testStratifyTrialSite(){
+		validTrial.setStratifyTrialSite(true);
+		assertTrue(validTrial.isStratifyTrialSite());
+		validTrial.setStratifyTrialSite(false);
+		assertFalse(validTrial.isStratifyTrialSite());
+	}
+	
+	
+	@Test
+	public void testStrataNamesAndIdsStrataCriterions(){
+		DichotomousCriterion criterion1 = new DichotomousCriterion();
+		criterion1.setId(1);
+		criterion1.setName("criterion1");
+		criterion1.setOption1("option1");
+		criterion1.setOption2("option2");
+		try {
+			DichotomousConstraint d1 = new DichotomousConstraint(Arrays.asList(new String[]{"option1"}));
+			d1.setId(1);
+			criterion1.addStrata(d1);
+			DichotomousConstraint d2 = new DichotomousConstraint(Arrays.asList(new String[]{"option2"}));
+			d2.setId(2);
+			criterion1.addStrata(d2);
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+		DichotomousCriterion criterion2 = new DichotomousCriterion();
+		criterion2.setId(2);
+		criterion2.setName("criterion2");
+		criterion2.setOption1("option1");
+		criterion2.setOption2("option2");
+		try {
+			DichotomousConstraint d1 = new DichotomousConstraint(Arrays.asList(new String[]{"option1"}));
+			d1.setId(1);
+			criterion2.addStrata(d1);
+			DichotomousConstraint d2 = new DichotomousConstraint(Arrays.asList(new String[]{"option2"}));
+			d2.setId(2);
+			criterion2.addStrata(d2);
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+		validTrial.addCriterion(criterion1);
+		validTrial.addCriterion(criterion2);
+		
+		Pair<List<String>, List<String>> pair = validTrial.getAllStrataIdsAndNames();
+		
+		assertEquals(4, pair.first().size());
+		assertEquals(4, pair.last().size());
+		
+		Collections.sort(pair.first());
+		assertEquals("1_1;2_1;", pair.first().get(0));
+		assertEquals("1_1;2_2;", pair.first().get(1));
+		assertEquals("1_2;2_1;", pair.first().get(2));
+		assertEquals("1_2;2_2;", pair.first().get(3));
+		
+		Collections.sort(pair.last());
+		assertEquals("criterion1_option1;criterion2_option1;", pair.last().get(0));
+		assertEquals("criterion1_option1;criterion2_option2;", pair.last().get(1));
+		assertEquals("criterion1_option2;criterion2_option1;", pair.last().get(2));
+		assertEquals("criterion1_option2;criterion2_option2;", pair.last().get(3));
+	}
+	
+	
+	@Test
+	public void testStrataNamesAndIdsStrataCriterionsTrialSite(){
+
+		TrialSite site1 = new TrialSite();
+		site1.setId(1);
+		site1.setName("site1");
+
+		TrialSite site2 = new TrialSite();
+		site2.setId(2);
+		site2.setName("site2");
+		
+		validTrial.addParticipatingSite(site1);
+		validTrial.addParticipatingSite(site2);
+		
+		validTrial.setStratifyTrialSite(true);
+		
+		DichotomousCriterion criterion1 = new DichotomousCriterion();
+		criterion1.setId(1);
+		criterion1.setName("criterion1");
+		criterion1.setOption1("option1");
+		criterion1.setOption2("option2");
+		try {
+			DichotomousConstraint d1 = new DichotomousConstraint(Arrays.asList(new String[]{"option1"}));
+			d1.setId(1);
+			criterion1.addStrata(d1);
+			DichotomousConstraint d2 = new DichotomousConstraint(Arrays.asList(new String[]{"option2"}));
+			d2.setId(2);
+			criterion1.addStrata(d2);
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+		DichotomousCriterion criterion2 = new DichotomousCriterion();
+		criterion2.setId(2);
+		criterion2.setName("criterion2");
+		criterion2.setOption1("option1");
+		criterion2.setOption2("option2");
+		try {
+			DichotomousConstraint d1 = new DichotomousConstraint(Arrays.asList(new String[]{"option1"}));
+			d1.setId(1);
+			criterion2.addStrata(d1);
+			DichotomousConstraint d2 = new DichotomousConstraint(Arrays.asList(new String[]{"option2"}));
+			d2.setId(2);
+			criterion2.addStrata(d2);
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+		validTrial.addCriterion(criterion1);
+		validTrial.addCriterion(criterion2);
+		
+		Pair<List<String>, List<String>> pair = validTrial.getAllStrataIdsAndNames();
+		
+		assertEquals(8, pair.first().size());
+		assertEquals(8, pair.last().size());
+		
+		Collections.sort(pair.first());
+		assertEquals("1__1_1;2_1;", pair.first().get(0));
+		assertEquals("1__1_1;2_2;", pair.first().get(1));
+		assertEquals("1__1_2;2_1;", pair.first().get(2));
+		assertEquals("1__1_2;2_2;", pair.first().get(3));
+		assertEquals("2__1_1;2_1;", pair.first().get(4));
+		assertEquals("2__1_1;2_2;", pair.first().get(5));
+		assertEquals("2__1_2;2_1;", pair.first().get(6));
+		assertEquals("2__1_2;2_2;", pair.first().get(7));
+		
+		Collections.sort(pair.last());
+		assertEquals("site1 | criterion1_option1;criterion2_option1;", pair.last().get(0));
+		assertEquals("site1 | criterion1_option1;criterion2_option2;", pair.last().get(1));
+		assertEquals("site1 | criterion1_option2;criterion2_option1;", pair.last().get(2));
+		assertEquals("site1 | criterion1_option2;criterion2_option2;", pair.last().get(3));
+		assertEquals("site2 | criterion1_option1;criterion2_option1;", pair.last().get(4));
+		assertEquals("site2 | criterion1_option1;criterion2_option2;", pair.last().get(5));
+		assertEquals("site2 | criterion1_option2;criterion2_option1;", pair.last().get(6));
+		assertEquals("site2 | criterion1_option2;criterion2_option2;", pair.last().get(7));
+	}
+	
+	
+	@Test
+	public void testStrataNamesAndIdsStrataTrialSite(){
+
+		TrialSite site1 = new TrialSite();
+		site1.setId(1);
+		site1.setName("site1");
+
+		TrialSite site2 = new TrialSite();
+		site2.setId(2);
+		site2.setName("site2");
+		
+		TrialSite site3 = new TrialSite();
+		site3.setId(3);
+		site3.setName("site3");
+		
+		TrialSite site4 = new TrialSite();
+		site4.setId(4);
+		site4.setName("site4");
+		
+		validTrial.addParticipatingSite(site1);
+		validTrial.addParticipatingSite(site2);
+		validTrial.addParticipatingSite(site3);
+		validTrial.addParticipatingSite(site4);
+		
+		validTrial.setStratifyTrialSite(true);
+		
+		
+		Pair<List<String>, List<String>> pair = validTrial.getAllStrataIdsAndNames();
+		
+		assertEquals(4, pair.first().size());
+		assertEquals(4, pair.last().size());
+		
+		Collections.sort(pair.first());
+		assertEquals("1__", pair.first().get(0));
+		assertEquals("2__", pair.first().get(1));
+		assertEquals("3__", pair.first().get(2));
+		assertEquals("4__", pair.first().get(3));
+		
+		Collections.sort(pair.last());
+		assertEquals("site1", pair.last().get(0));
+		assertEquals("site2", pair.last().get(1));
+		assertEquals("site3", pair.last().get(2));
+		assertEquals("site4", pair.last().get(3));
+
+	}
+	
 }
