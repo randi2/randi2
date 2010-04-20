@@ -1,6 +1,7 @@
 package de.randi2.model;
 
 import static junit.framework.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
@@ -275,5 +276,114 @@ public class TrialSubjectTest extends AbstractDomainObject {
 			else if(key.equals("$VRc")) {assertFalse(map.get(key));}
 			else fail(key + " not checked");
 		}
+	}
+	
+	
+	@Test
+	public void testEqualsHashCode(){
+		TrialSubject trialSubject1 = new TrialSubject();
+		TrialSubject trialSubject2 = new TrialSubject();
+		trialSubject1.setId(0);
+		trialSubject2.setId(0);
+		trialSubject1.setVersion(0);
+		trialSubject2.setVersion(0);
+		assertEquals(trialSubject1, trialSubject2);
+		assertEquals(trialSubject1.hashCode(), trialSubject2.hashCode());
+		trialSubject1.setId(1);
+		
+		assertFalse(trialSubject1.equals(trialSubject2));
+		trialSubject1.setId(0);
+		assertEquals(trialSubject1, trialSubject2);
+		assertEquals(trialSubject1.hashCode(), trialSubject2.hashCode());
+		
+		trialSubject1.setVersion(1);
+		assertFalse(trialSubject1.equals(trialSubject2));
+		trialSubject1.setVersion(0);
+		assertEquals(trialSubject1, trialSubject2);
+		assertEquals(trialSubject1.hashCode(), trialSubject2.hashCode());
+		
+		trialSubject1.setIdentification("test");
+		assertFalse(trialSubject1.equals(trialSubject2));
+		trialSubject2.setIdentification("test");
+		assertEquals(trialSubject1, trialSubject2);
+		assertEquals(trialSubject1.hashCode(), trialSubject2.hashCode());
+		
+		assertFalse(trialSubject1.equals(null));
+		assertFalse(trialSubject1.equals(new TreatmentArm()));
+	}
+	
+	@Test
+	public void testArm(){
+		TreatmentArm arm = new TreatmentArm();
+		arm.setId(123);
+		TrialSubject subject = new TrialSubject();
+		subject.setArm(arm);
+		assertEquals(arm, subject.getArm());
+	}
+	
+	
+	@Test
+	public void testCounter(){
+		TrialSubject subject = new TrialSubject();
+		subject.setCounter(123456);
+		assertEquals(123456, subject.getCounter());
+	}
+	
+	
+	@Test
+	public void testIdentification(){
+		TrialSubject subject = new TrialSubject();
+		subject.setIdentification("123456");
+		assertEquals("123456", subject.getIdentification());
+	}
+	
+	
+	@Test
+	public void testInvestigator(){
+		Login login = new Login();
+		TrialSubject subject = new TrialSubject();
+		subject.setInvestigator(login);
+		assertEquals(login, subject.getInvestigator());
+	}
+	
+	@Test
+	public void testProperties(){
+		Set<SubjectProperty<?>> properties = new HashSet<SubjectProperty<?>>();
+		TrialSubject subject = new TrialSubject();
+		subject.setProperties(properties);
+		assertEquals(properties, subject.getProperties());
+	}
+	
+	
+	@Test
+	public void testRandoNumber(){
+		TrialSubject subject = new TrialSubject();
+		subject.setRandNumber("123456");
+		assertEquals("123456", subject.getRandNumber());
+	}
+	
+	
+	@Test
+	public void testTrialSite(){
+		TrialSite site = new TrialSite();
+		site.setId(123456);
+		TrialSubject subject = new TrialSubject();
+		subject.setTrialSite(site);
+		assertEquals(site, subject.getTrialSite());
+	}
+	
+	
+	@Test
+	public void testUiName(){
+		TrialSubject subject = new TrialSubject();
+		subject.setIdentification("123456");
+		assertEquals("123456", subject.getUIName());
+	}
+	
+	
+	@Test
+	public void testToString(){
+		TrialSubject subject = new TrialSubject();
+		assertNotNull(subject.toString());
 	}
 }
