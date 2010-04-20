@@ -1,9 +1,6 @@
 package de.randi2.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -194,6 +191,11 @@ private Session getCurrentSession(){
 		hibernateTemplate.refresh(validTrialSite);
 		validTrialSite.getTrials();
 		assertEquals(tl.size(), trialSite.getTrials().size());
+		
+		List<Trial> trials = new ArrayList<Trial>();
+		trials.add(new Trial());
+		validTrialSite.setTrials(trials);
+		assertEquals(trials, validTrialSite.getTrials());
 	}
 	
 	@Test
@@ -258,6 +260,7 @@ private Session getCurrentSession(){
 		String[] validPasswords = {"secret0$secret","sad.al4h/ljhaslf",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+";2", stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-2)+",3", stringUtil.getWithLength(Login.HASH_PASSWORD_LENGTH)};
 		for (String s: validPasswords){
 			validTrialSite.setPassword(s);
+			assertEquals(s, validTrialSite.getPassword());
 			assertValid(validTrialSite);
 		}
 		
@@ -329,4 +332,52 @@ private Session getCurrentSession(){
 			else fail(key + " not checked");
 		}
 	}
+	
+	
+	@Test
+	public void testEqualsHashCode(){
+		TrialSite trialSite1 = new TrialSite();
+		TrialSite trialSite2 = new TrialSite();
+		trialSite1.setId(0);
+		trialSite2.setId(0);
+		trialSite1.setVersion(0);
+		trialSite2.setVersion(0);
+		assertEquals(trialSite1, trialSite2);
+		assertEquals(trialSite1.hashCode(), trialSite2.hashCode());
+		trialSite1.setId(1);
+		
+		assertFalse(trialSite1.equals(trialSite2));
+		trialSite1.setId(0);
+		assertEquals(trialSite1, trialSite2);
+		assertEquals(trialSite1.hashCode(), trialSite2.hashCode());
+		
+		trialSite1.setVersion(1);
+		assertFalse(trialSite1.equals(trialSite2));
+		trialSite1.setVersion(0);
+		assertEquals(trialSite1, trialSite2);
+		assertEquals(trialSite1.hashCode(), trialSite2.hashCode());
+		
+		trialSite1.setName("test");
+		assertFalse(trialSite1.equals(trialSite2));
+		trialSite2.setName("test");
+		assertEquals(trialSite1, trialSite2);
+		assertEquals(trialSite1.hashCode(), trialSite2.hashCode());
+		
+		assertFalse(trialSite1.equals(null));
+		assertFalse(trialSite1.equals(new TreatmentArm()));
+	}
+	
+	@Test
+	public void testToString(){
+		assertNotNull(validTrialSite.toString());
+	}
+	
+	
+	@Test
+	public void testUiName(){
+		validTrialSite.setName("name trial site");
+		assertEquals("name trial site", validTrialSite.getUIName());
+	}
+	
+
 }
