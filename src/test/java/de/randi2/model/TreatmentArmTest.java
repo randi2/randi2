@@ -6,6 +6,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -45,6 +48,12 @@ public class TreatmentArmTest extends AbstractDomainTest<TreatmentArm> {
 		assertEquals(2, validTreatmentArm.getSubjects().size());
 		assertTrue(validTreatmentArm.getSubjects().contains(subject1));
 		assertTrue(validTreatmentArm.getSubjects().contains(subject2));
+		
+		List<TrialSubject> list = new ArrayList<TrialSubject>();
+		list.add(new TrialSubject());
+		
+		validTreatmentArm.setSubjects(list);
+		assertEquals(list, validTreatmentArm.getSubjects());
 	}
 	
 	@Test
@@ -170,6 +179,9 @@ public class TreatmentArmTest extends AbstractDomainTest<TreatmentArm> {
 		arm1.setVersion(256);
 		assertTrue(arm1.equals(arm2));
 		assertEquals(arm1.hashCode(), arm2.hashCode());
+		
+		assertFalse(arm1.equals(null));
+		assertFalse(arm1.equals(new Trial()));
 	}
 	
 	
@@ -185,6 +197,34 @@ public class TreatmentArmTest extends AbstractDomainTest<TreatmentArm> {
 			else if(key.equals("serialVersionUID")) {assertFalse(map.get(key));}
 			else if(key.equals("$VRc")) {assertFalse(map.get(key));}
 			else fail(key + " not checked");
+		}
+	}
+	
+	@Test
+	public void testToString(){
+		assertNotNull(validTreatmentArm.toString());
+	}
+	
+	@Test
+	public void testUiName(){
+		validTreatmentArm.setName("valid name");
+		assertEquals("valid name", validTreatmentArm.getUIName());
+	}
+	
+	@Test
+	public void testPlannedSubjects(){
+		validTreatmentArm.setPlannedSubjects(123456);
+		assertEquals(123456, validTreatmentArm.getPlannedSubjects());
+	}
+	
+	@Test
+	public void testCurrentSubjectAmountAndFillLevel(){
+		validTreatmentArm.setPlannedSubjects(100);
+		for(int i=1;i<=100;i++){
+			validTreatmentArm.addSubject(new TrialSubject());
+			assertEquals(i, validTreatmentArm.getCurrentSubjectsAmount());
+			DecimalFormat f = new DecimalFormat("#0.00");
+			assertEquals(f.format(i), f.format(validTreatmentArm.getFillLevel()));
 		}
 	}
 }
