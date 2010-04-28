@@ -1,6 +1,11 @@
 package de.randi2.model.security;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,16 +15,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.security.acls.NotFoundException;
+import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static de.randi2.utility.security.ArrayListHelper.permissionsOf;
+import static de.randi2.utility.security.ArrayListHelper.sidsOf;
+
 import de.randi2.model.Login;
-import de.randi2.model.security.AccessControlEntryHibernate;
-import de.randi2.model.security.AclHibernate;
-import de.randi2.model.security.ObjectIdentityHibernate;
-import de.randi2.model.security.PermissionHibernate;
-import de.randi2.model.security.SidHibernate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/META-INF/spring-test.xml" })
@@ -86,7 +89,7 @@ public class AclHibernateTest {
 			assertTrue("AccesControlEntry not found", found);
 		}
 
-		assertEquals(aces.size(), acl.getEntries().length);
+		assertEquals(aces.size(), acl.getEntries().size());
 
 	}
 
@@ -102,7 +105,7 @@ public class AclHibernateTest {
 		ace.setRoleName("ROLE_NOTGRANTED");
 		ace.setSid(acl.getOwner());
 		acl.getAces().add(ace);
-		assertEquals(11, acl.getEntries().length);
+		assertEquals(11, acl.getEntries().size());
 
 		// run with other permissions and one correct sid
 		List<PermissionHibernate> permissions = new ArrayList<PermissionHibernate>();
@@ -116,8 +119,7 @@ public class AclHibernateTest {
 		sids.add(new SidHibernate("test4"));
 		sids.add(acl.getOwner());
 		try {
-			acl.isGranted(permissions.toArray(new PermissionHibernate[] {}),
-					sids.toArray(new SidHibernate[] {}), false);
+			acl.isGranted(permissionsOf(), sidsOf(), false);
 			fail("Acl should throw a exception");
 		} catch (NotFoundException e) {
 		}
@@ -135,8 +137,7 @@ public class AclHibernateTest {
 		sids.add(new SidHibernate("test3"));
 		sids.add(new SidHibernate("test4"));
 		try {
-			acl.isGranted(permissions.toArray(new PermissionHibernate[] {}),
-					sids.toArray(new SidHibernate[] {}), false);
+			acl.isGranted(permissionsOf(), sidsOf(), false);
 			fail("Acl should throw a exception");
 		} catch (NotFoundException e) {
 		}
@@ -153,8 +154,7 @@ public class AclHibernateTest {
 		sids.add(new SidHibernate("test4"));
 		sids.add(acl.getOwner());
 		try {
-			assertTrue(acl.isGranted(permissions.toArray(new PermissionHibernate[] {}),
-					sids.toArray(new SidHibernate[] {}), false));
+			assertTrue(acl.isGranted(permissionsOf(), sidsOf(), false));
 		} catch (NotFoundException e) {
 			fail("Acl should grant");
 		}
@@ -172,8 +172,7 @@ public class AclHibernateTest {
 		sids.add(new SidHibernate("test4"));
 		sids.add(acl.getOwner());
 		try {
-			assertFalse(acl.isGranted(permissions.toArray(new PermissionHibernate[] {}),
-					sids.toArray(new SidHibernate[] {}), false));
+			assertFalse(acl.isGranted(permissionsOf(), sidsOf(), false));
 		} catch (NotFoundException e) {
 			fail("Acl should grant");
 		}

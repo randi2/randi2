@@ -37,8 +37,8 @@ import lombok.Setter;
 import org.apache.log4j.Logger;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
-import org.springframework.security.context.HttpSessionContextIntegrationFilter;
-import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionContextIntegrationFilter;
 
 import de.randi2.jsf.backingBeans.RegisterPage;
 import de.randi2.jsf.exceptions.RegistrationException;

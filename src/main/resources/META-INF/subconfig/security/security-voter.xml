@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:sec="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
 
 
@@ -12,10 +12,10 @@
 	-->
 
 
-	<bean id="roleVoter" class="org.springframework.security.vote.RoleVoter">
+	<bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter">
 	</bean>
 
-<bean id="aclTrialSubjectReadVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialSubjectReadVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TTRIALSUBJECT_READ" />
 		<constructor-arg>
@@ -27,7 +27,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.TrialSubject" />
 	</bean>
 
-	<bean id="aclTrialSubjectWriteVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialSubjectWriteVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIALSUBJECT_WRITE" />
 		<constructor-arg>
@@ -39,7 +39,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.TrialSubject" />
 	</bean>
 
-	<bean id="aclTrialSubjectCreateVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialSubjectCreateVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIALSUBJECTE_CREATE" />
 		<constructor-arg>
@@ -51,7 +51,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.TrialSubject" />
 	</bean>
 
-	<bean id="aclTrialSubjectAdminVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialSubjectAdminVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIALSUBJECT_ADMIN" />
 		<constructor-arg>
@@ -63,7 +63,7 @@
 	</bean>
 
 
-	<bean id="aclTrialSiteReadVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialSiteReadVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIALSITE_READ" />
 		<constructor-arg>
@@ -75,7 +75,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.TrialSite" />
 	</bean>
 
-	<bean id="aclTrialSiteWriteVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialSiteWriteVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIALSITE_WRITE" />
 		<constructor-arg>
@@ -87,7 +87,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.TrialSite" />
 	</bean>
 
-	<bean id="aclTrialSiteCreateVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialSiteCreateVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIALSITE_CREATE" />
 		<constructor-arg>
@@ -99,7 +99,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.TrialSite" />
 	</bean>
 
-	<bean id="aclTrialSiteAdminVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialSiteAdminVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIALSITE_ADMIN" />
 		<constructor-arg>
@@ -110,7 +110,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.TrialSite" />
 	</bean>
 
-	<bean id="aclTrialReadVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialReadVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIAL_READ" />
 		<constructor-arg>
@@ -122,7 +122,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.Trial" />
 	</bean>
 
-	<bean id="aclTrialWriteVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialWriteVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIAL_WRITE" />
 		<constructor-arg>
@@ -134,7 +134,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.Trial" />
 	</bean>
 
-	<bean id="aclTrialAdminVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialAdminVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIAL_ADMIN" />
 		<constructor-arg>
@@ -145,7 +145,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.Trial" />
 	</bean>
 
-	<bean id="aclTrialCreateVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclTrialCreateVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_TRIAL_CREATE" />
 		<constructor-arg>
@@ -157,7 +157,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.Trial" />
 	</bean>
 
-	<bean id="aclPersonReadVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclPersonReadVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_PERSON_READ" />
 		<constructor-arg>
@@ -169,7 +169,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.Person" />
 	</bean>
 
-	<bean id="aclPersonWriteVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclPersonWriteVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_PERSON_WRITE" />
 		<constructor-arg>
@@ -181,7 +181,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.Person" />
 	</bean>
 
-	<bean id="aclPersonAdminVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclPersonAdminVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_PERSON_ADMIN" />
 		<constructor-arg>
@@ -192,7 +192,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.Person" />
 	</bean>
 
-	<bean id="aclPersonCreateVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclPersonCreateVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_PERSON_CREATE" />
 		<constructor-arg>
@@ -204,7 +204,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.Person" />
 	</bean>
 
-	<bean id="aclLoginReadVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclLoginReadVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_LOGIN_READ" />
 		<constructor-arg>
@@ -216,7 +216,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.Login" />
 	</bean>
 
-	<bean id="aclLoginWriteVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclLoginWriteVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_LOGIN_WRITE" />
 		<constructor-arg>
@@ -228,7 +228,7 @@
 		<property name="processDomainObjectClass" value="de.randi2.model.Login" />
 	</bean>
 
-	<bean id="aclLoginAdminVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclLoginAdminVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_LOGIN_ADMIN" />
 		<constructor-arg>
@@ -240,7 +240,7 @@
 	</bean>
 
 
-	<bean id="aclLoginCreateVoter" class="org.springframework.security.vote.AclEntryVoter">
+	<bean id="aclLoginCreateVoter" class="org.springframework.security.acls.AclEntryVoter">
 		<constructor-arg ref="aclService" />
 		<constructor-arg value="ACL_LOGIN_CREATE" />
 		<constructor-arg>
@@ -268,8 +268,9 @@
 
 	<!-- Processes AFTER_ACL_COLLECTION_READ configuration settings -->
 	<bean id="afterAclCollectionRead"
-		class="org.springframework.security.afterinvocation.AclEntryAfterInvocationCollectionFilteringProvider">
-		<sec:custom-after-invocation-provider />
+		class="org.springframework.security.acls.afterinvocation.AclEntryAfterInvocationCollectionFilteringProvider">
+		<!--		MISSING FIXME -->
+		<!--		<sec:custom-after-invocation-provider />-->
 		<constructor-arg ref="aclService" />
 		<constructor-arg>
 			<list>
@@ -281,8 +282,9 @@
 
 	<!-- Processes AFTER_ACL_READ configuration settings -->
 	<bean id="afterAclRead"
-		class="org.springframework.security.afterinvocation.AclEntryAfterInvocationProvider">
-		<sec:custom-after-invocation-provider />
+		class="org.springframework.security.acls.afterinvocation.AclEntryAfterInvocationProvider">
+		<!-- FIXME MISSING		
+<sec:custom-after-invocation-provider />-->
 		<constructor-arg ref="aclService" />
 		<constructor-arg>
 			<list>

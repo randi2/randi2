@@ -25,9 +25,9 @@ import javax.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.springframework.security.acls.sid.GrantedAuthoritySid;
-import org.springframework.security.acls.sid.PrincipalSid;
-import org.springframework.security.acls.sid.Sid;
+import org.springframework.security.acls.domain.GrantedAuthoritySid;
+import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.Sid;
 
 @Entity
 public class SidHibernate implements Sid{

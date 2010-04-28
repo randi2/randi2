@@ -9,13 +9,11 @@ import static junit.framework.Assert.fail;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.hibernate.validator.InvalidStateException;
-import org.hibernate.validator.InvalidValue;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.vote.AffirmativeBased;
+import org.springframework.security.access.vote.AffirmativeBased;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import de.randi2.dao.LoginDao;
 import de.randi2.model.Login;

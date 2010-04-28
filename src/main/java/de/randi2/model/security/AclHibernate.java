@@ -35,13 +35,16 @@ import javax.persistence.Transient;
 
 import lombok.Data;
 
-import org.springframework.security.acls.AccessControlEntry;
-import org.springframework.security.acls.Acl;
-import org.springframework.security.acls.NotFoundException;
-import org.springframework.security.acls.Permission;
-import org.springframework.security.acls.UnloadedSidException;
-import org.springframework.security.acls.sid.Sid;
+import org.springframework.security.acls.model.AccessControlEntry;
+import org.springframework.security.acls.model.Acl;
+import org.springframework.security.acls.model.NotFoundException;
+import org.springframework.security.acls.model.Permission;
+import org.springframework.security.acls.model.Sid;
+import org.springframework.security.acls.model.UnloadedSidException;
 import org.springframework.util.Assert;
+
+import static de.randi2.utility.security.ArrayListHelper.permissionsOf;
+import static de.randi2.utility.security.ArrayListHelper.sidsOf;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
@@ -70,13 +73,13 @@ public class AclHibernate implements Acl, Serializable {
 	private Sid[] loadedSids = null;
 
 	@Override
-	public AccessControlEntry[] getEntries() {
-		return aces.toArray(new AccessControlEntryHibernate[aces.size()]);
+	public List<AccessControlEntry> getEntries() {
+		return new ArrayList<AccessControlEntry>(aces);
 	}
 
 
 	@Override
-	public boolean isGranted(Permission[] permission, Sid[] sids, boolean administrativeMode)
+	public boolean isGranted(List<Permission> permission, List<Sid> sids, boolean administrativeMode)
 			throws NotFoundException, UnloadedSidException {
 		Assert.notEmpty(permission, "Permissions required");
 		Assert.notEmpty(sids, "SIDs required");
@@ -87,14 +90,14 @@ public class AclHibernate implements Acl, Serializable {
 
 		AccessControlEntry firstRejection = null;
 
-		for (int i = 0; i < permission.length; i++) {
-			for (int x = 0; x < sids.length; x++) {
+		for (int i = 0; i < permission.size(); i++) {
+			for (int x = 0; x < sids.size(); x++) {
 				// Attempt to find exact match for this permission mask and SID
 				Iterator<AccessControlEntryHibernate> acesIterator = aces.iterator();
 				boolean scanNextSid = true;
 				while (acesIterator.hasNext()) {
 					AccessControlEntry ace =  acesIterator.next();
-					if ((ace.getPermission().getMask() == permission[i].getMask()) && ace.getSid().equals(sids[x])) {
+					if ((ace.getPermission().getMask() == permission.get(i).getMask()) && ace.getSid().equals(sids.get(x))) {
 						// Found a matching ACE, so its authorization decision will prevail
 						if (ace.isGranting()) {
 							// Success
@@ -146,19 +149,19 @@ public class AclHibernate implements Acl, Serializable {
 	}
 
 	@Override
-	public boolean isSidLoaded(Sid[] sids) {
+	public boolean isSidLoaded(List<Sid> sids) {
 		// If loadedSides is null, this indicates all SIDs were loaded
 		// Also return true if the caller didn't specify a SID to find
-		if ((this.loadedSids == null) || (sids == null) || (sids.length == 0)) {
+		if ((this.loadedSids == null) || (sids == null) || (sids.size() == 0)) {
 			return true;
 		}
 
 		// This ACL applies to a SID subset only. Iterate to check it applies.
-		for (int i = 0; i < sids.length; i++) {
+		for (Sid sid : sids) {
 			boolean found = false;
 
 			for (int y = 0; y < this.loadedSids.length; y++) {
-				if (sids[i].equals(this.loadedSids[y])) {
+				if (sid.equals(this.loadedSids[y])) {
 					// this SID is OK
 					found = true;
 

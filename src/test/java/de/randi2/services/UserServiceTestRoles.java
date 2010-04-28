@@ -7,8 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import de.randi2.dao.LoginDao;
 import de.randi2.model.Login;
@@ -86,7 +87,7 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 		user = newUser;
 		}
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"investigatorUser", user, user.getAuthorities());
+				"investigatorUser", user, user.getAuthorities().toArray(new GrantedAuthority[]{}));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()

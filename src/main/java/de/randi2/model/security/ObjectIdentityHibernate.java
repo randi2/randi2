@@ -26,7 +26,7 @@ import javax.persistence.Id;
 
 import lombok.Data;
 
-import org.springframework.security.acls.objectidentity.ObjectIdentity;
+import org.springframework.security.acls.model.ObjectIdentity;
 
 import de.randi2.model.AbstractDomainObject;
 
@@ -62,6 +62,12 @@ public class ObjectIdentityHibernate implements ObjectIdentity, Serializable {
 	
 	public void setJavaType(Class<? extends AbstractDomainObject> javaType) {
 		this.javaType = javaType;
+	}
+	
+	@Override
+	public String getType() {
+		// TODO: Check if this works?
+		return javaType.getCanonicalName();
 	}
 
 

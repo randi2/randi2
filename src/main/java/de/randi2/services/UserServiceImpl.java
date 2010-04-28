@@ -24,11 +24,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.annotation.Secured;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
-import org.springframework.security.providers.dao.salt.ReflectionSaltSource;
-import org.springframework.security.providers.encoding.PasswordEncoder;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.dao.ReflectionSaltSource;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -101,7 +102,7 @@ public class UserServiceImpl implements UserService {
 		newUser.setPerson(new Person());
 		newUser.addRole(Role.ROLE_ANONYMOUS);
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"anonymousUser", newUser, newUser.getAuthorities());
+				"anonymousUser", newUser, newUser.getAuthorities().toArray(new GrantedAuthority[]{}));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()
