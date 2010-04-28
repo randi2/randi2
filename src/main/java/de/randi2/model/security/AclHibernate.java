@@ -43,9 +43,6 @@ import org.springframework.security.acls.model.Sid;
 import org.springframework.security.acls.model.UnloadedSidException;
 import org.springframework.util.Assert;
 
-import static de.randi2.utility.security.ArrayListHelper.permissionsOf;
-import static de.randi2.utility.security.ArrayListHelper.sidsOf;
-
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 @Entity
