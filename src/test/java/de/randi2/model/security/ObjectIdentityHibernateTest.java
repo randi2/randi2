@@ -29,20 +29,20 @@ public class ObjectIdentityHibernateTest {
 	public void testConstructor() {
 		ObjectIdentityHibernate objectId = new ObjectIdentityHibernate();
 		assertTrue(objectId.getId() < 1);
-		assertNull(objectId.getJavaType());
+		assertNull(objectId.getType());
 		assertNull(objectId.getIdentifier());
 		objectId = new ObjectIdentityHibernate(Login.class, 10);
 		assertTrue(objectId.getId() < 1);
-		assertTrue(objectId.getJavaType().equals(Login.class));
+		assertTrue(objectId.getType().equals(Login.class.getCanonicalName()));
 		assertTrue(objectId.getIdentifier().equals(10l));
 	}
 
 	@Test
 	public void testJavaType() {
 		ObjectIdentityHibernate objectId = new ObjectIdentityHibernate();
-		assertNull(objectId.getJavaType());
-		objectId.setJavaType(Login.class);
-		assertEquals(Login.class, objectId.getJavaType());
+		assertNull(objectId.getType());
+		objectId.setType(Login.class.getCanonicalName());
+		assertEquals(Login.class.getCanonicalName(), objectId.getType());
 	}
 
 	@Test
@@ -61,6 +61,6 @@ public class ObjectIdentityHibernateTest {
 		ObjectIdentityHibernate dbObjectId = (ObjectIdentityHibernate) hibernateTemplate.get(ObjectIdentityHibernate.class, objectId.getId());
 		assertEquals(objectId.getId(), dbObjectId.getId());
 		assertEquals(objectId.getIdentifier(), dbObjectId.getIdentifier());
-		assertEquals(objectId.getJavaType(), dbObjectId.getJavaType());
+		assertEquals(objectId.getType(), dbObjectId.getType());
 	}
 }

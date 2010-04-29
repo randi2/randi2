@@ -218,8 +218,8 @@ public class HibernateAclService implements AclService {
 	@SuppressWarnings("unchecked")
 	private ObjectIdentityHibernate createObjectIdentityIfNotSaved(
 			AbstractDomainObject object) {
-		List<ObjectIdentityHibernate> list = sessionFactory.getCurrentSession().createQuery("from ObjectIdentityHibernate where identifier = :identifier and javaType = :javaType")
-		.setParameter("identifier", object.getId()).setParameter("javaType", object.getClass()).list();
+		List<ObjectIdentityHibernate> list = sessionFactory.getCurrentSession().createQuery("from ObjectIdentityHibernate where identifier = :identifier and type = :type")
+		.setParameter("identifier", object.getId()).setParameter("type", object.getClass().getCanonicalName()).list();
 		if (list.size() == 1) {
 			return list.get(0);
 		} else {

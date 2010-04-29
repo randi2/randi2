@@ -46,7 +46,7 @@ import org.springframework.util.Assert;
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 @Entity
-@NamedQuery(name = "acl.findAclByObjectIdentityAndSid", query = "select acl from AclHibernate acl where acl.owner.sidname = ? and acl.objectIdentity.identifier = ? and acl.objectIdentity.javaType = ?")
+@NamedQuery(name = "acl.findAclByObjectIdentityAndSid", query = "select acl from AclHibernate acl where acl.owner.sidname = ? and acl.objectIdentity.identifier = ? and acl.objectIdentity.type = ?")
 @Data
 @SuppressWarnings
 public class AclHibernate implements Acl, Serializable {

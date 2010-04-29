@@ -23,6 +23,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -41,8 +42,10 @@ public class ObjectIdentityHibernate implements ObjectIdentity, Serializable {
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private long id;
 	
-	private Class<? extends AbstractDomainObject> javaType;
+//	private Class<? extends AbstractDomainObject> javaType;
 	private Long identifier;
+	
+	private String type;
 	
 	public ObjectIdentityHibernate() {
 		super();
@@ -50,24 +53,14 @@ public class ObjectIdentityHibernate implements ObjectIdentity, Serializable {
 
 	public ObjectIdentityHibernate(Class<? extends AbstractDomainObject> javaType, long identifier) {
 		super();
-		this.javaType = javaType;
+		this.type = javaType.getCanonicalName();
 		this.identifier = identifier;
 	}
 
-
-	public Class<? extends AbstractDomainObject> getJavaType() {
-		
-		return javaType;
-	}
-	
-	public void setJavaType(Class<? extends AbstractDomainObject> javaType) {
-		this.javaType = javaType;
-	}
 	
 	@Override
 	public String getType() {
-		// TODO: Check if this works?
-		return javaType.getCanonicalName();
+		return type;
 	}
 
 

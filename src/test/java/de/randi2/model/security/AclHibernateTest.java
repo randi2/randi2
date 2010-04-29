@@ -59,7 +59,7 @@ public class AclHibernateTest {
 		ObjectIdentityHibernate oI = new ObjectIdentityHibernate(Login.class, 1);
 		acl.setObjectIdentity(oI);
 		assertNotNull(acl.getObjectIdentity());
-		assertEquals(oI.getJavaType(), acl.getObjectIdentity().getJavaType());
+		assertEquals(oI.getType(), acl.getObjectIdentity().getType());
 		assertEquals(oI.getIdentifier(), acl.getObjectIdentity()
 				.getIdentifier());
 	}
@@ -108,71 +108,29 @@ public class AclHibernateTest {
 		assertEquals(11, acl.getEntries().size());
 
 		// run with other permissions and one correct sid
-		List<PermissionHibernate> permissions = new ArrayList<PermissionHibernate>();
-		permissions.add(PermissionHibernate.CREATE);
-		permissions.add(PermissionHibernate.DELETE);
-		permissions.add(PermissionHibernate.WRITE);
-		List<SidHibernate> sids = new ArrayList<SidHibernate>();
-		sids.add(new SidHibernate("test1"));
-		sids.add(new SidHibernate("test2"));
-		sids.add(new SidHibernate("test3"));
-		sids.add(new SidHibernate("test4"));
-		sids.add(acl.getOwner());
 		try {
-			acl.isGranted(permissionsOf(), sidsOf(), false);
+			acl.isGranted(permissionsOf(PermissionHibernate.CREATE, PermissionHibernate.DELETE, PermissionHibernate.WRITE), sidsOf(new SidHibernate("test1"),new SidHibernate("test2"),new SidHibernate("test3"),new SidHibernate("test4"), acl.getOwner()), false);
 			fail("Acl should throw a exception");
 		} catch (NotFoundException e) {
-		}
+		} 
 
 		//run with correct permission and incorrect sid 
-		permissions = new ArrayList<PermissionHibernate>();
-		permissions.add(PermissionHibernate.ADMINISTRATION);
-		permissions.add(PermissionHibernate.CREATE);
-		permissions.add(PermissionHibernate.DELETE);
-		permissions.add(PermissionHibernate.WRITE);
-		permissions.add(PermissionHibernate.READ);
-		sids = new ArrayList<SidHibernate>();
-		sids.add(new SidHibernate("test1"));
-		sids.add(new SidHibernate("test2"));
-		sids.add(new SidHibernate("test3"));
-		sids.add(new SidHibernate("test4"));
 		try {
-			acl.isGranted(permissionsOf(), sidsOf(), false);
+			acl.isGranted(permissionsOf(PermissionHibernate.ADMINISTRATION,PermissionHibernate.CREATE, PermissionHibernate.DELETE, PermissionHibernate.WRITE,PermissionHibernate.READ ), sidsOf(new SidHibernate("test1"),new SidHibernate("test2"),new SidHibernate("test3"),new SidHibernate("test4")), false);
 			fail("Acl should throw a exception");
 		} catch (NotFoundException e) {
 		}
 
-		permissions = new ArrayList<PermissionHibernate>();
-		permissions.add(PermissionHibernate.CREATE);
-		permissions.add(PermissionHibernate.DELETE);
-		permissions.add(PermissionHibernate.WRITE);
-		permissions.add(PermissionHibernate.READ);
-		sids = new ArrayList<SidHibernate>();
-		sids.add(new SidHibernate("test1"));
-		sids.add(new SidHibernate("test2"));
-		sids.add(new SidHibernate("test3"));
-		sids.add(new SidHibernate("test4"));
-		sids.add(acl.getOwner());
+		
 		try {
-			assertTrue(acl.isGranted(permissionsOf(), sidsOf(), false));
+			assertTrue(acl.isGranted(permissionsOf(PermissionHibernate.CREATE, PermissionHibernate.DELETE, PermissionHibernate.WRITE,PermissionHibernate.READ ), sidsOf(new SidHibernate("test1"),new SidHibernate("test2"),new SidHibernate("test3"),new SidHibernate("test4"),acl.getOwner()), false));
 		} catch (NotFoundException e) {
 			fail("Acl should grant");
 		}
 		
 		//ace granted = false
-		permissions = new ArrayList<PermissionHibernate>();
-		permissions.add(PermissionHibernate.ADMINISTRATION);
-		permissions.add(PermissionHibernate.CREATE);
-		permissions.add(PermissionHibernate.DELETE);
-		permissions.add(PermissionHibernate.WRITE);
-		sids = new ArrayList<SidHibernate>();
-		sids.add(new SidHibernate("test1"));
-		sids.add(new SidHibernate("test2"));
-		sids.add(new SidHibernate("test3"));
-		sids.add(new SidHibernate("test4"));
-		sids.add(acl.getOwner());
 		try {
-			assertFalse(acl.isGranted(permissionsOf(), sidsOf(), false));
+			assertFalse(acl.isGranted(permissionsOf(PermissionHibernate.ADMINISTRATION,PermissionHibernate.CREATE, PermissionHibernate.DELETE, PermissionHibernate.WRITE), sidsOf(new SidHibernate("test1"),new SidHibernate("test2"),new SidHibernate("test3"),new SidHibernate("test4"),acl.getOwner()), false));
 		} catch (NotFoundException e) {
 			fail("Acl should grant");
 		}
