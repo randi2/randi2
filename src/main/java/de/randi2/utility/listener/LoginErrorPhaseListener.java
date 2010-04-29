@@ -21,10 +21,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
- 
-import org.springframework.security.BadCredentialsException;
-import org.springframework.security.LockedException;
-import org.springframework.security.ui.AbstractProcessingFilter;
+
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
+import org.springframework.security.web.authentication.AbstractProcessingFilter;
 
 import de.randi2.jsf.supportBeans.Randi2;
  

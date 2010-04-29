@@ -3,9 +3,7 @@ package de.randi2.model.security;
 import static junit.framework.Assert.assertEquals;
 
 import org.junit.Test;
-import org.springframework.security.acls.AclFormattingUtils;
-
-import de.randi2.model.security.PermissionHibernate;
+import org.springframework.security.acls.domain.AclFormattingUtils;
 
 
 public class PermissionHibernateTest {

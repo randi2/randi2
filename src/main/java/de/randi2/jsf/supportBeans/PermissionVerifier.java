@@ -17,13 +17,14 @@
  */
 package de.randi2.jsf.supportBeans;
 
+import static de.randi2.utility.security.ArrayListHelper.permissionsOf;
+import static de.randi2.utility.security.ArrayListHelper.sidsOf;
 import lombok.Setter;
 
-import org.springframework.security.acls.Acl;
-import org.springframework.security.acls.AclService;
-import org.springframework.security.acls.NotFoundException;
-import org.springframework.security.acls.sid.PrincipalSid;
-import org.springframework.security.acls.sid.Sid;
+import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.Acl;
+import org.springframework.security.acls.model.AclService;
+import org.springframework.security.acls.model.NotFoundException;
 
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
@@ -86,12 +87,12 @@ public class PermissionVerifier {
 		try {
 			Acl acl = aclService.readAclById(new ObjectIdentityHibernate(
 					TrialSite.class, trialSite.getId()),
-					new Sid[] { new PrincipalSid(loginHandler.getLoggedInUser()
-							.getUsername()) });
+					sidsOf(new PrincipalSid(loginHandler.getLoggedInUser()
+							.getUsername()) ));
 			return acl.isGranted(
-					new PermissionHibernate[] { PermissionHibernate.WRITE, PermissionHibernate.ADMINISTRATION },
-					new Sid[] { new PrincipalSid(loginHandler.getLoggedInUser()
-							.getUsername()) }, false);
+					permissionsOf(PermissionHibernate.WRITE, PermissionHibernate.ADMINISTRATION ),
+					sidsOf( new PrincipalSid(loginHandler.getLoggedInUser()
+							.getUsername()) ), false);
 		} catch (NotFoundException e) {
 			return false;
 		}
@@ -101,12 +102,12 @@ public class PermissionVerifier {
 		try {
 			Acl acl = aclService.readAclById(new ObjectIdentityHibernate(
 					Login.class, user.getId()),
-					new Sid[] { new PrincipalSid(loginHandler.getLoggedInUser()
-							.getUsername()) });
+					sidsOf( new PrincipalSid(loginHandler.getLoggedInUser()
+							.getUsername()) ));
 			return acl.isGranted(
-					new PermissionHibernate[] { PermissionHibernate.WRITE, PermissionHibernate.ADMINISTRATION },
-					new Sid[] { new PrincipalSid(loginHandler.getLoggedInUser()
-							.getUsername()) }, false);
+					permissionsOf(PermissionHibernate.WRITE, PermissionHibernate.ADMINISTRATION ),
+					sidsOf( new PrincipalSid(loginHandler.getLoggedInUser()
+							.getUsername()) ), false);
 		} catch (NotFoundException e) {
 			return false;
 		}

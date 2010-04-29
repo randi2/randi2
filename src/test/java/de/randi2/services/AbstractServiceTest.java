@@ -9,10 +9,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
-import org.springframework.security.providers.dao.salt.SystemWideSaltSource;
-import org.springframework.security.providers.encoding.PasswordEncoder;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.dao.SystemWideSaltSource;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -110,7 +111,7 @@ public abstract class AbstractServiceTest {
 	protected void authenticatAsAdmin(){
 		admin = findLogin("admin@test.de");
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"admin@test.de", admin, admin.getAuthorities());
+				"admin@test.de", admin, admin.getAuthorities().toArray(new GrantedAuthority[]{}));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()

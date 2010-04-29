@@ -19,12 +19,13 @@ package de.randi2.model.security;
 
 
 import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 
 import lombok.Data;
 
-import org.springframework.security.acls.AclFormattingUtils;
-import org.springframework.security.acls.Permission;
+import org.springframework.security.acls.domain.AclFormattingUtils;
+import org.springframework.security.acls.model.Permission;
 
 @Embeddable
 @Data

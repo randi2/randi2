@@ -17,19 +17,20 @@
  */
 package de.randi2.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.acls.Acl;
-import org.springframework.security.acls.AclService;
-import org.springframework.security.acls.NotFoundException;
-import org.springframework.security.acls.objectidentity.ObjectIdentity;
-import org.springframework.security.acls.sid.GrantedAuthoritySid;
-import org.springframework.security.acls.sid.PrincipalSid;
-import org.springframework.security.acls.sid.Sid;
+import org.springframework.security.acls.domain.GrantedAuthoritySid;
+import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.Acl;
+import org.springframework.security.acls.model.AclService;
+import org.springframework.security.acls.model.NotFoundException;
+import org.springframework.security.acls.model.ObjectIdentity;
+import org.springframework.security.acls.model.Sid;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,8 +53,12 @@ public class HibernateAclService implements AclService {
 	 * @see org.springframework.security.acls.AclService#findChildren(org.springframework.security.acls.objectidentity.ObjectIdentity)
 	 */
 	@Override
-	public ObjectIdentity[] findChildren(ObjectIdentity arg0) {
-		return new ObjectIdentityHibernate[0];
+	public List<ObjectIdentity> findChildren(ObjectIdentity arg0) {
+		List<ObjectIdentity> list = new ArrayList<ObjectIdentity>();
+		for(ObjectIdentityHibernate oi : new ObjectIdentityHibernate[0]){
+			list.add(oi);
+		}
+		return list;
 	}
 
 	/* (non-Javadoc)
@@ -70,7 +75,7 @@ public class HibernateAclService implements AclService {
 	@Override
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
-	public Acl readAclById(ObjectIdentity object, Sid[] sids)
+	public Acl readAclById(ObjectIdentity object, List<Sid> sids)
 			throws NotFoundException {
 		String sidname = null;
 		for (Sid sid : sids) {
@@ -82,7 +87,7 @@ public class HibernateAclService implements AclService {
 			if (sidname != null) {
 				List<Acl> list = sessionFactory.getCurrentSession()
 				.getNamedQuery("acl.findAclByObjectIdentityAndSid").setParameter(0, sidname)
-				.setParameter(1, object.getIdentifier()).setParameter(2, object.getJavaType()).list();
+				.setParameter(1, object.getIdentifier()).setParameter(2, object.getType()).list();
 				if (list.size() == 1) {
 					return list.get(0);
 				}
@@ -95,7 +100,7 @@ public class HibernateAclService implements AclService {
 	 * @see org.springframework.security.acls.AclService#readAclsById(org.springframework.security.acls.objectidentity.ObjectIdentity[])
 	 */
 	@Override
-	public Map<?,?> readAclsById(ObjectIdentity[] arg0) throws NotFoundException {
+	public Map<ObjectIdentity, Acl> readAclsById(List<ObjectIdentity> arg0) throws NotFoundException {
 		return null;
 	}
 
@@ -103,7 +108,7 @@ public class HibernateAclService implements AclService {
 	 * @see org.springframework.security.acls.AclService#readAclsById(org.springframework.security.acls.objectidentity.ObjectIdentity[], org.springframework.security.acls.sid.Sid[])
 	 */
 	@Override
-	public Map<?,?> readAclsById(ObjectIdentity[] arg0, Sid[] arg1)
+	public Map<ObjectIdentity, Acl> readAclsById(List<ObjectIdentity> arg0, List<Sid> arg1)
 			throws NotFoundException {
 		return null;
 	}
@@ -213,8 +218,8 @@ public class HibernateAclService implements AclService {
 	@SuppressWarnings("unchecked")
 	private ObjectIdentityHibernate createObjectIdentityIfNotSaved(
 			AbstractDomainObject object) {
-		List<ObjectIdentityHibernate> list = sessionFactory.getCurrentSession().createQuery("from ObjectIdentityHibernate where identifier = :identifier and javaType = :javaType")
-		.setParameter("identifier", object.getId()).setParameter("javaType", object.getClass()).list();
+		List<ObjectIdentityHibernate> list = sessionFactory.getCurrentSession().createQuery("from ObjectIdentityHibernate where identifier = :identifier and type = :type")
+		.setParameter("identifier", object.getId()).setParameter("type", object.getClass().getCanonicalName()).list();
 		if (list.size() == 1) {
 			return list.get(0);
 		} else {

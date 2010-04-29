@@ -3,7 +3,7 @@
 	xmlns:sec="http://www.springframework.org/schema/security"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.5.xsd">
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
 
 <!-- ################################# Config for the different access decision manager #########################  -->
@@ -11,7 +11,7 @@
 	<!-- =============================== BEGIN ACCESSDECISIONMANAGER ============================ -->
 
 	<bean id="httpAccessDecisionManager"
-		class="org.springframework.security.vote.AffirmativeBased">
+		class="org.springframework.security.access.vote.AffirmativeBased">
 		<property name="allowIfAllAbstainDecisions" value="false" />
 		<property name="decisionVoters">
 			<list>
@@ -21,7 +21,7 @@
 	</bean>
 	
 	<bean id="methodAccessDecisionManager"
-		class="org.springframework.security.vote.AffirmativeBased">
+		class="org.springframework.security.access.vote.AffirmativeBased">
 		<property name="allowIfAllAbstainDecisions" value="true" />
 		<property name="decisionVoters">
 			<list>
