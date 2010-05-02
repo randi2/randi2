@@ -194,4 +194,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
+	
+	<resource-ref>
+		<res-ref-name>jdbc/randi2</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+	</resource-ref>
 </web-app>

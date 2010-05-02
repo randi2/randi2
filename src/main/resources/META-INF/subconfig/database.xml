@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:jee="http://www.springframework.org/schema/jee"
-       xsi:schemaLocation="
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://www.springframework.org/schema/jee
        http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
 
-    <!-- Datasource jndi-name IF AND ONLY IF the tests are executed outside of maven. -->
-    <!-- Otherwise this properties will be ignored, as placeholder will be replaced at  -->
-    <!-- compile time by maven.                                                         -->
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="properties">
-            <value>
-                <![CDATA[[
-                datasource.jndi-name=randi2/jdbc/datasource
-            ]]></value>
-        </property>
-    </bean>
-
-    <jee:jndi-lookup id="dataSource" jndi-name="${datasource.jndi-name}" />
+	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/randi2" lookup-on-startup="true"/>
 
 </beans>
