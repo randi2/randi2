@@ -681,18 +681,6 @@
     <profiles>
 
         <profile>
-            <id>default-production-datasource-jndi-name</id>
-            <activation>
-                <property>
-                    <name>!datasource.jndi-name</name>
-                </property>
-            </activation>
-            <properties>
-                <datasource.jndi-name>randi2/jdbc/datasource</datasource.jndi-name>
-            </properties>
-        </profile>
-
-        <profile>
             <id>hsqldb-test</id>
             <activation>
                 <property>
@@ -730,6 +718,7 @@
                     <groupId>mysql</groupId>
                     <artifactId>mysql-connector-java</artifactId>
                     <version>${mysql5.version}</version>
+                    <scope>test</scope>
                 </dependency>
             </dependencies>
         </profile>
@@ -752,6 +741,7 @@
                     <groupId>postgresql</groupId>
                     <artifactId>postgresql</artifactId>
                     <version>${postgresql84.version}</version>
+                    <scope>test</scope>
                 </dependency>
             </dependencies>
         </profile>
