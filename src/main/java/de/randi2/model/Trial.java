@@ -36,6 +36,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
@@ -64,6 +65,7 @@ import de.randi2.utility.validations.DateDependence;
 @Configurable
 @DateDependence(firstDate = "startDate", secondDate = "endDate")
 @EqualsAndHashCode(callSuper=true, exclude={"randomConf", "participatingSites", "sponsorInvestigator", "subjectCriteria"})
+@NamedQuery(name = "trial.AllTrialsWithSpecificParticipatingTrialSite", query = "select trial from Trial as trial join trial.participatingSites site where site.id = ?")
 public class Trial extends AbstractDomainObject {
 
 	/** The Constant serialVersionUID. */

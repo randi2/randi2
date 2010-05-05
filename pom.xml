@@ -5,7 +5,7 @@
     <groupId>de.randi2</groupId>
     <artifactId>RANDI2</artifactId>
     <packaging>war</packaging>
-    <version>0.7-SNAPSHOT</version>
+    <version>0.6.1</version>
     <name>RANDI2</name>
     <description>Online Randomization for Clinical Trials</description>
     <url>http://randi2.org</url>
@@ -136,8 +136,8 @@
         <!-- Compiler Settings -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Version Shortcuts -->
-        <org.springframework.version>3.0.0.RELEASE</org.springframework.version>
-        <org.springframework.security.version>2.0.5.RELEASE</org.springframework.security.version>
+        <org.springframework.version>3.0.2.RELEASE</org.springframework.version>
+        <org.springframework.security.version>3.0.2.RELEASE</org.springframework.security.version>
         <mysql5.version>5.1.9</mysql5.version>
         <postgresql84.version>8.4-701.jdbc4</postgresql84.version>
         <hsqldb.version>1.8.0.7</hsqldb.version>
@@ -233,7 +233,12 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core-tiger</artifactId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${org.springframework.security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
             <version>${org.springframework.security.version}</version>
         </dependency>
         <dependency>
@@ -340,7 +345,7 @@
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
-            <version>1.2.2</version>
+            <version>1.4</version>
         </dependency>
 
         <!-- Project Lombok to avoid boilerplate -->

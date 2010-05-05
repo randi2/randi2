@@ -17,9 +17,9 @@
  */
 package de.randi2.model;
 
+import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;
 
@@ -38,10 +38,10 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.GrantedAuthorityImpl;
-import org.springframework.security.acls.Permission;
-import org.springframework.security.userdetails.UserDetails;
+import org.springframework.security.acls.model.Permission;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import de.randi2.model.security.PermissionHibernate;
 import de.randi2.utility.validations.EMailRANDI2;
@@ -55,7 +55,7 @@ import de.randi2.utility.validations.Password;
 		@NamedQuery(name = "login.AllLoginsWithRolesAndTrialSiteScope", query = "select login from Login as login join login.roles role join login.person.trialSite trialSite where role.scopeTrialSiteView = true AND trialSite.id = ? group by login"),
 		@NamedQuery(name = "login.AllLoginsWithRolesAndNotTrialSiteScope", query = "select login from Login as login join login.roles role where role.scopeTrialSiteView = false AND not (role.name = 'ROLE_USER') group by login"),
 		@NamedQuery(name = "login.LoginsWriteOtherUser", query = "select login from Login as login join login.roles role where role.writeOtherUser = true group by login"),
-		@NamedQuery(name = "login.LoginsWithPermission", query = "from Login as login where login.username in (select ace.sid.sidname from AccessControlEntryHibernate as ace where ace.acl.objectIdentity.javaType = ? and ace.acl.objectIdentity.identifier = ? and ace.permission = ?)") })
+		@NamedQuery(name = "login.LoginsWithPermission", query = "from Login as login where login.username in (select ace.sid.sidname from AccessControlEntryHibernate as ace where ace.acl.objectIdentity.type = ? and ace.acl.objectIdentity.identifier = ? and ace.permission = ?)") })
 
 
 @EqualsAndHashCode(callSuper=true)
@@ -124,18 +124,12 @@ public  @Data class  Login extends AbstractDomainObject implements UserDetails {
 	 * @see org.springframework.security.userdetails.UserDetails#getAuthorities()
 	 */
 	@Override
-	public GrantedAuthority[] getAuthorities() {
-		GrantedAuthority[] gaa = new GrantedAuthorityImpl[roles.size()];
-		Iterator<Role> it = roles.iterator();
-		int i = 0;
-		while (it.hasNext()) {
-			GrantedAuthorityImpl ga = new GrantedAuthorityImpl(it.next()
-					.getName());
-			gaa[i] = ga;
-
-			i++;
+	public Collection<GrantedAuthority> getAuthorities() {
+		Collection<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
+		for (Role role : roles) {
+			grantedAuthorities.add(new GrantedAuthorityImpl(role.getName()));
 		}
-		return gaa;
+		return grantedAuthorities;
 	}
 
 	/* (non-Javadoc)

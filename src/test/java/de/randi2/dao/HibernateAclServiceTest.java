@@ -8,19 +8,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.security.acls.Acl;
-import org.springframework.security.acls.sid.PrincipalSid;
+import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.Acl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import de.randi2.dao.HibernateAclService;
 import de.randi2.model.Login;
 import de.randi2.model.TrialSite;
 import de.randi2.model.security.AclHibernate;
 import de.randi2.model.security.ObjectIdentityHibernate;
 import de.randi2.model.security.PermissionHibernate;
 import de.randi2.test.utility.DomainObjectFactory;
-import de.randi2.test.utility.TestStringUtil;
+
+import static de.randi2.utility.security.ArrayListHelper.sidsOf;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml", "/META-INF/subconfig/security.xml" })
@@ -72,9 +72,9 @@ public class HibernateAclServiceTest {
 		 AclHibernate acl =  aclService.createAclwithPermissions(trialsite, login.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ});
 		assertTrue(acl.getId()>0);
 		assertEquals(1, acl.getAces().size());
-		Acl newAcl = aclService.readAclById(new ObjectIdentityHibernate(trialsite.getClass(),trialsite.getId()), new PrincipalSid[]{new PrincipalSid(login.getUsername())});
-		assertEquals(1,newAcl.getEntries().length);
-		assertEquals(PermissionHibernate.READ.getMask(), newAcl.getEntries()[0].getPermission().getMask());
+		Acl newAcl = aclService.readAclById(new ObjectIdentityHibernate(trialsite.getClass(),trialsite.getId()), sidsOf(new PrincipalSid(login.getUsername())));
+		assertEquals(1,newAcl.getEntries().size());
+		assertEquals(PermissionHibernate.READ.getMask(), newAcl.getEntries().get(0).getPermission().getMask());
 	}
 	
 }

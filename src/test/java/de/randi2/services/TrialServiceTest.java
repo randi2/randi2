@@ -9,8 +9,9 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import de.randi2.model.Login;
 import de.randi2.model.Role;
@@ -341,7 +342,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		 * Randomizing the subjects using the service method.
 		 */
 		int expectedAmount = 50;
-		System.out.println("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " randomized in trial " +t.getName());
+//		System.out.println("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " randomized in trial " +t.getName());
 		for(int i=0;i<expectedAmount;i++){
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
@@ -359,7 +360,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		 * Signing in the newly created user.
 		 */
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				e, l, l.getAuthorities());
+				e, l, l.getAuthorities().toArray(new GrantedAuthority[]{}));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()
@@ -368,7 +369,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		 * Randomizing another set of subjects
 		 */
 		int nextSet = 40;
-		System.out.println("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " randomized in trial " +t.getName());
+//		System.out.println("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " randomized in trial " +t.getName());
 		for(int i=0;i<nextSet;i++){
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("anotherId" + i);

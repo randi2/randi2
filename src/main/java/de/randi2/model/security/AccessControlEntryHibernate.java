@@ -29,8 +29,8 @@ import javax.persistence.ManyToOne;
 
 import lombok.Data;
 
-import org.springframework.security.acls.AccessControlEntry;
-import org.springframework.security.acls.Acl;
+import org.springframework.security.acls.model.AccessControlEntry;
+import org.springframework.security.acls.model.Acl;
 
 
 @Entity

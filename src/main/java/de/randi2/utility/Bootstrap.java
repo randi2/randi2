@@ -28,11 +28,12 @@ import java.util.Set;
 import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
-import org.springframework.security.providers.dao.salt.ReflectionSaltSource;
-import org.springframework.security.providers.dao.salt.SystemWideSaltSource;
-import org.springframework.security.providers.encoding.PasswordEncoder;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.dao.ReflectionSaltSource;
+import org.springframework.security.authentication.dao.SystemWideSaltSource;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import de.randi2.dao.LoginDaoHibernate;
 import de.randi2.dao.TrialSiteDaoHibernate;
@@ -195,7 +196,7 @@ public class Bootstrap {
 		rolesAndRights.grantRigths(trialSite, trialSite);
 
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"anonymousUser", adminL, adminL.getAuthorities());
+				"anonymousUser", adminL, adminL.getAuthorities().toArray(new GrantedAuthority[]{}));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()
@@ -317,7 +318,7 @@ public class Bootstrap {
 		ManagedSessionContext.unbind(sessionFactory);
 		ManagedSessionContext.bind(sessionFactory.openSession());
 		authToken = new AnonymousAuthenticationToken("anonymousUser",
-				userLPInv, userLPInv.getAuthorities());
+				userLPInv, userLPInv.getAuthorities().toArray(new GrantedAuthority[]{}));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()
@@ -434,9 +435,9 @@ public class Bootstrap {
 			}
 			// Authorizing the investigator for upcoming randomization
 			AnonymousAuthenticationToken at = tr1 ? new AnonymousAuthenticationToken(
-					"anonymousUser", userLInv, userLInv.getAuthorities())
+					"anonymousUser", userLInv, userLInv.getAuthorities().toArray(new GrantedAuthority[]{}))
 					: new AnonymousAuthenticationToken("anonymousUser",
-							userLInv2, userLInv2.getAuthorities());
+							userLInv2, userLInv2.getAuthorities().toArray(new GrantedAuthority[]{}));
 			SecurityContextHolder.getContext().setAuthentication(at);
 			SecurityContextHolder.getContext().getAuthentication()
 					.setAuthenticated(true);

@@ -22,10 +22,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.annotation.Secured;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.dao.salt.SystemWideSaltSource;
-import org.springframework.security.providers.encoding.PasswordEncoder;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.dao.SystemWideSaltSource;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

@@ -17,18 +17,23 @@
  */
 package de.randi2.aspects;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.AccessDeniedException;
-import org.springframework.security.acls.Acl;
-import org.springframework.security.acls.AclService;
-import org.springframework.security.acls.NotFoundException;
-import org.springframework.security.acls.sid.PrincipalSid;
-import org.springframework.security.acls.sid.Sid;
-import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.acls.domain.PrincipalSid;
+import org.springframework.security.acls.model.Acl;
+import org.springframework.security.acls.model.AclService;
+import org.springframework.security.acls.model.NotFoundException;
+import org.springframework.security.acls.model.Permission;
+import org.springframework.security.acls.model.Sid;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +41,9 @@ import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.security.ObjectIdentityHibernate;
 import de.randi2.model.security.PermissionHibernate;
+
+import static de.randi2.utility.security.ArrayListHelper.permissionsOf;
+import static de.randi2.utility.security.ArrayListHelper.sidsOf;
 
 /**
  * The Class SecurityAspects.
@@ -70,23 +78,23 @@ public class SecurityAspects {
 
 		try {
 			Acl acl = aclService.readAclById(new ObjectIdentityHibernate(
-					Trial.class, trial.getId()), new Sid[] { new PrincipalSid(
-					SecurityContextHolder.getContext().getAuthentication()) });
-			allowedReadTrial = acl.isGranted(new PermissionHibernate[] {
+					Trial.class, trial.getId()), sidsOf(new PrincipalSid(
+					SecurityContextHolder.getContext().getAuthentication())));
+			allowedReadTrial = acl.isGranted(permissionsOf(
 					PermissionHibernate.READ,
-					PermissionHibernate.ADMINISTRATION },
-					new Sid[] { new PrincipalSid(SecurityContextHolder
-							.getContext().getAuthentication()) }, false);
+					PermissionHibernate.ADMINISTRATION),
+					sidsOf( new PrincipalSid(SecurityContextHolder
+							.getContext().getAuthentication())), false);
 			
 			if(allowedReadTrial){
 				 acl = aclService.readAclById(new ObjectIdentityHibernate(
-						TrialSubject.class, subject.getId()), new Sid[] { new PrincipalSid(
-						SecurityContextHolder.getContext().getAuthentication()) });
-				boolean allowedRandomize = acl.isGranted(new PermissionHibernate[] {
+						TrialSubject.class, subject.getId()), sidsOf( new PrincipalSid(
+						SecurityContextHolder.getContext().getAuthentication())));
+				boolean allowedRandomize = acl.isGranted(permissionsOf(
 						PermissionHibernate.CREATE,
-						PermissionHibernate.ADMINISTRATION },
-						new Sid[] { new PrincipalSid(SecurityContextHolder
-								.getContext().getAuthentication()) }, false);
+						PermissionHibernate.ADMINISTRATION),
+						sidsOf( new PrincipalSid(SecurityContextHolder
+								.getContext().getAuthentication())), false);
 				if(allowedRandomize){
 					return pjp.proceed();
 				}

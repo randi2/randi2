@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:sec="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
 
 
@@ -12,21 +12,25 @@
 		=========================
 	-->
 
-	<sec:http access-decision-manager-ref="httpAccessDecisionManager"
-		session-fixation-protection="none">
+	<sec:http access-decision-manager-ref="httpAccessDecisionManager">
 		<sec:form-login login-page="/login.jspx"
 			default-target-url="/randi2.jspx" authentication-failure-url="/login.jspx"
 			login-processing-url="/j_spring_security_check" />
 		<sec:intercept-url pattern="/randi2.jspx" access="ROLE_USER"
 			requires-channel="any" />
-		<sec:concurrent-session-control
-			max-sessions="1" />
+		<sec:session-management
+			session-fixation-protection="none">
+			<sec:concurrency-control max-sessions="1" />
+		</sec:session-management>
 		<sec:logout logout-success-url="/goodbye.jspx" />
 	</sec:http>
 
+	<sec:authentication-manager alias="authenticationManager">
+		<sec:authentication-provider ref="authenticationProvider" />
+	</sec:authentication-manager>
+
 	<bean id="authenticationProvider"
 		class="de.randi2.utility.security.DaoAuthenticationProviderWithLock">
-		<sec:custom-authentication-provider />
 		<property name="userDetailsService">
 			<bean class="de.randi2.dao.UserDetailsServiceImpl"></bean>
 		</property>
@@ -36,7 +40,7 @@
 
 	<!-- The passwords will be hashed with the SHA-256 algorithm -->
 	<bean id="passwordEncoder"
-		class="org.springframework.security.providers.encoding.ShaPasswordEncoder">
+		class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
 		<constructor-arg value="256" />
 	</bean>
 
@@ -45,7 +49,7 @@
 		object-dependent "salt"
 	-->
 	<bean id="saltSourceUser"
-		class="org.springframework.security.providers.dao.salt.ReflectionSaltSource">
+		class="org.springframework.security.authentication.dao.ReflectionSaltSource">
 		<property name="userPropertyToUse" value="username"></property>
 	</bean>
 
@@ -54,7 +58,7 @@
 		object-dependent "salt"
 	-->
 	<bean id="saltSourceTrialSite"
-		class="org.springframework.security.providers.dao.salt.SystemWideSaltSource">
+		class="org.springframework.security.authentication.dao.SystemWideSaltSource">
 		<property name="systemWideSalt" value="DSJGEWI8SDG46ASGJAER436234ERDFZHS9346" />
 	</bean>
 

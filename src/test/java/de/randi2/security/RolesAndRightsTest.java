@@ -58,9 +58,9 @@ public class RolesAndRightsTest {
 		boolean hasRightPerson = false;
 		for(AclHibernate acl: acls){
 			if (acl.getObjectIdentity().getIdentifier()==AbstractDomainObject.NOT_YET_SAVED_ID){
-				if(acl.getObjectIdentity().getJavaType().equals(Login.class)){
+				if(acl.getObjectIdentity().getType().equals(Login.class.getCanonicalName())){
 					hasRightLogin = true;
-				}else if(acl.getObjectIdentity().getJavaType().equals(Person.class)){
+				}else if(acl.getObjectIdentity().getType().equals(Person.class.getCanonicalName())){
 					hasRightPerson = true;
 				}
 			}

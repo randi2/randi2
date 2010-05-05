@@ -9,11 +9,12 @@ import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
-import org.springframework.security.providers.dao.salt.SystemWideSaltSource;
-import org.springframework.security.providers.encoding.PasswordEncoder;
-import org.springframework.security.vote.AffirmativeBased;
+import org.springframework.security.access.vote.AffirmativeBased;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.dao.SystemWideSaltSource;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import de.randi2.model.Login;
 import de.randi2.model.Person;
@@ -112,7 +113,7 @@ public class TrialSiteServiceTest extends AbstractServiceTest {
 		newUser.setPerson(new Person());
 		newUser.addRole(Role.ROLE_ANONYMOUS);
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"anonymousUser", newUser, newUser.getAuthorities());
+				"anonymousUser", newUser, newUser.getAuthorities().toArray(new GrantedAuthority[]{}));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()
