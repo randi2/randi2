@@ -1,7 +1,10 @@
 package de.randi2.simulation.distribution;
 
 import static junit.framework.Assert.*;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -45,6 +48,25 @@ public class ConcreteDistributionTest {
 			testConcreteDistribution(new ConcreteDistribution<Integer>(Arrays.asList(0,1,2,3), 5,5,2,1));
 			testConcreteDistribution(new ConcreteDistribution<Integer>(Pair.of(0, 5),Pair.of(1, 5),Pair.of(2, 2),Pair.of(3, 1)));
 		}
+	}
+	
+	@Test
+	public void testSeed(){
+		List<Integer> results = new ArrayList<Integer>();
+		ConcreteDistribution<Integer> cd = new ConcreteDistribution<Integer>(100, Arrays.asList(0,1,2,3), 2,5,2,1);
+		for(int i=0;i<1000;i++){
+			results.add(cd.getNextValue());
+		}
+		List<ConcreteDistribution<Integer>> cds = new ArrayList<ConcreteDistribution<Integer>>(); 
+		for(int i=0;i<100;i++){
+			cds.add(new ConcreteDistribution<Integer>(100, Arrays.asList(0,1,2,3), 2,5,2,1));
+		}
+		for(Integer result : results){
+			for(ConcreteDistribution<Integer> acd : cds){
+				assertEquals(result, acd.getNextValue());
+			}
+		}
+		
 	}
 	
 }
