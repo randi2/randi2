@@ -20,6 +20,7 @@ package de.randi2.utility.security;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
@@ -191,9 +192,9 @@ public class RolesAndRights {
 											r.getName());
 						}
 					}
+					
 				}
 			}
-
 		}
 	}
 
@@ -516,6 +517,21 @@ public class RolesAndRights {
 										new PermissionHibernate[] { PermissionHibernate.READ },
 										role.getName());
 					}
+					//other Trials
+					Query query = sessionFactory.getCurrentSession().getNamedQuery("trial.AllTrialsWithSpecificParticipatingTrialSite");
+					query = query.setParameter(0, login.getPerson().getTrialSite().getId());
+					String[] strings = query.getNamedParameters();
+					String string = query.getQueryString();
+					List<Trial> trials =   query.list();
+					for (Trial t : trials) {
+						aclService
+								.createAclwithPermissions(
+										t,
+										login.getUsername(),
+										new PermissionHibernate[] { PermissionHibernate.READ },
+										role.getName());
+					}
+					
 				}
 				} else {
 					List<Trial> list = sessionFactory.getCurrentSession()
