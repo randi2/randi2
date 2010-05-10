@@ -30,6 +30,9 @@ import lombok.Data;
 @Data
 public class ChartData {
 
+	public static final int MINIMUM_HEIGHT = 200;
+	public static final int HEIGHT_MULTIPLIER = 25;
+
 	/**
 	 * Description of the points on the X axis. The size of this list must be
 	 * equal the amount of the data-points. <managed-property>
@@ -45,17 +48,17 @@ public class ChartData {
 	 * values of the 3 functions at this point of time)
 	 */
 	private List<double[]> data;
-	
+
 	private double[] dataPieChart;
-	
+
 	/**
 	 * The height of the chart as String.
 	 */
-	public String getHeightChart(){
-		if(xLabels.size()>4){
-			return "" + (xLabels.size()*25);
-		}else{
-			return "200";
+	public String getHeightChart() {
+		int height = xLabels.size() * HEIGHT_MULTIPLIER;
+		if (height < MINIMUM_HEIGHT) {
+			height = MINIMUM_HEIGHT;
 		}
+		return String.valueOf(height);
 	}
 }
