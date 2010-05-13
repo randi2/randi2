@@ -564,6 +564,9 @@
                     <execution>
                         <id>integration-test</id>
                         <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
                         <configuration>
                             <skip>false</skip>
                             <excludes>
@@ -572,7 +575,7 @@
                             <includes>
                                 <include>**/ui/*Test.java</include>
                             </includes>
-                            <argLine>-Xms256m -Xmx512m -XX:PermSize=512m</argLine>
+                            <reportsDirectory>${project.build.directory}/surefire-it-reports</reportsDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -580,6 +583,7 @@
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>maven-jetty-plugin</artifactId>
+                <version>7.0.0.pre5</version>
                 <configuration>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
                     <stopKey>stopJetty</stopKey>
@@ -601,9 +605,14 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <port>8888</port>
                             <scanIntervalSeconds>0</scanIntervalSeconds>
                             <daemon>true</daemon>
+                            <connectors>
+                                <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                                    <port>8888</port>
+                                    <maxIdleTime>60000</maxIdleTime>
+                                </connector>
+                            </connectors>
                         </configuration>
                     </execution>
                     <execution>
