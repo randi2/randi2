@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+<!-- Jetty Integration Test JNDI Configuration -->
+<Configure class="org.mortbay.jetty.webapp.WebAppContext">
+
+    <!-- Embedded HSQLDB DataSource -->
+    <New id="randi2Datasource" class="org.mortbay.jetty.plus.naming.Resource">
+        <Arg>jdbc/randi2</Arg>
+        <Arg>
+            <New class="org.apache.commons.dbcp.BasicDataSource">
+                <Set name="driverClassName">org.hsqldb.jdbcDriver</Set>
+                <Set name="url">jdbc:hsqldb:mem:randi2</Set>
+                <Set name="username">sa</Set>
+                <Set name="password"></Set>
+            </New>
+        </Arg>
+    </New>
+
+</Configure>

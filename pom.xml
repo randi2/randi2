@@ -584,7 +584,15 @@
                     <scanIntervalSeconds>10</scanIntervalSeconds>
                     <stopKey>stopJetty</stopKey>
                     <stopPort>9999</stopPort>
+                    <jettyEnvXml>${project.basedir}/src/test/resources/jetty/jetty-env.xml</jettyEnvXml>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>hsqldb</groupId>
+                        <artifactId>hsqldb</artifactId>
+                        <version>${hsqldb.version}</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <id>start-jetty</id>
