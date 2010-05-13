@@ -138,7 +138,7 @@
         <!-- Version Shortcuts -->
         <org.springframework.version>3.0.2.RELEASE</org.springframework.version>
         <org.springframework.security.version>3.0.2.RELEASE</org.springframework.security.version>
-        <mysql5.version>5.1.9</mysql5.version>
+        <mysql5.version>5.1.12</mysql5.version>
         <postgresql84.version>8.4-701.jdbc4</postgresql84.version>
         <hsqldb.version>1.8.0.7</hsqldb.version>
     </properties>
