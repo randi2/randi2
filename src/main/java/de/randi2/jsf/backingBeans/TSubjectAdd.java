@@ -84,11 +84,9 @@ public class TSubjectAdd {
 		}
 	}
 
+	@Getter
 	private TrialSubject trialSubject = new TrialSubject();
 
-	public TrialSubject getTrialSubject() {
-		return trialSubject;
-	}
 
 	private ArrayList<CriterionWrapper<? extends Serializable>> properties = null;
 
