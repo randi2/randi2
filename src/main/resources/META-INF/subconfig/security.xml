@@ -9,25 +9,51 @@
 
 	<!--
 		======================= BEGINN Security for WEB
-		=========================
-	-->
+		=========================	
+-->
 
-	<sec:http access-decision-manager-ref="httpAccessDecisionManager">
-		<sec:form-login login-page="/login.jspx"
-			default-target-url="/randi2.jspx" authentication-failure-url="/login.jspx"
-			login-processing-url="/j_spring_security_check" />
-		<sec:intercept-url pattern="/randi2.jspx" access="ROLE_USER"
-			requires-channel="any" />
-		<sec:session-management
-			session-fixation-protection="none">
-			<sec:concurrency-control max-sessions="1" />
-		</sec:session-management>
-		<sec:logout logout-success-url="/goodbye.jspx" />
-	</sec:http>
 
 	<sec:authentication-manager alias="authenticationManager">
 		<sec:authentication-provider ref="authenticationProvider" />
 	</sec:authentication-manager>
+	
+
+	<bean id="springSecurityFilterChainProxy" class="org.springframework.security.web.FilterChainProxy">
+		<sec:filter-chain-map path-type="ant">
+			<sec:filter-chain filters="securityContextPersistenceFilter,formLoginFilter,logoutFilter"
+				pattern="/**" />
+		</sec:filter-chain-map>
+
+	</bean>
+
+<bean id="securityContextPersistenceFilter" class="org.springframework.security.web.context.SecurityContextPersistenceFilter" />
+
+	<bean id="formLoginFilter"
+		class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="authenticationSuccessHandler">
+			<bean
+				class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+				<property name="defaultTargetUrl" value="/randi2.jspx" />
+			</bean>
+		</property>
+		<property name="sessionAuthenticationStrategy">
+			<bean
+				class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy" />
+		</property>
+	</bean>
+
+
+	<bean id="logoutFilter"
+		class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<constructor-arg value="/goodbye.jspx" />
+		<constructor-arg>
+			<list>
+				<bean
+					class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+			</list>
+		</constructor-arg>
+	</bean>
 
 	<bean id="authenticationProvider"
 		class="de.randi2.utility.security.DaoAuthenticationProviderWithLock">
