@@ -7,8 +7,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 	<display-name>RANDI2</display-name>
 	<description>RANDI2 - Open Source Randomization Solution</description>
-	
-	
 
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
@@ -55,23 +53,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<param-name>com.icesoft.faces.heartbeatRetries</param-name>
 		<param-value>3</param-value>
 	</context-param>
-	
-	<!-- Currently not used /gMaps 
-	<context-param>
-		<description>
-			A Google Maps API key is required if gMap component is
-			used.
-			Sign up for an API key from
-			http://code.google.com/apis/maps/signup.html.
-		</description>
-		<param-name>com.icesoft.faces.gmapKey</param-name>
-		<param-value>
-			ABQIAAAADlu0ZiSTam64EKaCQr9eTRTOTuQNzJNXRlYRLknj4cQ89tFfpxTEqxQnVWL4k55OPICgF5_SOZE06A
-		</param-value>
-
-	</context-param>
-	-->
-	
 	<context-param>
 		<param-name>com.icesoft.faces.uploadDirectory</param-name>
 		<param-value>upload</param-value>
@@ -84,8 +65,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
 		<param-value>.jspx</param-value>
 	</context-param>
-  
-  <filter>
+
+	<filter>
 		<filter-name>springSecurityFilterChainProxy</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
@@ -94,7 +75,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<filter-name>springSecurityFilterChainProxy</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>hibernateFilter</filter-name>
 		<filter-class>de.randi2.utility.webfilter.HibernateWebFilter</filter-class>
@@ -118,12 +99,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<listener>
 		<listener-class>de.randi2.jsf.fileupload.InputFileSessionCleaner</listener-class>
 	</listener>
-	<!-- 
-	<listener>
-		<listener-class>
-			com.icesoft.faces.util.event.servlet.ContextEventRepeater</listener-class>
-	</listener>
-	 -->
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
@@ -176,15 +151,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>uploadServlet</servlet-name>
 		<url-pattern>/uploadHtml</url-pattern>
 	</servlet-mapping>
-	<!-- 
-	
-	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>/faces/*</url-pattern>
-	</servlet-mapping>
-	
-	 -->
-	
 	<servlet-mapping>
 		<servlet-name>Persistent Faces Servlet</servlet-name>
 		<url-pattern>/xmlhttp/* </url-pattern>
@@ -192,7 +158,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
-	
 	<resource-ref>
 		<res-ref-name>jdbc/randi2</res-ref-name>
 		<res-type>javax.sql.DataSource</res-type>

@@ -9,24 +9,26 @@
 
 	<!--
 		======================= BEGINN Security for WEB
-		=========================	
--->
+		=========================
+	-->
 
 
 	<sec:authentication-manager alias="authenticationManager">
 		<sec:authentication-provider ref="authenticationProvider" />
 	</sec:authentication-manager>
-	
+
 
 	<bean id="springSecurityFilterChainProxy" class="org.springframework.security.web.FilterChainProxy">
 		<sec:filter-chain-map path-type="ant">
-			<sec:filter-chain filters="securityContextPersistenceFilter,formLoginFilter,logoutFilter"
+			<sec:filter-chain
+				filters="securityContextPersistenceFilter,formLoginFilter,logoutFilter"
 				pattern="/**" />
 		</sec:filter-chain-map>
 
 	</bean>
 
-<bean id="securityContextPersistenceFilter" class="org.springframework.security.web.context.SecurityContextPersistenceFilter" />
+	<bean id="securityContextPersistenceFilter"
+		class="org.springframework.security.web.context.SecurityContextPersistenceFilter" />
 
 	<bean id="formLoginFilter"
 		class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">

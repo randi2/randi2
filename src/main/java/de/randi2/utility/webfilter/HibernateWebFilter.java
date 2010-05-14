@@ -18,7 +18,6 @@
 package de.randi2.utility.webfilter;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -38,67 +37,135 @@ import org.hibernate.context.ManagedSessionContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+/**
+ * This filter manages the hibernateSession to user object relation.
+ * <b>CONVERSATION PATTERN</b>
+ * 
+ * @author Lukasz Plotnicki <lp@randi2.de>
+ * 
+ */
 public class HibernateWebFilter implements Filter {
 
 	private Logger logger = Logger.getLogger(HibernateWebFilter.class);
+	/**
+	 * Session Factory injected via spring.
+	 */
 	private SessionFactory sf;
 
+	/**
+	 * Identifier for the hibernateSession within the httpSession
+	 */
 	public static final String HIBERNATE_SESSION_KEY = "hibernateSession";
+	/**
+	 * Use this attribute to end the conversation and detach the hibernate
+	 * session
+	 */
 	public static final String END_OF_CONVERSATION_FLAG = "endOfConversation";
 
+	/**
+	 * The HIBERNATE SESSION
+	 */
+	private Session hibernateSession;
+	/**
+	 * The HTTP SESSION
+	 */
+	private HttpSession httpSession;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
+	 * javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	 */
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		// Try to get a Hibernate Session from the HttpSession
-		HttpSession httpSession = ((HttpServletRequest) request).getSession();
-		Session hibernateSession = (Session) httpSession
+		httpSession = ((HttpServletRequest) request).getSession();
+		hibernateSession = (Session) httpSession
 				.getAttribute(HIBERNATE_SESSION_KEY);
 		logger.trace(httpSession.getId());
-//		try {
-			if (hibernateSession != null) {
-				if (!hibernateSession.isOpen()) {
-					hibernateSession = sf.openSession();
-					logger.debug("open Hibernate session (http session: " +httpSession.getId() + ")");
-					logger
-							.trace(httpSession.getId()
-									+ " >>> New conversation ");
-				} else {
-					logger.trace(httpSession.getId()
-							+ " < Continuing conversation ");
+		// try {
+		/*
+		 * A hibernateSession has been found in the current httpSession
+		 */
+		if (hibernateSession != null) {
+			/*
+			 * The found session is closed - a new will be opened - the
+			 * conversation begins
+			 */
+			if (!hibernateSession.isOpen()) {
+				createSession();
+				logger.debug("open Hibernate session (http session: "
+						+ httpSession.getId() + ")");
+				logger.trace(httpSession.getId() + " >>> New conversation ");
+				/*
+				 * Continue the conversation
+				 */
+			} else {
+				logger.trace(httpSession.getId()
+						+ " < Continuing conversation ");
+			}
+		}
+		/*
+		 * If the httpSession doesn't contain the hibernateSession a new one
+		 * will be created
+		 */
+		else {
+			createSession();
+			logger.trace(httpSession.getId() + " >>> New conversation");
+			logger.debug("open Hibernate session (http session: "
+					+ httpSession.getId() + ")");
+
+		}
+		/*
+		 * Binds the hibernateSession
+		 */
+		ManagedSessionContext
+				.bind((org.hibernate.classic.Session) hibernateSession);
+
+		/*
+		 * Go and do the work ...
+		 */
+		chain.doFilter(request, response);
+
+		/*
+		 * End or continue the long-running conversation?
+		 */
+		try {
+			/*
+			 * END_OF_CONVERSATION_FLAG found - the hibernate session will be
+			 * detached
+			 */
+			if (httpSession.getAttribute(END_OF_CONVERSATION_FLAG) != null) {
+				closeSession();
+			}
+			/*
+			 * The current hibernateSession will be stored in the httpSession
+			 */
+			else {
+				httpSession.setAttribute(HIBERNATE_SESSION_KEY, sf
+						.getCurrentSession());
+			}
+		} catch (Exception e) {
+			if (e instanceof IllegalStateException) {
+				logger.trace("Trace Exception", e);
+				if (sf.getCurrentSession().isOpen()) {
+					closeSession();
 				}
 			} else {
-				hibernateSession = sf.openSession();
-				logger.trace(httpSession.getId() + " >>> New conversation");
-				logger.debug("open Hibernate session (http session: " +httpSession.getId() + ")");
-				
+				logger.error("EEEEXCEPTION", e); // TODO Log it properly
+				closeSession();
+				httpSession.invalidate(); // TODO It would be nice to redirect
+											// the user to an error or loging
+											// page with an error message
 			}
-			hibernateSession.setFlushMode(FlushMode.MANUAL);
-			ManagedSessionContext
-					.bind((org.hibernate.classic.Session) hibernateSession);
-			// Do the work...
-			chain.doFilter(request, response);
-			// End or continue the long-running conversation?
-			try {
-				if (httpSession.getAttribute(END_OF_CONVERSATION_FLAG) != null) {
-					sf.getCurrentSession().flush();
-					sf.getCurrentSession().close(); // Unbind is automatic here
-					httpSession.setAttribute(HIBERNATE_SESSION_KEY, null);
-					//SecurityContextHolder.getContext().setAuthentication(null);
-					httpSession.removeAttribute(END_OF_CONVERSATION_FLAG);
-					logger.debug("Hibernate session closed (http session: " +httpSession.getId() + ")");
-				}else{
-					httpSession.setAttribute(HIBERNATE_SESSION_KEY, sf.getCurrentSession());
-				}
-			} catch (IllegalStateException e) {
-				logger.trace("Trace Exception", e);
-				if(sf.getCurrentSession().isOpen()){
-				sf.getCurrentSession().flush();
-				sf.getCurrentSession().close(); // Unbind is automatic here
-				logger.debug("Hibernate session closed (http session: " +httpSession.getId() + ")");
-				}
-				//SecurityContextHolder.getContext().setAuthentication(null);
-			}
+		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+	 */
 	public void init(FilterConfig filterConfig) throws ServletException {
 		WebApplicationContext wac = WebApplicationContextUtils
 				.getWebApplicationContext(filterConfig.getServletContext());
@@ -106,7 +173,38 @@ public class HibernateWebFilter implements Filter {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.Filter#destroy()
+	 */
 	public void destroy() {
+	}
+
+	/**
+	 * Opens new session using the session factory and configures it.
+	 */
+	private void createSession() {
+		hibernateSession = sf.openSession();
+		hibernateSession.setFlushMode(FlushMode.MANUAL);
+	}
+
+	/**
+	 * Closes the hibernate session and deletes it from the http session
+	 */
+	private void closeSession() {
+		try {
+			if (!sf.getCurrentSession().isOpen()) {
+				sf.getCurrentSession().flush();
+				sf.getCurrentSession().close(); // Unbind is automatic here
+			}
+			httpSession.setAttribute(HIBERNATE_SESSION_KEY, null);
+			httpSession.removeAttribute(END_OF_CONVERSATION_FLAG);
+			logger.debug("Hibernate session closed (http session: "
+					+ httpSession.getId() + ")");
+		} catch (HibernateException e) {
+			logger.error("dough!", e); // TODO Log it properly
+		}
 	}
 
 }
