@@ -48,4 +48,7 @@ public abstract class AbstractConstraint<V extends Object> extends AbstractDomai
 			return false;
 		}
 	}
+	
+	public abstract int hashCode();
+	public abstract boolean equals(Object o);
 }

@@ -40,5 +40,11 @@ public class BiasedCoinRandomizationConfig extends AbstractRandomizationConfig {
 	public RandomizationAlgorithm<BiasedCoinRandomizationConfig> createAlgorithm() {
 		return new BiasedCoinRandomization(super.getTrial());
 	}
+	
+	@Override
+		public RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm(
+				long seed) {
+		return new BiasedCoinRandomization(super.getTrial(), seed);
+		}
 
 }

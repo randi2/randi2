@@ -12,6 +12,9 @@
 	
 	<!-- Scan DAO package -->
 	<context:component-scan base-package="de.randi2.services" />
+	
+	<!-- Scan simulation package -->
+	<context:component-scan base-package="de.randi2.simulation.service" />
 
 	<bean id="chartsService" class="de.randi2.services.ChartsServiceImpl" />
 </beans>

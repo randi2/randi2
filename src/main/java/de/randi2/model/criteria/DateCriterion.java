@@ -27,27 +27,47 @@ import de.randi2.model.criteria.constraints.DateConstraint;
 import de.randi2.unsorted.ContraintViolatedException;
 
 @Entity
-public class DateCriterion extends AbstractCriterion<GregorianCalendar, DateConstraint>{
+public class DateCriterion extends
+		AbstractCriterion<GregorianCalendar, DateConstraint> {
 
 	private static final long serialVersionUID = -2091043770001920047L;
 
 	@Override
-	public void isValueCorrect(GregorianCalendar value) throws ContraintViolatedException {
-		if(value == null){
+	public void isValueCorrect(GregorianCalendar value)
+			throws ContraintViolatedException {
+		if (value == null) {
 			throw new ContraintViolatedException();
-		}else	if(inclusionConstraint!=null){
+		} else if (inclusionConstraint != null) {
 			inclusionConstraint.isValueCorrect(value);
 		}
 	}
-	
+
 	@Override
 	public List<GregorianCalendar> getConfiguredValues() {
-		return new ArrayList<GregorianCalendar>();
+		List<GregorianCalendar> list = new ArrayList<GregorianCalendar>();
+		if (strata != null) {
+			for (DateConstraint cons : strata) {
+				if (cons.getFirstDate() != null && cons.getSecondDate() != null) {
+					long time = cons.getSecondDate().getTimeInMillis()
+							- cons.getFirstDate().getTimeInMillis();
+					time = time / 2;
+					time = cons.getFirstDate().getTimeInMillis() + time;
+					GregorianCalendar cal = new GregorianCalendar();
+					cal.setTimeInMillis(time);
+					list.add(cal);
+				} else if (cons.getSecondDate() == null) {
+					list.add(cons.getFirstDate());
+				} else if (cons.getFirstDate() == null) {
+					list.add(cons.getSecondDate());
+				}
+			}
+		}
+		return list;
 	}
-	
+
 	@Override
 	public Class<DateConstraint> getContstraintType() {
 		return DateConstraint.class;
 	}
-	
+
 }

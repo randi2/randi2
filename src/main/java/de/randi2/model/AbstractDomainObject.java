@@ -34,6 +34,7 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
@@ -44,11 +45,9 @@ import de.randi2.model.exceptions.ValidationException;
  * The Class AbstractDomainObject.
  */
 @MappedSuperclass
-public abstract 
- /* (non-Javadoc)
-  * @see java.lang.Object#equals(java.lang.Object)
-  */
- @Data class AbstractDomainObject implements Serializable {
+@Data
+@EqualsAndHashCode(of={"id", "version"})
+public abstract class AbstractDomainObject implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -1394903092160914604L;
@@ -161,4 +160,6 @@ public abstract
 		//FIXME It would be better to have this method one level deeper 
 		return this.getClass().getCanonicalName();
 	}
+	
+	
 }
