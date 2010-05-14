@@ -25,7 +25,6 @@ import javax.persistence.Entity;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import de.randi2.unsorted.ContraintViolatedException;
 
 @Entity
@@ -97,5 +96,38 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 				return "<" + sdf.format(secondDate.getTime());
 			}
 			return "ERROR";
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((firstDate == null) ? 0 : firstDate.hashCode());
+		result = prime * result
+				+ ((secondDate == null) ? 0 : secondDate.hashCode());
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DateConstraint other = (DateConstraint) obj;
+		if (firstDate == null) {
+			if (other.firstDate != null)
+				return false;
+		} else if (!firstDate.equals(other.firstDate))
+			return false;
+		if (secondDate == null) {
+			if (other.secondDate != null)
+				return false;
+		} else if (!secondDate.equals(other.secondDate))
+			return false;
+		return true;
 	}
 }

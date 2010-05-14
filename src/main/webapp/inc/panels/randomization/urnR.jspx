@@ -14,22 +14,24 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-<ice:panelCollapsible expanded="true" toggleOnClick="false"
-	style="width: 450px;" xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:h="http://java.sun.com/jsf/html"
+<ice:panelGrid columns="1">
+<ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<f:facet name="header">
-		<ice:outputLabel value="#{algorithms['de.randi2.model.randomization.UrnDesignConfig.name']}" />
-	</f:facet>
-	<ice:outputLabel value="#{algorithms['de.randi2.model.randomization.UrnDesignConfig.info']}"></ice:outputLabel>
-</ice:panelCollapsible>
-<ice:panelCollapsible id="configPanelUrn" expanded="true"
-	toggleOnClick="false">
-	<f:facet name="header">
-		<ice:outputLabel value="#{labels['pages.urnR.configuration']}" />
-	</f:facet>
-	<ice:panelGrid columns="2" styleClass="verticalAlignTop">
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	style="float:left; padding-left: 2px; padding-top: 5px; width: 450px;">
+	<b class="b1"></b>
+	<b class="b2"></b>
+	<b class="b3"></b>
+	<b class="b4"></b>
+	<ice:panelGroup styleClass="contentb">
+		<ice:panelGrid columns="1">
+			<ice:outputLabel value="#{algorithms['de.randi2.model.randomization.UrnDesignConfig.name']}" />
+			<ice:outputText value="#{algorithms['de.randi2.model.randomization.UrnDesignConfig.info']}" />
+		</ice:panelGrid>
+			<ice:panelGrid columns="1" style="margin-top:10px;">
+			<ice:outputLabel value="#{labels['pages.urnR.configuration']}" />
+		</ice:panelGrid>
+		<ice:panelGrid columns="2" styleClass="verticalAlignTop">
 		<ice:outputLabel value="#{labels['pages.urnR.initialCount']}" />
 		<ice:inputText id="initialCount" size="31"
 			value="#{trialHandler.randomizationConfig.initializeCountBalls}"
@@ -41,8 +43,14 @@
 			partialSubmit="true">
 		</ice:inputText>
 	</ice:panelGrid>
-</ice:panelCollapsible>
+	</ice:panelGroup>
+	<b class="b4"></b>
+	<b class="b3"></b>
+	<b class="b2"></b>
+	<b class="b1"></b>
+</ice:panelGroup>
 <f:subview id="strata">
 	<jsp:directive.include
 		file="./inc/panels/randomization/strata.jspx" />
 </f:subview>
+</ice:panelGrid>

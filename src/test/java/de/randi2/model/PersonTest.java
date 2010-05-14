@@ -1,10 +1,13 @@
 package de.randi2.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.Map;
 
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
@@ -406,5 +409,86 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		Person person = (Person)hibernateTemplate.get(Person.class, validPerson.getId());
 		assertEquals(validPerson.getId(), person.getId());
 		assertEquals(validPerson.getLogin().getId(), person.getLogin().getId());
+	}
+	
+	@Test
+	public void testGetRequieredFields(){
+		Map<String, Boolean> map = validPerson.getRequiredFields();
+		for(String key : map.keySet()){
+			if(key.equals("surname")) {assertTrue(map.get(key));} 
+			else if(key.equals("firstname")) {assertTrue(map.get(key));} 
+			else if(key.equals("title")) {assertFalse(map.get(key));}  
+			else if(key.equals("sex")) {assertTrue(map.get(key));} 
+			else if(key.equals("email")) {assertTrue(map.get(key));} 
+			else if(key.equals("phone")) {assertTrue(map.get(key)); }
+			else if(key.equals("mobile")) {assertFalse(map.get(key));} 
+			else if(key.equals("fax")) {assertFalse(map.get(key));} 
+			else if(key.equals("assistant")) {assertFalse(map.get(key)); }
+			else if(key.equals("trialSite")) {assertFalse(map.get(key)); }
+			else if(key.equals("login")) {assertFalse(map.get(key)); }
+			else if(key.equals("MAX_TITLE_LENGTH")) {assertFalse(map.get(key));} 
+			else if(key.equals("MAX_NAME_LENGTH")) {assertFalse(map.get(key));} 
+			else if(key.equals("serialVersionUID")) {assertFalse(map.get(key));}
+			else if(key.equals("$VRc")) {assertFalse(map.get(key));}
+			else fail(key + " not checked");
+		}
+	}
+	
+	@Test
+	public void testUiName(){
+		validPerson.setSurname("surname");
+		validPerson.setFirstname("firstname");
+		assertEquals("surname, firstname", validPerson.getUIName());
+	}
+	
+	@Test
+	public void testToString(){
+		assertNotNull(validPerson.toString());
+	}
+	
+	@Test
+	public void testEqualsHashCode(){
+		Person person1 = new Person();
+		Person person2 = new Person();
+		person1.setId(0);
+		person2.setId(0);
+		person1.setVersion(0);
+		person2.setVersion(0);
+		assertEquals(person1, person2);
+		assertEquals(person1.hashCode(), person2.hashCode());
+		person1.setId(1);
+		
+		assertFalse(person1.equals(person2));
+		person1.setId(0);
+		assertEquals(person1, person2);
+		assertEquals(person1.hashCode(), person2.hashCode());
+		
+		person1.setVersion(1);
+		assertFalse(person1.equals(person2));
+		person1.setVersion(0);
+		assertEquals(person1, person2);
+		assertEquals(person1.hashCode(), person2.hashCode());
+		
+		person1.setSurname("test");
+		assertFalse(person1.equals(person2));
+		person2.setSurname("test");
+		assertEquals(person1, person2);
+		assertEquals(person1.hashCode(), person2.hashCode());
+		
+		person1.setFirstname("test");
+		assertFalse(person1.equals(person2));
+		person2.setFirstname("test");
+		assertEquals(person1, person2);
+		assertEquals(person1.hashCode(), person2.hashCode());
+		
+		person1.setSex(Gender.FEMALE);
+		person2.setSex(Gender.MALE);
+		assertFalse(person1.equals(person2));
+		person2.setSex(Gender.FEMALE);
+		assertEquals(person1, person2);
+		assertEquals(person1.hashCode(), person2.hashCode());
+		
+		assertFalse(person1.equals(null));
+		assertFalse(person1.equals(new TreatmentArm()));
 	}
 }

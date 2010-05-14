@@ -17,8 +17,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.icesoft.faces.component.outputchart.OutputChart;
-
 import de.randi2.model.Person;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
@@ -26,14 +24,12 @@ import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.DichotomousCriterion;
-import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
-import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.enumerations.Gender;
-import de.randi2.utility.BoxedException;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.ChartData;
 import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.utility.BoxedException;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class ChartsServiceTest extends AbstractServiceTest {

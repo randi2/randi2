@@ -33,7 +33,7 @@
 		<ice:message for="algorithmType"/>
 	</ice:panelCollapsible>
 </ice:panelGroup>
-<ice:panelGroup>
+<ice:panelGrid columns="1">
 	<ice:panelStack id="algorithmsPanelStack"
 		selectedPanel="#{step5.selectedAlgorithmPanelId}">
 		<ice:panelGroup id="none">
@@ -68,7 +68,14 @@
 					file="./inc/panels/randomization/urnR.jspx" />
 			</f:subview>
 		</ice:panelGroup>
+		<ice:panelGroup id="minimization">
+			<f:subview id="mini">
+				<jsp:directive.include
+					file="./inc/panels/randomization/minimizationR.jspx" />
+			</f:subview>
+		</ice:panelGroup>
 	</ice:panelStack>
-</ice:panelGroup>
+</ice:panelGrid>
 <ice:commandButton type="submit" value="#{labels['buttons.save']}"
 			action="#{trialHandler.createTrial}"/>
+<ice:commandButton value="#{labels['buttons.simulate']}" actionListener="#{randi2Page.simulateTrial}"/>

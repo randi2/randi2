@@ -41,5 +41,11 @@ public class CompleteRandomizationConfig extends AbstractRandomizationConfig{
 	public RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm() {
 		return new CompleteRandomization(super.getTrial());
 	}
+	
+	@Override
+		public RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm(
+				long seed) {
+			return new CompleteRandomization(super.getTrial(), seed);
+		}
 
 }

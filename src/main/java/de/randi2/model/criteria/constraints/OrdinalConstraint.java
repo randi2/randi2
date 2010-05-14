@@ -75,4 +75,32 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 		}
 		return result.toString();
 	}
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1; 
+		result = prime * result
+				+ ((expectedValues == null) ? 0 : expectedValues.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OrdinalConstraint other = (OrdinalConstraint) obj;
+		if (expectedValues == null) {
+			if (other.expectedValues != null)
+				return false;
+		} else if (!expectedValues.equals(other.expectedValues))
+			return false;
+		return true;
+	}
+	
 }

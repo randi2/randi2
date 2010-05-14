@@ -1,10 +1,10 @@
 package de.randi2.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -191,6 +191,11 @@ private Session getCurrentSession(){
 		hibernateTemplate.refresh(validTrialSite);
 		validTrialSite.getTrials();
 		assertEquals(tl.size(), trialSite.getTrials().size());
+		
+		List<Trial> trials = new ArrayList<Trial>();
+		trials.add(new Trial());
+		validTrialSite.setTrials(trials);
+		assertEquals(trials, validTrialSite.getTrials());
 	}
 	
 	@Test
@@ -255,6 +260,7 @@ private Session getCurrentSession(){
 		String[] validPasswords = {"secret0$secret","sad.al4h/ljhaslf",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+";2", stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-2)+",3", stringUtil.getWithLength(Login.HASH_PASSWORD_LENGTH)};
 		for (String s: validPasswords){
 			validTrialSite.setPassword(s);
+			assertEquals(s, validTrialSite.getPassword());
 			assertValid(validTrialSite);
 		}
 		
@@ -306,5 +312,72 @@ private Session getCurrentSession(){
 		assertEquals(1, logins.size());
 		assertTrue(logins.contains(members.get(6).getLogin()));
 	}
+
+	@Test
+	public void testGetRequieredFields(){
+		Map<String, Boolean> map = validTrialSite.getRequiredFields();
+		for(String key : map.keySet()){
+			if(key.equals("name")) {assertTrue(map.get(key));} 
+			else if(key.equals("street")) {assertTrue(map.get(key));} 
+			else if(key.equals("postcode")) {assertTrue(map.get(key));}  
+			else if(key.equals("city")) {assertTrue(map.get(key));} 
+			else if(key.equals("country")) {assertFalse(map.get(key));} 
+			else if(key.equals("password")) {assertTrue(map.get(key)); }
+			else if(key.equals("contactPerson")) {assertTrue(map.get(key));} 
+			else if(key.equals("members")) {assertFalse(map.get(key));} 
+			else if(key.equals("trials")) {assertFalse(map.get(key)); }
+			else if(key.equals("MAX_LENGTH_POSTCODE")) {assertFalse(map.get(key));} 
+			else if(key.equals("serialVersionUID")) {assertFalse(map.get(key));}
+			else if(key.equals("$VRc")) {assertFalse(map.get(key));}
+			else fail(key + " not checked");
+		}
+	}
+	
+	
+	@Test
+	public void testEqualsHashCode(){
+		TrialSite trialSite1 = new TrialSite();
+		TrialSite trialSite2 = new TrialSite();
+		trialSite1.setId(0);
+		trialSite2.setId(0);
+		trialSite1.setVersion(0);
+		trialSite2.setVersion(0);
+		assertEquals(trialSite1, trialSite2);
+		assertEquals(trialSite1.hashCode(), trialSite2.hashCode());
+		trialSite1.setId(1);
+		
+		assertFalse(trialSite1.equals(trialSite2));
+		trialSite1.setId(0);
+		assertEquals(trialSite1, trialSite2);
+		assertEquals(trialSite1.hashCode(), trialSite2.hashCode());
+		
+		trialSite1.setVersion(1);
+		assertFalse(trialSite1.equals(trialSite2));
+		trialSite1.setVersion(0);
+		assertEquals(trialSite1, trialSite2);
+		assertEquals(trialSite1.hashCode(), trialSite2.hashCode());
+		
+		trialSite1.setName("test");
+		assertFalse(trialSite1.equals(trialSite2));
+		trialSite2.setName("test");
+		assertEquals(trialSite1, trialSite2);
+		assertEquals(trialSite1.hashCode(), trialSite2.hashCode());
+		
+		assertFalse(trialSite1.equals(null));
+		assertFalse(trialSite1.equals(new TreatmentArm()));
+	}
+	
+	@Test
+	public void testToString(){
+		assertNotNull(validTrialSite.toString());
+	}
+	
+	
+	@Test
+	public void testUiName(){
+		validTrialSite.setName("name trial site");
+		assertEquals("name trial site", validTrialSite.getUIName());
+	}
+	
 
 }

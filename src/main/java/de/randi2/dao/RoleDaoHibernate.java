@@ -47,7 +47,6 @@ public class RoleDaoHibernate extends AbstractDaoHibernate<Role> implements
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	@Secured( { "ROLE_USER"})
 	//FIXME We should create the ACLs for Roles
 	public List<Role> getAll() {
 		return sessionFactory.getCurrentSession().createQuery(

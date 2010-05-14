@@ -17,27 +17,19 @@
  */
 package de.randi2.services;
 
-import static de.randi2.utility.ArithmeticUtil.cartesianProduct;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.stereotype.Service;
-import com.sun.jndi.url.corbaname.corbanameURLContextFactory;
 
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
-import de.randi2.model.criteria.AbstractCriterion;
-import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.randomization.ChartData;
-import de.randi2.utility.StrataNameIDWrapper;
+import de.randi2.utility.Pair;
 
 @Service("chartsService")
 public class ChartsServiceImpl implements ChartsService {
@@ -152,84 +144,12 @@ public class ChartsServiceImpl implements ChartsService {
 		HashMap<String, Double> strataCountMap = new HashMap<String, Double>();
 		HashMap<String, String> strataNameMap = new HashMap<String, String>();
 
-		HashMap<AbstractCriterion<?, ?>, List<AbstractConstraint<?>>> temp = new HashMap<AbstractCriterion<?, ?>, List<AbstractConstraint<?>>>();
-		for (AbstractCriterion<?, ?> cr : trial.getCriteria()) {
-			List<AbstractConstraint<?>> list = new ArrayList<AbstractConstraint<?>>();
-			for (AbstractConstraint<?> co : cr.getStrata()) {
-				list.add(co);
-			}
-			temp.put(cr, list);
+		Pair<List<String>,List<String>> pair = trial.getAllStrataIdsAndNames();
+		for(int i = 0;i<pair.first().size();i++){
+			strataCountMap.put(pair.first().get(i), new Double(0));
+			strataNameMap.put(pair.first().get(i), pair.last().get(i));
 		}
-		Set<Set<StrataNameIDWrapper>> strataIds = new HashSet<Set<StrataNameIDWrapper>>();
-		// minimum one constraint
-		if (temp.size() >= 1) {
-			for (AbstractCriterion<?, ?> cr : temp.keySet()) {
-				Set<StrataNameIDWrapper> strataLevel = new HashSet<StrataNameIDWrapper>();
-				for (AbstractConstraint<?> co : temp.get(cr)) {
-					StrataNameIDWrapper wrapper = new StrataNameIDWrapper();
-					wrapper.setStrataId(cr.getId() + "_" + co.getId());
-					wrapper.setStrataName(cr.getName() + "_" + co.getUIName());
-					strataLevel.add(wrapper);
-				}
-				if(temp.get(cr).isEmpty()){
-					StrataNameIDWrapper wrapper = new StrataNameIDWrapper();
-					wrapper.setStrataId(cr.getId() + "_" + -1);
-					wrapper.setStrataName("");
-					strataLevel.add(wrapper);
-				}
-				if(!strataLevel.isEmpty()){
-					strataIds.add(strataLevel);
-				}
-			}
-			//cartesianProduct only necessary for more then one criterions
-			if(strataIds.size()>=2){
-				strataIds = cartesianProduct(strataIds.toArray(new HashSet[0]));
-			}else{
-				Set<StrataNameIDWrapper> tempStrataIds =strataIds.iterator().next();
-				Set<Set<StrataNameIDWrapper>> tempStrataIdsSet = new HashSet<Set<StrataNameIDWrapper>>();
-				for(StrataNameIDWrapper wrapper : tempStrataIds){
-					Set<StrataNameIDWrapper> next = new HashSet<StrataNameIDWrapper>();
-					next.add(wrapper);
-					tempStrataIdsSet.add(next);
-				}
-				strataIds = tempStrataIdsSet;
-			}
-			for (Set<StrataNameIDWrapper> set : strataIds) {
-				List<StrataNameIDWrapper> stringStrat = new ArrayList<StrataNameIDWrapper>();
-				for (StrataNameIDWrapper string : set) {
-					stringStrat.add(string);
-				}
-				Collections.sort(stringStrat);
-
-				String stratId = "";
-				String stratName = "";
-				for (StrataNameIDWrapper s : stringStrat) {
-					stratId += s.getStrataId() + ";";
-					if(!s.getStrataName().isEmpty())
-					stratName += s.getStrataName() + ";";
-				}
-				if (trial.isStratifyTrialSite()) {
-					for (TrialSite site : trial.getParticipatingSites()) {
-						String strataId = site.getId() + "__" + stratId;
-						strataCountMap.put(strataId, new Double(0));
-						strataNameMap.put(strataId, site.getName() + " | "
-								+ stratName);
-					}
-
-				} else {
-					strataCountMap.put(stratId, new Double(0));
-					strataNameMap.put(stratId, stratName);
-				}
-
-			}
-		}else if (trial.isStratifyTrialSite()) {
-			for (TrialSite site : trial.getParticipatingSites()) {
-				String strataId = site.getId() + "__";
-				strataCountMap.put(strataId, new Double(0));
-				strataNameMap.put(strataId, site.getName());
-			}
-
-		}
+			
 		for (TrialSubject subject : trial.getSubjects()) {
 			String stratum = "";
 			if (trial.isStratifyTrialSite()) {

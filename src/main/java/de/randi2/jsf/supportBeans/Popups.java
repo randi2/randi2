@@ -24,6 +24,7 @@ import lombok.Setter;
 
 import de.randi2.jsf.backingBeans.Randi2Page;
 import de.randi2.jsf.backingBeans.TSubjectAdd;
+import de.randi2.jsf.controllerBeans.SimulationHandler;
 import de.randi2.model.Trial;
 
 public class Popups {
@@ -41,6 +42,9 @@ public class Popups {
 	private boolean trialSiteSavedPVisible = false;
 	@Setter @Getter
 	private boolean subjectAddedPVisible = false;
+	@Setter @Getter
+	private boolean simulationCompletePVisible = false;
+	
 	
 	// POPUPS
 	public String hideTrialCreatedPopup() {
@@ -113,9 +117,21 @@ public class Popups {
 		return Randi2.SUCCESS;
 	}
 	
+	public String showSimulationCompletePopup(){
+		this.simulationCompletePVisible = true;
+		return Randi2.SUCCESS;
+	}
+	
+	
+	public String hideSimulationCompletePopup(){
+		this.simulationCompletePVisible = false;
+		return Randi2.SUCCESS;
+	}
+	
 	public String showSubjectAddedPopup(){
 		this.subjectAddedPVisible = true;
 		return Randi2.SUCCESS;
 	}
+	
 	// ----
 }
