@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+
+<!-- 1h = 3600000 ms 	 -->
+<bean id="dataSource"
+		class="org.apache.commons.dbcp.datasources.SharedPoolDataSource">
+		<property name="connectionPoolDataSource" ref="connectionPoolDataSource"/>
+		<property name="defaultAutoCommit" value="true" />
+		<property name="maxActive" value="100" />
+		<property name="timeBetweenEvictionRunsMillis" value="3600000" />
+		<property name="minEvictableIdleTimeMillis" value="3600000" />
+		<property name="testWhileIdle" value="true" />
+	</bean>
+	
+	
+	<bean id="connectionPoolDataSource" class="org.apache.commons.dbcp.cpdsadapter.DriverAdapterCPDS">
+		<property name="driver" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://${db.host}/${db.database}"/>
+		<property name="user" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
+	</bean>
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties">
+			<value>test.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect</value>
+		</property>
+	</bean>
+</beans>

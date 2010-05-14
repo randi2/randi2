@@ -25,7 +25,8 @@ Spring XML-config file for normal context with dummy mail service
 	<context:annotation-config />
 	<context:spring-configured></context:spring-configured>
 
-	<import resource="classpath:META-INF/subconfig/database-mysql5.xml" />
+	<import resource="classpath:META-INF/bootstrap/database-mysql5.xml" />
+	<import resource="classpath:META-INF/subconfig/hibernate-managed-config.xml" />
 	<import resource="classpath:META-INF/subconfig/hibernate.xml" />
  	<import resource="classpath:META-INF/subconfig/aspects.xml" />
 	<import resource="classpath:META-INF/subconfig/security.xml" />
