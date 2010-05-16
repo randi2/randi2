@@ -42,8 +42,8 @@
         </mailingList>
     </mailingLists>
     <issueManagement>
-        <system>github</system>
-        <url>http://github.com/jthoenes/randi2/issues</url>
+        <system>retrospectiva</system>
+        <url>http://randi2.org/retro/tickets</url>
     </issueManagement>
     <ciManagement>
         <system>hudson</system>
@@ -51,7 +51,7 @@
     </ciManagement>
     <organization>
         <name>RANDI2 Core Development Team</name>
-        <url>http://randi2.de</url>
+        <url>http://randi2.org</url>
     </organization>
     <developers>
         <developer>
