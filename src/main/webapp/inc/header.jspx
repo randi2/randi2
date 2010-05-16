@@ -22,7 +22,7 @@
 			<ice:outputLabel id="userHeader"
 				value="#{loginHandler.loggedInUser.person.firstname} #{loginHandler.loggedInUser.person.surname}" />
 			<ice:graphicImage value="/img/separetor.png" />
-			<ice:outputConnectionStatus />
+			<ice:outputConnectionStatus showPopupOnDisconnect="true" />
 		</ice:panelGrid>
         <ice:panelGroup styleClass="icePnlClpsbl" style="margin-right: 75px;position:absolute;right:0;top:1;">
 			<ice:panelGroup style="width: 200px; padding: 5px;" styleClass="icePnlClpsblCnt" effect="#{randi2Page.trialChangeEffect}">

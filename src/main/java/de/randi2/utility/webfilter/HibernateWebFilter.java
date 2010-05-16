@@ -26,6 +26,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -83,7 +84,49 @@ public class HibernateWebFilter implements Filter {
 		hibernateSession = (Session) httpSession
 				.getAttribute(HIBERNATE_SESSION_KEY);
 		logger.trace(httpSession.getId());
-		// try {
+		beforeLogic();
+		/*
+		 * Go and do the work ...
+		 */
+		try {
+			chain.doFilter(request, response);
+		} catch (Exception e) {
+			logger.error("EEEEXCEPTION", e); // TODO Log it properly
+			closeSession();
+			httpSession.invalidate(); // TODO It would be nice to redirect
+			((HttpServletResponse)response).sendRedirect("login.jspx");
+			return;
+		}
+		afterLogic();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+	 */
+	public void init(FilterConfig filterConfig) throws ServletException {
+		WebApplicationContext wac = WebApplicationContextUtils
+				.getWebApplicationContext(filterConfig.getServletContext());
+		sf = (SessionFactory) wac.getBean("sessionFactory");
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.Filter#destroy()
+	 */
+	public void destroy() {
+	}
+
+	/**
+	 * This method contains the logic which will be executed after forrwording
+	 * the request to its destination. It tries to find the exisiting
+	 * hibernateSession if attached to the httpSession - in other case it
+	 * creates a new one.
+	 */
+	private void beforeLogic() {
 		/*
 		 * A hibernateSession has been found in the current httpSession
 		 */
@@ -121,12 +164,14 @@ public class HibernateWebFilter implements Filter {
 		 */
 		ManagedSessionContext
 				.bind((org.hibernate.classic.Session) hibernateSession);
+	}
 
-		/*
-		 * Go and do the work ...
-		 */
-		chain.doFilter(request, response);
-
+	/**
+	 * Checks if the conversation is over - if so the hibernateSession will be
+	 * closed and flushed and also detached from the httpSession. In other case
+	 * it will be reattached to the httpSession.
+	 */
+	private void afterLogic() {
 		/*
 		 * End or continue the long-running conversation?
 		 */
@@ -155,30 +200,10 @@ public class HibernateWebFilter implements Filter {
 				logger.error("EEEEXCEPTION", e); // TODO Log it properly
 				closeSession();
 				httpSession.invalidate(); // TODO It would be nice to redirect
-											// the user to an error or loging
-											// page with an error message
+				// the user to an error or loging
+				// page with an error message
 			}
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
-	 */
-	public void init(FilterConfig filterConfig) throws ServletException {
-		WebApplicationContext wac = WebApplicationContextUtils
-				.getWebApplicationContext(filterConfig.getServletContext());
-		sf = (SessionFactory) wac.getBean("sessionFactory");
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.Filter#destroy()
-	 */
-	public void destroy() {
 	}
 
 	/**
