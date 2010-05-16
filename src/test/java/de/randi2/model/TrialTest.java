@@ -19,9 +19,6 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.mchange.util.AssertException;
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
-
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
