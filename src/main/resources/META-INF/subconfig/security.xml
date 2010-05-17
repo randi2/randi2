@@ -28,7 +28,9 @@
 	</bean>
 
 	<bean id="securityContextPersistenceFilter"
-		class="org.springframework.security.web.context.SecurityContextPersistenceFilter" />
+		class="org.springframework.security.web.context.SecurityContextPersistenceFilter" >
+		<property name="forceEagerSessionCreation" value="true" />
+		</bean>
 
 	<bean id="formLoginFilter"
 		class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
