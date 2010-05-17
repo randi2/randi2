@@ -24,7 +24,7 @@ import javax.faces.event.PhaseListener;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
-import org.springframework.security.web.authentication.AbstractProcessingFilter;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 
 import de.randi2.jsf.supportBeans.Randi2;
  
@@ -36,12 +36,12 @@ public class LoginErrorPhaseListener implements PhaseListener
     public void beforePhase(final PhaseEvent arg0)
     {
         Exception e = (Exception) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(
-                AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY);
+        		AbstractAuthenticationProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY);
  
         if (e instanceof BadCredentialsException || e instanceof LockedException)
         {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
-                    AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY, null);
+            		AbstractAuthenticationProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY, null);
             Randi2.showMessage(e.getMessage());
         }
     }

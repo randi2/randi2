@@ -3,7 +3,10 @@ package de.randi2.dao;
 import static de.randi2.test.utility.RANDI2Assert.assertNotSaved;
 import static de.randi2.test.utility.RANDI2Assert.assertSaved;
 import static junit.framework.Assert.assertNotNull;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -12,12 +15,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import de.randi2.dao.LoginDao;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
@@ -30,8 +30,6 @@ public class LoginDaoTest{
 
 	@Autowired
 	private LoginDao loginDao;
-	@Autowired
-	private HibernateTemplate template;
 	@Autowired
 	private DomainObjectFactory factory;
 	@Autowired

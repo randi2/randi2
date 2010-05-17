@@ -5,6 +5,8 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
+import java.util.ArrayList;
+
 import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +80,6 @@ public class TrialSiteServiceTest extends AbstractServiceTest {
 	@Test
 	public void testgetAll(){
 		authenticatAsAdmin();
-		Login login = findLogin("admin@test.de"); //@Daniel - why do we need this line //TODO
 		for(int i=0;i<10;i++){
 			TrialSite site = factory.getTrialSite();
 			service.create(site);
@@ -113,7 +114,7 @@ public class TrialSiteServiceTest extends AbstractServiceTest {
 		newUser.setPerson(new Person());
 		newUser.addRole(Role.ROLE_ANONYMOUS);
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"anonymousUser", newUser, newUser.getAuthorities().toArray(new GrantedAuthority[]{}));
+				"anonymousUser", newUser, new ArrayList<GrantedAuthority>(newUser.getAuthorities()));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()

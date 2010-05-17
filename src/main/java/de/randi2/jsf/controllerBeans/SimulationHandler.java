@@ -626,6 +626,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 	
 	private class MyStringResource implements Resource, Serializable{
 
+		private static final long serialVersionUID = 2523708207015651805L;
 		private String resourceName;
 		private String content;
 		private final Date lastModified;

@@ -17,6 +17,7 @@
  */
 package de.randi2.services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -102,7 +103,7 @@ public class UserServiceImpl implements UserService {
 		newUser.setPerson(new Person());
 		newUser.addRole(Role.ROLE_ANONYMOUS);
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"anonymousUser", newUser, newUser.getAuthorities().toArray(new GrantedAuthority[]{}));
+				"anonymousUser", newUser, new ArrayList<GrantedAuthority>(newUser.getAuthorities()));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()

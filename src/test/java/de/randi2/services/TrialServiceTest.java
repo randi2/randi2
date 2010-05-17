@@ -360,7 +360,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		 * Signing in the newly created user.
 		 */
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				e, l, l.getAuthorities().toArray(new GrantedAuthority[]{}));
+				e, l, new ArrayList<GrantedAuthority>(l.getAuthorities()));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()

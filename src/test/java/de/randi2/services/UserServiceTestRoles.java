@@ -3,6 +3,8 @@ package de.randi2.services;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -87,7 +89,7 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 		user = newUser;
 		}
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"investigatorUser", user, user.getAuthorities().toArray(new GrantedAuthority[]{}));
+				"investigatorUser", user, new ArrayList<GrantedAuthority>(user.getAuthorities()));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()

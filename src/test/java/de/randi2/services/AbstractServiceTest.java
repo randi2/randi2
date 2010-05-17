@@ -1,5 +1,6 @@
 package de.randi2.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -111,7 +112,7 @@ public abstract class AbstractServiceTest {
 	protected void authenticatAsAdmin(){
 		admin = findLogin("admin@test.de");
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"admin@test.de", admin, admin.getAuthorities().toArray(new GrantedAuthority[]{}));
+				"admin@test.de", admin, new ArrayList<GrantedAuthority>(admin.getAuthorities()));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()
