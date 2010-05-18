@@ -34,7 +34,7 @@ import de.randi2.simulation.model.helper.StrataResultWrapper;
  * 
  */
 @Data
-public class SimualtionResultArm {
+public class SimulationResultArm {
 
 	private TreatmentArm arm;
 
@@ -51,7 +51,7 @@ public class SimualtionResultArm {
 
 	private DecimalFormat f = new DecimalFormat("#0.00");
 
-	public SimualtionResultArm(String algorithmName, Map<String,String> strataIdsNames){
+	public SimulationResultArm(String algorithmName, Map<String,String> strataIdsNames){
 		this.algorithmName = algorithmName;
 		this.strataIdsNames = strataIdsNames;
 	}

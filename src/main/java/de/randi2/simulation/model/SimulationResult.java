@@ -45,7 +45,7 @@ public class SimulationResult {
 	private List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
 
 	@Getter
-	private List<SimualtionResultArm> simResultArms = new ArrayList<SimualtionResultArm>();
+	private List<SimulationResultArm> simResultArms = new ArrayList<SimulationResultArm>();
 
 	private int[] mins;
 	private int[] maxs;
@@ -231,7 +231,7 @@ public class SimulationResult {
 		if (runs.size() >= 2) {
 			// initialize the variables
 			duration = 0;
-			simResultArms = new ArrayList<SimualtionResultArm>();
+			simResultArms = new ArrayList<SimulationResultArm>();
 			mins = new int[arms.size()];
 			for (int i = 0; i < mins.length; i++) {
 				mins[i] = Integer.MAX_VALUE;
@@ -307,7 +307,7 @@ public class SimulationResult {
 					strataCountsPerArmMean.get(arms.get(i)).put(strataId, ( strataCountsPerArmMean.get(arms.get(i)).get(strataId) / amountRuns));
 				}
 				
-				SimualtionResultArm rArm = new SimualtionResultArm(algorithmDescription, strataIdNames);
+				SimulationResultArm rArm = new SimulationResultArm(algorithmDescription, strataIdNames);
 				rArm.setArm(arms.get(i));
 				rArm.setMean(means[i]);
 				rArm.setMedian(medians[i]);

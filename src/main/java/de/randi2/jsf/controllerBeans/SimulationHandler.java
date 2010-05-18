@@ -43,7 +43,7 @@ import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 import de.randi2.simulation.model.DistributionSubjectProperty;
-import de.randi2.simulation.model.SimualtionResultArm;
+import de.randi2.simulation.model.SimulationResultArm;
 import de.randi2.simulation.model.SimulationRawDataEntry;
 import de.randi2.simulation.model.SimulationResult;
 import de.randi2.simulation.model.helper.StrataResultComperatorAST;
@@ -520,7 +520,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 			sb.append("<table border=1 width=800px><tr><th>Arm name</th><th>min</th>" +
 					"<th>min per cent</th><th>max</th><th>max per cent</th><th>mean</th>" +
 					"<th>median</th></tr>");
-			for (SimualtionResultArm simArm : res.getSimResultArms()) {
+			for (SimulationResultArm simArm : res.getSimResultArms()) {
 				sb.append("<tr><td>" + simArm.getArm().getName() + "</td>");
 				sb.append("<td>" + simArm.getMin() + "</td>");
 				sb.append("<td>" + simArm.getMinPercentString() + "</td>");
@@ -583,7 +583,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 	public List<StrataResultWrapper> getAllStrataResults(){
 		List<StrataResultWrapper> wrapper = new ArrayList<StrataResultWrapper>();
 		for(SimulationResult simRes : simulationResults){
-			for(SimualtionResultArm simArm : simRes.getSimResultArms()){
+			for(SimulationResultArm simArm : simRes.getSimResultArms()){
 				wrapper.addAll(simArm.getStrataResults());
 			}
 		}
