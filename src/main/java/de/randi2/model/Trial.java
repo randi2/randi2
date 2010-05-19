@@ -23,6 +23,10 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+<<<<<<< HEAD
+=======
+import java.util.Comparator;
+>>>>>>> 0-6-stable
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -67,6 +71,17 @@ import de.randi2.utility.validations.DateDependence;
 @EqualsAndHashCode(callSuper=true, exclude={"randomConf", "participatingSites", "sponsorInvestigator", "subjectCriteria"})
 @NamedQuery(name = "trial.AllTrialsWithSpecificParticipatingTrialSite", query = "select trial from Trial as trial join trial.participatingSites site where site.id = ?")
 public class Trial extends AbstractDomainObject {
+	
+	public static final Comparator<TrialSubject> SUBJECT_COUNT_COMPERATOR = new Comparator<TrialSubject>() {
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public int compare(TrialSubject o1, TrialSubject o2) {
+			return (o1.getCounter() - o2.getCounter());
+		}
+		
+	};
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -2424750074810584832L;
@@ -75,12 +90,14 @@ public class Trial extends AbstractDomainObject {
 	@NotNull()
 	@NotEmpty()
 	@Length(max = MAX_VARCHAR_LENGTH)
-	@Getter @Setter 
+	@Getter 
+    @Setter 
 	private String name = "";
 	
 	/** The abbreviation. */
 	@Length(max = MAX_VARCHAR_LENGTH)
-	@Getter @Setter 
+	@Getter 
+    @Setter 
 	private String abbreviation = "";
 	
 	/**
@@ -94,7 +111,8 @@ public class Trial extends AbstractDomainObject {
 	
 	/** The description. */
 	@Lob
-	@Getter @Setter 
+	@Getter 
+	@Setter 
 	private String description = "";
 	
 	@Getter 
@@ -112,6 +130,7 @@ public class Trial extends AbstractDomainObject {
 	/** The sponsor investigator. */
 	@NotNull
 	@ManyToOne
+	
 	@Getter 
 	@Setter 
 	private Person sponsorInvestigator = null;
@@ -125,7 +144,8 @@ public class Trial extends AbstractDomainObject {
 	
 	/** The status. */
 	@Enumerated(value = EnumType.STRING)
-	@Getter @Setter 
+	@Getter 
+	@Setter 
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
 	
 	/** The participating sites. */
@@ -231,6 +251,7 @@ public class Trial extends AbstractDomainObject {
 		for (TreatmentArm arm : treatmentArms) {
 			subjects.addAll(arm.getSubjects());
 		}
+		Collections.sort(subjects, SUBJECT_COUNT_COMPERATOR);
 		return subjects;
 	}
 	

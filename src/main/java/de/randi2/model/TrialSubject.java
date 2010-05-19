@@ -154,17 +154,24 @@ public class TrialSubject extends AbstractDomainObject {
 	 * 
 	 * @return the properties ui string
 	 */
-	@Deprecated
 	public String getPropertiesUIString(){
 		StringBuilder stringB = new StringBuilder();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		List<String> list  = new ArrayList<String>();
 		for(SubjectProperty<?> p : getProperties()){
-			stringB.append(p.getCriterion().getName()).append(": ");
-			if(GregorianCalendar.class.isInstance(p.getValue()))
-				stringB.append(sdf.format(((GregorianCalendar)p.getValue()).getTime()));
-			else
-				stringB.append(p.getValue().toString());
-			stringB.append("|");
+			StringBuilder  str = new StringBuilder();
+			str.append(p.getCriterion().getName() + ": ");
+			if(GregorianCalendar.class.isInstance(p.getValue())){
+				str.append(sdf.format(((GregorianCalendar)p.getValue()).getTime()));
+			}else{
+				str.append(p.getValue().toString());
+			}
+			str.append("|");
+			list.add(str.toString());
+		}
+		Collections.sort(list);
+		for(String str : list){
+			stringB.append(str);
 		}
 		return stringB.toString();
 	}
