@@ -42,12 +42,12 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  * This filter manages the hibernateSession to user object relation.
  * <b>CONVERSATION PATTERN</b>
  * 
- * @author Lukasz Plotnicki <lp@randi2.de>
+ * @author Lukasz Plotnicki <lp@randi2.de> & Daniel Schrimpf <ds@randi2.de>
  * 
  */
 public class HibernateWebFilter implements Filter {
 
-	private Logger logger = Logger.getLogger(HibernateWebFilter.class);
+	private final Logger logger = Logger.getLogger(HibernateWebFilter.class);
 	/**
 	 * Session Factory injected via spring.
 	 */
@@ -72,50 +72,48 @@ public class HibernateWebFilter implements Filter {
 	 */
 	private HttpSession httpSession;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
-	 * javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	/**
+	 * Response object which will be used for the redirects
 	 */
+	private HttpServletResponse response;
+
+	/**
+	 * @{inheritDoc
+	 */
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		httpSession = ((HttpServletRequest) request).getSession();
 		hibernateSession = (Session) httpSession
 				.getAttribute(HIBERNATE_SESSION_KEY);
-		logger.trace(httpSession.getId());
-		beforeLogic();
+		this.response = (HttpServletResponse) response;
+		logger.trace("HibernateWebFilter | " + httpSession.getId());
+		ensureHibernateSessionExistance();
 		/*
 		 * Go and do the work ...
 		 */
 		try {
 			chain.doFilter(request, response);
 		} catch (Exception e) {
-			logger.error("EEEEXCEPTION", e); // TODO Log it properly
-			closeSession();
-			httpSession.invalidate(); // TODO It would be nice to redirect
-			((HttpServletResponse)response).sendRedirect("login.jspx");
+			invalidateOnError(e, this.response);
 			return;
 		}
-		afterLogic();
+		storeOrCloseHibernateSession();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+	/**
+	 * {@inheritDoc}
 	 */
+	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		WebApplicationContext wac = WebApplicationContextUtils
 				.getWebApplicationContext(filterConfig.getServletContext());
-		sf = (SessionFactory) wac.getBean("sessionFactory");
+		sf = wac.getBean(SessionFactory.class);
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.Filter#destroy()
+	/**
+	 * {@inheritDoc}
 	 */
 	public void destroy() {
 	}
@@ -126,41 +124,33 @@ public class HibernateWebFilter implements Filter {
 	 * hibernateSession if attached to the httpSession - in other case it
 	 * creates a new one.
 	 */
-	private void beforeLogic() {
-		/*
-		 * A hibernateSession has been found in the current httpSession
-		 */
+	private void ensureHibernateSessionExistance() {
 		if (hibernateSession != null) {
 			/*
-			 * The found session is closed - a new will be opened - the
-			 * conversation begins
+			 * A hibernateSession has been found in the current httpSession
 			 */
 			if (!hibernateSession.isOpen()) {
-				createSession();
-				logger.debug("open Hibernate session (http session: "
-						+ httpSession.getId() + ")");
-				logger.trace(httpSession.getId() + " >>> New conversation ");
+				/*
+				 * The found session is closed - a new will be created/opened -
+				 * the conversation begins
+				 */
+				createHibernateSession();
+			} else {
 				/*
 				 * Continue the conversation
 				 */
-			} else {
-				logger.trace(httpSession.getId()
-						+ " < Continuing conversation ");
+				logger.trace("HibernateWebFilter | " + httpSession.getId()
+						+ " << Continuing conversation ");
 			}
+		} else {
+			/*
+			 * If the httpSession doesn't contain the hibernateSession a new one
+			 * will be created
+			 */
+			createHibernateSession();
 		}
 		/*
-		 * If the httpSession doesn't contain the hibernateSession a new one
-		 * will be created
-		 */
-		else {
-			createSession();
-			logger.trace(httpSession.getId() + " >>> New conversation");
-			logger.debug("open Hibernate session (http session: "
-					+ httpSession.getId() + ")");
-
-		}
-		/*
-		 * Binds the hibernateSession
+		 * Bind the hibernateSession
 		 */
 		ManagedSessionContext
 				.bind((org.hibernate.classic.Session) hibernateSession);
@@ -171,7 +161,7 @@ public class HibernateWebFilter implements Filter {
 	 * closed and flushed and also detached from the httpSession. In other case
 	 * it will be reattached to the httpSession.
 	 */
-	private void afterLogic() {
+	private void storeOrCloseHibernateSession() {
 		/*
 		 * End or continue the long-running conversation?
 		 */
@@ -181,7 +171,7 @@ public class HibernateWebFilter implements Filter {
 			 * detached
 			 */
 			if (httpSession.getAttribute(END_OF_CONVERSATION_FLAG) != null) {
-				closeSession();
+				closeHibernateSession();
 			}
 			/*
 			 * The current hibernateSession will be stored in the httpSession
@@ -191,33 +181,26 @@ public class HibernateWebFilter implements Filter {
 						.getCurrentSession());
 			}
 		} catch (Exception e) {
-			if (e instanceof IllegalStateException) {
-				logger.trace("Trace Exception", e);
-				if (sf.getCurrentSession().isOpen()) {
-					closeSession();
-				}
-			} else {
-				logger.error("EEEEXCEPTION", e); // TODO Log it properly
-				closeSession();
-				httpSession.invalidate(); // TODO It would be nice to redirect
-				// the user to an error or loging
-				// page with an error message
-			}
+			invalidateOnError(e, response);
 		}
 	}
 
 	/**
 	 * Opens new session using the session factory and configures it.
 	 */
-	private void createSession() {
+	private void createHibernateSession() {
 		hibernateSession = sf.openSession();
 		hibernateSession.setFlushMode(FlushMode.MANUAL);
+		logger
+				.debug("HibernateWebFilter | New HibernateSession has been created | (http session: "
+						+ httpSession.getId() + ")");
+		logger.trace(httpSession.getId() + " >>> New conversation ");
 	}
 
 	/**
 	 * Closes the hibernate session and deletes it from the http session
 	 */
-	private void closeSession() {
+	private void closeHibernateSession() {
 		try {
 			if (!sf.getCurrentSession().isOpen()) {
 				sf.getCurrentSession().flush();
@@ -225,10 +208,39 @@ public class HibernateWebFilter implements Filter {
 			}
 			httpSession.setAttribute(HIBERNATE_SESSION_KEY, null);
 			httpSession.removeAttribute(END_OF_CONVERSATION_FLAG);
-			logger.debug("Hibernate session closed (http session: "
-					+ httpSession.getId() + ")");
+			logger
+					.trace("HibernateWebFilter | Hibernate session closed (http session: "
+							+ httpSession.getId() + ")");
 		} catch (HibernateException e) {
-			logger.error("dough!", e); // TODO Log it properly
+			invalidateOnError(e, response);
+		}
+	}
+
+	/**
+	 * In case of an error (an uncatched exception in the system) call this
+	 * method to log it and to log out the user.
+	 * 
+	 * @param e
+	 */
+	private void invalidateOnError(Exception e, HttpServletResponse response) {
+		/*
+		 * These exceptions hasn't been catch in the system logic so they would
+		 * be shown by the servlet container or application server. Instead they
+		 * will be logged and the user will be logged out
+		 */
+		logger.error("HibernateWebFilter - error| " + e.getMessage(), e);
+		closeHibernateSession();
+		/*
+		 * Invalidating the httpSession and redirecting the response to the log
+		 * in page
+		 */
+		httpSession.invalidate();
+		// TODO we could switch to the icefaces configuration option ...
+		// look in the retrospectiva ticket
+		try {
+			response.sendRedirect("login.jspx");
+		} catch (IOException e1) {
+			logger.error("HibernateWebFilter - error| " + e.getMessage(), e);
 		}
 	}
 
