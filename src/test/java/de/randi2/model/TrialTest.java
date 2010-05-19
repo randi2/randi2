@@ -552,6 +552,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 			else if(key.equals("randomConf")) {assertFalse(map.get(key));} 
 			else if(key.equals("generateIds")) {assertFalse(map.get(key));} 
 			else if(key.equals("serialVersionUID")) {assertFalse(map.get(key));}
+			else if(key.equals("SUBJECT_COUNT_COMPERATOR")) {assertFalse(map.get(key));}
 			else if(key.equals("$VRc")) {assertFalse(map.get(key));}
 			else fail(key + " not checked");
 		}

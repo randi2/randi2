@@ -23,10 +23,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-<<<<<<< HEAD
-=======
 import java.util.Comparator;
->>>>>>> 0-6-stable
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
