@@ -20,6 +20,8 @@ package de.randi2.model;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
@@ -61,6 +63,17 @@ import de.randi2.utility.validations.DateDependence;
 @EqualsAndHashCode(callSuper=true, exclude={"randomConf", "participatingSites", "sponsorInvestigator", "subjectCriteria"})
 @NamedQuery(name = "trial.AllTrialsWithSpecificParticipatingTrialSite", query = "select trial from Trial as trial join trial.participatingSites site where site.id = ?")
 public class Trial extends AbstractDomainObject {
+	
+	public static final Comparator<TrialSubject> SUBJECT_COUNT_COMPERATOR = new Comparator<TrialSubject>() {
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public int compare(TrialSubject o1, TrialSubject o2) {
+			return (o1.getCounter() - o2.getCounter());
+		}
+		
+	};
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -2424750074810584832L;
@@ -237,6 +250,7 @@ public class Trial extends AbstractDomainObject {
 		for (TreatmentArm arm : treatmentArms) {
 			subjects.addAll(arm.getSubjects());
 		}
+		Collections.sort(subjects, SUBJECT_COUNT_COMPERATOR);
 		return subjects;
 	}
 	
@@ -266,4 +280,5 @@ public class Trial extends AbstractDomainObject {
 	public String getUIName() {
 		return this.getAbbreviation();
 	}
+	
 }
