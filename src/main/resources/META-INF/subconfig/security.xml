@@ -45,6 +45,11 @@
 			<bean
 				class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy" />
 		</property>
+		<property name="authenticationFailureHandler">
+			<bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+				<property name="defaultFailureUrl" value="/login.jspx" />
+			</bean>
+		</property>
 	</bean>
 
 
