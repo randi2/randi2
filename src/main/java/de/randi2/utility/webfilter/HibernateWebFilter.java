@@ -78,7 +78,7 @@ public class HibernateWebFilter implements Filter {
 	private HttpServletResponse response;
 
 	/**
-	 * @{inheritDoc
+	 * @{inheritDoc}
 	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
