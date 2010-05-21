@@ -160,7 +160,7 @@ public class TrialSubject extends AbstractDomainObject {
 		List<String> list  = new ArrayList<String>();
 		for(SubjectProperty<?> p : getProperties()){
 			StringBuilder  str = new StringBuilder();
-			str.append(p.getCriterion().getName() + ": ");
+			str.append(p.getCriterion().getName()).append(": ");
 			if(GregorianCalendar.class.isInstance(p.getValue())){
 				str.append(sdf.format(((GregorianCalendar)p.getValue()).getTime()));
 			}else{
