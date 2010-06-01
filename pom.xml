@@ -138,9 +138,13 @@
         <!-- Version Shortcuts -->
         <org.springframework.version>3.0.2.RELEASE</org.springframework.version>
         <org.springframework.security.version>3.0.2.RELEASE</org.springframework.security.version>
+        <hsqldb.version>1.8.0.7</hsqldb.version>
         <mysql5.version>5.1.12</mysql5.version>
         <postgresql84.version>8.4-701.jdbc4</postgresql84.version>
-        <hsqldb.version>1.8.0.7</hsqldb.version>
+        <jtds.version>1.2.4</jtds.version>
+        <derby.version>10.4.2.0</derby.version>
+        <oracle.version>10.2.0.3.0</oracle.version>
+        <db2.version>3.1.57</db2.version>  		
     </properties>
     <repositories>
         <repository>
@@ -752,5 +756,124 @@
                 </dependency>
             </dependencies>
         </profile>
+        
+        <profile>
+            <id>sqlserver-test</id>
+            <activation>
+                <property>
+                    <name>test.dbms</name>
+                    <value>sqlserver</value>
+                </property>
+            </activation>
+            <properties>
+                <test.database.name>randi2/jdbc/sqlserver-test</test.database.name>
+                <test.hibernate.dialect>org.hibernate.dialect.SQLServerDialect</test.hibernate.dialect>
+            </properties>
+            <dependencies>
+                <dependency>
+					<groupId>net.sourceforge.jtds</groupId> 
+					<artifactId>jtds</artifactId> 
+					<version>${jtds.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        
+        <profile>
+            <id>sybase-test</id>
+            <!-- This Profile has never been tested, 31.05.2010 -->
+            <activation>
+                <property>
+                    <name>test.dbms</name>
+                    <value>sybase</value>
+                </property>
+            </activation>
+            <properties>
+                <test.database.name>randi2/jdbc/sybase-test</test.database.name>
+                <test.hibernate.dialect>org.hibernate.dialect.SybaseDialect</test.hibernate.dialect>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>net.sourceforge.jtds</groupId>
+                    <artifactId>jtds</artifactId>
+                    <version>${jtds.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>        
+        
+        <profile>
+            <id>derby-test</id>
+            <activation>
+                <property>
+                    <name>test.dbms</name>
+                    <value>derby</value>
+                </property>
+            </activation>
+            <properties>
+                <test.database.name>randi2/jdbc/derby-test</test.database.name>
+                <test.hibernate.dialect>de.randi2.utility.CustomDerbyDialect</test.hibernate.dialect>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.derby</groupId>
+                    <artifactId>derby</artifactId>
+                    <version>${derby.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>        
+        
+       <profile>
+            <id>oracle-test</id>
+            <!-- This Profile has never been tested, 31.05.2010 -->
+            <!-- The Oracle JDBC Driver has to be manually included into your local maven repository -->
+            <!-- mvn install:install-file -Dfile=%PATH_TO_DOWNLOADED_JAR%/ojdbc14.jar -Dpackaging=jar -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2.0.3.0 -->
+            <activation>
+                <property>
+                    <name>test.dbms</name>
+                    <value>oracle</value>
+                </property>
+            </activation>
+            <properties>
+                <test.database.name>randi2/jdbc/oracle-test</test.database.name>
+                <test.hibernate.dialect>org.hibernate.dialect.Oracle9Dialect</test.hibernate.dialect>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.oracle</groupId>
+                    <artifactId>ojdbc14</artifactId>
+                    <version>${oracle.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        
+         <profile>
+            <id>db2-test</id>
+            <!-- This Profile has never been tested, 31.05.2010 -->
+            <!-- The IBM DB2 JDBC Driver has to be manually included into your local maven repository -->
+            <!-- mvn install:install-file -Dfile=%PATH_TO_DOWNLOADED_JAR%/db2jcc_license_cu.jar -Dpackaging=jar -DgroupId=com.ibm -DartifactId=db2jcc_license_cu -Dversion=3.1.57 -->
+            <!-- possibly additionally db2jcc.jar is needed ?????? try it out and give feedback! -->
+            <activation>
+                <property>
+                    <name>test.dbms</name>
+                    <value>db2</value>
+                </property>
+            </activation>
+            <properties>
+                <test.database.name>randi2/jdbc/db2-test</test.database.name>
+                <test.hibernate.dialect>org.hibernate.dialect.DB2Dialect</test.hibernate.dialect>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.ibm</groupId>
+                    <artifactId>db2jcc_license_cu</artifactId>
+                    <version>${db2.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+                
     </profiles>
 </project>

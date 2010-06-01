@@ -6,7 +6,9 @@
 	default-autowire="byName">
 	
 	<util:properties id="hibernateProperties">
+		<prop key="hibernate.dialect">${hibernate.dialect}</prop>
 		<prop key="hibernate.show_sql">false</prop>
+		<prop key="hibernate.connection.autocommit">false</prop>
 		<prop key="hibernate.hbm2ddl.auto">update</prop>
 		<prop key="hibernate.current_session_context_class">managed</prop>
 		<prop key="hibernate.connection.autoReconnect">true</prop>

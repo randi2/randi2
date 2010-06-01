@@ -20,14 +20,18 @@ package de.randi2.model.randomization;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Column;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import org.hibernate.annotations.CollectionOfElements;
+import org.hibernate.annotations.MapKey;
 
 @Entity
+@DiscriminatorValue("URN")
 @Data
 @EqualsAndHashCode(callSuper=true)
 public class UrnDesignTempData extends AbstractRandomizationTempData {
@@ -37,7 +41,7 @@ public class UrnDesignTempData extends AbstractRandomizationTempData {
 
 	
 	 @CollectionOfElements(targetElement = Urn.class)
-	 @org.hibernate.annotations.MapKey(targetElement = String.class)
+	 @MapKey(targetElement = String.class, columns = {@Column(name="mapkey",nullable=false)})
 	 private Map<String, Urn> urns = new HashMap<String, Urn>();
 	 
 	 
