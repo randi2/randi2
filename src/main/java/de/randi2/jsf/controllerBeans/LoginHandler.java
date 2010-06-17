@@ -381,13 +381,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 		if (newUser == null) { // Starting the registration process
 			assert (userService != null);
 			newUser = userService.prepareInvestigator();
-//			// Put the context in the session
-//			((HttpServletRequest) FacesContext.getCurrentInstance()
-//					.getExternalContext().getRequest())
-//					.getSession()
-//					.setAttribute(
-//							HttpSessionContextIntegrationFilter.SPRING_SECURITY_CONTEXT_KEY,
-//							SecurityContextHolder.getContext());
 		}
 		return newUser;
 	}

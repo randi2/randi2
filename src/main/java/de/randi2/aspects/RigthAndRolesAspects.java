@@ -17,11 +17,15 @@
  */
 package de.randi2.aspects;
 
+import java.util.ArrayList;
+
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +63,11 @@ public class RigthAndRolesAspects {
 			throws Throwable {
 		pjp.proceed();
 		for (Object o : pjp.getArgs()) {
-
+			//special case for self registration
+			if(SecurityContextHolder.getContext()
+					.getAuthentication().getPrincipal().equals("anonymousUser") && o instanceof Login){
+				SecurityContextHolder.getContext().setAuthentication(new AnonymousAuthenticationToken("anonymousUser", o, new ArrayList<GrantedAuthority>(((Login)o).getAuthorities())));
+			}
 			Login login = (Login) SecurityContextHolder.getContext()
 					.getAuthentication().getPrincipal();
 			if (o instanceof Login) {
