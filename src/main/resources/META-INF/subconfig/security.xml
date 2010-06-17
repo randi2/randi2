@@ -21,16 +21,16 @@
 	<bean id="springSecurityFilterChainProxy" class="org.springframework.security.web.FilterChainProxy">
 		<sec:filter-chain-map path-type="ant">
 			<sec:filter-chain
-				filters="securityContextPersistenceFilter,formLoginFilter,logoutFilter"
+				filters="securityContextPersistenceFilter,formLoginFilter,logoutFilter,anonymousAuthFilter"
 				pattern="/**" />
 		</sec:filter-chain-map>
 
 	</bean>
 
 	<bean id="securityContextPersistenceFilter"
-		class="org.springframework.security.web.context.SecurityContextPersistenceFilter" >
+		class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
 		<property name="forceEagerSessionCreation" value="true" />
-		</bean>
+	</bean>
 
 	<bean id="formLoginFilter"
 		class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
@@ -46,12 +46,24 @@
 				class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy" />
 		</property>
 		<property name="authenticationFailureHandler">
-			<bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+			<bean
+				class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
 				<property name="defaultFailureUrl" value="/login.jspx" />
 			</bean>
 		</property>
 	</bean>
 
+
+	<bean id="anonymousAuthFilter"
+		class="org.springframework.security.web.authentication.AnonymousAuthenticationFilter">
+		<property name="key" value="ANONYMOUS_USER" />
+		<property name="userAttribute" value="anonymousUser,ROLE_ANONYMOUS" />
+	</bean>
+
+	<bean id="anonymousAuthenticationProvider"
+		class="org.springframework.security.authentication.AnonymousAuthenticationProvider">
+		<property name="key" value="ANONYMOUS_USER" />
+	</bean>
 
 	<bean id="logoutFilter"
 		class="org.springframework.security.web.authentication.logout.LogoutFilter">
