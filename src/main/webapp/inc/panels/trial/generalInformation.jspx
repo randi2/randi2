@@ -17,55 +17,112 @@
 
 <ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ice="http://www.icesoft.com/icefaces/component" style="width: 550px;">
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	style="width: 550px;">
 	<ice:panelGrid columns="2" style="width: 550px;">
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="#{labels['trial.name']}"></ice:outputLabel>
+				<ice:outputLabel value="#{labels['trial.name']}" />
 			</f:facet>
-			<ice:outputText id="name" value="#{randi2Page.currentTrial.name}" />
+			<ice:outputText id="name" value="#{randi2Page.currentTrial.name}"
+				rendered="#{!trialHandler.editing}" />
+			<ice:panelGroup rendered="#{trialHandler.editing}">
+				<ice:inputText id="nameE" size="35"
+					value="#{trialHandler.showedObject.name}"
+					required="#{trialHandler.showedObject.requiredFields['name']}"
+					partialSubmit="true">
+					<f:validator
+						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+					<f:attribute name="dObject" value="#{trialHandler.showedObject}" />
+				</ice:inputText>
+				<ice:message for="nameE" />
+			</ice:panelGroup>
 		</ice:panelCollapsible>
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="#{labels['trial.abbreviation']}"></ice:outputLabel>
+				<ice:outputLabel value="#{labels['trial.abbreviation']}" />
 			</f:facet>
 			<ice:outputText id="abbreviation"
-				value="#{randi2Page.currentTrial.abbreviation}" />
+				value="#{randi2Page.currentTrial.abbreviation}"
+				rendered="#{!trialHandler.editing}" />
+			<ice:panelGroup rendered="#{trialHandler.editing}">
+				<ice:inputText id="abbreviationE" size="31"
+					value="#{trialHandler.showedObject.abbreviation}"
+					required="#{trialHandler.showedObject.requiredFields['abbreviation']}"
+					partialSubmit="true" readonly="true" style="background: #E6E6E6;">
+					<f:validator
+						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+					<f:attribute name="dObject" value="#{trialHandler.showedObject}" />
+				</ice:inputText>
+				<ice:message for="abbreviationE" />
+			</ice:panelGroup>
 		</ice:panelCollapsible>
 	</ice:panelGrid>
 	<ice:panelCollapsible expanded="true" toggleOnClick="false"
 		style="margin-left: 3px;">
 		<f:facet name="header">
-			<ice:outputLabel value="#{labels['trial.description']}"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['trial.description']}" />
 		</f:facet>
 		<ice:outputText id="description"
-			value="#{randi2Page.currentTrial.description}" />
+			value="#{randi2Page.currentTrial.description}"
+			rendered="#{!trialHandler.editing}" />
+		<ice:panelGroup rendered="#{trialHandler.editing}">
+			<ice:inputTextarea id="descriptionE" cols="20" rows="4"
+				value="#{trialHandler.showedObject.description}"
+				required="#{trialHandler.showedObject.requiredFields['description']}"
+				partialSubmit="true" style="width:505px;height:85px;overflow: auto;">
+				<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+				<f:attribute name="dObject" value="#{trialHandler.showedObject}" />
+			</ice:inputTextarea>
+			<ice:message for="descriptionE" />
+		</ice:panelGroup>
 	</ice:panelCollapsible>
 	<ice:panelGrid columns="2" style="width: 550px;">
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="#{labels['trial.startDate']}"/>
+				<ice:outputLabel value="#{labels['trial.startDate']}" />
 			</f:facet>
-			<ice:outputText id="sDate" value="#{randi2Page.currentTrial.startDate.time}">
-			<f:convertDateTime locale="#{loginHandler.chosenLocale}"
-						dateStyle="medium" timeZone="#{randi2Page.zone}" />
+			<ice:outputText id="sDate"
+				value="#{randi2Page.currentTrial.startDate.time}"
+				rendered="#{!trialHandler.editing}">
+				<f:convertDateTime locale="#{loginHandler.chosenLocale}"
+					dateStyle="medium" timeZone="#{randi2Page.zone}" />
 			</ice:outputText>
+			<ice:panelGroup rendered="#{trialHandler.editing}">
+				<ice:selectInputDate id="sDateE"
+					value="#{trialHandler.showedObject.startDate.time}"
+					renderAsPopup="true">
+					<f:convertDateTime locale="#{loginHandler.chosenLocale}"
+						dateStyle="medium" timeZone="#{randi2Page.zone}" />
+				</ice:selectInputDate>
+				<ice:message for="sDateE" />
+			</ice:panelGroup>
 		</ice:panelCollapsible>
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="#{labels['trial.endDate']}"/>
+				<ice:outputLabel value="#{labels['trial.endDate']}" />
 			</f:facet>
 			<ice:outputText id="eDate"
-				value="#{randi2Page.currentTrial.endDate.time}">
+				value="#{randi2Page.currentTrial.endDate.time}"
+				rendered="#{!trialHandler.editing}">
 				<f:convertDateTime locale="#{loginHandler.chosenLocale}"
-						dateStyle="medium" timeZone="#{randi2Page.zone}" />
+					dateStyle="medium" timeZone="#{randi2Page.zone}" />
 			</ice:outputText>
+			<ice:panelGroup rendered="#{trialHandler.editing}">
+				<ice:selectInputDate id="eDateE"
+					value="#{trialHandler.showedObject.endDate.time}"
+					renderAsPopup="true">
+					<f:convertDateTime locale="#{loginHandler.chosenLocale}"
+						dateStyle="medium" timeZone="#{randi2Page.zone}" />
+				</ice:selectInputDate>
+				<ice:message for="eDateE" />
+			</ice:panelGroup>
 		</ice:panelCollapsible>
 	</ice:panelGrid>
 	<ice:panelCollapsible expanded="true" toggleOnClick="false"
 		style="margin-left: 3px; margin-top: 3px;">
 		<f:facet name="header">
-			<ice:outputLabel value="#{labels['trial.protocol']}"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['trial.protocol']}" />
 		</f:facet>
 		<ice:outputResource id="pdf-button"
 			resource="#{trialHandler.tempProtocol}" mimeType="application/pdf"
@@ -75,17 +132,19 @@
 	<ice:panelGrid columns="2" style="width: 550px;">
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="#{labels['trial.leadingTrialSite']}"></ice:outputLabel>
+				<ice:outputLabel value="#{labels['trial.leadingTrialSite']}" />
 			</f:facet>
 			<ice:outputText id="lTrialSite"
-				value="#{randi2Page.currentTrial.leadingSite.UIName}" />
+				value="#{randi2Page.currentTrial.leadingSite.UIName}"
+				rendered="#{!trialHandler.editing}" />
 		</ice:panelCollapsible>
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="#{labels['trial.sponsorInvestigator']}"></ice:outputLabel>
+				<ice:outputLabel value="#{labels['trial.sponsorInvestigator']}" />
 			</f:facet>
 			<ice:outputText id="sInvestigator"
-				value="#{randi2Page.currentTrial.sponsorInvestigator.UIName}" />
+				value="#{randi2Page.currentTrial.sponsorInvestigator.UIName}"
+				rendered="#{!trialHandler.editing}" />
 		</ice:panelCollapsible>
 	</ice:panelGrid>
 </ice:panelGroup>

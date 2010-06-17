@@ -28,6 +28,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import lombok.Getter;
@@ -37,6 +38,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionContextIntegrationFilter;
 
 import de.randi2.jsf.backingBeans.RegisterPage;
 import de.randi2.jsf.exceptions.RegistrationException;
@@ -382,12 +384,12 @@ public class LoginHandler extends AbstractHandler<Login> {
 			assert (userService != null);
 			newUser = userService.prepareInvestigator();
 //			// Put the context in the session
-//			((HttpServletRequest) FacesContext.getCurrentInstance()
-//					.getExternalContext().getRequest())
-//					.getSession()
-//					.setAttribute(
-//							HttpSessionContextIntegrationFilter.SPRING_SECURITY_CONTEXT_KEY,
-//							SecurityContextHolder.getContext());
+			((HttpServletRequest) FacesContext.getCurrentInstance()
+					.getExternalContext().getRequest())
+					.getSession()
+					.setAttribute(
+							HttpSessionContextIntegrationFilter.SPRING_SECURITY_CONTEXT_KEY,
+							SecurityContextHolder.getContext());
 		}
 		return newUser;
 	}

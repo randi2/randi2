@@ -18,44 +18,74 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelTabSet style="font-size: 9;display: block;">
-		<ice:panelTab label="#{labels['pages.trialShowPanel.generalInformation']}">
+		<ice:panelTab
+			label="#{labels['pages.trialShowPanel.generalInformation']}">
 			<f:subview id="giInclude">
-				<jsp:directive.include file="./inc/panels/trial/generalInformation.jspx" />
+				<jsp:directive.include
+					file="./inc/panels/trial/generalInformation.jspx" />
 			</f:subview>
 		</ice:panelTab>
-		<ice:panelTab label="#{labels['pages.trialShowPanel.sitesInformation']}">
-			<f:subview id="siInclude">
-				<jsp:directive.include file="./inc/panels/trial/sitesInformation.jspx" />
+		<ice:panelTab
+			label="#{labels['pages.trialShowPanel.sitesInformation']}">
+			<f:subview id="siInclude" rendered="#{!trialHandler.editing}">
+				<jsp:directive.include
+					file="./inc/panels/trial/sitesInformation.jspx" />
+			</f:subview>
+			<f:subview id="siIncludeE" rendered="#{trialHandler.editing}">
+				<jsp:directive.include file="./inc/panels/trial/step2.jspx" />
 			</f:subview>
 		</ice:panelTab>
-        <ice:panelTab label="#{labels['pages.algorithmInfo']}" rendered="#{permissionVerifier.allowedSeeRandomizationDetails}">
-             <f:subview id="algorithmInfo">
-                 <jsp:directive.include file="./inc/panels/trial/algorithmInformation.jspx"/>
-             </f:subview>
-        </ice:panelTab>
-		<ice:panelTab label="#{labels['pages.trialShowPanel.randomizationData']}" rendered="#{permissionVerifier.allowedSeeRandomizationDetails}">
+		<ice:panelTab label="#{labels['pages.trialEditPanel.step3']}"
+			rendered="#{trialHandler.editing}">
+			<f:subview id="step3Include">
+				<jsp:directive.include file="./inc/panels/trial/step3.jspx" />
+			</f:subview>
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.trialEditPanel.step4']}"
+			rendered="#{trialHandler.editing}">
+			<f:subview id="step4Include">
+				<jsp:directive.include file="./inc/panels/trial/step4.jspx" />
+			</f:subview>
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.trialEditPanel.step5']}"
+			rendered="#{trialHandler.editing}">
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.algorithmInfo']}"
+			rendered="#{permissionVerifier.allowedSeeRandomizationDetails and !trialHandler.editing}">
+			<f:subview id="algorithmInfo">
+				<jsp:directive.include
+					file="./inc/panels/trial/algorithmInformation.jspx" />
+			</f:subview>
+		</ice:panelTab>
+		<ice:panelTab
+			label="#{labels['pages.trialShowPanel.randomizationData']}"
+			rendered="#{permissionVerifier.allowedSeeRandomizationDetails and !trialHandler.editing}">
 			<f:subview id="ranDatInclude">
-				<jsp:directive.include file="./inc/panels/trial/randomizationData.jspx" />
+				<jsp:directive.include
+					file="./inc/panels/trial/randomizationData.jspx" />
 			</f:subview>
 		</ice:panelTab>
-		<ice:panelTab label="#{labels['pages.trialShowPanel.subjects']}" rendered="#{permissionVerifier.allowedRandomize}">
+		<ice:panelTab label="#{labels['pages.trialShowPanel.subjects']}"
+			rendered="#{permissionVerifier.allowedRandomize and !trialHandler.editing}">
 			<f:subview id="subInclude">
 				<jsp:directive.include file="./inc/panels/trial/subjects.jspx" />
 			</f:subview>
 		</ice:panelTab>
-		<ice:panelTab label="#{labels['pages.trialShowPanel.actions']}" rendered="#{permissionVerifier.allowedSeeRandomizationDetails}">
+		<ice:panelTab label="#{labels['pages.trialShowPanel.actions']}"
+			rendered="#{permissionVerifier.allowedSeeRandomizationDetails and !trialHandler.editing}">
 			<f:subview id="actionsInclude">
 				<jsp:directive.include file="./inc/panels/trial/trialActions.jspx" />
 			</f:subview>
 		</ice:panelTab>
 	</ice:panelTabSet>
-<!--  
-<ice:panelGrid border="0" columns="3">
+	<ice:commandButton type="submit" value="#{labels['buttons.edit']}"
+		actionListener="#{randi2Page.editCurrentTrial}"
+		rendered="#{trialHandler.editable and !trialHandler.editing}" />
+	<ice:panelGrid border="0" columns="2"
+		rendered="#{trialHandler.editing}">
 		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
-			action="#{trialHandler.createTrial}" rendered="false"/>
-		<ice:commandButton type="submit" value="*Edit" />
+			action="#{trialHandler.saveTrial}" />
 		<ice:messages globalOnly="true" showDetail="true" showSummary="true"
 			tooltip="true" />
-</ice:panelGrid>
--->
+	</ice:panelGrid>
 </ice:form>

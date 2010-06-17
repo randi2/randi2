@@ -2,7 +2,6 @@ package de.randi2.jsf.backingBeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.faces.event.ActionEvent;
@@ -15,8 +14,12 @@ import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
-
-public class AbstractSubjectPropertyBackingB {
+/**
+ * 
+ * @author lplotni
+ *
+ */
+public abstract class AbstractSubjectPropertyBackingB {
 
 	@Getter
 	@Setter
@@ -24,13 +27,15 @@ public class AbstractSubjectPropertyBackingB {
 
 	protected AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> criteriaAC = null;
 
-	private ArrayList<CriterionWrapper<? extends Serializable>> criteria = null;
+	protected ArrayList<CriterionWrapper<? extends Serializable>> criteria = null;
 
 	@SuppressWarnings("unchecked")
 	public void addCriterion(ActionEvent event) {
 		if (criteriaAC.isObjectSelected())
 			try {
-				getCriteria().add(
+				if(criteria==null)
+					getCriteria();
+				criteria.add(
 						new CriterionWrapper<Serializable>(
 								(AbstractCriterion<Serializable, ?>) criteriaAC
 										.getSelectedObject().getClass()
@@ -43,11 +48,11 @@ public class AbstractSubjectPropertyBackingB {
 	}
 
 	public void removeCriterion(ActionEvent event) {
-		getCriteria().remove(this.getCriteria().size() - 1);
+		criteria.remove(this.getCriteria().size() - 1);
 	}
 
 	public boolean isCriteriaEmpty() {
-		return criteria == null || criteria.isEmpty();
+		return getCriteria().isEmpty();
 	}
 
 	public ArrayList<CriterionWrapper<? extends Serializable>> getCriteria() {

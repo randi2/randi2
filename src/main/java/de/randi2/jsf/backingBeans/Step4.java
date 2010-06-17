@@ -19,15 +19,8 @@ package de.randi2.jsf.backingBeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import javax.faces.event.ActionEvent;
-import javax.faces.model.SelectItem;
 
 import lombok.Setter;
-
-import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.jsf.wrappers.CriterionWrapper;
@@ -54,6 +47,18 @@ public class Step4 extends AbstractSubjectPropertyBackingB{
 		}
 		return criteriaAC;
 	}
-
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<CriterionWrapper<? extends Serializable>> getCriteria() {
+		if (criteria == null)
+			criteria = new ArrayList<CriterionWrapper<? extends Serializable>>();
+		if(criteria.isEmpty()&&trialHandler.isEditing()){
+			for(AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<?>> c : trialHandler.getShowedObject().getCriteria()){
+				criteria.add(
+						new CriterionWrapper<Serializable>((AbstractCriterion<Serializable, ?>) c));
+			}
+		}
+		return criteria;
+	}
 }

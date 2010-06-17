@@ -155,6 +155,19 @@ public class Randi2Page {
 	}
 	
 	/**
+	 * This method enables the trial editing.
+	 * 
+	 * @param event
+	 */
+	public void editCurrentTrial(ActionEvent event) {
+		if(currentTrial!=null){
+			trialHandler.setShowedObject(currentTrial);
+			trialHandler.setEditing(true);
+			activePanel = "trialShowPanel";
+		}
+	}
+	
+	/**
 	 * This method shows the given trial.
 	 *
 	 * @param _trial

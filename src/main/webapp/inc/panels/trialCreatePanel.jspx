@@ -14,7 +14,7 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
- <f:subview id="trialCreatedPopup">
+<f:subview id="trialCreatedPopup">
 	<jsp:directive.include file="./inc/popups/trialCreatedPopup.jspx" />
 </f:subview>
 <ice:form xmlns:h="http://java.sun.com/jsf/html"
@@ -40,13 +40,13 @@
 		</ice:panelTab>
 
 		<ice:panelTab label="#{labels['pages.trialEditPanel.step4']}">
-		<f:subview id="step4Include">
+			<f:subview id="step4Include">
 				<jsp:directive.include file="./inc/panels/trial/step4.jspx" />
 			</f:subview>
 		</ice:panelTab>
 
 		<ice:panelTab label="#{labels['pages.trialEditPanel.step5']}">
-		<f:subview id="step5Include">
+			<f:subview id="step5Include">
 				<jsp:directive.include file="./inc/panels/trial/step5.jspx" />
 			</f:subview>
 		</ice:panelTab>
@@ -54,9 +54,8 @@
 	</ice:panelTabSet>
 	<ice:panelGrid border="0" columns="3">
 		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
-			action="#{trialHandler.createTrial}"  rendered="false"/>
+			action="#{trialHandler.createTrial}" rendered="false" />
 		<!-- ice:commandButton type="reset" value="#{labels['buttons.reset']}" / -->
-		<ice:messages showDetail="true" showSummary="true"
-			tooltip="true" />
+		<ice:messages showDetail="true" showSummary="true" tooltip="true" />
 	</ice:panelGrid>
 </ice:form>
