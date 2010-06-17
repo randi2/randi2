@@ -31,6 +31,7 @@ import javax.persistence.Transient;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
@@ -45,6 +46,7 @@ import de.randi2.utility.validations.Password;
 @Entity
 @NamedQuery(name = "trialSite.findAllMembers", query = "select p from Person p where p.trialSite = :trialSite ")
 @EqualsAndHashCode(callSuper=true, exclude={"trials", "members", "contactPerson"})
+@ToString(exclude={"members", "trials"})
 @Data
 public class TrialSite extends AbstractDomainObject {
 
