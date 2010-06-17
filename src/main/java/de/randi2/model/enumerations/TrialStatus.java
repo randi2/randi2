@@ -17,6 +17,30 @@
  */
 package de.randi2.model.enumerations;
 
+/**
+ * Defines the state of the trial.
+ * 
+ * @author L. Plotnicki <l.plotnicki@dkfz.de>
+ * 
+ */
 public enum TrialStatus {
-	ACTIVE, IN_PREPARATION, FINISHED, PAUSED;
+	/**
+	 * The trial is active, subjects can be randomized. Only the description and
+	 * the end date of the study can be edited. New protocol can be uploaded.
+	 */
+	ACTIVE,
+	/**
+	 * The trial is stored in the system but no randomization is allowed. Any
+	 * property of the trial (as well as any property of the randomization
+	 * algorithm) can be changed.
+	 */
+	IN_PREPARATION,
+	/**
+	 * No randomization and changes to the trial possible.
+	 */
+	FINISHED,
+	/**
+	 * Similar to ACTIVE but the randomization process is not allowed.
+	 */
+	PAUSED;
 }
