@@ -100,42 +100,52 @@ public class AlgorithmInfo {
         return furtherDetails.toString();
     }
 
-    /**
-     * Specifies if the algorithm is stratified or not.
-     * @return
-     */
-    public boolean isStratified(){
-    	boolean t = isStrataFactorsDefined();
-        if(t)
-        	return t;
-        else
-        	return randi2Page.getCurrentTrial().isStratifyTrialSite();
-    }
-    
-    /**
-     * Checks if any strata factors are defined.
-     * @return
-     */
-    public boolean isStrataFactorsDefined(){
-    	 
-    	for(AbstractCriterion<?,?> c : randi2Page.getCurrentTrial().getCriteria()){
-    		if(c.getStrata()!=null){
-    			if(c.getStrata().size()>0)
-                    return true;
-    		}
-         }
-    	 return false;
-    }
+	/**
+	 * Specifies if the algorithm is stratified or not.
+	 * 
+	 * @return
+	 */
+	public boolean isStratified() {
+		boolean t = isStrataFactorsDefined();
+		if (t)
+			return t;
+		else
+			return randi2Page.getCurrentTrial().isStratifyTrialSite();
+	}
 
-    private List<CriterionWrapper<Serializable>> strata;
+	/**
+	 * Checks if any strata factors are defined.
+	 * 
+	 * @return
+	 */
+	public boolean isStrataFactorsDefined() {
 
-    @SuppressWarnings("unchecked")
-	public List<CriterionWrapper<Serializable>> getStrata(){
-        strata  = new ArrayList<CriterionWrapper<Serializable>>();
-        for(AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : randi2Page.getCurrentTrial().getCriteria()){
-            strata.add(new CriterionWrapper<Serializable>((AbstractCriterion<Serializable, ?>) c));
-        }
-        return strata;
-    }
+		for (AbstractCriterion<?, ?> c : randi2Page.getCurrentTrial()
+				.getCriteria()) {
+			if (c.getStrata() != null) {
+				if (c.getStrata().size() > 0)
+					return true;
+			}
+		}
+		return false;
+	}
+
+	private List<CriterionWrapper<Serializable>> strata;
+
+	@SuppressWarnings("unchecked")
+	public List<CriterionWrapper<Serializable>> getStrata() {
+		strata = new ArrayList<CriterionWrapper<Serializable>>();
+		for (AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : randi2Page
+				.getCurrentTrial().getCriteria()) {
+			/*
+			 * Check if the criterion is a defined strata factor and if so wrapp
+			 * it and add to the collection
+			 */
+			if (c.getStrata() != null && !c.getStrata().isEmpty())
+				strata.add(new CriterionWrapper<Serializable>(
+						(AbstractCriterion<Serializable, ?>) c));
+		}
+		return strata;
+	}
 
 }
