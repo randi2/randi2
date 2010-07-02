@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/jee
+       http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
 
+
+	<jee:jndi-lookup id="mailSession" jndi-name="mail/randi2" lookup-on-startup="true"/>
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="${mail.host}" />
-		<property name="username" value="${mail.username}" />
-		<property name="password" value="${mail.password}" />
+		<property name="session" ref="mailSession"></property>
 	</bean>
 
 	<bean id="mailService" class="de.randi2.utility.mail.MailService">
 		<property name="from" value="${mail.from}" />
 		<property name="hoster" value="${info.hoster}" />
-		<property name="url" value="${info.server}"></property>
+		<property name="url" value="${info.server}" />
 	</bean>
 
 	<bean id="velocityEngine"
