@@ -131,7 +131,6 @@ public class Bootstrap {
 		userService = (UserService) ctx.getBean("userService");
 		System.out.println("init spring context: " + (System.nanoTime()-time1)/1000000 + " ms");
 		init();
-
 	}
 
 	public void init() {

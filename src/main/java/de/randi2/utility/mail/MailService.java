@@ -17,11 +17,14 @@
  */
 package de.randi2.utility.mail;
 
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 
+import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -76,11 +79,12 @@ public class MailService implements MailServiceInterface {
 	 * @see de.randi2.utility.mail.MailService#sendMail(de.randi2.model.Login)
 	 */
 	public boolean sendMail(final String recipient,
-			final String messageTemplate, final Locale templateLanguage,
+			final String messageTemplate, final Locale templateLanguageParam,
 			final Map<String, Object> messageFields,
 			final Map<String, Object> subjectFields) throws MailErrorException {
 
 		try {
+			final Locale templateLanguage = (templateLanguageParam != null) ? templateLanguageParam : Locale.ENGLISH;
 			messageFields.put("hoster", hoster);
 			messageFields.put("url", url);
 			MimeMessagePreparator preparator = new MimeMessagePreparator() {
@@ -89,7 +93,9 @@ public class MailService implements MailServiceInterface {
 							mimeMessage);
 					message.setTo(recipient);
 					message.setFrom(from);
-
+					
+					
+					
 					String subject = VelocityEngineUtils
 							.mergeTemplateIntoString(velocityEngine,
 									PATH_MAIL_TEMPLATES
@@ -111,7 +117,7 @@ public class MailService implements MailServiceInterface {
 			this.mailSender.send(preparator);
 
 		} catch (Exception e) {
-			throw new MailErrorException("Error while sending email..");
+			throw new MailErrorException(String.format("Error while sending mail: '%s'", e.getMessage()), e);
 
 		}
 

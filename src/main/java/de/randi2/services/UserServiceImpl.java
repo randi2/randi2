@@ -66,7 +66,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private MailServiceInterface mailService;
 
-
 	@Override
 	public void addRole(Login login, Role role) {
 
@@ -103,7 +102,8 @@ public class UserServiceImpl implements UserService {
 		newUser.setPerson(new Person());
 		newUser.addRole(Role.ROLE_ANONYMOUS);
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"anonymousUser", newUser, new ArrayList<GrantedAuthority>(newUser.getAuthorities()));
+				"anonymousUser", newUser, new ArrayList<GrantedAuthority>(
+						newUser.getAuthorities()));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()
@@ -112,55 +112,57 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Secured( { "ROLE_ANONYMOUS", "ACL_LOGIN_CREATE" })
+	@Secured({ "ROLE_ANONYMOUS", "ACL_LOGIN_CREATE" })
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void register(Login newObject) {
 		logger.info("register new user with username/eMail "
 				+ newObject.getUsername());
 		// Investigator Role (self-registration process)
 		if (newObject.getRoles().size() == 1
-				&& newObject.getRoles().iterator().next().equals(
-						Role.ROLE_ANONYMOUS)) {
+				&& newObject.getRoles().iterator().next()
+						.equals(Role.ROLE_ANONYMOUS)) {
 			newObject.addRole(Role.ROLE_INVESTIGATOR);
 		}
-		newObject.setPassword(passwordEncoder.encodePassword(newObject
-				.getPassword(), saltSourceUser.getSalt(newObject)));
+		newObject.setPassword(passwordEncoder.encodePassword(
+				newObject.getPassword(), saltSourceUser.getSalt(newObject)));
 		loginDao.create(newObject);
 		// send registration Mail
 		sendRegistrationMail(newObject);
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.randi2.services.UserService#create(de.randi2.model.Login)
 	 */
 	@Override
-	@Secured( { "ACL_LOGIN_CREATE" })
+	@Secured({ "ACL_LOGIN_CREATE" })
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void create(Login newObject) {
 		logger.info("user: "
 				+ SecurityContextHolder.getContext().getAuthentication()
 						.getName() + " create new user "
 				+ newObject.getUsername());
-		newObject.setPassword(passwordEncoder.encodePassword(newObject
-				.getPassword(), saltSourceUser.getSalt(newObject)));
+		newObject.setPassword(passwordEncoder.encodePassword(
+				newObject.getPassword(), saltSourceUser.getSalt(newObject)));
 		loginDao.create(newObject);
 		// send registration Mail
 		sendRegistrationMail(newObject);
 	}
 
 	@Override
-	@Secured( { "ACL_LOGIN_WRITE" })
+	@Secured({ "ACL_LOGIN_WRITE" })
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public Login update(Login changedObject) {
 		logger.info("user: "
 				+ SecurityContextHolder.getContext().getAuthentication()
 						.getName() + " update user "
 				+ changedObject.getUsername());
-		if (changedObject.getPassword().length() != 64){
+		if (changedObject.getPassword().length() != 64) {
 			changedObject.setPassword(passwordEncoder.encodePassword(
-					changedObject.getPassword(), saltSourceUser
-							.getSalt(changedObject)));
+					changedObject.getPassword(),
+					saltSourceUser.getSalt(changedObject)));
 		}
 		return loginDao.update(changedObject);
 	}
@@ -176,7 +178,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Secured( { "ROLE_USER", "AFTER_ACL_COLLECTION_READ" })
+	@Secured({ "ROLE_USER", "AFTER_ACL_COLLECTION_READ" })
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public List<Login> getAll() {
 		logger.info("user: "
@@ -200,7 +202,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Secured( { "ROLE_USER", "AFTER_ACL_READ" })
+	@Secured({ "ROLE_USER", "AFTER_ACL_READ" })
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public Login getObject(long objectID) {
 		logger.info("user: "
@@ -220,12 +222,8 @@ public class UserServiceImpl implements UserService {
 
 		Locale language = newUser.getPrefLocale();
 
-		try {
-			mailService.sendMail(newUser.getPerson().getEmail(), "NewUserMail",
-					language, newUserMessageFields, newUserSubjectFields);
-		} catch (MailErrorException e1) {
-			logger.error(e1.getMessage());
-		}
+		mailService.sendMail(newUser.getPerson().getEmail(), "NewUserMail",
+				language, newUserMessageFields, newUserSubjectFields);
 
 		if (newUser.getPerson().getTrialSite() != null
 				&& newUser.getPerson().getTrialSite().getContactPerson() != null) {
@@ -248,18 +246,14 @@ public class UserServiceImpl implements UserService {
 			contactPersonSubjectFields.put("newUserLastname", newUser
 					.getPerson().getSurname());
 
-			try {
-				mailService.sendMail(contactPerson.getEmail(),
+			mailService.sendMail(contactPerson.getEmail(),
 						"NewUserNotifyContactPersonMail", language,
 						contactPersonMessageFields, contactPersonSubjectFields);
-			} catch (MailErrorException e) {
-				logger.error(e.getMessage());
-			}
 		}
 	}
 
 	@Override
-	@Secured( { "ROLE_USER" })
+	@Secured({ "ROLE_USER" })
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public List<Role> getAllRoles() {
 		return roleDao.getAll();

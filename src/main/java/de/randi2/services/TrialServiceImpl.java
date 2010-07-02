@@ -120,12 +120,9 @@ public class TrialServiceImpl implements TrialService {
 
 		Locale language = user.getPrefLocale();
 
-		try {
-			mailService.sendMail(user.getPerson().getEmail(), "Randomize", language,
+
+		mailService.sendMail(user.getPerson().getEmail(), "Randomize", language,
 					newUserMessageFields, newUserSubjectFields);
-		} catch (MailErrorException e1) {
-			logger.error(e1);
-		}
 		
 	
 		
@@ -142,13 +139,10 @@ public class TrialServiceImpl implements TrialService {
 		}catch (Exception e) {
 			language = Locale.getDefault();
 		}
-
-		try {
-			mailService.sendMail(trial.getSponsorInvestigator().getEmail(), "Randomize", language,
+		
+		mailService.sendMail(trial.getSponsorInvestigator().getEmail(), "Randomize", language,
 					newUserMessageFields, newUserSubjectFields);
-		} catch (MailErrorException e1) {
-			logger.error(e1);
-		}
+		
 	}
 
 
