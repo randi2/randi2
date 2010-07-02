@@ -15,5 +15,21 @@
             </New>
         </Arg>
     </New>
+    <New id="mail" class="org.mortbay.jetty.plus.naming.Resource">
+     <Arg>mail/randi2</Arg>
+     <Arg>
+       <New class="org.mortbay.naming.factories.MailSessionReference">
+         <Set name="user">randi2</Set>
+         <Set name="password">randi2</Set>
+         <Set name="properties">
+           <New class="java.util.Properties">
+             <Put name="mail.smtp.host">localhos</Put>
+             <Put name="mail.from">randi2@localhost</Put>
+             <Put name="mail.debug">false</Put>
+           </New>
+          </Set>
+       </New>
+     </Arg>
+</New>
 
 </Configure>
