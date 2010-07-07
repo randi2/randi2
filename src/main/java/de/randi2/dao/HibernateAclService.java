@@ -31,8 +31,6 @@ import org.springframework.security.acls.model.AclService;
 import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Sid;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.security.AclHibernate;
@@ -74,7 +72,6 @@ public class HibernateAclService implements AclService {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public Acl readAclById(ObjectIdentity object, List<Sid> sids)
 			throws NotFoundException {
 		String sidname = null;
@@ -123,7 +120,6 @@ public class HibernateAclService implements AclService {
 	 * 
 	 * @return the acl hibernate
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
 	public AclHibernate createAcl(AbstractDomainObject object, String sidname) {
 		AclHibernate acl = new AclHibernate();
 		acl.setObjectIdentity(createObjectIdentityIfNotSaved(object));
@@ -147,7 +143,6 @@ public class HibernateAclService implements AclService {
 	 * @return the acl hibernate
 	 */
 	@SuppressWarnings("unchecked")
-	@Transactional(propagation=Propagation.REQUIRED)
 	public AclHibernate createAclwithPermissions(AbstractDomainObject object,
 			String sidname, PermissionHibernate[] permissions, String roleName) {
 		AclHibernate acl= new AclHibernate();
@@ -179,7 +174,6 @@ public class HibernateAclService implements AclService {
 	 * 
 	 * @return the acl hibernate
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
 	public AclHibernate createAclwithPermissions(AbstractDomainObject object,
 			String sidname, PermissionHibernate[] permissions) {
 		return createAclwithPermissions(object, sidname, permissions, null);
@@ -193,7 +187,6 @@ public class HibernateAclService implements AclService {
 	 * 
 	 * @return the sid hibernate
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
 	@SuppressWarnings("unchecked")
 	private SidHibernate createSidIfNotSaved(String sidname) {
 		List<SidHibernate> list = sessionFactory.getCurrentSession().createCriteria(SidHibernate.class).add(Restrictions.eq("sidname", sidname)).list();
@@ -214,7 +207,6 @@ public class HibernateAclService implements AclService {
 	 * 
 	 * @return the object identity hibernate
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
 	@SuppressWarnings("unchecked")
 	private ObjectIdentityHibernate createObjectIdentityIfNotSaved(
 			AbstractDomainObject object) {
@@ -236,7 +228,6 @@ public class HibernateAclService implements AclService {
 	 * @param acl
 	 *            the acl
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
 	public void update(AclHibernate acl) {
 		sessionFactory.getCurrentSession().merge(acl);
 	}

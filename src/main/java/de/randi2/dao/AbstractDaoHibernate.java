@@ -25,8 +25,6 @@ import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.AbstractDomainObject;
 
@@ -53,7 +51,6 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	@Secured({"AFTER_ACL_READ"})
 	public E get(long id){
 		E element = (E) sessionFactory.getCurrentSession().get(getModelClass(), id);
@@ -67,7 +64,6 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	 * @see de.randi2.dao.AbstractDao#create(de.randi2.model.AbstractDomainObject)
 	 */
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED)
 	public void create(E object){
 		logger.debug("Save new " +getModelClass().getSimpleName()+ " object");
 		sessionFactory.getCurrentSession().persist(object);
@@ -78,7 +74,6 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	@Secured({"ROLE_USER","AFTER_ACL_COLLECTION_READ"})
 	public List<E> findByExample(E object){
 		return sessionFactory.getCurrentSession().createCriteria(getClass()).add(Example.create(object).ignoreCase()).list();
@@ -89,7 +84,6 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	@Secured({"ROLE_USER","ROLE_ANONYMOUS","AFTER_ACL_COLLECTION_READ"})
 	public List<E> getAll(){
 		return sessionFactory.getCurrentSession().createQuery("from " + getModelClass().getSimpleName()).list();
@@ -100,7 +94,6 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	@Transactional(propagation=Propagation.REQUIRED)
 	public E update(E object){
 		logger.debug("Update " +getModelClass().getSimpleName()+ " object (id= "+object.getId()+")");
 		return (E) sessionFactory.getCurrentSession().merge(object);

@@ -23,8 +23,6 @@ import java.util.Set;
 
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Login;
 import de.randi2.model.Role;
@@ -42,7 +40,6 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements
 	@Override
 	@SuppressWarnings("unchecked")
 	@Secured( { "AFTER_ACL_READ" })
-	@Transactional(propagation = Propagation.SUPPORTS)
 	public Login get(String username) {
 		String query = "from de.randi2.model.Login login where "
 				+ "login.username =?";
@@ -67,7 +64,6 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements
 	 * @see de.randi2.dao.AbstractDaoHibernate#create(de.randi2.model.AbstractDomainObject)
 	 */
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
 	public void create(Login object) {
 		loadRoles(object);
 		super.create(object);
@@ -78,7 +74,6 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements
 	 * @see de.randi2.dao.AbstractDaoHibernate#update(de.randi2.model.AbstractDomainObject)
 	 */
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED)
 	public Login update(Login object) {
 		loadRoles(object);
 		return super.update(object);
@@ -90,7 +85,6 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements
 	 * @param object
 	 *            the object
 	 */
-	@Transactional(propagation = Propagation.SUPPORTS)
 	private void loadRoles(Login object) {
 		Set<Role> roles = new HashSet<Role>();
 		for (Role r : object.getRoles()) {

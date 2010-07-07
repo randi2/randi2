@@ -50,6 +50,7 @@ public class LogServiceImpl implements LogService {
 	
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void logRandomize(LogEntry.ActionType action, String username, Trial trial,
 			TrialSubject trialSubject) {
 		LogEntry entry = new LogEntry();

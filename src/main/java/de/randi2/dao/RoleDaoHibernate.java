@@ -19,10 +19,7 @@ package de.randi2.dao;
 
 import java.util.List;
 
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Role;
 
@@ -46,7 +43,6 @@ public class RoleDaoHibernate extends AbstractDaoHibernate<Role> implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	//FIXME We should create the ACLs for Roles
 	public List<Role> getAll() {
 		return sessionFactory.getCurrentSession().createQuery(
