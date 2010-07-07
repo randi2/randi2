@@ -475,8 +475,17 @@
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>1.4.2</version>
-        </dependency>
+        </dependency>     
+    <dependency>
+    	<groupId>dbunit</groupId>
+  	  <artifactId>dbunit</artifactId>
+  	  <version>2.2</version>
+  	  <scope>test</scope>
+	</dependency>
     </dependencies>
+     
+ 
+    
     <build>
         <finalName>RANDI2</finalName>
         <resources>
@@ -827,8 +836,10 @@
        <profile>
             <id>oracle-test</id>
             <!-- This Profile has never been tested, 31.05.2010 -->
-            <!-- The Oracle JDBC Driver has to be manually included into your local maven repository -->
-            <!-- mvn install:install-file -Dfile=%PATH_TO_DOWNLOADED_JAR%/ojdbc14.jar -Dpackaging=jar -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2.0.3.0 -->
+            <!-- The Oracle JDBC Driver has to be manually included into your local maven repository
+-->
+            <!-- mvn install:install-file -Dfile=%PATH_TO_DOWNLOADED_JAR%/ojdbc14.jar -Dpackaging=jar -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2.0.3.0
+-->
             <activation>
                 <property>
                     <name>test.dbms</name>
@@ -852,9 +863,12 @@
          <profile>
             <id>db2-test</id>
             <!-- This Profile has never been tested, 31.05.2010 -->
-            <!-- The IBM DB2 JDBC Driver has to be manually included into your local maven repository -->
-            <!-- mvn install:install-file -Dfile=%PATH_TO_DOWNLOADED_JAR%/db2jcc_license_cu.jar -Dpackaging=jar -DgroupId=com.ibm -DartifactId=db2jcc_license_cu -Dversion=3.1.57 -->
-            <!-- possibly additionally db2jcc.jar is needed ?????? try it out and give feedback! -->
+            <!-- The IBM DB2 JDBC Driver has to be manually included into your local maven repository
+-->
+            <!-- mvn install:install-file -Dfile=%PATH_TO_DOWNLOADED_JAR%/db2jcc_license_cu.jar -Dpackaging=jar -DgroupId=com.ibm -DartifactId=db2jcc_license_cu -Dversion=3.1.57
+-->
+            <!-- possibly additionally db2jcc.jar is needed ?????? try it out and give feedback!
+-->
             <activation>
                 <property>
                     <name>test.dbms</name>
