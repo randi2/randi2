@@ -1,0 +1,905 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <changeSet author="dschrimpf (generated)" id="1" context="init">
+        <comment>Initialize the tables</comment>  
+        <createTable tableName="AbstractConstraint">
+            <column name="DTYPE" type="VARCHAR(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="firstDate" type="DATETIME"/>
+            <column name="secondDate" type="DATETIME"/>
+            <column name="expectedValue" type="VARCHAR(255)"/>
+        </createTable>
+        <createTable tableName="AbstractConstraint_expectedValues">
+            <column name="AbstractConstraint_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="element" type="VARCHAR(255)"/>
+        </createTable>
+        <createTable tableName="AccessControlEntryHibernate">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="granting" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="code" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mask" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="roleName" type="VARCHAR(255)"/>
+            <column name="acl_id" type="BIGINT"/>
+            <column name="sid_id" type="BIGINT"/>
+        </createTable>
+     
+        <createTable tableName="AclHibernate">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="entriesInheriting" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objectIdentity_id" type="BIGINT"/>
+            <column name="owner_id" type="BIGINT"/>
+            <column name="parentAcl_id" type="BIGINT"/>
+        </createTable>
+     
+        <createTable tableName="Block">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="Block_Treatmentarm">
+            <column name="Block_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Treatmentarm_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="Criterion">
+            <column name="DTYPE" type="VARCHAR(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="option1" type="VARCHAR(255)"/>
+            <column name="option2" type="VARCHAR(255)"/>
+            <column name="inclusionConstraint_id" type="BIGINT"/>
+        </createTable>
+     
+        <createTable tableName="Criterion_AbstractConstraint">
+            <column name="Criterion_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strata_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="Criterion_elements">
+            <column name="Criterion_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="element" type="VARCHAR(255)"/>
+        </createTable>
+     
+        <createTable tableName="hibernate_sequences">
+            <column name="sequence_name" type="VARCHAR(255)"/>
+            <column name="sequence_next_hi_value" type="INT"/>
+        </createTable>
+     
+        <createTable tableName="LogEntry" >
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="action" type="VARCHAR(255)"/>
+            <column name="clazz" type="VARCHAR(255)"/>
+            <column name="identifier" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time" type="DATETIME"/>
+            <column name="uiName" type="LONGTEXT" />
+            <column name="username" type="VARCHAR(255)"/>
+            <column name="value" type="LONGTEXT"/>
+        </createTable>
+     
+        <createTable tableName="Login">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastLoggedIn" type="DATETIME"/>
+            <column name="lockTime" type="DATETIME"/>
+            <column name="numberWrongLogins" type="TINYINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="prefLocale" type="VARCHAR(255)"/>
+            <column name="username" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="person_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="Login_Role">
+            <column name="Login_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="roles_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="MinimizationMapElementWrapper">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="MinimizationMapElementWrapper_map">
+            <column name="MinimizationMapElementWrapper_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="element" type="DOUBLE"/>
+            <column name="mapkey_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="MinimizationTempData_CountConstraints">
+            <column name="constraints_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="minimizationMapElementWrapper_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mapkey_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="MinimizationTempData_countTrialSites">
+            <column name="trialSite_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="minimizationMapElementWrapper_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mapkey_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="MinimizationTempData_Probabilities">
+            <column name="treatmentArm_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="minimizationMapElementWrapper_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mapkey_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="ObjectIdentityHibernate">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="identifier" type="BIGINT"/>
+            <column name="type" type="VARCHAR(255)"/>
+        </createTable>
+     
+        <createTable tableName="Person">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fax" type="VARCHAR(255)"/>
+            <column name="firstname" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mobile" type="VARCHAR(255)"/>
+            <column name="phone" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sex" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(20)"/>
+            <column name="assistant_id" type="BIGINT"/>
+            <column name="trialSite_id" type="BIGINT"/>
+        </createTable>
+     
+        <createTable tableName="RandomisationTempData">
+            <column name="DTYPE" type="VARCHAR(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="RandomisationTempData_Block">
+            <column name="RandomisationTempData_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="blocks_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mapkey" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="RandomisationTempData_Urn">
+            <column name="RandomisationTempData_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="urns_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mapkey" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="RandomizationConfig">
+            <column name="DTYPE" type="VARCHAR(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="countReplacedBalls" type="INT"/>
+            <column name="initializeCountBalls" type="INT"/>
+            <column name="biasedCoinMinimization" type="BIT"/>
+            <column name="p" type="DOUBLE"/>
+            <column name="withRandomizedSubjects" type="BIT"/>
+            <column name="maximum" type="INT"/>
+            <column name="minimum" type="INT"/>
+            <column name="type" type="VARCHAR(255)"/>
+            <column name="tempData_id" type="BIGINT"/>
+            <column name="trial_id" type="BIGINT"/>
+        </createTable>
+     
+        <createTable tableName="Role">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="adminOtherUser" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="adminOwnUser" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="adminTrial" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="adminTrialSite" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="adminTrialSubject" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createRole" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createTrial" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createTrialSite" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createTrialSubject" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createUser" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="readOtherUser" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="readOwnUser" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="readTrial" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="readTrialSite" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="readTrialSubject" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopeTrialCreat" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopeTrialRead" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopeTrialSiteView" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopeTrialSiteWrite" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopeTrialWrite" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopeUserCreate" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopeUserRead" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopeUserWrite" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="writeOtherUser" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="writeOwnUser" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="writeTrial" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="writeTrialSite" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="writeTrialSubject" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="Role_Role">
+            <column name="Role_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rolesToAssign_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="SidHibernate">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="sidname" type="VARCHAR(255)"/>
+        </createTable>
+     
+        <createTable tableName="SubjectProperty">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="LONGBLOB"/>
+            <column name="criterion_id" type="BIGINT"/>
+        </createTable>
+     
+        <createTable tableName="TreatmentArm">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="LONGTEXT"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="plannedSubjects" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="trial_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="Trial">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="abbreviation" type="VARCHAR(255)"/>
+            <column name="description" type="LONGTEXT"/>
+            <column name="endDate" type="DATETIME"/>
+            <column name="generateIds" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="protocol" type="TINYBLOB"/>
+            <column name="startDate" type="DATETIME"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="stratifyTrialSite" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="leadingSite_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="randomConf_id" type="BIGINT"/>
+            <column name="sponsorInvestigator_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="Trial_Criterion">
+            <column name="Trial_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subjectCriteria_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="Trial_TrialSite">
+            <column name="trials_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="participatingSites_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="TrialSite">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="postcode" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="street" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contactPerson_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="TrialSubject">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="counter" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="identification" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="randNumber" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="arm_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="investigator_id" type="BIGINT"/>
+            <column name="trialSite_id" type="BIGINT"/>
+        </createTable>
+     
+        <createTable tableName="TrialSubject_SubjectProperty">
+            <column name="TrialSubject_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="properties_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="Urn">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     
+        <createTable tableName="Urn_Treatmentarm">
+            <column name="Urn_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Treatmentarm_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     	<modifySql dbms="mysql">
+         <append value=" engine innodb"/>
+        </modifySql>
+        </changeSet>
+          <changeSet author="dschrimpf (generated)" id="2" context="init">  
+           <comment>Initialize the primary key and index</comment>
+        <addPrimaryKey columnNames="Login_id, roles_id" tableName="Login_Role"/>
+     
+        <addPrimaryKey columnNames="MinimizationMapElementWrapper_id, mapkey_id" tableName="MinimizationMapElementWrapper_map"/>
+     
+        <addPrimaryKey columnNames="constraints_id, mapkey_id" tableName="MinimizationTempData_CountConstraints"/>
+     
+        <addPrimaryKey columnNames="treatmentArm_id, mapkey_id" tableName="MinimizationTempData_Probabilities"/>
+     
+        <addPrimaryKey columnNames="trialSite_id, mapkey_id" tableName="MinimizationTempData_countTrialSites"/>
+     
+        <addPrimaryKey columnNames="RandomisationTempData_id, mapkey" tableName="RandomisationTempData_Block"/>
+     
+        <addPrimaryKey columnNames="RandomisationTempData_id, mapkey" tableName="RandomisationTempData_Urn"/>
+     
+        <addPrimaryKey columnNames="TrialSubject_id, properties_id" tableName="TrialSubject_SubjectProperty"/>
+     
+        <addPrimaryKey columnNames="trials_id, participatingSites_id" tableName="Trial_TrialSite"/>
+     
+        <createIndex indexName="FK26FD227AAF0BD07A" tableName="AbstractConstraint_expectedValues" unique="false">
+            <column name="AbstractConstraint_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK40F1A3993069E2C6" tableName="AccessControlEntryHibernate" unique="false">
+            <column name="sid_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK40F1A399ABD3754E" tableName="AccessControlEntryHibernate" unique="false">
+            <column name="acl_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKD9188F0856FBD678" tableName="AclHibernate" unique="false">
+            <column name="parentAcl_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKD9188F08C957A6C1" tableName="AclHibernate" unique="false">
+            <column name="owner_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKDB68D19611070FF5" tableName="Block_Treatmentarm" unique="false">
+            <column name="Block_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKDB68D196C89948D2" tableName="Block_Treatmentarm" unique="false">
+            <column name="Treatmentarm_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK8E542E8112FA816F" tableName="Criterion" unique="false">
+            <column name="inclusionConstraint_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKCFB2BA3D6DAACAC1" tableName="Criterion_AbstractConstraint" unique="false">
+            <column name="Criterion_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKCFB2BA3DF129B42B" tableName="Criterion_AbstractConstraint" unique="false">
+            <column name="strata_id"/>
+        </createIndex>
+     
+        <createIndex indexName="strata_id" tableName="Criterion_AbstractConstraint" unique="true">
+            <column name="strata_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKA06784F56CD64AE0" tableName="Criterion_elements" unique="false">
+            <column name="Criterion_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK462FF49A5A14952" tableName="Login" unique="false">
+            <column name="person_id"/>
+        </createIndex>
+     
+        <createIndex indexName="username" tableName="Login" unique="true">
+            <column name="username"/>
+        </createIndex>
+     
+        <createIndex indexName="FKE97D3CC52C66262" tableName="Login_Role" unique="false">
+            <column name="Login_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKE97D3CCACE4300B" tableName="Login_Role" unique="false">
+            <column name="roles_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK5144196295FBF3D3" tableName="MinimizationMapElementWrapper_map" unique="false">
+            <column name="mapkey_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK51441962C4B80FD5" tableName="MinimizationMapElementWrapper_map" unique="false">
+            <column name="MinimizationMapElementWrapper_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKD3B8791A68544DA5" tableName="MinimizationTempData_CountConstraints" unique="false">
+            <column name="mapkey_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKD3B8791AAE3E0175" tableName="MinimizationTempData_CountConstraints" unique="false">
+            <column name="constraints_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKD3B8791AC4B80FD5" tableName="MinimizationTempData_CountConstraints" unique="false">
+            <column name="minimizationMapElementWrapper_id"/>
+        </createIndex>
+     
+        <createIndex indexName="minimizationMapElementWrapper_id" tableName="MinimizationTempData_CountConstraints" unique="true">
+            <column name="minimizationMapElementWrapper_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKA5B10095FBF3D3" tableName="MinimizationTempData_Probabilities" unique="false">
+            <column name="mapkey_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKA5B100C1F43207" tableName="MinimizationTempData_Probabilities" unique="false">
+            <column name="treatmentArm_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKA5B100C4B80FD5" tableName="MinimizationTempData_Probabilities" unique="false">
+            <column name="minimizationMapElementWrapper_id"/>
+        </createIndex>
+     
+        <createIndex indexName="minimizationMapElementWrapper_id" tableName="MinimizationTempData_Probabilities" unique="true">
+            <column name="minimizationMapElementWrapper_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK60BF91529A170C1C" tableName="MinimizationTempData_countTrialSites" unique="false">
+            <column name="mapkey_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK60BF9152AB57CEEE" tableName="MinimizationTempData_countTrialSites" unique="false">
+            <column name="trialSite_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK60BF9152C4B80FD5" tableName="MinimizationTempData_countTrialSites" unique="false">
+            <column name="minimizationMapElementWrapper_id"/>
+        </createIndex>
+     
+        <createIndex indexName="minimizationMapElementWrapper_id" tableName="MinimizationTempData_countTrialSites" unique="true">
+            <column name="minimizationMapElementWrapper_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK8E4887751B265929" tableName="Person" unique="false">
+            <column name="assistant_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK8E488775B617FE02" tableName="Person" unique="false">
+            <column name="trialSite_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKED3A86746CB2385C" tableName="RandomisationTempData_Block" unique="false">
+            <column name="blocks_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKED3A86747BC3928B" tableName="RandomisationTempData_Block" unique="false">
+            <column name="RandomisationTempData_id"/>
+        </createIndex>
+     
+        <createIndex indexName="blocks_id" tableName="RandomisationTempData_Block" unique="true">
+            <column name="blocks_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKA169D518B77AC2E4" tableName="RandomisationTempData_Urn" unique="false">
+            <column name="urns_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKA169D518D36F3EBC" tableName="RandomisationTempData_Urn" unique="false">
+            <column name="RandomisationTempData_id"/>
+        </createIndex>
+     
+        <createIndex indexName="urns_id" tableName="RandomisationTempData_Urn" unique="true">
+            <column name="urns_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKEBFF50C333ECA742" tableName="RandomizationConfig" unique="false">
+            <column name="trial_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKEBFF50C3AA393BD4" tableName="RandomizationConfig" unique="false">
+            <column name="tempData_id"/>
+        </createIndex>
+     
+        <createIndex indexName="name" tableName="Role" unique="true">
+            <column name="name"/>
+        </createIndex>
+     
+        <createIndex indexName="FK8B6A269FB5E88DA1" tableName="Role_Role" unique="false">
+            <column name="rolesToAssign_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK8B6A269FECBB7B2" tableName="Role_Role" unique="false">
+            <column name="Role_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK88363016DAACAC1" tableName="SubjectProperty" unique="false">
+            <column name="criterion_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKADB66AE433ECA742" tableName="TreatmentArm" unique="false">
+            <column name="trial_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK4D51EF6D5402E24" tableName="Trial" unique="false">
+            <column name="sponsorInvestigator_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK4D51EF6E2BD5412" tableName="Trial" unique="false">
+            <column name="leadingSite_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK46C8075D27E0C932" tableName="TrialSite" unique="false">
+            <column name="contactPerson_id"/>
+        </createIndex>
+     
+        <createIndex indexName="name" tableName="TrialSite" unique="true">
+            <column name="name"/>
+        </createIndex>
+     
+        <createIndex indexName="FKFB112D56B617FE02" tableName="TrialSubject" unique="false">
+            <column name="trialSite_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKFB112D56C32A2E22" tableName="TrialSubject" unique="false">
+            <column name="investigator_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKFB112D56E36E0A5A" tableName="TrialSubject" unique="false">
+            <column name="arm_id"/>
+        </createIndex>
+        
+        <createIndex indexName="FKD4E08C7833ECA742" tableName="Trial_Criterion" unique="false">
+            <column name="Trial_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FKD4E08C78F73E5097" tableName="Trial_Criterion" unique="false">
+            <column name="subjectCriteria_id"/>
+        </createIndex>
+     
+        <createIndex indexName="subjectCriteria_id" tableName="Trial_Criterion" unique="true">
+            <column name="subjectCriteria_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK8D546554AA0BF0DB" tableName="Trial_TrialSite" unique="false">
+            <column name="trials_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK8D546554DD32770E" tableName="Trial_TrialSite" unique="false">
+            <column name="participatingSites_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK26C6EB328F965035" tableName="Urn_Treatmentarm" unique="false">
+            <column name="Urn_id"/>
+        </createIndex>
+     
+        <createIndex indexName="FK26C6EB32C89948D2" tableName="Urn_Treatmentarm" unique="false">
+            <column name="Treatmentarm_id"/>
+        </createIndex>
+    </changeSet>
+     <changeSet author="dschrimpf" id="3" context="init2">  
+     <comment>Added Constraints</comment>
+     
+        <addForeignKeyConstraint baseColumnNames="objectIdentity_id" baseTableName="AclHibernate" constraintName="FKD9188F08C2DC041C" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="ObjectIdentityHibernate"/>
+     
+       
+      <!--   <addForeignKeyConstraint baseColumnNames="MinimizationMapElementWrapper_id, minimizationMapElementWrapper_id, minimizationMapElementWrapper_id, minimizationMapElementWrapper_id" baseTableName="MinimizationTempData_countTrialSites" constraintName="FK60BF9152C4B80FD5_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id" referencedTableName="MinimizationMapElementWrapper"/> -->
+     
+       
+        
+   
+        <addForeignKeyConstraint baseColumnNames="id" baseTableName="Trial" constraintName="FK4D51EF68114226F" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="RandomizationConfig"/>
+     
+       <!--  <addForeignKeyConstraint baseColumnNames="Criterion_id, Criterion_id, criterion_id, subjectCriteria_id" baseTableName="Trial_Criterion" constraintName="FKD4E08C78F73E5097" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id" referencedTableName="Criterion"/> -->
+     
+        <addForeignKeyConstraint baseColumnNames="mapkey_id, trialSite_id, leadingSite_id, trialSite_id, participatingSites_id" baseTableName="Trial_TrialSite" constraintName="FK8D546554DD32770E_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id, id" referencedTableName="TrialSite"/>
+     
+        <addForeignKeyConstraint baseColumnNames="trial_id, trial_id, Trial_id, trials_id" baseTableName="Trial_TrialSite" constraintName="FK8D546554AA0BF0DB_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id" referencedTableName="Trial"/>
+     
+        <addForeignKeyConstraint baseColumnNames="person_id, assistant_id, sponsorInvestigator_id, contactPerson_id" baseTableName="TrialSite" constraintName="FK46C8075D27E0C932_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id" referencedTableName="Person"/>
+     
+        <addForeignKeyConstraint baseColumnNames="Login_id, investigator_id" baseTableName="TrialSubject" constraintName="FKFB112D56C32A2E22_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id" referencedTableName="Login"/>
+     
+        <addForeignKeyConstraint baseColumnNames="properties_id" baseTableName="TrialSubject_SubjectProperty" constraintName="FK6BCC7A1835E03A10_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="SubjectProperty"/>
+     
+        <addForeignKeyConstraint baseColumnNames="TrialSubject_id" baseTableName="TrialSubject_SubjectProperty" constraintName="FK6BCC7A183D50EB92_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TrialSubject"/>
+     
+        <addForeignKeyConstraint baseColumnNames="Treatmentarm_id, mapkey_id, mapkey_id, arm_id, Treatmentarm_id" baseTableName="Urn_Treatmentarm" constraintName="FK26C6EB32C89948D2_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id, id" referencedTableName="TreatmentArm"/>
+     
+        <addForeignKeyConstraint baseColumnNames="urns_id, Urn_id" baseTableName="Urn_Treatmentarm" constraintName="FK26C6EB328F965035_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id" referencedTableName="Urn"/>
+         
+         <addForeignKeyConstraint baseColumnNames="id, parentAcl_id" baseTableName="AclHibernate" constraintName="FKD9188F0856FBD678_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id" referencedTableName="AclHibernate"/>
+        <addForeignKeyConstraint baseColumnNames="id, owner_id" baseTableName="AclHibernate" constraintName="FKD9188F08C957A6C1_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id" referencedTableName="SidHibernate"/>
+      <addForeignKeyConstraint baseColumnNames="id, inclusionConstraint_id, strata_id, mapkey_id" baseTableName="MinimizationTempData_CountConstraints" constraintName="FKD3B8791A68544DA5_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id" referencedTableName="AbstractConstraint"/>
+       <addForeignKeyConstraint baseColumnNames="Block_id, blocks_id" baseTableName="RandomisationTempData_Block" constraintName="FKED3A86746CB2385C_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id" referencedTableName="Block"/>
+     <addForeignKeyConstraint baseColumnNames="id, treatmentArm_id, trialSite_id, RandomisationTempData_id, RandomisationTempData_id, tempData_id" baseTableName="RandomizationConfig" constraintName="FKEBFF50C3AA393BD4_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id, id, id" referencedTableName="RandomisationTempData"/>
+     
+     
+     </changeSet>
+</databaseChangeLog>
