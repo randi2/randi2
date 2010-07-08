@@ -18,12 +18,18 @@
 package de.randi2.utility;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
+
+import javax.sql.DataSource;
+
+import liquibase.FileSystemFileOpener;
+import liquibase.Liquibase;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
@@ -110,7 +116,8 @@ public class Bootstrap {
 	private TrialSiteDaoHibernate trialSiteDao;
 	private SessionFactory sessionFactory;
 	private PasswordEncoder passwordEncoder;
-	private ReflectionSaltSource saltSourceUser;long time1 = System.nanoTime();
+	private ReflectionSaltSource saltSourceUser;
+	long time1 = System.nanoTime();
 	private SystemWideSaltSource saltSourceTrialSite;
 	private TrialService trialService;
 	private UserService userService;
@@ -129,8 +136,36 @@ public class Bootstrap {
 				.getBean("saltSourceTrialSite");
 		trialService = (TrialService) ctx.getBean("trialService");
 		userService = (UserService) ctx.getBean("userService");
-		System.out.println("init spring context: " + (System.nanoTime()-time1)/1000000 + " ms");
+
+		try {
+			DataSource dataSource = (DataSource) ctx.getBean("dataSource");
+			Connection jdbcConnection = dataSource.getConnection();
+			Liquibase liquibase = new Liquibase(
+					"src/test/resources/dbunit/dataset.xml",
+					new FileSystemFileOpener(), jdbcConnection);
+			liquibase.update("init");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("init spring context: "
+				+ (System.nanoTime() - time1) / 1000000 + " ms");
 		init();
+		// try {
+		// DataSource dataSource = (DataSource) ctx.getBean("dataSource");
+		// Connection jdbcConnection;jdbcConnection =
+		// dataSource.getConnection();
+		// IDatabaseConnection connection = new
+		// DatabaseConnection(jdbcConnection);
+		//		
+		// ITableFilter filter = new DatabaseSequenceFilter(connection);
+		// IDataSet fullDataSet = new FilteredDataSet(filter,
+		// connection.createDataSet());
+		//		
+		// FlatXmlDataSet.write(fullDataSet, new
+		// FileOutputStream("src/test/resources/dbunit/testdata.xml"));
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 
 	}
 
@@ -196,7 +231,8 @@ public class Bootstrap {
 		rolesAndRights.grantRigths(trialSite, trialSite);
 
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"anonymousUser", adminL, adminL.getAuthorities().toArray(new GrantedAuthority[]{}));
+				"anonymousUser", adminL, adminL.getAuthorities().toArray(
+						new GrantedAuthority[] {}));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()
@@ -312,13 +348,15 @@ public class Bootstrap {
 		// create test trial
 		sessionFactory.getCurrentSession().flush();
 
-		System.out.println("create user: " + (System.nanoTime()-time1)/1000000 + " ms");
+		System.out.println("create user: " + (System.nanoTime() - time1)
+				/ 1000000 + " ms");
 		time1 = System.nanoTime();
 		// create test trial
 		ManagedSessionContext.unbind(sessionFactory);
 		ManagedSessionContext.bind(sessionFactory.openSession());
 		authToken = new AnonymousAuthenticationToken("anonymousUser",
-				userLPInv, userLPInv.getAuthorities().toArray(new GrantedAuthority[]{}));
+				userLPInv, userLPInv.getAuthorities().toArray(
+						new GrantedAuthority[] {}));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()
@@ -399,7 +437,8 @@ public class Bootstrap {
 		trialService.create(trial);
 
 		sessionFactory.getCurrentSession().flush();
-		System.out.println("create trial: " + (System.nanoTime()-time1)/1000000 + " ms");
+		System.out.println("create trial: " + (System.nanoTime() - time1)
+				/ 1000000 + " ms");
 		time1 = System.nanoTime();
 		ManagedSessionContext.unbind(sessionFactory);
 		ManagedSessionContext.bind(sessionFactory.openSession());
@@ -408,17 +447,16 @@ public class Bootstrap {
 		int countTS2 = 60;
 		int countMo = (new GregorianCalendar()).get(GregorianCalendar.MONTH);
 		int countAll = 0;
-		//Objects for the while-loop
+		// Objects for the while-loop
 		Random rand = new Random();
 		GregorianCalendar date;
 		int runs;
 		boolean tr1;
 		int count;
-		//---
+		// ---
 		while (countTS1 != 0 || countTS2 != 0) {
 			countAll++;
-			date = new GregorianCalendar(2009, countAll
-					% countMo, 1);
+			date = new GregorianCalendar(2009, countAll % countMo, 1);
 			runs = 0;
 			tr1 = false;
 			count = 0;
@@ -435,13 +473,15 @@ public class Bootstrap {
 			}
 			// Authorizing the investigator for upcoming randomization
 			AnonymousAuthenticationToken at = tr1 ? new AnonymousAuthenticationToken(
-					"anonymousUser", userLInv, userLInv.getAuthorities().toArray(new GrantedAuthority[]{}))
+					"anonymousUser", userLInv, userLInv.getAuthorities()
+							.toArray(new GrantedAuthority[] {}))
 					: new AnonymousAuthenticationToken("anonymousUser",
-							userLInv2, userLInv2.getAuthorities().toArray(new GrantedAuthority[]{}));
+							userLInv2, userLInv2.getAuthorities().toArray(
+									new GrantedAuthority[] {}));
 			SecurityContextHolder.getContext().setAuthentication(at);
 			SecurityContextHolder.getContext().getAuthentication()
 					.setAuthenticated(true);
-			//---
+			// ---
 			for (int i = 0; i < runs; i++) {
 				initRandBS(trial, date, rand);
 				if (tr1) {
@@ -450,13 +490,14 @@ public class Bootstrap {
 					countTS2--;
 				}
 			}
-			
+
 		}
-		System.out.println("added trial subjects: " + (System.nanoTime()-time1)/1000000 + " ms");
+		System.out.println("added trial subjects: "
+				+ (System.nanoTime() - time1) / 1000000 + " ms");
 	}
 
-private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {
-//		long time1 = System.nanoTime();
+	private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {
+		// long time1 = System.nanoTime();
 		trial = trialService.getObject(trial.getId());
 
 		TrialSubject subject = new TrialSubject();
@@ -502,7 +543,8 @@ private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {
 		trialService.randomize(trial, subject);
 		subject.setCreatedAt(date);
 		sessionFactory.getCurrentSession().update(subject);
-//		System.out.println("time random before: " + (System.nanoTime()-time1)/1000000 + " ms");
+		// System.out.println("time random before: " +
+		// (System.nanoTime()-time1)/1000000 + " ms");
 	}
 
 	/**
