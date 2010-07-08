@@ -27,9 +27,7 @@ import static junit.framework.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml",
-// MOCK!!!!
 		"classpath:/META-INF/subconfig/mail-test.xml" })
-//		"classpath:/META-INF/subconfig/mail.xml" })
 public class MailTest {
 
 	@Autowired
@@ -68,14 +66,9 @@ public class MailTest {
 		newUserSubjectFields.put("firstname", newUser.getPerson()
 				.getFirstname());
 
-		Locale language = newUser.getPrefLocale();
-
-		try {
-			mailService.sendMail(newUser.getUsername(), "NewUserMail", language,
+		mailService.sendMail(newUser.getUsername(), "NewUserMail", testLocale,
 					newUserMessageFields, newUserSubjectFields);
-		} catch (MailErrorException e1) {
-			fail(e1.getMessage());
-		}
+		
 		
 		
 		

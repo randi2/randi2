@@ -23,20 +23,9 @@ package de.randi2.utility.mail.exceptions;
  * @author Daniel Haehn <dh@randi2.de>
  *
  */
-public class MailErrorException extends Exception {
+public class MailErrorException extends RuntimeException {
 
-	private String message;
-	
-	public MailErrorException(String message) {
-		
-		this.message = message;
-		
+	public MailErrorException(String message, Throwable e) {
+		super(message, e);
 	}
-	
-	public String toString() {
-		
-		return message;
-		
-	}
-	
 }

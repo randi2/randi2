@@ -3,20 +3,26 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	
-<bean id="mailSender" class="de.randi2.test.mock.DummyMailSender"/>
 
-   <bean id="mailService" class="de.randi2.utility.mail.MailService">
-   	<property name="from" value="${mail.from}" />
-   </bean>
-   
-   <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
-      <property name="velocityProperties">
-         <value>
-            resource.loader=class
-            class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-         </value>
-      </property>
+	<!-- Using java mock mail as mail session (will be automatically picked 
+		up) -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	</bean>
+
+	<bean id="mailService" class="de.randi2.utility.mail.MailService">
+		<property name="from" value="${mail.from}" />
+		<property name="hoster" value="${info.hoster}" />
+		<property name="url" value="${info.server}" />
+	</bean>
+
+	<bean id="velocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			<value>
+				resource.loader=class
+				class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+			</value>
+		</property>
 	</bean>
 
 

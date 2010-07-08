@@ -116,8 +116,7 @@ public class Bootstrap {
 	private TrialSiteDaoHibernate trialSiteDao;
 	private SessionFactory sessionFactory;
 	private PasswordEncoder passwordEncoder;
-	private ReflectionSaltSource saltSourceUser;
-	long time1 = System.nanoTime();
+	private ReflectionSaltSource saltSourceUser;long time1 = System.nanoTime();
 	private SystemWideSaltSource saltSourceTrialSite;
 	private TrialService trialService;
 	private UserService userService;

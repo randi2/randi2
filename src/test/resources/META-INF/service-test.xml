@@ -28,10 +28,8 @@
 	<import resource="classpath:META-INF/subconfig/hibernate.xml" />
  	<import resource="classpath:META-INF/subconfig/aspects.xml" />
 	<import resource="classpath:META-INF/subconfig/security.xml" />
-	<import resource="classpath:META-INF/subconfig/mail.xml" />
+	<import resource="classpath:META-INF/subconfig/mail-test.xml" />
 	<import resource="classpath:META-INF/subconfig/services.xml"/>
-
-	 <bean id="mailSender" class="de.randi2.test.mock.DummyMailSender"></bean>
 	
 	<import resource="classpath:META-INF/subconfig/logging.xml"/>
 
