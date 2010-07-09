@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
-    <changeSet author="dschrimpf (generated)" id="1" context="init">
+<changeSet author="dschrimpf (generated)" id="1" context="init" dbms="mysql">
         <comment>Initialize the tables</comment>  
         <createTable tableName="AbstractConstraint">
             <column name="DTYPE" type="VARCHAR(31)">
@@ -607,7 +607,7 @@
          <append value=" engine innodb"/>
         </modifySql>
         </changeSet>
-          <changeSet author="dschrimpf (generated)" id="2" context="init">  
+          <changeSet author="dschrimpf" id="2" context="init" dbms="mysql">  
            <comment>Initialize the primary key and index</comment>
         <addPrimaryKey columnNames="Login_id, roles_id" tableName="Login_Role"/>
      
@@ -863,43 +863,42 @@
             <column name="Treatmentarm_id"/>
         </createIndex>
     </changeSet>
-     <changeSet author="dschrimpf" id="3" context="init2">  
+     <changeSet author="dschrimpf" id="3" context="init2" dbms="mysql">  
      <comment>Added Constraints</comment>
+        <addForeignKeyConstraint baseColumnNames="acl_id, parentAcl_id" baseTableName="AclHibernate" constraintName="FKD9188F0856FBD678" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id" referencedTableName="AclHibernate"/>
      
         <addForeignKeyConstraint baseColumnNames="objectIdentity_id" baseTableName="AclHibernate" constraintName="FKD9188F08C2DC041C" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="ObjectIdentityHibernate"/>
      
-       
-      <!--   <addForeignKeyConstraint baseColumnNames="MinimizationMapElementWrapper_id, minimizationMapElementWrapper_id, minimizationMapElementWrapper_id, minimizationMapElementWrapper_id" baseTableName="MinimizationTempData_countTrialSites" constraintName="FK60BF9152C4B80FD5_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id" referencedTableName="MinimizationMapElementWrapper"/> -->
+        <addForeignKeyConstraint baseColumnNames="sid_id, owner_id" baseTableName="AclHibernate" constraintName="FKD9188F08C957A6C1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id" referencedTableName="SidHibernate"/>
      
-       
-        
-   
-        <addForeignKeyConstraint baseColumnNames="id" baseTableName="Trial" constraintName="FK4D51EF68114226F" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="RandomizationConfig"/>
+        <addForeignKeyConstraint baseColumnNames="AbstractConstraint_id, inclusionConstraint_id, strata_id, mapkey_id" baseTableName="MinimizationTempData_CountConstraints" constraintName="FKD3B8791A68544DA5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id" referencedTableName="AbstractConstraint"/>
      
-       <!--  <addForeignKeyConstraint baseColumnNames="Criterion_id, Criterion_id, criterion_id, subjectCriteria_id" baseTableName="Trial_Criterion" constraintName="FKD4E08C78F73E5097" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id" referencedTableName="Criterion"/> -->
+        <addForeignKeyConstraint baseColumnNames="MinimizationMapElementWrapper_id, minimizationMapElementWrapper_id, minimizationMapElementWrapper_id, minimizationMapElementWrapper_id" baseTableName="MinimizationTempData_countTrialSites" constraintName="FK60BF9152C4B80FD5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id" referencedTableName="MinimizationMapElementWrapper"/>
      
-        <addForeignKeyConstraint baseColumnNames="mapkey_id, trialSite_id, leadingSite_id, trialSite_id, participatingSites_id" baseTableName="Trial_TrialSite" constraintName="FK8D546554DD32770E_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id, id" referencedTableName="TrialSite"/>
+        <addForeignKeyConstraint baseColumnNames="Block_id, blocks_id" baseTableName="RandomisationTempData_Block" constraintName="FKED3A86746CB2385C" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id" referencedTableName="Block"/>
      
-        <addForeignKeyConstraint baseColumnNames="trial_id, trial_id, Trial_id, trials_id" baseTableName="Trial_TrialSite" constraintName="FK8D546554AA0BF0DB_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id" referencedTableName="Trial"/>
+        <addForeignKeyConstraint baseColumnNames="constraints_id, treatmentArm_id, trialSite_id, RandomisationTempData_id, RandomisationTempData_id, tempData_id" baseTableName="RandomizationConfig" constraintName="FKEBFF50C3AA393BD4" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id, id, id" referencedTableName="RandomisationTempData"/>
      
-        <addForeignKeyConstraint baseColumnNames="person_id, assistant_id, sponsorInvestigator_id, contactPerson_id" baseTableName="TrialSite" constraintName="FK46C8075D27E0C932_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id" referencedTableName="Person"/>
+        <addForeignKeyConstraint baseColumnNames="roles_id, Role_id, rolesToAssign_id" baseTableName="Role_Role" constraintName="FK8B6A269FB5E88DA1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id" referencedTableName="Role"/>
      
-        <addForeignKeyConstraint baseColumnNames="Login_id, investigator_id" baseTableName="TrialSubject" constraintName="FKFB112D56C32A2E22_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id" referencedTableName="Login"/>
+        <addForeignKeyConstraint baseColumnNames="randomConf_id" baseTableName="Trial" constraintName="FK4D51EF68114226F" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="RandomizationConfig"/>
      
-        <addForeignKeyConstraint baseColumnNames="properties_id" baseTableName="TrialSubject_SubjectProperty" constraintName="FK6BCC7A1835E03A10_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="SubjectProperty"/>
+        <addForeignKeyConstraint baseColumnNames="Criterion_id, Criterion_id, criterion_id, subjectCriteria_id" baseTableName="Trial_Criterion" constraintName="FKD4E08C78F73E5097" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id" referencedTableName="Criterion"/>
      
-        <addForeignKeyConstraint baseColumnNames="TrialSubject_id" baseTableName="TrialSubject_SubjectProperty" constraintName="FK6BCC7A183D50EB92_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TrialSubject"/>
+        <addForeignKeyConstraint baseColumnNames="mapkey_id, trialSite_id, leadingSite_id, trialSite_id, participatingSites_id" baseTableName="Trial_TrialSite" constraintName="FK8D546554DD32770E" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id, id" referencedTableName="TrialSite"/>
      
-        <addForeignKeyConstraint baseColumnNames="Treatmentarm_id, mapkey_id, mapkey_id, arm_id, Treatmentarm_id" baseTableName="Urn_Treatmentarm" constraintName="FK26C6EB32C89948D2_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id, id" referencedTableName="TreatmentArm"/>
+        <addForeignKeyConstraint baseColumnNames="trial_id, trial_id, Trial_id, trials_id" baseTableName="Trial_TrialSite" constraintName="FK8D546554AA0BF0DB" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id" referencedTableName="Trial"/>
      
-        <addForeignKeyConstraint baseColumnNames="urns_id, Urn_id" baseTableName="Urn_Treatmentarm" constraintName="FK26C6EB328F965035_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id" referencedTableName="Urn"/>
-         
-         <addForeignKeyConstraint baseColumnNames="id, parentAcl_id" baseTableName="AclHibernate" constraintName="FKD9188F0856FBD678_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id" referencedTableName="AclHibernate"/>
-        <addForeignKeyConstraint baseColumnNames="id, owner_id" baseTableName="AclHibernate" constraintName="FKD9188F08C957A6C1_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id" referencedTableName="SidHibernate"/>
-      <addForeignKeyConstraint baseColumnNames="id, inclusionConstraint_id, strata_id, mapkey_id" baseTableName="MinimizationTempData_CountConstraints" constraintName="FKD3B8791A68544DA5_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id" referencedTableName="AbstractConstraint"/>
-       <addForeignKeyConstraint baseColumnNames="Block_id, blocks_id" baseTableName="RandomisationTempData_Block" constraintName="FKED3A86746CB2385C_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id" referencedTableName="Block"/>
-     <addForeignKeyConstraint baseColumnNames="id, treatmentArm_id, trialSite_id, RandomisationTempData_id, RandomisationTempData_id, tempData_id" baseTableName="RandomizationConfig" constraintName="FKEBFF50C3AA393BD4_2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id, id, id" referencedTableName="RandomisationTempData"/>
+        <addForeignKeyConstraint baseColumnNames="person_id, assistant_id, sponsorInvestigator_id, contactPerson_id" baseTableName="TrialSite" constraintName="FK46C8075D27E0C932" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id" referencedTableName="Person"/>
      
+        <addForeignKeyConstraint baseColumnNames="Login_id, investigator_id" baseTableName="TrialSubject" constraintName="FKFB112D56C32A2E22" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id" referencedTableName="Login"/>
      
+        <addForeignKeyConstraint baseColumnNames="properties_id" baseTableName="TrialSubject_SubjectProperty" constraintName="FK6BCC7A1835E03A10" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="SubjectProperty"/>
+     
+        <addForeignKeyConstraint baseColumnNames="TrialSubject_id" baseTableName="TrialSubject_SubjectProperty" constraintName="FK6BCC7A183D50EB92" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="TrialSubject"/>
+     
+        <addForeignKeyConstraint baseColumnNames="Treatmentarm_id, mapkey_id, mapkey_id, arm_id, Treatmentarm_id" baseTableName="Urn_Treatmentarm" constraintName="FK26C6EB32C89948D2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id, id, id, id" referencedTableName="TreatmentArm"/>
+     
+        <addForeignKeyConstraint baseColumnNames="urns_id, Urn_id" baseTableName="Urn_Treatmentarm" constraintName="FK26C6EB328F965035" deferrable="false" initiallyDeferred="false" referencedColumnNames="id, id" referencedTableName="Urn"/>
      </changeSet>
 </databaseChangeLog>

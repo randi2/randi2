@@ -10,12 +10,15 @@ import javax.sql.DataSource;
 import liquibase.FileSystemFileOpener;
 import liquibase.Liquibase;
 
+import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
+import org.dbunit.ext.hsqldb.HsqldbDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.context.ManagedSessionContext;
 import org.junit.After;
 import org.junit.Before;
@@ -58,16 +61,23 @@ public abstract class AbstractServiceTest {
 		Connection jdbcConnection = dataSource.getConnection();
 
 		Liquibase liquibase = new Liquibase(
-				"src/test/resources/dbunit/dataset.xml",
+				"src/test/resources/dbunit/database_changelog.xml",
 				new FileSystemFileOpener(), jdbcConnection);
 		liquibase.update("init");
 
 		IDatabaseConnection connection = new DatabaseConnection(jdbcConnection);
+		
+		//FIXME remove it with dbunit version 2.3
+		if(liquibase.getDatabase().getDatabaseProductName().equals("HSQL Database Engine")){
+			DatabaseConfig config = connection.getConfig();
+			config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());
+		}
+		
 		// initialize your dataset here
 		IDataSet dataSet = new FlatXmlDataSet(new File(
 				"src/test/resources/dbunit/testdata.xml"));
 		try {
-			DatabaseOperation.INSERT.execute(connection, dataSet);
+			DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
 			jdbcConnection.commit();
 			
 			liquibase.update("init2");
