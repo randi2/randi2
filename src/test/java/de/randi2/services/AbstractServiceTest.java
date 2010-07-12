@@ -18,7 +18,6 @@ import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.ext.hsqldb.HsqldbDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.context.ManagedSessionContext;
 import org.junit.After;
 import org.junit.Before;
@@ -61,7 +60,7 @@ public abstract class AbstractServiceTest {
 		Connection jdbcConnection = dataSource.getConnection();
 
 		Liquibase liquibase = new Liquibase(
-				"src/test/resources/dbunit/database_changelog.xml",
+				"src/main/resources/META-INF/database/database_changelog.xml",
 				new FileSystemFileOpener(), jdbcConnection);
 		liquibase.update("init");
 
