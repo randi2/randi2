@@ -78,11 +78,7 @@ public abstract class AbstractServiceTest {
 			jdbcConnection
 			.createStatement()
 			.executeUpdate(
-					"DELETE FROM DATABASECHANGELOG WHERE ID='init_ForeignKeyConstraint';");
-			jdbcConnection
-					.createStatement()
-					.executeUpdate(
-							"DELETE FROM DATABASECHANGELOG WHERE ID='remove_constraints_1';");
+					"DELETE FROM DATABASECHANGELOG WHERE ID='init_ForeignKeyConstraint' OR ID='remove_constraints_1';");
 		}
 		IDatabaseConnection connection = new DatabaseConnection(jdbcConnection);
 
