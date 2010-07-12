@@ -2,6 +2,7 @@ package de.randi2.services;
 
 import java.io.File;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,26 +65,51 @@ public abstract class AbstractServiceTest {
 				new FileSystemFileOpener(), jdbcConnection);
 		liquibase.update("init");
 
-		IDatabaseConnection connection = new DatabaseConnection(jdbcConnection);
-		
-		//FIXME remove it with dbunit version 2.3
-		if(liquibase.getDatabase().getDatabaseProductName().equals("HSQL Database Engine")){
-			DatabaseConfig config = connection.getConfig();
-			config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());
+		ResultSet resultSet = jdbcConnection
+				.createStatement()
+				.executeQuery(
+						"SELECT * FROM DATABASECHANGELOG WHERE ID='init_ForeignKeyConstraint';");
+
+		if (resultSet.next()) {
+			Liquibase liquibase2 = new Liquibase(
+					"src/test/resources/liquibase/removeConstraints.xml",
+					new FileSystemFileOpener(), jdbcConnection);
+			liquibase2.update("init");
+			jdbcConnection
+			.createStatement()
+			.executeUpdate(
+					"DELETE FROM DATABASECHANGELOG WHERE ID='init_ForeignKeyConstraint';");
+			jdbcConnection
+					.createStatement()
+					.executeUpdate(
+							"DELETE FROM DATABASECHANGELOG WHERE ID='remove_constraints_1';");
 		}
-		
-		// initialize your dataset here
+		IDatabaseConnection connection = new DatabaseConnection(jdbcConnection);
+
+		// FIXME remove it with dbunit version 2.3
+		if (liquibase.getDatabase().getDatabaseProductName().equals(
+				"HSQL Database Engine")) {
+			DatabaseConfig config = connection.getConfig();
+			config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY,
+					new HsqldbDataTypeFactory());
+		}
+
+		// initialize dataset
 		IDataSet dataSet = new FlatXmlDataSet(new File(
 				"src/test/resources/dbunit/testdata.xml"));
 		try {
 			DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
 			jdbcConnection.commit();
-			
+
+			liquibase = new Liquibase(
+					"src/main/resources/META-INF/database/database_changelog.xml",
+					new FileSystemFileOpener(), jdbcConnection);
 			liquibase.update("init2");
-			
+
 		} finally {
 			connection.close();
 		}
+
 	}
 
 	@Before

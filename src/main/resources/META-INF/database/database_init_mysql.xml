@@ -638,7 +638,7 @@
             <column name="name"/>
         </createIndex>
         </changeSet>
-   <changeSet author="dschrimpf" id="3" context="init2" dbms="mysql">
+   <changeSet author="dschrimpf" id="init_ForeignKeyConstraint" context="init2" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="AbstractConstraint_id" baseTableName="AbstractConstraint_expectedValues" constraintName="FK26FD227AAF0BD07A" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="AbstractConstraint"/>
   
         <addForeignKeyConstraint baseColumnNames="acl_id" baseTableName="AccessControlEntryHibernate" constraintName="FK40F1A399ABD3754E" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="AclHibernate"/>

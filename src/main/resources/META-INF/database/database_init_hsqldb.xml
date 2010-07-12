@@ -6,7 +6,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_47"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_49"/>
             </column>
             <column name="CREATEDAT" type="DATETIME"/>
             <column name="UPDATEDAT" type="DATETIME"/>
@@ -17,17 +17,17 @@
             <column name="SECONDDATE" type="DATETIME"/>
             <column name="EXPECTEDVALUE" type="VARCHAR(255)"/>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="ABSTRACTCONSTRAINT_EXPECTEDVALUES">
             <column name="ABSTRACTCONSTRAINT_ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="ELEMENT" type="VARCHAR(255)"/>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="ACCESSCONTROLENTRYHIBERNATE">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_52"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_54"/>
             </column>
             <column name="GRANTING" type="BOOLEAN">
                 <constraints nullable="false"/>
@@ -42,10 +42,10 @@
             <column name="ACL_ID" type="BIGINT"/>
             <column name="SID_ID" type="BIGINT"/>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="ACLHIBERNATE">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_54"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_56"/>
             </column>
             <column name="ENTRIESINHERITING" type="BOOLEAN">
                 <constraints nullable="false"/>
@@ -54,10 +54,10 @@
             <column name="OWNER_ID" type="BIGINT"/>
             <column name="PARENTACL_ID" type="BIGINT"/>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="BLOCK">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_58"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_60"/>
             </column>
             <column name="CREATEDAT" type="DATETIME"/>
             <column name="UPDATEDAT" type="DATETIME"/>
@@ -65,7 +65,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="BLOCK_TREATMENTARM">
             <column name="BLOCK_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -74,13 +74,13 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="CRITERION">
             <column name="DTYPE" type="VARCHAR(31)">
                 <constraints nullable="false"/>
             </column>
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_63"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_65"/>
             </column>
             <column name="CREATEDAT" type="DATETIME"/>
             <column name="UPDATEDAT" type="DATETIME"/>
@@ -93,7 +93,7 @@
             <column name="OPTION2" type="VARCHAR(255)"/>
             <column name="INCLUSIONCONSTRAINT_ID" type="BIGINT"/>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="CRITERION_ABSTRACTCONSTRAINT">
             <column name="CRITERION_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -102,22 +102,22 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="CRITERION_ELEMENTS">
             <column name="CRITERION_ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="ELEMENT" type="VARCHAR(255)"/>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="HIBERNATE_SEQUENCES">
             <column name="SEQUENCE_NAME" type="VARCHAR(255)"/>
             <column name="SEQUENCE_NEXT_HI_VALUE" type="INT"/>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="LOGENTRY">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_76"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_254"/>
             </column>
             <column name="ACTION" type="VARCHAR(255)"/>
             <column name="CLAZZ" type="VARCHAR(255)"/>
@@ -129,10 +129,10 @@
             <column name="USERNAME" type="VARCHAR(255)"/>
             <column name="VALUE" type="LONGVARCHAR"/>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="LOGIN">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_78"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_256"/>
             </column>
             <column name="CREATEDAT" type="DATETIME"/>
             <column name="UPDATEDAT" type="DATETIME"/>
@@ -156,7 +156,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="LOGIN_ROLE">
             <column name="LOGIN_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -165,10 +165,10 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="MINIMIZATIONMAPELEMENTWRAPPER">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_85"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_263"/>
             </column>
             <column name="CREATEDAT" type="DATETIME"/>
             <column name="UPDATEDAT" type="DATETIME"/>
@@ -176,7 +176,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="MINIMIZATIONMAPELEMENTWRAPPER_MAP">
             <column name="MINIMIZATIONMAPELEMENTWRAPPER_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -186,7 +186,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS">
             <column name="CONSTRAINTS_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -198,7 +198,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES">
             <column name="TRIALSITE_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -210,7 +210,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_PROBABILITIES">
             <column name="TREATMENTARM_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -222,18 +222,18 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="OBJECTIDENTITYHIBERNATE">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_108"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_286"/>
             </column>
             <column name="IDENTIFIER" type="BIGINT"/>
             <column name="TYPE" type="VARCHAR(255)"/>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="PERSON">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_110"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_288"/>
             </column>
             <column name="CREATEDAT" type="DATETIME"/>
             <column name="UPDATEDAT" type="DATETIME"/>
@@ -261,13 +261,13 @@
             <column name="ASSISTANT_ID" type="BIGINT"/>
             <column name="TRIALSITE_ID" type="BIGINT"/>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="RANDOMISATIONTEMPDATA">
             <column name="DTYPE" type="VARCHAR(31)">
                 <constraints nullable="false"/>
             </column>
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_114"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_292"/>
             </column>
             <column name="CREATEDAT" type="DATETIME"/>
             <column name="UPDATEDAT" type="DATETIME"/>
@@ -275,7 +275,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="RANDOMISATIONTEMPDATA_BLOCK">
             <column name="RANDOMISATIONTEMPDATA_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -287,7 +287,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="RANDOMISATIONTEMPDATA_URN">
             <column name="RANDOMISATIONTEMPDATA_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -299,13 +299,13 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="RANDOMIZATIONCONFIG">
             <column name="DTYPE" type="VARCHAR(31)">
                 <constraints nullable="false"/>
             </column>
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_128"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_306"/>
             </column>
             <column name="CREATEDAT" type="DATETIME"/>
             <column name="UPDATEDAT" type="DATETIME"/>
@@ -323,10 +323,10 @@
             <column name="TEMPDATA_ID" type="BIGINT"/>
             <column name="TRIAL_ID" type="BIGINT"/>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="ROLE">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_132"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_310"/>
             </column>
             <column name="CREATEDAT" type="DATETIME"/>
             <column name="UPDATEDAT" type="DATETIME"/>
@@ -421,7 +421,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="ROLE_ROLE">
             <column name="ROLE_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -430,17 +430,17 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="SIDHIBERNATE">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_140"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_318"/>
             </column>
             <column name="SIDNAME" type="VARCHAR(255)"/>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="SUBJECTPROPERTY">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_142"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_320"/>
             </column>
             <column name="CREATEDAT" type="DATETIME"/>
             <column name="UPDATEDAT" type="DATETIME"/>
@@ -450,10 +450,10 @@
             <column name="VALUE" type="LONGVARBINARY"/>
             <column name="CRITERION_ID" type="BIGINT"/>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="TREATMENTARM">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_146"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_324"/>
             </column>
             <column name="CREATEDAT" type="DATETIME"/>
             <column name="UPDATEDAT" type="DATETIME"/>
@@ -471,10 +471,10 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="TRIAL">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_148"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_326"/>
             </column>
             <column name="CREATEDAT" type="DATETIME"/>
             <column name="UPDATEDAT" type="DATETIME"/>
@@ -504,7 +504,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="TRIAL_CRITERION">
             <column name="TRIAL_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -513,7 +513,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="TRIAL_TRIALSITE">
             <column name="TRIALS_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -522,10 +522,10 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="TRIALSITE">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_154"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_332"/>
             </column>
             <column name="CREATEDAT" type="DATETIME"/>
             <column name="UPDATEDAT" type="DATETIME"/>
@@ -550,10 +550,10 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="TRIALSUBJECT">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_159"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_337"/>
             </column>
             <column name="CREATEDAT" type="DATETIME"/>
             <column name="UPDATEDAT" type="DATETIME"/>
@@ -575,7 +575,7 @@
             <column name="INVESTIGATOR_ID" type="BIGINT"/>
             <column name="TRIALSITE_ID" type="BIGINT"/>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="TRIALSUBJECT_SUBJECTPROPERTY">
             <column name="TRIALSUBJECT_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -584,10 +584,10 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="URN">
             <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_186"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="SYS_PK_364"/>
             </column>
             <column name="CREATEDAT" type="DATETIME"/>
             <column name="UPDATEDAT" type="DATETIME"/>
@@ -595,7 +595,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
+      
         <createTable schemaName="PUBLIC" tableName="URN_TREATMENTARM">
             <column name="URN_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -604,296 +604,144 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
-        <addPrimaryKey columnNames="LOGIN_ID, ROLES_ID" constraintName="SYS_PK_81" schemaName="PUBLIC" tableName="LOGIN_ROLE"/>
-
-        <addPrimaryKey columnNames="MINIMIZATIONMAPELEMENTWRAPPER_ID, MAPKEY_ID" constraintName="SYS_PK_87" schemaName="PUBLIC" tableName="MINIMIZATIONMAPELEMENTWRAPPER_MAP"/>
-
-        <addPrimaryKey columnNames="CONSTRAINTS_ID, MAPKEY_ID" constraintName="SYS_PK_91" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS"/>
-
-        <addPrimaryKey columnNames="TRIALSITE_ID, MAPKEY_ID" constraintName="SYS_PK_103" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES"/>
-
-        <addPrimaryKey columnNames="TREATMENTARM_ID, MAPKEY_ID" constraintName="SYS_PK_98" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_PROBABILITIES"/>
-
-        <addPrimaryKey columnNames="RANDOMISATIONTEMPDATA_ID, MAPKEY" constraintName="SYS_PK_116" schemaName="PUBLIC" tableName="RANDOMISATIONTEMPDATA_BLOCK"/>
-
-        <addPrimaryKey columnNames="RANDOMISATIONTEMPDATA_ID, MAPKEY" constraintName="SYS_PK_123" schemaName="PUBLIC" tableName="RANDOMISATIONTEMPDATA_URN"/>
-
-        <addPrimaryKey columnNames="TRIALSUBJECT_ID, PROPERTIES_ID" constraintName="SYS_PK_167" schemaName="PUBLIC" tableName="TRIALSUBJECT_SUBJECTPROPERTY"/>
-
-        <addPrimaryKey columnNames="TRIALS_ID, PARTICIPATINGSITES_ID" constraintName="SYS_PK_180" schemaName="PUBLIC" tableName="TRIAL_TRIALSITE"/>
-
-        <createIndex indexName="SYS_IDX_49" schemaName="PUBLIC" tableName="ABSTRACTCONSTRAINT_EXPECTEDVALUES" unique="false">
-            <column name="ABSTRACTCONSTRAINT_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_193" schemaName="PUBLIC" tableName="ACCESSCONTROLENTRYHIBERNATE" unique="false">
-            <column name="ACL_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_195" schemaName="PUBLIC" tableName="ACCESSCONTROLENTRYHIBERNATE" unique="false">
-            <column name="SID_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_199" schemaName="PUBLIC" tableName="ACLHIBERNATE" unique="false">
-            <column name="OWNER_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_55" schemaName="PUBLIC" tableName="ACLHIBERNATE" unique="false">
-            <column name="PARENTACL_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_201" schemaName="PUBLIC" tableName="BLOCK_TREATMENTARM" unique="false">
-            <column name="TREATMENTARM_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_60" schemaName="PUBLIC" tableName="BLOCK_TREATMENTARM" unique="false">
-            <column name="BLOCK_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_64" schemaName="PUBLIC" tableName="CRITERION" unique="false">
-            <column name="INCLUSIONCONSTRAINT_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_68" schemaName="PUBLIC" tableName="CRITERION_ABSTRACTCONSTRAINT" unique="false">
-            <column name="CRITERION_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_70" schemaName="PUBLIC" tableName="CRITERION_ABSTRACTCONSTRAINT" unique="false">
-            <column name="STRATA_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_SYS_CT_58_67" schemaName="PUBLIC" tableName="CRITERION_ABSTRACTCONSTRAINT" unique="true">
-            <column name="STRATA_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_73" schemaName="PUBLIC" tableName="CRITERION_ELEMENTS" unique="false">
-            <column name="CRITERION_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_203" schemaName="PUBLIC" tableName="LOGIN" unique="false">
-            <column name="PERSON_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_SYS_CT_64_79" schemaName="PUBLIC" tableName="LOGIN" unique="true">
+      
+        <addPrimaryKey columnNames="LOGIN_ID, ROLES_ID" constraintName="SYS_PK_259" schemaName="PUBLIC" tableName="LOGIN_ROLE"/>
+      
+        <addPrimaryKey columnNames="MINIMIZATIONMAPELEMENTWRAPPER_ID, MAPKEY_ID" constraintName="SYS_PK_265" schemaName="PUBLIC" tableName="MINIMIZATIONMAPELEMENTWRAPPER_MAP"/>
+      
+        <addPrimaryKey columnNames="CONSTRAINTS_ID, MAPKEY_ID" constraintName="SYS_PK_269" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS"/>
+      
+        <addPrimaryKey columnNames="TRIALSITE_ID, MAPKEY_ID" constraintName="SYS_PK_281" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES"/>
+      
+        <addPrimaryKey columnNames="TREATMENTARM_ID, MAPKEY_ID" constraintName="SYS_PK_276" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_PROBABILITIES"/>
+      
+        <addPrimaryKey columnNames="RANDOMISATIONTEMPDATA_ID, MAPKEY" constraintName="SYS_PK_294" schemaName="PUBLIC" tableName="RANDOMISATIONTEMPDATA_BLOCK"/>
+      
+        <addPrimaryKey columnNames="RANDOMISATIONTEMPDATA_ID, MAPKEY" constraintName="SYS_PK_301" schemaName="PUBLIC" tableName="RANDOMISATIONTEMPDATA_URN"/>
+      
+        <addPrimaryKey columnNames="TRIALSUBJECT_ID, PROPERTIES_ID" constraintName="SYS_PK_345" schemaName="PUBLIC" tableName="TRIALSUBJECT_SUBJECTPROPERTY"/>
+      
+        <addPrimaryKey columnNames="TRIALS_ID, PARTICIPATINGSITES_ID" constraintName="SYS_PK_358" schemaName="PUBLIC" tableName="TRIAL_TRIALSITE"/>
+      
+        <createIndex indexName="SYS_IDX_SYS_CT_249_257" schemaName="PUBLIC" tableName="LOGIN" unique="true">
             <column name="USERNAME"/>
         </createIndex>
-
-        <createIndex indexName="SYS_IDX_205" schemaName="PUBLIC" tableName="LOGIN_ROLE" unique="false">
-            <column name="ROLES_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_82" schemaName="PUBLIC" tableName="LOGIN_ROLE" unique="false">
-            <column name="LOGIN_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_207" schemaName="PUBLIC" tableName="MINIMIZATIONMAPELEMENTWRAPPER_MAP" unique="false">
-            <column name="MAPKEY_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_88" schemaName="PUBLIC" tableName="MINIMIZATIONMAPELEMENTWRAPPER_MAP" unique="false">
-            <column name="MINIMIZATIONMAPELEMENTWRAPPER_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_209" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS" unique="false">
-            <column name="CONSTRAINTS_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_93" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS" unique="false">
-            <column name="MAPKEY_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_95" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS" unique="false">
-            <column name="MINIMIZATIONMAPELEMENTWRAPPER_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_SYS_CT_74_92" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS" unique="true">
-            <column name="MINIMIZATIONMAPELEMENTWRAPPER_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_105" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES" unique="false">
-            <column name="MINIMIZATIONMAPELEMENTWRAPPER_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_215" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES" unique="false">
-            <column name="MAPKEY_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_217" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES" unique="false">
-            <column name="TRIALSITE_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_SYS_CT_82_104" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES" unique="true">
-            <column name="MINIMIZATIONMAPELEMENTWRAPPER_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_100" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_PROBABILITIES" unique="false">
-            <column name="MINIMIZATIONMAPELEMENTWRAPPER_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_211" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_PROBABILITIES" unique="false">
-            <column name="MAPKEY_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_213" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_PROBABILITIES" unique="false">
-            <column name="TREATMENTARM_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_SYS_CT_78_99" schemaName="PUBLIC" tableName="MINIMIZATIONTEMPDATA_PROBABILITIES" unique="true">
-            <column name="MINIMIZATIONMAPELEMENTWRAPPER_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_111" schemaName="PUBLIC" tableName="PERSON" unique="false">
-            <column name="ASSISTANT_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_219" schemaName="PUBLIC" tableName="PERSON" unique="false">
-            <column name="TRIALSITE_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_118" schemaName="PUBLIC" tableName="RANDOMISATIONTEMPDATA_BLOCK" unique="false">
-            <column name="BLOCKS_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_120" schemaName="PUBLIC" tableName="RANDOMISATIONTEMPDATA_BLOCK" unique="false">
-            <column name="RANDOMISATIONTEMPDATA_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_SYS_CT_92_117" schemaName="PUBLIC" tableName="RANDOMISATIONTEMPDATA_BLOCK" unique="true">
-            <column name="BLOCKS_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_125" schemaName="PUBLIC" tableName="RANDOMISATIONTEMPDATA_URN" unique="false">
-            <column name="RANDOMISATIONTEMPDATA_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_221" schemaName="PUBLIC" tableName="RANDOMISATIONTEMPDATA_URN" unique="false">
-            <column name="URNS_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_SYS_CT_96_124" schemaName="PUBLIC" tableName="RANDOMISATIONTEMPDATA_URN" unique="true">
-            <column name="URNS_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_129" schemaName="PUBLIC" tableName="RANDOMIZATIONCONFIG" unique="false">
-            <column name="TEMPDATA_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_223" schemaName="PUBLIC" tableName="RANDOMIZATIONCONFIG" unique="false">
-            <column name="TRIAL_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_SYS_CT_102_133" schemaName="PUBLIC" tableName="ROLE" unique="true">
+      
+        <createIndex indexName="SYS_IDX_SYS_CT_287_311" schemaName="PUBLIC" tableName="ROLE" unique="true">
             <column name="NAME"/>
         </createIndex>
-
-        <createIndex indexName="SYS_IDX_135" schemaName="PUBLIC" tableName="ROLE_ROLE" unique="false">
-            <column name="ROLESTOASSIGN_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_137" schemaName="PUBLIC" tableName="ROLE_ROLE" unique="false">
-            <column name="ROLE_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_143" schemaName="PUBLIC" tableName="SUBJECTPROPERTY" unique="false">
-            <column name="CRITERION_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_225" schemaName="PUBLIC" tableName="TREATMENTARM" unique="false">
-            <column name="TRIAL_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_149" schemaName="PUBLIC" tableName="TRIAL" unique="false">
-            <column name="SPONSORINVESTIGATOR_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_227" schemaName="PUBLIC" tableName="TRIAL" unique="false">
-            <column name="LEADINGSITE_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_156" schemaName="PUBLIC" tableName="TRIALSITE" unique="false">
-            <column name="CONTACTPERSON_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_SYS_CT_115_155" schemaName="PUBLIC" tableName="TRIALSITE" unique="true">
+      
+        <createIndex indexName="SYS_IDX_SYS_CT_300_333" schemaName="PUBLIC" tableName="TRIALSITE" unique="true">
             <column name="NAME"/>
         </createIndex>
-
-        <createIndex indexName="SYS_IDX_160" schemaName="PUBLIC" tableName="TRIALSUBJECT" unique="false">
-            <column name="INVESTIGATOR_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_162" schemaName="PUBLIC" tableName="TRIALSUBJECT" unique="false">
-            <column name="TRIALSITE_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_164" schemaName="PUBLIC" tableName="TRIALSUBJECT" unique="false">
-            <column name="ARM_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_175" schemaName="PUBLIC" tableName="TRIAL_CRITERION" unique="false">
-            <column name="TRIAL_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_177" schemaName="PUBLIC" tableName="TRIAL_CRITERION" unique="false">
-            <column name="SUBJECTCRITERIA_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_SYS_CT_125_174" schemaName="PUBLIC" tableName="TRIAL_CRITERION" unique="true">
-            <column name="SUBJECTCRITERIA_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_181" schemaName="PUBLIC" tableName="TRIAL_TRIALSITE" unique="false">
-            <column name="TRIALS_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_183" schemaName="PUBLIC" tableName="TRIAL_TRIALSITE" unique="false">
-            <column name="PARTICIPATINGSITES_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_188" schemaName="PUBLIC" tableName="URN_TREATMENTARM" unique="false">
-            <column name="TREATMENTARM_ID"/>
-        </createIndex>
-
-        <createIndex indexName="SYS_IDX_190" schemaName="PUBLIC" tableName="URN_TREATMENTARM" unique="false">
-            <column name="URN_ID"/>
-        </createIndex>
-</changeSet>
-<changeSet author="dschrimpf" id="2" context="init2" dbms="hsqldb">
-        <addForeignKeyConstraint baseColumnNames="ACL_ID, PARENTACL_ID" baseTableName="ACLHIBERNATE" baseTableSchemaName="PUBLIC" constraintName="FKD9188F0856FBD678" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID, ID" referencedTableName="ACLHIBERNATE" referencedTableSchemaName="PUBLIC"/>
-
+        
+        </changeSet>
+        <changeSet author="dschrimpf" id="init_ForeignKeyConstraint" context="init2" dbms="hsqldb">
+      
+        <addForeignKeyConstraint baseColumnNames="ABSTRACTCONSTRAINT_ID" baseTableName="ABSTRACTCONSTRAINT_EXPECTEDVALUES" baseTableSchemaName="PUBLIC" constraintName="FK26FD227AAF0BD07A" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ABSTRACTCONSTRAINT" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="ACL_ID" baseTableName="ACCESSCONTROLENTRYHIBERNATE" baseTableSchemaName="PUBLIC" constraintName="FK40F1A399ABD3754E" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ACLHIBERNATE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="SID_ID" baseTableName="ACCESSCONTROLENTRYHIBERNATE" baseTableSchemaName="PUBLIC" constraintName="FK40F1A3993069E2C6" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="SIDHIBERNATE" referencedTableSchemaName="PUBLIC"/>
+      
         <addForeignKeyConstraint baseColumnNames="OBJECTIDENTITY_ID" baseTableName="ACLHIBERNATE" baseTableSchemaName="PUBLIC" constraintName="FKD9188F08C2DC041C" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="OBJECTIDENTITYHIBERNATE" referencedTableSchemaName="PUBLIC"/>
-
-        <addForeignKeyConstraint baseColumnNames="SID_ID, OWNER_ID" baseTableName="ACLHIBERNATE" baseTableSchemaName="PUBLIC" constraintName="FKD9188F08C957A6C1" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID, ID" referencedTableName="SIDHIBERNATE" referencedTableSchemaName="PUBLIC"/>
-
-        <addForeignKeyConstraint baseColumnNames="ABSTRACTCONSTRAINT_ID, INCLUSIONCONSTRAINT_ID, STRATA_ID, MAPKEY_ID" baseTableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS" baseTableSchemaName="PUBLIC" constraintName="FKD3B8791A68544DA5" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID, ID, ID, ID" referencedTableName="ABSTRACTCONSTRAINT" referencedTableSchemaName="PUBLIC"/>
-
-        <addForeignKeyConstraint baseColumnNames="MINIMIZATIONMAPELEMENTWRAPPER_ID, MINIMIZATIONMAPELEMENTWRAPPER_ID, MINIMIZATIONMAPELEMENTWRAPPER_ID, MINIMIZATIONMAPELEMENTWRAPPER_ID" baseTableName="MINIMIZATIONTEMPDATA_PROBABILITIES" baseTableSchemaName="PUBLIC" constraintName="FKA5B100C4B80FD5" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID, ID, ID, ID" referencedTableName="MINIMIZATIONMAPELEMENTWRAPPER" referencedTableSchemaName="PUBLIC"/>
-
-        <addForeignKeyConstraint baseColumnNames="BLOCK_ID, BLOCKS_ID" baseTableName="RANDOMISATIONTEMPDATA_BLOCK" baseTableSchemaName="PUBLIC" constraintName="FKED3A86746CB2385C" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID, ID" referencedTableName="BLOCK" referencedTableSchemaName="PUBLIC"/>
-
-        <addForeignKeyConstraint baseColumnNames="CONSTRAINTS_ID, TRIALSITE_ID, TREATMENTARM_ID, RANDOMISATIONTEMPDATA_ID, RANDOMISATIONTEMPDATA_ID, TEMPDATA_ID" baseTableName="RANDOMIZATIONCONFIG" baseTableSchemaName="PUBLIC" constraintName="FKEBFF50C3AA393BD4" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID, ID, ID, ID, ID, ID" referencedTableName="RANDOMISATIONTEMPDATA" referencedTableSchemaName="PUBLIC"/>
-
-        <addForeignKeyConstraint baseColumnNames="ROLES_ID, ROLESTOASSIGN_ID, ROLE_ID" baseTableName="ROLE_ROLE" baseTableSchemaName="PUBLIC" constraintName="FK8B6A269FECBB7B2" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID, ID, ID" referencedTableName="ROLE" referencedTableSchemaName="PUBLIC"/>
-
+      
+        <addForeignKeyConstraint baseColumnNames="OWNER_ID" baseTableName="ACLHIBERNATE" baseTableSchemaName="PUBLIC" constraintName="FKD9188F08C957A6C1" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="SIDHIBERNATE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="PARENTACL_ID" baseTableName="ACLHIBERNATE" baseTableSchemaName="PUBLIC" constraintName="FKD9188F0856FBD678" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ACLHIBERNATE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="BLOCK_ID" baseTableName="BLOCK_TREATMENTARM" baseTableSchemaName="PUBLIC" constraintName="FKDB68D19611070FF5" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="BLOCK" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TREATMENTARM_ID" baseTableName="BLOCK_TREATMENTARM" baseTableSchemaName="PUBLIC" constraintName="FKDB68D196C89948D2" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TREATMENTARM" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="INCLUSIONCONSTRAINT_ID" baseTableName="CRITERION" baseTableSchemaName="PUBLIC" constraintName="FK8E542E8112FA816F" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ABSTRACTCONSTRAINT" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="CRITERION_ID" baseTableName="CRITERION_ABSTRACTCONSTRAINT" baseTableSchemaName="PUBLIC" constraintName="FKCFB2BA3D6DAACAC1" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="CRITERION" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="STRATA_ID" baseTableName="CRITERION_ABSTRACTCONSTRAINT" baseTableSchemaName="PUBLIC" constraintName="FKCFB2BA3DF129B42B" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ABSTRACTCONSTRAINT" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="CRITERION_ID" baseTableName="CRITERION_ELEMENTS" baseTableSchemaName="PUBLIC" constraintName="FKA06784F56CD64AE0" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="CRITERION" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="PERSON_ID" baseTableName="LOGIN" baseTableSchemaName="PUBLIC" constraintName="FK462FF49A5A14952" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="PERSON" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="LOGIN_ID" baseTableName="LOGIN_ROLE" baseTableSchemaName="PUBLIC" constraintName="FKE97D3CC52C66262" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="LOGIN" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="ROLES_ID" baseTableName="LOGIN_ROLE" baseTableSchemaName="PUBLIC" constraintName="FKE97D3CCACE4300B" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ROLE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MAPKEY_ID" baseTableName="MINIMIZATIONMAPELEMENTWRAPPER_MAP" baseTableSchemaName="PUBLIC" constraintName="FK5144196295FBF3D3" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TREATMENTARM" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MINIMIZATIONMAPELEMENTWRAPPER_ID" baseTableName="MINIMIZATIONMAPELEMENTWRAPPER_MAP" baseTableSchemaName="PUBLIC" constraintName="FK51441962C4B80FD5" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="MINIMIZATIONMAPELEMENTWRAPPER" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="CONSTRAINTS_ID" baseTableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS" baseTableSchemaName="PUBLIC" constraintName="FKD3B8791AAE3E0175" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="RANDOMISATIONTEMPDATA" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MAPKEY_ID" baseTableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS" baseTableSchemaName="PUBLIC" constraintName="FKD3B8791A68544DA5" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ABSTRACTCONSTRAINT" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MINIMIZATIONMAPELEMENTWRAPPER_ID" baseTableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS" baseTableSchemaName="PUBLIC" constraintName="FKD3B8791AC4B80FD5" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="MINIMIZATIONMAPELEMENTWRAPPER" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MAPKEY_ID" baseTableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES" baseTableSchemaName="PUBLIC" constraintName="FK60BF91529A170C1C" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIALSITE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MINIMIZATIONMAPELEMENTWRAPPER_ID" baseTableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES" baseTableSchemaName="PUBLIC" constraintName="FK60BF9152C4B80FD5" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="MINIMIZATIONMAPELEMENTWRAPPER" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TRIALSITE_ID" baseTableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES" baseTableSchemaName="PUBLIC" constraintName="FK60BF9152AB57CEEE" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="RANDOMISATIONTEMPDATA" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MAPKEY_ID" baseTableName="MINIMIZATIONTEMPDATA_PROBABILITIES" baseTableSchemaName="PUBLIC" constraintName="FKA5B10095FBF3D3" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TREATMENTARM" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MINIMIZATIONMAPELEMENTWRAPPER_ID" baseTableName="MINIMIZATIONTEMPDATA_PROBABILITIES" baseTableSchemaName="PUBLIC" constraintName="FKA5B100C4B80FD5" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="MINIMIZATIONMAPELEMENTWRAPPER" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TREATMENTARM_ID" baseTableName="MINIMIZATIONTEMPDATA_PROBABILITIES" baseTableSchemaName="PUBLIC" constraintName="FKA5B100C1F43207" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="RANDOMISATIONTEMPDATA" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="ASSISTANT_ID" baseTableName="PERSON" baseTableSchemaName="PUBLIC" constraintName="FK8E4887751B265929" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="PERSON" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TRIALSITE_ID" baseTableName="PERSON" baseTableSchemaName="PUBLIC" constraintName="FK8E488775B617FE02" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIALSITE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="BLOCKS_ID" baseTableName="RANDOMISATIONTEMPDATA_BLOCK" baseTableSchemaName="PUBLIC" constraintName="FKED3A86746CB2385C" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="BLOCK" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="RANDOMISATIONTEMPDATA_ID" baseTableName="RANDOMISATIONTEMPDATA_BLOCK" baseTableSchemaName="PUBLIC" constraintName="FKED3A86747BC3928B" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="RANDOMISATIONTEMPDATA" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="RANDOMISATIONTEMPDATA_ID" baseTableName="RANDOMISATIONTEMPDATA_URN" baseTableSchemaName="PUBLIC" constraintName="FKA169D518D36F3EBC" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="RANDOMISATIONTEMPDATA" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="URNS_ID" baseTableName="RANDOMISATIONTEMPDATA_URN" baseTableSchemaName="PUBLIC" constraintName="FKA169D518B77AC2E4" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="URN" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TEMPDATA_ID" baseTableName="RANDOMIZATIONCONFIG" baseTableSchemaName="PUBLIC" constraintName="FKEBFF50C3AA393BD4" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="RANDOMISATIONTEMPDATA" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TRIAL_ID" baseTableName="RANDOMIZATIONCONFIG" baseTableSchemaName="PUBLIC" constraintName="FKEBFF50C333ECA742" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIAL" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="ROLE_ROLE" baseTableSchemaName="PUBLIC" constraintName="FK8B6A269FECBB7B2" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ROLE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="ROLESTOASSIGN_ID" baseTableName="ROLE_ROLE" baseTableSchemaName="PUBLIC" constraintName="FK8B6A269FB5E88DA1" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ROLE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="CRITERION_ID" baseTableName="SUBJECTPROPERTY" baseTableSchemaName="PUBLIC" constraintName="FK88363016DAACAC1" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="CRITERION" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TRIAL_ID" baseTableName="TREATMENTARM" baseTableSchemaName="PUBLIC" constraintName="FKADB66AE433ECA742" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIAL" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="LEADINGSITE_ID" baseTableName="TRIAL" baseTableSchemaName="PUBLIC" constraintName="FK4D51EF6E2BD5412" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIALSITE" referencedTableSchemaName="PUBLIC"/>
+      
         <addForeignKeyConstraint baseColumnNames="RANDOMCONF_ID" baseTableName="TRIAL" baseTableSchemaName="PUBLIC" constraintName="FK4D51EF68114226F" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="RANDOMIZATIONCONFIG" referencedTableSchemaName="PUBLIC"/>
-
-        <addForeignKeyConstraint baseColumnNames="CRITERION_ID, CRITERION_ID, CRITERION_ID, SUBJECTCRITERIA_ID" baseTableName="TRIAL_CRITERION" baseTableSchemaName="PUBLIC" constraintName="FKD4E08C78F73E5097" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID, ID, ID, ID" referencedTableName="CRITERION" referencedTableSchemaName="PUBLIC"/>
-
-        <addForeignKeyConstraint baseColumnNames="MAPKEY_ID, TRIALSITE_ID, LEADINGSITE_ID, TRIALSITE_ID, PARTICIPATINGSITES_ID" baseTableName="TRIAL_TRIALSITE" baseTableSchemaName="PUBLIC" constraintName="FK8D546554DD32770E" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID, ID, ID, ID, ID" referencedTableName="TRIALSITE" referencedTableSchemaName="PUBLIC"/>
-
-        <addForeignKeyConstraint baseColumnNames="TRIAL_ID, TRIAL_ID, TRIAL_ID, TRIALS_ID" baseTableName="TRIAL_TRIALSITE" baseTableSchemaName="PUBLIC" constraintName="FK8D546554AA0BF0DB" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID, ID, ID, ID" referencedTableName="TRIAL" referencedTableSchemaName="PUBLIC"/>
-
-        <addForeignKeyConstraint baseColumnNames="PERSON_ID, ASSISTANT_ID, SPONSORINVESTIGATOR_ID, CONTACTPERSON_ID" baseTableName="TRIALSITE" baseTableSchemaName="PUBLIC" constraintName="FK46C8075D27E0C932" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID, ID, ID, ID" referencedTableName="PERSON" referencedTableSchemaName="PUBLIC"/>
-
-        <addForeignKeyConstraint baseColumnNames="LOGIN_ID, INVESTIGATOR_ID" baseTableName="TRIALSUBJECT" baseTableSchemaName="PUBLIC" constraintName="FKFB112D56C32A2E22" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID, ID" referencedTableName="LOGIN" referencedTableSchemaName="PUBLIC"/>
-
+      
+        <addForeignKeyConstraint baseColumnNames="SPONSORINVESTIGATOR_ID" baseTableName="TRIAL" baseTableSchemaName="PUBLIC" constraintName="FK4D51EF6D5402E24" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="PERSON" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="SUBJECTCRITERIA_ID" baseTableName="TRIAL_CRITERION" baseTableSchemaName="PUBLIC" constraintName="FKD4E08C78F73E5097" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="CRITERION" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TRIAL_ID" baseTableName="TRIAL_CRITERION" baseTableSchemaName="PUBLIC" constraintName="FKD4E08C7833ECA742" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIAL" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="PARTICIPATINGSITES_ID" baseTableName="TRIAL_TRIALSITE" baseTableSchemaName="PUBLIC" constraintName="FK8D546554DD32770E" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIALSITE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TRIALS_ID" baseTableName="TRIAL_TRIALSITE" baseTableSchemaName="PUBLIC" constraintName="FK8D546554AA0BF0DB" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIAL" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="CONTACTPERSON_ID" baseTableName="TRIALSITE" baseTableSchemaName="PUBLIC" constraintName="FK46C8075D27E0C932" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="PERSON" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="ARM_ID" baseTableName="TRIALSUBJECT" baseTableSchemaName="PUBLIC" constraintName="FKFB112D56E36E0A5A" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TREATMENTARM" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="INVESTIGATOR_ID" baseTableName="TRIALSUBJECT" baseTableSchemaName="PUBLIC" constraintName="FKFB112D56C32A2E22" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="LOGIN" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TRIALSITE_ID" baseTableName="TRIALSUBJECT" baseTableSchemaName="PUBLIC" constraintName="FKFB112D56B617FE02" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIALSITE" referencedTableSchemaName="PUBLIC"/>
+      
         <addForeignKeyConstraint baseColumnNames="PROPERTIES_ID" baseTableName="TRIALSUBJECT_SUBJECTPROPERTY" baseTableSchemaName="PUBLIC" constraintName="FK6BCC7A1835E03A10" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="SUBJECTPROPERTY" referencedTableSchemaName="PUBLIC"/>
-
+      
         <addForeignKeyConstraint baseColumnNames="TRIALSUBJECT_ID" baseTableName="TRIALSUBJECT_SUBJECTPROPERTY" baseTableSchemaName="PUBLIC" constraintName="FK6BCC7A183D50EB92" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIALSUBJECT" referencedTableSchemaName="PUBLIC"/>
-
-        <addForeignKeyConstraint baseColumnNames="TREATMENTARM_ID, MAPKEY_ID, MAPKEY_ID, ARM_ID, TREATMENTARM_ID" baseTableName="URN_TREATMENTARM" baseTableSchemaName="PUBLIC" constraintName="FK26C6EB32C89948D2" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID, ID, ID, ID, ID" referencedTableName="TREATMENTARM" referencedTableSchemaName="PUBLIC"/>
-
-        <addForeignKeyConstraint baseColumnNames="URNS_ID, URN_ID" baseTableName="URN_TREATMENTARM" baseTableSchemaName="PUBLIC" constraintName="FK26C6EB328F965035" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID, ID" referencedTableName="URN" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TREATMENTARM_ID" baseTableName="URN_TREATMENTARM" baseTableSchemaName="PUBLIC" constraintName="FK26C6EB32C89948D2" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TREATMENTARM" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="URN_ID" baseTableName="URN_TREATMENTARM" baseTableSchemaName="PUBLIC" constraintName="FK26C6EB328F965035" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="URN" referencedTableSchemaName="PUBLIC"/>
     </changeSet>
 </databaseChangeLog>

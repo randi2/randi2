@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+<changeSet author="dschrimpf" id="remove_constraints_1" dbms="hsqldb">
+<dropForeignKeyConstraint baseTableName="ABSTRACTCONSTRAINT_EXPECTEDVALUES" constraintName="FK26FD227AAF0BD07A"/>
+  
+        <dropForeignKeyConstraint baseTableName="ACCESSCONTROLENTRYHIBERNATE" constraintName="FK40F1A399ABD3754E"/>
+  
+        <dropForeignKeyConstraint baseTableName="ACCESSCONTROLENTRYHIBERNATE" constraintName="FK40F1A3993069E2C6"/>
+  
+        <dropForeignKeyConstraint baseTableName="ACLHIBERNATE" constraintName="FKD9188F08C2DC041C"/>
+  
+        <dropForeignKeyConstraint baseTableName="ACLHIBERNATE" constraintName="FKD9188F08C957A6C1"/>
+  
+        <dropForeignKeyConstraint baseTableName="ACLHIBERNATE" constraintName="FKD9188F0856FBD678"/>
+  
+        <dropForeignKeyConstraint baseTableName="BLOCK_TREATMENTARM" constraintName="FKDB68D19611070FF5"/>
+  
+        <dropForeignKeyConstraint baseTableName="BLOCK_TREATMENTARM" constraintName="FKDB68D196C89948D2"/>
+  
+        <dropForeignKeyConstraint baseTableName="CRITERION" constraintName="FK8E542E8112FA816F"/>
+  
+        <dropForeignKeyConstraint baseTableName="CRITERION_ABSTRACTCONSTRAINT" constraintName="FKCFB2BA3D6DAACAC1"/>
+  
+        <dropForeignKeyConstraint baseTableName="CRITERION_ABSTRACTCONSTRAINT" constraintName="FKCFB2BA3DF129B42B"/>
+  
+        <dropForeignKeyConstraint baseTableName="CRITERION_ELEMENTS" constraintName="FKA06784F56CD64AE0"/>
+  
+        <dropForeignKeyConstraint baseTableName="LOGIN" constraintName="FK462FF49A5A14952"/>
+  
+        <dropForeignKeyConstraint baseTableName="LOGIN_ROLE" constraintName="FKE97D3CC52C66262"/>
+  
+        <dropForeignKeyConstraint baseTableName="LOGIN_ROLE" constraintName="FKE97D3CCACE4300B"/>
+  
+        <dropForeignKeyConstraint baseTableName="MINIMIZATIONMAPELEMENTWRAPPER_MAP" constraintName="FK5144196295FBF3D3"/>
+  
+        <dropForeignKeyConstraint baseTableName="MINIMIZATIONMAPELEMENTWRAPPER_MAP" constraintName="FK51441962C4B80FD5"/>
+  
+        <dropForeignKeyConstraint baseTableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS" constraintName="FKD3B8791AAE3E0175"/>
+  
+        <dropForeignKeyConstraint baseTableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS" constraintName="FKD3B8791A68544DA5"/>
+  
+        <dropForeignKeyConstraint baseTableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS" constraintName="FKD3B8791AC4B80FD5"/>
+  
+        <dropForeignKeyConstraint baseTableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES" constraintName="FK60BF91529A170C1C"/>
+  
+        <dropForeignKeyConstraint baseTableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES" constraintName="FK60BF9152C4B80FD5"/>
+  
+        <dropForeignKeyConstraint baseTableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES" constraintName="FK60BF9152AB57CEEE"/>
+  
+        <dropForeignKeyConstraint baseTableName="MINIMIZATIONTEMPDATA_PROBABILITIES" constraintName="FKA5B10095FBF3D3"/>
+  
+        <dropForeignKeyConstraint baseTableName="MINIMIZATIONTEMPDATA_PROBABILITIES" constraintName="FKA5B100C4B80FD5"/>
+  
+        <dropForeignKeyConstraint baseTableName="MINIMIZATIONTEMPDATA_PROBABILITIES" constraintName="FKA5B100C1F43207"/>
+  
+        <dropForeignKeyConstraint baseTableName="PERSON" constraintName="FK8E4887751B265929"/>
+  
+        <dropForeignKeyConstraint baseTableName="PERSON" constraintName="FK8E488775B617FE02"/>
+  
+        <dropForeignKeyConstraint baseTableName="RANDOMISATIONTEMPDATA_BLOCK" constraintName="FKED3A86746CB2385C"/>
+  
+        <dropForeignKeyConstraint baseTableName="RANDOMISATIONTEMPDATA_BLOCK" constraintName="FKED3A86747BC3928B"/>
+  
+        <dropForeignKeyConstraint baseTableName="RANDOMISATIONTEMPDATA_URN" constraintName="FKA169D518D36F3EBC"/>
+  
+        <dropForeignKeyConstraint baseTableName="RANDOMISATIONTEMPDATA_URN" constraintName="FKA169D518B77AC2E4"/>
+  
+        <dropForeignKeyConstraint baseTableName="RANDOMIZATIONCONFIG" constraintName="FKEBFF50C3AA393BD4"/>
+  
+        <dropForeignKeyConstraint baseTableName="RANDOMIZATIONCONFIG" constraintName="FKEBFF50C333ECA742"/>
+  
+        <dropForeignKeyConstraint baseTableName="ROLE_ROLE" constraintName="FK8B6A269FECBB7B2"/>
+  
+        <dropForeignKeyConstraint baseTableName="ROLE_ROLE" constraintName="FK8B6A269FB5E88DA1"/>
+  
+        <dropForeignKeyConstraint baseTableName="SUBJECTPROPERTY" constraintName="FK88363016DAACAC1"/>
+  
+        <dropForeignKeyConstraint baseTableName="TREATMENTARM" constraintName="FKADB66AE433ECA742"/>
+  
+        <dropForeignKeyConstraint baseTableName="TRIAL" constraintName="FK4D51EF6E2BD5412"/>
+  
+        <dropForeignKeyConstraint baseTableName="TRIAL" constraintName="FK4D51EF68114226F"/>
+  
+        <dropForeignKeyConstraint baseTableName="TRIAL" constraintName="FK4D51EF6D5402E24"/>
+  
+        <dropForeignKeyConstraint baseTableName="TRIAL_CRITERION" constraintName="FKD4E08C78F73E5097"/>
+  
+        <dropForeignKeyConstraint baseTableName="TRIAL_CRITERION" constraintName="FKD4E08C7833ECA742"/>
+  
+        <dropForeignKeyConstraint baseTableName="TRIAL_TRIALSITE" constraintName="FK8D546554DD32770E"/>
+  
+        <dropForeignKeyConstraint baseTableName="TRIAL_TRIALSITE" constraintName="FK8D546554AA0BF0DB"/>
+  
+        <dropForeignKeyConstraint baseTableName="TRIALSITE" constraintName="FK46C8075D27E0C932"/>
+  
+        <dropForeignKeyConstraint baseTableName="TRIALSUBJECT" constraintName="FKFB112D56E36E0A5A"/>
+  
+        <dropForeignKeyConstraint baseTableName="TRIALSUBJECT" constraintName="FKFB112D56C32A2E22"/>
+  
+        <dropForeignKeyConstraint baseTableName="TRIALSUBJECT" constraintName="FKFB112D56B617FE02"/>
+  
+        <dropForeignKeyConstraint baseTableName="TRIALSUBJECT_SUBJECTPROPERTY" constraintName="FK6BCC7A1835E03A10"/>
+  
+        <dropForeignKeyConstraint baseTableName="TRIALSUBJECT_SUBJECTPROPERTY" constraintName="FK6BCC7A183D50EB92"/>
+  
+        <dropForeignKeyConstraint baseTableName="URN_TREATMENTARM" constraintName="FK26C6EB32C89948D2"/>
+  
+        <dropForeignKeyConstraint baseTableName="URN_TREATMENTARM" constraintName="FK26C6EB328F965035"/>
+    	
+</changeSet>
+<changeSet author="dschrimpf" id="remove_constraints_1" dbms="mysql">
+	<dropForeignKeyConstraint baseTableName="AbstractConstraint_expectedValues" constraintName="FK26FD227AAF0BD07A"/>
+  
+        <dropForeignKeyConstraint baseTableName="AccessControlEntryHibernate" constraintName="FK40F1A399ABD3754E"/>
+  
+        <dropForeignKeyConstraint baseTableName="AccessControlEntryHibernate" constraintName="FK40F1A3993069E2C6"/>
+  
+        <dropForeignKeyConstraint baseTableName="AclHibernate" constraintName="FKD9188F08C2DC041C"/>
+  
+        <dropForeignKeyConstraint baseTableName="AclHibernate" constraintName="FKD9188F08C957A6C1"/>
+  
+        <dropForeignKeyConstraint baseTableName="AclHibernate" constraintName="FKD9188F0856FBD678"/>
+  
+        <dropForeignKeyConstraint baseTableName="Block_Treatmentarm" constraintName="FKDB68D19611070FF5"/>
+  
+        <dropForeignKeyConstraint baseTableName="Block_Treatmentarm" constraintName="FKDB68D196C89948D2"/>
+  
+        <dropForeignKeyConstraint baseTableName="Criterion" constraintName="FK8E542E8112FA816F"/>
+  
+        <dropForeignKeyConstraint baseTableName="Criterion_AbstractConstraint" constraintName="FKCFB2BA3D6DAACAC1"/>
+  
+        <dropForeignKeyConstraint baseTableName="Criterion_AbstractConstraint" constraintName="FKCFB2BA3DF129B42B"/>
+  
+        <dropForeignKeyConstraint baseTableName="Criterion_elements" constraintName="FKA06784F56CD64AE0"/>
+  
+        <dropForeignKeyConstraint baseTableName="Login" constraintName="FK462FF49A5A14952"/>
+  
+        <dropForeignKeyConstraint baseTableName="Login_Role" constraintName="FKE97D3CC52C66262"/>
+  
+        <dropForeignKeyConstraint baseTableName="Login_Role" constraintName="FKE97D3CCACE4300B"/>
+  
+        <dropForeignKeyConstraint baseTableName="MinimizationMapElementWrapper_map" constraintName="FK5144196295FBF3D3"/>
+  
+        <dropForeignKeyConstraint baseTableName="MinimizationMapElementWrapper_map" constraintName="FK51441962C4B80FD5"/>
+  
+        <dropForeignKeyConstraint baseTableName="MinimizationTempData_CountConstraints" constraintName="FKD3B8791AAE3E0175"/>
+  
+        <dropForeignKeyConstraint baseTableName="MinimizationTempData_CountConstraints" constraintName="FKD3B8791A68544DA5"/>
+  
+        <dropForeignKeyConstraint baseTableName="MinimizationTempData_CountConstraints" constraintName="FKD3B8791AC4B80FD5"/>
+  
+        <dropForeignKeyConstraint baseTableName="MinimizationTempData_countTrialSites" constraintName="FK60BF91529A170C1C"/>
+  
+        <dropForeignKeyConstraint baseTableName="MinimizationTempData_countTrialSites" constraintName="FK60BF9152C4B80FD5"/>
+  
+        <dropForeignKeyConstraint baseTableName="MinimizationTempData_countTrialSites" constraintName="FK60BF9152AB57CEEE"/>
+  
+        <dropForeignKeyConstraint baseTableName="MinimizationTempData_Probabilities" constraintName="FKA5B10095FBF3D3"/>
+  
+        <dropForeignKeyConstraint baseTableName="MinimizationTempData_Probabilities" constraintName="FKA5B100C4B80FD5"/>
+  
+        <dropForeignKeyConstraint baseTableName="MinimizationTempData_Probabilities" constraintName="FKA5B100C1F43207"/>
+  
+        <dropForeignKeyConstraint baseTableName="Person" constraintName="FK8E4887751B265929"/>
+  
+        <dropForeignKeyConstraint baseTableName="Person" constraintName="FK8E488775B617FE02"/>
+  
+        <dropForeignKeyConstraint baseTableName="RandomisationTempData_Block" constraintName="FKED3A86746CB2385C"/>
+  
+        <dropForeignKeyConstraint baseTableName="RandomisationTempData_Block" constraintName="FKED3A86747BC3928B"/>
+  
+        <dropForeignKeyConstraint baseTableName="RandomisationTempData_Urn" constraintName="FKA169D518D36F3EBC"/>
+  
+        <dropForeignKeyConstraint baseTableName="RandomisationTempData_Urn" constraintName="FKA169D518B77AC2E4"/>
+  
+        <dropForeignKeyConstraint baseTableName="RandomizationConfig" constraintName="FKEBFF50C3AA393BD4"/>
+  
+        <dropForeignKeyConstraint baseTableName="RandomizationConfig" constraintName="FKEBFF50C333ECA742"/>
+  
+        <dropForeignKeyConstraint baseTableName="Role_Role" constraintName="FK8B6A269FECBB7B2"/>
+  
+        <dropForeignKeyConstraint baseTableName="Role_Role" constraintName="FK8B6A269FB5E88DA1"/>
+  
+        <dropForeignKeyConstraint baseTableName="SubjectProperty" constraintName="FK88363016DAACAC1"/>
+  
+        <dropForeignKeyConstraint baseTableName="TreatmentArm" constraintName="FKADB66AE433ECA742"/>
+  
+        <dropForeignKeyConstraint baseTableName="Trial" constraintName="FK4D51EF6E2BD5412"/>
+  
+        <dropForeignKeyConstraint baseTableName="Trial" constraintName="FK4D51EF68114226F"/>
+  
+        <dropForeignKeyConstraint baseTableName="Trial" constraintName="FK4D51EF6D5402E24"/>
+  
+        <dropForeignKeyConstraint baseTableName="Trial_Criterion" constraintName="FKD4E08C78F73E5097"/>
+  
+        <dropForeignKeyConstraint baseTableName="Trial_Criterion" constraintName="FKD4E08C7833ECA742"/>
+  
+        <dropForeignKeyConstraint baseTableName="Trial_TrialSite" constraintName="FK8D546554DD32770E"/>
+  
+        <dropForeignKeyConstraint baseTableName="Trial_TrialSite" constraintName="FK8D546554AA0BF0DB"/>
+  
+        <dropForeignKeyConstraint baseTableName="TrialSite" constraintName="FK46C8075D27E0C932"/>
+  
+        <dropForeignKeyConstraint baseTableName="TrialSubject" constraintName="FKFB112D56E36E0A5A"/>
+  
+        <dropForeignKeyConstraint baseTableName="TrialSubject" constraintName="FKFB112D56C32A2E22"/>
+  
+        <dropForeignKeyConstraint baseTableName="TrialSubject" constraintName="FKFB112D56B617FE02"/>
+  
+        <dropForeignKeyConstraint baseTableName="TrialSubject_SubjectProperty" constraintName="FK6BCC7A1835E03A10"/>
+  
+        <dropForeignKeyConstraint baseTableName="TrialSubject_SubjectProperty" constraintName="FK6BCC7A183D50EB92"/>
+  
+        <dropForeignKeyConstraint baseTableName="Urn_Treatmentarm" constraintName="FK26C6EB32C89948D2"/>
+  
+        <dropForeignKeyConstraint baseTableName="Urn_Treatmentarm" constraintName="FK26C6EB328F965035"/>
+</changeSet>
+</databaseChangeLog>
