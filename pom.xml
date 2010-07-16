@@ -712,7 +712,7 @@
                 </dependency>
             </dependencies>
         </profile>
-
+        
         <profile>
             <id>mysql5-test</id>
             <activation>
@@ -722,6 +722,7 @@
                 </property>
             </activation>
             <properties>
+            	<dmbs>mysql5</dmbs>
                 <test.database.name>randi2/jdbc/mysql5-test</test.database.name>
                 <test.hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</test.hibernate.dialect>
             </properties>
@@ -879,6 +880,7 @@
            <profile>
         	<id>bootstrap</id>
         	<build>
+        		<defaultGoal>exec:java</defaultGoal>
         		<plugins>
         			<plugin>
         				<groupId>org.codehaus.mojo</groupId>
