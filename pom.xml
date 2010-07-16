@@ -1,62 +1,62 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>de.randi2</groupId>
-    <artifactId>RANDI2</artifactId>
-    <packaging>war</packaging>
-    <version>0.6.2</version>
-    <name>RANDI2</name>
-    <description>Online Randomization for Clinical Trials</description>
-    <url>http://randi2.org</url>
-    <licenses>
-        <license>
-            <name>GNU GENERAL PUBLIC LICENSE Version 3</name>
-            <url>http://www.gnu.org/licenses/gpl-3.0-standalone.html</url>
-        </license>
-    </licenses>
-    <scm>
-        <connection>scm:git:git://github.com/jthoenes/randi2.git</connection>
-        <developerConnection>scm:git:ssh://github.com:jthoenes/randi2.git</developerConnection>
-        <url>http://github.com/jthoenes/randi2/tree/master</url>
-    </scm>
-    <mailingLists>
-        <mailingList>
-            <name>Announcements</name>
-            <subscribe>https://lists.sourceforge.net/lists/listinfo/randi2-announcements</subscribe>
-            <unsubscribe>https://lists.sourceforge.net/lists/listinfo/randi2-announcements</unsubscribe>
-            <archive>https://sourceforge.net/mailarchive/forum.php?forum_name=randi2-announcements</archive>
-        </mailingList>
-        <mailingList>
-            <name>Development Discussion</name>
-            <subscribe>https://lists.sourceforge.net/lists/listinfo/randi2-development</subscribe>
-            <unsubscribe>https://lists.sourceforge.net/lists/listinfo/randi2-development</unsubscribe>
-            <post>randi2-development@lists.sourceforge.net</post>
-            <archive>https://sourceforge.net/mailarchive/forum.php?forum_name=randi2-development</archive>
-        </mailingList>
-        <mailingList>
-            <name>Commit Messages</name>
-            <subscribe>https://lists.sourceforge.net/lists/listinfo/randi2-commits</subscribe>
-            <unsubscribe>https://lists.sourceforge.net/lists/listinfo/randi2-commits</unsubscribe>
-            <archive>https://sourceforge.net/mailarchive/forum.php?forum_name=randi2-commits</archive>
-        </mailingList>
-    </mailingLists>
-    <issueManagement>
-        <system>retrospectiva</system>
-        <url>http://randi2.org/retro/tickets</url>
-    </issueManagement>
-    <ciManagement>
-        <system>hudson</system>
-        <url>http://randi2.org/hudson/</url>
-    </ciManagement>
-    <organization>
-        <name>RANDI2 Core Development Team</name>
-        <url>http://randi2.org</url>
-    </organization>
-    <developers>
-        <developer>
-            <id>jthoenes</id>
-            <name>Johannes Th&#246;nes</name>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.randi2</groupId>
+	<artifactId>RANDI2</artifactId>
+	<packaging>war</packaging>
+	<version>0.6.2</version>
+	<name>RANDI2</name>
+	<description>Online Randomization for Clinical Trials</description>
+	<url>http://randi2.org</url>
+	<licenses>
+		<license>
+			<name>GNU GENERAL PUBLIC LICENSE Version 3</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0-standalone.html</url>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:git:git://github.com/jthoenes/randi2.git</connection>
+		<developerConnection>scm:git:ssh://github.com:jthoenes/randi2.git</developerConnection>
+		<url>http://github.com/jthoenes/randi2/tree/master</url>
+	</scm>
+	<mailingLists>
+		<mailingList>
+			<name>Announcements</name>
+			<subscribe>https://lists.sourceforge.net/lists/listinfo/randi2-announcements</subscribe>
+			<unsubscribe>https://lists.sourceforge.net/lists/listinfo/randi2-announcements</unsubscribe>
+			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=randi2-announcements</archive>
+		</mailingList>
+		<mailingList>
+			<name>Development Discussion</name>
+			<subscribe>https://lists.sourceforge.net/lists/listinfo/randi2-development</subscribe>
+			<unsubscribe>https://lists.sourceforge.net/lists/listinfo/randi2-development</unsubscribe>
+			<post>randi2-development@lists.sourceforge.net</post>
+			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=randi2-development</archive>
+		</mailingList>
+		<mailingList>
+			<name>Commit Messages</name>
+			<subscribe>https://lists.sourceforge.net/lists/listinfo/randi2-commits</subscribe>
+			<unsubscribe>https://lists.sourceforge.net/lists/listinfo/randi2-commits</unsubscribe>
+			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=randi2-commits</archive>
+		</mailingList>
+	</mailingLists>
+	<issueManagement>
+		<system>retrospectiva</system>
+		<url>http://randi2.org/retro/tickets</url>
+	</issueManagement>
+	<ciManagement>
+		<system>hudson</system>
+		<url>http://randi2.org/hudson/</url>
+	</ciManagement>
+	<organization>
+		<name>RANDI2 Core Development Team</name>
+		<url>http://randi2.org</url>
+	</organization>
+	<developers>
+		<developer>
+			<id>jthoenes</id>
+			<name>Johannes Th&#246;nes</name>
             <email>johannes.thoenes@googlemail.com</email>
             <url>http://jthoenes.bergischweb.de</url>
             <timezone>+1</timezone>
@@ -874,6 +874,22 @@
                     <scope>test</scope>
                 </dependency>
             </dependencies>
+        </profile>
+        
+           <profile>
+        	<id>bootstrap</id>
+        	<build>
+        		<plugins>
+        			<plugin>
+        				<groupId>org.codehaus.mojo</groupId>
+        				<artifactId>exec-maven-plugin</artifactId>
+        				<configuration>
+        					<mainClass>de.randi2.utility.Bootstrap</mainClass>
+         					<classpathScope>test</classpathScope>
+        				</configuration>
+        			</plugin>
+        		</plugins>
+        	</build>
         </profile>
                 
     </profiles>
