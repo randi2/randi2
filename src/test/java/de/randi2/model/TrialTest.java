@@ -39,8 +39,9 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 	private Trial validTrial;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		// Valides Trial
+		super.setUp();
 		validTrial = factory.getTrial();
 		hibernateTemplate.save(validTrial.getLeadingSite().getContactPerson());
 	}

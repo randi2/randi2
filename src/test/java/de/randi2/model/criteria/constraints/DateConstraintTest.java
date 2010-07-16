@@ -24,10 +24,15 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 		}
 		
 		@Before
-		public void setUp() throws Exception {
+		public void setUp(){
+			super.setUp();
 			firstDate = new GregorianCalendar(2001,10,10);
 			secondDate =new GregorianCalendar(2002,10,22);
-			constraint = new DateConstraint(Arrays.asList(new GregorianCalendar[]{firstDate,secondDate}));
+			try {
+				constraint = new DateConstraint(Arrays.asList(new GregorianCalendar[]{firstDate,secondDate}));
+			} catch (ContraintViolatedException e) {
+				fail(e.getMessage());
+			}
 		}
 		
 		@Test

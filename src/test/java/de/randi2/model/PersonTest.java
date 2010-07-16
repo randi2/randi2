@@ -34,6 +34,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 
 	@Before
 	public void setUp() {
+		super.setUp();
 		validPerson = super.factory.getPerson();
 		validPerson.setLogin(factory.getLogin());
 		validPerson.getLogin().setPerson(validPerson);

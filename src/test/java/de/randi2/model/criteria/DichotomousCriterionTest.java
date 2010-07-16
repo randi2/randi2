@@ -40,7 +40,8 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 	
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp()  {
+		super.setUp();
 		criterion = new DichotomousCriterion();
 	}
 

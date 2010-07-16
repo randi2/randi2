@@ -24,10 +24,15 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 	
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(){
+		super.setUp();
 		elements = new ArrayList<String>();
 		elements.add("Value1");
-		constraint = new DichotomousConstraint(elements);
+		try {
+			constraint = new DichotomousConstraint(elements);
+		} catch (ContraintViolatedException e) {
+			fail(e.getMessage());
+		}
 	}
 	
 	@Test

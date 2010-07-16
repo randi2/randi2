@@ -30,6 +30,7 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	@Override
 	public void setUp() {
 		super.setUp();
+		authenticatAsAdmin();
 		for (int i = 0; i < 10; i++) {
 			Login login = factory.getLogin();
 			login.getPerson().setTrialSite(null);
@@ -40,7 +41,7 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetAllAdmin() {
-
+		authenticatAsAdmin();
 		List<Login> loginsTemp = sessionFactory.getCurrentSession()
 				.createQuery("from Login").list();
 		List<Login> logins = userService.getAll();
@@ -53,11 +54,12 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetAllInvestigator() {
+		authenticatAsAdmin();
 		List<Login> loginsTemp = sessionFactory.getCurrentSession()
 		.createQuery("from Login").list();
 		authenticatAsInvestigator();
 		List<Login> logins = userService.getAll();
-		assertEquals(2, logins.size());
+		assertEquals(loginsTemp.size(), logins.size());
 		Login user = findLogin("investigator@test.de");
 		authenticatAsAdmin();
 		for(int i = 0 ; i< 10 ;i++ ){

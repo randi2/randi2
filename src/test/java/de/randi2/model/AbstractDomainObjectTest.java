@@ -15,17 +15,20 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateOptimisticLockingFailureException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.test.utility.AbstractDomainTest;
+import de.randi2.utility.InitializeDatabaseUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/META-INF/spring-test.xml"})
 public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainObject> {
 
 	private Login domainObject;
+
 
 	public AbstractDomainObjectTest() {
 		super(AbstractDomainObject.class);

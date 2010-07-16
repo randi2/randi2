@@ -30,7 +30,8 @@ private OrdinalCriterion criterion;
 	
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
+		super.setUp();
 		criterion = new OrdinalCriterion();
 	}
 	

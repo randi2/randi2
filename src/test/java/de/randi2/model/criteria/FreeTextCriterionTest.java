@@ -25,7 +25,8 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 	private FreeTextCriterion criterion;
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(){
+		super.setUp();
 		criterion = new FreeTextCriterion();
 	}
 	

@@ -28,12 +28,17 @@ public class OrdinalConstraintTest extends
 	}
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
+		super.setUp();
 		elements = new ArrayList<String>();
 		elements.add("Value1");
 		elements.add("Value2");
 		elements.add("Value3");
-		constraint = new OrdinalConstraint(elements);
+		try {
+			constraint = new OrdinalConstraint(elements);
+		} catch (ContraintViolatedException e) {
+			fail(e.getMessage());
+		}
 	}
 	
 	@Test

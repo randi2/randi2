@@ -28,7 +28,8 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 	private GregorianCalendar secondDate;
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(){
+		super.setUp();
 		criterion = new DateCriterion();
 		firstDate = new GregorianCalendar(1998,7,1);
 		secondDate = new GregorianCalendar(2000,7,1);

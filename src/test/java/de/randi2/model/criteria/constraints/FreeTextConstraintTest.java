@@ -27,9 +27,14 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 	
 	@SuppressWarnings("unchecked")
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(){
+		super.setUp();
 		element="value";
-		constraint = new FreeTextConstraint(Arrays.asList(new String[]{element}));
+		try {
+			constraint = new FreeTextConstraint(Arrays.asList(new String[]{element}));
+		} catch (ContraintViolatedException e) {
+			fail(e.getMessage());
+		}
 	}
 	
 	@Test

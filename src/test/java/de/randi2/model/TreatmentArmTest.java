@@ -29,6 +29,7 @@ public class TreatmentArmTest extends AbstractDomainTest<TreatmentArm> {
 	
 	@Before
 	public void setUp(){
+		super.setUp();
 		validTreatmentArm = new TreatmentArm();
 		validTreatmentArm.setDescription("description");
 		validTreatmentArm.setName("arm");

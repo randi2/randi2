@@ -1,16 +1,17 @@
 package de.randi2.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +21,7 @@ import de.randi2.test.utility.AbstractDomainTest;
 public class TrialSiteTest extends AbstractDomainTest<TrialSite> {
 
 	private TrialSite validTrialSite;
-@Autowired private SessionFactory sessionFactory;
 
-private Session getCurrentSession(){
-	return sessionFactory.getCurrentSession();
-}
 	
 	public TrialSiteTest() {
 		super(TrialSite.class);
@@ -32,6 +29,7 @@ private Session getCurrentSession(){
 
 	@Before
 	public void setUp() {
+		super.setUp();
 		validTrialSite = factory.getTrialSite();
 		hibernateTemplate.save(validTrialSite.getContactPerson());
 	}

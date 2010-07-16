@@ -19,12 +19,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.exceptions.ValidationException;
 import de.randi2.model.security.PermissionHibernate;
 import de.randi2.test.utility.AbstractDomainTest;
 import edu.emory.mathcs.backport.java.util.Arrays;
-
 
 public class LoginTest extends AbstractDomainTest<Login>{
 
@@ -36,6 +36,7 @@ public class LoginTest extends AbstractDomainTest<Login>{
 	
 	@Before
 	public void setUp(){
+		super.setUp();
 		validLogin = factory.getLogin();
 	}
 	

@@ -1,14 +1,12 @@
 package de.randi2.test.utility;
 
-import de.randi2.test.utility.DomainObjectFactory;
-import de.randi2.test.utility.TestStringUtil;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.validator.InvalidStateException;
 import org.hibernate.validator.InvalidValue;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -18,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.AbstractDomainObject;
+import de.randi2.utility.InitializeDatabaseUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/META-INF/spring-test.xml"})
@@ -28,12 +27,23 @@ public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 	@Autowired protected DomainObjectFactory factory;
 	@Autowired protected ApplicationContext context; 
 	@Autowired protected SessionFactory sessionFactory;
+	@Autowired protected InitializeDatabaseUtil databaseUtil;
 	
 	protected Class<TC> testClass;
 
 	protected AbstractDomainTest(Class<TC> _testClass) {
 		this.testClass = _testClass;
 	}
+
+	@Before
+	public void setUp(){
+		try {
+			databaseUtil.setUpDatabase();
+		} catch (Exception e1) {
+			fail(e1.getMessage());
+		}
+	}
+	
 
 	protected void assertValid(TC validDO) {
 		try{
