@@ -725,7 +725,12 @@
             	<dmbs>mysql5</dmbs>
                 <test.database.name>randi2/jdbc/mysql5-test</test.database.name>
                 <test.hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</test.hibernate.dialect>
-            </properties>
+                <!-- MySQL Bootstrap settings -->
+                <bootstrap.driver>com.mysql.jdbc.Driver</bootstrap.driver>
+                <bootstrap.url>jdbc:mysql://localhost:3306/randi2_development</bootstrap.url>
+                <bootstrap.username>randi2</bootstrap.username>
+                <bootstrap.password>randi2</bootstrap.password>
+        	</properties>
             <dependencies>
                 <dependency>
                     <groupId>mysql</groupId>
@@ -888,6 +893,12 @@
         				<configuration>
         					<mainClass>de.randi2.utility.Bootstrap</mainClass>
          					<classpathScope>test</classpathScope>
+         					<systemProperties>
+         						<systemProperty>
+              						<key>bootstrap.password</key>
+              						<value>${bootstrap.password}</value>
+              					</systemProperty>
+         					</systemProperties>
         				</configuration>
         			</plugin>
         		</plugins>

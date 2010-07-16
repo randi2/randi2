@@ -12,11 +12,16 @@ Spring XML-config file for normal context with dummy mail service
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"></property>
 		<property name="location"
 			value="classpath:META-INF/bootstrap/bootstrap.properties">
 		</property>
-		<property name="ignoreUnresolvablePlaceholders">
-			<value>true</value>
+		<property name="properties">
+			<props>
+				<prop key="mail.from">nobody@example.com</prop>
+				<prop key="info.hoster">RANDI 2 example</prop>
+				<prop key="info.server">example.com</prop>
+			</props>
 		</property>
 	</bean>
 	
