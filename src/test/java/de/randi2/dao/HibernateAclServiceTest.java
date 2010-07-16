@@ -12,6 +12,7 @@ import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.Acl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Login;
 import de.randi2.model.TrialSite;
@@ -24,7 +25,8 @@ import static de.randi2.utility.security.ArrayListHelper.sidsOf;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml", "/META-INF/subconfig/security.xml" })
-public class HibernateAclServiceTest {
+@Transactional
+public class HibernateAclServiceTest extends AbstractDaoTest{
 
 	@Autowired
 	private HibernateAclService aclService;
@@ -36,6 +38,7 @@ public class HibernateAclServiceTest {
 	
 	@Before
 	public void setUp(){
+		super.setUp();
 		trialsite = factory.getTrialSite();
 		template.save(trialsite.getContactPerson());
 	}

@@ -8,6 +8,8 @@
 		class="de.randi2.test.utility.TestStringUtil">
 	</bean>
 	
-	<bean id="domainObjectFactory" class="de.randi2.test.utility.DomainObjectFactory"></bean>
+	<bean id="domainObjectFactory" class="de.randi2.test.utility.DomainObjectFactory" />
+	
+	<bean id="initializeDatabaseUtil" class="de.randi2.utility.InitializeDatabaseUtil"/>
 
 </beans>

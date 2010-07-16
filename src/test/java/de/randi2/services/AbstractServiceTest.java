@@ -35,6 +35,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.Login;
 import de.randi2.test.utility.DomainObjectFactory;
+import de.randi2.utility.InitializeDatabaseUtil;
 import de.randi2.utility.security.RolesAndRights;
 
 import static junit.framework.Assert.*;
@@ -54,68 +55,17 @@ public abstract class AbstractServiceTest {
 	private PasswordEncoder passwordEncoder;
 	@Autowired
 	private SystemWideSaltSource saltSource;
+
 	@Autowired
-	private DataSource dataSource;
-
+	private InitializeDatabaseUtil databaseUtil;
+	
 	protected Login user;
-
-	private void setUpDatabase() throws Exception {
-		// initialize your database connection here
-		Connection jdbcConnection = dataSource.getConnection();
-
-		Liquibase liquibase = new Liquibase(
-				"src/main/resources/META-INF/database/database_changelog.xml",
-				new FileSystemFileOpener(), jdbcConnection);
-		liquibase.update("init");
-
-		ResultSet resultSet = jdbcConnection
-				.createStatement()
-				.executeQuery(
-						"SELECT * FROM DATABASECHANGELOG WHERE ID='init_ForeignKeyConstraint';");
-
-		if (resultSet.next()) {
-			Liquibase liquibase2 = new Liquibase(
-					"src/test/resources/liquibase/removeConstraints.xml",
-					new FileSystemFileOpener(), jdbcConnection);
-			liquibase2.update("init");
-			jdbcConnection
-			.createStatement()
-			.executeUpdate(
-					"DELETE FROM DATABASECHANGELOG WHERE ID='init_ForeignKeyConstraint' OR ID='remove_constraints_1';");
-		}
-		IDatabaseConnection connection = new DatabaseConnection(jdbcConnection);
-
-		// FIXME remove it with dbunit version 2.3
-		if (liquibase.getDatabase().getDatabaseProductName().equals(
-				"HSQL Database Engine")) {
-			DatabaseConfig config = connection.getConfig();
-			config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY,
-					new HsqldbDataTypeFactory());
-		}
-
-		// initialize dataset
-		IDataSet dataSet = new FlatXmlDataSet(new File(
-				"src/test/resources/dbunit/testdata.xml"));
-		try {
-			DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
-			jdbcConnection.commit();
-
-			liquibase = new Liquibase(
-					"src/main/resources/META-INF/database/database_changelog.xml",
-					new FileSystemFileOpener(), jdbcConnection);
-			liquibase.update("init2");
-
-		} finally {
-			connection.close();
-		}
-
-	}
 
 	@Before
 	public void setUp() {
 		ManagedSessionContext.bind(sessionFactory.openSession());
 		try {
-			setUpDatabase();
+			databaseUtil.setUpDatabase();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}

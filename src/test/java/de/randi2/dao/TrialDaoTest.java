@@ -19,7 +19,7 @@ import de.randi2.test.utility.DomainObjectFactory;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/META-INF/spring-test.xml"})
 @Transactional
-public class TrialDaoTest {
+public class TrialDaoTest extends AbstractDaoTest{
 
 	
 	 
