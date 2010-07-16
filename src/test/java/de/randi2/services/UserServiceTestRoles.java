@@ -74,27 +74,6 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 		assertEquals(12+loginsTemp.size()-1,logins.size());
 	}
 	
-	
-	private void authenticatAsInvestigator() {
-	
-		Login user = findLogin("investigator@test.de");
-		if(user  == null){
-			authenticatAsAdmin();
-		Login newUser = factory.getLogin();
-		newUser.setUsername("investigator@test.de");
-		newUser.setPerson(factory.getPerson());
-		newUser.getPerson().setTrialSite(findLogin("admin@test.de").getPerson().getTrialSite());
-		newUser.addRole(Role.ROLE_INVESTIGATOR);
-		userService.create(newUser);
-		user = newUser;
-		}
-		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"investigatorUser", user, new ArrayList<GrantedAuthority>(user.getAuthorities()));
-		// Perform authentication
-		SecurityContextHolder.getContext().setAuthentication(authToken);
-		SecurityContextHolder.getContext().getAuthentication()
-				.setAuthenticated(true);
-	}
 
 //	private void authenticatAsAnonymous() {
 //		Login newUser = new Login();

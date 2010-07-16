@@ -33,17 +33,17 @@ public class TrialServiceTest extends AbstractServiceTest{
 	
 	@Override
 	public void setUp() {
-		
 		super.setUp();
+		authenticatAsPrincipalInvestigator();
 		validTrial = factory.getTrial();
-		validTrial.setLeadingSite(admin.getPerson().getTrialSite());
-		validTrial.setSponsorInvestigator(admin.getPerson());
+		validTrial.setLeadingSite(user.getPerson().getTrialSite());
+		validTrial.setSponsorInvestigator(user.getPerson());
 	}
-	
 	
 	
 	@Test
 	public void testCreate(){
+		authenticatAsPrincipalInvestigator();
 		service.create(validTrial);
 		assertTrue(validTrial.getId()>0);
 	}
@@ -67,8 +67,8 @@ public class TrialServiceTest extends AbstractServiceTest{
 		trials.add(validTrial);
 		for(int i=0;i<9;i++){
 			Trial trial = factory.getTrial();
-			trial.setLeadingSite(admin.getPerson().getTrialSite());
-			trial.setSponsorInvestigator(admin.getPerson());
+			trial.setLeadingSite(user.getPerson().getTrialSite());
+			trial.setSponsorInvestigator(user.getPerson());
 			service.create(trial);
 		}
 		List<Trial> dbTrials = service.getAll();
@@ -107,6 +107,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		service.update(validTrial);
 		assertTrue(validTrial.getId()>0);
 		assertEquals(2,validTrial.getTreatmentArms().size());
+		authenticatAsInvestigator();
 		for(int i=0;i<100;i++){
 			TrialSubject subject = new TrialSubject();
 			 subject.setIdentification("identification" + i);
@@ -146,6 +147,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		service.update(validTrial);
 		assertTrue(validTrial.getId()>0);
 		assertEquals(2,validTrial.getTreatmentArms().size());
+		authenticatAsInvestigator();
 		for(int i=0;i<randomizations;i++){
 			TrialSubject subject = new TrialSubject();
 			 subject.setIdentification("identification" + i);
@@ -189,6 +191,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		service.update(validTrial);
 		assertTrue(validTrial.getId()>0);
 		assertEquals(2,validTrial.getTreatmentArms().size());
+		authenticatAsInvestigator();
 		for(int i=0;i<100;i++){
 			TrialSubject subject = new TrialSubject();
 			 subject.setIdentification("identification" + i);
@@ -230,6 +233,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		service.update(validTrial);
 		assertTrue(validTrial.getId()>0);
 		assertEquals(2,validTrial.getTreatmentArms().size());
+		authenticatAsInvestigator();
 		for(int i=0;i<100;i++){
 			TrialSubject subject = new TrialSubject();
 			 subject.setIdentification("identification" + i);
@@ -270,6 +274,8 @@ public class TrialServiceTest extends AbstractServiceTest{
 		service.update(validTrial);
 		assertTrue(validTrial.getId()>0);
 		assertEquals(2,validTrial.getTreatmentArms().size());
+		authenticatAsInvestigator();
+		
 		for(int i=0;i<100;i++){
 			TrialSubject subject = new TrialSubject();
 			 subject.setIdentification("identification" + i);
@@ -292,12 +298,13 @@ public class TrialServiceTest extends AbstractServiceTest{
 		 * Now creating another investigator
 		 */
 		//Login #1
+		authenticatAsAdmin();
 		Login l = factory.getLogin();
 		String e = "i@getsubjectstest.com";
 		l.setUsername(e);
 		l.getPerson().setEmail(e);
 		l.addRole(Role.ROLE_INVESTIGATOR);
-		l.getPerson().setTrialSite(admin.getPerson().getTrialSite());
+		l.getPerson().setTrialSite(user.getPerson().getTrialSite());
 		userService.create(l);
 		//Login #2
 		Login l2 = factory.getLogin();
@@ -305,14 +312,15 @@ public class TrialServiceTest extends AbstractServiceTest{
 		l2.setUsername(e2);
 		l2.getPerson().setEmail(e2);
 		l2.addRole(Role.ROLE_INVESTIGATOR);
-		l2.getPerson().setTrialSite(admin.getPerson().getTrialSite());
+		l2.getPerson().setTrialSite(user.getPerson().getTrialSite());
 		userService.create(l2);
 		/*
 		 * First I need to create the trial and randomize some subjects.
 		 */
+		authenticatAsPrincipalInvestigator();
 		Trial t = factory.getTrial();
-		t.setLeadingSite(admin.getPerson().getTrialSite());
-		t.setSponsorInvestigator(admin.getPerson());
+		t.setLeadingSite(user.getPerson().getTrialSite());
+		t.setSponsorInvestigator(user.getPerson());
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setPlannedSubjects(25);
 		arm1.setName("arm1");
@@ -326,11 +334,6 @@ public class TrialServiceTest extends AbstractServiceTest{
 		arms.add(arm2);
 		service.create(t);
 		t.setTreatmentArms(arms);
-		l.setUsername(e);
-		l.getPerson().setEmail(e);
-		l.addRole(Role.ROLE_INVESTIGATOR);
-		l.getPerson().setTrialSite(admin.getPerson().getTrialSite());
-		userService.create(l);
 		t.setRandomizationConfiguration(new CompleteRandomizationConfig());
 		service.update(t);
 		/*
@@ -341,6 +344,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		/*
 		 * Randomizing the subjects using the service method.
 		 */
+		authenticatAsInvestigator();
 		int expectedAmount = 50;
 //		System.out.println("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " randomized in trial " +t.getName());
 		for(int i=0;i<expectedAmount;i++){
@@ -352,7 +356,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		/*
 		 * Trying to get the subjects for the admin user.
 		 */
-		List<TrialSubject> s = service.getSubjects(t,admin);
+		List<TrialSubject> s = service.getSubjects(t,user);
 		assertNotNull(s);
 		assertEquals(expectedAmount, s.size());
 		//TODO The user creation should be done here! (lplotni)

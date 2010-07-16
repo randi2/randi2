@@ -22,6 +22,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.internal.runners.statements.Fail;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -35,6 +36,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import de.randi2.model.Login;
 import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.utility.security.RolesAndRights;
+
+import static junit.framework.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/META-INF/service-test.xml",
@@ -54,7 +57,7 @@ public abstract class AbstractServiceTest {
 	@Autowired
 	private DataSource dataSource;
 
-	protected Login admin;
+	protected Login user;
 
 	private void setUpDatabase() throws Exception {
 		// initialize your database connection here
@@ -114,64 +117,8 @@ public abstract class AbstractServiceTest {
 		try {
 			setUpDatabase();
 		} catch (Exception e) {
-			e.printStackTrace();
+			fail(e.getMessage());
 		}
-		// if(sessionFactory.getCurrentSession().createCriteria(Role.class).list().size()<7){
-		// sessionFactory.getCurrentSession().merge(Role.ROLE_ADMIN);
-		// sessionFactory.getCurrentSession().merge(Role.ROLE_INVESTIGATOR);
-		// sessionFactory.getCurrentSession().merge(Role.ROLE_USER);
-		// sessionFactory.getCurrentSession().merge(Role.ROLE_STATISTICAN);
-		// sessionFactory.getCurrentSession().merge(Role.ROLE_MONITOR);
-		// sessionFactory.getCurrentSession().merge(Role.ROLE_P_INVESTIGATOR);
-		// sessionFactory.getCurrentSession().merge(Role.ROLE_ANONYMOUS);
-		//		
-		// Person cp1 = new Person();
-		// cp1.setFirstname("Contact");
-		// cp1.setSurname("Person");
-		// cp1.setEmail("cp1@test.de");
-		// cp1.setPhone("1234567");
-		// cp1.setSex(Gender.MALE);
-		//		
-		// Person adminP = new Person();
-		// adminP.setFirstname("Max");
-		// adminP.setSurname("Mustermann");
-		// adminP.setEmail("admin@test.de");
-		// adminP.setPhone("1234567");
-		// adminP.setSex(Gender.MALE);
-		//
-		// Login adminL = new Login();
-		// adminL.setPassword("1§heidelberg");
-		// adminL.setPerson(adminP);
-		// adminL.setPrefLocale(Locale.GERMANY);
-		// adminL.setUsername(adminP.getEmail());
-		//		
-		// adminL.addRole(Role.ROLE_ADMIN);
-		// adminL.addRole(Role.ROLE_P_INVESTIGATOR);
-		// adminL.addRole(Role.ROLE_INVESTIGATOR);
-		// sessionFactory.getCurrentSession().persist(adminL);
-		//		
-		// TrialSite trialSite = new TrialSite();
-		// trialSite.setCity("Heidelberg");
-		// trialSite.setCountry("Germany");
-		// trialSite.setName("DKFZ");
-		// trialSite.setPostcode("69120");
-		// trialSite.setStreet("INF");
-		// trialSite.setPassword(passwordEncoder.encodePassword("1$heidelberg",saltSource.getSystemWideSalt()));
-		// trialSite.setContactPerson(cp1);
-		// rolesAndRights.registerPerson(adminL);
-		// rolesAndRights.grantRigths(adminL, trialSite);
-		//
-		// sessionFactory.getCurrentSession().persist(trialSite);
-		// sessionFactory.getCurrentSession().refresh(adminP);
-		// adminP.setTrialSite(trialSite);
-		// sessionFactory.getCurrentSession().update(adminP);
-		// rolesAndRights.grantRigths(trialSite, trialSite);
-		//		
-		//		
-		//		
-		// }
-		authenticatAsAdmin();
-
 	}
 
 	@After
@@ -181,10 +128,32 @@ public abstract class AbstractServiceTest {
 	}
 
 	protected void authenticatAsAdmin() {
-		admin = findLogin("admin@trialsite1.de");
+		user = findLogin("admin@trialsite1.de");
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"admin@trialsite1.de", admin, new ArrayList<GrantedAuthority>(
-						admin.getAuthorities()));
+				"admin@trialsite1.de", user, new ArrayList<GrantedAuthority>(
+						user.getAuthorities()));
+		// Perform authentication
+		SecurityContextHolder.getContext().setAuthentication(authToken);
+		SecurityContextHolder.getContext().getAuthentication()
+				.setAuthenticated(true);
+	}
+	
+	protected void authenticatAsPrincipalInvestigator() {
+		user = findLogin("p_investigator@trialsite1.de");
+		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
+				"admin@trialsite1.de", user, new ArrayList<GrantedAuthority>(
+						user.getAuthorities()));
+		// Perform authentication
+		SecurityContextHolder.getContext().setAuthentication(authToken);
+		SecurityContextHolder.getContext().getAuthentication()
+				.setAuthenticated(true);
+	}
+	
+	protected void authenticatAsInvestigator() {
+		user = findLogin("investigator@trialsite1.de");
+		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
+				"admin@trialsite1.de", user, new ArrayList<GrantedAuthority>(
+						user.getAuthorities()));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()
