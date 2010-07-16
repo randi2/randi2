@@ -702,6 +702,11 @@
             <properties>
                 <test.database.name>randi2/jdbc/hsqldb-test</test.database.name>
                 <test.hibernate.dialect>de.randi2.utility.CustomHSQLDialect</test.hibernate.dialect>
+                <db.driver>org.hsqldb.jdbcDriver</db.driver>
+                <!-- Bootstrap default settings -->
+                <db.bootstrap.url>jdbc:hsqldb:mem:randi2</db.bootstrap.url>
+                <db.bootstrap.username>sa</db.bootstrap.username>
+                <db.bootstrap.password></db.bootstrap.password>
             </properties>
             <dependencies>
                 <dependency>
@@ -725,11 +730,11 @@
             	<dmbs>mysql5</dmbs>
                 <test.database.name>randi2/jdbc/mysql5-test</test.database.name>
                 <test.hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</test.hibernate.dialect>
-                <!-- MySQL Bootstrap settings -->
-                <bootstrap.driver>com.mysql.jdbc.Driver</bootstrap.driver>
-                <bootstrap.url>jdbc:mysql://localhost:3306/randi2_development</bootstrap.url>
-                <bootstrap.username>randi2</bootstrap.username>
-                <bootstrap.password>randi2</bootstrap.password>
+                <db.driver>com.mysql.jdbc.Driver</db.driver>
+                <!-- Bootstrap default settings -->
+                <db.bootstrap.url>jdbc:mysql://localhost:3306/randi2_development</db.bootstrap.url>
+                <db.bootstrap.username>randi2</db.bootstrap.username>
+                <db.bootstrap.password>randi2</db.bootstrap.password>
         	</properties>
             <dependencies>
                 <dependency>
@@ -753,6 +758,11 @@
             <properties>
                 <test.database.name>randi2/jdbc/postgresql84-test</test.database.name>
                 <test.hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</test.hibernate.dialect>
+                <db.driver>org.postgresql.Driver</db.driver>
+                <!-- Bootstrap default settings -->
+                <db.bootstrap.url>jdbc:postgresql://localhost:5432/randi2_development</db.bootstrap.url>
+                <db.bootstrap.username>randi2</db.bootstrap.username>
+                <db.bootstrap.password>randi2</db.bootstrap.password>
             </properties>
             <dependencies>
                 <dependency>
@@ -775,6 +785,11 @@
             <properties>
                 <test.database.name>randi2/jdbc/sqlserver-test</test.database.name>
                 <test.hibernate.dialect>org.hibernate.dialect.SQLServerDialect</test.hibernate.dialect>
+                <db.driver>net.sourceforge.jtds.jdbc.Driver</db.driver>
+                <!-- Bootstrap default settings -->
+                <db.bootstrap.url>jdbc:sqlserver://localhost:1433;databaseName=randi2</db.bootstrap.url>
+                <db.bootstrap.username>randi2</db.bootstrap.username>
+                <db.bootstrap.password>randi2</db.bootstrap.password>
             </properties>
             <dependencies>
                 <dependency>
