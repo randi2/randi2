@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.criteria.DateCriterion;
@@ -29,6 +30,7 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 	}
 
 	@Test
+	@Transactional
 	public void testDatabaseIntegrationSubjectDichotomousCriterion() {
 		DichotomousCriterion criterion = new DichotomousCriterion();
 		criterion.setOption1("1");
@@ -55,6 +57,7 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 	}
 
 	@Test
+	@Transactional
 	public void testDatabaseIntegrationSubjectOrdinalCriterion() {
 		OrdinalCriterion criterion = new OrdinalCriterion();
 		List<String> elements = new ArrayList<String>();
@@ -86,6 +89,7 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 	}
 
 	@Test
+	@Transactional
 	public void testDatabaseIntegrationSubjectDateCriterion() {
 		DateCriterion criterion = new DateCriterion();
 		criterion.setName("dsagdsagsd");
@@ -109,6 +113,7 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 	}
 
 	@Test
+	@Transactional
 	public void testDatabaseIntegrationSubjectFreeTextCriterion() {
 		FreeTextCriterion criterion = new FreeTextCriterion();
 		criterion.setName("dsagdsagsd");
