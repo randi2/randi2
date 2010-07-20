@@ -27,6 +27,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
+import de.randi2.model.Login;
+import de.randi2.model.TrialSubject;
+import de.randi2.utility.InitializeDatabaseUtil;
+
 /**
  * Testing the hibernate mapping.
  *
@@ -38,6 +42,9 @@ public class HibernateMappingTest extends AbstractJUnit4SpringContextTests{
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Autowired
+    private InitializeDatabaseUtil databaseUtil;
+    
     /**
      * Walking over all mapped entities and getting a list of them to see,
      * if loading works correct.
@@ -47,6 +54,7 @@ public class HibernateMappingTest extends AbstractJUnit4SpringContextTests{
     // Taken from: https://www.hibernate.org/210.html
     @Test
     public void testEverything() throws Exception {
+    	databaseUtil.setUpDatabaseEmpty();
         Map metadata = sessionFactory.getAllClassMetadata();
         for (Object persisterObject : metadata.values()) {
             Session session = sessionFactory.openSession();

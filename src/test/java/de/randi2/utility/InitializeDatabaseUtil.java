@@ -23,7 +23,24 @@ public class InitializeDatabaseUtil {
 	@Autowired
 	private DataSource dataSource;
 	
-	public void setUpDatabase() throws Exception {
+	public void setUpDatabaseFull() throws Exception {
+		try {
+			setUpDatabase(new FlatXmlDataSet(new File(
+			"src/test/resources/dbunit/testdata.xml")));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
+	
+	
+	public void setUpDatabaseEmpty() throws Exception {
+		setUpDatabase(new FlatXmlDataSet(new File(
+				"src/test/resources/dbunit/emptytestdata.xml")));
+	}
+	
+	private void setUpDatabase(IDataSet dataSet) throws Exception{
 		// initialize your database connection here
 		Connection jdbcConnection = dataSource.getConnection();
 
@@ -57,10 +74,8 @@ public class InitializeDatabaseUtil {
 					new HsqldbDataTypeFactory());
 		}
 
-		// initialize dataset
-		IDataSet dataSet = new FlatXmlDataSet(new File(
-				"src/test/resources/dbunit/testdata.xml"));
 		try {
+//			DatabaseOperation.DELETE_ALL.execute(connection, dataSet);
 			DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
 			jdbcConnection.commit();
 
@@ -72,6 +87,5 @@ public class InitializeDatabaseUtil {
 		} finally {
 			connection.close();
 		}
-
 	}
 }

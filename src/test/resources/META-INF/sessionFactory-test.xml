@@ -6,5 +6,7 @@
     <import resource="classpath:META-INF/subconfig/database-test.xml" />
     <import resource="classpath:META-INF/subconfig/hibernate-managed-config.xml" />
     <import resource="classpath:META-INF/subconfig/hibernate.xml" />
+    
+    <bean id="databaseUtil" class="de.randi2.utility.InitializeDatabaseUtil" />
 
 </beans>

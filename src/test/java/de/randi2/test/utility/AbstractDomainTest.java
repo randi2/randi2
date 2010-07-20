@@ -38,7 +38,7 @@ public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 	@Before
 	public void setUp(){
 		try {
-			databaseUtil.setUpDatabase();
+			databaseUtil.setUpDatabaseFull();
 		} catch (Exception e1) {
 			fail(e1.getMessage());
 		}
