@@ -447,7 +447,7 @@
             <column name="version" type="int4">
                 <constraints nullable="false"/>
             </column>
-            <column name="value" type="bytea"/>
+            <column name="value" type="oid"/>
             <column name="criterion_id" type="int8"/>
         </createTable>
     
