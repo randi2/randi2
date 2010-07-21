@@ -33,11 +33,14 @@ public class InitializeDatabaseUtil {
 		}
 	}
 	
-	
-	
 	public void setUpDatabaseEmpty() throws Exception {
 		setUpDatabase(new FlatXmlDataSet(new File(
 				"src/test/resources/dbunit/emptytestdata.xml")));
+	}
+	
+	public void setUpDatabaseUserAndTrialSites() throws Exception {
+		setUpDatabase(new FlatXmlDataSet(new File(
+				"src/test/resources/dbunit/userAndTrialSitesTestdata.xml")));
 	}
 	
 	private void setUpDatabase(IDataSet dataSet) throws Exception{
