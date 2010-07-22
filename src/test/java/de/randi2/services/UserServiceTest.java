@@ -9,6 +9,7 @@ import static junit.framework.Assert.fail;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.hibernate.validator.InvalidStateException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -17,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import de.randi2.dao.LoginDao;
 import de.randi2.model.Login;
+import de.randi2.model.Person;
 import de.randi2.model.Role;
 import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.test.utility.TestStringUtil;
@@ -207,7 +209,28 @@ public class UserServiceTest extends AbstractServiceTest{
 		assertTrue(login3 != null);
 	}
 	
+	@Test
+	public void testSaveLoginWithPerson() {
+		authenticatAsAdmin();
+		Person validPerson = factory.getPerson();
+
+		Login login = factory.getLogin();
+		login.getPerson().setTrialSite(user.getPerson().getTrialSite());
+		userService.create(login);
+		assertTrue(login.getId()>0);
+		
+		
+		login = factory.getLogin();
+
+		login.setPerson(validPerson);
+		login.setUsername("");
+		try {
+			userService.create(login);
+			fail("should throw exception");
+		} catch (InvalidStateException e) {
+		}
+
 	
-	
+	}
 	
 }

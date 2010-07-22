@@ -76,29 +76,6 @@ public class PersonDaoTest extends AbstractDaoTest{
 	}
 
 	@Test
-	public void testSaveWithLogin() {
-		validPerson.setFirstname(stringUtil.getWithLength(20));
-		validPerson.setEmail("abc@def.xy");
-		validPerson.setSex(Gender.MALE);
-		validPerson.setMobile("123456");
-		validPerson.setPhone("123456");
-		validPerson.setFax("123456");
-
-		Login login = factory.getLogin();
-		validPerson.setSurname(stringUtil.getWithLength(20));
-		dao.create(validPerson);
-		validPerson.setLogin(login);
-
-		login.setUsername(stringUtil
-				.getWithLength(Login.MAX_USERNAME_LENGTH + 1));
-		try {
-			dao.update(validPerson);
-			fail("should throw exception");
-		} catch (InvalidStateException e) {
-		}
-	}
-
-	@Test
 	public void testGetAll() {
 		for (int i = 0; i < 100; i++) {
 			dao.create(factory.getPerson());

@@ -61,27 +61,6 @@ public class LoginDaoTest extends AbstractDaoTest{
 		assertEquals(l.getUsername(), l2.getUsername());
 	}
 
-	@Test
-	public void testSaveWithPerson() {
-		Person validPerson = factory.getPerson();
-
-		Login login = factory.getLogin();
-
-		login.setPerson(validPerson);
-		login.setUsername("");
-		try {
-			loginDao.create(login);
-			fail("should throw exception");
-		} catch (InvalidStateException e) {
-		}
-
-		login = factory.getLogin();
-		login.setUsername(testStringUtil.getWithLength(20)+ "@xyz.com");
-		loginDao.create(login);
-		assertFalse(login.getId() == AbstractDomainObject.NOT_YET_SAVED_ID);
-		Login l = loginDao.get(login.getId());
-		assertEquals(login.getId(), l.getId());
-	}
 
 //	@Test
 	@Ignore
