@@ -18,18 +18,13 @@
 package de.randi2.utility;
 
 import java.io.Serializable;
-import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
-
-import javax.sql.DataSource;
-
-import liquibase.FileSystemFileOpener;
-import liquibase.Liquibase;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
@@ -122,7 +117,6 @@ public class Bootstrap {
 	private UserService userService;
 
 	public Bootstrap() {
-		long time1 = System.nanoTime();
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
 				"classpath:/META-INF/spring-bootstrap.xml");
 		loginDao = (LoginDaoHibernate) ctx.getBean("loginDao");
@@ -136,36 +130,8 @@ public class Bootstrap {
 		trialService = (TrialService) ctx.getBean("trialService");
 		userService = (UserService) ctx.getBean("userService");
 
-		try {
-			DataSource dataSource = (DataSource) ctx.getBean("dataSource");
-			Connection jdbcConnection = dataSource.getConnection();
-			Liquibase liquibase = new Liquibase(
-					"src/test/resources/dbunit/dataset.xml",
-					new FileSystemFileOpener(), jdbcConnection);
-			liquibase.update("init");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println("init spring context: "
-				+ (System.nanoTime() - time1) / 1000000 + " ms");
 		init();
-		// try {
-		// DataSource dataSource = (DataSource) ctx.getBean("dataSource");
-		// Connection jdbcConnection;jdbcConnection =
-		// dataSource.getConnection();
-		// IDatabaseConnection connection = new
-		// DatabaseConnection(jdbcConnection);
-		//		
-		// ITableFilter filter = new DatabaseSequenceFilter(connection);
-		// IDataSet fullDataSet = new FilteredDataSet(filter,
-		// connection.createDataSet());
-		//		
-		// FlatXmlDataSet.write(fullDataSet, new
-		// FileOutputStream("src/test/resources/dbunit/testdata.xml"));
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-
+	
 	}
 
 	public void init() {
@@ -230,13 +196,13 @@ public class Bootstrap {
 		rolesAndRights.grantRigths(trialSite, trialSite);
 
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"anonymousUser", adminL, adminL.getAuthorities().toArray(
-						new GrantedAuthority[] {}));
+				"anonymousUser", adminL, new ArrayList<GrantedAuthority>(
+						adminL.getAuthorities()));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()
 				.setAuthenticated(true);
-
+		
 		Person userPInv = new Person();
 		userPInv.setFirstname("Maxi");
 		userPInv.setSurname("Investigator");
@@ -354,8 +320,7 @@ public class Bootstrap {
 		ManagedSessionContext.unbind(sessionFactory);
 		ManagedSessionContext.bind(sessionFactory.openSession());
 		authToken = new AnonymousAuthenticationToken("anonymousUser",
-				userLPInv, userLPInv.getAuthorities().toArray(
-						new GrantedAuthority[] {}));
+				userLPInv, new ArrayList<GrantedAuthority>(userLPInv.getAuthorities()));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()
@@ -472,11 +437,9 @@ public class Bootstrap {
 			}
 			// Authorizing the investigator for upcoming randomization
 			AnonymousAuthenticationToken at = tr1 ? new AnonymousAuthenticationToken(
-					"anonymousUser", userLInv, userLInv.getAuthorities()
-							.toArray(new GrantedAuthority[] {}))
+					"anonymousUser", userLInv, new ArrayList<GrantedAuthority>(userLInv.getAuthorities()))
 					: new AnonymousAuthenticationToken("anonymousUser",
-							userLInv2, userLInv2.getAuthorities().toArray(
-									new GrantedAuthority[] {}));
+							userLInv2, new ArrayList<GrantedAuthority>(userLInv2.getAuthorities()));
 			SecurityContextHolder.getContext().setAuthentication(at);
 			SecurityContextHolder.getContext().getAuthentication()
 					.setAuthenticated(true);
