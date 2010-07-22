@@ -339,19 +339,19 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		}
 	}
 
-	// TODO This test ist not running. Has the db-layout changed?
 	@Test
 	public void testLogin() {
 		Login l = factory.getLogin();
 		l.setPerson(validPerson);
-		hibernateTemplate.save(l);
 		validPerson.setLogin(l);
 		assertNotNull(validPerson.getLogin());
 		hibernateTemplate.saveOrUpdate(validPerson);
-
+		assertEquals(validPerson.getLogin().getId(),l.getId());
 		Person p = (Person) hibernateTemplate.get(Person.class, validPerson
 				.getId());
 		assertNotNull(p);
+		assertEquals(validPerson.getId(), p.getId());
+		assertEquals(validPerson.getFirstname(), p.getFirstname());
 		assertEquals(validPerson.getSurname(), p.getSurname());
 		assertNotNull(p.getLogin());
 		assertEquals(validPerson.getLogin().getId(), p.getLogin().getId());
