@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
-    <changeSet author="dschrimpf" id="1"  context="init" dbms="mysql">
+    <changeSet author="dschrimpf" id="1" dbms="mysql">
     <comment>Table initialization for mySql</comment>
   <createTable tableName="AbstractConstraint">
             <column name="DTYPE" type="VARCHAR(31)">
@@ -607,7 +607,7 @@
          <append value=" engine innodb"/>
         </modifySql>
   </changeSet>
-  <changeSet author="dschrimpf" id="2"  context="init" dbms="mysql">
+  <changeSet author="dschrimpf" id="2"  dbms="mysql">
         <addPrimaryKey columnNames="Login_id, roles_id" tableName="Login_Role"/>
   
         <addPrimaryKey columnNames="MinimizationMapElementWrapper_id, mapkey_id" tableName="MinimizationMapElementWrapper_map"/>
@@ -638,7 +638,7 @@
             <column name="name"/>
         </createIndex>
         </changeSet>
-   <changeSet author="dschrimpf" id="init_ForeignKeyConstraint" context="init2" dbms="mysql">
+   <changeSet author="dschrimpf" id="init_ForeignKeyConstraint" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="AbstractConstraint_id" baseTableName="AbstractConstraint_expectedValues" constraintName="FK26FD227AAF0BD07A" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="AbstractConstraint"/>
   
         <addForeignKeyConstraint baseColumnNames="acl_id" baseTableName="AccessControlEntryHibernate" constraintName="FK40F1A399ABD3754E" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="AclHibernate"/>

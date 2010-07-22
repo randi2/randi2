@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
-    <changeSet author="dschrimpf" id="1" context="init" dbms="hsqldb">
+    <changeSet author="dschrimpf" id="1" dbms="hsqldb">
         <createTable schemaName="PUBLIC" tableName="ABSTRACTCONSTRAINT">
             <column name="DTYPE" type="VARCHAR(31)">
                 <constraints nullable="false"/>
@@ -636,7 +636,7 @@
         </createIndex>
         
         </changeSet>
-        <changeSet author="dschrimpf" id="init_ForeignKeyConstraint" context="init2" dbms="hsqldb">
+        <changeSet author="dschrimpf" id="init_ForeignKeyConstraint"  dbms="hsqldb">
       
         <addForeignKeyConstraint baseColumnNames="ABSTRACTCONSTRAINT_ID" baseTableName="ABSTRACTCONSTRAINT_EXPECTEDVALUES" baseTableSchemaName="PUBLIC" constraintName="FK26FD227AAF0BD07A" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ABSTRACTCONSTRAINT" referencedTableSchemaName="PUBLIC"/>
       

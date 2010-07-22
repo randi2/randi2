@@ -52,21 +52,16 @@ public class InitializeDatabaseUtil {
 				new FileSystemFileOpener(), jdbcConnection);
 		liquibase.update("init");
 
-		ResultSet resultSet = jdbcConnection
-				.createStatement()
-				.executeQuery(
-						"SELECT * FROM DATABASECHANGELOG WHERE ID='init_ForeignKeyConstraint';");
+		jdbcConnection
+		.createStatement()
+		.executeUpdate(
+		"DELETE FROM DATABASECHANGELOG WHERE ID='remove_constraints' OR ID='add_constraints';");
 
-		if (resultSet.next()) {
-			Liquibase liquibase2 = new Liquibase(
-					"src/test/resources/liquibase/removeConstraints.xml",
-					new FileSystemFileOpener(), jdbcConnection);
-			liquibase2.update("init");
-			jdbcConnection
-			.createStatement()
-			.executeUpdate(
-					"DELETE FROM DATABASECHANGELOG WHERE ID='init_ForeignKeyConstraint' OR ID='remove_constraints_1';");
-		}
+		liquibase = new Liquibase(
+				"src/test/resources/liquibase/removeConstraints.xml",
+				new FileSystemFileOpener(), jdbcConnection);
+		liquibase.update("remove_constraints");
+
 		IDatabaseConnection connection = new DatabaseConnection(jdbcConnection);
 
 		// FIXME remove it with dbunit version 2.3
@@ -76,17 +71,17 @@ public class InitializeDatabaseUtil {
 			config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY,
 					new HsqldbDataTypeFactory());
 		}
-
+		
 		try {
-//			DatabaseOperation.DELETE_ALL.execute(connection, dataSet);
-			DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
+			DatabaseOperation.DELETE_ALL.execute(connection, dataSet);
+			DatabaseOperation.INSERT.execute(connection, dataSet);
 			jdbcConnection.commit();
 
 			liquibase = new Liquibase(
-					"src/main/resources/META-INF/database/database_changelog.xml",
+					"src/test/resources/liquibase/addConstraints.xml",
 					new FileSystemFileOpener(), jdbcConnection);
-			liquibase.update("init2");
-
+			liquibase.update("add_constraints");
+	
 		} finally {
 			connection.close();
 		}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
-    <changeSet author="dschrimpf" id="1" context="init" dbms="postgresql">
+    <changeSet author="dschrimpf" id="1" dbms="postgresql">
         <createTable schemaName="public" tableName="abstractconstraint">
             <column name="dtype" type="VARCHAR(31)">
                 <constraints nullable="false"/>
@@ -646,7 +646,7 @@
         <addUniqueConstraint columnNames="properties_id" constraintName="trialsubject_subjectproperty_properties_id_key" schemaName="public" tableName="trialsubject_subjectproperty"/>
     
     </changeSet>
-    <changeSet author="dschrimpf" id="init_ForeignKeyConstraint" context="init2" dbms="postgresql">
+    <changeSet author="dschrimpf" id="init_ForeignKeyConstraint" dbms="postgresql">
     
         <addForeignKeyConstraint baseColumnNames="abstractconstraint_id" baseTableName="abstractconstraint_expectedvalues" baseTableSchemaName="public" constraintName="fk26fd227aaf0bd07a" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="abstractconstraint" referencedTableSchemaName="public"/>
     

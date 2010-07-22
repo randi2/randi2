@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+<changeSet author="dschrimpf" id="add_constraints" context="add_constraints" dbms="hsqldb">
+        <addForeignKeyConstraint baseColumnNames="TREATMENTARM_ID" baseTableName="BLOCK_TREATMENTARM" baseTableSchemaName="PUBLIC" constraintName="FKDB68D196C89948D2" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TREATMENTARM" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="INCLUSIONCONSTRAINT_ID" baseTableName="CRITERION" baseTableSchemaName="PUBLIC" constraintName="FK8E542E8112FA816F" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ABSTRACTCONSTRAINT" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="CRITERION_ID" baseTableName="CRITERION_ABSTRACTCONSTRAINT" baseTableSchemaName="PUBLIC" constraintName="FKCFB2BA3D6DAACAC1" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="CRITERION" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="STRATA_ID" baseTableName="CRITERION_ABSTRACTCONSTRAINT" baseTableSchemaName="PUBLIC" constraintName="FKCFB2BA3DF129B42B" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ABSTRACTCONSTRAINT" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="CRITERION_ID" baseTableName="CRITERION_ELEMENTS" baseTableSchemaName="PUBLIC" constraintName="FKA06784F56CD64AE0" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="CRITERION" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="PERSON_ID" baseTableName="LOGIN" baseTableSchemaName="PUBLIC" constraintName="FK462FF49A5A14952" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="PERSON" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="LOGIN_ID" baseTableName="LOGIN_ROLE" baseTableSchemaName="PUBLIC" constraintName="FKE97D3CC52C66262" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="LOGIN" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="ROLES_ID" baseTableName="LOGIN_ROLE" baseTableSchemaName="PUBLIC" constraintName="FKE97D3CCACE4300B" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ROLE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MAPKEY_ID" baseTableName="MINIMIZATIONMAPELEMENTWRAPPER_MAP" baseTableSchemaName="PUBLIC" constraintName="FK5144196295FBF3D3" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TREATMENTARM" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MINIMIZATIONMAPELEMENTWRAPPER_ID" baseTableName="MINIMIZATIONMAPELEMENTWRAPPER_MAP" baseTableSchemaName="PUBLIC" constraintName="FK51441962C4B80FD5" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="MINIMIZATIONMAPELEMENTWRAPPER" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="CONSTRAINTS_ID" baseTableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS" baseTableSchemaName="PUBLIC" constraintName="FKD3B8791AAE3E0175" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="RANDOMISATIONTEMPDATA" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MAPKEY_ID" baseTableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS" baseTableSchemaName="PUBLIC" constraintName="FKD3B8791A68544DA5" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ABSTRACTCONSTRAINT" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MINIMIZATIONMAPELEMENTWRAPPER_ID" baseTableName="MINIMIZATIONTEMPDATA_COUNTCONSTRAINTS" baseTableSchemaName="PUBLIC" constraintName="FKD3B8791AC4B80FD5" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="MINIMIZATIONMAPELEMENTWRAPPER" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MAPKEY_ID" baseTableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES" baseTableSchemaName="PUBLIC" constraintName="FK60BF91529A170C1C" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIALSITE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MINIMIZATIONMAPELEMENTWRAPPER_ID" baseTableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES" baseTableSchemaName="PUBLIC" constraintName="FK60BF9152C4B80FD5" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="MINIMIZATIONMAPELEMENTWRAPPER" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TRIALSITE_ID" baseTableName="MINIMIZATIONTEMPDATA_COUNTTRIALSITES" baseTableSchemaName="PUBLIC" constraintName="FK60BF9152AB57CEEE" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="RANDOMISATIONTEMPDATA" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MAPKEY_ID" baseTableName="MINIMIZATIONTEMPDATA_PROBABILITIES" baseTableSchemaName="PUBLIC" constraintName="FKA5B10095FBF3D3" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TREATMENTARM" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="MINIMIZATIONMAPELEMENTWRAPPER_ID" baseTableName="MINIMIZATIONTEMPDATA_PROBABILITIES" baseTableSchemaName="PUBLIC" constraintName="FKA5B100C4B80FD5" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="MINIMIZATIONMAPELEMENTWRAPPER" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TREATMENTARM_ID" baseTableName="MINIMIZATIONTEMPDATA_PROBABILITIES" baseTableSchemaName="PUBLIC" constraintName="FKA5B100C1F43207" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="RANDOMISATIONTEMPDATA" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="ASSISTANT_ID" baseTableName="PERSON" baseTableSchemaName="PUBLIC" constraintName="FK8E4887751B265929" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="PERSON" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TRIALSITE_ID" baseTableName="PERSON" baseTableSchemaName="PUBLIC" constraintName="FK8E488775B617FE02" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIALSITE" referencedTableSchemaName="PUBLIC"/>
+      
+      
+        <addForeignKeyConstraint baseColumnNames="ABSTRACTCONSTRAINT_ID" baseTableName="ABSTRACTCONSTRAINT_EXPECTEDVALUES" baseTableSchemaName="PUBLIC" constraintName="FK26FD227AAF0BD07A" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ABSTRACTCONSTRAINT" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="ACL_ID" baseTableName="ACCESSCONTROLENTRYHIBERNATE" baseTableSchemaName="PUBLIC" constraintName="FK40F1A399ABD3754E" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ACLHIBERNATE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="SID_ID" baseTableName="ACCESSCONTROLENTRYHIBERNATE" baseTableSchemaName="PUBLIC" constraintName="FK40F1A3993069E2C6" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="SIDHIBERNATE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="OBJECTIDENTITY_ID" baseTableName="ACLHIBERNATE" baseTableSchemaName="PUBLIC" constraintName="FKD9188F08C2DC041C" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="OBJECTIDENTITYHIBERNATE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="OWNER_ID" baseTableName="ACLHIBERNATE" baseTableSchemaName="PUBLIC" constraintName="FKD9188F08C957A6C1" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="SIDHIBERNATE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="PARENTACL_ID" baseTableName="ACLHIBERNATE" baseTableSchemaName="PUBLIC" constraintName="FKD9188F0856FBD678" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ACLHIBERNATE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="BLOCK_ID" baseTableName="BLOCK_TREATMENTARM" baseTableSchemaName="PUBLIC" constraintName="FKDB68D19611070FF5" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="BLOCK" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="BLOCKS_ID" baseTableName="RANDOMISATIONTEMPDATA_BLOCK" baseTableSchemaName="PUBLIC" constraintName="FKED3A86746CB2385C" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="BLOCK" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="RANDOMISATIONTEMPDATA_ID" baseTableName="RANDOMISATIONTEMPDATA_BLOCK" baseTableSchemaName="PUBLIC" constraintName="FKED3A86747BC3928B" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="RANDOMISATIONTEMPDATA" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="RANDOMISATIONTEMPDATA_ID" baseTableName="RANDOMISATIONTEMPDATA_URN" baseTableSchemaName="PUBLIC" constraintName="FKA169D518D36F3EBC" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="RANDOMISATIONTEMPDATA" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="URNS_ID" baseTableName="RANDOMISATIONTEMPDATA_URN" baseTableSchemaName="PUBLIC" constraintName="FKA169D518B77AC2E4" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="URN" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TEMPDATA_ID" baseTableName="RANDOMIZATIONCONFIG" baseTableSchemaName="PUBLIC" constraintName="FKEBFF50C3AA393BD4" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="RANDOMISATIONTEMPDATA" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TRIAL_ID" baseTableName="RANDOMIZATIONCONFIG" baseTableSchemaName="PUBLIC" constraintName="FKEBFF50C333ECA742" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIAL" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="ROLE_ROLE" baseTableSchemaName="PUBLIC" constraintName="FK8B6A269FECBB7B2" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ROLE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="ROLESTOASSIGN_ID" baseTableName="ROLE_ROLE" baseTableSchemaName="PUBLIC" constraintName="FK8B6A269FB5E88DA1" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="ROLE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="CRITERION_ID" baseTableName="SUBJECTPROPERTY" baseTableSchemaName="PUBLIC" constraintName="FK88363016DAACAC1" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="CRITERION" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TRIAL_ID" baseTableName="TREATMENTARM" baseTableSchemaName="PUBLIC" constraintName="FKADB66AE433ECA742" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIAL" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="LEADINGSITE_ID" baseTableName="TRIAL" baseTableSchemaName="PUBLIC" constraintName="FK4D51EF6E2BD5412" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIALSITE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="RANDOMCONF_ID" baseTableName="TRIAL" baseTableSchemaName="PUBLIC" constraintName="FK4D51EF68114226F" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="RANDOMIZATIONCONFIG" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="SPONSORINVESTIGATOR_ID" baseTableName="TRIAL" baseTableSchemaName="PUBLIC" constraintName="FK4D51EF6D5402E24" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="PERSON" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="SUBJECTCRITERIA_ID" baseTableName="TRIAL_CRITERION" baseTableSchemaName="PUBLIC" constraintName="FKD4E08C78F73E5097" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="CRITERION" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TRIAL_ID" baseTableName="TRIAL_CRITERION" baseTableSchemaName="PUBLIC" constraintName="FKD4E08C7833ECA742" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIAL" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="PARTICIPATINGSITES_ID" baseTableName="TRIAL_TRIALSITE" baseTableSchemaName="PUBLIC" constraintName="FK8D546554DD32770E" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIALSITE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TRIALS_ID" baseTableName="TRIAL_TRIALSITE" baseTableSchemaName="PUBLIC" constraintName="FK8D546554AA0BF0DB" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIAL" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="CONTACTPERSON_ID" baseTableName="TRIALSITE" baseTableSchemaName="PUBLIC" constraintName="FK46C8075D27E0C932" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="PERSON" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="ARM_ID" baseTableName="TRIALSUBJECT" baseTableSchemaName="PUBLIC" constraintName="FKFB112D56E36E0A5A" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TREATMENTARM" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="INVESTIGATOR_ID" baseTableName="TRIALSUBJECT" baseTableSchemaName="PUBLIC" constraintName="FKFB112D56C32A2E22" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="LOGIN" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TRIALSITE_ID" baseTableName="TRIALSUBJECT" baseTableSchemaName="PUBLIC" constraintName="FKFB112D56B617FE02" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIALSITE" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="PROPERTIES_ID" baseTableName="TRIALSUBJECT_SUBJECTPROPERTY" baseTableSchemaName="PUBLIC" constraintName="FK6BCC7A1835E03A10" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="SUBJECTPROPERTY" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TRIALSUBJECT_ID" baseTableName="TRIALSUBJECT_SUBJECTPROPERTY" baseTableSchemaName="PUBLIC" constraintName="FK6BCC7A183D50EB92" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TRIALSUBJECT" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="TREATMENTARM_ID" baseTableName="URN_TREATMENTARM" baseTableSchemaName="PUBLIC" constraintName="FK26C6EB32C89948D2" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="TREATMENTARM" referencedTableSchemaName="PUBLIC"/>
+      
+        <addForeignKeyConstraint baseColumnNames="URN_ID" baseTableName="URN_TREATMENTARM" baseTableSchemaName="PUBLIC" constraintName="FK26C6EB328F965035" deferrable="false" initiallyDeferred="false" referencedColumnNames="ID" referencedTableName="URN" referencedTableSchemaName="PUBLIC"/>
+    </changeSet>
+    
+    <changeSet author="dschrimpf" id="add_constraints" context="add_constraints" dbms="mysql">
+<sql>
+SET FOREIGN_KEY_CHECKS=1;
+</sql>
+</changeSet>
+
+<changeSet author="dschrimpf" id="add_constraints" context="add_constraints" dbms="postgresql">
+    
+        <addForeignKeyConstraint baseColumnNames="abstractconstraint_id" baseTableName="abstractconstraint_expectedvalues" baseTableSchemaName="public" constraintName="fk26fd227aaf0bd07a" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="abstractconstraint" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="acl_id" baseTableName="accesscontrolentryhibernate" baseTableSchemaName="public" constraintName="fk40f1a399abd3754e" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="aclhibernate" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="sid_id" baseTableName="accesscontrolentryhibernate" baseTableSchemaName="public" constraintName="fk40f1a3993069e2c6" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="sidhibernate" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="objectidentity_id" baseTableName="aclhibernate" baseTableSchemaName="public" constraintName="fkd9188f08c2dc041c" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="objectidentityhibernate" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="owner_id" baseTableName="aclhibernate" baseTableSchemaName="public" constraintName="fkd9188f08c957a6c1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="sidhibernate" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="parentacl_id" baseTableName="aclhibernate" baseTableSchemaName="public" constraintName="fkd9188f0856fbd678" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="aclhibernate" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="block_id" baseTableName="block_treatmentarm" baseTableSchemaName="public" constraintName="fkdb68d19611070ff5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="block" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="treatmentarm_id" baseTableName="block_treatmentarm" baseTableSchemaName="public" constraintName="fkdb68d196c89948d2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="treatmentarm" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="inclusionconstraint_id" baseTableName="criterion" baseTableSchemaName="public" constraintName="fk8e542e8112fa816f" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="abstractconstraint" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="criterion_id" baseTableName="criterion_abstractconstraint" baseTableSchemaName="public" constraintName="fkcfb2ba3d6daacac1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="criterion" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="strata_id" baseTableName="criterion_abstractconstraint" baseTableSchemaName="public" constraintName="fkcfb2ba3df129b42b" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="abstractconstraint" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="criterion_id" baseTableName="criterion_elements" baseTableSchemaName="public" constraintName="fka06784f56cd64ae0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="criterion" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="person_id" baseTableName="login" baseTableSchemaName="public" constraintName="fk462ff49a5a14952" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="person" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="login_id" baseTableName="login_role" baseTableSchemaName="public" constraintName="fke97d3cc52c66262" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="login" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="roles_id" baseTableName="login_role" baseTableSchemaName="public" constraintName="fke97d3ccace4300b" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="role" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="mapkey_id" baseTableName="minimizationmapelementwrapper_map" baseTableSchemaName="public" constraintName="fk5144196295fbf3d3" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="treatmentarm" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="minimizationmapelementwrapper_id" baseTableName="minimizationmapelementwrapper_map" baseTableSchemaName="public" constraintName="fk51441962c4b80fd5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="minimizationmapelementwrapper" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="constraints_id" baseTableName="minimizationtempdata_countconstraints" baseTableSchemaName="public" constraintName="fkd3b8791aae3e0175" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="randomisationtempdata" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="mapkey_id" baseTableName="minimizationtempdata_countconstraints" baseTableSchemaName="public" constraintName="fkd3b8791a68544da5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="abstractconstraint" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="minimizationmapelementwrapper_id" baseTableName="minimizationtempdata_countconstraints" baseTableSchemaName="public" constraintName="fkd3b8791ac4b80fd5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="minimizationmapelementwrapper" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="mapkey_id" baseTableName="minimizationtempdata_counttrialsites" baseTableSchemaName="public" constraintName="fk60bf91529a170c1c" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trialsite" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="minimizationmapelementwrapper_id" baseTableName="minimizationtempdata_counttrialsites" baseTableSchemaName="public" constraintName="fk60bf9152c4b80fd5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="minimizationmapelementwrapper" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trialsite_id" baseTableName="minimizationtempdata_counttrialsites" baseTableSchemaName="public" constraintName="fk60bf9152ab57ceee" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="randomisationtempdata" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="mapkey_id" baseTableName="minimizationtempdata_probabilities" baseTableSchemaName="public" constraintName="fka5b10095fbf3d3" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="treatmentarm" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="minimizationmapelementwrapper_id" baseTableName="minimizationtempdata_probabilities" baseTableSchemaName="public" constraintName="fka5b100c4b80fd5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="minimizationmapelementwrapper" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="treatmentarm_id" baseTableName="minimizationtempdata_probabilities" baseTableSchemaName="public" constraintName="fka5b100c1f43207" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="randomisationtempdata" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="assistant_id" baseTableName="person" baseTableSchemaName="public" constraintName="fk8e4887751b265929" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="person" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trialsite_id" baseTableName="person" baseTableSchemaName="public" constraintName="fk8e488775b617fe02" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trialsite" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="blocks_id" baseTableName="randomisationtempdata_block" baseTableSchemaName="public" constraintName="fked3a86746cb2385c" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="block" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="randomisationtempdata_id" baseTableName="randomisationtempdata_block" baseTableSchemaName="public" constraintName="fked3a86747bc3928b" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="randomisationtempdata" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="randomisationtempdata_id" baseTableName="randomisationtempdata_urn" baseTableSchemaName="public" constraintName="fka169d518d36f3ebc" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="randomisationtempdata" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="urns_id" baseTableName="randomisationtempdata_urn" baseTableSchemaName="public" constraintName="fka169d518b77ac2e4" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="urn" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="tempdata_id" baseTableName="randomizationconfig" baseTableSchemaName="public" constraintName="fkebff50c3aa393bd4" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="randomisationtempdata" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trial_id" baseTableName="randomizationconfig" baseTableSchemaName="public" constraintName="fkebff50c333eca742" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trial" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="role_role" baseTableSchemaName="public" constraintName="fk8b6a269fecbb7b2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="role" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="rolestoassign_id" baseTableName="role_role" baseTableSchemaName="public" constraintName="fk8b6a269fb5e88da1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="role" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="criterion_id" baseTableName="subjectproperty" baseTableSchemaName="public" constraintName="fk88363016daacac1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="criterion" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trial_id" baseTableName="treatmentarm" baseTableSchemaName="public" constraintName="fkadb66ae433eca742" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trial" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="leadingsite_id" baseTableName="trial" baseTableSchemaName="public" constraintName="fk4d51ef6e2bd5412" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trialsite" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="randomconf_id" baseTableName="trial" baseTableSchemaName="public" constraintName="fk4d51ef68114226f" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="randomizationconfig" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="sponsorinvestigator_id" baseTableName="trial" baseTableSchemaName="public" constraintName="fk4d51ef6d5402e24" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="person" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="subjectcriteria_id" baseTableName="trial_criterion" baseTableSchemaName="public" constraintName="fkd4e08c78f73e5097" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="criterion" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trial_id" baseTableName="trial_criterion" baseTableSchemaName="public" constraintName="fkd4e08c7833eca742" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trial" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="participatingsites_id" baseTableName="trial_trialsite" baseTableSchemaName="public" constraintName="fk8d546554dd32770e" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trialsite" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trials_id" baseTableName="trial_trialsite" baseTableSchemaName="public" constraintName="fk8d546554aa0bf0db" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trial" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="contactperson_id" baseTableName="trialsite" baseTableSchemaName="public" constraintName="fk46c8075d27e0c932" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="person" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="arm_id" baseTableName="trialsubject" baseTableSchemaName="public" constraintName="fkfb112d56e36e0a5a" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="treatmentarm" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="investigator_id" baseTableName="trialsubject" baseTableSchemaName="public" constraintName="fkfb112d56c32a2e22" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="login" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trialsite_id" baseTableName="trialsubject" baseTableSchemaName="public" constraintName="fkfb112d56b617fe02" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trialsite" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="properties_id" baseTableName="trialsubject_subjectproperty" baseTableSchemaName="public" constraintName="fk6bcc7a1835e03a10" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="subjectproperty" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trialsubject_id" baseTableName="trialsubject_subjectproperty" baseTableSchemaName="public" constraintName="fk6bcc7a183d50eb92" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trialsubject" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="treatmentarm_id" baseTableName="urn_treatmentarm" baseTableSchemaName="public" constraintName="fk26c6eb32c89948d2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="treatmentarm" referencedTableSchemaName="public"/>
+        
+        <addForeignKeyConstraint baseColumnNames="urn_id" baseTableName="urn_treatmentarm" baseTableSchemaName="public" constraintName="fk26c6eb328f965035" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="urn" referencedTableSchemaName="public"/>
+        
+    </changeSet>
+</databaseChangeLog>
