@@ -60,7 +60,6 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 		authenticatAsInvestigator();
 		List<Login> logins = userService.getAll();
 		assertEquals(loginsTemp.size(), logins.size());
-		Login user = findLogin("investigator@test.de");
 		authenticatAsAdmin();
 		for(int i = 0 ; i< 10 ;i++ ){
 			Login l = factory.getLogin();
@@ -69,11 +68,10 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 		}
 		authenticatAsInvestigator();
 		logins = userService.getAll();
-		assertEquals(12,logins.size());
+		assertEquals(10+loginsTemp.size(),logins.size());
 		authenticatAsAdmin();
 		logins = userService.getAll();
-		//-1 admin is in both results
-		assertEquals(12+loginsTemp.size()-1,logins.size());
+		assertEquals(10+loginsTemp.size(),logins.size());
 	}
 	
 

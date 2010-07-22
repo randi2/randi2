@@ -16,9 +16,9 @@ public abstract class AbstractDaoTest {
 	@Before
 	public void setUp(){
 		try {
-			databaseUtil.setUpDatabaseFull();
+			databaseUtil.setUpDatabaseUserAndTrialSites();
 		} catch (Exception e) {
-			fail();
+			fail(e.getMessage());
 		}
 	}
 }

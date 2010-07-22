@@ -65,7 +65,7 @@ public abstract class AbstractServiceTest {
 	public void setUp() {
 		ManagedSessionContext.bind(sessionFactory.openSession());
 		try {
-			databaseUtil.setUpDatabaseFull();
+			databaseUtil.setUpDatabaseUserAndTrialSites();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}

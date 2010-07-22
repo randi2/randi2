@@ -14,7 +14,7 @@ public class TransactionalPersonDaoTest extends AbstractTransactionalTest<Person
 	@Override
 	protected void init() {
 		try {
-			databaseUtil.setUpDatabaseFull();
+			databaseUtil.setUpDatabaseUserAndTrialSites();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
