@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
 	default-autowire="byName">
@@ -9,15 +8,17 @@
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location"
-			value="classpath:META-INF/configuration.properties">
+		<property name="location" value="classpath:META-INF/configuration.properties">
 		</property>
 		<property name="ignoreUnresolvablePlaceholders">
 			<value>true</value>
 		</property>
 	</bean>
-	
 
+	<bean id="liquibase" class="liquibase.spring.SpringLiquibase">
+		<property name="dataSource" ref="dataSource" />
+		<property name="changeLog" value="classpath:META-INF/database/database_changelog.xml" />
+	</bean>
 
 	<context:annotation-config />
 	<context:spring-configured></context:spring-configured>
@@ -25,10 +26,10 @@
 	<import resource="classpath:META-INF/subconfig/database.xml" />
 	<import resource="classpath:META-INF/subconfig/hibernate-config.xml" />
 	<import resource="classpath:META-INF/subconfig/hibernate.xml" />
- 	<import resource="classpath:META-INF/subconfig/aspects.xml" />
+	<import resource="classpath:META-INF/subconfig/aspects.xml" />
 	<import resource="classpath:META-INF/subconfig/security.xml" />
-	<import resource="classpath:META-INF/subconfig/services.xml"/>
-	<import resource="classpath:META-INF/subconfig/logging.xml"/>
+	<import resource="classpath:META-INF/subconfig/services.xml" />
+	<import resource="classpath:META-INF/subconfig/logging.xml" />
 	<import resource="classpath:META-INF/subconfig/mail.xml" />
 
 </beans>

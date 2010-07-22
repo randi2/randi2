@@ -2,12 +2,12 @@ package de.randi2.utility;
 
 import java.io.File;
 import java.sql.Connection;
-import java.sql.ResultSet;
 
 import javax.sql.DataSource;
 
 import liquibase.FileSystemFileOpener;
 import liquibase.Liquibase;
+import liquibase.log.LogFactory;
 
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
@@ -16,12 +16,18 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.ext.hsqldb.HsqldbDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class InitializeDatabaseUtil {
 
 	@Autowired
 	private DataSource dataSource;
+	
+	public InitializeDatabaseUtil() {
+		LogFactory.getLogger().addHandler(new SLF4JBridgeHandler());
+		LogFactory.getLogger().setUseParentHandlers(false);
+	}
 	
 	public void setUpDatabaseFull() throws Exception {
 		try {
@@ -48,7 +54,7 @@ public class InitializeDatabaseUtil {
 		Connection jdbcConnection = dataSource.getConnection();
 
 		Liquibase liquibase = new Liquibase(
-				"src/main/resources/META-INF/database/database_changelog.xml",
+				"src/test/resources/liquibase/database_changelog.xml",
 				new FileSystemFileOpener(), jdbcConnection);
 		liquibase.update("init");
 
