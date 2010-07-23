@@ -21,13 +21,13 @@
 	<ice:panelCollapsible id="personalPanel" expanded="true">
 		<f:facet name="header">
 			<ice:panelGrid border="0" columns="2">
-				<ice:graphicImage value="/img/icons/personal16.png"></ice:graphicImage>
+				<ice:graphicImage value="/img/icons/personal16.png"/>
 				<ice:outputLabel
-					value="#{labels['pages.userEditPanel.personalHeader']}"></ice:outputLabel>
+					value="#{labels['pages.userEditPanel.personalHeader']}"/>
 			</ice:panelGrid>
 		</f:facet>
 		<ice:panelGrid border="0" columns="2">
-			<ice:outputLabel for="gender" value="#{labels['person.gender']}"></ice:outputLabel>
+			<ice:outputLabel for="gender" value="#{labels['person.gender']}"/>
 			<ice:outputText id="genderO"
 				value="#{loginHandler.showedObject.person.sex}"
 				rendered="#{!loginHandler.editable}" converter="de.randi2.jsf.converters.GENDER_CONVERTER" />
@@ -37,7 +37,7 @@
 					<f:selectItems value="#{enums.genderItems}"/>
 				</ice:selectOneMenu>
 			</ice:panelGroup>
-			<ice:outputLabel for="title" value="#{labels['person.title']}"></ice:outputLabel>
+			<ice:outputLabel for="title" value="#{labels['person.title']}"/>
 			<ice:outputText id="titleO"
 				value="#{loginHandler.showedObject.person.title}"
 				rendered="#{!loginHandler.editable}">
@@ -55,7 +55,7 @@
 				<ice:message for="title" />
 			</ice:panelGroup>
 			<ice:outputLabel for="firstname"
-				value="#{labels['person.firstname']}"></ice:outputLabel>
+				value="#{labels['person.firstname']}"/>
 			<ice:outputText id="firstnameO"
 				value="#{loginHandler.showedObject.person.firstname}"
 				rendered="#{!loginHandler.editable}">
@@ -73,7 +73,7 @@
 				</ice:inputText>
 				<ice:message for="firstname" />
 			</ice:panelGroup>
-			<ice:outputLabel for="surname" value="#{labels['person.surname']}"></ice:outputLabel>
+			<ice:outputLabel for="surname" value="#{labels['person.surname']}"/>
 			<ice:outputText id="surnameO"
 				value="#{loginHandler.showedObject.person.surname}"
 				rendered="#{!loginHandler.editable}">
@@ -96,13 +96,13 @@
 	<ice:panelCollapsible id="contactPanel" expanded="true">
 		<f:facet name="header">
 			<ice:panelGrid border="0" columns="2">
-				<ice:graphicImage value="/img/icons/contact16.png"></ice:graphicImage>
+				<ice:graphicImage value="/img/icons/contact16.png"/>
 				<ice:outputLabel
-					value="#{labels['pages.userEditPanel.contactHeader']}"></ice:outputLabel>
+					value="#{labels['pages.userEditPanel.contactHeader']}"/>
 			</ice:panelGrid>
 		</f:facet>
 		<ice:panelGrid border="0" columns="2">
-			<ice:outputLabel for="email" value="#{labels['person.eMail']}"></ice:outputLabel>
+			<ice:outputLabel for="email" value="#{labels['person.eMail']}"/>
 			<ice:outputText id="emailO"
 				value="#{loginHandler.showedObject.person.email}"
 				rendered="#{!loginHandler.creatingMode}">
@@ -119,7 +119,7 @@
 				</ice:inputText>
 				<ice:message for="email" id="eMailError"></ice:message>
 			</ice:panelGroup>
-			<ice:outputLabel for="phone" value="#{labels['person.phone']}"></ice:outputLabel>
+			<ice:outputLabel for="phone" value="#{labels['person.phone']}"/>
 			<ice:outputText id="phoneO"
 				value="#{loginHandler.showedObject.person.phone}"
 				rendered="#{!loginHandler.editable}">
@@ -136,7 +136,7 @@
 				</ice:inputText>
 				<ice:message for="phone" />
 			</ice:panelGroup>
-			<ice:outputLabel for="mobile" value="#{labels['person.mobile']}"></ice:outputLabel>
+			<ice:outputLabel for="mobile" value="#{labels['person.mobile']}"/>
 			<ice:outputText id="mobileO"
 				value="#{loginHandler.showedObject.person.mobile}"
 				rendered="#{!loginHandler.editable}">
@@ -153,7 +153,7 @@
 				</ice:inputText>
 				<ice:message for="mobile" />
 			</ice:panelGroup>
-			<ice:outputLabel for="fax" value="#{labels['person.fax']}"></ice:outputLabel>
+			<ice:outputLabel for="fax" value="#{labels['person.fax']}"/>
 			<ice:outputText id="faxO"
 				value="#{loginHandler.showedObject.person.fax}"
 				rendered="#{!loginHandler.editable}">
@@ -176,19 +176,19 @@
 	<ice:panelCollapsible id="accountPanel" expanded="true">
 		<f:facet name="header">
 			<ice:panelGrid border="0" columns="2">
-				<ice:graphicImage value="/img/icons/user16.png"></ice:graphicImage>
+				<ice:graphicImage value="/img/icons/user16.png"/>
 				<ice:outputLabel
-					value="#{labels['pages.userEditPanel.accountHeader']}"></ice:outputLabel>
+					value="#{labels['pages.userEditPanel.accountHeader']}"/>
 			</ice:panelGrid>
 		</f:facet>
 		<ice:panelGrid border="0" columns="2">
-			<ice:outputLabel for="username" value="#{labels['login.username']}"></ice:outputLabel>
+			<ice:outputLabel for="username" value="#{labels['login.username']}"/>
 			<ice:outputText id="username"
 				value="#{loginHandler.creatingMode ? loginHandler.showedObject.person.email : loginHandler.showedObject.username}">
 			</ice:outputText>
 			<ice:outputLabel for="creationDate"
 				value="#{labels['login.creationDate']}"
-				rendered="#{!loginHandler.creatingMode}"></ice:outputLabel>
+				rendered="#{!loginHandler.creatingMode}"/>
 			<ice:outputText id="creationDate"
 				value="#{loginHandler.showedObject.createdAt.time}"
 				rendered="#{!loginHandler.creatingMode}"
@@ -196,19 +196,19 @@
 			</ice:outputText>
 			<ice:outputLabel for="lastLoggedIn"
 				value="#{labels['login.lastLoggedIn']}"
-				rendered="#{!loginHandler.creatingMode}"></ice:outputLabel>
+				rendered="#{!loginHandler.creatingMode}"/>
 			<ice:outputText id="lastLoggedIn"
 				value="#{loginHandler.showedObject.lastLoggedIn.time}"
 				rendered="#{!loginHandler.creatingMode}"
 				converter="javax.faces.DateTime">
 			</ice:outputText>
-			<ice:outputLabel for="password" value="#{labels['login.password']}"></ice:outputLabel>
+			<ice:outputLabel for="password" value="#{labels['login.password']}"/>
 			<ice:panelGroup id="passwordDummy"
 				rendered="#{!loginHandler.creatingMode}">
 				<ice:outputText value="***********"></ice:outputText>
 				<ice:commandButton value="#{labels['buttons.changePassword']}"
 					action="#{popups.showChangePasswordPopup}"
-					image="/img/icons/change16.png" style="margin-left: 15px;"></ice:commandButton>
+					image="/img/icons/change16.png" style="margin-left: 15px;"/>
 			</ice:panelGroup>
 			<ice:panelGroup id="passwordGroup"
 				rendered="#{loginHandler.creatingMode}">
@@ -220,11 +220,11 @@
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 					<f:attribute name="dObject" value="#{loginHandler.showedObject}" />
 				</ice:inputSecret>
-				<ice:message for="password" id="passwordError"></ice:message>
+				<ice:message for="password" id="passwordError"/>
 			</ice:panelGroup>
 			<ice:outputLabel for="pConfirmation"
 				value="#{labels['pages.registration.passwordConfirmation']}"
-				rendered="#{loginHandler.creatingMode}"></ice:outputLabel>
+				rendered="#{loginHandler.creatingMode}"/>
 			<ice:panelGroup rendered="#{loginHandler.creatingMode}">
 				<ice:inputSecret id="pConfirmation"
 					required="#{loginHandler.showedObject.requiredFields['password']}"
@@ -232,7 +232,7 @@
 					<f:validator
 						validatorId="de.randi2.jsf.validators.PASSWORD_CONFIRMATION" />
 				</ice:inputSecret>
-				<ice:message for="pConfirmation" id="confirmationError"></ice:message>
+				<ice:message for="pConfirmation" id="confirmationError"/>
 			</ice:panelGroup>
 		</ice:panelGrid>
 	</ice:panelCollapsible>
