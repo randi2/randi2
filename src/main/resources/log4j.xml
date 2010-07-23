@@ -32,7 +32,7 @@
 	</logger>
 	
 	<logger name="liquibase">
-		<level value="INFO" />
+		<level value="WARN" />
 	</logger>
 	
 	<!-- <logger name="org.springframework.security">
