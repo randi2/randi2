@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import de.randi2.model.Login;
+import de.randi2.model.Trial;
 import de.randi2.test.utility.DomainObjectFactory;
 import de.randi2.test.utility.TestStringUtil;
 
@@ -23,7 +23,7 @@ public class DateDependenceValidationTest {
 
 	
 	
-	private ClassValidator<Login> loginValidator;
+	private ClassValidator<Trial>  trialValidator;
 
 	@Autowired private DomainObjectFactory factory;
 	@Autowired private TestStringUtil stringUtil;
@@ -31,37 +31,38 @@ public class DateDependenceValidationTest {
 	
 	@Test
 	public void testDateDepenceIsValid(){
-		loginValidator = new ClassValidator<Login>( Login.class );
+		trialValidator = new ClassValidator<Trial>( Trial.class );
 		stringUtil.getWithLength(20);
 		
-		Login l = factory.getLogin();
+		Trial trial = factory.getTrial();
 		
-		l.setCreatedAt(new GregorianCalendar(2006,0,1));
-		l.setLastLoggedIn(new GregorianCalendar());
+		trial.setStartDate(new GregorianCalendar(2006,0,1));
+		trial.setEndDate(new GregorianCalendar());
 
-		assertEquals(0, loginValidator.getInvalidValues(l).length) ;
+		assertEquals(0, trialValidator.getInvalidValues(trial).length) ;
 		
-//		l.setCreatedAt(new GregorianCalendar());
-//		l.setLastLoggedIn(new GregorianCalendar(2006,0,1));
-//		
-//		assertEquals(1, loginValidator.getInvalidValues(l).length) ;
-//		
-//		l.setCreatedAt(new GregorianCalendar(2006,0,1));
-//		l.setLastLoggedIn(new GregorianCalendar(2006,0,1));
-//		
-//		assertEquals(1, loginValidator.getInvalidValues(l).length) ;
-//		
-//		l.setLastLoggedIn(null);
-//		
-//		assertEquals(0, loginValidator.getInvalidValues(l).length) ;
-//		
-//		l.setCreatedAt(null);
-//		
-//		assertEquals(0, loginValidator.getInvalidValues(l).length) ;
-//		
-//		l.setLastLoggedIn(new GregorianCalendar(2006,0,1));
-//		
-//		assertEquals(1, loginValidator.getInvalidValues(l).length) ;
+		trial.setStartDate(new GregorianCalendar());
+		trial.setEndDate(new GregorianCalendar(2006,0,1));
+		
+		assertEquals(1, trialValidator.getInvalidValues(trial).length) ;
+		
+		trial.setStartDate(new GregorianCalendar(2006,0,1));
+		trial.setEndDate(new GregorianCalendar(2006,0,1));
+		
+		assertEquals(1, trialValidator.getInvalidValues(trial).length) ;
+		
+		trial.setEndDate(null);
+		
+		assertEquals(1, trialValidator.getInvalidValues(trial).length) ;
+		
+		trial.setCreatedAt(null);
+		
+		assertEquals(1, trialValidator.getInvalidValues(trial).length) ;
+		
+		trial.setEndDate(new GregorianCalendar(2006,0,1));
+		
+		assertEquals(1, trialValidator.getInvalidValues(trial).length) ;
 		
 	}
+	
 }

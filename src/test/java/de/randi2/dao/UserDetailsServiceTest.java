@@ -42,7 +42,6 @@ public class UserDetailsServiceTest extends AbstractDaoTest{
 	}
 	
 	@Test
-	@Transactional
 	public void getUsernameTest() {
 		
 		Login l = factory.getLogin();

@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
@@ -111,11 +112,12 @@ public class OrdinalConstraintTest extends
 	}
 	
 	@Test
+	@Transactional
 	public void databaseIntegrationTest(){
-		hibernateTemplate.persist(constraint);
+		sessionFactory.getCurrentSession().persist(constraint);
 		assertTrue(constraint.getId()>0);
 		
-		OrdinalConstraint dbConstraint = (OrdinalConstraint) hibernateTemplate.get(OrdinalConstraint.class, constraint.getId());
+		OrdinalConstraint dbConstraint = (OrdinalConstraint) sessionFactory.getCurrentSession().get(OrdinalConstraint.class, constraint.getId());
 		assertEquals(constraint.getId(), dbConstraint.getId());
 		assertEquals(constraint.getExpectedValues(), dbConstraint.getExpectedValues());
 	}

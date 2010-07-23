@@ -14,6 +14,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
@@ -183,8 +184,8 @@ private OrdinalCriterion criterion;
 	}
 	
 	@Test
+	@Transactional
 	public void databaseIntegrationTestWithConstraintsAndStrata() {
-		Session session = sessionFactory.openSession();
 		criterion.setName("name");
 		criterion.setDescription("test");
 		List<String> elements = new ArrayList<String>();
@@ -199,7 +200,7 @@ private OrdinalCriterion criterion;
 			temp.add(new OrdinalConstraint(Arrays.asList(new String[]{elements.get(1)})));
 		
 			OrdinalConstraint constraint = new OrdinalConstraint(Arrays.asList(elements.get(0)));
-			session.save(constraint);
+			sessionFactory.getCurrentSession().save(constraint);
 			assertTrue(constraint.getId()>0);
 			criterion.setInclusionConstraint(constraint);
 
@@ -207,25 +208,23 @@ private OrdinalCriterion criterion;
 			ArrayList<OrdinalConstraint> tempS = new ArrayList<OrdinalConstraint>();
 			tempS.add(new OrdinalConstraint(Arrays.asList(new String[]{elements.get(0), elements.get(1)})));
 			tempS.add(new OrdinalConstraint(Arrays.asList(new String[]{elements.get(2),elements.get(3)})));
-			session.save(tempS.get(0));
-			session.save(tempS.get(1));
+			sessionFactory.getCurrentSession().save(tempS.get(0));
+			sessionFactory.getCurrentSession().save(tempS.get(1));
 			
 			criterion.setStrata(tempS);
 			
-			session.save(criterion);
+			sessionFactory.getCurrentSession().save(criterion);
 			assertTrue(criterion.getId()>0);
 			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
 			assertEquals(2, criterion.getStrata().size());
-			session.save(temp.get(0));
-			session.save(temp.get(1));
+			sessionFactory.getCurrentSession().save(temp.get(0));
+			sessionFactory.getCurrentSession().save(temp.get(1));
 			assertTrue(temp.get(0).getId() > 0);
 			assertTrue(temp.get(1).getId() > 0);
 			criterion.setStrata(temp);
-			session.update(criterion);
-			session.flush();
-			session.close();
-			session = sessionFactory.openSession();
-			OrdinalCriterion dbCriterion = (OrdinalCriterion) session.get(OrdinalCriterion.class,criterion.getId());
+			sessionFactory.getCurrentSession().update(criterion);
+			sessionFactory.getCurrentSession().flush();
+			OrdinalCriterion dbCriterion = (OrdinalCriterion) sessionFactory.getCurrentSession().get(OrdinalCriterion.class,criterion.getId());
 			assertEquals(criterion, dbCriterion);
 			assertEquals(criterion.getName(), dbCriterion.getName());
 			assertEquals(criterion.getDescription(), dbCriterion.getDescription());

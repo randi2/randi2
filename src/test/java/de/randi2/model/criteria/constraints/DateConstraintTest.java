@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.test.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
@@ -103,11 +104,12 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 		}
 		
 		@Test
+		@Transactional
 		public void databaseIntegrationTest(){
-			hibernateTemplate.persist(constraint);
+			sessionFactory.getCurrentSession().persist(constraint);
 			assertTrue(constraint.getId()>0);
 			
-			DateConstraint dbConstraint = (DateConstraint) hibernateTemplate.get(DateConstraint.class, constraint.getId());
+			DateConstraint dbConstraint = (DateConstraint) sessionFactory.getCurrentSession().get(DateConstraint.class, constraint.getId());
 			assertEquals(constraint.getId(), dbConstraint.getId());
 			assertEquals(constraint.getFirstDate(), dbConstraint.getFirstDate());
 		}

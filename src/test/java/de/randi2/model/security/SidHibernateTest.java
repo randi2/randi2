@@ -6,21 +6,24 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
+import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/META-INF/spring-test.xml" })
 public class SidHibernateTest {
 	
 	
-	@Autowired private HibernateTemplate hibernateTemplate;
+	@Autowired
+	private SessionFactory sessionFactory;
+	
 	@Test
 	public void testConstructor(){
 		SidHibernate sid = new SidHibernate();
@@ -83,11 +86,12 @@ public class SidHibernateTest {
 	}
 	
 	@Test
+	@Transactional
 	public void databaseIntegrationTest(){
 		SidHibernate sidH1 = new SidHibernate("sidname");
-		hibernateTemplate.persist(sidH1);
+		sessionFactory.getCurrentSession().persist(sidH1);
 		assertTrue(sidH1.getId()>0);
-		SidHibernate sidH2 = (SidHibernate) hibernateTemplate.get(SidHibernate.class, sidH1.getId());
+		SidHibernate sidH2 = (SidHibernate) sessionFactory.getCurrentSession().get(SidHibernate.class, sidH1.getId());
 		assertEquals(sidH1.getId(), sidH2.getId());
 		assertEquals(sidH1, sidH2);
 	}

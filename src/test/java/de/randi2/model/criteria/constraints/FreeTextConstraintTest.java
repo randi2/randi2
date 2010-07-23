@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.test.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
@@ -98,11 +99,12 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 	}
 	
 	@Test
+	@Transactional
 	public void databaseIntegrationTest(){
-		hibernateTemplate.persist(constraint);
+		sessionFactory.getCurrentSession().persist(constraint);
 		assertTrue(constraint.getId()>0);
 		
-		FreeTextConstraint dbConstraint = (FreeTextConstraint) hibernateTemplate.get(FreeTextConstraint.class, constraint.getId());
+		FreeTextConstraint dbConstraint = (FreeTextConstraint) sessionFactory.getCurrentSession().get(FreeTextConstraint.class, constraint.getId());
 		assertEquals(constraint.getId(), dbConstraint.getId());
 		assertEquals(constraint.getExpectedValue(), dbConstraint.getExpectedValue());
 	}

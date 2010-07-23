@@ -32,13 +32,6 @@
 
 	<bean id="hibernateInterceptor" class="de.randi2.utility.CustomHibernateInterceptor" />
 
-
-	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
-		<property name="entityInterceptor" ref="hibernateInterceptor"></property>
-		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>
-
-
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
 	<bean id="transactionManager"

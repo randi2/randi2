@@ -1,5 +1,7 @@
 package de.randi2.model.security;
 
+import static de.randi2.utility.security.ArrayListHelper.permissionsOf;
+import static de.randi2.utility.security.ArrayListHelper.sidsOf;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
@@ -10,17 +12,15 @@ import static junit.framework.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import static de.randi2.utility.security.ArrayListHelper.permissionsOf;
-import static de.randi2.utility.security.ArrayListHelper.sidsOf;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Login;
 
@@ -29,9 +29,9 @@ import de.randi2.model.Login;
 public class AclHibernateTest {
 
 	private AclHibernate acl;
-	@Autowired
-	private HibernateTemplate hibernateTemplate;
 
+	@Autowired private SessionFactory sessionFactory;
+	
 	@Before
 	public void setUp() {
 		acl = new AclHibernate();
@@ -146,6 +146,7 @@ public class AclHibernateTest {
 	}
 
 	@Test
+	@Transactional
 	public void databaseIntegrationTest() {
 		List<AccessControlEntryHibernate> aces = new ArrayList<AccessControlEntryHibernate>();
 		for (int i = 0; i < 10; i++) {
@@ -159,14 +160,14 @@ public class AclHibernateTest {
 		acl.setAces(aces);
 		acl.setObjectIdentity(new ObjectIdentityHibernate(Login.class, -1));
 		
-		hibernateTemplate.persist(acl.getOwner());
+		sessionFactory.getCurrentSession().persist(acl.getOwner());
 		assertTrue(acl.getOwner().getId()>0);
-		hibernateTemplate.persist(acl);
+		sessionFactory.getCurrentSession().persist(acl);
 		assertTrue(acl.getId()>0);
 		for(AccessControlEntryHibernate ace : acl.getAces()){
 			assertTrue(ace.getId()>0);
 		}
-		AclHibernate dbAcl = (AclHibernate) hibernateTemplate.get(AclHibernate.class, acl.getId());
+		AclHibernate dbAcl = (AclHibernate) sessionFactory.getCurrentSession().get(AclHibernate.class, acl.getId());
 		assertEquals(acl.getId(), dbAcl.getId());
 		assertEquals(acl.getOwner().getSidname(), dbAcl.getOwner().getSidname());
 		assertEquals(acl.getOwner().getId(), dbAcl.getOwner().getId());

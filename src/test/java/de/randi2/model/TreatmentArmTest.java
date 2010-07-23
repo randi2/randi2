@@ -1,7 +1,8 @@
 package de.randi2.model;
 
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -13,11 +14,10 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
-import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.exceptions.ValidationException;
 import de.randi2.test.utility.AbstractDomainTest;
-import de.randi2.unsorted.ContraintViolatedException;
 
 public class TreatmentArmTest extends AbstractDomainTest<TreatmentArm> {
 
@@ -109,13 +109,14 @@ public class TreatmentArmTest extends AbstractDomainTest<TreatmentArm> {
 	}
 	
 	@Test
+	@Transactional
 	public void databaseIntegrationTest(){
-		hibernateTemplate.persist(validTreatmentArm.getTrial().getLeadingSite());
-		hibernateTemplate.persist(validTreatmentArm.getTrial().getSponsorInvestigator());
-		hibernateTemplate.persist(validTreatmentArm.getTrial());
-		hibernateTemplate.persist(validTreatmentArm);
+		sessionFactory.getCurrentSession().persist(validTreatmentArm.getTrial().getLeadingSite());
+		sessionFactory.getCurrentSession().persist(validTreatmentArm.getTrial().getSponsorInvestigator());
+		sessionFactory.getCurrentSession().persist(validTreatmentArm.getTrial());
+		sessionFactory.getCurrentSession().persist(validTreatmentArm);
 		assertTrue(validTreatmentArm.getId() >0);
-		TreatmentArm dbArm = (TreatmentArm)hibernateTemplate.get(TreatmentArm.class, validTreatmentArm.getId());
+		TreatmentArm dbArm = (TreatmentArm)sessionFactory.getCurrentSession().get(TreatmentArm.class, validTreatmentArm.getId());
 		assertEquals(validTreatmentArm.getDescription(), dbArm.getDescription());
 		assertEquals(validTreatmentArm.getName(), dbArm.getName());
 		assertEquals(validTreatmentArm.getPlannedSubjects(),dbArm.getPlannedSubjects());

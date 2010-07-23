@@ -54,7 +54,7 @@ public class LoginDaoTest extends AbstractDaoTest{
 	@Test
 	public void getUsernameTest() {
 		Login l = factory.getLogin();
-		l.setUsername(testStringUtil.getWithLength(10) + "@xyz.com");
+		l.setUsername(testStringUtil.getWithLength(Login.MIN_USERNAME_LENGTH) + "@xyz.com");
 		loginDao.create(l);
 		Login l2 = loginDao.get(l.getUsername());
 		assertEquals(l.getId(), l2.getId());

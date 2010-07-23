@@ -6,6 +6,7 @@ import static junit.framework.Assert.assertTrue;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import de.randi2.dao.AbstractDao;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.test.utility.DomainObjectFactory;
+import de.randi2.utility.InitializeDatabaseUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml"})
@@ -35,6 +37,8 @@ public abstract class AbstractTransactionalTest<E extends AbstractDao<F>, F exte
 	protected F object;
 	private boolean withRollback = false;
 	
+	@Autowired protected SessionFactory sessionFactory;
+	@Autowired protected InitializeDatabaseUtil databaseUtil;
 
 	
 	@BeforeTransaction

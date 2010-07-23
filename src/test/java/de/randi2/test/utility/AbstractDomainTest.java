@@ -4,14 +4,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.validator.InvalidStateException;
+import org.hibernate.context.ManagedSessionContext;
+import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -22,7 +21,6 @@ import de.randi2.utility.InitializeDatabaseUtil;
 @ContextConfiguration(locations = {"/META-INF/spring-test.xml"})
 public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 
-	@Autowired protected HibernateTemplate hibernateTemplate;
 	@Autowired protected TestStringUtil stringUtil;
 	@Autowired protected DomainObjectFactory factory;
 	@Autowired protected ApplicationContext context; 
@@ -37,40 +35,29 @@ public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 
 	@Before
 	public void setUp(){
+		ManagedSessionContext.bind(sessionFactory.openSession());
 		try {
-			databaseUtil.setUpDatabaseUserAndTrialSites();
+			databaseUtil.setUpDatabaseEmpty();
 		} catch (Exception e1) {
-			e1.printStackTrace();
 			fail(e1.getMessage());
 		}
 	}
 	
 
 	protected void assertValid(TC validDO) {
-		try{
-		hibernateTemplate.saveOrUpdate(validDO);
-		long id = validDO.getId();
-		assertTrue(id != Long.MIN_VALUE);
-		}catch (InvalidStateException e) {
-		
+		ClassValidator<TC> classValidator = new ClassValidator<TC>((Class<TC>) validDO.getClass());
+		InvalidValue[] invalids = classValidator.getInvalidValues(validDO);
+		StringBuilder message = new StringBuilder();
+		for(InvalidValue v : invalids){
+			message.append(v.getPropertyName()).append(" : ").append(v.getMessage()).append("\n");
 		}
+		assertTrue(message.toString(), invalids.length==0); 
 	}
 
 	protected void assertInvalid(TC invalidDO, String[] messages) {
-		try {
-			hibernateTemplate.saveOrUpdate(invalidDO);
-			fail("should throw exception");
-		} catch (InvalidStateException e) {
-			InvalidValue[] invalids = e.getInvalidValues();
-			assertTrue(invalids.length>0);
-//			assertEquals(messages.length, invalids.length);
-//			// TODO Reihenfolgeproblem
-//			for (int i = 0; i < messages.length; i++) {
-//				assertEquals(testClass, invalids[i].getBeanClass());
-//				// TODO Typ und Feld der Fehlermeldung Test 
-//				//assertEquals(messages[i], invalids[i].getMessage());
-//			}
-		}catch (DataIntegrityViolationException e){	}
+			ClassValidator<TC> classValidator = new ClassValidator<TC>((Class<TC>) invalidDO.getClass());
+			InvalidValue[] invalids = classValidator.getInvalidValues(invalidDO);
+			assertTrue(invalids.length>0); 
 	}
 	
 	protected void assertInvalid(TC invalidDO){

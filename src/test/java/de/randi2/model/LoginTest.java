@@ -13,12 +13,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.validator.InvalidStateException;
-import org.hibernate.validator.InvalidValue;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.exceptions.ValidationException;
 import de.randi2.model.security.PermissionHibernate;
@@ -51,48 +51,30 @@ public class LoginTest extends AbstractDomainTest<Login>{
 	}
 	
 	
-//	@Ignore
 	@Test
-	// FIXME: The test generates an exception
+	@Transactional
 	public void testUsername(){
-		validLogin.setUsername(stringUtil.getWithLength(Login.MIN_USERNAME_LENGTH));
-		assertEquals(stringUtil.getLastString(), validLogin.getUsername());
+		validLogin.setUsername(stringUtil.getWithLength(Login.MIN_USERNAME_LENGTH)+"@abc.de");
+		assertEquals(stringUtil.getLastString()+"@abc.de", validLogin.getUsername());
 		assertValid(validLogin);
 		
-		validLogin.setUsername(stringUtil.getWithLength(Login.MIN_USERNAME_LENGTH-1));
-		assertEquals(stringUtil.getLastString(), validLogin.getUsername());
+		validLogin.setUsername(stringUtil.getWithLength(Login.MIN_USERNAME_LENGTH-8)+"@abc.de");
+		assertEquals(stringUtil.getLastString()+"@abc.de", validLogin.getUsername());
 		assertInvalid(validLogin);
 		
 		
 		
-		validLogin.setUsername(stringUtil.getWithLength(Login.MAX_USERNAME_LENGTH));
-		assertEquals(stringUtil.getLastString(), validLogin.getUsername());
+		validLogin.setUsername(stringUtil.getWithLength(Login.MAX_USERNAME_LENGTH-7)+"@abc.de");
+		assertEquals(stringUtil.getLastString()+"@abc.de", validLogin.getUsername());
 		assertValid(validLogin);
 		
-		validLogin.setUsername(stringUtil.getWithLength(Login.MAX_USERNAME_LENGTH+1));
-		assertEquals(stringUtil.getLastString(), validLogin.getUsername());
+		validLogin.setUsername(stringUtil.getWithLength(Login.MAX_USERNAME_LENGTH)+"@abc.de");
+		assertEquals(stringUtil.getLastString()+"@abc.de", validLogin.getUsername());
 		assertInvalid(validLogin);
 		
 		validLogin.setUsername("");
 		assertEquals("", validLogin.getUsername());
-		try {
-			hibernateTemplate.saveOrUpdate(validLogin);
-			fail("should throw exception");
-		} catch (InvalidStateException e) {
-			InvalidValue[] invalidValues = e.getInvalidValues();
-			assertEquals(3, invalidValues.length);
-		}
-		
-//		validLogin = factory.getLogin();
-//		Login l1 = factory.getLogin();
-//		l1.setUsername(validLogin.getUsername());
-//		assertEquals(validLogin.getUsername(), l1.getUsername());
-//		try {
-//			hibernateTemplate.saveOrUpdate(validLogin);
-//			hibernateTemplate.saveOrUpdate(l1);
-//			fail("should throw exception");
-//		} catch (DataIntegrityViolationException e) {}
-//		
+		assertInvalid(validLogin);
 	}
 	
 	
@@ -112,15 +94,16 @@ public class LoginTest extends AbstractDomainTest<Login>{
 	}
 	
 	@Test
+	@Transactional
 	public void testPerson(){
 		Person p = factory.getPerson();
 		validLogin.setPerson(p);
 		assertNotNull(validLogin.getPerson());
 		
 		
-		hibernateTemplate.saveOrUpdate(validLogin);
+		sessionFactory.getCurrentSession().saveOrUpdate(validLogin);
 		
-		Login l = (Login)hibernateTemplate.get(Login.class, validLogin.getId());
+		Login l = (Login)sessionFactory.getCurrentSession().get(Login.class, validLogin.getId());
 		assertNotNull(l);
 		assertEquals(validLogin.getUsername(), l.getUsername());
 		assertNotNull(l.getPerson());
@@ -185,13 +168,14 @@ public class LoginTest extends AbstractDomainTest<Login>{
 	}
 	
 	@Test
+	@Transactional
 	public void testLocale(){
 		validLogin.setPrefLocale(Locale.GERMAN);
 		assertEquals(Locale.GERMAN, validLogin.getPrefLocale());
 		
-		hibernateTemplate.saveOrUpdate(validLogin);
+		sessionFactory.getCurrentSession().saveOrUpdate(validLogin);
 		assertTrue(validLogin.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
-		Login l = (Login) hibernateTemplate.get(Login.class, validLogin.getId());
+		Login l = (Login) sessionFactory.getCurrentSession().get(Login.class, validLogin.getId());
 		assertEquals(validLogin.getId(), l.getId());
 		assertEquals(Locale.GERMAN, l.getPrefLocale());
 	}
@@ -264,6 +248,7 @@ public class LoginTest extends AbstractDomainTest<Login>{
 	
 	
 	@Test
+	@Transactional
 	public void databaseIntegrationTest() {
 		
 		validLogin.setLockTime(new GregorianCalendar());
@@ -271,9 +256,9 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		validLogin.setPrefLocale(Locale.ENGLISH);
 		GregorianCalendar dateL = new GregorianCalendar(2008,2,1);
 		validLogin.setLastLoggedIn(dateL);
-		hibernateTemplate.save(validLogin);
+		sessionFactory.getCurrentSession().save(validLogin);
 		assertTrue(validLogin.getId()>0);
-		Login login = (Login)hibernateTemplate.get(Login.class, validLogin.getId());
+		Login login = (Login)sessionFactory.getCurrentSession().get(Login.class, validLogin.getId());
 		assertEquals(validLogin.getId(), login.getId());
 		// FIXME: Clear out
 		//assertEquals(Arrays.asList(validLogin.getAuthorities()), Arrays.asList(login.getAuthorities()));
