@@ -42,6 +42,7 @@ import com.icesoft.faces.context.Resource;
 
 import de.randi2.jsf.backingBeans.Step4;
 import de.randi2.jsf.backingBeans.Step5;
+import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.model.Login;
@@ -78,6 +79,9 @@ public class TrialHandler extends AbstractTrialHandler {
 
 	@Setter
 	private LogService logService;
+
+	@Setter
+	private Popups popups;
 
 	/**
 	 * Defindes if the randomization is possible or not.
@@ -120,15 +124,25 @@ public class TrialHandler extends AbstractTrialHandler {
 	 * @return
 	 */
 	public AutoCompleteObject<Login> getSponsorInvestigatorsAC() {
-		if (sponsorInvestigatorsAC != null && trialSitesAC.isObjectSelected())
-			return sponsorInvestigatorsAC;
-		if (trialSitesAC.isObjectSelected())
-			sponsorInvestigatorsAC = new AutoCompleteObject<Login>(trialSitesAC
-					.getSelectedObject().getMembersWithSpecifiedRole(
-							Role.ROLE_P_INVESTIGATOR));
-		else
-			sponsorInvestigatorsAC = new AutoCompleteObject<Login>(
-					new ArrayList<Login>());
+		if (!editing) {
+			if (sponsorInvestigatorsAC != null
+					&& trialSitesAC.isObjectSelected())
+				return sponsorInvestigatorsAC;
+			if (trialSitesAC.isObjectSelected())
+				sponsorInvestigatorsAC = new AutoCompleteObject<Login>(
+						trialSitesAC.getSelectedObject()
+								.getMembersWithSpecifiedRole(
+										Role.ROLE_P_INVESTIGATOR));
+			else
+				sponsorInvestigatorsAC = new AutoCompleteObject<Login>(
+						new ArrayList<Login>());
+		} else {
+			if (sponsorInvestigatorsAC == null)
+				sponsorInvestigatorsAC = new AutoCompleteObject<Login>(
+						showedObject.getLeadingSite()
+								.getMembersWithSpecifiedRole(
+										Role.ROLE_P_INVESTIGATOR));
+		}
 		return sponsorInvestigatorsAC;
 	}
 
@@ -292,6 +306,19 @@ public class TrialHandler extends AbstractTrialHandler {
 	 */
 	public String saveTrial() {
 		System.out.println("Called");
+		return Randi2.SUCCESS;
+	}
+
+	public String changeLeadingSite() {
+		showedObject.setLeadingSite(trialSitesAC.getSelectedObject());
+		popups.hideChangeLeadingSitePopup();
+		return Randi2.SUCCESS;
+	}
+
+	public String changePInvestigator() {
+		showedObject.setSponsorInvestigator(sponsorInvestigatorsAC
+				.getSelectedObject().getPerson());
+		popups.hideChangePInvestigatorPopup();
 		return Randi2.SUCCESS;
 	}
 
