@@ -15,7 +15,7 @@
 		</property>
 	</bean>
 
-	<bean id="liquibase" class="liquibase.spring.SpringLiquibase">
+	<bean id="liquibase" class="de.randi2.utility.logging.Randi2SpringLiquibase">
 		<property name="dataSource" ref="dataSource" />
 		<property name="changeLog" value="classpath:META-INF/database/database_changelog.xml" />
 	</bean>
