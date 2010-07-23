@@ -87,7 +87,8 @@ public class TrialHandler extends AbstractTrialHandler {
 	/**
 	 * Defines if the current trial is currently edited or not.
 	 */
-	@Setter @Getter
+	@Setter
+	@Getter
 	private boolean editing = false;
 
 	/*
@@ -291,6 +292,14 @@ public class TrialHandler extends AbstractTrialHandler {
 	 */
 	public String saveTrial() {
 		System.out.println("Called");
+		return Randi2.SUCCESS;
+	}
+
+	public String cancleEditing() {
+		if (editing) {
+			showedObject = trialService.getObject(showedObject.getId());
+			editing = false;
+		}
 		return Randi2.SUCCESS;
 	}
 

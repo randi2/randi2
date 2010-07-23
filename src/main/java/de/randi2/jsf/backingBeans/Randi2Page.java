@@ -115,16 +115,19 @@ public class Randi2Page {
 
 	public void viewTrials(ActionEvent event) {
 		activePanel = "trialsViewPanel";
+		trialHandler.cancleEditing();
 	}
 
 	public void viewTrialSites(ActionEvent event) {
 		activePanel = "trialSitesViewPanel";
+		trialHandler.cancleEditing();
 	}
 
 	public void myTrialSite(ActionEvent event) {
 		trialSiteHandler
 				.setShowedObject(loginHandler.getLoggedInUser().getPerson().getTrialSite());
 		activePanel = "trialSiteEditPanel";
+		trialHandler.cancleEditing();
 	}
 
 	/**
@@ -138,6 +141,7 @@ public class Randi2Page {
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
 		trialSiteHandler.setShowedObject(tTrialSite);
 		activePanel = "trialSiteEditPanel";
+		trialHandler.cancleEditing();
 	}
 
 	/**
@@ -176,6 +180,7 @@ public class Randi2Page {
 		setCurrentTrial(_trial);
 		trialHandler.setShowedObject(_trial);
 		activePanel = "trialShowPanel";
+		trialHandler.cancleEditing();
 	}
 
 	/**
@@ -190,27 +195,32 @@ public class Randi2Page {
 		assert (tPerson.getLogin() != null);
 		loginHandler.setShowedObject(tPerson.getLogin());
 		activePanel = "userEditPanel";
+		trialHandler.cancleEditing();
 	}
 
 	public void createTrialSite(ActionEvent event) {
 		trialSiteHandler.setShowedObject(null);
 		activePanel = "trialSiteEditPanel";
+		trialHandler.cancleEditing();
 	}
 
 	public void myLogin(ActionEvent event) {
 		loginHandler.setShowedObject(loginHandler.getLoggedInUser());
 		activePanel = "userEditPanel";
+		trialHandler.cancleEditing();
 	}
 
 	public void createLogin(ActionEvent event) {
 		loginHandler.setShowedObject(null);
 		activePanel = "userEditPanel";
+		trialHandler.cancleEditing();
 	}
 
 	public void createTrial(ActionEvent event) {
 		currentTrial = null;
 		trialHandler.setShowedObject(null);
 		activePanel = "trialCreatePanel";
+		trialHandler.cancleEditing();
 	}
 	
 	public void simulateTrial(ActionEvent event) {
@@ -233,6 +243,7 @@ public class Randi2Page {
 		simulationHandler.setSimulationResults(null);
 		popups.hideSimulationCompletePopup();
 		activePanel = "simulationOnlyPanel";
+		trialHandler.cancleEditing();
 	}
 	
 	public void simulateTrialOnlyChange(ActionEvent event) {
@@ -255,6 +266,7 @@ public class Randi2Page {
 	
 	public void showCurrentTrial(ActionEvent event){
 		if(currentTrial!=null){
+			trialHandler.cancleEditing();
 			trialHandler.setShowedObject(currentTrial);
 			activePanel = "trialShowPanel";
 		}
