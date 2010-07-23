@@ -1,30 +1,27 @@
 package de.randi2.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.test.utility.AbstractDomainTest;
 
-
+@Transactional
 public class TrialSiteTest extends AbstractDomainTest<TrialSite> {
 
 	private TrialSite validTrialSite;
-@Autowired private SessionFactory sessionFactory;
 
-private Session getCurrentSession(){
-	return sessionFactory.getCurrentSession();
-}
 	
 	public TrialSiteTest() {
 		super(TrialSite.class);
@@ -32,8 +29,9 @@ private Session getCurrentSession(){
 
 	@Before
 	public void setUp() {
+		super.setUp();
 		validTrialSite = factory.getTrialSite();
-		hibernateTemplate.save(validTrialSite.getContactPerson());
+		sessionFactory.getCurrentSession().save(validTrialSite.getContactPerson());
 	}
 
 	@Test
@@ -171,24 +169,24 @@ private Session getCurrentSession(){
 		tl.add(factory.getTrial());
 		
 
-		hibernateTemplate.saveOrUpdate(validTrialSite);
-		hibernateTemplate.flush();
+		sessionFactory.getCurrentSession().saveOrUpdate(validTrialSite);
+		sessionFactory.getCurrentSession().flush();
 		assertTrue(validTrialSite.getId()!= AbstractDomainObject.NOT_YET_SAVED_ID);
 		for(Trial trial: tl){
 			trial.addParticipatingSite(validTrialSite);
 			trial.setLeadingSite(validTrialSite);
 			Login login = factory.getLogin();
-			hibernateTemplate.persist(login);
+			sessionFactory.getCurrentSession().persist(login);
 			trial.setSponsorInvestigator(login.getPerson());
 			assertEquals(1, trial.getParticipatingSites().size());
 			assertEquals(validTrialSite.getId(), ((AbstractDomainObject) trial.getParticipatingSites().toArray()[0]).getId());
-			hibernateTemplate.persist(trial);
-			hibernateTemplate.flush();
+			sessionFactory.getCurrentSession().persist(trial);
+			sessionFactory.getCurrentSession().flush();
 		}
-		TrialSite trialSite = (TrialSite) hibernateTemplate.get(TrialSite.class, validTrialSite.getId());
+		TrialSite trialSite = (TrialSite) sessionFactory.getCurrentSession().get(TrialSite.class, validTrialSite.getId());
 		assertEquals(validTrialSite.getId(), trialSite.getId());
 		
-		hibernateTemplate.refresh(validTrialSite);
+		sessionFactory.getCurrentSession().refresh(validTrialSite);
 		validTrialSite.getTrials();
 		assertEquals(tl.size(), trialSite.getTrials().size());
 		
@@ -202,9 +200,9 @@ private Session getCurrentSession(){
 	public void testCountry(){
 		validTrialSite.setCountry("UK");
 		assertEquals("UK", validTrialSite.getCountry());
-		hibernateTemplate.saveOrUpdate(validTrialSite);
+		sessionFactory.getCurrentSession().saveOrUpdate(validTrialSite);
 		assertTrue(validTrialSite.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
-		TrialSite c = (TrialSite) hibernateTemplate.get(TrialSite.class, validTrialSite.getId());
+		TrialSite c = (TrialSite) sessionFactory.getCurrentSession().get(TrialSite.class, validTrialSite.getId());
 		
 		assertEquals(validTrialSite.getId(), c.getId());
 		assertEquals("UK", c.getCountry());
@@ -216,14 +214,14 @@ private Session getCurrentSession(){
 	@Test
 	public void testContactPerson(){
 		Person p = factory.getPerson();
-		hibernateTemplate.save(p);
+		sessionFactory.getCurrentSession().save(p);
 		validTrialSite.setContactPerson(p);
 		assertEquals(p.getSurname(), validTrialSite.getContactPerson().getSurname());
-		hibernateTemplate.saveOrUpdate(validTrialSite);
+		sessionFactory.getCurrentSession().saveOrUpdate(validTrialSite);
 		assertTrue(validTrialSite.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
 		assertTrue(p.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
 		
-		TrialSite c = (TrialSite) hibernateTemplate.get(TrialSite.class, validTrialSite.getId());
+		TrialSite c = (TrialSite) sessionFactory.getCurrentSession().get(TrialSite.class, validTrialSite.getId());
 		assertEquals(p.getId(), c.getContactPerson().getId());
 	}
 	
@@ -233,23 +231,23 @@ private Session getCurrentSession(){
 	
 		List<Person> members = new ArrayList<Person>();
 	
-		hibernateTemplate.saveOrUpdate(validTrialSite);
+		sessionFactory.getCurrentSession().saveOrUpdate(validTrialSite);
 		
 		for(int i=0;i<100;i++){
 			Person p = factory.getPerson();
 			p.setTrialSite(validTrialSite);
 			assertEquals(validTrialSite.getId(), p.getTrialSite().getId());
-			hibernateTemplate.saveOrUpdate(p);
-		//	hibernateTemplate.getSessionFactory().getCurrentSession().saveOrUpdate(p);
+			sessionFactory.getCurrentSession().saveOrUpdate(p);
+		//	sessionFactory.getCurrentSession().getSessionFactory().getCurrentSession().saveOrUpdate(p);
 			members.add(p);
 		}
-		hibernateTemplate.flush();
+		sessionFactory.getCurrentSession().flush();
 		
-		TrialSite c = (TrialSite) hibernateTemplate.get(TrialSite.class, validTrialSite.getId());
+		TrialSite c = (TrialSite) sessionFactory.getCurrentSession().get(TrialSite.class, validTrialSite.getId());
 		assertEquals(validTrialSite.getId(), c.getId());
 			List<Person> mem = c.getMembers();
-			hibernateTemplate.refresh(c);
-//			hibernateTemplate.getSessionFactory().getCurrentSession().refresh(c);
+			sessionFactory.getCurrentSession().refresh(c);
+//			sessionFactory.getCurrentSession().getSessionFactory().getCurrentSession().refresh(c);
 			assertEquals(members.size(), c.getMembers().size());
 	}
 	

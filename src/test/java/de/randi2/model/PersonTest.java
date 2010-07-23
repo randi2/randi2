@@ -14,6 +14,7 @@ import org.hibernate.validator.InvalidValue;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
@@ -23,7 +24,7 @@ import de.randi2.model.enumerations.Gender;
 import de.randi2.model.exceptions.ValidationException;
 import de.randi2.test.utility.AbstractDomainTest;
 
-
+@Transactional
 public class PersonTest extends AbstractDomainTest<Person> {
 
 	private Person validPerson;
@@ -34,6 +35,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 
 	@Before
 	public void setUp() {
+		super.setUp();
 		validPerson = super.factory.getPerson();
 		validPerson.setLogin(factory.getLogin());
 		validPerson.getLogin().setPerson(validPerson);
@@ -151,24 +153,12 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertValid(validPerson);
 		
 		validPerson.setPhone("");
-		try {
-			hibernateTemplate.saveOrUpdate(validPerson);
-			fail("should throw exception");
-		} catch (InvalidStateException e) {
-			InvalidValue[] invalidValues = e.getInvalidValues();
-			assertEquals(1, invalidValues.length);
-		}catch (DataIntegrityViolationException e){
-		}
+		
+		assertInvalid(validPerson);
+		
 		
 		validPerson.setPhone(null);
-		try {
-			hibernateTemplate.saveOrUpdate(validPerson);
-			fail("should throw exception");
-		} catch (InvalidStateException e) {
-			InvalidValue[] invalidValues = e.getInvalidValues();
-			assertEquals(1, invalidValues.length);
-		}catch (DataIntegrityViolationException e){
-		}
+		assertInvalid(validPerson);
 	}
 
 	
@@ -240,13 +230,7 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertInvalid(validPerson);
 
 		validPerson.setEmail("");
-		try {
-			hibernateTemplate.saveOrUpdate(validPerson);
-			fail("should throw exception");
-		} catch (InvalidStateException e) {
-			InvalidValue[] invalidValues = e.getInvalidValues();
-			assertEquals(2, invalidValues.length);
-		}
+		assertInvalid(validPerson);
 
 		String[] invalidEmails = new String[] {  "without at","toomuch@@", "@test.org", "ab..c@de-dg.com",
 				"without@domain" , "abc@def.abcde"};
@@ -338,19 +322,19 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		}
 	}
 
-	// TODO This test ist not running. Has the db-layout changed?
 	@Test
 	public void testLogin() {
 		Login l = factory.getLogin();
 		l.setPerson(validPerson);
-		hibernateTemplate.save(l);
 		validPerson.setLogin(l);
 		assertNotNull(validPerson.getLogin());
-		hibernateTemplate.saveOrUpdate(validPerson);
-
-		Person p = (Person) hibernateTemplate.get(Person.class, validPerson
+		sessionFactory.getCurrentSession().saveOrUpdate(validPerson);
+		assertEquals(validPerson.getLogin().getId(),l.getId());
+		Person p = (Person) sessionFactory.getCurrentSession().get(Person.class, validPerson
 				.getId());
 		assertNotNull(p);
+		assertEquals(validPerson.getId(), p.getId());
+		assertEquals(validPerson.getFirstname(), p.getFirstname());
 		assertEquals(validPerson.getSurname(), p.getSurname());
 		assertNotNull(p.getLogin());
 		assertEquals(validPerson.getLogin().getId(), p.getLogin().getId());
@@ -364,12 +348,12 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		validPerson.setAssistant(assistant);
 		validPerson.setSurname(stringUtil.getWithLength(20));
 		assertNotNull(validPerson.getAssistant());
-		hibernateTemplate.saveOrUpdate(validPerson.getAssistant());
-		hibernateTemplate.saveOrUpdate(validPerson);
+		sessionFactory.getCurrentSession().saveOrUpdate(validPerson.getAssistant());
+		sessionFactory.getCurrentSession().saveOrUpdate(validPerson);
 
 		assertTrue(validPerson.getAssistant().getId() != AbstractDomainObject.NOT_YET_SAVED_ID);
 
-		Person p = (Person) hibernateTemplate.get(Person.class, validPerson
+		Person p = (Person) sessionFactory.getCurrentSession().get(Person.class, validPerson
 				.getId());
 
 		assertNotNull(p);
@@ -381,18 +365,18 @@ public class PersonTest extends AbstractDomainTest<Person> {
 	@Test
 	public void testTrialSite() {
 		TrialSite trialSite = factory.getTrialSite();
-		hibernateTemplate.save(trialSite.getContactPerson());
-		hibernateTemplate.saveOrUpdate(trialSite);
+		sessionFactory.getCurrentSession().save(trialSite.getContactPerson());
+		sessionFactory.getCurrentSession().saveOrUpdate(trialSite);
 		
 		validPerson.setSurname(stringUtil.getWithLength(20));
 		validPerson.setTrialSite(trialSite);
 		assertNotNull(validPerson.getTrialSite());
 
-		hibernateTemplate.saveOrUpdate(validPerson);
+		sessionFactory.getCurrentSession().saveOrUpdate(validPerson);
 
 		assertTrue(validPerson.getTrialSite().getId() != AbstractDomainObject.NOT_YET_SAVED_ID);
 
-		Person p = (Person) hibernateTemplate.get(Person.class, validPerson
+		Person p = (Person) sessionFactory.getCurrentSession().get(Person.class, validPerson
 				.getId());
 
 		assertNotNull(p);
@@ -403,10 +387,10 @@ public class PersonTest extends AbstractDomainTest<Person> {
 	
 	@Test
 	public void databaseIntegrationTest() {
-		hibernateTemplate.save(validPerson);
+		sessionFactory.getCurrentSession().save(validPerson);
 		assertTrue(validPerson.getId()>0);
 		assertTrue(validPerson.getLogin().getId()>0);
-		Person person = (Person)hibernateTemplate.get(Person.class, validPerson.getId());
+		Person person = (Person)sessionFactory.getCurrentSession().get(Person.class, validPerson.getId());
 		assertEquals(validPerson.getId(), person.getId());
 		assertEquals(validPerson.getLogin().getId(), person.getLogin().getId());
 	}

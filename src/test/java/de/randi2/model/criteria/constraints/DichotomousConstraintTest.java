@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.unsorted.ContraintViolatedException;
@@ -24,10 +25,15 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 	
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(){
+		super.setUp();
 		elements = new ArrayList<String>();
 		elements.add("Value1");
-		constraint = new DichotomousConstraint(elements);
+		try {
+			constraint = new DichotomousConstraint(elements);
+		} catch (ContraintViolatedException e) {
+			fail(e.getMessage());
+		}
 	}
 	
 	@Test
@@ -81,11 +87,12 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 	}
 	
 	@Test
+	@Transactional
 	public void databaseIntegrationTest(){
-		hibernateTemplate.persist(constraint);
+		sessionFactory.getCurrentSession().persist(constraint);
 		assertTrue(constraint.getId()>0);
 		
-		DichotomousConstraint dbConstraint = (DichotomousConstraint) hibernateTemplate.get(DichotomousConstraint.class, constraint.getId());
+		DichotomousConstraint dbConstraint = (DichotomousConstraint) sessionFactory.getCurrentSession().get(DichotomousConstraint.class, constraint.getId());
 		assertEquals(constraint.getId(), dbConstraint.getId());
 		assertEquals(constraint.getExpectedValue(), dbConstraint.getExpectedValue());
 	}

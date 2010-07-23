@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <AbstractConstraint/>
+  <AbstractConstraint_expectedValues/>
+  <AccessControlEntryHibernate/>
+  <AclHibernate />
+  <Block />
+  <Block_Treatmentarm />
+  <Criterion />
+  <Criterion_AbstractConstraint />
+  <Criterion_elements/>
+  <LogEntry />
+  <Login/>
+  <Login_Role />
+  <MinimizationMapElementWrapper/>
+  <MinimizationMapElementWrapper_map/>
+  <MinimizationTempData_CountConstraints/>
+  <MinimizationTempData_Probabilities/>
+  <MinimizationTempData_countTrialSites/>
+  <ObjectIdentityHibernate />
+  <Person />
+  <RandomisationTempData />
+  <RandomisationTempData_Block/>
+  <RandomisationTempData_Urn/>
+  <RandomizationConfig />
+  <Role />
+  <Role_Role />
+  <SidHibernate/>
+  <SubjectProperty />
+  <TreatmentArm />
+  <Trial />
+  <TrialSite />
+  <TrialSubject />
+  <TrialSubject_SubjectProperty />
+  <Trial_Criterion/>
+  <Trial_TrialSite/> 
+  <Urn/>
+  <Urn_Treatmentarm/>
+</dataset>

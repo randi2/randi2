@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
@@ -26,7 +27,8 @@ import de.randi2.test.utility.TestStringUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/META-INF/spring-test.xml" })
-public class LoginDaoTest{
+@Transactional
+public class LoginDaoTest extends AbstractDaoTest{
 
 	@Autowired
 	private LoginDao loginDao;
@@ -52,34 +54,13 @@ public class LoginDaoTest{
 	@Test
 	public void getUsernameTest() {
 		Login l = factory.getLogin();
-		l.setUsername(testStringUtil.getWithLength(10) + "@xyz.com");
+		l.setUsername(testStringUtil.getWithLength(Login.MIN_USERNAME_LENGTH) + "@xyz.com");
 		loginDao.create(l);
 		Login l2 = loginDao.get(l.getUsername());
 		assertEquals(l.getId(), l2.getId());
 		assertEquals(l.getUsername(), l2.getUsername());
 	}
 
-	@Test
-	public void testSaveWithPerson() {
-		Person validPerson = factory.getPerson();
-
-		Login login = factory.getLogin();
-
-		login.setPerson(validPerson);
-		login.setUsername("");
-		try {
-			loginDao.create(login);
-			fail("should throw exception");
-		} catch (InvalidStateException e) {
-		}
-
-		login = factory.getLogin();
-		login.setUsername(testStringUtil.getWithLength(20)+ "@xyz.com");
-		loginDao.create(login);
-		assertFalse(login.getId() == AbstractDomainObject.NOT_YET_SAVED_ID);
-		Login l = loginDao.get(login.getId());
-		assertEquals(login.getId(), l.getId());
-	}
 
 //	@Test
 	@Ignore

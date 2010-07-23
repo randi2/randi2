@@ -147,6 +147,7 @@ public class TrialServiceImpl implements TrialService {
 
 
 	@Override
+	@Transactional(propagation = Propagation.SUPPORTS)
 	public List<TrialSubject> getSubjects(Trial trial,Login investigator) {
 		return trialDao.getSubjects(trial,investigator);
 	}

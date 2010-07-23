@@ -1,0 +1,757 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <changeSet author="dschrimpf" id="1" dbms="postgresql">
+        <createTable schemaName="public" tableName="abstractconstraint">
+            <column name="dtype" type="VARCHAR(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="abstractconstraint_pkey"/>
+            </column>
+            <column name="createdat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updatedat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="firstdate" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="seconddate" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="expectedvalue" type="VARCHAR(255)"/>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="abstractconstraint_expectedvalues">
+            <column name="abstractconstraint_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="element" type="VARCHAR(255)"/>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="accesscontrolentryhibernate">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="accesscontrolentryhibernate_pkey"/>
+            </column>
+            <column name="granting" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="code" type="char(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mask" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rolename" type="VARCHAR(255)"/>
+            <column name="acl_id" type="int8"/>
+            <column name="sid_id" type="int8"/>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="aclhibernate">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="aclhibernate_pkey"/>
+            </column>
+            <column name="entriesinheriting" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objectidentity_id" type="int8"/>
+            <column name="owner_id" type="int8"/>
+            <column name="parentacl_id" type="int8"/>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="block">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="block_pkey"/>
+            </column>
+            <column name="createdat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updatedat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="int4">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="block_treatmentarm">
+            <column name="block_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="treatmentarm_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="criterion">
+            <column name="dtype" type="VARCHAR(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="criterion_pkey"/>
+            </column>
+            <column name="createdat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updatedat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="option1" type="VARCHAR(255)"/>
+            <column name="option2" type="VARCHAR(255)"/>
+            <column name="inclusionconstraint_id" type="int8"/>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="criterion_abstractconstraint">
+            <column name="criterion_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strata_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="criterion_elements">
+            <column name="criterion_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="element" type="VARCHAR(255)"/>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="hibernate_sequences">
+            <column name="sequence_name" type="VARCHAR(255)"/>
+            <column name="sequence_next_hi_value" type="int4"/>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="logentry">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="logentry_pkey"/>
+            </column>
+            <column name="action" type="VARCHAR(255)"/>
+            <column name="clazz" type="VARCHAR(255)"/>
+            <column name="identifier" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="uiname" type="TEXT(2147483647)"/>
+            <column name="username" type="VARCHAR(255)"/>
+            <column name="value" type="TEXT(2147483647)"/>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="login">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="login_pkey"/>
+            </column>
+            <column name="createdat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updatedat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastloggedin" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="locktime" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="numberwronglogins" type="int2">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="preflocale" type="VARCHAR(255)"/>
+            <column name="username" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="person_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="login_role">
+            <column name="login_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="roles_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="minimizationmapelementwrapper">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="minimizationmapelementwrapper_pkey"/>
+            </column>
+            <column name="createdat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updatedat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="int4">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="minimizationmapelementwrapper_map">
+            <column name="minimizationmapelementwrapper_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="element" type="FLOAT8(17)"/>
+            <column name="mapkey_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="minimizationtempdata_countconstraints">
+            <column name="constraints_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="minimizationmapelementwrapper_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mapkey_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="minimizationtempdata_counttrialsites">
+            <column name="trialsite_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="minimizationmapelementwrapper_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mapkey_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="minimizationtempdata_probabilities">
+            <column name="treatmentarm_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="minimizationmapelementwrapper_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mapkey_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="objectidentityhibernate">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="objectidentityhibernate_pkey"/>
+            </column>
+            <column name="identifier" type="int8"/>
+            <column name="type" type="VARCHAR(255)"/>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="person">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="person_pkey"/>
+            </column>
+            <column name="createdat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updatedat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fax" type="VARCHAR(255)"/>
+            <column name="firstname" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mobile" type="VARCHAR(255)"/>
+            <column name="phone" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sex" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(20)"/>
+            <column name="assistant_id" type="int8"/>
+            <column name="trialsite_id" type="int8"/>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="randomisationtempdata">
+            <column name="dtype" type="VARCHAR(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="randomisationtempdata_pkey"/>
+            </column>
+            <column name="createdat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updatedat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="int4">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="randomisationtempdata_block">
+            <column name="randomisationtempdata_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="blocks_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mapkey" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="randomisationtempdata_urn">
+            <column name="randomisationtempdata_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="urns_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mapkey" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="randomizationconfig">
+            <column name="dtype" type="VARCHAR(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="randomizationconfig_pkey"/>
+            </column>
+            <column name="createdat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updatedat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="countreplacedballs" type="int4"/>
+            <column name="initializecountballs" type="int4"/>
+            <column name="biasedcoinminimization" type="bool"/>
+            <column name="p" type="FLOAT8(17)"/>
+            <column name="withrandomizedsubjects" type="bool"/>
+            <column name="maximum" type="int4"/>
+            <column name="minimum" type="int4"/>
+            <column name="type" type="VARCHAR(255)"/>
+            <column name="tempdata_id" type="int8"/>
+            <column name="trial_id" type="int8"/>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="role">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="role_pkey"/>
+            </column>
+            <column name="createdat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updatedat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="adminotheruser" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="adminownuser" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="admintrial" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="admintrialsite" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="admintrialsubject" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createrole" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createtrial" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createtrialsite" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createtrialsubject" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createuser" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="readotheruser" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="readownuser" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="readtrial" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="readtrialsite" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="readtrialsubject" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopetrialcreat" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopetrialread" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopetrialsiteview" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopetrialsitewrite" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopetrialwrite" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopeusercreate" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopeuserread" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scopeuserwrite" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="writeotheruser" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="writeownuser" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="writetrial" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="writetrialsite" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="writetrialsubject" type="bool">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="role_role">
+            <column name="role_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rolestoassign_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="sidhibernate">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="sidhibernate_pkey"/>
+            </column>
+            <column name="sidname" type="VARCHAR(255)"/>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="subjectproperty">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="subjectproperty_pkey"/>
+            </column>
+            <column name="createdat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updatedat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="oid"/>
+            <column name="criterion_id" type="int8"/>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="treatmentarm">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="treatmentarm_pkey"/>
+            </column>
+            <column name="createdat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updatedat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT(2147483647)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="plannedsubjects" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="trial_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="trial">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="trial_pkey"/>
+            </column>
+            <column name="createdat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updatedat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="abbreviation" type="VARCHAR(255)"/>
+            <column name="description" type="TEXT(2147483647)"/>
+            <column name="enddate" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="generateids" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="protocol" type="bytea"/>
+            <column name="startdate" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="stratifytrialsite" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="leadingsite_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="randomconf_id" type="int8"/>
+            <column name="sponsorinvestigator_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="trial_criterion">
+            <column name="trial_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subjectcriteria_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="trial_trialsite">
+            <column name="trials_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="participatingsites_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="trialsite">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="trialsite_pkey"/>
+            </column>
+            <column name="createdat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updatedat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="postcode" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="street" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contactperson_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="trialsubject">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="trialsubject_pkey"/>
+            </column>
+            <column name="createdat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updatedat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="counter" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="identification" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="randnumber" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="arm_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="investigator_id" type="int8"/>
+            <column name="trialsite_id" type="int8"/>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="trialsubject_subjectproperty">
+            <column name="trialsubject_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="properties_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="urn">
+            <column name="id" type="int8">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="urn_pkey"/>
+            </column>
+            <column name="createdat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updatedat" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="version" type="int4">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <createTable schemaName="public" tableName="urn_treatmentarm">
+            <column name="urn_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="treatmentarm_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    
+        <addPrimaryKey columnNames="login_id, roles_id" constraintName="login_role_pkey" schemaName="public" tableName="login_role"/>
+    
+        <addPrimaryKey columnNames="minimizationmapelementwrapper_id, mapkey_id" constraintName="minimizationmapelementwrapper_map_pkey" schemaName="public" tableName="minimizationmapelementwrapper_map"/>
+    
+        <addPrimaryKey columnNames="constraints_id, mapkey_id" constraintName="minimizationtempdata_countconstraints_pkey" schemaName="public" tableName="minimizationtempdata_countconstraints"/>
+    
+        <addPrimaryKey columnNames="trialsite_id, mapkey_id" constraintName="minimizationtempdata_counttrialsites_pkey" schemaName="public" tableName="minimizationtempdata_counttrialsites"/>
+    
+        <addPrimaryKey columnNames="treatmentarm_id, mapkey_id" constraintName="minimizationtempdata_probabilities_pkey" schemaName="public" tableName="minimizationtempdata_probabilities"/>
+    
+        <addPrimaryKey columnNames="randomisationtempdata_id, mapkey" constraintName="randomisationtempdata_block_pkey" schemaName="public" tableName="randomisationtempdata_block"/>
+    
+        <addPrimaryKey columnNames="randomisationtempdata_id, mapkey" constraintName="randomisationtempdata_urn_pkey" schemaName="public" tableName="randomisationtempdata_urn"/>
+    
+        <addPrimaryKey columnNames="trials_id, participatingsites_id" constraintName="trial_trialsite_pkey" schemaName="public" tableName="trial_trialsite"/>
+    
+        <addPrimaryKey columnNames="trialsubject_id, properties_id" constraintName="trialsubject_subjectproperty_pkey" schemaName="public" tableName="trialsubject_subjectproperty"/>
+    
+        <addUniqueConstraint columnNames="strata_id" constraintName="criterion_abstractconstraint_strata_id_key" schemaName="public" tableName="criterion_abstractconstraint"/>
+    
+        <addUniqueConstraint columnNames="username" constraintName="login_username_key" schemaName="public" tableName="login"/>
+    
+        <addUniqueConstraint columnNames="minimizationmapelementwrapper_id" constraintName="minimizationtempdata_countcon_minimizationmapelementwrapper_key" schemaName="public" tableName="minimizationtempdata_countconstraints"/>
+    
+        <addUniqueConstraint columnNames="minimizationmapelementwrapper_id" constraintName="minimizationtempdata_counttri_minimizationmapelementwrapper_key" schemaName="public" tableName="minimizationtempdata_counttrialsites"/>
+    
+        <addUniqueConstraint columnNames="minimizationmapelementwrapper_id" constraintName="minimizationtempdata_probabil_minimizationmapelementwrapper_key" schemaName="public" tableName="minimizationtempdata_probabilities"/>
+    
+        <addUniqueConstraint columnNames="blocks_id" constraintName="randomisationtempdata_block_blocks_id_key" schemaName="public" tableName="randomisationtempdata_block"/>
+    
+        <addUniqueConstraint columnNames="urns_id" constraintName="randomisationtempdata_urn_urns_id_key" schemaName="public" tableName="randomisationtempdata_urn"/>
+    
+        <addUniqueConstraint columnNames="name" constraintName="role_name_key" schemaName="public" tableName="role"/>
+    
+        <addUniqueConstraint columnNames="subjectcriteria_id" constraintName="trial_criterion_subjectcriteria_id_key" schemaName="public" tableName="trial_criterion"/>
+    
+        <addUniqueConstraint columnNames="name" constraintName="trialsite_name_key" schemaName="public" tableName="trialsite"/>
+    
+        <addUniqueConstraint columnNames="properties_id" constraintName="trialsubject_subjectproperty_properties_id_key" schemaName="public" tableName="trialsubject_subjectproperty"/>
+    
+    </changeSet>
+    <changeSet author="dschrimpf" id="init_ForeignKeyConstraint" dbms="postgresql">
+    
+        <addForeignKeyConstraint baseColumnNames="abstractconstraint_id" baseTableName="abstractconstraint_expectedvalues" baseTableSchemaName="public" constraintName="fk26fd227aaf0bd07a" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="abstractconstraint" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="acl_id" baseTableName="accesscontrolentryhibernate" baseTableSchemaName="public" constraintName="fk40f1a399abd3754e" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="aclhibernate" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="sid_id" baseTableName="accesscontrolentryhibernate" baseTableSchemaName="public" constraintName="fk40f1a3993069e2c6" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="sidhibernate" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="objectidentity_id" baseTableName="aclhibernate" baseTableSchemaName="public" constraintName="fkd9188f08c2dc041c" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="objectidentityhibernate" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="owner_id" baseTableName="aclhibernate" baseTableSchemaName="public" constraintName="fkd9188f08c957a6c1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="sidhibernate" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="parentacl_id" baseTableName="aclhibernate" baseTableSchemaName="public" constraintName="fkd9188f0856fbd678" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="aclhibernate" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="block_id" baseTableName="block_treatmentarm" baseTableSchemaName="public" constraintName="fkdb68d19611070ff5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="block" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="treatmentarm_id" baseTableName="block_treatmentarm" baseTableSchemaName="public" constraintName="fkdb68d196c89948d2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="treatmentarm" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="inclusionconstraint_id" baseTableName="criterion" baseTableSchemaName="public" constraintName="fk8e542e8112fa816f" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="abstractconstraint" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="criterion_id" baseTableName="criterion_abstractconstraint" baseTableSchemaName="public" constraintName="fkcfb2ba3d6daacac1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="criterion" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="strata_id" baseTableName="criterion_abstractconstraint" baseTableSchemaName="public" constraintName="fkcfb2ba3df129b42b" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="abstractconstraint" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="criterion_id" baseTableName="criterion_elements" baseTableSchemaName="public" constraintName="fka06784f56cd64ae0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="criterion" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="person_id" baseTableName="login" baseTableSchemaName="public" constraintName="fk462ff49a5a14952" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="person" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="login_id" baseTableName="login_role" baseTableSchemaName="public" constraintName="fke97d3cc52c66262" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="login" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="roles_id" baseTableName="login_role" baseTableSchemaName="public" constraintName="fke97d3ccace4300b" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="role" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="mapkey_id" baseTableName="minimizationmapelementwrapper_map" baseTableSchemaName="public" constraintName="fk5144196295fbf3d3" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="treatmentarm" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="minimizationmapelementwrapper_id" baseTableName="minimizationmapelementwrapper_map" baseTableSchemaName="public" constraintName="fk51441962c4b80fd5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="minimizationmapelementwrapper" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="constraints_id" baseTableName="minimizationtempdata_countconstraints" baseTableSchemaName="public" constraintName="fkd3b8791aae3e0175" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="randomisationtempdata" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="mapkey_id" baseTableName="minimizationtempdata_countconstraints" baseTableSchemaName="public" constraintName="fkd3b8791a68544da5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="abstractconstraint" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="minimizationmapelementwrapper_id" baseTableName="minimizationtempdata_countconstraints" baseTableSchemaName="public" constraintName="fkd3b8791ac4b80fd5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="minimizationmapelementwrapper" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="mapkey_id" baseTableName="minimizationtempdata_counttrialsites" baseTableSchemaName="public" constraintName="fk60bf91529a170c1c" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trialsite" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="minimizationmapelementwrapper_id" baseTableName="minimizationtempdata_counttrialsites" baseTableSchemaName="public" constraintName="fk60bf9152c4b80fd5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="minimizationmapelementwrapper" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trialsite_id" baseTableName="minimizationtempdata_counttrialsites" baseTableSchemaName="public" constraintName="fk60bf9152ab57ceee" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="randomisationtempdata" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="mapkey_id" baseTableName="minimizationtempdata_probabilities" baseTableSchemaName="public" constraintName="fka5b10095fbf3d3" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="treatmentarm" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="minimizationmapelementwrapper_id" baseTableName="minimizationtempdata_probabilities" baseTableSchemaName="public" constraintName="fka5b100c4b80fd5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="minimizationmapelementwrapper" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="treatmentarm_id" baseTableName="minimizationtempdata_probabilities" baseTableSchemaName="public" constraintName="fka5b100c1f43207" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="randomisationtempdata" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="assistant_id" baseTableName="person" baseTableSchemaName="public" constraintName="fk8e4887751b265929" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="person" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trialsite_id" baseTableName="person" baseTableSchemaName="public" constraintName="fk8e488775b617fe02" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trialsite" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="blocks_id" baseTableName="randomisationtempdata_block" baseTableSchemaName="public" constraintName="fked3a86746cb2385c" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="block" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="randomisationtempdata_id" baseTableName="randomisationtempdata_block" baseTableSchemaName="public" constraintName="fked3a86747bc3928b" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="randomisationtempdata" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="randomisationtempdata_id" baseTableName="randomisationtempdata_urn" baseTableSchemaName="public" constraintName="fka169d518d36f3ebc" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="randomisationtempdata" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="urns_id" baseTableName="randomisationtempdata_urn" baseTableSchemaName="public" constraintName="fka169d518b77ac2e4" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="urn" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="tempdata_id" baseTableName="randomizationconfig" baseTableSchemaName="public" constraintName="fkebff50c3aa393bd4" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="randomisationtempdata" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trial_id" baseTableName="randomizationconfig" baseTableSchemaName="public" constraintName="fkebff50c333eca742" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trial" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="role_role" baseTableSchemaName="public" constraintName="fk8b6a269fecbb7b2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="role" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="rolestoassign_id" baseTableName="role_role" baseTableSchemaName="public" constraintName="fk8b6a269fb5e88da1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="role" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="criterion_id" baseTableName="subjectproperty" baseTableSchemaName="public" constraintName="fk88363016daacac1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="criterion" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trial_id" baseTableName="treatmentarm" baseTableSchemaName="public" constraintName="fkadb66ae433eca742" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trial" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="leadingsite_id" baseTableName="trial" baseTableSchemaName="public" constraintName="fk4d51ef6e2bd5412" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trialsite" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="randomconf_id" baseTableName="trial" baseTableSchemaName="public" constraintName="fk4d51ef68114226f" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="randomizationconfig" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="sponsorinvestigator_id" baseTableName="trial" baseTableSchemaName="public" constraintName="fk4d51ef6d5402e24" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="person" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="subjectcriteria_id" baseTableName="trial_criterion" baseTableSchemaName="public" constraintName="fkd4e08c78f73e5097" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="criterion" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trial_id" baseTableName="trial_criterion" baseTableSchemaName="public" constraintName="fkd4e08c7833eca742" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trial" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="participatingsites_id" baseTableName="trial_trialsite" baseTableSchemaName="public" constraintName="fk8d546554dd32770e" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trialsite" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trials_id" baseTableName="trial_trialsite" baseTableSchemaName="public" constraintName="fk8d546554aa0bf0db" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trial" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="contactperson_id" baseTableName="trialsite" baseTableSchemaName="public" constraintName="fk46c8075d27e0c932" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="person" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="arm_id" baseTableName="trialsubject" baseTableSchemaName="public" constraintName="fkfb112d56e36e0a5a" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="treatmentarm" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="investigator_id" baseTableName="trialsubject" baseTableSchemaName="public" constraintName="fkfb112d56c32a2e22" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="login" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trialsite_id" baseTableName="trialsubject" baseTableSchemaName="public" constraintName="fkfb112d56b617fe02" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trialsite" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="properties_id" baseTableName="trialsubject_subjectproperty" baseTableSchemaName="public" constraintName="fk6bcc7a1835e03a10" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="subjectproperty" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="trialsubject_id" baseTableName="trialsubject_subjectproperty" baseTableSchemaName="public" constraintName="fk6bcc7a183d50eb92" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trialsubject" referencedTableSchemaName="public"/>
+    
+        <addForeignKeyConstraint baseColumnNames="treatmentarm_id" baseTableName="urn_treatmentarm" baseTableSchemaName="public" constraintName="fk26c6eb32c89948d2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="treatmentarm" referencedTableSchemaName="public"/>
+        
+        <addForeignKeyConstraint baseColumnNames="urn_id" baseTableName="urn_treatmentarm" baseTableSchemaName="public" constraintName="fk26c6eb328f965035" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="urn" referencedTableSchemaName="public"/>
+    </changeSet>
+</databaseChangeLog>

@@ -19,7 +19,8 @@ import de.randi2.test.utility.TestStringUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/META-INF/spring-test.xml" })
-public class UserDetailsServiceTest {
+@Transactional
+public class UserDetailsServiceTest extends AbstractDaoTest{
 
 	
 	@Autowired
@@ -34,13 +35,13 @@ public class UserDetailsServiceTest {
 	
 	@Before
 	public void setUp(){
+		super.setUp();
 		userDetailsServiceImpl = new  UserDetailsServiceImpl();
 		userDetailsServiceImpl.setSessionFactory(sessionFactory);
 		
 	}
 	
 	@Test
-	@Transactional
 	public void getUsernameTest() {
 		
 		Login l = factory.getLogin();

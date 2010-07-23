@@ -15,18 +15,22 @@ Spring XML-config file for normal context with dummy mail service
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"></property>
 		<property name="properties">
 			<props>
-				<prop key="db.driver">org.hsqldb.jdbcDriver</prop>
-				<prop key="db.bootstrap.url">jdbc:hsqldb:mem:randi2</prop>
-				<prop key="db.bootstrap.username">sa</prop>
-				<prop key="db.bootstrap.password"></prop>
+				<prop key="db.driver">com.mysql.jdbc.Driver</prop>
+				<prop key="db.bootstrap.url">jdbc:mysql://localhost:3306/randi2_development</prop>
+				<prop key="db.bootstrap.username">randi2</prop>
+				<prop key="db.bootstrap.password">randi2</prop>
 				<prop key="mail.from">nobody@example.com</prop>
 				<prop key="info.hoster">RANDI 2 example</prop>
 				<prop key="info.server">example.com</prop>
+				<prop key="test.hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
 			</props>
 		</property>
 	</bean>
 	
-
+	<bean id="liquibase" class="de.randi2.utility.logging.Randi2SpringLiquibase">
+		<property name="dataSource" ref="dataSource" />
+		<property name="changeLog" value="classpath:META-INF/database/database_changelog.xml" />
+	</bean>
 
 	<context:annotation-config />
 	<context:spring-configured></context:spring-configured>

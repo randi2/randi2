@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.test.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
@@ -24,10 +25,15 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 		}
 		
 		@Before
-		public void setUp() throws Exception {
+		public void setUp(){
+			super.setUp();
 			firstDate = new GregorianCalendar(2001,10,10);
 			secondDate =new GregorianCalendar(2002,10,22);
-			constraint = new DateConstraint(Arrays.asList(new GregorianCalendar[]{firstDate,secondDate}));
+			try {
+				constraint = new DateConstraint(Arrays.asList(new GregorianCalendar[]{firstDate,secondDate}));
+			} catch (ContraintViolatedException e) {
+				fail(e.getMessage());
+			}
 		}
 		
 		@Test
@@ -98,11 +104,12 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 		}
 		
 		@Test
+		@Transactional
 		public void databaseIntegrationTest(){
-			hibernateTemplate.persist(constraint);
+			sessionFactory.getCurrentSession().persist(constraint);
 			assertTrue(constraint.getId()>0);
 			
-			DateConstraint dbConstraint = (DateConstraint) hibernateTemplate.get(DateConstraint.class, constraint.getId());
+			DateConstraint dbConstraint = (DateConstraint) sessionFactory.getCurrentSession().get(DateConstraint.class, constraint.getId());
 			assertEquals(constraint.getId(), dbConstraint.getId());
 			assertEquals(constraint.getFirstDate(), dbConstraint.getFirstDate());
 		}

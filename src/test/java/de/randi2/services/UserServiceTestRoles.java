@@ -30,6 +30,7 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	@Override
 	public void setUp() {
 		super.setUp();
+		authenticatAsAdmin();
 		for (int i = 0; i < 10; i++) {
 			Login login = factory.getLogin();
 			login.getPerson().setTrialSite(null);
@@ -40,7 +41,7 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetAllAdmin() {
-
+		authenticatAsAdmin();
 		List<Login> loginsTemp = sessionFactory.getCurrentSession()
 				.createQuery("from Login").list();
 		List<Login> logins = userService.getAll();
@@ -53,12 +54,12 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetAllInvestigator() {
+		authenticatAsAdmin();
 		List<Login> loginsTemp = sessionFactory.getCurrentSession()
 		.createQuery("from Login").list();
 		authenticatAsInvestigator();
 		List<Login> logins = userService.getAll();
-		assertEquals(2, logins.size());
-		Login user = findLogin("investigator@test.de");
+		assertEquals(loginsTemp.size(), logins.size());
 		authenticatAsAdmin();
 		for(int i = 0 ; i< 10 ;i++ ){
 			Login l = factory.getLogin();
@@ -67,34 +68,12 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 		}
 		authenticatAsInvestigator();
 		logins = userService.getAll();
-		assertEquals(12,logins.size());
+		assertEquals(10+loginsTemp.size(),logins.size());
 		authenticatAsAdmin();
 		logins = userService.getAll();
-		//-1 admin is in both results
-		assertEquals(12+loginsTemp.size()-1,logins.size());
+		assertEquals(10+loginsTemp.size(),logins.size());
 	}
 	
-	
-	private void authenticatAsInvestigator() {
-	
-		Login user = findLogin("investigator@test.de");
-		if(user  == null){
-			authenticatAsAdmin();
-		Login newUser = factory.getLogin();
-		newUser.setUsername("investigator@test.de");
-		newUser.setPerson(factory.getPerson());
-		newUser.getPerson().setTrialSite(findLogin("admin@test.de").getPerson().getTrialSite());
-		newUser.addRole(Role.ROLE_INVESTIGATOR);
-		userService.create(newUser);
-		user = newUser;
-		}
-		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"investigatorUser", user, new ArrayList<GrantedAuthority>(user.getAuthorities()));
-		// Perform authentication
-		SecurityContextHolder.getContext().setAuthentication(authToken);
-		SecurityContextHolder.getContext().getAuthentication()
-				.setAuthenticated(true);
-	}
 
 //	private void authenticatAsAnonymous() {
 //		Login newUser = new Login();

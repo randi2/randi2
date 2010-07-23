@@ -1,0 +1,329 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <AbstractConstraint/>
+  <AbstractConstraint_expectedValues/>
+  <AccessControlEntryHibernate id="1" granting="true" code="C" mask="4" roleName="ROLE_ADMIN" acl_id="1" sid_id="1"/>
+  <AccessControlEntryHibernate id="2" granting="true" code="C" mask="4" roleName="ROLE_ADMIN" acl_id="2" sid_id="1"/>
+  <AccessControlEntryHibernate id="3" granting="true" code="C" mask="4" roleName="ROLE_ADMIN" acl_id="3" sid_id="1"/>
+  <AccessControlEntryHibernate id="4" granting="true" code="R" mask="1" roleName="ROLE_USER" acl_id="4" sid_id="1"/>
+  <AccessControlEntryHibernate id="5" granting="true" code="W" mask="2" roleName="ROLE_USER" acl_id="4" sid_id="1"/>
+  <AccessControlEntryHibernate id="6" granting="true" code="R" mask="1" roleName="ROLE_USER" acl_id="5" sid_id="1"/>
+  <AccessControlEntryHibernate id="7" granting="true" code="W" mask="2" roleName="ROLE_USER" acl_id="5" sid_id="1"/>
+  <AccessControlEntryHibernate id="8" granting="true" code="R" mask="1" roleName="ROLE_ANONYMOUS" acl_id="6" sid_id="2"/>
+  <AccessControlEntryHibernate id="9" granting="true" code="R" mask="1" roleName="ROLE_ANONYMOUS" acl_id="7" sid_id="2"/>
+  <AccessControlEntryHibernate id="10" granting="true" code="W" mask="2" roleName="ROLE_ADMIN" acl_id="4" sid_id="1"/>
+  <AccessControlEntryHibernate id="11" granting="true" code="W" mask="2" roleName="ROLE_ADMIN" acl_id="5" sid_id="1"/>
+  <AccessControlEntryHibernate id="12" granting="true" code="R" mask="1" roleName="ROLE_ADMIN" acl_id="4" sid_id="1"/>
+  <AccessControlEntryHibernate id="13" granting="true" code="R" mask="1" roleName="ROLE_ADMIN" acl_id="5" sid_id="1"/>
+  <AccessControlEntryHibernate id="14" granting="true" code="A" mask="16" roleName="ROLE_ADMIN" acl_id="4" sid_id="1"/>
+  <AccessControlEntryHibernate id="15" granting="true" code="A" mask="16" roleName="ROLE_ADMIN" acl_id="5" sid_id="1"/>
+  <AccessControlEntryHibernate id="16" granting="true" code="R" mask="1" roleName="ROLE_ANONYMOUS" acl_id="8" sid_id="2"/>
+  <AccessControlEntryHibernate id="17" granting="true" code="R" mask="1" roleName="ROLE_ADMIN" acl_id="9" sid_id="1"/>
+  <AccessControlEntryHibernate id="18" granting="true" code="W" mask="2" roleName="ROLE_ADMIN" acl_id="9" sid_id="1"/>
+  <AccessControlEntryHibernate id="19" granting="true" code="A" mask="16" roleName="ROLE_ADMIN" acl_id="9" sid_id="1"/>
+  <AccessControlEntryHibernate id="20" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="10" sid_id="3"/>
+  <AccessControlEntryHibernate id="21" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="11" sid_id="3"/>
+  <AccessControlEntryHibernate id="22" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="12" sid_id="3"/>
+  <AccessControlEntryHibernate id="23" granting="true" code="C" mask="4" roleName="ROLE_INVESTIGATOR" acl_id="13" sid_id="3"/>
+  <AccessControlEntryHibernate id="24" granting="true" code="R" mask="1" roleName="ROLE_USER" acl_id="14" sid_id="3"/>
+  <AccessControlEntryHibernate id="25" granting="true" code="W" mask="2" roleName="ROLE_USER" acl_id="14" sid_id="3"/>
+  <AccessControlEntryHibernate id="26" granting="true" code="R" mask="1" roleName="ROLE_USER" acl_id="15" sid_id="3"/>
+  <AccessControlEntryHibernate id="27" granting="true" code="W" mask="2" roleName="ROLE_USER" acl_id="15" sid_id="3"/>
+  <AccessControlEntryHibernate id="28" granting="true" code="R" mask="1" roleName="ROLE_ANONYMOUS" acl_id="16" sid_id="2"/>
+  <AccessControlEntryHibernate id="29" granting="true" code="R" mask="1" roleName="ROLE_ANONYMOUS" acl_id="17" sid_id="2"/>
+  <AccessControlEntryHibernate id="30" granting="true" code="W" mask="2" roleName="ROLE_ADMIN" acl_id="18" sid_id="1"/>
+  <AccessControlEntryHibernate id="31" granting="true" code="W" mask="2" roleName="ROLE_ADMIN" acl_id="19" sid_id="1"/>
+  <AccessControlEntryHibernate id="32" granting="true" code="R" mask="1" roleName="ROLE_ADMIN" acl_id="18" sid_id="1"/>
+  <AccessControlEntryHibernate id="33" granting="true" code="R" mask="1" roleName="ROLE_ADMIN" acl_id="19" sid_id="1"/>
+  <AccessControlEntryHibernate id="34" granting="true" code="A" mask="16" roleName="ROLE_ADMIN" acl_id="18" sid_id="1"/>
+  <AccessControlEntryHibernate id="35" granting="true" code="A" mask="16" roleName="ROLE_ADMIN" acl_id="19" sid_id="1"/>
+  <AccessControlEntryHibernate id="36" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="14" sid_id="3"/>
+  <AccessControlEntryHibernate id="37" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="15" sid_id="3"/>
+  <AccessControlEntryHibernate id="38" granting="true" code="R" mask="1" roleName="ROLE_P_INVESTIGATOR" acl_id="20" sid_id="4"/>
+  <AccessControlEntryHibernate id="39" granting="true" code="R" mask="1" roleName="ROLE_P_INVESTIGATOR" acl_id="21" sid_id="4"/>
+  <AccessControlEntryHibernate id="40" granting="true" code="W" mask="2" roleName="ROLE_P_INVESTIGATOR" acl_id="20" sid_id="4"/>
+  <AccessControlEntryHibernate id="41" granting="true" code="W" mask="2" roleName="ROLE_P_INVESTIGATOR" acl_id="21" sid_id="4"/>
+  <AccessControlEntryHibernate id="42" granting="true" code="R" mask="1" roleName="ROLE_P_INVESTIGATOR" acl_id="22" sid_id="4"/>
+  <AccessControlEntryHibernate id="43" granting="true" code="C" mask="4" roleName="ROLE_P_INVESTIGATOR" acl_id="23" sid_id="4"/>
+  <AccessControlEntryHibernate id="44" granting="true" code="C" mask="4" roleName="ROLE_P_INVESTIGATOR" acl_id="24" sid_id="4"/>
+  <AccessControlEntryHibernate id="45" granting="true" code="C" mask="4" roleName="ROLE_P_INVESTIGATOR" acl_id="25" sid_id="4"/>
+  <AccessControlEntryHibernate id="46" granting="true" code="R" mask="1" roleName="ROLE_USER" acl_id="26" sid_id="4"/>
+  <AccessControlEntryHibernate id="47" granting="true" code="W" mask="2" roleName="ROLE_USER" acl_id="26" sid_id="4"/>
+  <AccessControlEntryHibernate id="48" granting="true" code="R" mask="1" roleName="ROLE_USER" acl_id="27" sid_id="4"/>
+  <AccessControlEntryHibernate id="49" granting="true" code="W" mask="2" roleName="ROLE_USER" acl_id="27" sid_id="4"/>
+  <AccessControlEntryHibernate id="50" granting="true" code="R" mask="1" roleName="ROLE_ANONYMOUS" acl_id="28" sid_id="2"/>
+  <AccessControlEntryHibernate id="51" granting="true" code="R" mask="1" roleName="ROLE_ANONYMOUS" acl_id="29" sid_id="2"/>
+  <AccessControlEntryHibernate id="52" granting="true" code="W" mask="2" roleName="ROLE_ADMIN" acl_id="30" sid_id="1"/>
+  <AccessControlEntryHibernate id="53" granting="true" code="W" mask="2" roleName="ROLE_ADMIN" acl_id="31" sid_id="1"/>
+  <AccessControlEntryHibernate id="54" granting="true" code="R" mask="1" roleName="ROLE_ADMIN" acl_id="30" sid_id="1"/>
+  <AccessControlEntryHibernate id="55" granting="true" code="R" mask="1" roleName="ROLE_ADMIN" acl_id="31" sid_id="1"/>
+  <AccessControlEntryHibernate id="56" granting="true" code="A" mask="16" roleName="ROLE_ADMIN" acl_id="30" sid_id="1"/>
+  <AccessControlEntryHibernate id="57" granting="true" code="A" mask="16" roleName="ROLE_ADMIN" acl_id="31" sid_id="1"/>
+  <AccessControlEntryHibernate id="58" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="32" sid_id="3"/>
+  <AccessControlEntryHibernate id="59" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="33" sid_id="3"/>
+  <AccessControlEntryHibernate id="60" granting="true" code="W" mask="2" roleName="ROLE_P_INVESTIGATOR" acl_id="26" sid_id="4"/>
+  <AccessControlEntryHibernate id="61" granting="true" code="W" mask="2" roleName="ROLE_P_INVESTIGATOR" acl_id="27" sid_id="4"/>
+  <AccessControlEntryHibernate id="62" granting="true" code="R" mask="1" roleName="ROLE_P_INVESTIGATOR" acl_id="26" sid_id="4"/>
+  <AccessControlEntryHibernate id="63" granting="true" code="R" mask="1" roleName="ROLE_P_INVESTIGATOR" acl_id="27" sid_id="4"/>
+  <AccessControlEntryHibernate id="64" granting="true" code="R" mask="1" roleName="ROLE_MONITOR" acl_id="34" sid_id="5"/>
+  <AccessControlEntryHibernate id="65" granting="true" code="R" mask="1" roleName="ROLE_MONITOR" acl_id="35" sid_id="5"/>
+  <AccessControlEntryHibernate id="66" granting="true" code="R" mask="1" roleName="ROLE_MONITOR" acl_id="36" sid_id="5"/>
+  <AccessControlEntryHibernate id="67" granting="true" code="R" mask="1" roleName="ROLE_USER" acl_id="37" sid_id="5"/>
+  <AccessControlEntryHibernate id="68" granting="true" code="W" mask="2" roleName="ROLE_USER" acl_id="37" sid_id="5"/>
+  <AccessControlEntryHibernate id="69" granting="true" code="R" mask="1" roleName="ROLE_USER" acl_id="38" sid_id="5"/>
+  <AccessControlEntryHibernate id="70" granting="true" code="W" mask="2" roleName="ROLE_USER" acl_id="38" sid_id="5"/>
+  <AccessControlEntryHibernate id="71" granting="true" code="R" mask="1" roleName="ROLE_ANONYMOUS" acl_id="39" sid_id="2"/>
+  <AccessControlEntryHibernate id="72" granting="true" code="R" mask="1" roleName="ROLE_ANONYMOUS" acl_id="40" sid_id="2"/>
+  <AccessControlEntryHibernate id="73" granting="true" code="W" mask="2" roleName="ROLE_ADMIN" acl_id="41" sid_id="1"/>
+  <AccessControlEntryHibernate id="74" granting="true" code="W" mask="2" roleName="ROLE_ADMIN" acl_id="42" sid_id="1"/>
+  <AccessControlEntryHibernate id="75" granting="true" code="R" mask="1" roleName="ROLE_ADMIN" acl_id="41" sid_id="1"/>
+  <AccessControlEntryHibernate id="76" granting="true" code="R" mask="1" roleName="ROLE_ADMIN" acl_id="42" sid_id="1"/>
+  <AccessControlEntryHibernate id="77" granting="true" code="A" mask="16" roleName="ROLE_ADMIN" acl_id="41" sid_id="1"/>
+  <AccessControlEntryHibernate id="78" granting="true" code="A" mask="16" roleName="ROLE_ADMIN" acl_id="42" sid_id="1"/>
+  <AccessControlEntryHibernate id="79" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="43" sid_id="3"/>
+  <AccessControlEntryHibernate id="80" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="44" sid_id="3"/>
+  <AccessControlEntryHibernate id="81" granting="true" code="W" mask="2" roleName="ROLE_P_INVESTIGATOR" acl_id="45" sid_id="4"/>
+  <AccessControlEntryHibernate id="82" granting="true" code="W" mask="2" roleName="ROLE_P_INVESTIGATOR" acl_id="46" sid_id="4"/>
+  <AccessControlEntryHibernate id="83" granting="true" code="R" mask="1" roleName="ROLE_P_INVESTIGATOR" acl_id="45" sid_id="4"/>
+  <AccessControlEntryHibernate id="84" granting="true" code="R" mask="1" roleName="ROLE_P_INVESTIGATOR" acl_id="46" sid_id="4"/>
+  <AccessControlEntryHibernate id="85" granting="true" code="R" mask="1" roleName="ROLE_MONITOR" acl_id="37" sid_id="5"/>
+  <AccessControlEntryHibernate id="86" granting="true" code="R" mask="1" roleName="ROLE_MONITOR" acl_id="38" sid_id="5"/>
+  <AccessControlEntryHibernate id="87" granting="true" code="R" mask="1" roleName="ROLE_USER" acl_id="47" sid_id="6"/>
+  <AccessControlEntryHibernate id="88" granting="true" code="W" mask="2" roleName="ROLE_USER" acl_id="47" sid_id="6"/>
+  <AccessControlEntryHibernate id="89" granting="true" code="R" mask="1" roleName="ROLE_USER" acl_id="48" sid_id="6"/>
+  <AccessControlEntryHibernate id="90" granting="true" code="W" mask="2" roleName="ROLE_USER" acl_id="48" sid_id="6"/>
+  <AccessControlEntryHibernate id="91" granting="true" code="R" mask="1" roleName="ROLE_STATISTICAN" acl_id="49" sid_id="6"/>
+  <AccessControlEntryHibernate id="92" granting="true" code="R" mask="1" roleName="ROLE_STATISTICAN" acl_id="50" sid_id="6"/>
+  <AccessControlEntryHibernate id="93" granting="true" code="R" mask="1" roleName="ROLE_STATISTICAN" acl_id="51" sid_id="6"/>
+  <AccessControlEntryHibernate id="94" granting="true" code="R" mask="1" roleName="ROLE_ANONYMOUS" acl_id="52" sid_id="2"/>
+  <AccessControlEntryHibernate id="95" granting="true" code="R" mask="1" roleName="ROLE_ANONYMOUS" acl_id="53" sid_id="2"/>
+  <AccessControlEntryHibernate id="96" granting="true" code="W" mask="2" roleName="ROLE_ADMIN" acl_id="54" sid_id="1"/>
+  <AccessControlEntryHibernate id="97" granting="true" code="W" mask="2" roleName="ROLE_ADMIN" acl_id="55" sid_id="1"/>
+  <AccessControlEntryHibernate id="98" granting="true" code="R" mask="1" roleName="ROLE_ADMIN" acl_id="54" sid_id="1"/>
+  <AccessControlEntryHibernate id="99" granting="true" code="R" mask="1" roleName="ROLE_ADMIN" acl_id="55" sid_id="1"/>
+  <AccessControlEntryHibernate id="100" granting="true" code="A" mask="16" roleName="ROLE_ADMIN" acl_id="54" sid_id="1"/>
+  <AccessControlEntryHibernate id="101" granting="true" code="A" mask="16" roleName="ROLE_ADMIN" acl_id="55" sid_id="1"/>
+  <AccessControlEntryHibernate id="102" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="56" sid_id="3"/>
+  <AccessControlEntryHibernate id="103" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="57" sid_id="3"/>
+  <AccessControlEntryHibernate id="104" granting="true" code="W" mask="2" roleName="ROLE_P_INVESTIGATOR" acl_id="58" sid_id="4"/>
+  <AccessControlEntryHibernate id="105" granting="true" code="W" mask="2" roleName="ROLE_P_INVESTIGATOR" acl_id="59" sid_id="4"/>
+  <AccessControlEntryHibernate id="106" granting="true" code="R" mask="1" roleName="ROLE_P_INVESTIGATOR" acl_id="58" sid_id="4"/>
+  <AccessControlEntryHibernate id="107" granting="true" code="R" mask="1" roleName="ROLE_P_INVESTIGATOR" acl_id="59" sid_id="4"/>
+  <AccessControlEntryHibernate id="108" granting="true" code="R" mask="1" roleName="ROLE_MONITOR" acl_id="60" sid_id="5"/>
+  <AccessControlEntryHibernate id="109" granting="true" code="R" mask="1" roleName="ROLE_MONITOR" acl_id="61" sid_id="5"/>
+  <AccessControlEntryHibernate id="110" granting="true" code="R" mask="1" roleName="ROLE_STATISTICAN" acl_id="47" sid_id="6"/>
+  <AccessControlEntryHibernate id="111" granting="true" code="R" mask="1" roleName="ROLE_STATISTICAN" acl_id="48" sid_id="6"/>
+  <AccessControlEntryHibernate id="112" granting="true" code="R" mask="1" roleName="ROLE_ANONYMOUS" acl_id="62" sid_id="2"/>
+  <AccessControlEntryHibernate id="113" granting="true" code="R" mask="1" roleName="ROLE_ADMIN" acl_id="63" sid_id="1"/>
+  <AccessControlEntryHibernate id="114" granting="true" code="A" mask="16" roleName="ROLE_ADMIN" acl_id="63" sid_id="1"/>
+  <AccessControlEntryHibernate id="115" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="64" sid_id="3"/>
+  <AccessControlEntryHibernate id="116" granting="true" code="R" mask="1" roleName="ROLE_P_INVESTIGATOR" acl_id="65" sid_id="4"/>
+  <AccessControlEntryHibernate id="117" granting="true" code="R" mask="1" roleName="ROLE_MONITOR" acl_id="66" sid_id="5"/>
+  <AccessControlEntryHibernate id="118" granting="true" code="R" mask="1" roleName="ROLE_STATISTICAN" acl_id="67" sid_id="6"/>
+  <AccessControlEntryHibernate id="119" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="68" sid_id="7"/>
+  <AccessControlEntryHibernate id="120" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="69" sid_id="7"/>
+  <AccessControlEntryHibernate id="121" granting="true" code="C" mask="4" roleName="ROLE_INVESTIGATOR" acl_id="70" sid_id="7"/>
+  <AccessControlEntryHibernate id="122" granting="true" code="R" mask="1" roleName="ROLE_USER" acl_id="71" sid_id="7"/>
+  <AccessControlEntryHibernate id="123" granting="true" code="W" mask="2" roleName="ROLE_USER" acl_id="71" sid_id="7"/>
+  <AccessControlEntryHibernate id="124" granting="true" code="R" mask="1" roleName="ROLE_USER" acl_id="72" sid_id="7"/>
+  <AccessControlEntryHibernate id="125" granting="true" code="W" mask="2" roleName="ROLE_USER" acl_id="72" sid_id="7"/>
+  <AccessControlEntryHibernate id="126" granting="true" code="R" mask="1" roleName="ROLE_ANONYMOUS" acl_id="73" sid_id="2"/>
+  <AccessControlEntryHibernate id="127" granting="true" code="R" mask="1" roleName="ROLE_ANONYMOUS" acl_id="74" sid_id="2"/>
+  <AccessControlEntryHibernate id="128" granting="true" code="W" mask="2" roleName="ROLE_ADMIN" acl_id="75" sid_id="1"/>
+  <AccessControlEntryHibernate id="129" granting="true" code="W" mask="2" roleName="ROLE_ADMIN" acl_id="76" sid_id="1"/>
+  <AccessControlEntryHibernate id="130" granting="true" code="R" mask="1" roleName="ROLE_ADMIN" acl_id="75" sid_id="1"/>
+  <AccessControlEntryHibernate id="131" granting="true" code="R" mask="1" roleName="ROLE_ADMIN" acl_id="76" sid_id="1"/>
+  <AccessControlEntryHibernate id="132" granting="true" code="A" mask="16" roleName="ROLE_ADMIN" acl_id="75" sid_id="1"/>
+  <AccessControlEntryHibernate id="133" granting="true" code="A" mask="16" roleName="ROLE_ADMIN" acl_id="76" sid_id="1"/>
+  <AccessControlEntryHibernate id="134" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="77" sid_id="3"/>
+  <AccessControlEntryHibernate id="135" granting="true" code="R" mask="1" roleName="ROLE_INVESTIGATOR" acl_id="78" sid_id="3"/>
+  <AccessControlEntryHibernate id="136" granting="true" code="W" mask="2" roleName="ROLE_P_INVESTIGATOR" acl_id="79" sid_id="4"/>
+  <AccessControlEntryHibernate id="137" granting="true" code="W" mask="2" roleName="ROLE_P_INVESTIGATOR" acl_id="80" sid_id="4"/>
+  <AccessControlEntryHibernate id="138" granting="true" code="R" mask="1" roleName="ROLE_P_INVESTIGATOR" acl_id="79" sid_id="4"/>
+  <AccessControlEntryHibernate id="139" granting="true" code="R" mask="1" roleName="ROLE_P_INVESTIGATOR" acl_id="80" sid_id="4"/>
+  <AccessControlEntryHibernate id="140" granting="true" code="R" mask="1" roleName="ROLE_MONITOR" acl_id="81" sid_id="5"/>
+  <AccessControlEntryHibernate id="141" granting="true" code="R" mask="1" roleName="ROLE_MONITOR" acl_id="82" sid_id="5"/>
+  <AccessControlEntryHibernate id="142" granting="true" code="R" mask="1" roleName="ROLE_STATISTICAN" acl_id="83" sid_id="6"/>
+  <AccessControlEntryHibernate id="143" granting="true" code="R" mask="1" roleName="ROLE_STATISTICAN" acl_id="84" sid_id="6"/>
+  <AclHibernate id="1" entriesInheriting="true" objectIdentity_id="1" owner_id="1"/>
+  <AclHibernate id="2" entriesInheriting="true" objectIdentity_id="2" owner_id="1"/>
+  <AclHibernate id="3" entriesInheriting="true" objectIdentity_id="3" owner_id="1"/>
+  <AclHibernate id="4" entriesInheriting="true" objectIdentity_id="4" owner_id="1"/>
+  <AclHibernate id="5" entriesInheriting="true" objectIdentity_id="5" owner_id="1"/>
+  <AclHibernate id="6" entriesInheriting="true" objectIdentity_id="4" owner_id="2"/>
+  <AclHibernate id="7" entriesInheriting="true" objectIdentity_id="5" owner_id="2"/>
+  <AclHibernate id="8" entriesInheriting="true" objectIdentity_id="6" owner_id="2"/>
+  <AclHibernate id="9" entriesInheriting="true" objectIdentity_id="6" owner_id="1"/>
+  <AclHibernate id="10" entriesInheriting="true" objectIdentity_id="4" owner_id="3"/>
+  <AclHibernate id="11" entriesInheriting="true" objectIdentity_id="5" owner_id="3"/>
+  <AclHibernate id="12" entriesInheriting="true" objectIdentity_id="6" owner_id="3"/>
+  <AclHibernate id="13" entriesInheriting="true" objectIdentity_id="7" owner_id="3"/>
+  <AclHibernate id="14" entriesInheriting="true" objectIdentity_id="8" owner_id="3"/>
+  <AclHibernate id="15" entriesInheriting="true" objectIdentity_id="9" owner_id="3"/>
+  <AclHibernate id="16" entriesInheriting="true" objectIdentity_id="8" owner_id="2"/>
+  <AclHibernate id="17" entriesInheriting="true" objectIdentity_id="9" owner_id="2"/>
+  <AclHibernate id="18" entriesInheriting="true" objectIdentity_id="8" owner_id="1"/>
+  <AclHibernate id="19" entriesInheriting="true" objectIdentity_id="9" owner_id="1"/>
+  <AclHibernate id="20" entriesInheriting="true" objectIdentity_id="4" owner_id="4"/>
+  <AclHibernate id="21" entriesInheriting="true" objectIdentity_id="5" owner_id="4"/>
+  <AclHibernate id="22" entriesInheriting="true" objectIdentity_id="6" owner_id="4"/>
+  <AclHibernate id="23" entriesInheriting="true" objectIdentity_id="1" owner_id="4"/>
+  <AclHibernate id="24" entriesInheriting="true" objectIdentity_id="2" owner_id="4"/>
+  <AclHibernate id="25" entriesInheriting="true" objectIdentity_id="10" owner_id="4"/>
+  <AclHibernate id="26" entriesInheriting="true" objectIdentity_id="11" owner_id="4"/>
+  <AclHibernate id="27" entriesInheriting="true" objectIdentity_id="12" owner_id="4"/>
+  <AclHibernate id="28" entriesInheriting="true" objectIdentity_id="11" owner_id="2"/>
+  <AclHibernate id="29" entriesInheriting="true" objectIdentity_id="12" owner_id="2"/>
+  <AclHibernate id="30" entriesInheriting="true" objectIdentity_id="11" owner_id="1"/>
+  <AclHibernate id="31" entriesInheriting="true" objectIdentity_id="12" owner_id="1"/>
+  <AclHibernate id="32" entriesInheriting="true" objectIdentity_id="11" owner_id="3"/>
+  <AclHibernate id="33" entriesInheriting="true" objectIdentity_id="12" owner_id="3"/>
+  <AclHibernate id="34" entriesInheriting="true" objectIdentity_id="4" owner_id="5"/>
+  <AclHibernate id="35" entriesInheriting="true" objectIdentity_id="5" owner_id="5"/>
+  <AclHibernate id="36" entriesInheriting="true" objectIdentity_id="6" owner_id="5"/>
+  <AclHibernate id="37" entriesInheriting="true" objectIdentity_id="13" owner_id="5"/>
+  <AclHibernate id="38" entriesInheriting="true" objectIdentity_id="14" owner_id="5"/>
+  <AclHibernate id="39" entriesInheriting="true" objectIdentity_id="13" owner_id="2"/>
+  <AclHibernate id="40" entriesInheriting="true" objectIdentity_id="14" owner_id="2"/>
+  <AclHibernate id="41" entriesInheriting="true" objectIdentity_id="13" owner_id="1"/>
+  <AclHibernate id="42" entriesInheriting="true" objectIdentity_id="14" owner_id="1"/>
+  <AclHibernate id="43" entriesInheriting="true" objectIdentity_id="13" owner_id="3"/>
+  <AclHibernate id="44" entriesInheriting="true" objectIdentity_id="14" owner_id="3"/>
+  <AclHibernate id="45" entriesInheriting="true" objectIdentity_id="13" owner_id="4"/>
+  <AclHibernate id="46" entriesInheriting="true" objectIdentity_id="14" owner_id="4"/>
+  <AclHibernate id="47" entriesInheriting="true" objectIdentity_id="15" owner_id="6"/>
+  <AclHibernate id="48" entriesInheriting="true" objectIdentity_id="16" owner_id="6"/>
+  <AclHibernate id="49" entriesInheriting="true" objectIdentity_id="4" owner_id="6"/>
+  <AclHibernate id="50" entriesInheriting="true" objectIdentity_id="5" owner_id="6"/>
+  <AclHibernate id="51" entriesInheriting="true" objectIdentity_id="6" owner_id="6"/>
+  <AclHibernate id="52" entriesInheriting="true" objectIdentity_id="15" owner_id="2"/>
+  <AclHibernate id="53" entriesInheriting="true" objectIdentity_id="16" owner_id="2"/>
+  <AclHibernate id="54" entriesInheriting="true" objectIdentity_id="15" owner_id="1"/>
+  <AclHibernate id="55" entriesInheriting="true" objectIdentity_id="16" owner_id="1"/>
+  <AclHibernate id="56" entriesInheriting="true" objectIdentity_id="15" owner_id="3"/>
+  <AclHibernate id="57" entriesInheriting="true" objectIdentity_id="16" owner_id="3"/>
+  <AclHibernate id="58" entriesInheriting="true" objectIdentity_id="15" owner_id="4"/>
+  <AclHibernate id="59" entriesInheriting="true" objectIdentity_id="16" owner_id="4"/>
+  <AclHibernate id="60" entriesInheriting="true" objectIdentity_id="15" owner_id="5"/>
+  <AclHibernate id="61" entriesInheriting="true" objectIdentity_id="16" owner_id="5"/>
+  <AclHibernate id="62" entriesInheriting="true" objectIdentity_id="17" owner_id="2"/>
+  <AclHibernate id="63" entriesInheriting="true" objectIdentity_id="17" owner_id="1"/>
+  <AclHibernate id="64" entriesInheriting="true" objectIdentity_id="17" owner_id="3"/>
+  <AclHibernate id="65" entriesInheriting="true" objectIdentity_id="17" owner_id="4"/>
+  <AclHibernate id="66" entriesInheriting="true" objectIdentity_id="17" owner_id="5"/>
+  <AclHibernate id="67" entriesInheriting="true" objectIdentity_id="17" owner_id="6"/>
+  <AclHibernate id="68" entriesInheriting="true" objectIdentity_id="6" owner_id="7"/>
+  <AclHibernate id="69" entriesInheriting="true" objectIdentity_id="17" owner_id="7"/>
+  <AclHibernate id="70" entriesInheriting="true" objectIdentity_id="7" owner_id="7"/>
+  <AclHibernate id="71" entriesInheriting="true" objectIdentity_id="18" owner_id="7"/>
+  <AclHibernate id="72" entriesInheriting="true" objectIdentity_id="19" owner_id="7"/>
+  <AclHibernate id="73" entriesInheriting="true" objectIdentity_id="18" owner_id="2"/>
+  <AclHibernate id="74" entriesInheriting="true" objectIdentity_id="19" owner_id="2"/>
+  <AclHibernate id="75" entriesInheriting="true" objectIdentity_id="18" owner_id="1"/>
+  <AclHibernate id="76" entriesInheriting="true" objectIdentity_id="19" owner_id="1"/>
+  <AclHibernate id="77" entriesInheriting="true" objectIdentity_id="18" owner_id="3"/>
+  <AclHibernate id="78" entriesInheriting="true" objectIdentity_id="19" owner_id="3"/>
+  <AclHibernate id="79" entriesInheriting="true" objectIdentity_id="18" owner_id="4"/>
+  <AclHibernate id="80" entriesInheriting="true" objectIdentity_id="19" owner_id="4"/>
+  <AclHibernate id="81" entriesInheriting="true" objectIdentity_id="18" owner_id="5"/>
+  <AclHibernate id="82" entriesInheriting="true" objectIdentity_id="19" owner_id="5"/>
+  <AclHibernate id="83" entriesInheriting="true" objectIdentity_id="18" owner_id="6"/>
+  <AclHibernate id="84" entriesInheriting="true" objectIdentity_id="19" owner_id="6"/>
+  <Block/>
+  <Block_Treatmentarm/>
+  <Criterion/>
+  <Criterion_AbstractConstraint/>
+  <Criterion_elements/>
+  <LogEntry id="1" action="CREATE" clazz="de.randi2.model.Login" identifier="6" time="2010-07-20 14:45:17.0" uiName="Investigator, Max" username="admin@trialsite1.de" value="Login(prefLocale=de, person=Person(surname=Investigator, firstname=Max, title=, sex=MALE, email=randi2@action.ms, phone=1234567, mobile=, fax=, assistant=null), username=investigator@trialsite2.de, password=447e9b960730ae700e1c6c4375e7088dabd3eba0206a31320cd5e3e531f48e4f, lastLoggedIn=null, active=false, numberWrongLogins=0, lockTime=null, roles=[AbstractDomainObject(requiredFields=null, id=2, version=0, createdAt=java.util.GregorianCalendar[time=1279629914000,areFieldsSet=true,areAllFieldsSet=true,lenient=true,zone=sun.util.calendar.ZoneInfo[id=&quot;Europe/Berlin&quot;,offset=3600000,dstSavings=3600000,useDaylight=true,transitions=143,lastRule=java.util.SimpleTimeZone[id=Europe/Berlin,offset=3600000,dstSavings=3600000,useDaylight=true,startYear=0,startMode=2,startMonth=2,startDay=-1,startDayOfWeek=1,startTime=3600000,startTimeMode=2,endMode=2,endMonth=9,endDay=-1,endDayOfWeek=1,endTime=3600000,endTimeMode=2]],firstDayOfWeek=2,minimalDaysInFirstWeek=4,ERA=1,YEAR=2010,MONTH=6,WEEK_OF_YEAR=29,WEEK_OF_MONTH=4,DAY_OF_MONTH=20,DAY_OF_YEAR=201,DAY_OF_WEEK=3,DAY_OF_WEEK_IN_MONTH=3,AM_PM=1,HOUR=2,HOUR_OF_DAY=14,MINUTE=45,SECOND=14,MILLISECOND=0,ZONE_OFFSET=3600000,DST_OFFSET=3600000], updatedAt=java.util.GregorianCalendar[time=1279629914000,areFieldsSet=true,areAllFieldsSet=true,lenient=true,zone=sun.util.calendar.ZoneInfo[id=&quot;Europe/Berlin&quot;,offset=3600000,dstSavings=3600000,useDaylight=true,transitions=143,lastRule=java.util.SimpleTimeZone[id=Europe/Berlin,offset=3600000,dstSavings=3600000,useDaylight=true,startYear=0,startMode=2,startMonth=2,startDay=-1,startDayOfWeek=1,startTime=3600000,startTimeMode=2,endMode=2,endMonth=9,endDay=-1,endDayOfWeek=1,endTime=3600000,endTimeMode=2]],firstDayOfWeek=2,minimalDaysInFirstWeek=4,ERA=1,YEAR=2010,MONTH=6,WEEK_OF_YEAR=29,WEEK_OF_MONTH=4,DAY_OF_MONTH=20,DAY_OF_YEAR=201,DAY_OF_WEEK=3,DAY_OF_WEEK_IN_MONTH=3,AM_PM=1,HOUR=2,HOUR_OF_DAY=14,MINUTE=45,SECOND=14,MILLISECOND=0,ZONE_OFFSET=3600000,DST_OFFSET=3600000]), AbstractDomainObject(requiredFields=null, id=3, version=0, createdAt=java.util.GregorianCalendar[time=1279629914000,areFieldsSet=true,areAllFieldsSet=true,lenient=true,zone=sun.util.calendar.ZoneInfo[id=&quot;Europe/Berlin&quot;,offset=3600000,dstSavings=3600000,useDaylight=true,transitions=143,lastRule=java.util.SimpleTimeZone[id=Europe/Berlin,offset=3600000,dstSavings=3600000,useDaylight=true,startYear=0,startMode=2,startMonth=2,startDay=-1,startDayOfWeek=1,startTime=3600000,startTimeMode=2,endMode=2,endMonth=9,endDay=-1,endDayOfWeek=1,endTime=3600000,endTimeMode=2]],firstDayOfWeek=2,minimalDaysInFirstWeek=4,ERA=1,YEAR=2010,MONTH=6,WEEK_OF_YEAR=29,WEEK_OF_MONTH=4,DAY_OF_MONTH=20,DAY_OF_YEAR=201,DAY_OF_WEEK=3,DAY_OF_WEEK_IN_MONTH=3,AM_PM=1,HOUR=2,HOUR_OF_DAY=14,MINUTE=45,SECOND=14,MILLISECOND=0,ZONE_OFFSET=3600000,DST_OFFSET=3600000], updatedAt=java.util.GregorianCalendar[time=1279629914000,areFieldsSet=true,areAllFieldsSet=true,lenient=true,zone=sun.util.calendar.ZoneInfo[id=&quot;Europe/Berlin&quot;,offset=3600000,dstSavings=3600000,useDaylight=true,transitions=143,lastRule=java.util.SimpleTimeZone[id=Europe/Berlin,offset=3600000,dstSavings=3600000,useDaylight=true,startYear=0,startMode=2,startMonth=2,startDay=-1,startDayOfWeek=1,startTime=3600000,startTimeMode=2,endMode=2,endMonth=9,endDay=-1,endDayOfWeek=1,endTime=3600000,endTimeMode=2]],firstDayOfWeek=2,minimalDaysInFirstWeek=4,ERA=1,YEAR=2010,MONTH=6,WEEK_OF_YEAR=29,WEEK_OF_MONTH=4,DAY_OF_MONTH=20,DAY_OF_YEAR=201,DAY_OF_WEEK=3,DAY_OF_WEEK_IN_MONTH=3,AM_PM=1,HOUR=2,HOUR_OF_DAY=14,MINUTE=45,SECOND=14,MILLISECOND=0,ZONE_OFFSET=3600000,DST_OFFSET=3600000])])"/>
+  <Login id="1" createdAt="2010-07-20 14:45:14.0" updatedAt="2010-07-20 14:45:17.0" version="136" active="false" numberWrongLogins="0" password="2c20d5a718987ce7b850c1df1cbdb480b4c88e6025a5b72974cdcf2a86d47555" prefLocale="de" username="admin@trialsite1.de" person_id="1"/>
+  <Login id="2" createdAt="2010-07-20 14:45:15.0" updatedAt="2010-07-20 14:45:17.0" version="18" active="false" numberWrongLogins="0" password="62d40ee15594028888338783252a346b6a8c2d353b9ccbcdc579a2dad1a21296" prefLocale="de" username="investigator@trialsite1.de" person_id="3"/>
+  <Login id="3" createdAt="2010-07-20 14:45:15.0" updatedAt="2010-07-20 14:45:17.0" version="18" active="false" numberWrongLogins="0" password="95cbf698bb150a168958f898e313c5f2a06265a729bc7e0c9793f3c0efce05ed" prefLocale="de" username="p_investigator@trialsite1.de" person_id="4"/>
+  <Login id="4" createdAt="2010-07-20 14:45:16.0" updatedAt="2010-07-20 14:45:17.0" version="18" active="false" numberWrongLogins="0" password="e7064c402f23e1ad63d04eef4e622f31ffc01bba52fff9f81b7c2886d4031fc1" prefLocale="de" username="monitor@trialsite1.de" person_id="5"/>
+  <Login id="5" createdAt="2010-07-20 14:45:16.0" updatedAt="2010-07-20 14:45:17.0" version="18" active="false" numberWrongLogins="0" password="490b3e20d0cc33515178a73995c2ac3337323b10579e7793c57d4380b17523d9" prefLocale="de" username="statistican@trialsite1.de" person_id="6"/>
+  <Login id="6" createdAt="2010-07-20 14:45:17.0" updatedAt="2010-07-20 14:45:17.0" version="0" active="false" numberWrongLogins="0" password="447e9b960730ae700e1c6c4375e7088dabd3eba0206a31320cd5e3e531f48e4f" prefLocale="de" username="investigator@trialsite2.de" person_id="8"/>
+  <Login_Role Login_id="1" roles_id="1"/>
+  <Login_Role Login_id="1" roles_id="3"/>
+  <Login_Role Login_id="2" roles_id="2"/>
+  <Login_Role Login_id="2" roles_id="3"/>
+  <Login_Role Login_id="3" roles_id="3"/>
+  <Login_Role Login_id="3" roles_id="6"/>
+  <Login_Role Login_id="4" roles_id="3"/>
+  <Login_Role Login_id="4" roles_id="5"/>
+  <Login_Role Login_id="5" roles_id="3"/>
+  <Login_Role Login_id="5" roles_id="4"/>
+  <Login_Role Login_id="6" roles_id="2"/>
+  <Login_Role Login_id="6" roles_id="3"/>
+  <MinimizationMapElementWrapper/>
+  <MinimizationMapElementWrapper_map/>
+  <MinimizationTempData_CountConstraints/>
+  <MinimizationTempData_Probabilities/>
+  <MinimizationTempData_countTrialSites/>
+  <ObjectIdentityHibernate id="1" identifier="-2147483648" type="de.randi2.model.Login"/>
+  <ObjectIdentityHibernate id="2" identifier="-2147483648" type="de.randi2.model.Person"/>
+  <ObjectIdentityHibernate id="3" identifier="-2147483648" type="de.randi2.model.TrialSite"/>
+  <ObjectIdentityHibernate id="4" identifier="1" type="de.randi2.model.Login"/>
+  <ObjectIdentityHibernate id="5" identifier="1" type="de.randi2.model.Person"/>
+  <ObjectIdentityHibernate id="6" identifier="1" type="de.randi2.model.TrialSite"/>
+  <ObjectIdentityHibernate id="7" identifier="-2147483648" type="de.randi2.model.TrialSubject"/>
+  <ObjectIdentityHibernate id="8" identifier="2" type="de.randi2.model.Login"/>
+  <ObjectIdentityHibernate id="9" identifier="3" type="de.randi2.model.Person"/>
+  <ObjectIdentityHibernate id="10" identifier="-2147483648" type="de.randi2.model.Trial"/>
+  <ObjectIdentityHibernate id="11" identifier="3" type="de.randi2.model.Login"/>
+  <ObjectIdentityHibernate id="12" identifier="4" type="de.randi2.model.Person"/>
+  <ObjectIdentityHibernate id="13" identifier="4" type="de.randi2.model.Login"/>
+  <ObjectIdentityHibernate id="14" identifier="5" type="de.randi2.model.Person"/>
+  <ObjectIdentityHibernate id="15" identifier="5" type="de.randi2.model.Login"/>
+  <ObjectIdentityHibernate id="16" identifier="6" type="de.randi2.model.Person"/>
+  <ObjectIdentityHibernate id="17" identifier="2" type="de.randi2.model.TrialSite"/>
+  <ObjectIdentityHibernate id="18" identifier="6" type="de.randi2.model.Login"/>
+  <ObjectIdentityHibernate id="19" identifier="8" type="de.randi2.model.Person"/>
+  <Person id="1" createdAt="2010-07-20 14:45:14.0" updatedAt="2010-07-20 14:45:17.0" version="154" email="randi2@action.ms" fax="" firstname="Max" mobile="" phone="1234567" sex="MALE" surname="Administrator" title="" trialSite_id="1"/>
+  <Person id="2" createdAt="2010-07-20 14:45:15.0" updatedAt="2010-07-20 14:45:17.0" version="143" email="randi2@action.ms" fax="" firstname="Contact" mobile="" phone="1234567" sex="MALE" surname="Person" title=""/>
+  <Person id="3" createdAt="2010-07-20 14:45:15.0" updatedAt="2010-07-20 14:45:17.0" version="130" email="randi2@action.ms" fax="" firstname="Maxi" mobile="" phone="1234567" sex="MALE" surname="Investigator" title="" trialSite_id="1"/>
+  <Person id="4" createdAt="2010-07-20 14:45:15.0" updatedAt="2010-07-20 14:45:17.0" version="110" email="randi2@action.ms" fax="" firstname="Max" mobile="" phone="1234567" sex="MALE" surname="PInvestigator" title="" trialSite_id="1"/>
+  <Person id="5" createdAt="2010-07-20 14:45:16.0" updatedAt="2010-07-20 14:45:17.0" version="80" email="randi2@action.ms" fax="" firstname="Maxi" mobile="" phone="1234567" sex="FEMALE" surname="Monitor" title="" trialSite_id="1"/>
+  <Person id="6" createdAt="2010-07-20 14:45:16.0" updatedAt="2010-07-20 14:45:17.0" version="56" email="randi2@action.ms" fax="" firstname="Max" mobile="" phone="1234567" sex="MALE" surname="Statistican" title="" trialSite_id="1"/>
+  <Person id="7" createdAt="2010-07-20 14:45:16.0" updatedAt="2010-07-20 14:45:17.0" version="37" email="randi2@action.ms" fax="" firstname="Contact" mobile="" phone="1234567" sex="MALE" surname="Person" title=""/>
+  <Person id="8" createdAt="2010-07-20 14:45:17.0" updatedAt="2010-07-20 14:45:17.0" version="25" email="randi2@action.ms" fax="" firstname="Max" mobile="" phone="1234567" sex="MALE" surname="Investigator" title="" trialSite_id="2"/>
+  <RandomisationTempData/>
+  <RandomisationTempData_Block/>
+  <RandomisationTempData_Urn/>
+  <RandomizationConfig/>
+  <Role id="1" createdAt="2010-07-20 14:45:14.0" updatedAt="2010-07-20 14:45:14.0" version="0" adminOtherUser="true" adminOwnUser="false" adminTrial="false" adminTrialSite="true" adminTrialSubject="false" createRole="true" createTrial="false" createTrialSite="true" createTrialSubject="false" createUser="true" name="ROLE_ADMIN" readOtherUser="true" readOwnUser="true" readTrial="true" readTrialSite="true" readTrialSubject="false" scopeTrialCreat="false" scopeTrialRead="false" scopeTrialSiteView="false" scopeTrialSiteWrite="true" scopeTrialWrite="false" scopeUserCreate="false" scopeUserRead="false" scopeUserWrite="false" writeOtherUser="true" writeOwnUser="true" writeTrial="false" writeTrialSite="true" writeTrialSubject="false"/>
+  <Role id="2" createdAt="2010-07-20 14:45:14.0" updatedAt="2010-07-20 14:45:14.0" version="0" adminOtherUser="false" adminOwnUser="false" adminTrial="false" adminTrialSite="false" adminTrialSubject="false" createRole="false" createTrial="false" createTrialSite="false" createTrialSubject="true" createUser="false" name="ROLE_INVESTIGATOR" readOtherUser="true" readOwnUser="true" readTrial="true" readTrialSite="true" readTrialSubject="false" scopeTrialCreat="true" scopeTrialRead="true" scopeTrialSiteView="false" scopeTrialSiteWrite="true" scopeTrialWrite="true" scopeUserCreate="true" scopeUserRead="true" scopeUserWrite="true" writeOtherUser="false" writeOwnUser="true" writeTrial="false" writeTrialSite="false" writeTrialSubject="false"/>
+  <Role id="3" createdAt="2010-07-20 14:45:14.0" updatedAt="2010-07-20 14:45:14.0" version="0" adminOtherUser="false" adminOwnUser="false" adminTrial="false" adminTrialSite="false" adminTrialSubject="false" createRole="false" createTrial="false" createTrialSite="false" createTrialSubject="false" createUser="false" name="ROLE_USER" readOtherUser="false" readOwnUser="true" readTrial="false" readTrialSite="false" readTrialSubject="false" scopeTrialCreat="true" scopeTrialRead="true" scopeTrialSiteView="true" scopeTrialSiteWrite="true" scopeTrialWrite="true" scopeUserCreate="true" scopeUserRead="true" scopeUserWrite="true" writeOtherUser="false" writeOwnUser="true" writeTrial="false" writeTrialSite="false" writeTrialSubject="false"/>
+  <Role id="4" createdAt="2010-07-20 14:45:14.0" updatedAt="2010-07-20 14:45:14.0" version="0" adminOtherUser="false" adminOwnUser="true" adminTrial="false" adminTrialSite="false" adminTrialSubject="false" createRole="false" createTrial="false" createTrialSite="false" createTrialSubject="false" createUser="false" name="ROLE_STATISTICAN" readOtherUser="true" readOwnUser="true" readTrial="true" readTrialSite="true" readTrialSubject="true" scopeTrialCreat="true" scopeTrialRead="true" scopeTrialSiteView="false" scopeTrialSiteWrite="true" scopeTrialWrite="true" scopeUserCreate="true" scopeUserRead="true" scopeUserWrite="true" writeOtherUser="false" writeOwnUser="true" writeTrial="false" writeTrialSite="false" writeTrialSubject="false"/>
+  <Role id="5" createdAt="2010-07-20 14:45:14.0" updatedAt="2010-07-20 14:45:14.0" version="0" adminOtherUser="false" adminOwnUser="true" adminTrial="false" adminTrialSite="false" adminTrialSubject="false" createRole="false" createTrial="false" createTrialSite="false" createTrialSubject="false" createUser="false" name="ROLE_MONITOR" readOtherUser="true" readOwnUser="true" readTrial="true" readTrialSite="true" readTrialSubject="true" scopeTrialCreat="true" scopeTrialRead="true" scopeTrialSiteView="false" scopeTrialSiteWrite="true" scopeTrialWrite="true" scopeUserCreate="true" scopeUserRead="true" scopeUserWrite="true" writeOtherUser="false" writeOwnUser="true" writeTrial="false" writeTrialSite="false" writeTrialSubject="false"/>
+  <Role id="6" createdAt="2010-07-20 14:45:14.0" updatedAt="2010-07-20 14:45:14.0" version="0" adminOtherUser="false" adminOwnUser="false" adminTrial="false" adminTrialSite="false" adminTrialSubject="false" createRole="false" createTrial="true" createTrialSite="false" createTrialSubject="false" createUser="true" name="ROLE_P_INVESTIGATOR" readOtherUser="true" readOwnUser="true" readTrial="true" readTrialSite="true" readTrialSubject="true" scopeTrialCreat="true" scopeTrialRead="true" scopeTrialSiteView="false" scopeTrialSiteWrite="true" scopeTrialWrite="true" scopeUserCreate="true" scopeUserRead="true" scopeUserWrite="true" writeOtherUser="true" writeOwnUser="true" writeTrial="true" writeTrialSite="false" writeTrialSubject="false"/>
+  <Role id="7" createdAt="2010-07-20 14:45:14.0" updatedAt="2010-07-20 14:45:14.0" version="0" adminOtherUser="false" adminOwnUser="false" adminTrial="false" adminTrialSite="false" adminTrialSubject="false" createRole="false" createTrial="false" createTrialSite="false" createTrialSubject="false" createUser="true" name="ROLE_ANONYMOUS" readOtherUser="true" readOwnUser="false" readTrial="false" readTrialSite="true" readTrialSubject="false" scopeTrialCreat="false" scopeTrialRead="false" scopeTrialSiteView="false" scopeTrialSiteWrite="false" scopeTrialWrite="false" scopeUserCreate="false" scopeUserRead="false" scopeUserWrite="false" writeOtherUser="false" writeOwnUser="false" writeTrial="false" writeTrialSite="false" writeTrialSubject="false"/>
+  <Role_Role Role_id="6" rolesToAssign_id="2"/>
+  <Role_Role Role_id="6" rolesToAssign_id="4"/>
+  <Role_Role Role_id="6" rolesToAssign_id="5"/>
+  <SidHibernate id="1" sidname="admin@trialsite1.de"/>
+  <SidHibernate id="2" sidname="ROLE_ANONYMOUS"/>
+  <SidHibernate id="3" sidname="investigator@trialsite1.de"/>
+  <SidHibernate id="4" sidname="p_investigator@trialsite1.de"/>
+  <SidHibernate id="5" sidname="monitor@trialsite1.de"/>
+  <SidHibernate id="6" sidname="statistican@trialsite1.de"/>
+  <SidHibernate id="7" sidname="investigator@trialsite2.de"/>
+  <SubjectProperty/>
+  <TreatmentArm/>
+  <Trial/>
+  <TrialSite id="1" createdAt="2010-07-20 14:45:15.0" updatedAt="2010-07-20 14:45:15.0" version="0" city="Heidelberg" country="Germany" name="Trial Site 1" password="9a8c05ee2f244fee5d50402cc9acdbf3413014d285699eccf520146fd6fdec41" postcode="69120" street="INF" contactPerson_id="2"/>
+  <TrialSite id="2" createdAt="2010-07-20 14:45:16.0" updatedAt="2010-07-20 14:45:16.0" version="0" city="Heidelberg" country="Germany" name="Trial Site 2" password="9a8c05ee2f244fee5d50402cc9acdbf3413014d285699eccf520146fd6fdec41" postcode="69120" street="INF" contactPerson_id="7"/>
+  <TrialSubject/>
+  <TrialSubject_SubjectProperty/>
+  <Trial_Criterion/>
+  <Trial_TrialSite/>
+  <Urn/>
+  <Urn_Treatmentarm/>
+  <hibernate_sequences sequence_name="Role" sequence_next_hi_value="1"/>
+  <hibernate_sequences sequence_name="Login" sequence_next_hi_value="1"/>
+  <hibernate_sequences sequence_name="Person" sequence_next_hi_value="1"/>
+  <hibernate_sequences sequence_name="ObjectIdentityHibernate" sequence_next_hi_value="1"/>
+  <hibernate_sequences sequence_name="SidHibernate" sequence_next_hi_value="1"/>
+  <hibernate_sequences sequence_name="AclHibernate" sequence_next_hi_value="1"/>
+  <hibernate_sequences sequence_name="AccessControlEntryHibernate" sequence_next_hi_value="1"/>
+  <hibernate_sequences sequence_name="TrialSite" sequence_next_hi_value="1"/>
+  <hibernate_sequences sequence_name="LogEntry" sequence_next_hi_value="1"/>
+</dataset>

@@ -18,6 +18,7 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
@@ -30,6 +31,7 @@ import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.Pair;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
+@Transactional
 public class TrialTest extends AbstractDomainTest<Trial> {
 
 	public TrialTest() {
@@ -39,10 +41,11 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 	private Trial validTrial;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		// Valides Trial
+		super.setUp();
 		validTrial = factory.getTrial();
-		hibernateTemplate.save(validTrial.getLeadingSite().getContactPerson());
+		sessionFactory.getCurrentSession().save(validTrial.getLeadingSite().getContactPerson());
 	}
 
 	@Test
@@ -70,8 +73,8 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 
 		validTrial.setName(nameOK1);
 		assertEquals(nameOK1, validTrial.getName());
-		hibernateTemplate.save(validTrial.getLeadingSite());
-		hibernateTemplate.save(validTrial.getSponsorInvestigator());
+		sessionFactory.getCurrentSession().save(validTrial.getLeadingSite());
+		sessionFactory.getCurrentSession().save(validTrial.getSponsorInvestigator());
 		assertValid(validTrial);
 
 		// Richtiger Name
@@ -105,12 +108,11 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 
 		final String abbToLong = stringUtil.getWithLength(256);
 		final String abbEmpty = "";
-//		final String abbNull = null;
 
 		validTrial.setAbbreviation(abbOK1);
 		assertEquals(abbOK1, validTrial.getAbbreviation());
-		hibernateTemplate.save(validTrial.getLeadingSite());
-		hibernateTemplate.save(validTrial.getSponsorInvestigator());
+		sessionFactory.getCurrentSession().save(validTrial.getLeadingSite());
+		sessionFactory.getCurrentSession().save(validTrial.getSponsorInvestigator());
 		assertValid(validTrial);
 
 		// Richtiger Name
@@ -118,13 +120,13 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		assertEquals(abbOK2, validTrial.getAbbreviation());
 		assertValid(validTrial);
 
-//		validTrial.setAbbreviation(abbNull);
-//		assertEquals("", validTrial.getAbbreviation());
-//		assertValid(validTrial);
+//		validTrial.setAbbreviation(null);
+//		assertEquals(null, validTrial.getAbbreviation());
+//		assertInvalid(validTrial);
 
 		validTrial.setAbbreviation(abbToLong);
 		assertEquals(abbToLong, validTrial.getAbbreviation());
-		assertValid(validTrial);
+		assertInvalid(validTrial);
 
 		validTrial.setAbbreviation(abbJustOK);
 		assertEquals(abbJustOK, validTrial.getAbbreviation());
@@ -143,8 +145,8 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		final String longDescribtion = stringUtil.getWithLength(4000);
 		validTrial.setDescription(emptyDescribtion);
 		assertEquals(emptyDescribtion, validTrial.getDescription());
-		hibernateTemplate.save(validTrial.getLeadingSite());
-		hibernateTemplate.save(validTrial.getSponsorInvestigator());
+		sessionFactory.getCurrentSession().save(validTrial.getLeadingSite());
+		sessionFactory.getCurrentSession().save(validTrial.getSponsorInvestigator());
 		assertValid(validTrial);
 
 //		validTrial.setDescription(nullDescribtion);
@@ -165,8 +167,8 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 
 		validTrial.setStartDate(dateOK1);
 		assertEquals(dateOK1, validTrial.getStartDate());
-		hibernateTemplate.save(validTrial.getLeadingSite());
-		hibernateTemplate.save(validTrial.getSponsorInvestigator());
+		sessionFactory.getCurrentSession().save(validTrial.getLeadingSite());
+		sessionFactory.getCurrentSession().save(validTrial.getSponsorInvestigator());
 		assertValid(validTrial);
 
 		validTrial.setStartDate(dateOK2);
@@ -177,7 +179,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 	@Test
 	public void testEndDate() {
 		validTrial.setStartDate(new GregorianCalendar(2000, Calendar.JANUARY,
-				2000));
+				20));
 
 		final GregorianCalendar dateOK1 = new GregorianCalendar(2007,
 				Calendar.JANUARY, 1);
@@ -186,19 +188,18 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		final GregorianCalendar dateOK3 = new GregorianCalendar(2010,
 				Calendar.DECEMBER, 31);
 
-		validTrial.setStartDate(dateOK1);
-		assertEquals(dateOK1, validTrial.getStartDate());
-		hibernateTemplate.save(validTrial.getLeadingSite());
-		hibernateTemplate.save(validTrial.getSponsorInvestigator());
+		validTrial.setEndDate(dateOK1);
+		assertEquals(dateOK1, validTrial.getEndDate());
 		assertValid(validTrial);
 
-		validTrial.setStartDate(dateOK2);
-		assertEquals(dateOK2, validTrial.getStartDate());
+		validTrial.setEndDate(dateOK2);
+		assertEquals(dateOK2, validTrial.getEndDate());
 		assertValid(validTrial);
 
-		validTrial.setStartDate(dateOK3);
-		assertEquals(dateOK3, validTrial.getStartDate());
+		validTrial.setEndDate(dateOK3);
+		assertEquals(dateOK3, validTrial.getEndDate());
 		assertValid(validTrial);
+		
 	}
 
 	@Test
@@ -244,18 +245,16 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		final GregorianCalendar endJust = new GregorianCalendar(1985,
 				Calendar.SEPTEMBER, 11, 23, 59, 59);
 
-		hibernateTemplate.save(validTrial.getLeadingSite());
-		hibernateTemplate.save(validTrial.getSponsorInvestigator());
 		this.setDateRange(startOK1, endOK1);
 		assertValid(validTrial);
 		this.setDateRange(startOK2, endOK2);
 		assertValid(validTrial);
 		this.setDateRange(startOKOpen, null);
-		assertValid(validTrial);
+		assertInvalid(validTrial);
 		this.setDateRange(null, endOKOpen);
-		assertValid(validTrial);
+		assertInvalid(validTrial);
 		this.setDateRange(null, null);
-		assertValid(validTrial);
+		assertInvalid(validTrial);
 
 		this.setDateRange(startSame, endSame);
 		// assertInvalid(validTrial, new String[]{Trial.DATES_WRONG_RANGE});
@@ -280,8 +279,8 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 
 	@Test
 	public void testStatus() {
-		hibernateTemplate.save(validTrial.getLeadingSite());
-		hibernateTemplate.save(validTrial.getSponsorInvestigator());
+		sessionFactory.getCurrentSession().save(validTrial.getLeadingSite());
+		sessionFactory.getCurrentSession().save(validTrial.getSponsorInvestigator());
 		validTrial.setStatus(TrialStatus.IN_PREPARATION);
 		assertEquals(TrialStatus.IN_PREPARATION, validTrial.getStatus());
 		assertValid(validTrial);
@@ -308,21 +307,11 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 
 	@Test
 	public void testLeadingSite() {
-		final TrialSite c = factory.getTrialSite();
-		hibernateTemplate.save(c.getContactPerson());
-		hibernateTemplate.save(c);
-		hibernateTemplate.save(validTrial.getSponsorInvestigator());
+		TrialSite c = factory.getTrialSite();
+		validTrial.setLeadingSite(null);
+		assertInvalid(validTrial);
 		validTrial.setLeadingSite(c);
-		assertEquals(c, validTrial.getLeadingSite());
-
-		hibernateTemplate.saveOrUpdate(validTrial);
-		assertNotSame(AbstractDomainObject.NOT_YET_SAVED_ID, c.getId());
-		int version = c.getVersion();
-
-		c.setName(stringUtil.getWithLength(20));
-		hibernateTemplate.saveOrUpdate(c);
-		assertTrue(version < c.getVersion());
-
+		assertValid(validTrial);
 	}
 
 	@Test
@@ -334,29 +323,29 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		TrialSite c3 = factory.getTrialSite();
 
 		cl.add(c1);
-		hibernateTemplate.save(c1);
+		sessionFactory.getCurrentSession().save(c1);
 		cl.add(c2);
-		hibernateTemplate.save(c2);
+		sessionFactory.getCurrentSession().save(c2);
 		cl.add(c3);
-		hibernateTemplate.save(c3);
-		hibernateTemplate.save(validTrial.getLeadingSite());
-		hibernateTemplate.save(validTrial.getSponsorInvestigator());
-		hibernateTemplate.saveOrUpdate(validTrial);
+		sessionFactory.getCurrentSession().save(c3);
+		sessionFactory.getCurrentSession().save(validTrial.getLeadingSite());
+		sessionFactory.getCurrentSession().save(validTrial.getSponsorInvestigator());
+		sessionFactory.getCurrentSession().saveOrUpdate(validTrial);
 		assertNotSame(AbstractDomainObject.NOT_YET_SAVED_ID, c1.getId());
 		assertNotSame(AbstractDomainObject.NOT_YET_SAVED_ID, c2.getId());
 		assertNotSame(AbstractDomainObject.NOT_YET_SAVED_ID, c3.getId());
 
-		// hibernateTemplate.flush();
-		// hibernateTemplate.refresh(validTrial);
+		// sessionFactory.getCurrentSession().flush();
+		// sessionFactory.getCurrentSession().refresh(validTrial);
 
 		assertEquals(3, validTrial.getParticipatingSites().size());
 
 		cl = validTrial.getParticipatingSites();
 		cl.remove(c2);
-		hibernateTemplate.saveOrUpdate(validTrial);
+		sessionFactory.getCurrentSession().saveOrUpdate(validTrial);
 
-		// hibernateTemplate.flush();
-		// hibernateTemplate.refresh(validTrial);
+		// sessionFactory.getCurrentSession().flush();
+		// sessionFactory.getCurrentSession().refresh(validTrial);
 
 		// assertEquals(2, validTrial.getParticipatingSites().size());
 
@@ -365,7 +354,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		int version = ((AbstractDomainObject) validTrial
 				.getParticipatingSites().toArray()[0]).getVersion();
 
-		hibernateTemplate.update(validTrial);
+		sessionFactory.getCurrentSession().update(validTrial);
 		Set<TrialSite> trialSites = validTrial.getParticipatingSites();
 		assertTrue(version < ((AbstractDomainObject) trialSites.toArray()[0])
 				.getId());
@@ -454,20 +443,20 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 	public void databaseIntegrationTest() {
 		TrialSite leadingSite = factory.getTrialSite();
 		leadingSite.setContactPerson(factory.getPerson());
-		// hibernateTemplate.persist(leadingSite.getContactPerson());
-		// hibernateTemplate.flush();
-		hibernateTemplate.persist(leadingSite);
+		// sessionFactory.getCurrentSession().persist(leadingSite.getContactPerson());
+		// sessionFactory.getCurrentSession().flush();
+		sessionFactory.getCurrentSession().persist(leadingSite);
 		validTrial.setSponsorInvestigator(leadingSite.getContactPerson());
 		validTrial.setLeadingSite(leadingSite);
 
 		TrialSite pTrialSite = factory.getTrialSite();
 		pTrialSite.setContactPerson(factory.getPerson());
-		// hibernateTemplate.persist(pTrialSite.getContactPerson());
-		hibernateTemplate.persist(pTrialSite);
+		// sessionFactory.getCurrentSession().persist(pTrialSite.getContactPerson());
+		sessionFactory.getCurrentSession().persist(pTrialSite);
 		validTrial.addParticipatingSite(pTrialSite);
 		CompleteRandomizationConfig conf = new CompleteRandomizationConfig();
 		validTrial.setRandomizationConfiguration(conf);
-		hibernateTemplate.persist(validTrial);
+		sessionFactory.getCurrentSession().persist(validTrial);
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setName("arm1");
 		arm1.setTrial(validTrial);
@@ -479,13 +468,13 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
-		hibernateTemplate.persist(arm1);
-		hibernateTemplate.persist(arm2);
+		sessionFactory.getCurrentSession().persist(arm1);
+		sessionFactory.getCurrentSession().persist(arm2);
 		validTrial.setTreatmentArms(arms);
 
-		hibernateTemplate.saveOrUpdate(validTrial);
+		sessionFactory.getCurrentSession().saveOrUpdate(validTrial);
 		assertTrue(validTrial.getId() > 0);
-//		validTrial = (Trial) hibernateTemplate.get(Trial.class, validTrial
+//		validTrial = (Trial) sessionFactory.getCurrentSession().get(Trial.class, validTrial
 //				.getId());
 
 		List<TrialSubject> subjects = new ArrayList<TrialSubject>();
@@ -504,8 +493,8 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 				subject.setIdentification(subject.getRandNumber());
 			subjects.add(subject);
 		}
-		hibernateTemplate.update(validTrial);
-		Trial dbTrial = (Trial) hibernateTemplate.get(Trial.class, validTrial
+		sessionFactory.getCurrentSession().update(validTrial);
+		Trial dbTrial = (Trial) sessionFactory.getCurrentSession().get(Trial.class, validTrial
 				.getId());
 
 		assertEquals(validTrial.getId(), dbTrial.getId());
@@ -519,7 +508,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 				.getClass(), dbTrial.getRandomizationConfiguration()
 				.getAlgorithm().getClass());
 //		 TrialSite dbTrialSite =
-//		 (TrialSite)hibernateTemplate.get(TrialSite.class,
+//		 (TrialSite)sessionFactory.getCurrentSession().get(TrialSite.class,
 //		 pTrialSite.getId());
 //		 assertEquals(1, dbTrialSite.getTrials());
 //		 assertEquals(validTrial.getParticipatingSites().size(),

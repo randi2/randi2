@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.security.PermissionHibernate;
 import de.randi2.test.utility.AbstractDomainTest;
@@ -179,6 +180,7 @@ public class RoleTest extends AbstractDomainTest<Role> {
 	}
 	
 	@Test
+	@Transactional
 	public void databaseIntegrationTest() {
 		Role role = new Role(
 				"ROLE_XYZ", false, true, true, true, false, false, true,
@@ -216,10 +218,10 @@ public class RoleTest extends AbstractDomainTest<Role> {
 		role.setAdminTrialSubject(false);
 		role.setCreateRole(false);
 		role.setScopeTrialSiteView(true);
-		hibernateTemplate.persist(role);
+		sessionFactory.getCurrentSession().persist(role);
 		assertTrue(role.getId()>0);
 		
-		Role dbRole = (Role) hibernateTemplate.get(Role.class, role.getId());
+		Role dbRole = (Role) sessionFactory.getCurrentSession().get(Role.class, role.getId());
 		assertEquals("ROLE_XYZ",dbRole.getName());
 		assertEquals(false, dbRole.isCreateTrialSite() );
 		assertEquals( true, dbRole.isScopeTrialSiteView() );

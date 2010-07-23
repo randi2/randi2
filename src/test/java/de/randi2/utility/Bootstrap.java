@@ -18,6 +18,7 @@
 package de.randi2.utility;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -116,7 +117,6 @@ public class Bootstrap {
 	private UserService userService;
 
 	public Bootstrap() {
-		long time1 = System.nanoTime();
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
 				"classpath:/META-INF/spring-bootstrap.xml");
 		loginDao = (LoginDaoHibernate) ctx.getBean("loginDao");
@@ -129,8 +129,9 @@ public class Bootstrap {
 				.getBean("saltSourceTrialSite");
 		trialService = (TrialService) ctx.getBean("trialService");
 		userService = (UserService) ctx.getBean("userService");
-		System.out.println("init spring context: " + (System.nanoTime()-time1)/1000000 + " ms");
+
 		init();
+	
 	}
 
 	public void init() {
@@ -195,12 +196,13 @@ public class Bootstrap {
 		rolesAndRights.grantRigths(trialSite, trialSite);
 
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
-				"anonymousUser", adminL, adminL.getAuthorities().toArray(new GrantedAuthority[]{}));
+				"anonymousUser", adminL, new ArrayList<GrantedAuthority>(
+						adminL.getAuthorities()));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()
 				.setAuthenticated(true);
-
+		
 		Person userPInv = new Person();
 		userPInv.setFirstname("Maxi");
 		userPInv.setSurname("Investigator");
@@ -311,13 +313,14 @@ public class Bootstrap {
 		// create test trial
 		sessionFactory.getCurrentSession().flush();
 
-		System.out.println("create user: " + (System.nanoTime()-time1)/1000000 + " ms");
+		System.out.println("create user: " + (System.nanoTime() - time1)
+				/ 1000000 + " ms");
 		time1 = System.nanoTime();
 		// create test trial
 		ManagedSessionContext.unbind(sessionFactory);
 		ManagedSessionContext.bind(sessionFactory.openSession());
 		authToken = new AnonymousAuthenticationToken("anonymousUser",
-				userLPInv, userLPInv.getAuthorities().toArray(new GrantedAuthority[]{}));
+				userLPInv, new ArrayList<GrantedAuthority>(userLPInv.getAuthorities()));
 		// Perform authentication
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 		SecurityContextHolder.getContext().getAuthentication()
@@ -398,7 +401,8 @@ public class Bootstrap {
 		trialService.create(trial);
 
 		sessionFactory.getCurrentSession().flush();
-		System.out.println("create trial: " + (System.nanoTime()-time1)/1000000 + " ms");
+		System.out.println("create trial: " + (System.nanoTime() - time1)
+				/ 1000000 + " ms");
 		time1 = System.nanoTime();
 		ManagedSessionContext.unbind(sessionFactory);
 		ManagedSessionContext.bind(sessionFactory.openSession());
@@ -407,17 +411,16 @@ public class Bootstrap {
 		int countTS2 = 60;
 		int countMo = (new GregorianCalendar()).get(GregorianCalendar.MONTH);
 		int countAll = 0;
-		//Objects for the while-loop
+		// Objects for the while-loop
 		Random rand = new Random();
 		GregorianCalendar date;
 		int runs;
 		boolean tr1;
 		int count;
-		//---
+		// ---
 		while (countTS1 != 0 || countTS2 != 0) {
 			countAll++;
-			date = new GregorianCalendar(2009, countAll
-					% countMo, 1);
+			date = new GregorianCalendar(2009, countAll % countMo, 1);
 			runs = 0;
 			tr1 = false;
 			count = 0;
@@ -434,13 +437,13 @@ public class Bootstrap {
 			}
 			// Authorizing the investigator for upcoming randomization
 			AnonymousAuthenticationToken at = tr1 ? new AnonymousAuthenticationToken(
-					"anonymousUser", userLInv, userLInv.getAuthorities().toArray(new GrantedAuthority[]{}))
+					"anonymousUser", userLInv, new ArrayList<GrantedAuthority>(userLInv.getAuthorities()))
 					: new AnonymousAuthenticationToken("anonymousUser",
-							userLInv2, userLInv2.getAuthorities().toArray(new GrantedAuthority[]{}));
+							userLInv2, new ArrayList<GrantedAuthority>(userLInv2.getAuthorities()));
 			SecurityContextHolder.getContext().setAuthentication(at);
 			SecurityContextHolder.getContext().getAuthentication()
 					.setAuthenticated(true);
-			//---
+			// ---
 			for (int i = 0; i < runs; i++) {
 				initRandBS(trial, date, rand);
 				if (tr1) {
@@ -449,13 +452,14 @@ public class Bootstrap {
 					countTS2--;
 				}
 			}
-			
+
 		}
-		System.out.println("added trial subjects: " + (System.nanoTime()-time1)/1000000 + " ms");
+		System.out.println("added trial subjects: "
+				+ (System.nanoTime() - time1) / 1000000 + " ms");
 	}
 
-private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {
-//		long time1 = System.nanoTime();
+	private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {
+		// long time1 = System.nanoTime();
 		trial = trialService.getObject(trial.getId());
 
 		TrialSubject subject = new TrialSubject();
@@ -501,7 +505,8 @@ private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {
 		trialService.randomize(trial, subject);
 		subject.setCreatedAt(date);
 		sessionFactory.getCurrentSession().update(subject);
-//		System.out.println("time random before: " + (System.nanoTime()-time1)/1000000 + " ms");
+		// System.out.println("time random before: " +
+		// (System.nanoTime()-time1)/1000000 + " ms");
 	}
 
 	/**

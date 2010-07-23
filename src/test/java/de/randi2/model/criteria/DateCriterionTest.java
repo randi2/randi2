@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.criteria.constraints.DateConstraint;
 import de.randi2.test.utility.AbstractDomainTest;
@@ -28,7 +29,8 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 	private GregorianCalendar secondDate;
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(){
+		super.setUp();
 		criterion = new DateCriterion();
 		firstDate = new GregorianCalendar(1998,7,1);
 		secondDate = new GregorianCalendar(2000,7,1);
@@ -93,6 +95,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 	}
 	
 	@Test
+	@Transactional
 	public void databaseIntegrationTest() {
 		criterion.setName("name");
 		criterion.setDescription("test");
@@ -105,21 +108,21 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 			temp.add(new DateConstraint(Arrays.asList(new GregorianCalendar[]{elements.get(1)})));
 		
 			DateConstraint constraint = new DateConstraint(Arrays.asList(elements.get(0)));
-			hibernateTemplate.save(constraint);
+			sessionFactory.getCurrentSession().save(constraint);
 			assertTrue(constraint.getId()>0);
 			criterion.setInclusionConstraint(constraint);
 
 
-			hibernateTemplate.save(criterion);
+			sessionFactory.getCurrentSession().save(criterion);
 			assertTrue(criterion.getId()>0);
 			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
-			hibernateTemplate.save(temp.get(0));
-			hibernateTemplate.save(temp.get(1));
+			sessionFactory.getCurrentSession().save(temp.get(0));
+			sessionFactory.getCurrentSession().save(temp.get(1));
 			assertTrue(temp.get(0).getId() > 0);
 			assertTrue(temp.get(1).getId() > 0);
 			criterion.setStrata(temp);
-			hibernateTemplate.update(criterion);
-			DateCriterion dbCriterion = (DateCriterion) hibernateTemplate.get(DateCriterion.class,criterion.getId());
+			sessionFactory.getCurrentSession().update(criterion);
+			DateCriterion dbCriterion = (DateCriterion) sessionFactory.getCurrentSession().get(DateCriterion.class,criterion.getId());
 			assertEquals(criterion, dbCriterion);
 			assertEquals(criterion.getName(), dbCriterion.getName());
 			assertEquals(criterion.getDescription(), dbCriterion.getDescription());

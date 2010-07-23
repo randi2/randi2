@@ -44,12 +44,10 @@ public class DateDependenceValidation implements Validator<DateDependence> {
 			Method secondMethod = object.getClass().getMethod("get" + secondDate.substring(0, 1).toUpperCase(Locale.getDefault()) + secondDate.substring(1), new Class[0]);
 			GregorianCalendar first = (GregorianCalendar) firstMethod.invoke(object, new Object[0]);
 			GregorianCalendar second = (GregorianCalendar) secondMethod.invoke(object, new Object[0]);
-			if (second == null) {
-				return true;
-			} else if (first != null && first.before(second)) {
-				return true;
-			} else {
+			if (second == null || first == null) {
 				return false;
+			} else if (first.before(second)) {
+				return true;
 			}
 		} catch (IllegalAccessException ex) {
 			Logger.getLogger(DateDependenceValidation.class).error(null, ex);

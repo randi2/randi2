@@ -52,27 +52,6 @@ public class RolesAndRights {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	@Transactional(propagation = Propagation.REQUIRED)
-	public void initializeRoles() {
-		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_ADMIN);
-		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_ANONYMOUS);
-		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_INVESTIGATOR);
-		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_MONITOR);
-		sessionFactory.getCurrentSession().saveOrUpdate(
-				Role.ROLE_P_INVESTIGATOR);
-		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_STATISTICAN);
-		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_USER);
-
-		aclService.createAclwithPermissions(new Login(), Role.ROLE_ANONYMOUS
-				.getName(),
-				new PermissionHibernate[] { PermissionHibernate.CREATE },
-				Role.ROLE_ANONYMOUS.getName());
-		aclService.createAclwithPermissions(new Person(), Role.ROLE_ANONYMOUS
-				.getName(),
-				new PermissionHibernate[] { PermissionHibernate.CREATE },
-				Role.ROLE_ANONYMOUS.getName());
-
-	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void grantRigths(AbstractDomainObject object, TrialSite scope) {
@@ -520,8 +499,6 @@ public class RolesAndRights {
 					//other Trials
 					Query query = sessionFactory.getCurrentSession().getNamedQuery("trial.AllTrialsWithSpecificParticipatingTrialSite");
 					query = query.setParameter(0, login.getPerson().getTrialSite().getId());
-					String[] strings = query.getNamedParameters();
-					String string = query.getQueryString();
 					List<Trial> trials =   query.list();
 					for (Trial t : trials) {
 						aclService

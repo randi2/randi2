@@ -1,5 +1,6 @@
 package de.randi2.dao;
 
+import static de.randi2.utility.security.ArrayListHelper.sidsOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -7,11 +8,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.Acl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Login;
 import de.randi2.model.TrialSite;
@@ -20,31 +21,30 @@ import de.randi2.model.security.ObjectIdentityHibernate;
 import de.randi2.model.security.PermissionHibernate;
 import de.randi2.test.utility.DomainObjectFactory;
 
-import static de.randi2.utility.security.ArrayListHelper.sidsOf;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml", "/META-INF/subconfig/security.xml" })
-public class HibernateAclServiceTest {
+@Transactional
+public class HibernateAclServiceTest extends AbstractDaoTest{
 
 	@Autowired
 	private HibernateAclService aclService;
 	@Autowired
 	private DomainObjectFactory factory;
-	@Autowired
-	private HibernateTemplate template;
+
 	private TrialSite trialsite;
 	
 	@Before
 	public void setUp(){
+		super.setUp();
 		trialsite = factory.getTrialSite();
-		template.save(trialsite.getContactPerson());
+		sessionFactory.getCurrentSession().save(trialsite.getContactPerson());
 	}
 	
 	@Test
 	public void testCreateAcl(){
-		template.saveOrUpdate(trialsite);
+		sessionFactory.getCurrentSession().saveOrUpdate(trialsite);
 		Login login = factory.getLogin();
-		template.saveOrUpdate(login);
+		sessionFactory.getCurrentSession().saveOrUpdate(login);
 		
 	    AclHibernate acl = aclService.createAcl(trialsite, login.getUsername());
 		assertTrue(acl.getId()>0);
@@ -54,9 +54,9 @@ public class HibernateAclServiceTest {
 	
 	@Test
 	public void testCreateAclWithPermission(){
-		template.saveOrUpdate(trialsite);
+		sessionFactory.getCurrentSession().saveOrUpdate(trialsite);
 		Login login = factory.getLogin();
-		template.saveOrUpdate(login);
+		sessionFactory.getCurrentSession().saveOrUpdate(login);
 		
 		 AclHibernate acl =  aclService.createAclwithPermissions(trialsite, login.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ});
 		assertTrue(acl.getId()>0);
@@ -65,9 +65,9 @@ public class HibernateAclServiceTest {
 	
 	@Test
 	public void testFindAclByObjectIdentityAndSid(){
-		template.saveOrUpdate(trialsite);
+		sessionFactory.getCurrentSession().saveOrUpdate(trialsite);
 		Login login = factory.getLogin();
-		template.saveOrUpdate(login);
+		sessionFactory.getCurrentSession().saveOrUpdate(login);
 		
 		 AclHibernate acl =  aclService.createAclwithPermissions(trialsite, login.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ});
 		assertTrue(acl.getId()>0);

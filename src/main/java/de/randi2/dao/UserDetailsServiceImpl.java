@@ -28,8 +28,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Login;
 
@@ -50,7 +48,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
 		logger.info("User " + username + " try to login.");

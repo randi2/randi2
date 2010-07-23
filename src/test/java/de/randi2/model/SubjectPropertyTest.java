@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.criteria.DateCriterion;
@@ -29,13 +30,14 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 	}
 
 	@Test
+	@Transactional
 	public void testDatabaseIntegrationSubjectDichotomousCriterion() {
 		DichotomousCriterion criterion = new DichotomousCriterion();
 		criterion.setOption1("1");
 		criterion.setOption2("2");
-		hibernateTemplate.persist(criterion);
+		sessionFactory.getCurrentSession().persist(criterion);
 		assertTrue(criterion.getId() > 0);
-		criterion = (DichotomousCriterion) hibernateTemplate.get(
+		criterion = (DichotomousCriterion) sessionFactory.getCurrentSession().get(
 				DichotomousCriterion.class, criterion.getId());
 		SubjectProperty<String> subjectString = new SubjectProperty<String>(
 				criterion);
@@ -45,9 +47,9 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 		} catch (ContraintViolatedException e) {
 			fail("Constraint violated: " + e.getMessage());
 		}
-		hibernateTemplate.persist(subjectString);
+		sessionFactory.getCurrentSession().persist(subjectString);
 		assertTrue(subjectString.getId() > 0);
-		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>) hibernateTemplate
+		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>) sessionFactory.getCurrentSession()
 				.get(SubjectProperty.class, subjectString.getId());
 		assertEquals(subjectString, dbSubjectProperty);
 		assertEquals(subjectString.getCriterion(), dbSubjectProperty
@@ -55,6 +57,7 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 	}
 
 	@Test
+	@Transactional
 	public void testDatabaseIntegrationSubjectOrdinalCriterion() {
 		OrdinalCriterion criterion = new OrdinalCriterion();
 		List<String> elements = new ArrayList<String>();
@@ -63,9 +66,9 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 		elements.add("Value3");
 
 		criterion.setElements(elements);
-		hibernateTemplate.persist(criterion);
+		sessionFactory.getCurrentSession().persist(criterion);
 		assertTrue(criterion.getId() > 0);
-		criterion = (OrdinalCriterion) hibernateTemplate.get(
+		criterion = (OrdinalCriterion) sessionFactory.getCurrentSession().get(
 				OrdinalCriterion.class, criterion.getId());
 		SubjectProperty<String> subjectString = new SubjectProperty<String>(
 				criterion);
@@ -76,9 +79,9 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 		} catch (ContraintViolatedException e) {
 			fail("Constraint violated: " + e.getMessage());
 		}
-		hibernateTemplate.persist(subjectString);
+		sessionFactory.getCurrentSession().persist(subjectString);
 		assertTrue(subjectString.getId() > 0);
-		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>) hibernateTemplate
+		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>) sessionFactory.getCurrentSession()
 				.get(SubjectProperty.class, subjectString.getId());
 		assertEquals(subjectString, dbSubjectProperty);
 		assertEquals(subjectString.getCriterion(), dbSubjectProperty
@@ -86,12 +89,13 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 	}
 
 	@Test
+	@Transactional
 	public void testDatabaseIntegrationSubjectDateCriterion() {
 		DateCriterion criterion = new DateCriterion();
 		criterion.setName("dsagdsagsd");
-		hibernateTemplate.persist(criterion);
+		sessionFactory.getCurrentSession().persist(criterion);
 		assertTrue(criterion.getId() > 0);
-		criterion = (DateCriterion) hibernateTemplate.get(DateCriterion.class,
+		criterion = (DateCriterion) sessionFactory.getCurrentSession().get(DateCriterion.class,
 				criterion.getId());
 		SubjectProperty<GregorianCalendar> subject = new SubjectProperty<GregorianCalendar>(
 				criterion);
@@ -100,21 +104,22 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 		} catch (ContraintViolatedException e) {
 			fail("Constraint violated: " + e.getMessage());
 		}
-		hibernateTemplate.persist(subject);
+		sessionFactory.getCurrentSession().persist(subject);
 		assertTrue(subject.getId() > 0);
-		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>) hibernateTemplate
+		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>) sessionFactory.getCurrentSession()
 				.get(SubjectProperty.class, subject.getId());
 		assertEquals(subject, dbSubjectProperty);
 		assertEquals(subject.getCriterion(), dbSubjectProperty.getCriterion());
 	}
 
 	@Test
+	@Transactional
 	public void testDatabaseIntegrationSubjectFreeTextCriterion() {
 		FreeTextCriterion criterion = new FreeTextCriterion();
 		criterion.setName("dsagdsagsd");
-		hibernateTemplate.persist(criterion);
+		sessionFactory.getCurrentSession().persist(criterion);
 		assertTrue(criterion.getId() > 0);
-		criterion = (FreeTextCriterion) hibernateTemplate.get(
+		criterion = (FreeTextCriterion) sessionFactory.getCurrentSession().get(
 				FreeTextCriterion.class, criterion.getId());
 		SubjectProperty<String> subject = new SubjectProperty<String>(criterion);
 		try {
@@ -122,9 +127,9 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 		} catch (ContraintViolatedException e) {
 			fail("Constraint violated: " + e.getMessage());
 		}
-		hibernateTemplate.persist(subject);
+		sessionFactory.getCurrentSession().persist(subject);
 		assertTrue(subject.getId() > 0);
-		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>) hibernateTemplate
+		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>) sessionFactory.getCurrentSession()
 				.get(SubjectProperty.class, subject.getId());
 		assertEquals(subject, dbSubjectProperty);
 		assertEquals("test", dbSubjectProperty.getValue());
@@ -132,6 +137,7 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 	}
 
 	@Test
+	@Transactional
 	public void testGetRequieredFields() {
 		OrdinalCriterion criterion = new OrdinalCriterion();
 		List<String> elements = new ArrayList<String>();
@@ -140,8 +146,8 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 		elements.add("Value3");
 
 		criterion.setElements(elements);
-		hibernateTemplate.persist(criterion);
-		criterion = (OrdinalCriterion) hibernateTemplate.get(
+		sessionFactory.getCurrentSession().persist(criterion);
+		criterion = (OrdinalCriterion) sessionFactory.getCurrentSession().get(
 				OrdinalCriterion.class, criterion.getId());
 		SubjectProperty<String> subjectString = new SubjectProperty<String>(
 				criterion);

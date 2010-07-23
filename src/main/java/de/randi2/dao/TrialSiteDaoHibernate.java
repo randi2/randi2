@@ -20,8 +20,6 @@ package de.randi2.dao;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.TrialSite;
 
@@ -46,7 +44,6 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	@Transactional(propagation=Propagation.SUPPORTS)
 	public TrialSite get(String name) {
 		String query = "from de.randi2.model.TrialSite trialSite where "
 			+ "trialSite.name =?";

@@ -45,11 +45,11 @@ public class ChartsServiceTest extends AbstractServiceTest {
 
 	@Override
 	public void setUp() {
-
 		super.setUp();
+		authenticatAsAdmin();
 		validTrial = factory.getTrial();
-		validTrial.setLeadingSite(admin.getPerson().getTrialSite());
-		validTrial.setSponsorInvestigator(admin.getPerson());
+		validTrial.setLeadingSite(user.getPerson().getTrialSite());
+		validTrial.setSponsorInvestigator(user.getPerson());
 
 		// if(validTrial.getParticipatingSites().size()<2){
 		//		
@@ -75,6 +75,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 	}
 
 	private void randomizeInValidTrialOneYear() {
+		authenticatAsPrincipalInvestigator();
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
 		validTrial.setEndDate(new GregorianCalendar(2009, 11, 1));
 		int blocksize = 4;
@@ -100,7 +101,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		trialService.update(validTrial);
 		assertTrue(validTrial.getId() > 0);
 		assertEquals(2, validTrial.getTreatmentArms().size());
-
+		authenticatAsInvestigator();
 		for (int i = 0; i < randomizations; i++) {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
@@ -135,6 +136,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 	}
 
 	private void randomizeInValidTrialTwoYears() {
+		authenticatAsPrincipalInvestigator();
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
 		validTrial.setEndDate(new GregorianCalendar(2010, 11, 1));
 		int blocksize = 4;
@@ -160,7 +162,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		trialService.update(validTrial);
 		assertTrue(validTrial.getId() > 0);
 		assertEquals(2, validTrial.getTreatmentArms().size());
-
+		authenticatAsInvestigator();
 		for (int i = 0; i < randomizations; i++) {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
@@ -453,6 +455,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 
 	@Test
 	public void testChartSubGroups() {
+		authenticatAsPrincipalInvestigator();
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
 		validTrial.setEndDate(new GregorianCalendar(2010, 11, 1));
 		int blocksize = 4;
@@ -513,7 +516,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		trialService.create(validTrial);
 		assertTrue(validTrial.getId() > 0);
 		assertEquals(2, validTrial.getTreatmentArms().size());
-
+		authenticatAsInvestigator();
 		for (int i = 0; i < randomizations; i++) {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
