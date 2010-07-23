@@ -24,11 +24,6 @@ public class InitializeDatabaseUtil {
 	@Autowired
 	private DataSource dataSource;
 	
-	public InitializeDatabaseUtil() {
-		LogFactory.getLogger().addHandler(new SLF4JBridgeHandler());
-		LogFactory.getLogger().setUseParentHandlers(false);
-	}
-	
 	public void setUpDatabaseFull() throws Exception {
 		try {
 			setUpDatabase(new FlatXmlDataSet(new File(
@@ -50,6 +45,8 @@ public class InitializeDatabaseUtil {
 	}
 	
 	private void setUpDatabase(IDataSet dataSet) throws Exception{
+		LogFactory.getLogger().addHandler(new SLF4JBridgeHandler());
+		LogFactory.getLogger().setUseParentHandlers(false);
 		// initialize your database connection here
 		Connection jdbcConnection = dataSource.getConnection();
 
