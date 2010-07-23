@@ -21,31 +21,31 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelTabSet style="font-size: 9;display: block;">
-		<ice:panelTab label="#{labels['pages.trialEditPanel.step1']}">
+		<ice:panelTab label="#{labels['pages.trialCreatePanel.step1']}">
 			<f:subview id="step1Include">
 				<jsp:directive.include file="./inc/panels/trial/step1.jspx" />
 			</f:subview>
 		</ice:panelTab>
 
-		<ice:panelTab label="#{labels['pages.trialEditPanel.step2']}">
+		<ice:panelTab label="#{labels['pages.trialCreatePanel.step2']}">
 			<f:subview id="step2Include">
 				<jsp:directive.include file="./inc/panels/trial/step2.jspx" />
 			</f:subview>
 		</ice:panelTab>
 
-		<ice:panelTab label="#{labels['pages.trialEditPanel.step3']}">
+		<ice:panelTab label="#{labels['pages.trialCreatePanel.step3']}">
 			<f:subview id="step3Include">
 				<jsp:directive.include file="./inc/panels/trial/step3.jspx" />
 			</f:subview>
 		</ice:panelTab>
 
-		<ice:panelTab label="#{labels['pages.trialEditPanel.step4']}">
+		<ice:panelTab label="#{labels['pages.trialCreatePanel.step4']}">
 			<f:subview id="step4Include">
 				<jsp:directive.include file="./inc/panels/trial/step4.jspx" />
 			</f:subview>
 		</ice:panelTab>
 
-		<ice:panelTab label="#{labels['pages.trialEditPanel.step5']}">
+		<ice:panelTab label="#{labels['pages.trialCreatePanel.step5']}">
 			<f:subview id="step5Include">
 				<jsp:directive.include file="./inc/panels/trial/step5.jspx" />
 			</f:subview>

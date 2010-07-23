@@ -100,7 +100,7 @@ This page shows the information of one trial during the simulation configuration
 	<ice:panelCollapsible expanded="true" toggleOnClick="false"
 		style="margin-left: 3px;">
 		<f:facet name="header">
-			<ice:outputLabel value="#{labels['pages.trialEditPanel.tArmLabel']}"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.trialCreatePanel.tArmLabel']}"></ice:outputLabel>
 		</f:facet>
 		<ice:dataTable id="treatmmentArmTable" border="1"
 			value="#{simulationHandler.simTrial.treatmentArms}" var="arm"

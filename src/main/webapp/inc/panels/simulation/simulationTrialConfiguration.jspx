@@ -30,7 +30,7 @@
 </ice:panelGrid>
 <!-- Configuration for treatment arms -->
 <ice:panelGrid columns="3">
-	<ice:outputLabel value="#{labels['pages.trialEditPanel.tArmLabel']}" />
+	<ice:outputLabel value="#{labels['pages.trialCreatePanel.tArmLabel']}" />
 	<ice:commandButton image="/img/icons/add16.png"
 		actionListener="#{simulationHandler.addArm}" style="margin-right:5px;"
 		immediate="true" />
@@ -51,7 +51,7 @@
 </ice:panelGroup>
 <!-- Configuration for subject properties -->
 <ice:panelGrid columns="4">
-	<ice:outputLabel value="#{labels['pages.trialEditPanel.propLabel']}" />
+	<ice:outputLabel value="#{labels['pages.trialCreatePanel.propLabel']}" />
 	<ice:selectInputText id="critera"
 		valueChangeListener="#{simulationSubjectProperty.criteriaAC.updateObjectList}" rows="10"
 		width="200">

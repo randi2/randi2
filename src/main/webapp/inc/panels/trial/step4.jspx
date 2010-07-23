@@ -20,11 +20,11 @@
 	rendered="#{!trialHandler.editing}" width="850px">
 	<ice:graphicImage value="/img/icons/properties48.png" />
 	<ice:outputLabel
-		value="#{labels['pages.trialEditPanel.step4message'] }" />
+		value="#{labels['pages.trialCreatePanel.step4message'] }" />
 	<ice:panelGroup style="margin-left: 40px;" styleClass="icePnlClpsbl">
 		<ice:panelGroup style="margin-left: 10px;">
 			<ice:outputText escape="false"
-				value="#{labels['pages.trialEditPanel.step4.idsQuestion'] }" />
+				value="#{labels['pages.trialCreatePanel.step4.idsQuestion'] }" />
 			<ice:selectBooleanCheckbox
 				value="#{trialHandler.showedObject.generateIds}"
 				style="margin-left: 10px;" />
@@ -32,7 +32,7 @@
 	</ice:panelGroup>
 </ice:panelGrid>
 <ice:panelGrid columns="3" width="850px">
-	<ice:outputLabel value="#{labels['pages.trialEditPanel.propLabel']}" />
+	<ice:outputLabel value="#{labels['pages.trialCreatePanel.propLabel']}" />
 	<ice:panelGrid columns="3">
 		<ice:selectInputText id="critera"
 			valueChangeListener="#{step4.criteriaAC.updateObjectList}" rows="10"
@@ -49,7 +49,7 @@
 		rendered="#{trialHandler.editing}">
 		<ice:panelGroup style="margin-left: 10px;">
 			<ice:outputText escape="false"
-				value="#{labels['pages.trialEditPanel.step4.idsQuestion'] }" />
+				value="#{labels['pages.trialCreatePanel.step4.idsQuestion'] }" />
 			<ice:selectBooleanCheckbox
 				value="#{trialHandler.showedObject.generateIds}"
 				style="margin-left: 10px;" />

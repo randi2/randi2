@@ -19,7 +19,7 @@
 	xmlns:ice="http://www.icesoft.com/icefaces/component" border="0"
 	columns="2">
 	<ice:graphicImage value="/img/icons/info48.png"></ice:graphicImage>
-	<ice:outputLabel value="#{labels['pages.trialEditPanel.step1message']}"></ice:outputLabel>
+	<ice:outputLabel value="#{labels['pages.trialCreatePanel.step1message']}"></ice:outputLabel>
 </ice:panelGrid>
 <ice:panelGroup style="width: 550px;">
 	<ice:panelGrid columns="2">
@@ -83,35 +83,35 @@
 			style="padding: 10px; border: 1px; border-style: solid; border-color: gray;"
 			rendered="#{inputFileController.fileOnServer}">
 			<ice:outputLabel
-				value="#{labels['pages.trialEditPanel.uploadedFiles']}" />
+				value="#{labels['pages.trialCreatePanel.uploadedFiles']}" />
 			<ice:dataTable width="300px" value="#{inputFileController.fileList}"
 				var="file">
 				<ice:column>
 					<f:facet name="header">
 						<ice:outputLabel
-							value="#{labels['pages.trialEditPanel.fileName']}" />
+							value="#{labels['pages.trialCreatePanel.fileName']}" />
 					</f:facet>
 					<ice:outputText value="#{file.fileInfo.fileName}" />
 				</ice:column>
 				<ice:column>
 					<f:facet name="header">
-						<ice:outputLabel value="#{labels['pages.trialEditPanel.size']}" />
+						<ice:outputLabel value="#{labels['pages.trialCreatePanel.size']}" />
 					</f:facet>
 					<ice:outputText value="#{file.sizeFormatted}" />
 				</ice:column>
 				<ice:column>
 					<f:facet name="header">
-						<ice:outputText value="#{labels['pages.trialEditPanel.type']}" />
+						<ice:outputText value="#{labels['pages.trialCreatePanel.type']}" />
 					</f:facet>
 					<ice:outputText value="#{file.fileInfo.contentType}" />
 				</ice:column>
 				<ice:column>
 					<f:facet name="header">
 						<ice:outputText
-							value="#{labels['pages.trialEditPanel.deleteFile']}" />
+							value="#{labels['pages.trialCreatePanel.deleteFile']}" />
 					</f:facet>
 					<ice:commandLink
-						value="#{labels['pages.trialEditPanel.deleteFile']}"
+						value="#{labels['pages.trialCreatePanel.deleteFile']}"
 						actionListener="#{inputFileController.removeUploadedFile}">
 						<f:param name="fileName" value="#{file.fileInfo.fileName}" />
 					</ice:commandLink>
@@ -124,7 +124,7 @@
 		style="margin-left: 3px; margin-top: 3px;" toggleOnClick="false">
 		<f:facet name="header">
 			<ice:outputLabel
-				value="#{labels['pages.trialEditPanel.dAndSHeader']}" />
+				value="#{labels['pages.trialCreatePanel.dAndSHeader']}" />
 		</f:facet>
 		<ice:panelGrid border="0" columns="4">
 			<ice:outputLabel for="startDate" value="#{labels['trial.startDate']}" />
@@ -162,7 +162,7 @@
 	<ice:panelCollapsible id="managementPanel" expanded="true"
 		style="margin-left: 3px; margin-top: 3px;" toggleOnClick="false">
 		<f:facet name="header">
-			<ice:outputLabel value="#{labels['pages.trialEditPanel.mHeader']}" />
+			<ice:outputLabel value="#{labels['pages.trialCreatePanel.mHeader']}" />
 		</f:facet>
 		<ice:panelGrid border="0" columns="2">
 			<ice:outputLabel for="leadingTrialSite"

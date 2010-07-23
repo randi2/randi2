@@ -26,7 +26,7 @@
 	<ice:panelGroup styleClass="contentb">
 		<ice:panelGrid columns="2">
 			<ice:graphicImage value="/img/icons/arm16.png" />
-			<ice:outputLabel value="#{labels['pages.trialEditPanel.tArmLabel']}" />
+			<ice:outputLabel value="#{labels['pages.trialCreatePanel.tArmLabel']}" />
 		</ice:panelGrid>
 		<ice:panelGrid>
 			<ice:outputLabel for="armName" value="#{labels['treatmentArm.name']}" />

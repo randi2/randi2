@@ -19,7 +19,7 @@ This panel configured the algorithms for the simulation.
 	xmlns:ice="http://www.icesoft.com/icefaces/component" border="0"
 	columns="2">
 	<ice:graphicImage value="/img/icons/randConfig48.png" />
-	<ice:outputLabel value="#{labels['pages.trialEditPanel.step5message']}" />
+	<ice:outputLabel value="#{labels['pages.trialCreatePanel.step5message']}" />
 </ice:panelGrid>
 <ice:panelGroup style="width: 450px;">
 	<ice:panelCollapsible id="algoPanelSim" expanded="true"

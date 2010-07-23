@@ -19,10 +19,10 @@
 	xmlns:ice="http://www.icesoft.com/icefaces/component" columns="2" rendered="#{!trialHandler.editing}" >
 	<ice:graphicImage value="/img/icons/arms48.png"/>
 	<ice:outputLabel
-		value="#{labels['pages.trialEditPanel.step3message'] }"/>
+		value="#{labels['pages.trialCreatePanel.step3message'] }"/>
 </ice:panelGrid>
 <ice:panelGrid columns="3">
-	<ice:outputLabel value="#{labels['pages.trialEditPanel.tArmLabel']}" />
+	<ice:outputLabel value="#{labels['pages.trialCreatePanel.tArmLabel']}" />
 	<ice:commandButton image="/img/icons/add16.png"
 		actionListener="#{trialHandler.addArm}" style="margin-right:5px;"
 		immediate="true" />
