@@ -119,6 +119,7 @@
 			</ice:panelGroup>
 		</ice:panelCollapsible>
 	</ice:panelGrid>
+	<!-- 
 	<ice:panelCollapsible expanded="true" toggleOnClick="false"
 		style="margin-left: 3px; margin-top: 3px;">
 		<f:facet name="header">
@@ -129,22 +130,33 @@
 			fileName="protocol.pdf" label="Download the protocol" type="button"
 			shared="false" />
 	</ice:panelCollapsible>
+	 -->
 	<ice:panelGrid columns="2" style="width: 550px;">
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
 				<ice:outputLabel value="#{labels['trial.leadingTrialSite']}" />
 			</f:facet>
-			<ice:outputText id="lTrialSite"
-				value="#{randi2Page.currentTrial.leadingSite.UIName}"
-				rendered="#{!trialHandler.editing}" />
+			<ice:panelGrid columns="2">
+				<ice:outputText id="lTrialSite"
+					value="#{randi2Page.currentTrial.leadingSite.UIName}" />
+				<ice:commandButton value="Change*"
+					action="#{popups.showChangeLeadingSitePopup}"
+					image="/img/icons/change16.png" style="margin-left: 15px;"
+					rendered="#{trialHandler.editing}" />
+			</ice:panelGrid>
 		</ice:panelCollapsible>
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
 				<ice:outputLabel value="#{labels['trial.sponsorInvestigator']}" />
 			</f:facet>
-			<ice:outputText id="sInvestigator"
-				value="#{randi2Page.currentTrial.sponsorInvestigator.UIName}"
-				rendered="#{!trialHandler.editing}" />
+			<ice:panelGrid columns="2">
+				<ice:outputText id="sInvestigator"
+					value="#{randi2Page.currentTrial.sponsorInvestigator.UIName}" />
+				<ice:commandButton value="Change*"
+					action="#{popups.showChangePInvestigatorPopup}"
+					image="/img/icons/change16.png" style="margin-left: 15px;"
+					rendered="#{trialHandler.editing}" />
+			</ice:panelGrid>
 		</ice:panelCollapsible>
 	</ice:panelGrid>
 </ice:panelGroup>
