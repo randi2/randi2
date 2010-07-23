@@ -17,15 +17,15 @@
 <ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" border="0"
-	columns="2">
-	<ice:graphicImage value="/img/icons/trialSite48.png"></ice:graphicImage>
-	<ice:outputLabel value="#{labels['pages.trialEditPanel.step2message']}"></ice:outputLabel>
+	columns="2" rendered="#{!trialHandler.editing}" >
+	<ice:graphicImage value="/img/icons/trialSite48.png"/>
+	<ice:outputLabel value="#{labels['pages.trialEditPanel.step2message']}"/>
 </ice:panelGrid>
-<ice:panelGroup>
+<ice:panelGroup style="width: 500px;">
 	<ice:panelCollapsible expanded="true">
 		<f:facet name="header">
 			<ice:outputLabel for="trialSite"
-				value="#{labels['trial.participatingSites']}"></ice:outputLabel>
+				value="#{labels['trial.participatingSites']}"/>
 		</f:facet>
 		<ice:panelGrid border="0" columns="2">
 			<ice:selectInputText id="trialSite"

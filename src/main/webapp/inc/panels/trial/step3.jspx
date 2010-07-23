@@ -16,10 +16,10 @@
  -->
 <ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ice="http://www.icesoft.com/icefaces/component" columns="2">
-	<ice:graphicImage value="/img/icons/arms48.png"></ice:graphicImage>
+	xmlns:ice="http://www.icesoft.com/icefaces/component" columns="2" rendered="#{!trialHandler.editing}" >
+	<ice:graphicImage value="/img/icons/arms48.png"/>
 	<ice:outputLabel
-		value="#{labels['pages.trialEditPanel.step3message'] }"></ice:outputLabel>
+		value="#{labels['pages.trialEditPanel.step3message'] }"/>
 </ice:panelGrid>
 <ice:panelGrid columns="3">
 	<ice:outputLabel value="#{labels['pages.trialEditPanel.tArmLabel']}" />
