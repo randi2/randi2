@@ -2,6 +2,7 @@ target/
 bin/
 doc/
 logs/
+hsqldb/
 .settings/
 .metadata/
 nb-configuration.xml
