@@ -31,8 +31,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -198,8 +196,14 @@ public class TrialHandler extends AbstractTrialHandler {
 	}
 
 	public boolean isEditable() {
-		Login currentUser = ((Login) SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal());
+		// TODO Check if it's possible do declare LoginHandler as a member of
+		// this bean with JSF2.0
+		Login currentUser = ((LoginHandler) FacesContext
+				.getCurrentInstance()
+				.getApplication()
+				.getELResolver()
+				.getValue(FacesContext.getCurrentInstance().getELContext(),
+						null, "loginHandler")).getLoggedInUser();
 		/*
 		 * Checking if the current user is an principal investigator and if he
 		 * is defined as the principal investigator of the study. Last part
