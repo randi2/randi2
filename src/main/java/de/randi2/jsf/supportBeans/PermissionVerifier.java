@@ -36,6 +36,12 @@ import de.randi2.model.TrialSubject;
 import de.randi2.model.security.ObjectIdentityHibernate;
 import de.randi2.model.security.PermissionHibernate;
 
+/**
+ * A support bean for the JSF pages or other JSF beans realizing the rights check.
+ * 
+ * @author L. Plotnicki <l.plotnicki@dkfz.de>
+ * 
+ */
 public class PermissionVerifier {
 
 	@Setter
@@ -43,46 +49,81 @@ public class PermissionVerifier {
 
 	@Setter
 	private LoginHandler loginHandler;
-	
+
 	@Setter
 	private TrialHandler trialHandler;
 
+	/**
+	 * Checks if the current user has the rights to create an user account 
+	 * @return
+	 */
 	public boolean isAllowedCreateUser() {
 		return loginHandler.getLoggedInUser().hasPermission(Login.class,
-				PermissionHibernate.CREATE)  || loginHandler.getLoggedInUser().hasPermission(Login.class,
+				PermissionHibernate.CREATE)
+				|| loginHandler.getLoggedInUser().hasPermission(Login.class,
 						PermissionHibernate.ADMINISTRATION);
 	}
 
+	/**
+	 *Checks if any user related write operations are allowed for the current user
+	 * @return
+	 */
 	public boolean isAllowedWriteUser() {
 		return loginHandler.getLoggedInUser().hasPermission(Login.class,
-				PermissionHibernate.WRITE)  || loginHandler.getLoggedInUser().hasPermission(Login.class,
+				PermissionHibernate.WRITE)
+				|| loginHandler.getLoggedInUser().hasPermission(Login.class,
 						PermissionHibernate.ADMINISTRATION);
 	}
-	
+
+	/**
+	 * Checks if the current user can create a new trial
+	 * @return
+	 */
 	public boolean isAllowedCreateTrial() {
 		return loginHandler.getLoggedInUser().hasPermission(Trial.class,
-				PermissionHibernate.CREATE) || loginHandler.getLoggedInUser().hasPermission(Trial.class,
+				PermissionHibernate.CREATE)
+				|| loginHandler.getLoggedInUser().hasPermission(Trial.class,
 						PermissionHibernate.ADMINISTRATION);
 	}
 
+	/**
+	 * Checks if the current user can access any trial info
+	 * @return
+	 */
 	public boolean isAllowedReadTrial() {
 		return loginHandler.getLoggedInUser().hasPermission(Trial.class,
-				PermissionHibernate.READ)|| loginHandler.getLoggedInUser().hasPermission(Trial.class,
+				PermissionHibernate.READ)
+				|| loginHandler.getLoggedInUser().hasPermission(Trial.class,
 						PermissionHibernate.ADMINISTRATION);
 	}
 
+	/**
+	 * Checks if the current user can create a new trial site
+	 * @return
+	 */
 	public boolean isAllowedCreateTrialSite() {
 		return loginHandler.getLoggedInUser().hasPermission(TrialSite.class,
-				PermissionHibernate.CREATE) || loginHandler.getLoggedInUser().hasPermission(TrialSite.class,
-						PermissionHibernate.ADMINISTRATION);
+				PermissionHibernate.CREATE)
+				|| loginHandler.getLoggedInUser().hasPermission(
+						TrialSite.class, PermissionHibernate.ADMINISTRATION);
 	}
 
+	/**
+	 * Checks if the current user can access any trial site objects
+	 * @return
+	 */
 	public boolean isAllowedReadTrialSite() {
 		return loginHandler.getLoggedInUser().hasPermission(TrialSite.class,
-				PermissionHibernate.READ)|| loginHandler.getLoggedInUser().hasPermission(TrialSite.class,
-						PermissionHibernate.ADMINISTRATION);
+				PermissionHibernate.READ)
+				|| loginHandler.getLoggedInUser().hasPermission(
+						TrialSite.class, PermissionHibernate.ADMINISTRATION);
 	}
 
+	/**
+	 * Checks if the specified trial site can be edited by the current user
+	 * @param trialSite - trial site object which should be checked
+	 * @return
+	 */
 	public boolean isAllowedEditTrialSite(TrialSite trialSite) {
 		try {
 			Acl acl = aclService.readAclById(new ObjectIdentityHibernate(
@@ -97,7 +138,12 @@ public class PermissionVerifier {
 			return false;
 		}
 	}
-	
+
+	/**
+	 * Checks if the specified user account can be edited by the current user
+	 * @param user - user object which should be checked
+	 * @return
+	 */
 	public boolean isAllowedEditUser(Login user) {
 		try {
 			Acl acl = aclService.readAclById(new ObjectIdentityHibernate(
@@ -112,18 +158,35 @@ public class PermissionVerifier {
 			return false;
 		}
 	}
-	
+
+	/**
+	 * Checks if the current user can randomize
+	 * @return
+	 */
 	public boolean isAllowedRandomize() {
-		return trialHandler.isAddingSubjectsEnabled() && (loginHandler.getLoggedInUser().hasPermission(TrialSubject.class,
-				PermissionHibernate.CREATE) || loginHandler.getLoggedInUser().hasPermission(TrialSubject.class,
-						PermissionHibernate.ADMINISTRATION));
+		return trialHandler.isAddingSubjectsEnabled()
+				&& (loginHandler.getLoggedInUser().hasPermission(
+						TrialSubject.class, PermissionHibernate.CREATE) || loginHandler
+						.getLoggedInUser().hasPermission(TrialSubject.class,
+								PermissionHibernate.ADMINISTRATION));
 	}
-	
-	public boolean isAllowedChangeUserTrialSite(){
+
+	/**
+	 * Use isAllowedWriteUser instead!!!
+	 * @return
+	 */
+	@Deprecated
+	public boolean isAllowedChangeUserTrialSite() {
 		return loginHandler.isEditable() && isAllowedWriteUser();
 	}
-	
-	public boolean isAllowedSeeRandomizationDetails(){
-		return loginHandler.getLoggedInUser().hasRole(Role.ROLE_STATISTICAN)||loginHandler.getLoggedInUser().hasRole(Role.ROLE_P_INVESTIGATOR);
+
+	/**
+	 * Checks if the user can access the randomization data/details
+	 * @return
+	 */
+	public boolean isAllowedSeeRandomizationDetails() {
+		Login u = loginHandler.getLoggedInUser();
+		return u.hasRole(Role.ROLE_STATISTICAN) || u.hasRole(Role.ROLE_MONITOR)
+				|| u.hasRole(Role.ROLE_P_INVESTIGATOR);
 	}
 }
