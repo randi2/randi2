@@ -309,7 +309,7 @@ public class TrialHandler extends AbstractTrialHandler {
 	 * @return Either {@link Randi2#ERROR} or {@link Randi2#SUCCESS}
 	 */
 	public String saveTrial() {
-		System.out.println("Called");
+		showedObject.getRandomizationConfiguration().getAlgorithm().getClass()
 		return Randi2.SUCCESS;
 	}
 
