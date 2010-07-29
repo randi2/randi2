@@ -27,7 +27,7 @@
 			</ice:panelGrid>
 		</f:facet>
 		<ice:panelGroup>
-			<ice:panelGrid border="0" columns="3" style="margin-left: 50px;" renderedOnUserRole="ROLE_ADMIN">
+			<ice:panelGrid border="0" columns="3" style="margin-left: 50px;" rendered="#{permissionVerifier.allowedCreateUser}">
 				<ice:outputLabel for="role" value="#{labels['login.role']}"></ice:outputLabel>
 				<ice:selectInputText id="role"
 					valueChangeListener="#{loginHandler.rolesAC.updateObjectList}"
@@ -46,7 +46,7 @@
 						<ice:outputText value="#{labels['role.name']}" id="nameH"></ice:outputText>
 					</f:facet>
 				</ice:column>
-				<ice:column id="column4" renderedOnUserRole="ROLE_ADMIN">
+				<ice:column id="column4" rendered="#{permissionVerifier.allowedCreateUser}">
 					<ice:commandLink id="removeId" value="#{labels['buttons.remove']}"
 						actionListener="#{loginHandler.removeRole}">
 						<ice:outputText value="#{role}" visible="false" />
