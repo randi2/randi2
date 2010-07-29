@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- 
  The Terms of Use page.
 
@@ -14,26 +15,24 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-<f:view xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:h="http://java.sun.com/jsf/html"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ice="http://www.icesoft.com/icefaces/component"
-	locale="#{loginHandler.chosenLocale}">
-	<ice:outputDeclaration doctypeRoot="HTML"
-		doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN"
-		doctypeSystem="http://www.w3.org/TR/html4/loose.dtd" />
-	<html>
-	<head>
-	<title><ice:outputText nospan="true"
-		value="RANDI2 - #{labels['pages.registration.termsHeader']}" /></title>
-	<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
-	<ice:outputStyle href="RANDI2.css" />
-	</head>
-	<body>
-	<div class="body">
-	<div class="terms">
-	<ice:form>
-		<ice:panelCollapsible expanded="true" toggleOnClick="false">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+<h:head>
+	<title><ui:insert name="title">Default title</ui:insert></title>
+</h:head>
+<h:body>
+	<div id="header"><!-- 
+           <ui:include src="/header.xhtml" >
+	          <ui:param name="param_name" value="param_value" />
+           </ui:include>
+           --></div>
+	<div id="content"><ice:form>
+		<div class="terms"><ice:panelCollapsible expanded="true"
+			toggleOnClick="false">
 			<f:facet name="header">
 				<ice:panelGrid border="0" columns="2">
 					<ice:graphicImage value="/img/icons/terms16.png"></ice:graphicImage>
@@ -43,10 +42,8 @@
 			</f:facet>
 			<ice:outputText value="#{labels['pages.registration.terms']}"
 				escape="false" />
-		</ice:panelCollapsible>
-		<ice:commandButton immediate="true"
-						value="#{labels['buttons.ok']}"
-						actionListener="#{registerPage.go2Login}" style="margin-left: 390px;"/>
+		</ice:panelCollapsible> <ice:commandButton immediate="true" value="#{labels['buttons.ok']}"
+			actionListener="#{registerPage.go2Login}" style="margin-left: 390px;" />
 		<ice:panelGrid columns="2" width="100%">
 			<!-- copyright and company stuff -->
 			<ice:panelGroup>
@@ -61,9 +58,7 @@
 					</tr>
 				</table>
 			</ice:panelGroup>
-		</ice:panelGrid>
+		</ice:panelGrid></div>
 	</ice:form></div>
-	</div>
-	</body>
-	</html>
-</f:view>
+</h:body>
+</html>

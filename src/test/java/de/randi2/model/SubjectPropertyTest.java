@@ -20,7 +20,7 @@ import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.test.utility.AbstractDomainTest;
-import edu.emory.mathcs.backport.java.util.Arrays;
+import java.util.Arrays;
 
 @SuppressWarnings("unchecked")
 public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {

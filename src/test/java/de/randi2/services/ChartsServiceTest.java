@@ -30,7 +30,7 @@ import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.ChartData;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.BoxedException;
-import edu.emory.mathcs.backport.java.util.Arrays;
+import java.util.Arrays;
 
 public class ChartsServiceTest extends AbstractServiceTest {
 

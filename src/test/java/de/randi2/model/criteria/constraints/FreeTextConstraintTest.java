@@ -6,6 +6,7 @@ import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.test.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 
 public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstraint> {

@@ -29,7 +29,7 @@ import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.test.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.Pair;
-import edu.emory.mathcs.backport.java.util.Arrays;
+import java.util.Arrays;
 
 @Transactional
 public class TrialTest extends AbstractDomainTest<Trial> {
