@@ -35,7 +35,7 @@
 				<ice:commandButton style="margin-left: 15px;"
 					value="#{labels['buttons.changeTrialSite']}"
 					action="#{popups.showChangeTrialSitePopup}"
-					rendered="#{permissionVerifier.allowedChangeUserTrialSite}"
+					rendered="#{permissionVerifier.allowedCreateUser}"
 					image="/img/icons/change16.png"></ice:commandButton>
 			</ice:panelGroup>
 			<ice:panelGroup rendered="#{loginHandler.creatingMode}">

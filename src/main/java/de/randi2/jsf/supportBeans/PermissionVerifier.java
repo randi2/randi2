@@ -171,14 +171,6 @@ public class PermissionVerifier {
 								PermissionHibernate.ADMINISTRATION));
 	}
 
-	/**
-	 * Use isAllowedWriteUser instead!!!
-	 * @return
-	 */
-	@Deprecated
-	public boolean isAllowedChangeUserTrialSite() {
-		return loginHandler.isEditable() && isAllowedWriteUser();
-	}
 
 	/**
 	 * Checks if the user can access the randomization data/details
