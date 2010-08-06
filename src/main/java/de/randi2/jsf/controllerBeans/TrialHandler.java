@@ -70,13 +70,16 @@ public class TrialHandler extends AbstractTrialHandler {
 	 */
 
 	@Setter
-	private TrialSiteService siteService = null;
+	private TrialSiteService siteService;
 
 	@Setter
-	private TrialService trialService = null;
+	private TrialService trialService;
 
 	@Setter
 	private LogService logService;
+
+	@Setter
+	private LoginHandler loginHandler;
 
 	@Setter
 	private Popups popups;
@@ -96,9 +99,9 @@ public class TrialHandler extends AbstractTrialHandler {
 	/*
 	 * Auto complete objects for the trial creation process.
 	 */
-	private AutoCompleteObject<TrialSite> trialSitesAC = null;
-	private AutoCompleteObject<Login> sponsorInvestigatorsAC = null;
-	private AutoCompleteObject<TrialSite> participatingSitesAC = null;
+	private AutoCompleteObject<TrialSite> trialSitesAC;
+	private AutoCompleteObject<Login> sponsorInvestigatorsAC;
+	private AutoCompleteObject<TrialSite> participatingSitesAC;
 
 	/*
 	 * GET & SET methods
@@ -198,12 +201,7 @@ public class TrialHandler extends AbstractTrialHandler {
 	public boolean isEditable() {
 		// TODO Check if it's possible do declare LoginHandler as a member of
 		// this bean with JSF2.0
-		Login currentUser = ((LoginHandler) FacesContext
-				.getCurrentInstance()
-				.getApplication()
-				.getELResolver()
-				.getValue(FacesContext.getCurrentInstance().getELContext(),
-						null, "loginHandler")).getLoggedInUser();
+		Login currentUser = loginHandler.getLoggedInUser();
 		/*
 		 * Checking if the current user is an principal investigator and if he
 		 * is defined as the principal investigator of the study. Last part
@@ -223,16 +221,9 @@ public class TrialHandler extends AbstractTrialHandler {
 	public List<SelectItem> getStateItems() {
 		List<SelectItem> stateItems = new ArrayList<SelectItem>(
 				TrialStatus.values().length);
-		ResourceBundle tempRB = ResourceBundle.getBundle(
-				"de.randi2.jsf.i18n.trialState",
-				((LoginHandler) FacesContext
-						.getCurrentInstance()
-						.getApplication()
-						.getELResolver()
-						.getValue(
-								FacesContext.getCurrentInstance()
-										.getELContext(), null, "loginHandler"))
-						.getChosenLocale());
+		ResourceBundle tempRB = ResourceBundle
+				.getBundle("de.randi2.jsf.i18n.trialState",
+						loginHandler.getChosenLocale());
 		for (TrialStatus s : TrialStatus.values()) {
 			stateItems.add(new SelectItem(s, tempRB.getString(s.toString())));
 		}
@@ -292,12 +283,13 @@ public class TrialHandler extends AbstractTrialHandler {
 			// create trial
 			trialService.create(showedObject);
 
-			getPopups().showTrialCreatedPopup();
+			popups.showTrialCreatedPopup();
 
 			clean();
 
 			return Randi2.SUCCESS;
 		} catch (Exception e) {
+			e.printStackTrace(); // TODO Log!
 			Randi2.showMessage(e);
 			return Randi2.ERROR;
 		}
