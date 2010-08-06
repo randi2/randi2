@@ -19,6 +19,7 @@ package de.randi2.model.exceptions;
 
 import org.hibernate.validator.InvalidValue;
 
+@SuppressWarnings("serial")
 public class ValidationException extends RuntimeException {
 
 	private InvalidValue[] invalids;
