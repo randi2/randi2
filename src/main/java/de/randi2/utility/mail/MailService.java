@@ -17,23 +17,19 @@
  */
 package de.randi2.utility.mail;
 
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 
-import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
-import de.randi2.utility.mail.exceptions.MailErrorException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.ui.velocity.VelocityEngineUtils;
+
+import de.randi2.utility.mail.exceptions.MailErrorException;
 
 /**
  * Service to send e-mails. The message to send is generated using a template.
@@ -73,10 +69,8 @@ public class MailService implements MailServiceInterface {
 		this.url = url;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.randi2.utility.mail.MailService#sendMail(de.randi2.model.Login)
+	/**
+	 * {@inheritDoc}
 	 */
 	public boolean sendMail(final String recipient,
 			final String messageTemplate, final Locale templateLanguageParam,
