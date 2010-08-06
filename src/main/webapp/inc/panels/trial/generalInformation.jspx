@@ -28,12 +28,12 @@
 				rendered="#{!trialHandler.editing}" />
 			<ice:panelGroup rendered="#{trialHandler.editing}">
 				<ice:inputText id="nameE" size="35"
-					value="#{trialHandler.showedObject.name}"
-					required="#{trialHandler.showedObject.requiredFields['name']}"
+					value="#{randi2Page.currentTrial.name}"
+					required="#{randi2Page.currentTrial.requiredFields['name']}"
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-					<f:attribute name="dObject" value="#{trialHandler.showedObject}" />
+					<f:attribute name="dObject" value="#{randi2Page.currentTrial}" />
 				</ice:inputText>
 				<ice:message for="nameE" />
 			</ice:panelGroup>
@@ -47,12 +47,12 @@
 				rendered="#{!trialHandler.editing}" />
 			<ice:panelGroup rendered="#{trialHandler.editing}">
 				<ice:inputText id="abbreviationE" size="31"
-					value="#{trialHandler.showedObject.abbreviation}"
-					required="#{trialHandler.showedObject.requiredFields['abbreviation']}"
+					value="#{randi2Page.currentTrial.abbreviation}"
+					required="#{randi2Page.currentTrial.requiredFields['abbreviation']}"
 					partialSubmit="true" readonly="true" style="background: #E6E6E6;">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-					<f:attribute name="dObject" value="#{trialHandler.showedObject}" />
+					<f:attribute name="dObject" value="#{randi2Page.currentTrial}" />
 				</ice:inputText>
 				<ice:message for="abbreviationE" />
 			</ice:panelGroup>
@@ -68,11 +68,11 @@
 			rendered="#{!trialHandler.editing}" />
 		<ice:panelGroup rendered="#{trialHandler.editing}">
 			<ice:inputTextarea id="descriptionE" cols="20" rows="4"
-				value="#{trialHandler.showedObject.description}"
-				required="#{trialHandler.showedObject.requiredFields['description']}"
+				value="#{randi2Page.currentTrial.description}"
+				required="#{randi2Page.currentTrial.requiredFields['description']}"
 				partialSubmit="true" style="width:505px;height:85px;overflow: auto;">
 				<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-				<f:attribute name="dObject" value="#{trialHandler.showedObject}" />
+				<f:attribute name="dObject" value="#{randi2Page.currentTrial}" />
 			</ice:inputTextarea>
 			<ice:message for="descriptionE" />
 		</ice:panelGroup>
@@ -90,7 +90,7 @@
 			</ice:outputText>
 			<ice:panelGroup rendered="#{trialHandler.editing}">
 				<ice:selectInputDate id="sDateE"
-					value="#{trialHandler.showedObject.startDate.time}"
+					value="#{randi2Page.currentTrial.startDate.time}"
 					renderAsPopup="true">
 					<f:convertDateTime locale="#{loginHandler.chosenLocale}"
 						dateStyle="medium" timeZone="#{randi2Page.zone}" />
@@ -110,7 +110,7 @@
 			</ice:outputText>
 			<ice:panelGroup rendered="#{trialHandler.editing}">
 				<ice:selectInputDate id="eDateE"
-					value="#{trialHandler.showedObject.endDate.time}"
+					value="#{randi2Page.currentTrial.endDate.time}"
 					renderAsPopup="true">
 					<f:convertDateTime locale="#{loginHandler.chosenLocale}"
 						dateStyle="medium" timeZone="#{randi2Page.zone}" />
