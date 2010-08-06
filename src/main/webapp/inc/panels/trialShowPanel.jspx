@@ -38,19 +38,19 @@
 					file="./inc/panels/trial/sitesInformation.jspx" />
 			</f:subview>
 			<f:subview id="siIncludeE" rendered="#{trialHandler.editing}">
-				<jsp:directive.include file="./inc/panels/trial/step2.jspx" />
+				<jsp:directive.include file="./inc/panels/trial/sitesConfig.jspx" />
 			</f:subview>
 		</ice:panelTab>
 		<ice:panelTab label="#{labels['pages.trialShowPanel.arms']}"
 			rendered="#{trialHandler.editing}">
 			<f:subview id="step3Include">
-				<jsp:directive.include file="./inc/panels/trial/step3.jspx" />
+				<jsp:directive.include file="./inc/panels/trial/armsConfig.jspx" />
 			</f:subview>
 		</ice:panelTab>
 		<ice:panelTab label="#{labels['pages.trialShowPanel.properties']}"
 			rendered="#{trialHandler.editing}">
 			<f:subview id="step4Include">
-				<jsp:directive.include file="./inc/panels/trial/step4.jspx" />
+				<jsp:directive.include file="./inc/panels/trial/subjectPropConfig.jspx" />
 			</f:subview>
 		</ice:panelTab>
 		<ice:panelTab label="#{labels['pages.trialShowPanel.algorithm']}"

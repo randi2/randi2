@@ -23,31 +23,31 @@
 	<ice:panelTabSet style="font-size: 9;display: block;">
 		<ice:panelTab label="#{labels['pages.trialCreatePanel.step1']}">
 			<f:subview id="step1Include">
-				<jsp:directive.include file="./inc/panels/trial/step1.jspx" />
+				<jsp:directive.include file="./inc/panels/trial/creationGeneralConfig.jspx" />
 			</f:subview>
 		</ice:panelTab>
 
 		<ice:panelTab label="#{labels['pages.trialCreatePanel.step2']}">
 			<f:subview id="step2Include">
-				<jsp:directive.include file="./inc/panels/trial/step2.jspx" />
+				<jsp:directive.include file="./inc/panels/trial/sitesConfig.jspx" />
 			</f:subview>
 		</ice:panelTab>
 
 		<ice:panelTab label="#{labels['pages.trialCreatePanel.step3']}">
 			<f:subview id="step3Include">
-				<jsp:directive.include file="./inc/panels/trial/step3.jspx" />
+				<jsp:directive.include file="./inc/panels/trial/armsConfig.jspx" />
 			</f:subview>
 		</ice:panelTab>
 
 		<ice:panelTab label="#{labels['pages.trialCreatePanel.step4']}">
 			<f:subview id="step4Include">
-				<jsp:directive.include file="./inc/panels/trial/step4.jspx" />
+				<jsp:directive.include file="./inc/panels/trial/subjectPropConfig.jspx" />
 			</f:subview>
 		</ice:panelTab>
 
 		<ice:panelTab label="#{labels['pages.trialCreatePanel.step5']}">
 			<f:subview id="step5Include">
-				<jsp:directive.include file="./inc/panels/trial/step5.jspx" />
+				<jsp:directive.include file="./inc/panels/trial/creationAlgorithmConfig.jspx" />
 			</f:subview>
 		</ice:panelTab>
 
