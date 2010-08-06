@@ -112,11 +112,8 @@ public class MailService implements MailServiceInterface {
 
 		} catch (Exception e) {
 			throw new MailErrorException(String.format("Error while sending mail: '%s'", e.getMessage()), e);
-
 		}
-
 		return true;
-
 	}
 
 	public String getFrom() {
