@@ -35,6 +35,14 @@ public class BlockRandomizationConfig extends AbstractRandomizationConfig {
 
 	private static final long serialVersionUID = -7933864896327057988L;
 	
+	
+	public BlockRandomizationConfig(long seed){
+		super(seed);
+	}
+	
+	public BlockRandomizationConfig(){
+		super(null);
+	}
 
 	@Override
 	public RandomizationAlgorithm<BlockRandomizationConfig> createAlgorithm() {
