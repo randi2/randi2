@@ -25,7 +25,7 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
  * @author Daniel Schrimpf <ds@randi2.de>
  * 
  */
-public class SimulationSubjectProperty extends AbstractSubjectPropertyBackingB{
+public class SimulationSubjectProperty extends AbstractSubjectProperty{
 
 	@Setter
 	private SimulationHandler simulationHandler;

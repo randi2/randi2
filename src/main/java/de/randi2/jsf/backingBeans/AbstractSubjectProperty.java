@@ -19,7 +19,7 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
  * @author lplotni
  *
  */
-public abstract class AbstractSubjectPropertyBackingB {
+public abstract class AbstractSubjectProperty {
 
 	@Getter
 	@Setter

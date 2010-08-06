@@ -35,7 +35,7 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
  * @author Lukasz Plotnicki <l.plotnicki@gmail.com>
  * 
  */
-public class Step4 extends AbstractSubjectPropertyBackingB{
+public class Step4 extends AbstractSubjectProperty{
 
 	@Setter
 	private TrialHandler trialHandler;
