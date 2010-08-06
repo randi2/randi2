@@ -27,15 +27,15 @@
 		<f:facet name="header">
 			<ice:outputLabel value="#{labels['trial.randomConf']}"/>
 		</f:facet>
-		<ice:selectOneMenu id="algorithmType" partialSubmit="true" value="#{step5.selectedAlgorithmPanelId}">
-			<f:selectItems value="#{step5.algorithms}" />
+		<ice:selectOneMenu id="algorithmType" partialSubmit="true" value="#{algorithmConfig.selectedAlgorithmPanelId}">
+			<f:selectItems value="#{algorithmConfig.algorithms}" />
 		</ice:selectOneMenu>
 		<ice:message for="algorithmType"/>
 	</ice:panelCollapsible>
 </ice:panelGroup>
 <ice:panelGrid columns="1">
 	<ice:panelStack id="algorithmsPanelStack"
-		selectedPanel="#{step5.selectedAlgorithmPanelId}">
+		selectedPanel="#{algorithmConfig.selectedAlgorithmPanelId}">
 		<ice:panelGroup id="none">
 		</ice:panelGroup>
 		<ice:panelGroup id="completeRandomization">

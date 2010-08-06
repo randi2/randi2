@@ -49,7 +49,7 @@
 		</ice:panelTab>
 		<ice:panelTab label="#{labels['pages.trialShowPanel.properties']}"
 			rendered="#{trialHandler.editing}">
-			<f:subview id="step4Include">
+			<f:subview id="subjectPropertiesConfigInclude">
 				<jsp:directive.include file="./inc/panels/trial/subjectPropConfig.jspx" />
 			</f:subview>
 		</ice:panelTab>

@@ -260,8 +260,8 @@
 	<managed-bean>
 		<description>Backing bean for the trial configuration process -
 			subject properties configuration</description>
-		<managed-bean-name>step4</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.backingBeans.Step4</managed-bean-class>
+		<managed-bean-name>subjectPropertiesConfig</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.backingBeans.SubjectPropertiesConfig</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
 			<property-name>loginHandler</property-name>
@@ -278,8 +278,8 @@
 	<managed-bean>
 		<description>Backing bean for the trial configuration process -
 			randomization algorithm configuration</description>
-		<managed-bean-name>step5</managed-bean-name>
-		<managed-bean-class>de.randi2.jsf.backingBeans.Step5</managed-bean-class>
+		<managed-bean-name>algorithmConfig</managed-bean-name>
+		<managed-bean-class>de.randi2.jsf.backingBeans.AlgorithmConfig</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
 			<property-name>loginHandler</property-name>

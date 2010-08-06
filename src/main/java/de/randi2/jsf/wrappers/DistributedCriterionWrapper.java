@@ -9,7 +9,7 @@ import javax.faces.model.SelectItem;
 
 import lombok.Getter;
 import lombok.Setter;
-import de.randi2.jsf.backingBeans.Step5.AlgorithmPanelId;
+import de.randi2.jsf.backingBeans.AlgorithmConfig.AlgorithmPanelId;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig;

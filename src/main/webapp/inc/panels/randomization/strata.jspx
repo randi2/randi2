@@ -48,7 +48,7 @@
 			<ice:graphicImage value="/img/icons/properties48.png" />
 			<ice:outputLabel value="#{labels['pages.strata.factorsInfo']}" />
 		</ice:panelGrid>
-		<ice:panelSeries value="#{step4.criteria}" var="criterion"
+		<ice:panelSeries value="#{subjectPropertiesConfig.criteria}" var="criterion"
 			style="padding:10px;float: left;">
 			<ice:panelGroup
 				style="float:left; padding-left: 2px; padding-top: 5px;"

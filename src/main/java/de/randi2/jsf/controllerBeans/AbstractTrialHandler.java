@@ -12,8 +12,8 @@ import javax.faces.event.ActionEvent;
 
 import lombok.Getter;
 import lombok.Setter;
-import de.randi2.jsf.backingBeans.Step4;
-import de.randi2.jsf.backingBeans.Step5;
+import de.randi2.jsf.backingBeans.SubjectPropertiesConfig;
+import de.randi2.jsf.backingBeans.AlgorithmConfig;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.wrappers.ConstraintWrapper;
 import de.randi2.jsf.wrappers.CriterionWrapper;
@@ -130,8 +130,8 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 				.getApplication().getExpressionFactory()
 				.createValueExpression(
 						FacesContext.getCurrentInstance().getELContext(),
-						"#{step4}", Step4.class);
-		Step4 currentStep4 = (Step4) ve1.getValue(FacesContext
+						"#{subjectPropertiesConfig}", SubjectPropertiesConfig.class);
+		SubjectPropertiesConfig currentStep4 = (SubjectPropertiesConfig) ve1.getValue(FacesContext
 				.getCurrentInstance().getELContext());
 		/* End of SubjectProperites Configuration */
 		return addAllConfiguredCriteria(currentStep4.getCriteria());
@@ -178,29 +178,29 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 				.getApplication().getExpressionFactory()
 				.createValueExpression(
 						FacesContext.getCurrentInstance().getELContext(),
-						"#{step5}", Step5.class);
-		Step5 currentStep5 = (Step5) ve2.getValue(FacesContext
+						"#{algorithmConfig}", AlgorithmConfig.class);
+		AlgorithmConfig currentStep5 = (AlgorithmConfig) ve2.getValue(FacesContext
 				.getCurrentInstance().getELContext());
 		if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())) {
+				AlgorithmConfig.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())) {
 			currentObject
 					.setRandomizationConfiguration(new CompleteRandomizationConfig());
 		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
+				AlgorithmConfig.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
 			currentObject
 					.setRandomizationConfiguration(new BiasedCoinRandomizationConfig());
 		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
+				AlgorithmConfig.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
 			currentObject.setRandomizationConfiguration(getRandomizationConfig());
 		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString())) {
+				AlgorithmConfig.AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString())) {
 			currentObject
 					.setRandomizationConfiguration(new TruncatedBinomialDesignConfig());
 		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.URN_MODEL.toString())) {
+				AlgorithmConfig.AlgorithmPanelId.URN_MODEL.toString())) {
 			currentObject.setRandomizationConfiguration(getRandomizationConfig());
 		}else if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.MINIMIZATION.toString())) {
+				AlgorithmConfig.AlgorithmPanelId.MINIMIZATION.toString())) {
 			currentObject.setRandomizationConfiguration(getRandomizationConfig());
 		}
 		/* End of the Algorithm Configuration */

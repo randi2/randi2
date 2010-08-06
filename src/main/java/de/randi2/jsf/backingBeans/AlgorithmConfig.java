@@ -35,7 +35,7 @@ import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 
-public class Step5 {
+public class AlgorithmConfig {
 
 	public static enum AlgorithmPanelId {
 		COMPLETE_RANDOMIZATION("completeRandomization"), BIASEDCOIN_RANDOMIZATION(

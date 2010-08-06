@@ -40,13 +40,13 @@
 		</ice:panelTab>
 
 		<ice:panelTab label="#{labels['pages.trialCreatePanel.step4']}">
-			<f:subview id="step4Include">
+			<f:subview id="subjectPropertiesConfigInclude">
 				<jsp:directive.include file="./inc/panels/trial/subjectPropConfig.jspx" />
 			</f:subview>
 		</ice:panelTab>
 
 		<ice:panelTab label="#{labels['pages.trialCreatePanel.step5']}">
-			<f:subview id="step5Include">
+			<f:subview id="algorithmConfigInclude">
 				<jsp:directive.include file="./inc/panels/trial/creationAlgorithmConfig.jspx" />
 			</f:subview>
 		</ice:panelTab>

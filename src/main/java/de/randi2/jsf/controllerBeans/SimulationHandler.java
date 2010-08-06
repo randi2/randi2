@@ -24,7 +24,7 @@ import com.icesoft.faces.context.Resource;
 import de.randi2.jsf.backingBeans.Randi2Page;
 import de.randi2.jsf.backingBeans.SimulationAlgorithm;
 import de.randi2.jsf.backingBeans.SimulationSubjectProperty;
-import de.randi2.jsf.backingBeans.Step5;
+import de.randi2.jsf.backingBeans.AlgorithmConfig;
 import de.randi2.jsf.wrappers.AlgorithmWrapper;
 import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.jsf.wrappers.DistributedConstraintWrapper;
@@ -420,29 +420,29 @@ public class SimulationHandler extends AbstractTrialHandler {
 		SimulationAlgorithm currentAlg = (SimulationAlgorithm) ve2
 				.getValue(FacesContext.getCurrentInstance().getELContext());
 		if (currentAlg.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())) {
+				AlgorithmConfig.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
 					new CompleteRandomizationConfig()));
 		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
+				AlgorithmConfig.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
 					new BiasedCoinRandomizationConfig()));
 		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
+				AlgorithmConfig.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
 			AlgorithmWrapper algWrapper = new AlgorithmWrapper(
 					new BlockRandomizationConfig());
 			algWrapper.getBlockR().setLoginHandler(getLoginHandler());
 			randomisationConfigs.add(algWrapper);
 		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString())) {
+				AlgorithmConfig.AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
 					new TruncatedBinomialDesignConfig()));
 		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.URN_MODEL.toString())) {
+				AlgorithmConfig.AlgorithmPanelId.URN_MODEL.toString())) {
 			randomisationConfigs
 					.add(new AlgorithmWrapper(new UrnDesignConfig()));
 		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
-				Step5.AlgorithmPanelId.MINIMIZATION.toString())) {
+				AlgorithmConfig.AlgorithmPanelId.MINIMIZATION.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
 					new MinimizationConfig()));
 		}

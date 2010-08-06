@@ -9,7 +9,7 @@ import javax.faces.model.SelectItem;
 
 import lombok.Getter;
 import lombok.Setter;
-import de.randi2.jsf.backingBeans.Step5.AlgorithmPanelId;
+import de.randi2.jsf.backingBeans.AlgorithmConfig.AlgorithmPanelId;
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.SimulationHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;

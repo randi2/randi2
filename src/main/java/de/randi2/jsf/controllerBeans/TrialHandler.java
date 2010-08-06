@@ -38,8 +38,8 @@ import com.icesoft.faces.context.ByteArrayResource;
 import com.icesoft.faces.context.FileResource;
 import com.icesoft.faces.context.Resource;
 
-import de.randi2.jsf.backingBeans.Step4;
-import de.randi2.jsf.backingBeans.Step5;
+import de.randi2.jsf.backingBeans.SubjectPropertiesConfig;
+import de.randi2.jsf.backingBeans.AlgorithmConfig;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
@@ -370,8 +370,8 @@ public class TrialHandler extends AbstractTrialHandler {
 				.getExpressionFactory()
 				.createValueExpression(
 						FacesContext.getCurrentInstance().getELContext(),
-						"#{step4}", Step4.class);
-		Step4 currentStep4 = (Step4) ve1.getValue(FacesContext
+						"#{subjectPropertiesConfig}", SubjectPropertiesConfig.class);
+		SubjectPropertiesConfig currentStep4 = (SubjectPropertiesConfig) ve1.getValue(FacesContext
 				.getCurrentInstance().getELContext());
 		currentStep4.clean();
 
@@ -381,8 +381,8 @@ public class TrialHandler extends AbstractTrialHandler {
 				.getExpressionFactory()
 				.createValueExpression(
 						FacesContext.getCurrentInstance().getELContext(),
-						"#{step5}", Step5.class);
-		Step5 currentStep5 = (Step5) ve2.getValue(FacesContext
+						"#{algorithmConfig}", AlgorithmConfig.class);
+		AlgorithmConfig currentStep5 = (AlgorithmConfig) ve2.getValue(FacesContext
 				.getCurrentInstance().getELContext());
 		currentStep5.clean();
 
