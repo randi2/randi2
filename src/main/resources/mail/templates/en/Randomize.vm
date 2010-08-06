@@ -1,19 +1,20 @@
 <html>
 <body style="width: 800px;">
 <h3>Hello ${user.getPerson().getFirstname()} ${user.getPerson().getSurname()},</h3>
-
 <div>
-A patient (id=${trialSubject.getIdentification()}) is randomized to trial ${trial.getName()} in treatment arm ${trialSubject.getArm().getName()}.
+A patient <b>(id=${trialSubject.getIdentification()})</b> is randomized to trial <b>${trial.getName()}</b> in treatment arm <b>${trialSubject.getArm().getName()}</b>.
 </div>
-<br>
+<div>
+Patient's properties: <br/><b>${trialSubject.getPropertiesUIString()}</b>
+</div>
+<br/>
 <hr style="width: 100%; height: 2px;">
-<div style="text-align: center;">--- This is a RANDI2 System-Mail ---<br>
-<br>
+<div style="text-align: center;">--- This is a RANDI2 System-Mail ---<br/>
+<br/>
 RANDI2 is a web-based
-software for randomizing subjects for clinical trials.<br>
-The RANDI2 project has been released under GNU GPL v. 3.0. <br>
+software for randomizing subjects for clinical trials.<br/>
+The RANDI2 project has been released under GNU GPL v. 3.0. <br/>
 For more informations about the project you can visit <a href="http://randi2.org">http://randi2.org</a>.
 </div>
 </body>
-
 </html>
