@@ -37,7 +37,6 @@ import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.utility.mail.MailService;
-import de.randi2.utility.mail.exceptions.MailErrorException;
 
 @Service("trialService")
 public class TrialServiceImpl implements TrialService {
