@@ -26,9 +26,9 @@
 		</ice:panelGrid>
         <ice:panelGroup styleClass="icePnlClpsbl" style="margin-right: 75px;position:absolute;right:0;top:1;">
 			<ice:panelGroup style="width: 200px; padding: 5px;" styleClass="icePnlClpsblCnt" effect="#{randi2Page.trialChangeEffect}">
-				<ice:outputLabel value="#{labels['pages.header.sTrial']}" rendered="#{randi2Page.currentTrial!=null}"/>
-				<ice:outputLabel value="#{labels['pages.header.noTrial']}" rendered="#{randi2Page.currentTrial==null}" style="color: #FF4500"/>
-				<ice:outputText value="#{randi2Page.currentTrial.UIName}" />
+				<ice:outputLabel value="#{labels['pages.header.sTrial']}" rendered="#{trialHandler.showedObject!=null}"/>
+				<ice:outputLabel value="#{labels['pages.header.noTrial']}" rendered="#{trialHandler.showedObject==null}" style="color: #FF4500"/>
+				<ice:outputText value="#{trialHandler.showedObject.UIName}" />
 			</ice:panelGroup>
 		</ice:panelGroup>
 </ice:form>

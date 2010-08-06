@@ -405,9 +405,9 @@
 		<managed-bean-class>de.randi2.jsf.backingBeans.AlgorithmInfo</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
-			<property-name>randi2Page</property-name>
-			<property-class>de.randi2.jsf.backingBeans.Randi2Page</property-class>
-			<value>#{randi2Page}</value>
+			<property-name>trialHandler</property-name>
+			<property-class>de.randi2.jsf.controllerBeans.TrialHandler</property-class>
+			<value>#{trialHandler}</value>
 		</managed-property>
 		<managed-property>
 			<property-name>loginHandler</property-name>

@@ -39,7 +39,7 @@
 				actionListener="#{randi2Page.createLogin}" rendered="#{permissionVerifier.allowedCreateUser}"/>
 		</ice:menuItem>
 		<ice:menuItem id="trialMenu" value="#{labels['pages.menu.trial']}" rendered="#{permissionVerifier.allowedReadTrial}">
-			<ice:menuItem id="currentTrial" value="#{labels['pages.menu.currentTrial']}" rendered="#{randi2Page.currentTrial!=null}" actionListener="#{randi2Page.showCurrentTrial}"/>
+			<ice:menuItem id="currentTrial" value="#{labels['pages.menu.currentTrial']}" rendered="#{randi2Page.trialSelected}" actionListener="#{randi2Page.showCurrentTrial}"/>
 			<ice:menuItem id="myTrials" value="#{labels['pages.menu.myTrials']}"
 				actionListener="#{randi2Page.viewTrials}" />
 			<ice:menuItemSeparator rendered="#{permissionVerifier.allowedCreateTrial}"/>
