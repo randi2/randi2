@@ -131,7 +131,6 @@ public class UserServiceImpl implements UserService {
 		loginDao.create(newObject);
 		// send registration Mail
 		sendRegistrationMail(newObject);
-
 	}
 
 	/*
@@ -226,8 +225,12 @@ public class UserServiceImpl implements UserService {
 
 		Locale language = newUser.getPrefLocale();
 
-		mailService.sendMail(newUser.getPerson().getEmail(), "NewUserMail",
-				language, newUserMessageFields, newUserSubjectFields);
+		try {
+			mailService.sendMail(newUser.getPerson().getEmail(), "NewUserMail",
+					language, newUserMessageFields, newUserSubjectFields);
+		} catch (MailErrorException e) {
+			logger.error("Mail error", e);
+		}
 
 		if (newUser.getPerson().getTrialSite() != null
 				&& newUser.getPerson().getTrialSite().getContactPerson() != null) {
@@ -249,10 +252,13 @@ public class UserServiceImpl implements UserService {
 					.getPerson().getFirstname());
 			contactPersonSubjectFields.put("newUserLastname", newUser
 					.getPerson().getSurname());
-
-			mailService.sendMail(contactPerson.getEmail(),
+			try {
+				mailService.sendMail(contactPerson.getEmail(),
 						"NewUserNotifyContactPersonMail", language,
 						contactPersonMessageFields, contactPersonSubjectFields);
+			} catch (MailErrorException e) {
+				logger.error("Mail error", e);
+			}
 		}
 	}
 
