@@ -34,7 +34,7 @@
 		<ice:panelGrid columns="2" styleClass="verticalAlignTop">
 		<ice:outputLabel value="#{labels['pages.minimization.pvalue']}" />
 		<ice:inputText id="initialPValue" size="31"
-			value="#{trialHandler.randomizationConfig.p}"
+			value="#{trialHandler.currentObject.randomizationConfiguration.p}"
 			partialSubmit="true">
 		</ice:inputText>
 	</ice:panelGrid>

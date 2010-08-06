@@ -17,10 +17,6 @@
  */
 package de.randi2.jsf.controllerBeans;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -33,13 +29,8 @@ import javax.faces.model.SelectItem;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import com.icesoft.faces.context.ByteArrayResource;
-import com.icesoft.faces.context.FileResource;
-import com.icesoft.faces.context.Resource;
-
-import de.randi2.jsf.backingBeans.SubjectPropertiesConfig;
 import de.randi2.jsf.backingBeans.AlgorithmConfig;
+import de.randi2.jsf.backingBeans.SubjectPropertiesConfig;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
@@ -51,7 +42,6 @@ import de.randi2.model.TrialSubject;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
-import de.randi2.utility.BoxedException;
 import de.randi2.utility.logging.LogEntry;
 import de.randi2.utility.logging.LogService;
 
@@ -249,9 +239,6 @@ public class TrialHandler extends AbstractTrialHandler {
 			currentObject.setStatus(TrialStatus.ACTIVE);
 			// configure subject properties
 			currentObject.setCriteria(configureCriteriaStep4());
-			// configure algorithm
-			configureAlgorithmWithStep5();
-
 			// create trial
 			trialService.create(currentObject);
 
@@ -343,9 +330,10 @@ public class TrialHandler extends AbstractTrialHandler {
 				.getExpressionFactory()
 				.createValueExpression(
 						FacesContext.getCurrentInstance().getELContext(),
-						"#{subjectPropertiesConfig}", SubjectPropertiesConfig.class);
-		SubjectPropertiesConfig currentStep4 = (SubjectPropertiesConfig) ve1.getValue(FacesContext
-				.getCurrentInstance().getELContext());
+						"#{subjectPropertiesConfig}",
+						SubjectPropertiesConfig.class);
+		SubjectPropertiesConfig currentStep4 = (SubjectPropertiesConfig) ve1
+				.getValue(FacesContext.getCurrentInstance().getELContext());
 		currentStep4.clean();
 
 		ValueExpression ve2 = FacesContext
@@ -355,11 +343,10 @@ public class TrialHandler extends AbstractTrialHandler {
 				.createValueExpression(
 						FacesContext.getCurrentInstance().getELContext(),
 						"#{algorithmConfig}", AlgorithmConfig.class);
-		AlgorithmConfig currentStep5 = (AlgorithmConfig) ve2.getValue(FacesContext
-				.getCurrentInstance().getELContext());
+		AlgorithmConfig currentStep5 = (AlgorithmConfig) ve2
+				.getValue(FacesContext.getCurrentInstance().getELContext());
 		currentStep5.clean();
-
-		setRandomizationConfig(null);
+		currentObject = null;
 		trialSitesAC = null;
 		sponsorInvestigatorsAC = null;
 	}

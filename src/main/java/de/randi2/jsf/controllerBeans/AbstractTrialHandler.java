@@ -13,21 +13,15 @@ import javax.faces.event.ActionEvent;
 import lombok.Getter;
 import lombok.Setter;
 import de.randi2.jsf.backingBeans.SubjectPropertiesConfig;
-import de.randi2.jsf.backingBeans.AlgorithmConfig;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.wrappers.ConstraintWrapper;
 import de.randi2.jsf.wrappers.CriterionWrapper;
-import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
-import de.randi2.model.randomization.AbstractRandomizationConfig;
-import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
-import de.randi2.model.randomization.CompleteRandomizationConfig;
-import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.ReflectionUtil;
 
@@ -56,13 +50,6 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 
 	protected ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> criteriaList = null;
 
-	/*
-	 * Object needed for the randomization configuration process.
-	 */
-	@Setter
-	@Getter
-	private AbstractRandomizationConfig randomizationConfig;
-	
 	@SuppressWarnings("unchecked")
 	public AbstractTrialHandler() {
 		criteriaList = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
@@ -137,6 +124,7 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 		return addAllConfiguredCriteria(currentStep4.getCriteria());
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> addAllConfiguredCriteria(ArrayList<CriterionWrapper<? extends Serializable>> criteriaList){
 		ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> configuredCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
 		for (CriterionWrapper<? extends Serializable> cr : criteriaList) {
@@ -172,39 +160,6 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 		return configuredCriteria;
 	}
 	
-	protected void configureAlgorithmWithStep5(){
-		/* Algorithm Configuration */
-		ValueExpression ve2 = FacesContext.getCurrentInstance()
-				.getApplication().getExpressionFactory()
-				.createValueExpression(
-						FacesContext.getCurrentInstance().getELContext(),
-						"#{algorithmConfig}", AlgorithmConfig.class);
-		AlgorithmConfig currentStep5 = (AlgorithmConfig) ve2.getValue(FacesContext
-				.getCurrentInstance().getELContext());
-		if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				AlgorithmConfig.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())) {
-			currentObject
-					.setRandomizationConfiguration(new CompleteRandomizationConfig());
-		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				AlgorithmConfig.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
-			currentObject
-					.setRandomizationConfiguration(new BiasedCoinRandomizationConfig());
-		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				AlgorithmConfig.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
-			currentObject.setRandomizationConfiguration(getRandomizationConfig());
-		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				AlgorithmConfig.AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString())) {
-			currentObject
-					.setRandomizationConfiguration(new TruncatedBinomialDesignConfig());
-		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				AlgorithmConfig.AlgorithmPanelId.URN_MODEL.toString())) {
-			currentObject.setRandomizationConfiguration(getRandomizationConfig());
-		}else if (currentStep5.getSelectedAlgorithmPanelId().equals(
-				AlgorithmConfig.AlgorithmPanelId.MINIMIZATION.toString())) {
-			currentObject.setRandomizationConfiguration(getRandomizationConfig());
-		}
-		/* End of the Algorithm Configuration */
-	}
 	
 	/**
 	 * Action listener for adding a new treatment arm.

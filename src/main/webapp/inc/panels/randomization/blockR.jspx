@@ -42,7 +42,7 @@
 			value="#{labels['pages.blockR.constraint']}" />
 		<ice:selectOneMenu rendered="#{blockR.renderVariable}"
 			id="variableBlockType"
-			value="#{trialHandler.randomizationConfig.type}" partialSubmit="true"
+			value="#{trialHandler.currentObject.randomizationConfiguration.type}" partialSubmit="true"
 			converter="de.randi2.jsf.converters.BLOCKRANDOMIZATION_TYPE_CONVERTER">
 			<f:selectItems value="#{enums.blockSizeTypeItems}" />
 		</ice:selectOneMenu>
@@ -51,13 +51,13 @@
 		<ice:outputLabel value="#{labels['pages.blockR.minBlockSize']}"
 			rendered="#{blockR.renderVariable}" />
 		<ice:inputText id="blocksize" size="31"
-			value="#{trialHandler.randomizationConfig.minimum}"
+			value="#{trialHandler.currentObject.randomizationConfiguration.minimum}"
 			partialSubmit="true" valueChangeListener="#{blockR.minValueChanged}">
 		</ice:inputText>
 		<ice:outputLabel rendered="#{blockR.renderVariable}"
 			value="#{labels['pages.blockR.maxBlockSize']}" />
 		<ice:inputText rendered="#{blockR.renderVariable}" id="maxBlocksize"
-			size="31" value="#{trialHandler.randomizationConfig.maximum}"
+			size="31" value="#{trialHandler.currentObject.randomizationConfiguration.maximum}"
 			partialSubmit="true">
 		</ice:inputText>
 	</ice:panelGrid>

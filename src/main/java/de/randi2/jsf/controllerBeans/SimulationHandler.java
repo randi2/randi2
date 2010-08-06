@@ -21,10 +21,10 @@ import lombok.Setter;
 
 import com.icesoft.faces.context.Resource;
 
+import de.randi2.jsf.backingBeans.AlgorithmConfig;
 import de.randi2.jsf.backingBeans.Randi2Page;
 import de.randi2.jsf.backingBeans.SimulationAlgorithm;
 import de.randi2.jsf.backingBeans.SimulationSubjectProperty;
-import de.randi2.jsf.backingBeans.AlgorithmConfig;
 import de.randi2.jsf.wrappers.AlgorithmWrapper;
 import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.jsf.wrappers.DistributedConstraintWrapper;
@@ -43,9 +43,9 @@ import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 import de.randi2.simulation.model.DistributionSubjectProperty;
-import de.randi2.simulation.model.SimulationResultArm;
 import de.randi2.simulation.model.SimulationRawDataEntry;
 import de.randi2.simulation.model.SimulationResult;
+import de.randi2.simulation.model.SimulationResultArm;
 import de.randi2.simulation.model.helper.StrataResultComperatorAST;
 import de.randi2.simulation.model.helper.StrataResultComperatorATS;
 import de.randi2.simulation.model.helper.StrataResultComperatorSAT;
@@ -167,7 +167,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 		this.distributedCriterions = distributedCriterions;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> getDistributedCriterions() {
 		if (distributedCriterions == null
 				|| distributedCriterions.size() != currentObject.getCriteria()
@@ -196,7 +196,6 @@ public class SimulationHandler extends AbstractTrialHandler {
 	public Trial getSimTrial() {
 		if (simFromTrialCreationFirst && !simOnly) {
 			currentObject = trialHandler.getCurrentObject();
-			setRandomizationConfig(trialHandler.getRandomizationConfig());
 			try {
 				/* Leading Trial Site & Sponsor Investigator */
 				currentObject.setLeadingSite(trialHandler.getTrialSitesAC()
@@ -206,10 +205,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 					currentObject.setSponsorInvestigator(trialHandler
 							.getSponsorInvestigatorsAC().getSelectedObject()
 							.getPerson());
-
 				currentObject.setCriteria(configureCriteriaStep4());
-				/* Algorithm Configuration */
-				configureAlgorithmWithStep5();
 				simFromTrialCreationFirst = false;
 			} catch (Exception e) {
 				return null;

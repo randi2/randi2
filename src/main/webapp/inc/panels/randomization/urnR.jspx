@@ -34,12 +34,12 @@
 		<ice:panelGrid columns="2" styleClass="verticalAlignTop">
 		<ice:outputLabel value="#{labels['pages.urnR.initialCount']}" />
 		<ice:inputText id="initialCount" size="31"
-			value="#{trialHandler.randomizationConfig.initializeCountBalls}"
+			value="#{trialHandler.currentObject.randomizationConfiguration.initializeCountBalls}"
 			partialSubmit="true">
 		</ice:inputText>
 		<ice:outputLabel value="#{labels['pages.urnR.replacedBalls']}" />
 		<ice:inputText  id="replacedBalls"
-			size="31" value="#{trialHandler.randomizationConfig.countReplacedBalls}"
+			size="31" value="#{trialHandler.currentObject.randomizationConfiguration.countReplacedBalls}"
 			partialSubmit="true">
 		</ice:inputText>
 	</ice:panelGrid>
