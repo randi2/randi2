@@ -37,6 +37,15 @@ public class CompleteRandomizationConfig extends AbstractRandomizationConfig{
 
 	private static final long serialVersionUID = 2285655954951237292L;
 
+	
+	public CompleteRandomizationConfig(long seed){
+		super(seed);
+	}
+	
+	public CompleteRandomizationConfig(){
+		super(null);
+	}
+	
 	@Override
 	public RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm() {
 		return new CompleteRandomization(super.getTrial());

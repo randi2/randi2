@@ -46,6 +46,18 @@ public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 	private Trial trial;
 	@Transient
 	private RandomizationAlgorithm<? extends AbstractRandomizationConfig> algorithm;
+	@Transient
+	private final Long seed;
+	
+	
+	/**
+	 * if seed == null create a unseeded algorithm 
+	 * @param seed
+	 */
+	public AbstractRandomizationConfig(Long seed){
+		this.seed = seed;
+	}
+	
 	
 	@Getter @Setter
 	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
@@ -54,7 +66,11 @@ public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 	
 	public final RandomizationAlgorithm<? extends AbstractRandomizationConfig> getAlgorithm() {
 		if (algorithm == null) {
-			algorithm = createAlgorithm();
+			if(seed == null){
+				algorithm = createAlgorithm();
+			}else{
+				algorithm = createAlgorithm(seed);
+			}
 		}
 		return algorithm;
 	}

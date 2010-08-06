@@ -5,11 +5,11 @@
 
 	<!-- Test-Tooling -->
 	<bean id="testStringUtil"
-		class="de.randi2.test.utility.TestStringUtil">
+		class="de.randi2.testUtility.utility.TestStringUtil">
 	</bean>
 	
-	<bean id="domainObjectFactory" class="de.randi2.test.utility.DomainObjectFactory" />
+	<bean id="domainObjectFactory" class="de.randi2.testUtility.utility.DomainObjectFactory" />
 	
-	<bean id="initializeDatabaseUtil" class="de.randi2.utility.InitializeDatabaseUtil"/>
+	<bean id="initializeDatabaseUtil" class="de.randi2.testUtility.utility.InitializeDatabaseUtil"/>
 
 </beans>

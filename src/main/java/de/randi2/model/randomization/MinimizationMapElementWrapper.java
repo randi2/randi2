@@ -1,18 +1,15 @@
 package de.randi2.model.randomization;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapKey;
-import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.CollectionOfElements;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import org.hibernate.annotations.CollectionOfElements;
+
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.TreatmentArm;
 

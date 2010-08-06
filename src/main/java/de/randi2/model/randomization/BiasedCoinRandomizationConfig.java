@@ -35,6 +35,15 @@ import de.randi2.randomization.RandomizationAlgorithm;
 public class BiasedCoinRandomizationConfig extends AbstractRandomizationConfig {
 
 	private static final long serialVersionUID = -5150967612749185875L;
+	
+	
+	public BiasedCoinRandomizationConfig(long seed){
+		super(seed);
+	}
+	
+	public BiasedCoinRandomizationConfig(){
+		super(null);
+	}
 
 	@Override
 	public RandomizationAlgorithm<BiasedCoinRandomizationConfig> createAlgorithm() {

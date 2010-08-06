@@ -17,6 +17,8 @@
  */
 package de.randi2.model.randomization;
 
+import static de.randi2.utility.IntegerIterator.upto;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -30,8 +32,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.TreatmentArm;
-import de.randi2.model.Trial;
-import static de.randi2.utility.IntegerIterator.upto;
 
 @Entity
 @Data

@@ -36,6 +36,15 @@ public class UrnDesignConfig extends AbstractRandomizationConfig {
 	private int countReplacedBalls;
 	
 	private int initializeCountBalls;
+	
+	public UrnDesignConfig(long seed){
+		super(seed);
+	}
+	
+	public UrnDesignConfig(){
+		super(null);
+	}
+	
 	@Override
 	public RandomizationAlgorithm<? extends AbstractRandomizationConfig> createAlgorithm() {
 		return new UrnDesign(super.getTrial());
