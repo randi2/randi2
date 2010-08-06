@@ -22,11 +22,11 @@
 		visible="#{popups.changePInvestigatorPVisible}"
 		rendered="#{popups.changePInvestigatorPVisible}">
 		<f:facet name="header">
-			<ice:outputText value="New principal investigator*"/>
+			<ice:outputText value="#{labels['trial.sponsorInvestigator']}"/>
 		</f:facet>
 		<f:facet name="body">
 			<ice:panelGroup>
-				<ice:outputLabel value="User:*" />
+				<ice:outputLabel value="#{labels['person.surname']},#{labels['person.firstname']}" />
 				<ice:panelGroup id="passwordGroup">
 					<ice:selectInputText id="pInvestigator"
 						valueChangeListener="#{trialHandler.sponsorInvestigatorsAC.updateObjectList}"

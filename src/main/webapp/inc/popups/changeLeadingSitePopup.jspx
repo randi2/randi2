@@ -22,11 +22,11 @@
 		visible="#{popups.changeLeadingSitePVisible}"
 		rendered="#{popups.changeLeadingSitePVisible}">
 		<f:facet name="header">
-			<ice:outputText value="New leading site*"/>
+			<ice:outputText value="#{labels['trial.leadingTrialSite']}"/>
 		</f:facet>
 		<f:facet name="body">
 			<ice:panelGroup>
-				<ice:outputLabel value="Center:*" />
+				<ice:outputLabel value="#{labels['trial.name']}"/>
 				<ice:panelGroup id="passwordGroup">
 					<ice:selectInputText id="center"
 						valueChangeListener="#{trialHandler.trialSitesAC.updateObjectList}"
