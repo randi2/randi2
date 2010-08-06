@@ -17,5 +17,5 @@
 <ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" columns="1">
-<ice:outputLabel value="#{trialHandler.showedObject.randomizationConfiguration.algorithm.class}"/>
+<ice:outputLabel value="#{trialHandler.currentObject.randomizationConfiguration.algorithm.class}"/>
 </ice:panelGrid>

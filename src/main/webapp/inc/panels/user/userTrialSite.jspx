@@ -30,7 +30,7 @@
 			<ice:outputLabel for="name" value="#{labels['trialSite.name']}"></ice:outputLabel>
 			<ice:panelGroup rendered="#{!loginHandler.creatingMode}">
 				<ice:outputText id="name"
-					value="#{loginHandler.showedObject.person.trialSite.name}">
+					value="#{loginHandler.currentObject.person.trialSite.name}">
 				</ice:outputText>
 				<ice:commandButton style="margin-left: 15px;"
 					value="#{labels['buttons.changeTrialSite']}"
@@ -40,7 +40,7 @@
 			</ice:panelGroup>
 			<ice:panelGroup rendered="#{loginHandler.creatingMode}">
 				<ice:selectInputText id="trialSite"
-					required="#{loginHandler.showedObject.person.requiredFields['trialSite']}"
+					required="#{loginHandler.currentObject.person.requiredFields['trialSite']}"
 					valueChangeListener="#{loginHandler.trialSitesAC.updateObjectList}"
 					rows="10" width="200"
 					value="#{loginHandler.trialSitesAC.objectRepresentation}">
@@ -50,20 +50,20 @@
 			</ice:panelGroup>
 			<ice:outputLabel for="country" value="#{labels['trialSite.country']}"></ice:outputLabel>
 			<ice:outputText id="country"
-				value="#{loginHandler.showedObject.person.trialSite!=null ? loginHandler.showedObject.person.trialSite.country : loginHandler.trialSitesAC.selectedObject.country}">
+				value="#{loginHandler.currentObject.person.trialSite!=null ? loginHandler.currentObject.person.trialSite.country : loginHandler.trialSitesAC.selectedObject.country}">
 			</ice:outputText>
 			<ice:outputLabel for="city" value="#{labels['trialSite.city']}"></ice:outputLabel>
 			<ice:outputText id="city"
-				value="#{loginHandler.showedObject.person.trialSite!=null ? loginHandler.showedObject.person.trialSite.city : loginHandler.trialSitesAC.selectedObject.city}">
+				value="#{loginHandler.currentObject.person.trialSite!=null ? loginHandler.currentObject.person.trialSite.city : loginHandler.trialSitesAC.selectedObject.city}">
 			</ice:outputText>
 			<ice:outputLabel for="postcode"
 				value="#{labels['trialSite.postcode']}"></ice:outputLabel>
 			<ice:outputText id="postcode"
-				value="#{loginHandler.showedObject.person.trialSite!=null ? loginHandler.showedObject.person.trialSite.postcode : loginHandler.trialSitesAC.selectedObject.postcode}">
+				value="#{loginHandler.currentObject.person.trialSite!=null ? loginHandler.currentObject.person.trialSite.postcode : loginHandler.trialSitesAC.selectedObject.postcode}">
 			</ice:outputText>
 			<ice:outputLabel for="street" value="#{labels['trialSite.street']}"></ice:outputLabel>
 			<ice:outputText id="street"
-				value="#{loginHandler.showedObject.person.trialSite!=null ? loginHandler.showedObject.person.trialSite.street : loginHandler.trialSitesAC.selectedObject.street}">
+				value="#{loginHandler.currentObject.person.trialSite!=null ? loginHandler.currentObject.person.trialSite.street : loginHandler.trialSitesAC.selectedObject.street}">
 			</ice:outputText>
 		</ice:panelGrid>
 	</ice:panelCollapsible>
@@ -78,11 +78,11 @@
 			</ice:panelGrid>
 		</f:facet>
 		<ice:commandButton value="#{labels['buttons.createAssistant']}"
-			rendered="#{loginHandler.showedObject.person.assistant==null}"
+			rendered="#{loginHandler.currentObject.person.assistant==null}"
 			disabled="#{!loginHandler.editable}"
 			actionListener="#{loginHandler.createAssistant}" />
 		<ice:panelGrid columns="1"
-			rendered="#{loginHandler.showedObject.person.assistant!=null}">
+			rendered="#{loginHandler.currentObject.person.assistant!=null}">
 			<ice:panelGrid border="0" columns="2">
 				<ice:graphicImage value="/img/icons/personal16.png" />
 				<ice:outputLabel
@@ -92,11 +92,11 @@
 				<ice:outputLabel for="assistant_gender"
 					value="#{labels['person.gender']}" />
 				<ice:outputText id="assistant_genderO"
-					value="#{loginHandler.showedObject.person.assistant.sex}"
+					value="#{loginHandler.currentObject.person.assistant.sex}"
 					rendered="#{!loginHandler.editable}">
 				</ice:outputText>
 				<ice:selectOneMenu id="assistant_gender"
-					value="#{loginHandler.showedObject.person.assistant.sex}"
+					value="#{loginHandler.currentObject.person.assistant.sex}"
 					converter="de.randi2.jsf.converters.GENDER_CONVERTER"
 					rendered="#{loginHandler.editable}">
 					<f:selectItems value="#{enums.genderItems}" />
@@ -106,18 +106,18 @@
 				<ice:outputLabel for="assistant_title"
 					value="#{labels['person.title']}" />
 				<ice:outputText id="assistant_titleO"
-					value="#{loginHandler.showedObject.person.assistant.title}"
+					value="#{loginHandler.currentObject.person.assistant.title}"
 					rendered="#{!loginHandler.editable}">
 				</ice:outputText>
 				<ice:panelGroup rendered="#{loginHandler.editable}">
 					<ice:inputText id="assistant_title"
-						value="#{loginHandler.showedObject.person.assistant.title}"
-						required="#{loginHandler.showedObject.person.requiredFields['title']}"
+						value="#{loginHandler.currentObject.person.assistant.title}"
+						required="#{loginHandler.currentObject.person.requiredFields['title']}"
 						partialSubmit="true" rendered="#{loginHandler.editable}">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject"
-							value="#{loginHandler.showedObject.person.assistant}" />
+							value="#{loginHandler.currentObject.person.assistant}" />
 					</ice:inputText>
 					<ice:message for="assistant_title" id="assistant_titelError"
 						rendered="#{loginHandler.editable}" />
@@ -125,18 +125,18 @@
 				<ice:outputLabel for="assistant_firstname"
 					value="#{labels['person.firstname']}" />
 				<ice:outputText id="assistant_firstnameO"
-					value="#{loginHandler.showedObject.person.assistant.firstname}"
+					value="#{loginHandler.currentObject.person.assistant.firstname}"
 					rendered="#{!loginHandler.editable}">
 				</ice:outputText>
 				<ice:panelGroup rendered="#{loginHandler.editable}">
 					<ice:inputText id="assistant_firstname"
-						value="#{loginHandler.showedObject.person.assistant.firstname}"
-						required="#{loginHandler.showedObject.person.requiredFields['firstname']}"
+						value="#{loginHandler.currentObject.person.assistant.firstname}"
+						required="#{loginHandler.currentObject.person.requiredFields['firstname']}"
 						partialSubmit="true" rendered="#{loginHandler.editable}">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject"
-							value="#{loginHandler.showedObject.person.assistant}" />
+							value="#{loginHandler.currentObject.person.assistant}" />
 					</ice:inputText>
 					<ice:message for="assistant_firstname"
 						id="assistant_firstnameError" rendered="#{loginHandler.editable}" />
@@ -144,18 +144,18 @@
 				<ice:outputLabel for="assistant_surname"
 					value="#{labels['person.surname']}" />
 				<ice:outputText id="assistant_surnameO"
-					value="#{loginHandler.showedObject.person.assistant.surname}"
+					value="#{loginHandler.currentObject.person.assistant.surname}"
 					rendered="#{!loginHandler.editable}">
 				</ice:outputText>
 				<ice:panelGroup rendered="#{loginHandler.editable}">
 					<ice:inputText id="assistant_surname"
-						value="#{loginHandler.showedObject.person.assistant.surname}"
-						required="#{loginHandler.showedObject.person.requiredFields['surname']}"
+						value="#{loginHandler.currentObject.person.assistant.surname}"
+						required="#{loginHandler.currentObject.person.requiredFields['surname']}"
 						partialSubmit="true" rendered="#{loginHandler.editable}">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject"
-							value="#{loginHandler.showedObject.person.assistant}" />
+							value="#{loginHandler.currentObject.person.assistant}" />
 					</ice:inputText>
 					<ice:message for="assistant_surname" id="assistant_surnameError"
 						rendered="#{loginHandler.editable}" />
@@ -170,18 +170,18 @@
 				<ice:outputLabel for="assistant_email"
 					value="#{labels['person.eMail']}" />
 				<ice:outputText id="assistant_emailO"
-					value="#{loginHandler.showedObject.person.assistant.email}"
+					value="#{loginHandler.currentObject.person.assistant.email}"
 					rendered="#{!loginHandler.editable}">
 				</ice:outputText>
 				<ice:panelGroup rendered="#{loginHandler.editable}">
 					<ice:inputText id="assistant_email"
-						value="#{loginHandler.showedObject.person.assistant.email}"
-						required="#{loginHandler.showedObject.person.requiredFields['email']}"
+						value="#{loginHandler.currentObject.person.assistant.email}"
+						required="#{loginHandler.currentObject.person.requiredFields['email']}"
 						partialSubmit="true" rendered="#{loginHandler.editable}">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject"
-							value="#{loginHandler.showedObject.person.assistant}" />
+							value="#{loginHandler.currentObject.person.assistant}" />
 					</ice:inputText>
 					<ice:message for="assistant_email" id="assistant_eMailError"
 						rendered="#{loginHandler.editable}" />
@@ -189,18 +189,18 @@
 				<ice:outputLabel for="assistant_phone"
 					value="#{labels['person.phone']}" />
 				<ice:outputText id="assistant_phoneO"
-					value="#{loginHandler.showedObject.person.assistant.phone}"
+					value="#{loginHandler.currentObject.person.assistant.phone}"
 					rendered="#{!loginHandler.editable}">
 				</ice:outputText>
 				<ice:panelGroup rendered="#{loginHandler.editable}">
 					<ice:inputText id="assistant_phone"
-						value="#{loginHandler.showedObject.person.assistant.phone}"
-						required="#{loginHandler.showedObject.person.requiredFields['phone']}"
+						value="#{loginHandler.currentObject.person.assistant.phone}"
+						required="#{loginHandler.currentObject.person.requiredFields['phone']}"
 						partialSubmit="true" rendered="#{loginHandler.editable}">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject"
-							value="#{loginHandler.showedObject.person.assistant}" />
+							value="#{loginHandler.currentObject.person.assistant}" />
 					</ice:inputText>
 					<ice:message for="assistant_phone" id="assistant_phoneError"
 						rendered="#{loginHandler.editable}" />
@@ -208,36 +208,36 @@
 				<ice:outputLabel for="assistant_mobile"
 					value="#{labels['person.mobile']}" />
 				<ice:outputText id="assistant_mobileO"
-					value="#{loginHandler.showedObject.person.assistant.mobile}"
+					value="#{loginHandler.currentObject.person.assistant.mobile}"
 					rendered="#{!loginHandler.editable}">
 				</ice:outputText>
 				<ice:panelGroup rendered="#{loginHandler.editable}">
 					<ice:inputText id="assistant_mobile"
-						value="#{loginHandler.showedObject.person.assistant.mobile}"
-						required="#{loginHandler.showedObject.person.requiredFields['mobile']}"
+						value="#{loginHandler.currentObject.person.assistant.mobile}"
+						required="#{loginHandler.currentObject.person.requiredFields['mobile']}"
 						partialSubmit="true" rendered="#{loginHandler.editable}">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject"
-							value="#{loginHandler.showedObject.person.assistant}" />
+							value="#{loginHandler.currentObject.person.assistant}" />
 					</ice:inputText>
 					<ice:message for="assistant_mobile" id="assistant_mobileError"
 						rendered="#{loginHandler.editable}" />
 				</ice:panelGroup>
 				<ice:outputLabel for="assistant_fax" value="#{labels['person.fax']}" />
 				<ice:outputText id="assistant_faxO"
-					value="#{loginHandler.showedObject.person.assistant.fax}"
+					value="#{loginHandler.currentObject.person.assistant.fax}"
 					rendered="#{!loginHandler.editable}">
 				</ice:outputText>
 				<ice:panelGroup rendered="#{loginHandler.editable}">
 					<ice:inputText id="assistant_fax"
-						value="#{loginHandler.showedObject.person.assistant.fax}"
-						required="#{loginHandler.showedObject.person.requiredFields['fax']}"
+						value="#{loginHandler.currentObject.person.assistant.fax}"
+						required="#{loginHandler.currentObject.person.requiredFields['fax']}"
 						partialSubmit="true" rendered="#{loginHandler.editable}">
 						<f:validator
 							validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 						<f:attribute name="dObject"
-							value="#{loginHandler.showedObject.person.assistant}" />
+							value="#{loginHandler.currentObject.person.assistant}" />
 					</ice:inputText>
 					<ice:message for="assistant_fax" id="assistant_faxError"
 						rendered="#{loginHandler.editable}" />

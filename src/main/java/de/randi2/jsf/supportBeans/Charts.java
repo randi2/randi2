@@ -107,26 +107,26 @@ public class Charts {
 	}
 
 	public ChartData getRChartData() {
-		if (trialHandler.getShowedObject() != null)
-			return service.generateRecruitmentChart(trialHandler.getShowedObject());
+		if (trialHandler.getCurrentObject() != null)
+			return service.generateRecruitmentChart(trialHandler.getCurrentObject());
 		return null;
 	}
 	
 	public ChartData getAChartData(){
-		if (trialHandler.getShowedObject() != null)
-			return service.generateArmChart(trialHandler.getShowedObject());
+		if (trialHandler.getCurrentObject() != null)
+			return service.generateArmChart(trialHandler.getCurrentObject());
 		return null;
 	}
 	
 	public ChartData getRTrialSiteChartData(){
-		if (trialHandler.getShowedObject() != null)
-			return service.generateRecruitmentChartTrialSite(trialHandler.getShowedObject());
+		if (trialHandler.getCurrentObject() != null)
+			return service.generateRecruitmentChartTrialSite(trialHandler.getCurrentObject());
 		return null;
 	}
 	
 	public ChartData getRFactorsChartData() {
-		if (trialHandler.getShowedObject() != null)
-			return service.generateRecruitmentChartFactors(trialHandler.getShowedObject());
+		if (trialHandler.getCurrentObject() != null)
+			return service.generateRecruitmentChartFactors(trialHandler.getCurrentObject());
 		return null;
 	}
 

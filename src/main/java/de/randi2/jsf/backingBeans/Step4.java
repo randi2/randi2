@@ -54,7 +54,7 @@ public class Step4 extends AbstractSubjectPropertyBackingB{
 		if (criteria == null)
 			criteria = new ArrayList<CriterionWrapper<? extends Serializable>>();
 		if(criteria.isEmpty()&&trialHandler.isEditing()){
-			for(AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<?>> c : trialHandler.getShowedObject().getCriteria()){
+			for(AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<?>> c : trialHandler.getCurrentObject().getCriteria()){
 				criteria.add(
 						new CriterionWrapper<Serializable>((AbstractCriterion<Serializable, ?>) c));
 			}

@@ -17,7 +17,7 @@
 <ice:dataTable xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" id="membersTable"
-	border="1" value="#{trialSiteHandler.showedObject.members}"
+	border="1" value="#{trialSiteHandler.currentObject.members}"
 	var="member" width="550px">
 	<ice:column id="column1">
 		<ice:outputText value="#{member.firstname}"></ice:outputText>

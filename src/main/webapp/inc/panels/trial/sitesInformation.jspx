@@ -19,7 +19,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" style="width: 550px;">
 	<ice:dataTable id="trialSitesTable" border="1"
-		value="#{trialHandler.showedObject.participatingSites}" var="trialSite"
+		value="#{trialHandler.currentObject.participatingSites}" var="trialSite"
 		width="550px">
 		<ice:column id="column1">
 			<ice:outputText value="#{trialSite.name}"></ice:outputText>

@@ -26,7 +26,7 @@
 			<ice:outputText escape="false"
 				value="#{labels['pages.trialCreatePanel.step4.idsQuestion'] }" />
 			<ice:selectBooleanCheckbox
-				value="#{trialHandler.showedObject.generateIds}"
+				value="#{trialHandler.currentObject.generateIds}"
 				style="margin-left: 10px;" />
 		</ice:panelGroup>
 	</ice:panelGroup>
@@ -51,7 +51,7 @@
 			<ice:outputText escape="false"
 				value="#{labels['pages.trialCreatePanel.step4.idsQuestion'] }" />
 			<ice:selectBooleanCheckbox
-				value="#{trialHandler.showedObject.generateIds}"
+				value="#{trialHandler.currentObject.generateIds}"
 				style="margin-left: 10px;" />
 		</ice:panelGroup>
 	</ice:panelGroup>

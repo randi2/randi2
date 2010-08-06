@@ -21,12 +21,12 @@
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelGrid columns="1">
 		<ice:outputLabel
-			value="#{labels['pages.randomizationData.tAmount'] } #{trialHandler.showedObject.totalSubjectAmount }" />
+			value="#{labels['pages.randomizationData.tAmount'] } #{trialHandler.currentObject.totalSubjectAmount }" />
 		<ice:panelGroup style="margin-top: 10px;">
 			<ice:outputLabel
 				value="#{labels['pages.randomizationData.armsOverview']}" />
 			<ice:dataTable id="trialSitesTable" border="1"
-				value="#{trialHandler.showedObject.treatmentArms}" var="arm"
+				value="#{trialHandler.currentObject.treatmentArms}" var="arm"
 				width="550px">
 				<ice:column id="column1">
 					<ice:outputText value="#{arm.name}" />
@@ -61,7 +61,7 @@
 			<ice:outputLabel
 				value="#{labels['pages.randomizationData.randomizationOverview']}" />
 			<ice:dataTable id="trialSubjectsTable"
-				value="#{trialHandler.showedObject.subjects}" var="tSubject"
+				value="#{trialHandler.currentObject.subjects}" var="tSubject"
 				columnWidths="20px,150px,150px,100px,350px" cellpadding="0"
 				scrollable="true" scrollHeight="200px">
 				<ice:column>
@@ -121,7 +121,7 @@
 		</ice:panelGroup>
 	</ice:panelGrid>
 	<ice:panelGroup
-		rendered="#{!trialHandler.showedObject.fresh}">
+		rendered="#{!trialHandler.currentObject.fresh}">
 		<ice:outputLabel value="#{labels['pages.randomizationData.charts']}" />
 		<ice:panelGrid columns="2">
 			<ice:panelGroup style="margin-top: 10px;">

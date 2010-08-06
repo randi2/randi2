@@ -183,25 +183,25 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 				.getCurrentInstance().getELContext());
 		if (currentStep5.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())) {
-			showedObject
+			currentObject
 					.setRandomizationConfiguration(new CompleteRandomizationConfig());
 		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
-			showedObject
+			currentObject
 					.setRandomizationConfiguration(new BiasedCoinRandomizationConfig());
 		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
-			showedObject.setRandomizationConfiguration(getRandomizationConfig());
+			currentObject.setRandomizationConfiguration(getRandomizationConfig());
 		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString())) {
-			showedObject
+			currentObject
 					.setRandomizationConfiguration(new TruncatedBinomialDesignConfig());
 		} else if (currentStep5.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.URN_MODEL.toString())) {
-			showedObject.setRandomizationConfiguration(getRandomizationConfig());
+			currentObject.setRandomizationConfiguration(getRandomizationConfig());
 		}else if (currentStep5.getSelectedAlgorithmPanelId().equals(
 				Step5.AlgorithmPanelId.MINIMIZATION.toString())) {
-			showedObject.setRandomizationConfiguration(getRandomizationConfig());
+			currentObject.setRandomizationConfiguration(getRandomizationConfig());
 		}
 		/* End of the Algorithm Configuration */
 	}
@@ -212,9 +212,9 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 	 * @param event
 	 */
 	public void addArm(ActionEvent event) {
-		assert (showedObject != null);
+		assert (currentObject != null);
 		TreatmentArm temp = new TreatmentArm();
-		showedObject.getTreatmentArms().add(temp);
+		currentObject.getTreatmentArms().add(temp);
 	}
 
 	/**
@@ -223,9 +223,9 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 	 * @param event
 	 */
 	public void removeArm(ActionEvent event) {
-		assert (showedObject != null);
-		showedObject.getTreatmentArms().remove(
-				showedObject.getTreatmentArms().size() - 1);
+		assert (currentObject != null);
+		currentObject.getTreatmentArms().remove(
+				currentObject.getTreatmentArms().size() - 1);
 	}
 
 	/**
@@ -234,8 +234,8 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 	 * @return
 	 */
 	public int getTreatmentArmsCount() {
-		assert (showedObject != null);
-		return showedObject.getTreatmentArms().size();
+		assert (currentObject != null);
+		return currentObject.getTreatmentArms().size();
 	}
 	
 	public ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteriaList() {

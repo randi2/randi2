@@ -29,64 +29,64 @@
 		<ice:panelGrid border="0" columns="2">
 			<ice:outputLabel for="gender" value="#{labels['person.gender']}"/>
 			<ice:outputText id="genderO"
-				value="#{loginHandler.showedObject.person.sex}"
+				value="#{loginHandler.currentObject.person.sex}"
 				rendered="#{!loginHandler.editable}" converter="de.randi2.jsf.converters.GENDER_CONVERTER" />
 			<ice:panelGroup id="genderEdit" rendered="#{loginHandler.editable}">
 				<ice:selectOneMenu id="gender"
-					value="#{loginHandler.showedObject.person.sex}" converter="de.randi2.jsf.converters.GENDER_CONVERTER">
+					value="#{loginHandler.currentObject.person.sex}" converter="de.randi2.jsf.converters.GENDER_CONVERTER">
 					<f:selectItems value="#{enums.genderItems}"/>
 				</ice:selectOneMenu>
 			</ice:panelGroup>
 			<ice:outputLabel for="title" value="#{labels['person.title']}"/>
 			<ice:outputText id="titleO"
-				value="#{loginHandler.showedObject.person.title}"
+				value="#{loginHandler.currentObject.person.title}"
 				rendered="#{!loginHandler.editable}">
 			</ice:outputText>
 			<ice:panelGroup id="titleEdit" rendered="#{loginHandler.editable}">
 				<ice:inputText id="title" size="50"
-					value="#{loginHandler.showedObject.person.title}"
-					required="#{loginHandler.showedObject.person.requiredFields['title']}"
+					value="#{loginHandler.currentObject.person.title}"
+					required="#{loginHandler.currentObject.person.requiredFields['title']}"
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 					<f:attribute name="dObject"
-						value="#{loginHandler.showedObject.person}" />
+						value="#{loginHandler.currentObject.person}" />
 				</ice:inputText>
 				<ice:message for="title" />
 			</ice:panelGroup>
 			<ice:outputLabel for="firstname"
 				value="#{labels['person.firstname']}"/>
 			<ice:outputText id="firstnameO"
-				value="#{loginHandler.showedObject.person.firstname}"
+				value="#{loginHandler.currentObject.person.firstname}"
 				rendered="#{!loginHandler.editable}">
 			</ice:outputText>
 			<ice:panelGroup id="firstnameEdit"
 				rendered="#{loginHandler.editable}">
 				<ice:inputText id="firstname" size="50"
-					value="#{loginHandler.showedObject.person.firstname}"
-					required="#{loginHandler.showedObject.person.requiredFields['firstname']}"
+					value="#{loginHandler.currentObject.person.firstname}"
+					required="#{loginHandler.currentObject.person.requiredFields['firstname']}"
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 					<f:attribute name="dObject"
-						value="#{loginHandler.showedObject.person}" />
+						value="#{loginHandler.currentObject.person}" />
 				</ice:inputText>
 				<ice:message for="firstname" />
 			</ice:panelGroup>
 			<ice:outputLabel for="surname" value="#{labels['person.surname']}"/>
 			<ice:outputText id="surnameO"
-				value="#{loginHandler.showedObject.person.surname}"
+				value="#{loginHandler.currentObject.person.surname}"
 				rendered="#{!loginHandler.editable}">
 			</ice:outputText>
 			<ice:panelGroup id="surnameEdit" rendered="#{loginHandler.editable}">
 				<ice:inputText id="surname" size="50"
-					value="#{loginHandler.showedObject.person.surname}"
-					required="#{loginHandler.showedObject.person.requiredFields['surname']}"
+					value="#{loginHandler.currentObject.person.surname}"
+					required="#{loginHandler.currentObject.person.requiredFields['surname']}"
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 					<f:attribute name="dObject"
-						value="#{loginHandler.showedObject.person}" />
+						value="#{loginHandler.currentObject.person}" />
 				</ice:inputText>
 				<ice:message for="surname" />
 			</ice:panelGroup>
@@ -104,69 +104,69 @@
 		<ice:panelGrid border="0" columns="2">
 			<ice:outputLabel for="email" value="#{labels['person.eMail']}"/>
 			<ice:outputText id="emailO"
-				value="#{loginHandler.showedObject.person.email}"
+				value="#{loginHandler.currentObject.person.email}"
 				rendered="#{!loginHandler.creatingMode}">
 			</ice:outputText>
 			<ice:panelGroup rendered="#{loginHandler.creatingMode}">
 				<ice:inputText id="email"
-					value="#{loginHandler.showedObject.person.email}"
-					required="#{loginHandler.showedObject.person.requiredFields['email']}"
+					value="#{loginHandler.currentObject.person.email}"
+					required="#{loginHandler.currentObject.person.requiredFields['email']}"
 					partialSubmit="true" size="50">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 					<f:attribute name="dObject"
-						value="#{loginHandler.showedObject.person}" />
+						value="#{loginHandler.currentObject.person}" />
 				</ice:inputText>
 				<ice:message for="email" id="eMailError"></ice:message>
 			</ice:panelGroup>
 			<ice:outputLabel for="phone" value="#{labels['person.phone']}"/>
 			<ice:outputText id="phoneO"
-				value="#{loginHandler.showedObject.person.phone}"
+				value="#{loginHandler.currentObject.person.phone}"
 				rendered="#{!loginHandler.editable}">
 			</ice:outputText>
 			<ice:panelGroup id="phoneEdit" rendered="#{loginHandler.editable}">
 				<ice:inputText id="phone" size="50"
-					value="#{loginHandler.showedObject.person.phone}"
-					required="#{loginHandler.showedObject.person.requiredFields['phone']}"
+					value="#{loginHandler.currentObject.person.phone}"
+					required="#{loginHandler.currentObject.person.requiredFields['phone']}"
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 					<f:attribute name="dObject"
-						value="#{loginHandler.showedObject.person}" />
+						value="#{loginHandler.currentObject.person}" />
 				</ice:inputText>
 				<ice:message for="phone" />
 			</ice:panelGroup>
 			<ice:outputLabel for="mobile" value="#{labels['person.mobile']}"/>
 			<ice:outputText id="mobileO"
-				value="#{loginHandler.showedObject.person.mobile}"
+				value="#{loginHandler.currentObject.person.mobile}"
 				rendered="#{!loginHandler.editable}">
 			</ice:outputText>
 			<ice:panelGroup id="mobileEdit" rendered="#{loginHandler.editable}">
 				<ice:inputText id="mobile" size="50"
-					value="#{loginHandler.showedObject.person.mobile}"
-					required="#{loginHandler.showedObject.person.requiredFields['mobile']}"
+					value="#{loginHandler.currentObject.person.mobile}"
+					required="#{loginHandler.currentObject.person.requiredFields['mobile']}"
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 					<f:attribute name="dObject"
-						value="#{loginHandler.showedObject.person}" />
+						value="#{loginHandler.currentObject.person}" />
 				</ice:inputText>
 				<ice:message for="mobile" />
 			</ice:panelGroup>
 			<ice:outputLabel for="fax" value="#{labels['person.fax']}"/>
 			<ice:outputText id="faxO"
-				value="#{loginHandler.showedObject.person.fax}"
+				value="#{loginHandler.currentObject.person.fax}"
 				rendered="#{!loginHandler.editable}">
 			</ice:outputText>
 			<ice:panelGroup id="faxEdit" rendered="#{loginHandler.editable}">
 				<ice:inputText id="fax" size="50"
-					value="#{loginHandler.showedObject.person.fax}"
-					required="#{loginHandler.showedObject.person.requiredFields['fax']}"
+					value="#{loginHandler.currentObject.person.fax}"
+					required="#{loginHandler.currentObject.person.requiredFields['fax']}"
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 					<f:attribute name="dObject"
-						value="#{loginHandler.showedObject.person}" />
+						value="#{loginHandler.currentObject.person}" />
 				</ice:inputText>
 				<ice:message for="fax" />
 			</ice:panelGroup>
@@ -184,13 +184,13 @@
 		<ice:panelGrid border="0" columns="2">
 			<ice:outputLabel for="username" value="#{labels['login.username']}"/>
 			<ice:outputText id="username"
-				value="#{loginHandler.creatingMode ? loginHandler.showedObject.person.email : loginHandler.showedObject.username}">
+				value="#{loginHandler.creatingMode ? loginHandler.currentObject.person.email : loginHandler.currentObject.username}">
 			</ice:outputText>
 			<ice:outputLabel for="creationDate"
 				value="#{labels['login.creationDate']}"
 				rendered="#{!loginHandler.creatingMode}"/>
 			<ice:outputText id="creationDate"
-				value="#{loginHandler.showedObject.createdAt.time}"
+				value="#{loginHandler.currentObject.createdAt.time}"
 				rendered="#{!loginHandler.creatingMode}"
 				converter="javax.faces.DateTime">
 			</ice:outputText>
@@ -198,7 +198,7 @@
 				value="#{labels['login.lastLoggedIn']}"
 				rendered="#{!loginHandler.creatingMode}"/>
 			<ice:outputText id="lastLoggedIn"
-				value="#{loginHandler.showedObject.lastLoggedIn.time}"
+				value="#{loginHandler.currentObject.lastLoggedIn.time}"
 				rendered="#{!loginHandler.creatingMode}"
 				converter="javax.faces.DateTime">
 			</ice:outputText>
@@ -213,12 +213,12 @@
 			<ice:panelGroup id="passwordGroup"
 				rendered="#{loginHandler.creatingMode}">
 				<ice:inputSecret id="password"
-					value="#{loginHandler.showedObject.password}"
-					required="#{loginHandler.showedObject.requiredFields['password']}"
+					value="#{loginHandler.currentObject.password}"
+					required="#{loginHandler.currentObject.requiredFields['password']}"
 					redisplay="true" partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-					<f:attribute name="dObject" value="#{loginHandler.showedObject}" />
+					<f:attribute name="dObject" value="#{loginHandler.currentObject}" />
 				</ice:inputSecret>
 				<ice:message for="password" id="passwordError"/>
 			</ice:panelGroup>
@@ -227,7 +227,7 @@
 				rendered="#{loginHandler.creatingMode}"/>
 			<ice:panelGroup rendered="#{loginHandler.creatingMode}">
 				<ice:inputSecret id="pConfirmation"
-					required="#{loginHandler.showedObject.requiredFields['password']}"
+					required="#{loginHandler.currentObject.requiredFields['password']}"
 					redisplay="true" partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.PASSWORD_CONFIRMATION" />

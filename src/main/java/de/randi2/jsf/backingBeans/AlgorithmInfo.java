@@ -50,7 +50,7 @@ public class AlgorithmInfo {
 		ResourceBundle bundle = ResourceBundle
 				.getBundle("de.randi2.jsf.i18n.algorithms", loginHandler
 						.getChosenLocale());
-		return bundle.getString(trialHandler.getShowedObject()
+		return bundle.getString(trialHandler.getCurrentObject()
 				.getRandomizationConfiguration().getClass().getCanonicalName()
 				+ ".name");
 	}
@@ -59,7 +59,7 @@ public class AlgorithmInfo {
 		StringBuffer furtherDetails = new StringBuffer();
 		ResourceBundle bundle = ResourceBundle.getBundle(
 				"de.randi2.jsf.i18n.labels", loginHandler.getChosenLocale());
-		Trial currentTrial = trialHandler.getShowedObject();
+		Trial currentTrial = trialHandler.getCurrentObject();
 		if (BlockRandomizationConfig.class.isInstance(currentTrial.getRandomizationConfiguration())) {
 			BlockRandomizationConfig conf = BlockRandomizationConfig.class
 					.cast(currentTrial
@@ -92,7 +92,7 @@ public class AlgorithmInfo {
 				furtherDetails.append("<br//>");
 			}
 		} else if (UrnDesignConfig.class.isInstance(currentTrial.getRandomizationConfiguration())) {
-			UrnDesignConfig conf = UrnDesignConfig.class.cast(trialHandler.getShowedObject().getRandomizationConfiguration());
+			UrnDesignConfig conf = UrnDesignConfig.class.cast(trialHandler.getCurrentObject().getRandomizationConfiguration());
 			furtherDetails.append("<b>");
 			furtherDetails.append(bundle.getString("pages.urnR.initialCount"));
 			furtherDetails.append("</b> ");
@@ -104,7 +104,7 @@ public class AlgorithmInfo {
 			furtherDetails.append(conf.getCountReplacedBalls());
 			furtherDetails.append("<br//>");
 		} else if (MinimizationConfig.class.isInstance(currentTrial.getRandomizationConfiguration())) {
-			MinimizationConfig conf = MinimizationConfig.class.cast(trialHandler.getShowedObject().getRandomizationConfiguration());
+			MinimizationConfig conf = MinimizationConfig.class.cast(trialHandler.getCurrentObject().getRandomizationConfiguration());
 			furtherDetails.append("<b>");
 			furtherDetails
 					.append(bundle.getString("pages.minimization.pvalue"));
@@ -127,7 +127,7 @@ public class AlgorithmInfo {
 		if (t)
 			return t;
 		else
-			return trialHandler.getShowedObject().isStratifyTrialSite();
+			return trialHandler.getCurrentObject().isStratifyTrialSite();
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class AlgorithmInfo {
 	 */
 	public boolean isStrataFactorsDefined() {
 
-		for (AbstractCriterion<?, ?> c : trialHandler.getShowedObject()
+		for (AbstractCriterion<?, ?> c : trialHandler.getCurrentObject()
 				.getCriteria()) {
 			if (c.getStrata() != null) {
 				if (c.getStrata().size() > 0)
@@ -152,7 +152,7 @@ public class AlgorithmInfo {
 	@SuppressWarnings("unchecked")
 	public List<CriterionWrapper<Serializable>> getStrata() {
 		strata = new ArrayList<CriterionWrapper<Serializable>>();
-		for (AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : trialHandler.getShowedObject().getCriteria()) {
+		for (AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : trialHandler.getCurrentObject().getCriteria()) {
 			/*
 			 * Check if the criterion is a defined strata factor and if so wrapp
 			 * it and add to the collection

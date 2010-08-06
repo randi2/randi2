@@ -153,7 +153,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 		if (distributedTrialSites == null
 				|| distributedTrialSites.getTrialSitesRatioWrappers().size() != countTrialSites) {
 			List<TrialSiteRatioWrapper> tRatioWrapper = new ArrayList<TrialSiteRatioWrapper>();
-			for (TrialSite site : showedObject.getParticipatingSites()) {
+			for (TrialSite site : currentObject.getParticipatingSites()) {
 				tRatioWrapper.add(new TrialSiteRatioWrapper(site));
 			}
 			distributedTrialSites = new DistributionTrialSiteWrapper(
@@ -170,10 +170,10 @@ public class SimulationHandler extends AbstractTrialHandler {
 	@SuppressWarnings("unchecked")
 	public List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> getDistributedCriterions() {
 		if (distributedCriterions == null
-				|| distributedCriterions.size() != showedObject.getCriteria()
+				|| distributedCriterions.size() != currentObject.getCriteria()
 						.size()) {
 			distributedCriterions = new ArrayList<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>>();
-			for (AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : showedObject
+			for (AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : currentObject
 					.getCriteria()) {
 				if (c.getStrata() != null) {
 					List<DistributedConstraintWrapper> strataDistributions = new ArrayList<DistributedConstraintWrapper>();
@@ -195,19 +195,19 @@ public class SimulationHandler extends AbstractTrialHandler {
 
 	public Trial getSimTrial() {
 		if (simFromTrialCreationFirst && !simOnly) {
-			showedObject = trialHandler.getShowedObject();
+			currentObject = trialHandler.getCurrentObject();
 			setRandomizationConfig(trialHandler.getRandomizationConfig());
 			try {
 				/* Leading Trial Site & Sponsor Investigator */
-				showedObject.setLeadingSite(trialHandler.getTrialSitesAC()
+				currentObject.setLeadingSite(trialHandler.getTrialSitesAC()
 						.getSelectedObject());
 				if (trialHandler.getSponsorInvestigatorsAC()
 						.getSelectedObject() != null)
-					showedObject.setSponsorInvestigator(trialHandler
+					currentObject.setSponsorInvestigator(trialHandler
 							.getSponsorInvestigatorsAC().getSelectedObject()
 							.getPerson());
 
-				showedObject.setCriteria(configureCriteriaStep4());
+				currentObject.setCriteria(configureCriteriaStep4());
 				/* Algorithm Configuration */
 				configureAlgorithmWithStep5();
 				simFromTrialCreationFirst = false;
@@ -215,12 +215,12 @@ public class SimulationHandler extends AbstractTrialHandler {
 				return null;
 			}
 
-		} else if (showedObject == null && simOnly) {
-			showedObject = new Trial();
+		} else if (currentObject == null && simOnly) {
+			currentObject = new Trial();
 			List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
 			arms.add(new TreatmentArm());
 			arms.add(new TreatmentArm());
-			showedObject.setTreatmentArms(arms);
+			currentObject.setTreatmentArms(arms);
 		}
 		if (simOnly && criterionChanged) {
 			/* SubjectProperties Configuration - done in Step4 */
@@ -232,13 +232,13 @@ public class SimulationHandler extends AbstractTrialHandler {
 							SimulationSubjectProperty.class);
 			SimulationSubjectProperty currentSimulationSubjectProperty = (SimulationSubjectProperty) ve1
 					.getValue(FacesContext.getCurrentInstance().getELContext());
-			showedObject
+			currentObject
 					.setCriteria(addAllConfiguredCriteria(currentSimulationSubjectProperty
 							.getCriteria()));
 			criterionChanged = false;
 		}
 
-		return showedObject;
+		return currentObject;
 
 	}
 
@@ -247,7 +247,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 	@SuppressWarnings("unchecked")
 	public List<CriterionWrapper<Serializable>> getStrata() {
 		strata = new ArrayList<CriterionWrapper<Serializable>>();
-		for (AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : showedObject
+		for (AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : currentObject
 				.getCriteria()) {
 			strata.add(new CriterionWrapper<Serializable>(
 					(AbstractCriterion<Serializable, ?>) c));
@@ -262,7 +262,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 	 */
 	public boolean isStrataFactorsDefined() {
 
-		for (AbstractCriterion<?, ?> c : showedObject.getCriteria()) {
+		for (AbstractCriterion<?, ?> c : currentObject.getCriteria()) {
 			if (c.getStrata() != null) {
 				if (c.getStrata().size() > 0)
 					return true;
@@ -275,7 +275,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 		ResourceBundle bundle = ResourceBundle.getBundle(
 				"de.randi2.jsf.i18n.algorithms", getLoginHandler()
 						.getChosenLocale());
-		return bundle.getString(showedObject.getRandomizationConfiguration()
+		return bundle.getString(currentObject.getRandomizationConfiguration()
 				.getClass().getCanonicalName()
 				+ ".name");
 	}
@@ -285,10 +285,10 @@ public class SimulationHandler extends AbstractTrialHandler {
 		ResourceBundle bundle = ResourceBundle.getBundle(
 				"de.randi2.jsf.i18n.labels", getLoginHandler()
 						.getChosenLocale());
-		if (BlockRandomizationConfig.class.isInstance(showedObject
+		if (BlockRandomizationConfig.class.isInstance(currentObject
 				.getRandomizationConfiguration())) {
 			BlockRandomizationConfig conf = BlockRandomizationConfig.class
-					.cast(showedObject.getRandomizationConfiguration());
+					.cast(currentObject.getRandomizationConfiguration());
 			furtherDetails.append("<b>");
 			furtherDetails.append(bundle
 					.getString("pages.blockR.variableBSize"));
@@ -316,9 +316,9 @@ public class SimulationHandler extends AbstractTrialHandler {
 				furtherDetails.append(conf.getMinimum());
 				furtherDetails.append("<br//>");
 			}
-		} else if (UrnDesignConfig.class.isInstance(showedObject
+		} else if (UrnDesignConfig.class.isInstance(currentObject
 				.getRandomizationConfiguration())) {
-			UrnDesignConfig conf = UrnDesignConfig.class.cast(showedObject
+			UrnDesignConfig conf = UrnDesignConfig.class.cast(currentObject
 					.getRandomizationConfiguration());
 			furtherDetails.append("<b>");
 			furtherDetails.append(bundle.getString("pages.urnR.initialCount"));
@@ -330,10 +330,10 @@ public class SimulationHandler extends AbstractTrialHandler {
 			furtherDetails.append("</b> ");
 			furtherDetails.append(conf.getCountReplacedBalls());
 			furtherDetails.append("<br//>");
-		} else if (MinimizationConfig.class.isInstance(showedObject
+		} else if (MinimizationConfig.class.isInstance(currentObject
 				.getRandomizationConfiguration())) {
 			MinimizationConfig conf = MinimizationConfig.class
-					.cast(showedObject.getRandomizationConfiguration());
+					.cast(currentObject.getRandomizationConfiguration());
 			furtherDetails.append("<b>");
 			furtherDetails
 					.append(bundle.getString("pages.minimization.pvalue"));
@@ -356,7 +356,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 		if (t)
 			return t;
 		else
-			return showedObject.isStratifyTrialSite();
+			return currentObject.isStratifyTrialSite();
 	}
 
 	public void simTrial() {
@@ -372,16 +372,16 @@ public class SimulationHandler extends AbstractTrialHandler {
 		if (simOnly) {
 			simulationResults = new ArrayList<SimulationResult>();
 			for (AlgorithmWrapper alg : randomisationConfigs) {
-				showedObject.setRandomizationConfiguration(alg.getConf());
+				currentObject.setRandomizationConfiguration(alg.getConf());
 				alg.getConf().setTempData(null);
-				alg.getConf().setTrial(showedObject);
+				alg.getConf().setTrial(currentObject);
 				if (seedRandomisationAlgorithmB) {
 					alg.getConf().resetAlgorithm(seedRandomisationAlgorithm);
 				} else {
 					alg.getConf().resetAlgorithm();
 				}
 				SimulationResult result = simulationService.simulateTrial(
-						showedObject, properties, distributedTrialSites
+						currentObject, properties, distributedTrialSites
 								.getDistributionTrialSites(), runs, maxTime, collectRawData);
 				result.setAlgorithmDescription(alg.getDescription());
 				simulationResults.add(result);
@@ -389,7 +389,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 
 		} else {
 			SimulationResult result = simulationService.simulateTrial(
-					showedObject, properties, distributedTrialSites
+					currentObject, properties, distributedTrialSites
 							.getDistributionTrialSites(), runs, maxTime, collectRawData);
 			simResult = result;
 			Randi2Page rPage = ((Randi2Page) FacesContext.getCurrentInstance()
@@ -458,34 +458,34 @@ public class SimulationHandler extends AbstractTrialHandler {
 	 * @param event
 	 */
 	public void removeAlgorithm(ActionEvent event) {
-		assert (showedObject != null);
+		assert (currentObject != null);
 		randomisationConfigs.remove(randomisationConfigs.size() - 1);
 	}
 
 	public void setCountTrialSites(int countTrialSites) {
 		this.countTrialSites = countTrialSites;
-		showedObject.setParticipatingSites(new HashSet<TrialSite>());
+		currentObject.setParticipatingSites(new HashSet<TrialSite>());
 		for (int i = 0; i < countTrialSites; i++) {
 			TrialSite site = new TrialSite();
 			site.setName("Trial Site " + (i + 1));
-			showedObject.addParticipatingSite(site);
+			currentObject.addParticipatingSite(site);
 		}
 	}
 
 	public Resource getExportSimulationResults() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("<h2>Studie: "+ showedObject.getName() + "</h2> \n");
+		sb.append("<h2>Studie: "+ currentObject.getName() + "</h2> \n");
 		
 		sb.append("<h3>Sites:</h3>\n");
 		sb.append("<table border=1 width=200px><tr><th>Name</th><th>Ratio</th></tr>");
-		for (TrialSite site : showedObject.getParticipatingSites()) {
+		for (TrialSite site : currentObject.getParticipatingSites()) {
 			sb.append("<tr><td>" + site.getName() + "</td><td>"+ 1 +"</td></tr> \n");
 		}
 		sb.append("</table>");
 		
 		sb.append("<h3>Treatment Arms:</h3>\n");
 		sb.append("<table border=1 width=400px><tr><th>Name</th><th>Description</th><th>Ration</th></tr>\n");
-		for (TreatmentArm arm : showedObject.getTreatmentArms()) {
+		for (TreatmentArm arm : currentObject.getTreatmentArms()) {
 			sb.append(" <tr><td> " + arm.getName() + "</td>");
 			sb.append(" <td> "+ arm.getDescription() +"</td>");
 			sb.append(" <td> " + arm.getPlannedSubjects() +"</td>"
@@ -545,8 +545,8 @@ public class SimulationHandler extends AbstractTrialHandler {
 			if(i % (listWrapper.size()/simulationResults.size()) == 0){
 				sb.append("<td rowspan=\" "+ (listWrapper.size()/simulationResults.size()) +"\">"+ listWrapper.get(i).getAlgorithmName()+"</td>");
 			}
-			if(i % ((listWrapper.size()/simulationResults.size())/showedObject.getTreatmentArms().size()) == 0){
-				sb.append("<td rowspan=\" "+ ((listWrapper.size()/simulationResults.size())/showedObject.getTreatmentArms().size()) +"\">"+ listWrapper.get(i).getTreatmentName()+"</td>");
+			if(i % ((listWrapper.size()/simulationResults.size())/currentObject.getTreatmentArms().size()) == 0){
+				sb.append("<td rowspan=\" "+ ((listWrapper.size()/simulationResults.size())/currentObject.getTreatmentArms().size()) +"\">"+ listWrapper.get(i).getTreatmentName()+"</td>");
 			}
 			sb.append("<td>"+ listWrapper.get(i).getStrataName()+"</td>");
 			sb.append("<td>"+ listWrapper.get(i).getMinCount()+"</td>");

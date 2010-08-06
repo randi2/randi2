@@ -20,83 +20,83 @@
 	columns="2">
 	<ice:outputLabel for="name" value="#{labels['trialSite.name']}"></ice:outputLabel>
 	<ice:outputText id="nameO"
-		value="#{trialSiteHandler.showedObject.name}"
+		value="#{trialSiteHandler.currentObject.name}"
 		rendered="#{!trialSiteHandler.editable}">
 	</ice:outputText>
 	<ice:panelGroup id="nameEdit" rendered="#{trialSiteHandler.editable}">
 		<ice:inputText id="name" size="50"
-			value="#{trialSiteHandler.showedObject.name}"
-			required="#{trialSiteHandler.showedObject.requiredFields['name']}"
+			value="#{trialSiteHandler.currentObject.name}"
+			required="#{trialSiteHandler.currentObject.requiredFields['name']}"
 			partialSubmit="true">
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject"
-				value="#{trialSiteHandler.showedObject}" />
+				value="#{trialSiteHandler.currentObject}" />
 		</ice:inputText>
 		<ice:message for="name" />
 	</ice:panelGroup>
 	<ice:outputLabel for="country" value="#{labels['trialSite.country']}"></ice:outputLabel>
 	<ice:outputText id="countryO"
-		value="#{trialSiteHandler.showedObject.country}"
+		value="#{trialSiteHandler.currentObject.country}"
 		rendered="#{!trialSiteHandler.editable}">
 	</ice:outputText>
 	<ice:panelGroup id="countryEdit"
 		rendered="#{trialSiteHandler.editable}">
 		<ice:inputText id="country" size="50"
-			value="#{trialSiteHandler.showedObject.country}"
-			required="#{trialSiteHandler.showedObject.requiredFields['country']}"
+			value="#{trialSiteHandler.currentObject.country}"
+			required="#{trialSiteHandler.currentObject.requiredFields['country']}"
 			partialSubmit="true">
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject"
-				value="#{trialSiteHandler.showedObject}" />
+				value="#{trialSiteHandler.currentObject}" />
 		</ice:inputText>
 		<ice:message for="country" />
 	</ice:panelGroup>
 	<ice:outputLabel for="city" value="#{labels['trialSite.city']}"></ice:outputLabel>
 	<ice:outputText id="cityO"
-		value="#{trialSiteHandler.showedObject.city}"
+		value="#{trialSiteHandler.currentObject.city}"
 		rendered="#{!trialSiteHandler.editable}">
 	</ice:outputText>
 	<ice:panelGroup id="cityEdit" rendered="#{trialSiteHandler.editable}">
 		<ice:inputText id="city" size="50"
-			value="#{trialSiteHandler.showedObject.city}"
-			required="#{trialSiteHandler.showedObject.requiredFields['city']}"
+			value="#{trialSiteHandler.currentObject.city}"
+			required="#{trialSiteHandler.currentObject.requiredFields['city']}"
 			partialSubmit="true">
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject"
-				value="#{trialSiteHandler.showedObject}" />
+				value="#{trialSiteHandler.currentObject}" />
 		</ice:inputText>
 		<ice:message for="city" />
 	</ice:panelGroup>
 	<ice:outputLabel for="postcode" value="#{labels['trialSite.postcode']}"></ice:outputLabel>
 	<ice:outputText id="postcodeO"
-		value="#{trialSiteHandler.showedObject.postcode}"
+		value="#{trialSiteHandler.currentObject.postcode}"
 		rendered="#{!trialSiteHandler.editable}">
 	</ice:outputText>
 	<ice:panelGroup id="postcodeEdit"
 		rendered="#{trialSiteHandler.editable}">
 		<ice:inputText id="postcode" size="50"
-			value="#{trialSiteHandler.showedObject.postcode}"
-			required="#{trialSiteHandler.showedObject.requiredFields['postcode']}"
+			value="#{trialSiteHandler.currentObject.postcode}"
+			required="#{trialSiteHandler.currentObject.requiredFields['postcode']}"
 			partialSubmit="true">
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject"
-				value="#{trialSiteHandler.showedObject}" />
+				value="#{trialSiteHandler.currentObject}" />
 		</ice:inputText>
 		<ice:message for="postcode" />
 	</ice:panelGroup>
 	<ice:outputLabel for="street" value="#{labels['trialSite.street']}"></ice:outputLabel>
 	<ice:outputText id="streetO"
-		value="#{trialSiteHandler.showedObject.street}"
+		value="#{trialSiteHandler.currentObject.street}"
 		rendered="#{!trialSiteHandler.editable}">
 	</ice:outputText>
 	<ice:panelGroup id="streetEdit" rendered="#{trialSiteHandler.editable}">
 		<ice:inputText id="street" size="50"
-			value="#{trialSiteHandler.showedObject.street}"
-			required="#{trialSiteHandler.showedObject.requiredFields['street']}"
+			value="#{trialSiteHandler.currentObject.street}"
+			required="#{trialSiteHandler.currentObject.requiredFields['street']}"
 			partialSubmit="true">
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject"
-				value="#{trialSiteHandler.showedObject}" />
+				value="#{trialSiteHandler.currentObject}" />
 		</ice:inputText>
 		<ice:message for="street" />
 	</ice:panelGroup>

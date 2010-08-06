@@ -39,7 +39,7 @@
 					disabled="#{!loginHandler.rolesAC.objectSelected}" />
 			</ice:panelGrid>
 			<ice:dataTable id="rolesTable" border="2"
-				value="#{loginHandler.showedObject.roles}" var="role" style="margin-left: 50px; width: 300px;">
+				value="#{loginHandler.currentObject.roles}" var="role" style="margin-left: 50px; width: 300px;">
 				<ice:column id="column1">
 					<ice:outputText value="#{roles[role.UIName]}" />
 					<f:facet name="header">

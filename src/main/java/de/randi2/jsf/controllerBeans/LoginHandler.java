@@ -129,7 +129,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public void addRole(ActionEvent event) {
 		assert (rolesAC.getSelectedObject() != null);
 		assert (userService != null);
-		userService.addRole(showedObject, rolesAC.getSelectedObject());
+		userService.addRole(currentObject, rolesAC.getSelectedObject());
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 		Role tRole = (Role) (((UIComponent) event.getComponent().getChildren()
 				.get(0)).getValueExpression("value").getValue(FacesContext
 				.getCurrentInstance().getELContext()));
-		userService.removeRole(showedObject, tRole);
+		userService.removeRole(currentObject, tRole);
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 */
 	public String changeTrialSite() {
 		if (trialSitesAC.getSelectedObject() != null) {
-			showedObject.getPerson().setTrialSite(
+			currentObject.getPerson().setTrialSite(
 					trialSitesAC.getSelectedObject());
 			popups.hideChangeTrialSitePopup();
 			this.saveObject();
@@ -179,9 +179,9 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 */
 	@Override
 	public String saveObject() {
-		assert (showedObject != null);
+		assert (currentObject != null);
 		try {
-			showedObject = userService.update(showedObject);
+			currentObject = userService.update(currentObject);
 			// Making the pop up visible
 			popups.setUserSavedPVisible(true);
 			return Randi2.SUCCESS;
@@ -189,8 +189,8 @@ public class LoginHandler extends AbstractHandler<Login> {
 			Randi2.showMessage(exp);
 			return Randi2.ERROR;
 		} finally {
-			if (showedObject.getId() == loggedInUser.getId())
-				loggedInUser = showedObject;
+			if (currentObject.getId() == loggedInUser.getId())
+				loggedInUser = currentObject;
 			refresh();
 		}
 	}
@@ -210,7 +210,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 		try {
 			if (creatingMode) {
 				// A new user was created by another logged in user
-				newUser = showedObject;
+				newUser = currentObject;
 			} else {
 				// Normal self-registration - trial site password check!
 				assert (newUser != null);
@@ -293,10 +293,10 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 */
 	@Override
 	public String refreshShowedObject() {
-		if (showedObject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID)
-			showedObject = null;
+		if (currentObject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID)
+			currentObject = null;
 		else
-			showedObject = userService.getObject(showedObject.getId());
+			currentObject = userService.getObject(currentObject.getId());
 		trialSitesAC = null;
 		refresh();
 		return Randi2.SUCCESS;
@@ -381,8 +381,8 @@ public class LoginHandler extends AbstractHandler<Login> {
 				.getELResolver()
 				.getValue(FacesContext.getCurrentInstance().getELContext(),
 						null, "permissionVerifier"));
-		if (showedObject.equals(this.loggedInUser)
-				|| permissionVerifier.isAllowedEditUser(showedObject)) {
+		if (currentObject.equals(this.loggedInUser)
+				|| permissionVerifier.isAllowedEditUser(currentObject)) {
 			editable = true;
 		} else {
 			editable = creatingMode;
@@ -459,8 +459,8 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 * @param event
 	 */
 	public void createAssistant(ActionEvent event) {
-		if (showedObject != null)
-			showedObject.getPerson().setAssistant(new Person());
+		if (currentObject != null)
+			currentObject.getPerson().setAssistant(new Person());
 	}
 
 	/**
@@ -469,7 +469,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 * @return
 	 */
 	public List<LogEntry> getLogEntries() {
-		return logService.getLogEntries(showedObject.getUsername());
+		return logService.getLogEntries(currentObject.getUsername());
 	}
 
 	/*

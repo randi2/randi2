@@ -34,7 +34,7 @@
 					<ice:outputText rendered="#{strata.stratified}"
 						value="#{labels['pages.strata.question2']}" />
 					<ice:selectBooleanCheckbox rendered="#{strata.stratified}"
-						value="#{trialHandler.showedObject.stratifyTrialSite}" />
+						value="#{trialHandler.currentObject.stratifyTrialSite}" />
 				</ice:panelGrid>
 			</ice:panelGrid>
 		</ice:panelGroup>

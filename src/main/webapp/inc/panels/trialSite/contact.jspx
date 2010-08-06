@@ -20,119 +20,119 @@
 	<ice:outputLabel for="gender" value="#{labels['person.gender']}"
 		rendered="#{trialSiteHandler.editable}"></ice:outputLabel>
 	<ice:selectOneMenu id="gender"
-		value="#{trialSiteHandler.showedObject.contactPerson.sex}"
+		value="#{trialSiteHandler.currentObject.contactPerson.sex}"
 		rendered="#{trialSiteHandler.editable}" converter="de.randi2.jsf.converters.GENDER_CONVERTER">
 		<f:selectItems value="#{enums.genderItems}" />
 	</ice:selectOneMenu>
 	<ice:outputLabel for="title" value="#{labels['person.title']}"></ice:outputLabel>
 	<ice:outputText id="titleO"
-		value="#{trialSiteHandler.showedObject.contactPerson.title}"
+		value="#{trialSiteHandler.currentObject.contactPerson.title}"
 		rendered="#{!trialSiteHandler.editable}">
 	</ice:outputText>
 	<ice:panelGroup id="titleEdit" rendered="#{trialSiteHandler.editable}">
 		<ice:inputText id="title" size="50"
-			value="#{trialSiteHandler.showedObject.contactPerson.title}"
-			required="#{trialSiteHandler.showedObject.contactPerson.requiredFields['title']}"
+			value="#{trialSiteHandler.currentObject.contactPerson.title}"
+			required="#{trialSiteHandler.currentObject.contactPerson.requiredFields['title']}"
 			partialSubmit="true">
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject"
-				value="#{trialSiteHandler.showedObject.contactPerson}" />
+				value="#{trialSiteHandler.currentObject.contactPerson}" />
 		</ice:inputText>
 		<ice:message for="title" />
 	</ice:panelGroup>
 	<ice:outputLabel for="firstname" value="#{labels['person.firstname']}"></ice:outputLabel>
 	<ice:outputText id="firstnameO"
-		value="#{trialSiteHandler.showedObject.contactPerson.firstname}"
+		value="#{trialSiteHandler.currentObject.contactPerson.firstname}"
 		rendered="#{!trialSiteHandler.editable}">
 	</ice:outputText>
 	<ice:panelGroup id="firstnameEdit" rendered="#{trialSiteHandler.editable}">
 		<ice:inputText id="firstname" size="50"
-			value="#{trialSiteHandler.showedObject.contactPerson.firstname}"
-			required="#{trialSiteHandler.showedObject.contactPerson.requiredFields['firstname']}"
+			value="#{trialSiteHandler.currentObject.contactPerson.firstname}"
+			required="#{trialSiteHandler.currentObject.contactPerson.requiredFields['firstname']}"
 			partialSubmit="true">
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject"
-				value="#{trialSiteHandler.showedObject.contactPerson}" />
+				value="#{trialSiteHandler.currentObject.contactPerson}" />
 		</ice:inputText>
 		<ice:message for="fistname" />
 	</ice:panelGroup>
 	<ice:outputLabel for="surname" value="#{labels['person.surname']}"></ice:outputLabel>
 	<ice:outputText id="surnameO"
-		value="#{trialSiteHandler.showedObject.contactPerson.surname}"
+		value="#{trialSiteHandler.currentObject.contactPerson.surname}"
 		rendered="#{!trialSiteHandler.editable}">
 	</ice:outputText>
 	<ice:panelGroup id="surnameEdit" rendered="#{trialSiteHandler.editable}">
 		<ice:inputText id="surname" size="50"
-			value="#{trialSiteHandler.showedObject.contactPerson.surname}"
-			required="#{trialSiteHandler.showedObject.contactPerson.requiredFields['surname']}"
+			value="#{trialSiteHandler.currentObject.contactPerson.surname}"
+			required="#{trialSiteHandler.currentObject.contactPerson.requiredFields['surname']}"
 			partialSubmit="true">
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject"
-				value="#{trialSiteHandler.showedObject.contactPerson}" />
+				value="#{trialSiteHandler.currentObject.contactPerson}" />
 		</ice:inputText>
 		<ice:message for="surname" />
 	</ice:panelGroup>
 	<ice:outputLabel for="email" value="#{labels['person.eMail']}"></ice:outputLabel>
 	<ice:outputText id="eMailO"
-		value="#{trialSiteHandler.showedObject.contactPerson.email}"
+		value="#{trialSiteHandler.currentObject.contactPerson.email}"
 		rendered="#{!trialSiteHandler.editable}">
 	</ice:outputText>
 	<ice:panelGroup id="eMailEdit" rendered="#{trialSiteHandler.editable}">
 		<ice:inputText id="email" size="50"
-			value="#{trialSiteHandler.showedObject.contactPerson.email}"
-			required="#{trialSiteHandler.showedObject.contactPerson.requiredFields['email']}"
+			value="#{trialSiteHandler.currentObject.contactPerson.email}"
+			required="#{trialSiteHandler.currentObject.contactPerson.requiredFields['email']}"
 			partialSubmit="true">
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject"
-				value="#{trialSiteHandler.showedObject.contactPerson}" />
+				value="#{trialSiteHandler.currentObject.contactPerson}" />
 		</ice:inputText>
 		<ice:message for="email" />
 	</ice:panelGroup>
 	<ice:outputLabel for="phone" value="#{labels['person.phone']}"></ice:outputLabel>
 	<ice:outputText id="phoneO"
-		value="#{trialSiteHandler.showedObject.contactPerson.phone}"
+		value="#{trialSiteHandler.currentObject.contactPerson.phone}"
 		rendered="#{!trialSiteHandler.editable}">
 	</ice:outputText>
 	<ice:panelGroup id="phoneEdit" rendered="#{trialSiteHandler.editable}">
 		<ice:inputText id="phone" size="50"
-			value="#{trialSiteHandler.showedObject.contactPerson.phone}"
-			required="#{trialSiteHandler.showedObject.contactPerson.requiredFields['phone']}"
+			value="#{trialSiteHandler.currentObject.contactPerson.phone}"
+			required="#{trialSiteHandler.currentObject.contactPerson.requiredFields['phone']}"
 			partialSubmit="true">
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject"
-				value="#{trialSiteHandler.showedObject.contactPerson}" />
+				value="#{trialSiteHandler.currentObject.contactPerson}" />
 		</ice:inputText>
 		<ice:message for="phone" />
 	</ice:panelGroup>
 	<ice:outputLabel for="mobile" value="#{labels['person.mobile']}"></ice:outputLabel>
 	<ice:outputText id="mobileO"
-		value="#{trialSiteHandler.showedObject.contactPerson.mobile}"
+		value="#{trialSiteHandler.currentObject.contactPerson.mobile}"
 		rendered="#{!trialSiteHandler.editable}">
 	</ice:outputText>
 	<ice:panelGroup id="mobileEdit" rendered="#{trialSiteHandler.editable}">
 		<ice:inputText id="mobile" size="50"
-			value="#{trialSiteHandler.showedObject.contactPerson.mobile}"
-			required="#{trialSiteHandler.showedObject.contactPerson.requiredFields['mobile']}"
+			value="#{trialSiteHandler.currentObject.contactPerson.mobile}"
+			required="#{trialSiteHandler.currentObject.contactPerson.requiredFields['mobile']}"
 			partialSubmit="true">
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject"
-				value="#{trialSiteHandler.showedObject.contactPerson}" />
+				value="#{trialSiteHandler.currentObject.contactPerson}" />
 		</ice:inputText>
 		<ice:message for="mobile" />
 	</ice:panelGroup>
 	<ice:outputLabel for="fax" value="#{labels['person.fax']}"></ice:outputLabel>
 	<ice:outputText id="faxO"
-		value="#{trialSiteHandler.showedObject.contactPerson.fax}"
+		value="#{trialSiteHandler.currentObject.contactPerson.fax}"
 		rendered="#{!trialSiteHandler.editable}">
 	</ice:outputText>
 	<ice:panelGroup id="faxEdit" rendered="#{trialSiteHandler.editable}">
 		<ice:inputText id="fax" size="50"
-			value="#{trialSiteHandler.showedObject.contactPerson.fax}"
-			required="#{trialSiteHandler.showedObject.contactPerson.requiredFields['fax']}"
+			value="#{trialSiteHandler.currentObject.contactPerson.fax}"
+			required="#{trialSiteHandler.currentObject.contactPerson.requiredFields['fax']}"
 			partialSubmit="true">
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject"
-				value="#{trialSiteHandler.showedObject.contactPerson}" />
+				value="#{trialSiteHandler.currentObject.contactPerson}" />
 		</ice:inputText>
 		<ice:message for="fax" />
 	</ice:panelGroup>

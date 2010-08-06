@@ -38,7 +38,7 @@
 			<ice:panelGroup>
 				<ice:outputText value="#{algorithmInfo.stratified}" />
 				<ice:outputText
-					rendered="#{trialHandler.showedObject.stratifyTrialSite}"
+					rendered="#{trialHandler.currentObject.stratifyTrialSite}"
 					value="(#{labels['pages.algorithmInfo.siteStrata']})" />
 			</ice:panelGroup>
 		</ice:panelGrid>

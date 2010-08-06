@@ -118,7 +118,7 @@ public class Randi2Page {
 
 	public void myTrialSite(ActionEvent event) {
 		trialSiteHandler
-				.setShowedObject(loginHandler.getLoggedInUser().getPerson().getTrialSite());
+				.setCurrentObject(loginHandler.getLoggedInUser().getPerson().getTrialSite());
 		activePanel = "trialSiteEditPanel";
 		trialHandler.cancleEditing();
 	}
@@ -132,7 +132,7 @@ public class Randi2Page {
 		TrialSite tTrialSite = (TrialSite) (((UIComponent) event.getComponent()
 				.getChildren().get(0)).getValueExpression("value")
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
-		trialSiteHandler.setShowedObject(tTrialSite);
+		trialSiteHandler.setCurrentObject(tTrialSite);
 		activePanel = "trialSiteEditPanel";
 		trialHandler.cancleEditing();
 	}
@@ -147,7 +147,7 @@ public class Randi2Page {
 				.getChildren().get(0)).getValueExpression("value")
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
 		trialChangeEffect.setFired(false);
-		trialHandler.setShowedObject(tTrial);
+		trialHandler.setCurrentObject(tTrial);
 		activePanel = "trialShowPanel";
 		trialSelected = true;
 	}
@@ -170,7 +170,7 @@ public class Randi2Page {
 	 * @param _trial
 	 */
 	public void showTrial(Trial _trial){
-		trialHandler.setShowedObject(_trial);
+		trialHandler.setCurrentObject(_trial);
 		activePanel = "trialShowPanel";
 		trialHandler.cancleEditing();
 		trialSelected = true;
@@ -186,35 +186,35 @@ public class Randi2Page {
 				.getChildren().get(0)).getValueExpression("value")
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
 		assert (tPerson.getLogin() != null);
-		loginHandler.setShowedObject(tPerson.getLogin());
+		loginHandler.setCurrentObject(tPerson.getLogin());
 		activePanel = "userEditPanel";
 		trialHandler.cancleEditing();
 		trialSelected = false;
 	}
 
 	public void createTrialSite(ActionEvent event) {
-		trialSiteHandler.setShowedObject(null);
+		trialSiteHandler.setCurrentObject(null);
 		activePanel = "trialSiteEditPanel";
 		trialHandler.cancleEditing();
 		trialSelected = false;
 	}
 
 	public void myLogin(ActionEvent event) {
-		loginHandler.setShowedObject(loginHandler.getLoggedInUser());
+		loginHandler.setCurrentObject(loginHandler.getLoggedInUser());
 		activePanel = "userEditPanel";
 		trialHandler.cancleEditing();
 		trialSelected = false;
 	}
 
 	public void createLogin(ActionEvent event) {
-		loginHandler.setShowedObject(null);
+		loginHandler.setCurrentObject(null);
 		activePanel = "userEditPanel";
 		trialHandler.cancleEditing();
 		trialSelected = false;
 	}
 
 	public void createTrial(ActionEvent event) {
-		trialHandler.setShowedObject(null);
+		trialHandler.setCurrentObject(null);
 		activePanel = "trialCreatePanel";
 		trialHandler.cancleEditing();
 		trialSelected = false;
@@ -233,7 +233,7 @@ public class Randi2Page {
 	}
 	
 	public void simulateTrialOnly(ActionEvent event) {
-		simulationHandler.setShowedObject(null);
+		simulationHandler.setCurrentObject(null);
 		simulationHandler.setDistributedCriterions(null);
 		simulationHandler.setSimOnly(true);
 		simulationHandler.getSimTrial();
@@ -274,7 +274,7 @@ public class Randi2Page {
 					.getELResolver().getValue(
 							FacesContext.getCurrentInstance().getELContext(),
 							null, "tSubjectAdd")).setCurrentTrial(trialHandler
-					.getShowedObject());
+					.getCurrentObject());
 			activePanel = "tSubjectAddPanel";
 		}
 	}

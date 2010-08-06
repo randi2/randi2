@@ -39,7 +39,7 @@ public abstract class AbstractHandler<O extends AbstractDomainObject> {
 	/**
 	 * The currently showed object.
 	 */
-	protected O showedObject = null;
+	protected O currentObject = null;
 
 	/**
 	 * Is the user currently creating a new object, or not.
@@ -53,20 +53,20 @@ public abstract class AbstractHandler<O extends AbstractDomainObject> {
 	@Setter
 	protected boolean editable = false;
 	
-	public O getShowedObject() {
-		if (showedObject == null)
-			showedObject = createPlainObject();
-		return showedObject;
+	public O getCurrentObject() {
+		if (currentObject == null)
+			currentObject = createPlainObject();
+		return currentObject;
 	}
 
-	public void setShowedObject(O _showedObject) {
-		if (_showedObject == null) { // A new object is to be created
+	public void setCurrentObject(O _currentObject) {
+		if (_currentObject == null) { // A new object is to be created
 			creatingMode = true;
-			showedObject = createPlainObject();
+			currentObject = createPlainObject();
 			refresh();
 		} else { // A selected object will be shown
 			creatingMode = false;
-			showedObject = _showedObject;
+			currentObject = _currentObject;
 			refresh();
 		}
 

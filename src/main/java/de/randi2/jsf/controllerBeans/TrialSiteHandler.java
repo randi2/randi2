@@ -79,8 +79,8 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	 * @return
 	 */
 	public boolean isEditable() {
-		if (showedObject != null
-				&& permissionVerifier.isAllowedEditTrialSite(showedObject)) {
+		if (currentObject != null
+				&& permissionVerifier.isAllowedEditTrialSite(currentObject)) {
 						editable = true;
 		} else {
 			editable = creatingMode;
@@ -97,9 +97,9 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	public String saveObject() {
 		try {
 			if (creatingMode) {
-				siteService.create(showedObject);
+				siteService.create(currentObject);
 			} else {
-				showedObject = siteService.update(showedObject);
+				currentObject = siteService.update(currentObject);
 			}
 			// Making the centerSavedPopup visible
 			popups.showTrialSiteSavedPopup();
@@ -128,10 +128,10 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	 */
 	@Override
 	public String refreshShowedObject() {
-		if (showedObject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID)
-			showedObject = null;
+		if (currentObject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID)
+			currentObject = null;
 		else
-			showedObject = siteService.getObject(showedObject.getId());
+			currentObject = siteService.getObject(currentObject.getId());
 		refresh();
 		return Randi2.SUCCESS;
 	}

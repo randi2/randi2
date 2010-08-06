@@ -31,7 +31,7 @@
 					escape="false" />
 				<ice:outputLabel for="name" value="#{labels['trialSite.name']}"></ice:outputLabel>
 				<ice:selectInputText id="trialSite"
-					required="#{loginHandler.showedObject.person.requiredFields['trialSite']}"
+					required="#{loginHandler.currentObject.person.requiredFields['trialSite']}"
 					valueChangeListener="#{loginHandler.trialSitesAC.updateObjectList}" rows="10"
 					width="200">
 					<f:selectItems value="#{loginHandler.trialSitesAC.objectList}" />
