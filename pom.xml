@@ -583,7 +583,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<excludes>
-						<exclude>**/ui/*Test.java</exclude>
+						<exclude>**/ui/integration/*Test.java</exclude>
 					</excludes>
 					<argLine>-Xms256m -Xmx512m -XX:PermSize=512m</argLine>
 				</configuration>
@@ -600,7 +600,7 @@
 								<exclude>none</exclude>
 							</excludes>
 							<includes>
-								<include>**/ui/*Test.java</include>
+								<include>**/ui/integration/*Test.java</include>
 							</includes>
 							<reportsDirectory>${project.build.directory}/surefire-it-reports</reportsDirectory>
 						</configuration>
