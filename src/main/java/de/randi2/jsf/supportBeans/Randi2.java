@@ -95,6 +95,7 @@ public class Randi2 {
 	}
 
 	public static void showMessage(Exception e) {
+		e.printStackTrace(); //TODO log
 		FacesContext.getCurrentInstance().addMessage(
 				null,
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, e

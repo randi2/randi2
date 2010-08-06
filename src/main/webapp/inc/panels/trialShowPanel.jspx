@@ -14,11 +14,12 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
- <f:subview id="changeSitePopup">
+<f:subview id="changeSitePopup">
 	<jsp:directive.include file="./inc/popups/changeLeadingSitePopup.jspx" />
 </f:subview>
- <f:subview id="changeInvestigatorPopup">
-	<jsp:directive.include file="./inc/popups/changePInvestigatorPopup.jspx" />
+<f:subview id="changeInvestigatorPopup">
+	<jsp:directive.include
+		file="./inc/popups/changePInvestigatorPopup.jspx" />
 </f:subview>
 <ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -50,7 +51,8 @@
 		<ice:panelTab label="#{labels['pages.trialShowPanel.properties']}"
 			rendered="#{trialHandler.editing}">
 			<f:subview id="subjectPropertiesConfigInclude">
-				<jsp:directive.include file="./inc/panels/trial/subjectPropConfig.jspx" />
+				<jsp:directive.include
+					file="./inc/panels/trial/subjectPropConfig.jspx" />
 			</f:subview>
 		</ice:panelTab>
 		<ice:panelTab label="#{labels['pages.trialShowPanel.algorithm']}"
