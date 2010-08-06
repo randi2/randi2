@@ -159,34 +159,6 @@ public class TrialHandler extends AbstractTrialHandler {
 		return participatingSitesAC;
 	}
 
-	// FIXME dummy method for the protocol download
-	public Resource getTempProtocol() {
-		if (currentObject != null && currentObject.getProtocol() != null)
-			return new FileResource(currentObject.getProtocol());
-		else
-			try {
-				return new ByteArrayResource(toByteArray(FacesContext
-						.getCurrentInstance().getExternalContext()
-						.getResourceAsStream("/protocol.pdf")));
-			} catch (MalformedURLException e) {
-				BoxedException.throwBoxed(e);
-			} catch (IOException e) {
-				BoxedException.throwBoxed(e);
-			}
-		return null;
-	}
-
-	// TODO Probably not the best place for this method ... after the decision
-	// about the protocol files has been made, rethink this solution
-	public static byte[] toByteArray(InputStream input) throws IOException {
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		byte[] buf = new byte[4096];
-		int len = 0;
-		while ((len = input.read(buf)) > -1)
-			output.write(buf, 0, len);
-		return output.toByteArray();
-	}
-
 	/**
 	 * Specifies if the user can add subject to the current study.
 	 * 
@@ -307,6 +279,7 @@ public class TrialHandler extends AbstractTrialHandler {
 
 	public String changeLeadingSite() {
 		currentObject.setLeadingSite(trialSitesAC.getSelectedObject());
+		sponsorInvestigatorsAC = null;
 		popups.hideChangeLeadingSitePopup();
 		return Randi2.SUCCESS;
 	}
