@@ -10,6 +10,6 @@
 	
 	<bean id="domainObjectFactory" class="de.randi2.test.utility.DomainObjectFactory" />
 	
-	<bean id="initializeDatabaseUtil" class="de.randi2.utility.InitializeDatabaseUtil"/>
+	<bean id="initializeDatabaseUtil" class="de.randi2.test.utility.InitializeDatabaseUtil"/>
 
 </beans>
