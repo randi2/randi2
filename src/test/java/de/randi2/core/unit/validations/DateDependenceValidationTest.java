@@ -13,8 +13,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.Trial;
-import de.randi2.test.utility.DomainObjectFactory;
-import de.randi2.test.utility.TestStringUtil;
+import de.randi2.testUtility.utility.DomainObjectFactory;
+import de.randi2.testUtility.utility.TestStringUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/META-INF/spring-test.xml"})

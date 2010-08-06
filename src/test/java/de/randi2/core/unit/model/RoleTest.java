@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Role;
 import de.randi2.model.security.PermissionHibernate;
-import de.randi2.test.utility.AbstractDomainTest;
+import de.randi2.testUtility.utility.AbstractDomainTest;
 
 public class RoleTest extends AbstractDomainTest<Role> {
 

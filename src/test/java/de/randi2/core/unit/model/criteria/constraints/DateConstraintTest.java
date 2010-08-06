@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.criteria.constraints.DateConstraint;
-import de.randi2.test.utility.AbstractDomainTest;
+import de.randi2.testUtility.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
 
 import static junit.framework.Assert.*;

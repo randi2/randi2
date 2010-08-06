@@ -20,7 +20,7 @@ import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationResult;
 import de.randi2.simulation.service.SimulationService;
 import de.randi2.simulation.service.SimulationServiceImpl;
-import de.randi2.test.utility.DomainObjectFactory;
+import de.randi2.testUtility.utility.DomainObjectFactory;
 
 public class SimulationServiceTest extends AbstractServiceTest{
 

@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.unsorted.ContraintViolatedException;
-import de.randi2.test.utility.AbstractDomainTest;
+import de.randi2.testUtility.utility.AbstractDomainTest;
 
 public class OrdinalCriterionTest extends AbstractDomainTest<OrdinalCriterion> {
 

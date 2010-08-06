@@ -1,7 +1,7 @@
 package de.randi2.core.integration.dao;
 
-import static de.randi2.test.utility.RANDI2Assert.assertNotSaved;
-import static de.randi2.test.utility.RANDI2Assert.assertSaved;
+import static de.randi2.testUtility.utility.RANDI2Assert.assertNotSaved;
+import static de.randi2.testUtility.utility.RANDI2Assert.assertSaved;
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -36,8 +36,8 @@ import de.randi2.dao.PersonDao;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.enumerations.Gender;
-import de.randi2.test.utility.DomainObjectFactory;
-import de.randi2.test.utility.TestStringUtil;
+import de.randi2.testUtility.utility.DomainObjectFactory;
+import de.randi2.testUtility.utility.TestStringUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml" })

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.unsorted.ContraintViolatedException;
-import de.randi2.test.utility.AbstractDomainTest;
+import de.randi2.testUtility.utility.AbstractDomainTest;
 
 public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousConstraint> {
 

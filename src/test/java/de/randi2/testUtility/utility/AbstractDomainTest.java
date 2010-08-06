@@ -1,4 +1,4 @@
-package de.randi2.test.utility;
+package de.randi2.testUtility.utility;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;

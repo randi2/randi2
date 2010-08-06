@@ -21,8 +21,8 @@ import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
 import de.randi2.services.UserService;
-import de.randi2.test.utility.DomainObjectFactory;
-import de.randi2.test.utility.TestStringUtil;
+import de.randi2.testUtility.utility.DomainObjectFactory;
+import de.randi2.testUtility.utility.TestStringUtil;
 //@Transactional
 //import static junit.framework.Assert.*;
 public class UserServiceTest extends AbstractServiceTest{

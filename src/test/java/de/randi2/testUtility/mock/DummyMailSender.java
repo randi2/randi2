@@ -1,4 +1,4 @@
-package de.randi2.test.mock;
+package de.randi2.testUtility.mock;
 
 import java.io.InputStream;
 

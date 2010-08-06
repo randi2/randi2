@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.randomization.MinimizationMapElementWrapper;
-import de.randi2.test.utility.AbstractDomainTest;
+import de.randi2.testUtility.utility.AbstractDomainTest;
 
 public class MinimizationMapElementWrapperTest extends AbstractDomainTest<MinimizationMapElementWrapper> {
 

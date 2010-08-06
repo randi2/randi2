@@ -6,7 +6,7 @@ import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.randi2.test.utility.InitializeDatabaseUtil;
+import de.randi2.testUtility.utility.InitializeDatabaseUtil;
 
 public abstract class AbstractDaoTest {
 

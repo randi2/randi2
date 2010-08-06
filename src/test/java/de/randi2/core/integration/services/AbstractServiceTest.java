@@ -34,8 +34,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.Login;
-import de.randi2.test.utility.DomainObjectFactory;
-import de.randi2.test.utility.InitializeDatabaseUtil;
+import de.randi2.testUtility.utility.DomainObjectFactory;
+import de.randi2.testUtility.utility.InitializeDatabaseUtil;
 import de.randi2.utility.security.RolesAndRights;
 
 import static junit.framework.Assert.*;

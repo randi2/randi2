@@ -32,7 +32,7 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
-import de.randi2.test.utility.AbstractDomainTest;
+import de.randi2.testUtility.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.Pair;
 import edu.emory.mathcs.backport.java.util.Arrays;

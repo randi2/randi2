@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.criteria.FreeTextCriterion;
 import de.randi2.model.criteria.constraints.FreeTextConstraint;
-import de.randi2.test.utility.AbstractDomainTest;
+import de.randi2.testUtility.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
 
 public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>{

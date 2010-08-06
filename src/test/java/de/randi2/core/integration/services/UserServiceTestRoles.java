@@ -17,7 +17,7 @@ import de.randi2.dao.LoginDao;
 import de.randi2.model.Login;
 import de.randi2.model.Role;
 import de.randi2.services.UserService;
-import de.randi2.test.utility.DomainObjectFactory;
+import de.randi2.testUtility.utility.DomainObjectFactory;
 
 public class UserServiceTestRoles extends AbstractServiceTest {
 

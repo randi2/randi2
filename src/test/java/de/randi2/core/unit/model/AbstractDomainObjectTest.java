@@ -25,7 +25,7 @@ import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
-import de.randi2.test.utility.AbstractDomainTest;
+import de.randi2.testUtility.utility.AbstractDomainTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/META-INF/spring-test.xml"})

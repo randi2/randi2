@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import static de.randi2.test.utility.RANDI2Assert.*;
+import static de.randi2.testUtility.utility.RANDI2Assert.*;
 import static de.randi2.utility.IntegerIterator.upto;
 
 /**

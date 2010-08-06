@@ -17,7 +17,7 @@ import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.randomization.MinimizationMapElementWrapper;
 import de.randi2.model.randomization.MinimizationTempData;
-import de.randi2.test.utility.AbstractDomainTest;
+import de.randi2.testUtility.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
 
 public class MinimizationTempDataTest extends AbstractDomainTest<MinimizationTempData> {

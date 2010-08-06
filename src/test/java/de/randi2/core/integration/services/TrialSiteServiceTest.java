@@ -23,7 +23,7 @@ import de.randi2.model.Person;
 import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
 import de.randi2.services.TrialSiteService;
-import de.randi2.test.utility.DomainObjectFactory;
+import de.randi2.testUtility.utility.DomainObjectFactory;
 import de.randi2.utility.security.RolesAndRights;
 
 public class TrialSiteServiceTest extends AbstractServiceTest {

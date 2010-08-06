@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License along with
  * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.randi2.test.utility;
+package de.randi2.testUtility.utility;
 
 import java.io.Serializable;
 import java.util.ArrayList;

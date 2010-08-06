@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.randi2.dao.RoleDao;
 import de.randi2.model.Role;
-import de.randi2.test.utility.TestStringUtil;
+import de.randi2.testUtility.utility.TestStringUtil;
 
 public class TransactionalRoleTest extends
 		AbstractTransactionalTest<RoleDao, Role> {

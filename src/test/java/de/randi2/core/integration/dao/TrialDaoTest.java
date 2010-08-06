@@ -1,7 +1,7 @@
 package de.randi2.core.integration.dao;
 
-import static de.randi2.test.utility.RANDI2Assert.assertNotSaved;
-import static de.randi2.test.utility.RANDI2Assert.assertSaved;
+import static de.randi2.testUtility.utility.RANDI2Assert.assertNotSaved;
+import static de.randi2.testUtility.utility.RANDI2Assert.assertSaved;
 import static junit.framework.Assert.assertNotNull;
 
 import org.junit.Test;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.TrialDao;
 import de.randi2.model.Trial;
-import de.randi2.test.utility.DomainObjectFactory;
+import de.randi2.testUtility.utility.DomainObjectFactory;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/META-INF/spring-test.xml"})

@@ -21,7 +21,7 @@ import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.FreeTextCriterion;
 import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
-import de.randi2.test.utility.AbstractDomainTest;
+import de.randi2.testUtility.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
 import edu.emory.mathcs.backport.java.util.Arrays;
 

@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import de.randi2.dao.LoginDao;
 import de.randi2.dao.UserDetailsServiceImpl;
 import de.randi2.model.Login;
-import de.randi2.test.utility.DomainObjectFactory;
-import de.randi2.test.utility.TestStringUtil;
+import de.randi2.testUtility.utility.DomainObjectFactory;
+import de.randi2.testUtility.utility.TestStringUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/META-INF/spring-test.xml" })

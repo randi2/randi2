@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
-import de.randi2.test.utility.DomainObjectFactory;
+import de.randi2.testUtility.utility.DomainObjectFactory;
 import static junit.framework.Assert.*;
 
 //import static junit.framework.Assert.*;

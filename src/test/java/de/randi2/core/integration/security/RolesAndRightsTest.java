@@ -24,8 +24,8 @@ import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
 import de.randi2.model.security.AclHibernate;
 import de.randi2.model.security.PermissionHibernate;
-import de.randi2.test.utility.DomainObjectFactory;
-import de.randi2.test.utility.InitializeDatabaseUtil;
+import de.randi2.testUtility.utility.DomainObjectFactory;
+import de.randi2.testUtility.utility.InitializeDatabaseUtil;
 import de.randi2.utility.security.RolesAndRights;
 
 

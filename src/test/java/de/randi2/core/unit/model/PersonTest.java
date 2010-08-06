@@ -23,7 +23,7 @@ import de.randi2.model.TreatmentArm;
 import de.randi2.model.TrialSite;
 import de.randi2.model.enumerations.Gender;
 import de.randi2.model.exceptions.ValidationException;
-import de.randi2.test.utility.AbstractDomainTest;
+import de.randi2.testUtility.utility.AbstractDomainTest;
 
 @Transactional
 public class PersonTest extends AbstractDomainTest<Person> {

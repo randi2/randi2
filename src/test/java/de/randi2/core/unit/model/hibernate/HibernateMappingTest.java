@@ -29,7 +29,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 import de.randi2.model.Login;
 import de.randi2.model.TrialSubject;
-import de.randi2.test.utility.InitializeDatabaseUtil;
+import de.randi2.testUtility.utility.InitializeDatabaseUtil;
 
 /**
  * Testing the hibernate mapping.

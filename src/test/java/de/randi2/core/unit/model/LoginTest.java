@@ -30,7 +30,7 @@ import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.exceptions.ValidationException;
 import de.randi2.model.security.PermissionHibernate;
-import de.randi2.test.utility.AbstractDomainTest;
+import de.randi2.testUtility.utility.AbstractDomainTest;
 
 public class LoginTest extends AbstractDomainTest<Login>{
 

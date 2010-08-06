@@ -1,6 +1,6 @@
 package de.randi2.core.integration.dao;
 
-import static de.randi2.test.utility.RANDI2Assert.assertSaved;
+import static de.randi2.testUtility.utility.RANDI2Assert.assertSaved;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
