@@ -1,6 +1,8 @@
-package de.randi2.core.unit.model.randomization;
+package de.randi2.core.integration.modelDatabase.randomization;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.randomization.MinimizationMapElementWrapper;
-import de.randi2.testUtility.utility.AbstractDomainTest;
+import de.randi2.testUtility.utility.AbstractDomainDatabaseTest;
 
-public class MinimizationMapElementWrapperTest extends AbstractDomainTest<MinimizationMapElementWrapper> {
+public class MinimizationMapElementWrapperTest extends AbstractDomainDatabaseTest<MinimizationMapElementWrapper> {
 
 	public MinimizationMapElementWrapperTest() {
 		super(MinimizationMapElementWrapper.class);

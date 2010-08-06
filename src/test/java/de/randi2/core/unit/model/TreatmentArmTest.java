@@ -14,7 +14,6 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
@@ -32,7 +31,6 @@ public class TreatmentArmTest extends AbstractDomainTest<TreatmentArm> {
 	
 	@Before
 	public void setUp(){
-		super.setUp();
 		validTreatmentArm = new TreatmentArm();
 		validTreatmentArm.setDescription("description");
 		validTreatmentArm.setName("arm");
@@ -111,21 +109,6 @@ public class TreatmentArmTest extends AbstractDomainTest<TreatmentArm> {
 		}
 	}
 	
-	@Test
-	@Transactional
-	public void databaseIntegrationTest(){
-		sessionFactory.getCurrentSession().persist(validTreatmentArm.getTrial().getLeadingSite());
-		sessionFactory.getCurrentSession().persist(validTreatmentArm.getTrial().getSponsorInvestigator());
-		sessionFactory.getCurrentSession().persist(validTreatmentArm.getTrial());
-		sessionFactory.getCurrentSession().persist(validTreatmentArm);
-		assertTrue(validTreatmentArm.getId() >0);
-		TreatmentArm dbArm = (TreatmentArm)sessionFactory.getCurrentSession().get(TreatmentArm.class, validTreatmentArm.getId());
-		assertEquals(validTreatmentArm.getDescription(), dbArm.getDescription());
-		assertEquals(validTreatmentArm.getName(), dbArm.getName());
-		assertEquals(validTreatmentArm.getPlannedSubjects(),dbArm.getPlannedSubjects());
-		assertEquals(validTreatmentArm.getTrial().getId(), dbArm.getTrial().getId());
-		assertEquals(validTreatmentArm.getTrial().getName(), dbArm.getTrial().getName());
-	}
 	
 	@Test
 	public void testEqualsHashCode(){

@@ -1,6 +1,5 @@
 package de.randi2.core.unit.model.criteria.constraints;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
@@ -11,12 +10,10 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.transaction.annotation.Transactional;
 
-import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
-import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.testUtility.utility.AbstractDomainTest;
+import de.randi2.unsorted.ContraintViolatedException;
 
 public class OrdinalConstraintTest extends
 		AbstractDomainTest<OrdinalConstraint> {
@@ -30,7 +27,6 @@ public class OrdinalConstraintTest extends
 	
 	@Before
 	public void setUp() {
-		super.setUp();
 		elements = new ArrayList<String>();
 		elements.add("Value1");
 		elements.add("Value2");
@@ -111,14 +107,4 @@ public class OrdinalConstraintTest extends
 		
 	}
 	
-	@Test
-	@Transactional
-	public void databaseIntegrationTest(){
-		sessionFactory.getCurrentSession().persist(constraint);
-		assertTrue(constraint.getId()>0);
-		
-		OrdinalConstraint dbConstraint = (OrdinalConstraint) sessionFactory.getCurrentSession().get(OrdinalConstraint.class, constraint.getId());
-		assertEquals(constraint.getId(), dbConstraint.getId());
-		assertEquals(constraint.getExpectedValues(), dbConstraint.getExpectedValues());
-	}
 }

@@ -1,18 +1,20 @@
 package de.randi2.core.unit.model.criteria.constraints;
 
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
-import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.testUtility.utility.AbstractDomainTest;
+import de.randi2.unsorted.ContraintViolatedException;
 
 public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousConstraint> {
 
@@ -26,7 +28,6 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 	
 	@Before
 	public void setUp(){
-		super.setUp();
 		elements = new ArrayList<String>();
 		elements.add("Value1");
 		try {
@@ -86,14 +87,4 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 		
 	}
 	
-	@Test
-	@Transactional
-	public void databaseIntegrationTest(){
-		sessionFactory.getCurrentSession().persist(constraint);
-		assertTrue(constraint.getId()>0);
-		
-		DichotomousConstraint dbConstraint = (DichotomousConstraint) sessionFactory.getCurrentSession().get(DichotomousConstraint.class, constraint.getId());
-		assertEquals(constraint.getId(), dbConstraint.getId());
-		assertEquals(constraint.getExpectedValue(), dbConstraint.getExpectedValue());
-	}
 }

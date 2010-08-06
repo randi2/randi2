@@ -1,5 +1,12 @@
 package de.randi2.core.unit.model.criteria;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -7,21 +14,14 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.criteria.DateCriterion;
 import de.randi2.model.criteria.constraints.DateConstraint;
 import de.randi2.testUtility.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
 
-import static junit.framework.Assert.*;
-
 public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 
-	
-	
-
-	
 	public DateCriterionTest(){
 		super(DateCriterion.class);
 	}
@@ -31,7 +31,6 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 	
 	@Before
 	public void setUp(){
-		super.setUp();
 		criterion = new DateCriterion();
 		firstDate = new GregorianCalendar(1998,7,1);
 		secondDate = new GregorianCalendar(2000,7,1);
@@ -93,46 +92,6 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 		} catch (ContraintViolatedException e) {
 		}
 
-	}
-	
-	@Test
-	@Transactional
-	public void databaseIntegrationTest() {
-		criterion.setName("name");
-		criterion.setDescription("test");
-		List<GregorianCalendar> elements = new ArrayList<GregorianCalendar>();
-		elements.add(new GregorianCalendar());
-		elements.add(new GregorianCalendar());
-		try {
-			ArrayList<DateConstraint> temp = new ArrayList<DateConstraint>();
-			temp.add(new DateConstraint(Arrays.asList(new GregorianCalendar[]{elements.get(0)})));
-			temp.add(new DateConstraint(Arrays.asList(new GregorianCalendar[]{elements.get(1)})));
-		
-			DateConstraint constraint = new DateConstraint(Arrays.asList(elements.get(0)));
-			sessionFactory.getCurrentSession().save(constraint);
-			assertTrue(constraint.getId()>0);
-			criterion.setInclusionConstraint(constraint);
-
-
-			sessionFactory.getCurrentSession().save(criterion);
-			assertTrue(criterion.getId()>0);
-			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
-			sessionFactory.getCurrentSession().save(temp.get(0));
-			sessionFactory.getCurrentSession().save(temp.get(1));
-			assertTrue(temp.get(0).getId() > 0);
-			assertTrue(temp.get(1).getId() > 0);
-			criterion.setStrata(temp);
-			sessionFactory.getCurrentSession().update(criterion);
-			DateCriterion dbCriterion = (DateCriterion) sessionFactory.getCurrentSession().get(DateCriterion.class,criterion.getId());
-			assertEquals(criterion, dbCriterion);
-			assertEquals(criterion.getName(), dbCriterion.getName());
-			assertEquals(criterion.getDescription(), dbCriterion.getDescription());
-			assertEquals(constraint.getId(), dbCriterion.getInclusionConstraint().getId());
-			assertEquals(DateConstraint.class, dbCriterion.getContstraintType());
-
-		} catch (ContraintViolatedException e) {
-			//fail();
-		}
 	}
 	
 }

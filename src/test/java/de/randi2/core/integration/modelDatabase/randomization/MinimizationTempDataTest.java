@@ -1,6 +1,8 @@
-package de.randi2.core.unit.model.randomization;
+package de.randi2.core.integration.modelDatabase.randomization;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,10 +19,10 @@ import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.randomization.MinimizationMapElementWrapper;
 import de.randi2.model.randomization.MinimizationTempData;
-import de.randi2.testUtility.utility.AbstractDomainTest;
+import de.randi2.testUtility.utility.AbstractDomainDatabaseTest;
 import de.randi2.unsorted.ContraintViolatedException;
 
-public class MinimizationTempDataTest extends AbstractDomainTest<MinimizationTempData> {
+public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<MinimizationTempData> {
 
 	public MinimizationTempDataTest() {
 		super(MinimizationTempData.class);
