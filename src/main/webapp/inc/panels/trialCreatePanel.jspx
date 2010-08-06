@@ -47,7 +47,7 @@
 
 		<ice:panelTab label="#{labels['pages.trialCreatePanel.step5']}">
 			<f:subview id="algorithmConfigInclude">
-				<jsp:directive.include file="./inc/panels/trial/creationAlgorithmConfig.jspx" />
+				<jsp:directive.include file="./inc/panels/trial/algorithmConfig.jspx" />
 			</f:subview>
 		</ice:panelTab>
 

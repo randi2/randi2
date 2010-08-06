@@ -22,12 +22,12 @@
 	<ice:outputLabel value="#{labels['pages.trialCreatePanel.step5message']}"/>
 </ice:panelGrid>
 <ice:panelGroup style="width: 450px;">
-	<ice:panelCollapsible id="algoPanel" expanded="true"
+	<ice:panelCollapsible expanded="true"
 		toggleOnClick="true">
 		<f:facet name="header">
 			<ice:outputLabel value="#{labels['trial.randomConf']}"/>
 		</f:facet>
-		<ice:selectOneMenu id="algorithmType" partialSubmit="true" value="#{algorithmConfig.selectedAlgorithmPanelId}">
+		<ice:selectOneMenu id="algorithmType" partialSubmit="true" value="#{algorithmConfig.selectedAlgorithmPanelId}" valueChangeListener="#{algorithmConfig.algorithmChanged}">
 			<f:selectItems value="#{algorithmConfig.algorithms}" />
 		</ice:selectOneMenu>
 		<ice:message for="algorithmType"/>
@@ -77,5 +77,5 @@
 	</ice:panelStack>
 </ice:panelGrid>
 <ice:commandButton type="submit" value="#{labels['buttons.save']}"
-			action="#{trialHandler.createTrial}"/>
-<ice:commandButton value="#{labels['buttons.simulate']}" actionListener="#{randi2Page.simulateTrial}"/>
+			action="#{trialHandler.createTrial}" rendered="#{!trialHandler.editing}"/>
+<ice:commandButton value="#{labels['buttons.simulate']}" actionListener="#{randi2Page.simulateTrial}" rendered="#{!trialHandler.editing}"/>
