@@ -3,9 +3,8 @@
 <h3>Hallo ${user.getPerson().getFirstname()} ${user.getPerson().getSurname()},</h3>
 <div>
 Ein Patient <b>(id=${trialSubject.getIdentification()})</b> wurde der Studie <b>${trial.getName()}</b> in den Behandlungsarm <b>${trialSubject.getArm().getName()}</b> hinzugef&uuml;gt.
-</div>
-<div>
-Patienteneigenschaften: <br/><b>${trialSubject.getPropertiesUIString()}</b>
+<br/>
+Patienteneigenschaften: <b>${trialSubject.getPropertiesUIString()}</b>
 </div>
 <br/>
 <hr style="width: 100%; height: 2px;">
