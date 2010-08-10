@@ -14,7 +14,7 @@
 		class="de.randi2.aspects.DomainModelAspects">
 	</bean> -->	
  
- <bean id="rigthAndRolesAspects" class="de.randi2.aspects.RigthAndRolesAspects" ></bean> 
+ <bean id="rightAndRolesAspects" class="de.randi2.aspects.RightAndRolesAspects" ></bean> 
 <!-- <bean id="testAspect" class="de.randi2.aspects.TestAspect"></bean> -->
 
 </beans>

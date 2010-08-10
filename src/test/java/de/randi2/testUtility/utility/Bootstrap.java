@@ -187,14 +187,14 @@ public class Bootstrap {
 				saltSourceTrialSite.getSystemWideSalt()));
 		trialSite.setContactPerson(cp1);
 		rolesAndRights.registerPerson(adminL);
-		rolesAndRights.grantRigths(adminL, trialSite);
+		rolesAndRights.grantRights(adminL, trialSite);
 
 		sessionFactory.getCurrentSession().persist(trialSite);
 
 		sessionFactory.getCurrentSession().refresh(adminP);
 		adminP.setTrialSite(trialSite);
 		sessionFactory.getCurrentSession().update(adminP);
-		rolesAndRights.grantRigths(trialSite, trialSite);
+		rolesAndRights.grantRights(trialSite, trialSite);
 
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
 				"anonymousUser", adminL, new ArrayList<GrantedAuthority>(

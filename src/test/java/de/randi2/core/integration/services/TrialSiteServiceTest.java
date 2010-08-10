@@ -84,7 +84,7 @@ public class TrialSiteServiceTest extends AbstractServiceTest {
 		for(int i=0;i<10;i++){
 			TrialSite site = factory.getTrialSite();
 			service.create(site);
-			rolesAndRights.grantRigths(site,site);
+			rolesAndRights.grantRights(site,site);
 			assertTrue(site.getId()>0);
 		}
 		
@@ -102,7 +102,7 @@ public class TrialSiteServiceTest extends AbstractServiceTest {
 		
 		service.create(site);
 		assertTrue(site.getId()>0);
-		rolesAndRights.grantRigths(site,site);
+		rolesAndRights.grantRights(site,site);
 		TrialSite site2 = service.getObject(site.getId());
 		assertEquals(site.getName(), site2.getName());
 		assertEquals(site.getId(), site2.getId());

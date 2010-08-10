@@ -54,7 +54,7 @@ public class RolesAndRights {
 
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void grantRigths(AbstractDomainObject object, TrialSite scope) {
+	public void grantRights(AbstractDomainObject object, TrialSite scope) {
 //		if(scope== null  || object == null){
 //			throw new RuntimeException();
 //		}else	

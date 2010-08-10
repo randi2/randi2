@@ -42,11 +42,11 @@ import de.randi2.utility.security.RolesAndRights;
  * 
  */
 @Aspect
-public class RigthAndRolesAspects {
+public class RightAndRolesAspects {
 
-	private Logger logger = Logger.getLogger(RigthAndRolesAspects.class);
+	private Logger logger = Logger.getLogger(RightAndRolesAspects.class);
 	@Autowired
-	private RolesAndRights roleAndRigths;
+	private RolesAndRights roleAndRights;
 
 	/**
 	 * This around advice grant the rights for an new domain object and register
@@ -71,10 +71,10 @@ public class RigthAndRolesAspects {
 			Login login = (Login) SecurityContextHolder.getContext()
 					.getAuthentication().getPrincipal();
 			if (o instanceof Login) {
-				roleAndRigths.registerPerson(((Login) o));
+				roleAndRights.registerPerson(((Login) o));
 			}
 			logger.debug("Register Object ("+o.getClass().getSimpleName()+" id="+((AbstractDomainObject)o).getId()+")" );
-			roleAndRigths.grantRigths(((AbstractDomainObject) o), login
+			roleAndRights.grantRights(((AbstractDomainObject) o), login
 					.getPerson().getTrialSite());
 		}
 
