@@ -205,7 +205,7 @@ public class UserServiceTest extends AbstractServiceTest{
 		login.getPerson().setTrialSite(null);
 		userService.create(login);
 		Login login2 = findLogin("admin@trialsite1.de");
-		rolesAndRights.grantRigths(login, login2.getPerson().getTrialSite());
+		rolesAndRights.grantRights(login, login2.getPerson().getTrialSite());
 		Login login3 = userService.getObject(login.getId());
 		assertTrue(login3 != null);
 	}

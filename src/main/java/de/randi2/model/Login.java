@@ -56,10 +56,9 @@ import de.randi2.utility.validations.Password;
 		@NamedQuery(name = "login.AllLoginsWithRolesAndNotTrialSiteScope", query = "select login from Login as login join login.roles role where role.scopeTrialSiteView = false AND not (role.name = 'ROLE_USER') group by login"),
 		@NamedQuery(name = "login.LoginsWriteOtherUser", query = "select login from Login as login join login.roles role where role.writeOtherUser = true group by login"),
 		@NamedQuery(name = "login.LoginsWithPermission", query = "from Login as login where login.username in (select ace.sid.sidname from AccessControlEntryHibernate as ace where ace.acl.objectIdentity.type = ? and ace.acl.objectIdentity.identifier = ? and ace.permission = ?)") })
-
-
-@EqualsAndHashCode(callSuper=true)
-public  @Data class  Login extends AbstractDomainObject implements UserDetails {
+@EqualsAndHashCode(callSuper = true)
+public @Data
+class Login extends AbstractDomainObject implements UserDetails {
 
 	/** The Constant serialVersionUID. */
 	private final static long serialVersionUID = -6809229052570773439L;
@@ -70,17 +69,17 @@ public  @Data class  Login extends AbstractDomainObject implements UserDetails {
 	public final static int MILIS_TO_LOCK_USER = 900000;
 
 	/** The Constant MAX_USERNAME_LENGTH. */
-	public final static int MAX_USERNAME_LENGTH = 40;
-	
+	public final static int MAX_USERNAME_LENGTH = 100;
+
 	/** The Constant MIN_USERNAME_LENGTH. */
 	public final static int MIN_USERNAME_LENGTH = 5;
-	
+
 	/** The Constant MAX_PASSWORD_LENGTH. */
 	public final static int MAX_PASSWORD_LENGTH = 30;
-	
+
 	/** The Constant MIN_PASSWORD_LENGTH. */
 	public final static int MIN_PASSWORD_LENGTH = 8;
-	
+
 	/** The Constant HASH_PASSWORD_LENGTH. */
 	public final static int HASH_PASSWORD_LENGTH = 64;
 
@@ -111,17 +110,19 @@ public  @Data class  Login extends AbstractDomainObject implements UserDetails {
 
 	/** The number wrong logins. */
 	private byte numberWrongLogins = 0;
-	
+
 	/** The lock time. */
 	private GregorianCalendar lockTime;
-
 
 	/** The roles. */
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Role> roles = new HashSet<Role>();
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetails#getAuthorities()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.springframework.security.userdetails.UserDetails#getAuthorities()
 	 */
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
@@ -132,16 +133,23 @@ public  @Data class  Login extends AbstractDomainObject implements UserDetails {
 		return grantedAuthorities;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetails#isAccountNonExpired()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.springframework.security.userdetails.UserDetails#isAccountNonExpired
+	 * ()
 	 */
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetails#isAccountNonLocked()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.springframework.security.userdetails.UserDetails#isAccountNonLocked()
 	 */
 	@Override
 	public boolean isAccountNonLocked() {
@@ -151,15 +159,21 @@ public  @Data class  Login extends AbstractDomainObject implements UserDetails {
 			return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetails#isCredentialsNonExpired()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.springframework.security.userdetails.UserDetails#isCredentialsNonExpired
+	 * ()
 	 */
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.springframework.security.userdetails.UserDetails#isEnabled()
 	 */
 	@Override
@@ -168,7 +182,9 @@ public  @Data class  Login extends AbstractDomainObject implements UserDetails {
 	}
 
 	/**
-	 * Adds a role to this login object.
+	 * Adds a role to this login object. 
+	 * If the role is unequal to role anonymous the role user added 
+	 * and the role anonymous removed automatically.
 	 * 
 	 * @param role
 	 *            the role
@@ -302,9 +318,9 @@ public  @Data class  Login extends AbstractDomainObject implements UserDetails {
 		return hasPermission;
 	}
 
-
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.randi2.model.AbstractDomainObject#getUIName()
 	 */
 	@Override
@@ -312,5 +328,5 @@ public  @Data class  Login extends AbstractDomainObject implements UserDetails {
 		return this.getPerson().getSurname() + ", "
 				+ this.getPerson().getFirstname();
 	}
-	
+
 }

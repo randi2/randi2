@@ -19,8 +19,7 @@ public class EMailValidationTest {
 			"without@domain" , "abc@def.abcde"};
 		
 		for (String s: invalidEmails){
-			validator.getPotentialInvalidValues( "eMail", s );
-			assertEquals( "Wrong EMail",1, validator.getPotentialInvalidValues( "email", s ).length );
+			assertEquals( "Wrong EMail ("+ s +")",1, validator.getPotentialInvalidValues( "email", s ).length );
 		}
 	
 	}
