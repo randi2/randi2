@@ -38,37 +38,37 @@
 		selectedPanel="#{algorithmConfig.selectedAlgorithmPanelId}">
 		<ice:panelGroup id="none">
 		</ice:panelGroup>
-		<ice:panelGroup id="completeRandomization">
+		<ice:panelGroup id="COMPLETE_RANDOMIZATION">
 			<f:subview id="cR">
 				<jsp:directive.include
 					file="./inc/panels/randomization/completeR.jspx" />
 			</f:subview>
 		</ice:panelGroup>
-		<ice:panelGroup id="biasedCoinRandomization">
+		<ice:panelGroup id="BIASEDCOIN_RANDOMIZATION">
 			<f:subview id="bR">
 				<jsp:directive.include
 					file="./inc/panels/randomization/biasedCoinR.jspx" />
 			</f:subview>
 		</ice:panelGroup>
-		<ice:panelGroup id="blockRandomization">
+		<ice:panelGroup id="BLOCK_RANDOMIZATION">
 			<f:subview id="blR">
 				<jsp:directive.include
 					file="./inc/panels/randomization/blockR.jspx" />
 			</f:subview>
 		</ice:panelGroup>
-		<ice:panelGroup id="truncatedRandomization">
+		<ice:panelGroup id="TRUNCATED_RANDOMIZATION">
 			<f:subview id="trR">
 				<jsp:directive.include
 					file="./inc/panels/randomization/truncatedR.jspx" />
 			</f:subview>
 		</ice:panelGroup>
-		<ice:panelGroup id="urnModel">
+		<ice:panelGroup id="URN_MODEL">
 			<f:subview id="uM">
 				<jsp:directive.include
 					file="./inc/panels/randomization/urnR.jspx" />
 			</f:subview>
 		</ice:panelGroup>
-		<ice:panelGroup id="minimization">
+		<ice:panelGroup id="MINIMIZATION">
 			<f:subview id="mini">
 				<jsp:directive.include
 					file="./inc/panels/randomization/minimizationR.jspx" />

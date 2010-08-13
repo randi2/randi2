@@ -36,26 +36,30 @@ import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 
+/**
+ * Simple backing bean for the randomization algorithm configuration process.
+ * (Corresponding JSF page algorihtmConfig.jspx)
+ * 
+ * @author L. Plotnicki <l.plotnicki@dkfz.de>
+ * 
+ */
 public class AlgorithmConfig {
 
+	/**
+	 * Identifies the correct panels for the algorithms
+	 * 
+	 * @author L. Plotnicki <l.plotnicki@dkfz.de>
+	 * 
+	 */
 	public static enum AlgorithmPanelId {
-		COMPLETE_RANDOMIZATION("completeRandomization"), BIASEDCOIN_RANDOMIZATION(
-				"biasedCoinRandomization"), BLOCK_RANDOMIZATION(
-				"blockRandomization"), TRUNCATED_RANDOMIZATION("truncatedRandomization"), 
-				URN_MODEL("urnModel"), MINIMIZATION("minimization");
-		private String id = null;
-
-		private AlgorithmPanelId(String id) {
-			this.id = id;
-		}
-
-		@Override
-		public String toString() {
-			return this.id;
-		}
-
+		COMPLETE_RANDOMIZATION, BIASEDCOIN_RANDOMIZATION, BLOCK_RANDOMIZATION, TRUNCATED_RANDOMIZATION, URN_MODEL, MINIMIZATION;
 	}
-	
+
+	/**
+	 * Current algorithm panel
+	 */
+	private String selectedAlgorithmPanelId = "none";
+
 	@Setter
 	private LoginHandler loginHandler;
 
@@ -67,99 +71,136 @@ public class AlgorithmConfig {
 	public List<SelectItem> getAlgorithms() {
 		if (algorithms == null) {
 			ResourceBundle bundle = ResourceBundle.getBundle(
-					"de.randi2.jsf.i18n.algorithms", loginHandler
-							.getChosenLocale());
+					"de.randi2.jsf.i18n.algorithms",
+					loginHandler.getChosenLocale());
+			/*
+			 * Constructing the items for the algorithm selection widget ITEM =
+			 * ALgorithmPanelID + localized algorithm name
+			 */
 			algorithms = new ArrayList<SelectItem>();
 			algorithms.add(new SelectItem(
 					AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString(), bundle
 							.getString(CompleteRandomizationConfig.class
-									.getCanonicalName()
-									+ ".short")));
+									.getCanonicalName() + ".short")));
 			algorithms.add(new SelectItem(
 					AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString(),
 					bundle.getString(BiasedCoinRandomizationConfig.class
-							.getCanonicalName()
-							+ ".short")));
-			algorithms.add(new SelectItem(AlgorithmPanelId.TRUNCATED_RANDOMIZATION
-					.toString(), bundle
-					.getString(TruncatedBinomialDesignConfig.class
-							.getCanonicalName()
-							+ ".short")));
+							.getCanonicalName() + ".short")));
+			algorithms.add(new SelectItem(
+					AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString(), bundle
+							.getString(TruncatedBinomialDesignConfig.class
+									.getCanonicalName() + ".short")));
 			algorithms.add(new SelectItem(AlgorithmPanelId.BLOCK_RANDOMIZATION
 					.toString(), bundle
 					.getString(BlockRandomizationConfig.class
-							.getCanonicalName()
-							+ ".short")));
-			algorithms.add(new SelectItem(AlgorithmPanelId.URN_MODEL
-					.toString(), bundle
-					.getString(UrnDesignConfig.class
-							.getCanonicalName()
-							+ ".short")));
+							.getCanonicalName() + ".short")));
+			algorithms.add(new SelectItem(
+					AlgorithmPanelId.URN_MODEL.toString(), bundle
+							.getString(UrnDesignConfig.class.getCanonicalName()
+									+ ".short")));
 			algorithms.add(new SelectItem(AlgorithmPanelId.MINIMIZATION
-					.toString(), bundle
-					.getString(MinimizationConfig.class
-							.getCanonicalName()
-							+ ".short")));
+					.toString(), bundle.getString(MinimizationConfig.class
+					.getCanonicalName() + ".short")));
 
 		}
 		return algorithms;
 	}
 
-	private String selectedAlgorithmPanelId = "none";
-	
 	public String getSelectedAlgorithmPanelId() {
-		AbstractRandomizationConfig rand = trialHandler.getCurrentObject().getRandomizationConfiguration();
-		if(rand!=null){
-			if(rand instanceof CompleteRandomizationConfig)
+		AbstractRandomizationConfig rand = trialHandler.getCurrentObject()
+				.getRandomizationConfiguration();
+		if (rand != null) {
+			/**
+			 * If algorithm is already configured (present in the trial object)
+			 * - a proper algorithm panel needs to be rendered
+			 */
+			if (rand instanceof CompleteRandomizationConfig)
 				return AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString();
-			else if(rand instanceof BiasedCoinRandomizationConfig)
+			else if (rand instanceof BiasedCoinRandomizationConfig)
 				return AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString();
-			else if(rand instanceof TruncatedBinomialDesignConfig)
+			else if (rand instanceof TruncatedBinomialDesignConfig)
 				return AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString();
-			else if(rand instanceof BlockRandomizationConfig)
+			else if (rand instanceof BlockRandomizationConfig)
 				return AlgorithmPanelId.BLOCK_RANDOMIZATION.toString();
-			else if(rand instanceof UrnDesignConfig)
+			else if (rand instanceof UrnDesignConfig)
 				return AlgorithmPanelId.URN_MODEL.toString();
-			else if(rand instanceof MinimizationConfig)
+			else if (rand instanceof MinimizationConfig)
 				return AlgorithmPanelId.MINIMIZATION.toString();
 		}
 		return selectedAlgorithmPanelId;
 	}
 
-	public void algorithmChanged(ValueChangeEvent event){
+	/**
+	 * Change Listener for the algorithm selection box. It tries to identify the
+	 * selected algorithm and if successful creates a corresponding object
+	 * relating to the current trial in {@link TrialHandler}
+	 * 
+	 * @param event
+	 */
+	public void algorithmChanged(ValueChangeEvent event) {
 		String newSelection = (String) event.getNewValue();
-		if(newSelection.equals(selectedAlgorithmPanelId))
+		/*
+		 * If the same algorithm as the current has been selected - ignore the
+		 * event
+		 */
+		if (newSelection.equals(selectedAlgorithmPanelId))
 			return;
-		else
-			if(AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString().equals(newSelection))
-				trialHandler.getCurrentObject().setRandomizationConfiguration(new CompleteRandomizationConfig());
-			else if(AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString().equals(newSelection))
-				trialHandler.getCurrentObject().setRandomizationConfiguration(new BiasedCoinRandomizationConfig());
-			else if(AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString().equals(newSelection))
-				trialHandler.getCurrentObject().setRandomizationConfiguration(new TruncatedBinomialDesignConfig());
-			else if(AlgorithmPanelId.BLOCK_RANDOMIZATION.toString().equals(newSelection))
-				trialHandler.getCurrentObject().setRandomizationConfiguration(new BlockRandomizationConfig());
-			else if(AlgorithmPanelId.URN_MODEL.toString().equals(newSelection))
-				trialHandler.getCurrentObject().setRandomizationConfiguration(new UrnDesignConfig());
-			else if(AlgorithmPanelId.MINIMIZATION.toString().equals(newSelection))
-				trialHandler.getCurrentObject().setRandomizationConfiguration(new MinimizationConfig());
+		/*
+		 * Otherwise construct a proper config object and set it on the current
+		 * trial object
+		 */
+		AbstractRandomizationConfig newConfig = null;
+		switch (AlgorithmPanelId.valueOf(newSelection)) {
+		case COMPLETE_RANDOMIZATION:
+			newConfig = new CompleteRandomizationConfig();
+			break;
+		case BIASEDCOIN_RANDOMIZATION:
+			newConfig = new BiasedCoinRandomizationConfig();
+			break;
+		case BLOCK_RANDOMIZATION:
+			newConfig = new BlockRandomizationConfig();
+			break;
+		case MINIMIZATION:
+			newConfig = new MinimizationConfig();
+			break;
+		case TRUNCATED_RANDOMIZATION:
+			newConfig = new TruncatedBinomialDesignConfig();
+			break;
+		case URN_MODEL:
+			newConfig = new UrnDesignConfig();
+			break;
+		}
+		trialHandler.getCurrentObject()
+				.setRandomizationConfiguration(newConfig);
 	}
-	
+
 	public void setSelectedAlgorithmPanelId(String selectedAlgorithmPanelId) {
 		this.selectedAlgorithmPanelId = selectedAlgorithmPanelId;
 	}
-	
-	public void clean(){
+
+	/**
+	 * If called this method resets the selected panel and data stored during
+	 * the config process
+	 */
+	public void clean() {
 		selectedAlgorithmPanelId = "none";
-		((BlockR)FacesContext.getCurrentInstance()
-				.getApplication().getExpressionFactory().createValueExpression(
+		((BlockR) FacesContext
+				.getCurrentInstance()
+				.getApplication()
+				.getExpressionFactory()
+				.createValueExpression(
 						FacesContext.getCurrentInstance().getELContext(),
-						"#{blockR}", BlockR.class).getValue(FacesContext.getCurrentInstance()
-								.getELContext())).clean();
-		((Strata)FacesContext.getCurrentInstance()
-		.getApplication().getExpressionFactory().createValueExpression(
-				FacesContext.getCurrentInstance().getELContext(),
-				"#{strata}", Strata.class).getValue(FacesContext.getCurrentInstance()
-						.getELContext())).clean();
+						"#{blockR}", BlockR.class)
+				.getValue(FacesContext.getCurrentInstance().getELContext()))
+				.clean();
+		((Strata) FacesContext
+				.getCurrentInstance()
+				.getApplication()
+				.getExpressionFactory()
+				.createValueExpression(
+						FacesContext.getCurrentInstance().getELContext(),
+						"#{strata}", Strata.class)
+				.getValue(FacesContext.getCurrentInstance().getELContext()))
+				.clean();
 	}
 }
