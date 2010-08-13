@@ -5,4 +5,5 @@
 	<include file="src/main/resources/META-INF/database/database_init_hsqldb.xml" />
 	<include file="src/main/resources/META-INF/database/database_init_mysql.xml" />
 	<include file="src/main/resources/META-INF/database/database_init_postgresql.xml" />
+<!-- 	<include file="src/main/resources/META-INF/database/changeLoginUsernameLength.xml" /> -->
 </databaseChangeLog>

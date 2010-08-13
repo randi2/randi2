@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+   <changeSet author="dschrimpf" id="changeLoginUsernameLength" dbms="hsqldb">
+  		<comment>Change the username length 40 -> 100</comment>
+  		<sql>alter table login ALTER COLUMN username varchar(100);</sql> 
+    </changeSet>
+    
+    <changeSet author="dschrimpf" id="changeLoginUsernameLength" dbms="mysql">
+  		<comment>Change the username length 40 -> 100</comment>
+  		<sql>alter table Login modify username varchar(100) not null;</sql>
+    </changeSet>
+    
+   <changeSet author="dschrimpf" id="changeLoginUsernameLength" dbms="postgresql">
+  		<comment>Change the username length 40 -> 100</comment>
+  		<sql>alter table login ALTER username TYPE varchar(100);</sql> 
+    </changeSet>
+ </databaseChangeLog>

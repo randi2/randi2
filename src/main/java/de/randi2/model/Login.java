@@ -70,7 +70,7 @@ public  @Data class  Login extends AbstractDomainObject implements UserDetails {
 	public final static int MILIS_TO_LOCK_USER = 900000;
 
 	/** The Constant MAX_USERNAME_LENGTH. */
-	public final static int MAX_USERNAME_LENGTH = 40;
+	public final static int MAX_USERNAME_LENGTH = 100;
 	
 	/** The Constant MIN_USERNAME_LENGTH. */
 	public final static int MIN_USERNAME_LENGTH = 5;
