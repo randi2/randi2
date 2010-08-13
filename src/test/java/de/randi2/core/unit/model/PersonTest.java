@@ -62,170 +62,158 @@ public class PersonTest extends AbstractDomainTest<Person> {
 	//	assertEquals(0, p.getRoles().size());
 	}
 
+	
 	@Test
-	public void testSurname() {
-		validPerson.setSurname(stringUtil.getWithLength(1));
-		assertEquals(stringUtil.getLastString(), validPerson.getSurname());
+	public void testTitleNull(){
+		validPerson.setTitle(null);
+		assertEquals(null, validPerson.getTitle());
 		assertValid(validPerson);
-
-		validPerson.setSurname(stringUtil
-				.getWithLength(Person.MAX_NAME_LENGTH));
-		assertEquals(stringUtil.getLastString(), validPerson.getSurname());
-		assertValid(validPerson);
-
-		validPerson.setSurname(stringUtil
-				.getWithLength(Person.MAX_NAME_LENGTH + 1));
-		assertEquals(stringUtil.getLastString(), validPerson.getSurname());
-		assertInvalid(validPerson);
-
-		validPerson.setSurname("");
-		assertEquals("", validPerson.getSurname());
-		assertInvalid(validPerson);
 	}
 	
 	@Test
-	public void testFirstname() {
-		validPerson.setFirstname(stringUtil.getWithLength(1));
-		assertEquals(stringUtil.getLastString(), validPerson.getFirstname());
-		assertValid(validPerson);
-
-		validPerson.setFirstname(stringUtil
-				.getWithLength(Person.MAX_NAME_LENGTH));
-		assertEquals(stringUtil.getLastString(), validPerson.getFirstname());
-		assertValid(validPerson);
-
-		validPerson.setFirstname(stringUtil
-				.getWithLength(Person.MAX_NAME_LENGTH + 1));
-		assertEquals(stringUtil.getLastString(), validPerson.getFirstname());
-		assertInvalid(validPerson);
-
-		validPerson.setFirstname("");
-		assertEquals("", validPerson.getFirstname());
-		assertInvalid(validPerson);
-
-	}
-	
-	@Test
-	public void testTitle() {
-		validPerson.setTitle(stringUtil.getWithLength(1));
-		assertEquals(stringUtil.getLastString(), validPerson.getTitle());
-		assertValid(validPerson);
-
-		validPerson.setTitle(stringUtil
-				.getWithLength(Person.MAX_TITLE_LENGTH));
-		assertEquals(stringUtil.getLastString(), validPerson.getTitle());
-		assertValid(validPerson);
-
-		validPerson.setTitle(stringUtil
-				.getWithLength(Person.MAX_TITLE_LENGTH + 1));
-		assertEquals(stringUtil.getLastString(), validPerson.getTitle());
-		assertInvalid(validPerson);
-
+	public void testTitleEmpty(){
 		validPerson.setTitle("");
 		assertEquals("", validPerson.getTitle());
 		assertValid(validPerson);
-
+	}
+	
+	
+	@Test
+	public void testTitleNotLongerThan20(){
+		assertEquals(20, Person.MAX_TITLE_LENGTH);
+		validPerson.setTitle(stringUtil.getWithLength(Person.MAX_TITLE_LENGTH+1) );
+		assertInvalid(validPerson);
 	}
 	
 	@Test
-	public void testPhone(){
-		String phonenumber = "01234/6789";
-		validPerson.setPhone(phonenumber);
-		assertEquals(phonenumber, validPerson.getPhone());
-		assertValid(validPerson);
-		
-		phonenumber = "123345";
-		validPerson.setPhone(phonenumber);
-		assertEquals(phonenumber, validPerson.getPhone());
-		assertValid(validPerson);
-		
-		
-		validPerson.setPhone("012a/6789");
-		assertInvalid(validPerson);
-		
-		validPerson.setPhone("0123345");
-		assertValid(validPerson);
-		
-		validPerson.setPhone("");
-		
-		assertInvalid(validPerson);
-		
-		
+	public void testTitleCorrectValue(){
+		String[] validValues= {"A","Abcsdafasd", "Title" , stringUtil.getWithLength(Person.MAX_TITLE_LENGTH) };
+		for(String s :validValues){
+			validPerson.setTitle(s);
+			assertEquals(s, validPerson.getTitle());
+			assertValid(validPerson);
+		}
+	}
+	
+	@Test
+	public void testPhoneNotNull(){
 		validPerson.setPhone(null);
 		assertInvalid(validPerson);
 	}
+	
+	@Test
+	public void testPhoneNotEmpty(){
+		validPerson.setPhone("");
+		assertInvalid(validPerson);
+	}
+	
+	@Test
+	public void testPhoneCorrect(){
+		String[] validPhoneNumber = { "01234/45678", "+49 123456 789123",
+				"(123456)67890", "123456789"};
+		for(String s : validPhoneNumber){
+			validPerson.setPhone(s);
+			assertValid(validPerson);
+		}
+	}
+	
+	@Test
+	public void testPhoneIncorrect(){
+		String[] invalidPhoneNumber = { "abc1234/09707", "12345d56789", "abasd" };
+		for(String s : invalidPhoneNumber){
+			validPerson.setPhone(s);
+			assertInvalid(validPerson);
+		}
+	}
 
 	
 	@Test
-	public void testMobile(){
-		String mobilenumber = "01234/6789";
-		validPerson.setMobile(mobilenumber);
-		assertEquals(mobilenumber, validPerson.getMobile());
-		assertValid(validPerson);
-		
-		validPerson.setMobile("123345");
-		assertValid(validPerson);
-		
-		
-		validPerson.setMobile("012a/6789");
-		assertInvalid(validPerson);
-		
-		validPerson.setMobile("0123345");
-		assertValid(validPerson);
-		
-		validPerson.setMobile("");
-		assertValid(validPerson);
-		
+	public void testMobileNull(){
 		validPerson.setMobile(null);
 		assertValid(validPerson);
-		
 	}
 	
 	@Test
-	public void testFax(){
-		String faxnumber = "01234/6789";
-		validPerson.setFax(faxnumber);
-		assertEquals(faxnumber, validPerson.getFax());
+	public void testMoblieEmpty(){
+		validPerson.setMobile("");
 		assertValid(validPerson);
-		
-		validPerson.setFax("123345");
-		assertValid(validPerson);
-		
-		
-		validPerson.setFax("012a/6789");
-		assertInvalid(validPerson);
-		
-		validPerson.setFax("0123345");
-		assertValid(validPerson);
-		
-		validPerson.setFax("");
-		assertValid(validPerson);
-		
+	}
+	
+	@Test
+	public void testMobileCorrect(){
+		String[] validPhoneNumber = { "01234/45678", "+49 123456 789123",
+				"(123456)67890", "123456789", "", null };
+		for(String s : validPhoneNumber){
+			validPerson.setMobile(s);
+			assertValid(validPerson);
+		}
+	}
+	
+	@Test
+	public void testMobileIncorrect(){
+		String[] invalidPhoneNumber = { "abc1234/09707", "12345d56789", "abasd" };
+		for(String s : invalidPhoneNumber){
+			validPerson.setMobile(s);
+			assertInvalid(validPerson);
+		}
+	}
+	
+	@Test
+	public void testFaxNull(){
 		validPerson.setFax(null);
 		assertValid(validPerson);
-		
 	}
 	
 	@Test
-	public void testEMail() {
+	public void testFaxEmpty(){
+		validPerson.setFax("");
+		assertValid(validPerson);
+	}
+	
+	@Test
+	public void testFaxCorrect(){
+		String[] validPhoneNumber = { "01234/45678", "+49 123456 789123",
+				"(123456)67890", "123456789", "", null };
+		for(String s : validPhoneNumber){
+			validPerson.setFax(s);
+			assertValid(validPerson);
+		}
+	}
+	
+	@Test
+	public void testFaxIncorrect(){
+		String[] invalidPhoneNumber = { "abc1234/09707", "12345d56789", "abasd" };
+		for(String s : invalidPhoneNumber){
+			validPerson.setFax(s);
+			assertInvalid(validPerson);
+		}
+	}
+	
+	
+	@Test
+	public void testEMailNotNull() {
+		validPerson.setEmail(null);
+		assertInvalid(validPerson);
+	}
+	
+	@Test
+	public void testEMailNotEmpty() {
+		validPerson.setEmail("");
+		assertInvalid(validPerson);
+	}
+	
+	
+	@Test
+	public void testEMailCorrectValues() {
 		String[] validEMails = {"abc@def.de", "h@alo.com", "info@2wikipedia.org", "mue5ller@gmx.net", "max-muster@raf.uk", "xyz@test.info"};
 		for (String s: validEMails){
 			validPerson.setEmail(s);
 			assertValid(validPerson);
-			
-			try{
-			validPerson.checkValue("eMail", s);
-			}catch (ValidationException e) {
-				fail(e.getMessage());
-			}
 		}
-
-		validPerson.setEmail(null);
-		assertInvalid(validPerson);
-
-		validPerson.setEmail("");
-		assertInvalid(validPerson);
-
+	}
+	
+	@Test
+	public void testEMailIncorrectValues(){
 		String[] invalidEmails = new String[] {  "without at","toomuch@@", "@test.org", "ab..c@de-dg.com",
 				"without@domain" , "abc@def.abcde"};
 		for (String s : invalidEmails) {
@@ -235,113 +223,146 @@ public class PersonTest extends AbstractDomainTest<Person> {
 	}
 
 	@Test
-	public void testCheckValueSurname(){
-		try{
-		validPerson.checkValue("surname", "");
-		fail("< >: is not valid");
-		}catch (ValidationException e) {
-			// TODO: handle exception
+	public void testSurnameNotNull(){
+		validPerson.setSurname(null);
+		assertEquals(null, validPerson.getSurname());
+		assertInvalid(validPerson);
+	}
+	
+	@Test
+	public void testSurnameNotEmpty(){
+		validPerson.setSurname("");
+		assertEquals("", validPerson.getSurname());
+		assertInvalid(validPerson);
+	}
+	
+	
+	@Test
+	public void testSurnameNotLongerThan50(){
+		assertEquals(50, Person.MAX_NAME_LENGTH);
+		validPerson.setSurname(stringUtil.getWithLength(Person.MAX_NAME_LENGTH+1) );
+		assertInvalid(validPerson);
+	}
+	
+	@Test
+	public void testSurnameCorrectValue(){
+		String[] validValues= {"A","Abcsdafasd", "Name" , stringUtil.getWithLength(Person.MAX_NAME_LENGTH) };
+		for(String s :validValues){
+			validPerson.setSurname(s);
+			assertEquals(s, validPerson.getSurname());
+			assertValid(validPerson);
 		}
-		
-		try{
-			validPerson.checkValue("surname", stringUtil.getWithLength(Person.MAX_NAME_LENGTH + 20));
-			fail("< >: is not valid");
-			}catch (ValidationException e) {
-				// TODO: handle exception
-			}
 	}
 	
 	@Test
-	public void testCheckValueFirstname(){
-		try{
-		validPerson.checkValue("firstname", "");
-		fail("< >: is not valid");
-		}catch (ValidationException e) {
+	public void testFirstnameNotNull(){
+		validPerson.setFirstname(null);
+		assertEquals(null, validPerson.getFirstname());
+		assertInvalid(validPerson);
+	}
+	
+	@Test
+	public void testFirstnameNotEmpty(){
+		validPerson.setFirstname("");
+		assertEquals("", validPerson.getFirstname());
+		assertInvalid(validPerson);
+	}
+	
+	
+	@Test
+	public void testFirstnameNotLongerThan50(){
+		assertEquals(50, Person.MAX_NAME_LENGTH);
+		validPerson.setFirstname(stringUtil.getWithLength(Person.MAX_NAME_LENGTH+1) );
+		assertInvalid(validPerson);
+	}
+	
+	@Test
+	public void testFirstnameCorrectValue(){
+		String[] validValues= {"A","Abcsdafasd", "Name" , stringUtil.getWithLength(Person.MAX_NAME_LENGTH) };
+		for(String s :validValues){
+			validPerson.setFirstname(s);
+			assertEquals(s, validPerson.getFirstname());
+			assertValid(validPerson);
 		}
-		
-		try{
-			validPerson.checkValue("firstname", stringUtil.getWithLength(Person.MAX_NAME_LENGTH + 20));
-			fail("< >: is not valid");
-			}catch (ValidationException e) {
-			}
 	}
 	
-	@Test
-	public void testCheckValueTitle(){
-		
-		try{
-			validPerson.checkValue("title", stringUtil.getWithLength(Person.MAX_TITLE_LENGTH + 20));
-			fail("< >: is not valid");
-			}catch (ValidationException e) {
-			}
-	}
 	
 	@Test
-	public void testCheckValueGender() {
+	public void testSexNotNull() {
+		validPerson.setSex(null);
+		assertEquals(null, validPerson.getSex());
+		assertInvalid(validPerson);
+	}
+	
+	
+	@Test
+	public void testSexCorrectValue() {
 		validPerson.setSex(Gender.MALE);
 		assertEquals(Gender.MALE, validPerson.getSex());
 		assertValid(validPerson);
+		
+		validPerson.setSex(Gender.FEMALE);
+		assertEquals(Gender.FEMALE, validPerson.getSex());
+		assertValid(validPerson);
+	}
+	
 
-		validPerson.setSex(null);
-		try {
-			validPerson.checkValue("sex", validPerson.getSex());
-			fail("should throw exception");
-		} catch (ValidationException e) {
-		}
+	@Test
+	public void testLoginNull() {
+		validPerson.setLogin(null);
+		assertNull(validPerson.getTrialSite());
+		assertValid(validPerson);
+	}
+	
+	
+	@Test
+	public void testLoginCorrectValue() {
+		Login login = factory.getLogin();
+		validPerson.setLogin(login);
+		assertEquals(login, validPerson.getLogin());
+		assertValid(validPerson);
+	}
+
+	@Test
+	public void testAssistantIsNull() {
+		validPerson.setAssistant(null);
+		assertEquals(null, validPerson.getAssistant());
+		assertValid(validPerson);
 	}
 	
 	@Test
-	public void testCheckValueTelephone() {
-		String[] validNumbers = { "01234/45678", "+49 123456 789123",
-			"(123456)67890", "123456789"};
-		
-		for(String s: validNumbers){
-			validPerson.setPhone(s);
-			try{
-				validPerson.checkValue("phone", validPerson.getPhone());
-			}catch (ValidationException e) {
-				fail("Telephonenumber schould be ok");
-			}
-		}
-		
-		String[] invalidNumbers ={ "abc1234/09707", "12345d56789", "", null };
-		for(String s: invalidNumbers){
-			validPerson.setPhone(s);
-			try{
-				validPerson.checkValue("phone", validPerson.getPhone());
-				fail("Telephonenumber " +s+" schould be wrong");
-			}catch (ValidationException e) {
-				
-			}
-		}
-	}
-
-	@Test
-	public void testLogin() {
-		Login l = factory.getLogin();
-		l.setPerson(validPerson);
-		validPerson.setLogin(l);
-		assertNotNull(validPerson.getLogin());
-		assertEquals(l, validPerson.getLogin());
-
-	}
-
-	@Test
-	public void testAssistant() {
+	public void testAssistantWithoutLogin() {
 		Person assistant = factory.getPerson();
-		assistant.setSurname(stringUtil.getWithLength(20));
+		assistant.setLogin(null);
 		validPerson.setAssistant(assistant);
-		validPerson.setSurname(stringUtil.getWithLength(20));
-		assertNotNull(validPerson.getAssistant());
 		assertEquals(assistant, validPerson.getAssistant());
+		assertValid(validPerson);
+	}
+	
+	
+	@Test
+	public void testAssistantWithLogin() {
+		Person assistant = factory.getPerson();
+		assistant.setLogin(factory.getLogin());
+		validPerson.setAssistant(assistant);
+		assertEquals(assistant, validPerson.getAssistant());
+		assertInvalid(validPerson);
 	}
 
 	@Test
-	public void testTrialSite() {
+	public void testTrialSiteNull() {
+		validPerson.setTrialSite(null);
+		assertNull(validPerson.getTrialSite());
+		assertValid(validPerson);
+	}
+	
+	
+	@Test
+	public void testTrialSiteCorrectValue() {
 		TrialSite trialSite = factory.getTrialSite();
 		validPerson.setTrialSite(trialSite);
-		assertNotNull(validPerson.getTrialSite());
 		assertEquals(trialSite, validPerson.getTrialSite());
+		assertValid(validPerson);
 	}
 	
 	
