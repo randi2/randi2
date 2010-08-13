@@ -237,7 +237,7 @@ public class LoginTest extends AbstractDomainTest<Login>{
 	
 	
 	@Test
-	public void testAktiveSetTrueAndFalse(){
+	public void testActiveSetTrueAndFalse(){
 		validLogin.setActive(true);
 		assertTrue(validLogin.isActive());
 		
@@ -568,14 +568,68 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		validLogin.addRole(Role.ROLE_P_INVESTIGATOR);
 		//Role User is added automatically
 		assertEquals(4, validLogin.getRoles().size());
+		assertTrue(validLogin.hasRole(Role.ROLE_ADMIN));
+		assertTrue(validLogin.hasRole(Role.ROLE_INVESTIGATOR));
+		assertTrue(validLogin.hasRole(Role.ROLE_P_INVESTIGATOR));
+		assertTrue(validLogin.hasRole(Role.ROLE_USER));
+		
 		validLogin.removeRole(Role.ROLE_INVESTIGATOR);
 		assertEquals(3, validLogin.getRoles().size());
+		assertTrue(validLogin.hasRole(Role.ROLE_ADMIN));
+		assertTrue(validLogin.hasRole(Role.ROLE_P_INVESTIGATOR));
+		assertTrue(validLogin.hasRole(Role.ROLE_USER));
+		
 		validLogin.removeRole(Role.ROLE_P_INVESTIGATOR);
 		assertEquals(2, validLogin.getRoles().size());
+		assertTrue(validLogin.hasRole(Role.ROLE_ADMIN));
+		assertTrue(validLogin.hasRole(Role.ROLE_USER));
+		
 		validLogin.removeRole(Role.ROLE_ANONYMOUS);
 		assertEquals(2, validLogin.getRoles().size());
 		assertTrue(validLogin.getRoles().contains(Role.ROLE_ADMIN));
 		assertTrue(validLogin.getRoles().contains(Role.ROLE_USER));
+	}
+	
+	
+	@Test
+	public void testAddNormalRoleEmptyRoleSet(){
+		assertTrue(validLogin.getRoles().isEmpty());
+		validLogin.addRole(Role.ROLE_ADMIN);
+		assertEquals(2, validLogin.getRoles().size());
+		assertTrue(validLogin.getRoles().contains(Role.ROLE_ADMIN));
+		assertTrue(validLogin.getRoles().contains(Role.ROLE_USER));
+	}
+	
+	@Test
+	public void testAddNormalRoleWithAnonymousRoleInRoleSet(){
+		assertTrue(validLogin.getRoles().isEmpty());
+		validLogin.addRole(Role.ROLE_ANONYMOUS);
+		assertEquals(1, validLogin.getRoles().size());
+		assertTrue(validLogin.getRoles().contains(Role.ROLE_ANONYMOUS));
+		validLogin.addRole(Role.ROLE_ADMIN);
+		assertEquals(2, validLogin.getRoles().size());
+		assertTrue(validLogin.getRoles().contains(Role.ROLE_ADMIN));
+		assertTrue(validLogin.getRoles().contains(Role.ROLE_USER));
+	}
+	
+	@Test
+	public void testAddNormalRole(){
+		assertTrue(validLogin.getRoles().isEmpty());
+		validLogin.addRole(Role.ROLE_ADMIN);
+		validLogin.addRole(Role.ROLE_INVESTIGATOR);
+		assertEquals(3, validLogin.getRoles().size());
+		assertTrue(validLogin.getRoles().contains(Role.ROLE_ADMIN));
+		assertTrue(validLogin.getRoles().contains(Role.ROLE_USER));
+		assertTrue(validLogin.getRoles().contains(Role.ROLE_INVESTIGATOR));
+	}
+	
+	
+	@Test
+	public void testAddAnonymousRole(){
+		assertTrue(validLogin.getRoles().isEmpty());
+		validLogin.addRole(Role.ROLE_ANONYMOUS);
+		assertEquals(1, validLogin.getRoles().size());
+		assertTrue(validLogin.getRoles().contains(Role.ROLE_ANONYMOUS));
 	}
 	
 	
@@ -615,5 +669,10 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		
 		assertFalse(login1.equals(null));
 		assertFalse(login1.equals(new TreatmentArm()));
+	}
+	
+	@Test
+	public void testUIName(){
+		assertEquals(validLogin.getPerson().getSurname() + ", " + validLogin.getPerson().getFirstname(), validLogin.getUIName());
 	}
 }
