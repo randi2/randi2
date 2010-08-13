@@ -29,7 +29,7 @@ public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 		InvalidValue[] invalids = classValidator.getInvalidValues(validDO);
 		StringBuilder message = new StringBuilder();
 		for(InvalidValue v : invalids){
-			message.append(v.getPropertyName()).append(" : ").append(v.getMessage()).append("\n");
+			message.append(v.getPropertyName()).append(" (").append(v.getValue()).append(")").append(": ").append(v.getMessage()).append("\n");
 		}
 		assertTrue(message.toString(), invalids.length==0); 
 	}
@@ -37,7 +37,15 @@ public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 	protected void assertInvalid(TC invalidDO, String[] messages) {
 			ClassValidator<TC> classValidator = new ClassValidator<TC>((Class<TC>) invalidDO.getClass());
 			InvalidValue[] invalids = classValidator.getInvalidValues(invalidDO);
-			assertTrue(invalids.length>0); 
+			StringBuilder message = new StringBuilder();
+			for(String s : messages){
+				message.append(s + "  |  ");
+			}
+			assertTrue(message.toString(),invalids.length>0); 
+	}
+	
+	protected void assertInvalid(TC invalidDO, String message) {
+		this.assertInvalid(invalidDO, new String[]{message});
 	}
 	
 	protected void assertInvalid(TC invalidDO){
