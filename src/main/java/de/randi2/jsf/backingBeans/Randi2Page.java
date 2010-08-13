@@ -214,9 +214,9 @@ public class Randi2Page {
 	}
 
 	public void createTrial(ActionEvent event) {
+		trialHandler.cancleEditing();
 		trialHandler.setCurrentObject(null);
 		activePanel = "trialCreatePanel";
-		trialHandler.cancleEditing();
 		trialSelected = false;
 	}
 	
