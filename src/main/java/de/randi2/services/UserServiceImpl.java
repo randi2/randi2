@@ -252,6 +252,8 @@ public class UserServiceImpl implements UserService {
 					.getPerson().getFirstname());
 			contactPersonSubjectFields.put("newUserLastname", newUser
 					.getPerson().getSurname());
+			contactPersonSubjectFields.put("trialSite", newUser.getPerson().getTrialSite().getName());
+			
 			try {
 				mailService.sendMail(contactPerson.getEmail(),
 						"NewUserNotifyContactPersonMail", language,
