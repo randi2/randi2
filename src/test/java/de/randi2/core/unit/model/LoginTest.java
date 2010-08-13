@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
@@ -16,7 +17,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Login;
 import de.randi2.model.Person;
@@ -56,7 +56,43 @@ public class LoginTest extends AbstractDomainTest<Login>{
 	
 	
 	@Test
-	@Transactional
+	public void testUsernameNotNull(){
+		validLogin.setUsername(null);
+		assertInvalid(validLogin);
+	}
+	
+	@Test
+	public void testUsernameNotEmpty(){
+		validLogin.setUsername("");
+		assertInvalid(validLogin);
+	}
+	
+	@Test
+	public void testUsernameNotShorterThan5(){
+		assertEquals(5, Login.MIN_USERNAME_LENGTH);
+		String[] invalidUsernames = {"a@d.d","sada", stringUtil.getWithLength(Login.MIN_USERNAME_LENGTH), null, ""};
+		for (String s: invalidUsernames){
+			validLogin.setUsername(s);
+			assertInvalid(validLogin,s);
+		}
+	}
+	
+	
+	@Test
+	public void testUsernameNotLongerThan100(){
+		assertEquals(100, Login.MAX_USERNAME_LENGTH);
+		String[] invalidUsernames = {stringUtil.getWithLength(95)+"@da.de", stringUtil.getWithLength(120), stringUtil.getWithLength(Login.MAX_USERNAME_LENGTH+1)};
+		for (String s: invalidUsernames){
+			validLogin.setUsername(s);
+			assertInvalid(validLogin,s);
+		}
+	}
+	
+	
+	
+	
+	
+	@Test
 	public void testUsername(){
 		validLogin.setUsername(stringUtil.getWithLength(Login.MIN_USERNAME_LENGTH)+"@abc.de");
 		assertEquals(stringUtil.getLastString()+"@abc.de", validLogin.getUsername());
@@ -81,30 +117,6 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		assertInvalid(validLogin);
 	}
 	
-	
-	@Test
-	public void testCheckValuePassword(){
-		String[] validPasswords = {"secret0$secret","sad.al4h/ljhaslf",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+";2", stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-2)+",3", stringUtil.getWithLength(Login.HASH_PASSWORD_LENGTH)};
-		for (String s: validPasswords){
-			validLogin.setPassword(s);
-			assertValid(validLogin);
-		}
-		
-	String[] invalidPasswords = {"secret$secret",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH),stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-3)+";2", "0123456789", null, ""};
-		for (String s: invalidPasswords){
-			validLogin.setPassword(s);
-			assertInvalid(validLogin);
-		}
-	}
-	
-	@Test
-	public void testPerson(){
-		Person p = factory.getPerson();
-		validLogin.setPerson(p);
-		assertNotNull(validLogin.getPerson());
-		assertEquals(p,validLogin.getPerson());
-	
-	}
 	
 	@Test
 	public void testCheckValueUsername(){
@@ -136,25 +148,96 @@ public class LoginTest extends AbstractDomainTest<Login>{
 	}
 	
 	@Test
-	public void testCheckValuePerson(){
-		validLogin.setPerson(null);
-		try{
-			validLogin.checkValue("person", validLogin.getPerson());
-			fail("Person is null");
-		}catch (ValidationException e) {
-			
-		}
-		validLogin = factory.getLogin();
-		try{
-			validLogin.checkValue("person", validLogin.getPerson());
-		}catch (ValidationException e) {
-			fail("Person is ok");
-		}
-		
+	public void testPasswordNotNull(){
+		validLogin.setPassword(null);
+		assertInvalid(validLogin);
 	}
 	
 	@Test
-	public void testAktive(){
+	public void testPasswordNotEmpty(){
+		validLogin.setPassword("");
+		assertInvalid(validLogin);
+	}
+	
+	
+	@Test
+	public void testPasswordNotShorterThan8(){
+		assertEquals(8, Login.MIN_PASSWORD_LENGTH);
+		String[] invalidPasswords = {"ecet0$s","sad.a", stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-3)+",3", null, ""};
+		for (String s: invalidPasswords){
+			validLogin.setPassword(s);
+			assertInvalid(validLogin,s);
+		}
+	}
+	
+	@Test
+	public void testPasswordNotLongerThan30(){
+		assertEquals(30, Login.MAX_PASSWORD_LENGTH);
+		String[] invalidPasswords = {stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH)+ "$1", stringUtil.getWithLength(28)+"$t3"};
+		for (String s: invalidPasswords){
+			validLogin.setPassword(s);
+			assertInvalid(validLogin, s);
+		}
+	}
+	
+	@Test
+	public void testPasswordLengthHashedValueEquals64(){
+		assertEquals(64, Login.HASH_PASSWORD_LENGTH);
+		String[] validPasswords = {stringUtil.getWithLength(Login.HASH_PASSWORD_LENGTH), stringUtil.getWithLength(64)};
+		for (String s: validPasswords){
+			validLogin.setPassword(s);
+			assertValid(validLogin);
+		}
+	}
+	
+	@Test
+	public void testPasswordLengthHashedValueUnequals64(){
+		assertEquals(64, Login.HASH_PASSWORD_LENGTH);
+		String[] invalidPasswords = {stringUtil.getWithLength(Login.HASH_PASSWORD_LENGTH+1), stringUtil.getWithLength(150), stringUtil.getWithLength(65), stringUtil.getWithLength(63), stringUtil.getWithLength(34), stringUtil.getWithLength(20)};
+		for (String s: invalidPasswords){
+			validLogin.setPassword(s);
+			assertInvalid(validLogin, s);
+		}
+	}
+	
+	
+	@Test
+	public void testPasswordWithCorrectLengthAndWithoutSpecialSign(){
+		String[] invalidPasswords = {"secret0secret","sad.alhljhaslf",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+"z2", stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-2)+"h3"};
+		for (String s: invalidPasswords){
+			validLogin.setPassword(s);
+			assertInvalid(validLogin,s);
+		}
+	}
+	
+	@Test
+	public void testPasswordWithCorrectLengthAndSpecialSigns(){
+		String[] validPasswords = {"secret0$secret","sad.alhl3jhaslf",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+";2", stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-2)+"/3"};
+		for (String s: validPasswords){
+			validLogin.setPassword(s);
+			assertValid(validLogin);
+		}
+	}
+	
+	@Test
+	public void testPersonNotNull(){
+		validLogin.setPerson(null);
+		assertInvalid(validLogin);
+	}
+	
+	@Test
+	public void testCorrectPerson(){
+		Person p = factory.getPerson();
+		validLogin.setPerson(p);
+		assertNotNull(validLogin.getPerson());
+		assertEquals(p,validLogin.getPerson());
+		assertValid(validLogin);
+	}
+	
+	
+	
+	@Test
+	public void testAktiveSetTrueAndFalse(){
 		validLogin.setActive(true);
 		assertTrue(validLogin.isActive());
 		
@@ -162,10 +245,14 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		assertFalse(validLogin.isActive());
 	}
 	
+	
 	@Test
-	public void testLocale(){
+	public void testPrefLocale(){
 		validLogin.setPrefLocale(Locale.GERMAN);
 		assertEquals(Locale.GERMAN, validLogin.getPrefLocale());
+		assertValid(validLogin);
+		validLogin.setPrefLocale(null);
+		assertValid(validLogin);
 	}
 	
 	@Test
@@ -183,6 +270,26 @@ public class LoginTest extends AbstractDomainTest<Login>{
 		assertTrue(validLogin.isEnabled());
 	}
 	
+	@Test
+	public void testLastLoggedIn(){
+		GregorianCalendar calendar = new GregorianCalendar();
+		validLogin.setLastLoggedIn(calendar);
+		assertEquals(calendar, validLogin.getLastLoggedIn());
+	}
+	
+	@Test
+	public void testLockTime(){
+		GregorianCalendar calendar = new GregorianCalendar();
+		validLogin.setLockTime(calendar);
+		assertEquals(calendar, validLogin.getLockTime());
+	}
+	
+	@Test
+	public void testNumberWrongLogins(){
+		assertEquals(0, validLogin.getNumberWrongLogins());
+		validLogin.setNumberWrongLogins((byte)5);
+		assertEquals(5, validLogin.getNumberWrongLogins());
+	}
 	
 	@Test
 	public void testAccountNonLocked(){
