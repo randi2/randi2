@@ -5,9 +5,12 @@ import java.sql.Connection;
 
 import javax.sql.DataSource;
 
-import liquibase.FileSystemFileOpener;
 import liquibase.Liquibase;
-import liquibase.log.LogFactory;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.logging.LogFactory;
+import liquibase.logging.LogLevel;
+import liquibase.logging.jvm.JavaUtilLogger;
+import liquibase.resource.FileSystemResourceAccessor;
 
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
@@ -45,27 +48,31 @@ public class InitializeDatabaseUtil {
 	}
 	
 	private void setUpDatabase(IDataSet dataSet) throws Exception{
-		LogFactory.getLogger().addHandler(new SLF4JBridgeHandler());
-		LogFactory.getLogger().setUseParentHandlers(false);
+		LogFactory.getLogger().setLogLevel(LogLevel.WARNING);
 		// initialize your database connection here
-		Connection jdbcConnection = dataSource.getConnection();
+		Connection connectionDS = dataSource.getConnection();
+		JdbcConnection jdbcConnection = new JdbcConnection(connectionDS);
 
 		Liquibase liquibase = new Liquibase(
 				"src/test/resources/liquibase/database_changelog.xml",
-				new FileSystemFileOpener(), jdbcConnection);
+				new FileSystemResourceAccessor(), jdbcConnection);
 		liquibase.update("init");
-
-		jdbcConnection
+		
+		
+		connectionDS
 		.createStatement()
 		.executeUpdate(
-		"DELETE FROM DATABASECHANGELOG WHERE ID='remove_constraints' OR ID='add_constraints' OR ID='changeLoginUsernameLength' OR ID='changeTrialStatusNotNull';");
+		"DELETE FROM DATABASECHANGELOG WHERE ID='remove_constraints' OR ID='add_constraints';");
+		
+		connectionDS.commit();
 
+		
 		liquibase = new Liquibase(
 				"src/test/resources/liquibase/removeConstraints.xml",
-				new FileSystemFileOpener(), jdbcConnection);
+				new FileSystemResourceAccessor(), jdbcConnection);
 		liquibase.update("remove_constraints");
 
-		IDatabaseConnection connection = new DatabaseConnection(jdbcConnection);
+		IDatabaseConnection connection = new DatabaseConnection(connectionDS);
 
 		// FIXME remove it with dbunit version 2.3
 		if (liquibase.getDatabase().getDatabaseProductName().equals(
@@ -82,7 +89,7 @@ public class InitializeDatabaseUtil {
 
 			liquibase = new Liquibase(
 					"src/test/resources/liquibase/addConstraints.xml",
-					new FileSystemFileOpener(), jdbcConnection);
+					new FileSystemResourceAccessor(), jdbcConnection);
 			liquibase.update("add_constraints");
 	
 		} finally {

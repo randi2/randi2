@@ -1,9 +1,8 @@
 package de.randi2.utility.logging;
 
-import liquibase.log.LogFactory;
-import liquibase.spring.SpringLiquibase;
-
-import org.slf4j.bridge.SLF4JBridgeHandler;
+import liquibase.integration.spring.SpringLiquibase;
+import liquibase.logging.LogFactory;
+import liquibase.logging.LogLevel;
 
 /**
  * 
@@ -17,7 +16,8 @@ public class Randi2SpringLiquibase extends SpringLiquibase {
 	
 	public Randi2SpringLiquibase() {
 		super();
-		LogFactory.getLogger().addHandler(new SLF4JBridgeHandler());
-		LogFactory.getLogger().setUseParentHandlers(false);
+		LogFactory.getLogger().setLogLevel(LogLevel.WARNING);
+//		LogFactory.getLogger().addHandler(new SLF4JBridgeHandler());
+//		LogFactory.getLogger().setUseParentHandlers(false);
 	}
 }
