@@ -3,5 +3,5 @@
  <include file="classpath:META-INF/database/database_init_hsqldb.xml"/>
  <include file="classpath:META-INF/database/database_init_mysql.xml"/>
   <include file="classpath:META-INF/database/database_init_postgresql.xml"/>
-  <include file="classpath:META-INF/database/changeLoginUsernameLength.xml"/>
+  <include file="classpath:META-INF/database/updates_RANDI2_v07.xml"/>
 </databaseChangeLog>

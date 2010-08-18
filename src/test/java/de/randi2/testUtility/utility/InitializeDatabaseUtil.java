@@ -58,7 +58,7 @@ public class InitializeDatabaseUtil {
 		jdbcConnection
 		.createStatement()
 		.executeUpdate(
-		"DELETE FROM DATABASECHANGELOG WHERE ID='remove_constraints' OR ID='add_constraints';");
+		"DELETE FROM DATABASECHANGELOG WHERE ID='remove_constraints' OR ID='add_constraints' OR ID='changeLoginUsernameLength' OR ID='changeTrialStatusNotNull';");
 
 		liquibase = new Liquibase(
 				"src/test/resources/liquibase/removeConstraints.xml",
