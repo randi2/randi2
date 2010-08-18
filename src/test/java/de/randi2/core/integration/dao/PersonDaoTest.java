@@ -4,38 +4,19 @@ import static de.randi2.testUtility.utility.RANDI2Assert.assertNotSaved;
 import static de.randi2.testUtility.utility.RANDI2Assert.assertSaved;
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.io.File;
-import java.sql.Connection;
-import java.sql.ResultSet;
 
 import javax.sql.DataSource;
 
-import liquibase.FileSystemFileOpener;
-import liquibase.Liquibase;
-
-import org.dbunit.database.DatabaseConfig;
-import org.dbunit.database.DatabaseConnection;
-import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
-import org.dbunit.ext.hsqldb.HsqldbDataTypeFactory;
-import org.dbunit.operation.DatabaseOperation;
-import org.hibernate.validator.InvalidStateException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.PersonDao;
-import de.randi2.model.Login;
 import de.randi2.model.Person;
-import de.randi2.model.enumerations.Gender;
 import de.randi2.testUtility.utility.DomainObjectFactory;
 import de.randi2.testUtility.utility.TestStringUtil;
 

@@ -9,7 +9,6 @@ import liquibase.Liquibase;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.logging.LogFactory;
 import liquibase.logging.LogLevel;
-import liquibase.logging.jvm.JavaUtilLogger;
 import liquibase.resource.FileSystemResourceAccessor;
 
 import org.dbunit.database.DatabaseConfig;
@@ -19,7 +18,6 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.ext.hsqldb.HsqldbDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
-import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class InitializeDatabaseUtil {
