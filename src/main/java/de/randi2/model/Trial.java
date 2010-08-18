@@ -195,13 +195,14 @@ public class Trial extends AbstractDomainObject {
 	}
 
 	/**
-	 * Adds the criterion.
+	 * Adds the criterion, if the criterion is equals null nothing happens.
 	 * 
 	 * @param criterion
 	 *            the criterion
 	 */
 	public void addCriterion(
 			AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> criterion) {
+		if(criterion != null)
 		this.subjectCriteria.add(criterion);
 	}
 
@@ -241,7 +242,7 @@ public class Trial extends AbstractDomainObject {
 	}
 
 	/**
-	 * Gets the subjects.
+	 * Gets all subjects from this trial.
 	 * 
 	 * @return the subjects
 	 */

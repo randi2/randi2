@@ -2,7 +2,9 @@ package de.randi2.core.unit.model;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,7 +18,6 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Person;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
@@ -429,8 +430,16 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		// fail("Not yet implemented");
 	}
 
+	
 	@Test
-	public void testTreatmentArms() {
+	public void testTreatmentArmsNull() {
+		validTrial.setTreatmentArms(null);
+		assertNull(validTrial.getTreatmentArms());
+		assertValid(validTrial);
+	}	
+	
+	@Test
+	public void testTreatmentArmsCorrect() {
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setName("arm1");
 		TreatmentArm arm2 = new TreatmentArm();
@@ -439,27 +448,22 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		arms.add(arm1);
 		arms.add(arm2);
 		validTrial.setTreatmentArms(arms);
-
+		assertEquals(arms, validTrial.getTreatmentArms());
 		assertEquals(2, validTrial.getTreatmentArms().size());
 		assertTrue(validTrial.getTreatmentArms().containsAll(arms));
+		assertValid(validTrial);
 	}
 
 	@Test
-	public void testCriteria() {
+	public void testSubjectCriteriaCorrect() {
 		DichotomousCriterion criterion1 = new DichotomousCriterion();
 		criterion1.setName("criterion1");
 		DichotomousCriterion criterion2 = new DichotomousCriterion();
 		criterion2.setName("criterion2");
-		// List<AbstractCriterion<? extends Serializable, ? extends
-		// AbstractConstraint<? extends Serializable>>> criterions = new
-		// ArrayList<AbstractCriterion<? extends Serializable,? extends
-		// AbstractConstraint<? extends Serializable>>>();
-		// criterions.add(criterion1);
-		// criterions.add(criterion2);
-		// validTrial.setCriteria(criterions);
-		validTrial.addCriterion(criterion1);
-		validTrial.addCriterion(criterion2);
-
+		List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> criteria = new ArrayList<AbstractCriterion<? extends Serializable,? extends AbstractConstraint<? extends Serializable>>>();
+		criteria.add(criterion1);
+		criteria.add(criterion2);
+		validTrial.setCriteria(criteria);
 		assertEquals(2, validTrial.getCriteria().size());
 		assertTrue(DichotomousCriterion.class.isInstance(validTrial
 				.getCriteria().get(0)));
@@ -473,6 +477,42 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		assertEquals(list, validTrial.getCriteria());
 	}
 
+	@Test
+	public void testSubjectCriterionNull(){
+		validTrial.setCriteria(null);
+		assertNull(validTrial.getCriteria());
+		assertValid(validTrial);
+	}
+	
+	
+	@Test
+	public void testAddSubjectCriteria() {
+		DichotomousCriterion criterion1 = new DichotomousCriterion();
+		criterion1.setName("criterion1");
+		DichotomousCriterion criterion2 = new DichotomousCriterion();
+		criterion2.setName("criterion2");
+		validTrial.addCriterion(criterion1);
+		validTrial.addCriterion(criterion2);
+		assertEquals(2, validTrial.getCriteria().size());
+		assertTrue(DichotomousCriterion.class.isInstance(validTrial
+				.getCriteria().get(0)));
+		assertEquals("criterion1", validTrial.getCriteria().get(0).getName());
+		assertTrue(DichotomousCriterion.class.isInstance(validTrial
+				.getCriteria().get(1)));
+		assertEquals("criterion2", validTrial.getCriteria().get(1).getName());
+		assertValid(validTrial);
+	}
+	
+	@Test
+	public void testAddSubjectCriteriaNull() {
+		assertTrue(validTrial.getCriteria().isEmpty());
+		validTrial.addCriterion(null);
+		assertTrue(validTrial.getCriteria().isEmpty());
+		assertValid(validTrial);
+	}
+	
+	
+	
 	@Test
 	public void testRandomizationConfigurationNull() {
 		validTrial.setRandomizationConfiguration(null);
@@ -569,6 +609,32 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		assertFalse(trial1.equals(new TreatmentArm()));
 	}
 
+	
+	@Test
+	public void testGetSubjects() {
+		TreatmentArm arm1 = new TreatmentArm();
+		arm1.setName("arm1");
+		arm1.setTrial(validTrial);
+		arm1.setPlannedSubjects(100);
+		TreatmentArm arm2 = new TreatmentArm();
+		arm2.setName("arm2");
+		arm2.setTrial(validTrial);
+		arm2.setPlannedSubjects(100);
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		arms.add(arm1);
+		arms.add(arm2);
+		validTrial.setTreatmentArms(arms);
+		for (int i = 1; i <= 100; i++) {
+			TrialSubject sub = new TrialSubject();
+			if (i % 2 == 0) {
+				arm1.addSubject(sub);
+			} else {
+				arm2.addSubject(sub);
+			}
+			assertTrue(validTrial.getSubjects().contains(sub));
+		}
+	}
+	
 	@Test
 	public void testTotalSubjectAmount() {
 		TreatmentArm arm1 = new TreatmentArm();
@@ -616,6 +682,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		assertEquals("abbreviation", validTrial.getUIName());
 	}
 
+	
 	@Test
 	public void testIsFresh() {
 		TreatmentArm arm1 = new TreatmentArm();
