@@ -45,6 +45,7 @@ import javax.persistence.Transient;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
@@ -68,6 +69,7 @@ import de.randi2.utility.validations.DateDependence;
 @EqualsAndHashCode(callSuper = true, exclude = { "randomConf",
 		"participatingSites", "sponsorInvestigator", "subjectCriteria" })
 @NamedQuery(name = "trial.AllTrialsWithSpecificParticipatingTrialSite", query = "select trial from Trial as trial join trial.participatingSites site where site.id = ?")
+@ToString(callSuper=true)
 public class Trial extends AbstractDomainObject {
 
 	public static final Comparator<TrialSubject> SUBJECT_COUNT_COMPERATOR = new Comparator<TrialSubject>() {
