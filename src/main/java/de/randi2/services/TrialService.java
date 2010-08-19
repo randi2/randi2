@@ -22,6 +22,7 @@ import java.util.List;
 import de.randi2.model.Login;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
+import de.randi2.model.exceptions.TrialStateException;
 
 /**
  * All Trial-relevant services.
@@ -42,8 +43,9 @@ public interface TrialService extends AbstractService<Trial> {
 	 * 
 	 * @param trial
 	 * @return
+	 * @throws TrialStateException, IllegalArgumentException 
 	 */
-	public Trial update(Trial trial);
+	public Trial update(Trial trial) throws TrialStateException, IllegalArgumentException;
 
 	/**
 	 * Add a new trial subject to the given trial and randomize it. The

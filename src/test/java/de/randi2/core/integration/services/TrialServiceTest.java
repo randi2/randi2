@@ -18,6 +18,7 @@ import de.randi2.model.Role;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
+import de.randi2.model.exceptions.TrialStateException;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
@@ -51,7 +52,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 	}
 	
 	@Test
-	public void testUpdate(){
+	public void testUpdate() throws IllegalArgumentException, TrialStateException{
 		service.create(validTrial);
 		assertTrue(validTrial.getId()>0);
 		validTrial.setName("Trialname");
@@ -90,7 +91,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 	}
 	
 	@Test
-	public void testRandomizeComplete(){
+	public void testRandomizeComplete() throws IllegalArgumentException, TrialStateException{
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setPlannedSubjects(50);
 		arm1.setName("arm1");
@@ -125,7 +126,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 	}
 	
 	@Test
-	public void testRandomizeBlock(){
+	public void testRandomizeBlock() throws IllegalArgumentException, TrialStateException{
 		int blocksize = 4;
 		int randomizations = 100;
 		TreatmentArm arm1 = new TreatmentArm();
@@ -174,7 +175,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 	
 	
 	@Test
-	public void testRandomizeTruncated(){
+	public void testRandomizeTruncated() throws IllegalArgumentException, TrialStateException{
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setPlannedSubjects(50);
 		arm1.setName("arm1");
@@ -212,7 +213,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 	
 	
 	@Test
-	public void testUrnRandomization(){
+	public void testUrnRandomization() throws IllegalArgumentException, TrialStateException{
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setPlannedSubjects(50);
 		arm1.setName("arm1");
@@ -253,7 +254,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 	}
 	
 	@Test
-	public void testCreateAndRandomUrnDesign(){
+	public void testCreateAndRandomUrnDesign() throws IllegalArgumentException, TrialStateException{
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setPlannedSubjects(50);
 		arm1.setName("arm1");
@@ -295,7 +296,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 	}
 	
 	@Test
-	public void testGetSubjects(){
+	public void testGetSubjects() throws IllegalArgumentException, TrialStateException{
 		/*
 		 * Now creating another investigator
 		 */

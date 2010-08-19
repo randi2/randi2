@@ -26,6 +26,7 @@ import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.enumerations.Gender;
+import de.randi2.model.exceptions.TrialStateException;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.ChartData;
 import de.randi2.services.ChartsService;
@@ -77,7 +78,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 
 	}
 
-	private void randomizeInValidTrialOneYear() {
+	private void randomizeInValidTrialOneYear() throws IllegalArgumentException, TrialStateException {
 		authenticatAsPrincipalInvestigator();
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
 		validTrial.setEndDate(new GregorianCalendar(2009, 11, 1));
@@ -138,7 +139,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 				.getSubjects().size());
 	}
 
-	private void randomizeInValidTrialTwoYears() {
+	private void randomizeInValidTrialTwoYears() throws IllegalArgumentException, TrialStateException {
 		authenticatAsPrincipalInvestigator();
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
 		validTrial.setEndDate(new GregorianCalendar(2010, 11, 1));
@@ -201,7 +202,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 	}
 
 	@Test
-	public void testGenerateRecruitmentChart1() {
+	public void testGenerateRecruitmentChart1() throws IllegalArgumentException, TrialStateException {
 		randomizeInValidTrialOneYear();
 		ChartData chartData = chartsService
 				.generateRecruitmentChart(validTrial);
@@ -215,7 +216,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 	}
 
 	@Test
-	public void testGenerateRecruitmentChart2() {
+	public void testGenerateRecruitmentChart2() throws IllegalArgumentException, TrialStateException {
 		randomizeInValidTrialTwoYears();
 		ChartData chartData = chartsService
 				.generateRecruitmentChart(validTrial);
@@ -228,7 +229,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 
 	}
 
-	private void randomizeInValidTrialTwoTrialSites() {
+	private void randomizeInValidTrialTwoTrialSites() throws IllegalArgumentException, TrialStateException {
 		Person cp1 = new Person();
 		cp1.setFirstname("Contact");
 		cp1.setSurname("Person");
@@ -329,7 +330,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 				.getSubjects().size());
 	}
 
-	private void randomizeInValidTrialTwoTrialSites31() {
+	private void randomizeInValidTrialTwoTrialSites31() throws IllegalArgumentException, TrialStateException {
 		Person cp1 = new Person();
 		cp1.setFirstname("Contact");
 		cp1.setSurname("Person");
@@ -432,7 +433,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 
 	@Test
 	@Ignore
-	public void testGenerateRecruitmentChartTrialSite1() {
+	public void testGenerateRecruitmentChartTrialSite1() throws IllegalArgumentException, TrialStateException {
 		randomizeInValidTrialTwoTrialSites();
 		ChartData chartData = chartsService
 				.generateRecruitmentChartTrialSite(validTrial);
@@ -445,7 +446,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 
 	@Test
 	@Ignore
-	public void testGenerateRecruitmentChartTrialSite2() {
+	public void testGenerateRecruitmentChartTrialSite2() throws IllegalArgumentException, TrialStateException {
 		randomizeInValidTrialTwoTrialSites31();
 		ChartData chartData = chartsService
 				.generateRecruitmentChartTrialSite(validTrial);
