@@ -19,6 +19,7 @@ package de.randi2.core.unit.model.hibernate;
 
 import java.util.List;
 import java.util.Map;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.persister.entity.EntityPersister;
@@ -27,8 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
-import de.randi2.model.Login;
-import de.randi2.model.TrialSubject;
 import de.randi2.testUtility.utility.InitializeDatabaseUtil;
 
 /**
@@ -51,7 +50,6 @@ public class HibernateMappingTest extends AbstractJUnit4SpringContextTests{
      * 
      * @throws Exception
      */
-    // Taken from: https://www.hibernate.org/210.html
     @Test
     public void testEverything() throws Exception {
     	databaseUtil.setUpDatabaseEmpty();
