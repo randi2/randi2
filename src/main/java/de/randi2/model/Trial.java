@@ -65,10 +65,11 @@ import de.randi2.utility.validations.DateDependence;
 @Entity
 @Configurable
 @DateDependence(firstDate = "startDate", secondDate = "endDate")
-@EqualsAndHashCode(callSuper=true, exclude={"randomConf", "participatingSites", "sponsorInvestigator", "subjectCriteria"})
+@EqualsAndHashCode(callSuper = true, exclude = { "randomConf",
+		"participatingSites", "sponsorInvestigator", "subjectCriteria" })
 @NamedQuery(name = "trial.AllTrialsWithSpecificParticipatingTrialSite", query = "select trial from Trial as trial join trial.participatingSites site where site.id = ?")
 public class Trial extends AbstractDomainObject {
-	
+
 	public static final Comparator<TrialSubject> SUBJECT_COUNT_COMPERATOR = new Comparator<TrialSubject>() {
 		/**
 		 * {@inheritDoc}
@@ -77,7 +78,7 @@ public class Trial extends AbstractDomainObject {
 		public int compare(TrialSubject o1, TrialSubject o2) {
 			return (o1.getCounter() - o2.getCounter());
 		}
-		
+
 	};
 
 	/** The Constant serialVersionUID. */
@@ -87,79 +88,80 @@ public class Trial extends AbstractDomainObject {
 	@NotNull()
 	@NotEmpty()
 	@Length(max = MAX_VARCHAR_LENGTH)
-	@Getter 
-    @Setter 
+	@Getter
+	@Setter
 	private String name = "";
-	
+
 	/** The abbreviation. */
 	@Length(max = MAX_VARCHAR_LENGTH)
-	@Getter 
-    @Setter 
+	@Getter
+	@Setter
 	private String abbreviation = "";
-	
+
 	/**
 	 * Checks if is stratify trial site.
 	 * 
 	 * @return true, if is stratify trial site
 	 */
-	@Getter 
-	@Setter 
+	@Getter
+	@Setter
 	private boolean stratifyTrialSite;
-	
+
 	/** The description. */
 	@Lob
-	@Getter 
-	@Setter 
-	private String description = "";
-	
-	@Getter 
-	@Setter 
-	private GregorianCalendar startDate = null;
-	
 	@Getter
-	@Setter 
+	@Setter
+	private String description = "";
+
+	@Getter
+	@Setter
+	private GregorianCalendar startDate = null;
+
+	@Getter
+	@Setter
 	private GregorianCalendar endDate = null;
-	
-	@Getter 
-	@Setter 
+
+	@Getter
+	@Setter
 	private File protocol = null;
-	
+
 	/** The sponsor investigator. */
 	@NotNull
 	@ManyToOne
-	
-	@Getter 
-	@Setter 
+	@Getter
+	@Setter
 	private Person sponsorInvestigator = null;
-	
+
 	/** The leading site. */
 	@NotNull
 	@ManyToOne
-	@Getter 
-	@Setter 
+	@Getter
+	@Setter
 	private TrialSite leadingSite = null;
-	
+
 	/** The status. */
 	@Enumerated(value = EnumType.STRING)
-	@Getter 
-	@Setter 
+	@NotNull
+	@Getter
+	@Setter
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
-	
+
 	/** The participating sites. */
 	@ManyToMany
-	@Getter 
-	@Setter 
+	@Getter
+	@Setter
 	private Set<TrialSite> participatingSites = new HashSet<TrialSite>();
-	
+
 	/** The treatment arms. */
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trial")
-	@Getter @Setter 
+	@Getter
+	@Setter
 	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();
-	
+
 	/** The subject criteria. */
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> subjectCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
-	
+
 	/** The random conf. */
 	@OneToOne(cascade = CascadeType.ALL)
 	private AbstractRandomizationConfig randomConf;
@@ -168,9 +170,9 @@ public class Trial extends AbstractDomainObject {
 	 * If true then the trial subject ids will be generated automatically by the
 	 * system.
 	 */
-	@Getter @Setter 
+	@Getter
+	@Setter
 	private boolean generateIds = true;
-
 
 	/**
 	 * Get criteria.
@@ -193,13 +195,14 @@ public class Trial extends AbstractDomainObject {
 	}
 
 	/**
-	 * Adds the criterion.
+	 * Adds the criterion, if the criterion is equals null nothing happens.
 	 * 
 	 * @param criterion
 	 *            the criterion
 	 */
 	public void addCriterion(
 			AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> criterion) {
+		if(criterion != null)
 		this.subjectCriteria.add(criterion);
 	}
 
@@ -210,9 +213,9 @@ public class Trial extends AbstractDomainObject {
 	 *            the participating site
 	 */
 	public void addParticipatingSite(TrialSite participatingSite) {
-		this.participatingSites.add(participatingSite);
+		if(participatingSite!=null)
+			this.participatingSites.add(participatingSite);
 	}
-
 
 	/**
 	 * Gets the randomization configuration.
@@ -222,9 +225,10 @@ public class Trial extends AbstractDomainObject {
 	public AbstractRandomizationConfig getRandomizationConfiguration() {
 		return randomConf;
 	}
-	
+
 	/**
-	 * Sets the randomization configuration.
+	 * Sets the randomization configuration. If the trial object of the
+	 * randomisation config is equals null the setter set the this trial.
 	 * 
 	 * @param _randomizationConfiguration
 	 *            the new randomization configuration
@@ -232,13 +236,13 @@ public class Trial extends AbstractDomainObject {
 	public void setRandomizationConfiguration(
 			AbstractRandomizationConfig _randomizationConfiguration) {
 		randomConf = _randomizationConfiguration;
-		if (randomConf.getTrial() == null) {
+		if (randomConf != null && randomConf.getTrial() == null){
 			randomConf.setTrial(this);
 		}
 	}
 
 	/**
-	 * Gets the subjects.
+	 * Gets all subjects from this trial.
 	 * 
 	 * @return the subjects
 	 */
@@ -251,49 +255,51 @@ public class Trial extends AbstractDomainObject {
 		Collections.sort(subjects, SUBJECT_COUNT_COMPERATOR);
 		return subjects;
 	}
-	
+
 	/**
 	 * Gets the total subject amount.
 	 * 
 	 * @return the total subject amount
 	 */
 	@Transient
-	public int getTotalSubjectAmount(){
+	public int getTotalSubjectAmount() {
 		return getSubjects().size();
 	}
-	
-@Transient
-	public int getPlannedSubjectAmount(){
+
+	@Transient
+	public int getPlannedSubjectAmount() {
 		int amount = 0;
-		for(TreatmentArm arm : treatmentArms){
+		for (TreatmentArm arm : treatmentArms) {
 			amount += arm.getPlannedSubjects();
 		}
 		return amount;
 	}
 
-/**
+	/**
 	 * Specifies if the trial is a fresh trial (without any subjects)
+	 * 
 	 * @return
 	 */
-	@Transient 
-	public boolean isFresh(){
-		return !(getTotalSubjectAmount()>0);
+	@Transient
+	public boolean isFresh() {
+		return !(getTotalSubjectAmount() > 0);
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.randi2.model.AbstractDomainObject#getUIName()
 	 */
 	@Override
 	public String getUIName() {
 		return this.getAbbreviation();
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public Pair<List<String>, List<String>> getAllStrataIdsAndNames(){
+	public Pair<List<String>, List<String>> getAllStrataIdsAndNames() {
 		List<String> strataIdsResult = new ArrayList<String>();
 		List<String> strataNamesResult = new ArrayList<String>();
-		
+
 		HashMap<AbstractCriterion<?, ?>, List<AbstractConstraint<?>>> temp = new HashMap<AbstractCriterion<?, ?>, List<AbstractConstraint<?>>>();
 		for (AbstractCriterion<?, ?> cr : getCriteria()) {
 			List<AbstractConstraint<?>> list = new ArrayList<AbstractConstraint<?>>();
@@ -313,23 +319,24 @@ public class Trial extends AbstractDomainObject {
 					wrapper.setStrataName(cr.getName() + "_" + co.getUIName());
 					strataLevel.add(wrapper);
 				}
-				if(temp.get(cr).isEmpty()){
+				if (temp.get(cr).isEmpty()) {
 					StrataNameIDWrapper wrapper = new StrataNameIDWrapper();
 					wrapper.setStrataId(cr.getId() + "_" + -1);
 					wrapper.setStrataName("");
 					strataLevel.add(wrapper);
 				}
-				if(!strataLevel.isEmpty()){
+				if (!strataLevel.isEmpty()) {
 					strataIds.add(strataLevel);
 				}
 			}
-			//cartesianProduct only necessary for more then one criterions
-			if(strataIds.size()>=2){
+			// cartesianProduct only necessary for more then one criterions
+			if (strataIds.size() >= 2) {
 				strataIds = cartesianProduct(strataIds.toArray(new HashSet[0]));
-			}else{
-				Set<StrataNameIDWrapper> tempStrataIds =strataIds.iterator().next();
+			} else {
+				Set<StrataNameIDWrapper> tempStrataIds = strataIds.iterator()
+						.next();
 				Set<Set<StrataNameIDWrapper>> tempStrataIdsSet = new HashSet<Set<StrataNameIDWrapper>>();
-				for(StrataNameIDWrapper wrapper : tempStrataIds){
+				for (StrataNameIDWrapper wrapper : tempStrataIds) {
 					Set<StrataNameIDWrapper> next = new HashSet<StrataNameIDWrapper>();
 					next.add(wrapper);
 					tempStrataIdsSet.add(next);
@@ -347,25 +354,26 @@ public class Trial extends AbstractDomainObject {
 				String stratName = "";
 				for (StrataNameIDWrapper s : stringStrat) {
 					stratId += s.getStrataId() + ";";
-					if(!s.getStrataName().isEmpty())
-					stratName += s.getStrataName() + ";";
+					if (!s.getStrataName().isEmpty())
+						stratName += s.getStrataName() + ";";
 				}
-				//strata and stratified with trial site 
+				// strata and stratified with trial site
 				if (isStratifyTrialSite()) {
 					for (TrialSite site : getParticipatingSites()) {
 						String strataId = site.getId() + "__" + stratId;
 						strataIdsResult.add(strataId);
-						strataNamesResult.add(site.getName() + " | " + stratName);
+						strataNamesResult.add(site.getName() + " | "
+								+ stratName);
 					}
 
 				}
-				//strata and stratified without trial site 
+				// strata and stratified without trial site
 				else {
 					strataIdsResult.add(stratId);
 					strataNamesResult.add(stratName);
 				}
 			}
-		}else if (isStratifyTrialSite()) { //stratified only by trial site
+		} else if (isStratifyTrialSite()) { // stratified only by trial site
 			for (TrialSite site : getParticipatingSites()) {
 				String strataId = site.getId() + "__";
 				strataIdsResult.add(strataId);

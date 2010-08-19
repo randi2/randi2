@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <databaseChangeLog
+     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+   <changeSet author="dschrimpf" id="changeLoginUsernameLength" dbms="hsqldb">
+  		<comment>Change the username length 40 -> 100</comment>
+  		<sql>alter table login ALTER COLUMN username varchar(100);</sql> 
+    </changeSet>
+    
+    <changeSet author="dschrimpf" id="changeLoginUsernameLength" dbms="mysql">
+  		<comment>Change the username length 40 -> 100</comment>
+  		<sql>alter table Login modify username varchar(100) not null;</sql>
+    </changeSet>
+    
+   <changeSet author="dschrimpf" id="changeLoginUsernameLength" dbms="postgresql">
+  		<comment>Change the username length 40 -> 100</comment>
+  		<sql>alter table login ALTER username TYPE varchar(100);</sql> 
+    </changeSet>
+    
+    <changeSet author="dschrimpf" id="changeTrialStatusNotNull" dbms="hsqldb">
+  			<comment>Added the trial status constraint not null</comment>
+  		<sql>alter table trial ALTER COLUMN status varchar(255) not null;</sql> 
+    </changeSet>
+    
+    <changeSet author="dschrimpf" id="changeTrialStatusNotNull" dbms="mysql">
+  		<comment>Added the trial status constraint not null</comment>
+  		<sql>alter table Trial modify status varchar(255) not null;</sql>
+    </changeSet>
+    
+   <changeSet author="dschrimpf" id="changeTrialStatusNotNull" dbms="postgresql">
+  		<comment>Added the trial status constraint not null</comment>
+  		<sql>alter table trial ALTER status SET NOT NULL;</sql> 
+    </changeSet>
+ </databaseChangeLog>

@@ -82,7 +82,7 @@ public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 
 	public void setTrial(Trial _trial) {
 		this.trial = _trial;
-		if (trial.getRandomizationConfiguration() == null) {
+		if (trial != null && trial.getRandomizationConfiguration() == null) {
 			trial.setRandomizationConfiguration(this);
 		}
 	}

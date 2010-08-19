@@ -1,28 +1,14 @@
 package de.randi2.core.integration.services;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.ResultSet;
+import static junit.framework.Assert.fail;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
-import liquibase.FileSystemFileOpener;
-import liquibase.Liquibase;
-
-import org.dbunit.database.DatabaseConfig;
-import org.dbunit.database.DatabaseConnection;
-import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
-import org.dbunit.ext.hsqldb.HsqldbDataTypeFactory;
-import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.internal.runners.statements.Fail;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -37,8 +23,6 @@ import de.randi2.model.Login;
 import de.randi2.testUtility.utility.DomainObjectFactory;
 import de.randi2.testUtility.utility.InitializeDatabaseUtil;
 import de.randi2.utility.security.RolesAndRights;
-
-import static junit.framework.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/META-INF/service-test.xml",
