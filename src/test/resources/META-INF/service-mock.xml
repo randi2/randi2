@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+	default-autowire="byName">
+
+	<context:annotation-config />
+	<context:spring-configured />
+	<bean class="org.easymock.EasyMock" factory-method="createNiceMock"
+		primary="true" id="trialDaoMock">
+		<constructor-arg value="de.randi2.dao.TrialDao" />
+	</bean>
+	<bean class="org.easymock.EasyMock" factory-method="createNiceMock"
+		primary="true" id="sessionFactoryMock">
+		<constructor-arg value="org.hibernate.SessionFactory" />
+	</bean>
+	<bean class="org.easymock.EasyMock" factory-method="createNiceMock"
+		primary="true" id="mailServiceInterfaceMock">
+		<constructor-arg value="de.randi2.utility.mail.MailServiceInterface" />
+	</bean>
+	<bean id="trialService" class="de.randi2.services.TrialServiceImpl" />
+	<bean id="testStringUtil"
+		class="de.randi2.testUtility.utility.TestStringUtil">
+	</bean>
+	
+	<bean id="domainObjectFactory" class="de.randi2.testUtility.utility.DomainObjectFactory" />
+</beans>
