@@ -52,14 +52,13 @@ public class RolesAndRights {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void grantRights(AbstractDomainObject object, TrialSite scope) {
-//		if(scope== null  || object == null){
-//			throw new RuntimeException();
-//		}else	
-			if (object instanceof Login) {
-			grantRightsUserObject(object, scope);
+		// if(scope== null || object == null){
+		// throw new RuntimeException();
+		// }else
+		if (object instanceof Login) {
+			grantRightsUserObject((Login) object, scope);
 		} else if (object instanceof TrialSite) {
 			grantRightsTrialSiteObject((TrialSite) object);
 		} else if (object instanceof Trial) {
@@ -71,110 +70,116 @@ public class RolesAndRights {
 
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED)
-	private void grantRightsUserObject(AbstractDomainObject object,
-			TrialSite scope) {
-		if (object instanceof Login) {
-			// Set Rights for ROLE_ANONYMOUS
-			aclService.createAclwithPermissions(object, Role.ROLE_ANONYMOUS
-					.getName(),
-					new PermissionHibernate[] { PermissionHibernate.READ },
-					Role.ROLE_ANONYMOUS.getName());
-			aclService.createAclwithPermissions(((Login) object).getPerson(),
-					Role.ROLE_ANONYMOUS.getName(),
-					new PermissionHibernate[] { PermissionHibernate.READ },
-					Role.ROLE_ANONYMOUS.getName());
-			// grant rights for other user
-			List<Login> logins = sessionFactory.getCurrentSession()
-					.createQuery("from Login").list();
-			for (Login l : logins) {
-				for (Role r : l.getRoles()) {
-					if (!r.equals(Role.ROLE_USER)) {
-						if (r.isWriteOtherUser()) {
-							if (r.isScopeUserWrite()) {
-								if (l.getPerson().getTrialSite()!=null && l.getPerson().getTrialSite().getId() == scope
-										.getId()) {
-									aclService
-											.createAclwithPermissions(
-													object,
-													l.getUsername(),
-													new PermissionHibernate[] { PermissionHibernate.WRITE },
-													r.getName());
-									aclService
-											.createAclwithPermissions(
-													((Login) object)
-															.getPerson(),
-													l.getUsername(),
-													new PermissionHibernate[] { PermissionHibernate.WRITE },
-													r.getName());
-								}
+	private void grantRightsUserObject(Login object, TrialSite scope) {
+		// Set Rights for ROLE_ANONYMOUS
+		aclService.createAclwithPermissions(object, Role.ROLE_ANONYMOUS
+				.getName(),
+				new PermissionHibernate[] { PermissionHibernate.READ },
+				Role.ROLE_ANONYMOUS.getName());
+		aclService.createAclwithPermissions(((Login) object).getPerson(),
+				Role.ROLE_ANONYMOUS.getName(),
+				new PermissionHibernate[] { PermissionHibernate.READ },
+				Role.ROLE_ANONYMOUS.getName());
+		// grant rights for other user
+		List<Login> logins = sessionFactory.getCurrentSession().createQuery(
+				"from Login").list();
+		/*
+		 * Go through all logins/users
+		 */
+		for (Login l : logins) {
+			/*
+			 * Check the users roles
+			 */
+			for (Role r : l.getRoles()) {
+				/*
+				 * For each role beside the general ROLE_USER
+				 */
+				if (!r.equals(Role.ROLE_USER)) {
+					/*
+					 * If the current user can edit others
+					 */
+					if (r.isWriteOtherUser()) {
+						/*
+						 * If he/she can edit all from his/her site
+						 */
+						if (r.isScopeUserWrite()) {
+							/*
+							 * Check the current trial site and if it is the
+							 * same trial site as the one from the new user
+							 * grant permissions but only if the current user
+							 * can assign all roles the new user/login has
+							 */
+							if (l.getPerson().getTrialSite() != null
+									&& l.getPerson().getTrialSite().getId() == scope
+											.getId()
+									&& r.getRolesToAssign().containsAll(
+											object.getRoles())) {
+								/*
+								 * Grant WRITE permission on the new user to the
+								 * current user
+								 */
+								grantRightLogin(object, l.getUsername(), r
+										.getName(), PermissionHibernate.WRITE);
+							}
 
-							} else {
-								aclService
-										.createAclwithPermissions(
-												object,
-												l.getUsername(),
-												new PermissionHibernate[] { PermissionHibernate.WRITE },
-												r.getName());
-								aclService
-										.createAclwithPermissions(
-												((Login) object).getPerson(),
-												l.getUsername(),
-												new PermissionHibernate[] { PermissionHibernate.WRITE },
-												r.getName());
-							}
 						}
-						if (r.isReadOtherUser()) {
-							if (r.isScopeUserRead()) {
-								if (l.getPerson().getTrialSite()!=null &&  l.getPerson().getTrialSite().getId() == scope
-										.getId()) {
-									aclService
-											.createAclwithPermissions(
-													object,
-													l.getUsername(),
-													new PermissionHibernate[] { PermissionHibernate.READ },
-													r.getName());
-									aclService
-											.createAclwithPermissions(
-													((Login) object)
-															.getPerson(),
-													l.getUsername(),
-													new PermissionHibernate[] { PermissionHibernate.READ },
-													r.getName());
-								}
-							} else {
-								aclService
-										.createAclwithPermissions(
-												object,
-												l.getUsername(),
-												new PermissionHibernate[] { PermissionHibernate.READ },
-												r.getName());
-								aclService
-										.createAclwithPermissions(
-												((Login) object).getPerson(),
-												l.getUsername(),
-												new PermissionHibernate[] { PermissionHibernate.READ },
-												r.getName());
-							}
-						}
-						if (r.isAdminOtherUser()) {
-							aclService
-									.createAclwithPermissions(
-											object,
-											l.getUsername(),
-											new PermissionHibernate[] { PermissionHibernate.ADMINISTRATION },
-											r.getName());
-							aclService
-									.createAclwithPermissions(
-											((Login) object).getPerson(),
-											l.getUsername(),
-											new PermissionHibernate[] { PermissionHibernate.ADMINISTRATION },
-											r.getName());
+						/*
+						 * IF there is no site-constraint (all users are
+						 * editable to the current user)
+						 */
+						else {
+							grantRightLogin(object, l.getUsername(), r
+									.getName(), PermissionHibernate.WRITE);
 						}
 					}
-					
+					/*
+					 * If the current user can "see" others
+					 */
+					if (r.isReadOtherUser()) {
+						/*
+						 * If he/she can view all from his/her site
+						 */
+						if (r.isScopeUserRead()) {
+							/*
+							 * Check the current trial site and if it is the
+							 * same trial site as the one from the new user
+							 * grant permissions
+							 */
+							if (l.getPerson().getTrialSite() != null
+									&& l.getPerson().getTrialSite().getId() == scope
+											.getId()) {
+								grantRightLogin(object, l.getUsername(), r
+										.getName(), PermissionHibernate.READ);
+							}
+						}
+						/*
+						 * IF there is no site-constraint (all users are shown
+						 * to the current user)
+						 */
+						else {
+							grantRightLogin(object, l.getUsername(), r
+									.getName(), PermissionHibernate.READ);
+						}
+					}
+					/*
+					 * If the current user can administrate others
+					 */
+					if (r.isAdminOtherUser()) {
+						grantRightLogin(object, l.getUsername(), r.getName(),
+								PermissionHibernate.ADMINISTRATION);
+					}
 				}
+
 			}
 		}
+	}
+
+	private void grantRightLogin(Login newLogin, String userName,
+			String roleName, PermissionHibernate... permissions) {
+		aclService.createAclwithPermissions(newLogin, userName, permissions,
+				roleName);
+		aclService.createAclwithPermissions(newLogin.getPerson(), userName,
+				permissions, roleName);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -183,8 +188,10 @@ public class RolesAndRights {
 		// Set Right for ROLE_ANONYMOUS
 		aclService.createAclwithPermissions(trialSite, Role.ROLE_ANONYMOUS
 				.getName(), Role.ROLE_ANONYMOUS.getTrialSitePermissions()
-				.toArray(new PermissionHibernate[Role.ROLE_ANONYMOUS.getTrialSitePermissions().size()]), Role.ROLE_ANONYMOUS
-				.getName());
+				.toArray(
+						new PermissionHibernate[Role.ROLE_ANONYMOUS
+								.getTrialSitePermissions().size()]),
+				Role.ROLE_ANONYMOUS.getName());
 
 		// Set Rights for other User
 		List<Login> logins = sessionFactory.getCurrentSession().createQuery(
@@ -194,8 +201,9 @@ public class RolesAndRights {
 				if (!r.equals(Role.ROLE_USER)) {
 					if (r.isReadTrialSite()) {
 						if (r.isScopeTrialSiteView()) {
-							if (l.getPerson().getTrialSite() != null &&  l.getPerson().getTrialSite().getId() == trialSite
-									.getId()) {
+							if (l.getPerson().getTrialSite() != null
+									&& l.getPerson().getTrialSite().getId() == trialSite
+											.getId()) {
 								aclService
 										.createAclwithPermissions(
 												trialSite,
@@ -214,8 +222,9 @@ public class RolesAndRights {
 					}
 					if (r.isWriteTrialSite()) {
 						if (r.isScopeTrialSiteWrite()) {
-							if (l.getPerson().getTrialSite() != null && l.getPerson().getTrialSite().getId() == trialSite
-									.getId()) {
+							if (l.getPerson().getTrialSite() != null
+									&& l.getPerson().getTrialSite().getId() == trialSite
+											.getId()) {
 								aclService
 										.createAclwithPermissions(
 												trialSite,
@@ -257,8 +266,12 @@ public class RolesAndRights {
 				if (!r.equals(Role.ROLE_USER)) {
 					if (r.isReadTrial()) {
 						if (r.isScopeTrialRead()) {
-							if (l.getPerson().getTrialSite() !=null && (l.getPerson().getTrialSite().getId() == scope
-									.getId() || trial.getParticipatingSites().contains(l.getPerson().getTrialSite())) ) {
+							if (l.getPerson().getTrialSite() != null
+									&& (l.getPerson().getTrialSite().getId() == scope
+											.getId() || trial
+											.getParticipatingSites().contains(
+													l.getPerson()
+															.getTrialSite()))) {
 								aclService
 										.createAclwithPermissions(
 												trial,
@@ -277,8 +290,12 @@ public class RolesAndRights {
 					}
 					if (r.isWriteTrial()) {
 						if (r.isScopeTrialWrite()) {
-							if (l.getPerson().getTrialSite() !=null && (l.getPerson().getTrialSite().getId() == scope
-									.getId() || trial.getParticipatingSites().contains(l.getPerson().getTrialSite()))) {
+							if (l.getPerson().getTrialSite() != null
+									&& (l.getPerson().getTrialSite().getId() == scope
+											.getId() || trial
+											.getParticipatingSites().contains(
+													l.getPerson()
+															.getTrialSite()))) {
 								aclService
 										.createAclwithPermissions(
 												trial,
@@ -312,17 +329,35 @@ public class RolesAndRights {
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED)
 	private void grantRightsTrialSubject(TrialSubject trialSubject) {
-		List<Login> logins = sessionFactory.getCurrentSession().getNamedQuery("login.LoginsWithPermission").setParameter(0, Trial.class).setParameter(1, trialSubject.getArm().getTrial().getId()).setParameter(2, PermissionHibernate.READ).list();
-		for(Login l : logins){
-			for(Role r : l.getRoles()){
-				if(r.isReadTrialSubject()){
-					aclService.createAclwithPermissions(trialSubject, l.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ}, r.getName());
+		List<Login> logins = sessionFactory.getCurrentSession().getNamedQuery(
+				"login.LoginsWithPermission").setParameter(0, Trial.class)
+				.setParameter(1, trialSubject.getArm().getTrial().getId())
+				.setParameter(2, PermissionHibernate.READ).list();
+		for (Login l : logins) {
+			for (Role r : l.getRoles()) {
+				if (r.isReadTrialSubject()) {
+					aclService
+							.createAclwithPermissions(
+									trialSubject,
+									l.getUsername(),
+									new PermissionHibernate[] { PermissionHibernate.READ },
+									r.getName());
 				}
-				if(r.isWriteTrialSubject()){
-					aclService.createAclwithPermissions(trialSubject, l.getUsername(), new PermissionHibernate[]{PermissionHibernate.WRITE}, r.getName());
+				if (r.isWriteTrialSubject()) {
+					aclService
+							.createAclwithPermissions(
+									trialSubject,
+									l.getUsername(),
+									new PermissionHibernate[] { PermissionHibernate.WRITE },
+									r.getName());
 				}
-				if(r.isAdminTrialSubject()){
-					aclService.createAclwithPermissions(trialSubject, l.getUsername(), new PermissionHibernate[]{PermissionHibernate.ADMINISTRATION}, r.getName());
+				if (r.isAdminTrialSubject()) {
+					aclService
+							.createAclwithPermissions(
+									trialSubject,
+									l.getUsername(),
+									new PermissionHibernate[] { PermissionHibernate.ADMINISTRATION },
+									r.getName());
 				}
 			}
 		}
@@ -334,109 +369,105 @@ public class RolesAndRights {
 		if (role.equals(Role.ROLE_USER)) {
 			aclService.createAclwithPermissions(login, login.getUsername(),
 					role.getOwnUserPermissions().toArray(
-							new PermissionHibernate[role.getOwnUserPermissions().size()]), role.getName());
+							new PermissionHibernate[role
+									.getOwnUserPermissions().size()]), role
+							.getName());
 			aclService.createAclwithPermissions(login.getPerson(), login
-					.getUsername(), role.getOwnUserPermissions().toArray(
-					new PermissionHibernate[role.getOwnUserPermissions().size()]), role.getName());
+					.getUsername(), role.getOwnUserPermissions()
+					.toArray(
+							new PermissionHibernate[role
+									.getOwnUserPermissions().size()]), role
+					.getName());
 		} else {
 			// User rights
 			if (role.isReadOtherUser()) {
-				List<Person> list = new ArrayList<Person>();
+				List<Login> list = new ArrayList<Login>();
 				if (role.isScopeUserRead()) {
-					if(login.getPerson().getTrialSite()!=null){
-					list = sessionFactory.getCurrentSession().createQuery(
-							"from Person p where p.trialSite.id = ?")
-							.setParameter(
-									0,
-									login.getPerson().getTrialSite()
-											.getId()).list();
+					if (login.getPerson().getTrialSite() != null) {
+						list = sessionFactory.getCurrentSession().createQuery(
+								"from Login l where l.person.trialSite.id = ?")
+								.setParameter(
+										0,
+										login.getPerson().getTrialSite()
+												.getId()).list();
 					}
 				} else {
 					list = sessionFactory.getCurrentSession().createQuery(
-							"from Person").list();
+							"from Login").list();
 				}
-				for (Person p : list) {
-					if(p.getLogin() != null){
-					aclService
-							.createAclwithPermissions(
-									p.getLogin(),
-									login.getUsername(),
-									new PermissionHibernate[] { PermissionHibernate.READ },
-									role.getName());
-					aclService
-							.createAclwithPermissions(
-									p,
-									login.getUsername(),
-									new PermissionHibernate[] { PermissionHibernate.READ },
-									role.getName());
+				for (Login l : list) {
+					if (l != null) {
+						grantRightLogin(l, login.getUsername(), role
+								.getName(), PermissionHibernate.READ);
 					}
 				}
 			}
+			/*
+			 * the role can edit other users
+			 */
 			if (role.isWriteOtherUser()) {
-				List<Person> list = new ArrayList<Person>();
+				List<Login> list = new ArrayList<Login>();
+				/*
+				 * with this role the user can edit other users in the same
+				 * trial site, but only if the role contains all roles of the
+				 * other user
+				 */
 				if (role.isScopeUserWrite()) {
-					if(login.getPerson().getTrialSite() != null){
-					list = sessionFactory.getCurrentSession().createQuery(
-							"from Person p where p.trialSite.id = ?")
-							.setParameter(
-									0,
-									login.getPerson().getTrialSite()
-											.getId()).list();
+					if (login.getPerson().getTrialSite() != null) {
+						List<Login> tempList = sessionFactory
+								.getCurrentSession()
+								.createQuery(
+										"from Login l where l.person.trialSite.id = ?")
+								.setParameter(
+										0,
+										login.getPerson().getTrialSite()
+												.getId()).list();
+						for (Login l : tempList) {
+							if(l.getPerson().getFirstname().equals("Maxi")){
+								System.out.println();
+							}
+							if (role.getRolesToAssign().containsAll(
+									l.getRoles())) {
+								list.add(l);
+							}
+						}
 					}
-				} else {
+				}/*
+				 * with this role the user can edit all users
+				 */
+				else {
 					list = sessionFactory.getCurrentSession().createQuery(
-							"from Person").list();
+							"from Login").list();
 				}
-				for (Person p : list) {
-					if (p.getLogin() != null) {
-					aclService
-							.createAclwithPermissions(
-									p.getLogin(),
-									login.getUsername(),
-									new PermissionHibernate[] { PermissionHibernate.WRITE },
-									role.getName());
-					aclService
-							.createAclwithPermissions(
-									p,
-									login.getUsername(),
-									new PermissionHibernate[] { PermissionHibernate.WRITE },
-									role.getName());
-				}}
+				for (Login l : list) {
+						grantRightLogin(l, login.getUsername(), role
+								.getName(), PermissionHibernate.WRITE);
+				}
 			}
 			if (role.isAdminOtherUser()) {
 				List<Person> list = sessionFactory.getCurrentSession()
 						.createQuery("from Person").list();
 				for (Person p : list) {
-					if(p.getLogin()!=null){
-					aclService
-							.createAclwithPermissions(
-									p.getLogin(),
-									login.getUsername(),
-									new PermissionHibernate[] { PermissionHibernate.ADMINISTRATION },
-									role.getName());
-					aclService
-							.createAclwithPermissions(
-									p,
-									login.getUsername(),
-									new PermissionHibernate[] { PermissionHibernate.ADMINISTRATION },
-									role.getName());
-				}}
+					if (p.getLogin() != null) {
+						grantRightLogin(p.getLogin(), login.getUsername(), role
+								.getName(), PermissionHibernate.ADMINISTRATION);
+					}
+				}
 			}
 			// TrialSite rights
 			if (role.isReadTrialSite()) {
 				if (role.isScopeTrialSiteView()) {
-					if(login.getPerson().getTrialSite()!=null){
-					aclService
-							.createAclwithPermissions(
-									login.getPerson().getTrialSite(),
-									login.getUsername(),
-									new PermissionHibernate[] { PermissionHibernate.READ },
-									role.getName());
+					if (login.getPerson().getTrialSite() != null) {
+						aclService
+								.createAclwithPermissions(
+										login.getPerson().getTrialSite(),
+										login.getUsername(),
+										new PermissionHibernate[] { PermissionHibernate.READ },
+										role.getName());
 					}
 				} else {
-					List<TrialSite> list = sessionFactory
-							.getCurrentSession().createQuery(
-									"from TrialSite").list();
+					List<TrialSite> list = sessionFactory.getCurrentSession()
+							.createQuery("from TrialSite").list();
 					for (TrialSite t : list) {
 						aclService
 								.createAclwithPermissions(
@@ -458,9 +489,8 @@ public class RolesAndRights {
 										role.getName());
 					}
 				} else {
-					List<TrialSite> list = sessionFactory
-							.getCurrentSession().createQuery(
-									"from TrialSite").list();
+					List<TrialSite> list = sessionFactory.getCurrentSession()
+							.createQuery("from TrialSite").list();
 					for (TrialSite t : list) {
 						aclService
 								.createAclwithPermissions(
@@ -486,30 +516,34 @@ public class RolesAndRights {
 			// Trial rights
 			if (role.isReadTrial()) {
 				if (role.isScopeTrialRead()) {
-					if(login.getPerson().getTrialSite()!=null){
-					for (Trial t : login.getPerson().getTrialSite()
-							.getTrials()) {
-						aclService
-								.createAclwithPermissions(
-										t,
-										login.getUsername(),
-										new PermissionHibernate[] { PermissionHibernate.READ },
-										role.getName());
+					if (login.getPerson().getTrialSite() != null) {
+						for (Trial t : login.getPerson().getTrialSite()
+								.getTrials()) {
+							aclService
+									.createAclwithPermissions(
+											t,
+											login.getUsername(),
+											new PermissionHibernate[] { PermissionHibernate.READ },
+											role.getName());
+						}
+						// other Trials
+						Query query = sessionFactory
+								.getCurrentSession()
+								.getNamedQuery(
+										"trial.AllTrialsWithSpecificParticipatingTrialSite");
+						query = query.setParameter(0, login.getPerson()
+								.getTrialSite().getId());
+						List<Trial> trials = query.list();
+						for (Trial t : trials) {
+							aclService
+									.createAclwithPermissions(
+											t,
+											login.getUsername(),
+											new PermissionHibernate[] { PermissionHibernate.READ },
+											role.getName());
+						}
+
 					}
-					//other Trials
-					Query query = sessionFactory.getCurrentSession().getNamedQuery("trial.AllTrialsWithSpecificParticipatingTrialSite");
-					query = query.setParameter(0, login.getPerson().getTrialSite().getId());
-					List<Trial> trials =   query.list();
-					for (Trial t : trials) {
-						aclService
-								.createAclwithPermissions(
-										t,
-										login.getUsername(),
-										new PermissionHibernate[] { PermissionHibernate.READ },
-										role.getName());
-					}
-					
-				}
 				} else {
 					List<Trial> list = sessionFactory.getCurrentSession()
 							.createQuery("from Trial").list();
@@ -525,16 +559,16 @@ public class RolesAndRights {
 			}
 			if (role.isWriteTrial()) {
 				if (role.isScopeTrialWrite()) {
-					if(login.getPerson().getTrialSite()!=null){
-					for (Trial t : login.getPerson().getTrialSite()
-							.getTrials()) {
-						aclService
-								.createAclwithPermissions(
-										t,
-										login.getUsername(),
-										new PermissionHibernate[] { PermissionHibernate.WRITE },
-										role.getName());
-					}
+					if (login.getPerson().getTrialSite() != null) {
+						for (Trial t : login.getPerson().getTrialSite()
+								.getTrials()) {
+							aclService
+									.createAclwithPermissions(
+											t,
+											login.getUsername(),
+											new PermissionHibernate[] { PermissionHibernate.WRITE },
+											role.getName());
+						}
 					}
 				} else {
 					List<Trial> list = sessionFactory.getCurrentSession()
@@ -585,7 +619,7 @@ public class RolesAndRights {
 								new TrialSite(),
 								login.getUsername(),
 								new PermissionHibernate[] { PermissionHibernate.CREATE },
-								role.getName());								
+								role.getName());
 			}
 			if (role.isCreateTrial()) {
 				aclService

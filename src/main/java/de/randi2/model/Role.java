@@ -45,13 +45,11 @@ public class Role extends AbstractDomainObject {
 	private static final long serialVersionUID = 7986310852028135642L;
 
 	/** The Constant ROLE_INVESTIGATOR. */
-	public static final Role ROLE_INVESTIGATOR = new Role(
-			"ROLE_INVESTIGATOR", false, false, true, true, false, false, true,
-			true, false, true, false, true, false, true, true, false, true,
-			false, true, false, true, true, false, true, false, false, false,
-			false, new ArrayList<Role>());
+	public static final Role ROLE_INVESTIGATOR = new Role("ROLE_INVESTIGATOR",
+			false, false, true, true, false, false, true, true, false, true,
+			false, true, false, true, true, false, true, false, true, false,
+			true, true, false, true, false, false, false, false, null);
 
-	
 	/** The Constant ROLE_STATISTICAN. */
 	public static final Role ROLE_STATISTICAN = new Role("ROLE_STATISTICAN",
 			false, false, true, true, false, false, true, true, true, true,
@@ -59,139 +57,140 @@ public class Role extends AbstractDomainObject {
 			true, true, false, false, false, true, false, false, null);
 
 	/** The Constant ROLE_MONITOR. */
-	public static final Role ROLE_MONITOR = new Role("ROLE_MONITOR",
-			false, false, true, true, false, false, true, true, true, true,
-			false, true, false, true, true, false, true, false, true, false,
-			true, true, false, false, false, true, false, false, null);
-
-	/** The Constant ROLE_ADMIN. */
-	public static final Role ROLE_ADMIN = new Role("ROLE_ADMIN", true, false,
-			true, true, true, true, true, true, false, false, true, false,
-			true, false, true, true, false, false, false, false, false, true,
-			false, false, false, false, false, true, null);
+	public static final Role ROLE_MONITOR = new Role("ROLE_MONITOR", false,
+			false, true, true, false, false, true, true, true, true, false,
+			true, false, true, true, false, true, false, true, false, true,
+			true, false, false, false, true, false, false, null);
 
 	/** The Constant ROLE_ANONYMOUS. */
-	public static final Role ROLE_ANONYMOUS = new Role("ROLE_ANONYMOUS",
-			false, false, true, false, false, false, false, false, false,
-			false, true, false, false, false, true, false, false, false, false,
-			false, false, false, false, false, false, false, false, false, null);
+	public static final Role ROLE_ANONYMOUS = new Role("ROLE_ANONYMOUS", false,
+			false, true, false, false, false, false, false, false, false, true,
+			false, false, false, true, false, false, false, false, false,
+			false, false, false, false, false, false, false, false, null);
 
 	/** The Constant ROLE_USER. */
 	public static final Role ROLE_USER = new Role("ROLE_USER", false, true,
 			false, true, false, false, true, true, false, true, false, true,
 			false, true, false, false, true, false, true, false, true, false,
 			false, false, false, false, false, false, null);
-	
+
 	/** The Constant ROLE_P_INVESTIGATOR. */
-	public static final Role ROLE_P_INVESTIGATOR = new Role("ROLE_P_INVESTIGATOR", false, false, true, true, false, false, true,
-			true, false, true, true, true, true, true, true, false, true,
+	public static final Role ROLE_P_INVESTIGATOR = new Role(
+			"ROLE_P_INVESTIGATOR", false, false, true, true, false, false,
+			true, true, false, true, true, true, true, true, true, false, true,
 			true, true, true, true, true, false, false, false, true, false,
-			false, new ArrayList<Role>(Arrays.asList(new Role[]{Role.ROLE_INVESTIGATOR,Role.ROLE_STATISTICAN,Role.ROLE_MONITOR})));
+			false, ROLE_INVESTIGATOR, ROLE_STATISTICAN, ROLE_MONITOR, ROLE_USER);
 
+	/**
+	 * The Constant ROLE_ADMIN. For productive use it is necessary to add this
+	 * role to the roles to assign
+	 */
+	public static final Role ROLE_ADMIN = new Role("ROLE_ADMIN", true, false,
+			true, true, true, true, true, true, false, false, true, false,
+			true, false, true, true, false, false, false, false, false, true,
+			false, false, false, false, false, true, ROLE_INVESTIGATOR,
+			ROLE_MONITOR, ROLE_P_INVESTIGATOR, ROLE_STATISTICAN, ROLE_USER);
 
-	
-	
 	/** The name. */
-	@Column(unique=true)
+	@Column(unique = true)
 	@NotEmpty
-	
 	/**
 	 * Gets the name.
 	 * 
 	 * @return the name
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the name.
 	 * 
 	 * @param name
 	 *            the new name
 	 */
- @Setter
+	@Setter
 	private String name;
 
 	// to create trial site is no scope necessary
 	/** The create trial site. */
-	
+
 	/**
 	 * Checks if is creates the trial site.
 	 * 
 	 * @return true, if is creates the trial site
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the creates the trial site.
 	 * 
 	 * @param createTrialSite
 	 *            the new creates the trial site
 	 */
- @Setter
+	@Setter
 	private boolean createTrialSite = false;
 
 	// scope for read trial site objects
 	/** The scope trial site view. */
-	
+
 	/**
 	 * Checks if is scope trial site view.
 	 * 
 	 * @return true, if is scope trial site view
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the scope trial site view.
 	 * 
 	 * @param scopeTrialSiteView
 	 *            the new scope trial site view
 	 */
- @Setter
+	@Setter
 	private boolean scopeTrialSiteView = true;
-	
+
 	/**
 	 * Checks if is read trial site.
 	 * 
 	 * @return true, if is read trial site
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the read trial site.
 	 * 
 	 * @param readTrialSite
 	 *            the new read trial site
 	 */
- @Setter
+	@Setter
 	private boolean readTrialSite = true;
 
 	// scope for write trial site objects
 	/** The scope trial site write. */
-	
+
 	/**
 	 * Checks if is scope trial site write.
 	 * 
 	 * @return true, if is scope trial site write
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the scope trial site write.
 	 * 
 	 * @param scopeTrialSiteWrite
 	 *            the new scope trial site write
 	 */
- @Setter
+	@Setter
 	private boolean scopeTrialSiteWrite = false;
-	
+
 	/**
 	 * Checks if is write trial site.
 	 * 
 	 * @return true, if is write trial site
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the write trial site.
 	 * 
 	 * @param writeTrialSite
 	 *            the new write trial site
 	 */
- @Setter
+	@Setter
 	private boolean writeTrialSite = false;
 
 	/**
@@ -199,13 +198,14 @@ public class Role extends AbstractDomainObject {
 	 * 
 	 * @return true, if is admin trial site
 	 */
-	@Getter /**
+	@Getter
+	/**
 	 * Sets the admin trial site.
 	 * 
 	 * @param adminTrialSite
 	 *            the new admin trial site
 	 */
- @Setter
+	@Setter
 	private boolean adminTrialSite = false;
 
 	/** The trial site permissions. */
@@ -217,43 +217,44 @@ public class Role extends AbstractDomainObject {
 	 * 
 	 * @return true, if is write own user
 	 */
-	@Getter /**
+	@Getter
+	/**
 	 * Sets the write own user.
 	 * 
 	 * @param writeOwnUser
 	 *            the new write own user
 	 */
- @Setter
+	@Setter
 	private boolean writeOwnUser = true;
-	
+
 	/**
 	 * Checks if is read own user.
 	 * 
 	 * @return true, if is read own user
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the read own user.
 	 * 
 	 * @param readOwnUser
 	 *            the new read own user
 	 */
- @Setter
+	@Setter
 	private boolean readOwnUser = true;
-	
+
 	/**
 	 * Checks if is admin own user.
 	 * 
 	 * @return true, if is admin own user
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the admin own user.
 	 * 
 	 * @param adminOwnUser
 	 *            the new admin own user
 	 */
- @Setter
+	@Setter
 	private boolean adminOwnUser = false;
 
 	/** The own user permissions. */
@@ -262,149 +263,149 @@ public class Role extends AbstractDomainObject {
 
 	// Scope for create user objects
 	/** The scope user create. */
-	
+
 	/**
 	 * Checks if is scope user create.
 	 * 
 	 * @return true, if is scope user create
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the scope user create.
 	 * 
 	 * @param scopeUserCreate
 	 *            the new scope user create
 	 */
- @Setter
+	@Setter
 	private boolean scopeUserCreate = true;
-	
+
 	/**
 	 * Checks if is creates the user.
 	 * 
 	 * @return true, if is creates the user
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the creates the user.
 	 * 
 	 * @param createUser
 	 *            the new creates the user
 	 */
- @Setter
+	@Setter
 	private boolean createUser = false;
 
 	// scope for write user objects
 	/** The scope user write. */
-	
+
 	/**
 	 * Checks if is scope user write.
 	 * 
 	 * @return true, if is scope user write
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the scope user write.
 	 * 
 	 * @param scopeUserWrite
 	 *            the new scope user write
 	 */
- @Setter
+	@Setter
 	private boolean scopeUserWrite = false;
-	
+
 	/**
 	 * Checks if is write other user.
 	 * 
 	 * @return true, if is write other user
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the write other user.
 	 * 
 	 * @param writeOtherUser
 	 *            the new write other user
 	 */
- @Setter
+	@Setter
 	private boolean writeOtherUser = false;
 
 	// scope for read user objects
 	/** The scope user read. */
-	
+
 	/**
 	 * Checks if is scope user read.
 	 * 
 	 * @return true, if is scope user read
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the scope user read.
 	 * 
 	 * @param scopeUserRead
 	 *            the new scope user read
 	 */
- @Setter
+	@Setter
 	private boolean scopeUserRead = true;
-	
+
 	/**
 	 * Checks if is read other user.
 	 * 
 	 * @return true, if is read other user
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the read other user.
 	 * 
 	 * @param readOtherUser
 	 *            the new read other user
 	 */
- @Setter
+	@Setter
 	private boolean readOtherUser = true;
-	
+
 	/**
 	 * Checks if is admin other user.
 	 * 
 	 * @return true, if is admin other user
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the admin other user.
 	 * 
 	 * @param adminOtherUser
 	 *            the new admin other user
 	 */
- @Setter
+	@Setter
 	private boolean adminOtherUser = false;
 
 	// scope for trial objects
 	/** The scope trial creat. */
-	
+
 	/**
 	 * Checks if is scope trial creat.
 	 * 
 	 * @return true, if is scope trial creat
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the scope trial creat.
 	 * 
 	 * @param scopeTrialCreat
 	 *            the new scope trial creat
 	 */
- @Setter
+	@Setter
 	private boolean scopeTrialCreat = true;
-	
+
 	/**
 	 * Checks if is creates the trial.
 	 * 
 	 * @return true, if is creates the trial
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the creates the trial.
 	 * 
 	 * @param createTrial
 	 *            the new creates the trial
 	 */
- @Setter
+	@Setter
 	private boolean createTrial = false;
 
 	/**
@@ -412,28 +413,29 @@ public class Role extends AbstractDomainObject {
 	 * 
 	 * @return true, if is scope trial write
 	 */
-	@Getter /**
+	@Getter
+	/**
 	 * Sets the scope trial write.
 	 * 
 	 * @param scopeTrialWrite
 	 *            the new scope trial write
 	 */
- @Setter
+	@Setter
 	private boolean scopeTrialWrite = true;
-	
+
 	/**
 	 * Checks if is write trial.
 	 * 
 	 * @return true, if is write trial
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the write trial.
 	 * 
 	 * @param writeTrial
 	 *            the new write trial
 	 */
- @Setter
+	@Setter
 	private boolean writeTrial = false;
 
 	/**
@@ -441,43 +443,44 @@ public class Role extends AbstractDomainObject {
 	 * 
 	 * @return true, if is scope trial read
 	 */
-	@Getter /**
+	@Getter
+	/**
 	 * Sets the scope trial read.
 	 * 
 	 * @param scopeTrialRead
 	 *            the new scope trial read
 	 */
- @Setter
+	@Setter
 	private boolean scopeTrialRead = true;
-	
+
 	/**
 	 * Checks if is read trial.
 	 * 
 	 * @return true, if is read trial
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the read trial.
 	 * 
 	 * @param readTrial
 	 *            the new read trial
 	 */
- @Setter
+	@Setter
 	private boolean readTrial = false;
-	
+
 	/**
 	 * Checks if is admin trial.
 	 * 
 	 * @return true, if is admin trial
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the admin trial.
 	 * 
 	 * @param adminTrial
 	 *            the new admin trial
 	 */
- @Setter
+	@Setter
 	private boolean adminTrial = false;
 
 	/**
@@ -485,58 +488,59 @@ public class Role extends AbstractDomainObject {
 	 * 
 	 * @return true, if is creates the trial subject
 	 */
-	@Getter /**
+	@Getter
+	/**
 	 * Sets the creates the trial subject.
 	 * 
 	 * @param createTrialSubject
 	 *            the new creates the trial subject
 	 */
- @Setter
+	@Setter
 	private boolean createTrialSubject = false;
-	
+
 	/**
 	 * Checks if is write trial subject.
 	 * 
 	 * @return true, if is write trial subject
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the write trial subject.
 	 * 
 	 * @param writeTrialSubject
 	 *            the new write trial subject
 	 */
- @Setter
+	@Setter
 	private boolean writeTrialSubject = false;
-	
+
 	/**
 	 * Checks if is read trial subject.
 	 * 
 	 * @return true, if is read trial subject
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the read trial subject.
 	 * 
 	 * @param readTrialSubject
 	 *            the new read trial subject
 	 */
- @Setter
+	@Setter
 	private boolean readTrialSubject = false;
-	
+
 	/**
 	 * Checks if is admin trial subject.
 	 * 
 	 * @return true, if is admin trial subject
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the admin trial subject.
 	 * 
 	 * @param adminTrialSubject
 	 *            the new admin trial subject
 	 */
- @Setter
+	@Setter
 	private boolean adminTrialSubject = false;
 
 	/**
@@ -544,37 +548,37 @@ public class Role extends AbstractDomainObject {
 	 * 
 	 * @return true, if is creates the role
 	 */
-	@Getter /**
+	@Getter
+	/**
 	 * Sets the creates the role.
 	 * 
 	 * @param createRole
 	 *            the new creates the role
 	 */
- @Setter
+	@Setter
 	private boolean createRole = false;
-	
+
 	/** The roles to assign. */
 	@ManyToMany
-	
 	/**
 	 * Gets the roles to assign.
 	 * 
 	 * @return the roles to assign
 	 */
-	@Getter 
- /**
+	@Getter
+	/**
 	 * Sets the roles to assign.
 	 * 
 	 * @param rolesToAssign
 	 *            the new roles to assign
 	 */
- @Setter
+	@Setter
 	private List<Role> rolesToAssign = new ArrayList<Role>();
 
 	/**
 	 * Instantiates a new role.
 	 */
-	public Role(){
+	public Role() {
 	}
 
 	/**
@@ -653,7 +657,7 @@ public class Role extends AbstractDomainObject {
 			boolean scopeTrialRead, boolean readTrial, boolean adminTrial,
 			boolean createTrialSubject, boolean writeTrialSubject,
 			boolean readTrialSubject, boolean adminTrialSubject,
-			boolean createRole, List<Role> rolesToAssign) {
+			boolean createRole, Role... rolesToAssign) {
 		super();
 		this.name = name;
 		this.createTrialSite = createTrialSite;
@@ -684,14 +688,13 @@ public class Role extends AbstractDomainObject {
 		this.readTrialSubject = readTrialSubject;
 		this.adminTrialSubject = adminTrialSubject;
 		this.createRole = createRole;
-		if(rolesToAssign == null){
+		if (rolesToAssign == null) {
 			this.rolesToAssign = new ArrayList<Role>();
-		}else{
-			this.rolesToAssign = rolesToAssign;
+		} else {
+			this.rolesToAssign = new ArrayList<Role>(Arrays
+					.asList(rolesToAssign));
 		}
 	}
-
-	
 
 	/**
 	 * Get trial site permissions.
@@ -735,20 +738,25 @@ public class Role extends AbstractDomainObject {
 
 		return ownUserPermissions;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.randi2.model.AbstractDomainObject#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object o){
-		if(o == null) return false;
-		if(o.getClass().isInstance(this)){
-			return ((Role)o).getName().equals(this.getName());
+	public boolean equals(Object o) {
+		if (o == null)
+			return false;
+		if (o.getClass().isInstance(this)) {
+			return ((Role) o).getName().equals(this.getName());
 		}
 		return false;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.randi2.model.AbstractDomainObject#hashCode()
 	 */
 	@Override
@@ -756,8 +764,9 @@ public class Role extends AbstractDomainObject {
 		return name.hashCode();
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.randi2.model.AbstractDomainObject#getUIName()
 	 */
 	@Override

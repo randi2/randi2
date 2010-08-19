@@ -139,6 +139,9 @@ public class Bootstrap {
 		long time1 = System.nanoTime();
 		ManagedSessionContext.bind(sessionFactory.openSession());
 		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_ADMIN);
+		Role roleAdmin = (Role) sessionFactory.getCurrentSession().get(Role.class, 1L);
+		roleAdmin.getRolesToAssign().add(roleAdmin);
+		sessionFactory.getCurrentSession().saveOrUpdate(roleAdmin);
 		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_INVESTIGATOR);
 		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_USER);
 		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_STATISTICAN);
@@ -210,7 +213,6 @@ public class Bootstrap {
 		userPInv.setEmail("randi2@action.ms");
 		userPInv.setPhone("1234567");
 		userPInv.setTrialSite(trialSite);
-
 		Login userLInv = new Login();
 		userLInv.setUsername("investigator@trialsite1.de");
 		userLInv.setPassword(passwordEncoder.encodePassword("1$heidelberg",
@@ -220,6 +222,8 @@ public class Bootstrap {
 		userLInv.addRole(Role.ROLE_INVESTIGATOR);
 		userLInv.setPrefLocale(Locale.GERMAN);
 		loginDao.create(userLInv);
+		
+		
 
 		Person userPPInv = new Person();
 		userPPInv.setFirstname("Max");
@@ -238,6 +242,8 @@ public class Bootstrap {
 		userLPInv.setPrefLocale(Locale.GERMAN);
 		loginDao.create(userLPInv);
 
+
+
 		Person userP = new Person();
 		userP.setFirstname("Maxi");
 		userP.setSurname("Monitor");
@@ -245,7 +251,6 @@ public class Bootstrap {
 		userP.setPhone("1234567");
 		userP.setSex(Gender.FEMALE);
 		userP.setTrialSite(trialSite);
-
 		Login userL = new Login();
 		userL.setUsername("monitor@trialsite1.de");
 		userL.setPassword(passwordEncoder.encodePassword("1$heidelberg",
