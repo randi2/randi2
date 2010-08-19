@@ -26,7 +26,7 @@ public class RoleTest extends AbstractDomainTest<Role> {
 				"ROLE_XYZ", false, true, true, true, false, false, true,
 				true, false, true, false, true, false, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		
 		assertEquals("ROLE_XYZ",role.getName());
 		assertEquals(false, role.isCreateTrialSite() );
@@ -66,17 +66,17 @@ public class RoleTest extends AbstractDomainTest<Role> {
 				"ROLE_XYZ", false, true, true, true, false, false, true,
 				true, false, true, false, true, true, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		Role role2 = new Role(
 				"ROLE_XYZ", false, true, true, true, false, false, true,
 				true, false, true, false, true, false, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		Role role3 = new Role(
 				"ROLE_123", false, true, true, true, false, false, true,
 				true, false, true, false, true, false, true, true, false, true,
 				false, true, false, true, false, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		
 		assertEquals(role1, role2);
 		assertEquals(role1.hashCode(), role2.hashCode());
@@ -92,7 +92,7 @@ public class RoleTest extends AbstractDomainTest<Role> {
 				"ROLE_XYZ", false, true, true, true, false, false, true,
 				true, true, true, false, true, false, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		assertEquals(3, role1.getOwnUserPermissions().size());
 		assertTrue(role1.getOwnUserPermissions().contains(PermissionHibernate.READ));
 		assertTrue(role1.getOwnUserPermissions().contains(PermissionHibernate.WRITE));
@@ -102,7 +102,7 @@ public class RoleTest extends AbstractDomainTest<Role> {
 				"ROLE_XYZ", false, true, true, true, false, false, true,
 				true, false, true, false, true, false, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		assertEquals(2, role1.getOwnUserPermissions().size());
 		assertTrue(role1.getOwnUserPermissions().contains(PermissionHibernate.READ));
 		assertTrue(role1.getOwnUserPermissions().contains(PermissionHibernate.WRITE));
@@ -111,7 +111,7 @@ public class RoleTest extends AbstractDomainTest<Role> {
 				"ROLE_XYZ", false, true, true, true, false, false, false,
 				true, false, true, false, true, false, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		assertEquals(1, role1.getOwnUserPermissions().size());
 		assertTrue(role1.getOwnUserPermissions().contains(PermissionHibernate.READ));
 		
@@ -119,7 +119,7 @@ public class RoleTest extends AbstractDomainTest<Role> {
 				"ROLE_XYZ", false, true, true, true, false, false, true,
 				false, false, true, false, true, false, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		assertEquals(1, role1.getOwnUserPermissions().size());
 		assertTrue(role1.getOwnUserPermissions().contains(PermissionHibernate.WRITE));
 	
@@ -127,7 +127,7 @@ public class RoleTest extends AbstractDomainTest<Role> {
 				"ROLE_XYZ", false, true, true, true, false, false, false,
 				false, true, true, false, true, false, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		assertEquals(1, role1.getOwnUserPermissions().size());
 		assertTrue(role1.getOwnUserPermissions().contains(PermissionHibernate.ADMINISTRATION));
 		
@@ -139,7 +139,7 @@ public class RoleTest extends AbstractDomainTest<Role> {
 				"ROLE_XYZ", false, true, true, true, true, true, true,
 				true, true, true, false, true, false, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		assertEquals(3, role1.getTrialSitePermissions().size());
 		assertTrue(role1.getTrialSitePermissions().contains(PermissionHibernate.READ));
 		assertTrue(role1.getTrialSitePermissions().contains(PermissionHibernate.WRITE));
@@ -149,7 +149,7 @@ public class RoleTest extends AbstractDomainTest<Role> {
 				"ROLE_XYZ", false, true, true, true, true, false, true,
 				true, false, true, false, true, false, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		assertEquals(2, role1.getTrialSitePermissions().size());
 		assertTrue(role1.getTrialSitePermissions().contains(PermissionHibernate.READ));
 		assertTrue(role1.getTrialSitePermissions().contains(PermissionHibernate.WRITE));
@@ -158,7 +158,7 @@ public class RoleTest extends AbstractDomainTest<Role> {
 				"ROLE_XYZ", false, true, true, true, false, false, false,
 				true, false, true, false, true, false, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		assertEquals(1, role1.getTrialSitePermissions().size());
 		assertTrue(role1.getTrialSitePermissions().contains(PermissionHibernate.READ));
 		
@@ -166,7 +166,7 @@ public class RoleTest extends AbstractDomainTest<Role> {
 				"ROLE_XYZ", false, true, false, true, true, false, true,
 				false, false, true, false, true, false, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		assertEquals(1, role1.getTrialSitePermissions().size());
 		assertTrue(role1.getTrialSitePermissions().contains(PermissionHibernate.WRITE));
 	
@@ -174,7 +174,7 @@ public class RoleTest extends AbstractDomainTest<Role> {
 				"ROLE_XYZ", false, true, false, true, false, true, false,
 				false, true, true, false, true, false, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		assertEquals(1, role1.getTrialSitePermissions().size());
 		assertTrue(role1.getTrialSitePermissions().contains(PermissionHibernate.ADMINISTRATION));
 	}
@@ -185,7 +185,7 @@ public class RoleTest extends AbstractDomainTest<Role> {
 				"ROLE_XYZ", false, true, true, true, false, false, true,
 				true, false, true, false, true, false, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		Map<String, Boolean> map = role.getRequiredFields();
 		for(String key : map.keySet()){
 			if(key.equals("name")) assertTrue(key,map.get(key)); else
@@ -199,7 +199,7 @@ public class RoleTest extends AbstractDomainTest<Role> {
 				"ROLE_XYZ", false, true, true, true, false, false, true,
 				true, false, true, false, true, false, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		assertEquals("ROLE_XYZ", role.getUIName());
 	}
 }

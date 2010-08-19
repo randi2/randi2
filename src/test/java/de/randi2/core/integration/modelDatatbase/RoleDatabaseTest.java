@@ -24,7 +24,7 @@ public class RoleDatabaseTest extends AbstractDomainDatabaseTest<Role> {
 				"ROLE_XYZ", false, true, true, true, false, false, true,
 				true, false, true, false, true, false, true, true, false, true,
 				false, true, false, true, true, false, true, false, false, false,
-				false, new ArrayList<Role>());
+				false, null);
 		 role = new Role();
 		role.setName("ROLE_XYZ");
 		role.setCreateTrialSite(false);
