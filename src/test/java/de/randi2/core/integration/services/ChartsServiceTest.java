@@ -35,6 +35,7 @@ import de.randi2.services.TrialSiteService;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.BoxedException;
 import edu.emory.mathcs.backport.java.util.Arrays;
+import de.randi2.core.integration.services.AbstractServiceTest;
 
 public class ChartsServiceTest extends AbstractServiceTest {
 
@@ -200,6 +201,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		assertEquals(randomizations / 2, dbTrial.getTreatmentArms().get(1)
 				.getSubjects().size());
 	}
+
 	@Ignore
 	@Test
 	public void testGenerateRecruitmentChart1() throws IllegalArgumentException, TrialStateException {
@@ -214,6 +216,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		}
 
 	}
+
 	@Ignore
 	@Test
 	public void testGenerateRecruitmentChart2() throws IllegalArgumentException, TrialStateException {
@@ -456,6 +459,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		assertEquals(30.0, chartData.getData().get(1)[0]);
 
 	}
+	
 	@Ignore
 	@Test
 	public void testChartSubGroups() {
