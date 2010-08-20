@@ -91,7 +91,6 @@ public class TrialServiceTest extends AbstractServiceTest{
 		
 	}
 	
-	@Ignore
 	@Test
 	public void testRandomizeComplete() throws IllegalArgumentException, TrialStateException{
 		TreatmentArm arm1 = new TreatmentArm();
@@ -127,7 +126,6 @@ public class TrialServiceTest extends AbstractServiceTest{
 		assertEquals(100, dbTrial.getTreatmentArms().get(0).getSubjects().size() + dbTrial.getTreatmentArms().get(1).getSubjects().size());
 	}
 	
-	@Ignore
 	@Test
 	public void testRandomizeBlock() throws IllegalArgumentException, TrialStateException{
 		int blocksize = 4;
@@ -177,7 +175,6 @@ public class TrialServiceTest extends AbstractServiceTest{
 	}
 	
 	
-	@Ignore
 	@Test
 	public void testRandomizeTruncated() throws IllegalArgumentException, TrialStateException{
 		TreatmentArm arm1 = new TreatmentArm();
@@ -215,7 +212,6 @@ public class TrialServiceTest extends AbstractServiceTest{
 		assertEquals(50, dbTrial.getTreatmentArms().get(1).getSubjects().size());
 	}
 	
-	@Ignore
 	@Test
 	public void testUrnRandomization() throws IllegalArgumentException, TrialStateException{
 		TreatmentArm arm1 = new TreatmentArm();
@@ -256,7 +252,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		assertTrue(dbTrial.getRandomizationConfiguration() instanceof UrnDesignConfig);
 		assertTrue(((UrnDesignConfig)dbTrial.getRandomizationConfiguration()).getTempData() != null);
 	}
-	@Ignore
+
 	@Test
 	public void testCreateAndRandomUrnDesign() throws IllegalArgumentException, TrialStateException{
 		TreatmentArm arm1 = new TreatmentArm();
@@ -299,7 +295,6 @@ public class TrialServiceTest extends AbstractServiceTest{
 		assertTrue(((UrnDesignConfig)dbTrial.getRandomizationConfiguration()).getTempData() != null);
 	}
 	
-	@Ignore
 	@Test
 	public void testGetSubjects() throws IllegalArgumentException, TrialStateException{
 		/*
