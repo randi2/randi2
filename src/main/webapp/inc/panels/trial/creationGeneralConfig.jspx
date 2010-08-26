@@ -137,16 +137,6 @@
 				</ice:selectInputDate>
 				<ice:message for="startDate" />
 			</ice:panelGroup>
-			<!--
-			<ice:outputLabel for="status" value="#{labels['trial.status']}"
-				style="padding-left:10px;"></ice:outputLabel>
-			<ice:selectOneMenu id="status"
-				value="#{trialHandler.currentObject.status}">
-				<f:converter
-					converterId="de.randi2.jsf.converters.TRIALSTATE_CONVERTER" />
-				<f:selectItems value="#{trialHandler.stateItems}" />
-			</ice:selectOneMenu>
-			 -->
 			<ice:outputLabel for="endDate" value="#{labels['trial.endDate']}" />
 			<ice:panelGroup>
 				<ice:selectInputDate id="endDate"
