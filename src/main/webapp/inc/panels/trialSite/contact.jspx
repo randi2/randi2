@@ -38,7 +38,7 @@
 			<f:attribute name="dObject"
 				value="#{trialSiteHandler.currentObject.contactPerson}" />
 		</ice:inputText>
-		<ice:message for="title" />
+		<ice:message for="title" styleClass="errorMsg"/>
 	</ice:panelGroup>
 	<ice:outputLabel for="firstname" value="#{labels['person.firstname']}"></ice:outputLabel>
 	<ice:outputText id="firstnameO"
@@ -54,7 +54,7 @@
 			<f:attribute name="dObject"
 				value="#{trialSiteHandler.currentObject.contactPerson}" />
 		</ice:inputText>
-		<ice:message for="fistname" />
+		<ice:message for="fistname" styleClass="errorMsg"/>
 	</ice:panelGroup>
 	<ice:outputLabel for="surname" value="#{labels['person.surname']}"></ice:outputLabel>
 	<ice:outputText id="surnameO"
@@ -70,7 +70,7 @@
 			<f:attribute name="dObject"
 				value="#{trialSiteHandler.currentObject.contactPerson}" />
 		</ice:inputText>
-		<ice:message for="surname" />
+		<ice:message for="surname" styleClass="errorMsg"/>
 	</ice:panelGroup>
 	<ice:outputLabel for="email" value="#{labels['person.eMail']}"></ice:outputLabel>
 	<ice:outputText id="eMailO"
@@ -86,7 +86,7 @@
 			<f:attribute name="dObject"
 				value="#{trialSiteHandler.currentObject.contactPerson}" />
 		</ice:inputText>
-		<ice:message for="email" />
+		<ice:message for="email" styleClass="errorMsg"/>
 	</ice:panelGroup>
 	<ice:outputLabel for="phone" value="#{labels['person.phone']}"></ice:outputLabel>
 	<ice:outputText id="phoneO"
@@ -102,7 +102,7 @@
 			<f:attribute name="dObject"
 				value="#{trialSiteHandler.currentObject.contactPerson}" />
 		</ice:inputText>
-		<ice:message for="phone" />
+		<ice:message for="phone" styleClass="errorMsg"/>
 	</ice:panelGroup>
 	<ice:outputLabel for="mobile" value="#{labels['person.mobile']}"></ice:outputLabel>
 	<ice:outputText id="mobileO"
@@ -118,7 +118,7 @@
 			<f:attribute name="dObject"
 				value="#{trialSiteHandler.currentObject.contactPerson}" />
 		</ice:inputText>
-		<ice:message for="mobile" />
+		<ice:message for="mobile" styleClass="errorMsg"/>
 	</ice:panelGroup>
 	<ice:outputLabel for="fax" value="#{labels['person.fax']}"></ice:outputLabel>
 	<ice:outputText id="faxO"
@@ -134,6 +134,6 @@
 			<f:attribute name="dObject"
 				value="#{trialSiteHandler.currentObject.contactPerson}" />
 		</ice:inputText>
-		<ice:message for="fax" />
+		<ice:message for="fax" styleClass="errorMsg"/>
 	</ice:panelGroup>
 </ice:panelGrid>

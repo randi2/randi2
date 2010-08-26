@@ -30,7 +30,7 @@
 		<ice:selectOneMenu id="algorithmType" partialSubmit="true" value="#{algorithmConfig.selectedAlgorithmPanelId}" valueChangeListener="#{algorithmConfig.algorithmChanged}">
 			<f:selectItems value="#{algorithmConfig.algorithms}" />
 		</ice:selectOneMenu>
-		<ice:message for="algorithmType"/>
+		<ice:message for="algorithmType" styleClass="errorMsg" />
 	</ice:panelCollapsible>
 </ice:panelGroup>
 <ice:panelGrid columns="1">

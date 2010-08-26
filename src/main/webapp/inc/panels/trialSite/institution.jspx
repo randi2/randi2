@@ -32,7 +32,7 @@
 			<f:attribute name="dObject"
 				value="#{trialSiteHandler.currentObject}" />
 		</ice:inputText>
-		<ice:message for="name" />
+		<ice:message for="name" styleClass="errorMsg"/>
 	</ice:panelGroup>
 	<ice:outputLabel for="country" value="#{labels['trialSite.country']}"></ice:outputLabel>
 	<ice:outputText id="countryO"
@@ -49,7 +49,7 @@
 			<f:attribute name="dObject"
 				value="#{trialSiteHandler.currentObject}" />
 		</ice:inputText>
-		<ice:message for="country" />
+		<ice:message for="country" styleClass="errorMsg"/>
 	</ice:panelGroup>
 	<ice:outputLabel for="city" value="#{labels['trialSite.city']}"></ice:outputLabel>
 	<ice:outputText id="cityO"
@@ -65,7 +65,7 @@
 			<f:attribute name="dObject"
 				value="#{trialSiteHandler.currentObject}" />
 		</ice:inputText>
-		<ice:message for="city" />
+		<ice:message for="city" styleClass="errorMsg"/>
 	</ice:panelGroup>
 	<ice:outputLabel for="postcode" value="#{labels['trialSite.postcode']}"></ice:outputLabel>
 	<ice:outputText id="postcodeO"
@@ -82,7 +82,7 @@
 			<f:attribute name="dObject"
 				value="#{trialSiteHandler.currentObject}" />
 		</ice:inputText>
-		<ice:message for="postcode" />
+		<ice:message for="postcode" styleClass="errorMsg"/>
 	</ice:panelGroup>
 	<ice:outputLabel for="street" value="#{labels['trialSite.street']}"></ice:outputLabel>
 	<ice:outputText id="streetO"
@@ -98,6 +98,6 @@
 			<f:attribute name="dObject"
 				value="#{trialSiteHandler.currentObject}" />
 		</ice:inputText>
-		<ice:message for="street" />
+		<ice:message for="street" styleClass="errorMsg"/>
 	</ice:panelGroup>
 </ice:panelGrid>

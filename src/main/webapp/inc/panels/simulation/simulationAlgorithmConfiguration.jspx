@@ -54,7 +54,7 @@ This panel configured the algorithms for the simulation.
 
 </ice:panelGrid>
 <ice:panelGroup styleClass="clearer">
-	<ice:messages tooltip="true" showDetail="false" showSummary="true" />
+	<ice:messages tooltip="true" showDetail="false" showSummary="true" errorClass="errorMsg" layout="table"/>
 </ice:panelGroup>
 <ice:panelGroup styleClass="exampleBox">
 	<ice:panelSeries value="#{simulationHandler.randomisationConfigs}"

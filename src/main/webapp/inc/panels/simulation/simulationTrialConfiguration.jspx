@@ -14,16 +14,18 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
- <ice:panelGrid columns="2">
+ <ice:panelGrid columns="2" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
 <ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="#{labels['trial.name']}"></ice:outputLabel>
+				<ice:outputLabel value="#{labels['trial.name']}"/>
 			</f:facet>
 			<ice:inputText size="35"  partialSubmit="true" value="#{simulationHandler.simTrial.name}"/>
 </ice:panelCollapsible>
 <ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
-				<ice:outputLabel value="#{labels['pages.simulation.countTrialSite']}"></ice:outputLabel>
+				<ice:outputLabel value="#{labels['pages.simulation.countTrialSite']}"/>
 			</f:facet>
 			<ice:inputText size="35"  partialSubmit="true" value="#{simulationHandler.countTrialSites}" />
 </ice:panelCollapsible>
@@ -39,7 +41,7 @@
 		actionListener="#{simulationHandler.removeArm}" immediate="true" />
 </ice:panelGrid>
 <ice:panelGroup styleClass="clearer">
-	<ice:messages tooltip="true" showDetail="false" showSummary="true" />
+	<ice:messages tooltip="true" showDetail="false" showSummary="true" errorClass="errorMsg" layout="table"/>
 </ice:panelGroup>
 <ice:panelGroup styleClass="exampleBox">
 	<ice:panelSeries value="#{simulationHandler.simTrial.treatmentArms}"

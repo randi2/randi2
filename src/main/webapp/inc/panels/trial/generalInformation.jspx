@@ -34,7 +34,7 @@
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 					<f:attribute name="dObject" value="#{trialHandler.currentObject}" />
 				</ice:inputText>
-				<ice:message for="nameE" />
+				<ice:message for="nameE" styleClass="errorMsg"/>
 			</ice:panelGroup>
 		</ice:panelCollapsible>
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
@@ -53,7 +53,7 @@
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 					<f:attribute name="dObject" value="#{trialHandler.currentObject}" />
 				</ice:inputText>
-				<ice:message for="abbreviationE" />
+				<ice:message for="abbreviationE" styleClass="errorMsg"/>
 			</ice:panelGroup>
 		</ice:panelCollapsible>
 	</ice:panelGrid>
@@ -74,7 +74,7 @@
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 					<f:attribute name="dObject" value="#{trialHandler.currentObject}" />
 				</ice:inputTextarea>
-				<ice:message for="descriptionE" />
+				<ice:message for="descriptionE" styleClass="errorMsg"/>
 			</ice:panelGroup>
 		</ice:panelCollapsible>
 		<ice:panelCollapsible style="width: 265px;" expanded="true" toggleOnClick="false">
@@ -112,7 +112,7 @@
 					<f:convertDateTime locale="#{loginHandler.chosenLocale}"
 						dateStyle="medium" timeZone="#{randi2Page.zone}" />
 				</ice:selectInputDate>
-				<ice:message for="sDateE" />
+				<ice:message for="sDateE" styleClass="errorMsg"/>
 			</ice:panelGroup>
 		</ice:panelCollapsible>
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
@@ -132,7 +132,7 @@
 					<f:convertDateTime locale="#{loginHandler.chosenLocale}"
 						dateStyle="medium" timeZone="#{randi2Page.zone}" />
 				</ice:selectInputDate>
-				<ice:message for="eDateE" />
+				<ice:message for="eDateE" styleClass="errorMsg"/>
 			</ice:panelGroup>
 		</ice:panelCollapsible>
 	</ice:panelGrid>

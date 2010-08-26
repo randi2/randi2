@@ -20,7 +20,6 @@
 <ice:form xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:messages globalOnly="true" />
 	<ice:panelTabSet style="font-size: 9;display: block;">
 		<ice:panelTab
 			label="#{labels['pages.trialSiteEditPanel.institutionTab']}">
@@ -66,6 +65,6 @@
 			action="#{trialSiteHandler.saveObject}"></ice:commandButton>
 		<ice:commandButton type="submit" immediate="true" value="#{labels['buttons.reset']}"
 			action="#{trialSiteHandler.refreshShowedObject}" />
-		<ice:messages style="background: red;" />
+		<ice:messages globalOnly="true" errorClass="errorMsg"/>
 	</ice:panelGrid>
 </ice:form>

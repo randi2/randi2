@@ -64,6 +64,6 @@
 		<ice:commandButton type="submit" immediate="true"
 			value="#{labels['buttons.reset']}"
 			action="#{loginHandler.refreshShowedObject}"/>
-		<ice:messages globalOnly="true" style="background: red;"></ice:messages>
+		<ice:messages globalOnly="true" errorClass="errorMsg" layout="table"/>
 	</ice:panelGrid>
 </ice:form>

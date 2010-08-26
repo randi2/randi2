@@ -34,7 +34,7 @@
 				<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 				<f:attribute name="dObject" value="#{trialHandler.currentObject}" />
 			</ice:inputText>
-			<ice:message for="name" />
+			<ice:message for="name" styleClass="errorMsg"/>
 		</ice:panelCollapsible>
 		<ice:panelCollapsible id="abbreviationPanel" expanded="true" toggleOnClick="false">
 			<f:facet name="header">
@@ -47,7 +47,7 @@
 				<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 				<f:attribute name="dObject" value="#{trialHandler.currentObject}" />
 			</ice:inputText>
-			<ice:message for="abbreviation" />
+			<ice:message for="abbreviation" styleClass="errorMsg"/>
 		</ice:panelCollapsible>
 	</ice:panelGrid>
 	<ice:panelCollapsible id="descriptionPanel" expanded="true"
@@ -62,7 +62,7 @@
 			<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 			<f:attribute name="dObject" value="#{trialHandler.currentObject}" />
 		</ice:inputTextarea>
-		<ice:message for="description" />
+		<ice:message for="description" styleClass="errorMsg"/>
 	</ice:panelCollapsible>
 	<!--
 	<ice:panelCollapsible id="protocolPanel" expanded="true"
@@ -135,7 +135,7 @@
 					<f:convertDateTime locale="#{loginHandler.chosenLocale}"
 						dateStyle="medium" timeZone="#{randi2Page.zone}" />
 				</ice:selectInputDate>
-				<ice:message for="startDate" />
+				<ice:message for="startDate" styleClass="errorMsg"/>
 			</ice:panelGroup>
 			<ice:outputLabel for="endDate" value="#{labels['trial.endDate']}" />
 			<ice:panelGroup>
@@ -145,7 +145,7 @@
 					<f:convertDateTime locale="#{loginHandler.chosenLocale}"
 						dateStyle="medium" timeZone="#{randi2Page.zone}" />
 				</ice:selectInputDate>
-				<ice:message for="endDate" />
+				<ice:message for="endDate" styleClass="errorMsg"/>
 			</ice:panelGroup>
 		</ice:panelGrid>
 	</ice:panelCollapsible>
