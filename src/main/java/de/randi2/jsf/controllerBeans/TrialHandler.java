@@ -266,11 +266,11 @@ public class TrialHandler extends AbstractTrialHandler {
 			editing = false;
 		} catch (IllegalArgumentException e) {
 			Randi2.showMessage(e);
-			cancleEditing();
+			cancelEditing();
 			return Randi2.ERROR;
 		} catch (TrialStateException e) {
 			Randi2.showMessage(e);
-			cancleEditing();
+			cancelEditing();
 			return Randi2.ERROR;
 		}
 		return Randi2.SUCCESS;
@@ -290,7 +290,7 @@ public class TrialHandler extends AbstractTrialHandler {
 		return Randi2.SUCCESS;
 	}
 
-	public String cancleEditing() {
+	public String cancelEditing() {
 		if (editing) {
 			currentObject = trialService.getObject(currentObject.getId());
 			editing = false;

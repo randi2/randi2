@@ -101,6 +101,6 @@
 		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
 			action="#{trialHandler.saveTrial}" />
 		<ice:commandButton type="submit" value="#{labels['buttons.cancel']}"
-			action="#{trialHandler.cancleEditing}" />
+			action="#{trialHandler.cancelEditing}" />
 	</ice:panelGrid>
 </ice:form>
