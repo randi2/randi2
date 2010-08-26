@@ -26,7 +26,7 @@
 			<ice:outputText id="name" value="#{trialHandler.currentObject.name}"
 				rendered="#{!trialHandler.editing}" />
 			<ice:panelGroup rendered="#{trialHandler.editing}">
-				<ice:inputText id="nameE" size="35"
+				<ice:inputText id="nameE" style="width: 230px;"
 					value="#{trialHandler.currentObject.name}"
 					required="#{trialHandler.currentObject.requiredFields['name']}"
 					partialSubmit="true">
@@ -57,25 +57,43 @@
 			</ice:panelGroup>
 		</ice:panelCollapsible>
 	</ice:panelGrid>
-	<ice:panelCollapsible expanded="true" toggleOnClick="false"
-		style="margin-left: 3px;">
-		<f:facet name="header">
-			<ice:outputLabel value="#{labels['trial.description']}" />
-		</f:facet>
-		<ice:outputText id="description"
-			value="#{trialHandler.currentObject.description}"
-			rendered="#{!trialHandler.editing}" />
-		<ice:panelGroup rendered="#{trialHandler.editing}">
-			<ice:inputTextarea id="descriptionE" cols="20" rows="4"
+	<ice:panelGrid columns="2" style="width: 550px;">
+		<ice:panelCollapsible style="width: 265px;" expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="#{labels['trial.description']}" />
+			</f:facet>
+			<ice:outputText id="description"
 				value="#{trialHandler.currentObject.description}"
-				required="#{trialHandler.currentObject.requiredFields['description']}"
-				partialSubmit="true" style="width:505px;height:85px;overflow: auto;">
-				<f:validator validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-				<f:attribute name="dObject" value="#{trialHandler.currentObject}" />
-			</ice:inputTextarea>
-			<ice:message for="descriptionE" />
-		</ice:panelGroup>
-	</ice:panelCollapsible>
+				rendered="#{!trialHandler.editing}"/>
+			<ice:panelGroup rendered="#{trialHandler.editing}">
+				<ice:inputTextarea id="descriptionE"
+					value="#{trialHandler.currentObject.description}"
+					required="#{trialHandler.currentObject.requiredFields['description']}"
+					partialSubmit="true" style="width: 240px;height:85px;overflow: auto;">
+					<f:validator
+						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+					<f:attribute name="dObject" value="#{trialHandler.currentObject}" />
+				</ice:inputTextarea>
+				<ice:message for="descriptionE" />
+			</ice:panelGroup>
+		</ice:panelCollapsible>
+		<ice:panelCollapsible style="width: 265px;" expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="#{labels['trial.status']}" />
+			</f:facet>
+			<ice:outputLabel value="#{trialHandler.currentObject.status}"
+				rendered="#{!trialHandler.editing}">
+				<f:converter
+					converterId="de.randi2.jsf.converters.TRIALSTATE_CONVERTER" />
+			</ice:outputLabel>
+			<ice:selectOneMenu
+				value="#{trialHandler.currentObject.status}" rendered="#{trialHandler.editing}">
+				<f:converter
+					converterId="de.randi2.jsf.converters.TRIALSTATE_CONVERTER" />
+				<f:selectItems value="#{trialHandler.stateItems}" />
+			</ice:selectOneMenu>
+		</ice:panelCollapsible>
+	</ice:panelGrid>
 	<ice:panelGrid columns="2" style="width: 550px;">
 		<ice:panelCollapsible expanded="true" toggleOnClick="false">
 			<f:facet name="header">
