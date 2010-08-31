@@ -122,22 +122,48 @@
 }
 
 .exampleBox {
-    margin: 15px 15px 0 0;
-    padding: 15px;
-    background: #FFF;
-    border: 1px solid #d9d9d9;
-    display: block;
-    float:left;
+	margin: 15px 15px 0 0;
+	padding: 15px;
+	background: #FFF;
+	border: 1px solid #d9d9d9;
+	display: block;
+	float: left;
 }
 
-.panelSeriesContainer{
-    width:200px;
-    border: 1px solid #DADADA;
-    /*padding: 10px;*/
-    margin: 5px;
-    float: left;
+.panelSeriesContainer {
+	width: 200px;
+	border: 1px solid #DADADA;
+	/*padding: 10px;*/
+	margin: 5px;
+	float: left;
 }
 
 .exampleBox.panelSeriesContainer {
-    width: 424px;
+	width: 424px;
+}
+
+.errorMsg {
+	background-image: url("img/icons/exception16.png");
+	background-position: left;
+	background-repeat: no-repeat;
+	border: 1px solid red;
+	color: black;
+	font-weight: bold;
+	padding-left: 25px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-right: 2px;
+}
+
+.errorMsgError {
+	background-image: url("img/icons/exception16.png");
+	background-position: left;
+	background-repeat: no-repeat;
+	color: black;
+	font-weight: bold;
+	padding-left: 25px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-right: 2px;
+	font-size:10px;
 }

@@ -58,7 +58,8 @@
 		<ice:panelTab label="#{labels['pages.trialShowPanel.algorithm']}"
 			rendered="#{trialHandler.editing}">
 			<f:subview id="algorithmConfigInclude">
-				<jsp:directive.include file="./inc/panels/trial/algorithmConfig.jspx" />
+				<jsp:directive.include
+					file="./inc/panels/trial/algorithmConfig.jspx" />
 			</f:subview>
 		</ice:panelTab>
 		<ice:panelTab label="#{labels['pages.algorithmInfo']}"
@@ -89,16 +90,17 @@
 			</f:subview>
 		</ice:panelTab>
 	</ice:panelTabSet>
-	<ice:commandButton type="submit" value="#{labels['buttons.edit']}"
-		actionListener="#{randi2Page.editCurrentTrial}"
-		rendered="#{trialHandler.editable and !trialHandler.editing}" />
+	<ice:panelGrid columns="2">
+		<ice:commandButton type="submit" value="#{labels['buttons.edit']}"
+			actionListener="#{randi2Page.editCurrentTrial}"
+			rendered="#{trialHandler.editable and !trialHandler.editing}" />
+		<ice:messages globalOnly="true" errorClass="errorMsg" layout="table" />
+	</ice:panelGrid>
 	<ice:panelGrid border="0" columns="2"
 		rendered="#{trialHandler.editing}">
 		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
 			action="#{trialHandler.saveTrial}" />
 		<ice:commandButton type="submit" value="#{labels['buttons.cancel']}"
-			action="#{trialHandler.cancleEditing}" />
-		<ice:messages globalOnly="true" showDetail="true" showSummary="true"
-			tooltip="true" />
+			action="#{trialHandler.cancelEditing}" />
 	</ice:panelGrid>
 </ice:form>

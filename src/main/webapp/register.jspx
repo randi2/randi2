@@ -78,7 +78,7 @@
 									<f:attribute name="dObject"
 										value="#{loginHandler.newUser.person}" />
 								</ice:inputText>
-								<ice:message for="userTitle" id="userTitleError" />
+								<ice:message for="userTitle" id="userTitleError" styleClass="errorMsg"/>
 								<ice:outputLabel for="firstname"
 									value="#{labels['person.firstname']}" />
 								<ice:inputText id="firstname"
@@ -90,7 +90,7 @@
 									<f:attribute name="dObject"
 										value="#{loginHandler.newUser.person}" />
 								</ice:inputText>
-								<ice:message for="firstname" id="firstnameError" />
+								<ice:message for="firstname" id="firstnameError" styleClass="errorMsg"/>
 								<ice:outputLabel for="surname"
 									value="#{labels['person.surname']}" />
 								<ice:inputText id="surname"
@@ -102,7 +102,7 @@
 									<f:attribute name="dObject"
 										value="#{loginHandler.newUser.person}" />
 								</ice:inputText>
-								<ice:message for="surname" id="surnameError" />
+								<ice:message for="surname" id="surnameError" styleClass="errorMsg"/>
 							</ice:panelGrid>
 							<ice:panelGrid border="0" columns="2">
 								<ice:graphicImage value="/img/icons/contact16.png" />
@@ -122,7 +122,7 @@
 											<f:attribute name="dObject"
 												value="#{loginHandler.newUser.person}" />
 										</ice:inputText>
-										<ice:message for="email" id="eMailError" />
+										<ice:message for="email" id="eMailError" styleClass="errorMsg"/>
 										<ice:outputLabel for="phone" value="#{labels['person.phone']}" />
 										<ice:inputText id="phone"
 											value="#{loginHandler.newUser.person.phone}"
@@ -133,7 +133,7 @@
 											<f:attribute name="dObject"
 												value="#{loginHandler.newUser.person}" />
 										</ice:inputText>
-										<ice:message for="phone" id="phoneError" />
+										<ice:message for="phone" id="phoneError" styleClass="errorMsg"/>
 										<ice:outputLabel for="mobile"
 											value="#{labels['person.mobile']}" />
 										<ice:inputText id="mobile"
@@ -145,7 +145,7 @@
 											<f:attribute name="dObject"
 												value="#{loginHandler.newUser.person}" />
 										</ice:inputText>
-										<ice:message for="mobile" id="mobileError" />
+										<ice:message for="mobile" id="mobileError" styleClass="errorMsg"/>
 										<ice:outputLabel for="fax" value="#{labels['person.fax']}" />
 										<ice:inputText id="fax"
 											value="#{loginHandler.newUser.person.fax}"
@@ -156,7 +156,7 @@
 											<f:attribute name="dObject"
 												value="#{loginHandler.newUser.person}" />
 										</ice:inputText>
-										<ice:message for="fax" id="faxError" />
+										<ice:message for="fax" id="faxError" styleClass="errorMsg"/>
 									</ice:panelGrid>
 								</ice:panelGroup>
 							</ice:panelGrid>
@@ -176,7 +176,7 @@
 								value="#{loginHandler.newUser.person.email}" />
 							<ice:outputLabel for="password"
 								value="#{labels['login.password']}" />
-							<ice:panelGroup id="passwordGroup">
+							<ice:panelGrid columns="2" id="passwordGroup">
 								<ice:inputSecret id="password"
 									value="#{loginHandler.newUser.password}"
 									required="#{loginHandler.newUser.requiredFields['password']}"
@@ -185,19 +185,19 @@
 										validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 									<f:attribute name="dObject" value="#{loginHandler.newUser}" />
 								</ice:inputSecret>
-								<ice:message for="password" id="passwordError" />
-							</ice:panelGroup>
+								<ice:message for="password" id="passwordError" styleClass="errorMsg"/>
+							</ice:panelGrid>
 							<ice:outputLabel for="pConfirmation"
 								value="#{labels['pages.registration.passwordConfirmation']}" />
-							<ice:panelGroup>
+							<ice:panelGrid columns="2">
 								<ice:inputSecret id="pConfirmation"
 									required="#{loginHandler.newUser.requiredFields['password']}"
 									redisplay="true" partialSubmit="true">
 									<f:validator
 										validatorId="de.randi2.jsf.validators.PASSWORD_CONFIRMATION" />
 								</ice:inputSecret>
-								<ice:message for="pConfirmation" id="confirmationError" />
-							</ice:panelGroup>
+								<ice:message for="pConfirmation" id="confirmationError" styleClass="errorMsg"/>
+							</ice:panelGrid>
 						</ice:panelGrid>
 					</ice:panelTab>
 					<ice:panelTab id="siteDetails"
@@ -216,7 +216,7 @@
 								rows="10" width="200">
 								<f:selectItems value="#{loginHandler.trialSitesAC.objectList}" />
 							</ice:selectInputText>
-							<ice:message for="trialSite" id="trialSiteError" />
+							<ice:message for="trialSite" id="trialSiteError" styleClass="errorMsg"/>
 							<ice:outputLabel value="#{labels['person.assistant']}"
 								rendered="#{loginHandler.trialSitesAC.objectSelected}" />
 							<ice:selectBooleanCheckbox
@@ -253,7 +253,7 @@
 										<f:attribute name="dObject"
 											value="#{loginHandler.newUser.person.assistant}" />
 									</ice:inputText>
-									<ice:message for="assistant_title" id="assistant_titelError" />
+									<ice:message for="assistant_title" id="assistant_titelError" styleClass="errorMsg"/>
 									<ice:outputLabel for="assistant_firstname"
 										value="#{labels['person.firstname']}" />
 									<ice:inputText id="assistant_firstname"
@@ -266,7 +266,7 @@
 											value="#{loginHandler.newUser.person.assistant}" />
 									</ice:inputText>
 									<ice:message for="assistant_firstname"
-										id="assistant_firstnameError" />
+										id="assistant_firstnameError" styleClass="errorMsg"/>
 									<ice:outputLabel for="assistant_surname"
 										value="#{labels['person.surname']}" />
 									<ice:inputText id="assistant_surname"
@@ -279,7 +279,7 @@
 											value="#{loginHandler.newUser.person.assistant}" />
 									</ice:inputText>
 									<ice:message for="assistant_surname"
-										id="assistant_surnameError" />
+										id="assistant_surnameError" styleClass="errorMsg"/>
 								</ice:panelGrid>
 								<ice:panelGrid border="0" columns="2">
 									<ice:graphicImage value="/img/icons/contact16.png" />
@@ -300,7 +300,7 @@
 												<f:attribute name="dObject"
 													value="#{loginHandler.newUser.person.assistant}" />
 											</ice:inputText>
-											<ice:message for="assistant_email" id="assistant_eMailError" />
+											<ice:message for="assistant_email" id="assistant_eMailError" styleClass="errorMsg"/>
 											<ice:outputLabel for="assistant_phone"
 												value="#{labels['person.phone']}" />
 											<ice:inputText id="assistant_phone"
@@ -312,7 +312,7 @@
 												<f:attribute name="dObject"
 													value="#{loginHandler.newUser.person.assistant}" />
 											</ice:inputText>
-											<ice:message for="assistant_phone" id="assistant_phoneError" />
+											<ice:message for="assistant_phone" id="assistant_phoneError" styleClass="errorMsg"/>
 											<ice:outputLabel for="assistant_mobile"
 												value="#{labels['person.mobile']}" />
 											<ice:inputText id="assistant_mobile"
@@ -325,7 +325,7 @@
 													value="#{loginHandler.newUser.person.assistant}" />
 											</ice:inputText>
 											<ice:message for="assistant_mobile"
-												id="assistant_mobileError" />
+												id="assistant_mobileError" styleClass="errorMsg"/>
 											<ice:outputLabel for="assistant_fax"
 												value="#{labels['person.fax']}" />
 											<ice:inputText id="assistant_fax"
@@ -337,7 +337,7 @@
 												<f:attribute name="dObject"
 													value="#{loginHandler.newUser.person.assistant}" />
 											</ice:inputText>
-											<ice:message for="assistant_fax" id="assistant_faxError" />
+											<ice:message for="assistant_fax" id="assistant_faxError" styleClass="errorMsg"/>
 										</ice:panelGrid>
 									</ice:panelGroup>
 								</ice:panelGrid>
@@ -354,7 +354,7 @@
 							<ice:inputSecret id="tsPassword"
 								value="#{loginHandler.tsPassword}"
 								effect="#{registerPage.effect}" />
-							<ice:message for="tsPassword" id="tsPasswordError" />
+							<ice:message for="tsPassword" id="tsPasswordError" styleClass="errorMsg"/>
 						</ice:panelGrid>
 					</ice:panelTab>
 				</ice:panelTabSet>
@@ -367,7 +367,7 @@
 						actionListener="#{registerPage.cancel}" />
 					<ice:panelGroup style="margin-left:250px;">
 						<ice:messages globalOnly="true" showDetail="true"
-							showSummary="true" tooltip="true" />
+							showSummary="true" tooltip="true" layout="table" errorClass="errorMsg"/>
 						<ice:outputConnectionStatus />
 					</ice:panelGroup>
 				</ice:panelGrid>

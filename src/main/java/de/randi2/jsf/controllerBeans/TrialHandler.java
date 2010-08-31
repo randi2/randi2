@@ -40,6 +40,7 @@ import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.enumerations.TrialStatus;
+import de.randi2.model.exceptions.TrialStateException;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
 import de.randi2.utility.logging.LogEntry;
@@ -248,7 +249,6 @@ public class TrialHandler extends AbstractTrialHandler {
 
 			return Randi2.SUCCESS;
 		} catch (Exception e) {
-			e.printStackTrace(); // TODO Log!
 			Randi2.showMessage(e);
 			return Randi2.ERROR;
 		}
@@ -260,7 +260,19 @@ public class TrialHandler extends AbstractTrialHandler {
 	 * @return Either {@link Randi2#ERROR} or {@link Randi2#SUCCESS}
 	 */
 	public String saveTrial() {
-		System.out.println("Called");
+		try {
+			currentObject = trialService.update(currentObject);
+			popups.showTrialCreatedPopup();
+			editing = false;
+		} catch (IllegalArgumentException e) {
+			Randi2.showMessage(e);
+			cancelEditing();
+			return Randi2.ERROR;
+		} catch (TrialStateException e) {
+			Randi2.showMessage(e);
+			cancelEditing();
+			return Randi2.ERROR;
+		}
 		return Randi2.SUCCESS;
 	}
 
@@ -278,7 +290,7 @@ public class TrialHandler extends AbstractTrialHandler {
 		return Randi2.SUCCESS;
 	}
 
-	public String cancleEditing() {
+	public String cancelEditing() {
 		if (editing) {
 			currentObject = trialService.getObject(currentObject.getId());
 			editing = false;

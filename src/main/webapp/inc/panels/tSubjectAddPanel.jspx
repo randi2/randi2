@@ -38,7 +38,7 @@
 									validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
 								<f:attribute name="dObject" value="#{tSubjectAdd.trialSubject}" />
 							</ice:inputText>
-							<ice:message for="id" id="idError" />
+							<ice:message for="id" id="idError" styleClass="errorMsg"/>
 						</ice:panelGroup>
 						<ice:inputText rendered="#{tSubjectAdd.currentTrial.generateIds}" disabled="true"
 								value="#{labels['pages.tSubjectAddPanel.autoIDInfo']}" size="25" />
@@ -79,7 +79,6 @@
 		<ice:commandButton type="submit" value="#{labels['buttons.add']}"
 			action="#{tSubjectAdd.addSubject}" />
 		<ice:commandButton type="reset" value="#{labels['buttons.reset']}" />
-		<ice:messages showDetail="true" showSummary="true"
-			tooltip="true" />
+		<ice:messages globalOnly="true" errorClass="errorMsg" layout="table"/>
 	</ice:panelGrid>
 </ice:form>

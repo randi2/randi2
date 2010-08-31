@@ -37,7 +37,7 @@ import de.randi2.randomization.RandomizationAlgorithm;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "RandomizationConfig")
 @EqualsAndHashCode(callSuper=true)
-@ToString
+@ToString(callSuper=true, exclude={"trial"})
 public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 
 	private static final long serialVersionUID = -942332706403245140L;
