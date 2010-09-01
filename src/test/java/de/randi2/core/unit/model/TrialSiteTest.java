@@ -24,7 +24,6 @@ import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.testUtility.utility.AbstractDomainTest;
 
-@Transactional
 public class TrialSiteTest extends AbstractDomainTest<TrialSite> {
 
 	private TrialSite validTrialSite;
