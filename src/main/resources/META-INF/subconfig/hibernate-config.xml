@@ -18,8 +18,4 @@
 		<constructor-arg value="false"></constructor-arg>
 	</bean>
 	
-	<bean class="java.lang.Boolean" id="hibernateManagedSession">
-		<constructor-arg value="true"></constructor-arg>
-	</bean>
-	
 </beans>
