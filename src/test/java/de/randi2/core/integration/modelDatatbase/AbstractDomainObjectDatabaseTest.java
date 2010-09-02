@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import javax.persistence.OptimisticLockException;
+
 import org.hibernate.StaleObjectStateException;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,9 +61,11 @@ public class AbstractDomainObjectDatabaseTest extends AbstractDomainDatabaseTest
 	
 
 	@Test
+	@Transactional
 	public void testOptimisticLocking() {
 		entityManager.persist(domainObject);
 		entityManager.flush();
+		entityManager.clear();
 		int version = domainObject.getVersion();
 		Login v1 = entityManager.find(Login.class, domainObject.getId());
 		entityManager.detach(v1);
@@ -71,15 +75,15 @@ public class AbstractDomainObjectDatabaseTest extends AbstractDomainDatabaseTest
 		v1.setPassword("Aenderung$1");
 		v1 = entityManager.merge(v1);
 		entityManager.flush();
+		entityManager.clear();
 		assertTrue(version < v1.getVersion());
 		assertTrue(v2.getVersion() < v1.getVersion());
 //		v2.setPassword("Aenderung$2");
 
 		try {
 			v2 = entityManager.merge(v2);
-			entityManager.flush();
 			fail("Should fail because of Version Conflicts");
-		} catch (StaleObjectStateException e) {
+		} catch (OptimisticLockException e) {
 			entityManager.detach(v2);
 		}
 

@@ -45,6 +45,7 @@ public class OrdinalCriterionDatabaseTest extends AbstractDomainDatabaseTest<Ord
 
 	
 	@Test
+	@Transactional
 	public void databaseIntegrationTestPlainOrdinal() {
 		criterion.setName("name");
 		criterion.setDescription("test");
@@ -60,12 +61,9 @@ public class OrdinalCriterionDatabaseTest extends AbstractDomainDatabaseTest<Ord
 			temp.add(new OrdinalConstraint(Arrays.asList(new String[]{elements.get(1)})));
 		
 			OrdinalConstraint constraint = new OrdinalConstraint(Arrays.asList(elements.get(0)));
-			entityManager.persist(constraint);
-			assertTrue(constraint.getId()>0);
 			criterion.setInclusionConstraint(constraint);
 
-
-			criterion = entityManager.merge(criterion);
+			entityManager.persist(criterion);
 			assertTrue(criterion.getId()>0);
 			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
 			entityManager.persist(temp.get(0));

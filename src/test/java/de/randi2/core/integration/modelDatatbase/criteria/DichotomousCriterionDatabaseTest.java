@@ -70,6 +70,7 @@ public class DichotomousCriterionDatabaseTest extends AbstractDomainDatabaseTest
 	}
 	
 	@Test
+	@Transactional
 	public void databaseIntegrationTestWithStata() {
 		criterion.setDescription("test");
 		criterion.setOption1("Ja");
@@ -80,11 +81,9 @@ public class DichotomousCriterionDatabaseTest extends AbstractDomainDatabaseTest
 			temp.add(new DichotomousConstraint(Arrays.asList(new String[]{"Nein"})));
 		
 			DichotomousConstraint constraint = new DichotomousConstraint(Arrays.asList(new String[]{"Ja"}));
-			entityManager.persist(constraint);
-			assertTrue(constraint.getId()>0);
 			criterion.setInclusionConstraint(constraint);
 
-			criterion = entityManager.merge(criterion);
+		    entityManager.persist(criterion);
 			assertTrue(criterion.getId()>0);
 			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
 			entityManager.persist(temp.get(0));

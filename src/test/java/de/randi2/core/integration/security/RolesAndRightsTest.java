@@ -5,8 +5,9 @@ import static org.junit.Assert.fail;
 
 import java.util.List;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.context.ManagedSessionContext;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,8 +34,6 @@ import de.randi2.utility.security.RolesAndRights;
 public class RolesAndRightsTest {
 
 	@Autowired
-	private SessionFactory sessionFactory;
-	@Autowired
 	private InitializeDatabaseUtil databaseUtil;
 	@Autowired
 	private HibernateAclService aclService;
@@ -43,24 +42,30 @@ public class RolesAndRightsTest {
 	@Autowired
 	private RolesAndRights rolesAndRights;
 	
+	
+	private EntityManager entityManager;
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 
 	@Before
 	@SuppressWarnings("unchecked")
 	public void init(){
-		ManagedSessionContext.bind(sessionFactory.openSession());
 		try {
 			databaseUtil.setUpDatabaseEmpty();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
-		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_ADMIN);
-		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_ANONYMOUS);
-		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_INVESTIGATOR);
-		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_MONITOR);
-		sessionFactory.getCurrentSession().saveOrUpdate(
+		entityManager.persist(Role.ROLE_ADMIN);
+		entityManager.persist(Role.ROLE_ANONYMOUS);
+		entityManager.persist(Role.ROLE_INVESTIGATOR);
+		entityManager.persist(Role.ROLE_MONITOR);
+		entityManager.persist(
 				Role.ROLE_P_INVESTIGATOR);
-		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_STATISTICAN);
-		sessionFactory.getCurrentSession().saveOrUpdate(Role.ROLE_USER);
+		entityManager.persist(Role.ROLE_STATISTICAN);
+		entityManager.persist(Role.ROLE_USER);
 
 		aclService.createAclwithPermissions(new Login(), Role.ROLE_ANONYMOUS
 				.getName(),
@@ -72,7 +77,7 @@ public class RolesAndRightsTest {
 				Role.ROLE_ANONYMOUS.getName());
 		
 		
-		List<Role> roles = sessionFactory.getCurrentSession().createQuery("from Role").list();
+		List<Role> roles = entityManager.createQuery("from Role").getResultList();
 		assertTrue(roles.contains(Role.ROLE_ADMIN));
 		assertTrue(roles.contains(Role.ROLE_ANONYMOUS));
 		assertTrue(roles.contains(Role.ROLE_INVESTIGATOR));
@@ -81,7 +86,7 @@ public class RolesAndRightsTest {
 		assertTrue(roles.contains(Role.ROLE_STATISTICAN));
 		assertTrue(roles.contains(Role.ROLE_USER));	
 		
-		List<AclHibernate> acls = sessionFactory.getCurrentSession().createQuery("select acl from AclHibernate acl, SidHibernate sid where acl.owner.sidname=?").setString(0, Role.ROLE_ANONYMOUS.getName()).list();
+		List<AclHibernate> acls = entityManager.createQuery("select acl from AclHibernate acl, SidHibernate sid where acl.owner.sidname= ?").setParameter(1, Role.ROLE_ANONYMOUS.getName()).getResultList();
 		boolean hasRightLogin = false;
 		boolean hasRightPerson = false;
 		for(AclHibernate acl: acls){

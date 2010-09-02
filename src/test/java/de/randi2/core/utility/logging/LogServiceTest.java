@@ -2,6 +2,9 @@ package de.randi2.core.utility.logging;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
 import org.junit.Before;
@@ -26,14 +29,17 @@ import static junit.framework.Assert.*;
 public class LogServiceTest {
 
 	@Autowired private LogService logService;
-	@Autowired private SessionFactory sessionFactory;
 	@Autowired private TestStringUtil stringUtil;
 	@Autowired private DomainObjectFactory factory;
 	
-	@Before
-	public void setUp(){
-		ManagedSessionContext.bind(sessionFactory.openSession());
+	private EntityManager entityManager;
+	
+	
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
+	
 	
 	@Test
 	public void testLogChange(){
@@ -41,11 +47,10 @@ public class LogServiceTest {
 		ActionType action = ActionType.UPDATE;
 		AbstractDomainObject object = factory.getPerson();
 		
-		int sizeBefore = sessionFactory.getCurrentSession().createQuery("from LogEntry").list().size();
+		int sizeBefore = entityManager.createQuery("from LogEntry").getResultList().size();
 		
 		logService.logChange(action, username, object);
-		sessionFactory.getCurrentSession().flush();
-		assertTrue(sessionFactory.getCurrentSession().createQuery("from LogEntry").list().size()>sizeBefore);
+		assertTrue(entityManager.createQuery("from LogEntry").getResultList().size()>sizeBefore);
 		
 	}
 	
@@ -54,15 +59,14 @@ public class LogServiceTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetLogEntriesAll(){
-		int sizeBefore = sessionFactory.getCurrentSession().createQuery("from LogEntry").list().size();
+		int sizeBefore = entityManager.createQuery("from LogEntry").getResultList().size();
 		for(int i=0;i<10;i++){
 			String username = stringUtil.getWithLength(20);
 			ActionType action = ActionType.UPDATE;
 			logService.logGet(action, username);
 		}
 		
-		sessionFactory.getCurrentSession().flush();
-		List<String> entries = sessionFactory.getCurrentSession().createQuery("from LogEntry").list();
+		List<String> entries = entityManager.createQuery("from LogEntry").getResultList();
 		assertTrue(entries.size()>sizeBefore);
 		
 		assertEquals(entries.size(), logService.getLogEntries().size());
@@ -78,8 +82,6 @@ public class LogServiceTest {
 			logService.logGet(action, username);
 		}
 		
-		sessionFactory.getCurrentSession().flush();
-		
 		assertEquals(10, logService.getLogEntries(username).size());
 		
 	}
@@ -94,8 +96,6 @@ public class LogServiceTest {
 			ActionType action = ActionType.UPDATE;
 			logService.logChange(action, username, object);
 		}
-		
-		sessionFactory.getCurrentSession().flush();
 		
 		assertEquals(10, logService.getLogEntries(object.getClass(),id).size());
 		
