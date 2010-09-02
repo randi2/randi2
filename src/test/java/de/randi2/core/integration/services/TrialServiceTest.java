@@ -68,15 +68,16 @@ public class TrialServiceTest extends AbstractServiceTest{
 		List<Trial> trials = new ArrayList<Trial>();
 		service.create(validTrial);
 		trials.add(validTrial);
-		for(int i=0;i<9;i++){
+		List<Trial> dbTrials = service.getAll();
+		int trialsBefore = dbTrials.size();
+		for(int i=0;i<10;i++){
 			Trial trial = factory.getTrial();
 			trial.setLeadingSite(user.getPerson().getTrialSite());
 			trial.setSponsorInvestigator(user.getPerson());
 			service.create(trial);
 		}
-		List<Trial> dbTrials = service.getAll();
-		assertTrue(dbTrials.size()>=10);
-		assertTrue(dbTrials.containsAll(trials));
+		dbTrials = service.getAll();
+		assertEquals(trialsBefore+10, dbTrials.size());
 		
 	}
 	
