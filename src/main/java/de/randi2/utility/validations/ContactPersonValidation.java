@@ -17,22 +17,20 @@
  */
 package de.randi2.utility.validations;
 
-import org.hibernate.validator.Validator;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 import de.randi2.model.Person;
 
-public class ContactPersonValidation implements Validator<ContactPerson>{
+public class ContactPersonValidation implements ConstraintValidator<ContactPerson, Person>{
 
 	@Override
 	public void initialize(ContactPerson parameters) {}
 
 	@Override
-	public boolean isValid(Object value) {
-		if(value==null) return true;
-		if(!(value instanceof Person)) return false;
-		Person person = (Person) value;
+	public boolean isValid(Person person, ConstraintValidatorContext constraintContext) {
+		if(person==null) return true;
 		if(person.getLogin()!=null) return false;
-		
 		return true;
 	}
 
