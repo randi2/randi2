@@ -28,7 +28,7 @@ public class ContactPersonValidationTest {
 	public void testContactPersonIsValid(){
 		assertEquals(1,validator.validateValue(TrialSite.class, "contactPerson", null).size());
 		assertEquals(0,validator.validateValue(TrialSite.class, "contactPerson", factory.getPerson()).size());
-		assertEquals(1,validator.validateValue(TrialSite.class, "contactPerson", factory.getLogin()).size());
+		assertEquals(1,validator.validateValue(TrialSite.class, "contactPerson", factory.getLogin().getPerson()).size());
 		
 	}
 }
