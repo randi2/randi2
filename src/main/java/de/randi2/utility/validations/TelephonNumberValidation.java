@@ -17,9 +17,10 @@
  */
 package de.randi2.utility.validations;
 
-import org.hibernate.validator.Validator;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
-public class TelephonNumberValidation implements Validator<TelephonNumber>{
+public class TelephonNumberValidation implements ConstraintValidator<TelephonNumber, String>{
 
 	@Override
 	public void initialize(TelephonNumber arg0) {
@@ -27,13 +28,10 @@ public class TelephonNumberValidation implements Validator<TelephonNumber>{
 	}
 
 	@Override
-	public boolean isValid(Object telephonnumber) {
-		String number =  (String) telephonnumber;
+	public boolean isValid(String number, ConstraintValidatorContext constraintContext) {
 		if (number == null || number.trim().equals("")) {
 			return true;
 		}
-		
-		
 		number = number.trim();
 
 		String[] digits = number.split("[-/() \t.]");
