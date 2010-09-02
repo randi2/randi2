@@ -20,8 +20,9 @@ package de.randi2.utility.logging;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,8 +32,12 @@ import de.randi2.model.TrialSubject;
 
 public class LogServiceImpl implements LogService {
 
-	@Autowired
-	private SessionFactory sessionFactory;
+	protected EntityManager entityManager;
+
+	@PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+	        this. entityManager = entityManager;
+	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -45,7 +50,7 @@ public class LogServiceImpl implements LogService {
 		entry.setIdentifier(value.getId());
 		entry.setValue(value.toString());
 		entry.setUiName(value.getUIName());
-		sessionFactory.getCurrentSession().persist(entry);
+		entityManager.persist(entry);
 	}
 	
 	
@@ -60,7 +65,7 @@ public class LogServiceImpl implements LogService {
 		entry.setIdentifier(trial.getId());
 		entry.setValue(trialSubject.toString());
 		entry.setUiName(trialSubject.getUIName());
-		sessionFactory.getCurrentSession().persist(entry);
+		entityManager.persist(entry);
 		
 	}
 
@@ -70,15 +75,15 @@ public class LogServiceImpl implements LogService {
 		LogEntry entry = new LogEntry();
 		entry.setAction(action);
 		entry.setUsername(username);
-		sessionFactory.getCurrentSession().persist(entry);
+		entityManager.persist(entry);
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public List<LogEntry> getLogEntries() {
-		return sessionFactory.getCurrentSession().createQuery(
-				"from LogEntry").list();
+		return entityManager.createQuery(
+				"from LogEntry").getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -86,11 +91,9 @@ public class LogServiceImpl implements LogService {
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public List<LogEntry> getLogEntries(
 			Class<? extends AbstractDomainObject> clazz, long id) {
-		List<LogEntry> entries = sessionFactory
-				.getCurrentSession()
-				.createQuery(
+		List<LogEntry> entries = entityManager.createQuery(
 						"from LogEntry as entry where entry.clazz = ? and entry.identifier = ?")
-				.setParameter(0, clazz).setParameter(1, id).list();
+				.setParameter(1, clazz).setParameter(2, id).getResultList();
 		return entries;
 	}
 
@@ -98,11 +101,9 @@ public class LogServiceImpl implements LogService {
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public List<LogEntry> getLogEntries(String username) {
-		List<LogEntry> entries = sessionFactory
-		.getCurrentSession()
-		.createQuery(
+		List<LogEntry> entries = entityManager.createQuery(
 				"from LogEntry as entry where entry.username = ?")
-		.setParameter(0, username).list();
+		.setParameter(1, username).getResultList();
 		return entries;
 	}
 

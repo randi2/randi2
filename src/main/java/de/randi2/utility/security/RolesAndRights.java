@@ -20,8 +20,10 @@ package de.randi2.utility.security;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,8 +51,13 @@ public class RolesAndRights {
 
 	@Autowired
 	private HibernateAclService aclService;
-	@Autowired
-	private SessionFactory sessionFactory;
+	
+	protected EntityManager entityManager;
+
+	@PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+	        this. entityManager = entityManager;
+	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void grantRights(AbstractDomainObject object, TrialSite scope) {
@@ -81,8 +88,8 @@ public class RolesAndRights {
 				new PermissionHibernate[] { PermissionHibernate.READ },
 				Role.ROLE_ANONYMOUS.getName());
 		// grant rights for other user
-		List<Login> logins = sessionFactory.getCurrentSession().createQuery(
-				"from Login").list();
+		List<Login> logins = entityManager.createQuery(
+				"from Login").getResultList();
 		/*
 		 * Go through all logins/users
 		 */
@@ -194,8 +201,8 @@ public class RolesAndRights {
 				Role.ROLE_ANONYMOUS.getName());
 
 		// Set Rights for other User
-		List<Login> logins = sessionFactory.getCurrentSession().createQuery(
-				"from Login").list();
+		List<Login> logins = entityManager.createQuery(
+				"from Login").getResultList();
 		for (Login l : logins) {
 			for (Role r : l.getRoles()) {
 				if (!r.equals(Role.ROLE_USER)) {
@@ -259,8 +266,8 @@ public class RolesAndRights {
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED)
 	private void grantRightsTrialObject(Trial trial, TrialSite scope) {
-		List<Login> logins = sessionFactory.getCurrentSession().createQuery(
-				"from Login").list();
+		List<Login> logins = entityManager.createQuery(
+				"from Login").getResultList();
 		for (Login l : logins) {
 			for (Role r : l.getRoles()) {
 				if (!r.equals(Role.ROLE_USER)) {
@@ -329,10 +336,10 @@ public class RolesAndRights {
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED)
 	private void grantRightsTrialSubject(TrialSubject trialSubject) {
-		List<Login> logins = sessionFactory.getCurrentSession().getNamedQuery(
-				"login.LoginsWithPermission").setParameter(0, Trial.class)
-				.setParameter(1, trialSubject.getArm().getTrial().getId())
-				.setParameter(2, PermissionHibernate.READ).list();
+		List<Login> logins = entityManager.createNamedQuery(
+				"login.LoginsWithPermission").setParameter(1, Trial.class)
+				.setParameter(2, trialSubject.getArm().getTrial().getId())
+				.setParameter(3, PermissionHibernate.READ).getResultList();
 		for (Login l : logins) {
 			for (Role r : l.getRoles()) {
 				if (r.isReadTrialSubject()) {
@@ -384,16 +391,16 @@ public class RolesAndRights {
 				List<Login> list = new ArrayList<Login>();
 				if (role.isScopeUserRead()) {
 					if (login.getPerson().getTrialSite() != null) {
-						list = sessionFactory.getCurrentSession().createQuery(
+						list = entityManager.createQuery(
 								"from Login l where l.person.trialSite.id = ?")
 								.setParameter(
 										0,
 										login.getPerson().getTrialSite()
-												.getId()).list();
+												.getId()).getResultList();
 					}
 				} else {
-					list = sessionFactory.getCurrentSession().createQuery(
-							"from Login").list();
+					list = entityManager.createQuery(
+							"from Login").getResultList();
 				}
 				for (Login l : list) {
 					if (l != null) {
@@ -414,14 +421,13 @@ public class RolesAndRights {
 				 */
 				if (role.isScopeUserWrite()) {
 					if (login.getPerson().getTrialSite() != null) {
-						List<Login> tempList = sessionFactory
-								.getCurrentSession()
+						List<Login> tempList = entityManager
 								.createQuery(
 										"from Login l where l.person.trialSite.id = ?")
 								.setParameter(
 										0,
 										login.getPerson().getTrialSite()
-												.getId()).list();
+												.getId()).getResultList();
 						for (Login l : tempList) {
 							if(l.getPerson().getFirstname().equals("Maxi")){
 								System.out.println();
@@ -436,8 +442,8 @@ public class RolesAndRights {
 				 * with this role the user can edit all users
 				 */
 				else {
-					list = sessionFactory.getCurrentSession().createQuery(
-							"from Login").list();
+					list = entityManager.createQuery(
+							"from Login").getResultList();
 				}
 				for (Login l : list) {
 						grantRightLogin(l, login.getUsername(), role
@@ -445,8 +451,8 @@ public class RolesAndRights {
 				}
 			}
 			if (role.isAdminOtherUser()) {
-				List<Person> list = sessionFactory.getCurrentSession()
-						.createQuery("from Person").list();
+				List<Person> list = entityManager
+						.createQuery("from Person").getResultList();
 				for (Person p : list) {
 					if (p.getLogin() != null) {
 						grantRightLogin(p.getLogin(), login.getUsername(), role
@@ -466,8 +472,7 @@ public class RolesAndRights {
 										role.getName());
 					}
 				} else {
-					List<TrialSite> list = sessionFactory.getCurrentSession()
-							.createQuery("from TrialSite").list();
+					List<TrialSite> list = entityManager.createQuery("from TrialSite").getResultList();
 					for (TrialSite t : list) {
 						aclService
 								.createAclwithPermissions(
@@ -489,8 +494,8 @@ public class RolesAndRights {
 										role.getName());
 					}
 				} else {
-					List<TrialSite> list = sessionFactory.getCurrentSession()
-							.createQuery("from TrialSite").list();
+					List<TrialSite> list = entityManager
+							.createQuery("from TrialSite").getResultList();
 					for (TrialSite t : list) {
 						aclService
 								.createAclwithPermissions(
@@ -502,8 +507,8 @@ public class RolesAndRights {
 				}
 			}
 			if (role.isAdminTrialSite()) {
-				List<TrialSite> list = sessionFactory.getCurrentSession()
-						.createQuery("from TrialSite").list();
+				List<TrialSite> list = entityManager
+						.createQuery("from TrialSite").getResultList();
 				for (TrialSite t : list) {
 					aclService
 							.createAclwithPermissions(
@@ -527,13 +532,11 @@ public class RolesAndRights {
 											role.getName());
 						}
 						// other Trials
-						Query query = sessionFactory
-								.getCurrentSession()
-								.getNamedQuery(
+						Query query = entityManager.createNamedQuery(
 										"trial.AllTrialsWithSpecificParticipatingTrialSite");
-						query = query.setParameter(0, login.getPerson()
+						query = query.setParameter(1, login.getPerson()
 								.getTrialSite().getId());
-						List<Trial> trials = query.list();
+						List<Trial> trials = query.getResultList();
 						for (Trial t : trials) {
 							aclService
 									.createAclwithPermissions(
@@ -545,8 +548,8 @@ public class RolesAndRights {
 
 					}
 				} else {
-					List<Trial> list = sessionFactory.getCurrentSession()
-							.createQuery("from Trial").list();
+					List<Trial> list = entityManager
+							.createQuery("from Trial").getResultList();
 					for (Trial t : list) {
 						aclService
 								.createAclwithPermissions(
@@ -571,8 +574,8 @@ public class RolesAndRights {
 						}
 					}
 				} else {
-					List<Trial> list = sessionFactory.getCurrentSession()
-							.createQuery("from Trial").list();
+					List<Trial> list = entityManager
+							.createQuery("from Trial").getResultList();
 					for (Trial t : list) {
 						aclService
 								.createAclwithPermissions(
@@ -584,8 +587,8 @@ public class RolesAndRights {
 				}
 			}
 			if (role.isAdminTrial()) {
-				List<Trial> list = sessionFactory.getCurrentSession()
-						.createQuery("from Trial").list();
+				List<Trial> list = entityManager
+						.createQuery("from Trial").getResultList();
 				for (Trial t : list) {
 					aclService
 							.createAclwithPermissions(

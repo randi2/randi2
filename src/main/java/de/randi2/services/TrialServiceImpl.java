@@ -23,8 +23,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.apache.log4j.Logger;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,8 +50,14 @@ public class TrialServiceImpl implements TrialService {
 	private Logger logger = Logger.getLogger(TrialServiceImpl.class);
 	@Autowired
 	private TrialDao trialDao;
-	@Autowired
-	private SessionFactory sessionFactory;
+	
+	protected EntityManager entityManager;
+
+	@PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+	        this. entityManager = entityManager;
+	}
+	
 	@Autowired
 	private MailServiceInterface mailService;
 
@@ -66,7 +74,7 @@ public class TrialServiceImpl implements TrialService {
 			tA.setTrial(newTrial);
 		}
 		trialDao.create(newTrial);
-		sessionFactory.getCurrentSession().flush();
+		entityManager.flush();
 	}
 
 	@Override
@@ -90,12 +98,12 @@ public class TrialServiceImpl implements TrialService {
 		subject.setCounter((trial.getSubjects().size() + 1));
 		if (subject.getIdentification() == null)
 			subject.setIdentification(subject.getRandNumber());
-		sessionFactory.getCurrentSession().persist(subject);
+		entityManager.persist(subject);
 		assignedArm.addSubject(subject);
 		sendRandomisationMail(trial, ((Login) SecurityContextHolder
 				.getContext().getAuthentication().getPrincipal()), subject);
 		Trial t = trialDao.update(trial);
-		sessionFactory.getCurrentSession().flush();
+		entityManager.flush();
 		return t;
 	}
 

@@ -3,7 +3,9 @@ package de.randi2.core.integration.dao;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,8 +29,14 @@ public class UserDetailsServiceTest extends AbstractDaoTest{
 	
 	@Autowired
 	private LoginDao loginDao;
-	@Autowired
-	private SessionFactory sessionFactory;
+
+	protected EntityManager entityManager;
+
+	@PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+	        this. entityManager = entityManager;
+	}
+	
 	@Autowired
 	private DomainObjectFactory factory;
 	@Autowired
@@ -39,7 +47,7 @@ public class UserDetailsServiceTest extends AbstractDaoTest{
 	public void setUp(){
 		super.setUp();
 		userDetailsServiceImpl = new  UserDetailsServiceImpl();
-		userDetailsServiceImpl.setSessionFactory(sessionFactory);
+		userDetailsServiceImpl.setEntityManager(entityManager);
 		
 	}
 	

@@ -20,14 +20,17 @@ package de.randi2.dao;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.apache.log4j.Logger;
-import org.hibernate.Query;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Login;
 
@@ -40,23 +43,28 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	/** The logger. */
 	private Logger logger = Logger.getLogger(UserDetailsService.class);
 	
-	/** The session factory. */
-	@Autowired private SessionFactory sessionFactory;
+	protected EntityManager entityManager;
+
+	@PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+	        this. entityManager = entityManager;
+	}
 	
 	/* (non-Javadoc)
 	 * @see org.springframework.security.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
+	@Transactional(propagation=Propagation.REQUIRED)
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
 		logger.info("User " + username + " try to login.");
 		String queryS = "from de.randi2.model.Login login where "
 			+ "login.username =?";
 		
-		Query query = sessionFactory.getCurrentSession().createQuery(queryS);
-		query.setParameter(0, username);
-		List<Login>  loginList =(List) query.list();
+		Query query = entityManager.createQuery(queryS);
+		query.setParameter(1, username);
+		List<Login>  loginList =(List) query.getResultList();
 		if (loginList.size() ==1){
 			Login user = loginList.get(0);
 			user.setLastLoggedIn(new GregorianCalendar());
@@ -64,7 +72,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				byte number = 0;
 				user.setNumberWrongLogins(number);
 				user.setLockTime(null);
-				sessionFactory.getCurrentSession().update(user);
+				entityManager.merge(user);
 			}
 			return user;
 		}else{
@@ -73,13 +81,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 	}
 	
-		/**
-		 * Sets the session factory.
-		 * 
-		 * @param sessionFactory
-		 *            the new session factory
-		 */
-		public void setSessionFactory(SessionFactory sessionFactory) {
-			this.sessionFactory = sessionFactory;
-		}
 }

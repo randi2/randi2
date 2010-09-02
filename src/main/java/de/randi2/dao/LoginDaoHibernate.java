@@ -44,8 +44,7 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements
 		String query = "from de.randi2.model.Login login where "
 				+ "login.username =?";
 
-		List<Login> loginList = (List) sessionFactory.getCurrentSession()
-				.createQuery(query).setParameter(0, username).list();
+		List<Login> loginList = entityManager.createQuery(query).setParameter(1, username).getResultList();
 		if (loginList.size() == 1)
 			return loginList.get(0);
 		else
@@ -88,9 +87,9 @@ public class LoginDaoHibernate extends AbstractDaoHibernate<Login> implements
 	private void loadRoles(Login object) {
 		Set<Role> roles = new HashSet<Role>();
 		for (Role r : object.getRoles()) {
-			roles.add((Role) sessionFactory.getCurrentSession().createQuery(
-					"from Role where name = ?").setParameter(0, r.getName())
-					.uniqueResult());
+			roles.add((Role) entityManager.createQuery(
+					"from Role where name = ?").setParameter(1, r.getName())
+					.getSingleResult());
 		}
 		object.setRoles(roles);
 	}
