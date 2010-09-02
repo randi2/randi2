@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.LoginDao;
 import de.randi2.model.Login;
@@ -24,8 +25,7 @@ import de.randi2.model.Role;
 import de.randi2.services.UserService;
 import de.randi2.testUtility.utility.DomainObjectFactory;
 import de.randi2.testUtility.utility.TestStringUtil;
-//@Transactional
-//import static junit.framework.Assert.*;
+@Transactional
 public class UserServiceTest extends AbstractServiceTest{
 
 
@@ -49,15 +49,14 @@ public class UserServiceTest extends AbstractServiceTest{
 	public void testAddRole(){
 		authenticatAsAdmin();
 		Login login = factory.getLogin();
-		sessionFactory.getCurrentSession().persist(login);
+		entityManager.persist(login);
 		assertTrue(login.getId()>0);
 		Role role = factory.getRole();
-		sessionFactory.getCurrentSession().persist(role);
-		sessionFactory.getCurrentSession().flush();
+		entityManager.persist(role);
 		assertTrue(role.getId()>0);
 		userService.addRole(login, role);
 		assertTrue(login.getRoles().contains(role));
-		Login login2 = (Login)sessionFactory.getCurrentSession().get(Login.class, login.getId());
+		Login login2 = entityManager.find(Login.class, login.getId());
 		assertNotNull(login2);
 		assertTrue(login2.getRoles().contains(role));
 		try{
@@ -78,12 +77,11 @@ public class UserServiceTest extends AbstractServiceTest{
 	public void testRemoveRole(){
 		authenticatAsAdmin();
 		Role role = factory.getRole();
-		sessionFactory.getCurrentSession().persist(role);
-		sessionFactory.getCurrentSession().flush();
+		entityManager.persist(role);
 		assertTrue(role.getId()>0);
 		userService.addRole(user, role);
 		assertTrue(user.getRoles().contains(role));
-		Login login2 = (Login)sessionFactory.getCurrentSession().get(Login.class, user.getId());
+		Login login2 = entityManager.find(Login.class, user.getId());
 		assertNotNull(login2);
 		assertTrue(login2.getRoles().contains(role));
 		try{
@@ -160,11 +158,10 @@ public class UserServiceTest extends AbstractServiceTest{
 		Login login = factory.getLogin();
 		login.getPerson().setTrialSite(user.getPerson().getTrialSite());
 		userService.create(login);
-		sessionFactory.getCurrentSession().flush();
 		assertTrue(login.getId()>0);
 		String oldName = login.getUsername();
 		login.setUsername(factory.getPerson().getEmail());
-		Login login2 = (Login) sessionFactory.getCurrentSession().get(Login.class, login.getId());
+		Login login2 = entityManager.find(Login.class, login.getId());
 		assertEquals(login.getUsername(), login2.getUsername());
 		assertFalse(login2.getUsername().equals(oldName));
 	}
@@ -174,12 +171,12 @@ public class UserServiceTest extends AbstractServiceTest{
 	public void testUpdateRole(){
 		authenticatAsAdmin();
 		Role role = factory.getRole();
-		sessionFactory.getCurrentSession().persist(role);
+		entityManager.persist(role);
 		assertTrue(role.getId()>0);
 		String oldName = role.getName();
 		role.setName(stringUtil.getWithLength(30));
 		userService.updateRole(role);
-		Role role2 = (Role) sessionFactory.getCurrentSession().get(Role.class,role.getId());
+		Role role2 = entityManager.find(Role.class,role.getId());
 		assertEquals(role.getName(), role2.getName());
 		assertFalse(role2.getName().equals(oldName));
 	}

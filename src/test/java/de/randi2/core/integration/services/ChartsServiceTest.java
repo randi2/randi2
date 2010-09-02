@@ -94,7 +94,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
-
+		
 		trialService.create(validTrial);
 		validTrial.setTreatmentArms(arms);
 		BlockRandomizationConfig config = new BlockRandomizationConfig();
@@ -111,7 +111,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 			subject.setTrialSite(validTrial.getLeadingSite());
 			trialService.randomize(validTrial, subject);
 			subject.setCreatedAt(new GregorianCalendar(2009, i % 12, 1));
-			sessionFactory.getCurrentSession().update(subject);
+			subject = entityManager.merge(subject);
 			if ((i % blocksize) == (blocksize - 1)) {
 				assertEquals(validTrial.getTreatmentArms().get(0).getSubjects()
 						.size(), validTrial.getTreatmentArms().get(1)
@@ -136,6 +136,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 				.getSubjects().size());
 		assertEquals(randomizations / 2, dbTrial.getTreatmentArms().get(1)
 				.getSubjects().size());
+		entityManager.flush();
 	}
 
 	private void randomizeInValidTrialTwoYears() throws IllegalArgumentException, TrialStateException {
@@ -173,7 +174,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 			trialService.randomize(validTrial, subject);
 			subject.setCreatedAt(new GregorianCalendar(
 					2009 + (i >= 120 ? 1 : 0), i % 12, 1));
-			sessionFactory.getCurrentSession().update(subject);
+			subject = entityManager.merge(subject);
 			if ((i % blocksize) == (blocksize - 1)) {
 				assertEquals(validTrial.getTreatmentArms().get(0).getSubjects()
 						.size(), validTrial.getTreatmentArms().get(1)
@@ -305,7 +306,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 			}
 			trialService.randomize(validTrial, subject);
 			subject.setCreatedAt(new GregorianCalendar(2009, i % 12, 1));
-			sessionFactory.getCurrentSession().update(subject);
+			subject = entityManager.merge(subject);
 			if ((i % blocksize) == (blocksize - 1)) {
 				assertEquals(validTrial.getTreatmentArms().get(0).getSubjects()
 						.size(), validTrial.getTreatmentArms().get(1)
@@ -409,7 +410,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 			}
 			trialService.randomize(validTrial, subject);
 			subject.setCreatedAt(new GregorianCalendar(2009, i % 12, 1));
-			sessionFactory.getCurrentSession().update(subject);
+			subject = entityManager.merge(subject);
 			if ((i % blocksize) == (blocksize - 1)) {
 				assertEquals(validTrial.getTreatmentArms().get(0).getSubjects()
 						.size(), validTrial.getTreatmentArms().get(1)
@@ -561,7 +562,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 			trialService.randomize(validTrial, subject);
 			subject.setCreatedAt(new GregorianCalendar(
 					2009 + (i >= 120 ? 1 : 0), i % 12, 1));
-			sessionFactory.getCurrentSession().update(subject);
+			subject = entityManager.merge(subject);
 			
 		
 		}

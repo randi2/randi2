@@ -31,7 +31,7 @@ public class TrialDatabaseTest  extends AbstractDomainDatabaseTest<Trial> {
 		// Valides Trial
 		super.setUp();
 		validTrial = factory.getTrial();
-		sessionFactory.getCurrentSession().save(validTrial.getLeadingSite().getContactPerson());
+		entityManager.persist(validTrial.getLeadingSite().getContactPerson());
 	}
 	
 	
@@ -41,18 +41,18 @@ public class TrialDatabaseTest  extends AbstractDomainDatabaseTest<Trial> {
 		leadingSite.setContactPerson(factory.getPerson());
 		// sessionFactory.getCurrentSession().persist(leadingSite.getContactPerson());
 		// sessionFactory.getCurrentSession().flush();
-		sessionFactory.getCurrentSession().persist(leadingSite);
+		entityManager.persist(leadingSite);
 		validTrial.setSponsorInvestigator(leadingSite.getContactPerson());
 		validTrial.setLeadingSite(leadingSite);
 
 		TrialSite pTrialSite = factory.getTrialSite();
 		pTrialSite.setContactPerson(factory.getPerson());
 		// sessionFactory.getCurrentSession().persist(pTrialSite.getContactPerson());
-		sessionFactory.getCurrentSession().persist(pTrialSite);
+		entityManager.persist(pTrialSite);
 		validTrial.addParticipatingSite(pTrialSite);
 		CompleteRandomizationConfig conf = new CompleteRandomizationConfig();
 		validTrial.setRandomizationConfiguration(conf);
-		sessionFactory.getCurrentSession().persist(validTrial);
+		entityManager.persist(validTrial);
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setName("arm1");
 		arm1.setTrial(validTrial);
@@ -64,11 +64,11 @@ public class TrialDatabaseTest  extends AbstractDomainDatabaseTest<Trial> {
 		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
-		sessionFactory.getCurrentSession().persist(arm1);
-		sessionFactory.getCurrentSession().persist(arm2);
+		entityManager.persist(arm1);
+		entityManager.persist(arm2);
 		validTrial.setTreatmentArms(arms);
 
-		sessionFactory.getCurrentSession().saveOrUpdate(validTrial);
+		validTrial = entityManager.merge(validTrial);
 		assertTrue(validTrial.getId() > 0);
 //		validTrial = (Trial) sessionFactory.getCurrentSession().get(Trial.class, validTrial
 //				.getId());
@@ -89,8 +89,8 @@ public class TrialDatabaseTest  extends AbstractDomainDatabaseTest<Trial> {
 				subject.setIdentification(subject.getRandNumber());
 			subjects.add(subject);
 		}
-		sessionFactory.getCurrentSession().update(validTrial);
-		Trial dbTrial = (Trial) sessionFactory.getCurrentSession().get(Trial.class, validTrial
+		validTrial = entityManager.merge(validTrial);
+		Trial dbTrial = entityManager.find(Trial.class, validTrial
 				.getId());
 
 		assertEquals(validTrial.getId(), dbTrial.getId());

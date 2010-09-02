@@ -6,7 +6,9 @@ import static junit.framework.Assert.assertTrue;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,80 +27,90 @@ import de.randi2.testUtility.utility.DomainObjectFactory;
 import de.randi2.testUtility.utility.InitializeDatabaseUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml"})
+@ContextConfiguration(locations = { "classpath:/META-INF/spring-test.xml" })
 @TransactionConfiguration
 @Transactional
-public abstract class AbstractTransactionalTest<E extends AbstractDao<F>, F extends AbstractDomainObject> extends
-		AbstractTransactionalJUnit4SpringContextTests {
+public abstract class AbstractTransactionalTest<E extends AbstractDao<F>, F extends AbstractDomainObject>
+		extends AbstractTransactionalJUnit4SpringContextTests {
 
 	protected E dao;
-	@Autowired protected DomainObjectFactory factory;
+	@Autowired
+	protected DomainObjectFactory factory;
 	protected int numberOfRows = -1;
 	protected F object;
 	private boolean withRollback = false;
-	
-	@Autowired protected SessionFactory sessionFactory;
-	@Autowired protected InitializeDatabaseUtil databaseUtil;
 
-	
+	@Autowired
+	protected InitializeDatabaseUtil databaseUtil;
+
+	protected EntityManager entityManager;
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
 	@BeforeTransaction
-	    public void beforeTransaction() {
+	public void beforeTransaction() {
 		init();
 		numberOfRows = countRowsInTable(object.getClass().getSimpleName());
-	        test(true, object);
-	  }
-	
-	 /**
-     * Tests that the size and first record match what is expected 
-     * after the transaction.
-     */
-    @AfterTransaction
-    public void afterTransaction() {
-        test(false, object);
-    }
+		test(true, object);
+	}
 
-	
-	 /**
-     * Tests table.
-     */
-    protected void test(boolean beforeTransaction, F object) {
-    	
-    	if(beforeTransaction){
-    		assertEquals(numberOfRows,countRowsInTable(object.getClass().getSimpleName()));
-    	}else{
-    		if(withRollback){
-    			assertEquals(numberOfRows,countRowsInTable(object.getClass().getSimpleName()));
-    		}else{
-    			assertEquals(numberOfRows,countRowsInTable(object.getClass().getSimpleName())-1);
-        		assertTrue(object.getId()>0);
-        	 List<Map<String, Object>> list = simpleJdbcTemplate.queryForList("Select * FROM "+ object.getClass().getSimpleName() +" where id = " + object.getId());
-        	 assertEquals(1, list.size());
-        	 if(list.size() ==1){
-        		Long id = (Long) list.get(0).get("ID");
-        		assertTrue(object.getId() == id.longValue());
-    		}
-    		
-    	 }
-    	}
-        
+	/**
+	 * Tests that the size and first record match what is expected after the
+	 * transaction.
+	 */
+	@AfterTransaction
+	public void afterTransaction() {
+		test(false, object);
+	}
 
-    }
-    
-    protected abstract void init();
-    
-    @Test
-    @Rollback(false)
-    public void testTransaction(){
-    	withRollback =false;
-    	dao.create(object);
-    }
-    
-    @Test
-    @Rollback(true)
-    public void testTransactionRollback(){
-    	withRollback = true;
-    	dao.create(object);
-    }
+	/**
+	 * Tests table.
+	 */
+	protected void test(boolean beforeTransaction, F object) {
 
-	
+		if (beforeTransaction) {
+			assertEquals(numberOfRows, countRowsInTable(object.getClass()
+					.getSimpleName()));
+		} else {
+			if (withRollback) {
+				assertEquals(numberOfRows, countRowsInTable(object.getClass()
+						.getSimpleName()));
+			} else {
+				assertEquals(numberOfRows, countRowsInTable(object.getClass()
+						.getSimpleName()) - 1);
+				assertTrue(object.getId() > 0);
+				List<Map<String, Object>> list = simpleJdbcTemplate
+						.queryForList("Select * FROM "
+								+ object.getClass().getSimpleName()
+								+ " where id = " + object.getId());
+				assertEquals(1, list.size());
+				if (list.size() == 1) {
+					Long id = (Long) list.get(0).get("ID");
+					assertTrue(object.getId() == id.longValue());
+				}
+
+			}
+		}
+
+	}
+
+	protected abstract void init();
+
+	@Test
+	@Rollback(false)
+	public void testTransaction() {
+		withRollback = false;
+		dao.create(object);
+	}
+
+	@Test
+	@Rollback(true)
+	public void testTransactionRollback() {
+		withRollback = true;
+		dao.create(object);
+	}
+
 }

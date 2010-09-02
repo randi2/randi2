@@ -2,6 +2,9 @@ package de.randi2.core.utility.listener;
 
 import java.util.GregorianCalendar;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
 import org.junit.Before;
@@ -24,22 +27,23 @@ import static junit.framework.Assert.*;
 		"classpath:/META-INF/subconfig/test.xml" })
 public class SaveOrUpdateListenerTest {
 
-	@Autowired
-	private SessionFactory sessionFactory;
+	private EntityManager entityManager;
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
 	@Autowired
 	private DomainObjectFactory factory;
 
-	@Before
-	public void setUp() {
-		ManagedSessionContext.bind(sessionFactory.openSession());
-	}
 
 	@Test
 	public void onPersist() {
 		AbstractDomainObject object = factory.getPerson();
 		assertNull(object.getCreatedAt());
 		assertNull(object.getUpdatedAt());
-		sessionFactory.getCurrentSession().persist(object);
+		entityManager.persist(object);
 		assertNotNull(object.getCreatedAt());
 		assertNotNull(object.getUpdatedAt());
 	}
@@ -51,7 +55,7 @@ public class SaveOrUpdateListenerTest {
 		assertNull(object.getUpdatedAt());
 		assertNull(object.getPerson().getCreatedAt());
 		assertNull(object.getPerson().getUpdatedAt());
-		sessionFactory.getCurrentSession().persist(object);
+		entityManager.persist(object);
 		assertNotNull(object.getCreatedAt());
 		assertNotNull(object.getUpdatedAt());
 		assertNotNull(object.getPerson().getCreatedAt());
@@ -63,7 +67,7 @@ public class SaveOrUpdateListenerTest {
 		AbstractDomainObject object = factory.getPerson();
 		assertNull(object.getCreatedAt());
 		assertNull(object.getUpdatedAt());
-		sessionFactory.getCurrentSession().persist(object);
+		entityManager.persist(object);
 		assertNotNull(object.getCreatedAt());
 		assertNotNull(object.getUpdatedAt());
 
@@ -72,7 +76,7 @@ public class SaveOrUpdateListenerTest {
 		
 		try{
 			Thread.sleep(1000);
-			sessionFactory.getCurrentSession().merge(object);
+			entityManager.merge(object);
 			assertEquals(create, object.getCreatedAt());
 			assertFalse(update.compareTo(object.getUpdatedAt()) == 0);
 		}catch (Exception e) {
@@ -88,7 +92,7 @@ public class SaveOrUpdateListenerTest {
 		assertNull(object.getUpdatedAt());
 		assertNull(object.getPerson().getCreatedAt());
 		assertNull(object.getPerson().getUpdatedAt());
-		sessionFactory.getCurrentSession().persist(object);
+		entityManager.persist(object);
 		assertNotNull(object.getCreatedAt());
 		assertNotNull(object.getUpdatedAt());
 		assertNotNull(object.getPerson().getCreatedAt());
@@ -101,7 +105,7 @@ public class SaveOrUpdateListenerTest {
 
 		try{
 		Thread.sleep(1000);
-		sessionFactory.getCurrentSession().merge(object);
+		entityManager.merge(object);
 
 		assertEquals(createL, object.getCreatedAt());
 		assertFalse(updateL.equals(object.getUpdatedAt()));
@@ -115,7 +119,7 @@ public class SaveOrUpdateListenerTest {
 
 		assertNull(object.getPerson().getCreatedAt());
 		assertNull(object.getPerson().getUpdatedAt());
-		sessionFactory.getCurrentSession().merge(object);
+		entityManager.merge(object);
 		assertNotNull(object.getPerson().getCreatedAt());
 		assertNotNull(object.getPerson().getUpdatedAt());
 	}
@@ -128,7 +132,7 @@ public class SaveOrUpdateListenerTest {
 		assertNull(object.getUpdatedAt());
 		assertNull(object.getPerson().getCreatedAt());
 		assertNull(object.getPerson().getUpdatedAt());
-		sessionFactory.getCurrentSession().save(object);
+		entityManager.persist(object);
 		assertNotNull(object.getCreatedAt());
 		assertNotNull(object.getUpdatedAt());
 		assertNotNull(object.getPerson().getCreatedAt());
@@ -139,7 +143,7 @@ public class SaveOrUpdateListenerTest {
 		GregorianCalendar createP = object.getPerson().getCreatedAt();
 		try{
 		Thread.sleep(1000);
-		sessionFactory.getCurrentSession().saveOrUpdate(object);
+		object = entityManager.merge(object);
 
 		assertEquals(createL, object.getCreatedAt());
 		assertFalse(updateL.equals(object.getUpdatedAt()));
@@ -152,8 +156,8 @@ public class SaveOrUpdateListenerTest {
 
 		assertNull(object.getPerson().getCreatedAt());
 		assertNull(object.getPerson().getUpdatedAt());
-		sessionFactory.getCurrentSession().saveOrUpdate(object);
-		sessionFactory.getCurrentSession().flush();
+		object = entityManager.merge(object);
+		entityManager.flush();
 		assertNotNull(object.getPerson().getCreatedAt());
 		assertNotNull(object.getPerson().getUpdatedAt());
 	}

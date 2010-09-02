@@ -42,10 +42,10 @@ public class OrdinalConstraintDatabaseTest extends
 	@Test
 	@Transactional
 	public void databaseIntegrationTest(){
-		sessionFactory.getCurrentSession().persist(constraint);
+		entityManager.persist(constraint);
 		assertTrue(constraint.getId()>0);
 		
-		OrdinalConstraint dbConstraint = (OrdinalConstraint) sessionFactory.getCurrentSession().get(OrdinalConstraint.class, constraint.getId());
+		OrdinalConstraint dbConstraint = entityManager.find(OrdinalConstraint.class, constraint.getId());
 		assertEquals(constraint.getId(), dbConstraint.getId());
 		assertEquals(constraint.getExpectedValues(), dbConstraint.getExpectedValues());
 	}

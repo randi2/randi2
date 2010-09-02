@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.hibernate.Session;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +25,16 @@ public class OrdinalCriterionDatabaseTest extends AbstractDomainDatabaseTest<Ord
 	public OrdinalCriterionDatabaseTest(){
 		super(OrdinalCriterion.class);
 	}
-private OrdinalCriterion criterion;
+   
+	private OrdinalCriterion criterion;
+	
+	private EntityManager entityManager;
+	
+	
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 	
 
 	@Before
@@ -35,7 +46,6 @@ private OrdinalCriterion criterion;
 	
 	@Test
 	public void databaseIntegrationTestPlainOrdinal() {
-		Session session = sessionFactory.openSession();
 		criterion.setName("name");
 		criterion.setDescription("test");
 		List<String> elements = new ArrayList<String>();
@@ -50,24 +60,23 @@ private OrdinalCriterion criterion;
 			temp.add(new OrdinalConstraint(Arrays.asList(new String[]{elements.get(1)})));
 		
 			OrdinalConstraint constraint = new OrdinalConstraint(Arrays.asList(elements.get(0)));
-			session.save(constraint);
+			entityManager.persist(constraint);
 			assertTrue(constraint.getId()>0);
 			criterion.setInclusionConstraint(constraint);
 
 
-			session.save(criterion);
+			criterion = entityManager.merge(criterion);
 			assertTrue(criterion.getId()>0);
 			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
-			session.save(temp.get(0));
-			session.save(temp.get(1));
+			entityManager.persist(temp.get(0));
+			entityManager.persist(temp.get(1));
 			assertTrue(temp.get(0).getId() > 0);
 			assertTrue(temp.get(1).getId() > 0);
 			criterion.setStrata(temp);
-			session.update(criterion);
-			session.flush();
-			session.close();
-			session = sessionFactory.openSession();
-			OrdinalCriterion dbCriterion = (OrdinalCriterion) session.get(OrdinalCriterion.class,criterion.getId());
+			criterion = entityManager.merge(criterion);
+			entityManager.flush();
+			entityManager.clear();
+			OrdinalCriterion dbCriterion = entityManager.find(OrdinalCriterion.class,criterion.getId());
 			assertEquals(criterion, dbCriterion);
 			assertEquals(criterion.getName(), dbCriterion.getName());
 			assertEquals(criterion.getDescription(), dbCriterion.getDescription());
@@ -99,7 +108,7 @@ private OrdinalCriterion criterion;
 			temp.add(new OrdinalConstraint(Arrays.asList(new String[]{elements.get(1)})));
 		
 			OrdinalConstraint constraint = new OrdinalConstraint(Arrays.asList(elements.get(0)));
-			sessionFactory.getCurrentSession().save(constraint);
+			entityManager.persist(constraint);
 			assertTrue(constraint.getId()>0);
 			criterion.setInclusionConstraint(constraint);
 
@@ -107,23 +116,24 @@ private OrdinalCriterion criterion;
 			ArrayList<OrdinalConstraint> tempS = new ArrayList<OrdinalConstraint>();
 			tempS.add(new OrdinalConstraint(Arrays.asList(new String[]{elements.get(0), elements.get(1)})));
 			tempS.add(new OrdinalConstraint(Arrays.asList(new String[]{elements.get(2),elements.get(3)})));
-			sessionFactory.getCurrentSession().save(tempS.get(0));
-			sessionFactory.getCurrentSession().save(tempS.get(1));
+			entityManager.persist(tempS.get(0));
+			entityManager.persist(tempS.get(1));
 			
 			criterion.setStrata(tempS);
 			
-			sessionFactory.getCurrentSession().save(criterion);
+			entityManager.persist(criterion);
 			assertTrue(criterion.getId()>0);
 			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
 			assertEquals(2, criterion.getStrata().size());
-			sessionFactory.getCurrentSession().save(temp.get(0));
-			sessionFactory.getCurrentSession().save(temp.get(1));
+			entityManager.persist(temp.get(0));
+			entityManager.persist(temp.get(1));
 			assertTrue(temp.get(0).getId() > 0);
 			assertTrue(temp.get(1).getId() > 0);
 			criterion.setStrata(temp);
-			sessionFactory.getCurrentSession().update(criterion);
-			sessionFactory.getCurrentSession().flush();
-			OrdinalCriterion dbCriterion = (OrdinalCriterion) sessionFactory.getCurrentSession().get(OrdinalCriterion.class,criterion.getId());
+			criterion = entityManager.merge(criterion);
+			entityManager.flush();
+			entityManager.clear();
+			OrdinalCriterion dbCriterion = entityManager.find(OrdinalCriterion.class,criterion.getId());
 			assertEquals(criterion, dbCriterion);
 			assertEquals(criterion.getName(), dbCriterion.getName());
 			assertEquals(criterion.getDescription(), dbCriterion.getDescription());

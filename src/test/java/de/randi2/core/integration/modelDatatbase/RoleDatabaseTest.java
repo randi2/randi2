@@ -3,8 +3,6 @@ package de.randi2.core.integration.modelDatatbase;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-
 import org.junit.Test;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,10 +54,10 @@ public class RoleDatabaseTest extends AbstractDomainDatabaseTest<Role> {
 		role.setAdminTrialSubject(false);
 		role.setCreateRole(false);
 		role.setScopeTrialSiteView(true);
-		sessionFactory.getCurrentSession().persist(role);
+		entityManager.persist(role);
 		assertTrue(role.getId()>0);
 		
-		Role dbRole = (Role) sessionFactory.getCurrentSession().get(Role.class, role.getId());
+		Role dbRole = entityManager.find(Role.class, role.getId());
 		assertEquals("ROLE_XYZ",dbRole.getName());
 		assertEquals(false, dbRole.isCreateTrialSite() );
 		assertEquals( true, dbRole.isScopeTrialSiteView() );

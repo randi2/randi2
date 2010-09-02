@@ -31,12 +31,12 @@ public class TrialSiteDatabaseTest extends
 	public void setUp() {
 		super.setUp();
 		validTrialSite = factory.getTrialSite();
-		sessionFactory.getCurrentSession().save(
+		entityManager.persist(
 				validTrialSite.getContactPerson());
 	}
 
 	@Test
-	@Transactional(propagation = Propagation.SUPPORTS)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void testTrials() {
 		List<Trial> tl = new ArrayList<Trial>();
 
@@ -44,26 +44,26 @@ public class TrialSiteDatabaseTest extends
 		tl.add(factory.getTrial());
 		tl.add(factory.getTrial());
 
-		sessionFactory.getCurrentSession().saveOrUpdate(validTrialSite);
-		sessionFactory.getCurrentSession().flush();
+		entityManager.persist(validTrialSite);
+		entityManager.flush();
 		assertTrue(validTrialSite.getId() != AbstractDomainObject.NOT_YET_SAVED_ID);
 		for (Trial trial : tl) {
 			trial.addParticipatingSite(validTrialSite);
 			trial.setLeadingSite(validTrialSite);
 			Login login = factory.getLogin();
-			sessionFactory.getCurrentSession().persist(login);
+			entityManager.persist(login);
 			trial.setSponsorInvestigator(login.getPerson());
 			assertEquals(1, trial.getParticipatingSites().size());
 			assertEquals(validTrialSite.getId(), ((AbstractDomainObject) trial
 					.getParticipatingSites().toArray()[0]).getId());
-			sessionFactory.getCurrentSession().persist(trial);
-			sessionFactory.getCurrentSession().flush();
+			entityManager.persist(trial);
+			entityManager.flush();
 		}
-		TrialSite trialSite = (TrialSite) sessionFactory.getCurrentSession()
-				.get(TrialSite.class, validTrialSite.getId());
+		TrialSite trialSite = entityManager
+				.find(TrialSite.class, validTrialSite.getId());
 		assertEquals(validTrialSite.getId(), trialSite.getId());
 
-		sessionFactory.getCurrentSession().refresh(validTrialSite);
+		entityManager.refresh(validTrialSite);
 		validTrialSite.getTrials();
 		assertEquals(tl.size(), trialSite.getTrials().size());
 
@@ -77,15 +77,15 @@ public class TrialSiteDatabaseTest extends
 	@Transactional
 	public void testContactPerson() {
 		Person p = factory.getPerson();
-		sessionFactory.getCurrentSession().save(p);
+		entityManager.persist(p);
 		validTrialSite.setContactPerson(p);
 		assertEquals(p.getSurname(), validTrialSite.getContactPerson()
 				.getSurname());
-		sessionFactory.getCurrentSession().saveOrUpdate(validTrialSite);
+		entityManager.persist(validTrialSite);
 		assertTrue(validTrialSite.getId() != AbstractDomainObject.NOT_YET_SAVED_ID);
 		assertTrue(p.getId() != AbstractDomainObject.NOT_YET_SAVED_ID);
 
-		TrialSite c = (TrialSite) sessionFactory.getCurrentSession().get(
+		TrialSite c =  entityManager.find(
 				TrialSite.class, validTrialSite.getId());
 		assertEquals(p.getId(), c.getContactPerson().getId());
 	}
@@ -96,21 +96,21 @@ public class TrialSiteDatabaseTest extends
 
 		List<Person> members = new ArrayList<Person>();
 
-		sessionFactory.getCurrentSession().saveOrUpdate(validTrialSite);
+		entityManager.persist(validTrialSite);
 
 		for (int i = 0; i < 100; i++) {
 			Person p = factory.getPerson();
 			p.setTrialSite(validTrialSite);
 			assertEquals(validTrialSite.getId(), p.getTrialSite().getId());
-			sessionFactory.getCurrentSession().saveOrUpdate(p);
+			entityManager.persist(p);
 			members.add(p);
 		}
-		sessionFactory.getCurrentSession().flush();
+		entityManager.flush();
 
-		TrialSite c = (TrialSite) sessionFactory.getCurrentSession().get(
+		TrialSite c = entityManager.find(
 				TrialSite.class, validTrialSite.getId());
 		assertEquals(validTrialSite.getId(), c.getId());
-		sessionFactory.getCurrentSession().refresh(c);
+		entityManager.refresh(c);
 		assertEquals(members.size(), c.getMembers().size());
 	}
 

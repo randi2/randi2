@@ -38,9 +38,9 @@ public class PersonDatabaseTest extends AbstractDomainDatabaseTest<Person> {
 		l.setPerson(validPerson);
 		validPerson.setLogin(l);
 		assertNotNull(validPerson.getLogin());
-		sessionFactory.getCurrentSession().saveOrUpdate(validPerson);
+		entityManager.persist(validPerson);
 		assertEquals(validPerson.getLogin().getId(),l.getId());
-		Person p = (Person) sessionFactory.getCurrentSession().get(Person.class, validPerson
+		Person p = entityManager.find(Person.class, validPerson
 				.getId());
 		assertNotNull(p);
 		assertEquals(validPerson.getId(), p.getId());
@@ -59,12 +59,12 @@ public class PersonDatabaseTest extends AbstractDomainDatabaseTest<Person> {
 		validPerson.setAssistant(assistant);
 		validPerson.setSurname(stringUtil.getWithLength(20));
 		assertNotNull(validPerson.getAssistant());
-		sessionFactory.getCurrentSession().saveOrUpdate(validPerson.getAssistant());
-		sessionFactory.getCurrentSession().saveOrUpdate(validPerson);
+		entityManager.persist(validPerson.getAssistant());
+		entityManager.persist(validPerson);
 
 		assertTrue(validPerson.getAssistant().getId() != AbstractDomainObject.NOT_YET_SAVED_ID);
 
-		Person p = (Person) sessionFactory.getCurrentSession().get(Person.class, validPerson
+		Person p = entityManager.find(Person.class, validPerson
 				.getId());
 
 		assertNotNull(p);
@@ -78,18 +78,18 @@ public class PersonDatabaseTest extends AbstractDomainDatabaseTest<Person> {
 	@Transactional
 	public void testTrialSite() {
 		TrialSite trialSite = factory.getTrialSite();
-		sessionFactory.getCurrentSession().save(trialSite.getContactPerson());
-		sessionFactory.getCurrentSession().saveOrUpdate(trialSite);
+		entityManager.persist(trialSite.getContactPerson());
+		entityManager.persist(trialSite);
 		
 		validPerson.setSurname(stringUtil.getWithLength(20));
 		validPerson.setTrialSite(trialSite);
 		assertNotNull(validPerson.getTrialSite());
 
-		sessionFactory.getCurrentSession().saveOrUpdate(validPerson);
+		entityManager.persist(validPerson);
 
 		assertTrue(validPerson.getTrialSite().getId() != AbstractDomainObject.NOT_YET_SAVED_ID);
 
-		Person p = (Person) sessionFactory.getCurrentSession().get(Person.class, validPerson
+		Person p = entityManager.find(Person.class, validPerson
 				.getId());
 
 		assertNotNull(p);
@@ -101,10 +101,10 @@ public class PersonDatabaseTest extends AbstractDomainDatabaseTest<Person> {
 	@Test
 	@Transactional
 	public void databaseIntegrationTest() {
-		sessionFactory.getCurrentSession().save(validPerson);
+		entityManager.persist(validPerson);
 		assertTrue(validPerson.getId()>0);
 		assertTrue(validPerson.getLogin().getId()>0);
-		Person person = (Person)sessionFactory.getCurrentSession().get(Person.class, validPerson.getId());
+		Person person = entityManager.find(Person.class, validPerson.getId());
 		assertEquals(validPerson.getId(), person.getId());
 		assertEquals(validPerson.getLogin().getId(), person.getLogin().getId());
 	}

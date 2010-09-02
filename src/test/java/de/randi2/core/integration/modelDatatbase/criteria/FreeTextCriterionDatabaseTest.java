@@ -44,21 +44,23 @@ public class FreeTextCriterionDatabaseTest extends AbstractDomainDatabaseTest<Fr
 			temp.add(new FreeTextConstraint(Arrays.asList(new String[]{elements.get(1)})));
 		
 			FreeTextConstraint constraint = new FreeTextConstraint(Arrays.asList(elements.get(0)));
-			sessionFactory.getCurrentSession().save(constraint);
+			entityManager.persist(constraint);
 			assertTrue(constraint.getId()>0);
 			criterion.setInclusionConstraint(constraint);
 
 
-			sessionFactory.getCurrentSession().save(criterion);
+			entityManager.persist(criterion);
 			assertTrue(criterion.getId()>0);
 			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
-			sessionFactory.getCurrentSession().save(temp.get(0));
-			sessionFactory.getCurrentSession().save(temp.get(1));
+			entityManager.persist(temp.get(0));
+			entityManager.persist(temp.get(1));
 			assertTrue(temp.get(0).getId() > 0);
 			assertTrue(temp.get(1).getId() > 0);
 			criterion.setStrata(temp);
-			sessionFactory.getCurrentSession().update(criterion);
-			FreeTextCriterion dbCriterion = (FreeTextCriterion) sessionFactory.getCurrentSession().get(FreeTextCriterion.class,criterion.getId());
+			criterion = entityManager.merge(criterion);
+			entityManager.flush();
+			entityManager.clear();
+			FreeTextCriterion dbCriterion = entityManager.find(FreeTextCriterion.class,criterion.getId());
 			assertEquals(criterion, dbCriterion);
 			assertEquals(criterion.getName(), dbCriterion.getName());
 			assertEquals(criterion.getDescription(), dbCriterion.getDescription());

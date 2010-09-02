@@ -31,13 +31,11 @@ public class TrialSiteServiceTest extends AbstractServiceTest {
 	
 	@Autowired private TrialSiteService service;
 	@Autowired private DomainObjectFactory factory;
-	@Autowired private SessionFactory sessionFactory;
 	@Autowired private PasswordEncoder passwordEncoder;
 	@Autowired private SystemWideSaltSource saltSource;
 	@Autowired private RolesAndRights rolesAndRights;
 	@Autowired private ApplicationContext context;
 	
-
 	
 	@Test
 	public void testInit(){
@@ -74,7 +72,7 @@ public class TrialSiteServiceTest extends AbstractServiceTest {
 //		aclService.readAclById(new ObjectIdentityHibernate(TrialSite.class,site.getId()), new Sid[]{new PrincipalSid("admin@test.de")});
 		site.setName("Name23");
 		service.update(site);
-		TrialSite site2 = (TrialSite) sessionFactory.getCurrentSession().get(TrialSite.class, site.getId());
+		TrialSite site2 = entityManager.find(TrialSite.class, site.getId());
 		assertEquals(site.getName(), site2.getName());
 	}
 	

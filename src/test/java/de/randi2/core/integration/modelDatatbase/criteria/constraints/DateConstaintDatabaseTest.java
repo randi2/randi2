@@ -40,10 +40,10 @@ public class DateConstaintDatabaseTest extends	AbstractDomainDatabaseTest<DateCo
 	@Test
 	@Transactional
 	public void databaseIntegrationTest(){
-		sessionFactory.getCurrentSession().persist(constraint);
+		entityManager.persist(constraint);
 		assertTrue(constraint.getId()>0);
 		
-		DateConstraint dbConstraint = (DateConstraint) sessionFactory.getCurrentSession().get(DateConstraint.class, constraint.getId());
+		DateConstraint dbConstraint = entityManager.find(DateConstraint.class, constraint.getId());
 		assertEquals(constraint.getId(), dbConstraint.getId());
 		assertEquals(constraint.getFirstDate(), dbConstraint.getFirstDate());
 	}

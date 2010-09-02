@@ -7,7 +7,6 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +48,7 @@ public class DichotomousCriterionDatabaseTest extends AbstractDomainDatabaseTest
 			criterion.setInclusionConstraint(constraint);
 
 
-			sessionFactory.getCurrentSession().save(criterion);
+			entityManager.persist(criterion);
 			assertTrue(criterion.getId()>0);
 			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
 //			session.save(temp.get(0));
@@ -57,9 +56,10 @@ public class DichotomousCriterionDatabaseTest extends AbstractDomainDatabaseTest
 //			assertTrue(temp.get(0).getId() > 0);
 //			assertTrue(temp.get(1).getId() > 0);
 			criterion.setStrata(temp);
-			sessionFactory.getCurrentSession().update(criterion);
-			sessionFactory.getCurrentSession().flush();
-			DichotomousCriterion dbCriterion = (DichotomousCriterion) sessionFactory.getCurrentSession().get(DichotomousCriterion.class,criterion.getId());
+			entityManager.merge(criterion);
+			entityManager.flush();
+			entityManager.clear();
+			DichotomousCriterion dbCriterion = entityManager.find(DichotomousCriterion.class,criterion.getId());
 			assertEquals(criterion, dbCriterion);
 			assertEquals(constraint.getId(), dbCriterion.getInclusionConstraint().getId());
 			assertEquals(DichotomousConstraint.class, dbCriterion.getContstraintType());
@@ -71,7 +71,6 @@ public class DichotomousCriterionDatabaseTest extends AbstractDomainDatabaseTest
 	
 	@Test
 	public void databaseIntegrationTestWithStata() {
-		Session session = sessionFactory.openSession();
 		criterion.setDescription("test");
 		criterion.setOption1("Ja");
 		criterion.setOption2("Nein");
@@ -81,23 +80,22 @@ public class DichotomousCriterionDatabaseTest extends AbstractDomainDatabaseTest
 			temp.add(new DichotomousConstraint(Arrays.asList(new String[]{"Nein"})));
 		
 			DichotomousConstraint constraint = new DichotomousConstraint(Arrays.asList(new String[]{"Ja"}));
-			session.save(constraint);
+			entityManager.persist(constraint);
 			assertTrue(constraint.getId()>0);
 			criterion.setInclusionConstraint(constraint);
 
-			session.save(criterion);
+			criterion = entityManager.merge(criterion);
 			assertTrue(criterion.getId()>0);
 			assertEquals(criterion.getInclusionConstraint().getId(), constraint.getId());
-			session.save(temp.get(0));
-			session.save(temp.get(1));
+			entityManager.persist(temp.get(0));
+			entityManager.persist(temp.get(1));
 			assertTrue(temp.get(0).getId() > 0);
 			assertTrue(temp.get(1).getId() > 0);
 			criterion.setStrata(temp);
-			session.update(criterion);
-			session.flush();
-			session.close();
-			session = sessionFactory.openSession();
-			DichotomousCriterion dbCriterion = (DichotomousCriterion)session.get(DichotomousCriterion.class,criterion.getId());
+			entityManager.merge(criterion);
+			entityManager.flush();
+			entityManager.clear();
+			DichotomousCriterion dbCriterion = entityManager.find(DichotomousCriterion.class,criterion.getId());
 			assertEquals(criterion, dbCriterion);
 			assertEquals(constraint.getId(), dbCriterion.getInclusionConstraint().getId());
 			assertEquals(DichotomousConstraint.class, dbCriterion.getContstraintType());

@@ -42,9 +42,9 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetAllAdmin() {
-		authenticatAsAdmin();
-		List<Login> loginsTemp = sessionFactory.getCurrentSession()
-				.createQuery("from Login").list();
+		authenticatAsAdmin(); 
+		List<Login> loginsTemp = entityManager
+				.createQuery("from Login").getResultList();
 		List<Login> logins = userService.getAll();
 		assertEquals(loginsTemp.size(), logins.size());
 		assertTrue(loginsTemp.containsAll(logins));
@@ -56,8 +56,8 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	@Test
 	public void testGetAllInvestigator() {
 		authenticatAsAdmin();
-		List<Login> loginsTemp = sessionFactory.getCurrentSession()
-		.createQuery("from Login").list();
+		List<Login> loginsTemp = entityManager
+		.createQuery("from Login").getResultList();
 		authenticatAsInvestigator();
 		List<Login> logins = userService.getAll();
 		assertEquals(loginsTemp.size(), logins.size());

@@ -57,7 +57,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		assertTrue(validTrial.getId()>0);
 		validTrial.setName("Trialname");
 		service.update(validTrial);
-		Trial dbTrial = (Trial) sessionFactory.getCurrentSession().get(Trial.class, validTrial.getId());
+		Trial dbTrial =  entityManager.find(Trial.class, validTrial.getId());
 		assertNotNull(dbTrial);
 		assertEquals(validTrial.getName(), dbTrial.getName());
 		
@@ -284,7 +284,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 			 subject.setTrialSite(validTrial.getLeadingSite());
 			service.randomize(validTrial,subject );
 		}
-		sessionFactory.getCurrentSession().clear();
+		entityManager.clear();
 		Trial dbTrial = service.getObject(validTrial.getId());
 		assertNotNull(dbTrial);
 		assertEquals(validTrial.getName(), dbTrial.getName());

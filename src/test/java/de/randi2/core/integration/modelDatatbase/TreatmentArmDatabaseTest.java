@@ -32,12 +32,12 @@ public class TreatmentArmDatabaseTest extends AbstractDomainDatabaseTest<Treatme
 	@Test
 	@Transactional
 	public void databaseIntegrationTest(){
-		sessionFactory.getCurrentSession().persist(validTreatmentArm.getTrial().getLeadingSite());
-		sessionFactory.getCurrentSession().persist(validTreatmentArm.getTrial().getSponsorInvestigator());
-		sessionFactory.getCurrentSession().persist(validTreatmentArm.getTrial());
-		sessionFactory.getCurrentSession().persist(validTreatmentArm);
+		entityManager.persist(validTreatmentArm.getTrial().getLeadingSite());
+		entityManager.persist(validTreatmentArm.getTrial().getSponsorInvestigator());
+		entityManager.persist(validTreatmentArm.getTrial());
+		entityManager.persist(validTreatmentArm);
 		assertTrue(validTreatmentArm.getId() >0);
-		TreatmentArm dbArm = (TreatmentArm)sessionFactory.getCurrentSession().get(TreatmentArm.class, validTreatmentArm.getId());
+		TreatmentArm dbArm = entityManager.find(TreatmentArm.class, validTreatmentArm.getId());
 		assertEquals(validTreatmentArm.getDescription(), dbArm.getDescription());
 		assertEquals(validTreatmentArm.getName(), dbArm.getName());
 		assertEquals(validTreatmentArm.getPlannedSubjects(),dbArm.getPlannedSubjects());

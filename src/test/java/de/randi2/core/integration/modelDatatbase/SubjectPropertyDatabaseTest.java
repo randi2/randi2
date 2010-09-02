@@ -33,9 +33,9 @@ public class SubjectPropertyDatabaseTest extends AbstractDomainDatabaseTest<Subj
 		DichotomousCriterion criterion = new DichotomousCriterion();
 		criterion.setOption1("1");
 		criterion.setOption2("2");
-		sessionFactory.getCurrentSession().persist(criterion);
+		entityManager.persist(criterion);
 		assertTrue(criterion.getId() > 0);
-		criterion = (DichotomousCriterion) sessionFactory.getCurrentSession().get(
+		criterion = entityManager.find(
 				DichotomousCriterion.class, criterion.getId());
 		SubjectProperty<String> subjectString = new SubjectProperty<String>(
 				criterion);
@@ -45,10 +45,10 @@ public class SubjectPropertyDatabaseTest extends AbstractDomainDatabaseTest<Subj
 		} catch (ContraintViolatedException e) {
 			fail("Constraint violated: " + e.getMessage());
 		}
-		sessionFactory.getCurrentSession().persist(subjectString);
+		entityManager.persist(subjectString);
 		assertTrue(subjectString.getId() > 0);
-		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>) sessionFactory.getCurrentSession()
-				.get(SubjectProperty.class, subjectString.getId());
+		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>) entityManager
+				.find(SubjectProperty.class, subjectString.getId());
 		assertEquals(subjectString, dbSubjectProperty);
 		assertEquals(subjectString.getCriterion(), dbSubjectProperty
 				.getCriterion());
@@ -64,9 +64,9 @@ public class SubjectPropertyDatabaseTest extends AbstractDomainDatabaseTest<Subj
 		elements.add("Value3");
 
 		criterion.setElements(elements);
-		sessionFactory.getCurrentSession().persist(criterion);
+		entityManager.persist(criterion);
 		assertTrue(criterion.getId() > 0);
-		criterion = (OrdinalCriterion) sessionFactory.getCurrentSession().get(
+		criterion = entityManager.find(
 				OrdinalCriterion.class, criterion.getId());
 		SubjectProperty<String> subjectString = new SubjectProperty<String>(
 				criterion);
@@ -77,10 +77,10 @@ public class SubjectPropertyDatabaseTest extends AbstractDomainDatabaseTest<Subj
 		} catch (ContraintViolatedException e) {
 			fail("Constraint violated: " + e.getMessage());
 		}
-		sessionFactory.getCurrentSession().persist(subjectString);
+		entityManager.persist(subjectString);
 		assertTrue(subjectString.getId() > 0);
-		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>) sessionFactory.getCurrentSession()
-				.get(SubjectProperty.class, subjectString.getId());
+		SubjectProperty<String> dbSubjectProperty = entityManager
+				.find(SubjectProperty.class, subjectString.getId());
 		assertEquals(subjectString, dbSubjectProperty);
 		assertEquals(subjectString.getCriterion(), dbSubjectProperty
 				.getCriterion());
@@ -91,9 +91,9 @@ public class SubjectPropertyDatabaseTest extends AbstractDomainDatabaseTest<Subj
 	public void testDatabaseIntegrationSubjectDateCriterion() {
 		DateCriterion criterion = new DateCriterion();
 		criterion.setName("dsagdsagsd");
-		sessionFactory.getCurrentSession().persist(criterion);
+		entityManager.persist(criterion);
 		assertTrue(criterion.getId() > 0);
-		criterion = (DateCriterion) sessionFactory.getCurrentSession().get(DateCriterion.class,
+		criterion = entityManager.find(DateCriterion.class,
 				criterion.getId());
 		SubjectProperty<GregorianCalendar> subject = new SubjectProperty<GregorianCalendar>(
 				criterion);
@@ -102,10 +102,10 @@ public class SubjectPropertyDatabaseTest extends AbstractDomainDatabaseTest<Subj
 		} catch (ContraintViolatedException e) {
 			fail("Constraint violated: " + e.getMessage());
 		}
-		sessionFactory.getCurrentSession().persist(subject);
+		entityManager.persist(subject);
 		assertTrue(subject.getId() > 0);
-		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>) sessionFactory.getCurrentSession()
-				.get(SubjectProperty.class, subject.getId());
+		SubjectProperty<String> dbSubjectProperty = entityManager
+				.find(SubjectProperty.class, subject.getId());
 		assertEquals(subject, dbSubjectProperty);
 		assertEquals(subject.getCriterion(), dbSubjectProperty.getCriterion());
 	}
@@ -115,9 +115,9 @@ public class SubjectPropertyDatabaseTest extends AbstractDomainDatabaseTest<Subj
 	public void testDatabaseIntegrationSubjectFreeTextCriterion() {
 		FreeTextCriterion criterion = new FreeTextCriterion();
 		criterion.setName("dsagdsagsd");
-		sessionFactory.getCurrentSession().persist(criterion);
+		entityManager.persist(criterion);
 		assertTrue(criterion.getId() > 0);
-		criterion = (FreeTextCriterion) sessionFactory.getCurrentSession().get(
+		criterion = entityManager.find(
 				FreeTextCriterion.class, criterion.getId());
 		SubjectProperty<String> subject = new SubjectProperty<String>(criterion);
 		try {
@@ -125,10 +125,10 @@ public class SubjectPropertyDatabaseTest extends AbstractDomainDatabaseTest<Subj
 		} catch (ContraintViolatedException e) {
 			fail("Constraint violated: " + e.getMessage());
 		}
-		sessionFactory.getCurrentSession().persist(subject);
+		entityManager.persist(subject);
 		assertTrue(subject.getId() > 0);
-		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>) sessionFactory.getCurrentSession()
-				.get(SubjectProperty.class, subject.getId());
+		SubjectProperty<String> dbSubjectProperty = (SubjectProperty<String>) entityManager
+				.find(SubjectProperty.class, subject.getId());
 		assertEquals(subject, dbSubjectProperty);
 		assertEquals("test", dbSubjectProperty.getValue());
 		assertEquals(subject.getCriterion(), dbSubjectProperty.getCriterion());

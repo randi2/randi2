@@ -5,12 +5,12 @@ import static org.junit.Assert.fail;
 
 import java.util.Set;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.context.ManagedSessionContext;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,16 @@ public abstract class AbstractDomainDatabaseTest<TC extends AbstractDomainObject
 	@Autowired protected TestStringUtil stringUtil;
 	@Autowired protected DomainObjectFactory factory;
 	@Autowired protected ApplicationContext context; 
-	@Autowired protected SessionFactory sessionFactory;
 	@Autowired protected InitializeDatabaseUtil databaseUtil;
+	
+	protected EntityManager entityManager;
+	
+	
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
 	
 	protected Class<TC> testClass;
 
@@ -39,7 +47,6 @@ public abstract class AbstractDomainDatabaseTest<TC extends AbstractDomainObject
 
 	@Before
 	public void setUp(){
-		ManagedSessionContext.bind(sessionFactory.openSession());
 		try {
 			databaseUtil.setUpDatabaseEmpty();
 		} catch (Exception e1) {

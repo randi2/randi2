@@ -37,10 +37,10 @@ public class FreeTextConstraintDatabaseTest extends	AbstractDomainDatabaseTest<F
 	@Test
 	@Transactional
 	public void databaseIntegrationTest(){
-		sessionFactory.getCurrentSession().persist(constraint);
+		entityManager.persist(constraint);
 		assertTrue(constraint.getId()>0);
 		
-		FreeTextConstraint dbConstraint = (FreeTextConstraint) sessionFactory.getCurrentSession().get(FreeTextConstraint.class, constraint.getId());
+		FreeTextConstraint dbConstraint = entityManager.find(FreeTextConstraint.class, constraint.getId());
 		assertEquals(constraint.getId(), dbConstraint.getId());
 		assertEquals(constraint.getExpectedValue(), dbConstraint.getExpectedValue());
 	}

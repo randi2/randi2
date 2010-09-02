@@ -41,9 +41,9 @@ public class LoginDatabaseTest extends AbstractDomainDatabaseTest<Login> {
 		assertNotNull(validLogin.getPerson());
 		
 		
-		sessionFactory.getCurrentSession().saveOrUpdate(validLogin);
+		entityManager.persist(validLogin);
 		
-		Login l = (Login)sessionFactory.getCurrentSession().get(Login.class, validLogin.getId());
+		Login l = entityManager.find(Login.class, validLogin.getId());
 		assertNotNull(l);
 		assertEquals(validLogin.getUsername(), l.getUsername());
 		assertNotNull(l.getPerson());
@@ -58,9 +58,9 @@ public class LoginDatabaseTest extends AbstractDomainDatabaseTest<Login> {
 		validLogin.setPrefLocale(Locale.GERMAN);
 		assertEquals(Locale.GERMAN, validLogin.getPrefLocale());
 		
-		sessionFactory.getCurrentSession().saveOrUpdate(validLogin);
+		entityManager.persist(validLogin);
 		assertTrue(validLogin.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
-		Login l = (Login) sessionFactory.getCurrentSession().get(Login.class, validLogin.getId());
+		Login l = entityManager.find(Login.class, validLogin.getId());
 		assertEquals(validLogin.getId(), l.getId());
 		assertEquals(Locale.GERMAN, l.getPrefLocale());
 	}
@@ -74,9 +74,9 @@ public class LoginDatabaseTest extends AbstractDomainDatabaseTest<Login> {
 		validLogin.setPrefLocale(Locale.ENGLISH);
 		GregorianCalendar dateL = new GregorianCalendar(2008,2,1);
 		validLogin.setLastLoggedIn(dateL);
-		sessionFactory.getCurrentSession().save(validLogin);
+		entityManager.persist(validLogin);
 		assertTrue(validLogin.getId()>0);
-		Login login = (Login)sessionFactory.getCurrentSession().get(Login.class, validLogin.getId());
+		Login login = entityManager.find(Login.class, validLogin.getId());
 		assertEquals(validLogin.getId(), login.getId());
 		// FIXME: Clear out
 		//assertEquals(Arrays.asList(validLogin.getAuthorities()), Arrays.asList(login.getAuthorities()));

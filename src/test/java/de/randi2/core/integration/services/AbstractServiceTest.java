@@ -5,6 +5,9 @@ import static junit.framework.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
 import org.junit.After;
@@ -30,8 +33,6 @@ import de.randi2.utility.security.RolesAndRights;
 public abstract class AbstractServiceTest {
 
 	@Autowired
-	protected SessionFactory sessionFactory;
-	@Autowired
 	protected DomainObjectFactory factory;
 	@Autowired
 	protected RolesAndRights rolesAndRights;
@@ -43,11 +44,18 @@ public abstract class AbstractServiceTest {
 	@Autowired
 	private InitializeDatabaseUtil databaseUtil;
 	
+	
+	protected EntityManager entityManager;
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
 	protected Login user;
 
 	@Before
 	public void setUp() {
-		ManagedSessionContext.bind(sessionFactory.openSession());
 		try {
 			databaseUtil.setUpDatabaseUserAndTrialSites();
 		} catch (Exception e) {
@@ -58,7 +66,7 @@ public abstract class AbstractServiceTest {
 	@After
 	public void afterTest() {
 		SecurityContextHolder.getContext().setAuthentication(null);
-		ManagedSessionContext.unbind(sessionFactory);
+		entityManager.clear();
 	}
 
 	protected void authenticatAsAdmin() {
@@ -97,10 +105,10 @@ public abstract class AbstractServiceTest {
 	@SuppressWarnings("unchecked")
 	protected Login findLogin(String username) {
 		String query = "from de.randi2.model.Login login where "
-				+ "login.username =?";
+				+ "login.username = :username";
 
-		List<Login> loginList = (List) sessionFactory.getCurrentSession()
-				.createQuery(query).setParameter(0, username).list();
+		List<Login> loginList = entityManager
+				.createQuery(query).setParameter("username", username).getResultList();
 		if (loginList.size() == 1)
 			return loginList.get(0);
 		else

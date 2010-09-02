@@ -20,11 +20,15 @@ package de.randi2.core.unit.model.hibernate;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.persister.entity.EntityPersister;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
@@ -38,8 +42,12 @@ import de.randi2.testUtility.utility.InitializeDatabaseUtil;
 @ContextConfiguration(locations = {"classpath:META-INF/sessionFactory-test.xml"})
 public class HibernateMappingTest extends AbstractJUnit4SpringContextTests{
 
-    @Autowired
-    private SessionFactory sessionFactory;
+	private EntityManager entityManager;
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 
     @Autowired
     private InitializeDatabaseUtil databaseUtil;
@@ -53,18 +61,14 @@ public class HibernateMappingTest extends AbstractJUnit4SpringContextTests{
     @Test
     public void testEverything() throws Exception {
     	databaseUtil.setUpDatabaseEmpty();
-        Map metadata = sessionFactory.getAllClassMetadata();
+    	
+        Map metadata = ((Session)entityManager.getDelegate()).getSessionFactory().getAllClassMetadata();
         for (Object persisterObject : metadata.values()) {
-            Session session = sessionFactory.openSession();
-            try {
                 EntityPersister persister = (EntityPersister) persisterObject;
                 String className = persister.getClassMetadata().getEntityName();
                 String queryString = "from " + className + " c";
-                List result = session.createQuery(queryString).list();
+                List result = entityManager.createQuery(queryString).getResultList();
                 logger.debug("QUERY: " + queryString);
-            } finally {
-                session.close();
-            }
         }
     }
 }

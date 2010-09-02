@@ -48,12 +48,12 @@ public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<Minimiz
 		treatmentArm3.setName("arm3");
 		treatmentArm3.setPlannedSubjects(30);
 		treatmentArm3.setTrial(trial);
-		sessionFactory.getCurrentSession().persist(trial.getLeadingSite());
-		sessionFactory.getCurrentSession().persist(trial.getSponsorInvestigator());
-		sessionFactory.getCurrentSession().persist(trial);
-		sessionFactory.getCurrentSession().persist(treatmentArm1);
-		sessionFactory.getCurrentSession().persist(treatmentArm2);
-		sessionFactory.getCurrentSession().persist(treatmentArm3);
+		entityManager.persist(trial.getLeadingSite());
+		entityManager.persist(trial.getSponsorInvestigator());
+		entityManager.persist(trial);
+		entityManager.persist(treatmentArm1);
+		entityManager.persist(treatmentArm2);
+		entityManager.persist(treatmentArm3);
 		
 		
 		Map<TreatmentArm, MinimizationMapElementWrapper> probabilitiesPerPreferredTreatment1 = new HashMap<TreatmentArm, MinimizationMapElementWrapper>();
@@ -82,11 +82,11 @@ public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<Minimiz
 		MinimizationTempData mtemp1 = new MinimizationTempData();
 		mtemp1.setProbabilitiesPerPreferredTreatment(probabilitiesPerPreferredTreatment1);
 		
-		sessionFactory.getCurrentSession().persist(mtemp1);
+		entityManager.persist(mtemp1);
 		
 		
 		assertTrue(mtemp1.getId()>-1);
-		MinimizationTempData mtemp1DB = (MinimizationTempData) sessionFactory.getCurrentSession().get(MinimizationTempData.class, mtemp1.getId());
+		MinimizationTempData mtemp1DB = entityManager.find(MinimizationTempData.class, mtemp1.getId());
 		assertEquals(mtemp1.getId(), mtemp1DB.getId());
 		assertEquals(3,mtemp1DB.getProbabilitiesPerPreferredTreatment().keySet().size());
 	
@@ -109,18 +109,18 @@ public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<Minimiz
 		probabilitiesPerPreferredTreatmentDB.get(treatmentArm1).getMap().put(treatmentArm2, 20.0);
 		probabilitiesPerPreferredTreatmentDB.get(treatmentArm1).getMap().put(treatmentArm3, 30.0);
 		
-		sessionFactory.getCurrentSession().update(mtemp1DB);
+		mtemp1DB = entityManager.merge(mtemp1DB);
+		entityManager.detach(mtemp1DB);
 		
-		
-		MinimizationTempData mtempDB1 = (MinimizationTempData) sessionFactory.getCurrentSession().get(MinimizationTempData.class, mtemp1.getId());
+		MinimizationTempData mtempDB1 = entityManager.find(MinimizationTempData.class, mtemp1.getId());
 		assertEquals(mtempDB1.getId(), mtemp1DB.getId());
 		assertEquals(3,mtempDB1.getProbabilitiesPerPreferredTreatment().keySet().size());
 	
 		
 
-		TreatmentArm treatmentArmDB1 = (TreatmentArm) sessionFactory.getCurrentSession().get(TreatmentArm.class, treatmentArm1.getId());
-		TreatmentArm treatmentArmDB2 = (TreatmentArm) sessionFactory.getCurrentSession().get(TreatmentArm.class, treatmentArm2.getId());
-		TreatmentArm treatmentArmDB3 = (TreatmentArm) sessionFactory.getCurrentSession().get(TreatmentArm.class, treatmentArm3.getId());
+		TreatmentArm treatmentArmDB1 = entityManager.find(TreatmentArm.class, treatmentArm1.getId());
+		TreatmentArm treatmentArmDB2 = entityManager.find(TreatmentArm.class, treatmentArm2.getId());
+		TreatmentArm treatmentArmDB3 = entityManager.find(TreatmentArm.class, treatmentArm3.getId());
 		
 		assertEquals(10.0,mtempDB1.getProbabilitiesPerPreferredTreatment().get(treatmentArmDB1).getMap().get(treatmentArmDB1));
 		assertEquals(20.0,mtempDB1.getProbabilitiesPerPreferredTreatment().get(treatmentArmDB1).getMap().get(treatmentArmDB2));
@@ -168,15 +168,15 @@ public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<Minimiz
 		
 		
 		
-			sessionFactory.getCurrentSession().persist(trial.getLeadingSite());
-			sessionFactory.getCurrentSession().persist(trial.getSponsorInvestigator());
-		sessionFactory.getCurrentSession().persist(trial);
-		sessionFactory.getCurrentSession().persist(treatmentArm1);
-		sessionFactory.getCurrentSession().persist(treatmentArm2);
-		sessionFactory.getCurrentSession().persist(treatmentArm3);
-		sessionFactory.getCurrentSession().persist(dc1);
-		sessionFactory.getCurrentSession().persist(dc2);
-		sessionFactory.getCurrentSession().persist(oc1);
+			entityManager.persist(trial.getLeadingSite());
+			entityManager.persist(trial.getSponsorInvestigator());
+		entityManager.persist(trial);
+		entityManager.persist(treatmentArm1);
+		entityManager.persist(treatmentArm2);
+		entityManager.persist(treatmentArm3);
+		entityManager.persist(dc1);
+		entityManager.persist(dc2);
+		entityManager.persist(oc1);
 		
 		
 		Map<AbstractConstraint<?>, MinimizationMapElementWrapper> countConstraints = new HashMap<AbstractConstraint<?>, MinimizationMapElementWrapper>();
@@ -205,11 +205,11 @@ public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<Minimiz
 		MinimizationTempData mtemp1 = new MinimizationTempData();
 		mtemp1.setCountConstraints(countConstraints);
 		
-		sessionFactory.getCurrentSession().persist(mtemp1);
+		entityManager.persist(mtemp1);
 		
 		
 		assertTrue(mtemp1.getId()>-1);
-		MinimizationTempData mtemp1DB = (MinimizationTempData) sessionFactory.getCurrentSession().get(MinimizationTempData.class, mtemp1.getId());
+		MinimizationTempData mtemp1DB = entityManager.find(MinimizationTempData.class, mtemp1.getId());
 		assertEquals(mtemp1.getId(), mtemp1DB.getId());
 		assertEquals(3,mtemp1DB.getCountConstraints().keySet().size());
 	
@@ -257,14 +257,14 @@ public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<Minimiz
 		TrialSite trialSite2 = factory.getTrialSite();
 		TrialSite trialSite3 = factory.getTrialSite();
 		
-		sessionFactory.getCurrentSession().persist(trial.getLeadingSite());
-		sessionFactory.getCurrentSession().persist(trial.getSponsorInvestigator());
-		sessionFactory.getCurrentSession().persist(trial);
-		sessionFactory.getCurrentSession().persist(treatmentArm1);
-		sessionFactory.getCurrentSession().persist(treatmentArm2);
-		sessionFactory.getCurrentSession().persist(treatmentArm3);
-		sessionFactory.getCurrentSession().persist(trialSite2);
-		sessionFactory.getCurrentSession().persist(trialSite3);
+		entityManager.persist(trial.getLeadingSite());
+		entityManager.persist(trial.getSponsorInvestigator());
+		entityManager.persist(trial);
+		entityManager.persist(treatmentArm1);
+		entityManager.persist(treatmentArm2);
+		entityManager.persist(treatmentArm3);
+		entityManager.persist(trialSite2);
+		entityManager.persist(trialSite3);
 		
 		
 		Map<TrialSite, MinimizationMapElementWrapper> countTrialSites = new HashMap<TrialSite, MinimizationMapElementWrapper>();
@@ -293,11 +293,11 @@ public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<Minimiz
 		MinimizationTempData mtemp1 = new MinimizationTempData();
 		mtemp1.setCountTrialSites(countTrialSites);
 		
-		sessionFactory.getCurrentSession().persist(mtemp1);
+		entityManager.persist(mtemp1);
 		
 		
 		assertTrue(mtemp1.getId()>-1);
-		MinimizationTempData mtemp1DB = (MinimizationTempData) sessionFactory.getCurrentSession().get(MinimizationTempData.class, mtemp1.getId());
+		MinimizationTempData mtemp1DB = entityManager.find(MinimizationTempData.class, mtemp1.getId());
 		assertEquals(mtemp1.getId(), mtemp1DB.getId());
 		assertEquals(3,mtemp1DB.getCountTrialSites().keySet().size());
 	

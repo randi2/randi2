@@ -3,11 +3,12 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +21,15 @@ import de.randi2.model.security.SidHibernate;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/META-INF/spring-test.xml"})
 public class AccessControlEntryHibernateTest {
-
 	
-	@Autowired
-	private SessionFactory sessionFactory;
 	private AccessControlEntryHibernate ace;
-	
+
+	private EntityManager entityManager;
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 	
 	@Before
 	public void setUp(){
@@ -75,9 +79,9 @@ public class AccessControlEntryHibernateTest {
 		ace.setGranting(false);
 		ace.setRoleName("Admin");
 		ace.setPermission(PermissionHibernate.READ);
-		sessionFactory.getCurrentSession().persist(ace);
+		entityManager.persist(ace);
 		assertTrue(ace.getId()>0);
-		AccessControlEntryHibernate dbAce = (AccessControlEntryHibernate)sessionFactory.getCurrentSession().get(AccessControlEntryHibernate.class, ace.getId());
+		AccessControlEntryHibernate dbAce = entityManager.find(AccessControlEntryHibernate.class, ace.getId());
 		assertEquals(ace.getId(), dbAce.getId());
 		assertFalse(dbAce.isGranting());
 		assertEquals(ace.getRoleName(), dbAce.getRoleName());

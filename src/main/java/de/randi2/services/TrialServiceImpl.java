@@ -74,7 +74,6 @@ public class TrialServiceImpl implements TrialService {
 			tA.setTrial(newTrial);
 		}
 		trialDao.create(newTrial);
-		entityManager.flush();
 	}
 
 	@Override
