@@ -24,7 +24,6 @@
 	<context:spring-configured></context:spring-configured>
 
 	<import resource="classpath:META-INF/subconfig/database.xml" />
-	<import resource="classpath:META-INF/subconfig/hibernate-config.xml" />
 	<import resource="classpath:META-INF/subconfig/hibernate.xml" />
 	<import resource="classpath:META-INF/subconfig/aspects.xml" />
 	<import resource="classpath:META-INF/subconfig/security.xml" />

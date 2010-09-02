@@ -5,38 +5,32 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	">
-
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"></property>
-		<property name="exposeTransactionAwareSessionFactory" ref="exposeTransactionAwareSessionFactory"/>
-		<property name="hibernateProperties" ref="hibernateProperties">
-		</property>
-		<property name="packagesToScan" value="de.randi2.model"></property>
-			<property name="annotatedClasses">
-				<list>
-					<value>de.randi2.utility.logging.LogEntry</value>
-				</list>
-			</property>
-			<property name="eventListeners">
-			<map>
-				<entry key="merge" value-ref="listener" />
-				<entry key="save-update" value-ref="listener" />
-				<entry key="create" value-ref="listener" />
-				<entry key="save" value-ref="listener" />
-			</map>
-		</property>
-	</bean>
-
-	<bean id="listener" class="de.randi2.utility.listener.SaveUpdateListener" />
-
+	
 	<bean id="hibernateInterceptor" class="de.randi2.utility.CustomHibernateInterceptor" />
 
-	<tx:annotation-driven transaction-manager="transactionManager" />
-	
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory"></property>
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="false" />
+				<property name="generateDdl" value="false" />
+				<property name="databasePlatform" value="${hibernate.dialect}" />
+			</bean>
+		</property>
+		<property name="dataSource" ref="dataSource"/>
 	</bean>
+
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" >
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<tx:annotation-driven />
+
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
 </beans>
