@@ -24,6 +24,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 
 @Constraint(validatedBy=ContactPersonValidation.class)
 @Target(ElementType.FIELD)
@@ -32,4 +33,8 @@ import javax.validation.Constraint;
 public @interface ContactPerson {
 
 	String message() default "{validator.contactPerson}"; 
+	
+    Class<?>[] groups() default {};
+    
+    Class<? extends Payload>[] payload() default {};
 }

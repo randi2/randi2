@@ -24,6 +24,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 
 @Constraint(validatedBy=EMailRANDI2Validator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
@@ -32,4 +33,8 @@ import javax.validation.Constraint;
 public @interface EMailRANDI2 {
 
 	String message() default "{validator.eMailRANDI2}";
+	
+    Class<?>[] groups() default {};
+    
+    Class<? extends Payload>[] payload() default {};
 }
