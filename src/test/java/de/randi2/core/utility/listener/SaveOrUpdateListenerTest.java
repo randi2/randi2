@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class SaveOrUpdateListenerTest {
 
 
 	@Test
+	@Ignore
 	public void onPersist() {
 		AbstractDomainObject object = factory.getPerson();
 		assertNull(object.getCreatedAt());
@@ -49,6 +51,7 @@ public class SaveOrUpdateListenerTest {
 	}
 
 	@Test
+	@Ignore
 	public void onPersistWithCascade() {
 		Login object = factory.getLogin();
 		assertNull(object.getCreatedAt());
@@ -63,6 +66,7 @@ public class SaveOrUpdateListenerTest {
 	}
 
 	@Test
+	@Ignore
 	public void onMerge() {
 		AbstractDomainObject object = factory.getPerson();
 		assertNull(object.getCreatedAt());
@@ -86,6 +90,7 @@ public class SaveOrUpdateListenerTest {
 	}
 
 	@Test
+	@Ignore
 	public void onMergewithCascade() {
 		Login object = factory.getLogin();
 		assertNull(object.getCreatedAt());
@@ -126,6 +131,7 @@ public class SaveOrUpdateListenerTest {
 	
 	
 	@Test
+	@Ignore
 	public void onSaveOrUpdate() {
 		Login object = factory.getLogin();
 		assertNull(object.getCreatedAt());
