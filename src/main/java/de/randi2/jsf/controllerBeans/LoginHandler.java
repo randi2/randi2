@@ -29,13 +29,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import org.apache.log4j.Logger;
-import org.hibernate.validator.InvalidStateException;
-import org.hibernate.validator.InvalidValue;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import de.randi2.jsf.backingBeans.RegisterPage;
@@ -52,8 +52,8 @@ import de.randi2.model.TrialSite;
 import de.randi2.services.TrialSiteService;
 import de.randi2.services.UserService;
 import de.randi2.utility.logging.LogEntry;
-import de.randi2.utility.logging.LogEntry.ActionType;
 import de.randi2.utility.logging.LogService;
+import de.randi2.utility.logging.LogEntry.ActionType;
 
 /**
  * <p>
@@ -252,9 +252,9 @@ public class LoginHandler extends AbstractHandler<Login> {
 				popups.setUserSavedPVisible(true);
 			}
 			return Randi2.SUCCESS;
-		} catch (InvalidStateException exp) {
-			for (InvalidValue v : exp.getInvalidValues()) {
-				Randi2.showMessage(v.getPropertyName() + " : " + v.getMessage());
+		} catch (ConstraintViolationException exp) {
+			for (ConstraintViolation<?> v : exp.getConstraintViolations()) {
+				Randi2.showMessage(v.getPropertyPath()+ " : " + v.getMessage());
 			}
 			return Randi2.ERROR;
 		} catch (Exception e) {
@@ -330,7 +330,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 				 * Reloading the user from the database to ensure that the
 				 * object is attached to the correct session
 				 */
-				loggedInUser = userService.getObject(loggedInUser.getId());
+//				loggedInUser = userService.getObject(loggedInUser.getId());
 				loggedInUser.setLastLoggedIn(new GregorianCalendar());
 			} catch (NullPointerException exp) {
 				Logger.getLogger(this.getClass()).debug("NPE", exp);

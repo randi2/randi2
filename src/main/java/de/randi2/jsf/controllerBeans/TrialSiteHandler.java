@@ -19,11 +19,10 @@ package de.randi2.jsf.controllerBeans;
 
 import java.util.List;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 import lombok.Setter;
-
-import org.hibernate.validator.InvalidStateException;
-import org.hibernate.validator.InvalidValue;
-
 import de.randi2.jsf.supportBeans.PermissionVerifier;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
@@ -105,10 +104,10 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 			popups.showTrialSiteSavedPopup();
 			this.creatingMode = false;
 			return Randi2.SUCCESS;
-		} catch (InvalidStateException exp) {
-			for (InvalidValue v : exp.getInvalidValues()) {
+		} catch (ConstraintViolationException exp) {
+			for (ConstraintViolation<?> v : exp.getConstraintViolations()) {
 				Randi2
-						.showMessage(v.getPropertyName() + " : "
+						.showMessage(v.getPropertyPath() + " : "
 								+ v.getMessage());
 			}
 			return Randi2.ERROR;
