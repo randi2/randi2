@@ -17,20 +17,20 @@
  */
 package de.randi2.utility.validations.randomizationConfiguration;
 
-import org.hibernate.validator.Validator;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
-public class BlockRandomizationConfigValidator implements Validator<BlockRandomizationConfigA> {
+import de.randi2.model.randomization.BlockRandomizationConfig;
+
+public class BlockRandomizationConfigValidator implements ConstraintValidator<BlockRandomizationConfigA, BlockRandomizationConfig> {
 
 	@Override
 	public void initialize(BlockRandomizationConfigA parameters) {
 	}
 
 	@Override
-	public boolean isValid(Object value) {
-			if(value instanceof de.randi2.model.randomization.BlockRandomizationConfig){
-				de.randi2.model.randomization.BlockRandomizationConfig config = (de.randi2.model.randomization.BlockRandomizationConfig) value;
-				return (config.getMaximum() >= config.getMinimum() && config.getMinimum() >=2);
-			}else return false;
+	public boolean isValid(BlockRandomizationConfig config, ConstraintValidatorContext constraintContext) {
+		return (config.getMaximum() >= config.getMinimum() && config.getMinimum() >=2);
 	}
 
 }
