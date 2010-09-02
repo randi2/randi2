@@ -22,10 +22,12 @@ import java.lang.reflect.Method;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import org.apache.log4j.Logger;
-import org.hibernate.validator.Validator;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
-public class DateDependenceValidation implements Validator<DateDependence> {
+import org.apache.log4j.Logger;
+
+public class DateDependenceValidation implements ConstraintValidator<DateDependence, Object> {
 
 	private String firstDate;
 	private String secondDate;
@@ -38,7 +40,7 @@ public class DateDependenceValidation implements Validator<DateDependence> {
 	}
 
 	@Override
-	public boolean isValid(Object object) {
+	public boolean isValid(Object object, ConstraintValidatorContext constraintContext) {
 		try {
 			Method firstMethod = object.getClass().getMethod("get" + firstDate.substring(0, 1).toUpperCase(Locale.getDefault()) + firstDate.substring(1), new Class[0]);
 			Method secondMethod = object.getClass().getMethod("get" + secondDate.substring(0, 1).toUpperCase(Locale.getDefault()) + secondDate.substring(1), new Class[0]);
