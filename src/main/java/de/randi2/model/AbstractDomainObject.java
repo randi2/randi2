@@ -23,6 +23,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,12 +31,15 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.persistence.Version;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import org.hibernate.validator.ClassValidator;
-import org.hibernate.validator.InvalidValue;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import de.randi2.model.exceptions.ValidationException;
 
@@ -96,7 +100,7 @@ public abstract class AbstractDomainObject implements Serializable {
 	 * @return true, if is required
 	 */
 	private boolean isRequired(Field f) {
-		return f.isAnnotationPresent(org.hibernate.validator.NotEmpty.class) || f.isAnnotationPresent(org.hibernate.validator.NotNull.class) || f.isAnnotationPresent(de.randi2.utility.validations.Password.class);
+		return f.isAnnotationPresent(NotEmpty.class) || f.isAnnotationPresent(NotNull.class) || f.isAnnotationPresent(de.randi2.utility.validations.Password.class);
 	}
 
 	/**
@@ -109,11 +113,11 @@ public abstract class AbstractDomainObject implements Serializable {
 	 */
 	@SuppressWarnings("unchecked")
 	public void checkValue(String field, Object value) {
-		ClassValidator val = new ClassValidator(this.getClass());
-		InvalidValue[] invalids = val.getPotentialInvalidValues(field, value);
+		Validator val = Validation.buildDefaultValidatorFactory().getValidator();
+	 Set<?> invalids = val.validateValue(this.getClass(), field, value, null);
 
-		if (invalids.length > 0) {
-			throw new ValidationException(invalids);
+		if (invalids.size() > 0) {
+			throw new ValidationException((Set<ConstraintViolation<?>>) invalids);
 		}
 	}
 
