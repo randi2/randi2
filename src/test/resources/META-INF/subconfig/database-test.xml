@@ -15,7 +15,7 @@
         <property name="properties">
             <value>
             <![CDATA[[
-            	test.hibernate.dialect=de.randi2.utility.CustomHSQLDialect
+            	hibernate.dialect=de.randi2.utility.CustomHSQLDialect
             	test.database.name=randi2/jdbc/hsqldb-test
             ]]></value>
         </property>

@@ -4,41 +4,40 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import org.hibernate.validator.InvalidValue;
+import javax.validation.ConstraintViolation;
+
+import org.hibernate.validator.engine.ConstraintViolationImpl;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.randi2.model.exceptions.ValidationException;
-
 import edu.emory.mathcs.backport.java.util.Arrays;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/META-INF/spring-test.xml"})
 public class ValidationExceptionTest {
 
-	private List<InvalidValue> invalidValues;
+	private Set<ConstraintViolation<?>> invalidValues;
 	private ValidationException e;
 	
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp(){
-		invalidValues = new ArrayList<InvalidValue>();
+		invalidValues = new HashSet<ConstraintViolation<?>>();
 		for(int i=0;i<10;i++){
-			invalidValues.add(new InvalidValue("Invalid Value1",ValidationException.class,"property1","value1", "bean1"));
+			invalidValues.add(new ConstraintViolationImpl("Invalid Value" + i,"Invalid Value" + i, ValidationException.class,"property1",null, "value " + i, null, null, null));
 		}
-		e = new ValidationException(invalidValues.toArray(new InvalidValue[0]));
+		e = new ValidationException(invalidValues);
+		assertEquals(10, invalidValues.size());
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetInvalids(){
-		assertEquals(10,e.getInvalids().length);
-		assertTrue(Arrays.asList(e.getInvalids()).containsAll(invalidValues));
-		assertTrue(invalidValues.containsAll(Arrays.asList(e.getInvalids())));
+		assertEquals(10,e.getInvalids().size());
+		assertTrue(e.getInvalids().containsAll(invalidValues));
+		assertTrue(invalidValues.containsAll(e.getInvalids()));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -46,7 +45,7 @@ public class ValidationExceptionTest {
 	public void testGetMessages(){
 		assertEquals(10,e.getMessages().length);
 		List<String> messages = new ArrayList<String>();
-		for(InvalidValue value:invalidValues){
+		for(ConstraintViolation<?> value:invalidValues){
 			messages.add(value.getMessage());
 		}
 		assertTrue(Arrays.asList(e.getMessages()).containsAll(messages));

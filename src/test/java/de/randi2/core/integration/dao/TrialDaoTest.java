@@ -27,9 +27,9 @@ public class TrialDaoTest extends AbstractDaoTest{
 	@Test
 	public void testCreateAndSave() {
 		Trial t1 = factory.getTrial();
-		sessionFactory.getCurrentSession().save(t1.getLeadingSite().getContactPerson());
-		sessionFactory.getCurrentSession().save(t1.getLeadingSite());
-		sessionFactory.getCurrentSession().save(t1.getSponsorInvestigator());
+		entityManager.persist(t1.getLeadingSite().getContactPerson());
+		entityManager.persist(t1.getLeadingSite());
+		entityManager.persist(t1.getSponsorInvestigator());
 		assertNotSaved(t1);
 		dao.create(t1);
 		assertSaved(t1);

@@ -38,14 +38,14 @@ public class HibernateAclServiceTest extends AbstractDaoTest{
 	public void setUp(){
 		super.setUp();
 		trialsite = factory.getTrialSite();
-		sessionFactory.getCurrentSession().save(trialsite.getContactPerson());
+		entityManager.persist(trialsite.getContactPerson());
 	}
 	
 	@Test
 	public void testCreateAcl(){
-		sessionFactory.getCurrentSession().saveOrUpdate(trialsite);
+		entityManager.persist(trialsite);
 		Login login = factory.getLogin();
-		sessionFactory.getCurrentSession().saveOrUpdate(login);
+		entityManager.persist(login);
 		
 	    AclHibernate acl = aclService.createAcl(trialsite, login.getUsername());
 		assertTrue(acl.getId()>0);
@@ -55,9 +55,9 @@ public class HibernateAclServiceTest extends AbstractDaoTest{
 	
 	@Test
 	public void testCreateAclWithPermission(){
-		sessionFactory.getCurrentSession().saveOrUpdate(trialsite);
+		entityManager.persist(trialsite);
 		Login login = factory.getLogin();
-		sessionFactory.getCurrentSession().saveOrUpdate(login);
+		entityManager.persist(login);
 		
 		 AclHibernate acl =  aclService.createAclwithPermissions(trialsite, login.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ});
 		assertTrue(acl.getId()>0);
@@ -66,9 +66,9 @@ public class HibernateAclServiceTest extends AbstractDaoTest{
 	
 	@Test
 	public void testFindAclByObjectIdentityAndSid(){
-		sessionFactory.getCurrentSession().saveOrUpdate(trialsite);
+		entityManager.persist(trialsite);
 		Login login = factory.getLogin();
-		sessionFactory.getCurrentSession().saveOrUpdate(login);
+		entityManager.persist(login);
 		
 		 AclHibernate acl =  aclService.createAclwithPermissions(trialsite, login.getUsername(), new PermissionHibernate[]{PermissionHibernate.READ});
 		assertTrue(acl.getId()>0);

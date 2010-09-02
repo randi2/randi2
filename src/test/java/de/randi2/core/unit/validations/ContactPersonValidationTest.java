@@ -1,6 +1,10 @@
 package de.randi2.core.unit.validations;
 
-import org.hibernate.validator.ClassValidator;
+import static junit.framework.Assert.assertEquals;
+
+import javax.validation.Validation;
+import javax.validation.Validator;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,23 +14,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import de.randi2.model.TrialSite;
 import de.randi2.testUtility.utility.DomainObjectFactory;
 
-import static junit.framework.Assert.*;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/META-INF/spring-test.xml"})
 public class ContactPersonValidationTest {
-
 	
-	private ClassValidator<TrialSite> validator = new ClassValidator<TrialSite>(TrialSite.class);
 
+	private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+	
 	@Autowired private DomainObjectFactory factory;
 
 	
 	@Test
 	public void testContactPersonIsValid(){
-		assertEquals(1,validator.getPotentialInvalidValues("contactPerson", null).length);
-		assertEquals(0,validator.getPotentialInvalidValues("contactPerson", factory.getPerson()).length);
-		assertEquals(1,validator.getPotentialInvalidValues("contactPerson", factory.getLogin()).length);
+		assertEquals(1,validator.validateValue(TrialSite.class, "contactPerson", null).size());
+		assertEquals(0,validator.validateValue(TrialSite.class, "contactPerson", factory.getPerson()).size());
+		assertEquals(1,validator.validateValue(TrialSite.class, "contactPerson", factory.getLogin()).size());
 		
 	}
 }

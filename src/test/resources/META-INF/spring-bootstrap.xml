@@ -22,7 +22,7 @@ Spring XML-config file for normal context with dummy mail service
 				<prop key="mail.from">nobody@example.com</prop>
 				<prop key="info.hoster">RANDI 2 example</prop>
 				<prop key="info.server">example.com</prop>
-				<prop key="test.hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
 			</props>
 		</property>
 	</bean>
@@ -36,7 +36,6 @@ Spring XML-config file for normal context with dummy mail service
 	<context:spring-configured></context:spring-configured>
 
 	<import resource="classpath:META-INF/bootstrap/database.xml" />
-	<import resource="classpath:META-INF/subconfig/hibernate-managed-config.xml" />
 	<import resource="classpath:META-INF/subconfig/hibernate.xml" />
  	<import resource="classpath:META-INF/subconfig/aspects.xml" />
 	<import resource="classpath:META-INF/subconfig/security.xml" />

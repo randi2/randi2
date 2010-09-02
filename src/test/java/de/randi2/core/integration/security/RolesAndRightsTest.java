@@ -1,13 +1,12 @@
 package de.randi2.core.integration.security;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
-import org.hibernate.validator.InvalidStateException;
-import org.hibernate.validator.InvalidValue;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +20,6 @@ import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
-import de.randi2.model.TrialSite;
 import de.randi2.model.security.AclHibernate;
 import de.randi2.model.security.PermissionHibernate;
 import de.randi2.testUtility.utility.DomainObjectFactory;

@@ -2,12 +2,9 @@ package de.randi2.core.unit.randomization;
 
 import static de.randi2.core.unit.randomization.RandomizationHelper.randomize;
 import static de.randi2.utility.IntegerIterator.upto;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.hibernate.validator.AssertTrue;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -5,7 +5,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.GregorianCalendar;
 
-import org.hibernate.validator.ClassValidator;
+import javax.validation.Validation;
+import javax.validation.Validator;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,8 @@ public class DateDependenceValidationTest {
 
 	
 	
-	private ClassValidator<Trial>  trialValidator;
+	private Validator trialValidator = Validation.buildDefaultValidatorFactory().getValidator();
+	
 
 	@Autowired private DomainObjectFactory factory;
 	@Autowired private TestStringUtil stringUtil;
@@ -31,7 +34,6 @@ public class DateDependenceValidationTest {
 	
 	@Test
 	public void testDateDepenceIsValid(){
-		trialValidator = new ClassValidator<Trial>( Trial.class );
 		stringUtil.getWithLength(20);
 		
 		Trial trial = factory.getTrial();
@@ -39,29 +41,29 @@ public class DateDependenceValidationTest {
 		trial.setStartDate(new GregorianCalendar(2006,0,1));
 		trial.setEndDate(new GregorianCalendar());
 
-		assertEquals(0, trialValidator.getInvalidValues(trial).length) ;
+		assertEquals(0, trialValidator.validate(trial).size()) ;
 		
 		trial.setStartDate(new GregorianCalendar());
 		trial.setEndDate(new GregorianCalendar(2006,0,1));
 		
-		assertEquals(1, trialValidator.getInvalidValues(trial).length) ;
+		assertEquals(1, trialValidator.validate(trial).size()) ;
 		
 		trial.setStartDate(new GregorianCalendar(2006,0,1));
 		trial.setEndDate(new GregorianCalendar(2006,0,1));
 		
-		assertEquals(1, trialValidator.getInvalidValues(trial).length) ;
+		assertEquals(1, trialValidator.validate(trial).size()) ;
 		
 		trial.setEndDate(null);
 		
-		assertEquals(1, trialValidator.getInvalidValues(trial).length) ;
+		assertEquals(1, trialValidator.validate(trial).size()) ;
 		
 		trial.setCreatedAt(null);
 		
-		assertEquals(1, trialValidator.getInvalidValues(trial).length) ;
+		assertEquals(1, trialValidator.validate(trial).size()) ;
 		
 		trial.setEndDate(new GregorianCalendar(2006,0,1));
 		
-		assertEquals(1, trialValidator.getInvalidValues(trial).length) ;
+		assertEquals(1, trialValidator.validate(trial).size()) ;
 		
 	}
 	

@@ -9,7 +9,8 @@ import static junit.framework.Assert.fail;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.hibernate.validator.InvalidStateException;
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -228,7 +229,7 @@ public class UserServiceTest extends AbstractServiceTest{
 		try {
 			userService.create(login);
 			fail("should throw exception");
-		} catch (InvalidStateException e) {
+		} catch (ConstraintViolationException e) {
 		}
 
 	

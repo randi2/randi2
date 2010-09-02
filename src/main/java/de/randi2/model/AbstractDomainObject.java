@@ -114,7 +114,7 @@ public abstract class AbstractDomainObject implements Serializable {
 	@SuppressWarnings("unchecked")
 	public void checkValue(String field, Object value) {
 		Validator val = Validation.buildDefaultValidatorFactory().getValidator();
-	 Set<?> invalids = val.validateValue(this.getClass(), field, value, null);
+	 Set<?> invalids = val.validateValue(this.getClass(), field, value);
 
 		if (invalids.size() > 0) {
 			throw new ValidationException((Set<ConstraintViolation<?>>) invalids);

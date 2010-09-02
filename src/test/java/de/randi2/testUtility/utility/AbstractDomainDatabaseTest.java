@@ -3,10 +3,14 @@ package de.randi2.testUtility.utility;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.context.ManagedSessionContext;
-import org.hibernate.validator.ClassValidator;
-import org.hibernate.validator.InvalidValue;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,19 +49,19 @@ public abstract class AbstractDomainDatabaseTest<TC extends AbstractDomainObject
 	
 
 	protected void assertValid(TC validDO) {
-		ClassValidator<TC> classValidator = new ClassValidator<TC>((Class<TC>) validDO.getClass());
-		InvalidValue[] invalids = classValidator.getInvalidValues(validDO);
+		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+		Set<ConstraintViolation<TC>> invalids = validator.validate(validDO);
 		StringBuilder message = new StringBuilder();
-		for(InvalidValue v : invalids){
-			message.append(v.getPropertyName()).append(" : ").append(v.getMessage()).append("\n");
+		for(ConstraintViolation<TC> v : invalids){
+			message.append(v.getPropertyPath()).append(" : ").append(v.getMessage()).append("\n");
 		}
-		assertTrue(message.toString(), invalids.length==0); 
+		assertTrue(message.toString(), invalids.size()==0); 
 	}
 
 	protected void assertInvalid(TC invalidDO, String[] messages) {
-			ClassValidator<TC> classValidator = new ClassValidator<TC>((Class<TC>) invalidDO.getClass());
-			InvalidValue[] invalids = classValidator.getInvalidValues(invalidDO);
-			assertTrue(invalids.length>0); 
+		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+		Set<ConstraintViolation<TC>> invalids = validator.validate(invalidDO);
+			assertTrue(invalids.size()>0); 
 	}
 	
 	protected void assertInvalid(TC invalidDO){
