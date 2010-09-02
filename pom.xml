@@ -160,6 +160,10 @@
 			<url>http://repository.jboss.com/maven2</url>
 		</repository>
 		<repository>
+			<id>JBoss Releases</id>
+			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+		</repository>
+		<repository>
 			<id>projectlombok.org</id>
 			<url>http://projectlombok.org/mavenrepo</url>
 		</repository>
@@ -272,7 +276,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.5.1-Final</version>
+			<version>3.6.0.Beta4</version>
 		</dependency>
 
 		<dependency>
