@@ -16,9 +16,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:git:git://github.com/jthoenes/randi2.git</connection>
-		<developerConnection>scm:git:ssh://github.com:jthoenes/randi2.git</developerConnection>
-		<url>http://github.com/jthoenes/randi2/tree/master</url>
+		<connection>scm:git:git://github.com/randi2/randi2.git</connection>
+		<developerConnection>scm:git:ssh://github.com:randi2/randi2.git</developerConnection>
+		<url>http://github.com/randi2/randi2/tree/master</url>
 	</scm>
 	<mailingLists>
 		<mailingList>
