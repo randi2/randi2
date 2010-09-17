@@ -161,6 +161,7 @@ public class UserServiceTest extends AbstractServiceTest{
 		assertTrue(login.getId()>0);
 		String oldName = login.getUsername();
 		login.setUsername(factory.getPerson().getEmail());
+		userService.update(login);
 		Login login2 = entityManager.find(Login.class, login.getId());
 		assertEquals(login.getUsername(), login2.getUsername());
 		assertFalse(login2.getUsername().equals(oldName));
