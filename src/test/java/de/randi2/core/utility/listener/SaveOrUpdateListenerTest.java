@@ -1,24 +1,25 @@
 package de.randi2.core.utility.listener;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.fail;
+
 import java.util.GregorianCalendar;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.context.ManagedSessionContext;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.testUtility.utility.DomainObjectFactory;
-import static junit.framework.Assert.*;
 
 //import static junit.framework.Assert.*;
 
@@ -40,18 +41,18 @@ public class SaveOrUpdateListenerTest {
 
 
 	@Test
-	@Ignore
+	@Transactional
 	public void onPersist() {
 		AbstractDomainObject object = factory.getPerson();
 		assertNull(object.getCreatedAt());
 		assertNull(object.getUpdatedAt());
 		entityManager.persist(object);
+		entityManager.flush();
 		assertNotNull(object.getCreatedAt());
 		assertNotNull(object.getUpdatedAt());
 	}
 
 	@Test
-	@Ignore
 	public void onPersistWithCascade() {
 		Login object = factory.getLogin();
 		assertNull(object.getCreatedAt());
@@ -66,7 +67,7 @@ public class SaveOrUpdateListenerTest {
 	}
 
 	@Test
-	@Ignore
+	@Transactional
 	public void onMerge() {
 		AbstractDomainObject object = factory.getPerson();
 		assertNull(object.getCreatedAt());
@@ -74,15 +75,16 @@ public class SaveOrUpdateListenerTest {
 		entityManager.persist(object);
 		assertNotNull(object.getCreatedAt());
 		assertNotNull(object.getUpdatedAt());
-
+		entityManager.flush();
 		GregorianCalendar create = object.getCreatedAt();
 		GregorianCalendar update = (GregorianCalendar)object.getUpdatedAt().clone();
 		
 		try{
 			Thread.sleep(1000);
-			entityManager.merge(object);
+			object = entityManager.merge(object);
+			entityManager.flush();
 			assertEquals(create, object.getCreatedAt());
-			assertFalse(update.compareTo(object.getUpdatedAt()) == 0);
+			assertEquals(0, update.compareTo(object.getUpdatedAt()));
 		}catch (Exception e) {
 			fail(e.getMessage());
 		}
@@ -90,7 +92,7 @@ public class SaveOrUpdateListenerTest {
 	}
 
 	@Test
-	@Ignore
+	@Transactional
 	public void onMergewithCascade() {
 		Login object = factory.getLogin();
 		assertNull(object.getCreatedAt());
@@ -103,19 +105,24 @@ public class SaveOrUpdateListenerTest {
 		assertNotNull(object.getPerson().getCreatedAt());
 		assertNotNull(object.getPerson().getUpdatedAt());
 
-		GregorianCalendar createL = object.getCreatedAt();
-		GregorianCalendar updateL = object.getUpdatedAt();
-		GregorianCalendar createP = object.getPerson().getCreatedAt();
-		GregorianCalendar updateP = object.getPerson().getUpdatedAt();
-
+		GregorianCalendar createL = new GregorianCalendar();
+		createL.setTimeInMillis(object.getCreatedAt().getTimeInMillis());
+		GregorianCalendar updateL = new GregorianCalendar();
+		updateL.setTimeInMillis(object.getUpdatedAt().getTimeInMillis());
+		GregorianCalendar createP = new GregorianCalendar();
+		createP.setTimeInMillis(object.getPerson().getCreatedAt().getTimeInMillis());
+		GregorianCalendar updateP = new GregorianCalendar();
+		updateP.setTimeInMillis(object.getPerson().getUpdatedAt().getTimeInMillis());
+		
+		entityManager.flush();
 		try{
 		Thread.sleep(1000);
-		entityManager.merge(object);
-
+		object = entityManager.merge(object);
+		entityManager.flush();
 		assertEquals(createL, object.getCreatedAt());
-		assertFalse(updateL.equals(object.getUpdatedAt()));
+		assertEquals(updateL, object.getUpdatedAt());
 		assertEquals(createP, object.getPerson().getCreatedAt());
-		assertFalse(updateP.equals(object.getPerson().getUpdatedAt()));
+		assertEquals(updateP,object.getPerson().getUpdatedAt());
 		}catch (Exception e) {
 			fail(e.getMessage());
 		}
@@ -131,7 +138,7 @@ public class SaveOrUpdateListenerTest {
 	
 	
 	@Test
-	@Ignore
+	@Transactional
 	public void onSaveOrUpdate() {
 		Login object = factory.getLogin();
 		assertNull(object.getCreatedAt());
@@ -143,16 +150,19 @@ public class SaveOrUpdateListenerTest {
 		assertNotNull(object.getUpdatedAt());
 		assertNotNull(object.getPerson().getCreatedAt());
 		assertNotNull(object.getPerson().getUpdatedAt());
-
-		GregorianCalendar createL = object.getCreatedAt();
-		GregorianCalendar updateL = object.getUpdatedAt();
-		GregorianCalendar createP = object.getPerson().getCreatedAt();
+		entityManager.flush();
+		GregorianCalendar createL = new GregorianCalendar();
+		createL.setTimeInMillis(object.getCreatedAt().getTimeInMillis());
+		GregorianCalendar updateL = new GregorianCalendar();
+		updateL.setTimeInMillis(object.getUpdatedAt().getTimeInMillis());
+		GregorianCalendar createP = new GregorianCalendar();
+		createP.setTimeInMillis(object.getPerson().getCreatedAt().getTimeInMillis());
 		try{
 		Thread.sleep(1000);
 		object = entityManager.merge(object);
-
+		entityManager.flush();
 		assertEquals(createL, object.getCreatedAt());
-		assertFalse(updateL.equals(object.getUpdatedAt()));
+		assertEquals(updateL,object.getUpdatedAt());
 		assertEquals(createP, object.getPerson().getCreatedAt());
 		}catch (Exception e) {
 			fail(e.getMessage());

@@ -29,6 +29,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.ConstraintViolation;
@@ -141,6 +143,7 @@ public abstract class AbstractDomainObject implements Serializable {
 	/**
 	 * Before update.
 	 */
+	@PreUpdate
 	public void beforeUpdate() {
 		this.updatedAt = new GregorianCalendar();
 	}
@@ -148,8 +151,10 @@ public abstract class AbstractDomainObject implements Serializable {
 	/**
 	 * Before create.
 	 */
+	@PrePersist
 	public void beforeCreate() {
 		this.createdAt = new GregorianCalendar();
+		this.updatedAt = new GregorianCalendar();
 	}
 
 	/**
