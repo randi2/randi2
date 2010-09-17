@@ -65,7 +65,7 @@ public class LogServiceTest {
 			ActionType action = ActionType.UPDATE;
 			logService.logGet(action, username);
 		}
-		
+		entityManager.flush();
 		List<String> entries = entityManager.createQuery("from LogEntry").getResultList();
 		assertTrue(entries.size()>sizeBefore);
 		
@@ -81,7 +81,7 @@ public class LogServiceTest {
 			ActionType action = ActionType.UPDATE;
 			logService.logGet(action, username);
 		}
-		
+		entityManager.flush();
 		assertEquals(10, logService.getLogEntries(username).size());
 		
 	}
