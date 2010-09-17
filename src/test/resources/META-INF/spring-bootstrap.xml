@@ -8,8 +8,7 @@ Spring XML-config file for normal context with dummy mail service
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
 	default-autowire="byName">
-
-
+	
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"></property>
@@ -27,12 +26,27 @@ Spring XML-config file for normal context with dummy mail service
 		</property>
 	</bean>
 	
+	<!-- <bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"></property>
+		<property name="properties">
+			<props>
+				<prop key="db.driver">org.hsqldb.jdbcDriver</prop>
+				<prop key="db.bootstrap.url">jdbc:hsqldb:file:randi2</prop>
+				<prop key="db.bootstrap.username">sa</prop>
+				<prop key="db.bootstrap.password"></prop>
+				<prop key="mail.from">nobody@example.com</prop>
+				<prop key="info.hoster">RANDI 2 example</prop>
+				<prop key="info.server">example.com</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+			</props>
+		</property>
+	</bean>-->
+	
 	<bean id="liquibase" class="de.randi2.utility.logging.Randi2SpringLiquibase">
 		<property name="dataSource" ref="dataSource" />
 		<property name="changeLog" value="classpath:META-INF/database/database_changelog.xml" />
-	</bean>
-
-	<context:annotation-config />
+	</bean><context:annotation-config />
 	<context:spring-configured></context:spring-configured>
 
 	<import resource="classpath:META-INF/bootstrap/database.xml" />
