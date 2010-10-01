@@ -43,10 +43,12 @@ Spring XML-config file for normal context with dummy mail service
 		</property>
 	</bean>-->
 	
-	<bean id="liquibase" class="de.randi2.utility.logging.Randi2SpringLiquibase">
+	<!--<bean id="liquibase" class="de.randi2.utility.logging.Randi2SpringLiquibase">
 		<property name="dataSource" ref="dataSource" />
 		<property name="changeLog" value="classpath:META-INF/database/database_changelog.xml" />
-	</bean><context:annotation-config />
+	</bean>-->
+	
+	<context:annotation-config />
 	<context:spring-configured></context:spring-configured>
 
 	<import resource="classpath:META-INF/bootstrap/database.xml" />
