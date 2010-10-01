@@ -11,12 +11,10 @@ import liquibase.logging.LogFactory;
 import liquibase.logging.LogLevel;
 import liquibase.resource.FileSystemResourceAccessor;
 
-import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
-import org.dbunit.ext.hsqldb.HsqldbDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -72,14 +70,6 @@ public class InitializeDatabaseUtil {
 
 		IDatabaseConnection connection = new DatabaseConnection(connectionDS);
 
-		// FIXME remove it with dbunit version 2.3
-		if (liquibase.getDatabase().getDatabaseProductName().equals(
-				"HSQL Database Engine")) {
-			DatabaseConfig config = connection.getConfig();
-			config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY,
-					new HsqldbDataTypeFactory());
-		}
-		
 		try {
 			DatabaseOperation.DELETE_ALL.execute(connection, dataSet);
 			DatabaseOperation.INSERT.execute(connection, dataSet);
