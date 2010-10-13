@@ -13,7 +13,7 @@
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="showSql" value="false" />
-				<property name="generateDdl" value="false" />
+				<property name="generateDdl" value="true" />
 				<property name="databasePlatform" value="${hibernate.dialect}" />
 			</bean>
 		</property>
