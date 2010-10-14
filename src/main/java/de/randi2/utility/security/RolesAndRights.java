@@ -24,6 +24,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.hibernate.LazyInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -373,6 +374,17 @@ public class RolesAndRights {
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void registerPersonRole(Login login, Role role) {
+		role = entityManager.find(Role.class, role.getId());
+	     
+		if(entityManager.find(Login.class, login.getId()) != null){
+			login = entityManager.find(Login.class, login.getId());
+		}else{
+			if(login.getPerson().getTrialSite() != null){
+				login.getPerson().setTrialSite(entityManager.find(TrialSite.class, login.getPerson().getTrialSite().getId()));
+			}
+		}
+		
+		
 		if (role.equals(Role.ROLE_USER)) {
 			aclService.createAclwithPermissions(login, login.getUsername(),
 					role.getOwnUserPermissions().toArray(
@@ -429,9 +441,6 @@ public class RolesAndRights {
 										login.getPerson().getTrialSite()
 												.getId()).getResultList();
 						for (Login l : tempList) {
-							if(l.getPerson().getFirstname().equals("Maxi")){
-								System.out.println();
-							}
 							if (role.getRolesToAssign().containsAll(
 									l.getRoles())) {
 								list.add(l);
