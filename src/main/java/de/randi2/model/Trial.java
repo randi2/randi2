@@ -225,6 +225,9 @@ public class Trial extends AbstractDomainObject {
 	 * @return the randomization configuration
 	 */
 	public AbstractRandomizationConfig getRandomizationConfiguration() {
+		if(randomConf.getTrial() == null){
+			randomConf.setTrial(this);
+		}
 		return randomConf;
 	}
 

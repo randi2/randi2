@@ -41,14 +41,13 @@ import de.randi2.randomization.RandomizationAlgorithm;
 public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 
 	private static final long serialVersionUID = -942332706403245140L;
-	@OneToOne
-	@Getter 
+	@Transient
+	@Getter
 	private Trial trial;
 	@Transient
 	private RandomizationAlgorithm<? extends AbstractRandomizationConfig> algorithm;
 	@Transient
 	private final Long seed;
-	
 	
 	/**
 	 * if seed == null create a unseeded algorithm 
