@@ -80,6 +80,7 @@ public class TrialServiceImpl implements TrialService {
 	// secured with own SecurityAspect
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public Trial randomize(Trial trial, TrialSubject subject) {
+		trial = entityManager.find(Trial.class, trial.getId());
 		logger.debug("user: "
 				+ SecurityContextHolder.getContext().getAuthentication()
 						.getName() + " randomized in trial " + trial.getName());
