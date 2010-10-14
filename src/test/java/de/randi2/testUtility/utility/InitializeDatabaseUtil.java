@@ -26,7 +26,7 @@ public class InitializeDatabaseUtil {
 	public void setUpDatabaseFull() throws Exception {
 		try {
 			setUpDatabase(new FlatXmlDataSet(new File(
-			"src/test/resources/dbunit/testdata.xml")));
+			"src/test/resources/dbunit/emptytestdata.xml")));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -49,24 +49,24 @@ public class InitializeDatabaseUtil {
 		Connection connectionDS = dataSource.getConnection();
 		JdbcConnection jdbcConnection = new JdbcConnection(connectionDS);
 
-		Liquibase liquibase = new Liquibase(
-				"src/test/resources/liquibase/database_changelog.xml",
-				new FileSystemResourceAccessor(), jdbcConnection);
-		liquibase.update("init");
-		
-		
-		connectionDS
-		.createStatement()
-		.executeUpdate(
-		"DELETE FROM DATABASECHANGELOG WHERE ID='remove_constraints' OR ID='add_constraints';");
-		
-		connectionDS.commit();
+//		Liquibase liquibase = new Liquibase(
+//				"src/test/resources/liquibase/database_changelog.xml",
+//				new FileSystemResourceAccessor(), jdbcConnection);
+//		liquibase.update("init");
+//		
+//		
+//		connectionDS
+//		.createStatement()
+//		.executeUpdate(
+//		"DELETE FROM DATABASECHANGELOG WHERE ID='remove_constraints' OR ID='add_constraints';");
+//		
+//		connectionDS.commit();
 
 		
-		liquibase = new Liquibase(
-				"src/test/resources/liquibase/removeConstraints.xml",
-				new FileSystemResourceAccessor(), jdbcConnection);
-		liquibase.update("remove_constraints");
+//		liquibase = new Liquibase(
+//				"src/test/resources/liquibase/removeConstraints.xml",
+//				new FileSystemResourceAccessor(), jdbcConnection);
+//		liquibase.update("remove_constraints");
 
 		IDatabaseConnection connection = new DatabaseConnection(connectionDS);
 
@@ -75,10 +75,10 @@ public class InitializeDatabaseUtil {
 			DatabaseOperation.INSERT.execute(connection, dataSet);
 			jdbcConnection.commit();
 
-			liquibase = new Liquibase(
-					"src/test/resources/liquibase/addConstraints.xml",
-					new FileSystemResourceAccessor(), jdbcConnection);
-			liquibase.update("add_constraints");
+//			liquibase = new Liquibase(
+//					"src/test/resources/liquibase/addConstraints.xml",
+//					new FileSystemResourceAccessor(), jdbcConnection);
+//			liquibase.update("add_constraints");
 	
 		} finally {
 			connection.close();
