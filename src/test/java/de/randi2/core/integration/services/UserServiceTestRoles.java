@@ -34,7 +34,6 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 		authenticatAsAdmin();
 		for (int i = 0; i < 10; i++) {
 			Login login = factory.getLogin();
-			login.getPerson().setTrialSite(null);
 			loginDao.create(login);
 		}
 	}
@@ -64,7 +63,6 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 		authenticatAsAdmin();
 		for(int i = 0 ; i< 10 ;i++ ){
 			Login l = factory.getLogin();
-			l.getPerson().setTrialSite(user.getPerson().getTrialSite());
 			userService.create(l);
 		}
 		authenticatAsInvestigator();

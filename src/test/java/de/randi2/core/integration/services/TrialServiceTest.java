@@ -12,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Login;
 import de.randi2.model.Role;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
+import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.exceptions.TrialStateException;
 import de.randi2.model.randomization.BlockRandomizationConfig;
@@ -39,7 +41,6 @@ public class TrialServiceTest extends AbstractServiceTest{
 		super.setUp();
 		authenticatAsPrincipalInvestigator();
 		validTrial = factory.getTrial();
-		validTrial.setLeadingSite(user.getPerson().getTrialSite());
 		validTrial.setSponsorInvestigator(user.getPerson());
 	}
 	
@@ -70,9 +71,11 @@ public class TrialServiceTest extends AbstractServiceTest{
 		trials.add(validTrial);
 		List<Trial> dbTrials = service.getAll();
 		int trialsBefore = dbTrials.size();
+		TrialSite site = factory.getTrialSite();
+		entityManager.persist(site);
 		for(int i=0;i<10;i++){
 			Trial trial = factory.getTrial();
-			trial.setLeadingSite(user.getPerson().getTrialSite());
+			trial.setLeadingSite(site);
 			trial.setSponsorInvestigator(user.getPerson());
 			service.create(trial);
 		}
@@ -296,18 +299,22 @@ public class TrialServiceTest extends AbstractServiceTest{
 	}
 	
 	@Test
+	@Transactional
 	public void testGetSubjects() throws IllegalArgumentException, TrialStateException{
 		/*
 		 * Now creating another investigator
 		 */
 		//Login #1
 		authenticatAsAdmin();
+		
+		TrialSite site = factory.getTrialSite();
+		entityManager.persist(site);
+		
 		Login l = factory.getLogin();
 		String e = "i@getsubjectstest.com";
 		l.setUsername(e);
 		l.getPerson().setEmail(e);
 		l.addRole(Role.ROLE_INVESTIGATOR);
-		l.getPerson().setTrialSite(user.getPerson().getTrialSite());
 		userService.create(l);
 		//Login #2
 		Login l2 = factory.getLogin();
@@ -315,14 +322,13 @@ public class TrialServiceTest extends AbstractServiceTest{
 		l2.setUsername(e2);
 		l2.getPerson().setEmail(e2);
 		l2.addRole(Role.ROLE_INVESTIGATOR);
-		l2.getPerson().setTrialSite(user.getPerson().getTrialSite());
 		userService.create(l2);
 		/*
 		 * First I need to create the trial and randomize some subjects.
 		 */
 		authenticatAsPrincipalInvestigator();
 		Trial t = factory.getTrial();
-		t.setLeadingSite(user.getPerson().getTrialSite());
+		t.setLeadingSite(site);
 		t.setSponsorInvestigator(user.getPerson());
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setPlannedSubjects(25);

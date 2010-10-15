@@ -61,4 +61,6 @@ public interface AbstractDao<E extends AbstractDomainObject> {
 	 * @return the e
 	 */
 	public E update(E object);
+	
+	public E refresh(E object);
 }

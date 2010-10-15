@@ -163,11 +163,18 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 */
 	public String changeTrialSite() {
 		if (trialSitesAC.getSelectedObject() != null) {
-			currentObject.getPerson().setTrialSite(
-					trialSitesAC.getSelectedObject());
 			popups.hideChangeTrialSitePopup();
-			this.saveObject();
-			return Randi2.SUCCESS;
+			try{
+				siteService.changePersonTrialSite(trialSitesAC.getSelectedObject(), currentObject.getPerson());
+				return Randi2.SUCCESS;
+			} catch (Exception exp) {
+				Randi2.showMessage(exp);
+				return Randi2.ERROR;
+			} finally {
+				if (currentObject.getId() == loggedInUser.getId())
+					loggedInUser = currentObject;
+				refresh();
+			}
 		}
 		return Randi2.ERROR;
 	}
@@ -229,9 +236,8 @@ public class LoginHandler extends AbstractHandler<Login> {
 			/* Setting the data in the new object */
 			newUser.setPrefLocale(getChosenLocale());
 			newUser.setUsername(newUser.getPerson().getEmail());
-			newUser.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
 			/* The new object will be saved */
-			userService.register(newUser);
+			userService.register(newUser, trialSitesAC.getSelectedObject());
 			// Making the successPopup visible (NORMAL REGISTRATION)
 			if (!creatingMode) {
 				((RegisterPage) FacesContext
@@ -482,5 +488,9 @@ public class LoginHandler extends AbstractHandler<Login> {
 		Login l = new Login();
 		l.setPerson(new Person());
 		return l;
+	}
+	
+	public TrialSite getCurrentUsersTrialSite(){
+		return siteService.getTrialSiteFromPerson(currentObject.getPerson());
 	}
 }

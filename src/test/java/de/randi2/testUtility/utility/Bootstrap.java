@@ -237,7 +237,7 @@ public class Bootstrap {
 		
 		transaction.begin();
 		
-		adminP.setTrialSite(trialSite);
+//		adminP.setTrialSite(trialSite);
 		adminP = entityManager.merge(adminP);
 		rolesAndRights.grantRights(trialSite, trialSite);
 		
@@ -258,7 +258,7 @@ public class Bootstrap {
 		userPInv.setSurname("Investigator");
 		userPInv.setEmail("randi2@action.ms");
 		userPInv.setPhone("1234567");
-		userPInv.setTrialSite(trialSite);
+//		userPInv.setTrialSite(trialSite);
 		
 		Login userLInv = new Login();
 		userLInv.setUsername("investigator@trialsite1.de");
@@ -276,7 +276,7 @@ public class Bootstrap {
 		userPPInv.setEmail("randi2@action.ms");
 		userPPInv.setPhone("1234567");
 		userPPInv.setSex(Gender.MALE);
-		userPPInv.setTrialSite(trialSite);
+//		userPPInv.setTrialSite(trialSite);
 
 		Login userLPInv = new Login();
 		userLPInv.setUsername("p_investigator@trialsite1.de");
@@ -294,7 +294,7 @@ public class Bootstrap {
 		userP.setEmail("randi2@action.ms");
 		userP.setPhone("1234567");
 		userP.setSex(Gender.FEMALE);
-		userP.setTrialSite(trialSite);
+//		userP.setTrialSite(trialSite);
 		Login userL = new Login();
 		userL.setUsername("monitor@trialsite1.de");
 		userL.setPassword(passwordEncoder.encodePassword("1$heidelberg",
@@ -311,7 +311,7 @@ public class Bootstrap {
 		userP.setEmail("randi2@action.ms");
 		userP.setPhone("1234567");
 		userP.setSex(Gender.MALE);
-		userP.setTrialSite(trialSite);
+//		userP.setTrialSite(trialSite);
 
 		userL = new Login();
 		userL.setUsername("statistican@trialsite1.de");

@@ -100,9 +100,9 @@ public class TrialSiteDatabaseTest extends
 
 		for (int i = 0; i < 100; i++) {
 			Person p = factory.getPerson();
-			p.setTrialSite(validTrialSite);
-			assertEquals(validTrialSite.getId(), p.getTrialSite().getId());
 			entityManager.persist(p);
+			validTrialSite.getMembers().add(p);
+			validTrialSite = entityManager.merge(validTrialSite);
 			members.add(p);
 		}
 		entityManager.flush();

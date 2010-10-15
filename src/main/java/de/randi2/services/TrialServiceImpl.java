@@ -35,6 +35,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.TrialDao;
+import de.randi2.dao.TrialSiteDao;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.TreatmentArm;
@@ -50,6 +51,9 @@ public class TrialServiceImpl implements TrialService {
 	private Logger logger = Logger.getLogger(TrialServiceImpl.class);
 	@Autowired
 	private TrialDao trialDao;
+	
+	@Autowired
+	private TrialSiteDao trialSiteDao;
 	
 	protected EntityManager entityManager;
 
@@ -84,8 +88,8 @@ public class TrialServiceImpl implements TrialService {
 		logger.debug("user: "
 				+ SecurityContextHolder.getContext().getAuthentication()
 						.getName() + " randomized in trial " + trial.getName());
-		subject.setTrialSite(((Login) SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getPerson().getTrialSite());
+		subject.setTrialSite(trialSiteDao.get(((Login) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getPerson())); //TODO if trialSiteDao.get == null
 		subject.setInvestigator(((Login) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()));
 		TreatmentArm assignedArm = trial.getRandomizationConfiguration()

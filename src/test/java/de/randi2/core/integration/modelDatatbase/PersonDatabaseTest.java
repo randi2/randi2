@@ -82,20 +82,14 @@ public class PersonDatabaseTest extends AbstractDomainDatabaseTest<Person> {
 		entityManager.persist(trialSite);
 		
 		validPerson.setSurname(stringUtil.getWithLength(20));
-		validPerson.setTrialSite(trialSite);
-		assertNotNull(validPerson.getTrialSite());
 
 		entityManager.persist(validPerson);
-
-		assertTrue(validPerson.getTrialSite().getId() != AbstractDomainObject.NOT_YET_SAVED_ID);
 
 		Person p = entityManager.find(Person.class, validPerson
 				.getId());
 
 		assertNotNull(p);
 		assertEquals(validPerson.getId(), p.getId());
-		assertNotNull(p.getTrialSite());
-		assertEquals(trialSite.getId(), p.getTrialSite().getId());
 	}
 	
 	@Test

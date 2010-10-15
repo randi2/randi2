@@ -15,7 +15,6 @@ import org.junit.Test;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.TreatmentArm;
-import de.randi2.model.TrialSite;
 import de.randi2.model.enumerations.Gender;
 import de.randi2.model.exceptions.ValidationException;
 import de.randi2.testUtility.utility.AbstractDomainTest;
@@ -56,7 +55,6 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertEquals("", p.getFax());
 
 		assertNull(p.getAssistant());
-		assertNull(p.getTrialSite());
 
 		assertNull(p.getLogin());
 	//	assertEquals(0, p.getRoles().size());
@@ -310,7 +308,6 @@ public class PersonTest extends AbstractDomainTest<Person> {
 	@Test
 	public void testLoginNull() {
 		validPerson.setLogin(null);
-		assertNull(validPerson.getTrialSite());
 		assertValid(validPerson);
 	}
 	
@@ -349,23 +346,6 @@ public class PersonTest extends AbstractDomainTest<Person> {
 		assertInvalid(validPerson);
 	}
 
-	@Test
-	public void testTrialSiteNull() {
-		validPerson.setTrialSite(null);
-		assertNull(validPerson.getTrialSite());
-		assertValid(validPerson);
-	}
-	
-	
-	@Test
-	public void testTrialSiteCorrectValue() {
-		TrialSite trialSite = factory.getTrialSite();
-		validPerson.setTrialSite(trialSite);
-		assertEquals(trialSite, validPerson.getTrialSite());
-		assertValid(validPerson);
-	}
-	
-	
 	@Test
 	public void testGetRequieredFields(){
 		Map<String, Boolean> map = validPerson.getRequiredFields();

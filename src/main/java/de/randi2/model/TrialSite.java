@@ -44,7 +44,6 @@ import de.randi2.utility.validations.Password;
  * The Class TrialSite.
  */
 @Entity
-@NamedQuery(name = "trialSite.findAllMembers", query = "select p from Person p where p.trialSite = :trialSite ")
 @EqualsAndHashCode(callSuper=true, exclude={"trials", "members", "contactPerson"})
 @ToString(exclude={"members", "trials"})
 @Data
@@ -92,7 +91,7 @@ public class TrialSite extends AbstractDomainObject {
 	private Person contactPerson = null;
 
 	/** The members. */
-	@OneToMany(mappedBy = "trialSite")
+	@OneToMany
 	private List<Person> members = new ArrayList<Person>();
 
 	/** The trials. */

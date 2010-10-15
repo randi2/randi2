@@ -26,7 +26,7 @@ Spring XML-config file for normal context with dummy mail service
 		</property>
 	</bean>
 	
-	<!-- <bean
+<!--	 <bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"></property>
 		<property name="properties">
@@ -58,5 +58,6 @@ Spring XML-config file for normal context with dummy mail service
 	<import resource="classpath:META-INF/subconfig/services.xml"/>
 	<import resource="classpath:META-INF/subconfig/logging.xml"/>
 	<import resource="classpath:META-INF/subconfig/mail-test.xml" />
+
 
 </beans>

@@ -93,4 +93,8 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 		return entityManager.merge(object);
 	}
 	
+	@Override
+	public E refresh(E object) {
+		return get(object.getId());
+	}; 
 }

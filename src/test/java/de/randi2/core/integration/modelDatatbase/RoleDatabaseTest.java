@@ -41,7 +41,7 @@ public class RoleDatabaseTest extends AbstractDomainDatabaseTest<Role> {
 		role.setScopeUserRead(false);
 		role.setReadOtherUser(true);
 		role.setAdminOtherUser(true);
-		role.setScopeTrialCreat(false);
+		role.setScopeTrialCreate(false);
 		role.setCreateTrial(true);
 		role.setScopeTrialWrite(false);
 		role.setWriteTrial(true);
@@ -75,7 +75,7 @@ public class RoleDatabaseTest extends AbstractDomainDatabaseTest<Role> {
 		assertEquals( false, dbRole.isScopeUserRead() );
 		assertEquals( true, dbRole.isReadOtherUser() );
 		assertEquals( true, dbRole.isAdminOtherUser() );
-		assertEquals( false, dbRole.isScopeTrialCreat() );
+		assertEquals( false, dbRole.isScopeTrialCreate() );
 		assertEquals( true, dbRole.isCreateTrial() );
 		assertEquals( false, dbRole.isScopeTrialWrite() );
 		assertEquals( true, dbRole.isWriteTrial () );

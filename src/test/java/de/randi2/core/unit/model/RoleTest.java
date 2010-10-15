@@ -45,7 +45,7 @@ public class RoleTest extends AbstractDomainTest<Role> {
 		assertEquals( true, role.isScopeUserRead() );
 		assertEquals( true, role.isReadOtherUser() );
 		assertEquals( false, role.isAdminOtherUser() );
-		assertEquals( true, role.isScopeTrialCreat() );
+		assertEquals( true, role.isScopeTrialCreate() );
 		assertEquals( false, role.isCreateTrial() );
 		assertEquals( true, role.isScopeTrialWrite() );
 		assertEquals( false, role.isWriteTrial () );

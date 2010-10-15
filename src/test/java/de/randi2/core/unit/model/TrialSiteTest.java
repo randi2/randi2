@@ -201,8 +201,7 @@ public class TrialSiteTest extends AbstractDomainTest<TrialSite> {
 
 		for (int i = 0; i < 100; i++) {
 			Person p = factory.getPerson();
-			p.setTrialSite(validTrialSite);
-			assertEquals(validTrialSite.getId(), p.getTrialSite().getId());
+			validTrialSite.getMembers().add(p);
 			members.add(p);
 		}
 		validTrialSite.setMembers(members);

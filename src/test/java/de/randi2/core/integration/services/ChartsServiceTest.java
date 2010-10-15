@@ -15,6 +15,7 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Person;
 import de.randi2.model.SubjectProperty;
@@ -50,8 +51,10 @@ public class ChartsServiceTest extends AbstractServiceTest {
 	public void setUp() {
 		super.setUp();
 		authenticatAsAdmin();
+		TrialSite site = factory.getTrialSite();
+		entityManager.persist(site);
 		validTrial = factory.getTrial();
-		validTrial.setLeadingSite(user.getPerson().getTrialSite());
+		validTrial.setLeadingSite(site);
 		validTrial.setSponsorInvestigator(user.getPerson());
 
 		// if(validTrial.getParticipatingSites().size()<2){
@@ -229,6 +232,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 
 	}
 
+	@Transactional
 	private void randomizeInValidTrialTwoTrialSites() throws IllegalArgumentException, TrialStateException {
 		authenticatAsAdmin();
 		Person cp1 = new Person();
@@ -333,6 +337,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 				.getSubjects().size());
 	}
 
+	@Transactional
 	private void randomizeInValidTrialTwoTrialSites31() throws IllegalArgumentException, TrialStateException {
 		authenticatAsAdmin();
 		Person cp1 = new Person();

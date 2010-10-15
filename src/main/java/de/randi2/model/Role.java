@@ -391,7 +391,7 @@ public class Role extends AbstractDomainObject {
 	 *            the new scope trial creat
 	 */
 	@Setter
-	private boolean scopeTrialCreat = true;
+	private boolean scopeTrialCreate = true;
 
 	/**
 	 * Checks if is creates the trial.
@@ -652,7 +652,7 @@ public class Role extends AbstractDomainObject {
 			boolean adminOwnUser, boolean scopeUserCreate, boolean createUser,
 			boolean scopeUserWrite, boolean writeOtherUser,
 			boolean scopeUserRead, boolean readOtherUser,
-			boolean adminOtherUser, boolean scopeTrialCreat,
+			boolean adminOtherUser, boolean scopeTrialCreate,
 			boolean createTrial, boolean scopeTrialWrite, boolean writeTrial,
 			boolean scopeTrialRead, boolean readTrial, boolean adminTrial,
 			boolean createTrialSubject, boolean writeTrialSubject,
@@ -676,7 +676,7 @@ public class Role extends AbstractDomainObject {
 		this.scopeUserRead = scopeUserRead;
 		this.readOtherUser = readOtherUser;
 		this.adminOtherUser = adminOtherUser;
-		this.scopeTrialCreat = scopeTrialCreat;
+		this.scopeTrialCreate = scopeTrialCreate;
 		this.createTrial = createTrial;
 		this.scopeTrialWrite = scopeTrialWrite;
 		this.writeTrial = writeTrial;
