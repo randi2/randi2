@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.EntityTransaction;
+
 import org.junit.Test;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.TreatmentArm;
@@ -29,7 +32,7 @@ public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<Minimiz
 	}
 
 	@Test
-	@Transactional
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void persistAndUpdateProbabilitiesPerPreferredTreatment(){
 		Trial trial = factory.getTrial();
 		TreatmentArm treatmentArm1 = new TreatmentArm();
@@ -86,6 +89,8 @@ public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<Minimiz
 		
 		
 		assertTrue(mtemp1.getId()>-1);
+		entityManager.flush();
+		entityManager.clear();
 		MinimizationTempData mtemp1DB = entityManager.find(MinimizationTempData.class, mtemp1.getId());
 		assertEquals(mtemp1.getId(), mtemp1DB.getId());
 		assertEquals(3,mtemp1DB.getProbabilitiesPerPreferredTreatment().keySet().size());
@@ -110,14 +115,18 @@ public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<Minimiz
 		probabilitiesPerPreferredTreatmentDB.get(treatmentArm1).getMap().put(treatmentArm3, 30.0);
 		
 		mtemp1DB = entityManager.merge(mtemp1DB);
-		entityManager.detach(mtemp1DB);
+		
+		entityManager.flush();
+		entityManager.clear();
 		
 		MinimizationTempData mtempDB1 = entityManager.find(MinimizationTempData.class, mtemp1.getId());
 		assertEquals(mtempDB1.getId(), mtemp1DB.getId());
 		assertEquals(3,mtempDB1.getProbabilitiesPerPreferredTreatment().keySet().size());
 	
 		
-
+		entityManager.flush();
+		entityManager.clear();
+		
 		TreatmentArm treatmentArmDB1 = entityManager.find(TreatmentArm.class, treatmentArm1.getId());
 		TreatmentArm treatmentArmDB2 = entityManager.find(TreatmentArm.class, treatmentArm2.getId());
 		TreatmentArm treatmentArmDB3 = entityManager.find(TreatmentArm.class, treatmentArm3.getId());
@@ -125,9 +134,9 @@ public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<Minimiz
 		assertEquals(10.0,mtempDB1.getProbabilitiesPerPreferredTreatment().get(treatmentArmDB1).getMap().get(treatmentArmDB1));
 		assertEquals(20.0,mtempDB1.getProbabilitiesPerPreferredTreatment().get(treatmentArmDB1).getMap().get(treatmentArmDB2));
 		assertEquals(30.0,mtempDB1.getProbabilitiesPerPreferredTreatment().get(treatmentArmDB1).getMap().get(treatmentArmDB3));
-		
-		
 	}
+	
+	
 	
 	@Test
 	@Transactional
