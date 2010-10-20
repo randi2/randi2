@@ -56,7 +56,7 @@ import de.randi2.utility.validations.Password;
 		@NamedQuery(name = "login.LoginsWriteOtherUser", query = "select login from Login as login join login.roles role where role.writeOtherUser = true group by login"),
 		@NamedQuery(name = "login.LoginsWithPermission", query = "from Login as login where login.username in (select ace.sid.sidname from AccessControlEntryHibernate as ace where ace.acl.objectIdentity.type = ? and ace.acl.objectIdentity.identifier = ? and ace.permission = ?)"),
 		@NamedQuery(name = "login.AllLoginsWithSpecificRole" ,query= "select l from Login as l join l.roles role where role.id = ? group by l" ),
-		@NamedQuery(name = "login.AllLoginsWithSpecificRoleAndTrialSite" ,query= "select l from Login as l join l.roles role where role.id = ? and l in (select site.members from TrialSite as site where site.id = ? ) group by l")
+		@NamedQuery(name = "login.AllLoginsWithSpecificRoleAndTrialSite" ,query= "select l from Login as l join l.roles role where role.id = ? and l in (select p.login from TrialSite as site join site.members p where site.id = ?)")
 })
 @EqualsAndHashCode(callSuper = true)
 public @Data

@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import de.randi2.dao.HibernateAclService;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
+import de.randi2.model.Person;
 import de.randi2.model.Role;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
@@ -81,14 +82,15 @@ public class RolesAndRights {
 		// BEGIN Added all acls for logins with a trial site scope
 		List<Role> roles = entityManager
 				.createQuery(
-						"from Role r where (r.writeOtherUser = true and r.scopeUserWrite = true ) or (r.readOtherUser = true and r.scopeReadUserRead = true)")
+						"from Role r where (r.writeOtherUser = true and r.scopeUserWrite = true ) or (r.readOtherUser = true and r.scopeUserRead = true)")
 				.getResultList();// TODO named query
 
 		for (Role r : roles) {
 			List<Login> logins = entityManager
 					.createNamedQuery(
 							"login.AllLoginsWithSpecificRoleAndTrialSite")
-					.setParameter(1, r.getId()).setParameter(2, scope.getId())
+					.setParameter(1, r.getId())
+					.setParameter(2, scope.getId())
 					.getResultList();
 			for (Login l : logins) {
 				if (r.isWriteOtherUser() && r.isScopeUserWrite()) {
@@ -126,7 +128,7 @@ public class RolesAndRights {
 
 		List<Role> roles = entityManager
 				.createQuery(
-						"from Role r where (r.writeOtherUser = true and r.scopeUserWrite = false ) or (r.readOtherUser = true and r.scopeReadUserRead = false) of r.adminOtherUser")
+						"from Role r where (r.writeOtherUser = true and r.scopeUserWrite = false ) or (r.readOtherUser = true and r.scopeUserRead = false) or r.adminOtherUser = true")
 				.getResultList();// TODO named query
 
 		for (Role r : roles) {
@@ -186,7 +188,7 @@ public class RolesAndRights {
 		// admin trialSite
 		List<Role> roles = entityManager
 				.createQuery(
-						"from Role r where (r.adminTrialSite=true) or (r.scopeTrialSiteView = false and r.readTrialSite = true) or (r.scopeTrialWrite = false and r.writeTrialSite = true);")
+						"from Role r where (r.adminTrialSite=true) or (r.scopeTrialSiteView = false and r.readTrialSite = true) or (r.scopeTrialWrite = false and r.writeTrialSite = true)")
 				.getResultList(); // TODO named query
 
 		for (Role r : roles) {
