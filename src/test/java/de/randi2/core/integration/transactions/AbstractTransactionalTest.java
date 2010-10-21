@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,7 @@ public abstract class AbstractTransactionalTest<E extends AbstractDao<F>, F exte
 	protected abstract void init();
 
 	@Test
+	@Ignore
 	@Rollback(false)
 	public void testTransaction() {
 		withRollback = false;
@@ -107,6 +109,7 @@ public abstract class AbstractTransactionalTest<E extends AbstractDao<F>, F exte
 	}
 
 	@Test
+	@Ignore
 	@Rollback(true)
 	public void testTransactionRollback() {
 		withRollback = true;
