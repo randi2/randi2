@@ -161,7 +161,6 @@ public class HibernateAclService implements AclService {
 			acl.insertAce(permission, roleName);
 		}
 		acl = entityManager.merge(acl);
-		entityManager.flush();
 		return acl;
 	}
 	
