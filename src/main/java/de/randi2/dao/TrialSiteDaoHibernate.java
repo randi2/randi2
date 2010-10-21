@@ -60,9 +60,8 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 
 	@Override
 	public TrialSite get(Person person) {
-		String query = "from de.randi2.mode.TrialSite trialSite where trialSite.members.id = ?;";
 		try{
-		 return (TrialSite) entityManager.createQuery(query).setParameter(1, person.getId()).getSingleResult();
+		 return (TrialSite) entityManager.createNamedQuery("trialSite.getPersonsTrialSite").setParameter(1, person.getId()).getSingleResult();
 		}catch (NoResultException e) {
 			return null;
 		}catch (NonUniqueResultException e) {
