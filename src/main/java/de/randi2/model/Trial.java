@@ -209,14 +209,18 @@ public class Trial extends AbstractDomainObject {
 	}
 
 	/**
-	 * Adds the participating site.
+	 * Adds a participating site to this trial and added this Trial to the participating site.
 	 * 
 	 * @param participatingSite
 	 *            the participating site
 	 */
 	public void addParticipatingSite(TrialSite participatingSite) {
-		if(participatingSite!=null)
+		if(participatingSite!=null){
 			this.participatingSites.add(participatingSite);
+			if(!participatingSite.getTrials().contains(this)){
+				participatingSite.getTrials().add(this);
+			}
+		}
 	}
 
 	/**
