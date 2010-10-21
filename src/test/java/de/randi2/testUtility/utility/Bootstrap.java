@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
@@ -63,6 +64,7 @@ import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.enumerations.Gender;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig.TYPE;
+import de.randi2.services.ServiceException;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
 import de.randi2.services.UserService;
@@ -131,7 +133,7 @@ public class Bootstrap {
 	private UserService userService;
 	private DataSource dataSource;
 
-	public Bootstrap() {
+	public Bootstrap() throws ServiceException {
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
 				"classpath:/META-INF/spring-bootstrap.xml");
 		rolesAndRights = (RolesAndRights) ctx.getBean("rolesAndRights");
@@ -144,8 +146,7 @@ public class Bootstrap {
 		trialSiteService = (TrialSiteService) ctx.getBean("trialSiteService");
 		userService = (UserService) ctx.getBean("userService");
 		dataSource = (DataSource) ctx.getBean("dataSource");
-		
-		init();
+//		init();
 		try {
 			
 			IDatabaseConnection conn = new DatabaseConnection(dataSource.getConnection());
@@ -153,7 +154,7 @@ public class Bootstrap {
 			IDataSet dataset = new FilteredDataSet(filter, conn.createDataSet());
 
 			FlatXmlDataSet.write(dataset, new FileWriter(new File(
-					"testDBUNTI.xml")));
+					"testDBUNIT.xml")));
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -163,8 +164,101 @@ public class Bootstrap {
 	
 
 
+	public void test(){
+		
+//		EntityTransaction transaction = entityManager.getTransaction();
+//		transaction.begin();
+//	
+//		entityManager.persist(Role.ROLE_INVESTIGATOR);
+//		entityManager.persist(Role.ROLE_USER);
+//		entityManager.persist(Role.ROLE_STATISTICAN);
+//		entityManager.persist(Role.ROLE_MONITOR);
+//		entityManager.persist(
+//				Role.ROLE_P_INVESTIGATOR);
+//		entityManager.persist(Role.ROLE_ANONYMOUS);
+//		entityManager.persist(Role.ROLE_ADMIN);
+//		
+//		transaction.commit();
+//		transaction.begin();
+//		Role roleAdmin = (Role) entityManager.find(
+//				Role.class, 1L);
+//		roleAdmin.getRolesToAssign().add(roleAdmin);
+//		entityManager.merge(roleAdmin);
+//		transaction.commit();
+//		
+//		transaction.begin();
+//		
+//		Person cp1 = new Person();
+//		cp1.setFirstname("Contact");
+//		cp1.setSurname("Person");
+//		cp1.setEmail("randi2@action.ms");
+//		cp1.setPhone("1234567");
+//		cp1.setSex(Gender.MALE);
+//
+//		Person cp2 = new Person();
+//		cp2.setFirstname("Contact");
+//		cp2.setSurname("Person");
+//		cp2.setEmail("randi2@action.ms");
+//		cp2.setPhone("1234567");
+//		cp2.setSex(Gender.MALE);
+//
+//		Person adminP = new Person();
+//		adminP.setFirstname("Max");
+//		adminP.setSurname("Administrator");
+//		adminP.setEmail("randi2@action.ms");
+//		adminP.setPhone("1234567");
+//		adminP.setSex(Gender.MALE);
+//
+//		Login adminL = new Login();
+//		adminL.setUsername("admin@trialsite1.de");
+//		adminL.setPassword(passwordEncoder.encodePassword("1$heidelberg",
+//				saltSourceUser.getSalt(adminL)));
+//		adminL.setPerson(adminP);
+//		adminL.setPrefLocale(Locale.GERMANY);
+//		adminL.addRole(Role.ROLE_ADMIN);
+//		adminL.setPrefLocale(Locale.GERMAN);
+//		entityManager.persist(adminL);
+//		TrialSite trialSite = new TrialSite();
+//		trialSite.setCity("Heidelberg");
+//		trialSite.setCountry("Germany");
+//		trialSite.setName("Trial Site 1");
+//		trialSite.setPostcode("69120");
+//		trialSite.setStreet("INF");
+//		trialSite.setPassword(passwordEncoder.encodePassword("1$heidelberg",
+//				saltSourceTrialSite.getSystemWideSalt()));
+//		trialSite.setContactPerson(cp1);
+//		entityManager.persist(trialSite);
+//		
+//		transaction.commit();
+//		transaction.begin();
+//		
+//		trialSite.getMembers().add(adminP);
+//		transaction.commit();
+//		
+//		entityManager.clear();
+		
+		
+		List<Person> person = entityManager
+		.createQuery(
+				"select site.members from TrialSite as site where site.id = ?")
+		.setParameter(1, 1l).getResultList();
+		System.out.println(person.size());
+		
+		List<Login> log = entityManager
+		.createQuery(
+				"select l from Login as l join l.roles role where role.id = 6 and l in (select p.login from TrialSite as site join site.members p where site.id = ?)")
+		.setParameter(1, 1l).getResultList();
+		System.out.println(log.size());
+		System.out.println(log.get(0).getUsername());
+		
+		List<Login> login = entityManager
+		.createQuery(
+				"from Login as login where login.person in (select site.members from TrialSite as site where site.id = ?)")
+		.setParameter(1, 1l).getResultList();
+		System.out.println(login.size());
+	}
 
-	public void init() {
+	public void init() throws ServiceException {
 		long time1 = System.nanoTime();
 		
 		EntityTransaction transaction = entityManager.getTransaction();
@@ -228,21 +322,16 @@ public class Bootstrap {
 		trialSite.setPassword(passwordEncoder.encodePassword("1$heidelberg",
 				saltSourceTrialSite.getSystemWideSalt()));
 		trialSite.setContactPerson(cp1);
+		trialSite.getMembers().add(adminP);
+		entityManager.persist(trialSite);
+		transaction.commit();
+		
 		rolesAndRights.registerPerson(adminL);
 		rolesAndRights.grantRights(adminL, trialSite);
 
-		entityManager.persist(trialSite);
-		
-		transaction.commit();
-		
-		transaction.begin();
-		
-//		adminP.setTrialSite(trialSite);
-		adminP = entityManager.merge(adminP);
 		rolesAndRights.grantRights(trialSite, trialSite);
 		
-		transaction.commit();
-		
+		entityManager.clear();
 
 		AnonymousAuthenticationToken authToken = new AnonymousAuthenticationToken(
 				"anonymousUser", adminL, new ArrayList<GrantedAuthority>(
@@ -269,6 +358,7 @@ public class Bootstrap {
 		userLInv.addRole(Role.ROLE_INVESTIGATOR);
 		userLInv.setPrefLocale(Locale.GERMAN);
 		userService.create(userLInv);
+		trialSiteService.addPerson(trialSite, userPInv);
 
 		Person userPPInv = new Person();
 		userPPInv.setFirstname("Max");
@@ -287,7 +377,8 @@ public class Bootstrap {
 		userLPInv.addRole(Role.ROLE_P_INVESTIGATOR);
 		userLPInv.setPrefLocale(Locale.GERMAN);
 		userService.create(userLPInv);
-
+		trialSiteService.addPerson(trialSite, userPPInv);
+		
 		Person userP = new Person();
 		userP.setFirstname("Maxi");
 		userP.setSurname("Monitor");
@@ -304,6 +395,7 @@ public class Bootstrap {
 		userL.addRole(Role.ROLE_MONITOR);
 		userL.setPrefLocale(Locale.GERMAN);
 		userService.create(userL);
+		trialSiteService.addPerson(trialSite, userP);
 
 		userP = new Person();
 		userP.setFirstname("Max");
@@ -322,6 +414,7 @@ public class Bootstrap {
 		userL.addRole(Role.ROLE_STATISTICAN);
 		userL.setPrefLocale(Locale.GERMAN);
 		userService.create(userL);
+		trialSiteService.addPerson(trialSite, userP);
 
 		TrialSite trialSite1 = new TrialSite();
 		trialSite1.setCity("Heidelberg");
@@ -571,7 +664,11 @@ public class Bootstrap {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new Bootstrap();
+		try {
+			new Bootstrap();
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
