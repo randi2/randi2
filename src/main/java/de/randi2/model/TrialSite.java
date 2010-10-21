@@ -24,6 +24,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -44,6 +45,9 @@ import de.randi2.utility.validations.Password;
  * The Class TrialSite.
  */
 @Entity
+@NamedQueries( {
+	@NamedQuery(name ="trialSite.getPersonsTrialSite", query="select site from TrialSite as site join site.members p where p.id = ?")
+})
 @EqualsAndHashCode(callSuper=true, exclude={"trials", "members", "contactPerson"})
 @ToString(exclude={"members", "trials"})
 @Data
