@@ -89,8 +89,7 @@ public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<Minimiz
 		
 		
 		assertTrue(mtemp1.getId()>-1);
-		entityManager.flush();
-		entityManager.clear();
+
 		MinimizationTempData mtemp1DB = entityManager.find(MinimizationTempData.class, mtemp1.getId());
 		assertEquals(mtemp1.getId(), mtemp1DB.getId());
 		assertEquals(3,mtemp1DB.getProbabilitiesPerPreferredTreatment().keySet().size());
@@ -116,16 +115,11 @@ public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<Minimiz
 		
 		mtemp1DB = entityManager.merge(mtemp1DB);
 		
-		entityManager.flush();
-		entityManager.clear();
 		
 		MinimizationTempData mtempDB1 = entityManager.find(MinimizationTempData.class, mtemp1.getId());
 		assertEquals(mtempDB1.getId(), mtemp1DB.getId());
 		assertEquals(3,mtempDB1.getProbabilitiesPerPreferredTreatment().keySet().size());
 	
-		
-		entityManager.flush();
-		entityManager.clear();
 		
 		TreatmentArm treatmentArmDB1 = entityManager.find(TreatmentArm.class, treatmentArm1.getId());
 		TreatmentArm treatmentArmDB2 = entityManager.find(TreatmentArm.class, treatmentArm2.getId());
