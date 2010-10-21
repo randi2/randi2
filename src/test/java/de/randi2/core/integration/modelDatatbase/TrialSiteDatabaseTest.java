@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityTransaction;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.transaction.annotation.Propagation;
@@ -36,41 +38,55 @@ public class TrialSiteDatabaseTest extends
 	}
 
 	@Test
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void testTrials() {
+		persistTrialSite();
+		
 		List<Trial> tl = new ArrayList<Trial>();
 
 		tl.add(factory.getTrial());
 		tl.add(factory.getTrial());
 		tl.add(factory.getTrial());
-
-		entityManager.persist(validTrialSite);
-		entityManager.flush();
-		assertTrue(validTrialSite.getId() != AbstractDomainObject.NOT_YET_SAVED_ID);
+		
 		for (Trial trial : tl) {
-			trial.addParticipatingSite(validTrialSite);
-			trial.setLeadingSite(validTrialSite);
-			Login login = factory.getLogin();
-			entityManager.persist(login);
-			trial.setSponsorInvestigator(login.getPerson());
-			assertEquals(1, trial.getParticipatingSites().size());
-			assertEquals(validTrialSite.getId(), ((AbstractDomainObject) trial
-					.getParticipatingSites().toArray()[0]).getId());
-			entityManager.persist(trial);
-			entityManager.flush();
+			persistTrial(trial);
 		}
+		
 		TrialSite trialSite = entityManager
 				.find(TrialSite.class, validTrialSite.getId());
 		assertEquals(validTrialSite.getId(), trialSite.getId());
 
-		entityManager.refresh(validTrialSite);
-		validTrialSite.getTrials();
 		assertEquals(tl.size(), trialSite.getTrials().size());
 
 		List<Trial> trials = new ArrayList<Trial>();
 		trials.add(new Trial());
 		validTrialSite.setTrials(trials);
 		assertEquals(trials, validTrialSite.getTrials());
+	}
+	
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	private void persistTrialSite(){
+		entityManager.persist(validTrialSite);
+		assertTrue(validTrialSite.getId() != AbstractDomainObject.NOT_YET_SAVED_ID);
+	}
+	
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	private Login getPersistLogin(){
+		Login login = factory.getLogin();
+		entityManager.persist(login);
+		return login;
+	}
+	
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	private void persistTrial(Trial trial){
+		trial.addParticipatingSite(validTrialSite);
+		trial.setLeadingSite(validTrialSite);
+		Login login = getPersistLogin();
+		trial.setSponsorInvestigator(login.getPerson());
+		assertEquals(1, trial.getParticipatingSites().size());
+		assertEquals(validTrialSite.getId(), ((AbstractDomainObject) trial
+				.getParticipatingSites().toArray()[0]).getId());
+		entityManager.persist(trial);
 	}
 
 	@Test
