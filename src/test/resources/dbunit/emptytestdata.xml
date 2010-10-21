@@ -9,8 +9,8 @@
   <Block/>
   <RandomisationTempData/>
   <RandomizationConfig/>
-  <TrialSite/>
   <Person/>
+  <TrialSite/>
   <Trial/>
   <TreatmentArm/>
   <Block_Treatmentarm/>
@@ -31,6 +31,7 @@
   <RandomisationTempData_Urn/>
   <Role_Role/>
   <SubjectProperty/>
+  <TrialSite_Person/>
   <TrialSubject/>
   <TrialSubject_SubjectProperty/>
   <Trial_Criterion/>
