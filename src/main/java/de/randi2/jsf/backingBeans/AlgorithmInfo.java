@@ -31,16 +31,23 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
+
 /**
  * JSF backing bean which provieds some information about current trials
  * randomization algorithm. Created by IntelliJ IDEA. User: Lukasz Plotnicki
  * <l.plotnicki@dkfz.de> Date: 02.10.2009 Time: 15:13:16
  */
+@ManagedBean(name="algorithmInfo")
+@RequestScoped
 public class AlgorithmInfo {
 
+	@ManagedProperty(value="#{randi2Page}")
 	@Setter
 	private Randi2Page randi2Page;
-
+	@ManagedProperty(value="#{loginHandler}")
 	@Setter
 	private LoginHandler loginHandler;
 

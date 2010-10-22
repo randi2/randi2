@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.el.ValueExpression;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
@@ -43,9 +46,9 @@ import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 import de.randi2.simulation.model.DistributionSubjectProperty;
-import de.randi2.simulation.model.SimulationResultArm;
 import de.randi2.simulation.model.SimulationRawDataEntry;
 import de.randi2.simulation.model.SimulationResult;
+import de.randi2.simulation.model.SimulationResultArm;
 import de.randi2.simulation.model.helper.StrataResultComperatorAST;
 import de.randi2.simulation.model.helper.StrataResultComperatorATS;
 import de.randi2.simulation.model.helper.StrataResultComperatorSAT;
@@ -61,12 +64,15 @@ import de.randi2.simulation.service.SimulationService;
  * 
  * @author ds@randi2.de
  */
+@ManagedBean(name="simulationHandler")
+@SessionScoped
 public class SimulationHandler extends AbstractTrialHandler {
 
+	@ManagedProperty(value="#{trialHandler}")
 	@Getter
 	@Setter
 	private TrialHandler trialHandler;
-
+	@ManagedProperty(value="#{simulationService}")
 	@Getter
 	@Setter
 	private SimulationService simulationService;
@@ -167,7 +173,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 		this.distributedCriterions = distributedCriterions;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> getDistributedCriterions() {
 		if (distributedCriterions == null
 				|| distributedCriterions.size() != showedObject.getCriteria()

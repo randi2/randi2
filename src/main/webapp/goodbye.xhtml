@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 
- The Terms of Use page.
-
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--  
+ Login-Page of the RANDI2 application.
+ 
  Made by lplotni@users.sourceforge.org  
 
  This file is part of RANDI2.
@@ -14,7 +14,7 @@
  A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
- -->
+-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -23,44 +23,28 @@
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 <h:head>
 	<title><ui:insert name="title">
-		<ice:outputText nospan="true"
-			value="#{labels['pages.registration.termsHeader']}" />
+		<ice:outputText nospan="true" value="#{labels['pages.goodbye.titel']}" />
 	</ui:insert></title>
 	<ice:outputStyle href="/xmlhttp/css/rime/rime.css" />
 	<ice:outputStyle href="/RANDI2.css" />
 </h:head>
 <h:body>
-	<div id="content">
-	<ice:form>
-		<div class="terms">
-		<ice:panelCollapsible expanded="true"
-			toggleOnClick="false">
+	<!-- Login Form -->
+	<div class="body">
+	<div class="goodbye"><ice:form partialSubmit="false">
+		<ice:panelCollapsible expanded="true" toggleOnClick="false"
+			style="width=100px;">
 			<f:facet name="header">
-				<ice:panelGrid border="0" columns="2">
-					<ice:graphicImage value="/img/icons/terms16.png"></ice:graphicImage>
-					<ice:outputLabel
-						value="#{labels['pages.registration.termsHeader']}"></ice:outputLabel>
-				</ice:panelGrid>
+				<ice:graphicImage value="/img/randi2_small.png"></ice:graphicImage>
 			</f:facet>
-			<ice:outputText value="#{labels['pages.registration.terms']}"
-				escape="false" />
-		</ice:panelCollapsible> <ice:commandButton immediate="true" value="#{labels['buttons.ok']}"
-			actionListener="#{registerPage.go2Login}" style="margin-left: 390px;" />
-		<ice:panelGrid columns="2" width="100%">
-			<!-- copyright and company stuff -->
 			<ice:panelGroup>
-				<table width="100%" cellpadding="0" cellspacing="0">
-					<tr>
-						<td align="center"><ice:outputText
-							value="&#169; #{randi2.year} RANDI2 Development Team.
-							&#160; &#8226; &#160;"></ice:outputText><ice:outputLink
-							value="#{randi2.website1}" target="_blank">
-							<ice:outputText value="#{randi2.website1}" />
-						</ice:outputLink></td>
-					</tr>
-				</table>
+				<ice:outputLabel style="color:#778899;"
+					value="#{labels['pages.goodbye.message']}" />
 			</ice:panelGroup>
-		</ice:panelGrid></div>
+		</ice:panelCollapsible>
+		<ice:commandButton immediate="true" value="#{labels['buttons.login']}"
+			actionListener="#{registerPage.go2Login}" style="margin-left: 100px;" />
 	</ice:form></div>
+	</div>
 </h:body>
 </html>

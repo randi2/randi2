@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 
 import javax.el.ValueExpression;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -17,7 +18,6 @@ import de.randi2.jsf.backingBeans.Step5;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.wrappers.ConstraintWrapper;
 import de.randi2.jsf.wrappers.CriterionWrapper;
-import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.criteria.AbstractCriterion;
@@ -41,7 +41,7 @@ import de.randi2.utility.ReflectionUtil;
  */
 public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 
-	
+	@ManagedProperty(value="#{loginHandler}")
 	@Getter
 	@Setter
 	private LoginHandler loginHandler;
@@ -49,7 +49,7 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 	/*
 	 * Access to the application popups.
 	 */
-
+	@ManagedProperty(value="#{popups}")
 	@Setter
 	@Getter
 	private Popups popups;

@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
@@ -34,7 +37,8 @@ import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
-
+@ManagedBean(name="step5")
+@RequestScoped
 public class Step5 {
 
 	public static enum AlgorithmPanelId {
@@ -54,10 +58,10 @@ public class Step5 {
 		}
 
 	}
-	
+	@ManagedProperty(value="#{loginHandler}")
 	@Setter
 	private LoginHandler loginHandler;
-
+	@ManagedProperty(value="#{trialHandler}")
 	@Setter
 	private TrialHandler trialHandler;
 

@@ -17,9 +17,13 @@
  */
 package de.randi2.jsf.backingBeans;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+
 import lombok.Getter;
 import lombok.Setter;
-
+@ManagedBean(name="strata")
+@RequestScoped
 public class Strata {
 	
 	@Getter @Setter

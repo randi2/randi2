@@ -23,6 +23,9 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
 import lombok.Getter;
@@ -32,7 +35,6 @@ import com.icesoft.faces.context.ByteArrayResource;
 import com.icesoft.faces.context.FileResource;
 import com.icesoft.faces.context.Resource;
 
-import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
@@ -45,13 +47,14 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.services.TrialService;
 import de.randi2.utility.BoxedException;
 
+@ManagedBean(name="tSubjectAdd")
+@RequestScoped
 public class TSubjectAdd {
+	@ManagedProperty(value="#{popups}")
 	@Setter
 	private Popups popups;
-
-	@Setter
-	private LoginHandler loginHandler;
-
+	
+	@ManagedProperty(value="#{trialService}")
 	@Setter
 	private TrialService trialService;
 
@@ -111,7 +114,7 @@ public class TSubjectAdd {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public String addSubject() {
 		if (!currentTrial.isGenerateIds())
 			trialSubject.setIdentification(subjectID);

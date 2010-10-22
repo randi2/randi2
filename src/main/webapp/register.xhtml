@@ -14,34 +14,27 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-<f:view xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:h="http://java.sun.com/jsf/html"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ice="http://www.icesoft.com/icefaces/component"
-	locale="#{loginHandler.chosenLocale}">
-	<ice:outputDeclaration doctypeRoot="HTML"
-		doctypePublic="-//W3C//DTD HTML 4.01 Transitional//EN"
-		doctypeSystem="http://www.w3.org/TR/html4/loose.dtd" />
-	<html>
-	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title><ice:outputText nospan="true"
-		value="#{labels['pages.registration.title']}" /></title>
-	<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
-	<ice:outputStyle href="RANDI2.css" />
-	</head>
-	<body>
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+<h:head>
+	<title><ui:insert name="title">
+		<ice:outputText nospan="true" value="#{labels['pages.login.titel']}" />
+	</ui:insert></title>
+	<ice:outputStyle href="/xmlhttp/css/rime/rime.css" />
+	<ice:outputStyle href="/RANDI2.css" />
+</h:head>
+<h:body>
 	<div class="body">
-	<div class="contentREGISTER"><f:subview id="termsPopup"
-		rendered="#{randi2.selfRegistrationSupported}">
-		<jsp:directive.include file="./inc/popups/termsPopup.jspx" />
-	</f:subview> <!-- The pages.registration Form  --> <ice:panelBorder
-		renderEast="false" renderWest="false"
+	<div class="contentREGISTER"><ui:include
+		src="./inc/popups/termsPopup.xhtml" /> <!-- The pages.registration Form  -->
+	<ice:panelBorder renderEast="false" renderWest="false"
 		rendered="#{randi2.selfRegistrationSupported}">
 		<f:facet name="north">
-			<f:subview id="versionInclude">
-				<jsp:directive.include file="./inc/version.jspx" />
-			</f:subview>
+			<ui:include src="/inc/version.jspx" />
 		</f:facet>
 		<f:facet name="west">
 		</f:facet>
@@ -392,6 +385,5 @@
 		</f:facet>
 	</ice:panelBorder></div>
 	</div>
-	</body>
-	</html>
-</f:view>
+</h:body>
+</html>

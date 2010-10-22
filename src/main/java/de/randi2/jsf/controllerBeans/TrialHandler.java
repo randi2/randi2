@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.el.ValueExpression;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -40,7 +43,6 @@ import com.icesoft.faces.context.Resource;
 
 import de.randi2.jsf.backingBeans.Step4;
 import de.randi2.jsf.backingBeans.Step5;
-import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.model.Login;
@@ -63,24 +65,22 @@ import de.randi2.utility.logging.LogService;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net> & ds@randi2.de
  */
+@ManagedBean(name="trialHandler")
+@SessionScoped
 public class TrialHandler extends AbstractTrialHandler {
 
 	/*
 	 * Services which this class needs to work with. (provided via spring)
 	 */
-
+	@ManagedProperty(value="#{trialSiteService}")
 	@Setter
 	private TrialSiteService siteService = null;
-
+	@ManagedProperty(value="#{trialService}")
 	@Setter
 	private TrialService trialService = null;
-
+	@ManagedProperty(value="#{logService}")
 	@Setter
 	private LogService logService;
-
-	@Setter
-	private Popups popups;
-
 	/**
 	 * Defindes if the randomization is possible or not.
 	 */
@@ -315,14 +315,14 @@ public class TrialHandler extends AbstractTrialHandler {
 
 	public String changeLeadingSite() {
 		showedObject.setLeadingSite(trialSitesAC.getSelectedObject());
-		popups.hideChangeLeadingSitePopup();
+		getPopups().hideChangeLeadingSitePopup();
 		return Randi2.SUCCESS;
 	}
 
 	public String changePInvestigator() {
 		showedObject.setSponsorInvestigator(sponsorInvestigatorsAC
 				.getSelectedObject().getPerson());
-		popups.hideChangePInvestigatorPopup();
+		getPopups().hideChangePInvestigatorPopup();
 		return Randi2.SUCCESS;
 	}
 
