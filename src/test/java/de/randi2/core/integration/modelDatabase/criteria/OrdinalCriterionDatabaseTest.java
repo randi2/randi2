@@ -1,4 +1,4 @@
-package de.randi2.core.integration.modelDatatbase.criteria;
+package de.randi2.core.integration.modelDatabase.criteria;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

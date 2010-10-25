@@ -1,34 +1,33 @@
-package de.randi2.core.integration.modelDatatbase.criteria;
+package de.randi2.core.integration.modelDatabase.criteria;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.randi2.model.criteria.DateCriterion;
-import de.randi2.model.criteria.constraints.DateConstraint;
+import de.randi2.model.criteria.FreeTextCriterion;
+import de.randi2.model.criteria.constraints.FreeTextConstraint;
 import de.randi2.testUtility.utility.AbstractDomainDatabaseTest;
 import de.randi2.unsorted.ContraintViolatedException;
 
-public class DateCriterionDatabaseTest extends AbstractDomainDatabaseTest<DateCriterion>{
+public class FreeTextCriterionDatabaseTest extends AbstractDomainDatabaseTest<FreeTextCriterion>{
 
-	
-	public DateCriterionDatabaseTest(){
-		super(DateCriterion.class);
+	public FreeTextCriterionDatabaseTest(){
+		super(FreeTextCriterion.class);
 	}
-	private DateCriterion criterion;
+	private FreeTextCriterion criterion;
 	
 	@Before
 	public void setUp(){
 		super.setUp();
-		criterion = new DateCriterion();
+		criterion = new FreeTextCriterion();
 	}
 	
 	@Test
@@ -36,15 +35,15 @@ public class DateCriterionDatabaseTest extends AbstractDomainDatabaseTest<DateCr
 	public void databaseIntegrationTest() {
 		criterion.setName("name");
 		criterion.setDescription("test");
-		List<GregorianCalendar> elements = new ArrayList<GregorianCalendar>();
-		elements.add(new GregorianCalendar());
-		elements.add(new GregorianCalendar());
+		List<String> elements = new ArrayList<String>();
+		elements.add("Value1");
+		elements.add("Value2");
 		try {
-			ArrayList<DateConstraint> temp = new ArrayList<DateConstraint>();
-			temp.add(new DateConstraint(Arrays.asList(new GregorianCalendar[]{elements.get(0)})));
-			temp.add(new DateConstraint(Arrays.asList(new GregorianCalendar[]{elements.get(1)})));
+			ArrayList<FreeTextConstraint> temp = new ArrayList<FreeTextConstraint>();
+			temp.add(new FreeTextConstraint(Arrays.asList(new String[]{elements.get(0)})));
+			temp.add(new FreeTextConstraint(Arrays.asList(new String[]{elements.get(1)})));
 		
-			DateConstraint constraint = new DateConstraint(Arrays.asList(elements.get(0)));
+			FreeTextConstraint constraint = new FreeTextConstraint(Arrays.asList(elements.get(0)));
 			entityManager.persist(constraint);
 			assertTrue(constraint.getId()>0);
 			criterion.setInclusionConstraint(constraint);
@@ -61,15 +60,15 @@ public class DateCriterionDatabaseTest extends AbstractDomainDatabaseTest<DateCr
 			criterion = entityManager.merge(criterion);
 			entityManager.flush();
 			entityManager.clear();
-			DateCriterion dbCriterion = entityManager.find(DateCriterion.class,criterion.getId());
+			FreeTextCriterion dbCriterion = entityManager.find(FreeTextCriterion.class,criterion.getId());
 			assertEquals(criterion, dbCriterion);
 			assertEquals(criterion.getName(), dbCriterion.getName());
 			assertEquals(criterion.getDescription(), dbCriterion.getDescription());
 			assertEquals(constraint.getId(), dbCriterion.getInclusionConstraint().getId());
-			assertEquals(DateConstraint.class, dbCriterion.getContstraintType());
+			assertEquals(FreeTextConstraint.class, dbCriterion.getContstraintType());
 
 		} catch (ContraintViolatedException e) {
-			//fail();
+			fail();
 		}
 	}
 

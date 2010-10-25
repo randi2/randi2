@@ -1,4 +1,4 @@
-package de.randi2.core.integration.modelDatatbase.criteria.constraints;
+package de.randi2.core.integration.modelDatabase.criteria.constraints;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;

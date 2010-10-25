@@ -1,4 +1,4 @@
-package de.randi2.core.integration.modelDatatbase;
+package de.randi2.core.integration.modelDatabase;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
