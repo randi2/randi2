@@ -50,14 +50,11 @@ public class UserServiceTest extends AbstractServiceTest{
 	@Test
 	public void testAddRole(){
 		authenticatAsAdmin();
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
 		Login login = factory.getLogin();
 		entityManager.persist(login);
 		assertTrue(login.getId()>0);
 		Role role = factory.getRole();
 		entityManager.persist(role);
-		transaction.commit();
 		assertTrue(role.getId()>0);
 		userService.addRole(login, role);
 		assertTrue(login.getRoles().contains(role));
