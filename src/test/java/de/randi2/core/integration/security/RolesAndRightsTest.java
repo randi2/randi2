@@ -27,6 +27,7 @@ import de.randi2.dao.RoleDao;
 import de.randi2.dao.TrialSiteDao;
 import de.randi2.model.Login;
 import de.randi2.model.Role;
+import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.security.AclHibernate;
 import de.randi2.model.security.ObjectIdentityHibernate;
@@ -399,28 +400,172 @@ public class RolesAndRightsTest {
 				permissions.add('R');
 				permissions.add('W');
 				permissions.add('A');
-				for(AccessControlEntry ace : acl.getEntries()){
+				for (AccessControlEntry ace : acl.getEntries()) {
 					assertTrue(permissions.contains(((PermissionHibernate) ace
 							.getPermission()).getCode()));
-					assertTrue(permissions.remove((Character)((PermissionHibernate) ace
-							.getPermission()).getCode()));
+					assertTrue(permissions
+							.remove((Character) ((PermissionHibernate) ace
+									.getPermission()).getCode()));
 				}
 			}
+		}
+	}
+
+	@Test
+	public void grantRightsTrialObjectWithOutScopeAdminTest() {
+		Trial trial = factory.getTrial();
+		trial.setId(1);
+
+		Role role = new Role("ROLE_Name", false, false, false, false, false,
+				false, false, false, false, false, false, false, false, false,
+				false, false, false, false, false, false, false, false, true,
+				false, false, false, false, false, null);
+		roleDao.create(role);
+
+		Login login = factory.getLogin();
+		login.getRoles().add(role);
+		loginDao.create(login);
+
+		Sid sid = new PrincipalSid(login.getUsername());
+
+		rolesAndRights.grantRights(trial, null);
+
+		List<AclHibernate> acls = entityManager
+				.createQuery("from AclHibernate").getResultList();
+		assertEquals(1, acls.size());
+
+		for (Acl acl : acls) {
+			assertEquals(trial.getId(), acl.getObjectIdentity().getIdentifier());
+			assertEquals(trial.getClass().getCanonicalName(), acl
+					.getObjectIdentity().getType());
+
+			List<AccessControlEntry> entries = acl.getEntries();
+			assertEquals(1, entries.size());
+			assertEquals('A', ((PermissionHibernate) entries.get(0)
+					.getPermission()).getCode());
+		}
+	}
+	
+	@Test
+	public void grantRightsTrialObjectWithOutScopeReadTest() {
+		Trial trial = factory.getTrial();
+		trial.setId(1);
+
+		Role role = new Role("ROLE_Name", false, false, false, false, false,
+				false, false, false, false, false, false, false, false, false,
+				false, false, false, false, false, false, false, true, false,
+				false, false, false, false, false, null);
+		roleDao.create(role);
+
+		Login login = factory.getLogin();
+		login.getRoles().add(role);
+		loginDao.create(login);
+
+		Sid sid = new PrincipalSid(login.getUsername());
+
+		rolesAndRights.grantRights(trial, null);
+
+		List<AclHibernate> acls = entityManager
+				.createQuery("from AclHibernate").getResultList();
+		assertEquals(1, acls.size());
+
+		for (Acl acl : acls) {
+			assertEquals(trial.getId(), acl.getObjectIdentity().getIdentifier());
+			assertEquals(trial.getClass().getCanonicalName(), acl
+					.getObjectIdentity().getType());
+
+			List<AccessControlEntry> entries = acl.getEntries();
+			assertEquals(1, entries.size());
+			assertEquals('R', ((PermissionHibernate) entries.get(0)
+					.getPermission()).getCode());
+		}
+	}
+	
+	@Test
+	public void grantRightsTrialObjectWithOutScopeWriteTest() {
+		Trial trial = factory.getTrial();
+		trial.setId(1);
+
+		Role role = new Role("ROLE_Name", false, false, false, false, false,
+				false, false, false, false, false, false, false, false, false,
+				false, false, false, false, false, true, false, false, false,
+				false, false, false, false, false, null);
+		roleDao.create(role);
+
+		Login login = factory.getLogin();
+		login.getRoles().add(role);
+		loginDao.create(login);
+
+		Sid sid = new PrincipalSid(login.getUsername());
+
+		rolesAndRights.grantRights(trial, null);
+
+		List<AclHibernate> acls = entityManager
+				.createQuery("from AclHibernate").getResultList();
+		assertEquals(1, acls.size());
+
+		for (Acl acl : acls) {
+			assertEquals(trial.getId(), acl.getObjectIdentity().getIdentifier());
+			assertEquals(trial.getClass().getCanonicalName(), acl
+					.getObjectIdentity().getType());
+
+			List<AccessControlEntry> entries = acl.getEntries();
+			assertEquals(1, entries.size());
+			assertEquals('W', ((PermissionHibernate) entries.get(0)
+					.getPermission()).getCode());
 		}
 	}
 	
 	
 	@Test
+	public void grantRightsTrialObjectWithOutScopeAllTest() {
+		Trial trial = factory.getTrial();
+		trial.setId(1);
+
+		Role role = new Role("ROLE_Name", false, false, false, false, false,
+				false, false, false, false, false, false, false, false, false,
+				false, false, false, false, false, true, false, true, true,
+				false, false, false, false, false, null);
+		roleDao.create(role);
+
+		Login login = factory.getLogin();
+		login.getRoles().add(role);
+		loginDao.create(login);
+
+		Sid sid = new PrincipalSid(login.getUsername());
+
+		rolesAndRights.grantRights(trial, null);
+
+		List<AclHibernate> acls = entityManager
+				.createQuery("from AclHibernate").getResultList();
+		assertEquals(1, acls.size());
+
+		for (Acl acl : acls) {
+			assertEquals(trial.getId(), acl.getObjectIdentity().getIdentifier());
+			assertEquals(trial.getClass().getCanonicalName(), acl
+					.getObjectIdentity().getType());
+
+			List<AccessControlEntry> entries = acl.getEntries();
+			assertEquals(3, entries.size());
+			List<Character> permissions = new ArrayList<Character>();
+			permissions.add('R');
+			permissions.add('W');
+			permissions.add('A');
+			for (AccessControlEntry ace : acl.getEntries()) {
+				assertTrue(permissions.contains(((PermissionHibernate) ace
+						.getPermission()).getCode()));
+				assertTrue(permissions
+						.remove((Character) ((PermissionHibernate) ace
+								.getPermission()).getCode()));
+			}
+		}
+	}
+	
+
+	@Test
 	public void grantRightsTrialObjectWithScopeTest() {
 		fail();
 	}
-	
-	@Test
-	public void grantRightsTrialObjectWithOutScopeTest() {
-		fail();
-	}
-
-
 
 	@Test
 	public void grantRightsTrialSubjectTest() {
