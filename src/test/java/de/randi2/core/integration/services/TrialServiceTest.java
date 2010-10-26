@@ -26,12 +26,14 @@ import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 import de.randi2.services.TrialService;
+import de.randi2.services.TrialSiteService;
 import de.randi2.services.UserService;
 
 public class TrialServiceTest extends AbstractServiceTest{
 
 	@Autowired private TrialService service;
 	@Autowired private UserService userService;
+	@Autowired private TrialSiteService trialSiteService;
 
 	private Trial validTrial;
 	
@@ -42,6 +44,8 @@ public class TrialServiceTest extends AbstractServiceTest{
 		authenticatAsPrincipalInvestigator();
 		validTrial = factory.getTrial();
 		validTrial.setSponsorInvestigator(user.getPerson());
+		validTrial.setLeadingSite(trialSiteService.getTrialSiteFromPerson(user.getPerson()));
+		assertNotNull(validTrial.getLeadingSite());
 	}
 	
 	
@@ -66,6 +70,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testGetAll(){
+		
 		List<Trial> trials = new ArrayList<Trial>();
 		service.create(validTrial);
 		trials.add(validTrial);
