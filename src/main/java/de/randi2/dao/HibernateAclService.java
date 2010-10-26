@@ -37,6 +37,7 @@ import de.randi2.model.security.AclHibernate;
 import de.randi2.model.security.ObjectIdentityHibernate;
 import de.randi2.model.security.PermissionHibernate;
 import de.randi2.model.security.SidHibernate;
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * The Class HibernateAclService.
@@ -233,4 +234,5 @@ public class HibernateAclService implements AclService {
 	public void update(AclHibernate acl) {
 		entityManager.merge(acl);
 	}
+	
 }
