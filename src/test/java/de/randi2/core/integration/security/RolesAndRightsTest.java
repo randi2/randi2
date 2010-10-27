@@ -1,6 +1,8 @@
 package de.randi2.core.integration.security;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,8 +10,11 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +32,10 @@ import de.randi2.dao.RoleDao;
 import de.randi2.dao.TrialSiteDao;
 import de.randi2.model.Login;
 import de.randi2.model.Role;
+import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
+import de.randi2.model.TrialSubject;
 import de.randi2.model.security.AclHibernate;
 import de.randi2.model.security.ObjectIdentityHibernate;
 import de.randi2.model.security.PermissionHibernate;
@@ -67,59 +74,12 @@ public class RolesAndRightsTest {
 
 	@Before
 	@SuppressWarnings("unchecked")
-	public void init() {
+	public void setUp() {
 		try {
 			databaseUtil.setUpDatabaseEmpty();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
-		// entityManager.persist(Role.ROLE_ADMIN);
-		// entityManager.persist(Role.ROLE_ANONYMOUS);
-		// entityManager.persist(Role.ROLE_INVESTIGATOR);
-		// entityManager.persist(Role.ROLE_MONITOR);
-		// entityManager.persist(
-		// Role.ROLE_P_INVESTIGATOR);
-		// entityManager.persist(Role.ROLE_STATISTICAN);
-		// entityManager.persist(Role.ROLE_USER);
-		//
-		// aclService.createAclwithPermissions(new Login(), Role.ROLE_ANONYMOUS
-		// .getName(),
-		// new PermissionHibernate[] { PermissionHibernate.CREATE },
-		// Role.ROLE_ANONYMOUS.getName());
-		// aclService.createAclwithPermissions(new Person(), Role.ROLE_ANONYMOUS
-		// .getName(),
-		// new PermissionHibernate[] { PermissionHibernate.CREATE },
-		// Role.ROLE_ANONYMOUS.getName());
-		//
-		//
-		// List<Role> roles =
-		// entityManager.createQuery("from Role").getResultList();
-		// assertTrue(roles.contains(Role.ROLE_ADMIN));
-		// assertTrue(roles.contains(Role.ROLE_ANONYMOUS));
-		// assertTrue(roles.contains(Role.ROLE_INVESTIGATOR));
-		// assertTrue(roles.contains(Role.ROLE_MONITOR));
-		// assertTrue(roles.contains(Role.ROLE_P_INVESTIGATOR));
-		// assertTrue(roles.contains(Role.ROLE_STATISTICAN));
-		// assertTrue(roles.contains(Role.ROLE_USER));
-		//
-		// List<AclHibernate> acls =
-		// entityManager.createQuery("select acl from AclHibernate acl, SidHibernate sid where acl.owner.sidname= ?").setParameter(1,
-		// Role.ROLE_ANONYMOUS.getName()).getResultList();
-		// boolean hasRightLogin = false;
-		// boolean hasRightPerson = false;
-		// for(AclHibernate acl: acls){
-		// if
-		// (acl.getObjectIdentity().getIdentifier()==AbstractDomainObject.NOT_YET_SAVED_ID){
-		// if(acl.getObjectIdentity().getType().equals(Login.class.getCanonicalName())){
-		// hasRightLogin = true;
-		// }else
-		// if(acl.getObjectIdentity().getType().equals(Person.class.getCanonicalName())){
-		// hasRightPerson = true;
-		// }
-		// }
-		// }
-		// assertTrue(hasRightLogin);
-		// assertTrue(hasRightPerson);
 	}
 
 	@Test
@@ -445,7 +405,7 @@ public class RolesAndRightsTest {
 					.getPermission()).getCode());
 		}
 	}
-	
+
 	@Test
 	public void grantRightsTrialObjectWithOutScopeReadTest() {
 		Trial trial = factory.getTrial();
@@ -480,7 +440,7 @@ public class RolesAndRightsTest {
 					.getPermission()).getCode());
 		}
 	}
-	
+
 	@Test
 	public void grantRightsTrialObjectWithOutScopeWriteTest() {
 		Trial trial = factory.getTrial();
@@ -515,8 +475,7 @@ public class RolesAndRightsTest {
 					.getPermission()).getCode());
 		}
 	}
-	
-	
+
 	@Test
 	public void grantRightsTrialObjectWithOutScopeAllTest() {
 		Trial trial = factory.getTrial();
@@ -560,16 +519,376 @@ public class RolesAndRightsTest {
 			}
 		}
 	}
-	
 
 	@Test
-	public void grantRightsTrialObjectWithScopeTest() {
-		fail();
+	@Ignore
+	public void grantRightsTrialObjectWithScopeWriteTest() {
+		Trial trial = factory.getTrial();
+		trial.setId(34);
+
+		Login login = factory.getLogin();
+		entityManager.persist(login);
+
+		TrialSite site1 = factory.getTrialSite();
+		entityManager.persist(site1);
+		Role role1 = new Role("ROLE_Name d3", false, false, false, false,
+				false, false, false, false, false, false, false, false, false,
+				false, false, false, false, false, true, true, false, false,
+				false, false, false, false, false, false, null);
+		entityManager.persist(role1);
+		site1.getMembers().add(login.getPerson());
+		site1 = entityManager.merge(site1);
+		// Logins site1
+		login.getRoles().add(role1);
+		login = entityManager.merge(login);
+		// Flush session and clear the entity manager
+		entityManager.flush();
+		entityManager.clear();
+		Sid sid = new PrincipalSid(login.getUsername());
+
+		rolesAndRights.grantRights(trial, site1);
+
+		List<AclHibernate> acls = entityManager
+				.createQuery("from AclHibernate").getResultList();
+		assertEquals(1, acls.size());
+
+		for (Acl acl : acls) {
+			assertEquals(trial.getId(), acl.getObjectIdentity().getIdentifier());
+			assertEquals(trial.getClass().getCanonicalName(), acl
+					.getObjectIdentity().getType());
+
+			List<AccessControlEntry> entries = acl.getEntries();
+			assertEquals(1, entries.size());
+			assertEquals('W', ((PermissionHibernate) entries.get(0)
+					.getPermission()).getCode());
+		}
+	}
+
+	@Ignore
+	@Test
+	public void grantRightsTrialObjectWithScopeReadTest() {
+		Trial trial = factory.getTrial();
+		trial.setId(345);
+
+		Login login = factory.getLogin();
+		entityManager.persist(login);
+
+		TrialSite site1 = factory.getTrialSite();
+		entityManager.persist(site1);
+		Role role1 = new Role("Role_name", false, false, false, false, false,
+				false, false, false, false, false, false, false, false, false,
+				false, false, false, false, false, false, true, true, false,
+				false, false, false, false, false, null);
+		entityManager.persist(role1);
+		site1.getMembers().add(login.getPerson());
+		site1 = entityManager.merge(site1);
+		// Logins site1
+		login.getRoles().add(role1);
+		login = entityManager.merge(login);
+		// Flush session and clear the entity manager
+		entityManager.flush();
+		entityManager.clear();
+		Sid sid = new PrincipalSid(login.getUsername());
+
+		rolesAndRights.grantRights(trial, site1);
+
+		List<AclHibernate> acls = entityManager
+				.createQuery("from AclHibernate").getResultList();
+		assertEquals(1, acls.size());
+
+		for (Acl acl : acls) {
+			assertEquals(trial.getId(), acl.getObjectIdentity().getIdentifier());
+			assertEquals(trial.getClass().getCanonicalName(), acl
+					.getObjectIdentity().getType());
+
+			List<AccessControlEntry> entries = acl.getEntries();
+			assertEquals(1, entries.size());
+			assertEquals('R', ((PermissionHibernate) entries.get(0)
+					.getPermission()).getCode());
+		}
 	}
 
 	@Test
-	public void grantRightsTrialSubjectTest() {
-		fail();
+	public void grantRightsTrialObjectWithScopeAllTest() {
+		Trial trial = factory.getTrial();
+		trial.setId(34);
+
+		Login login = factory.getLogin();
+		entityManager.persist(login);
+
+		TrialSite site1 = factory.getTrialSite();
+		entityManager.persist(site1);
+		Role role1 = new Role("ROLE_Name d3", false, false, false, false,
+				false, false, false, false, false, false, false, false, false,
+				false, false, false, false, false, true, true, true, true,
+				false, false, false, false, false, false, null);
+		entityManager.persist(role1);
+		site1.getMembers().add(login.getPerson());
+		site1 = entityManager.merge(site1);
+		// Logins site1
+		login.getRoles().add(role1);
+		login = entityManager.merge(login);
+		// Flush session and clear the entity manager
+		entityManager.flush();
+		entityManager.clear();
+		Sid sid = new PrincipalSid(login.getUsername());
+
+		rolesAndRights.grantRights(trial, site1);
+
+		List<AclHibernate> acls = entityManager
+				.createQuery("from AclHibernate").getResultList();
+		assertEquals(1, acls.size());
+
+		for (Acl acl : acls) {
+			assertEquals(trial.getId(), acl.getObjectIdentity().getIdentifier());
+			assertEquals(trial.getClass().getCanonicalName(), acl
+					.getObjectIdentity().getType());
+
+			List<AccessControlEntry> entries = acl.getEntries();
+			assertEquals(2, entries.size());
+			List<Character> permissions = new ArrayList<Character>();
+			permissions.add('R');
+			permissions.add('W');
+			for (AccessControlEntry ace : acl.getEntries()) {
+				assertTrue(permissions.contains(((PermissionHibernate) ace
+						.getPermission()).getCode()));
+				assertTrue(permissions
+						.remove((Character) ((PermissionHibernate) ace
+								.getPermission()).getCode()));
+			}
+		}
+	}
+
+	@Test
+	public void grantRightsTrialSubjectReadTest() {
+
+		Login login = factory.getLogin();
+		entityManager.persist(login);
+
+		TrialSite site1 = factory.getTrialSite();
+		entityManager.persist(site1);
+		Role role = new Role("ROLE_Name", false, false, false, false, false,
+				false, false, false, false, false, false, false, false, false,
+				false, false, false, false, false, false, false, true, false,
+				false, false, true, false, false, null);
+		roleDao.create(role);
+		entityManager.persist(role);
+		site1.getMembers().add(login.getPerson());
+		site1 = entityManager.merge(site1);
+		// Logins site1
+		login.getRoles().add(role);
+		login = entityManager.merge(login);
+
+		Trial trial = factory.getTrial();
+		trial.setLeadingSite(site1);
+		trial.setSponsorInvestigator(login.getPerson());
+		entityManager.persist(trial);
+
+		entityManager.flush();
+		entityManager.clear();
+
+		TreatmentArm arm1 = new TreatmentArm();
+		arm1.setName("arm1");
+		arm1.setPlannedSubjects(10);
+		arm1.setTrial(trial);
+		TreatmentArm arm2 = new TreatmentArm();
+		arm2.setName("arm2");
+		arm2.setPlannedSubjects(10);
+		arm2.setTrial(trial);
+		trial.setTreatmentArms(Arrays.asList(new TreatmentArm[] { arm1, arm2 }));
+		trial = entityManager.merge(trial);
+
+		rolesAndRights.grantRights(trial, site1);
+
+		// Flush session and clear the entity manager
+		entityManager.flush();
+		entityManager.clear();
+		trial = entityManager.find(Trial.class, trial.getId());
+		Sid sid = new PrincipalSid(login.getUsername());
+
+		TrialSubject subject = new TrialSubject();
+		subject.setArm(trial.getTreatmentArms().get(0));
+		rolesAndRights.grantRights(subject, site1);
+		List<AclHibernate> acls = entityManager
+				.createQuery("from AclHibernate").getResultList();
+		assertEquals(2, acls.size());
+
+		for (Acl acl : acls) {
+			if (acl.getObjectIdentity().getType()
+					.equals(Trial.class.getCanonicalName())) {
+				assertEquals(trial.getId(), acl.getObjectIdentity().getIdentifier());
+
+				List<AccessControlEntry> entries = acl.getEntries();
+				assertEquals(1, entries.size());
+				assertEquals('R', ((PermissionHibernate) entries.get(0)
+						.getPermission()).getCode());
+			} else {
+				assertEquals(subject.getId(), acl.getObjectIdentity().getIdentifier());
+				assertEquals(subject.getClass().getCanonicalName(), acl
+						.getObjectIdentity().getType());
+
+				List<AccessControlEntry> entries = acl.getEntries();
+				assertEquals(1, entries.size());
+				assertEquals('R', ((PermissionHibernate) entries.get(0)
+						.getPermission()).getCode());
+			}
+
+		}
+	}
+	
+	
+	@Test
+	public void grantRightsTrialSubjectWriteTest() {
+
+		Login login = factory.getLogin();
+		entityManager.persist(login);
+
+		TrialSite site1 = factory.getTrialSite();
+		entityManager.persist(site1);
+		Role role = new Role("ROLE_Name", false, false, false, false, false,
+				false, false, false, false, false, false, false, false, false,
+				false, false, false, false, false, false, false, true, false,
+				false, true, false, false, false, null);
+		roleDao.create(role);
+		entityManager.persist(role);
+		site1.getMembers().add(login.getPerson());
+		site1 = entityManager.merge(site1);
+		// Logins site1
+		login.getRoles().add(role);
+		login = entityManager.merge(login);
+
+		Trial trial = factory.getTrial();
+		trial.setLeadingSite(site1);
+		trial.setSponsorInvestigator(login.getPerson());
+		entityManager.persist(trial);
+
+		entityManager.flush();
+		entityManager.clear();
+
+		TreatmentArm arm1 = new TreatmentArm();
+		arm1.setName("arm1");
+		arm1.setPlannedSubjects(10);
+		arm1.setTrial(trial);
+		TreatmentArm arm2 = new TreatmentArm();
+		arm2.setName("arm2");
+		arm2.setPlannedSubjects(10);
+		arm2.setTrial(trial);
+		trial.setTreatmentArms(Arrays.asList(new TreatmentArm[] { arm1, arm2 }));
+		trial = entityManager.merge(trial);
+
+		rolesAndRights.grantRights(trial, site1);
+
+		// Flush session and clear the entity manager
+		entityManager.flush();
+		entityManager.clear();
+		trial = entityManager.find(Trial.class, trial.getId());
+		Sid sid = new PrincipalSid(login.getUsername());
+
+		TrialSubject subject = new TrialSubject();
+		subject.setArm(trial.getTreatmentArms().get(0));
+		rolesAndRights.grantRights(subject, site1);
+		List<AclHibernate> acls = entityManager
+				.createQuery("from AclHibernate").getResultList();
+		assertEquals(2, acls.size());
+
+		for (Acl acl : acls) {
+			if (acl.getObjectIdentity().getType()
+					.equals(Trial.class.getCanonicalName())) {
+				assertEquals(trial.getId(), acl.getObjectIdentity().getIdentifier());
+
+				List<AccessControlEntry> entries = acl.getEntries();
+				assertEquals(1, entries.size());
+				assertEquals('R', ((PermissionHibernate) entries.get(0)
+						.getPermission()).getCode());
+			} else {
+				assertEquals(subject.getId(), acl.getObjectIdentity().getIdentifier());
+				assertEquals(subject.getClass().getCanonicalName(), acl
+						.getObjectIdentity().getType());
+
+				List<AccessControlEntry> entries = acl.getEntries();
+				assertEquals(1, entries.size());
+				assertEquals('W', ((PermissionHibernate) entries.get(0)
+						.getPermission()).getCode());
+			}
+
+		}
+	}
+
+
+	@Test
+	public void grantRightsTrialSubjectAdminTest() {
+		Login login = factory.getLogin();
+		entityManager.persist(login);
+
+		TrialSite site1 = factory.getTrialSite();
+		entityManager.persist(site1);
+		Role role = new Role("ROLE_Name", false, false, false, false, false,
+				false, false, false, false, false, false, false, false, false,
+				false, false, false, false, false, false, false, true, false,
+				false, false, false, true, false, null);
+		roleDao.create(role);
+		entityManager.persist(role);
+		site1.getMembers().add(login.getPerson());
+		site1 = entityManager.merge(site1);
+		// Logins site1
+		login.getRoles().add(role);
+		login = entityManager.merge(login);
+
+		Trial trial = factory.getTrial();
+		trial.setLeadingSite(site1);
+		trial.setSponsorInvestigator(login.getPerson());
+		entityManager.persist(trial);
+
+		entityManager.flush();
+		entityManager.clear();
+
+		TreatmentArm arm1 = new TreatmentArm();
+		arm1.setName("arm1");
+		arm1.setPlannedSubjects(10);
+		arm1.setTrial(trial);
+		TreatmentArm arm2 = new TreatmentArm();
+		arm2.setName("arm2");
+		arm2.setPlannedSubjects(10);
+		arm2.setTrial(trial);
+		trial.setTreatmentArms(Arrays.asList(new TreatmentArm[] { arm1, arm2 }));
+		trial = entityManager.merge(trial);
+
+		rolesAndRights.grantRights(trial, site1);
+
+		// Flush session and clear the entity manager
+		entityManager.flush();
+		entityManager.clear();
+		trial = entityManager.find(Trial.class, trial.getId());
+		Sid sid = new PrincipalSid(login.getUsername());
+
+		TrialSubject subject = new TrialSubject();
+		subject.setArm(trial.getTreatmentArms().get(0));
+		rolesAndRights.grantRights(subject, site1);
+		List<AclHibernate> acls = entityManager
+				.createQuery("from AclHibernate").getResultList();
+		assertEquals(2, acls.size());
+
+		for (Acl acl : acls) {
+			if (acl.getObjectIdentity().getType()
+					.equals(Trial.class.getCanonicalName())) {
+				assertEquals(trial.getId(), acl.getObjectIdentity().getIdentifier());
+
+				List<AccessControlEntry> entries = acl.getEntries();
+				assertEquals(1, entries.size());
+				assertEquals('R', ((PermissionHibernate) entries.get(0)
+						.getPermission()).getCode());
+			} else {
+				assertEquals(subject.getId(), acl.getObjectIdentity().getIdentifier());
+				assertEquals(subject.getClass().getCanonicalName(), acl
+						.getObjectIdentity().getType());
+
+				List<AccessControlEntry> entries = acl.getEntries();
+				assertEquals(1, entries.size());
+				assertEquals('A', ((PermissionHibernate) entries.get(0)
+						.getPermission()).getCode());
+			}
+
+		}
 	}
 
 	@Test
