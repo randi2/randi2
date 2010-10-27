@@ -242,6 +242,7 @@ public class RolesAndRights {
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED)
 	private void grantRightsTrialObjectWithScope(Trial trial, TrialSite scope) {
+		if(scope == null) return;
 		// BEGIN Added all acls for logins with a trial site scope
 		List<Role> roles = entityManager
 				.createQuery(
@@ -337,9 +338,9 @@ public class RolesAndRights {
 		// all logins which can read the trial from the trialSubject
 		List<Login> logins = entityManager
 				.createNamedQuery("login.LoginsWithPermission")
-				.setParameter(1, Trial.class)
+				.setParameter(1, Trial.class.getCanonicalName())
 				.setParameter(2, trialSubject.getArm().getTrial().getId())
-				.setParameter(3, PermissionHibernate.READ).getResultList();
+				.setParameter(3, PermissionHibernate.READ.getCode()).getResultList();
 		for (Login l : logins) {
 			for (Role r : l.getRoles()) {
 				if (r.isReadTrialSubject()) {
