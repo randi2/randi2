@@ -156,9 +156,11 @@ public class TrialServiceTest extends AbstractServiceTest{
 		config.setMaximum(blocksize);
 		config.setMinimum(blocksize);
 		validTrial.setRandomizationConfiguration(config);
-		service.update(validTrial);
+		validTrial = service.update(validTrial);
+		
 		assertTrue(validTrial.getId()>0);
 		assertEquals(2,validTrial.getTreatmentArms().size());
+		assertTrue(validTrial.getRandomizationConfiguration().getId()>0);
 		authenticatAsInvestigator();
 		for(int i=0;i<randomizations;i++){
 			TrialSubject subject = new TrialSubject();
@@ -236,14 +238,16 @@ public class TrialServiceTest extends AbstractServiceTest{
 	
 		service.create(validTrial);
 		validTrial.setTreatmentArms(arms);
+		
 		UrnDesignConfig conf = new UrnDesignConfig();
 		conf.setInitializeCountBalls(4);
 		conf.setCountReplacedBalls(2);
 		validTrial.setRandomizationConfiguration(conf);
 		
-		service.update(validTrial);
+		validTrial = service.update(validTrial);
 		assertTrue(validTrial.getId()>0);
 		assertEquals(2,validTrial.getTreatmentArms().size());
+		assertTrue(validTrial.getRandomizationConfiguration().getId()>0);
 		authenticatAsInvestigator();
 		for(int i=0;i<100;i++){
 			TrialSubject subject = new TrialSubject();
@@ -314,6 +318,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		
 		TrialSite site = factory.getTrialSite();
 		entityManager.persist(site);
+		entityManager.flush();
 		
 		Login l = factory.getLogin();
 		String e = "i@getsubjectstest.com";
