@@ -15,7 +15,7 @@ public abstract class AbstractDaoTest {
 
 	
 	@Autowired
-	private InitializeDatabaseUtil databaseUtil;
+	protected InitializeDatabaseUtil databaseUtil;
 	
 	protected EntityManager entityManager;
 

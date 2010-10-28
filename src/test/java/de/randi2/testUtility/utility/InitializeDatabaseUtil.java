@@ -26,7 +26,7 @@ public class InitializeDatabaseUtil {
 	public void setUpDatabaseFull() throws Exception {
 		try {
 			setUpDatabase(new FlatXmlDataSet(new File(
-			"src/test/resources/dbunit/emptytestdata.xml")));
+			"src/test/resources/dbunit/testdata.xml")));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

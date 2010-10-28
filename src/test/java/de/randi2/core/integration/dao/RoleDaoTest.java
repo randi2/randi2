@@ -4,6 +4,7 @@ import static de.randi2.testUtility.utility.RANDI2Assert.assertSaved;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,11 +27,16 @@ public class RoleDaoTest extends AbstractDaoTest{
 	
 	@Test
 	public void testGetAll(){
+		try {
+			databaseUtil.setUpDatabaseEmpty();
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
 		assertTrue(roleDao.getAll().size()>=0);
 		int size = roleDao.getAll().size();
 		for(int i = 0;i<10 ;i++){
 			Role r = new Role();
-			r.setName("name" + i);
+			r.setName("name"+i);
 			roleDao.create(r);
 		}
 		assertEquals(size+10, roleDao.getAll().size());
