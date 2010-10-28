@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.el.ValueExpression;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
@@ -61,12 +64,15 @@ import de.randi2.simulation.service.SimulationService;
  * 
  * @author ds@randi2.de
  */
+@ManagedBean(name="simulationHandler")
+@SessionScoped
 public class SimulationHandler extends AbstractTrialHandler {
 
+	@ManagedProperty(value="#{trialHandler}")
 	@Getter
 	@Setter
 	private TrialHandler trialHandler;
-
+	@ManagedProperty(value="#{simulationService}")
 	@Getter
 	@Setter
 	private SimulationService simulationService;
@@ -167,7 +173,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 		this.distributedCriterions = distributedCriterions;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> getDistributedCriterions() {
 		if (distributedCriterions == null
 				|| distributedCriterions.size() != currentObject.getCriteria()

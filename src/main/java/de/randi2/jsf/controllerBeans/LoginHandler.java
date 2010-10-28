@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -63,25 +66,29 @@ import de.randi2.utility.logging.LogService;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
+@ManagedBean(name="loginHandler")
+@SessionScoped
 public class LoginHandler extends AbstractHandler<Login> {
 
 	/*
 	 * Services classes to work with - provided via JSF/Spring brige.
 	 */
-
+	@ManagedProperty(value="#{userService}")
 	@Setter
 	private UserService userService;
 
+	@ManagedProperty(value="#{logService}")
 	@Setter
 	private LogService logService;
 
+	@ManagedProperty(value="#{trialSiteService}")
 	@Setter
 	private TrialSiteService siteService;
 
 	/*
 	 * Reference to the application popup logic.
 	 */
-
+	@ManagedProperty(value="#{popups}")
 	@Setter
 	private Popups popups;
 

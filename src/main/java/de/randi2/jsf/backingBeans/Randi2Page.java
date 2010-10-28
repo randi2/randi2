@@ -20,6 +20,9 @@ package de.randi2.jsf.backingBeans;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -49,17 +52,19 @@ import de.randi2.model.TrialSite;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  * 
  */
+@ManagedBean(name="randi2Page")
+@SessionScoped
 public class Randi2Page {
-
+	@ManagedProperty(value="#{trialSiteHandler}")
 	@Setter
 	private TrialSiteHandler trialSiteHandler;
-
+	@ManagedProperty(value="#{trialHandler}")
 	@Setter
 	private TrialHandler trialHandler;
-	
+	@ManagedProperty(value="#{loginHandler}")
 	@Setter
 	private LoginHandler loginHandler;
-	
+	@ManagedProperty(value="#{simulationHandler}")
 	@Setter
 	private SimulationHandler simulationHandler;
 	
@@ -69,7 +74,7 @@ public class Randi2Page {
 	@Getter @Setter
 	private String activePanel = "welcomePanel";
 
-	
+	@ManagedProperty(value="#{popups}")
 	@Getter @Setter
 	private Popups popups;
 	

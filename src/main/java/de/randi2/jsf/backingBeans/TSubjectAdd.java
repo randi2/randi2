@@ -21,9 +21,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import lombok.Getter;
 import lombok.Setter;
-import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.wrappers.CriterionWrapper;
@@ -34,13 +36,14 @@ import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.services.TrialService;
 
+@ManagedBean(name="tSubjectAdd")
+@RequestScoped
 public class TSubjectAdd {
+	@ManagedProperty(value="#{popups}")
 	@Setter
 	private Popups popups;
-
-	@Setter
-	private LoginHandler loginHandler;
-
+	
+	@ManagedProperty(value="#{trialService}")
 	@Setter
 	private TrialService trialService;
 

@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
@@ -30,7 +32,8 @@ import lombok.Setter;
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.model.enumerations.Gender;
 import de.randi2.model.randomization.BlockRandomizationConfig;
-
+@ManagedBean(name="enums")
+@ApplicationScoped
 public class Enums {
 
 	private LoginHandler loginHandler;

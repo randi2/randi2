@@ -23,6 +23,8 @@ import java.util.EventObject;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -34,6 +36,8 @@ import com.icesoft.faces.component.inputfile.InputFile;
  * logic as well as the file deletion object.  A users file uploads are only
  * visible to them and are deleted when the session is destroyed.</p>
  */
+@ManagedBean(name="inputFileController")
+@SessionScoped
 public class InputFileController{
 
 	    // File sizes used to generate formatted label

@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.el.ValueExpression;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -31,7 +34,6 @@ import lombok.Getter;
 import lombok.Setter;
 import de.randi2.jsf.backingBeans.AlgorithmConfig;
 import de.randi2.jsf.backingBeans.SubjectPropertiesConfig;
-import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.model.Login;
@@ -54,27 +56,25 @@ import de.randi2.utility.logging.LogService;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net> & ds@randi2.de
  */
+@ManagedBean(name="trialHandler")
+@SessionScoped
 public class TrialHandler extends AbstractTrialHandler {
 
 	/*
 	 * Services which this class needs to work with. (provided via spring)
 	 */
-
+	@ManagedProperty(value="#{trialSiteService}")
 	@Setter
 	private TrialSiteService siteService;
-
+	@ManagedProperty(value="#{trialService}")
 	@Setter
 	private TrialService trialService;
-
+	@ManagedProperty(value="#{logService}")
 	@Setter
 	private LogService logService;
-
-	@Setter
 	private LoginHandler loginHandler;
 
 	@Setter
-	private Popups popups;
-
 	/**
 	 * Defindes if the randomization is possible or not.
 	 */
@@ -286,7 +286,7 @@ public class TrialHandler extends AbstractTrialHandler {
 	public String changePInvestigator() {
 		currentObject.setSponsorInvestigator(sponsorInvestigatorsAC
 				.getSelectedObject().getPerson());
-		popups.hideChangePInvestigatorPopup();
+		getPopups().hideChangePInvestigatorPopup();
 		return Randi2.SUCCESS;
 	}
 
@@ -358,6 +358,8 @@ public class TrialHandler extends AbstractTrialHandler {
 		AlgorithmConfig currentStep5 = (AlgorithmConfig) ve2
 				.getValue(FacesContext.getCurrentInstance().getELContext());
 		currentStep5.clean();
+
+		setRandomizationConfig(null);
 		currentObject = null;
 		trialSitesAC = null;
 		sponsorInvestigatorsAC = null;
