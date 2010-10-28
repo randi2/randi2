@@ -63,20 +63,20 @@
 	
 	<navigation-rule>
 		<display-name>refresh</display-name>
-		<from-view-id>/randi2.jspx</from-view-id>
+		<from-view-id>/randi2.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>refresh</from-outcome>
-			<to-view-id>/randi2.jspx</to-view-id>
+			<to-view-id>/randi2.xthml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>register</display-name>
-		<from-view-id>/register.jspx</from-view-id>
+		<from-view-id>/register.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>ok</from-outcome>
-			<to-view-id>/faces/login.xhtml</to-view-id>
+			<to-view-id>/login.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
