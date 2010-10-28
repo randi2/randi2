@@ -71,6 +71,10 @@ public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements
 
 			}
 		} else if (object.getRandomizationConfiguration() instanceof UrnDesignConfig) {
+			// persist the urn design config before merge the trial, because of
+			// changed save behavior and a problem with the urn design
+			// validation
+			entityManager.persist(object.getRandomizationConfiguration());
 			for (String s : ((UrnDesignTempData) ((UrnDesignConfig) object
 					.getRandomizationConfiguration()).getTempData()).getUrns()
 					.keySet()) {
@@ -96,9 +100,10 @@ public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<TrialSubject> getSubjects(Trial trial, Login investigator) {
-		return entityManager.createNamedQuery(
-				"trialSubject.specificInvestigator").setParameter(1, trial)
-				.setParameter(1, investigator).getResultList();
+		return entityManager
+				.createNamedQuery("trialSubject.specificInvestigator")
+				.setParameter(1, trial).setParameter(1, investigator)
+				.getResultList();
 	}
 
 }
