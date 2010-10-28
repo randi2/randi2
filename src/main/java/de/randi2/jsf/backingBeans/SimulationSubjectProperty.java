@@ -24,7 +24,7 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
  */
 @ManagedBean(name="simulationSubjectProperty")
 @RequestScoped
-public class SimulationSubjectProperty extends AbstractSubjectPropertyBackingB{
+public class SimulationSubjectProperty extends AbstractSubjectProperty{
 
 	@ManagedProperty("#{simulationHandler}")
 	@Setter

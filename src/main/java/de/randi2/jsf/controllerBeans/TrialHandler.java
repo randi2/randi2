@@ -243,7 +243,7 @@ public class TrialHandler extends AbstractTrialHandler {
 			// create trial
 			trialService.create(currentObject);
 
-			popups.showTrialCreatedPopup();
+			getPopups().showTrialCreatedPopup();
 
 			clean();
 
@@ -262,7 +262,7 @@ public class TrialHandler extends AbstractTrialHandler {
 	public String saveTrial() {
 		try {
 			currentObject = trialService.update(currentObject);
-			popups.showTrialCreatedPopup();
+			getPopups().showTrialCreatedPopup();
 			editing = false;
 		} catch (IllegalArgumentException e) {
 			Randi2.showMessage(e);
@@ -279,7 +279,7 @@ public class TrialHandler extends AbstractTrialHandler {
 	public String changeLeadingSite() {
 		currentObject.setLeadingSite(trialSitesAC.getSelectedObject());
 		sponsorInvestigatorsAC = null;
-		popups.hideChangeLeadingSitePopup();
+		getPopups().hideChangeLeadingSitePopup();
 		return Randi2.SUCCESS;
 	}
 
@@ -359,7 +359,7 @@ public class TrialHandler extends AbstractTrialHandler {
 				.getValue(FacesContext.getCurrentInstance().getELContext());
 		currentStep5.clean();
 
-		setRandomizationConfig(null);
+//		setRandomizationConfig(null);
 		currentObject = null;
 		trialSitesAC = null;
 		sponsorInvestigatorsAC = null;

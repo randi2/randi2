@@ -41,7 +41,7 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
  */
 @ManagedBean(name = "step4")
 @RequestScoped
-public class Step4 extends AbstractSubjectPropertyBackingB {
+public class SubjectPropertiesConfig extends AbstractSubjectProperty {
 	@ManagedProperty(value = "#{trialHandler}")
 	@Setter
 	private TrialHandler trialHandler;
@@ -60,8 +60,7 @@ public class Step4 extends AbstractSubjectPropertyBackingB {
 		if (criteria == null)
 			criteria = new ArrayList<CriterionWrapper<? extends Serializable>>();
 		if (criteria.isEmpty() && trialHandler.isEditing()) {
-			for(AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<?>> c : trialHandler.getShowedObject().getCriteria()){
-					.getShowedObject().getCriteria()) {
+			for(AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<?>> c : trialHandler.getCurrentObject().getCriteria()){
 				criteria.add(new CriterionWrapper<Serializable>(
 						(AbstractCriterion<Serializable, ?>) c));
 			}

@@ -37,15 +37,17 @@ import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
-@ManagedBean(name="step5")
+
+@ManagedBean(name = "step5")
 @RequestScoped
 public class Step5 {
 
 	public static enum AlgorithmPanelId {
 		COMPLETE_RANDOMIZATION("completeRandomization"), BIASEDCOIN_RANDOMIZATION(
 				"biasedCoinRandomization"), BLOCK_RANDOMIZATION(
-				"blockRandomization"), TRUNCATED_RANDOMIZATION("truncatedRandomization"), 
-				URN_MODEL("urnModel"), MINIMIZATION("minimization");
+				"blockRandomization"), TRUNCATED_RANDOMIZATION(
+				"truncatedRandomization"), URN_MODEL("urnModel"), MINIMIZATION(
+				"minimization");
 		private String id = null;
 
 		private AlgorithmPanelId(String id) {
@@ -58,10 +60,11 @@ public class Step5 {
 		}
 
 	}
-	@ManagedProperty(value="#{loginHandler}")
+
+	@ManagedProperty(value = "#{loginHandler}")
 	@Setter
 	private LoginHandler loginHandler;
-	@ManagedProperty(value="#{trialHandler}")
+	@ManagedProperty(value = "#{trialHandler}")
 	@Setter
 	private TrialHandler trialHandler;
 
@@ -70,39 +73,32 @@ public class Step5 {
 	public List<SelectItem> getAlgorithms() {
 		if (algorithms == null) {
 			ResourceBundle bundle = ResourceBundle.getBundle(
-					"de.randi2.jsf.i18n.algorithms", loginHandler
-							.getChosenLocale());
+					"de.randi2.jsf.i18n.algorithms",
+					loginHandler.getChosenLocale());
 			algorithms = new ArrayList<SelectItem>();
 			algorithms.add(new SelectItem(
 					AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString(), bundle
 							.getString(CompleteRandomizationConfig.class
-									.getCanonicalName()
-									+ ".short")));
+									.getCanonicalName() + ".short")));
 			algorithms.add(new SelectItem(
 					AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString(),
 					bundle.getString(BiasedCoinRandomizationConfig.class
-							.getCanonicalName()
-							+ ".short")));
-			algorithms.add(new SelectItem(AlgorithmPanelId.TRUNCATED_RANDOMIZATION
-					.toString(), bundle
-					.getString(TruncatedBinomialDesignConfig.class
-							.getCanonicalName()
-							+ ".short")));
+							.getCanonicalName() + ".short")));
+			algorithms.add(new SelectItem(
+					AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString(), bundle
+							.getString(TruncatedBinomialDesignConfig.class
+									.getCanonicalName() + ".short")));
 			algorithms.add(new SelectItem(AlgorithmPanelId.BLOCK_RANDOMIZATION
 					.toString(), bundle
 					.getString(BlockRandomizationConfig.class
-							.getCanonicalName()
-							+ ".short")));
-			algorithms.add(new SelectItem(AlgorithmPanelId.URN_MODEL
-					.toString(), bundle
-					.getString(UrnDesignConfig.class
-							.getCanonicalName()
-							+ ".short")));
+							.getCanonicalName() + ".short")));
+			algorithms.add(new SelectItem(
+					AlgorithmPanelId.URN_MODEL.toString(), bundle
+							.getString(UrnDesignConfig.class.getCanonicalName()
+									+ ".short")));
 			algorithms.add(new SelectItem(AlgorithmPanelId.MINIMIZATION
-					.toString(), bundle
-					.getString(MinimizationConfig.class
-							.getCanonicalName()
-							+ ".short")));
+					.toString(), bundle.getString(MinimizationConfig.class
+					.getCanonicalName() + ".short")));
 
 		}
 		return algorithms;
@@ -116,33 +112,44 @@ public class Step5 {
 		if (selectedAlgorithmPanelId
 				.equals(AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())
 				&& !BlockRandomizationConfig.class.isInstance(trialHandler
-						.getRandomizationConfig())) {
-			trialHandler.setRandomizationConfig(new BlockRandomizationConfig());
-		}else if(selectedAlgorithmPanelId
-				.equals(AlgorithmPanelId.URN_MODEL.toString())
+						.getCurrentObject().getRandomizationConfiguration())) {
+			trialHandler.getCurrentObject().setRandomizationConfiguration(
+					new BlockRandomizationConfig());
+		} else if (selectedAlgorithmPanelId.equals(AlgorithmPanelId.URN_MODEL
+				.toString())
 				&& !UrnDesignConfig.class.isInstance(trialHandler
-						.getRandomizationConfig())) {
-			trialHandler.setRandomizationConfig(new UrnDesignConfig());
-		}else if(selectedAlgorithmPanelId
+						.getCurrentObject().getRandomizationConfiguration())) {
+			trialHandler.getCurrentObject().setRandomizationConfiguration(
+					new UrnDesignConfig());
+		} else if (selectedAlgorithmPanelId
 				.equals(AlgorithmPanelId.MINIMIZATION.toString())
 				&& !MinimizationConfig.class.isInstance(trialHandler
-						.getRandomizationConfig())) {
-			trialHandler.setRandomizationConfig(new MinimizationConfig());
+						.getCurrentObject().getRandomizationConfiguration())) {
+			trialHandler.getCurrentObject().setRandomizationConfiguration(
+					new MinimizationConfig());
 		}
-				
+
 	}
-	
-	public void clean(){
+
+	public void clean() {
 		selectedAlgorithmPanelId = "none";
-		((BlockR)FacesContext.getCurrentInstance()
-				.getApplication().getExpressionFactory().createValueExpression(
+		((BlockR) FacesContext
+				.getCurrentInstance()
+				.getApplication()
+				.getExpressionFactory()
+				.createValueExpression(
 						FacesContext.getCurrentInstance().getELContext(),
-						"#{blockR}", BlockR.class).getValue(FacesContext.getCurrentInstance()
-								.getELContext())).clean();
-		((Strata)FacesContext.getCurrentInstance()
-		.getApplication().getExpressionFactory().createValueExpression(
-				FacesContext.getCurrentInstance().getELContext(),
-				"#{strata}", Strata.class).getValue(FacesContext.getCurrentInstance()
-						.getELContext())).clean();
+						"#{blockR}", BlockR.class)
+				.getValue(FacesContext.getCurrentInstance().getELContext()))
+				.clean();
+		((Strata) FacesContext
+				.getCurrentInstance()
+				.getApplication()
+				.getExpressionFactory()
+				.createValueExpression(
+						FacesContext.getCurrentInstance().getELContext(),
+						"#{strata}", Strata.class)
+				.getValue(FacesContext.getCurrentInstance().getELContext()))
+				.clean();
 	}
 }

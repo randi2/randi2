@@ -114,8 +114,7 @@ public class BlockR {
 		if (!renderVariable) {
 			if (HtmlInputText.class.cast(event.getSource()).getId()
 					.equals("blocksize")) {
-				((BlockRandomizationConfig) trialHandler
-						.getRandomizationConfig()).setMaximum((Integer) event
+				((BlockRandomizationConfig) trialHandler.getCurrentObject().getRandomizationConfiguration()).setMaximum((Integer) event
 						.getNewValue());
 			} else {
 
