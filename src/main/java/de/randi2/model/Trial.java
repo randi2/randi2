@@ -34,6 +34,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -155,7 +156,7 @@ public class Trial extends AbstractDomainObject {
 	private Set<TrialSite> participatingSites = new HashSet<TrialSite>();
 
 	/** The treatment arms. */
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trial")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trial", fetch=FetchType.EAGER)
 	@Getter
 	@Setter
 	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();
