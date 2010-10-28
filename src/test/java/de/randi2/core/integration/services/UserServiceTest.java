@@ -56,6 +56,7 @@ public class UserServiceTest extends AbstractServiceTest{
 		Role role = factory.getRole();
 		entityManager.persist(role);
 		assertTrue(role.getId()>0);
+		entityManager.flush();
 		userService.addRole(login, role);
 		assertTrue(login.getRoles().contains(role));
 		Login login2 = entityManager.find(Login.class, login.getId());
@@ -140,6 +141,7 @@ public class UserServiceTest extends AbstractServiceTest{
 		l.setLastLoggedIn(new GregorianCalendar());
 		TrialSite site = factory.getTrialSite();
 		entityManager.persist(site);
+		entityManager.flush();
 		userService.register(l, site);
 		assertTrue(l.getId()>0);
 	}
@@ -147,18 +149,25 @@ public class UserServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testCreate(){
+		TrialSite site = factory.getTrialSite();
+		entityManager.persist(site);
+		entityManager.flush();
 		authenticatAsAdmin();
 		Login login = factory.getLogin();
-		userService.create(login);
+		
+		userService.create(login, site);
 		assertTrue(login.getId()>0);
 	}
 	
 	
 	@Test
 	public void testUpdate(){
+		TrialSite site = factory.getTrialSite();
+		entityManager.persist(site);
+		entityManager.flush();
 		authenticatAsAdmin();
 		Login login = factory.getLogin();
-		userService.create(login);
+		userService.create(login, site);
 		assertTrue(login.getId()>0);
 		String oldName = login.getUsername();
 		login.setUsername(factory.getPerson().getEmail());
@@ -198,12 +207,13 @@ public class UserServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testGetObject(){
+		TrialSite site = factory.getTrialSite();
+		entityManager.persist(site);
+		entityManager.flush();
 		authenticatAsAdmin();
 		((AffirmativeBased)context.getBean("methodAccessDecisionManager")).setAllowIfAllAbstainDecisions(true);
 		Login login = factory.getLogin();
-		userService.create(login);
-		TrialSite site = factory.getTrialSite();
-		entityManager.persist(site);
+		userService.create(login, site);
 		Login login2 = findLogin("admin@trialsite1.de");
 		rolesAndRights.grantRights(login, site);
 		Login login3 = userService.getObject(login.getId());
@@ -212,10 +222,13 @@ public class UserServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testSaveLoginWithPerson() {
+		TrialSite site = factory.getTrialSite();
+		entityManager.persist(site);
+		entityManager.flush();
 		authenticatAsAdmin();
 		Person validPerson = factory.getPerson();
 		Login login = factory.getLogin();
-		userService.create(login);
+		userService.create(login, site);
 		assertTrue(login.getId()>0);
 		
 		
@@ -224,7 +237,7 @@ public class UserServiceTest extends AbstractServiceTest{
 		login.setPerson(validPerson);
 		login.setUsername("");
 		try {
-			userService.create(login);
+			userService.create(login, site);
 			fail("should throw exception");
 		} catch (ConstraintViolationException e) {
 		}

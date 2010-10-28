@@ -29,6 +29,7 @@ import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
 import de.randi2.services.UserService;
 
+@Transactional
 public class TrialServiceTest extends AbstractServiceTest{
 
 	@Autowired private TrialService service;
@@ -78,6 +79,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		int trialsBefore = dbTrials.size();
 		TrialSite site = factory.getTrialSite();
 		entityManager.persist(site);
+		entityManager.flush();
 		for(int i=0;i<10;i++){
 			Trial trial = factory.getTrial();
 			trial.setLeadingSite(site);
@@ -325,14 +327,14 @@ public class TrialServiceTest extends AbstractServiceTest{
 		l.setUsername(e);
 		l.getPerson().setEmail(e);
 		l.addRole(Role.ROLE_INVESTIGATOR);
-		userService.create(l);
+		userService.create(l, site);
 		//Login #2
 		Login l2 = factory.getLogin();
 		String e2 = "i2@getsubjectstest.com";
 		l2.setUsername(e2);
 		l2.getPerson().setEmail(e2);
 		l2.addRole(Role.ROLE_INVESTIGATOR);
-		userService.create(l2);
+		userService.create(l2, site);
 		/*
 		 * First I need to create the trial and randomize some subjects.
 		 */

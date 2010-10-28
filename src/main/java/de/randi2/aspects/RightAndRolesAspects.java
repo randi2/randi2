@@ -76,10 +76,50 @@ public class RightAndRolesAspects {
 					.getAuthentication().getPrincipal();
 			if (o instanceof Login) {
 				roleAndRights.registerPerson(((Login) o));
-			}
+			}else{
 			logger.debug("Register Object ("+o.getClass().getSimpleName()+" id="+((AbstractDomainObject)o).getId()+")" );
 			roleAndRights.grantRights(((AbstractDomainObject) o), trialSiteDao.get(login
 					.getPerson()));
+			}
+		}
+
+	}
+	
+	
+	@Around("execution(public void de.randi2.service.*.register*(de.randi2.model.AbstractDomainObject))")
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void afterRegisterNewUserObject(ProceedingJoinPoint pjp)
+			throws Throwable {
+		pjp.proceed();
+		for (Object o : pjp.getArgs()) {
+			//special case for self registration
+			if(SecurityContextHolder.getContext()
+					.getAuthentication().getPrincipal().equals("anonymousUser") && o instanceof Login){
+				SecurityContextHolder.getContext().setAuthentication(new AnonymousAuthenticationToken("anonymousUser", o, new ArrayList<GrantedAuthority>(((Login)o).getAuthorities())));
+			}
+			Login login = (Login) SecurityContextHolder.getContext()
+					.getAuthentication().getPrincipal();
+			logger.debug("Register Object ("+o.getClass().getSimpleName()+" id="+((AbstractDomainObject)o).getId()+")" );
+			roleAndRights.grantRights(((AbstractDomainObject) o), trialSiteDao.get(login
+					.getPerson()));
+		}
+
+	}
+	
+	
+	@Around("execution(public void de.randi2.service.UserService*.create*(de.randi2.model.AbstractDomainObject))")
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void afterCreateNewUserObject(ProceedingJoinPoint pjp)
+			throws Throwable {
+		pjp.proceed();
+		for (Object o : pjp.getArgs()) {
+			if (o instanceof Login) {
+			Login login = (Login) SecurityContextHolder.getContext()
+					.getAuthentication().getPrincipal();
+			logger.debug("Register Object ("+o.getClass().getSimpleName()+" id="+((AbstractDomainObject)o).getId()+")" );
+			roleAndRights.grantRights(((AbstractDomainObject) o), trialSiteDao.get(login
+					.getPerson()));
+			}
 		}
 
 	}

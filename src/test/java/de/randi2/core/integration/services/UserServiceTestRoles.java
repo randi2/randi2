@@ -12,13 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.LoginDao;
 import de.randi2.model.Login;
 import de.randi2.model.Role;
+import de.randi2.model.TrialSite;
 import de.randi2.services.UserService;
 import de.randi2.testUtility.utility.DomainObjectFactory;
 
+@Transactional
 public class UserServiceTestRoles extends AbstractServiceTest {
 
 	@Autowired
@@ -54,6 +57,9 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetAllInvestigator() {
+		TrialSite site = factory.getTrialSite();
+		entityManager.persist(site);
+		entityManager.flush();
 		authenticatAsAdmin();
 		List<Login> loginsTemp = entityManager
 		.createQuery("from Login").getResultList();
@@ -63,7 +69,7 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 		authenticatAsAdmin();
 		for(int i = 0 ; i< 10 ;i++ ){
 			Login l = factory.getLogin();
-			userService.create(l);
+			userService.create(l, site);
 		}
 		authenticatAsInvestigator();
 		logins = userService.getAll();

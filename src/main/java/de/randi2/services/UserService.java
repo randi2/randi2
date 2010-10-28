@@ -54,7 +54,7 @@ public interface UserService extends AbstractService<Login> {
 	 * 
 	 * @param newObject
 	 */
-	public void create(Login newObject);
+	public void create(Login newObject, TrialSite site);
 	
 	/**
 	 * This method creates a brand new user with the investigator role for the self-registration process.

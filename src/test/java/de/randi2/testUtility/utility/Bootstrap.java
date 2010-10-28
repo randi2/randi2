@@ -146,7 +146,7 @@ public class Bootstrap {
 		trialSiteService = (TrialSiteService) ctx.getBean("trialSiteService");
 		userService = (UserService) ctx.getBean("userService");
 		dataSource = (DataSource) ctx.getBean("dataSource");
-//		init();
+		init();
 		try {
 			
 			IDatabaseConnection conn = new DatabaseConnection(dataSource.getConnection());
@@ -163,100 +163,6 @@ public class Bootstrap {
 	}
 	
 
-
-	public void test(){
-		
-//		EntityTransaction transaction = entityManager.getTransaction();
-//		transaction.begin();
-//	
-//		entityManager.persist(Role.ROLE_INVESTIGATOR);
-//		entityManager.persist(Role.ROLE_USER);
-//		entityManager.persist(Role.ROLE_STATISTICAN);
-//		entityManager.persist(Role.ROLE_MONITOR);
-//		entityManager.persist(
-//				Role.ROLE_P_INVESTIGATOR);
-//		entityManager.persist(Role.ROLE_ANONYMOUS);
-//		entityManager.persist(Role.ROLE_ADMIN);
-//		
-//		transaction.commit();
-//		transaction.begin();
-//		Role roleAdmin = (Role) entityManager.find(
-//				Role.class, 1L);
-//		roleAdmin.getRolesToAssign().add(roleAdmin);
-//		entityManager.merge(roleAdmin);
-//		transaction.commit();
-//		
-//		transaction.begin();
-//		
-//		Person cp1 = new Person();
-//		cp1.setFirstname("Contact");
-//		cp1.setSurname("Person");
-//		cp1.setEmail("randi2@action.ms");
-//		cp1.setPhone("1234567");
-//		cp1.setSex(Gender.MALE);
-//
-//		Person cp2 = new Person();
-//		cp2.setFirstname("Contact");
-//		cp2.setSurname("Person");
-//		cp2.setEmail("randi2@action.ms");
-//		cp2.setPhone("1234567");
-//		cp2.setSex(Gender.MALE);
-//
-//		Person adminP = new Person();
-//		adminP.setFirstname("Max");
-//		adminP.setSurname("Administrator");
-//		adminP.setEmail("randi2@action.ms");
-//		adminP.setPhone("1234567");
-//		adminP.setSex(Gender.MALE);
-//
-//		Login adminL = new Login();
-//		adminL.setUsername("admin@trialsite1.de");
-//		adminL.setPassword(passwordEncoder.encodePassword("1$heidelberg",
-//				saltSourceUser.getSalt(adminL)));
-//		adminL.setPerson(adminP);
-//		adminL.setPrefLocale(Locale.GERMANY);
-//		adminL.addRole(Role.ROLE_ADMIN);
-//		adminL.setPrefLocale(Locale.GERMAN);
-//		entityManager.persist(adminL);
-//		TrialSite trialSite = new TrialSite();
-//		trialSite.setCity("Heidelberg");
-//		trialSite.setCountry("Germany");
-//		trialSite.setName("Trial Site 1");
-//		trialSite.setPostcode("69120");
-//		trialSite.setStreet("INF");
-//		trialSite.setPassword(passwordEncoder.encodePassword("1$heidelberg",
-//				saltSourceTrialSite.getSystemWideSalt()));
-//		trialSite.setContactPerson(cp1);
-//		entityManager.persist(trialSite);
-//		
-//		transaction.commit();
-//		transaction.begin();
-//		
-//		trialSite.getMembers().add(adminP);
-//		transaction.commit();
-//		
-//		entityManager.clear();
-		
-		
-		List<Person> person = entityManager
-		.createQuery(
-				"select site.members from TrialSite as site where site.id = ?")
-		.setParameter(1, 1l).getResultList();
-		System.out.println(person.size());
-		
-		List<Login> log = entityManager
-		.createQuery(
-				"select l from Login as l join l.roles role where role.id = 6 and l in (select p.login from TrialSite as site join site.members p where site.id = ?)")
-		.setParameter(1, 1l).getResultList();
-		System.out.println(log.size());
-		System.out.println(log.get(0).getUsername());
-		
-		List<Login> login = entityManager
-		.createQuery(
-				"from Login as login where login.person in (select site.members from TrialSite as site where site.id = ?)")
-		.setParameter(1, 1l).getResultList();
-		System.out.println(login.size());
-	}
 
 	public void init() throws ServiceException {
 		long time1 = System.nanoTime();
@@ -357,8 +263,7 @@ public class Bootstrap {
 		userLInv.setPrefLocale(Locale.GERMANY);
 		userLInv.addRole(Role.ROLE_INVESTIGATOR);
 		userLInv.setPrefLocale(Locale.GERMAN);
-		userService.create(userLInv);
-		trialSiteService.addPerson(trialSite, userPInv);
+		userService.create(userLInv, trialSite);
 
 		Person userPPInv = new Person();
 		userPPInv.setFirstname("Max");
@@ -376,8 +281,7 @@ public class Bootstrap {
 		userLPInv.setPrefLocale(Locale.GERMANY);
 		userLPInv.addRole(Role.ROLE_P_INVESTIGATOR);
 		userLPInv.setPrefLocale(Locale.GERMAN);
-		userService.create(userLPInv);
-		trialSiteService.addPerson(trialSite, userPPInv);
+		userService.create(userLPInv, trialSite);
 		
 		Person userP = new Person();
 		userP.setFirstname("Maxi");
@@ -394,8 +298,7 @@ public class Bootstrap {
 		userL.setPrefLocale(Locale.GERMANY);
 		userL.addRole(Role.ROLE_MONITOR);
 		userL.setPrefLocale(Locale.GERMAN);
-		userService.create(userL);
-		trialSiteService.addPerson(trialSite, userP);
+		userService.create(userL, trialSite);
 
 		userP = new Person();
 		userP.setFirstname("Max");
@@ -413,8 +316,7 @@ public class Bootstrap {
 		userL.setPrefLocale(Locale.GERMANY);
 		userL.addRole(Role.ROLE_STATISTICAN);
 		userL.setPrefLocale(Locale.GERMAN);
-		userService.create(userL);
-		trialSiteService.addPerson(trialSite, userP);
+		userService.create(userL, trialSite);
 
 		TrialSite trialSite1 = new TrialSite();
 		trialSite1.setCity("Heidelberg");
@@ -462,146 +364,146 @@ public class Bootstrap {
 		SecurityContextHolder.getContext().getAuthentication()
 				.setAuthenticated(true);
 
-//		TrialSite site = trialSiteService.getObject(trialSite.getId());
-//		Trial trial = new Trial();
-//		trial.setAbbreviation("bs");
-//		trial.setName("Block study");
-//		trial.setDescription("Block study with two treatment arms and blocksize 8, stratified by trial site");
-//		trial.setGenerateIds(true);
-//		trial.setStratifyTrialSite(true);
-//		trial.setSponsorInvestigator(userPPInv);
-//		trial.setLeadingSite(trialSite);
-//		trial.addParticipatingSite(trialSite);
-//		trial.addParticipatingSite(trialSite1);
-//		trial.setStartDate(new GregorianCalendar(2009, 0, 1));
-//		trial.setEndDate(new GregorianCalendar(2010, 11, 1));
-//
-//		BlockRandomizationConfig randConf = new BlockRandomizationConfig();
-//		randConf.setMaximum(8);
-//		randConf.setMinimum(8);
-//		randConf.setType(TYPE.ABSOLUTE);
-//
-//		trial.setRandomizationConfiguration(randConf);
-//
-//		TreatmentArm arm1 = new TreatmentArm();
-//		arm1.setDescription("First Treatment");
-//		arm1.setName("arm1");
-//		arm1.setPlannedSubjects(200);
-//
-//		TreatmentArm arm2 = new TreatmentArm();
-//		arm2.setDescription("Second Treatment");
-//		arm2.setName("arm2");
-//		arm2.setPlannedSubjects(200);
-//
-//		trial.setTreatmentArms(Arrays.asList(arm1, arm2));
-//
-//		DichotomousCriterion cr = new DichotomousCriterion();
-//		cr.setName("SEX");
-//		cr.setOption1("M");
-//		cr.setOption2("F");
-//		DichotomousCriterion cr1 = new DichotomousCriterion();
-//		cr1.setOption1("1");
-//		cr1.setOption2("2");
-//		cr1.setName("Tum.Status");
-//		DichotomousCriterion cr2 = new DichotomousCriterion();
-//		cr2.setOption1("1");
-//		cr2.setOption2("2");
-//		cr2.setName("Fit.Level");
-//		try {
-//
-//			cr.addStrata(new DichotomousConstraint(Arrays
-//					.asList(new String[] { "M" })));
-//
-//			cr.addStrata(new DichotomousConstraint(Arrays
-//					.asList(new String[] { "F" })));
-//
-//			cr1.addStrata(new DichotomousConstraint(Arrays
-//					.asList(new String[] { "1" })));
-//			cr1.addStrata(new DichotomousConstraint(Arrays
-//					.asList(new String[] { "2" })));
-//			cr2.addStrata(new DichotomousConstraint(Arrays
-//					.asList(new String[] { "1" })));
-//			cr2.addStrata(new DichotomousConstraint(Arrays
-//					.asList(new String[] { "2" })));
-//
-//			trial.addCriterion(cr);
-//			trial.addCriterion(cr1);
-//			trial.addCriterion(cr2);
-//
-//		} catch (ContraintViolatedException e) {
-//			BoxedException.throwBoxed(e);
-//		}
-//
-//		try{
-//		trialService.create(trial);
-//		}catch (ConstraintViolationException e) {
-//			// TODO: handle exception
-//			System.out.println(e.getMessage());
-//			for(ConstraintViolation<?> v : e.getConstraintViolations()){
-//				System.out.println(v.getPropertyPath() +" "+ v.getMessage());
-//			}
-//			
-//		}
-//
-//		System.out.println("create trial: " + (System.nanoTime() - time1)
-//				/ 1000000 + " ms");
-//		time1 = System.nanoTime();
-//	
-//		
-//		
-//		int countTS1 = 120;
-//		int countTS2 = 60;
-//		int countMo = (new GregorianCalendar()).get(GregorianCalendar.MONTH);
-//		int countAll = 0;
-//		// Objects for the while-loop
-//		Random rand = new Random();
-//		GregorianCalendar date;
-//		int runs;
-//		boolean tr1;
-//		int count;
-//		// ---
-//		while (countTS1 != 0 || countTS2 != 0) {
-//			countAll++;
-//			date = new GregorianCalendar(2009, countAll % countMo, 1);
-//			runs = 0;
-//			tr1 = false;
-//			count = 0;
-//			if (rand.nextInt(2) == 0 && countTS1 != 0) {
-//				count = countTS1;
-//				tr1 = true;
-//			} else if (countTS2 != 0) {
-//				count = countTS2;
-//			}
-//			if (count >= 10) {
-//				runs = rand.nextInt(10) + 1;
-//			} else if (count != 0) {
-//				runs = rand.nextInt(count) + 1;
-//			}
-//			// Authorizing the investigator for upcoming randomization
-////			AnonymousAuthenticationToken at = tr1 ? new AnonymousAuthenticationToken(
-////					"anonymousUser", userLInv, new ArrayList<GrantedAuthority>(
-////							userLInv.getAuthorities()))
-////					: new AnonymousAuthenticationToken("anonymousUser",
-////							userLInv2, new ArrayList<GrantedAuthority>(
-////									userLInv2.getAuthorities()));
-//			SecurityContextHolder.getContext().setAuthentication(new AnonymousAuthenticationToken(
-//					"anonymousUser", userLInv, new ArrayList<GrantedAuthority>(
-//							userLInv.getAuthorities())));
-//			SecurityContextHolder.getContext().getAuthentication()
-//					.setAuthenticated(true);
-//			// ---
-//			for (int i = 0; i < runs; i++) {
-//				initRandBS(trial, date, rand);
-//				if (tr1) {
-//					countTS1--;
-//				} else {
-//					countTS2--;
-//				}
-//			}
-//
-//		}
-//		System.out.println("added trial subjects: "
-//				+ (System.nanoTime() - time1) / 1000000 + " ms");
+		TrialSite site = trialSiteService.getObject(trialSite.getId());
+		Trial trial = new Trial();
+		trial.setAbbreviation("bs");
+		trial.setName("Block study");
+		trial.setDescription("Block study with two treatment arms and blocksize 8, stratified by trial site");
+		trial.setGenerateIds(true);
+		trial.setStratifyTrialSite(true);
+		trial.setSponsorInvestigator(userPPInv);
+		trial.setLeadingSite(trialSite);
+		trial.addParticipatingSite(trialSite);
+		trial.addParticipatingSite(trialSite1);
+		trial.setStartDate(new GregorianCalendar(2009, 0, 1));
+		trial.setEndDate(new GregorianCalendar(2010, 11, 1));
+
+		BlockRandomizationConfig randConf = new BlockRandomizationConfig();
+		randConf.setMaximum(8);
+		randConf.setMinimum(8);
+		randConf.setType(TYPE.ABSOLUTE);
+
+		trial.setRandomizationConfiguration(randConf);
+
+		TreatmentArm arm1 = new TreatmentArm();
+		arm1.setDescription("First Treatment");
+		arm1.setName("arm1");
+		arm1.setPlannedSubjects(200);
+
+		TreatmentArm arm2 = new TreatmentArm();
+		arm2.setDescription("Second Treatment");
+		arm2.setName("arm2");
+		arm2.setPlannedSubjects(200);
+
+		trial.setTreatmentArms(Arrays.asList(arm1, arm2));
+
+		DichotomousCriterion cr = new DichotomousCriterion();
+		cr.setName("SEX");
+		cr.setOption1("M");
+		cr.setOption2("F");
+		DichotomousCriterion cr1 = new DichotomousCriterion();
+		cr1.setOption1("1");
+		cr1.setOption2("2");
+		cr1.setName("Tum.Status");
+		DichotomousCriterion cr2 = new DichotomousCriterion();
+		cr2.setOption1("1");
+		cr2.setOption2("2");
+		cr2.setName("Fit.Level");
+		try {
+
+			cr.addStrata(new DichotomousConstraint(Arrays
+					.asList(new String[] { "M" })));
+
+			cr.addStrata(new DichotomousConstraint(Arrays
+					.asList(new String[] { "F" })));
+
+			cr1.addStrata(new DichotomousConstraint(Arrays
+					.asList(new String[] { "1" })));
+			cr1.addStrata(new DichotomousConstraint(Arrays
+					.asList(new String[] { "2" })));
+			cr2.addStrata(new DichotomousConstraint(Arrays
+					.asList(new String[] { "1" })));
+			cr2.addStrata(new DichotomousConstraint(Arrays
+					.asList(new String[] { "2" })));
+
+			trial.addCriterion(cr);
+			trial.addCriterion(cr1);
+			trial.addCriterion(cr2);
+
+		} catch (ContraintViolatedException e) {
+			BoxedException.throwBoxed(e);
+		}
+
+		try {
+			trialService.create(trial);
+		} catch (ConstraintViolationException e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+			for (ConstraintViolation<?> v : e.getConstraintViolations()) {
+				System.out.println(v.getPropertyPath() + " " + v.getMessage());
+			}
+
+		}
+
+		System.out.println("create trial: " + (System.nanoTime() - time1)
+				/ 1000000 + " ms");
+		time1 = System.nanoTime();
+
+		int countTS1 = 120;
+		int countTS2 = 60;
+		int countMo = (new GregorianCalendar()).get(GregorianCalendar.MONTH);
+		int countAll = 0;
+		// Objects for the while-loop
+		Random rand = new Random();
+		GregorianCalendar date;
+		int runs;
+		boolean tr1;
+		int count;
+		// ---
+		while (countTS1 != 0 || countTS2 != 0) {
+			countAll++;
+			date = new GregorianCalendar(2009, countAll % countMo, 1);
+			runs = 0;
+			tr1 = false;
+			count = 0;
+			if (rand.nextInt(2) == 0 && countTS1 != 0) {
+				count = countTS1;
+				tr1 = true;
+			} else if (countTS2 != 0) {
+				count = countTS2;
+			}
+			if (count >= 10) {
+				runs = rand.nextInt(10) + 1;
+			} else if (count != 0) {
+				runs = rand.nextInt(count) + 1;
+			}
+			// Authorizing the investigator for upcoming randomization
+			// AnonymousAuthenticationToken at = tr1 ? new
+			// AnonymousAuthenticationToken(
+			// "anonymousUser", userLInv, new ArrayList<GrantedAuthority>(
+			// userLInv.getAuthorities()))
+			// : new AnonymousAuthenticationToken("anonymousUser",
+			// userLInv2, new ArrayList<GrantedAuthority>(
+			// userLInv2.getAuthorities()));
+			SecurityContextHolder.getContext().setAuthentication(
+					new AnonymousAuthenticationToken("anonymousUser", userLInv,
+							new ArrayList<GrantedAuthority>(userLInv
+									.getAuthorities())));
+			SecurityContextHolder.getContext().getAuthentication()
+					.setAuthenticated(true);
+			// ---
+			for (int i = 0; i < runs; i++) {
+				initRandBS(trial, date, rand);
+				if (tr1) {
+					countTS1--;
+				} else {
+					countTS2--;
+				}
+			}
+
+		}
+		System.out.println("added trial subjects: "
+				+ (System.nanoTime() - time1) / 1000000 + " ms");
 	}
 
 	private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {
