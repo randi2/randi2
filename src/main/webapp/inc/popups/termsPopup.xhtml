@@ -1,0 +1,43 @@
+<!-- 
+ Terms of Use Popup 
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<ice:form xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelPopup draggable="false" modal="true"
+		visible="#{registerPage.termsPvisible}"
+		rendered="#{registerPage.termsPvisible}"
+		style="width: 600px; height: auto">
+		<f:facet name="header">
+		<ice:panelGrid border="0" columns="2">
+				<ice:graphicImage value="/img/icons/terms16.png"/>
+				<ice:outputLabel value="#{labels['pages.registration.termsHeader']}"/>
+			</ice:panelGrid>
+		</f:facet>
+		<f:facet name="body">
+			<ice:panelGrid border="0" columns="1">
+				<f:facet name="footer">
+					<ice:panelGroup>
+						<ice:commandButton id="termsAccept" value="#{labels['buttons.accept']}"
+							actionListener="#{registerPage.acceptTerms}"/>
+						<ice:commandButton id="termsDecline" value="#{labels['buttons.decline']}"
+							actionListener="#{registerPage.declineTerms}"/>
+					</ice:panelGroup>
+				</f:facet>
+				<ice:outputText value="#{labels['pages.registration.terms']}" escape="false"/>
+			</ice:panelGrid>
+		</f:facet>
+	</ice:panelPopup>
+</ice:form>
