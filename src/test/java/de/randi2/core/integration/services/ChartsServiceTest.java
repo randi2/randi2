@@ -36,6 +36,7 @@ import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.BoxedException;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
+@Transactional
 public class ChartsServiceTest extends AbstractServiceTest {
 
 	@Autowired
@@ -53,6 +54,8 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		authenticatAsAdmin();
 		TrialSite site = factory.getTrialSite();
 		entityManager.persist(site);
+		entityManager.flush();
+		entityManager.clear();
 		validTrial = factory.getTrial();
 		validTrial.setLeadingSite(site);
 		validTrial.setSponsorInvestigator(user.getPerson());
@@ -80,6 +83,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 
 	}
 
+	@Transactional
 	private void randomizeInValidTrialOneYear() throws IllegalArgumentException, TrialStateException {
 		authenticatAsPrincipalInvestigator();
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
@@ -98,6 +102,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		arms.add(arm1);
 		arms.add(arm2);
 		
+		entityManager.clear();
 		trialService.create(validTrial);
 		validTrial.setTreatmentArms(arms);
 		BlockRandomizationConfig config = new BlockRandomizationConfig();
@@ -115,6 +120,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 			trialService.randomize(validTrial, subject);
 			subject.setCreatedAt(new GregorianCalendar(2009, i % 12, 1));
 			subject = entityManager.merge(subject);
+			entityManager.flush();
 			if ((i % blocksize) == (blocksize - 1)) {
 				assertEquals(validTrial.getTreatmentArms().get(0).getSubjects()
 						.size(), validTrial.getTreatmentArms().get(1)
