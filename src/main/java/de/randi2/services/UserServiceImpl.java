@@ -149,6 +149,7 @@ public class UserServiceImpl implements UserService {
 	@Secured({ "ACL_LOGIN_CREATE" })
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void create(Login newObject, TrialSite site) {
+		site = trialSiteDao.refresh(site);
 		logger.info("user: "
 				+ SecurityContextHolder.getContext().getAuthentication()
 						.getName() + " create new user "
@@ -157,7 +158,7 @@ public class UserServiceImpl implements UserService {
 				newObject.getPassword(), saltSourceUser.getSalt(newObject)));
 		loginDao.create(newObject);
 		site.getMembers().add(newObject.getPerson());
-		trialSiteDao.update(site);
+		site = trialSiteDao.update(site);
 		// send registration Mail
 		sendRegistrationMail(newObject);
 	}

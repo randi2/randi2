@@ -678,6 +678,8 @@ public class RolesAndRightsTest {
 		// Logins site1
 		login.getRoles().add(role);
 		login = entityManager.merge(login);
+		entityManager.flush();
+		entityManager.clear();
 
 		Trial trial = factory.getTrial();
 		trial.setLeadingSite(site1);

@@ -35,10 +35,14 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	public void setUp() {
 		super.setUp();
 		authenticatAsAdmin();
+		entityManager.flush();
+		entityManager.clear();
 		for (int i = 0; i < 10; i++) {
 			Login login = factory.getLogin();
 			loginDao.create(login);
 		}
+		entityManager.flush();
+		entityManager.clear();
 	}
 
 	@SuppressWarnings("unchecked")
