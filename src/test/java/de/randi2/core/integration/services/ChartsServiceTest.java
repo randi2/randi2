@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import de.randi2.dao.TrialDao;
 import de.randi2.model.Person;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
@@ -52,13 +53,11 @@ public class ChartsServiceTest extends AbstractServiceTest {
 	public void setUp() {
 		super.setUp();
 		authenticatAsAdmin();
-		TrialSite site = factory.getTrialSite();
-		entityManager.persist(site);
-		entityManager.flush();
-		entityManager.clear();
+		TrialSite site = trialSiteService.getTrialSiteFromPerson(user.getPerson());
 		validTrial = factory.getTrial();
 		validTrial.setLeadingSite(site);
 		validTrial.setSponsorInvestigator(user.getPerson());
+		validTrial.addParticipatingSite(site);
 
 		// if(validTrial.getParticipatingSites().size()<2){
 		//		
@@ -118,6 +117,8 @@ public class ChartsServiceTest extends AbstractServiceTest {
 			subject.setIdentification("identification" + i);
 			subject.setTrialSite(validTrial.getLeadingSite());
 			trialService.randomize(validTrial, subject);
+			assertTrue(subject.getId()>0);
+			subject = entityManager.find(TrialSubject.class, subject.getId());
 			subject.setCreatedAt(new GregorianCalendar(2009, i % 12, 1));
 			subject = entityManager.merge(subject);
 			entityManager.flush();
@@ -181,6 +182,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 			subject.setIdentification("identification" + i);
 			subject.setTrialSite(validTrial.getLeadingSite());
 			trialService.randomize(validTrial, subject);
+			subject = entityManager.find(TrialSubject.class, subject.getId());
 			subject.setCreatedAt(new GregorianCalendar(
 					2009 + (i >= 120 ? 1 : 0), i % 12, 1));
 			subject = entityManager.merge(subject);
@@ -315,6 +317,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 				subject.setTrialSite(site2);
 			}
 			trialService.randomize(validTrial, subject);
+			subject = entityManager.find(TrialSubject.class, subject.getId());
 			subject.setCreatedAt(new GregorianCalendar(2009, i % 12, 1));
 			subject = entityManager.merge(subject);
 			if ((i % blocksize) == (blocksize - 1)) {
@@ -420,6 +423,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 				subject.setTrialSite(site2);
 			}
 			trialService.randomize(validTrial, subject);
+			subject = entityManager.find(TrialSubject.class, subject.getId());
 			subject.setCreatedAt(new GregorianCalendar(2009, i % 12, 1));
 			subject = entityManager.merge(subject);
 			if ((i % blocksize) == (blocksize - 1)) {
@@ -571,6 +575,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 			proberties.add(subprob2);
 			subject.setProperties(proberties);
 			trialService.randomize(validTrial, subject);
+			subject = entityManager.find(TrialSubject.class, subject.getId());
 			subject.setCreatedAt(new GregorianCalendar(
 					2009 + (i >= 120 ? 1 : 0), i % 12, 1));
 			subject = entityManager.merge(subject);
