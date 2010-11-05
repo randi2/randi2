@@ -46,6 +46,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		validTrial = factory.getTrial();
 		validTrial.setSponsorInvestigator(user.getPerson());
 		validTrial.setLeadingSite(trialSiteService.getTrialSiteFromPerson(user.getPerson()));
+		validTrial.addParticipatingSite(trialSiteService.getTrialSiteFromPerson(user.getPerson()));
 		assertNotNull(validTrial.getLeadingSite());
 	}
 	
@@ -77,9 +78,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		trials.add(validTrial);
 		List<Trial> dbTrials = service.getAll();
 		int trialsBefore = dbTrials.size();
-		TrialSite site = factory.getTrialSite();
-		entityManager.persist(site);
-		entityManager.flush();
+		TrialSite site = trialSiteService.getTrialSiteFromPerson(user.getPerson());
 		for(int i=0;i<10;i++){
 			Trial trial = factory.getTrial();
 			trial.setLeadingSite(site);
@@ -318,10 +317,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		//Login #1
 		authenticatAsAdmin();
 		
-		TrialSite site = factory.getTrialSite();
-		entityManager.persist(site);
-		entityManager.flush();
-		
+		TrialSite site = trialSiteService.getTrialSiteFromPerson(user.getPerson());
 		Login l = factory.getLogin();
 		String e = "i@getsubjectstest.com";
 		l.setUsername(e);
@@ -353,6 +349,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		ArrayList<TreatmentArm> arms = new ArrayList<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
+		t.addParticipatingSite(site);
 		service.create(t);
 		t.setTreatmentArms(arms);
 		t.setRandomizationConfiguration(new CompleteRandomizationConfig());
