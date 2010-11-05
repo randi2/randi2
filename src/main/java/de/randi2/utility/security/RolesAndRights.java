@@ -242,7 +242,8 @@ public class RolesAndRights {
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED)
 	private void grantRightsTrialObjectWithScope(Trial trial, TrialSite scope) {
-		if(scope == null) return;
+		if (scope == null)
+			return;
 		// BEGIN Added all acls for logins with a trial site scope
 		List<Role> roles = entityManager
 				.createQuery(
@@ -250,11 +251,19 @@ public class RolesAndRights {
 				.getResultList();// TODO named query
 
 		for (Role r : roles) {
-			List<Login> logins = entityManager
-					.createNamedQuery(
-							"login.AllLoginsWithSpecificRoleAndTrialSite")
-					.setParameter(1, r.getId()).setParameter(2, scope.getId())
+			List<Login> logins = new ArrayList<Login>();
+			List<Login> logs = entityManager.createQuery("from Login")
 					.getResultList();
+			for (Login l : logs) {
+				// every user from a participating site
+				for (TrialSite site : trial.getParticipatingSites()) {
+					site = entityManager.find(TrialSite.class, site.getId());
+					if (site.getMembers().contains(l.getPerson())
+							&& l.getRoles().contains(r)) {
+						logins.add(l);
+					}
+				}
+			}
 			for (Login l : logins) {
 				// added read permission for this new trial
 				if (r.isReadTrial()) {
@@ -340,7 +349,8 @@ public class RolesAndRights {
 				.createNamedQuery("login.LoginsWithPermission")
 				.setParameter(1, Trial.class.getCanonicalName())
 				.setParameter(2, trialSubject.getArm().getTrial().getId())
-				.setParameter(3, PermissionHibernate.READ.getCode()).getResultList();
+				.setParameter(3, PermissionHibernate.READ.getCode())
+				.getResultList();
 		for (Login l : logins) {
 			for (Role r : l.getRoles()) {
 				if (r.isReadTrialSubject()) {
@@ -394,10 +404,14 @@ public class RolesAndRights {
 							.getName());
 		} else {
 			TrialSite site = null;
-			try{
-				site = (TrialSite) entityManager.createNamedQuery("trialSite.getPersonsTrialSite").setParameter(1, login.getPerson().getId()).getSingleResult();	
-			}catch (NoResultException e) {}
-			
+			try {
+				site = (TrialSite) entityManager
+						.createNamedQuery("trialSite.getPersonsTrialSite")
+						.setParameter(1, login.getPerson().getId())
+						.getSingleResult();
+			} catch (NoResultException e) {
+			}
+
 			newPersonGrantUserRights(login, role, site);
 			newPersonGrantUserTrialSite(login, role, site);
 			newPersonGrantUserTrial(login, role, site);
@@ -406,8 +420,9 @@ public class RolesAndRights {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	private void newPersonGrantUserRights(Login login, Role role, TrialSite usersSite) {
-		//grant create user rights
+	private void newPersonGrantUserRights(Login login, Role role,
+			TrialSite usersSite) {
+		// grant create user rights
 		if (role.isCreateUser()) {
 			aclService.createAclwithPermissions(new Login(),
 					login.getUsername(),
@@ -425,9 +440,7 @@ public class RolesAndRights {
 					list = entityManager
 							.createQuery(
 									"from Login l where l.person.trialSite.id = ?")
-							.setParameter(1,
-									usersSite.getId())
-							.getResultList();
+							.setParameter(1, usersSite.getId()).getResultList();
 				}
 			} else {
 				list = entityManager.createQuery("from Login").getResultList();
@@ -453,9 +466,7 @@ public class RolesAndRights {
 					List<Login> tempList = entityManager
 							.createQuery(
 									"from Login l where l.person.trialSite.id = ?")
-							.setParameter(1,
-									usersSite.getId())
-							.getResultList();
+							.setParameter(1, usersSite.getId()).getResultList();
 					for (Login l : tempList) {
 						if (role.getRolesToAssign().containsAll(l.getRoles())) {
 							list.add(l);
@@ -487,7 +498,8 @@ public class RolesAndRights {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	private void newPersonGrantUserTrialSite(Login login, Role role, TrialSite usersSite) {
+	private void newPersonGrantUserTrialSite(Login login, Role role,
+			TrialSite usersSite) {
 		if (role.isCreateTrialSite()) {
 			aclService.createAclwithPermissions(new TrialSite(),
 					login.getUsername(),
@@ -556,7 +568,8 @@ public class RolesAndRights {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	private void newPersonGrantUserTrial(Login login, Role role, TrialSite usersSite) {
+	private void newPersonGrantUserTrial(Login login, Role role,
+			TrialSite usersSite) {
 		if (role.isCreateTrial()) {
 			aclService.createAclwithPermissions(new Trial(),
 					login.getUsername(),
@@ -643,7 +656,8 @@ public class RolesAndRights {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	private void newPersonGrantUserTrialSubject(Login login, Role role, TrialSite usersSite) {
+	private void newPersonGrantUserTrialSubject(Login login, Role role,
+			TrialSite usersSite) {
 		if (role.isCreateTrialSubject()) {
 			aclService.createAclwithPermissions(new TrialSubject(),
 					login.getUsername(),
