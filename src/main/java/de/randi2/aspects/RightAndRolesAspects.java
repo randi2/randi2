@@ -107,7 +107,7 @@ public class RightAndRolesAspects {
 	}
 	
 	
-	@Around("execution(public void de.randi2.service.UserService*.create*(de.randi2.model.AbstractDomainObject))")
+	@Around("execution(public void de.randi2.services.UserService*.create*(..))")
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void afterCreateNewUserObject(ProceedingJoinPoint pjp)
 			throws Throwable {
