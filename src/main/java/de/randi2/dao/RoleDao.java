@@ -24,4 +24,10 @@ import de.randi2.model.Role;
  */
 public interface RoleDao extends AbstractDao<Role> {
 
+	/**
+	 * Return the role with the name or null.
+	 * @param name The role name.
+	 * @return The role or null.
+	 */
+	public Role get(String name);
 }
