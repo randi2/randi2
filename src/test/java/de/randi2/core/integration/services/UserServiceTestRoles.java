@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.LoginDao;
+import de.randi2.dao.TrialSiteDao;
 import de.randi2.model.Login;
 import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
@@ -30,6 +31,8 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	private DomainObjectFactory factory;
 	@Autowired
 	private LoginDao loginDao;
+	@Autowired
+	private TrialSiteDao trialSiteDao;
 
 	@Override
 	public void setUp() {
@@ -40,6 +43,8 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 		for (int i = 0; i < 10; i++) {
 			Login login = factory.getLogin();
 			loginDao.create(login);
+			entityManager.flush();
+			entityManager.clear();
 		}
 		entityManager.flush();
 		entityManager.clear();
@@ -61,10 +66,8 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetAllInvestigator() {
-		TrialSite site = factory.getTrialSite();
-		entityManager.persist(site);
-		entityManager.flush();
 		authenticatAsAdmin();
+		TrialSite site = trialSiteDao.get(user.getPerson());
 		List<Login> loginsTemp = entityManager
 		.createQuery("from Login").getResultList();
 		authenticatAsInvestigator();

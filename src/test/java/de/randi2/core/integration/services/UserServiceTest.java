@@ -20,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.LoginDao;
+import de.randi2.dao.TrialSiteDao;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
@@ -36,7 +37,7 @@ public class UserServiceTest extends AbstractServiceTest{
 	@Autowired private TestStringUtil stringUtil;
 	@Autowired private ApplicationContext context;
 	@Autowired private LoginDao loginDao;
-		
+	@Autowired private TrialSiteDao trialSiteDao;
 
 	
 	@Test
@@ -149,10 +150,8 @@ public class UserServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testCreate(){
-		TrialSite site = factory.getTrialSite();
-		entityManager.persist(site);
-		entityManager.flush();
 		authenticatAsAdmin();
+		TrialSite site = trialSiteDao.get(user.getPerson());
 		Login login = factory.getLogin();
 		
 		userService.create(login, site);
@@ -162,13 +161,15 @@ public class UserServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testUpdate(){
-		TrialSite site = factory.getTrialSite();
-		entityManager.persist(site);
-		entityManager.flush();
 		authenticatAsAdmin();
+		
+		TrialSite site = trialSiteDao.get(user.getPerson());
+		
 		Login login = factory.getLogin();
+		
 		userService.create(login, site);
 		assertTrue(login.getId()>0);
+		
 		String oldName = login.getUsername();
 		login.setUsername(factory.getPerson().getEmail());
 		userService.update(login);
@@ -207,10 +208,8 @@ public class UserServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testGetObject(){
-		TrialSite site = factory.getTrialSite();
-		entityManager.persist(site);
-		entityManager.flush();
 		authenticatAsAdmin();
+		TrialSite site = trialSiteDao.get(user.getPerson());
 		((AffirmativeBased)context.getBean("methodAccessDecisionManager")).setAllowIfAllAbstainDecisions(true);
 		Login login = factory.getLogin();
 		userService.create(login, site);
