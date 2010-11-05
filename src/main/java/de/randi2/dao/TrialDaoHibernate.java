@@ -102,7 +102,7 @@ public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements
 	public List<TrialSubject> getSubjects(Trial trial, Login investigator) {
 		return entityManager
 				.createNamedQuery("trialSubject.specificInvestigator")
-				.setParameter(1, trial).setParameter(1, investigator)
+				.setParameter(1, trial).setParameter(2, investigator)
 				.getResultList();
 	}
 
