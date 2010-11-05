@@ -13,10 +13,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Person;
 import de.randi2.testUtility.utility.DomainObjectFactory;
+import de.randi2.testUtility.utility.InitializeDatabaseUtil;
 import de.randi2.testUtility.utility.TestStringUtil;
 import de.randi2.utility.logging.LogService;
 import de.randi2.utility.logging.LogEntry.ActionType;
@@ -26,14 +28,26 @@ import static junit.framework.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/META-INF/service-test.xml","/META-INF/subconfig/test.xml" })
+@Transactional
 public class LogServiceTest {
 
 	@Autowired private LogService logService;
 	@Autowired private TestStringUtil stringUtil;
 	@Autowired private DomainObjectFactory factory;
+	@Autowired private InitializeDatabaseUtil databaseUtil;
+	
 	
 	private EntityManager entityManager;
 	
+	
+	@Before
+	public void setUp() {
+		try {
+			databaseUtil.setUpDatabaseEmpty();
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
 	
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
