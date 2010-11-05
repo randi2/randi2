@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void addRole(Login login, Role role) {
-
+		role = roleDao.get(role.getName());
 		if (login != null && role != null && role.getId() > 0
 				&& !login.getRoles().contains(role)) {
 			logger.info("user: "
@@ -202,6 +202,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void removeRole(Login login, Role role) {
+		role = roleDao.get(role.getName());
 		if (login != null && login.getId() > 0 && role != null
 				&& role.getId() > 0 && login.getRoles().contains(role)) {
 			logger.info("user: "
