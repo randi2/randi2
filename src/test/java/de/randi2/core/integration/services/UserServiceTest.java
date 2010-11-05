@@ -12,6 +12,7 @@ import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.validation.ConstraintViolationException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -54,17 +55,13 @@ public class UserServiceTest extends AbstractServiceTest{
 		Login login = factory.getLogin();
 		entityManager.persist(login);
 		assertTrue(login.getId()>0);
-		Role role = factory.getRole();
-		entityManager.persist(role);
-		assertTrue(role.getId()>0);
-		entityManager.flush();
-		userService.addRole(login, role);
-		assertTrue(login.getRoles().contains(role));
+		userService.addRole(login, Role.ROLE_INVESTIGATOR);;
+		assertTrue(login.getRoles().contains(Role.ROLE_INVESTIGATOR));
 		Login login2 = entityManager.find(Login.class, login.getId());
 		assertNotNull(login2);
-		assertTrue(login2.getRoles().contains(role));
+		assertTrue(login2.getRoles().contains(Role.ROLE_INVESTIGATOR));
 		try{
-			userService.addRole(null, role);
+			userService.addRole(null, Role.ROLE_INVESTIGATOR);
 			fail("should throw exception (login = null)");
 		}catch(Exception e){}
 		try{
@@ -80,9 +77,7 @@ public class UserServiceTest extends AbstractServiceTest{
 	@Test
 	public void testRemoveRole(){
 		authenticatAsAdmin();
-		Role role = factory.getRole();
-		entityManager.persist(role);
-		assertTrue(role.getId()>0);
+		Role role = Role.ROLE_INVESTIGATOR;
 		userService.addRole(user, role);
 		assertTrue(user.getRoles().contains(role));
 		Login login2 = entityManager.find(Login.class, user.getId());
@@ -133,6 +128,8 @@ public class UserServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testRegister(){
+		authenticatAsAdmin();
+		TrialSite site = trialSiteDao.get(user.getPerson());
 		SecurityContextHolder.getContext().setAuthentication(null);
 		Login l = userService.prepareInvestigator();
 		l.setUsername(stringUtil.getWithLength(Login.MIN_USERNAME_LENGTH)+"@xyz.com");
@@ -140,9 +137,6 @@ public class UserServiceTest extends AbstractServiceTest{
 		l.setPerson(factory.getPerson());
 		l.getPerson().setLogin(l);
 		l.setLastLoggedIn(new GregorianCalendar());
-		TrialSite site = factory.getTrialSite();
-		entityManager.persist(site);
-		entityManager.flush();
 		userService.register(l, site);
 		assertTrue(l.getId()>0);
 	}
@@ -221,10 +215,8 @@ public class UserServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testSaveLoginWithPerson() {
-		TrialSite site = factory.getTrialSite();
-		entityManager.persist(site);
-		entityManager.flush();
 		authenticatAsAdmin();
+		TrialSite site = trialSiteDao.get(user.getPerson());
 		Person validPerson = factory.getPerson();
 		Login login = factory.getLogin();
 		userService.create(login, site);
