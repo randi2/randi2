@@ -182,9 +182,9 @@
 		</repository>
 	</repositories>
 	<dependencies>
-		<!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** *****  -->
-		<!-- Compile Dependencies                                         -->
-		<!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** *****  -->
+		<!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** -->
+		<!-- Compile Dependencies -->
+		<!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** -->
 
 		<!-- Spring dependencies -->
 		<dependency>
@@ -276,13 +276,13 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.6.0.Beta4</version>
+			<version>3.6.0.Final</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.1.0.Beta1</version>
+			<version>4.1.0.Final</version>
 		</dependency>
 
 
@@ -424,9 +424,9 @@
 		</dependency>
 
 
-		<!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** *****  -->
-		<!-- Runtime Dependencies provided by containers                  -->
-		<!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** *****  -->
+		<!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** -->
+		<!-- Runtime Dependencies provided by containers -->
+		<!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** -->
 
 		<!-- Expression Language Support (for JSF) -->
 		<dependency>
@@ -445,9 +445,9 @@
 		</dependency>
 
 
-		<!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** *****  -->
-		<!-- Testing Dependencies                                         -->
-		<!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** *****  -->
+		<!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** -->
+		<!-- Testing Dependencies -->
+		<!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -877,15 +877,10 @@
 		<profile>
 			<id>oracle-test</id>
 			<!-- This Profile has never been tested, 31.05.2010 -->
-			<!--
-				The Oracle JDBC Driver has to be manually included into your local
-				maven repository
-			-->
-			<!--
-				mvn install:install-file -Dfile=%PATH_TO_DOWNLOADED_JAR%/ojdbc14.jar
-				-Dpackaging=jar -DgroupId=com.oracle -DartifactId=ojdbc14
-				-Dversion=10.2.0.3.0
-			-->
+			<!-- The Oracle JDBC Driver has to be manually included into your local 
+				maven repository -->
+			<!-- mvn install:install-file -Dfile=%PATH_TO_DOWNLOADED_JAR%/ojdbc14.jar 
+				-Dpackaging=jar -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2.0.3.0 -->
 			<activation>
 				<property>
 					<name>test.dbms</name>
@@ -909,20 +904,12 @@
 		<profile>
 			<id>db2-test</id>
 			<!-- This Profile has never been tested, 31.05.2010 -->
-			<!--
-				The IBM DB2 JDBC Driver has to be manually included into your local
-				maven repository
-			-->
-			<!--
-				mvn install:install-file
-				-Dfile=%PATH_TO_DOWNLOADED_JAR%/db2jcc_license_cu.jar
-				-Dpackaging=jar -DgroupId=com.ibm -DartifactId=db2jcc_license_cu
-				-Dversion=3.1.57
-			-->
-			<!--
-				possibly additionally db2jcc.jar is needed ?????? try it out and
-				give feedback!
-			-->
+			<!-- The IBM DB2 JDBC Driver has to be manually included into your local 
+				maven repository -->
+			<!-- mvn install:install-file -Dfile=%PATH_TO_DOWNLOADED_JAR%/db2jcc_license_cu.jar 
+				-Dpackaging=jar -DgroupId=com.ibm -DartifactId=db2jcc_license_cu -Dversion=3.1.57 -->
+			<!-- possibly additionally db2jcc.jar is needed ?????? try it out and 
+				give feedback! -->
 			<activation>
 				<property>
 					<name>test.dbms</name>
