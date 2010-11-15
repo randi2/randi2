@@ -150,7 +150,7 @@ public class Trial extends AbstractDomainObject {
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
 
 	/** The participating sites. */
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@Getter
 	@Setter
 	private Set<TrialSite> participatingSites = new HashSet<TrialSite>();
