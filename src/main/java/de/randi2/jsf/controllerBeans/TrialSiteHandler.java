@@ -157,5 +157,9 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 		ts.setContactPerson(new Person());
 		return ts;
 	}
+	
+	public List<Person> getMembers(){
+		return siteService.getMembers(currentObject);
+	}
 
 }

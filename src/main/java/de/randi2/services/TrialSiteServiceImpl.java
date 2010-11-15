@@ -114,5 +114,14 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 		siteDAO.update(oldSite);
 		siteDAO.update(newSite);
 	}
+	
+	@Override
+	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public List<Person> getMembers(TrialSite site){
+		site = siteDAO.refresh(site);
+		site.getMembers().get(0);
+		return site.getMembers();
+	}
 
 }

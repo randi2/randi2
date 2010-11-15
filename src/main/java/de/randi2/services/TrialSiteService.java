@@ -17,6 +17,8 @@
  */
 package de.randi2.services;
 
+import java.util.List;
+
 import de.randi2.model.Person;
 import de.randi2.model.TrialSite;
 
@@ -68,5 +70,12 @@ public interface TrialSiteService extends AbstractService<TrialSite> {
 	 * @param person
 	 */
 	public void changePersonTrialSite(TrialSite newSite, Person person) throws ServiceException;
+
+	/**
+	 * 
+	 * @param site The trial site.
+	 * @return The members of this trial.
+	 */
+	public List<Person> getMembers(TrialSite site);
 	
 }
