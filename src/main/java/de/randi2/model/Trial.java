@@ -159,14 +159,14 @@ public class Trial extends AbstractDomainObject {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trial", fetch=FetchType.EAGER)
 	@Getter
 	@Setter
-	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();
+	private Set<TreatmentArm> treatmentArms = new HashSet<TreatmentArm>();
 
 	/** The subject criteria. */
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> subjectCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
 
 	/** The random conf. */
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	private AbstractRandomizationConfig randomConf;
 
 	/**
@@ -392,5 +392,10 @@ public class Trial extends AbstractDomainObject {
 
 		}
 		return Pair.of(strataIdsResult, strataNamesResult);
+	}
+	
+	@Transient
+	public List<TreatmentArm> getTreatmentArmsList(){
+		return Collections.unmodifiableList(new ArrayList<TreatmentArm>(treatmentArms));
 	}
 }

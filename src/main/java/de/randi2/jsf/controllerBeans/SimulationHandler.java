@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
@@ -213,7 +214,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 
 		} else if (currentObject == null && simOnly) {
 			currentObject = new Trial();
-			List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+			Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 			arms.add(new TreatmentArm());
 			arms.add(new TreatmentArm());
 			currentObject.setTreatmentArms(arms);

@@ -22,6 +22,7 @@ import static de.randi2.utility.IntegerIterator.upto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -41,7 +42,7 @@ public class Urn  extends AbstractDomainObject{
 	
 	public static Urn generate(UrnDesignConfig config){
 		Urn urn = new Urn();
-		List<TreatmentArm> arms = config.getTrial().getTreatmentArms();
+		Set<TreatmentArm> arms = config.getTrial().getTreatmentArms();
 		for(int i : upto(config.getInitializeCountBalls())){
 			for (TreatmentArm arm : arms){
 				urn.add(arm);

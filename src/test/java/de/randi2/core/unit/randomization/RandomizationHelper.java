@@ -4,12 +4,12 @@
  */
 package de.randi2.core.unit.randomization;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -18,7 +18,7 @@ import java.util.List;
 public class RandomizationHelper {
 
 	public static void addArms(Trial t, int... sizes) {
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		for (int i = 0; i < sizes.length; i++) {
 			TreatmentArm arm = new TreatmentArm();
 			arm.setName("dummy:" + (i + 1));

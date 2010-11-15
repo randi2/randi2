@@ -6,7 +6,10 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -697,7 +700,10 @@ public class RolesAndRightsTest {
 		arm2.setName("arm2");
 		arm2.setPlannedSubjects(10);
 		arm2.setTrial(trial);
-		trial.setTreatmentArms(Arrays.asList(new TreatmentArm[] { arm1, arm2 }));
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
+		arms.add(arm1);
+		arms.add(arm2);
+		trial.setTreatmentArms(arms);
 		trial = entityManager.merge(trial);
 
 		rolesAndRights.grantRights(trial, site1);
@@ -709,7 +715,7 @@ public class RolesAndRightsTest {
 		Sid sid = new PrincipalSid(login.getUsername());
 
 		TrialSubject subject = new TrialSubject();
-		subject.setArm(trial.getTreatmentArms().get(0));
+		subject.setArm(trial.getTreatmentArmsList().get(0));
 		rolesAndRights.grantRights(subject, site1);
 		List<AclHibernate> acls = entityManager
 				.createQuery("from AclHibernate").getResultList();
@@ -775,7 +781,10 @@ public class RolesAndRightsTest {
 		arm2.setName("arm2");
 		arm2.setPlannedSubjects(10);
 		arm2.setTrial(trial);
-		trial.setTreatmentArms(Arrays.asList(new TreatmentArm[] { arm1, arm2 }));
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
+		arms.add(arm1);
+		arms.add(arm2);
+		trial.setTreatmentArms(arms);
 		trial = entityManager.merge(trial);
 
 		rolesAndRights.grantRights(trial, site1);
@@ -787,7 +796,7 @@ public class RolesAndRightsTest {
 		Sid sid = new PrincipalSid(login.getUsername());
 
 		TrialSubject subject = new TrialSubject();
-		subject.setArm(trial.getTreatmentArms().get(0));
+		subject.setArm(trial.getTreatmentArmsList().get(0));
 		rolesAndRights.grantRights(subject, site1);
 		List<AclHibernate> acls = entityManager
 				.createQuery("from AclHibernate").getResultList();
@@ -852,7 +861,10 @@ public class RolesAndRightsTest {
 		arm2.setName("arm2");
 		arm2.setPlannedSubjects(10);
 		arm2.setTrial(trial);
-		trial.setTreatmentArms(Arrays.asList(new TreatmentArm[] { arm1, arm2 }));
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
+		arms.add(arm1);
+		arms.add(arm2);
+		trial.setTreatmentArms(arms);
 		trial = entityManager.merge(trial);
 
 		rolesAndRights.grantRights(trial, site1);
@@ -864,7 +876,7 @@ public class RolesAndRightsTest {
 		Sid sid = new PrincipalSid(login.getUsername());
 
 		TrialSubject subject = new TrialSubject();
-		subject.setArm(trial.getTreatmentArms().get(0));
+		subject.setArm(trial.getTreatmentArmsList().get(0));
 		rolesAndRights.grantRights(subject, site1);
 		List<AclHibernate> acls = entityManager
 				.createQuery("from AclHibernate").getResultList();

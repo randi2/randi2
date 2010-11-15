@@ -335,6 +335,13 @@ public class TrialHandler extends AbstractTrialHandler {
 		return null;
 	}
 
+	@Override
+	public void setCurrentObject(Trial _currentObject) {
+		if (_currentObject != null && _currentObject.getId() > 0)
+			_currentObject = trialService.getObject(_currentObject.getId());
+		super.setCurrentObject(_currentObject);
+	}
+
 	private void clean() {
 		ValueExpression ve1 = FacesContext
 				.getCurrentInstance()

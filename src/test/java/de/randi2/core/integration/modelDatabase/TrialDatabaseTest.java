@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -61,7 +63,7 @@ public class TrialDatabaseTest  extends AbstractDomainDatabaseTest<Trial> {
 		arm2.setName("arm2");
 		arm2.setTrial(validTrial);
 		arm2.setPlannedSubjects(100);
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
 		entityManager.persist(arm1);

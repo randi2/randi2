@@ -41,7 +41,7 @@ public class CompleteRandomization extends RandomizationAlgorithm<CompleteRandom
 
 	@Override
 	protected TreatmentArm doRadomize(TrialSubject subject, Random random) {
-		List<TreatmentArm> arms = trial.getTreatmentArms();
+		List<TreatmentArm> arms = trial.getTreatmentArmsList();
 		return arms.get(random.nextInt(arms.size()));
 	}
 }

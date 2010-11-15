@@ -4,7 +4,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +50,7 @@ public class SimulationServiceTest extends AbstractServiceTest{
 		arm2.setPlannedSubjects(randomizations/2);
 		arm2.setName("arm2");
 		arm2.setTrial(validTrial);
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
 		validTrial.setTreatmentArms(arms);
@@ -100,7 +101,7 @@ public class SimulationServiceTest extends AbstractServiceTest{
 		arm2.setPlannedSubjects(randomizations/2);
 		arm2.setName("arm2");
 		arm2.setTrial(validTrial);
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
 		validTrial.setTreatmentArms(arms);
@@ -152,7 +153,7 @@ public class SimulationServiceTest extends AbstractServiceTest{
 		arm2.setPlannedSubjects(randomizations/2);
 		arm2.setName("arm2");
 		arm2.setTrial(validTrial);
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
 		validTrial.setTreatmentArms(arms);

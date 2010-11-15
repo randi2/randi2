@@ -41,6 +41,7 @@ import de.randi2.model.Login;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
+import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.exceptions.TrialStateException;
 import de.randi2.utility.mail.MailServiceInterface;
@@ -231,7 +232,19 @@ public class TrialServiceImpl implements TrialService {
 		logger.info("user: "
 				+ SecurityContextHolder.getContext().getAuthentication()
 						.getName() + " get trial site with id=" + objectID);
-		return trialDao.get(objectID);
+		Trial trial = trialDao.get(objectID);
+		//lazy loading for participating sites and subject criteria
+		if(trial.getParticipatingSites().size()>0) trial.getParticipatingSites().iterator().next();
+		if(trial.getCriteria().size()>0){
+			trial.getCriteria().get(0);
+			for(AbstractCriterion<?, ?> crit : trial.getCriteria()){
+				if(crit.getStrata().size()>0) crit.getStrata().get(0);
+			}
+		}
+		for(TreatmentArm arm : trial.getTreatmentArms()){
+			if(arm.getSubjects().size()>0) arm.getSubjects().get(0);
+		}
+		return trial;
 	}
 
 	private void sendRandomisationMail(Trial trial, Login user,

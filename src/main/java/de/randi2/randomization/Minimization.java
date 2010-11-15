@@ -51,7 +51,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 	
 	private TreatmentArm doRandomizeNaiveMinimization(TrialSubject subject, Random random){
 		//calculate the p-values for this allocation
-		List<TreatmentArm> arms = trial.getTreatmentArms();
+		List<TreatmentArm> arms = trial.getTreatmentArmsList();
 		ArrayList<Double> a = new ArrayList<Double>();
 		for(TreatmentArm arm : arms){
 			double plannedSubjects = configuration.isWithRandomizedSubjects() ? (arm.getPlannedSubjects()-arm.getCurrentSubjectsAmount()):arm.getPlannedSubjects();
@@ -64,7 +64,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 				totalPlannedSubjects +=arm1.getPlannedSubjects();
 			}
 			//Formula from: "Randomization by minimization for unbalanced treatment allocation" Baoguang Han, et al. 
-				double value = plannedSubjects*configuration.getP() + (1.0-configuration.getP())/(trial.getTreatmentArms().size() -1.0)*sum;
+				double value = plannedSubjects*configuration.getP() + (1.0-configuration.getP())/(arms.size() -1.0)*sum;
 				value = value / (configuration.isWithRandomizedSubjects() ? totalPlannedSubjects-trial.getTotalSubjectAmount(): totalPlannedSubjects);
 				a.add(value);
 		
@@ -89,7 +89,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 	@SuppressWarnings("unchecked")
 	private TreatmentArm doRandomizeBiasedCoinMinimization(TrialSubject subject, Random random){
 		MinimizationTempData tempData = (MinimizationTempData) configuration.getTempData();
-		List<TreatmentArm> arms = Collections.unmodifiableList(trial.getTreatmentArms());
+		List<TreatmentArm> arms = Collections.unmodifiableList(trial.getTreatmentArmsList());
 		
 		HashMap<AbstractConstraint<?>, MinimizationMapElementWrapper> relevantConstraints =new HashMap<AbstractConstraint<?>, MinimizationMapElementWrapper>();;
 		MinimizationMapElementWrapper relevantTrialSite = null;
@@ -233,23 +233,24 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 	private void initProbabilitiesPerPreferredTreatment(){
 		MinimizationTempData tempData = (MinimizationTempData) configuration.getTempData(); 
 		tempData.setProbabilitiesPerPreferredTreatment(new HashMap<TreatmentArm, MinimizationMapElementWrapper>());
-		TreatmentArm minArm = trial.getTreatmentArms().get(0);
-		for(TreatmentArm arm : trial.getTreatmentArms()){
+		List<TreatmentArm> arms = trial.getTreatmentArmsList();
+		TreatmentArm minArm = arms.get(0);
+		for(TreatmentArm arm : arms){
 			if(arm.getPlannedSubjects()< minArm.getPlannedSubjects()){
 				minArm = arm;
 			}
 		}
 	
-		for(TreatmentArm prefArm : trial.getTreatmentArms()){
+		for(TreatmentArm prefArm : arms){
 			HashMap<TreatmentArm,Double> probabilities = new HashMap<TreatmentArm, Double>();
 			double pH_pref = 0.0;
 			double denuminator = 0.0;
 			double numinator = 0.0;
-			for(TreatmentArm arm : trial.getTreatmentArms()){
+			for(TreatmentArm arm : arms){
 				if(!arm.equals(prefArm)){
 					denuminator+=arm.getPlannedSubjects();
 				}
-				if(!arm.equals(trial.getTreatmentArms().get(0))){
+				if(!arm.equals(arms.get(0))){
 					numinator+=arm.getPlannedSubjects();
 				}
 			}

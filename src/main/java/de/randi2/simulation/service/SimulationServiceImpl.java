@@ -49,7 +49,7 @@ public class SimulationServiceImpl implements SimulationService {
 		}
 		// initialize the simulation result
 		SimulationResult simResult = new SimulationResult(copyTrial
-				.getTreatmentArms(), copyTrial.getRandomizationConfiguration(), strataIdsNames);
+				.getTreatmentArmsList(), copyTrial.getRandomizationConfiguration(), strataIdsNames);
 		long startTime;
 		TreatmentArm assignedArm;
 		TrialSubject subject = new TrialSubject();
@@ -104,9 +104,9 @@ public class SimulationServiceImpl implements SimulationService {
 				}
 				// set data for this simulation run and add it to the simulation
 				// result
+				List<TreatmentArm> arms = simTrial.getTreatmentArmsList();
 				for (int i = 0; i < simTrial.getTreatmentArms().size(); i++) {
-					simRun.getSubjectsPerArms()[i] = simTrial
-							.getTreatmentArms().get(i)
+					simRun.getSubjectsPerArms()[i] = arms.get(i)
 							.getCurrentSubjectsAmount();
 				}
 				simRun.setTime((System.currentTimeMillis() - startTime));
@@ -148,7 +148,7 @@ public class SimulationServiceImpl implements SimulationService {
 			distributionTrialSites.getElements().set(i, cSite);
 			cTrial.addParticipatingSite(cSite);
 		}
-		ArrayList<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		HashSet<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		for (TreatmentArm arm : trial.getTreatmentArms()) {
 			TreatmentArm cArm = new TreatmentArm();
 			cArm.setName(arm.getName());
