@@ -120,7 +120,7 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<Person> getMembers(TrialSite site){
 		site = siteDAO.refresh(site);
-		site.getMembers().get(0);
+		if(site.getMembers().size()>0) site.getMembers().get(0);
 		return site.getMembers();
 	}
 
