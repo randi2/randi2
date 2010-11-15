@@ -117,6 +117,7 @@ public class Randi2Page {
 	}
 
 	public void myTrialSite(ActionEvent event) {
+		loginHandler.setCurrentObject(loginHandler.getLoggedInUser());
 		trialSiteHandler
 				.setCurrentObject(loginHandler.getCurrentUsersTrialSite());
 		activePanel = "trialSiteEditPanel";
