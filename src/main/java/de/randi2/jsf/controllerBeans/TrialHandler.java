@@ -122,7 +122,7 @@ public class TrialHandler extends AbstractTrialHandler {
 				return sponsorInvestigatorsAC;
 			if (trialSitesAC.isObjectSelected())
 				sponsorInvestigatorsAC = new AutoCompleteObject<Login>(
-						trialSitesAC.getSelectedObject()
+						 siteService.getTrialWithMembers(trialSitesAC.getSelectedObject().getId())
 								.getMembersWithSpecifiedRole(
 										Role.ROLE_P_INVESTIGATOR));
 			else
@@ -131,7 +131,7 @@ public class TrialHandler extends AbstractTrialHandler {
 		} else {
 			if (sponsorInvestigatorsAC == null)
 				sponsorInvestigatorsAC = new AutoCompleteObject<Login>(
-						currentObject.getLeadingSite()
+						 siteService.getTrialWithMembers(currentObject.getLeadingSite().getId())
 								.getMembersWithSpecifiedRole(
 										Role.ROLE_P_INVESTIGATOR));
 		}

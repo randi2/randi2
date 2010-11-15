@@ -65,6 +65,16 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " get trial site with id=" + objectID);
 		return siteDAO.get(objectID);
 	}
+	
+	@Override
+	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public TrialSite getTrialWithMembers(long objectID) {
+		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " get trial site with id=" + objectID);
+		TrialSite site = siteDAO.get(objectID);
+		if(site.getMembers().size()>0) site.getMembers().get(0);
+		return site;
+	}
 
 	@Override
 	@Secured({"ACL_TRIALSITE_CREATE"})
