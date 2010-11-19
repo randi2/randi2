@@ -329,7 +329,7 @@ public class TrialHandler extends AbstractTrialHandler {
 
 	public List<TrialSubject> getSubjectsList() {
 		if (currentObject != null) {
-			return trialService.getSubjects(currentObject, getLoginHandler()
+			return trialService.getSubjects(currentObject, loginHandler
 					.getLoggedInUser());
 		}
 		return null;
