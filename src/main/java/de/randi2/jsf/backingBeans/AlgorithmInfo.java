@@ -46,7 +46,7 @@ import javax.faces.bean.RequestScoped;
 @RequestScoped
 public class AlgorithmInfo {
 
-	@ManagedProperty(value="#{randi2Page}")
+	@ManagedProperty(value="#{trialHandler}")
 	@Setter
 	private TrialHandler trialHandler;
 	@ManagedProperty(value="#{loginHandler}")
