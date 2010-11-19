@@ -1,0 +1,70 @@
+<!-- 
+ This pages/panel represents a criterion and is used during the trial configuration.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	style="float:left; padding-left: 2px; padding-top: 5px;">
+	<b class="b1"></b>
+	<b class="b2"></b>
+	<b class="b3"></b>
+	<b class="b4"></b>
+	<ice:panelGroup styleClass="contentb">
+		<ice:panelGrid columns="2">
+			<ice:outputLabel value="#{criterion.l16edName}" />
+		</ice:panelGrid>
+		<ice:panelGrid columns="2">
+			<ice:panelGrid columns="1">
+				<ice:outputLabel
+					value="#{criteria['de.randi2.model.criteria.AbstractCriterion.name']}" />
+				<ice:inputText value="#{criterion.wrappedCriterion.name}" />
+				<ice:outputLabel
+					value="#{criteria['de.randi2.model.criteria.AbstractCriterion.description']}" />
+				<ice:inputTextarea value="#{criterion.wrappedCriterion.description}" />
+			</ice:panelGrid>
+			<ice:panelGroup>
+				<ice:panelStack id="configurationPanelStack"
+					selectedPanel="#{criterion.panelType}">
+					<ice:panelGroup id="criterionErrorPanel">
+						<ui:include
+							src="/inc/panels/trial/criteriaConfigurationPanels/cErrorPanel.xhtml" />
+					</ice:panelGroup>
+					<ice:panelGroup id="datePanel">
+						<ui:include
+							src="/inc/panels/trial/criteriaConfigurationPanels/datePanel.xhtml" />
+					</ice:panelGroup>
+					<ice:panelGroup id="dichotomousPanel">
+						<ui:include
+							src="/inc/panels/trial/criteriaConfigurationPanels/dichotomousPanel.xhtml" />
+					</ice:panelGroup>
+					<ice:panelGroup id="freeTextPanel">
+						<ui:include
+							src="/inc/panels/trial/criteriaConfigurationPanels/freeTextPanel.xhtml" />
+					</ice:panelGroup>
+					<ice:panelGroup id="ordinalPanel">
+						<ui:include
+							src="/inc/panels/trial/criteriaConfigurationPanels/ordinalPanel.xhtml" />
+					</ice:panelGroup>
+				</ice:panelStack>
+			</ice:panelGroup>
+		</ice:panelGrid>
+	</ice:panelGroup>
+	<b class="b4"></b>
+	<b class="b3"></b>
+	<b class="b2"></b>
+	<b class="b1"></b>
+</ice:panelGroup>

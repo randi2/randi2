@@ -1,0 +1,103 @@
+<!--
+ This pages/panel presents information about the configiured algorithm.
+
+ Made by l.plotnicki@dkfz.de
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<!--
+  Created by IntelliJ IDEA.
+  User: Lukasz Plotnicki <l.plotnicki@dkfz.de>
+  Date: 01.10.2009
+  Time: 09:07:18
+-->
+<ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets" style="width: 550px;">
+	<ice:panelCollapsible expanded="true" toggleOnClick="false">
+		<f:facet name="header">
+			<ice:outputLabel value="#{labels['trial.randomConf']}" />
+		</f:facet>
+		<ice:panelGrid columns="1">
+			<ice:outputLabel value="#{labels['pages.algorithmInfo.type']}" />
+			<ice:outputText value="#{algorithmInfo.algName}" />
+			<ice:outputLabel value="#{labels['pages.algorithmInfo.details']}" />
+			<ice:outputText value="#{algorithmInfo.furtherDetails}"
+				escape="false" />
+			<ice:outputLabel value="#{labels['pages.algorithmInfo.stratified']}" />
+			<ice:panelGroup>
+				<ice:outputText value="#{algorithmInfo.stratified}" />
+				<ice:outputText
+					rendered="#{trialHandler.currentObject.stratifyTrialSite}"
+					value="(#{labels['pages.algorithmInfo.siteStrata']})" />
+			</ice:panelGroup>
+		</ice:panelGrid>
+	</ice:panelCollapsible>
+	<ice:panelGroup styleClass="exampleBox"
+		rendered="#{algorithmInfo.strataFactorsDefined}">
+		<ice:panelGrid border="0" columns="2">
+			<ice:graphicImage value="/img/icons/properties48.png" />
+			<ice:outputLabel value="#{labels['pages.algorithmInfo.defStrata']}" />
+		</ice:panelGrid>
+		<ice:panelSeries value="#{algorithmInfo.strata}" var="criterion"
+			style="padding:10px;float: left;">
+			<ice:panelGroup
+				style="float:left; padding-left: 2px; padding-top: 5px;"
+				rendered="#{criterion.possibleStrata}">
+				<b class="b1"></b>
+				<b class="b2"></b>
+				<b class="b3"></b>
+				<b class="b4"></b>
+				<ice:panelGroup styleClass="contentb">
+					<ice:panelGrid columns="2">
+						<ice:panelGroup>
+							<ice:outputLabel value="#{labels['pages.strata.name']}" />
+							<ice:outputLabel value="#{criterion.wrappedCriterion.name}" />
+						</ice:panelGroup>
+						<ice:panelGroup>
+							<ice:outputLabel value="#{labels['pages.strata.type']}" />
+							<ice:outputLabel value="#{criterion.l16edName}" />
+						</ice:panelGroup>
+					</ice:panelGrid>
+					<ice:panelGrid columns="2">
+						<ice:panelGroup>
+							<ice:panelStack id="strataGroupsStack"
+								selectedPanel="#{criterion.panelType}">
+								<ice:panelGroup id="criterionErrorPanel">
+										<ui:include
+											src="/inc/panels/randomization/strataPresentationPanels/sErrorPanel.xhtml" />
+								</ice:panelGroup>
+								<ice:panelGroup id="datePanel">
+										<ui:include
+											src="/inc/panels/randomization/strataPresentationPanels/datePanel.xhtml" />
+								</ice:panelGroup>
+								<ice:panelGroup id="dichotomousPanel">
+										<ui:include
+											src="/inc/panels/randomization/strataPresentationPanels/dichotomousPanel.xhtml" />
+								</ice:panelGroup>
+								<ice:panelGroup id="ordinalPanel">
+										<ui:include
+											src="/inc/panels/randomization/strataPresentationPanels/ordinalPanel.xhtml" />
+								</ice:panelGroup>
+							</ice:panelStack>
+						</ice:panelGroup>
+					</ice:panelGrid>
+				</ice:panelGroup>
+				<b class="b4"></b>
+				<b class="b3"></b>
+				<b class="b2"></b>
+				<b class="b1"></b>
+			</ice:panelGroup>
+		</ice:panelSeries>
+	</ice:panelGroup>
+</ice:panelGroup>

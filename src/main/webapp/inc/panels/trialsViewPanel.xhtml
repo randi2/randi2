@@ -1,0 +1,51 @@
+<!-- 
+ This pages/panel shows all saved trials of user.
+
+ Made by bk@randi2.de  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<ice:form partialSubmit="true" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelTabSet style="font-size: 9;display: block;">
+		<ice:panelTab label="#{labels['pages.trialsViewPanel.headline']}">
+			<ice:outputLabel
+				value="#{labels['pages.trialsViewPanel.headline2']} #{trialHandler.trialsAmount}"></ice:outputLabel>
+			<ice:dataTable id="trialsTable" border="1"
+				value="#{trialHandler.allTrials}" var="trial"
+				style="width: 500px;">
+				<ice:column id="column1">
+					<f:facet name="header">
+						<ice:outputText value="#{labels['trial.name']}" id="nameH"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{trial.name}"></ice:outputText>
+				</ice:column>
+				<ice:column id="column2">
+					<f:facet name="header">
+						<ice:outputText value="#{labels['trial.status']}" id="statusH"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{trial.status}"></ice:outputText>
+				</ice:column>
+				<ice:column id="column3">
+					<f:facet name="header">
+						<ice:outputText value="" id="showH"></ice:outputText>
+					</f:facet>
+					<ice:commandLink id="showId" value="#{labels['buttons.show']}"
+						actionListener="#{randi2Page.showTrial}">
+						<ice:outputText value="#{trial}" visible="false"></ice:outputText>
+					</ice:commandLink>
+				</ice:column>
+			</ice:dataTable>
+		</ice:panelTab>
+	</ice:panelTabSet>
+</ice:form>

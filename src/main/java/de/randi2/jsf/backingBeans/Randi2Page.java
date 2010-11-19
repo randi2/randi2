@@ -45,7 +45,7 @@ import de.randi2.model.TrialSite;
 
 /**
  * <p>
- * This class contains the logic of the randi2.jspx. The main view of the
+ * This class contains the logic of the randi2.xhtml. The main view of the
  * application.
  * </p>
  * 

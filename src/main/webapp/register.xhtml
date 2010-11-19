@@ -30,7 +30,7 @@
 <h:body>
 	<div class="body">
 	<div class="contentREGISTER"><ui:include
-		src="./inc/popups/termsPopup.xhtml" /> <!-- The pages.registration Form  -->
+		src="/inc/popups/termsPopup.xhtml" /> <!-- The pages.registration Form  -->
 	<ice:panelBorder renderEast="false" renderWest="false"
 		rendered="#{randi2.selfRegistrationSupported}">
 		<f:facet name="north">
@@ -42,7 +42,7 @@
 		</f:facet>
 		<f:facet name="center">
 			<ice:form id="registrationForm">
-				<ice:panelTabSet tabPlacement="top">
+				<ice:panelTabSet>
 					<ice:panelTab id="personalDetails"
 						label="#{labels['pages.registration.tab1Header']}">
 						<ice:panelGrid border="0" columns="2">

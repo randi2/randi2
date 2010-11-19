@@ -37,7 +37,7 @@ import de.randi2.utility.BoxedException;
 
 /**
  * <p>
- * This class contains the logic of the registration.jspx. The page for the
+ * This class contains the logic of the registration.xhtml. The page for the
  * registration process.
  * </p>
  * 

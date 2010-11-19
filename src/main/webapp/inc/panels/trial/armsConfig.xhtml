@@ -1,0 +1,47 @@
+<!-- 
+ This pages/panel represents the third step of the trial creation.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<div><ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" columns="2"
+	rendered="#{!trialHandler.editing}">
+	<ice:graphicImage value="/img/icons/arms48.png" />
+	<ice:outputLabel
+		value="#{labels['pages.trialCreatePanel.step3message'] }" />
+</ice:panelGrid> <ice:panelGrid columns="3"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<ice:outputLabel value="#{labels['pages.trialCreatePanel.tArmLabel']}" />
+	<ice:commandButton image="/img/icons/add16.png"
+		actionListener="#{trialHandler.addArm}" style="margin-right:5px;"
+		immediate="true" />
+	<ice:commandButton image="/img/icons/remove16.png"
+		disabled="#{trialHandler.treatmentArmsCount==0}"
+		actionListener="#{trialHandler.removeArm}" immediate="true" />
+</ice:panelGrid> <ice:panelGroup styleClass="clearer"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<ice:messages tooltip="true" showDetail="false" showSummary="true"
+		errorClass="errorMsg" layout="table" />
+</ice:panelGroup> <ice:panelGroup styleClass="exampleBox"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ice:panelSeries value="#{trialHandler.currentObject.treatmentArms}"
+		var="arm" style="padding:10px;">
+		<ui:include src="/inc/panels/trial/treatmentArm.xhtml" />
+	</ice:panelSeries>
+</ice:panelGroup></div>

@@ -1,0 +1,41 @@
+<!-- 
+ User Saved Popup 
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<ice:form xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelPopup draggable="false" modal="true"
+		visible="#{popups.userSavedPVisible}"
+		rendered="#{popups.userSavedPVisible}"
+		style="width: 300px; height: auto">
+		<f:facet name="header">
+			<ice:outputText value="#{labels['pages.userSavedPopup.header']}"></ice:outputText>
+		</f:facet>
+		<f:facet name="body">
+			<ice:panelGrid border="0" columns="2">
+				<f:facet name="footer">
+					<ice:panelGroup>
+						<ice:commandButton value="#{labels['buttons.ok']}" action="#{popups.hideUserSavedPopup}"
+							immediate="true"></ice:commandButton>
+					</ice:panelGroup>
+				</f:facet>
+				<ice:graphicImage value="/img/icons/saved48.png"></ice:graphicImage>
+				<ice:outputText
+					value="#{labels['pages.userSavedPopup.message']}" escape="false"></ice:outputText>
+			</ice:panelGrid>
+		</f:facet>
+	</ice:panelPopup>
+</ice:form>

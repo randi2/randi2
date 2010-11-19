@@ -1,0 +1,85 @@
+<!-- 
+ This pages/panel represents a criterion and is used during the trial configuration.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	style="float:left; padding-left: 2px; padding-top: 5px;">
+	<ice:panelGroup styleClass="icePnlClpsbl">
+		<ice:panelGrid columns="2">
+			<ice:outputLabel value="#{criterion.wrappedCriterion.name}" />
+		</ice:panelGrid>
+		<ice:panelGrid columns="1">
+			<ice:outputText value="#{criterion.wrappedCriterion.description}" />
+			<ice:panelGroup>
+				<ice:panelStack id="submissionPanelStack"
+					selectedPanel="#{criterion.panelType }">
+					<ice:panelGroup id="submissionErrorPanel">
+						<ui:include
+							src="/inc/panels/trial/criteriaConfigurationPanels/cErrorPanel.xhtml" />
+					</ice:panelGroup>
+					<ice:panelGroup id="datePanel">
+						<ice:panelGrid columns="1">
+							<ice:outputLabel
+								value="#{labels['pages.propertyPanel.subjectsValue']}" />
+							<ice:panelGrid columns="2">
+								<ice:selectInputDate id="date"
+									value="#{criterion.subjectProperty.value.time}"
+									renderAsPopup="true">
+									<f:convertDateTime locale="#{loginHandler.chosenLocale}"
+										dateStyle="medium" timeZone="#{randi2Page.zone}" />
+								</ice:selectInputDate>
+							</ice:panelGrid>
+						</ice:panelGrid>
+					</ice:panelGroup>
+					<ice:panelGroup id="dichotomousPanel">
+						<ice:panelGrid columns="1">
+							<ice:outputLabel
+								value="#{labels['pages.propertyPanel.subjectsValue']}" />
+							<ice:panelGroup>
+								<ice:selectOneRadio value="#{criterion.subjectProperty.value}">
+									<f:selectItems value="#{criterion.selectItems}" />
+								</ice:selectOneRadio>
+							</ice:panelGroup>
+						</ice:panelGrid>
+					</ice:panelGroup>
+					<ice:panelGroup id="freeTextPanel">
+						<ice:panelGrid columns="1">
+							<ice:outputLabel
+								value="#{labels['pages.propertyPanel.subjectsValue']}" />
+							<ice:panelGroup>
+								<ice:inputText id="text"
+									value="#{criterion.subjectProperty.value}" />
+							</ice:panelGroup>
+						</ice:panelGrid>
+					</ice:panelGroup>
+					<ice:panelGroup id="ordinalPanel">
+						<ice:panelGrid columns="1">
+							<ice:outputLabel
+								value="#{labels['pages.propertyPanel.subjectsValue']}" />
+							<ice:panelGroup>
+								<ice:selectOneRadio value="#{criterion.subjectProperty.value}">
+									<f:selectItems value="#{criterion.selectItems}" />
+								</ice:selectOneRadio>
+							</ice:panelGroup>
+						</ice:panelGrid>
+					</ice:panelGroup>
+				</ice:panelStack>
+			</ice:panelGroup>
+		</ice:panelGrid>
+	</ice:panelGroup>
+</ice:panelGroup>

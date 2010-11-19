@@ -1,0 +1,78 @@
+<!-- 
+ UI Page for the Block Randomization algorithm's configuration.
+
+ Made by lplotni@users.sourceforge.org  & ds@randi2.de
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<ice:panelGrid columns="1" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelGroup
+		style="float:left; padding-left: 2px; padding-top: 5px; width: 450px;">
+		<b class="b1"></b>
+		<b class="b2"></b>
+		<b class="b3"></b>
+		<b class="b4"></b>
+		<ice:panelGroup styleClass="contentb">
+			<ice:panelGrid columns="1">
+				<ice:outputLabel
+					value="#{algorithms['de.randi2.model.randomization.BlockRandomizationConfig.name']}" />
+				<ice:outputText
+					value="#{algorithms['de.randi2.model.randomization.BlockRandomizationConfig.info']}" />
+			</ice:panelGrid>
+			<ice:panelGrid columns="1" style="margin-top:10px;">
+				<ice:outputLabel value="#{labels['pages.blockR.configuration']}" />
+			</ice:panelGrid>
+			<ice:panelGrid columns="2" styleClass="verticalAlignTop">
+				<ice:outputLabel value="#{labels['pages.blockR.type']}" />
+				<!-- The following property is a virtual property used only for the UI. It don't need to be pushed to the config object -->
+				<ice:selectOneMenu id="blockSizeType"
+					value="#{blockR.selectedBlockRandTypes}" partialSubmit="true">
+					<f:selectItems value="#{blockR.blockRandTypes}" />
+				</ice:selectOneMenu>
+				<ice:outputLabel rendered="#{blockR.renderVariable}"
+					value="#{labels['pages.blockR.constraint']}" />
+				<ice:selectOneMenu rendered="#{blockR.renderVariable}"
+					id="variableBlockType"
+					value="#{trialHandler.currentObject.randomizationConfiguration.type}"
+					partialSubmit="true"
+					converter="de.randi2.jsf.converters.BLOCKRANDOMIZATION_TYPE_CONVERTER">
+					<f:selectItems value="#{enums.blockSizeTypeItems}" />
+				</ice:selectOneMenu>
+				<ice:outputLabel value="#{labels['pages.blockR.blockSize']}"
+					rendered="#{!blockR.renderVariable}" />
+				<ice:outputLabel value="#{labels['pages.blockR.minBlockSize']}"
+					rendered="#{blockR.renderVariable}" />
+				<ice:inputText id="blocksize" size="31"
+					value="#{trialHandler.currentObject.randomizationConfiguration.minimum}"
+					partialSubmit="true"
+					valueChangeListener="#{blockR.minValueChanged}">
+				</ice:inputText>
+				<ice:outputLabel rendered="#{blockR.renderVariable}"
+					value="#{labels['pages.blockR.maxBlockSize']}" />
+				<ice:inputText rendered="#{blockR.renderVariable}" id="maxBlocksize"
+					size="31"
+					value="#{trialHandler.currentObject.randomizationConfiguration.maximum}"
+					partialSubmit="true">
+				</ice:inputText>
+			</ice:panelGrid>
+
+		</ice:panelGroup>
+		<b class="b4"></b>
+		<b class="b3"></b>
+		<b class="b2"></b>
+		<b class="b1"></b>
+	</ice:panelGroup>
+	<ui:include src="/inc/panels/randomization/strata.xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets" />
+</ice:panelGrid>

@@ -30,23 +30,23 @@
 </h:head>
 <h:body>
 	<div id="content"><!-- Login Form -->
-	<div class="body"><!-- Popups section --> 
-		<ui:include src="./inc/popups/aboutPopup.jspx" />
-		<ui:include src="./inc/popups/helpPopup.jspx" />
-	<ice:panelBorder layout="hide east" border="0" cellpadding="1"
-		cellspacing="1" width="100%" height="100%">
+	<div class="body"><!-- Popups section --> <ui:include
+		src="/inc/popups/aboutPopup.xhtml" /> <ui:include
+		src="/inc/popups/helpPopup.xhtml" /> <ice:panelBorder
+		layout="hide east" border="0" cellpadding="1" cellspacing="1"
+		width="100%" height="100%">
 
 		<f:facet name="north">
 			<ice:panelGroup id="northPanel">
 				<ice:panelGrid columns="2">
-						<ui:include src="./inc/version.xhtml" />
-						<ui:include src="./inc/header.jspx" />
+					<ui:include src="/inc/version.xhtml" />
+					<ui:include src="/inc/header.xhtml" />
 				</ice:panelGrid>
 			</ice:panelGroup>
 		</f:facet>
 
 		<f:facet name="west">
-				<ui:include src="./inc/menu.jspx" />
+			<ui:include src="/inc/menu.xhtml" />
 		</f:facet>
 
 		<f:facet name="center">
@@ -63,37 +63,38 @@
                   applications
                 -->
 					<ice:panelGroup id="welcomePanel">
-							<ui:include src="./inc/panels/welcomePanel.jspx" />
+						<ui:include src="/inc/panels/welcomePanel.xhtml" />
 					</ice:panelGroup>
 					<ice:panelGroup id="userEditPanel">
-							<ui:include src="./inc/panels/userEditPanel.jspx" />
+						<ui:include src="/inc/panels/userEditPanel.xhtml" />
 					</ice:panelGroup>
 					<ice:panelGroup id="trialsViewPanel">
-							<ui:include src="./inc/panels/trialsViewPanel.jspx" />
+						<ui:include src="/inc/panels/trialsViewPanel.xhtml" />
 					</ice:panelGroup>
 					<ice:panelGroup id="trialSitesViewPanel">
-							<ui:include src="./inc/panels/trialSitesViewPanel.jspx" />
+						<ui:include src="/inc/panels/trialSitesViewPanel.xhtml" />
 					</ice:panelGroup>
 					<ice:panelGroup id="trialSiteEditPanel">
-							<ui:include src="./inc/panels/trialSiteEditPanel.jspx" />
+						<ui:include src="/inc/panels/trialSiteEditPanel.xhtml" />
 					</ice:panelGroup>
 					<ice:panelGroup id="trialCreatePanel">
-							<ui:include src="./inc/panels/trialCreatePanel.jspx" />
+						<ui:include src="/inc/panels/trialCreatePanel.xhtml" />
 					</ice:panelGroup>
 					<ice:panelGroup id="trialShowPanel">
-							<ui:include src="./inc/panels/trialShowPanel.jspx" />
+						<ui:include src="/inc/panels/trialShowPanel.xhtml" />
 					</ice:panelGroup>
 					<ice:panelGroup id="tSubjectAddPanel">
-							<ui:include src="./inc/panels/tSubjectAddPanel.jspx" />
+						<ui:include src="/inc/panels/tSubjectAddPanel.xhtml" />
 					</ice:panelGroup>
 					<ice:panelGroup id="simulationTrialPanel">
-							<ui:include src="./inc/panels/simulation/simulationPanel.jspx" />
+						<ui:include src="/inc/panels/simulation/simulationPanel.xhtml" />
 					</ice:panelGroup>
 					<ice:panelGroup id="simulationOnlyPanel">
-							<ui:include src="./inc/panels/simulation/simulationOnlyPanel.jspx" />
+						<ui:include
+							src="/inc/panels/simulation/simulationOnlyPanel.xhtml" />
 					</ice:panelGroup>
 					<ice:panelGroup id="simulationResultPanel">
-							<ui:include src="./inc/panels/simulation/simulationResult.jspx" />
+						<ui:include src="/inc/panels/simulation/simulationResult.xhtml" />
 					</ice:panelGroup>
 				</ice:panelStack>
 			</ice:panelGroup>

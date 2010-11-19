@@ -1,0 +1,61 @@
+<!-- 
+ This pages/panel represents the view for a trial subjects' list.
+
+ Made by l.plotnicki@dkfz.de
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelGrid columns="1">
+		<ice:outputLabel value="#{labels['pages.trialShowPanel.randomizationData.subjects']}" />
+		<ice:dataTable id="mySubs" border="1"
+			value="#{trialHandler.subjectsList}" var="subject"
+			columnWidths="200px,150px,150px,100px,350px" scrollable="true"
+			scrollHeight="300px">
+			<ice:column>
+				<ice:outputText value="#{subject.identification}" />
+				<f:facet name="header">
+					<ice:outputText value="#{labels['pages.trialShowPanel.randomizationData.id']}"/>
+				</f:facet>
+			</ice:column>
+			<ice:column>
+				<ice:outputText value="#{subject.createdAt.time}">
+					<f:convertDateTime type="both" dateStyle="short" />
+				</ice:outputText>
+				<f:facet name="header">
+					<ice:outputText
+						value="#{labels['pages.trialShowPanel.randomizationData.eventTime']}"/>
+				</f:facet>
+			</ice:column>
+			<ice:column>
+				<ice:outputText value="#{subject.trialSite.UIName}" />
+				<f:facet name="header">
+					<ice:outputText value="#{labels['pages.trialShowPanel.randomizationData.trialSite']}" />
+				</f:facet>
+			</ice:column>
+			<ice:column>
+				<ice:outputText value="#{subject.arm.UIName}" />
+				<f:facet name="header">
+					<ice:outputText value="#{labels['pages.trialShowPanel.randomizationData.treatmentArm']}" />
+				</f:facet>
+			</ice:column>
+			<ice:column>
+				<ice:outputText value="#{subject.propertiesUIString}" />
+				<f:facet name="header">
+					<ice:outputText value="#{labels['pages.trialShowPanel.randomizationData.properties']}" />
+				</f:facet>
+			</ice:column>
+		</ice:dataTable>
+	</ice:panelGrid>
+</ice:panelGroup>
