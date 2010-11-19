@@ -395,7 +395,7 @@ public class Bootstrap {
 		arm2.setName("arm2");
 		arm2.setPlannedSubjects(200);
 
-		trial.setTreatmentArms(Arrays.asList(arm1, arm2));
+		trial.setTreatmentArms(new HashSet<TreatmentArm>(Arrays.asList(arm1, arm2)));
 
 		DichotomousCriterion cr = new DichotomousCriterion();
 		cr.setName("SEX");
