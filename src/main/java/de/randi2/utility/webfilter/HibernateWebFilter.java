@@ -118,7 +118,7 @@ public class HibernateWebFilter implements Filter {
 		// TODO we could switch to the icefaces configuration option ...
 		// look in the retrospectiva ticket
 		try {
-			response.sendRedirect("login.jspx");
+			response.sendRedirect("login.xhtml");
 		} catch (IOException e1) {
 			logger.error("HibernateWebFilter - error| " + e.getMessage(), e);
 		}

@@ -17,13 +17,16 @@
  */
 package de.randi2.jsf.supportBeans;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.event.ValueChangeEvent;
 
 import lombok.Data;
 
 import com.icesoft.faces.context.effects.Effect;
 import com.icesoft.faces.context.effects.Highlight;
-
+@ManagedBean(name="dataExporter")
+@SessionScoped
 @Data
 public class DataExporter {
 

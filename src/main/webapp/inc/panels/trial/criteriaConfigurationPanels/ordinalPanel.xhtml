@@ -1,0 +1,46 @@
+<!-- 
+ This pages/panel is used for the ordinal criterion configuration.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<div><ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelGrid columns="1" rendered="#{!criterion.elementsEmpty}">
+		<ice:panelGroup>
+			<ice:outputLabel
+				value="#{criteria['de.randi2.model.criteria.OrdinalCriterion.elements']}" />
+			<ice:commandButton image="/img/icons/add16.png"
+				actionListener="#{criterion.addElement}" style="margin-right:5px;" />
+			<ice:commandButton image="/img/icons/remove16.png"
+				disabled="#{criterion.elementsEmpty}"
+				actionListener="#{criterion.removeElement}" />
+		</ice:panelGroup>
+		<ice:panelSeries value="#{criterion.elements}" var="element"
+			style="padding:10px;">
+			<ice:panelGrid columns="2">
+				<ice:outputLabel value="#{element}" />
+				<ice:inputText
+					value="#{criterion.wrappedCriterion.elements[element]}" />
+			</ice:panelGrid>
+		</ice:panelSeries>
+	</ice:panelGrid>
+</ice:panelGroup> <!--  ice:panelGroup>
+	<ice:outputLabel value="Constraint?*:" />
+	<ice:selectBooleanCheckbox value="#{criterion.constraint}"
+		partialSubmit="true" />
+</ice:panelGroup --> <ui:include
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	src="/inc/panels/trial/constraintsConfigurationPanels/ordinalConstraint.xhtml" />
+</div>

@@ -35,7 +35,7 @@ import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.BoxedException;
-import edu.emory.mathcs.backport.java.util.Arrays;
+import java.util.Arrays;
 
 @Transactional
 public class ChartsServiceTest extends AbstractServiceTest {

@@ -1,0 +1,48 @@
+<!-- 
+ This page/panel should be used to create a new trial.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<div>
+<ui:include xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	src="/inc/popups/trialCreatedPopup.xhtml" />
+<ice:form xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelTabSet style="font-size: 9;display: block;">
+		<ice:panelTab label="#{labels['pages.trialCreatePanel.step1']}">
+			<ui:include src="/inc/panels/trial/creationGeneralConfig.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.trialCreatePanel.step2']}">
+			<ui:include src="/inc/panels/trial/sitesConfig.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.trialCreatePanel.step3']}">
+			<ui:include src="/inc/panels/trial/armsConfig.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.trialCreatePanel.step4']}">
+			<ui:include src="/inc/panels/trial/subjectPropConfig.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.trialCreatePanel.step5']}">
+			<ui:include src="/inc/panels/trial/algorithmConfig.xhtml" />
+		</ice:panelTab>
+	</ice:panelTabSet>
+	<ice:panelGrid border="0" columns="3">
+		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
+			action="#{trialHandler.createTrial}" rendered="false" />
+		<!-- ice:commandButton type="reset" value="#{labels['buttons.reset']}" / -->
+		<ice:messages globalOnly="true" errorClass="errorMsg" layout="table" />
+	</ice:panelGrid>
+</ice:form>
+</div>

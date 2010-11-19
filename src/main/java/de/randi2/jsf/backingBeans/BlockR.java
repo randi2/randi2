@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
@@ -35,6 +38,8 @@ import de.randi2.jsf.controllerBeans.SimulationHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 
+@ManagedBean(name = "blockR")
+@RequestScoped
 public class BlockR {
 
 	public static enum BlockDesignTypeId {
@@ -52,9 +57,10 @@ public class BlockR {
 		}
 	}
 
+	@ManagedProperty(value = "#{loginHandler}")
 	@Setter
 	private LoginHandler loginHandler;
-
+	@ManagedProperty(value = "#{trialHandler}")
 	@Setter
 	private TrialHandler trialHandler;
 
@@ -63,26 +69,25 @@ public class BlockR {
 	public List<SelectItem> getBlockRandTypes() {
 		if (blockRandTypes == null) {
 			ResourceBundle bundle = ResourceBundle.getBundle(
-					"de.randi2.jsf.i18n.algorithms", loginHandler
-							.getChosenLocale());
+					"de.randi2.jsf.i18n.algorithms",
+					loginHandler.getChosenLocale());
 			blockRandTypes = new ArrayList<SelectItem>();
 			blockRandTypes.add(new SelectItem(BlockDesignTypeId.CONSTANT_BOLCK
 					.toString(), bundle
 					.getString(BlockRandomizationConfig.class
-							.getCanonicalName()
-							+ ".constantBlockSize")));
+							.getCanonicalName() + ".constantBlockSize")));
 			blockRandTypes.add(new SelectItem(BlockDesignTypeId.VARIABLE_BLOCK
 					.toString(), bundle
 					.getString(BlockRandomizationConfig.class
-							.getCanonicalName()
-							+ ".variableBlockSize")));
+							.getCanonicalName() + ".variableBlockSize")));
 
 		}
 		return blockRandTypes;
 	}
 
 	/**
-	 * The following property is a virtual property used only for the UI. It don't need to be pushed to the config object
+	 * The following property is a virtual property used only for the UI. It
+	 * don't need to be pushed to the config object
 	 */
 	@Getter
 	private String selectedBlockRandTypes;
@@ -107,21 +112,28 @@ public class BlockR {
 		// set maximum block size to minimum block size, in case of constant
 		// block design
 		if (!renderVariable) {
-			if(HtmlInputText.class.cast(event.getSource()).getId().equals("blocksize")){
-			((BlockRandomizationConfig) trialHandler.getCurrentObject().getRandomizationConfiguration())
-					.setMaximum((Integer) event.getNewValue());
-			}else{
-				
-				SimulationHandler simulationHandler = ((SimulationHandler) FacesContext.getCurrentInstance()
-						.getApplication().getELResolver().getValue(
+			if (HtmlInputText.class.cast(event.getSource()).getId()
+					.equals("blocksize")) {
+				((BlockRandomizationConfig) trialHandler.getCurrentObject().getRandomizationConfiguration()).setMaximum((Integer) event
+						.getNewValue());
+			} else {
+
+				SimulationHandler simulationHandler = ((SimulationHandler) FacesContext
+						.getCurrentInstance()
+						.getApplication()
+						.getELResolver()
+						.getValue(
 								FacesContext.getCurrentInstance()
-										.getELContext(), null, "simulationHandler"));
-			((BlockRandomizationConfig) simulationHandler.getRandomisationConfigs().get(possitionForSimulation).getConf()).setMaximum((Integer) event.getNewValue());
+										.getELContext(), null,
+								"simulationHandler"));
+				((BlockRandomizationConfig) simulationHandler
+						.getRandomisationConfigs().get(possitionForSimulation)
+						.getConf()).setMaximum((Integer) event.getNewValue());
 			}
 		}
 	}
-	
-	public void clean(){
+
+	public void clean() {
 		renderVariable = false;
 		selectedBlockRandTypes = null;
 	}

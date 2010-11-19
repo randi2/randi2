@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.randi2.model.exceptions.ValidationException;
-import edu.emory.mathcs.backport.java.util.Arrays;
+import java.util.Arrays;
 
 public class ValidationExceptionTest {
 

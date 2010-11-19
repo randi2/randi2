@@ -26,7 +26,7 @@ import lombok.Getter;
 import lombok.Setter;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
-import edu.emory.mathcs.backport.java.util.Collections;
+import java.util.Collections;
 
 /**
  * This class represented the results of a simulation. It contains the

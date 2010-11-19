@@ -1,0 +1,57 @@
+<!-- 
+ This page/panel shows a detail-view of a login. It can also be used to edit or create a login.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<div>
+<ui:include xmlns:ui="http://java.sun.com/jsf/facelets"
+	src="/inc/popups/userSavedPopup.xhtml" />
+<ui:include xmlns:ui="http://java.sun.com/jsf/facelets"
+	src="/inc/popups/changePasswordPopup.xhtml" />
+<ui:include xmlns:ui="http://java.sun.com/jsf/facelets"
+	src="/inc/popups/changeTrialSitePopup.xhtml" />
+<ice:form xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ice:panelTabSet style="font-size: 9;display: block;">
+		<ice:panelTab label="#{labels['pages.userEditPanel.dataTab']}">
+			<ui:include src="/inc/panels/user/userData.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.userEditPanel.trialSiteTab']}">
+			<ui:include src="/inc/panels/user/userTrialSite.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.userEditPanel.rightsTab']}">
+			<ui:include src="/inc/panels/user/userRights.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.userEditPanel.actionsTab']}"
+			rendered="#{!loginHandler.creatingMode}">
+			<ui:include src="/inc/panels/user/userActions.xhtml" />
+		</ice:panelTab>
+	</ice:panelTabSet>
+	<ice:panelGrid border="0" columns="3"
+		rendered="#{loginHandler.editable}">
+		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
+			action="#{loginHandler.saveObject}"
+			rendered="#{!loginHandler.creatingMode}"></ice:commandButton>
+		<ice:commandButton type="submit" value="#{labels['buttons.create']}"
+			action="#{loginHandler.registerUser}"
+			rendered="#{loginHandler.creatingMode}" />
+		<ice:commandButton type="submit" immediate="true"
+			value="#{labels['buttons.reset']}"
+			action="#{loginHandler.refreshShowedObject}" />
+		<ice:messages globalOnly="true" errorClass="errorMsg" layout="table" />
+	</ice:panelGrid>
+</ice:form>
+</div>

@@ -19,6 +19,9 @@ package de.randi2.jsf.backingBeans;
 
 import java.util.List;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
 import lombok.Data;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
@@ -31,6 +34,8 @@ import de.randi2.model.TrialSite;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  * 
  */
+@ManagedBean(name="rightsPanel")
+@SessionScoped
 public @Data class RightsPanel {
 
 	// Flags for the Right-Groups

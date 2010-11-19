@@ -17,6 +17,8 @@
  */
 package de.randi2.jsf.supportBeans;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import lombok.Getter;
@@ -24,7 +26,8 @@ import lombok.Setter;
 import de.randi2.jsf.backingBeans.Randi2Page;
 import de.randi2.jsf.backingBeans.TSubjectAdd;
 import de.randi2.model.Trial;
-
+@ManagedBean(name="popups")
+@SessionScoped
 public class Popups {
 	
 	// Popup's flags

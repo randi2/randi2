@@ -38,7 +38,7 @@ import de.randi2.model.randomization.UrnDesignConfig;
 
 /**
  * Simple backing bean for the randomization algorithm configuration process.
- * (Corresponding JSF page algorihtmConfig.jspx)
+ * (Corresponding JSF page algorihtmConfig.xhtml)
  * 
  * @author L. Plotnicki <l.plotnicki@dkfz.de>
  * 

@@ -19,8 +19,16 @@ package de.randi2.jsf.controllerBeans;
 
 import java.util.List;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.faces.bean.SessionScoped;
+
+import lombok.Setter;
+
+import org.hibernate.validator.InvalidStateException;
+import org.hibernate.validator.InvalidValue;
 
 import lombok.Setter;
 import de.randi2.jsf.supportBeans.PermissionVerifier;
@@ -39,29 +47,32 @@ import de.randi2.services.TrialSiteService;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
+@ManagedBean(name="trialSiteHandler")
+@SessionScoped
 public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	
 	/*
 	 * Services which are provided by spring and this class works with.
 	 */
-
+	@ManagedProperty(value="#{trialSiteService}")
 	@Setter
 	private TrialSiteService siteService = null;
 
+	@ManagedProperty(value="#{permissionVerifier}")
 	@Setter
 	private PermissionVerifier permissionVerifier;
 	
 	/*
 	 * Reference to the popups bean for the popups functionality. 
 	 */
-	
+	@ManagedProperty(value="#{popups}")
 	@Setter
 	private Popups popups;
 	
 	/*
 	 * Reference to the LoginHandler 
 	 */
-	
+	@ManagedProperty(value="#{loginHandler}")
 	@Setter
 	private LoginHandler loginHandler;
 

@@ -5,7 +5,7 @@
 	<groupId>de.randi2</groupId>
 	<artifactId>RANDI2</artifactId>
 	<packaging>war</packaging>
-	<version>0.6.2</version>
+	 <version>0.7-SNAPSHOT</version>
 	<name>RANDI2</name>
 	<description>Online Randomization for Clinical Trials</description>
 	<url>http://randi2.org</url>
@@ -180,6 +180,10 @@
 			<id>SpringSource External</id>
 			<url>http://repository.springsource.com/maven/bundles/external</url>
 		</repository>
+		<repository>
+        		<id>ICEfaces experimental</id>
+			<url>http://anonsvn.icefaces.org/repo/maven2/snapshots</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<!-- ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** -->
@@ -297,13 +301,13 @@
 		<dependency>
 			<groupId>javax.faces</groupId>
 			<artifactId>jsf-api</artifactId>
-			<version>1.2_13</version>
+			<version>2.0.3-FCS</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>javax.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
-			<version>1.2_13</version>
+			<version>2.0.3-FCS</version>
 		</dependency>
 
 		<!-- Standart Taglibs -->
@@ -322,12 +326,12 @@
 		<dependency>
 			<groupId>org.icefaces</groupId>
 			<artifactId>icefaces</artifactId>
-			<version>1.8.2</version>
+			<version>2.0-Beta1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.icefaces</groupId>
-			<artifactId>icefaces-comps</artifactId>
-			<version>1.8.2</version>
+			<artifactId>icefaces-compat</artifactId>
+			<version>2.0-Beta1</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.jcharts</groupId>
@@ -571,7 +575,7 @@
 					<downloadSources>true</downloadSources>
 					<downloadJavadocs>true</downloadJavadocs>
 					<additionalProjectFacets>
-						<jst.jsf>1.2</jst.jsf>
+						<jst.jsf>2.0</jst.jsf>
 					</additionalProjectFacets>
 					<wtpversion>2.0</wtpversion>
 					<wtpapplicationxml>true</wtpapplicationxml>

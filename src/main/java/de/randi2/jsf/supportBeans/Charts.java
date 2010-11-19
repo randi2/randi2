@@ -22,6 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
@@ -41,14 +44,16 @@ import de.randi2.services.ChartsService;
  * @author Lukasz Plotnicki <l.plotnicki@dkfz.de>
  *
  */
+@ManagedBean(name="charts")
+@RequestScoped
 public class Charts {
 	
 	@Getter
 	List<SelectItem> chartTypes;
-
+	@ManagedProperty(value="#{trialHandler}")
 	@Setter
 	private TrialHandler trialHandler;
-
+	@ManagedProperty(value="#{chartsService}")
 	@Setter
 	private ChartsService service;
 	

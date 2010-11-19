@@ -1,0 +1,78 @@
+<!-- 
+ This page/panel should be used to create a new trial.
+
+ Made by bkurz@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<div><ui:include xmlns:ui="http://java.sun.com/jsf/facelets"
+	src="/inc/popups/changeLeadingSitePopup.xhtml" /> <ui:include
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	src="/inc/popups/changePInvestigatorPopup.xhtml" /> <ice:form
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ice:panelTabSet style="font-size: 9;display: block;">
+		<ice:panelTab
+			label="#{labels['pages.trialShowPanel.generalInformation']}">
+			<ui:include src="/inc/panels/trial/generalInformation.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab
+			label="#{labels['pages.trialShowPanel.sitesInformation']}">
+			<ui:include src="/inc/panels/trial/sitesInformation.xhtml" />
+			<ui:include src="/inc/panels/trial/sitesConfig.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.trialShowPanel.arms']}"
+			rendered="#{trialHandler.editing}">
+			<ui:include src="/inc/panels/trial/armsConfig.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.trialShowPanel.properties']}"
+			rendered="#{trialHandler.editing}">
+			<ui:include src="/inc/panels/trial/subjectPropConfig.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.trialShowPanel.algorithm']}"
+			rendered="#{trialHandler.editing}">
+			<ui:include src="/inc/panels/trial/algorithmConfig.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.algorithmInfo']}"
+			rendered="#{permissionVerifier.allowedSeeRandomizationDetails and !trialHandler.editing}">
+			<ui:include src="/inc/panels/trial/algorithmInformation.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab
+			label="#{labels['pages.trialShowPanel.randomizationData']}"
+			rendered="#{permissionVerifier.allowedSeeRandomizationDetails and !trialHandler.editing}">
+			<ui:include src="/inc/panels/trial/randomizationData.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.trialShowPanel.subjects']}"
+			rendered="#{permissionVerifier.allowedRandomize and !trialHandler.editing}">
+			<ui:include src="/inc/panels/trial/subjects.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.trialShowPanel.actions']}"
+			rendered="#{permissionVerifier.allowedSeeRandomizationDetails and !trialHandler.editing}">
+			<ui:include src="/inc/panels/trial/trialActions.xhtml" />
+		</ice:panelTab>
+	</ice:panelTabSet>
+	<ice:panelGrid columns="2">
+		<ice:commandButton type="submit" value="#{labels['buttons.edit']}"
+			actionListener="#{randi2Page.editCurrentTrial}"
+			rendered="#{trialHandler.editable and !trialHandler.editing}" />
+		<ice:messages globalOnly="true" errorClass="errorMsg" layout="table" />
+	</ice:panelGrid>
+	<ice:panelGrid border="0" columns="2"
+		rendered="#{trialHandler.editing}">
+		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
+			action="#{trialHandler.saveTrial}" />
+		<ice:commandButton type="submit" value="#{labels['buttons.cancel']}"
+			action="#{trialHandler.cancelEditing}" />
+	</ice:panelGrid>
+</ice:form></div>

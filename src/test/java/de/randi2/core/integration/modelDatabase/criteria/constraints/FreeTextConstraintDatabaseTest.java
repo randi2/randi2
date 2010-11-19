@@ -4,6 +4,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
+import java.util.Arrays;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import de.randi2.model.criteria.constraints.FreeTextConstraint;
 import de.randi2.testUtility.utility.AbstractDomainDatabaseTest;
 import de.randi2.unsorted.ContraintViolatedException;
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class FreeTextConstraintDatabaseTest extends	AbstractDomainDatabaseTest<FreeTextConstraint> {
 
@@ -22,7 +23,6 @@ public class FreeTextConstraintDatabaseTest extends	AbstractDomainDatabaseTest<F
 		super(FreeTextConstraint.class);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp(){
 		super.setUp();

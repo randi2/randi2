@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,6 @@ import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.testUtility.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 @SuppressWarnings("unchecked")
 public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {

@@ -19,6 +19,11 @@ package de.randi2.jsf.supportBeans;
 
 import static de.randi2.utility.security.ArrayListHelper.permissionsOf;
 import static de.randi2.utility.security.ArrayListHelper.sidsOf;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+
 import lombok.Setter;
 
 import org.springframework.security.acls.domain.PrincipalSid;
@@ -42,14 +47,16 @@ import de.randi2.model.security.PermissionHibernate;
  * @author L. Plotnicki <l.plotnicki@dkfz.de>
  * 
  */
+@ManagedBean(name="permissionVerifier")
+@SessionScoped
 public class PermissionVerifier {
-
+	@ManagedProperty(value="#{aclService}")
 	@Setter
 	private AclService aclService;
-
+	@ManagedProperty(value="#{loginHandler}")
 	@Setter
 	private LoginHandler loginHandler;
-
+	@ManagedProperty(value="#{trialHandler}")
 	@Setter
 	private TrialHandler trialHandler;
 
