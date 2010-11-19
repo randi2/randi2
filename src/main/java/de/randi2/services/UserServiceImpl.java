@@ -125,6 +125,7 @@ public class UserServiceImpl implements UserService {
 	public void register(Login newObject, TrialSite site) {
 		logger.info("register new user with username/eMail "
 				+ newObject.getUsername() +" and the trial site: "+ site.getName());
+		site = trialSiteDao.refresh(site);
 		// Investigator Role (self-registration process)
 		if (newObject.getRoles().size() == 1
 				&& newObject.getRoles().iterator().next()
