@@ -21,14 +21,9 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.faces.bean.SessionScoped;
-
-import lombok.Setter;
-
-import org.hibernate.validator.InvalidStateException;
-import org.hibernate.validator.InvalidValue;
 
 import lombok.Setter;
 import de.randi2.jsf.supportBeans.PermissionVerifier;
