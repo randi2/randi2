@@ -394,8 +394,4 @@ public class Trial extends AbstractDomainObject {
 		return Pair.of(strataIdsResult, strataNamesResult);
 	}
 	
-	@Transient
-	public List<TreatmentArm> getTreatmentArmsList(){
-		return Collections.unmodifiableList(new ArrayList<TreatmentArm>(treatmentArms));
-	}
 }

@@ -5,6 +5,7 @@ import static de.randi2.utility.IntegerIterator.upto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -42,7 +43,7 @@ public class UrnDesignTest {
 		int[] countBalls = new int[2];
 		countBalls[0] = initializeCount;
 		countBalls[1] = initializeCount;
-		List<TreatmentArm> arms = trial.getTreatmentArmsList();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());
 		for (int i : upto(40)) {
 			randomize(trial,s);
 			if(s.getArm().getName().equals(arms.get(0).getName())){
@@ -69,7 +70,7 @@ public class UrnDesignTest {
 		int[] countBalls = new int[2];
 		countBalls[0] = initializeCount;
 		countBalls[1] = initializeCount;
-		List<TreatmentArm> arms = trial.getTreatmentArmsList();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());
 		for (int i : upto(100)) {
 			randomize(trial,s);
 			if(s.getArm().getName().equals(arms.get(0).getName())){
@@ -92,7 +93,7 @@ public class UrnDesignTest {
 		int[] count = new int[2];
 		count[0] = 0;
 		count[1] = 0;
-		List<TreatmentArm> arms = trial.getTreatmentArmsList();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());
 		for(TreatmentArm arm : urn.getUrn()){
 			if(arm.getName().equals(arms.get(0).getName())){
 				count[0]++;

@@ -111,7 +111,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		assertTrue(validTrial.getId() > 0);
 		assertEquals(2, validTrial.getTreatmentArms().size());
 		authenticatAsInvestigator();
-		List<TreatmentArm> arms = validTrial.getTreatmentArmsList();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(validTrial.getTreatmentArms());
 		for (int i = 0; i < randomizations; i++) {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
@@ -139,7 +139,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		assertNotNull(dbTrial);
 		assertEquals(validTrial.getName(), dbTrial.getName());
 		assertEquals(2, dbTrial.getTreatmentArms().size());
-		List<TreatmentArm> armsDB = dbTrial.getTreatmentArmsList();
+		List<TreatmentArm> armsDB = new ArrayList<TreatmentArm>(dbTrial.getTreatmentArms());
 		assertEquals(randomizations, armsDB.get(0)
 				.getSubjects().size()
 				+ armsDB.get(1).getSubjects().size());
@@ -178,7 +178,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		assertTrue(validTrial.getId() > 0);
 		assertEquals(2, validTrial.getTreatmentArms().size());
 		authenticatAsInvestigator();
-		List<TreatmentArm> arms = validTrial.getTreatmentArmsList();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(validTrial.getTreatmentArms());;
 		for (int i = 0; i < randomizations; i++) {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
@@ -205,7 +205,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		assertNotNull(dbTrial);
 		assertEquals(validTrial.getName(), dbTrial.getName());
 		assertEquals(2, dbTrial.getTreatmentArms().size());
-		List<TreatmentArm> armsDB = dbTrial.getTreatmentArmsList();
+		List<TreatmentArm> armsDB = new ArrayList<TreatmentArm>(dbTrial.getTreatmentArms());
 		assertEquals(randomizations, dbTrial.getSubjects().size());
 		assertEquals(randomizations / 2, armsDB.get(0)
 				.getSubjects().size());
@@ -309,7 +309,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		TrialSite site1 = it.next();
 		TrialSite site2 = it.next();
 		authenticatAsInvestigator();
-		List<TreatmentArm> arms = validTrial.getTreatmentArmsList();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(validTrial.getTreatmentArms());;
 		for (int i = 0; i < randomizations; i++) {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
@@ -339,7 +339,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		assertNotNull(dbTrial);
 		assertEquals(validTrial.getName(), dbTrial.getName());
 		assertEquals(2, dbTrial.getTreatmentArms().size());
-		List<TreatmentArm> armsDB = dbTrial.getTreatmentArmsList();
+		List<TreatmentArm> armsDB = new ArrayList<TreatmentArm>(dbTrial.getTreatmentArms());
 		assertEquals(randomizations, armsDB.get(0)
 				.getSubjects().size()
 				+ armsDB.get(1).getSubjects().size());
@@ -417,7 +417,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		TrialSite site1 = it.next();
 		TrialSite site2 = it.next();
 		authenticatAsInvestigator();
-		List<TreatmentArm> arms = validTrial.getTreatmentArmsList();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(validTrial.getTreatmentArms());;
 		for (int i = 0; i < randomizations; i++) {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
@@ -447,7 +447,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		assertNotNull(dbTrial);
 		assertEquals(validTrial.getName(), dbTrial.getName());
 		assertEquals(2, dbTrial.getTreatmentArms().size());
-		List<TreatmentArm> armsDB = dbTrial.getTreatmentArmsList();
+		List<TreatmentArm> armsDB = new ArrayList<TreatmentArm>(dbTrial.getTreatmentArms());
 		assertEquals(randomizations, armsDB.get(0)
 				.getSubjects().size()
 				+ armsDB.get(1).getSubjects().size());

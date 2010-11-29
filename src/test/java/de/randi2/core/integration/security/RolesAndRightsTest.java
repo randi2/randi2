@@ -715,7 +715,7 @@ public class RolesAndRightsTest {
 		Sid sid = new PrincipalSid(login.getUsername());
 
 		TrialSubject subject = new TrialSubject();
-		subject.setArm(trial.getTreatmentArmsList().get(0));
+		subject.setArm(trial.getTreatmentArms().iterator().next());
 		rolesAndRights.grantRights(subject, site1);
 		List<AclHibernate> acls = entityManager
 				.createQuery("from AclHibernate").getResultList();
@@ -796,7 +796,7 @@ public class RolesAndRightsTest {
 		Sid sid = new PrincipalSid(login.getUsername());
 
 		TrialSubject subject = new TrialSubject();
-		subject.setArm(trial.getTreatmentArmsList().get(0));
+		subject.setArm(trial.getTreatmentArms().iterator().next());
 		rolesAndRights.grantRights(subject, site1);
 		List<AclHibernate> acls = entityManager
 				.createQuery("from AclHibernate").getResultList();
@@ -876,7 +876,7 @@ public class RolesAndRightsTest {
 		Sid sid = new PrincipalSid(login.getUsername());
 
 		TrialSubject subject = new TrialSubject();
-		subject.setArm(trial.getTreatmentArmsList().get(0));
+		subject.setArm(trial.getTreatmentArms().iterator().next());
 		rolesAndRights.grantRights(subject, site1);
 		List<AclHibernate> acls = entityManager
 				.createQuery("from AclHibernate").getResultList();

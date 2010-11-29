@@ -48,8 +48,7 @@ public class SimulationServiceImpl implements SimulationService {
 			strataIdsNames.put(pair.first().get(i), pair.last().get(i));
 		}
 		// initialize the simulation result
-		SimulationResult simResult = new SimulationResult(copyTrial
-				.getTreatmentArmsList(), copyTrial.getRandomizationConfiguration(), strataIdsNames);
+		SimulationResult simResult = new SimulationResult(new ArrayList<TreatmentArm>(copyTrial.getTreatmentArms()), copyTrial.getRandomizationConfiguration(), strataIdsNames);
 		long startTime;
 		TreatmentArm assignedArm;
 		TrialSubject subject = new TrialSubject();
@@ -104,7 +103,7 @@ public class SimulationServiceImpl implements SimulationService {
 				}
 				// set data for this simulation run and add it to the simulation
 				// result
-				List<TreatmentArm> arms = simTrial.getTreatmentArmsList();
+				List<TreatmentArm> arms = new ArrayList<TreatmentArm>(simTrial.getTreatmentArms());
 				for (int i = 0; i < simTrial.getTreatmentArms().size(); i++) {
 					simRun.getSubjectsPerArms()[i] = arms.get(i)
 							.getCurrentSubjectsAmount();

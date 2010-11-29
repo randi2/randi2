@@ -21,6 +21,8 @@ import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -41,7 +43,7 @@ public class CompleteRandomization extends RandomizationAlgorithm<CompleteRandom
 
 	@Override
 	protected TreatmentArm doRadomize(TrialSubject subject, Random random) {
-		List<TreatmentArm> arms = trial.getTreatmentArmsList();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());
 		return arms.get(random.nextInt(arms.size()));
 	}
 }

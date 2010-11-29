@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -45,7 +46,7 @@ public class TruncatedBinomialDesignTest {
 		for (int i : upto(40)) {
 			randomize(trial,s);
 		}
-		List<TreatmentArm> arms = trial.getTreatmentArmsList();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());;
 		assertEquals(40, trial.getSubjects().size());
 		assertEquals(20, arms.get(0).getCurrentSubjectsAmount());
 		assertEquals(20, arms.get(1).getCurrentSubjectsAmount());
@@ -55,7 +56,7 @@ public class TruncatedBinomialDesignTest {
 	public void testSubjectAllocations1() {
 		RandomizationHelper.addArms(trial, 100, 100);
 		s = new TrialSubject();
-		List<TreatmentArm> arms = trial.getTreatmentArmsList();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());;
 		for (int i : upto(200)) {
 			randomize(trial,s);
 			if(arms.get(0).getCurrentSubjectsAmount() == 100 && !s.getArm().getName().equals(arms.get(0).getName())){
