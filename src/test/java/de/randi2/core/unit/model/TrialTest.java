@@ -77,7 +77,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 	}
 
 	@Test
-	public void testNameLongerThan255() {
+	public void testNameNotLongerThan255() {
 		String[] invalidValues = { stringUtil.getWithLength(256),
 				stringUtil.getWithLength(650) };
 		for (String s : invalidValues) {
