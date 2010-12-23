@@ -76,7 +76,7 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	@SuppressWarnings("unchecked")
 	@Secured({"ROLE_USER","AFTER_ACL_COLLECTION_READ"})
 	public List<E> findByExample(E object){
-		return sessionFactory.getCurrentSession().createCriteria(getClass()).add(Example.create(object).ignoreCase()).list();
+		return sessionFactory.getCurrentSession().createCriteria(getModelClass()).add(Example.create(object).ignoreCase()).list();
 	}
 
 	/* (non-Javadoc)
