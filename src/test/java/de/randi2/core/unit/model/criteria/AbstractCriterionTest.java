@@ -143,7 +143,7 @@ public class AbstractCriterionTest extends AbstractDomainTest<AbstractCriterion>
 	}
 	
 	@Test
-	public void testgetConfiguredValues(){
+	public void testGetConfiguredValues(){
 		assertEquals(2, validCriterion.getConfiguredValues().size());
 		assertTrue(validCriterion.getConfiguredValues().contains("a"));
 		assertTrue(validCriterion.getConfiguredValues().contains("b"));
