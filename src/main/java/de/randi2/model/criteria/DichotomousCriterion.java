@@ -79,5 +79,14 @@ public class DichotomousCriterion extends AbstractCriterion<String, DichotomousC
 	public Class<DichotomousConstraint> getContstraintType() {
 		return DichotomousConstraint.class;
 	}
+	
+	@Override
+	public void setInclusionConstraint(DichotomousConstraint inclusionConstraint) throws ContraintViolatedException {
+		if(inclusionConstraint == null || option1.equals(inclusionConstraint.getExpectedValue()) || option2.equals(inclusionConstraint.getExpectedValue())){ 
+			this.inclusionConstraint = inclusionConstraint;
+		}else{
+			throw new ContraintViolatedException();
+		}
+	}
 
 }

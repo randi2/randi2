@@ -69,5 +69,10 @@ public class DateCriterion extends
 	public Class<DateConstraint> getContstraintType() {
 		return DateConstraint.class;
 	}
+	
+	@Override
+	public void setInclusionConstraint(DateConstraint inclusionConstraint) throws ContraintViolatedException {
+			this.inclusionConstraint = inclusionConstraint;
+	}
 
 }

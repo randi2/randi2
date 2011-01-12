@@ -40,8 +40,13 @@ public class SimulationServiceImpl implements SimulationService {
 			AbstractDistribution<TrialSite> distributionTrialSites, int runs,
 			long maxTime, boolean collectRawData) {
 		// copy the trial to avoid side effects
-		Trial copyTrial = copyAndPrepareTrial(trial, properties,
-				distributionTrialSites);
+		Trial copyTrial;
+		try {
+			copyTrial = copyAndPrepareTrial(trial, properties,
+					distributionTrialSites);
+		} catch (ContraintViolatedException e) {
+			return null;
+		}
 		Map<String, String> strataIdsNames = new HashMap<String, String>();
 		Pair<List<String>, List<String>> pair = copyTrial.getAllStrataIdsAndNames();
 		for(int i =0;i< pair.first().size();i++){
@@ -129,7 +134,7 @@ public class SimulationServiceImpl implements SimulationService {
 	 */
 	private static Trial copyAndPrepareTrial(Trial trial,
 			List<DistributionSubjectProperty> properties,
-			AbstractDistribution<TrialSite> distributionTrialSites) {
+			AbstractDistribution<TrialSite> distributionTrialSites) throws ContraintViolatedException{
 		long id = 0;
 		// copy plain trail data
 		Trial cTrial = new Trial();
@@ -163,7 +168,7 @@ public class SimulationServiceImpl implements SimulationService {
 				DateCriterion ccr = new DateCriterion();
 				ccr.setName(cr.getName());
 				ccr.setId(id++);
-				ccr.setInclusionConstraint(cr.getInclusionConstraint());
+				ccr.setInclusionConstraintAbstract(cr.getInclusionConstraint());
 				for (DateConstraint co : DateCriterion.class.cast(cr)
 						.getStrata()) {
 					DateConstraint cco = new DateConstraint();
@@ -178,7 +183,7 @@ public class SimulationServiceImpl implements SimulationService {
 				DichotomousCriterion ccr = new DichotomousCriterion();
 				ccr.setName(cr.getName());
 				ccr.setId(id++);
-				ccr.setInclusionConstraint(cr.getInclusionConstraint());
+				ccr.setInclusionConstraintAbstract(cr.getInclusionConstraint());
 				ccr
 						.setOption1(DichotomousCriterion.class.cast(cr)
 								.getOption1());
@@ -203,7 +208,7 @@ public class SimulationServiceImpl implements SimulationService {
 				OrdinalCriterion ccr = new OrdinalCriterion();
 				ccr.setName(cr.getName());
 				ccr.setId(id++);
-				ccr.setInclusionConstraint(cr.getInclusionConstraint());
+				ccr.setInclusionConstraintAbstract(cr.getInclusionConstraint());
 				ccr.setElements(OrdinalCriterion.class.cast(cr).getElements());
 				for (OrdinalConstraint co : OrdinalCriterion.class.cast(cr)
 						.getStrata()) {

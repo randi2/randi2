@@ -245,7 +245,7 @@ public class CriterionWrapper<V extends Serializable> {
 			try {
 				List<V> l = new ArrayList<V>();
 				l.add((V) event.getNewValue());
-				wrappedCriterion.setInclusionConstraint(wrappedCriterion.getContstraintType().getConstructor(List.class).newInstance(l));
+				wrappedCriterion.setInclusionConstraintAbstract(wrappedCriterion.getContstraintType().getConstructor(List.class).newInstance(l));
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
@@ -257,6 +257,8 @@ public class CriterionWrapper<V extends Serializable> {
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
 			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			} catch (ContraintViolatedException e) {
 				e.printStackTrace();
 			}
 	}
