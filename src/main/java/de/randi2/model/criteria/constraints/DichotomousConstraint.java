@@ -51,7 +51,7 @@ public class DichotomousConstraint extends AbstractConstraint<String> {
 	@Override
 	protected void configure(List<String> args)
 			throws ContraintViolatedException {
-		if (args == null || args.size() != 1)
+		if (args == null || args.size() != 1 || args.get(0) == null)
 			throw new ContraintViolatedException();
 		this.expectedValue = args.get(0);
 	}
