@@ -1,6 +1,12 @@
 package de.randi2.core.unit.model.criteria;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,14 +14,10 @@ import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.mchange.util.AssertException;
-
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
-import de.randi2.model.criteria.FreeTextCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
-import de.randi2.model.criteria.constraints.FreeTextConstraint;
 import de.randi2.testUtility.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
 

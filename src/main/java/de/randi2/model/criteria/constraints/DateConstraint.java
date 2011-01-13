@@ -42,8 +42,20 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 
 	}
 
-	public DateConstraint(List<GregorianCalendar> args) throws ContraintViolatedException {
-		super(args);
+	/**
+	 * Configures the DateConstraint: the list should contain one or two elements.
+	 * 1. case the list contains one element:
+	 * 		the first date is set, the constraint has no upper bound
+	 * 2. case the list contains two elements:
+	 * 		The first and second date (first and second element of the list) are set, if the first date is before the second. 
+	 * 		- if the first date is null the constraint has no lower bound
+	 * 		- if the second date is null the constraint has no upper bound
+	 * 		- if both values are set the constraint defined a range
+	 * @param list
+	 * @throws ContraintViolatedException
+	 */
+	public DateConstraint(List<GregorianCalendar> list) throws ContraintViolatedException {
+		super(list);
 	}
 
 	
@@ -58,10 +70,23 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 		if(list==null || list.size() ==0 || list.size()>2){
 			throw new ContraintViolatedException();
 		}else if (list.size()==1) {
-			firstDate = list.get(0);
+			if(list.get(0) != null){
+				firstDate = list.get(0);
+				secondDate = null;
+			}else throw new ContraintViolatedException();
 		}else{
-			firstDate = list.get(0);
-			secondDate = list.get(1);
+			GregorianCalendar actFirstDate = list.get(0);
+			GregorianCalendar actSecondDate = list.get(1);
+			if(actFirstDate != null && actSecondDate!=null && actFirstDate.before(actSecondDate)){
+				firstDate = list.get(0);
+				secondDate = list.get(1);
+			}else if(actFirstDate != null && actSecondDate==null){
+				firstDate = list.get(0);
+				secondDate = null;
+			}else if(actFirstDate == null && actSecondDate!=null){
+				firstDate = null;
+				secondDate = list.get(1);
+			}else throw new ContraintViolatedException();
 		}
 	}
 
@@ -89,11 +114,11 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 	public String getUIName() {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 			if(firstDate!=null && secondDate!=null){
-				return (sdf.format(firstDate.getTime()) + "|" + sdf.format(secondDate.getTime()));
+				return (sdf.format(firstDate.getTime()) + " - " + sdf.format(secondDate.getTime()));
 			}else if(firstDate!=null){
-				return ">" + sdf.format(firstDate.getTime());
+				return "> " + sdf.format(firstDate.getTime());
 			}else if(secondDate!=null){
-				return "<" + sdf.format(secondDate.getTime());
+				return "< " + sdf.format(secondDate.getTime());
 			}
 			return "ERROR";
 	}
@@ -111,23 +136,17 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		
 		DateConstraint other = (DateConstraint) obj;
-		if (firstDate == null) {
-			if (other.firstDate != null)
+		if ((firstDate == null && other.firstDate != null) || (firstDate != null && !firstDate.equals(other.firstDate)) ) {
 				return false;
-		} else if (!firstDate.equals(other.firstDate))
-			return false;
-		if (secondDate == null) {
-			if (other.secondDate != null)
+		}
+		if ((secondDate == null && other.secondDate != null) || (secondDate != null && !secondDate.equals(other.secondDate))) {
 				return false;
-		} else if (!secondDate.equals(other.secondDate))
-			return false;
+		}
 		return true;
 	}
 }
