@@ -299,7 +299,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 		}
 		
 		@Test
-		public void testUName_BothDates(){
+		public void testUiName_BothDates(){
 			List<GregorianCalendar> elements = new ArrayList<GregorianCalendar>();
 			GregorianCalendar date1 = new GregorianCalendar(2010,0,1);
 			GregorianCalendar date2 = new GregorianCalendar(2011,0,1);
@@ -315,7 +315,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 		}
 		
 		@Test
-		public void testUName_OnlyFirstDate(){
+		public void testUiName_OnlyFirstDate(){
 			List<GregorianCalendar> elements = new ArrayList<GregorianCalendar>();
 			elements.add(new GregorianCalendar(2010,0,1));
 			elements.add(null);
@@ -329,7 +329,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 		}
 		
 		@Test
-		public void testUName_OnlySecondDate(){
+		public void testUiName_OnlySecondDate(){
 			List<GregorianCalendar> elements = new ArrayList<GregorianCalendar>();
 			elements.add(null);
 			elements.add(new GregorianCalendar(2010,0,1));
