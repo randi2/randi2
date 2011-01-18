@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License along with
  * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
-package de.randi2.core.unit.model.hibernate;
+package de.randi2.core.integration.modelDatabase.hibernate;
 
 import java.util.List;
 import java.util.Map;
