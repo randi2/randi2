@@ -17,6 +17,8 @@
  */
 package de.randi2.model.criteria.constraints;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -60,7 +62,7 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 	@Override
 	protected void configure(List<String> args)
 			throws ContraintViolatedException {
-		if(args == null || args.size() <1){
+		if(args == null || args.size() <1 || args.get(0) == null){
 			throw new ContraintViolatedException();
 		}
 		this.expectedValues = new HashSet<String>(args);
@@ -69,8 +71,10 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 	
 	@Override
 	public String getUIName() {
-		StringBuffer result = new StringBuffer();
-		for(String s: expectedValues){
+		StringBuilder result = new StringBuilder();
+		ArrayList<String> listOfExpectedValues = new ArrayList<String>(expectedValues);
+		Collections.sort(listOfExpectedValues);
+		for(String s: listOfExpectedValues){
 			result.append(s + "|");
 		}
 		return result.toString();
