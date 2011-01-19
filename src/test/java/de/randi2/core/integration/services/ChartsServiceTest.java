@@ -29,7 +29,7 @@ import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.enumerations.Gender;
 import de.randi2.model.exceptions.TrialStateException;
 import de.randi2.model.randomization.BlockRandomizationConfig;
-import de.randi2.model.randomization.ChartData;
+import de.randi2.services.ChartData;
 import de.randi2.services.ChartsService;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;

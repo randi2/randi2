@@ -36,7 +36,7 @@ import com.icesoft.faces.context.effects.Effect;
 import com.icesoft.faces.context.effects.Highlight;
 
 import de.randi2.jsf.controllerBeans.TrialHandler;
-import de.randi2.model.randomization.ChartData;
+import de.randi2.services.ChartData;
 import de.randi2.services.ChartsService;
 
 /**

@@ -28,7 +28,6 @@ import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
-import de.randi2.model.randomization.ChartData;
 import de.randi2.utility.Pair;
 
 @Service("chartsService")
