@@ -259,7 +259,7 @@ public class SimulationServiceImpl implements SimulationService {
 		}
 		trial.getRandomizationConfiguration().setTrial(trial);
 		trial.getRandomizationConfiguration().setTempData(null);
-		trial.getRandomizationConfiguration().resetAlgorithmWithNext();
+		trial.getRandomizationConfiguration().resetAlgorithmWithNextSeed();
 		if (MinimizationConfig.class.isInstance(trial
 				.getRandomizationConfiguration())) {
 			((Minimization) trial.getRandomizationConfiguration()

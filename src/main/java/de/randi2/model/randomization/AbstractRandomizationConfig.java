@@ -91,15 +91,12 @@ public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 	 * @param seed
 	 */
 	public void resetAlgorithm(){
-		if(algorithm!=null && algorithm.isSeeded()){
-			algorithm = createAlgorithm(algorithm.getSeed());
-		}else{
-			algorithm = createAlgorithm();
-		}
+		algorithm=null;
+		getAlgorithm();
 		
 	}
 	
-	public void resetAlgorithmWithNext(){
+	public void resetAlgorithmWithNextSeed(){
 		if(algorithm!=null && algorithm.isSeeded()){
 			algorithm = createAlgorithm(algorithm.getSeed()+10000);
 		}else{
