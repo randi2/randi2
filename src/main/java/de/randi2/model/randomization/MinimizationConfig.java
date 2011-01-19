@@ -10,6 +10,7 @@ import de.randi2.randomization.RandomizationAlgorithm;
 @Entity
 public class MinimizationConfig extends AbstractRandomizationConfig {
 
+	private static final long serialVersionUID = -7118660260283369544L;
 	
 	@Getter
 	@Setter
