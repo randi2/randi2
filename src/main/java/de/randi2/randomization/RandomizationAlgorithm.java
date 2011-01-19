@@ -17,7 +17,6 @@
  */
 package de.randi2.randomization;
 
-import java.util.List;
 import java.util.Random;
 
 import de.randi2.model.TreatmentArm;
@@ -29,7 +28,7 @@ public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationC
 	protected Trial trial;
 	protected Conf configuration;
 	private Random seededRandom;
-	private long seed;
+	private long seed = Long.MIN_VALUE;
 	
 	@SuppressWarnings("unchecked")
 	protected RandomizationAlgorithm(Trial _trial) {
