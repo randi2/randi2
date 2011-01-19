@@ -69,20 +69,7 @@ public abstract class RandomizationAlgorithm<Conf extends AbstractRandomizationC
 
 	protected abstract TreatmentArm doRadomize(TrialSubject subject,
 			Random random);
-	
-	private int sampleIndex(List<? extends Object> urn, Random random){
-		return random.nextInt(urn.size());
-	}
-	
-	protected TreatmentArm sampleWithRemove(List<TreatmentArm> urn, Random random){
-		return urn.remove(sampleIndex(urn, random));
-	}
-	
-	protected TreatmentArm sampleWithoutRemove(List<TreatmentArm> urn, Random random){
-		return urn.get(sampleIndex(urn, random));
-	}
-	
-	
+		
 	public long getSeed(){
 		return seed;
 	}
