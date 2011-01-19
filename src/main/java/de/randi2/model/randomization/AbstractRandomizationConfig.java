@@ -25,7 +25,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -36,7 +35,6 @@ import de.randi2.randomization.RandomizationAlgorithm;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "RandomizationConfig")
-@EqualsAndHashCode(callSuper=true)
 @ToString(callSuper=true, exclude={"trial"})
 public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 
@@ -111,4 +109,51 @@ public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 	public void resetAlgorithm(long seed){
 		algorithm = createAlgorithm(seed);
 	}
+	
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((algorithm == null) ? 0 : algorithm.hashCode());
+		result = prime * result + ((seed == null) ? 0 : seed.hashCode());
+		result = prime * result + ((tempData == null) ? 0 : tempData.hashCode());
+		result = prime * result + ((trial == null) ? 0 : trial.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractRandomizationConfig other = (AbstractRandomizationConfig) obj;
+		if (algorithm == null) {
+			if (other.algorithm != null)
+				return false;
+		} else if (!algorithm.equals(other.algorithm))
+			return false;
+		if (seed == null) {
+			if (other.seed != null)
+				return false;
+		} else if (!seed.equals(other.seed))
+			return false;
+		if (tempData == null) {
+			if (other.tempData != null)
+				return false;
+		} else if (!tempData.equals(other.tempData))
+			return false;
+		if (trial == null) {
+			if (other.trial != null)
+				return false;
+		} else if (!trial.equals(other.trial))
+			return false;
+		return true;
+	}
+
+	
 }
