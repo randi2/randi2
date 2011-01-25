@@ -21,6 +21,7 @@ public class RandomizationHelper {
 		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		for (int i = 0; i < sizes.length; i++) {
 			TreatmentArm arm = new TreatmentArm();
+			arm.setId(i+1);
 			arm.setName("dummy:" + (i + 1));
 			arm.setPlannedSubjects(sizes[i]);
 			arms.add(arm);
