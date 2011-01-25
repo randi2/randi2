@@ -7,11 +7,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.EntityTransaction;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.LoginDao;
@@ -38,16 +42,10 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	public void setUp() {
 		super.setUp();
 		authenticatAsAdmin();
-		entityManager.flush();
-		entityManager.clear();
 		for (int i = 0; i < 10; i++) {
 			Login login = factory.getLogin();
 			loginDao.create(login);
-			entityManager.flush();
-			entityManager.clear();
 		}
-		entityManager.flush();
-		entityManager.clear();
 	}
 
 	@SuppressWarnings("unchecked")

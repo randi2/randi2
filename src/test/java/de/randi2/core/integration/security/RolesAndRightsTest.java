@@ -27,6 +27,7 @@ import org.springframework.security.acls.model.Acl;
 import org.springframework.security.acls.model.Sid;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.HibernateAclService;
@@ -524,16 +525,15 @@ public class RolesAndRightsTest {
 	}
 
 	@Test
-	@Ignore
 	public void grantRightsTrialObjectWithScopeWriteTest() {
 		Trial trial = factory.getTrial();
-		trial.setId(34);
-
+		
 		Login login = factory.getLogin();
 		entityManager.persist(login);
 
 		TrialSite site1 = factory.getTrialSite();
 		entityManager.persist(site1);
+		
 		Role role1 = new Role("ROLE_Name d3", false, false, false, false,
 				false, false, false, false, false, false, false, false, false,
 				false, false, false, false, false, true, true, false, false,
@@ -544,13 +544,20 @@ public class RolesAndRightsTest {
 		// Logins site1
 		login.getRoles().add(role1);
 		login = entityManager.merge(login);
-		// Flush session and clear the entity manager
-		entityManager.flush();
-		entityManager.clear();
+		
+		trial.setLeadingSite(site1);
+		trial.setSponsorInvestigator(login.getPerson());
+		trial.addParticipatingSite(site1);
+		
+		entityManager.persist(trial);
+	
 		Sid sid = new PrincipalSid(login.getUsername());
 
 		rolesAndRights.grantRights(trial, site1);
-
+		
+		entityManager.flush();
+		entityManager.clear();
+		
 		List<AclHibernate> acls = entityManager
 				.createQuery("from AclHibernate").getResultList();
 		assertEquals(1, acls.size());
@@ -566,12 +573,11 @@ public class RolesAndRightsTest {
 					.getPermission()).getCode());
 		}
 	}
-
-	@Ignore
+	
 	@Test
+	@Transactional(propagation=Propagation.REQUIRED)
 	public void grantRightsTrialObjectWithScopeReadTest() {
 		Trial trial = factory.getTrial();
-		trial.setId(345);
 
 		Login login = factory.getLogin();
 		entityManager.persist(login);
@@ -588,9 +594,12 @@ public class RolesAndRightsTest {
 		// Logins site1
 		login.getRoles().add(role1);
 		login = entityManager.merge(login);
-		// Flush session and clear the entity manager
-		entityManager.flush();
-		entityManager.clear();
+		
+		trial.setLeadingSite(site1);
+		trial.setSponsorInvestigator(login.getPerson());
+		trial.addParticipatingSite(site1);
+		
+		
 		Sid sid = new PrincipalSid(login.getUsername());
 
 		rolesAndRights.grantRights(trial, site1);
@@ -614,7 +623,6 @@ public class RolesAndRightsTest {
 	@Test
 	public void grantRightsTrialObjectWithScopeAllTest() {
 		Trial trial = factory.getTrial();
-		trial.setId(34);
 
 		Login login = factory.getLogin();
 		entityManager.persist(login);
@@ -631,9 +639,12 @@ public class RolesAndRightsTest {
 		// Logins site1
 		login.getRoles().add(role1);
 		login = entityManager.merge(login);
-		// Flush session and clear the entity manager
-		entityManager.flush();
-		entityManager.clear();
+	
+		trial.setLeadingSite(site1);
+		trial.setSponsorInvestigator(login.getPerson());
+		trial.addParticipatingSite(site1);
+		
+	
 		Sid sid = new PrincipalSid(login.getUsername());
 
 		rolesAndRights.grantRights(trial, site1);
@@ -906,41 +917,49 @@ public class RolesAndRightsTest {
 	}
 
 	@Test
+	@Ignore
 	public void grantRightsUserObjectWithOutScopeTest() {
 		fail();
 	}
 
 	@Test
+	@Ignore
 	public void grantRightsUserObjectWithScopeTest() {
 		fail();
 	}
 
 	@Test
+	@Ignore
 	public void registerPersonRoleTest() {
 		fail();
 	}
 
 	@Test
+	@Ignore
 	public void registerPersonTest() {
 		fail();
 	}
 
 	@Test
+	@Ignore
 	public void newPersonGrantUserRightsTest() {
 		fail();
 	}
 
 	@Test
+	@Ignore
 	public void newPersonGrantUserTrialTest() {
 		fail();
 	}
 
 	@Test
+	@Ignore
 	public void newPersonGrantUserTrialSiteTest() {
 		fail();
 	}
 
 	@Test
+	@Ignore
 	public void newPersonGrantUserTrialSubjectTest() {
 		fail();
 	}
