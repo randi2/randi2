@@ -451,7 +451,7 @@ public class Bootstrap {
 
 		int countTS1 = 120;
 		int countTS2 = 60;
-		int countMo = (new GregorianCalendar()).get(GregorianCalendar.MONTH);
+		int countMo = (new GregorianCalendar()).get(GregorianCalendar.MONTH)+1;
 		int countAll = 0;
 		// Objects for the while-loop
 		Random rand = new Random();
