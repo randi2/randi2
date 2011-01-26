@@ -129,6 +129,7 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<Person> getMembers(TrialSite site){
+		if(site == null) return null;
 		site = siteDAO.refresh(site);
 		if(site.getMembers().size()>0) site.getMembers().get(0);
 		return site.getMembers();
