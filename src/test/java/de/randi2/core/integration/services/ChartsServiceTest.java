@@ -17,7 +17,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.randi2.dao.TrialDao;
 import de.randi2.model.Person;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
@@ -58,28 +57,6 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		validTrial.setLeadingSite(site);
 		validTrial.setSponsorInvestigator(user.getPerson());
 		validTrial.addParticipatingSite(site);
-
-		// if(validTrial.getParticipatingSites().size()<2){
-		//		
-		// Person cp2 = new Person();
-		// cp2.setFirstname("Contact");
-		// cp2.setSurname("Person");
-		// cp2.setEmail("randi2@action.ms");
-		// cp2.setPhone("1234567");
-		// cp2.setSex(Gender.MALE);
-		// TrialSite trialSite1 = new TrialSite();
-		// trialSite1.setCity("Heidelberg");
-		// trialSite1.setCountry("Germany");
-		// trialSite1.setName("NCT");
-		// trialSite1.setPostcode("69120");
-		// trialSite1.setStreet("INF");
-		// trialSite1.setPassword("1$heidelberg");
-		// trialSite1.setContactPerson(cp2);
-		//
-		// trialSiteService.create(trialSite1);
-		// validTrial.addParticipatingSite(trialSite1);
-		// }
-
 	}
 
 	@Transactional
@@ -260,24 +237,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		trialSite1.setContactPerson(cp1);
 		trialSiteService.create(trialSite1);
 
-		Person cp2 = new Person();
-		cp2.setFirstname("Contact");
-		cp2.setSurname("Person");
-		cp2.setEmail("randi2@action.ms");
-		cp2.setPhone("1234567");
-		cp2.setSex(Gender.MALE);
-		TrialSite trialSite2 = new TrialSite();
-		trialSite2.setCity("Heidelberg");
-		trialSite2.setCountry("Germany");
-		trialSite2.setName("NCT2");
-		trialSite2.setPostcode("69120");
-		trialSite2.setStreet("INF");
-		trialSite2.setPassword("1$heidelberg");
-		trialSite2.setContactPerson(cp2);
-		trialSiteService.create(trialSite2);
-
 		validTrial.addParticipatingSite(trialSite1);
-		validTrial.addParticipatingSite(trialSite2);
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
 		validTrial.setEndDate(new GregorianCalendar(2009, 11, 1));
 
@@ -313,13 +273,13 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		for (int i = 0; i < randomizations; i++) {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
+			validTrial = trialService.randomize(validTrial, subject);
+			subject = entityManager.find(TrialSubject.class, subject.getId());
 			if (i < 60) {
 				subject.setTrialSite(site1);
 			} else {
 				subject.setTrialSite(site2);
 			}
-			trialService.randomize(validTrial, subject);
-			subject = entityManager.find(TrialSubject.class, subject.getId());
 			subject.setCreatedAt(new GregorianCalendar(2009, i % 12, 1));
 			subject = entityManager.merge(subject);
 			if ((i % blocksize) == (blocksize - 1)) {
@@ -368,24 +328,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		trialSite1.setContactPerson(cp1);
 		trialSiteService.create(trialSite1);
 
-		Person cp2 = new Person();
-		cp2.setFirstname("Contact");
-		cp2.setSurname("Person");
-		cp2.setEmail("randi2@action.ms");
-		cp2.setPhone("1234567");
-		cp2.setSex(Gender.MALE);
-		TrialSite trialSite2 = new TrialSite();
-		trialSite2.setCity("Heidelberg");
-		trialSite2.setCountry("Germany");
-		trialSite2.setName("NCT2");
-		trialSite2.setPostcode("69120");
-		trialSite2.setStreet("INF");
-		trialSite2.setPassword("1$heidelberg");
-		trialSite2.setContactPerson(cp2);
-		trialSiteService.create(trialSite2);
-
 		validTrial.addParticipatingSite(trialSite1);
-		validTrial.addParticipatingSite(trialSite2);
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
 		validTrial.setEndDate(new GregorianCalendar(2009, 11, 1));
 
@@ -421,13 +364,13 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		for (int i = 0; i < randomizations; i++) {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
+			trialService.randomize(validTrial, subject);
+			subject = entityManager.find(TrialSubject.class, subject.getId());
 			if (i < 90) {
 				subject.setTrialSite(site1);
 			} else {
 				subject.setTrialSite(site2);
 			}
-			trialService.randomize(validTrial, subject);
-			subject = entityManager.find(TrialSubject.class, subject.getId());
 			subject.setCreatedAt(new GregorianCalendar(2009, i % 12, 1));
 			subject = entityManager.merge(subject);
 			if ((i % blocksize) == (blocksize - 1)) {
@@ -464,8 +407,8 @@ public class ChartsServiceTest extends AbstractServiceTest {
 				.generateRecruitmentChartTrialSite(validTrial);
 		assertEquals(2, chartData.getXLabels().size());
 		assertEquals(2, chartData.getData().size());
-//		assertEquals(60.0, chartData.getData().get(0)[0]);
-//		assertEquals(60.0, chartData.getData().get(1)[0]);
+		assertEquals(60.0, chartData.getData().get(0)[0]);
+		assertEquals(60.0, chartData.getData().get(1)[0]);
 
 	}
 
@@ -476,8 +419,8 @@ public class ChartsServiceTest extends AbstractServiceTest {
 				.generateRecruitmentChartTrialSite(validTrial);
 		assertEquals(2, chartData.getXLabels().size());
 		assertEquals(2, chartData.getData().size());
-//		assertEquals(90.0, chartData.getData().get(0)[0]);
-//		assertEquals(30.0, chartData.getData().get(1)[0]);
+		assertEquals(90.0, chartData.getData().get(0)[0]);
+		assertEquals(30.0, chartData.getData().get(1)[0]);
 
 	}
 	
