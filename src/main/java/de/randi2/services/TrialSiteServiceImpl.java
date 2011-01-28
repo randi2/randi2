@@ -37,7 +37,7 @@ import de.randi2.model.TrialSite;
 @Service("trialSiteService")
 public class TrialSiteServiceImpl implements TrialSiteService{
 
-	private Logger logger = Logger.getLogger(TrialServiceImpl.class);
+	private Logger logger = Logger.getLogger(TrialSiteService.class);
 	
 	@Autowired private TrialSiteDao siteDAO;
 	@Autowired private PasswordEncoder passwordEncoder;
