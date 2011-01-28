@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.security.acls.model.NotFoundException;
@@ -191,5 +192,11 @@ public class AclHibernateTest {
 			assertEquals(acl.getOwner().getSidname(),((SidHibernate)ace.getSid()).getSidname());
 		}
 		
+	}
+	
+	@Test
+	@Ignore
+	public void testFindAclByObjectIdentityAndSid(){
+		fail();
 	}
 }
