@@ -221,7 +221,7 @@ public class TrialServiceImpl implements TrialService {
 	public List<Trial> getAll() {
 		logger.info("user: "
 				+ SecurityContextHolder.getContext().getAuthentication()
-						.getName() + " get all trial sites");
+						.getName() + " get all trials");
 		return trialDao.getAll();
 	}
 
