@@ -60,9 +60,9 @@
 								</ice:selectOneMenu>
 							</ice:panelGrid>
 							<ice:panelGrid border="0" columns="3" style="float:left">
-								<ice:outputLabel for="userTitle"
+								<ice:outputLabel for="title"
 									value="#{labels['person.title']}" />
-								<ice:inputText id="userTitle"
+								<ice:inputText id="title"
 									value="#{loginHandler.newUser.person.title}"
 									required="#{loginHandler.newUser.person.requiredFields['title']}"
 									partialSubmit="true">
@@ -71,7 +71,7 @@
 									<f:attribute name="dObject"
 										value="#{loginHandler.newUser.person}" />
 								</ice:inputText>
-								<ice:message for="userTitle" id="userTitleError" styleClass="errorMsg"/>
+								<ice:message for="title" id="userTitleError" styleClass="errorMsg"/>
 								<ice:outputLabel for="firstname"
 									value="#{labels['person.firstname']}" />
 								<ice:inputText id="firstname"
