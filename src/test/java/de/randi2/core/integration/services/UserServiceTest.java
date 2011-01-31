@@ -191,9 +191,10 @@ public class UserServiceTest extends AbstractServiceTest{
 	@Test
 	public void testGetAll(){
 		authenticatAsAdmin();
+		TrialSite site =  trialSiteDao.get(findLogin("admin@trialsite1.de").getPerson());
 		for(int i =0; i<10; i++){
 			Login login = factory.getLogin();
-			loginDao.create(login);
+			userService.create(login, site);
 		}
 		List<Login> list = userService.getAll();
 		assertTrue(list.size()>=10);
