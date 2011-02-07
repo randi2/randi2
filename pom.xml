@@ -181,8 +181,12 @@
 			<url>http://repository.springsource.com/maven/bundles/external</url>
 		</repository>
 		<repository>
-        		<id>ICEfaces experimental</id>
+        		<id>ICEfaces Releases</id>
 			<url>http://anonsvn.icefaces.org/repo/maven2/releases</url>
+		</repository>
+		<repository>
+        		<id>ICEfaces Snapshots</id>
+			<url>http://anonsvn.icefaces.org/repo/maven2/snapshots</url>
 		</repository>
 	</repositories>
 	<dependencies>
