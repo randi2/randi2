@@ -20,6 +20,10 @@ package de.randi2.jsf.backingBeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
+
 import lombok.Setter;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.utility.AutoCompleteObject;
@@ -35,8 +39,10 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
  * @author Lukasz Plotnicki <l.plotnicki@gmail.com>
  * 
  */
-public class SubjectPropertiesConfig extends AbstractSubjectProperty{
-
+@ManagedBean(name = "step4")
+@RequestScoped
+public class SubjectPropertiesConfig extends AbstractSubjectProperty {
+	@ManagedProperty(value = "#{trialHandler}")
 	@Setter
 	private TrialHandler trialHandler;
 
@@ -47,16 +53,16 @@ public class SubjectPropertiesConfig extends AbstractSubjectProperty{
 		}
 		return criteriaAC;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<CriterionWrapper<? extends Serializable>> getCriteria() {
 		if (criteria == null)
 			criteria = new ArrayList<CriterionWrapper<? extends Serializable>>();
-		if(criteria.isEmpty()&&trialHandler.isEditing()){
+		if (criteria.isEmpty() && trialHandler.isEditing()) {
 			for(AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<?>> c : trialHandler.getCurrentObject().getCriteria()){
-				criteria.add(
-						new CriterionWrapper<Serializable>((AbstractCriterion<Serializable, ?>) c));
+				criteria.add(new CriterionWrapper<Serializable>(
+						(AbstractCriterion<Serializable, ?>) c));
 			}
 		}
 		return criteria;

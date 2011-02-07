@@ -56,4 +56,9 @@ public class FreeTextCriterion extends AbstractCriterion<String, FreeTextConstra
 		return FreeTextConstraint.class;
 	}
 	
+	@Override
+	public void setInclusionConstraint(FreeTextConstraint inclusionConstraint) throws ContraintViolatedException {
+			this.inclusionConstraint = inclusionConstraint;
+	}
+	
 }

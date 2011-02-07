@@ -1,0 +1,73 @@
+<!-- 
+ This pages/panel represents the fourth step of the trial creation.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<div><ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" columns="3"
+	rendered="#{!trialHandler.editing}" width="850px">
+	<ice:graphicImage value="/img/icons/properties48.png" />
+	<ice:outputLabel
+		value="#{labels['pages.trialCreatePanel.step4message'] }" />
+	<ice:panelGroup style="margin-left: 40px;" styleClass="icePnlClpsbl">
+		<ice:panelGroup style="margin-left: 10px;">
+			<ice:outputText escape="false"
+				value="#{labels['pages.trialCreatePanel.step4.idsQuestion'] }" />
+			<ice:selectBooleanCheckbox
+				value="#{trialHandler.currentObject.generateIds}"
+				style="margin-left: 10px;" />
+		</ice:panelGroup>
+	</ice:panelGroup>
+</ice:panelGrid> <ice:panelGrid columns="3" width="850px"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<ice:outputLabel value="#{labels['pages.trialCreatePanel.propLabel']}" />
+	<ice:panelGrid columns="3">
+		<ice:selectInputText id="critera"
+			valueChangeListener="#{subjectPropertiesConfig.criteriaAC.updateObjectList}"
+			rows="10" width="200">
+			<f:selectItems
+				value="#{subjectPropertiesConfig.criteriaAC.objectList}" />
+		</ice:selectInputText>
+		<ice:commandButton image="/img/icons/add16.png"
+			actionListener="#{subjectPropertiesConfig.addCriterion}"
+			style="margin-right:5px;" />
+		<ice:commandButton image="/img/icons/remove16.png"
+			disabled="#{subjectPropertiesConfig.criteriaEmpty}"
+			actionListener="#{subjectPropertiesConfig.removeCriterion}" />
+	</ice:panelGrid>
+	<ice:panelGroup style="margin-left: 40px;" styleClass="icePnlClpsbl"
+		rendered="#{trialHandler.editing}">
+		<ice:panelGroup style="margin-left: 10px;">
+			<ice:outputText escape="false"
+				value="#{labels['pages.trialCreatePanel.step4.idsQuestion'] }" />
+			<ice:selectBooleanCheckbox
+				value="#{trialHandler.currentObject.generateIds}"
+				style="margin-left: 10px;" />
+		</ice:panelGroup>
+	</ice:panelGroup>
+</ice:panelGrid> <ice:panelGroup styleClass="clearer"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" /> <ice:panelGroup
+	styleClass="exampleBox"
+	visible="#{!subjectPropertiesConfig.criteriaEmpty}"
+	style="width: 850px;"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ice:panelSeries value="#{subjectPropertiesConfig.criteria}"
+		var="criterion" style="padding:10px;">
+		<ui:include src="/inc/panels/trial/criterionPanel.xhtml" />
+	</ice:panelSeries>
+</ice:panelGroup></div>

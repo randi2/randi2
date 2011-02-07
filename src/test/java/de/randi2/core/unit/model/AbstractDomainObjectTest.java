@@ -5,10 +5,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.validation.constraints.NotNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,10 +19,12 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
+import de.randi2.model.exceptions.ValidationException;
 import de.randi2.testUtility.utility.AbstractDomainTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -39,7 +44,7 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 	}
 
 	@Test
-	public void testCreate() {
+	public void testInitizialization() {
 		domainObject = new Login();
 
 		assertEquals(AbstractDomainObject.NOT_YET_SAVED_ID, domainObject.getId());
@@ -48,28 +53,28 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 		assertNull(domainObject.getCreatedAt());
 	}
 
-
-
+	
 	@Test
-	public void testTimestamps() {
-		domainObject = factory.getLogin();
-		
-		GregorianCalendar cal = new GregorianCalendar(2000,2,13);
-		domainObject.setCreatedAt(cal);
-		assertEquals(cal, domainObject.getCreatedAt());
+	public void testId(){
+		AbstractDomainObject object = new AbstractDomainObject(){};
+		assertEquals(Integer.MIN_VALUE, object.getId());
+		object.setId(123);
+		assertEquals(123, object.getId());
+	}
 
-		domainObject.setUpdatedAt(cal);
-		assertEquals(cal, domainObject.getUpdatedAt());
-
-		}
 
 	@Test
 	public void testGetRequieredFields(){
-		AbstractDomainObject object = new AbstractDomainObject(){};
+		AbstractDomainObject object = new AbstractDomainObject(){
+			@NotNull private String newField;
+		};
 		assertNotNull(object.getRequiredFields());
-		Map<String, Boolean> map = new HashMap<String, Boolean>();
-		object.setRequiredFields(map);
-		assertEquals(map, object.getRequiredFields());
+		Map<String, Boolean> requiredFields = object.getRequiredFields();
+		for(String key : requiredFields.keySet()){
+			if(key.equals("newField")) {assertTrue(requiredFields.get(key));} 
+			else if(key.equals("this$0")) {assertFalse(requiredFields.get(key));}
+			else fail(key + " not checked");
+		}
 	}
 	
 	@Test
@@ -84,27 +89,35 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 	}
 	
 	@Test
-	public void testUpdatedAt(){
+	public void testCreatedAtNull(){
 		AbstractDomainObject object = new AbstractDomainObject(){};
-		assertNull(object.getUpdatedAt());
-		GregorianCalendar cal = new GregorianCalendar();
-		object.setUpdatedAt(cal);
-		assertEquals(cal, object.getUpdatedAt());
-		object.setUpdatedAt(null);
-		assertNull(object.getUpdatedAt());
+		object.setCreatedAt(null);
+		assertNull(object.getCreatedAt());
+		
 	}
 	
 	@Test
-	public void testCreatedAt(){
+	public void testSetCreatedAt(){
 		AbstractDomainObject object = new AbstractDomainObject(){};
-		assertNull(object.getCreatedAt());
 		GregorianCalendar cal = new GregorianCalendar();
 		object.setCreatedAt(cal);
 		assertEquals(cal, object.getCreatedAt());
-		object.setCreatedAt(null);
-		assertNull(object.getUpdatedAt());
 	}
 	
+	@Test
+	public void testUpdatedAtNull(){
+		AbstractDomainObject object = new AbstractDomainObject(){};
+		object.setUpdatedAt(null);
+		assertNull(object.getUpdatedAt());
+	}
+		
+	@Test
+	public void testSetUpdatedAt(){
+		AbstractDomainObject object = new AbstractDomainObject(){};
+		GregorianCalendar cal = new GregorianCalendar();
+		object.setUpdatedAt(cal);
+		assertEquals(cal, object.getUpdatedAt());
+	}
 	
 	@Test
 	public void testVersion(){
@@ -112,14 +125,6 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 		assertTrue(object.getVersion()<0);
 		object.setVersion(123);
 		assertEquals(123, object.getVersion());
-	}
-	
-	@Test
-	public void testId(){
-		AbstractDomainObject object = new AbstractDomainObject(){};
-		assertEquals(Integer.MIN_VALUE, object.getId());
-		object.setId(123);
-		assertEquals(123, object.getId());
 	}
 	
 	
@@ -149,15 +154,55 @@ public class AbstractDomainObjectTest extends AbstractDomainTest<AbstractDomainO
 	
 	
 	@Test
+	public void testBeforeCreate(){
+		AbstractDomainObject object = new AbstractDomainObject(){};
+		GregorianCalendar dateInThePast = new GregorianCalendar(2000,1,1);
+		object.setCreatedAt(dateInThePast);
+		object.setUpdatedAt(dateInThePast);
+		object.beforeCreate();
+		assertTrue(dateInThePast.before(object.getCreatedAt()));
+		assertTrue(dateInThePast.before(object.getUpdatedAt()));
+		
+	}
+	
+	@Test
+	public void testBeforeUpdate(){
+		AbstractDomainObject object = new AbstractDomainObject(){};
+		GregorianCalendar dateInThePast = new GregorianCalendar(2000,1,1);
+		object.setCreatedAt(dateInThePast);
+		object.setUpdatedAt(dateInThePast);
+		object.beforeUpdate();
+		assertEquals(dateInThePast, object.getCreatedAt());
+		assertTrue(dateInThePast.before(object.getUpdatedAt()));
+		
+	}
+	
+	@Test
 	public void testToString(){
 		AbstractDomainObject object = new AbstractDomainObject(){};
 		assertNotNull(object.toString());
 	}
 	
 	@Test
-	public void testCheckValue(){
-		AbstractDomainObject object = new Trial();
-		//AbstractDomainObject has no constraints
-		object.checkValue("createdAt", null);
+	public void testCheckValueWithIncorrectValue(){
+		AbstractDomainObject object = new AbstractDomainObject(){
+			@NotNull private String newField;
+		};
+		try{
+			object.checkValue("newField", null);
+			fail("should throw an ValidationException");
+		}catch (ValidationException e) {}
+	}
+	
+	@Test
+	public void testCheckValueWithCorrectValue(){
+		AbstractDomainObject object = new AbstractDomainObject(){
+			@NotNull private String newField;
+		};
+		try{
+			object.checkValue("newField", "string");
+		}catch (ValidationException e) {
+			fail("should not throw an ValidationException");
+		}
 	}
 }

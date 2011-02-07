@@ -26,15 +26,24 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import de.randi2.randomization.BlockRandomization;
 import de.randi2.randomization.RandomizationAlgorithm;
+import de.randi2.utility.validations.randomizationConfiguration.BlockRandomizationConfigA;
 
 @Entity
-//@BlockRandomizationConfigA
+@BlockRandomizationConfigA
 @Data
 @EqualsAndHashCode(callSuper=true)
 public class BlockRandomizationConfig extends AbstractRandomizationConfig {
 
 	private static final long serialVersionUID = -7933864896327057988L;
 	
+	public enum TYPE {
+		
+		MULTIPLY, ABSOLUTE;
+	}
+	private int minimum;
+	private int maximum;
+	@Enumerated(EnumType.STRING)
+	private TYPE type;
 	
 	public BlockRandomizationConfig(long seed){
 		super(seed);
@@ -64,18 +73,10 @@ public class BlockRandomizationConfig extends AbstractRandomizationConfig {
 	}
 
 
-	public enum TYPE {
-
-		MULTIPLY, ABSOLUTE;
-	}
-	private int minimum;
-	private int maximum;
-	@Enumerated(EnumType.STRING)
-	private TYPE type;
-
 	@Transient
 	public boolean isVariableBlockSize(){
 		return maximum != minimum;
 	}
+
 	
 }

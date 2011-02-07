@@ -83,9 +83,11 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 		return inclusionConstraint;
 	}
 
+	public abstract void setInclusionConstraint(C inclusionConstraint) throws ContraintViolatedException;
+	
 	@SuppressWarnings("unchecked")
-	public void setInclusionConstraint(AbstractConstraint<?> abstractConstraint){
-		this.inclusionConstraint = (C) abstractConstraint;
+	public void setInclusionConstraintAbstract(AbstractConstraint<?> inclusionConstraint) throws ContraintViolatedException{
+		setInclusionConstraint((C) inclusionConstraint);
 	}
 	
 	@Transient
@@ -104,7 +106,9 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 		if(this.strata == null){
 			this.strata = new ArrayList<C>();
 		}
-		this.strata.add((C) abstractConstraint);
+		if(abstractConstraint != null){
+			this.strata.add((C) abstractConstraint);
+		}
 	}
 	
 	public C stratify(V value) throws ContraintViolatedException{

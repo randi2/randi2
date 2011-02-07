@@ -1,0 +1,127 @@
+<!-- 
+This panel configured the algorithms for the simulation. 
+
+ Made by ds@randi2.de 
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<div><ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" border="0"
+	columns="2">
+	<ice:graphicImage value="/img/icons/randConfig48.png" />
+	<ice:outputLabel
+		value="#{labels['pages.trialCreatePanel.step5message']}" />
+</ice:panelGrid> <ice:panelGroup style="width: 450px;"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelCollapsible id="algoPanelSim" expanded="true"
+		toggleOnClick="true">
+		<f:facet name="header">
+			<ice:outputLabel value="#{labels['trial.randomConf']}" />
+		</f:facet>
+		<ice:panelGrid columns="1">
+			<ice:panelGroup>
+				<ice:outputLabel value="#{labels['pages.simulation.seed']}:" />
+				<ice:selectBooleanCheckbox
+					value="#{simulationHandler.seedRandomisationAlgorithmB}"
+					partialSubmit="true" />
+				<ice:inputText
+					rendered="#{simulationHandler.seedRandomisationAlgorithmB}"
+					value="#{simulationHandler.seedRandomisationAlgorithm}"
+					partialSubmit="true" />
+			</ice:panelGroup>
+			<ice:panelGroup>
+				<ice:selectOneMenu id="algorithmTypeSim" partialSubmit="true"
+					value="#{simulationAlgorithm.selectedAlgorithmPanelId}">
+					<f:selectItems value="#{simulationAlgorithm.algorithms}" />
+				</ice:selectOneMenu>
+				<ice:commandButton image="/img/icons/add16.png"
+					actionListener="#{simulationHandler.addAlgorithm}"
+					style="margin-right:5px;" immediate="true" />
+				<ice:commandButton image="/img/icons/remove16.png"
+					disabled="#{simulationHandler.treatmentArmsCount==0}"
+					actionListener="#{simulationHandler.removeAlgorithm}"
+					immediate="true" />
+			</ice:panelGroup>
+		</ice:panelGrid>
+	</ice:panelCollapsible>
+</ice:panelGroup> <ice:panelGrid columns="3" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:outputLabel value="#{labels['pages.simulation.algo']}" />
+</ice:panelGrid> <ice:panelGroup styleClass="clearer"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:messages tooltip="true" showDetail="false" showSummary="true"
+		errorClass="errorMsg" layout="table" />
+</ice:panelGroup> <ice:panelGroup styleClass="exampleBox"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelSeries value="#{simulationHandler.randomisationConfigs}"
+		var="alg" style="padding:10px;">
+		<f:subview id="AlgorithmInclude">
+			<ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ice="http://www.icesoft.com/icefaces/component"
+				style="float:left; padding-left: 2px; padding-top: 5px;">
+				<b class="b1"></b>
+				<b class="b2"></b>
+				<b class="b3"></b>
+				<b class="b4"></b>
+				<ice:panelGroup styleClass="contentb">
+					<ice:panelGrid columns="3">
+						<ice:outputLabel value="#{alg.possition}:" />
+						<ice:inputText size="35" partialSubmit="true"
+							value="#{alg.description}" />
+						<ice:outputLabel
+							value="(#{labels['pages.simulation.description']})" />
+					</ice:panelGrid>
+					<ice:panelGrid columns="1">
+						<ice:panelGroup xmlns:ui="http://java.sun.com/jsf/facelets">
+							<ice:panelStack id="configurationPanelStackSim"
+								selectedPanel="#{alg.panelType}">
+								<ice:panelGroup id="none">
+								</ice:panelGroup>
+								<ice:panelGroup id="compPanel">
+									<ui:include src="/inc/panels/randomization/completeR.xhtml" />
+								</ice:panelGroup>
+								<ice:panelGroup id="biasPanel">
+									<ui:include src="/inc/panels/randomization/biasedCoinR.xhtml" />
+								</ice:panelGroup>
+								<ice:panelGroup id="truncPanel">
+									<ui:include src="/inc/panels/randomization/truncatedR.xhtml" />
+								</ice:panelGroup>
+								<ice:panelGroup id="blockPanel">
+									<ui:include src="/inc/panels/simulation/blockS.xhtml" />
+								</ice:panelGroup>
+								<ice:panelGroup id="urnPanel">
+									<ui:include src="/inc/panels/simulation/urnS.xhtml" />
+								</ice:panelGroup>
+								<ice:panelGroup id="miniPanel">
+									<ui:include src="/inc/panels/simulation/minimizationS.xhtml" />
+								</ice:panelGroup>
+							</ice:panelStack>
+						</ice:panelGroup>
+					</ice:panelGrid>
+				</ice:panelGroup>
+				<b class="b4"></b>
+				<b class="b3"></b>
+				<b class="b2"></b>
+				<b class="b1"></b>
+			</ice:panelGroup>
+		</f:subview>
+	</ice:panelSeries>
+</ice:panelGroup></div>

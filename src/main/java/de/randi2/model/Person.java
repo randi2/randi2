@@ -25,14 +25,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import org.hibernate.validator.Length;
-import org.hibernate.validator.NotEmpty;
-import org.hibernate.validator.NotNull;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import de.randi2.model.enumerations.Gender;
 import de.randi2.utility.validations.ContactPerson;
@@ -51,8 +51,8 @@ import de.randi2.utility.validations.TelephonNumber;
  *            the new login
  */
 @Data
-@EqualsAndHashCode(callSuper=true, exclude={"login","trialSite", "assistant"})
-@ToString(exclude={"login","trialSite"})
+@EqualsAndHashCode(callSuper=true, exclude={"login", "assistant"})
+@ToString(exclude={"login"})
 public class Person extends AbstractDomainObject {
 
 	/** The Constant serialVersionUID. */
@@ -110,10 +110,6 @@ public class Person extends AbstractDomainObject {
 	@ContactPerson
 	private Person assistant;
 	
-	/** The trial site. */
-	@ManyToOne
-	private TrialSite trialSite;
-
 	// Login data
 	/** The login. */
 	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="person")

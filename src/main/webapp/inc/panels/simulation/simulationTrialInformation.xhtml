@@ -1,0 +1,214 @@
+<!-- 
+This page shows the information of one trial during the simulation configuration.
+
+ Made by ds@randi2.de
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+ <div>
+<ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" border="0"
+	columns="2">
+	<ice:graphicImage value="/img/icons/info48.png"></ice:graphicImage>
+	<ice:outputLabel
+		value="#{labels['pages.simulation.trialInfomationDesc']}"></ice:outputLabel>
+</ice:panelGrid>
+<ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelGrid columns="2" style="width: 600px;">
+		<ice:panelCollapsible expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="#{labels['trial.name']}"></ice:outputLabel>
+			</f:facet>
+			<ice:outputText id="name" value="#{simulationHandler.simTrial.name}" />
+		</ice:panelCollapsible>
+		<ice:panelCollapsible expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="#{labels['trial.abbreviation']}"></ice:outputLabel>
+			</f:facet>
+			<ice:outputText id="abbreviation"
+				value="#{simulationHandler.simTrial.abbreviation}" />
+		</ice:panelCollapsible>
+	</ice:panelGrid>
+	<ice:panelCollapsible expanded="true" toggleOnClick="false"
+		style="margin-left: 3px;">
+		<f:facet name="header">
+			<ice:outputLabel value="#{labels['trial.description']}"></ice:outputLabel>
+		</f:facet>
+		<ice:outputText id="description"
+			value="#{simulationHandler.simTrial.description}" />
+	</ice:panelCollapsible>
+	<ice:panelGrid columns="2" style="width: 600px;">
+		<ice:panelCollapsible expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="#{labels['trial.leadingTrialSite']}"></ice:outputLabel>
+			</f:facet>
+			<ice:outputText id="lTrialSite"
+				value="#{simulationHandler.simTrial.leadingSite.UIName}" />
+		</ice:panelCollapsible>
+		<ice:panelCollapsible expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="#{labels['trial.sponsorInvestigator']}"></ice:outputLabel>
+			</f:facet>
+			<ice:outputText id="sInvestigator"
+				value="#{simulationHandler.simTrial.sponsorInvestigator.UIName}" />
+		</ice:panelCollapsible>
+	</ice:panelGrid>
+	<ice:panelCollapsible expanded="true" toggleOnClick="false"
+		style="margin-left: 3px;">
+		<f:facet name="header">
+			<ice:outputLabel
+				value="#{labels['pages.trialShowPanel.sitesInformation']}"></ice:outputLabel>
+		</f:facet>
+		<ice:dataTable border="1"
+			value="#{simulationHandler.simTrial.participatingSites}"
+			var="trialSite" width="550px">
+			<ice:column id="column1">
+				<ice:outputText value="#{trialSite.name}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="#{labels['trialSite.name']}" id="nameH"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column id="column2">
+				<ice:outputText value="#{trialSite.street}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="#{labels['trialSite.street']}" id="streetH"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column id="column3">
+				<ice:outputText value="#{trialSite.city}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="#{labels['trialSite.city']}" id="cityH"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column id="column4">
+				<ice:outputText value="#{trialSite.postcode}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="#{labels['trialSite.postcode']}"
+						id="postcodeH"></ice:outputText>
+				</f:facet>
+			</ice:column>
+		</ice:dataTable>
+	</ice:panelCollapsible>
+	<ice:panelCollapsible expanded="true" toggleOnClick="false"
+		style="margin-left: 3px;">
+		<f:facet name="header">
+			<ice:outputLabel
+				value="#{labels['pages.trialCreatePanel.tArmLabel']}"></ice:outputLabel>
+		</f:facet>
+		<ice:dataTable id="treatmmentArmTable" border="1"
+			value="#{simulationHandler.simTrial.treatmentArms}" var="arm"
+			width="550px">
+			<ice:column id="column1">
+				<ice:outputText value="#{arm.name}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="#{labels['treatmentArm.name']}" id="nameH"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column id="column2">
+				<ice:outputText value="#{arm.description}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="#{labels['treatmentArm.description']}"
+						id="descriptionH"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column id="column3">
+				<ice:outputText value="#{arm.plannedSubjects}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText
+						value="#{labels['pages.trialShowPanel.randomizationData.pAmount']}"
+						id="plannedSubjectsH"></ice:outputText>
+				</f:facet>
+			</ice:column>
+		</ice:dataTable>
+	</ice:panelCollapsible>
+	<ice:panelCollapsible expanded="true" toggleOnClick="false"
+		style="margin-left: 3px;">
+		<f:facet name="header">
+			<ice:outputLabel value="#{labels['trial.randomConf']}" />
+		</f:facet>
+		<ice:panelGrid columns="1">
+			<ice:outputLabel value="#{labels['pages.algorithmInfo.type']}" />
+			<ice:outputText value="#{simulationHandler.algName}" />
+			<ice:outputLabel value="#{labels['pages.algorithmInfo.details']}" />
+			<ice:outputText value="#{simulationHandler.furtherDetails}"
+				escape="false" />
+			<ice:outputLabel value="#{labels['pages.algorithmInfo.stratified']}" />
+			<ice:panelGroup>
+				<ice:outputText value="#{simulationHandler.stratified}" />
+
+			</ice:panelGroup>
+		</ice:panelGrid>
+	</ice:panelCollapsible>
+	<ice:panelCollapsible expanded="true" toggleOnClick="false"
+		rendered="#{simulationHandler.stratified}" style="margin-left: 3px;">
+		<f:facet name="header">
+			<ice:outputLabel value="#{labels['pages.algorithmInfo.defStrata']}"></ice:outputLabel>
+		</f:facet>
+		<ice:outputText
+			rendered="#{simulationHandler.simTrial.stratifyTrialSite}"
+			value="(#{labels['pages.algorithmInfo.siteStrata']})" />
+		<ice:panelSeries value="#{simulationHandler.strata}"
+			rendered="#{simulationHandler.strataFactorsDefined}" var="criterion">
+			<ice:panelGroup
+				style="float:left; padding-left: 2px; padding-top: 5px;"
+				rendered="#{criterion.possibleStrata}">
+				<b class="b1"></b>
+				<b class="b2"></b>
+				<b class="b3"></b>
+				<b class="b4"></b>
+				<ice:panelGroup styleClass="contentb">
+					<ice:panelGrid columns="2">
+						<ice:panelGroup>
+							<ice:outputLabel value="#{labels['pages.strata.name']}" />
+							<ice:outputLabel value="#{criterion.wrappedCriterion.name}" />
+						</ice:panelGroup>
+						<ice:panelGroup>
+							<ice:outputLabel value="#{labels['pages.strata.type']}" />
+							<ice:outputLabel value="#{criterion.l16edName}" />
+						</ice:panelGroup>
+					</ice:panelGrid>
+					<ice:panelGrid columns="2">
+						<ice:panelGroup xmlns:ui="http://java.sun.com/jsf/facelets">
+							<ice:panelStack id="strataGroupsStack"
+								selectedPanel="#{criterion.panelType}">
+								<ice:panelGroup id="criterionErrorPanel">
+									<ui:include
+										src="/inc/panels/randomization/strataPresentationPanels/sErrorPanel.xhtml" />
+								</ice:panelGroup>
+								<ice:panelGroup id="datePanel">
+									<ui:include
+										src="/inc/panels/randomization/strataPresentationPanels/datePanel.xhtml" />
+								</ice:panelGroup>
+								<ice:panelGroup id="dichotomousPanel">
+									<ui:include
+										src="/inc/panels/randomization/strataPresentationPanels/dichotomousPanel.xhtml" />
+								</ice:panelGroup>
+								<ice:panelGroup id="ordinalPanel">
+									<ui:include
+										src="/inc/panels/randomization/strataPresentationPanels/ordinalPanel.xhtml" />
+								</ice:panelGroup>
+							</ice:panelStack>
+						</ice:panelGroup>
+					</ice:panelGrid>
+				</ice:panelGroup>
+				<b class="b4"></b>
+				<b class="b3"></b>
+				<b class="b2"></b>
+				<b class="b1"></b>
+			</ice:panelGroup>
+		</ice:panelSeries>
+	</ice:panelCollapsible>
+</ice:panelGroup>
+</div>

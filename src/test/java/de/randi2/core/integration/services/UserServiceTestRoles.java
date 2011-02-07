@@ -7,18 +7,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.EntityTransaction;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.LoginDao;
+import de.randi2.dao.TrialSiteDao;
 import de.randi2.model.Login;
 import de.randi2.model.Role;
+import de.randi2.model.TrialSite;
 import de.randi2.services.UserService;
 import de.randi2.testUtility.utility.DomainObjectFactory;
 
+@Transactional
 public class UserServiceTestRoles extends AbstractServiceTest {
 
 	@Autowired
@@ -27,6 +35,8 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	private DomainObjectFactory factory;
 	@Autowired
 	private LoginDao loginDao;
+	@Autowired
+	private TrialSiteDao trialSiteDao;
 
 	@Override
 	public void setUp() {
@@ -34,7 +44,6 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 		authenticatAsAdmin();
 		for (int i = 0; i < 10; i++) {
 			Login login = factory.getLogin();
-			login.getPerson().setTrialSite(null);
 			loginDao.create(login);
 		}
 	}
@@ -42,9 +51,9 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetAllAdmin() {
-		authenticatAsAdmin();
-		List<Login> loginsTemp = sessionFactory.getCurrentSession()
-				.createQuery("from Login").list();
+		authenticatAsAdmin(); 
+		List<Login> loginsTemp = entityManager
+				.createQuery("from Login").getResultList();
 		List<Login> logins = userService.getAll();
 		assertEquals(loginsTemp.size(), logins.size());
 		assertTrue(loginsTemp.containsAll(logins));
@@ -56,16 +65,16 @@ public class UserServiceTestRoles extends AbstractServiceTest {
 	@Test
 	public void testGetAllInvestigator() {
 		authenticatAsAdmin();
-		List<Login> loginsTemp = sessionFactory.getCurrentSession()
-		.createQuery("from Login").list();
+		TrialSite site = trialSiteDao.get(user.getPerson());
+		List<Login> loginsTemp = entityManager
+		.createQuery("from Login").getResultList();
 		authenticatAsInvestigator();
 		List<Login> logins = userService.getAll();
 		assertEquals(loginsTemp.size(), logins.size());
 		authenticatAsAdmin();
 		for(int i = 0 ; i< 10 ;i++ ){
 			Login l = factory.getLogin();
-			l.getPerson().setTrialSite(user.getPerson().getTrialSite());
-			userService.create(l);
+			userService.create(l, site);
 		}
 		authenticatAsInvestigator();
 		logins = userService.getAll();

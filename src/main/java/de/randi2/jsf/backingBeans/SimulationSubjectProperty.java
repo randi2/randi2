@@ -2,16 +2,13 @@ package de.randi2.jsf.backingBeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 
-import javax.faces.event.ActionEvent;
-import javax.faces.model.SelectItem;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 
 import lombok.Setter;
-import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.SimulationHandler;
-import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.model.criteria.AbstractCriterion;
@@ -25,8 +22,11 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
  * @author Daniel Schrimpf <ds@randi2.de>
  * 
  */
+@ManagedBean(name="simulationSubjectProperty")
+@RequestScoped
 public class SimulationSubjectProperty extends AbstractSubjectProperty{
 
+	@ManagedProperty("#{simulationHandler}")
 	@Setter
 	private SimulationHandler simulationHandler;
 

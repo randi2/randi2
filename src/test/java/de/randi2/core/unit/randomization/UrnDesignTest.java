@@ -2,12 +2,12 @@ package de.randi2.core.unit.randomization;
 
 import static de.randi2.core.unit.randomization.RandomizationHelper.randomize;
 import static de.randi2.utility.IntegerIterator.upto;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.validator.AssertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,9 +43,10 @@ public class UrnDesignTest {
 		int[] countBalls = new int[2];
 		countBalls[0] = initializeCount;
 		countBalls[1] = initializeCount;
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());
 		for (int i : upto(40)) {
 			randomize(trial,s);
-			if(s.getArm().getName().equals(trial.getTreatmentArms().get(0).getName())){
+			if(s.getArm().getName().equals(arms.get(0).getName())){
 				countBalls[1]+= replacedBalls;
 				countBalls[0]--;
 			}else{
@@ -69,9 +70,10 @@ public class UrnDesignTest {
 		int[] countBalls = new int[2];
 		countBalls[0] = initializeCount;
 		countBalls[1] = initializeCount;
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());
 		for (int i : upto(100)) {
 			randomize(trial,s);
-			if(s.getArm().getName().equals(trial.getTreatmentArms().get(0).getName())){
+			if(s.getArm().getName().equals(arms.get(0).getName())){
 				countBalls[1]+= replacedBalls;
 				countBalls[0]--;
 			}else{
@@ -91,8 +93,9 @@ public class UrnDesignTest {
 		int[] count = new int[2];
 		count[0] = 0;
 		count[1] = 0;
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());
 		for(TreatmentArm arm : urn.getUrn()){
-			if(arm.getName().equals(trial.getTreatmentArms().get(0).getName())){
+			if(arm.getName().equals(arms.get(0).getName())){
 				count[0]++;
 			}else{
 				count[1]++;

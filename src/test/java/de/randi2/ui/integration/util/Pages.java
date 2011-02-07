@@ -8,7 +8,7 @@ package de.randi2.ui.integration.util;
  * Time: 17:26:03
  */
 public enum Pages {
-    LOGIN("login.jspx"), GOODBYE("goodbye.jspx"), REGISTER("register.jspx");
+    LOGIN("/faces/login.xhtml"), GOODBYE("/faces/goodbye.xhtml"), REGISTER("/faces/register.xhtml");
 
     private String fileName = "NOT SET!";
 

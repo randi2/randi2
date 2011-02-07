@@ -17,9 +17,10 @@
  */
 package de.randi2.utility.validations;
 
-import org.hibernate.validator.Validator;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
-public class PasswordValidator implements Validator<Password>{
+public class PasswordValidator implements ConstraintValidator<Password, String>{
 
 	private int min;
 	private int max;
@@ -34,18 +35,16 @@ public class PasswordValidator implements Validator<Password>{
 	}
 
 	@Override
-	public boolean isValid(Object password) {
+	public boolean isValid(String password, ConstraintValidatorContext constraintContext) {
 		if(password==null)	return false;
 		
-		String pass = (String) password;
-		if(pass.length()<= max && pass.length()>= min){
+		if(password.length()<= max && password.length()>= min){
 			String pLetter = ".*[A-Za-z].*";
 			String pNumber = ".*[0-9].*";
 			String pSpecialSign = ".*[-\\[\\]\\^,.#+;:_'*!\"§$%&/()=?|<>\\\\].*";
-			return pass.matches(pLetter) && pass.matches(pNumber)
-					&& pass.matches(pSpecialSign);			
-		}else if(pass.length()==hash_length) return true;
-		
+			return password.matches(pLetter) && password.matches(pNumber)
+					&& password.matches(pSpecialSign);			
+		}else if(password.length()==hash_length) return true;
 		
 		return false;
 	}

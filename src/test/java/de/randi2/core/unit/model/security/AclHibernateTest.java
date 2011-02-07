@@ -12,11 +12,13 @@ import static junit.framework.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -35,7 +37,13 @@ public class AclHibernateTest {
 
 	private AclHibernate acl;
 
-	@Autowired private SessionFactory sessionFactory;
+	private EntityManager entityManager;
+	
+	
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 	
 	@Before
 	public void setUp() {
@@ -165,14 +173,14 @@ public class AclHibernateTest {
 		acl.setAces(aces);
 		acl.setObjectIdentity(new ObjectIdentityHibernate(Login.class, -1));
 		
-		sessionFactory.getCurrentSession().persist(acl.getOwner());
+		entityManager.persist(acl.getOwner());
 		assertTrue(acl.getOwner().getId()>0);
-		sessionFactory.getCurrentSession().persist(acl);
+		entityManager.persist(acl);
 		assertTrue(acl.getId()>0);
 		for(AccessControlEntryHibernate ace : acl.getAces()){
 			assertTrue(ace.getId()>0);
 		}
-		AclHibernate dbAcl = (AclHibernate) sessionFactory.getCurrentSession().get(AclHibernate.class, acl.getId());
+		AclHibernate dbAcl = entityManager.find(AclHibernate.class, acl.getId());
 		assertEquals(acl.getId(), dbAcl.getId());
 		assertEquals(acl.getOwner().getSidname(), dbAcl.getOwner().getSidname());
 		assertEquals(acl.getOwner().getId(), dbAcl.getOwner().getId());
@@ -184,5 +192,11 @@ public class AclHibernateTest {
 			assertEquals(acl.getOwner().getSidname(),((SidHibernate)ace.getSid()).getSidname());
 		}
 		
+	}
+	
+	@Test
+	@Ignore
+	public void testFindAclByObjectIdentityAndSid(){
+		fail();
 	}
 }

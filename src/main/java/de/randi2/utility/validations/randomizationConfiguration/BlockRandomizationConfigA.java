@@ -23,13 +23,18 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.hibernate.validator.ValidatorClass;
+import javax.validation.Constraint;
+import javax.validation.Payload;
 
-@ValidatorClass(BlockRandomizationConfigValidator.class)
+@Constraint(validatedBy=BlockRandomizationConfigValidator.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface BlockRandomizationConfigA {
 
 	String message() default "{validator.blockRandomization}"; 
+	
+    Class<?>[] groups() default {};
+    
+    Class<? extends Payload>[] payload() default {};
 }

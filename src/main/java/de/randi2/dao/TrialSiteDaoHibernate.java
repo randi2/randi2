@@ -19,8 +19,12 @@ package de.randi2.dao;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+
 import org.springframework.stereotype.Service;
 
+import de.randi2.model.Person;
 import de.randi2.model.TrialSite;
 
 /**
@@ -47,9 +51,23 @@ public class TrialSiteDaoHibernate extends AbstractDaoHibernate<TrialSite> imple
 	public TrialSite get(String name) {
 		String query = "from de.randi2.model.TrialSite trialSite where "
 			+ "trialSite.name =?";
-		List<TrialSite>  list =(List) sessionFactory.getCurrentSession().createQuery(query).setParameter(0, name).list();
+		List<TrialSite>  list = entityManager.createQuery(query).setParameter(1, name).getResultList();
 		if (list.size() ==1)	return list.get(0);
 		else return null;
+	}
+
+
+
+	@Override
+	public TrialSite get(Person person) {
+		try{
+		 return (TrialSite) entityManager.createNamedQuery("trialSite.getPersonsTrialSite").setParameter(1, person.getId()).getSingleResult();
+		}catch (NoResultException e) {
+			return null;
+		}catch (NonUniqueResultException e) {
+			return null;
+		}
+		
 	}
 	
 	

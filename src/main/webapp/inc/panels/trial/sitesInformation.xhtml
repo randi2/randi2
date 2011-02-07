@@ -1,0 +1,50 @@
+<!-- 
+ This pages/panel represents the view for general information of a trial view.
+
+ Made by bkurz@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	style="width: 550px;" rendered="#{!trialHandler.editing}">
+	<ice:dataTable border="1"
+		value="#{trialHandler.currentObject.participatingSites}"
+		var="trialSite" width="550px">
+		<ice:column id="column1">
+			<ice:outputText value="#{trialSite.name}"></ice:outputText>
+			<f:facet name="header">
+				<ice:outputText value="#{labels['trialSite.name']}" id="nameH"></ice:outputText>
+			</f:facet>
+		</ice:column>
+		<ice:column id="column2">
+			<ice:outputText value="#{trialSite.street}"></ice:outputText>
+			<f:facet name="header">
+				<ice:outputText value="#{labels['trialSite.street']}" id="streetH"></ice:outputText>
+			</f:facet>
+		</ice:column>
+		<ice:column id="column3">
+			<ice:outputText value="#{trialSite.city}"></ice:outputText>
+			<f:facet name="header">
+				<ice:outputText value="#{labels['trialSite.city']}" id="cityH"></ice:outputText>
+			</f:facet>
+		</ice:column>
+		<ice:column id="column4">
+			<ice:outputText value="#{trialSite.postcode}"></ice:outputText>
+			<f:facet name="header">
+				<ice:outputText value="#{labels['trialSite.postcode']}"
+					id="postcodeH"></ice:outputText>
+			</f:facet>
+		</ice:column>
+	</ice:dataTable>
+</ice:panelGroup>

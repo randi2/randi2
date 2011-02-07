@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,7 +33,7 @@ import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.testUtility.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.Pair;
-import edu.emory.mathcs.backport.java.util.Arrays;
+import java.util.Arrays;
 
 public class TrialTest extends AbstractDomainTest<Trial> {
 
@@ -76,7 +77,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 	}
 
 	@Test
-	public void testNameLongerThan255() {
+	public void testNameNotLongerThan255() {
 		String[] invalidValues = { stringUtil.getWithLength(256),
 				stringUtil.getWithLength(650) };
 		for (String s : invalidValues) {
@@ -444,7 +445,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		arm1.setName("arm1");
 		TreatmentArm arm2 = new TreatmentArm();
 		arm2.setName("arm2");
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
 		validTrial.setTreatmentArms(arms);
@@ -620,7 +621,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		arm2.setName("arm2");
 		arm2.setTrial(validTrial);
 		arm2.setPlannedSubjects(100);
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
 		validTrial.setTreatmentArms(arms);
@@ -645,7 +646,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		arm2.setName("arm2");
 		arm2.setTrial(validTrial);
 		arm2.setPlannedSubjects(100);
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
 		validTrial.setTreatmentArms(arms);
@@ -669,7 +670,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		arm2.setName("arm2");
 		arm2.setTrial(validTrial);
 		arm2.setPlannedSubjects(100);
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
 		validTrial.setTreatmentArms(arms);
@@ -693,7 +694,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		arm2.setName("arm2");
 		arm2.setTrial(validTrial);
 		arm2.setPlannedSubjects(100);
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
 		validTrial.setTreatmentArms(arms);

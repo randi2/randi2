@@ -28,7 +28,6 @@
     <aop:aspectj-autoproxy proxy-target-class="true" />
 
     <import resource="classpath:META-INF/subconfig/database-test.xml" />
-	<import resource="classpath:META-INF/subconfig/hibernate-unmanaged-config.xml" />
     <import resource="classpath:META-INF/subconfig/hibernate.xml" />
     <import resource="classpath:META-INF/subconfig/services.xml" />
     <import resource="classpath:META-INF/subconfig/mail-test.xml" />

@@ -15,6 +15,7 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.Person;
 import de.randi2.model.SubjectProperty;
@@ -27,14 +28,15 @@ import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.enumerations.Gender;
 import de.randi2.model.exceptions.TrialStateException;
 import de.randi2.model.randomization.BlockRandomizationConfig;
-import de.randi2.model.randomization.ChartData;
+import de.randi2.services.ChartData;
 import de.randi2.services.ChartsService;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.BoxedException;
-import edu.emory.mathcs.backport.java.util.Arrays;
+import java.util.Arrays;
 
+@Transactional
 public class ChartsServiceTest extends AbstractServiceTest {
 
 	@Autowired
@@ -50,33 +52,14 @@ public class ChartsServiceTest extends AbstractServiceTest {
 	public void setUp() {
 		super.setUp();
 		authenticatAsAdmin();
+		TrialSite site = trialSiteService.getTrialSiteFromPerson(user.getPerson());
 		validTrial = factory.getTrial();
-		validTrial.setLeadingSite(user.getPerson().getTrialSite());
+		validTrial.setLeadingSite(site);
 		validTrial.setSponsorInvestigator(user.getPerson());
-
-		// if(validTrial.getParticipatingSites().size()<2){
-		//		
-		// Person cp2 = new Person();
-		// cp2.setFirstname("Contact");
-		// cp2.setSurname("Person");
-		// cp2.setEmail("randi2@action.ms");
-		// cp2.setPhone("1234567");
-		// cp2.setSex(Gender.MALE);
-		// TrialSite trialSite1 = new TrialSite();
-		// trialSite1.setCity("Heidelberg");
-		// trialSite1.setCountry("Germany");
-		// trialSite1.setName("NCT");
-		// trialSite1.setPostcode("69120");
-		// trialSite1.setStreet("INF");
-		// trialSite1.setPassword("1$heidelberg");
-		// trialSite1.setContactPerson(cp2);
-		//
-		// trialSiteService.create(trialSite1);
-		// validTrial.addParticipatingSite(trialSite1);
-		// }
-
+		validTrial.addParticipatingSite(site);
 	}
 
+	@Transactional
 	private void randomizeInValidTrialOneYear() throws IllegalArgumentException, TrialStateException {
 		authenticatAsPrincipalInvestigator();
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
@@ -91,36 +74,40 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		arm2.setPlannedSubjects(randomizations / 2);
 		arm2.setName("arm2");
 		arm2.setTrial(validTrial);
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
-		arms.add(arm1);
-		arms.add(arm2);
-
+		Set<TreatmentArm> armsSet = new HashSet<TreatmentArm>();
+		armsSet.add(arm1);
+		armsSet.add(arm2);
+		entityManager.clear();
 		trialService.create(validTrial);
-		validTrial.setTreatmentArms(arms);
+		validTrial.setTreatmentArms(armsSet);
 		BlockRandomizationConfig config = new BlockRandomizationConfig();
 		config.setMaximum(blocksize);
 		config.setMinimum(blocksize);
 		validTrial.setRandomizationConfiguration(config);
-		trialService.update(validTrial);
+		validTrial = trialService.update(validTrial);
 		assertTrue(validTrial.getId() > 0);
 		assertEquals(2, validTrial.getTreatmentArms().size());
 		authenticatAsInvestigator();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(validTrial.getTreatmentArms());
 		for (int i = 0; i < randomizations; i++) {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
 			subject.setTrialSite(validTrial.getLeadingSite());
 			trialService.randomize(validTrial, subject);
+			assertTrue(subject.getId()>0);
+			subject = entityManager.find(TrialSubject.class, subject.getId());
 			subject.setCreatedAt(new GregorianCalendar(2009, i % 12, 1));
-			sessionFactory.getCurrentSession().update(subject);
+			subject = entityManager.merge(subject);
+			entityManager.flush();
 			if ((i % blocksize) == (blocksize - 1)) {
-				assertEquals(validTrial.getTreatmentArms().get(0).getSubjects()
-						.size(), validTrial.getTreatmentArms().get(1)
+				assertEquals(arms.get(0).getSubjects()
+						.size(), arms.get(1)
 						.getSubjects().size());
 			}
 
-			int diff = validTrial.getTreatmentArms().get(0).getSubjects()
+			int diff = arms.get(0).getSubjects()
 					.size()
-					- validTrial.getTreatmentArms().get(1).getSubjects().size();
+					- arms.get(1).getSubjects().size();
 			assertTrue((blocksize / 2) >= diff
 					&& (-1) * (blocksize / 2) <= diff);
 		}
@@ -129,13 +116,15 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		assertNotNull(dbTrial);
 		assertEquals(validTrial.getName(), dbTrial.getName());
 		assertEquals(2, dbTrial.getTreatmentArms().size());
-		assertEquals(randomizations, dbTrial.getTreatmentArms().get(0)
+		List<TreatmentArm> armsDB = new ArrayList<TreatmentArm>(dbTrial.getTreatmentArms());
+		assertEquals(randomizations, armsDB.get(0)
 				.getSubjects().size()
-				+ dbTrial.getTreatmentArms().get(1).getSubjects().size());
-		assertEquals(randomizations / 2, dbTrial.getTreatmentArms().get(0)
+				+ armsDB.get(1).getSubjects().size());
+		assertEquals(randomizations / 2, armsDB.get(0)
 				.getSubjects().size());
-		assertEquals(randomizations / 2, dbTrial.getTreatmentArms().get(1)
+		assertEquals(randomizations / 2, armsDB.get(1)
 				.getSubjects().size());
+		entityManager.flush();
 	}
 
 	private void randomizeInValidTrialTwoYears() throws IllegalArgumentException, TrialStateException {
@@ -152,12 +141,12 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		arm2.setPlannedSubjects(randomizations / 2);
 		arm2.setName("arm2");
 		arm2.setTrial(validTrial);
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
-		arms.add(arm1);
-		arms.add(arm2);
+		Set<TreatmentArm> armsSet = new HashSet<TreatmentArm>();
+		armsSet.add(arm1);
+		armsSet.add(arm2);
 
 		trialService.create(validTrial);
-		validTrial.setTreatmentArms(arms);
+		validTrial.setTreatmentArms(armsSet);
 		BlockRandomizationConfig config = new BlockRandomizationConfig();
 		config.setMaximum(blocksize);
 		config.setMinimum(blocksize);
@@ -166,23 +155,25 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		assertTrue(validTrial.getId() > 0);
 		assertEquals(2, validTrial.getTreatmentArms().size());
 		authenticatAsInvestigator();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(validTrial.getTreatmentArms());;
 		for (int i = 0; i < randomizations; i++) {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
 			subject.setTrialSite(validTrial.getLeadingSite());
 			trialService.randomize(validTrial, subject);
+			subject = entityManager.find(TrialSubject.class, subject.getId());
 			subject.setCreatedAt(new GregorianCalendar(
 					2009 + (i >= 120 ? 1 : 0), i % 12, 1));
-			sessionFactory.getCurrentSession().update(subject);
+			subject = entityManager.merge(subject);
 			if ((i % blocksize) == (blocksize - 1)) {
-				assertEquals(validTrial.getTreatmentArms().get(0).getSubjects()
-						.size(), validTrial.getTreatmentArms().get(1)
+				assertEquals(arms.get(0).getSubjects()
+						.size(), arms.get(1)
 						.getSubjects().size());
 			}
 
-			int diff = validTrial.getTreatmentArms().get(0).getSubjects()
+			int diff = arms.get(0).getSubjects()
 					.size()
-					- validTrial.getTreatmentArms().get(1).getSubjects().size();
+					- arms.get(1).getSubjects().size();
 			assertTrue((blocksize / 2) >= diff
 					&& (-1) * (blocksize / 2) <= diff);
 		}
@@ -191,12 +182,11 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		assertNotNull(dbTrial);
 		assertEquals(validTrial.getName(), dbTrial.getName());
 		assertEquals(2, dbTrial.getTreatmentArms().size());
-		assertEquals(randomizations, dbTrial.getTreatmentArms().get(0)
-				.getSubjects().size()
-				+ dbTrial.getTreatmentArms().get(1).getSubjects().size());
-		assertEquals(randomizations / 2, dbTrial.getTreatmentArms().get(0)
+		List<TreatmentArm> armsDB = new ArrayList<TreatmentArm>(dbTrial.getTreatmentArms());
+		assertEquals(randomizations, dbTrial.getSubjects().size());
+		assertEquals(randomizations / 2, armsDB.get(0)
 				.getSubjects().size());
-		assertEquals(randomizations / 2, dbTrial.getTreatmentArms().get(1)
+		assertEquals(randomizations / 2, armsDB.get(1)
 				.getSubjects().size());
 	}
 
@@ -228,6 +218,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 
 	}
 
+	@Transactional
 	private void randomizeInValidTrialTwoTrialSites() throws IllegalArgumentException, TrialStateException {
 		authenticatAsAdmin();
 		Person cp1 = new Person();
@@ -246,24 +237,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		trialSite1.setContactPerson(cp1);
 		trialSiteService.create(trialSite1);
 
-		Person cp2 = new Person();
-		cp2.setFirstname("Contact");
-		cp2.setSurname("Person");
-		cp2.setEmail("randi2@action.ms");
-		cp2.setPhone("1234567");
-		cp2.setSex(Gender.MALE);
-		TrialSite trialSite2 = new TrialSite();
-		trialSite2.setCity("Heidelberg");
-		trialSite2.setCountry("Germany");
-		trialSite2.setName("NCT2");
-		trialSite2.setPostcode("69120");
-		trialSite2.setStreet("INF");
-		trialSite2.setPassword("1$heidelberg");
-		trialSite2.setContactPerson(cp2);
-		trialSiteService.create(trialSite2);
-
 		validTrial.addParticipatingSite(trialSite1);
-		validTrial.addParticipatingSite(trialSite2);
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
 		validTrial.setEndDate(new GregorianCalendar(2009, 11, 1));
 
@@ -278,12 +252,12 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		arm2.setPlannedSubjects(randomizations / 2);
 		arm2.setName("arm2");
 		arm2.setTrial(validTrial);
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
-		arms.add(arm1);
-		arms.add(arm2);
+		Set<TreatmentArm> armsSet = new HashSet<TreatmentArm>();
+		armsSet.add(arm1);
+		armsSet.add(arm2);
 
 		trialService.create(validTrial);
-		validTrial.setTreatmentArms(arms);
+		validTrial.setTreatmentArms(armsSet);
 		BlockRandomizationConfig config = new BlockRandomizationConfig();
 		config.setMaximum(blocksize);
 		config.setMinimum(blocksize);
@@ -295,26 +269,28 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		TrialSite site1 = it.next();
 		TrialSite site2 = it.next();
 		authenticatAsInvestigator();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(validTrial.getTreatmentArms());;
 		for (int i = 0; i < randomizations; i++) {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
+			validTrial = trialService.randomize(validTrial, subject);
+			subject = entityManager.find(TrialSubject.class, subject.getId());
 			if (i < 60) {
 				subject.setTrialSite(site1);
 			} else {
 				subject.setTrialSite(site2);
 			}
-			trialService.randomize(validTrial, subject);
 			subject.setCreatedAt(new GregorianCalendar(2009, i % 12, 1));
-			sessionFactory.getCurrentSession().update(subject);
+			subject = entityManager.merge(subject);
 			if ((i % blocksize) == (blocksize - 1)) {
-				assertEquals(validTrial.getTreatmentArms().get(0).getSubjects()
-						.size(), validTrial.getTreatmentArms().get(1)
+				assertEquals(arms.get(0).getSubjects()
+						.size(), arms.get(1)
 						.getSubjects().size());
 			}
 
-			int diff = validTrial.getTreatmentArms().get(0).getSubjects()
+			int diff = arms.get(0).getSubjects()
 					.size()
-					- validTrial.getTreatmentArms().get(1).getSubjects().size();
+					- arms.get(1).getSubjects().size();
 			assertTrue((blocksize / 2) >= diff
 					&& (-1) * (blocksize / 2) <= diff);
 		}
@@ -323,15 +299,17 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		assertNotNull(dbTrial);
 		assertEquals(validTrial.getName(), dbTrial.getName());
 		assertEquals(2, dbTrial.getTreatmentArms().size());
-		assertEquals(randomizations, dbTrial.getTreatmentArms().get(0)
+		List<TreatmentArm> armsDB = new ArrayList<TreatmentArm>(dbTrial.getTreatmentArms());
+		assertEquals(randomizations, armsDB.get(0)
 				.getSubjects().size()
-				+ dbTrial.getTreatmentArms().get(1).getSubjects().size());
-		assertEquals(randomizations / 2, dbTrial.getTreatmentArms().get(0)
+				+ armsDB.get(1).getSubjects().size());
+		assertEquals(randomizations / 2, armsDB.get(0)
 				.getSubjects().size());
-		assertEquals(randomizations / 2, dbTrial.getTreatmentArms().get(1)
+		assertEquals(randomizations / 2, armsDB.get(1)
 				.getSubjects().size());
 	}
 
+	@Transactional
 	private void randomizeInValidTrialTwoTrialSites31() throws IllegalArgumentException, TrialStateException {
 		authenticatAsAdmin();
 		Person cp1 = new Person();
@@ -350,24 +328,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		trialSite1.setContactPerson(cp1);
 		trialSiteService.create(trialSite1);
 
-		Person cp2 = new Person();
-		cp2.setFirstname("Contact");
-		cp2.setSurname("Person");
-		cp2.setEmail("randi2@action.ms");
-		cp2.setPhone("1234567");
-		cp2.setSex(Gender.MALE);
-		TrialSite trialSite2 = new TrialSite();
-		trialSite2.setCity("Heidelberg");
-		trialSite2.setCountry("Germany");
-		trialSite2.setName("NCT2");
-		trialSite2.setPostcode("69120");
-		trialSite2.setStreet("INF");
-		trialSite2.setPassword("1$heidelberg");
-		trialSite2.setContactPerson(cp2);
-		trialSiteService.create(trialSite2);
-
 		validTrial.addParticipatingSite(trialSite1);
-		validTrial.addParticipatingSite(trialSite2);
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
 		validTrial.setEndDate(new GregorianCalendar(2009, 11, 1));
 
@@ -382,12 +343,12 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		arm2.setPlannedSubjects(randomizations / 2);
 		arm2.setName("arm2");
 		arm2.setTrial(validTrial);
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
-		arms.add(arm1);
-		arms.add(arm2);
+		Set<TreatmentArm> armsSet = new HashSet<TreatmentArm>();
+		armsSet.add(arm1);
+		armsSet.add(arm2);
 
 		trialService.create(validTrial);
-		validTrial.setTreatmentArms(arms);
+		validTrial.setTreatmentArms(armsSet);
 		BlockRandomizationConfig config = new BlockRandomizationConfig();
 		config.setMaximum(blocksize);
 		config.setMinimum(blocksize);
@@ -399,26 +360,28 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		TrialSite site1 = it.next();
 		TrialSite site2 = it.next();
 		authenticatAsInvestigator();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(validTrial.getTreatmentArms());;
 		for (int i = 0; i < randomizations; i++) {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
+			trialService.randomize(validTrial, subject);
+			subject = entityManager.find(TrialSubject.class, subject.getId());
 			if (i < 90) {
 				subject.setTrialSite(site1);
 			} else {
 				subject.setTrialSite(site2);
 			}
-			trialService.randomize(validTrial, subject);
 			subject.setCreatedAt(new GregorianCalendar(2009, i % 12, 1));
-			sessionFactory.getCurrentSession().update(subject);
+			subject = entityManager.merge(subject);
 			if ((i % blocksize) == (blocksize - 1)) {
-				assertEquals(validTrial.getTreatmentArms().get(0).getSubjects()
-						.size(), validTrial.getTreatmentArms().get(1)
+				assertEquals(arms.get(0).getSubjects()
+						.size(), arms.get(1)
 						.getSubjects().size());
 			}
 
-			int diff = validTrial.getTreatmentArms().get(0).getSubjects()
+			int diff = arms.get(0).getSubjects()
 					.size()
-					- validTrial.getTreatmentArms().get(1).getSubjects().size();
+					- arms.get(1).getSubjects().size();
 			assertTrue((blocksize / 2) >= diff
 					&& (-1) * (blocksize / 2) <= diff);
 		}
@@ -427,12 +390,13 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		assertNotNull(dbTrial);
 		assertEquals(validTrial.getName(), dbTrial.getName());
 		assertEquals(2, dbTrial.getTreatmentArms().size());
-		assertEquals(randomizations, dbTrial.getTreatmentArms().get(0)
+		List<TreatmentArm> armsDB = new ArrayList<TreatmentArm>(dbTrial.getTreatmentArms());
+		assertEquals(randomizations, armsDB.get(0)
 				.getSubjects().size()
-				+ dbTrial.getTreatmentArms().get(1).getSubjects().size());
-		assertEquals(randomizations / 2, dbTrial.getTreatmentArms().get(0)
+				+ armsDB.get(1).getSubjects().size());
+		assertEquals(randomizations / 2, armsDB.get(0)
 				.getSubjects().size());
-		assertEquals(randomizations / 2, dbTrial.getTreatmentArms().get(1)
+		assertEquals(randomizations / 2, armsDB.get(1)
 				.getSubjects().size());
 	}
 
@@ -443,8 +407,8 @@ public class ChartsServiceTest extends AbstractServiceTest {
 				.generateRecruitmentChartTrialSite(validTrial);
 		assertEquals(2, chartData.getXLabels().size());
 		assertEquals(2, chartData.getData().size());
-//		assertEquals(60.0, chartData.getData().get(0)[0]);
-//		assertEquals(60.0, chartData.getData().get(1)[0]);
+		assertEquals(60.0, chartData.getData().get(0)[0]);
+		assertEquals(60.0, chartData.getData().get(1)[0]);
 
 	}
 
@@ -455,8 +419,8 @@ public class ChartsServiceTest extends AbstractServiceTest {
 				.generateRecruitmentChartTrialSite(validTrial);
 		assertEquals(2, chartData.getXLabels().size());
 		assertEquals(2, chartData.getData().size());
-//		assertEquals(90.0, chartData.getData().get(0)[0]);
-//		assertEquals(30.0, chartData.getData().get(1)[0]);
+		assertEquals(90.0, chartData.getData().get(0)[0]);
+		assertEquals(30.0, chartData.getData().get(1)[0]);
 
 	}
 	
@@ -475,7 +439,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		arm2.setPlannedSubjects(randomizations / 2);
 		arm2.setName("arm2");
 		arm2.setTrial(validTrial);
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>();
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
 
@@ -559,9 +523,10 @@ public class ChartsServiceTest extends AbstractServiceTest {
 			proberties.add(subprob2);
 			subject.setProperties(proberties);
 			trialService.randomize(validTrial, subject);
+			subject = entityManager.find(TrialSubject.class, subject.getId());
 			subject.setCreatedAt(new GregorianCalendar(
 					2009 + (i >= 120 ? 1 : 0), i % 12, 1));
-			sessionFactory.getCurrentSession().update(subject);
+			subject = entityManager.merge(subject);
 			
 		
 		}

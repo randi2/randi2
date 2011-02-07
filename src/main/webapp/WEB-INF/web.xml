@@ -17,54 +17,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<param-value>randi2.root</param-value>
 	</context-param>
 
+	<!-- Spring and some application config -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:/META-INF/spring.xml
 		</param-value>
 	</context-param>
-	<context-param>
-		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-		<param-value>server</param-value>
-	</context-param>
-	<context-param>
-		<description>
-			To allow multiple windows for a single application. See
-			Concurrent DOM Views in Chapter 3. of Developer Guide.
-		</description>
-		<param-name>com.icesoft.faces.concurrentDOMViews</param-name>
-		<param-value>false</param-value>
-	</context-param>
-	<context-param>
-		<description>
-			Turn on/off application-wide synchronous or asynchronous
-			updates. See Synchronous and Asynchronous Updates in Chapter
-			3. of
-			Developer Guide.
-		</description>
-		<param-name>com.icesoft.faces.synchronousUpdate</param-name>
-		<param-value>false</param-value>
-	</context-param>
-	<context-param>
-		<param-name>com.icesoft.faces.heartbeatInterval</param-name>
-		<param-value>50000</param-value>
-	</context-param>
-	<context-param>
-		<param-name>com.icesoft.faces.heartbeatRetries</param-name>
-		<param-value>3</param-value>
-	</context-param>
-	<context-param>
-		<param-name>com.icesoft.faces.uploadDirectory</param-name>
-		<param-value>upload</param-value>
-	</context-param>
-	<context-param>
-		<param-name>com.icesoft.faces.uploadMaxFileSize</param-name>
-		<param-value>10000000000000</param-value>
-	</context-param>
-	<context-param>
-		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-		<param-value>.jspx</param-value>
-	</context-param>
+
 
 	<filter>
 		<filter-name>springSecurityFilterChainProxy</filter-name>
@@ -84,7 +44,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<filter-name>hibernateFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
@@ -105,67 +64,61 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<listener>
 		<listener-class>de.randi2.utility.listener.SessionListener</listener-class>
 	</listener>
-	<servlet>
-		<servlet-name>Faces Servlet</servlet-name>
-		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet>
-		<servlet-name>Persistent Faces Servlet</servlet-name>
-		<servlet-class>
-			com.icesoft.faces.webapp.xmlhttp.PersistentFacesServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet>
-		<servlet-name>Blocking Servlet</servlet-name>
-		<servlet-class>com.icesoft.faces.webapp.xmlhttp.BlockingServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet>
-		<servlet-name>uploadServlet</servlet-name>
-		<servlet-class>
-			com.icesoft.faces.component.inputfile.FileUploadServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Persistent Faces Servlet</servlet-name>
-		<url-pattern>*.jspx</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Persistent Faces Servlet</servlet-name>
-		<url-pattern>*.iface</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Persistent Faces Servlet</servlet-name>
-		<url-pattern>/xmlhttp/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Persistent Faces Servlet</servlet-name>
-		<url-pattern>/faces/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Blocking Servlet</servlet-name>
-		<url-pattern>/block/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>uploadServlet</servlet-name>
-		<url-pattern>/uploadHtml</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Persistent Faces Servlet</servlet-name>
-		<url-pattern>/xmlhttp/* </url-pattern>
-	</servlet-mapping>
+	<!-- JSF - icefaces - configuration -->
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+  <servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>/faces/*</url-pattern>
+  </servlet-mapping>
+  <context-param>
+    <description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
+    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+    <param-value>server</param-value>
+  </context-param>
+  <context-param>
+    <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+    <param-value>resources.application</param-value>
+  </context-param>
+  <listener>
+    <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+  </listener>
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.faces</url-pattern>
+  </servlet-mapping>
+  <context-param>
+    <description>Google Maps API key is required if gMap component is used. Sign up for an API key from http://code.google.com/apis/maps/signup.html</description>
+    <param-name>com.icesoft.faces.gmapKey</param-name>
+    <param-value>ABQIAAAADlu0ZiSTam64EKaCQr9eTRTOTuQNzJNXRlYRLknj4cQ89tFfpxTEqxQnVWL4k55OPICgF5_SOZE06A</param-value>
+  </context-param>
+  <servlet>
+    <servlet-name>Resource Servlet</servlet-name>
+    <servlet-class>com.icesoft.faces.webapp.CompatResourceServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Resource Servlet</servlet-name>
+    <url-pattern>/xmlhttp/*</url-pattern>
+  </servlet-mapping>
+
+	<!-- Ressources -->
 	<resource-ref>
 		<res-ref-name>jdbc/randi2</res-ref-name>
 		<res-type>javax.sql.DataSource</res-type>
 		<res-auth>Container</res-auth>
 	</resource-ref>
+
+
 	<resource-ref>
-	    <res-ref-name>mail/randi2</res-ref-name>
-	    <res-type>javax.mail.Session</res-type>
-	    <res-auth>Container</res-auth>
+		<res-ref-name>mail/randi2</res-ref-name>
+		<res-type>javax.mail.Session</res-type>
+		<res-auth>Container</res-auth>
 	</resource-ref>
 </web-app>

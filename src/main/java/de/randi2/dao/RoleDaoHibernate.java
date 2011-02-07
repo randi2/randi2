@@ -45,7 +45,18 @@ public class RoleDaoHibernate extends AbstractDaoHibernate<Role> implements
 	@Override
 	//FIXME We should create the ACLs for Roles
 	public List<Role> getAll() {
-		return sessionFactory.getCurrentSession().createQuery(
-				"from " + getModelClass().getSimpleName()).list();
+		return entityManager.createQuery(
+				"from " + getModelClass().getSimpleName()).getResultList();
+	}
+	
+	@Override
+	public Role get(String name) {
+		Role r = null;
+		try{
+		r= (Role) entityManager.createQuery(
+		"from Role where name = ?").setParameter(1, name)
+		.getSingleResult();
+		}catch (Exception e) {}
+		return r;
 	}
 }

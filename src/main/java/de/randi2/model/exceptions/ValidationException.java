@@ -17,30 +17,34 @@
  */
 package de.randi2.model.exceptions;
 
-import org.hibernate.validator.InvalidValue;
+import java.util.Iterator;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
 
 @SuppressWarnings("serial")
 public class ValidationException extends RuntimeException {
 
-	private InvalidValue[] invalids;
+	private Set<ConstraintViolation<?>> invalids;
 	private String[] messages;
 
-	public ValidationException(InvalidValue[] _invalids) {
-		this.invalids = _invalids.clone();
+	public ValidationException(Set<ConstraintViolation<?>> _invalids) {
+		this.invalids = _invalids;
 	}
 	
 	public String[] getMessages(){
 		if(messages == null){
-			messages = new String[invalids.length];
+			messages = new String[invalids.size()];
+			Iterator<ConstraintViolation<?>> it = invalids.iterator();
 			for(int i = 0; i< messages.length; i++){
-				messages[i] = invalids[i].getMessage();
+				messages[i] = it.next().getMessage();
 			}
 		}
 		return messages.clone();
 	}
 	
-	public InvalidValue[] getInvalids(){
-		return this.invalids.clone();
+	public Set<ConstraintViolation<?>> getInvalids(){
+		return this.invalids;
 	}
 
 }

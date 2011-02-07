@@ -66,11 +66,15 @@ public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements
 						.getBlocks().get(s);
 				if (b != null
 						&& b.getId() == AbstractDomainObject.NOT_YET_SAVED_ID) {
-					sessionFactory.getCurrentSession().persist(b);
+					entityManager.persist(b);
 				}
 
 			}
 		} else if (object.getRandomizationConfiguration() instanceof UrnDesignConfig) {
+			// persist the urn design config before merge the trial, because of
+			// changed save behavior and a problem with the urn design
+			// validation
+			entityManager.persist(object.getRandomizationConfiguration());
 			for (String s : ((UrnDesignTempData) ((UrnDesignConfig) object
 					.getRandomizationConfiguration()).getTempData()).getUrns()
 					.keySet()) {
@@ -79,7 +83,7 @@ public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements
 						.getUrns().get(s);
 				if (u != null
 						&& u.getId() == AbstractDomainObject.NOT_YET_SAVED_ID) {
-					sessionFactory.getCurrentSession().persist(u);
+					entityManager.persist(u);
 				}
 
 			}
@@ -96,9 +100,10 @@ public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<TrialSubject> getSubjects(Trial trial, Login investigator) {
-		return sessionFactory.getCurrentSession().getNamedQuery(
-				"trialSubject.specificInvestigator").setParameter(0, trial)
-				.setParameter(1, investigator).list();
+		return entityManager
+				.createNamedQuery("trialSubject.specificInvestigator")
+				.setParameter(1, trial).setParameter(2, investigator)
+				.getResultList();
 	}
 
 }

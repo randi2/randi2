@@ -1,6 +1,5 @@
 package de.randi2.core.integration.transactions;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.randi2.dao.RoleDao;
@@ -11,7 +10,8 @@ public class TransactionalRoleTest extends
 		AbstractTransactionalTest<RoleDao, Role> {
 
 	@Autowired TestStringUtil stringUtil;
-	@Autowired SessionFactory sessionFactory;
+
+
 	@Override
 	protected void init() {
 		dao = (RoleDao)applicationContext.getBean("roleDao");

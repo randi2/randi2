@@ -23,14 +23,19 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.hibernate.validator.ValidatorClass;
+import javax.validation.Constraint;
+import javax.validation.Payload;
 
 
-@ValidatorClass(TelephonNumberValidation.class)
+@Constraint(validatedBy=TelephonNumberValidation.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface TelephonNumber {
 	
 	String message() default "{validator.telephoneNumber}";
+	
+    Class<?>[] groups() default {};
+    
+    Class<? extends Payload>[] payload() default {};
 }

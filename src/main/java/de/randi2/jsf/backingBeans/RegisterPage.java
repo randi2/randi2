@@ -19,6 +19,9 @@ package de.randi2.jsf.backingBeans;
 
 import java.io.IOException;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -34,43 +37,42 @@ import de.randi2.utility.BoxedException;
 
 /**
  * <p>
- * This class contains the logic of the registration.jspx. The page for the
+ * This class contains the logic of the registration.xhtml. The page for the
  * registration process.
  * </p>
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
+@ManagedBean(name = "registerPage")
+@SessionScoped
 public class RegisterPage {
-
+	@ManagedProperty(value = "#{loginHandler}")
 	@Setter
 	private LoginHandler loginHandler;
 
 	@Getter
 	private boolean termsPvisible = true;
 
-	@Getter @Setter
+	@Getter
+	@Setter
 	private boolean regPvisible = false;
 
 	public void cancel(ActionEvent event) {
 		this.termsPvisible = true;
-		try {
-			loginHandler.cleanUp();
-			loginHandler.invalidateSession();
-			FacesContext.getCurrentInstance().getExternalContext().redirect(
-					FacesContext.getCurrentInstance().getExternalContext()
-							.getRequestContextPath()
-							+ "/login.jspx");
-		} catch (IOException e) {
-			BoxedException.throwBoxed(e);
-		}
+		loginHandler.cleanUp();
+		loginHandler.invalidateSession();
 	}
 
 	public void go2Login(ActionEvent event) {
 		try {
-			FacesContext.getCurrentInstance().getExternalContext().redirect(
-					FacesContext.getCurrentInstance().getExternalContext()
-							.getRequestContextPath()
-							+ "/login.jspx");
+			FacesContext
+					.getCurrentInstance()
+					.getExternalContext()
+					.redirect(
+							FacesContext.getCurrentInstance()
+									.getExternalContext()
+									.getRequestContextPath()
+									+ "/faces/login.xhtml");
 		} catch (IOException e) {
 			BoxedException.throwBoxed(e);
 		}
@@ -82,15 +84,7 @@ public class RegisterPage {
 
 	public void declineTerms(ActionEvent event) {
 		this.termsPvisible = true;
-		try {
-			loginHandler.invalidateSession();
-			FacesContext.getCurrentInstance().getExternalContext().redirect(
-					FacesContext.getCurrentInstance().getExternalContext()
-							.getRequestContextPath()
-							+ "/login.jspx");
-		} catch (IOException e) {
-			BoxedException.throwBoxed(e);
-		}
+		loginHandler.invalidateSession();
 	}
 
 	@Getter

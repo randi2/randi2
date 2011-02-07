@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 
 import javax.el.ValueExpression;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -35,7 +36,7 @@ import de.randi2.utility.ReflectionUtil;
  */
 public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 
-	
+	@ManagedProperty(value="#{loginHandler}")
 	@Getter
 	@Setter
 	private LoginHandler loginHandler;
@@ -43,7 +44,7 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 	/*
 	 * Access to the application popups.
 	 */
-
+	@ManagedProperty(value="#{popups}")
 	@Setter
 	@Getter
 	private Popups popups;

@@ -17,6 +17,7 @@
  */
 package de.randi2.dao;
 
+import de.randi2.model.Person;
 import de.randi2.model.TrialSite;
 
 /**
@@ -41,4 +42,12 @@ public interface TrialSiteDao extends AbstractDao<TrialSite> {
 	 */
 	@Override
 	public void create(TrialSite object);
+	
+	
+	/**
+	 * Get the trial site from the specific person of null
+	 * @param person the person 
+	 * @return the trial site or null, if the person do not belong to one
+	 */
+	public TrialSite get(Person person);
 }

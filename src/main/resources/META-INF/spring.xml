@@ -14,17 +14,17 @@
 			<value>true</value>
 		</property>
 	</bean>
-
-	<bean id="liquibase" class="de.randi2.utility.logging.Randi2SpringLiquibase">
+ 
+	<!--<bean id="liquibase" class="de.randi2.utility.logging.Randi2SpringLiquibase">
 		<property name="dataSource" ref="dataSource" />
 		<property name="changeLog" value="classpath:META-INF/database/database_changelog.xml" />
 	</bean>
-
+	-->
+	
 	<context:annotation-config />
 	<context:spring-configured></context:spring-configured>
 
 	<import resource="classpath:META-INF/subconfig/database.xml" />
-	<import resource="classpath:META-INF/subconfig/hibernate-config.xml" />
 	<import resource="classpath:META-INF/subconfig/hibernate.xml" />
 	<import resource="classpath:META-INF/subconfig/aspects.xml" />
 	<import resource="classpath:META-INF/subconfig/security.xml" />

@@ -11,9 +11,13 @@
 		primary="true" id="trialDaoMock">
 		<constructor-arg value="de.randi2.dao.TrialDao" />
 	</bean>
+		<bean class="org.easymock.EasyMock" factory-method="createNiceMock"
+		primary="true" id="trialSiteDaoMock">
+		<constructor-arg value="de.randi2.dao.TrialSiteDao" />
+	</bean>
 	<bean class="org.easymock.EasyMock" factory-method="createNiceMock"
-		primary="true" id="sessionFactoryMock">
-		<constructor-arg value="org.hibernate.SessionFactory" />
+		primary="true" id="entityManager">
+		<constructor-arg value="javax.persistence.EntityManager" />
 	</bean>
 	<bean class="org.easymock.EasyMock" factory-method="createNiceMock"
 		primary="true" id="mailServiceInterfaceMock">

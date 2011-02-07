@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javax.faces.bean.ManagedProperty;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
@@ -16,11 +17,12 @@ import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 /**
  * 
- * @author lplotni
+ * @author L. Plotnicki
  *
  */
 public abstract class AbstractSubjectProperty {
 
+	@ManagedProperty(value="#{loginHandler}")
 	@Getter
 	@Setter
 	private LoginHandler loginHandler;

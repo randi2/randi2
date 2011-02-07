@@ -2,8 +2,12 @@ package de.randi2.testUtility.utility;
 
 import static org.junit.Assert.assertTrue;
 
-import org.hibernate.validator.ClassValidator;
-import org.hibernate.validator.InvalidValue;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,23 +29,23 @@ public abstract class AbstractDomainTest<TC extends AbstractDomainObject> {
 	}
 
 	protected void assertValid(TC validDO) {
-		ClassValidator<TC> classValidator = new ClassValidator<TC>((Class<TC>) validDO.getClass());
-		InvalidValue[] invalids = classValidator.getInvalidValues(validDO);
+		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+		Set<ConstraintViolation<TC>> invalids = validator.validate(validDO);
 		StringBuilder message = new StringBuilder();
-		for(InvalidValue v : invalids){
-			message.append(v.getPropertyName()).append(" (").append(v.getValue()).append(")").append(": ").append(v.getMessage()).append("\n");
+		for(ConstraintViolation<TC> v : invalids){
+			message.append(v.getPropertyPath()).append(" (").append(v.getInvalidValue()).append(")").append(": ").append(v.getMessage()).append("\n");
 		}
-		assertTrue(message.toString(), invalids.length==0); 
+		assertTrue(message.toString(), invalids.size()==0); 
 	}
 
 	protected void assertInvalid(TC invalidDO, String[] messages) {
-			ClassValidator<TC> classValidator = new ClassValidator<TC>((Class<TC>) invalidDO.getClass());
-			InvalidValue[] invalids = classValidator.getInvalidValues(invalidDO);
+		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+		Set<ConstraintViolation<TC>> invalids = validator.validate(invalidDO);
 			StringBuilder message = new StringBuilder();
 			for(String s : messages){
 				message.append(s + "  |  ");
 			}
-			assertTrue(message.toString(),invalids.length>0); 
+			assertTrue(message.toString(),invalids.size()>0); 
 	}
 	
 	protected void assertInvalid(TC invalidDO, String message) {

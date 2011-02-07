@@ -24,18 +24,19 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import org.hibernate.validator.Length;
-import org.hibernate.validator.NotEmpty;
-import org.hibernate.validator.NotNull;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import de.randi2.utility.validations.ContactPerson;
 import de.randi2.utility.validations.Password;
@@ -44,7 +45,9 @@ import de.randi2.utility.validations.Password;
  * The Class TrialSite.
  */
 @Entity
-@NamedQuery(name = "trialSite.findAllMembers", query = "select p from Person p where p.trialSite = :trialSite ")
+@NamedQueries( {
+	@NamedQuery(name ="trialSite.getPersonsTrialSite", query="select site from TrialSite as site join site.members p where p.id = ?")
+})
 @EqualsAndHashCode(callSuper=true, exclude={"trials", "members", "contactPerson"})
 @ToString(exclude={"members", "trials"})
 @Data
@@ -92,7 +95,7 @@ public class TrialSite extends AbstractDomainObject {
 	private Person contactPerson = null;
 
 	/** The members. */
-	@OneToMany(mappedBy = "trialSite")
+	@OneToMany
 	private List<Person> members = new ArrayList<Person>();
 
 	/** The trials. */

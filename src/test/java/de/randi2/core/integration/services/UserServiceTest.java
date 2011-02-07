@@ -9,22 +9,27 @@ import static junit.framework.Assert.fail;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.hibernate.validator.InvalidStateException;
+import javax.persistence.EntityTransaction;
+import javax.validation.ConstraintViolationException;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.LoginDao;
+import de.randi2.dao.TrialSiteDao;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
+import de.randi2.model.TrialSite;
 import de.randi2.services.UserService;
 import de.randi2.testUtility.utility.DomainObjectFactory;
 import de.randi2.testUtility.utility.TestStringUtil;
-//@Transactional
-//import static junit.framework.Assert.*;
+@Transactional
 public class UserServiceTest extends AbstractServiceTest{
 
 
@@ -33,7 +38,7 @@ public class UserServiceTest extends AbstractServiceTest{
 	@Autowired private TestStringUtil stringUtil;
 	@Autowired private ApplicationContext context;
 	@Autowired private LoginDao loginDao;
-		
+	@Autowired private TrialSiteDao trialSiteDao;
 
 	
 	@Test
@@ -48,19 +53,15 @@ public class UserServiceTest extends AbstractServiceTest{
 	public void testAddRole(){
 		authenticatAsAdmin();
 		Login login = factory.getLogin();
-		sessionFactory.getCurrentSession().persist(login);
+		entityManager.persist(login);
 		assertTrue(login.getId()>0);
-		Role role = factory.getRole();
-		sessionFactory.getCurrentSession().persist(role);
-		sessionFactory.getCurrentSession().flush();
-		assertTrue(role.getId()>0);
-		userService.addRole(login, role);
-		assertTrue(login.getRoles().contains(role));
-		Login login2 = (Login)sessionFactory.getCurrentSession().get(Login.class, login.getId());
+		userService.addRole(login, Role.ROLE_INVESTIGATOR);;
+		assertTrue(login.getRoles().contains(Role.ROLE_INVESTIGATOR));
+		Login login2 = entityManager.find(Login.class, login.getId());
 		assertNotNull(login2);
-		assertTrue(login2.getRoles().contains(role));
+		assertTrue(login2.getRoles().contains(Role.ROLE_INVESTIGATOR));
 		try{
-			userService.addRole(null, role);
+			userService.addRole(null, Role.ROLE_INVESTIGATOR);
 			fail("should throw exception (login = null)");
 		}catch(Exception e){}
 		try{
@@ -76,13 +77,10 @@ public class UserServiceTest extends AbstractServiceTest{
 	@Test
 	public void testRemoveRole(){
 		authenticatAsAdmin();
-		Role role = factory.getRole();
-		sessionFactory.getCurrentSession().persist(role);
-		sessionFactory.getCurrentSession().flush();
-		assertTrue(role.getId()>0);
+		Role role = Role.ROLE_INVESTIGATOR;
 		userService.addRole(user, role);
 		assertTrue(user.getRoles().contains(role));
-		Login login2 = (Login)sessionFactory.getCurrentSession().get(Login.class, user.getId());
+		Login login2 = entityManager.find(Login.class, user.getId());
 		assertNotNull(login2);
 		assertTrue(login2.getRoles().contains(role));
 		try{
@@ -130,6 +128,8 @@ public class UserServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testRegister(){
+		authenticatAsAdmin();
+		TrialSite site = trialSiteDao.get(user.getPerson());
 		SecurityContextHolder.getContext().setAuthentication(null);
 		Login l = userService.prepareInvestigator();
 		l.setUsername(stringUtil.getWithLength(Login.MIN_USERNAME_LENGTH)+"@xyz.com");
@@ -137,8 +137,7 @@ public class UserServiceTest extends AbstractServiceTest{
 		l.setPerson(factory.getPerson());
 		l.getPerson().setLogin(l);
 		l.setLastLoggedIn(new GregorianCalendar());
-		l.getPerson().setTrialSite(findLogin("admin@trialsite1.de").getPerson().getTrialSite());
-		userService.register(l);
+		userService.register(l, site);
 		assertTrue(l.getId()>0);
 	}
 	
@@ -146,9 +145,10 @@ public class UserServiceTest extends AbstractServiceTest{
 	@Test
 	public void testCreate(){
 		authenticatAsAdmin();
+		TrialSite site = trialSiteDao.get(user.getPerson());
 		Login login = factory.getLogin();
-		login.getPerson().setTrialSite(user.getPerson().getTrialSite());
-		userService.create(login);
+		
+		userService.create(login, site);
 		assertTrue(login.getId()>0);
 	}
 	
@@ -156,14 +156,18 @@ public class UserServiceTest extends AbstractServiceTest{
 	@Test
 	public void testUpdate(){
 		authenticatAsAdmin();
+		
+		TrialSite site = trialSiteDao.get(user.getPerson());
+		
 		Login login = factory.getLogin();
-		login.getPerson().setTrialSite(user.getPerson().getTrialSite());
-		userService.create(login);
-		sessionFactory.getCurrentSession().flush();
+		
+		userService.create(login, site);
 		assertTrue(login.getId()>0);
+		
 		String oldName = login.getUsername();
 		login.setUsername(factory.getPerson().getEmail());
-		Login login2 = (Login) sessionFactory.getCurrentSession().get(Login.class, login.getId());
+		userService.update(login);
+		Login login2 = entityManager.find(Login.class, login.getId());
 		assertEquals(login.getUsername(), login2.getUsername());
 		assertFalse(login2.getUsername().equals(oldName));
 	}
@@ -173,12 +177,12 @@ public class UserServiceTest extends AbstractServiceTest{
 	public void testUpdateRole(){
 		authenticatAsAdmin();
 		Role role = factory.getRole();
-		sessionFactory.getCurrentSession().persist(role);
+		entityManager.persist(role);
 		assertTrue(role.getId()>0);
 		String oldName = role.getName();
 		role.setName(stringUtil.getWithLength(30));
 		userService.updateRole(role);
-		Role role2 = (Role) sessionFactory.getCurrentSession().get(Role.class,role.getId());
+		Role role2 = entityManager.find(Role.class,role.getId());
 		assertEquals(role.getName(), role2.getName());
 		assertFalse(role2.getName().equals(oldName));
 	}
@@ -187,10 +191,10 @@ public class UserServiceTest extends AbstractServiceTest{
 	@Test
 	public void testGetAll(){
 		authenticatAsAdmin();
+		TrialSite site =  trialSiteDao.get(findLogin("admin@trialsite1.de").getPerson());
 		for(int i =0; i<10; i++){
 			Login login = factory.getLogin();
-			login.getPerson().setTrialSite(user.getPerson().getTrialSite());
-			loginDao.create(login);
+			userService.create(login, site);
 		}
 		List<Login> list = userService.getAll();
 		assertTrue(list.size()>=10);
@@ -200,12 +204,12 @@ public class UserServiceTest extends AbstractServiceTest{
 	@Test
 	public void testGetObject(){
 		authenticatAsAdmin();
+		TrialSite site = trialSiteDao.get(user.getPerson());
 		((AffirmativeBased)context.getBean("methodAccessDecisionManager")).setAllowIfAllAbstainDecisions(true);
 		Login login = factory.getLogin();
-		login.getPerson().setTrialSite(null);
-		userService.create(login);
+		userService.create(login, site);
 		Login login2 = findLogin("admin@trialsite1.de");
-		rolesAndRights.grantRights(login, login2.getPerson().getTrialSite());
+		rolesAndRights.grantRights(login, site);
 		Login login3 = userService.getObject(login.getId());
 		assertTrue(login3 != null);
 	}
@@ -213,11 +217,10 @@ public class UserServiceTest extends AbstractServiceTest{
 	@Test
 	public void testSaveLoginWithPerson() {
 		authenticatAsAdmin();
+		TrialSite site = trialSiteDao.get(user.getPerson());
 		Person validPerson = factory.getPerson();
-
 		Login login = factory.getLogin();
-		login.getPerson().setTrialSite(user.getPerson().getTrialSite());
-		userService.create(login);
+		userService.create(login, site);
 		assertTrue(login.getId()>0);
 		
 		
@@ -226,9 +229,9 @@ public class UserServiceTest extends AbstractServiceTest{
 		login.setPerson(validPerson);
 		login.setUsername("");
 		try {
-			userService.create(login);
+			userService.create(login, site);
 			fail("should throw exception");
-		} catch (InvalidStateException e) {
+		} catch (ConstraintViolationException e) {
 		}
 
 	

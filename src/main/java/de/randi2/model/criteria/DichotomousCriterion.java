@@ -25,7 +25,7 @@ import javax.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.hibernate.validator.NotEmpty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.unsorted.ContraintViolatedException;
@@ -78,6 +78,15 @@ public class DichotomousCriterion extends AbstractCriterion<String, DichotomousC
 	@Override
 	public Class<DichotomousConstraint> getContstraintType() {
 		return DichotomousConstraint.class;
+	}
+	
+	@Override
+	public void setInclusionConstraint(DichotomousConstraint inclusionConstraint) throws ContraintViolatedException {
+		if(inclusionConstraint == null || option1.equals(inclusionConstraint.getExpectedValue()) || option2.equals(inclusionConstraint.getExpectedValue())){ 
+			this.inclusionConstraint = inclusionConstraint;
+		}else{
+			throw new ContraintViolatedException();
+		}
 	}
 
 }

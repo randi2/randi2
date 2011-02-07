@@ -7,6 +7,7 @@ package de.randi2.core.unit.model.criteria;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -19,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.randi2.model.criteria.DichotomousCriterion;
+import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.testUtility.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
@@ -40,6 +42,8 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 	@Before
 	public void setUp()  {
 		criterion = new DichotomousCriterion();
+		criterion.setOption1("a");
+		criterion.setOption2("b");
 	}
 
 	/**
@@ -109,6 +113,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 
 	@Test
 	public void testConfiguredValues(){
+		criterion = new DichotomousCriterion();
 		assertNull(criterion.getConfiguredValues());
 		criterion.setOption1("Ja");
 		criterion.setOption2("Nein");
@@ -116,7 +121,200 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 		List<String> confValues = criterion.getConfiguredValues();
 		confValues.contains("Ja");
 		confValues.contains("Nein");
+	}
+	
+	@Test
+	public void testDescriptionNull(){
+		criterion.setDescription(null);
+		assertEquals(null, criterion.getDescription());
+		assertValid(criterion);
+	}
+	
+	@Test
+	public void testDescriptionEmpty(){
+		criterion.setDescription("");
+		assertEquals("", criterion.getDescription());
+		assertValid(criterion);
+	}
+	
+	
+	@Test
+	public void testDescriptionOther(){
+		String[] validValues= {"A","Abcsdafasd", "Title" , stringUtil.getWithLength(265) };
+		for(String s :validValues){
+			criterion.setDescription(s);
+			assertEquals(s, criterion.getDescription());
+			assertValid(criterion);
+		}
+	}
+	
+	
+	@Test
+	public void testNameNull(){
+		criterion.setName(null);
+		assertEquals(null, criterion.getName());
+		assertValid(criterion);
+	}
+	
+	@Test
+	public void testNameEmpty(){
+		criterion.setName("");
+		assertEquals("", criterion.getName());
+		assertValid(criterion);
+	}
+	
+	
+	@Test
+	public void testNameOther(){
+		String[] validValues= {"A","Abcsdafasd", "Title" , stringUtil.getWithLength(265) };
+		for(String s :validValues){
+			criterion.setName(s);
+			assertEquals(s, criterion.getName());
+			assertValid(criterion);
+		}
+	}
+
+	@Test
+	public void testAddStrata(){
+		AbstractConstraint<String> constraintA = null;
+		AbstractConstraint<String> constraintB = null;
+		try {
+			constraintA = new DichotomousConstraint(Arrays.asList(new String[]{"a"}));
+			constraintB = new DichotomousConstraint(Arrays.asList(new String[]{"b"}));
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+		criterion.addStrata(constraintA);
+		assertEquals(1,criterion.getStrata().size());
+		assertTrue(criterion.getStrata().contains(constraintA));
+		criterion.addStrata(constraintB);
+		assertEquals(2,criterion.getStrata().size());
+		assertTrue(criterion.getStrata().contains(constraintA));
+		assertTrue(criterion.getStrata().contains(constraintB));
 		
+	}
+	
+	
+	@Test
+	public void testAddStrataNull(){
+		ArrayList<DichotomousConstraint> list = new ArrayList<DichotomousConstraint>();
+		criterion.setStrata(list);
+		assertEquals(0,criterion.getStrata().size());
+		criterion.addStrata(null);
+		assertEquals(0,criterion.getStrata().size());
+	}
+	
+	
+	@Test
+	public void testSetAndGetStrata(){
+		ArrayList<DichotomousConstraint> list = new ArrayList<DichotomousConstraint>();
+		assertNotSame(list, criterion.getStrata());
+		criterion.setStrata(list);
+		assertEquals(list, criterion.getStrata());
+	}
+	
+	@Test
+	public void testCheckValueCorrect(){
+		assertTrue(criterion.checkValue("a"));
+		assertTrue(criterion.checkValue("b"));
+	}
+	
+	@Test
+	public void testCheckValueIncorrect(){
+		assertFalse(criterion.checkValue("x"));
+	}
+	
+	
+	@Test
+	public void testGetConstraintType(){
+		assertEquals(DichotomousConstraint.class, criterion.getContstraintType());
+	}
+	
+		
+	@Test
+	public void testInclusionConstraintNull(){
+		try {
+			DichotomousConstraint constraint = new DichotomousConstraint(Arrays.asList(new String[]{"a"}));
+			criterion.setInclusionConstraint(constraint);
+			assertNotNull(criterion.getInclusionConstraint());
+			criterion.setInclusionConstraint(null);
+			assertNull(criterion.getInclusionConstraint());
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testInclusionConstraintOther(){
+		try {
+			DichotomousConstraint constraint = new DichotomousConstraint(Arrays.asList(new String[]{"a"}));
+			criterion.setInclusionConstraint(constraint);
+			assertEquals(constraint, criterion.getInclusionConstraint());
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testIsInclusionConstraintTrue(){
+		try {
+			DichotomousConstraint constraint = new DichotomousConstraint(Arrays.asList(new String[]{"a"}));
+			criterion.setInclusionConstraint(constraint);
+			assertTrue(criterion.isInclusionCriterion());
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testIsInclusionConstraintFalse(){
+			try {
+				criterion.setInclusionConstraint(null);
+			} catch (ContraintViolatedException e) {
+				fail();
+			}
+			assertFalse(criterion.isInclusionCriterion());
+	}
+	
+	
+	@Test
+	public void testStratifyConstraintException(){
+		AbstractConstraint<String> constraintA = null;
+		AbstractConstraint<String> constraintB = null;
+		try {
+			constraintA = new DichotomousConstraint(Arrays.asList(new String[]{"a"}));
+			constraintB = new DichotomousConstraint(Arrays.asList(new String[]{"b"}));
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+		criterion.addStrata(constraintA);
+		criterion.addStrata(constraintB);
+		try {
+			 criterion.stratify("c");
+			 fail();
+		} catch (ContraintViolatedException e) {
+		}
+	}
+	
+	
+	@Test
+	public void testStratify(){
+		AbstractConstraint<String> constraintA = null;
+		AbstractConstraint<String> constraintB = null;
+		try {
+			constraintA = new DichotomousConstraint(Arrays.asList(new String[]{"a"}));
+			constraintB = new DichotomousConstraint(Arrays.asList(new String[]{"b"}));
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+		criterion.addStrata(constraintA);
+		criterion.addStrata(constraintB);
+		try {
+			assertEquals(constraintA, criterion.stratify("a"));
+			assertEquals(constraintB, criterion.stratify("b"));
+		} catch (ContraintViolatedException e) {
+			fail(e.getMessage());
+		}
 	}
 	
 }

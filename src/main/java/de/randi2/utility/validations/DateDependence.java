@@ -23,9 +23,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.hibernate.validator.ValidatorClass;
+import javax.validation.Constraint;
+import javax.validation.Payload;
 
-@ValidatorClass(DateDependenceValidation.class)
+@Constraint(validatedBy=DateDependenceValidation.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
@@ -34,4 +35,8 @@ public @interface DateDependence {
 		String secondDate();
 
 		String message() default "{validator.datedependence}";
+		
+	    Class<?>[] groups() default {};
+	    
+	    Class<? extends Payload>[] payload() default {};
 }

@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.Properties;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
 import com.icesoft.faces.context.effects.Effect;
@@ -35,6 +37,8 @@ import de.randi2.utility.webfilter.HibernateWebFilter;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
+@ManagedBean(name="randi2")
+@ApplicationScoped
 public class Randi2 {
 
 	public static final String RANDI2_END = HibernateWebFilter.END_OF_CONVERSATION_FLAG;

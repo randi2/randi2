@@ -21,6 +21,7 @@ import java.util.List;
 
 import de.randi2.model.Login;
 import de.randi2.model.Role;
+import de.randi2.model.TrialSite;
 
 /**
  * This is the interface specifying the possible operations which can be
@@ -44,15 +45,16 @@ public interface UserService extends AbstractService<Login> {
 	 * Use this method to create new RANDI2 Investigator user (self-registration process).
 	 * 
 	 * @param newObject
+	 * @param site 
 	 */
-	public void register(Login newObject);
+	public void register(Login newObject, TrialSite site);
 	
 	/**
 	 * Use this method to create new RANDI2 user.
 	 * 
 	 * @param newObject
 	 */
-	public void create(Login newObject);
+	public void create(Login newObject, TrialSite site);
 	
 	/**
 	 * This method creates a brand new user with the investigator role for the self-registration process.

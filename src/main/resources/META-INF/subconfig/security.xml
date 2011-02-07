@@ -38,7 +38,7 @@
 		<property name="authenticationSuccessHandler">
 			<bean
 				class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
-				<property name="defaultTargetUrl" value="/randi2.jspx" />
+				<property name="defaultTargetUrl" value="/faces/randi2.xhtml" />
 			</bean>
 		</property>
 		<property name="sessionAuthenticationStrategy">
@@ -48,7 +48,7 @@
 		<property name="authenticationFailureHandler">
 			<bean
 				class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
-				<property name="defaultFailureUrl" value="/login.jspx" />
+				<property name="defaultFailureUrl" value="/faces/login.xhtml" />
 			</bean>
 		</property>
 	</bean>
@@ -67,7 +67,7 @@
 
 	<bean id="logoutFilter"
 		class="org.springframework.security.web.authentication.logout.LogoutFilter">
-		<constructor-arg value="/goodbye.jspx" />
+		<constructor-arg value="/faces/goodbye.xhtml" />
 		<constructor-arg>
 			<list>
 				<bean

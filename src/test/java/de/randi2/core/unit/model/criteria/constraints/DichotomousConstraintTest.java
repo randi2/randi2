@@ -37,28 +37,59 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 		}
 	}
 	
+	
 	@Test
-	public void testConstructor(){
+	public void testConstructorWithListEqualsNull(){
+		try {
+			constraint = new DichotomousConstraint(null);
+			fail("the list of constraints should not be null");
+		} catch (ContraintViolatedException e) {}
+	}
+	
+	@Test
+	public void testConstructorWithEmptyList(){
 		List<String> elements = new ArrayList<String>();
 		try {
 			constraint = new DichotomousConstraint(elements);
 			fail("the list of constraints should be not empty");
 		} catch (ContraintViolatedException e) {}
-		
-		elements.add("Value1");
+	}
+	
+	
+	@Test
+	public void testConstructorWithListContainsMoreThanOneElement(){
+		List<String> elements = new ArrayList<String>();
+		elements.add("1");
+		elements.add("2");
 		try {
 			constraint = new DichotomousConstraint(elements);
-			assertEquals("Value1", constraint.getExpectedValue());
+			fail("the list of constraints should not contain more than two elements");
+		} catch (ContraintViolatedException e) {}
+	}
+	
+	
+	@Test
+	public void testConstructorWithListContainsOneNullElement(){
+		List<String> elements = new ArrayList<String>();
+		elements.add(null);
+		try {
+			constraint = new DichotomousConstraint(elements);
+			fail("the list of constraints should not contain one element with the value null");
+		} catch (ContraintViolatedException e) {}
+	}
+	
+	@Test
+	public void testConstructorWithListContainsOneCorrectElement(){
+		List<String> elements = new ArrayList<String>();
+		elements.add("a");
+		try {
+			constraint = new DichotomousConstraint(elements);
+			assertEquals("a", constraint.getExpectedValue());
 		} catch (ContraintViolatedException e) {
 			fail("the list of constraints is ok");
 		}
-		elements.add("Value2");
-		try {
-			constraint = new DichotomousConstraint(elements);
-			fail("the list of constraints is to long");
-		} catch (ContraintViolatedException e) {}
-		
 	}
+	
 	
 	@Test
 	public void testExpectedValue(){
@@ -67,13 +98,18 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 		assertEquals("Value2", constraint.getExpectedValue());
 	}
 	
+	
 	@Test
-	public void testIsValueCorrect(){
+	public void testIsValueCorrect_WithCorrectValue(){
 		try {
 			constraint.isValueCorrect(elements.get(0));
 		} catch (ContraintViolatedException e) {
 			fail("Value is correct");
 		}
+	}
+	
+	@Test
+	public void testIsValueCorrect_WithIncorrectValue(){
 		try {
 			constraint.isValueCorrect("ValueXYZ");
 			fail("Value is not correct");
@@ -87,4 +123,73 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 		
 	}
 	
+	@Test
+	public void testUiName(){
+		assertEquals(elements.get(0), constraint.getUIName());
+	}
+	
+	
+	@Test
+	public void testEqualsAndHashCode_SameObjects() throws ContraintViolatedException{
+		DichotomousConstraint constraint1 = new DichotomousConstraint(elements);
+		DichotomousConstraint constraint2 = constraint1;
+		assertEquals(constraint1.hashCode(), constraint2.hashCode());
+		assertTrue(constraint1.equals(constraint2));
+	}
+	
+	@Test
+	public void testEqualsAndHashCode_Null() throws ContraintViolatedException{
+		DichotomousConstraint constraint1 = new DichotomousConstraint(elements);
+		assertFalse(constraint1.equals(null));
+	}
+	
+	@Test
+	public void testEqualsAndHashCode_DifferentClasses() throws ContraintViolatedException{
+		DichotomousConstraint constraint1 = new DichotomousConstraint(elements);
+		String constraint2 = "";
+		assertFalse(constraint1.equals(constraint2));
+	}
+	
+	@Test
+	public void testEqualsAndHashCode_ExpectedCorrectAndValueNull() throws ContraintViolatedException{
+		DichotomousConstraint constraint1 = new DichotomousConstraint(elements);
+		DichotomousConstraint constraint2 = new DichotomousConstraint(elements);
+		constraint1.setExpectedValue("a");
+		constraint2.setExpectedValue(null);
+		assertFalse(constraint1.equals(constraint2));
+	}
+	
+	@Test
+	public void testEqualsAndHashCode_ExpectedNullAndValueNot() throws ContraintViolatedException{
+		DichotomousConstraint constraint1 = new DichotomousConstraint(elements);
+		DichotomousConstraint constraint2 = new DichotomousConstraint(elements);
+		constraint1.setExpectedValue(null);
+		constraint2.setExpectedValue("a");
+		assertFalse(constraint1.equals(constraint2));
+	}
+	
+	@Test
+	public void testEqualsAndHashCode_ExpectedAndValueUnequal() throws ContraintViolatedException{
+		DichotomousConstraint constraint1 = new DichotomousConstraint(elements);
+		DichotomousConstraint constraint2 = new DichotomousConstraint(elements);
+		constraint1.setExpectedValue("a");
+		constraint2.setExpectedValue("b");
+		assertFalse(constraint1.equals(constraint2));
+	}
+	
+	@Test
+	public void testEqualsAndHashCode_ExpectedAndValueEqual() throws ContraintViolatedException{
+		DichotomousConstraint constraint1 = new DichotomousConstraint(elements);
+		DichotomousConstraint constraint2 = new DichotomousConstraint(elements);
+		String[] values = { stringUtil.getWithLength(254),
+				stringUtil.getWithLength(2), "adsagsda dsf",
+				stringUtil.getWithLength(132) };
+		for (String s : values) {
+			constraint1.setExpectedValue(s);
+			constraint2.setExpectedValue(s);
+			assertEquals(constraint1.hashCode(), constraint2.hashCode());
+			assertTrue(constraint1.equals(constraint2));
+		}
+	}
+		
 }

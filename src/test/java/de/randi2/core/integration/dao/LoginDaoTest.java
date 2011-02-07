@@ -4,14 +4,7 @@ import static de.randi2.testUtility.utility.RANDI2Assert.assertNotSaved;
 import static de.randi2.testUtility.utility.RANDI2Assert.assertSaved;
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
-import java.util.List;
-
-import org.hibernate.validator.InvalidStateException;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.LoginDao;
-import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
-import de.randi2.model.Person;
 import de.randi2.testUtility.utility.DomainObjectFactory;
 import de.randi2.testUtility.utility.TestStringUtil;
 
@@ -62,24 +53,5 @@ public class LoginDaoTest extends AbstractDaoTest{
 		assertEquals(l.getUsername(), l2.getUsername());
 	}
 
-
-//	@Test
-	@Ignore
-	public void testFindByExample() {
-		Login l = factory.getLogin();
-		loginDao.create(l);
-		assertTrue(l.getId() != AbstractDomainObject.NOT_YET_SAVED_ID);
-
-		Login exampleLogin = new Login();
-		exampleLogin.setUsername(l.getUsername());
-
-		List<Login> list = loginDao.findByExample(exampleLogin);
-
-		assertEquals(1, list.size());
-
-		assertEquals(l.getId(), list.get(0).getId());
-
-	}
-	
 	
 }

@@ -4,11 +4,12 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +22,13 @@ import de.randi2.model.security.ObjectIdentityHibernate;
 public class ObjectIdentityHibernateTest {
 
 
-	@Autowired
-	private SessionFactory sessionFactory;
+	private EntityManager entityManager;
 	
+	
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 
 	@Before
 	public void setUp() {
@@ -62,9 +67,9 @@ public class ObjectIdentityHibernateTest {
 	@Transactional
 	public void databaseIntegrationTest() {
 		ObjectIdentityHibernate objectId = new ObjectIdentityHibernate(Login.class, 10);
-		sessionFactory.getCurrentSession().persist(objectId);
+		entityManager.persist(objectId);
 		assertTrue(objectId.getId()>0);
-		ObjectIdentityHibernate dbObjectId = (ObjectIdentityHibernate) sessionFactory.getCurrentSession().get(ObjectIdentityHibernate.class, objectId.getId());
+		ObjectIdentityHibernate dbObjectId = entityManager.find(ObjectIdentityHibernate.class, objectId.getId());
 		assertEquals(objectId.getId(), dbObjectId.getId());
 		assertEquals(objectId.getIdentifier(), dbObjectId.getIdentifier());
 		assertEquals(objectId.getType(), dbObjectId.getType());

@@ -269,8 +269,6 @@
 	<!-- Processes AFTER_ACL_COLLECTION_READ configuration settings -->
 	<bean id="afterAclCollectionRead"
 		class="org.springframework.security.acls.afterinvocation.AclEntryAfterInvocationCollectionFilteringProvider">
-		<!--		MISSING FIXME -->
-		<!--		<sec:custom-after-invocation-provider />-->
 		<constructor-arg ref="aclService" />
 		<constructor-arg>
 			<list>
@@ -282,9 +280,7 @@
 
 	<!-- Processes AFTER_ACL_READ configuration settings -->
 	<bean id="afterAclRead"
-		class="org.springframework.security.acls.afterinvocation.AclEntryAfterInvocationProvider">
-		<!-- FIXME MISSING		
-<sec:custom-after-invocation-provider />-->
+		class="org.springframework.security.acls.afterinvocation.AclEntryAfterInvocationProvider">		
 		<constructor-arg ref="aclService" />
 		<constructor-arg>
 			<list>

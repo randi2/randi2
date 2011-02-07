@@ -1,10 +1,6 @@
 package de.randi2.core.unit.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +20,6 @@ import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.testUtility.utility.AbstractDomainTest;
 
-@Transactional
 public class TrialSiteTest extends AbstractDomainTest<TrialSite> {
 
 	private TrialSite validTrialSite;
@@ -46,126 +41,301 @@ public class TrialSiteTest extends AbstractDomainTest<TrialSite> {
 		assertEquals("", c.getPostcode());
 		assertEquals("", c.getCity());
 	}
-
+	
+	
 	@Test
-	public void testName() {
-		final String nameOK1 = "K";
-		final String nameOK2 = stringUtil
-				.getWithLength(AbstractDomainObject.MAX_VARCHAR_LENGTH);
-
-		final String nameToLong = stringUtil
-				.getWithLength(AbstractDomainObject.MAX_VARCHAR_LENGTH + 1);
-		final String nameEmpty = "";
-		// final String nameNull = null;
-
-		validTrialSite.setName(nameOK1);
-		assertEquals(nameOK1, validTrialSite.getName());
-		assertValid(validTrialSite);
-
-		validTrialSite.setName(nameOK2);
-		assertEquals(nameOK2, validTrialSite.getName());
-		assertValid(validTrialSite);
-
-		validTrialSite.setName(nameToLong);
-		assertEquals(nameToLong, validTrialSite.getName());
-		assertInvalid(validTrialSite, new String[] { "" });
-
-		validTrialSite.setName(nameEmpty);
-		assertEquals(nameEmpty, validTrialSite.getName());
-		assertInvalid(validTrialSite, new String[] { "" });
-
-		// validTrialSite.setName(nameNull);
-		// assertEquals("", validTrialSite.getName());
-		// assertInvalid(validTrialSite, new String[] { "" });
+	public void testCityNotNull() {
+		 validTrialSite.setCity(null);
+		 assertEquals(null, validTrialSite.getCity());
+		 assertInvalid(validTrialSite);
 	}
-
+	
 	@Test
-	public void testStreet() {
-		// Street
-		// validTrialSite.setStreet(null);
-		// assertEquals("", validTrialSite.getStreet());
-		// assertValid(validTrialSite);
-
-		validTrialSite.setStreet("");
-		assertEquals("", validTrialSite.getStreet());
-		assertValid(validTrialSite);
-
-		validTrialSite.setStreet("Oxford-Street 212");
-		assertEquals("Oxford-Street 212", validTrialSite.getStreet());
-		assertValid(validTrialSite);
-
-		String ok = stringUtil
-				.getWithLength(AbstractDomainObject.MAX_VARCHAR_LENGTH);
-		validTrialSite.setStreet(ok);
-		assertEquals(ok, validTrialSite.getStreet());
-		assertValid(validTrialSite);
-
-		String iv = stringUtil
-				.getWithLength(AbstractDomainObject.MAX_VARCHAR_LENGTH + 1);
-		validTrialSite.setStreet(iv);
-		assertEquals(iv, validTrialSite.getStreet());
+	public void testCityNotLongerThan255() {
+		String[] invalidValues = { stringUtil.getWithLength(256),
+				stringUtil.getWithLength(650) };
+		for (String s : invalidValues) {
+			validTrialSite.setCity(s);
+			 assertEquals(s, validTrialSite.getCity());
+			 assertInvalid(validTrialSite);
+		}
+	}
+	
+	@Test
+	public void testCityCorrect() {
+		String[] validValues = { stringUtil.getWithLength(255),
+				stringUtil.getWithLength(20), "New York", "Heidelberg"  };
+		for (String s : validValues) {
+			validTrialSite.setCity(s);
+			 assertEquals(s, validTrialSite.getCity());
+			 assertValid(validTrialSite);
+		}
+	}
+	
+	@Test
+	public void testContactPersonNotNull() {
+		validTrialSite.setContactPerson(null);
+		assertEquals(null, validTrialSite.getContactPerson());
 		assertInvalid(validTrialSite);
-
 	}
-
+	
 	@Test
-	public void testPostcode() {
-		// Postcode
-		// validTrialSite.setPostcode(null);
-		// assertEquals("", validTrialSite.getPostcode());
-		// assertValid(validTrialSite);
-
-		validTrialSite.setPostcode("");
-		assertEquals("", validTrialSite.getPostcode());
-		assertValid(validTrialSite);
-
-		validTrialSite.setPostcode("97321");
-		assertEquals("97321", validTrialSite.getPostcode());
-		assertValid(validTrialSite);
-
-		String ok = stringUtil.getWithLength(TrialSite.MAX_LENGTH_POSTCODE);
-		validTrialSite.setPostcode(ok);
-		assertEquals(ok, validTrialSite.getPostcode());
-		assertValid(validTrialSite);
-
-		String iv = stringUtil.getWithLength(TrialSite.MAX_LENGTH_POSTCODE + 1);
-		validTrialSite.setPostcode(iv);
-		assertEquals(iv, validTrialSite.getPostcode());
-		assertInvalid(validTrialSite);
-
-	}
-
-	@Test
-	public void testCity() {
-		// City
-		// validTrialSite.setCity(null);
-		// assertEquals("", validTrialSite.getCity());
-		// assertValid(validTrialSite);
-
-		validTrialSite.setCity("");
-		assertEquals("", validTrialSite.getCity());
-		assertValid(validTrialSite);
-
-		validTrialSite.setCity("New Hamburger");
-		assertEquals("New Hamburger", validTrialSite.getCity());
-		assertValid(validTrialSite);
-
-		String ok = stringUtil
-				.getWithLength(AbstractDomainObject.MAX_VARCHAR_LENGTH);
-		validTrialSite.setCity(ok);
-		assertEquals(ok, validTrialSite.getCity());
-		assertValid(validTrialSite);
-
-		String iv = stringUtil
-				.getWithLength(AbstractDomainObject.MAX_VARCHAR_LENGTH + 1);
-		validTrialSite.setCity(iv);
-		assertEquals(iv, validTrialSite.getCity());
+	public void testContactPersonWithLoginInvalid() {
+		Login l = factory.getLogin();
+		validTrialSite.setContactPerson(l.getPerson());
+		assertEquals(l.getPerson(), validTrialSite.getContactPerson());
 		assertInvalid(validTrialSite);
 	}
 
+	
 	@Test
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public void testTrials() {
+	public void testContactPersonCorrect() {
+		Person p = factory.getPerson();
+		validTrialSite.setContactPerson(p);
+		assertEquals(p, validTrialSite.getContactPerson());
+		assertValid(validTrialSite);
+	}
+
+	
+	@Test
+	public void testCountryNull() {
+		validTrialSite.setCountry(null);
+		assertEquals(null, validTrialSite.getCountry());
+		assertValid(validTrialSite);
+	}
+	
+	@Test
+	public void testCountryEmpty() {
+		validTrialSite.setCountry("");
+		assertEquals("", validTrialSite.getCountry());
+		assertValid(validTrialSite);
+	}
+	
+	@Test
+	public void testCountryNotLongerThan255() {
+		String[] invalidValues = { stringUtil.getWithLength(256),
+				stringUtil.getWithLength(650) };
+		for (String s : invalidValues) {
+			validTrialSite.setCountry(s);
+			assertEquals(s, validTrialSite.getCountry());
+			 assertInvalid(validTrialSite);
+		}
+		
+	}
+	
+	@Test
+	public void testCountryCorrect() {
+		String[] validValues = { stringUtil.getWithLength(255),
+				stringUtil.getWithLength(1), stringUtil.getWithLength(20), "Germany", "UK" };
+		for (String s : validValues) {
+			validTrialSite.setCountry(s);
+			assertEquals(s, validTrialSite.getCountry());
+			 assertValid(validTrialSite);
+		}
+	}
+
+
+
+	@Test
+	public void testMembersNull() {
+		validTrialSite.setMembers(null);
+		assertNull(validTrialSite.getMembers());
+		assertValid(validTrialSite);
+	}
+	
+	@Test
+	public void testMembersCorrect() {
+
+		List<Person> members = new ArrayList<Person>();
+
+		for (int i = 0; i < 100; i++) {
+			Person p = factory.getPerson();
+			validTrialSite.getMembers().add(p);
+			members.add(p);
+		}
+		validTrialSite.setMembers(members);
+		assertEquals(members.size(), validTrialSite.getMembers().size());
+		assertValid(validTrialSite);
+	}
+	
+	@Test
+	public void testNameNotNull() {
+		validTrialSite.setName(null);
+		assertNull(validTrialSite.getName());
+		assertInvalid(validTrialSite);
+	}
+	
+	@Test
+	public void testNameNotEmpty() {
+		validTrialSite.setName("");
+		assertEquals("", validTrialSite.getName());
+		assertInvalid(validTrialSite);
+	}
+	
+	@Test
+	public void testNameNotLongerThan255() {
+		String[] invalidValues = { stringUtil.getWithLength(256),
+				stringUtil.getWithLength(480)};
+		for (String s : invalidValues) {
+			validTrialSite.setName(s);
+			assertEquals(s, validTrialSite.getName());
+			 assertInvalid(validTrialSite);
+		}
+	}
+	
+	@Test
+	public void testNameCorrect() {
+		String[] validValues = { stringUtil.getWithLength(255),
+				stringUtil.getWithLength(25), "Trial site 1"};
+		for (String s : validValues) {
+			validTrialSite.setName(s);
+			assertEquals(s, validTrialSite.getName());
+			 assertValid(validTrialSite);
+		}
+	}
+	
+	@Test
+	public void testPasswordNotNull(){
+		validTrialSite.setPassword(null);
+		assertEquals(null, validTrialSite.getPassword());
+		assertInvalid(validTrialSite);
+	}
+	
+	@Test
+	public void testPasswordNotEmpty(){
+		validTrialSite.setPassword("");
+		assertEquals("", validTrialSite.getPassword());
+		assertInvalid(validTrialSite);
+	}
+	
+	
+	@Test
+	public void testPasswordNotShorterThan8(){
+		String[] invalidPasswords = {"ecet0$s","sad.a", stringUtil.getWithLength(5)+",3", null, ""};
+		for (String s: invalidPasswords){
+			validTrialSite.setPassword(s);
+			assertEquals(s, validTrialSite.getPassword());
+			assertInvalid(validTrialSite,s);
+		}
+	}
+	
+	@Test
+	public void testPasswordNotLongerThan30(){
+		String[] invalidPasswords = {stringUtil.getWithLength(30)+ "$1", stringUtil.getWithLength(28)+"$t3"};
+		for (String s: invalidPasswords){
+			validTrialSite.setPassword(s);
+			assertEquals(s, validTrialSite.getPassword());
+			assertInvalid(validTrialSite, s);
+		}
+	}
+	
+	@Test
+	public void testPasswordLengthHashedValueEquals64(){
+		String[] validPasswords = {stringUtil.getWithLength(64)};
+		for (String s: validPasswords){
+			validTrialSite.setPassword(s);
+			assertEquals(s, validTrialSite.getPassword());
+			assertValid(validTrialSite);
+		}
+	}
+	
+	@Test
+	public void testPasswordLengthHashedValueUnequals64(){
+		String[] invalidPasswords = {stringUtil.getWithLength(65), stringUtil.getWithLength(150), stringUtil.getWithLength(65), stringUtil.getWithLength(63), stringUtil.getWithLength(34), stringUtil.getWithLength(20)};
+		for (String s: invalidPasswords){
+			validTrialSite.setPassword(s);
+			assertEquals(s, validTrialSite.getPassword());
+			assertInvalid(validTrialSite, s);
+		}
+	}
+	
+	
+	@Test
+	public void testPasswordWithCorrectLengthAndWithoutSpecialSign(){
+		String[] invalidPasswords = {"secret0secret","sad.alhljhaslf",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+"z2", stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-2)+"h3"};
+		for (String s: invalidPasswords){
+			validTrialSite.setPassword(s);
+			assertEquals(s, validTrialSite.getPassword());
+			assertInvalid(validTrialSite,s);
+		}
+	}
+	
+	@Test
+	public void testPasswordWithCorrectLengthAndSpecialSigns(){
+		String[] validPasswords = {"secret0$secret","sad.alhl3jhaslf",stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH-2)+";2", stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH-2)+"/3"};
+		for (String s: validPasswords){
+			validTrialSite.setPassword(s);
+			assertEquals(s, validTrialSite.getPassword());
+			assertValid(validTrialSite);
+		}
+	}
+	
+	@Test
+	public void testPostcodeNotNull() {
+		validTrialSite.setPostcode(null);
+		assertEquals(null, validTrialSite.getPostcode());
+		assertInvalid(validTrialSite);
+
+	}
+	
+	@Test
+	public void testPostcodeNotLongerThan10() {
+		String[] invalidPostcode = {stringUtil.getWithLength(11),stringUtil.getWithLength(365)};
+		for (String s: invalidPostcode){
+			validTrialSite.setPostcode(s);
+			assertEquals(s, validTrialSite.getPostcode());
+			assertInvalid(validTrialSite, s);
+		}
+	}
+	
+	@Test
+	public void testPostcodeCorrect() {
+		String[] validPostcode = {stringUtil.getWithLength(10),stringUtil.getWithLength(5), ""};
+		for (String s: validPostcode){
+			validTrialSite.setPostcode(s);
+			assertEquals(s, validTrialSite.getPostcode());
+			assertValid(validTrialSite);
+		}
+	}
+
+	
+	@Test
+	public void testStreetNotNull() {
+		validTrialSite.setStreet(null);
+		assertEquals(null, validTrialSite.getStreet());
+		assertInvalid(validTrialSite);
+
+	}
+	
+	@Test
+	public void testStreetNotLongerThan255() {
+		String[] invalidStreet = {stringUtil.getWithLength(256),stringUtil.getWithLength(365)};
+		for (String s: invalidStreet){
+			validTrialSite.setStreet(s);
+			assertEquals(s, validTrialSite.getStreet());
+			assertInvalid(validTrialSite, s);
+		}
+	}
+	
+	@Test
+	public void testStreetCorrect() {
+		String[] validSteet = {stringUtil.getWithLength(255),stringUtil.getWithLength(5), ""};
+		for (String s: validSteet){
+			validTrialSite.setStreet(s);
+			assertEquals(s, validTrialSite.getStreet());
+			assertValid(validTrialSite);
+		}
+	}
+	
+	@Test
+	public void testTrialsNull() {
+		validTrialSite.setTrials(null);
+		assertEquals(null, validTrialSite.getTrials());
+		assertValid(validTrialSite);
+	}
+	
+	@Test
+	public void testTrialsCorrect() {
 		List<Trial> tl = new ArrayList<Trial>();
 
 		tl.add(factory.getTrial());
@@ -174,62 +344,13 @@ public class TrialSiteTest extends AbstractDomainTest<TrialSite> {
 		validTrialSite.setTrials(tl);
 
 		assertEquals(tl.size(), validTrialSite.getTrials().size());
-
+		assertValid(validTrialSite);
+		
 		List<Trial> trials = new ArrayList<Trial>();
 		trials.add(new Trial());
 		validTrialSite.setTrials(trials);
 		assertEquals(trials, validTrialSite.getTrials());
-	}
-
-	@Test
-	public void testCountry() {
-		validTrialSite.setCountry("UK");
-		assertEquals("UK", validTrialSite.getCountry());
-	}
-
-	@Test
-	public void testContactPerson() {
-		Person p = factory.getPerson();
-		validTrialSite.setContactPerson(p);
-		assertEquals(p.getSurname(), validTrialSite.getContactPerson()
-				.getSurname());
-	}
-
-	@Test
-	public void testMembers() {
-
-		List<Person> members = new ArrayList<Person>();
-
-		for (int i = 0; i < 100; i++) {
-			Person p = factory.getPerson();
-			p.setTrialSite(validTrialSite);
-			assertEquals(validTrialSite.getId(), p.getTrialSite().getId());
-			members.add(p);
-		}
-		validTrialSite.setMembers(members);
-		assertEquals(members.size(), validTrialSite.getMembers().size());
-	}
-
-	@Test
-	public void testPassword() {
-		String[] validPasswords = { "secret0$secret", "sad.al4h/ljhaslf",
-				stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH - 2) + ";2",
-				stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH - 2) + ",3",
-				stringUtil.getWithLength(Login.HASH_PASSWORD_LENGTH) };
-		for (String s : validPasswords) {
-			validTrialSite.setPassword(s);
-			assertEquals(s, validTrialSite.getPassword());
-			assertValid(validTrialSite);
-		}
-
-		String[] invalidPasswords = { "secret$secret",
-				stringUtil.getWithLength(Login.MAX_PASSWORD_LENGTH),
-				stringUtil.getWithLength(Login.MIN_PASSWORD_LENGTH - 3) + ";2",
-				"0123456789", null, "" };
-		for (String s : invalidPasswords) {
-			validTrialSite.setPassword(s);
-			assertInvalid(validTrialSite);
-		}
+		assertValid(validTrialSite);
 	}
 
 	@Test

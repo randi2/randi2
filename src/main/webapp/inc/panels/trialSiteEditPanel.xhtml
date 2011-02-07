@@ -1,0 +1,57 @@
+<!-- 
+ This page/panel shows a detail-view of a trial site. It can also be used to edit or create a trial site.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+ <div>
+ <ui:include xmlns:ui="http://java.sun.com/jsf/facelets"
+		src="/inc/popups/trialSiteSavedPopup.xhtml" />
+<ice:form xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ice:panelTabSet style="font-size: 9;display: block;">
+		<ice:panelTab
+			label="#{labels['pages.trialSiteEditPanel.institutionTab']}">
+			<ui:include src="/inc/panels/trialSite/institution.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab
+			label="#{labels['pages.trialSiteEditPanel.contactPersonTab']}">
+			<ui:include src="/inc/panels/trialSite/contact.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.trialSiteEditPanel.membersTab']}"
+			rendered="#{!trialSiteHandler.creatingMode}">
+			<ui:include src="/inc/panels/trialSite/members.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.trialSiteEditPanel.trialsTab']}"
+			rendered="#{!trialSiteHandler.creatingMode}">
+			<ui:include src="/inc/panels/trialSite/trials.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab
+			label="#{labels['pages.trialSiteEditPanel.authenticationTab']}"
+			rendered="#{trialSiteHandler.creatingMode}">
+			<ui:include src="/inc/panels/trialSite/password.xhtml" />
+		</ice:panelTab>
+	</ice:panelTabSet>
+	<ice:panelGrid border="0" columns="3"
+		rendered="#{trialSiteHandler.editable}">
+		<ice:commandButton type="submit" value="#{labels['buttons.save']}"
+			action="#{trialSiteHandler.saveObject}"/>
+		<ice:commandButton type="submit" immediate="true"
+			value="#{labels['buttons.reset']}"
+			action="#{trialSiteHandler.refreshShowedObject}" />
+		<ice:messages globalOnly="true" errorClass="errorMsg" />
+	</ice:panelGrid>
+</ice:form>
+</div>

@@ -19,7 +19,10 @@ package de.randi2.randomization;
 
 import static de.randi2.utility.IntegerIterator.upto;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
@@ -55,14 +58,15 @@ public class UrnDesign extends RandomizationAlgorithm<UrnDesignConfig> {
 			tempData.setUrn(stratum, urn);
 		}
 		TreatmentArm drawnArm = urn.drawFromUrn(random);
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());
 		//TODO now only for two arms
-		if(drawnArm.getName().equals(trial.getTreatmentArms().get(0).getName())){
+		if(drawnArm.getName().equals(arms.get(0).getName())){
 			for(int i : upto(configuration.getCountReplacedBalls())){
-				urn.add(trial.getTreatmentArms().get(1));
+				urn.add(arms.get(1));
 			}
 		}else{
 			for(int i : upto(configuration.getCountReplacedBalls())){
-				urn.add(trial.getTreatmentArms().get(0));
+				urn.add(arms.get(0));
 			}
 		}
 		return drawnArm;

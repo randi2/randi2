@@ -31,12 +31,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.TrialSiteDao;
+import de.randi2.model.Person;
 import de.randi2.model.TrialSite;
 
 @Service("trialSiteService")
 public class TrialSiteServiceImpl implements TrialSiteService{
 
-	private Logger logger = Logger.getLogger(TrialServiceImpl.class);
+	private Logger logger = Logger.getLogger(TrialSiteService.class);
 	
 	@Autowired private TrialSiteDao siteDAO;
 	@Autowired private PasswordEncoder passwordEncoder;
@@ -64,6 +65,16 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " get trial site with id=" + objectID);
 		return siteDAO.get(objectID);
 	}
+	
+	@Override
+	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public TrialSite getTrialWithMembers(long objectID) {
+		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " get trial site with id=" + objectID);
+		TrialSite site = siteDAO.get(objectID);
+		if(site.getMembers().size()>0) site.getMembers().get(0);
+		return site;
+	}
 
 	@Override
 	@Secured({"ACL_TRIALSITE_CREATE"})
@@ -81,6 +92,47 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 	public TrialSite update(TrialSite site) {
 		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " update trial site with name " + site.getName() + " (id="+site.getId()+")");
 		return siteDAO.update(site);
+	}
+
+	@Override
+	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public TrialSite getTrialSiteFromPerson(Person person) {
+		return siteDAO.get(person);
+	}
+
+	@Override
+	@Secured({"ACL_TRIALSITE_WRITE"})
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	public void addPerson(TrialSite site, Person person) throws ServiceException {
+		if(site == null || site.getId()<1 || person == null || person.getId() <1) 
+			throw new ServiceException("Invalid value");
+		site = siteDAO.refresh(site);
+		site.getMembers().add(person);
+		siteDAO.update(site);
+	}
+	
+	@Override
+	@Secured({"ACL_TRIALSITE_WRITE"})
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	public void changePersonTrialSite(TrialSite newSite,
+			Person person) throws ServiceException {
+		TrialSite oldSite = siteDAO.get(person);
+		newSite = siteDAO.refresh(newSite);
+		if(!oldSite.getMembers().remove(person)) throw new ServiceException();
+		newSite.getMembers().add(person);
+		siteDAO.update(oldSite);
+		siteDAO.update(newSite);
+	}
+	
+	@Override
+	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public List<Person> getMembers(TrialSite site){
+		if(site == null) return null;
+		site = siteDAO.refresh(site);
+		if(site.getMembers().size()>0) site.getMembers().get(0);
+		return site.getMembers();
 	}
 
 }

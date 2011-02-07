@@ -31,13 +31,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import org.hibernate.validator.Length;
-import org.hibernate.validator.NotEmpty;
-import org.hibernate.validator.NotNull;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.acls.model.Permission;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
@@ -52,10 +52,12 @@ import de.randi2.utility.validations.Password;
  */
 @Entity
 @NamedQueries( {
-		@NamedQuery(name = "login.AllLoginsWithRolesAndTrialSiteScope", query = "select login from Login as login join login.roles role join login.person.trialSite trialSite where role.scopeTrialSiteView = true AND trialSite.id = ? group by login"),
 		@NamedQuery(name = "login.AllLoginsWithRolesAndNotTrialSiteScope", query = "select login from Login as login join login.roles role where role.scopeTrialSiteView = false AND not (role.name = 'ROLE_USER') group by login"),
 		@NamedQuery(name = "login.LoginsWriteOtherUser", query = "select login from Login as login join login.roles role where role.writeOtherUser = true group by login"),
-		@NamedQuery(name = "login.LoginsWithPermission", query = "from Login as login where login.username in (select ace.sid.sidname from AccessControlEntryHibernate as ace where ace.acl.objectIdentity.type = ? and ace.acl.objectIdentity.identifier = ? and ace.permission = ?)") })
+		@NamedQuery(name = "login.LoginsWithPermission", query = "from Login as login where login.username in (select ace.sid.sidname from AccessControlEntryHibernate as ace where ace.acl.objectIdentity.type = ? and ace.acl.objectIdentity.identifier = ? and ace.permission.code = ?)"),
+		@NamedQuery(name = "login.AllLoginsWithSpecificRole" ,query= "select l from Login as l join l.roles role where role.id = ?" ),
+		@NamedQuery(name = "login.AllLoginsWithSpecificRoleAndTrialSite" ,query= "select l from Login as l join l.roles role where role.id = ? and l in (select p.login from TrialSite as site join site.members p where site.id = ?)")
+})
 @EqualsAndHashCode(callSuper = true)
 public @Data
 class Login extends AbstractDomainObject implements UserDetails {

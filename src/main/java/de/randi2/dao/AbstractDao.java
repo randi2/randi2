@@ -44,16 +44,7 @@ public interface AbstractDao<E extends AbstractDomainObject> {
 	 */
 	public void create(E object);
 	
-	/**
-	 * Find by example.
-	 * 
-	 * @param object
-	 *            the object
-	 * 
-	 * @return the list< e>
-	 */
-	public List<E> findByExample(E object);
-	
+		
 	/**
 	 * Gets the all.
 	 * 
@@ -70,4 +61,6 @@ public interface AbstractDao<E extends AbstractDomainObject> {
 	 * @return the e
 	 */
 	public E update(E object);
+	
+	public E refresh(E object);
 }

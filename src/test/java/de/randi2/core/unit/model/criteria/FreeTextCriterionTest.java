@@ -1,10 +1,6 @@
 package de.randi2.core.unit.model.criteria;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.randi2.model.criteria.FreeTextCriterion;
+import de.randi2.model.criteria.constraints.AbstractConstraint;
+import de.randi2.model.criteria.constraints.FreeTextConstraint;
 import de.randi2.model.criteria.constraints.FreeTextConstraint;
 import de.randi2.testUtility.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
@@ -90,6 +88,204 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 		} catch (ContraintViolatedException e) {
 		}
 
+	}
+	
+	
+	@Test
+	public void testDescriptionNull(){
+		criterion.setDescription(null);
+		assertEquals(null, criterion.getDescription());
+		assertValid(criterion);
+	}
+	
+	@Test
+	public void testDescriptionEmpty(){
+		criterion.setDescription("");
+		assertEquals("", criterion.getDescription());
+		assertValid(criterion);
+	}
+	
+	
+	@Test
+	public void testDescriptionOther(){
+		String[] validValues= {"A","Abcsdafasd", "Title" , stringUtil.getWithLength(265) };
+		for(String s :validValues){
+			criterion.setDescription(s);
+			assertEquals(s, criterion.getDescription());
+			assertValid(criterion);
+		}
+	}
+	
+	
+	@Test
+	public void testNameNull(){
+		criterion.setName(null);
+		assertEquals(null, criterion.getName());
+		assertValid(criterion);
+	}
+	
+	@Test
+	public void testNameEmpty(){
+		criterion.setName("");
+		assertEquals("", criterion.getName());
+		assertValid(criterion);
+	}
+	
+	
+	@Test
+	public void testNameOther(){
+		String[] validValues= {"A","Abcsdafasd", "Title" , stringUtil.getWithLength(265) };
+		for(String s :validValues){
+			criterion.setName(s);
+			assertEquals(s, criterion.getName());
+			assertValid(criterion);
+		}
+	}
+
+	@Test
+	public void testAddStrata(){
+		AbstractConstraint<String> constraintA = null;
+		AbstractConstraint<String> constraintB = null;
+		try {
+			constraintA = new FreeTextConstraint(Arrays.asList(new String[]{"a"}));
+			constraintB = new FreeTextConstraint(Arrays.asList(new String[]{"b"}));
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+		criterion.addStrata(constraintA);
+		assertEquals(1,criterion.getStrata().size());
+		assertTrue(criterion.getStrata().contains(constraintA));
+		criterion.addStrata(constraintB);
+		assertEquals(2,criterion.getStrata().size());
+		assertTrue(criterion.getStrata().contains(constraintA));
+		assertTrue(criterion.getStrata().contains(constraintB));
+		
+	}
+	
+	
+	@Test
+	public void testAddStrataNull(){
+		ArrayList<FreeTextConstraint> list = new ArrayList<FreeTextConstraint>();
+		criterion.setStrata(list);
+		assertEquals(0,criterion.getStrata().size());
+		criterion.addStrata(null);
+		assertEquals(0,criterion.getStrata().size());
+	}
+	
+	
+	@Test
+	public void testSetAndGetStrata(){
+		ArrayList<FreeTextConstraint> list = new ArrayList<FreeTextConstraint>();
+		assertNotSame(list, criterion.getStrata());
+		criterion.setStrata(list);
+		assertEquals(list, criterion.getStrata());
+	}
+	
+	@Test
+	public void testCheckValueCorrect() throws ContraintViolatedException{
+		assertTrue(criterion.checkValue("asdafsadfasdf"));
+		assertTrue(criterion.checkValue("b"));
+		criterion.setInclusionConstraint(new FreeTextConstraint(Arrays.asList(new String[]{"a"})));
+		assertTrue(criterion.checkValue("a"));
+	}
+	
+	@Test
+	public void testCheckValueIncorrect() throws ContraintViolatedException{
+		criterion.setInclusionConstraint(new FreeTextConstraint(Arrays.asList(new String[]{"a"})));
+		assertFalse(criterion.checkValue("x"));
+	}
+	
+	
+	@Test
+	public void testGetConstraintType(){
+		assertEquals(FreeTextConstraint.class, criterion.getContstraintType());
+	}
+	
+	
+	@Test
+	public void testInclusionConstraintNull(){
+		try {
+			FreeTextConstraint constraint = new FreeTextConstraint(Arrays.asList(new String[]{"a"}));
+			criterion.setInclusionConstraint(constraint);
+			assertNotNull(criterion.getInclusionConstraint());
+			criterion.setInclusionConstraint(null);
+			assertNull(criterion.getInclusionConstraint());
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testInclusionConstraintOther(){
+		try {
+			FreeTextConstraint constraint = new FreeTextConstraint(Arrays.asList(new String[]{"a"}));
+			criterion.setInclusionConstraint(constraint);
+			assertEquals(constraint, criterion.getInclusionConstraint());
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testIsInclusionConstraintTrue(){
+		try {
+			FreeTextConstraint constraint = new FreeTextConstraint(Arrays.asList(new String[]{"a"}));
+			criterion.setInclusionConstraint(constraint);
+			assertTrue(criterion.isInclusionCriterion());
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testIsInclusionConstraintFalse(){
+			try {
+				criterion.setInclusionConstraint(null);
+			} catch (ContraintViolatedException e) {
+				fail();
+			}
+			assertFalse(criterion.isInclusionCriterion());
+	}
+	
+	
+	@Test
+	public void testStratifyConstraintException(){
+		AbstractConstraint<String> constraintA = null;
+		AbstractConstraint<String> constraintB = null;
+		try {
+			constraintA = new FreeTextConstraint(Arrays.asList(new String[]{"a"}));
+			constraintB = new FreeTextConstraint(Arrays.asList(new String[]{"b"}));
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+		criterion.addStrata(constraintA);
+		criterion.addStrata(constraintB);
+		try {
+			 criterion.stratify("c");
+			 fail();
+		} catch (ContraintViolatedException e) {
+		}
+	}
+	
+	
+	@Test
+	public void testStratify(){
+		AbstractConstraint<String> constraintA = null;
+		AbstractConstraint<String> constraintB = null;
+		try {
+			constraintA = new FreeTextConstraint(Arrays.asList(new String[]{"a"}));
+			constraintB = new FreeTextConstraint(Arrays.asList(new String[]{"b"}));
+		} catch (ContraintViolatedException e) {
+			fail();
+		}
+		criterion.addStrata(constraintA);
+		criterion.addStrata(constraintB);
+		try {
+			assertEquals(constraintA, criterion.stratify("a"));
+			assertEquals(constraintB, criterion.stratify("b"));
+		} catch (ContraintViolatedException e) {
+			fail(e.getMessage());
+		}
 	}
 	
 	

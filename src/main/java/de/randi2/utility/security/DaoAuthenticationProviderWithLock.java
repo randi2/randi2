@@ -19,6 +19,9 @@ package de.randi2.utility.security;
 
 import java.util.GregorianCalendar;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +40,14 @@ public class DaoAuthenticationProviderWithLock extends
 	
 	
 	private Logger logger = Logger.getLogger(DaoAuthenticationProviderWithLock.class);
-	@Autowired private SessionFactory sessionFactory;
+	
+	protected EntityManager entityManager;
+
+	@PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+	        this. entityManager = entityManager;
+	}
+	
 	@Autowired private LogService logService;
 	
 	@Override
@@ -56,7 +66,7 @@ public class DaoAuthenticationProviderWithLock extends
 				number++;
 				user.setNumberWrongLogins(number);
 				if(number==Login.MAX_WRONG_LOGINS) user.setLockTime(new GregorianCalendar()); 
-				sessionFactory.getCurrentSession().save(user);
+				entityManager.merge(user);
 				
 			}
 			throw e;

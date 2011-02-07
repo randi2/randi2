@@ -23,13 +23,18 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.hibernate.validator.ValidatorClass;
+import javax.validation.Constraint;
+import javax.validation.Payload;
 
-@ValidatorClass(EMailRANDI2Validator.class)
+@Constraint(validatedBy=EMailRANDI2Validator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface EMailRANDI2 {
 
 	String message() default "{validator.eMailRANDI2}";
+	
+    Class<?>[] groups() default {};
+    
+    Class<? extends Payload>[] payload() default {};
 }

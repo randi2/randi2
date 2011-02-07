@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.model.Acl;
@@ -44,8 +44,12 @@ import de.randi2.model.security.SidHibernate;
 public class HibernateAclService implements AclService {
 
 	
-	/** The session factory. */
-	@Autowired private SessionFactory sessionFactory;
+	private EntityManager entityManager;
+	
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 
 	/* (non-Javadoc)
 	 * @see org.springframework.security.acls.AclService#findChildren(org.springframework.security.acls.objectidentity.ObjectIdentity)
@@ -82,9 +86,8 @@ public class HibernateAclService implements AclService {
 				sidname = ((GrantedAuthoritySid) sid).getGrantedAuthority();
 			}
 			if (sidname != null) {
-				List<Acl> list = sessionFactory.getCurrentSession()
-				.getNamedQuery("acl.findAclByObjectIdentityAndSid").setParameter(0, sidname)
-				.setParameter(1, object.getIdentifier()).setParameter(2, object.getType()).list();
+				List<Acl> list = entityManager.createNamedQuery("acl.findAclByObjectIdentityAndSid").setParameter(1, sidname)
+				.setParameter(2, object.getIdentifier()).setParameter(3, object.getType()).getResultList();
 				if (list.size() == 1) {
 					return list.get(0);
 				}
@@ -124,7 +127,7 @@ public class HibernateAclService implements AclService {
 		AclHibernate acl = new AclHibernate();
 		acl.setObjectIdentity(createObjectIdentityIfNotSaved(object));
 		acl.setOwner(createSidIfNotSaved(sidname));
-		sessionFactory.getCurrentSession().persist(acl);
+		entityManager.persist(acl);
 		return acl;
 	}
 
@@ -148,8 +151,8 @@ public class HibernateAclService implements AclService {
 		AclHibernate acl= new AclHibernate();
 		acl.setObjectIdentity(createObjectIdentityIfNotSaved(object));
 		acl.setOwner(createSidIfNotSaved(sidname));
-		List<AclHibernate> list = sessionFactory.getCurrentSession().createQuery("from AclHibernate acl where acl.owner.id = ? and acl.objectIdentity.id = ?").setParameter(0, acl.getOwner().getId())
-		.setParameter(1, acl.getObjectIdentity().getId()).list();
+		List<AclHibernate> list = entityManager.createQuery("from AclHibernate acl where acl.owner.id = ? and acl.objectIdentity.id = ?").setParameter(1, acl.getOwner().getId())
+		.setParameter(2, acl.getObjectIdentity().getId()).getResultList();
 		if(list.size() ==1){
 			acl = list.get(0);
 		}
@@ -157,8 +160,7 @@ public class HibernateAclService implements AclService {
 		for (PermissionHibernate permission : permissions) {
 			acl.insertAce(permission, roleName);
 		}
-		sessionFactory.getCurrentSession().merge(acl);
-		sessionFactory.getCurrentSession().flush();
+		acl = entityManager.merge(acl);
 		return acl;
 	}
 	
@@ -189,12 +191,12 @@ public class HibernateAclService implements AclService {
 	 */
 	@SuppressWarnings("unchecked")
 	private SidHibernate createSidIfNotSaved(String sidname) {
-		List<SidHibernate> list = sessionFactory.getCurrentSession().createCriteria(SidHibernate.class).add(Restrictions.eq("sidname", sidname)).list();
+		List<SidHibernate> list =entityManager.createQuery("from SidHibernate sid where sidname = :sidname").setParameter("sidname",sidname).getResultList();
 		if (list.size() == 1) {
 			return list.get(0);
 		} else {
 			SidHibernate sid = new SidHibernate(sidname);
-			sessionFactory.getCurrentSession().persist(sid);
+			entityManager.persist(sid);
 			return sid;
 		}
 	}
@@ -210,14 +212,14 @@ public class HibernateAclService implements AclService {
 	@SuppressWarnings("unchecked")
 	private ObjectIdentityHibernate createObjectIdentityIfNotSaved(
 			AbstractDomainObject object) {
-		List<ObjectIdentityHibernate> list = sessionFactory.getCurrentSession().createQuery("from ObjectIdentityHibernate where identifier = :identifier and type = :type")
-		.setParameter("identifier", object.getId()).setParameter("type", object.getClass().getCanonicalName()).list();
+		List<ObjectIdentityHibernate> list = entityManager.createQuery("from ObjectIdentityHibernate where identifier = :identifier and type = :type")
+		.setParameter("identifier", object.getId()).setParameter("type", object.getClass().getCanonicalName()).getResultList();
 		if (list.size() == 1) {
 			return list.get(0);
 		} else {
 			ObjectIdentityHibernate oi = new ObjectIdentityHibernate(object
 					.getClass(), object.getId());
-			sessionFactory.getCurrentSession().persist(oi);
+			entityManager.persist(oi);
 			return oi;
 		}
 	}
@@ -229,6 +231,7 @@ public class HibernateAclService implements AclService {
 	 *            the acl
 	 */
 	public void update(AclHibernate acl) {
-		sessionFactory.getCurrentSession().merge(acl);
+		entityManager.merge(acl);
 	}
+	
 }

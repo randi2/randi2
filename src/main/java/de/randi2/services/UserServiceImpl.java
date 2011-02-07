@@ -37,9 +37,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.LoginDao;
 import de.randi2.dao.RoleDao;
+import de.randi2.dao.TrialSiteDao;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
+import de.randi2.model.TrialSite;
 import de.randi2.utility.mail.MailServiceInterface;
 import de.randi2.utility.mail.exceptions.MailErrorException;
 
@@ -60,6 +62,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private LoginDao loginDao;
+	
+	@Autowired
+	private TrialSiteDao trialSiteDao;
 
 	@Autowired
 	private RoleDao roleDao;
@@ -69,7 +74,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void addRole(Login login, Role role) {
-
+		role = roleDao.get(role.getName());
 		if (login != null && role != null && role.getId() > 0
 				&& !login.getRoles().contains(role)) {
 			logger.info("user: "
@@ -117,9 +122,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Secured({ "ROLE_ANONYMOUS", "ACL_LOGIN_CREATE" })
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void register(Login newObject) {
+	public void register(Login newObject, TrialSite site) {
 		logger.info("register new user with username/eMail "
-				+ newObject.getUsername());
+				+ newObject.getUsername() +" and the trial site: "+ site.getName());
+		site = trialSiteDao.refresh(site);
 		// Investigator Role (self-registration process)
 		if (newObject.getRoles().size() == 1
 				&& newObject.getRoles().iterator().next()
@@ -129,6 +135,8 @@ public class UserServiceImpl implements UserService {
 		newObject.setPassword(passwordEncoder.encodePassword(
 				newObject.getPassword(), saltSourceUser.getSalt(newObject)));
 		loginDao.create(newObject);
+		site.getMembers().add(newObject.getPerson());
+		trialSiteDao.update(site);
 		// send registration Mail
 		sendRegistrationMail(newObject);
 	}
@@ -141,7 +149,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Secured({ "ACL_LOGIN_CREATE" })
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void create(Login newObject) {
+	public void create(Login newObject, TrialSite site) {
+		site = trialSiteDao.refresh(site);
 		logger.info("user: "
 				+ SecurityContextHolder.getContext().getAuthentication()
 						.getName() + " create new user "
@@ -149,6 +158,8 @@ public class UserServiceImpl implements UserService {
 		newObject.setPassword(passwordEncoder.encodePassword(
 				newObject.getPassword(), saltSourceUser.getSalt(newObject)));
 		loginDao.create(newObject);
+		site.getMembers().add(newObject.getPerson());
+		site = trialSiteDao.update(site);
 		// send registration Mail
 		sendRegistrationMail(newObject);
 	}
@@ -192,6 +203,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void removeRole(Login login, Role role) {
+		role = roleDao.get(role.getName());
 		if (login != null && login.getId() > 0 && role != null
 				&& role.getId() > 0 && login.getRoles().contains(role)) {
 			logger.info("user: "
@@ -232,12 +244,13 @@ public class UserServiceImpl implements UserService {
 			logger.error("Mail error", e);
 		}
 
-		if (newUser.getPerson().getTrialSite() != null
-				&& newUser.getPerson().getTrialSite().getContactPerson() != null) {
+		TrialSite trialSiteOfNewPerson = trialSiteDao.get(newUser.getPerson());
+		if (trialSiteOfNewPerson != null
+				&& trialSiteOfNewPerson.getContactPerson() != null) {
 
 			// send e-mail to contact person of current trial-site
 
-			Person contactPerson = newUser.getPerson().getTrialSite()
+			Person contactPerson = trialSiteOfNewPerson
 					.getContactPerson();
 			language = Locale.getDefault();
 
@@ -252,7 +265,7 @@ public class UserServiceImpl implements UserService {
 					.getPerson().getFirstname());
 			contactPersonSubjectFields.put("newUserLastname", newUser
 					.getPerson().getSurname());
-			contactPersonSubjectFields.put("trialSite", newUser.getPerson().getTrialSite().getName());
+			contactPersonSubjectFields.put("trialSite", trialSiteOfNewPerson.getName());
 			
 			try {
 				mailService.sendMail(contactPerson.getEmail(),

@@ -34,6 +34,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -41,15 +42,15 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import org.hibernate.validator.Length;
-import org.hibernate.validator.NotEmpty;
-import org.hibernate.validator.NotNull;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import de.randi2.model.criteria.AbstractCriterion;
@@ -149,23 +150,23 @@ public class Trial extends AbstractDomainObject {
 	private TrialStatus status = TrialStatus.IN_PREPARATION;
 
 	/** The participating sites. */
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@Getter
 	@Setter
 	private Set<TrialSite> participatingSites = new HashSet<TrialSite>();
 
 	/** The treatment arms. */
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trial")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trial", fetch=FetchType.EAGER)
 	@Getter
 	@Setter
-	private List<TreatmentArm> treatmentArms = new ArrayList<TreatmentArm>();
+	private Set<TreatmentArm> treatmentArms = new HashSet<TreatmentArm>();
 
 	/** The subject criteria. */
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> subjectCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
 
 	/** The random conf. */
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	private AbstractRandomizationConfig randomConf;
 
 	/**
@@ -209,14 +210,18 @@ public class Trial extends AbstractDomainObject {
 	}
 
 	/**
-	 * Adds the participating site.
+	 * Adds a participating site to this trial and added this Trial to the participating site.
 	 * 
 	 * @param participatingSite
 	 *            the participating site
 	 */
 	public void addParticipatingSite(TrialSite participatingSite) {
-		if(participatingSite!=null)
+		if(participatingSite!=null){
 			this.participatingSites.add(participatingSite);
+			if(!participatingSite.getTrials().contains(this)){
+				participatingSite.getTrials().add(this);
+			}
+		}
 	}
 
 	/**
@@ -225,6 +230,9 @@ public class Trial extends AbstractDomainObject {
 	 * @return the randomization configuration
 	 */
 	public AbstractRandomizationConfig getRandomizationConfiguration() {
+		if(randomConf != null && randomConf.getTrial() == null){
+			randomConf.setTrial(this);
+		}
 		return randomConf;
 	}
 
@@ -385,4 +393,5 @@ public class Trial extends AbstractDomainObject {
 		}
 		return Pair.of(strataIdsResult, strataNamesResult);
 	}
+	
 }

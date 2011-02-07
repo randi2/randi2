@@ -24,6 +24,7 @@ import static de.randi2.utility.IntegerIterator.upto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -57,7 +58,7 @@ public class Block extends AbstractDomainObject {
 	 */
 	public static Block generate(Trial trial) {
 		Block block = new Block();
-		List<TreatmentArm> arms = trial.getTreatmentArms();
+		Set<TreatmentArm> arms = trial.getTreatmentArms();
 
 		int[] sizes = new int[arms.size()];
 		int i = 0;

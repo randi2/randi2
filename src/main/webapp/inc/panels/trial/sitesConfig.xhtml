@@ -1,0 +1,80 @@
+<!-- 
+ This pages/panel represents the second step of the trial creation.
+
+ Made by lplotni@users.sourceforge.org  
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<div><ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" border="0"
+	columns="2" rendered="#{trialHandler.editing}">
+	<ice:graphicImage value="/img/icons/trialSite48.png" />
+	<ice:outputLabel
+		value="#{labels['pages.trialCreatePanel.step2message']}" />
+</ice:panelGrid> <ice:panelGroup style="width: 500px;"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:f="http://java.sun.com/jsf/core"
+	rendered="#{trialHandler.editing}">
+	<ice:panelCollapsible expanded="true">
+		<f:facet name="header">
+			<ice:outputLabel for="trialSite"
+				value="#{labels['trial.participatingSites']}" />
+		</f:facet>
+		<ice:panelGrid border="0" columns="2">
+			<ice:selectInputText id="trialSite"
+				valueChangeListener="#{trialHandler.participatingSitesAC.updateObjectList}"
+				rows="10" width="200">
+				<f:selectItems
+					value="#{trialHandler.participatingSitesAC.objectList}" />
+			</ice:selectInputText>
+			<ice:commandButton image="/img/icons/add16.png"
+				actionListener="#{trialHandler.addTrialSite}"
+				disabled="#{!trialHandler.participatingSitesAC.objectSelected}" />
+		</ice:panelGrid>
+		<ice:dataTable border="1"
+			value="#{trialHandler.currentObject.participatingSites}"
+			var="trialSite" scrollable="true" scrollHeight="250px"
+			columnWidths="150px,100px,100px, 55px" width="405px">
+			<ice:column id="column1">
+				<ice:outputText value="#{trialSite.name}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="#{labels['trialSite.name']}" id="nameH"
+						style="width:150px;"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column id="column2">
+				<ice:outputText value="#{trialSite.country}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="#{labels['trialSite.country']}"
+						id="countryH" style="width:100px;"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column id="column3">
+				<ice:outputText value="#{trialSite.city}"></ice:outputText>
+				<f:facet name="header">
+					<ice:outputText value="#{labels['trialSite.city']}" id="cityH"
+						style="width:100px;"></ice:outputText>
+				</f:facet>
+			</ice:column>
+			<ice:column id="column4">
+				<ice:commandLink id="removeId" value="#{labels['buttons.remove']}"
+					actionListener="#{trialHandler.removeTrialSite}">
+					<ice:outputText value="#{trialSite}" visible="false"></ice:outputText>
+				</ice:commandLink>
+				<f:facet name="header">
+					<ice:outputText value="" id="removeH" style="width:55px;"></ice:outputText>
+				</f:facet>
+			</ice:column>
+		</ice:dataTable>
+	</ice:panelCollapsible>
+</ice:panelGroup></div>

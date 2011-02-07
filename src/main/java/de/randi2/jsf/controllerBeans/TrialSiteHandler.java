@@ -19,11 +19,13 @@ package de.randi2.jsf.controllerBeans;
 
 import java.util.List;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 import lombok.Setter;
-
-import org.hibernate.validator.InvalidStateException;
-import org.hibernate.validator.InvalidValue;
-
 import de.randi2.jsf.supportBeans.PermissionVerifier;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
@@ -40,29 +42,32 @@ import de.randi2.services.TrialSiteService;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
+@ManagedBean(name="trialSiteHandler")
+@SessionScoped
 public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	
 	/*
 	 * Services which are provided by spring and this class works with.
 	 */
-
+	@ManagedProperty(value="#{trialSiteService}")
 	@Setter
 	private TrialSiteService siteService = null;
 
+	@ManagedProperty(value="#{permissionVerifier}")
 	@Setter
 	private PermissionVerifier permissionVerifier;
 	
 	/*
 	 * Reference to the popups bean for the popups functionality. 
 	 */
-	
+	@ManagedProperty(value="#{popups}")
 	@Setter
 	private Popups popups;
 	
 	/*
 	 * Reference to the LoginHandler 
 	 */
-	
+	@ManagedProperty(value="#{loginHandler}")
 	@Setter
 	private LoginHandler loginHandler;
 
@@ -105,10 +110,10 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 			popups.showTrialSiteSavedPopup();
 			this.creatingMode = false;
 			return Randi2.SUCCESS;
-		} catch (InvalidStateException exp) {
-			for (InvalidValue v : exp.getInvalidValues()) {
+		} catch (ConstraintViolationException exp) {
+			for (ConstraintViolation<?> v : exp.getConstraintViolations()) {
 				Randi2
-						.showMessage(v.getPropertyName() + " : "
+						.showMessage(v.getPropertyPath() + " : "
 								+ v.getMessage());
 			}
 			return Randi2.ERROR;
@@ -157,6 +162,10 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 		TrialSite ts = new TrialSite();
 		ts.setContactPerson(new Person());
 		return ts;
+	}
+	
+	public List<Person> getMembers(){
+		return siteService.getMembers(currentObject);
 	}
 
 }

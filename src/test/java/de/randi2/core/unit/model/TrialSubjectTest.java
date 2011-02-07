@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import de.randi2.model.AbstractDomainObject;
@@ -22,9 +23,28 @@ import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
+import de.randi2.testUtility.utility.AbstractDomainTest;
 import de.randi2.unsorted.ContraintViolatedException;
 
-public class TrialSubjectTest extends AbstractDomainObject {
+public class TrialSubjectTest extends AbstractDomainTest<TrialSubject> {
+	
+	
+	public TrialSubjectTest() {
+		super(TrialSubject.class);
+	}
+	
+	private TrialSubject validSubject;
+	
+	@Before
+	public void setUp(){
+		validSubject = new TrialSubject();
+		validSubject.setRandNumber("randN");
+		validSubject.setArm(new TreatmentArm());
+		validSubject.setIdentification("identification");
+	}
+	
+	
+
 	private static final long serialVersionUID = 4476774735316414165L;
 	private long id = 0;
 
@@ -39,6 +59,7 @@ public class TrialSubjectTest extends AbstractDomainObject {
 			dCriterion1 = new DichotomousCriterion();
 
 			dCriterion1.setId(getNextId());
+			dCriterion1.setName("dichotom Crit 1");
 			dCriterion1.setOption1("option1");
 			dCriterion1.setOption2("option2");
 			try {
@@ -57,7 +78,6 @@ public class TrialSubjectTest extends AbstractDomainObject {
 			}
 		}
 		return new SubjectProperty<String>(dCriterion1);
-
 	}
 
 	private DichotomousCriterion dCriterion2 = null;
@@ -67,6 +87,7 @@ public class TrialSubjectTest extends AbstractDomainObject {
 			dCriterion2 = new DichotomousCriterion();
 
 			dCriterion2.setId(getNextId());
+			dCriterion2.setName("dichotom Crit 2");
 			dCriterion2.setOption1("option1");
 			dCriterion2.setOption2("option2");
 			try {
@@ -95,6 +116,7 @@ public class TrialSubjectTest extends AbstractDomainObject {
 			dCriterion3 = new DichotomousCriterion();
 
 			dCriterion3.setId(getNextId());
+			dCriterion3.setName("dichotom Crit 3");
 			dCriterion3.setOption1("option1");
 			dCriterion3.setOption2("option2");
 			try {
@@ -318,13 +340,21 @@ public class TrialSubjectTest extends AbstractDomainObject {
 		assertFalse(trialSubject1.equals(new TreatmentArm()));
 	}
 	
+	
 	@Test
-	public void testArm(){
+	public void testArmNotNull(){
+	    validSubject.setArm(null);
+		assertEquals(null, validSubject.getArm());
+		assertInvalid(validSubject);
+	}
+	
+	@Test
+	public void testArmCorrect(){
 		TreatmentArm arm = new TreatmentArm();
 		arm.setId(123);
-		TrialSubject subject = new TrialSubject();
-		subject.setArm(arm);
-		assertEquals(arm, subject.getArm());
+		validSubject.setArm(arm);
+		assertEquals(arm, validSubject.getArm());
+		assertValid(validSubject);
 	}
 	
 	
@@ -337,45 +367,125 @@ public class TrialSubjectTest extends AbstractDomainObject {
 	
 	
 	@Test
-	public void testIdentification(){
-		TrialSubject subject = new TrialSubject();
-		subject.setIdentification("123456");
-		assertEquals("123456", subject.getIdentification());
-	}
-	
-	
-	@Test
-	public void testInvestigator(){
-		Login login = new Login();
-		TrialSubject subject = new TrialSubject();
-		subject.setInvestigator(login);
-		assertEquals(login, subject.getInvestigator());
+	public void testIdentificationNotNull(){
+		validSubject.setIdentification(null);
+		assertEquals(null, validSubject.getIdentification());
+		assertInvalid(validSubject);
 	}
 	
 	@Test
-	public void testProperties(){
+	public void testIdentificationNotEmpty(){
+		validSubject.setIdentification("");
+		assertEquals("", validSubject.getIdentification());
+		assertInvalid(validSubject);
+	}
+	
+	@Test
+	public void testIdentificationNotLongerThan255(){
+		String[] invalidValues = { stringUtil.getWithLength(256),
+				stringUtil.getWithLength(650) };
+		for (String s : invalidValues) {
+			validSubject.setIdentification(s);
+			assertEquals(s, validSubject.getIdentification());
+			assertInvalid(validSubject);
+		}
+	}
+	
+	@Test
+	public void testIdentificationCorrect(){
+		String[] validValues = { stringUtil.getWithLength(255),
+				stringUtil.getWithLength(23), "123456" };
+		for (String s : validValues) {
+			validSubject.setIdentification(s);
+			assertEquals(s, validSubject.getIdentification());
+			assertValid(validSubject);
+		}
+	}
+
+	@Test
+	public void testPropertiesNull(){
+		validSubject.setProperties(null);
+		assertEquals(null, validSubject.getProperties());
+		assertValid(validSubject);
+	}
+	
+	@Test
+	public void testPropertiesCorrect(){
 		Set<SubjectProperty<?>> properties = new HashSet<SubjectProperty<?>>();
-		TrialSubject subject = new TrialSubject();
-		subject.setProperties(properties);
-		assertEquals(properties, subject.getProperties());
+		validSubject.setProperties(properties);
+		assertEquals(properties, validSubject.getProperties());
+		assertValid(validSubject);
 	}
 	
 	
 	@Test
-	public void testRandoNumber(){
-		TrialSubject subject = new TrialSubject();
-		subject.setRandNumber("123456");
-		assertEquals("123456", subject.getRandNumber());
+	public void testInvestigatorNull(){
+		validSubject.setInvestigator(null);
+		assertEquals(null, validSubject.getInvestigator());
+		assertValid(validSubject);
+	}
+	
+	@Test
+	public void testInvestigatorCorrect(){
+		Login login = new Login();
+		validSubject.setInvestigator(login);
+		assertEquals(login, validSubject.getInvestigator());
+		assertValid(validSubject);
+	}
+	
+	
+	
+	@Test
+	public void testRandNumberNotNull(){
+		validSubject.setRandNumber(null);
+		assertEquals(null, validSubject.getRandNumber());
+		assertInvalid(validSubject);
+	}
+	
+	@Test
+	public void testRandNumbernNotEmpty(){
+		validSubject.setRandNumber("");
+		assertEquals("", validSubject.getRandNumber());
+		assertInvalid(validSubject);
+	}
+	
+	@Test
+	public void testRandNumberNotLongerThan255(){
+		String[] invalidValues = { stringUtil.getWithLength(256),
+				stringUtil.getWithLength(650) };
+		for (String s : invalidValues) {
+			validSubject.setRandNumber(s);
+			assertEquals(s, validSubject.getRandNumber());
+			assertInvalid(validSubject);
+		}
+	}
+	
+	@Test
+	public void testRandNumberCorrect(){
+		String[] validValues = { stringUtil.getWithLength(255),
+				stringUtil.getWithLength(23), "123456" };
+		for (String s : validValues) {
+			validSubject.setRandNumber(s);
+			assertEquals(s, validSubject.getRandNumber());
+			assertValid(validSubject);
+		}
 	}
 	
 	
 	@Test
-	public void testTrialSite(){
+	public void testTrialSiteNull(){
+		validSubject.setTrialSite(null);
+		assertEquals(null, validSubject.getTrialSite());
+		assertValid(validSubject);
+	}
+	
+	@Test
+	public void testTrialSiteCorrect(){
 		TrialSite site = new TrialSite();
 		site.setId(123456);
-		TrialSubject subject = new TrialSubject();
-		subject.setTrialSite(site);
-		assertEquals(site, subject.getTrialSite());
+		validSubject.setTrialSite(site);
+		assertEquals(site, validSubject.getTrialSite());
+		assertValid(validSubject);
 	}
 	
 	
@@ -392,4 +502,46 @@ public class TrialSubjectTest extends AbstractDomainObject {
 		TrialSubject subject = new TrialSubject();
 		assertNotNull(subject.toString());
 	}
+	
+	@Test
+	public void testGetPropertiesUIString() {
+		// every entry grouped the members of one group
+		List<TrialSubject> subjects = new ArrayList<TrialSubject>();
+		for (int j = 1; j <= 2; j++) {
+			for (int k = 1; k <= 2; k++) {
+				for (int l = 1; l <= 2; l++) {
+					// generate objects with same group
+						TrialSubject subject = new TrialSubject();
+						Set<SubjectProperty<?>> properties = new HashSet<SubjectProperty<?>>();
+						SubjectProperty<String> p1 = getEmptyDichotomProperty1();
+						properties.add(p1);
+						SubjectProperty<String> p2 = getEmptyDichotomProperty2();
+						properties.add(p2);
+						SubjectProperty<String> p3 = getEmptyDichotomProperty3();
+						properties.add(p3);
+						try {
+							p1.setValue("option" + j);
+							p2.setValue("option" + k);
+							p3.setValue("option" + l);
+						} catch (ContraintViolatedException e) {
+							fail(e.getMessage());
+						}
+						subject.setProperties(properties);
+						subjects.add(subject);
+				}
+
+			}
+		}
+		assertEquals(8, subjects.size());
+	    assertEquals("dichotom Crit 1: option1|dichotom Crit 2: option1|dichotom Crit 3: option1|", subjects.get(0).getPropertiesUIString());
+	    assertEquals("dichotom Crit 1: option1|dichotom Crit 2: option1|dichotom Crit 3: option2|", subjects.get(1).getPropertiesUIString());
+	    assertEquals("dichotom Crit 1: option1|dichotom Crit 2: option2|dichotom Crit 3: option1|", subjects.get(2).getPropertiesUIString());
+	    assertEquals("dichotom Crit 1: option1|dichotom Crit 2: option2|dichotom Crit 3: option2|", subjects.get(3).getPropertiesUIString());
+	    assertEquals("dichotom Crit 1: option2|dichotom Crit 2: option1|dichotom Crit 3: option1|", subjects.get(4).getPropertiesUIString());
+	    assertEquals("dichotom Crit 1: option2|dichotom Crit 2: option1|dichotom Crit 3: option2|", subjects.get(5).getPropertiesUIString());
+	    assertEquals("dichotom Crit 1: option2|dichotom Crit 2: option2|dichotom Crit 3: option1|", subjects.get(6).getPropertiesUIString());
+	    assertEquals("dichotom Crit 1: option2|dichotom Crit 2: option2|dichotom Crit 3: option2|", subjects.get(7).getPropertiesUIString());
+
+	}
+	
 }

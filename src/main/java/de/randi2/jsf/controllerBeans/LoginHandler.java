@@ -24,18 +24,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import org.apache.log4j.Logger;
-import org.hibernate.validator.InvalidStateException;
-import org.hibernate.validator.InvalidValue;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import de.randi2.jsf.backingBeans.RegisterPage;
@@ -52,8 +55,8 @@ import de.randi2.model.TrialSite;
 import de.randi2.services.TrialSiteService;
 import de.randi2.services.UserService;
 import de.randi2.utility.logging.LogEntry;
-import de.randi2.utility.logging.LogEntry.ActionType;
 import de.randi2.utility.logging.LogService;
+import de.randi2.utility.logging.LogEntry.ActionType;
 
 /**
  * <p>
@@ -63,25 +66,29 @@ import de.randi2.utility.logging.LogService;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
+@ManagedBean(name="loginHandler")
+@SessionScoped
 public class LoginHandler extends AbstractHandler<Login> {
 
 	/*
 	 * Services classes to work with - provided via JSF/Spring brige.
 	 */
-
+	@ManagedProperty(value="#{userService}")
 	@Setter
 	private UserService userService;
 
+	@ManagedProperty(value="#{logService}")
 	@Setter
 	private LogService logService;
 
+	@ManagedProperty(value="#{trialSiteService}")
 	@Setter
 	private TrialSiteService siteService;
 
 	/*
 	 * Reference to the application popup logic.
 	 */
-
+	@ManagedProperty(value="#{popups}")
 	@Setter
 	private Popups popups;
 
@@ -163,11 +170,18 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 */
 	public String changeTrialSite() {
 		if (trialSitesAC.getSelectedObject() != null) {
-			currentObject.getPerson().setTrialSite(
-					trialSitesAC.getSelectedObject());
 			popups.hideChangeTrialSitePopup();
-			this.saveObject();
-			return Randi2.SUCCESS;
+			try{
+				siteService.changePersonTrialSite(trialSitesAC.getSelectedObject(), currentObject.getPerson());
+				return Randi2.SUCCESS;
+			} catch (Exception exp) {
+				Randi2.showMessage(exp);
+				return Randi2.ERROR;
+			} finally {
+				if (currentObject.getId() == loggedInUser.getId())
+					loggedInUser = currentObject;
+				refresh();
+			}
 		}
 		return Randi2.ERROR;
 	}
@@ -229,9 +243,8 @@ public class LoginHandler extends AbstractHandler<Login> {
 			/* Setting the data in the new object */
 			newUser.setPrefLocale(getChosenLocale());
 			newUser.setUsername(newUser.getPerson().getEmail());
-			newUser.getPerson().setTrialSite(trialSitesAC.getSelectedObject());
 			/* The new object will be saved */
-			userService.register(newUser);
+			userService.register(newUser, trialSitesAC.getSelectedObject());
 			// Making the successPopup visible (NORMAL REGISTRATION)
 			if (!creatingMode) {
 				((RegisterPage) FacesContext
@@ -252,9 +265,9 @@ public class LoginHandler extends AbstractHandler<Login> {
 				popups.setUserSavedPVisible(true);
 			}
 			return Randi2.SUCCESS;
-		} catch (InvalidStateException exp) {
-			for (InvalidValue v : exp.getInvalidValues()) {
-				Randi2.showMessage(v.getPropertyName() + " : " + v.getMessage());
+		} catch (ConstraintViolationException exp) {
+			for (ConstraintViolation<?> v : exp.getConstraintViolations()) {
+				Randi2.showMessage(v.getPropertyPath()+ " : " + v.getMessage());
 			}
 			return Randi2.ERROR;
 		} catch (Exception e) {
@@ -330,7 +343,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 				 * Reloading the user from the database to ensure that the
 				 * object is attached to the correct session
 				 */
-				loggedInUser = userService.getObject(loggedInUser.getId());
+//				loggedInUser = userService.getObject(loggedInUser.getId());
 				loggedInUser.setLastLoggedIn(new GregorianCalendar());
 			} catch (NullPointerException exp) {
 				Logger.getLogger(this.getClass()).debug("NPE", exp);
@@ -482,5 +495,9 @@ public class LoginHandler extends AbstractHandler<Login> {
 		Login l = new Login();
 		l.setPerson(new Person());
 		return l;
+	}
+	
+	public TrialSite getCurrentUsersTrialSite(){
+		return siteService.getTrialSiteFromPerson(currentObject.getPerson());
 	}
 }

@@ -86,6 +86,17 @@ public class OrdinalCriterion extends
 	public Class<OrdinalConstraint> getContstraintType() {
 		return OrdinalConstraint.class;
 	}
+	
+	
+	@Override
+	public void setInclusionConstraint(OrdinalConstraint inclusionConstraint)
+			throws ContraintViolatedException {
+		if(inclusionConstraint == null || elements.containsAll(inclusionConstraint.expectedValues)){
+			this.inclusionConstraint = inclusionConstraint;
+		}else{
+			throw new ContraintViolatedException();
+		}
+	}
 
 
 }

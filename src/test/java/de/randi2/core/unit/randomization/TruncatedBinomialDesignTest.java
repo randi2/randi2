@@ -6,9 +6,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
@@ -42,26 +46,28 @@ public class TruncatedBinomialDesignTest {
 		for (int i : upto(40)) {
 			randomize(trial,s);
 		}
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());;
 		assertEquals(40, trial.getSubjects().size());
-		assertEquals(20, trial.getTreatmentArms().get(0).getCurrentSubjectsAmount());
-		assertEquals(20, trial.getTreatmentArms().get(1).getCurrentSubjectsAmount());
+		assertEquals(20, arms.get(0).getCurrentSubjectsAmount());
+		assertEquals(20, arms.get(1).getCurrentSubjectsAmount());
 	}
 	
 	@Test
 	public void testSubjectAllocations1() {
 		RandomizationHelper.addArms(trial, 100, 100);
 		s = new TrialSubject();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());;
 		for (int i : upto(200)) {
 			randomize(trial,s);
-			if(trial.getTreatmentArms().get(0).getCurrentSubjectsAmount() == 100 && !s.getArm().getName().equals(trial.getTreatmentArms().get(0).getName())){
-				assertEquals(s.getArm().getName(), trial.getTreatmentArms().get(1).getName()); 
+			if(arms.get(0).getCurrentSubjectsAmount() == 100 && !s.getArm().getName().equals(arms.get(0).getName())){
+				assertEquals(s.getArm().getName(), arms.get(1).getName()); 
 			}
-			if(trial.getTreatmentArms().get(1).getCurrentSubjectsAmount() == 100 && !s.getArm().getName().equals(trial.getTreatmentArms().get(1).getName())){
-				assertEquals(s.getArm().getName(), trial.getTreatmentArms().get(0).getName()); 
+			if(arms.get(1).getCurrentSubjectsAmount() == 100 && !s.getArm().getName().equals(arms.get(1).getName())){
+				assertEquals(s.getArm().getName(), arms.get(0).getName()); 
 			}
 		}
 		assertEquals(200, trial.getSubjects().size());
-		assertEquals(100, trial.getTreatmentArms().get(0).getCurrentSubjectsAmount());
-		assertEquals(100, trial.getTreatmentArms().get(1).getCurrentSubjectsAmount());
+		assertEquals(100, arms.get(0).getCurrentSubjectsAmount());
+		assertEquals(100, arms.get(1).getCurrentSubjectsAmount());
 	}
 }

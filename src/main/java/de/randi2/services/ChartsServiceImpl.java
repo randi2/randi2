@@ -22,20 +22,25 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.randi2.dao.TrialDao;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
-import de.randi2.model.randomization.ChartData;
 import de.randi2.utility.Pair;
 
 @Service("chartsService")
 public class ChartsServiceImpl implements ChartsService {
 
+	@Autowired
+	private TrialDao trialDao;
+	
 	@Override
 	public ChartData generateRecruitmentChart(Trial trial) {
+		trial = trialDao.refresh(trial);
 		ChartData tempD = new ChartData();
 
 		int plannedSubjects = 0;
@@ -106,6 +111,7 @@ public class ChartsServiceImpl implements ChartsService {
 
 	@Override
 	public ChartData generateRecruitmentChartTrialSite(Trial trial) {
+		trial = trialDao.refresh(trial);
 		ChartData chData = new ChartData();
 		ArrayList<String> xL = new ArrayList<String>();
 		ArrayList<double[]> data = new ArrayList<double[]>();
@@ -138,6 +144,7 @@ public class ChartsServiceImpl implements ChartsService {
 
 	@Override
 	public ChartData generateRecruitmentChartFactors(Trial trial) {
+		trial = trialDao.refresh(trial);
 		ChartData chData = new ChartData();
 		ArrayList<String> xL = new ArrayList<String>();
 		ArrayList<double[]> data = new ArrayList<double[]>();

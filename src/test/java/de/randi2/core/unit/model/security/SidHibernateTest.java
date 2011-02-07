@@ -6,10 +6,11 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
 import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,9 +24,14 @@ import de.randi2.model.security.SidHibernate;
 public class SidHibernateTest {
 	
 	
-	@Autowired
-	private SessionFactory sessionFactory;
+	private EntityManager entityManager;
 	
+	
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
 	@Test
 	public void testConstructor(){
 		SidHibernate sid = new SidHibernate();
@@ -91,9 +97,9 @@ public class SidHibernateTest {
 	@Transactional
 	public void databaseIntegrationTest(){
 		SidHibernate sidH1 = new SidHibernate("sidname");
-		sessionFactory.getCurrentSession().persist(sidH1);
+		entityManager.persist(sidH1);
 		assertTrue(sidH1.getId()>0);
-		SidHibernate sidH2 = (SidHibernate) sessionFactory.getCurrentSession().get(SidHibernate.class, sidH1.getId());
+		SidHibernate sidH2 = entityManager.find(SidHibernate.class, sidH1.getId());
 		assertEquals(sidH1.getId(), sidH2.getId());
 		assertEquals(sidH1, sidH2);
 	}

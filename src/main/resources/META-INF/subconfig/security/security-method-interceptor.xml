@@ -7,7 +7,9 @@
 
 
 <!-- #############################  CONFIG for the Method Security Interceptors ##########################-->
-
-<sec:global-method-security secured-annotations="enabled" access-decision-manager-ref="methodAccessDecisionManager" />
+ <sec:global-method-security  secured-annotations="enabled" access-decision-manager-ref="methodAccessDecisionManager">
+   <sec:after-invocation-provider ref="afterAclRead"/>
+   <sec:after-invocation-provider ref="afterAclCollectionRead"/>
+</sec:global-method-security>
 
 </beans>

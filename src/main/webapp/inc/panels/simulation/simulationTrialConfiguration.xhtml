@@ -1,0 +1,81 @@
+<!-- 
+ This page/panel should be used to configure a new trial for a simulation.
+
+ Made by ds@randi2.de 
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<div><ice:panelGrid columns="2"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelCollapsible expanded="true" toggleOnClick="false">
+		<f:facet name="header">
+			<ice:outputLabel value="#{labels['trial.name']}" />
+		</f:facet>
+		<ice:inputText size="35" partialSubmit="true"
+			value="#{simulationHandler.simTrial.name}" />
+	</ice:panelCollapsible>
+	<ice:panelCollapsible expanded="true" toggleOnClick="false">
+		<f:facet name="header">
+			<ice:outputLabel value="#{labels['pages.simulation.countTrialSite']}" />
+		</f:facet>
+		<ice:inputText size="35" partialSubmit="true"
+			value="#{simulationHandler.countTrialSites}" />
+	</ice:panelCollapsible>
+</ice:panelGrid> <!-- Configuration for treatment arms --> <ice:panelGrid columns="3"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:outputLabel value="#{labels['pages.trialCreatePanel.tArmLabel']}" />
+	<ice:commandButton image="/img/icons/add16.png"
+		actionListener="#{simulationHandler.addArm}" style="margin-right:5px;"
+		immediate="true" />
+	<ice:commandButton image="/img/icons/remove16.png"
+		disabled="#{simulationHandler.treatmentArmsCount==0}"
+		actionListener="#{simulationHandler.removeArm}" immediate="true" />
+</ice:panelGrid> <ice:panelGroup styleClass="clearer"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:messages tooltip="true" showDetail="false" showSummary="true"
+		errorClass="errorMsg" layout="table" />
+</ice:panelGroup> <ice:panelGroup styleClass="exampleBox"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ice:panelSeries value="#{simulationHandler.simTrial.treatmentArms}"
+		var="arm" style="padding:10px;">
+		<ui:include src="/inc/panels/trial/treatmentArm.xhtml" />
+	</ice:panelSeries>
+</ice:panelGroup> <!-- Configuration for subject properties --> <ice:panelGrid
+	columns="4" xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<ice:outputLabel value="#{labels['pages.trialCreatePanel.propLabel']}" />
+	<ice:selectInputText id="critera"
+		valueChangeListener="#{simulationSubjectProperty.criteriaAC.updateObjectList}"
+		rows="10" width="200">
+		<f:selectItems
+			value="#{simulationSubjectProperty.criteriaAC.objectList}" />
+	</ice:selectInputText>
+	<ice:commandButton image="/img/icons/add16.png"
+		actionListener="#{simulationSubjectProperty.addCriterion}"
+		style="margin-right:5px;" />
+	<ice:commandButton image="/img/icons/remove16.png"
+		disabled="#{simulationSubjectProperty.criteriaEmpty}"
+		actionListener="#{simulationSubjectProperty.removeCriterion}" />
+</ice:panelGrid> <ice:panelGroup styleClass="clearer"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" /> <ice:panelGroup
+	styleClass="exampleBox"
+	visible="#{!simulationSubjectProperty.criteriaEmpty}"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	<ice:panelSeries value="#{simulationSubjectProperty.criteria}"
+		var="criterion" style="padding:10px;"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+		<ui:include src="/inc/panels/trial/criterionPanel.xhtml" />
+	</ice:panelSeries>
+</ice:panelGroup></div>

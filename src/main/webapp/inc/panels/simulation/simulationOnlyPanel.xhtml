@@ -1,0 +1,40 @@
+<!-- 
+This panel shows the configuration for the simulation only modus.
+
+ Made by ds@randi2.de
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<div><ui:include xmlns:ui="http://java.sun.com/jsf/facelets"
+	src="/inc/popups/simulationCompletePopup.xhtml" /> <ice:form
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ice:panelTabSet style="font-size: 9;display: block;">
+		<ice:panelTab label="#{labels['pages.simulation.trialConfig']}">
+			<ui:include
+				src="/inc/panels/simulation/simulationTrialConfiguration.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.simulation.strataConfig']}">
+			<ui:include src="/inc/panels/simulation/strataS.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.simulation.algConfig']}">
+			<ui:include
+				src="/inc/panels/simulation/simulationAlgorithmConfiguration.xhtml" />
+		</ice:panelTab>
+		<ice:panelTab label="#{labels['pages.simulation.configuration']}">
+			<ui:include
+				src="/inc/panels/simulation/simulationConfiguration.xhtml" />
+		</ice:panelTab>
+	</ice:panelTabSet>
+</ice:form></div>

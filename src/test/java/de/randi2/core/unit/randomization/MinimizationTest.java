@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -109,9 +111,8 @@ public class MinimizationTest {
 		RandomizationHelper.addArms(trial, 10, 20, 30);
 		trial.setId(nextId());
 
-		for (TreatmentArm arm : trial.getTreatmentArms())
-			arm.setId(nextId());
-		List<TreatmentArm> arms = trial.getTreatmentArms();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());
+		Collections.sort(arms, new TreatmentArmNameComparator());
 		ArrayList<DistributionSubjectProperty> dProperties = new ArrayList<DistributionSubjectProperty>();
 		DichotomousCriterion cr1 = new DichotomousCriterion();
 		cr1.setName("SEX");
@@ -232,7 +233,8 @@ public class MinimizationTest {
 	// Minimization_Prop_Table (1).pdf
 	public void testProbabilityInitBiasedCoin1() {
 		RandomizationHelper.addArms(trial, 10, 20, 30);
-		List<TreatmentArm> arms = trial.getTreatmentArms();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());;
+		Collections.sort(arms, new TreatmentArmNameComparator());
 		Minimization algorithm = new Minimization(trial, 1);
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(false);
@@ -272,7 +274,8 @@ public class MinimizationTest {
 	// Minimization_Prop_Table (2).pdf
 	public void testProbabilityInitBiasedCoin2() {
 		RandomizationHelper.addArms(trial, 10, 20, 30);
-		List<TreatmentArm> arms = trial.getTreatmentArms();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());;
+		Collections.sort(arms, new TreatmentArmNameComparator());
 		Minimization algorithm = new Minimization(trial, 1);
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(false);
@@ -312,7 +315,8 @@ public class MinimizationTest {
 	// Minimization_Prop_Table (3).pdf
 	public void testProbabilityInitBiasedCoin3() {
 		RandomizationHelper.addArms(trial, 10, 20, 30);
-		List<TreatmentArm> arms = trial.getTreatmentArms();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());;
+		Collections.sort(arms, new TreatmentArmNameComparator());
 		Minimization algorithm = new Minimization(trial, 1);
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(false);
@@ -351,7 +355,8 @@ public class MinimizationTest {
 	// Minimization_Prop_Table (4).pdf
 	public void testProbabilityInitBiasedCoin4() {
 		RandomizationHelper.addArms(trial, 10, 10, 10);
-		List<TreatmentArm> arms = trial.getTreatmentArms();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());;
+		Collections.sort(arms, new TreatmentArmNameComparator());
 		Minimization algorithm = new Minimization(trial, 1);
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(false);
@@ -390,7 +395,8 @@ public class MinimizationTest {
 	// Minimization_Prop_Table (5).pdf
 	public void testProbabilityInitBiasedCoin5() {
 		RandomizationHelper.addArms(trial, 1, 2, 2, 4);
-		List<TreatmentArm> arms = trial.getTreatmentArms();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());
+		Collections.sort(arms, new TreatmentArmNameComparator());
 		Minimization algorithm = new Minimization(trial, 1);
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(false);
@@ -440,7 +446,7 @@ public class MinimizationTest {
 	@Test
 	public void testProbabilityInitBiasedCoinSum_1() {
 		RandomizationHelper.addArms(trial, 1, 2, 2, 4);
-		List<TreatmentArm> arms = trial.getTreatmentArms();
+		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());;
 		Minimization algorithm = new Minimization(trial, 1);
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(false);
@@ -485,4 +491,11 @@ public class MinimizationTest {
 			}
 		}
 	}
+	
+	class TreatmentArmNameComparator implements Comparator<TreatmentArm>{
+			@Override
+			public int compare(TreatmentArm o1, TreatmentArm o2) {
+				return (o1.getId()<o2.getId() ? -1 : (o1.getId()==o2.getId() ? 0 : 1));
+			}
+		}
 }
