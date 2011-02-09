@@ -39,7 +39,7 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 	@ManagedProperty(value="#{loginHandler}")
 	@Getter
 	@Setter
-	private LoginHandler loginHandler;
+	protected LoginHandler loginHandler;
 	
 	/*
 	 * Access to the application popups.

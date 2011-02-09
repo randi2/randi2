@@ -72,7 +72,7 @@ public class TrialHandler extends AbstractTrialHandler {
 	@ManagedProperty(value="#{logService}")
 	@Setter
 	private LogService logService;
-	private LoginHandler loginHandler;
+
 
 	@Setter
 	/**
