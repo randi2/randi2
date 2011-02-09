@@ -48,7 +48,7 @@ public class RightAndRolesAspects {
 	private Logger logger = Logger.getLogger(RightAndRolesAspects.class);
 	@Autowired
 	private RolesAndRights roleAndRights;
-	
+
 	@Autowired
 	private TrialSiteDao trialSiteDao;
 
@@ -67,46 +67,56 @@ public class RightAndRolesAspects {
 			throws Throwable {
 		pjp.proceed();
 		for (Object o : pjp.getArgs()) {
-			//special case for self registration
-			if(SecurityContextHolder.getContext()
-					.getAuthentication().getPrincipal().equals("anonymousUser") && o instanceof Login){
-				SecurityContextHolder.getContext().setAuthentication(new AnonymousAuthenticationToken("anonymousUser", o, new ArrayList<GrantedAuthority>(((Login)o).getAuthorities())));
+			// special case for self registration
+			if (SecurityContextHolder.getContext().getAuthentication()
+					.getPrincipal().equals("anonymousUser")
+					&& o instanceof Login) {
+				SecurityContextHolder.getContext().setAuthentication(
+						new AnonymousAuthenticationToken("anonymousUser", o,
+								new ArrayList<GrantedAuthority>(((Login) o)
+										.getAuthorities())));
 			}
 			Login login = (Login) SecurityContextHolder.getContext()
 					.getAuthentication().getPrincipal();
-			if (o instanceof Login) {
-				roleAndRights.registerPerson(((Login) o));
-			}else{
-			logger.debug("Register Object ("+o.getClass().getSimpleName()+" id="+((AbstractDomainObject)o).getId()+")" );
-			roleAndRights.grantRights(((AbstractDomainObject) o), trialSiteDao.get(login
-					.getPerson()));
+			//extra method for login objects is necessary, because of site - login relationship
+			if (!(o instanceof Login)) {
+				logger.debug("Register Object (" + o.getClass().getSimpleName()
+						+ " id=" + ((AbstractDomainObject) o).getId() + ")");
+				roleAndRights.grantRights(((AbstractDomainObject) o),
+						trialSiteDao.get(login.getPerson()));
 			}
 		}
 
 	}
-	
-	
-	@Around("execution(public void de.randi2.service.*.register*(de.randi2.model.AbstractDomainObject))")
+
+	@Around("execution(public void de.randi2.services.*.register*(..))")
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void afterRegisterNewUserObject(ProceedingJoinPoint pjp)
 			throws Throwable {
 		pjp.proceed();
 		for (Object o : pjp.getArgs()) {
-			//special case for self registration
-			if(SecurityContextHolder.getContext()
-					.getAuthentication().getPrincipal().equals("anonymousUser") && o instanceof Login){
-				SecurityContextHolder.getContext().setAuthentication(new AnonymousAuthenticationToken("anonymousUser", o, new ArrayList<GrantedAuthority>(((Login)o).getAuthorities())));
+			if (o instanceof Login) {
+				// special case for self registration
+				if (SecurityContextHolder.getContext().getAuthentication()
+						.getPrincipal().equals("anonymousUser")
+						&& o instanceof Login) {
+					SecurityContextHolder.getContext().setAuthentication(
+							new AnonymousAuthenticationToken("anonymousUser",
+									o, new ArrayList<GrantedAuthority>(
+											((Login) o).getAuthorities())));
+				}
+				Login login = (Login) SecurityContextHolder.getContext()
+						.getAuthentication().getPrincipal();
+				logger.debug("Register Object (" + o.getClass().getSimpleName()
+						+ " id=" + ((AbstractDomainObject) o).getId() + ")");
+				roleAndRights.grantRights(((AbstractDomainObject) o),
+						trialSiteDao.get(login.getPerson()));
+				roleAndRights.registerPerson(((Login) o));
 			}
-			Login login = (Login) SecurityContextHolder.getContext()
-					.getAuthentication().getPrincipal();
-			logger.debug("Register Object ("+o.getClass().getSimpleName()+" id="+((AbstractDomainObject)o).getId()+")" );
-			roleAndRights.grantRights(((AbstractDomainObject) o), trialSiteDao.get(login
-					.getPerson()));
 		}
 
 	}
-	
-	
+
 	@Around("execution(public void de.randi2.services.UserService*.create*(..))")
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void afterCreateNewUserObject(ProceedingJoinPoint pjp)
@@ -114,11 +124,12 @@ public class RightAndRolesAspects {
 		pjp.proceed();
 		for (Object o : pjp.getArgs()) {
 			if (o instanceof Login) {
-			Login login = (Login) SecurityContextHolder.getContext()
-					.getAuthentication().getPrincipal();
-			logger.debug("Register Object ("+o.getClass().getSimpleName()+" id="+((AbstractDomainObject)o).getId()+")" );
-			roleAndRights.grantRights(((AbstractDomainObject) o), trialSiteDao.get(login
-					.getPerson()));
+				Login login = (Login) SecurityContextHolder.getContext()
+						.getAuthentication().getPrincipal();
+				logger.debug("Register Object (" + o.getClass().getSimpleName()
+						+ " id=" + ((AbstractDomainObject) o).getId() + ")");
+				roleAndRights.grantRights(((AbstractDomainObject) o),
+						trialSiteDao.get(login.getPerson()));
 			}
 		}
 
