@@ -126,7 +126,7 @@ public class TrialSiteServiceImpl implements TrialSiteService{
 	}
 	
 	@Override
-	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
+	@Secured({"ROLE_USER", "AFTER_ACL_COLLECTION_READ"})
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<Person> getMembers(TrialSite site){
 		if(site == null) return null;
