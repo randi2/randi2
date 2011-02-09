@@ -56,7 +56,6 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	 * @see de.randi2.dao.AbstractDao#get(long)
 	 */
 	@Override
-	@Secured({"AFTER_ACL_READ"})
 	public E get(long id){
 		E element = entityManager.find(getModelClass(), id);
 		if(element == null){
@@ -79,7 +78,6 @@ public abstract class AbstractDaoHibernate<E extends AbstractDomainObject> imple
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	@Secured({"ROLE_USER","ROLE_ANONYMOUS","AFTER_ACL_COLLECTION_READ"})
 	public List<E> getAll(){
 		return entityManager.createQuery("from " + getModelClass().getSimpleName()).getResultList();
 	}
