@@ -37,17 +37,6 @@ public class RoleDaoHibernate extends AbstractDaoHibernate<Role> implements
 	public Class<Role> getModelClass() {
 		return Role.class;
 	}
-
-	/* (non-Javadoc)
-	 * @see de.randi2.dao.AbstractDaoHibernate#getAll()
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	//FIXME We should create the ACLs for Roles
-	public List<Role> getAll() {
-		return entityManager.createQuery(
-				"from " + getModelClass().getSimpleName()).getResultList();
-	}
 	
 	@Override
 	public Role get(String name) {
