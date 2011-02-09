@@ -438,8 +438,7 @@ public class RolesAndRights {
 			if (role.isScopeUserRead()) {
 				if (usersSite != null) {
 					list = entityManager
-							.createQuery(
-									"from Login l where l.person.trialSite.id = ?")
+							.createNamedQuery("login.AllLoginsWithSpecificTrialSite")
 							.setParameter(1, usersSite.getId()).getResultList();
 				}
 			} else {
@@ -464,8 +463,7 @@ public class RolesAndRights {
 			if (role.isScopeUserWrite()) {
 				if (usersSite != null) {
 					List<Login> tempList = entityManager
-							.createQuery(
-									"from Login l where l.person.trialSite.id = ?")
+					.createNamedQuery("login.AllLoginsWithSpecificTrialSite")
 							.setParameter(1, usersSite.getId()).getResultList();
 					for (Login l : tempList) {
 						if (role.getRolesToAssign().containsAll(l.getRoles())) {
