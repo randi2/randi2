@@ -18,6 +18,7 @@
 package de.randi2.services;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -287,7 +288,10 @@ public class TrialServiceImpl implements TrialService {
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public List<TrialSubject> getSubjects(Trial trial, Login investigator) {
-		return trialDao.getSubjects(trial, investigator);
+		if(trial.getId()>0){
+			trial = trialDao.refresh(trial);
+			return trialDao.getSubjects(trial, investigator);
+		}else return new ArrayList<TrialSubject>();
 	}
 
 	/**
