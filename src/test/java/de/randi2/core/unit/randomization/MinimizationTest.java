@@ -50,6 +50,7 @@ public class MinimizationTest {
 	}
 
 	@Test
+	@SuppressWarnings("unused")
 	public void testNaiveMinimization() {
 		RandomizationHelper.addArms(trial, 70, 50, 30);
 		conf = new MinimizationConfig();
@@ -65,6 +66,7 @@ public class MinimizationTest {
 	}
 
 	@Test
+	@SuppressWarnings("unused")
 	public void testNaiveMinimizationWithRandomizedSubjects() {
 		RandomizationHelper.addArms(trial, 70, 50, 30);
 		conf = new MinimizationConfig();
@@ -79,6 +81,7 @@ public class MinimizationTest {
 	}
 
 	@Test
+	@SuppressWarnings("unused")
 	public void testNaiveMinimizationWithRandomizedSubjects_5_Treatments() {
 		RandomizationHelper.addArms(trial, 56, 23, 78, 47, 29);
 		conf = new MinimizationConfig();
@@ -112,7 +115,7 @@ public class MinimizationTest {
 		trial.setId(nextId());
 
 		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());
-		Collections.sort(arms, new TreatmentArmNameComparator());
+		Collections.sort(arms, new TreatmentArmIdComparator());
 		ArrayList<DistributionSubjectProperty> dProperties = new ArrayList<DistributionSubjectProperty>();
 		DichotomousCriterion cr1 = new DichotomousCriterion();
 		cr1.setName("SEX");
@@ -166,7 +169,6 @@ public class MinimizationTest {
 
 		trial.addCriterion(cr1);
 		trial.addCriterion(cr2);
-//		Minimization algorithm = new Minimization(trial, 1, 1);
 		conf = new MinimizationConfig(1L);
 		conf.setWithRandomizedSubjects(false);
 		conf.setBiasedCoinMinimization(true);
@@ -234,13 +236,11 @@ public class MinimizationTest {
 	public void testProbabilityInitBiasedCoin1() {
 		RandomizationHelper.addArms(trial, 10, 20, 30);
 		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());;
-		Collections.sort(arms, new TreatmentArmNameComparator());
-		Minimization algorithm = new Minimization(trial, 1);
+		Collections.sort(arms, new TreatmentArmIdComparator());
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(false);
 		conf.setBiasedCoinMinimization(true);
 		conf.setP(0.70);
-//		algorithm.configuration = conf;
 		trial.setRandomizationConfiguration(conf);
 		Minimization alg = (Minimization) conf.getAlgorithm();
 		Map<TreatmentArm, MinimizationMapElementWrapper> internalCalculatedProbabilities = alg
@@ -275,13 +275,11 @@ public class MinimizationTest {
 	public void testProbabilityInitBiasedCoin2() {
 		RandomizationHelper.addArms(trial, 10, 20, 30);
 		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());;
-		Collections.sort(arms, new TreatmentArmNameComparator());
-		Minimization algorithm = new Minimization(trial, 1);
+		Collections.sort(arms, new TreatmentArmIdComparator());
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(false);
 		conf.setBiasedCoinMinimization(true);
 		conf.setP(0.80);
-//		algorithm.configuration = conf;
 		trial.setRandomizationConfiguration(conf);
 		Minimization alg = (Minimization) conf.getAlgorithm();
 		Map<TreatmentArm, MinimizationMapElementWrapper> internalCalculatedProbabilities = alg
@@ -316,13 +314,11 @@ public class MinimizationTest {
 	public void testProbabilityInitBiasedCoin3() {
 		RandomizationHelper.addArms(trial, 10, 20, 30);
 		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());;
-		Collections.sort(arms, new TreatmentArmNameComparator());
-		Minimization algorithm = new Minimization(trial, 1);
+		Collections.sort(arms, new TreatmentArmIdComparator());
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(false);
 		conf.setBiasedCoinMinimization(true);
 		conf.setP(0.60);
-//		algorithm.configuration = conf;
 		trial.setRandomizationConfiguration(conf);
 		Minimization alg = (Minimization) conf.getAlgorithm();
 		Map<TreatmentArm, MinimizationMapElementWrapper> internalCalculatedProbabilities = alg
@@ -356,13 +352,11 @@ public class MinimizationTest {
 	public void testProbabilityInitBiasedCoin4() {
 		RandomizationHelper.addArms(trial, 10, 10, 10);
 		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());;
-		Collections.sort(arms, new TreatmentArmNameComparator());
-		Minimization algorithm = new Minimization(trial, 1);
+		Collections.sort(arms, new TreatmentArmIdComparator());
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(false);
 		conf.setBiasedCoinMinimization(true);
 		conf.setP(0.60);
-//		algorithm.configuration = conf;
 		trial.setRandomizationConfiguration(conf);
 		Minimization alg = (Minimization) conf.getAlgorithm();
 		Map<TreatmentArm, MinimizationMapElementWrapper> internalCalculatedProbabilities = alg
@@ -396,13 +390,11 @@ public class MinimizationTest {
 	public void testProbabilityInitBiasedCoin5() {
 		RandomizationHelper.addArms(trial, 1, 2, 2, 4);
 		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());
-		Collections.sort(arms, new TreatmentArmNameComparator());
-		Minimization algorithm = new Minimization(trial, 1);
+		Collections.sort(arms, new TreatmentArmIdComparator());
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(false);
 		conf.setBiasedCoinMinimization(true);
 		conf.setP(0.80);
-//		algorithm.configuration = conf;
 		trial.setRandomizationConfiguration(conf);
 		Minimization alg = (Minimization) conf.getAlgorithm();
 		Map<TreatmentArm, MinimizationMapElementWrapper> internalCalculatedProbabilities = alg
@@ -446,13 +438,10 @@ public class MinimizationTest {
 	@Test
 	public void testProbabilityInitBiasedCoinSum_1() {
 		RandomizationHelper.addArms(trial, 1, 2, 2, 4);
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());;
-		Minimization algorithm = new Minimization(trial, 1);
 		conf = new MinimizationConfig();
 		conf.setWithRandomizedSubjects(false);
 		conf.setBiasedCoinMinimization(true);
 		conf.setP(0.80);
-//		algorithm.configuration = conf;
 		trial.setRandomizationConfiguration(conf);
 		Minimization alg = (Minimization) conf.getAlgorithm();
 		Map<TreatmentArm, MinimizationMapElementWrapper> internalCalculatedProbabilities = alg
@@ -492,7 +481,7 @@ public class MinimizationTest {
 		}
 	}
 	
-	class TreatmentArmNameComparator implements Comparator<TreatmentArm>{
+	class TreatmentArmIdComparator implements Comparator<TreatmentArm>{
 			@Override
 			public int compare(TreatmentArm o1, TreatmentArm o2) {
 				return (o1.getId()<o2.getId() ? -1 : (o1.getId()==o2.getId() ? 0 : 1));
