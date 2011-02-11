@@ -22,7 +22,7 @@
 		rendered="#{randi2Page.aboutVisible}">
 		<f:facet name="header">
 			<ice:panelGrid border="0" columns="2">
-				<ice:graphicImage value="/img/icons/about16.png"></ice:graphicImage>
+				<h:graphicImage name="/img/icons/about16.png"/>
 				<ice:outputLabel value="#{labels['pages.aboutPopup.header']}"></ice:outputLabel>
 			</ice:panelGrid>
 		</f:facet>
@@ -37,13 +37,13 @@
 				<ice:panelCollapsible expanded="true" toggleOnClick="false">
 					<f:facet name="header">
 						<ice:panelGrid border="0" columns="2">
-							<ice:graphicImage value="/img/icons/development16.png"></ice:graphicImage>
+							<h:graphicImage name="/img/icons/development16.png"/>
 							<ice:outputLabel value="#{labels['pages.aboutPopup.info1']}"></ice:outputLabel>
 						</ice:panelGrid>
 					</f:facet>
 					<ice:panelGrid columnClasses="1">
-						<ice:graphicImage value="/img/randi2.png"
-							style="width: 141px; height: 47px"></ice:graphicImage>
+						<h:graphicImage name="/img/randi2.png"
+							style="width: 141px; height: 47px"/>
 						<ice:outputText value="#{labels['pages.aboutPopup.content']}"
 							escape="false" />
 						<ice:outputLink value="#{randi2.website1}" target="_blank">
@@ -55,13 +55,13 @@
 				<ice:panelCollapsible expanded="true" toggleOnClick="false">
 					<f:facet name="header">
 						<ice:panelGrid border="0" columns="2">
-							<ice:graphicImage value="/img/icons/hostInst16.png"></ice:graphicImage>
+							<h:graphicImage name="/img/icons/hostInst16.png"/>
 							<ice:outputLabel value="#{labels['pages.aboutPopup.info2']}"></ice:outputLabel>
 						</ice:panelGrid>
 					</f:facet>
 					<ice:panelGrid columns="1">
-						<ice:graphicImage value="#{randi2.logoPath}"
-							style="width: 238px; height: 30px;"></ice:graphicImage>
+						<h:graphicImage name="hostingInstLogo.png"
+							style="width: 238px; height: 30px;"/>
 						<ice:outputText value="#{labels['pages.aboutPopup.hostingInst']}"
 							escape="false" />
 						<ice:outputLink value="#{randi2.website2}" target="_blank">

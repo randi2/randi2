@@ -18,10 +18,10 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 		<ice:panelGrid columns="4" style="position:absolute;right:0;top:0;">
-			<ice:graphicImage value="/img/icons/user32.png" />
+			<h:graphicImage name="/img/icons/user32.png" />
 			<ice:outputLabel id="userHeader"
 				value="#{loginHandler.loggedInUser.person.firstname} #{loginHandler.loggedInUser.person.surname}" />
-			<ice:graphicImage value="/img/separetor.png" />
+			<h:graphicImage name="/img/separetor.png" />
 			<ice:outputConnectionStatus showPopupOnDisconnect="true" />
 		</ice:panelGrid>
         <ice:panelGroup styleClass="icePnlClpsbl" style="margin-right: 75px;position:absolute;right:0;top:1;">

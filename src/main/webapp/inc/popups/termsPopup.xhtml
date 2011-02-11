@@ -15,14 +15,14 @@
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
 <ice:form xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ice="http://www.icesoft.com/icefaces/component">
+	xmlns:ice="http://www.icesoft.com/icefaces/component" xmlns:h="http://java.sun.com/jsf/html">
 	<ice:panelPopup draggable="false" modal="true"
 		visible="#{registerPage.termsPvisible}"
 		rendered="#{registerPage.termsPvisible}"
 		style="width: 600px; height: auto">
 		<f:facet name="header">
 		<ice:panelGrid border="0" columns="2">
-				<ice:graphicImage value="/img/icons/terms16.png"/>
+				<h:graphicImage name="/img/icons/terms16.png"/>
 				<ice:outputLabel value="#{labels['pages.registration.termsHeader']}"/>
 			</ice:panelGrid>
 		</f:facet>
