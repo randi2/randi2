@@ -257,8 +257,7 @@ public class Bootstrap {
 		
 		Login userLInv = new Login();
 		userLInv.setUsername("investigator@trialsite1.de");
-		userLInv.setPassword(passwordEncoder.encodePassword("1$heidelberg",
-				saltSourceUser.getSalt(userLInv)));
+		userLInv.setPassword("1$heidelberg");
 		userLInv.setPerson(userPInv);
 		userLInv.setPrefLocale(Locale.GERMANY);
 		userLInv.addRole(Role.ROLE_INVESTIGATOR);
@@ -275,8 +274,7 @@ public class Bootstrap {
 
 		Login userLPInv = new Login();
 		userLPInv.setUsername("p_investigator@trialsite1.de");
-		userLPInv.setPassword(passwordEncoder.encodePassword("1$heidelberg",
-				saltSourceUser.getSalt(userLPInv)));
+		userLPInv.setPassword("1$heidelberg");
 		userLPInv.setPerson(userPPInv);
 		userLPInv.setPrefLocale(Locale.GERMANY);
 		userLPInv.addRole(Role.ROLE_P_INVESTIGATOR);
@@ -292,8 +290,7 @@ public class Bootstrap {
 //		userP.setTrialSite(trialSite);
 		Login userL = new Login();
 		userL.setUsername("monitor@trialsite1.de");
-		userL.setPassword(passwordEncoder.encodePassword("1$heidelberg",
-				saltSourceUser.getSalt(userL)));
+		userL.setPassword("1$heidelberg");
 		userL.setPerson(userP);
 		userL.setPrefLocale(Locale.GERMANY);
 		userL.addRole(Role.ROLE_MONITOR);
@@ -310,8 +307,7 @@ public class Bootstrap {
 
 		userL = new Login();
 		userL.setUsername("statistican@trialsite1.de");
-		userL.setPassword(passwordEncoder.encodePassword("1$heidelberg",
-				saltSourceUser.getSalt(userL)));
+		userL.setPassword("1$heidelberg");
 		userL.setPerson(userP);
 		userL.setPrefLocale(Locale.GERMANY);
 		userL.addRole(Role.ROLE_STATISTICAN);
@@ -324,32 +320,29 @@ public class Bootstrap {
 		trialSite1.setName("Trial Site 2");
 		trialSite1.setPostcode("69120");
 		trialSite1.setStreet("INF");
-		trialSite1.setPassword(passwordEncoder.encodePassword("1$heidelberg",
-				saltSourceTrialSite.getSystemWideSalt()));
+		trialSite1.setPassword("1$heidelberg");
 		trialSite1.setContactPerson(cp2);
 
 		trialSiteService.create(trialSite1);
 		
 		// create test trial
 
-//		trialSite1 = trialSiteService.getObject(trialSite1.getId());
-//		Person userPInv2 = new Person();
-//		userPInv2.setFirstname("Max");
-//		userPInv2.setSurname("Investigator");
-//		userPInv2.setEmail("randi2@action.ms");
-//		userPInv2.setPhone("1234567");
-//		userPInv2.setSex(Gender.MALE);
-//		userPInv2.setTrialSite(trialSite1);
-//
-//		Login userLInv2 = new Login();
-//		userLInv2.setUsername("investigator@trialsite2.de");
-//		userLInv2.setPassword(passwordEncoder.encodePassword("1$heidelberg",
-//				saltSourceUser.getSalt(userLInv2)));
-//		userLInv2.setPerson(userPInv2);
-//		userLInv2.setPrefLocale(Locale.GERMANY);
-//		userLInv2.addRole(Role.ROLE_INVESTIGATOR);
-//		userLInv2.setPrefLocale(Locale.GERMAN);
-//		userService.create(userLInv2);
+		trialSite1 = trialSiteService.getObject(trialSite1.getId());
+		Person userPInv2 = new Person();
+		userPInv2.setFirstname("Max");
+		userPInv2.setSurname("Investigator");
+		userPInv2.setEmail("randi2@action.ms");
+		userPInv2.setPhone("1234567");
+		userPInv2.setSex(Gender.MALE);
+
+		Login userLInv2 = new Login();
+		userLInv2.setUsername("investigator@trialsite2.de");
+		userLInv2.setPassword("1$heidelberg");
+		userLInv2.setPerson(userPInv2);
+		userLInv2.setPrefLocale(Locale.GERMANY);
+		userLInv2.addRole(Role.ROLE_INVESTIGATOR);
+		userLInv2.setPrefLocale(Locale.GERMAN);
+		userService.create(userLInv2, trialSite1);
 		
 		// create test trial
 		System.out.println("create user: " + (System.nanoTime() - time1)
@@ -364,7 +357,8 @@ public class Bootstrap {
 		SecurityContextHolder.getContext().getAuthentication()
 				.setAuthenticated(true);
 
-		TrialSite site = trialSiteService.getObject(trialSite.getId());
+		
+		trialSite1 = entityManager.find(TrialSite.class, trialSite1.getId());
 		Trial trial = new Trial();
 		trial.setAbbreviation("bs");
 		trial.setName("Block study");
@@ -478,17 +472,14 @@ public class Bootstrap {
 				runs = rand.nextInt(count) + 1;
 			}
 			// Authorizing the investigator for upcoming randomization
-			// AnonymousAuthenticationToken at = tr1 ? new
-			// AnonymousAuthenticationToken(
-			// "anonymousUser", userLInv, new ArrayList<GrantedAuthority>(
-			// userLInv.getAuthorities()))
-			// : new AnonymousAuthenticationToken("anonymousUser",
-			// userLInv2, new ArrayList<GrantedAuthority>(
-			// userLInv2.getAuthorities()));
-			SecurityContextHolder.getContext().setAuthentication(
-					new AnonymousAuthenticationToken("anonymousUser", userLInv,
-							new ArrayList<GrantedAuthority>(userLInv
-									.getAuthorities())));
+			 AnonymousAuthenticationToken at = tr1 ? new
+			 AnonymousAuthenticationToken(
+			 "anonymousUser", userLInv, new ArrayList<GrantedAuthority>(
+			 userLInv.getAuthorities()))
+			 : new AnonymousAuthenticationToken("anonymousUser",
+			 userLInv2, new ArrayList<GrantedAuthority>(
+			 userLInv2.getAuthorities()));
+			SecurityContextHolder.getContext().setAuthentication(at);
 			SecurityContextHolder.getContext().getAuthentication()
 					.setAuthenticated(true);
 			// ---
