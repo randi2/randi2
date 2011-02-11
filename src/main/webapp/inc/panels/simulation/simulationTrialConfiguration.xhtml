@@ -35,10 +35,10 @@
 </ice:panelGrid> <!-- Configuration for treatment arms --> <ice:panelGrid columns="3"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:outputLabel value="#{labels['pages.trialCreatePanel.tArmLabel']}" />
-	<ice:commandButton image="/img/icons/add16.png"
+	<ice:commandButton image="/resources/img/icons/add16.png"
 		actionListener="#{simulationHandler.addArm}" style="margin-right:5px;"
 		immediate="true" />
-	<ice:commandButton image="/img/icons/remove16.png"
+	<ice:commandButton image="/resources/img/icons/remove16.png"
 		disabled="#{simulationHandler.treatmentArmsCount==0}"
 		actionListener="#{simulationHandler.removeArm}" immediate="true" />
 </ice:panelGrid> <ice:panelGroup styleClass="clearer"
@@ -62,10 +62,10 @@
 		<f:selectItems
 			value="#{simulationSubjectProperty.criteriaAC.objectList}" />
 	</ice:selectInputText>
-	<ice:commandButton image="/img/icons/add16.png"
+	<ice:commandButton image="/resources/img/icons/add16.png"
 		actionListener="#{simulationSubjectProperty.addCriterion}"
 		style="margin-right:5px;" />
-	<ice:commandButton image="/img/icons/remove16.png"
+	<ice:commandButton image="/resources/img/icons/remove16.png"
 		disabled="#{simulationSubjectProperty.criteriaEmpty}"
 		actionListener="#{simulationSubjectProperty.removeCriterion}" />
 </ice:panelGrid> <ice:panelGroup styleClass="clearer"

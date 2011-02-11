@@ -25,10 +25,10 @@
 	xmlns:ice="http://www.icesoft.com/icefaces/component"
 	xmlns:f="http://java.sun.com/jsf/core">
 	<ice:outputLabel value="#{labels['pages.trialCreatePanel.tArmLabel']}" />
-	<ice:commandButton image="/img/icons/add16.png"
+	<ice:commandButton image="/resources/img/icons/add16.png"
 		actionListener="#{trialHandler.addArm}" style="margin-right:5px;"
 		immediate="true" />
-	<ice:commandButton image="/img/icons/remove16.png"
+	<ice:commandButton image="/resources/img/icons/remove16.png"
 		disabled="#{trialHandler.treatmentArmsCount==0}"
 		actionListener="#{trialHandler.removeArm}" immediate="true" />
 </ice:panelGrid> <ice:panelGroup styleClass="clearer"

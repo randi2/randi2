@@ -297,6 +297,11 @@ public class TrialHandler extends AbstractTrialHandler {
 		}
 		return Randi2.SUCCESS;
 	}
+	
+	public String startEditing(){
+		editing = true;
+		return Randi2.SUCCESS;
+	}
 
 	/**
 	 * Returns the amount of stored trials which can be accessed by the current

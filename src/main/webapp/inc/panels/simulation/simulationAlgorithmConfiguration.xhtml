@@ -46,10 +46,10 @@ This panel configured the algorithms for the simulation.
 					value="#{simulationAlgorithm.selectedAlgorithmPanelId}">
 					<f:selectItems value="#{simulationAlgorithm.algorithms}" />
 				</ice:selectOneMenu>
-				<ice:commandButton image="/img/icons/add16.png"
+				<ice:commandButton image="/resources/img/icons/add16.png"
 					actionListener="#{simulationHandler.addAlgorithm}"
 					style="margin-right:5px;" immediate="true" />
-				<ice:commandButton image="/img/icons/remove16.png"
+				<ice:commandButton image="/resources/img/icons/remove16.png"
 					disabled="#{simulationHandler.treatmentArmsCount==0}"
 					actionListener="#{simulationHandler.removeAlgorithm}"
 					immediate="true" />

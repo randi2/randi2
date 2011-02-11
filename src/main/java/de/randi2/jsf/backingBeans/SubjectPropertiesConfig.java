@@ -39,7 +39,7 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
  * @author Lukasz Plotnicki <l.plotnicki@gmail.com>
  * 
  */
-@ManagedBean(name = "step4")
+@ManagedBean(name = "subjectPropertiesConfig")
 @RequestScoped
 public class SubjectPropertiesConfig extends AbstractSubjectProperty {
 	@ManagedProperty(value = "#{trialHandler}")

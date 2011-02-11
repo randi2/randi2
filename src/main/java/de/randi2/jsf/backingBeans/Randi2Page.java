@@ -221,6 +221,7 @@ public class Randi2Page {
 
 	public void createTrial(ActionEvent event) {
 		trialHandler.cancelEditing();
+		trialHandler.startEditing(); //TODO
 		trialHandler.setCurrentObject(null);
 		activePanel = "trialCreatePanel";
 		trialSelected = false;
