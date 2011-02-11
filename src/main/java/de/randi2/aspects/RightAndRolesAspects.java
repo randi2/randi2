@@ -130,6 +130,7 @@ public class RightAndRolesAspects {
 						+ " id=" + ((AbstractDomainObject) o).getId() + ")");
 				roleAndRights.grantRights(((AbstractDomainObject) o),
 						trialSiteDao.get(login.getPerson()));
+				roleAndRights.registerPerson(((Login) o));
 			}
 		}
 
