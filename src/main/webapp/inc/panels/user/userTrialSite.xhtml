@@ -21,7 +21,7 @@
 	<ice:panelCollapsible expanded="true">
 		<f:facet name="header">
 			<ice:panelGrid border="0" columns="2">
-				<ice:graphicImage value="/img/icons/trialSite16.png"></ice:graphicImage>
+				<h:graphicImage name="/img/icons/trialSite16.png"/>
 				<ice:outputLabel
 					value="#{labels['pages.userEditPanel.trialSiteHeader']}"></ice:outputLabel>
 			</ice:panelGrid>
@@ -72,7 +72,7 @@
 		rendered="#{loginHandler.trialSitesAC.objectSelected || !loginHandler.creatingMode}">
 		<f:facet name="header">
 			<ice:panelGrid border="0" columns="2">
-				<ice:graphicImage value="/img/icons/assistant16.png"/>
+				<h:graphicImage name="/img/icons/assistant16.png"/>
 				<ice:outputLabel
 					value="#{labels['pages.userEditPanel.assistantHeader']}"/>
 			</ice:panelGrid>
@@ -84,7 +84,7 @@
 		<ice:panelGrid columns="1"
 			rendered="#{loginHandler.currentObject.person.assistant!=null}">
 			<ice:panelGrid border="0" columns="2">
-				<ice:graphicImage value="/img/icons/personal16.png" />
+				<h:graphicImage name="/img/icons/personal16.png" />
 				<ice:outputLabel
 					value="#{labels['pages.registration.personalHeader']}" />
 			</ice:panelGrid>
@@ -162,7 +162,7 @@
 				</ice:panelGroup>
 			</ice:panelGrid>
 			<ice:panelGrid border="0" columns="2">
-				<ice:graphicImage value="/img/icons/contact16.png" />
+				<h:graphicImage name="/img/icons/contact16.png" />
 				<ice:outputLabel
 					value="#{labels['pages.registration.contactHeader']}" />
 			</ice:panelGrid>

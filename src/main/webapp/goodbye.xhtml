@@ -26,7 +26,7 @@
 		<ice:outputText nospan="true" value="#{labels['pages.goodbye.titel']}" />
 	</ui:insert></title>
 	<ice:outputStyle href="/xmlhttp/css/rime/rime.css" />
-	<ice:outputStyle href="/RANDI2.css" />
+	<h:outputStylesheet name="RANDI2.css"/>
 </h:head>
 <h:body>
 	<!-- Login Form -->
@@ -35,7 +35,7 @@
 		<ice:panelCollapsible expanded="true" toggleOnClick="false"
 			style="width=100px;">
 			<f:facet name="header">
-				<ice:graphicImage value="/img/randi2_small.png"></ice:graphicImage>
+				<h:graphicImage name="/img/randi2_small.png"/>
 			</f:facet>
 			<ice:panelGroup>
 				<ice:outputLabel style="color:#778899;"

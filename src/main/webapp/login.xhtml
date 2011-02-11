@@ -26,7 +26,7 @@
 		<ice:outputText nospan="true" value="#{labels['pages.login.titel']}" />
 	</ui:insert></title>
 	<ice:outputStyle href="/xmlhttp/css/rime/rime.css" />
-	<ice:outputStyle href="/xmlhttp/RANDI2.css" />
+	<h:outputStylesheet name="RANDI2.css"/>
 </h:head>
 <h:body>
 	<div id="content"><!-- Login Form -->
@@ -34,7 +34,7 @@
 	<div class="login"><ice:panelGroup style="width=500px;">
 		<ice:panelGroup styleClass="icePnlClpsbl">
 			<ice:panelGroup styleClass="icePnlClpsblHdr">
-				<ice:graphicImage value="/img/randi2_small.png"></ice:graphicImage>
+				<h:graphicImage name="/img/randi2_small.png"/>
 			</ice:panelGroup>
 			<ice:panelGroup style="padding:2px;background-color:#F5F5F5">
 				<ice:panelDivider dividerPosition="40" orientation="vertical"
@@ -42,12 +42,12 @@
 					<f:facet name="first">
 						<ice:panelGroup styleClass="loginInfo">
 							<ice:panelGroup>
-								<ice:graphicImage value="/img/icons/about16.png"></ice:graphicImage>
+								<h:graphicImage name="/img/icons/about16.png"/>
 								<ice:outputLabel style="color:#778899;"
 									value="#{labels['pages.login.info']}" />
 							</ice:panelGroup>
 							<ice:panelGroup style="margin-top:10px;">
-								<ice:graphicImage value="/img/icons/hostInst16.png"></ice:graphicImage>
+								<h:graphicImage name="/img/icons/hostInst16.png"/>
 								<ice:outputLabel style="color:#778899;"
 									value="#{labels['pages.aboutPopup.hostingInst']}" />
 							</ice:panelGroup>
