@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
@@ -43,6 +46,8 @@ import de.randi2.model.randomization.UrnDesignConfig;
  * @author L. Plotnicki <l.plotnicki@dkfz.de>
  * 
  */
+@ManagedBean(name="algorithmConfig")
+@SessionScoped
 public class AlgorithmConfig {
 
 	/**
@@ -60,9 +65,11 @@ public class AlgorithmConfig {
 	 */
 	private String selectedAlgorithmPanelId = "none";
 
+	@ManagedProperty("#{loginHandler}")
 	@Setter
 	private LoginHandler loginHandler;
 
+	@ManagedProperty("#{trialHandler}")
 	@Setter
 	private TrialHandler trialHandler;
 
