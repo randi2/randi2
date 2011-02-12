@@ -40,6 +40,13 @@ public interface UserService extends AbstractService<Login> {
 	 * @return the newest version of the saved object
 	 */
 	public Login update(Login changedObject);
+	
+	/**
+	 * Returns the user with the user name or null.
+	 * @param username The name of the user.
+	 * @return The user or null.
+	 */
+	public Login getUser(String username);
 
 	/**
 	 * Use this method to create new RANDI2 Investigator user (self-registration process).

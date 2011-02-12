@@ -73,6 +73,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Secured({ "ROLE_USER", "AFTER_ACL_READ" })
+	public Login getUser(String username) {
+		return loginDao.get(username);
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void addRole(Login login, Role role) {
 		role = roleDao.get(role.getName());
 		if (login != null && role != null && role.getId() > 0
