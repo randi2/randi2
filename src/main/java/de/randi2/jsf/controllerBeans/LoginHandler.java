@@ -18,11 +18,11 @@
 package de.randi2.jsf.controllerBeans;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -42,11 +42,11 @@ import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import de.randi2.jsf.backingBeans.RegisterPage;
+import de.randi2.jsf.converters.RoleConverter;
 import de.randi2.jsf.exceptions.RegistrationException;
 import de.randi2.jsf.supportBeans.PermissionVerifier;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
-import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
@@ -55,8 +55,8 @@ import de.randi2.model.TrialSite;
 import de.randi2.services.TrialSiteService;
 import de.randi2.services.UserService;
 import de.randi2.utility.logging.LogEntry;
-import de.randi2.utility.logging.LogService;
 import de.randi2.utility.logging.LogEntry.ActionType;
+import de.randi2.utility.logging.LogService;
 
 /**
  * <p>
@@ -66,29 +66,29 @@ import de.randi2.utility.logging.LogEntry.ActionType;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
-@ManagedBean(name="loginHandler")
+@ManagedBean(name = "loginHandler")
 @SessionScoped
 public class LoginHandler extends AbstractHandler<Login> {
 
 	/*
 	 * Services classes to work with - provided via JSF/Spring brige.
 	 */
-	@ManagedProperty(value="#{userService}")
+	@ManagedProperty(value = "#{userService}")
 	@Setter
 	private UserService userService;
 
-	@ManagedProperty(value="#{logService}")
+	@ManagedProperty(value = "#{logService}")
 	@Setter
 	private LogService logService;
 
-	@ManagedProperty(value="#{trialSiteService}")
+	@ManagedProperty(value = "#{trialSiteService}")
 	@Setter
 	private TrialSiteService siteService;
 
 	/*
 	 * Reference to the application popup logic.
 	 */
-	@ManagedProperty(value="#{popups}")
+	@ManagedProperty(value = "#{popups}")
 	@Setter
 	private Popups popups;
 
@@ -115,15 +115,45 @@ public class LoginHandler extends AbstractHandler<Login> {
 	@Setter
 	private String tsPassword = null;
 
-	/*
-	 * The autocomplete objects used during the registrations process
-	 * (trialSitesAC - with all stored trial sites) and rolesAC for the user
-	 * creation and editing process with all defined roles.
-	 */
+	private List<SelectItem> trialSites;
 
-	private AutoCompleteObject<TrialSite> trialSitesAC = null;
-	private AutoCompleteObject<Role> rolesAC = null;
+	public List<SelectItem> getTrialSites() {
+		if (trialSites == null) {
+			trialSites = new ArrayList<SelectItem>();
+			for (TrialSite site : siteService.getAll()) {
+				trialSites.add(new SelectItem(site, site.getName()));
+			}
+		}
+		return trialSites;
+	}
 
+	@Getter
+	@Setter
+	private TrialSite selectedTrialSite;
+
+	private List<SelectItem> roles;
+
+	public List<SelectItem> getRoles() {
+		if (roles == null) {
+			roles = new ArrayList<SelectItem>();
+			for (Role r : userService.getAllRoles()) {
+				roles.add(new SelectItem(r, getRoleConverter().getAsString(null, null, r)));
+			}
+		}
+		return roles;
+	}
+	
+	@Getter @Setter
+	private Role selectedRole;
+
+	private RoleConverter roleConverter;
+	
+	public RoleConverter getRoleConverter() {
+		if(roleConverter == null)
+			roleConverter = new RoleConverter(userService, getChosenLocale());
+		return roleConverter;
+	}
+	
 	/*
 	 * UI logic
 	 */
@@ -134,9 +164,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 * @param event
 	 */
 	public void addRole(ActionEvent event) {
-		assert (rolesAC.getSelectedObject() != null);
-		assert (userService != null);
-		userService.addRole(currentObject, rolesAC.getSelectedObject());
+		 userService.addRole(currentObject, selectedRole);
 	}
 
 	/**
@@ -163,16 +191,12 @@ public class LoginHandler extends AbstractHandler<Login> {
 		return Randi2.SUCCESS;
 	}
 
-	/**
-	 * Action Method for the "change trial site" action.
-	 * 
-	 * @return
-	 */
 	public String changeTrialSite() {
-		if (trialSitesAC.getSelectedObject() != null) {
+		if (selectedTrialSite != null) {
 			popups.hideChangeTrialSitePopup();
-			try{
-				siteService.changePersonTrialSite(trialSitesAC.getSelectedObject(), currentObject.getPerson());
+			try {
+				siteService.changePersonTrialSite(selectedTrialSite,
+						currentObject.getPerson());
 				return Randi2.SUCCESS;
 			} catch (Exception exp) {
 				Randi2.showMessage(exp);
@@ -229,8 +253,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 				// Normal self-registration - trial site password check!
 				assert (newUser != null);
 				try {
-					if (!siteService.authorize(
-							trialSitesAC.getSelectedObject(), tsPassword)) {
+					if (!siteService.authorize(selectedTrialSite, tsPassword)) {
 						throw new RegistrationException(
 								RegistrationException.PASSWORD_ERROR);
 					}
@@ -244,7 +267,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 			newUser.setPrefLocale(getChosenLocale());
 			newUser.setUsername(newUser.getPerson().getEmail());
 			/* The new object will be saved */
-			userService.register(newUser, trialSitesAC.getSelectedObject());
+			userService.register(newUser, selectedTrialSite);
 			// Making the successPopup visible (NORMAL REGISTRATION)
 			if (!creatingMode) {
 				((RegisterPage) FacesContext
@@ -267,7 +290,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 			return Randi2.SUCCESS;
 		} catch (ConstraintViolationException exp) {
 			for (ConstraintViolation<?> v : exp.getConstraintViolations()) {
-				Randi2.showMessage(v.getPropertyPath()+ " : " + v.getMessage());
+				Randi2.showMessage(v.getPropertyPath() + " : " + v.getMessage());
 			}
 			return Randi2.ERROR;
 		} catch (Exception e) {
@@ -296,7 +319,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public void cleanUp() {
 		tsPassword = null;
 		newUser = null;
-		trialSitesAC = null;
+		trialSites = null;
 	}
 
 	/*
@@ -310,7 +333,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 			currentObject = null;
 		else
 			currentObject = userService.getObject(currentObject.getId());
-		trialSitesAC = null;
+		selectedTrialSite = null;
 		refresh();
 		return Randi2.SUCCESS;
 	}
@@ -343,7 +366,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 				 * Reloading the user from the database to ensure that the
 				 * object is attached to the correct session
 				 */
-//				loggedInUser = userService.getObject(loggedInUser.getId());
+				// loggedInUser = userService.getObject(loggedInUser.getId());
 				loggedInUser.setLastLoggedIn(new GregorianCalendar());
 			} catch (NullPointerException exp) {
 				Logger.getLogger(this.getClass()).debug("NPE", exp);
@@ -417,34 +440,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 	}
 
 	/**
-	 * Returns the trial sites auto complete object (object is a singleton).
-	 * 
-	 * @return
-	 */
-	public AutoCompleteObject<TrialSite> getTrialSitesAC() {
-		if (trialSitesAC == null)
-			trialSitesAC = new AutoCompleteObject<TrialSite>(siteService);
-		return trialSitesAC;
-	}
-
-	/**
-	 * Returns the user roles auto complete object (object is a singleton).
-	 * 
-	 * @return
-	 */
-	public AutoCompleteObject<Role> getRolesAC() {
-		if (rolesAC == null) {
-			rolesAC = new AutoCompleteObject<Role>(userService.getAllRoles());
-			ResourceBundle rb = ResourceBundle.getBundle(
-					"de.randi2.jsf.i18n.roles", this.getChosenLocale());
-			for (SelectItem si : rolesAC.getObjectList()) {
-				si.setLabel(rb.getString(si.getLabel()));
-			}
-		}
-		return rolesAC;
-	}
-
-	/**
 	 * Use this method to invalidate the current HTTPSession and show the
 	 * loginPage
 	 */
@@ -496,8 +491,8 @@ public class LoginHandler extends AbstractHandler<Login> {
 		l.setPerson(new Person());
 		return l;
 	}
-	
-	public TrialSite getCurrentUsersTrialSite(){
+
+	public TrialSite getCurrentUsersTrialSite() {
 		return siteService.getTrialSiteFromPerson(currentObject.getPerson());
 	}
 }

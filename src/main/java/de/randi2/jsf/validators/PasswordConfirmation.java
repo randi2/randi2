@@ -22,6 +22,7 @@ import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
@@ -36,6 +37,7 @@ import javax.faces.validator.ValidatorException;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  * 
  */
+@FacesValidator(value="de.randi2.jsf.validators.PASSWORD_CONFIRMATION")
 public class PasswordConfirmation implements Validator, Serializable {
 
 	private static final long serialVersionUID = 3209827418681297534L;

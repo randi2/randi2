@@ -77,7 +77,14 @@ public interface TrialSiteService extends AbstractService<TrialSite> {
 	 * @return The members of this trial.
 	 */
 	public List<Person> getMembers(TrialSite site);
+	
+	/**
+	 * Returns a corresponding trial site object to the provided name
+	 * @param name - the unique name of the trial site
+	 * @return - the corresponding trial site object
+	 */
+	public TrialSite get(String name);
 
-	TrialSite getTrialWithMembers(long objectID);
+	public TrialSite getTrialWithMembers(long objectID);
 	
 }

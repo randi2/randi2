@@ -17,7 +17,6 @@
  */
 package de.randi2.services;
 
-
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -35,104 +34,137 @@ import de.randi2.model.Person;
 import de.randi2.model.TrialSite;
 
 @Service("trialSiteService")
-public class TrialSiteServiceImpl implements TrialSiteService{
+public class TrialSiteServiceImpl implements TrialSiteService {
 
 	private Logger logger = Logger.getLogger(TrialSiteService.class);
-	
-	@Autowired private TrialSiteDao siteDAO;
-	@Autowired private PasswordEncoder passwordEncoder;
-	@Autowired private SystemWideSaltSource saltSourceTrialSite;
-	
+
+	@Autowired
+	private TrialSiteDao siteDAO;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private SystemWideSaltSource saltSourceTrialSite;
+
 	@Override
-	@Secured({"ROLE_ANONYMOUS"})
+	@Secured({ "ROLE_ANONYMOUS" })
 	public boolean authorize(TrialSite site, String password) {
-		return site.getPassword().equals(passwordEncoder.encodePassword(password,saltSourceTrialSite.getSystemWideSalt()));
-		
+		return site.getPassword().equals(
+				passwordEncoder.encodePassword(password,
+						saltSourceTrialSite.getSystemWideSalt()));
+
 	}
 
 	@Override
-	@Secured({"ROLE_USER","ROLE_ANONYMOUS", "AFTER_ACL_COLLECTION_READ"})
-	@Transactional(propagation=Propagation.SUPPORTS)
+	@Secured({ "ROLE_USER", "ROLE_ANONYMOUS", "AFTER_ACL_COLLECTION_READ" })
+	@Transactional(propagation = Propagation.SUPPORTS)
 	public List<TrialSite> getAll() {
-		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " get all trial sites");
+		logger.info("user: "
+				+ SecurityContextHolder.getContext().getAuthentication()
+						.getName() + " get all trial sites");
 		return siteDAO.getAll();
 	}
 
 	@Override
-	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
-	@Transactional(propagation=Propagation.SUPPORTS)
+	@Secured({ "ROLE_USER", "ROLE_ANONYMOUS", "AFTER_ACL_READ" })
+	@Transactional(propagation = Propagation.SUPPORTS)
 	public TrialSite getObject(long objectID) {
-		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " get trial site with id=" + objectID);
+		logger.info("user: "
+				+ SecurityContextHolder.getContext().getAuthentication()
+						.getName() + " get trial site with id=" + objectID);
 		return siteDAO.get(objectID);
 	}
-	
+
 	@Override
-	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
-	@Transactional(propagation=Propagation.SUPPORTS)
+	@Secured({ "ROLE_USER", "AFTER_ACL_READ" })
+	@Transactional(propagation = Propagation.SUPPORTS)
 	public TrialSite getTrialWithMembers(long objectID) {
-		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " get trial site with id=" + objectID);
+		logger.info("user: "
+				+ SecurityContextHolder.getContext().getAuthentication()
+						.getName() + " get trial site with id=" + objectID);
 		TrialSite site = siteDAO.get(objectID);
-		if(site.getMembers().size()>0) site.getMembers().get(0);
+		if (site.getMembers().size() > 0)
+			site.getMembers().get(0);
 		return site;
 	}
 
 	@Override
-	@Secured({"ACL_TRIALSITE_CREATE"})
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	@Secured({ "ACL_TRIALSITE_CREATE" })
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void create(TrialSite newSite) {
-		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " create trial site with name " + newSite.getName());
-		newSite.setPassword(passwordEncoder.encodePassword(newSite.getPassword(), saltSourceTrialSite.getSystemWideSalt()));
+		logger.info("user: "
+				+ SecurityContextHolder.getContext().getAuthentication()
+						.getName() + " create trial site with name "
+				+ newSite.getName());
+		newSite.setPassword(passwordEncoder.encodePassword(
+				newSite.getPassword(), saltSourceTrialSite.getSystemWideSalt()));
 		siteDAO.create(newSite);
-		
+
 	}
 
 	@Override
-	@Secured({"ACL_TRIALSITE_WRITE"})
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	@Secured({ "ACL_TRIALSITE_WRITE" })
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public TrialSite update(TrialSite site) {
-		logger.info("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " update trial site with name " + site.getName() + " (id="+site.getId()+")");
+		logger.info("user: "
+				+ SecurityContextHolder.getContext().getAuthentication()
+						.getName() + " update trial site with name "
+				+ site.getName() + " (id=" + site.getId() + ")");
 		return siteDAO.update(site);
 	}
 
 	@Override
-	@Secured({"ROLE_USER", "AFTER_ACL_READ"})
-	@Transactional(propagation=Propagation.SUPPORTS)
+	@Secured({ "ROLE_USER", "AFTER_ACL_READ" })
+	@Transactional(propagation = Propagation.SUPPORTS)
 	public TrialSite getTrialSiteFromPerson(Person person) {
 		return siteDAO.get(person);
 	}
 
 	@Override
-	@Secured({"ACL_TRIALSITE_WRITE"})
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
-	public void addPerson(TrialSite site, Person person) throws ServiceException {
-		if(site == null || site.getId()<1 || person == null || person.getId() <1) 
+	@Secured({ "ACL_TRIALSITE_WRITE" })
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void addPerson(TrialSite site, Person person)
+			throws ServiceException {
+		if (site == null || site.getId() < 1 || person == null
+				|| person.getId() < 1)
 			throw new ServiceException("Invalid value");
 		site = siteDAO.refresh(site);
 		site.getMembers().add(person);
 		siteDAO.update(site);
 	}
-	
+
 	@Override
-	@Secured({"ACL_TRIALSITE_WRITE"})
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
-	public void changePersonTrialSite(TrialSite newSite,
-			Person person) throws ServiceException {
+	@Secured({ "ACL_TRIALSITE_WRITE" })
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void changePersonTrialSite(TrialSite newSite, Person person)
+			throws ServiceException {
 		TrialSite oldSite = siteDAO.get(person);
 		newSite = siteDAO.refresh(newSite);
-		if(!oldSite.getMembers().remove(person)) throw new ServiceException();
+		if (!oldSite.getMembers().remove(person))
+			throw new ServiceException();
 		newSite.getMembers().add(person);
 		siteDAO.update(oldSite);
 		siteDAO.update(newSite);
 	}
-	
+
 	@Override
-	@Secured({"ROLE_USER", "AFTER_ACL_COLLECTION_READ"})
-	@Transactional(propagation=Propagation.SUPPORTS)
-	public List<Person> getMembers(TrialSite site){
-		if(site == null) return null;
+	@Secured({ "ROLE_USER", "AFTER_ACL_COLLECTION_READ" })
+	@Transactional(propagation = Propagation.SUPPORTS)
+	public List<Person> getMembers(TrialSite site) {
+		if (site == null)
+			return null;
 		site = siteDAO.refresh(site);
-		if(site.getMembers().size()>0) site.getMembers().get(0);
+		if (site.getMembers().size() > 0)
+			site.getMembers().get(0);
 		return site.getMembers();
+	}
+
+	@Override
+	@Secured({ "ROLE_USER", "ROLE_ANONYMOUS", "AFTER_ACL_READ" })
+	@Transactional(propagation = Propagation.SUPPORTS)
+	public TrialSite get(String name) {
+		if (name != null && !name.isEmpty())
+			return siteDAO.get(name);
+		return null;
 	}
 
 }

@@ -25,7 +25,9 @@ import javax.faces.bean.SessionScoped;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import lombok.Getter;
 import lombok.Setter;
+import de.randi2.jsf.converters.TrialSiteConverter;
 import de.randi2.jsf.supportBeans.PermissionVerifier;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
@@ -71,6 +73,15 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	@Setter
 	private LoginHandler loginHandler;
 
+	private TrialSiteConverter trialSiteConverter;
+	
+	public TrialSiteConverter getTrialSiteConverter() {
+		if(trialSiteConverter==null)
+			trialSiteConverter= new TrialSiteConverter(siteService);
+		return trialSiteConverter;
+	}
+	
+	
 	/**
 	 * Returns the currently signed in user.
 	 * @return

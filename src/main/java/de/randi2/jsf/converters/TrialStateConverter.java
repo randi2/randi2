@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.model.enumerations.TrialStatus;
@@ -34,6 +35,7 @@ import de.randi2.model.enumerations.TrialStatus;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  */
+@FacesConverter(value="de.randi2.jsf.converters.TRIALSTATE_CONVERTER")
 public class TrialStateConverter implements Converter {
 
 	@Override

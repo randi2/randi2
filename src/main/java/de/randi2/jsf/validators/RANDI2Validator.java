@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License along with
  * RANDI2. If not, see <http://www.gnu.org/licenses/>.
  */
- /* This file is part of RANDI2.
+/* This file is part of RANDI2.
  * 
  * RANDI2 is free software: you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -36,6 +36,7 @@ import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
@@ -51,8 +52,9 @@ import de.randi2.model.exceptions.ValidationException;
  * </p>
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
- *
+ * 
  */
+@FacesValidator(value = "de.randi2.jsf.validators.RANDI2_VALIDATOR")
 public class RANDI2Validator implements Validator, Serializable {
 
 	private static final long serialVersionUID = 8338311891734408441L;
@@ -68,13 +70,13 @@ public class RANDI2Validator implements Validator, Serializable {
 
 		// String messageBundle = application.getMessageBundle();
 		// Locale locale = arg0.getViewRoot().getLocale();
-		//		
+		//
 		// ResourceBundle rb = ResourceBundle.getBundle(messageBundle, locale);
 
 		try {
 			dObject.checkValue(arg1.getId(), arg2);
 		} catch (ValidationException exp) {
-			//TODO Befor deploy - delete this sysout
+			// TODO Befor deploy - delete this sysout
 			exp.printStackTrace();
 			StringBuffer messages = new StringBuffer();
 			for (String m : exp.getMessages()) {
@@ -82,8 +84,8 @@ public class RANDI2Validator implements Validator, Serializable {
 			}
 			throw new ValidatorException(new FacesMessage(
 					FacesMessage.SEVERITY_ERROR, messages.toString(), null));
-		}catch(Exception exp1){
-			//TODO Befor deploy - delete this sysout
+		} catch (Exception exp1) {
+			// TODO Befor deploy - delete this sysout
 			exp1.printStackTrace();
 		}
 

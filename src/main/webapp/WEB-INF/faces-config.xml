@@ -39,27 +39,6 @@
 	<lifecycle>
 		<phase-listener>de.randi2.utility.listener.LoginErrorPhaseListener</phase-listener>
 	</lifecycle>
-	<validator>
-		<validator-id>de.randi2.jsf.validators.RANDI2_VALIDATOR</validator-id>
-		<validator-class>de.randi2.jsf.validators.RANDI2Validator</validator-class>
-	</validator>
-	<validator>
-		<validator-id>de.randi2.jsf.validators.PASSWORD_CONFIRMATION</validator-id>
-		<validator-class>de.randi2.jsf.validators.PasswordConfirmation</validator-class>
-	</validator>
-
-	<converter>
-		<converter-id>de.randi2.jsf.converters.GENDER_CONVERTER</converter-id>
-		<converter-class>de.randi2.jsf.converters.GenderConverter</converter-class>
-	</converter>
-	<converter>
-		<converter-id>de.randi2.jsf.converters.TRIALSTATE_CONVERTER</converter-id>
-		<converter-class>de.randi2.jsf.converters.TrialStateConverter</converter-class>
-	</converter>
-	<converter>
-		<converter-id>de.randi2.jsf.converters.BLOCKRANDOMIZATION_TYPE_CONVERTER</converter-id>
-		<converter-class>de.randi2.jsf.converters.BlockRandomizationTypeConverter</converter-class>
-	</converter>
 	
 	<navigation-rule>
 		<display-name>refresh</display-name>
