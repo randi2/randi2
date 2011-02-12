@@ -102,6 +102,14 @@ public interface UserService extends AbstractService<Login> {
 	 */
 	public List<Role> getAllRoles(); 
 	
+	
+	/**
+	 * Returns the role with the specific name.
+	 * @param name The name of the role.
+	 * @return The role object.
+	 */
+	public Role get(String name);
+	
 	/* Methods for the future:
 	 * addRight(long userID, ?)
 	 * loginUser(String username, Strin pass)	
