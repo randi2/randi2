@@ -108,7 +108,7 @@ public interface UserService extends AbstractService<Login> {
 	 * @param name The name of the role.
 	 * @return The role object.
 	 */
-	public Role get(String name);
+	public Role getRole(String name);
 	
 	/* Methods for the future:
 	 * addRight(long userID, ?)

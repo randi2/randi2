@@ -287,7 +287,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Secured({ "ROLE_USER" })
 	@Transactional(propagation = Propagation.SUPPORTS)
-	public Role get(String name) {
+	public Role getRole(String name) {
 		return roleDao.get(name);
 	}
 }

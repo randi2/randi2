@@ -42,7 +42,7 @@ public class RoleConverter implements Converter {
 				"de.randi2.jsf.i18n.roles", locale);
 		for (String key : rb.keySet()) {
 			if (rb.getString(key).equals(l16edValue))
-				return service.get(key);
+				return service.getRole(key);
 		}
 		System.out.println("no role found!!!!");
 		return null;
