@@ -34,8 +34,8 @@ import lombok.Getter;
 import lombok.Setter;
 import de.randi2.jsf.backingBeans.AlgorithmConfig;
 import de.randi2.jsf.backingBeans.SubjectPropertiesConfig;
+import de.randi2.jsf.converters.LoginConverter;
 import de.randi2.jsf.supportBeans.Randi2;
-import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.model.Login;
 import de.randi2.model.Role;
 import de.randi2.model.Trial;
@@ -56,23 +56,22 @@ import de.randi2.utility.logging.LogService;
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net> & ds@randi2.de
  */
-@ManagedBean(name="trialHandler")
+@ManagedBean(name = "trialHandler")
 @SessionScoped
 public class TrialHandler extends AbstractTrialHandler {
 
 	/*
 	 * Services which this class needs to work with. (provided via spring)
 	 */
-	@ManagedProperty(value="#{trialSiteService}")
+	@ManagedProperty(value = "#{trialSiteService}")
 	@Setter
 	private TrialSiteService siteService;
-	@ManagedProperty(value="#{trialService}")
+	@ManagedProperty(value = "#{trialService}")
 	@Setter
 	private TrialService trialService;
-	@ManagedProperty(value="#{logService}")
+	@ManagedProperty(value = "#{logService}")
 	@Setter
 	private LogService logService;
-
 
 	@Setter
 	/**
@@ -87,68 +86,32 @@ public class TrialHandler extends AbstractTrialHandler {
 	@Getter
 	private boolean editing = false;
 
-	/*
-	 * Auto complete objects for the trial creation process.
-	 */
-	private AutoCompleteObject<TrialSite> trialSitesAC;
-	private AutoCompleteObject<Login> sponsorInvestigatorsAC;
-	private AutoCompleteObject<TrialSite> participatingSitesAC;
+	@Getter
+	@Setter
+	private TrialSite leadingSite;
+	@Getter
+	@Setter
+	private Login sponsorInvestigator;
+
+	public List<SelectItem> getSponsorInvestigators() {
+		ArrayList<SelectItem> list = new ArrayList<SelectItem>();
+		if (leadingSite == null && currentObject.getLeadingSite()==null)
+			return list;
+		else if(leadingSite == null && currentObject.getLeadingSite()!=null)
+			leadingSite = currentObject.getLeadingSite();
+		for (Login l : leadingSite
+				.getMembersWithSpecifiedRole(Role.ROLE_INVESTIGATOR))
+			list.add(LoginConverter.getAsSelectItem(l));
+		return list;
+	}
+	
+	@Getter @Setter
+	private TrialSite selectedTrialSite;
+
 
 	/*
 	 * GET & SET methods
 	 */
-
-	/**
-	 * Returns an autocomplete object with all stored trial sites (singleton)
-	 * 
-	 * @return
-	 */
-	public AutoCompleteObject<TrialSite> getTrialSitesAC() {
-		if (trialSitesAC == null)
-			trialSitesAC = new AutoCompleteObject<TrialSite>(siteService);
-		return trialSitesAC;
-
-	}
-
-	/**
-	 * Returns the principal investigators of the selected leading trial site.
-	 * 
-	 * @return
-	 */
-	public AutoCompleteObject<Login> getSponsorInvestigatorsAC() {
-		if (!editing) {
-			if (sponsorInvestigatorsAC != null
-					&& trialSitesAC.isObjectSelected())
-				return sponsorInvestigatorsAC;
-			if (trialSitesAC.isObjectSelected())
-				sponsorInvestigatorsAC = new AutoCompleteObject<Login>(
-						 siteService.getTrialWithMembers(trialSitesAC.getSelectedObject().getId())
-								.getMembersWithSpecifiedRole(
-										Role.ROLE_P_INVESTIGATOR));
-			else
-				sponsorInvestigatorsAC = new AutoCompleteObject<Login>(
-						new ArrayList<Login>());
-		} else {
-			if (sponsorInvestigatorsAC == null)
-				sponsorInvestigatorsAC = new AutoCompleteObject<Login>(
-						 siteService.getTrialWithMembers(currentObject.getLeadingSite().getId())
-								.getMembersWithSpecifiedRole(
-										Role.ROLE_P_INVESTIGATOR));
-		}
-		return sponsorInvestigatorsAC;
-	}
-
-	/**
-	 * Return the autocomplete object with possible participating sites.
-	 * 
-	 * @return
-	 */
-	public AutoCompleteObject<TrialSite> getParticipatingSitesAC() {
-		if (participatingSitesAC == null)
-			participatingSitesAC = new AutoCompleteObject<TrialSite>(
-					siteService);
-		return participatingSitesAC;
-	}
 
 	/**
 	 * Specifies if the user can add subject to the current study.
@@ -199,9 +162,8 @@ public class TrialHandler extends AbstractTrialHandler {
 	 * @param event
 	 */
 	public void addTrialSite(ActionEvent event) {
-		if (participatingSitesAC.getSelectedObject() != null) {
-			currentObject.getParticipatingSites().add(
-					participatingSitesAC.getSelectedObject());
+		if (selectedTrialSite != null) {
+			currentObject.getParticipatingSites().add(selectedTrialSite);
 		}
 	}
 
@@ -230,10 +192,9 @@ public class TrialHandler extends AbstractTrialHandler {
 	public String createTrial() {
 		try {
 			/* Leading Trial Site & Sponsor Investigator */
-			currentObject.setLeadingSite(trialSitesAC.getSelectedObject());
-			if (sponsorInvestigatorsAC.getSelectedObject() != null)
-				currentObject.setSponsorInvestigator(sponsorInvestigatorsAC
-						.getSelectedObject().getPerson());
+			currentObject.setLeadingSite(leadingSite);
+			if (sponsorInvestigator != null)
+				currentObject.setSponsorInvestigator(sponsorInvestigator.getPerson());
 
 			// TODO Protokoll
 			// TODO Status
@@ -277,15 +238,14 @@ public class TrialHandler extends AbstractTrialHandler {
 	}
 
 	public String changeLeadingSite() {
-		currentObject.setLeadingSite(trialSitesAC.getSelectedObject());
-		sponsorInvestigatorsAC = null;
+		currentObject.setLeadingSite(leadingSite);
+		sponsorInvestigator = null;
 		getPopups().hideChangeLeadingSitePopup();
 		return Randi2.SUCCESS;
 	}
 
 	public String changePInvestigator() {
-		currentObject.setSponsorInvestigator(sponsorInvestigatorsAC
-				.getSelectedObject().getPerson());
+		currentObject.setSponsorInvestigator(sponsorInvestigator.getPerson());
 		getPopups().hideChangePInvestigatorPopup();
 		return Randi2.SUCCESS;
 	}
@@ -297,8 +257,8 @@ public class TrialHandler extends AbstractTrialHandler {
 		}
 		return Randi2.SUCCESS;
 	}
-	
-	public String startEditing(){
+
+	public String startEditing() {
 		editing = true;
 		return Randi2.SUCCESS;
 	}
@@ -334,8 +294,8 @@ public class TrialHandler extends AbstractTrialHandler {
 
 	public List<TrialSubject> getSubjectsList() {
 		if (currentObject != null) {
-			return trialService.getSubjects(currentObject, loginHandler
-					.getLoggedInUser());
+			return trialService.getSubjects(currentObject,
+					loginHandler.getLoggedInUser());
 		}
 		return null;
 	}
@@ -371,10 +331,10 @@ public class TrialHandler extends AbstractTrialHandler {
 				.getValue(FacesContext.getCurrentInstance().getELContext());
 		currentStep5.clean();
 
-//		setRandomizationConfig(null);
+		// setRandomizationConfig(null);
 		currentObject = null;
-		trialSitesAC = null;
-		sponsorInvestigatorsAC = null;
+		leadingSite = null;
+		sponsorInvestigator = null;
 	}
 
 }

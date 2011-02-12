@@ -21,42 +21,44 @@
 		visible="#{popups.changeTrialSitePVisible}"
 		rendered="#{popups.changeTrialSitePVisible}">
 		<f:facet name="header">
-			<ice:outputText value="#{labels['pages.changeTrialSitePopup.header']}"></ice:outputText>
+			<ice:outputText
+				value="#{labels['pages.changeTrialSitePopup.header']}" />
 		</f:facet>
 		<f:facet name="body">
 			<ice:panelGrid border="0" columns="2" style="float:left">
-				<h:graphicImage name="/img/icons/trialSite48.png"/>
+				<h:graphicImage name="/img/icons/trialSite48.png" />
 				<ice:outputText value="#{labels['pages.changeTrialSitePopup.info']}"
 					escape="false" />
-				<ice:outputLabel for="name" value="#{labels['trialSite.name']}"></ice:outputLabel>
-				<ice:selectInputText id="trialSite"
+				<ice:outputLabel for="name" value="#{labels['trialSite.name']}" />
+				<ice:selectOneMenu id="trialSite" partialSubmit="true"
 					required="#{loginHandler.currentObject.person.requiredFields['trialSite']}"
-					valueChangeListener="#{loginHandler.trialSitesAC.updateObjectList}" rows="10"
-					width="200">
-					<f:selectItems value="#{loginHandler.trialSitesAC.objectList}" />
-				</ice:selectInputText>
-				<ice:outputLabel for="country" value="#{labels['trialSite.country']}"></ice:outputLabel>
+					value="#{loginHandler.selectedTrialSite}">
+					<f:selectItems value="#{loginHandler.trialSites}" />
+					<f:converter binding="#{trialSiteHandler.trialSiteConverter}" />
+				</ice:selectOneMenu>
+				<ice:message for="trialSite" styleClass="errorMsg" />
+				<ice:outputLabel for="country"
+					value="#{labels['trialSite.country']}" />
 				<ice:outputText id="country"
-					value="#{loginHandler.trialSitesAC.selectedObject.country}">
-				</ice:outputText>
-				<ice:outputLabel for="city" value="#{labels['trialSite.city']}"></ice:outputLabel>
-				<ice:outputText id="city" value="#{loginHandler.trialSitesAC.selectedObject.city}">
-				</ice:outputText>
-				<ice:outputLabel for="postcode" value="#{labels['trialSite.postcode']}"></ice:outputLabel>
+					value="#{loginHandler.selectedTrialSite.country}" />
+				<ice:outputLabel for="city" value="#{labels['trialSite.city']}" />
+				<ice:outputText id="city"
+					value="#{loginHandler.selectedTrialSite.city}" />
+				<ice:outputLabel for="postcode"
+					value="#{labels['trialSite.postcode']}" />
 				<ice:outputText id="postcode"
-					value="#{loginHandler.trialSitesAC.selectedObject.postcode}">
-				</ice:outputText>
-				<ice:outputLabel for="street" value="#{labels['trialSite.street']}"></ice:outputLabel>
+					value="#{loginHandler.selectedTrialSite.postcode}" />
+				<ice:outputLabel for="street" value="#{labels['trialSite.street']}" />
 				<ice:outputText id="street"
-					value="#{loginHandler.trialSitesAC.selectedObject.street}">
-				</ice:outputText>
+					value="#{loginHandler.selectedTrialSite.street}" />
 				<ice:panelGroup>
 					<ice:panelGrid columns="2">
 						<ice:commandButton value="#{labels['buttons.save']}"
-							action="#{loginHandler.changeTrialSite}" disabled="#{!loginHandler.trialSitesAC.objectSelected}"/>
+							action="#{loginHandler.changeTrialSite}"
+							disabled="#{loginHandler.selectedTrialSite==null}" />
 						<ice:commandButton immediate="true"
 							value="#{labels['buttons.cancel']}"
-							action="#{popups.hideChangeTrialSitePopup}"></ice:commandButton>
+							action="#{popups.hideChangeTrialSitePopup}" />
 					</ice:panelGrid>
 				</ice:panelGroup>
 			</ice:panelGrid>

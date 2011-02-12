@@ -21,18 +21,20 @@
 		visible="#{popups.changePInvestigatorPVisible}"
 		rendered="#{popups.changePInvestigatorPVisible}">
 		<f:facet name="header">
-			<ice:outputText value="#{labels['trial.sponsorInvestigator']}"/>
+			<ice:outputText value="#{labels['trial.sponsorInvestigator']}" />
 		</f:facet>
 		<f:facet name="body">
 			<ice:panelGroup>
-				<ice:outputLabel value="#{labels['person.surname']},#{labels['person.firstname']}" />
+				<ice:outputLabel
+					value="#{labels['person.surname']},#{labels['person.firstname']}" />
 				<ice:panelGroup id="passwordGroup">
-					<ice:selectInputText id="pInvestigator"
-						valueChangeListener="#{trialHandler.sponsorInvestigatorsAC.updateObjectList}"
-						rows="10" width="200"
-						value="#{trialHandler.sponsorInvestigatorsAC.objectRepresentation}">
-						<f:selectItems value="#{trialHandler.sponsorInvestigatorsAC.objectList}" />
-					</ice:selectInputText>
+					<ice:selectOneMenu id="sponsorInvestigator" partialSubmit="true"
+						required="#{trialHandler.currentObject.requiredFields['sponsorInvestigator']}"
+						value="#{trialHandler.sponsorInvestigator}">
+						<f:selectItems value="#{trialHandler.sponsorInvestigators}" />
+						<f:converter binding="#{loginHandler.loginConverter}" />
+					</ice:selectOneMenu>
+					<ice:message for="sponsorInvestigator" styleClass="errorMsg" />
 				</ice:panelGroup>
 				<ice:panelGroup>
 					<ice:panelGrid columns="2">
@@ -40,7 +42,7 @@
 							action="#{trialHandler.changePInvestigator}" />
 						<ice:commandButton immediate="true"
 							value="#{labels['buttons.cancel']}"
-							action="#{popups.hideChangePInvestigatorPopup}"/>
+							action="#{popups.hideChangePInvestigatorPopup}" />
 					</ice:panelGrid>
 				</ice:panelGroup>
 			</ice:panelGroup>

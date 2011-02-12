@@ -21,12 +21,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
-import lombok.Setter;
-import de.randi2.jsf.controllerBeans.TrialHandler;
-import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
@@ -42,27 +38,17 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
 @ManagedBean(name = "subjectPropertiesConfig")
 @RequestScoped
 public class SubjectPropertiesConfig extends AbstractSubjectProperty {
-	@ManagedProperty(value = "#{trialHandler}")
-	@Setter
-	private TrialHandler trialHandler;
-
-
-	public AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteriaAC() {
-		if (criteriaAC == null) {
-			initCriteriaAC(trialHandler.getCriteriaList());
-		}
-		return criteriaAC;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<CriterionWrapper<? extends Serializable>> getCriteria() {
 		if (criteria == null)
 			criteria = new ArrayList<CriterionWrapper<? extends Serializable>>();
 		if (criteria.isEmpty() && trialHandler.isEditing()) {
-			for(AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<?>> c : trialHandler.getCurrentObject().getCriteria()){
+			for (AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<?>> c : trialHandler
+					.getCurrentObject().getCriteria()) {
 				criteria.add(new CriterionWrapper<Serializable>(
-						(AbstractCriterion<Serializable, ?>) c));
+						(AbstractCriterion<Serializable, ?>) c, loginHandler
+								.getChosenLocale()));
 			}
 		}
 		return criteria;

@@ -65,15 +65,15 @@ import de.randi2.simulation.service.SimulationService;
  * 
  * @author ds@randi2.de
  */
-@ManagedBean(name="simulationHandler")
+@ManagedBean(name = "simulationHandler")
 @SessionScoped
 public class SimulationHandler extends AbstractTrialHandler {
 
-	@ManagedProperty(value="#{trialHandler}")
+	@ManagedProperty(value = "#{trialHandler}")
 	@Getter
 	@Setter
 	private TrialHandler trialHandler;
-	@ManagedProperty(value="#{simulationService}")
+	@ManagedProperty(value = "#{simulationService}")
 	@Getter
 	@Setter
 	private SimulationService simulationService;
@@ -126,14 +126,14 @@ public class SimulationHandler extends AbstractTrialHandler {
 	@Getter
 	@Setter
 	private boolean simFromTrialCreationFirst = true;
-	
+
 	@Getter
 	@Setter
-	private SimulationResultFactorsOrderEnum selectedOrder= SimulationResultFactorsOrderEnum.SAT;
-	
-	public static enum SimulationResultFactorsOrderEnum{
-		SAT("SAT"),STA("STA"),ATS("ATS"),AST("AST");
-		
+	private SimulationResultFactorsOrderEnum selectedOrder = SimulationResultFactorsOrderEnum.SAT;
+
+	public static enum SimulationResultFactorsOrderEnum {
+		SAT("SAT"), STA("STA"), ATS("ATS"), AST("AST");
+
 		private String id = null;
 
 		private SimulationResultFactorsOrderEnum(String id) {
@@ -146,16 +146,14 @@ public class SimulationHandler extends AbstractTrialHandler {
 		}
 	}
 
-
 	@Getter
 	@Setter
 	private boolean collectRawData = false;
-	
+
 	private DistributionTrialSiteWrapper distributedTrialSites;
 
 	private List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> distributedCriterions;
-	
-	
+
 	public DistributionTrialSiteWrapper getDistributionTrialSiteWrapper() {
 		if (distributedTrialSites == null
 				|| distributedTrialSites.getTrialSitesRatioWrappers().size() != countTrialSites) {
@@ -193,7 +191,8 @@ public class SimulationHandler extends AbstractTrialHandler {
 					distributedCriterions.add(new DistributedCriterionWrapper(
 							strataDistributions,
 							new CriterionWrapper<Serializable>(
-									(AbstractCriterion<Serializable, ?>) c)));
+									(AbstractCriterion<Serializable, ?>) c,
+									loginHandler.getChosenLocale())));
 				}
 			}
 		}
@@ -205,13 +204,10 @@ public class SimulationHandler extends AbstractTrialHandler {
 			currentObject = trialHandler.getCurrentObject();
 			try {
 				/* Leading Trial Site & Sponsor Investigator */
-				currentObject.setLeadingSite(trialHandler.getTrialSitesAC()
-						.getSelectedObject());
-				if (trialHandler.getSponsorInvestigatorsAC()
-						.getSelectedObject() != null)
+				currentObject.setLeadingSite(trialHandler.getLeadingSite());
+				if (trialHandler.getSponsorInvestigator() != null)
 					currentObject.setSponsorInvestigator(trialHandler
-							.getSponsorInvestigatorsAC().getSelectedObject()
-							.getPerson());
+							.getSponsorInvestigator().getPerson());
 				currentObject.setCriteria(configureCriteriaStep4());
 				simFromTrialCreationFirst = false;
 			} catch (Exception e) {
@@ -227,8 +223,10 @@ public class SimulationHandler extends AbstractTrialHandler {
 		}
 		if (simOnly && criterionChanged) {
 			/* SubjectProperties Configuration - done in Step4 */
-			ValueExpression ve1 = FacesContext.getCurrentInstance()
-					.getApplication().getExpressionFactory()
+			ValueExpression ve1 = FacesContext
+					.getCurrentInstance()
+					.getApplication()
+					.getExpressionFactory()
 					.createValueExpression(
 							FacesContext.getCurrentInstance().getELContext(),
 							"#{simulationSubjectProperty}",
@@ -253,7 +251,8 @@ public class SimulationHandler extends AbstractTrialHandler {
 		for (AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : currentObject
 				.getCriteria()) {
 			strata.add(new CriterionWrapper<Serializable>(
-					(AbstractCriterion<Serializable, ?>) c));
+					(AbstractCriterion<Serializable, ?>) c, loginHandler
+							.getChosenLocale()));
 		}
 		return strata;
 	}
@@ -384,21 +383,25 @@ public class SimulationHandler extends AbstractTrialHandler {
 					alg.getConf().resetAlgorithm();
 				}
 				SimulationResult result = simulationService.simulateTrial(
-						currentObject, properties, distributedTrialSites
-								.getDistributionTrialSites(), runs, maxTime, collectRawData);
+						currentObject, properties,
+						distributedTrialSites.getDistributionTrialSites(),
+						runs, maxTime, collectRawData);
 				result.setAlgorithmDescription(alg.getDescription());
 				simulationResults.add(result);
 			}
 
 		} else {
 			SimulationResult result = simulationService.simulateTrial(
-					currentObject, properties, distributedTrialSites
-							.getDistributionTrialSites(), runs, maxTime, collectRawData);
+					currentObject, properties,
+					distributedTrialSites.getDistributionTrialSites(), runs,
+					maxTime, collectRawData);
 			simResult = result;
-			Randi2Page rPage = ((Randi2Page) FacesContext.getCurrentInstance()
-					.getApplication().getELResolver().getValue(
-							FacesContext.getCurrentInstance()
-									.getELContext(), null, "randi2Page"));
+			Randi2Page rPage = ((Randi2Page) FacesContext
+					.getCurrentInstance()
+					.getApplication()
+					.getELResolver()
+					.getValue(FacesContext.getCurrentInstance().getELContext(),
+							null, "randi2Page"));
 			rPage.simulationResult(null);
 		}
 	}
@@ -416,28 +419,35 @@ public class SimulationHandler extends AbstractTrialHandler {
 	}
 
 	public void addAlgorithm(ActionEvent event) {
-		ValueExpression ve2 = FacesContext.getCurrentInstance()
-				.getApplication().getExpressionFactory().createValueExpression(
+		ValueExpression ve2 = FacesContext
+				.getCurrentInstance()
+				.getApplication()
+				.getExpressionFactory()
+				.createValueExpression(
 						FacesContext.getCurrentInstance().getELContext(),
 						"#{simulationAlgorithm}", SimulationAlgorithm.class);
 		SimulationAlgorithm currentAlg = (SimulationAlgorithm) ve2
 				.getValue(FacesContext.getCurrentInstance().getELContext());
 		if (currentAlg.getSelectedAlgorithmPanelId().equals(
-				AlgorithmConfig.AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString())) {
+				AlgorithmConfig.AlgorithmPanelId.COMPLETE_RANDOMIZATION
+						.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
 					new CompleteRandomizationConfig()));
 		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
-				AlgorithmConfig.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION.toString())) {
+				AlgorithmConfig.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION
+						.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
 					new BiasedCoinRandomizationConfig()));
-		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
-				AlgorithmConfig.AlgorithmPanelId.BLOCK_RANDOMIZATION.toString())) {
+		} else if (currentAlg.getSelectedAlgorithmPanelId()
+				.equals(AlgorithmConfig.AlgorithmPanelId.BLOCK_RANDOMIZATION
+						.toString())) {
 			AlgorithmWrapper algWrapper = new AlgorithmWrapper(
 					new BlockRandomizationConfig());
 			algWrapper.getBlockR().setLoginHandler(getLoginHandler());
 			randomisationConfigs.add(algWrapper);
 		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
-				AlgorithmConfig.AlgorithmPanelId.TRUNCATED_RANDOMIZATION.toString())) {
+				AlgorithmConfig.AlgorithmPanelId.TRUNCATED_RANDOMIZATION
+						.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
 					new TruncatedBinomialDesignConfig()));
 		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
@@ -477,52 +487,50 @@ public class SimulationHandler extends AbstractTrialHandler {
 
 	public Resource getExportSimulationResults() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("<h2>Studie: "+ currentObject.getName() + "</h2> \n");
-		
+		sb.append("<h2>Studie: " + currentObject.getName() + "</h2> \n");
+
 		sb.append("<h3>Sites:</h3>\n");
 		sb.append("<table border=1 width=200px><tr><th>Name</th><th>Ratio</th></tr>");
 		for (TrialSite site : currentObject.getParticipatingSites()) {
-			sb.append("<tr><td>" + site.getName() + "</td><td>"+ 1 +"</td></tr> \n");
+			sb.append("<tr><td>" + site.getName() + "</td><td>" + 1
+					+ "</td></tr> \n");
 		}
 		sb.append("</table>");
-		
+
 		sb.append("<h3>Treatment Arms:</h3>\n");
 		sb.append("<table border=1 width=400px><tr><th>Name</th><th>Description</th><th>Ration</th></tr>\n");
 		for (TreatmentArm arm : currentObject.getTreatmentArms()) {
 			sb.append(" <tr><td> " + arm.getName() + "</td>");
-			sb.append(" <td> "+ arm.getDescription() +"</td>");
-			sb.append(" <td> " + arm.getPlannedSubjects() +"</td>"
-					+ "</tr>\n");
+			sb.append(" <td> " + arm.getDescription() + "</td>");
+			sb.append(" <td> " + arm.getPlannedSubjects() + "</td>" + "</tr>\n");
 		}
 		sb.append("</table");
-		
+
 		sb.append("<h3>Simulation runs: </h3>" + runs + " \n");
 		sb.append("<h3>Algorithms:</h3>\n");
-		sb.append("<table border=1 width=800px>" +
-				"<tr>" +
-				"<th>Type</th><th>Time in ms</th><th>min Marginal Balance</th> <th>mean Marginal Balance</th> <th>max Marginal Balance</th>" +
-				"</tr>");
+		sb.append("<table border=1 width=800px>"
+				+ "<tr>"
+				+ "<th>Type</th><th>Time in ms</th><th>min Marginal Balance</th> <th>mean Marginal Balance</th> <th>max Marginal Balance</th>"
+				+ "</tr>");
 		for (SimulationResult res : simulationResults) {
 			sb.append(" <tr><td> "
 					+ res.getAlgConf().getClass().getSimpleName() + "</td>");
 			sb.append("<td> " + res.getDuration() + "</td>");
-			sb.append("<td>"
-					+ res.getMarginalBalanceMin() + "</td>");
-			sb.append("<td>"
-					+ res.getMarginalBalanceMean() + "</td>");
-			sb.append("<td>"
-					+ res.getMarginalBalanceMax() + "</td></tr>\n");
+			sb.append("<td>" + res.getMarginalBalanceMin() + "</td>");
+			sb.append("<td>" + res.getMarginalBalanceMean() + "</td>");
+			sb.append("<td>" + res.getMarginalBalanceMax() + "</td></tr>\n");
 		}
-		
+
 		sb.append("</table>");
 		sb.append("<table>");
 		sb.append("<table border=0><tr><th><h3>Details Arms</h3></th></tr>\n");
 		for (SimulationResult res : simulationResults) {
-			sb.append("<tr><th>"+res.getAlgConf().getClass().getSimpleName()+"</th></tr>");
+			sb.append("<tr><th>" + res.getAlgConf().getClass().getSimpleName()
+					+ "</th></tr>");
 			sb.append("<tr><td>");
-			sb.append("<table border=1 width=800px><tr><th>Arm name</th><th>min</th>" +
-					"<th>min per cent</th><th>max</th><th>max per cent</th><th>mean</th>" +
-					"<th>median</th></tr>");
+			sb.append("<table border=1 width=800px><tr><th>Arm name</th><th>min</th>"
+					+ "<th>min per cent</th><th>max</th><th>max per cent</th><th>mean</th>"
+					+ "<th>median</th></tr>");
 			for (SimulationResultArm simArm : res.getSimResultArms()) {
 				sb.append("<tr><td>" + simArm.getArm().getName() + "</td>");
 				sb.append("<td>" + simArm.getMin() + "</td>");
@@ -536,46 +544,55 @@ public class SimulationHandler extends AbstractTrialHandler {
 			sb.append("</td></tr>");
 		}
 		sb.append("</table>");
-		
+
 		sb.append("<h3>Details Subgroups:</h3>");
 		sb.append("<table border=1 width=800px><tr><th>Algorithm</th><th>Treatment arm</th><th>Subgroup</th><th>min</th><th>mean</th><th>max</th></tr>\n");
 		SimulationResultFactorsOrderEnum temp = selectedOrder;
 		selectedOrder = SimulationResultFactorsOrderEnum.ATS;
 		List<StrataResultWrapper> listWrapper = getAllStrataResults();
-		for(int i =0; i<listWrapper.size();i++ ){
+		for (int i = 0; i < listWrapper.size(); i++) {
 			sb.append("<tr>");
-			//new Algorithm
-			if(i % (listWrapper.size()/simulationResults.size()) == 0){
-				sb.append("<td rowspan=\" "+ (listWrapper.size()/simulationResults.size()) +"\">"+ listWrapper.get(i).getAlgorithmName()+"</td>");
+			// new Algorithm
+			if (i % (listWrapper.size() / simulationResults.size()) == 0) {
+				sb.append("<td rowspan=\" "
+						+ (listWrapper.size() / simulationResults.size())
+						+ "\">" + listWrapper.get(i).getAlgorithmName()
+						+ "</td>");
 			}
-			if(i % ((listWrapper.size()/simulationResults.size())/currentObject.getTreatmentArms().size()) == 0){
-				sb.append("<td rowspan=\" "+ ((listWrapper.size()/simulationResults.size())/currentObject.getTreatmentArms().size()) +"\">"+ listWrapper.get(i).getTreatmentName()+"</td>");
+			if (i
+					% ((listWrapper.size() / simulationResults.size()) / currentObject
+							.getTreatmentArms().size()) == 0) {
+				sb.append("<td rowspan=\" "
+						+ ((listWrapper.size() / simulationResults.size()) / currentObject
+								.getTreatmentArms().size()) + "\">"
+						+ listWrapper.get(i).getTreatmentName() + "</td>");
 			}
-			sb.append("<td>"+ listWrapper.get(i).getStrataName()+"</td>");
-			sb.append("<td>"+ listWrapper.get(i).getMinCount()+"</td>");
-			sb.append("<td>"+ listWrapper.get(i).getMean()+"</td>");
-			sb.append("<td>"+ listWrapper.get(i).getMaxCount()+"</td>");
+			sb.append("<td>" + listWrapper.get(i).getStrataName() + "</td>");
+			sb.append("<td>" + listWrapper.get(i).getMinCount() + "</td>");
+			sb.append("<td>" + listWrapper.get(i).getMean() + "</td>");
+			sb.append("<td>" + listWrapper.get(i).getMaxCount() + "</td>");
 			sb.append("</tr>");
 		}
-		
+
 		selectedOrder = temp;
 		sb.append("</table>");
-	
-		
+
 		return new MyStringResource("simulationResult.html", sb.toString());
 	}
-	
-	public Resource getExportSimulationRawData(){
+
+	public Resource getExportSimulationRawData() {
 		StringBuffer sb = new StringBuffer();
-		for(SimulationResult simRes : simulationResults){
+		for (SimulationResult simRes : simulationResults) {
 			sb.append(simRes.getAlgorithmDescription() + ":\n");
-			for(SimulationRawDataEntry entry : simRes.getRawData()){
-				sb.append(entry.getRun() +";");
-				sb.append(entry.getCount() +";");
-				sb.append(entry.getTreatmentArm() +";");
-				sb.append(entry.getTrialSite() +";");
-				String stratumNameComp =simRes.getStrataIdNames().get(entry.getStratum());
-				String stratumName = stratumNameComp.substring((stratumNameComp.lastIndexOf("|")+1));
+			for (SimulationRawDataEntry entry : simRes.getRawData()) {
+				sb.append(entry.getRun() + ";");
+				sb.append(entry.getCount() + ";");
+				sb.append(entry.getTreatmentArm() + ";");
+				sb.append(entry.getTrialSite() + ";");
+				String stratumNameComp = simRes.getStrataIdNames().get(
+						entry.getStratum());
+				String stratumName = stratumNameComp.substring((stratumNameComp
+						.lastIndexOf("|") + 1));
 				sb.append(stratumName + "\n");
 			}
 			sb.append("-------------------------------------------\n");
@@ -583,57 +600,60 @@ public class SimulationHandler extends AbstractTrialHandler {
 		return new MyStringResource("rawData.csv", sb.toString());
 	}
 
-	public List<StrataResultWrapper> getAllStrataResults(){
+	public List<StrataResultWrapper> getAllStrataResults() {
 		List<StrataResultWrapper> wrapper = new ArrayList<StrataResultWrapper>();
-		for(SimulationResult simRes : simulationResults){
-			for(SimulationResultArm simArm : simRes.getSimResultArms()){
+		for (SimulationResult simRes : simulationResults) {
+			for (SimulationResultArm simArm : simRes.getSimResultArms()) {
 				wrapper.addAll(simArm.getStrataResults());
 			}
 		}
-		if(selectedOrder == SimulationResultFactorsOrderEnum.SAT){
+		if (selectedOrder == SimulationResultFactorsOrderEnum.SAT) {
 			Collections.sort(wrapper, new StrataResultComperatorSAT());
-		}else if(selectedOrder == SimulationResultFactorsOrderEnum.STA){
+		} else if (selectedOrder == SimulationResultFactorsOrderEnum.STA) {
 			Collections.sort(wrapper, new StrataResultComperatorSTA());
-		}else if(selectedOrder == SimulationResultFactorsOrderEnum.ATS){
+		} else if (selectedOrder == SimulationResultFactorsOrderEnum.ATS) {
 			Collections.sort(wrapper, new StrataResultComperatorATS());
-		}if(selectedOrder == SimulationResultFactorsOrderEnum.AST){
+		}
+		if (selectedOrder == SimulationResultFactorsOrderEnum.AST) {
 			Collections.sort(wrapper, new StrataResultComperatorAST());
 		}
-		
+
 		return wrapper;
 	}
-	
-	public boolean isSta(){
-		return selectedOrder==SimulationResultFactorsOrderEnum.STA;
+
+	public boolean isSta() {
+		return selectedOrder == SimulationResultFactorsOrderEnum.STA;
 	}
-	
-	public boolean isSat(){
-		return selectedOrder==SimulationResultFactorsOrderEnum.SAT;
+
+	public boolean isSat() {
+		return selectedOrder == SimulationResultFactorsOrderEnum.SAT;
 	}
-	
-	public boolean isAts(){
-		return selectedOrder==SimulationResultFactorsOrderEnum.ATS;
+
+	public boolean isAts() {
+		return selectedOrder == SimulationResultFactorsOrderEnum.ATS;
 	}
-	
-	public boolean isAst(){
-		return selectedOrder==SimulationResultFactorsOrderEnum.AST;
+
+	public boolean isAst() {
+		return selectedOrder == SimulationResultFactorsOrderEnum.AST;
 	}
-	
-	public SelectItem[] getOrderItems(){
-		SelectItem[] items = new SelectItem[SimulationResultFactorsOrderEnum.values().length];
-		for(int i= 0; i< SimulationResultFactorsOrderEnum.values().length;i++ ){
-			items[i] = new SelectItem(SimulationResultFactorsOrderEnum.values()[i]);
+
+	public SelectItem[] getOrderItems() {
+		SelectItem[] items = new SelectItem[SimulationResultFactorsOrderEnum
+				.values().length];
+		for (int i = 0; i < SimulationResultFactorsOrderEnum.values().length; i++) {
+			items[i] = new SelectItem(
+					SimulationResultFactorsOrderEnum.values()[i]);
 		}
 		return items;
 	}
-	
-	private class MyStringResource implements Resource, Serializable{
+
+	private class MyStringResource implements Resource, Serializable {
 
 		private static final long serialVersionUID = 2523708207015651805L;
 		private String resourceName;
 		private String content;
 		private final Date lastModified;
-		
+
 		@Override
 		public String calculateDigest() {
 			return resourceName;
@@ -646,18 +666,18 @@ public class SimulationHandler extends AbstractTrialHandler {
 
 		@Override
 		public InputStream open() throws IOException {
-			return  new ByteArrayInputStream(content.getBytes());
+			return new ByteArrayInputStream(content.getBytes());
 		}
 
 		@Override
 		public void withOptions(Options arg0) throws IOException {
 		}
-		
+
 		public MyStringResource(String resourceName, String content) {
 			this.resourceName = resourceName;
 			this.content = content;
 			this.lastModified = new Date();
 		}
-		
+
 	}
 }

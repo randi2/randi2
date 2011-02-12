@@ -21,7 +21,7 @@
 	<ice:panelCollapsible expanded="true">
 		<f:facet name="header">
 			<ice:panelGrid border="0" columns="2">
-				<h:graphicImage name="/img/icons/trialSite16.png"/>
+				<h:graphicImage name="/img/icons/trialSite16.png" />
 				<ice:outputLabel
 					value="#{labels['pages.userEditPanel.trialSiteHeader']}"></ice:outputLabel>
 			</ice:panelGrid>
@@ -29,8 +29,7 @@
 		<ice:panelGrid border="0" columns="2">
 			<ice:outputLabel for="name" value="#{labels['trialSite.name']}"></ice:outputLabel>
 			<ice:panelGroup rendered="#{!loginHandler.creatingMode}">
-				<ice:outputText id="name"
-					value="#{currentUsersTrialSite.name}">
+				<ice:outputText id="name" value="#{currentUsersTrialSite.name}">
 				</ice:outputText>
 				<ice:commandButton style="margin-left: 15px;"
 					value="#{labels['buttons.changeTrialSite']}"
@@ -39,42 +38,43 @@
 					image="/img/icons/change16.png"></ice:commandButton>
 			</ice:panelGroup>
 			<ice:panelGroup rendered="#{loginHandler.creatingMode}">
-				<ice:selectInputText id="trialSite"
-					required="#{loginHandler.currentObject.person.requiredFields['trialSite']}"
-					valueChangeListener="#{loginHandler.trialSitesAC.updateObjectList}"
-					rows="10" width="200"
-					value="#{loginHandler.trialSitesAC.objectRepresentation}">
-					<f:selectItems value="#{loginHandler.trialSitesAC.objectList}" />
-				</ice:selectInputText>
-				<ice:message for="trialSite" id="trialSiteError" styleClass="errorMsg"/>
+			
+				<ice:selectOneMenu id="trialSite" partialSubmit="true"
+					required="#{loginHandler.newUser.person.requiredFields['trialSite']}"
+					value="#{loginHandler.selectedTrialSite}">
+					<f:selectItems value="#{loginHandler.trialSites}" />
+					<f:converter binding="#{trialSiteHandler.trialSiteConverter}" />
+				</ice:selectOneMenu>
+				<ice:message for="trialSite" styleClass="errorMsg" />
+
 			</ice:panelGroup>
-			<ice:outputLabel for="country" value="#{labels['trialSite.country']}"/>
+			<ice:outputLabel for="country" value="#{labels['trialSite.country']}" />
 			<ice:outputText id="country"
-				value="#{loginHandler.currentUsersTrialSite!=null ? loginHandler.currentUsersTrialSite.country : loginHandler.trialSitesAC.selectedObject.country}">
+				value="#{loginHandler.currentUsersTrialSite!=null ? loginHandler.currentUsersTrialSite.country : loginHandler.selectedTrialSite.country}">
 			</ice:outputText>
-			<ice:outputLabel for="city" value="#{labels['trialSite.city']}"/>
+			<ice:outputLabel for="city" value="#{labels['trialSite.city']}" />
 			<ice:outputText id="city"
-				value="#{loginHandler.currentUsersTrialSite!=null ? loginHandler.currentUsersTrialSite.city : loginHandler.trialSitesAC.selectedObject.city}">
+				value="#{loginHandler.currentUsersTrialSite!=null ? loginHandler.currentUsersTrialSite.city : loginHandler.selectedTrialSite.city}">
 			</ice:outputText>
 			<ice:outputLabel for="postcode"
-				value="#{labels['trialSite.postcode']}"/>
+				value="#{labels['trialSite.postcode']}" />
 			<ice:outputText id="postcode"
-				value="#{loginHandler.currentUsersTrialSite!=null ? loginHandler.currentUsersTrialSite.postcode : loginHandler.trialSitesAC.selectedObject.postcode}">
+				value="#{loginHandler.currentUsersTrialSite!=null ? loginHandler.currentUsersTrialSite.postcode :loginHandler.selectedTrialSite.postcode}">
 			</ice:outputText>
-			<ice:outputLabel for="street" value="#{labels['trialSite.street']}"/>
+			<ice:outputLabel for="street" value="#{labels['trialSite.street']}" />
 			<ice:outputText id="street"
-				value="#{loginHandler.currentUsersTrialSite!=null ? loginHandler.currentUsersTrialSite.street : loginHandler.trialSitesAC.selectedObject.street}">
+				value="#{loginHandler.currentUsersTrialSite!=null ? loginHandler.currentUsersTrialSite.street : loginHandler.selectedTrialSite.street}">
 			</ice:outputText>
 		</ice:panelGrid>
 	</ice:panelCollapsible>
 	<!-- User assistant's information -->
 	<ice:panelCollapsible expanded="true"
-		rendered="#{loginHandler.trialSitesAC.objectSelected || !loginHandler.creatingMode}">
+		rendered="#{loginHandler.selectedTrialSite!=null || !loginHandler.creatingMode}">
 		<f:facet name="header">
 			<ice:panelGrid border="0" columns="2">
-				<h:graphicImage name="/img/icons/assistant16.png"/>
+				<h:graphicImage name="/img/icons/assistant16.png" />
 				<ice:outputLabel
-					value="#{labels['pages.userEditPanel.assistantHeader']}"/>
+					value="#{labels['pages.userEditPanel.assistantHeader']}" />
 			</ice:panelGrid>
 		</f:facet>
 		<ice:commandButton value="#{labels['buttons.createAssistant']}"
@@ -120,7 +120,7 @@
 							value="#{loginHandler.currentObject.person.assistant}" />
 					</ice:inputText>
 					<ice:message for="assistant_title" id="assistant_titelError"
-						rendered="#{loginHandler.editable}" styleClass="errorMsg"/>
+						rendered="#{loginHandler.editable}" styleClass="errorMsg" />
 				</ice:panelGroup>
 				<ice:outputLabel for="assistant_firstname"
 					value="#{labels['person.firstname']}" />
@@ -139,7 +139,8 @@
 							value="#{loginHandler.currentObject.person.assistant}" />
 					</ice:inputText>
 					<ice:message for="assistant_firstname"
-						id="assistant_firstnameError" rendered="#{loginHandler.editable}" styleClass="errorMsg"/>
+						id="assistant_firstnameError" rendered="#{loginHandler.editable}"
+						styleClass="errorMsg" />
 				</ice:panelGroup>
 				<ice:outputLabel for="assistant_surname"
 					value="#{labels['person.surname']}" />
@@ -158,7 +159,7 @@
 							value="#{loginHandler.currentObject.person.assistant}" />
 					</ice:inputText>
 					<ice:message for="assistant_surname" id="assistant_surnameError"
-						rendered="#{loginHandler.editable}" styleClass="errorMsg"/>
+						rendered="#{loginHandler.editable}" styleClass="errorMsg" />
 				</ice:panelGroup>
 			</ice:panelGrid>
 			<ice:panelGrid border="0" columns="2">
@@ -184,7 +185,7 @@
 							value="#{loginHandler.currentObject.person.assistant}" />
 					</ice:inputText>
 					<ice:message for="assistant_email" id="assistant_eMailError"
-						rendered="#{loginHandler.editable}" styleClass="errorMsg"/>
+						rendered="#{loginHandler.editable}" styleClass="errorMsg" />
 				</ice:panelGroup>
 				<ice:outputLabel for="assistant_phone"
 					value="#{labels['person.phone']}" />
@@ -203,7 +204,7 @@
 							value="#{loginHandler.currentObject.person.assistant}" />
 					</ice:inputText>
 					<ice:message for="assistant_phone" id="assistant_phoneError"
-						rendered="#{loginHandler.editable}" styleClass="errorMsg"/>
+						rendered="#{loginHandler.editable}" styleClass="errorMsg" />
 				</ice:panelGroup>
 				<ice:outputLabel for="assistant_mobile"
 					value="#{labels['person.mobile']}" />
@@ -222,7 +223,7 @@
 							value="#{loginHandler.currentObject.person.assistant}" />
 					</ice:inputText>
 					<ice:message for="assistant_mobile" id="assistant_mobileError"
-						rendered="#{loginHandler.editable}" styleClass="errorMsg"/>
+						rendered="#{loginHandler.editable}" styleClass="errorMsg" />
 				</ice:panelGroup>
 				<ice:outputLabel for="assistant_fax" value="#{labels['person.fax']}" />
 				<ice:outputText id="assistant_faxO"
@@ -240,7 +241,7 @@
 							value="#{loginHandler.currentObject.person.assistant}" />
 					</ice:inputText>
 					<ice:message for="assistant_fax" id="assistant_faxError"
-						rendered="#{loginHandler.editable}" styleClass="errorMsg"/>
+						rendered="#{loginHandler.editable}" styleClass="errorMsg" />
 				</ice:panelGroup>
 			</ice:panelGrid>
 		</ice:panelGrid>

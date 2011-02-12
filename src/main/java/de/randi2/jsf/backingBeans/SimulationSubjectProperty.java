@@ -9,10 +9,7 @@ import javax.faces.bean.RequestScoped;
 
 import lombok.Setter;
 import de.randi2.jsf.controllerBeans.SimulationHandler;
-import de.randi2.jsf.utility.AutoCompleteObject;
 import de.randi2.jsf.wrappers.CriterionWrapper;
-import de.randi2.model.criteria.AbstractCriterion;
-import de.randi2.model.criteria.constraints.AbstractConstraint;
 
 /**
  * <p>
@@ -30,14 +27,6 @@ public class SimulationSubjectProperty extends AbstractSubjectProperty{
 	@Setter
 	private SimulationHandler simulationHandler;
 
-
-	public AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteriaAC() {
-		if (criteriaAC == null) {
-			initCriteriaAC(simulationHandler.getCriteriaList());
-		}
-		return criteriaAC;
-	}
-	
 	@Override
 	public ArrayList<CriterionWrapper<? extends Serializable>> getCriteria() {
 		simulationHandler.criterionChanged();

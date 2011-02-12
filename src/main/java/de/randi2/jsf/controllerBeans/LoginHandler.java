@@ -42,6 +42,7 @@ import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import de.randi2.jsf.backingBeans.RegisterPage;
+import de.randi2.jsf.converters.LoginConverter;
 import de.randi2.jsf.converters.RoleConverter;
 import de.randi2.jsf.exceptions.RegistrationException;
 import de.randi2.jsf.supportBeans.PermissionVerifier;
@@ -99,6 +100,14 @@ public class LoginHandler extends AbstractHandler<Login> {
 	@Setter
 	private Login loggedInUser = null;
 
+	private LoginConverter loginConverter;
+
+	public LoginConverter getLoginConverter() {
+		if (loginConverter == null)
+			loginConverter = new LoginConverter(userService);
+		return loginConverter;
+	}
+
 	/*
 	 * Current (chosen) locale of the UI.
 	 */
@@ -137,23 +146,25 @@ public class LoginHandler extends AbstractHandler<Login> {
 		if (roles == null) {
 			roles = new ArrayList<SelectItem>();
 			for (Role r : userService.getAllRoles()) {
-				roles.add(new SelectItem(r, getRoleConverter().getAsString(null, null, r)));
+				roles.add(new SelectItem(r, getRoleConverter().getAsString(
+						null, null, r)));
 			}
 		}
 		return roles;
 	}
-	
-	@Getter @Setter
+
+	@Getter
+	@Setter
 	private Role selectedRole;
 
 	private RoleConverter roleConverter;
-	
+
 	public RoleConverter getRoleConverter() {
-		if(roleConverter == null)
+		if (roleConverter == null)
 			roleConverter = new RoleConverter(userService, getChosenLocale());
 		return roleConverter;
 	}
-	
+
 	/*
 	 * UI logic
 	 */
@@ -164,7 +175,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 * @param event
 	 */
 	public void addRole(ActionEvent event) {
-		 userService.addRole(currentObject, selectedRole);
+		userService.addRole(currentObject, selectedRole);
 	}
 
 	/**
@@ -360,6 +371,8 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public Login getLoggedInUser() {
 		if (loggedInUser == null) {
 			try {
+				System.out.println(SecurityContextHolder.getContext()
+						.getAuthentication().getPrincipal().getClass().getCanonicalName());
 				loggedInUser = (Login) SecurityContextHolder.getContext()
 						.getAuthentication().getPrincipal();
 				/*

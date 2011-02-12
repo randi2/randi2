@@ -42,21 +42,21 @@ import javax.faces.bean.RequestScoped;
  * randomization algorithm. Created by IntelliJ IDEA. User: Lukasz Plotnicki
  * <l.plotnicki@dkfz.de> Date: 02.10.2009 Time: 15:13:16
  */
-@ManagedBean(name="algorithmInfo")
+@ManagedBean(name = "algorithmInfo")
 @RequestScoped
 public class AlgorithmInfo {
 
-	@ManagedProperty(value="#{trialHandler}")
+	@ManagedProperty(value = "#{trialHandler}")
 	@Setter
 	private TrialHandler trialHandler;
-	@ManagedProperty(value="#{loginHandler}")
+	@ManagedProperty(value = "#{loginHandler}")
 	@Setter
 	private LoginHandler loginHandler;
 
 	public String getAlgName() {
 		ResourceBundle bundle = ResourceBundle
-				.getBundle("de.randi2.jsf.i18n.algorithms", loginHandler
-						.getChosenLocale());
+				.getBundle("de.randi2.jsf.i18n.algorithms",
+						loginHandler.getChosenLocale());
 		return bundle.getString(trialHandler.getCurrentObject()
 				.getRandomizationConfiguration().getClass().getCanonicalName()
 				+ ".name");
@@ -67,10 +67,10 @@ public class AlgorithmInfo {
 		ResourceBundle bundle = ResourceBundle.getBundle(
 				"de.randi2.jsf.i18n.labels", loginHandler.getChosenLocale());
 		Trial currentTrial = trialHandler.getCurrentObject();
-		if (BlockRandomizationConfig.class.isInstance(currentTrial.getRandomizationConfiguration())) {
+		if (BlockRandomizationConfig.class.isInstance(currentTrial
+				.getRandomizationConfiguration())) {
 			BlockRandomizationConfig conf = BlockRandomizationConfig.class
-					.cast(currentTrial
-							.getRandomizationConfiguration());
+					.cast(currentTrial.getRandomizationConfiguration());
 			furtherDetails.append("<b>");
 			furtherDetails.append(bundle
 					.getString("pages.blockR.variableBSize"));
@@ -98,8 +98,10 @@ public class AlgorithmInfo {
 				furtherDetails.append(conf.getMinimum());
 				furtherDetails.append("<br//>");
 			}
-		} else if (UrnDesignConfig.class.isInstance(currentTrial.getRandomizationConfiguration())) {
-			UrnDesignConfig conf = UrnDesignConfig.class.cast(trialHandler.getCurrentObject().getRandomizationConfiguration());
+		} else if (UrnDesignConfig.class.isInstance(currentTrial
+				.getRandomizationConfiguration())) {
+			UrnDesignConfig conf = UrnDesignConfig.class.cast(trialHandler
+					.getCurrentObject().getRandomizationConfiguration());
 			furtherDetails.append("<b>");
 			furtherDetails.append(bundle.getString("pages.urnR.initialCount"));
 			furtherDetails.append("</b> ");
@@ -110,8 +112,11 @@ public class AlgorithmInfo {
 			furtherDetails.append("</b> ");
 			furtherDetails.append(conf.getCountReplacedBalls());
 			furtherDetails.append("<br//>");
-		} else if (MinimizationConfig.class.isInstance(currentTrial.getRandomizationConfiguration())) {
-			MinimizationConfig conf = MinimizationConfig.class.cast(trialHandler.getCurrentObject().getRandomizationConfiguration());
+		} else if (MinimizationConfig.class.isInstance(currentTrial
+				.getRandomizationConfiguration())) {
+			MinimizationConfig conf = MinimizationConfig.class
+					.cast(trialHandler.getCurrentObject()
+							.getRandomizationConfiguration());
 			furtherDetails.append("<b>");
 			furtherDetails
 					.append(bundle.getString("pages.minimization.pvalue"));
@@ -159,14 +164,16 @@ public class AlgorithmInfo {
 	@SuppressWarnings("unchecked")
 	public List<CriterionWrapper<Serializable>> getStrata() {
 		strata = new ArrayList<CriterionWrapper<Serializable>>();
-		for (AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : trialHandler.getCurrentObject().getCriteria()) {
+		for (AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : trialHandler
+				.getCurrentObject().getCriteria()) {
 			/*
 			 * Check if the criterion is a defined strata factor and if so wrapp
 			 * it and add to the collection
 			 */
 			if (c.getStrata() != null && !c.getStrata().isEmpty())
 				strata.add(new CriterionWrapper<Serializable>(
-						(AbstractCriterion<Serializable, ?>) c));
+						(AbstractCriterion<Serializable, ?>) c, loginHandler
+								.getChosenLocale()));
 		}
 		return strata;
 	}

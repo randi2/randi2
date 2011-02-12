@@ -18,7 +18,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" border="0"
 	columns="2">
-	<h:graphicImage name="/img/icons/info48.png"/>
+	<h:graphicImage name="/img/icons/info48.png" />
 	<ice:outputLabel
 		value="#{labels['pages.trialCreatePanel.step1message']}"></ice:outputLabel>
 </ice:panelGrid> <ice:panelGroup style="width: 550px;"
@@ -68,62 +68,6 @@
 		</ice:inputTextarea>
 		<ice:message for="description" styleClass="errorMsg" />
 	</ice:panelCollapsible>
-	<!--
-	<ice:panelCollapsible id="protocolPanel" expanded="true"
-		style="margin-left: 3px; margin-top: 3px;" toggleOnClick="false">
-		<f:facet name="header">
-			<ice:outputLabel value="#{labels['trial.protocol']}" />
-		</f:facet>
-		<ice:panelGroup rendered="#{!inputFileController.fileOnServer}">
-			<ice:inputFile id="inputFileName" progressRender="true"
-				progressListener="#{inputFileController.fileUploadProgress}"
-				actionListener="#{inputFileController.uploadFile}" />
-			<ice:outputProgress value="#{inputFileController.fileProgress}" />
-			<ice:panelGroup>
-				<ice:message for="inputFileName" />
-			</ice:panelGroup>
-		</ice:panelGroup>
-		<ice:panelGroup
-			style="padding: 10px; border: 1px; border-style: solid; border-color: gray;"
-			rendered="#{inputFileController.fileOnServer}">
-			<ice:outputLabel
-				value="#{labels['pages.trialCreatePanel.uploadedFiles']}" />
-			<ice:dataTable width="300px" value="#{inputFileController.fileList}"
-				var="file">
-				<ice:column>
-					<f:facet name="header">
-						<ice:outputLabel
-							value="#{labels['pages.trialCreatePanel.fileName']}" />
-					</f:facet>
-					<ice:outputText value="#{file.fileInfo.fileName}" />
-				</ice:column>
-				<ice:column>
-					<f:facet name="header">
-						<ice:outputLabel value="#{labels['pages.trialCreatePanel.size']}" />
-					</f:facet>
-					<ice:outputText value="#{file.sizeFormatted}" />
-				</ice:column>
-				<ice:column>
-					<f:facet name="header">
-						<ice:outputText value="#{labels['pages.trialCreatePanel.type']}" />
-					</f:facet>
-					<ice:outputText value="#{file.fileInfo.contentType}" />
-				</ice:column>
-				<ice:column>
-					<f:facet name="header">
-						<ice:outputText
-							value="#{labels['pages.trialCreatePanel.deleteFile']}" />
-					</f:facet>
-					<ice:commandLink
-						value="#{labels['pages.trialCreatePanel.deleteFile']}"
-						actionListener="#{inputFileController.removeUploadedFile}">
-						<f:param name="fileName" value="#{file.fileInfo.fileName}" />
-					</ice:commandLink>
-				</ice:column>
-			</ice:dataTable>
-		</ice:panelGroup>
-	</ice:panelCollapsible>
-  -->
 	<ice:panelCollapsible id="datesAndStatusPanel" expanded="true"
 		style="margin-left: 3px; margin-top: 3px;" toggleOnClick="false">
 		<f:facet name="header">
@@ -160,25 +104,28 @@
 		</f:facet>
 		<ice:panelGrid border="0" columns="2">
 			<ice:outputLabel for="leadingTrialSite"
-				value="#{labels['trial.leadingTrialSite']}"></ice:outputLabel>
-			<ice:selectInputText id="leadingTrialSite"
+				value="#{labels['trial.leadingTrialSite']}" />
+			
+			<ice:selectOneMenu id="leadingTrialSite" partialSubmit="true"
 				required="#{trialHandler.currentObject.requiredFields['leadingSite']}"
-				valueChangeListener="#{trialHandler.trialSitesAC.updateObjectList}"
-				rows="10" width="200"
-				value="#{trialHandler.trialSitesAC.objectRepresentation}">
-				<f:selectItems value="#{trialHandler.trialSitesAC.objectList}" />
-			</ice:selectInputText>
+				value="#{trialHandler.leadingSite}">
+				<f:selectItems value="#{loginHandler.trialSites}" />
+				<f:converter binding="#{trialSiteHandler.trialSiteConverter}" />
+			</ice:selectOneMenu>
+			<ice:message for="leadingTrialSite" styleClass="errorMsg" />
+			
+
 			<ice:outputLabel for="sponsorInvestigator"
 				value="#{labels['trial.sponsorInvestigator']}"
-				rendered="#{trialHandler.trialSitesAC.objectSelected}"></ice:outputLabel>
-			<ice:selectInputText id="sponsorInvestigator" width="200"
+				rendered="#{trialHandler.leadingSite!=null}" />
+			<ice:selectOneMenu id="sponsorInvestigator" partialSubmit="true"
 				required="#{trialHandler.currentObject.requiredFields['sponsorInvestigator']}"
-				valueChangeListener="#{trialHandler.sponsorInvestigatorsAC.updateObjectList}"
-				rendered="#{trialHandler.trialSitesAC.objectSelected}"
-				value="#{trialHandler.sponsorInvestigatorsAC.objectRepresentation}">
-				<f:selectItems
-					value="#{trialHandler.sponsorInvestigatorsAC.objectList}" />
-			</ice:selectInputText>
+				value="#{trialHandler.sponsorInvestigator}">
+				<f:selectItems value="#{trialHandler.sponsorInvestigators}" />
+				<f:converter binding="#{loginHandler.loginConverter}" />
+			</ice:selectOneMenu>
+			<ice:message for="sponsorInvestigator" styleClass="errorMsg" />
+				
 		</ice:panelGrid>
 	</ice:panelCollapsible>
 </ice:panelGroup></div>

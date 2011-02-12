@@ -35,12 +35,12 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 	<ice:outputLabel value="#{labels['pages.trialCreatePanel.propLabel']}" />
 	<ice:panelGrid columns="3">
-		<ice:selectInputText id="critera"
-			valueChangeListener="#{subjectPropertiesConfig.criteriaAC.updateObjectList}"
-			rows="10" width="200">
-			<f:selectItems
-				value="#{subjectPropertiesConfig.criteriaAC.objectList}" />
-		</ice:selectInputText>
+		<ice:selectOneMenu id="criteria" partialSubmit="true"
+			value="#{subjectPropertiesConfig.selectedCriterion}">
+			<f:selectItems value="#{subjectPropertiesConfig.criteriaItems}" />
+			<f:converter
+				binding="#{subjectPropertiesConfig.criterionConverter}" />
+		</ice:selectOneMenu>
 		<ice:commandButton image="/resources/img/icons/add16.png"
 			actionListener="#{subjectPropertiesConfig.addCriterion}"
 			style="margin-right:5px;" />

@@ -2,6 +2,7 @@ package de.randi2.jsf.backingBeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.faces.bean.ManagedProperty;
@@ -11,38 +12,69 @@ import javax.faces.model.SelectItem;
 import lombok.Getter;
 import lombok.Setter;
 import de.randi2.jsf.controllerBeans.LoginHandler;
-import de.randi2.jsf.utility.AutoCompleteObject;
+import de.randi2.jsf.controllerBeans.TrialHandler;
+import de.randi2.jsf.converters.CriterionConverter;
 import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.model.criteria.AbstractCriterion;
-import de.randi2.model.criteria.constraints.AbstractConstraint;
+
 /**
  * 
  * @author L. Plotnicki
- *
+ * 
  */
 public abstract class AbstractSubjectProperty {
 
-	@ManagedProperty(value="#{loginHandler}")
+	@ManagedProperty(value = "#{loginHandler}")
 	@Getter
 	@Setter
-	private LoginHandler loginHandler;
+	protected LoginHandler loginHandler;
 
-	protected AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> criteriaAC = null;
+	@ManagedProperty(value = "#{trialHandler}")
+	@Setter
+	protected TrialHandler trialHandler;
+
+	private CriterionConverter criterionConverter;
+
+	public CriterionConverter getCriterionConverter() {
+		if (criterionConverter == null)
+			criterionConverter = new CriterionConverter(
+					loginHandler.getChosenLocale());
+		return criterionConverter;
+	}
+
+	@Getter
+	@Setter
+	private AbstractCriterion<?, ?> selectedCriterion;
+
+	private List<SelectItem> criteriaItems;
+
+	public List<SelectItem> getCriteriaItems() {
+		if (criteriaItems == null) {
+			criteriaItems = new ArrayList<SelectItem>();
+			ResourceBundle rb = ResourceBundle.getBundle(
+					"de.randi2.jsf.i18n.criteria",
+					loginHandler.getChosenLocale());
+			for (AbstractCriterion<?, ?> c : trialHandler.getCriteriaList()) {
+				criteriaItems.add(new SelectItem(c, rb.getString(c.getClass()
+						.getName())));
+			}
+		}
+		return criteriaItems;
+	}
 
 	protected ArrayList<CriterionWrapper<? extends Serializable>> criteria = null;
 
 	@SuppressWarnings("unchecked")
 	public void addCriterion(ActionEvent event) {
 		System.out.println("Small test");
-		if (criteriaAC.isObjectSelected())
+		if (selectedCriterion != null)
 			try {
-				if(criteria==null)
+				if (criteria == null)
 					getCriteria();
-				criteria.add(
-						new CriterionWrapper<Serializable>(
-								(AbstractCriterion<Serializable, ?>) criteriaAC
-										.getSelectedObject().getClass()
-										.newInstance()));
+				criteria.add(new CriterionWrapper<Serializable>(
+						(AbstractCriterion<Serializable, ?>) selectedCriterion
+								.getClass().newInstance(), loginHandler
+								.getChosenLocale()));
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
@@ -67,16 +99,4 @@ public abstract class AbstractSubjectProperty {
 	public void clean() {
 		criteria = null;
 	}
-
-	protected void initCriteriaAC(ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> cList) {
-		criteriaAC = new AutoCompleteObject<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>(
-				cList);
-		ResourceBundle rb = ResourceBundle.getBundle(
-				"de.randi2.jsf.i18n.criteria", getLoginHandler()
-						.getChosenLocale());
-		for (SelectItem si : criteriaAC.getObjectList()) {
-			si.setLabel(rb.getString(si.getLabel()));
-		}
-	}
-
 }

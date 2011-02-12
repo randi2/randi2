@@ -21,18 +21,19 @@
 		visible="#{popups.changeLeadingSitePVisible}"
 		rendered="#{popups.changeLeadingSitePVisible}">
 		<f:facet name="header">
-			<ice:outputText value="#{labels['trial.leadingTrialSite']}"/>
+			<ice:outputText value="#{labels['trial.leadingTrialSite']}" />
 		</f:facet>
 		<f:facet name="body">
 			<ice:panelGroup>
-				<ice:outputLabel value="#{labels['trial.name']}"/>
-				<ice:panelGroup id="passwordGroup">
-					<ice:selectInputText id="center"
-						valueChangeListener="#{trialHandler.trialSitesAC.updateObjectList}"
-						rows="10" width="200"
-						value="#{trialHandler.trialSitesAC.objectRepresentation}">
-						<f:selectItems value="#{trialHandler.trialSitesAC.objectList}" />
-					</ice:selectInputText>
+				<ice:outputLabel value="#{labels['trial.name']}" />
+				<ice:panelGroup>
+					<ice:selectOneMenu id="leadingTrialSite" partialSubmit="true"
+						required="#{trialHandler.currentObject.requiredFields['leadingSite']}"
+						value="#{trialHandler.leadingSite}">
+						<f:selectItems value="#{loginHandler.trialSites}" />
+						<f:converter binding="#{trialSiteHandler.trialSiteConverter}" />
+					</ice:selectOneMenu>
+					<ice:message for="leadingTrialSite" styleClass="errorMsg" />
 				</ice:panelGroup>
 				<ice:panelGroup>
 					<ice:panelGrid columns="2">
@@ -40,7 +41,7 @@
 							action="#{trialHandler.changeLeadingSite}" />
 						<ice:commandButton immediate="true"
 							value="#{labels['buttons.cancel']}"
-							action="#{popups. hideChangeLeadingSitePopup}"/>
+							action="#{popups. hideChangeLeadingSitePopup}" />
 					</ice:panelGrid>
 				</ice:panelGroup>
 			</ice:panelGroup>

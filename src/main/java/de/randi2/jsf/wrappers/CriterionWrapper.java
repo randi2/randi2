@@ -22,14 +22,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
-import de.randi2.jsf.controllerBeans.LoginHandler;
+import lombok.Getter;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DateCriterion;
@@ -68,7 +68,7 @@ public class CriterionWrapper<V extends Serializable> {
 		if (subjectProperty == null) {
 			subjectProperty = new SubjectProperty<V>(wrappedCriterion);
 			try {
-				if (getPanelType().equals(DPANEL))
+				if (panelType.equals(DPANEL))
 					subjectProperty.setValue((V) new GregorianCalendar());
 				// else if(getPanelType().equals(DICHPANEL))
 				// subjectProperty.setValue(wrappedCriterion.getConfiguredValues().get(0));
@@ -101,42 +101,49 @@ public class CriterionWrapper<V extends Serializable> {
 	 * or not.
 	 */
 	private boolean isConstraint = false;
-	
+
 	public boolean isConstraint() {
 		return isConstraint;
 	}
-	
+
 	public void setConstraint(boolean isConstraint) {
 		this.isConstraint = isConstraint;
 	}
 
-    /**
-     * Flag indicating if the wrapped criterion is also an stratification factor.
-     */
-    private boolean strataFactor = false;
-    
-    public boolean isStrataFactor() {
+	/**
+	 * Flag indicating if the wrapped criterion is also an stratification
+	 * factor.
+	 */
+	private boolean strataFactor = false;
+
+	public boolean isStrataFactor() {
 		return strataFactor;
 	}
-    
-    public void setStrataFactor(boolean strataFactor) {
+
+	public void setStrataFactor(boolean strataFactor) {
 		this.strataFactor = strataFactor;
 	}
 
 	/**
 	 * String ID defining the showed criterion panel.
 	 */
+	@Getter
 	private String panelType = "criterionErrorPanel";
 
-	public CriterionWrapper(AbstractCriterion<V, ?> _criterion) {
+	private final Locale l;
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public CriterionWrapper(AbstractCriterion<V, ?> _criterion, Locale l) {
 		wrappedCriterion = _criterion;
-        if(wrappedCriterion.getStrata()!=null){
-            int stratumNr = 1;
-            for(AbstractConstraint<V> c : wrappedCriterion.getStrata()){
-                strata.add(new ConstraintWrapper(stratumNr, c));
-                stratumNr++;
-            }
-        }
+		setPanelType();
+		if (wrappedCriterion.getStrata() != null) {
+			int stratumNr = 1;
+			for (AbstractConstraint<V> c : wrappedCriterion.getStrata()) {
+				strata.add(new ConstraintWrapper(stratumNr, c));
+				stratumNr++;
+			}
+		}
+		this.l = l;
 	}
 
 	public AbstractCriterion<?, ? extends Serializable> getWrappedCriterion() {
@@ -153,15 +160,8 @@ public class CriterionWrapper<V extends Serializable> {
 	 * @return l16ed string representation of an criterion
 	 */
 	public String getL16edName() {
-		return ResourceBundle.getBundle(
-				"de.randi2.jsf.i18n.criteria",
-				((LoginHandler) FacesContext.getCurrentInstance()
-						
-						.getApplication().getELResolver().getValue(
-								FacesContext.getCurrentInstance()
-										.getELContext(), null, "loginHandler"))
-						.getChosenLocale()).getString(
-				wrappedCriterion.getUIName());
+		return ResourceBundle.getBundle("de.randi2.jsf.i18n.criteria", l)
+				.getString(wrappedCriterion.getUIName());
 	}
 
 	/**
@@ -169,7 +169,9 @@ public class CriterionWrapper<V extends Serializable> {
 	 * 
 	 * @return
 	 */
-	public String getPanelType() {
+	private void setPanelType() {
+		System.out.println("setPanelType: "
+				+ wrappedCriterion.getClass().getName());
 		if (DateCriterion.class.isInstance(wrappedCriterion))
 			panelType = DPANEL;
 		else if (DichotomousCriterion.class.isInstance(wrappedCriterion))
@@ -178,7 +180,8 @@ public class CriterionWrapper<V extends Serializable> {
 			panelType = FREEPANEL;
 		else if (OrdinalCriterion.class.isInstance(wrappedCriterion))
 			panelType = ORDPANEL;
-		return panelType;
+		System.out.println(panelType);
+		panelType="criterionErrorPanel";
 	}
 
 	/**
@@ -187,9 +190,10 @@ public class CriterionWrapper<V extends Serializable> {
 	 * @param event
 	 */
 	public void addElement(ActionEvent event) {
-		OrdinalCriterion.class.cast(wrappedCriterion).getElements().add(
-				"");
-		getElements().add(OrdinalCriterion.class.cast(wrappedCriterion).getElements().size()-1);
+		OrdinalCriterion.class.cast(wrappedCriterion).getElements().add("");
+		getElements().add(
+				OrdinalCriterion.class.cast(wrappedCriterion).getElements()
+						.size() - 1);
 	}
 
 	/**
@@ -198,11 +202,13 @@ public class CriterionWrapper<V extends Serializable> {
 	 * @param event
 	 */
 	public void removeElement(ActionEvent event) {
-		if(getElements().size()>3){
+		if (getElements().size() > 3) {
 			getElements().remove(getElements().size() - 1);
-			OrdinalCriterion.class.cast(wrappedCriterion).getElements().remove(
-					OrdinalCriterion.class.cast(wrappedCriterion).getElements()
-							.size() - 1);
+			OrdinalCriterion.class
+					.cast(wrappedCriterion)
+					.getElements()
+					.remove(OrdinalCriterion.class.cast(wrappedCriterion)
+							.getElements().size() - 1);
 		}
 	}
 
@@ -210,8 +216,7 @@ public class CriterionWrapper<V extends Serializable> {
 	 * Check's if we're wrapping an ordinal criterion and if so, if there're any
 	 * elements defined.
 	 * 
-	 * @return true - if an
-	 *  OrdinalCriterion with defined Elements, false if not
+	 * @return true - if an OrdinalCriterion with defined Elements, false if not
 	 */
 	public boolean isElementsEmpty() {
 		if (OrdinalCriterion.class.isInstance(wrappedCriterion))
@@ -228,8 +233,8 @@ public class CriterionWrapper<V extends Serializable> {
 	public List<Integer> getElements() {
 		if (elements == null) {
 			elements = new ArrayList<Integer>();
-			for (int i = 0;i<OrdinalCriterion.class.cast(wrappedCriterion)
-					.getElements().size();i++) {
+			for (int i = 0; i < OrdinalCriterion.class.cast(wrappedCriterion)
+					.getElements().size(); i++) {
 				elements.add(i);
 			}
 		}
@@ -239,61 +244,63 @@ public class CriterionWrapper<V extends Serializable> {
 	public void setElements(List<Integer> elements) {
 		this.elements = elements;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public void inclusionConstraintChanged(ValueChangeEvent event){
-			try {
-				List<V> l = new ArrayList<V>();
-				l.add((V) event.getNewValue());
-				wrappedCriterion.setInclusionConstraintAbstract(wrappedCriterion.getContstraintType().getConstructor(List.class).newInstance(l));
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				e.printStackTrace();
-			} catch (ContraintViolatedException e) {
-				e.printStackTrace();
-			}
+	public void inclusionConstraintChanged(ValueChangeEvent event) {
+		try {
+			List<V> l = new ArrayList<V>();
+			l.add((V) event.getNewValue());
+			wrappedCriterion.setInclusionConstraintAbstract(wrappedCriterion
+					.getContstraintType().getConstructor(List.class)
+					.newInstance(l));
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (ContraintViolatedException e) {
+			e.printStackTrace();
+		}
 	}
 
-    private boolean possibleStrata = true;
-    
-    public boolean isPossibleStrata() {
+	private boolean possibleStrata = true;
+
+	public boolean isPossibleStrata() {
 		possibleStrata = !FreeTextCriterion.class.isInstance(wrappedCriterion);
-    	return possibleStrata;
+		return possibleStrata;
 	}
-        
-    private List<ConstraintWrapper<V>> strata = new ArrayList<ConstraintWrapper<V>>();
-    
-    public List<ConstraintWrapper<V>> getStrata() {
-    	if(strata.size()==0){
-    		strata.add(new ConstraintWrapper<V>(1));
-    		strata.add(new ConstraintWrapper<V>(2));
-    	}
+
+	private List<ConstraintWrapper<V>> strata = new ArrayList<ConstraintWrapper<V>>();
+
+	public List<ConstraintWrapper<V>> getStrata() {
+		if (strata.size() == 0) {
+			strata.add(new ConstraintWrapper<V>(1));
+			strata.add(new ConstraintWrapper<V>(2));
+		}
 		return strata;
 	}
-    
-    public void addStrata(ActionEvent event){
-    	strata.add(new ConstraintWrapper<V>(strata.size()+1));
-    }
-    
-    private List<SelectItem> possibleValues = null;
-    
-    public List<SelectItem> getPossibleValues(){
-    	if(possibleValues == null){
-    		possibleValues = new ArrayList<SelectItem>();
-    		for(V value : wrappedCriterion.getConfiguredValues()){
-    			possibleValues.add(new SelectItem(value, value.toString()));
-    		}
-    	}
-    	return possibleValues;
-    }
-    
+
+	public void addStrata(ActionEvent event) {
+		strata.add(new ConstraintWrapper<V>(strata.size() + 1));
+	}
+
+	private List<SelectItem> possibleValues = null;
+
+	public List<SelectItem> getPossibleValues() {
+		if (possibleValues == null) {
+			possibleValues = new ArrayList<SelectItem>();
+			for (V value : wrappedCriterion.getConfiguredValues()) {
+				possibleValues.add(new SelectItem(value, value.toString()));
+			}
+		}
+		return possibleValues;
+	}
+
 }

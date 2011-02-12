@@ -56,12 +56,11 @@
 	columns="4" xmlns:ice="http://www.icesoft.com/icefaces/component"
 	xmlns:f="http://java.sun.com/jsf/core">
 	<ice:outputLabel value="#{labels['pages.trialCreatePanel.propLabel']}" />
-	<ice:selectInputText id="critera"
-		valueChangeListener="#{simulationSubjectProperty.criteriaAC.updateObjectList}"
-		rows="10" width="200">
-		<f:selectItems
-			value="#{simulationSubjectProperty.criteriaAC.objectList}" />
-	</ice:selectInputText>
+	<ice:selectOneMenu id="criteria" partialSubmit="true"
+		value="#{simulationSubjectProperty.selectedCriterion}">
+		<f:selectItems value="#{simulationSubjectProperty.criteriaItems}" />
+		<f:converter binding="#{simulationSubjectProperty.criterionConverter}" />
+	</ice:selectOneMenu>
 	<ice:commandButton image="/resources/img/icons/add16.png"
 		actionListener="#{simulationSubjectProperty.addCriterion}"
 		style="margin-right:5px;" />
