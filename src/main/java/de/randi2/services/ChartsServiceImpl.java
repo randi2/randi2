@@ -24,6 +24,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.TrialDao;
 import de.randi2.model.TreatmentArm;
@@ -39,6 +41,7 @@ public class ChartsServiceImpl implements ChartsService {
 	private TrialDao trialDao;
 	
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public ChartData generateRecruitmentChart(Trial trial) {
 		trial = trialDao.refresh(trial);
 		ChartData tempD = new ChartData();
@@ -94,6 +97,7 @@ public class ChartsServiceImpl implements ChartsService {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public ChartData generateArmChart(Trial trial) {
 		ChartData chData = new ChartData();
 		int i = 1;
@@ -110,6 +114,7 @@ public class ChartsServiceImpl implements ChartsService {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public ChartData generateRecruitmentChartTrialSite(Trial trial) {
 		trial = trialDao.refresh(trial);
 		ChartData chData = new ChartData();
@@ -143,6 +148,7 @@ public class ChartsServiceImpl implements ChartsService {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public ChartData generateRecruitmentChartFactors(Trial trial) {
 		trial = trialDao.refresh(trial);
 		ChartData chData = new ChartData();
