@@ -7,13 +7,17 @@ import java.util.ResourceBundle;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import lombok.Getter;
 import lombok.Setter;
 import de.randi2.jsf.backingBeans.AlgorithmConfig.AlgorithmPanelId;
 import de.randi2.jsf.controllerBeans.LoginHandler;
+import de.randi2.jsf.controllerBeans.TrialHandler;
+import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
@@ -22,7 +26,7 @@ import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 
 @ManagedBean(name = "simulationAlgorithm")
-@RequestScoped
+@SessionScoped
 public class SimulationAlgorithm {
 
 	@ManagedProperty(value = "#{loginHandler}")
@@ -93,5 +97,16 @@ public class SimulationAlgorithm {
 						"#{strata}", Strata.class)
 				.getValue(FacesContext.getCurrentInstance().getELContext()))
 				.clean();
+	}
+	
+	/**
+	 * Change Listener for the algorithm selection box. It tries to identify the
+	 * selected algorithm
+	 * 
+	 * @param event
+	 */
+	public void algorithmChanged(ValueChangeEvent event) {
+		String newSelection = (String) event.getNewValue();
+		selectedAlgorithmPanelId = newSelection;
 	}
 }

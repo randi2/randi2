@@ -78,6 +78,12 @@ public class SimulationHandler extends AbstractTrialHandler {
 	@Setter
 	private SimulationService simulationService;
 
+	@ManagedProperty(value = "#{simulationAlgorithm}")
+	@Getter
+	@Setter
+	private SimulationAlgorithm simulationAlgorithm;
+
+	
 	@Getter
 	@Setter
 	private int runs = 1000;
@@ -419,42 +425,33 @@ public class SimulationHandler extends AbstractTrialHandler {
 	}
 
 	public void addAlgorithm(ActionEvent event) {
-		ValueExpression ve2 = FacesContext
-				.getCurrentInstance()
-				.getApplication()
-				.getExpressionFactory()
-				.createValueExpression(
-						FacesContext.getCurrentInstance().getELContext(),
-						"#{simulationAlgorithm}", SimulationAlgorithm.class);
-		SimulationAlgorithm currentAlg = (SimulationAlgorithm) ve2
-				.getValue(FacesContext.getCurrentInstance().getELContext());
-		if (currentAlg.getSelectedAlgorithmPanelId().equals(
+		if (simulationAlgorithm.getSelectedAlgorithmPanelId().equals(
 				AlgorithmConfig.AlgorithmPanelId.COMPLETE_RANDOMIZATION
 						.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
 					new CompleteRandomizationConfig()));
-		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
+		} else if (simulationAlgorithm.getSelectedAlgorithmPanelId().equals(
 				AlgorithmConfig.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION
 						.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
 					new BiasedCoinRandomizationConfig()));
-		} else if (currentAlg.getSelectedAlgorithmPanelId()
+		} else if (simulationAlgorithm.getSelectedAlgorithmPanelId()
 				.equals(AlgorithmConfig.AlgorithmPanelId.BLOCK_RANDOMIZATION
 						.toString())) {
 			AlgorithmWrapper algWrapper = new AlgorithmWrapper(
 					new BlockRandomizationConfig());
 			algWrapper.getBlockR().setLoginHandler(getLoginHandler());
 			randomisationConfigs.add(algWrapper);
-		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
+		} else if (simulationAlgorithm.getSelectedAlgorithmPanelId().equals(
 				AlgorithmConfig.AlgorithmPanelId.TRUNCATED_RANDOMIZATION
 						.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
 					new TruncatedBinomialDesignConfig()));
-		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
+		} else if (simulationAlgorithm.getSelectedAlgorithmPanelId().equals(
 				AlgorithmConfig.AlgorithmPanelId.URN_MODEL.toString())) {
 			randomisationConfigs
 					.add(new AlgorithmWrapper(new UrnDesignConfig()));
-		} else if (currentAlg.getSelectedAlgorithmPanelId().equals(
+		} else if (simulationAlgorithm.getSelectedAlgorithmPanelId().equals(
 				AlgorithmConfig.AlgorithmPanelId.MINIMIZATION.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
 					new MinimizationConfig()));

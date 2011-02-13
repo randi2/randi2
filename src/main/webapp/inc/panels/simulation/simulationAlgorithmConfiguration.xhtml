@@ -43,7 +43,8 @@ This panel configured the algorithms for the simulation.
 			</ice:panelGroup>
 			<ice:panelGroup>
 				<ice:selectOneMenu id="algorithmTypeSim" partialSubmit="true"
-					value="#{simulationAlgorithm.selectedAlgorithmPanelId}">
+					value="#{simulationAlgorithm.selectedAlgorithmPanelId}" 
+					valueChangeListener="#{simulationAlgorithm.algorithmChanged}">
 					<f:selectItems value="#{simulationAlgorithm.algorithms}" />
 				</ice:selectOneMenu>
 				<ice:commandButton image="/resources/img/icons/add16.png"
