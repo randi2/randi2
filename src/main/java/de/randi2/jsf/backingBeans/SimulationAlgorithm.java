@@ -25,7 +25,7 @@ import de.randi2.model.randomization.UrnDesignConfig;
 @RequestScoped
 public class SimulationAlgorithm {
 
-	@ManagedProperty(value = "loginHandler")
+	@ManagedProperty(value = "#{loginHandler}")
 	@Setter
 	private LoginHandler loginHandler;
 
