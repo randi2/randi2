@@ -13,6 +13,7 @@ import java.util.Locale;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.AbstractDomainObject;
@@ -69,6 +70,55 @@ public class LoginDatabaseTest extends AbstractDomainDatabaseTest<Login> {
 		assertEquals(validLogin.getId(), l.getId());
 		assertEquals(Locale.GERMAN, l.getPrefLocale());
 	}
+	
+	
+
+	@Test
+	public void testRole(){
+		initializeRoles();
+		validLogin.addRole(Role.ROLE_ADMIN);
+		entityManager.persist(validLogin);
+		entityManager.flush();
+		entityManager.clear();
+		assertTrue(validLogin.getId()!=AbstractDomainObject.NOT_YET_SAVED_ID);
+		Login l = entityManager.find(Login.class, validLogin.getId());
+		assertEquals(validLogin.getId(), l.getId());
+		assertEquals(2, l.getRoles().size());
+		assertTrue(l.getRoles().contains(Role.ROLE_USER));
+		assertTrue(l.getRoles().contains(Role.ROLE_ADMIN));
+		l.addRole(Role.ROLE_INVESTIGATOR);
+		entityManager.merge(l);
+		entityManager.flush();
+		entityManager.clear();
+		Login l1 = entityManager.find(Login.class, validLogin.getId());
+		assertEquals(validLogin.getId(), l.getId());
+		assertEquals(3, l1.getRoles().size());
+		assertTrue(l1.getRoles().contains(Role.ROLE_USER));
+		assertTrue(l1.getRoles().contains(Role.ROLE_ADMIN));
+		assertTrue(l1.getRoles().contains(Role.ROLE_INVESTIGATOR));
+		l1.removeRole(Role.ROLE_ADMIN);
+		entityManager.merge(l1);
+		entityManager.flush();
+		entityManager.clear();
+		Login l2 = entityManager.find(Login.class, validLogin.getId());
+		assertEquals(validLogin.getId(), l.getId());
+		assertEquals(2, l2.getRoles().size());
+		assertTrue(l2.getRoles().contains(Role.ROLE_USER));
+		assertTrue(l2.getRoles().contains(Role.ROLE_INVESTIGATOR));
+	}
+	
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	private void initializeRoles(){
+		entityManager.persist(Role.ROLE_INVESTIGATOR);
+		entityManager.persist(Role.ROLE_USER);
+		entityManager.persist(Role.ROLE_STATISTICAN);
+		entityManager.persist(Role.ROLE_MONITOR);
+		entityManager.persist(
+				Role.ROLE_P_INVESTIGATOR);
+		entityManager.persist(Role.ROLE_ANONYMOUS);
+		entityManager.persist(Role.ROLE_ADMIN);
+	}
+	
 	
 	@Test
 	public void databaseIntegrationTest() {

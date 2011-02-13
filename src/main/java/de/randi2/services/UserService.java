@@ -70,22 +70,6 @@ public interface UserService extends AbstractService<Login> {
 	public Login prepareInvestigator();
 
 	/**
-	 * Add a specific role to an object. The given role has to be already in the
-	 * system.
-	 * 
-	 * @param Login
-	 * @param role
-	 */
-	public void addRole(Login login, Role role);
-	
-	/**
-	 * Removes the given role from the Login object.
-	 * @param login
-	 * @param role
-	 */
-	public void removeRole(Login login, Role role);
-
-	/**
 	 * Creates a new RANDI2 role.
 	 * @param newRole
 	 */

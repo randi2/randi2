@@ -418,6 +418,12 @@ public class RolesAndRights {
 			newPersonGrantUserTrialSubject(login, role, site);
 		}
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void removedPersonRole(Login login, Role role){
+		aclService.removeACEs(login.getUsername(), role.getName());
+		
+	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	private void newPersonGrantUserRights(Login login, Role role,

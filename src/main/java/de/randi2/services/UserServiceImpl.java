@@ -44,6 +44,7 @@ import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
 import de.randi2.utility.mail.MailServiceInterface;
 import de.randi2.utility.mail.exceptions.MailErrorException;
+import de.randi2.utility.security.RolesAndRights;
 
 /**
  * 
@@ -70,6 +71,9 @@ public class UserServiceImpl implements UserService {
 	private RoleDao roleDao;
 	@Autowired
 	private MailServiceInterface mailService;
+	
+	@Autowired
+	private RolesAndRights rolesAndRights;
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -78,22 +82,6 @@ public class UserServiceImpl implements UserService {
 		return loginDao.get(username);
 	}
 	
-	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void addRole(Login login, Role role) {
-		role = roleDao.get(role.getName());
-		if (login != null && role != null && role.getId() > 0
-				&& !login.getRoles().contains(role)) {
-			logger.info("user: "
-					+ SecurityContextHolder.getContext().getAuthentication()
-							.getName() + " add role " + role.getName()
-					+ "to user " + login.getUsername());
-			login.addRole(role);
-			if (login.getId() > 1)
-				loginDao.update(login);
-		} else
-			throw new RuntimeException("");
-	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -184,7 +172,41 @@ public class UserServiceImpl implements UserService {
 					changedObject.getPassword(),
 					saltSourceUser.getSalt(changedObject)));
 		}
-		return loginDao.update(changedObject);
+
+		addAndRemoveRoles(changedObject);
+		
+		return loginDao.update(changedObject); 
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	private void addAndRemoveRoles(Login changedObject){
+		//check roles
+		Login oldLogin = loginDao.get(changedObject.getId());
+		List<Role> removedRoles = new ArrayList<Role>();
+		List<Role> addedRoles = new ArrayList<Role>();
+		if(!(oldLogin.getRoles().containsAll(changedObject.getRoles()) && changedObject.getRoles().containsAll(oldLogin.getRoles()))){
+			//identify removed roles
+			for(Role r : oldLogin.getRoles()){
+				if(!changedObject.getRoles().contains(r)){
+					removedRoles.add(r);
+				}
+			}
+			//identify added roles
+			for(Role r : changedObject.getRoles()){
+				if(!oldLogin.getRoles().contains(r)){
+					addedRoles.add(r);
+				}
+			}
+ 		}
+		
+		for(Role r: addedRoles){
+			rolesAndRights.registerPersonRole(changedObject, r);
+		}
+		
+		//TODO implementation to delete the rights
+//		for(Role r: removedRoles){
+//			rolesAndRights.removedPersonRole(changedObject, r);
+//		}
 	}
 
 	@Override
@@ -207,21 +229,6 @@ public class UserServiceImpl implements UserService {
 		return loginDao.getAll();
 	}
 
-	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void removeRole(Login login, Role role) {
-		role = roleDao.get(role.getName());
-		if (login != null && login.getId() > 0 && role != null
-				&& role.getId() > 0 && login.getRoles().contains(role)) {
-			logger.info("user: "
-					+ SecurityContextHolder.getContext().getAuthentication()
-							.getName() + " removes role " + role.getName()
-					+ " from user " + login.getUsername());
-			login.removeRole(role);
-			loginDao.update(login);
-		} else
-			throw new RuntimeException("can't remove role from user");
-	}
 
 	@Override
 	@Secured({ "ROLE_USER", "AFTER_ACL_READ" })

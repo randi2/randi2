@@ -118,7 +118,7 @@ class Login extends AbstractDomainObject implements UserDetails {
 	private GregorianCalendar lockTime;
 
 	/** The roles. */
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.REFRESH)
 	private Set<Role> roles = new HashSet<Role>();
 
 	/*

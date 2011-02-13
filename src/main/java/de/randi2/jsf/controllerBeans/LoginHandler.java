@@ -175,7 +175,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 * @param event
 	 */
 	public void addRole(ActionEvent event) {
-		userService.addRole(currentObject, selectedRole);
+		currentObject.addRole(selectedRole);
 	}
 
 	/**
@@ -188,7 +188,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 		Role tRole = (Role) (((UIComponent) event.getComponent().getChildren()
 				.get(0)).getValueExpression("value").getValue(FacesContext
 				.getCurrentInstance().getELContext()));
-		userService.removeRole(currentObject, tRole);
+		currentObject.removeRole(tRole);
 	}
 
 	/**

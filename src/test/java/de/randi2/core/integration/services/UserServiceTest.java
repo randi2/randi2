@@ -49,59 +49,6 @@ public class UserServiceTest extends AbstractServiceTest{
 
 	//FIXME Create a test for the getAllRoles 
 	
-	@Test
-	public void testAddRole(){
-		authenticatAsAdmin();
-		Login login = factory.getLogin();
-		entityManager.persist(login);
-		assertTrue(login.getId()>0);
-		userService.addRole(login, Role.ROLE_INVESTIGATOR);;
-		assertTrue(login.getRoles().contains(Role.ROLE_INVESTIGATOR));
-		Login login2 = entityManager.find(Login.class, login.getId());
-		assertNotNull(login2);
-		assertTrue(login2.getRoles().contains(Role.ROLE_INVESTIGATOR));
-		try{
-			userService.addRole(null, Role.ROLE_INVESTIGATOR);
-			fail("should throw exception (login = null)");
-		}catch(Exception e){}
-		try{
-			userService.addRole(login, null);
-			fail("should throw exception (role = null)");
-		}catch(Exception e){}
-		try{
-			userService.addRole(login, factory.getRole());
-			fail("should throw exception (role not saved)");
-		}catch(Exception e){}
-	}
-	
-	@Test
-	public void testRemoveRole(){
-		authenticatAsAdmin();
-		Role role = Role.ROLE_INVESTIGATOR;
-		userService.addRole(user, role);
-		assertTrue(user.getRoles().contains(role));
-		Login login2 = entityManager.find(Login.class, user.getId());
-		assertNotNull(login2);
-		assertTrue(login2.getRoles().contains(role));
-		try{
-			userService.removeRole(null, role);
-			fail("should throw exception (login = null)");
-		}catch(Exception e){}
-		try{
-			userService.removeRole(user, null);
-			fail("should throw exception (role = null)");
-		}catch(Exception e){}
-		try{
-			userService.removeRole(factory.getLogin(), role);
-			fail("should throw exception (login not saved)");
-		}catch(Exception e){}
-		try{
-			userService.removeRole(user, factory.getRole());
-			fail("should throw exception (role not saved)");
-		}catch(Exception e){}
-		userService.removeRole(login2, role);
-		assertFalse(login2.getRoles().contains(role));
-	}
 	
 	@Test
 	public void testCreateRole(){
