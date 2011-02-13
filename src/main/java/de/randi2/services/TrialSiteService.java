@@ -72,11 +72,12 @@ public interface TrialSiteService extends AbstractService<TrialSite> {
 	public void changePersonTrialSite(TrialSite newSite, Person person) throws ServiceException;
 
 	/**
-	 * 
+	 *Returns a list with the members of the Trial site 
 	 * @param site The trial site.
 	 * @return The members of this trial.
 	 */
 	public List<Person> getMembers(TrialSite site);
+	
 	
 	/**
 	 * Returns a corresponding trial site object to the provided name

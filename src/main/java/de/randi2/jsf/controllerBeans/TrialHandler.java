@@ -99,8 +99,9 @@ public class TrialHandler extends AbstractTrialHandler {
 			return list;
 		else if(leadingSite == null && currentObject.getLeadingSite()!=null)
 			leadingSite = currentObject.getLeadingSite();
+			leadingSite.setMembers(siteService.getMembers(leadingSite));
 		for (Login l : leadingSite
-				.getMembersWithSpecifiedRole(Role.ROLE_INVESTIGATOR))
+				.getMembersWithSpecifiedRole(Role.ROLE_P_INVESTIGATOR))
 			list.add(LoginConverter.getAsSelectItem(l));
 		return list;
 	}
