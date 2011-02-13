@@ -602,22 +602,23 @@ public class SimulationHandler extends AbstractTrialHandler {
 
 	public List<StrataResultWrapper> getAllStrataResults() {
 		List<StrataResultWrapper> wrapper = new ArrayList<StrataResultWrapper>();
-		for (SimulationResult simRes : simulationResults) {
-			for (SimulationResultArm simArm : simRes.getSimResultArms()) {
-				wrapper.addAll(simArm.getStrataResults());
+		if (simulationResults != null) {
+			for (SimulationResult simRes : simulationResults) {
+				for (SimulationResultArm simArm : simRes.getSimResultArms()) {
+					wrapper.addAll(simArm.getStrataResults());
+				}
+			}
+			if (selectedOrder == SimulationResultFactorsOrderEnum.SAT) {
+				Collections.sort(wrapper, new StrataResultComperatorSAT());
+			} else if (selectedOrder == SimulationResultFactorsOrderEnum.STA) {
+				Collections.sort(wrapper, new StrataResultComperatorSTA());
+			} else if (selectedOrder == SimulationResultFactorsOrderEnum.ATS) {
+				Collections.sort(wrapper, new StrataResultComperatorATS());
+			}
+			if (selectedOrder == SimulationResultFactorsOrderEnum.AST) {
+				Collections.sort(wrapper, new StrataResultComperatorAST());
 			}
 		}
-		if (selectedOrder == SimulationResultFactorsOrderEnum.SAT) {
-			Collections.sort(wrapper, new StrataResultComperatorSAT());
-		} else if (selectedOrder == SimulationResultFactorsOrderEnum.STA) {
-			Collections.sort(wrapper, new StrataResultComperatorSTA());
-		} else if (selectedOrder == SimulationResultFactorsOrderEnum.ATS) {
-			Collections.sort(wrapper, new StrataResultComperatorATS());
-		}
-		if (selectedOrder == SimulationResultFactorsOrderEnum.AST) {
-			Collections.sort(wrapper, new StrataResultComperatorAST());
-		}
-
 		return wrapper;
 	}
 
