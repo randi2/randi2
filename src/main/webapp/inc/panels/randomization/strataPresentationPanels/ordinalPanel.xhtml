@@ -18,7 +18,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:panelSeries value="#{criterion.strata}" var="stratum">
-		<ice:panelGrid columns="2">
+		<ice:panelGrid columns="2" rendered="#{criterion.panelType == 'ordinalPanel'}">
 			<ice:outputLabel
 				value="#{labels['pages.strata.group']} #{stratum.groupNr}" />
             <ice:panelSeries value="#{stratum.wrappedConstraint.expectedValues}" var="v">
