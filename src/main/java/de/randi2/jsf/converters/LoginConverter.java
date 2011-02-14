@@ -20,14 +20,16 @@ public class LoginConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
+		if(arg2.equals("please select")) return null;
 		StringBuffer b = new StringBuffer(arg2);
-		b.delete(0, b.indexOf("("));
+		b.delete(0, b.indexOf("(")+1);
 		b.delete(b.indexOf(")"), b.length());
 		return service.getUser(b.toString());
 	}
 
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
+		if(arg2 == null) return "please select";
 		StringBuffer b = new StringBuffer();
 		Login l = (Login) arg2;
 		return b.append(l.getPerson().getFirstname()).append(" ")

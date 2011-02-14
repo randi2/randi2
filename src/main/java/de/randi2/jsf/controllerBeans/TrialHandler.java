@@ -90,25 +90,31 @@ public class TrialHandler extends AbstractTrialHandler {
 	@Setter
 	private TrialSite leadingSite;
 	@Getter
-	@Setter
 	private Login sponsorInvestigator;
+
+	public void setSponsorInvestigator(Login sponsorInvestigator) {
+		this.sponsorInvestigator = sponsorInvestigator;
+	}
 
 	public List<SelectItem> getSponsorInvestigators() {
 		ArrayList<SelectItem> list = new ArrayList<SelectItem>();
-		if (leadingSite == null && currentObject.getLeadingSite()==null)
+		if (leadingSite == null && currentObject.getLeadingSite() == null)
 			return list;
-		else if(leadingSite == null && currentObject.getLeadingSite()!=null)
+		else if (leadingSite == null && currentObject.getLeadingSite() != null) {
 			leadingSite = currentObject.getLeadingSite();
-			leadingSite.setMembers(siteService.getMembers(leadingSite));
+		}
+		leadingSite.setMembers(siteService.getMembers(leadingSite));
+		list.add(new SelectItem(null, "please select"));
 		for (Login l : leadingSite
 				.getMembersWithSpecifiedRole(Role.ROLE_P_INVESTIGATOR))
 			list.add(LoginConverter.getAsSelectItem(l));
+
 		return list;
 	}
-	
-	@Getter @Setter
-	private TrialSite selectedTrialSite;
 
+	@Getter
+	@Setter
+	private TrialSite selectedTrialSite;
 
 	/*
 	 * GET & SET methods
@@ -195,7 +201,8 @@ public class TrialHandler extends AbstractTrialHandler {
 			/* Leading Trial Site & Sponsor Investigator */
 			currentObject.setLeadingSite(leadingSite);
 			if (sponsorInvestigator != null)
-				currentObject.setSponsorInvestigator(sponsorInvestigator.getPerson());
+				currentObject.setSponsorInvestigator(sponsorInvestigator
+						.getPerson());
 
 			// TODO Protokoll
 			// TODO Status
@@ -253,7 +260,11 @@ public class TrialHandler extends AbstractTrialHandler {
 
 	public String cancelEditing() {
 		if (editing) {
-			currentObject = trialService.getObject(currentObject.getId());
+			if (currentObject.getId() > 0) {
+				currentObject = trialService.getObject(currentObject.getId());
+			} else {
+				currentObject = null;
+			}
 			editing = false;
 		}
 		return Randi2.SUCCESS;
