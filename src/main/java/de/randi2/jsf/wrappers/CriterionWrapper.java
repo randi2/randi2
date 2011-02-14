@@ -30,6 +30,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import lombok.Getter;
+
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DateCriterion;
@@ -129,7 +130,7 @@ public class CriterionWrapper<V extends Serializable> {
 	 */
 	@Getter
 	private String panelType = "criterionErrorPanel";
-
+	
 	private final Locale l;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -170,8 +171,6 @@ public class CriterionWrapper<V extends Serializable> {
 	 * @return
 	 */
 	private void setPanelType() {
-		System.out.println("setPanelType: "
-				+ wrappedCriterion.getClass().getName());
 		if (DateCriterion.class.isInstance(wrappedCriterion))
 			panelType = DPANEL;
 		else if (DichotomousCriterion.class.isInstance(wrappedCriterion))
@@ -180,8 +179,7 @@ public class CriterionWrapper<V extends Serializable> {
 			panelType = FREEPANEL;
 		else if (OrdinalCriterion.class.isInstance(wrappedCriterion))
 			panelType = ORDPANEL;
-		System.out.println(panelType);
-		panelType="criterionErrorPanel";
+		else panelType="criterionErrorPanel";
 	}
 
 	/**
