@@ -43,4 +43,6 @@
 		class="org.springframework.security.authentication.dao.SystemWideSaltSource">
         <property name="systemWideSalt" value="DSJGEWI8SDG46ASGJAER436234ERDFZHS9346" />
     </bean>
+   	<bean id="rolesAndRights" class="de.randi2.utility.security.RolesAndRights" />
+	<bean id="aclService" class="de.randi2.dao.HibernateAclService" />
 </beans>

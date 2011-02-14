@@ -117,14 +117,13 @@
 	<!--
 		======================= Definition ACL Service =======================
 	-->
-	<bean id="aclService" class="de.randi2.dao.HibernateAclService"></bean>
+	<bean id="aclService" class="de.randi2.dao.HibernateAclService" />
 
 	<!--
 		======================= Mapping between the roles and rights
 		=======================
 	-->
-	<bean id="rolesAndRights" class="de.randi2.utility.security.RolesAndRights">
-	</bean>
+	<bean id="rolesAndRights" class="de.randi2.utility.security.RolesAndRights" />
 
 	<bean id="securityAspects" class="de.randi2.aspects.SecurityAspects"></bean>
 	<!-- import the other configurations -->
